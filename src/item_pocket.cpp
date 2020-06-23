@@ -1,5 +1,6 @@
 #include "item_pocket.h"
 
+#include "ammo.h"
 #include "assign.h"
 #include "cata_utility.h"
 #include "crafting.h"
@@ -706,9 +707,20 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", pocket_num );
     }
 
-    info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity() ) );
-    info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity() ) );
-    info.back().bNewLine = true;
+    // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined
+    if( data->ammo_restriction.empty() ) {
+        info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity() ) );
+        info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity() ) );
+        info.back().bNewLine = true;
+    } else {
+        for( const ammotype &at : ammo_types() ) {
+            const std::string fmt = string_format( ngettext( "<num> round of %s",
+                                                   "<num> rounds of %s", ammo_capacity( at ) ),
+                                                   at->name() );
+            info.emplace_back( "MAGAZINE", _( "Holds: " ), fmt, iteminfo::no_flags,
+                               ammo_capacity( at ) );
+        }
+    }
 
     if( data->max_item_length != 0_mm ) {
         info.back().bNewLine = true;

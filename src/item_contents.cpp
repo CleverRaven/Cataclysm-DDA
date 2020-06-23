@@ -619,10 +619,8 @@ std::set<ammotype> item_contents::ammo_types() const
 {
     std::set<ammotype> ret;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) {
-            for( const ammotype &ammo : pocket.ammo_types() ) {
-                ret.emplace( ammo );
-            }
+        for( const ammotype &ammo : pocket.ammo_types() ) {
+            ret.emplace( ammo );
         }
     }
     return ret;
