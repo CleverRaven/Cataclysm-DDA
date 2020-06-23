@@ -444,7 +444,7 @@
     "id": "debug_nutrition",
     "copy-from": "can_spam",
     "name": { "str": "holy SPAM of debugging", "str_pl": "holy SPAMs of debugging" },
-    "calories": 2100,
+    "calories": 2150,
     "description": "A mysterious lump of SPAM that contains just enough calories and vitamins to feed you for a day.  For debug use only.",
     "//": "This is used for the all_nutrient_starve_test.",
     "vitamins": [ [ "vitA", 96 ], [ "vitB", 96 ], [ "vitC", 96 ], [ "calcium", 96 ], [ "iron", 96 ] ]
