@@ -40,6 +40,10 @@
     "default_faction": "wonder_forge",
     "aggression": 0,
     "description": "A goblin like none you've ever seen before.  He directs workers and automatons with confidence and style.",
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
+    }
   },
   {
     "id": "mon_forgemaster2",
@@ -50,6 +54,10 @@
     "default_faction": "wonder_forge",
     "aggression": 0,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "laze" }, "cooldown": 10 }, [ "scratch", 5 ] ],
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
+    }
   },
   {
     "id": "mon_forgemaster3",
@@ -57,7 +65,11 @@
     "name": { "str": "gracken forgemaster" },
     "description": "This is some form of eldritch monstrosity; an uncouth black being with smooth, oily, skin and unpleasant horns that curve inward toward each other.  Tall and thin, the shadows cling unnaturally to its vaguely defined humanoid form as it shuffles along, its hands twitching and spasming so rapidly as to appear a little more than a black blur of claws.  This one politely asks you to mind your step as this is a working environment.",
     "default_faction": "wonder_forge",
-    "copy-from": "mon_gracke"
+    "copy-from": "mon_gracke",
+    "death_drops": {
+      "subtype": "collection",
+      "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
+    }
   },
   {
     "id": "mon_forgedemons",
@@ -100,9 +112,9 @@
   {
     "id": "mon_forgedwarves",
     "type": "MONSTER",
-    "name": { "str": "cyclopean" },
-    "description": "A relatively humanoid mutant with purple hair and a grapefruit-sized bloodshot eye.",
-    "default_faction": "mutant",
+    "name": { "str": "forge workers" },
+    "description": "A squat humanoid that looks quite sturdily built.  They style their hair in mohawks and other strange fashions that seem to be dictated by what parts of their skin aren't scarred from burns.  Their clothes are designed to protect them from the intense environment they work in.",
+    "default_faction": "wonder_forge",
     "bodytype": "human",
     "species": [ "MUTANT" ],
     "volume": "62500 ml",
@@ -112,14 +124,17 @@
     "material": [ "flesh" ],
     "symbol": "@",
     "color": "light_red",
-    "aggression": 30,
-    "morale": 30,
-    "melee_skill": 9,
+    "aggression": 3,
+    "morale": 40,
+    "melee_skill": 5,
     "melee_dice": 2,
-    "melee_dice_sides": 4,
-    "melee_cut": 0,
-    "dodge": 5,
-    "harvest": "mutant_human",
+    "melee_dice_sides": 5,
+    "melee_cut": 4,
+    "dodge": 2,
+    "armor_bash": 23,
+    "armor_cut": 32,
+    "armor_bullet": 26,
+    "harvest": "demihuman",
     "death_drops": {
       "subtype": "collection",
       "groups": [ [ "subway", 40 ], [ "sewer", 20 ], [ "trash", 5 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
