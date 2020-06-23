@@ -76,6 +76,7 @@
     "id": "mon_feral_human_archer",
     "type": "MONSTER",
     "copy-from": "mon_feral_human_pipe",
+    "description": "This feral human has some kind of primitive bow and is searching for a target.  It still breathes but the zombies treat it like one of them.",
     "melee_dice": 2,
     "melee_dice_sides": 6,
     "starting_ammo": { "arrow_fire_hardened_fletched": 8 },
