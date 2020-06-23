@@ -1337,8 +1337,7 @@ bool Character::consume_effects( item &food )
     units::volume water_vol = ( food.type->comestible->quench > 0 ) ? food.type->comestible->quench *
                               5_ml : 0_ml;
     units::volume food_vol = food.base_volume() - water_vol;
-    units::mass food_weight = ( food.weight() / food.count() ) - units::from_gram( units::to_milliliter(
-                                  water_vol ) ); //water is 1 gram per milliliter
+    units::mass food_weight = ( food.weight() / food.count() );
     double ratio = 1.0f;
     if( units::to_gram( food_weight ) != 0 ) {
         ratio = std::max( static_cast<double>( food_nutrients.kcal ) / units::to_gram( food_weight ), 1.0 );
@@ -1349,6 +1348,9 @@ bool Character::consume_effects( item &food )
         food_vol * ratio,
         food_nutrients
     };
+    add_msg( m_debug, "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calculated: %d / %d",
+             units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+             food_nutrients.kcal, units::to_gram( food_weight ) );
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
