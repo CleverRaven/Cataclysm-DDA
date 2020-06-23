@@ -53,6 +53,7 @@ Use the `Home` key to return to the top.
       - [`conduct`](#conduct)
     + [Skills](#skills)
     + [Traits/Mutations](#traits-mutations)
+    + [Traps](#traps)
     + [Vehicle Groups](#vehicle-groups)
     + [Vehicle Parts](#vehicle-parts)
     + [Part Resistance](#part-resistance)
@@ -1530,6 +1531,39 @@ it is present to help catch errors.
 		| PAIN          | Trigger depends of the pain value.
 		| STAMINA       | Trigger depends of the stamina value.
 		| TIME          | Trigger depends of the time of the day. [ 1am = 1, Midnight = 24 ]
+
+### Traps
+
+```C++
+    "type": "trap",  
+    "id": "tr_beartrap",  // Unique ID
+    "name": "bear trap",  // In-game name displayed
+    "color": "blue",
+    "symbol": "^",
+    "visibility": 2,  // 1 to ??, affects detection
+    "avoidance": 7,  // 0 to ??, affects avoidance
+    "difficulty": 3,  // 0 to ??, difficulty of assembly & disassembly
+    "trap_radius": 1,  // 0 to ??, trap radius
+    "action": "blade",  
+    "map_regen": "microlab_shifting_hall",  // a valid overmap id, for map_regen action traps
+    "benign": true,
+    "always_invisible": true,
+    "funnel_radius": 200,  // milimiters?
+    "comfort": 4,
+    "floor_bedding_warmth": -500,
+    "spell_data": { "id": "bear_trap" },   // data required for trapfunc::spell()
+    "trigger_weight": "200 g",  // If an item with this weight or more is thrown onto the trap, it triggers. TODO: what is the default?
+    "drops": [ "beartrap" ],  // For disassembly?
+    "vehicle_data": {
+      "damage": 300,
+      "sound_volume": 8,
+      "sound": "SNAP!",
+      "sound_type": "trap",
+      "sound_variant": "bear_trap",
+      "remove_trap": true,
+      "spawn_items": [ "beartrap" ]
+    }
+```
 
 ### Vehicle Groups
 
