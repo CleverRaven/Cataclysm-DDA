@@ -510,15 +510,15 @@ void Item_factory::finalize_post( itype &obj )
     if( obj.armor ) {
         // Setting max_encumber must be in finalize_post because it relies on
         // stack_size being set for all ammo, which happens in finalize_pre.
-        for( auto &bodypart : obj.armor->max_encumber ) {
-            if( bodypart.second < 0 ) {
+        for( auto &data : obj.armor->data ) {
+            if( data.max_encumber == 0 ) {
                 units::volume total_nonrigid_volume = 0_ml;
                 for( const pocket_data &pocket : obj.pockets ) {
                     if( !pocket.rigid ) {
                         total_nonrigid_volume += pocket.max_contains_volume();
                     }
                 }
-                bodypart.second = obj.armor->encumber.at( bodypart.first ) + total_nonrigid_volume / 250_ml;
+                data.max_encumber = data.encumber + total_nonrigid_volume / 250_ml;
             }
         }
     }
@@ -1746,26 +1746,64 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
 
 void islot_armor::load( const JsonObject &jo )
 {
+    // We assume if defined the arrays are the same length
     if( jo.has_array( "encumbrance" ) ) {
-        encumber.clear();
+        random_armor_data tempData;
+        int it = 0;
         for( JsonArray ja : jo.get_array( "encumbrance" ) ) {
-            encumber.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
+            tempData.bodypart = { bodypart_str_id( ja.get_string( 0 ) ) };
+            tempData.encumber = ja.get_int( 1 );
+            data.push_back( tempData );
+            ++it;
+        }
+        it = 0;
+        if( jo.has_array( "coverage" ) ) {
+            for( JsonArray ja : jo.get_array( "coverage" ) ) {
+                if( ja.get_string( 0 ) == data[it].bodypart.value().id().c_str() ) {
+                    data[it].coverage = ja.get_int( 1 );
+                }
+                it++;
+            }
+        } else {
+            for( auto &piece : data ) {
+                piece.max_encumber = jo.get_int( "coverage" );
+            }
+        }
+        it = 0;
+        if( jo.has_array( "max_encumbrance" ) ) {
+            for( JsonArray ja : jo.get_array( "max_encumbrance" ) ) {
+                if( ja.get_string( 0 ) == data[it].bodypart.value().id().c_str() ) {
+                    data[it].max_encumber = ja.get_int( 1 );
+                }
+                ++it;
+            }
+        } else if( jo.has_int( "max_encumbrance" ) ) {
+            for( auto &piece : data ) {
+                piece.max_encumber = jo.get_int( "max_encumbrance" );
+            }
+        }
+        it = 0;
+        if( jo.has_array( "layer" ) ) {
+            for( JsonArray ja : jo.get_array( "layer" ) ) {
+                if( ja.get_string( 0 ) == data[it].bodypart.value().id().c_str() ) {
+                    data[it].layer = static_cast<layer_level>( ja.get_int( 1 ) );
+                }
+                ++it;
+            }
+        } else {
+            for( auto &piece : data ) {
+                piece.layer = layer_level::REGULAR;
+            }
         }
     } else {
-        optional( jo, was_loaded, "encumbrance", encumber[bodypart_str_id( "all" )], 0 );
-    }
-    if( jo.has_array( "max_encumbrance" ) ) {
-        max_encumber.clear();
-        for( JsonArray ja : jo.get_array( "max_encumbrance" ) ) {
-            max_encumber.emplace( bodypart_str_id( ja.get_string( 0 ) ), ja.get_int( 1 ) );
-        }
-    } else {
+        data.emplace_back();
+        optional( jo, was_loaded, "encumbrance", data[0].encumber, 0 );
         // Default max_encumbrance will be set to a reasonable value in
         // finalize_post
-        optional( jo, was_loaded, "max_encumbrance", max_encumber[bodypart_str_id( "all" )], -1 );
+        optional( jo, was_loaded, "max_encumbrance", data[0].max_encumber, 0 );
+        optional( jo, was_loaded, "coverage", data[0].coverage, 0 );
     }
 
-    optional( jo, was_loaded, "coverage", coverage, 0 );
     optional( jo, was_loaded, "material_thickness", thickness, 0 );
     optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
     optional( jo, was_loaded, "environmental_protection_with_filter", env_resist_w_filter, 0 );

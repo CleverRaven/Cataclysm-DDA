@@ -2613,32 +2613,39 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                   encumbrance ) );
 
         if( const islot_armor *t = find_armor_data() ) {
-            if( t->max_encumber != t->encumber ) {
-                const int encumbrance_when_full = get_encumber( g->u, encumber_flags::assume_full );
+            if( !t->data.empty() ) {
+                for( const auto &piece : t->data ) {
+                    if( piece.encumber != piece.max_encumber ) {
+                        const int encumbrance_when_full = get_encumber( g->u, encumber_flags::assume_full );
 
-                info.push_back( iteminfo( "ARMOR", space + _( "When full: " ), "",
-                                          iteminfo::no_newline | iteminfo::lower_is_better,
-                                          encumbrance_when_full ) );
-            }
+                        info.push_back( iteminfo( "ARMOR", space + _( "When full: " ), "",
+                                                  iteminfo::no_newline | iteminfo::lower_is_better,
+                                                  encumbrance_when_full ) );
 
-            info.back().bNewLine = true;
-
-            for( const auto &encumpair : t->encumber ) {
-                encumbrance = get_encumber( g->u, item::encumber_flags::none, encumpair.first );
-                if( encumpair.first != bodypart_str_id( "all" ) ) {
-                    info.push_back( iteminfo( "ARMOR", _( encumpair.first.c_str() + space ), format,
-                                              iteminfo::no_newline | iteminfo::lower_is_better,
-                                              encumbrance ) );
-
-                    const int encumbrance_when_full = get_encumber( g->u, encumber_flags::assume_full,
-                                                      encumpair.first );
-
-                    info.push_back( iteminfo( "ARMOR", space + _( "When full: " ), "",
-                                              iteminfo::lower_is_better,
-                                              encumbrance_when_full ) );
+                        info.back().bNewLine = true;
+                        break;
+                    }
                 }
+                for( const auto &piece : t->data ) {
+                    if( piece.bodypart.has_value() ) {
+                        encumbrance = get_encumber( g->u, item::encumber_flags::none, piece.bodypart.value() );
+
+                        if( piece.bodypart.value().id() != bodypart_str_id( "legacy" ) ) {
+                            info.push_back( iteminfo( "ARMOR", _( piece.bodypart.value().id().c_str() + space ), format,
+                                                      iteminfo::no_newline | iteminfo::lower_is_better,
+                                                      encumbrance ) );
+
+                            const int encumbrance_when_full = get_encumber( g->u, encumber_flags::assume_full,
+                                                              piece.bodypart.value() );
+
+                            info.push_back( iteminfo( "ARMOR", space + _( "When full: " ), "",
+                                                      iteminfo::lower_is_better,
+                                                      encumbrance_when_full ) );
+                        }
+                    }
+                }
+
             }
-            info.back().bNewLine = true;
         }
 
     }
@@ -3571,11 +3578,17 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
         if( const islot_armor *t = find_armor_data() ) {
-            if( t->max_encumber != t->encumber ) {
-                info.emplace_back( "BASE",
-                                   _( "* This item is <info>not rigid</info>.  Its"
-                                      " volume and encumbrance increase with contents." ) );
-            } else if( !contents.all_pockets_rigid() ) {
+            if( !t->data.empty() ) {
+                for( const auto &data : t->data ) {
+                    if( data.encumber != data.max_encumber ) {
+                        info.emplace_back( "BASE",
+                                           _( "* This item is <info>not rigid</info>.  Its"
+                                              " volume and encumbrance increase with contents." ) );
+                        break;
+                    }
+                }
+            }
+            if( !contents.all_pockets_rigid() ) {
                 info.emplace_back( "BASE",
                                    _( "* This item is <info>not rigid</info>.  Its"
                                       " volume increases with contents." ) );
@@ -5533,7 +5546,7 @@ bool item::is_power_armor() const
 }
 
 int item::get_encumber( const Character &p, encumber_flags flags,
-                        const bodypart_str_id &bodypart ) const
+                        const bodypart_id &bodypart ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
@@ -5549,18 +5562,12 @@ int item::get_encumber( const Character &p, encumber_flags flags,
         relative_encumbrance = contents.relative_encumbrance();
     }
 
-    auto &found = t->encumber.find( bodypart );
-    if( found != t->encumber.end() ) {
-        encumber = t->encumber.at( bodypart );
-        encumber += std::ceil( relative_encumbrance * ( t->max_encumber.at( bodypart ) - t->encumber.at(
-                                   bodypart ) ) );
-    } else {
-        for( const auto &bodypart : t->encumber ) {
-            encumber += bodypart.second;
-            encumber += std::ceil( relative_encumbrance * ( t->max_encumber.at( bodypart.first ) -
-                                   t->encumber.at( bodypart.first ) ) );
+    for( const auto &data : t->data ) {
+        if( bodypart == bodypart_id( bodypart_str_id( "legacy" ) ) ||
+            ( data.bodypart.has_value() && bodypart == data.bodypart.value() ) ) {
+            encumber = data.encumber;
+            encumber += std::ceil( relative_encumbrance * ( data.max_encumber - data.encumber ) );
         }
-        encumber /= t->encumber.size();
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
@@ -5615,13 +5622,21 @@ layer_level item::get_layer() const
     }
 }
 
-int item::get_coverage() const
+int item::get_coverage( const bodypart_id &bodypart ) const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
-    return t->coverage;
+    for( const auto &entry : t->data ) {
+        if( entry.bodypart.has_value() ) {
+            if( entry.bodypart.value() == bodypart ) {
+
+                return entry.coverage;
+            }
+        }
+    }
+    return 0;
 }
 
 int item::get_thickness() const

@@ -1567,7 +1567,7 @@ class item : public visitable<item>
          * 100 (covering the whole body part). Items that cover more are more likely to absorb
          * damage from attacks.
          */
-        int get_coverage() const;
+        int get_coverage( const bodypart_id &bodypart = bodypart_id( bodypart_str_id( "legacy" ) ) ) const;
 
         enum class encumber_flags : int {
             none = 0,
@@ -1579,7 +1579,7 @@ class item : public visitable<item>
          * Returns 0 if this is can not be worn at all.
          */
         int get_encumber( const Character &, encumber_flags = encumber_flags::none,
-                          const bodypart_str_id &bodypart = bodypart_str_id( "all" ) ) const;
+                          const bodypart_id &bodypart = bodypart_id( bodypart_str_id( "legacy" ) ) ) const;
 
         /**
          * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
