@@ -834,10 +834,7 @@ itype_id new_artifact()
         def.melee[DT_CUT] = info.melee_cut;
         def.m_to_hit = info.melee_hit;
         def.armor->covers = info.covers;
-
-        def.armor->data.push_back({ info.encumb, info.max_encumb, info.coverage });
-
-
+        def.armor->data.push_back( { info.encumb, info.max_encumb, info.coverage } );
         def.armor->thickness = info.thickness;
         def.armor->env_resist = info.env_resist;
         def.armor->warmth = info.warmth;
@@ -862,7 +859,7 @@ itype_id new_artifact()
                     def.weight = 1_gram;
                 }
 
-                def.armor->data.push_back({modinfo.encumb, modinfo.max_encumb, modinfo.coverage});
+                def.armor->data.push_back( {modinfo.encumb, modinfo.max_encumb, modinfo.coverage} );
 
                 if( modinfo.thickness > 0 || def.armor->thickness > std::abs( modinfo.thickness ) ) {
                     def.armor->thickness += modinfo.thickness;
@@ -1276,7 +1273,7 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     jo.read( "covers", armor->covers );
 
     // Old saves don't have max_encumber, so set it to base encumbrance value
-    armor->data.push_back({ jo.get_int("encumber"), jo.get_int("max_encumber", jo.get_int("encumber")), jo.get_int("coverage") });
+    armor->data.push_back( { jo.get_int( "encumber" ), jo.get_int( "max_encumber", jo.get_int( "encumber" ) ), jo.get_int( "coverage" ) } );
 
     armor->thickness = jo.get_int( "material_thickness" );
     armor->env_resist = jo.get_int( "env_resist" );
