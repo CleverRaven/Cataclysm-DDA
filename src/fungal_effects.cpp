@@ -1,14 +1,20 @@
 #include "fungal_effects.h"
 
-#include <memory>
 #include <algorithm>
+#include <memory>
 #include <ostream>
 #include <string>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "creature.h"
-#include "field.h"
+#include "debug.h"
+#include "enums.h"
+#include "field_type.h"
 #include "game.h"
+#include "item.h"
+#include "item_stack.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -16,18 +22,11 @@
 #include "monster.h"
 #include "mtype.h"
 #include "player.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "enums.h"
-#include "item.h"
-#include "item_stack.h"
+#include "point.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "colony.h"
-#include "debug.h"
-#include "point.h"
-#include "string_formatter.h"
 
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_stunned( "stunned" );
@@ -37,7 +36,7 @@ static const skill_id skill_melee( "melee" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_spore( "mon_spore" );
 
-static const species_id FUNGUS( "FUNGUS" );
+static const species_id species_FUNGUS( "FUNGUS" );
 
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -65,13 +64,13 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
     if( monster *const mon_ptr = g->critter_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
         if( gm.u.sees( p ) &&
-            !critter.type->in_species( FUNGUS ) ) {
+            !critter.type->in_species( species_FUNGUS ) ) {
             add_msg( _( "The %s is covered in tiny spores!" ), critter.name() );
         }
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
             critter.add_effect( effect_stunned, rng( 1_turns, 3_turns ) );
-            critter.apply_damage( origin, bp_torso, rng( 25, 50 ) );
+            critter.apply_damage( origin, bodypart_id( "torso" ), rng( 25, 50 ) );
         }
     } else if( gm.u.pos() == p ) {
         // TODO: Make this accept NPCs when they understand fungals
@@ -112,7 +111,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
 
 void fungal_effects::create_spores( const tripoint &p, Creature *origin )
 {
-    for( const tripoint &tmp : g->m.points_in_radius( p, 1 ) ) {
+    for( const tripoint &tmp : get_map().points_in_radius( p, 1 ) ) {
         fungalize( tmp, origin, 0.25 );
     }
 }
@@ -241,7 +240,8 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
 void fungal_effects::spread_fungus( const tripoint &p )
 {
     int growth = 1;
-    for( const tripoint &tmp : g->m.points_in_radius( p, 1 ) ) {
+    map &here = get_map();
+    for( const tripoint &tmp : here.points_in_radius( p, 1 ) ) {
         if( tmp == p ) {
             continue;
         }
@@ -257,7 +257,7 @@ void fungal_effects::spread_fungus( const tripoint &p )
         if( growth == 9 ) {
             return;
         }
-        for( const tripoint &dest : g->m.points_in_radius( p, 1 ) ) {
+        for( const tripoint &dest : here.points_in_radius( p, 1 ) ) {
             // One spread on average
             if( !m.has_flag( flag_FUNGUS, dest ) && one_in( 9 - growth ) ) {
                 //growth chance is 100 in X simplified

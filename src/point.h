@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_POINT_H
-#define CATA_POINT_H
+#ifndef CATA_SRC_POINT_H
+#define CATA_SRC_POINT_H
 
 // The CATA_NO_STL macro is used by the cata clang-tidy plugin tests so they
 // can include this header when compiling with -nostdinc++
@@ -8,10 +8,12 @@
 
 #include <array>
 #include <cassert>
-#include <cstddef>
 #include <climits>
+#include <cstdint>
+#include <cstdlib>
 #include <functional>
 #include <ostream>
+#include <string>
 #include <vector>
 
 #else
@@ -26,8 +28,8 @@ class ostream;
 
 #endif // CATA_NO_STL
 
-class JsonOut;
 class JsonIn;
+class JsonOut;
 
 // NOLINTNEXTLINE(cata-xy)
 struct point {
@@ -35,6 +37,8 @@ struct point {
     int y = 0;
     constexpr point() = default;
     constexpr point( int X, int Y ) : x( X ), y( Y ) {}
+
+    static point from_string( const std::string & );
 
     constexpr point operator+( const point &rhs ) const {
         return point( x + rhs.x, y + rhs.y );
@@ -70,6 +74,12 @@ struct point {
         return point( x / rhs, y / rhs );
     }
 
+#ifndef CATA_NO_STL
+    point abs() const {
+        return point( std::abs( x ), std::abs( y ) );
+    }
+#endif
+
     /**
      * Rotate point clockwise @param turns times, 90 degrees per turn,
      * around the center of a rectangle with the dimensions specified
@@ -93,25 +103,25 @@ struct point {
     }
 
     std::string to_string() const;
-};
 
-std::ostream &operator<<( std::ostream &, const point & );
+    friend inline constexpr bool operator<( const point &a, const point &b ) {
+        return a.x < b.x || ( a.x == b.x && a.y < b.y );
+    }
+    friend inline constexpr bool operator==( const point &a, const point &b ) {
+        return a.x == b.x && a.y == b.y;
+    }
+    friend inline constexpr bool operator!=( const point &a, const point &b ) {
+        return !( a == b );
+    }
+
+#ifndef CATA_NO_STL
+    friend std::ostream &operator<<( std::ostream &, const point & );
+    friend std::istream &operator>>( std::istream &, point & );
+#endif
+};
 
 void serialize( const point &p, JsonOut &jsout );
 void deserialize( point &p, JsonIn &jsin );
-
-inline constexpr bool operator<( const point &a, const point &b )
-{
-    return a.x < b.x || ( a.x == b.x && a.y < b.y );
-}
-inline constexpr bool operator==( const point &a, const point &b )
-{
-    return a.x == b.x && a.y == b.y;
-}
-inline constexpr bool operator!=( const point &a, const point &b )
-{
-    return !( a == b );
-}
 
 // NOLINTNEXTLINE(cata-xy)
 struct tripoint {
@@ -121,6 +131,8 @@ struct tripoint {
     constexpr tripoint() = default;
     constexpr tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
     constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
+
+    static tripoint from_string( const std::string & );
 
     constexpr tripoint operator+( const tripoint &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
@@ -176,6 +188,12 @@ struct tripoint {
         return *this;
     }
 
+#ifndef CATA_NO_STL
+    tripoint abs() const {
+        return tripoint( std::abs( x ), std::abs( y ), std::abs( z ) );
+    }
+#endif
+
     constexpr point xy() const {
         return point( x, y );
     }
@@ -184,56 +202,64 @@ struct tripoint {
 
     void serialize( JsonOut &jsout ) const;
     void deserialize( JsonIn &jsin );
+
+#ifndef CATA_NO_STL
+    friend std::ostream &operator<<( std::ostream &, const tripoint & );
+    friend std::istream &operator>>( std::istream &, tripoint & );
+#endif
+
+    friend inline constexpr bool operator==( const tripoint &a, const tripoint &b ) {
+        return a.x == b.x && a.y == b.y && a.z == b.z;
+    }
+    friend inline constexpr bool operator!=( const tripoint &a, const tripoint &b ) {
+        return !( a == b );
+    }
+    friend inline bool operator<( const tripoint &a, const tripoint &b ) {
+        if( a.x != b.x ) {
+            return a.x < b.x;
+        }
+        if( a.y != b.y ) {
+            return a.y < b.y;
+        }
+        if( a.z != b.z ) {
+            return a.z < b.z;
+        }
+        return false;
+    }
 };
-
-std::ostream &operator<<( std::ostream &, const tripoint & );
-
-inline constexpr bool operator==( const tripoint &a, const tripoint &b )
-{
-    return a.x == b.x && a.y == b.y && a.z == b.z;
-}
-inline constexpr bool operator!=( const tripoint &a, const tripoint &b )
-{
-    return !( a == b );
-}
-inline bool operator<( const tripoint &a, const tripoint &b )
-{
-    if( a.x != b.x ) {
-        return a.x < b.x;
-    }
-    if( a.y != b.y ) {
-        return a.y < b.y;
-    }
-    if( a.z != b.z ) {
-        return a.z < b.z;
-    }
-    return false;
-}
 
 struct rectangle {
     point p_min;
     point p_max;
     constexpr rectangle() = default;
     constexpr rectangle( const point &P_MIN, const point &P_MAX ) : p_min( P_MIN ), p_max( P_MAX ) {}
+};
 
-    constexpr bool contains_half_open( const point &p ) const {
+struct half_open_rectangle : rectangle {
+    using rectangle::rectangle;
+
+    constexpr bool contains( const point &p ) const {
         return p.x >= p_min.x && p.x < p_max.x &&
                p.y >= p_min.y && p.y < p_max.y;
     }
+};
 
-    constexpr bool contains_inclusive( const point &p ) const {
+struct inclusive_rectangle : rectangle {
+    using rectangle::rectangle;
+
+    constexpr bool contains( const point &p ) const {
         return p.x >= p_min.x && p.x <= p_max.x &&
                p.y >= p_min.y && p.y <= p_max.y;
     }
 };
 
-// Clamp p to the half-open rectangle r.
+// Clamp p to the rectangle r.
 // This independently clamps each coordinate of p to the bounds of the
 // rectangle.
 // Useful for example to round an arbitrary point to the nearest point on the
 // screen, or the nearest point in a particular submap.
-point clamp_half_open( const point &p, const rectangle &r );
-point clamp_inclusive( const point &p, const rectangle &r );
+point clamp( const point &p, const half_open_rectangle &r );
+point clamp( const point &p, const inclusive_rectangle &r );
 
 struct box {
     tripoint p_min;
@@ -243,26 +269,34 @@ struct box {
     explicit constexpr box( const rectangle &R, int Z1, int Z2 ) :
         p_min( tripoint( R.p_min, Z1 ) ), p_max( tripoint( R.p_max, Z2 ) ) {}
 
-    constexpr bool contains_half_open( const tripoint &p ) const {
-        return p.x >= p_min.x && p.x < p_max.x &&
-               p.y >= p_min.y && p.y < p_max.y &&
-               p.z >= p_min.z && p.z < p_max.z;
-    }
-
-    constexpr bool contains_inclusive( const tripoint &p ) const {
-        return p.x >= p_min.x && p.x <= p_max.x &&
-               p.y >= p_min.y && p.y <= p_max.y &&
-               p.z >= p_min.z && p.z <= p_max.z;
-    }
-
     void shrink( const tripoint &amount ) {
         p_min += amount;
         p_max -= amount;
     }
 };
 
-static constexpr tripoint tripoint_zero { 0, 0, 0 };
-static constexpr point point_zero{ tripoint_zero.xy() };
+struct half_open_box : box {
+    using box::box;
+
+    constexpr bool contains( const tripoint &p ) const {
+        return p.x >= p_min.x && p.x < p_max.x &&
+               p.y >= p_min.y && p.y < p_max.y &&
+               p.z >= p_min.z && p.z < p_max.z;
+    }
+};
+
+struct inclusive_box : box {
+    using box::box;
+
+    constexpr bool contains( const tripoint &p ) const {
+        return p.x >= p_min.x && p.x <= p_max.x &&
+               p.y >= p_min.y && p.y <= p_max.y &&
+               p.z >= p_min.z && p.z <= p_max.z;
+    }
+};
+
+static constexpr tripoint tripoint_zero{};
+static constexpr point point_zero{};
 
 static constexpr point point_north{ 0, -1 };
 static constexpr point point_north_east{ 1, -1 };
@@ -308,16 +342,6 @@ std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_d
 
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
-
-inline point abs( const point &p )
-{
-    return point( abs( p.x ), abs( p.y ) );
-}
-
-inline tripoint abs( const tripoint &p )
-{
-    return tripoint( abs( p.x ), abs( p.y ), abs( p.z ) );
-}
 
 static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static constexpr tripoint tripoint_max{ INT_MAX, INT_MAX, INT_MAX };
@@ -394,4 +418,4 @@ static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
 
 #endif // CATA_NO_STL
 
-#endif // CATA_POINT_H
+#endif // CATA_SRC_POINT_H

@@ -271,7 +271,7 @@
     "description": "Covers you in a thin layer of magical ice to protect you from harm.",
     "valid_targets": [ "self" ],
     "flags": [ "NO_LEGS", "CONCENTRATE", "VERBAL", "SOMATIC" ],
-    "effect": "target_attack",
+    "effect": "spawn_item",
     "effect_str": "armor_frost",
     "affected_body_parts": [ "HEAD", "TORSO", "LEG_L", "LEG_R", "ARM_R", "ARM_L" ],
     "energy_source": "MANA",
@@ -300,7 +300,7 @@
     "max_duration": 2,
     "duration_increment": 1,
     "difficulty": 0,
-    "max_level": 1,
+    "max_level": 0,
     "spell_class": "KELVINIST",
     "energy_source": "MANA",
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]

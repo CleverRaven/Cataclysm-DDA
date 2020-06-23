@@ -167,6 +167,7 @@
     "melee_cut": 6,
     "armor_bash": 10,
     "armor_cut": 4,
+    "armor_bullet": 3,
     "harvest": "triffid_large",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "BASHES", "GROUP_BASH", "NOHEAD", "PARALYZEVENOM" ]
@@ -193,6 +194,7 @@
     "melee_cut": 8,
     "armor_bash": 12,
     "armor_cut": 8,
+    "armor_bullet": 6,
     "harvest": "triffid_queen",
     "special_attacks": [ [ "GROWPLANTS", 20 ] ],
     "death_function": [ "NORMAL" ],
@@ -246,6 +248,7 @@
     "melee_cut": 4,
     "armor_bash": 4,
     "armor_cut": 6,
+    "armor_bullet": 5,
     "harvest": "triffid_large",
     "attack_effs": [
       { "id": "paralyzepoison", "//": "applying this multiple times makes intensity go up by 3 instead of 1", "duration": 33 },
@@ -300,6 +303,7 @@
     "melee_cut": 0,
     "armor_bash": 12,
     "armor_cut": 16,
+    "armor_bullet": 13,
     "harvest": "triffid_small",
     "special_attacks": [ [ "TRIFFID_HEARTBEAT", 50 ] ],
     "death_function": [ "TRIFFID_HEART" ],

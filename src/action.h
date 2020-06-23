@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ACTION_H
-#define ACTION_H
+#ifndef CATA_SRC_ACTION_H
+#define CATA_SRC_ACTION_H
 
 #include <functional>
 #include <map>
@@ -498,8 +498,9 @@ std::string press_x( action_id act, const std::string &act_desc );
 cata::optional<std::string> press_x_if_bound( action_id act );
 
 // only has effect in iso mode
-enum class iso_rotate {
-    no, yes
+enum class iso_rotate : int {
+    no,
+    yes
 };
 
 // Helper function to convert coordinate delta to a movement action
@@ -604,4 +605,4 @@ bool can_move_vertical_at( const tripoint &p, int movez );
  */
 bool can_examine_at( const tripoint &p );
 
-#endif
+#endif // CATA_SRC_ACTION_H

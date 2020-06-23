@@ -111,7 +111,7 @@
       { "group": "homebooks", "prob": 30 },
       { "group": "alcohol_bottled_canned", "prob": 10 },
       { "group": "vending_drink_items", "prob": 25 },
-      { "item": "laptop", "prob": 10 },
+      { "item": "laptop", "prob": 10, "charges-min": 0, "charges-max": 500 },
       { "item": "eink_tablet_pc", "prob": 10, "charges-min": 0, "charges-max": 50 },
       { "item": "vibrator", "prob": 5, "charges-min": 0, "charges-max": 50 },
       { "item": "teleumbrella", "prob": 10 },
@@ -218,15 +218,15 @@
     "id": "default_zombie_items",
     "ammo": 30,
     "magazine": 100,
-    "groups": [
-      [ "default_zombie_items_bags", 16 ],
-      [ "default_zombie_items_pockets", 20 ],
-      [ "ammo_pistol_common", 2 ],
-      [ "ammo_shotgun_common", 1 ],
-      [ "guns_pistol_common", 2 ],
-      [ "guns_shotgun_common", 1 ],
-      [ "postman_gear", 5 ],
-      [ "hardware_plumbing", 5 ]
+    "entries": [
+      { "group": "default_zombie_items_bags", "prob": 16 },
+      { "group": "default_zombie_items_pockets", "prob": 20 },
+      { "group": "ammo_pistol_common", "prob": 2 },
+      { "group": "ammo_shotgun_common", "prob": 1 },
+      { "group": "guns_pistol_common", "prob": 2 },
+      { "group": "guns_shotgun_common", "prob": 1, "contents-item": "shoulder_strap" },
+      { "group": "postman_gear", "prob": 5 },
+      { "group": "hardware_plumbing", "prob": 5 }
     ]
   },
   {

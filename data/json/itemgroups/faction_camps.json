@@ -220,6 +220,7 @@
     "items": [
       { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
       { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "raw_burdock", "count": [ 1, 4 ], "prob": 20 },
       { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
       { "group": "forage_spring", "prob": 55 }
     ]
@@ -230,6 +231,7 @@
     "items": [
       { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
       { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "raw_burdock", "count": [ 1, 4 ], "prob": 20 },
       { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
       { "item": "sunflower", "count": [ 1, 2 ], "prob": 20 },
       { "item": "cherries", "count": [ 3, 9 ], "prob": 30 },
@@ -253,6 +255,7 @@
     "items": [
       { "item": "datura_seed", "count": [ 2, 5 ], "prob": 5 },
       { "item": "raw_dandelion", "count": [ 1, 4 ], "prob": 20 },
+      { "item": "raw_burdock", "count": [ 1, 4 ], "prob": 20 },
       { "item": "cattail_stalk", "count": [ 1, 4 ], "prob": 20 },
       { "item": "walnut", "count": [ 2, 6 ], "prob": 20 },
       { "item": "chestnut", "count": [ 2, 6 ], "prob": 20 },

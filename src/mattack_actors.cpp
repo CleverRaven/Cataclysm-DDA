@@ -1,29 +1,30 @@
 #include "mattack_actors.h"
 
 #include <algorithm>
+#include <limits>
 #include <memory>
 
 #include "avatar.h"
-#include "game.h"
-#include "generic_factory.h"
-#include "gun_mode.h"
-#include "line.h"
-#include "map.h"
-#include "map_iterator.h"
-#include "messages.h"
-#include "monster.h"
-#include "npc.h"
-#include "sounds.h"
-#include "translations.h"
 #include "calendar.h"
 #include "creature.h"
 #include "enums.h"
+#include "game.h"
+#include "generic_factory.h"
+#include "gun_mode.h"
 #include "item.h"
 #include "json.h"
-#include "player.h"
-#include "rng.h"
+#include "line.h"
+#include "map.h"
+#include "map_iterator.h"
 #include "material.h"
+#include "messages.h"
+#include "monster.h"
+#include "npc.h"
+#include "player.h"
 #include "point.h"
+#include "rng.h"
+#include "sounds.h"
+#include "translations.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );
@@ -301,9 +302,9 @@ bool melee_actor::call( monster &z ) const
                        target->select_body_part( &z, hitspread ) :
                        *body_parts.pick();
 
-    target->on_hit( &z, bp_hit );
-    dealt_damage_instance dealt_damage = target->deal_damage( &z, bp_hit, damage );
-    dealt_damage.bp_hit = bp_hit;
+    target->on_hit( &z, convert_bp( bp_hit ).id() );
+    dealt_damage_instance dealt_damage = target->deal_damage( &z, convert_bp( bp_hit ).id(), damage );
+    dealt_damage.bp_hit = convert_bp( bp_hit ).id();
 
     int damage_total = dealt_damage.total_damage();
     add_msg( m_debug, "%s's melee_attack did %d damage", z.name(), damage_total );
@@ -313,7 +314,7 @@ bool melee_actor::call( monster &z ) const
         sfx::play_variant_sound( "mon_bite", "bite_miss", sfx::get_heard_volume( z.pos() ),
                                  sfx::get_heard_angle( z.pos() ) );
         target->add_msg_player_or_npc( m_neutral, no_dmg_msg_u, no_dmg_msg_npc, z.name(),
-                                       body_part_name_accusative( bp_hit ) );
+                                       body_part_name_accusative( convert_bp( bp_hit ).id() ) );
     }
 
     return true;
@@ -326,14 +327,14 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
                                  sfx::get_heard_angle( z.pos() ) );
         sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
     }
-    auto msg_type = target.attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
-    const body_part bp = dealt.bp_hit;
+    auto msg_type = target.attitude_to( g->u ) == Creature::Attitude::FRIENDLY ? m_bad : m_neutral;
+    const bodypart_id &bp = dealt.bp_hit ;
     target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
                                   body_part_name_accusative( bp ) );
 
     for( const auto &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const body_part affected_bp = eff.affect_hit_bp ? bp : eff.bp;
+            const body_part affected_bp = eff.affect_hit_bp ? bp->token : eff.bp;
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
@@ -356,13 +357,13 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
 {
     melee_actor::on_damage( z, target, dealt );
     if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
-        const body_part hit = dealt.bp_hit;
-        if( target.has_effect( effect_bite, hit ) ) {
-            target.add_effect( effect_bite, 40_minutes, hit, true );
-        } else if( target.has_effect( effect_infected, hit ) ) {
-            target.add_effect( effect_infected, 25_minutes, hit, true );
+        const bodypart_id &hit = dealt.bp_hit;
+        if( target.has_effect( effect_bite, hit->token ) ) {
+            target.add_effect( effect_bite, 40_minutes, hit->token, true );
+        } else if( target.has_effect( effect_infected, hit->token ) ) {
+            target.add_effect( effect_infected, 25_minutes, hit->token, true );
         } else {
-            target.add_effect( effect_bite, 1_turns, hit, true );
+            target.add_effect( effect_bite, 1_turns, hit->token, true );
         }
     }
     if( target.has_trait( trait_TOXICFLESH ) ) {
@@ -383,7 +384,7 @@ gun_actor::gun_actor() : description( _( "The %1$s fires its %2$s!" ) ),
 
 void gun_actor::load_internal( const JsonObject &obj, const std::string & )
 {
-    gun_type = obj.get_string( "gun_type" );
+    obj.read( "gun_type", gun_type, true );
 
     obj.read( "ammo_type", ammo_type );
 
@@ -528,9 +529,20 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     item gun( gun_type );
     gun.gun_set_mode( mode );
 
-    itype_id ammo = ( ammo_type != "null" ) ? ammo_type : gun.ammo_default();
-    if( ammo != "null" ) {
-        gun.ammo_set( ammo, z.ammo[ ammo ] );
+    itype_id ammo;
+    if( gun.magazine_integral() ) {
+        ammo = gun.ammo_default();
+    } else {
+        ammo = item( gun.magazine_default() ).ammo_default();
+    }
+    if( !ammo.is_null() ) {
+        if( gun.magazine_integral() ) {
+            gun.ammo_set( ammo, z.ammo[ammo] );
+        } else {
+            item mag( gun.magazine_default() );
+            mag.ammo_set( ammo, z.ammo[ammo] );
+            gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+        }
     }
 
     if( !gun.ammo_sufficient() ) {
@@ -542,6 +554,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
 
     standard_npc tmp( _( "The " ) + z.name(), z.pos(), {}, 8,
                       fake_str, fake_dex, fake_int, fake_per );
+    tmp.worn.push_back( item( "backpack" ) );
     tmp.set_fake( true );
     tmp.set_attitude( z.friendly ? NPCATT_FOLLOW : NPCATT_KILL );
     tmp.recoil = 0; // no need to aim

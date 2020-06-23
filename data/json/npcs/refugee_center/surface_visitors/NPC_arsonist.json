@@ -10,7 +10,32 @@
     "attitude": 0,
     "mission": 3,
     "chat": "TALK_ARSONIST",
-    "faction": "no_faction"
+    "faction": "no_faction",
+    "mission_offered": "MISSION_ARSONIST_1_AMMONIUM_NITRATE"
+  },
+  {
+    "type": "npc_class",
+    "id": "NC_ARSONIST",
+    "name": { "str": "Arsonist" },
+    "job_description": "I'm just watching the world burn.",
+    "traits": [
+      { "group": "BG_survival_story_CRIMINAL" },
+      { "group": "NPC_starting_traits" },
+      { "group": "Appearance_demographics" },
+      [ "FELINE_EARS", 100 ]
+    ],
+    "bonus_dex": { "rng": [ -2, 0 ] },
+    "bonus_int": { "rng": [ -2, 0 ] },
+    "bonus_per": { "rng": [ 0, 2 ] },
+    "shopkeeper_item_group": "NC_ARSONIST_STOCK",
+    "carry_override": "NC_ARSONIST_STOCK",
+    "skills": [
+      { "skill": "ALL", "level": { "sum": [ { "dice": [ 3, 2 ] }, { "rng": [ 0, -4 ] } ] } },
+      { "skill": "gun", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "pistol", "bonus": { "rng": [ 1, 3 ] } },
+      { "skill": "throw", "bonus": { "rng": [ 0, 2 ] } },
+      { "skill": "barter", "bonus": { "rng": [ 2, 4 ] } }
+    ]
   },
   {
     "type": "talk_topic",
@@ -25,8 +50,13 @@
       { "text": "What are you doing here?", "topic": "TALK_ARSONIST_DOING" },
       { "text": "Heard anything about the outside world?", "topic": "TALK_ARSONIST_WORLD" },
       { "text": "Is there any way I can join your group?", "topic": "TALK_ARSONIST_JOIN" },
+      { "text": "Do you have any jobs for me?", "topic": "TALK_MISSION_LIST" },
       { "text": "What's with your ears?", "topic": "TALK_ARSONIST_MUTATION" },
-      { "text": "Anything I can help with?", "topic": "TALK_MISSION_LIST" },
+      {
+        "text": "How are you doing these days?",
+        "condition": { "u_has_var": "TALK_ARSONIST_SUPPLIED", "type": "talk", "context": "flag", "value": "yes" },
+        "topic": "TALK_ARSONIST_TRADING"
+      },
       { "text": "Well, bye.", "topic": "TALK_DONE" }
     ]
   },
@@ -79,11 +109,46 @@
   {
     "type": "talk_topic",
     "id": "TALK_ARSONIST_DOING",
-    "dynamic_line": "I burn down buildings and sell the Free Merchants the materials.  No, seriously.  If you've seen burned wreckage in place of suburbs or even see the pile of rebar for sale, that's probably me.  They've kept me well off in exchange, I guess.  I'll sell you a Molotov Cocktail or two, if you want.",
+    "dynamic_line": "I burn down buildings and sell the Free Merchants the materials.  No, seriously.  If you've seen burned wreckage in place of suburbs or even see the pile of rebar for sale, that's probably me.  They've kept me well off in exchange, I guess.",
     "responses": [
       { "text": "I'll buy.", "effect": "start_trade", "topic": "TALK_ARSONIST" },
       { "text": "Who needs rebar?", "topic": "TALK_ARSONIST_DOING_REBAR" }
     ]
+  },
+  {
+    "id": "MISSION_ARSONIST_1_AMMONIUM_NITRATE",
+    "type": "mission_definition",
+    "name": { "str": "Supply the arsonist." },
+    "description": "Bring the arsonist 42 kg of commercial fertilizer",
+    "difficulty": 1,
+    "value": 500,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "goal": "MGOAL_FIND_ITEM",
+    "item": "fertilizer_commercial",
+    "count": 120,
+    "dialogue": {
+      "describe": "I could use some help getting some materials.",
+      "offer": "I could use some help getting some materials.  Molotovs are nice for burning down buildings but aren't all that for keeping yourself safe.  If you could get me two bags of commercial fertilizer I could make something a lot more potent.",
+      "accepted": "Oh man, thanks so much friend.  You won't regret it.",
+      "rejected": "Think it over.",
+      "advice": "Commercial fertilizer tends to be made from ammonium nitrate, which is also usable as an explosive.  Try looking for some around the abandoned farms.",
+      "inquire": "Did you find any fertilizer?  Are you sure this is the ammonium nitrate kind?",
+      "success": "This is great!  I'll get to work making something of this.  You can have some of my Molotovs, I won't need quite so many now.",
+      "success_lie": "I guess I could convince the shelter to sell me some.",
+      "failure": "Damn.  Perhaps I wasn't the only one who thought of this."
+    },
+    "end": {
+      "effect": [
+        { "u_buy_item": "molotov", "count": 10 },
+        { "u_add_var": "TALK_ARSONIST_SUPPLIED", "type": "talk", "context": "flag", "value": "yes" }
+      ]
+    }
+  },
+  {
+    "type": "talk_topic",
+    "id": "TALK_ARSONIST_TRADING",
+    "dynamic_line": "I made some nice things with that ammonium nitrate you got me.  Want to trade?",
+    "responses": [ { "text": "I'll buy.", "effect": "start_trade", "topic": "TALK_ARSONIST" } ]
   },
   {
     "type": "talk_topic",

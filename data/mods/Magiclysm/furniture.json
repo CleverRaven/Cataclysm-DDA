@@ -46,8 +46,8 @@
         { "item": "material_rocksalt", "count": [ 0, 1 ], "prob": 10 },
         { "item": "material_rhodonite", "count": [ 0, 1 ], "prob": 1 },
         { "item": "material_zincite", "count": [ 0, 5 ], "prob": 2 },
-        { "item": "orichalcum_lump", "count": [ 0, 3 ], "prob": 5 },
-        { "item": "orichalcum_sliver", "count": [ 1, 8 ], "prob": 20 }
+        { "item": "orichalcum_lump", "count": [ 0, 2 ] },
+        { "item": "orichalcum_sliver", "count": [ 4, 10 ] }
       ]
     }
   },
@@ -185,6 +185,47 @@
         { "item": "small_mana_crystal", "count": [ 0, 3 ] },
         { "item": "glass_shard", "count": [ 8, 12 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_altar",
+    "name": "stone altar",
+    "move_cost_mod": 10,
+    "symbol": "H",
+    "color": "light_gray",
+    "coverage": 40,
+    "required_str": 30,
+    "flags": [ "BASHABLE" ],
+    "description": "This is big stone altar.  Most commonly used in morally questionable rituals.",
+    "bash": {
+      "str_min": 30,
+      "str_max": 160,
+      "sound": "smash!",
+      "sound_fail": "thump.",
+      "items": [ { "item": "rock", "count": [ 5, 15 ] }, { "item": "sharp_rock", "count": [ 3, 5 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_demon_forge",
+    "name": "demon forge",
+    "description": "This is a forge made of the chitin of a huge, red spider that has a penchant for flames.  Custom made to withstand the heat from alumentum, this forge can resmelt the magical metals into their workable, ingot form.",
+    "symbol": "^",
+    "color": "red",
+    "move_cost_mod": -1,
+    "coverage": 40,
+    "required_str": -1,
+    "crafting_pseudo_item": "demon_forge",
+    "flags": [ "SEALED", "CONTAINER", "NOITEM", "EASY_DECONSTRUCT", "MINEABLE" ],
+    "deconstruct": { "items": [ { "item": "demon_chitin_plate", "count": 14 }, { "item": "char_forge", "count": 1 } ] },
+    "examine_action": "reload_furniture",
+    "bash": {
+      "str_min": 20,
+      "str_max": 50,
+      "sound": "crash!",
+      "sound_fail": "whump.",
+      "items": [ { "item": "demon_chitin_piece", "count": [ 20, 30 ] } ]
     }
   }
 ]

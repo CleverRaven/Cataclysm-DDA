@@ -217,7 +217,7 @@
       { "item": "gloves_fingerless", "prob": 30 },
       { "item": "mask_hockey", "prob": 20 },
       { "item": "flamethrower_crude", "prob": 20 },
-      { "item": "pipebomb", "prob": 40 },
+      { "item": "improvised_pipebomb", "prob": 40 },
       { "item": "molotov", "prob": 100 },
       { "item": "ref_lighter", "prob": 30 },
       { "item": "lighter", "prob": 30 },

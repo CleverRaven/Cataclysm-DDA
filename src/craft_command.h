@@ -1,46 +1,52 @@
 #pragma once
-#ifndef CRAFT_COMMAND_H
-#define CRAFT_COMMAND_H
+#ifndef CATA_SRC_CRAFT_COMMAND_H
+#define CATA_SRC_CRAFT_COMMAND_H
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "point.h"
 #include "recipe.h"
 #include "requirements.h"
+#include "type_id.h"
 
+class JsonIn;
+class JsonOut;
 class inventory;
 class item;
 class player;
-class recipe;
-class JsonIn;
-class JsonOut;
 template<typename T> struct enum_traits;
 
 /**
 *   enum used by comp_selection to indicate where a component should be consumed from.
 */
-enum usage {
-    use_from_none = 0,
-    use_from_map = 1,
-    use_from_player = 2,
-    use_from_both = 1 | 2,
+enum class usage_from : int {
+    none = 0,
+    map = 1,
+    player = 2,
+    both = 1 | 2,
     cancel = 4, // FIXME: hacky.
-    num_usages
+    num_usages_from
 };
 
 template<>
-struct enum_traits<usage> {
-    static constexpr usage last = usage::num_usages;
+struct enum_traits<usage_from> {
+    static constexpr usage_from last = usage_from::num_usages_from;
 };
+
+inline bool operator&( usage_from l, usage_from r )
+{
+    using I = std::underlying_type_t<usage_from>;
+    return static_cast<I>( l ) & static_cast<I>( r );
+}
 
 /**
 *   Struct that represents a selection of a component for crafting.
 */
-template<typename CompType = component>
+template<typename CompType>
 struct comp_selection {
     /** Tells us where the selected component should be used from. */
-    usage use_from = use_from_none;
+    usage_from use_from = usage_from::none;
     CompType comp;
 
     /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
@@ -118,4 +124,4 @@ class craft_command
                              const std::vector<comp_selection<tool_comp>> &missing_tools );
 };
 
-#endif
+#endif // CATA_SRC_CRAFT_COMMAND_H

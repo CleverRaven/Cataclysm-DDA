@@ -46,7 +46,7 @@ clean:
 $(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: %.cpp
-	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean check tests
 

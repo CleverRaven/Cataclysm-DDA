@@ -1,6 +1,6 @@
 #pragma once
-#ifndef SDL_SOUND_H
-#define SDL_SOUND_H
+#ifndef CATA_SRC_SDLSOUND_H
+#define CATA_SRC_SDLSOUND_H
 
 #include <string>
 #if defined(SDL_SOUND)
@@ -30,4 +30,4 @@ inline void load_soundset() { }
 
 #endif
 
-#endif
+#endif // CATA_SRC_SDLSOUND_H

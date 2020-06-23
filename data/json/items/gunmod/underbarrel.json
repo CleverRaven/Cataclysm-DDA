@@ -7,9 +7,10 @@
     "weight": "400 g",
     "volume": "500 ml",
     "price": 68000,
+    "price_postapoc": 500,
     "to_hit": -1,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "brown",
     "location": "underbarrel",
@@ -35,6 +36,7 @@
     "weight": "2600 g",
     "volume": "0 ml",
     "price": 95000,
+    "price_postapoc": 500,
     "to_hit": -1,
     "material": [ "steel" ],
     "symbol": ":",
@@ -42,24 +44,24 @@
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 2, "dispersion": 345, "durability": 10, "clip_size": 2 },
-    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ]
+    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
-    "id": "combination_gun_shotgun_pipe",
+    "id": "factory_handguard",
     "type": "GUNMOD",
-    "name": { "str": "pipe combination gun shotgun" },
-    "description": "The integrated underbarrel shotgun of a pipe combination gun which holds two shots.  It's irremovable.",
-    "weight": "1134 g",
-    "volume": "1 L",
-    "price": 10000,
-    "to_hit": -1,
-    "material": [ "steel" ],
+    "name": "factory handguard",
+    "description": "A removable molded grip that comes standard on guns without rails.  It's not as efficient as a proper forward grip or bipod at controlling recoil, but it's better than nothing.",
+    "weight": "246 g",
+    "volume": "568ml",
+    "price": 6000,
+    "material": [ "plastic" ],
     "symbol": ":",
-    "color": "light_red",
-    "location": "underbarrel",
-    "mod_targets": [ "rifle" ],
-    "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 480, "durability": 6, "clip_size": 2 },
-    "flags": [ "IRREMOVABLE", "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ]
+    "color": "light_gray",
+    "location": "underbarrel mount",
+    "mod_targets": [ "fs2000" ],
+    "//install_time": 5000,
+    "handling_modifier": 2
   },
   {
     "id": "grip",
@@ -70,6 +72,7 @@
     "weight": "68 g",
     "volume": "119 ml",
     "price": 6000,
+    "price_postapoc": 500,
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "brown",
@@ -93,8 +96,10 @@
     "name": { "str": "integrated bayonet" },
     "description": "This is the bayonet integrated in the firearm.",
     "weight": "1 g",
-    "volume": "250 ml",
+    "volume": "92 ml",
+    "longest_side": "22 cm",
     "price": 4000,
+    "price_postapoc": 500,
     "to_hit": -1,
     "cutting": 10,
     "material": [ "steel" ],
@@ -114,6 +119,7 @@
     "weight": "1550 g",
     "volume": "1750 ml",
     "price": 0,
+    "price_postapoc": 0,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -122,13 +128,40 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": 1,
+      "ranged_damage": { "damage_type": "stab", "amount": 1 },
       "dispersion": 425,
       "durability": 7,
       "clip_size": 7,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 7 } } ]
+  },
+  {
+    "id": "ksg25_aux_shotgun",
+    "type": "GUNMOD",
+    "name": { "str": "KSG-25 second magazine" },
+    "description": "The integrated second shotgun magazine of the Kel-Tec KSG-25 which holds 12 shots.  It's irremovable.",
+    "weight": "1550 g",
+    "volume": "1750 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "steel" ],
+    "symbol": ":",
+    "color": "light_red",
+    "location": "underbarrel",
+    "mod_targets": [ "shotgun" ],
+    "gun_data": {
+      "ammo": "shot",
+      "skill": "shotgun",
+      "ranged_damage": { "damage_type": "bullet", "amount": 5 },
+      "dispersion": 425,
+      "durability": 7,
+      "clip_size": 12,
+      "reload": 120
+    },
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 12 } } ]
   },
   {
     "id": "ts12_aux_shotgun",
@@ -139,6 +172,7 @@
     "volume": "1750 ml",
     "integral_volume": "0 ml",
     "price": 0,
+    "price_postapoc": 0,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -147,13 +181,14 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": 1,
+      "ranged_damage": { "damage_type": "stab", "amount": 1 },
       "dispersion": 320,
       "durability": 6,
       "clip_size": 5,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "ts12_aux_shotgun2",
@@ -164,6 +199,7 @@
     "volume": "1750 ml",
     "integral_volume": "0 ml",
     "price": 0,
+    "price_postapoc": 0,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -172,13 +208,14 @@
     "gun_data": {
       "ammo": "shot",
       "skill": "shotgun",
-      "ranged_damage": 1,
+      "ranged_damage": { "damage_type": "stab", "amount": 1 },
       "dispersion": 320,
       "durability": 6,
       "clip_size": 5,
       "reload": 120
     },
-    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "IRREMOVABLE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "laser_sight",
@@ -189,6 +226,7 @@
     "volume": "250 ml",
     "integral_volume": "0 ml",
     "price": 10000,
+    "price_postapoc": 500,
     "material": [ "plastic", "steel" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -215,22 +253,24 @@
       "ammo": "shotpaper",
       "skill": "shotgun",
       "range": -2,
-      "ranged_damage": -12,
+      "ranged_damage": { "damage_type": "stab", "amount": -12 },
       "dispersion": 600,
       "durability": 10,
       "reload": 150,
       "clip_size": 1
     },
-    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ]
+    "flags": [ "RELOAD_ONE", "NO_UNLOAD", "IRREMOVABLE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shotpaper": 1 } } ]
   },
   {
     "id": "m203",
     "type": "GUNMOD",
-    "name": { "str": "M203", "str_pl": "M203" },
+    "name": { "str_sp": "M203" },
     "description": "The M203 was originally designed for use with M16 variants but today can be attached to almost any rifle.  It allows a single 40mm grenade to be loaded and fired.",
     "weight": "1360 g",
     "volume": "500 ml",
     "price": 65000,
+    "price_postapoc": 1000,
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "light_red",
@@ -238,7 +278,8 @@
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 300, "durability": 10, "clip_size": 1 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "m203_mod",
@@ -251,19 +292,21 @@
   {
     "id": "m320_mod",
     "type": "GUNMOD",
-    "name": { "str": "M320 GLM", "str_pl": "M320 GLM" },
+    "name": { "str_sp": "M320 GLM" },
     "description": "The M320 Grenade Launcher Module offers the functionality of larger launchers in a very small package at the cost of decreased accuracy.  It can be either attached to a rifle or combined with a buttstock for standalone use.",
     "weight": "1500 g",
     "volume": "500 ml",
     "price": 84000,
-    "material": "steel",
+    "price_postapoc": 1000,
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "underbarrel",
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
     "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
-    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ]
+    "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "m320_mod_mod",
@@ -280,13 +323,15 @@
     "description": "The integrated 12 gauge shotgun barrel of the Chiappa M6 Survival Gun.  It's irremovable.",
     "volume": "0 ml",
     "price": 0,
+    "price_postapoc": 0,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
     "location": "underbarrel",
     "mod_targets": [ "rifle" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "range": 1, "dispersion": 320, "durability": 10, "clip_size": 1 },
-    "flags": [ "RELOAD_EJECT" ]
+    "flags": [ "RELOAD_EJECT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 1 } } ]
   },
   {
     "id": "makeshift_bayonet",
@@ -307,8 +352,9 @@
     "name": { "str": "masterkey shotgun" },
     "description": "A minimalist pump action shotgun, which can be mounted under the barrel of many rifles.  It allows a total of four shotgun shells to be loaded and fired.",
     "weight": "2600 g",
-    "volume": "500 ml",
+    "volume": "1068 ml",
     "price": 95000,
+    "price_postapoc": 1000,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -316,7 +362,8 @@
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 4 } } ]
   },
   {
     "id": "masterkey_mod",
@@ -334,13 +381,15 @@
     "weight": "2080 g",
     "volume": "750 ml",
     "price": 25000,
+    "price_postapoc": 500,
     "material": [ "steel", "plastic" ],
     "symbol": ":",
     "color": "light_gray",
     "location": "underbarrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
     "gun_data": { "ammo": "40x46mm", "skill": "launcher", "dispersion": 450, "durability": 10, "clip_size": 1 },
-    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ]
+    "min_skills": [ [ "weapon", 2 ], [ "launcher", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "40x46mm": 1 } } ]
   },
   {
     "id": "pistol_bayonet",
@@ -350,6 +399,7 @@
     "weight": "122 g",
     "volume": "250 ml",
     "price": 4000,
+    "price_postapoc": 1000,
     "to_hit": -4,
     "cutting": 6,
     "material": [ "steel" ],
@@ -369,6 +419,7 @@
     "weight": "1140 g",
     "volume": "750 ml",
     "price": 120000,
+    "price_postapoc": 5000,
     "material": [ "superalloy", "ceramic" ],
     "symbol": ":",
     "color": "dark_gray",
@@ -376,9 +427,16 @@
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "20x66mm", "skill": "shotgun", "dispersion": 320, "durability": 9, "reload": 125 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 2 ] ],
-    "magazine_well": 1,
-    "magazines": [ [ "20x66mm", [ "20x66_10_mag" ] ] ],
-    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ]
+    "flags": [ "WATERPROOF_GUN", "NEVER_JAMS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "20x66_10_mag" ]
+      }
+    ]
   },
   {
     "id": "rm121aux_mod",
@@ -396,6 +454,7 @@
     "weight": "1500 g",
     "volume": "750 ml",
     "price": 65000,
+    "price_postapoc": 1000,
     "material": [ "steel" ],
     "symbol": ":",
     "color": "light_red",
@@ -403,7 +462,8 @@
     "mod_targets": [ "rifle", "crossbow" ],
     "gun_data": { "ammo": "shot", "skill": "shotgun", "dispersion": 375, "durability": 10, "clip_size": 2 },
     "min_skills": [ [ "weapon", 2 ], [ "shotgun", 1 ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "shot": 2 } } ]
   },
   {
     "id": "u_shotgun_mod",

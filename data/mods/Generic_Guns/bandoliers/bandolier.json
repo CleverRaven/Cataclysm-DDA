@@ -4,80 +4,74 @@
     "copy-from": "bandolier_pistol",
     "type": "ARMOR",
     "name": { "str": "pistol bandolier" },
-    "use_action": {
-      "type": "bandolier",
-      "capacity": 18,
-      "ammo": [ "ammo_pistol_tiny", "ammo_pistol", "ammo_pistol_magnum" ],
-      "draw_cost": 20
-    }
+    "pocket_data": [ { "ammo_restriction": { "ammo_pistol_tiny": 18, "ammo_pistol": 18, "ammo_pistol_magnum": 18 }, "moves": 20 } ]
   },
   {
     "id": "bandolier_rifle",
     "copy-from": "bandolier_rifle",
     "type": "ARMOR",
     "name": { "str": "rifle bandolier" },
-    "use_action": { "type": "bandolier", "capacity": 16, "ammo": [ "ammo_rifle", "ammo_rifle_huge" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "ammo_rifle": 16, "ammo_rifle_huge": 16 }, "moves": 20 } ]
   },
   {
     "id": "bandolier_shotgun",
     "copy-from": "bandolier_shotgun",
     "type": "ARMOR",
     "name": { "str": "waist shotgun bandolier" },
-    "use_action": { "type": "bandolier", "capacity": 25, "ammo": [ "ammo_shot", "signal_flare" ], "draw_cost": 25 }
+    "pocket_data": [ { "ammo_restriction": { "ammo_shot": 25, "signal_flare": 25 }, "moves": 25 } ]
   },
   {
     "id": "torso_bandolier_shotgun",
     "copy-from": "torso_bandolier_shotgun",
     "type": "ARMOR",
     "name": { "str": "torso shotgun bandolier" },
-    "use_action": { "type": "bandolier", "capacity": 50, "ammo": [ "ammo_shot", "signal_flare" ], "draw_cost": 35 }
+    "pocket_data": [ { "ammo_restriction": { "ammo_shot": 50, "signal_flare": 50 }, "moves": 35 } ]
   },
   {
     "id": "flintlock_pouch",
     "copy-from": "flintlock_pouch",
     "type": "ARMOR",
     "name": { "str": "paper cartridge pouch", "str_pl": "paper cartridge pouches" },
-    "use_action": { "type": "bandolier", "capacity": 14, "ammo": [ "ammo_black_powder", "blunderbuss", "shotcanister" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "ammo_black_powder": 14, "blunderbuss": 14, "shotcanister": 14 }, "moves": 20 } ]
   },
   {
     "id": "bandolier_wrist",
     "copy-from": "bandolier_wrist",
     "type": "ARMOR",
     "name": { "str": "wrist bandolier" },
-    "use_action": { "type": "bandolier", "capacity": 4, "ammo": [ "ammo_pistol_magnum", "ammo_rifle" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "ammo_pistol_magnum": 4, "ammo_rifle": 4 }, "moves": 20 } ]
   },
   {
     "id": "grenade_pouch",
     "copy-from": "grenade_pouch",
     "type": "ARMOR",
     "name": { "str": "grenade pouch", "str_pl": "grenade pouches" },
-    "use_action": { "type": "bandolier", "capacity": 4, "ammo": [ "ammo_grenade" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "ammo_grenade": 4 }, "moves": 20 } ]
   },
   {
     "id": "ammo_pouch",
     "copy-from": "ammo_pouch",
     "type": "ARMOR",
     "name": { "str": "ammo pouch", "str_pl": "ammo pouches" },
-    "use_action": {
-      "type": "bandolier",
-      "capacity": 60,
-      "ammo": [
-        "pebble",
-        "ammo_black_powder",
-        "ammo_pistol_tiny",
-        "ammo_pistol",
-        "ammo_pistol_magnum",
-        "ammo_rifle",
-        "ammo_rifle_huge",
-        "ammo_shot",
-        "signal_flare",
-        "stimpack_ammo",
-        "ampoule",
-        "blunderbuss",
-        "shotcanister",
-        "paintball"
-      ],
-      "draw_cost": 35
-    }
+    "pocket_data": [
+      {
+        "ammo_restriction": {
+          "pebble": 60,
+          "ammo_black_powder": 60,
+          "ammo_pistol_tiny": 60,
+          "ammo_pistol": 60,
+          "ammo_pistol_magnum": 60,
+          "ammo_rifle": 60,
+          "ammo_rifle_huge": 60,
+          "ammo_shot": 60,
+          "stimpack_ammo": 60,
+          "ampoule": 60,
+          "blunderbuss": 60,
+          "shotcanister": 60,
+          "paintball": 60
+        },
+        "moves": 35
+      }
+    ]
   }
 ]

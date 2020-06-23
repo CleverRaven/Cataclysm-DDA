@@ -1,15 +1,13 @@
 #pragma once
-#ifndef MORALE_TYPES_H
-#define MORALE_TYPES_H
+#ifndef CATA_SRC_MORALE_TYPES_H
+#define CATA_SRC_MORALE_TYPES_H
 
 #include <string>
 
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
-
 struct itype;
 
 class morale_type_data
@@ -117,4 +115,4 @@ extern const morale_type MORALE_TREE_COMMUNION;
 extern const morale_type MORALE_ACCOMPLISHMENT;
 extern const morale_type MORALE_FAILURE;
 
-#endif
+#endif // CATA_SRC_MORALE_TYPES_H

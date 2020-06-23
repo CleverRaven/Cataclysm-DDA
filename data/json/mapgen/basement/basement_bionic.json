@@ -65,7 +65,7 @@
         { "group": "cleaning", "x": [ 11, 12 ], "y": 8, "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "surgery", "x": [ 8, 9 ], "y": 9, "chance": 70, "repeat": [ 1, 2 ] },
         { "group": "bionics_common", "x": 7, "y": 9 },
-        { "item": "anesthetic_kit", "x": 7, "y": 9 },
+        { "item": "anesthetic_kit", "x": 7, "y": 9, "ammo": 100 },
         { "item": "television", "x": 21, "y": 16, "chance": 95 },
         { "item": "soap", "x": 19, "y": 21, "chance": 80 },
         { "item": "towel", "x": 20, "y": 21, "chance": 80 },

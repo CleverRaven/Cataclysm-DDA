@@ -1,5 +1,8 @@
-#include "catch/catch.hpp"
+#include <array>
 
+#include "catch/catch.hpp"
+#include "damage.h"
+#include "type_id.h"
 #include "veh_type.h"
 
 TEST_CASE( "verify_copy_from_gets_damage_reduction", "[vehicle]" )

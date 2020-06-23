@@ -209,3 +209,13 @@ int g19()
     // CHECK-MESSAGES: warning: Call to 'f19' could instead call overload using a point parameter. [cata-use-point-apis]
     // CHECK-FIXES: return f19( point( 0, 1 ), 2 );
 }
+
+struct A20 {
+    // Regression test for calling operator= taking an integral arg
+    A20 &operator=( int x );
+};
+
+void g20( A20 &a, bool b )
+{
+    a = b;
+}

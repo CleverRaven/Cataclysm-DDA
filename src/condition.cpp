@@ -1,33 +1,48 @@
 #include "condition.h"
 
+#include <climits>
+#include <cstddef>
 #include <functional>
+#include <map>
+#include <memory>
 #include <set>
 #include <string>
-#include <type_traits>
+#include <unordered_map>
 #include <unordered_set>
 #include <utility>
 #include <vector>
 
+#include "auto_pickup.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
+#include "debug.h"
 #include "dialogue.h"
-#include "faction_camp.h"
+#include "enum_conversions.h"
 #include "game.h"
-#include "item_category.h"
 #include "item.h"
-#include "auto_pickup.h"
+#include "item_category.h"
 #include "json.h"
+#include "line.h"
 #include "map.h"
+#include "mapdata.h"
 #include "mission.h"
 #include "npc.h"
+#include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "recipe.h"
+#include "pimpl.h"
+#include "player.h"
+#include "player_activity.h"
+#include "point.h"
 #include "recipe_groups.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+class basecamp;
+class recipe;
 
 static const efftype_id effect_currently_busy( "currently_busy" );
 
@@ -230,7 +245,7 @@ template<class T>
 void conditional_t<T>::set_is_wearing( const JsonObject &jo, const std::string &member,
                                        bool is_npc )
 {
-    const std::string &item_id = jo.get_string( member );
+    const itype_id item_id( jo.get_string( member ) );
     condition = [item_id, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
@@ -243,7 +258,7 @@ void conditional_t<T>::set_is_wearing( const JsonObject &jo, const std::string &
 template<class T>
 void conditional_t<T>::set_has_item( const JsonObject &jo, const std::string &member, bool is_npc )
 {
-    const std::string &item_id = jo.get_string( member );
+    const itype_id item_id( jo.get_string( member ) );
     condition = [item_id, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
@@ -262,7 +277,7 @@ void conditional_t<T>::set_has_items( const JsonObject &jo, const std::string &m
             return false;
         };
     } else {
-        const std::string item_id = has_items.get_string( "item" );
+        const itype_id item_id( has_items.get_string( "item" ) );
         int count = has_items.get_int( "count" );
         condition = [item_id, count, is_npc]( const T & d ) {
             player *actor = d.alpha;
@@ -768,7 +783,7 @@ void conditional_t<T>::set_is_driving( bool is_npc )
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        if( const optional_vpart_position vp = g->m.veh_at( actor->pos() ) ) {
+        if( const optional_vpart_position vp = get_map().veh_at( actor->pos() ) ) {
             return vp->vehicle().is_moving() && vp->vehicle().player_in_control( *actor );
         }
         return false;
@@ -803,8 +818,9 @@ template<class T>
 void conditional_t<T>::set_is_outside()
 {
     condition = []( const T & d ) {
-        const tripoint pos = g->m.getabs( d.beta->pos() );
-        return !g->m.has_flag( TFLAG_INDOORS, pos );
+        map &here = get_map();
+        const tripoint pos = here.getabs( d.beta->pos() );
+        return !here.has_flag( TFLAG_INDOORS, pos );
     };
 }
 

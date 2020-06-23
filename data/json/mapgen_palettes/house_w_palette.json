@@ -22,7 +22,7 @@
       "O": "f_dresser",
       "P": "f_locker",
       "Q": "f_rack",
-      "R": "f_bookcase",
+      "▤": "f_bookcase",
       "S": [ [ "f_filing_cabinet", 80 ], [ "f_shredder", 20 ] ],
       "U": "f_utility_shelf",
       "V": "f_glass_cabinet",

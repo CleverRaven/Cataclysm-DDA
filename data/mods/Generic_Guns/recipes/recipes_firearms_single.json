@@ -56,31 +56,6 @@
     "components": [ [ [ "pipe", 1 ] ], [ [ "scrap", 2 ] ], [ [ "steel_chunk", 1 ] ], [ [ "2x4", 1 ] ] ]
   },
   {
-    "result": "rifle_pipe_rifle",
-    "type": "recipe",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 4,
-    "time": "30 m",
-    "reversible": true,
-    "autolearn": true,
-    "tools": [
-      [
-        [ "rifle_ball", -1 ],
-        [ "rifle_AP", -1 ],
-        [ "bp_rifle_ball", -1 ],
-        [ "bp_rifle_AP", -1 ],
-        [ "reloaded_rifle_ball", -1 ],
-        [ "reloaded_rifle_AP", -1 ],
-        [ "rifle_casing", -1 ]
-      ]
-    ],
-    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW_FINE", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 3 ] ], [ [ "2x4", 1 ] ], [ [ "scrap", 3 ] ] ]
-  },
-  {
     "result": "shot_pipe_double",
     "type": "recipe",
     "category": "CC_WEAPON",
@@ -147,5 +122,48 @@
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_standard", 1 ] ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ] ], [ [ "pipe", 1 ] ], [ [ "sharp_rock", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "slam_shotgun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "gun", 1 ] ],
+    "difficulty": 1,
+    "time": "2 h",
+    "autolearn": true,
+    "book_learn": [ [ "manual_shotgun", 1 ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "FILE", "level": 1 },
+      { "id": "WELD", "level": 2 }
+    ],
+    "tools": [
+      [
+        [ "shot_buck", -1 ],
+        [ "shot_fowl", -1 ],
+        [ "shot_pyro", -1 ],
+        [ "shot_dart", -1 ],
+        [ "shot_foster", -1 ],
+        [ "shot_bean", -1 ],
+        [ "reloaded_shot_buck", -1 ],
+        [ "reloaded_shot_fowl", -1 ],
+        [ "reloaded_shot_pyro", -1 ],
+        [ "reloaded_shot_dart", -1 ],
+        [ "reloaded_shot_foster", -1 ],
+        [ "reloaded_shot_junk", -1 ],
+        [ "bp_shot_buck", -1 ],
+        [ "bp_shot_fowl", -1 ],
+        [ "bp_shot_pyro", -1 ],
+        [ "bp_shot_dart", -1 ],
+        [ "bp_shot_foster", -1 ],
+        [ "bp_shot_junk", -1 ],
+        [ "shot_hull", -1 ]
+      ]
+    ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
   }
 ]

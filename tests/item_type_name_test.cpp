@@ -1,5 +1,9 @@
+#include <string>
+
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "item.h"
+#include "type_id.h"
 
 // Test cases focused on item::type_name
 
@@ -87,7 +91,7 @@ TEST_CASE( "blood item", "[item][type_name][blood]" )
         item corpse = item::make_corpse( mon_zombie );
         item blood( "blood" );
         blood.set_mtype( corpse.get_mtype() );
-        REQUIRE( blood.typeId() == "blood" );
+        REQUIRE( blood.typeId() == itype_id( "blood" ) );
         REQUIRE_FALSE( blood.is_corpse() );
 
         CHECK( blood.type_name() == "zombie blood" );
@@ -97,7 +101,7 @@ TEST_CASE( "blood item", "[item][type_name][blood]" )
         item corpse = item::make_corpse( mon_chicken );
         item blood( "blood" );
         blood.set_mtype( corpse.get_mtype() );
-        REQUIRE( blood.typeId() == "blood" );
+        REQUIRE( blood.typeId() == itype_id( "blood" ) );
         REQUIRE_FALSE( blood.is_corpse() );
 
         CHECK( blood.type_name() == "chicken blood" );
@@ -105,7 +109,7 @@ TEST_CASE( "blood item", "[item][type_name][blood]" )
 
     SECTION( "blood from an unknown corpse" ) {
         item blood( "blood" );
-        REQUIRE( blood.typeId() == "blood" );
+        REQUIRE( blood.typeId() == itype_id( "blood" ) );
         REQUIRE_FALSE( blood.is_corpse() );
 
         CHECK( blood.type_name() == "human blood" );

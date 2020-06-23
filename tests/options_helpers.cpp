@@ -1,6 +1,5 @@
 #include "options_helpers.h"
 
-#include "debug.h"
 #include "options.h"
 
 override_option::override_option( const std::string &option, const std::string &value ) :

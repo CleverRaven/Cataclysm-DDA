@@ -18,7 +18,7 @@
       "RELOAD_AND_SHOOT"
     ],
     "skill": "pistol",
-    "ammo": "barb",
+    "ammo": [ "barb" ],
     "clip_size": 1,
     "weight": "540 g",
     "volume": "750ml",
@@ -28,7 +28,8 @@
     "loudness": 2,
     "range": 12,
     "dispersion": 100,
-    "durability": 8
+    "durability": 8,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "barb": 1 } } ]
   },
   {
     "id": "emp_frond",

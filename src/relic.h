@@ -1,15 +1,15 @@
 #pragma once
-#ifndef RELIC_H
-#define RELIC_H
-
-#include "magic.h"
-#include "magic_enchantment.h"
+#ifndef CATA_SRC_RELIC_H
+#define CATA_SRC_RELIC_H
 
 #include <string>
 #include <vector>
 
+#include "magic.h"
+#include "magic_enchantment.h"
+#include "translations.h"
+
 class Creature;
-class islot_relic;
 class JsonIn;
 class JsonObject;
 class JsonOut;
@@ -24,9 +24,9 @@ class relic
         // the item's name will be replaced with this if the string is not empty
         translation item_name_override;
 
-        int charges_per_activation;
+        int charges_per_activation = 0;
         // activating an artifact overrides all spell casting costs
-        int moves;
+        int moves = 0;
     public:
         std::string name() const;
         // returns number of charges that should be consumed
@@ -42,7 +42,7 @@ class relic
 
         std::vector<enchantment> get_enchantments() const;
 
-        int modify_value( enchantment::mod value_type, int value ) const;
+        int modify_value( enchant_vals::mod value_type, int value ) const;
 };
 
-#endif // !RELIC_H
+#endif // CATA_SRC_RELIC_H

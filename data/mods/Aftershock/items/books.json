@@ -112,22 +112,51 @@
   {
     "id": "schematics_chickenbot",
     "type": "BOOK",
-    "name": { "str": "chicken walker schematics", "str_pl": "chicken walker schematics" },
+    "name": { "str_sp": "chicken walker schematics" },
     "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the chicken walker.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_tankbot",
     "type": "BOOK",
-    "name": { "str": "tank drone schematics", "str_pl": "tank drone schematics" },
+    "name": { "str_sp": "tank drone schematics" },
     "description": "Bearing the logo of Northrop, those are assembly plans, design specs, and technical drawings for the tank drone.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
   },
   {
     "id": "schematics_tripod",
     "type": "BOOK",
-    "name": { "str": "tripod schematics", "str_pl": "tripod schematics" },
+    "name": { "str_sp": "tripod schematics" },
     "description": "Bearing the logo of Honda, those are assembly plans, design specs, and technical drawings for the tripod.  Most of this is useless to you, but you could use the assembly plans to re-assemble the robot from salvaged parts.",
     "copy-from": "schematics_generic"
+  },
+  {
+    "id": "recipe_uplift",
+    "type": "BOOK",
+    "name": { "str": "Dr Moreau and You", "str_pl": "copies of Dr Moreau and You" },
+    "description": "In what many considered a stunning example of poor taste and others considered overt specieism this text on the creation of Uplifted Animals references a story about sapient animals killing their creator.  Otherwise a dry text about genetic modification.",
+    "copy-from": "textbook_atomic",
+    "skill": "cooking",
+    "required_level": 9,
+    "max_level": 10
+  },
+  {
+    "id": "millyficents_diary",
+    "type": "BOOK",
+    "name": { "str": "Millyficent's Diary", "str_pl": "copies of Millyficent's Diary" },
+    "description": "A pocket-sized book filled to the margins with cramped handwriting and notes on the biology of Mi-Go and other musings.  It's hard to understand and quite gruesome in some places and written in a shorthand or cipher in others.",
+    "weight": "600 g",
+    "volume": "250 ml",
+    "price": 300000,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "looks_like": "ZSG",
+    "color": "cyan",
+    "skill": "cooking",
+    "required_level": 10,
+    "max_level": 10,
+    "intelligence": 16,
+    "time": "15 m",
+    "fun": -3
   }
 ]

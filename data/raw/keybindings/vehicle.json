@@ -119,6 +119,20 @@
     "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
+    "id": "TOGGLE_SPACE_HEATER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle space heater",
+    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "id": "TOGGLE_COOLER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle cooler",
+    "bindings": [ { "input_method": "keyboard", "key": "C" } ]
+  },
+  {
     "id": "TOGGLE_HEADLIGHT",
     "type": "keybinding",
     "category": "VEHICLE",

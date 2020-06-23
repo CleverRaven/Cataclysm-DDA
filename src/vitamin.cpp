@@ -1,11 +1,15 @@
 #include "vitamin.h"
 
+#include <algorithm>
+#include <cstdlib>
 #include <map>
 #include <memory>
 
 #include "calendar.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "json.h"
+#include "string_id.h"
 #include "units.h"
 
 static std::map<vitamin_id, vitamin> vitamins_all;

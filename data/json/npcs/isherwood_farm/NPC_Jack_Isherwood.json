@@ -312,7 +312,7 @@
     "difficulty": 3,
     "value": 20000,
     "item": "jar_3l_glass",
-    "count": 20,
+    "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,
     "followup": "MISSION_ISHERWOOD_JACK_2",
@@ -322,7 +322,7 @@
     },
     "dialogue": {
       "describe": "I could use some help scavenging.",
-      "offer": "We could use some 3 liter jars to preserve our produce.  Can you bring me 20 large three liter jars?  I'll give you some preserves in exchange.",
+      "offer": "We could use some 3 liter jars to preserve our produce.  Can you bring me 10 large three liter jars?  I'll give you some preserves in exchange.",
       "accepted": "Thank you.  It's important to preserve foods while we can.",
       "rejected": "Oh well.  I'll see if I can find another way, thanks.",
       "advice": "Grocery stores, house kitchens, there's plenty of places to look.",

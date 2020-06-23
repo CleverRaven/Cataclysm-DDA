@@ -35,7 +35,7 @@
       ],
       "rotation": 3,
       "palettes": [ "FEMA_camp" ],
-      "items": { "x": { "item": "dresser", "chance": 30 }, "X": { "item": "dresser", "chance": 50 } }
+      "items": { "x": { "item": "dresser", "chance": 30 } }
     }
   }
 ]

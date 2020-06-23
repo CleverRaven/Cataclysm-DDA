@@ -169,7 +169,7 @@
     "difficulty": 1,
     "charges": 2,
     "time": "10 m",
-    "autolearn": true,
+    "book_learn": [ [ "cookbook", 1 ], [ "cookbook_daintydishes", 4 ] ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 4, "LIST" ] ] ],
     "components": [

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef PATH_INFO_H
-#define PATH_INFO_H
+#ifndef CATA_SRC_PATH_INFO_H
+#define CATA_SRC_PATH_INFO_H
 
 #include <string>
 
@@ -57,6 +57,8 @@ std::string worldoptions();
 std::string crash();
 std::string tileset_conf();
 std::string gfxdir();
+std::string langdir();
+std::string lang_file();
 std::string user_gfx();
 std::string data_sound();
 std::string user_sound();
@@ -81,4 +83,4 @@ void set_motd( const std::string &motd );
 
 } // namespace PATH_INFO
 
-#endif
+#endif // CATA_SRC_PATH_INFO_H

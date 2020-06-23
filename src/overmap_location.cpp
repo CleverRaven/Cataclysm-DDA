@@ -1,14 +1,16 @@
 #include "overmap_location.h"
 
 #include <algorithm>
+#include <map>
 #include <set>
+#include <utility>
 
+#include "debug.h"
 #include "generic_factory.h"
+#include "json.h"
 #include "omdata.h"
 #include "overmap.h"
 #include "rng.h"
-#include "debug.h"
-#include "json.h"
 
 namespace
 {
@@ -54,7 +56,7 @@ void overmap_location::load( const JsonObject &jo, const std::string & )
 std::vector<oter_type_id> overmap_location::get_all_terrains() const
 {
     std::vector<oter_type_id> ret;
-    for( oter_type_str_id elem : terrains ) {
+    for( const oter_type_str_id &elem : terrains ) {
         ret.push_back( elem );
     }
     return ret;

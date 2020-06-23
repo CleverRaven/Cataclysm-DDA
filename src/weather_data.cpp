@@ -52,59 +52,59 @@ static weather_result weather_data_internal( weather_type const type )
             weather_datum {
                 "NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta, c_magenta_red,
                 '0', 0, 0.0f, 0, 0, false,
-                PRECIP_NONE, false, false, &weather_effect::none
+                precip_class::NONE, false, false, &weather_effect::none
             },
             weather_datum {
                 translate_marker( "Clear" ), c_cyan, c_yellow_white, ' ', 0, 1.0f, 0, 0, false,
-                PRECIP_NONE, false, false, &weather_effect::none
+                precip_class::NONE, false, false, &weather_effect::none
             },
             weather_datum {
                 translate_marker( "Sunny" ), c_light_cyan, c_yellow_white, '*', 0, 1.0f, 2, 0, false,
-                PRECIP_NONE, false, false, &weather_effect::sunny
+                precip_class::NONE, false, false, &weather_effect::sunny
             },
             weather_datum {
                 translate_marker( "Cloudy" ), c_light_gray, c_dark_gray_white, '~', 0, 1.0f, -20, 0, false,
-                PRECIP_NONE, false, false, &weather_effect::none
+                precip_class::NONE, false, false, &weather_effect::none
             },
             weather_datum {
                 translate_marker( "Light Drizzle" ), c_light_blue, h_light_blue, '.', 0, 1.01f, -10, 0, false,
-                PRECIP_VERY_LIGHT, true, false, &weather_effect::none
+                precip_class::VERY_LIGHT, true, false, &weather_effect::none
             },
             weather_datum {
                 translate_marker( "Drizzle" ), c_light_blue, h_light_blue, '.', 1, 1.03f, -20, 1, false,
-                PRECIP_LIGHT, true, false, &weather_effect::none
+                precip_class::LIGHT, true, false, &weather_effect::none
             },
             weather_datum {
                 translate_marker( "Rain" ), c_blue, h_blue, 'o', 3, 1.1f, -30, 4, false,
-                PRECIP_HEAVY, true, false, &weather_effect::none
+                precip_class::HEAVY, true, false, &weather_effect::none
             },
             weather_datum {
                 translate_marker( "Thunder Storm" ), c_dark_gray, i_blue, '%', 4, 1.2f, -40, 8, false,
-                PRECIP_HEAVY, true, false, &weather_effect::thunder
+                precip_class::HEAVY, true, false, &weather_effect::thunder
             },
             weather_datum {
                 translate_marker( "Lightning Storm" ), c_yellow, h_yellow, '%', 4, 1.25f, -45, 8, false,
-                PRECIP_HEAVY, true, false, &weather_effect::lightning
+                precip_class::HEAVY, true, false, &weather_effect::lightning
             },
             weather_datum {
                 translate_marker( "Acidic Drizzle" ), c_light_green, c_yellow_green, '.', 2, 1.03f, -20, 1, true,
-                PRECIP_LIGHT, true, true, &weather_effect::light_acid
+                precip_class::LIGHT, true, true, &weather_effect::light_acid
             },
             weather_datum {
                 translate_marker( "Acid Rain" ), c_green, c_yellow_green, 'o', 4, 1.1f, -30, 4, true,
-                PRECIP_HEAVY, true, true, &weather_effect::acid
+                precip_class::HEAVY, true, true, &weather_effect::acid
             },
             weather_datum {
                 translate_marker( "Flurries" ), c_white, c_dark_gray_cyan, '.', 2, 1.12f, -15, 2, false,
-                PRECIP_LIGHT, false, false, &weather_effect::flurry
+                precip_class::LIGHT, false, false, &weather_effect::flurry
             },
             weather_datum {
                 translate_marker( "Snowing" ), c_white, c_dark_gray_cyan, '*', 4, 1.13f, -20, 4, false,
-                PRECIP_HEAVY, false, false, &weather_effect::snow
+                precip_class::HEAVY, false, false, &weather_effect::snow
             },
             weather_datum {
                 translate_marker( "Snowstorm" ), c_white, c_white_cyan, '%', 6, 1.2f, -30, 6, false,
-                PRECIP_HEAVY, false, false, &weather_effect::snowstorm
+                precip_class::HEAVY, false, false, &weather_effect::snowstorm
             }
         }};
 

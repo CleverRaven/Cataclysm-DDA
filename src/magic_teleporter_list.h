@@ -1,6 +1,6 @@
 #pragma once
-#ifndef TELEPORTER_LIST_H
-#define TELEPORTER_LIST_H
+#ifndef CATA_SRC_MAGIC_TELEPORTER_LIST_H
+#define CATA_SRC_MAGIC_TELEPORTER_LIST_H
 
 #include <map>
 #include <set>
@@ -38,4 +38,4 @@ class teleporter_list
         void deserialize( JsonIn &jsin );
 };
 
-#endif // !TELEPORTER_LIST_H
+#endif // CATA_SRC_MAGIC_TELEPORTER_LIST_H

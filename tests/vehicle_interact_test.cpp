@@ -1,22 +1,21 @@
-#include <list>
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "game.h"
+#include "inventory.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player_helpers.h"
+#include "point.h"
 #include "requirements.h"
+#include "type_id.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "calendar.h"
-#include "inventory.h"
-#include "item.h"
-#include "type_id.h"
-#include "point.h"
 
 static void test_repair( const std::vector<item> &tools, bool expect_craftable )
 {
@@ -63,14 +62,14 @@ TEST_CASE( "repair_vehicle_part" )
 {
     SECTION( "welder" ) {
         std::vector<item> tools;
-        tools.emplace_back( "welder", -1, 500 );
+        tools.push_back( tool_with_ammo( "welder", 500 ) );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, true );
     }
     SECTION( "UPS_modded_welder" ) {
         std::vector<item> tools;
         item welder( "welder", -1, 0 );
-        welder.contents.emplace_back( "battery_ups" );
+        welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
         tools.emplace_back( "UPS_off", -1, 500 );
         tools.emplace_back( "goggles_welding" );
@@ -78,19 +77,19 @@ TEST_CASE( "repair_vehicle_part" )
     }
     SECTION( "welder_missing_goggles" ) {
         std::vector<item> tools;
-        tools.emplace_back( "welder", -1, 500 );
+        tools.push_back( tool_with_ammo( "welder", 500 ) );
         test_repair( tools, false );
     }
     SECTION( "welder_missing_charge" ) {
         std::vector<item> tools;
-        tools.emplace_back( "welder", -1, 5 );
+        tools.push_back( tool_with_ammo( "welder", 5 ) );
         tools.emplace_back( "goggles_welding" );
         test_repair( tools, false );
     }
     SECTION( "UPS_modded_welder_missing_charges" ) {
         std::vector<item> tools;
         item welder( "welder", -1, 0 );
-        welder.contents.emplace_back( "battery_ups" );
+        welder.put_in( item( "battery_ups" ), item_pocket::pocket_type::MOD );
         tools.push_back( welder );
         tools.emplace_back( "UPS_off", -1, 5 );
         tools.emplace_back( "goggles_welding" );

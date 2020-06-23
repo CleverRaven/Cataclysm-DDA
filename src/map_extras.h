@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAP_EXTRAS_H
-#define MAP_EXTRAS_H
+#ifndef CATA_SRC_MAP_EXTRAS_H
+#define CATA_SRC_MAP_EXTRAS_H
 
 #include <cstdint>
 #include <string>
@@ -9,6 +9,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "string_id.h"
+#include "translations.h"
 
 class JsonObject;
 class map;
@@ -29,14 +30,12 @@ struct enum_traits<map_extra_method> {
     static constexpr map_extra_method last = map_extra_method::num_map_extra_methods;
 };
 
-using map_extra_pointer = void( * )( map &, const tripoint & );
+using map_extra_pointer = bool( * )( map &, const tripoint & );
 
 class map_extra
 {
     public:
         string_id<map_extra> id = string_id<map_extra>::NULL_ID();
-        std::string name;
-        std::string description;
         std::string generator_id;
         map_extra_method generator_method = map_extra_method::null;
         bool autonote = false;
@@ -46,11 +45,20 @@ class map_extra
         std::string get_symbol() const {
             return utf32_to_utf8( symbol );
         }
+        std::string name() const {
+            return _name.translated();
+        }
+        std::string description() const {
+            return _description.translated();
+        }
 
         // Used by generic_factory
         bool was_loaded = false;
         void load( const JsonObject &jo, const std::string &src );
         void check() const;
+    private:
+        translation _name;
+        translation _description;
 };
 
 namespace MapExtras
@@ -73,4 +81,4 @@ const generic_factory<map_extra> &mapExtraFactory();
 
 } // namespace MapExtras
 
-#endif
+#endif // CATA_SRC_MAP_EXTRAS_H

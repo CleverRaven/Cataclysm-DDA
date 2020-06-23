@@ -1,9 +1,10 @@
 #pragma once
-#ifndef COORDINATES_H
-#define COORDINATES_H
+#ifndef CATA_SRC_COORDINATES_H
+#define CATA_SRC_COORDINATES_H
 
 #include <cstdlib>
 
+#include "coordinate_conversions.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "point.h"
@@ -34,51 +35,45 @@ struct real_coords {
 
     real_coords() = default;
 
-    real_coords( point ap ) {
-        fromabs( ap.x, ap.y );
+    real_coords( const point &ap ) {
+        fromabs( ap );
     }
 
-    void fromabs( const int absx, const int absy ) {
-        const int normx = std::abs( absx );
-        const int normy = std::abs( absy );
-        abs_pos = point( absx, absy );
+    void fromabs( const point &abs ) {
+        const point norm( std::abs( abs.x ), std::abs( abs.y ) );
+        abs_pos = abs;
 
-        if( absx < 0 ) {
-            abs_sub.x = ( absx - SEEX + 1 ) / SEEX;
-            sub_pos.x = SEEX - 1 - ( ( normx - 1 ) % SEEX );
+        if( abs.x < 0 ) {
+            abs_sub.x = ( abs.x - SEEX + 1 ) / SEEX;
+            sub_pos.x = SEEX - 1 - ( ( norm.x - 1 ) % SEEX );
             abs_om.x = ( abs_sub.x - subs_in_om_n ) / subs_in_om;
-            om_sub.x = subs_in_om_n - ( ( ( normx - 1 ) / SEEX ) % subs_in_om );
+            om_sub.x = subs_in_om_n - ( ( ( norm.x - 1 ) / SEEX ) % subs_in_om );
         } else {
-            abs_sub.x = normx / SEEX;
-            sub_pos.x = absx % SEEX;
+            abs_sub.x = norm.x / SEEX;
+            sub_pos.x = abs.x % SEEX;
             abs_om.x = abs_sub.x / subs_in_om;
             om_sub.x = abs_sub.x % subs_in_om;
         }
         om_pos.x = om_sub.x / 2;
 
-        if( absy < 0 ) {
-            abs_sub.y = ( absy - SEEY + 1 ) / SEEY;
-            sub_pos.y = SEEY - 1 - ( ( normy - 1 ) % SEEY );
+        if( abs.y < 0 ) {
+            abs_sub.y = ( abs.y - SEEY + 1 ) / SEEY;
+            sub_pos.y = SEEY - 1 - ( ( norm.y - 1 ) % SEEY );
             abs_om.y = ( abs_sub.y - subs_in_om_n ) / subs_in_om;
-            om_sub.y = subs_in_om_n - ( ( ( normy - 1 ) / SEEY ) % subs_in_om );
+            om_sub.y = subs_in_om_n - ( ( ( norm.y - 1 ) / SEEY ) % subs_in_om );
         } else {
-            abs_sub.y = normy / SEEY;
-            sub_pos.y = absy % SEEY;
+            abs_sub.y = norm.y / SEEY;
+            sub_pos.y = abs.y % SEEY;
             abs_om.y = abs_sub.y / subs_in_om;
             om_sub.y = abs_sub.y % subs_in_om;
         }
         om_pos.y = om_sub.y / 2;
     }
 
-    void fromabs( point absolute ) {
-        fromabs( absolute.x, absolute.y );
-    }
-
     // specifically for the subjective position returned by overmap::draw
-    void fromomap( int rel_omx, int rel_omy, int rel_om_posx, int rel_om_posy ) {
-        const int ax = rel_omx * OMAPX + rel_om_posx;
-        const int ay = rel_omy * OMAPY + rel_om_posy;
-        fromabs( ax * SEEX * 2, ay * SEEY * 2 );
+    void fromomap( const point &rel_om, const point &rel_om_pos ) {
+        const point a = om_to_omt_copy( rel_om ) + rel_om_pos;
+        fromabs( omt_to_ms_copy( a ) );
     }
 
     // helper functions to return abs_pos of submap/overmap tile/overmap's start
@@ -94,4 +89,4 @@ struct real_coords {
         return point( abs_om.x * subs_in_om * tiles_in_sub, abs_om.y * subs_in_om * tiles_in_sub );
     }
 };
-#endif
+#endif // CATA_SRC_COORDINATES_H

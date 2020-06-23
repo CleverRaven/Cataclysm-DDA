@@ -45,7 +45,7 @@
         "r": "t_floor_blue"
       },
       "place_loot": [
-        { "item": "anesthetic_kit", "x": 15, "y": 11, "repeat": [ 4, 9 ] },
+        { "item": "anesthetic_kit", "x": 15, "y": 11, "repeat": [ 4, 9 ], "ammo": 100 },
         { "item": "id_science", "x": 7, "y": 11, "chance": 100 }
       ],
       "mapping": {

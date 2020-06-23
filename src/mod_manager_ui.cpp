@@ -3,12 +3,13 @@
 #include <algorithm>
 #include <exception>
 
+#include "color.h"
 #include "debug.h"
 #include "dependency_tree.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "translations.h"
 #include "string_id.h"
+#include "translations.h"
 
 mod_ui::mod_ui( mod_manager &mman )
     : active_manager( mman )
@@ -88,7 +89,7 @@ void mod_ui::try_add( const mod_id &mod_to_add,
             return;
         }
         errs = checknode->has_errors();
-    } catch( std::exception &e ) {
+    } catch( std::exception & ) {
         errs = true;
     }
 

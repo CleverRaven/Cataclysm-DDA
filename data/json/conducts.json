@@ -1,0 +1,23 @@
+[
+  {
+    "id": "conduct_zero_kills",
+    "type": "conduct",
+    "name": "Pacifist",
+    "requirements": [
+      { "event_statistic": "num_avatar_monster_kills", "is": "<=", "target": 0, "description": "Kill no monsters" },
+      {
+        "event_statistic": "num_avatar_character_kills",
+        "is": "<=",
+        "target": 0,
+        "description": "Kill no characters"
+      }
+    ]
+  },
+  {
+    "id": "conduct_zero_character_kills",
+    "type": "conduct",
+    "name": "Merciful",
+    "hidden_by": [ "conduct_zero_kills" ],
+    "requirements": [ { "event_statistic": "num_avatar_character_kills", "is": "<=", "target": 0, "description": "Kill no characters" } ]
+  }
+]

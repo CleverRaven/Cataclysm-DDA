@@ -1626,6 +1626,26 @@
   },
   {
     "type": "recipe",
+    "result": "36navy",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "44army",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "flintlock_ammo",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "flintlock_shot",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
     "result": "bot_crows_m240",
     "obsolete": true
   }

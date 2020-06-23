@@ -77,5 +77,29 @@
     "book_learn": [ [ "cooking_poison", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
     "components": [ [ [ "demon_chitin_piece", 16 ] ], [ [ "bone_glue", 10 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "demon_forge",
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "spellcraft", 3 ],
+    "difficulty": 4,
+    "time": "180 m",
+    "book_learn": [ [ "metal_legends", 3 ] ],
+    "qualities": [
+      { "id": "CHISEL", "level": 2 },
+      { "id": "MANA_INFUSE", "level": 2 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SMOOTH", "level": 1 }
+    ],
+    "components": [
+      [ [ "demon_chitin_plate", 24 ] ],
+      [ [ "fireproof_mortar", 30 ] ],
+      [ [ "pilot_light", 1 ] ],
+      [ [ "pipe", 3 ] ],
+      [ [ "crystallized_mana", 80 ] ]
+    ]
   }
 ]

@@ -1,9 +1,10 @@
 #include "text_snippets.h"
 
+#include <cstddef>
 #include <random>
-#include <iterator>
 #include <utility>
 
+#include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "rng.h"
@@ -157,6 +158,11 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
         return cata::nullopt;
     }
     const size_t count = it->second.ids.size() + it->second.no_id.size();
+    // uniform_int_distribution always returns zero when the random engine is
+    // cata_default_random_engine aka std::minstd_rand0 and the seed is small,
+    // so std::mt19937 is used instead. This engine is deterministcally seeded,
+    // so acceptable.
+    // NOLINTNEXTLINE(cata-determinism)
     std::mt19937 generator( seed );
     std::uniform_int_distribution<size_t> dis( 0, count - 1 );
     const size_t index = dis( generator );
@@ -167,7 +173,7 @@ cata::optional<translation> snippet_library::random_from_category( const std::st
     }
 }
 
-snippet_id snippet_library::migrate_hash_to_id( const int hash )
+snippet_id snippet_library::migrate_hash_to_id( const int old_hash )
 {
     if( !hash_to_id_migration.has_value() ) {
         hash_to_id_migration.emplace();
@@ -178,7 +184,7 @@ snippet_id snippet_library::migrate_hash_to_id( const int hash )
             }
         }
     }
-    const auto it = hash_to_id_migration->find( hash );
+    const auto it = hash_to_id_migration->find( old_hash );
     if( it == hash_to_id_migration->end() ) {
         return snippet_id::NULL_ID();
     }

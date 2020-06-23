@@ -45,5 +45,21 @@
     "flags": [ "FUNGAL" ],
     "rotate": false,
     "spawns": { "group": "GROUP_FUNGI_TOWER", "population": [ 125, 175 ], "radius": [ 2, 2 ] }
+  },
+  {
+    "type": "overmap_special",
+    "id": "mortuary_2story",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "mortuary_2story_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "mortuary_2story_second_north" },
+      { "point": [ 0, 0, -1 ], "overmap": "mortuary_basement_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "mortuary_roof_north" }
+    ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "land" ],
+    "city_distance": [ 5, -1 ],
+    "city_sizes": [ 2, -1 ],
+    "occurrences": [ 0, 1 ],
+    "flags": [ "CLASSIC" ]
   }
 ]

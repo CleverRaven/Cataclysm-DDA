@@ -315,7 +315,9 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 
         // Keep files and directories to recurse ordered consistently
         // by sorting from the old end to the new end.
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         std::sort( std::begin( directories ) + n_dirs,    std::end( directories ) );
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         std::sort( std::begin( results )     + n_results, std::end( results ) );
     }
 

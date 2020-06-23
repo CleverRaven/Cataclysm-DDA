@@ -58,6 +58,24 @@
   },
   {
     "type": "item_group",
+    "id": "ketchup_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "ketchup", "prob": 6, "charges-min": 1 },
+      { "item": "ketchup", "prob": 1, "charges": 32, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "mustard_sealed_rng",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mustard", "prob": 6, "charges-min": 1 },
+      { "item": "mustard", "prob": 1, "charges": 96, "container-item": "condiment_bottle_sealed" }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "condiments",
     "ammo": 75,
     "magazine": 100,
@@ -65,6 +83,7 @@
     "entries": [
       { "item": "yeast", "prob": 50 },
       { "item": "sugar", "prob": 40 },
+      { "item": "artificial_sweetener", "prob": 10 },
       { "item": "sprinkles", "prob": 5 },
       { "item": "salt", "prob": 40 },
       { "item": "pepper", "prob": 30 },
@@ -72,12 +91,15 @@
       { "item": "seasoning_italian", "prob": 25 },
       { "item": "seasoning_salt", "prob": 25 },
       { "item": "cookbook_italian", "prob": 25 },
+      { "item": "cookbook_daintydishes", "prob": 20 },
+      { "item": "cookbook_liverforkids", "prob": 12 },
       { "item": "family_cookbook", "prob": 6 },
       { "item": "brewing_cookbook", "prob": 4 },
-      { "item": "ketchup", "prob": 35 },
-      { "item": "mustard", "prob": 35 },
+      { "group": "ketchup_sealed_rng", "prob": 35 },
+      { "group": "mustard_sealed_rng", "prob": 35 },
       { "item": "soysauce", "prob": 25 },
       { "item": "horseradish", "prob": 15 },
+      { "item": "spread_peanutbutter", "prob": 10 },
       { "item": "honey_bottled", "prob": 35 },
       { "item": "honey_glassed", "prob": 35 }
     ]
@@ -192,6 +214,7 @@
       { "item": "toastem3", "prob": 35 },
       { "item": "toasterpastryfrozen", "prob": 20 },
       { "item": "sugar", "prob": 20 },
+      { "item": "artificial_sweetener", "prob": 5 },
       { "item": "lemonade_powder", "prob": 5 },
       { "item": "molasses", "prob": 10 },
       { "item": "can_cheese", "prob": 40 },
@@ -225,7 +248,8 @@
       { "item": "fish_pickled", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "sauce_red", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "kompot", "prob": 4, "charges": 12, "container-item": "jar_3l_glass_sealed" },
-      { "group": "big_canned_food", "prob": 4 }
+      { "group": "big_canned_food", "prob": 4 },
+      { "group": "teabag_box", "prob": 20 }
     ]
   },
   {
@@ -295,8 +319,9 @@
       { "item": "wheat", "prob": 3 },
       { "item": "onion", "prob": 3 },
       { "item": "garlic", "prob": 3 },
-      { "item": "pine_nuts", "prob": 2 },
-      { "item": "carrot", "prob": 3 }
+      { "item": "pine_nuts", "prob": 10 },
+      { "item": "carrot", "prob": 3 },
+      { "item": "bell_pepper", "prob": 7 }
     ]
   },
   {
@@ -363,7 +388,7 @@
       { "item": "blackberries", "prob": 7 },
       { "item": "cholla_bud", "prob": 3 },
       { "item": "garlic", "prob": 3 },
-      { "item": "pine_nuts", "prob": 2 }
+      { "item": "pine_nuts", "prob": 10 }
     ]
   },
   {
@@ -426,10 +451,12 @@
     "entries": [
       { "group": "candy_chocolate", "prob": 620 },
       { "group": "salty_snacks", "prob": 595 },
+      { "item": "foodplace_snack_bar", "prob": 5 },
       { "item": "pemmican", "prob": 5 },
       { "item": "granola", "prob": 10 },
       { "item": "cookies", "prob": 80 },
       { "item": "tea_raw", "prob": 10 },
+      { "item": "tea_green_raw", "prob": 5 },
       { "item": "coffee_raw", "prob": 15 },
       { "item": "choco_coffee_beans", "prob": 10 },
       { "item": "salt", "prob": 10 },
@@ -438,7 +465,8 @@
       { "item": "coffee_syrup", "prob": 10 },
       { "item": "fruit_leather", "prob": 25 },
       { "item": "kernels", "prob": 25 },
-      { "item": "pine_nuts", "prob": 5 }
+      { "item": "pine_nuts", "prob": 20 },
+      { "group": "teabag_box", "prob": 10 }
     ]
   },
   {
@@ -453,7 +481,7 @@
       { "item": "mintpatties", "prob": 8 },
       { "item": "choco_coffee_beans", "prob": 8 },
       { "item": "fruit_leather", "prob": 15 },
-      { "item": "pine_nuts", "prob": 4 }
+      { "item": "pine_nuts", "prob": 20 }
     ]
   },
   {
@@ -480,6 +508,7 @@
       { "item": "yoghurt", "prob": 40 },
       { "item": "pudding", "prob": 50 },
       { "item": "V8", "prob": 15 },
+      { "item": "foodplace_food", "prob": 8 },
       { "item": "sandwich_t", "prob": 30 },
       { "item": "sandwich_pb", "prob": 30 },
       { "item": "sandwich_pbj", "prob": 30 },
@@ -547,6 +576,8 @@
       { "item": "mre_chilimac_box" },
       { "item": "mre_veggy_box" },
       { "item": "mre_macaronimarinara_box" },
+      { "item": "mre_sfettuccine_box" },
+      { "item": "mre_ratatouille_box" },
       { "item": "mre_cheesetort_box" },
       { "item": "mre_mushroomfettuccine_box" },
       { "item": "mre_mexicanchickenstew_box" },
@@ -692,8 +723,8 @@
       { "item": "bacon", "prob": 20 },
       { "item": "potato_baked", "prob": 15 },
       { "item": "bread", "prob": 40 },
-      { "item": "ketchup", "prob": 80 },
-      { "item": "mustard", "prob": 75 },
+      { "group": "ketchup_sealed_rng", "prob": 80 },
+      { "group": "mustard_sealed_rng", "prob": 75 },
       { "item": "pickle", "prob": 20, "charges": 6, "container-item": "jar_glass_sealed" },
       { "item": "pickle", "prob": 20 },
       { "item": "cheeseburger", "prob": 30 },
@@ -730,8 +761,8 @@
       { "item": "mayonnaise", "prob": 60 },
       { "item": "spork", "prob": 10 },
       { "item": "foon", "prob": 10 },
-      { "item": "ketchup", "prob": 60 },
-      { "item": "mustard", "prob": 60 },
+      { "group": "ketchup_sealed_rng", "prob": 60 },
+      { "group": "mustard_sealed_rng", "prob": 60 },
       { "item": "soysauce", "prob": 45 },
       { "item": "horseradish", "prob": 30 },
       { "item": "pickle", "prob": 40, "charges": 6, "container-item": "jar_glass_sealed" },
@@ -742,6 +773,7 @@
       { "item": "cheeseburger", "prob": 35 },
       { "item": "hotdogs_frozen", "prob": 12 },
       { "item": "hotdogs_cooked", "prob": 35 },
+      { "item": "foodplace_food", "prob": 8 },
       { "item": "chili", "prob": 20 },
       { "item": "chilidogs", "prob": 20 },
       { "item": "fries", "prob": 80 },
@@ -757,7 +789,19 @@
       { "item": "restaurantmap", "prob": 5 },
       { "item": "touristmap", "prob": 2 },
       { "item": "noodles_fast", "prob": 30 },
-      { "item": "milkshake_fastfood", "prob": 15 }
+      { "item": "milkshake_fastfood", "prob": 15 },
+      { "group": "teabag_box", "prob": 5 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "teabag_box",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tea_bag", "prob": 20, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "tea_fruit_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "tea_green_bag", "prob": 10, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 },
+      { "item": "herbal_tea_bag", "prob": 5, "container-item": "box_tea", "charges-min": 1, "charges-max": 10 }
     ]
   }
 ]

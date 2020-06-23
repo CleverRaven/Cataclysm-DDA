@@ -1,0 +1,27 @@
+name: astyle
+
+on:
+  pull_request
+
+jobs:
+  style-json:
+    name: astyle check
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+      with:
+        fetch-depth: 10
+
+    - name: install dependencies
+      run: sudo apt-get install astyle
+
+    - name: astyle check
+      run: make astyle-check
+
+    - name: Display Corrections
+      if: failure()
+      run: |
+        make astyle
+        git diff

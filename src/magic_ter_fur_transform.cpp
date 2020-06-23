@@ -1,14 +1,23 @@
-#include "magic_ter_furn_transform.h"
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "creature.h"
-#include "point.h"
-#include "game.h"
+#include "enums.h"
 #include "generic_factory.h"
-#include "magic.h"
+#include "json.h"
+#include "magic_ter_furn_transform.h"
 #include "map.h"
 #include "mapdata.h"
-#include "messages.h"
+#include "optional.h"
+#include "string_id.h"
 #include "type_id.h"
+
+struct tripoint;
+template <typename T> struct weighted_int_list;
 
 namespace
 {
@@ -169,7 +178,7 @@ bool ter_furn_transform::add_message( const std::map<K, ter_furn_data<T>> &list,
 
 void ter_furn_transform::add_all_messages( const Creature &critter, const tripoint &location ) const
 {
-    add_all_messages( g->m, critter, location );
+    add_all_messages( get_map(), critter, location );
 }
 
 void ter_furn_transform::add_all_messages( const map &m, const Creature &critter,
@@ -198,7 +207,7 @@ void ter_furn_transform::add_all_messages( const map &m, const Creature &critter
 
 void ter_furn_transform::transform( const tripoint &location ) const
 {
-    transform( g->m, location );
+    transform( get_map(), location );
 }
 
 void ter_furn_transform::transform( map &m, const tripoint &location ) const

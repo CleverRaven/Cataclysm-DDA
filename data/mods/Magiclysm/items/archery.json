@@ -11,7 +11,7 @@
     "material": [ "orichalcum_metal", "gold", "wood" ],
     "flags": [ "FIRE_TWOHAND", "STR_DRAW", "RELOAD_AND_SHOOT", "PRIMITIVE_RANGED_WEAPON", "BELTED", "WATER_FRIENDLY" ],
     "skill": "archery",
-    "min_strength": 8,
+    "min_strength": 10,
     "ammo": [ "arrow_orichalcum", "arrow" ],
     "weight": "740 g",
     "volume": "5 L",
@@ -19,13 +19,14 @@
     "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "material_thickness": 1, "encumbrance": 14 },
     "reload_noise_volume": 2,
     "loudness": 5,
-    "ranged_damage": 25,
+    "ranged_damage": { "damage_type": "stab", "amount": 15 },
     "range": 20,
     "dispersion": 95,
     "durability": 6,
     "clip_size": 1,
     "reload": 40,
-    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ]
+    "valid_mod_locations": [ [ "underbarrel", 1 ], [ "sights", 1 ], [ "accessories", 2 ], [ "stabilizer", 1 ], [ "dampening", 1 ] ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "arrow_orichalcum": 1, "arrow": 1 } } ]
   },
   {
     "type": "AMMO",
@@ -34,19 +35,20 @@
     "name": "orichalcum arrow",
     "symbol": "=",
     "color": "white",
+    "looks_like": "arrow_fire_hardened_fletched",
     "description": "An arrow composed of a sliver of orichalcum.  The arrow has a mysterious glow.  Has a very high chance of staying intact when fired, however can only be fired from Ichaival.",
     "material": [ "wood", "orichalcum_metal" ],
     "ammo_type": "arrow_orichalcum",
     "volume": "145 ml",
     "weight": "30 g",
     "bashing": 12,
-    "prop_damage": 1.95,
-    "pierce": 20,
+    "damage": { "damage_type": "stab", "constant_damage_multiplier": 1.95, "armor_penetration": 20 },
     "dispersion": 35,
     "loudness": 0,
     "range": 7,
     "count": 15,
     "stack_size": 15,
+    "critical_multiplier": 10,
     "effects": [ "RECOVER_65" ]
   }
 ]

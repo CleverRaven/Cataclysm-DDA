@@ -3,29 +3,33 @@
 #include <algorithm>
 #include <cmath>
 #include <numeric>
+#include <sstream>
 
-#include "calendar.h"
-#include "debug.h"
-#include "game_constants.h"
-#include "item.h"
-#include "itype.h"
-#include "output.h"
-#include "skill.h"
-#include "uistate.h"
-#include "string_formatter.h"
 #include "assign.h"
+#include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "construction.h"
+#include "debug.h"
+#include "flat_set.h"
+#include "game_constants.h"
+#include "item.h"
+#include "itype.h"
 #include "json.h"
 #include "mapgen_functions.h"
 #include "optional.h"
+#include "output.h"
 #include "player.h"
+#include "skill.h"
+#include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "string_id.h"
-#include "flat_set.h"
+#include "uistate.h"
 #include "units.h"
+#include "value_ptr.h"
+
+static const itype_id itype_hotplate( "hotplate" );
 
 extern bool test_mode;
 
@@ -62,7 +66,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         const double scale = batch_rsize / 6.0;
         for( int x = 0; x < batch; x++ ) {
             // scaled logistic function output
-            const double logf = ( 2.0 / ( 1.0 + exp( -( x / scale ) ) ) ) - 1.0;
+            const double logf = ( 2.0 / ( 1.0 + std::exp( -( x / scale ) ) ) ) - 1.0;
             total_time += local_time * ( 1.0 - ( batch_rscale * logf ) );
         }
     }
@@ -94,8 +98,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( abstract ) {
         ident_ = recipe_id( jo.get_string( "abstract" ) );
     } else {
-        result_ = jo.get_string( "result" );
-        ident_ = recipe_id( result_ );
+        jo.read( "result", result_, true );
+        ident_ = recipe_id( result_.str() );
     }
 
     if( jo.has_bool( "obsolete" ) ) {
@@ -181,7 +185,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "book_learn" ) ) {
         booksets.clear();
         for( JsonArray arr : jo.get_array( "book_learn" ) ) {
-            booksets.emplace( arr.get_string( 0 ), arr.size() > 1 ? arr.get_int( 1 ) : -1 );
+            booksets.emplace( itype_id( arr.get_string( 0 ) ),
+                              arr.size() > 1 ? arr.get_int( 1 ) : -1 );
         }
     }
 
@@ -231,7 +236,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             }
             byproducts.clear();
             for( JsonArray arr : jo.get_array( "byproducts" ) ) {
-                byproducts[ arr.get_string( 0 ) ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
+                itype_id byproduct( arr.get_string( 0 ) );
+                byproducts[ byproduct ] += arr.size() == 2 ? arr.get_int( 1 ) : 1;
             }
         }
         assign( jo, "construction_blueprint", blueprint );
@@ -246,13 +252,13 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                                           provide.get_int( "amount", 1 ) ) );
             }
             // all blueprints provide themselves with needing it written in JSON
-            bp_provides.emplace_back( std::make_pair( result_, 1 ) );
+            bp_provides.emplace_back( std::make_pair( result_.str(), 1 ) );
             for( JsonObject require : jo.get_array( "blueprint_requires" ) ) {
                 bp_requires.emplace_back( std::make_pair( require.get_string( "id" ),
                                           require.get_int( "amount", 1 ) ) );
             }
             // all blueprints exclude themselves with needing it written in JSON
-            bp_excludes.emplace_back( std::make_pair( result_, 1 ) );
+            bp_excludes.emplace_back( std::make_pair( result_.str(), 1 ) );
             for( JsonObject exclude : jo.get_array( "blueprint_excludes" ) ) {
                 bp_excludes.emplace_back( std::make_pair( exclude.get_string( "id" ),
                                           exclude.get_int( "amount", 1 ) ) );
@@ -274,7 +280,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
                     for( JsonArray cur : jneeds.get_array( "skills" ) ) {
                         skills_blueprint[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
                     }
-                    for( const std::pair<skill_id, int> &p : skills_blueprint ) {
+                    for( const std::pair<const skill_id, int> &p : skills_blueprint ) {
                         const auto it = required_skills.find( p.first );
                         if( it == required_skills.end() ) {
                             required_skills.emplace( p );
@@ -324,7 +330,7 @@ void recipe::finalize()
 
     deduped_requirements_ = deduped_requirement_data( requirements_, ident() );
 
-    if( contained && container == "null" ) {
+    if( contained && container.is_null() ) {
         container = item::find_type( result_ )->default_container.value_or( "null" );
     }
 
@@ -369,7 +375,7 @@ std::string recipe::get_consistency_error() const
         return "defines invalid byproducts";
     }
 
-    if( !contained && container != "null" ) {
+    if( !contained && !container.is_null() ) {
         return "defines container but not contained";
     }
 
@@ -412,7 +418,11 @@ item recipe::create_result() const
     }
 
     if( contained ) {
-        newit = newit.in_container( container );
+        if( newit.count_by_charges() ) {
+            newit = newit.in_container( container, newit.charges );
+        } else {
+            newit = newit.in_container( container );
+        }
     }
 
     return newit;
@@ -469,22 +479,18 @@ bool recipe::has_byproducts() const
     return !byproducts.empty();
 }
 
-std::string recipe::required_skills_string( const Character *c, bool print_skill_level ) const
+// Format a std::pair<skill_id, int> for the crafting menu.
+// skill colored green (or yellow if beyond characters skill)
+// optionally with the skill level (player / difficulty)
+template<typename Iter>
+std::string required_skills_as_string( Iter first, Iter last, const Character *c,
+                                       const bool print_skill_level )
 {
-    if( required_skills.empty() ) {
-        if( difficulty == 0 ) {
-            return _( "<color_cyan>none</color>" );
-        } else {
-            const int player_skill = c ? c->get_skill_level( skill_used ) : 0;
-            std::string difficulty_color = difficulty > player_skill ? "yellow" : "green";
-            std::string skill_level_string = print_skill_level ? "" :
-                                             ( std::to_string( player_skill ) + "/" );
-            skill_level_string += std::to_string( difficulty );
-            return string_format( "<color_cyan>%s</color> <color_%s>(%s)</color>",
-                                  skill_used.obj().name(), difficulty_color, skill_level_string );
-        }
+    if( first == last ) {
+        return _( "<color_cyan>none</color>" );
     }
-    return enumerate_as_string( required_skills.begin(), required_skills.end(),
+
+    return enumerate_as_string( first, last,
     [&]( const std::pair<skill_id, int> &skill ) {
         const int player_skill = c ? c->get_skill_level( skill.first ) : 0;
         std::string difficulty_color = skill.second > player_skill ? "yellow" : "green";
@@ -495,26 +501,63 @@ std::string recipe::required_skills_string( const Character *c, bool print_skill
     } );
 }
 
-std::string recipe::required_skills_string( const Character *c ) const
+// Format a std::pair<skill_id, int> for the basecamp bulletin board.
+// skill colored white with difficulty in parenthesis.
+template<typename Iter>
+std::string required_skills_as_string( Iter first, Iter last )
 {
-    return required_skills_string( c, false );
-}
-
-std::string recipe::required_skills_string() const
-{
-    if( required_skills.empty() ) {
-        if( difficulty == 0 ) {
-            return _( "<color_cyan>none</color>" );
-        } else {
-            return string_format( "<color_white>%s: %d</color>", skill_used.obj().name(),
-                                  difficulty );
-        }
+    if( first == last ) {
+        return _( "<color_cyan>none</color>" );
     }
-    return enumerate_as_string( required_skills.begin(), required_skills.end(),
+
+    return enumerate_as_string( first, last,
     [&]( const std::pair<skill_id, int> &skill ) {
-        return string_format( "<color_white>%s: %d</color>", skill.first.obj().name(),
+        return string_format( "<color_white>%s (%d)</color>", skill.first.obj().name(),
                               skill.second );
     } );
+}
+
+std::string recipe::primary_skill_string( const Character *c, bool print_skill_level ) const
+{
+    std::vector< std::pair<skill_id, int> > skillList;
+
+    if( !skill_used.is_null() ) {
+        skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
+    }
+
+    return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
+}
+
+std::string recipe::required_skills_string( const Character *c, bool include_primary_skill,
+        bool print_skill_level ) const
+{
+    // There is no primary skill used or it shouldn't be included then we can just use the required_skills directly.
+    if( skill_used.is_null() || !include_primary_skill ) {
+        return required_skills_as_string( required_skills.begin(), required_skills.end(), c,
+                                          print_skill_level );
+    }
+
+    std::vector< std::pair<skill_id, int> > skillList;
+    skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
+    std::copy( required_skills.begin(), required_skills.end(),
+               std::back_inserter<std::vector<std::pair<skill_id, int> > >( skillList ) );
+
+    return required_skills_as_string( skillList.begin(), skillList.end(), c, print_skill_level );
+}
+
+std::string recipe::required_all_skills_string() const
+{
+    // There is no primary skill used, we can just use the required_skills directly.
+    if( skill_used.is_null() ) {
+        return required_skills_as_string( required_skills.begin(), required_skills.end() );
+    }
+
+    std::vector< std::pair<skill_id, int> > skillList;
+    skillList.push_back( std::pair<skill_id, int>( skill_used, difficulty ) );
+    std::copy( required_skills.begin(), required_skills.end(),
+               std::back_inserter<std::vector<std::pair<skill_id, int> > >( skillList ) );
+
+    return required_skills_as_string( skillList.begin(), skillList.end() );
 }
 
 std::string recipe::batch_savings_string() const
@@ -561,7 +604,7 @@ std::function<bool( const item & )> recipe::get_component_filter(
     const bool recipe_forbids_rotten =
         result.is_food() && !result.goes_bad() && !has_flag( "ALLOW_ROTTEN" );
     const bool flags_forbid_rotten =
-        static_cast<bool>( flags & recipe_filter_flags::no_rotten ) && result.goes_bad_after_opening();
+        static_cast<bool>( flags & recipe_filter_flags::no_rotten );
     std::function<bool( const item & )> rotten_filter = return_true<item>;
     if( recipe_forbids_rotten || flags_forbid_rotten ) {
         rotten_filter = []( const item & component ) {
@@ -584,7 +627,11 @@ std::function<bool( const item & )> recipe::get_component_filter(
     std::function<bool( const item & )> magazine_filter = return_true<item>;
     if( has_flag( "FULL_MAGAZINE" ) ) {
         magazine_filter = []( const item & component ) {
-            return !component.is_magazine() || ( component.ammo_remaining() >= component.ammo_capacity() );
+            if( component.ammo_remaining() == 0 ) {
+                return false;
+            }
+            return !component.is_magazine() ||
+                   ( component.ammo_remaining() >= component.ammo_capacity( component.ammo_data()->ammo->type ) );
         };
     }
 
@@ -667,7 +714,7 @@ void recipe::check_blueprint_requirements()
 
         jsout.member( "skills" );
         jsout.start_array( /*wrap=*/!total_reqs.skills.empty() );
-        for( const std::pair<skill_id, int> &p : total_reqs.skills ) {
+        for( const std::pair<const skill_id, int> &p : total_reqs.skills ) {
             jsout.start_array();
             jsout.write( p.first );
             jsout.write( p.second );
@@ -709,7 +756,7 @@ bool recipe::hot_result() const
         const requirement_data::alter_tool_comp_vector &tool_lists = simple_requirements().get_tools();
         for( const std::vector<tool_comp> &tools : tool_lists ) {
             for( const tool_comp &t : tools ) {
-                if( t.type == "hotplate" ) {
+                if( t.type == itype_hotplate ) {
                     return true;
                 }
             }

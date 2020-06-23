@@ -1,14 +1,15 @@
 #include "monfaction.h"
 
 #include <cstddef>
-#include <queue>
-#include <vector>
 #include <map>
+#include <queue>
 #include <set>
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "debug.h"
+#include "int_id.h"
 #include "json.h"
 #include "string_id.h"
 
@@ -228,12 +229,15 @@ void monfactions::load_monster_faction( const JsonObject &jo )
     std::set< std::string > by_mood = jo.get_tags( "by_mood" );
     std::set< std::string > neutral = jo.get_tags( "neutral" );
     std::set< std::string > friendly = jo.get_tags( "friendly" );
+    std::set< std::string > hate = jo.get_tags( "hate" );
     // Need to make sure adding new factions won't invalidate our current faction's reference
     // That +1 is for base faction
-    faction_list.reserve( faction_list.size() + by_mood.size() + neutral.size() + friendly.size() + 1 );
+    faction_list.reserve( faction_list.size() + by_mood.size() + neutral.size() + friendly.size() +
+                          hate.size() + 1 );
     prealloc( by_mood );
     prealloc( neutral );
     prealloc( friendly );
+    prealloc( hate );
 
     std::string name = jo.get_string( "name" );
     mfaction_id cur_id = get_or_add_faction( mfaction_str_id( name ) );
@@ -246,4 +250,5 @@ void monfactions::load_monster_faction( const JsonObject &jo )
     add_to_attitude_map( by_mood, faction.attitude_map, MFA_BY_MOOD );
     add_to_attitude_map( neutral, faction.attitude_map, MFA_NEUTRAL );
     add_to_attitude_map( friendly, faction.attitude_map, MFA_FRIENDLY );
+    add_to_attitude_map( hate, faction.attitude_map, MFA_HATE );
 }

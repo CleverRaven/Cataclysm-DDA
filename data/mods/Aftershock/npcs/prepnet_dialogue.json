@@ -203,8 +203,8 @@
   {
     "id": "MISSION_PrepNet_gardener_QUEST_4",
     "type": "mission_definition",
-    "name": "Faulty CBMs",
-    "description": "Find 5 faulty CBMs.",
+    "name": "Burnt Out CBMs",
+    "description": "Find 5 burnt out CBMs.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 0,
@@ -213,7 +213,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "We have the ability to manufacture CBMs but lack resources.",
-      "offer": "If you can bring me faulty CBMs we can recycle them into new ones.",
+      "offer": "If you can bring me burnt out CBMs we can recycle them into new ones.",
       "accepted": "Thank you for accepting.  You're really making yourself useful to the phyle.",
       "rejected": "These materials are often in dangerous areas.  I understand your decision.",
       "advice": "Zombie scientists, technicians, shocker zombies.  These are not undertaken lightly.",

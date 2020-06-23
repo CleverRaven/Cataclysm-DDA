@@ -7,6 +7,7 @@
     "weight": "114 g",
     "volume": "250 ml",
     "price": 2000,
+    "price_postapoc": 50,
     "material": [ "cotton" ],
     "symbol": ":",
     "color": "light_gray",

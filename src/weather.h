@@ -1,6 +1,6 @@
 #pragma once
-#ifndef WEATHER_H
-#define WEATHER_H
+#ifndef CATA_SRC_WEATHER_H
+#define CATA_SRC_WEATHER_H
 
 #include "color.h"
 #include "optional.h"
@@ -19,13 +19,20 @@
  * Maximum heat cannot pass 15000u, otherwise the player will vomit to death.
  */
 ///@{
-#define BODYTEMP_FREEZING 500   //!< More aggressive cold effects.
-#define BODYTEMP_VERY_COLD 2000 //!< This value means frostbite occurs at the warmest temperature of 1C. If changed, the temp_conv calculation should be reexamined.
-#define BODYTEMP_COLD 3500      //!< Frostbite timer will not improve while below this point.
-#define BODYTEMP_NORM 5000      //!< Do not change this value, it is an arbitrary anchor on which other calculations are made.
-#define BODYTEMP_HOT 6500       //!< Level 1 hotness.
-#define BODYTEMP_VERY_HOT 8000  //!< Level 2 hotness.
-#define BODYTEMP_SCORCHING 9500 //!< Level 3 hotness.
+//!< More aggressive cold effects.
+static constexpr int BODYTEMP_FREEZING = 500;
+//!< This value means frostbite occurs at the warmest temperature of 1C. If changed, the temp_conv calculation should be reexamined.
+static constexpr int BODYTEMP_VERY_COLD = 2000;
+//!< Frostbite timer will not improve while below this point.
+static constexpr int BODYTEMP_COLD = 3500;
+//!< Do not change this value, it is an arbitrary anchor on which other calculations are made.
+static constexpr int BODYTEMP_NORM = 5000;
+//!< Level 1 hotness.
+static constexpr int BODYTEMP_HOT = 6500;
+//!< Level 2 hotness.
+static constexpr int BODYTEMP_VERY_HOT = 8000;
+//!< Level 3 hotness.
+static constexpr int BODYTEMP_SCORCHING = 9500;
 ///@}
 
 #include <string>
@@ -58,11 +65,11 @@ enum weather_type : int {
     NUM_WEATHER_TYPES     //!< Sentinel value
 };
 
-enum precip_class : int {
-    PRECIP_NONE,
-    PRECIP_VERY_LIGHT,
-    PRECIP_LIGHT,
-    PRECIP_HEAVY
+enum class precip_class : int {
+    NONE,
+    VERY_LIGHT,
+    LIGHT,
+    HEAVY
 };
 
 double precip_mm_per_hour( precip_class p );
@@ -105,7 +112,7 @@ struct weather_printable {
 namespace weather_effect
 {
 
-enum sun_intensity : int {
+enum class sun_intensity : int {
     normal = 1,
     high
 };
@@ -183,7 +190,9 @@ std::string print_temperature( double fahrenheit, int decimals = 0 );
 std::string print_humidity( double humidity, int decimals = 0 );
 std::string print_pressure( double pressure, int decimals = 0 );
 
-int get_local_windchill( double temperature, double humidity, double windpower );
+// Return windchill offset in degrees F, starting from given temperature, humidity and wind
+int get_local_windchill( double temperature_f, double humidity, double wind_mph );
+
 int get_local_humidity( double humidity, weather_type weather, bool sheltered = false );
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection,
@@ -262,4 +271,6 @@ class weather_manager
         void clear_temp_cache();
 };
 
-#endif
+weather_manager &get_weather();
+
+#endif // CATA_SRC_WEATHER_H

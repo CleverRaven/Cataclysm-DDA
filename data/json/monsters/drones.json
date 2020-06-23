@@ -27,6 +27,7 @@
     "speed": 250,
     "color": "cyan",
     "armor_cut": 4,
+    "armor_bullet": 3,
     "revert_to_itype": "bot_EMP_hack",
     "starting_ammo": { "grenade_emp": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
@@ -41,6 +42,7 @@
     "speed": 250,
     "color": "light_gray",
     "armor_cut": 4,
+    "armor_bullet": 3,
     "revert_to_itype": "bot_c4_hack",
     "starting_ammo": { "c4": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
@@ -55,6 +57,7 @@
     "speed": 250,
     "color": "dark_gray",
     "armor_cut": 4,
+    "armor_bullet": 3,
     "revert_to_itype": "bot_flashbang_hack",
     "starting_ammo": { "flashbang": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
@@ -69,6 +72,7 @@
     "speed": 250,
     "color": "dark_gray",
     "armor_cut": 4,
+    "armor_bullet": 3,
     "revert_to_itype": "bot_gasbomb_hack",
     "starting_ammo": { "tear_gas_payload": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
@@ -83,6 +87,7 @@
     "speed": 250,
     "color": "green",
     "armor_cut": 4,
+    "armor_bullet": 3,
     "revert_to_itype": "bot_grenade_hack",
     "starting_ammo": { "grenade": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
@@ -102,6 +107,7 @@
     "melee_cut": 12,
     "armor_bash": 2,
     "armor_cut": 8,
+    "armor_bullet": 6,
     "revert_to_itype": "bot_manhack",
     "death_drops": { "groups": [ [ "robots", 4 ], [ "manhack", 1 ] ] },
     "death_function": [ "BROKEN" ],
@@ -119,6 +125,7 @@
     "color": "light_green_magenta",
     "armor_bash": 1,
     "armor_cut": 6,
+    "armor_bullet": 5,
     "revert_to_itype": "bot_mininuke_hack",
     "starting_ammo": { "mininuke": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]

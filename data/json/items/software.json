@@ -2,7 +2,7 @@
   {
     "id": "software",
     "type": "GENERIC",
-    "name": { "str": "software", "str_pl": "software" },
+    "name": { "str_sp": "software" },
     "symbol": "#",
     "container": "usb_drive",
     "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
@@ -12,62 +12,69 @@
     "id": "software_useless",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": { "str": "misc software", "str_pl": "misc software" },
+    "name": { "str_sp": "misc software" },
     "description": "A miscellaneous piece of hobby software.  Probably useless.",
-    "price": 300
+    "price": 300,
+    "price_postapoc": 0
   },
   {
     "id": "software_hacking",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": { "str": "hackPRO", "str_pl": "hackPRO" },
+    "name": { "str_sp": "hackPRO" },
     "description": "A piece of hacking software.",
-    "price": 800
+    "price": 800,
+    "price_postapoc": 2000
   },
   {
     "id": "software_medical",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": { "str": "MediSoft", "str_pl": "MediSoft" },
+    "name": { "str_sp": "MediSoft" },
     "description": "A piece of medical software.",
-    "price": 600
+    "price": 600,
+    "price_postapoc": 0
   },
   {
     "id": "software_math",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": { "str": "MatheMAX", "str_pl": "MatheMAX" },
+    "name": { "str_sp": "MatheMAX" },
     "description": "A piece of mathematical software.",
-    "price": 500
+    "price": 500,
+    "price_postapoc": 0
   },
   {
     "id": "software_blood_data",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": { "str": "infection data", "str_pl": "infection data" },
+    "name": { "str_sp": "infection data" },
     "description": "Medical data on zombie blood.",
-    "price": 200
+    "price": 200,
+    "price_postapoc": 0
   },
   {
     "id": "software_lab_data",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": { "str": "lab data", "str_pl": "lab data" },
+    "name": { "str_sp": "lab data" },
     "description": "Research archives from a government laboratory.",
-    "price": 200
+    "price": 200,
+    "price_postapoc": 0
   },
   {
     "id": "software_train_data",
     "copy-from": "software",
     "type": "GENERIC",
-    "name": { "str": "train data", "str_pl": "train data" },
+    "name": { "str_sp": "train data" },
     "description": "Logistical data on subterranean train routes and schedules.",
-    "price": 200
+    "price": 200,
+    "price_postapoc": 0
   },
   {
     "id": "mind_scan_robofac",
     "type": "GENERIC",
-    "name": { "str": "neural data", "str_pl": "neural data" },
+    "name": { "str_sp": "neural data" },
     "symbol": "#",
     "container": "data_card",
     "description": "Data stolen from a dead scientist memory banks.  Is the owner of these thoughts still hidden here, amidst the unreadable data; or are these just a collection of the precious moments of someone's life?\n\nWhatever the case, the idea of perpetually keeping a part of you within a metallic pill makes you feel uncomfortable.",
@@ -79,6 +86,7 @@
     "type": "GENERIC",
     "name": { "str": "integrated circuit datasheet archives", "str_pl": "misc software" },
     "description": "Huge archives of numerous IC circuit datasheets from several major manufacturers.  Probably valuable to the right person, as it would be hard to salvage and reuse these components without them.",
-    "price": 40000
+    "price": 40000,
+    "price_postapoc": 0
   }
 ]

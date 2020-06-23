@@ -1,5 +1,15 @@
 [
   {
+    "id": "mon_human",
+    "type": "MONSTER",
+    "name": { "str": "human" },
+    "description": "Place holder for human corpses.  If you see this, it's a bug.",
+    "bodytype": "human",
+    "copy-from": "mon_zombie",
+    "symbol": "h",
+    "zombify_into": "mon_zombie"
+  },
+  {
     "id": "mon_bat",
     "type": "MONSTER",
     "name": { "str": "bat" },
@@ -82,6 +92,7 @@
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zombear",
     "harvest": "mammal_large_fur",
     "reproduction": { "baby_monster": "mon_bear_cub", "baby_count": 1, "baby_timer": 700 },
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
@@ -115,6 +126,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "SOUND" ],
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zombeaver",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "SWIMS", "WARM" ]
   },
   {
@@ -148,7 +160,79 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 120 ] ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "STUMBLES", "PATH_AVOID_DANGER_1" ]
+  },
+  {
+    "id": "mon_boar_wild_piglet",
+    "type": "MONSTER",
+    "name": "wild boar piglet",
+    "description": "Originally not native in the US, this wild omnivore is a crossbreed between the Eurasian wild boar escaped from hunting reserves and the domesticated pig went feral in the wilderness.  Its population has skyrocketed in the US during the last few decades.",
+    "default_faction": "pig",
+    "bodytype": "pig",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "MAMMAL" ],
+    "volume": "10 L",
+    "weight": "10 kg",
+    "hp": 5,
+    "speed": 90,
+    "material": [ "flesh" ],
+    "symbol": "b",
+    "color": "brown",
+    "looks_like": "mon_pig_piglet",
+    "aggression": -10,
+    "morale": 10,
+    "melee_skill": 1,
+    "melee_dice": 1,
+    "melee_dice_sides": 2,
+    "melee_cut": 1,
+    "dodge": 4,
+    "harvest": "mammal_small_fur",
+    "path_settings": { "max_dist": 10 },
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
+    "placate_triggers": [ "MEAT" ],
+    "death_function": [ "NORMAL" ],
+    "upgrades": { "age_grow": 38, "into": "mon_boar_wild" },
+    "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
+    "special_attacks": [ [ "EAT_FOOD", 40 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+  },
+  {
+    "id": "mon_boar_wild",
+    "type": "MONSTER",
+    "name": "wild boar",
+    "description": "Originally not native in the US, this wild omnivore is a crossbreed between the Eurasian wild boar escaped from hunting reserves and the domesticated pig went feral in the wilderness.  Its population has skyrocketed in the US during the last few decades.",
+    "looks_like": "mon_pig",
+    "default_faction": "pig",
+    "bodytype": "pig",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "MAMMAL" ],
+    "volume": "100 L",
+    "weight": "100 kg",
+    "hp": 60,
+    "speed": 110,
+    "material": [ "flesh" ],
+    "symbol": "b",
+    "color": "brown",
+    "aggression": 20,
+    "morale": 40,
+    "melee_skill": 5,
+    "melee_dice": 2,
+    "melee_dice_sides": 8,
+    "melee_cut": 5,
+    "dodge": 2,
+    "armor_bash": 2,
+    "armor_cut": 1,
+    "harvest": "mammal_fur",
+    "reproduction": { "baby_monster": "mon_boar_wild_piglet", "baby_count": 8, "baby_timer": 154 },
+    "baby_flags": [ "SPRING", "SUMMER", "AUTUMN", "WINTER" ],
+    "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
+    "path_settings": { "max_dist": 10 },
+    "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED" ],
+    "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
+    "placate_triggers": [ "MEAT" ],
+    "death_function": [ "NORMAL" ],
+    "special_attacks": [ [ "EAT_FOOD", 20 ] ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_bobcat",
@@ -184,7 +268,7 @@
     "id": "mon_cat_kitten",
     "type": "MONSTER",
     "copy-from": "mon_cat",
-    "name": { "str": "kitten" },
+    "name": { "str": "shorthair kitten" },
     "description": "A cuddly kitten meowing and scampering amidst the death.  Currently feral.",
     "default_faction": "cat",
     "bodytype": "dog",
@@ -209,7 +293,7 @@
   {
     "id": "mon_cat",
     "type": "MONSTER",
-    "name": { "str": "cat" },
+    "name": { "str": "shorthair cat" },
     "description": "A small domesticated predator gone feral in the absence of human stewardship.  Harried by the elements and the rigors of survival, it is scruffy and skittish.",
     "default_faction": "cat",
     "bodytype": "dog",
@@ -236,7 +320,188 @@
     "death_function": [ "NORMAL" ],
     "harvest": "mammal_tiny",
     "reproduction": { "baby_monster": "mon_cat_kitten", "baby_count": 4, "baby_timer": 60 },
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "CATFOOD", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "GOODHEARING",
+      "SMELLS",
+      "ANIMAL",
+      "CATFOOD",
+      "CLIMBS",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "HIT_AND_RUN"
+    ]
+  },
+  {
+    "id": "mon_cat_longhair",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "longhair cat",
+    "description": "This cat's long fur appears difficult to groom, but the cat seems to manage it despite the environmental conditions.",
+    "volume": "6000 ml",
+    "weight": "6 kg",
+    "reproduction": { "baby_monster": "mon_cat_longhair_kitten", "baby_count": 4, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_cat_longhair_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "longhair kitten",
+    "description": "Barely more than a ball of fluff with eyes, this kitten looks like a longhair breed.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_longhair" }
+  },
+  {
+    "id": "mon_cat_maine_coon",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "Maine coon cat",
+    "description": "Impressively large for a domestic cat, this thick-haired breed was once native to the state of Maine.",
+    "volume": "8000 ml",
+    "weight": "9 kg",
+    "hp": 16,
+    "reproduction": { "baby_monster": "mon_cat_maine_coon_kitten", "baby_count": 4, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_cat_maine_coon_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Maine coon kitten",
+    "description": "This young Maine coon has tufted ears and a striking pattern on its face.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_maine_coon" }
+  },
+  {
+    "id": "mon_cat_siamese",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "Siamese cat",
+    "description": "This cat has the distinctive dark extremeties of a Siamese, first native to Asia but a common domestic breed in North America.",
+    "reproduction": { "baby_monster": "mon_cat_siamese_kitten", "baby_count": 4, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_cat_siamese_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Siamese kitten",
+    "description": "With cream-colored fur and dark points, you guess this kitten must be a young Siamese.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_siamese" }
+  },
+  {
+    "id": "mon_cat_persian",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "Persian cat",
+    "description": "The short nose and rounded face of this cat suggest it comes from the popular Persian breed.",
+    "reproduction": { "baby_monster": "mon_cat_persian_kitten", "baby_count": 4, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_cat_persian_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Persian kitten",
+    "description": "An adorably squashed nose and sad pleading eyes beg you to adopt this tiny Persian.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_persian" }
+  },
+  {
+    "id": "mon_cat_bengal",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "Bengal cat",
+    "description": "Looking like a spotted wild cat, the Bengal breed derives from the Asian leopard cat and Egyptian Mau.",
+    "volume": "5000 ml",
+    "weight": "5 kg",
+    "reproduction": { "baby_monster": "mon_cat_bengal_kitten", "baby_count": 4, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_cat_bengal_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Bengal kitten",
+    "description": "You have seen spots like this on Bengal cats, but this one is just a kitten.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_bengal" }
+  },
+  {
+    "id": "mon_cat_devon_rex",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "Devon Rex cat",
+    "description": "An unusual-looking cat with strikingly large eyes and ears, sporting a soft curly coat of fur.",
+    "reproduction": { "baby_monster": "mon_cat_devon_rex_kitten", "baby_count": 4, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_cat_devon_rex_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Devon Rex kitten",
+    "description": "This curly-coated kitten has enormous ears and inquisitive eyes, possibly a Devon Rex.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_devon_rex" }
+  },
+  {
+    "id": "mon_cat_sphynx",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "Sphynx cat",
+    "description": "The Sphynx cat has practically no fur on its body, exposing its curiously wrinkled skin.",
+    "reproduction": { "baby_monster": "mon_cat_sphynx_kitten", "baby_count": 4, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_cat_sphynx_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "Sphynx kitten",
+    "description": "An almost total lack of fur on this kitten suggests it is of the hairless Sphynx breed.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_sphynx" }
+  },
+  {
+    "id": "mon_cat_tabby",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "tabby cat",
+    "description": "Marked with the characteristic 'M' on its forehead and decorated with swirling stripes, the tabby's markings must provide excellent camouflage.",
+    "reproduction": { "baby_monster": "mon_cat_tabby_kitten", "baby_count": 4, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_cat_tabby_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "tabby kitten",
+    "description": "Sharp lines around the eyes and familiar wavy stripes mark this kitten as a common tabby.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_tabby" }
+  },
+  {
+    "id": "mon_cat_calico",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "calico cat",
+    "description": "Partly white with patches of orange and black, the calico coloring tells you this cat is probably female.  The Calico was the Maryland State cat (back when there were still states).",
+    "reproduction": { "baby_monster": "mon_cat_calico_kitten", "baby_count": 4, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_cat_calico_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "calico kitten",
+    "description": "Splotches of tan and grey mark this young cat as a calico, and probably female.",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_calico" }
+  },
+  {
+    "id": "mon_cat_chonker",
+    "type": "MONSTER",
+    "copy-from": "mon_cat",
+    "name": "golden chonker",
+    "description": "Lawd, he comin!  This impressive feline would once have been celebrated on internet cat forums for its chonkiness and majestic golden mane.  Appears surprisingly well-groomed for a feral cat.",
+    "volume": "8000 ml",
+    "weight": "10 kg",
+    "hp": 20,
+    "reproduction": { "baby_monster": "mon_cat_chonker_kitten", "baby_count": 8, "baby_timer": 60 }
+  },
+  {
+    "id": "mon_cat_chonker_kitten",
+    "type": "MONSTER",
+    "copy-from": "mon_cat_kitten",
+    "name": "yellow kitten",
+    "description": "This poor little kitten is starving!  You wonder if you have some cat food around…",
+    "upgrades": { "age_grow": 120, "into": "mon_cat_chonker" }
   },
   {
     "id": "mon_chipmunk",
@@ -296,6 +561,7 @@
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zougar",
     "harvest": "mammal_fur",
     "flags": [
       "SEES",
@@ -1103,7 +1369,7 @@
     "id": "mon_dog_gpyrenees",
     "copy-from": "mon_dog",
     "type": "MONSTER",
-    "name": { "str": "Great Pyrenees", "str_pl": "Great Pyrenees" },
+    "name": { "str_sp": "Great Pyrenees" },
     "//": "Rare, location specific only",
     "description": "A large and powerful breed, the Great Pyrenees has a beautiful, thick white coat.  Originally bred to deter wolves and other predators, now faced with protecting livestock from shambling hordes of undead.",
     "volume": "52500 ml",
@@ -1119,7 +1385,7 @@
     "vision_night": 6,
     "harvest": "mammal_fur",
     "reproduction": { "baby_monster": "mon_dog_gpyrenees_pup", "baby_count": 7, "baby_timer": 320 },
-    "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
+    "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "flags": [
       "ANIMAL",
       "DOGFOOD",
@@ -1186,7 +1452,7 @@
     "harvest": "mammal_leather",
     "special_attacks": [ [ "LUNGE", 5 ] ],
     "reproduction": { "baby_monster": "mon_dog_rottweiler_pup", "baby_count": 7, "baby_timer": 300 },
-    "//": "1-7 puppies & 300-320 days per-litter for size medium canines",
+    "//2": "1-7 puppies & 300-320 days per-litter for size medium canines",
     "flags": [
       "ANIMAL",
       "DOGFOOD",
@@ -1513,7 +1779,7 @@
   {
     "id": "mon_moose",
     "type": "MONSTER",
-    "name": { "str": "moose", "str_pl": "moose" },
+    "name": { "str_sp": "moose" },
     "description": "The Eastern moose, the largest living species of deer.  While they aren't aggressive unless angered, the mating season can make the bulls quite ill-tempered.",
     "default_faction": "herbivore",
     "bodytype": "horse",
@@ -1535,10 +1801,12 @@
     "dodge": 1,
     "armor_bash": 4,
     "armor_cut": 1,
+    "armor_bullet": 1,
     "vision_night": 7,
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "MATING_SEASON" ],
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zoose",
     "baby_flags": [ "AUTUMN" ],
     "//": "Baby moose don't actually exist (yet), but autumn is their mating season so baby_flags is defined so that they get angry then",
     "harvest": "mammal_large_leather",
@@ -1600,6 +1868,7 @@
     "dodge": 1,
     "armor_bash": 5,
     "armor_cut": 2,
+    "armor_bullet": 2,
     "vision_day": 0,
     "vision_night": 0,
     "harvest": "mutant_mammal_large_leather",
@@ -1639,7 +1908,7 @@
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_otter",
@@ -1746,6 +2015,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zombie_pig",
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
   },
@@ -1802,7 +2072,7 @@
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
   },
   {
     "id": "mon_rat_king",
@@ -1858,7 +2128,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "PLAYER_WEAK", "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES" ]
   },
   {
     "id": "mon_sheep_lamb",
@@ -1895,7 +2165,7 @@
   {
     "id": "mon_sheep",
     "type": "MONSTER",
-    "name": { "str": "sheep", "str_pl": "sheep" },
+    "name": { "str_sp": "sheep" },
     "description": "A timid, hooved grazing mammal, and one of the first animals ever domesticated.  Its body is covered in a thick layer of wool, and the males have long, spiralling horns.",
     "default_faction": "herbivore",
     "bodytype": "dog",
@@ -1924,7 +2194,18 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_CROP", 120 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "CATTLEFODDER", "PET_WONT_FOLLOW", "MILKABLE" ]
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "ANIMAL",
+      "SHEARABLE",
+      "PATH_AVOID_DANGER_1",
+      "WARM",
+      "CATTLEFODDER",
+      "PET_WONT_FOLLOW",
+      "MILKABLE"
+    ]
   },
   {
     "id": "mon_squirrel",
@@ -1951,7 +2232,7 @@
     "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM" ]
   },
   {
     "id": "mon_squirrel_red",
@@ -1978,7 +2259,7 @@
     "harvest": "mammal_tiny",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "STUMBLES", "WARM" ]
   },
   {
     "id": "mon_weasel",
@@ -2036,6 +2317,7 @@
     "anger_triggers": [ "STALK", "FRIEND_ATTACKED", "FRIEND_DIED", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zolf",
     "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
   }
 ]

@@ -1,16 +1,20 @@
 #pragma once
-#ifndef MAP_SELECTOR_H
-#define MAP_SELECTOR_H
+#ifndef CATA_SRC_MAP_SELECTOR_H
+#define CATA_SRC_MAP_SELECTOR_H
 
 #include <vector>
 
 #include "point.h"
 #include "visitable.h"
 
-class map_cursor : public tripoint, public visitable<map_cursor>
+class map_cursor : public visitable<map_cursor>
 {
+    private:
+        tripoint pos_;
+
     public:
-        map_cursor( const tripoint &pos ) : tripoint( pos ) {}
+        map_cursor( const tripoint &pos );
+        operator tripoint() const;
 };
 
 class map_selector : public visitable<map_selector>
@@ -70,4 +74,4 @@ class map_selector : public visitable<map_selector>
         std::vector<value_type> data;
 };
 
-#endif
+#endif // CATA_SRC_MAP_SELECTOR_H

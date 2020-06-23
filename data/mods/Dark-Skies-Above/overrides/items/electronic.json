@@ -1,0 +1,24 @@
+[
+  {
+    "id": "smart_phone",
+    "type": "TOOL",
+    "name": { "str": "smartphone" },
+    "copy-from": "smart_phone",
+    "description": "A popular, fancy smartphone.  Capable of making photos due to integrated camera and illuminating an area as per its flashlight app, assuming it has enough charge.  The smartphone also has a clock app that includes an alarm.  Runs on a small, proprietary power cell that needs a specialized charger.  That is to say, is quite difficult to recharge post-Cataclysm.",
+    "delete": { "flags": [ "USE_UPS" ] }
+  },
+  {
+    "id": "smartphone_music",
+    "copy-from": "smartphone_music",
+    "type": "TOOL",
+    "name": { "str": "smartphone - music", "str_pl": "smartphones - music" },
+    "delete": { "flags": [ "USE_UPS" ] }
+  },
+  {
+    "id": "smart_phone_flashlight",
+    "copy-from": "smart_phone_flashlight",
+    "type": "TOOL",
+    "name": { "str": "smartphone - Flashlight", "str_pl": "smartphones - Flashlight" },
+    "delete": { "flags": [ "USE_UPS" ] }
+  }
+]

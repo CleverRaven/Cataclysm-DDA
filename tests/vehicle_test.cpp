@@ -3,13 +3,16 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
+#include "damage.h"
+#include "enums.h"
 #include "game.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "vehicle.h"
-#include "enums.h"
-#include "type_id.h"
+#include "optional.h"
 #include "point.h"
+#include "type_id.h"
+#include "vehicle.h"
 
 TEST_CASE( "detaching_vehicle_unboards_passengers" )
 {
@@ -32,14 +35,14 @@ TEST_CASE( "destroy_grabbed_vehicle_section" )
         vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         tripoint grab_point = test_origin + tripoint_east;
-        g->u.grab( OBJECT_VEHICLE, grab_point );
-        REQUIRE( g->u.get_grab_type() != OBJECT_NONE );
+        g->u.grab( object_type::VEHICLE, grab_point );
+        REQUIRE( g->u.get_grab_type() != object_type::NONE );
         REQUIRE( g->u.grab_point == grab_point );
         WHEN( "The vehicle section grabbed by the player is destroyed" ) {
             g->m.destroy( grab_point );
             REQUIRE( veh_ptr->get_parts_at( grab_point, "", part_status_flag::available ).empty() );
             THEN( "The player's grab is released" ) {
-                CHECK( g->u.get_grab_type() == OBJECT_NONE );
+                CHECK( g->u.get_grab_type() == object_type::NONE );
                 CHECK( g->u.grab_point == tripoint_zero );
             }
         }

@@ -1,0 +1,223 @@
+[
+  {
+    "type": "ascii_art",
+    "id": "glass_bottle",
+    "picture": [
+      "",
+      "",
+      "",
+      "              <color_light_cyan>║   ║</color>",
+      "              <color_light_cyan>║   ║</color>",
+      "              <color_light_cyan>║   ║</color>",
+      "            <color_light_cyan>╔═╝   ╚═╗</color>",
+      "           <color_light_cyan>╔╝</color>      <color_white>#</color><color_light_cyan>╚╗</color>",
+      "          <color_light_cyan>╔╝</color>     #<color_white>#</color># <color_light_cyan>╚╗</color>",
+      "          <color_light_cyan>║</color>    #<color_white>##</color>#   <color_light_cyan>║</color>",
+      "          <color_light_cyan>║</color>   #<color_white>##</color>#    <color_light_cyan>║</color>",
+      "          <color_light_cyan>║</color>  #<color_white>##</color>#     <color_light_cyan>║</color>",
+      "          <color_light_cyan>║</color> #<color_white>##</color>#      <color_light_cyan>║</color>",
+      "          <color_light_cyan>║</color>#<color_white>##</color>#       <color_light_cyan>║</color>",
+      "          <color_light_cyan>║</color>#<color_white>#</color>#        <color_light_cyan>║</color>",
+      "          <color_light_cyan>║</color><color_white>#</color>          <color_light_cyan>║</color>",
+      "          <color_light_cyan>║           ║</color>",
+      "          <color_light_cyan>║           ║</color>",
+      "          <color_light_cyan>║           ║</color>",
+      "          <color_light_cyan>║           ║</color>",
+      "          <color_light_cyan>╚═══════════╝</color>"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "plastic_bottle",
+    "picture": [
+      "",
+      "",
+      "",
+      "             <color_light_cyan>║  ║",
+      "             <color_light_cyan>║  ║",
+      "            <color_light_cyan>╔╝  ╚╗",
+      "           <color_light_cyan>╔╝    ╚╗",
+      "          <color_light_cyan>╔╝      ╚╗",
+      "          <color_light_cyan>║        ║",
+      "          <color_light_cyan>╔  ════  ╗",
+      "          <color_light_cyan>║        ║",
+      "          <color_light_cyan>╔  ════  ╗",
+      "          <color_light_cyan>║        ║",
+      "          <color_light_cyan>╔  ════  ╗",
+      "          <color_light_cyan>║        ║",
+      "          <color_light_cyan>╔  ════  ╗",
+      "          <color_light_cyan>║        ║",
+      "          <color_light_cyan>╔  ════  ╗",
+      "          <color_light_cyan>║        ║",
+      "          <color_light_cyan>╔  ════  ╗",
+      "          <color_light_cyan>║        ║",
+      "          <color_light_cyan>╚════════╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "cashcard",
+    "picture": [
+      "",
+      "",
+      "",
+      "       <color_white>╔═══════════════════╗",
+      "       <color_white>║                   ║",
+      "       <color_white>║</color> <color_yellow>╔═   ╔═╔═╗╔═║ ║</color>   <color_white>║",
+      "       <color_white>║</color> <color_yellow>║═ ┼ ║ ║═║╚╗║═║</color>   <color_white>║",
+      "       <color_white>║</color> <color_yellow>╚═   ╚═║ ║═╝║ ║</color>   <color_white>║",
+      "       <color_white>║                   ║",
+      "       <color_white>║   RIVTECH TRUST   ║",
+      "       <color_white>║                   ║",
+      "       <color_white>║                   ║",
+      "       <color_white>║ 555 993 55221 066 ║",
+      "       <color_white>╚═══════════════════╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "ultra_light_battery",
+    "picture": [
+      "",
+      "",
+      "          █████",
+      "       ██████████",
+      "      █████████████",
+      "     ███████<color_yellow>─</color>███████",
+      "     ███████████████",
+      "    █████████████████",
+      "   ███████████████████",
+      "   ████<color_yellow>ULTRA∙LIGHT</color>████",
+      "   ███████████████████",
+      "   ███████████████████",
+      "    █████████████████",
+      "    █████████████████",
+      "     ███████<color_yellow>┼</color>███████",
+      "      █████████████",
+      "        █████████",
+      "          █████"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "ultra_light_battery_plut",
+    "picture": [
+      "",
+      "",
+      "          <color_light_green>█████",
+      "       ██████████",
+      "      █████████████",
+      "     ███████<color_yellow>─</color>███████",
+      "     ███████████████",
+      "    █████████████████",
+      "   ███████████████████",
+      "   ████<color_yellow>ULTRA∙LIGHT</color>████",
+      "   ███████████████████",
+      "   ███████████████████",
+      "    █████████████████",
+      "    █████████████████",
+      "     ███████<color_yellow>┼</color>███████",
+      "      █████████████",
+      "        █████████",
+      "          █████"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "light_battery",
+    "picture": [
+      "",
+      "",
+      "         <color_white>┌ ^ ┐",
+      "         │ <color_yellow>+</color> │",
+      "         │   │",
+      "         │   │",
+      "         │   │",
+      "         │   │",
+      "         │ <color_yellow>-</color> │",
+      "         └ - ┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "light_battery_plut",
+    "picture": [
+      "",
+      "",
+      "         <color_light_green>┌ ^ ┐",
+      "         │ <color_yellow>+</color> │",
+      "         │   │",
+      "         │   │",
+      "         │   │",
+      "         │   │",
+      "         │ <color_yellow>-</color> │",
+      "         └ - ┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "medium_battery",
+    "picture": [
+      "",
+      "",
+      "           <color_white>┌ <color_yellow>-</color> ──── <color_yellow>^</color> ┐",
+      "           │          │",
+      "           │          │",
+      "           │  <color_yellow>─     ┼</color> │",
+      "           │          │",
+      "           │  <color_yellow>MEDIUM</color>  │",
+      "           └──────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "medium_battery_plut",
+    "picture": [
+      "",
+      "",
+      "           <color_light_green>┌ <color_yellow>-</color> ──── <color_yellow>^</color> ┐",
+      "           │          │",
+      "           │          │",
+      "           │  <color_yellow>─     ┼</color> │",
+      "           │          │",
+      "           │  <color_yellow>MEDIUM</color>  │",
+      "           └──────────┘"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "heavy_battery",
+    "picture": [
+      "",
+      "",
+      "          <color_white>  ┌<color_yellow>-</color>┐       ┌<color_yellow>^</color>┐",
+      "          ╔═   ═══════   ═╗",
+      "          ║               ║",
+      "          ║               ║",
+      "          ║  <color_yellow>═         ╫</color>  ║",
+      "          ║               ║",
+      "          ║               ║",
+      "          ║               ║",
+      "          ║     <color_yellow>HEAVY</color>     ║",
+      "          ╚═══════════════╝"
+    ]
+  },
+  {
+    "type": "ascii_art",
+    "id": "heavy_battery_plut",
+    "picture": [
+      "",
+      "",
+      "         <color_light_green>   ┌<color_yellow>-</color>┐       ┌<color_yellow>^</color>┐",
+      "          ╔═   ═══════   ═╗",
+      "          ║               ║",
+      "          ║               ║",
+      "          ║  <color_yellow>═         ╫</color>  ║",
+      "          ║               ║",
+      "          ║               ║",
+      "          ║               ║",
+      "          ║     <color_yellow>HEAVY</color>     ║",
+      "          ╚═══════════════╝"
+    ]
+  }
+]

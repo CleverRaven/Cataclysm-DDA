@@ -1,0 +1,109 @@
+[
+  {
+    "result": "solar_array",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ [ "mechanics", 5 ], [ "electronics", 8 ] ],
+    "time": "24 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 4 ], [ "rebar", 2 ] ],
+      [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "solar_panel", 3 ] ]
+    ]
+  },
+  {
+    "result": "reinforced_solar_array",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ [ "mechanics", 5 ], [ "electronics", 8 ] ],
+    "time": "24 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 4 ], [ "rebar", 2 ] ],
+      [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "reinforced_solar_panel", 3 ] ]
+    ]
+  },
+  {
+    "result": "solar_array_v2",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ [ "mechanics", 5 ], [ "electronics", 8 ] ],
+    "time": "24 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 4 ], [ "rebar", 2 ] ],
+      [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "solar_panel_v2", 3 ] ]
+    ]
+  },
+  {
+    "result": "reinforced_solar_array_v2",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "difficulty": 8,
+    "skills_required": [ [ "mechanics", 5 ], [ "electronics", 8 ] ],
+    "time": "24 h",
+    "autolearn": true,
+    "using": [ [ "welding_standard", 10 ], [ "soldering_standard", 15 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
+    "components": [
+      [ [ "pipe", 4 ], [ "rebar", 2 ] ],
+      [ [ "steel_chunk", 18 ], [ "steel_lump", 6 ] ],
+      [ [ "spring", 1 ] ],
+      [ [ "sensor_module", 1 ] ],
+      [ [ "targeting_module", 1 ] ],
+      [ [ "self_monitoring_module", 1 ] ],
+      [ [ "reinforced_solar_panel_v2", 3 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "vehicle_shelving",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "skills_required": [ "mechanics", 4 ],
+    "difficulty": 4,
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "rope_natural", 4 ], [ "welding_standard", 15 ] ],
+    "qualities": [
+      { "id": "SCREW", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_M", "level": 1 },
+      { "id": "WRENCH", "level": 1 }
+    ],
+    "components": [ [ [ "cargo_rack", 4 ] ], [ [ "pipe", 16 ] ], [ [ "sheet_metal", 4 ] ], [ [ "hinge", 10 ] ] ]
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "BGSS_RECENT_MUTATION_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Things were good.  I had a good job working for a zaibatsu.  I was respected, and had people working for me.  I mostly ignored the changes that were happening in the city, they were beneath me.",
+    "responses": [
+      { "text": "So, what happened?", "topic": "BGSS_RECENT_MUTATION_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RECENT_MUTATION_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Slowly fewer and fewer of the cubicle drones came into the office.  Security notices piled up about routes through the city to avoid.  Finally, one day I came in and you could hear the riots coming closer and some kind of animalistic roars, gigantic animals.",
+    "responses": [
+      { "text": "So, what happened?", "topic": "BGSS_RECENT_MUTATION_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_RECENT_MUTATION_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "That last day security and scientists came up from the underground lab and rounded up all the remaining staff.  One of them said that this was the only chance any of us had of surviving.  They started injecting people at gunpoint.",
+    "responses": [
+      { "text": "So, did you evacuate?", "topic": "BGSS_RECENT_MUTATION_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

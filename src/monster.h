@@ -1,10 +1,10 @@
 #pragma once
-#ifndef MONSTER_H
-#define MONSTER_H
+#ifndef CATA_SRC_MONSTER_H
+#define CATA_SRC_MONSTER_H
 
+#include <bitset>
 #include <climits>
 #include <cstddef>
-#include <bitset>
 #include <functional>
 #include <map>
 #include <set>
@@ -12,36 +12,34 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "character_id.h"
-#include "creature.h"
-#include "enums.h"
-#include "bodypart.h"
 #include "color.h"
+#include "creature.h"
 #include "cursesdef.h"
 #include "damage.h"
+#include "enums.h"
 #include "item.h"
 #include "mtype.h"
 #include "optional.h"
 #include "pldata.h"
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
-#include "point.h"
 #include "value_ptr.h"
 
-class JsonObject;
-class JsonIn;
-class JsonOut;
-class player;
 class Character;
+class JsonIn;
+class JsonObject;
+class JsonOut;
 class effect;
+class player;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
 
-enum class mon_trigger;
-
-class monster;
+enum class mon_trigger : int;
 
 class mon_special_attack
 {
@@ -61,7 +59,6 @@ enum monster_attitude {
     MATT_IGNORE,
     MATT_FOLLOW,
     MATT_ATTACK,
-    MATT_ZLAVE,
     NUM_MONSTER_ATTITUDES
 };
 
@@ -109,7 +106,7 @@ class monster : public Creature
         void try_biosignature();
         void refill_udders();
         void spawn( const tripoint &p );
-        m_size get_size() const override;
+        creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
         units::volume get_volume() const;
@@ -307,21 +304,23 @@ class monster : public Creature
         bool is_immune_effect( const efftype_id & ) const override;
         bool is_immune_damage( damage_type ) const override;
 
-        void absorb_hit( body_part bp, damage_instance &dam ) override;
-        bool block_hit( Creature *source, body_part &bp_hit, damage_instance &d ) override;
+        void absorb_hit( const bodypart_id &bp, damage_instance &dam ) override;
+        bool block_hit( Creature *source, bodypart_id &bp_hit, damage_instance &d ) override;
         void melee_attack( Creature &target );
         void melee_attack( Creature &target, float accuracy );
         void melee_attack( Creature &p, bool ) = delete;
         void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack,
                                      bool print_messages = true ) override;
-        void deal_damage_handle_type( const damage_unit &du, body_part bp, int &damage,
+        void deal_damage_handle_type( const damage_unit &du, bodypart_id bp, int &damage,
                                       int &pain ) override;
-        void apply_damage( Creature *source, body_part bp, int dam,
+        void apply_damage( Creature *source, bodypart_id bp, int dam,
                            bool bypass_med = false ) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
+
+        void heal_bp( bodypart_id bp, int dam ) override;
         /**
          * Flat addition to the monsters @ref hp. If `overheal` is true, this is not capped by max hp.
          * Returns actually healed hp.
@@ -352,9 +351,10 @@ class monster : public Creature
         float speed_rating() const override;
 
         int get_worn_armor_val( damage_type dt ) const;
-        int  get_armor_cut( body_part bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_bash( body_part bp ) const override; // Natural armor, plus any worn armor
-        int  get_armor_type( damage_type dt, body_part bp ) const override;
+        int  get_armor_cut( bodypart_id bp ) const override; // Natural armor, plus any worn armor
+        int  get_armor_bash( bodypart_id bp ) const override; // Natural armor, plus any worn armor
+        int  get_armor_bullet( bodypart_id bp ) const override; // Natural armor, plus any worn armor
+        int  get_armor_type( damage_type dt, bodypart_id bp ) const override;
 
         float get_hit_base() const override;
         float get_dodge_base() const override;
@@ -381,12 +381,8 @@ class monster : public Creature
         // We just dodged an attack from something
         void on_dodge( Creature *source, float difficulty ) override;
         // Something hit us (possibly null source)
-        void on_hit( Creature *source, body_part bp_hit = num_bp,
+        void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
-        // Get torso - monsters don't have body parts (yet?)
-        body_part get_random_body_part( bool main ) const override;
-        /** Returns vector containing all body parts this monster has. That is, { bp_torso } */
-        std::vector<body_part> get_all_body_parts( bool only_main = false ) const override;
 
         /** Resets a given special to its monster type cooldown value */
         void reset_special( const std::string &special_name );
@@ -396,6 +392,8 @@ class monster : public Creature
         void set_special( const std::string &special_name, int time );
         /** Sets the enabled flag for the given special to false */
         void disable_special( const std::string &special_name );
+        /** Test whether the specified special is ready. */
+        bool special_available( const std::string &special_name ) const;
 
         void process_turn() override;
         /** Resets the value of all bonus fields to 0, clears special effect flags. */
@@ -446,7 +444,7 @@ class monster : public Creature
                                     const std::string &npc_msg ) const override;
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
-        int wandf;           // Urge to wander - Increased by sound, decrements each move
+        int wandf = 0;       // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
@@ -461,25 +459,25 @@ class monster : public Creature
         void move_special_item_to_inv( cata::value_ptr<item> &it );
 
         // DEFINING VALUES
-        int friendly;
+        int friendly = 0;
         int anger = 0;
         int morale = 0;
         // Our faction (species, for most monsters)
         mfaction_id faction;
         // If we're related to a mission
-        int mission_id;
+        int mission_id = 0;
         const mtype *type;
         // If true, don't spawn loot items as part of death.
-        bool no_extra_death_drops;
+        bool no_extra_death_drops = false;
         // If true, monster dies quietly and leaves no corpse.
         bool no_corpse_quiet = false;
         // Turned to false for simulating monsters during distant missions so they don't drop in sight.
         bool death_drops = true;
         bool is_dead() const;
-        bool made_footstep;
+        bool made_footstep = false;
         // If we're unique
         std::string unique_name;
-        bool hallucination;
+        bool hallucination = false;
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;
 
@@ -495,14 +493,14 @@ class monster : public Creature
             return position.z;
         }
 
-        short ignoring;
+        short ignoring = 0;
         cata::optional<time_point> lastseen_turn;
 
         // Stair data.
-        int staircount;
+        int staircount = 0;
 
         // Ammunition if we use a gun.
-        std::map<std::string, int> ammo;
+        std::map<itype_id, int> ammo;
 
         /**
          * Convert this monster into an item (see @ref mtype::revert_to_itype).
@@ -541,20 +539,18 @@ class monster : public Creature
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
     private:
-        int hp;
+        int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
         tripoint position;
-        bool dead;
-        /** Legacy loading logic for monsters that are packing ammo. **/
-        void normalize_ammo( int old_ammo );
+        bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
-        bool upgrades;
-        int upgrade_time;
-        bool reproduces;
+        bool upgrades = false;
+        int upgrade_time = 0;
+        bool reproduces = false;
         cata::optional<time_point> baby_timer;
-        bool biosignatures;
+        bool biosignatures = false;
         cata::optional<time_point> biosig_timer;
         time_point udder_timer;
         monster_horde_attraction horde_attraction;
@@ -574,4 +570,4 @@ class monster : public Creature
         void process_one_effect( effect &it, bool is_new ) override;
 };
 
-#endif
+#endif // CATA_SRC_MONSTER_H

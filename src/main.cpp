@@ -27,6 +27,8 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_ui.h"
+#include "input.h"
 #include "loading_ui.h"
 #include "main_menu.h"
 #include "mapsharing.h"
@@ -35,8 +37,8 @@
 #include "path_info.h"
 #include "rng.h"
 #include "translations.h"
-#include "input.h"
 #include "type_id.h"
+#include "ui_manager.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -538,7 +540,7 @@ int main( int argc, char *argv[] )
     }
 
     if( !dir_exist( PATH_INFO::datadir() ) ) {
-        printf( "Fatal: Can't find directory \"%s\"\nPlease ensure the current working directory is correct.  Perhaps you meant to start \"cataclysm-launcher\"?\n",
+        printf( "Fatal: Can't find data directory \"%s\"\nPlease ensure the current working directory is correct or specify data directory with --datadir.  Perhaps you meant to start \"cataclysm-launcher\"?\n",
                 PATH_INFO::datadir().c_str() );
         exit( 1 );
     }
@@ -575,6 +577,9 @@ int main( int argc, char *argv[] )
 #if !defined(MACOSX)
     }
 #endif
+
+    DebugLog( D_INFO, DC_ALL ) << "[main] C locale set to " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[main] C++ locale set to " << std::locale().name();
 
 #if defined(TILES)
     SDL_version compiled;
@@ -641,7 +646,7 @@ int main( int argc, char *argv[] )
 
     // Now we do the actual game.
 
-    g->init_ui();
+    game_ui::init_ui();
 
     catacurses::curs_set( 0 ); // Invisible cursor here, because MAPBUFFER.load() is crash-prone
 
@@ -688,6 +693,7 @@ int main( int argc, char *argv[] )
             }
         }
 
+        shared_ptr_fast<ui_adaptor> ui = g->create_or_get_main_ui_adaptor();
         while( !g->do_turn() );
     }
 
@@ -748,8 +754,6 @@ void exit_handler( int s )
     const int old_timeout = inp_mngr.get_timeout();
     inp_mngr.reset_timeout();
     if( s != 2 || query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
-        catacurses::erase(); // Clear screen
-
         deinitDebug();
 
         int exit_status = 0;

@@ -243,6 +243,10 @@ android {
     flavorDimensions "version"
 
     productFlavors {
+        stable {
+            dimension "version"
+            resValue "string", "app_name", "Cataclysm DDA"
+        }
         experimental {
             dimension "version"
             applicationIdSuffix ".experimental"
@@ -263,6 +267,18 @@ android {
                 throw new GradleException("Keystore file " + keystoreProperties.getProperty("storeFile") + " was not found.\n")
             }
         }
+        if (keystoreProperties.getProperty('debug_storeFile') != null) {
+            if (file(keystoreProperties.getProperty('debug_storeFile')).exists()) {
+                debug {
+                    storeFile file(keystoreProperties.getProperty("debug_storeFile"))
+                    storePassword keystoreProperties.getProperty("debug_storePassword")
+                    keyAlias keystoreProperties.getProperty("debug_seyAlias")
+                    keyPassword keystoreProperties.getProperty("debug_keyPassword")
+                }
+            } else {
+                throw new GradleException("Keystore file " + keystoreProperties.getProperty("debug_storeFile") + " was not found.\n")
+            }
+        }
     }
     buildTypes {
         release {
@@ -281,7 +297,9 @@ android {
         debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
+            if (signingConfigs.hasProperty("debug")) {
+                signingConfig signingConfigs.debug
+            }
             externalNativeBuild {
                 ndkBuild {
 
@@ -325,6 +343,8 @@ sourceSets {
         resources {
             srcDirs = ['src/main/res']
         }
+    }
+    stable {
     }
     experimental {
         resources {

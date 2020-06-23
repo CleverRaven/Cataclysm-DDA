@@ -3,7 +3,15 @@
     "id": "tools_blacksmith",
     "type": "item_group",
     "//": "Tools commonly used by blacksmiths",
-    "items": [ [ "anvil", 30 ], [ "chisel", 90 ], [ "crucible", 30 ], [ "swage", 60 ], [ "tongs", 90 ], [ "hammer", 90 ] ]
+    "items": [
+      [ "anvil", 30 ],
+      [ "chisel", 90 ],
+      [ "crucible", 30 ],
+      [ "swage", 60 ],
+      [ "tongs", 90 ],
+      [ "hammer", 90 ],
+      [ "sandpaper", 90 ]
+    ]
   },
   {
     "id": "tools_carpentry",
@@ -17,7 +25,8 @@
       [ "nailgun", 100 ],
       [ "chisel", 10 ],
       [ "toolbox", 12 ],
-      [ "toolbox_workshop", 3 ]
+      [ "toolbox_workshop", 3 ],
+      [ "sandpaper", 100 ]
     ]
   },
   {
@@ -53,6 +62,7 @@
       [ "xacto", 40 ],
       [ "bucket", 5 ],
       [ "jumper_cable", 10 ],
+      [ "hd_tow_cable", 5 ],
       [ "funnel", 50 ],
       [ "claw_bar", 2 ],
       [ "crowbar", 10 ],
@@ -61,7 +71,10 @@
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
       [ "metal_file", 10 ],
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "sandpaper", 80 ],
+      [ "rake", 15 ],
+      [ "rake_plastic", 25 ]
     ]
   },
   {
@@ -84,7 +97,11 @@
       [ "char_smoker", 5 ],
       [ "dehydrator", 5 ],
       [ "tongs", 1 ],
-      [ "tourist_table", 1 ]
+      [ "tourist_table", 1 ],
+      [ "sandpaper", 50 ],
+      [ "shovel_snow", 10 ],
+      [ "shovel_snow_plastic", 15 ],
+      [ "hose_garden", 20 ]
     ]
   },
   {
@@ -136,7 +153,11 @@
       [ "trimmer_off", 20 ],
       [ "scythe", 40 ],
       [ "shovel", 120 ],
-      [ "sickle", 40 ]
+      [ "sickle", 40 ],
+      [ "rake", 20 ],
+      [ "rake_plastic", 40 ],
+      [ "shovel_snow", 20 ],
+      [ "shovel_snow_plastic", 40 ]
     ]
   },
   {
@@ -167,7 +188,8 @@
       [ "soldering_iron", 150 ],
       [ "cordless_drill", 100 ],
       [ "pin_reamer", 30 ],
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "sandpaper", 90 ]
     ]
   },
   {
@@ -194,7 +216,9 @@
       [ "hammer_sledge", 5 ],
       [ "hammer_sledge_short", 5 ],
       [ "hammer_sledge_engineer", 10 ],
-      [ "halligan", 10 ]
+      [ "halligan", 10 ],
+      [ "pike_pole", 10 ],
+      [ "ny_hook", 10 ]
     ]
   },
   {
@@ -326,9 +350,11 @@
     "type": "item_group",
     "items": [
       [ "awl_steel", 60 ],
+      { "item": "loom_frame", "prob": 5 },
       [ "needle_curved", 30 ],
       [ "scissors", 1000 ],
       [ "sewing_kit", 120 ],
+      { "item": "shed_stick", "prob": 5 },
       [ "tailors_kit", 10 ],
       [ "knitting_needles", 20 ]
     ]
@@ -410,7 +436,6 @@
       [ "file", 10 ],
       [ "atomic_lamp", 1 ],
       [ "smart_lamp", 2 ],
-      [ "control_laptop", 1 ],
       [ "bot_manhack", 2 ],
       [ "teleporter", 1 ],
       [ "laptop", 4 ],

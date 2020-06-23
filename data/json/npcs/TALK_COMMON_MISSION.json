@@ -6,7 +6,7 @@
       "Some of the topics here can be moved to NPC type specific files later."
     ],
     "type": "talk_topic",
-    "//": "Generic responses for NPCs that can have missions",
+    "//2": "Generic responses for NPCs that can have missions",
     "id": [
       "TALK_SHELTER",
       "TALK_EVAC_MERCHANT",

@@ -35,7 +35,7 @@
       ],
       "rotation": 1,
       "palettes": [ "FEMA_camp" ],
-      "monster": { "Z": { "monster": "mon_zombie_fat" }, "z": { "monster": "mon_zombie_soldier" } }
+      "monster": { "Z": { "monster": "mon_zombie_fat" } }
     }
   }
 ]

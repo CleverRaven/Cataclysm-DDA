@@ -1,3 +1,18 @@
+## Pre-commit hook
+
+If you have all the relevant tools installed, you can have git automatically
+check the style of code and json by adding these commands to your git
+pre-commit hook (typically at `.git/hooks/pre-commit`):
+
+```BASH
+git diff --cached --name-only -z HEAD | grep -z 'data/.*\.json' | \
+    xargs -r -0 -L 1 ./tools/format/json_formatter.[ce]* || exit 1
+
+make astyle-check || exit 1
+```
+
+More details below on how to make these work and other ways to invoke these tools.
+
 ## Code style (astyle)
 
 Automatic formatting of source code is performed by [Artistic Style](http://astyle.sourceforge.net/).
@@ -316,9 +331,9 @@ required headers and add and remove includes as appropriate.
 
 Running on this codebase revealed some issues.  You will need a version of IWYU
 where the following PR has been merged (which has not yet happened at time of
-writing):
+writing, but with luck might make it into the clang-10 release of IWYU):
 
-* https://github.com/include-what-you-use/include-what-you-use/pull/681
+* https://github.com/include-what-you-use/include-what-you-use/pull/775
 
 Once you have IWYU built, build the codebase using cmake, with
 `CMAKE_EXPORT_COMPILE_COMMANDS=ON` on to create a compilation database
@@ -327,8 +342,12 @@ Once you have IWYU built, build the codebase using cmake, with
 Then run:
 
 ```
-iwyu_tool.py -p $CMAKE_BUILD_DIR/compile_commands.json -- -Xiwyu --mapping_file=$PWD/tools/iwyu/cata.imp | fix_includes.py --nosafe_headers
+iwyu_tool.py -p $CMAKE_BUILD_DIR/compile_commands.json -- -Xiwyu --mapping_file=$PWD/tools/iwyu/cata.imp | fix_includes.py --nosafe_headers --reorder
 ```
+
+IWYU will sometimes add C-style library headers which clang-tidy doesn't like,
+so you might need to run clang-tidy (as described above) and then re-run IWYU a
+second time.
 
 There are mapping files in `tools/iwyu` intended to help IWYU pick the right
 headers.  Mostly they should be fairly obvious, but the SDL mappings might

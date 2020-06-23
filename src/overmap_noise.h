@@ -1,6 +1,6 @@
 #pragma once
-#ifndef OVERMAP_NOISE_H
-#define OVERMAP_NOISE_H
+#ifndef CATA_SRC_OVERMAP_NOISE_H
+#define CATA_SRC_OVERMAP_NOISE_H
 
 #include "game_constants.h"
 #include "point.h"
@@ -79,4 +79,4 @@ class om_noise_layer_lake : public om_noise_layer
 
 } // namespace om_noise
 
-#endif
+#endif // CATA_SRC_OVERMAP_NOISE_H

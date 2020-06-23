@@ -13,7 +13,8 @@
     "volume": "10500 ml",
     "bashing": 6,
     "category": "veh_parts",
-    "price": 20000
+    "price": 20000,
+    "price_postapoc": 100
   },
   {
     "type": "GENERIC",

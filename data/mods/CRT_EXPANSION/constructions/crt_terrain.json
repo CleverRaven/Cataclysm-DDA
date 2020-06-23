@@ -10,14 +10,15 @@
     "flags": [ "FLAMMABLE_HARD", "NOITEM", "SUPPORTS_ROOF", "WALL", "AUTO_WALL_SYMBOL" ],
     "connects_to": "WALL",
     "bash": {
-      "str_min": 6,
-      "str_max": 15,
+      "str_min": 4,
+      "str_max": 12,
       "sound": "crunch!",
       "sound_fail": "krick!",
       "ter_set": "t_null",
       "items": [
         { "item": "stick", "count": [ 0, 1 ] },
-        { "item": "pebble", "charges": [ 1, 5 ] },
+        { "item": "pebble", "charges": [ 3, 5 ] },
+        { "item": "material_soil", "charges": [ 10, 30 ] },
         { "item": "splinter", "count": [ 1, 6 ] }
       ]
     }

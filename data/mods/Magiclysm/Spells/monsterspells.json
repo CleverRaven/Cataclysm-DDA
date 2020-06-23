@@ -18,6 +18,24 @@
     "extra_effects": [ { "id": "light_healing", "hit_self": true } ]
   },
   {
+    "id": "bear_trap",
+    "type": "SPELL",
+    "name": "Bear Trap",
+    "description": "A trap that summons bears!  Not what you were expecting, is it?",
+    "valid_targets": [ "ground" ],
+    "flags": [ "HOSTILE_SUMMON", "LOUD" ],
+    "min_damage": 3,
+    "max_damage": 3,
+    "min_aoe": 5,
+    "max_aoe": 5,
+    "sound_description": "\"It's a trap!\"",
+    "min_duration": 30000,
+    "max_duration": 30000,
+    "sound_type": "speech",
+    "effect": "summon",
+    "effect_str": "mon_bear"
+  },
+  {
     "id": "rocket_punch",
     "type": "SPELL",
     "name": "Rocket Punch",

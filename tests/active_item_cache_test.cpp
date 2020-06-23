@@ -1,10 +1,14 @@
+#include <memory>
+#include <set>
+
+#include "calendar.h"
 #include "catch/catch.hpp"
-#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "submap.h"
+#include "point.h"
 
 TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
 {
@@ -29,15 +33,15 @@ TEST_CASE( "place_active_item_at_various_coordinates", "[item]" )
             CAPTURE( x, y, z );
             tripoint abs_loc = g->m.get_abs_sub() + tripoint( x / SEEX, y / SEEY, z );
             CAPTURE( abs_loc.x, abs_loc.y, abs_loc.z );
-            CHECK( g->m.get_submaps_with_active_items().empty() );
-            CHECK( g->m.get_submaps_with_active_items().find( abs_loc ) ==
-                   g->m.get_submaps_with_active_items().end() );
+            REQUIRE( g->m.get_submaps_with_active_items().empty() );
+            REQUIRE( g->m.get_submaps_with_active_items().find( abs_loc ) ==
+                     g->m.get_submaps_with_active_items().end() );
             item &item_ref = g->m.add_item( { x, y, z }, active );
-            CHECK( item_ref.active );
-            CHECK( !g->m.get_submaps_with_active_items().empty() );
-            CHECK( g->m.get_submaps_with_active_items().find( abs_loc ) !=
-                   g->m.get_submaps_with_active_items().end() );
-            CHECK( !g->m.i_at( { x, y, z } ).empty() );
+            REQUIRE( item_ref.active );
+            REQUIRE_FALSE( g->m.get_submaps_with_active_items().empty() );
+            REQUIRE( g->m.get_submaps_with_active_items().find( abs_loc ) !=
+                     g->m.get_submaps_with_active_items().end() );
+            REQUIRE_FALSE( g->m.i_at( { x, y, z } ).empty() );
             g->m.i_clear( { x, y, z } );
         }
     }

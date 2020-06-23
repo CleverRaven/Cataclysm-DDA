@@ -2,18 +2,22 @@
 
 #include "sdl_utils.h"
 
-#include <cstddef>
 #include <array>
+#include <utility>
 
 #include "color.h"
 #include "color_loader.h"
 #include "cursesport.h"
+#include "debug.h"
 #include "sdltiles.h"
 
 color_pixel_function_map builtin_color_pixel_functions = {
     { "color_pixel_none", nullptr },
     { "color_pixel_darken", color_pixel_darken },
-    { "color_pixel_sepia", color_pixel_sepia },
+    { "color_pixel_sepia_light", color_pixel_sepia_light },
+    { "color_pixel_sepia_dark", color_pixel_sepia_dark },
+    { "color_pixel_blue_dark", color_pixel_blue_dark },
+    { "color_pixel_custom", color_pixel_custom },
     { "color_pixel_grayscale", color_pixel_grayscale },
     { "color_pixel_nightvision", color_pixel_nightvision },
     { "color_pixel_overexposed", color_pixel_overexposed },
@@ -97,10 +101,9 @@ SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer )
 
     const int w = factor * inner.w;
     const int h = factor * inner.h;
-    const int x = outer.x + ( outer.w - w ) / 2;
-    const int y = outer.y + ( outer.h - h ) / 2;
+    const point p( outer.x + ( outer.w - w ) / 2, outer.y + ( outer.h - h ) / 2 );
 
-    return SDL_Rect{ x, y, w, h };
+    return SDL_Rect{ p.x, p.y, w, h };
 }
 
 #endif // SDL_TILES

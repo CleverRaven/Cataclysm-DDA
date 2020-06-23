@@ -99,6 +99,14 @@
         "R": { "item": "oa_ig_rd_metal_trash", "chance": 15 },
         "w": { "item": "oa_ig_rd_metal_trash", "chance": 45 }
       },
+      "place_npcs": [
+        { "class": "bandit", "x": 50, "y": 12 },
+        { "class": "thug", "x": 54, "y": 10 },
+        { "class": "bandit", "x": 62, "y": 14 },
+        { "class": "thug", "x": 56, "y": 16 },
+        { "class": "thug", "x": 64, "y": 18 },
+        { "class": "thug", "x": 28, "y": 12 }
+      ],
       "place_vehicles": [
         { "vehicle": "motorcycle", "x": 56, "y": 16, "rotation": 180, "chance": 50, "status": 0 },
         { "vehicle": "motorcycle_cross", "x": 56, "y": 18, "rotation": 180, "chance": 50, "status": 0 },
@@ -145,6 +153,27 @@
         ".|,|.,....,...g.pg.g.Gg.2^Gg.g^.p^.p............2........$$.$..a^^ppppp2ppp^aa^.a......,..,.|.|."
       ],
       "palettes": [ "regional_dump" ],
+      "place_npcs": [
+        { "class": "thug", "x": 25, "y": 41 },
+        { "class": "thug", "x": 40, "y": 6 },
+        { "class": "thug", "x": 40, "y": 16 },
+        { "class": "bandit", "x": 47, "y": 13 },
+        { "class": "thug", "x": 47, "y": 15 },
+        { "class": "bandit", "x": 48, "y": 16 },
+        { "class": "thug", "x": 49, "y": 12 },
+        { "class": "bandit", "x": 51, "y": 14 },
+        { "class": "bandit", "x": 55, "y": 5 },
+        { "class": "bandit", "x": 56, "y": 13 },
+        { "class": "bandit", "x": 56, "y": 11 },
+        { "class": "bandit", "x": 59, "y": 13 },
+        { "class": "thug", "x": 63, "y": 6 },
+        { "class": "bandit", "x": 63, "y": 18 },
+        { "class": "thug", "x": 66, "y": 12 },
+        { "class": "thug", "x": 64, "y": 6 },
+        { "class": "thug", "x": 67, "y": 11 },
+        { "class": "thug", "x": 75, "y": 4 },
+        { "class": "thug", "x": 75, "y": 19 }
+      ],
       "set": [ { "point": "trap", "id": "tr_funnel", "x": 52, "y": 16 }, { "point": "trap", "id": "tr_funnel", "x": 52, "y": 17 } ],
       "terrain": {
         "%": "t_pit_spiked",

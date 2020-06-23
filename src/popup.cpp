@@ -4,10 +4,11 @@
 #include <array>
 #include <memory>
 
+#include "catacharset.h"
 #include "ime.h"
 #include "input.h"
 #include "output.h"
-#include "catacharset.h"
+#include "ui_manager.h"
 
 extern bool test_mode;
 
@@ -129,13 +130,13 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
 void query_popup::invalidate_ui() const
 {
     if( win ) {
-        werase( win );
-        wrefresh( win );
-        catacurses::refresh();
-        refresh_display();
         win = {};
         folded_msg.clear();
         buttons.clear();
+    }
+    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
+    if( ui ) {
+        ui->mark_resize();
     }
 }
 
@@ -143,8 +144,6 @@ constexpr int border_width = 1;
 
 void query_popup::init() const
 {
-    invalidate_ui();
-
     constexpr int horz_padding = 2;
     constexpr int vert_padding = 1;
     const int max_line_width = FULL_SCREEN_WIDTH - border_width * 2;
@@ -208,6 +207,11 @@ void query_popup::init() const
     const int win_x = ( TERMX - win_width ) / 2;
     const int win_y = ontop ? 0 : ( TERMY - win_height ) / 2;
     win = catacurses::newwin( win_height, win_width, point( win_x, win_y ) );
+
+    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
+    if( ui ) {
+        ui->position_from_window( win );
+    }
 }
 
 void query_popup::show() const
@@ -232,11 +236,23 @@ void query_popup::show() const
                             col, col, btn.text );
     }
 
-    wrefresh( win );
-    // Need to refresh display when displaying popups wihout taking input, such
-    // as during saving.
-    catacurses::refresh();
-    refresh_display();
+    wnoutrefresh( win );
+}
+
+std::shared_ptr<ui_adaptor> query_popup::create_or_get_adaptor()
+{
+    std::shared_ptr<ui_adaptor> ui = adaptor.lock();
+    if( !ui ) {
+        adaptor = ui = std::make_shared<ui_adaptor>();
+        ui->on_redraw( [this]( const ui_adaptor & ) {
+            show();
+        } );
+        ui->on_screen_resize( [this]( ui_adaptor & ) {
+            init();
+        } );
+        ui->mark_resize();
+    }
+    return ui;
 }
 
 query_popup::result query_popup::query_once()
@@ -249,7 +265,9 @@ query_popup::result query_popup::query_once()
         return { false, "ERROR", {} };
     }
 
-    show();
+    std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
+
+    ui_manager::redraw();
 
     input_context ctxt( category );
     if( cancel || !options.empty() ) {
@@ -280,9 +298,9 @@ query_popup::result query_popup::query_once()
         res.evt = ctxt.get_raw_input();
     } while(
         // Always ignore mouse movement
-        ( res.evt.type == CATA_INPUT_MOUSE && res.evt.get_first_input() == MOUSE_MOVE ) ||
+        ( res.evt.type == input_event_t::mouse && res.evt.get_first_input() == MOUSE_MOVE ) ||
         // Ignore window losing focus in SDL
-        ( res.evt.type == CATA_INPUT_KEYBOARD && res.evt.sequence.empty() )
+        ( res.evt.type == input_event_t::keyboard && res.evt.sequence.empty() )
     );
 
     if( cancel && res.action == "QUIT" ) {
@@ -326,15 +344,12 @@ query_popup::result query_popup::query()
 {
     ime_sentry sentry( ime_sentry::disable );
 
+    std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
+
     result res;
     do {
         res = query_once();
     } while( res.wait_input );
-    // Erase the window so there's feedback during consecutive popups
-    werase( win );
-    wrefresh( win );
-    catacurses::refresh();
-    refresh_display();
     return res;
 }
 
@@ -371,4 +386,9 @@ query_popup::query_option::query_option(
 query_popup::button::button( const std::string &text, const point &p )
     : text( text ), pos( p )
 {
+}
+
+static_popup::static_popup()
+{
+    ui = create_or_get_adaptor();
 }

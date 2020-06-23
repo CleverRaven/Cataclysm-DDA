@@ -352,5 +352,112 @@
     "type": "overmap_terrain",
     "id": "wizardtower2_roof",
     "copy-from": "wizardtower1_ground"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_tomb",
+    "name": "forest",
+    "sym": "F",
+    "color": "brown",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_tomb_roof",
+    "copy-from": "forest_tomb"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "forest_tomb_bottom",
+    "copy-from": "forest_tomb"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_ground",
+    "name": "magic academy",
+    "sym": "#",
+    "color": "light_blue",
+    "see_cost": 5,
+    "mondensity": 2,
+    "flags": [ "SIDEWALK" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_2nd",
+    "name": "magic academy",
+    "sym": "#",
+    "color": "light_blue",
+    "mondensity": 2,
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_3rd",
+    "name": "magic academy",
+    "sym": "#",
+    "color": "light_blue",
+    "mondensity": 2,
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_4th",
+    "name": "magic academy",
+    "sym": "#",
+    "color": "light_blue",
+    "mondensity": 2,
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_5th",
+    "name": "magic academy",
+    "sym": "#",
+    "color": "light_blue",
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_6th",
+    "name": "magic academy",
+    "sym": "#",
+    "color": "light_blue",
+    "mondensity": 2,
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_7th",
+    "name": "magic academy",
+    "sym": "#",
+    "color": "light_blue",
+    "mondensity": 2,
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_8th",
+    "name": "magic academy",
+    "sym": "#",
+    "color": "light_blue",
+    "mondensity": 2,
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_basement",
+    "name": "magic academy",
+    "sym": "#",
+    "color": "light_blue",
+    "mondensity": 2,
+    "see_cost": 5
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "magic_academy_roof",
+    "name": "magic academy",
+    "sym": "#",
+    "color": "light_blue",
+    "see_cost": 5
   }
 ]

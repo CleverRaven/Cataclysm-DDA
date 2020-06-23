@@ -8,11 +8,13 @@
     "weight": "118 g",
     "volume": "250 ml",
     "price": 2500,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "500",
+    "ammo_type": [ "500" ],
     "capacity": 5,
-    "flags": [ "SPEEDLOADER" ]
+    "flags": [ "SPEEDLOADER" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "500": 5 } } ]
   }
 ]
