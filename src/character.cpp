@@ -5446,7 +5446,8 @@ void Character::update_bodytemp()
                                -1.5f * get_fatigue() ) );
 
     // Sunlight
-    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( g->weather.weather == WEATHER_SUNNY ?
+    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( weather::sun_intensity(
+                                    g->weather.weather ) == sun_intensity_type::high ?
                                 1000 :
                                 500 ) : 0;
     const int best_fire = get_heat_radiation( pos(), true );

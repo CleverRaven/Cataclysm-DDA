@@ -141,6 +141,7 @@ weather_animation_t get_weather_animation( weather_type type );
 int sound_category( weather_type const type );
 sun_intensity_type sun_intensity( weather_type type );
 weather_type get_bad_weather();
+int get_weather_count();
 } // namespace weather
 
 std::string get_shortdirstring( int angle );

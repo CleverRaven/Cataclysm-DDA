@@ -138,6 +138,10 @@ weather_type get_bad_weather()
     }
     return bad_weather;
 }
+int get_weather_count()
+{
+    return weather_datums.size();
+}
 } // namespace weather
 
 ///@}

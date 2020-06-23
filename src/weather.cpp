@@ -992,9 +992,6 @@ void weather_manager::update_weather()
         weather = weather_override == WEATHER_NULL ?
                   weather_gen.get_weather_conditions( w )
                   : weather_override;
-        if( weather == WEATHER_SUNNY && is_night( calendar::turn ) ) {
-            weather = WEATHER_CLEAR;
-        }
         if( !g->u.has_artifact_with( AEP_BAD_WEATHER ) ) {
             weather_override = WEATHER_NULL;
         }
