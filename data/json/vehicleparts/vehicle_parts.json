@@ -2813,7 +2813,7 @@
       "repair": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
     },
     "flags": [ "INTERNAL", "RECHARGE", "FOLDABLE", "ENABLED_DRAINS_EPOWER" ],
-    "folded_volume": "2 L ",
+    "folded_volume": "2 L",
     "breaks_into": [
       { "item": "steel_chunk", "count": [ 0, 2 ] },
       { "item": "scrap", "count": [ 1, 2 ] },
