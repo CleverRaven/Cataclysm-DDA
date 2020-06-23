@@ -147,7 +147,7 @@
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
-    "id": "f_char_smoker",
+    "id": "pseudo_char_smoker",
     "type": "TOOL",
     "name": { "str": "smoking rack" },
     "description": "This is a crafting_pseudo_item if you have it something is wrong.",
@@ -158,7 +158,7 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
     "sub": "char_smoker",
     "max_charges": 2000,
-    "flags": [ "ALLOWS_REMOTE_USE" ]
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   },
   {
     "id": "charcoal_cooker",
