@@ -46,6 +46,8 @@ class item_contents
         ret_val<bool> can_contain_rigid( const item &it ) const;
         ret_val<bool> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+        // does not ignore mods
+        bool empty_real() const;
         bool empty() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
         bool empty_container() const;
