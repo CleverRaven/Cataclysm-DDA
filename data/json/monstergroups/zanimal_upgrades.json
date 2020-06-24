@@ -1,0 +1,30 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOMBEAR_UPGRADE",
+    "default": "mon_zombear_skeleton",
+    "//": "No bionics or fungal",
+    "monsters": [
+      { "monster": "mon_zombear_skeleton", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_zombear_acidic", "freq": 45, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOOSE_UPGRADE",
+    "default": "mon_zoose_brute",
+    "monsters": [
+      { "monster": "mon_zoose_brute", "freq": 23, "cost_multiplier": 15 },
+      { "monster": "mon_zoose_thorny", "freq": 13, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOUGAR_UPGRADE",
+    "default": "mon_zougar_hunter",
+    "monsters": [
+      { "monster": "mon_zougar_hunter", "freq": 30, "cost_multiplier": 5 },
+      { "monster": "mon_zougar_shady", "freq": 15, "cost_multiplier": 5 }
+    ]
+  }
+]

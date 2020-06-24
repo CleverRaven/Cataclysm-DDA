@@ -285,7 +285,7 @@
     ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ], [ [ "can_sealer", -1 ] ] ],
     "components": [
-      [ [ "canister_empty", 1 ], [ "can_food_unsealed", 1 ] ],
+      [ [ "canister_empty", 1 ], [ "can_food", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "liver", 4 ] ]

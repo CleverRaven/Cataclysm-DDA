@@ -453,13 +453,19 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             if( type != nullptr ) {
                 const itype *ammo = f.crafting_ammo_item_type();
                 item furn_item( type, calendar::turn, 0 );
+                if( furn_item.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
+                    // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
+                    item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
+                    furn_item.put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
+                } else {
+                    debugmsg( "ERROR: Furniture crafting pseudo item does not have magazine for ammo" );
+                }
                 furn_item.item_tags.insert( "PSEUDO" );
-                furn_item.charges = ammo ? count_charges_in_list( ammo, m.i_at( p ) ) : 0;
                 add_item( furn_item );
             }
         }
         if( m.accessible_items( p ) ) {
-            for( auto &i : m.i_at( p ) ) {
+            for( item &i : m.i_at( p ) ) {
                 // if it's *the* player requesting this from from map inventory
                 // then don't allow items owned by another faction to be factored into recipe components etc.
                 if( pl && !i.is_owned_by( *pl, true ) ) {
@@ -485,7 +491,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
         // crafting
         if( m.furn( p ).obj().examine == &iexamine::toilet ) {
             // get water charges at location
-            auto toilet = m.i_at( p );
+            map_stack toilet = m.i_at( p );
             auto water = toilet.end();
             for( auto candidate = toilet.begin(); candidate != toilet.end(); ++candidate ) {
                 if( candidate->typeId() == itype_water ) {
@@ -500,7 +506,7 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 
         // keg-kludge
         if( m.furn( p ).obj().examine == &iexamine::keg ) {
-            auto liq_contained = m.i_at( p );
+            map_stack liq_contained = m.i_at( p );
             for( auto &i : liq_contained ) {
                 if( i.made_of( phase_id::LIQUID ) ) {
                     add_item( i );

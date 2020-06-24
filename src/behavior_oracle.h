@@ -8,7 +8,7 @@
 
 namespace behavior
 {
-enum status_t : char;
+enum class status_t : char;
 
 /**
  * An oracle is a class in charge of introspecting into a game entity in a particular way.

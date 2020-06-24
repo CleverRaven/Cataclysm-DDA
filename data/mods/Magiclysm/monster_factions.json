@@ -17,5 +17,9 @@
     "type": "MONSTER_FACTION",
     "name": "lizardfolk",
     "friendly": [ "dragon_black", "ooze", "lizardfolk" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "goblin"
   }
 ]

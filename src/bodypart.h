@@ -154,7 +154,6 @@ class body_part_set
 
         void fill( const std::vector<bodypart_id> &bps );
 
-
         bool test( const bodypart_str_id &bp ) const {
             return parts.count( bp ) > 0;
         }

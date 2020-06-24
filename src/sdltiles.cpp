@@ -255,7 +255,6 @@ static std::vector<curseline> oversized_framebuffer;
 static std::vector<curseline> terminal_framebuffer;
 static std::weak_ptr<void> winBuffer; //tracking last drawn window to fix the framebuffer
 static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
-extern catacurses::window w_hit_animation; //this window overlays w_terrain which can be oversized
 
 //***********************************
 //Non-curses, Window functions      *
@@ -1033,16 +1032,22 @@ static void invalidate_framebuffer( std::vector<curseline> &framebuffer )
 
 void reinitialize_framebuffer()
 {
+    static int prev_height = -1;
+    static int prev_width = -1;
     //Re-initialize the framebuffer with new values.
-    const int new_height = std::max( TERMY, std::max( OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT ) );
-    const int new_width = std::max( TERMX, std::max( OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH ) );
-    oversized_framebuffer.resize( new_height );
-    for( int i = 0; i < new_height; i++ ) {
-        oversized_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
-    }
-    terminal_framebuffer.resize( new_height );
-    for( int i = 0; i < new_height; i++ ) {
-        terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
+    const int new_height = std::max( { TERMY, OVERMAP_WINDOW_HEIGHT, TERRAIN_WINDOW_HEIGHT } );
+    const int new_width = std::max( { TERMX, OVERMAP_WINDOW_WIDTH, TERRAIN_WINDOW_WIDTH } );
+    if( new_height != prev_height || new_width != prev_width ) {
+        prev_height = new_height;
+        prev_width = new_width;
+        oversized_framebuffer.resize( new_height );
+        for( int i = 0; i < new_height; i++ ) {
+            oversized_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
+        }
+        terminal_framebuffer.resize( new_height );
+        for( int i = 0; i < new_height; i++ ) {
+            terminal_framebuffer[i].chars.assign( new_width, cursecell( "" ) );
+        }
     }
 }
 
@@ -1060,19 +1065,18 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
     if( !g || win == nullptr ) {
         return;
     }
-    if( win == g->w_overmap || win == g->w_terrain || win == w_hit_animation ) {
+    if( win == g->w_overmap || win == g->w_terrain ) {
         return;
     }
 
     // track the dimensions for conversion
-    const int termpixel_x = win->pos.x * font->fontwidth;
-    const int termpixel_y = win->pos.y * font->fontheight;
-    const int termpixel_x2 = termpixel_x + win->width * font->fontwidth - 1;
-    const int termpixel_y2 = termpixel_y + win->height * font->fontheight - 1;
+    const point termpixel( win->pos.x * font->fontwidth, win->pos.y * font->fontheight );
+    const int termpixel_x2 = termpixel.x + win->width * font->fontwidth - 1;
+    const int termpixel_y2 = termpixel.y + win->height * font->fontheight - 1;
 
     if( map_font != nullptr && map_font->fontwidth != 0 && map_font->fontheight != 0 ) {
-        const int mapfont_x = termpixel_x / map_font->fontwidth;
-        const int mapfont_y = termpixel_y / map_font->fontheight;
+        const int mapfont_x = termpixel.x / map_font->fontwidth;
+        const int mapfont_y = termpixel.y / map_font->fontheight;
         const int mapfont_x2 = std::min( termpixel_x2 / map_font->fontwidth, oversized_width - 1 );
         const int mapfont_y2 = std::min( termpixel_y2 / map_font->fontheight, oversized_height - 1 );
         const int mapfont_width = mapfont_x2 - mapfont_x + 1;
@@ -1082,8 +1086,8 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
     }
 
     if( overmap_font != nullptr && overmap_font->fontwidth != 0 && overmap_font->fontheight != 0 ) {
-        const int overmapfont_x = termpixel_x / overmap_font->fontwidth;
-        const int overmapfont_y = termpixel_y / overmap_font->fontheight;
+        const int overmapfont_x = termpixel.x / overmap_font->fontwidth;
+        const int overmapfont_y = termpixel.y / overmap_font->fontheight;
         const int overmapfont_x2 = std::min( termpixel_x2 / overmap_font->fontwidth, oversized_width - 1 );
         const int overmapfont_y2 = std::min( termpixel_y2 / overmap_font->fontheight,
                                              oversized_height - 1 );
@@ -1236,13 +1240,6 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
     } else if( g && w == g->w_overmap && overmap_font ) {
         // Special font for the terrain window
         update = overmap_font->draw_window( w );
-    } else if( w == w_hit_animation && map_font ) {
-        // The animation window overlays the terrain window,
-        // it uses the same font, but it's only 1 square in size.
-        // The offset must not use the global font, but the map font
-        int offsetx = win->pos.x * map_font->fontwidth;
-        int offsety = win->pos.y * map_font->fontheight;
-        update = map_font->draw_window( w, point( offsetx, offsety ) );
     } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
         // ensure the space the minimap covers is "dirtied".
         // this is necessary when it's the only part of the sidebar being drawn
@@ -1298,8 +1295,7 @@ bool Font::draw_window( const catacurses::window &w, const point &offset )
     invalidate_framebuffer_proportion( win );
 
     // use the oversize buffer when dealing with windows that can have a different font than the main text font
-    bool use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap ||
-                                            w == w_hit_animation );
+    bool use_oversized_framebuffer = g && ( w == g->w_terrain || w == g->w_overmap );
 
     std::vector<curseline> &framebuffer = use_oversized_framebuffer ? oversized_framebuffer :
                                           terminal_framebuffer;
@@ -1773,12 +1769,22 @@ bool handle_resize( int w, int h )
         WindowHeight = h;
         TERMINAL_WIDTH = WindowWidth / fontwidth / scaling_factor;
         TERMINAL_HEIGHT = WindowHeight / fontheight / scaling_factor;
+        catacurses::stdscr = catacurses::newwin( TERMINAL_HEIGHT, TERMINAL_WIDTH, point_zero );
         SetupRenderTarget();
         game_ui::init_ui();
         ui_manager::screen_resized();
         return true;
     }
     return false;
+}
+
+void resize_term( const int cell_w, const int cell_h )
+{
+    int w = cell_w * fontwidth * scaling_factor;
+    int h = cell_h * fontheight * scaling_factor;
+    SDL_SetWindowSize( window.get(), w, h );
+    SDL_GetWindowSize( window.get(), &w, &h );
+    handle_resize( w, h );
 }
 
 void toggle_fullscreen_window()
@@ -3427,8 +3433,7 @@ int projected_window_height()
 static void init_term_size_and_scaling_factor()
 {
     scaling_factor = 1;
-    int terminal_x = get_option<int>( "TERMINAL_X" );
-    int terminal_y = get_option<int>( "TERMINAL_Y" );
+    point terminal( get_option<int>( "TERMINAL_X" ), get_option<int>( "TERMINAL_Y" ) );
 
 #if !defined(__ANDROID__)
 
@@ -3476,50 +3481,50 @@ static void init_term_size_and_scaling_factor()
             max_height = INT_MAX;
         }
 
-        if( terminal_x * fontwidth > max_width ||
+        if( terminal.x * fontwidth > max_width ||
             FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
             if( FULL_SCREEN_WIDTH * fontwidth * scaling_factor > max_width ) {
                 dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
                 scaling_factor = 1;
-                terminal_x = max_width / fontwidth;
-                terminal_y = max_height / fontheight;
+                terminal.x = max_width / fontwidth;
+                terminal.y = max_height / fontheight;
                 get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
             } else {
-                terminal_x = max_width / fontwidth;
+                terminal.x = max_width / fontwidth;
             }
         }
 
-        if( terminal_y * fontheight > max_height ||
+        if( terminal.y * fontheight > max_height ||
             FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
             if( FULL_SCREEN_HEIGHT * fontheight * scaling_factor > max_height ) {
                 dbg( D_WARNING ) << "SCALING_FACTOR set too high for display size, resetting to 1";
                 scaling_factor = 1;
-                terminal_x = max_width / fontwidth;
-                terminal_y = max_height / fontheight;
+                terminal.x = max_width / fontwidth;
+                terminal.y = max_height / fontheight;
                 get_options().get_option( "SCALING_FACTOR" ).setValue( "1" );
             } else {
-                terminal_y = max_height / fontheight;
+                terminal.y = max_height / fontheight;
             }
         }
 
-        terminal_x -= terminal_x % scaling_factor;
-        terminal_y -= terminal_y % scaling_factor;
+        terminal.x -= terminal.x % scaling_factor;
+        terminal.y -= terminal.y % scaling_factor;
 
-        terminal_x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x );
-        terminal_y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y );
+        terminal.x = std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal.x );
+        terminal.y = std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal.y );
 
         get_options().get_option( "TERMINAL_X" ).setValue(
-            std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal_x ) );
+            std::max( FULL_SCREEN_WIDTH * scaling_factor, terminal.x ) );
         get_options().get_option( "TERMINAL_Y" ).setValue(
-            std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal_y ) );
+            std::max( FULL_SCREEN_HEIGHT * scaling_factor, terminal.y ) );
 
         get_options().save();
     }
 
 #endif //__ANDROID__
 
-    TERMINAL_WIDTH = terminal_x / scaling_factor;
-    TERMINAL_HEIGHT = terminal_y / scaling_factor;
+    TERMINAL_WIDTH = terminal.x / scaling_factor;
+    TERMINAL_HEIGHT = terminal.y / scaling_factor;
 }
 
 //Basic Init, create the font, backbuffer, etc
@@ -3717,7 +3722,7 @@ bool gamepad_available()
 void rescale_tileset( int size )
 {
     tilecontext->set_draw_scale( size );
-    game_ui::init_ui();
+    g->mark_main_ui_adaptor_resize();
 }
 
 static window_dimensions get_window_dimensions( const catacurses::window &win,
@@ -3790,8 +3795,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     // Translate mouse coordinates to map coordinates based on tile size
     // Check if click is within bounds of the window we care about
-    const rectangle win_bounds( win_min, win_max );
-    if( !win_bounds.contains_inclusive( coordinate ) ) {
+    const inclusive_rectangle win_bounds( win_min, win_max );
+    if( !win_bounds.contains( coordinate ) ) {
         return cata::nullopt;
     }
 

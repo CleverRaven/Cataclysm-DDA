@@ -9,7 +9,7 @@
     "volume": "250 ml",
     "price": 2200,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "454", "45colt", "410shot" ],

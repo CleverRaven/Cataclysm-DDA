@@ -30,7 +30,7 @@
         "targeting_sound": "a faint buzz",
         "description": "Lightning arcs from the leech blossom!"
       },
-      [ "LEECH_SPAWNER", 25 ],
+      [ "LEECH_SPAWNER", 75 ],
       [ "MON_LEECH_EVOLUTION", 40 ],
       [ "PARROT", 40 ]
     ],
@@ -78,6 +78,32 @@
     "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
   },
   {
+    "id": "mon_leech_radio",
+    "type": "MONSTER",
+    "name": "signal tree",
+    "description": "A trunk reaches tall into the sky, its topmost branches glowing with yellow light.  A low drum periodically shakes its vicinities.",
+    "default_faction": "nether",
+    "species": [ "LEECH_PLANT" ],
+    "volume": "30000 ml",
+    "weight": "40 kg",
+    "hp": 40,
+    "speed": 100,
+    "diff": 20,
+    "material": [ "flesh" ],
+    "symbol": "↑",
+    "color": "light_blue",
+    "aggression": 100,
+    "morale": 100,
+    "armor_bash": 15,
+    "vision_day": 30,
+    "vision_night": 8,
+    "luminance": 200,
+    "special_when_hit": [ "ZAPBACK", 100 ],
+    "death_drops": {  },
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "NOHEAD", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
+  },
+  {
     "id": "mon_leech_pod_cluster",
     "type": "MONSTER",
     "name": { "str": "leech pod cluster" },
@@ -105,7 +131,7 @@
         "targeting_sound": "a faint buzz",
         "description": "Lightning arcs from the pod cluster!"
       },
-      [ "LEECH_SPAWNER", 35 ]
+      [ "LEECH_SPAWNER", 120 ]
     ],
     "harvest": "flesh_plant",
     "death_function": [ "NORMAL" ],

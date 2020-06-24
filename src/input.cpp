@@ -33,6 +33,7 @@
 #include "ui_manager.h"
 #include "color.h"
 #include "point.h"
+#include "sdltiles.h"
 
 using std::min; // from <algorithm>
 using std::max;
@@ -1119,7 +1120,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
             mvwprintz( w_help, point( 52, i + 10 ), col, "%s", get_desc( action_id ) );
         }
 
-        // spopup.query_string() will call wrefresh( w_help )
+        // spopup.query_string() will call wnoutrefresh( w_help )
         spopup.text( filter_phrase );
         spopup.query_string( false, true );
     };
@@ -1282,8 +1283,6 @@ action_id input_context::display_menu( const bool permit_execute_action )
     } else if( changed ) {
         inp_mngr.action_contexts.swap( old_action_contexts );
     }
-    werase( w_help );
-    wrefresh( w_help );
 
     return action_to_execute;
 }
@@ -1335,8 +1334,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
     const point win_min( getbegx( capture_win ),
                          getbegy( capture_win ) );
-    const rectangle win_bounds( win_min, win_min + view_size );
-    if( !win_bounds.contains_half_open( coordinate ) ) {
+    const half_open_rectangle win_bounds( win_min, win_min + view_size );
+    if( !win_bounds.contains( coordinate ) ) {
         return cata::nullopt;
     }
 
@@ -1349,6 +1348,39 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     return tripoint( p, g->get_levz() );
 }
 #endif
+
+std::pair<point, bool> input_context::get_coordinates_text( const catacurses::window
+        &capture_win ) const
+{
+#if !defined( TILES )
+    ( void ) capture_win;
+    return std::make_pair( point(), false );
+#else
+    if( !coordinate_input_received ) {
+        return std::make_pair( point(), false );
+    }
+
+    const window_dimensions dim = get_window_dimensions( capture_win );
+
+    const int &fw = dim.scaled_font_size.x;
+    const int &fh = dim.scaled_font_size.y;
+    const point &win_min = dim.window_pos_pixel;
+    const point &win_size = dim.window_size_pixel;
+    const point win_max = win_min + win_size;
+
+    const half_open_rectangle win_bounds( win_min, win_max );
+
+    const point screen_pos = coordinate - win_min;
+    const point selected( divide_round_down( screen_pos.x, fw ),
+                          divide_round_down( screen_pos.y, fh ) );
+
+    if( !win_bounds.contains( coordinate ) ) {
+        return std::make_pair( selected, false );
+    }
+
+    return std::make_pair( selected, true );
+#endif
+}
 
 std::string input_context::get_action_name( const std::string &action_id ) const
 {

@@ -48,6 +48,12 @@ struct inventory_input;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
+struct inventory_entry_drawn_info {
+    int text_x_start;
+    int text_x_end;
+    int y;
+};
+
 class inventory_entry
 {
     public:
@@ -122,6 +128,8 @@ class inventory_entry
         int get_invlet() const;
         nc_color get_invlet_color() const;
         void update_cache();
+
+        inventory_entry_drawn_info drawn_info;
 
     private:
         const item_category *custom_category = nullptr;
@@ -290,7 +298,7 @@ class inventory_column
 
         inventory_entry *find_by_invlet( int invlet ) const;
 
-        void draw( const catacurses::window &win, size_t x, size_t y ) const;
+        void draw( const catacurses::window &win, const point & );
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
@@ -571,6 +579,8 @@ class inventory_selector
         /** @return an entry from all entries by its invlet */
         inventory_entry *find_entry_by_invlet( int invlet ) const;
 
+        inventory_entry *find_entry_by_coordinate( point coordinate ) const;
+
         const std::vector<inventory_column *> &get_all_columns() const {
             return columns;
         }
@@ -583,11 +593,11 @@ class inventory_selector
         void prepare_layout();
 
         void resize_window( int width, int height );
-        void refresh_window() const;
+        void refresh_window();
 
         void draw_header( const catacurses::window &w ) const;
         void draw_footer( const catacurses::window &w ) const;
-        void draw_columns( const catacurses::window &w ) const;
+        void draw_columns( const catacurses::window &w );
         void draw_frame( const catacurses::window &w ) const;
 
     public:
@@ -759,5 +769,4 @@ class inventory_drop_selector : public inventory_multiselector
         std::vector<std::pair<item_location, int>> dropping;
         size_t max_chosen_count;
 };
-
 #endif // CATA_SRC_INVENTORY_UI_H

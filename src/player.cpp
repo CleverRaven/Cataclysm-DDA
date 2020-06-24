@@ -217,9 +217,9 @@ stat_mod player::get_pain_penalty() const
     }
 
     if( !has_trait( trait_INT_SLIME ) ) {
-        ret.intelligence = 1 + stat_penalty;
+        ret.intelligence = stat_penalty;
     } else {
-        ret.intelligence = 1 + pain / 5;
+        ret.intelligence = pain / 5;
     }
 
     ret.perception = stat_penalty * 2 / 3;
@@ -836,6 +836,7 @@ void player::pause()
     }
 
     search_surroundings();
+    wait_effects();
 }
 
 void player::search_surroundings()
@@ -2445,34 +2446,6 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     return true;
 }
 
-hint_rating player::rate_action_wear( const item &it ) const
-{
-    // TODO: flag already-worn items as hint_rating::iffy
-
-    if( !it.is_armor() ) {
-        return hint_rating::cant;
-    }
-
-    return can_wear( it ).success() ? hint_rating::good : hint_rating::iffy;
-}
-
-bool player::can_reload( const item &it, const itype_id &ammo ) const
-{
-
-    if( !it.is_reloadable_with( ammo ) ) {
-        return false;
-    }
-
-    if( it.is_ammo_belt() ) {
-        const auto &linkage = it.type->magazine->linkage;
-        if( linkage && !has_charges( *linkage, 1 ) ) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 void player::mend_item( item_location &&obj, bool interactive )
 {
     if( has_trait( trait_DEBUG_HS ) ) {
@@ -2762,19 +2735,6 @@ player::wear( item &to_wear, bool interactive )
     return result;
 }
 
-hint_rating player::rate_action_takeoff( const item &it ) const
-{
-    if( !it.is_armor() ) {
-        return hint_rating::cant;
-    }
-
-    if( is_worn( it ) ) {
-        return hint_rating::good;
-    }
-
-    return hint_rating::iffy;
-}
-
 ret_val<bool> player::can_takeoff( const item &it, const std::list<item> *res )
 {
     auto iter = std::find_if( worn.begin(), worn.end(), [ &it ]( const item & wit ) {
@@ -3028,107 +2988,6 @@ bool player::unload( item_location &loc )
 void player::use_wielded()
 {
     use( -1 );
-}
-
-hint_rating player::rate_action_reload( const item &it ) const
-{
-    hint_rating res = hint_rating::cant;
-
-    // Guns may contain additional reloadable mods so check these first
-    for( const auto mod : it.gunmods() ) {
-        switch( rate_action_reload( *mod ) ) {
-            case hint_rating::good:
-                return hint_rating::good;
-
-            case hint_rating::cant:
-                continue;
-
-            case hint_rating::iffy:
-                res = hint_rating::iffy;
-        }
-    }
-
-    if( !it.is_reloadable() ) {
-        return res;
-    }
-
-    return can_reload( it ) ? hint_rating::good : hint_rating::iffy;
-}
-
-hint_rating player::rate_action_unload( const item &it ) const
-{
-    if( it.is_container() && !it.contents.empty() &&
-        it.can_unload_liquid() ) {
-        return hint_rating::good;
-    }
-
-    if( it.has_flag( "NO_UNLOAD" ) ) {
-        return hint_rating::cant;
-    }
-
-    if( it.magazine_current() ) {
-        return hint_rating::good;
-    }
-
-    for( auto e : it.gunmods() ) {
-        if( e->is_gun() && !e->has_flag( "NO_UNLOAD" ) &&
-            ( e->magazine_current() || e->ammo_remaining() > 0 || e->casings_count() > 0 ) ) {
-            return hint_rating::good;
-        }
-    }
-
-    if( it.ammo_types().empty() ) {
-        return hint_rating::cant;
-    }
-
-    if( it.ammo_remaining() > 0 || it.casings_count() > 0 ) {
-        return hint_rating::good;
-    }
-
-    return hint_rating::iffy;
-}
-
-hint_rating player::rate_action_mend( const item &it ) const
-{
-    // TODO: check also if item damage could be repaired via a tool
-    if( !it.faults.empty() ) {
-        return hint_rating::good;
-    }
-    return it.faults_potential().empty() ? hint_rating::cant : hint_rating::iffy;
-}
-
-hint_rating player::rate_action_disassemble( const item &it )
-{
-    if( can_disassemble( it, crafting_inventory() ).success() ) {
-        return hint_rating::good; // possible
-
-    } else if( recipe_dictionary::get_uncraft( it.typeId() ) ) {
-        return hint_rating::iffy; // potentially possible but we currently lack requirements
-
-    } else {
-        return hint_rating::cant; // never possible
-    }
-}
-
-hint_rating player::rate_action_use( const item &it ) const
-{
-    if( it.is_tool() ) {
-        return it.ammo_sufficient() ? hint_rating::good : hint_rating::iffy;
-
-    } else if( it.is_gunmod() ) {
-        /** @EFFECT_GUN >0 allows rating estimates for gun modifications */
-        if( get_skill_level( skill_gun ) == 0 ) {
-            return hint_rating::iffy;
-        } else {
-            return hint_rating::good;
-        }
-    } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
-        return hint_rating::iffy; //the rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
-    } else if( it.type->has_use() ) {
-        return hint_rating::good;
-    }
-
-    return hint_rating::cant;
 }
 
 void player::use( int inventory_position )
@@ -3782,11 +3641,11 @@ float player::fine_detail_vision_mod( const tripoint &p ) const
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
     // Therefore give a hefty bonus relative to ambient light.
-    float own_light = std::max( 1.0, LIGHT_AMBIENT_LIT - active_light() - 2 );
+    float own_light = std::max( 1.0f, LIGHT_AMBIENT_LIT - active_light() - 2.0f );
 
     // Same calculation as above, but with a result 3 lower.
-    float ambient_light = std::max( 1.0,
-                                    LIGHT_AMBIENT_LIT - g->m.ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0 );
+    float ambient_light = std::max( 1.0f,
+                                    LIGHT_AMBIENT_LIT - g->m.ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
 
     return std::min( own_light, ambient_light );
 }
@@ -3950,8 +3809,7 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
     } );
 }
 
-// mytest return weapon name to display in sidebar
-std::string player::weapname( unsigned int truncate ) const
+std::string player::weapname() const
 {
     if( weapon.is_gun() ) {
         std::string gunmode;
@@ -3971,14 +3829,13 @@ std::string player::weapname( unsigned int truncate ) const
             }
         }
 
-        return utf8_truncate( string_format( "%s%s%s",
-                                             gunmode, weapon.display_name(), mag_ammo ), truncate );
+        return string_format( "%s%s%s", gunmode, weapon.display_name(), mag_ammo );
 
     } else if( !is_armed() ) {
         return _( "fists" );
 
     } else {
-        return weapon.tname( 1, true, truncate );
+        return weapon.tname();
     }
 }
 

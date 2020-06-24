@@ -8,12 +8,11 @@
     "volume": "500 ml",
     "price": 3720,
     "price_postapoc": 250,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45", "460" ],
     "capacity": 10,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 10, "460": 10 } } ]
   },
@@ -26,12 +25,11 @@
     "volume": "250 ml",
     "price": 2980,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "45", "460" ],
     "capacity": 7,
-    "reliability": 10,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 7, "460": 7 } } ]
   }

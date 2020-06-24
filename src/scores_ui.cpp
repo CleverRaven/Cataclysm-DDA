@@ -123,7 +123,7 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
         werase( w );
         draw_tabs( w, tabs, tab );
         draw_border_below_tabs( w );
-        wrefresh( w );
+        wnoutrefresh( w );
 
         view.draw( c_white );
     } );

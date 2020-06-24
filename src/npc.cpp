@@ -73,6 +73,7 @@
 #include "vehicle.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 static const activity_id ACT_READ( "ACT_READ" );
 
@@ -744,12 +745,10 @@ void npc::place_on_map()
     // "submap_coords.x * SEEX + posx() % SEEX" (analog for y).
     // The main map assumes that pos is in its own (local to the main map)
     // coordinate system. We have to change pos to match that assumption
-    const int dmx = submap_coords.x - g->get_levx();
-    const int dmy = submap_coords.y - g->get_levy();
-    const int offset_x = position.x % SEEX;
-    const int offset_y = position.y % SEEY;
+    const point dm( submap_coords + point( -g->get_levx(), -g->get_levy() ) );
+    const point offset( position.x % SEEX, position.y % SEEY );
     // value of "submap_coords.x * SEEX + posx()" is unchanged
-    setpos( tripoint( offset_x + dmx * SEEX, offset_y + dmy * SEEY, posz() ) );
+    setpos( tripoint( offset.x + dm.x * SEEX, offset.y + dm.y * SEEY, posz() ) );
 
     if( g->is_empty( pos() ) || is_mounted() ) {
         return;
@@ -1383,22 +1382,25 @@ float npc::vehicle_danger( int radius ) const
             // FIXME: this can't be the right way to do this
             float facing = wrapped_veh.v->face.dir();
 
-            int ax = wrapped_veh.v->global_pos3().x;
-            int ay = wrapped_veh.v->global_pos3().y;
-            int bx = static_cast<int>( ax + std::cos( facing * M_PI / 180.0 ) * radius );
-            int by = static_cast<int>( ay + std::sin( facing * M_PI / 180.0 ) * radius );
+            point a( wrapped_veh.v->global_pos3().xy() );
+            point b( static_cast<int>( a.x + std::cos( facing * M_PI / 180.0 ) * radius ),
+                     static_cast<int>( a.y + std::sin( facing * M_PI / 180.0 ) * radius ) );
 
             // fake size
             /* This will almost certainly give the wrong size/location on customized
              * vehicles. This should just count frames instead. Or actually find the
              * size. */
-            vehicle_part last_part = wrapped_veh.v->parts.back();
+            vehicle_part last_part;
+            // vehicle_part_range is a forward only iterator, see comment in vpart_range.h
+            for( const vpart_reference &vpr : wrapped_veh.v->get_all_parts() ) {
+                last_part = vpr.part();
+            }
             int size = std::max( last_part.mount.x, last_part.mount.y );
 
-            double normal = std::sqrt( static_cast<float>( ( bx - ax ) * ( bx - ax ) + ( by - ay ) *
-                                       ( by - ay ) ) );
-            int closest = static_cast<int>( std::abs( ( posx() - ax ) * ( by - ay ) - ( posy() - ay ) *
-                                            ( bx - ax ) ) / normal );
+            double normal = std::sqrt( static_cast<float>( ( b.x - a.x ) * ( b.x - a.x ) + ( b.y - a.y ) *
+                                       ( b.y - a.y ) ) );
+            int closest = static_cast<int>( std::abs( ( posx() - a.x ) * ( b.y - a.y ) - ( posy() - a.y ) *
+                                            ( b.x - a.x ) ) / normal );
 
             if( size > closest ) {
                 danger = i;
@@ -2030,10 +2032,9 @@ bool npc::is_leader() const
 
 bool npc::within_boundaries_of_camp() const
 {
-    const int x = global_omt_location().x;
-    const int y = global_omt_location().y;
-    for( int x2 = x - 3; x2 < x + 3; x2++ ) {
-        for( int y2 = y - 3; y2 < y + 3; y2++ ) {
+    const point p( global_omt_location().xy() );
+    for( int x2 = p.x - 3; x2 < p.x + 3; x2++ ) {
+        for( int y2 = p.y - 3; y2 < p.y + 3; y2++ ) {
             cata::optional<basecamp *> bcp = overmap_buffer.find_camp( point( x2, y2 ) );
             if( bcp ) {
                 return true;
@@ -2083,9 +2084,9 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         const player &guy = dynamic_cast<const player &>( other );
         // check faction relationships first
         if( has_faction_relationship( guy, npc_factions::kill_on_sight ) ) {
-            return A_HOSTILE;
+            return Attitude::HOSTILE;
         } else if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
-            return A_FRIENDLY;
+            return Attitude::FRIENDLY;
         }
     }
 
@@ -2096,11 +2097,11 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 
     if( other.is_npc() ) {
         // Hostile NPCs are also hostile towards player's allies
-        if( is_enemy() && other.attitude_to( g->u ) == A_FRIENDLY ) {
-            return A_HOSTILE;
+        if( is_enemy() && other.attitude_to( g->u ) == Attitude::FRIENDLY ) {
+            return Attitude::HOSTILE;
         }
 
-        return A_NEUTRAL;
+        return Attitude::NEUTRAL;
     } else if( other.is_player() ) {
         // For now, make it symmetric.
         return other.attitude_to( *this );
@@ -2113,17 +2114,17 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
         case MATT_FPASSIVE:
         case MATT_IGNORE:
         case MATT_FLEE:
-            return A_NEUTRAL;
+            return Attitude::NEUTRAL;
         case MATT_FRIEND:
-            return A_FRIENDLY;
+            return Attitude::FRIENDLY;
         case MATT_ATTACK:
-            return A_HOSTILE;
+            return Attitude::HOSTILE;
         case MATT_NULL:
         case NUM_MONSTER_ATTITUDES:
             break;
     }
 
-    return A_NEUTRAL;
+    return Attitude::NEUTRAL;
 }
 
 void npc::npc_dismount()

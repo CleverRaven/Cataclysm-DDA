@@ -33,7 +33,7 @@ static behavior::node_t make_test_node( const std::string &goal, const behavior:
     if( !goal.empty() ) {
         node.set_goal( goal );
     }
-    node.set_predicate( [status]( const behavior::oracle_t *, const std::string & ) {
+    node.add_predicate( [status]( const behavior::oracle_t *, const std::string & ) {
         return *status;
     } );
     return node;
@@ -41,13 +41,13 @@ static behavior::node_t make_test_node( const std::string &goal, const behavior:
 
 TEST_CASE( "behavior_tree", "[behavior]" )
 {
-    behavior::status_t cold_state = behavior::running;
-    behavior::status_t thirsty_state = behavior::running;
-    behavior::status_t hungry_state = behavior::running;
-    behavior::status_t clothes_state = behavior::running;
-    behavior::status_t fire_state = behavior::running;
-    behavior::status_t water_state = behavior::running;
-    behavior::status_t clean_water_state = behavior::running;
+    behavior::status_t cold_state = behavior::status_t::running;
+    behavior::status_t thirsty_state = behavior::status_t::running;
+    behavior::status_t hungry_state = behavior::status_t::running;
+    behavior::status_t clothes_state = behavior::status_t::running;
+    behavior::status_t fire_state = behavior::status_t::running;
+    behavior::status_t water_state = behavior::status_t::running;
+    behavior::status_t clean_water_state = behavior::status_t::running;
 
     behavior::node_t clothes = make_test_node( "wear", &clothes_state );
     behavior::node_t fire = make_test_node( "fire", &fire_state );
@@ -75,71 +75,71 @@ TEST_CASE( "behavior_tree", "[behavior]" )
 
     // First and therefore highest priority goal.
     CHECK( maslows.tick( nullptr ) == "wear" );
-    thirsty_state = behavior::success;
+    thirsty_state = behavior::status_t::success;
     // Later states don't matter.
     CHECK( maslows.tick( nullptr ) == "wear" );
-    hungry_state = behavior::success;
+    hungry_state = behavior::status_t::success;
     // This one either.
     CHECK( maslows.tick( nullptr ) == "wear" );
-    cold_state = behavior::success;
-    thirsty_state = behavior::running;
+    cold_state = behavior::status_t::success;
+    thirsty_state = behavior::status_t::running;
     // First need met, second branch followed.
     CHECK( maslows.tick( nullptr ) == "get_water" );
-    cold_state = behavior::failure;
+    cold_state = behavior::status_t::failure;
     // First need failed, second branch followed.
     CHECK( maslows.tick( nullptr ) == "get_water" );
-    water_state = behavior::success;
+    water_state = behavior::status_t::success;
     // Got water, proceed to next goal.
     CHECK( maslows.tick( nullptr ) == "clean_water" );
-    clean_water_state = behavior::success;
-    hungry_state = behavior::running;
+    clean_water_state = behavior::status_t::success;
+    hungry_state = behavior::status_t::running;
     // Got clean water, proceed to food.
     CHECK( maslows.tick( nullptr ) == "get_food" );
-    water_state = behavior::failure;
-    clean_water_state = behavior::running;
+    water_state = behavior::status_t::failure;
+    clean_water_state = behavior::status_t::running;
     // Failed to get water, give up.
     CHECK( maslows.tick( nullptr ) == "get_food" );
-    water_state = behavior::running;
+    water_state = behavior::status_t::running;
     CHECK( maslows.tick( nullptr ) == "get_water" );
-    cold_state = behavior::success;
-    thirsty_state = behavior::success;
-    hungry_state = behavior::running;
+    cold_state = behavior::status_t::success;
+    thirsty_state = behavior::status_t::success;
+    hungry_state = behavior::status_t::running;
     // Second need also met, third branch taken.
     CHECK( maslows.tick( nullptr ) == "get_food" );
-    cold_state = behavior::success;
-    // Failure also causes third branch to be taken.
+    cold_state = behavior::status_t::success;
+    // Status_T::Failure also causes third branch to be taken.
     CHECK( maslows.tick( nullptr ) == "get_food" );
-    thirsty_state = behavior::success;
-    // Failure in second branch too.
+    thirsty_state = behavior::status_t::success;
+    // Status_T::Failure in second branch too.
     CHECK( maslows.tick( nullptr ) == "get_food" );
-    thirsty_state = behavior::running;
-    cold_state = behavior::running;
+    thirsty_state = behavior::status_t::running;
+    cold_state = behavior::status_t::running;
     // First need appears again and becomes highest priority again.
     CHECK( maslows.tick( nullptr ) == "wear" );
-    clothes_state = behavior::failure;
+    clothes_state = behavior::status_t::failure;
     // First alternative failed, attempting second.
     CHECK( maslows.tick( nullptr ) == "fire" );
-    fire_state = behavior::failure;
+    fire_state = behavior::status_t::failure;
     // Both alternatives failed, check other needs.
     CHECK( maslows.tick( nullptr ) == "get_water" );
-    clothes_state = behavior::success;
-    // Either failure or success meets requirements.
+    clothes_state = behavior::status_t::success;
+    // Either status_t::failure or status_t::success meets requirements.
     CHECK( maslows.tick( nullptr ) == "get_water" );
-    clothes_state = behavior::failure;
-    fire_state = behavior::success;
+    clothes_state = behavior::status_t::failure;
+    fire_state = behavior::status_t::success;
     // Either order does it.
     CHECK( maslows.tick( nullptr ) == "get_water" );
-    hungry_state = behavior::running;
+    hungry_state = behavior::status_t::running;
     // Still thirsty, so changes to hunger are irrelevant.
     CHECK( maslows.tick( nullptr ) == "get_water" );
-    thirsty_state = behavior::success;
-    hungry_state = behavior::success;
+    thirsty_state = behavior::status_t::success;
+    hungry_state = behavior::status_t::success;
     // All needs met, so no goals remain.
     CHECK( maslows.tick( nullptr ) == "idle" );
 }
 
 // Make assertions about loaded behaviors.
-TEST_CASE( "check_npc_behavior_tree", "[npc][behavior][!mayfail]" )
+TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
 {
     clear_map();
     behavior::tree npc_needs;
@@ -169,7 +169,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior][!mayfail]" )
         item &food = test_npc.i_add( item( itype_id( "sandwich_cheese_grilled" ) ) );
         item_location loc = item_location( test_npc, &food );
         CHECK( npc_needs.tick( &oracle ) == "eat_food" );
-        test_npc.consume( loc );
+        loc.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
     SECTION( "Thirsty" ) {
@@ -178,7 +178,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior][!mayfail]" )
         item &water = test_npc.i_add( item( itype_id( "water" ) ) );
         item_location loc = item_location( test_npc, &water );
         CHECK( npc_needs.tick( &oracle ) == "drink_water" );
-        test_npc.consume( loc );
+        loc.remove_item();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
     }
 }

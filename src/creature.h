@@ -191,10 +191,10 @@ constexpr bool operator==( const I lhs, const creature_size rhs )
     return lhs == static_cast<I>( rhs );
 }
 
-enum FacingDirection {
-    FD_NONE = 0,
-    FD_LEFT = 1,
-    FD_RIGHT = 2
+enum class FacingDirection : int {
+    NONE = 0,
+    LEFT = 1,
+    RIGHT = 2
 };
 
 class Creature
@@ -243,7 +243,7 @@ class Creature
             return nullptr;
         }
         /** return the direction the creature is facing, for sdl horizontal flip **/
-        FacingDirection facing = FD_RIGHT;
+        FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
@@ -276,11 +276,11 @@ class Creature
          * friendly - avoid harming it, maybe even help.
          * any - any of the above, used in safemode_ui
          */
-        enum Attitude : int {
-            A_HOSTILE,
-            A_NEUTRAL,
-            A_FRIENDLY,
-            A_ANY
+        enum class Attitude : int {
+            HOSTILE,
+            NEUTRAL,
+            FRIENDLY,
+            ANY
         };
 
         /**
@@ -901,32 +901,32 @@ class Creature
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately
 
-        int num_blocks; // base number of blocks/dodges per turn
-        int num_dodges;
-        int num_blocks_bonus; // bonus ""
-        int num_dodges_bonus;
+        int num_blocks = 0; // base number of blocks/dodges per turn
+        int num_dodges = 0;
+        int num_blocks_bonus = 0; // bonus ""
+        int num_dodges_bonus = 0;
 
-        int armor_bash_bonus;
-        int armor_cut_bonus;
-        int armor_bullet_bonus;
-        int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
+        int armor_bash_bonus = 0;
+        int armor_cut_bonus = 0;
+        int armor_bullet_bonus = 0;
+        int speed_base = 0; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
-        int speed_bonus;
-        float dodge_bonus;
-        int block_bonus;
-        float hit_bonus;
-        int bash_bonus;
-        int cut_bonus;
-        int size_bonus;
+        int speed_bonus = 0;
+        float dodge_bonus = 0.0f;
+        int block_bonus = 0;
+        float hit_bonus = 0.0f;
+        int bash_bonus = 0;
+        int cut_bonus = 0;
+        int size_bonus = 0;
 
-        float bash_mult;
-        float cut_mult;
-        bool melee_quiet;
+        float bash_mult = 0.0f;
+        float cut_mult = 0.0f;
+        bool melee_quiet = false;
 
-        int grab_resist;
-        int throw_resist;
+        int grab_resist = 0;
+        int throw_resist = 0;
 
-        bool fake;
+        bool fake = false;
         Creature();
         Creature( const Creature & ) = default;
         Creature( Creature && ) = default;

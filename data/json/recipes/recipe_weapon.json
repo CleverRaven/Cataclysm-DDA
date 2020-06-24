@@ -815,28 +815,6 @@
   },
   {
     "type": "recipe",
-    "result": "lever_shotgun",
-    "category": "CC_WEAPON",
-    "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "mechanics",
-    "skills_required": [ "gun", 3 ],
-    "difficulty": 7,
-    "time": "6 h",
-    "book_learn": [ [ "manual_gun", 3 ] ],
-    "reversible": true,
-    "autolearn": false,
-    "qualities": [
-      { "id": "SAW_M_FINE", "level": 1 },
-      { "id": "SCREW_FINE", "level": 1 },
-      { "id": "WRENCH_FINE", "level": 1 },
-      { "id": "DRILL", "level": 3 },
-      { "id": "CUT", "level": 2 }
-    ],
-    "using": [ [ "welding_standard", 15 ] ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "spring", 1 ] ], [ [ "steel_chunk", 5 ] ], [ [ "2x4", 2 ] ], [ [ "scrap", 5 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "rifle_9mm",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -2100,7 +2078,7 @@
     "time": "5 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "//": "Bokken is a single piece of wood, and the heavy stick just isn't large enough.",
+    "//": "Bokken is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
       [ [ "log", 1 ] ],
       [
@@ -2552,7 +2530,7 @@
     "book_learn": [ [ "textbook_weapeast", 4 ] ],
     "autolearn": true,
     "qualities": [ { "id": "SAW_W", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "//": "a long pole is a single piece of wood, and the heavy stick just isn't large enough.",
+    "//": "a long pole is a single piece of wood, and the stout branch just isn't large enough.",
     "components": [
       [ [ "wood_beam", 1 ] ],
       [

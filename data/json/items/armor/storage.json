@@ -291,6 +291,7 @@
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 10,
     "encumbrance": 50,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "3500 ml", "max_contains_weight": "8 kg", "moves": 80 } ],
     "material_thickness": 5,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -424,8 +425,7 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 35,
-    "encumbrance": 2,
-    "max_encumbrance": 15,
+    "encumbrance": 25,
     "longest_side": "900 cm",
     "//": "The main section of the golf bag actually assumes things will stick out of it, but specifically contains them, so some extra wiggle room was added.",
     "pocket_data": [
@@ -679,8 +679,8 @@
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "16 kg", "moves": 300 } ],
     "warmth": 8,
     "material_thickness": 2,
-    "properties": [ [ "monster_size_capacity", "SMALL" ] ],
-    "use_action": "CAPTURE_MONSTER_ACT",
+    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "BELTED", "WATERPROOF" ]
   },
   {

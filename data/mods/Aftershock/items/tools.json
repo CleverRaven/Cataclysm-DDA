@@ -31,7 +31,7 @@
     "name": { "str": "atomic smartphone - music", "str_pl": "atomic smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": "MP3_ON",
+    "use_action": [ "MP3_ON" ],
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -76,7 +76,7 @@
     "name": { "str": "Wraitheon executive's smartphone - music", "str_pl": "Wraitheon executive's smartphones - music" },
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "revert_to": "afs_atomic_smartphone",
-    "use_action": "MP3_ON",
+    "use_action": [ "MP3_ON" ],
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -104,7 +104,7 @@
     "looks_like": "pot",
     "symbol": ")",
     "color": "light_green",
-    "use_action": "HOTPLATE",
+    "use_action": [ "HOTPLATE" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -118,7 +118,7 @@
     "price_postapoc": 1200,
     "to_hit": 1,
     "bashing": 9,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "WRENCH", 2 ] ],
@@ -257,6 +257,14 @@
     "qualities": [ [ "BIONIC_ASSEMBLY", 1 ], [ "SAW_M_FINE", 1 ] ]
   },
   {
+    "id": "afs_complete_bionic_toolkit",
+    "copy-from": "screwdriver_set",
+    "type": "TOOL",
+    "name": { "str": "complete bionic toolkit" },
+    "description": "A set of very small robotic tools and encrypted digital keys originally designed to disassemble and test the quality of industrially produced bionics.  A highly skilled and patient engineer could use them to manually assemble new cybernetics.",
+    "qualities": [ [ "BIONIC_ASSEMBLY", 2 ], [ "SAW_M_FINE", 1 ] ]
+  },
+  {
     "id": "afs_bionic_power_mod",
     "copy-from": "mod_battery",
     "type": "TOOLMOD",
@@ -280,7 +288,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 2,
-    "use_action": "ROBOTCONTROL",
+    "use_action": [ "ROBOTCONTROL" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

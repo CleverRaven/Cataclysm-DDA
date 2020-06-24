@@ -296,7 +296,7 @@ void vehicle::print_vparts_descs( const catacurses::window &win, int max_y, int 
     // -2 for left & right padding
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( win, point( 1, 0 ), width - 2, c_light_gray, msg );
-    wrefresh( win );
+    wnoutrefresh( win );
 }
 
 /**
@@ -324,8 +324,7 @@ std::vector<itype_id> vehicle::get_printable_fuel_types() const
 /**
  * Prints all of the fuel indicators of the vehicle
  * @param win Pointer to the window to draw in.
- * @param y Y location to draw at.
- * @param x X location to draw at.
+ * @param p location to draw at.
  * @param start_index Starting index in array of fuel gauges to start reading from
  * @param fullsize true if it's expected to print multiple rows
  * @param verbose true if there should be anything after the gauge (either the %, or number)

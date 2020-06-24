@@ -17,7 +17,6 @@
 #include "type_id.h"
 #include "value_ptr.h"
 
-
 // ITEM INFO
 // =========
 //
@@ -52,7 +51,6 @@
 //      tests/cata_test [iteminfo]
 //
 // Other tags: [book], [food], [pocket], [quality], [weapon], [volume], [weight], and many others
-
 
 // Call the info() function on an item with given flags, and return the formatted string.
 static std::string item_info_str( const item &it, const std::vector<iteminfo_parts> &part_flags )
@@ -1340,7 +1338,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>317</color>-<color_c_yellow>469</color>"
+               " <color_c_yellow>127</color>-<color_c_yellow>469</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
 
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
@@ -1682,6 +1680,7 @@ TEST_CASE( "list of item qualities", "[iteminfo][quality]" )
 
         CHECK( item_info_str( sonic, qualities ) ==
                "--\n"
+               "Has level <color_c_cyan>30 lockpicking</color> quality.\n"
                "Has level <color_c_cyan>2 prying</color> quality.\n"
                "Has level <color_c_cyan>2 screw driving</color> quality.\n"
                "Has level <color_c_cyan>1 fine screw driving</color> quality.\n"
@@ -1720,6 +1719,23 @@ TEST_CASE( "tool info", "[iteminfo][tool]" )
         CHECK( item_info_str( matches, charges ) ==
                "--\n"
                "<color_c_white>Charges</color>: 20\n" );
+    }
+
+    SECTION( "candle with feedback on burnout" ) {
+        std::vector<iteminfo_parts> burnout = { iteminfo_parts::TOOL_BURNOUT };
+
+        item candle( "candle" );
+        REQUIRE( candle.ammo_remaining() > 0 );
+
+        candle.charges = candle.type->maximum_charges();
+        CHECK( item_info_str( candle, burnout ) ==
+               "--\n"
+               "<color_c_white>Fuel</color>: It's new, and ready to burn.\n" );
+
+        candle.charges = ( candle.type->maximum_charges() / 2 ) - 1;
+        CHECK( item_info_str( candle, burnout ) ==
+               "--\n"
+               "<color_c_white>Fuel</color>: More than half has burned away.\n" );
     }
 
     SECTION( "UPS charged tool" ) {
@@ -1866,13 +1882,18 @@ TEST_CASE( "disassembly time and yield", "[iteminfo][disassembly]" )
 
     CHECK( item_info_str( iron, disassemble ) ==
            "--\n"
-           "<color_c_white>Disassembly</color> takes about 20 minutes and might yield:"
-           " 2 electronic scraps, copper (1), scrap metal (1), and copper wire (5).\n" );
+           "<color_c_white>Disassembly</color> takes about 20 minutes, requires 1 tool"
+           " with <color_c_cyan>cutting of 1</color> or more and 1 tool with"
+           " <color_c_cyan>screw driving of 1</color> or more and <color_c_white>might"
+           " yield</color>: 2 electronic scraps, copper (1), scrap metal (1), and copper"
+           " wire (5).\n" );
+
 
     CHECK( item_info_str( metal, disassemble ) ==
            "--\n"
-           "<color_c_white>Disassembly</color> takes about 2 minutes and might yield:"
-           " TEST small metal sheet (24).\n" );
+           "<color_c_white>Disassembly</color> takes about 2 minutes, requires 1 tool"
+           " with <color_c_cyan>metal sawing of 2</color> or more and <color_c_white>might"
+           " yield</color>: TEST small metal sheet (24).\n" );
 }
 
 // Related JSON fields:

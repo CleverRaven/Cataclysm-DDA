@@ -12,7 +12,7 @@
     "material": [ "plastic" ],
     "symbol": "o",
     "color": "white",
-    "use_action": "MAGIC_8_BALL"
+    "use_action": [ "MAGIC_8_BALL" ]
   },
   {
     "id": "deck_of_cards",
@@ -28,7 +28,7 @@
     "symbol": ",",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "coin_quarter",
@@ -43,7 +43,7 @@
     "material": [ "silver" ],
     "symbol": "o",
     "color": "light_gray",
-    "use_action": "COIN_FLIP"
+    "use_action": [ "COIN_FLIP" ]
   },
   {
     "id": "family_photo",
@@ -74,7 +74,7 @@
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "checkers",
@@ -90,7 +90,7 @@
     "symbol": "?",
     "color": "brown",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "cards_magic",
@@ -106,7 +106,7 @@
     "symbol": "?",
     "color": "blue",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "pictionary",
@@ -122,7 +122,7 @@
     "symbol": "?",
     "color": "yellow",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "monopoly",
@@ -138,7 +138,7 @@
     "symbol": "?",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "dnd",
@@ -154,7 +154,7 @@
     "symbol": "?",
     "color": "red",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "g_warhammer",
@@ -170,7 +170,7 @@
     "symbol": "?",
     "color": "yellow",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "g_warhammer40k",
@@ -186,7 +186,7 @@
     "symbol": "?",
     "color": "yellow",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "catan",
@@ -202,7 +202,7 @@
     "symbol": "?",
     "color": "light_blue",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "battleship",
@@ -218,7 +218,7 @@
     "symbol": "?",
     "color": "blue",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   },
   {
     "id": "clue",
@@ -234,6 +234,6 @@
     "symbol": "?",
     "color": "blue",
     "flags": [ "NO_REPAIR" ],
-    "use_action": "PLAY_GAME"
+    "use_action": [ "PLAY_GAME" ]
   }
 ]

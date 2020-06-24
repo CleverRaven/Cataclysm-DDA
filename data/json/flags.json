@@ -246,6 +246,12 @@
     "info": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
   },
   {
+    "id": "BURNOUT",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "//": "You can visually inspect how much it is burned out (candle, torch)."
+  },
+  {
     "id": "IRREMOVABLE",
     "type": "json_flag",
     "context": [ "GUNMOD" ],
@@ -376,6 +382,12 @@
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL_ARMOR", "TOOL" ],
     "info": "This item can be used to communicate with radio waves."
+  },
+  {
+    "id": "PERFECT_LOCKPICK",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item can be used to <info>pick locks</info> with <good>zero effort</good>."
   },
   {
     "id": "RAINPROOF",
@@ -608,6 +620,12 @@
     "type": "json_flag",
     "context": [ "SPELL" ],
     "//": "This makes the spell's effects permanent."
+  },
+  {
+    "id": "NO_FAIL",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "Spellcasting never fails for this spell"
   },
   {
     "id": "IGNORE_WALLS",

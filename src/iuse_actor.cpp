@@ -83,6 +83,7 @@
 #include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
@@ -96,6 +97,7 @@ static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_infected( "infected" );
@@ -118,7 +120,6 @@ static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -133,8 +134,6 @@ static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SMALL2( "SMALL2" );
-
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -645,10 +644,10 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
     veh_data.str( data );
     if( !data.empty() && data[0] >= '0' && data[0] <= '9' ) {
         // starts with a digit -> old format
-        for( auto &elem : veh->parts ) {
+        for( const vpart_reference &vpr : veh->get_all_parts() ) {
             int tmp;
             veh_data >> tmp;
-            veh->set_hp( elem, tmp );
+            veh->set_hp( vpr.part(), tmp );
         }
     } else {
         try {
@@ -657,9 +656,9 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
             // cached values (like precalc, passenger_id, ...)
             std::vector<vehicle_part> parts;
             json.read( parts );
-            for( size_t i = 0; i < parts.size() && i < veh->parts.size(); i++ ) {
+            for( size_t i = 0; i < parts.size() && i < static_cast<size_t>( veh->part_count() ); i++ ) {
                 const vehicle_part &src = parts[i];
-                vehicle_part &dst = veh->parts[i];
+                vehicle_part &dst = veh->part( i );
                 // and now only copy values, that are
                 // expected to be consistent.
                 veh->set_hp( dst, src.hp() );
@@ -861,6 +860,7 @@ void place_monster_iuse::load( const JsonObject &obj )
     obj.read( "difficulty", difficulty );
     obj.read( "moves", moves );
     obj.read( "place_randomly", place_randomly );
+    obj.read( "is_pet", is_pet );
     if( obj.has_array( "skills" ) ) {
         JsonArray skills_ja = obj.get_array( "skills" );
         for( JsonValue s : skills_ja ) {
@@ -937,6 +937,9 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
             p.add_msg_if_player( m_warning, "%s", _( friendly_msg ) );
         }
         newmon.friendly = -1;
+        if( is_pet ) {
+            newmon.add_effect( effect_pet, 1_turns, num_bp, true );
+        }
     }
     return 1;
 }
@@ -1036,38 +1039,6 @@ int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) 
         }
     }
     return 0;
-}
-
-std::unique_ptr<iuse_actor> pick_lock_actor::clone() const
-{
-    return std::make_unique<pick_lock_actor>( *this );
-}
-
-void pick_lock_actor::load( const JsonObject &obj )
-{
-    pick_quality = obj.get_int( "pick_quality" );
-}
-
-int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
-{
-    if( p.is_npc() ) {
-        return 0;
-    }
-
-    avatar &you = dynamic_cast<avatar &>( p );
-    cata::optional<tripoint> target = lockpick_activity_actor::select_location( you );
-    if( !target.has_value() ) {
-        return 0;
-    }
-
-    /** @EFFECT_DEX speeds up door lock picking */
-    /** @EFFECT_LOCKPICK speeds up door lock picking */
-    const int duration = std::max( to_moves<int>( 10_seconds ),
-                                   to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( qual_LOCKPICK ) ) ) -
-                                   ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 2300 );
-    you.assign_activity( lockpick_activity_actor( duration, item_location( p, &it ), cata::nullopt,
-                         g->m.getabs( *target ) ) );
-    return it.type->charges_to_use();
 }
 
 std::unique_ptr<iuse_actor> deploy_furn_actor::clone() const
@@ -1251,7 +1222,6 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
         } else {
-            g->refresh_all();
             return false;
         }
     }
@@ -1267,7 +1237,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     }
     // Check for a brazier.
     bool has_unactivated_brazier = false;
-    for( const auto &i : g->m.i_at( pos ) ) {
+    for( const item &i : g->m.i_at( pos ) ) {
         if( i.typeId() == itype_brazier ) {
             has_unactivated_brazier = true;
         }
@@ -1456,7 +1426,7 @@ bool salvage_actor::valid_to_cut_up( const item &it ) const
 // This is the former valid_to_cut_up with all the messages and queries
 bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 {
-    int pos = p.get_item_position( &it );
+    bool isWearing = p.is_worn( it );
 
     if( it.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
@@ -1465,7 +1435,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
     // There must be some historical significance to these items.
     if( !it.is_salvageable() ) {
         add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
-        if( p.rate_action_disassemble( it ) != hint_rating::cant ) {
+        if( it.is_disassemblable() ) {
             add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
         }
         return false;
@@ -1488,10 +1458,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
         if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
             return false;
         }
-    } else if( pos == INT_MIN ) {
-        // Not in inventory
-        return true;
-    } else if( pos < -1 ) {
+    } else if( isWearing ) {
         if( !query_yn( _( "You're wearing that, are you sure?" ) ) ) {
             return false;
         }
@@ -1581,6 +1548,10 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
         if( amount > 0 ) {
+            if( result.count_by_charges() ) {
+                result.charges = amount;
+                amount = 1;
+            }
             add_msg( m_good, ngettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
             if( filthy ) {
@@ -1590,7 +1561,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    g->m.spawn_an_item( pos.xy(), result, amount, 0 );
+                    g->m.add_item_or_charges( pos, result );
                 }
             }
         } else {
@@ -3561,10 +3532,10 @@ std::unique_ptr<iuse_actor> place_trap_actor::clone() const
     return std::make_unique<place_trap_actor>( *this );
 }
 
-static bool is_solid_neighbor( const tripoint &pos, const int offset_x, const int offset_y )
+static bool is_solid_neighbor( const tripoint &pos, const point &offset )
 {
-    const tripoint a = pos + tripoint( offset_x, offset_y, 0 );
-    const tripoint b = pos - tripoint( offset_x, offset_y, 0 );
+    const tripoint a = pos + tripoint( offset, 0 );
+    const tripoint b = pos - tripoint( offset, 0 );
     return g->m.move_cost( a ) != 2 && g->m.move_cost( b ) != 2;
 }
 
@@ -3590,8 +3561,8 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
         return false;
     }
     if( needs_solid_neighbor ) {
-        if( !is_solid_neighbor( pos, 1, 0 ) && !is_solid_neighbor( pos, 0, 1 ) &&
-            !is_solid_neighbor( pos, 1, 1 ) && !is_solid_neighbor( pos, 1, -1 ) ) {
+        if( !is_solid_neighbor( pos, point_east ) && !is_solid_neighbor( pos, point_south ) &&
+            !is_solid_neighbor( pos, point_south_east ) && !is_solid_neighbor( pos, point_north_east ) ) {
             p.add_msg_if_player( m_info, _( "You must place the %s between two solid tiles." ), name );
             return false;
         }
@@ -4283,7 +4254,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 return t;
             };
             // Mod not already present, check if modification is possible
-            if( it.charges < thread_needed ) {
+            if( !it.ammo_sufficient( thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
                                         tolower( obj.implement_prompt ), thread_needed );

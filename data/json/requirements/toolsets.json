@@ -18,7 +18,7 @@
         [ "ceramic_cup", -1 ],
         [ "teapot", -1 ],
         [ "clay_teapot", -1 ],
-        [ "can_food_unsealed", -1 ]
+        [ "can_food", -1 ]
       ],
       [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
     ]

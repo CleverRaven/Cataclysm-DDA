@@ -554,7 +554,8 @@
       { "item": "bigun", "prob": 10, "charges-min": 0, "charges-max": 6 },
       { "item": "pipe_double_shotgun", "prob": 70, "charges-min": 0, "charges-max": 2 },
       { "item": "pipe_shotgun", "prob": 100 },
-      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 }
+      { "item": "revolver_shotgun", "prob": 30, "charges-min": 0, "charges-max": 6 },
+      { "item": "lever_shotgun", "prob": 10, "charges-min": 0, "charges-max": 6 }
     ]
   },
   {

@@ -509,7 +509,7 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
             .viewport_size( info_height + 1 )
             .apply( w_list );
         }
-        wrefresh( w_list );
+        wnoutrefresh( w_list );
         werase( w_info );
 
         // Fold mission text, store it for scrolling
@@ -536,12 +536,12 @@ bool talk_function::display_and_choose_opts( mission_data &mission_key, const tr
                                 mission_text[start_line + info_offset] );
         }
 
-        wrefresh( w_info );
+        wnoutrefresh( w_info );
 
         if( role_id == "FACTION_CAMP" ) {
             werase( w_tabs );
             draw_camp_tabs( w_tabs, tab_mode, mission_key.entries );
-            wrefresh( w_tabs );
+            wnoutrefresh( w_tabs );
         }
     } );
 
@@ -670,10 +670,6 @@ bool talk_function::handle_outpost_mission( const mission_entry &cur_key, npc &p
     if( cur_key.id == "Recover Ally from Foraging" ) {
         forage_return( p );
     }
-
-    g->draw_ter();
-    wrefresh( g->w_terrain );
-    g->draw_panels( true );
 
     return true;
 }

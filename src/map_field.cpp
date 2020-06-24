@@ -327,9 +327,9 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                  count != neighs.size();
                  i = ( i + 1 ) % neighs.size(), count++ ) {
                 const auto &neigh = neighs[i];
-                if( ( neigh.x != remove_tile.x && neigh.y != remove_tile.y ) ||
-                    ( neigh.x != remove_tile2.x && neigh.y != remove_tile2.y ) ||
-                    ( neigh.x != remove_tile3.x && neigh.y != remove_tile3.y ) ) {
+                if( ( neigh.pos_.x != remove_tile.pos_.x && neigh.pos_.y != remove_tile.pos_.y ) ||
+                    ( neigh.pos_.x != remove_tile2.pos_.x && neigh.pos_.y != remove_tile2.pos_.y ) ||
+                    ( neigh.pos_.x != remove_tile3.pos_.x && neigh.pos_.y != remove_tile3.pos_.y ) ) {
                     neighbour_vec.push_back( neigh );
                 } else if( x_in_y( 1, std::max( 2, windpower ) ) ) {
                     neighbour_vec.push_back( neigh );
@@ -401,9 +401,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
     thep.z = submap.z;
 
     // Initialize the map tile wrapper
-    maptile map_tile( current_submap, 0, 0 );
-    size_t &locx = map_tile.x;
-    size_t &locy = map_tile.y;
+    maptile map_tile( current_submap, point_zero );
+    int &locx = map_tile.pos_.x;
+    int &locy = map_tile.pos_.y;
     // Loop through all tiles in this submap indicated by current_submap
     for( locx = 0; locx < SEEX; locx++ ) {
         for( locy = 0; locy < SEEY; locy++ ) {
@@ -687,9 +687,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
                          count != neighs.size();
                          i = ( i + 1 ) % neighs.size(), count++ ) {
                         const auto &neigh = neighs[i];
-                        if( ( neigh.x != remove_tile.x && neigh.y != remove_tile.y ) ||
-                            ( neigh.x != remove_tile2.x && neigh.y != remove_tile2.y ) ||
-                            ( neigh.x != remove_tile3.x && neigh.y != remove_tile3.y ) ) {
+                        if( ( neigh.pos_.x != remove_tile.pos_.x && neigh.pos_.y != remove_tile.pos_.y ) ||
+                            ( neigh.pos_.x != remove_tile2.pos_.x && neigh.pos_.y != remove_tile2.pos_.y ) ||
+                            ( neigh.pos_.x != remove_tile3.pos_.x && neigh.pos_.y != remove_tile3.pos_.y ) ) {
                             neighbour_vec.push_back( neigh );
                         } else if( x_in_y( 1, std::max( 2, windpower ) ) ) {
                             neighbour_vec.push_back( neigh );

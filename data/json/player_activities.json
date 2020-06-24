@@ -735,6 +735,7 @@
     "activity_level": "NO_EXERCISE",
     "verb": "being operated on",
     "based_on": "time",
+    "interruptable": false,
     "suspendable": false
   },
   {

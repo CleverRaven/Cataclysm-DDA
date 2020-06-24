@@ -7,7 +7,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "npc.h"
 #include "player.h"
 #include "bodypart.h"
@@ -53,7 +52,7 @@ static void test_encumbrance_items(
         test_encumbrance_on( example_npc, clothing, body_part, expected_encumbrance, tweak_player );
     }
     SECTION( "testing on player" ) {
-        test_encumbrance_on( g->u, clothing, body_part, expected_encumbrance, tweak_player );
+        test_encumbrance_on( get_avatar(), clothing, body_part, expected_encumbrance, tweak_player );
     }
 }
 

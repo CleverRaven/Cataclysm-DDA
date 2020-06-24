@@ -223,11 +223,9 @@ int main( int argc, char *argv[] )
 #else
         bool supports_color = isatty( STDOUT_FILENO );
 #endif
-        std::string color_good = supports_color ? "\x1b[32m" : std::string();
         std::string color_bad = supports_color ? "\x1b[31m" : std::string();
         std::string color_end = supports_color ? "\x1b[0m" : std::string();
         if( in_str == out.str() ) {
-            std::cout << color_good << "Well formatted: " << color_end << filename << std::endl;
             exit( EXIT_SUCCESS );
         } else {
             std::ofstream fout( filename, std::ios::binary | std::ios::trunc );

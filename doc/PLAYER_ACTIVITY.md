@@ -55,6 +55,9 @@ without moving your feet.
     * neither: `moves_left` will not be decremented. Thus you must
     define a do_turn function; otherwise the activity will never end!
 
+* interruptable (true): Can this be interrupted.  If false, then popups related
+to e.g. pain or seeing monsters will be suppressed.
+
 * no_resume (false): Rather than resuming, you must always restart the
 activity from scratch.
 

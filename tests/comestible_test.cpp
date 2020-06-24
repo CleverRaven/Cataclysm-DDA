@@ -4,9 +4,8 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
+#include "character.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
@@ -168,7 +167,7 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
     const item veggy_wild_cooked( "veggy_wild_cooked" );
     const recipe_id veggy_wild_cooked_recipe( "veggy_wild_cooked" );
 
-    const avatar &u = g->u;
+    const Character &u = get_player_character();
 
     nutrients default_nutrition = u.compute_effective_nutrients( veggy_wild_cooked );
     std::pair<nutrients, nutrients> predicted_nutrition =
