@@ -270,8 +270,8 @@ void item_contents::combine( const item_contents &read_input )
             std::advance( current_pocket_iter, pocket_index );
 
             for( const item *it : pocket.all_items_top() ) {
-                if(it->is_gunmod() || it->is_toolmod()){
-                    if( !insert_item( *it, item_pocket::pocket_type::MOD ).success()) {
+                if( it->is_gunmod() || it->is_toolmod() ){
+                    if( !insert_item( *it, item_pocket::pocket_type::MOD ).success() ) {
                         uninserted_items.push_back( *it );
                     }
                 } else {
@@ -279,9 +279,9 @@ void item_contents::combine( const item_contents &read_input )
                     if( !inserted.success() ) {
                         uninserted_items.push_back( *it );
                         debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
-                                inserted.str() );
+                                  inserted.str() );
                     }
-                  }
+                }
             }
 
             if( pocket.saved_sealed() ) {
@@ -297,7 +297,7 @@ void item_contents::combine( const item_contents &read_input )
     }
 
     for( const item &uninserted_item : uninserted_items ) {
-        if( !insert_item( uninserted_item, item_pocket::pocket_type::MOD ).success()) {
+        if( !insert_item( uninserted_item, item_pocket::pocket_type::MOD ).success() ) {
             insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION );
         }
     }
