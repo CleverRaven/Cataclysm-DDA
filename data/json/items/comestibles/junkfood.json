@@ -728,11 +728,11 @@
     "weight": "140 g",
     "color": "yellow",
     "spoils_in": "20 hours",
-    "container": "bag_plastic",
+    "container": "bag_plastic",130+260+
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -10,
-    "calories": 300,
+    "calories": 424,
     "description": "Salted chips made from corn tortillas with ground meat and smothered in cheese.  Delicious.",
     "price": 300,
     "price_postapoc": 500,
