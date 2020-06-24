@@ -54,7 +54,7 @@
         "max_contains_volume": "50 L",
         "max_contains_weight": "50 kg",
         "max_item_length": "60 cm",
-        "magazine_well": "15 L",
+        "magazine_well": "12 L",
         "moves": 450
       },
       {
@@ -125,7 +125,7 @@
         "max_contains_volume": "80 L",
         "max_contains_weight": "40 kg",
         "max_item_length": "96 cm",
-        "magazine_well": "20 L",
+        "magazine_well": "8750 ml",
         "moves": 300
       }
     ],
@@ -554,7 +554,7 @@
     "name": { "str": "fanny pack" },
     "description": "Provides a bit of extra storage, with minimal encumbrance.",
     "weight": "272 g",
-    "volume": "500 ml",
+    "volume": "1000 ml",
     "price": 3500,
     "to_hit": 2,
     "bashing": 1,
@@ -753,7 +753,7 @@
     "name": { "str": "pair of drop leg pouches", "str_pl": "pairs of drop leg pouches" },
     "description": "A set of pouches that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
     "weight": "205 g",
-    "volume": "500 ml",
+    "volume": "1 L",
     "price": 3000,
     "price_postapoc": 250,
     "material": [ "cotton" ],
@@ -769,7 +769,7 @@
         "max_contains_volume": "2250 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "30 cm",
-        "magazine_well": "1 L",
+        "magazine_well": "500 ml",
         "moves": 200
       },
       {
@@ -777,7 +777,7 @@
         "max_contains_volume": "2250 ml",
         "max_contains_weight": "2 kg",
         "max_item_length": "30 cm",
-        "magazine_well": "1 L",
+        "magazine_well": "500 ml",
         "moves": 200
       }
     ],
@@ -902,7 +902,7 @@
         "max_contains_volume": "20 L",
         "max_contains_weight": "35 kg",
         "max_item_length": "50 cm",
-        "magazine_well": "5 L",
+        "magazine_well": "3 L",
         "moves": 300
       },
       {
@@ -910,7 +910,7 @@
         "max_contains_volume": "3 L",
         "max_contains_weight": "6 kg",
         "max_item_length": "30 cm",
-        "magazine_well": "2 L",
+        "magazine_well": "750 ml",
         "moves": 200
       },
       {
@@ -918,7 +918,7 @@
         "max_contains_volume": "2 L",
         "max_contains_weight": "3 kg",
         "max_item_length": "25 cm",
-        "magazine_well": "1 L",
+        "magazine_well": "500 ml",
         "moves": 120
       },
       {
@@ -926,7 +926,7 @@
         "max_contains_volume": "2 L",
         "max_contains_weight": "3 kg",
         "max_item_length": "25 cm",
-        "magazine_well": "1 L",
+        "magazine_well": "500 ml",
         "moves": 120
       }
     ],
@@ -1054,7 +1054,7 @@
     "name": { "str": "military rucksack" },
     "description": "A huge military rucksack, provides a lot of storage.",
     "weight": "1140 g",
-    "volume": "4 L",
+    "volume": "11 L",
     "price": 9200,
     "price_postapoc": 1250,
     "material": [ "cotton", "plastic" ],
@@ -1144,7 +1144,7 @@
     "//": "Depends on if you're getting a cheap school version or something more like a range bag.",
     "description": "A simple single-sling backpack.  Easier to access than a normal backpack, but can't comfortably hold as much.",
     "weight": "566 g",
-    "volume": "1500 ml",
+    "volume": "2 L",
     "price": 2900,
     "price_postapoc": 750,
     "bashing": 1,
@@ -1281,7 +1281,7 @@
         "max_contains_volume": "38 L",
         "max_contains_weight": "60 kg",
         "max_item_length": "60 cm",
-        "magazine_well": "8 L",
+        "magazine_well": "7500 ml",
         "moves": 300
       }
     ],
@@ -1354,7 +1354,7 @@
     "name": { "str": "survivor runner pack" },
     "description": "A custom-built lightweight runner pack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "440 g",
-    "volume": "2500 ml",
+    "volume": "4 L",
     "price": 24000,
     "price_postapoc": 2500,
     "material": [ "leather", "cotton" ],
@@ -1414,7 +1414,7 @@
     "name": { "str": "travelpack" },
     "description": "A hiking pack used for short trips.",
     "weight": "636 g",
-    "volume": "3 L",
+    "volume": "5 L",
     "price": 7000,
     "price_postapoc": 1500,
     "material": [ "cotton" ],
@@ -1431,7 +1431,7 @@
         "max_contains_volume": "25 L",
         "max_contains_weight": "40 kg",
         "max_item_length": "50 cm",
-        "magazine_well": "5 L",
+        "magazine_well": "4 L",
         "moves": 300
       },
       {
