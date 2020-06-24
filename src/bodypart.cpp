@@ -80,6 +80,32 @@ generic_factory<body_part_type> body_part_factory( "body part" );
 
 } // namespace
 
+bool is_legacy_bodypart_id( const std::string &id )
+{
+    static const std::vector<std::string> legacy_body_parts = {
+        "TORSO",
+        "HEAD",
+        "EYES",
+        "MOUTH",
+        "ARM_L",
+        "ARM_R",
+        "HAND_L",
+        "HAND_R",
+        "LEG_L",
+        "LEG_R",
+        "FOOT_L",
+        "FOOT_R",
+        "NUM_BP",
+    };
+
+    for( const auto &string : legacy_body_parts ) {
+        if( string == id ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
     static const std::unordered_map<std::string, body_part> body_parts = {

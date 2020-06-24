@@ -3729,7 +3729,7 @@ static void layer_item( std::array<encumbrance_data, num_bp> &vals,
         }
 
         const auto item_layer = it.get_layer();
-        int encumber_val = it.get_encumber( c, item::encumber_flags::none, bp.id() );
+        int encumber_val = it.get_encumber( c, bp.id() );
         // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
         int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
 

@@ -97,6 +97,9 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
                                        body_part_set &parts, bool &sided )
 {
     auto parse = [&parts, &sided]( const std::string & val ) {
+        if( is_legacy_bodypart_id( val ) ) {
+            parts.set( bodypart_str_id( "legacy" ) );
+        }
         if( val == "ARMS" || val == "ARM_EITHER" ) {
             parts.set( bodypart_str_id( "arm_l" ) );
             parts.set( bodypart_str_id( "arm_r" ) );
@@ -110,8 +113,13 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
             parts.set( bodypart_str_id( "foot_l" ) );
             parts.set( bodypart_str_id( "foot_r" ) );
         } else {
-            parts.set( convert_bp( get_body_part_token( val ) ) );
+            if( !is_legacy_bodypart_id( val ) ) {
+                parts.set( bodypart_str_id( val ) );
+            } else {
+                parts.set( convert_bp( get_body_part_token( val ) ) );
+            }
         }
+
         sided |= val == "ARM_EITHER" || val == "HAND_EITHER" ||
                  val == "LEG_EITHER" || val == "FOOT_EITHER";
     };
@@ -1746,53 +1754,32 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
 
 void islot_armor::load( const JsonObject &jo )
 {
-    // We assume if defined the arrays are the same length
-    if( jo.has_array( "encumbrance" ) ) {
-        random_armor_data tempData;
-        int it = 0;
-        for( JsonArray ja : jo.get_array( "encumbrance" ) ) {
-            tempData.bodypart = { bodypart_str_id( ja.get_string( 0 ) ) };
-            tempData.encumber = ja.get_int( 1 );
+    if( jo.has_array( "coverage_data" ) ) {
+
+        for( const JsonObject &obj : jo.get_array( "coverage_data" ) ) {
+            random_armor_data tempData;
+            body_part_set temp_cover_data;
+            assign_coverage_from_json( obj, "parts", temp_cover_data, sided );
+            tempData.covers = temp_cover_data;
+
+            if( obj.has_array( "encumbrance" ) ) {
+                tempData.encumber = obj.get_array( "encumbrance" ).get_int( 0 );
+                tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
+            } else if( obj.has_int( "encumbrance" ) ) {
+                tempData.encumber = obj.get_int( "encumbrance" );
+                tempData.max_encumber = obj.get_int( "encumbrance" );
+            }
+            tempData.coverage = obj.get_int( "coverage" );
             data.push_back( tempData );
-            ++it;
-        }
-        it = 0;
-        if( jo.has_array( "coverage" ) ) {
-            for( JsonArray ja : jo.get_array( "coverage" ) ) {
-                if( ja.get_string( 0 ) == data[it].bodypart.value().id().c_str() ) {
-                    data[it].coverage = ja.get_int( 1 );
+
+            if( obj.has_int( "layer" ) ) {
+                for( auto &piece : data ) {
+                    piece.layer.value() = static_cast<layer_level>( obj.get_int( "layer" ) );
                 }
-                it++;
-            }
-        } else {
-            for( auto &piece : data ) {
-                piece.max_encumber = jo.get_int( "coverage" );
-            }
-        }
-        it = 0;
-        if( jo.has_array( "max_encumbrance" ) ) {
-            for( JsonArray ja : jo.get_array( "max_encumbrance" ) ) {
-                if( ja.get_string( 0 ) == data[it].bodypart.value().id().c_str() ) {
-                    data[it].max_encumber = ja.get_int( 1 );
+            } else {
+                for( auto &piece : data ) {
+                    piece.layer = layer_level::REGULAR;
                 }
-                ++it;
-            }
-        } else if( jo.has_int( "max_encumbrance" ) ) {
-            for( auto &piece : data ) {
-                piece.max_encumber = jo.get_int( "max_encumbrance" );
-            }
-        }
-        it = 0;
-        if( jo.has_array( "layer" ) ) {
-            for( JsonArray ja : jo.get_array( "layer" ) ) {
-                if( ja.get_string( 0 ) == data[it].bodypart.value().id().c_str() ) {
-                    data[it].layer = static_cast<layer_level>( ja.get_int( 1 ) );
-                }
-                ++it;
-            }
-        } else {
-            for( auto &piece : data ) {
-                piece.layer = layer_level::REGULAR;
             }
         }
     } else {
@@ -1802,6 +1789,9 @@ void islot_armor::load( const JsonObject &jo )
         // finalize_post
         optional( jo, was_loaded, "max_encumbrance", data[0].max_encumber, 0 );
         optional( jo, was_loaded, "coverage", data[0].coverage, 0 );
+        body_part_set temp_cover_data;
+        assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
+        data[0].covers = temp_cover_data;
     }
 
     optional( jo, was_loaded, "material_thickness", thickness, 0 );
@@ -1813,7 +1803,6 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
     optional( jo, was_loaded, "power_armor", power_armor, false );
     optional( jo, was_loaded, "valid_mods", valid_mods );
-    assign_coverage_from_json( jo, "covers", covers, sided );
 }
 
 void islot_armor::deserialize( JsonIn &jsin )

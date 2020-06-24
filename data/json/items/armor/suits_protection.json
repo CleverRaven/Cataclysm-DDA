@@ -844,9 +844,21 @@
     "looks_like": "touring_suit",
     "color": "dark_gray",
     "covers": [ "LEGS", "TORSO", "ARMS" ],
-    "coverage": [ [ "leg_l", 95 ], [ "leg_r", 95 ], [ "torso", 95 ], [ "arm_l", 95 ], [ "arm_r", 95 ] ],
-    "encumbrance": [ [ "leg_l", 12 ], [ "leg_r", 12 ], [ "torso", 12 ], [ "arm_l", 12 ], [ "arm_r", 12 ] ],
-    "max_encumbrance": [ [ "leg_l", 25 ], [ "leg_r", 25 ], [ "torso", 25 ], [ "arm_l", 25 ], [ "arm_r", 25 ] ],
+    "coverage_data": [
+      {
+        "parts": [ "arm_l", "arm_r" ],
+        "coverage": 25,
+        "encumbrance": 5
+      },
+      {
+        "parts": [ "torso", "leg_l", "leg_r" ],
+        "coverage": 95,
+        "encumbrance": [ 12, 25 ]
+      }
+    ],
+    "coverage": 95,
+    "encumbrance": 12,
+    "max_encumbrance": 25,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },

@@ -214,19 +214,14 @@ struct random_armor_data {
     // This determines how likely it is to hit the item instead of the player.
     int coverage = 0;
 
+    // Where does this cover if any
+    cata::optional<body_part_set> covers;
+
     // What layer does it cover if any
     cata::optional<layer_level> layer;
-
-    // Where does this cover if any
-    cata::optional<bodypart_id> bodypart;
 };
 
 struct islot_armor {
-    /**
-     * Bitfield of enum body_part
-     * TODO: document me.
-     */
-    body_part_set covers;
     /**
     * Whether this item can be worn on either side of the body
     */

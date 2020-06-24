@@ -1578,8 +1578,9 @@ class item : public visitable<item>
          * player.
          * Returns 0 if this is can not be worn at all.
          */
-        int get_encumber( const Character &, encumber_flags = encumber_flags::none,
-                          const bodypart_id &bodypart = bodypart_id( bodypart_str_id( "legacy" ) ) ) const;
+        int get_encumber( const Character &,
+                          const bodypart_id &bodypart = bodypart_id( bodypart_str_id( "legacy" ) ),
+                          encumber_flags = encumber_flags::none ) const;
 
         /**
          * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
