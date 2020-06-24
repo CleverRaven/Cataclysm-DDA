@@ -2579,8 +2579,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
-
-        info.push_back( iteminfo( "ARMOR", _( "Coverage: " ), "<num>%",
+        info.push_back( iteminfo( "ARMOR", _( "Average Coverage: " ), "<num>%",
                                   iteminfo::no_newline, get_coverage() ) );
     }
     if( parts->test( iteminfo_parts::ARMOR_WARMTH ) && covers_anything ) {
@@ -2588,8 +2587,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     insert_separation_line( info );
-
-
 
     if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
         std::string format;
@@ -2621,8 +2618,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 for( const auto &piece : t->data ) {
                     if( piece.covers.has_value() ) {
                         for( const auto &covering : piece.covers.value() ) {
-                            if( covering != bodypart_str_id( "legacy" ) ) {
-
+                            if( covering != bodypart_str_id( "num_bp" ) ) {
                                 encumb_data.emplace_back(
                                     covering,
                                     get_encumber( g->u, covering ),
@@ -2634,15 +2630,16 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
 
                 for( const auto &encumb : encumb_data ) {
-                    info.push_back( iteminfo( "ARMOR", _( std::get<0>( encumb ).c_str() + space ), "",
+                    info.push_back( iteminfo( "ARMOR",
+                                              _( bodypart_str_id_to_readable( std::get<0>( encumb ) ) + ':' + space ), "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
                                               std::get<1>( encumb ) ) );
 
-                    info.push_back( iteminfo( "ARMOR", space + _( "When Full: " ), "",
+                    info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
                                               std::get<2>( encumb ) ) );
 
-                    info.push_back( iteminfo( "ARMOR", space + _( "Coverage: " ), "",
+                    info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
                                               iteminfo::lower_is_better,
                                               std::get<3>( encumb ) ) );
                 }
@@ -5564,7 +5561,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     for( const auto &data : t->data ) {
-        if( bodypart == bodypart_id( bodypart_str_id( "legacy" ) ) ||
+        if( bodypart == bodypart_id( bodypart_str_id( "num_bp" ) ) ||
             ( data.covers.has_value() && data.covers.value().test( bodypart.id() ) ) ) {
             encumber = data.encumber;
             encumber += std::ceil( relative_encumbrance * ( data.max_encumber - data.encumber ) );
@@ -5630,19 +5627,19 @@ int item::get_coverage( const bodypart_id &bodypart ) const
         return 0;
     }
 
-    if( bodypart == bodypart_id( bodypart_str_id( "legacy" ) ) ) {
-        return t->data[0].coverage;
-    }
-
-    int highest_coverage = 0;
+    int avg_coverage = 0;
 
     for( const auto &entry : t->data ) {
-        if( ( entry.covers.has_value() && entry.covers.value().test( bodypart.id() ) )
-            && entry.coverage > highest_coverage ) {
-            highest_coverage = entry.coverage;
+        if( ( entry.covers.has_value()
+              && ( entry.covers.value().test( bodypart.id() ) ||
+                   bodypart == bodypart_id( bodypart_str_id( "num_bp" ) ) ) ) ) {
+            avg_coverage += entry.coverage;
         }
     }
-    return highest_coverage;
+
+    avg_coverage /= t->data.size();
+
+    return avg_coverage;
 }
 
 int item::get_thickness() const

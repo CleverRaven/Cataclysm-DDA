@@ -98,7 +98,7 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
 {
     auto parse = [&parts, &sided]( const std::string & val ) {
         if( is_legacy_bodypart_id( val ) ) {
-            parts.set( bodypart_str_id( "legacy" ) );
+            parts.set( bodypart_str_id( "num_bp" ) );
         }
         if( val == "ARMS" || val == "ARM_EITHER" ) {
             parts.set( bodypart_str_id( "arm_l" ) );

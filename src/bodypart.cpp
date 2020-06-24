@@ -106,6 +106,30 @@ bool is_legacy_bodypart_id( const std::string &id )
     return false;
 }
 
+const std::string &bodypart_str_id_to_readable( const bodypart_str_id &id )
+{
+    static const std::map<std::string, std::string> bodyparts = {
+        { "torso", "Torso" },
+        { "head", "Head" },
+        { "eyes", "Eyes" },
+        { "mouth", "Mouth" },
+        { "arm_l", "L Arm" },
+        { "arm_r", "R Arm" },
+        { "hand_l", "L Hand" },
+        { "hand_r", "R Hand" },
+        { "leg_l", "L Leg" },
+        { "leg_r", "R Leg" },
+        { "foot_l", "L Foot" },
+        { "foor_r", "R Foot" },
+        { "num_bp", "NUM_BP" },
+    };
+
+    if( bodyparts.find( id.c_str() ) != bodyparts.end() ) {
+        return bodyparts.at( id.c_str() );
+    }
+    return "bodypart_str_id not found";
+}
+
 static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
     static const std::unordered_map<std::string, body_part> body_parts = {

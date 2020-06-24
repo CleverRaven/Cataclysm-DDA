@@ -1567,7 +1567,7 @@ class item : public visitable<item>
          * 100 (covering the whole body part). Items that cover more are more likely to absorb
          * damage from attacks.
          */
-        int get_coverage( const bodypart_id &bodypart = bodypart_id( bodypart_str_id( "legacy" ) ) ) const;
+        int get_coverage( const bodypart_id &bodypart = bodypart_id( bodypart_str_id( "num_bp" ) ) ) const;
 
         enum class encumber_flags : int {
             none = 0,
@@ -1579,7 +1579,7 @@ class item : public visitable<item>
          * Returns 0 if this is can not be worn at all.
          */
         int get_encumber( const Character &,
-                          const bodypart_id &bodypart = bodypart_id( bodypart_str_id( "legacy" ) ),
+                          const bodypart_id &bodypart = bodypart_id( bodypart_str_id( "num_bp" ) ),
                           encumber_flags = encumber_flags::none ) const;
 
         /**
