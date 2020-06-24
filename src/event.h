@@ -31,6 +31,7 @@ enum class event_type : int {
     avatar_moves,
     awakes_dark_wyrms,
     becomes_wanted,
+    broken_bone,
     broken_bone_mends,
     buries_corpse,
     causes_resonance_cascade,
@@ -47,7 +48,6 @@ enum class event_type : int {
     character_wakes_up,
     character_wields_item,
     character_wears_item,
-    consumes_alcohol,
     consumes_marloss_item,
     crosses_marloss_threshold,
     crosses_mutation_threshold,
@@ -87,6 +87,7 @@ enum class event_type : int {
     player_fails_conduct,
     player_gets_achievement,
     player_levels_spell,
+    reads_book,
     releases_subspace_specimens,
     removes_cbm,
     seals_hazardous_material_sarcophagus,
@@ -157,7 +158,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 74,
+static_assert( static_cast<int>( event_type::num_event_types ) == 75,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -211,6 +212,15 @@ struct event_spec<event_type::awakes_dark_wyrms> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::becomes_wanted> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::broken_bone> {
+    static constexpr std::array<std::pair<const char *, cata_variant_type>, 2> fields = {{
+            { "character", cata_variant_type::character_id },
+            { "part", cata_variant_type::body_part },
+        }
+    };
+};
 
 template<>
 struct event_spec<event_type::broken_bone_mends> {
@@ -332,9 +342,6 @@ struct event_spec<event_type::character_wears_item> : event_spec_character_item 
 
 template<>
 struct event_spec<event_type::character_wields_item> : event_spec_character_item {};
-
-template<>
-struct event_spec<event_type::consumes_alcohol> : event_spec_character {};
 
 template<>
 struct event_spec<event_type::consumes_marloss_item> : event_spec_character_item {};
@@ -587,6 +594,9 @@ struct event_spec<event_type::player_levels_spell> {
         }
     };
 };
+
+template<>
+struct event_spec<event_type::reads_book> : event_spec_character_item {};
 
 template<>
 struct event_spec<event_type::removes_cbm> {

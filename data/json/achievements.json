@@ -187,7 +187,7 @@
     "type": "achievement",
     "name": "Timber",
     "description": "If a tree falls in a forest and no one is around to hear it, does it make a sound?",
-    "requirements": [ { "event_statistic": "num_cuts_tree", "is": ">=", "target": 1, "visible": "when_achievement_completed" } ],
+    "requirements": [ { "event_statistic": "num_cuts_tree", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_cut_1_tree" ]
   },
   {
@@ -273,6 +273,18 @@
         "target": 1,
         "visible": "when_achievement_completed"
       }
+    ]
+  },
+  {
+    "id": "achievement_break_major_limbs",
+    "type": "achievement",
+    "name": "Broken But Not Defeated",
+    "description": "Does your medical insurance cover that?",
+    "requirements": [
+      { "event_statistic": "num_broken_right_leg", "is": ">=", "target": 1, "visible": "when_requirement_completed" },
+      { "event_statistic": "num_broken_left_leg", "is": ">=", "target": 1, "visible": "when_requirement_completed" },
+      { "event_statistic": "num_broken_right_arm", "is": ">=", "target": 1, "visible": "when_requirement_completed" },
+      { "event_statistic": "num_broken_left_arm", "is": ">=", "target": 1, "visible": "when_requirement_completed" }
     ]
   }
 ]

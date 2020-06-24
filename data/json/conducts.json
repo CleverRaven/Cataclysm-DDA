@@ -27,12 +27,6 @@
     "requirements": [ { "event_statistic": "num_cuts_tree", "is": "<=", "target": 0, "description": "Cut no trees" } ]
   },
   {
-    "id": "conduct_no_alcohol",
-    "type": "conduct",
-    "name": "Sober For Life",
-    "requirements": [ { "event_statistic": "num_consumes_alcohol", "is": "<=", "target": 0, "description": "Drink no alcohol" } ]
-  },
-  {
     "id": "conduct_pure_human",
     "type": "conduct",
     "name": "Homo Sapiens",
@@ -44,12 +38,7 @@
         "target": 0,
         "description": "Install no faulty bionic implants"
       },
-      {
-        "event_statistic": "num_administers_mutagen",
-        "is": "<=",
-        "target": 0,
-        "description": "Use no mutagenic substances"
-      }
+      { "event_statistic": "num_gains_mutation", "is": "<=", "target": 0, "description": "No mutations" }
     ]
   },
   {
@@ -68,12 +57,28 @@
     "hidden_by": [ "conduct_pure_human" ]
   },
   {
-    "id": "conduct_no_mutagen",
+    "id": "conduct_no_mutations",
     "type": "conduct",
     "name": "Pure Blood",
-    "requirements": [
-      { "event_statistic": "num_administers_mutagen", "is": "<=", "target": 0, "description": "Use no mutagenic substances" }
-    ],
+    "requirements": [ { "event_statistic": "num_gains_mutation", "is": "<=", "target": 0, "description": "No mutations" } ],
     "hidden_by": [ "conduct_pure_human" ]
+  },
+  {
+    "id": "conduct_no_broken_bones",
+    "type": "conduct",
+    "name": "Structural Integrity",
+    "requirements": [ { "event_statistic": "num_broken_bone", "is": "<=", "target": 0, "description": "Break no bones" } ]
+  },
+  {
+    "id": "conduct_no_skill_levels_gained",
+    "type": "conduct",
+    "name": "Teacher, Leave Them Kids Alone",
+    "requirements": [ { "event_statistic": "num_gains_skill_level", "is": "<=", "target": 0, "description": "Gain no skill levels" } ]
+  },
+  {
+    "id": "conduct_no_books_read",
+    "type": "conduct",
+    "name": "Self-Imposed Illiteracy",
+    "requirements": [ { "event_statistic": "num_reads_book", "is": "<=", "target": 0, "description": "Read no books" } ]
   }
 ]

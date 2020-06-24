@@ -80,11 +80,6 @@
     "statistic": "num_exhumed_graves"
   },
   {
-    "id": "score_consumed_alcohol",
-    "type": "score",
-    "statistic": "num_consumes_alcohol"
-  },
-  {
     "id": "score_installs_cbm",
     "type": "score",
     "statistic": "num_installs_cbm"
@@ -95,13 +90,43 @@
     "statistic": "num_installs_faulty_cbm"
   },
   {
-    "id": "score_administers_mutagen",
+    "id": "score_gains_mutation",
     "type": "score",
-    "statistic": "num_administers_mutagen"
+    "statistic": "num_gains_mutation"
   },
   {
     "id": "score_crosses_mutation_threshold",
     "type": "score",
     "statistic": "num_crosses_mutation_threshold"
+  },
+  {
+    "id": "score_broken_bones",
+    "type": "score",
+    "statistic": "num_broken_bone"
+  },
+  {
+    "id": "score_broken_right_leg",
+    "type": "score",
+    "statistic": "num_broken_right_leg"
+  },
+  {
+    "id": "score_broken_left_leg",
+    "type": "score",
+    "statistic": "num_broken_left_leg"
+  },
+  {
+    "id": "score_broken_right_arm",
+    "type": "score",
+    "statistic": "num_broken_right_arm"
+  },
+  {
+    "id": "score_broken_left_arm",
+    "type": "score",
+    "statistic": "num_broken_left_arm"
+  },
+  {
+    "id": "score_skill_levels_gained",
+    "type": "score",
+    "statistic": "num_gains_skill_level"
   }
 ]

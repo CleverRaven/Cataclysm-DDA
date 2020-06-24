@@ -1433,6 +1433,7 @@ void Character::suffer()
         body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
         if( hp_cur[i] <= 0 ) {
             add_effect( effect_disabled, 1_turns, bp, true );
+            g->events().send<event_type::broken_bone>( getID(), bp );
         }
     }
 

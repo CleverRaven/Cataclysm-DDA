@@ -339,7 +339,7 @@
     "field": "oter_type_id"
   },
   {
-    "id": "statistic_cuts_tree",
+    "id": "avatar_cuts_tree",
     "type": "event_transformation",
     "event_type": "cuts_tree",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
@@ -349,11 +349,11 @@
     "id": "num_cuts_tree",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "statistic_cuts_tree",
+    "event_transformation": "avatar_cuts_tree",
     "description": { "str": "tree cut down", "str_pl": "trees cut down" }
   },
   {
-    "id": "statistic_exhumes_grave",
+    "id": "avatar_exhumes_grave",
     "type": "event_transformation",
     "event_type": "exhumes_grave",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
@@ -363,11 +363,11 @@
     "id": "num_exhumed_graves",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "statistic_exhumes_grave",
+    "event_transformation": "avatar_exhumes_grave",
     "description": { "str": "grave exhumed", "str_pl": "graves exhumed" }
   },
   {
-    "id": "statistic_buries_corpse",
+    "id": "avatar_buries_corpse",
     "type": "event_transformation",
     "event_type": "buries_corpse",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
@@ -377,32 +377,18 @@
     "id": "num_buried_corpses",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "statistic_buries_corpse",
+    "event_transformation": "avatar_buries_corpse",
     "description": { "str": "corpse buried", "str_pl": "corpses buried" }
   },
   {
-    "id": "statistic_consumes_alcohol",
-    "type": "event_transformation",
-    "event_type": "consumes_alcohol",
-    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "character" ]
-  },
-  {
-    "id": "num_consumes_alcohol",
-    "type": "event_statistic",
-    "stat_type": "count",
-    "event_transformation": "statistic_consumes_alcohol",
-    "description": { "str": "alcohol portion consumed", "str_pl": "alcohol portions consumed" }
-  },
-  {
-    "id": "statistic_installs_cbm",
+    "id": "avatar_installs_cbm",
     "type": "event_transformation",
     "event_type": "installs_cbm",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
     "drop_fields": [ "character", "bionic" ]
   },
   {
-    "id": "statistic_installs_faulty_cbm",
+    "id": "avatar_installs_faulty_cbm",
     "type": "event_transformation",
     "event_type": "installs_faulty_cbm",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
@@ -412,32 +398,32 @@
     "id": "num_installs_cbm",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "statistic_installs_cbm",
+    "event_transformation": "avatar_installs_cbm",
     "description": { "str": "bionic implant installed", "str_pl": "bionic implants installed" }
   },
   {
     "id": "num_installs_faulty_cbm",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "statistic_installs_faulty_cbm",
+    "event_transformation": "avatar_installs_faulty_cbm",
     "description": { "str": "faulty bionic implant installed", "str_pl": "faulty bionic implants installed" }
   },
   {
-    "id": "statistic_administers_mutagen",
+    "id": "avatar_gains_mutation",
     "type": "event_transformation",
-    "event_type": "administers_mutagen",
+    "event_type": "gains_mutation",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
-    "drop_fields": [ "character", "technique" ]
+    "drop_fields": [ "character", "trait" ]
   },
   {
-    "id": "num_administers_mutagen",
+    "id": "num_gains_mutation",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "statistic_administers_mutagen",
-    "description": { "str": "mutagen administered", "str_pl": "mutagens administered" }
+    "event_transformation": "avatar_gains_mutation",
+    "description": { "str": "mutation gained", "str_pl": "mutations gained" }
   },
   {
-    "id": "statistic_crosses_mutation_threshold",
+    "id": "avatar_crosses_mutation_threshold",
     "type": "event_transformation",
     "event_type": "crosses_mutation_threshold",
     "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
@@ -447,7 +433,108 @@
     "id": "num_crosses_mutation_threshold",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "statistic_crosses_mutation_threshold",
+    "event_transformation": "avatar_crosses_mutation_threshold",
     "description": { "str": "mutation threshold crossed", "str_pl": "mutation thresholds crossed" }
+  },
+  {
+    "id": "avatar_broken_bone",
+    "type": "event_transformation",
+    "event_type": "broken_bone",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character", "part" ]
+  },
+  {
+    "id": "num_broken_bone",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_broken_bone",
+    "description": { "str": "bone broken", "str_pl": "bones broken" }
+  },
+  {
+    "id": "avatar_broken_right_leg",
+    "type": "event_transformation",
+    "event_type": "broken_bone",
+    "value_constraints": { "part": { "equals": [ "body_part", "bp_leg_r" ] } }
+  },
+  {
+    "id": "avatar_broken_left_leg",
+    "type": "event_transformation",
+    "event_type": "broken_bone",
+    "value_constraints": { "part": { "equals": [ "body_part", "bp_leg_l" ] } }
+  },
+  {
+    "id": "avatar_broken_right_arm",
+    "type": "event_transformation",
+    "event_type": "broken_bone",
+    "value_constraints": { "part": { "equals": [ "body_part", "bp_arm_r" ] } }
+  },
+  {
+    "id": "avatar_broken_left_arm",
+    "type": "event_transformation",
+    "event_type": "broken_bone",
+    "value_constraints": { "part": { "equals": [ "body_part", "bp_arm_l" ] } }
+  },
+  {
+    "id": "num_broken_bone",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_broken_bone",
+    "description": { "str": "bone broken", "str_pl": "bones broken" }
+  },
+  {
+    "id": "num_broken_right_leg",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_broken_right_leg",
+    "description": { "str_sp": "broken right leg" }
+  },
+  {
+    "id": "num_broken_left_leg",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_broken_left_leg",
+    "description": { "str_sp": "broken left leg" }
+  },
+  {
+    "id": "num_broken_right_arm",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_broken_right_arm",
+    "description": { "str_sp": "broken right arm" }
+  },
+  {
+    "id": "num_broken_left_arm",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_broken_left_arm",
+    "description": { "str_sp": "broken left arm" }
+  },
+  {
+    "id": "avatar_gains_skill_level",
+    "type": "event_transformation",
+    "event_type": "gains_skill_level",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character", "skill", "new_level" ]
+  },
+  {
+    "id": "num_gains_skill_level",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_gains_skill_level",
+    "description": { "str": "skill level gained", "str_pl": "skill levels gained" }
+  },
+  {
+    "id": "avatar_reads_book",
+    "type": "event_transformation",
+    "event_type": "reads_book",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character", "itype" ]
+  },
+  {
+    "id": "num_reads_book",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_reads_book",
+    "description": { "str_sp": "read a book" }
   }
 ]
