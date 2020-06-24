@@ -111,7 +111,7 @@ class relic_procgen_data
 
         bool was_loaded;
 
-        void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
+        static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & = "" );
         void deserialize( JsonIn &jsin );
 };

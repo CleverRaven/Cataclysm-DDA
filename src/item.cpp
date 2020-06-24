@@ -9032,6 +9032,11 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
     }
 }
 
+void item::overwrite_relic( const relic &nrelic )
+{
+    this->relic_data = cata::make_value<relic>( nrelic );
+}
+
 void item::process_relic( Character *carrier )
 {
     if( !is_relic() ) {

@@ -4029,12 +4029,19 @@ std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item>
 
 void map::spawn_artifact( const tripoint &p )
 {
-    add_item_or_charges( p, item( new_artifact(), 0 ) );
+    item sword( "spoon" );
+    relic_procgen_data::generation_rules rules;
+    rules.max_attributes = 1;
+    rules.power_level = 1;
+
+    sword.overwrite_relic( relic_procgen_id( "standard" )->generate( rules ) );
+
+    add_item_or_charges( p, sword );
 }
 
-void map::spawn_natural_artifact( const tripoint &p, artifact_natural_property prop )
+void map::spawn_natural_artifact( const tripoint &p, artifact_natural_property )
 {
-    add_item_or_charges( p, item( new_natural_artifact( prop ), 0 ) );
+    spawn_artifact( p );
 }
 
 void map::spawn_item( const tripoint &p, const itype_id &type_id,
