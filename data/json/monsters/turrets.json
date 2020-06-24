@@ -336,11 +336,11 @@
     "id": "mon_exodii_turret",
     "type": "MONSTER",
     "name": "upcycled turret",
-    "description": "This hefty turret appears to be bolted together out of various scraps of technology, many of them extremely foreign looking.  It is equipped with a hefty looking machine gun, and something that - judging from the scorching - could only be a flamethrower.",
+    "description": "This hefty turret appears to be bolted together out of various scraps of technology, many of them extremely foreign looking.  It is equipped with a hefty looking machine gun.",
     "default_faction": "exodii",
-    "weight": "200 kg",
-    "volume": "120 L",
-    "hp": 90,
+    "weight": "206 kg",
+    "volume": "105 L",
+    "hp": 240,
     "speed": 100,
     "material": [ "steel" ],
     "symbol": "2",
@@ -355,7 +355,6 @@
     "starting_ammo": { "8512": 3000 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
-      [ "FLAMETHROWER", 5 ],
       {
         "type": "gun",
         "cooldown": 1,
