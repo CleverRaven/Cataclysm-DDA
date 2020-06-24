@@ -182,7 +182,7 @@
     "speed": 60,
     "symbol": "Z",
     "morale": 100,
-    "agression": 100,
+    "aggression": 100,
     "hp": 125,
     "color": "light_gray",
     "melee_skill": 3,
