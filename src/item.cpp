@@ -560,6 +560,11 @@ item &item::activate()
     return *this;
 }
 
+bool item::attack_item( const tripoint &pos )
+{
+    return type->invoke( g->u, *this, pos );
+}
+
 units::energy item::set_energy( const units::energy &qty )
 {
     if( !is_battery() ) {
@@ -9494,9 +9499,6 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
         return process_blackpowder_fouling( carrier );
     }
 
-    if( activate ) {
-        return type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
-    }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
     // call the processing function. If that function returns true, the item

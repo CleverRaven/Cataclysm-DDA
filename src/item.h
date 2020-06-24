@@ -230,6 +230,13 @@ class item : public visitable<item>
 
         /** Filter converting instance to active state */
         item &activate();
+		
+		/**
+         * Invoke use function on item that is left behind by attack.
+         * @param pos position
+		 * @return true if the item was destroyed (exploded)
+         */
+        bool attack_item( const tripoint &pos );
 
         /**
          * Add or remove energy from a battery.
