@@ -51,7 +51,6 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
-
         "max_contains_volume": "50 L",
         "max_contains_weight": "50 kg",
         "max_item_length": "60 cm",
@@ -983,14 +982,7 @@
     "coverage": 4,
     "encumbrance": 1,
     "max_encumbrance": 60,
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "max_contains_volume": "5 L",
-        "max_contains_weight": "3 kg",
-        "moves": 150
-      }
-    ],
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "3 kg", "moves": 150 } ],
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
