@@ -286,7 +286,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
     int pageStart = 0; // index of first item on current page
 
     advanced_inventory_pagination pagination( linesPerPage, pane );
-    if( items.size() > 0 ) {
+    if( !items.empty() ) {
         // paginate up to the current item (to count pages)
         for( int i = 0; i <= index; i++ ) {
             const bool pagebreak = pagination.step( i );

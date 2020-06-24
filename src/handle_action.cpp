@@ -1389,9 +1389,11 @@ static void open_movement_mode_menu()
     }
 }
 
+static bool assign_spellcasting( avatar &you, spell &sp, bool fake_spell );
+
 static void cast_spell()
 {
-    player &u = g->u;
+    avatar &u = g->u;
 
     std::vector<spell_id> spells = u.magic.spells();
 
@@ -1421,35 +1423,45 @@ static void cast_spell()
 
     spell &sp = *u.magic.get_spells()[spell_index];
 
-    if( u.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
-        !u.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
+    assign_spellcasting( u, sp, false );
+}
+
+// returns if the spell was assigned
+static bool assign_spellcasting( avatar &you, spell &sp, bool fake_spell )
+{
+    if( you.is_armed() && !sp.has_flag( spell_flag::NO_HANDS ) &&
+        !you.weapon.has_flag( flag_MAGIC_FOCUS ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You need your hands free to cast this spell!" ) );
-        return;
+        return false;
     }
 
-    if( !u.magic.has_enough_energy( u, sp ) ) {
+    if( !you.magic.has_enough_energy( you, sp ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You don't have enough %s to cast the spell." ),
                  sp.energy_string() );
-        return;
+        return false;
     }
 
-    if( sp.energy_source() == magic_energy_type::hp && !u.has_quality( qual_CUT ) ) {
+    if( sp.energy_source() == magic_energy_type::hp && !you.has_quality( qual_CUT ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You cannot cast Blood Magic without a cutting implement." ) );
-        return;
+        return false;
     }
 
-    player_activity cast_spell( ACT_SPELLCASTING, sp.casting_time( u ) );
+    player_activity cast_spell( ACT_SPELLCASTING, sp.casting_time( you ) );
     // [0] this is used as a spell level override for items casting spells
-    cast_spell.values.emplace_back( -1 );
+    if( fake_spell ) {
+        cast_spell.values.emplace_back( sp.get_level() );
+    } else {
+        cast_spell.values.emplace_back( -1 );
+    }
     // [1] if this value is 1, the spell never fails
     cast_spell.values.emplace_back( 0 );
     // [2] this value overrides the mana cost if set to 0
     cast_spell.values.emplace_back( 1 );
     cast_spell.name = sp.id().c_str();
-    if( u.magic.casting_ignore ) {
+    if( you.magic.casting_ignore ) {
         const std::vector<distraction_type> ignored_distractions = {
             distraction_type::noise,
             distraction_type::pain,
@@ -1465,7 +1477,19 @@ static void cast_spell()
             cast_spell.ignore_distraction( ignored );
         }
     }
-    u.assign_activity( cast_spell, false );
+    you.assign_activity( cast_spell, false );
+    return true;
+}
+
+// this is here because it shares some things in common with cast_spell
+bool bionic::activate_spell( Character &caster )
+{
+    if( !caster.is_avatar() || !id->spell_on_activate ) {
+        // the return value tells us if the spell fails. if it has no spell it can't fail
+        return true;
+    }
+    spell sp = id->spell_on_activate->get_spell();
+    return assign_spellcasting( *caster.as_avatar(), sp, true );
 }
 
 void game::open_consume_item_menu()

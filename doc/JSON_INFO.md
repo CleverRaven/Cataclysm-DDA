@@ -53,6 +53,7 @@ Use the `Home` key to return to the top.
       - [`conduct`](#conduct)
     + [Skills](#skills)
     + [Traits/Mutations](#traits-mutations)
+    + [Traps](#traps)
     + [Vehicle Groups](#vehicle-groups)
     + [Vehicle Parts](#vehicle-parts)
     + [Part Resistance](#part-resistance)
@@ -1531,6 +1532,39 @@ it is present to help catch errors.
 		| STAMINA       | Trigger depends of the stamina value.
 		| TIME          | Trigger depends of the time of the day. [ 1am = 1, Midnight = 24 ]
 
+### Traps
+
+```C++
+    "type": "trap",  
+    "id": "tr_beartrap",  // Unique ID
+    "name": "bear trap",  // In-game name displayed
+    "color": "blue",
+    "symbol": "^",
+    "visibility": 2,  // 1 to ??, affects detection
+    "avoidance": 7,  // 0 to ??, affects avoidance
+    "difficulty": 3,  // 0 to ??, difficulty of assembly & disassembly
+    "trap_radius": 1,  // 0 to ??, trap radius
+    "action": "blade",  
+    "map_regen": "microlab_shifting_hall",  // a valid overmap id, for map_regen action traps
+    "benign": true,
+    "always_invisible": true,
+    "funnel_radius": 200,  // milimiters?
+    "comfort": 4,
+    "floor_bedding_warmth": -500,
+    "spell_data": { "id": "bear_trap" },   // data required for trapfunc::spell()
+    "trigger_weight": "200 g",  // If an item with this weight or more is thrown onto the trap, it triggers. TODO: what is the default?
+    "drops": [ "beartrap" ],  // For disassembly?
+    "vehicle_data": {
+      "damage": 300,
+      "sound_volume": 8,
+      "sound": "SNAP!",
+      "sound_type": "trap",
+      "sound_variant": "bear_trap",
+      "remove_trap": true,
+      "spawn_items": [ "beartrap" ]
+    }
+```
+
 ### Vehicle Groups
 
 
@@ -1690,8 +1724,8 @@ See also VEHICLE_JSON.md
 "phase": "solid",                            // (Optional, default = "solid") What phase it is
 "weight": "350 g",                           // Weight, weight in grams, mg and kg can be used - "50 mg", "5 g" or "5 kg". For stackable items (ammo, comestibles) this is the weight per charge.
 "volume": "250 ml",                          // Volume, volume in ml and L can be used - "50 ml" or "2 L". For stackable items (ammo, comestibles) this is the volume of stack_size charges.
-"integral_volume": 0,                        // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L".
-"integral_weight": 0,                        // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun)
+"integral_volume": "50 ml",                        // Volume added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Volume in ml and L can be used - "50 ml" or "2 L". Default is the same as volume.
+"integral_weight": "50 g",                        // Weight added to base item when item is integrated into another (eg. a gunmod integrated to a gun). Default is the same as weight.
 "longest_side": "15 cm",                     // Length of longest item dimension. Default is cube root of volume.
 "rigid": false,                              // For non-rigid items volume (and for worn items encumbrance) increases proportional to contents
 "insulation": 1,                             // (Optional, default = 1) If container or vehicle part, how much insulation should it provide to the contents
@@ -1769,7 +1803,6 @@ Armor can be defined like this:
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
 "covers" : ["FEET"],  // Where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
-"storage" : 0,        //  (Optional, default = 0) How many volume storage slots it adds
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
@@ -1787,7 +1820,6 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "armor_data" : {      // additionally the same armor data like above
     "covers" : ["FEET"],
-    "storage" : 0,
     "warmth" : 10,
     "environmental_protection" : 0,
     "encumbrance" : 0,
@@ -1804,7 +1836,6 @@ Pet armor can be defined like this:
 "type" : "PET_ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
-"storage" : 0,        //  (Optional, default = 0) How many volume storage slots it adds
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "material_thickness" : 1,  // Thickness of material, in millimeter units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "pet_bodytype":        // the body type of the pet that this monster will fit.  See MONSTERS.md
@@ -1817,7 +1848,6 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "pet_armor_data" : {      // additionally the same armor data like above
-    "storage" : 0,
     "environmental_protection" : 0,
     "pet_bodytype": "dog",
     "max_pet_vol": "35000 ml",
@@ -1992,6 +2022,7 @@ Any Item can be a container. To add the ability to contain things to an item, yo
     "fire_protection": false,         // Default false. If true, the pocket protects the contained items from exploding if tossed into a fire.
     "ammo_restriction": { "ammotype": count }, // Restrict pocket to a given ammo type and count.  This overrides mandatory volume and weight to use the given ammo type instead.  A pocket can contain any number of unique ammotypes each with different counts, and the container will only hold one type (as of now).  If this is left out, it will be empty.
     "flag_restriction": [ "FLAG1", "FLAG2" ],  // Items can only be placed into this pocket if they have a flag that matches one of these flags.
+    "item_restriction": [ "item_id" ],         // Only these item IDs can be placed into this pocket. Overrides ammo and flag restrictions.
 
     "sealed_data": { "spoil_multiplier": 0.0 } // Having anything in sealed_data means the pocket cannot be resealed.  The sealed version of the pocket will override the unsealed version of the same datatype.
   }
@@ -2410,7 +2441,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
     "place_randomly": true, // if true: places the monster randomly around the player, if false: let the player decide where to put it (default: false)
     "skills": [ "unarmed", "throw" ], // (optional) array of skill IDs. Higher skill level means more likely to place a friendly monster.
-    "moves": 60 // how many move points the action takes.
+    "moves": 60, // how many move points the action takes.
+    "is_pet": false // specifies if the spawned monster is a pet. The monster will only spawn as a pet if it is spawned as friendly, hostile monsters will never be pets.
 },
 "use_action": {
     "type": "place_npc", // place npc of specific class on the map
@@ -3048,7 +3080,7 @@ A flat multiplier on the harvest count of the plant. For numbers greater than on
 "restricted": true,       // (optional) If true, clothing must list this mod's flag in "valid_mods" list to use it. Defaults to false.
 "mod_value": [            // List of mod effect.
     {
-        "type": "bash",   // "bash", "cut", "bullet", "fire", "acid", "warmth", "storage", and "encumbrance" is available.
+        "type": "bash",   // "bash", "cut", "bullet", "fire", "acid", "warmth", and "encumbrance" is available.
         "value": 1,       // value of effect.
         "round_up": false // (optional) round up value of effect. defaults to false.
         "proportion": [   // (optional) value of effect propotions to clothing's parameter.

@@ -102,11 +102,20 @@ static const activity_id ACT_FORAGE( "ACT_FORAGE" );
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PLANT_SEED( "ACT_PLANT_SEED" );
 
+static const efftype_id effect_antibiotic( "antibiotic" );
+static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_earphones( "earphones" );
+static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
+static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
+static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tetanus( "tetanus" );
+static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
 static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_bot_broken_cyborg( "bot_broken_cyborg" );
@@ -4587,6 +4596,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         INSTALL_CBM,
         UNINSTALL_CBM,
         BONESETTING,
+        TREAT_WOUNDS,
     };
 
     bool adjacent_couch = false;
@@ -4669,6 +4679,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.addentry( INSTALL_CBM, true, 'i', _( "Choose Compact Bionic Module to install" ) );
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall" ) );
     amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
+    amenu.addentry( TREAT_WOUNDS, true, 'w', _( "Treat wounds" ) );
 
     amenu.query();
 
@@ -4828,6 +4839,69 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 popup_player_or_npc( patient, _( "You have no limbs that require splinting." ),
                                      _( "<npcname> doesn't have limbs that require splinting." ) );
             }
+            break;
+        }
+
+        case TREAT_WOUNDS: {
+            if( !patient.has_effect( effect_bleed ) && !patient.has_effect( effect_infected ) &&
+                !patient.has_effect( effect_bite ) ) {
+                p.add_msg_player_or_npc( m_info, _( "You don't have any wounds that need treatment." ),
+                                         _( "<npcname> doesn't have any wounds that need treatment." ) );
+                return;
+            }
+
+            if( patient.has_effect( effect_infected ) || patient.has_effect( effect_tetanus ) ) {
+                if( patient.has_effect( effect_strong_antibiotic ) ||
+                    patient.has_effect( effect_antibiotic ) ||
+                    patient.has_effect( effect_weak_antibiotic ) ) {
+                    patient.add_msg_player_or_npc( m_info,
+                                                   _( "The autodoc detected a bacterial infection in your body, but as it also detected you've already taken antibiotics, it decided not to apply another dose right now." ),
+                                                   _( "The autodoc detected a bacterial infection in <npcname>'s body, but as it also detected you've already taken antibiotics, it decided not to apply another dose right now." ) );
+                } else {
+                    patient.add_effect( effect_strong_antibiotic, 12_hours );
+                    patient.add_effect( effect_strong_antibiotic_visible, rng( 9_hours, 15_hours ) );
+                    patient.mod_pain( 3 );
+                    patient.add_msg_player_or_npc( m_good,
+                                                   _( "The autodoc detected a bacterial infection in your body and injected antibiotics to treat it." ),
+                                                   _( "The autodoc detected a bacterial infection in <npcname>'s body and injected antibiotics to treat it." ) );
+
+                    if( patient.has_effect( effect_tetanus ) ) {
+                        if( one_in( 3 ) ) {
+                            patient.remove_effect( effect_tetanus );
+                            patient.add_msg_if_player( m_good, _( "The muscle spasms start to go away." ) );
+                        } else {
+                            patient.add_msg_if_player( m_warning, _( "The medication does nothing to help the spasms." ) );
+                        }
+                    }
+                }
+            }
+
+            for( const bodypart_id &bp_healed : patient.get_all_body_parts( true ) ) {
+                if( patient.has_effect( effect_bleed, bp_healed->token ) ) {
+                    patient.remove_effect( effect_bleed, bp_healed->token );
+                    patient.add_msg_player_or_npc( m_good,
+                                                   _( "The autodoc detected a bleeding on your %s and applied a hemostatic drug to stop it." ),
+                                                   _( "The autodoc detected a bleeding on <npcname>'s %s and applied a hemostatic drug to stop it." ),
+                                                   body_part_name( bp_healed ) );
+                }
+
+                if( patient.has_effect( effect_bite, bp_healed->token ) ) {
+                    patient.remove_effect( effect_bite, bp_healed->token );
+                    patient.add_msg_player_or_npc( m_good,
+                                                   _( "The autodoc detected an open wound on your %s and applied a disinfectant to clean it." ),
+                                                   _( "The autodoc detected an open wound on <npcname>'s %s and applied a disinfectant to clean it." ),
+                                                   body_part_name( bp_healed ) );
+
+                    // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc.
+                    const int disinfectant_intensity = 14;
+                    patient.add_effect( effect_disinfected, 1_turns, bp_healed->token );
+                    effect &e = patient.get_effect( effect_disinfected, bp_healed->token );
+                    e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
+                    hp_part target_part = player::bp_to_hp( bp_healed->token );
+                    patient.damage_disinfected[target_part] = patient.hp_max[target_part] - patient.hp_cur[target_part];
+                }
+            }
+            patient.moves -= 500;
             break;
         }
 
