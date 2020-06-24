@@ -169,5 +169,19 @@
     "range": 100,
     "dispersion": 1000,
     "ranged_damage": { "damage_type": "stab", "amount": 30 }
+  },
+  {
+    "id": "pseudo_char_smoker",
+    "type": "TOOL",
+    "name": { "str": "smoking rack" },
+    "description": "This is a crafting_pseudo_item if you have it something is wrong.",
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "ammo": [ "charcoal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 2000 } } ],
+    "sub": "char_smoker",
+    "max_charges": 2000,
+    "flags": [ "ALLOWS_REMOTE_USE", "PSEUDO" ]
   }
 ]
