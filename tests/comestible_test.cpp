@@ -154,8 +154,7 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
                 mystats.calories.avg() > upper_bound ) {
                 printf( "\n\nRecipeID: %s, default is %d Calories,\nCurrent recipe range: %d-%d, Average %.0f"
                         "\nAverage recipe Calories must fall within this range, derived from default Calories: %.0f-%.0f\n\n",
-                        recipe_pair.first.c_str(),
-                        recipe_pair.first->create_result().get_comestible()->default_nutrition.kcal,
+                        recipe_pair.first.c_str(), default_calories,
                         mystats.calories.min(), mystats.calories.max(), mystats.calories.avg(),
                         lower_bound, upper_bound );
             }
