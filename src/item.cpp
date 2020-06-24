@@ -5634,12 +5634,15 @@ int item::get_coverage( const bodypart_id &bodypart ) const
         return t->data[0].coverage;
     }
 
+    int highest_coverage = 0;
+
     for( const auto &entry : t->data ) {
-        if( ( entry.covers.has_value() && entry.covers.value().test( bodypart.id() ) ) ) {
-            return entry.coverage;
+        if( ( entry.covers.has_value() && entry.covers.value().test( bodypart.id() ) )
+            && entry.coverage > highest_coverage ) {
+            highest_coverage = entry.coverage;
         }
     }
-    return 0;
+    return highest_coverage;
 }
 
 int item::get_thickness() const
