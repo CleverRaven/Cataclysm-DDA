@@ -13,7 +13,7 @@
     "symbol": "[",
     "looks_like": "scarf",
     "color": "white",
-    "covers": [ "MOUTH" ],
+    "covers": [ "HEAD" ],
     "coverage": 70,
     "encumbrance": 20,
     "warmth": 40,
