@@ -728,7 +728,7 @@
     "weight": "140 g",
     "color": "yellow",
     "spoils_in": "20 hours",
-    "container": "bag_plastic",130+260+
+    "container": "bag_plastic",
     "comestible_type": "FOOD",
     "symbol": "%",
     "quench": -10,
