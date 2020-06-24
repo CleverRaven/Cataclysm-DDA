@@ -9,8 +9,7 @@
 
 struct tripoint;
 class JsonObject;
-
-enum weather_type : int;
+typedef int weather_type;
 
 enum class precip_class : int {
     NONE,
@@ -26,6 +25,12 @@ enum class sun_intensity_type : int {
     high,
 };
 
+enum class time_requirement_type : int {
+    day,
+    night,
+    both
+};
+
 /**
  * Weather animation class.
  */
@@ -33,6 +38,21 @@ struct weather_animation_t {
     float    factor;
     nc_color color;
     char     glyph;
+};
+
+struct weather_requirements {
+    int windspeed_min;
+    int windspeed_max;
+    int temperature_min;
+    int temperature_max;
+    int pressure_min;
+    int pressure_max;
+    int humidity_min;
+    int humidity_max;
+    bool humidity_and_pressure;
+    bool acidic;
+    time_requirement_type time;
+    std::vector<std::string> required_weathers;
 };
 
 struct weather_datum {
@@ -53,6 +73,8 @@ struct weather_datum {
     weather_animation_t weather_animation;
     int sound_category;
     sun_intensity_type sun_intensity;
+    weather_requirements requirements;
+
 };
 
 struct w_point {
@@ -101,6 +123,7 @@ class weather_generator
         w_point get_weather( const tripoint &, const time_point &, unsigned ) const;
         weather_type get_weather_conditions( const tripoint &, const time_point &, unsigned seed ) const;
         weather_type get_weather_conditions( const w_point & ) const;
+        bool check_weather_requirements( weather_type t );
         int get_wind_direction( season_type ) const;
         int convert_winddir( int ) const;
         int get_water_temperature() const;

@@ -970,7 +970,7 @@ weather_manager::weather_manager()
     weather_override = WEATHER_NULL;
     nextweather = calendar::before_time_starts;
     temperature = 0;
-    weather = WEATHER_CLEAR;
+    weather = WEATHER_DEFAULT;
 }
 
 const weather_generator &weather_manager::get_cur_weather_gen() const

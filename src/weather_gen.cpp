@@ -174,17 +174,51 @@ weather_type weather_generator::get_weather_conditions( const tripoint &location
 {
     w_point w( get_weather( location, t, seed ) );
     weather_type wt = get_weather_conditions( w );
-    // Make sure we don't say it's sunny at night! =P
-    if( wt == WEATHER_SUNNY && is_night( t ) ) {
-        return WEATHER_CLEAR;
-    }
     return wt;
 }
 
 weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 {
-    weather_type r( WEATHER_CLEAR );
-    if( w.pressure > 1020 && w.humidity < 70 ) {
+    weather_type current_conditions( WEATHER_DEFAULT );
+    for( int weather_index = WEATHER_DEFAULT; weather_index < weather::get_weather_count();
+         weather_index++ ) {
+
+        weather_requirements requires = weather::requirements( weather_index );
+        bool test_pressure =
+            requires.pressure_max > w.pressure &&
+            requires.pressure_min < w.pressure;
+        bool test_humidity =
+            requires.humidity_max > w.humidity &&
+            requires.humidity_min < w.humidity;
+        if( requires.humidity_and_pressure && !( test_pressure && test_humidity ) ||
+            ( !requires.humidity_and_pressure && !( test_pressure || test_humidity ) ) ) {
+            continue;
+        }
+        bool test_temperature =
+            requires.temperature_max > w.temperature &&
+            requires.temperature_min < w.temperature;
+        bool test_windspeed =
+            requires.windspeed_max > w.windpower &&
+            requires.windspeed_min < w.windpower;
+        bool test_acidic = requires.acidic == w.acidic;
+        if( !( test_temperature && test_windspeed && test_acidic ) ) {
+            continue;
+        }
+
+        bool test_required_weathers = requires.required_weathers.empty() ||
+                                      std::find( requires.required_weathers.begin(), requires.required_weathers.end(),
+                                              weather::name( weather_index ) ) != requires.required_weathers.end();
+
+        bool test_time = requires.time == time_requirement_type::both ||
+                         ( requires.time == time_requirement_type::day && is_day( calendar::turn ) ) ||
+                         ( requires.time == time_requirement_type::night && !is_day( calendar::turn ) );
+        if (!(test_required_weathers && test_time)) {
+            continue;
+        }
+        current_conditions = weather_index;
+    }
+    return current_conditions;
+    /*if( w.pressure > 1020 && w.humidity < 70 ) {
         r = WEATHER_SUNNY;
     }
     if( w.pressure < 1010 && w.humidity > 40 ) {
@@ -205,7 +239,6 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     if( r == WEATHER_THUNDER && w.pressure < 990 ) {
         r = WEATHER_LIGHTNING;
     }
-
     if( w.temperature <= 32 ) {
         if( r == WEATHER_DRIZZLE ) {
             r = WEATHER_FLURRIES;
@@ -217,14 +250,13 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
             }
         }
     }
-
     if( r == WEATHER_DRIZZLE && w.acidic ) {
         r = WEATHER_ACID_DRIZZLE;
     }
     if( r > WEATHER_DRIZZLE && w.acidic ) {
         r = WEATHER_ACID_RAIN;
     }
-    return r;
+    return r;*/
 }
 
 int weather_generator::get_wind_direction( const season_type season ) const
@@ -375,6 +407,30 @@ weather_generator weather_generator::load( const JsonObject &jo )
         weather_data.sound_category = weather_type.get_int( "sound_category", 0 );
         weather_data.sun_intensity = static_cast<sun_intensity_type>
                                      ( weather_type.get_int( "sun_intensity" ) );
+        weather_data.requirements = {};
+        if( weather_type.has_member( "requirements" ) ) {
+            JsonObject weather_requires = weather_type.get_object( "requirements" );
+            weather_requirements new_requires;
+            new_requires.pressure_min = weather_requires.get_int( "pressure_min", -1000 );
+            new_requires.pressure_max = weather_requires.get_int( "pressure_max", 10000000 );
+
+            new_requires.humidity_min = weather_requires.get_int( "humidity_min", -10000);
+            new_requires.humidity_max = weather_requires.get_int( "humidity_max", 10000 );
+
+            new_requires.temperature_min = weather_requires.get_int( "temperature_min", -1000 );
+            new_requires.temperature_max = weather_requires.get_int( "temperature_max", 10000 );
+
+            new_requires.windspeed_min = weather_requires.get_int( "windspeed_min", -10000 );
+            new_requires.windspeed_max = weather_requires.get_int( "windspeed_max", 10000 );
+
+            new_requires.humidity_and_pressure = weather_requires.get_bool( "humidity_and_pressure", true );
+            new_requires.acidic = weather_requires.get_bool( "acidic", false );
+
+            new_requires.time = static_cast<time_requirement_type>( weather_requires.get_int( "time", 2 ) );
+            new_requires.required_weathers = weather_requires.get_string_array( "required_weathers" );
+
+            weather_data.requirements = new_requires;
+        }
         weather::add_weather_datum( weather_data );
     }
     return ret;

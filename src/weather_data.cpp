@@ -6,6 +6,7 @@
 #include <iterator>
 
 #include "color.h"
+#include "debug.h"
 #include "translations.h"
 
 /**
@@ -31,11 +32,11 @@ static weather_result weather_data_internal( weather_type const type )
     // TODO: but it actually isn't 60, it's 100. Fix this comment or fix the value
 
     const size_t i = static_cast<size_t>( type );
-    if( i < NUM_WEATHER_TYPES ) {
+    if( i < weather_datums.size() ) {
         return { weather_datums[i], i > 0 };
     }
-
-    return { weather_datums[0], false };
+    debugmsg( "Invalid weather requested." );
+    return { weather_datums[WEATHER_NULL], false };
 }
 
 static weather_datum weather_data_interal_localized( weather_type const type )
@@ -126,14 +127,18 @@ sun_intensity_type sun_intensity( weather_type type )
 {
     return weather_data_internal( type ).datum.sun_intensity;
 }
+weather_requirements requirements( weather_type type )
+{
+    return weather_data_internal( type ).datum.requirements;
+}
 weather_type get_bad_weather()
 {
-    weather_type bad_weather = weather_type::WEATHER_NULL;
+    weather_type bad_weather = WEATHER_NULL;
     int current_weather = 0;
     for each( weather_datum weather in weather_datums ) {
         current_weather++;
         if( weather.precip == precip_class::HEAVY ) {
-            bad_weather = static_cast<weather_type>( current_weather );
+            bad_weather = current_weather;
         }
     }
     return bad_weather;

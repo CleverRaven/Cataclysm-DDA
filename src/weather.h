@@ -44,26 +44,8 @@ class item;
 struct trap;
 struct rl_vec2d;
 
-/**
- * Weather type enum.
- */
-enum weather_type : int {
-    WEATHER_NULL,         //!< For data and stuff
-    WEATHER_CLEAR,        //!< No effects
-    WEATHER_SUNNY,        //!< Glare if no eye protection
-    WEATHER_CLOUDY,       //!< No effects
-    WEATHER_LIGHT_DRIZZLE,//!< very Light rain
-    WEATHER_DRIZZLE,      //!< Light rain
-    WEATHER_RAINY,        //!< Lots of rain, sight penalties
-    WEATHER_THUNDER,      //!< Warns of lightning to come
-    WEATHER_LIGHTNING,    //!< Rare lightning strikes!
-    WEATHER_ACID_DRIZZLE, //!< No real effects; warning of acid rain
-    WEATHER_ACID_RAIN,    //!< Minor acid damage
-    WEATHER_FLURRIES,     //!< Light snow
-    WEATHER_SNOW,         //!< snow glare effects
-    WEATHER_SNOWSTORM,    //!< sight penalties
-    NUM_WEATHER_TYPES     //!< Sentinel value
-};
+const int WEATHER_NULL = 0;
+const int WEATHER_DEFAULT = 1;
 
 enum weather_sound_category : int {
     NONE,
@@ -140,6 +122,7 @@ std::string tiles_animation( weather_type type );
 weather_animation_t get_weather_animation( weather_type type );
 int sound_category( weather_type const type );
 sun_intensity_type sun_intensity( weather_type type );
+weather_requirements requirements( weather_type );
 weather_type get_bad_weather();
 int get_weather_count();
 } // namespace weather
@@ -222,7 +205,7 @@ class weather_manager
         int temperature = 0;
         bool lightning_active = false;
         // Weather pattern
-        weather_type weather = weather_type::WEATHER_NULL;
+        weather_type weather = WEATHER_NULL;
         int winddirection = 0;
         int windspeed = 0;
         // Cached weather data

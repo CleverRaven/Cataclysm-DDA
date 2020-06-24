@@ -966,7 +966,11 @@
           "rains": false,
           "acidic": false,
           "sound_category": 5,
-          "sun_intensity": 3
+          "sun_intensity": 3,
+          "requirements":{
+            "pressure_min": 1020,
+            "humidity_max": 70
+          }
         },
         {
           "name": "Cloudy",
@@ -982,7 +986,11 @@
           "rains": false,
           "acidic": false,
           "sound_category": 5,
-          "sun_intensity": 1
+          "sun_intensity": 1,
+          "requirements":{
+            "pressure_max": 1010,
+            "humidity_min": 40
+          }
         },
         {
           "name": "Light Drizzle",
@@ -1004,7 +1012,13 @@
             "glyph": ","
           },
           "sound_category": 1,
-          "sun_intensity": 1
+          "sun_intensity": 1,
+          "requirements":{
+            "pressure_max": 1003,
+            "humidity_min": 96,
+            "humidity_and_pressure": false,
+            "required_weathers":[ "Cloudy" ]
+          }
         },
         {
           "name": "Drizzle",
@@ -1026,7 +1040,13 @@
             "glyph": "."
           },
           "sound_category": 1,
-          "sun_intensity": 1
+          "sun_intensity": 1,
+          "requirements":{
+            "pressure_max": 1000,
+            "humidity_min": 97,
+            "humidity_and_pressure": false,
+            "required_weathers":[ "Light Drizzle" ]
+          }
         },
         {
           "name": "Rain",
@@ -1048,7 +1068,13 @@
             "glyph": ","
           },
           "sound_category": 2,
-          "sun_intensity": 1
+          "sun_intensity": 1,
+          "requirements":{
+            "pressure_max": 993,
+            "humidity_min": 98,
+            "humidity_and_pressure": false,
+            "required_weathers":[ "Cloudy" ]
+          }
         },
         {
           "name": "Thunder Storm",
@@ -1076,7 +1102,11 @@
             "glyph": "."
           },
           "sound_category": 3,
-          "sun_intensity": 0
+          "sun_intensity": 0,
+          "requirements":{
+            "pressure_max": 996,
+            "required_weathers":[ "Rain" ]
+          }
         },
         {
           "name": "Lightning Storm",
@@ -1108,7 +1138,11 @@
             "glyph": ","
           },
           "sound_category": 3,
-          "sun_intensity": 0
+          "sun_intensity": 0,
+          "requirements":{
+            "pressure_max": 990,
+            "required_weathers":[ "Thunder Storm" ]
+          }
         },
         {
           "name": "Acidic Drizzle",
@@ -1136,7 +1170,11 @@
             "glyph": "."
           },
           "sound_category": 1,
-          "sun_intensity": 2
+          "sun_intensity": 2,
+          "requirements":{
+            "acidic": true,
+            "required_weathers":[ "Drizzle" ]
+          }
         },
         {
           "name": "Acid Rain",
@@ -1164,7 +1202,11 @@
             "glyph": ","
           },
           "sound_category": 3,
-          "sun_intensity": 0
+          "sun_intensity": 0,
+          "requirements":{
+            "acidic": true,
+            "required_weathers":[ "Rain" ]
+          }
         },
         {
           "name": "Flurries",
@@ -1186,7 +1228,11 @@
             "glyph": "."
           },
           "sound_category": 4,
-          "sun_intensity": 1
+          "sun_intensity": 1,
+          "requirements":{
+            "temperature_max": 33,
+            "required_weathers":[ "Drizzle" ]
+          }
         },
         {
           "name": "Snowing",
@@ -1214,7 +1260,11 @@
             "glyph": ","
           },
           "sound_category": 6,
-          "sun_intensity": 1
+          "sun_intensity": 1,
+          "requirements":{
+            "temperature_max": 33,
+            "required_weathers":[ "Rain", "Thunder Storm", "Lightning Storm" ]
+          }
         },
         {
           "name": "Snowstorm",
@@ -1242,7 +1292,12 @@
             "glyph": "*"
           },
           "sound_category": 5,
-          "sun_intensity": 0
+          "sun_intensity": 0,
+          "requirements":{
+            "temperature_max": 33,
+            "windpower_min":15,
+            "required_weathers":[ "Thunder Storm", "Lightning Storm" ]
+          }
         }
       ]
     },

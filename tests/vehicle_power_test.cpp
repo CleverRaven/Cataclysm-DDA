@@ -72,7 +72,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
             calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days;
             const time_point start_time = sunrise( calendar::turn ) + 3_hours;
             veh_ptr->update_time( start_time );
-            get_weather().weather_override = WEATHER_SUNNY;
+            //g->weather.weather_override = WEATHER_SUNNY;
 
             AND_GIVEN( "the battery has no charge" ) {
                 veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );
@@ -102,7 +102,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
 
         GIVEN( "it is 3 hours after sunset, with clear weather" ) {
             const time_point at_night = sunset( calendar::turn ) + 3_hours;
-            get_weather().weather_override = WEATHER_CLEAR;
+            g->weather.weather_override = WEATHER_DEFAULT;
             veh_ptr->update_time( at_night );
 
             AND_GIVEN( "the battery has no charge" ) {
