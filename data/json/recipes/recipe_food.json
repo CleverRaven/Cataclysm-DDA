@@ -4296,7 +4296,7 @@
     "book_learn": [ [ "family_cookbook", 2 ], [ "mag_cooking", 2 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
-      [ [ "fish_cooked", 1 ], [ "fish_fried", 1 ], [ "can_salmon", 1 ] ],
+      [ [ "fish_cooked", 1 ], [ "can_salmon", 1 ] ],
       [ [ "bread_sandwich", 2, "LIST" ] ],
       [ [ "spinach", 1 ] ],
       [ [ "cooking_oil", 1 ] ],
@@ -4679,7 +4679,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "book_learn": [ [ "mag_glam", 1 ] ],
-    "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "any_butter", 4, "LIST" ], [ "ghee", 4 ] ], [ [ "sprinkles", 3 ] ] ]
+    "components": [ [ [ "bread_sandwich", 1, "LIST" ] ], [ [ "any_butter", 1, "LIST" ] ], [ [ "sprinkles", 3 ] ] ]
   },
   {
     "type": "recipe",
