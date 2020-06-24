@@ -99,6 +99,7 @@ class relic_procgen_data
         weighted_int_list<enchantment_active> passive_hit_me;
         weighted_int_list<enchantment_active> active_procgen_values;
         weighted_int_list<type> type_weights;
+        weighted_int_list<itype_id> item_weights;
 
     public:
         relic_procgen_id id;
@@ -107,6 +108,7 @@ class relic_procgen_data
         // power level of the active spell
         int power_level( const fake_spell &sp ) const;
 
+        item create_item( const relic_procgen_data::generation_rules &rules ) const;
         relic generate( const generation_rules &rules ) const;
 
         bool was_loaded;

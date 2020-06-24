@@ -4027,21 +4027,14 @@ std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item>
     return ret;
 }
 
-void map::spawn_artifact( const tripoint &p )
+void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id )
 {
-    item sword( "spoon" );
     relic_procgen_data::generation_rules rules;
-    rules.max_attributes = 1;
-    rules.power_level = 1;
+    rules.max_attributes = 5;
+    rules.power_level = 1000;
+    rules.max_negative_power = -2000;
 
-    sword.overwrite_relic( relic_procgen_id( "standard" )->generate( rules ) );
-
-    add_item_or_charges( p, sword );
-}
-
-void map::spawn_natural_artifact( const tripoint &p, artifact_natural_property )
-{
-    spawn_artifact( p );
+    add_item_or_charges( p, id->create_item( rules ) );
 }
 
 void map::spawn_item( const tripoint &p, const itype_id &type_id,

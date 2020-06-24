@@ -130,6 +130,15 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
 
         type_weights.add( val, weight );
     }
+
+    for( const JsonObject &jo_inner : jo.get_array( "items" ) ) {
+        int weight = 0;
+        mandatory( jo_inner, was_loaded, "weight", weight );
+        itype_id it;
+        mandatory( jo_inner, was_loaded, "item", it );
+
+        item_weights.add( it, weight );
+    }
 }
 
 void relic_procgen_data::deserialize( JsonIn &jsin )
@@ -280,6 +289,21 @@ int relic_procgen_data::power_level( const fake_spell &sp ) const
         }
     }
     return 0;
+}
+
+item relic_procgen_data::create_item( const relic_procgen_data::generation_rules &rules ) const
+{
+    const itype_id *it_id = item_weights.pick();
+    if( it_id == nullptr ) {
+        debugmsg( "ERROR: %s procgen data does not have items", id.c_str() );
+        return null_item_reference();
+    }
+
+    item it( *it_id, calendar::turn );
+
+    it.overwrite_relic( generate( rules ) );
+
+    return it;
 }
 
 relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &rules ) const

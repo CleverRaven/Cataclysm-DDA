@@ -1,16 +1,9 @@
 [
-    {
-        "type": "relic_procgen_data",
-        "id": "standard",
-        "passive_add_procgen_values": [
-            {
-                "weight": 100,
-                "min_value": 1,
-                "max_value": 1,
-                "type": "STRENGTH",
-                "increment": 1,
-                "power_per_increment": 1
-            }
-        ]
-    }
+  {
+    "type": "relic_procgen_data",
+    "id": "cult",
+    "passive_add_procgen_values": [ { "weight": 100, "min_value": 1, "max_value": 1, "type": "STRENGTH", "increment": 1, "power_per_increment": 250 } ],
+    "type_weights": [ { "weight": 100, "value": "passive_enchantment_add" } ],
+    "items": [ { "weight": 100, "item": "spoon" } ]
+  }
 ]
