@@ -108,26 +108,26 @@ bool is_legacy_bodypart_id( const std::string &id )
 
 const std::string &bodypart_str_id_to_readable( const bodypart_str_id &id )
 {
-    static const std::map<std::string, std::string> bodyparts = {
-        { "torso", "Torso" },
-        { "head", "Head" },
-        { "eyes", "Eyes" },
-        { "mouth", "Mouth" },
-        { "arm_l", "L Arm" },
-        { "arm_r", "R Arm" },
-        { "hand_l", "L Hand" },
-        { "hand_r", "R Hand" },
-        { "leg_l", "L Leg" },
-        { "leg_r", "R Leg" },
-        { "foot_l", "L Foot" },
-        { "foor_r", "R Foot" },
-        { "num_bp", "NUM_BP" },
+    static const std::unordered_map<bodypart_str_id, std::string> bodyparts = {
+        { convert_bp( bp_torso ), "Torso" },
+        { convert_bp( bp_head ), "Head" },
+        { convert_bp( bp_eyes ), "Eyes" },
+        { convert_bp( bp_mouth ), "Mouth" },
+        { convert_bp( bp_arm_l ), "L Arm" },
+        { convert_bp( bp_arm_r ), "R Arm" },
+        { convert_bp( bp_hand_l ), "L Hand" },
+        { convert_bp( bp_hand_r ), "R Hand" },
+        { convert_bp( bp_leg_l ), "L Leg" },
+        { convert_bp( bp_leg_r ), "R Leg" },
+        { convert_bp( bp_foot_l ), "L Foot" },
+        { convert_bp( bp_foot_r ), "R Foot" },
+        { convert_bp( num_bp ), "NUM_BP" },
     };
 
-    if( bodyparts.find( id.c_str() ) != bodyparts.end() ) {
-        return bodyparts.at( id.c_str() );
+    if( bodyparts.find( id ) != bodyparts.end() ) {
+        return bodyparts.at( id );
     }
-    return bodyparts.at( "num_bp" );
+    return bodyparts.at( convert_bp( num_bp ) );
 }
 
 static body_part legacy_id_to_enum( const std::string &legacy_id )
