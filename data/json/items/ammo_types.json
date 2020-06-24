@@ -655,8 +655,8 @@
   },
   {
     "type": "ammunition_type",
-    "id": "8512",
-    "name": "85-12mm cartridge",
-    "default": "8512"
+    "id": "123ln",
+    "name": "12.3ln cartridge",
+    "default": "123ln"
   }
 ]

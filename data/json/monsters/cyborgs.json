@@ -142,7 +142,7 @@
     "vision_day": 50,
     "vision_night": 50,
     "revert_to_itype": "e_scrap",
-    "starting_ammo": { "8512": 3000 },
+    "starting_ammo": { "123ln": 3000 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
       [ "FLAMETHROWER", 10 ],
@@ -151,7 +151,7 @@
         "cooldown": 1,
         "move_cost": 150,
         "gun_type": "pamd68",
-        "ammo_type": "8512",
+        "ammo_type": "123ln",
         "fake_skills": [ [ "gun", 5 ], [ "rifle", 8 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 41, "DEFAULT" ] ],

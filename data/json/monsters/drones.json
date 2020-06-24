@@ -151,7 +151,7 @@
     "morale": 70,
     "vision_day": 50,
     "vision_night": 50,
-    "starting_ammo": { "8512": 10 },
+    "starting_ammo": { "123ln": 10 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
       {
@@ -159,7 +159,7 @@
         "cooldown": 1,
         "move_cost": 350,
         "gun_type": "pamd71z",
-        "ammo_type": "8512",
+        "ammo_type": "123ln",
         "fake_skills": [ [ "gun", 6 ], [ "rifle", 9 ] ],
         "fake_dex": 12,
         "ranges": [ [ 0, 50, "DEFAULT" ] ],
