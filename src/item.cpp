@@ -5628,17 +5628,25 @@ int item::get_coverage( const bodypart_id &bodypart ) const
     }
 
     int avg_coverage = 0;
-
-    for( const auto &entry : t->data ) {
-        if( ( entry.covers.has_value()
-              && ( entry.covers.value().test( bodypart.id() ) ||
-                   bodypart == bodypart_id( bodypart_str_id( "num_bp" ) ) ) ) ) {
-            avg_coverage += entry.coverage;
+    int avg_ctr = 0;
+    if( bodypart == bodypart_id( bodypart_str_id( "num_bp" ) ) ) {
+        for( const auto &entry : t->data ) {
+            if( entry.covers.has_value() ) {
+                avg_coverage += entry.coverage * entry.covers.value().count();
+                avg_ctr += entry.covers.value().count();
+            }
         }
+        avg_coverage /= avg_ctr;
+        return avg_coverage;
     }
 
-    avg_coverage /= t->data.size();
-
+    for( const auto &entry : t->data ) {
+        if( entry.covers.has_value() && entry.covers.value().test( bodypart.id() ) ) {
+            avg_coverage += entry.coverage;
+            ++avg_ctr;
+        }
+    }
+    avg_coverage /= avg_ctr;
     return avg_coverage;
 }
 
