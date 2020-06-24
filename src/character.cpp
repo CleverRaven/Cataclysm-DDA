@@ -5029,8 +5029,7 @@ needs_rates Character::calc_needs_rates() const
     needs_rates rates;
     rates.hunger = metabolic_rate();
 
-    // TODO: this is where calculating basal metabolic rate, in kcal per day would go
-    rates.kcal = 2500.0;
+    rates.kcal = get_bmr();
 
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", rates.hunger );
 
