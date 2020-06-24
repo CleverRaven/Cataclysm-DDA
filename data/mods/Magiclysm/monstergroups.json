@@ -139,8 +139,13 @@
       { "monster": "mon_forgemaster1", "freq": 3, "cost_multiplier": 10 },
       { "monster": "mon_forgemaster2", "freq": 3, "cost_multiplier": 10 },
       { "monster": "mon_forgemaster3", "freq": 3, "cost_multiplier": 10 },
-      { "monster": "mon_forgedwarves", "freq": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] },
-      { "monster": "mon_forgedemons", "freq": 8, "cost_multiplier": 3 } //: remove this one and place it as a hostile only in the vaults.
+      { "monster": "mon_forgedwarves", "freq": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FORGEDEMONS",
+    "default": "mon_forgedemons",
+    "monsters": [ { "monster": "mon_forgedemons", "freq": 100, "cost_multiplier": 3 } ]
   }
 ]
