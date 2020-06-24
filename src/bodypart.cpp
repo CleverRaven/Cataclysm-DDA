@@ -127,7 +127,7 @@ const std::string &bodypart_str_id_to_readable( const bodypart_str_id &id )
     if( bodyparts.find( id ) != bodyparts.end() ) {
         return bodyparts.at( id );
     }
-    return bodyparts.at( convert_bp( num_bp ) );
+    return bodyparts.at( bodypart_str_id( "num_bp" ) );
 }
 
 static body_part legacy_id_to_enum( const std::string &legacy_id )
