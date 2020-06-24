@@ -191,7 +191,7 @@ item_contents::item_contents( const std::vector<pocket_data> &pockets )
     }
 }
 bool item_contents::empty_real() const
-{   
+{
     return contents.empty();
 }
 
@@ -270,7 +270,7 @@ void item_contents::combine( const item_contents &read_input )
             std::advance( current_pocket_iter, pocket_index );
 
             for( const item *it : pocket.all_items_top() ) {
-                if( it->is_gunmod() || it->is_toolmod() ){
+                if( it->is_gunmod() || it->is_toolmod() ) {
                     if( !insert_item( *it, item_pocket::pocket_type::MOD ).success() ) {
                         uninserted_items.push_back( *it );
                     }
