@@ -41,16 +41,16 @@ struct weather_animation_t {
 };
 
 struct weather_requirements {
-    int windspeed_min;
-    int windspeed_max;
-    int temperature_min;
-    int temperature_max;
-    int pressure_min;
-    int pressure_max;
-    int humidity_min;
-    int humidity_max;
-    bool humidity_and_pressure;
-    bool acidic;
+    int windspeed_min = INT_MIN;
+    int windspeed_max = INT_MAX;
+    int temperature_min = INT_MIN;
+    int temperature_max = INT_MAX;
+    int pressure_min = INT_MIN;
+    int pressure_max = INT_MAX;
+    int humidity_min = INT_MIN;
+    int humidity_max = INT_MAX;
+    bool humidity_and_pressure = true;
+    bool acidic = false;
     time_requirement_type time;
     std::vector<std::string> required_weathers;
 };

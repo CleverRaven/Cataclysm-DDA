@@ -200,7 +200,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         bool test_windspeed =
             requires.windspeed_max > w.windpower &&
             requires.windspeed_min < w.windpower;
-        bool test_acidic = requires.acidic == w.acidic;
+        bool test_acidic = !requires.acidic || w.acidic;
         if( !( test_temperature && test_windspeed && test_acidic ) ) {
             continue;
         }
@@ -212,7 +212,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         bool test_time = requires.time == time_requirement_type::both ||
                          ( requires.time == time_requirement_type::day && is_day( calendar::turn ) ) ||
                          ( requires.time == time_requirement_type::night && !is_day( calendar::turn ) );
-        if (!(test_required_weathers && test_time)) {
+        if( !( test_required_weathers && test_time ) ) {
             continue;
         }
         current_conditions = weather_index;
@@ -411,17 +411,17 @@ weather_generator weather_generator::load( const JsonObject &jo )
         if( weather_type.has_member( "requirements" ) ) {
             JsonObject weather_requires = weather_type.get_object( "requirements" );
             weather_requirements new_requires;
-            new_requires.pressure_min = weather_requires.get_int( "pressure_min", -1000 );
-            new_requires.pressure_max = weather_requires.get_int( "pressure_max", 10000000 );
+            new_requires.pressure_min = weather_requires.get_int( "pressure_min", INT_MIN );
+            new_requires.pressure_max = weather_requires.get_int( "pressure_max", INT_MAX );
 
-            new_requires.humidity_min = weather_requires.get_int( "humidity_min", -10000);
-            new_requires.humidity_max = weather_requires.get_int( "humidity_max", 10000 );
+            new_requires.humidity_min = weather_requires.get_int( "humidity_min", INT_MIN );
+            new_requires.humidity_max = weather_requires.get_int( "humidity_max", INT_MAX );
 
-            new_requires.temperature_min = weather_requires.get_int( "temperature_min", -1000 );
-            new_requires.temperature_max = weather_requires.get_int( "temperature_max", 10000 );
+            new_requires.temperature_min = weather_requires.get_int( "temperature_min", INT_MIN );
+            new_requires.temperature_max = weather_requires.get_int( "temperature_max", INT_MAX );
 
-            new_requires.windspeed_min = weather_requires.get_int( "windspeed_min", -10000 );
-            new_requires.windspeed_max = weather_requires.get_int( "windspeed_max", 10000 );
+            new_requires.windspeed_min = weather_requires.get_int( "windspeed_min", INT_MIN );
+            new_requires.windspeed_max = weather_requires.get_int( "windspeed_max", INT_MAX );
 
             new_requires.humidity_and_pressure = weather_requires.get_bool( "humidity_and_pressure", true );
             new_requires.acidic = weather_requires.get_bool( "acidic", false );
