@@ -20,7 +20,7 @@
     "dispersion": 190,
     "durability": 9,
     "min_cycle_recoil": 3820,
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
+    "modes": [ [ "DEFAULT", "auto", 2 ], [ "AUTO", "auto", 5 ] ],
     "barrel_length": "1200 ml",
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
@@ -39,7 +39,7 @@
     "looks_like": "ar15",
     "type": "GUN",
     "name": { "str": "PA md. 71 zombie hunting rifle" },
-    "description": "This extremely popular Romanian assault rifle, made famous in the third Carpachian War, has been redesigned slightly by the Exodii to serve as a sniper weapon.  It is well suited to rapid precision shots against high-priority targets; it is less suited to taking on a horde, as the clip size and firing rate has been reduced.",
+    "description": "This extremely popular Romanian assault rifle, made famous in the third Carpachian War, has been redesigned slightly by the Exodii to serve as a sniper weapon.  It is well suited to precision shots against high-priority targets.  This modified design fires an extremely rapid 5-shot burst, with the goal of shredding the target and preventing revivification.",
     "weight": "3910 g",
     "volume": "3 L",
     "price": 80000,
@@ -51,6 +51,7 @@
     "ammo": [ "123ln" ],
     "dispersion": 100,
     "durability": 8,
+    "modes": [ [ "DEFAULT", "auto", 5 ] ],
     "barrel_length": "250 ml",
     "pocket_data": [
       {
