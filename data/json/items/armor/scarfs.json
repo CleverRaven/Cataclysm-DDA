@@ -1,26 +1,5 @@
 [
   {
-    "id": "cowl_wool",
-    "type": "ARMOR",
-    "name": { "str": "knit cowl" },
-    "description": "A snuggly woolen cowl.  It's one of those stylish and bulky cowls you see in fashion magazines.",
-    "weight": "272 g",
-    "volume": "2 L",
-    "price": 2000,
-    "price_postapoc": 50,
-    "to_hit": -2,
-    "material": [ "wool" ],
-    "symbol": "[",
-    "looks_like": "scarf",
-    "color": "white",
-    "covers": [ "HEAD" ],
-    "coverage": 70,
-    "encumbrance": 20,
-    "warmth": 40,
-    "material_thickness": 3,
-    "flags": [ "OVERSIZE", "HOOD", "FANCY", "ALLOWS_NATURAL_ATTACKS" ]
-  },
-  {
     "id": "headscarf",
     "repairs_like": "balclava",
     "type": "ARMOR",
