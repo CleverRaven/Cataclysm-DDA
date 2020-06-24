@@ -17,23 +17,6 @@
 #include "string_id.h"
 #include "units.h"
 
-template <typename E> struct enum_traits;
-
-template<>
-struct enum_traits<enchantment::has> {
-    static constexpr enchantment::has last = enchantment::has::NUM_HAS;
-};
-
-template<>
-struct enum_traits<enchantment::condition> {
-    static constexpr enchantment::condition last = enchantment::condition::NUM_CONDITION;
-};
-
-template<>
-struct enum_traits<enchant_vals::mod> {
-    static constexpr enchant_vals::mod last = enchant_vals::mod::NUM_MOD;
-};
-
 namespace io
 {
     // *INDENT-OFF*

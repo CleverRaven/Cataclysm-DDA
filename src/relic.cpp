@@ -12,13 +12,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-template <typename E> struct enum_traits;
-
-template<>
-struct enum_traits<relic_procgen_data::type> {
-    static constexpr relic_procgen_data::type last = relic_procgen_data::type::last;
-};
-
 namespace io
 {
     // *INDENT-OFF*
@@ -38,6 +31,28 @@ namespace io
     }
     // *INDENT-ON*
 } // namespace io
+
+namespace
+{
+generic_factory<relic_procgen_data> relic_procgen_data_factory( "relic_procgen_data" );
+} // namespace
+
+template<>
+const relic_procgen_data &string_id<relic_procgen_data>::obj() const
+{
+    return relic_procgen_data_factory.obj( *this );
+}
+
+template<>
+bool string_id<relic_procgen_data>::is_valid() const
+{
+    return relic_procgen_data_factory.is_valid( *this );
+}
+
+void relic_procgen_data::load_relic_procgen_data( const JsonObject &jo, const std::string &src )
+{
+    relic_procgen_data_factory.load( jo, src );
+}
 
 void relic::add_active_effect( const fake_spell &sp )
 {
@@ -87,7 +102,7 @@ void relic_procgen_data::enchantment_active::deserialize( JsonIn &jsin )
     load( jobj );
 }
 
-void relic_procgen_data::load( const JsonObject &jo )
+void relic_procgen_data::load( const JsonObject &jo, const std::string & )
 {
     for( const JsonObject &jo_inner : jo.get_array( "passive_add_procgen_values" ) ) {
         int weight = 0;

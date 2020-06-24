@@ -111,7 +111,8 @@ class relic_procgen_data
 
         bool was_loaded;
 
-        void load( const JsonObject &jo );
+        void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
+        void load( const JsonObject &jo, const std::string & = "" );
         void deserialize( JsonIn &jsin );
 };
 
@@ -146,6 +147,13 @@ class relic
 
         // what is the power level of this artifact, given a specific ruleset
         int power_level( const relic_procgen_id &ruleset ) const;
+};
+
+template <typename E> struct enum_traits;
+
+template<>
+struct enum_traits<relic_procgen_data::type> {
+    static constexpr relic_procgen_data::type last = relic_procgen_data::type::last;
 };
 
 #endif // CATA_SRC_RELIC_H

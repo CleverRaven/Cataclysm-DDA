@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "enum_traits.h"
 #include "json.h"
 #include "magic.h"
 #include "optional.h"
@@ -254,6 +255,23 @@ class enchantment
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
+};
+
+template <typename E> struct enum_traits;
+
+template<>
+struct enum_traits<enchantment::has> {
+    static constexpr enchantment::has last = enchantment::has::NUM_HAS;
+};
+
+template<>
+struct enum_traits<enchantment::condition> {
+    static constexpr enchantment::condition last = enchantment::condition::NUM_CONDITION;
+};
+
+template<>
+struct enum_traits<enchant_vals::mod> {
+    static constexpr enchant_vals::mod last = enchant_vals::mod::NUM_MOD;
 };
 
 #endif // CATA_SRC_MAGIC_ENCHANTMENT_H
