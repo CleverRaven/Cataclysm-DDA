@@ -6484,7 +6484,7 @@ void game::zones_manager()
             ui.position( point_zero, point_zero );
             return;
         }
-        offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ?
+        offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) != "left" ?
                   TERMX - width : 0;
         const int w_zone_height = TERMY - zone_ui_height;
         max_rows = w_zone_height - 2;
