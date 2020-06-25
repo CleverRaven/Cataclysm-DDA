@@ -5675,8 +5675,12 @@ int item::get_coverage( const bodypart_id &bodypart ) const
             ++avg_ctr;
         }
     }
-    avg_coverage /= avg_ctr;
-    return avg_coverage;
+    if( avg_ctr == 0 || avg_coverage == 0 ) {
+        return 0;
+    } else {
+        avg_coverage /= avg_ctr;
+        return avg_coverage;
+    }
 }
 
 int item::get_thickness() const
