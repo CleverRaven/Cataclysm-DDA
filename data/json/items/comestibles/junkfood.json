@@ -773,7 +773,6 @@
     "color": "yellow",
     "spoils_in": "20 hours",
     "container": "bag_plastic",
-    "comestible_type": "FOOD",
     "symbol": "%",
     "charges": 3,
     "calories": 348,
