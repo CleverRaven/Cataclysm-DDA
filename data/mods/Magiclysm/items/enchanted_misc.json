@@ -63,7 +63,7 @@
     "charges_per_use": 1,
     "qualities": [ [ "LOCKPICK", 50 ] ],
     "flags": [ "ARTC_TIME", "PERFECT_LOCKPICK" ],
-    "use_action": "PICK_LOCK"
+    "use_action": [ "PICK_LOCK" ]
   },
   {
     "id": "mtorch_everburning",

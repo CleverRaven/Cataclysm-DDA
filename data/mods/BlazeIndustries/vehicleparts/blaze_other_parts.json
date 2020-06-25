@@ -149,7 +149,7 @@
     "broken_color": "white",
     "durability": 10,
     "description": "A length of heavy duty copper wire, useful for routing power from one part of a vehicle to another part.",
-    "folded_volume": 1,
+    "folded_volume": "250 ml",
     "breaks_into": [ { "item": "wire", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "60 s" },

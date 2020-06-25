@@ -39,7 +39,7 @@
       }
     ],
     "qualities": [ [ "COOK", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "id": "afs_fridge",

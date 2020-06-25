@@ -291,6 +291,7 @@
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 10,
     "encumbrance": 50,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "3500 ml", "max_contains_weight": "8 kg", "moves": 80 } ],
     "material_thickness": 5,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -679,7 +680,7 @@
     "warmth": 8,
     "material_thickness": 2,
     "properties": [ [ "creature_size_capacity", "SMALL" ] ],
-    "use_action": "CAPTURE_MONSTER_ACT",
+    "use_action": [ "CAPTURE_MONSTER_ACT" ],
     "flags": [ "BELTED", "WATERPROOF" ]
   },
   {

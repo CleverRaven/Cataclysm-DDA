@@ -37,7 +37,7 @@
     "initial_charges": 100,
     "max_charges": 100,
     "charges_per_use": 1,
-    "use_action": "EXTINGUISHER"
+    "use_action": [ "EXTINGUISHER" ]
   },
   {
     "id": "fire_ax",
@@ -56,7 +56,7 @@
     "techniques": [ "WBLOCK_1", "BRUTAL", "SWEEP" ],
     "qualities": [ [ "AXE", 2 ], [ "PRY", 3 ], [ "BUTCHER", -30 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP", "SHEATH_AXE" ],
-    "use_action": "CROWBAR"
+    "use_action": [ "CROWBAR" ]
   },
   {
     "id": "halligan",
@@ -94,7 +94,7 @@
     "initial_charges": 10,
     "max_charges": 10,
     "charges_per_use": 1,
-    "use_action": "EXTINGUISHER"
+    "use_action": [ "EXTINGUISHER" ]
   },
   {
     "id": "throw_extinguisher",
@@ -111,7 +111,7 @@
     "material": [ "plastic" ],
     "symbol": "*",
     "color": "blue",
-    "use_action": "THROWABLE_EXTINGUISHER_ACT",
+    "use_action": [ "THROWABLE_EXTINGUISHER_ACT" ],
     "flags": [ "ACT_IN_FIRE" ]
   },
   {

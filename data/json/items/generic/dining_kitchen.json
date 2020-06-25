@@ -116,7 +116,7 @@
     "to_hit": 1,
     "price": 4500,
     "price_postapoc": 10,
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -708,7 +708,7 @@
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -730,7 +730,7 @@
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -753,7 +753,7 @@
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -775,7 +775,7 @@
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -797,7 +797,7 @@
     "pocket_data": [
       {
         "max_contains_volume": "12 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "12 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
@@ -821,14 +821,14 @@
     "pocket_data": [
       {
         "max_contains_volume": "25 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "25 kg",
         "watertight": true,
         "open_container": true,
         "rigid": true
       }
     ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -933,7 +933,7 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "id": "pot_makeshift_copper",
@@ -960,7 +960,7 @@
       }
     ],
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "type": "GENERIC",
@@ -974,7 +974,7 @@
     "weight": "728 g",
     "volume": "1500 ml",
     "bashing": 5,
-    "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "1 kg", "watertight": true, "rigid": true } ],
+    "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "delete": { "qualities": [ [ "COOK", 3 ] ] }
   },
   {

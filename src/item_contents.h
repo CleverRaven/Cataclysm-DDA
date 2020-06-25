@@ -46,6 +46,8 @@ class item_contents
         ret_val<bool> can_contain_rigid( const item &it ) const;
         ret_val<bool> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+        // does not ignore mods
+        bool empty_real() const;
         bool empty() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
         bool empty_container() const;
@@ -147,6 +149,11 @@ class item_contents
          * plus whole stacks of items that are
          */
         size_t num_item_stacks() const;
+
+        /**
+         * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
+         */
+        void favorite_settings_menu( const std::string &item_name );
 
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy );

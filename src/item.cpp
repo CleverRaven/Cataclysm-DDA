@@ -193,6 +193,7 @@ static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
 static const std::string flag_HOT( "HOT" );
 static const std::string flag_IRREMOVABLE( "IRREMOVABLE" );
+static const std::string flag_BURNOUT( "BURNOUT" );
 static const std::string flag_IS_ARMOR( "IS_ARMOR" );
 static const std::string flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
 static const std::string flag_IS_UPS( "IS_UPS" );
@@ -508,6 +509,10 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
             result.item_tags.insert( "REVIVE_SPECIAL" );
         }
         result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
+    }
+
+    if( !mt->zombify_into.is_empty() ) {
+        result.set_var( "zombie_form", mt->zombify_into.c_str() );
     }
 
     // This is unconditional because the const itemructor above sets result.name to
@@ -2658,20 +2663,6 @@ void item::animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query 
     if( !is_pet_armor() ) {
         return;
     }
-    int converted_storage_scale = 0;
-    const double converted_storage = round_up( convert_volume( type->pet_armor->storage.value(),
-                                     &converted_storage_scale ), 2 );
-    if( parts->test( iteminfo_parts::ARMOR_STORAGE ) && converted_storage > 0 ) {
-        const std::string space = "  ";
-        const iteminfo::flags f = converted_storage_scale == 0 ? iteminfo::no_flags : iteminfo::is_decimal;
-        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ),
-                                  string_format( "<num> %s", volume_units_abbr() ),
-                                  f, converted_storage ) );
-    }
-
-    // Whatever the last entry was, we want a newline at this point
-    info.back().bNewLine = true;
-
     armor_protection_info( info, parts, batch, debug );
 }
 
@@ -3070,6 +3061,24 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This tool <info>runs on bionic power</info>." ) );
+    } else if( has_flag( flag_BURNOUT ) && parts->test( iteminfo_parts::TOOL_BURNOUT ) ) {
+        int percent_left = 100 * ammo_remaining() / type->maximum_charges();
+        std::string feedback;
+        if( percent_left == 100 ) {
+            feedback = _( "It's new, and ready to burn." );
+        } else if( percent_left >= 75 ) {
+            feedback = _( "Almost new, with much material to burn." );
+        } else if( percent_left >= 50 ) {
+            feedback = _( "More than a quarter has burned away." );
+        } else if( percent_left >= 25 ) {
+            feedback = _( "More than half has burned away." );
+        } else if( percent_left >= 10 ) {
+            feedback = _( "Less than a quarter left to burn." );
+        } else {
+            feedback = _( "Almost completely burned out." );
+        }
+        feedback = _( "<bold>Fuel</bold>: " ) + feedback;
+        info.push_back( iteminfo( "DESCRIPTION", feedback ) );
     }
 }
 
@@ -5636,7 +5645,8 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    return is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
+    return is_corpse() && ( corpse->has_flag( MF_REVIVES ) || has_var( "zombie_form" ) ) &&
+           damage() < max_damage() &&
            !( has_flag( flag_FIELD_DRESS ) || has_flag( flag_FIELD_DRESS_FAILED ) ||
               has_flag( flag_QUARTERED ) ||
               has_flag( flag_SKINNED ) || has_flag( flag_PULPED ) );
@@ -7199,7 +7209,7 @@ const itype *item::ammo_data() const
         }
     }
 
-    if( is_gun() && !contents.empty() ) {
+    if( is_gun() && ammo_remaining() != 0 ) {
         return contents.first_ammo().ammo_data();
     }
     return nullptr;
@@ -9052,6 +9062,13 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( corpse == nullptr || damage() >= max_damage() ) {
         return false;
     }
+
+    // handle human corpses rising as zombies
+    if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) &&
+        !mtype_id( "mon_human" )->zombify_into.is_empty() ) {
+        set_var( "zombie_form", mtype_id( "mon_human" )->zombify_into.c_str() );
+    }
+
     if( !ready_to_revive( pos ) ) {
         return false;
     }

@@ -1059,10 +1059,6 @@ class map
         void add_item( const point &p, item new_item ) {
             add_item( tripoint( p, abs_sub.z ), new_item );
         }
-        item &spawn_an_item( const tripoint &p, item new_item, int charges, int damlevel );
-        void spawn_an_item( const point &p, item new_item, int charges, int damlevel ) {
-            spawn_an_item( tripoint( p, abs_sub.z ), new_item, charges, damlevel );
-        }
 
         /**
          * Update an item's active status, for example when adding
@@ -1135,7 +1131,7 @@ class map
         std::vector<item *> put_items_from_loc( const items_location &loc, const tripoint &p,
                                                 const time_point &turn = calendar::start_of_cataclysm );
 
-        // Similar to spawn_an_item, but spawns a list of items, or nothing if the list is empty.
+        // Places a list of items, or nothing if the list is empty.
         std::vector<item *> spawn_items( const tripoint &p, const std::vector<item> &new_items );
         void spawn_items( const point &p, const std::vector<item> &new_items ) {
             spawn_items( tripoint( p, abs_sub.z ), new_items );
@@ -1502,14 +1498,6 @@ class map
          * Hacks in missing roofs. Should be removed when 3D mapgen is done.
          */
         void add_roofs( const tripoint &grid );
-        /**
-         * Go through the list of items, update their rotten status and remove items
-         * that have rotten away completely.
-         * @param items items to remove
-         * @param p The point on this map where the items are, used for rot calculation.
-         */
-        template <typename Container>
-        void remove_rotten_items( Container &items, const tripoint &p );
         /**
          * Try to fill funnel based items here. Simulates rain from @p since till now.
          * @param p The location in this map where to fill funnels.

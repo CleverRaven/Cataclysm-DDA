@@ -12,6 +12,7 @@
 
 #include "action.h"
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -4699,6 +4700,11 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
+        if( !activity.is_null() ) {
+            decrease_activity_level( activity.id()->exertion_level() );
+        } else {
+            reset_activity_level();
+        }
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
@@ -4712,9 +4718,6 @@ void Character::update_body( const time_point &from, const time_point &to )
 
     const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
-        if( activity.is_null() ) {
-            reset_activity_level();
-        }
         // Radiation kills health even at low doses
         update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
         get_sick();
@@ -5029,8 +5032,7 @@ needs_rates Character::calc_needs_rates() const
     needs_rates rates;
     rates.hunger = metabolic_rate();
 
-    // TODO: this is where calculating basal metabolic rate, in kcal per day would go
-    rates.kcal = 2500.0;
+    rates.kcal = get_bmr();
 
     add_msg_if_player( m_debug, "Metabolic rate: %.2f", rates.hunger );
 
@@ -6632,22 +6634,20 @@ float Character::active_light() const
     lumination = static_cast<float>( maxlum );
 
     float mut_lum = 0.0f;
-    for( const std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( mut.second.powered ) {
-            float curr_lum = 0.0f;
-            for( const std::pair<bodypart_str_id, float> elem : mut.first->lumination ) {
-                int coverage = 0;
-                for( const item &i : worn ) {
-                    if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
-                        !i.has_flag( flag_SEMITANGIBLE ) &&
-                        !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                        coverage += i.get_coverage();
-                    }
+    for( const trait_id &mut : get_mutations() ) {
+        float curr_lum = 0.0f;
+        for( const std::pair<const bodypart_str_id, float> &elem : mut->lumination ) {
+            int coverage = 0;
+            for( const item &i : worn ) {
+                if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
+                    !i.has_flag( flag_SEMITANGIBLE ) &&
+                    !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
+                    coverage += i.get_coverage();
                 }
-                curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
             }
-            mut_lum += curr_lum;
+            curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
         }
+        mut_lum += curr_lum;
     }
 
     lumination = std::max( lumination, mut_lum );

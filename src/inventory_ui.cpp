@@ -1798,7 +1798,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
         mvwprintz( w_inv, point( 2, getmaxy( w_inv ) - 1 ), c_cyan, "< " );
         mvwprintz( w_inv, point( ( getmaxx( w_inv ) / 2 ) - 4, getmaxy( w_inv ) - 1 ), c_cyan, " >" );
 
-        std::string new_filter = spopup->query_string( /*loop=*/false, /*draw_only=*/true );
+        spopup->query_string( /*loop=*/false, /*draw_only=*/true );
     } else {
         int filter_offset = 0;
         if( has_available_choices() || !filter.empty() ) {
@@ -1909,8 +1909,10 @@ void inventory_selector::on_input( const inventory_input &input )
     } else if( input.action == "VIEW_CATEGORY_MODE" ) {
         toggle_categorize_contained();
     } else {
-        for( auto &elem : columns ) {
-            elem->on_input( input );
+        if( has_available_choices() ) {
+            for( inventory_column *elem : columns ) {
+                elem->on_input( input );
+            }
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
         if( input.action == "TOGGLE_FAVORITE" ) {
@@ -2350,18 +2352,16 @@ void inventory_drop_selector::process_selected( int &count,
 
 void inventory_drop_selector::deselect_contained_items()
 {
-    std::vector<item_location> container;
-    std::vector<item_location> contained;
+    std::vector<item_location> inventory_items;
     for( std::pair<item_location, int> &drop : dropping ) {
         item_location loc_front = drop.first;
-        if( loc_front.where() != item_location::type::container ) {
-            container.push_back( loc_front );
-        } else {
-            contained.push_back( loc_front );
-        }
+        inventory_items.push_back( loc_front );
     }
-    for( item_location loc_contained : contained ) {
-        for( item_location loc_container : container ) {
+    for( item_location loc_contained : inventory_items ) {
+        for( item_location loc_container : inventory_items ) {
+            if( loc_container == loc_contained ) {
+                continue;
+            }
             if( loc_container->has_item( *loc_contained ) ) {
                 for( inventory_column *col : get_all_columns() ) {
                     for( inventory_entry *selected : col->get_entries( []( const inventory_entry &
@@ -2371,8 +2371,10 @@ void inventory_drop_selector::deselect_contained_items()
                         if( !selected->is_item() ) {
                             continue;
                         }
-                        if( selected->locations.front() == loc_contained ) {
-                            set_chosen_count( *selected, 0 );
+                        for( item_location selected_loc : selected->locations ) {
+                            if( selected_loc == loc_contained ) {
+                                set_chosen_count( *selected, 0 );
+                            }
                         }
                     }
                 }

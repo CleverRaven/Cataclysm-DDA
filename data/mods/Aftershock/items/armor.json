@@ -50,7 +50,7 @@
     "max_charges": 15,
     "initial_charges": 15,
     "charges_per_use": 1,
-    "use_action": "DIRECTIONAL_HOLOGRAM",
+    "use_action": [ "DIRECTIONAL_HOLOGRAM" ],
     "artifact_data": { "charge_type": "ARTC_TIME" },
     "flags": [ "OVERSIZE", "HOOD", "WATERPROOF", "STURDY", "OUTER", "NO_UNLOAD", "NO_RELOAD" ]
   },
@@ -135,7 +135,7 @@
     "coverage": 40,
     "encumbrance": 12,
     "material_thickness": 3,
-    "use_action": "SOLARPACK",
+    "use_action": [ "SOLARPACK" ],
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK" ]
   },
   {
@@ -156,7 +156,7 @@
     "coverage": 40,
     "encumbrance": 20,
     "material_thickness": 1,
-    "use_action": "SOLARPACK_OFF",
+    "use_action": [ "SOLARPACK_OFF" ],
     "solar_efficiency": 0.3,
     "flags": [ "FRAGILE", "OUTER", "ONLY_ONE", "SOLARPACK_ON" ]
   },

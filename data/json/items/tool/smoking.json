@@ -16,7 +16,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "power_draw": 7500,
-    "use_action": "ECIG",
+    "use_action": [ "ECIG" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

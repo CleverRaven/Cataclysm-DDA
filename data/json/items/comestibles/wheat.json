@@ -535,7 +535,7 @@
     "price_postapoc": 500,
     "description": "This cake's destiny is to take you on a gnarly trip.",
     "fun": 12,
-    "use_action": "WEED_CAKE"
+    "use_action": [ "WEED_CAKE" ]
   },
   {
     "id": "brownie",
@@ -556,6 +556,6 @@
     "description": "This is definitely not how grandma used to bake them.",
     "price_postapoc": 500,
     "fun": 15,
-    "use_action": "WEED_CAKE"
+    "use_action": [ "WEED_CAKE" ]
   }
 ]

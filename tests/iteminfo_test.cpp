@@ -1338,7 +1338,7 @@ TEST_CASE( "nutrients in food", "[iteminfo][food]" )
                "--\n"
                "Nutrition will <color_cyan>vary with chosen ingredients</color>.\n"
                "<color_c_white>Calories (kcal)</color>:"
-               " <color_c_yellow>317</color>-<color_c_yellow>469</color>"
+               " <color_c_yellow>127</color>-<color_c_yellow>469</color>"
                "  Quench: <color_c_yellow>0</color>\n" );
 
         CHECK( item_info_str( ice_cream, { iteminfo_parts::FOOD_VITAMINS } ) ==
@@ -1719,6 +1719,23 @@ TEST_CASE( "tool info", "[iteminfo][tool]" )
         CHECK( item_info_str( matches, charges ) ==
                "--\n"
                "<color_c_white>Charges</color>: 20\n" );
+    }
+
+    SECTION( "candle with feedback on burnout" ) {
+        std::vector<iteminfo_parts> burnout = { iteminfo_parts::TOOL_BURNOUT };
+
+        item candle( "candle" );
+        REQUIRE( candle.ammo_remaining() > 0 );
+
+        candle.charges = candle.type->maximum_charges();
+        CHECK( item_info_str( candle, burnout ) ==
+               "--\n"
+               "<color_c_white>Fuel</color>: It's new, and ready to burn.\n" );
+
+        candle.charges = ( candle.type->maximum_charges() / 2 ) - 1;
+        CHECK( item_info_str( candle, burnout ) ==
+               "--\n"
+               "<color_c_white>Fuel</color>: More than half has burned away.\n" );
     }
 
     SECTION( "UPS charged tool" ) {

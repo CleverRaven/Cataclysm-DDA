@@ -13,7 +13,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "HAMMER", 2 ] ],
-    "use_action": "HAMMER",
+    "use_action": [ "HAMMER" ],
     "//": "In terms of alchemy the gastrolith could serve to combie different effects, such as safely mixing together potions, or it could be used as an element of change, such as for shapechanging potions."
   },
   {
@@ -116,7 +116,7 @@
     "symbol": "*",
     "color": "yellow",
     "name": "glow dust",
-    "description": "The powdered remains of a will-o-wisps's phsyical form.  It seems to still possess an otherworldly glow.",
+    "description": "The powdered remains of a will-o-wisps's physical form.  It seems to still possess an otherworldly glow.",
     "material": [ "powder" ],
     "weight": "5 g",
     "volume": 1
@@ -277,7 +277,7 @@
     "symbol": "*",
     "color": "blue",
     "name": "mana dust",
-    "description": "Crystallized mana in powdered form.  It faintly pulses with arcane energy.",
+    "description": "Crystalized mana in powdered form.  It faintly pulses with arcane energy.",
     "material": [ "powder" ],
     "volume": "100 ml"
   }

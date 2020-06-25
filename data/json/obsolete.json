@@ -941,7 +941,7 @@
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
-    "use_action": "WASH_HARD_ITEMS"
+    "use_action": [ "WASH_HARD_ITEMS" ]
   },
   {
     "id": "fault_gun_clogged",

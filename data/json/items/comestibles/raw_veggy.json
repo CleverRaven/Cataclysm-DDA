@@ -368,7 +368,7 @@
     "name": "dogbane",
     "description": "A stalk of dogbane.  It has very fibrous stems and is mildly poisonous.",
     "comestible_type": "FOOD",
-    "use_action": "BLECH",
+    "use_action": [ "BLECH" ],
     "calories": 9,
     "fun": -15,
     "healthy": -2,
@@ -697,7 +697,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea_raw",
-    "name": { "str": "tea leaf", "str_pl": "tea leaves" },
+    "name": { "str": "black tea leaf", "str_pl": "black tea leaves" },
     "weight": "14 g",
     "color": "green",
     "fatigue_mod": 3,
@@ -715,6 +715,13 @@
     "flags": [ "EDIBLE_FROZEN", "RAW", "IRREPLACEABLE_CONSUMABLE" ],
     "charges": 20,
     "fun": -1
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tea_green_raw",
+    "name": { "str": "green tea leaf", "str_pl": "green tea leaves" },
+    "copy-from": "tea_raw",
+    "description": "Dried leaves of a tropical plant.  You can boil them into green tea, or you can just eat them raw.  They aren't too filling though."
   },
   {
     "type": "COMESTIBLE",
@@ -767,7 +774,7 @@
     "copy-from": "veggy",
     "looks_like": "mushroom",
     "spoils_in": "40 hours",
-    "use_action": "POISON",
+    "use_action": [ "POISON" ],
     "description": "This is a chunk of fungal matter from some sort of alien mushroom creature.  Eating unfamiliar mushrooms is a bad idea.",
     "price": 0,
     "price_postapoc": 0,

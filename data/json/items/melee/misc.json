@@ -23,7 +23,7 @@
     "symbol": "/",
     "color": "brown",
     "weight": "3496 g",
-    "volume": 9,
+    "volume": "2250 ml",
     "price": 4800,
     "price_postapoc": 5200,
     "to_hit": 2,
@@ -69,7 +69,7 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

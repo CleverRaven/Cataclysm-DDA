@@ -79,7 +79,7 @@ class activity_type
         bool valid_auto_needs() const {
             return auto_needs;
         }
-        float get_activity_level() const {
+        float exertion_level() const {
             return activity_level;
         }
         void call_do_turn( player_activity *, player * ) const;
