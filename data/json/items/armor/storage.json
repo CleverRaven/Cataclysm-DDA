@@ -632,7 +632,13 @@
     "looks_like": "plastic_shopping_bag",
     "color": "pink",
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
-    "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 5, "encumbrance": 10, "max_encumbrance": 100, "material_thickness": 1 },
+    "armor_data": {
+      "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+      "coverage": 5,
+      "encumbrance": 10,
+      "max_encumbrance": 100,
+      "material_thickness": 1
+    },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -656,7 +662,13 @@
     "color": "pink",
     "price_postapoc": 10,
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
-    "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 5, "encumbrance": 10, "max_encumbrance": 100, "material_thickness": 1 },
+    "armor_data": {
+      "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+      "coverage": 5,
+      "encumbrance": 10,
+      "max_encumbrance": 100,
+      "material_thickness": 1
+    },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
