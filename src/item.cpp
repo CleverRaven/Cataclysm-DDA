@@ -2613,63 +2613,88 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         if( const islot_armor *t = find_armor_data() ) {
             if( !t->data.empty() ) {
-                std::vector<std::tuple<bodypart_str_id, int, int, int>> encumb_data;
+                std::unordered_map<std::string, std::tuple<int, int, int>> encumb_data;
 
                 for( const auto &piece : t->data ) {
                     if( piece.covers.has_value() ) {
                         for( const auto &covering : piece.covers.value() ) {
                             if( covering != bodypart_str_id( "num_bp" ) ) {
-                                encumb_data.emplace_back(
-                                    covering,
-                                    get_encumber( g->u, covering ),
-                                    get_encumber( g->u, covering, encumber_flags::assume_full ),
-                                    piece.coverage );
+                                encumb_data.insert( {
+                                    covering.c_str(), {
+                                        get_encumber( g->u, covering ),
+                                        get_encumber( g->u, covering, encumber_flags::assume_full ),
+                                        piece.coverage
+                                    }
+                                } );
                             }
                         }
                     }
                 }
 
-                for( const auto &encumb : encumb_data ) {
+                // Handle things that use both sides to avoid showing L Arm R Arm etc when not needed
+                if( !t->sided ) {
+                    if( covers( bodypart_id( "foot_l" ) ) && covers( bodypart_id( "foot_r" ) )
+                        && encumb_data.at( "foot_r" ) == encumb_data.at( "foot_l" ) ) {
+                        encumb_data.erase( encumb_data.find( "foot_l" ) );
+                        encumb_data["Feet"] = encumb_data.at( "foot_r" );
+                        encumb_data.erase( encumb_data.find( "foot_r" ) );
+                    } else if( covers( bodypart_id( "arm_l" ) ) && covers( bodypart_id( "arm_r" ) )
+                               && encumb_data.at( "arm_l" ) == encumb_data.at( "arm_r" ) ) {
+                        encumb_data.erase( encumb_data.find( "arm_l" ) );
+                        encumb_data["Arms"] = encumb_data.at( "arm_r" );
+                        encumb_data.erase( encumb_data.find( "arm_r" ) );
+                    } else if( covers( bodypart_id( "leg_l" ) ) && covers( bodypart_id( "leg_r" ) )
+                               && encumb_data.at( "leg_l" ) == encumb_data.at( "leg_r" ) ) {
+                        encumb_data.erase( encumb_data.find( "leg_l" ) );
+                        encumb_data["Legs"] = encumb_data.at( "leg_r" );
+                        encumb_data.erase( encumb_data.find( "leg_r" ) );
+                    } else if( covers( bodypart_id( "hand_l" ) ) && covers( bodypart_id( "hand_r" ) )
+                               && encumb_data.at( "hand_l" ) == encumb_data.at( "hand_r" ) ) {
+                        encumb_data.erase( encumb_data.find( "hand_l" ) );
+                        encumb_data["Hands"] = encumb_data.at( "hand_r" );
+                        encumb_data.erase( encumb_data.find( "hand_r" ) );
+                    }
+                }
+
+                for( auto &encumb : encumb_data ) {
                     if( t->sided ) {
-                        if( !covers( bodypart_id( "arm_l" ) ) &&
-                            std::get<0>( encumb ) == bodypart_str_id( "arm_l" ) ) {
+                        if( !covers( bodypart_id( "arm_l" ) ) && std::get<0>( encumb ) == ( "arm_l" ) ) {
                             continue;
-                        } else if( !covers( bodypart_id( "arm_r" ) ) &&
-                                   std::get<0>( encumb ) == bodypart_str_id( "arm_r" ) ) {
+                        } else if( !covers( bodypart_id( "arm_r" ) ) && std::get<0>( encumb ) == ( "arm_r" ) ) {
                             continue;
-                        } else if( !covers( bodypart_id( "hand_r" ) ) &&
-                                   std::get<0>( encumb ) == bodypart_str_id( "hand_r" ) ) {
+                        } else if( !covers( bodypart_id( "hand_r" ) ) && std::get<0>( encumb ) == ( "hand_r" ) ) {
                             continue;
-                        } else if( !covers( bodypart_id( "hand_l" ) ) &&
-                                   std::get<0>( encumb ) == bodypart_str_id( "hand_l" ) ) {
+                        } else if( !covers( bodypart_id( "hand_l" ) ) && std::get<0>( encumb ) == ( "hand_l" ) ) {
                             continue;
-                        } else if( !covers( bodypart_id( "leg_l" ) ) &&
-                                   std::get<0>( encumb ) == bodypart_str_id( "leg_l" ) ) {
+                        } else if( !covers( bodypart_id( "leg_l" ) ) && std::get<0>( encumb ) == ( "leg_l" ) ) {
                             continue;
-                        } else if( !covers( bodypart_id( "leg_r" ) ) &&
-                                   std::get<0>( encumb ) == bodypart_str_id( "leg_r" ) ) {
+                        } else if( !covers( bodypart_id( "leg_r" ) ) && std::get<0>( encumb ) == ( "leg_r" ) ) {
                             continue;
-                        } else if( !covers( bodypart_id( "foot_r" ) ) &&
-                                   std::get<0>( encumb ) == bodypart_str_id( "foot_r" ) ) {
+                        } else if( !covers( bodypart_id( "foot_r" ) ) && std::get<0>( encumb ) == ( "foot_r" ) ) {
                             continue;
-                        } else if( !covers( bodypart_id( "foot_l" ) ) &&
-                                   std::get<0>( encumb ) == bodypart_str_id( "foot_l" ) ) {
+                        } else if( !covers( bodypart_id( "foot_l" ) ) && std::get<0>( encumb ) == "foot_l" ) {
                             continue;
                         }
                     }
-
-                    info.push_back( iteminfo( "ARMOR",
-                                              _( bodypart_str_id_to_readable( std::get<0>( encumb ) ) + ':' + space ), "",
+                    // Already human-redable so dont call bodypart_str_id_to_reable
+                    if( encumb.first == "Feet" || encumb.first == "Arms" || encumb.first == "Legs" ||
+                        encumb.first == "Hands" ) {
+                        info.push_back( iteminfo( "ARMOR", _( encumb.first ) + ':' + space, "",
+                                                  iteminfo::no_newline | iteminfo::lower_is_better,
+                                                  std::get<0>( encumb.second ) ) );
+                    } else {
+                        info.push_back( iteminfo( "ARMOR",
+                                                  _( bodypart_str_id_to_readable( bodypart_str_id( encumb.first ) ) + ':' + space ), "",
+                                                  iteminfo::no_newline | iteminfo::lower_is_better,
+                                                  std::get<0>( encumb.second ) ) );
+                    }
+                    info.push_back( iteminfo( "ARMOR", space + _( "When Full" ) + ':' + space, "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
-                                              std::get<1>( encumb ) ) );
+                                              std::get<1>( encumb.second ) ) );
 
-                    info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
-                                              iteminfo::no_newline | iteminfo::lower_is_better,
-                                              std::get<2>( encumb ) ) );
-
-                    info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
+                    info.push_back( iteminfo( "ARMOR", space + _( "Coverage" ) + ':' + space, "",
                                               iteminfo::lower_is_better,
-                                              std::get<3>( encumb ) ) );
+                                              std::get<2>( encumb.second ) ) );
                 }
             }
         }
