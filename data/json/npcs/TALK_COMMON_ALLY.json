@@ -44,11 +44,12 @@
       "no": { "has_reason": { "use_reason": true }, "no": "What is it, friend?" }
     },
     "responses": [
+      { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
+      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
       { "text": "I'd like to know a bit more about your abilities.", "topic": "TALK_FRIEND", "effect": "reveal_stats" },
-      { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
       { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
-      { "text": "Let's talk about your behavior.", "topic": "TALK_ALLY_BEHAVIOR" },
-      { "text": "Can you help me understand this?", "topic": "TALK_ALLY_HELP" },
+      { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
+      { "text": "Can you help me understand something?", "topic": "TALK_ALLY_HELP" },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
@@ -187,29 +188,12 @@
     ]
   },
   {
-    "id": [ "TALK_ALLY_BEHAVIOR" ],
+    "id": [ "TALK_ALLY_HELP" ],
     "type": "talk_topic",
     "dynamic_line": [
-      "My behavior?  What are you, my high school teacher?",
-      "Sure.  What should I do different?",
-      "I am ready to receive instructions.",
-      "Just say the word."
-    ],
-    "responses": [
-      { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
-      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
-      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": [ "TALK_ALLY_BEHAVIOR" ],
-    "type": "talk_topic",
-    "dynamic_line": [
-      "My behavior?  What are you, my high school teacher?",
-      "Sure.  What should I do different?",
-      "I am ready to receive instructions.",
-      "Just say the word."
+      "What do you need to know?",
+      "I'm here for you.",
+      "Just call me F1, <name_g>."
     ],
     "responses": [
       { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
