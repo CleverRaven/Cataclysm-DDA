@@ -3393,6 +3393,7 @@
   },
   {
     "type": "recipe",
+    "id_suffix": "bioplastic",
     "result": "plastic_chunk",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_MATERIALS",
