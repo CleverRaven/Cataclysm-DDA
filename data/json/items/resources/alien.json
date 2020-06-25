@@ -32,7 +32,7 @@
   {
     "type": "GENERIC",
     "id": "exodii_chassis",
-    "name": { "str": "Exodii chassis", "str_pl": "Exodii chassis" },
+    "name": { "str_sp": "Exodii chassis" },
     "description": "This roughly hexagonal frame and associated bodywork looks like it was constructed as a single monolithic piece.  The fitting holes and attachments are extremely durable, despite showing signs of heavy wear and repair.  The structure is versatile, and could probably be engineered to serve a number of different heavy combat roles.",
     "symbol": "c",
     "color": "light_gray",
@@ -45,7 +45,7 @@
   {
     "type": "GENERIC",
     "id": "exodii_drone_chassis",
-    "name": { "str": "Exodii drone chassis", "str_pl": "Exodii drone chassis" },
+    "name": { "str_sp": "Exodii drone chassis" },
     "description": "This small, roughly hexagonal frame and associated bodywork looks like it was constructed as a single monolithic piece.  The fitting holes and attachments are extremely durable, despite showing signs of heavy wear and repair.  The structure is versatile, and could probably be engineered to serve a number of different heavy combat roles.",
     "symbol": "c",
     "color": "light_gray",
