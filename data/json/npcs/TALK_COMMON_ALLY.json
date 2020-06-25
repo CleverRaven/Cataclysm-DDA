@@ -44,9 +44,68 @@
       "no": { "has_reason": { "use_reason": true }, "no": "What is it, friend?" }
     },
     "responses": [
-      { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
-      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
+      { "text": "I'd like to know a bit more about your abilities.", "topic": "TALK_FRIEND", "effect": "reveal_stats" },
+      { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
+      { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
+      { "text": "Let's talk about your behavior.", "topic": "TALK_ALLY_BEHAVIOR" },
+      { "text": "Can you help me understand this?", "topic": "TALK_ALLY_HELP" },
+      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_SOCIAL" ],
+    "type": "talk_topic",
+    "dynamic_line": {
+      "is_by_radio": " *tshk* Are you serious?  This isn't a cell phone.  Can it wait until we're in the same place?",
+      "no": "Sure, what did you want to say?"
+    },
+    "responses": [
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": {
+          "and": [ "at_safe_space", { "or": [ { "npc_has_trait_flag": "BG_SURVIVAL_STORY" }, { "npc_has_trait": "NPC_STATIC_NPC" } ] } ]
+        },
+        "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
+        "switch": true
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_FRIEND_CONVERSATION",
+        "condition": "at_safe_space",
+        "switch": true,
+        "effect": { "npc_add_trait": "BGSS_Confused_1" },
+        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
+        "//2": "This is a stand-in for some kind of better system to add a random trait."
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_CONVERSATION_DANGER",
+        "condition": { "not": "at_safe_space" },
+        "switch": true
+      },
+      {
+        "text": "Mind if we just chat for a bit about your history?",
+        "topic": "TALK_CONVERSATION_RADIO",
+        "condition": { "not": "is_by_radio" },
+        "switch": true
+      },
+      {
+        "text": "Let's just chitchat for a while, I could use some relaxation.",
+        "topic": "TALK_FRIEND_CHAT",
+        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
+      },
       { "text": "Can I do anything for you?", "topic": "TALK_MISSION_LIST" },
+      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_ORDERS" ],
+    "type": "talk_topic",
+    "dynamic_line": [ "I'm all ears, my friend.", "You gonna give me orders?", "What would you like?", "Just say the word." ],
+    "responses": [
       {
         "text": "Can you teach me anything?",
         "condition": { "not": "is_by_radio" },
@@ -67,19 +126,19 @@
         "failure": { "topic": "TALK_TRAIN_PERSUADE" }
       },
       {
-        "text": "Let's trade items",
-        "topic": "TRADE_HALLU",
-        "condition": { "npc_has_trait": "HALLUCINATION" },
-        "switch": true,
-        "default": false
-      },
-      {
         "text": "Let's trade items.",
         "condition": { "not": "is_by_radio" },
         "topic": "TALK_FRIEND",
         "effect": "start_trade",
         "switch": true,
         "default": true
+      },
+      {
+        "text": "Let's trade items",
+        "topic": "TRADE_HALLU",
+        "condition": { "npc_has_trait": "HALLUCINATION" },
+        "switch": true,
+        "default": false
       },
       {
         "text": "I want you to use this item.",
@@ -105,8 +164,6 @@
         "topic": "TALK_FRIEND_GUARD",
         "effect": "assign_camp"
       },
-      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
-      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
       {
         "text": "Find a horse and mount up!",
         "condition": { "not": "npc_is_riding" },
@@ -125,11 +182,37 @@
         "condition": { "or": [ "is_by_radio", "u_has_camp" ] },
         "effect": "goto_location"
       },
-      {
-        "text": "I'd like to know a bit more about your abilities.",
-        "topic": "TALK_FRIEND",
-        "effect": "reveal_stats"
-      },
+      { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_BEHAVIOR" ],
+    "type": "talk_topic",
+    "dynamic_line": [
+      "My behavior?  What are you, my high school teacher?",
+      "Sure.  What should I do different?",
+      "I am ready to receive instructions.",
+      "Just say the word."
+    ],
+    "responses": [
+      { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
+      { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
+      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
+      { "text": "Let's go.", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": [ "TALK_ALLY_BEHAVIOR" ],
+    "type": "talk_topic",
+    "dynamic_line": [
+      "My behavior?  What are you, my high school teacher?",
+      "Sure.  What should I do different?",
+      "I am ready to receive instructions.",
+      "Just say the word."
+    ],
+    "responses": [
+      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
       {
         "text": "Any hints about the world we now live in?",
         "trial": {
@@ -148,36 +231,8 @@
         "success": { "topic": "TALK_SHELTER_DENY_ADVICE" },
         "failure": { "topic": "TALK_SHELTER_ADVICE", "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 } }
       },
-      {
-        "text": "Mind if we just chat for a bit about your history?",
-        "topic": "TALK_FRIEND_CONVERSATION",
-        "condition": {
-          "and": [ "at_safe_space", { "or": [ { "npc_has_trait_flag": "BG_SURVIVAL_STORY" }, { "npc_has_trait": "NPC_STATIC_NPC" } ] } ]
-        },
-        "//": "If the NPC already has a BG story, or started out as a static NPC (and so probably doesn't need a random bg story), then go on.",
-        "switch": true
-      },
-      {
-        "text": "Mind if we just chat for a bit about your history?",
-        "topic": "TALK_FRIEND_CONVERSATION",
-        "condition": "at_safe_space",
-        "switch": true,
-        "effect": { "npc_add_trait": "BGSS_Confused_1" },
-        "//": "If the NPC doesn't have a BG survival story flagged trait, and didn't start the game as a static NPC, give them a BG story.",
-        "//2": "This is a stand-in for some kind of better system to add a random trait."
-      },
-      {
-        "text": "Mind if we just chat for a bit about your history?",
-        "topic": "TALK_CONVERSATION_DANGER",
-        "condition": { "not": "at_safe_space" }
-      },
-      {
-        "text": "Let's just chitchat for a while, I could use some relaxation.",
-        "topic": "TALK_FRIEND_CHAT",
-        "condition": { "not": { "npc_has_effect": "asked_to_socialize" } }
-      },
       { "text": "Tell me about giving you orders (NPC TUTORIAL).", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
+      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
