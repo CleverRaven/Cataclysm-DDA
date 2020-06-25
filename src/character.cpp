@@ -3864,7 +3864,7 @@ int Character::get_wind_resistance( const bodypart_id &bp ) const
                 penalty = 1; // 99% effective
             }
 
-            coverage = std::max( 0, i.get_coverage() - penalty );
+            coverage = std::max( 0, i.get_coverage( bp ) - penalty );
             totalExposed *= ( 1.0 - coverage / 100.0 ); // Coverage is between 0 and 1?
         }
     }
@@ -6641,7 +6641,7 @@ float Character::active_light() const
                 if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                     !i.has_flag( flag_SEMITANGIBLE ) &&
                     !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                    coverage += i.get_coverage();
+                    coverage += i.get_coverage( elem.first.id() );
                 }
             }
             curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
@@ -8867,7 +8867,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     int sum_cover = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) && i.is_filthy() ) {
-            sum_cover += i.get_coverage();
+            sum_cover += i.get_coverage( bp );
         }
     }
 
