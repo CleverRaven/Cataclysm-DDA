@@ -301,16 +301,18 @@ item relic_procgen_data::create_item( const relic_procgen_data::generation_rules
 
     item it( *it_id, calendar::turn );
 
-    it.overwrite_relic( generate( rules ) );
+    it.overwrite_relic( generate( rules, *it_id ) );
 
     return it;
 }
 
-relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &rules ) const
+relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &rules,
+                                    const itype_id &it_id ) const
 {
     relic ret;
     int num_attributes = 0;
     int negative_attribute_power = 0;
+    const bool is_armor = item( it_id ).is_armor();
 
     while( rules.max_attributes > num_attributes && rules.power_level > ret.power_level( id ) ) {
         switch( *type_weights.pick() ) {
@@ -346,6 +348,11 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                         }
                         negative_attribute_power += negative_ench_attribute;
                     }
+                    if( is_armor ) {
+                        ench.set_has( enchantment::has::WORN );
+                    } else {
+                        ench.set_has( enchantment::has::WIELD );
+                    }
                     ret.add_passive_effect( ench );
                 }
                 break;
@@ -364,6 +371,11 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                             break;
                         }
                         negative_attribute_power += negative_ench_attribute;
+                    }
+                    if( is_armor ) {
+                        ench.set_has( enchantment::has::WORN );
+                    } else {
+                        ench.set_has( enchantment::has::WIELD );
                     }
                     ret.add_passive_effect( ench );
                 }
@@ -385,6 +397,11 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                         }
                         negative_attribute_power += power;
                     }
+                    if( is_armor ) {
+                        ench.set_has( enchantment::has::WORN );
+                    } else {
+                        ench.set_has( enchantment::has::WIELD );
+                    }
                     ret.add_passive_effect( ench );
                 }
                 break;
@@ -404,6 +421,11 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                             break;
                         }
                         negative_attribute_power += power;
+                    }
+                    if( is_armor ) {
+                        ench.set_has( enchantment::has::WORN );
+                    } else {
+                        ench.set_has( enchantment::has::WIELD );
                     }
                     ret.add_passive_effect( ench );
                 }

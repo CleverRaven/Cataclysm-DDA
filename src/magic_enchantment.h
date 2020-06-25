@@ -197,6 +197,8 @@ class enchantment
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs );
 
+        void set_has( has value );
+
         void add_value_add( enchant_vals::mod value, int add_value );
         void add_value_mult( enchant_vals::mod value, float mult_value );
 

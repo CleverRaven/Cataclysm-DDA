@@ -349,6 +349,10 @@ void enchantment::force_add( const enchantment &rhs )
     }
 }
 
+void enchantment::set_has( enchantment::has value )
+{
+    active_conditions.first = value;
+}
 
 void enchantment::add_value_add( enchant_vals::mod value, int add_value )
 {
