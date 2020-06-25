@@ -750,7 +750,6 @@
     "name": "vegetarian nachos",
     "symbol": "%",
     "color": "yellow",
-    "quench": -10,
     "calories": 228,
     "description": "Salted chips made from corn tortillas, now with beans.  Could probably use some cheese, though.",
     "price": 250,
