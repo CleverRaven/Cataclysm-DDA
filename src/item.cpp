@@ -2562,17 +2562,17 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         if( has_flag( flag_PERSONAL ) ) {
             layering += _( "<stat>Personal aura</stat>. " );
         } else if( has_flag( flag_SKINTIGHT ) ) {
-            layering +=  _( "<stat>Close to skin</stat>. " );
+            layering += _( "<stat>Close to skin</stat>. " );
         } else if( has_flag( flag_BELTED ) ) {
-            layering +=  _( "<stat>Strapped</stat>. " );
+            layering += _( "<stat>Strapped</stat>. " );
         } else if( has_flag( flag_OUTER ) ) {
-            layering +=  _( "<stat>Outer</stat>. " );
+            layering += _( "<stat>Outer</stat>. " );
         } else if( has_flag( flag_WAIST ) ) {
-            layering +=  _( "<stat>Waist</stat>. " );
+            layering += _( "<stat>Waist</stat>. " );
         } else if( has_flag( flag_AURA ) ) {
-            layering +=  _( "<stat>Outer aura</stat>. " );
+            layering += _( "<stat>Outer aura</stat>. " );
         } else {
-            layering +=  _( "<stat>Normal</stat>. " );
+            layering += _( "<stat>Normal</stat>. " );
         }
 
         info.push_back( iteminfo( "ARMOR", layering ) );
@@ -2630,6 +2630,34 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
 
                 for( const auto &encumb : encumb_data ) {
+                    if( t->sided ) {
+                        if( !covers( bodypart_id( "arm_l" ) ) &&
+                            std::get<0>( encumb ) == bodypart_str_id( "arm_l" ) ) {
+                            continue;
+                        } else if( !covers( bodypart_id( "arm_r" ) ) &&
+                                   std::get<0>( encumb ) == bodypart_str_id( "arm_r" ) ) {
+                            continue;
+                        } else if( !covers( bodypart_id( "hand_r" ) ) &&
+                                   std::get<0>( encumb ) == bodypart_str_id( "hand_r" ) ) {
+                            continue;
+                        } else if( !covers( bodypart_id( "hand_l" ) ) &&
+                                   std::get<0>( encumb ) == bodypart_str_id( "hand_l" ) ) {
+                            continue;
+                        } else if( !covers( bodypart_id( "leg_l" ) ) &&
+                                   std::get<0>( encumb ) == bodypart_str_id( "leg_l" ) ) {
+                            continue;
+                        } else if( !covers( bodypart_id( "leg_r" ) ) &&
+                                   std::get<0>( encumb ) == bodypart_str_id( "leg_r" ) ) {
+                            continue;
+                        } else if( !covers( bodypart_id( "foot_r" ) ) &&
+                                   std::get<0>( encumb ) == bodypart_str_id( "foot_r" ) ) {
+                            continue;
+                        } else if( !covers( bodypart_id( "foot_l" ) ) &&
+                                   std::get<0>( encumb ) == bodypart_str_id( "foot_l" ) ) {
+                            continue;
+                        }
+                    }
+
                     info.push_back( iteminfo( "ARMOR",
                                               _( bodypart_str_id_to_readable( std::get<0>( encumb ) ) + ':' + space ), "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
@@ -2646,6 +2674,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
     }
+
     // Whatever the last entry was, we want a newline at this point
     info.back().bNewLine = true;
 
