@@ -717,6 +717,7 @@
   {
     "type": "recipe",
     "result": "soap",
+    "byproducts": [ [ "chem_glycerol", 100 ] ],
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
     "skill_used": "chemistry",
