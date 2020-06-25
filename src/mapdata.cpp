@@ -28,6 +28,8 @@
 static const std::string flag_DIGGABLE( "DIGGABLE" );
 static const std::string flag_TRANSPARENT( "TRANSPARENT" );
 
+static void set_furn_ids();
+
 namespace
 {
 
@@ -1337,6 +1339,23 @@ void furn_t::check() const
             }
         }
     }
+}
+
+void finalize_furn()
+{
+    set_furn_ids();
+    // Legacy
+    for( const furn_t &furn : furniture_data.get_all() ) {
+        if( furn.examine == iexamine::workbench ) {
+            furn_t &furn_mutable = const_cast<furn_t &>( furn );
+            if( item::type_is_defined( furn_mutable.deployed_item ) ) {
+                furn_mutable.examine = iexamine::deployed_furniture;
+            } else {
+                furn_mutable.examine = iexamine::none;
+            }
+        }
+    }
+
 }
 
 void check_furniture_and_terrain()

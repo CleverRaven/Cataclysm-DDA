@@ -601,9 +601,7 @@ class player : public Character
         // crafting.cpp
         float morale_crafting_speed_multiplier( const recipe &rec ) const;
         float lighting_craft_speed_multiplier( const recipe &rec ) const;
-        float crafting_speed_multiplier( const recipe &rec, bool in_progress = false ) const;
         /** For use with in progress crafts */
-        float crafting_speed_multiplier( const item &craft, const tripoint &loc ) const;
         int available_assistant_count( const recipe &rec ) const;
         /**
          * Time to craft not including speed multiplier
@@ -642,7 +640,6 @@ class player : public Character
          * @return a value >= 0.0 with >= 1.0 representing unequivocal success
          */
         double crafting_success_roll( const recipe &making ) const;
-        void complete_craft( item &craft, const tripoint &loc = tripoint_zero );
         /**
          * Check if the player meets the requirements to continue the in progress craft and if
          * unable to continue print messages explaining the reason.

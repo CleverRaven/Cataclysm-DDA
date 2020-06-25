@@ -587,7 +587,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
             { _( "Traps" ), &trap::finalize },
             { _( "Bionics" ), &finalize_bionics },
             { _( "Terrain" ), &set_ter_ids },
-            { _( "Furniture" ), &set_furn_ids },
+            { _( "Furniture" ), &finalize_furn },
             { _( "Overmap land use codes" ), &overmap_land_use_codes::finalize },
             { _( "Overmap terrain" ), &overmap_terrains::finalize },
             { _( "Overmap connections" ), &overmap_connections::finalize },

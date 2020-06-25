@@ -24,6 +24,7 @@
 #include "colony.h"
 #include "color.h"
 #include "craft_command.h"
+#include "crafting.h"
 #include "crafting_gui.h"
 #include "debug.h"
 #include "enums.h"
@@ -107,6 +108,8 @@ static const std::string flag_VARSIZE( "VARSIZE" );
 class basecamp;
 
 void drop_or_handle( const item &newit, player &p );
+static std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
+        bool can_lift );
 
 static bool crafting_allowed( const player &p, const recipe &rec )
 {
@@ -193,47 +196,63 @@ static float lerped_multiplier( const T &value, const T &low, const T &high )
     return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
 }
 
-static float workbench_crafting_speed_multiplier( const item &craft, const tripoint &loc )
+static float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench )
 {
-    float multiplier;
+    float multiplier = 0.0f;
     units::mass allowed_mass;
     units::volume allowed_volume;
 
-    if( loc == tripoint_zero ) {
-        // tripoint_zero indicates crafting from inventory
-        // Use values from f_fake_bench_hands
-        const furn_t &f = string_id<furn_t>( "f_fake_bench_hands" ).obj();
-        multiplier = f.workbench->multiplier;
-        allowed_mass = f.workbench->allowed_mass;
-        allowed_volume = f.workbench->allowed_volume;
-    } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
-                   loc ).part_with_feature( "WORKBENCH", true ) ) {
-        // Vehicle workbench
-        const vpart_info &vp_info = vp->part().info();
-        if( const cata::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
-            multiplier = wb_info->multiplier;
-            allowed_mass = wb_info->allowed_mass;
-            allowed_volume = wb_info->allowed_volume;
-        } else {
-            debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
-            return 0.0f;
-        }
-    } else if( g->m.furn( loc ).obj().workbench ) {
-        // Furniture workbench
-        const furn_t &f = g->m.furn( loc ).obj();
-        multiplier = f.workbench->multiplier;
-        allowed_mass = f.workbench->allowed_mass;
-        allowed_volume = f.workbench->allowed_volume;
-    } else {
-        // Ground
-        const furn_t &f = string_id<furn_t>( "f_ground_crafting_spot" ).obj();
-        multiplier = f.workbench->multiplier;
-        allowed_mass = f.workbench->allowed_mass;
-        allowed_volume = f.workbench->allowed_volume;
-    }
-
     const units::mass &craft_mass = craft.weight();
     const units::volume &craft_volume = craft.volume();
+
+    // The whole block below is so ugly because all the benches have different structs with same content
+    switch( bench.type ) {
+        case bench_type::hands: {
+            const furn_t &f = string_id<furn_t>( "f_fake_bench_hands" ).obj();
+            multiplier = f.workbench->multiplier;
+            allowed_mass = f.workbench->allowed_mass;
+            allowed_volume = f.workbench->allowed_volume;
+        }
+        break;
+        case bench_type::ground: {
+            // Ground - we can always use this, but it's bad
+            const furn_t &f = string_id<furn_t>( "f_ground_crafting_spot" ).obj();
+            multiplier = f.workbench->multiplier;
+            allowed_mass = f.workbench->allowed_mass;
+            allowed_volume = f.workbench->allowed_volume;
+        }
+        break;
+        case bench_type::furniture:
+            if( g->m.furn( bench.position ).obj().workbench ) {
+                // Furniture workbench
+                const furn_t &f = g->m.furn( bench.position ).obj();
+                multiplier = f.workbench->multiplier;
+                allowed_mass = f.workbench->allowed_mass;
+                allowed_volume = f.workbench->allowed_volume;
+            } else {
+                return 0.0f;
+            }
+            break;
+        case bench_type::vehicle:
+            if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+                        bench.position ).part_with_feature( "WORKBENCH", true ) ) {
+                // Vehicle workbench
+                const vpart_info &vp_info = vp->part().info();
+                if( const cata::optional<vpslot_workbench> &wb_info = vp_info.get_workbench_info() ) {
+                    multiplier = wb_info->multiplier;
+                    allowed_mass = wb_info->allowed_mass;
+                    allowed_volume = wb_info->allowed_volume;
+                } else {
+                    debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+                    return 0.0f;
+                }
+            }
+            break;
+        default:
+            debugmsg( "Invalid workbench type %d", static_cast<int>( bench.type ) );
+            return 0.0f;
+    }
+
 
     multiplier *= lerped_multiplier( craft_mass, allowed_mass, 1000_kilogram );
     multiplier *= lerped_multiplier( craft_volume, allowed_volume, 1000_liter );
@@ -241,10 +260,10 @@ static float workbench_crafting_speed_multiplier( const item &craft, const tripo
     return multiplier;
 }
 
-float player::crafting_speed_multiplier( const recipe &rec, bool in_progress ) const
+float crafting_speed_multiplier( const player &p, const recipe &rec, bool in_progress )
 {
-    const float result = morale_crafting_speed_multiplier( rec ) *
-                         lighting_craft_speed_multiplier( rec );
+    const float result = p.morale_crafting_speed_multiplier( rec ) *
+                         p.lighting_craft_speed_multiplier( rec );
     // Can't start if we'd need 300% time, but we can still finish the job
     if( !in_progress && result < 0.33f ) {
         return 0.0f;
@@ -257,7 +276,7 @@ float player::crafting_speed_multiplier( const recipe &rec, bool in_progress ) c
     return result;
 }
 
-float player::crafting_speed_multiplier( const item &craft, const tripoint &loc ) const
+float crafting_speed_multiplier( const player &p, const item &craft, const bench_location &bench )
 {
     if( !craft.is_craft() ) {
         debugmsg( "Can't calculate crafting speed multiplier of non-craft '%s'", craft.tname() );
@@ -266,43 +285,43 @@ float player::crafting_speed_multiplier( const item &craft, const tripoint &loc 
 
     const recipe &rec = craft.get_making();
 
-    const float light_multi = lighting_craft_speed_multiplier( rec );
-    const float bench_multi = workbench_crafting_speed_multiplier( craft, loc );
-    const float morale_multi = morale_crafting_speed_multiplier( rec );
+    const float light_multi = p.lighting_craft_speed_multiplier( rec );
+    const float bench_multi = workbench_crafting_speed_multiplier( craft, bench );
+    const float morale_multi = p.morale_crafting_speed_multiplier( rec );
 
     const float total_multi = light_multi * bench_multi * morale_multi;
 
     if( light_multi <= 0.0f ) {
-        add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
+        p.add_msg_if_player( m_bad, _( "You can no longer see well enough to keep crafting." ) );
         return 0.0f;
     }
     if( bench_multi <= 0.1f || ( bench_multi <= 0.33f && total_multi <= 0.2f ) ) {
-        add_msg_if_player( m_bad, _( "The %s is too large and/or heavy to work on.  You may want to"
-                                     " use a workbench or a smaller batch size" ), craft.tname() );
+        p.add_msg_if_player( m_bad, _( "The %s is too large and/or heavy to work on.  You may want to"
+                                       " use a workbench or a smaller batch size" ), craft.tname() );
         return 0.0f;
     }
     if( morale_multi <= 0.2f || ( morale_multi <= 0.33f && total_multi <= 0.2f ) ) {
-        add_msg_if_player( m_bad, _( "Your morale is too low to continue crafting." ) );
+        p.add_msg_if_player( m_bad, _( "Your morale is too low to continue crafting." ) );
         return 0.0f;
     }
 
     // If we're working below 20% speed, just give up
     if( total_multi <= 0.2f ) {
-        add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
+        p.add_msg_if_player( m_bad, _( "You are too frustrated to continue and just give up." ) );
         return 0.0f;
     }
 
     if( calendar::once_every( 1_hours ) && total_multi < 0.75f ) {
         if( light_multi <= 0.5f ) {
-            add_msg_if_player( m_bad, _( "You can't see well and are working slowly." ) );
+            p.add_msg_if_player( m_bad, _( "You can't see well and are working slowly." ) );
         }
         if( bench_multi <= 0.5f ) {
-            add_msg_if_player( m_bad,
-                               _( "The %s is to large and/or heavy to work on comfortably.  You are"
-                                  " working slowly." ), craft.tname() );
+            p.add_msg_if_player( m_bad,
+                                 _( "The %s is to large and/or heavy to work on comfortably.  You are"
+                                    " working slowly." ), craft.tname() );
         }
         if( morale_multi <= 0.5f ) {
-            add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
+            p.add_msg_if_player( m_bad, _( "You can't focus and are working slowly." ) );
         }
     }
 
@@ -383,7 +402,7 @@ int player::base_time_to_craft( const recipe &rec, int batch_size ) const
 int player::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
 {
     const size_t assistants = available_assistant_count( rec );
-    float modifier = crafting_speed_multiplier( rec, in_progress );
+    float modifier = crafting_speed_multiplier( *this, rec, in_progress );
     return rec.batch_time( batch_size, modifier, assistants );
 }
 
@@ -619,40 +638,6 @@ static void set_components( std::list<item> &components, const std::list<item> &
     }
 }
 
-static cata::optional<item_location> wield_craft( player &p, item &craft )
-{
-    if( p.wield( craft ) ) {
-        if( p.weapon.invlet ) {
-            p.add_msg_if_player( m_info, _( "Wielding %c - %s" ), p.weapon.invlet, p.weapon.display_name() );
-        } else {
-            p.add_msg_if_player( m_info, _( "Wielding - %s" ), p.weapon.display_name() );
-        }
-        return item_location( p, &p.weapon );
-    }
-    return cata::nullopt;
-}
-
-static item *set_item_inventory( player &p, item &newit )
-{
-    item *ret_val = nullptr;
-    if( newit.made_of( LIQUID ) ) {
-        liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-    } else {
-        p.inv.assign_empty_invlet( newit, p );
-        // We might not have space for the item
-        if( !p.can_pickVolume( newit ) ) { //Accounts for result_mult
-            put_into_vehicle_or_drop( p, item_drop_reason::too_large, { newit } );
-        } else if( !p.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
-            put_into_vehicle_or_drop( p, item_drop_reason::too_heavy, { newit } );
-        } else {
-            ret_val = &p.i_add( newit );
-            add_msg( m_info, "%c - %s", ret_val->invlet == 0 ? ' ' : ret_val->invlet,
-                     ret_val->tname() );
-        }
-    }
-    return ret_val;
-}
-
 /**
  * Helper for @ref set_item_map_or_vehicle
  * This is needed to still get a vaild item_location if overflow occurs
@@ -714,7 +699,22 @@ static item_location set_item_map_or_vehicle( const player &p, const tripoint &l
     }
 }
 
-void player::start_craft( craft_command &command, const tripoint &loc )
+static item_location set_item_inventory( player &p, item &newit )
+{
+    p.inv.assign_empty_invlet( newit, p );
+    // We might not have space for the item
+    if( p.can_pickVolume( newit ) &&
+        p.can_pickWeight( newit, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
+        item &item_in_inv = p.i_add( newit );
+        add_msg( m_info, "%c - %s", item_in_inv.invlet == 0 ? ' ' : item_in_inv.invlet,
+                 item_in_inv.tname() );
+        return item_location( p, &item_in_inv );
+    }
+
+    return set_item_map_or_vehicle( p, p.pos(), newit );
+}
+
+void player::start_craft( craft_command &command, const tripoint & )
 {
     if( command.empty() ) {
         debugmsg( "Attempted to start craft with empty command" );
@@ -732,102 +732,24 @@ void player::start_craft( craft_command &command, const tripoint &loc )
         reset_encumbrance();
     }
 
-    item_location craft_in_world;
-
-    // Check if we are standing next to a workbench. If so, just use that.
-    float best_bench_multi = 0.0;
-    tripoint target = loc;
-    for( const tripoint &adj : g->m.points_in_radius( pos(), 1 ) ) {
-        if( g->m.dangerous_field_at( adj ) ) {
-            continue;
-        }
-        if( const cata::value_ptr<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
-            if( wb->multiplier > best_bench_multi ) {
-                best_bench_multi = wb->multiplier;
-                target = adj;
-            }
-        } else if( const cata::optional<vpart_reference> vp = g->m.veh_at(
-                       adj ).part_with_feature( "WORKBENCH", true ) ) {
-            if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
-                if( wb_info->multiplier > best_bench_multi ) {
-                    best_bench_multi = wb_info->multiplier;
-                    target = adj;
-                }
-            } else {
-                debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
-            }
-        }
+    bench_location bench = find_best_bench( *this, craft );
+    std::pair<bench_type, float> best_found_bench = best_bench_here( craft, bench.position,
+            bench.type == bench_type::hands );
+    if( best_found_bench.second < 1.0f ) {
+        add_msg_if_player( m_info, pgettext( "in progress craft",
+                                             "You can't hold %s in your hands and there is no good work surface nearby." ), craft.tname() );
     }
 
-    // Crafting without a workbench
-    if( target == tripoint_zero ) {
-        if( !has_two_arms() ) {
-            craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
-        } else if( !is_armed() ) {
-            if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
-                craft_in_world = *it_loc;
-            }  else {
-                // This almost certianly shouldn't happen
-                put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
-            }
-        } else {
-            enum option : int {
-                WIELD_CRAFT = 0,
-                DROP_CRAFT,
-                STASH,
-                DROP
-            };
-
-            uilist amenu;
-            amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
-                                        craft.display_name() );
-            amenu.addentry( WIELD_CRAFT, !weapon.has_flag( flag_NO_UNWIELD ), '1',
-                            _( "Dispose of your wielded %s and start working." ), weapon.tname() );
-            amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
-            const bool can_stash = can_pickVolume( craft ) &&
-                                   can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
-            amenu.addentry( STASH, can_stash, '3', _( "Store it in your inventory." ) );
-            amenu.addentry( DROP, true, '4', _( "Drop it on the ground." ) );
-
-            amenu.query();
-            const option choice = amenu.ret == UILIST_CANCEL ? DROP : static_cast<option>( amenu.ret );
-            switch( choice ) {
-                case WIELD_CRAFT: {
-                    if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
-                        craft_in_world = *it_loc;
-                    } else {
-                        // This almost certianly shouldn't happen
-                        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
-                    }
-                    break;
-                }
-                case DROP_CRAFT: {
-                    craft_in_world = set_item_map_or_vehicle( *this, pos(), craft );
-                    break;
-                }
-                case STASH: {
-                    set_item_inventory( *this, craft );
-                    break;
-                }
-                case DROP: {
-                    put_into_vehicle_or_drop( *this, item_drop_reason::deliberate, {craft} );
-                    break;
-                }
-            }
-        }
-    } else {
-        // We have a workbench, put the item there.
-        craft_in_world = set_item_map_or_vehicle( *this, target, craft );
-    }
-
-    if( !craft_in_world.get_item() ) {
-        add_msg_if_player( _( "Wield and activate the %s to start crafting." ), craft.tname() );
-        return;
-    }
+    // Regardless of whether a workbench exists or not,
+    // we still craft in inventory or under player, because QoL.
+    item_location craft_in_world = set_item_inventory( *this, craft );
 
     assign_activity( ACT_CRAFT );
     activity.targets.push_back( craft_in_world );
+    activity.coords.push_back( bench.position );
     activity.values.push_back( command.is_long() );
+    // Ugly
+    activity.values.push_back( static_cast<int>( bench.type ) );
 
     add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),
@@ -1079,7 +1001,7 @@ void item::inherit_flags( const std::list<item> &parents, const recipe &making )
     }
 }
 
-void player::complete_craft( item &craft, const tripoint &loc )
+void complete_craft( player &p, item &craft, const bench_location & )
 {
     if( !craft.is_craft() ) {
         debugmsg( "complete_craft() called on non-craft '%s.'  Aborting.", craft.tname() );
@@ -1109,7 +1031,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
         if( first ) {
             first = false;
             // TODO: reconsider recipe memorization
-            if( knows_recipe( &making ) ) {
+            if( p.knows_recipe( &making ) ) {
                 add_msg( _( "You craft %s from memory." ), making.result_name() );
             } else {
                 add_msg( _( "You craft %s using a book as a reference." ), making.result_name() );
@@ -1120,14 +1042,14 @@ void player::complete_craft( item &craft, const tripoint &loc )
                 // but also keeps going up as difficulty goes up.
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
-                int difficulty = has_recipe( &making, crafting_inventory(), get_crafting_helpers() );
+                int difficulty = p.has_recipe( &making, p.crafting_inventory(), p.get_crafting_helpers() );
                 ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 const double learning_speed =
-                    std::max( get_skill_level( making.skill_used ), 1 ) *
-                    std::max( get_int(), 1 );
+                    std::max( p.get_skill_level( making.skill_used ), 1 ) *
+                    std::max( p.get_int(), 1 );
                 const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
                 if( x_in_y( making.time, time_to_learn ) ) {
-                    learn_recipe( &making );
+                    p.learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
                              making.result_name() );
                 }
@@ -1192,18 +1114,16 @@ void player::complete_craft( item &craft, const tripoint &loc )
             food_contained.set_relative_rot( relative_rot );
         }
 
-        newit.set_owner( get_faction()->id );
+        newit.set_owner( p.get_faction()->id );
         // If these aren't equal, newit is a container, so finalize its contents too.
         if( &newit != &food_contained ) {
-            food_contained.set_owner( get_faction()->id );
+            food_contained.set_owner( p.get_faction()->id );
         }
 
         if( newit.made_of( LIQUID ) ) {
             liquid_handler::handle_all_liquid( newit, PICKUP_RANGE );
-        } else if( loc == tripoint_zero && can_wield( newit ).success() ) {
-            wield_craft( *this, newit );
         } else {
-            set_item_map_or_vehicle( *this, loc, newit );
+            set_item_inventory( p, newit );
         }
     }
 
@@ -1213,18 +1133,16 @@ void player::complete_craft( item &craft, const tripoint &loc )
             if( bp.goes_bad() ) {
                 bp.set_relative_rot( relative_rot );
             }
-            bp.set_owner( get_faction()->id );
+            bp.set_owner( p.get_faction()->id );
             if( bp.made_of( LIQUID ) ) {
                 liquid_handler::handle_all_liquid( bp, PICKUP_RANGE );
-            } else if( loc == tripoint_zero ) {
-                set_item_inventory( *this, bp );
             } else {
-                set_item_map_or_vehicle( *this, loc, bp );
+                set_item_inventory( p, bp );
             }
         }
     }
 
-    inv.restack( *this );
+    p.inv.restack( p );
 }
 
 bool player::can_continue_craft( item &craft )
@@ -2347,4 +2265,72 @@ std::vector<npc *> player::get_crafting_helpers() const
                rl_dist( guy.pos(), pos() ) < PICKUP_RANGE &&
                g->m.clear_path( pos(), guy.pos(), PICKUP_RANGE, 1, 100 );
     } );
+}
+
+static std::pair<bench_type, float> best_bench_here( const item &craft, const tripoint &loc,
+        bool can_lift )
+{
+    bench_type best_type = bench_type::ground;
+    float best_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::ground, loc} );
+    if( can_lift ) {
+        float hands_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::hands, loc} );
+        if( hands_mult > best_mult ) {
+            best_type = bench_type::hands;
+            best_mult = hands_mult;
+        }
+    }
+
+    if( g->m.furn( loc ).obj().workbench ) {
+        float furn_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::furniture, loc} );
+        if( furn_mult > best_mult ) {
+            best_type = bench_type::furniture;
+            best_mult = furn_mult;
+        }
+    }
+
+    if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+                loc ).part_with_feature( "WORKBENCH", true ) ) {
+        float veh_mult = workbench_crafting_speed_multiplier( craft, bench_location{bench_type::vehicle, loc} );
+        if( veh_mult > best_mult ) {
+            best_type = bench_type::vehicle;
+            best_mult = veh_mult;
+        }
+    }
+    return std::make_pair( best_type, best_mult );
+}
+
+bench_location find_best_bench( const player &p, const item &craft )
+{
+    bool can_lift = !p.weapon.has_flag( flag_NO_UNWIELD ) && p.can_pickVolume( craft ) &&
+                    p.can_pickWeight( craft );
+    std::pair<bench_type, float> bench_here = best_bench_here( craft, p.pos(), can_lift );
+    bench_type best_type = bench_here.first;
+    float best_bench_multi = bench_here.second;
+    tripoint best_loc = p.pos();
+    std::vector<tripoint> reachable( PICKUP_RANGE * PICKUP_RANGE );
+    g->m.reachable_flood_steps( reachable, p.pos(), PICKUP_RANGE, 1, 100 );
+    for( const tripoint &adj : reachable ) {
+        if( const cata::value_ptr<furn_workbench_info> &wb = g->m.furn( adj ).obj().workbench ) {
+            if( wb->multiplier > best_bench_multi ) {
+                best_type = bench_type::furniture;
+                best_bench_multi = wb->multiplier;
+                best_loc = adj;
+            }
+        }
+
+        if( const cata::optional<vpart_reference> vp = g->m.veh_at(
+                    adj ).part_with_feature( "WORKBENCH", true ) ) {
+            if( const cata::optional<vpslot_workbench> &wb_info = vp->part().info().get_workbench_info() ) {
+                if( wb_info->multiplier > best_bench_multi ) {
+                    best_type = bench_type::vehicle;
+                    best_bench_multi = wb_info->multiplier;
+                    best_loc = adj;
+                }
+            } else {
+                debugmsg( "part '%S' with WORKBENCH flag has no workbench info", vp->part().name() );
+            }
+        }
+    }
+
+    return bench_location{best_type, best_loc};
 }

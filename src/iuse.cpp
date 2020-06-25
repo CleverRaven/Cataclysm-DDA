@@ -9608,20 +9608,6 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    if( !p->is_wielding( *it ) ) {
-        if( !p->is_armed() || query_yn( _( "Wield the %s and start working?" ), it->tname() ) )  {
-            if( !p->wield( *it ) ) {
-                // Will likely happen if the in progress craft is too heavy, or the player is
-                // wielding something that can't be unwielded
-                add_msg( m_bad, "%s", p->can_wield( *it ).c_str() );
-                return 0;
-            }
-            // `it` is no longer the item we are using (note that `player::wielded` is a value).
-            it = &p->weapon;
-        } else {
-            return 0;
-        }
-    }
 
     const std::string craft_name = it->tname();
 
@@ -9641,12 +9627,17 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
             rec.result_name() );
         return 0;
     }
+
+    bench_location best_bench = find_best_bench( *p, *it );
     p->add_msg_player_or_npc(
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ), craft_name );
     p->assign_activity( ACT_CRAFT );
     p->activity.targets.push_back( item_location( *p, it ) );
+    p->activity.coords.push_back( best_bench.position );
     p->activity.values.push_back( 0 ); // Not a long craft
+    // Ugly
+    p->activity.values.push_back( static_cast<int>( best_bench.type ) );
 
     return 0;
 }

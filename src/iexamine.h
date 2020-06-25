@@ -109,8 +109,6 @@ void quern_examine( player &p, const tripoint &examp );
 void smoker_options( player &p, const tripoint &examp );
 void open_safe( player &p, const tripoint &examp );
 void workbench( player &p, const tripoint &examp );
-void workbench_internal( player &p, const tripoint &examp,
-                         const cata::optional<vpart_reference> &part );
 
 bool pour_into_keg( const tripoint &pos, item &liquid );
 cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );

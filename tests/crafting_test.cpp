@@ -470,7 +470,8 @@ static int resume_craft()
     REQUIRE( crafts.size() == 1 );
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
-    REQUIRE( g->u.crafting_speed_multiplier( *craft, tripoint_zero ) == 1.0 );
+    REQUIRE( crafting_speed_multiplier( g->u, *craft, bench_location{bench_type::hands, g->u.pos()} ) ==
+             1.0 );
     REQUIRE( !g->u.activity );
     g->u.use( g->u.get_item_position( craft ) );
     REQUIRE( g->u.activity );

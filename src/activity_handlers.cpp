@@ -30,6 +30,7 @@
 #include "color.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
+#include "crafting.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
@@ -3770,9 +3771,10 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     }
 
     const recipe &rec = craft->get_making();
-    const tripoint loc = act->targets.front().where() == item_location::type::character ?
-                         tripoint_zero : act->targets.front().position();
-    const float crafting_speed = p->crafting_speed_multiplier( *craft, loc );
+    const tripoint bench_pos = act->coords.front();
+    // Ugly
+    bench_type bench_t = bench_type( act->values[1] );
+    const float crafting_speed = crafting_speed_multiplier( *p, *craft, bench_location{bench_t, bench_pos} );
     const int assistants = p->available_assistant_count( craft->get_making() );
     const bool is_long = act->values[0];
 
@@ -3828,10 +3830,10 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
         item craft_copy = *craft;
         act->targets.front().remove_item();
         p->cancel_activity();
-        p->complete_craft( craft_copy, loc );
+        complete_craft( *p, craft_copy, bench_location{bench_t, bench_pos} );
         if( is_long ) {
             if( p->making_would_work( p->lastrecipe, craft_copy.charges ) ) {
-                p->last_craft->execute( loc );
+                p->last_craft->execute( bench_pos );
             }
         }
     } else if( craft->item_counter >= craft->get_next_failure_point() ) {

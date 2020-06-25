@@ -350,7 +350,7 @@ struct ter_t : map_data_common_t {
 };
 
 void set_ter_ids();
-void set_furn_ids();
+void finalize_furn();
 void reset_furn_ter();
 
 /*
@@ -576,7 +576,5 @@ extern furn_id f_null,
 
 // consistency checking of terlist & furnlist.
 void check_furniture_and_terrain();
-
-void finalize_furniture_and_terrain();
 
 #endif // CATA_SRC_MAPDATA_H
