@@ -8534,7 +8534,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
             }
 
             if( !destroy ) {
-                destroy = armor_absorb( elem, armor );
+                destroy = armor_absorb( elem, armor, bp );
             }
 
             if( destroy ) {
@@ -8580,9 +8580,9 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
     }
 }
 
-bool Character::armor_absorb( damage_unit &du, item &armor )
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
 {
-    if( rng( 1, 100 ) > armor.get_coverage() ) {
+    if( rng( 1, 100 ) > armor.get_coverage( bp ) ) {
         return false;
     }
 
