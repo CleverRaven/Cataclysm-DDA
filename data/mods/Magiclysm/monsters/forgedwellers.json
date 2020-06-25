@@ -44,7 +44,7 @@
     "description": "A goblin like none you've ever seen before.  He directs workers and automatons with confidence and style.",
     "death_drops": {
       "subtype": "collection",
-      "groups": [ [ "forge_life", 40 ] [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
+      "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
     }
   },
   {
@@ -59,7 +59,7 @@
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "laze" }, "cooldown": 10 }, [ "scratch", 5 ] ],
     "death_drops": {
       "subtype": "collection",
-      "groups": [ [ "forge_life", 40 ] [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
+      "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
     }
   },
   {
@@ -73,7 +73,7 @@
     "armor_fire": 40,
     "death_drops": {
       "subtype": "collection",
-      "groups": [ [ "forge_life", 40 ] [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
+      "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
     }
   },
   {
@@ -144,7 +144,7 @@
     "harvest": "demihuman",
     "death_drops": {
       "subtype": "collection",
-      "groups": [ [ "forge_life", 40 ] [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
+      "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ]
     },
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN" ]
