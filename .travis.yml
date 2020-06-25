@@ -60,7 +60,7 @@ jobs:
           packages: ["clang-3.8"]
           sources: [*apt_sources]
 
-    - stage: "Deployable 32 bit"
+    - stage: "Deployable"
     # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
       env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" RELEASE=1 TILES=1 SOUND=1 DEPLOY=1 BUILD_NAME=win32-tiles
       name: "Mingw-w64 Make cross-compile to Windows 32 bit with Tiles and Sound"
