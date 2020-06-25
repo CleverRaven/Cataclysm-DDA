@@ -12,6 +12,7 @@
 
 #include "action.h"
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -4699,6 +4700,11 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
+        if( !activity.is_null() ) {
+            decrease_activity_level( activity.id()->exertion_level() );
+        } else {
+            reset_activity_level();
+        }
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
@@ -4712,9 +4718,6 @@ void Character::update_body( const time_point &from, const time_point &to )
 
     const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
-        if( activity.is_null() ) {
-            reset_activity_level();
-        }
         // Radiation kills health even at low doses
         update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
         get_sick();
