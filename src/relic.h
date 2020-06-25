@@ -41,7 +41,8 @@ class relic_procgen_data
             T max_value = 0;
 
             int calc_power( T level ) const {
-                return round( level * static_cast<float>( power_per_increment ) / static_cast<float>( increment ) );
+                return std::round( level * static_cast<float>( power_per_increment ) /
+                                   static_cast<float>( increment ) );
             }
 
             bool was_loaded = false;
