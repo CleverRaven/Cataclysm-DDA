@@ -41,8 +41,8 @@ struct weather_animation_t {
 };
 
 struct weather_requirements {
-    int windspeed_min = INT_MIN;
-    int windspeed_max = INT_MAX;
+    int windpower_min = INT_MIN;
+    int windpower_max = INT_MAX;
     int temperature_min = INT_MIN;
     int temperature_max = INT_MAX;
     int pressure_min = INT_MIN;

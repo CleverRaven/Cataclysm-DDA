@@ -198,8 +198,8 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
             requires.temperature_max > w.temperature &&
             requires.temperature_min < w.temperature;
         bool test_windspeed =
-            requires.windspeed_max > w.windpower &&
-            requires.windspeed_min < w.windpower;
+            requires.windpower_max > w.windpower &&
+            requires.windpower_min < w.windpower;
         bool test_acidic = !requires.acidic || w.acidic;
         if( !( test_temperature && test_windspeed && test_acidic ) ) {
             continue;
@@ -218,45 +218,6 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         current_conditions = weather_index;
     }
     return current_conditions;
-    /*if( w.pressure > 1020 && w.humidity < 70 ) {
-        r = WEATHER_SUNNY;
-    }
-    if( w.pressure < 1010 && w.humidity > 40 ) {
-        r = WEATHER_CLOUDY;
-    }
-    if( r == WEATHER_CLOUDY && ( w.humidity > 96 || w.pressure < 1003 ) ) {
-        r = WEATHER_LIGHT_DRIZZLE;
-    }
-    if( r >= WEATHER_LIGHT_DRIZZLE && ( w.humidity > 97 || w.pressure < 1000 ) ) {
-        r = WEATHER_DRIZZLE;
-    }
-    if( r >= WEATHER_CLOUDY && ( w.humidity > 98 || w.pressure < 993 ) ) {
-        r = WEATHER_RAINY;
-    }
-    if( r == WEATHER_RAINY && w.pressure < 996 ) {
-        r = WEATHER_THUNDER;
-    }
-    if( r == WEATHER_THUNDER && w.pressure < 990 ) {
-        r = WEATHER_LIGHTNING;
-    }
-    if( w.temperature <= 32 ) {
-        if( r == WEATHER_DRIZZLE ) {
-            r = WEATHER_FLURRIES;
-        } else if( r > WEATHER_DRIZZLE ) {
-            if( r >= WEATHER_THUNDER && w.windpower > 15 ) {
-                r = WEATHER_SNOWSTORM;
-            } else {
-                r = WEATHER_SNOW;
-            }
-        }
-    }
-    if( r == WEATHER_DRIZZLE && w.acidic ) {
-        r = WEATHER_ACID_DRIZZLE;
-    }
-    if( r > WEATHER_DRIZZLE && w.acidic ) {
-        r = WEATHER_ACID_RAIN;
-    }
-    return r;*/
 }
 
 int weather_generator::get_wind_direction( const season_type season ) const
@@ -348,6 +309,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
                      << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
                      w.windpower << ";" << w.winddirection << std::endl;
         }
+
     }, "weather test file" );
 }
 
@@ -420,8 +382,8 @@ weather_generator weather_generator::load( const JsonObject &jo )
             new_requires.temperature_min = weather_requires.get_int( "temperature_min", INT_MIN );
             new_requires.temperature_max = weather_requires.get_int( "temperature_max", INT_MAX );
 
-            new_requires.windspeed_min = weather_requires.get_int( "windspeed_min", INT_MIN );
-            new_requires.windspeed_max = weather_requires.get_int( "windspeed_max", INT_MAX );
+            new_requires.windpower_min = weather_requires.get_int( "windpower_min", INT_MIN );
+            new_requires.windpower_max = weather_requires.get_int( "windpower_max", INT_MAX );
 
             new_requires.humidity_and_pressure = weather_requires.get_bool( "humidity_and_pressure", true );
             new_requires.acidic = weather_requires.get_bool( "acidic", false );

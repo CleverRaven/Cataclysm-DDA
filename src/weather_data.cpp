@@ -23,14 +23,6 @@ static std::vector<weather_datum> weather_datums;
 
 static weather_result weather_data_internal( weather_type const type )
 {
-    /**
-     * Weather types data definition.
-     * Name, color in UI, color and glyph on map, ranged penalty, sight penalty,
-     * light modifier, sound attenuation, warn player?
-     * Note light modifier assumes baseline of default_daylight_level() at 60
-     */
-    // TODO: but it actually isn't 60, it's 100. Fix this comment or fix the value
-
     const size_t i = static_cast<size_t>( type );
     if( i < weather_datums.size() ) {
         return { weather_datums[i], i > 0 };
