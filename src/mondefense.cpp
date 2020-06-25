@@ -58,7 +58,7 @@ void mdefense::zapback( monster &m, Creature *const source,
         for( const item &i : foe->worn ) {
             if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) &&
                 !i.conductive() && ( i.get_coverage( bodypart_id( "hand_l" ) ) >= 95 ) ||
-                i.get_coverage( bodypart_id( "hand_l" ) ) >= 95 ) {
+                i.get_coverage( bodypart_id( "hand_r" ) ) >= 95 ) {
                 return;
             }
         }
