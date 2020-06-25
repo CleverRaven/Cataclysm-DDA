@@ -2638,18 +2638,21 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         encumb_data.erase( encumb_data.find( "foot_l" ) );
                         encumb_data["Feet"] = encumb_data.at( "foot_r" );
                         encumb_data.erase( encumb_data.find( "foot_r" ) );
-                    } else if( covers( bodypart_id( "arm_l" ) ) && covers( bodypart_id( "arm_r" ) )
-                               && encumb_data.at( "arm_l" ) == encumb_data.at( "arm_r" ) ) {
+                    }
+                    if( covers( bodypart_id( "arm_l" ) ) && covers( bodypart_id( "arm_r" ) )
+                        && encumb_data.at( "arm_l" ) == encumb_data.at( "arm_r" ) ) {
                         encumb_data.erase( encumb_data.find( "arm_l" ) );
                         encumb_data["Arms"] = encumb_data.at( "arm_r" );
                         encumb_data.erase( encumb_data.find( "arm_r" ) );
-                    } else if( covers( bodypart_id( "leg_l" ) ) && covers( bodypart_id( "leg_r" ) )
-                               && encumb_data.at( "leg_l" ) == encumb_data.at( "leg_r" ) ) {
+                    }
+                    if( covers( bodypart_id( "leg_l" ) ) && covers( bodypart_id( "leg_r" ) )
+                        && encumb_data.at( "leg_l" ) == encumb_data.at( "leg_r" ) ) {
                         encumb_data.erase( encumb_data.find( "leg_l" ) );
                         encumb_data["Legs"] = encumb_data.at( "leg_r" );
                         encumb_data.erase( encumb_data.find( "leg_r" ) );
-                    } else if( covers( bodypart_id( "hand_l" ) ) && covers( bodypart_id( "hand_r" ) )
-                               && encumb_data.at( "hand_l" ) == encumb_data.at( "hand_r" ) ) {
+                    }
+                    if( covers( bodypart_id( "hand_l" ) ) && covers( bodypart_id( "hand_r" ) )
+                        && encumb_data.at( "hand_l" ) == encumb_data.at( "hand_r" ) ) {
                         encumb_data.erase( encumb_data.find( "hand_l" ) );
                         encumb_data["Hands"] = encumb_data.at( "hand_r" );
                         encumb_data.erase( encumb_data.find( "hand_r" ) );
