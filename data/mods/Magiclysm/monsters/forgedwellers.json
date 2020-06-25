@@ -3,7 +3,7 @@
     "id": "mon_forgeborn",
     "type": "MONSTER",
     "name": { "str": "forge born" },
-    "description": "The most elaborate, gaudy and overwrought clockwork creature that you've ever seen.  Each one has it's face designed in a mask displaying a single emotion.  Blades extend from the wrists in combat.",
+    "description": "The most elaborate, gaudy and overwrought clockwork creature that you've ever seen.  Each one has its face designed in a mask displaying a single emotion.  Blades extend from the wrists in combat.",
     "default_faction": "wonder_forge",
     "bodytype": "human",
     "species": [ "ROBOT" ],
