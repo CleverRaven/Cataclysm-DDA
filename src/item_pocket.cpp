@@ -404,6 +404,7 @@ units::volume item_pocket::item_size_modifier() const
     }
     total_vol -= data->magazine_well;
     total_vol *= data->volume_multiplier;
+    if (is_type(item_pocket::pocket_type::MAGAZINE) || is_type(item_pocket::pocket_type::MAGAZINE_WELL) && &data->ammo_restriction.find(ammotype("plutonium")) != nullptr) total_vol /= PLUTONIUM_CHARGES;
     return std::max( 0_ml, total_vol );
 }
 
@@ -416,6 +417,7 @@ units::mass item_pocket::item_weight_modifier() const
         } else {
             total_mass += it.weight() * data->weight_multiplier;
         }
+        if (is_type(item_pocket::pocket_type::MAGAZINE) || is_type(item_pocket::pocket_type::MAGAZINE_WELL) && &data->ammo_restriction.find(ammotype("plutonium")) != nullptr) total_mass /= PLUTONIUM_CHARGES;
     }
     return total_mass;
 }
