@@ -27,7 +27,6 @@
     "no_dmg_msg_u": "The %1$s tries to crush your %2$s with its greatclub, but swings wide and stumbles.",
     "no_dmg_msg_npc": "The %1$s tries to crush <npcname>'s %2$s with its greatclub, but swings wide and stumbles."
   },
-  ,
   {
     "type": "SPELL",
     "id": "demon_breath_fire",

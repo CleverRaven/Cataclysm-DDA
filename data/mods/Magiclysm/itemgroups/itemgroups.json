@@ -1169,5 +1169,20 @@
       { "group": "lair_black_dragon_treasure", "prob": 5 },
       { "group": "enchanted_melee_weapons_plus2" "prob": 20 }
     ]
+  },
+  {
+    "id": "forge_life",
+    "type": "item_group",
+    "//": "Clothing and gear for forgedwellers",
+    "items": [
+      [ "apron_leather", 90 ],
+      [ "pants_leather", 80 ],
+      [ "leathersandals", 60 ],
+      [ "kilt_leather", 90 ],
+      [ "hammer", 90 ],
+      [ "armor_demonchitin", 1 ],
+      [ "armguard_demonchitin", 8 ],
+      [ "gauntlets_demonchitin", 14 ]
+    ]
   }
 ]
