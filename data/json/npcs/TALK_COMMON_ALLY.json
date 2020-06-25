@@ -46,7 +46,11 @@
     "responses": [
       { "text": "I want to give you some commands for combat.", "topic": "TALK_COMBAT_COMMANDS" },
       { "text": "I want to set some miscellaneous rules.", "topic": "TALK_MISC_RULES" },
-      { "text": "I'd like to know a bit more about your abilities.", "topic": "TALK_FRIEND", "effect": "reveal_stats" },
+      {
+        "text": "I'd like to know a bit more about your abilities.",
+        "topic": "TALK_FRIEND",
+        "effect": "reveal_stats"
+      },
       { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
       { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
       { "text": "Can you help me understand something?", "topic": "TALK_ALLY_HELP" },
@@ -190,11 +194,7 @@
   {
     "id": [ "TALK_ALLY_HELP" ],
     "type": "talk_topic",
-    "dynamic_line": [
-      "What do you need to know?",
-      "I'm here for you.",
-      "Just call me F1, <name_g>."
-    ],
+    "dynamic_line": [ "What do you need to know?", "I'm here for you.", "Just call me F1, <name_g>." ],
     "responses": [
       { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
       {
