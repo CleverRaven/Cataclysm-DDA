@@ -322,6 +322,7 @@
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 4,
     "encumbrance": 30,
+    "max_encumbrance": 35,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "15 kg", "moves": 300 } ],
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
@@ -342,6 +343,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "rigid": true,
         "max_contains_volume": "15 L",
         "max_contains_weight": "60 kg",
         "max_item_length": "50 cm",
@@ -596,6 +598,7 @@
     "covers": [ "TORSO" ],
     "coverage": 35,
     "encumbrance": 30,
+    "max_encumbrance": 35,
     "//": "The main section of the golf bag actually assumes things will stick out of it, but specifically contains them, so some extra wiggle room was added.",
     "pocket_data": [
       {
@@ -629,7 +632,7 @@
     "looks_like": "plastic_shopping_bag",
     "color": "pink",
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
-    "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 5, "encumbrance": 100, "material_thickness": 1 },
+    "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 5, "encumbrance": 10, "max_encumbrance": 100, "material_thickness": 1 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -653,7 +656,7 @@
     "color": "pink",
     "price_postapoc": 10,
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
-    "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 5, "encumbrance": 100, "material_thickness": 1 },
+    "armor_data": { "covers": [ "ARM_EITHER", "HAND_EITHER" ], "coverage": 5, "encumbrance": 10, "max_encumbrance": 100, "material_thickness": 1 },
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -676,6 +679,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "rigid": true,
         "max_contains_volume": "14500 ml",
         "max_contains_weight": "30 kg",
         "max_item_length": "50 cm",
@@ -865,13 +869,15 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 30,
-    "encumbrance": 12,
+    "encumbrance": 8,
+    "max_encumbrance": 12,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "max_contains_volume": "15 L",
         "max_contains_weight": "18 kg",
         "max_item_length": "50 cm",
+        "magazine_well": "2500 ml",
         "moves": 150
       }
     ],
@@ -953,6 +959,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "rigid": true,
         "max_contains_volume": "35 L",
         "max_contains_weight": "16 kg",
         "max_item_length": "45 cm",
@@ -1004,7 +1011,8 @@
     "color": "dark_gray",
     "covers": [ "TORSO" ],
     "coverage": 10,
-    "encumbrance": 7,
+    "encumbrance": 2,
+    "max_encumbrance": 7,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -1190,6 +1198,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "rigid": true,
         "max_contains_volume": "10 L",
         "max_contains_weight": "3 kg",
         "max_item_length": "40 cm",
@@ -1220,6 +1229,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "rigid": true,
         "max_contains_volume": "110 L",
         "max_contains_weight": "80 kg",
         "max_item_length": "90 cm",
@@ -1249,6 +1259,7 @@
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
+        "rigid": true,
         "max_contains_volume": "45 L",
         "max_contains_weight": "40 kg",
         "max_item_length": "70 cm",
