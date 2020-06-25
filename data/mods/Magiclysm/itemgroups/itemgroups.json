@@ -1153,5 +1153,21 @@
       [ "sandpaper", 90 ],
       [ "small_mana_crystal", 180 ]
     ]
+  },
+  {
+    "id": "forge_vault_items",
+    "//": "Items that can be traded for at the forge of wonders.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "group": "enchanted_combat_items", "prob": 40 },
+      { "group": "enchanted_misc", "prob": 50 },
+      { "group": "enchanted_rings_unusual", "prob": 20 },
+      { "group": "enchanted_rings_rare", "prob": 30 },
+      { "group": "enchanted_wands_greater", "prob": 30 },
+      { "group": "enchanted_wands_lesser", "prob": 20 },
+      { "group": "lair_black_dragon_treasure", "prob": 5 },
+      { "group": "enchanted_melee_weapons_plus2" "prob": 20 }
+    ]
   }
 ]
