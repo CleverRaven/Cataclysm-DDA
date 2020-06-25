@@ -113,21 +113,45 @@ const std::string &bodypart_str_id_to_readable( const bodypart_str_id &id )
         { bodypart_str_id( "head" ), "Head" },
         { bodypart_str_id( "eyes" ), "Eyes" },
         { bodypart_str_id( "mouth" ), "Mouth" },
-        { bodypart_str_id( "arm_l" ), "L Arm" },
-        { bodypart_str_id( "arm_r" ), "R Arm" },
-        { bodypart_str_id( "hand_l" ), "L Hand" },
-        { bodypart_str_id( "hand_r" ), "R Hand" },
-        { bodypart_str_id( "leg_l" ), "L Leg" },
-        { bodypart_str_id( "leg_r" ), "R Leg" },
-        { bodypart_str_id( "foot_l" ), "L Foot" },
-        { bodypart_str_id( "foot_r" ), "R Foot" },
-        { bodypart_str_id( "num_bp" ), "NUM_BP" },
+        { bodypart_str_id( "arm_l" ), "L. Arm" },
+        { bodypart_str_id( "arm_r" ), "R. Arm" },
+        { bodypart_str_id( "hand_l" ), "L. Hand" },
+        { bodypart_str_id( "hand_r" ), "R. Hand" },
+        { bodypart_str_id( "leg_l" ), "L. Leg" },
+        { bodypart_str_id( "leg_r" ), "R. Leg" },
+        { bodypart_str_id( "foot_l" ), "L. Foot" },
+        { bodypart_str_id( "foot_r" ), "R. Foot" },
+        { bodypart_str_id( "num_bp" ), "All" },
     };
 
     if( bodyparts.find( id ) != bodyparts.end() ) {
         return bodyparts.at( id );
     }
     return bodyparts.at( bodypart_str_id( "num_bp" ) );
+}
+
+const bodypart_str_id &readable_to_bodypart_str_id( const std::string &readable_string )
+{
+    static const std::unordered_map<std::string, bodypart_str_id> bodyparts = {
+        { "Torso", bodypart_str_id( "torso" ),},
+        { "Head", bodypart_str_id( "head" ), },
+        { "Eyes", bodypart_str_id( "eyes" ), },
+        { "Mouth", bodypart_str_id( "mouth" ),},
+        { "L. Arm", bodypart_str_id( "arm_l" ),},
+        { "R. Arm", bodypart_str_id( "arm_r" ),},
+        { "L. Hand", bodypart_str_id( "hand_l" )},
+        { "R. Hand", bodypart_str_id( "hand_r" )},
+        { "L. Leg", bodypart_str_id( "leg_l" ),},
+        { "R. Leg", bodypart_str_id( "leg_r" ),},
+        { "L. Foot", bodypart_str_id( "foot_l" )},
+        { "R. Foot", bodypart_str_id( "foot_r" )},
+        { "All", bodypart_str_id( "num_bp" )},
+    };
+
+    if( bodyparts.find( readable_string ) != bodyparts.end() ) {
+        return bodyparts.at( readable_string );
+    }
+    return bodyparts.at( "All" );
 }
 
 static body_part legacy_id_to_enum( const std::string &legacy_id )
