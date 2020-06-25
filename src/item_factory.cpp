@@ -1774,7 +1774,7 @@ void islot_armor::load( const JsonObject &jo )
 
             if( obj.has_int( "layer" ) ) {
                 for( auto &piece : data ) {
-                    piece.layer.value() = static_cast<layer_level>( obj.get_int( "layer" ) );
+                    piece.layer = static_cast<layer_level>( obj.get_int( "layer" ) );
                 }
             } else {
                 for( auto &piece : data ) {

@@ -98,12 +98,8 @@ bool is_legacy_bodypart_id( const std::string &id )
         "NUM_BP",
     };
 
-    for( const auto &string : legacy_body_parts ) {
-        if( string == id ) {
-            return true;
-        }
-    }
-    return false;
+    return std::find( legacy_body_parts.begin(), legacy_body_parts.end(),
+                      id ) != legacy_body_parts.end();
 }
 
 const std::string &bodypart_str_id_to_readable( const bodypart_str_id &id )
@@ -124,8 +120,10 @@ const std::string &bodypart_str_id_to_readable( const bodypart_str_id &id )
         { bodypart_str_id( "num_bp" ), "All" },
     };
 
-    if( bodyparts.find( id ) != bodyparts.end() ) {
-        return bodyparts.at( id );
+    const auto &it = bodyparts.find( id );
+
+    if( it != bodyparts.end() ) {
+        return it->second;
     }
     return bodyparts.at( bodypart_str_id( "num_bp" ) );
 }
@@ -148,8 +146,10 @@ const bodypart_str_id &readable_to_bodypart_str_id( const std::string &readable_
         { "All", bodypart_str_id( "num_bp" )},
     };
 
-    if( bodyparts.find( readable_string ) != bodyparts.end() ) {
-        return bodyparts.at( readable_string );
+    const auto &it = bodyparts.find( readable_string );
+
+    if( it != bodyparts.end() ) {
+        return it->second;
     }
     return bodyparts.at( "All" );
 }

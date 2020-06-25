@@ -5618,8 +5618,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     for( const auto &data : t->data ) {
-        if( bodypart == bodypart_id( bodypart_str_id( "num_bp" ) ) ||
-            ( data.covers.has_value() && data.covers.value().test( bodypart.id() ) ) ) {
+        if( bodypart == bodypart_id( bodypart_str_id( "num_bp" ) ) || data.covers->test( bodypart.id() ) ) {
             encumber = data.encumber;
             encumber += std::ceil( relative_encumbrance * ( data.max_encumber - data.encumber ) );
         }
