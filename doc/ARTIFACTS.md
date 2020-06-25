@@ -33,11 +33,17 @@ The procedural generation of artifacts is defined in Json. The object looks like
 ```
 
 ### passive_add_procgen_values and passive_mult_procgen_values
-weight: the weight of this value in the list, to be chosen randomly\n
-min_value: the minimum possible value for this value type. for add must be an integer, for mult it can be a float\n
-max_value: the maximum possible value for this value type. for add must be an integer, for mult it can be a float\n
-type: the type of enchantment value. see MAGIC.md for detailed documentation on enchantment values\n
-increment: the increment that is used for the power multiplier\n
+
+weight: the weight of this value in the list, to be chosen randomly
+
+min_value: the minimum possible value for this value type. for add must be an integer, for mult it can be a float
+
+max_value: the maximum possible value for this value type. for add must be an integer, for mult it can be a float
+
+type: the type of enchantment value. see MAGIC.md for detailed documentation on enchantment values
+
+increment: the increment that is used for the power multiplier
+
 power_per_increment: the power value per increment
 
 ### type_weights
