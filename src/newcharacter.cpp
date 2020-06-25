@@ -1369,6 +1369,7 @@ tab_direction set_profession( avatar &u, points_left &points,
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "RANDOMIZE" );
 
     bool recalc_profs = true;
     int profs_length = 0;
@@ -1689,6 +1690,8 @@ tab_direction set_profession( avatar &u, points_left &points,
             recalc_profs = true;
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
+        } else if( action == "RANDOMIZE" ) {
+            cur_id = rng( 0, profs_length - 1 );
         }
 
     } while( retval == tab_direction::NONE );
@@ -1990,6 +1993,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "RANDOMIZE" );
 
     bool recalc_scens = true;
     int scens_length = 0;
@@ -2280,6 +2284,8 @@ tab_direction set_scenario( avatar &u, points_left &points,
             recalc_scens = true;
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
+        } else if( action == "RANDOMIZE" ) {
+            cur_id = rng( 0, scens_length - 1 );
         }
     } while( retval == tab_direction::NONE );
 
