@@ -3398,10 +3398,10 @@
     "subcategory": "CSC_OTHER_MATERIALS",
     "skill_used": "chemistry",
     "difficulty": 3,
-    "time": "50 m",
+    "time": "20 m",
     "autolearn": true,
     "batch_time_factors": [ 80, 4 ],
-    "result_mult": 15,
+    "result_mult": 2,
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 15, "LIST" ] ] ],
     "components": [ [ [ "water_clean", 2 ], [ "water", 2 ] ], [ [ "chem_glycerol", 5 ] ], [ [ "starch", 1 ], [ "flour", 1 ] ] ]
