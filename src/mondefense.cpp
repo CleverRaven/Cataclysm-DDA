@@ -57,7 +57,8 @@ void mdefense::zapback( monster &m, Creature *const source,
         // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
         for( const item &i : foe->worn ) {
             if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) &&
-                !i.conductive() && i.get_coverage() >= 95 ) {
+                !i.conductive() && ( i.get_coverage( bodypart_id( "hand_l" ) ) >= 95 ) ||
+                i.get_coverage( bodypart_id( "hand_l" ) ) >= 95 ) {
                 return;
             }
         }
