@@ -758,7 +758,6 @@
     "spoils_in": "1 day",
     "price_postapoc": 600,
     "container": "bag_plastic",
-    "comestible_type": "FOOD",
     "material": [ "junk", "veggy" ],
     "volume": "750 ml",
     "charges": 3,
