@@ -5665,8 +5665,12 @@ int item::get_coverage( const bodypart_id &bodypart ) const
                 avg_ctr += entry.covers.value().count();
             }
         }
-        avg_coverage /= avg_ctr;
-        return avg_coverage;
+        if( avg_ctr == 0 || avg_coverage == 0 ) {
+            return 0;
+        } else {
+            avg_coverage /= avg_ctr;
+            return avg_coverage;
+        }
     }
 
     for( const auto &entry : t->data ) {
