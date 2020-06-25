@@ -1247,7 +1247,7 @@
       [ [ "nachos", 3 ] ]
     ]
   },
-   {
+  {
     "type": "recipe",
     "result": "nachosv",
     "category": "CC_FOOD",
