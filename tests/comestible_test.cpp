@@ -144,10 +144,10 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
             }
             // Check that the default calories are within range of what can be made with a recipe
             CHECK( mystats.calories.min() >= 0 );
-            CHECK( default_calories <= mystats.calories.max() );
-            CHECK( mystats.calories.min() <= default_calories );
-            if( mystats.calories.min() < 0 || default_calories < mystats.calories.min() ||
-                default_calories > mystats.calories.max() ) {
+            CHECK( default_calories <= mystats.calories.max() * 1.2 );
+            CHECK( mystats.calories.min() * 0.8 <= default_calories );
+            if( mystats.calories.min() < 0 || default_calories < mystats.calories.min() * 0.8 ||
+                default_calories > mystats.calories.max() * 1.2 ) {
                 printf( "\n\nRecipeID: %s, default is %d Calories,\nCurrent recipe range: %d-%d, Average %.0f"
                         "\nDefault recipe calories must be possible to make with the recipe.\n\n",
                         recipe_pair.first.c_str(), default_calories,
