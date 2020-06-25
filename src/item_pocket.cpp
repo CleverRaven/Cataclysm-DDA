@@ -812,12 +812,19 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>sealed</info>." ) );
     }
 
-    info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
-    info.emplace_back( vol_to_info( "CONTAINER", _( " of " ), volume_capacity() ) );
-
-    info.back().bNewLine = true;
-    info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
-    info.emplace_back( weight_to_info( "CONTAINER", _( " of " ), weight_capacity() ) );
+    if( data->ammo_restriction.empty() ) {
+        // With no ammo_restriction defined, show current volume/weight, and total capacity
+        info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
+        info.emplace_back( vol_to_info( "CONTAINER", _( " of " ), volume_capacity() ) );
+        info.back().bNewLine = true;
+        info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
+        info.emplace_back( weight_to_info( "CONTAINER", _( " of " ), weight_capacity() ) );
+    } else {
+        // With ammo_restriction, total capacity does not matter, but show current volume/weight
+        info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
+        info.back().bNewLine = true;
+        info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
+    }
 
     bool contents_header = false;
     for( const item &contents_item : contents ) {
