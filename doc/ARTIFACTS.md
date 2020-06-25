@@ -51,6 +51,7 @@ As the names suggest, these are *passive* benefits/penalties to having the artif
 This determines the relative weight of the 'add' and 'mult' types.  When generated, an artifact first decides if it is going to apply an 'add' or a 'mult' ability based on the type_weights of each.  Then it uses the weights of the entries under the selected type to pick an ability.  This continues cycling until the artifact reaches the defined power level.  Possible values right now that are functional are:
 - passive_enchantment_add
 - passive_enchantment_mult
+
 This must be included in a dataset or it could cause a crash.
 
 ### items
