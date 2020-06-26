@@ -187,15 +187,16 @@ void ui_adaptor::redraw()
 
 void ui_adaptor::redraw_invalidated()
 {
+    ui_stack_t ui_stack_copy = ui_stack;
     // apply deferred resizing
-    auto first = ui_stack.rbegin();
-    for( ; first != ui_stack.rend(); ++first ) {
+    auto first = ui_stack_copy.rbegin();
+    for( ; first != ui_stack_copy.rend(); ++first ) {
         if( first->get().disabling_uis_below ) {
             break;
         }
     }
-    for( auto it = first == ui_stack.rend() ? ui_stack.begin() : std::prev( first.base() );
-         it != ui_stack.end(); ++it ) {
+    for( auto it = first == ui_stack_copy.rend() ? ui_stack_copy.begin() : std::prev( first.base() );
+         it != ui_stack_copy.end(); ++it ) {
         ui_adaptor &ui = *it;
         if( ui.deferred_resize ) {
             if( ui.screen_resized_cb ) {
@@ -208,15 +209,15 @@ void ui_adaptor::redraw_invalidated()
 
     // redraw invalidated uis
     // TODO refresh only when all stacked UIs are drawn
-    if( !ui_stack.empty() ) {
-        auto first = ui_stack.crbegin();
-        for( ; first != ui_stack.crend(); ++first ) {
+    if( !ui_stack_copy.empty() ) {
+        auto first = ui_stack_copy.crbegin();
+        for( ; first != ui_stack_copy.crend(); ++first ) {
             if( first->get().disabling_uis_below ) {
                 break;
             }
         }
-        for( auto it = first == ui_stack.crend() ? ui_stack.cbegin() : std::prev( first.base() );
-             it != ui_stack.cend(); ++it ) {
+        for( auto it = first == ui_stack_copy.crend() ? ui_stack_copy.cbegin() : std::prev( first.base() );
+             it != ui_stack_copy.cend(); ++it ) {
             const ui_adaptor &ui = *it;
             if( ui.invalidated ) {
                 if( ui.redraw_cb ) {
