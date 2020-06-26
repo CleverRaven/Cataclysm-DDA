@@ -190,6 +190,12 @@ void trap::reset()
     trap_factory.reset();
 }
 
+bool trap::detected_by_ground_sonar() const
+{
+    // @TODO make this a property
+    return loadid == tr_beartrap_buried || loadid == tr_landmine_buried || loadid == tr_sinkhole;
+}
+
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 {
     // Some decisions are based around:

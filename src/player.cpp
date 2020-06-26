@@ -852,9 +852,7 @@ void player::search_surroundings()
         if( tr.is_null() || tp == pos() ) {
             continue;
         }
-        if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) &&
-            ( tr.loadid == tr_beartrap_buried ||
-              tr.loadid == tr_landmine_buried || tr.loadid == tr_sinkhole ) ) {
+        if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) && tr.detected_by_ground_sonar() ) {
             const std::string direction = direction_name( direction_from( pos(), tp ) );
             add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
                                tr.name(), direction );
