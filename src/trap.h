@@ -159,6 +159,9 @@ struct trap {
         bool is_benign() const {
             return benign;
         }
+
+        bool is_trivial_to_spot() const;
+
         /**
          * Whether this kind of trap will be detected by ground sonar (e.g. via the bionic).
          */

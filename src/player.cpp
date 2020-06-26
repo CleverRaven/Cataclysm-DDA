@@ -867,7 +867,7 @@ void player::search_surroundings()
         }
         // Chance to detect traps we haven't yet seen.
         if( tr.detect_trap( tp, *this ) ) {
-            if( tr.get_visibility() > 0 ) {
+            if( !tr.is_trivial_to_spot() ) {
                 // Only bug player about traps that aren't trivial to spot.
                 const std::string direction = direction_name(
                                                   direction_from( pos(), tp ) );

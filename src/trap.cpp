@@ -190,6 +190,12 @@ void trap::reset()
     trap_factory.reset();
 }
 
+bool trap::is_trivial_to_spot() const
+{
+    // @TODO technically the trap may not be detected even with visibility == 0, see trap::detect_trap
+    return visibility <= 0 && !is_always_invisible();
+}
+
 bool trap::detected_by_ground_sonar() const
 {
     // @TODO make this a property
