@@ -3695,8 +3695,7 @@ void trap::examine( player &p, const tripoint &examp ) const
     if( !p.is_player() || is_null() ) {
         return;
     }
-    const int possible = get_difficulty();
-    bool seen = can_see( examp, p );
+    const bool seen = can_see( examp, p );
     if( seen && g->u.is_mounted() ) {
         add_msg( m_warning, _( "You cannot do that while mounted." ) );
         return;
@@ -3730,7 +3729,7 @@ void trap::examine( player &p, const tripoint &examp ) const
             return;
         }
     }
-    if( seen && possible >= 99 ) {
+    if( seen && can_not_be_disarmed() ) {
         add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
         return;
     }

@@ -177,6 +177,12 @@ struct trap {
         bool is_trivial_to_spot() const;
 
         /**
+         * Some traps are part of the terrain (e.g. pits) and can therefor not be disarmed
+         * via the usual mechanics. They can be "disarmed" by changing the terrain they are part of.
+         */
+        bool can_not_be_disarmed() const;
+
+        /**
          * Whether this kind of trap will be detected by ground sonar (e.g. via the bionic).
          */
         bool detected_by_ground_sonar() const;

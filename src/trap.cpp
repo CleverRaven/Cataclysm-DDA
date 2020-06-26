@@ -348,6 +348,11 @@ bool trap::easy_take_down() const
     return avoidance == 0 && difficulty == 0;
 }
 
+bool trap::can_not_be_disarmed() const
+{
+    return difficulty >= 99;
+}
+
 void trap::finalize()
 {
     for( const trap &t_const : trap_factory.get_all() ) {
