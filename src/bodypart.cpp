@@ -102,58 +102,6 @@ bool is_legacy_bodypart_id( const std::string &id )
                       id ) != legacy_body_parts.end();
 }
 
-const std::string &bodypart_str_id_to_readable( const bodypart_str_id &id )
-{
-    static const std::unordered_map<bodypart_str_id, std::string> bodyparts = {
-        { bodypart_str_id( "torso" ), "Torso" },
-        { bodypart_str_id( "head" ), "Head" },
-        { bodypart_str_id( "eyes" ), "Eyes" },
-        { bodypart_str_id( "mouth" ), "Mouth" },
-        { bodypart_str_id( "arm_l" ), "L. Arm" },
-        { bodypart_str_id( "arm_r" ), "R. Arm" },
-        { bodypart_str_id( "hand_l" ), "L. Hand" },
-        { bodypart_str_id( "hand_r" ), "R. Hand" },
-        { bodypart_str_id( "leg_l" ), "L. Leg" },
-        { bodypart_str_id( "leg_r" ), "R. Leg" },
-        { bodypart_str_id( "foot_l" ), "L. Foot" },
-        { bodypart_str_id( "foot_r" ), "R. Foot" },
-        { bodypart_str_id( "num_bp" ), "All" },
-    };
-
-    const auto &it = bodyparts.find( id );
-
-    if( it != bodyparts.end() ) {
-        return it->second;
-    }
-    return bodyparts.at( bodypart_str_id( "num_bp" ) );
-}
-
-const bodypart_str_id &readable_to_bodypart_str_id( const std::string &readable_string )
-{
-    static const std::unordered_map<std::string, bodypart_str_id> bodyparts = {
-        { "Torso", bodypart_str_id( "torso" ),},
-        { "Head", bodypart_str_id( "head" ), },
-        { "Eyes", bodypart_str_id( "eyes" ), },
-        { "Mouth", bodypart_str_id( "mouth" ),},
-        { "L. Arm", bodypart_str_id( "arm_l" ),},
-        { "R. Arm", bodypart_str_id( "arm_r" ),},
-        { "L. Hand", bodypart_str_id( "hand_l" )},
-        { "R. Hand", bodypart_str_id( "hand_r" )},
-        { "L. Leg", bodypart_str_id( "leg_l" ),},
-        { "R. Leg", bodypart_str_id( "leg_r" ),},
-        { "L. Foot", bodypart_str_id( "foot_l" )},
-        { "R. Foot", bodypart_str_id( "foot_r" )},
-        { "All", bodypart_str_id( "num_bp" )},
-    };
-
-    const auto &it = bodyparts.find( readable_string );
-
-    if( it != bodyparts.end() ) {
-        return it->second;
-    }
-    return bodyparts.at( "All" );
-}
-
 static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
     static const std::unordered_map<std::string, body_part> body_parts = {

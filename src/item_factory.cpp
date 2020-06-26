@@ -521,7 +521,7 @@ void Item_factory::finalize_post( itype &obj )
     if( obj.armor ) {
         // Setting max_encumber must be in finalize_post because it relies on
         // stack_size being set for all ammo, which happens in finalize_pre.
-        for( auto &data : obj.armor->data ) {
+        for( random_armor_data &data : obj.armor->data ) {
             if( data.max_encumber == 0 ) {
                 units::volume total_nonrigid_volume = 0_ml;
                 for( const pocket_data &pocket : obj.pockets ) {

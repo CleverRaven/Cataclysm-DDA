@@ -773,7 +773,7 @@ body_part_set item::get_covered_body_parts( const side s ) const
     if( armor == nullptr ) {
         return res;
     }
-    for( const auto &data : armor->data ) {
+    for( const random_armor_data &data : armor->data ) {
         if( data.covers.has_value() ) {
             res.unify_set( data.covers.value() );
         }
@@ -2613,17 +2613,19 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         if( const islot_armor *t = find_armor_data() ) {
             if( !t->data.empty() ) {
-                std::unordered_map<std::string, std::tuple<int, int, int>> encumb_data;
+                std::unordered_map<std::string, std::pair<std::tuple<int, int, int>, translation>> encumb_data;
 
-                for( const auto &piece : t->data ) {
+                for( const random_armor_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
-                        for( const auto &covering : piece.covers.value() ) {
-                            if( covering != bodypart_str_id( "num_bp" ) ) {
+                        for( const bodypart_str_id &covering_id : piece.covers.value() ) {
+                            if( covering_id != bodypart_str_id( "num_bp" ) ) {
                                 encumb_data.insert( {
-                                    covering.c_str(), {
-                                        get_encumber( g->u, covering ),
-                                        get_encumber( g->u, covering, encumber_flags::assume_full ),
-                                        piece.coverage
+                                    covering_id.c_str(), {{
+                                            get_encumber( g->u, covering_id ),
+                                            get_encumber( g->u, covering_id, encumber_flags::assume_full ),
+                                            piece.coverage
+                                        },
+                                        covering_id.obj().name_as_heading
                                     }
                                 } );
                             }
@@ -2634,25 +2636,25 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 // Handle things that use both sides to avoid showing L Arm R Arm etc when not needed
                 if( !t->sided ) {
                     if( covers( bodypart_id( "foot_l" ) ) && covers( bodypart_id( "foot_r" ) )
-                        && encumb_data.at( "foot_r" ) == encumb_data.at( "foot_l" ) ) {
+                        && encumb_data.at( "foot_r" ).first == encumb_data.at( "foot_l" ).first ) {
                         encumb_data.erase( encumb_data.find( "foot_l" ) );
                         encumb_data["Feet"] = encumb_data.at( "foot_r" );
                         encumb_data.erase( encumb_data.find( "foot_r" ) );
                     }
                     if( covers( bodypart_id( "arm_l" ) ) && covers( bodypart_id( "arm_r" ) )
-                        && encumb_data.at( "arm_l" ) == encumb_data.at( "arm_r" ) ) {
+                        && encumb_data.at( "arm_l" ).first == encumb_data.at( "arm_r" ).first ) {
                         encumb_data.erase( encumb_data.find( "arm_l" ) );
                         encumb_data["Arms"] = encumb_data.at( "arm_r" );
                         encumb_data.erase( encumb_data.find( "arm_r" ) );
                     }
                     if( covers( bodypart_id( "leg_l" ) ) && covers( bodypart_id( "leg_r" ) )
-                        && encumb_data.at( "leg_l" ) == encumb_data.at( "leg_r" ) ) {
+                        && encumb_data.at( "leg_l" ).first == encumb_data.at( "leg_r" ).first ) {
                         encumb_data.erase( encumb_data.find( "leg_l" ) );
                         encumb_data["Legs"] = encumb_data.at( "leg_r" );
                         encumb_data.erase( encumb_data.find( "leg_r" ) );
                     }
                     if( covers( bodypart_id( "hand_l" ) ) && covers( bodypart_id( "hand_r" ) )
-                        && encumb_data.at( "hand_l" ) == encumb_data.at( "hand_r" ) ) {
+                        && encumb_data.at( "hand_l" ).first == encumb_data.at( "hand_r" ).first ) {
                         encumb_data.erase( encumb_data.find( "hand_l" ) );
                         encumb_data["Hands"] = encumb_data.at( "hand_r" );
                         encumb_data.erase( encumb_data.find( "hand_r" ) );
@@ -2661,43 +2663,48 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
                 for( auto &encumb : encumb_data ) {
                     if( t->sided ) {
-                        if( !covers( bodypart_id( "arm_l" ) ) && std::get<0>( encumb ) == ( "arm_l" ) ) {
+                        const std::string &covering_id = std::get<0>( encumb );
+                        if( !covers( bodypart_id( "arm_l" ) ) && covering_id == "arm_l" ) {
                             continue;
-                        } else if( !covers( bodypart_id( "arm_r" ) ) && std::get<0>( encumb ) == ( "arm_r" ) ) {
+                        } else if( !covers( bodypart_id( "arm_r" ) ) && covering_id == "arm_r" ) {
                             continue;
-                        } else if( !covers( bodypart_id( "hand_r" ) ) && std::get<0>( encumb ) == ( "hand_r" ) ) {
+                        } else if( !covers( bodypart_id( "hand_r" ) ) && covering_id == "hand_r" ) {
                             continue;
-                        } else if( !covers( bodypart_id( "hand_l" ) ) && std::get<0>( encumb ) == ( "hand_l" ) ) {
+                        } else if( !covers( bodypart_id( "hand_l" ) ) && covering_id == "hand_l" ) {
                             continue;
-                        } else if( !covers( bodypart_id( "leg_l" ) ) && std::get<0>( encumb ) == ( "leg_l" ) ) {
+                        } else if( !covers( bodypart_id( "leg_l" ) ) && covering_id == "leg_l" )  {
                             continue;
-                        } else if( !covers( bodypart_id( "leg_r" ) ) && std::get<0>( encumb ) == ( "leg_r" ) ) {
+                        } else if( !covers( bodypart_id( "leg_r" ) ) && covering_id == "leg_r" ) {
                             continue;
-                        } else if( !covers( bodypart_id( "foot_r" ) ) && std::get<0>( encumb ) == ( "foot_r" ) ) {
+                        } else if( !covers( bodypart_id( "foot_r" ) ) && covering_id == "foot_r" ) {
                             continue;
-                        } else if( !covers( bodypart_id( "foot_l" ) ) && std::get<0>( encumb ) == "foot_l" ) {
+                        } else if( !covers( bodypart_id( "foot_l" ) ) && covering_id == "foot_l" ) {
                             continue;
                         }
                     }
-                    // Already human-redable so dont call bodypart_str_id_to_reable
-                    if( encumb.first == "Feet" || encumb.first == "Arms" || encumb.first == "Legs" ||
-                        encumb.first == "Hands" ) {
-                        info.push_back( iteminfo( "ARMOR", _( encumb.first ) + ':' + space, "",
+                    const std::string &bodypart_name = encumb.first;
+                    const std::tuple<int, int, int> &coverage_data = encumb.second.first;
+
+                    // Already human-readable as manually hardcoded just above this
+                    // so just translate string rather than grabbing translation
+                    if( bodypart_name == "Feet" || bodypart_name == "Arms" || bodypart_name == "Legs" ||
+                        bodypart_name == "Hands" ) {
+                        info.push_back( iteminfo( "ARMOR", _( bodypart_name ) + ':' + space, "",
                                                   iteminfo::no_newline | iteminfo::lower_is_better,
-                                                  std::get<0>( encumb.second ) ) );
+                                                  std::get<0>( coverage_data ) ) );
                     } else {
                         info.push_back( iteminfo( "ARMOR",
-                                                  _( bodypart_str_id_to_readable( bodypart_str_id( encumb.first ) ) + ':' + space ), "",
+                                                  _( encumb.second.second.translated() )  + ':' + space, "",
                                                   iteminfo::no_newline | iteminfo::lower_is_better,
-                                                  std::get<0>( encumb.second ) ) );
+                                                  std::get<0>( coverage_data ) ) );
                     }
                     info.push_back( iteminfo( "ARMOR", space + _( "When Full" ) + ':' + space, "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
-                                              std::get<1>( encumb.second ) ) );
+                                              std::get<1>( coverage_data ) ) );
 
                     info.push_back( iteminfo( "ARMOR", space + _( "Coverage" ) + ':' + space, "",
                                               iteminfo::lower_is_better,
-                                              std::get<2>( encumb.second ) ) );
+                                              std::get<2>( coverage_data ) ) );
                 }
             }
         }
@@ -3633,7 +3640,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
         if( const islot_armor *t = find_armor_data() ) {
             if( !t->data.empty() ) {
-                for( const auto &data : t->data ) {
+                for( const random_armor_data &data : t->data ) {
                     if( data.encumber != data.max_encumber ) {
                         info.emplace_back( "BASE",
                                            _( "* This item is <info>not rigid</info>.  Its"
@@ -5617,7 +5624,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         relative_encumbrance = contents.relative_encumbrance();
     }
 
-    for( const auto &data : t->data ) {
+    for( const random_armor_data &data : t->data ) {
         if( bodypart == bodypart_id( bodypart_str_id( "num_bp" ) )
             || ( data.covers.has_value() && data.covers->test( bodypart.id() ) ) ) {
             encumber = data.encumber;
@@ -5687,7 +5694,7 @@ int item::get_coverage( const bodypart_id &bodypart ) const
     int avg_coverage = 0;
     int avg_ctr = 0;
     if( bodypart == bodypart_id( bodypart_str_id( "num_bp" ) ) ) {
-        for( const auto &entry : t->data ) {
+        for( const random_armor_data &entry : t->data ) {
             if( entry.covers.has_value() ) {
                 avg_coverage += entry.coverage * entry.covers.value().count();
                 avg_ctr += entry.covers.value().count();
@@ -5701,7 +5708,7 @@ int item::get_coverage( const bodypart_id &bodypart ) const
         }
     }
 
-    for( const auto &entry : t->data ) {
+    for( const random_armor_data&entry : t->data ) {
         if( entry.covers.has_value() && entry.covers.value().test( bodypart.id() ) ) {
             avg_coverage += entry.coverage;
             ++avg_ctr;
