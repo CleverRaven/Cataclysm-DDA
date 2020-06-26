@@ -1567,7 +1567,7 @@ class item : public visitable<item>
          * 100 (covering the whole body part). Items that cover more are more likely to absorb
          * damage from attacks.
          */
-        int get_coverage( const bodypart_id &bodypart = bodypart_id( bodypart_str_id( "num_bp" ) ) ) const;
+        int get_coverage( const bodypart_id &bodypart = bodypart_id( "num_bp" ) ) const;
 
         enum class encumber_flags : int {
             none = 0,
