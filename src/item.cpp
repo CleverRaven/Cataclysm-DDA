@@ -2708,7 +2708,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     const coverage_data_type &coverage_data = encumb.second.first;
 
                     info.push_back( iteminfo( "ARMOR",
-                                              _( encumb.second.second.first.translated() )  + ':' + space, "",
+                                              encumb.second.second.first.translated() + ':' + space, "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
                                               std::get<0>( coverage_data ) ) );
 
