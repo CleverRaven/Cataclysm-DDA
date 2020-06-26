@@ -173,11 +173,11 @@ class body_part_set
             return parts.size();
         }
 
-        const cata::flat_set<bodypart_str_id>::iterator begin() const {
+        cata::flat_set<bodypart_str_id>::iterator begin() const {
             return parts.begin();
         }
 
-        const cata::flat_set<bodypart_str_id>::iterator end() const {
+        cata::flat_set<bodypart_str_id>::iterator end() const {
             return parts.end();
         }
 
