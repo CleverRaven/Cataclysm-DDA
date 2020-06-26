@@ -393,3 +393,9 @@ void trap::finalize()
     tr_snake = trapfind( "tr_snake" );
     tr_glass_pit = trapfind( "tr_glass_pit" );
 }
+
+std::string trap::debug_describe() const
+{
+    return string_format( _( "Visible: %d\nAvoidance: %d\nDifficulty: %d\nBenign: %s" ), visibility,
+                          avoidance, difficulty, is_benign() ? _( "Yes" ) : _( "No" ) );
+}

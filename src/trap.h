@@ -206,6 +206,8 @@ struct trap {
          */
         void load( const JsonObject &jo, const std::string &src );
 
+        std::string debug_describe() const;
+
         /*@{*/
         /**
          * @name Funnels

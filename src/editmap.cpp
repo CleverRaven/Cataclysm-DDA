@@ -959,9 +959,7 @@ std::string describe( const furn_t &type )
 template<>
 std::string describe( const trap &type )
 {
-    return string_format( _( "Visible: %d\nAvoidance: %d\nDifficulty: %d\nBenign: %s" ),
-                          type.get_visibility(), type.get_avoidance(), type.get_difficulty(),
-                          type.is_benign() ? _( "Yes" ) : _( "No" ) );
+    return type.debug_describe();
 }
 
 template<typename T_id>
