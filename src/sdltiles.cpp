@@ -2892,9 +2892,11 @@ static void CheckMessages()
                         }
 #endif
                         break;
-                    case SDL_WINDOWEVENT_RESIZED:
+                    case SDL_WINDOWEVENT_RESIZED: {
+                        restore_on_out_of_scope<input_event> prev_last_input( last_input );
                         needupdate = handle_resize( ev.window.data1, ev.window.data2 );
                         break;
+                    }
                     default:
                         break;
                 }
@@ -3228,6 +3230,7 @@ static void CheckMessages()
         }
     }
     if( need_redraw ) {
+        restore_on_out_of_scope<input_event> prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and
