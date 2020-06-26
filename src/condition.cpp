@@ -783,7 +783,7 @@ void conditional_t<T>::set_is_driving( bool is_npc )
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        if( const optional_vpart_position vp = g->m.veh_at( actor->pos() ) ) {
+        if( const optional_vpart_position vp = get_map().veh_at( actor->pos() ) ) {
             return vp->vehicle().is_moving() && vp->vehicle().player_in_control( *actor );
         }
         return false;
@@ -818,8 +818,9 @@ template<class T>
 void conditional_t<T>::set_is_outside()
 {
     condition = []( const T & d ) {
-        const tripoint pos = g->m.getabs( d.beta->pos() );
-        return !g->m.has_flag( TFLAG_INDOORS, pos );
+        map &here = get_map();
+        const tripoint pos = here.getabs( d.beta->pos() );
+        return !here.has_flag( TFLAG_INDOORS, pos );
     };
 }
 

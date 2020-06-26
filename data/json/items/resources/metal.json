@@ -317,7 +317,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "A fine gray powder composed of tin, usable for making solder and lining containers to prevent corrosion.",
-    "material": "tin",
+    "material": [ "tin" ],
     "volume": "50ml",
     "weight": "2 g",
     "//": "Density 7.28g/cm³ ~ 1820kg/250ml @ stack 1000 = 2g/unit",

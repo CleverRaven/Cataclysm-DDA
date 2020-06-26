@@ -356,7 +356,7 @@ void mdeath::triffid_heart( monster &z )
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     }
-    g->timed_events.add( TIMED_EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
+    g->timed_events.add( timed_event_type::ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus( monster &z )
@@ -598,9 +598,9 @@ void mdeath::focused_beam( monster &z )
 
         item &settings = z.inv[0];
 
-        int x = z.posx() + settings.get_var( "SL_SPOT_X", 0 );
-        int y = z.posy() + settings.get_var( "SL_SPOT_Y", 0 );
-        tripoint p( x, y, z.posz() );
+        point p2( z.posx() + settings.get_var( "SL_SPOT_X", 0 ), z.posy() + settings.get_var( "SL_SPOT_Y",
+                  0 ) );
+        tripoint p( p2, z.posz() );
 
         std::vector <tripoint> traj = line_to( z.pos(), p, 0, 0 );
         for( auto &elem : traj ) {
@@ -756,7 +756,7 @@ void mdeath::jabberwock( monster &z )
 void mdeath::gameover( monster &z )
 {
     add_msg( m_bad, _( "The %s was destroyed!  GAME OVER!" ), z.name() );
-    g->u.hp_cur[hp_torso] = 0;
+    g->u.set_part_hp_cur( bodypart_id( "torso" ), 0 );
 }
 
 void mdeath::kill_breathers( monster &/*z*/ )

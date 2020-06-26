@@ -121,7 +121,7 @@
     "price_postapoc": 0,
     "symbol": "/",
     "color": "light_gray",
-    "use_action": "UNFOLD_GENERIC"
+    "use_action": [ "UNFOLD_GENERIC" ]
   },
   {
     "id": "metal_butcher_rack",

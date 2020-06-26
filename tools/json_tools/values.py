@@ -10,13 +10,18 @@ import json
 from util import import_data, value_counter, ui_counts_to_columns,\
         WhereAction
 
-parser = argparse.ArgumentParser(description="""Count the number of times a specific values occurs
-for a specific key.
+parser = argparse.ArgumentParser(description="""Count the number of
+times a specific values occurs for a specific key. The key may be a
+single field name, or a dotted reference to name a key inside an object
+or list of objects.
 
 Example usages:
 
     # What values are present in the material key?
     %(prog)s --human -k material
+
+    # What pocket_type values are used inside pocket_data values?
+    %(prog)s --human -k pocket_data.pocket_type
 
     # What cost values are in bionics that are active?
     %(prog)s --key=cost type=bionic active=true

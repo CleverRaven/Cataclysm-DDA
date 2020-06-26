@@ -24,6 +24,7 @@
 #include "mondeath.h"
 #include "mondefense.h"
 #include "monfaction.h"
+#include "mongroup.h"
 #include "optional.h"
 #include "options.h"
 #include "pathfinding.h"
@@ -277,9 +278,9 @@ static creature_size volume_to_size( const units::volume &vol )
 struct monster_adjustment {
     species_id species;
     std::string stat;
-    float stat_adjust;
+    float stat_adjust = 0.0f;
     std::string flag;
-    bool flag_val;
+    bool flag_val = false;
     std::string special;
     void apply( mtype &mon );
 };
@@ -349,7 +350,7 @@ static void build_behavior_tree( mtype &type )
 void MonsterGenerator::finalize_mtypes()
 {
     mon_templates->finalize();
-    for( const auto &elem : mon_templates->get_all() ) {
+    for( const mtype &elem : mon_templates->get_all() ) {
         mtype &mon = const_cast<mtype &>( elem );
         apply_species_attributes( mon );
         set_species_ids( mon );
@@ -388,6 +389,12 @@ void MonsterGenerator::finalize_mtypes()
 
         // Lower bound for hp scaling
         mon.hp = std::max( mon.hp, 1 );
+
+        //If the result monster is blacklisted no need to have the original monster look like it can revive
+        if( !mon.zombify_into.is_empty() &&
+            MonsterGroupManager::monster_is_blacklisted( mon.zombify_into ) ) {
+            mon.zombify_into = mtype_id();
+        }
 
         build_behavior_tree( mon );
         finalize_pathfinding_settings( mon );
@@ -753,6 +760,9 @@ void mtype::load( const JsonObject &jo, const std::string &src )
     optional( jo, was_loaded, "mech_weapon", mech_weapon, itype_id() );
     optional( jo, was_loaded, "mech_str_bonus", mech_str_bonus, 0 );
     optional( jo, was_loaded, "mech_battery", mech_battery, itype_id() );
+
+    optional( jo, was_loaded, "zombify_into", zombify_into, auto_flags_reader<mtype_id> {},
+              mtype_id() );
 
     // TODO: make this work with `was_loaded`
     if( jo.has_array( "melee_damage" ) ) {
@@ -1176,6 +1186,10 @@ void MonsterGenerator::check_monster_definitions() const
         if( !mon.revert_to_itype.is_empty() && !item::type_is_defined( mon.revert_to_itype ) ) {
             debugmsg( "monster %s has unknown revert_to_itype: %s", mon.id.c_str(),
                       mon.revert_to_itype.c_str() );
+        }
+        if( !mon.zombify_into.is_empty() && !mon.zombify_into.is_valid() ) {
+            debugmsg( "monster %s has unknown zombify_into: %s", mon.id.c_str(),
+                      mon.zombify_into.c_str() );
         }
         if( !mon.mech_weapon.is_empty() && !item::type_is_defined( mon.mech_weapon ) ) {
             debugmsg( "monster %s has unknown mech_weapon: %s", mon.id.c_str(),

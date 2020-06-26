@@ -257,5 +257,49 @@
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ], [ [ "hose", 2 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "slam_shotgun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "gun", 1 ] ],
+    "difficulty": 1,
+    "time": "2 h",
+    "autolearn": true,
+    "book_learn": [ [ "manual_shotgun", 1 ] ],
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "GLARE", "level": 2 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "FILE", "level": 1 },
+      { "id": "WELD", "level": 2 }
+    ],
+    "tools": [
+      [
+        [ "shot_00", -1 ],
+        [ "shot_bird", -1 ],
+        [ "shot_dragon", -1 ],
+        [ "shot_flechette", -1 ],
+        [ "shot_slug", -1 ],
+        [ "shot_scrap", -1 ],
+        [ "shot_he", -1 ],
+        [ "shot_beanbag", -1 ],
+        [ "reloaded_shot_00", -1 ],
+        [ "reloaded_shot_bird", -1 ],
+        [ "reloaded_shot_dragon", -1 ],
+        [ "reloaded_shot_flechette", -1 ],
+        [ "reloaded_shot_slug", -1 ],
+        [ "bp_shot_00", -1 ],
+        [ "bp_shot_bird", -1 ],
+        [ "bp_shot_dragon", -1 ],
+        [ "bp_shot_flechette", -1 ],
+        [ "bp_shot_slug", -1 ],
+        [ "bp_shot_scrap", -1 ],
+        [ "shot_hull", -1 ]
+      ]
+    ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
   }
 ]

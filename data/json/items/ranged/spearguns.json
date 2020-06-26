@@ -29,7 +29,7 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "An underwater fishing spear made from carbon fiber.  It's very light, but doesn't have much range.  Stands a bad chance of remaining intact once fired.",
-    "material": "kevlar_rigid",
+    "material": [ "kevlar_rigid" ],
     "volume": "250 ml",
     "weight": "12 g",
     "bashing": 1,

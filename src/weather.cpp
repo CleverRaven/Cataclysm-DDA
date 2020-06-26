@@ -56,6 +56,11 @@ static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
  * @{
  */
 
+weather_manager &get_weather()
+{
+    return g->weather;
+}
+
 static bool is_player_outside()
 {
     return g->m.is_outside( point( g->u.posx(), g->u.posy() ) ) && g->get_levz() >= 0;
@@ -411,27 +416,27 @@ double precip_mm_per_hour( precip_class const p )
 // the precipitation were rain (rather than snow).
 {
     return
-        p == PRECIP_VERY_LIGHT ? 0.5 :
-        p == PRECIP_LIGHT ? 1.5 :
-        p == PRECIP_HEAVY ? 3   :
+        p == precip_class::VERY_LIGHT ? 0.5 :
+        p == precip_class::LIGHT ? 1.5 :
+        p == precip_class::HEAVY ? 3   :
         0;
 }
 
 void do_rain( weather_type const w )
 {
-    if( !weather::rains( w ) || weather::precip( w ) == PRECIP_NONE ) {
+    if( !weather::rains( w ) || weather::precip( w ) == precip_class::NONE ) {
         return;
     }
     fill_water_collectors( precip_mm_per_hour( weather::precip( w ) ), weather::acidic( w ) );
     int wetness = 0;
     time_duration decay_time = 60_turns;
-    if( weather::precip( w ) == PRECIP_VERY_LIGHT ) {
+    if( weather::precip( w ) == precip_class::VERY_LIGHT ) {
         wetness = 5;
         decay_time = 5_turns;
-    } else if( weather::precip( w ) == PRECIP_LIGHT ) {
+    } else if( weather::precip( w ) == precip_class::LIGHT ) {
         wetness = 30;
         decay_time = 15_turns;
-    } else if( weather::precip( w ) == PRECIP_HEAVY ) {
+    } else if( weather::precip( w ) == precip_class::HEAVY ) {
         decay_time = 45_turns;
         wetness = 60;
     }

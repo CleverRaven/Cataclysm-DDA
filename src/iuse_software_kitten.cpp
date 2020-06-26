@@ -10,9 +10,10 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-#define EMPTY (-1)
-#define ROBOT 0
-#define KITTEN 1
+static constexpr int EMPTY = -1;
+static constexpr int ROBOT = 0;
+static constexpr int KITTEN = 1;
+
 std::string robot_finds_kitten::getmessage( int idx ) const
 {
     std::string rfimessages[MAXMESSAGES] = {

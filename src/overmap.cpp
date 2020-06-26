@@ -1456,7 +1456,7 @@ void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
 {
-    if( g->gametype() == SGAME_DEFENSE ) {
+    if( g->gametype() == special_game_type::DEFENSE ) {
         dbg( D_INFO ) << "overmap::generate skipped in Defense special game mode!";
         return;
     }
@@ -2171,10 +2171,10 @@ void overmap::place_forest_trails()
             // Do a simplistic calculation of the center of the forest (rather than
             // calculating the actual centroid--it's not that important) to have another
             // good point to form the foundation of the trail system.
-            int center_x = westmost.x + ( eastmost.x - westmost.x ) / 2;
-            int center_y = northmost.y + ( southmost.y - northmost.y ) / 2;
+            point center( westmost.x + ( eastmost.x - westmost.x ) / 2,
+                          northmost.y + ( southmost.y - northmost.y ) / 2 );
 
-            point center_point = point( center_x, center_y );
+            point center_point = center;
 
             // Because we didn't do the centroid of a concave polygon, there's no
             // guarantee that our center point is actually within the bounds of the
@@ -2717,74 +2717,73 @@ void overmap::place_river( point pa, point pb )
     const oter_id river_center( "river_center" );
     int river_chance = static_cast<int>( std::max( 1.0, 1.0 / settings.river_scale ) );
     int river_scale = static_cast<int>( std::max( 1.0, settings.river_scale ) );
-    int x = pa.x;
-    int y = pa.y;
+    point p2( pa );
     do {
-        x += rng( -1, 1 );
-        y += rng( -1, 1 );
-        if( x < 0 ) {
-            x = 0;
+        p2.x += rng( -1, 1 );
+        p2.y += rng( -1, 1 );
+        if( p2.x < 0 ) {
+            p2.x = 0;
         }
-        if( x > OMAPX - 1 ) {
-            x = OMAPX - 1;
+        if( p2.x > OMAPX - 1 ) {
+            p2.x = OMAPX - 1;
         }
-        if( y < 0 ) {
-            y = 0;
+        if( p2.y < 0 ) {
+            p2.y = 0;
         }
-        if( y > OMAPY - 1 ) {
-            y = OMAPY - 1;
+        if( p2.y > OMAPY - 1 ) {
+            p2.y = OMAPY - 1;
         }
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
-                if( y + i >= 0 && y + i < OMAPY && x + j >= 0 && x + j < OMAPX ) {
-                    tripoint p( x + j, y + i, 0 );
+                if( p2.y + i >= 0 && p2.y + i < OMAPY && p2.x + j >= 0 && p2.x + j < OMAPX ) {
+                    tripoint p( p2.x + j, p2.y + i, 0 );
                     if( !ter( p )->is_lake() && one_in( river_chance ) ) {
                         ter_set( p, river_center );
                     }
                 }
             }
         }
-        if( pb.x > x && ( rng( 0, static_cast<int>( OMAPX * 1.2 ) - 1 ) < pb.x - x ||
-                          ( rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > pb.x - x &&
-                            rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
-            x++;
+        if( pb.x > p2.x && ( rng( 0, static_cast<int>( OMAPX * 1.2 ) - 1 ) < pb.x - p2.x ||
+                             ( rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > pb.x - p2.x &&
+                               rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > std::abs( pb.y - p2.y ) ) ) ) {
+            p2.x++;
         }
-        if( pb.x < x && ( rng( 0, static_cast<int>( OMAPX * 1.2 ) - 1 ) < x - pb.x ||
-                          ( rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > x - pb.x &&
-                            rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > std::abs( pb.y - y ) ) ) ) {
-            x--;
+        if( pb.x < p2.x && ( rng( 0, static_cast<int>( OMAPX * 1.2 ) - 1 ) < p2.x - pb.x ||
+                             ( rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > p2.x - pb.x &&
+                               rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > std::abs( pb.y - p2.y ) ) ) ) {
+            p2.x--;
         }
-        if( pb.y > y && ( rng( 0, static_cast<int>( OMAPY * 1.2 ) - 1 ) < pb.y - y ||
-                          ( rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > pb.y - y &&
-                            rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
-            y++;
+        if( pb.y > p2.y && ( rng( 0, static_cast<int>( OMAPY * 1.2 ) - 1 ) < pb.y - p2.y ||
+                             ( rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > pb.y - p2.y &&
+                               rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > std::abs( p2.x - pb.x ) ) ) ) {
+            p2.y++;
         }
-        if( pb.y < y && ( rng( 0, static_cast<int>( OMAPY * 1.2 ) - 1 ) < y - pb.y ||
-                          ( rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > y - pb.y &&
-                            rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > std::abs( x - pb.x ) ) ) ) {
-            y--;
+        if( pb.y < p2.y && ( rng( 0, static_cast<int>( OMAPY * 1.2 ) - 1 ) < p2.y - pb.y ||
+                             ( rng( 0, static_cast<int>( OMAPY * 0.2 ) - 1 ) > p2.y - pb.y &&
+                               rng( 0, static_cast<int>( OMAPX * 0.2 ) - 1 ) > std::abs( p2.x - pb.x ) ) ) ) {
+            p2.y--;
         }
-        x += rng( -1, 1 );
-        y += rng( -1, 1 );
-        if( x < 0 ) {
-            x = 0;
+        p2.x += rng( -1, 1 );
+        p2.y += rng( -1, 1 );
+        if( p2.x < 0 ) {
+            p2.x = 0;
         }
-        if( x > OMAPX - 1 ) {
-            x = OMAPX - 2;
+        if( p2.x > OMAPX - 1 ) {
+            p2.x = OMAPX - 2;
         }
-        if( y < 0 ) {
-            y = 0;
+        if( p2.y < 0 ) {
+            p2.y = 0;
         }
-        if( y > OMAPY - 1 ) {
-            y = OMAPY - 1;
+        if( p2.y > OMAPY - 1 ) {
+            p2.y = OMAPY - 1;
         }
         for( int i = -1 * river_scale; i <= 1 * river_scale; i++ ) {
             for( int j = -1 * river_scale; j <= 1 * river_scale; j++ ) {
                 // We don't want our riverbanks touching the edge of the map for many reasons
-                if( inbounds( tripoint( x + j, y + i, 0 ), 1 ) ||
+                if( inbounds( tripoint( p2.x + j, p2.y + i, 0 ), 1 ) ||
                     // UNLESS, of course, that's where the river is headed!
-                    ( std::abs( pb.y - ( y + i ) ) < 4 && std::abs( pb.x - ( x + j ) ) < 4 ) ) {
-                    tripoint p( x + j, y + i, 0 );
+                    ( std::abs( pb.y - ( p2.y + i ) ) < 4 && std::abs( pb.x - ( p2.x + j ) ) < 4 ) ) {
+                    tripoint p( p2.x + j, p2.y + i, 0 );
                     if( !inbounds( p ) ) {
                         continue;
                     }
@@ -2795,7 +2794,7 @@ void overmap::place_river( point pa, point pb )
                 }
             }
         }
-    } while( pb.x != x || pb.y != y );
+    } while( pb.x != p2.x || pb.y != p2.y );
 }
 
 /*: the root is overmap::place_cities()
@@ -2857,9 +2856,8 @@ void overmap::place_cities()
 
         // TODO: put cities closer to the edge when they can span overmaps
         // don't draw cities across the edge of the map, they will get clipped
-        int cx = rng( size - 1, OMAPX - size );
-        int cy = rng( size - 1, OMAPY - size );
-        const tripoint p( cx, cy, 0 );
+        point c( rng( size - 1, OMAPX - size ), rng( size - 1, OMAPY - size ) );
+        const tripoint p( c, 0 );
 
         if( ter( p ) == settings.default_oter ) {
             ter_set( p, oter_id( "road_nesw" ) ); // every city starts with an intersection
@@ -3972,10 +3970,9 @@ bool overmap::place_special_attempt( overmap_special_batch &enabled_specials,
                                      const point &sector, const int sector_width, const bool place_optional,
                                      const bool must_be_unexplored )
 {
-    const int x = sector.x;
-    const int y = sector.y;
+    const point p2( sector );
 
-    const tripoint p( rng( x, x + sector_width - 1 ), rng( y, y + sector_width - 1 ), 0 );
+    const tripoint p( rng( p2.x, p2.x + sector_width - 1 ), rng( p2.y, p2.y + sector_width - 1 ), 0 );
     const city &nearest_city = get_nearest_city( p );
 
     std::shuffle( enabled_specials.begin(), enabled_specials.end(), rng_get_engine() );

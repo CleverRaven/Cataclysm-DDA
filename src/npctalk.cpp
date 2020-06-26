@@ -3430,16 +3430,16 @@ bool npc::item_name_whitelisted( const std::string &to_match )
 
     auto &wlist = *rules.pickup_whitelist;
     const auto rule = wlist.check_item( to_match );
-    if( rule == RULE_WHITELISTED ) {
+    if( rule == rule_state::WHITELISTED ) {
         return true;
     }
 
-    if( rule == RULE_BLACKLISTED ) {
+    if( rule == rule_state::BLACKLISTED ) {
         return false;
     }
 
     wlist.create_rule( to_match );
-    return wlist.check_item( to_match ) == RULE_WHITELISTED;
+    return wlist.check_item( to_match ) == rule_state::WHITELISTED;
 }
 
 bool npc::item_whitelisted( const item &it )

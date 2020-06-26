@@ -15,7 +15,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
-    "use_action": "DOLLCHAT",
+    "use_action": [ "DOLLCHAT" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -50,7 +50,7 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "turns_per_charge": 20,
-    "use_action": "DOLLCHAT",
+    "use_action": [ "DOLLCHAT" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -140,7 +140,7 @@
     "category": "other",
     "price": 3000,
     "price_postapoc": 10,
-    "material": "ceramic",
+    "material": [ "ceramic" ],
     "weight": "2000 g",
     "volume": "2500 ml",
     "bashing": 16,
@@ -156,7 +156,7 @@
     "description": "A baseball, good for throwing at enemies.  Getting hit with one of these hurts a lot more than you might think.",
     "price": 1000,
     "price_postapoc": 0,
-    "material": "leather",
+    "material": [ "leather" ],
     "weight": "150 g",
     "volume": "250 ml",
     "bashing": 6,
@@ -172,7 +172,7 @@
     "description": "An oval made of leather and string, it's easily thrown but does little damage.  You could take it apart into leather if you wanted.",
     "price": 1000,
     "price_postapoc": 10,
-    "material": "leather",
+    "material": [ "leather" ],
     "weight": "400 g",
     "volume": "750 ml",
     "bashing": 4,

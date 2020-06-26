@@ -83,6 +83,7 @@
     "entries": [
       { "item": "tea", "prob": 70 },
       { "item": "tea_raw", "prob": 70 },
+      { "item": "tea_green_raw", "prob": 35 },
       { "item": "ceramic_cup", "prob": 70 },
       { "item": "teapot", "prob": 70 },
       { "item": "clay_teapot", "prob": 70 },
@@ -123,6 +124,13 @@
       { "item": "chamomile", "prob": 30, "charges-min": 1, "charges-max": 2, "container-item": "jar_glass_sealed" },
       { "item": "tea_raw", "prob": 60, "charges-min": 10, "charges-max": 40, "container-item": "jar_glass_sealed" },
       {
+        "item": "tea_green_raw",
+        "prob": 30,
+        "charges-min": 10,
+        "charges-max": 40,
+        "container-item": "jar_glass_sealed"
+      },
+      {
         "item": "wild_herbs",
         "prob": 50,
         "charges-min": 20,
@@ -149,7 +157,7 @@
   {
     "id": "teashop_kitchen_counter",
     "type": "item_group",
-    "items": [ [ "sugar", 30 ], [ "tea_raw", 40 ], [ "teapot", 20 ], [ "spoon", 20 ] ]
+    "items": [ [ "sugar", 30 ], [ "tea_raw", 40 ], [ "tea_green_raw", 20 ], [ "teapot", 20 ], [ "spoon", 20 ] ]
   },
   {
     "id": "bar_alcohol",
@@ -213,7 +221,7 @@
       { "item": "rolling_paper", "prob": 10 },
       { "item": "bottle_glass", "prob": 70 },
       { "item": "bucket", "prob": 5 },
-      { "item": "can_drink_unsealed", "prob": 65 },
+      { "item": "can_drink", "prob": 65 },
       { "item": "wrapper", "prob": 50 },
       { "item": "ceramic_plate", "prob": 40 },
       { "item": "news_regional", "prob": 20 },
@@ -244,7 +252,7 @@
     "entries": [
       { "item": "wrapper", "prob": 50 },
       { "item": "bottle_glass", "prob": 70 },
-      { "item": "can_drink_unsealed", "prob": 60 },
+      { "item": "can_drink", "prob": 60 },
       { "item": "flyer", "prob": 30 },
       { "item": "box_small", "prob": 30 },
       { "item": "rag", "prob": 20 },
@@ -360,7 +368,7 @@
       [ "wrapper", 34 ],
       [ "bag_plastic", 20 ],
       [ "bottle_glass", 30 ],
-      [ "can_drink_unsealed", 30 ],
+      [ "can_drink", 30 ],
       [ "rag", 10 ],
       [ "news_regional", 7 ],
       [ "mag_news", 7 ],
@@ -386,6 +394,7 @@
       { "item": "coffee_syrup", "prob": 15 },
       { "item": "cookies", "prob": 35 },
       { "item": "tea_raw", "prob": 50 },
+      { "item": "tea_green_raw", "prob": 25 },
       { "group": "teabag_box", "prob": 30 }
     ]
   },
@@ -404,6 +413,7 @@
       { "item": "sugar", "prob": 70 },
       { "item": "artificial_sweetener", "prob": 15 },
       { "item": "tea_raw", "prob": 15 },
+      { "item": "tea_green_raw", "prob": 10 },
       { "item": "wrapper", "prob": 75 },
       { "group": "teabag_box", "prob": 10 }
     ]
@@ -498,7 +508,7 @@
       { "item": "wrapper", "prob": 17 },
       { "item": "bag_plastic", "prob": 15 },
       { "item": "bottle_glass", "prob": 10 },
-      { "item": "can_drink_unsealed", "prob": 10 },
+      { "item": "can_drink", "prob": 10 },
       { "item": "rag", "prob": 10 },
       { "item": "news_regional", "prob": 20 },
       { "item": "mag_news", "prob": 20 },
@@ -748,6 +758,7 @@
       { "item": "coffee_syrup", "prob": 35 },
       { "item": "coffee_raw", "prob": 45 },
       { "item": "tea_raw", "prob": 45 },
+      { "item": "tea_green_raw", "prob": 20 },
       { "item": "salt", "prob": 50 },
       { "item": "pepper", "prob": 50 },
       { "item": "soysauce", "prob": 50 },

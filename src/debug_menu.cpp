@@ -440,7 +440,8 @@ void spawn_nested_mapgen()
             return;
         }
 
-        const tripoint abs_ms = g->m.getabs( *where );
+        map &here = get_map();
+        const tripoint abs_ms = here.getabs( *where );
         const tripoint abs_omt = ms_to_omt_copy( abs_ms );
         const tripoint abs_sub = ms_to_sm_copy( abs_ms );
 
@@ -455,7 +456,7 @@ void spawn_nested_mapgen()
         ( *ptr )->nest( md, local_ms.xy() );
         target_map.save();
         g->load_npcs();
-        g->m.invalidate_map_cache( g->get_levz() );
+        here.invalidate_map_cache( g->get_levz() );
     }
 }
 
@@ -622,42 +623,68 @@ void character_edit_menu()
         }
         break;
         case D_HP: {
+            const int torso_hp = p.get_part_hp_cur( bodypart_id( "torso" ) );
+            const int head_hp = p.get_part_hp_cur( bodypart_id( "head" ) );
+            const int arm_l_hp = p.get_part_hp_cur( bodypart_id( "arm_l" ) );
+            const int arm_r_hp = p.get_part_hp_cur( bodypart_id( "arm_r" ) );
+            const int leg_l_hp = p.get_part_hp_cur( bodypart_id( "leg_l" ) );
+            const int leg_r_hp = p.get_part_hp_cur( bodypart_id( "leg_r" ) );
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), p.hp_cur[hp_torso] );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), p.hp_cur[hp_head] );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), p.hp_cur[hp_arm_l] );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), p.hp_cur[hp_arm_r] );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), p.hp_cur[hp_leg_l] );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), p.hp_cur[hp_leg_r] );
+            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
+            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
+            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
+            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
+            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
+            smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), p.get_lowest_hp() );
             smenu.query();
-            int *bp_ptr = nullptr;
+            bodypart_str_id bp = bodypart_str_id( "no_a_real_part" );
+            int bp_ptr = -1;
+            bool all_select = false;
+
             switch( smenu.ret ) {
                 case 0:
-                    bp_ptr = &p.hp_cur[hp_torso];
+                    bp = bodypart_str_id( "torso" );
+                    bp_ptr = torso_hp;
                     break;
                 case 1:
-                    bp_ptr = &p.hp_cur[hp_head];
+                    bp = bodypart_str_id( "head" );
+                    bp_ptr = head_hp;
                     break;
                 case 2:
-                    bp_ptr = &p.hp_cur[hp_arm_l];
+                    bp = bodypart_str_id( "arm_l" );
+                    bp_ptr = arm_l_hp;
                     break;
                 case 3:
-                    bp_ptr = &p.hp_cur[hp_arm_r];
+                    bp = bodypart_str_id( "arm_r" );
+                    bp_ptr = arm_r_hp;
                     break;
                 case 4:
-                    bp_ptr = &p.hp_cur[hp_leg_l];
+                    bp = bodypart_str_id( "leg_l" );
+                    bp_ptr = leg_l_hp;
                     break;
                 case 5:
-                    bp_ptr = &p.hp_cur[hp_leg_r];
+                    bp = bodypart_str_id( "leg_r" );
+                    bp_ptr = leg_r_hp;
+                    break;
+                case 6:
+                    all_select = true;
                     break;
                 default:
                     break;
             }
 
-            if( bp_ptr != nullptr ) {
+            if( bp.is_valid() ) {
                 int value;
-                if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), *bp_ptr ) && value >= 0 ) {
-                    *bp_ptr = value;
+                if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), bp_ptr ) && value >= 0 ) {
+                    p.set_part_hp_cur( bp.id(), value );
+                    p.reset_stats();
+                }
+            } else if( all_select ) {
+                int value;
+                if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
+                    value >= 0 ) {
+                    p.set_all_parts_hp_cur( value );
                     p.reset_stats();
                 }
             }
@@ -1172,7 +1199,7 @@ void debug()
     g->events().send<event_type::uses_debug_menu>( *action );
 
     avatar &u = g->u;
-    map &m = g->m;
+    map &here = get_map();
     switch( *action ) {
         case debug_menu_index::WISH:
             debug_menu::wishitem( &u );
@@ -1279,7 +1306,7 @@ void debug()
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
                 add_msg( _( "%s's head implodes!" ), guy.name );
-                guy.hp_cur[bp_head] = 0;
+                guy.set_part_hp_cur( bodypart_id( "head" ), 0 );
             }
             break;
 
@@ -1288,7 +1315,7 @@ void debug()
             break;
 
         case debug_menu_index::SPAWN_VEHICLE:
-            if( m.veh_at( u.pos() ) ) {
+            if( here.veh_at( u.pos() ) ) {
                 dbg( D_ERROR ) << "game:load: There's already vehicle here";
                 debugmsg( "There's already vehicle here" );
             } else {
@@ -1316,9 +1343,9 @@ void debug()
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
                     // TODO: Allow picking this when add_vehicle has 3d argument
                     tripoint dest = u.pos();
-                    vehicle *veh = m.add_vehicle( selected_opt, dest, -90, 100, 0 );
+                    vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, 0 );
                     if( veh != nullptr ) {
-                        m.board_vehicle( dest, &u );
+                        here.board_vehicle( dest, &u );
                     }
                 }
             }
@@ -1358,8 +1385,8 @@ void debug()
             if( const cata::optional<tripoint> center = g->look_around() ) {
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
-                m.create_anomaly( *center, prop );
-                m.spawn_natural_artifact( *center, prop );
+                here.create_anomaly( *center, prop );
+                here.spawn_natural_artifact( *center, prop );
             }
             break;
 
@@ -1454,13 +1481,19 @@ void debug()
 
         // Damage Self
         case debug_menu_index::DAMAGE_SELF: {
+            const int torso_hp = u.get_part_hp_cur( bodypart_id( "torso" ) );
+            const int head_hp = u.get_part_hp_cur( bodypart_id( "head" ) );
+            const int arm_l_hp = u.get_part_hp_cur( bodypart_id( "arm_l" ) );
+            const int arm_r_hp = u.get_part_hp_cur( bodypart_id( "arm_r" ) );
+            const int leg_l_hp = u.get_part_hp_cur( bodypart_id( "leg_l" ) );
+            const int leg_r_hp = u.get_part_hp_cur( bodypart_id( "leg_r" ) );
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), u.hp_cur[hp_torso] );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), u.hp_cur[hp_head] );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), u.hp_cur[hp_arm_l] );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), u.hp_cur[hp_arm_r] );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), u.hp_cur[hp_leg_l] );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), u.hp_cur[hp_leg_r] );
+            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
+            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
+            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
+            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
+            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
             smenu.query();
             bodypart_id part;
             int dbg_damage;
@@ -1615,7 +1648,7 @@ void debug()
                 break;
             }
 
-            auto rt = m.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
+            auto rt = here.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
             if( !rt.empty() ) {
                 u.set_destination( rt );
             } else {
@@ -1681,7 +1714,7 @@ void debug()
                     mx_map.load( where_sm, false );
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
                     g->load_npcs();
-                    g->m.invalidate_map_cache( g->get_levz() );
+                    here.invalidate_map_cache( g->get_levz() );
                 }
             }
             break;
@@ -1843,7 +1876,7 @@ void debug()
         case debug_menu_index::last:
             return;
     }
-    m.invalidate_map_cache( g->get_levz() );
+    here.invalidate_map_cache( g->get_levz() );
 }
 
 } // namespace debug_menu

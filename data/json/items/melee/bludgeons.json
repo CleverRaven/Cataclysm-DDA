@@ -352,7 +352,7 @@
     "symbol": "/",
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
-    "flags": [ "DURABLE_MELEE" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "volume": "600 ml",
     "longest_side": "60 cm",
     "bashing": 10,
@@ -952,7 +952,7 @@
     "price": 25000,
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE" ],
+    "flags": [ "DURABLE_MELEE", "BELT_CLIP" ],
     "weight": "910 g",
     "volume": "1500 ml",
     "longest_side": "100 cm",
@@ -971,7 +971,7 @@
     "price": 30000,
     "material": [ "lead", "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
     "weight": "1135 g",
     "volume": "1500 ml",
     "longest_side": "100 cm",
@@ -990,7 +990,7 @@
     "price": 2500,
     "material": [ "wood" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
-    "flags": [ "FRAGILE_MELEE" ],
+    "flags": [ "FRAGILE_MELEE", "BELT_CLIP" ],
     "weight": "850 g",
     "volume": "1500 ml",
     "longest_side": "100 cm",
@@ -1019,7 +1019,7 @@
     "charges_per_use": 100,
     "qualities": [ [ "HAMMER", 1 ] ],
     "techniques": [ "WBLOCK_2", "RAPID", "SWEEP" ],
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ],
     "pocket_data": [
       {
@@ -1050,8 +1050,8 @@
     "ammo": [ "battery" ],
     "charges_per_use": 1,
     "techniques": [ "WBLOCK_2", "RAPID" ],
-    "use_action": "SHOCKTONFA_OFF",
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "use_action": [ "SHOCKTONFA_OFF" ],
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "BELT_CLIP" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -1070,7 +1070,7 @@
     "description": "This is a reinforced plastic tonfa; the core is hollowed out and is filled with capacitors and a high-yield rechargeable storage battery.  When a switch on the handle is pressed, a high-voltage current is transmitted to the two electrodes mounted in the end of the weapon, and by extension to anyone unfortunate enough to be in contact with them.  The integral flashlight is turned on, continually draining power and lighting the surrounding area.",
     "power_draw": 15000,
     "revert_to": "shocktonfa_off",
-    "use_action": "SHOCKTONFA_ON",
+    "use_action": [ "SHOCKTONFA_ON" ],
     "flags": [ "LIGHT_450", "CHARGEDIM", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "BELT_CLIP" ]
   },
   {

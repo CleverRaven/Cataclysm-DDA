@@ -16,7 +16,7 @@
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 14 ] ]
   },
   {
-    "type": "GENERIC",
+    "type": "ARMOR",
     "id": "cestus",
     "symbol": "3",
     "color": "light_gray",
@@ -27,7 +27,11 @@
     "weight": "300 g",
     "bashing": 2,
     "price_postapoc": 250,
-    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "UNARMED_WEAPON", "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "covers": [ "HANDS" ],
+    "coverage": 50,
+    "encumbrance": 5,
+    "material_thickness": 1
   },
   {
     "type": "GENERIC",
@@ -37,7 +41,7 @@
     "name": { "str": "pair of brass knuckles", "str_pl": "pairs of brass knuckles" },
     "category": "weapons",
     "description": "A metal weapon made of brass, designed to be gripped in the palm and cause punches to do extra damage.  A good, quick weapon - but you have to get within punching range to use it.",
-    "material": "brass",
+    "material": [ "brass" ],
     "weight": "320 g",
     "volume": "250 ml",
     "bashing": 4,

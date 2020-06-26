@@ -58,7 +58,7 @@ TEST_CASE( "food enjoyability", "[food][modify_morale][fun]" )
         fun = dummy.fun_for( toastem );
         REQUIRE( fun.first > 0 );
 
-        THEN( "character gets a morale bonus becase it tastes good" ) {
+        THEN( "character gets a morale bonus because it tastes good" ) {
             dummy.modify_morale( toastem );
             CHECK( dummy.has_morale( MORALE_FOOD_GOOD ) >= fun.first );
         }
@@ -288,7 +288,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
             dummy.toggle_trait( trait_PSYCHOPATH );
             REQUIRE( dummy.has_trait( trait_PSYCHOPATH ) );
 
-            THEN( "their morale is unffected by eating humans" ) {
+            THEN( "their morale is unaffected by eating humans" ) {
                 dummy.clear_morale();
                 dummy.modify_morale( human );
                 CHECK( dummy.has_morale( MORALE_CANNIBAL ) == 0 );

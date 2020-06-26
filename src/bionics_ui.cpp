@@ -459,30 +459,28 @@ void player::power_bionics()
                                      TITLE_HEIGHT + TITLE_TAB_HEIGHT +
                                      static_cast<int>( my_bionics->size() ) + 2 ) );
         WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
-        const int START_X = ( TERMX - WIDTH ) / 2;
-        const int START_Y = ( TERMY - HEIGHT ) / 2;
+        const point START( ( TERMX - WIDTH ) / 2, ( TERMY - HEIGHT ) / 2 );
         //wBio is the entire bionic window
-        wBio = catacurses::newwin( HEIGHT, WIDTH, point( START_X, START_Y ) );
+        wBio = catacurses::newwin( HEIGHT, WIDTH, START );
 
         LIST_HEIGHT = HEIGHT - TITLE_HEIGHT - TITLE_TAB_HEIGHT - 2;
 
         const int DESCRIPTION_WIDTH = WIDTH - 2 - 40;
-        const int DESCRIPTION_START_Y = START_Y + TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
-        const int DESCRIPTION_START_X = START_X + 1 + 40;
+        const int DESCRIPTION_START_Y = START.y + TITLE_HEIGHT + TITLE_TAB_HEIGHT + 1;
+        const int DESCRIPTION_START_X = START.x + 1 + 40;
         //w_description is the description panel that is controlled with ! key
         w_description = catacurses::newwin( LIST_HEIGHT, DESCRIPTION_WIDTH,
                                             point( DESCRIPTION_START_X, DESCRIPTION_START_Y ) );
 
         // Title window
-        const int TITLE_START_Y = START_Y + 1;
+        const int TITLE_START_Y = START.y + 1;
         const int HEADER_LINE_Y = TITLE_HEIGHT + TITLE_TAB_HEIGHT;
-        w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, point( START_X + 1,
-                                      START_Y ) );
+        w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2, START + point_east );
 
         const int TAB_START_Y = TITLE_START_Y + 3;
         //w_tabs is the tab bar for passive and active bionic groups
         w_tabs = catacurses::newwin( TITLE_TAB_HEIGHT, WIDTH,
-                                     point( START_X, TAB_START_Y ) );
+                                     point( START.x, TAB_START_Y ) );
 
         // offset for display: bionic with index i is drawn at y=list_start_y+i
         // drawing the bionics starts with bionic[scroll_position]

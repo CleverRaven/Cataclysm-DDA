@@ -19,6 +19,7 @@ static bool needs_damage_type( affected_stat as )
 
 static const std::map<std::string, affected_stat> affected_stat_map = {{
         std::make_pair( "hit", affected_stat::HIT ),
+        std::make_pair( "crit_chance", affected_stat::CRITICAL_HIT_CHANCE ),
         std::make_pair( "dodge", affected_stat::DODGE ),
         std::make_pair( "block", affected_stat::BLOCK ),
         std::make_pair( "block_effectiveness", affected_stat::BLOCK_EFFECTIVENESS ),
@@ -61,6 +62,7 @@ static affected_stat affected_stat_from_string( const std::string &s )
 
 static const std::map<affected_stat, std::string> affected_stat_map_translation = {{
         std::make_pair( affected_stat::HIT, translate_marker( "Accuracy" ) ),
+        std::make_pair( affected_stat::CRITICAL_HIT_CHANCE, translate_marker( "Critical Hit Chance" ) ),
         std::make_pair( affected_stat::DODGE, translate_marker( "Dodge" ) ),
         std::make_pair( affected_stat::BLOCK, translate_marker( "Block" ) ),
         std::make_pair( affected_stat::BLOCK_EFFECTIVENESS, translate_marker( "Block effectiveness" ) ),

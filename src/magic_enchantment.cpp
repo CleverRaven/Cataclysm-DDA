@@ -9,7 +9,6 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "json.h"
 #include "map.h"
@@ -196,7 +195,7 @@ bool enchantment::is_active( const Character &guy ) const
     }
 
     if( active_conditions.second == condition::UNDERWATER ) {
-        return g->m.is_divable( guy.pos() );
+        return get_map().is_divable( guy.pos() );
     }
     return false;
 }
@@ -411,7 +410,7 @@ void enchantment::activate_passive( Character &guy ) const
     guy.mod_num_dodges_bonus( mult_bonus( enchant_vals::mod::BONUS_DODGE, guy.get_num_dodges_base() ) );
 
     if( emitter ) {
-        g->m.emit_field( guy.pos(), *emitter );
+        get_map().emit_field( guy.pos(), *emitter );
     }
     for( const std::pair<efftype_id, int> eff : ench_effects ) {
         guy.add_effect( eff.first, 1_seconds, num_bp, false, eff.second );

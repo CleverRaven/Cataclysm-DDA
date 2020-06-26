@@ -123,16 +123,15 @@ bool vertical_move_destination( const map &m, tripoint &t )
         return false;
     }
 
-    constexpr int omtileszx = SEEX * 2;
-    constexpr int omtileszy = SEEY * 2;
+    constexpr point omtilesz( SEEX * 2, SEEY * 2 );
     real_coords rc( m.getabs( t.xy() ) );
     const point omtile_align_start(
         m.getlocal( rc.begin_om_pos() )
     );
 
     const auto &pf_cache = m.get_pathfinding_cache_ref( t.z );
-    for( int x = omtile_align_start.x; x < omtile_align_start.x + omtileszx; x++ ) {
-        for( int y = omtile_align_start.y; y < omtile_align_start.y + omtileszy; y++ ) {
+    for( int x = omtile_align_start.x; x < omtile_align_start.x + omtilesz.x; x++ ) {
+        for( int y = omtile_align_start.y; y < omtile_align_start.y + omtilesz.y; y++ ) {
             if( pf_cache.special[x][y] & PF_UPDOWN ) {
                 const tripoint p( x, y, t.z );
                 if( m.has_flag( flag, p ) ) {
@@ -351,7 +350,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                         } else if( part >= 0 && bash > 0 ) {
                             // Car obstacle that isn't a door
                             // TODO: Account for armor
-                            int hp = veh->parts[part].hp();
+                            int hp = veh->cpart( part ).hp();
                             if( hp / 20 > bash ) {
                                 // Threshold damage thing means we just can't bash this down
                                 layer.state[index] = ASL_CLOSED;

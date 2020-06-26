@@ -54,7 +54,7 @@
     "price": 0,
     "price_postapoc": 100,
     "to_hit": 1,
-    "material": "leather",
+    "material": [ "leather" ],
     "symbol": ";",
     "color": "brown",
     "use_action": {

@@ -45,7 +45,7 @@
     "price_postapoc": 100,
     "charges": 9,
     "flags": [ "EDIBLE_FROZEN" ],
-    "material": "powder",
+    "material": [ "powder" ],
     "symbol": "%",
     "color": "white",
     "container": "bottle_plastic_small",

@@ -29,6 +29,6 @@
     "material": [ "plastic" ],
     "symbol": "%",
     "color": "light_gray",
-    "use_action": "DOLLCHAT"
+    "use_action": [ "DOLLCHAT" ]
   }
 ]

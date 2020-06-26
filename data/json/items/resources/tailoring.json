@@ -23,7 +23,7 @@
     "description": "Oddly-shaped smallish bits of faux fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
     "price_postapoc": 5,
-    "material": "faux_fur"
+    "material": [ "faux_fur" ]
   },
   {
     "id": "scrap_felt",
@@ -31,7 +31,7 @@
     "type": "AMMO",
     "name": { "str_sp": "felt scraps" },
     "description": "Oddly-shaped smallish bits of felt, waste material from tailoring projects.  Not useful for much and usually disposed of, but can be recycled into some wool fiber if you really want.",
-    "material": "wool"
+    "material": [ "wool" ]
   },
   {
     "id": "scrap_fur",
@@ -40,7 +40,7 @@
     "name": { "str_sp": "fur scraps" },
     "description": "Oddly-shaped smallish bits of fur, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "material": "fur"
+    "material": [ "fur" ]
   },
   {
     "id": "scrap_kevlar",
@@ -49,7 +49,7 @@
     "name": { "str_sp": "Kevlar scraps" },
     "description": "Oddly-shaped smallish bits of Kevlar fabric, waste material from tailoring projects.  Normally it's disposed of, but since Kevlar would be very difficult to make in a post-apocalyptic world, it might be worth recycling it for Kevlar thread.",
     "price": 5,
-    "material": "kevlar"
+    "material": [ "kevlar" ]
   },
   {
     "id": "scrap_leather",
@@ -58,7 +58,7 @@
     "name": { "str_sp": "leather scraps" },
     "description": "Oddly-shaped smallish bits of leather, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "material": "leather"
+    "material": [ "leather" ]
   },
   {
     "id": "scrap_lycra",
@@ -67,7 +67,7 @@
     "name": { "str_sp": "Lycra scraps" },
     "description": "Oddly-shaped smallish bits of Lycra, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "material": "lycra"
+    "material": [ "lycra" ]
   },
   {
     "id": "scrap_neoprene",
@@ -76,7 +76,7 @@
     "name": { "str_sp": "neoprene scraps" },
     "description": "Oddly-shaped smallish bits of neoprene, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "material": "neoprene"
+    "material": [ "neoprene" ]
   },
   {
     "id": "scrap_nylon",
@@ -85,7 +85,7 @@
     "name": { "str_sp": "synthetic fabric scraps" },
     "description": "Oddly-shaped smallish bits of synthetic fabric, waste material from tailoring projects.  Not useful for much and usually disposed of.",
     "price": 0,
-    "material": "nylon"
+    "material": [ "nylon" ]
   },
   {
     "id": "scrap_nomex",
@@ -94,7 +94,7 @@
     "name": { "str_sp": "Nomex scraps" },
     "description": "Oddly-shaped smallish bits of heat-resistant Nomex fabric, waste material from tailoring projects.  Normally it's disposed of, but since Nomex would be very difficult to make in a post-apocalyptic world, it might be worth recycling it.",
     "price": 5,
-    "material": "nomex"
+    "material": [ "nomex" ]
   },
   {
     "id": "sheet_cotton",
@@ -134,7 +134,7 @@
     "volume": "4500 ml",
     "price": 5000,
     "price_postapoc": 100,
-    "material": "faux_fur",
+    "material": [ "faux_fur" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -162,7 +162,7 @@
     "volume": "1800 ml",
     "price": 2500,
     "price_postapoc": 250,
-    "material": "wool",
+    "material": [ "wool" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -190,7 +190,7 @@
     "volume": "300 ml",
     "price": 900,
     "price_postapoc": 500,
-    "material": "kevlar",
+    "material": [ "kevlar" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -206,7 +206,7 @@
     "volume": "300 ml",
     "price": 5000,
     "price_postapoc": 100,
-    "material": "lycra",
+    "material": [ "lycra" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -221,7 +221,7 @@
     "weight": "80 g",
     "volume": "600 ml",
     "price": 15000,
-    "material": "kevlar_layered",
+    "material": [ "kevlar_layered" ],
     "flags": [ "NO_SALVAGE" ],
     "symbol": ",",
     "color": "green"
@@ -235,7 +235,7 @@
     "weight": "300 g",
     "volume": "250 ml",
     "price": 1000,
-    "material": "kevlar_rigid",
+    "material": [ "kevlar_rigid" ],
     "flags": [ "NO_SALVAGE" ],
     "symbol": ",",
     "color": "green"
@@ -262,7 +262,7 @@
     "volume": "300 ml",
     "price": 5000,
     "price_postapoc": 100,
-    "material": "neoprene",
+    "material": [ "neoprene" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -290,7 +290,7 @@
     "volume": "300 ml",
     "price": 15000,
     "price_postapoc": 250,
-    "material": "nomex",
+    "material": [ "nomex" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -318,7 +318,7 @@
     "volume": "300 ml",
     "price": 5000,
     "price_postapoc": 100,
-    "material": "nylon",
+    "material": [ "nylon" ],
     "symbol": "=",
     "color": "dark_gray",
     "count": 100,
@@ -347,7 +347,7 @@
     "color": "light_gray",
     "looks_like": "thread",
     "description": "Some very durable Kevlar thread that would be particularly useful for making ballistic armor, though it's fine to use in place of normal thread too, in most cases.  Making armor-grade Kevlar sheets from this would need a particularly tight weave, and so would need some specialized machinery.",
-    "material": "kevlar",
+    "material": [ "kevlar" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "200 ml",
     "weight": "1 g",
@@ -366,7 +366,7 @@
     "color": "light_gray",
     "looks_like": "thread",
     "description": "Some heat-resistant Nomex thread that would be particularly useful for making heat protection gear, though it's fine to use in place of normal thread too, in most cases.",
-    "material": "nomex",
+    "material": [ "nomex" ],
     "flags": [ "NO_SALVAGE" ],
     "volume": "200 ml",
     "weight": "1 g",
