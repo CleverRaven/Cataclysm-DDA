@@ -8016,7 +8016,7 @@ void map::creature_on_trap( Creature &c, const bool may_avoid )
     if( may_avoid && c.avoid_trap( c.pos(), tr ) ) {
         return;
     }
-    tr.trigger( c.pos(), &c );
+    tr.trigger( c.pos(), c );
 }
 
 template<typename Functor>

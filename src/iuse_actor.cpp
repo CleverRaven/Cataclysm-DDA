@@ -3584,7 +3584,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
-            existing_trap.trigger( pos, &p );
+            existing_trap.trigger( pos, p );
         }
         return false;
     }

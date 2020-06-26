@@ -3785,7 +3785,7 @@ void trap::examine( player &p, const tripoint &examp ) const
             const int morale_debuff = -rng( 12, 24 );
             g->u.rem_morale( MORALE_ACCOMPLISHMENT );
             g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
-            trigger( examp, &g->u );
+            trigger( examp, g->u );
             if( difficulty - roll <= 6 ) {
                 // Give xp for failing, but not if we failed terribly (in which
                 // case the trap may not be disarmable).

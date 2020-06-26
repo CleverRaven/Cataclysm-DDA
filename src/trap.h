@@ -190,6 +190,7 @@ struct trap {
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
         bool can_see( const tripoint &pos, const Character &p ) const;
+    private:
         /**
          * Trigger trap effects.
          * @param creature The creature that triggered the trap, it does not necessarily have to
@@ -199,11 +200,27 @@ struct trap {
          * @param pos The location of the trap in the main map.
          * @param item The item that triggered the trap
          */
-        void trigger( const tripoint &pos, Creature *creature = nullptr, item *item = nullptr ) const;
+        // Don't call from outside this class. Add a wrapper like the ones below instead.
+        void trigger( const tripoint &pos, Creature *creature, item *item ) const;
+    public:
+        /*@{*/
+        /**
+         * This applies the effects of the trap to the world and
+         * possibly to the triggering object (creature, item).
+         *
+         * The function assumes the
+         * caller has already checked whether the trap should be activated
+         * (e.g. the creature has had a chance to avoid the trap, but it failed).
+         */
+        void trigger( const tripoint &pos, Creature &creature ) const;
+        void trigger( const tripoint &pos, item &item ) const;
+        /*@}*/
+
         /**
          * If the given item is throw onto the trap, does it trigger the trap?
          */
         bool triggered_by_item( const item &itm ) const;
+
         /**
          * Called when a trap at the given point in the map has been disarmed.
          * It should spawn trap items (if any) and remove the trap from the map via

@@ -244,8 +244,21 @@ bool trap::can_see( const tripoint &pos, const Character &p ) const
     return visibility < 0 || p.knows_trap( pos );
 }
 
+void trap::trigger( const tripoint &pos, Creature &creature ) const
+{
+    return trigger( pos, &creature, nullptr );
+}
+
+void trap::trigger( const tripoint &pos, item &item ) const
+{
+    return trigger( pos, nullptr, &item );
+}
+
 void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
+    if( is_null() ) {
+        return;
+    }
     const bool is_real_creature = creature != nullptr && !creature->is_hallucination();
     if( is_real_creature || item != nullptr ) {
         bool triggered = act( pos, creature, item );
