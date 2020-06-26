@@ -32,7 +32,7 @@
         "     |FFFF|  |FFFF|     "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
     }
   },
   {
@@ -68,7 +68,7 @@
         "     |FFFF|  |FFFF|     "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
     }
   },
   {
@@ -104,7 +104,7 @@
         "     |FFFF|  |FFFF|     "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
     }
   },
   {
@@ -140,7 +140,7 @@
         "     |    |  |FFFF|     "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" }
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" }
     }
   }
 ]

@@ -2437,17 +2437,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_revert_carpet",
-    "description": "Remove Carpet",
-    "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "10 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_flags": "RUG",
-    "post_terrain": "t_floor"
-  },
-  {
-    "type": "construction",
     "id": "constr_carpet_red",
     "description": "Carpet Floor Red",
     "category": "DECORATE",
