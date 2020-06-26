@@ -5156,10 +5156,7 @@ void map::disarm_trap( const tripoint &p )
     const int diff = tr.get_difficulty();
     int roll = rng( tSkillLevel, 4 * tSkillLevel );
 
-    // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
     if( tr.easy_take_down() ) {
-        add_msg( _( "The %s is taken down." ), tr.name() );
-        tr.on_disarmed( *this, p );
         return;
     }
 

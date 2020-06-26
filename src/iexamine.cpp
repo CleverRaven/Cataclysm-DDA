@@ -3739,12 +3739,13 @@ void trap::examine( player &p, const tripoint &examp ) const
         return;
     }
 
-    // Some traps are not actual traps. Those should get a different query.
+    // Some traps are not actual traps. Those should get a different query, no skill checks, and the option to grab it right away.
     if( easy_take_down() ) { // Separated so saying no doesn't trigger the other query.
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             return;
         }
-        here.disarm_trap( examp );
+        add_msg( _( "The %s is taken down." ), name() );
+        on_disarmed( here, examp );
         return;
     }
 
