@@ -845,12 +845,7 @@
     "color": "dark_gray",
     "coverage_data": [
       {
-        "parts": [ "arm_l", "arm_r" ],
-        "coverage": 25,
-        "encumbrance": 5
-      },
-      {
-        "parts": [ "torso", "leg_l", "leg_r" ],
+        "parts": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
         "coverage": 95,
         "encumbrance": [ 12, 25 ]
       }
