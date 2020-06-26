@@ -5157,7 +5157,7 @@ void map::disarm_trap( const tripoint &p )
     int roll = rng( tSkillLevel, 4 * tSkillLevel );
 
     // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
-    if( tr.get_avoidance() == 0 && tr.get_difficulty() == 0 ) {
+    if( tr.get_avoidance() == 0 && diff == 0 ) {
         add_msg( _( "The %s is taken down." ), tr.name() );
         tr.on_disarmed( *this, p );
         return;
@@ -5173,7 +5173,7 @@ void map::disarm_trap( const tripoint &p )
     }
     if( roll >= diff ) {
         add_msg( _( "You disarm the trap!" ) );
-        const int morale_buff = tr.get_avoidance() * 0.4 + tr.get_difficulty() + rng( 0, 4 );
+        const int morale_buff = tr.get_avoidance() * 0.4 + diff + rng( 0, 4 );
         g->u.rem_morale( MORALE_FAILURE );
         g->u.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
         tr.on_disarmed( *this, p );
