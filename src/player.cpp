@@ -2905,19 +2905,6 @@ bool player::unload( item_location &loc )
     } );
 
     if( target->is_magazine() ) {
-        //If the Magazine takes plutonium calculate the fuel cells recovered on unload
-        if( target->ammo_current() == itype_plut_cell ) {
-            int plut_qty = target->ammo_remaining() / PLUTONIUM_CHARGES;
-            if( plut_qty > 0 ) {
-                add_msg( _( "You recover %i unused plutonium." ), plut_qty );
-                //Manually setting the ammo charges so it only drops that many fuel cells when unloading the magazine. Is there a better way to do this?
-                target->contents.first_ammo().charges = plut_qty;
-            } else {
-                add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
-                return false;
-            }
-        }
-
         player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
         assign_activity( unload_mag_act );
         activity.targets.emplace_back( loc );
