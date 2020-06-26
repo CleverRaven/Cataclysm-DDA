@@ -7102,6 +7102,15 @@ int item::ammo_remaining() const
         return res;
     }
 
+    // Handle non-magazines with ammo_restriction in a CONTAINER type pocket (like quivers)
+    if( !ammo_types().empty() ) {
+        int res = 0;
+        for( const item *e : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            res += e->charges;
+        }
+        return res;
+    }
+
     return 0;
 }
 
