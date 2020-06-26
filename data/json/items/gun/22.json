@@ -130,7 +130,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 4 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 4 } } ]
   },
   {
     "id": "rifle_22",
@@ -170,7 +170,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "22": 1 } } ]
   },
   {
     "id": "ruger_1022",
@@ -212,6 +212,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -229,7 +230,7 @@
     "weight": "420 g",
     "ammo": [ "22" ],
     "clip_size": 8,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "22": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "22": 8 } } ]
   },
   {
     "id": "sig_mosquito",
@@ -269,6 +270,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -298,6 +300,7 @@
     "min_cycle_recoil": 39,
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -328,6 +331,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
+        "magazine_well": "27 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -357,6 +361,7 @@
     "min_cycle_recoil": 39,
     "pocket_data": [
       {
+        "magazine_well": "126 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
