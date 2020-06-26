@@ -191,9 +191,6 @@ class body_part_set
         }
 };
 
-// Returns human-friendly string from bodypart_str_id
-const std::string &bodypart_str_id_to_readable( const bodypart_str_id &id );
-
 // Returns if passed string is legacy bodypart (i.e "TORSO", not "torso")
 bool is_legacy_bodypart_id( const std::string &id );
 
