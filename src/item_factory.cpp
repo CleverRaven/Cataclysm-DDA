@@ -98,7 +98,7 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
 {
     auto parse = [&parts, &sided]( const std::string & val ) {
         // If the item doesnt have coverage_data (then its coverage will be old style, TORSO etc. )
-        // Set legacy flag so we process it differently
+        // Set legacy flag so we process it differently later
         if( is_legacy_bodypart_id( val ) ) {
             parts.set( bodypart_str_id( "num_bp" ) );
         }
@@ -115,7 +115,7 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
             parts.set( bodypart_str_id( "foot_l" ) );
             parts.set( bodypart_str_id( "foot_r" ) );
         } else {
-            // Check legacy flag, convert from legacy enum to new and apply coverage
+            // Convert from legacy enum to new and apply coverage
             if( !is_legacy_bodypart_id( val ) ) {
                 parts.set( bodypart_str_id( val ) );
             } else {
