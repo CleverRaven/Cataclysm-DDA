@@ -3689,20 +3689,19 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     }
 }
 
-void iexamine::trap( player &p, const tripoint &examp )
+void trap::examine( player &p, const tripoint &examp ) const
 {
     map &here = get_map();
-    const auto &tr = here.tr_at( examp );
-    if( !p.is_player() || tr.is_null() ) {
+    if( !p.is_player() || is_null() ) {
         return;
     }
-    const int possible = tr.get_difficulty();
-    bool seen = tr.can_see( examp, p );
+    const int possible = get_difficulty();
+    bool seen = can_see( examp, p );
     if( seen && g->u.is_mounted() ) {
         add_msg( m_warning, _( "You cannot do that while mounted." ) );
         return;
     }
-    if( tr.loadid == tr_unfinished_construction || here.partial_con_at( examp ) ) {
+    if( loadid == tr_unfinished_construction || here.partial_con_at( examp ) ) {
         partial_con *pc = here.partial_con_at( examp );
         if( pc ) {
             if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
@@ -3732,17 +3731,16 @@ void iexamine::trap( player &p, const tripoint &examp )
         }
     }
     if( seen && possible >= 99 ) {
-        add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ),
-                 tr.name() );
+        add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
         return;
     }
     // Some traps are not actual traps. Those should get a different query.
     if( seen && possible == 0 &&
-        tr.get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
-        if( query_yn( _( "There is a %s there.  Take down?" ), tr.name() ) ) {
+        get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
+        if( query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             here.disarm_trap( examp );
         }
-    } else if( seen && query_yn( _( "There is a %s there.  Disarm?" ), tr.name() ) ) {
+    } else if( seen && query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         here.disarm_trap( examp );
     }
 }
@@ -6028,7 +6026,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "tree_maple_tapped", &iexamine::tree_maple_tapped },
             { "shrub_wildveggies", &iexamine::shrub_wildveggies },
             { "recycle_compactor", &iexamine::recycle_compactor },
-            { "trap", &iexamine::trap },
             { "water_source", &iexamine::water_source },
             { "clean_water_source", &iexamine::clean_water_source },
             { "reload_furniture", &iexamine::reload_furniture },

@@ -134,6 +134,15 @@ struct trap {
             return always_invisible;
         }
 
+        /**
+         * Called when the player examines a tile. This is supposed to handled
+         * all kind of interaction of the player with the trap, including removal.
+         * It also handles visibility of the trap, and it does nothing when
+         * called on the null trap.
+         */
+        // Implemented for historical reasons in iexamine.cpp
+        void examine( player &p, const tripoint &examp ) const;
+
         std::string  map_regen_target() const;
 
         /**
