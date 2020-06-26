@@ -967,10 +967,7 @@
           "acidic": false,
           "sound_category": 5,
           "sun_intensity": 3,
-          "requirements":{
-            "pressure_min": 1020,
-            "humidity_max": 70
-          }
+          "requirements": { "pressure_min": 1020, "humidity_max": 70 }
         },
         {
           "name": "Cloudy",
@@ -987,10 +984,7 @@
           "acidic": false,
           "sound_category": 5,
           "sun_intensity": 1,
-          "requirements":{
-            "pressure_max": 1010,
-            "humidity_min": 40
-          }
+          "requirements": { "pressure_max": 1010, "humidity_min": 40 }
         },
         {
           "name": "Light Drizzle",
@@ -1005,20 +999,11 @@
           "precip": 1,
           "rains": true,
           "acidic": false,
-          "tiles_animation":"weather_rain_drop",
-          "weather_animation": {
-            "factor": 0.01,
-            "color": "c_light_blue",
-            "glyph": ","
-          },
+          "tiles_animation": "weather_rain_drop",
+          "weather_animation": { "factor": 0.01, "color": "c_light_blue", "glyph": "," },
           "sound_category": 1,
           "sun_intensity": 1,
-          "requirements":{
-            "pressure_max": 1003,
-            "humidity_min": 96,
-            "humidity_and_pressure": false,
-            "required_weathers":[ "Cloudy" ]
-          }
+          "requirements": { "pressure_max": 1003, "humidity_min": 96, "humidity_and_pressure": false, "required_weathers": [ "Cloudy" ] }
         },
         {
           "name": "Drizzle",
@@ -1033,20 +1018,11 @@
           "precip": 2,
           "rains": true,
           "acidic": false,
-          "tiles_animation":"weather_rain_drop",
-          "weather_animation": {
-            "factor": 0.01,
-            "color": "c_light_blue",
-            "glyph": "."
-          },
+          "tiles_animation": "weather_rain_drop",
+          "weather_animation": { "factor": 0.01, "color": "c_light_blue", "glyph": "." },
           "sound_category": 1,
           "sun_intensity": 1,
-          "requirements":{
-            "pressure_max": 1000,
-            "humidity_min": 97,
-            "humidity_and_pressure": false,
-            "required_weathers":[ "Light Drizzle" ]
-          }
+          "requirements": { "pressure_max": 1000, "humidity_min": 97, "humidity_and_pressure": false, "required_weathers": [ "Light Drizzle" ] }
         },
         {
           "name": "Rain",
@@ -1061,19 +1037,15 @@
           "precip": 3,
           "rains": true,
           "acidic": false,
-          "tiles_animation":"weather_rain_drop",
-          "weather_animation": {
-            "factor": 0.02,
-            "color": "c_light_blue",
-            "glyph": ","
-          },
+          "tiles_animation": "weather_rain_drop",
+          "weather_animation": { "factor": 0.02, "color": "c_light_blue", "glyph": "," },
           "sound_category": 2,
           "sun_intensity": 1,
-          "requirements":{
+          "requirements": {
             "pressure_max": 993,
             "humidity_min": 98,
             "humidity_and_pressure": false,
-            "required_weathers":[ "Cloudy" ]
+            "required_weathers": [ "Cloudy", "Light Drizzle", "Drizzle" ]
           }
         },
         {
@@ -1089,24 +1061,12 @@
           "precip": 3,
           "rains": true,
           "acidic": false,
-          "effects":[
-            {
-              "name": "thunder",
-              "intensity": 50
-            }
-          ],
-          "tiles_animation":"weather_rain_drop",
-          "weather_animation": {
-            "factor": 0.02,
-            "color": "c_light_blue",
-            "glyph": "."
-          },
+          "effects": [ { "name": "thunder", "intensity": 50 } ],
+          "tiles_animation": "weather_rain_drop",
+          "weather_animation": { "factor": 0.02, "color": "c_light_blue", "glyph": "." },
           "sound_category": 3,
           "sun_intensity": 0,
-          "requirements":{
-            "pressure_max": 996,
-            "required_weathers":[ "Rain" ]
-          }
+          "requirements": { "pressure_max": 996, "required_weathers": [ "Rain" ] }
         },
         {
           "name": "Lightning Storm",
@@ -1121,28 +1081,12 @@
           "precip": 3,
           "rains": true,
           "acidic": false,
-          "effects":[
-            {
-              "name": "thunder",
-              "intensity": 50
-            },
-            {
-              "name": "lightning",
-              "intensity": 600
-            }
-          ],
-          "tiles_animation":"weather_rain_drop",
-          "weather_animation": {
-            "factor": 0.04,
-            "color": "c_light_blue",
-            "glyph": ","
-          },
+          "effects": [ { "name": "thunder", "intensity": 50 }, { "name": "lightning", "intensity": 600 } ],
+          "tiles_animation": "weather_rain_drop",
+          "weather_animation": { "factor": 0.04, "color": "c_light_blue", "glyph": "," },
           "sound_category": 3,
           "sun_intensity": 0,
-          "requirements":{
-            "pressure_max": 990,
-            "required_weathers":[ "Thunder Storm" ]
-          }
+          "requirements": { "pressure_max": 990, "required_weathers": [ "Thunder Storm" ] }
         },
         {
           "name": "Acidic Drizzle",
@@ -1157,24 +1101,12 @@
           "precip": 2,
           "rains": true,
           "acidic": true,
-          "effects":[
-            {
-              "name": "light_acid",
-              "intensity": 180
-            }
-          ],
-          "tiles_animation":"weather_acid_drop",
-          "weather_animation": {
-            "factor": 0.01,
-            "color": "c_light_green",
-            "glyph": "."
-          },
+          "effects": [ { "name": "light_acid", "intensity": 180 } ],
+          "tiles_animation": "weather_acid_drop",
+          "weather_animation": { "factor": 0.01, "color": "c_light_green", "glyph": "." },
           "sound_category": 1,
           "sun_intensity": 2,
-          "requirements":{
-            "acidic": true,
-            "required_weathers":[ "Drizzle" ]
-          }
+          "requirements": { "acidic": true, "required_weathers": [ "Drizzle" ] }
         },
         {
           "name": "Acid Rain",
@@ -1189,24 +1121,12 @@
           "precip": 3,
           "rains": true,
           "acidic": true,
-          "effects":[
-            {
-              "name": "acid",
-              "intensity": 2
-            }
-          ],
-          "tiles_animation":"weather_acid_drop",
-          "weather_animation": {
-            "factor": 0.02,
-            "color": "c_light_green",
-            "glyph": ","
-          },
+          "effects": [ { "name": "acid", "intensity": 2 } ],
+          "tiles_animation": "weather_acid_drop",
+          "weather_animation": { "factor": 0.02, "color": "c_light_green", "glyph": "," },
           "sound_category": 3,
           "sun_intensity": 0,
-          "requirements":{
-            "acidic": true,
-            "required_weathers":[ "Rain" ]
-          }
+          "requirements": { "acidic": true, "required_weathers": [ "Rain" ] }
         },
         {
           "name": "Flurries",
@@ -1221,18 +1141,11 @@
           "precip": 2,
           "rains": false,
           "acidic": false,
-          "tiles_animation":"weather_snowflake",
-          "weather_animation": {
-            "factor": 0.01,
-            "color": "c_white",
-            "glyph": "."
-          },
+          "tiles_animation": "weather_snowflake",
+          "weather_animation": { "factor": 0.01, "color": "c_white", "glyph": "." },
           "sound_category": 4,
           "sun_intensity": 1,
-          "requirements":{
-            "temperature_max": 33,
-            "required_weathers":[ "Drizzle" ]
-          }
+          "requirements": { "temperature_max": 33, "required_weathers": [ "Drizzle" ] }
         },
         {
           "name": "Snowing",
@@ -1247,24 +1160,12 @@
           "precip": 3,
           "rains": false,
           "acidic": false,
-          "effects":[
-            {
-              "name": "wet",
-              "intensity": 10
-            }
-          ],
-          "tiles_animation":"weather_snowflake",
-          "weather_animation": {
-            "factor": 0.02,
-            "color": "c_white",
-            "glyph": ","
-          },
+          "effects": [ { "name": "wet", "intensity": 10 } ],
+          "tiles_animation": "weather_snowflake",
+          "weather_animation": { "factor": 0.02, "color": "c_white", "glyph": "," },
           "sound_category": 6,
           "sun_intensity": 1,
-          "requirements":{
-            "temperature_max": 33,
-            "required_weathers":[ "Rain", "Thunder Storm", "Lightning Storm" ]
-          }
+          "requirements": { "temperature_max": 33, "required_weathers": [ "Rain", "Thunder Storm", "Lightning Storm" ] }
         },
         {
           "name": "Snowstorm",
@@ -1279,25 +1180,12 @@
           "precip": 3,
           "rains": false,
           "acidic": false,
-          "effects":[
-            {
-              "name": "wet",
-              "intensity": 40
-            }
-          ],
-          "tiles_animation":"weather_snowflake",
-          "weather_animation": {
-            "factor": 0.04,
-            "color": "c_white",
-            "glyph": "*"
-          },
+          "effects": [ { "name": "wet", "intensity": 40 } ],
+          "tiles_animation": "weather_snowflake",
+          "weather_animation": { "factor": 0.04, "color": "c_white", "glyph": "*" },
           "sound_category": 5,
           "sun_intensity": 0,
-          "requirements":{
-            "temperature_max": 33,
-            "windpower_min":15,
-            "required_weathers":[ "Thunder Storm", "Lightning Storm" ]
-          }
+          "requirements": { "temperature_max": 33, "windpower_min": 15, "required_weathers": [ "Thunder Storm", "Lightning Storm" ] }
         }
       ]
     },
