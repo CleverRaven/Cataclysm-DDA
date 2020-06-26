@@ -114,8 +114,6 @@ static const itype_id itype_welder( "welder" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
-static const skill_id skill_traps( "traps" );
-
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 
@@ -5141,61 +5139,6 @@ void map::trap_set( const tripoint &p, const trap_id &type )
     current_submap->set_trap( l, type );
     if( type != tr_null ) {
         traplocs[type.to_i()].push_back( p );
-    }
-}
-
-void map::disarm_trap( const tripoint &p )
-{
-    const trap &tr = tr_at( p );
-    if( tr.is_null() ) {
-        debugmsg( "Tried to disarm a trap where there was none (%d %d %d)", p.x, p.y, p.z );
-        return;
-    }
-
-    const int tSkillLevel = g->u.get_skill_level( skill_traps );
-    const int diff = tr.get_difficulty();
-    int roll = rng( tSkillLevel, 4 * tSkillLevel );
-
-    if( tr.easy_take_down() ) {
-        return;
-    }
-
-    ///\EFFECT_PER increases chance of disarming trap
-
-    ///\EFFECT_DEX increases chance of disarming trap
-
-    ///\EFFECT_TRAPS increases chance of disarming trap
-    while( ( rng( 5, 20 ) < g->u.per_cur || rng( 1, 20 ) < g->u.dex_cur ) && roll < 50 ) {
-        roll++;
-    }
-    if( roll >= diff ) {
-        add_msg( _( "You disarm the trap!" ) );
-        const int morale_buff = tr.get_avoidance() * 0.4 + diff + rng( 0, 4 );
-        g->u.rem_morale( MORALE_FAILURE );
-        g->u.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
-        tr.on_disarmed( *this, p );
-        if( diff > 1.25 * tSkillLevel ) { // failure might have set off trap
-            g->u.practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
-        }
-    } else if( roll >= diff * .8 ) {
-        add_msg( _( "You fail to disarm the trap." ) );
-        const int morale_debuff = -rng( 6, 18 );
-        g->u.rem_morale( MORALE_ACCOMPLISHMENT );
-        g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
-        if( diff > 1.25 * tSkillLevel ) {
-            g->u.practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
-        }
-    } else {
-        add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
-        const int morale_debuff = -rng( 12, 24 );
-        g->u.rem_morale( MORALE_ACCOMPLISHMENT );
-        g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
-        tr.trigger( p, &g->u );
-        if( diff - roll <= 6 ) {
-            // Give xp for failing, but not if we failed terribly (in which
-            // case the trap may not be disarmable).
-            g->u.practice( skill_traps, 2 * diff );
-        }
     }
 }
 

@@ -1159,7 +1159,6 @@ class map
         /// See @ref trap::can_see, which is called for the trap here.
         bool can_see_trap_at( const tripoint &p, const Character &c ) const;
 
-        void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
         const std::vector<tripoint> &get_furn_field_locations() const;
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;

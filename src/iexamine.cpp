@@ -63,6 +63,7 @@
 #include "messages.h"
 #include "mission_companion.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -157,6 +158,7 @@ static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
+static const skill_id skill_traps( "traps" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -3750,7 +3752,46 @@ void trap::examine( player &p, const tripoint &examp ) const
     }
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
-        here.disarm_trap( examp );
+        const int tSkillLevel = g->u.get_skill_level( skill_traps );
+        int roll = rng( tSkillLevel, 4 * tSkillLevel );
+
+        ///\EFFECT_PER increases chance of disarming trap
+
+        ///\EFFECT_DEX increases chance of disarming trap
+
+        ///\EFFECT_TRAPS increases chance of disarming trap
+        while( ( rng( 5, 20 ) < g->u.per_cur || rng( 1, 20 ) < g->u.dex_cur ) && roll < 50 ) {
+            roll++;
+        }
+        if( roll >= difficulty ) {
+            add_msg( _( "You disarm the trap!" ) );
+            const int morale_buff = avoidance * 0.4 + difficulty + rng( 0, 4 );
+            g->u.rem_morale( MORALE_FAILURE );
+            g->u.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
+            on_disarmed( here, examp );
+            if( difficulty > 1.25 * tSkillLevel ) { // failure might have set off trap
+                g->u.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            }
+        } else if( roll >= difficulty * .8 ) {
+            add_msg( _( "You fail to disarm the trap." ) );
+            const int morale_debuff = -rng( 6, 18 );
+            g->u.rem_morale( MORALE_ACCOMPLISHMENT );
+            g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
+            if( difficulty > 1.25 * tSkillLevel ) {
+                g->u.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            }
+        } else {
+            add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
+            const int morale_debuff = -rng( 12, 24 );
+            g->u.rem_morale( MORALE_ACCOMPLISHMENT );
+            g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
+            trigger( examp, &g->u );
+            if( difficulty - roll <= 6 ) {
+                // Give xp for failing, but not if we failed terribly (in which
+                // case the trap may not be disarmable).
+                g->u.practice( skill_traps, 2 * difficulty );
+            }
+        }
         return;
     }
 }
