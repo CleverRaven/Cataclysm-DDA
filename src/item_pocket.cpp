@@ -629,7 +629,7 @@ bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
     return false;
 }
 
-bool item_pocket::process( const itype &type, player *carrier, const tripoint &pos, bool activate,
+bool item_pocket::process( const itype &type, player *carrier, const tripoint &pos,
                            float insulation, const temperature_flag flag )
 {
     bool processed = false;
@@ -639,7 +639,7 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
             // is not changed, the item is still fresh.
             it->set_last_rot_check( calendar::turn );
         }
-        if( it->process( carrier, pos, activate, type.insulation_factor * insulation, flag ) ) {
+        if( it->process( carrier, pos, type.insulation_factor * insulation, flag ) ) {
             it = contents.erase( it );
             processed = true;
         } else {
@@ -1191,11 +1191,11 @@ void item_pocket::remove_rotten( const tripoint &pnt )
     }
 }
 
-void item_pocket::process( player *carrier, const tripoint &pos, bool activate, float insulation,
+void item_pocket::process( player *carrier, const tripoint &pos, float insulation,
                            temperature_flag flag, float spoil_multiplier_parent )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->process( carrier, pos, activate, insulation, flag,
+        if( iter->process( carrier, pos, insulation, flag,
                            // spoil multipliers on pockets are not additive or multiplicative, they choose the best
                            std::min( spoil_multiplier_parent, spoil_multiplier() ) ) ) {
             iter = contents.erase( iter );
