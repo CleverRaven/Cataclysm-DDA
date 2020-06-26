@@ -139,18 +139,15 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
     int num_limbs = 0; // number of limbs effected (broken don't count)
     int total_hp = 0; // total hp among limbs
 
-    for( const int &part : p->hp_cur ) {
-        if( part != 0 ) {
-            num_limbs++;
-            total_hp += part;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : p->get_body() ) {
+        if( elem.first == bodypart_str_id( "num_bp" ) ) {
+            continue;
         }
+        num_limbs++;
+        total_hp += elem.second.get_hp_cur();
     }
-    for( int &part : p->hp_cur ) {
-        const int hp_each = total_hp / num_limbs;
-        if( part != 0 ) {
-            part = hp_each;
-        }
-    }
+    const int hp_each = total_hp / num_limbs;
+    p->set_all_parts_hp_cur( hp_each );
 }
 
 static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
