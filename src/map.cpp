@@ -5061,6 +5061,11 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
     return rc_pairs;
 }
 
+bool map::can_see_trap_at( const tripoint &p, const Character &c ) const
+{
+    return tr_at( p ).can_see( p, c );
+}
+
 const trap &map::tr_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {

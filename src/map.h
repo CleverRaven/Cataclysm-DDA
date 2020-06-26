@@ -1156,6 +1156,8 @@ class map
         void trap_set( const tripoint &p, const trap_id &type );
 
         const trap &tr_at( const tripoint &p ) const;
+        /// See @ref trap::can_see, which is called for the trap here.
+        bool can_see_trap_at( const tripoint &p, const Character &c ) const;
 
         void disarm_trap( const tripoint &p );
         void remove_trap( const tripoint &p );
