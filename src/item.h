@@ -1579,7 +1579,7 @@ class item : public visitable<item>
          * Returns 0 if this is can not be worn at all.
          */
         int get_encumber( const Character &,
-                          const bodypart_id &bodypart = bodypart_id( bodypart_str_id( "num_bp" ) ),
+                          const bodypart_id &bodypart = bodypart_id( "num_bp" ),
                           encumber_flags = encumber_flags::none ) const;
 
         /**
