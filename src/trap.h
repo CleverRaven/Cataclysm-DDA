@@ -102,7 +102,11 @@ struct trap {
         int visibility = 1;
         // 0 to ??, affects avoidance
         int avoidance = 0;
-        // 0 to ??, difficulty of assembly & disassembly
+        /*
+         * This is used when disarming the trap. A value of 0 means disarming will always work
+         * (e.g. for funnels), a values of 99 means it can not be disarmed at all. Smaller values
+         * makes it easier to disarm the trap.
+         */
         int difficulty = 0;
         // 0 to ??, trap radius
         int trap_radius = 0;
@@ -152,14 +156,6 @@ struct trap {
          */
         int get_avoidance() const {
             return avoidance;
-        }
-        /**
-         * This is used when disarming the trap. A value of 0 means disarming will always work
-         * (e.g. for funnels), a values of 99 means it can not be disarmed at all. Smaller values
-         * makes it easier to disarm the trap.
-         */
-        int get_difficulty() const {
-            return difficulty;
         }
         /**
          * If true, this is not really a trap and there won't be any safety queries before stepping
