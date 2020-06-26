@@ -8289,7 +8289,8 @@ int item::fill_with( const itype &contained, const int amount )
 
     item_pocket *pocket = best_pocket( contained_item );
     if( pocket == nullptr ) {
-        debugmsg( "tried to put an item in a container that cannot contain it" );
+        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
+                  contained_item.typeId().str(), typeId().str() );
         return 0;
     }
 
