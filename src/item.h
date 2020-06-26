@@ -232,11 +232,12 @@ class item : public visitable<item>
         item &activate();
 
         /**
-         * Invoke use function on item that is left behind by attack.
+         * Invoke use function on a thrown item that had "ACT_ON_RANGED_HIT" flag.
+         * The function is called on the spot where the item landed.
          * @param pos position
          * @return true if the item was destroyed (exploded)
          */
-        bool attack_item( const tripoint &pos );
+        bool activate_thrown( const tripoint &pos );
 
         /**
          * Add or remove energy from a battery.

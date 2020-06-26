@@ -560,7 +560,7 @@ item &item::activate()
     return *this;
 }
 
-bool item::attack_item( const tripoint &pos )
+bool item::activate_thrown( const tripoint &pos )
 {
     return type->invoke( g->u, *this, pos );
 }
