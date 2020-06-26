@@ -1059,6 +1059,8 @@ void complete_construction( player *p )
 bool construct::check_empty( const tripoint &p )
 {
     map &here = get_map();
+    // @TODO should check for *visible* traps only. But calling code must
+    // first know how to handle constructing on top of an invisible trap!
     return ( here.has_flag( flag_FLAT, p ) && !here.has_furn( p ) &&
              g->is_empty( p ) && here.tr_at( p ).is_null() &&
              here.i_at( p ).empty() && !here.veh_at( p ) );

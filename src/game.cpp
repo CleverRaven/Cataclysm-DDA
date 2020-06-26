@@ -10066,6 +10066,10 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              !m.veh_at( fdest ) &&
                              ( !has_floor || m.tr_at( fdest ).is_null() )
                          );
+    // @TODO: it should be possible to move over invisible traps. This should probably
+    // trigger the trap.
+    // The current check (no move if trap) allows a player to detect invisible traps by
+    // attempting to move stuff onto it.
 
     const furn_t furntype = m.furn( fpos ).obj();
     const int src_items = m.i_at( fpos ).size();
@@ -10799,6 +10803,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         for( const auto &np : npcs_to_bring ) {
             const auto found = std::find_if( candidates.begin(), candidates.end(),
             [this, np]( const tripoint & c ) {
+                // @TODO NPC should appear on top of invisible traps (and trigger them),
+                // instead of magically choosing tiles without dangerous traps.
                 return !np->is_dangerous_fields( m.field_at( c ) ) && m.tr_at( c ).is_benign();
             } );
             if( found != candidates.end() ) {

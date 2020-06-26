@@ -884,7 +884,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 
     const bool seen = g->u.sees( p );
-    const bool known = g->u.knows_trap( p );
+    const bool known = tr.can_see( p, g->u );
     if( seen ) {
         if( known ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name

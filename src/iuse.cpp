@@ -2815,9 +2815,10 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     map &here = get_map();
     const bool can_dig_here = here.has_flag( "DIGGABLE", dig_point ) &&
                               !here.has_furn( dig_point ) &&
-                              here.tr_at( dig_point ).is_null() &&
+                              !here.can_see_trap_at( dig_point, *p ) &&
                               ( here.ter( dig_point ) == t_grave_new || here.i_at( dig_point ).empty() ) &&
                               !here.veh_at( dig_point );
+    // @TODO Trigger trap when attempting to dig on it.
 
     if( !can_dig_here ) {
         p->add_msg_if_player(
@@ -2917,9 +2918,11 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     map &here = get_map();
     const bool can_dig_here = here.has_flag( flag_DIGGABLE, dig_point ) &&
                               !here.has_furn( dig_point ) &&
-                              here.tr_at( dig_point ).is_null() && here.i_at( dig_point ).empty() && !here.veh_at( dig_point ) &&
+                              !here.can_see_trap_at( dig_point, *p ) && here.i_at( dig_point ).empty() &&
+                              !here.veh_at( dig_point ) &&
                               ( here.has_flag( flag_CURRENT, north ) ||  here.has_flag( flag_CURRENT, south ) ||
                                 here.has_flag( flag_CURRENT, east ) ||  here.has_flag( flag_CURRENT, west ) );
+    // @TODO Trigger trap when attempting to dig on it.
 
     if( !can_dig_here ) {
         p->add_msg_if_player(

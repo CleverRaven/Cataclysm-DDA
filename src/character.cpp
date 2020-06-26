@@ -8165,7 +8165,9 @@ tripoint Character::adjacent_tile() const
             continue;
         }
         const trap &curtrap = here.tr_at( p );
-        if( !curtrap.is_null() && !curtrap.is_benign() ) {
+        // If we don't known a trap here, the spot "appears" to be good, so consider it.
+        // Same if we know a benign trap (as it's not dangerous).
+        if( curtrap.can_see( p, *this ) && !curtrap.is_benign() ) {
             continue;
         }
         // Only consider tile if unoccupied, passable and has no traps
