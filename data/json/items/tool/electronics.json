@@ -14,7 +14,7 @@
     "symbol": ";",
     "color": "light_green",
     "ammo": [ "plutonium" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 2500 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "plutonium": 2500 } } ],
     "flags": [ "IS_UPS" ]
   },
   {
@@ -37,6 +37,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -72,6 +73,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -113,6 +115,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -192,6 +195,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -226,6 +230,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -260,6 +265,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -304,6 +310,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -351,6 +358,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
@@ -386,6 +394,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -433,6 +442,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -476,6 +486,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -567,6 +578,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "heavy_plus_battery_cell", "heavy_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
@@ -592,6 +604,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
