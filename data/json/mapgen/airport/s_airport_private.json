@@ -110,6 +110,8 @@
         { "group": "vending_drink", "chance": 80, "repeat": 1, "x": 40, "y": 6 },
         { "group": "road", "chance": 50, "repeat": 10, "x": [ 75, 80 ], "y": [ 7, 20 ] },
         { "group": "road", "chance": 50, "repeat": 10, "x": [ 87, 92 ], "y": [ 7, 20 ] },
+        { "group": "avgas_barrel", "chance": 50, "repeat": 5, "x": [ 75, 80 ], "y": [ 7, 20 ] },
+        { "group": "avgas_barrel", "chance": 50, "repeat": 5, "x": [ 87, 92 ], "y": [ 7, 20 ] },
         { "group": "clothing_work_mask", "chance": 50, "repeat": 2, "x": 81, "y": 7 },
         { "group": "clothing_work_mask", "chance": 50, "repeat": 2, "x": 87, "y": 21 },
         { "group": "tools_mechanic", "chance": 50, "repeat": 4, "x": 88, "y": 21 },
