@@ -174,6 +174,7 @@
     "name": "zomborg",
     "description": "A mix of dead human and even deader technology, this twisted mess of steel and flesh moves like a puppet in the hands of an angry toddler.  Its robotic components seem to have shut down, and new bands of flesh have wrapped around them, tugging and pulling them in awkward directions.  Bits of metallic skeleton and armor plating jut from its decaying flesh.",
     "default_faction": "zombie",
+	"looks_like": "mon_exodii_worker",
     "volume": "120 L",
     "weight": "200 kg",
     "species": [ "CYBORG", "ZOMBIE" ],
