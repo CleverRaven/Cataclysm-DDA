@@ -956,7 +956,7 @@
     "turns_per_charge": 300,
     "revert_to": "hobo_stove",
     "use_action": [
-      "cauterize",
+      { "type": "cauterize", "flame": false },
       {
         "target": "hobo_stove",
         "msg": "The ember is extinguished.",

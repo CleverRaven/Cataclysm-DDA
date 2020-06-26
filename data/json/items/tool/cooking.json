@@ -163,8 +163,7 @@
     "sub": "hotplate",
     "initial_charges": 50,
     "max_charges": 50,
-    "charges_per_use": 1,
-    "use_action": "cauterize"
+    "charges_per_use": 1
   },
   {
     "id": "clay_pot",
@@ -233,7 +232,6 @@
     "ammo": "battery",
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": "cauterize",
     "magazines": [
       [
         "battery",
@@ -307,8 +305,7 @@
     "sub": "hotplate",
     "initial_charges": 50,
     "max_charges": 50,
-    "charges_per_use": 1,
-    "use_action": [ "cauterize" ]
+    "charges_per_use": 1
   },
   {
     "id": "flask_yeast",
@@ -380,8 +377,7 @@
     "sub": "hotplate",
     "initial_charges": 500,
     "max_charges": 500,
-    "charges_per_use": 1,
-    "use_action": "cauterize"
+    "charges_per_use": 1
   },
   {
     "id": "heatpack",
@@ -432,8 +428,7 @@
     "color": "light_gray",
     "ammo": "tinder",
     "max_charges": 100,
-    "charges_per_use": 25,
-    "use_action": "cauterize"
+    "charges_per_use": 25
   },
   {
     "id": "hotplate",
@@ -451,7 +446,7 @@
     "color": "green",
     "ammo": "battery",
     "charges_per_use": 5,
-    "use_action": "cauterize",
+    "use_action": { "type": "cauterize", "flame": false },
     "magazines": [
       [
         "battery",
@@ -570,7 +565,7 @@
     "sub": "hotplate",
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "cauterize" ],
+    "use_action": [ { "type": "cauterize", "flame": false } ],
     "magazines": [
       [
         "battery",
@@ -654,7 +649,7 @@
     "sub": "hotplate",
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
-    "use_action": [ "cauterize" ],
+    "use_action": [ { "type": "cauterize", "flame": false } ],
     "magazines": [
       [
         "battery",
@@ -730,8 +725,7 @@
     "sub": "hotplate",
     "initial_charges": 800,
     "max_charges": 800,
-    "charges_per_use": 1,
-    "use_action": "cauterize"
+    "charges_per_use": 1
   },
   {
     "id": "pastaextruder",
@@ -791,8 +785,7 @@
     "sub": "hotplate",
     "initial_charges": 500,
     "max_charges": 500,
-    "charges_per_use": 1,
-    "use_action": "cauterize"
+    "charges_per_use": 1
   },
   {
     "id": "pressure_cooker",
@@ -917,8 +910,7 @@
     "sub": "hotplate",
     "max_charges": 800,
     "charges_per_use": 1,
-    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": [ "cauterize" ]
+    "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ]
   },
   {
     "id": "teapot",

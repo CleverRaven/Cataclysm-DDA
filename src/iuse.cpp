@@ -9718,6 +9718,13 @@ int iuse::magic_8_ball( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
+int iuse::cauterize_hotplate( player *p, item *it, bool t, const tripoint &pos )
+{
+    cauterize_actor dummy( "HOTPLATE" );
+    dummy.use( *p, *it, t, pos );
+    return it->type->charges_to_use();
+}
+
 void use_function::dump_info( const item &it, std::vector<iteminfo> &dump ) const
 {
     if( actor != nullptr ) {
