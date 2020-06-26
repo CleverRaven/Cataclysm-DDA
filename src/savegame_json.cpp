@@ -625,7 +625,9 @@ void Character::load( const JsonObject &data )
     }
 
     // TEMPORARY until 0.F
-    if( data.has_object( "hp_cur" ) ) {
+    if( data.has_array( "hp_cur" ) ) {
+        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_body();
         std::array<int, 6> hp_cur;
         data.read( "hp_cur", hp_cur );
         std::array<int, 6> hp_max;
