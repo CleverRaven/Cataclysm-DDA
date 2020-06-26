@@ -160,7 +160,6 @@ static const efftype_id effect_docile( "docile" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
-static const efftype_id effect_flushot( "flushot" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_fungus( "fungus" );
@@ -834,12 +833,8 @@ int iuse::vaccine( player *p, item *it, bool, const tripoint & )
 
 int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
 {
-    p->add_msg_if_player( _( "You inject the vaccine." ) );
-    p->add_msg_if_player( m_good, _( "You no longer need to fear the flu, at least for some time." ) );
-    p->add_effect( effect_flushot, 30_days, num_bp, true );
-    p->mod_pain( 3 );
+    p->add_msg_if_player( _( "You empty." ) );
     item syringe( "syringe", it->birthday() );
-    p->i_add( syringe );
     return it->type->charges_to_use();
 }
 

@@ -109,7 +109,6 @@ static const efftype_id effect_blisters( "blisters" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_cold( "cold" );
-static const efftype_id effect_common_cold( "common_cold" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_controlled( "controlled" );
 static const efftype_id effect_corroding( "corroding" );
@@ -121,7 +120,6 @@ static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
-static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_frostbite( "frostbite" );
 static const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
@@ -3970,11 +3968,6 @@ void Character::print_health() const
         add_msg_if_player( _( "Your current health value is %d." ), current_health );
     }
 
-    if( current_health > 0 &&
-        ( has_effect( effect_common_cold ) || has_effect( effect_flu ) ) ) {
-        return;
-    }
-
     static const std::map<int, std::string> msg_categories = {
         { -100, "health_horrible" },
         { -50, "health_very_bad" },
@@ -4494,7 +4487,6 @@ void Character::update_body( const time_point &from, const time_point &to )
     if( thirty_mins > 0 ) {
         // Radiation kills health even at low doses
         update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
-        get_sick();
     }
 
     for( const auto &v : vitamin::all() ) {
@@ -4975,47 +4967,6 @@ void Character::check_needs_extremes()
     }
 }
 
-void Character::get_sick()
-{
-    // NPCs are too dumb to handle infections now
-    if( is_npc() || has_trait_flag( "NO_DISEASE" ) ) {
-        // In a shocking twist, disease immunity prevents diseases.
-        return;
-    }
-
-    if( has_effect( effect_flu ) || has_effect( effect_common_cold ) ) {
-        // While it's certainly possible to get sick when you already are,
-        // it wouldn't be very fun.
-        return;
-    }
-
-    // Normal people get sick about 2-4 times/year.
-    int base_diseases_per_year = 3;
-    if( has_trait( trait_DISRESISTANT ) ) {
-        // Disease resistant people only get sick once a year.
-        base_diseases_per_year = 1;
-    }
-
-    // This check runs once every 30 minutes, so double to get hours, *24 to get days.
-    const int checks_per_year = 2 * 24 * 365;
-
-    // Health is in the range [-200,200].
-    // Diseases are half as common for every 50 health you gain.
-    float health_factor = std::pow( 2.0f, get_healthy() / 50.0f );
-
-    int disease_rarity = static_cast<int>( checks_per_year * health_factor / base_diseases_per_year );
-    add_msg( m_debug, "disease_rarity = %d", disease_rarity );
-    if( one_in( disease_rarity ) ) {
-        if( one_in( 6 ) ) {
-            // The flu typically lasts 3-10 days.
-            add_env_effect( effect_flu, bp_mouth, 3, rng( 3_days, 10_days ) );
-        } else {
-            // A cold typically lasts 1-14 days.
-            add_env_effect( effect_common_cold, bp_mouth, 3, rng( 1_days, 14_days ) );
-        }
-    }
-}
-
 bool Character::is_hibernating() const
 {
     // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
@@ -5091,7 +5042,6 @@ void Character::update_bodytemp()
     const bool has_sleep_state = has_sleep || in_sleep_state();
     const bool has_heatsink = has_bionic( bio_heatsink ) || is_wearing( "rm13_armor_on" ) ||
                               has_trait( trait_M_SKIN2 ) || has_trait( trait_M_SKIN3 );
-    const bool has_common_cold = has_effect( effect_common_cold );
     const bool has_climate_control = in_climate_control();
     const bool use_floor_warmth = can_use_floor_warmth();
     const furn_id furn_at_pos = g->m.furn( pos() );
@@ -5213,13 +5163,6 @@ void Character::update_bodytemp()
         }
 
         temp_conv[bp] += sunlight_warmth;
-        // DISEASES
-        if( bp == bp_head && has_effect( effect_flu ) ) {
-            temp_conv[bp] += 1500;
-        }
-        if( has_common_cold ) {
-            temp_conv[bp] -= 750;
-        }
         // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
         temp_conv[bp] -= blood_loss( bp ) * temp_conv[bp] / 200;
 

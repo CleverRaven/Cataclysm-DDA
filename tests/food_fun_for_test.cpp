@@ -37,36 +37,6 @@ TEST_CASE( "fun for non-food", "[fun_for][nonfood]" )
     }
 }
 
-TEST_CASE( "fun for food eaten while sick", "[fun_for][food][sick]" )
-{
-    avatar dummy;
-    std::pair<int, int> actual_fun;
-    item toastem( "toastem" );
-    REQUIRE( toastem.is_comestible() );
-    // Base fun value for toast-em
-    int toastem_fun = toastem.get_comestible_fun();
-
-    WHEN( "character has a cold" ) {
-        dummy.add_effect( efftype_id( "common_cold" ), 1_days );
-        REQUIRE( dummy.has_effect( efftype_id( "common_cold" ) ) );
-
-        THEN( "it is much less fun to eat" ) {
-            actual_fun = dummy.fun_for( toastem );
-            CHECK( actual_fun.first < toastem_fun / 2 );
-        }
-    }
-
-    WHEN( "character has the flu" ) {
-        dummy.add_effect( efftype_id( "flu" ), 1_days );
-        REQUIRE( dummy.has_effect( efftype_id( "flu" ) ) );
-
-        THEN( "it is much less fun to eat" ) {
-            actual_fun = dummy.fun_for( toastem );
-            CHECK( actual_fun.first < toastem_fun / 2 );
-        }
-    }
-}
-
 TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
 {
     avatar dummy;

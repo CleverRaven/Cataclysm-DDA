@@ -54,8 +54,6 @@ static const bionic_id bio_taste_blocker( "bio_taste_blocker" );
 
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_brainworms( "brainworms" );
-static const efftype_id effect_common_cold( "common_cold" );
-static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
@@ -398,10 +396,6 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
 
     // As float to avoid rounding too many times
     float fun = comest.get_comestible_fun();
-    // Food doesn't taste as good when you're sick
-    if( ( has_effect( effect_common_cold ) || has_effect( effect_flu ) ) && fun > 0 ) {
-        fun /= 3;
-    }
     // Rotten food should be pretty disgusting
     const float relative_rot = comest.get_relative_rot();
     if( relative_rot > 1.0f && !has_trait( trait_SAPROPHAGE ) && !has_trait( trait_SAPROVORE ) ) {
@@ -900,14 +894,6 @@ bool player::eat( item &food, bool force )
     if( food.has_flag( flag_MUSHY ) ) {
         add_msg_if_player( m_bad,
                            _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
-    }
-    if( food.get_comestible_fun() > 0 ) {
-        if( has_effect( effect_common_cold ) ) {
-            add_msg_if_player( m_bad, _( "You can't taste much of anything with this cold." ) );
-        }
-        if( has_effect( effect_flu ) ) {
-            add_msg_if_player( m_bad, _( "You can't taste much of anything with this flu." ) );
-        }
     }
 
     // Chance to become parasitised
