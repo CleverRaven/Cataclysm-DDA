@@ -863,7 +863,7 @@ void player::search_surroundings()
         if( !sees( tp ) ) {
             continue;
         }
-        if( tr.is_always_invisible() || tr.can_see( tp, *this ) ) {
+        if( tr.can_see( tp, *this ) ) {
             // Already seen, or can never be seen
             continue;
         }
