@@ -65,8 +65,8 @@ class relic_procgen_data
             int max_level = 0;
 
             int calc_power( int level ) const {
-                return base_power + round( level *
-                                           static_cast<float>( power_per_increment ) / static_cast<float>( increment ) );
+                return base_power + std::round( level *
+                                                static_cast<float>( power_per_increment ) / static_cast<float>( increment ) );
             }
 
             bool was_loaded = false;
