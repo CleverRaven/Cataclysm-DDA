@@ -3716,7 +3716,7 @@ void trap::examine( player &p, const tripoint &examp ) const
             if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
                            built.description, pc->counter / 100000 ) ) {
                 if( query_yn( _( "Cancel construction?" ) ) ) {
-                    here.disarm_trap( examp );
+                    tr.on_disarmed( here, examp );
                     for( const item &it : pc->components ) {
                         here.add_item_or_charges( g->u.pos(), it );
                     }
