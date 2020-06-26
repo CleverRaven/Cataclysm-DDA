@@ -958,6 +958,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
     // liquids and gases avoid the size limit altogether
     // soft items also avoid the size limit
     if( !it.made_of( phase_id::LIQUID ) && !it.made_of( phase_id::GAS ) &&
+        !it.is_frozen_liquid() &&
         !it.is_soft() && data->max_item_volume &&
         it.volume() > *data->max_item_volume ) {
         return ret_val<item_pocket::contain_code>::make_failure(
