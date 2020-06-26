@@ -314,7 +314,7 @@
     "color": "light_gray",
     "ammo": [ "esbit" ],
     "sub": "hotplate",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "hexamine": 50 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 50 } } ],
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,

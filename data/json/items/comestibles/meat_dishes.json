@@ -521,7 +521,7 @@
     "price": 600,
     "price_postapoc": 350,
     "material": [ "flesh", "veggy" ],
-    "volume": "250 ml",
+    "volume": "120 ml",
     "vitamins": [ [ "vitC", 3 ], [ "calcium", 24 ], [ "iron", 14 ] ],
     "fun": 3
   },

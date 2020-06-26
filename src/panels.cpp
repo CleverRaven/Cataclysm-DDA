@@ -872,16 +872,16 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             wprintz( w, color, sym );
         }
     };
-    if( u.is_limb_broken( static_cast<hp_part>( limb_index ) ) && ( limb_index >= hp_arm_l &&
-            limb_index <= hp_leg_r ) ) {
+    const bodypart_id bp = convert_bp( avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ) ).id();
+    if( u.is_limb_broken( bp.id() ) && ( limb_index >= hp_arm_l &&
+                                         limb_index <= hp_leg_r ) ) {
         //Limb is broken
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        const auto bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
-        if( u.worn_with_flag( "SPLINT", convert_bp( bp ).id() ) ) {
+        if( u.worn_with_flag( "SPLINT",  bp ) ) {
             static const efftype_id effect_mending( "mending" );
-            const auto &eff = u.get_effect( effect_mending, bp );
+            const auto &eff = u.get_effect( effect_mending, bp->token );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {
@@ -901,12 +901,14 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         return;
     }
 
-    std::pair<std::string, nc_color> hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
+    const int hp_cur = u.get_part_hp_cur( bp );
+    const int hp_max = u.get_part_hp_max( bp );
+    std::pair<std::string, nc_color> hp = get_hp_bar( hp_cur, hp_max );
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
-        wprintz( w, hp.second, "%3d  ", u.hp_cur[limb_index] );
+        wprintz( w, hp.second, "%3d  ", hp_cur );
     } else if( no_feeling ) {
-        if( u.hp_cur[limb_index] < u.hp_max[limb_index] / 2 ) {
+        if( hp_cur < hp_max / 2 ) {
             hp = std::make_pair( string_format( " %s", _( "Bad" ) ), c_red );
         } else {
             hp = std::make_pair( string_format( " %s", _( "Good" ) ), c_green );

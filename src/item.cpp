@@ -4120,9 +4120,9 @@ void item::on_wear( Character &p )
     if( is_sided() && get_side() == side::BOTH ) {
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
-            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( hp_leg_r ) &&
+            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( bodypart_id( "leg_r" ) ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( hp_arm_r ) &&
+                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( bodypart_id( "arm_r" ) ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
@@ -7097,6 +7097,15 @@ int item::ammo_remaining() const
     if( is_magazine() ) {
         int res = 0;
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+            res += e->charges;
+        }
+        return res;
+    }
+
+    // Handle non-magazines with ammo_restriction in a CONTAINER type pocket (like quivers)
+    if( !ammo_types().empty() ) {
+        int res = 0;
+        for( const item *e : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
             res += e->charges;
         }
         return res;
