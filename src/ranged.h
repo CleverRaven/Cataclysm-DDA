@@ -39,7 +39,7 @@ trajectory mode_turrets( avatar &you, vehicle &veh, const std::vector<vehicle_pa
 
 /** Casting a spell */
 trajectory mode_spell( avatar &you, spell &casting, bool no_fail, bool no_mana );
-trajectory mode_spell( avatar &you, spell_id sp, bool no_fail, bool no_mana );
+trajectory mode_spell( avatar &you, const spell_id &sp, bool no_fail, bool no_mana );
 } // namespace target_handler
 
 int range_with_even_chance_of_good_hit( int dispersion );

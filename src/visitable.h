@@ -78,7 +78,7 @@ class visitable
          */
         int charges_of( const itype_id &what, int limit = INT_MAX,
                         const std::function<bool( const item & )> &filter = return_true<item>,
-                        std::function<void( int )> visitor = nullptr ) const;
+                        const std::function<void( int )> &visitor = nullptr ) const;
 
         /**
          * Count items matching id including both this instance and any contained items

@@ -1,5 +1,6 @@
 #include "item_pocket.h"
 
+#include "ammo.h"
 #include "assign.h"
 #include "cata_utility.h"
 #include "crafting.h"
@@ -8,6 +9,7 @@
 #include "generic_factory.h"
 #include "handle_liquid.h"
 #include "item.h"
+#include "item_category.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
@@ -37,6 +39,28 @@ std::string enum_to_string<item_pocket::pocket_type>( item_pocket::pocket_type d
 }
 // *INDENT-ON*
 } // namespace io
+
+std::string pocket_data::check_definition() const
+{
+    if( type == item_pocket::pocket_type::MOD ||
+        type == item_pocket::pocket_type::CORPSE ||
+        type == item_pocket::pocket_type::MIGRATION ) {
+        return "";
+    }
+    if( magazine_well > 0_ml && rigid ) {
+        return "rigid overrides magazine_well\n";
+    }
+    if( magazine_well >= max_contains_volume() ) {
+        return "magazine well larger than pocket volume.  consider using rigid instead.\n";
+    }
+    if( max_item_volume && *max_item_volume < min_item_volume ) {
+        return "max_item_volume is greater than min_item_volume.  no item can fit.\n";
+    }
+    if( ( watertight || airtight ) && min_item_volume > 0_ml ) {
+        return "watertight or gastight is incompatible with min_item_volume\n";
+    }
+    return "";
+}
 
 void pocket_data::load( const JsonObject &jo )
 {
@@ -135,6 +159,36 @@ void item_pocket::restack()
     }
 }
 
+item *item_pocket::restack( /*const*/ item *it )
+{
+    item *ret = it;
+    if( contents.size() <= 1 ) {
+        return ret;
+    }
+    for( auto outer_iter = contents.begin(); outer_iter != contents.end(); ++outer_iter ) {
+        if( !outer_iter->count_by_charges() ) {
+            continue;
+        }
+        for( auto inner_iter = contents.begin(); inner_iter != contents.end(); ) {
+            if( outer_iter == inner_iter || !inner_iter->count_by_charges() ) {
+                ++inner_iter;
+                continue;
+            }
+            if( outer_iter->combine( *inner_iter ) ) {
+                // inner was placed in outer, check if inner was the item that we track
+                if( &( *inner_iter ) == ret ) {
+                    ret = &( *outer_iter );
+                }
+                inner_iter = contents.erase( inner_iter );
+                outer_iter = contents.begin();
+            } else {
+                ++inner_iter;
+            }
+        }
+    }
+    return ret;
+}
+
 bool item_pocket::has_item_stacks_with( const item &it ) const
 {
     for( const item &inside : contents ) {
@@ -147,6 +201,15 @@ bool item_pocket::has_item_stacks_with( const item &it ) const
 
 bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
 {
+    if( !this->settings.is_null() || !rhs.settings.is_null() ) {
+        // if this has higher player-set priority then it is automatically better
+        return rhs.settings.is_better_favorite( it, this->settings );
+    }
+
+    if( this->settings.priority() != rhs.settings.priority() ) {
+        return rhs.settings.priority() > this->settings.priority();
+    }
+
     const bool rhs_it_stack = rhs.has_item_stacks_with( it );
     if( has_item_stacks_with( it ) != rhs_it_stack ) {
         return rhs_it_stack;
@@ -293,6 +356,11 @@ size_t item_pocket::size() const
 units::volume item_pocket::volume_capacity() const
 {
     return data->volume_capacity;
+}
+
+units::volume item_pocket::magazine_well() const
+{
+    return data->magazine_well;
 }
 
 units::mass item_pocket::weight_capacity() const
@@ -639,9 +707,20 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", pocket_num );
     }
 
-    info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity() ) );
-    info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity() ) );
-    info.back().bNewLine = true;
+    // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined
+    if( data->ammo_restriction.empty() ) {
+        info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity() ) );
+        info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity() ) );
+        info.back().bNewLine = true;
+    } else {
+        for( const ammotype &at : ammo_types() ) {
+            const std::string fmt = string_format( ngettext( "<num> round of %s",
+                                                   "<num> rounds of %s", ammo_capacity( at ) ),
+                                                   at->name() );
+            info.emplace_back( "MAGAZINE", _( "Holds: " ), fmt, iteminfo::no_flags,
+                               ammo_capacity( at ) );
+        }
+    }
 
     if( data->max_item_length != 0_mm ) {
         info.back().bNewLine = true;
@@ -705,7 +784,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION",
                            string_format(
                                _( "This pocket expands at <neutral>%.0f%%</neutral> of the rate of volume of items inside." ),
-                               data->weight_multiplier * 100 ) );
+                               data->volume_multiplier * 100 ) );
     }
 }
 
@@ -733,12 +812,19 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>sealed</info>." ) );
     }
 
-    info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
-    info.emplace_back( vol_to_info( "CONTAINER", _( " of " ), volume_capacity() ) );
-
-    info.back().bNewLine = true;
-    info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
-    info.emplace_back( weight_to_info( "CONTAINER", _( " of " ), weight_capacity() ) );
+    if( data->ammo_restriction.empty() ) {
+        // With no ammo_restriction defined, show current volume/weight, and total capacity
+        info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
+        info.emplace_back( vol_to_info( "CONTAINER", _( " of " ), volume_capacity() ) );
+        info.back().bNewLine = true;
+        info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
+        info.emplace_back( weight_to_info( "CONTAINER", _( " of " ), weight_capacity() ) );
+    } else {
+        // With ammo_restriction, total capacity does not matter, but show current volume/weight
+        info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
+        info.back().bNewLine = true;
+        info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
+    }
 
     bool contents_header = false;
     for( const item &contents_item : contents ) {
@@ -762,6 +848,11 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
             }
         }
     }
+}
+
+void item_pocket::favorite_info( std::vector<iteminfo> &info )
+{
+    settings.info( info );
 }
 
 ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) const
@@ -1149,10 +1240,14 @@ bool item_pocket::airtight() const
     return data->airtight;
 }
 
-void item_pocket::add( const item &it )
+void item_pocket::add( const item &it, item **ret )
 {
     contents.push_back( it );
-    restack();
+    if( ret == nullptr ) {
+        restack();
+    } else {
+        *ret = restack( &contents.back() );
+    }
 }
 
 void item_pocket::fill_with( item contained )
@@ -1287,4 +1382,127 @@ units::volume pocket_data::max_contains_volume() const
                                      p.second * ammo_restriction.at( p.first ) );
     }
     return max_total_volume;
+}
+
+void item_pocket::favorite_settings::clear()
+{
+    priority_rating = 0;
+    item_whitelist.clear();
+    item_blacklist.clear();
+    category_whitelist.clear();
+    category_blacklist.clear();
+}
+
+void item_pocket::favorite_settings::set_priority( const int priority )
+{
+    priority_rating = priority;
+}
+
+bool item_pocket::favorite_settings::is_null() const
+{
+    return item_whitelist.empty() && item_blacklist.empty() &&
+           category_whitelist.empty() && category_blacklist.empty();
+}
+
+void item_pocket::favorite_settings::whitelist_item( const itype_id &id )
+{
+    item_blacklist.clear();
+    if( item_whitelist.count( id ) ) {
+        item_whitelist.erase( id );
+    } else {
+        item_whitelist.insert( id );
+    }
+}
+
+void item_pocket::favorite_settings::blacklist_item( const itype_id &id )
+{
+    item_whitelist.clear();
+    if( item_blacklist.count( id ) ) {
+        item_blacklist.erase( id );
+    } else {
+        item_blacklist.insert( id );
+    }
+}
+
+void item_pocket::favorite_settings::clear_item( const itype_id &id )
+{
+    item_whitelist.erase( id );
+    item_blacklist.erase( id );
+}
+
+void item_pocket::favorite_settings::whitelist_category( const item_category_id &id )
+{
+    category_blacklist.clear();
+    if( category_whitelist.count( id ) ) {
+        category_whitelist.erase( id );
+    } else {
+        category_whitelist.insert( id );
+    }
+}
+
+void item_pocket::favorite_settings::blacklist_category( const item_category_id &id )
+{
+    category_whitelist.clear();
+    if( category_blacklist.count( id ) ) {
+        category_blacklist.erase( id );
+    } else {
+        category_blacklist.insert( id );
+    }
+}
+
+void item_pocket::favorite_settings::clear_category( const item_category_id &id )
+{
+    category_blacklist.erase( id );
+    category_whitelist.erase( id );
+}
+
+bool item_pocket::favorite_settings::is_better_favorite(
+    const item &it, const item_pocket::favorite_settings &rhs ) const
+{
+    const itype_id &id = it.typeId();
+    const item_category_id &cat = it.get_category().id;
+
+    if( category_blacklist.count( cat ) || item_blacklist.count( id ) ||
+        ( !category_whitelist.empty() && !category_whitelist.count( cat ) ) ||
+        ( !item_whitelist.empty() && !item_whitelist.count( id ) ) ) {
+        return false;
+    }
+    if( rhs.category_blacklist.count( cat ) || rhs.item_blacklist.count( id ) ||
+        ( !rhs.category_whitelist.empty() && !rhs.category_blacklist.count( cat ) ) ||
+        ( !rhs.item_whitelist.empty() && !rhs.item_whitelist.count( id ) ) ) {
+        return true;
+    }
+    if( is_null() != rhs.is_null() ) {
+        return !is_null();
+    }
+    return priority_rating > rhs.priority_rating;
+}
+
+template<typename T>
+std::string enumerate( cata::flat_set<T> container )
+{
+    std::vector<std::string> output;
+    for( const T &id : container ) {
+        output.push_back( id.c_str() );
+    }
+    return enumerate_as_string( output );
+}
+
+void item_pocket::favorite_settings::info( std::vector<iteminfo> &info ) const
+{
+    info.push_back( iteminfo( "BASE", string_format( "%s %d", _( "Priority:" ), priority_rating ) ) );
+    info.push_back( iteminfo( "BASE", string_format( _( "Item Whitelist: %s" ),
+                              item_whitelist.empty() ? _( "(empty)" ) :
+    enumerate_as_string( item_whitelist.begin(), item_whitelist.end(), []( const itype_id & id ) {
+        return id->nname( 1 );
+    } ) ) ) );
+    info.push_back( iteminfo( "BASE", string_format( _( "Item Blacklist: %s" ),
+                              item_blacklist.empty() ? _( "(empty)" ) :
+    enumerate_as_string( item_blacklist.begin(), item_blacklist.end(), []( const itype_id & id ) {
+        return id->nname( 1 );
+    } ) ) ) );
+    info.push_back( iteminfo( "BASE", string_format( _( "Category Whitelist: %s" ),
+                              category_whitelist.empty() ? _( "(empty)" ) : enumerate( category_whitelist ) ) ) );
+    info.push_back( iteminfo( "BASE", string_format( _( "Category Blacklist: %s" ),
+                              category_blacklist.empty() ? _( "(empty)" ) : enumerate( category_blacklist ) ) ) );
 }

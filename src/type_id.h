@@ -5,6 +5,9 @@
 #include "int_id.h"
 #include "string_id.h"
 
+class achievement;
+using achievement_id = string_id<achievement>;
+
 class activity_type;
 using activity_id = string_id<activity_type>;
 
@@ -110,6 +113,13 @@ struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
 
+struct oter_type_t;
+using oter_type_id = int_id<oter_type_t>;
+using oter_type_str_id = string_id<oter_type_t>;
+
+class profession;
+using profession_id = string_id<profession>;
+
 class recipe;
 using recipe_id = string_id<recipe>;
 
@@ -130,6 +140,9 @@ using spell_id = string_id<spell_type>;
 
 class start_location;
 using start_location_id = string_id<start_location>;
+
+class move_mode;
+using move_mode_id = string_id<move_mode>;
 
 struct ter_t;
 using ter_id = int_id<ter_t>;

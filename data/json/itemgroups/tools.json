@@ -3,7 +3,15 @@
     "id": "tools_blacksmith",
     "type": "item_group",
     "//": "Tools commonly used by blacksmiths",
-    "items": [ [ "anvil", 30 ], [ "chisel", 90 ], [ "crucible", 30 ], [ "swage", 60 ], [ "tongs", 90 ], [ "hammer", 90 ] ]
+    "items": [
+      [ "anvil", 30 ],
+      [ "chisel", 90 ],
+      [ "crucible", 30 ],
+      [ "swage", 60 ],
+      [ "tongs", 90 ],
+      [ "hammer", 90 ],
+      [ "sandpaper", 90 ]
+    ]
   },
   {
     "id": "tools_carpentry",
@@ -17,7 +25,8 @@
       [ "nailgun", 100 ],
       [ "chisel", 10 ],
       [ "toolbox", 12 ],
-      [ "toolbox_workshop", 3 ]
+      [ "toolbox_workshop", 3 ],
+      [ "sandpaper", 100 ]
     ]
   },
   {
@@ -62,7 +71,10 @@
       [ "recharge_station", 10 ],
       [ "hand_crank_charger", 25 ],
       [ "metal_file", 10 ],
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "sandpaper", 80 ],
+      [ "rake", 15 ],
+      [ "rake_plastic", 25 ]
     ]
   },
   {
@@ -85,7 +97,11 @@
       [ "char_smoker", 5 ],
       [ "dehydrator", 5 ],
       [ "tongs", 1 ],
-      [ "tourist_table", 1 ]
+      [ "tourist_table", 1 ],
+      [ "sandpaper", 50 ],
+      [ "shovel_snow", 10 ],
+      [ "shovel_snow_plastic", 15 ],
+      [ "hose_garden", 20 ]
     ]
   },
   {
@@ -137,7 +153,11 @@
       [ "trimmer_off", 20 ],
       [ "scythe", 40 ],
       [ "shovel", 120 ],
-      [ "sickle", 40 ]
+      [ "sickle", 40 ],
+      [ "rake", 20 ],
+      [ "rake_plastic", 40 ],
+      [ "shovel_snow", 20 ],
+      [ "shovel_snow_plastic", 40 ]
     ]
   },
   {
@@ -168,7 +188,8 @@
       [ "soldering_iron", 150 ],
       [ "cordless_drill", 100 ],
       [ "pin_reamer", 30 ],
-      [ "clamp", 10 ]
+      [ "clamp", 10 ],
+      [ "sandpaper", 90 ]
     ]
   },
   {

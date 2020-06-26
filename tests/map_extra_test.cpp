@@ -9,7 +9,7 @@ TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap]" )
 {
     // Pick a point in the middle of the overmap so we don't generate quite so
     // many overmaps when searching.
-    const tripoint origin = tripoint( 90, 90, 0 );;
+    const tripoint origin = tripoint( 90, 90, 0 );
 
     // Find all of the bridges within a 180 OMT radius of this location.
     omt_find_params find_params;
@@ -33,7 +33,7 @@ TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap]" )
     // Count the number of mx_minefield map extras that have been generated.
     const string_id<map_extra> mx_minefield( "mx_minefield" );
     int successes = std::count_if( extras.begin(),
-    extras.end(), [&mx_minefield]( std::pair<point, string_id<map_extra>> e ) {
+    extras.end(), [&mx_minefield]( const std::pair<point, string_id<map_extra>> &e ) {
         return e.second == mx_minefield;
     } );
 

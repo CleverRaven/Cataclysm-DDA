@@ -15,11 +15,11 @@
 #include "type_id.h"
 #include "units.h"
 
+class Character;
 class Creature;
 class JsonObject;
 class item;
 class map;
-class player;
 struct tripoint;
 
 namespace trapfunc
@@ -161,12 +161,12 @@ struct trap {
         }
         /** Player has not yet seen the trap and returns the variable chance, at this moment,
          of whether the trap is seen or not. */
-        bool detect_trap( const tripoint &pos, const player &p ) const;
+        bool detect_trap( const tripoint &pos, const Character &p ) const;
         /**
          * Can player/npc p see this kind of trap, either by their memory (they known there is
          * the trap) or by the visibility of the trap (the trap is not hidden at all)?
          */
-        bool can_see( const tripoint &pos, const player &p ) const;
+        bool can_see( const tripoint &pos, const Character &p ) const;
         /**
          * Trigger trap effects.
          * @param creature The creature that triggered the trap, it does not necessarily have to

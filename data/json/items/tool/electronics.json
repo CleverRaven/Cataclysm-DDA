@@ -32,7 +32,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "CAMERA",
+    "use_action": [ "CAMERA" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -66,7 +66,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "CAMERA",
+    "use_action": [ "CAMERA" ],
     "flags": [ "CAMERA_PRO", "ALWAYS_TWOHAND" ],
     "pocket_data": [
       {
@@ -147,10 +147,10 @@
     "price": 800,
     "price_postapoc": 250,
     "to_hit": 1,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ",",
     "color": "light_gray",
-    "use_action": "DIRECTIONAL_ANTENNA"
+    "use_action": [ "DIRECTIONAL_ANTENNA" ]
   },
   {
     "id": "e_handcuffs",
@@ -168,7 +168,7 @@
     "color": "white",
     "max_charges": 3000,
     "turns_per_charge": 1,
-    "use_action": "EHANDCUFFS",
+    "use_action": [ "EHANDCUFFS" ],
     "flags": [ "ALWAYS_TWOHAND", "UNARMED_WEAPON", "TRADER_AVOID" ]
   },
   {
@@ -181,12 +181,12 @@
     "price": 20000,
     "price_postapoc": 100,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": "EINKTABLETPC",
+    "use_action": [ "EINKTABLETPC" ],
     "flags": [ "WATCH" ],
     "pocket_data": [
       {
@@ -255,7 +255,7 @@
     "color": "green",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": "GEIGER",
+    "use_action": [ "GEIGER" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -282,7 +282,7 @@
     "description": "This is a tool for measuring radiation.  It is in continuous scan mode, and will produce quiet clicking sounds in the presence of ambient radiation.  Using it allows you to turn it off, or scan yourself or the ground.  It is currently on.",
     "power_draw": 200,
     "revert_to": "geiger_off",
-    "use_action": "GEIGER",
+    "use_action": [ "GEIGER" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -295,11 +295,11 @@
     "volume": "500 ml",
     "price": 1000,
     "price_postapoc": 250,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ":",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "use_action": "HAND_CRANK",
+    "use_action": [ "HAND_CRANK" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -380,7 +380,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
-    "use_action": "MP3",
+    "use_action": [ "MP3" ],
     "charges_per_use": 1,
     "pocket_data": [
       {
@@ -408,7 +408,7 @@
     "description": "This mp3 player is turned on and playing some great tunes, raising your morale steadily while on your person.  It runs through batteries quickly; you can turn it off by using it.  It also obscures your hearing.",
     "power_draw": 1000,
     "revert_to": "mp3",
-    "use_action": "MP3_ON",
+    "use_action": [ "MP3_ON" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -427,7 +427,7 @@
     "color": "yellow",
     "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": "NOISE_EMITTER_OFF",
+    "use_action": [ "NOISE_EMITTER_OFF" ],
     "flags": [ "RADIO_MODABLE" ],
     "pocket_data": [
       {
@@ -455,7 +455,7 @@
     "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws zombies to you!",
     "power_draw": 10000,
     "revert_to": "noise_emitter",
-    "use_action": "NOISE_EMITTER_ON",
+    "use_action": [ "NOISE_EMITTER_ON" ],
     "flags": [ "RADIO_MODABLE", "TRADER_AVOID" ]
   },
   {
@@ -471,7 +471,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "battery" ],
-    "use_action": "PORTABLE_GAME",
+    "use_action": [ "PORTABLE_GAME" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -529,7 +529,7 @@
     "description": "This phone is playing music, steadily raising your morale.  You can't hear anything else while you're listening.",
     "power_draw": 300,
     "revert_to": "smart_phone",
-    "use_action": "MP3_ON",
+    "use_action": [ "MP3_ON" ],
     "flags": [ "WATCH", "TRADER_AVOID", "ALARMCLOCK", "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
@@ -587,7 +587,7 @@
     "color": "dark_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 10,
-    "use_action": "VIBE",
+    "use_action": [ "VIBE" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",

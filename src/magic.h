@@ -56,19 +56,20 @@ enum class spell_flag : int {
     MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
+    NO_FAIL, // this spell cannot fail when you cast it
     WITH_CONTAINER, // items spawned with container
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
     IGNITE_FLAMMABLE, // if spell effect area has any thing flamable, a fire will be produced
     LAST
 };
 
-enum energy_type {
-    hp_energy,
-    mana_energy,
-    stamina_energy,
-    bionic_energy,
-    fatigue_energy,
-    none_energy
+enum class magic_energy_type : int {
+    hp,
+    mana,
+    stamina,
+    bionic,
+    fatigue,
+    none
 };
 
 enum class spell_target : int {
@@ -252,7 +253,7 @@ class spell_type
         std::map<std::string, int> learn_spells;
 
         // what energy do you use to cast this spell
-        energy_type energy_source = energy_type::none_energy;
+        magic_energy_type energy_source = magic_energy_type::none;
 
         damage_type dmg_type = damage_type::DT_NULL;
 
@@ -406,8 +407,8 @@ class spell
         std::string aoe_string() const;
         std::string duration_string() const;
 
-        // energy source enum
-        energy_type energy_source() const;
+        // magic energy source enum
+        magic_energy_type energy_source() const;
         // the color that's representative of the damage type
         nc_color damage_type_color() const;
         std::string damage_type_string() const;

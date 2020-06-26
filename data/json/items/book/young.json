@@ -129,65 +129,109 @@
   {
     "id": "book_fict_soft_ya_adrk",
     "type": "BOOK",
-    "name": "The Adorkable Girl",
+    "name": { "str": "The Adorkable Girl", "str_pl": "copies of Adorkable" },
     "description": "When a therapist's daughter transfers to a new school, she decides to change her personality type.  As her social life begins to blossom, can she maintain a healthy boundary between her home life and her public persona?",
     "copy-from": "book_fict_soft_ya_quiddity",
-    "relative": { "weight": -150, "time": 5, "chapters": -6 }
+    "relative": { "weight": -75, "chapters": -6 }
   },
   {
     "id": "book_fict_soft_ya_bjak",
     "type": "BOOK",
-    "name": "Becoming Jackson",
-    "description": "When Jackson gains the mystical talent to alter his appearance on command, how will he continue to recognize himself in his own mirror?",
-    "copy-from": "book_fict_soft_ya_vanilla"
+    "name": { "str": "Becoming Jackson", "str_pl": "copies of Becoming Jackson" },
+    "description": "When Jackson gains the mystical talent to alter his appearance on command, will he be able to recognize himself in his own mirror?",
+    "copy-from": "book_fict_soft_ya_vanilla",
+    "relative": { "fun": -1 }
   },
   {
     "id": "book_fict_soft_ya_burn",
     "type": "BOOK",
-    "name": "Nothing Burned",
+    "name": { "str": "Nothing Burned", "str_pl": "copies of Nothing Burned" },
     "description": "A teenage influencer becomes fast friends with someone who may or may not be an actual demon.",
     "copy-from": "book_fict_soft_ya_quiddity"
   },
   {
     "id": "book_fict_soft_ya_hilo",
     "type": "BOOK",
-    "name": "High and Low",
+    "name": { "str": "High and Low", "str_pl": "copies of High and Low" },
     "description": "In this work of adolescent fiction, a young gemini discovers that the astrology section of his small town newspaper is eerily preminiscent.  His efforts to uncover the oracle reveal more than the stars could have predicted.",
     "copy-from": "book_fict_soft_ya_vanilla"
   },
   {
     "id": "book_fict_soft_ya_myeyes",
     "type": "BOOK",
-    "name": "Fire When You See My Eyes",
+    "name": { "str": "Fire When You See My Eyes", "str_pl": "copies of Fire When" },
     "description": "In a cataclysmic future, advanced technology gives parents access to video footage of every moment of their teenage children's lives.",
     "copy-from": "book_fict_soft_ya_quiddity"
   },
   {
     "id": "book_fict_soft_ya_pbbr",
     "type": "BOOK",
-    "name": "Peanut Butter Bruised",
+    "name": { "str": "Peanut Butter Bruised", "str_pl": "copies of Peanut Butter Bruised" },
     "description": "In this work of young adult fiction, a woman raised on food stamps falls in love with a young cook.  More importantly, she falls in love with the idea of become a professional chef.",
     "copy-from": "book_fict_soft_ya_quiddity"
   },
   {
     "id": "book_fict_soft_ya_rwya",
     "type": "BOOK",
-    "name": "Ready When You Are",
+    "name": { "str": "Ready When You Are", "str_pl": "copies of Ready When" },
     "description": "When three teenage girls ditch class to drive cross country together they get a strong dose of life lessons on the road.  This work of young adult fiction explores how friendships evolve in early adulthood.",
     "copy-from": "book_fict_soft_ya_vanilla"
   },
   {
     "id": "book_fict_soft_ya_sboy",
     "type": "BOOK",
-    "name": "Study of a Boy",
+    "name": { "str": "Study of a Boy", "str_pl": "copies of \"Study of a Boy\"" },
     "description": "A high school sophomore's personal journal is stolen and then leaked on social media.  When it goes viral he is forced simultaneously to contend with both fame and betrayal.",
     "copy-from": "book_fict_soft_ya_vanilla"
   },
   {
     "id": "book_fict_soft_ya_sumv",
     "type": "BOOK",
-    "name": "Summer Variables",
+    "name": { "str": "Summer Variables", "str_pl": "copies of Summer Variables" },
     "description": "In this book written primarily for young adults, a woman's modest summer internship results in an incredible discovery that attracts the attention of unsavory elements.",
     "copy-from": "book_fict_soft_ya_vanilla"
+  },
+  {
+    "id": "book_fict_hard_ya_dark",
+    "type": "BOOK",
+    "name": { "str": "In a Dark Place", "str_pl": "copies of Dark Place" },
+    "description": "Markia dreams about the future.  Theo longs for the past.  Together can they find a way to live in the now?",
+    "//isbn13": 9780385755887,
+    "copy-from": "book_fict_hard_ya_quiddity"
+  },
+  {
+    "id": "book_fict_hard_ya_btwo",
+    "type": "BOOK",
+    "name": { "str": "Betrayal Takes Two", "str_pl": "copies of Betrayal" },
+    "description": "This is a hard cover book for older teens.  The two main characters pull a cruel prank on their classmates, and are brought together both by their frantic efforts to avoid being caught and their shared sense of guilt.",
+    "//isbn13": 9780385755924,
+    "copy-from": "book_fict_hard_ya_quiddity"
+  },
+  {
+    "id": "novel_coa",
+    "type": "BOOK",
+    "name": { "str": "coming of age novel" },
+    "description": "A classic tale about growing up, portraying one young man's funny and poignant experiences with life, love, and sex.",
+    "weight": "187 g",
+    "volume": "500 ml",
+    "price": 750,
+    "price_postapoc": 50,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_blue",
+    "intelligence": 4,
+    "time": "20 m",
+    "chapters": 16,
+    "fun": 2
+  },
+  {
+    "id": "novel_coa2",
+    "type": "BOOK",
+    "name": { "str": "Pantheon: The Story of an Iranian Youth", "str_pl": "copies of Pantheon" },
+    "description": "A hard cover graphic novel about a young girl living in Iran during the 1980's, seeing the world change around her as Iraq invaded her country.",
+    "longest_side": "27 cm",
+    "time": "16 m",
+    "copy-from": "book_fict_hard_ya_quiddity",
+    "relative": { "chapters": -12, "fun": 1 }
   }
 ]

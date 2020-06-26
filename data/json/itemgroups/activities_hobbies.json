@@ -195,6 +195,7 @@
       [ "coffeemaker", 5 ],
       { "group": "tinware", "prob": 10 },
       [ "kukri", 4 ],
+      [ "sandbox_kit", 5 ],
       [ "knife_hunting", 18 ],
       [ "knife_rambo", 20 ],
       [ "machete", 5 ],

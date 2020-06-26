@@ -46,11 +46,15 @@ class item_contents
         ret_val<bool> can_contain_rigid( const item &it ) const;
         ret_val<bool> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+        // does not ignore mods
+        bool empty_real() const;
         bool empty() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
         bool empty_container() const;
         // checks if CONTAINER pockets are all full
         bool full( bool allow_bucket ) const;
+        // are any CONTAINER pockets bigger on the inside than the container's volume?
+        bool bigger_on_the_inside( const units::volume &container_volume ) const;
         // number of pockets
         size_t size() const;
 
@@ -58,6 +62,9 @@ class item_contents
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
+
+        // returns a list of pointers to all top level items that pass is_standard_type
+        std::list<const item *> all_standard_items_top() const;
 
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<item *> all_items_top();
@@ -98,8 +105,16 @@ class item_contents
           * does not guarantee that an item of that size can be inserted.
           */
         units::volume total_container_capacity() const;
+
+        // Gets the total volume of every is_standard_type container
+        units::volume total_standard_capacity() const;
+
         units::volume remaining_container_capacity() const;
         units::volume total_contained_volume() const;
+
+        // gets all pockets contained in this item
+        ret_val<std::vector<item_pocket>> get_all_contained_pockets() const;
+
         // gets the number of charges of liquid that can fit into the rest of the space
         int remaining_capacity_for_liquid( const item &liquid ) const;
 
@@ -107,8 +122,11 @@ class item_contents
          * between 0 and 1 indicating the position between minimum and maximum
          * contribution it's currently making.  Otherwise, return 0 */
         float relative_encumbrance() const;
-        /** True iff every pocket is rigid */
+        /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
+
+        // True if every pocket is rigid. False if not or we have no pockets
+        bool contents_are_rigid() const;
 
         /** returns the best quality of the id that's contained in the item in CONTAINER pockets */
         int best_quality( const quality_id &id ) const;
@@ -131,6 +149,11 @@ class item_contents
          * plus whole stacks of items that are
          */
         size_t num_item_stacks() const;
+
+        /**
+         * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
+         */
+        void favorite_settings_menu( const std::string &item_name );
 
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy );

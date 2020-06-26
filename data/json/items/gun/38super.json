@@ -13,7 +13,7 @@
     "price_postapoc": 2000,
     "to_hit": -2,
     "bashing": 12,
-    "material": "steel",
+    "material": [ "steel" ],
     "color": "light_gray",
     "ammo": [ "38super" ],
     "dispersion": 520,

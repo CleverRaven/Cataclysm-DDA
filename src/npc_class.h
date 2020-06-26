@@ -30,7 +30,7 @@ class distribution
 {
     private:
         std::function<float()> generator_function;
-        distribution( std::function<float()> gen );
+        distribution( const std::function<float()> &gen );
 
     public:
         distribution();

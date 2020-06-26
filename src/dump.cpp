@@ -126,7 +126,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         for( const itype *e : item_controller->all() ) {
             if( e->armor ) {
                 item obj( e );
-                if( bp == num_bp || obj.covers( bp ) ) {
+                if( bp == num_bp || obj.covers( convert_bp( bp ).id() ) ) {
                     if( obj.has_flag( flag_VARSIZE ) ) {
                         obj.item_tags.insert( "FIT" );
                     }

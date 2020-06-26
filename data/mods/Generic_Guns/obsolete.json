@@ -1,0 +1,47 @@
+[
+  {
+    "id": "rifle_pipe_rifle",
+    "copy-from": "rifle_308",
+    "type": "GUN",
+    "name": { "str": "pipe rifle" },
+    "ammo": [ "ammo_rifle" ],
+    "description": "A crude longarm chambered in standard rifle ammunition, reinforced near the chamber.  It holds a single a round and has a crude assembly to fire it.  There's no extractor, so it might be slow to reload, and its construction makes for poor reliability and longevity.",
+    "clip_size": 1,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [  ]
+      }
+    ]
+  },
+  {
+    "id": "rifle_pipe_carbine",
+    "copy-from": "surv_carbine_223",
+    "type": "GUN",
+    "name": "survivor carbine",
+    "ammo": [ "ammo_rifle" ],
+    "description": "A crudely constructed carbine chambered for standard rifle ammo, fed from service rifle magazines.  It locks with a rudimentary lever action system.  The high pressures involved and questionable construction make for less than ideal durability and reliability, but this should still be a serviceable weapon, provided you can stay accurate with it.",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_mag", "rifle_sniper_mag" ]
+      }
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_pipe_carbine",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rifle_pipe_rifle",
+    "obsolete": true
+  }
+]

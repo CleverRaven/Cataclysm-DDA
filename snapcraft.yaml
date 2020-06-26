@@ -1,12 +1,12 @@
 name: cataclysm
 version: git
-summary: Post-apocalyptic survival roguelike
+summary: Post-apocalyptic turn-based survival game
 icon: data/xdg/cataclysm-dda.svg
 architectures:
   - build-on: [amd64]
     run-on: [amd64]
 description: |
-  Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. Surviving is difficult, you have been thrown, ill-equipped, into a landscape now riddled with monstrosities of which flesh eating zombies are neither the strangest nor the deadliest.
+  Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world. Surviving is difficult, you have been thrown, ill-equipped, into a landscape now riddled with monstrosities of which flesh eating zombies are neither the strangest nor the deadliest.
 
   Note: This snap install the ncurses version of the game. Start playing by running the command `cataclysm` on your favorite terminal after installation.
 

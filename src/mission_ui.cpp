@@ -155,7 +155,7 @@ void game::list_missions()
             mvwprintz( w_missions, point( 31, 4 ), c_light_red, _( nope.at( tab ) ) );
         }
 
-        wrefresh( w_missions );
+        wnoutrefresh( w_missions );
     } );
 
     while( true ) {

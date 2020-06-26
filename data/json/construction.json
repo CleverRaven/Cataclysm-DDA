@@ -2437,17 +2437,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_revert_carpet",
-    "description": "Remove Carpet",
-    "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "10 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_flags": "RUG",
-    "post_terrain": "t_floor"
-  },
-  {
-    "type": "construction",
     "id": "constr_carpet_red",
     "description": "Carpet Floor Red",
     "category": "DECORATE",
@@ -3205,6 +3194,18 @@
       [ [ "duct_tape", 4 ] ]
     ],
     "post_terrain": "f_cardboard_fort"
+  },
+  {
+    "type": "construction",
+    "id": "constr_sand_castle",
+    "description": "Build Sand Castle",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "20 m",
+    "pre_special": "check_empty",
+    "tools": [ [ [ "sandbox_kit", -1 ] ] ],
+    "components": [ [ [ "material_sand", 8 ] ], [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ] ] ],
+    "post_terrain": "f_sand_castle"
   },
   {
     "type": "construction",

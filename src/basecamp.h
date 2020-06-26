@@ -81,7 +81,7 @@ extern const std::map<point, direction_data> all_directions;
 
 point direction_from_id( const std::string &id );
 
-const point base_dir = point_zero;
+const point base_dir{};
 const std::string prefix = "faction_base_";
 const std::string id = "FACTION_CAMP";
 const int prefix_len = 13;
@@ -233,7 +233,7 @@ class basecamp
         inline void set_dumping_spot( const tripoint &spot ) {
             dumping_spot = spot;
         }
-        void place_results( item result );
+        void place_results( const item &result );
 
         // mission description functions
         void add_available_recipes( mission_data &mission_key, const point &dir,

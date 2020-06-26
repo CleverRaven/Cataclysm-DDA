@@ -106,13 +106,13 @@ class monster : public Creature
         void try_biosignature();
         void refill_udders();
         void spawn( const tripoint &p );
-        m_size get_size() const override;
+        creature_size get_size() const override;
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
         units::volume get_volume() const;
-        int get_hp( hp_part ) const override;
+        int get_hp( const bodypart_id & ) const override;
         int get_hp() const override;
-        int get_hp_max( hp_part ) const override;
+        int get_hp_max( const bodypart_id & ) const override;
         int get_hp_max() const override;
         int hp_percentage() const override;
 
@@ -444,7 +444,7 @@ class monster : public Creature
                                     const std::string &npc_msg ) const override;
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction
-        int wandf;           // Urge to wander - Increased by sound, decrements each move
+        int wandf = 0;       // Urge to wander - Increased by sound, decrements each move
         std::vector<item> inv; // Inventory
         Character *mounted_player = nullptr; // player that is mounting this creature
         character_id mounted_player_id; // id of player that is mounting this creature ( for save/load )
@@ -459,25 +459,25 @@ class monster : public Creature
         void move_special_item_to_inv( cata::value_ptr<item> &it );
 
         // DEFINING VALUES
-        int friendly;
+        int friendly = 0;
         int anger = 0;
         int morale = 0;
         // Our faction (species, for most monsters)
         mfaction_id faction;
         // If we're related to a mission
-        int mission_id;
+        int mission_id = 0;
         const mtype *type;
         // If true, don't spawn loot items as part of death.
-        bool no_extra_death_drops;
+        bool no_extra_death_drops = false;
         // If true, monster dies quietly and leaves no corpse.
         bool no_corpse_quiet = false;
         // Turned to false for simulating monsters during distant missions so they don't drop in sight.
         bool death_drops = true;
         bool is_dead() const;
-        bool made_footstep;
+        bool made_footstep = false;
         // If we're unique
         std::string unique_name;
-        bool hallucination;
+        bool hallucination = false;
         // abstract for a fish monster representing a hidden stock of population in that area.
         int fish_population = 1;
 
@@ -493,11 +493,11 @@ class monster : public Creature
             return position.z;
         }
 
-        short ignoring;
+        short ignoring = 0;
         cata::optional<time_point> lastseen_turn;
 
         // Stair data.
-        int staircount;
+        int staircount = 0;
 
         // Ammunition if we use a gun.
         std::map<itype_id, int> ammo;
@@ -539,18 +539,18 @@ class monster : public Creature
         void process_trigger( mon_trigger trig, const std::function<int()> &amount_func );
 
     private:
-        int hp;
+        int hp = 0;
         std::map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
         tripoint position;
-        bool dead;
+        bool dead = false;
         /** Normal upgrades **/
         int next_upgrade_time();
-        bool upgrades;
-        int upgrade_time;
-        bool reproduces;
+        bool upgrades = false;
+        int upgrade_time = 0;
+        bool reproduces = false;
         cata::optional<time_point> baby_timer;
-        bool biosignatures;
+        bool biosignatures = false;
         cata::optional<time_point> biosig_timer;
         time_point udder_timer;
         monster_horde_attraction horde_attraction;

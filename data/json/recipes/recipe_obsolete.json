@@ -2484,5 +2484,20 @@
     "type": "recipe",
     "result": "laser_cannon",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "ammonia",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lever_shotgun",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "bone_plate",
+    "obsolete": true
   }
 ]

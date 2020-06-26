@@ -442,24 +442,24 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
     return ui.run();
 }
 
-target_handler::trajectory target_handler::mode_spell( avatar &you, spell_id sp, bool no_fail,
-        bool no_mana )
+target_handler::trajectory target_handler::mode_spell( avatar &you, const spell_id &sp,
+        bool no_fail, bool no_mana )
 {
     return mode_spell( you, you.magic.get_spell( sp ), no_fail, no_mana );
 }
 
-static double occupied_tile_fraction( m_size target_size )
+static double occupied_tile_fraction( creature_size target_size )
 {
     switch( target_size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             return 0.1;
-        case MS_SMALL:
+        case creature_size::small:
             return 0.25;
-        case MS_MEDIUM:
+        case creature_size::medium:
             return 0.5;
-        case MS_LARGE:
+        case creature_size::large:
             return 0.75;
-        case MS_HUGE:
+        case creature_size::huge:
             return 1.0;
     }
 
@@ -470,15 +470,15 @@ double Creature::ranged_target_size() const
 {
     if( has_flag( MF_HARDTOSHOOT ) ) {
         switch( get_size() ) {
-            case MS_TINY:
-            case MS_SMALL:
-                return occupied_tile_fraction( MS_TINY );
-            case MS_MEDIUM:
-                return occupied_tile_fraction( MS_SMALL );
-            case MS_LARGE:
-                return occupied_tile_fraction( MS_MEDIUM );
-            case MS_HUGE:
-                return occupied_tile_fraction( MS_LARGE );
+            case creature_size::tiny:
+            case creature_size::small:
+                return occupied_tile_fraction( creature_size::tiny );
+            case creature_size::medium:
+                return occupied_tile_fraction( creature_size::small );
+            case creature_size::large:
+                return occupied_tile_fraction( creature_size::medium );
+            case creature_size::huge:
+                return occupied_tile_fraction( creature_size::large );
         }
     }
     return occupied_tile_fraction( get_size() );
@@ -1885,6 +1885,9 @@ target_handler::trajectory target_ui::run()
         draw_turret_lines = vturrets->size() == 1;
     }
 
+    on_out_of_scope cleanup( []() {
+        g->m.invalidate_map_cache( g->u.pos().z + g->u.view_offset.z );
+    } );
     restore_on_out_of_scope<tripoint> view_offset_prev( g->u.view_offset );
 
     shared_ptr_fast<game::draw_callback_t> target_ui_cb = make_shared_fast<game::draw_callback_t>(
@@ -2285,20 +2288,20 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     }
 
     // Make player's sprite flip to face the current target
-    int dx = dst.x - src.x;
-    int dy = dst.y - src.y;
+    point d( dst.xy() - src.xy() );
     if( !tile_iso ) {
-        if( dx > 0 ) {
-            you->facing = FD_RIGHT;
-        } else if( dx < 0 ) {
-            you->facing = FD_LEFT;
+
+        if( d.x > 0 ) {
+            you->facing = FacingDirection::RIGHT;
+        } else if( d.x < 0 ) {
+            you->facing = FacingDirection::LEFT;
         }
     } else {
-        if( dx >= 0 && dy >= 0 ) {
-            you->facing = FD_RIGHT;
+        if( d.x >= 0 && d.y >= 0 ) {
+            you->facing = FacingDirection::RIGHT;
         }
-        if( dy <= 0 && dx <= 0 ) {
-            you->facing = FD_LEFT;
+        if( d.y <= 0 && d.x <= 0 ) {
+            you->facing = FacingDirection::LEFT;
         }
     }
 
@@ -2509,18 +2512,15 @@ void target_ui::cycle_targets( int direction )
 
 void target_ui::set_view_offset( const tripoint &new_offset )
 {
-    int new_x = new_offset.x;
-    int new_y = new_offset.y;
-    int new_z = clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range );
-    new_z = clamp( new_z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
+    tripoint new_( new_offset.xy(), clamp( new_offset.z, -fov_3d_z_range, fov_3d_z_range ) );
+    new_.z = clamp( new_.z + src.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT ) - src.z;
 
-    bool changed_z = you->view_offset.z != new_z;
-    you->view_offset = tripoint( new_x, new_y, new_z );
+    bool changed_z = you->view_offset.z != new_.z;
+    you->view_offset = new_;
     if( changed_z ) {
         // We need to do a bunch of cache updates since we're
         // looking at a different z-level.
-        g->m.invalidate_map_cache( new_z );
-        g->refresh_all();
+        g->m.invalidate_map_cache( new_.z );
     }
 }
 
@@ -2788,7 +2788,7 @@ void target_ui::draw_ui_window()
         draw_controls_list( text_y );
     }
 
-    wrefresh( w_target );
+    wnoutrefresh( w_target );
 }
 
 std::string target_ui::uitext_title()
@@ -3030,8 +3030,8 @@ void target_ui::panel_spell_info( int &text_y )
     mvwprintz( w_target, point( 1, text_y++ ), c_light_green, _( "Casting: %s (Level %u)" ),
                casting->name(),
                casting->get_level() );
-    if( !no_mana || casting->energy_source() == none_energy ) {
-        if( casting->energy_source() == hp_energy ) {
+    if( !no_mana || casting->energy_source() == magic_energy_type::none ) {
+        if( casting->energy_source() == magic_energy_type::hp ) {
             text_y += fold_and_print( w_target, point( 1, text_y ), getmaxx( w_target ) - 2,
                                       clr,
                                       _( "Cost: %s %s" ), casting->energy_cost_string( *you ), casting->energy_string() );
@@ -3118,7 +3118,7 @@ void target_ui::panel_fire_mode_aim( int &text_y )
     }
 
     const double target_size = dst_critter ? dst_critter->ranged_target_size() :
-                               occupied_tile_fraction( MS_MEDIUM );
+                               occupied_tile_fraction( creature_size::medium );
 
     text_y = print_aim( *you, w_target, text_y, ctxt, &*relevant->gun_current_mode(),
                         target_size, dst, predicted_recoil );

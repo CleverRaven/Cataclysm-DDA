@@ -472,7 +472,7 @@
       [ "fan", 5 ],
       [ "fan", 5 ],
       [ "cola", 10 ],
-      [ "can_drink_unsealed", 5 ],
+      [ "can_drink", 5 ],
       [ "cig", 5 ],
       [ "purse", 2 ],
       [ "pipe_tobacco", 1 ],

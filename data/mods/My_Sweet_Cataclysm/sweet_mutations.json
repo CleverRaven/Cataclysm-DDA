@@ -42,7 +42,13 @@
     "anger_relations": [ [ "MARSHMALLOW", 20 ], [ "GUMMY", 5 ], [ "CHEWGUM", 20 ] ],
     "allowed_category": [ "SUGAR" ],
     "no_cbm_on_bp": [ "torso", "head", "eyes", "mouth", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
-    "armor": [ { "parts": "ALL", "cut": 10, "bash": 5 } ],
+    "armor": [
+      {
+        "parts": [ "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r", "mouth", "eyes" ],
+        "cut": 10,
+        "bash": 5
+      }
+    ],
     "flags": [ "NO_THIRST", "NO_DISEASE", "NO_RADIATION" ]
   }
 ]

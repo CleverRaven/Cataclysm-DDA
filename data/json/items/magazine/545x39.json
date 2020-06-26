@@ -14,7 +14,6 @@
     "color": "light_gray",
     "ammo_type": [ "545x39" ],
     "capacity": 30,
-    "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "545x39": 30 } } ]
   },
@@ -29,12 +28,11 @@
     "volume": "750 ml",
     "price": 8500,
     "price_postapoc": 250,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "545x39" ],
     "capacity": 45,
-    "reliability": 8,
     "reload_time": 130,
     "flags": [ "MAG_BULKY" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "545x39": 45 } } ]

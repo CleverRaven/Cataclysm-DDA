@@ -247,6 +247,7 @@
         "prob": 80
       },
       { "item": "tea_raw", "count": [ 1, 10 ], "prob": 80 },
+      { "item": "tea_green_raw", "count": [ 1, 10 ], "prob": 40 },
       { "item": "teapot", "prob": 70 },
       { "item": "kettle", "prob": 50 },
       { "item": "sugar", "charges": [ 10, 120 ], "container-item": "jar_glass", "prob": 90 },
@@ -337,7 +338,7 @@
       { "item": "yoghurt", "prob": 80 },
       { "item": "butter", "prob": 80 },
       { "item": "pudding", "prob": 30 },
-      { "item": "egg_bird", "prob": 85, "count-min": 1, "count-max": 12 },
+      { "item": "egg_bird_unfert", "prob": 85, "count-min": 1, "count-max": 12 },
       { "item": "bacon", "prob": 25 },
       {
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],
@@ -600,6 +601,7 @@
       { "item": "cinnamon", "prob": 75 },
       { "item": "chilly-p", "prob": 75 },
       { "item": "sugar", "prob": 15 },
+      { "item": "artificial_sweetener", "prob": 5 },
       { "item": "curry_powder", "prob": 25 },
       { "item": "sprinkles", "prob": 10 },
       { "item": "thyme", "prob": 65 },

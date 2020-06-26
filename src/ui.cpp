@@ -121,46 +121,6 @@ uilist::uilist( const std::string &msg, std::initializer_list<const char *const>
     query();
 }
 
-uilist::uilist( const point &start, int width, const std::string &msg,
-                const std::vector<uilist_entry> &opts )
-{
-    init();
-    w_x = start.x;
-    w_y = start.y;
-    w_width = width;
-    text = msg;
-    entries = opts;
-    query();
-}
-
-uilist::uilist( const point &start, int width, const std::string &msg,
-                const std::vector<std::string> &opts )
-{
-    init();
-    w_x = start.x;
-    w_y = start.y;
-    w_width = width;
-    text = msg;
-    for( const auto &opt : opts ) {
-        entries.emplace_back( opt );
-    }
-    query();
-}
-
-uilist::uilist( const point &start, int width, const std::string &msg,
-                std::initializer_list<const char *const> opts )
-{
-    init();
-    w_x = start.x;
-    w_y = start.y;
-    w_width = width;
-    text = msg;
-    for( auto opt : opts ) {
-        entries.emplace_back( opt );
-    }
-    query();
-}
-
 uilist::~uilist()
 {
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -263,7 +223,7 @@ void uilist::filterlist()
             fentries.push_back( i );
             if( i == selected && ( hilight_disabled || entries[i].enabled ) ) {
                 fselected = f;
-            } else if( i > selected && fselected == -1 ) {
+            } else if( i > selected && fselected == -1 && ( hilight_disabled || entries[i].enabled ) ) {
                 // Past the previously selected entry, which has been filtered out,
                 // choose another nearby entry instead.
                 fselected = f;
@@ -295,24 +255,30 @@ void uilist::filterlist()
 
 void uilist::inputfilter()
 {
+    input_context ctxt( input_category );
+    ctxt.register_updown();
+    ctxt.register_action( "PAGE_UP" );
+    ctxt.register_action( "PAGE_DOWN" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
+    ctxt.register_action( "ANY_INPUT" );
     filter_popup = std::make_unique<string_input_popup>();
-    filter_popup->text( filter )
+    filter_popup->context( ctxt ).text( filter )
     .max_length( 256 )
     .window( window, point( 4, w_height - 1 ), w_width - 4 );
-    input_event event;
     ime_sentry sentry;
     do {
         ui_manager::redraw();
         filter = filter_popup->query_string( false );
-        event = filter_popup->context().get_raw_input();
-        if( event.get_first_input() != KEY_ESCAPE ) {
-            if( !scrollby( scroll_amount_from_key( event.get_first_input() ) ) ) {
+        if( !filter_popup->canceled() ) {
+            const std::string action = ctxt.input_to_action( ctxt.get_raw_input() );
+            if( !scrollby( scroll_amount_from_action( action ) ) ) {
                 filterlist();
             }
         }
-    } while( event.get_first_input() != '\n' && event.get_first_input() != KEY_ESCAPE );
+    } while( !filter_popup->confirmed() && !filter_popup->canceled() );
 
-    if( event.get_first_input() == KEY_ESCAPE ) {
+    if( filter_popup->canceled() ) {
         filterlist();
     }
 
@@ -704,24 +670,9 @@ void uilist::show()
     }
     apply_scrollbar();
 
-    wrefresh( window );
+    wnoutrefresh( window );
     if( callback != nullptr ) {
         callback->refresh( this );
-    }
-}
-
-int uilist::scroll_amount_from_key( const int key )
-{
-    if( key == KEY_UP ) {
-        return -1;
-    } else if( key == KEY_PPAGE ) {
-        return ( -vmax + 1 );
-    } else if( key == KEY_DOWN ) {
-        return 1;
-    } else if( key == KEY_NPAGE ) {
-        return vmax - 1;
-    } else {
-        return 0;
     }
 }
 
@@ -951,38 +902,60 @@ void uilist::settext( const std::string &str )
     text = str;
 }
 
-pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )
+struct pointmenu_cb::impl_t {
+    const std::vector< tripoint > &points;
+    int last; // to suppress redrawing
+    tripoint last_view; // to reposition the view after selecting
+    shared_ptr_fast<game::draw_callback_t> terrain_draw_cb;
+
+    impl_t( const std::vector<tripoint> &pts );
+    ~impl_t();
+
+    void select( uilist *menu );
+};
+
+pointmenu_cb::impl_t::impl_t( const std::vector<tripoint> &pts ) : points( pts )
 {
     last = INT_MIN;
     last_view = g->u.view_offset;
+    terrain_draw_cb = make_shared_fast<game::draw_callback_t>( [this]() {
+        if( last >= 0 && static_cast<size_t>( last ) < points.size() ) {
+            g->draw_trail_to_square( g->u.view_offset, true );
+        }
+    } );
+    g->add_draw_callback( terrain_draw_cb );
 }
 
-pointmenu_cb::~pointmenu_cb()
+pointmenu_cb::impl_t::~impl_t()
 {
     g->u.view_offset = last_view;
 }
 
-void pointmenu_cb::refresh( uilist *menu )
+void pointmenu_cb::impl_t::select( uilist *const menu )
 {
     if( last == menu->selected ) {
         return;
     }
-    if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
-        last = menu->selected;
-        g->u.view_offset = tripoint_zero;
-        g->draw_ter();
-        wrefresh( g->w_terrain );
-        g->draw_panels();
-        menu->show();
-        return;
-    }
-
     last = menu->selected;
-    const tripoint &center = points[menu->selected];
-    g->u.view_offset = center - g->u.pos();
-    // TODO: Remove this line when it's safe
-    g->u.view_offset.z = 0;
-    g->draw_trail_to_square( g->u.view_offset, true );
-    menu->show();
+    if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
+        g->u.view_offset = tripoint_zero;
+    } else {
+        const tripoint &center = points[menu->selected];
+        g->u.view_offset = center - g->u.pos();
+        // TODO: Remove this line when it's safe
+        g->u.view_offset.z = 0;
+    }
+    g->invalidate_main_ui_adaptor();
+}
+
+pointmenu_cb::pointmenu_cb( const std::vector<tripoint> &pts ) : impl( pts )
+{
+}
+
+pointmenu_cb::~pointmenu_cb() = default;
+
+void pointmenu_cb::select( uilist *const menu )
+{
+    impl->select( menu );
 }
 

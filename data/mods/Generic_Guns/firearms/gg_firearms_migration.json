@@ -208,16 +208,6 @@
     "replace": "rifle_lmg"
   },
   {
-    "id": [ "surv_carbine_223" ],
-    "type": "MIGRATION",
-    "replace": "rifle_pipe_carbine"
-  },
-  {
-    "id": [ "rifle_3006", "rifle_223", "rifle_308" ],
-    "type": "MIGRATION",
-    "replace": "rifle_pipe_rifle"
-  },
-  {
     "id": [
       "survivor_special_700",
       "m110a1",
@@ -287,7 +277,7 @@
     "replace": "shot_double"
   },
   {
-    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot", "pipe_combination_gun" ],
+    "id": [ "pipe_double_shotgun", "revolver_shotgun", "ashot" ],
     "type": "MIGRATION",
     "replace": "shot_pipe_double"
   },

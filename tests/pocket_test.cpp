@@ -19,7 +19,6 @@
 // Most of the items used for testing here are defined in data/mods/TEST_DATA/items.json, to have
 // a predictable set of data unaffected by in-game balance changes.
 
-
 // TODO: Add tests focusing on these JSON pocket_data fields:
 // -  pocket_type
 // -  spoil_multiplier

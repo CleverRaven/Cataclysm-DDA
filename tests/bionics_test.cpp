@@ -7,7 +7,6 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "pimpl.h"
 #include "player.h"
@@ -62,7 +61,7 @@ static void test_consumable_ammo( player &p, std::string &itemname, bool when_em
 
 TEST_CASE( "bionics", "[bionics] [item]" )
 {
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_avatar();
 
     // one section failing shouldn't affect the rest

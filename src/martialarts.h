@@ -145,7 +145,9 @@ class ma_buff
         void apply_character( Character &u ) const;
 
         // returns the stat bonus for the on-hit stat (for rolls)
+        int block_effectiveness_bonus( const Character &u ) const;
         int hit_bonus( const Character &u ) const;
+        int critical_hit_chance_bonus( const Character &u ) const;
         int dodge_bonus( const Character &u ) const;
         int speed_bonus( const Character &u ) const;
         int block_bonus( const Character &u ) const;

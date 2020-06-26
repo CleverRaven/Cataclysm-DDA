@@ -1,5 +1,6 @@
 {
   "type": "ITEM_BLACKLIST",
+  "whitelist": false,
   "items": [
     "lemat_revolver_shotgun",
     "llink",

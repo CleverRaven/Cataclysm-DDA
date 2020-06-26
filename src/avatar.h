@@ -164,8 +164,6 @@ class avatar : public player
         /** Note that we've read a book at least once. **/
         bool has_identified( const itype_id &item_id ) const override;
 
-        hint_rating rate_action_read( const item &it ) const;
-
         void wake_up();
         // Grab furniture / vehicle
         void grab( object_type grab_type, const tripoint &grab_point = tripoint_zero );
@@ -187,7 +185,7 @@ class avatar : public player
         int get_int_base() const override;
         int get_per_base() const override;
 
-        void upgrade_stat_prompt( const Character::stat &stat_name );
+        void upgrade_stat_prompt( const character_stat &stat_name );
         // how many points are available to upgrade via STK
         int free_upgrade_points() const;
         // how much "kill xp" you have
@@ -197,7 +195,7 @@ class avatar : public player
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
 
-        void set_movement_mode( character_movemode mode ) override;
+        void set_movement_mode( const move_mode_id &mode ) override;
 
         // Cycles to the next move mode.
         void cycle_move_mode();
@@ -266,6 +264,8 @@ class avatar : public player
 
         monster_visible_info mon_visible;
 };
+
+avatar &get_avatar();
 
 struct points_left {
     int stat_points;

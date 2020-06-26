@@ -139,18 +139,15 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
     int num_limbs = 0; // number of limbs effected (broken don't count)
     int total_hp = 0; // total hp among limbs
 
-    for( const int &part : p->hp_cur ) {
-        if( part != 0 ) {
-            num_limbs++;
-            total_hp += part;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : p->get_body() ) {
+        if( elem.first == bodypart_str_id( "num_bp" ) ) {
+            continue;
         }
+        num_limbs++;
+        total_hp += elem.second.get_hp_cur();
     }
-    for( int &part : p->hp_cur ) {
-        const int hp_each = total_hp / num_limbs;
-        if( part != 0 ) {
-            part = hp_each;
-        }
-    }
+    const int hp_each = total_hp / num_limbs;
+    p->set_all_parts_hp_cur( hp_each );
 }
 
 static bool in_spell_aoe( const tripoint &start, const tripoint &end, const int &radius,
@@ -353,8 +350,8 @@ std::set<tripoint> spell_effect::spell_effect_line( const spell &, const tripoin
 // spells do not reduce in damage the further away from the epicenter the targets are
 // rather they do their full damage in the entire area of effect
 std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint &target,
-        std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
-        aoe_func, const Creature &caster, bool ignore_walls )
+        const std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
+        &aoe_func, const Creature &caster, bool ignore_walls )
 {
     std::set<tripoint> targets = { target }; // initialize with epicenter
     if( sp.aoe() <= 1 && sp.effect() != "line_attack" ) {
@@ -376,8 +373,8 @@ std::set<tripoint> calculate_spell_effect_area( const spell &sp, const tripoint 
 }
 
 static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &target,
-        std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
-        aoe_func, const Creature &caster, bool ignore_walls = false )
+        const std::function<std::set<tripoint>( const spell &, const tripoint &, const tripoint &, int, bool )>
+        &aoe_func, const Creature &caster, bool ignore_walls = false )
 {
     // calculate spell's effect area
     std::set<tripoint> targets = calculate_spell_effect_area( sp, target, aoe_func, caster,
@@ -607,8 +604,9 @@ static void spell_move( const spell &sp, const Creature &caster,
     if( can_target_creature ) {
         if( Creature *victim = g->critter_at<Creature>( from ) ) {
             Creature::Attitude cr_att = victim->attitude_to( g->u );
-            bool valid = cr_att != Creature::A_FRIENDLY && sp.is_valid_effect_target( spell_target::hostile );
-            valid |= cr_att == Creature::A_FRIENDLY && sp.is_valid_effect_target( spell_target::ally );
+            bool valid = cr_att != Creature::Attitude::FRIENDLY &&
+                         sp.is_valid_effect_target( spell_target::hostile );
+            valid |= cr_att == Creature::Attitude::FRIENDLY && sp.is_valid_effect_target( spell_target::ally );
             valid |= victim == &caster && sp.is_valid_effect_target( spell_target::self );
             if( valid ) {
                 victim->knock_back_to( to );
@@ -618,8 +616,8 @@ static void spell_move( const spell &sp, const Creature &caster,
 
     // Moving items
     if( sp.is_valid_effect_target( spell_target::item ) ) {
-        auto src_items = g->m.i_at( from );
-        auto dst_items = g->m.i_at( to );
+        map_stack src_items = g->m.i_at( from );
+        map_stack dst_items = g->m.i_at( to );
         for( const item &item : src_items ) {
             dst_items.insert( item );
         }
@@ -696,8 +694,8 @@ void spell_effect::spawn_ethereal_item( const spell &sp, Creature &caster, const
     if( g->u.can_wear( granted ).success() ) {
         granted.set_flag( "FIT" );
         g->u.wear_item( granted, false );
-    } else if( !g->u.is_armed() ) {
-        g->u.weapon = granted;
+    } else if( !g->u.is_armed() && g->u.wield( granted, 0 ) ) {
+        // nothing to do
     } else {
         g->u.i_add( granted );
     }
@@ -752,20 +750,20 @@ void spell_effect::recover_energy( const spell &sp, Creature &caster, const trip
 void spell_effect::timed_event( const spell &sp, Creature &caster, const tripoint & )
 {
     const std::map<std::string, timed_event_type> timed_event_map{
-        { "help", timed_event_type::TIMED_EVENT_HELP },
-        { "wanted", timed_event_type::TIMED_EVENT_WANTED },
-        { "robot_attack", timed_event_type::TIMED_EVENT_ROBOT_ATTACK },
-        { "spawn_wyrms", timed_event_type::TIMED_EVENT_SPAWN_WYRMS },
-        { "amigara", timed_event_type::TIMED_EVENT_AMIGARA },
-        { "roots_die", timed_event_type::TIMED_EVENT_ROOTS_DIE },
-        { "temple_open", timed_event_type::TIMED_EVENT_TEMPLE_OPEN },
-        { "temple_flood", timed_event_type::TIMED_EVENT_TEMPLE_FLOOD },
-        { "temple_spawn", timed_event_type::TIMED_EVENT_TEMPLE_SPAWN },
-        { "dim", timed_event_type::TIMED_EVENT_DIM },
-        { "artifact_light", timed_event_type::TIMED_EVENT_ARTIFACT_LIGHT }
+        { "help", timed_event_type::HELP },
+        { "wanted", timed_event_type::WANTED },
+        { "robot_attack", timed_event_type::ROBOT_ATTACK },
+        { "spawn_wyrms", timed_event_type::SPAWN_WYRMS },
+        { "amigara", timed_event_type::AMIGARA },
+        { "roots_die", timed_event_type::ROOTS_DIE },
+        { "temple_open", timed_event_type::TEMPLE_OPEN },
+        { "temple_flood", timed_event_type::TEMPLE_FLOOD },
+        { "temple_spawn", timed_event_type::TEMPLE_SPAWN },
+        { "dim", timed_event_type::DIM },
+        { "artifact_light", timed_event_type::ARTIFACT_LIGHT }
     };
 
-    timed_event_type spell_event = timed_event_type::TIMED_EVENT_NULL;
+    timed_event_type spell_event = timed_event_type::NONE;
 
     const auto iter = timed_event_map.find( sp.effect_data() );
     if( iter != timed_event_map.cend() ) {

@@ -214,7 +214,8 @@ static void extract_effect(
     const JsonObject &j,
     std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
     cata::tuple_hash> &data,
-    const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
+    const std::string &mod_type, const std::string &data_key,
+    const std::string &type_key, const std::string &arg_key )
 {
     double val = 0;
     double reduced_val = 0;
@@ -869,7 +870,7 @@ std::vector<efftype_id> effect::get_blocks_effects() const
     return ret;
 }
 
-int effect::get_mod( std::string arg, bool reduced ) const
+int effect::get_mod( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double min = 0;
@@ -901,7 +902,7 @@ int effect::get_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_avg_mod( std::string arg, bool reduced ) const
+int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double min = 0;
@@ -933,7 +934,7 @@ int effect::get_avg_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_amount( std::string arg, bool reduced ) const
+int effect::get_amount( const std::string &arg, bool reduced ) const
 {
     int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
                                eff_type->max_effective_intensity, intensity ) : intensity;
@@ -950,7 +951,7 @@ int effect::get_amount( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_min_val( std::string arg, bool reduced ) const
+int effect::get_min_val( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
@@ -965,7 +966,7 @@ int effect::get_min_val( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_max_val( std::string arg, bool reduced ) const
+int effect::get_max_val( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
@@ -990,7 +991,7 @@ bool effect::get_sizing( const std::string &arg ) const
     return false;
 }
 
-double effect::get_percentage( std::string arg, int val, bool reduced ) const
+double effect::get_percentage( const std::string &arg, int val, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
@@ -1067,7 +1068,7 @@ double effect::get_percentage( std::string arg, int val, bool reduced ) const
     return ret;
 }
 
-bool effect::activated( const time_point &when, std::string arg, int val, bool reduced,
+bool effect::activated( const time_point &when, const std::string &arg, int val, bool reduced,
                         double mod ) const
 {
     auto &mod_data = eff_type->mod_data;

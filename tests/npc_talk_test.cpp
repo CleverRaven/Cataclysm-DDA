@@ -190,7 +190,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     dialogue d;
     npc &talker_npc = prep_test( d );
 
-    for( trait_id tr : g->u.get_mutations() ) {
+    for( const trait_id &tr : g->u.get_mutations() ) {
         g->u.unset_mutation( tr );
     }
 

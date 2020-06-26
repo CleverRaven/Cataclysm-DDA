@@ -22,7 +22,7 @@ static void expect_can_eat( avatar &dummy, item &food )
     CHECK( rate_can.value() == EDIBLE );
 }
 
-static void expect_cannot_eat( avatar &dummy, item &food, std::string expect_reason,
+static void expect_cannot_eat( avatar &dummy, item &food, const std::string &expect_reason,
                                int expect_rating = INEDIBLE )
 {
     auto rate_can = dummy.can_eat( food );
@@ -31,7 +31,7 @@ static void expect_cannot_eat( avatar &dummy, item &food, std::string expect_rea
     CHECK( rate_can.value() == expect_rating );
 }
 
-static void expect_will_eat( avatar &dummy, item &food, std::string expect_consequence,
+static void expect_will_eat( avatar &dummy, item &food, const std::string &expect_consequence,
                              int expect_rating )
 {
     // will_eat returns the first element in a vector of ret_val<edible_rating>

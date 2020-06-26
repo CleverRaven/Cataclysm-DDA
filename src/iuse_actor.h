@@ -328,6 +328,8 @@ class place_monster_iuse : public iuse_actor
         std::string hostile_msg;
         /** Skills used to make the monster not hostile when activated. **/
         std::set<skill_id> skills;
+        /** The monster will be spawned in as a pet. False by default. Can be empty. */
+        bool is_pet = false;
 
         place_monster_iuse() : iuse_actor( "place_monster" ) { }
         ~place_monster_iuse() override = default;
@@ -400,25 +402,6 @@ class ups_based_armor_actor : public iuse_actor
         ups_based_armor_actor( const std::string &type = "ups_based_armor" ) : iuse_actor( type ) {}
 
         ~ups_based_armor_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
- * This implements lock picking.
- */
-class pick_lock_actor : public iuse_actor
-{
-    public:
-        /**
-         * How good the used tool is at picking a lock.
-         */
-        int pick_quality = 0;
-
-        pick_lock_actor() : iuse_actor( "picklock" ) {}
-
-        ~pick_lock_actor() override = default;
         void load( const JsonObject &obj ) override;
         int use( player &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;

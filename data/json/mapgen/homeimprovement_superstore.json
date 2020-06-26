@@ -6,7 +6,7 @@
       [ "wrapper", 50 ],
       [ "bottle_glass", 50 ],
       [ "bottle_plastic", 70 ],
-      [ "can_drink_unsealed", 60 ],
+      [ "can_drink", 60 ],
       [ "flyer", 30 ],
       [ "box_small", 30 ],
       [ "rag", 20 ],

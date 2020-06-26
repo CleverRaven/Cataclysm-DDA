@@ -25,7 +25,7 @@
     "id": "roof_sign",
     "items": [
       [ "rock", 10 ],
-      [ "can_food_unsealed", 10 ],
+      [ "can_food", 10 ],
       [ "steel_chunk", 10 ],
       [ "steel_lump", 10 ],
       [ "bottle_glass", 10 ],
@@ -54,7 +54,7 @@
       [ "bag_plastic", 10 ],
       [ "bottle_plastic", 10 ],
       [ "bottle_glass", 10 ],
-      [ "can_drink_unsealed", 10 ],
+      [ "can_drink", 10 ],
       [ "bubblewrap", 50 ],
       [ "cig_butt", 30 ],
       { "item": "lighter", "prob": 60, "charges-min": 0, "charges-max": 10 },

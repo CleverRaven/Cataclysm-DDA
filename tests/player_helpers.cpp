@@ -50,6 +50,7 @@ bool player_has_item_of_type( const std::string &type )
 
 void clear_character( player &dummy, bool debug_storage )
 {
+    dummy.set_body();
     dummy.normalize(); // In particular this clears martial arts style
 
     // delete all worn items.
@@ -72,6 +73,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.consume( food );
 
     dummy.empty_skills();
+    dummy.martial_arts_data.clear_styles();
     dummy.clear_morale();
     dummy.clear_bionics();
     dummy.activity.set_to_null();
@@ -83,7 +85,7 @@ void clear_character( player &dummy, bool debug_storage )
 
     // Restore all stamina and go to walk mode
     dummy.set_stamina( dummy.get_stamina_max() );
-    dummy.set_movement_mode( CMM_WALK );
+    dummy.set_movement_mode( move_mode_id( "walk" ) );
     dummy.reset_activity_level();
 
     // Make sure we don't carry around weird effects.
@@ -101,7 +103,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.reset_bonuses();
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
-    dummy.hp_cur.fill( dummy.get_hp_max() );
+    dummy.set_all_parts_hp_to_max();
 
     dummy.cash = 0;
 

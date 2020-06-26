@@ -16,5 +16,14 @@
     "time": "50 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "wire", 4 ] ], [ [ "splinter", 8 ] ] ]
+  },
+  {
+    "result": "hose_garden",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "hose", 3 ] ] ]
   }
 ]

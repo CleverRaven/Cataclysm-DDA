@@ -65,7 +65,7 @@ static void show_mutations_titlebar( const catacurses::window &window,
     desc += shortcut_desc( _( "%s to change keybindings." ), ctxt.get_desc( "HELP_KEYBINDINGS" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     fold_and_print( window, point( 1, 0 ), getmaxx( window ) - 1, c_white, desc );
-    wrefresh( window );
+    wnoutrefresh( window );
 }
 
 void player::power_mutations()
@@ -78,7 +78,7 @@ void player::power_mutations()
     std::vector<trait_id> passive;
     std::vector<trait_id> active;
     for( std::pair<const trait_id, trait_data> &mut : my_mutations ) {
-        if( !mut.first->activated && ! mut.first->transform ) {
+        if( !mut.first->activated ) {
             passive.push_back( mut.first );
         } else {
             active.push_back( mut.first );
@@ -147,20 +147,19 @@ void player::power_mutations()
         HEIGHT = std::min( TERMY, std::max( FULL_SCREEN_HEIGHT,
                                             TITLE_HEIGHT + mutations_count + DESCRIPTION_HEIGHT + 5 ) );
         WIDTH = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) / 2;
-        const int START_X = ( TERMX - WIDTH ) / 2;
-        const int START_Y = ( TERMY - HEIGHT ) / 2;
-        wBio = catacurses::newwin( HEIGHT, WIDTH, point( START_X, START_Y ) );
+        const point START( ( TERMX - WIDTH ) / 2, ( TERMY - HEIGHT ) / 2 );
+        wBio = catacurses::newwin( HEIGHT, WIDTH, START );
 
         // Description window @ the bottom of the bionic window
-        const int DESCRIPTION_START_Y = START_Y + HEIGHT - DESCRIPTION_HEIGHT - 1;
-        DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START_Y - 1;
+        const int DESCRIPTION_START_Y = START.y + HEIGHT - DESCRIPTION_HEIGHT - 1;
+        DESCRIPTION_LINE_Y = DESCRIPTION_START_Y - START.y - 1;
         w_description = catacurses::newwin( DESCRIPTION_HEIGHT, WIDTH - 2,
-                                            point( START_X + 1, DESCRIPTION_START_Y ) );
+                                            point( START.x + 1, DESCRIPTION_START_Y ) );
 
         // Title window
-        const int TITLE_START_Y = START_Y + 1;
+        const int TITLE_START_Y = START.y + 1;
         w_title = catacurses::newwin( TITLE_HEIGHT, WIDTH - 2,
-                                      point( START_X + 1, TITLE_START_Y ) );
+                                      point( START.x + 1, TITLE_START_Y ) );
 
         recalc_max_scroll_position();
 
@@ -260,13 +259,13 @@ void player::power_mutations()
 
         draw_scrollbar( wBio, scroll_position, list_height, mutations_count,
                         point( 0, list_start_y ), c_white, true );
-        wrefresh( wBio );
+        wnoutrefresh( wBio );
         show_mutations_titlebar( w_title, menu_mode, ctxt );
 
         if( menu_mode == mutation_menu_mode::examining && examine_id.has_value() ) {
             werase( w_description );
             fold_and_print( w_description, point_zero, WIDTH - 2, c_light_blue, examine_id.value()->desc() );
-            wrefresh( w_description );
+            wnoutrefresh( w_description );
         }
     } );
 
@@ -277,7 +276,7 @@ void player::power_mutations()
         bool handled = false;
         const std::string action = ctxt.handle_input();
         const input_event evt = ctxt.get_raw_input();
-        if( evt.type == CATA_INPUT_KEYBOARD && !evt.sequence.empty() ) {
+        if( evt.type == input_event_t::keyboard && !evt.sequence.empty() ) {
             const int ch = evt.get_first_input();
             const trait_id mut_id = trait_by_invlet( ch );
             if( !mut_id.is_null() ) {
@@ -295,7 +294,7 @@ void player::power_mutations()
                         while( !pop_exit ) {
                             const query_popup::result ret = pop.query();
                             bool pop_handled = false;
-                            if( ret.evt.type == CATA_INPUT_KEYBOARD && !ret.evt.sequence.empty() ) {
+                            if( ret.evt.type == input_event_t::keyboard && !ret.evt.sequence.empty() ) {
                                 const int newch = ret.evt.get_first_input();
                                 if( mutation_chars.valid( newch ) ) {
                                     const trait_id other_mut_id = trait_by_invlet( newch );
@@ -312,7 +311,7 @@ void player::power_mutations()
                                 if( ret.action == "QUIT" ) {
                                     pop_exit = true;
                                 } else if( ret.action != "HELP_KEYBINDINGS" &&
-                                           ret.evt.type == CATA_INPUT_KEYBOARD ) {
+                                           ret.evt.type == input_event_t::keyboard ) {
                                     popup( _( "Invalid mutation letter.  Only those characters are valid:\n\n%s" ),
                                            mutation_chars.get_allowed_chars() );
                                 }
@@ -325,14 +324,9 @@ void player::power_mutations()
                         break;
                     }
                     case mutation_menu_mode::activating: {
-                        const cata::value_ptr<mut_transform> &trans = mut_data.transform;
-                        if( mut_data.activated || trans ) {
+                        if( mut_data.activated ) {
                             if( my_mutations[mut_id].powered ) {
-                                if( trans && !trans->msg_transform.empty() ) {
-                                    add_msg_if_player( m_neutral, trans->msg_transform );
-                                } else {
-                                    add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
-                                }
+                                add_msg_if_player( m_neutral, _( "You stop using your %s." ), mut_data.name() );
 
                                 deactivate_mutation( mut_id );
                                 // Action done, leave screen
@@ -340,11 +334,7 @@ void player::power_mutations()
                             } else if( ( !mut_data.hunger || get_kcal_percent() >= 0.8f ) &&
                                        ( !mut_data.thirst || get_thirst() <= 400 ) &&
                                        ( !mut_data.fatigue || get_fatigue() <= 400 ) ) {
-                                if( trans && !trans->msg_transform.empty() ) {
-                                    add_msg_if_player( m_neutral, trans->msg_transform );
-                                } else {
-                                    add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
-                                }
+                                add_msg_if_player( m_neutral, _( "You activate your %s." ), mut_data.name() );
 
                                 activate_mutation( mut_id );
                                 // Action done, leave screen
