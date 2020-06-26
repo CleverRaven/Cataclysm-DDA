@@ -971,10 +971,9 @@ void inventory_column::draw( const catacurses::window &win, const point &p )
 
         const bool selected = active && is_selected( entry );
 
-        entry.drawn_info.text_x_start = x1;
+        entry.drawn_rect.p_min = point( x1, yy );
         const int hx_max = p.x + get_width() + contained_offset;
-        entry.drawn_info.text_x_end = hx_max;
-        entry.drawn_info.y = yy;
+        entry.drawn_rect.p_max = point( hx_max, yy );
 
         if( selected && visible_cells() > 1 ) {
             for( int hx = x1; hx < hx_max; ++hx ) {
@@ -1429,7 +1428,7 @@ inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate 
         }
         std::vector<inventory_entry *> entries = column->get_entries( filter_to_selected );
         for( inventory_entry *entry : entries ) {
-            if( entry->drawn_info.include_point( coordinate ) ) {
+            if( entry->drawn_rect.contains( coordinate ) ) {
                 return entry;
             }
         }

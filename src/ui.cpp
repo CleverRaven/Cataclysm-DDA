@@ -615,9 +615,8 @@ void uilist::show()
                                                  entries[ ei ].txt );
                 int x = pad_left + 4;
                 int y = estart + si;
-                entries[ei].drawn_info.text_x_start = x;
-                entries[ei].drawn_info.text_x_end = x + max_entry_len;
-                entries[ei].drawn_info.y = y;
+                entries[ei].drawn_rect.p_min = point( x, y );
+                entries[ei].drawn_rect.p_max = point( x + max_entry_len, y );
                 trim_and_print( window, point( x, y ),
                                 max_entry_len, co, "%s", entry.c_str() );
 
@@ -881,7 +880,7 @@ uilist_entry *uilist::find_entry_by_coordinate( point p )
 {
     for( int i : fentries ) {
         uilist_entry &entry = entries[i];
-        if( entry.drawn_info.include_point( p ) ) {
+        if( entry.drawn_rect.contains( p ) ) {
             return &entry;
         }
     }

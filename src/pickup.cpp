@@ -670,7 +670,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
 
             werase( w_pickup );
-            pickup_drawn_info::list.clear();
+            pickup_rect::list.clear();
             for( int cur_it = start; cur_it < start + maxitems; cur_it++ ) {
                 if( cur_it < static_cast<int>( matches.size() ) ) {
                     int true_it = matches[cur_it];
@@ -744,12 +744,9 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     int y = 1 + ( cur_it % maxitems );
                     trim_and_print( w_pickup, point( 6, y ), pickupW - 4, icolor,
                                     item_name );
-                    pickup_drawn_info drawn_info;
-                    drawn_info.text_x_start = 6;
-                    drawn_info.text_x_end = 6 + pickupW - 4;
-                    drawn_info.y = y;
-                    drawn_info.cur_it = cur_it;
-                    pickup_drawn_info::list.push_back( drawn_info );
+                    pickup_rect rect = pickup_rect( point( 6, y ), point( 6 + pickupW - 4, y ) );
+                    rect.cur_it = cur_it;
+                    pickup_rect::list.push_back( rect );
                 }
             }
 
@@ -806,8 +803,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             } else if( action == "SELECT" ) {
                 std::pair<point, bool> p = ctxt.get_coordinates_text( w_pickup );
                 if( p.second ) {
-                    pickup_drawn_info *drawn_info = pickup_drawn_info::find_by_coordinate( p.first );
-                    selected = drawn_info->cur_it;
+                    pickup_rect *rect = pickup_rect::find_by_coordinate( p.first );
+                    selected = rect->cur_it;
                     iScrollPos = 0;
                     idx = selected;
                 }
@@ -1101,13 +1098,13 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
     return std::min( 400, ret );
 }
 
-std::vector<Pickup::pickup_drawn_info> Pickup::pickup_drawn_info::list;
+std::vector<Pickup::pickup_rect> Pickup::pickup_rect::list;
 
-Pickup::pickup_drawn_info *Pickup::pickup_drawn_info::find_by_coordinate( point p )
+Pickup::pickup_rect *Pickup::pickup_rect::find_by_coordinate( point p )
 {
-    for( pickup_drawn_info drawn_info : pickup_drawn_info::list ) {
-        if( drawn_info.include_point( p ) ) {
-            return &drawn_info;
+    for( pickup_rect rect : pickup_rect::list ) {
+        if( rect.contains( p ) ) {
+            return &rect;
         }
     }
     return nullptr;

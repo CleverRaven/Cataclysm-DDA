@@ -50,23 +50,6 @@ struct mvwzstr {
     int sym = 0;
 };
 
-struct entry_drawn_info {
-    int text_x_start;
-    int text_x_end;
-    int y;
-    bool include_point( point p ) const {
-        if( text_x_start <= p.x &&
-            p.x <= text_x_end &&
-            y == p.y ) {
-            return true;
-        }
-        return false;
-    }
-};
-
-struct uilist_entry_drawn_info : entry_drawn_info {
-};
-
 /**
  * uilist_entry: entry line for uilist
  */
@@ -115,7 +98,7 @@ struct uilist_entry {
         uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
 
-    uilist_entry_drawn_info drawn_info;
+    inclusive_rectangle drawn_rect;
 };
 
 /**

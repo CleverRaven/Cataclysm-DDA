@@ -45,10 +45,12 @@ int cost_to_move_item( const Character &who, const item &it );
  */
 bool handle_spillable_contents( Character &c, item &it, map &m );
 
-struct pickup_drawn_info : entry_drawn_info {
+struct pickup_rect : inclusive_rectangle {
+    pickup_rect() : inclusive_rectangle() {}
+    pickup_rect( const point &P_MIN, const point &P_MAX ) : inclusive_rectangle( P_MIN, P_MAX ) {}
     int cur_it;
-    static std::vector<pickup_drawn_info> list;
-    static pickup_drawn_info *find_by_coordinate( point p );
+    static std::vector<pickup_rect> list;
+    static pickup_rect *find_by_coordinate( point p );
 };
 
 } // namespace Pickup

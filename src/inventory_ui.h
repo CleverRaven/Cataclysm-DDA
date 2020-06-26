@@ -49,9 +49,6 @@ struct inventory_input;
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
-struct inventory_entry_drawn_info : entry_drawn_info {
-};
-
 class inventory_entry
 {
     public:
@@ -127,7 +124,7 @@ class inventory_entry
         nc_color get_invlet_color() const;
         void update_cache();
 
-        inventory_entry_drawn_info drawn_info;
+        inclusive_rectangle drawn_rect;
 
     private:
         const item_category *custom_category = nullptr;
