@@ -3735,8 +3735,7 @@ void trap::examine( player &p, const tripoint &examp ) const
         return;
     }
     // Some traps are not actual traps. Those should get a different query.
-    if( seen && possible == 0 &&
-        get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
+    if( seen && easy_take_down() ) { // Separated so saying no doesn't trigger the other query.
         if( query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             here.disarm_trap( examp );
         }

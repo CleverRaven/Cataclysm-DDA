@@ -168,6 +168,11 @@ struct trap {
         bool is_benign() const {
             return benign;
         }
+        /**
+         * @return True for traps that can simply be taken down without any skill check or similar.
+         * This usually applies to traps like funnels, rollmat.
+         */
+        bool easy_take_down() const;
 
         bool is_trivial_to_spot() const;
 
