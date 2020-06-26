@@ -7003,7 +7003,7 @@ static std::string colorized_trap_name_at( const tripoint &point )
 {
     const trap &trap = get_map().tr_at( point );
     std::string name;
-    if( !trap.is_null() && trap.get_visibility() <= 1 ) {
+    if( trap.can_see( point, g->u ) ) {
         name = colorize( trap.name(), trap.color ) + _( " on " );
     }
     return name;
