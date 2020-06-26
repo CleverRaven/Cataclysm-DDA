@@ -5708,7 +5708,7 @@ int item::get_coverage( const bodypart_id &bodypart ) const
         }
     }
 
-    for( const random_armor_data&entry : t->data ) {
+    for( const random_armor_data &entry : t->data ) {
         if( entry.covers.has_value() && entry.covers.value().test( bodypart.id() ) ) {
             avg_coverage += entry.coverage;
             ++avg_ctr;
