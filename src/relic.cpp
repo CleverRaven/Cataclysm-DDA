@@ -339,6 +339,9 @@ relic relic_procgen_data::generate( const relic_procgen_data::generation_rules &
                 if( add != nullptr ) {
                     enchantment ench;
                     int value = rng( add->min_value, add->max_value );
+                    if( value == 0 ) {
+                        break;
+                    }
                     ench.add_value_add( add->type, value );
                     num_attributes++;
                     int negative_ench_attribute = power_level( ench );
