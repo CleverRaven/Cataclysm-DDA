@@ -747,11 +747,6 @@ bool mattack::shockstorm( monster *z )
 bool mattack::shocking_reveal( monster *z )
 {
     shockstorm( z );
-    const translation WHAT_A_SCOOP = SNIPPET.random_from_category( "clickbait" ).value_or(
-                                         translation() );
-    sounds::sound( z->pos(), 10, sounds::sound_t::alert,
-                   string_format( _( "the %s obnoxiously yelling \"%s!!!\"" ),
-                                  z->name(), WHAT_A_SCOOP ) );
     return true;
 }
 
@@ -1649,30 +1644,9 @@ bool mattack::fungus( monster *z )
         add_msg( m_warning, _( "Spores are released from the %s!" ), z->name() );
     }
 
-    // Use less laggy methods of reproduction when there is a lot of mons around
-    double spore_chance = 0.25;
-    int radius = 1;
-    if( g->num_creatures() > 25 ) {
-        // Number of creatures in the bubble and the resulting average number of spores per "Pouf!":
-        // 0-25: 2
-        // 50  : 0.5
-        // 75  : 0.22
-        // 100 : 0.125
-        // Assuming all creatures in the bubble were fungaloids (unlikely), the average number of spores per generation:
-        // 25  : 50
-        // 50  : 25
-        // 75  : 17
-        // 100 : 13
-        spore_chance *= ( 25.0 / g->num_creatures() ) * ( 25.0 / g->num_creatures() );
-        if( x_in_y( g->num_creatures(), 100 ) ) {
-            // Don't make the increased radius spawn more spores
-            const double old_area = ( ( 2 * radius + 1 ) * ( 2 * radius + 1 ) ) - 1;
-            radius++;
-            const double new_area = ( ( 2 * radius + 1 ) * ( 2 * radius + 1 ) ) - 1;
-            spore_chance *= old_area / new_area;
-        }
-    }
-
+    bool on_fungus = g->m.has_flag_ter( "FUNGUS", z->pos() );
+    int radius = one_in( 4 ) ? 2 : 1;
+    double spore_chance = ( on_fungus ? 0.5f : 0.2f ) / ( ( radius + 1 ) * ( radius + 1 ) );
     fungal_effects fe( *g, g->m );
     for( const tripoint &sporep : g->m.points_in_radius( z->pos(), radius ) ) {
         if( sporep == z->pos() ) {
@@ -1693,16 +1667,7 @@ bool mattack::fungus( monster *z )
 
 bool mattack::fungus_corporate( monster *z )
 {
-    if( x_in_y( 1, 20 ) ) {
-        sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos(tm) now!\"" ) );
-        if( g->u.sees( *z ) ) {
-            add_msg( m_warning, _( "Delicious snacks are released from the %s!" ), z->name() );
-            g->m.add_item( z->pos(), item( "sporeos" ) );
-        } // only spawns SpOreos if the player is near; can't have the COMMONERS stealing our product from good customers
-        return true;
-    } else {
-        return fungus( z );
-    }
+    return fungus( z );
 }
 
 bool mattack::fungus_haze( monster *z )
@@ -2216,29 +2181,19 @@ bool mattack::fungal_trail( monster *z )
 bool mattack::plant( monster *z )
 {
     fungal_effects fe( *g, g->m );
-    const tripoint monster_position = z->pos();
-    const bool is_fungi = g->m.has_flag_ter( "FUNGUS", monster_position );
-    // Spores taking seed and growing into a fungaloid
-    fe.spread_fungus( monster_position );
-    if( is_fungi && one_in( 10 + g->num_creatures() / 5 ) ) {
-        if( g->u.sees( *z ) ) {
-            add_msg( m_warning, _( "The %s takes seed and becomes a young fungaloid!" ),
-                     z->name() );
-        }
-
-        z->poly( mon_fungaloid_young );
-        z->moves -= 1000; // It takes a while
-        return false;
-    } else {
-        if( g->u.sees( *z ) ) {
-            add_msg( _( "The %s falls to the ground and bursts!" ),
-                     z->name() );
-        }
-        z->set_hp( 0 );
-        // Try fungifying once again
-        fe.spread_fungus( monster_position );
-        return true;
+    if( g->u.sees( *z ) ) {
+        add_msg( _( "The %s suddenly splits and bursts!" ),
+                 z->name() );
     }
+    z->set_hp( 0 );
+    fe.spread_fungus( z->pos() );
+    for( const tripoint &p : closest_tripoints_first( z->pos(), 1 ) ) {
+        if( !one_in( 3 ) ) {
+            fe.fungalize( p, z );
+        }
+    }
+
+    return true;
 }
 
 bool mattack::disappear( monster *z )

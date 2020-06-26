@@ -28,6 +28,7 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_stunned( "stunned" );
 
@@ -72,7 +73,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
             critter.add_effect( effect_stunned, rng( 1_turns, 3_turns ) );
             critter.apply_damage( origin, bodypart_id( "torso" ), rng( 25, 50 ) );
         }
-    } else if( gm.u.pos() == p ) {
+    } else if( gm.u.pos() == p && gm.u.get_effect_int( effect_fungus ) < 3 ) {
         // TODO: Make this accept NPCs when they understand fungals
         player &pl = gm.u;
         ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE

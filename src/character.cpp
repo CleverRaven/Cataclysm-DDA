@@ -123,6 +123,7 @@ static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_frostbite( "frostbite" );
 static const efftype_id effect_frostbite_recovery( "frostbite_recovery" );
+static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_glowing( "glowing" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_got_checked( "got_checked" );
@@ -7532,10 +7533,15 @@ void Character::vomit()
 {
     g->events().send<event_type::throws_up>( getID() );
 
-    if( stomach.contains() != 0_ml ) {
+    if( get_effect_int( effect_fungus ) >= 3 ) {
+        add_msg_player_or_npc( m_bad,  _( "You vomit thousands of live spores!" ),
+                               _( "<npcname> vomits thousands of live spores!" ) );
+        stomach.empty();
+        fungal_effects( *g, g->m ).fungalize( pos(), this );
+    } else if( stomach.contains() != 0_ml ) {
+        add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
         stomach.empty();
         g->m.add_field( adjacent_tile(), fd_bile, 1 );
-        add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
     }
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea

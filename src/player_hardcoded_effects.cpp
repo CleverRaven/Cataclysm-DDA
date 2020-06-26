@@ -72,6 +72,7 @@ static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_motor_seizure( "motor_seizure" );
+static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_paincysts( "paincysts" );
@@ -139,10 +140,10 @@ static void eff_fun_fungus( player &u, effect &it )
             if( one_in( 960 + bonus * 6 ) ) {
                 u.cough( true );
             }
-            if( one_in( 600 + bonus * 6 ) ) {
+            if( one_in( 600 ) ) {
                 u.add_msg_if_player( m_warning, _( "You feel nauseous." ) );
             }
-            if( one_in( 600 + bonus * 6 ) ) {
+            if( calendar::once_every( 10_minutes ) ) {
                 u.add_msg_if_player( m_warning, _( "You smell and taste mushrooms." ) );
             }
             it.mod_duration( 1_turns );
@@ -161,53 +162,25 @@ static void eff_fun_fungus( player &u, effect &it )
                 u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
                                          _( "<npcname> vomits a thick, gray goop." ) );
 
-                const int awfulness = rng( 0, 70 );
+                const int awfulness = rng( 0, 10 );
                 u.moves = -200;
                 u.mod_hunger( awfulness );
                 u.mod_thirst( awfulness );
-                ///\EFFECT_STR decreases damage taken by fungus effect
-                u.apply_damage( nullptr, bodypart_id( "torso" ), awfulness / std::max( u.str_cur,
-                                1 ) ); // can't be healthy
+                u.apply_damage( nullptr, bodypart_id( "torso" ), 1 );
             }
             it.mod_duration( 1_turns );
             if( dur > 6_hours ) {
                 it.mod_intensity( 1 );
             }
             break;
-        case 3:
+        case 3: {
             // Permanent symptoms
-            if( one_in( 6000 + bonus * 48 ) ) {
-                u.add_msg_player_or_npc( m_bad,  _( "You vomit thousands of live spores!" ),
-                                         _( "<npcname> vomits thousands of live spores!" ) );
-
-                u.moves = -500;
-                fungal_effects fe( *g, g->m );
-                for( const tripoint &sporep : g->m.points_in_radius( u.pos(), 1 ) ) {
-                    if( sporep == u.pos() ) {
-                        continue;
-                    }
-                    fe.fungalize( sporep, &u, 0.25 );
-                }
-                // We're fucked
-            } else if( one_in( 36000 + bonus * 120 ) ) {
-                if( u.is_limb_broken( hp_arm_l ) || u.is_limb_broken( hp_arm_r ) ) {
-                    if( u.is_limb_broken( hp_arm_l ) && u.is_limb_broken( hp_arm_r ) ) {
-                        u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken arms bulges.  Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s broken arms bulge.  Fungus stalks burst out of the bulges!" ) );
-                    } else {
-                        u.add_msg_player_or_npc( m_bad,
-                                                 _( "The flesh on your broken and unbroken arms bulge.  Fungus stalks burst through!" ),
-                                                 _( "<npcname>'s arms bulge.  Fungus stalks burst out of the bulges!" ) );
-                    }
-                } else {
-                    u.add_msg_player_or_npc( m_bad, _( "Your hands bulge.  Fungus stalks burst through the bulge!" ),
-                                             _( "<npcname>'s hands bulge.  Fungus stalks burst through the bulge!" ) );
-                }
-                u.apply_damage( nullptr, bodypart_id( "arm_l" ), 999 );
-                u.apply_damage( nullptr, bodypart_id( "arm_r" ), 999 );
+            bool is_fungal_ter = g->m.has_flag_ter( "FUNGUS", u.pos() );
+            if( !is_fungal_ter && one_in( 600 + 4 * bonus ) ) {
+                u.add_effect( effect_nausea, 5_minutes );
             }
-            break;
+        }
+        break;
     }
 }
 static void eff_fun_rat( player &u, effect &it )
