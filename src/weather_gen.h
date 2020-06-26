@@ -70,10 +70,10 @@ struct weather_datum {
     bool acidic;                  //!< Whether said precipitation is acidic.
     std::vector<std::pair<std::string, int>> effects;     //!< vector for weather effects.
     std::string tiles_animation;  //!< string for tiles animation
-    weather_animation_t weather_animation;
-    int sound_category;
-    sun_intensity_type sun_intensity;
-    weather_requirements requirements;
+    weather_animation_t weather_animation; //!< Information for weather animations
+    int sound_category;           //!< if playing sound effects what to use
+    sun_intensity_type sun_intensity; //!< strength of the sun
+    weather_requirements requirements; //!< when this weather should happen
 
 };
 
