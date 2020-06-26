@@ -92,7 +92,13 @@ struct trap {
         int sym = 0;
         nc_color color;
     private:
-        // 1 to ??, affects detection
+        /**
+         * How easy it is to spot the trap. Smaller values means it's easier to spot.
+         * 1 to ??, affects detection
+         */
+        // @TODO it can be negative (?)
+        // @TODO Add checks for it having proper values
+        // @TODO check usage in combination with is_always_invisible
         int visibility = 1;
         // 0 to ??, affects avoidance
         int avoidance = 0;
@@ -126,12 +132,6 @@ struct trap {
          */
         bool is_always_invisible() const {
             return always_invisible;
-        }
-        /**
-         * How easy it is to spot the trap. Smaller values means it's easier to spot.
-         */
-        int get_visibility() const {
-            return visibility;
         }
 
         std::string  map_regen_target() const;
