@@ -5908,10 +5908,9 @@ void game::examine( const tripoint &examp )
         none = false;
     }
 
-    if( !m.tr_at( examp ).is_null() && !u.is_mounted() ) {
+    // iexamine::trap will handle the invisible traps.
+    if( !m.tr_at( examp ).is_null() ) {
         iexamine::trap( u, examp );
-    } else if( !m.tr_at( examp ).is_null() && u.is_mounted() ) {
-        add_msg( m_warning, _( "You cannot do that while mounted." ) );
     }
 
     // In case of teleport trap or somesuch

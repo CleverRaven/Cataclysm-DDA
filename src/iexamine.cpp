@@ -3698,6 +3698,10 @@ void iexamine::trap( player &p, const tripoint &examp )
     }
     const int possible = tr.get_difficulty();
     bool seen = tr.can_see( examp, p );
+    if( seen && g->u.is_mounted() ) {
+        add_msg( m_warning, _( "You cannot do that while mounted." ) );
+        return;
+    }
     if( tr.loadid == tr_unfinished_construction || here.partial_con_at( examp ) ) {
         partial_con *pc = here.partial_con_at( examp );
         if( pc ) {
