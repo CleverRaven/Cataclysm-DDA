@@ -433,6 +433,17 @@ void memorial_logger::notify( const cata::event &e )
             }
             break;
         }
+        case event_type::broken_bone: {
+            character_id ch = e.get<character_id>( "character" );
+            if( ch == g->u.getID() ) {
+                body_part part = e.get<body_part>( "part" );
+                //~ %s is bodypart
+                add( pgettext( "memorial_male", "Broke his %s." ),
+                     pgettext( "memorial_female", "Broke her %s." ),
+                     body_part_name( convert_bp( part ).id() ) );
+            }
+            break;
+        }
         case event_type::broken_bone_mends: {
             character_id ch = e.get<character_id>( "character" );
             if( ch == g->u.getID() ) {
@@ -1067,6 +1078,8 @@ void memorial_logger::notify( const cata::event &e )
         case event_type::character_wakes_up:
         case event_type::character_wears_item:
         case event_type::character_wields_item:
+        case event_type::cuts_tree:
+        case event_type::reads_book:
         case event_type::game_load:
         case event_type::game_save:
             break;

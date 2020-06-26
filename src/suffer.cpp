@@ -1432,6 +1432,7 @@ void Character::suffer()
     for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
         if( elem.second.get_hp_cur() <= 0 ) {
             add_effect( effect_disabled, 1_turns, elem.first->token, true );
+            g->events().send<event_type::broken_bone>( getID(), elem.first->token );
         }
     }
 
