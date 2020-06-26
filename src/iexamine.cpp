@@ -3733,13 +3733,19 @@ void trap::examine( player &p, const tripoint &examp ) const
         add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
         return;
     }
+
     // Some traps are not actual traps. Those should get a different query.
     if( seen && easy_take_down() ) { // Separated so saying no doesn't trigger the other query.
-        if( query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
-            here.disarm_trap( examp );
+        if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
+            return;
         }
-    } else if( seen && query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         here.disarm_trap( examp );
+        return;
+    }
+
+    if( seen && query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
+        here.disarm_trap( examp );
+        return;
     }
 }
 
