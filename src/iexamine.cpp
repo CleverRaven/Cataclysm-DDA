@@ -3692,11 +3692,16 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
 void trap::examine( player &p, const tripoint &examp ) const
 {
     map &here = get_map();
-    if( !p.is_player() || is_null() ) {
+    if( !p.is_player() ) {
         return;
     }
-    const bool seen = can_see( examp, p );
-    if( seen && g->u.is_mounted() ) {
+
+    // If the player can't see the trap, they can't interact with it.
+    if( !can_see( examp, p ) ) {
+        return;
+    }
+
+    if( g->u.is_mounted() ) {
         add_msg( m_warning, _( "You cannot do that while mounted." ) );
         return;
     }
@@ -3729,13 +3734,13 @@ void trap::examine( player &p, const tripoint &examp ) const
             return;
         }
     }
-    if( seen && can_not_be_disarmed() ) {
+    if( can_not_be_disarmed() ) {
         add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
         return;
     }
 
     // Some traps are not actual traps. Those should get a different query.
-    if( seen && easy_take_down() ) { // Separated so saying no doesn't trigger the other query.
+    if( easy_take_down() ) { // Separated so saying no doesn't trigger the other query.
         if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
             return;
         }
@@ -3743,7 +3748,7 @@ void trap::examine( player &p, const tripoint &examp ) const
         return;
     }
 
-    if( seen && query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
+    if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
         here.disarm_trap( examp );
         return;
     }
