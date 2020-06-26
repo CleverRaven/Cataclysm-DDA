@@ -515,7 +515,10 @@ The **weather** section defines the base weather attributes used for the region.
 
 ## Weather_type
 
-Each weather type is a type of weather that occurs, its effects and what causes it
+Each weather type is a type of weather that occurs, its effects and what causes it.  The very first entry 
+is a null value and should not happen.  The second entry will be the default weather.  All others postion only
+ matters for deciding what the current weather is.  All entries will be processed in order and the last valid
+ weather is the current.
 
 
 ##Fields
