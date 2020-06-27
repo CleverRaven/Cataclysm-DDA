@@ -3926,12 +3926,12 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
         return 0;
-	} else if( !t ) {
+    } else if( !t ) {
         for( auto &pt : g->m.points_in_radius( pos, 1, 0 ) ) {
             const int intensity = 1 + one_in( 3 ) + one_in( 5 );
             g->m.add_field( pt, fd_fire, intensity );
         }
-		return 1;
+        return 1;
     } else if( it->charges > 0 ) {
         p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
                               it->tname() );
@@ -3943,7 +3943,7 @@ int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
             it->convert( itype_molotov ).active = false;
         }
         return 0;
-    } 
+    }
     return 0;
 }
 
