@@ -3781,7 +3781,7 @@ window_dimensions get_window_dimensions( const point &pos, const point &size )
     return get_window_dimensions( {}, pos, size );
 }
 
-bool window_contains_point( const catacurses::window &win, const point p )
+bool window_contains_point( const catacurses::window &win, const point &p )
 {
     const window_dimensions dim = get_window_dimensions( win );
     const point &win_min = dim.window_pos_pixel;
