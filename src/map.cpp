@@ -7822,13 +7822,8 @@ submap *map::get_submap_at_grid( const tripoint &gridp ) const
 
 size_t map::get_nonant( const tripoint &gridp ) const
 {
-    if( gridp.x < 0 || gridp.x >= my_MAPSIZE ||
-        gridp.y < 0 || gridp.y >= my_MAPSIZE ||
-        gridp.z < -OVERMAP_DEPTH || gridp.z > OVERMAP_HEIGHT ) {
-        debugmsg( "Tried to access invalid map position at grid (%d,%d,%d)", gridp.x, gridp.y, gridp.z );
-        return 0;
-    }
-
+    // There used to be a bounds check here
+    // But this function is called a lot, so push it up if needed
     if( zlevels ) {
         const int indexz = gridp.z + OVERMAP_HEIGHT; // Can't be lower than 0
         return indexz + ( gridp.x + gridp.y * my_MAPSIZE ) * OVERMAP_LAYERS;
