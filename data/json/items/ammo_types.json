@@ -630,6 +630,12 @@
     "default": "nitrox"
   },
   {
+    "type": "ammunition_type",
+    "id": "extinguishing_agent",
+    "name": "extinguishing agent",
+    "default": "extinguishing_agent"
+  },
+  {
     "id": "tinder",
     "name": "tinder",
     "default": "tinder",

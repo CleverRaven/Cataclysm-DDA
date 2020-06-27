@@ -35,8 +35,18 @@
     "symbol": ";",
     "color": "red",
     "initial_charges": 100,
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "extinguishing_agent": 100 }
+      }
+    ],
     "max_charges": 100,
     "charges_per_use": 1,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "EXTINGUISHER" ]
   },
   {
@@ -91,9 +101,20 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE",
+        "airtight": true,
+        "watertight": true,
+        "rigid": true,
+        "ammo_restriction": { "extinguishing_agent": 10 }
+      }
+    ],
     "initial_charges": 10,
     "max_charges": 10,
+    "ammo": "extinguishing_agent",
     "charges_per_use": 1,
+    "flags": [ "NO_UNLOAD", "NO_RELOAD" ],
     "use_action": [ "EXTINGUISHER" ]
   },
   {
