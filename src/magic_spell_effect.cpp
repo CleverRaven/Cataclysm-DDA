@@ -504,8 +504,11 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
                 }
                 if( ( mtypes[iter].id != victim.type->id ) && ( std::abs( mtypes[iter].difficulty - victim_diff )
                         <= difficulty_variance ) ) {
-                    new_id = mtypes[iter].id;
-                    break;
+                    if( !mtypes[iter].in_species( species_id( "HALLUCINATION" ) ) &&
+                        mtypes[iter].id.str() != "mon_generator" ) {
+                        new_id = mtypes[iter].id;
+                        break;
+                    }
                 }
                 iter++;
             }
