@@ -2534,15 +2534,15 @@ inventory_process_selector::inventory_process_selector(
     const inventory_selector_preset& preset,
     const GetStats& get_st
 ) :
-    inventory_multiselector(p, preset, selector_title),
-    get_stats(get_st),
-    max_chosen_count(std::numeric_limits<decltype(max_chosen_count)>::max())
+    inventory_multiselector( p, preset, selector_title ),
+    get_stats( get_st ),
+    max_chosen_count( std::numeric_limits<decltype(max_chosen_count)>::max() )
 {}
 
 inventory_selector::stats inventory_process_selector::get_raw_stats() const
 {
-    if (get_stats) {
-        return get_stats(to_use);
+    if ( get_stats ) {
+        return get_stats( to_use );
     }
     return stats{ { stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} } };
 }
@@ -2563,15 +2563,15 @@ void inventory_process_selector::set_chosen_count( inventory_entry& entry, size_
             }
         }
     } else {
-        entry.chosen_count = std::min(std::min(count, max_chosen_count), entry.get_available_count());
+        entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         if (it->count_by_charges()) {
-            dropping.emplace_back(it, static_cast<int>(entry.chosen_count));
+            dropping.emplace_back( it, static_cast<int>(entry.chosen_count) );
         } else {
-            for (const item_location& loc : entry.locations) {
+            for ( const item_location& loc : entry.locations ) {
                 if (count == 0) {
                     break;
                 }
-                dropping.emplace_back(loc, 1);
+                dropping.emplace_back( loc, 1 );
                 count--;
             }
         }
@@ -2585,7 +2585,7 @@ drop_locations inventory_process_selector::execute()
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
     int count = 0;
-    while (true) {
+    while ( true ) {
         ui_manager::redraw();
 
         const inventory_input input = get_input();

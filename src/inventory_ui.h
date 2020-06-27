@@ -775,7 +775,7 @@ class inventory_drop_selector : public inventory_multiselector
 class inventory_process_selector : public inventory_multiselector
 {   
     public:
-        using GetStats = std::function<stats(const std::map<const item*, int>&)>;
+        using GetStats = std::function<stats( const std::map<const item*, int>& )>;
         inventory_process_selector( player &p,
                                     const std::string &selector_title,
                                     const inventory_selector_preset& preset = default_preset,
@@ -784,7 +784,7 @@ class inventory_process_selector : public inventory_multiselector
 
     protected:
         stats get_raw_stats() const override;
-        void set_chosen_count(inventory_entry& entry, size_t count);
+        void set_chosen_count( inventory_entry& entry, size_t count );
 
     private:
          GetStats get_stats;
