@@ -316,6 +316,7 @@ const std::vector<field_type> &field_types::get_all()
 field_type_id fd_null,
               fd_blood,
               fd_bile,
+              fd_extinguisher,
               fd_gibs_flesh,
               fd_gibs_veggy,
               fd_web,
@@ -373,6 +374,7 @@ void field_types::set_field_type_ids()
     fd_null = field_type_id( "fd_null" );
     fd_blood = field_type_id( "fd_blood" );
     fd_bile = field_type_id( "fd_bile" );
+    fd_extinguisher = field_type_id( "fd_extinguisher" );
     fd_gibs_flesh = field_type_id( "fd_gibs_flesh" );
     fd_gibs_veggy = field_type_id( "fd_gibs_veggy" );
     fd_web = field_type_id( "fd_web" );
