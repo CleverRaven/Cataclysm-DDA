@@ -263,7 +263,11 @@
           }
         ]
       },
-      { "name": "extinguisher cloud", "color": "white", "convection_temperature_mod": -20, "translucency": 0.4,
+      {
+        "name": "extinguisher cloud",
+        "color": "white",
+        "convection_temperature_mod": -20,
+        "translucency": 0.4,
         "effects": [
           {
             "effect_id": "poison",
@@ -275,8 +279,13 @@
             "message": "You feel sick from inhaling the extinguisher cloud",
             "message_type": "bad"
           }
-        ] },
-      { "name": "thick extinguisher cloud", "color": "white", "convection_temperature_mod": -30, "translucency": 0.7,
+        ]
+      },
+      {
+        "name": "thick extinguisher cloud",
+        "color": "white",
+        "convection_temperature_mod": -30,
+        "translucency": 0.7,
         "effects": [
           {
             "effect_id": "poison",
@@ -300,7 +309,8 @@
             "message": "You feel sick from inhaling the thick extinguisher cloud",
             "message_type": "bad"
           }
-        ] }
+        ]
+      }
     ],
     "description_affix": "on",
     "decay_amount_factor": 3,
