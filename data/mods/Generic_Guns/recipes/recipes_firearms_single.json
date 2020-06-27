@@ -180,7 +180,7 @@
       { "id": "DRILL", "level": 2 },
       { "id": "HAMMER", "level": 2 },
       { "id": "FILE", "level": 1 },
-      { "id": "BOLT", "level": 1 }
+      { "id": "WRENCH", "level": 1 }
     ],
     "tools": [
       [
