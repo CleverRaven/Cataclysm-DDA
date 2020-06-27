@@ -71,10 +71,10 @@ const weather_datum *weather::data( weather_type const type )
 {
     const size_t i = static_cast<size_t>( type );
     if( i < weather_datums.size() ) {
-        return { &weather_datums[i] };
+        return &weather_datums[i];
     }
     debugmsg( "Invalid weather requested." );
-    return { &weather_datums[WEATHER_NULL] };
+    return &weather_datums[WEATHER_NULL];
 }
 
 weather_type weather::get_bad_weather()
