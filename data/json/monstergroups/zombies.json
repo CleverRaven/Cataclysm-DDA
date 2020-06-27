@@ -13,7 +13,6 @@
       { "monster": "mon_feral_human_pipe", "freq": 40, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_crowbar", "freq": 40, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_axe", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_feral_human_archer", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_crawler", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_zombie_brainless", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_zombie_dog", "freq": 25, "cost_multiplier": 1, "pack_size": [ 2, 3 ] }
@@ -65,7 +64,6 @@
       { "monster": "mon_feral_human_pipe", "freq": 20, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_crowbar", "freq": 20, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_axe", "freq": 10, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_feral_human_archer", "freq": 15, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_crawler", "freq": 25, "cost_multiplier": 1 },
       { "monster": "mon_zombie_brainless", "freq": 25, "cost_multiplier": 1 }
     ]
@@ -116,7 +114,6 @@
       { "monster": "mon_feral_human_pipe", "freq": 4, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_crowbar", "freq": 4, "cost_multiplier": 1, "pack_size": [ 2, 3 ] },
       { "monster": "mon_feral_human_axe", "freq": 2, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_feral_human_archer", "freq": 3, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zombie_brainless", "freq": 65, "cost_multiplier": 1 }
     ]
   },
@@ -134,7 +131,6 @@
       { "monster": "mon_feral_human_pipe", "freq": 40, "cost_multiplier": 0 },
       { "monster": "mon_feral_human_crowbar", "freq": 40, "cost_multiplier": 0 },
       { "monster": "mon_feral_human_axe", "freq": 20, "cost_multiplier": 0 },
-      { "monster": "mon_feral_human_archer", "freq": 20, "cost_multiplier": 0 },
       { "monster": "mon_zombie_brainless", "freq": 30, "cost_multiplier": 0 }
     ]
   },
@@ -494,7 +490,6 @@
       { "monster": "mon_feral_human_pipe", "freq": 4, "cost_multiplier": 1, "pack_size": [ 5, 9 ] },
       { "monster": "mon_feral_human_crowbar", "freq": 4, "cost_multiplier": 1, "pack_size": [ 4, 7 ] },
       { "monster": "mon_feral_human_axe", "freq": 2, "cost_multiplier": 2, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_feral_human_archer", "freq": 2, "cost_multiplier": 2, "pack_size": [ 1, 3 ] },
       { "monster": "mon_zombie", "freq": 75, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fat", "freq": 75, "cost_multiplier": 2 },
       { "monster": "mon_zombie_fat", "freq": 3, "cost_multiplier": 7, "pack_size": [ 3, 5 ] },
@@ -589,7 +584,6 @@
       { "monster": "mon_feral_human_pipe", "freq": 100, "cost_multiplier": 1, "pack_size": [ 3, 8 ] },
       { "monster": "mon_feral_human_crowbar", "freq": 40, "cost_multiplier": 1, "pack_size": [ 2, 6 ] },
       { "monster": "mon_feral_human_axe", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
-      { "monster": "mon_feral_human_archer", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] }
     ]
   },
   {
