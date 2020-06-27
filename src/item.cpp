@@ -9265,7 +9265,7 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool windtoostrong = false;
     w_point weatherPoint = *g->weather.weather_precise;
     int windpower = g->weather.windspeed;
-    switch( weather::precip( g->weather.weather ) ) {
+    switch( g->weather.data()->precip ) {
         case precip_class::VERY_LIGHT:
             precipitation = one_in( 100 );
             break;

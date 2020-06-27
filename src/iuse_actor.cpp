@@ -1297,7 +1297,7 @@ float firestarter_actor::light_mod( const tripoint &pos ) const
     }
 
     const float light_level = g->natural_light_level( pos.z );
-    if( weather::sun_intensity( g->weather.weather ) >= sun_intensity_type::normal &&
+    if( g->weather.data()->sun_intensity >= sun_intensity_type::normal &&
         light_level >= 60.0f && !get_map().has_flag( TFLAG_INDOORS, pos ) ) {
         return std::pow( light_level / 80.0f, 8 );
     }

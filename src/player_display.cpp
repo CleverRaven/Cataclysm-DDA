@@ -1138,7 +1138,7 @@ void player::disp_info()
     }
 
     if( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
-        weather::sun_intensity( g->weather.weather ) >= sun_intensity_type::high ) {
+        g->weather.data()->sun_intensity >= sun_intensity_type::high ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you.\n"
                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )

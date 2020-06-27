@@ -47,6 +47,8 @@ struct rl_vec2d;
 const int WEATHER_NULL = 0;
 const int WEATHER_DEFAULT = 1;
 
+static std::vector<weather_datum> weather_datums;
+
 enum weather_sound_category : int {
     NONE,
     DRIZZLE,
@@ -89,8 +91,6 @@ void acid( int intensity );
 void wet_player( int amount );
 } // namespace weather_effect
 
-using weather_effect_fn = void ( * )( int intensity );
-
 struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
@@ -98,30 +98,12 @@ struct weather_sum {
     int wind_amount = 0;
 };
 
-weather_datum weather_data( weather_type type );
 namespace weather
 {
-void add_weather_datum( weather_datum new_weather );
-std::string name( weather_type type );
-nc_color color( weather_type type );
-nc_color map_color( weather_type type );
-char glyph( weather_type type );
-int ranged_penalty( weather_type type );
-float sight_penalty( weather_type type );
-int light_modifier( weather_type type );
-int sound_attn( weather_type type );
-bool dangerous( weather_type type );
-precip_class precip( weather_type type );
-bool rains( weather_type type );
-bool acidic( weather_type type );
-std::vector<std::pair<std::string, int>> effects( weather_type type );
-std::string tiles_animation( weather_type type );
-weather_animation_t get_weather_animation( weather_type type );
-int sound_category( weather_type type );
-sun_intensity_type sun_intensity( weather_type type );
-weather_requirements requirements( weather_type );
+void add_datum( weather_datum new_weather );
+const weather_datum *data( weather_type const type );
 weather_type get_bad_weather();
-int get_weather_count();
+int get_count();
 } // namespace weather
 
 std::string get_shortdirstring( int angle );
@@ -203,7 +185,9 @@ class weather_manager
         int temperature = 0;
         bool lightning_active = false;
         // Weather pattern
-        weather_type weather = WEATHER_NULL;
+        weather_type weather_index = WEATHER_NULL;
+        const weather_datum *data();
+        const weather_datum *data( weather_type type );
         int winddirection = 0;
         int windspeed = 0;
         // Cached weather data

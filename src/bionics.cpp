@@ -644,7 +644,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
         const w_point weatherPoint = *g->weather.weather_precise;
-        int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+        int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather_index,
                                            g->is_sheltered( g->u.pos() ) );
         // thirst units = 5 mL
         int water_available = std::lround( humidity * 3.0 / 100.0 );
@@ -1011,7 +1011,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         const w_point weatherPoint = *g->weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
-                               get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                               get_local_humidity( weatherPoint.humidity, g->weather.weather_index,
                                        g->is_sheltered( g->u.pos() ) ) ) );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
@@ -1738,7 +1738,7 @@ void Character::process_bionic( int b )
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
             const w_point weatherPoint = *g->weather.weather_precise;
-            int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+            int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather_index,
                                                g->is_sheltered( g->u.pos() ) );
             // in thirst units = 5 mL water
             int water_available = std::lround( humidity * 3.0 / 100.0 );

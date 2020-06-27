@@ -688,8 +688,8 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
                 ter_sym = "@";
             } else if( viewing_weather && ( data.debug_weather || los_sky ) ) {
                 const weather_type type = get_weather_at_point( omp );
-                ter_color = weather::map_color( type );
-                ter_sym = weather::glyph( type );
+                ter_color = weather::data( type )->map_color;
+                ter_sym = weather::data( type )->glyph;
             } else if( data.debug_scent && get_scent_glyph( omp, ter_color, ter_sym ) ) {
                 // get_scent_glyph has changed ter_color and ter_sym if omp has a scent
             } else if( blink && has_target && omp.xy() == target.xy() ) {
@@ -971,9 +971,9 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         const bool weather_is_visible = ( data.debug_weather ||
                                           player_character.overmap_los( center, sight_points * 2 ) );
         if( weather_is_visible ) {
-            weather_datum weather = weather_data( get_weather_at_point( center ) );
+            const weather_datum *weather = weather::data( get_weather_at_point( center ) );
             // NOLINTNEXTLINE(cata-use-named-point-constants)
-            mvwprintz( wbar, point( 1, 1 ), weather.color, weather.name );
+            mvwprintz( wbar, point( 1, 1 ), weather->color, weather->name );
         } else {
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( wbar, point( 1, 1 ), c_dark_gray, _( "# Unexplored" ) );

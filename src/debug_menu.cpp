@@ -1403,14 +1403,14 @@ void debug()
             weather_menu.text = _( "Select new weather pattern:" );
             weather_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
-            for( int weather_id = 1; weather_id < weather::get_weather_count(); weather_id++ ) {
+            for( int weather_id = 1; weather_id < weather::get_count(); weather_id++ ) {
                 weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
-                                       weather::name( static_cast<weather_type>( weather_id ) ) );
+                                       weather::data( static_cast<weather_type>( weather_id ) )->name );
             }
 
             weather_menu.query();
 
-            if( weather_menu.ret >= 0 && weather_menu.ret < weather::get_weather_count() ) {
+            if( weather_menu.ret >= 0 && weather_menu.ret < weather::get_count() ) {
                 weather_type selected_weather = static_cast<weather_type>( weather_menu.ret );
                 g->weather.weather_override = selected_weather;
                 g->weather.set_nextweather( calendar::turn );

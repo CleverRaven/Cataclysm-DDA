@@ -734,7 +734,7 @@ void game::draw_weather( const weather_printable &w )
         return;
     }
 
-    tilecontext->init_draw_weather( w, std::move( weather::tiles_animation( w.wtype ) ) );
+    tilecontext->init_draw_weather( w, weather::data( w.wtype )->tiles_animation );
 }
 #else
 void game::draw_weather( const weather_printable &w )

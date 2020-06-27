@@ -180,10 +180,10 @@ weather_type weather_generator::get_weather_conditions( const tripoint &location
 weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 {
     weather_type current_conditions( WEATHER_DEFAULT );
-    for( int weather_index = WEATHER_DEFAULT; weather_index < weather::get_weather_count();
+    for( int weather_index = WEATHER_DEFAULT; weather_index < weather::get_count();
          weather_index++ ) {
 
-        weather_requirements requires = weather::requirements( weather_index );
+        const weather_requirements &requires = weather::data( weather_index )->requirements;
         bool test_pressure =
             requires.pressure_max > w.pressure &&
             requires.pressure_min < w.pressure;
@@ -207,7 +207,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 
         bool test_required_weathers = requires.required_weathers.empty();
         if( !test_required_weathers ) {
-            std::string current_weather = weather::name( current_conditions );
+            std::string current_weather = weather::data( current_conditions )->name;
             for( std::string name : requires.required_weathers ) {
                 if( name == current_weather ) {
                     test_required_weathers = true;
@@ -300,7 +300,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
         for( time_point i = begin; i < end; i += 20_minutes ) {
             w_point w = get_weather( tripoint_zero, to_turn<int>( i ), seed );
             weather_type c = get_weather_conditions( w );
-            weather_datum wd = weather_data( c );
+            const weather_datum *wd = weather::data( c );
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
                        ( calendar::year_length() ) + 1;
@@ -313,7 +313,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
                 day = day_of_season<int>( i );
             }
             testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
-                     << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
+                     << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd->name << ";" <<
                      w.windpower << ";" << w.winddirection << std::endl;
         }
 
@@ -357,8 +357,8 @@ weather_generator weather_generator::load( const JsonObject &jo )
         weather_data.rains = weather_type.get_bool( "rains" );
         weather_data.acidic = weather_type.get_bool( "acidic" );
         for( const JsonObject weather_effect : weather_type.get_array( "effects" ) ) {
-            weather_data.effects.push_back( std::make_pair( weather_effect.get_string( "name" ),
-                                            weather_effect.get_int( "intensity" ) ) );
+            weather_data.effects.emplace_back( std::make_pair( weather_effect.get_string( "name" ),
+                                               weather_effect.get_int( "intensity" ) ) );
         }
         weather_data.tiles_animation = weather_type.get_string( "tiles_animation", "" );
         if( weather_type.has_member( "weather_animation" ) ) {
@@ -400,7 +400,7 @@ weather_generator weather_generator::load( const JsonObject &jo )
 
             weather_data.requirements = new_requires;
         }
-        weather::add_weather_datum( weather_data );
+        weather::add_datum( weather_data );
     }
     return ret;
 }
