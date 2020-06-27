@@ -1359,16 +1359,13 @@ cata::optional<point> input_context::get_coordinates_text( const catacurses::win
     if( !coordinate_input_received ) {
         return cata::nullopt;
     }
-
     const window_dimensions dim = get_window_dimensions( capture_win );
-
     const int &fw = dim.scaled_font_size.x;
     const int &fh = dim.scaled_font_size.y;
     const point &win_min = dim.window_pos_pixel;
     const point screen_pos = coordinate - win_min;
     const point selected( divide_round_down( screen_pos.x, fw ),
                           divide_round_down( screen_pos.y, fh ) );
-
     return selected;
 #endif
 }
