@@ -152,7 +152,7 @@ struct trap {
          * called on the null trap.
          */
         // Implemented for historical reasons in iexamine.cpp
-        void examine( player &p, const tripoint &examp ) const;
+        void examine( const tripoint &examp ) const;
 
         std::string  map_regen_target() const;
 

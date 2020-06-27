@@ -3691,15 +3691,12 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     }
 }
 
-void trap::examine( player &p, const tripoint &examp ) const
+void trap::examine( const tripoint &examp ) const
 {
     map &here = get_map();
-    if( !p.is_player() ) {
-        return;
-    }
 
     // If the player can't see the trap, they can't interact with it.
-    if( !can_see( examp, p ) ) {
+    if( !can_see( examp, g->u ) ) {
         return;
     }
 

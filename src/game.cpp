@@ -5908,7 +5908,7 @@ void game::examine( const tripoint &examp )
     }
 
     // trap::iexamine will handle the invisible traps.
-    m.tr_at( examp ).examine( u, examp );
+    m.tr_at( examp ).examine( examp );
 
     // In case of teleport trap or somesuch
     if( player_pos != u.pos() ) {
