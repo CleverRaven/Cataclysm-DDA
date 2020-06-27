@@ -82,6 +82,39 @@ weather_type_id get_bad_weather()
     return bad_weather;
 }
 
+void weather::add_datum( weather_datum new_weather )
+{
+    weather_datums.push_back( new_weather );
+}
+
+const weather_datum *weather::data( weather_type const type )
+{
+    const size_t i = static_cast<size_t>( type );
+    if( i < weather_datums.size() ) {
+        return { &weather_datums[i] };
+    }
+    debugmsg( "Invalid weather requested." );
+    return { &weather_datums[WEATHER_NULL] };
+}
+
+weather_type weather::get_bad_weather()
+{
+    weather_type bad_weather = WEATHER_NULL;
+    int current_weather = 0;
+    for( const weather_datum &weather : weather_datums ) {
+        current_weather++;
+        if( weather.precip == precip_class::HEAVY ) {
+            bad_weather = current_weather;
+        }
+    }
+    return bad_weather;
+}
+
+int weather::get_count()
+{
+    return weather_datums.size();
+}
+
 /**
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
@@ -1075,6 +1108,16 @@ void weather_manager::update_weather()
             }
         }
     }
+}
+
+const weather_datum *weather_manager::data()
+{
+    return weather::data( weather_index );
+}
+
+const weather_datum *weather_manager::data( weather_type type )
+{
+    return weather::data( type );
 }
 
 void weather_manager::set_nextweather( time_point t )
