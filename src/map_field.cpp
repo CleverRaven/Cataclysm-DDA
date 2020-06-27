@@ -486,7 +486,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                     // TODO: Allow spreading to the sides if age < 0 && intensity == 3
                 }
-                
+
                 if( curtype == fd_extinguisher ) {
                     field_entry *fire_here = maptile_at_internal( p ).find_field( fd_fire );
                     if( fire_here != nullptr ) {
