@@ -974,7 +974,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p )
 
         entry.drawn_rect.p_min = point( x1, yy );
         const int hx_max = p.x + get_width() + contained_offset;
-        entry.drawn_rect.p_max = point( hx_max, yy );
+        entry.drawn_rect.p_max = point( hx_max - 1, yy );
 
         if( selected && visible_cells() > 1 ) {
             for( int hx = x1; hx < hx_max; ++hx ) {
