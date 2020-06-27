@@ -19,6 +19,7 @@
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,
     "squeamish_penalty": 6,
+    "base_hp": 60,
     "bionic_slots": 80
   },
   {
@@ -41,6 +42,7 @@
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,
     "squeamish_penalty": 7,
+    "base_hp": 60,
     "bionic_slots": 18
   },
   {
@@ -60,6 +62,7 @@
     "legacy_id": "EYES",
     "stylish_bonus": 2,
     "squeamish_penalty": 8,
+    "base_hp": 60,
     "bionic_slots": 4
   },
   {
@@ -81,6 +84,7 @@
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,
     "squeamish_penalty": 9,
+    "base_hp": 60,
     "bionic_slots": 4
   },
   {
@@ -105,6 +109,7 @@
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 5,
+    "base_hp": 60,
     "bionic_slots": 20
   },
   {
@@ -128,6 +133,7 @@
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 5,
+    "base_hp": 60,
     "bionic_slots": 20
   },
   {
@@ -151,6 +157,7 @@
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 3,
+    "base_hp": 60,
     "bionic_slots": 5
   },
   {
@@ -174,6 +181,7 @@
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 3,
+    "base_hp": 60,
     "bionic_slots": 5
   },
   {
@@ -198,6 +206,7 @@
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 5,
+    "base_hp": 60,
     "bionic_slots": 30
   },
   {
@@ -222,6 +231,7 @@
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 5,
+    "base_hp": 60,
     "bionic_slots": 30
   },
   {
@@ -245,6 +255,7 @@
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 3,
+    "base_hp": 60,
     "bionic_slots": 7
   },
   {
@@ -268,6 +279,7 @@
     "hot_morale_mod": 0.5,
     "cold_morale_mod": 0.5,
     "squeamish_penalty": 3,
+    "base_hp": 60,
     "bionic_slots": 7
   },
   {
@@ -284,6 +296,7 @@
     "hit_size_relative": [ 0, 0, 0 ],
     "hit_difficulty": 0,
     "side": "both",
+    "base_hp": 60,
     "legacy_id": "NUM_BP"
   }
 ]

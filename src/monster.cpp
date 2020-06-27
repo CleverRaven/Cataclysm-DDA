@@ -216,6 +216,8 @@ monster::monster()
     biosig_timer = -1;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
+    set_anatomy( anatomy_id( "default_anatomy" ) );
+    set_body();
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -1157,7 +1159,7 @@ monster_attitude monster::attitude( const Character *u ) const
 
 int monster::hp_percentage() const
 {
-    return get_hp( hp_torso ) * 100 / get_hp_max();
+    return get_hp( bodypart_id( "torso" ) ) * 100 / get_hp_max();
 }
 
 void monster::process_triggers()
@@ -2830,7 +2832,7 @@ void monster::on_hit( Creature *source, bodypart_id,
     // TODO: Faction relations
 }
 
-int monster::get_hp_max( hp_part ) const
+int monster::get_hp_max( const bodypart_id & ) const
 {
     return type->hp;
 }
@@ -2840,7 +2842,7 @@ int monster::get_hp_max() const
     return type->hp;
 }
 
-int monster::get_hp( hp_part ) const
+int monster::get_hp( const bodypart_id & ) const
 {
     return hp;
 }

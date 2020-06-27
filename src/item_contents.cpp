@@ -619,10 +619,8 @@ std::set<ammotype> item_contents::ammo_types() const
 {
     std::set<ammotype> ret;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) {
-            for( const ammotype &ammo : pocket.ammo_types() ) {
-                ret.emplace( ammo );
-            }
+        for( const ammotype &ammo : pocket.ammo_types() ) {
+            ret.emplace( ammo );
         }
     }
     return ret;
@@ -1099,13 +1097,13 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
     }
 }
 
-void item_contents::process( player *carrier, const tripoint &pos, bool activate, float insulation,
+void item_contents::process( player *carrier, const tripoint &pos, float insulation,
                              temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {
         // no reason to check mods, they won't rot
         if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
-            pocket.process( carrier, pos, activate, insulation, flag, spoil_multiplier_parent );
+            pocket.process( carrier, pos, insulation, flag, spoil_multiplier_parent );
         }
     }
 }

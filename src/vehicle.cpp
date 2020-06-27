@@ -6419,6 +6419,11 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
     dmg -= std::min<int>( dmg, part_info( p ).damage_reduction[ type ] );
     int dres = dmg - parts[p].hp();
     if( mod_hp( parts[ p ], 0 - dmg, type ) ) {
+        if( is_flyable() && has_part( "ROTOR" ) && !parts[p].has_flag( VPFLAG_SIMPLE_PART ) ) {
+            // If we break a part, we can no longer fly the vehicle.
+            set_flyable( false );
+        }
+
         insides_dirty = true;
         pivot_dirty = true;
 
