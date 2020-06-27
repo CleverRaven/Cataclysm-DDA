@@ -17,7 +17,7 @@
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ],
       [ [ "offal", 2 ], [ "liver", 5 ], [ "sweetbread", 5 ], [ "kidney", 5 ] ]
     ]
   },
@@ -63,7 +63,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ],
       [ [ "offal", 2 ], [ "liver", 5 ], [ "sweetbread", 5 ], [ "kidney", 5 ] ],
       [ [ "vinegar", 1 ] ]
     ]
@@ -85,7 +85,7 @@
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ],
       [ [ "meat", 1 ], [ "fish", 1 ] ],
       [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ]
     ]
@@ -135,7 +135,7 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "meat", 6 ], [ "fish", 6 ] ],
       [ [ "veggy", 6 ], [ "veggy_wild", 6 ] ]
     ]
@@ -156,7 +156,7 @@
     "result_mult": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat", 4 ], [ "fish", 4 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "meat", 4 ], [ "fish", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -200,7 +200,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "meat", 24 ], [ "fish", 24 ] ] ]
+    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ], [ [ "meat", 24 ], [ "fish", 24 ] ] ]
   },
   {
     "type": "recipe",
@@ -220,7 +220,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "irradiated_tomato", 4 ], [ "can_tomato", 4 ], [ "tomato", 4 ] ],
       [ [ "irradiated_broccoli", 4 ], [ "broccoli", 4 ] ],
@@ -245,7 +245,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "mushroom_soup_ingredients", 2 ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -287,7 +287,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "mushroom_soup_ingredients", 12 ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -305,7 +305,7 @@
     "result_mult": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat_red_raw", 2, "LIST" ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "meat_red_raw", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -323,7 +323,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "fish", 2 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "fish", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -343,7 +343,7 @@
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ],
       [ [ "mushroom", 4 ], [ "veggy_any_uncooked", 2, "LIST" ] ]
     ]
   },
@@ -365,7 +365,7 @@
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ],
       [ [ "sweet_fruit", 4, "LIST" ] ],
       [ [ "sugar_standard", 2, "LIST" ] ]
     ]
@@ -388,7 +388,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "woods_soup_ingredients", 1 ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -408,7 +408,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "meat_soup_ingredients", 1 ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -428,7 +428,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "veggy_soup_ingredients", 2 ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -448,7 +448,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "fish_soup_ingredients", 1 ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -468,7 +468,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "broth_ingredients", 2 ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "water", 12 ], [ "water_clean", 12 ] ] ]
+    "components": [ [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "water", 12 ], [ "water_clean", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -487,7 +487,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "bone", 20 ] ], [ [ "water", 12 ], [ "water_clean", 12 ] ] ]
+    "components": [ [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "bone", 20 ] ], [ [ "water", 12 ], [ "water_clean", 12 ] ] ]
   },
   {
     "type": "recipe",
@@ -507,7 +507,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "sweet_fruit_like", 6, "LIST" ] ],
       [ [ "sugar", 30 ] ],
       [ [ "water", 22 ], [ "water_clean", 22 ] ]
@@ -533,7 +533,7 @@
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "sweet_fruit", 2, "LIST" ] ],
       [ [ "sugar", 20 ] ],
-      [ [ "jar_glass", 1 ] ]
+      [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ]
     ]
   },
   {
@@ -556,7 +556,7 @@
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "sweet_fruit", 12, "LIST" ] ],
       [ [ "sugar", 120 ] ],
-      [ [ "jar_3l_glass", 1 ] ]
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ]
     ]
   },
   {
@@ -575,7 +575,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "jar_glass", 1 ] ], [ [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ] ]
+    "components": [ [ [ "water", 12 ], [ "water_clean", 12 ] ], [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -595,7 +595,7 @@
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ],
       [ [ "beans_cooked", 2 ], [ "dry_beans", 2 ], [ "raw_beans", 2 ] ]
     ]
   },
@@ -856,7 +856,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "meat_red_raw", 12, "LIST" ] ] ]
+    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ], [ [ "meat_red_raw", 12, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -876,7 +876,7 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "mushroom", 24 ], [ "veggy_any_uncooked", 12, "LIST" ] ]
     ]
   },
@@ -899,7 +899,7 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "sweet_fruit", 24, "LIST" ] ],
       [ [ "sugar_standard", 12, "LIST" ] ]
     ]
@@ -920,7 +920,7 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "fish", 12 ] ] ]
+    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ], [ [ "fish", 12 ] ] ]
   },
   {
     "result": "offal_canned",
@@ -940,7 +940,7 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "offal", 12 ], [ "liver", 30 ], [ "sweetbread", 30 ], [ "kidney", 30 ] ]
     ]
   },
@@ -962,7 +962,7 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "tomato", 24 ], [ "irradiated_tomato", 24 ] ]
     ]
   },
@@ -984,7 +984,7 @@
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "beans_cooked", 12 ], [ "dry_beans", 12 ], [ "raw_beans", 12 ] ]
     ]
   },
@@ -1006,7 +1006,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "woods_soup_ingredients", 6 ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1026,7 +1026,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "meat_soup_ingredients", 6 ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1046,7 +1046,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "veggy_soup_ingredients", 12 ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1066,7 +1066,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "fish_soup_ingredients", 6 ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1086,7 +1086,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "using": [ [ "broth_ingredients", 12 ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 22 ], [ "water_clean", 22 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ], [ [ "water", 22 ], [ "water_clean", 22 ] ] ]
   },
   {
     "type": "recipe",
@@ -1105,7 +1105,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "water", 22 ], [ "water_clean", 22 ] ], [ [ "bone", 120 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ], [ [ "water", 22 ], [ "water_clean", 22 ] ], [ [ "bone", 120 ] ] ]
   },
   {
     "type": "recipe",
@@ -1124,7 +1124,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
       [ [ "can_tomato", 24 ], [ "tomato", 24 ], [ "irradiated_tomato", 24 ] ]
     ]
@@ -1146,7 +1146,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ],
       [ [ "can_tomato", 4 ], [ "tomato", 4 ], [ "irradiated_tomato", 4 ] ],
       [ [ "water", 12 ], [ "water_clean", 12 ] ]
     ]
@@ -1194,7 +1194,7 @@
     "qualities": [ { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ],
       [ [ "water", 12 ], [ "water_clean", 12 ] ],
       [ [ "sweet_fruit_like", 1, "LIST" ] ],
       [ [ "sugar", 5 ] ]
@@ -1224,7 +1224,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
     "components": [
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "water", 22 ], [ "water_clean", 22 ] ],
       [ [ "milk_standard_raw_fresh", 24, "LIST" ] ],
       [ [ "sugar_standard", 36, "LIST" ] ]
@@ -1253,7 +1253,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "milk_standard_raw_fresh", 4, "LIST" ] ], [ [ "sugar_standard", 6, "LIST" ] ] ]
+    "components": [ [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "milk_standard_raw_fresh", 4, "LIST" ] ], [ [ "sugar_standard", 6, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1348,7 +1348,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "irradiated_apple", 4 ], [ "apple", 4 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "irradiated_apple", 4 ], [ "apple", 4 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1387,7 +1387,7 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
     "components": [
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "irradiated_apple", 24 ], [ "apple", 24 ] ],
       [ [ "water", 10 ], [ "water_clean", 10 ] ]
     ]
@@ -1409,7 +1409,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "irradiated_orange", 4 ], [ "orange", 4 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "irradiated_orange", 4 ], [ "orange", 4 ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1448,7 +1448,7 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
     "components": [
-      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ],
       [ [ "irradiated_orange", 24 ], [ "orange", 24 ] ],
       [ [ "water", 10 ], [ "water_clean", 10 ] ]
     ]
@@ -1471,7 +1471,7 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
     "components": [
-      [ [ "jar_glass", 1 ] ],
+      [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ],
       [ [ "irradiated_cranberries", 6 ], [ "cranberries", 6 ] ],
       [ [ "water", 10 ], [ "water_clean", 10 ] ]
     ]
@@ -1535,7 +1535,7 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_glass", 1 ] ], [ [ "sweet_fruit", 2, "LIST" ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_glass", 1 ], ["jar_glass_sealed", 1 ] ], [ [ "sweet_fruit", 2, "LIST" ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   },
   {
     "type": "recipe",
@@ -1572,6 +1572,6 @@
     "batch_time_factors": [ 80, 4 ],
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "HAMMER", "level": 1 }, { "id": "CONTAIN", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ], [ [ "rag", -1 ] ] ],
-    "components": [ [ [ "jar_3l_glass", 1 ] ], [ [ "sweet_fruit", 12, "LIST" ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
+    "components": [ [ [ "jar_3l_glass", 1 ], ["jar_3l_glass_sealed", 1 ] ], [ [ "sweet_fruit", 12, "LIST" ] ], [ [ "water", 10 ], [ "water_clean", 10 ] ] ]
   }
 ]
