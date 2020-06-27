@@ -1102,7 +1102,7 @@ std::vector<Pickup::pickup_rect> Pickup::pickup_rect::list;
 
 Pickup::pickup_rect *Pickup::pickup_rect::find_by_coordinate( point p )
 {
-    for( pickup_rect rect : pickup_rect::list ) {
+    for( pickup_rect &rect : pickup_rect::list ) {
         if( rect.contains( p ) ) {
             return &rect;
         }
