@@ -3923,25 +3923,29 @@ int iuse::arrow_flammable( player *p, item *it, bool, const tripoint & )
 int iuse::molotov_lit( player *p, item *it, bool t, const tripoint &pos )
 {
     if( pos.x == -999 || pos.y == -999 ) {
+		debugmsg(_("pos"));
         return 0;
+	} else if( !t ) {
+		debugmsg(_("bool t"));
+        for( auto &pt : g->m.points_in_radius( pos, 1, 0 ) ) {
+            const int intensity = 1 + one_in( 3 ) + one_in( 5 );
+            g->m.add_field( pt, fd_fire, intensity );
+        }
+		return 1;
     } else if( it->charges > 0 ) {
         p->add_msg_if_player( m_info, _( "You've already lit the %s, try throwing it instead." ),
                               it->tname() );
+		debugmsg(_("charges"));
         return 0;
     } else if( p->has_item( *it ) && it->charges == 0 ) {
+		debugmsg(_("go out"));
         it->charges += 1;
         if( one_in( 5 ) ) {
             p->add_msg_if_player( _( "Your lit Molotov goes out." ) );
             it->convert( itype_molotov ).active = false;
         }
-    } else {
-        if( !t ) {
-            for( auto &pt : g->m.points_in_radius( pos, 1, 0 ) ) {
-                const int intensity = 1 + one_in( 3 ) + one_in( 5 );
-                g->m.add_field( pt, fd_fire, intensity );
-            }
-        }
-    }
+    } 
+	debugmsg(_("nothing happen"));
     return 0;
 }
 
