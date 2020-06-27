@@ -1,0 +1,7 @@
+[
+  {
+    "type": "item_action",
+    "id": "HOTPLATE",
+    "name": { "str": "Cauterize a wound" }
+  }
+]
