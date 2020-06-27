@@ -42,7 +42,8 @@ window_dimensions get_window_dimensions( const catacurses::window &win );
 // Get dimensional info of an imaginary normal catacurses::window with the given
 // position and size. Unlike real catacurses::window, size can be zero.
 window_dimensions get_window_dimensions( const point &pos, const point &size );
-bool window_contains_point( const catacurses::window &win, const point p );
+// Text level
+bool window_contains_point( const catacurses::window &win, const point &p );
 
 #endif // TILES
 
