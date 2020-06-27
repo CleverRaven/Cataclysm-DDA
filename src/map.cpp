@@ -3664,7 +3664,6 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         }
     }
 
-
     // Rescale the damage
     if( dam <= 0 ) {
         proj.impact.damage_units.clear();
