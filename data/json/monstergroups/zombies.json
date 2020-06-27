@@ -583,7 +583,7 @@
     "monsters": [
       { "monster": "mon_feral_human_pipe", "freq": 100, "cost_multiplier": 1, "pack_size": [ 3, 8 ] },
       { "monster": "mon_feral_human_crowbar", "freq": 40, "cost_multiplier": 1, "pack_size": [ 2, 6 ] },
-      { "monster": "mon_feral_human_axe", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] },
+      { "monster": "mon_feral_human_axe", "freq": 20, "cost_multiplier": 2, "pack_size": [ 1, 4 ] }
     ]
   },
   {
