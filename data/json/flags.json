@@ -345,12 +345,6 @@
     "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
   },
   {
-    "id": "POWERED",
-    "type": "json_flag",
-    "context": [ "TOOL" ],
-    "//": "If turned ON, it uses its own source of power, instead of relying on power of the user."
-  },
-  {
     "id": "PSYSHIELD_PARTIAL",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
