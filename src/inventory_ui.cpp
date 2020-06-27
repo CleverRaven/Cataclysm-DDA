@@ -2529,37 +2529,37 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
 
 
 inventory_process_selector::inventory_process_selector(
-    player& p,
-    const std::string& selector_title,
-    const inventory_selector_preset& preset,
-    const GetStats& get_st
+    player &p,
+    const std::string &selector_title,
+    const inventory_selector_preset &preset,
+    const GetStats &get_st
 ) :
     inventory_multiselector( p, preset, selector_title ),
     get_stats( get_st ),
-    max_chosen_count( std::numeric_limits<decltype(max_chosen_count)>::max() )
+    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
 {}
 
 inventory_selector::stats inventory_process_selector::get_raw_stats() const
 {
-    if ( get_stats ) {
+    if( get_stats ) {
         return get_stats( to_use );
     }
     return stats{ { stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} } };
 }
 
-void inventory_process_selector::set_chosen_count( inventory_entry& entry, size_t count )
+void inventory_process_selector::set_chosen_count( inventory_entry &entry, size_t count )
 {
-    const item_location& it = entry.any_item();
+    const item_location &it = entry.any_item();
 
-    if ( count == 0 ) {
+    if( count == 0 ) {
         entry.chosen_count = 0;
-        const auto iter = to_use.find(&*it);
-        if (iter != to_use.end()) {
-            to_use.erase(iter);
+        const auto iter = to_use.find( &*it );
+        if( iter != to_use.end() ) {
+            to_use.erase( iter );
         }
-        for ( const item_location& loc : entry.locations ) {
-            for ( auto iter = dropping.begin(); iter != dropping.end(); ) {
-                if ( iter->first == loc ) {
+        for( const item_location &loc : entry.locations ) {
+            for( auto iter = dropping.begin(); iter != dropping.end(); ) {
+                if( iter->first == loc ) {
                     dropping.erase( iter );
                 } else {
                     ++iter;
@@ -2569,11 +2569,11 @@ void inventory_process_selector::set_chosen_count( inventory_entry& entry, size_
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         to_use[&*it] = entry.chosen_count;
-        if (it->count_by_charges()) {
-            dropping.emplace_back( it, static_cast<int>(entry.chosen_count) );
+        if( it->count_by_charges() ) {
+            dropping.emplace_back( it, static_cast<int>( entry.chosen_count ) );
         } else {
-            for ( const item_location& loc : entry.locations ) {
-                if (count == 0) {
+            for( const item_location &loc : entry.locations ) {
+                if( count == 0 ) {
                     break;
                 }
                 dropping.emplace_back( loc, 1 );
@@ -2582,7 +2582,7 @@ void inventory_process_selector::set_chosen_count( inventory_entry& entry, size_
         }
     }
 
-    on_change(entry);
+    on_change( entry );
 }
 
 drop_locations inventory_process_selector::execute()
@@ -2590,52 +2590,50 @@ drop_locations inventory_process_selector::execute()
     shared_ptr_fast<ui_adaptor> ui = create_or_get_ui_adaptor();
 
     int count = 0;
-    while ( true ) {
+    while( true ) {
         ui_manager::redraw();
 
         const inventory_input input = get_input();
 
-        if ( input.ch >= '0' && input.ch <= '9' ) {
-            count = std::min(count, INT_MAX / 10 - 10);
+        if( input.ch >= '0' && input.ch <= '9' ) {
+            count = std::min( count, INT_MAX / 10 - 10 );
             count *= 10;
             count += input.ch - '0';
-        }
-        else if ( input.entry != nullptr ) {
+        } else if( input.entry != nullptr ) {
             select( input.entry->any_item() );
-            if (count == 0 && input.entry->chosen_count == 0) {
+            if( count == 0 && input.entry->chosen_count == 0 ) {
                 count = max_chosen_count;
             }
             set_chosen_count( *input.entry, count );
             count = 0;
-        }
-        else if ( input.action == "RIGHT" ) {
+        } else if( input.action == "RIGHT" ) {
             const auto selected( get_active_column().get_all_selected() );
 
-            if ( count == 0 ) {
+            if( count == 0 ) {
                 const bool clear = std::none_of( selected.begin(), selected.end(),
-                    [](const inventory_entry* elem ) {
-                        return elem->chosen_count > 0;
-                    });
+                []( const inventory_entry * elem ) {
+                    return elem->chosen_count > 0;
+                } );
 
-                if ( clear ) {
+                if( clear ) {
                     count = max_chosen_count;
                 }
             }
 
-            for (const auto& elem : selected) {
-                set_chosen_count(*elem, count);
+            for( const auto &elem : selected ) {
+                set_chosen_count( *elem, count );
             }
             count = 0;
-        } else if ( input.action == "CONFIRM" ) {
-            if ( dropping.empty() ) {
+        } else if( input.action == "CONFIRM" ) {
+            if( dropping.empty() ) {
                 popup_getkey( _( "No items were selected.  Use %s to select them." ),
-                    ctxt.get_desc( "RIGHT") );
+                              ctxt.get_desc( "RIGHT" ) );
                 continue;
             }
             break;
-        } else if ( input.action == "QUIT" ) {
+        } else if( input.action == "QUIT" ) {
             return drop_locations();
-        } else if ( input.action == "INVENTORY_FILTER" ) {
+        } else if( input.action == "INVENTORY_FILTER" ) {
             set_filter();
         } else {
             on_input( input );
@@ -2644,7 +2642,7 @@ drop_locations inventory_process_selector::execute()
     }
     drop_locations dropped_pos_and_qty;
 
-    for ( const std::pair<item_location, int>& drop_pair : dropping ) {
+    for( const std::pair<item_location, int> &drop_pair : dropping ) {
         dropped_pos_and_qty.push_back( drop_pair );
     }
     return dropped_pos_and_qty;
