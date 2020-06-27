@@ -225,20 +225,6 @@
     "longest_side": "666 mm",
     "price": 3000000,
     "price_postapoc": 14000,
-    "valid_mod_locations": [
-      [ "accessories", 3 ],
-      [ "barrel", 1 ],
-      [ "bore", 1 ],
-      [ "brass catcher", 1 ],
-      [ "grip", 1 ],
-      [ "mechanism", 4 ],
-      [ "rail mount", 1 ],
-      [ "sights mount", 1 ],
-      [ "underbarrel mount", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ]
-    ],
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "3 rd.", 3 ], [ "AUTO", "auto", 4 ] ],
     "built_in_mods": [ "mp5sd_suppressor" ]
   },
   {
