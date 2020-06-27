@@ -839,7 +839,7 @@ void uilist::query( bool loop, int timeout )
         } else if( !fentries.empty() && ret_act == "SELECT" ) {
             cata::optional<point> p = ctxt.get_coordinates_text( window );
             if( p ) {
-                if( window_contains_point( window, p.value() ) ) {
+                if( window_contains_point_relative( window, p.value() ) ) {
                     uilist_entry *entry = find_entry_by_coordinate( p.value() );
                     if( entry != nullptr ) {
                         if( entry->enabled ) {

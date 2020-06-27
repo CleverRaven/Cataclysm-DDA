@@ -803,7 +803,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             } else if( action == "SELECT" ) {
                 cata::optional<point> p = ctxt.get_coordinates_text( w_pickup );
                 if( p ) {
-                    if( window_contains_point( w_pickup, p.value() ) ) {
+                    if( window_contains_point_relative( w_pickup, p.value() ) ) {
                         pickup_rect *rect = pickup_rect::find_by_coordinate( p.value() );
                         selected = rect->cur_it;
                         iScrollPos = 0;

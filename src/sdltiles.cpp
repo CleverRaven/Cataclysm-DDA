@@ -3781,12 +3781,11 @@ window_dimensions get_window_dimensions( const point &pos, const point &size )
     return get_window_dimensions( {}, pos, size );
 }
 
-bool window_contains_point( const catacurses::window &win, const point &p )
+bool window_contains_point_relative( const catacurses::window &win, const point &p )
 {
     const window_dimensions dim = get_window_dimensions( win );
-    const point &win_min = dim.window_pos_cell;
     const point &win_size = dim.window_size_cell;
-    const half_open_rectangle win_bounds( win_min, win_min + win_size );
+    const half_open_rectangle win_bounds( point( 0, 0 ), win_size );
     return win_bounds.contains( p );
 }
 
