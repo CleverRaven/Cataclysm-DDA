@@ -1886,7 +1886,7 @@ inventory_input inventory_selector::get_input()
     cata::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
     if( o_p ) {
         point p = o_p.value();
-        if( window_contains_point( w_inv, p ) ) {
+        if( window_contains_point_relative( w_inv, p ) ) {
             res.entry = find_entry_by_coordinate( p );
             if( res.entry != nullptr ) {
                 return res;
