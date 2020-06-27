@@ -5,6 +5,7 @@
     "name": { "str": "feral human" },
     "description": "Pupils dilated and what remains to be seen of the iris and sclera are bloodshot.  It still breathes but the zombies treat it like one of them.",
     "default_faction": "zombie",
+    "looks_like": "zombie",
     "bodytype": "human",
     "species": [ "HUMAN" ],
     "volume": "62500 ml",
@@ -71,28 +72,5 @@
     "copy-from": "mon_feral_human_pipe",
     "melee_dice": 3,
     "melee_dice_sides": 8
-  },
-  {
-    "id": "mon_feral_human_archer",
-    "type": "MONSTER",
-    "copy-from": "mon_feral_human_pipe",
-    "description": "This feral human has some kind of primitive bow and is searching for a target.  It still breathes but the zombies treat it like one of them.",
-    "melee_dice": 2,
-    "melee_dice_sides": 6,
-    "starting_ammo": { "arrow_fire_hardened_fletched": 8 },
-    "special_attacks": [
-      {
-        "type": "gun",
-        "cooldown": 5,
-        "move_cost": 150,
-        "gun_type": "selfbow",
-        "fake_skills": [ [ "gun", 2 ], [ "archery", 2 ] ],
-        "fake_dex": 6,
-        "fake_per": 6,
-        "require_targeting_player": false,
-        "ranges": [ [ 2, 12, "DEFAULT" ] ],
-        "description": "They loose an arrow at you!"
-      }
-    ]
   }
 ]
