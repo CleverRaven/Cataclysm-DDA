@@ -8020,6 +8020,11 @@ void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_a
     }
 
     if( may_avoid && c.avoid_trap( pos, tr ) ) {
+        player *const pl = c.as_player();
+        if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
+            pl->add_msg_if_player( _( "You've spotted a %1$ss!" ), tr.name() );
+            pl->add_known_trap( pos, tr );
+        }
         return;
     }
 
