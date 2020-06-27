@@ -221,6 +221,8 @@
     "name": { "str": "H&K MP5SD" },
     "description": "The H&K MP5SD offers subsonic performance in almost the same footprint as the H&K MP5, retaining its handiness.  The large suppressor cuts down on muzzle flash greatly, aiding in night operations.  It has also seen some popularity with SWAT teams, as it lowers the risk of fire and explosions in illegal laboratories.  With body armor in more common use, the MP5SD has waned in popularity among special forces due to its decreased terminal performance.",
     "weight": "3230 g",
+    "volume": "3499 ml",
+    "longest_side": "666 mm",
     "price": 3000000,
     "price_postapoc": 14000,
     "valid_mod_locations": [
