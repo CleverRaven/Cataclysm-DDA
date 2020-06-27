@@ -871,9 +871,8 @@ void vehicle::handle_trap( const tripoint &p, int part )
         return;
     }
     const trap &tr = g->m.tr_at( p );
-    const trap_id t = tr.loadid;
 
-    if( t == tr_null ) {
+    if( tr.is_null() ) {
         // If the trap doesn't exist, we can't interact with it, so just return
         return;
     }
