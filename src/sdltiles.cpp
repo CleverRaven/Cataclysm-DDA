@@ -3784,9 +3784,12 @@ window_dimensions get_window_dimensions( const point &pos, const point &size )
 bool window_contains_point( const catacurses::window &win, const point &p )
 {
     const window_dimensions dim = get_window_dimensions( win );
+    const int &fw = dim.scaled_font_size.x;
+    const int &fh = dim.scaled_font_size.y;
     const point &win_min = dim.window_pos_pixel;
     const point &win_size = dim.window_size_pixel;
     const half_open_rectangle win_bounds( win_min, win_min + win_size );
+    const point text_p = point( p.x * fw, p.y * fh );
     return win_bounds.contains( p );
 }
 
