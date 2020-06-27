@@ -637,8 +637,12 @@ void Character::load( const JsonObject &data )
         set_part_hp_cur( bodypart_id( "torso" ), hp_cur[1] );
         set_part_hp_max( bodypart_id( "torso" ), hp_max[1] );
         set_part_hp_cur( bodypart_id( "arm_l" ), hp_cur[2] );
+        set_part_hp_max( bodypart_id( "arm_l" ), hp_max[2] );
+        set_part_hp_cur( bodypart_id( "arm_r" ), hp_cur[3] );
         set_part_hp_max( bodypart_id( "arm_r" ), hp_max[3] );
         set_part_hp_cur( bodypart_id( "leg_l" ), hp_cur[4] );
+        set_part_hp_max( bodypart_id( "leg_l" ), hp_max[4] );
+        set_part_hp_cur( bodypart_id( "leg_r" ), hp_cur[5] );
         set_part_hp_max( bodypart_id( "leg_r" ), hp_max[5] );
     }
 
