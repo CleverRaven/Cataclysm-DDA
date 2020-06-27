@@ -2431,6 +2431,7 @@ std::vector<item_location> Character::all_items_loc()
 
 std::vector<item_location> Character::top_items_loc()
 {
+    std::vector<item_location> ret;
     for( item &worn_it : worn ) {
         item_location worn_loc( *this, &worn_it );
         ret.push_back( worn_loc );
