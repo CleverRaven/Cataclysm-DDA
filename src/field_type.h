@@ -163,7 +163,7 @@ struct field_type {
         field_type_id wandering_field;
         std::string looks_like;
 
-        bool decrease_intentisty_on_contact = false;
+        bool decrease_intensity_on_contact = false;
 
     public:
         const field_intensity_level &get_intensity_level( int level = 0 ) const;

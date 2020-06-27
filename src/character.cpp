@@ -339,7 +339,7 @@ static const std::string flag_BELTED( "BELTED" );
 static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_DEAF( "DEAF" );
 static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
-static const std::string flag_EFFECT_IMPEDING( "IMPEDING" );
+static const std::string flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
 static const std::string flag_EFFECT_INVISIBLE( "EFFECT_INVISIBLE" );
 static const std::string flag_EFFECT_NIGHT_VISION( "EFFECT_NIGHT_VISION" );
 static const std::string flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );

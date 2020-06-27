@@ -11,7 +11,7 @@
     "max_duration": "30 s",
     "base_mods": { "speed_mod": [ -20 ] },
     "scaling_mods": { "speed_mod": [ -20 ] },
-    "flags": [ "IMPEDING" ],
+    "flags": [ "EFFECT_IMPEDING" ],
     "show_in_info": true
   }
 ]

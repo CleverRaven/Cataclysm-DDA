@@ -1729,7 +1729,7 @@ void map::creature_in_field( Creature &critter )
             if( effect_added ) {
                 critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
             }
-            if( cur_field_id->decrease_intentisty_on_contact ) {
+            if( cur_field_id->decrease_intensity_on_contact ) {
                 cur_field_entry.mod_field_intensity( -1 );
             }
         }
