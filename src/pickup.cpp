@@ -53,6 +53,7 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
+#include "sdltiles.h"
 
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
@@ -801,12 +802,14 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                     itemcount = 0;
                 }
             } else if( action == "SELECT" ) {
-                std::pair<point, bool> p = ctxt.get_coordinates_text( w_pickup );
-                if( p.second ) {
-                    pickup_rect *rect = pickup_rect::find_by_coordinate( p.first );
-                    selected = rect->cur_it;
-                    iScrollPos = 0;
-                    idx = selected;
+                cata::optional<point> p = ctxt.get_coordinates_text( w_pickup );
+                if( p ) {
+                    if( window_contains_point( w_pickup, p.value ) ) {
+                        pickup_rect *rect = pickup_rect::find_by_coordinate( p.value );
+                        selected = rect->cur_it;
+                        iScrollPos = 0;
+                        idx = selected;
+                    }
                 }
 
             } else if( action == "SCROLL_UP" ) {

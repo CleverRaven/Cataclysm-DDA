@@ -30,6 +30,7 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "sdltiles.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -1882,12 +1883,13 @@ inventory_input inventory_selector::get_input()
     res.action = ctxt.handle_input();
     res.ch = ctxt.get_raw_input().get_first_input();
 
-    std::pair<point, bool> ct_pair = ctxt.get_coordinates_text( w_inv );
-    if( ct_pair.second ) {
-        point p = ct_pair.first;
-        res.entry = find_entry_by_coordinate( p );
-        if( res.entry != nullptr ) {
-            return res;
+    cata::optional<point> p = ctxt.get_coordinates_text( w_inv );
+    if( p ) {
+        if( window_contains_point( w_inv, p.value ) ) {
+            res.entry = find_entry_by_coordinate( p.value );
+            if( res.entry != nullptr ) {
+                return res;
+            }
         }
     }
 

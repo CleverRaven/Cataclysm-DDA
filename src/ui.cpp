@@ -20,6 +20,7 @@
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "sdltiles.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -837,12 +838,14 @@ void uilist::query( bool loop, int timeout )
                 callback->select( this );
             }
         } else if( !fentries.empty() && ret_act == "SELECT" ) {
-            std::pair<point, bool> p = ctxt.get_coordinates_text( window );
-            if( p.second ) {
-                uilist_entry *entry = find_entry_by_coordinate( p.first );
-                if( entry != nullptr ) {
-                    if( entry->enabled ) {
-                        ret = entry->retval;
+            cata::optional<point> p = ctxt.get_coordinates_text( window );
+            if( p ) {
+                if( window_contains_point( window, p.value ) ) {
+                    uilist_entry *entry = find_entry_by_coordinate( p.first );
+                    if( entry != nullptr ) {
+                        if( entry->enabled ) {
+                            ret = entry->retval;
+                        }
                     }
                 }
             }

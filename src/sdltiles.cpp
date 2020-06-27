@@ -3781,6 +3781,15 @@ window_dimensions get_window_dimensions( const point &pos, const point &size )
     return get_window_dimensions( {}, pos, size );
 }
 
+bool window_contains_point( const catacurses::window &win, const point p )
+{
+    const window_dimensions dim = get_window_dimensions( win );
+    const point &win_min = dim.window_pos_pixel;
+    const point &win_size = dim.window_size_pixel;
+    const half_open_rectangle win_bounds( win_min, win_min + win_size );
+    return win_bounds.contains( p );
+}
+
 cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
 {
     if( !coordinate_input_received ) {
