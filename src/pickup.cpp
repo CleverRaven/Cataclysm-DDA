@@ -1103,7 +1103,7 @@ int Pickup::cost_to_move_item( const Character &who, const item &it )
 
 std::vector<Pickup::pickup_rect> Pickup::pickup_rect::list;
 
-Pickup::pickup_rect *Pickup::pickup_rect::find_by_coordinate( point p )
+Pickup::pickup_rect *Pickup::pickup_rect::find_by_coordinate( const point p )
 {
     for( pickup_rect &rect : pickup_rect::list ) {
         if( rect.contains( p ) ) {

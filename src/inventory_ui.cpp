@@ -1417,7 +1417,7 @@ inventory_entry *inventory_selector::find_entry_by_invlet( int invlet ) const
     return nullptr;
 }
 
-inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate ) const
+inventory_entry *inventory_selector::find_entry_by_coordinate( const point coordinate ) const
 {
     std::vector<inventory_column *> columns = get_visible_columns();
     const auto filter_to_selected = [&]( const inventory_entry & entry ) {

@@ -841,7 +841,7 @@ void uilist::query( bool loop, int timeout )
             cata::optional<point> p = ctxt.get_coordinates_text( window );
             if( p ) {
                 if( window_contains_point( window, p.value ) ) {
-                    uilist_entry *entry = find_entry_by_coordinate( p.first );
+                    uilist_entry *entry = find_entry_by_coordinate( p.value );
                     if( entry != nullptr ) {
                         if( entry->enabled ) {
                             ret = entry->retval;
@@ -879,7 +879,7 @@ void uilist::query( bool loop, int timeout )
     } while( loop && ret == UILIST_WAIT_INPUT );
 }
 
-uilist_entry *uilist::find_entry_by_coordinate( point p )
+uilist_entry *uilist::find_entry_by_coordinate( const point p )
 {
     for( int i : fentries ) {
         uilist_entry &entry = entries[i];

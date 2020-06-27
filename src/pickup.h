@@ -50,7 +50,7 @@ struct pickup_rect : inclusive_rectangle {
     pickup_rect( const point &P_MIN, const point &P_MAX ) : inclusive_rectangle( P_MIN, P_MAX ) {}
     int cur_it;
     static std::vector<pickup_rect> list;
-    static pickup_rect *find_by_coordinate( point p );
+    static pickup_rect *find_by_coordinate( const point p );
 };
 
 } // namespace Pickup
