@@ -2282,7 +2282,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "relative": { "weight": 1000, "volume": 6, "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
+    "relative": { "weight": "1 kg", "volume": "1500 ml", "range": 3, "ranged_damage": { "damage_type": "stab", "amount": 4 } },
     "proportional": { "price": 3, "dispersion": 0.5 },
     "pocket_data": [
       {

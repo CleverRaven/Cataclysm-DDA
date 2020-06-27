@@ -9,7 +9,7 @@
     "broken_symbol": "X",
     "broken_color": "light_gray",
     "damage_modifier": 40,
-    "folded_volume": 1,
+    "folded_volume": "250 ml",
     "durability": 80,
     "description": "A piece of wood with holes suitable for a bike or motorbike wheel.",
     "item": "wheel_mount_wood",

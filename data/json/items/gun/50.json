@@ -101,12 +101,12 @@
       [ "underbarrel mount", 1 ]
     ],
     "relative": {
-      "weight": -21500,
-      "volume": -6,
+      "weight": "-21500 g",
+      "volume": "-1500 ml",
       "price": -1210000,
       "ranged_damage": { "damage_type": "bullet", "amount": -4 },
       "dispersion": 60,
-      "barrel_length": -1
+      "barrel_length": "-250 ml"
     },
     "flags": [ "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "50": 1 } } ]

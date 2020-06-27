@@ -139,7 +139,7 @@
   {
     "type": "trap",
     "id": "tr_beartrap",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "bear trap",
     "color": "blue",
     "symbol": "^",
@@ -161,7 +161,7 @@
   {
     "type": "trap",
     "id": "tr_beartrap_buried",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "buried bear trap",
     "color": "blue",
     "symbol": "^",
@@ -234,7 +234,7 @@
   {
     "type": "trap",
     "id": "tr_crossbow",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "crossbow trap",
     "color": "green",
     "symbol": "^",
@@ -257,7 +257,7 @@
   {
     "type": "trap",
     "id": "tr_shotgun_2",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "shotgun trap",
     "color": "red",
     "symbol": "^",
@@ -279,7 +279,7 @@
   {
     "type": "trap",
     "id": "tr_shotgun_2_1",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "shotgun trap",
     "color": "red",
     "symbol": "^",
@@ -302,7 +302,7 @@
   {
     "type": "trap",
     "id": "tr_shotgun_1",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "shotgun trap",
     "color": "red",
     "symbol": "^",
@@ -325,7 +325,7 @@
   {
     "type": "trap",
     "id": "tr_engine",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "spinning blade engine",
     "color": "light_red",
     "symbol": "_",
@@ -351,7 +351,7 @@
   {
     "type": "trap",
     "id": "tr_landmine",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "land mine",
     "color": "red",
     "symbol": "^",
@@ -373,7 +373,7 @@
   {
     "type": "trap",
     "id": "tr_landmine_buried",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "buried land mine",
     "color": "red",
     "symbol": "_",
@@ -395,7 +395,7 @@
   {
     "type": "trap",
     "id": "tr_telepad",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "teleport pad",
     "color": "magenta",
     "symbol": "_",
@@ -502,7 +502,7 @@
   {
     "type": "trap",
     "id": "tr_boobytrap",
-    "trigger_weight": 200,
+    "trigger_weight": "200 g",
     "name": "booby trap",
     "color": "light_cyan",
     "symbol": "^",
