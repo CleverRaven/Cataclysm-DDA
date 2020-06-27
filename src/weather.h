@@ -82,16 +82,13 @@ struct weather_printable {
  */
 namespace weather_effect
 {
-
-
-//!< Fallback weather.
-void glare( int intensity );
 void thunder( int intensity );
 void lightning( int intensity );
 void light_acid( int intensity );
 void acid( int intensity );
 void wet_player( int amount );
-}
+} // weather_effect
+
 using weather_effect_fn = void ( * )( int intensity );
 
 struct weather_sum {
@@ -120,7 +117,7 @@ bool acidic( weather_type type );
 std::vector<std::pair<std::string, int>> effects( weather_type type );
 std::string tiles_animation( weather_type type );
 weather_animation_t get_weather_animation( weather_type type );
-int sound_category( weather_type const type );
+int sound_category( weather_type type );
 sun_intensity_type sun_intensity( weather_type type );
 weather_requirements requirements( weather_type );
 weather_type get_bad_weather();

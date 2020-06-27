@@ -10,7 +10,7 @@
 
 struct tripoint;
 class JsonObject;
-typedef int weather_type;
+using weather_type = int;
 
 enum class precip_class : int {
     NONE,
