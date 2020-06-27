@@ -260,7 +260,7 @@
   },
   {
     "type": "recipe",
-    "result": "slam_shotgun",
+    "result": "four_winds_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
@@ -305,7 +305,7 @@
   {
     "type": "recipe",
     "id_suffix": "without_welding",
-    "result": "slam_shotgun",
+    "result": "four_winds_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
