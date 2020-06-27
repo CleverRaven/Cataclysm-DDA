@@ -208,7 +208,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         bool test_required_weathers = requires.required_weathers.empty();
         if( !test_required_weathers ) {
             std::string current_weather = weather::name( current_conditions );
-            for each( std::string name in requires.required_weathers ) {
+            for( std::string name : requires.required_weathers ) {
                 if( name == current_weather ) {
                     test_required_weathers = true;
                     break;

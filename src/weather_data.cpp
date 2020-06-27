@@ -127,7 +127,7 @@ weather_type get_bad_weather()
 {
     weather_type bad_weather = WEATHER_NULL;
     int current_weather = 0;
-    for each( weather_datum weather in weather_datums ) {
+    for( weather_datum weather : weather_datums ) {
         current_weather++;
         if( weather.precip == precip_class::HEAVY ) {
             bad_weather = current_weather;
