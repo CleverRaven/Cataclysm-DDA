@@ -638,7 +638,7 @@ class input_context
          * Get coordinate of text level from mouse input, difference between this and get_coordinates is that one is getting pixel level coordinate.
          * Return false if the result is not in the window.
          */
-        std::pair<point, bool> get_coordinates_text( const catacurses::window &capture_win ) const;
+        cata::optional<point> get_coordinates_text( const catacurses::window &capture_win ) const;
 
         /**
          * Get the human-readable name for an action.
