@@ -172,7 +172,6 @@
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 1 ] ],
-    "difficulty": 0,
     "time": "1 h",
     "autolearn": true,
     "qualities": [
