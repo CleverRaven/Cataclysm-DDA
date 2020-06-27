@@ -544,7 +544,7 @@ void handle_weather_effects( weather_type const w )
         { "acid", &weather_effect::acid }
     };
 
-    for each( std::pair<std::string, int> effect in weather_effects ) {
+    for( std::pair<std::string, int> effect : weather_effects ) {
         if( all_weather_effects.count( effect.first ) > 0 ) {
             all_weather_effects[effect.first]( effect.second );
         } else {
