@@ -1818,7 +1818,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     // actually make a valid ledge drop location with zlevels on, this forces
     // at least one zlevel drop and if down_ter is impassible it's probably
     // inside a wall, we could workaround that further but it's unnecessary.
-    const bool up_is_ledge = tr_at( up_p ).loadid == tr_ledge;
+    const bool up_is_ledge = tr_at( up_p ) == tr_ledge;
 
     if( up_ter.movecost == 0 ) {
         // Unpassable tile

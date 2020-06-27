@@ -138,6 +138,13 @@ struct trap {
             return always_invisible;
         }
 
+        bool operator==( const trap_id &id ) const {
+            return loadid == id;
+        }
+        bool operator!=( const trap_id &id ) const {
+            return loadid != id;
+        }
+
         /**
          * Called when the player examines a tile. This is supposed to handled
          * all kind of interaction of the player with the trap, including removal.

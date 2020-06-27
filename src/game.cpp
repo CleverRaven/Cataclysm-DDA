@@ -1810,7 +1810,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
         int ffire = maptile_field_intensity( mt, fd_fire );
         if( ffire > 0 ) {
             heat_intensity = ffire;
-        } else if( here.tr_at( dest ).loadid == tr_lava ) {
+        } else if( here.tr_at( dest ) == tr_lava ) {
             heat_intensity = 3;
         }
         if( heat_intensity == 0 ) {
@@ -1843,8 +1843,7 @@ int get_convection_temperature( const tripoint &location )
     int temp_mod = 0;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ).loadid == tr_lava ?
-                   fd_fire.obj().get_convection_temperature_mod() : 0;
+    int lava_mod = here.tr_at( location ) == tr_lava ? fd_fire->get_convection_temperature_mod() : 0;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
@@ -6292,7 +6291,7 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
     if( tr.can_see( lp, u ) ) {
         partial_con *pc = m.partial_con_at( lp );
         std::string tr_name;
-        if( pc && tr.loadid == tr_unfinished_construction ) {
+        if( pc && tr == tr_unfinished_construction ) {
             const construction &built = pc->id.obj();
             tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.description,
                                      pc->counter / 100000 );
@@ -9216,8 +9215,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
         return false;
     }
-    if( !harmful_stuff.empty() && u.is_mounted() &&
-        m.tr_at( dest_loc ).loadid == tr_ledge ) {
+    if( !harmful_stuff.empty() && u.is_mounted() && m.tr_at( dest_loc ) == tr_ledge ) {
         add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
                  u.mounted_creature->get_name() );
         return false;
@@ -9242,7 +9240,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
                                true ) );
         // HACK: Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
-        if( tr.loadid == tr_ledge && m.has_zlevels() ) {
+        if( tr == tr_ledge && m.has_zlevels() ) {
             if( !boardable ) {
                 harmful_stuff.emplace_back( tr.name() );
             }
@@ -10392,7 +10390,7 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
 
     // Fall down to the ground - always on the last reached tile
     if( !m.has_flag( "SWIMMABLE", c->pos() ) ) {
-        const trap_id trap_under_creature = m.tr_at( c->pos() ).loadid;
+        const trap &trap_under_creature = m.tr_at( c->pos() );
         // Didn't smash into a wall or a floor so only take the fall damage
         if( thru && trap_under_creature == tr_ledge ) {
             m.creature_on_trap( *c, false );
@@ -11829,7 +11827,7 @@ void game::process_artifact( item &it, player &p )
                     case ARTC_PORTAL:
                         for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
                             m.remove_field( dest, fd_fatigue );
-                            if( m.tr_at( dest ).loadid == tr_portal ) {
+                            if( m.tr_at( dest ) == tr_portal ) {
                                 add_msg( m_good, _( "The portal collapses!" ) );
                                 m.remove_trap( dest );
                                 it.charges++;

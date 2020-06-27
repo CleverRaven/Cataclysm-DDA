@@ -969,7 +969,7 @@ void complete_construction( player *p )
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
+        if( here.tr_at( terp ) == tr_unfinished_construction ) {
             here.remove_trap( terp );
         }
         if( p->is_npc() ) {
@@ -1003,7 +1003,7 @@ void complete_construction( player *p )
             award_xp( *elem );
         }
     }
-    if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
+    if( here.tr_at( terp ) == tr_unfinished_construction ) {
         here.remove_trap( terp );
     }
     here.partial_con_remove( terp );

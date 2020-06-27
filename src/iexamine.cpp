@@ -3709,7 +3709,7 @@ void trap::examine( player &p, const tripoint &examp ) const
         add_msg( m_warning, _( "You cannot do that while mounted." ) );
         return;
     }
-    if( loadid == tr_unfinished_construction || here.partial_con_at( examp ) ) {
+    if( *this == tr_unfinished_construction || here.partial_con_at( examp ) ) {
         partial_con *pc = here.partial_con_at( examp );
         if( pc ) {
             if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
