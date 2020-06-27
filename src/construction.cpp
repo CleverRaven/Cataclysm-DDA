@@ -941,7 +941,7 @@ void place_construction( const std::string &desc )
     // Special handling for constructions that take place on existing traps.
     // Basically just don't add the unfinished construction trap.
     // TODO: handle this cleaner, instead of adding a special case to pit iexamine.
-    if( here.tr_at( pnt ).loadid == tr_null ) {
+    if( here.tr_at( pnt ).is_null() ) {
         here.trap_set( pnt, tr_unfinished_construction );
     }
     // Use up the components

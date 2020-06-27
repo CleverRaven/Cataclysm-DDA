@@ -1727,7 +1727,7 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
     pc.id = built_chosen.id;
     map &here = get_map();
     // Set the trap that has the examine function
-    if( here.tr_at( src_loc ).loadid == tr_null ) {
+    if( here.tr_at( src_loc ).is_null() ) {
         here.trap_set( src_loc, tr_unfinished_construction );
     }
     // Use up the components
