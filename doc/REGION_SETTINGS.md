@@ -494,7 +494,8 @@ The **weather** section defines the base weather attributes used for the region.
 | `base_wind`                    | Base wind for the region in mph units. Roughly the yearly average.    |
 | `base_wind_distrib_peaks`      | How high the wind peaks can go. Higher values produce windier days.   |
 | `base_wind_season_variation`   | How the wind varies with season. Lower values produce more variation  |
-| `weather_types`				 | Definitons of the various weather types								 |
+| `weather_types`				 | Ids of the weather types allowed in this region					     |
+
 ### Example
 
 ```json
@@ -510,87 +511,6 @@ The **weather** section defines the base weather attributes used for the region.
 		"base_acid": 0.0,
 		"weather_types": {}
 	}
-}
-```
-
-## Weather_type
-
-Each weather type is a type of weather that occurs, its effects and what causes it.  The very first entry 
-is a null value and should not happen.  The second entry will be the default weather.  All others postion only
- matters for deciding what the current weather is.  All entries will be processed in order and the last valid
- weather is the current.
-
-
-##Fields
-
-|     Identifier                 |                              Description                              |
-| ------------------------------ | --------------------------------------------------------------------- |
-| `name`                         | UI name of weather type.                                              |
-| `color`                        | UI color of weather type.                                             |
-| `map_color`                    | Map color of weather type.                                            |
-| `glyph`                        | Map glyph of weather type.                                            |
-| `ranged_penalty`               | Penalty to ranged attacks.                                            |
-| `sight_penalty`                | Penalty to per-square visibility, applied in transparency map.        |
-| `light_modifier`               | modification to ambient light.                                        |
-| `sound_attn`                   | Sound attenuation of a given weather type.                            |
-| `dangerous`                    | If true, our activity gets interrupted.                               |
-| `precip`                       | Amount of associated precipitation.                                   |
-| `rains`                        | Whether said precipitation falls as rain.                             |
-| `acidic`                       | Whether said precipitation is acidic.                                 |
-| `tiles_animation`              | Optional, name of the tiles animation to use                          |
-| `sound_category`               | Optional, if playing sound effects what to use                        |
-| `sun_intensity`                | Strength of the sun with 0 as weakest and 3 as the highest            |
-| `weather_animation`            | Optional, Information controlling weather animations.  Members: factor, color and glyph |
-| `effects`                      | String, int pair array for the effects the weather has.  At present wet, thunder, lightning, light_acid, and acid are supported. |  
-	`wet`                         | wets player by int amount
-	`thunder`                     | thunder sound with chance 1 in int
-	`lightening`                  | 1 in int chance of sound plus message and possible super charging electric fields
-	`light_acid`                  | causes pain unless waterproof
-	`acid_rain`                   | causes more pain unless waterproof
-
-| `requirements`                 | Optional, is what determines what weather it is.  All members are optional.  
-	When checking what weather it is it loops through the entries in order and uses the last one to succeed. |
-	
-	`pressure_min`
-	`pressure_max`
-	`humidity_min`
-	`humidity_max`
-	`temperature_min`
-	`temperature_max`
-	`windpower_min`
-	`windpower_max`
-	| These are all minimum and maximum values for which the weather will occur.  I.e it will only rain if its humid enough |
-	
-	`humidity_and_pressure`      | if there are pressure and humidity requirements are they both required or just one |
-	`acidic`                     | does this require acidic precipitation                                |
-	`time`                       | 0 for only during the day, 1 for only at night, 2 for both            |
-	`required_weathers`          | a string array of possible weathers it is at this point in the loop. i.e. rain can only happen if the conditions for clouds light drizzle or drizzle are present |
-
-
-### Example
-
-```json
-{
-	{
-          "name": "Lightning Storm",
-          "color": "c_yellow",
-          "map_color": "h_yellow",
-          "glyph": "%",
-          "ranged_penalty": 4,
-          "sight_penalty": 1.25,
-          "light_modifier": -45,
-          "sound_attn": 8,
-          "dangerous": false,
-          "precip": 3,
-          "rains": true,
-          "acidic": false,
-          "effects": [ { "name": "thunder", "intensity": 50 }, { "name": "lightning", "intensity": 600 } ],
-          "tiles_animation": "weather_rain_drop",
-          "weather_animation": { "factor": 0.04, "color": "c_light_blue", "glyph": "," },
-          "sound_category": 3,
-          "sun_intensity": 0,
-          "requirements": { "pressure_max": 990, "required_weathers": [ "Thunder Storm" ] }
-        }
 }
 ```
 

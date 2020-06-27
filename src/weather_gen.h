@@ -58,6 +58,7 @@ struct weather_requirements {
 
 using weather_effect_fn = void ( * )( int intensity );
 struct weather_datum {
+    std::string id;               //!< Internal name of weather
     std::string name;             //!< UI name of weather type.
     nc_color color;               //!< UI color of weather type.
     nc_color map_color;           //!< Map color of weather type.
@@ -70,7 +71,7 @@ struct weather_datum {
     precip_class precip;          //!< Amount of associated precipitation.
     bool rains;                   //!< Whether said precipitation falls as rain.
     bool acidic;                  //!< Whether said precipitation is acidic.
-    std::vector < std::pair < std::string, int >> effects;      //!< vector for weather effects.
+    std::vector < std::pair < weather_effect_fn, int >> effects;      //!< vector for weather effects.
     std::string tiles_animation;  //!< string for tiles animation
     weather_animation_t weather_animation; //!< Information for weather animations
     int sound_category;           //!< if playing sound effects what to use
@@ -114,7 +115,7 @@ class weather_generator
         //How much the wind folows seasonal variation ( lower means more change )
         int base_wind_season_variation = 0;
         static int current_winddir;
-
+        std::vector<std::string> weather_types;
         weather_generator();
 
         /**

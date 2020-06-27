@@ -100,7 +100,7 @@ struct weather_sum {
 
 namespace weather
 {
-void add_datum( weather_datum new_weather );
+void load_weather_type( const JsonObject &jo );
 const weather_datum *data( weather_type const type );
 weather_type get_bad_weather();
 int get_count();

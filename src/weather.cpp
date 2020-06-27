@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "assign.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -66,11 +67,6 @@ static bool is_player_outside()
     return get_map().is_outside( point( g->u.posx(), g->u.posy() ) ) && g->get_levz() >= 0;
 }
 
-void weather::add_datum( weather_datum new_weather )
-{
-    weather_datums.push_back( new_weather );
-}
-
 const weather_datum *weather::data( weather_type const type )
 {
     const size_t i = static_cast<size_t>( type );
@@ -97,6 +93,94 @@ weather_type weather::get_bad_weather()
 int weather::get_count()
 {
     return weather_datums.size();
+}
+
+void weather::load_weather_type( const JsonObject &jo )
+{
+    weather_datum weather_data;
+    weather_data.id = jo.get_string( "id" );
+    weather_data.name = jo.get_string( "name" );
+    if( !assign( jo, "color", weather_data.color ) ) {
+        jo.throw_error( "missing mandatory member \"color\"" );
+    }
+    if( !assign( jo, "map_color", weather_data.map_color ) ) {
+        jo.throw_error( "missing mandatory member \"map_color\"" );
+    }
+    weather_data.glyph = jo.get_string( "glyph" )[0];
+    weather_data.ranged_penalty = jo.get_int( "ranged_penalty" );
+    weather_data.sight_penalty = jo.get_float( "sight_penalty" );
+    weather_data.light_modifier = jo.get_int( "light_modifier" );
+    weather_data.sound_attn = jo.get_int( "sound_attn" );
+    weather_data.dangerous = jo.get_bool( "dangerous" );
+    weather_data.precip = static_cast<precip_class>( jo.get_int( "precip" ) );
+    weather_data.rains = jo.get_bool( "rains" );
+    weather_data.acidic = jo.get_bool( "acidic" );
+    for( const JsonObject weather_effect : jo.get_array( "effects" ) ) {
+
+
+        std::pair<std::string, int> pair = std::make_pair( weather_effect.get_string( "name" ),
+                                           weather_effect.get_int( "intensity" ) );
+
+        std::map<std::string, weather_effect_fn> all_weather_effects = {
+            { "wet", &weather_effect::wet_player },
+            { "thunder", &weather_effect::thunder },
+            { "lightning", &weather_effect::lightning },
+            { "light_acid", &weather_effect::light_acid },
+            { "acid", &weather_effect::acid }
+        };
+        bool found = false;
+        for( const std::pair<const std::string, weather_effect_fn> &effect : all_weather_effects ) {
+            if( effect.first == pair.first ) {
+                weather_data.effects.emplace_back( effect.second, pair.second );
+                found = true;
+                break;
+            }
+        }
+        if( !found ) {
+            debugmsg( "Invalid weather effect %s", pair.first );
+        }
+    }
+    weather_data.tiles_animation = jo.get_string( "tiles_animation", "" );
+    if( jo.has_member( "weather_animation" ) ) {
+        JsonObject weather_animation = jo.get_object( "weather_animation" );
+        weather_animation_t animation;
+        animation.factor = weather_animation.get_float( "factor" );
+        if( !assign( weather_animation, "color", animation.color ) ) {
+            jo.throw_error( "missing mandatory member \"color\"" );
+        }
+        animation.glyph = weather_animation.get_string( "glyph" )[0];
+        weather_data.weather_animation = animation;
+    } else {
+        weather_data.weather_animation = { 0.0f, c_white, '?' };
+    }
+    weather_data.sound_category = jo.get_int( "sound_category", 0 );
+    weather_data.sun_intensity = static_cast<sun_intensity_type>
+                                 ( jo.get_int( "sun_intensity" ) );
+    weather_data.requirements = {};
+    if( jo.has_member( "requirements" ) ) {
+        JsonObject weather_requires = jo.get_object( "requirements" );
+        weather_requirements new_requires;
+        new_requires.pressure_min = weather_requires.get_int( "pressure_min", INT_MIN );
+        new_requires.pressure_max = weather_requires.get_int( "pressure_max", INT_MAX );
+
+        new_requires.humidity_min = weather_requires.get_int( "humidity_min", INT_MIN );
+        new_requires.humidity_max = weather_requires.get_int( "humidity_max", INT_MAX );
+
+        new_requires.temperature_min = weather_requires.get_int( "temperature_min", INT_MIN );
+        new_requires.temperature_max = weather_requires.get_int( "temperature_max", INT_MAX );
+
+        new_requires.windpower_min = weather_requires.get_int( "windpower_min", INT_MIN );
+        new_requires.windpower_max = weather_requires.get_int( "windpower_max", INT_MAX );
+
+        new_requires.humidity_and_pressure = weather_requires.get_bool( "humidity_and_pressure", true );
+        new_requires.acidic = weather_requires.get_bool( "acidic", false );
+
+        new_requires.time = static_cast<time_requirement_type>( weather_requires.get_int( "time", 2 ) );
+        new_requires.required_weathers = weather_requires.get_string_array( "required_weathers" );
+
+        weather_data.requirements = new_requires;
+    }
+    weather_datums.push_back( weather_data );
 }
 
 /**
@@ -568,22 +652,10 @@ void handle_weather_effects( weather_type const w )
         weather_effect::wet_player( wetness );
     }
     glare( w );
-    std::vector<std::pair<std::string, int>> weather_effects = weather::data( w )->effects;
+    std::vector<std::pair<weather_effect_fn, int>> weather_effects = weather::data( w )->effects;
 
-    std::map<std::string, weather_effect_fn> all_weather_effects = {
-        { "wet", &weather_effect::wet_player },
-        { "thunder", &weather_effect::thunder },
-        { "lightning", &weather_effect::lightning },
-        { "light_acid", &weather_effect::light_acid },
-        { "acid", &weather_effect::acid }
-    };
-
-    for( const std::pair<const std::string, int> &effect : weather_effects ) {
-        if( all_weather_effects.count( effect.first ) > 0 ) {
-            all_weather_effects[effect.first]( effect.second );
-        } else {
-            debugmsg( "Invalid weather effect %s", effect.first );
-        }
+    for( const std::pair<const weather_effect_fn, int> &effect : weather_effects ) {
+        effect.first( effect.second );
     }
 }
 

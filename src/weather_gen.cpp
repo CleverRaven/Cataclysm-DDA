@@ -7,7 +7,6 @@
 #include <random>
 #include <string>
 
-#include "assign.h"
 #include "cata_utility.h"
 #include "game_constants.h"
 #include "json.h"
@@ -87,7 +86,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     const int seasonal_temp_mod[4] = { wg.spring_temp_manual_mod, wg.summer_temp_manual_mod, wg.autumn_temp_manual_mod, wg.winter_temp_manual_mod };
     const double baseline(
         wg.base_temperature +
-        seasonal_temp_mod[ season ] +
+        seasonal_temp_mod[season] +
         dayv * daily_magnitude_K +
         seasonality * seasonality_magnitude_K );
 
@@ -147,7 +146,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         10 * ( -seasonality + 2 );
 
     // Wind power
-    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 )  / std::pow( ( P + W ) / 1014.78, rng( 9,
+    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 ) / std::pow( ( P + W ) / 1014.78, rng( 9,
                                        base_wind_distrib_peaks ) ) +
                                        -cyf / base_wind_season_variation * rng( 1, 2 ) ) );
     // Initial static variable
@@ -166,7 +165,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     // Acid rains
     const double acid_content = base_acid * A;
     bool acid = acid_content >= 1.0;
-    return w_point {T, H, P, W, wind_desc, current_winddir, acid};
+    return w_point{ T, H, P, W, wind_desc, current_winddir, acid };
 }
 
 weather_type weather_generator::get_weather_conditions( const tripoint &location,
@@ -182,7 +181,17 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     weather_type current_conditions( WEATHER_DEFAULT );
     for( int weather_index = WEATHER_DEFAULT; weather_index < weather::get_count();
          weather_index++ ) {
-
+        std::string current_id = weather::data( weather_index )->id;
+        bool test_enabled = false;
+        for( std::string id : weather_types ) {
+            if( id == current_id ) {
+                test_enabled = true;
+                break;
+            }
+        }
+        if( !test_enabled ) {
+            continue;
+        }
         const weather_requirements &requires = weather::data( weather_index )->requirements;
         bool test_pressure =
             requires.pressure_max > w.pressure &&
@@ -207,9 +216,9 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
 
         bool test_required_weathers = requires.required_weathers.empty();
         if( !test_required_weathers ) {
-            std::string current_weather = weather::data( current_conditions )->name;
-            for( std::string name : requires.required_weathers ) {
-                if( name == current_weather ) {
+            std::string current_weather = weather::data( current_conditions )->id;
+            for( std::string id : requires.required_weathers ) {
+                if( id == current_weather ) {
                     test_required_weathers = true;
                     break;
                 }
@@ -338,69 +347,6 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.summer_humidity_manual_mod = jo.get_int( "summer_humidity_manual_mod", 0 );
     ret.autumn_humidity_manual_mod = jo.get_int( "autumn_humidity_manual_mod", 0 );
     ret.winter_humidity_manual_mod = jo.get_int( "winter_humidity_manual_mod", 0 );
-    for( const JsonObject weather_type : jo.get_array( "weather_types" ) ) {
-        weather_datum weather_data;
-        weather_data.name = weather_type.get_string( "name" );
-        if( !assign( weather_type, "color", weather_data.color ) ) {
-            weather_type.throw_error( "missing mandatory member \"color\"" );
-        }
-        if( !assign( weather_type, "map_color", weather_data.map_color ) ) {
-            weather_type.throw_error( "missing mandatory member \"map_color\"" );
-        }
-        weather_data.glyph = weather_type.get_string( "glyph" )[0];
-        weather_data.ranged_penalty = weather_type.get_int( "ranged_penalty" );
-        weather_data.sight_penalty = weather_type.get_float( "sight_penalty" );
-        weather_data.light_modifier = weather_type.get_int( "light_modifier" );
-        weather_data.sound_attn = weather_type.get_int( "sound_attn" );
-        weather_data.dangerous = weather_type.get_bool( "dangerous" );
-        weather_data.precip = static_cast<precip_class>( weather_type.get_int( "precip" ) );
-        weather_data.rains = weather_type.get_bool( "rains" );
-        weather_data.acidic = weather_type.get_bool( "acidic" );
-        for( const JsonObject weather_effect : weather_type.get_array( "effects" ) ) {
-            weather_data.effects.emplace_back( std::make_pair( weather_effect.get_string( "name" ),
-                                               weather_effect.get_int( "intensity" ) ) );
-        }
-        weather_data.tiles_animation = weather_type.get_string( "tiles_animation", "" );
-        if( weather_type.has_member( "weather_animation" ) ) {
-            JsonObject weather_animation = weather_type.get_object( "weather_animation" );
-            weather_animation_t animation;
-            animation.factor = weather_animation.get_float( "factor" );
-            if( !assign( weather_animation, "color", animation.color ) ) {
-                weather_type.throw_error( "missing mandatory member \"color\"" );
-            }
-            animation.glyph = weather_animation.get_string( "glyph" )[0];
-            weather_data.weather_animation = animation;
-        } else {
-            weather_data.weather_animation = { 0.0f, c_white, '?' };
-        }
-        weather_data.sound_category = weather_type.get_int( "sound_category", 0 );
-        weather_data.sun_intensity = static_cast<sun_intensity_type>
-                                     ( weather_type.get_int( "sun_intensity" ) );
-        weather_data.requirements = {};
-        if( weather_type.has_member( "requirements" ) ) {
-            JsonObject weather_requires = weather_type.get_object( "requirements" );
-            weather_requirements new_requires;
-            new_requires.pressure_min = weather_requires.get_int( "pressure_min", INT_MIN );
-            new_requires.pressure_max = weather_requires.get_int( "pressure_max", INT_MAX );
-
-            new_requires.humidity_min = weather_requires.get_int( "humidity_min", INT_MIN );
-            new_requires.humidity_max = weather_requires.get_int( "humidity_max", INT_MAX );
-
-            new_requires.temperature_min = weather_requires.get_int( "temperature_min", INT_MIN );
-            new_requires.temperature_max = weather_requires.get_int( "temperature_max", INT_MAX );
-
-            new_requires.windpower_min = weather_requires.get_int( "windpower_min", INT_MIN );
-            new_requires.windpower_max = weather_requires.get_int( "windpower_max", INT_MAX );
-
-            new_requires.humidity_and_pressure = weather_requires.get_bool( "humidity_and_pressure", true );
-            new_requires.acidic = weather_requires.get_bool( "acidic", false );
-
-            new_requires.time = static_cast<time_requirement_type>( weather_requires.get_int( "time", 2 ) );
-            new_requires.required_weathers = weather_requires.get_string_array( "required_weathers" );
-
-            weather_data.requirements = new_requires;
-        }
-        weather::add_datum( weather_data );
-    }
+    ret.weather_types = jo.get_string_array( "weather_types" );
     return ret;
 }

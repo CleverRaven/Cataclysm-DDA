@@ -90,6 +90,7 @@
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
+#include "weather.h"
 #include "worldfactory.h"
 
 DynamicDataLoader::DynamicDataLoader()
@@ -350,6 +351,7 @@ void DynamicDataLoader::initialize()
     add( "city_building", &city_buildings::load );
     add( "map_extra", &MapExtras::load );
 
+    add( "weather_type", &weather::load_weather_type );
     add( "region_settings", &load_region_settings );
     add( "region_overlay", &load_region_overlay );
     add( "ITEM_BLACKLIST", []( const JsonObject & jo ) {
