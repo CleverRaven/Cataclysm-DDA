@@ -53,6 +53,8 @@
 #include "vehicle.h"
 #include "vpart_position.h"
 
+static const mtype_id mon_generator( "mon_generator" );
+
 namespace spell_detail
 {
 struct line_iterable {
@@ -505,7 +507,7 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
                 if( ( mtypes[iter].id != victim.type->id ) && ( std::abs( mtypes[iter].difficulty - victim_diff )
                         <= difficulty_variance ) ) {
                     if( !mtypes[iter].in_species( species_id( "HALLUCINATION" ) ) &&
-                        mtypes[iter].id.str() != "mon_generator" ) {
+                        mtypes[iter].id != mon_generator ) {
                         new_id = mtypes[iter].id;
                         break;
                     }
