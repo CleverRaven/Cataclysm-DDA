@@ -190,7 +190,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         bool test_humidity =
             requires.humidity_max > w.humidity &&
             requires.humidity_min < w.humidity;
-        if( requires.humidity_and_pressure && !( test_pressure && test_humidity ) ||
+        if( ( requires.humidity_and_pressure && !( test_pressure && test_humidity ) ) ||
             ( !requires.humidity_and_pressure && !( test_pressure || test_humidity ) ) ) {
             continue;
         }

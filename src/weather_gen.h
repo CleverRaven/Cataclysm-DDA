@@ -3,6 +3,7 @@
 #define CATA_SRC_WEATHER_GEN_H
 
 #include <string>
+#include <climits>
 
 #include "calendar.h"
 #include "color.h"
