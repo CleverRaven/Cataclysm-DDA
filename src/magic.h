@@ -59,6 +59,7 @@ enum class spell_flag : int {
     NO_FAIL, // this spell cannot fail when you cast it
     WITH_CONTAINER, // items spawned with container
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
+    IGNITE_FLAMMABLE, // if spell effect area has any thing flamable, a fire will be produced
     LAST
 };
 
