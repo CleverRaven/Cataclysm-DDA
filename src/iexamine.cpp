@@ -3707,34 +3707,27 @@ void trap::examine( player &p, const tripoint &examp ) const
         add_msg( m_warning, _( "You cannot do that while mounted." ) );
         return;
     }
-    if( *this == tr_unfinished_construction || here.partial_con_at( examp ) ) {
-        partial_con *pc = here.partial_con_at( examp );
-        if( pc ) {
-            if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
-                add_msg( m_info, _( "It is too dark to construct right now." ) );
-                return;
-            }
-            const construction &built = pc->id.obj();
-            if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                           built.description, pc->counter / 100000 ) ) {
-                if( query_yn( _( "Cancel construction?" ) ) ) {
-                    tr.on_disarmed( here, examp );
-                    for( const item &it : pc->components ) {
-                        here.add_item_or_charges( g->u.pos(), it );
-                    }
-                    here.partial_con_remove( examp );
-                    return;
-                } else {
-                    return;
-                }
-            } else {
-                g->u.assign_activity( ACT_BUILD );
-                g->u.activity.placement = here.getabs( examp );
-                return;
-            }
-        } else {
+
+    if( partial_con *const pc = here.partial_con_at( examp ) ) {
+        if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+            add_msg( m_info, _( "It is too dark to construct right now." ) );
             return;
         }
+        const construction &built = pc->id.obj();
+        if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
+                       built.description, pc->counter / 100000 ) ) {
+            if( query_yn( _( "Cancel construction?" ) ) ) {
+                on_disarmed( here, examp );
+                for( const item &it : pc->components ) {
+                    here.add_item_or_charges( g->u.pos(), it );
+                }
+                here.partial_con_remove( examp );
+            }
+        } else {
+            g->u.assign_activity( ACT_BUILD );
+            g->u.activity.placement = here.getabs( examp );
+        }
+        return;
     }
     if( can_not_be_disarmed() ) {
         add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
