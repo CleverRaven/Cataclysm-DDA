@@ -87,7 +87,7 @@ void lightning( int intensity );
 void light_acid( int intensity );
 void acid( int intensity );
 void wet_player( int amount );
-} // weather_effect
+} // namespace weather_effect
 
 using weather_effect_fn = void ( * )( int intensity );
 
@@ -184,6 +184,7 @@ bool is_wind_blocker( const tripoint &location );
 weather_type current_weather( const tripoint &location,
                               const time_point &t = calendar::turn );
 
+void glare( weather_type w );
 /**
  * Amount of sunlight incident at the ground, taking weather and time of day
  * into account.
