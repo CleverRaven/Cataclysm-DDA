@@ -9799,7 +9799,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
             }};
     };
     // TODO: this should also search surrounding area, not just player inventory.
-    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
+    inventory_process_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
     inv_s.add_character_items( *p );
     inv_s.set_title( _( "Multiclean" ) );
     inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
@@ -9811,7 +9811,6 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     if( to_clean.empty() ) {
         return 0;
     }
-
     // Determine if we have enough water and cleanser for all the items.
     units::volume total_volume = 0_ml;
     for( drop_location pair : to_clean ) {
@@ -9845,7 +9844,6 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     }
     // Assign the activity values.
     p->assign_activity( ACT_WASH, required.time );
-
     for( const drop_location &pair : to_clean ) {
         p->activity.targets.push_back( pair.first );
         p->activity.values.push_back( pair.second );
