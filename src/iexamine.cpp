@@ -1081,7 +1081,6 @@ void iexamine::rubble( player &p, const tripoint &examp )
         !query_yn( _( "Clear up that %s?" ), here.furnname( examp ) ) ) {
         return;
     }
-    // @TODO add check for triggering the trap while digging there.
     p.assign_activity( ACT_CLEAR_RUBBLE, moves, -1, 0 );
     p.activity.placement = examp;
 }
@@ -3572,7 +3571,6 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
         return;
     }
 
-    // @TODO maybe add check for triggering a trap here.
     add_msg( _( "You forage through the %s." ), here.tername( examp ) );
     ///\EFFECT_SURVIVAL speeds up foraging
     int move_cost = 100000 / ( 2 * p.get_skill_level( skill_survival ) + 5 );

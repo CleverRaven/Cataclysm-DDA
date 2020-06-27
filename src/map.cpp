@@ -8003,18 +8003,29 @@ field &map::get_field( const tripoint &p )
 
 void map::creature_on_trap( Creature &c, const bool may_avoid )
 {
-    const auto &tr = tr_at( c.pos() );
-    if( tr.is_null() ) {
-        return;
-    }
     // boarded in a vehicle means the player is above the trap, like a flying monster and can
     // never trigger the trap.
     const player *const p = dynamic_cast<const player *>( &c );
     if( p != nullptr && p->in_vehicle ) {
         return;
     }
-    if( may_avoid && c.avoid_trap( c.pos(), tr ) ) {
+    maybe_trigger_trap( c.pos(), c, may_avoid );
+}
+
+void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_avoid )
+{
+    const auto &tr = tr_at( pos );
+    if( tr.is_null() ) {
         return;
+    }
+
+    if( may_avoid && c.avoid_trap( pos, tr ) ) {
+        return;
+    }
+
+    if( !tr.is_always_invisible() ) {
+        c.add_msg_player_or_npc( m_bad, _( "You trigger a %s!" ), _( "<npcname> triggers a %s!" ),
+                                 tr.name() );
     }
     tr.trigger( c.pos(), c );
 }

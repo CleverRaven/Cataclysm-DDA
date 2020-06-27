@@ -1163,6 +1163,14 @@ class map
         const std::vector<tripoint> &get_furn_field_locations() const;
         const std::vector<tripoint> &trap_locations( const trap_id &type ) const;
 
+        /**
+         * Handles activating a trap. It includes checks for avoiding the trap
+         * (which also makes it visible).
+         * This functions assumes the character is either on top of the trap,
+         * or adjacent to it.
+         */
+        void maybe_trigger_trap( const tripoint &pos, Creature &c, bool may_avoid );
+
         // Spawns byproducts from items destroyed in fire.
         void create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass );
         // See fields.cpp
