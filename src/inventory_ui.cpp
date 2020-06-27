@@ -2553,6 +2553,10 @@ void inventory_process_selector::set_chosen_count( inventory_entry& entry, size_
 
     if ( count == 0 ) {
         entry.chosen_count = 0;
+        const auto iter = to_use.find(&*it);
+        if (iter != to_use.end()) {
+            to_use.erase(iter);
+        }
         for ( const item_location& loc : entry.locations ) {
             for ( auto iter = dropping.begin(); iter != dropping.end(); ) {
                 if ( iter->first == loc ) {
@@ -2564,6 +2568,7 @@ void inventory_process_selector::set_chosen_count( inventory_entry& entry, size_
         }
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
+        to_use[&*it] = entry.chosen_count;
         if (it->count_by_charges()) {
             dropping.emplace_back( it, static_cast<int>(entry.chosen_count) );
         } else {

@@ -775,10 +775,10 @@ class inventory_drop_selector : public inventory_multiselector
 class inventory_process_selector : public inventory_multiselector
 {   
     public:
-        using GetStats = std::function<stats( const std::map<const item*, int>& )>;
+        using GetStats = std::function<stats( const std::map<const item*, int> & )>;
         inventory_process_selector( player &p,
                                     const std::string &selector_title,
-                                    const inventory_selector_preset& preset = default_preset,
+                                    const inventory_selector_preset &preset = default_preset,
                                     const GetStats & = {} );
         drop_locations execute();
 
