@@ -242,6 +242,12 @@ class Creature
         virtual const avatar *as_avatar() const {
             return nullptr;
         }
+        virtual monster *as_monster() {
+            return nullptr;
+        }
+        virtual const monster *as_monster() const {
+            return nullptr;
+        }
         /** return the direction the creature is facing, for sdl horizontal flip **/
         FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
