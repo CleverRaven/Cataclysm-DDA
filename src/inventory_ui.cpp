@@ -2299,13 +2299,11 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
     if( count == 0 ) {
         entry.chosen_count = 0;
         for( const item_location &loc : entry.locations ) {
-            for( auto iter = to_use.begin(); iter != to_use.end(); ) {
-                if( iter->first == &*loc ) {
-                    to_use.erase( iter );
-                } else {
-                    ++iter;
-                }
-            }
+
+
+            to_use.erase( &*loc );
+
+
         }
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
@@ -2316,7 +2314,7 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
                 if( count == 0 ) {
                     break;
                 }
-                to_use.emplace( &*loc, 1 );
+                to_use[&*loc] = 1;
                 count--;
             }
         }
