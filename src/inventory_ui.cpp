@@ -2288,12 +2288,6 @@ drop_locations inventory_iuse_selector::execute()
         dropped_pos_and_qty.push_back( std::make_pair( *use_pair.first, use_pair.second ) );
     }
 
-
-    //for( const std::pair<const item *const, int> &use_pair : to_use ) {
-    //    item_location loc( u, const_cast<item *>( use_pair.first ) );
-    //    dropped_pos_and_qty.push_back( std::make_pair( loc, use_pair.second ) );
-    // }
-
     return dropped_pos_and_qty;
 }
 
