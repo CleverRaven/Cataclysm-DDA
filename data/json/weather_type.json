@@ -52,7 +52,7 @@
     "acidic": false,
     "sound_category": 5,
     "sun_intensity": 3,
-    "requirements": { "pressure_min": 1020, "humidity_max": 70 }
+    "requirements": { "pressure_min": 1020, "humidity_max": 70, "time": 0 }
   },
   {
     "id": "cloudy",
