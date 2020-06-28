@@ -1153,7 +1153,7 @@ bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) con
     return false;
 }
 
-const std::vector<effect> Creature::get_effects_with_flag( const std::string &flag ) const
+std::vector<effect> Creature::get_effects_with_flag( const std::string &flag ) const
 {
     std::vector<effect> effs;
     for( auto &elem : *effects ) {
