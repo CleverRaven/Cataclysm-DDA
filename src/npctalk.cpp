@@ -2963,7 +2963,6 @@ dynamic_line_t::dynamic_line_t( const translation &line )
     };
 }
 
-extern bool test_mode;
 
 dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
