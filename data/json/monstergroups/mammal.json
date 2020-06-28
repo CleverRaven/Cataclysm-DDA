@@ -120,7 +120,7 @@
       { "monster": "mon_cat_sphynx_kitten", "freq": 5, "cost_multiplier": 0 },
       { "monster": "mon_cat_chonker", "freq": 50, "cost_multiplier": 0 },
       { "monster": "mon_cat_chonker_kitten", "freq": 5, "cost_multiplier": 0 },
-      { "monster": "mon_tiger", "freq": 1, "cost_multiplier": 30 } 
+      { "monster": "mon_tiger", "freq": 1, "cost_multiplier": 30 }
     ]
   }
 ]
