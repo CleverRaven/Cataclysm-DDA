@@ -2284,10 +2284,15 @@ drop_locations inventory_iuse_selector::execute()
     }
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<const item *const, int> &use_pair : to_use ) {
-        item_location loc( u, const_cast<item *>( use_pair.first ) );
-        dropped_pos_and_qty.push_back( std::make_pair( loc, use_pair.second ) );
+    for( const std::pair<const item_location *, int> &use_pair : to_use ) {
+        dropped_pos_and_qty.push_back( std::make_pair( *use_pair.first, use_pair.second ) );
     }
+
+
+    //for( const std::pair<const item *const, int> &use_pair : to_use ) {
+    //    item_location loc( u, const_cast<item *>( use_pair.first ) );
+    //    dropped_pos_and_qty.push_back( std::make_pair( loc, use_pair.second ) );
+    // }
 
     return dropped_pos_and_qty;
 }
@@ -2299,22 +2304,18 @@ void inventory_iuse_selector::set_chosen_count( inventory_entry &entry, size_t c
     if( count == 0 ) {
         entry.chosen_count = 0;
         for( const item_location &loc : entry.locations ) {
-
-
-            to_use.erase( &*loc );
-
-
+            to_use.erase( &loc );
         }
     } else {
         entry.chosen_count = std::min( std::min( count, max_chosen_count ), entry.get_available_count() );
         if( it->count_by_charges() ) {
-            to_use[&*it] = entry.chosen_count;
+            to_use[&it] = entry.chosen_count;
         } else {
             for( const item_location &loc : entry.locations ) {
                 if( count == 0 ) {
                     break;
                 }
-                to_use[&*loc] = 1;
+                to_use[&loc] = 1;
                 count--;
             }
         }
