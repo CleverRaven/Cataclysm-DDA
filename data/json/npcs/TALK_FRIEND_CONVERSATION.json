@@ -28,5 +28,28 @@
     "type": "talk_topic",
     "dynamic_line": "What did you want to talk about?",
     "responses": [ { "text": "Actually, never mind.", "topic": "TALK_NONE" } ]
+  },
+  {
+    "id": "TALK_FRIEND_CHAT",
+    "type": "talk_topic",
+    "dynamic_line": [
+      { "u_has_item": "beer", "yes": "<chitchat_prefix_booze>  " },
+      { "u_has_item": "european_pilsner", "yes": "<chitchat_prefix_booze>  " },
+      { "u_has_item": "pale_ale", "yes": "<chitchat_prefix_booze>  " },
+      { "u_has_item": "india_pale_ale", "yes": "<chitchat_prefix_booze>  " },
+      { "u_has_item": "wine_barley", "yes": "<chitchat_prefix_booze>  " },
+      { "is_season": "summer", "yes": "<chitchat_prefix_summer>  " },
+      { "is_season": "winter", "yes": "<chitchat_prefix_winter>  " },
+      { "npc_has_effect": "infected", "yes": "<chitchat_prefix_infected>  " },
+      { "days_since_cataclysm": 30, "yes": "<neutralchitchat_later>", "no": "<neutralchitchat>" }
+    ],
+    "responses": [
+      {
+        "text": "<chitchat_player_responses>",
+        "topic": "TALK_DONE",
+        "switch": true,
+        "effect": [ "morale_chat_activity", { "npc_add_effect": "asked_to_socialize", "duration": 7000 } ]
+      }
+    ]
   }
 ]
