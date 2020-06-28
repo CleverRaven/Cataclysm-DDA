@@ -8406,15 +8406,6 @@ bool item::process_rot( float insulation, const bool seals,
         const unsigned int seed = g->get_seed();
         int local_mod = g->new_game ? 0 : g->m.get_temperature( pos );
 
-        int enviroment_mod;
-        // Toilets and vending machines will try to get the heat radiation and convection during mapgen and segfault.
-        if( !g->new_game ) {
-            enviroment_mod = get_heat_radiation( pos, false );
-            enviroment_mod += get_convection_temperature( pos );
-        } else {
-            enviroment_mod = 0;
-        }
-
         if( carried ) {
             local_mod += 5; // body heat increases inventory temperature
         }
@@ -8429,9 +8420,9 @@ bool item::process_rot( float insulation, const bool seals,
             double env_temperature = 0;
             if( pos.z >= 0 ) {
                 double weather_temperature = wgen.get_weather_temperature( pos, time, seed );
-                env_temperature = weather_temperature + enviroment_mod + local_mod;
+                env_temperature = weather_temperature + local_mod;
             } else {
-                env_temperature = AVERAGE_ANNUAL_TEMPERATURE + enviroment_mod + local_mod;
+                env_temperature = AVERAGE_ANNUAL_TEMPERATURE + local_mod;
             }
 
             switch( flag ) {
