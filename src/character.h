@@ -1350,9 +1350,9 @@ class Character : public Creature, public visitable<Character>
          * Adds the item to the character's worn items or wields it, or prompts if the Character cannot pick it up.
          * @avoid is the item to not put @it into
          */
-        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr, bool allow_drop = true );
+        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr, bool allow_drop = true, bool allow_wield = true );
         /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
-        item *try_add( item it, const item *avoid = nullptr );
+        item *try_add( item it, const item *avoid = nullptr, bool allow_wield = true );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
