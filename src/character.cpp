@@ -5446,7 +5446,7 @@ void Character::update_bodytemp()
                                -1.5f * get_fatigue() ) );
 
     // Sunlight
-    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( g->weather.data()->sun_intensity ==
+    const int sunlight_warmth = g->is_in_sunlight( pos() ) ? ( g->weather.data().sun_intensity ==
                                 sun_intensity_type::high ?
                                 1000 :
                                 500 ) : 0;
@@ -10611,7 +10611,7 @@ bool Character::can_hear( const tripoint &source, const int volume ) const
     }
     const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
-    return ( volume - g->weather.data()->sound_attn ) * volume_multiplier >= dist;
+    return ( volume - g->weather.data().sound_attn ) * volume_multiplier >= dist;
 }
 
 float Character::hearing_ability() const

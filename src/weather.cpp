@@ -67,14 +67,14 @@ static bool is_player_outside()
     return get_map().is_outside( point( g->u.posx(), g->u.posy() ) ) && g->get_levz() >= 0;
 }
 
-const weather_datum *weather::data( weather_type const type )
+const weather_datum &weather::data( const weather_type type )
 {
     const size_t i = static_cast<size_t>( type );
     if( i < weather_datums.size() ) {
-        return &weather_datums[i];
+        return weather_datums[i];
     }
     debugmsg( "Invalid weather requested." );
-    return &weather_datums[WEATHER_NULL];
+    return weather_datums[WEATHER_NULL];
 }
 
 weather_type weather::get_bad_weather()
@@ -121,24 +121,18 @@ void weather::load_weather_type( const JsonObject &jo )
         std::pair<std::string, int> pair = std::make_pair( weather_effect.get_string( "name" ),
                                            weather_effect.get_int( "intensity" ) );
 
-        std::map<std::string, weather_effect_fn> all_weather_effects = {
+        static const std::map<std::string, weather_effect_fn> all_weather_effects = {
             { "wet", &weather_effect::wet_player },
             { "thunder", &weather_effect::thunder },
             { "lightning", &weather_effect::lightning },
             { "light_acid", &weather_effect::light_acid },
             { "acid", &weather_effect::acid }
         };
-        bool found = false;
-        for( const std::pair<const std::string, weather_effect_fn> &effect : all_weather_effects ) {
-            if( effect.first == pair.first ) {
-                weather_data.effects.emplace_back( effect.second, pair.second );
-                found = true;
-                break;
-            }
+        const auto iter = all_weather_effects.find( pair.first );
+        if( iter == all_weather_effects.end() ) {
+            weather_effect.throw_error( "Invalid weather effect", "name" );
         }
-        if( !found ) {
-            debugmsg( "Invalid weather effect %s", pair.first );
-        }
+        weather_data.effects.emplace_back( iter->second, pair.second );
     }
     weather_data.tiles_animation = jo.get_string( "tiles_animation", "" );
     if( jo.has_member( "weather_animation" ) ) {
@@ -205,7 +199,7 @@ void glare( weather_type w )
         //Winter snow glare: for both clear & sunny weather
         effect = &effect_snow_glare;
         dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
-    } else if( weather::data( w )->sun_intensity == sun_intensity_type::high ) {
+    } else if( weather::data( w ).sun_intensity == sun_intensity_type::high ) {
         //Sun glare: only for bright sunny weather
         effect = &effect_glare;
         dur = g->u.has_effect( *effect ) ? 1_turns : 2_turns;
@@ -224,15 +218,15 @@ void glare( weather_type w )
 
 int incident_sunlight( weather_type wtype, const time_point &t )
 {
-    return std::max<float>( 0.0f, sunlight( t, false ) + weather::data( wtype )->light_modifier );
+    return std::max<float>( 0.0f, sunlight( t, false ) + weather::data( wtype ).light_modifier );
 }
 
 inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const time_point &t, const time_duration &tick_size )
 {
     int amount = 0;
-    if( weather::data( wtype )->rains ) {
-        switch( weather::data( wtype )->precip ) {
+    if( weather::data( wtype ).rains ) {
+        switch( weather::data( wtype ).precip ) {
             case precip_class::VERY_LIGHT:
                 amount = 1 * to_turns<int>( tick_size );
                 break;
@@ -246,7 +240,7 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                 break;
         }
     }
-    if( weather::data( wtype )->acidic ) {
+    if( weather::data( wtype ).acidic ) {
         data.acid_amount += amount;
     } else {
         data.rain_amount += amount;
@@ -633,18 +627,18 @@ double precip_mm_per_hour( precip_class const p )
 
 void handle_weather_effects( weather_type const w )
 {
-    if( weather::data( w )->rains && weather::data( w )->precip != precip_class::NONE ) {
-        fill_water_collectors( precip_mm_per_hour( weather::data( w )->precip ),
-                               weather::data( w )->acidic );
+    if( weather::data( w ).rains && weather::data( w ).precip != precip_class::NONE ) {
+        fill_water_collectors( precip_mm_per_hour( weather::data( w ).precip ),
+                               weather::data( w ).acidic );
         int wetness = 0;
         time_duration decay_time = 60_turns;
-        if( weather::data( w )->precip == precip_class::VERY_LIGHT ) {
+        if( weather::data( w ).precip == precip_class::VERY_LIGHT ) {
             wetness = 5;
             decay_time = 5_turns;
-        } else if( weather::data( w )->precip == precip_class::LIGHT ) {
+        } else if( weather::data( w ).precip == precip_class::LIGHT ) {
             wetness = 30;
             decay_time = 15_turns;
-        } else if( weather::data( w )->precip == precip_class::HEAVY ) {
+        } else if( weather::data( w ).precip == precip_class::HEAVY ) {
             decay_time = 45_turns;
             wetness = 60;
         }
@@ -652,7 +646,7 @@ void handle_weather_effects( weather_type const w )
         weather_effect::wet_player( wetness );
     }
     glare( w );
-    std::vector<std::pair<weather_effect_fn, int>> weather_effects = weather::data( w )->effects;
+    std::vector<std::pair<weather_effect_fn, int>> weather_effects = weather::data( w ).effects;
 
     for( const std::pair<const weather_effect_fn, int> &effect : weather_effects ) {
         effect.first( effect.second );
@@ -722,7 +716,7 @@ std::string weather_forecast( const point &abs_sm_pos )
                           _( "The current time is %1$s Eastern Standard Time.  At %2$s in %3$s, it was %4$s.  The temperature was %5$s. " ),
                           to_string_time_of_day( calendar::turn ), print_time_just_hour( calendar::turn ),
                           city_name,
-                          weather::data( g->weather.weather_index )->name, print_temperature( g->weather.temperature )
+                          weather::data( g->weather.weather_index ).name, print_temperature( g->weather.temperature )
                       );
 
     //weather_report += ", the dewpoint ???, and the relative humidity ???.  ";
@@ -771,7 +765,7 @@ std::string weather_forecast( const point &abs_sm_pos )
         }
         weather_report += string_format(
                               _( "%s… %s. Highs of %s. Lows of %s. " ),
-                              day, weather::data( forecast )->name,
+                              day, weather::data( forecast ).name,
                               print_temperature( high ), print_temperature( low )
                           );
     }
@@ -968,8 +962,8 @@ int get_local_humidity( double humidity, weather_type weather, bool sheltered )
     if( sheltered ) {
         // Norm for a house?
         tmphumidity = humidity * ( 100 - humidity ) / 100 + humidity;
-    } else if( weather::data( weather )->rains &&
-               weather::data( weather )->precip >= precip_class::LIGHT ) {
+    } else if( weather::data( weather ).rains &&
+               weather::data( weather ).precip >= precip_class::LIGHT ) {
         tmphumidity = 100;
     }
 
@@ -1108,20 +1102,20 @@ void weather_manager::update_weather()
         // Check weather every few turns, instead of every turn.
         // TODO: predict when the weather changes and use that time.
         nextweather = calendar::turn + 5_minutes;
-        const weather_datum *wdata = weather::data( weather_index );
-        if( weather_index != old_weather && wdata->dangerous &&
+        const weather_datum wdata = weather::data( weather_index );
+        if( weather_index != old_weather && wdata.dangerous &&
             g->get_levz() >= 0 && here.is_outside( g->u.pos() )
             && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
-                                                string_format( _( "The weather changed to %s!" ), wdata->name ) );
+                                                string_format( _( "The weather changed to %s!" ), wdata.name ) );
         }
 
         if( weather_index != old_weather && g->u.has_activity( ACT_WAIT_WEATHER ) ) {
             g->u.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
-        if( wdata->sight_penalty !=
-            weather::data( old_weather )->sight_penalty ) {
+        if( wdata.sight_penalty !=
+            weather::data( old_weather ).sight_penalty ) {
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
                 here.set_transparency_cache_dirty( i );
             }
@@ -1129,12 +1123,12 @@ void weather_manager::update_weather()
     }
 }
 
-const weather_datum *weather_manager::data()
+const weather_datum &weather_manager::data()
 {
     return weather::data( weather_index );
 }
 
-const weather_datum *weather_manager::data( weather_type type )
+const weather_datum &weather_manager::data( weather_type type )
 {
     return weather::data( type );
 }

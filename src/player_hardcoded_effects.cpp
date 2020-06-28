@@ -1077,7 +1077,7 @@ void player::hardcoded_effects( effect &it )
             if( has_trait( trait_CHLOROMORPH ) ) {
                 // Hunger and thirst fall before your Chloromorphic physiology!
                 if( g->natural_light_level( posz() ) >= 12 &&
-                    g->weather.data()->sun_intensity >= sun_intensity_type::light ) {
+                    g->weather.data().sun_intensity >= sun_intensity_type::light ) {
                     if( get_hunger() >= -30 ) {
                         mod_hunger( -5 );
                         // photosynthesis warrants absorbing kcal directly

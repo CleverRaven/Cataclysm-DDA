@@ -278,7 +278,7 @@ static int get_signal_for_hordes( const centroid &centr )
 {
     //Volume in  tiles. Signal for hordes in submaps
     //modify vol using weather vol.Weather can reduce monster hearing
-    const int vol = centr.volume - get_weather().data()->sound_attn;
+    const int vol = centr.volume - get_weather().data().sound_attn;
     const int min_vol_cap = 60; //Hordes can't hear volume lower than this
     const int underground_div = 2; //Coefficient for volume reduction underground
     const int hordes_sig_div = SEEX; //Divider coefficient for hordes
@@ -302,7 +302,7 @@ static int get_signal_for_hordes( const centroid &centr )
 void sounds::process_sounds()
 {
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
-    const int weather_vol = get_weather().data()->sound_attn;
+    const int weather_vol = get_weather().data().sound_attn;
     for( const auto &this_centroid : sound_clusters ) {
         // Since monsters don't go deaf ATM we can just use the weather modified volume
         // If they later get physical effects from loud noises we'll have to change this
@@ -384,7 +384,7 @@ void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
-    const int weather_vol = get_weather().data()->sound_attn;
+    const int weather_vol = get_weather().data().sound_attn;
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
@@ -902,14 +902,14 @@ void sfx::do_ambient()
 
     weather_type current_weather = get_weather().weather;
     // We are indoors and it is also raining
-    if( g->weather.data()->rains &&
-        g->weather.data()->precip != precip_class::VERY_LIGHT &&
+    if( g->weather.data().rains &&
+        g->weather.data().precip != precip_class::VERY_LIGHT &&
         !is_underground && is_sheltered && !is_channel_playing( channel::indoors_rain_env ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, channel::indoors_rain_env,
                                     1000 );
     }
     if( ( !is_sheltered &&
-          g->weather.data()->sound_category != weather_sound_category::NONE && !is_deaf &&
+          g->weather.data().sound_category != weather_sound_category::NONE && !is_deaf &&
           !is_channel_playing( channel::outdoors_snow_env ) &&
           !is_channel_playing( channel::outdoors_flurry_env ) &&
           !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
@@ -920,7 +920,7 @@ void sfx::do_ambient()
              weather_changed  && !is_deaf ) ) {
         fade_audio_group( group::weather, 1000 );
         // We are outside and there is precipitation
-        switch( g->weather.data()->sound_category ) {
+        switch( g->weather.data().sound_category ) {
             case weather_sound_category::DRIZZLE:
                 play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
                                             channel::outdoors_drizzle_env,

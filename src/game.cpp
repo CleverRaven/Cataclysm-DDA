@@ -3980,7 +3980,7 @@ float game::natural_light_level( const int zlev ) const
         ret = default_daylight_level();
     }
 
-    ret += weather::data( weather.weather_index )->light_modifier;
+    ret += weather::data( weather.weather_index ).light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
@@ -5238,7 +5238,7 @@ bool game::is_empty( const tripoint &p )
 bool game::is_in_sunlight( const tripoint &p )
 {
     return ( m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
-             g->weather.data()->sun_intensity >= sun_intensity_type::normal );
+             g->weather.data().sun_intensity >= sun_intensity_type::normal );
 }
 
 bool game::is_sheltered( const tripoint &p )

@@ -181,18 +181,13 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     weather_type current_conditions( WEATHER_DEFAULT );
     for( int weather_index = WEATHER_DEFAULT; weather_index < weather::get_count();
          weather_index++ ) {
-        std::string current_id = weather::data( weather_index )->id;
-        bool test_enabled = false;
-        for( std::string id : weather_types ) {
-            if( id == current_id ) {
-                test_enabled = true;
-                break;
-            }
-        }
-        if( !test_enabled ) {
+        const weather_datum wdata = weather::data( weather_index );
+        //if the region doesn't have the condition then skip it
+        if( std::find( weather_types.begin(), weather_types.end(), wdata.id ) == weather_types.end() ) {
             continue;
         }
-        const weather_requirements &requires = weather::data( weather_index )->requirements;
+
+        const weather_requirements &requires = weather::data( weather_index ).requirements;
         bool test_pressure =
             requires.pressure_max > w.pressure &&
             requires.pressure_min < w.pressure;
@@ -214,21 +209,17 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
             continue;
         }
 
-        bool test_required_weathers = requires.required_weathers.empty();
-        if( !test_required_weathers ) {
-            std::string current_weather = weather::data( current_conditions )->id;
-            for( std::string id : requires.required_weathers ) {
-                if( id == current_weather ) {
-                    test_required_weathers = true;
-                    break;
-                }
+        if( !requires.required_weathers.empty() ) {
+            const weather_datum wcurrentdata = weather::data( current_conditions );
+            if( std::find( requires.required_weathers.begin(), requires.required_weathers.end(),
+                           wcurrentdata.id ) == requires.required_weathers.end() ) {
+                continue;
             }
         }
 
-        bool test_time = requires.time == time_requirement_type::both ||
-                         ( requires.time == time_requirement_type::day && is_day( calendar::turn ) ) ||
-                         ( requires.time == time_requirement_type::night && !is_day( calendar::turn ) );
-        if( !( test_required_weathers && test_time ) ) {
+        if( !( requires.time == time_requirement_type::both ||
+               ( requires.time == time_requirement_type::day && is_day( calendar::turn ) ) ||
+               ( requires.time == time_requirement_type::night && !is_day( calendar::turn ) ) ) ) {
             continue;
         }
         current_conditions = weather_index;
@@ -309,7 +300,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
         for( time_point i = begin; i < end; i += 20_minutes ) {
             w_point w = get_weather( tripoint_zero, to_turn<int>( i ), seed );
             weather_type c = get_weather_conditions( w );
-            const weather_datum *wd = weather::data( c );
+            const weather_datum wd = weather::data( c );
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
                        ( calendar::year_length() ) + 1;
@@ -322,7 +313,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
                 day = day_of_season<int>( i );
             }
             testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
-                     << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd->name << ";" <<
+                     << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
                      w.windpower << ";" << w.winddirection << std::endl;
         }
 

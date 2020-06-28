@@ -1405,7 +1405,7 @@ void debug()
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
             for( int weather_id = 1; weather_id < weather::get_count(); weather_id++ ) {
                 weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
-                                       weather::data( static_cast<weather_type>( weather_id ) )->name );
+                                       weather::data( static_cast<weather_type>( weather_id ) ).name );
             }
 
             weather_menu.query();
