@@ -947,7 +947,7 @@
     "type": "talk_topic",
     "dynamic_line": "Sure thing, I'll make my way there.",
     "responses": [ { "text": "Affirmative.", "topic": "TALK_DONE" } ]
-  }
+  },
   {
     "id": "TRADE_HALLU",
     "type": "talk_topic",
