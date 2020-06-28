@@ -304,8 +304,8 @@
   },
   {
     "type": "recipe",
-    "id_suffix": "without_welding",
     "result": "four_winds_shotgun",
+    "id_suffix": "without_welding",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
