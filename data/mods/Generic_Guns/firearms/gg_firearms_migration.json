@@ -311,5 +311,5 @@
     "id": "slam_shotgun",
     "type": "MIGRATION",
     "replace": "four_winds_shotgun"
-  },
+  }
 ]
