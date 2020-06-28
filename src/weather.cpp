@@ -87,7 +87,7 @@ void weather::add_datum( weather_datum new_weather )
     weather_datums.push_back( new_weather );
 }
 
-const weather_datum *weather::data( weather_type const type )
+const weather_datum &weather::data( const weather_type type )
 {
     const size_t i = static_cast<size_t>( type );
     if( i < weather_datums.size() ) {
@@ -1110,12 +1110,12 @@ void weather_manager::update_weather()
     }
 }
 
-const weather_datum *weather_manager::data()
+const weather_datum &weather_manager::data()
 {
     return weather::data( weather_index );
 }
 
-const weather_datum *weather_manager::data( weather_type type )
+const weather_datum &weather_manager::data( weather_type type )
 {
     return weather::data( type );
 }
