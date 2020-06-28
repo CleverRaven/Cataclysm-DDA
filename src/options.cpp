@@ -1992,6 +1992,11 @@ void options_manager::add_options_debug()
          translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
          true
        );
+
+    add( "ENABLE_EVENTS", "debug", translate_marker( "Event bus system" ),
+         translate_marker( "If false, achievements and some Magiclysm functionality won't work, but performance will be better." ),
+         true
+       );
 }
 
 void options_manager::add_options_world_default()
