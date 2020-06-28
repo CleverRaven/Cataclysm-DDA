@@ -4690,7 +4690,7 @@ void Character::update_body( const time_point &from, const time_point &to )
         // TODO: change @ref med to take time_duration
         mend( five_mins * to_turns<int>( 5_minutes ) );
     }
-    if( ticks_between( from, to, 24_hours ) > 0 ) {
+    if( ticks_between( from, to, 24_hours ) > 0 && !has_trait_flag( "NO_MINIMAL_HEALING" ) ) {
         enforce_minimum_healing();
     }
 
