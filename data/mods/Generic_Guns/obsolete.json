@@ -44,10 +44,9 @@
     "result": "rifle_pipe_rifle",
     "obsolete": true
   },
-    {
+  {
     "type": "recipe",
     "result": "slam_shotgun",
     "obsolete": true
   }
-  
 ]
