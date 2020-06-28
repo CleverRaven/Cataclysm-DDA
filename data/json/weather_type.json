@@ -134,7 +134,12 @@
     "weather_animation": { "factor": 0.02, "color": "c_light_blue", "glyph": "," },
     "sound_category": 2,
     "sun_intensity": 1,
-    "requirements": { "pressure_max": 993, "humidity_min": 98, "humidity_and_pressure": false,"required_weathers": [ "light_drizzle", "drizzle" ] }
+    "requirements": {
+      "pressure_max": 993,
+      "humidity_min": 98,
+      "humidity_and_pressure": false,
+      "required_weathers": [ "light_drizzle", "drizzle" ]
+    }
   },
   {
     "id": "thunder",
