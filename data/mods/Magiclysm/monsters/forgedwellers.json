@@ -29,7 +29,7 @@
     "vision_day": 40,
     "vision_night": 40,
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "manatouched_seeker_bolts", "min_level": 5 }, "cooldown": 60 } ],
-    "anger_triggers": [ "FRIEND_HURT", "HURT" ],
+    "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "death_function": [ "BROKEN" ],
     "flags": [ "SEES", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES" ]
   },
