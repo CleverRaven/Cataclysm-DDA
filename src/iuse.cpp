@@ -9799,7 +9799,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
             }};
     };
     // TODO: this should also search surrounding area, not just player inventory.
-    inventory_process_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
+    inventory_iuse_selector inv_s( *p, _( "ITEMS TO CLEAN" ), preset, make_raw_stats );
     inv_s.add_character_items( *p );
     inv_s.set_title( _( "Multiclean" ) );
     inv_s.set_hint( _( "To clean x items, type a number before selecting." ) );
