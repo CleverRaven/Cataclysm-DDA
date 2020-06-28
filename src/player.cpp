@@ -3011,6 +3011,11 @@ void player::use( item_location loc )
     item &used = *loc;
     last_item = used.typeId();
 
+    if( ( *loc ).is_medication() && !can_use_heal_item( *loc ) ) {
+        add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
+        return;
+    }
+
     if( used.is_tool() ) {
         if( !used.type->has_use() ) {
             add_msg_if_player( _( "You can't do anything interesting with your %s." ), used.tname() );
