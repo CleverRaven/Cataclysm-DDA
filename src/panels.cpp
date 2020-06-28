@@ -388,8 +388,9 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             mvwputch( w_minimap, point( arrowx + start_x, arrowy + start_y ), c_red, glyph );
         }
     }
-
-    const int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
+    avatar &player_character = get_avatar();
+    const int sight_points = player_character.overmap_sight_range( g->light_level(
+                                 player_character.posz() ) );
     for( int i = -3; i <= 3; i++ ) {
         for( int j = -3; j <= 3; j++ ) {
             if( i > -3 && i < 3 && j > -3 && j < 3 ) {
@@ -399,7 +400,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             int horde_size = overmap_buffer.get_horde_size( omp );
             if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                 if( overmap_buffer.seen( omp )
-                    && g->u.overmap_los( omp, sight_points ) ) {
+                    && player_character.overmap_los( omp, sight_points ) ) {
                     mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
                               horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
@@ -435,7 +436,7 @@ static std::string get_temp( const avatar &u )
     std::string temp;
     if( u.has_item_with_flag( "THERMOMETER" ) ||
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
         return "-";
@@ -1335,11 +1336,12 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
-        const weather_datum wdata = weather_data( g->weather.weather );
+        const weather_datum wdata = weather_data( get_weather().weather );
         wprintz( w, wdata.color, " %s", wdata.name );
     }
     // display lighting
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point( 1, 2 ), c_light_gray, "%s ", _( "Light:" ) );
     wprintz( w, ll.second, ll.first );
 
@@ -1505,7 +1507,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 8, 3 ), wdata.color, wdata.name );
     }
     // display lighting
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point( 8, 4 ), ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
@@ -1555,7 +1558,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
 
     werase( w );
@@ -1760,7 +1763,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
     // vehicle display
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_zero );
@@ -1792,7 +1795,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
     // vehicle display
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_east );
@@ -1847,7 +1850,7 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
-        const weather_datum wdata = weather_data( g->weather.weather );
+        const weather_datum wdata = weather_data( get_weather().weather );
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
         mvwprintz( w, point( 10, 0 ), wdata.color, wdata.name );
     }
@@ -1862,7 +1865,8 @@ static void draw_lighting_classic( const avatar &u, const catacurses::window &w 
 {
     werase( w );
 
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point_zero, c_light_gray, _( "Lighting:" ) );
     mvwprintz( w, point( 10, 0 ), ll.second, ll.first );
 
@@ -1915,7 +1919,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }
 
@@ -1978,7 +1982,7 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return g->u.magic.knows_spell();
+    return get_avatar().magic.knows_spell();
 }
 
 bool default_render()
