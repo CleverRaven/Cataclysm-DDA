@@ -807,7 +807,6 @@
         "distribution": [
           { "item": "priest_beginner", "prob": 20 },
           { "item": "techno_idiots", "prob": 20 },
-          { "item": "spell_scroll_x-ray", "prob": 50 },
           { "item": "spell_scroll_bless", "prob": 50 },
           { "item": "spell_scroll_create_atomic_lamp", "prob": 50 },
           { "item": "spell_scroll_taze", "prob": 50 },
@@ -860,7 +859,6 @@
       {
         "distribution": [
           { "item": "spell_scroll_seismic_stomp", "prob": 50 },
-          { "item": "spell_scroll_clairvoyance", "prob": 50 },
           { "item": "spell_scroll_eshaper_shardspray", "prob": 50 },
           { "item": "spell_scroll_earthshaper_stoneskin", "prob": 50 },
           { "item": "spell_scroll_earthshaper_pillar", "prob": 50 }
@@ -961,7 +959,6 @@
         "distribution": [
           { "item": "priest_beginner", "prob": 20 },
           { "item": "techno_idiots", "prob": 20 },
-          { "item": "spell_scroll_x-ray", "prob": 50 },
           { "item": "spell_scroll_bless", "prob": 50 },
           { "item": "spell_scroll_create_atomic_lamp", "prob": 50 },
           { "item": "spell_scroll_taze", "prob": 50 },
