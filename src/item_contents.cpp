@@ -251,7 +251,7 @@ bool item_contents::bigger_on_the_inside( const units::volume &container_volume 
             }
         }
     }
-    return container_volume < min_logical_volume;
+    return container_volume <= min_logical_volume;
 }
 
 size_t item_contents::size() const
