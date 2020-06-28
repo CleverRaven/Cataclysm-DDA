@@ -600,7 +600,7 @@ class Creature
 
         bodypart_id get_random_body_part( bool main = false ) const;
         /**
-         * Returns body parts in order in which they should be displayed.
+         * Returns body parts this creature have.
          * @param only_main If true, only displays parts that can have hit points
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
