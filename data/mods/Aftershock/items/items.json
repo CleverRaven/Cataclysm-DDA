@@ -20,7 +20,7 @@
     "description": "A wide, shallow basin used to hold liquid, hammered from a piece of sheet metal.  Ideal for collecting water.",
     "weight": "5 kg",
     "looks_like": "ceramic_bowl",
-    "volume": "2500 ml",
+    "volume": "2625 ml",
     "price": 1000,
     "to_hit": -1,
     "bashing": 1,
