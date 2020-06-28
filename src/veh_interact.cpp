@@ -3101,6 +3101,9 @@ void veh_interact::complete_vehicle( player &p )
         }
 
         case 'o': {
+            // Flag to prevent caching a vehicle that no longer exists
+            bool safe_to_cache = true;
+
             const inventory &inv = p.crafting_inventory();
             if( vehicle_part >= veh->part_count() ) {
                 vehicle_part = veh->get_next_shifted_index( vehicle_part, p );
@@ -3182,6 +3185,7 @@ void veh_interact::complete_vehicle( player &p )
                 p.add_msg_if_player( _( "You completely dismantle the %s." ), veh->name );
                 p.activity.set_to_null();
                 g->m.destroy_vehicle( veh );
+                safe_to_cache = false;
             } else {
                 veh->remove_part( vehicle_part );
                 veh->part_removal_cleanup();
@@ -3196,7 +3200,11 @@ void veh_interact::complete_vehicle( player &p )
             // point because we don't want to put them back into the vehicle part
             // that just got removed).
             put_into_vehicle_or_drop( p, item_drop_reason::deliberate, resulting_items );
-            g->m.update_vehicle_cache( veh, veh->sm_pos.z );
+
+            // Make sure that we're not trying to cache a vehicle that no longer exists
+            if( safe_to_cache ) {
+                g->m.update_vehicle_cache( veh, veh->sm_pos.z );
+            }
             break;
         }
     }
