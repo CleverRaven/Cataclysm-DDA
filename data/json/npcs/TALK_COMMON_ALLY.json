@@ -53,7 +53,7 @@
       },
       { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
       { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
-      { "text": "Can you help me understand something?", "topic": "TALK_ALLY_HELP" },
+      { "text": "Can you help me understand something? (NPC TUTORIAL)", "topic": "TALK_ALLY_HELP" },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
