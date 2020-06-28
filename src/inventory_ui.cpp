@@ -2541,23 +2541,3 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.volume_carried_with_tweaks( dropping ),
                u.volume_capacity() );
 }
-
-
-inventory_process_selector::inventory_process_selector(
-    player &p,
-    const std::string &selector_title,
-    const inventory_selector_preset &preset,
-    const GetStats &get_st
-) :
-    inventory_multiselector( p, preset, selector_title ),
-    get_stats( get_st ),
-    max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
-{}
-
-inventory_selector::stats inventory_process_selector::get_raw_stats() const
-{
-    if( get_stats ) {
-        return get_stats( to_use );
-    }
-    return stats{ { stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} } };
-}
