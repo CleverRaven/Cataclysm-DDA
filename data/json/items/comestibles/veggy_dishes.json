@@ -380,7 +380,7 @@
     "price": 750,
     "price_postapoc": 200,
     "material": [ "veggy", "bean" ],
-    "volume": "750 ml",
+    "volume": "500 ml",
     "//": "one bean + one rice + one veggy",
     "flags": [ "EATEN_HOT", "FREEZERBURN" ],
     "fun": 4,
