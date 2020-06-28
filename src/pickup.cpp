@@ -338,7 +338,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             }
         // Intentional fallthrough
         case STASH: {
-            item &added_it = u.i_add( newit );
+            item &added_it = u.i_add( newit, true, nullptr, /*allow_drop=*/false );
             if( added_it.is_null() ) {
                 // failed to add, do nothing
             } else if( &added_it == &it ) {

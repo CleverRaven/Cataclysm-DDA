@@ -2284,28 +2284,12 @@ std::vector<item_location> Character::nearby( const
     return res;
 }
 
-int Character::i_add_to_container( const item &it, const bool unloading )
-{
-    int charges = it.count();
-    if( unloading || !it.count_by_charges() ) {
-        return charges;
-    }
-
-    charges -= weapon.fill_with( *it.type, charges );
-    for( item &worn_it : worn ) {
-        if( charges > 0 ) {
-            charges -= worn_it.fill_with( *it.type, charges );
-        } else {
-            break;
-        }
-    }
-
-    return charges;
-}
-
 item_pocket *Character::best_pocket( const item &it, const item *avoid )
 {
-    item_pocket *ret = weapon.best_pocket( it );
+    item_pocket *ret = nullptr;
+    if( &weapon != avoid ) {
+        ret = weapon.best_pocket( it );
+    }
     for( item &worn_it : worn ) {
         if( &worn_it == avoid ) {
             continue;
@@ -2374,12 +2358,16 @@ item *Character::try_add( item it, const item *avoid )
     return ret;
 }
 
-item &Character::i_add( item it, bool  /* should_stack */, const item *avoid )
+item &Character::i_add( item it, bool /* should_stack */, const item *avoid, const bool allow_drop )
 {
     item *added = try_add( it, avoid );
     if( added == nullptr ) {
         if( !wield( it ) ) {
-            return get_map().add_item_or_charges( pos(), it );
+            if( allow_drop ) {
+                return get_map().add_item_or_charges( pos(), it );
+            } else {
+                return null_item_reference();
+            }
         } else {
             return weapon;
         }
