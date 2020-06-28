@@ -2358,7 +2358,8 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
     return ret;
 }
 
-item &Character::i_add( item it, bool /* should_stack */, const item *avoid, const bool allow_drop, const bool allow_wield )
+item &Character::i_add( item it, bool /* should_stack */, const item *avoid, const bool allow_drop,
+                        const bool allow_wield )
 {
     item *added = try_add( it, avoid, /*allow_wield=*/allow_wield );
     if( added == nullptr ) {
