@@ -7625,7 +7625,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             photo_text += _( "It is day. " );
         }
 
-        const weather_datum w_data = g->weather.data();
+        const weather_datum &w_data = g->weather.data();
         photo_text += string_format( _( "The weather is %s." ), colorize( w_data.name, w_data.color ) );
     }
 

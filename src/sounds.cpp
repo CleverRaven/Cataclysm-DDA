@@ -900,7 +900,7 @@ void sfx::do_ambient()
         play_ambient_variant_sound( "environment", "indoors", heard_volume, channel::indoors_env, 1000 );
     }
 
-    weather_datum current_weather = get_weather().data();
+    const weather_datum &current_weather = get_weather().data();
     // We are indoors and it is also raining
     if( current_weather.rains &&
         current_weather.precip != precip_class::VERY_LIGHT &&

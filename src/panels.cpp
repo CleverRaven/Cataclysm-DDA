@@ -1326,7 +1326,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
-        const weather_datum wdata = get_weather().data();
+        const weather_datum &wdata = get_weather().data();
         wprintz( w, wdata.color, " %s", wdata.name );
     }
     // display lighting
@@ -1493,7 +1493,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, point( 8, 3 ), c_light_gray, _( "Underground" ) );
     } else {
-        const weather_datum wdata = g->weather.data();
+        const weather_datum &wdata = g->weather.data();
         mvwprintz( w, point( 8, 3 ), wdata.color, wdata.name );
     }
     // display lighting
@@ -1837,7 +1837,7 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
-        const weather_datum wdata = get_weather().data();
+        const weather_datum &wdata = get_weather().data();
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
         mvwprintz( w, point( 10, 0 ), wdata.color, wdata.name );
     }
