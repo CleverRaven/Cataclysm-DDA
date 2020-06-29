@@ -52,8 +52,10 @@
     "subtype": "distribution",
     "entries": [
       { "item": "birdfood", "prob": 10 },
-      { "item": "dogfood", "prob": 45, "container-item": "can_medium" },
-      { "item": "catfood", "prob": 45, "container-item": "can_food" }
+      { "item": "dogfood", "prob": 30, "container-item": "can_medium" },
+      { "item": "catfood", "prob": 30, "container-item": "can_food" },
+      { "item": "dogfood_dry", "prob": 10, "charges": 12, "container-item": "bag_plastic" },
+      { "item": "catfood_dry", "prob": 10, "charges": 12, "container-item": "bag_plastic" }
     ]
   },
   {

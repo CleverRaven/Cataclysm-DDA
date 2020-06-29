@@ -53,7 +53,7 @@
     "clip_size": 3,
     "barrel_length": "750 ml",
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "300": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ]
   },
   {
     "id": "win70",
@@ -77,6 +77,6 @@
     "clip_size": 3,
     "barrel_length": "750 ml",
     "flags": [ "RELOAD_ONE" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "300": 3 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "300": 3 } } ]
   }
 ]

@@ -1297,7 +1297,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         item &it = *holstered_item.first;
         bool success = false;
         if( !it.count_by_charges() || it.count() == holstered_item.second ) {
-            if( holster->can_contain( it ) ) {
+            if( holster->contents.can_contain( it ).success() ) {
                 holster->put_in( it, item_pocket::pocket_type::CONTAINER );
                 holstered_item.first.remove_item();
                 success = true;

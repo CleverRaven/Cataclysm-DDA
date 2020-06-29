@@ -38,8 +38,10 @@
     "entries": [
       { "item": "dog_whistle", "prob": 10 },
       { "item": "pet_carrier", "prob": 30 },
-      { "item": "dogfood", "prob": 50, "container-item": "can_medium" },
-      { "item": "catfood", "prob": 50, "container-item": "can_food" },
+      { "item": "dogfood", "prob": 30, "container-item": "can_medium" },
+      { "item": "catfood", "prob": 30, "container-item": "can_food" },
+      { "item": "dogfood_dry", "prob": 10, "charges": 18, "container-item": "bag_plastic" },
+      { "item": "catfood_dry", "prob": 10, "charges": 18, "container-item": "bag_plastic" },
       { "item": "towel", "prob": 20 },
       { "item": "soap", "prob": 10 },
       { "item": "gloves_medical", "prob": 20 },

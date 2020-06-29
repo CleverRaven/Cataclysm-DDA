@@ -37,9 +37,9 @@ TEST_CASE( "Rate of rotting" )
 
         set_map_temperature( 65 ); // 18,3 C
 
-        normal_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
-        sealed_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
-        freeze_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
+        normal_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
+        sealed_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
+        freeze_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
 
         // Item should exist with no rot when it is brand new
         CHECK( normal_item.get_rot() == 0_turns );
@@ -49,9 +49,9 @@ TEST_CASE( "Rate of rotting" )
         INFO( "Initial turn: " << to_turn<int>( calendar::turn ) );
 
         calendar::turn += 20_minutes;
-        normal_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
-        sealed_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
-        freeze_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::FREEZER );
+        normal_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
+        sealed_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
+        freeze_item.process( nullptr, tripoint_zero, 1, temperature_flag::FREEZER );
 
         // After 20 minutes the normal item should have 20 minutes of rot
         CHECK( to_turns<int>( normal_item.get_rot() )
@@ -62,8 +62,8 @@ TEST_CASE( "Rate of rotting" )
 
         // Move time 110 minutes
         calendar::turn += 110_minutes;
-        sealed_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::NORMAL );
-        freeze_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::FREEZER );
+        sealed_item.process( nullptr, tripoint_zero, 1, temperature_flag::NORMAL );
+        freeze_item.process( nullptr, tripoint_zero, 1, temperature_flag::FREEZER );
         // In freezer and in preserving container still should be no rot
         CHECK( sealed_item.get_rot() == 0_turns );
         CHECK( freeze_item.get_rot() == 0_turns );
@@ -85,7 +85,7 @@ TEST_CASE( "Items rot away" )
         item test_item( "meat_cooked" );
 
         // Process item once to set all of its values.
-        test_item.process( nullptr, tripoint_zero, false, 1, temperature_flag::HEATER );
+        test_item.process( nullptr, tripoint_zero, 1, temperature_flag::HEATER );
 
         // Set rot to >2 days and process again. process_temperature_rot should return true.
         calendar::turn += 20_minutes;

@@ -833,7 +833,7 @@
     "name": { "str": "sandbox kit" },
     "description": "A plastic bucket holding a small spade and rake, perfect to build sand castles!",
     "weight": "250 g",
-    "volume": "1 L",
+    "volume": "1050 ml",
     "price": 300,
     "price_postapoc": 3,
     "material": [ "plastic" ],
