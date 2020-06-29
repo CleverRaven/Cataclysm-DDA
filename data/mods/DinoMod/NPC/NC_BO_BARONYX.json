@@ -41,7 +41,7 @@
       "type": "dialogue",
       "context": "first_meeting",
       "value": "yes",
-      "no": "You look hungry friend.  So much hunger in this world. This is the time of the eaters.",
+      "no": "You look hungry friend.  So much hunger in this world.  This is the time of the eaters.",
       "yes": {
         "u_has_var": "asked_about_eating",
         "type": "dialogue",
@@ -219,7 +219,7 @@
   {
     "id": "TALK_MISSION_ACCEPTED_SWAMPER",
     "type": "talk_topic",
-    "dynamic_line": "Excellent. Make it happen.",
+    "dynamic_line": "Excellent.  Make it happen.",
     "responses": [
       { "text": "Consider it done.  But I also wanted to ask…", "topic": "TALK_SWAMPER" },
       { "text": "Where should I start?", "topic": "TALK_MISSION_ADVICE_SWAMPER" },

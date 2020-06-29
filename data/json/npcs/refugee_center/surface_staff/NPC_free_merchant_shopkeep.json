@@ -257,7 +257,7 @@
   {
     "id": "TALK_EVAC_MERCHANT",
     "type": "talk_topic",
-    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Welcome marshal...", "no": "Welcome..." }
+    "dynamic_line": { "u_is_wearing": "badge_marshal", "yes": "Welcome marshal…", "no": "Welcome…" }
   },
   {
     "id": "TALK_EVAC_MERCHANT_NEW",

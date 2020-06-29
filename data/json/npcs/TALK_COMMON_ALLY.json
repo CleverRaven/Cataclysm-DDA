@@ -13,12 +13,12 @@
           "no": {
             "npc_need": "fatigue",
             "level": "TIRED",
-            "no": "Just few minutes more...",
+            "no": "Just few minutes more…",
             "yes": "Make it quick, I want to go back to sleep."
           },
           "yes": "Just let me sleep, <name_b>!"
         },
-        "yes": "No, just <swear> no..."
+        "yes": "No, just <swear> no…"
       },
       "no": "Anything to do before I go to sleep?"
     },
@@ -904,7 +904,7 @@
       },
       {
         "is_day": "Well, it's the time of day for a quick break surely!  How are you holding up?",
-        "no": "Man it's dark out isn't it? what's up?"
+        "no": "Man it's dark out isn't it?  what's up?"
       },
       {
         "npc_has_effect": "infected",
