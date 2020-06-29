@@ -150,7 +150,7 @@
     "aggression": -20,
     "morale": 70,
     "vision_day": 50,
-    "vision_night": 50,
+    "vision_night": 20,
     "starting_ammo": { "123ln": 10 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
     "special_attacks": [
