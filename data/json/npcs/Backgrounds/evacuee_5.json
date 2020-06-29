@@ -25,7 +25,7 @@
         "topic": "BGSS_EVACUEE_5_WASPS",
         "condition": { "u_has_perception": 8 }
       },
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
       { "text": "<end_talking>", "topic": "TALK_DONE" }
     ]
   },
