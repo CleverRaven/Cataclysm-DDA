@@ -53,7 +53,7 @@
       },
       { "text": "There's something I want you to do.", "topic": "TALK_ALLY_ORDERS" },
       { "text": "I just wanted to talk for a bit.", "topic": "TALK_ALLY_SOCIAL" },
-      { "text": "Can you help me understand something?  (NPC TUTORIAL)", "topic": "TALK_ALLY_HELP" },
+      { "text": "Can you help me understand something?  (HELP/TUTORIAL)", "topic": "TALK_ALLY_TUTORIAL" },
       { "text": "I'm going to go my own way for a while.", "topic": "TALK_LEAVE" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
@@ -214,35 +214,6 @@
         "condition": { "npc_at_om_location": "FACTION_CAMP_ANY" }
       },
       { "text": "Let's talk about your current activity.", "topic": "TALK_ACTIVITIES" },
-      { "text": "Let's go.", "topic": "TALK_DONE" }
-    ]
-  },
-  {
-    "id": [ "TALK_ALLY_HELP" ],
-    "type": "talk_topic",
-    "dynamic_line": [ "What do you need to know?", "I'm here for you.", "Just call me F1, <name_g>." ],
-    "responses": [
-      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
-      {
-        "text": "Any hints about the world we now live in?",
-        "trial": {
-          "type": "CONDITION",
-          "condition": {
-            "or": [
-              { "npc_need": "thirst", "amount": 80 },
-              { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
-              { "npc_has_effect": "asked_to_hint" },
-              "u_driving",
-              "npc_driving"
-            ]
-          }
-        },
-        "success": { "topic": "TALK_SHELTER_DENY_ADVICE" },
-        "failure": { "topic": "TALK_SHELTER_ADVICE", "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 } }
-      },
-      { "text": "Tell me about giving you orders (NPC TUTORIAL).", "topic": "TALK_ALLY_TUTORIAL" },
-      { "text": "I changed my mind, wanted to ask you something else.", "topic": "TALK_NONE" },
       { "text": "Let's go.", "topic": "TALK_DONE" }
     ]
   },
