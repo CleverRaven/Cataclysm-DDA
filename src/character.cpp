@@ -400,8 +400,6 @@ Character &get_player_character()
 Character::Character() :
 
     visitable<Character>(),
-    damage_bandaged( {{ 0 }} ),
-    damage_disinfected( {{ 0 }} ),
     cached_time( calendar::before_time_starts ),
     id( -1 ),
     next_climate_control_check( calendar::before_time_starts ),
@@ -4565,25 +4563,23 @@ void Character::regen( int rate_multiplier )
     }
 
     // include healing effects
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bodypart_id &bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
         float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
-
         int healing_apply = roll_remainder( healing );
-        healed_bp( i, healing_apply );
+        mod_part_healed_total( bp, healing_apply );
         heal( bp, healing_apply );
-        if( damage_bandaged[i] > 0 ) {
-            damage_bandaged[i] -= healing_apply;
-            if( damage_bandaged[i] <= 0 ) {
-                damage_bandaged[i] = 0;
+        if( get_part_damage_bandaged( bp ) > 0 ) {
+            mod_part_damage_bandaged( bp, -healing_apply );
+            if( get_part_damage_bandaged( bp ) <= 0 ) {
+                set_part_damage_bandaged( bp, 0 );
                 remove_effect( effect_bandaged, bp->token );
                 add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
-        if( damage_disinfected[i] > 0 ) {
-            damage_disinfected[i] -= healing_apply;
-            if( damage_disinfected[i] <= 0 ) {
-                damage_disinfected[i] = 0;
+        if( get_part_damage_disinfected( bp ) > 0 ) {
+            mod_part_damage_disinfected( bp, -healing_apply );
+            if( get_part_damage_disinfected( bp ) <= 0 ) {
+                set_part_damage_disinfected( bp, 0 );
                 remove_effect( effect_disinfected, bp->token );
                 add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
             }
@@ -4591,12 +4587,12 @@ void Character::regen( int rate_multiplier )
 
         // remove effects if the limb was healed by other way
         if( has_effect( effect_bandaged, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
-            damage_bandaged[i] = 0;
+            set_part_damage_bandaged( bp, 0 );
             remove_effect( effect_bandaged, bp->token );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
         if( has_effect( effect_disinfected, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
-            damage_disinfected[i] = 0;
+            set_part_damage_disinfected( bp, 0 );
             remove_effect( effect_disinfected, bp->token );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
         }

@@ -158,7 +158,6 @@ class bodypart
         int hp_max;
 
         int healed_total = 0;
-        /** Not used yet*/
         int damage_bandaged = 0;
         int damage_disinfected = 0;
 

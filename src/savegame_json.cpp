@@ -563,10 +563,7 @@ void Character::load( const JsonObject &data )
     data.read( "stim", stim );
     data.read( "stamina", stamina );
 
-    data.read( "damage_bandaged", damage_bandaged );
-    data.read( "damage_disinfected", damage_disinfected );
     data.read( "magic", magic );
-    JsonArray parray;
 
     data.read( "underwater", underwater );
 
@@ -644,6 +641,30 @@ void Character::load( const JsonObject &data )
         set_part_hp_max( bodypart_id( "leg_l" ), hp_max[4] );
         set_part_hp_cur( bodypart_id( "leg_r" ), hp_cur[5] );
         set_part_hp_max( bodypart_id( "leg_r" ), hp_max[5] );
+    }
+    if( data.has_array( "damage_bandaged" ) ) {
+        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_body();
+        std::array<int, 6> damage_bandaged;
+        data.read( "damage_bandaged", damage_bandaged );
+        set_part_damage_bandaged( bodypart_id( "head" ), damage_bandaged[0] );
+        set_part_damage_bandaged( bodypart_id( "torso" ), damage_bandaged[1] );
+        set_part_damage_bandaged( bodypart_id( "arm_l" ), damage_bandaged[2] );
+        set_part_damage_bandaged( bodypart_id( "arm_r" ), damage_bandaged[3] );
+        set_part_damage_bandaged( bodypart_id( "leg_l" ), damage_bandaged[4] );
+        set_part_damage_bandaged( bodypart_id( "leg_r" ), damage_bandaged[5] );
+    }
+    if( data.has_array( "damage_disinfected" ) ) {
+        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_body();
+        std::array<int, 6> damage_disinfected;
+        data.read( "damage_disinfected", damage_disinfected );
+        set_part_damage_disinfected( bodypart_id( "head" ), damage_disinfected[0] );
+        set_part_damage_disinfected( bodypart_id( "torso" ), damage_disinfected[1] );
+        set_part_damage_disinfected( bodypart_id( "arm_l" ), damage_disinfected[2] );
+        set_part_damage_disinfected( bodypart_id( "arm_r" ), damage_disinfected[3] );
+        set_part_damage_disinfected( bodypart_id( "leg_l" ), damage_disinfected[4] );
+        set_part_damage_disinfected( bodypart_id( "leg_r" ), damage_disinfected[5] );
     }
 
 
@@ -901,9 +922,6 @@ void player::store( JsonOut &json ) const
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 
-    // potential incompatibility with future expansion
-    json.member( "damage_bandaged", damage_bandaged );
-    json.member( "damage_disinfected", damage_disinfected );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );
