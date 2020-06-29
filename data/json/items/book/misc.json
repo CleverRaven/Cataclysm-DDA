@@ -346,7 +346,7 @@
     "name": "Love and Circuses",
     "description": "The passionate saga of two Boston politicians fiercely battling each other for the mayor's office, and for Lydia's hand in marriage.",
     "copy-from": "paperback_romance_spb",
-    "relative": { "chapters": 2, "weight": 111 }
+    "relative": { "chapters": 2, "weight": "111 g" }
   },
   {
     "id": "paperback_romance_cloven",
@@ -538,7 +538,7 @@
     "description": "This lengthy paperback novel describes the ocean exploits of Captain Gosgold.  The British consider him an outlaw, but in America he is a patriot.",
     "copy-from": "book_fict_soft_tpl",
     "time": "12 m",
-    "relative": { "weight": 186, "price": 250, "chapters": 8 }
+    "relative": { "weight": "186 g", "price": 250, "chapters": 8 }
   },
   {
     "id": "book_fict_soft_swash_buccaneer",
@@ -1084,6 +1084,6 @@
     "name": { "str": "Glimpses of Solomon in Yellow", "str_pl": "copies of Solomon in Yellow" },
     "description": "This paperback is titled \"Glimpses of Solomon in Yellow; The Initiation Rites of the Starry Wisdom Covenant, by Dr. Enoch Craven.\"  It describes not just the investiture of new adherents, but the history and beliefs of the Church of Starry Wisdom.  Someone has defaced the sparse citations section by scrawling \"PUPPETS OF ROME!\" over its few pages.  The book does not provide any biography for Dr. Craven, let alone academic credentials.",
     "copy-from": "paperback_occult",
-    "relative": { "weight": 186, "price": 250, "chapters": 10 }
+    "relative": { "weight": "186 g", "price": 250, "chapters": 10 }
   }
 ]

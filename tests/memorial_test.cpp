@@ -58,6 +58,7 @@ TEST_CASE( "memorials" )
 
     event_bus &b = g->events();
 
+    g->u.male = false;
     character_id ch = g->u.getID();
     std::string u_name = g->u.name;
     character_id ch2 = character_id( ch.get_value() + 1 );
@@ -86,6 +87,9 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::becomes_wanted>(
         m, b, "Became wanted by the police!", ch );
+
+    check_memorial<event_type::broken_bone>(
+        m, b, "Broke her right arm.", ch, bp_arm_r );
 
     check_memorial<event_type::broken_bone_mends>(
         m, b, "Broken right arm began to mend.", ch, bp_arm_r );
@@ -191,6 +195,9 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::game_start>(
         m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, g->u.male,
         g->u.prof->ident(), g->u.custom_profession, "VERSION_STRING" );
+
+    // Invokes achievement, so send another to clear the log for the test
+    b.send<event_type::installs_cbm>( ch, cbm );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );

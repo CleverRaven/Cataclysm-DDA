@@ -614,7 +614,7 @@ float npc::character_danger( const Character &uc ) const
     }
     ret += u_weap_val;
 
-    ret += hp_percentage() * get_hp_max( hp_torso ) / 100.0 / my_weap_val;
+    ret += hp_percentage() * get_hp_max( bodypart_id( "torso" ) ) / 100.0 / my_weap_val;
 
     ret += my_gun ? u.get_dodge() / 2 : u.get_dodge();
 
@@ -1723,35 +1723,33 @@ healing_options npc::patient_assessment( const Character &c )
     healing_options try_to_fix;
     try_to_fix.clear_all();
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const hp_part part = static_cast<hp_part>( i );
-        const body_part bp_wounded = hp_to_bp( part );
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : c.get_body() ) {
 
-        if( c.has_effect( effect_bleed, bp_wounded ) ) {
+        if( c.has_effect( effect_bleed, elem.first->token ) ) {
             try_to_fix.bleed = true;
         }
 
-        if( c.has_effect( effect_bite, bp_wounded ) ) {
+        if( c.has_effect( effect_bite, elem.first->token ) ) {
             try_to_fix.bite = true;
         }
 
-        if( c.has_effect( effect_infected, bp_wounded ) ) {
+        if( c.has_effect( effect_infected, elem.first->token ) ) {
             try_to_fix.infect = true;
         }
         int part_threshold = 75;
-        if( part == hp_head ) {
+        if( elem.first == bodypart_str_id( "head" ) ) {
             part_threshold += 20;
-        } else if( part == hp_torso ) {
+        } else if( elem.first == bodypart_str_id( "torso" ) ) {
             part_threshold += 10;
         }
         part_threshold = std::min( 80, part_threshold );
-        part_threshold = part_threshold * c.hp_max[i] / 100;
+        part_threshold = part_threshold * elem.second.get_hp_max() / 100;
 
-        if( c.hp_cur[i] <= part_threshold ) {
-            if( !c.has_effect( effect_bandaged, bp_wounded ) ) {
+        if( elem.second.get_hp_cur() <= part_threshold ) {
+            if( !c.has_effect( effect_bandaged, elem.first->token ) ) {
                 try_to_fix.bandage = true;
             }
-            if( !c.has_effect( effect_disinfected, bp_wounded ) ) {
+            if( !c.has_effect( effect_disinfected, elem.first->token ) ) {
                 try_to_fix.disinfect = true;
             }
         }
@@ -4539,8 +4537,8 @@ void npc::do_reload( const item &it )
 bool npc::adjust_worn()
 {
     bool any_broken = false;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( is_limb_broken( static_cast<hp_part>( i ) ) ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( is_limb_broken( bp ) ) {
             any_broken = true;
             break;
         }
@@ -4550,9 +4548,9 @@ bool npc::adjust_worn()
         return false;
     }
     const auto covers_broken = [this]( const item & it, side s ) {
-        const auto covered = it.get_covered_body_parts( s );
-        for( size_t i = 0; i < num_hp_parts; i++ ) {
-            if( hp_cur[ i ] <= 0 && covered.test( convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ) ) ) {
+        const body_part_set covered = it.get_covered_body_parts( s );
+        for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+            if( elem.second.get_hp_cur() <= 0 && covered.test( elem.first ) ) {
                 return true;
             }
         }

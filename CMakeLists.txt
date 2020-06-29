@@ -31,7 +31,7 @@ set(PREFIX           "" CACHE STRING "Location of Data & GFX directories")
 include(CTest)
 
 include(GetGitRevisionDescription)
-git_describe(GIT_VERSION)
+git_describe(GIT_VERSION --tags --always --match "[0-9A-Z]*.[0-9A-Z]*")
 
 MESSAGE("\n * Cataclysm: Dark Days Ahead is a turn-based survival game set in a post-apocalyptic world.")
 MESSAGE("   _________            __                   .__                                ")
