@@ -52,7 +52,7 @@
   {
     "id": "CWH_NO_PAST_4_IDEAS2",
     "type": "talk_topic",
-    "dynamic_line": "Well, you know.  First there were the riots from the mind-control drugs in the water.  Except I think we can all see now it was actually a virus again.  The military and the cops did their damndest to put it down but it got out of hand.  Then the virus mutated and started bringing the dead back to life like in some kinda B-movie, and shit got really real.  They let the big things loose, or they set them on us, I dunno.  Huge unspeakable monsters... still makes me shudder to think of them.  They obviously weren't built for combat though, and the military took 'em down fast.",
+    "dynamic_line": "Well, you know.  First there were the riots from the mind-control drugs in the water.  Except I think we can all see now it was actually a virus again.  The military and the cops did their damndest to put it down but it got out of hand.  Then the virus mutated and started bringing the dead back to life like in some kinda B-movie, and shit got really real.  They let the big things loose, or they set them on us, I dunno.  Huge unspeakable monsters… still makes me shudder to think of them.  They obviously weren't built for combat though, and the military took 'em down fast.",
     "responses": [
       {
         "condition": { "or": [ { "u_has_perception": 7 }, { "u_has_intelligence": 8 } ] },

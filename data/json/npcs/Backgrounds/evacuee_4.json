@@ -22,13 +22,13 @@
   {
     "id": "BGSS_EVACUEE_4_STORY3",
     "type": "talk_topic",
-    "dynamic_line": "Once I was okay leaving the bushes, I made my way to an old shed I could see a ways off. It was falling in but it kept the rain and wind off and gave me a place out of sight.  I stayed there until I ran out of those ass-tasting ration bars I'd filled my backpack with.  Then I took on the wanderin' life until we met.",
+    "dynamic_line": "Once I was okay leaving the bushes, I made my way to an old shed I could see a ways off.  It was falling in but it kept the rain and wind off and gave me a place out of sight.  I stayed there until I ran out of those ass-tasting ration bars I'd filled my backpack with.  Then I took on the wanderin' life until we met.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   },
   {
     "id": "CWH_EVACUEE_4_IDEAS1",
     "type": "talk_topic",
-    "dynamic_line": "What's this, some kinda Back to the Future thing?  How could you not know what happened?  The world damn well ended, that's what.  And it didn't start with an earthquake, birds, snakes, or aeroplanes. It started with riots, and they had to dispatch cops and then the military to take care of the <swear> criminals.  The government tried to pad it claiming it was some kind of mind control, but I didn't see too much different from the usual bullshit: entitled babies looking for an excuse to break the law.  It just got way worse, this time, until it was time to get out of dodge.  I heard rumours they were even bombing some of the urban centers to try to control it - which, I have to admit, is maybe a bit too hard-core.",
+    "dynamic_line": "What's this, some kinda Back to the Future thing?  How could you not know what happened?  The world damn well ended, that's what.  And it didn't start with an earthquake, birds, snakes, or aeroplanes.  It started with riots, and they had to dispatch cops and then the military to take care of the <swear> criminals.  The government tried to pad it claiming it was some kind of mind control, but I didn't see too much different from the usual bullshit: entitled babies looking for an excuse to break the law.  It just got way worse, this time, until it was time to get out of dodge.  I heard rumours they were even bombing some of the urban centers to try to control it - which, I have to admit, is maybe a bit too hard-core.",
     "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]
