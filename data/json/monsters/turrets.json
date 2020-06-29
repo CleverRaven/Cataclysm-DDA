@@ -350,7 +350,7 @@
     "armor_bash": 24,
     "armor_cut": 26,
     "vision_day": 50,
-    "vision_night": 50,
+    "vision_night": 20,
     "luminance": 1,
     "starting_ammo": { "123ln": 3000 },
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
