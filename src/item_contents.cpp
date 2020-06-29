@@ -372,8 +372,8 @@ ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_ty
         // LAST is invalid, so we assume it will be a regular container
         pk_type = item_pocket::pocket_type::CONTAINER;
     }
-    ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
 
+    ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
     if( pocket.value() == nullptr ) {
         return ret_val<bool>::make_failure( "No success" );
     }
@@ -827,12 +827,14 @@ const item &item_contents::only_item() const
         return null_item_reference();
     }
     for( const item_pocket &pocket : contents ) {
-        if( pocket.empty() || !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        if( pocket.empty() || !( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
+                                 pocket.is_type( item_pocket::pocket_type::SOFTWARE ) ) ) {
             continue;
         }
         // the first item we come to is the only one.
         return pocket.front();
     }
+
     return null_item_reference();
 }
 
