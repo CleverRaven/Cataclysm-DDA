@@ -2948,18 +2948,21 @@ dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo, const std::str
     } else if( jo.has_object( member_name ) ) {
         return dynamic_line_t( jo.get_object( member_name ) );
     } else if( jo.has_string( member_name ) ) {
-        return dynamic_line_t( jo.get_string( member_name ) );
+        translation line;
+        jo.read( member_name, line );
+        return dynamic_line_t( line );
     } else {
         return dynamic_line_t{};
     }
 }
 
-dynamic_line_t::dynamic_line_t( const std::string &line )
+dynamic_line_t::dynamic_line_t( const translation &line )
 {
     function = [line]( const dialogue & ) {
-        return _( line );
+        return line.translated();
     };
 }
+
 
 dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
@@ -2967,7 +2970,9 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         std::vector<dynamic_line_t> lines;
         for( const JsonValue entry : jo.get_array( "and" ) ) {
             if( entry.test_string() ) {
-                lines.emplace_back( entry.get_string() );
+                translation line;
+                entry.read( line );
+                lines.emplace_back( line );
             } else if( entry.test_array() ) {
                 lines.emplace_back( entry.get_array() );
             } else if( entry.test_object() ) {
@@ -2995,6 +3000,11 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         };
     } else if( jo.has_string( "gendered_line" ) ) {
         const std::string line = jo.get_string( "gendered_line" );
+        if( test_mode ) {
+            // HACK: check text style by reading it as a translation object
+            translation dummy;
+            jo.read( "gendered_line", dummy );
+        }
         if( !jo.has_array( "relevant_genders" ) ) {
             jo.throw_error(
                 R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
@@ -3051,7 +3061,9 @@ dynamic_line_t::dynamic_line_t( const JsonArray &ja )
     std::vector<dynamic_line_t> lines;
     for( const JsonValue entry : ja ) {
         if( entry.test_string() ) {
-            lines.emplace_back( entry.get_string() );
+            translation line;
+            entry.read( line );
+            lines.emplace_back( line );
         } else if( entry.test_array() ) {
             lines.emplace_back( entry.get_array() );
         } else if( entry.test_object() ) {

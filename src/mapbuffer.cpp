@@ -109,8 +109,9 @@ void mapbuffer::save( bool delete_after_save )
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
-    const tripoint map_origin = sm_to_omt_copy( g->m.get_abs_sub() );
-    const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
+    map &here = get_map();
+    const tripoint map_origin = sm_to_omt_copy( here.get_abs_sub() );
+    const bool map_has_zlevels = g != nullptr && here.has_zlevels();
 
     static_popup popup;
 
