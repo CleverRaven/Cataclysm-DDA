@@ -1183,6 +1183,19 @@
   },
   {
     "type": "snippet",
+    "category": "<CWH_intro_question>",
+    "//": "avatar response to an NPC that opens up their theories about what the cataclysm was.",
+    "text": [
+      "What happened to cause the end of the world, anyway?",
+      "How do you think we ended up here?  What even happened?",
+      "Do you know what caused the cataclysm?",
+      "What's going on?  Like, big picture, what the hell happened?",
+      "Do you have any ideas about what caused the Cataclysm?",
+      "Have you heard anything about how the apocalypse came about?"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<done_conversation_section>",
     "//": "Avatar response to an NPC that can be used for TALK_NONE responses.  Could be used in a lot more dialogs.  Could also use a lot more variety.",
     "text": [
