@@ -900,16 +900,16 @@ void sfx::do_ambient()
         play_ambient_variant_sound( "environment", "indoors", heard_volume, channel::indoors_env, 1000 );
     }
 
-    weather_type current_weather = get_weather().weather;
+    weather_datum current_weather = get_weather().data();
     // We are indoors and it is also raining
-    if( g->weather.data().rains &&
-        g->weather.data().precip != precip_class::VERY_LIGHT &&
+    if( current_weather.rains &&
+        current_weather.precip != precip_class::VERY_LIGHT &&
         !is_underground && is_sheltered && !is_channel_playing( channel::indoors_rain_env ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, channel::indoors_rain_env,
                                     1000 );
     }
     if( ( !is_sheltered &&
-          g->weather.data().sound_category != weather_sound_category::NONE && !is_deaf &&
+          current_weather.sound_category != weather_sound_category::NONE && !is_deaf &&
           !is_channel_playing( channel::outdoors_snow_env ) &&
           !is_channel_playing( channel::outdoors_flurry_env ) &&
           !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
@@ -920,7 +920,7 @@ void sfx::do_ambient()
              weather_changed  && !is_deaf ) ) {
         fade_audio_group( group::weather, 1000 );
         // We are outside and there is precipitation
-        switch( g->weather.data().sound_category ) {
+        switch( current_weather.sound_category ) {
             case weather_sound_category::DRIZZLE:
                 play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
                                             channel::outdoors_drizzle_env,
@@ -955,7 +955,7 @@ void sfx::do_ambient()
         }
     }
     // Keep track of weather to compare for next iteration
-    previous_weather = current_weather.weather_index;
+    previous_weather = get_weather().weather_index;
 }
 
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached
