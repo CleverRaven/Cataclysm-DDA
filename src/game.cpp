@@ -8964,7 +8964,7 @@ void game::wield( item_location loc )
         debugmsg( "ERROR: tried to wield null item" );
         return;
     }
-    if( u.weapon.has_item( *loc ) ) {
+    if( &u.weapon != &*loc && u.weapon.has_item( *loc ) ) {
         add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
         return;
     }
