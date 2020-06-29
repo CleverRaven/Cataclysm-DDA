@@ -1,23 +1,25 @@
-{
-  "type": "ITEM_BLACKLIST",
-  "whitelist": false,
-  "items": [
-    "lemat_revolver_shotgun",
-    "llink",
-    "dias",
-    "M6_shotgun",
-    "ksg_aux_shotgun",
-    "ksg25_aux_shotgun",
-    "combination_gun_shotgun",
-    "combination_gun_shotgun_pipe",
-    "belt_clip",
-    "retool_ar15_300blk",
-    "ts12_aux_shotgun",
-    "ts12_aux_shotgun2",
-    "lwfeed",
-    "lead_barrel_big",
-    "lead_barrel_heavy_duty",
-    "inter_bayonet",
-    "factory_handguard"
-  ]
-}
+[
+  {
+    "type": "ITEM_BLACKLIST",
+    "whitelist": false,
+    "items": [
+      "lemat_revolver_shotgun",
+      "llink",
+      "dias",
+      "M6_shotgun",
+      "ksg_aux_shotgun",
+      "ksg25_aux_shotgun",
+      "combination_gun_shotgun",
+      "combination_gun_shotgun_pipe",
+      "belt_clip",
+      "retool_ar15_300blk",
+      "ts12_aux_shotgun",
+      "ts12_aux_shotgun2",
+      "lwfeed",
+      "lead_barrel_big",
+      "lead_barrel_heavy_duty",
+      "inter_bayonet",
+      "factory_handguard"
+    ]
+  }
+]

@@ -142,7 +142,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LUKE_TOPICS",
-    "dynamic_line": "Go on...",
+    "dynamic_line": "Go on…",
     "responses": [
       {
         "text": "Must be tough having the world fall apart when you had you future to look forward to.",

@@ -2981,7 +2981,9 @@
     "color": "light_gray",
     "initial_charges": 60,
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 60 } } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
+    ],
     "covers": [ "TORSO" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
     "environmental_protection": 1,
@@ -3009,7 +3011,9 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 60 } } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
+    ],
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "TORSO", "MOUTH" ],
@@ -3038,7 +3042,9 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 20 } } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
+    ],
     "max_charges": 20,
     "covers": [ "TORSO" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
@@ -3067,7 +3073,9 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 20 } } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
+    ],
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "TORSO", "MOUTH" ],

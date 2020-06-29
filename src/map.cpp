@@ -3642,7 +3642,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
         if( ammo_effects.count( ae.id.str() ) > 0 ) {
             if( x_in_y( ae.trail_chance, 100 ) ) {
-                g->m.add_field( p, ae.trail_field_type, rng( ae.trail_intensity_min, ae.trail_intensity_max ) );
+                add_field( p, ae.trail_field_type, rng( ae.trail_intensity_min, ae.trail_intensity_max ) );
             }
         }
     }
@@ -6951,7 +6951,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
 
     item sap( "maple_sap", calendar::turn );
 
-    sap.set_item_temperature( temp_to_kelvin( g->m.get_temperature( p ) ) );
+    sap.set_item_temperature( temp_to_kelvin( get_temperature( p ) ) );
 
     // Is there a proper container?
     map_stack items = i_at( p );

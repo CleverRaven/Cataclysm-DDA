@@ -7,7 +7,6 @@
 
 #include "ammo_effect.h"
 #include "explosion.h"
-#include "game.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
@@ -95,14 +94,15 @@ void projectile::unset_custom_explosion()
 
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
+    map &here = get_map();
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
         if( effects.count( ae.id.str() ) > 0 ) {
-            for( auto &pt : g->m.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
+            for( auto &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
-                    const bool check_sees = !ae.aoe_check_sees || g->m.sees( p, pt, ae.aoe_check_sees_radius );
-                    const bool check_passable = !ae.aoe_check_passable || g->m.passable( pt );
+                    const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt, ae.aoe_check_sees_radius );
+                    const bool check_passable = !ae.aoe_check_passable || here.passable( pt );
                     if( check_sees && check_passable ) {
-                        g->m.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
+                        here.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
                     }
                 }
             }

@@ -706,7 +706,7 @@ npc_ptr talk_function::individual_mission( const tripoint &omt_pos,
         }
     }
     if( comp->in_vehicle ) {
-        g->m.unboard_vehicle( comp->pos() );
+        get_map().unboard_vehicle( comp->pos() );
     }
     popup( "%s %s", comp->name, desc );
     comp->set_companion_mission( omt_pos, role_id, miss_id );
@@ -1730,10 +1730,11 @@ void talk_function::companion_return( npc &comp )
     comp.reset_companion_mission();
     comp.companion_mission_time = calendar::before_time_starts;
     comp.companion_mission_time_ret = calendar::before_time_starts;
+    map &here = get_map();
     for( size_t i = 0; i < comp.companion_mission_inv.size(); i++ ) {
         for( const auto &it : comp.companion_mission_inv.const_stack( i ) ) {
             if( !it.count_by_charges() || it.charges > 0 ) {
-                g->m.add_item_or_charges( g->u.pos(), it );
+                here.add_item_or_charges( g->u.pos(), it );
             }
         }
     }

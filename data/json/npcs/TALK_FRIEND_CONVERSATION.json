@@ -2,7 +2,7 @@
   {
     "id": "TALK_CONVERSATION_DANGER",
     "type": "talk_topic",
-    "dynamic_line": "Are you sure?  This doesn't seem like a particularly safe place for small talk...",
+    "dynamic_line": "Are you sure?  This doesn't seem like a particularly safe place for small talk…",
     "responses": [
       {
         "text": "It's fine, we've got a moment.",
