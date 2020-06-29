@@ -107,6 +107,18 @@
         "topic": "CWH_FEMA_EVACUEE_1_IDEAS1",
         "condition": { "npc_has_trait": "BGSS_FEMA_Evacuee_1" },
         "switch": true
+      },
+      {
+        "text": "<CWH_intro_question>",
+        "topic": "CWH_LEFT_FOR_DEAD_1_IDEAS1",
+        "condition": { "npc_has_trait": "BGSS_Left_for_Dead_1" },
+        "switch": true
+      },
+      {
+        "text": "<CWH_intro_question>",
+        "topic": "CWH_LEFT_FOR_DEAD_2_IDEAS1",
+        "condition": { "npc_has_trait": "BGSS_Left_for_Dead_2" },
+        "switch": true
       }
     ]
   }
