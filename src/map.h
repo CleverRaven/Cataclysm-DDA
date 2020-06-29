@@ -212,7 +212,7 @@ class map
 
     public:
         // Constructors & Initialization
-        map( int mapsize = MAPSIZE, bool zlev = false );
+        map( int mapsize = MAPSIZE, bool zlev = true );
         map( bool zlev ) : map( MAPSIZE, zlev ) { }
         virtual ~map();
 
