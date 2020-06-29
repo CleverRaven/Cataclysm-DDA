@@ -86,8 +86,6 @@ TEST_CASE( "Wield time test", "[wield]" )
         avatar guy;
         clear_character( guy );
 
-        wield_check_from_inv( guy, itype_id( "halberd" ), 612 );
-        clear_character( guy );
         wield_check_from_inv( guy, itype_id( "aspirin" ), 375 );
         clear_character( guy );
         wield_check_from_inv( guy, itype_id( "knife_combat" ), 412 );

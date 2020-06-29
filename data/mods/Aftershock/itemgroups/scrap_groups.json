@@ -1,0 +1,30 @@
+[
+  {
+    "id": "surgery",
+    "type": "item_group",
+    "items": [ [ "bionic_maintenance_toolkit", 20 ], [ "afs_biomaterial_4", 10 ], [ "afs_neural_io_3", 5 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "afs_scrapgroup",
+    "items": [
+      [ "afs_biomaterial_1", 40 ],
+      [ "afs_biomaterial_2", 20 ],
+      [ "afs_biomaterial_3", 10 ],
+      [ "afs_biomaterial_4", 3 ],
+      [ "afs_circuitry_1", 25 ],
+      [ "afs_circuitry_2", 14 ],
+      [ "afs_circuitry_3", 6 ],
+      [ "afs_energy_storage_1", 30 ],
+      [ "afs_energy_storage_2", 19 ],
+      [ "afs_energy_storage_3", 2 ],
+      [ "afs_magnet_1", 18 ],
+      [ "afs_material_1", 100 ],
+      [ "afs_material_2", 40 ],
+      [ "afs_material_3", 20 ],
+      [ "afs_neural_io_1", 65 ],
+      [ "afs_neural_io_2", 10 ],
+      [ "plut_cell", 20 ]
+    ]
+  }
+]

@@ -560,6 +560,11 @@ item &item::activate()
     return *this;
 }
 
+bool item::activate_thrown( const tripoint &pos )
+{
+    return type->invoke( g->u, *this, pos );
+}
+
 units::energy item::set_energy( const units::energy &qty )
 {
     if( !is_battery() ) {
@@ -4120,9 +4125,9 @@ void item::on_wear( Character &p )
     if( is_sided() && get_side() == side::BOTH ) {
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
-            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( hp_leg_r ) &&
+            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( bodypart_id( "leg_r" ) ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( hp_arm_r ) &&
+                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( bodypart_id( "arm_r" ) ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
@@ -7102,6 +7107,15 @@ int item::ammo_remaining() const
         return res;
     }
 
+    // Handle non-magazines with ammo_restriction in a CONTAINER type pocket (like quivers)
+    if( !ammo_types().empty() ) {
+        int res = 0;
+        for( const item *e : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            res += e->charges;
+        }
+        return res;
+    }
+
     return 0;
 }
 
@@ -8275,7 +8289,8 @@ int item::fill_with( const itype &contained, const int amount )
 
     item_pocket *pocket = best_pocket( contained_item );
     if( pocket == nullptr ) {
-        debugmsg( "tried to put an item in a container that cannot contain it" );
+        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
+                  contained_item.typeId().str(), typeId().str() );
         return 0;
     }
 
@@ -9462,12 +9477,12 @@ bool item::process_blackpowder_fouling( player *carrier )
     return false;
 }
 
-bool item::process( player *carrier, const tripoint &pos, bool activate, float insulation,
+bool item::process( player *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent )
 {
-    contents.process( carrier, pos, activate, type->insulation_factor * insulation, flag,
+    contents.process( carrier, pos, type->insulation_factor * insulation, flag,
                       spoil_multiplier_parent );
-    return process_internal( carrier, pos, activate, insulation, flag, spoil_multiplier_parent );
+    return process_internal( carrier, pos, insulation, flag, spoil_multiplier_parent );
 }
 
 void item::set_last_rot_check( const time_point &pt )
@@ -9475,7 +9490,7 @@ void item::set_last_rot_check( const time_point &pt )
     last_rot_check = pt;
 }
 
-bool item::process_internal( player *carrier, const tripoint &pos, bool activate,
+bool item::process_internal( player *carrier, const tripoint &pos,
                              float insulation, const temperature_flag flag, float spoil_modifier )
 {
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
@@ -9494,9 +9509,6 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
         return process_blackpowder_fouling( carrier );
     }
 
-    if( activate ) {
-        return type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
-    }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
     // call the processing function. If that function returns true, the item

@@ -171,6 +171,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -322,6 +323,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
@@ -427,6 +429,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -486,6 +489,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -545,6 +549,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -604,6 +609,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -685,6 +691,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -744,6 +751,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -876,7 +884,7 @@
     "weight": "6820 g",
     "volume": "9 L",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 5000 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "plutonium": 5000 } } ],
     "ammo": "plutonium",
     "charges_per_use": 5,
     "use_action": [ "RM13ARMOR_OFF" ],
@@ -931,7 +939,7 @@
     "material": [ "ceramic", "kevlar" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 1000 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "plutonium": 1000 } } ],
     "ammo": "plutonium",
     "initial_charges": 1000,
     "use_action": {
@@ -982,7 +990,7 @@
     "material": [ "carbide" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 2500 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "plutonium": 2500 } } ],
     "ammo": "plutonium",
     "initial_charges": 1000,
     "use_action": {
@@ -1062,7 +1070,7 @@
     "weight": "720 g",
     "volume": "500 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rebreather_filter": 60 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
     "ammo": "rebreather_filter",
     "initial_charges": 60,
     "charges_per_use": 1,
@@ -1110,7 +1118,7 @@
     "weight": "960 g",
     "volume": "1250 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rebreather_filter": 60 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
     "ammo": "rebreather_filter",
     "initial_charges": 60,
     "charges_per_use": 1,
@@ -1165,7 +1173,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 7,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_s": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_s": 100 } } ],
     "ammo": "gasfilter_s",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ]
@@ -1192,7 +1200,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ]
@@ -1218,7 +1226,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1246,7 +1254,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1274,7 +1282,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1296,7 +1304,7 @@
     "weight": "1260 g",
     "volume": "1500 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1320,7 +1328,7 @@
     "price": 24000,
     "price_postapoc": 2000,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1348,10 +1356,9 @@
     "price": 24000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
-    "charges_per_use": 1,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
@@ -1377,7 +1384,7 @@
     "price": 24000,
     "price_postapoc": 1750,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1405,7 +1412,7 @@
     "price": 24000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1433,7 +1440,7 @@
     "price": 24000,
     "price_postapoc": 1750,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1461,7 +1468,7 @@
     "price": 24000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1513,6 +1520,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -1577,6 +1585,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -1620,7 +1629,7 @@
     "flags": [ "OVERSIZE" ],
     "weight": "364 g",
     "volume": "750 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 2 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ampoule": 2 } } ],
     "charges_per_use": 1,
     "use_action": [ "JET_INJECTOR" ],
     "material_thickness": 3
@@ -1639,7 +1648,7 @@
     "flags": [ "OVERSIZE" ],
     "weight": "212 g",
     "volume": "750 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "stimpack_ammo": 5 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "stimpack_ammo": 5 } } ],
     "ammo": "stimpack_ammo",
     "initial_charges": 5,
     "charges_per_use": 1,
@@ -1661,7 +1670,7 @@
     "weight": "982 g",
     "volume": "1500 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rebreather_filter": 120 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 120 } } ],
     "ammo": "rebreather_filter",
     "charges_per_use": 1,
     "use_action": {
@@ -1709,7 +1718,7 @@
     "weight": "1302 g",
     "volume": "2 L",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rebreather_filter": 120 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 120 } } ],
     "ammo": "rebreather_filter",
     "charges_per_use": 1,
     "use_action": {
@@ -1843,6 +1852,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
@@ -2425,6 +2435,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
@@ -2781,6 +2792,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -2969,7 +2981,7 @@
     "color": "light_gray",
     "initial_charges": 60,
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nitrox": 60 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 60 } } ],
     "covers": [ "TORSO" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
     "environmental_protection": 1,
@@ -2997,7 +3009,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nitrox": 60 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 60 } } ],
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "TORSO", "MOUTH" ],
@@ -3026,7 +3038,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nitrox": 20 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 20 } } ],
     "max_charges": 20,
     "covers": [ "TORSO" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
@@ -3055,7 +3067,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nitrox": 20 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "nitrox": 20 } } ],
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "TORSO", "MOUTH" ],
@@ -3101,6 +3113,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
@@ -3155,6 +3168,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]

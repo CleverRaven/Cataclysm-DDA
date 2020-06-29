@@ -457,8 +457,6 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
                     item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
                     furn_item.put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
-                } else {
-                    debugmsg( "ERROR: Furniture crafting pseudo item does not have magazine for ammo" );
                 }
                 furn_item.item_tags.insert( "PSEUDO" );
                 add_item( furn_item );

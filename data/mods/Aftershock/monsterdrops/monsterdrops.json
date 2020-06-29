@@ -1,6 +1,12 @@
 [
   {
     "type": "item_group",
+    "subtype": "collection",
+    "id": "mon_afs_sentinel_lx_drops",
+    "entries": [ { "item": "afs_sentinel_cloak" } ]
+  },
+  {
+    "type": "item_group",
     "id": "tripod",
     "items": [
       { "item": "flamethrower", "prob": 1, "charges-min": 0, "charges-max": 3000 },

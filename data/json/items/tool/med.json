@@ -187,7 +187,7 @@
     "name": { "str": "blood draw kit" },
     "description": "This is a kit for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
     "weight": "13 g",
-    "volume": "250 ml",
+    "volume": "262 ml",
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": -3,

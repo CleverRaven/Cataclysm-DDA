@@ -90,6 +90,25 @@
     "energy_source": "FATIGUE"
   },
   {
+    "id": "debug_polymorph",
+    "type": "SPELL",
+    "name": "Debug polymorph",
+    "description": "Well you wanted to lose weight, right?",
+    "valid_targets": [ "hostile", "ally" ],
+    "flags": [ "NO_LEGS", "LOUD", "SOMATIC" ],
+    "effect": "targeted_polymorph",
+    "energy_source": "MANA",
+    "difficulty": 1,
+    "min_damage": 9999,
+    "max_damage": 9999,
+    "max_level": 1,
+    "base_casting_time": 10,
+    "base_energy_cost": 1,
+    "final_energy_cost": 1,
+    "min_range": 30,
+    "max_range": 30
+  },
+  {
     "id": "debug_hp",
     "type": "SPELL",
     "name": "Debug HP Spell",

@@ -12,6 +12,7 @@
 
 #include "action.h"
 #include "activity_handlers.h"
+#include "activity_type.h"
 #include "anatomy.h"
 #include "avatar.h"
 #include "bionics.h"
@@ -406,8 +407,6 @@ Character::Character() :
     next_climate_control_check( calendar::before_time_starts ),
     last_climate_control_ret( false )
 {
-    hp_cur.fill( 0 );
-    hp_max.fill( 1 );
     randomize_blood();
     str_max = 0;
     dex_max = 0;
@@ -1310,10 +1309,10 @@ int Character::get_working_arm_count() const
     }
 
     int limb_count = 0;
-    if( !is_limb_disabled( hp_arm_l ) ) {
+    if( !is_limb_disabled( bodypart_id( "arm_l" ) ) ) {
         limb_count++;
     }
-    if( !is_limb_disabled( hp_arm_r ) ) {
+    if( !is_limb_disabled( bodypart_id( "arm_r" ) ) ) {
         limb_count++;
     }
     if( has_bionic( bio_blaster ) && limb_count > 0 ) {
@@ -1327,25 +1326,25 @@ int Character::get_working_arm_count() const
 int Character::get_working_leg_count() const
 {
     int limb_count = 0;
-    if( !is_limb_broken( hp_leg_l ) ) {
+    if( !is_limb_broken( bodypart_id( "leg_l" ) ) ) {
         limb_count++;
     }
-    if( !is_limb_broken( hp_leg_r ) ) {
+    if( !is_limb_broken( bodypart_id( "leg_r" ) ) ) {
         limb_count++;
     }
     return limb_count;
 }
 
-bool Character::is_limb_disabled( hp_part limb ) const
+bool Character::is_limb_disabled( const bodypart_id &limb ) const
 {
-    return hp_cur[limb] <= hp_max[limb] * .125;
+    return get_part_hp_cur( limb ) <= get_part_hp_max( limb ) * .125;
 }
 
 // this is the source of truth on if a limb is broken so all code to determine
 // if a limb is broken should point here to make any future changes to breaking easier
-bool Character::is_limb_broken( hp_part limb ) const
+bool Character::is_limb_broken( const bodypart_id &limb ) const
 {
-    return hp_cur[limb] == 0;
+    return get_part_hp_cur( limb ) == 0;
 }
 
 bool Character::can_run() const
@@ -1713,7 +1712,6 @@ void Character::process_turn()
 
 void Character::recalc_hp()
 {
-    int new_max_hp[num_hp_parts];
     int str_boost_val = 0;
     cata::optional<skill_boost> str_boost = skill_boost::get( "str" );
     if( str_boost ) {
@@ -1726,28 +1724,8 @@ void Character::recalc_hp()
     // Mutated toughness stacks with starting, by design.
     float hp_mod = 1.0f + mutation_value( "hp_modifier" ) + mutation_value( "hp_modifier_secondary" );
     float hp_adjustment = mutation_value( "hp_adjustment" ) + ( str_boost_val * 3 );
-    for( auto &elem : new_max_hp ) {
-        /** @EFFECT_STR_MAX increases base hp */
-        elem = 60 + str_max * 3 + hp_adjustment + get_fat_to_hp();
-        elem *= hp_mod;
-    }
-    if( has_trait( trait_GLASSJAW ) ) {
-        new_max_hp[hp_head] *= 0.8;
-    }
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        // Only recalculate when max changes,
-        // otherwise we end up walking all over due to rounding errors.
-        if( new_max_hp[i] == hp_max[i] ) {
-            continue;
-        }
-        // hp_max must be positive to avoiud undefined behavior.
-        hp_max[i] = std::max( hp_max[i], 1 );
-        float max_hp_ratio = static_cast<float>( new_max_hp[i] ) /
-                             static_cast<float>( hp_max[i] );
-        hp_cur[i] = std::ceil( static_cast<float>( hp_cur[i] ) * max_hp_ratio );
-        hp_cur[i] = std::max( std::min( hp_cur[i], new_max_hp[i] ), 1 );
-        hp_max[i] = new_max_hp[i];
-    }
+    calc_all_parts_hp( hp_mod, hp_adjustment, str_max, dex_max, per_max, int_max, get_healthy(),
+                       get_fat_to_hp() );
 }
 
 // This must be called when any of the following change:
@@ -3063,7 +3041,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             if( !it.covers( bp ) ) {
                 continue;
             }
-            if( is_limb_broken( bp_to_hp( bp->token ) ) && !worn_with_flag( flag_SPLINT, bp ) ) {
+            if( is_limb_broken( bp ) && !worn_with_flag( flag_SPLINT, bp ) ) {
                 need_splint = true;
                 break;
             }
@@ -3463,6 +3441,7 @@ void Character::normalize()
     martial_arts_data.reset_style();
     weapon   = item( "null", 0 );
 
+    set_body();
     recalc_hp();
 }
 
@@ -4535,7 +4514,7 @@ void Character::on_damage_of_type( int adjusted_damage, damage_type type, const 
             }
             const std::map<bodypart_str_id, size_t> &bodyparts = info.occupied_bodyparts;
             if( bodyparts.find( bp.id() ) != bodyparts.end() ) {
-                const int bp_hp = hp_cur[bp_to_hp( bp->token )];
+                const int bp_hp = get_part_hp_cur( bp );
                 // The chance to incapacitate is as high as 50% if the attack deals damage equal to one third of the body part's current health.
                 if( x_in_y( adjusted_damage * 3, bp_hp ) && one_in( 2 ) ) {
                     if( i.incapacitated_time == 0_turns ) {
@@ -4592,7 +4571,7 @@ void Character::regen( int rate_multiplier )
 
         int healing_apply = roll_remainder( healing );
         healed_bp( i, healing_apply );
-        heal( bp->token, healing_apply );
+        heal( bp, healing_apply );
         if( damage_bandaged[i] > 0 ) {
             damage_bandaged[i] -= healing_apply;
             if( damage_bandaged[i] <= 0 ) {
@@ -4611,12 +4590,12 @@ void Character::regen( int rate_multiplier )
         }
 
         // remove effects if the limb was healed by other way
-        if( has_effect( effect_bandaged, bp->token ) && ( hp_cur[i] == hp_max[i] ) ) {
+        if( has_effect( effect_bandaged, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
             damage_bandaged[i] = 0;
             remove_effect( effect_bandaged, bp->token );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
-        if( has_effect( effect_disinfected, bp->token ) && ( hp_cur[i] == hp_max[i] ) ) {
+        if( has_effect( effect_disinfected, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
             damage_disinfected[i] = 0;
             remove_effect( effect_disinfected, bp->token );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
@@ -4630,11 +4609,11 @@ void Character::regen( int rate_multiplier )
 
 void Character::enforce_minimum_healing()
 {
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( healed_total[i] <= 0 ) {
-            heal( static_cast<hp_part>( i ), 1 );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( get_part_healed_total( bp ) <= 0 ) {
+            heal( bp, 1 );
         }
-        healed_total[i] = 0;
+        set_part_healed_total( bp, 0 );
     }
 }
 
@@ -4699,6 +4678,11 @@ void Character::update_body( const time_point &from, const time_point &to )
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
+        if( !activity.is_null() ) {
+            decrease_activity_level( activity.id()->exertion_level() );
+        } else {
+            reset_activity_level();
+        }
         check_needs_extremes();
         update_needs( five_mins );
         regen( five_mins );
@@ -4712,9 +4696,6 @@ void Character::update_body( const time_point &from, const time_point &to )
 
     const int thirty_mins = ticks_between( from, to, 30_minutes );
     if( thirty_mins > 0 ) {
-        if( activity.is_null() ) {
-            reset_activity_level();
-        }
         // Radiation kills health even at low doses
         update_health( has_trait( trait_RADIOGENIC ) ? 0 : -get_rad() );
         get_sick();
@@ -5109,13 +5090,13 @@ void Character::check_needs_extremes()
                                _( "You have a sudden heart attack!" ),
                                _( "<npcname> has a sudden heart attack!" ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
-        hp_cur[hp_torso] = 0;
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( get_stim() < -200 || get_painkiller() > 240 ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your breathing stops completely." ),
                                _( "<npcname>'s breathing stops completely." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
-        hp_cur[hp_torso] = 0;
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
             add_msg_player_or_npc( m_bad,
@@ -5126,19 +5107,19 @@ void Character::check_needs_extremes()
                                    _( "<npcname>'s heart spasms and stops." ) );
         }
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_jetinjector );
-        hp_cur[hp_torso] = 0;
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your heart spasms and stops." ),
                                _( "<npcname>'s heart spasms and stops." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_adrenaline );
-        hp_cur[hp_torso] = 0;
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( get_effect_int( effect_drunk ) > 4 ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your breathing slows down to a stop." ),
                                _( "<npcname>'s breathing slows down to a stop." ) );
         g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_drunk );
-        hp_cur[hp_torso] = 0;
+        set_part_hp_cur( bodypart_id( "torso" ), 0 );
     }
 
     // check if we've starved
@@ -5146,7 +5127,7 @@ void Character::check_needs_extremes()
         if( get_stored_kcal() <= 0 ) {
             add_msg_if_player( m_bad, _( "You have starved to death." ) );
             g->events().send<event_type::dies_of_starvation>( getID() );
-            hp_cur[hp_torso] = 0;
+            set_part_hp_cur( bodypart_id( "torso" ), 0 );
         } else {
             if( calendar::once_every( 12_hours ) ) {
                 std::string category;
@@ -5186,7 +5167,7 @@ void Character::check_needs_extremes()
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
             g->events().send<event_type::dies_of_thirst>( getID() );
-            hp_cur[hp_torso] = 0;
+            set_part_hp_cur( bodypart_id( "torso" ), 0 );
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
         } else if( get_thirst() >= 800 && calendar::once_every( 30_minutes ) ) {
@@ -6045,21 +6026,15 @@ Character::comfort_response_t Character::base_comfort_value( const tripoint &p )
 
 int Character::blood_loss( const bodypart_id &bp ) const
 {
-    int hp_cur_sum = 1;
-    int hp_max_sum = 1;
+    int hp_cur_sum = get_part_hp_cur( bp );
+    int hp_max_sum = get_part_hp_max( bp );
 
     if( bp == bodypart_id( "leg_l" ) || bp == bodypart_id( "leg_r" ) ) {
-        hp_cur_sum = hp_cur[hp_leg_l] + hp_cur[hp_leg_r];
-        hp_max_sum = hp_max[hp_leg_l] + hp_max[hp_leg_r];
+        hp_cur_sum = get_part_hp_cur( bodypart_id( "leg_l" ) ) + get_part_hp_cur( bodypart_id( "leg_r" ) );
+        hp_max_sum = get_part_hp_max( bodypart_id( "leg_l" ) ) + get_part_hp_max( bodypart_id( "leg_r" ) );
     } else if( bp == bodypart_id( "arm_l" ) || bp == bodypart_id( "arm_r" ) ) {
-        hp_cur_sum = hp_cur[hp_arm_l] + hp_cur[hp_arm_r];
-        hp_max_sum = hp_max[hp_arm_l] + hp_max[hp_arm_r];
-    } else if( bp == bodypart_id( "torso" ) ) {
-        hp_cur_sum = hp_cur[hp_torso];
-        hp_max_sum = hp_max[hp_torso];
-    } else if( bp == bodypart_id( "head" ) ) {
-        hp_cur_sum = hp_cur[hp_head];
-        hp_max_sum = hp_max[hp_head];
+        hp_cur_sum = get_part_hp_cur( bodypart_id( "arm_l" ) ) + get_part_hp_cur( bodypart_id( "arm_r" ) );
+        hp_max_sum = get_part_hp_max( bodypart_id( "arm_l" ) ) + get_part_hp_max( bodypart_id( "arm_r" ) );
     }
 
     hp_cur_sum = std::min( hp_max_sum, std::max( 0, hp_cur_sum ) );
@@ -6122,9 +6097,8 @@ hp_part Character::body_window( const std::string &menu_header,
         const auto &e = parts[i];
         const bodypart_id &bp = e.bp;
         const body_part bp_token = bp->token;
-        const hp_part hp = e.hp;
-        const int maximal_hp = hp_max[hp];
-        const int current_hp = hp_cur[hp];
+        const int maximal_hp = get_part_hp_max( bp );
+        const int current_hp = get_part_hp_cur( bp );
         // This will c_light_gray if the part does not have any effects cured by the item/effect
         // (e.g. it cures only bites, but the part does not have a bite effect)
         const nc_color state_col = limb_color( bp, bleed > 0.0f, bite > 0.0f, infect > 0.0f );
@@ -6132,7 +6106,7 @@ hp_part Character::body_window( const std::string &menu_header,
         // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );
         // Broken means no HP can be restored, it requires surgical attention.
-        const bool limb_is_broken = is_limb_broken( hp );
+        const bool limb_is_broken = is_limb_broken( bp );
         const bool limb_is_mending = worn_with_flag( flag_SPLINT, bp );
 
         if( show_all ) {
@@ -6949,15 +6923,13 @@ std::string Character::extended_description() const
 
     // This is a stripped-down version of the body_window function
     // This should be extracted into a separate function later on
-    for( const bodypart_id bp : bps ) {
+    for( const bodypart_id &bp : bps ) {
         const std::string &bp_heading = body_part_name_as_heading( bp, 1 );
-        hp_part hp = bp_to_hp( bp->token );
 
-        const int maximal_hp = hp_max[hp];
-        const int current_hp = hp_cur[hp];
         const nc_color state_col = limb_color( bp, true, true, true );
         nc_color name_color = state_col;
-        auto hp_bar = get_hp_bar( current_hp, maximal_hp, false );
+        std::pair<std::string, nc_color> hp_bar = get_hp_bar( get_part_hp_cur( bp ), get_part_hp_max( bp ),
+                false );
 
         ss += colorize( left_justify( bp_heading, longest ), name_color );
         ss += colorize( hp_bar.first, hp_bar.second );
@@ -8697,18 +8669,17 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
         // Or if we're debugging and don't want to die
         return;
     }
-    body_part enum_bp = hurt->token;
-    hp_part hurtpart = bp_to_hp( enum_bp );
-    if( hurtpart == num_hp_parts ) {
+
+    if( hurt == bodypart_id( "num_bp" ) ) {
         debugmsg( "Wacky body part hurt!" );
-        hurtpart = hp_torso;
+        hurt = bodypart_id( "torso" );
     }
 
     mod_pain( dam / 2 );
 
-    const int dam_to_bodypart = std::min( dam, hp_cur[hurtpart] );
+    const int dam_to_bodypart = std::min( dam, get_part_hp_cur( hurt ) );
 
-    hp_cur[hurtpart] -= dam_to_bodypart;
+    mod_part_hp_cur( hurt, - dam_to_bodypart );
     g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( !weapon.is_null() && !as_player()->can_wield( weapon ).success() &&
@@ -8718,9 +8689,9 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
         i_rem( &weapon );
     }
-    if( has_effect( effect_mending, enum_bp ) && ( source == nullptr ||
+    if( has_effect( effect_mending, hurt->token ) && ( source == nullptr ||
             !source->is_hallucination() ) ) {
-        effect &e = get_effect( effect_mending, enum_bp );
+        effect &e = get_effect( effect_mending, hurt->token );
         float remove_mend = dam / 20.0f;
         e.mod_duration( -e.get_max_duration() * remove_mend );
     }
@@ -8732,10 +8703,10 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
     if( !bypass_med ) {
         // remove healing effects if damaged
         int remove_med = roll_remainder( dam / 5.0f );
-        if( remove_med > 0 && has_effect( effect_bandaged, enum_bp ) ) {
+        if( remove_med > 0 && has_effect( effect_bandaged, hurt->token ) ) {
             remove_med -= reduce_healing_effect( effect_bandaged, remove_med, hurt );
         }
-        if( remove_med > 0 && has_effect( effect_disinfected, enum_bp ) ) {
+        if( remove_med > 0 && has_effect( effect_disinfected, hurt->token ) ) {
             reduce_healing_effect( effect_disinfected, remove_med, hurt );
         }
     }
@@ -8761,8 +8732,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
             //monster hits player melee
             SCT.add( point( posx(), posy() ),
                      direction_from( point_zero, point( posx() - source->posx(), posy() - source->posy() ) ),
-                     get_hp_bar( dam, get_hp_max( player::bp_to_hp( bp->token ) ) ).first, m_bad,
-                     body_part_name( bp ), m_neutral );
+                     get_hp_bar( dam, get_hp_max( bp ) ).first, m_bad, body_part_name( bp ), m_neutral );
         }
     }
 
@@ -8918,72 +8888,23 @@ int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
 
 void Character::heal_bp( bodypart_id bp, int dam )
 {
-    heal( bp->token, dam );
+    heal( bp, dam );
 }
 
-void Character::heal( body_part healed, int dam )
-{
-    hp_part healpart;
-    switch( healed ) {
-        case bp_eyes:
-        // Fall through to head damage
-        case bp_mouth:
-        // Fall through to head damage
-        case bp_head:
-            healpart = hp_head;
-            break;
-        case bp_torso:
-            healpart = hp_torso;
-            break;
-        case bp_hand_l:
-            // Shouldn't happen, but fall through to arms
-            debugmsg( "Heal against hands!" );
-        /* fallthrough */
-        case bp_arm_l:
-            healpart = hp_arm_l;
-            break;
-        case bp_hand_r:
-            // Shouldn't happen, but fall through to arms
-            debugmsg( "Heal against hands!" );
-        /* fallthrough */
-        case bp_arm_r:
-            healpart = hp_arm_r;
-            break;
-        case bp_foot_l:
-            // Shouldn't happen, but fall through to legs
-            debugmsg( "Heal against feet!" );
-        /* fallthrough */
-        case bp_leg_l:
-            healpart = hp_leg_l;
-            break;
-        case bp_foot_r:
-            // Shouldn't happen, but fall through to legs
-            debugmsg( "Heal against feet!" );
-        /* fallthrough */
-        case bp_leg_r:
-            healpart = hp_leg_r;
-            break;
-        default:
-            debugmsg( "Wacky body part healed!" );
-            healpart = hp_torso;
-    }
-    heal( healpart, dam );
-}
-
-void Character::heal( hp_part healed, int dam )
+void Character::heal( const bodypart_id &healed, int dam )
 {
     if( !is_limb_broken( healed ) ) {
-        int effective_heal = std::min( dam, hp_max[healed] - hp_cur[healed] );
-        hp_cur[healed] += effective_heal;
+        int effective_heal = std::min( dam, get_part_hp_max( healed ) - get_part_hp_cur( healed ) );
+        mod_part_hp_cur( healed, effective_heal );
         g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
     }
 }
 
 void Character::healall( int dam )
 {
-    for( int healed_part = 0; healed_part < num_hp_parts; healed_part++ ) {
-        heal( static_cast<hp_part>( healed_part ), dam );
-        healed_bp( healed_part, dam );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        heal( bp, dam );
+        mod_part_healed_total( bp, dam );
     }
 }
 
@@ -8993,11 +8914,10 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         return;
     }
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const hp_part bp = static_cast<hp_part>( i );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
         // Don't use apply_damage here or it will annoy the player with 6 queries
-        const int dam_to_bodypart = std::min( dam, hp_cur[bp] );
-        hp_cur[bp] -= dam_to_bodypart;
+        const int dam_to_bodypart = std::min( dam, get_part_hp_cur( bp ) );
+        mod_part_hp_cur( bp, - dam_to_bodypart );
         g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
     }
 
@@ -9022,7 +8942,8 @@ int Character::hitall( int dam, int vary, Creature *source )
 void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
 {
     if( has_trait( trait_ADRENALINE ) && !has_effect( effect_adrenaline ) &&
-        ( hp_cur[hp_head] < 25 || hp_cur[hp_torso] < 15 ) ) {
+        ( get_part_hp_cur( bodypart_id( "head" ) ) < 25 ||
+          get_part_hp_cur( bodypart_id( "torso" ) ) < 15 ) ) {
         add_effect( effect_adrenaline, 20_minutes );
     }
 
@@ -10460,10 +10381,10 @@ int Character::run_cost( int base_cost, bool diag ) const
         }
 
         // Linearly increase move cost relative to individual leg hp.
-        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( hp_cur[hp_leg_l] ) /
-                                          static_cast<float>( hp_max[hp_leg_l] ) ) );
-        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( hp_cur[hp_leg_r] ) /
-                                          static_cast<float>( hp_max[hp_leg_r] ) ) );
+        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( get_part_hp_cur( bodypart_id( "leg_l" ) ) ) /
+                                          static_cast<float>( get_part_hp_max( bodypart_id( "leg_l" ) ) ) ) );
+        movecost += 50 * ( 1 - std::sqrt( static_cast<float>( get_part_hp_cur( bodypart_id( "leg_r" ) ) ) /
+                                          static_cast<float>( get_part_hp_max( bodypart_id( "leg_r" ) ) ) ) );
 
         movecost *= mutation_value( "movecost_modifier" );
         if( flatground ) {
@@ -10794,50 +10715,17 @@ bool Character::has_weapon() const
     return !unarmed_attack();
 }
 
-int Character::get_hp() const
-{
-    return get_hp( num_hp_parts );
-}
-
 int Character::get_lowest_hp() const
 {
     // Set lowest_hp to an arbitrarily large number.
     int lowest_hp = 999;
-    for( int cur_hp : this->hp_cur ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const int cur_hp = elem.second.get_hp_cur();
         if( cur_hp < lowest_hp ) {
             lowest_hp = cur_hp;
         }
     }
     return lowest_hp;
-}
-
-int Character::get_hp( hp_part bp ) const
-{
-    if( bp < num_hp_parts ) {
-        return hp_cur[bp];
-    }
-    int hp_total = 0;
-    for( int i = 0; i < num_hp_parts; ++i ) {
-        hp_total += hp_cur[i];
-    }
-    return hp_total;
-}
-
-int Character::get_hp_max() const
-{
-    return get_hp_max( num_hp_parts );
-}
-
-int Character::get_hp_max( hp_part bp ) const
-{
-    if( bp < num_hp_parts ) {
-        return hp_max[bp];
-    }
-    int hp_total = 0;
-    for( int i = 0; i < num_hp_parts; ++i ) {
-        hp_total += hp_max[i];
-    }
-    return hp_total;
 }
 
 Creature::Attitude Character::attitude_to( const Creature &other ) const
