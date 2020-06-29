@@ -834,9 +834,7 @@ void npc::starting_weapon( const npc_class_id &type )
 
     if( weapon.is_gun() ) {
         if( !weapon.magazine_default().is_null() ) {
-            item mag( weapon.magazine_default() );
-            mag.ammo_set( mag.ammo_default() );
-            weapon.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+            weapon.ammo_set( weapon.magazine_default()->magazine->default_ammo );
         } else if( !weapon.ammo_default().is_null() ) {
             weapon.ammo_set( weapon.ammo_default() );
         } else {

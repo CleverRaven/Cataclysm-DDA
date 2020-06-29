@@ -342,10 +342,11 @@ TEST_CASE( "installing battery in tool", "[battery][tool][install]" )
 
         // Should fail to install the magazine
         REQUIRE( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
-        // TODO use capture_debugmsg_during, after PR #41677 will be merged
-        // because it adds debugmsg in item::put_in
-        ret_val<bool> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
-        CHECK_FALSE( result.success() );
+        std::string dmsg = capture_debugmsg_during( [&flashlight, &med_bat_cell]() {
+            ret_val<bool> result = flashlight.put_in( med_bat_cell, item_pocket::pocket_type::MAGAZINE_WELL );
+            CHECK_FALSE( result.success() );
+        } );
+        CHECK_THAT( dmsg, Catch::EndsWith( "holster does not accept this item type" ) );
         CHECK_FALSE( flashlight.magazine_current() );
     }
 }
