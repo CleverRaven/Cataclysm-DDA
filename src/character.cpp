@@ -437,7 +437,6 @@ Character::Character() :
     healthy_calories = 55000;
     stored_calories = healthy_calories;
     initialize_stomach_contents();
-    healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
     name.clear();
     custom_profession.clear();
@@ -8160,11 +8159,6 @@ tripoint Character::adjacent_tile() const
     }
 
     return random_entry( ret, pos() ); // player position if no valid adjacent tiles
-}
-
-void Character::healed_bp( int bp, int amount )
-{
-    healed_total[bp] += amount;
 }
 
 void Character::set_fac_id( const std::string &my_fac_id )

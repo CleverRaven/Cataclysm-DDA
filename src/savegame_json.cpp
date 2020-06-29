@@ -544,7 +544,6 @@ void Character::load( const JsonObject &data )
     // health
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
-    data.read( "healed_24h", healed_total );
 
     // status
     temp_cur.fill( 5000 );
@@ -666,7 +665,18 @@ void Character::load( const JsonObject &data )
         set_part_damage_disinfected( bodypart_id( "leg_l" ), damage_disinfected[4] );
         set_part_damage_disinfected( bodypart_id( "leg_r" ), damage_disinfected[5] );
     }
-
+    if( data.has_array( "healed_24h" ) ) {
+        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_body();
+        std::array<int, 6> healed_total;
+        data.read( "healed_24h", healed_total );
+        set_part_healed_total( bodypart_id( "head" ), healed_total[0] );
+        set_part_healed_total( bodypart_id( "torso" ), healed_total[1] );
+        set_part_healed_total( bodypart_id( "arm_l" ), healed_total[2] );
+        set_part_healed_total( bodypart_id( "arm_r" ), healed_total[3] );
+        set_part_healed_total( bodypart_id( "leg_l" ), healed_total[4] );
+        set_part_healed_total( bodypart_id( "leg_r" ), healed_total[5] );
+    }
 
     inv.clear();
     if( data.has_member( "inv" ) ) {
@@ -792,7 +802,6 @@ void Character::store( JsonOut &json ) const
     // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
-    json.member( "healed_24h", healed_total );
 
     // status
     json.member( "temp_cur", temp_cur );
