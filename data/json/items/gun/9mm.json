@@ -289,6 +289,7 @@
   {
     "id": "briefcase_smg",
     "copy-from": "hk_mp5k",
+    "looks_like": "hk_briefcase",
     "type": "GUN",
     "name": { "str": "H&K operational briefcase" },
     "description": "This is a hard-sided briefcase with a trigger in the handle and a concealed hole in the side.  To fire the internally mounted MP5K-PDW, one braces the briefcase at the waist, ensures the briefcase is pointed at the enemy, and squeezes the trigger.  Precision and handling are severely hampered all around, however if you need to 'hand over the goods' or look low profile while bodyguarding, this is your gun.  When the briefcase is open the MP5 may be reloaded or dismounted.",
