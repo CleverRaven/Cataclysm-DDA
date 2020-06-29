@@ -30,7 +30,6 @@ class player;
 struct iteminfo;
 struct tripoint;
 
-enum hp_part : int;
 enum body_part : int;
 class JsonObject;
 class item_location;

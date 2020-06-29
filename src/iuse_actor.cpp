@@ -3413,8 +3413,7 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
             return healed;
         } else if( healer.activity.id() == ACT_FIRSTAID ) {
             // Completed activity, extract body part from it.
-            healed = convert_bp( Character::hp_to_bp( static_cast<hp_part>
-                                 ( healer.activity.values[0] ) ) ).id();
+            healed =  bodypart_id( healer.activity.str_values[0] );
         }
     } else {
         // Player healing NPC
