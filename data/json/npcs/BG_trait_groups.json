@@ -33,6 +33,7 @@
       { "trait": "BGSS_FEMA_Evacuee_1" },
       { "trait": "BGSS_Left_for_Dead_1" },
       { "trait": "BGSS_Left_for_Dead_2" },
+      { "trait": "BGSS_Left_for_Dead_3" },
       { "trait": "BGSS_Gung_Ho_1" },
       { "trait": "BGSS_Gung_Ho_2" },
       { "trait": "BGSS_Gung_Ho_3" },
