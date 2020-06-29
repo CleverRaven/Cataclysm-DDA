@@ -156,7 +156,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
       "effect": [ { "u_add_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" } ],
-      "update_mapgen": { "place_monster": [ { "monster": "mon_eoraptor", "x": 12, "y": 12, "friendly": true, "name": "Bamm-Bamm" } ] }
+      "update_mapgen": { "place_monster": [ { "monster": "mon_eoraptor", "x": 12, "y": 4, "friendly": true, "name": "Bamm-Bamm" } ] }
     },
     "dialogue": {
       "describe": "The eaters are hungry.  They need meat",
