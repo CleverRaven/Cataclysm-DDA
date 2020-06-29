@@ -887,7 +887,7 @@ class Character : public Creature, public visitable<Character>
         void on_hurt( Creature *source, bool disturb = true );
         /** Heals a body_part for dam */
         void heal_bp( bodypart_id bp, int dam ) override;
-        /** Heals an hp_part for dam */
+        /** Heals an part for dam */
         void heal( const bodypart_id &healed, int dam );
         /** Heals all body parts for dam */
         void healall( int dam );
@@ -911,9 +911,9 @@ class Character : public Creature, public visitable<Character>
          * disinfectant_power - quality of disinfectant
          */
         bodypart_id body_window( const std::string &menu_header,
-                             bool show_all, bool precise,
-                             int normal_bonus, int head_bonus, int torso_bonus,
-                             float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
+                                 bool show_all, bool precise,
+                                 int normal_bonus, int head_bonus, int torso_bonus,
+                                 float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
