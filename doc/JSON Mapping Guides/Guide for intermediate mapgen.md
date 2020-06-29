@@ -602,6 +602,8 @@ An example:  each x coordinate encompasses one OMT from a segment of the mall.
 
 * Nested maps of all sorts can be used in a merged map, but they can't cross boundary lines (the nested map will be cut off at the boundary).
 
+* More information about monster spawning can be found in [doc/MAPGEN.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/MAPGEN.md#spawn-item-or-monster-groups-with-place_groups)
+
 Note: set point type entries (see the example below) don't work well with merged maps and the issue has been reported.  If you use this entry, the points will be repeated in every OMT in your merged map.
 
 sample:
