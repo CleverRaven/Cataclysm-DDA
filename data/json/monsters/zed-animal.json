@@ -384,7 +384,7 @@
     "id": "mon_ziger",
     "type": "MONSTER",
     "name": { "str": "Tiger wight" },
-    "description": "This otherwise normal looking tiger stumbles and sways, its jaws slack and open, its eyes wide open and shining black.",
+    "description": "This otherwise normal looking tiger stumbles and sways, its jaws slack, its eyes wide open and shining black.",
     "copy-from": "mon_zougar",
     "volume": "150 L",
     "weight": "190 kg",
