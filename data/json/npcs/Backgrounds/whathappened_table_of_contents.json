@@ -101,6 +101,12 @@
         "topic": "CWH_EVACUEE_6_IDEAS1",
         "condition": { "npc_has_trait": "BGSS_Evacuee_6" },
         "switch": true
+      },
+      {
+        "text": "<CWH_intro_question>",
+        "topic": "CWH_FEMA_EVACUEE_1_IDEAS1",
+        "condition": { "npc_has_trait": "BGSS_FEMA_Evacuee_1" },
+        "switch": true
       }
     ]
   }
