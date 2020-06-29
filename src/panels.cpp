@@ -874,8 +874,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         }
     };
     const bodypart_id bp = convert_bp( avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ) ).id();
-    if( u.is_limb_broken( bp.id() ) && ( limb_index >= hp_arm_l &&
-                                         limb_index <= hp_leg_r ) ) {
+    if( u.is_limb_broken( bp ) && ( limb_index >= hp_arm_l && limb_index <= hp_leg_r ) ) {
         //Limb is broken
         std::string limb = "~~%~~";
         nc_color color = c_light_red;

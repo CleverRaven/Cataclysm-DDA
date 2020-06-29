@@ -554,17 +554,16 @@ void talk_function::give_equipment( npc &p )
 void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
-        g->u.heal( convert_bp( bp_healed ), 5 * rng( 2, 5 ) );
-        if( g->u.has_effect( effect_bite, bp_healed ) ) {
-            g->u.remove_effect( effect_bite, bp_healed );
+    for( const bodypart_id &bp : g->u.get_all_body_parts( true ) ) {
+        g->u.heal( bp, 5 * rng( 2, 5 ) );
+        if( g->u.has_effect( effect_bite, bp->token ) ) {
+            g->u.remove_effect( effect_bite, bp->token );
         }
-        if( g->u.has_effect( effect_bleed, bp_healed ) ) {
-            g->u.remove_effect( effect_bleed, bp_healed );
+        if( g->u.has_effect( effect_bleed, bp->token ) ) {
+            g->u.remove_effect( effect_bleed, bp->token );
         }
-        if( g->u.has_effect( effect_infected, bp_healed ) ) {
-            g->u.remove_effect( effect_infected, bp_healed );
+        if( g->u.has_effect( effect_infected, bp->token ) ) {
+            g->u.remove_effect( effect_infected, bp->token );
         }
     }
     const int moves = to_moves<int>( 100_minutes );
@@ -578,17 +577,16 @@ void talk_function::give_all_aid( npc &p )
     give_aid( p );
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_walking_with() && rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE ) {
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
-                guy.heal( convert_bp( bp_healed ), 5 * rng( 2, 5 ) );
-                if( guy.has_effect( effect_bite, bp_healed ) ) {
-                    guy.remove_effect( effect_bite, bp_healed );
+            for( const bodypart_id &bp : guy.get_all_body_parts( true ) ) {
+                guy.heal( bp, 5 * rng( 2, 5 ) );
+                if( guy.has_effect( effect_bite, bp->token ) ) {
+                    guy.remove_effect( effect_bite, bp->token );
                 }
-                if( guy.has_effect( effect_bleed, bp_healed ) ) {
-                    guy.remove_effect( effect_bleed, bp_healed );
+                if( guy.has_effect( effect_bleed, bp->token ) ) {
+                    guy.remove_effect( effect_bleed, bp->token );
                 }
-                if( guy.has_effect( effect_infected, bp_healed ) ) {
-                    guy.remove_effect( effect_infected, bp_healed );
+                if( guy.has_effect( effect_infected, bp->token ) ) {
+                    guy.remove_effect( effect_infected, bp->token );
                 }
             }
         }

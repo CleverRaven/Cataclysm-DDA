@@ -4804,8 +4804,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
         case BONESETTING: {
             int broken_limbs_count = 0;
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bodypart_id &part = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+            for( const bodypart_id &part : patient.get_all_body_parts( true ) ) {
                 const bool broken = patient.is_limb_broken( part );
                 effect &existing_effect = patient.get_effect( effect_mending, part->token );
                 // Skip part if not broken or already healed 50%
@@ -4822,9 +4821,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
                 if( !patient.worn_with_flag( flag_SPLINT, part ) ) {
                     item splint;
-                    if( i == hp_arm_l || i == hp_arm_r ) {
+                    if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
                         splint = item( "arm_splint", 0 );
-                    } else if( i == hp_leg_l || i == hp_leg_r ) {
+                    } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
                         splint = item( "leg_splint", 0 );
                     }
                     item &equipped_splint = patient.i_add( splint );
