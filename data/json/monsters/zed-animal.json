@@ -381,6 +381,20 @@
     ]
   },
   {
+    "id": "mon_ziger",
+    "type": "MONSTER",
+    "name": { "str": "Tiger wight" },
+    "description": "This otherwise normal looking tiger stumbles and sways, its jaws slack, its eyes wide open and shining black.",
+    "copy-from": "mon_zougar",
+    "volume": "150 L",
+    "weight": "190 kg",
+    "hp": 200,
+    "speed": 110,
+    "symbol": "T",
+    "melee_dice": 3,
+    "dodge": 0
+  },
+  {
     "id": "mon_zpider_mass",
     "type": "MONSTER",
     "name": { "str": "mass of zombie spiders" },
