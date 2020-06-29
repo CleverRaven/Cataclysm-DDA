@@ -48,7 +48,7 @@
     "skill_used": "cooking",
     "time": "5 m",
     "autolearn": true,
-    "batch_time_factors": [ 80, 4 ],
+    "batch_time_factors": [ 20, 1 ],
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 3, "LIST" ] ] ],
     "components": [ [ [ "water", 1 ] ] ]
