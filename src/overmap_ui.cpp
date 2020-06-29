@@ -971,7 +971,7 @@ void draw( const catacurses::window &w, const catacurses::window &wbar, const tr
         const bool weather_is_visible = ( data.debug_weather ||
                                           player_character.overmap_los( center, sight_points * 2 ) );
         if( weather_is_visible ) {
-            const weather_datum weather = weather::data( get_weather_at_point( center ) );
+            const weather_datum &weather = weather::data( get_weather_at_point( center ) );
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwprintz( wbar, point( 1, 1 ), weather.color, weather.name );
         } else {
