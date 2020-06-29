@@ -181,7 +181,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     weather_type current_conditions( WEATHER_DEFAULT );
     for( int weather_index = WEATHER_DEFAULT; weather_index < weather::get_count();
          weather_index++ ) {
-        const weather_datum wdata = weather::data( weather_index );
+        const weather_datum& wdata = weather::data( weather_index );
         //if the region doesn't have the condition then skip it
         if( std::find( weather_types.begin(), weather_types.end(), wdata.id ) == weather_types.end() ) {
             continue;
@@ -210,7 +210,7 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         }
 
         if( !requires.required_weathers.empty() ) {
-            const weather_datum wcurrentdata = weather::data( current_conditions );
+            const weather_datum& wcurrentdata = weather::data( current_conditions );
             if( std::find( requires.required_weathers.begin(), requires.required_weathers.end(),
                            wcurrentdata.id ) == requires.required_weathers.end() ) {
                 continue;
@@ -300,7 +300,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
         for( time_point i = begin; i < end; i += 20_minutes ) {
             w_point w = get_weather( tripoint_zero, to_turn<int>( i ), seed );
             weather_type c = get_weather_conditions( w );
-            const weather_datum wd = weather::data( c );
+            const weather_datum& wd = weather::data( c );
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
                        ( calendar::year_length() ) + 1;

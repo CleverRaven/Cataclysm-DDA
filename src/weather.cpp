@@ -1102,7 +1102,7 @@ void weather_manager::update_weather()
         // Check weather every few turns, instead of every turn.
         // TODO: predict when the weather changes and use that time.
         nextweather = calendar::turn + 5_minutes;
-        const weather_datum wdata = weather::data( weather_index );
+        const weather_datum& wdata = weather::data( weather_index );
         if( weather_index != old_weather && wdata.dangerous &&
             g->get_levz() >= 0 && here.is_outside( g->u.pos() )
             && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {

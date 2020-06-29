@@ -101,7 +101,7 @@ struct weather_sum {
 namespace weather
 {
 void load_weather_type( const JsonObject &jo );
-const weather_datum &data( const weather_type type );
+const weather_datum &data( weather_type type );
 weather_type get_bad_weather();
 int get_count();
 } // namespace weather
@@ -187,7 +187,7 @@ class weather_manager
         // Weather pattern
         weather_type weather_index = WEATHER_NULL;
         const weather_datum &data();
-        const weather_datum &data( const weather_type type );
+        const weather_datum &data( weather_type type );
         int winddirection = 0;
         int windspeed = 0;
         // Cached weather data
