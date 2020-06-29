@@ -254,7 +254,8 @@ void map::gas_spread_to( field_entry &cur, maptile &dst )
 void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk )
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
+    map &here = get_map();
+    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
     const bool sheltered = g->is_sheltered( p );
     const int winddirection = g->weather.winddirection;
     const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
@@ -397,6 +398,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = nullptr;
 
+    map &here = get_map();
     tripoint thep;
     thep.z = submap.z;
 
@@ -492,7 +494,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 if( curtype == fd_fire ) {
                     cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
                     // Entire objects for ter/frn for flags
-                    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
+                    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
                     bool sheltered = g->is_sheltered( p );
                     int winddirection = g->weather.winddirection;
                     int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
@@ -983,7 +985,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 if( curtype == fd_fungal_haze ) {
                     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
                         // Haze'd terrain
-                        fungal_effects( *g, g->m ).spread_fungus( p );
+                        fungal_effects( *g, here ).spread_fungus( p );
                     }
                 }
 

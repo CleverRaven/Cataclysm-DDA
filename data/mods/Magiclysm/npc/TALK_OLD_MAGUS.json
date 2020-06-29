@@ -7,7 +7,7 @@
       "type": "dialogue",
       "context": "old_magus",
       "value": "yes",
-      "no": "Huh? *mumble mumble* … Who are you?",
+      "no": "Huh?  *mumble mumble* … Who are you?",
       "yes": "Oh, you again."
     },
     "responses": [
@@ -52,7 +52,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_OLD_MAGUS_LEAVE",
-    "dynamic_line": "And leave my tower and all my research? I think not.",
+    "dynamic_line": "And leave my tower and all my research?  I think not.",
     "responses": [
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "What can you sell me?", "topic": "TALK_OLD_MAGUS", "effect": "start_trade" },

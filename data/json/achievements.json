@@ -73,7 +73,7 @@
     "id": "achievement_marathon",
     "type": "achievement",
     "name": "Pheidippides was a hack",
-    "description": "Run a marathon…plus a little bit more.",
+    "description": "Run a marathon… plus a little bit more.",
     "requirements": [ { "event_statistic": "num_moves_ran", "is": ">=", "target": 42196 } ]
   },
   {

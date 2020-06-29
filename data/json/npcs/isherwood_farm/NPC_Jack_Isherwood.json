@@ -258,7 +258,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JACK_TOPICS",
-    "dynamic_line": "Go on ...",
+    "dynamic_line": "Go on…",
     "responses": [
       {
         "text": "I'm here to deliver some resources.",

@@ -939,11 +939,12 @@ void spell::create_field( const tripoint &at ) const
         return;
     }
     if( one_in( type->field_chance ) ) {
-        field_entry *field = g->m.get_field( at, *type->field );
+        map &here = get_map();
+        field_entry *field = here.get_field( at, *type->field );
         if( field ) {
             field->set_field_intensity( field->get_field_intensity() + intensity );
         } else {
-            g->m.add_field( at, *type->field, intensity, -duration_turns() );
+            here.add_field( at, *type->field, intensity, -duration_turns() );
         }
     }
 }
@@ -1418,7 +1419,7 @@ void known_magic::forget_spell( const spell_id &sp )
     }
     add_msg( m_bad, _( "All knowledge of %s leaves you." ), sp->name );
     // TODO: add parameter for owner of known_magic for this function
-    g->events().send<event_type::character_forgets_spell>( g->u.getID(), sp->id );
+    g->events().send<event_type::character_forgets_spell>( get_avatar().getID(), sp->id );
     spellbook.erase( sp );
 }
 
