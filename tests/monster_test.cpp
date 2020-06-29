@@ -86,7 +86,7 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
 {
     clear_map();
     REQUIRE( g->num_creatures() == 1 ); // the player
-    player &test_player = g->u;
+    player &test_player = get_avatar();
     // Strip off any potentially encumbering clothing.
     std::list<item> temp;
     while( test_player.takeoff( test_player.i_at( -2 ), &temp ) ) {}
@@ -121,14 +121,14 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
-            const int move_cost = g->m.combined_movecost(
+            const int move_cost = get_map().combined_movecost(
                                       test_player.pos(), test_player.pos() + direction_of_flight, nullptr, 0 );
             tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos(), test_player.pos() ),
                                 test_player.pos()
                                } );
             test_player.mod_moves( -move_cost );
         }
-        g->m.clear_traps();
+        get_map().clear_traps();
         test_monster.set_dest( test_player.pos() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {

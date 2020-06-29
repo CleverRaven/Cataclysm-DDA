@@ -823,12 +823,13 @@ void talk_function::stranger_neutral( npc &p )
 
 void talk_function::drop_stolen_item( npc &p )
 {
+    map &here = get_map();
     for( auto &elem : g->u.inv_dump() ) {
         if( elem->is_old_owner( p ) ) {
             item to_drop = g->u.i_rem( elem );
             to_drop.remove_old_owner();
             to_drop.set_owner( p );
-            g->m.add_item_or_charges( g->u.pos(), to_drop );
+            here.add_item_or_charges( g->u.pos(), to_drop );
         }
     }
     if( p.known_stolen_item ) {
@@ -865,7 +866,7 @@ void talk_function::drop_weapon( npc &p )
     if( p.is_hallucination() ) {
         return;
     }
-    g->m.add_item_or_charges( p.pos(), p.remove_weapon() );
+    get_map().add_item_or_charges( p.pos(), p.remove_weapon() );
 }
 
 void talk_function::player_weapon_away( npc &/*p*/ )
@@ -875,7 +876,7 @@ void talk_function::player_weapon_away( npc &/*p*/ )
 
 void talk_function::player_weapon_drop( npc &/*p*/ )
 {
-    g->m.add_item_or_charges( g->u.pos(), g->u.remove_weapon() );
+    get_map().add_item_or_charges( g->u.pos(), g->u.remove_weapon() );
 }
 
 void talk_function::lead_to_safety( npc &p )

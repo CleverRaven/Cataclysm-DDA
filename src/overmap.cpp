@@ -1586,7 +1586,8 @@ bool overmap::generate_sub( const int z )
                 // but at this point we don't know
                 requires_sub = true;
             } else if( oter_above == "mine_finale" ) {
-                for( auto &q : g->m.points_in_radius( p, 1, 0 ) ) {
+                map &here = get_map();
+                for( auto &q : here.points_in_radius( p, 1, 0 ) ) {
                     ter_set( q, oter_id( "spiral" ) );
                 }
                 ter_set( p, oter_id( "spiral_hub" ) );
@@ -3273,7 +3274,7 @@ bool overmap::build_slimepit( const tripoint &origin, int s )
     const oter_id slimepit( "slimepit" );
 
     bool requires_sub = false;
-    for( auto p : g->m.points_in_radius( origin, s + origin.z + 1, 0 ) ) {
+    for( auto p : get_map().points_in_radius( origin, s + origin.z + 1, 0 ) ) {
         int dist = square_dist( origin.xy(), p.xy() );
         if( one_in( 2 * dist ) ) {
             chip_rock( p );
