@@ -19,14 +19,11 @@
 // Destroying pavement with a pickaxe should not leave t_flat_roof.
 // See issue #24707:
 // https://github.com/CleverRaven/Cataclysm-DDA/issues/24707
-// Behavior may depend on ZLEVELS being set.
 TEST_CASE( "pavement_destroy", "[.]" )
 {
     const ter_id flat_roof_id = ter_id( "t_flat_roof" );
     REQUIRE( flat_roof_id != t_null );
 
-    const bool zlevels_set = get_option<bool>( "ZLEVELS" );
-    INFO( "ZLEVELS is " << zlevels_set );
     clear_map_and_put_player_underground();
     // Populate the map with pavement.
     g->m.ter_set( tripoint_zero, ter_id( "t_pavement" ) );
@@ -44,14 +41,10 @@ TEST_CASE( "pavement_destroy", "[.]" )
 // Ground-destroying explosions on dirt or grass shouldn't leave t_flat_roof.
 // See issue #23250:
 // https://github.com/CleverRaven/Cataclysm-DDA/issues/23250
-// Behavior may depend on ZLEVELS being set.
 TEST_CASE( "explosion_on_ground", "[.]" )
 {
     ter_id flat_roof_id = ter_id( "t_flat_roof" );
     REQUIRE( flat_roof_id != t_null );
-
-    const bool zlevels_set = get_option<bool>( "ZLEVELS" );
-    INFO( "ZLEVELS is " << zlevels_set );
 
     clear_map_and_put_player_underground();
     std::vector<ter_id> test_terrain_id = {
@@ -90,7 +83,6 @@ TEST_CASE( "explosion_on_ground", "[.]" )
 // Ground-destroying explosions on t_floor with a t_rock_floor basement
 // below should create some t_open_air, not just t_flat_roof (which is
 // the defined roof of a t_rock-floor).
-// Behavior depends on ZLEVELS being set.
 TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
 {
     ter_id flat_roof_id = ter_id( "t_flat_roof" );
@@ -102,9 +94,6 @@ TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
     REQUIRE( floor_id != t_null );
     REQUIRE( rock_floor_id != t_null );
     REQUIRE( open_air_id != t_null );
-
-    const bool zlevels_set = get_option<bool>( "ZLEVELS" );
-    INFO( "ZLEVELS is " << zlevels_set );
 
     clear_map_and_put_player_underground();
 
@@ -148,7 +137,6 @@ TEST_CASE( "explosion_on_floor_with_rock_floor_basement", "[.]" )
 
 // Destroying interior floors shouldn't cause the roofs above to collapse.
 // Destroying supporting walls should cause the roofs above to collapse.
-// Behavior may depend on ZLEVELS being set.
 TEST_CASE( "collapse_checks", "[.]" )
 {
     constexpr int wall_size = 5;
@@ -163,8 +151,6 @@ TEST_CASE( "collapse_checks", "[.]" )
     REQUIRE( wall_id != t_null );
     REQUIRE( open_air_id != t_null );
 
-    const bool zlevels_set = get_option<bool>( "ZLEVELS" );
-    INFO( "ZLEVELS is " << zlevels_set );
     clear_map_and_put_player_underground();
 
     // build a structure

@@ -574,7 +574,7 @@ void game::setup()
 
     load_world_modfiles( ui );
 
-    m = map( get_option<bool>( "ZLEVELS" ) );
+    m = map( true );
 
     next_npc_id = character_id( 1 );
     next_mission_id = 1;
