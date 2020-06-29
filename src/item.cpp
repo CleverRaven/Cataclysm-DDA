@@ -6581,7 +6581,15 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
                 !magazine_compatible().count( ammo ) ) {
                 return false;
             }
+        } 
+        //Now single shoted gun also has magazine_well slot for speedloader 
+        //If ammo is not an ammo it may be dangerous to use parameters like ammo->ammo->type
+        //It is complicated: normal magazine in addition to speedloader? Magazines of mods?
+        if (!ammo->ammo)
+        {
+            return magazine_compatible().count(ammo);
         }
+
         return now ? ammo_remaining() < ammo_capacity( ammo->ammo->type ) : true;
     }
     return magazine_compatible().count( ammo );
