@@ -2910,7 +2910,7 @@ bool player::unload( item_location &loc )
     if( target->is_magazine() ) {
         player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
         assign_activity( unload_mag_act );
-        activity.targets.emplace_back( item_location(loc, target ) );
+        activity.targets.emplace_back( item_location( loc, target ) );
 
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
