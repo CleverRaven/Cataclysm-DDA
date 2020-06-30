@@ -2020,7 +2020,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         //Somehow the set of available ammos in pocket_data loaded from json is alphabetic,
         //so the default ammo is always atomic, haven't checked the relevant codes yet.
         item pseudo_magazine( pseudo.magazine_default() );
-        //no initial ammo 
+        //no initial ammo
         pseudo_magazine.contents.clear_items();
         //Need ammo capacity of magazine instead of the tool itself.(the item itself has capacity of 0)
         int capacity = pseudo_magazine.ammo_capacity( ammotype( "battery" ) );
@@ -2028,9 +2028,9 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         //I assume that ammo_set is not reliable if qty < 0. I am not sure,
         //but for safty just put ammo into magazine
         pseudo_magazine.ammo_set( itype_battery, qty );
-        pseudo.put_in(pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL);
+        pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
         g->u.invoke_item( &pseudo );
-        charge_battery(pseudo.ammo_remaining() );
+        charge_battery( pseudo.ammo_remaining() );
         return true;
     };
 
