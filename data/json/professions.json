@@ -651,7 +651,6 @@
     "items": {
       "both": {
         "items": [
-          "honey_scraper",
           "beekeeping_hood",
           "beekeeping_suit",
           "beekeeping_gloves",
@@ -662,7 +661,7 @@
           "honey_bottled",
           "honey_bottled"
         ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "entries": [ { "group": "charged_cell_phone" }, { "item": "honey_scraper", "container-item": "sheath" } ]
       },
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
