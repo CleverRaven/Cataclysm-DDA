@@ -3347,7 +3347,7 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
 
 void map::bash_field( const tripoint &p, bash_params &params )
 {
-    for( const  std::pair<field_type_id, field_entry> &fd : field_at( p ) ) {
+    for( const std::pair<const field_type_id, field_entry> &fd : field_at( p ) ) {
         if( fd.first->bash_info.str_min > -1 ) {
             params.did_bash = true;
             params.bashed_solid = true; // To prevent bashing furniture/vehicles
@@ -3652,7 +3652,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     dam = std::max( 0.0f, dam );
 
     // Check fields?
-    for( const std::pair<field_type_id, field_entry> &fd : field_at( p ) ) {
+    for( const std::pair<const field_type_id, field_entry> &fd : field_at( p ) ) {
         if( fd.first->bash_info.str_min > 0 ) {
             if( inc ) {
                 add_field( p, fd_fire, fd.second.get_field_intensity() - 1 );
