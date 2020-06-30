@@ -2022,13 +2022,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         item pseudo_magazine( pseudo.magazine_default() );
         //no initial ammo
         pseudo_magazine.contents.clear_items();
-        //Need ammo capacity of magazine instead of the tool itself.(the item itself has capacity of 0)
-        int capacity = pseudo_magazine.ammo_capacity( ammotype( "battery" ) );
-        int qty = capacity - discharge_battery( capacity );
-        //I assume that ammo_set is not reliable if qty < 0. I am not sure,
-        //but for safty just put ammo into magazine
-        pseudo_magazine.ammo_set( itype_battery, qty );
         pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
+        int capacity = pseudo.ammo_capacity( ammotype( "battery" ) );
+        int qty = capacity - discharge_battery( capacity );
+        pseudo.ammo_set( itype_battery, qty );
         g->u.invoke_item( &pseudo );
         charge_battery( pseudo.ammo_remaining() );
         return true;

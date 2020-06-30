@@ -629,7 +629,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     // check ammo is valid for the item
     const itype *atype = item_controller->find_template( ammo );
     if( atype->ammo && ammo_types().count( atype->ammo->type ) == 0 &&
-        !magazine_compatible().count( atype->get_id() ) ) {
+        !magazine_compatible().count( atype->get_id() ) && !( magazine_current() ) &&
+        magazine_current()->ammo_types().count( atype->ammo->type ) ) {
         debugmsg( "Tried to set invalid ammo of %s for %s", atype->nname( qty ), tname() );
         return *this;
     }
