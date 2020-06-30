@@ -686,21 +686,23 @@
     "type": "ARMOR",
     "copy-from": "briefcase",
     "looks_like": "briefcase",
+    "weight": "1500 g",
+    "volume": "15232 ml",
+    "longest_side": "544 mm",
     "name": { "str": "H&K operational briefcase (empty)", "str_pl": "H&K operational briefcases (empty)" },
     "description": "This is a plain, hard-sided black briefcase with a trigger in the handle and a concealed hole in the side.  Squeezing the trigger would currently do nothing, as it is empty.  Don't forget to put a suitable MP5 back inside before you try to pay any ransom fees with lead.",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
         "rigid": true,
-        "max_contains_volume": "14500 ml",
+        "max_contains_volume": "14 L",
         "max_contains_weight": "30 kg",
         "max_item_length": "50 cm",
         "moves": 300
       }
     ],
     "price": 2000,
-    "price_postapoc": 1250,
-    "weight": "950 g"
+    "price_postapoc": 1250
   },
   {
     "id": "jerrypack",
