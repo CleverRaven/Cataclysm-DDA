@@ -6,7 +6,6 @@
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
-#include "game.h"
 #include "ime.h"
 #include "inventory.h"
 #include "item.h"
@@ -114,10 +113,11 @@ class selection_column_preset : public inventory_selector_preset
         }
 
         nc_color get_color( const inventory_entry &entry ) const override {
+            avatar &player_character = get_avatar();
             if( entry.is_item() ) {
-                if( &*entry.any_item() == &g->u.weapon ) {
+                if( &*entry.any_item() == &player_character.weapon ) {
                     return c_light_blue;
-                } else if( g->u.is_worn( *entry.any_item() ) ) {
+                } else if( player_character.is_worn( *entry.any_item() ) ) {
                     return c_cyan;
                 }
             }
@@ -171,7 +171,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( g->u.inv.assigned_invlet.count( get_invlet() ) ) {
+    } else if( get_avatar().inv.assigned_invlet.count( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -232,9 +232,10 @@ inventory_selector_preset::inventory_selector_preset()
 bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
+    avatar &player_character = get_avatar();
     // Place items with an assigned inventory letter first, since the player cared enough to assign them
-    const bool left_fav  = g->u.inv.assigned_invlet.count( lhs.any_item()->invlet );
-    const bool right_fav = g->u.inv.assigned_invlet.count( rhs.any_item()->invlet );
+    const bool left_fav  = player_character.inv.assigned_invlet.count( lhs.any_item()->invlet );
+    const bool right_fav = player_character.inv.assigned_invlet.count( rhs.any_item()->invlet );
     if( left_fav == right_fav ) {
         return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
     } else if( left_fav ) {
@@ -637,17 +638,21 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
 {
     const item *selected_item = location.get_item();
     std::list<item *> to_favorite;
+    map &here = get_map();
+    avatar &player_character = get_avatar();
 
     if( location.where() == item_location::type::character ) {
-        int position = g->u.get_item_position( selected_item );
+        int position = player_character.get_item_position( selected_item );
 
         if( position < 0 ) {
-            g->u.i_at( position ).set_favorite( !selected_item->is_favorite ); // worn/wielded
+            // worn/wielded
+            player_character.i_at( position ).set_favorite( !selected_item->is_favorite );
         } else {
-            g->u.inv.set_stack_favorite( position, !selected_item->is_favorite ); // in inventory
+            // in inventory
+            player_character.inv.set_stack_favorite( position, !selected_item->is_favorite );
         }
     } else if( location.where() == item_location::type::map ) {
-        map_stack items = g->m.i_at( location.position() );
+        map_stack items = here.i_at( location.position() );
 
         for( auto &item : items ) {
             if( item.stacks_with( *selected_item ) ) {
@@ -658,7 +663,7 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
             item->set_favorite( favorite );
         }
     } else if( location.where() == item_location::type::vehicle ) {
-        const cata::optional<vpart_reference> vp = g->m.veh_at(
+        const cata::optional<vpart_reference> vp = here.veh_at(
                     location.position() ).part_with_feature( "CARGO", true );
         assert( vp );
 
@@ -1324,9 +1329,10 @@ void inventory_selector::add_character_items( Character &character )
 
 void inventory_selector::add_map_items( const tripoint &target )
 {
-    if( g->m.accessible_items( target ) ) {
-        map_stack items = g->m.i_at( target );
-        const std::string name = to_upper_case( g->m.name( target ) );
+    map &here = get_map();
+    if( here.accessible_items( target ) ) {
+        map_stack items = here.i_at( target );
+        const std::string name = to_upper_case( here.name( target ) );
         const item_category map_cat( name, no_translation( name ), 100 );
 
         add_items( map_column, [ &target ]( item * it ) {
@@ -1342,7 +1348,8 @@ void inventory_selector::add_map_items( const tripoint &target )
 
 void inventory_selector::add_vehicle_items( const tripoint &target )
 {
-    const cata::optional<vpart_reference> vp = g->m.veh_at( target ).part_with_feature( "CARGO", true );
+    const cata::optional<vpart_reference> vp =
+        get_map().veh_at( target ).part_with_feature( "CARGO", true );
     if( !vp ) {
         return;
     }
@@ -1367,9 +1374,10 @@ void inventory_selector::add_vehicle_items( const tripoint &target )
 void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
+        map &here = get_map();
         for( const tripoint &pos : closest_tripoints_first( u.pos(), radius ) ) {
             // can not reach this -> can not access its contents
-            if( u.pos() != pos && !g->m.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
+            if( u.pos() != pos && !here.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
                 continue;
             }
             add_map_items( pos );
@@ -2423,7 +2431,7 @@ drop_locations inventory_drop_selector::execute()
             const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
                 return entry.is_item() &&
                        !entry.any_item()->is_favorite &&
-                       !g->u.is_worn( *entry.any_item() );
+                       !get_avatar().is_worn( *entry.any_item() );
             };
 
             const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
