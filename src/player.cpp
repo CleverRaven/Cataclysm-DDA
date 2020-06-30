@@ -3726,6 +3726,9 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
         std::string skill_name = skill.name();
+        if( newLevel > oldLevel ) {
+            g->events().send<event_type::gains_skill_level>( getID(), id, newLevel );
+        }
         if( is_player() && newLevel > oldLevel ) {
             add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
         }
