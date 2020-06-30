@@ -256,7 +256,7 @@ class input_manager
         /**
          * Get the keycode associated with the given key name.
          */
-        int get_keycode( const std::string &name ) const;
+        int get_keycode( input_event_t inp_type, const std::string &name ) const;
 
         /**
          * Get the key name associated with the given keyboard keycode.
@@ -304,10 +304,13 @@ class input_manager
         t_action_contexts action_contexts;
 
         using t_key_to_name_map = std::map<int, std::string>;
-        t_key_to_name_map keycode_to_keyname;
+        t_key_to_name_map keyboard_char_keycode_to_keyname;
         t_key_to_name_map gamepad_keycode_to_keyname;
+        t_key_to_name_map mouse_keycode_to_keyname;
         using t_name_to_key_map = std::map<std::string, int>;
-        t_name_to_key_map keyname_to_keycode;
+        t_name_to_key_map keyboard_char_keyname_to_keycode;
+        t_name_to_key_map gamepad_keyname_to_keycode;
+        t_name_to_key_map mouse_keyname_to_keycode;
 
         // See @ref get_previously_pressed_key
         int previously_pressed_key;
@@ -315,8 +318,9 @@ class input_manager
         // Maps the key names we see in keybindings.json and in-game to
         // the keycode integers.
         void init_keycode_mapping();
-        void add_keycode_pair( int ch, const std::string &name );
+        void add_keyboard_char_keycode_pair( int ch, const std::string &name );
         void add_gamepad_keycode_pair( int ch, const std::string &name );
+        void add_mouse_keycode_pair( int ch, const std::string &name );
 
         /**
          * Load keybindings from a json file, override existing bindings.
