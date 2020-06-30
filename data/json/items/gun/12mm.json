@@ -8,6 +8,7 @@
     "description": "Developed by Heckler & Koch, this railgun magnetically propels a ferromagnetic projectile using an alternating current.  Powered by UPS.",
     "weight": "3914 g",
     "volume": "2750 ml",
+    "longest_side": "1005 mm",
     "price": 1920000,
     "price_postapoc": 12000,
     "to_hit": -1,
