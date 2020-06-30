@@ -112,6 +112,8 @@
     "name": { "str_sp": "M14 EBR-RI" },
     "description": "A highly modified version of the M14 rifle designed to cover both CQB and designated marksman roles.  A very powerful and versatile rifle, if somewhat heavy.",
     "weight": "5070 g",
+    "volume": "3672 ml",
+    "longest_side": "889 mm",
     "price": 195000,
     "price_postapoc": 6500,
     "material": [ "steel", "plastic" ],
