@@ -25,7 +25,6 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
-#include "ime.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
@@ -1525,8 +1524,6 @@ void advanced_inventory::display()
                 spopup->max_length( 256 ).text( filter );
                 ui->mark_resize();
             }
-
-            ime_sentry sentry;
 
             do {
                 if( ui ) {

@@ -5,7 +5,6 @@
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
-#include "ime.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
@@ -1702,8 +1701,6 @@ void inventory_selector::set_filter()
     if( current_ui ) {
         current_ui->mark_resize();
     }
-
-    ime_sentry sentry;
 
     do {
         ui_manager::redraw();

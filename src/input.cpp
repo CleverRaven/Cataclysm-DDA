@@ -20,7 +20,6 @@
 #include "filesystem.h"
 #include "game.h"
 #include "help.h"
-#include "ime.h"
 #include "json.h"
 #include "optional.h"
 #include "options.h"
@@ -1126,8 +1125,6 @@ action_id input_context::display_menu( const bool permit_execute_action )
     };
     ui.on_redraw( redraw );
 
-    // do not switch IME mode now, but restore previous mode on return
-    ime_sentry sentry( ime_sentry::keep );
     while( true ) {
         ui_manager::redraw();
 

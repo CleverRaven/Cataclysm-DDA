@@ -4,7 +4,6 @@
 
 #include "catacharset.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
-#include "ime.h"
 #include "input.h"
 #include "optional.h"
 #include "output.h"
@@ -299,10 +298,6 @@ const std::string &string_input_popup::query_string( const bool loop, const bool
         create_context();
     }
 
-    cata::optional<ime_sentry> sentry;
-    if( !draw_only && loop ) {
-        sentry.emplace();
-    }
     utf8_wrapper ret( _text );
     utf8_wrapper edit( ctxt->get_edittext() );
     if( _position == -1 ) {

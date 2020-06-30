@@ -26,7 +26,6 @@
 #include "cursesdef.h"
 #include "game.h"
 #include "game_constants.h"
-#include "ime.h"
 #include "input.h"
 #include "int_id.h"
 #include "inventory.h"
@@ -2631,9 +2630,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         wprintz( w_profession, c_light_gray, you.prof->gender_appropriate_name( you.male ) );
         wnoutrefresh( w_profession );
     } );
-
-    // do not switch IME mode now, but restore previous mode on return
-    ime_sentry sentry( ime_sentry::keep );
 
     int min_allowed_age = 16;
     int max_allowed_age = 55;

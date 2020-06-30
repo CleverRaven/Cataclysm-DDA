@@ -5,7 +5,6 @@
 #include <memory>
 
 #include "catacharset.h"
-#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "ui_manager.h"
@@ -342,8 +341,6 @@ query_popup::result query_popup::query_once()
 
 query_popup::result query_popup::query()
 {
-    ime_sentry sentry( ime_sentry::disable );
-
     std::shared_ptr<ui_adaptor> ui = create_or_get_adaptor();
 
     result res;
