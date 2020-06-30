@@ -318,7 +318,7 @@
     "description": "A home-made double-barreled shotgun.  It is simply two pipes attached to a stock, with a pair of hammers to strike the two rounds it holds.",
     "clip_size": 2,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
-    "relative": { "weight": 500, "volume": 1, "price": 5000 },
+    "relative": { "weight": "500 g", "volume": "250 ml", "price": 5000 },
     "barrel_length": "72 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],

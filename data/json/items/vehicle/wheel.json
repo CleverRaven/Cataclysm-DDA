@@ -405,6 +405,6 @@
     "type": "WHEEL",
     "name": { "str": "banded wooden cart wheel" },
     "description": "A wooden cart wheel with metal bands for durability, hand made.",
-    "relative": { "weight": 500 }
+    "relative": { "weight": "500 g" }
   }
 ]

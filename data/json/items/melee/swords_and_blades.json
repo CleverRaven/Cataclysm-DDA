@@ -1113,7 +1113,7 @@
     "looks_like": "fencing_foil",
     "name": { "str": "sharpened foil" },
     "description": "This once mostly harmless fencing foil has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now somewhat more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -25, "cutting": 2 }
+    "relative": { "weight": "-25 g", "cutting": 2 }
   },
   {
     "id": "fencing_epee_sharpened",
@@ -1122,7 +1122,7 @@
     "looks_like": "fencing_epee",
     "name": { "str": "sharpened épée" },
     "description": "This once mostly harmless fencing épée has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -35, "cutting": 5 }
+    "relative": { "weight": "-35 g", "cutting": 5 }
   },
   {
     "id": "fencing_sabre_sharpened",
@@ -1131,7 +1131,7 @@
     "looks_like": "fencing_sabre",
     "name": { "str": "sharpened saber" },
     "description": "This once mostly harmless fencing saber has had its rounded tip snapped off and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -10, "cutting": 5 }
+    "relative": { "weight": "-10 g", "cutting": 5 }
   },
   {
     "id": "shock_foil",
