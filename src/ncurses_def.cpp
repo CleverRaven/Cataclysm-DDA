@@ -304,9 +304,9 @@ input_event input_manager::get_input_event()
         } else {
             if( key == 127 ) { // == Unicode DELETE
                 previously_pressed_key = KEY_BACKSPACE;
-                return input_event( KEY_BACKSPACE, input_event_t::keyboard );
+                return input_event( KEY_BACKSPACE, input_event_t::keyboard_char );
             }
-            rval.type = input_event_t::keyboard;
+            rval.type = input_event_t::keyboard_char;
             rval.text.append( 1, static_cast<char>( key ) );
             // Read the UTF-8 sequence (if any)
             if( key < 127 ) {
@@ -324,7 +324,7 @@ input_event input_manager::get_input_event()
                 // Other control character, etc. - no text at all, return an event
                 // without the text property
                 previously_pressed_key = key;
-                return input_event( key, input_event_t::keyboard );
+                return input_event( key, input_event_t::keyboard_char );
             }
             // Now we have loaded an UTF-8 sequence (possibly several bytes)
             // but we should only return *one* key, so return the code point of it.
@@ -333,7 +333,7 @@ input_event input_manager::get_input_event()
                 // Invalid UTF-8 sequence, this should never happen, what now?
                 // Maybe return any error instead?
                 previously_pressed_key = key;
-                return input_event( key, input_event_t::keyboard );
+                return input_event( key, input_event_t::keyboard_char );
             }
             previously_pressed_key = cp;
             // for compatibility only add the first byte, not the code point

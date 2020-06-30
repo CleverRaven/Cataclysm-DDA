@@ -707,9 +707,9 @@ input_event input_manager::get_input_event()
         // == Unicode DELETE
         if( lastchar == 127 ) {
             previously_pressed_key = KEY_BACKSPACE;
-            return input_event( KEY_BACKSPACE, input_event_t::keyboard );
+            return input_event( KEY_BACKSPACE, input_event_t::keyboard_char );
         }
-        rval.type = input_event_t::keyboard;
+        rval.type = input_event_t::keyboard_char;
         rval.text = utf32_to_utf8( lastchar );
         previously_pressed_key = lastchar;
         // for compatibility only add the first byte, not the code point

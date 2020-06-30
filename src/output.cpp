@@ -751,7 +751,7 @@ int popup( const std::string &text, PopupFlags flags )
 
     pop.context( "POPUP_WAIT" );
     const auto &res = pop.query();
-    if( res.evt.type == input_event_t::keyboard ) {
+    if( res.evt.type == input_event_t::keyboard_char ) {
         return res.evt.get_first_input();
     } else {
         return UNKNOWN_UNICODE;

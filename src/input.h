@@ -79,7 +79,7 @@ enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, 
 enum class input_event_t : int  {
     error,
     timeout,
-    keyboard,
+    keyboard_char,
     gamepad,
     mouse
 };
