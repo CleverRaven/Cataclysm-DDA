@@ -639,6 +639,7 @@ class Character : public Creature, public visitable<Character>
         void try_remove_heavysnare();
         void try_remove_crushed();
         void try_remove_webs();
+        void try_remove_impeding_effect();
 
         /** Check against the character's current movement mode */
         bool movement_mode_is( const move_mode_id &mode ) const;

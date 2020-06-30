@@ -339,6 +339,7 @@ static const std::string flag_BELTED( "BELTED" );
 static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_DEAF( "DEAF" );
 static const std::string flag_DISABLE_SIGHTS( "DISABLE_SIGHTS" );
+static const std::string flag_EFFECT_IMPEDING( "EFFECT_IMPEDING" );
 static const std::string flag_EFFECT_INVISIBLE( "EFFECT_INVISIBLE" );
 static const std::string flag_EFFECT_NIGHT_VISION( "EFFECT_NIGHT_VISION" );
 static const std::string flag_FIX_NEARSIGHT( "FIX_NEARSIGHT" );
@@ -1558,6 +1559,29 @@ void Character::try_remove_webs()
     }
 }
 
+void Character::try_remove_impeding_effect()
+{
+    for( const effect &eff : get_effects_with_flag( flag_EFFECT_IMPEDING ) ) {
+        const efftype_id &eff_id = eff.get_id();
+        if( is_mounted() ) {
+            auto mon = mounted_creature.get();
+            if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
+                        6 * get_effect_int( eff_id ) ) ) {
+                add_msg( _( "The %s breaks free!" ), mon->get_name() );
+                mon->remove_effect( eff_id );
+                remove_effect( eff_id );
+            }
+            /** @EFFECT_STR increases chance to escape webs */
+        } else if( x_in_y( get_str(), 6 * get_effect_int( eff_id ) ) ) {
+            add_msg_player_or_npc( m_good, _( "You free yourself!" ),
+                                   _( "<npcname> frees themselves!" ) );
+            remove_effect( eff_id );
+        } else {
+            add_msg_if_player( _( "You try to free yourself, but can't!" ) );
+        }
+    }
+}
+
 bool Character::move_effects( bool attacking )
 {
     if( has_effect( effect_downed ) ) {
@@ -1585,6 +1609,11 @@ bool Character::move_effects( bool attacking )
         try_remove_crushed();
         return false;
     }
+    if( has_effect_with_flag( flag_EFFECT_IMPEDING ) ) {
+        try_remove_impeding_effect();
+        return false;
+    }
+
     // Below this point are things that allow for movement if they succeed
 
     // Currently we only have one thing that forces movement if you succeed, should we get more
@@ -1625,6 +1654,10 @@ void Character::wait_effects( bool attacking )
     }
     if( has_effect( effect_webbed ) ) {
         try_remove_webs();
+        return;
+    }
+    if( has_effect_with_flag( flag_EFFECT_IMPEDING ) ) {
+        try_remove_impeding_effect();
         return;
     }
     if( has_effect( effect_grabbed ) && !attacking && !try_remove_grab() ) {

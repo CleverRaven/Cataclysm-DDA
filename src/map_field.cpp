@@ -1382,22 +1382,6 @@ void map::player_in_field( player &u )
 
         // Do things based on what field effect we are currently in.
         const field_type_id ft = cur.get_field_type();
-        if( ft == fd_web ) {
-            // If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
-            // Moving through multiple webs stacks the effect.
-            if( !u.has_trait( trait_WEB_WALKER ) && !u.in_vehicle ) {
-                // Between 5 and 15 minus your current web level.
-                u.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
-                // It is spent.
-                cur.set_field_intensity( 0 );
-                continue;
-                // If you are in a vehicle destroy the web.
-                // It should of been destroyed when you ran over it anyway.
-            } else if( u.in_vehicle ) {
-                cur.set_field_intensity( 0 );
-                continue;
-            }
-        }
         if( ft == fd_acid ) {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
@@ -1723,6 +1707,10 @@ void map::creature_in_field( Creature &critter )
         const field_type_id cur_field_id = cur_field_entry.get_field_type();
 
         for( const auto &fe : cur_field_entry.field_effects() ) {
+            // the field is decreased even if you are in a vehicle
+            if( cur_field_id->decrease_intensity_on_contact ) {
+                cur_field_entry.mod_field_intensity( -1 );
+            }
             if( in_vehicle && fe.immune_in_vehicle ) {
                 continue;
             }

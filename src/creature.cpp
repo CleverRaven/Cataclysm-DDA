@@ -1145,12 +1145,25 @@ bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) con
 {
     for( auto &elem : *effects ) {
         for( const std::pair<const body_part, effect> &_it : elem.second ) {
-            if( bp == _it.first && _it.second.has_flag( flag ) ) {
+            if( ( bp == _it.first || bp == num_bp ) && _it.second.has_flag( flag ) ) {
                 return true;
             }
         }
     }
     return false;
+}
+
+std::vector<effect> Creature::get_effects_with_flag( const std::string &flag ) const
+{
+    std::vector<effect> effs;
+    for( auto &elem : *effects ) {
+        for( const std::pair<const body_part, effect> &_it : elem.second ) {
+            if( _it.second.has_flag( flag ) ) {
+                effs.push_back( _it.second );
+            }
+        }
+    }
+    return effs;
 }
 
 effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )

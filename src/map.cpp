@@ -3347,10 +3347,12 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
 
 void map::bash_field( const tripoint &p, bash_params &params )
 {
-    if( get_field( p, fd_web ) != nullptr ) {
-        params.did_bash = true;
-        params.bashed_solid = true; // To prevent bashing furniture/vehicles
-        remove_field( p, fd_web );
+    for( const  std::pair<field_type_id, field_entry> &fd : field_at( p ) ) {
+        if( fd.first->bash_info.str_min > -1 ) {
+            params.did_bash = true;
+            params.bashed_solid = true; // To prevent bashing furniture/vehicles
+            remove_field( p, fd.first );
+        }
     }
 }
 
@@ -3650,14 +3652,15 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     dam = std::max( 0.0f, dam );
 
     // Check fields?
-    const field_entry *fieldhit = get_field( p, fd_web );
-    if( fieldhit != nullptr ) {
-        if( inc ) {
-            add_field( p, fd_fire, fieldhit->get_field_intensity() - 1 );
-        } else if( dam > 5 + fieldhit->get_field_intensity() * 5 &&
-                   one_in( 5 - fieldhit->get_field_intensity() ) ) {
-            dam -= rng( 1, 2 + fieldhit->get_field_intensity() * 2 );
-            remove_field( p, fd_web );
+    for( const std::pair<field_type_id, field_entry> &fd : field_at( p ) ) {
+        if( fd.first->bash_info.str_min > 0 ) {
+            if( inc ) {
+                add_field( p, fd_fire, fd.second.get_field_intensity() - 1 );
+            } else if( dam > 5 + fd.second.get_field_intensity() * 5 &&
+                       one_in( 5 - fd.second.get_field_intensity() ) ) {
+                dam -= rng( 1, 2 + fd.second.get_field_intensity() * 2 );
+                remove_field( p, fd.first );
+            }
         }
     }
 
