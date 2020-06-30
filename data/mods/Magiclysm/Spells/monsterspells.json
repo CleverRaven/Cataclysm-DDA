@@ -83,6 +83,7 @@
     "id": "mon_demon_fireball",
     "name": "Demon Fireball",
     "description": "This is a monster only spell.",
+    "flags": [ "IGNITE_FLAMMABLE" ],
     "valid_targets": [ "hostile", "ground", "ally", "self" ],
     "min_damage": 15,
     "max_damage": 15,

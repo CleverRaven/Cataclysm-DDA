@@ -196,7 +196,7 @@ class item_pocket
         bool sealed() const;
         std::string translated_sealed_prefix() const;
         bool detonate( const tripoint &p, std::vector<item> &drops );
-        bool process( const itype &type, player *carrier, const tripoint &pos, bool activate,
+        bool process( const itype &type, player *carrier, const tripoint &pos,
                       float insulation, temperature_flag flag );
         void remove_all_ammo( Character &guy );
         void remove_all_mods( Character &guy );
@@ -222,7 +222,7 @@ class item_pocket
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        void process( player *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
         pocket_type saved_type() const {
             return _saved_type;

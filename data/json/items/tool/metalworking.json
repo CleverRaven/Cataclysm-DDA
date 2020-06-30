@@ -65,9 +65,17 @@
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "charcoal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 500 } } ],
     "sub": "forge",
     "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "rock_forge_pseudo",
+    "type": "TOOL",
+    "name": { "str": "Rock Forge" },
+    "copy-from": "char_forge",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
   },
   {
     "id": "char_kiln",

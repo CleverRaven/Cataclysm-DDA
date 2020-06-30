@@ -73,7 +73,7 @@ class advanced_inventory
 
         bool inCategoryMode = false;
 
-        int itemsPerPage = 0;
+        int linesPerPage = 0;
         int w_height = 0;
         int w_width = 0;
 

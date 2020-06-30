@@ -1540,7 +1540,8 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             ptype.only_known_by_player = true;
             ptype.avoid_danger = true;
             bool in_vehicle = g->u.in_vehicle && g->u.controlling_vehicle;
-            const optional_vpart_position vp = g->m.veh_at( g->u.pos() );
+            map &here = get_map();
+            const optional_vpart_position vp = here.veh_at( g->u.pos() );
             if( vp && in_vehicle ) {
                 vehicle &veh = vp->vehicle();
                 if( veh.can_float() && veh.is_watercraft() && veh.is_in_water() ) {
@@ -1553,7 +1554,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
             } else {
                 const oter_id oter = overmap_buffer.ter( curs );
                 // going to or coming from a water tile
-                if( is_river_or_lake( oter ) || g->m.has_flag( "SWIMMABLE", g->u.pos() ) ) {
+                if( is_river_or_lake( oter ) || here.has_flag( "SWIMMABLE", g->u.pos() ) ) {
                     ptype.amphibious = true;
                 }
             }
@@ -1569,7 +1570,7 @@ static tripoint display( const tripoint &orig, const draw_data_t &data = draw_da
                     // renew the path incase of a leftover dangling path point
                     g->u.omt_path = overmap_buffer.get_npc_path( player_omt_pos, curs, ptype );
                     if( g->u.in_vehicle && g->u.controlling_vehicle ) {
-                        vehicle *player_veh = veh_pointer_or_null( g->m.veh_at( g->u.pos() ) );
+                        vehicle *player_veh = veh_pointer_or_null( here.veh_at( g->u.pos() ) );
                         player_veh->omt_path = g->u.omt_path;
                         player_veh->is_autodriving = true;
                         g->u.assign_activity( ACT_AUTODRIVE );

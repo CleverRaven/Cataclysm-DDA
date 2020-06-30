@@ -2012,7 +2012,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
     p->moves -= to_moves<int>( 2_seconds );
 
     // Reduce the strength of fire (if any) in the target tile.
-    g->m.mod_field_intensity( dest, fd_fire, 0 - rng( 2, 3 ) );
+    g->m.add_field( dest, fd_extinguisher, 3, 10_turns );
 
     // Also spray monsters in that tile.
     if( monster *const mon_ptr = g->critter_at<monster>( dest, true ) ) {
@@ -3667,28 +3667,6 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &pos )
-{
-    if( pos.x == -999 || pos.y == -999 ) {
-        return 0;
-    }
-    if( g->m.get_field( pos, fd_fire ) != nullptr ) {
-        sounds::sound( pos, 50, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
-        // Reduce the strength of fire (if any) in the target tile.
-        g->m.mod_field_intensity( pos, fd_fire, 0 - 2 );
-        // Slightly reduce the strength of fire around and in the target tile.
-        for( const tripoint &dest : g->m.points_in_radius( pos, 1 ) ) {
-            if( g->m.passable( dest ) && dest != pos ) {
-                g->m.mod_field_intensity( dest, fd_fire, 0 - rng( 0, 2 ) );
-            }
-        }
-        it->charges = -1;
-        return 1;
-    }
-    it->active = false;
-    return 0;
-}
-
 int iuse::granade( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You pull the pin on the Granade." ) );
@@ -3760,10 +3738,11 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         /** @EFFECT_PER_MAX increases possible granade per buff */
                         buff_stat( g->u.per_max, rng( 0, g->u.per_max / 2 ) );
                         g->u.recalc_hp();
-                        for( int part = 0; part < num_hp_parts; part++ ) {
-                            g->u.hp_cur[part] *= 1 + rng( 0, 20 ) * .1;
-                            if( g->u.hp_cur[part] > g->u.hp_max[part] ) {
-                                g->u.hp_cur[part] = g->u.hp_max[part];
+                        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+                            g->u.set_part_hp_cur( bp, g->u.get_part_hp_cur( bp ) * rng_float( 1, 1.2 ) );
+                            const int hp_max = g->u.get_part_hp_max( bp );
+                            if( g->u.get_part_hp_cur( bp ) > hp_max ) {
+                                g->u.set_part_hp_cur( bp, hp_max );
                             }
                         }
                     }
@@ -3799,9 +3778,10 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
                         g->u.per_max -= rng( 0, g->u.per_max / 2 );
                         g->u.recalc_hp();
-                        for( int part = 0; part < num_hp_parts; part++ ) {
-                            if( g->u.hp_cur[part] > 0 ) {
-                                g->u.hp_cur[part] = rng( 1, g->u.hp_cur[part] );
+                        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+                            const int hp_cur = g->u.get_part_hp_cur( bp );
+                            if( hp_cur > 0 ) {
+                                g->u.set_part_hp_cur( bp, rng( 1, hp_cur ) );
                             }
                         }
                     }
@@ -4497,8 +4477,14 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-int iuse::portable_game( player *p, item *it, bool, const tripoint & )
+int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
 {
+    if( active ) {
+        // Multi-turn usage of portable games is implemented via ACT_GAME and ACT_GENERIC_GAME.
+        // Complex devices (e.g. laptops) may use 'active' for other iuse functions
+        // (e.g. playing music), so we bail here to avoid conflicts.
+        return 0;
+    }
     if( p->is_npc() ) {
         // Long action
         return 0;

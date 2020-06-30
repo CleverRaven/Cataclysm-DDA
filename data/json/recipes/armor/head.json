@@ -134,8 +134,8 @@
     "using": [ [ "cordage_short", 2 ] ],
     "components": [
       [
-        [ "can_drink_unsealed", 1 ],
-        [ "can_food_unsealed", 1 ],
+        [ "can_drink", 1 ],
+        [ "can_food", 1 ],
         [ "canister_empty", 1 ],
         [ "bottle_plastic_small", 1 ],
         [ "sippy_cup", 1 ],
@@ -145,8 +145,8 @@
         [ "flask_hip", 1 ]
       ],
       [
-        [ "can_drink_unsealed", 1 ],
-        [ "can_food_unsealed", 1 ],
+        [ "can_drink", 1 ],
+        [ "can_food", 1 ],
         [ "canister_empty", 1 ],
         [ "bottle_plastic_small", 1 ],
         [ "sippy_cup", 1 ],

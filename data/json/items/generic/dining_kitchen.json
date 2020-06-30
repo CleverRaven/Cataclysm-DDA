@@ -58,7 +58,7 @@
     "price_postapoc": 0,
     "material": [ "ceramic" ],
     "weight": "322 g",
-    "volume": "250 ml",
+    "volume": "262 ml",
     "bashing": 3,
     "to_hit": -1
   },
@@ -73,7 +73,7 @@
     "price_postapoc": 0,
     "material": [ "glass" ],
     "weight": "322 g",
-    "volume": "250 ml",
+    "volume": "262 ml",
     "bashing": 3,
     "to_hit": -1
   },
@@ -88,7 +88,7 @@
     "price_postapoc": 0,
     "material": [ "tin" ],
     "weight": "262 g",
-    "volume": "250 ml",
+    "volume": "262 ml",
     "bashing": 2,
     "to_hit": -1
   },
@@ -103,7 +103,7 @@
     "price_postapoc": 0,
     "material": [ "plastic" ],
     "weight": "130 g",
-    "volume": "250 ml",
+    "volume": "262 ml",
     "bashing": 1,
     "to_hit": -1
   },
@@ -138,7 +138,7 @@
     "symbol": ")",
     "description": "A perfectly ordinary ceramic soup bowl.",
     "copy-from": "base_ceramic_dish",
-    "volume": "500 ml",
+    "volume": "525 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -154,6 +154,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "ceramic_cup",
+    "volume": "262 ml",
     "name": { "str": "ceramic cup" },
     "symbol": "u",
     "description": "A light ceramic teacup.  Quite classy.",
@@ -300,6 +301,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "wine_glass",
+    "volume": "262 ml",
     "name": { "str": "wine glass", "str_pl": "wine glasses" },
     "proportional": { "weight": 0.5 },
     "symbol": "Y",
@@ -324,7 +326,7 @@
     "symbol": "u",
     "description": "A glass bowl for soup or dessert.",
     "copy-from": "base_glass_dish",
-    "volume": "500 ml",
+    "volume": "525 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -373,7 +375,7 @@
     "symbol": "u",
     "description": "A plastic bowl with a convenient sealing lid.  Holds 750 ml of liquid.",
     "copy-from": "base_plastic_dish",
-    "volume": "750 ml",
+    "volume": "787 ml",
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -703,7 +705,7 @@
     "material": [ "steel" ],
     "color": "light_gray",
     "weight": "550 g",
-    "volume": "2 L",
+    "volume": "2100 ml",
     "bashing": 6,
     "pocket_data": [
       {
@@ -725,7 +727,7 @@
     "material": [ "iron" ],
     "color": "dark_gray",
     "weight": "3000 g",
-    "volume": "2 L",
+    "volume": "2100 ml",
     "bashing": 10,
     "pocket_data": [
       {
@@ -747,7 +749,7 @@
     "material": [ "copper" ],
     "color": "light_red",
     "weight": "750 g",
-    "volume": "2 L",
+    "volume": "2100 ml",
     "bashing": 6,
     "to_hit": -2,
     "pocket_data": [
@@ -770,7 +772,7 @@
     "material": [ "ceramic" ],
     "color": "white",
     "weight": "650 g",
-    "volume": "2 L",
+    "volume": "2100 ml",
     "bashing": 4,
     "pocket_data": [
       {
@@ -811,7 +813,7 @@
     "name": { "str": "canning pot" },
     "description": "A very large 25 liter pot, primarily meant for canning food in glass jars via the water bath method, though it can cook normal foods just as well.  Canning foods with it will require a lot of water.  If you're only canning a couple of jars at a time, you'd fill it up with rocks or something to displace the water above the lids.",
     "weight": "5625 g",
-    "volume": "25 L",
+    "volume": "26250 ml",
     "price": 20000,
     "to_hit": -2,
     "bashing": 10,
@@ -841,7 +843,7 @@
     "material": [ "iron" ],
     "color": "dark_gray",
     "weight": "2628 g",
-    "volume": "1 L",
+    "volume": "1050 ml",
     "bashing": 12,
     "to_hit": -3,
     "pocket_data": [
@@ -893,7 +895,7 @@
     "color": "light_red",
     "looks_like": "pan",
     "weight": "628 g",
-    "volume": "1 L",
+    "volume": "1050 ml",
     "bashing": 7,
     "to_hit": -2,
     "pocket_data": [
@@ -915,7 +917,7 @@
     "name": { "str": "makeshift pot" },
     "description": "A sheet of metal crudely hammered into a cooking pot.  Good enough to cook food and boil water, but not as useful as proper cookware.",
     "weight": "6000 g",
-    "volume": "1 L",
+    "volume": "1050 ml",
     "price": 200,
     "price_postapoc": 5,
     "to_hit": 1,
@@ -942,7 +944,7 @@
     "name": { "str": "makeshift copper pot" },
     "description": "A cooking pot crudely hammered out of copper.  Good enough to cook food and boil water, but not as useful as proper cookware.",
     "weight": "884 g",
-    "volume": "1 L",
+    "volume": "1050 ml",
     "price": 200,
     "price_postapoc": 5,
     "to_hit": 1,
@@ -972,7 +974,7 @@
     "material": [ "steel" ],
     "color": "light_gray",
     "weight": "728 g",
-    "volume": "1500 ml",
+    "volume": "1575 ml",
     "bashing": 5,
     "pocket_data": [ { "max_contains_volume": "1500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "delete": { "qualities": [ [ "COOK", 3 ] ] }

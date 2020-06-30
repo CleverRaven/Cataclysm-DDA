@@ -883,7 +883,8 @@ void player::search_surroundings()
 
 bool player::is_dead_state() const
 {
-    return hp_cur[hp_head] <= 0 || hp_cur[hp_torso] <= 0;
+    return get_part_hp_cur( bodypart_id( "head" ) ) <= 0 ||
+           get_part_hp_cur( bodypart_id( "torso" ) ) <= 0;
 }
 
 void player::on_dodge( Creature *source, float difficulty )
@@ -1336,14 +1337,16 @@ void player::knock_back_to( const tripoint &to )
 
 int player::hp_percentage() const
 {
+    const bodypart_id head_id = bodypart_id( "head" );
+    const bodypart_id torso_id = bodypart_id( "torso" );
     int total_cur = 0;
     int total_max = 0;
     // Head and torso HP are weighted 3x and 2x, respectively
-    total_cur = hp_cur[hp_head] * 3 + hp_cur[hp_torso] * 2;
-    total_max = hp_max[hp_head] * 3 + hp_max[hp_torso] * 2;
-    for( int i = hp_arm_l; i < num_hp_parts; i++ ) {
-        total_cur += hp_cur[i];
-        total_max += hp_max[i];
+    total_cur = get_part_hp_cur( head_id ) * 3 + get_part_hp_cur( torso_id ) * 2;
+    total_max = get_part_hp_max( head_id ) * 3 + get_part_hp_max( torso_id ) * 2;
+    for( const std::pair< const bodypart_str_id, bodypart> &elem : get_body() ) {
+        total_cur += elem.second.get_hp_cur();
+        total_max += elem.second.get_hp_max();
     }
 
     return ( 100 * total_cur ) / total_max;
@@ -2798,23 +2801,32 @@ bool player::takeoff( int pos )
     return takeoff( i_at( pos ) );
 }
 
-bool player::add_or_drop_with_msg( item &it, const bool unloading, const item *avoid )
+bool player::add_or_drop_with_msg( item &it, const bool /*unloading*/, const item *avoid )
 {
     if( it.made_of( phase_id::LIQUID ) ) {
         liquid_handler::consume_liquid( it, 1 );
         return it.charges <= 0;
     }
-    it.charges = this->i_add_to_container( it, unloading );
-    if( it.is_ammo() && it.charges == 0 ) {
-        return true;
-    } else if( !this->can_pickVolume( it ) ) {
+    if( !this->can_pickVolume( it ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_large, { it } );
     } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
     } else {
-        auto &ni = this->i_add( it, true, avoid );
-        add_msg( _( "You put the %s in your inventory." ), ni.tname() );
-        add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname() );
+        const bool allow_wield = !weapon.has_item( it );
+        const int prev_charges = it.charges;
+        auto &ni = this->i_add( it, true, avoid, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
+        if( ni.is_null() ) {
+            // failed to add
+            put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { it } );
+        } else if( &ni == &it ) {
+            // merged into the original stack, restore original charges
+            it.charges = prev_charges;
+            put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { it } );
+        } else {
+            // successfully added
+            add_msg( _( "You put the %s in your inventory." ), ni.tname() );
+            add_msg( m_info, "%c - %s", ni.invlet == 0 ? ' ' : ni.invlet, ni.tname() );
+        }
     }
     return true;
 }
@@ -3007,6 +3019,11 @@ void player::use( item_location loc )
 
     item &used = *loc;
     last_item = used.typeId();
+
+    if( ( *loc ).is_medication() && !can_use_heal_item( *loc ) ) {
+        add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
+        return;
+    }
 
     if( used.is_tool() ) {
         if( !used.type->has_use() ) {
@@ -3709,6 +3726,9 @@ void player::practice( const skill_id &id, int amount, int cap, bool suppress_wa
         get_skill_level_object( id ).train( amount );
         int newLevel = get_skill_level( id );
         std::string skill_name = skill.name();
+        if( newLevel > oldLevel ) {
+            g->events().send<event_type::gains_skill_level>( getID(), id, newLevel );
+        }
         if( is_player() && newLevel > oldLevel ) {
             add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
         }
@@ -3809,8 +3829,7 @@ bool player::has_magazine_for_ammo( const ammotype &at ) const
     } );
 }
 
-// mytest return weapon name to display in sidebar
-std::string player::weapname( unsigned int truncate ) const
+std::string player::weapname() const
 {
     if( weapon.is_gun() ) {
         std::string gunmode;
@@ -3830,14 +3849,13 @@ std::string player::weapname( unsigned int truncate ) const
             }
         }
 
-        return utf8_truncate( string_format( "%s%s%s",
-                                             gunmode, weapon.display_name(), mag_ammo ), truncate );
+        return string_format( "%s%s%s", gunmode, weapon.display_name(), mag_ammo );
 
     } else if( !is_armed() ) {
         return _( "fists" );
 
     } else {
-        return weapon.tname( 1, true, truncate );
+        return weapon.tname();
     }
 }
 
@@ -3991,9 +4009,7 @@ void player::environmental_revert_effect()
     addictions.clear();
     morale->clear();
 
-    for( int part = 0; part < num_hp_parts; part++ ) {
-        hp_cur[part] = hp_max[part];
-    }
+    set_all_parts_hp_to_max();
     set_hunger( 0 );
     set_thirst( 0 );
     set_fatigue( 0 );

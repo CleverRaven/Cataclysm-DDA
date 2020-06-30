@@ -262,16 +262,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     }
 
     bool did_prompt = false;
-    if( newit.count_by_charges() ) {
-        newit.charges -= u.i_add( newit ).charges;
-        // if the item stacks with another item when added,
-        // the charges returned may be larger than the charges of the item added.
-        newit.charges = std::max( 0, newit.charges );
-    }
-    if( newit.is_ammo() && newit.charges <= 0 ) {
-        picked_up = true;
-        option = NUM_ANSWERS; //Skip the options part
-    } else if( newit.is_frozen_liquid() ) {
+    if( newit.is_frozen_liquid() ) {
         if( !( got_water = !( u.crush_frozen_liquid( newloc ) ) ) ) {
             option = STASH;
         }
@@ -346,12 +337,22 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 break;
             }
         // Intentional fallthrough
-        case STASH:
-            auto &entry = mapPickup[newit.tname()];
-            entry.second += newit.count();
-            entry.first = u.i_add( newit );
-            picked_up = true;
+        case STASH: {
+            item &added_it = u.i_add( newit, true, nullptr, /*allow_drop=*/false );
+            if( added_it.is_null() ) {
+                // failed to add, do nothing
+            } else if( &added_it == &it ) {
+                // merged to the original stack, restore original charges
+                it.charges -= newit.charges;
+            } else {
+                // successfully added
+                auto &entry = mapPickup[newit.tname()];
+                entry.second += newit.count();
+                entry.first = added_it;
+                picked_up = true;
+            }
             break;
+        }
     }
 
     if( picked_up ) {

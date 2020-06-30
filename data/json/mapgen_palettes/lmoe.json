@@ -8,7 +8,7 @@
       "+": "t_door_metal_c",
       "-": "t_scrap_wall",
       "_": "t_metal_floor",
-      ",": "t_carpet_metal",
+      ",": "t_carpet_metal_purple",
       "1": "t_column",
       "<": "t_stairs_up",
       "=": "t_chainfence",

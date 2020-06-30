@@ -186,7 +186,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            std::string res = g->m.name( cur );
+            std::string res = get_map().name( cur );
             if( ch ) {
                 res += std::string( " " ) += direction_suffix( ch->pos(), cur );
             }
@@ -666,7 +666,7 @@ void item_location::deserialize( JsonIn &js )
         ptr.reset( new impl::item_on_map( pos, idx ) );
 
     } else if( type == "vehicle" ) {
-        vehicle *const veh = veh_pointer_or_null( g->m.veh_at( pos ) );
+        vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
         int part = obj.get_int( "part" );
         if( veh && part >= 0 && part < veh->part_count() ) {
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );

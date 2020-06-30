@@ -160,10 +160,10 @@ constexpr int SIMPLEX_NOISE_RANDOM_SEED_LIMIT = 32768;
  * did this activity for a longer period of time.
 */
 constexpr float NO_EXERCISE = 1.2f;
-constexpr float LIGHT_EXERCISE = 1.375f;
-constexpr float MODERATE_EXERCISE = 1.55f;
-constexpr float ACTIVE_EXERCISE = 1.725f;
-constexpr float EXTRA_EXERCISE = 1.9f;
+constexpr float LIGHT_EXERCISE = 2.0f;
+constexpr float MODERATE_EXERCISE = 4.5f;
+constexpr float ACTIVE_EXERCISE = 8.0f;
+constexpr float EXTRA_EXERCISE = 10.0f;
 
 // these are the lower bounds of each of the weight classes.
 namespace character_weight_category

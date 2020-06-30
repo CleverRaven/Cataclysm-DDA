@@ -142,13 +142,13 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
 
         std::vector<std::string> itype_initializer;
-        for( const std::pair<std::string, const itype *> &name : nearby_itypes ) {
+        for( const std::pair<const std::string, const itype *> &name : nearby_itypes ) {
             itype_initializer.emplace_back( name.first );
         }
         std::sort( itype_initializer.begin(), itype_initializer.end(), localized_compare );
 
-        for( const std::pair<std::string, const itype *> it : nearby_itypes ) {
-            selector_menu.addentry( it.first );
+        for( const std::string &it : itype_initializer ) {
+            selector_menu.addentry( it );
         }
         selector_menu.query();
 
@@ -189,6 +189,10 @@ item_contents::item_contents( const std::vector<pocket_data> &pockets )
     for( const pocket_data &data : pockets ) {
         contents.push_back( item_pocket( &data ) );
     }
+}
+bool item_contents::empty_real() const
+{
+    return contents.empty();
 }
 
 bool item_contents::empty() const
@@ -247,7 +251,7 @@ bool item_contents::bigger_on_the_inside( const units::volume &container_volume 
             }
         }
     }
-    return container_volume < min_logical_volume;
+    return container_volume <= min_logical_volume;
 }
 
 size_t item_contents::size() const
@@ -266,11 +270,17 @@ void item_contents::combine( const item_contents &read_input )
             std::advance( current_pocket_iter, pocket_index );
 
             for( const item *it : pocket.all_items_top() ) {
-                const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
-                if( !inserted.success() ) {
-                    uninserted_items.push_back( *it );
-                    debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
-                              inserted.str() );
+                if( it->is_gunmod() || it->is_toolmod() ) {
+                    if( !insert_item( *it, item_pocket::pocket_type::MOD ).success() ) {
+                        uninserted_items.push_back( *it );
+                    }
+                } else {
+                    const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
+                    if( !inserted.success() ) {
+                        uninserted_items.push_back( *it );
+                        debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
+                                  inserted.str() );
+                    }
                 }
             }
 
@@ -287,7 +297,9 @@ void item_contents::combine( const item_contents &read_input )
     }
 
     for( const item &uninserted_item : uninserted_items ) {
-        insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION );
+        if( !insert_item( uninserted_item, item_pocket::pocket_type::MOD ).success() ) {
+            insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION );
+        }
     }
 }
 
@@ -607,10 +619,8 @@ std::set<ammotype> item_contents::ammo_types() const
 {
     std::set<ammotype> ret;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) {
-            for( const ammotype &ammo : pocket.ammo_types() ) {
-                ret.emplace( ammo );
-            }
+        for( const ammotype &ammo : pocket.ammo_types() ) {
+            ret.emplace( ammo );
         }
     }
     return ret;
@@ -633,6 +643,10 @@ item &item_contents::first_ammo()
 
 const item &item_contents::first_ammo() const
 {
+    if( empty() ) {
+        debugmsg( "Error: Contents has no pockets" );
+        return null_item_reference();
+    }
     for( const item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
             return pocket.front().contents.first_ammo();
@@ -1083,13 +1097,13 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
     }
 }
 
-void item_contents::process( player *carrier, const tripoint &pos, bool activate, float insulation,
+void item_contents::process( player *carrier, const tripoint &pos, float insulation,
                              temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {
         // no reason to check mods, they won't rot
         if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
-            pocket.process( carrier, pos, activate, insulation, flag, spoil_multiplier_parent );
+            pocket.process( carrier, pos, insulation, flag, spoil_multiplier_parent );
         }
     }
 }

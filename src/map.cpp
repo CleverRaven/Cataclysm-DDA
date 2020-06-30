@@ -3347,10 +3347,12 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
 
 void map::bash_field( const tripoint &p, bash_params &params )
 {
-    if( get_field( p, fd_web ) != nullptr ) {
-        params.did_bash = true;
-        params.bashed_solid = true; // To prevent bashing furniture/vehicles
-        remove_field( p, fd_web );
+    for( const  std::pair<field_type_id, field_entry> &fd : field_at( p ) ) {
+        if( fd.first->bash_info.str_min > -1 ) {
+            params.did_bash = true;
+            params.bashed_solid = true; // To prevent bashing furniture/vehicles
+            remove_field( p, fd.first );
+        }
     }
 }
 
@@ -3642,7 +3644,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
         if( ammo_effects.count( ae.id.str() ) > 0 ) {
             if( x_in_y( ae.trail_chance, 100 ) ) {
-                g->m.add_field( p, ae.trail_field_type, rng( ae.trail_intensity_min, ae.trail_intensity_max ) );
+                add_field( p, ae.trail_field_type, rng( ae.trail_intensity_min, ae.trail_intensity_max ) );
             }
         }
     }
@@ -3650,14 +3652,15 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     dam = std::max( 0.0f, dam );
 
     // Check fields?
-    const field_entry *fieldhit = get_field( p, fd_web );
-    if( fieldhit != nullptr ) {
-        if( inc ) {
-            add_field( p, fd_fire, fieldhit->get_field_intensity() - 1 );
-        } else if( dam > 5 + fieldhit->get_field_intensity() * 5 &&
-                   one_in( 5 - fieldhit->get_field_intensity() ) ) {
-            dam -= rng( 1, 2 + fieldhit->get_field_intensity() * 2 );
-            remove_field( p, fd_web );
+    for( const std::pair<field_type_id, field_entry> &fd : field_at( p ) ) {
+        if( fd.first->bash_info.str_min > 0 ) {
+            if( inc ) {
+                add_field( p, fd_fire, fd.second.get_field_intensity() - 1 );
+            } else if( dam > 5 + fd.second.get_field_intensity() * 5 &&
+                       one_in( 5 - fd.second.get_field_intensity() ) ) {
+                dam -= rng( 1, 2 + fd.second.get_field_intensity() * 2 );
+                remove_field( p, fd.first );
+            }
         }
     }
 
@@ -4006,24 +4009,6 @@ void map::i_clear( const tripoint &p )
     current_submap->get_items( l ).clear();
 }
 
-item &map::spawn_an_item( const tripoint &p, item new_item,
-                          const int charges, const int damlevel )
-{
-    if( charges && new_item.charges > 0 ) {
-        //let's fail silently if we specify charges for an item that doesn't support it
-        new_item.charges = charges;
-    }
-    new_item = new_item.in_its_container();
-    if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( "SWIMMABLE", p ) ) ||
-        has_flag( "DESTROY_ITEM", p ) ) {
-        return null_item_reference();
-    }
-
-    new_item.set_damage( damlevel );
-
-    return add_item_or_charges( p, new_item );
-}
-
 std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item> &new_items )
 {
     std::vector<item *> ret;
@@ -4076,7 +4061,19 @@ void map::spawn_item( const tripoint &p, const itype_id &type_id,
         new_item.item_tags.insert( "FIT" );
     }
 
-    spawn_an_item( p, new_item, charges, damlevel );
+    if( charges && new_item.charges > 0 ) {
+        //let's fail silently if we specify charges for an item that doesn't support it
+        new_item.charges = charges;
+    }
+    new_item = new_item.in_its_container();
+    if( ( new_item.made_of( phase_id::LIQUID ) && has_flag( "SWIMMABLE", p ) ) ||
+        has_flag( "DESTROY_ITEM", p ) ) {
+        return;
+    }
+
+    new_item.set_damage( damlevel );
+
+    add_item_or_charges( p, new_item );
 }
 
 units::volume map::max_volume( const tripoint &p )
@@ -4335,7 +4332,7 @@ void map::update_lum( item_location &loc, bool add )
 static bool process_map_items( item_stack &items, safe_reference<item> &item_ref,
                                const tripoint &location, const float insulation, const temperature_flag flag )
 {
-    if( item_ref->process( nullptr, location, false, insulation, flag ) ) {
+    if( item_ref->process( nullptr, location, insulation, flag ) ) {
         // Item is to be destroyed so erase it from the map stack
         // unless it was already destroyed by processing.
         if( item_ref ) {
@@ -4502,6 +4499,13 @@ void map::process_items_in_submap( submap &current_submap, const tripoint &gridp
         }
 
         const tripoint map_location = tripoint( grid_offset + active_item_ref.location, gridp.z );
+        const furn_t &furn = this->furn( map_location ).obj();
+
+        if( furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
+            // plants contain a seed item which must not be removed under any circumstances.
+            // Lets not process it at all.
+            continue;
+        }
         // root cellars are special
         temperature_flag flag = temperature_flag::NORMAL;
         if( ter( map_location ) == t_rootcellar ) {
@@ -5996,7 +6000,10 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     const tripoint &min = F < T ? F : T;
     const tripoint &max = !( F < T ) ? F : T;
     // A little gross, just pack the values into a point.
-    const point key( min.x << 16 | min.y << 8 | min.z, max.x << 16 | max.y << 8 | max.z );
+    const point key(
+        min.x << 16 | min.y << 8 | ( min.z + OVERMAP_DEPTH ),
+        max.x << 16 | max.y << 8 | ( max.z + OVERMAP_DEPTH )
+    );
     char cached = skew_vision_cache.get( key, -1 );
     if( cached >= 0 ) {
         return cached > 0;
@@ -6733,27 +6740,6 @@ void map::loadn( const tripoint &grid, const bool update_vehicles )
     abs_sub.z = old_abs_z;
 }
 
-template <typename Container>
-void map::remove_rotten_items( Container &items, const tripoint &pnt )
-{
-    temperature_flag flag;
-    if( ter( pnt ) == t_rootcellar ) {
-        flag = temperature_flag::ROOT_CELLAR;
-    } else {
-        flag = temperature_flag::NORMAL;
-    }
-    for( auto it = items.begin(); it != items.end(); ) {
-        if( it->has_rotten_away( pnt, 1, flag ) ) {
-            if( it->is_comestible() ) {
-                rotten_item_spawn( *it, pnt );
-            }
-            it = i_rem( pnt, it );
-        } else {
-            ++it;
-        }
-    }
-}
-
 void map::rotten_item_spawn( const item &item, const tripoint &pnt )
 {
     if( g->critter_at( pnt ) != nullptr ) {
@@ -6968,7 +6954,7 @@ void map::produce_sap( const tripoint &p, const time_duration &time_since_last_a
 
     item sap( "maple_sap", calendar::turn );
 
-    sap.set_item_temperature( temp_to_kelvin( g->m.get_temperature( p ) ) );
+    sap.set_item_temperature( temp_to_kelvin( get_temperature( p ) ) );
 
     // Is there a proper container?
     map_stack items = i_at( p );
@@ -7067,6 +7053,7 @@ void map::actualize( const tripoint &grid )
     const bool do_funnels = ( grid.z >= 0 );
 
     // check spoiled stuff, and fill up funnels while we're at it
+    process_items_in_submap( *tmpsub, grid );
     for( int x = 0; x < SEEX; x++ ) {
         for( int y = 0; y < SEEY; y++ ) {
             const tripoint pnt = sm_to_ms_copy( grid ) + point( x, y );
@@ -7074,10 +7061,6 @@ void map::actualize( const tripoint &grid )
             const auto &furn = this->furn( pnt ).obj();
             if( furn.has_flag( "EMITTER" ) ) {
                 field_furn_locs.push_back( pnt );
-            }
-            // plants contain a seed item which must not be removed under any circumstances
-            if( !furn.has_flag( "DONT_REMOVE_ROTTEN" ) ) {
-                remove_rotten_items( tmpsub->get_items( { x, y } ), pnt );
             }
 
             const auto trap_here = tmpsub->get_trap( p );
