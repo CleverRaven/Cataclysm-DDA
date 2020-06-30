@@ -19,6 +19,12 @@
   },
   {
     "type": "SPECIES",
+    "id": "CYBORG",
+    "description": "an alien cyborg",
+    "footsteps": "heavy thuds."
+  },
+  {
+    "type": "SPECIES",
     "id": "REPTILE",
     "description": "a reptile",
     "fear_triggers": [ "HURT", "FIRE" ]

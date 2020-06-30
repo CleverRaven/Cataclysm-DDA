@@ -652,5 +652,11 @@
     "id": "300blk",
     "name": ".300 AAC Blackout",
     "default": "300blk"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "123ln",
+    "name": "12.3ln cartridge",
+    "default": "123ln"
   }
 ]
