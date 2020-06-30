@@ -7687,8 +7687,10 @@ bool Character::invoke_item( item *used, const std::string &method )
 
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt )
 {
-    if( !has_enough_charges( *used, true ) || ( used->is_medication() &&
-            !can_use_heal_item( *used ) ) ) {
+    if( !has_enough_charges( *used, true ) ) {
+        return false;
+    }
+    if( used->is_medication() && !can_use_heal_item( *used ) ) {
         add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
         return false;
     }
