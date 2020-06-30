@@ -23,7 +23,7 @@
     "name": "CQB SI shotgun",
     "description": "The integrated underbarrel shotgun of this gun which holds a single shot.  It's irremovable.",
     "weight": "2600 g",
-    "volume": 0,
+    "volume": "0 L",
     "price": 95000,
     "to_hit": -1,
     "material": [ "steel" ],
