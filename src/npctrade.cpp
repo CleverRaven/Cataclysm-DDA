@@ -163,6 +163,11 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
             return;
         }
 
+        if( it.count() <= 0 ) {
+            debugmsg( "item %s has zero or negative charges", it.typeId().str() );
+            return;
+        }
+
         const int market_price = it.price( true );
         int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
@@ -212,9 +217,13 @@ void item_pricing::set_values( int ip_count )
         count = ip_count;
     } else {
         charges = i_p->count();
-        price /= charges;
-        vol /= charges;
-        weight /= charges;
+        if( charges > 0 ) {
+            price /= charges;
+            vol /= charges;
+            weight /= charges;
+        } else {
+            debugmsg( "item %s has zero or negative charges", i_p->typeId().str() );
+        }
     }
 }
 
