@@ -1011,8 +1011,8 @@ void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
         // revealing the map only makes sense for the avatar
         return;
     }
-    const tripoint center = you->global_omt_location();
-    overmap_buffer.reveal( center.xy(), sp.aoe(), center.z );
+    const tripoint_abs_omt center = you->global_omt_location();
+    overmap_buffer.reveal( center.xy(), sp.aoe(), center.z() );
 }
 
 void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &target )

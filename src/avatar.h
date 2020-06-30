@@ -125,7 +125,7 @@ class avatar : public player
          * Returns the target of the active mission or @ref overmap::invalid_tripoint if there is
          * no active mission.
          */
-        tripoint get_active_mission_target() const;
+        tripoint_abs_omt get_active_mission_target() const;
         /**
          * Set which mission is active. The mission must be listed in @ref active_missions.
          */

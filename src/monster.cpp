@@ -2261,7 +2261,8 @@ void monster::die( Creature *nkiller )
         const tripoint abssub = ms_to_sm_copy( here.getabs( pos() ) );
         // Do it for overmap above/below too
         for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
-            for( auto &mgp : overmap_buffer.groups_at( p ) ) {
+            // TODO: fix point types
+            for( auto &mgp : overmap_buffer.groups_at( tripoint_abs_sm( p ) ) ) {
                 if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
                     mgp->dying = true;
                 }

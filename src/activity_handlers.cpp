@@ -3006,7 +3006,9 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             return;
         }
         map &here = get_map();
-        tripoint sm_tri = here.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
+        // TODO: fix point types
+        tripoint sm_tri = here.getlocal(
+                              project_to<coords::scale::map_square>( p->omt_path.back() ).raw() );
         tripoint centre_sub = sm_tri + point( SEEX, SEEY );
         if( !here.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
@@ -4336,16 +4338,16 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
         return;
     }
     // Breadth-first search forest tiles until one reveals new overmap tiles.
-    std::queue<tripoint> q;
-    std::unordered_set<tripoint> seen;
-    tripoint loc = p->global_omt_location();
+    std::queue<tripoint_abs_omt> q;
+    std::unordered_set<tripoint_abs_omt> seen;
+    tripoint_abs_omt loc = p->global_omt_location();
     q.push( loc );
     seen.insert( loc );
     const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
         return ter.obj().is_wooded() || ter.obj().get_name() == "field";
     };
     while( !q.empty() ) {
-        tripoint tpt = q.front();
+        tripoint_abs_omt tpt = q.front();
         if( overmap_buffer.reveal( tpt, 3, filter ) ) {
             if( p->has_trait( trait_SPIRITUAL ) ) {
                 p->add_morale( MORALE_TREE_COMMUNION, 2, 30, 8_hours, 6_hours );
@@ -4358,7 +4360,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             }
             return;
         }
-        for( const tripoint &neighbor : points_in_radius( tpt, 1 ) ) {
+        for( const tripoint_abs_omt &neighbor : points_in_radius( tpt, 1 ) ) {
             if( seen.find( neighbor ) != seen.end() ) {
                 continue;
             }

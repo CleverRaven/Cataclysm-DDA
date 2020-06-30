@@ -20,6 +20,7 @@
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "debug.h"
@@ -113,7 +114,7 @@ void talk_function::companion_mission( npc &p )
     mission_data mission_key;
 
     std::string role_id = p.companion_mission_role_id;
-    const tripoint omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.global_omt_location();
     std::string title = _( "Outpost Missions" );
     if( role_id == "SCAVENGER" ) {
         title = _( "Junk Shop Missions" );
@@ -363,8 +364,9 @@ void talk_function::commune_refuge_caravan( mission_data &mission_key, npc &p )
     }
 }
 
-bool talk_function::display_and_choose_opts( mission_data &mission_key, const tripoint &omt_pos,
-        const std::string &role_id, const std::string &title )
+bool talk_function::display_and_choose_opts(
+    mission_data &mission_key, const tripoint_abs_omt &omt_pos, const std::string &role_id,
+    const std::string &title )
 {
     if( mission_key.entries.empty() ) {
         popup( _( "There are no missions at this colony.  Press Spacebar…" ) );
@@ -678,11 +680,11 @@ npc_ptr talk_function::individual_mission( npc &p, const std::string &desc,
         const std::string &miss_id, bool group, const std::vector<item *> &equipment,
         const std::map<skill_id, int> &required_skills )
 {
-    const tripoint omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.global_omt_location();
     return individual_mission( omt_pos, p.companion_mission_role_id, desc, miss_id, group,
                                equipment, required_skills );
 }
-npc_ptr talk_function::individual_mission( const tripoint &omt_pos,
+npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
         const std::string &role_id, const std::string &desc,
         const std::string &miss_id, bool group, const std::vector<item *> &equipment,
         const std::map<skill_id, int> &required_skills )
@@ -742,9 +744,9 @@ void talk_function::caravan_depart( npc &p, const std::string &dest, const std::
 int talk_function::caravan_dist( const std::string &dest )
 {
     Character &player_character = get_player_character();
-    const tripoint site = overmap_buffer.find_closest( player_character.global_omt_location(), dest, 0,
-                          false );
-    int distance = rl_dist( player_character.pos(), site );
+    const tripoint_abs_omt site =
+        overmap_buffer.find_closest( player_character.global_omt_location(), dest, 0, false );
+    int distance = rl_dist( player_character.global_omt_location(), site );
     return distance;
 }
 
@@ -922,10 +924,11 @@ void talk_function::field_build_1( npc &p )
     }
     p.set_mutation( trait_NPC_CONSTRUCTION_LEV_1 );
     player_character.cash += -100000;
-    const tripoint site = overmap_buffer.find_closest( player_character.global_omt_location(),
-                          "ranch_camp_63", 20, false );
+    const tripoint_abs_omt site =
+        overmap_buffer.find_closest( player_character.global_omt_location(), "ranch_camp_63", 20,
+                                     false );
     tinymap bay;
-    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.load( project_to<coords::scale::submap>( site ), false );
     bay.draw_square_ter( t_dirt, point( 5, 4 ), point( 15, 14 ) );
     bay.draw_square_ter( t_dirtmound, point( 6, 5 ), point( 6, 13 ) );
     bay.draw_square_ter( t_dirtmound, point( 8, 5 ), point( 8, 13 ) );
@@ -947,11 +950,11 @@ void talk_function::field_build_2( npc &p )
     }
     p.set_mutation( trait_NPC_CONSTRUCTION_LEV_2 );
     player_character.cash += -550000;
-    const tripoint site = overmap_buffer.find_closest( player_character.global_omt_location(),
-                          "ranch_camp_63",
-                          20, false );
+    const tripoint_abs_omt site =
+        overmap_buffer.find_closest( player_character.global_omt_location(), "ranch_camp_63", 20,
+                                     false );
     tinymap bay;
-    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.load( project_to<coords::scale::submap>( site ), false );
     bay.draw_square_ter( t_fence, point( 4, 3 ), point( 16, 3 ) );
     bay.draw_square_ter( t_fence, point( 4, 15 ), point( 16, 15 ) );
     bay.draw_square_ter( t_fence, point( 4, 3 ), point( 4, 15 ) );
@@ -1007,10 +1010,10 @@ void talk_function::field_plant( npc &p, const std::string &place )
     }
 
     //Now we need to find how many free plots we have to plant in...
-    const tripoint site = overmap_buffer.find_closest( player_character.global_omt_location(), place,
-                          20, false );
+    const tripoint_abs_omt site = overmap_buffer.find_closest(
+                                      player_character.global_omt_location(), place, 20, false );
     tinymap bay;
-    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.load( project_to<coords::scale::submap>( site ), false );
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == t_dirtmound ) {
             empty_plots++;
@@ -1062,14 +1065,14 @@ void talk_function::field_harvest( npc &p, const std::string &place )
 {
     Character &player_character = get_player_character();
     //First we need a list of plants that can be harvested...
-    const tripoint site = overmap_buffer.find_closest( player_character.global_omt_location(), place,
-                          20, false );
+    const tripoint_abs_omt site = overmap_buffer.find_closest(
+                                      player_character.global_omt_location(), place, 20, false );
     tinymap bay;
     item tmp;
     std::vector<itype_id> seed_types;
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
-    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.load( project_to<coords::scale::submap>( site ), false );
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_str_id( "f_plant_harvest" ) && !items.empty() ) {
@@ -1284,12 +1287,12 @@ bool talk_function::scavenging_raid_return( npc &p )
     }
     Character &player_character = get_player_character();
     //The loot value needs to be added to the faction - what the player is payed
-    tripoint loot_location = player_character.global_omt_location();
+    tripoint_abs_omt loot_location = player_character.global_omt_location();
     // Only check at the ground floor.
-    loot_location.z = 0;
+    loot_location.z() = 0;
     for( int i = 0; i < rng( 2, 3 ); i++ ) {
-        const tripoint site = overmap_buffer.find_closest( loot_location, "house", 0, false,
-                              ot_match_type::prefix );
+        const tripoint_abs_omt site = overmap_buffer.find_closest(
+                                          loot_location, "house", 0, false, ot_match_type::prefix );
         overmap_buffer.reveal( site, 2 );
         loot_building( site );
     }
@@ -1497,35 +1500,29 @@ bool talk_function::forage_return( npc &p )
 }
 
 bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group,
-        const tripoint &om_tgt, bool try_engage )
+        const tripoint_abs_omt &om_tgt, bool try_engage )
 {
     if( overmap_buffer.is_safe( om_tgt ) ) {
         //Should work but is_safe is always returning true regardless of what is there.
         //return true;
     }
 
-    //If the map isn't generated we need to do that...
-    if( MAPBUFFER.lookup_submap( om_to_sm_copy( om_tgt ) ) == nullptr ) {
-        //This doesn't gen monsters...
-        //tinymap tmpmap;
-        //tmpmap.generate( om_tgt.x * 2, om_tgt.y * 2, om_tgt.z, calendar::turn );
-        //tmpmap.save();
-    }
+    tripoint_abs_sm sm_tgt = project_to<coords::scale::submap>( om_tgt );
 
     tinymap target_bay;
-    target_bay.load( tripoint( om_tgt.x * 2, om_tgt.y * 2, om_tgt.z ), false );
+    target_bay.load( sm_tgt, false );
     std::vector< monster * > monsters_around;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
-            point sm( ( om_tgt.x * 2 ) + x, ( om_tgt.x * 2 ) + y );
-            const point omp = sm_to_om_remain( sm );
+            tripoint_abs_sm sm = sm_tgt + point( x, y );
+            point_abs_om omp;
+            tripoint_om_sm local_sm;
+            std::tie( omp, local_sm ) = project_remain<coords::scale::overmap>( sm );
             overmap &omi = overmap_buffer.get( omp );
 
-            const tripoint current_submap_loc( tripoint( 2 * om_tgt.x, 2 * om_tgt.y, om_tgt.z ) + point( x,
-                                               y ) );
-            auto monster_bucket = omi.monster_map.equal_range( current_submap_loc );
+            auto monster_bucket = omi.monster_map.equal_range( local_sm );
             std::for_each( monster_bucket.first,
-            monster_bucket.second, [&]( std::pair<const tripoint, monster> &monster_entry ) {
+            monster_bucket.second, [&]( std::pair<const tripoint_om_sm, monster> &monster_entry ) {
                 monster &this_monster = monster_entry.second;
                 monsters_around.push_back( &this_monster );
             } );
@@ -1762,7 +1759,7 @@ std::vector<npc_ptr> talk_function::companion_list( const npc &p, const std::str
         bool contains )
 {
     std::vector<npc_ptr> available;
-    const tripoint omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.global_omt_location();
     for( const auto &elem : overmap_buffer.get_companion_mission_npcs() ) {
         npc_companion_mission c_mission = elem->get_companion_mission();
         if( c_mission.position == omt_pos && c_mission.mission_id == mission_id &&
@@ -1907,7 +1904,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
                 available.push_back( guy );
             }
         } else {
-            const tripoint &guy_omt_pos = guy->global_omt_location();
+            const tripoint_abs_omt guy_omt_pos = guy->global_omt_location();
             cata::optional<basecamp *> guy_camp = overmap_buffer.find_camp( guy_omt_pos.xy() );
             if( guy_camp ) {
                 // get NPCs assigned to guard a remote base
@@ -1990,11 +1987,11 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
 npc_ptr talk_function::companion_choose_return( const npc &p, const std::string &mission_id,
         const time_point &deadline )
 {
-    const tripoint omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.global_omt_location();
     const std::string &role_id = p.companion_mission_role_id;
     return companion_choose_return( omt_pos, role_id, mission_id, deadline );
 }
-npc_ptr talk_function::companion_choose_return( const tripoint &omt_pos,
+npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
         const std::string &role_id,
         const std::string &mission_id,
         const time_point &deadline,
@@ -2041,10 +2038,10 @@ npc_ptr talk_function::companion_choose_return( const tripoint &omt_pos,
 }
 
 //Smash stuff, steal valuables, and change map maker
-void talk_function::loot_building( const tripoint &site )
+void talk_function::loot_building( const tripoint_abs_omt &site )
 {
     tinymap bay;
-    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.load( project_to<coords::scale::submap>( site ), false );
     for( const tripoint &p : bay.points_on_zlevel() ) {
         const ter_id t = bay.ter( p );
         //Open all the doors, doesn't need to be exhaustive

@@ -1886,7 +1886,7 @@ void talk_effect_fun_t::set_mapgen_update( const JsonObject &jo, const std::stri
     function = [target_params, update_ids]( const dialogue & d ) {
         mission_target_params update_params = target_params;
         update_params.guy = d.beta->get_npc();
-        const tripoint omt_pos = mission_util::get_om_terrain_pos( update_params );
+        const tripoint_abs_omt omt_pos = mission_util::get_om_terrain_pos( update_params );
         for( const std::string &mapgen_update_id : update_ids ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, d.beta->selected_mission() );
         }
