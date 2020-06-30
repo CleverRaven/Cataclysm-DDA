@@ -16,6 +16,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::avatar_moves: return "avatar_moves";
         case event_type::awakes_dark_wyrms: return "awakes_dark_wyrms";
         case event_type::becomes_wanted: return "becomes_wanted";
+        case event_type::broken_bone: return "broken_bone";
         case event_type::broken_bone_mends: return "broken_bone_mends";
         case event_type::buries_corpse: return "buries_corpse";
         case event_type::causes_resonance_cascade: return "causes_resonance_cascade";
@@ -36,6 +37,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::crosses_marloss_threshold: return "crosses_marloss_threshold";
         case event_type::crosses_mutation_threshold: return "crosses_mutation_threshold";
         case event_type::crosses_mycus_threshold: return "crosses_mycus_threshold";
+        case event_type::cuts_tree: return "cuts_tree";
         case event_type::dermatik_eggs_hatch: return "dermatik_eggs_hatch";
         case event_type::dermatik_eggs_injected: return "dermatik_eggs_injected";
         case event_type::destroys_triffid_grove: return "destroys_triffid_grove";
@@ -56,7 +58,9 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::gains_addiction: return "gains_addiction";
         case event_type::gains_mutation: return "gains_mutation";
         case event_type::gains_skill_level: return "gains_skill_level";
+        case event_type::game_load: return "game_load";
         case event_type::game_over: return "game_over";
+        case event_type::game_save: return "game_save";
         case event_type::game_start: return "game_start";
         case event_type::installs_cbm: return "installs_cbm";
         case event_type::installs_faulty_cbm: return "installs_faulty_cbm";
@@ -68,6 +72,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::player_fails_conduct: return "player_fails_conduct";
         case event_type::player_gets_achievement: return "player_gets_achievement";
         case event_type::player_levels_spell: return "player_levels_spell";
+        case event_type::reads_book: return "reads_book";
         case event_type::releases_subspace_specimens: return "releases_subspace_specimens";
         case event_type::removes_cbm: return "removes_cbm";
         case event_type::seals_hazardous_material_sarcophagus: return "seals_hazardous_material_sarcophagus";
@@ -77,6 +82,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::terminates_subspace_specimens: return "terminates_subspace_specimens";
         case event_type::throws_up: return "throws_up";
         case event_type::triggers_alarm: return "triggers_alarm";
+        case event_type::uses_debug_menu: return "uses_debug_menu";
         // *INDENT-ON*
         case event_type::num_event_types:
             break;
@@ -101,7 +107,7 @@ DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character_item )
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 69,
+static_assert( static_cast<int>( event_type::num_event_types ) == 75,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -115,6 +121,7 @@ DEFINE_EVENT_FIELDS( activates_artifact )
 DEFINE_EVENT_FIELDS( administers_mutagen )
 DEFINE_EVENT_FIELDS( avatar_enters_omt )
 DEFINE_EVENT_FIELDS( avatar_moves )
+DEFINE_EVENT_FIELDS( broken_bone )
 DEFINE_EVENT_FIELDS( broken_bone_mends )
 DEFINE_EVENT_FIELDS( buries_corpse )
 DEFINE_EVENT_FIELDS( character_forgets_spell )
@@ -136,7 +143,9 @@ DEFINE_EVENT_FIELDS( fuel_tank_explodes )
 DEFINE_EVENT_FIELDS( gains_addiction )
 DEFINE_EVENT_FIELDS( gains_mutation )
 DEFINE_EVENT_FIELDS( gains_skill_level )
+DEFINE_EVENT_FIELDS( game_load )
 DEFINE_EVENT_FIELDS( game_over )
+DEFINE_EVENT_FIELDS( game_save )
 DEFINE_EVENT_FIELDS( game_start )
 DEFINE_EVENT_FIELDS( installs_cbm )
 DEFINE_EVENT_FIELDS( installs_faulty_cbm )
@@ -149,6 +158,7 @@ DEFINE_EVENT_FIELDS( player_levels_spell )
 DEFINE_EVENT_FIELDS( removes_cbm )
 DEFINE_EVENT_FIELDS( telefrags_creature )
 DEFINE_EVENT_FIELDS( teleports_into_wall )
+DEFINE_EVENT_FIELDS( uses_debug_menu )
 
 } // namespace event_detail
 

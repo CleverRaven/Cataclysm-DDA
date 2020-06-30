@@ -28,7 +28,7 @@
     "explosion": { "power": 600, "shrapnel": { "casing_mass": 3214, "fragment_mass": 0.5 } },
     "//": "uncraftable due to complexity of the physics involved",
     "looks_like": "cu_pipe",
-    "material": "copper",
+    "material": [ "copper" ],
     "symbol": "|",
     "color": "brown"
   }

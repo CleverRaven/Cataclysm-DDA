@@ -8,7 +8,7 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "withered", 1 ], [ "straw_pile", 1 ] ] ]
+    "components": [ [ [ "withered", 1 ], [ "straw_pile", 1 ], [ "tanbark", 1 ], [ "willowbark", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -19,7 +19,7 @@
     "time": "5 m",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "cordage_6", 6 ], [ "withered", 6 ], [ "straw_pile", 6 ] ] ]
+    "components": [ [ [ "cordage_6", 6 ], [ "withered", 6 ], [ "straw_pile", 6 ], [ "tanbark", 6 ], [ "willowbark", 6 ] ] ]
   },
   {
     "type": "recipe",

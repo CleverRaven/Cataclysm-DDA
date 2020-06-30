@@ -230,7 +230,7 @@ class submap : maptile_soa<SEEX, SEEY>
 
         // If is_uniform is true, this submap is a solid block of terrain
         // Uniform submaps aren't saved/loaded, because regenerating them is faster
-        bool is_uniform;
+        bool is_uniform = false;
 
         std::vector<cosmetic_t> cosmetics; // Textual "visuals" for squares
 

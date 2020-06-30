@@ -13,6 +13,55 @@
   },
   {
     "type": "mutation",
+    "id": "BIOLUM0",
+    "name": { "str": "Reflex Photophore" },
+    "points": -1,
+    "description": "A photophore has grown from your head.  You can't consciously control it, and it might start to shine in response to your emotions or your physiological state.",
+    "cost": 1,
+    "time": 810000,
+    "hunger": true,
+    "encumbrance_covered": [ [ "head", 5 ] ],
+    "changes_to": [ "BIOLUM1" ],
+    "category": [ "ELFA", "INSECT", "FISH" ],
+    "triggers": [
+      [
+        {
+          "trigger_type": "MOOD",
+          "threshold_low": 20,
+          "msg_on": { "text": "You're so happy you're glowing!", "rating": "mixed" }
+        },
+        {
+          "trigger_type": "HUNGER",
+          "threshold_low": 110,
+          "msg_on": { "text": "You're feeling hungry, time to lure some preys!", "rating": "mixed" }
+        }
+      ]
+    ],
+    "transform": { "target": "BIOLUM0_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "BIOLUM0_active",
+    "name": { "str": "Reflex Photophore (on)" },
+    "points": -1,
+    "description": "A photophore has grown from your head.  You can't consciously control it, and it might start to shine in response to your emotions or your physiological state.",
+    "copy-from": "BIOLUM0",
+    "valid": false,
+    "triggers": [
+      [
+        { "trigger_type": "MOOD", "threshold_low": 20, "msg_off": { "text": "Your glow fades.", "rating": "mixed" } },
+        {
+          "trigger_type": "HUNGER",
+          "threshold_low": 110,
+          "msg_off": { "text": "Your glow fades.", "rating": "mixed" }
+        }
+      ]
+    ],
+    "transform": { "target": "BIOLUM0", "msg_transform": "Your photophore stops glowing.", "active": false, "moves": 10 },
+    "lumination": [ [ "head", 8 ] ]
+  },
+  {
+    "type": "mutation",
     "id": "BIOLUM1",
     "name": { "str": "Weak Photophore" },
     "points": 1,
@@ -22,8 +71,19 @@
     "time": 810000,
     "hunger": true,
     "encumbrance_covered": [ [ "head", 5 ] ],
+    "prereqs": [ "BIOLUM0" ],
     "changes_to": [ "BIOLUM2" ],
-    "category": [ "ELFA", "INSECT", "FISH" ],
+    "transform": { "target": "BIOLUM1_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 },
+    "category": [ "ELFA", "INSECT", "FISH" ]
+  },
+  {
+    "type": "mutation",
+    "id": "BIOLUM1_active",
+    "name": { "str": "Weak Photophore (on)" },
+    "description": "Your photophore is glowing softly.",
+    "copy-from": "BIOLUM1",
+    "valid": false,
+    "transform": { "target": "BIOLUM1", "msg_transform": "Your photophore stops glowing.", "active": false, "moves": 10 },
     "lumination": [ [ "head", 8 ] ]
   },
   {
@@ -31,7 +91,7 @@
     "id": "BIOLUM2",
     "name": { "str": "Photophore" },
     "points": 2,
-    "description": "Your can make your photophore glow brightly.",
+    "description": "You can make your photophore glow brightly.",
     "active": true,
     "cost": 1,
     "time": 405000,
@@ -39,7 +99,68 @@
     "encumbrance_covered": [ [ "head", 5 ] ],
     "prereqs": [ "BIOLUM1" ],
     "category": [ "ELFA", "INSECT", "FISH" ],
+    "transform": { "target": "BIOLUM2_active", "msg_transform": "Your photophore starts glowing.", "active": true, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "BIOLUM2_active",
+    "name": { "str": "Photophore (on)" },
+    "description": "You photophore is glowing brightly.",
+    "copy-from": "BIOLUM2",
+    "valid": false,
+    "transform": { "target": "BIOLUM2", "msg_transform": "Your photophore stops glowing.", "active": false, "moves": 10 },
     "lumination": [ [ "head", 20 ] ]
+  },
+  {
+    "type": "mutation",
+    "id": "JEKYLL",
+    "name": { "str": "Normal Human" },
+    "points": 0,
+    "description": "You're a normal human, there's nothing wrong with you.  No need to worry.",
+    "category": [ "MEDICAL" ],
+    "triggers": [
+      [
+        {
+          "trigger_type": "MOOD",
+          "threshold_high": -50,
+          "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
+        }
+      ],
+      [
+        {
+          "trigger_type": "TIME",
+          "threshold_low": 21,
+          "threshold_high": 6,
+          "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" }
+        }
+      ]
+    ],
+    "transform": { "target": "HYDE", "msg_transform": "The anger overtakes you!", "active": false, "moves": 10 }
+  },
+  {
+    "type": "mutation",
+    "id": "HYDE",
+    "valid": false,
+    "name": { "str": "Violent Monster" },
+    "points": -1,
+    "description": "Anger clouds your mind, you can't think straight but you feel strong.",
+    "mixed_effect": true,
+    "category": [ "MEDICAL" ],
+    "triggers": [
+      [
+        {
+          "trigger_type": "TIME",
+          "threshold_low": 6,
+          "threshold_high": 21,
+          "msg_on": { "text": "As the morning comes you return back to normal.", "rating": "good" }
+        }
+      ]
+    ],
+    "transform": { "target": "JEKYLL", "msg_transform": "The anger subsides.", "active": false, "moves": 10 },
+    "passive_mods": { "int_mod": -8, "str_mod": 3 },
+    "ugliness": 8,
+    "visibility": 8,
+    "social_modifiers": { "intimidate": 4 }
   },
   {
     "type": "mutation",
@@ -148,7 +269,7 @@
     "id": "FASTHEALER",
     "name": { "str": "Fast Healer" },
     "points": 2,
-    "description": "You heal faster when sleeping and will even recover a small amount of HP when not sleeping.",
+    "description": "Your wounds heal themselves quicker than usual.  You heal 50% faster whilst asleep and 20% faster whilst awake.  Your broken limbs also heal twice as fast.",
     "starting_trait": true,
     "types": [ "HEALING" ],
     "changes_to": [ "FASTHEALER2", "REGEN_LIZ" ],
@@ -774,18 +895,18 @@
     "id": "SLOWHEALER",
     "name": { "str": "Slow Healer" },
     "points": -2,
-    "description": "You heal a little slower than most; sleeping will heal less HP.",
+    "description": "Your wounds heal a little slower than most.  Your HP whilst asleep as well as your broken limbs heal at 75% the regular rate.",
     "starting_trait": true,
     "types": [ "HEALING" ],
     "healing_resting": -0.25,
-    "mending_modifier": 0.5
+    "mending_modifier": 0.75
   },
   {
     "type": "mutation",
     "id": "SLOWHEALER2",
     "name": { "str": "Poor Healer" },
     "points": -4,
-    "description": "Your health recovery through sleeping is severely impaired and causes you to recover only a third of usual HP.",
+    "description": "Your health recovery is severely impaired.  Your HP whilst asleep as well as your broken limbs heal at 33% the regular rate.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
@@ -798,7 +919,7 @@
     "id": "SLOWHEALER3",
     "name": { "str": "Imperceptive Healer" },
     "points": -8,
-    "description": "You recover barely any health through sleeping - it will heal only one tenth of usual HP.",
+    "description": "Wounds are incredibly dangerous to you, as they barely heal at all.  Your HP whilst asleep as well as your broken limbs heal at 10% the regular rate.",
     "starting_trait": true,
     "valid": false,
     "purifiable": false,
@@ -1544,7 +1665,7 @@
     "id": "FASTHEALER2",
     "name": { "str": "Very Fast Healer" },
     "points": 4,
-    "description": "Your flesh regenerates slowly, and you will regain HP even when not sleeping.",
+    "description": "Your wounds heal very quickly.  You heal 50% faster whilst asleep and 66% faster whilst awake.  Your broken limbs also heal 4 times faster than usual.",
     "types": [ "HEALING" ],
     "prereqs": [ "FASTHEALER" ],
     "changes_to": [ "REGEN" ],
@@ -1558,7 +1679,7 @@
     "id": "REGEN",
     "name": { "str": "Regeneration" },
     "points": 6,
-    "description": "Your flesh regenerates from wounds incredibly quickly.",
+    "description": "Your flesh regenerates from wounds incredibly quickly.  You heal 150% faster whilst asleep and 200% faster whilst awake.  Your broken limbs also heal 16 times faster than usual.",
     "types": [ "HEALING" ],
     "prereqs": [ "FASTHEALER2" ],
     "category": [ "SLIME", "TROGLOBITE" ],
@@ -1573,7 +1694,7 @@
     "points": 5,
     "valid": false,
     "purifiable": false,
-    "description": "Your broken limbs mend themselves without significant difficulty.",
+    "description": "Your broken limbs mend themselves without significant difficulty.  You do not require splints and broken limbs heal 20 times faster than usual.",
     "cancels": [ "ROT1", "ROT2", "ROT3" ],
     "prereqs": [ "FASTHEALER" ],
     "threshreq": [ "THRESH_LIZARD" ],
@@ -2627,6 +2748,7 @@
     "id": "CLAWS_RETRACT",
     "name": { "str": "Retractable Claws" },
     "points": 2,
+    "active": true,
     "description": "You have claws on the ends of your fingers, and can extend or retract them as desired.  Gloves will still get in the way, though.",
     "types": [ "CLAWS" ],
     "prereqs": [ "CLAWS" ],
@@ -2640,6 +2762,7 @@
     "id": "CLAWS_RETRACT_active",
     "name": { "str": "Extended Claws" },
     "copy-from": "CLAWS_RETRACT",
+    "active": true,
     "valid": false,
     "ugliness": 1,
     "cut_dmg_bonus": 3,
@@ -6723,7 +6846,7 @@
     "id": "FAST_REFLEXES",
     "name": { "str": "Fast Reflexes" },
     "points": 3,
-    "description": "You have fast reflexes, allowing you to dodge attacks more easily.",
+    "description": "You have fast reflexes, allowing you to dodge attacks and grabs more easily.",
     "starting_trait": true,
     "dodge_modifier": 2
   }

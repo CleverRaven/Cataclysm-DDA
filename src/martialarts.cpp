@@ -16,7 +16,6 @@
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "item.h"
@@ -468,7 +467,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         return false;
     }
 
-    if( wall_adjacent && !g->m.is_wall_adjacent( u.pos() ) ) {
+    if( wall_adjacent && !get_map().is_wall_adjacent( u.pos() ) ) {
         return false;
     }
 
@@ -645,6 +644,10 @@ void ma_buff::apply_character( Character &u ) const
 int ma_buff::hit_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::HIT );
+}
+int ma_buff::critical_hit_chance_bonus( const Character &u ) const
+{
+    return bonuses.get_flat( u, affected_stat::CRITICAL_HIT_CHANCE );
 }
 int ma_buff::dodge_bonus( const Character &u ) const
 {
@@ -978,7 +981,8 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
                             skill_unarmed );
 
     // Success conditions.
-    if( !owner.is_limb_broken( hp_arm_l ) || !owner.is_limb_broken( hp_arm_r ) ) {
+    if( !owner.is_limb_broken( bodypart_id( "arm_l" ) ) ||
+        !owner.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
         } else if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bio_armor_arms ) ) {
@@ -1081,6 +1085,14 @@ float Character::mabuff_tohit_bonus() const
     } );
     return ret;
 }
+float Character::mabuff_critical_hit_chance_bonus() const
+{
+    float ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
+        ret += d.get_intensity() * b.critical_hit_chance_bonus( *this );
+    } );
+    return ret;
+}
 float Character::mabuff_dodge_bonus() const
 {
     float ret = 0;
@@ -1100,9 +1112,9 @@ int Character::mabuff_block_bonus() const
 int Character::mabuff_block_effectiveness_bonus( ) const
 {
     int ret = 0;
-    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff &b, const effect &d ) {
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         ret += d.get_intensity() * b.block_effectiveness_bonus( *this );
-        } );
+    } );
     return ret;
 }
 int Character::mabuff_speed_bonus() const

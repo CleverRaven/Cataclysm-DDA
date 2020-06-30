@@ -4,7 +4,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "map_helpers.h"
 #include "rng.h"
@@ -19,7 +18,7 @@
 TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][item_location]" )
 {
     clear_map();
-    map &m = g->m;
+    map &m = get_map();
     tripoint pos( 60, 60, 0 );
     m.i_clear( pos );
     m.add_item( pos, item( "jeans" ) );
@@ -56,7 +55,7 @@ TEST_CASE( "item_location_can_maintain_reference_despite_item_removal", "[item][
 TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]" )
 {
     clear_map();
-    map &m = g->m;
+    map &m = get_map();
     tripoint pos( 60, 60, 0 );
     m.i_clear( pos );
     m.add_item( pos, item( "tshirt" ) );
@@ -69,7 +68,7 @@ TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]"
 
 TEST_CASE( "item_in_container", "[item][item_location]" )
 {
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_avatar();
     item &backpack = dummy.i_add( item( "backpack" ) );
     item jeans( "jeans" );

@@ -37,8 +37,7 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
     for( int distance = row; distance <= radius && !blocked; distance++ ) {
         delta.y = -distance;
         for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
-            const int currentX = offsetX + delta.x * xx + delta.y * xy;
-            const int currentY = offsetY + delta.x * yx + delta.y * yy;
+            const point current( offsetX + delta.x * xx + delta.y * xy, offsetY + delta.x * yx + delta.y * yy );
             const float leftSlope = ( delta.x - 0.5f ) / ( delta.y + 0.5f );
             const float rightSlope = ( delta.x + 0.5f ) / ( delta.y - 0.5f );
 
@@ -50,12 +49,12 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
 
             //check if it's within the visible area and mark visible if so
             if( rl_dist( tripoint_zero, delta ) <= radius ) {
-                output_cache[currentX][currentY] = LIGHT_TRANSPARENCY_CLEAR;
+                output_cache[current.x][current.y] = LIGHT_TRANSPARENCY_CLEAR;
             }
 
             if( blocked ) {
                 //previous cell was a blocking one
-                if( input_array[currentX][currentY] == LIGHT_TRANSPARENCY_SOLID ) {
+                if( input_array[current.x][current.y] == LIGHT_TRANSPARENCY_SOLID ) {
                     //hit a wall
                     newStart = rightSlope;
                 } else {
@@ -63,7 +62,7 @@ static void oldCastLight( float ( &output_cache )[MAPSIZE * SEEX][MAPSIZE * SEEY
                     start = newStart;
                 }
             } else {
-                if( input_array[currentX][currentY] == LIGHT_TRANSPARENCY_SOLID &&
+                if( input_array[current.x][current.y] == LIGHT_TRANSPARENCY_SOLID &&
                     distance < radius ) {
                     //hit a wall within sight line
                     blocked = true;
@@ -226,23 +225,22 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
 
     map dummy;
 
-    const int offsetX = 65;
-    const int offsetY = 65;
+    const point offset( 65, 65 );
 
     const auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
-        oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offsetX, offsetY, 0 );
-        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, 1, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, 1, 1, 0, offset.x, offset.y, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, 1, offset.x, offset.y, 0 );
 
-        oldCastLight( seen_squares_control, transparency_cache, 0, -1, 1, 0, offsetX, offsetY, 0 );
-        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, 1, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, -1, 1, 0, offset.x, offset.y, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, 1, offset.x, offset.y, 0 );
 
-        oldCastLight( seen_squares_control, transparency_cache, 0, 1, -1, 0, offsetX, offsetY, 0 );
-        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, -1, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, 1, -1, 0, offset.x, offset.y, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 1, 0, 0, -1, offset.x, offset.y, 0 );
 
-        oldCastLight( seen_squares_control, transparency_cache, 0, -1, -1, 0, offsetX, offsetY, 0 );
-        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, -1, offsetX, offsetY, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, 0, -1, -1, 0, offset.x, offset.y, 0 );
+        oldCastLight( seen_squares_control, transparency_cache, -1, 0, 0, -1, offset.x, offset.y, 0 );
     }
     const auto end1 = std::chrono::high_resolution_clock::now();
 
@@ -250,7 +248,7 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
     for( int i = 0; i < iterations; i++ ) {
         // Then the current algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            seen_squares_experiment, transparency_cache, point( offsetX, offsetY ) );
+            seen_squares_experiment, transparency_cache, offset );
     }
     const auto end2 = std::chrono::high_resolution_clock::now();
 
@@ -269,7 +267,7 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
     for( int x = 0; test_bresenham && passed && x < MAPSIZE * SEEX; ++x ) {
         for( int y = 0; y < MAPSIZE * SEEX; ++y ) {
             // Check that both agree on the outcome, but not necessarily the same values.
-            if( bresenham_visibility_check( point( offsetX, offsetY ), point( x, y ), transparency_cache ) !=
+            if( bresenham_visibility_check( offset, point( x, y ), transparency_cache ) !=
                 ( seen_squares_experiment[x][y] > LIGHT_TRANSPARENCY_SOLID ) ) {
                 passed = false;
                 break;
@@ -278,7 +276,7 @@ static void shadowcasting_runoff( const int iterations, const bool test_bresenha
     }
 
     if( !passed ) {
-        print_grid_comparison( point( offsetX, offsetY ), transparency_cache, seen_squares_control,
+        print_grid_comparison( offset, transparency_cache, seen_squares_control,
                                seen_squares_experiment );
     }
 
@@ -296,14 +294,13 @@ static void shadowcasting_float_quad(
 
     map dummy;
 
-    const int offsetX = 65;
-    const int offsetY = 65;
+    const point offset( 65, 65 );
 
     const auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         castLightAll<float, four_quadrants, sight_calc, sight_check, update_light_quadrants,
                      accumulate_transparency>(
-                         lit_squares_quad, transparency_cache, point( offsetX, offsetY ) );
+                         lit_squares_quad, transparency_cache, offset );
     }
     const auto end1 = std::chrono::high_resolution_clock::now();
 
@@ -312,7 +309,7 @@ static void shadowcasting_float_quad(
         // Then the current algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light,
                      accumulate_transparency>(
-                         lit_squares_float, transparency_cache, point( offsetX, offsetY ) );
+                         lit_squares_float, transparency_cache, offset );
     }
     const auto end2 = std::chrono::high_resolution_clock::now();
 
@@ -332,7 +329,7 @@ static void shadowcasting_float_quad(
     bool passed = grids_are_equivalent( lit_squares_float, lit_squares_quad );
 
     if( !passed ) {
-        print_grid_comparison( point( offsetX, offsetY ), transparency_cache, lit_squares_float,
+        print_grid_comparison( offset, transparency_cache, lit_squares_float,
                                lit_squares_quad );
     }
 
@@ -350,19 +347,17 @@ static void shadowcasting_3d_2d( const int iterations )
 
     map dummy;
 
-    const int offsetX = 65;
-    const int offsetY = 65;
-    const int offsetZ = 0;
+    const tripoint offset( 65, 65, 0 );
 
     const auto start1 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // First the control algorithm.
         castLightAll<float, float, sight_calc, sight_check, update_light, accumulate_transparency>(
-            seen_squares_control, transparency_cache, point( offsetX, offsetY ) );
+            seen_squares_control, transparency_cache, offset.xy() );
     }
     const auto end1 = std::chrono::high_resolution_clock::now();
 
-    const tripoint origin( offsetX, offsetY, offsetZ );
+    const tripoint origin( offset );
     std::array<const float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> transparency_caches;
     std::array<float ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> seen_caches;
     std::array<const bool ( * )[MAPSIZE *SEEX][MAPSIZE *SEEY], OVERMAP_LAYERS> floor_caches;
@@ -396,7 +391,7 @@ static void shadowcasting_3d_2d( const int iterations )
     bool passed = grids_are_equivalent( seen_squares_control, seen_squares_experiment );
 
     if( !passed ) {
-        print_grid_comparison( point( offsetX, offsetY ), transparency_cache, seen_squares_control,
+        print_grid_comparison( offset.xy(), transparency_cache, seen_squares_control,
                                seen_squares_experiment );
     }
 
@@ -405,10 +400,10 @@ static void shadowcasting_3d_2d( const int iterations )
 
 // T, O and V are 'T'ransparent, 'O'paque and 'V'isible.
 // X marks the player location, which is not set to visible by this algorithm.
-#define T LIGHT_TRANSPARENCY_CLEAR
-#define O LIGHT_TRANSPARENCY_SOLID
-#define V LIGHT_TRANSPARENCY_CLEAR
-#define X LIGHT_TRANSPARENCY_SOLID
+static constexpr float T = LIGHT_TRANSPARENCY_CLEAR;
+static constexpr float O = LIGHT_TRANSPARENCY_SOLID;
+static constexpr float V = LIGHT_TRANSPARENCY_CLEAR;
+static constexpr float X = LIGHT_TRANSPARENCY_SOLID;
 
 const point ORIGIN( 65, 65 );
 

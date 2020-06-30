@@ -12,7 +12,7 @@
     "//": "essentially an 800lm 10W LED flashlight",
     "epower": -10,
     "bonus": 30,
-    "folded_volume": 2,
+    "folded_volume": "500 ml",
     "breaks_into": [ { "item": "scrap", "count": [ 0, 2 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -33,7 +33,7 @@
     "durability": 20,
     "description": "A bright light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates several squares inside the vehicle.",
     "bonus": 30,
-    "folded_volume": 4,
+    "folded_volume": "1 L",
     "breaks_into": [ { "item": "scrap", "prob": 50 } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -50,7 +50,7 @@
     "item": "atomic_light",
     "description": "A very dim light, self-powered by an atomic decay reaction that never stops.  When turned on, it illuminates a single square inside the vehicle that isn't suitable for crafting.",
     "bonus": 5,
-    "folded_volume": 2
+    "folded_volume": "500 ml"
   },
   {
     "id": "floodlight",
@@ -67,7 +67,7 @@
     "epower": -200,
     "bonus": 8000,
     "damage_modifier": 10,
-    "folded_volume": 8,
+    "folded_volume": "2 L",
     "breaks_into": [
       { "item": "cable", "charges": [ 1, 4 ] },
       { "item": "steel_chunk", "count": [ 0, 2 ] },
@@ -106,7 +106,7 @@
     "epower": -100,
     "bonus": 8000,
     "damage_modifier": 10,
-    "folded_volume": 1,
+    "folded_volume": "250 ml",
     "breaks_into": [ { "item": "cable", "charges": [ 1, 4 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -129,7 +129,7 @@
     "epower": -187,
     "bonus": 8000,
     "damage_modifier": 10,
-    "folded_volume": 1,
+    "folded_volume": "250 ml",
     "breaks_into": [ { "item": "cable", "charges": [ 1, 4 ] }, { "item": "scrap", "count": [ 0, 2 ] } ],
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
@@ -181,7 +181,7 @@
     "epower": -10,
     "bonus": 500,
     "damage_modifier": 10,
-    "folded_volume": 2,
+    "folded_volume": "500 ml",
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
       { "item": "steel_chunk", "count": [ 4, 6 ] },

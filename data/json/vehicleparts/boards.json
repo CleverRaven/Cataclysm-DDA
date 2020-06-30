@@ -25,7 +25,7 @@
     "broken_color": "dark_gray",
     "durability": 15,
     "description": "A cloth wall.  Keeps zombies outside the vehicle and prevents people from seeing through it.",
-    "folded_volume": 15,
+    "folded_volume": "3750 ml",
     "breaks_into": "ig_vp_cloth",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },

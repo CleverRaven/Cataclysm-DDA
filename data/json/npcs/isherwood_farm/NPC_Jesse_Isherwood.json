@@ -170,7 +170,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_JESSE_TOPICS",
-    "dynamic_line": "Go on...",
+    "dynamic_line": "Go on…",
     "responses": [
       { "text": "Looks like you are doing well here.", "topic": "TALK_ISHERWOOD_JESSE_TALK1" },
       { "text": "Do you have any animal care tips?", "topic": "TALK_ISHERWOOD_JESSE_TIPS" },

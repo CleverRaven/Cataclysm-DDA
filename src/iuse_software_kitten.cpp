@@ -10,9 +10,10 @@
 #include "translations.h"
 #include "ui_manager.h"
 
-#define EMPTY (-1)
-#define ROBOT 0
-#define KITTEN 1
+static constexpr int EMPTY = -1;
+static constexpr int ROBOT = 0;
+static constexpr int KITTEN = 1;
+
 std::string robot_finds_kitten::getmessage( int idx ) const
 {
     std::string rfimessages[MAXMESSAGES] = {
@@ -455,8 +456,8 @@ void robot_finds_kitten::process_input()
                     check.x++;
                 }
 
-                constexpr rectangle bounds( point( 0, 3 ), point( rfkCOLS, rfkLINES ) );
-                if( !bounds.contains_half_open( check ) ) {
+                constexpr half_open_rectangle bounds( point( 0, 3 ), point( rfkCOLS, rfkLINES ) );
+                if( !bounds.contains( check ) ) {
                     /* Can't move past edge */
                 } else if( rfkscreen[check.x][check.y] != EMPTY ) {
                     switch( rfkscreen[check.x][check.y] ) {

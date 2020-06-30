@@ -11,7 +11,7 @@
     "bashing": 8,
     "to_hit": -2,
     "stack_size": 4,
-    "material": "dks_blend_mat",
+    "material": [ "dks_blend_mat" ],
     "symbol": ",",
     "color": "light_cyan",
     "ammo_type": "components",
@@ -26,7 +26,7 @@
     "weight": "80 g",
     "volume": "300 ml",
     "price": 0,
-    "material": "dks_weave_mat",
+    "material": [ "dks_weave_mat" ],
     "symbol": ",",
     "color": "white",
     "flags": [ "NO_SALVAGE" ]
@@ -40,7 +40,7 @@
     "weight": "50 g",
     "volume": "250 ml",
     "price": 0,
-    "material": "dks_biopoly_mat",
+    "material": [ "dks_biopoly_mat" ],
     "symbol": ",",
     "color": "light_gray",
     "flags": [ "NO_SALVAGE" ]

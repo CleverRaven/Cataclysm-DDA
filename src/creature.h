@@ -191,10 +191,10 @@ constexpr bool operator==( const I lhs, const creature_size rhs )
     return lhs == static_cast<I>( rhs );
 }
 
-enum FacingDirection {
-    FD_NONE = 0,
-    FD_LEFT = 1,
-    FD_RIGHT = 2
+enum class FacingDirection : int {
+    NONE = 0,
+    LEFT = 1,
+    RIGHT = 2
 };
 
 class Creature
@@ -242,8 +242,14 @@ class Creature
         virtual const avatar *as_avatar() const {
             return nullptr;
         }
+        virtual monster *as_monster() {
+            return nullptr;
+        }
+        virtual const monster *as_monster() const {
+            return nullptr;
+        }
         /** return the direction the creature is facing, for sdl horizontal flip **/
-        FacingDirection facing = FD_RIGHT;
+        FacingDirection facing = FacingDirection::RIGHT;
         /** Returns true for non-real Creatures used temporarily; i.e. fake NPC's used for turret fire. */
         virtual bool is_fake() const;
         /** Sets a Creature's fake boolean. */
@@ -276,11 +282,11 @@ class Creature
          * friendly - avoid harming it, maybe even help.
          * any - any of the above, used in safemode_ui
          */
-        enum Attitude : int {
-            A_HOSTILE,
-            A_NEUTRAL,
-            A_FRIENDLY,
-            A_ANY
+        enum class Attitude : int {
+            HOSTILE,
+            NEUTRAL,
+            FRIENDLY,
+            ANY
         };
 
         /**
@@ -488,6 +494,7 @@ class Creature
         bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Check if creature has any effect with the given flag. */
         bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        std::vector<effect> get_effects_with_flag( const std::string &flag ) const;
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
@@ -561,10 +568,10 @@ class Creature
 
         virtual int get_speed() const;
         virtual creature_size get_size() const = 0;
-        virtual int get_hp( hp_part bp ) const = 0;
-        virtual int get_hp() const = 0;
-        virtual int get_hp_max( hp_part bp ) const = 0;
-        virtual int get_hp_max() const = 0;
+        virtual int get_hp( const bodypart_id &bp ) const;
+        virtual int get_hp() const;
+        virtual int get_hp_max( const bodypart_id &bp ) const;
+        virtual int get_hp_max() const;
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
         virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;
@@ -583,16 +590,45 @@ class Creature
             return false;
         }
 
+    private:
+        /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
+        /**this is the actual body of the creature*/
+        std::map<bodypart_str_id, bodypart> body;
+    public:
         anatomy_id get_anatomy() const;
         void set_anatomy( const anatomy_id &anat );
 
         bodypart_id get_random_body_part( bool main = false ) const;
         /**
-         * Returns body parts in order in which they should be displayed.
+         * Returns body parts this creature have.
          * @param only_main If true, only displays parts that can have hit points
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
+
+        std::map<bodypart_str_id, bodypart> get_body() const;
+        void set_body();
+        void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
+                                int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
+                                int fat_to_max_hp = 0 );
+        bodypart *get_part( const bodypart_id &id );
+        bodypart get_part( const bodypart_id &id ) const;
+
+        int get_part_hp_cur( const bodypart_id &id ) const;
+        int get_part_hp_max( const bodypart_id &id ) const;
+
+        int get_part_healed_total( const bodypart_id &id ) const;
+
+        void set_part_hp_cur( const bodypart_id &id, int set );
+        void set_part_hp_max( const bodypart_id &id, int set );
+        void set_part_healed_total( const bodypart_id &id, int set );
+        void mod_part_hp_cur( const bodypart_id &id, int mod );
+        void mod_part_hp_max( const bodypart_id &id, int mod );
+        void mod_part_healed_total( const bodypart_id &id, int mod );
+
+
+        void set_all_parts_hp_cur( int set );
+        void set_all_parts_hp_to_max();
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
@@ -901,32 +937,32 @@ class Creature
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately
 
-        int num_blocks; // base number of blocks/dodges per turn
-        int num_dodges;
-        int num_blocks_bonus; // bonus ""
-        int num_dodges_bonus;
+        int num_blocks = 0; // base number of blocks/dodges per turn
+        int num_dodges = 0;
+        int num_blocks_bonus = 0; // bonus ""
+        int num_dodges_bonus = 0;
 
-        int armor_bash_bonus;
-        int armor_cut_bonus;
-        int armor_bullet_bonus;
-        int speed_base; // only speed needs a base, the rest are assumed at 0 and calculated off skills
+        int armor_bash_bonus = 0;
+        int armor_cut_bonus = 0;
+        int armor_bullet_bonus = 0;
+        int speed_base = 0; // only speed needs a base, the rest are assumed at 0 and calculated off skills
 
-        int speed_bonus;
-        float dodge_bonus;
-        int block_bonus;
-        float hit_bonus;
-        int bash_bonus;
-        int cut_bonus;
-        int size_bonus;
+        int speed_bonus = 0;
+        float dodge_bonus = 0.0f;
+        int block_bonus = 0;
+        float hit_bonus = 0.0f;
+        int bash_bonus = 0;
+        int cut_bonus = 0;
+        int size_bonus = 0;
 
-        float bash_mult;
-        float cut_mult;
-        bool melee_quiet;
+        float bash_mult = 0.0f;
+        float cut_mult = 0.0f;
+        bool melee_quiet = false;
 
-        int grab_resist;
-        int throw_resist;
+        int grab_resist = 0;
+        int throw_resist = 0;
 
-        bool fake;
+        bool fake = false;
         Creature();
         Creature( const Creature & ) = default;
         Creature( Creature && ) = default;

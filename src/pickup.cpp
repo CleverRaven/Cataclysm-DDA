@@ -88,14 +88,14 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
                 const std::string sItemName = begin_iterator->tname( 1, false );
 
                 //Check the Pickup Rules
-                if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
+                if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
                     bPickup = true;
-                } else if( get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
+                } else if( get_auto_pickup().check_item( sItemName ) != rule_state::BLACKLISTED ) {
                     //No prematched pickup rule found
                     //check rules in more detail
                     get_auto_pickup().create_rule( &*begin_iterator );
 
-                    if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
+                    if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
                         bPickup = true;
                     }
                 }
@@ -108,7 +108,7 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
                     if( weight_limit && volume_limit ) {
                         if( begin_iterator->volume() <= units::from_milliliter( volume_limit * 50 ) &&
                             begin_iterator->weight() <= weight_limit * 50_gram &&
-                            get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
+                            get_auto_pickup().check_item( sItemName ) != rule_state::BLACKLISTED ) {
                             bPickup = true;
                         }
                     }
@@ -262,16 +262,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     }
 
     bool did_prompt = false;
-    if( newit.count_by_charges() ) {
-        newit.charges -= u.i_add( newit ).charges;
-        // if the item stacks with another item when added,
-        // the charges returned may be larger than the charges of the item added.
-        newit.charges = std::max( 0, newit.charges );
-    }
-    if( newit.is_ammo() && newit.charges <= 0 ) {
-        picked_up = true;
-        option = NUM_ANSWERS; //Skip the options part
-    } else if( newit.is_frozen_liquid() ) {
+    if( newit.is_frozen_liquid() ) {
         if( !( got_water = !( u.crush_frozen_liquid( newloc ) ) ) ) {
             option = STASH;
         }
@@ -346,12 +337,22 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 break;
             }
         // Intentional fallthrough
-        case STASH:
-            auto &entry = mapPickup[newit.tname()];
-            entry.second += newit.count();
-            entry.first = u.i_add( newit );
-            picked_up = true;
+        case STASH: {
+            item &added_it = u.i_add( newit, true, nullptr, /*allow_drop=*/false );
+            if( added_it.is_null() ) {
+                // failed to add, do nothing
+            } else if( &added_it == &it ) {
+                // merged to the original stack, restore original charges
+                it.charges -= newit.charges;
+            } else {
+                // successfully added
+                auto &entry = mapPickup[newit.tname()];
+                entry.second += newit.count();
+                entry.first = added_it;
+                picked_up = true;
+            }
             break;
+        }
     }
 
     if( picked_up ) {

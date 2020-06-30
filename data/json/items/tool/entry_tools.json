@@ -6,6 +6,7 @@
     "description": "This is a hefty prying tool.  Use it to open locked doors without destroying them or to lift manhole covers.  You could also wield it to bash some heads in.",
     "weight": "500 g",
     "volume": "1 L",
+    "longest_side": "60 cm",
     "price": 1300,
     "price_postapoc": 500,
     "to_hit": -1,
@@ -32,15 +33,16 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "LOCKPICK", 3 ] ],
-    "use_action": "PICK_LOCK"
+    "use_action": [ "PICK_LOCK" ]
   },
   {
     "id": "iceaxe",
     "type": "TOOL",
     "name": { "str": "ice axe" },
     "description": "This is an ice axe with hammer on its head, a multi-purpose hiking and climbing tool used by mountaineers.  It is sturdy enough to pry open closed doors or lift manhole covers.",
-    "weight": "500 g",
+    "weight": "239 g",
     "volume": "750 ml",
+    "longest_side": "45 cm",
     "price": 5000,
     "price_postapoc": 500,
     "to_hit": -2,
@@ -51,7 +53,7 @@
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1" ],
     "qualities": [ [ "HAMMER", 2 ], [ "HAMMER_FINE", 1 ], [ "PRY", 2 ] ],
-    "use_action": "CROWBAR",
+    "use_action": [ "CROWBAR" ],
     "flags": [ "DURABLE_MELEE", "BELT_CLIP", "SHEATH_AXE" ]
   },
   {
@@ -59,8 +61,9 @@
     "type": "TOOL",
     "name": { "str": "makeshift crowbar" },
     "description": "This is a pipe whose ends have been bent and hammered flat to resemble a crowbar.  Use it to open locked crates without destroying them, or to lift manhole covers.  You could also wield it to fight with, in a pinch.",
-    "weight": "1250 g",
+    "weight": "1000 g",
     "volume": "1 L",
+    "longest_side": "60 cm",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -1,
@@ -70,7 +73,7 @@
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "PRY", 1 ], [ "HAMMER", 1 ] ],
-    "use_action": "CROWBAR",
+    "use_action": [ "CROWBAR" ],
     "techniques": [ "WBLOCK_1" ],
     "flags": [ "BELT_CLIP" ]
   },
@@ -87,7 +90,7 @@
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "LOCKPICK", 5 ] ],
-    "use_action": "PICK_LOCK"
+    "use_action": [ "PICK_LOCK" ]
   },
   {
     "id": "pseudo_bio_picklock",

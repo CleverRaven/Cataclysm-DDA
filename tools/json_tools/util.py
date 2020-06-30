@@ -167,12 +167,63 @@ def key_counter(data, where_fn_list):
     stats = Counter()
     matching_data = [i for i in data if matches_all_wheres(i, where_fn_list)]
     for item in matching_data:
-        # We assume we are working with JSON data and that all keys are strings
-        stats.update(item.keys())
+        # Check each key for nested data
+        for key in item.keys():
+            # Skip comments
+            if key.startswith('//'):
+                continue
+
+            val = item[key]
+            # If value is an object, tally key.subkey for all object subkeys
+            if type(val) == OrderedDict:
+                for subkey in val.keys():
+                    if not subkey.startswith('//'):
+                        stats[key + '.' + subkey] += 1
+
+            # If value is a list of objects, tally key.subkey for each
+            elif type(val) == list and all(type(e) == OrderedDict for e in val):
+                for obj in val:
+                    for subkey in obj.keys():
+                        if not subkey.startswith('//'):
+                            stats[key + '.' + subkey] += 1
+
+            # For anything else, it only counts as one
+            else:
+                stats[key] += 1
 
     return stats, len(matching_data)
 
 
+def item_value_counter(_value):
+    """Return a Counter for a single value (int, float, string, dict)
+    recursing into nested dicts and lists.
+    """
+    stats = Counter()
+    # String or unicode
+    if isinstance(_value, basestring):
+        stats[_value] += 1
+    # Cast numbers to strings
+    elif type(_value) == int or type(_value) == float:
+        stats[str(_value)] += 1
+    # Pull all values from objects
+    elif type(_value) == OrderedDict:
+        stats += list_value_counter(_value.values())
+    # Pull values from list of objects or strings
+    elif type(_value) == list:
+        stats += list_value_counter(_value)
+    else:
+        raise ValueError("Value '%s' has unknown type %s" %
+                         (_value, type(_value)))
+    return stats
+
+def list_value_counter(_list):
+    """Return a Counter tallying all values in the given {list of dicts}
+    or {list of strs}, recursing into nested dicts and lists.
+    """
+    stats = Counter()
+    for elem in _list:
+        stats += item_value_counter(elem)
+    return stats
 
 def value_counter(data, search_key, where_fn_list):
     """Takes a search_key {str}, and for values found in data {list of dicts}
@@ -183,20 +234,49 @@ def value_counter(data, search_key, where_fn_list):
     """
     stats = Counter()
     matching_data = [i for i in data if matches_all_wheres(i, where_fn_list)]
+
+    # Search key may use one level of dotted notation to descend into an
+    # dict or list-of-dict in the matching data
+
+    # Exactly one dot is allowed to look in parent_key.child_key
+    if search_key.count('.') == 1:
+        parent_key, child_key = search_key.split('.')
+    # With no dots, just use the plain key
+    elif search_key.count('.') == 0:
+        parent_key = search_key
+        child_key = None
+    else:
+        raise ArgumentError("Only one '.' allowed in search key")
+
     for item in matching_data:
-        if search_key not in item:
+        if parent_key not in item:
             stats['MISSING'] += 1
             continue
 
-        v = item[search_key]
-        if type(v) == list:
-            stats.update(v)
-        elif type(v) == int or type(v) == float:
-            # Cast to string.
-            stats[str(v)] += 1
+        parent_val = item[parent_key]
+
+        # List of values within this item to tally stats on
+        stat_vals = []
+
+        # If this value is a list of objects, pull parent_key.child_key
+        # values from all of them to include in stats
+        if type(parent_val) == list and all(type(e) == OrderedDict
+                                              for e in parent_val):
+            for od in parent_val:
+                if child_key in od:
+                    stat_vals.append(od[child_key])
+
+        # If this value is a single object, get value at parent_key.child_key
+        elif type(parent_val) == OrderedDict and child_key in parent_val:
+            stat_vals.append(parent_val[child_key])
+
+        # Other kinds of data cannot be indexed by parent_key.child_key
         else:
-            # assume string
-            stats[v] += 1
+            stat_vals.append(parent_val)
+
+        # Tally all stats, recursing into nested values
+        for val in stat_vals:
+            stats += item_value_counter(val)
 
     return stats, len(matching_data)
 

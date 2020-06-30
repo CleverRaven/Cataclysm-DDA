@@ -2,6 +2,8 @@
 #ifndef CATA_SRC_ENUM_TRAITS_H
 #define CATA_SRC_ENUM_TRAITS_H
 
+#include <type_traits>
+
 template<typename E>
 struct enum_traits;
 

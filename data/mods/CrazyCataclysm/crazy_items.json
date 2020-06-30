@@ -13,7 +13,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": "*",
     "color": "green",
-    "use_action": "GRANADE"
+    "use_action": [ "GRANADE" ]
   },
   {
     "id": "granade_act",
@@ -32,7 +32,7 @@
     "initial_charges": 5,
     "max_charges": 5,
     "turns_per_charge": 1,
-    "use_action": "GRANADE_ACT",
+    "use_action": [ "GRANADE_ACT" ],
     "flags": [ "TRADER_AVOID" ]
   },
   {

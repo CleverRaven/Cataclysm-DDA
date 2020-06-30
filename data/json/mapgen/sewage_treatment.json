@@ -539,7 +539,7 @@
         "%%%%%%%%%%%%%%%%%%%%%%%%"
       ],
       "palettes": [ "sewage_treatment_sewer_palette" ],
-      "terrain": { "O": "t_mdoor_lab_frame", ":": "t_carpet_yellow", "Q": "t_privacy_fence" },
+      "terrain": { "O": "t_mdoor_lab_frame", ":": "t_carpet_metal_yellow", "Q": "t_privacy_fence" },
       "furniture": {
         "{": "f_utility_shelf",
         "w": "f_workbench",

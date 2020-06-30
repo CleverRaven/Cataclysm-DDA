@@ -216,6 +216,8 @@ monster::monster()
     biosig_timer = -1;
     udder_timer = calendar::turn;
     horde_attraction = MHA_NULL;
+    set_anatomy( anatomy_id( "default_anatomy" ) );
+    set_body();
 }
 
 monster::monster( const mtype_id &id ) : monster()
@@ -973,7 +975,7 @@ Creature *monster::attack_target()
 
     Creature *target = g->critter_at( move_target() );
     if( target == nullptr || target == this ||
-        attitude_to( *target ) == Creature::A_FRIENDLY || !sees( *target ) ) {
+        attitude_to( *target ) == Attitude::FRIENDLY || !sees( *target ) ) {
         return nullptr;
     }
 
@@ -998,7 +1000,7 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
     const player *p = other.as_player();
     if( m != nullptr ) {
         if( m == this ) {
-            return A_FRIENDLY;
+            return Attitude::FRIENDLY;
         }
 
         auto faction_att = faction.obj().attitude( m->faction );
@@ -1006,35 +1008,35 @@ Creature::Attitude monster::attitude_to( const Creature &other ) const
             ( friendly == 0 && m->friendly == 0 && faction_att == MFA_FRIENDLY ) ) {
             // Friendly (to player) monsters are friendly to each other
             // Unfriendly monsters go by faction attitude
-            return A_FRIENDLY;
+            return Attitude::FRIENDLY;
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_HATE ) ) {
             // Stuff that hates a specific faction will always attack that faction
-            return A_HOSTILE;
+            return Attitude::HOSTILE;
         } else if( ( friendly == 0 && m->friendly == 0 && faction_att == MFA_NEUTRAL ) ||
                    morale < 0 || anger < 10 ) {
             // Stuff that won't attack is neutral to everything
-            return A_NEUTRAL;
+            return Attitude::NEUTRAL;
         } else {
-            return A_HOSTILE;
+            return Attitude::HOSTILE;
         }
     } else if( p != nullptr ) {
         switch( attitude( const_cast<player *>( p ) ) ) {
             case MATT_FRIEND:
-                return A_FRIENDLY;
+                return Attitude::FRIENDLY;
             case MATT_FPASSIVE:
             case MATT_FLEE:
             case MATT_IGNORE:
             case MATT_FOLLOW:
-                return A_NEUTRAL;
+                return Attitude::NEUTRAL;
             case MATT_ATTACK:
-                return A_HOSTILE;
+                return Attitude::HOSTILE;
             case MATT_NULL:
             case NUM_MONSTER_ATTITUDES:
                 break;
         }
     }
     // Should not happen!, creature should be either player or monster
-    return A_NEUTRAL;
+    return Attitude::NEUTRAL;
 }
 
 monster_attitude monster::attitude( const Character *u ) const
@@ -1157,7 +1159,7 @@ monster_attitude monster::attitude( const Character *u ) const
 
 int monster::hp_percentage() const
 {
-    return get_hp( hp_torso ) * 100 / get_hp_max();
+    return get_hp( bodypart_id( "torso" ) ) * 100 / get_hp_max();
 }
 
 void monster::process_triggers()
@@ -1358,7 +1360,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     }
 
     if( target.is_player() ||
-        ( target.is_npc() && g->u.attitude_to( target ) == A_FRIENDLY ) ) {
+        ( target.is_npc() && g->u.attitude_to( target ) == Attitude::FRIENDLY ) ) {
         // Make us a valid target for a few turns
         add_effect( effect_hit_by_player, 3_turns );
     }
@@ -2118,7 +2120,7 @@ void monster::process_turn()
         } else {
             for( const tripoint &zap : g->m.points_in_radius( pos(), 1 ) ) {
                 const bool player_sees = g->u.sees( zap );
-                const auto items = g->m.i_at( zap );
+                const map_stack items = g->m.i_at( zap );
                 for( const auto &item : items ) {
                     if( item.made_of( phase_id::LIQUID ) && item.flammable() ) { // start a fire!
                         g->m.add_field( zap, fd_fire, 2, 1_minutes );
@@ -2830,7 +2832,7 @@ void monster::on_hit( Creature *source, bodypart_id,
     // TODO: Faction relations
 }
 
-int monster::get_hp_max( hp_part ) const
+int monster::get_hp_max( const bodypart_id & ) const
 {
     return type->hp;
 }
@@ -2840,7 +2842,7 @@ int monster::get_hp_max() const
     return type->hp;
 }
 
-int monster::get_hp( hp_part ) const
+int monster::get_hp( const bodypart_id & ) const
 {
     return hp;
 }

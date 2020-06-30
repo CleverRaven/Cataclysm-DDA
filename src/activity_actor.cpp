@@ -58,6 +58,8 @@ static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
+static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
+
 template<>
 struct enum_traits<aim_activity_actor::WeaponSource> {
     static constexpr aim_activity_actor::WeaponSource last =
@@ -136,7 +138,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     avatar &you = g->u;
 
     item *weapon = get_weapon();
-    if( !weapon || !avatar_action::can_fire_weapon( you, g->m, *weapon ) ) {
+    if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
         aborted = true;
         return;
     }
@@ -257,7 +259,7 @@ void aim_activity_actor::restore_view()
     bool changed_z = g->u.view_offset.z != initial_view_offset.z;
     g->u.view_offset = initial_view_offset;
     if( changed_z ) {
-        g->m.invalidate_map_cache( g->u.view_offset.z );
+        get_map().invalidate_map_cache( g->u.view_offset.z );
         g->invalidate_main_ui_adaptor();
     }
 }
@@ -348,7 +350,8 @@ void dig_activity_actor::do_turn( player_activity &, Character & )
 
 void dig_activity_actor::finish( player_activity &act, Character &who )
 {
-    const bool grave = g->m.ter( location ) == t_grave;
+    map &here = get_map();
+    const bool grave = here.ter( location ) == t_grave;
 
     if( grave ) {
         if( one_in( 10 ) ) {
@@ -360,16 +363,16 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
             };
 
             g->place_critter_at( random_entry( monids ), byproducts_location );
-            g->m.furn_set( location, f_coffin_o );
+            here.furn_set( location, f_coffin_o );
             who.add_msg_if_player( m_warning, _( "Something crawls out of the coffin!" ) );
         } else {
-            g->m.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
-            g->m.furn_set( location, f_coffin_c );
+            here.spawn_item( location, itype_bone_human, rng( 5, 15 ) );
+            here.furn_set( location, f_coffin_c );
         }
-        std::vector<item *> dropped = g->m.place_items( "allclothes", 50, location, location, false,
+        std::vector<item *> dropped = here.place_items( "allclothes", 50, location, location, false,
                                       calendar::turn );
-        g->m.place_items( "grave", 25, location, location, false, calendar::turn );
-        g->m.place_items( "jewelry_front", 20, location, location, false, calendar::turn );
+        here.place_items( "grave", 25, location, location, false, calendar::turn );
+        here.place_items( "jewelry_front", 20, location, location, false, calendar::turn );
         for( item * const &it : dropped ) {
             if( it->is_armor() ) {
                 it->item_tags.insert( "FILTHY" );
@@ -379,10 +382,10 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
         g->events().send<event_type::exhumes_grave>( who.getID() );
     }
 
-    g->m.ter_set( location, ter_id( result_terrain ) );
+    here.ter_set( location, ter_id( result_terrain ) );
 
     for( int i = 0; i < byproducts_count; i++ ) {
-        g->m.spawn_items( byproducts_location, item_group::items_from( byproducts_item_group,
+        here.spawn_items( byproducts_location, item_group::items_from( byproducts_item_group,
                           calendar::turn ) );
     }
 
@@ -394,7 +397,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
         who.add_msg_if_player( m_good, _( "You finish exhuming a grave." ) );
     } else {
         who.add_msg_if_player( m_good, _( "You finish digging the %s." ),
-                               g->m.ter( location ).obj().name() );
+                               here.ter( location ).obj().name() );
     }
 
     act.set_to_null();
@@ -448,11 +451,11 @@ void dig_channel_activity_actor::do_turn( player_activity &, Character & )
 
 void dig_channel_activity_actor::finish( player_activity &act, Character &who )
 {
-
-    g->m.ter_set( location, ter_id( result_terrain ) );
+    map &here = get_map();
+    here.ter_set( location, ter_id( result_terrain ) );
 
     for( int i = 0; i < byproducts_count; i++ ) {
-        g->m.spawn_items( byproducts_location, item_group::items_from( byproducts_item_group,
+        here.spawn_items( byproducts_location, item_group::items_from( byproducts_item_group,
                           calendar::turn ) );
     }
 
@@ -461,7 +464,7 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
     who.add_msg_if_player( m_good, _( "You finish digging up %s." ),
-                           g->m.ter( location ).obj().name() );
+                           here.ter( location ).obj().name() );
 
     act.set_to_null();
 }
@@ -503,18 +506,18 @@ void hacking_activity_actor::start( player_activity &act, Character & )
     act.moves_left = to_moves<int>( 5_minutes );
 }
 
-enum hack_result {
-    HACK_UNABLE,
-    HACK_FAIL,
-    HACK_NOTHING,
-    HACK_SUCCESS
+enum class hack_result : int {
+    UNABLE,
+    FAIL,
+    NOTHING,
+    SUCCESS
 };
 
-enum hack_type {
-    HACK_SAFE,
-    HACK_DOOR,
-    HACK_GAS,
-    HACK_NULL
+enum class hack_type : int {
+    SAFE,
+    DOOR,
+    GAS,
+    NONE
 };
 
 static int hack_level( const Character &who )
@@ -529,7 +532,7 @@ static int hack_level( const Character &who )
 static hack_result hack_attempt( Character &who )
 {
     if( who.has_trait( trait_ILLITERATE ) ) {
-        return HACK_UNABLE;
+        return hack_result::UNABLE;
     }
     const bool using_electrohack = who.has_charges( itype_electrohack, 25 ) &&
                                    query_yn( _( "Use electrohack?" ) );
@@ -537,7 +540,7 @@ static hack_result hack_attempt( Character &who )
                                   who.get_power_level() > 24_kJ && query_yn( _( "Use fingerhack?" ) );
 
     if( !( using_electrohack || using_fingerhack ) ) {
-        return HACK_UNABLE;
+        return hack_result::UNABLE;
     }
 
     // TODO: Remove this once player -> Character migration is complete
@@ -573,25 +576,26 @@ static hack_result hack_attempt( Character &who )
                                      units::to_kilojoule( who.get_power_level() ) ) ) );
             }
         }
-        return HACK_FAIL;
+        return hack_result::FAIL;
     } else if( success < 6 ) {
-        return HACK_NOTHING;
+        return hack_result::NOTHING;
     } else {
-        return HACK_SUCCESS;
+        return hack_result::SUCCESS;
     }
 }
 
 static hack_type get_hack_type( tripoint examp )
 {
-    hack_type type = HACK_NULL;
-    const furn_t &xfurn_t = g->m.furn( examp ).obj();
-    const ter_t &xter_t = g->m.ter( examp ).obj();
+    hack_type type = hack_type::NONE;
+    map &here = get_map();
+    const furn_t &xfurn_t = here.furn( examp ).obj();
+    const ter_t &xter_t = here.ter( examp ).obj();
     if( xter_t.examine == &iexamine::pay_gas || xfurn_t.examine == &iexamine::pay_gas ) {
-        type = HACK_GAS;
+        type = hack_type::GAS;
     } else if( xter_t.examine == &iexamine::cardreader || xfurn_t.examine == &iexamine::cardreader ) {
-        type = HACK_DOOR;
+        type = hack_type::DOOR;
     } else if( xter_t.examine == &iexamine::gunsafe_el || xfurn_t.examine == &iexamine::gunsafe_el ) {
-        type = HACK_SAFE;
+        type = hack_type::SAFE;
     }
     return type;
 }
@@ -601,25 +605,26 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
     tripoint examp = act.placement;
     hack_type type = get_hack_type( examp );
     switch( hack_attempt( who ) ) {
-        case HACK_UNABLE:
+        case hack_result::UNABLE:
             who.add_msg_if_player( _( "You cannot hack this." ) );
             break;
-        case HACK_FAIL:
+        case hack_result::FAIL:
             // currently all things that can be hacked have equivalent alarm failure states.
             // this may not always be the case with new hackable things.
             g->events().send<event_type::triggers_alarm>( who.getID() );
             sounds::sound( who.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( examp.z > 0 && !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+            if( examp.z > 0 && !g->timed_events.queued( timed_event_type::WANTED ) ) {
+                g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
                                      who.global_sm_location() );
             }
             break;
-        case HACK_NOTHING:
+        case hack_result::NOTHING:
             who.add_msg_if_player( _( "You fail the hack, but no alarms are triggered." ) );
             break;
-        case HACK_SUCCESS:
-            if( type == HACK_GAS ) {
+        case hack_result::SUCCESS:
+            map &here = get_map();
+            if( type == hack_type::GAS ) {
                 int tankUnits;
                 std::string fuelType;
                 const cata::optional<tripoint> pTank_ = iexamine::getNearFilledGasTank( examp, tankUnits,
@@ -637,16 +642,16 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
                 } else {
                     who.add_msg_if_player( _( "Nothing happens." ) );
                 }
-            } else if( type == HACK_SAFE ) {
+            } else if( type == hack_type::SAFE ) {
                 who.add_msg_if_player( m_good, _( "The door on the safe swings open." ) );
-                g->m.furn_set( examp, furn_str_id( "f_safe_o" ) );
-            } else if( type == HACK_DOOR ) {
+                here.furn_set( examp, furn_str_id( "f_safe_o" ) );
+            } else if( type == hack_type::DOOR ) {
                 who.add_msg_if_player( _( "You activate the panel!" ) );
                 who.add_msg_if_player( m_good, _( "The nearby doors unlock." ) );
-                g->m.ter_set( examp, t_card_reader_broken );
-                for( const tripoint &tmp : g->m.points_in_radius( ( examp ), 3 ) ) {
-                    if( g->m.ter( tmp ) == t_door_metal_locked ) {
-                        g->m.ter_set( tmp, t_door_metal_c );
+                here.ter_set( examp, t_card_reader_broken );
+                for( const tripoint &tmp : here.points_in_radius( ( examp ), 3 ) ) {
+                    if( here.ter( tmp ) == t_door_metal_locked ) {
+                        here.ter_set( tmp, t_door_metal_c );
                     }
                 }
             }
@@ -673,8 +678,9 @@ void hotwire_car_activity_actor::start( player_activity &act, Character & )
 
 void hotwire_car_activity_actor::do_turn( player_activity &act, Character & )
 {
+    map &here = get_map();
     if( calendar::once_every( 1_minutes ) ) {
-        bool lost = !g->m.veh_at( g->m.getlocal( target ) ).has_value();
+        bool lost = !here.veh_at( here.getlocal( target ) ).has_value();
         if( lost ) {
             act.set_to_null();
             debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
@@ -686,7 +692,8 @@ void hotwire_car_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
 
-    const optional_vpart_position vp = g->m.veh_at( g->m.getlocal( target ) );
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( here.getlocal( target ) );
     if( !vp ) {
         debugmsg( "Lost ACT_HOTWIRE_CAR target vehicle" );
         return;
@@ -907,9 +914,10 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
         return;
     }
 
-    const tripoint target = g->m.getlocal( this->target );
-    const ter_id ter_type = g->m.ter( target );
-    const furn_id furn_type = g->m.furn( target );
+    map &here = get_map();
+    const tripoint target = here.getlocal( this->target );
+    const ter_id ter_type = here.ter( target );
+    const furn_id furn_type = here.furn( target );
     ter_id new_ter_type;
     furn_id new_furn_type;
     std::string open_message;
@@ -949,13 +957,13 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     int xp_gain = 0;
     if( perfect || ( pick_roll >= lock_roll ) ) {
         xp_gain += lock_roll;
-        g->m.has_furn( target ) ?
-        g->m.furn_set( target, new_furn_type ) :
-        static_cast<void>( g->m.ter_set( target, new_ter_type ) );
+        here.has_furn( target ) ?
+        here.furn_set( target, new_furn_type ) :
+        static_cast<void>( here.ter_set( target, new_ter_type ) );
         who.add_msg_if_player( m_good, open_message );
     } else if( furn_type == f_gunsafe_ml && lock_roll > ( 3 * pick_roll ) ) {
         who.add_msg_if_player( m_bad, _( "Your clumsy attempt jams the lock!" ) );
-        g->m.furn_set( target, furn_str_id( "f_gunsafe_mj" ) );
+        here.furn_set( target, furn_str_id( "f_gunsafe_mj" ) );
     } else if( lock_roll > ( 1.5 * pick_roll ) ) {
         if( it->inc_damage() ) {
             who.add_msg_if_player( m_bad,
@@ -980,8 +988,8 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-            g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+        if( !g->timed_events.queued( timed_event_type::WANTED ) ) {
+            g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
                                  who.global_sm_location() );
         }
     }
@@ -1002,7 +1010,7 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
         if( p == you.pos() ) {
             return false;
         }
-        return g->m.has_flag( "PICKABLE", p );
+        return get_map().has_flag( "PICKABLE", p );
     };
 
     const cata::optional<tripoint> target = choose_adjacent_highlight(
@@ -1015,7 +1023,7 @@ cata::optional<tripoint> lockpick_activity_actor::select_location( avatar &you )
         return target;
     }
 
-    const ter_id terr_type = g->m.ter( *target );
+    const ter_id terr_type = get_map().ter( *target );
     if( *target == you.pos() ) {
         you.add_msg_if_player( m_info, _( "You pick your nose and your sinuses swing open." ) );
     } else if( g->critter_at<npc>( *target ) ) {
@@ -1123,7 +1131,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     if( consume_location ) {
         const auto ret = g->u.will_eat( *consume_location, true );
         if( !ret.success() ) {
-            open_consume_menu = false;
+            consume_menu_selections = std::vector<int>();
             return;
         } else {
             force = true;
@@ -1132,7 +1140,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     } else if( !consume_item.is_null() ) {
         const auto ret = g->u.will_eat( consume_item, true );
         if( !ret.success() ) {
-            open_consume_menu = false;
+            consume_menu_selections = std::vector<int>();
             return;
         } else {
             force = true;
@@ -1155,22 +1163,21 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     act.interruptable = false;
 
     if( consume_location ) {
-        if( consume_location.where() == item_location::type::character ) {
-            g->u.consume( consume_location, force );
-        } else if( g->u.consume( *consume_location, force ) ) {
-            consume_location.remove_item();
-        }
-        if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-            g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
-        }
+        g->u.consume( consume_location, force );
     } else if( !consume_item.is_null() ) {
         g->u.consume( consume_item, force );
     } else {
         debugmsg( "Item location/name to be consumed should not be null." );
     }
+    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    }
+    //setting act to null clears these so back them up
+    std::vector<int> temp_selections = consume_menu_selections;
     act.set_to_null();
-    if( open_consume_menu ) {
-        avatar_action::eat( g->u );
+    if( !temp_selections.empty() ) {
+        g->u.assign_activity( ACT_EAT_MENU );
+        g->u.activity.values = temp_selections;
     }
 }
 
@@ -1180,7 +1187,7 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
 
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
-    jsout.member( "open_consume_menu", open_consume_menu );
+    jsout.member( "consume_menu_selections", consume_menu_selections );
     jsout.member( "force", force );
 
     jsout.end_object();
@@ -1195,7 +1202,7 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
 
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
-    data.read( "open_consume_menu", actor.open_consume_menu );
+    data.read( "consume_menu_selections", actor.consume_menu_selections );
     data.read( "force", actor.force );
 
     return actor.clone();

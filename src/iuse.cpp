@@ -372,7 +372,8 @@ static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
-#define RADIO_PER_TURN 25 // how many characters per turn of radio
+// how many characters per turn of radio
+static constexpr int RADIO_PER_TURN = 25;
 
 #include "iuse_software.h"
 
@@ -2011,7 +2012,7 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
     p->moves -= to_moves<int>( 2_seconds );
 
     // Reduce the strength of fire (if any) in the target tile.
-    g->m.mod_field_intensity( dest, fd_fire, 0 - rng( 2, 3 ) );
+    g->m.add_field( dest, fd_extinguisher, 3, 10_turns );
 
     // Also spray monsters in that tile.
     if( monster *const mon_ptr = g->critter_at<monster>( dest, true ) ) {
@@ -2616,8 +2617,8 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             g->events().send<event_type::triggers_alarm>( p->getID() );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( !g->timed_events.queued( TIMED_EVENT_WANTED ) ) {
-                g->timed_events.add( TIMED_EVENT_WANTED, calendar::turn + 30_minutes, 0,
+            if( !g->timed_events.queued( timed_event_type::WANTED ) ) {
+                g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
                                      p->global_sm_location() );
             }
         }
@@ -3685,28 +3686,6 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::throwable_extinguisher_act( player *, item *it, bool, const tripoint &pos )
-{
-    if( pos.x == -999 || pos.y == -999 ) {
-        return 0;
-    }
-    if( g->m.get_field( pos, fd_fire ) != nullptr ) {
-        sounds::sound( pos, 50, sounds::sound_t::combat, _( "Bang!" ), false, "explosion", "small" );
-        // Reduce the strength of fire (if any) in the target tile.
-        g->m.mod_field_intensity( pos, fd_fire, 0 - 2 );
-        // Slightly reduce the strength of fire around and in the target tile.
-        for( const tripoint &dest : g->m.points_in_radius( pos, 1 ) ) {
-            if( g->m.passable( dest ) && dest != pos ) {
-                g->m.mod_field_intensity( dest, fd_fire, 0 - rng( 0, 2 ) );
-            }
-        }
-        it->charges = -1;
-        return 1;
-    }
-    it->active = false;
-    return 0;
-}
-
 int iuse::granade( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( _( "You pull the pin on the Granade." ) );
@@ -3778,10 +3757,11 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         /** @EFFECT_PER_MAX increases possible granade per buff */
                         buff_stat( g->u.per_max, rng( 0, g->u.per_max / 2 ) );
                         g->u.recalc_hp();
-                        for( int part = 0; part < num_hp_parts; part++ ) {
-                            g->u.hp_cur[part] *= 1 + rng( 0, 20 ) * .1;
-                            if( g->u.hp_cur[part] > g->u.hp_max[part] ) {
-                                g->u.hp_cur[part] = g->u.hp_max[part];
+                        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+                            g->u.set_part_hp_cur( bp, g->u.get_part_hp_cur( bp ) * rng_float( 1, 1.2 ) );
+                            const int hp_max = g->u.get_part_hp_max( bp );
+                            if( g->u.get_part_hp_cur( bp ) > hp_max ) {
+                                g->u.set_part_hp_cur( bp, hp_max );
                             }
                         }
                     }
@@ -3817,9 +3797,10 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
                         g->u.per_max -= rng( 0, g->u.per_max / 2 );
                         g->u.recalc_hp();
-                        for( int part = 0; part < num_hp_parts; part++ ) {
-                            if( g->u.hp_cur[part] > 0 ) {
-                                g->u.hp_cur[part] = rng( 1, g->u.hp_cur[part] );
+                        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
+                            const int hp_cur = g->u.get_part_hp_cur( bp );
+                            if( hp_cur > 0 ) {
+                                g->u.set_part_hp_cur( bp, rng( 1, hp_cur ) );
                             }
                         }
                     }
@@ -4515,8 +4496,14 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-int iuse::portable_game( player *p, item *it, bool, const tripoint & )
+int iuse::portable_game( player *p, item *it, bool active, const tripoint & )
 {
+    if( active ) {
+        // Multi-turn usage of portable games is implemented via ACT_GAME and ACT_GENERIC_GAME.
+        // Complex devices (e.g. laptops) may use 'active' for other iuse functions
+        // (e.g. playing music), so we bail here to avoid conflicts.
+        return 0;
+    }
     if( p->is_npc() ) {
         // Long action
         return 0;
@@ -4802,7 +4789,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     item blood( "blood", calendar::turn );
     bool drew_blood = false;
     bool acid_blood = false;
-    for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
+    for( item &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it.is_corpse() &&
             query_yn( _( "Draw blood from %s?" ),
                       colorize( map_it.tname(), map_it.color_in_inventory() ) ) ) {
@@ -4858,7 +4845,7 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    for( auto &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
+    for( item &map_it : g->m.i_at( point( p->posx(), p->posy() ) ) ) {
         if( map_it.typeId() == itype_rmi2_corpse &&
             query_yn( _( "Use the mind splicer kit on the %s?" ), colorize( map_it.tname(),
                       map_it.color_in_inventory() ) ) ) {
@@ -4914,7 +4901,7 @@ int iuse::lumber( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     // Check if player is standing on any lumber
-    for( auto &i : g->m.i_at( p->pos() ) ) {
+    for( item &i : g->m.i_at( p->pos() ) ) {
         if( i.typeId() == itype_log ) {
             g->m.i_rem( p->pos(), &i );
             cut_log_into_planks( *p );
@@ -5311,7 +5298,7 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
             vehicle *const veh = &vp->vehicle();
             std::vector<int> parts_here = veh->parts_at_relative( vp->mount(), true );
             for( int elem : parts_here ) {
-                if( veh->parts[elem].blood > 0 ) {
+                if( veh->part( elem ).blood > 0 ) {
                     return true;
                 }
                 vehicle_stack items = veh->get_items( elem );
@@ -5390,30 +5377,29 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                                "thunder_near" );
                 int num_bolts = rng( 2, 4 );
                 for( int j = 0; j < num_bolts; j++ ) {
-                    int xdir = 0;
-                    int ydir = 0;
-                    while( xdir == 0 && ydir == 0 ) {
-                        xdir = rng( -1, 1 );
-                        ydir = rng( -1, 1 );
+                    point dir;
+                    while( dir.x == 0 && dir.y == 0 ) {
+                        dir.x = rng( -1, 1 );
+                        dir.y = rng( -1, 1 );
                     }
                     int dist = rng( 4, 12 );
-                    int boltx = p->posx(), bolty = p->posy();
+                    point bolt( p->posx(), p->posy() );
                     for( int n = 0; n < dist; n++ ) {
-                        boltx += xdir;
-                        bolty += ydir;
-                        g->m.add_field( {boltx, bolty, p->posz()}, fd_electricity, rng( 2, 3 ) );
+                        bolt.x += dir.x;
+                        bolt.y += dir.y;
+                        g->m.add_field( {bolt, p->posz()}, fd_electricity, rng( 2, 3 ) );
                         if( one_in( 4 ) ) {
-                            if( xdir == 0 ) {
-                                xdir = rng( 0, 1 ) * 2 - 1;
+                            if( dir.x == 0 ) {
+                                dir.x = rng( 0, 1 ) * 2 - 1;
                             } else {
-                                xdir = 0;
+                                dir.x = 0;
                             }
                         }
                         if( one_in( 4 ) ) {
-                            if( ydir == 0 ) {
-                                ydir = rng( 0, 1 ) * 2 - 1;
+                            if( dir.y == 0 ) {
+                                dir.y = rng( 0, 1 ) * 2 - 1;
                             } else {
-                                ydir = 0;
+                                dir.y = 0;
                             }
                         }
                     }
@@ -5460,8 +5446,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FATIGUE: {
                 p->add_msg_if_player( m_warning, _( "The fabric of space seems to decay." ) );
-                int x = rng( p->posx() - 3, p->posx() + 3 ), y = rng( p->posy() - 3, p->posy() + 3 );
-                g->m.add_field( {x, y, p->posz()}, fd_fatigue, rng( 1, 2 ) );
+                point p2( rng( p->posx() - 3, p->posx() + 3 ), rng( p->posy() - 3, p->posy() + 3 ) );
+                g->m.add_field( {p2, p->posz()}, fd_fatigue, rng( 1, 2 ) );
             }
             break;
 
@@ -5545,7 +5531,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_LIGHT:
                 p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
-                g->timed_events.add( TIMED_EVENT_ARTIFACT_LIGHT, calendar::turn + 3_minutes );
+                g->timed_events.add( timed_event_type::ARTIFACT_LIGHT, calendar::turn + 3_minutes );
                 break;
 
             case AEA_GROWTH: {
@@ -5624,7 +5610,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_DIM:
                 p->add_msg_if_player( _( "The sky starts to dim." ) );
-                g->timed_events.add( TIMED_EVENT_DIM, calendar::turn + 5_minutes );
+                g->timed_events.add( timed_event_type::DIM, calendar::turn + 5_minutes );
                 break;
 
             case AEA_FLASH:
@@ -6968,7 +6954,7 @@ int iuse::einktabletpc( player *p, item *it, bool t, const tripoint &pos )
 }
 
 struct extended_photo_def : public JsonDeserializer, public JsonSerializer {
-    int quality;
+    int quality = 0;
     std::string name;
     std::string description;
 
@@ -8088,11 +8074,10 @@ int iuse::ehandcuffs( player *p, item *it, bool t, const tripoint &pos )
                            "environment", "police_siren" );
         }
 
-        const int x = it->get_var( "HANDCUFFS_X", 0 );
-        const int y = it->get_var( "HANDCUFFS_Y", 0 );
+        const point p2( it->get_var( "HANDCUFFS_X", 0 ), it->get_var( "HANDCUFFS_Y", 0 ) );
 
-        if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( x != pos.x ||
-                y != pos.y ) ) {
+        if( ( it->ammo_remaining() > it->type->maximum_charges() - 1000 ) && ( p2.x != pos.x ||
+                p2.y != pos.y ) ) {
 
             if( p->has_item( *it ) && p->weapon.typeId() == itype_e_handcuffs ) {
 
@@ -8532,8 +8517,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    int px = g->u.view_offset.x;
-    int py = g->u.view_offset.y;
+    point p2( g->u.view_offset.xy() );
 
     vehicle *veh = pickveh( pos, choice == 0 );
 
@@ -8567,8 +8551,8 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         }
     }
 
-    g->u.view_offset.x = px;
-    g->u.view_offset.y = py;
+    g->u.view_offset.x = p2.x;
+    g->u.view_offset.y = p2.y;
     return it->type->charges_to_use();
 }
 

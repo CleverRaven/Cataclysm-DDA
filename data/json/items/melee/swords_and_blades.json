@@ -6,7 +6,7 @@
     "color": "brown",
     "name": { "str": "2-by-sword" },
     "description": "A two by four with a cross guard and whittled down point; not much for slashing, but much better than your bare hands.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "1250 ml",
     "weight": "1000 g",
     "longest_side": "100 cm",
@@ -24,7 +24,7 @@
     "color": "light_gray",
     "name": { "str": "nord" },
     "description": "The nail sword, or nord for short.  This wooden sword has a dozen nails sticking at jagged angles from edge of the blade, making it much better at chopping than slashing.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "1750 ml",
     "weight": "1148 g",
     "longest_side": "100 cm",
@@ -41,7 +41,7 @@
     "color": "light_gray",
     "name": { "str": "crude sword" },
     "description": "Several bits of thin scrap metal crudely beat into the semblance of an edge over a wooden sword.  The added weight is unbalanced, but the jagged edge offers a good bit of slashing power.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "2 L",
     "weight": "1100 g",
     "longest_side": "100 cm",
@@ -265,7 +265,7 @@
     "description": "A femur or other bone, about 20 cm long, which has been broken at one end and sharpened into a cutting tool.  Its jagged edge is wicked but fragile.",
     "symbol": "/",
     "color": "white",
-    "weight": 169,
+    "weight": "169 g",
     "//": "literally 75% of a bone.",
     "volume": "188 ml",
     "longest_side": "20 cm",
@@ -273,7 +273,7 @@
     "price_postapoc": 0,
     "bashing": 4,
     "cutting": 20,
-    "material": "bone",
+    "material": [ "bone" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 12 ] ],
     "flags": [ "STAB", "SHEATH_KNIFE", "FRAGILE_MELEE" ]
   },
@@ -344,8 +344,8 @@
     "longest_side": "50 cm",
     "symbol": "/",
     "color": "green",
-    "weight": 522,
-    "volume": 1,
+    "weight": "522 g",
+    "volume": "250 ml",
     "price": 2300,
     "price_postapoc": 1800,
     "to_hit": 1,
@@ -447,7 +447,7 @@
     "description": "This is an ancient Chinese doubled-edged straight sword.  The sword is quite worn, and bent at an odd angle.",
     "price": 100000,
     "price_postapoc": 750,
-    "material": "budget_steel",
+    "material": [ "budget_steel" ],
     "flags": [ "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "800 g",
@@ -468,7 +468,7 @@
     "description": "This is a dull, cheaply made replica of an ancient Chinese doubled-edged straight sword, with an ornate guard.",
     "price": 10000,
     "price_postapoc": 50,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "414 g",
@@ -509,7 +509,7 @@
     "description": "This is a curved sword associated with various Middle Eastern and Central Asian countries.  This one seems oddly dull and worn.",
     "price": 93000,
     "price_postapoc": 500,
-    "material": "budget_steel",
+    "material": [ "budget_steel" ],
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weight": "1133 g",
@@ -529,7 +529,7 @@
     "description": "This is a dull, cheaply made replica of a curved sword, associated with various Middle Eastern and Central Asian countries.",
     "price": 9300,
     "price_postapoc": 50,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "techniques": [ "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weight": "586 g",
@@ -570,7 +570,7 @@
     "description": "This is a thin thrusting sword, a sort of predecessor to the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.  It seems a bit too bendy.",
     "price": 13500,
     "price_postapoc": 750,
-    "material": "budget_steel",
+    "material": [ "budget_steel" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
     "flags": [ "SHEATH_SWORD" ],
     "weight": "1814 g",
@@ -589,7 +589,7 @@
     "description": "This is a dull, cheaply-made replica of a thin thrusting sword predating the rapier.  It requires a larger baldric or scabbard, compared to smaller swords.",
     "price": 13500,
     "price_postapoc": 50,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "techniques": [ "WBLOCK_2", "PRECISE" ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "weight": "939 g",
@@ -630,7 +630,7 @@
     "description": "This is a classic medieval sword, in between the lighter arming sword and later two-handed swords in size.  You feel like the pommel could just snap off if you used it.",
     "price": 130000,
     "price_postapoc": 750,
-    "material": "budget_steel",
+    "material": [ "budget_steel" ],
     "flags": [ "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "1814 g",
@@ -651,7 +651,7 @@
     "description": "This is a dull, cheaply-made replica of the classic medieval longsword.  It requires a larger baldric or scabbard, compared to smaller swords.",
     "price": 13000,
     "price_postapoc": 100,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "939 g",
@@ -693,7 +693,7 @@
     "description": "This is a dull, cheaply made replica of a classic medieval sword, just the right size to use one-handed.",
     "price": 10000,
     "price_postapoc": 50,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "flags": [ "SHEATH_SWORD", "FRAGILE_MELEE" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "704 g",
@@ -714,7 +714,7 @@
     "description": "This is a classic medieval sword, just the right size to use one-handed.  This one doesn't seem to have been made right.",
     "price": 100000,
     "price_postapoc": 250,
-    "material": "budget_steel",
+    "material": [ "budget_steel" ],
     "flags": [ "SHEATH_SWORD" ],
     "techniques": [ "WBLOCK_2" ],
     "weight": "2721 g",
@@ -1113,7 +1113,7 @@
     "looks_like": "fencing_foil",
     "name": { "str": "sharpened foil" },
     "description": "This once mostly harmless fencing foil has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now somewhat more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -25, "cutting": 2 }
+    "relative": { "weight": "-25 g", "cutting": 2 }
   },
   {
     "id": "fencing_epee_sharpened",
@@ -1122,7 +1122,7 @@
     "looks_like": "fencing_epee",
     "name": { "str": "sharpened épée" },
     "description": "This once mostly harmless fencing épée has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -35, "cutting": 5 }
+    "relative": { "weight": "-35 g", "cutting": 5 }
   },
   {
     "id": "fencing_sabre_sharpened",
@@ -1131,7 +1131,7 @@
     "looks_like": "fencing_sabre",
     "name": { "str": "sharpened saber" },
     "description": "This once mostly harmless fencing saber has had its rounded tip snapped off and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -10, "cutting": 5 }
+    "relative": { "weight": "-10 g", "cutting": 5 }
   },
   {
     "id": "shock_foil",
@@ -1142,12 +1142,13 @@
     "ammo": [ "battery" ],
     "charges_per_use": 100,
     "price_postapoc": 1250,
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1165,12 +1166,13 @@
     "ammo": [ "battery" ],
     "price_postapoc": 1250,
     "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1188,12 +1190,13 @@
     "ammo": [ "battery" ],
     "price_postapoc": 1250,
     "charges_per_use": 100,
-    "use_action": "TAZER",
+    "use_action": [ "TAZER" ],
     "extend": { "flags": [ "NONCONDUCTIVE" ] },
     "relative": { "volume": "250 ml", "weight": "151 g" },
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1542,7 +1545,7 @@
     "description": "This is a comparatively-common Japanese short sword.  There's something not quite right about this sword.",
     "price": 17800,
     "price_postapoc": 500,
-    "material": "budget_steel",
+    "material": [ "budget_steel" ],
     "techniques": [ "RAPID", "WBLOCK_2" ],
     "flags": [ "SHEATH_SWORD" ],
     "weight": "835 g",
@@ -1562,7 +1565,7 @@
     "description": "This is a dull, cheap replica of a wavy bladed dagger that comes from Southeast Asia.",
     "price": 3800,
     "price_postapoc": 10,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "techniques": [ "WBLOCK_1", "RAPID" ],
     "weight": "558 g",
     "volume": "750 ml",
@@ -1614,7 +1617,7 @@
     "max_charges": 800,
     "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
-    "use_action": "CS_LAJATANG_OFF",
+    "use_action": [ "CS_LAJATANG_OFF" ],
     "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
@@ -1627,7 +1630,7 @@
     "cutting": 140,
     "to_hit": -4,
     "revert_to": "cs_lajatang_off",
-    "use_action": "CS_LAJATANG_ON",
+    "use_action": [ "CS_LAJATANG_ON" ],
     "turns_per_charge": 1,
     "charges_per_use": 0,
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -250 ] ],
@@ -1651,12 +1654,13 @@
     "ammo": [ "battery" ],
     "charges_per_use": 5,
     "techniques": [ "WBLOCK_1", "SPIN", "SWEEP" ],
-    "use_action": "ECS_LAJATANG_OFF",
+    "use_action": [ "ECS_LAJATANG_OFF" ],
     "flags": [ "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "500 ml",
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
@@ -1675,7 +1679,7 @@
     "power_draw": 4000000,
     "charges_per_use": 0,
     "revert_to": "ecs_lajatang_off",
-    "use_action": "ECS_LAJATANG_ON",
+    "use_action": [ "ECS_LAJATANG_ON" ],
     "flags": [ "MESSY", "HURT_WHEN_PULLED", "DURABLE_MELEE", "TRADER_AVOID", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
   },
   {
@@ -1738,7 +1742,7 @@
     "ammo": [ "gasoline" ],
     "charges_per_use": 5,
     "max_charges": 450,
-    "use_action": "COMBATSAW_OFF",
+    "use_action": [ "COMBATSAW_OFF" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND" ]
   },
@@ -1754,7 +1758,7 @@
     "charges_per_use": 0,
     "revert_to": "combatsaw_off",
     "qualities": [ [ "AXE", 3 ], [ "BUTCHER", -120 ] ],
-    "use_action": "COMBATSAW_ON",
+    "use_action": [ "COMBATSAW_ON" ],
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
   },
   {
@@ -1775,13 +1779,14 @@
     "color": "light_gray",
     "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "E_COMBATSAW_OFF",
+    "use_action": [ "E_COMBATSAW_OFF" ],
     "techniques": [ "WBLOCK_1", "SWEEP" ],
     "flags": [ "ALWAYS_TWOHAND" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "200 ml",
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
@@ -1800,7 +1805,7 @@
     "charges_per_use": 0,
     "revert_to": "e_combatsaw_off",
     "qualities": [ [ "AXE", 3 ] ],
-    "use_action": "E_COMBATSAW_ON",
+    "use_action": [ "E_COMBATSAW_ON" ],
     "flags": [ "MESSY", "DURABLE_MELEE", "TRADER_AVOID", "POWERED", "ALWAYS_TWOHAND" ]
   }
 ]

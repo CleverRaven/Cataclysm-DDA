@@ -7,6 +7,7 @@
 #include "bodypart.h"
 #include "catch/catch.hpp"
 #include "character_id.h"
+#include "debug_menu.h"
 #include "event.h"
 #include "game.h"
 #include "memorial_logger.h"
@@ -57,6 +58,7 @@ TEST_CASE( "memorials" )
 
     event_bus &b = g->events();
 
+    g->u.male = false;
     character_id ch = g->u.getID();
     std::string u_name = g->u.name;
     character_id ch2 = character_id( ch.get_value() + 1 );
@@ -85,6 +87,9 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::becomes_wanted>(
         m, b, "Became wanted by the police!", ch );
+
+    check_memorial<event_type::broken_bone>(
+        m, b, "Broke her right arm.", ch, bp_arm_r );
 
     check_memorial<event_type::broken_bone_mends>(
         m, b, "Broken right arm began to mend.", ch, bp_arm_r );
@@ -184,11 +189,15 @@ TEST_CASE( "memorials" )
         m, b, "Reached skill level 8 in driving.", ch, skill_id( "driving" ), 8 );
 
     check_memorial<event_type::game_over>(
-        m, b, u_name + " was killed.\nLast words: last_words", false, "last_words" );
+        m, b, u_name + " was killed.\nLast words: last_words", false, "last_words",
+        std::chrono::seconds( 100 ) );
 
     check_memorial<event_type::game_start>(
         m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, g->u.male,
         g->u.prof->ident(), g->u.custom_profession, "VERSION_STRING" );
+
+    // Invokes achievement, so send another to clear the log for the test
+    b.send<event_type::installs_cbm>( ch, cbm );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
@@ -257,4 +266,7 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::triggers_alarm>(
         m, b, "Set off an alarm.", ch );
+
+    check_memorial<event_type::uses_debug_menu>(
+        m, b, "Used the debug menu (WISH).", debug_menu::debug_menu_index::WISH );
 }
