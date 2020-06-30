@@ -7,12 +7,12 @@
   {
     "type": "item_group",
     "id": "gathering_faction_base_camp_1",
-    "items": [ [ "2x4", 100 ], [ "stick", 200 ], [ "rock", 100 ], [ "straw_pile", 100 ], [ "nail", 10 ] ]
+    "items": [ [ "2x4", 100 ], [ "stick", 200 ], [ "rock", 50 ], [ "rock_flaking", 50 ], [ "straw_pile", 100 ], [ "nail", 10 ] ]
   },
   {
     "type": "item_group",
     "id": "gathering_faction_base_camp_2",
-    "items": [ [ "2x4", 100 ], [ "stick", 200 ], [ "rock", 100 ], [ "nail", 10 ] ]
+    "items": [ [ "2x4", 100 ], [ "stick", 200 ], [ "rock", 50 ], [ "rock_flaking", 50 ], [ "nail", 10 ] ]
   },
   {
     "type": "item_group",
@@ -20,7 +20,8 @@
     "items": [
       [ "2x4", 100 ],
       [ "stick", 300 ],
-      [ "rock", 100 ],
+      [ "rock", 50 ],
+      [ "rock_flaking", 50 ],
       [ "straw_pile", 100 ],
       [ "nail", 10 ],
       [ "sheet_metal", 20 ],
@@ -33,7 +34,8 @@
     "items": [
       [ "2x4", 100 ],
       [ "stick", 300 ],
-      [ "rock", 100 ],
+      [ "rock", 50 ],
+      [ "rock_flaking", 50 ],
       [ "straw_pile", 100 ],
       [ "nail", 10 ],
       [ "sheet_metal", 20 ],
@@ -52,7 +54,8 @@
     "items": [
       [ "2x4", 100 ],
       [ "stick", 300 ],
-      [ "rock", 100 ],
+      [ "rock", 50 ],
+      [ "rock_flaking", 50 ],
       [ "straw_pile", 100 ],
       [ "nail", 10 ],
       [ "sheet_metal", 20 ],
@@ -80,7 +83,8 @@
     "items": [
       [ "2x4", 100 ],
       [ "stick", 300 ],
-      [ "rock", 100 ],
+      [ "rock", 50 ],
+      [ "rock_flaking", 50 ],
       [ "straw_pile", 100 ],
       [ "nail", 10 ],
       [ "sheet_metal", 20 ],
@@ -111,7 +115,8 @@
     "type": "item_group",
     "id": "gathering_faction_base_camp_11",
     "items": [
-      [ "rock", 100 ],
+      [ "rock", 50 ],
+      [ "rock_flaking", 50 ],
       [ "stick", 100 ],
       [ "pipe", 30 ],
       [ "2x4", 40 ],
