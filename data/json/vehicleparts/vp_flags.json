@@ -3,7 +3,8 @@
     "id": "ALTERNATOR",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "An alternator.  When mounted on a gasoline or diesel engine and the engine is on, will produce electrical power that can be stored in a battery."
+    "info": "An alternator.  When mounted on a gasoline or diesel engine and the engine is on, will produce electrical power that can be stored in a battery.",
+    "requires_flag": "E_ALTERNATOR"
   },
   {
     "id": "AISLE",
@@ -66,6 +67,12 @@
     "info": "Closed, it prevents people from seeing through the curtain.  A door motor allows you to remotely open or close it from the vehicle controls."
   },
   {
+    "id": "NEEDS_WINDOW",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "WINDOW"
+  },
+  {
     "id": "DOOR",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
@@ -123,7 +130,8 @@
     "id": "SEATBELT",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "This part will help prevent you from being thrown from the vehicle in a collision.  You will automatically enable this part when you move into a tile with it."
+    "info": "This part will help prevent you from being thrown from the vehicle in a collision.  You will automatically enable this part when you move into a tile with it.",
+    "requires_flag": "BELTABLE"
   },
   {
     "id": "STABLE",
@@ -141,7 +149,14 @@
     "id": "TURRET",
     "type": "json_flag",
     "context": [ "vehicle_part" ],
-    "info": "A heavy weapon mounted in a turret.  It can be fired from the vehicle controls."
+    "info": "A heavy weapon mounted in a turret.  It can be fired from the vehicle controls.",
+    "requires_flag": "TURRET_MOUNT"
+  },
+  {
+    "id": "TURRET_CONTROLS",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "TURRET"
   },
   {
     "id": "WHEEL",
@@ -160,5 +175,59 @@
     "type": "json_flag",
     "context": [ "vehicle_part" ],
     "info": "You can craft here."
+  },
+  {
+    "id": "NEEDS_WHEEL_MOUNT_LIGHT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "WHEEL_MOUNT_LIGHT"
+  },
+  {
+    "id": "NEEDS_WHEEL_MOUNT_MEDIUM",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "WHEEL_MOUNT_MEDIUM"
+  },
+  {
+    "id": "NEEDS_WHEEL_MOUNT_HEAVY",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "WHEEL_MOUNT_HEAVY"
+  },
+  {
+    "id": "NEEDS_BATTERY_MOUNT",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "BATTERY_MOUNT"
+  },
+  {
+    "id": "ON_CONTROLS",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "CONTROLS"
+  },
+  {
+    "id": "INTERNAL",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "CARGO"
+  },
+  {
+    "id": "CARGO_LOCKING",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "LOCKABLE_CARGO"
+  },
+  {
+    "id": "DOOR_MOTOR",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "OPENABLE"
+  },
+  {
+    "id": "ON_ROOF",
+    "type": "json_flag",
+    "context": [ "vehicle_part" ],
+    "requires_flag": "ROOF"
   }
 ]

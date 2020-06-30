@@ -122,11 +122,6 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Rotten food typically attracts bugs, and bugs got a lot bigger recently..." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
     "text": [ "Drugs are great for quick stat boosts, but be careful of addictions or overdose." ]
   },
   {
@@ -217,12 +212,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Why it's called chicken walker?  Because you'll chicken out every time you'll see it." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
-    "text": [ "Routine kills.  Stay alert! Don't let your guard down." ]
+    "text": [ "Routine kills.  Stay alert!  Don't let your guard down." ]
   },
   {
     "type": "snippet",
@@ -292,11 +282,6 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "Don't get caught with your pants down.  There's no toilet paper anymore anyway." ]
-  },
-  {
-    "type": "snippet",
-    "category": "tip",
     "text": [ "Terrain that slows you down will also slow down your enemies." ]
   },
   {
@@ -312,7 +297,7 @@
   {
     "type": "snippet",
     "category": "tip",
-    "text": [ "A survivor saved is a friend earned.  Most of the time..." ]
+    "text": [ "A survivor saved is a friend earned.  Most of the time…" ]
   },
   {
     "type": "snippet",

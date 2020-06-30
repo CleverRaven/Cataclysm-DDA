@@ -1,18 +1,20 @@
 #include "weather_gen.h"
 
 #include <algorithm>
+#include <chrono>
 #include <cmath>
+#include <ostream>
 #include <random>
 #include <string>
 
-#include "game_constants.h"
 #include "cata_utility.h"
+#include "game_constants.h"
 #include "json.h"
 #include "math_defines.h"
+#include "point.h"
 #include "rng.h"
 #include "simplexnoise.h"
 #include "weather.h"
-#include "point.h"
 
 namespace
 {
@@ -31,12 +33,12 @@ weather_generator::weather_generator() = default;
 int weather_generator::current_winddir = 1000;
 
 struct weather_gen_common {
-    double x;
-    double y;
-    double z;
-    double cyf;
-    unsigned modSEED;
-    season_type season;
+    double x = 0;
+    double y = 0;
+    double z = 0;
+    double cyf = 0;
+    unsigned modSEED = 0u;
+    season_type season = season_type::SPRING;
 };
 
 static weather_gen_common get_common_data( const tripoint &location, const time_point &t,
@@ -55,7 +57,7 @@ static weather_gen_common get_common_data( const tripoint &location, const time_
     const double year_fraction( time_past_new_year( t ) /
                                 calendar::year_length() ); // [0,1)
 
-    result.cyf = cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
+    result.cyf = std::cos( tau * ( year_fraction + .125 ) ); // [-1, 1]
     // We add one-eighth to line up `cyf` so that 1 is at
     // midwinter and -1 at midsummer. (Cataclsym DDA years
     // start when spring starts. Gregorian years start when
@@ -77,7 +79,7 @@ static double weather_temperature_from_common_data( const weather_generator &wg,
     // -1 in midwinter, +1 in midsummer
     const season_type season = common.season;
     const double dayFraction = time_past_midnight( t ) / 1_days;
-    const double dayv = cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
+    const double dayv = std::cos( tau * ( dayFraction + .5 - coldest_hour / 24 ) );
     // -1 at coldest_hour, +1 twelve hours later
 
     // manually specified seasonal temp variation from region_settings.json
@@ -144,19 +146,18 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         10 * ( -seasonality + 2 );
 
     // Wind power
-    W = std::max( 0, static_cast<int>( base_wind  / pow( P / 1014.78, rng( 9,
+    W = std::max( 0, static_cast<int>( base_wind * rng( 1, 2 )  / std::pow( ( P + W ) / 1014.78, rng( 9,
                                        base_wind_distrib_peaks ) ) +
-                                       -cyf / base_wind_season_variation * rng( 1, 2 ) * W ) );
-    // Wind direction
+                                       -cyf / base_wind_season_variation * rng( 1, 2 ) ) );
     // Initial static variable
     if( current_winddir == 1000 ) {
-        current_winddir = get_wind_direction( season, seed );
+        current_winddir = get_wind_direction( season );
         current_winddir = convert_winddir( current_winddir );
     } else {
         // When wind strength is low, wind direction is more variable
-        bool changedir = one_in( W * 360 );
+        bool changedir = one_in( W * 2160 );
         if( changedir ) {
-            current_winddir = get_wind_direction( season, seed );
+            current_winddir = get_wind_direction( season );
             current_winddir = convert_winddir( current_winddir );
         }
     }
@@ -188,13 +189,16 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     if( w.pressure < 1010 && w.humidity > 40 ) {
         r = WEATHER_CLOUDY;
     }
-    if( r == WEATHER_CLOUDY && ( w.humidity > 97 || w.pressure < 1000 ) ) {
+    if( r == WEATHER_CLOUDY && ( w.humidity > 96 || w.pressure < 1003 ) ) {
+        r = WEATHER_LIGHT_DRIZZLE;
+    }
+    if( r >= WEATHER_LIGHT_DRIZZLE && ( w.humidity > 97 || w.pressure < 1000 ) ) {
         r = WEATHER_DRIZZLE;
     }
-    if( r >= WEATHER_CLOUDY && ( w.humidity > 98 || w.pressure < 994 ) ) {
+    if( r >= WEATHER_CLOUDY && ( w.humidity > 98 || w.pressure < 993 ) ) {
         r = WEATHER_RAINY;
     }
-    if( r == WEATHER_RAINY && w.pressure < 997 ) {
+    if( r == WEATHER_RAINY && w.pressure < 996 ) {
         r = WEATHER_THUNDER;
     }
     if( r == WEATHER_THUNDER && w.pressure < 990 ) {
@@ -222,10 +226,9 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
     return r;
 }
 
-int weather_generator::get_wind_direction( const season_type season, unsigned seed ) const
+int weather_generator::get_wind_direction( const season_type season ) const
 {
-    unsigned dirseed = seed;
-    cata_default_random_engine wind_dir_gen( dirseed );
+    cata_default_random_engine &wind_dir_gen = rng_get_engine();
     // Assign chance to angle direction
     if( season == SPRING ) {
         std::discrete_distribution<int> distribution {3, 3, 5, 8, 11, 10, 5, 2, 5, 6, 6, 5, 8, 10, 8, 6};
@@ -270,10 +273,10 @@ int weather_generator::get_water_temperature() const
     }
 
     // Temperature varies between 33.8F and 75.2F depending on the time of year. Day = 0 corresponds to the start of spring.
-    int annual_mean_water_temperature = 54.5 + 20.7 * sin( tau * ( day - season_length * 0.5 ) /
+    int annual_mean_water_temperature = 54.5 + 20.7 * std::sin( tau * ( day - season_length * 0.5 ) /
                                         ( season_length * 4.0 ) );
     // Temperature varies between +2F and -2F depending on the time of day. Hour = 0 corresponds to midnight.
-    int daily_water_temperature_varaition = 2.0 + 2.0 * sin( tau * ( hour - 6.0 ) / 24.0 );
+    int daily_water_temperature_varaition = 2.0 + 2.0 * std::sin( tau * ( hour - 6.0 ) / 24.0 );
 
     water_temperature = annual_mean_water_temperature + daily_water_temperature_varaition;
 
@@ -315,7 +318,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
     }, "weather test file" );
 }
 
-weather_generator weather_generator::load( JsonObject &jo )
+weather_generator weather_generator::load( const JsonObject &jo )
 {
     weather_generator ret;
     ret.base_temperature = jo.get_float( "base_temperature", 0.0 );

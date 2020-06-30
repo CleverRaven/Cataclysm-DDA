@@ -86,6 +86,9 @@ static void bar()
     foo( "..." );
     // CHECK-MESSAGES: [[@LINE-1]]:11: warning: ellipsis preferred over three dots.
     // CHECK-FIXES: foo( "\u2026" );
+    foo( "foo..." );
+    // CHECK-MESSAGES: [[@LINE-1]]:14: warning: ellipsis preferred over three dots.
+    // CHECK-FIXES: foo( "foo\u2026" );
     foo( "Three.  \nTwo.  One." );
     // CHECK-MESSAGES: [[@LINE-1]]:17: warning: unnecessary spaces at end of line.
     // CHECK-FIXES: foo( "Three.\nTwo.  One." );

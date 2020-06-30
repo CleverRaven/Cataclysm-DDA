@@ -1,0 +1,88 @@
+[
+  {
+    "id": "mjolnir",
+    "copy-from": "warhammer",
+    "type": "GENERIC",
+    "name": { "str": "Mjölnir" },
+    "description": "Mjölnir, the legendary hammer of Thor.  It is rumored to be able to level mountains with a single blow.  You feel the power of Asgard coursing through the hammer.",
+    "weight": "1731 g",
+    "color": "light_gray",
+    "material": [ "orichalcum_metal", "wood", "gold" ],
+    "techniques": [ "WBLOCK_2", "BRUTAL" ],
+    "volume": "3750 ml",
+    "bashing": 45,
+    "price": 200000
+  },
+  {
+    "id": "gungnir",
+    "copy-from": "spear_steel",
+    "type": "GENERIC",
+    "name": { "str": "Gungnir" },
+    "description": "Gungnir, the spear of Odin.  It is rumored to be the perfect spear, perfectly hitting any target regardless of the wielder's strength or skill.  If feels like Odin's protecting you.",
+    "weight": "1854 g",
+    "material": [ "orichalcum_metal", "wood", "gold" ],
+    "techniques": [ "WBLOCK_1", "IMPALE", "SWEEP" ],
+    "volume": "3250 ml",
+    "bashing": 10,
+    "cutting": 35,
+    "price": 200000
+  },
+  {
+    "id": "gram",
+    "copy-from": "jian",
+    "type": "GENERIC",
+    "name": { "str": "Gram" },
+    "description": "Gram, the sword of Sigurd.  It is rumored to be the sword that slayed the legendary dragon, Fafnir.  Once said to have cleaved Regin's anvil in half, the edge is impeccable.",
+    "weight": "1132 g",
+    "material": [ "orichalcum_metal", "steel", "leather" ],
+    "techniques": [ "WBLOCK_2", "PRECISE", "VORPAL" ],
+    "volume": "2500 ml",
+    "cutting": 45,
+    "price": 200000
+  },
+  {
+    "id": "laevateinn",
+    "copy-from": "i_staff",
+    "type": "GENERIC",
+    "name": { "str": "Laevateinn" },
+    "description": "Laevateinn, the staff of Loki.  Said to have been plucked from the gates of Hel by Loki.  Imbued with a mysterious magic, the magic of the trickster god himself.",
+    "price": 160000,
+    "material": [ "steel", "gold", "orichalcum_metal" ],
+    "flags": [ "MAGIC_FOCUS" ],
+    "techniques": [ "WBLOCK_2", "SPIN", "RAPID", "SWEEP" ],
+    "weight": "1860 g",
+    "bashing": 20,
+    "cutting": 35,
+    "use_action": { "type": "cast_spell", "spell_id": "ethereal_grasp", "no_fail": true, "level": 10, "need_wielding": true }
+  },
+  {
+    "copy-from": "knife_combat",
+    "type": "TOOL",
+    "id": "orich_knife_combat",
+    "name": { "str": "orichalcum combat knife", "str_pl": "orichalcum combat knives" },
+    "description": "A variant of the combat knife that is made of orichalcum instead of steel.  Sharper and easier to maintain than steel while just as dense, this knife also has a thinner blade, which shaves off some weight.",
+    "material": [ "orichalcum_metal" ],
+    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.99 },
+    "color": "yellow"
+  },
+  {
+    "copy-from": "longsword",
+    "type": "TOOL",
+    "id": "orich_longsword",
+    "name": { "str": "orichalcum longsword" },
+    "description": "A variant of the longsword that is made of orichalcum instead of steel.  Sharper and easier to maintain than steel while just as dense, this longsword also has a thinner blade, which shaves off some weight.",
+    "material": [ "orichalcum_metal" ],
+    "proportional": { "cutting": 1.1, "price": 5, "weight": 0.99 },
+    "color": "yellow"
+  },
+  {
+    "copy-from": "fire_ax",
+    "type": "TOOL",
+    "id": "orich_fire_ax",
+    "name": { "str": "orichalcum fire axe" },
+    "description": "A fire axe made with orichalcum instead of steel.  This makes it possible to chop through harder materials, and in the very well-funded fire stations is preferred.",
+    "material": [ "orichalcum_metal" ],
+    "proportional": { "cutting": 1.1, "price": 5 },
+    "color": "yellow"
+  }
+]

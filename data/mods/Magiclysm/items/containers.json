@@ -1,0 +1,100 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "bag_holding_1",
+    "name": { "str": "lesser dimensional bag" },
+    "description": "This is a bag that can contain more than it should.  The bag magically reduces the weight of its contents and expands less than the amount of stuff you put into it.  It takes a few words and hand-waving to take an item out.",
+    "symbol": "U",
+    "color": "magenta",
+    "volume": "4 L",
+    "weight": "4 kg",
+    "price": "3000 USD",
+    "flags": [ "TARDIS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "moves": 1800,
+        "max_contains_volume": "40 L",
+        "max_contains_weight": "50 kg",
+        "max_item_volume": "7 L",
+        "max_item_length": "3 meter",
+        "spoil_multiplier": 1.5,
+        "weight_multiplier": 0.7,
+        "volume_multiplier": 0.7,
+        "rigid": false,
+        "magazine_well": "1 L"
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "bag_holding_1",
+    "id": "bag_holding_2",
+    "name": { "str": "dimensional bag" },
+    "weight": "6 kg",
+    "price": "7500 USD",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "moves": 1800,
+        "max_contains_volume": "100 L",
+        "max_contains_weight": "110 kg",
+        "max_item_volume": "10 L",
+        "max_item_length": "4 meter",
+        "spoil_multiplier": 1.5,
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.5,
+        "rigid": false,
+        "magazine_well": "1 L"
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "copy-from": "bag_holding_1",
+    "id": "bag_holding_3",
+    "name": { "str": "greater dimensional bag" },
+    "description": "This dimensional bag has reached the limits of human innovation with a combination of manufacturing and magical secrets.",
+    "weight": "10 kg",
+    "price": "85000 USD",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "moves": 1800,
+        "max_contains_volume": "165 L",
+        "max_contains_weight": "200 kg",
+        "max_item_volume": "15 L",
+        "max_item_length": "6 meter",
+        "spoil_multiplier": 1.5,
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.3,
+        "rigid": false,
+        "magazine_well": "1 L"
+      }
+    ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "fridge_holding_1",
+    "name": { "str": "supergravity preservation box" },
+    "description": "A box that uses gravity magic to preserve food.  It makes the box much heavier, but anything in it lasts far longer and you can store more.",
+    "weight": "80 kg",
+    "symbol": "E",
+    "color": "light_red",
+    "volume": "100 L",
+    "price": "4000 USD",
+    "flags": [ "TARDIS" ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "moves": 2300,
+        "max_contains_volume": "200 L",
+        "max_contains_weight": "500 kg",
+        "max_item_length": "1 meter",
+        "spoil_multiplier": 0.2,
+        "weight_multiplier": 2.5,
+        "rigid": true
+      }
+    ]
+  }
+]

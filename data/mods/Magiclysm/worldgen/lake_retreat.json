@@ -312,7 +312,8 @@
         "$": [ "t_tree_apple", "t_tree_pear", "t_tree_cherry", "t_tree_peach", "t_tree_apricot", "t_tree_plum", "t_tree_willow" ]
       },
       "furniture": { "h": "f_bench" },
-      "items": { "h": [ { "item": "enchanted_small_items", "chance": 20 }, { "item": "magic_shop_books", "chance": 30 } ] }
+      "items": { "h": [ { "item": "enchanted_small_items", "chance": 20 }, { "item": "magic_shop_books", "chance": 30 } ] },
+      "place_npcs": [ { "class": "magus_old", "x": 10, "y": 12 } ]
     }
   },
   {

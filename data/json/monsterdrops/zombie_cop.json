@@ -35,6 +35,7 @@
       [ "heavy_flashlight", 35 ],
       [ "holster", 25 ],
       [ "kevlar", 35 ],
+      [ "armguard_cut_resistant", 2 ],
       [ "bholster", 3 ],
       [ "legpouch_large", 5 ],
       [ "pocket_firstaid", 10 ],
@@ -48,7 +49,7 @@
   {
     "id": "cop_gloves",
     "type": "item_group",
-    "items": [ [ "gloves_leather", 45 ], [ "gloves_medical", 20 ], [ "gloves_tactical", 10 ] ]
+    "items": [ [ "gloves_leather", 45 ], [ "gloves_medical", 20 ], [ "gloves_cut_resistant", 20 ], [ "gloves_tactical", 10 ] ]
   },
   {
     "id": "cop_helmet",
@@ -78,6 +79,125 @@
   {
     "id": "cop_weapons",
     "type": "item_group",
-    "items": [ { "group": "cop_melee", "prob": 60 }, { "group": "guns_cop", "prob": 40 } ]
+    "items": [
+      { "group": "cop_melee", "prob": 60 },
+      {
+        "distribution": [ { "group": "longguns_cop", "prob": 50, "contents-item": "shoulder_strap" }, { "group": "sidearms_cop", "prob": 50 } ],
+        "prob": 40
+      }
+    ]
+  },
+  {
+    "id": "mon_zombie_swat_death_drops",
+    "type": "item_group",
+    "subtype": "collection",
+    "magazine": 100,
+    "ammo": 40,
+    "entries": [
+      { "group": "swat_zombie_gear", "prob": 100, "damage": [ 0, 2 ] },
+      { "group": "swat_gloves", "prob": 30, "damage": [ 0, 4 ] },
+      { "group": "swat_helmet", "prob": 20, "damage": [ 0, 4 ] },
+      { "group": "swat_pants", "damage": [ 0, 4 ] },
+      { "group": "swat_shoes", "damage": [ 0, 4 ] },
+      { "group": "swat_torso", "damage": [ 0, 4 ] },
+      { "group": "swat_weapons", "prob": 50, "damage": [ 0, 1 ], "dirt": [ 0, 7050 ] },
+      { "group": "underwear", "damage": [ 0, 4 ] },
+      { "group": "clothing_glasses", "prob": 5 },
+      { "group": "clothing_watch", "prob": 10 },
+      { "item": "badge_swat", "prob": 10 },
+      { "item": "cash_card", "charges-min": 0, "charges-max": 50000, "prob": 50 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "swat_zombie_gear",
+    "subtype": "collection",
+    "entries": [
+      { "collection": [ { "item": "bandages", "prob": 60 }, { "item": "1st_aid", "prob": 20 } ], "prob": 25 },
+      {
+        "collection": [ { "item": "swat_armor", "prob": 50 }, { "item": "kevlar", "prob": 25 }, { "item": "tacvest", "prob": 5 } ],
+        "prob": 75
+      },
+      {
+        "collection": [
+          { "item": "heavy_flashlight", "prob": 20 },
+          { "item": "airhorn", "prob": 5 },
+          { "item": "two_way_radio", "prob": 30 },
+          { "item": "whistle", "prob": 5 },
+          { "item": "flashbang", "prob": 10 },
+          { "item": "sm_extinguisher", "prob": 5 },
+          { "item": "rope_30", "prob": 10 }
+        ],
+        "prob": 30
+      },
+      {
+        "collection": [
+          { "item": "holster", "prob": 35 },
+          { "item": "chestpouch", "prob": 15 },
+          { "item": "ammo_satchel", "prob": 10 },
+          { "item": "bholster", "prob": 25 },
+          { "item": "bandolier_shotgun", "prob": 10 },
+          { "item": "legpouch_large", "prob": 25 },
+          { "item": "police_belt", "prob": 15 }
+        ],
+        "prob": 25
+      }
+    ]
+  },
+  {
+    "id": "swat_gloves",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "gloves_fingerless", "prob": 15 },
+      { "item": "gloves_leather", "prob": 15 },
+      { "item": "gloves_tactical", "prob": 45 }
+    ]
+  },
+  {
+    "id": "swat_helmet",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "mask_gas", "prob": 10 },
+      { "item": "helmet_riot", "prob": 20 },
+      { "item": "tac_helmet", "prob": 10 },
+      { "item": "tac_fullhelmet", "prob": 5 }
+    ]
+  },
+  {
+    "id": "swat_pants",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [ { "item": "pants", "prob": 75 }, { "item": "pants_cargo", "prob": 70 }, { "item": "pants_army", "prob": 30 } ]
+  },
+  {
+    "id": "swat_shoes",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "boots", "prob": 20 },
+      { "item": "boots_steel", "prob": 40 },
+      { "item": "boots_hiking", "prob": 5 },
+      { "item": "boots_combat", "prob": 30 }
+    ]
+  },
+  {
+    "id": "swat_torso",
+    "type": "item_group",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "tank_top", "prob": 30 },
+      { "item": "army_top", "prob": 40 },
+      { "item": "tshirt", "prob": 20 },
+      { "item": "longshirt", "prob": 10 },
+      { "item": "thermal_shirt", "prob": 10 }
+    ]
+  },
+  {
+    "id": "swat_weapons",
+    "type": "item_group",
+    "subtype": "collection",
+    "entries": [ { "group": "cop_melee", "prob": 25 }, { "group": "guns_swat", "prob": 75 } ]
   }
 ]

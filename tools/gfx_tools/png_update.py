@@ -1,13 +1,11 @@
-#!/bin/python
+#!/usr/bin/env python
 
 # png_update.py
 # Rename a png and update all references to it.
 
 import argparse
-import copy
 import json
 import os
-import string
 import subprocess
 
 # stupid stinking Python 2 versus Python 3 syntax
@@ -153,5 +151,4 @@ for png_dirname in os.listdir(tileset_dirname):
                 new_path = subdir_fpath + "/" + new_name_json
                 os.rename(old_path, new_path)
             
-
 

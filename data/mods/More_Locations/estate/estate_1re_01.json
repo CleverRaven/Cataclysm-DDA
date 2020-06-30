@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "estate_1re",
-    "comment": "first floor, right edge",
+    "//": "first floor, right edge",
     "weight": 99,
     "method": "json",
     "object": {

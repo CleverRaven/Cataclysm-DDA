@@ -8,7 +8,7 @@
     "difficulty": 4,
     "time": "30 m",
     "autolearn": true,
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "chitin_piece", 4 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "chitin_piece", 10 ] ] ]
   },
   {
     "result": "gauntlets_acidchitin",
@@ -21,7 +21,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT_FINE", "level": 1 }, { "id": "SEW", "level": 1 } ],
-    "components": [ [ [ "string_36", 1 ], [ "string_6", 4 ] ], [ [ "acidchitin_piece", 6 ] ] ]
+    "components": [ [ [ "cordage_superior", 1, "LIST" ] ], [ [ "acidchitin_piece", 10 ] ] ]
   },
   {
     "result": "gauntlets_larmor",
@@ -101,7 +101,7 @@
       [ [ "nomex", 6 ] ],
       [ [ "leather", 2 ] ],
       [ [ "duct_tape", 120 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [ [ "nomex_gloves", 1 ], [ "fire_gauntlets", 1 ] ]
     ]
   },
@@ -134,7 +134,7 @@
     "components": [
       [ [ "plastic_chunk", 4 ] ],
       [ [ "duct_tape", 120 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [ [ "wetsuit_gloves", 1 ] ]
     ]
   },
@@ -155,7 +155,7 @@
       [ [ "leather", 2 ] ],
       [ [ "scrap", 4 ] ],
       [ [ "duct_tape", 50 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [
         [ "gloves_leather", 1 ],
         [ "gloves_light", 1 ],
@@ -218,7 +218,7 @@
       [ [ "rag", 6 ] ],
       [ [ "leather", 2 ] ],
       [ [ "duct_tape", 80 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [
         [ "gloves_leather", 1 ],
         [ "gloves_light", 1 ],
@@ -227,6 +227,17 @@
         [ "fire_gauntlets", 1 ]
       ]
     ]
+  },
+  {
+    "result": "gloves_survivor_fingerless",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "time": "16 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "gloves_lsurvivor", 1 ] ] ]
   },
   {
     "result": "gloves_plate",
@@ -258,7 +269,7 @@
       [ [ "rag", 2 ] ],
       [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
       [ [ "duct_tape", 80 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [
         [ "gloves_leather", 1 ],
         [ "gloves_light", 1 ],
@@ -356,7 +367,7 @@
       [ [ "rag", 2 ] ],
       [ [ "fur", 8 ], [ "tanned_pelt", 1 ] ],
       [ [ "duct_tape", 80 ] ],
-      [ [ "gloves_tactical", 1 ], [ "kevlar_plate", 4 ] ],
+      [ [ "gloves_tactical", 1 ], [ "sheet_kevlar_layered", 4 ] ],
       [
         [ "gloves_leather", 1 ],
         [ "gloves_light", 1 ],
@@ -383,7 +394,7 @@
       [ [ "rag", 6 ] ],
       [ [ "scrap", 2 ] ],
       [ [ "duct_tape", 160 ] ],
-      [ [ "gloves_tactical", 2 ], [ "kevlar_plate", 6 ] ]
+      [ [ "gloves_tactical", 2 ], [ "sheet_kevlar_layered", 6 ] ]
     ]
   },
   {
@@ -419,7 +430,7 @@
     "time": "1 m",
     "autolearn": true,
     "components": [ [ [ "socks", 1 ] ] ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "NO_RESIZE" ]
   },
   {
     "result": "thermal_gloves",
@@ -458,5 +469,21 @@
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
     "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "gloves_studded",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_HANDS",
+    "skill_used": "tailor",
+    "difficulty": 3,
+    "time": "30 m",
+    "autolearn": true,
+    "using": [ [ "sewing_standard", 4 ] ],
+    "components": [
+      [ [ "rag", 4 ], [ "gloves_light", 1 ], [ "gloves_liner", 1 ] ],
+      [ [ "leather", 2 ], [ "gloves_leather", 1 ] ],
+      [ [ "scrap", 4 ] ]
+    ]
   }
 ]

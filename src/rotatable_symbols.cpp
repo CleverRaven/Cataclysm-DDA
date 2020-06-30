@@ -15,7 +15,7 @@ namespace
 {
 
 struct rotatable_symbol {
-    uint32_t symbol;
+    uint32_t symbol = 0;
     std::array<uint32_t, 3> rotated_symbol;
 
     bool operator<( const uint32_t &rhs ) const {
@@ -34,7 +34,7 @@ std::vector<rotatable_symbol> symbols;
 namespace rotatable_symbols
 {
 
-void load( JsonObject &jo, const std::string &src )
+void load( const JsonObject &jo, const std::string &src )
 {
     const std::string tuple_key = "tuple";
     const bool strict = src == "dda";

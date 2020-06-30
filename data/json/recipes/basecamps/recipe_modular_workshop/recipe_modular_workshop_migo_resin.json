@@ -1,0 +1,198 @@
+[
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room0_migo_resin_northeast",
+    "description": "We can use a mi-go resin workshop.  Let's start by building a spot to protect the workers from the rain.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room0_migo_resin_northeast",
+    "blueprint_name": "northeast wall",
+    "blueprint_requires": [ { "id": "fbmw_0" } ],
+    "blueprint_provides": [ { "id": "fbmw_northeast" } ],
+    "blueprint_excludes": [ { "id": "fbmw_northeast" } ],
+    "blueprint_needs": {
+      "time": "1 d 22 h",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": { "tools": [  ], "qualities": [ [ { "id": "SMOOTH" } ] ], "components": [ [ [ "alien_pod_resin", 70 ] ] ] }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room3_migo_resin_north",
+    "description": "Let's extend the north mi-go resin wall to the west and add some storage space.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room3_migo_resin_north",
+    "blueprint_name": "north wall",
+    "blueprint_requires": [ { "id": "fbmw_northeast", "amount": 3 } ],
+    "blueprint_provides": [ { "id": "fbmw_north" } ],
+    "blueprint_excludes": [ { "id": "fbmw_north" } ],
+    "blueprint_needs": {
+      "time": "1 d 25 m",
+      "skills": [ [ "fabrication", 2 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "SMOOTH" } ] ],
+        "components": [ [ [ "2x4", 22 ] ], [ [ "wood_sheet", 6 ], [ "wood_panel", 12 ] ], [ [ "nail", 128 ] ], [ [ "alien_pod_resin", 33 ] ] ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room4_migo_resin_east",
+    "description": "Let's expand our production by adding another charcoal kiln.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room4_migo_resin_east",
+    "blueprint_name": "east forage wall",
+    "blueprint_requires": [ { "id": "fbmw_north" } ],
+    "blueprint_provides": [ { "id": "fbmw_east" }, { "id": "blacksmith_recipes_3" } ],
+    "blueprint_excludes": [ { "id": "fbmw_east" } ],
+    "blueprint_needs": {
+      "time": "2 d 5 h 40 m",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "DIG", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "SMOOTH" } ] ],
+        "components": [
+          [ [ "2x4", 12 ] ],
+          [ [ "wood_sheet", 4 ], [ "wood_panel", 8 ] ],
+          [ [ "nail", 80 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "alien_pod_resin", 69 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room5_migo_resin_center",
+    "description": "Let's expand work area with a mi-go resin wall, and add add a bookshelf for our reference books.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room5_migo_resin_center",
+    "blueprint_name": "west forage wall",
+    "blueprint_requires": [ { "id": "fbmw_east" } ],
+    "blueprint_provides": [ { "id": "fbmw_center" } ],
+    "blueprint_excludes": [ { "id": "fbmw_center" } ],
+    "blueprint_needs": {
+      "time": "1 d 3 h 35 m",
+      "skills": [ [ "fabrication", 3 ], [ "tailor", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "SMOOTH" } ] ],
+        "components": [
+          [ [ "2x4", 26 ] ],
+          [ [ "wood_sheet", 4 ], [ "wood_panel", 7 ] ],
+          [ [ "nail", 72 ] ],
+          [ [ "blanket", 1 ], [ "down_blanket", 1 ], [ "fur_blanket", 1 ] ],
+          [ [ "alien_pod_resin", 34 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room6_migo_resin_north",
+    "description": "Let's expand our production by adding a mi-go resin walled pottery kiln area.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room6_migo_resin_north",
+    "blueprint_name": "north pottery wall",
+    "blueprint_requires": [ { "id": "fbmw_center" } ],
+    "blueprint_provides": [ { "id": "fbmw_north" }, { "id": "blacksmith_recipes_4" } ],
+    "blueprint_excludes": [ { "id": "fbmw_north", "amount": 2 } ],
+    "blueprint_resources": [ "tongs", "chisel", "hammer", "swage" ],
+    "components": [ [ [ "tongs", 1 ] ], [ [ "chisel", 1 ] ], [ [ "hammer", 1 ] ], [ [ "swage", 1 ] ] ],
+    "blueprint_needs": {
+      "time": "1 d 7 h 10 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 20 ], [ "toolset", 150 ], [ "welder", 100 ], [ "welder_crude", 150 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "SMOOTH" } ] ],
+        "components": [
+          [ [ "2x4", 12 ] ],
+          [ [ "alien_pod_resin", 36 ] ],
+          [ [ "clay_lump", 12 ], [ "material_cement", 50 ], [ "mortar_build", 1 ] ],
+          [ [ "nail", 80 ] ],
+          [ [ "pipe", 16 ] ],
+          [ [ "rock", 40 ] ],
+          [ [ "sheet_metal", 4 ] ],
+          [ [ "sheet_metal_small", 8 ] ],
+          [ [ "water", 2 ], [ "water_clean", 2 ] ],
+          [ [ "wood_panel", 8 ], [ "wood_sheet", 4 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room7to9_migo_resin_northwest",
+    "description": "Let's enclose this pottery with mi-go resin walls and get some more storage set up.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room7to9_migo_resin_northwest",
+    "blueprint_name": "northwest and south pottery wall",
+    "blueprint_requires": [ { "id": "fbmw_north", "amount": 2 } ],
+    "blueprint_provides": [ { "id": "fbmw_northwest" }, { "id": "blacksmith_recipes_5" } ],
+    "blueprint_excludes": [ { "id": "fbmw_northwest" } ],
+    "blueprint_needs": {
+      "time": "1 d 8 h 58 m",
+      "skills": [ [ "fabrication", 2 ], [ "survival", 0 ] ],
+      "inline": {
+        "tools": [ [ [ "machete", -1 ], [ "makeshift_machete", -1 ], [ "scythe", -1 ], [ "sickle", -1 ], [ "survivor_machete", -1 ] ] ],
+        "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W" } ], [ { "id": "SMOOTH" } ] ],
+        "components": [
+          [ [ "2x4", 42 ] ],
+          [ [ "wood_sheet", 10 ], [ "wood_panel", 20 ] ],
+          [ [ "nail", 230 ] ],
+          [ [ "alien_pod_resin", 44 ] ]
+        ]
+      }
+    }
+  },
+  {
+    "type": "recipe",
+    "result": "faction_base_modular_workshop_room11to12_migo_resin_southeast",
+    "description": "Let's expand the workspace for larger projects and add a drop hammer for productivity.",
+    "category": "CC_BUILDING",
+    "subcategory": "CSC_BUILDING_BASES",
+    "autolearn": false,
+    "never_learn": true,
+    "construction_blueprint": "fbmw_room11to12_migo_resin_southeast",
+    "blueprint_name": "openair, covered work space",
+    "blueprint_requires": [ { "id": "fbmw_northeast", "amount": 4 } ],
+    "blueprint_provides": [ { "id": "fbmw_southeast" }, { "id": "fbmw_south" }, { "id": "blacksmith_recipes_7" } ],
+    "blueprint_excludes": [ { "id": "fbmw_northsoutheast" }, { "id": "fbmw_south" } ],
+    "blueprint_resources": [ "wrench", "pliers", "fake_drop_hammer" ],
+    "components": [ [ [ "wrench", 1 ] ], [ [ "pliers", 1 ] ] ],
+    "blueprint_needs": {
+      "time": "3 d 1 h",
+      "skills": [ [ "fabrication", 3 ] ],
+      "inline": {
+        "tools": [  ],
+        "qualities": [ [ { "id": "HAMMER" } ], [ { "id": "SMOOTH" } ] ],
+        "components": [
+          [ [ "alien_pod_resin", 108 ] ],
+          [ [ "metal_tank", 2 ] ],
+          [ [ "water_faucet", 2 ] ],
+          [ [ "anvil", 1 ] ],
+          [ [ "chain", 4 ] ],
+          [ [ "pipe", 3 ] ]
+        ]
+      }
+    }
+  }
+]

@@ -3,56 +3,71 @@
     "type": "technique",
     "id": "BERSERK",
     "name": "BERSERK",
-    "min_melee": 1,
+    "skill_requirements": [ { "name": "melee", "level": 1 } ],
     "unarmed_allowed": false,
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.3 ], [ "damage", "bash", 0.77 ], [ "damage", "cut", 0.77 ], [ "damage", "stab", 0.77 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.3 },
+      { "stat": "damage", "type": "bash", "scale": 0.77 },
+      { "stat": "damage", "type": "cut", "scale": 0.77 },
+      { "stat": "damage", "type": "stab", "scale": 0.77 }
+    ],
     "flat_bonuses": [
-      [ "movecost", "str", -10 ],
-      [ "damage", "bash", "str", 0.8 ],
-      [ "damage", "stab", "str", 1.5 ],
-      [ "damage", "cut", "str", 0.8 ]
+      { "stat": "movecost", "scaling-stat": "str", "scale": -10 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.8 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.8 }
     ],
     "down_dur": 2,
     "messages": [ "Your swing makes %s stagger and fall", "<npcname> hooks %s" ],
-    "description": "50% moves, 77% Bash, 77% Cut, 77% Stab, Down two turns, STR (SS+) greatly reduces action cost and adds overall damage (S)"
+    "description": "50% AP cost, 77% DMG, Down (2), STR (SS) greatly reduces AP cost and adds (S) DMG"
   },
   {
     "type": "technique",
     "id": "DSINERTIAL",
     "name": "SWEEPER",
-    "min_melee": 4,
+    "skill_requirements": [ { "name": "melee", "level": 4 } ],
     "unarmed_allowed": false,
     "melee_allowed": true,
     "knockback_dist": 1,
-    "mult_bonuses": [ [ "movecost", 0.15 ], [ "damage", "bash", 0.35 ], [ "damage", "cut", 0.35 ], [ "damage", "stab", 0.35 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.15 },
+      { "stat": "damage", "type": "bash", "scale": 0.35 },
+      { "stat": "damage", "type": "cut", "scale": 0.35 },
+      { "stat": "damage", "type": "stab", "scale": 0.35 }
+    ],
     "flat_bonuses": [
-      [ "movecost", "str", -15 ],
-      [ "damage", "bash", "str", 0.1 ],
-      [ "damage", "stab", "str", 0.3 ],
-      [ "damage", "cut", "str", 0.1 ]
+      { "stat": "movecost", "scaling-stat": "str", "scale": -15 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "str", "scale": 0.1 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "str", "scale": 0.3 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "str", "scale": 0.1 }
     ],
     "messages": [ "Your momentum causes your weapon to strike %s", "<npcname> inertially strikes %s" ],
     "aoe": "wide",
-    "description": "15% moves, 35% damage, wide arc, STR (SS+) dramatically reduces action cost, and adds a (A) damage bonus, min 4 melee"
+    "description": "15% AP cost, 35% DMG, wide arc, STR (SS) reduces AP cost, and adds (A) DMG, melee (4)"
   },
   {
     "type": "technique",
     "id": "DSBI",
     "name": "BISECTION",
-    "min_melee": 2,
+    "skill_requirements": [ { "name": "melee", "level": 2 } ],
     "unarmed_allowed": true,
     "melee_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ [ "movecost", 0.35 ], [ "damage", "bash", 1.05 ], [ "damage", "cut", 1.25 ], [ "damage", "stab", 1.05 ] ],
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.35 },
+      { "stat": "damage", "type": "bash", "scale": 1.15 },
+      { "stat": "damage", "type": "cut", "scale": 1.15 },
+      { "stat": "damage", "type": "stab", "scale": 1.15 }
+    ],
     "flat_bonuses": [
-      [ "movecost", "str", -15 ],
-      [ "movecost", "dex", -7 ],
-      [ "damage", "bash", "per", 0.15 ],
-      [ "damage", "cut", "per", 0.3 ],
-      [ "damage", "stab", "per", 0.15 ]
+      { "stat": "movecost", "scaling-stat": "str", "scale": -15 },
+      { "stat": "movecost", "scaling-stat": "dex", "scale": -7 },
+      { "stat": "damage", "type": "bash", "scaling-stat": "per", "scale": 0.15 },
+      { "stat": "damage", "type": "cut", "scaling-stat": "per", "scale": 0.3 },
+      { "stat": "damage", "type": "stab", "scaling-stat": "per", "scale": 0.15 }
     ],
     "messages": [ "You wind up the sword and release a well placed swing at %s", "<npcname> chops %s" ],
-    "description": "Crit only, 35% move cost, 105% Bash and Stab, 125% Cut, DEX (D) and PER (E) reduces action cost and increases overall (B) damage, min 2 melee"
+    "description": "Crit!, 35% AP cost, 115% DMG, STR (SS) and DEX (SS) reduces AP cost and PER (B) adds DMG, melee (2)"
   }
 ]

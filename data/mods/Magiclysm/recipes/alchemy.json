@@ -16,6 +16,52 @@
     "difficulty": 3,
     "skills_required": [ "spellcraft", 2 ],
     "book_learn": [ [ "black_dragons", 2 ] ],
-    "category": "CSC_ENCHANTED_OTHER"
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER"
+  },
+  {
+    "type": "recipe",
+    "result": "spell_scroll_acid_resistance",
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 }, { "id": "MANA_FOCUS", "level": 1 } ],
+    "tools": [ [ [ "paint_brush", -1 ] ] ],
+    "components": [
+      [ [ "tainted_blood", 2000 ], [ "blood", 8 ], [ "dragon_blood", 2000 ] ],
+      [ [ "acid", 4 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ]
+    ],
+    "time": "2 h",
+    "skill_used": "spellcraft",
+    "difficulty": 2,
+    "book_learn": [ [ "black_dragons", 2 ] ],
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER",
+    "flags": [ "SECRET" ]
+  },
+  {
+    "type": "recipe",
+    "result": "mana_dust",
+    "qualities": [ { "id": "CONTAIN", "level": 1 } ],
+    "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+    "components": [ [ [ "crystallized_mana", 1 ] ] ],
+    "time": "5 m",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "skills_required": [ "spellcraft", 2 ],
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER",
+    "autolearn": true
+  },
+  {
+    "type": "recipe",
+    "result": "mana_infused_blood",
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "MANA_INFUSE", "level": 1 } ],
+    "components": [ [ [ "mana_dust", 1 ] ], [ [ "blood", 1 ] ] ],
+    "time": "30 m",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "skills_required": [ "spellcraft", 3 ],
+    "category": "CC_ENCHANTED",
+    "subcategory": "CSC_ENCHANTED_OTHER",
+    "autolearn": true
   }
 ]

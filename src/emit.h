@@ -1,12 +1,11 @@
 #pragma once
-#ifndef EMIT_H
-#define EMIT_H
+#ifndef CATA_SRC_EMIT_H
+#define CATA_SRC_EMIT_H
 
 #include <map>
 #include <string>
 
 #include "field_type.h"
-#include "string_id.h"
 #include "type_id.h"
 
 class JsonObject;
@@ -47,7 +46,7 @@ class emit
         }
 
         /** Load emission data from JSON definition */
-        static void load_emit( JsonObject &jo );
+        static void load_emit( const JsonObject &jo );
 
         /** Get all currently loaded emission data */
         static const std::map<emit_id, emit> &all();
@@ -72,4 +71,4 @@ class emit
         std::string field_name;
 };
 
-#endif
+#endif // CATA_SRC_EMIT_H

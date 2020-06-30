@@ -1,56 +1,60 @@
 #include "panels.h"
 
-#include <cstdlib>
-#include <cmath>
-#include <string>
 #include <array>
+#include <cmath>
+#include <cstdlib>
 #include <iosfwd>
 #include <iterator>
 #include <list>
 #include <memory>
+#include <string>
 #include <utility>
 
 #include "action.h"
 #include "avatar.h"
 #include "behavior.h"
 #include "behavior_oracle.h"
+#include "bodypart.h"
+#include "calendar.h"
 #include "cata_utility.h"
+#include "catacharset.h"
+#include "character.h"
+#include "character_oracle.h"
+#include "character_martial_arts.h"
 #include "color.h"
+#include "compatibility.h"
 #include "cursesdef.h"
+#include "debug.h"
 #include "effect.h"
 #include "game.h"
+#include "game_constants.h"
 #include "game_ui.h"
 #include "input.h"
 #include "item.h"
 #include "json.h"
+#include "magic.h"
 #include "map.h"
-#include "martialarts.h"
-#include "options.h"
 #include "messages.h"
+#include "move_mode.h"
+#include "omdata.h"
+#include "options.h"
+#include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "output.h"
 #include "path_info.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "string_id.h"
+#include "tileray.h"
 #include "translations.h"
+#include "type_id.h"
+#include "ui_manager.h"
+#include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"
-#include "bodypart.h"
-#include "calendar.h"
-#include "catacharset.h"
-#include "compatibility.h"
-#include "debug.h"
-#include "game_constants.h"
-#include "int_id.h"
-#include "omdata.h"
-#include "pldata.h"
-#include "string_formatter.h"
-#include "tileray.h"
-#include "type_id.h"
-#include "magic.h"
-#include "point.h"
-#include "string_id.h"
 
 static const trait_id trait_NOPAIN( "NOPAIN" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
@@ -58,7 +62,7 @@ static const trait_id trait_THRESH_FELINE( "THRESH_FELINE" );
 static const trait_id trait_THRESH_BIRD( "THRESH_BIRD" );
 static const trait_id trait_THRESH_URSINE( "THRESH_URSINE" );
 
-const efftype_id effect_got_checked( "got_checked" );
+static const efftype_id effect_got_checked( "got_checked" );
 
 // constructor
 window_panel::window_panel( std::function<void( avatar &, const catacurses::window & )>
@@ -205,19 +209,18 @@ std::string window_panel::get_name() const
 }
 
 void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                                     const tripoint &global_omt, const int start_y_input, const int start_x_input, const int width,
-                                     const int height )
+                                     const tripoint &global_omt, const point &start_input,
+                                     const int width, const int height )
 {
-    const int cursx = global_omt.x;
-    const int cursy = global_omt.y;
+    const point curs( global_omt.xy() );
     const tripoint targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
-    const int start_y = start_y_input + ( height / 2 ) - 2;
-    const int start_x = start_x_input + ( width / 2 ) - 2;
+    const int start_y = start_input.y + ( height / 2 ) - 2;
+    const int start_x = start_input.x + ( width / 2 ) - 2;
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
-            const tripoint omp( cursx + i, cursy + j, g->get_levz() );
+            const tripoint omp( curs.x + i, curs.y + j, g->get_levz() );
             nc_color ter_color;
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
@@ -344,11 +347,11 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 
     // Print arrow to mission if we have one!
     if( !drew_mission ) {
-        double slope = ( cursx != targ.x ) ? static_cast<double>( targ.y - cursy ) / static_cast<double>
-                       ( targ.x - cursx ) : 4;
+        double slope = ( curs.x != targ.x ) ? static_cast<double>( targ.y - curs.y ) / static_cast<double>
+                       ( targ.x - curs.x ) : 4;
 
-        if( cursx == targ.x || fabs( slope ) > 3.5 ) {  // Vertical slope
-            if( targ.y > cursy ) {
+        if( curs.x == targ.x || std::fabs( slope ) > 3.5 ) {  // Vertical slope
+            if( targ.y > curs.y ) {
                 mvwputch( w_minimap, point( 3 + start_x, 6 + start_y ), c_red, '*' );
             } else {
                 mvwputch( w_minimap, point( 3 + start_x, 0 + start_y ), c_red, '*' );
@@ -356,9 +359,9 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
         } else {
             int arrowx = -1;
             int arrowy = -1;
-            if( fabs( slope ) >= 1. ) {  // y diff is bigger!
-                arrowy = ( targ.y > cursy ? 6 : 0 );
-                arrowx = static_cast<int>( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
+            if( std::fabs( slope ) >= 1. ) {  // y diff is bigger!
+                arrowy = ( targ.y > curs.y ? 6 : 0 );
+                arrowx = static_cast<int>( 3 + 3 * ( targ.y > curs.y ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
                     arrowx = 0;
                 }
@@ -366,8 +369,8 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                     arrowx = 6;
                 }
             } else {
-                arrowx = ( targ.x > cursx ? 6 : 0 );
-                arrowy = static_cast<int>( 3 + 3 * ( targ.x > cursx ? slope : ( 0 - slope ) ) );
+                arrowx = ( targ.x > curs.x ? 6 : 0 );
+                arrowy = static_cast<int>( 3 + 3 * ( targ.x > curs.x ? slope : ( 0 - slope ) ) );
                 if( arrowy < 0 ) {
                     arrowy = 0;
                 }
@@ -385,18 +388,19 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             mvwputch( w_minimap, point( arrowx + start_x, arrowy + start_y ), c_red, glyph );
         }
     }
-
-    const int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
+    avatar &player_character = get_avatar();
+    const int sight_points = player_character.overmap_sight_range( g->light_level(
+                                 player_character.posz() ) );
     for( int i = -3; i <= 3; i++ ) {
         for( int j = -3; j <= 3; j++ ) {
             if( i > -3 && i < 3 && j > -3 && j < 3 ) {
                 continue; // only do hordes on the border, skip inner map
             }
-            const tripoint omp( cursx + i, cursy + j, g->get_levz() );
+            const tripoint omp( curs.x + i, curs.y + j, g->get_levz() );
             int horde_size = overmap_buffer.get_horde_size( omp );
             if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                 if( overmap_buffer.seen( omp )
-                    && g->u.overmap_los( omp, sight_points ) ) {
+                    && player_character.overmap_los( omp, sight_points ) ) {
                     mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
                               horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
@@ -408,7 +412,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
 {
     const tripoint curs = u.global_omt_location();
-    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, 0, 0, 5, 5 );
+    overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 5, 5 );
 }
 
 static void decorate_panel( const std::string &name, const catacurses::window &w )
@@ -432,7 +436,7 @@ static std::string get_temp( const avatar &u )
     std::string temp;
     if( u.has_item_with_flag( "THERMOMETER" ) ||
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
         return "-";
@@ -541,10 +545,12 @@ static std::pair<int, int> temp_delta( const avatar &u )
     int current_bp_extreme = 0;
     int conv_bp_extreme = 0;
     for( int i = 0; i < num_bp; i++ ) {
-        if( abs( u.temp_cur[i] - BODYTEMP_NORM ) > abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
+        if( std::abs( u.temp_cur[i] - BODYTEMP_NORM ) >
+            std::abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
             current_bp_extreme = i;
         }
-        if( abs( u.temp_conv[i] - BODYTEMP_NORM ) > abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
+        if( std::abs( u.temp_conv[i] - BODYTEMP_NORM ) >
+            std::abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
             conv_bp_extreme = i;
         }
     }
@@ -669,7 +675,7 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
     return std::make_pair( temp_color, temp_string );
 }
 
-static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
+static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
 {
     for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
         --it;
@@ -844,11 +850,11 @@ static nc_color safe_color()
 
 static int get_int_digits( const int &digits )
 {
-    int temp = abs( digits );
+    int temp = std::abs( digits );
     if( digits > 0 ) {
-        return static_cast<int>( log10( static_cast<double>( temp ) ) ) + 1;
+        return static_cast<int>( std::log10( static_cast<double>( temp ) ) ) + 1;
     } else if( digits < 0 ) {
-        return static_cast<int>( log10( static_cast<double>( temp ) ) ) + 2;
+        return static_cast<int>( std::log10( static_cast<double>( temp ) ) ) + 2;
     }
     return 1;
 }
@@ -867,16 +873,16 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             wprintz( w, color, sym );
         }
     };
-    if( u.is_limb_broken( static_cast<hp_part>( limb_index ) ) && ( limb_index >= hp_arm_l &&
-            limb_index <= hp_leg_r ) ) {
+    const bodypart_id bp = convert_bp( avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ) ).id();
+    if( u.is_limb_broken( bp.id() ) && ( limb_index >= hp_arm_l &&
+                                         limb_index <= hp_leg_r ) ) {
         //Limb is broken
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        const auto bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
-        if( u.worn_with_flag( "SPLINT", bp ) ) {
+        if( u.worn_with_flag( "SPLINT",  bp ) ) {
             static const efftype_id effect_mending( "mending" );
-            const auto &eff = u.get_effect( effect_mending, bp );
+            const auto &eff = u.get_effect( effect_mending, bp->token );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {
@@ -896,12 +902,14 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         return;
     }
 
-    std::pair<std::string, nc_color> hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
+    const int hp_cur = u.get_part_hp_cur( bp );
+    const int hp_max = u.get_part_hp_max( bp );
+    std::pair<std::string, nc_color> hp = get_hp_bar( hp_cur, hp_max );
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
-        wprintz( w, hp.second, "%3d  ", u.hp_cur[limb_index] );
+        wprintz( w, hp.second, "%3d  ", hp_cur );
     } else if( no_feeling ) {
-        if( u.hp_cur[limb_index] < u.hp_max[limb_index] / 2 ) {
+        if( hp_cur < hp_max / 2 ) {
             hp = std::make_pair( string_format( " %s", _( "Bad" ) ), c_red );
         } else {
             hp = std::make_pair( string_format( " %s", _( "Good" ) ), c_green );
@@ -917,8 +925,8 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
 
 static void draw_limb2( avatar &u, const catacurses::window &w )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<bodypart_id, 6> part = { {
+            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
         }
     };
 
@@ -962,7 +970,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     const auto pwr = power_stat( u );
     mvwprintz( w, point( 31 - utf8_width( pwr.second ), 1 ), pwr.first, pwr.second );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_stats( avatar &u, const catacurses::window &w )
@@ -988,29 +996,17 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 25, 0 ), c_light_gray, _( "PER" ) );
     mvwprintz( w, point( stat < 10 ? 30 : 29, 0 ), stat_clr,
                stat < 100 ? to_string( stat ) : "99+" );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static nc_color move_mode_color( avatar &u )
 {
-    if( u.movement_mode_is( CMM_RUN ) ) {
-        return c_red;
-    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-        return c_light_blue;
-    } else {
-        return c_light_gray;
-    }
+    return u.current_movement_mode()->panel_color();
 }
 
-static std::string move_mode_string( avatar &u )
+static char move_mode_string( avatar &u )
 {
-    if( u.movement_mode_is( CMM_RUN ) ) {
-        return pgettext( "movement-type", "R" );
-    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-        return pgettext( "movement-type", "C" );
-    } else {
-        return pgettext( "movement-type", "W" );
-    }
+    return u.current_movement_mode()->panel_letter();
 }
 
 static void draw_stealth( avatar &u, const catacurses::window &w )
@@ -1029,7 +1025,7 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 30 - utf8_width( snd ), 0 ), u.volume != 0 ? c_yellow : c_light_gray, snd );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_time_graphic( const catacurses::window &w )
@@ -1098,7 +1094,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
     nc_color clr = c_white;
     print_colored_text( w, point( 27, 0 ), clr, c_white, get_moon_graphic() );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_needs_compact( const avatar &u, const catacurses::window &w )
@@ -1123,7 +1119,7 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 17, 2 ), c_light_gray, _( "Focus" ) );
     mvwprintz( w, point( 24, 2 ), focus_color( u.focus_pool ), to_string( u.focus_pool ) );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_limb_narrow( avatar &u, const catacurses::window &w )
@@ -1145,8 +1141,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
     }
 
     // display limbs status
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<bodypart_id, 6> part = { {
+            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
         }
     };
     ny2 = 0;
@@ -1166,18 +1162,18 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
         str = left_justify( str, 5 );
         wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_limb_wide( avatar &u, const catacurses::window &w )
 {
-    const std::vector<std::pair<body_part, int>> parts = {
-        {bp_arm_l, 2},
-        {bp_head, 0},
-        {bp_arm_r, 3},
-        {bp_leg_l, 4},
-        {bp_torso, 1},
-        {bp_leg_r, 5}
+    const std::vector<std::pair<bodypart_id, int>> parts = {
+        {bodypart_id( "arm_l" ), 2},
+        {bodypart_id( "head" ), 0},
+        {bodypart_id( "arm_r" ), 3},
+        {bodypart_id( "leg_l" ), 4},
+        {bodypart_id( "torso" ), 1},
+        {bodypart_id( "leg_r" ), 5}
     };
     werase( w );
     for( int i = 0; i < num_hp_parts; i++ ) {
@@ -1190,7 +1186,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
         draw_limb_health( u, w, parts[i].second );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_char_narrow( avatar &u, const catacurses::window &w )
@@ -1207,7 +1203,7 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Move :" ) );
 
     nc_color move_color =  move_mode_color( u );
-    std::string move_char = move_mode_string( u );
+    char move_char = move_mode_string( u );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1231,7 +1227,7 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 26, 0 ), morale_pair.first, "%s", smiley );
     mvwprintz( w, point( 26, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, point( 26, 2 ), move_color, "%s", movecost );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_char_wide( avatar &u, const catacurses::window &w )
@@ -1248,7 +1244,7 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Move :" ) );
 
     nc_color move_color =  move_mode_color( u );
-    std::string move_char = move_mode_string( u );
+    char move_char = move_mode_string( u );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1268,7 +1264,7 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
 
     mvwprintz( w, point( 23, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, point( 38, 1 ), move_color, "%s", movecost );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_stat_narrow( avatar &u, const catacurses::window &w )
@@ -1296,7 +1292,7 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 8, 2 ), pwr_pair.first, "%s", pwr_pair.second );
     mvwprintz( w, point( 26, 2 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_stat_wide( avatar &u, const catacurses::window &w )
@@ -1322,7 +1318,7 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 38, 0 ), pwr_pair.first, "%s", pwr_pair.second );
     mvwprintz( w, point( 38, 1 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool minimap )
@@ -1340,11 +1336,12 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
-        const weather_datum wdata = weather_data( g->weather.weather );
+        const weather_datum wdata = weather_data( get_weather().weather );
         wprintz( w, wdata.color, " %s", wdata.name );
     }
     // display lighting
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point( 1, 2 ), c_light_gray, "%s ", _( "Light:" ) );
     wprintz( w, ll.second, ll.first );
 
@@ -1366,9 +1363,9 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     if( minimap ) {
         const int offset = getmaxx( w ) - 6;
         const tripoint curs = u.global_omt_location();
-        overmap_ui::draw_overmap_chunk( w, u, curs, -1, offset, 5, 5 );
+        overmap_ui::draw_overmap_chunk( w, u, curs, point( offset, -1 ), 5, 5 );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_loc_narrow( const avatar &u, const catacurses::window &w )
@@ -1393,7 +1390,7 @@ static void draw_moon_narrow( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_moon_wide( const avatar &u, const catacurses::window &w )
@@ -1402,20 +1399,19 @@ static void draw_moon_wide( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
     mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    nc_color color = c_light_gray;
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wield:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
-    print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
@@ -1427,9 +1423,9 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     std::pair<nc_color, std::string> temp_pair = temp_stat( u );
     std::pair<std::string, nc_color> pain_pair = u.get_pain_description();
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Food :" ) );
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Hunger:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Drink:" ) );
+    mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Thirst:" ) );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Rest :" ) );
     mvwprintz( w, point( 1, 3 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Heat :" ) );
@@ -1438,7 +1434,7 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 2 ), rest_pair.second, rest_pair.first );
     mvwprintz( w, point( 8, 3 ), pain_pair.second, pain_pair.first );
     mvwprintz( w, point( 8, 4 ), temp_pair.first, temp_pair.second );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_needs_labels( const avatar &u, const catacurses::window &w )
@@ -1452,17 +1448,43 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Pain :" ) );
     mvwprintz( w, point( 8, 0 ), pain_pair.second, pain_pair.first );
-    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Drink:" ) );
+    mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Thirst:" ) );
     mvwprintz( w, point( 30, 0 ), thirst_pair.second, thirst_pair.first );
 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Rest :" ) );
     mvwprintz( w, point( 8, 1 ), rest_pair.second, rest_pair.first );
-    mvwprintz( w, point( 23, 1 ), c_light_gray, _( "Food :" ) );
+    mvwprintz( w, point( 23, 1 ), c_light_gray, _( "Hunger:" ) );
     mvwprintz( w, point( 30, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Heat :" ) );
     mvwprintz( w, point( 8, 2 ), temp_pair.first, temp_pair.second );
-    wrefresh( w );
+    wnoutrefresh( w );
+}
+
+static void draw_sound_labels( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
+    if( !u.is_deaf() ) {
+        mvwprintz( w, point( 8, 0 ), c_yellow, to_string( u.volume ) );
+    } else {
+        mvwprintz( w, point( 8, 0 ), c_red, _( "Deaf!" ) );
+    }
+    wnoutrefresh( w );
+}
+
+static void draw_sound_narrow( const avatar &u, const catacurses::window &w )
+{
+    werase( w );
+    // NOLINTNEXTLINE(cata-use-named-point-constants)
+    mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Sound:" ) );
+    if( !u.is_deaf() ) {
+        mvwprintz( w, point( 8, 0 ), c_yellow, to_string( u.volume ) );
+    } else {
+        mvwprintz( w, point( 8, 0 ), c_red, _( "Deaf!" ) );
+    }
+    wnoutrefresh( w );
 }
 
 static void draw_env_compact( avatar &u, const catacurses::window &w )
@@ -1471,8 +1493,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
 
     draw_minimap( u, w );
     // wielded item
-    nc_color color = c_light_gray;
-    print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
     // style
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
     // location
@@ -1486,7 +1507,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 8, 3 ), wdata.color, wdata.name );
     }
     // display lighting
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point( 8, 4 ), ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
@@ -1500,10 +1522,10 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
-static void render_wind( avatar &u, const catacurses::window &w, std::string formatstr )
+static void render_wind( avatar &u, const catacurses::window &w, const std::string &formatstr )
 {
     werase( w );
     mvwprintz( w, point_zero, c_light_gray,
@@ -1514,7 +1536,7 @@ static void render_wind( avatar &u, const catacurses::window &w, std::string for
                                             u.pos(), g->weather.winddirection, g->is_sheltered( u.pos() ) );
     mvwprintz( w, point( 8, 0 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_wind( avatar &u, const catacurses::window &w )
@@ -1529,14 +1551,14 @@ static void draw_wind_padding( avatar &u, const catacurses::window &w )
 
 static void draw_health_classic( avatar &u, const catacurses::window &w )
 {
-    static std::array<body_part, 6> part = { {
-            bp_head, bp_torso, bp_arm_l, bp_arm_r, bp_leg_l, bp_leg_r
+    static std::array<bodypart_id, 6> part = { {
+            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
         }
     };
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
 
     werase( w );
@@ -1601,10 +1623,10 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     }
 
     // speed
-    if( !u.in_vehicle ) {
+    if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
-        nc_color move_color = u.movement_mode_is( CMM_WALK ) ? c_white : move_mode_color( u );
+        nc_color move_color = move_mode_color( u );
         std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
         mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }
@@ -1620,7 +1642,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     // vehicle display
     if( veh ) {
-        veh->print_fuel_indicators( w, 2, 39 );
+        veh->print_fuel_indicators( w, point( 39, 2 ) );
         mvwprintz( w, point( 35, 4 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
@@ -1639,7 +1661,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         }
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_armor_padding( const avatar &u, const catacurses::window &w )
@@ -1655,12 +1677,17 @@ static void draw_armor_padding( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 8;
-    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
-    wrefresh( w );
+    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
+                        max_length ) );
+    wnoutrefresh( w );
 }
 
 static void draw_armor( const avatar &u, const catacurses::window &w )
@@ -1675,12 +1702,17 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 0, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 7;
-    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
-    wrefresh( w );
+    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
+                        max_length ) );
+    wnoutrefresh( w );
 }
 
 static void draw_messages( avatar &, const catacurses::window &w )
@@ -1689,7 +1721,7 @@ static void draw_messages( avatar &, const catacurses::window &w )
     int line = getmaxy( w ) - 2;
     int maxlength = getmaxx( w );
     Messages::display_messages( w, 1, 0 /*topline*/, maxlength - 1, line );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_messages_classic( avatar &, const catacurses::window &w )
@@ -1698,7 +1730,7 @@ static void draw_messages_classic( avatar &, const catacurses::window &w )
     int line = getmaxy( w ) - 2;
     int maxlength = getmaxx( w );
     Messages::display_messages( w, 0, 0 /*topline*/, maxlength, line );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 #if defined(TILES)
@@ -1706,7 +1738,7 @@ static void draw_mminimap( avatar &, const catacurses::window &w )
 {
     werase( w );
     g->draw_pixel_minimap( w );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 #endif
 
@@ -1714,14 +1746,14 @@ static void draw_compass( avatar &, const catacurses::window &w )
 {
     werase( w );
     g->mon_info( w );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_compass_padding( avatar &, const catacurses::window &w )
 {
     werase( w );
     g->mon_info( w, 1 );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_veh_compact( const avatar &u, const catacurses::window &w )
@@ -1731,10 +1763,10 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
     // vehicle display
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, 0, 0 );
+        veh->print_fuel_indicators( w, point_zero );
         mvwprintz( w, point( 6, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
@@ -1753,7 +1785,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         }
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_veh_padding( const avatar &u, const catacurses::window &w )
@@ -1763,17 +1795,17 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
     // vehicle display
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
-        veh->print_fuel_indicators( w, 0, 1 );
+        veh->print_fuel_indicators( w, point_east );
         mvwprintz( w, point( 7, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
         if( veh->cruise_on ) {
+            nc_color col_vel = strain <= 0 ? c_light_blue :
+                               ( strain <= 0.2 ? c_yellow :
+                                 ( strain <= 0.4 ? c_light_red : c_red ) );
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
@@ -1785,7 +1817,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         }
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_ai_goal( const avatar &u, const catacurses::window &w )
@@ -1797,7 +1829,7 @@ static void draw_ai_goal( const avatar &u, const catacurses::window &w )
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_location_classic( const avatar &u, const catacurses::window &w )
@@ -1808,7 +1840,7 @@ static void draw_location_classic( const avatar &u, const catacurses::window &w 
     mvwprintz( w, point( 10, 0 ), c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 13 ) );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_weather_classic( avatar &, const catacurses::window &w )
@@ -1818,7 +1850,7 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
-        const weather_datum wdata = weather_data( g->weather.weather );
+        const weather_datum wdata = weather_data( get_weather().weather );
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
         mvwprintz( w, point( 10, 0 ), wdata.color, wdata.name );
     }
@@ -1826,14 +1858,15 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     nc_color clr = c_white;
     print_colored_text( w, point( 38, 0 ), clr, c_white, get_moon_graphic() );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_lighting_classic( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point_zero, c_light_gray, _( "Lighting:" ) );
     mvwprintz( w, point( 10, 0 ), ll.second, ll.first );
 
@@ -1844,7 +1877,7 @@ static void draw_lighting_classic( const avatar &u, const catacurses::window &w 
         mvwprintz( w, point( 31, 0 ), c_red, _( "Deaf!" ) );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
@@ -1852,8 +1885,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Weapon  :" ) );
-    nc_color color = c_light_gray;
-    print_colored_text( w, point( 10, 0 ), color, color, u.weapname( getmaxx( w ) - 24 ) );
+    trim_and_print( w, point( 10, 0 ), getmaxx( w ) - 24, c_light_gray, u.weapname() );
 
     // Print in sidebar currently used martial style.
     const std::string style = u.martial_arts_data.selected_style_name( u );
@@ -1863,7 +1895,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 31, 0 ), style_color, style );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_time_classic( const avatar &u, const catacurses::window &w )
@@ -1887,11 +1919,11 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_hint( const avatar &, const catacurses::window &w )
@@ -1902,10 +1934,10 @@ static void draw_hint( const avatar &, const catacurses::window &w )
     mvwprintz( w, point( 1, 0 ), c_light_green, press );
     mvwprintz( w, point( 2 + utf8_width( press ), 0 ), c_white, _( "to open sidebar options" ) );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
-static void print_mana( const player &u, const catacurses::window &w, std::string fmt_string,
+static void print_mana( const player &u, const catacurses::window &w, const std::string &fmt_string,
                         const int j1, const int j2, const int j3, const int j4 )
 {
     werase( w );
@@ -1921,7 +1953,7 @@ static void print_mana( const player &u, const catacurses::window &w, std::strin
     nc_color gray = c_light_gray;
     print_colored_text( w, point_zero, gray, gray, mana_string );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_mana_classic( const player &u, const catacurses::window &w )
@@ -1950,7 +1982,7 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return g->u.magic.knows_spell();
+    return get_avatar().magic.knows_spell();
 }
 
 bool default_render()
@@ -2026,6 +2058,7 @@ static std::vector<window_panel> initialize_default_label_narrow_panels()
     ret.emplace_back( window_panel( draw_wind_padding, translate_marker( "Wind" ), 1, 32, false ) );
     ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 32, true ) );
     ret.emplace_back( window_panel( draw_needs_narrow, translate_marker( "Needs" ), 5, 32, true ) );
+    ret.emplace_back( window_panel( draw_sound_narrow, translate_marker( "Sound" ), 1, 32, true ) );
     ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 32, true ) );
     ret.emplace_back( window_panel( draw_moon_narrow, translate_marker( "Moon" ), 2, 32, false ) );
     ret.emplace_back( window_panel( draw_armor_padding, translate_marker( "Armor" ), 5, 32, false ) );
@@ -2056,6 +2089,7 @@ static std::vector<window_panel> initialize_default_label_panels()
     ret.emplace_back( window_panel( draw_loc_wide, translate_marker( "Location Alt" ), 5, 44, false ) );
     ret.emplace_back( window_panel( draw_weapon_labels, translate_marker( "Weapon" ), 2, 44, true ) );
     ret.emplace_back( window_panel( draw_needs_labels, translate_marker( "Needs" ), 3, 44, true ) );
+    ret.emplace_back( window_panel( draw_sound_labels, translate_marker( "Sound" ), 1, 44, true ) );
     ret.emplace_back( window_panel( draw_messages, translate_marker( "Log" ), -2, 44, true ) );
     ret.emplace_back( window_panel( draw_moon_wide, translate_marker( "Moon" ), 1, 44, false ) );
     ret.emplace_back( window_panel( draw_armor_padding, translate_marker( "Armor" ), 5, 44, false ) );
@@ -2135,7 +2169,7 @@ void panel_manager::update_offsets( int x )
 
 bool panel_manager::save()
 {
-    return write_to_file( FILENAMES["panel_options"], [&]( std::ostream & fout ) {
+    return write_to_file( PATH_INFO::panel_options(), [&]( std::ostream & fout ) {
         JsonOut jout( fout, true );
         serialize( jout );
     }, _( "panel options" ) );
@@ -2143,7 +2177,7 @@ bool panel_manager::save()
 
 bool panel_manager::load()
 {
-    return read_from_file_optional_json( FILENAMES["panel_options"], [&]( JsonIn & jsin ) {
+    return read_from_file_optional_json( PATH_INFO::panel_options(), [&]( JsonIn & jsin ) {
         deserialize( jsin );
     } );
 }
@@ -2191,20 +2225,12 @@ void panel_manager::deserialize( JsonIn &jsin )
     JsonObject joLayouts( jsin.get_object() );
 
     current_layout_id = joLayouts.get_string( "current_layout_id" );
-    JsonArray jaLayouts = joLayouts.get_array( "layouts" );
-
-    while( jaLayouts.has_more() ) {
-        JsonObject joLayout = jaLayouts.next_object();
-
+    for( JsonObject joLayout : joLayouts.get_array( "layouts" ) ) {
         std::string layout_id = joLayout.get_string( "layout_id" );
         auto &layout = layouts.find( layout_id )->second;
         auto it = layout.begin();
 
-        JsonArray jaPanels = joLayout.get_array( "panels" );
-
-        while( jaPanels.has_more() ) {
-            JsonObject joPanel = jaPanels.next_object();
-
+        for( JsonObject joPanel : joLayout.get_array( "panels" ) ) {
             std::string name = joPanel.get_string( "name" );
             bool toggle = joPanel.get_bool( "toggle" );
 
@@ -2225,9 +2251,8 @@ void panel_manager::deserialize( JsonIn &jsin )
     jsin.end_array();
 }
 
-void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t index )
+void panel_manager::show_adm()
 {
-
     input_context ctxt( "PANEL_MGMT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
@@ -2239,180 +2264,166 @@ void panel_manager::draw_adm( const catacurses::window &w, size_t column, size_t
     ctxt.register_action( "TOGGLE_PANEL" );
 
     const std::vector<int> column_widths = { 17, 37, 17 };
-    size_t max_index = 0;
-    int counter = 0;
-    bool selected = false;
-    size_t source_index = 0;
-    size_t target_index = 0;
 
-    bool redraw = true;
+    size_t current_col = 0;
+    size_t current_row = 0;
+    bool swapping = false;
+    size_t source_row = 0;
+    size_t source_index = 0;
+
+    bool recalc = true;
     bool exit = false;
     // map of row the panel is on vs index
     // panels not renderable due to game configuration will not be in this map
     std::map<size_t, size_t> row_indices;
+
+    g->show_panel_adm = true;
+    g->invalidate_main_ui_adaptor();
+
+    catacurses::window w;
+
+    ui_adaptor ui;
+    ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+        w = catacurses::newwin( 20, 75,
+                                point( ( TERMX / 2 ) - 38, ( TERMY / 2 ) - 10 ) );
+
+        ui.position_from_window( w );
+    } );
+    ui.mark_resize();
+
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        auto &panels = layouts[current_layout_id];
+
+        werase( w );
+        decorate_panel( _( "SIDEBAR OPTIONS" ), w );
+
+        for( std::pair<size_t, size_t> row_indx : row_indices ) {
+            std::string name = _( panels[row_indx.second].get_name() );
+            if( swapping && source_index == row_indx.second ) {
+                mvwprintz( w, point( 5, current_row + 1 ), c_yellow, name );
+            } else {
+                int offset = 0;
+                if( !swapping ) {
+                    offset = 0;
+                } else if( current_row > source_row && row_indx.first > source_row &&
+                           row_indx.first <= current_row ) {
+                    offset = -1;
+                } else if( current_row < source_row && row_indx.first < source_row &&
+                           row_indx.first >= current_row ) {
+                    offset = 1;
+                }
+                const nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
+                mvwprintz( w, point( 4, row_indx.first + 1 + offset ), toggle_color, name );
+            }
+        }
+        size_t i = 1;
+        for( const auto &layout : layouts ) {
+            mvwprintz( w, point( column_widths[0] + column_widths[1] + 4, i ),
+                       current_layout_id == layout.first ? c_light_blue : c_white, _( layout.first ) );
+            i++;
+        }
+        int col_offset = 0;
+        for( i = 0; i < current_col; i++ ) {
+            col_offset += column_widths[i];
+        }
+        mvwprintz( w, point( 1 + ( col_offset ), current_row + 1 ), c_yellow, ">>" );
+        mvwvline( w, point( column_widths[0], 1 ), 0, 18 );
+        mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, 18 );
+
+        col_offset = column_widths[0] + 2;
+        int col_width = column_widths[1] - 4;
+        mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.get_desc( "TOGGLE_PANEL" ),
+                   col_width ) + ":" );
+        mvwprintz( w, point( col_offset, 2 ), c_white, _( "Toggle panels on/off" ) );
+        mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.get_desc( "MOVE_PANEL" ),
+                   col_width ) + ":" );
+        mvwprintz( w, point( col_offset, 4 ), c_white, _( "Change display order" ) );
+        mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.get_desc( "QUIT" ),
+                   col_width ) + ":" );
+        mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
+
+        wnoutrefresh( w );
+    } );
+
     while( !exit ) {
         auto &panels = layouts[current_layout_id];
 
-        if( redraw ) {
-            redraw = false;
-            werase( w );
-            decorate_panel( _( "SIDEBAR OPTIONS" ), w );
-            // clear the panel list
-            for( int i = 1; i <= 18; i++ ) {
-                for( int j = 1; j <= column_widths[0]; j++ ) {
-                    mvwputch( w, point( j, i ), c_black, ' ' );
-                }
-            }
-            // the row that the panel name is printed on
-            int row = 1;
+        if( recalc ) {
+            recalc = false;
+
             row_indices.clear();
-            for( size_t i = 0; i < panels.size(); i++ ) {
+            for( size_t i = 0, row = 0; i < panels.size(); i++ ) {
                 if( panels[i].render() ) {
-                    row_indices.emplace( row - 1, i );
+                    row_indices.emplace( row, i );
                     row++;
-                } else if( !panels[i].render && column == 0 ) {
-                    if( selected && index == i ) {
-                        row++;
-                    }
                 }
             }
-
-            max_index = column == 0 ? row_indices.size() : layouts.size();
-            int vertical_offset = 0;
-            int selected_offset = 0;
-            size_t modified_index = row_indices[index - 1];
-
-            for( std::pair<size_t, size_t> row_indx : row_indices ) {
-                nc_color toggle_color = panels[row_indx.second].toggle ? c_white : c_dark_gray;
-                std::string name = _( panels[row_indx.second].get_name() );
-                if( !selected ) {
-                    mvwprintz( w, point( 4, row_indx.first + 1 ), toggle_color, name );
-                } else {
-                    if( modified_index < row_indx.second ) {
-                        vertical_offset = 2;
-                    } else if( modified_index == row_indx.second && row_indx.second < source_index ) {
-                        vertical_offset = 2;
-                    } else {
-                        vertical_offset = 1;
-                    }
-                    mvwprintz( w, point( 4, row_indx.first + vertical_offset ), toggle_color, name );
-                    if( source_index == row_indx.second ) {
-                        if( modified_index < source_index ) {
-                            selected_offset = 0;
-                        } else {
-                            selected_offset = 1;
-                        }
-                        mvwprintz( w, point( 5, index + selected_offset ), c_yellow, name );
-                    }
-                }
-            }
-            size_t i = 1;
-            for( const auto &layout : layouts ) {
-                mvwprintz( w, point( column_widths[0] + column_widths[1] + 4, i ),
-                           current_layout_id == layout.first ? c_light_blue : c_white, _( layout.first ) );
-                i++;
-            }
-            int col_offset = 0;
-            for( i = 0; i < column; i++ ) {
-                col_offset += column_widths[i];
-            }
-            mvwprintz( w, point( 1 + ( col_offset ), index + selected_offset ), c_yellow, ">>" );
-            mvwvline( w, point( column_widths[0], 1 ), 0, 18 );
-            mvwvline( w, point( column_widths[0] + column_widths[1], 1 ), 0, 18 );
-
-            col_offset = column_widths[0] + 2;
-            int col_width = column_widths[1] - 4;
-            mvwprintz( w, point( col_offset, 1 ), c_light_green, trunc_ellipse( ctxt.press_x( "TOGGLE_PANEL" ),
-                       col_width ) + ":" );
-            mvwprintz( w, point( col_offset, 2 ), c_white, _( "Toggle panels on/off" ) );
-            mvwprintz( w, point( col_offset, 3 ), c_light_green, trunc_ellipse( ctxt.press_x( "MOVE_PANEL" ),
-                       col_width ) + ":" );
-            mvwprintz( w, point( col_offset, 4 ), c_white, _( "Change display order" ) );
-            mvwprintz( w, point( col_offset, 5 ), c_light_green, trunc_ellipse( ctxt.press_x( "QUIT" ),
-                       col_width ) + ":" );
-            mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
         }
-        wrefresh( w );
+
+        const size_t num_rows = current_col == 0 ? row_indices.size() : layouts.size();
+        current_row = clamp<size_t>( current_row, 0, num_rows - 1 );
+
+        ui_manager::redraw();
 
         const std::string action = ctxt.handle_input();
         if( action == "UP" ) {
-            if( index > 1 ) {
-                index -= 1;
-            } else if( index == 1 ) {
-                index = max_index;
+            if( current_row > 0 ) {
+                current_row -= 1;
+            } else {
+                current_row = num_rows - 1;
             }
-            redraw = true;
         } else if( action == "DOWN" ) {
-            if( index < max_index ) {
-                index += 1;
-            } else if( index == max_index ) {
-                index = 1;
+            if( current_row + 1 < num_rows ) {
+                current_row += 1;
+            } else {
+                current_row = 0;
             }
-            redraw = true;
-        } else if( action == "MOVE_PANEL" && column == 0 ) {
-            counter += 1;
-            // source window from the swap
-            if( counter == 1 ) {
+        } else if( action == "MOVE_PANEL" && current_col == 0 ) {
+            swapping = !swapping;
+            if( swapping ) {
+                // source window from the swap
                 // saving win1 index
-                source_index = row_indices[index - 1];
-                selected = true;
-            }
-            // dest window for the swap
-            if( counter == 2 ) {
+                source_row = current_row;
+                source_index = row_indices[current_row];
+            } else {
+                // dest window for the swap
                 // saving win2 index
-                target_index = row_indices[index - 1];
+                const size_t target_index = row_indices[current_row];
 
                 int distance = target_index - source_index;
                 size_t step_dir = distance > 0 ? 1 : -1;
                 for( size_t i = source_index; i != target_index; i += step_dir ) {
                     std::swap( panels[i], panels[i + step_dir] );
                 }
-                werase( w );
-                wrefresh( g->w_terrain );
-                g->draw_panels( column, index, true );
-                return;
+                g->invalidate_main_ui_adaptor();
+                recalc = true;
             }
-            redraw = true;
-        } else if( action == "MOVE_PANEL" && column == 2 ) {
-            auto iter = layouts.begin();
-            for( size_t i = 1; i < index; i++ ) {
-                iter++;
-            }
+        } else if( !swapping && action == "MOVE_PANEL" && current_col == 2 ) {
+            auto iter = std::next( layouts.begin(), current_row );
             current_layout_id = iter->first;
             int width = panel_manager::get_manager().get_current_layout().begin()->get_width();
             update_offsets( width );
             int h; // to_map_font_dimension needs a second input
             to_map_font_dimension( width, h );
-            werase( w );
-            wrefresh( g->w_terrain );
-            g->draw_panels( column, index, true );
             // tell the game that the main screen might have a different size now.
-            g->init_ui( true );
-            return;
-        } else if( action == "RIGHT" || action == "LEFT" ) {
+            g->mark_main_ui_adaptor_resize();
+            recalc = true;
+        } else if( !swapping && ( action == "RIGHT" || action == "LEFT" ) ) {
             // there are only two columns
-            if( column == 0 ) {
-                column = 2;
-                if( index > layouts.size() ) {
-                    index = layouts.size();
-                }
+            if( current_col == 0 ) {
+                current_col = 2;
             } else {
-                column = 0;
-                if( index > get_current_layout().size() ) {
-                    index = get_current_layout().size();
-                }
+                current_col = 0;
             }
-            redraw = true;
-        }
-        if( action == "TOGGLE_PANEL" && column == 0 ) {
-            panels[row_indices[index - 1]].toggle = !panels[row_indices[index - 1]].toggle;
-            wrefresh( g->w_terrain );
-            g->draw_panels( column, index, true );
-            return;
+        } else if( !swapping && action == "TOGGLE_PANEL" && current_col == 0 ) {
+            panels[row_indices[current_row]].toggle = !panels[row_indices[current_row]].toggle;
+            g->invalidate_main_ui_adaptor();
         } else if( action == "QUIT" ) {
             exit = true;
-            g->show_panel_adm = false;
             save();
         }
     }
+
+    g->show_panel_adm = false;
+    g->invalidate_main_ui_adaptor();
 }

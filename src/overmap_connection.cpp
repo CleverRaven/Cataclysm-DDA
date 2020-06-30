@@ -47,7 +47,7 @@ bool overmap_connection::subtype::allows_terrain( const int_id<oter_t> &oter ) c
     } );
 }
 
-void overmap_connection::subtype::load( JsonObject &jo )
+void overmap_connection::subtype::load( const JsonObject &jo )
 {
     const auto flag_reader = make_flag_reader( connection_subtype_flag_map, "connection subtype flag" );
 
@@ -71,7 +71,7 @@ const overmap_connection::subtype *overmap_connection::pick_subtype_for(
         return nullptr;
     }
 
-    const size_t cache_index = ground;
+    const size_t cache_index = ground.to_i();
     assert( cache_index < cached_subtypes.size() );
 
     if( cached_subtypes[cache_index] ) {
@@ -98,7 +98,7 @@ bool overmap_connection::has( const int_id<oter_t> &oter ) const
     } ) != subtypes.cend();
 }
 
-void overmap_connection::load( JsonObject &jo, const std::string & )
+void overmap_connection::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, false, "subtypes", subtypes );
 }
@@ -127,7 +127,7 @@ void overmap_connection::finalize()
     cached_subtypes.resize( overmap_terrains::get_all().size() );
 }
 
-void overmap_connections::load( JsonObject &jo, const std::string &src )
+void overmap_connections::load( const JsonObject &jo, const std::string &src )
 {
     connections.load( jo, src );
 }

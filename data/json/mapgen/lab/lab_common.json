@@ -12,11 +12,13 @@
       "h": "f_chair",
       "f": "f_fridge",
       "t": "f_table",
+      "i": "f_filing_cabinet",
       "c": "f_counter",
       "S": "f_sink",
       "T": "f_toilet",
       "#": "f_null",
-      "]": "f_bookcase"
+      "]": "f_bookcase",
+      "^": "f_rubble_rock"
     },
     "terrain": {
       "6": "t_console",

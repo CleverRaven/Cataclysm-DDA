@@ -39,14 +39,14 @@ check: $(TEST_TARGET)
 	cd .. && tests/$(TEST_TARGET) -d yes --rng-seed time
 
 clean:
-	rm -rf *obj
+	rm -rf *obj *objwin
 	rm -f *cata_test
 
 #Unconditionally create object directory on invocation.
 $(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: %.cpp
-	$(CXX) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean check tests
 

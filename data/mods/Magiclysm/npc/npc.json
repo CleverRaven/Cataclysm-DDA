@@ -1,0 +1,38 @@
+[
+  {
+    "type": "npc",
+    "id": "magus_old",
+    "//": "old magus in the wizard tower.",
+    "name_suffix": "magus",
+    "class": "NC_OLD_MAGUS",
+    "attitude": 0,
+    "mission": 7,
+    "mission_offered": "MISSION_GET_MAGIC_BOOK",
+    "chat": "TALK_OLD_MAGUS",
+    "faction": "wizards_ancient"
+  },
+  {
+    "type": "npc",
+    "id": "techno_kid",
+    "//": "possibly crazy techno kid",
+    "name_suffix": "technologist",
+    "class": "NC_TECHNO_KID",
+    "attitude": 0,
+    "mission": 7,
+    "mission_offered": "MISSION_GET_POWER_CBM",
+    "chat": "TALK_TECHNO_KID",
+    "faction": "no_faction"
+  },
+  {
+    "type": "npc",
+    "id": "healer_priest",
+    "//": "a priest of the grey flame",
+    "name_suffix": "healer",
+    "class": "NC_BIO_PRIEST",
+    "attitude": 0,
+    "mission": 7,
+    "mission_offered": "MISSION_PURGE_50_Z",
+    "chat": "TALK_HEALER_GREY",
+    "faction": "healers_grey"
+  }
+]

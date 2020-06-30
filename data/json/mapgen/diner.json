@@ -69,8 +69,8 @@
       "toilets": { "T": {  } },
       "items": { "Y": { "item": "coat_rack", "chance": 35, "repeat": [ 1, 4 ] } },
       "place_items": [
-        { "item": "diner_food", "x": [ 4, 17 ], "y": [ 14, 14 ], "chance": 75, "repeat": [ 1, 4 ] },
-        { "item": "diner_back", "x": [ 4, 16 ], "y": [ 16, 16 ], "chance": 95, "repeat": [ 1, 4 ] },
+        { "item": "diner_food", "x": [ 4, 17 ], "y": [ 14, 14 ], "chance": 75, "repeat": [ 1, 8 ] },
+        { "item": "diner_back", "x": [ 4, 16 ], "y": [ 16, 16 ], "chance": 95, "repeat": [ 1, 8 ] },
         { "item": "coat_rack", "x": [ 17, 18 ], "y": 18, "chance": 95, "repeat": [ 1, 4 ] }
       ]
     }

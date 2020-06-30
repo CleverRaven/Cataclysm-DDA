@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <cstddef>
 #include <algorithm> // std::find
 #include <functional> // std::greater
 #include <utility> // std::move
@@ -347,7 +347,7 @@ TEST_CASE( "colony insert and erase", "[colony]" )
                 it = test_colony.erase( it );
             }
         }
-    } while( !test_colony.empty() );;
+    } while( !test_colony.empty() );
 
     // Random insert/erase till empty
     CHECK( test_colony.empty() );

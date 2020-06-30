@@ -1,12 +1,24 @@
-#include "catch/catch.hpp"
+#include <cstddef>
+#include <memory>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
-#include "enum_conversions.h"
+#include "bodypart.h"
+#include "catch/catch.hpp"
+#include "character_id.h"
+#include "debug_menu.h"
+#include "event.h"
 #include "game.h"
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "output.h"
 #include "player_helpers.h"
+#include "pldata.h"
+#include "profession.h"
+#include "type_id.h"
+
+class event_bus;
 
 template<event_type Type, typename... Args>
 void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, Args... args )
@@ -42,10 +54,11 @@ TEST_CASE( "memorials" )
 {
     memorial_logger &m = g->memorial();
     m.clear();
-    clear_player();
+    clear_avatar();
 
     event_bus &b = g->events();
 
+    g->u.male = false;
     character_id ch = g->u.getID();
     std::string u_name = g->u.name;
     character_id ch2 = character_id( ch.get_value() + 1 );
@@ -75,6 +88,9 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::becomes_wanted>(
         m, b, "Became wanted by the police!", ch );
 
+    check_memorial<event_type::broken_bone>(
+        m, b, "Broke her right arm.", ch, bp_arm_r );
+
     check_memorial<event_type::broken_bone_mends>(
         m, b, "Broken right arm began to mend.", ch, bp_arm_r );
 
@@ -92,7 +108,7 @@ TEST_CASE( "memorials" )
         "afterwards.", ch, ch2, "victim_name" );
 
     check_memorial<event_type::character_kills_monster>(
-        m, b, "Killed a kevlar hulk.", ch, mon );
+        m, b, "Killed a Kevlar hulk.", ch, mon );
 
     check_memorial<event_type::character_loses_effect>(
         m, b, "Put out the fire.", ch, eff );
@@ -101,7 +117,7 @@ TEST_CASE( "memorials" )
         m, b, "Fell in a pit.", ch, trap_str_id( "tr_pit" ) );
 
     check_memorial<event_type::consumes_marloss_item>(
-        m, b, "Consumed a marloss seed.", ch, it );
+        m, b, "Consumed a Marloss seed.", ch, it );
 
     check_memorial<event_type::crosses_marloss_threshold>(
         m, b, "Opened the Marloss Gateway.", ch );
@@ -164,7 +180,7 @@ TEST_CASE( "memorials" )
         m, b, "The fuel tank of the vehicle_name exploded!", "vehicle_name" );
 
     check_memorial<event_type::gains_addiction>(
-        m, b, "Became addicted to alcohol.", ch, ADD_ALCOHOL );
+        m, b, "Became addicted to alcohol.", ch, add_type::ALCOHOL );
 
     check_memorial<event_type::gains_mutation>(
         m, b, "Gained the mutation 'Carnivore'.", ch, mut );
@@ -173,10 +189,15 @@ TEST_CASE( "memorials" )
         m, b, "Reached skill level 8 in driving.", ch, skill_id( "driving" ), 8 );
 
     check_memorial<event_type::game_over>(
-        m, b, u_name + " was killed.\nLast words: last_words", false, "last_words" );
+        m, b, u_name + " was killed.\nLast words: last_words", false, "last_words",
+        std::chrono::seconds( 100 ) );
 
     check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm.", ch );
+        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, g->u.male,
+        g->u.prof->ident(), g->u.custom_profession, "VERSION_STRING" );
+
+    // Invokes achievement, so send another to clear the log for the test
+    b.send<event_type::installs_cbm>( ch, cbm );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
@@ -184,14 +205,11 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::installs_faulty_cbm>(
         m, b, "Installed bad bionic: Alarm System.", ch, cbm );
 
-    check_memorial<event_type::launches_nuke>(
-        m, b, "Launched a nuke at a garage.", oter_id( "s_garage_north" ) );
-
     check_memorial<event_type::learns_martial_art>(
         m, b, "Learned Aikido.", ch, matype_id( "style_aikido" ) );
 
     check_memorial<event_type::loses_addiction>(
-        m, b, "Overcame addiction to alcohol.", ch, ADD_ALCOHOL );
+        m, b, "Overcame addiction to alcohol.", ch, add_type::ALCOHOL );
 
     check_memorial<event_type::npc_becomes_hostile>(
         m, b, "npc_name became hostile.", ch2, "npc_name" );
@@ -202,8 +220,25 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::opens_temple>(
         m, b, "Opened a strange temple." );
 
+    // In magiclysm, the first character_forgets_spell event will trigger an
+    // achievement which also enters the log.  We don't want that to pollute
+    // the test case, so send another event first.
+    b.send<event_type::character_forgets_spell>( ch, spell_id( "pain_damage" ) );
+
+    check_memorial<event_type::character_forgets_spell>(
+        m, b, "Forgot the spell Pain.", ch, spell_id( "pain_damage" ) );
+
+    // Similarly for character_learns_spell
+    b.send<event_type::character_learns_spell>( ch, spell_id( "pain_damage" ) );
+
+    check_memorial<event_type::character_learns_spell>(
+        m, b, "Learned the spell Pain.", ch, spell_id( "pain_damage" ) );
+
+    // Similarly for character_levels_spell
+    b.send<event_type::player_levels_spell>( ch, spell_id( "pain_damage" ), 5 );
+
     check_memorial<event_type::player_levels_spell>(
-        m, b, "Gained a spell level on Pain.", spell_id( "pain_damage" ), 5 );
+        m, b, "Gained a spell level on Pain.", ch, spell_id( "pain_damage" ), 5 );
 
     check_memorial<event_type::releases_subspace_specimens>(
         m, b, "Released subspace specimens." );
@@ -231,4 +266,7 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::triggers_alarm>(
         m, b, "Set off an alarm.", ch );
+
+    check_memorial<event_type::uses_debug_menu>(
+        m, b, "Used the debug menu (WISH).", debug_menu::debug_menu_index::WISH );
 }

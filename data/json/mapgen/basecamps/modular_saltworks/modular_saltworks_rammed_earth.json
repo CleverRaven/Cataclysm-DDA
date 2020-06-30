@@ -1,0 +1,89 @@
+[
+  {
+    "type": "palette",
+    "id": "fbmsw_rammed_earth_palette",
+    "terrain": { ".": "t_dirtfloor", "~": "t_swater_sh", "o": "t_window_empty", "w": "t_wall_rammed_earth", "+": "t_door_makeshift_c" },
+    "furniture": {
+      "b": "f_bench",
+      "r": "f_rack",
+      "t": "f_table",
+      "#": "f_stool",
+      "c": "f_counter",
+      "H": "f_wood_keg",
+      "O": "f_fvat_empty",
+      "^": "f_still",
+      "s": "f_woodstove"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_saltpan_rammed_earth",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwowww",
+        "w.....w",
+        "w.c.c.w",
+        "o.~t~.o",
+        "w.~#~.w",
+        "w.....w",
+        "www+www"
+      ],
+      "palettes": [ "fbmsw_rammed_earth_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_saltpan_rammed_earth_northeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_saltpan_rammed_earth" ], "x": 14, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_shack_rammed_earth",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "  woww",
+        " wwrrw",
+        " +..to",
+        " orrrw",
+        " wwoww"
+      ],
+      "palettes": [ "fbmsw_rammed_earth_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_shack_rammed_earth_southeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_shack_rammed_earth" ], "x": 15, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_brewery0_rammed_earth",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwwww",
+        "w.rrr.w",
+        "oH....+",
+        "wO....w",
+        "o.....w",
+        "w.....w",
+        "wwwwwww"
+      ],
+      "palettes": [ "fbmsw_rammed_earth_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_brewery0_rammed_earth_southwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery0_rammed_earth" ], "x": 3, "y": 14 } ] }
+  }
+]

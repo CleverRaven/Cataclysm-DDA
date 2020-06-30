@@ -1898,7 +1898,7 @@
     "name": "road",
     "see_cost": 5,
     "flags": [ "SIDEWALK" ],
-    "comment": "t-intersection",
+    "//": "t-intersection",
     "sym": "┤",
     "extras": "none",
     "type": "overmap_terrain"

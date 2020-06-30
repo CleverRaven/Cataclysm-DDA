@@ -62,7 +62,6 @@
  */
 
 #include <cstdint>
-#include <cwchar>
 
 struct interval {
     uint32_t first;

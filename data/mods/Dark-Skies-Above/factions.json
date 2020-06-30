@@ -1,0 +1,32 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "neworder",
+    "neutral": [ "small_animal", "fish", "animal" ],
+    "friendly": [ "neworder_bot" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "neworder_bot",
+    "base_faction": "neworder",
+    "neutral": [ "stray" ],
+    "friendly": [ "neworder" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "alien_herbivore",
+    "base_faction": "small_animal"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "lizard",
+    "neutral": [ "small_animal", "neworder_bot" ],
+    "by_mood": "lizard"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "stray",
+    "//": "largely neutral to animals and things that don't live",
+    "neutral": [ "small_animal", "fish", "animal", "fox", "cat", "dog", "neworder_bot" ]
+  }
+]

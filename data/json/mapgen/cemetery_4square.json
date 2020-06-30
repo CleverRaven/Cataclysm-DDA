@@ -32,12 +32,7 @@
       [ "teleumbrella", 2 ],
       [ "thawb", 1 ],
       [ "umbrella", 10 ],
-      [ "many_years_old_newspaper", 2 ],
-      [ "years_old_newspaper", 5 ],
-      [ "one_year_old_newspaper", 4 ],
-      [ "months_old_newspaper", 3 ],
-      [ "weeks_old_newspaper", 3 ],
-      [ "newest_newspaper", 1 ],
+      { "group": "newspaper", "prob": 20 },
       [ "survnote", 3 ],
       [ "cig_butt", 5 ],
       [ "cigar_butt", 10 ]
@@ -414,7 +409,7 @@
         { "item": "church", "x": [ 11, 12 ], "y": [ 5, 6 ], "chance": 65 },
         { "item": "jackets", "x": [ 12 ], "y": [ 14 ], "chance": 50 }
       ],
-      "place_npcs": [ { "class": "SEER_Brigitte_LaCroix", "x": 18, "y": 6 } ]
+      "place_nested": [ { "chunks": [ [ "SEER_Brigitte_LaCroix_spawn", 20 ], [ "null", 80 ] ], "x": 18, "y": 6 } ]
     }
   }
 ]

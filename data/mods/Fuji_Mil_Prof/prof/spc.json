@@ -49,7 +49,7 @@
     "type": "profession",
     "ident": "mil_sniper",
     "name": "Operator Sniper",
-    "description": "You spent days dueling an enemy sniper, then he just... died.  And then un-died.",
+    "description": "You spent days dueling an enemy sniper, then he just… died.  And then un-died.",
     "points": 5,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" } ],
     "items": {
@@ -133,7 +133,7 @@
     "type": "profession",
     "ident": "mil_undercover",
     "name": "Operator Undercover",
-    "description": "You've been tailing your target for months and now he's a zombie. So much for that lead.",
+    "description": "You've been tailing your target for months and now he's a zombie.  So much for that lead.",
     "points": 3,
     "skills": [
       { "level": 1, "name": "survival" },
@@ -171,7 +171,7 @@
     "type": "profession",
     "ident": "mil_cbrn",
     "name": "Operator CBRN",
-    "description": "Chemical weapons? Check. Biological outbreak? Check. Nuclear war? Check. Sounds like the perfect job for you!",
+    "description": "Chemical weapons?  Check.  Biological outbreak?  Check.  Nuclear war?  Check.  Sounds like the perfect job for you!",
     "points": 5,
     "skills": [
       { "level": 1, "name": "survival" },

@@ -89,5 +89,88 @@
     "type": "ter_furn_transform",
     "id": "lava_bomb",
     "terrain": [ { "result": "t_lava", "valid_flags": [ "DIGGABLE" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "earthshaper_pillar",
+    "//": "Furniture alteration has to be able to reasonably check for most intervening furniture and remove it.",
+    "terrain": [
+      {
+        "result": "t_rock_smooth",
+        "valid_flags": [ "DIGGABLE", "FLAT" ],
+        "message": "The ground shakes, a section of unnaturally smooth stone wall rising up."
+      }
+    ],
+    "furniture": [ { "result": "f_null", "valid_flags": [ "TRANSPARENT", "WALL" ] } ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "druidic_renewal",
+    "//": "TODO: Update the birch and willow transformations if they ever make those trees behave consistent relative to blackjack oak and pine.",
+    "terrain": [
+      {
+        "result": [ [ "t_tree_blackjack_harvested", 10 ], [ "t_tree_harvested", 90 ] ],
+        "valid_terrain": [ "t_tree_dead" ],
+        "message": "The dead tree regrows."
+      },
+      {
+        "result": "t_tree_pine_harvested",
+        "valid_terrain": [ "t_tree_deadpine" ],
+        "message": "The dead tree regrows."
+      },
+      {
+        "result": "t_tree_hickory_harvested",
+        "valid_terrain": [ "t_tree_hickory_dead" ],
+        "message": "The dead tree regrows."
+      },
+      { "result": "t_tree_birch", "valid_terrain": [ "t_tree_birch_harvested" ], "message": "The dead tree regrows." },
+      {
+        "result": "t_tree_willow",
+        "valid_terrain": [ "t_tree_willow_harvested" ],
+        "message": "The dead tree regrows."
+      },
+      {
+        "result": "t_grass",
+        "valid_terrain": [ "t_grass_dead" ],
+        "message": "Life springs anew from the dead grass."
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "unlock_doors",
+    "terrain": [
+      {
+        "result": "t_door_o",
+        "valid_terrain": [ "t_door_locked", "t_door_locked_interior", "t_door_locked_alarm" ],
+        "message": "The door opens forcefully!"
+      },
+      {
+        "result": "t_door_o_peep",
+        "valid_terrain": [ "t_door_locked_peep" ],
+        "message": "The door opens forcefully!"
+      }
+    ]
+  },
+  {
+    "type": "ter_furn_transform",
+    "id": "unlock_all_doors",
+    "terrain": [
+      {
+        "result": "t_door_o",
+        "valid_terrain": [ "t_door_locked", "t_door_locked_interior", "t_door_locked_alarm" ],
+        "message": "The door opens forcefully!"
+      },
+      {
+        "result": "t_door_o_peep",
+        "valid_terrain": [ "t_door_locked_peep" ],
+        "message": "The door opens forcefully!"
+      },
+      {
+        "result": "t_door_metal_o",
+        "valid_terrain": [ "t_door_metal_locked", "t_door_metal_pickable", "t_door_bar_locked" ],
+        "message": "The door opens forcefully!"
+      }
+    ]
   }
 ]

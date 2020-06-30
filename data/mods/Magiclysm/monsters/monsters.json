@@ -8,7 +8,7 @@
     "bodytype": "bear",
     "species": [ "MAGICAL_BEAST" ],
     "volume": "450000 ml",
-    "weight": 450000,
+    "weight": "450 kg",
     "hp": 260,
     "speed": 120,
     "material": [ "flesh" ],
@@ -23,6 +23,7 @@
     "dodge": 3,
     "armor_bash": 5,
     "armor_cut": 2,
+    "armor_bullet": 2,
     "vision_night": 20,
     "path_settings": { "max_dist": 25 },
     "harvest": "owlbear",
@@ -43,7 +44,7 @@
     "species": [ "BLOB" ],
     "diff": 1,
     "volume": "62500 ml",
-    "weight": 81500,
+    "weight": "81500 g",
     "color": "dark_gray",
     "hp": 100,
     "speed": 75,
@@ -62,10 +63,9 @@
     "special_attacks": [
       {
         "type": "spell",
-        "spell_id": "bio_acidicspray",
+        "spell_data": { "id": "bio_acidicspray" },
         "cooldown": 20,
-        "monster_message": "The black pudding burns you with acid!",
-        "spell_level": 0
+        "monster_message": "The black pudding burns %3$s with acid!"
       }
     ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "NO_BREATHE", "ACIDPROOF" ]
@@ -78,13 +78,13 @@
     "color": "dark_gray",
     "type": "MONSTER",
     "flags": [ "SEES", "HEARS", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM" ],
-    "harvest": "human",
+    "harvest": "mutant_human",
     "material": [ "hflesh" ],
     "bodytype": "human",
     "default_faction": "magical_beast",
     "species": [ "MAGICAL_BEAST", "HUMAN" ],
     "volume": "62500 ml",
-    "weight": 81500,
+    "weight": "81500 g",
     "hp": 60,
     "speed": 100,
     "aggression": 30,
@@ -105,7 +105,12 @@
         "cooldown": 1,
         "damage_max_instance": [ { "damage_type": "cut", "amount": 25, "armor_multiplier": 1.2 } ]
       },
-      { "type": "spell", "spell_id": "necrotic_gaze", "cooldown": 5, "monster_message": "The krabgek gazes at %3$s!" }
+      {
+        "type": "spell",
+        "spell_data": { "id": "necrotic_gaze" },
+        "cooldown": 5,
+        "monster_message": "The krabgek gazes at %3$s!"
+      }
     ]
   },
   {
@@ -114,7 +119,7 @@
     "name": "owlbear cub",
     "copy-from": "mon_owlbear",
     "volume": "112500 ml",
-    "weight": 112500,
+    "weight": "112500 g",
     "hp": 75,
     "speed": 90,
     "symbol": "w",
@@ -137,7 +142,7 @@
     "bodytype": "bear",
     "species": [ "MAGICAL_BEAST" ],
     "volume": "850000 ml",
-    "weight": 900000,
+    "weight": "900 kg",
     "hp": 320,
     "speed": 100,
     "material": [ "arcane_skin" ],
@@ -152,6 +157,7 @@
     "dodge": 2,
     "armor_bash": 32,
     "armor_cut": 30,
+    "armor_bullet": 24,
     "harvest": "bulette",
     "anger_triggers": [ "SOUND" ],
     "death_function": [ "NORMAL" ],
@@ -179,7 +185,7 @@
     "bodytype": "blob",
     "species": [ "MAGICAL_BEAST" ],
     "volume": "1500 ml",
-    "weight": 136,
+    "weight": "136 g",
     "hp": 20,
     "speed": 160,
     "luminance": 16,
@@ -221,7 +227,7 @@
     "bodytype": "human",
     "species": [ "MAGICAL_BEAST" ],
     "volume": "875000 ml",
-    "weight": 875000,
+    "weight": "875 kg",
     "hp": 480,
     "speed": 110,
     "material": [ "flesh" ],
@@ -235,12 +241,14 @@
     "melee_cut": 12,
     "dodge": 1,
     "armor_cut": 16,
+    "armor_bullet": 13,
     "vision_day": 40,
     "vision_night": 3,
-    "harvest": "mammal_large_leather",
+    "harvest": "human_large_leather",
     "death_function": [ "NORMAL" ],
     "special_attacks": [ { "type": "bite", "cooldown": 30 }, [ "GRAB", 15 ], [ "scratch", 15 ], [ "slam", 10 ], [ "SMASH", 30 ] ],
-    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "BLEED", "REGENERATES_1", "FLAMMABLE" ]
+    "regenerates": 1,
+    "flags": [ "SEES", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "WARM", "GRABS", "BLEED", "FLAMMABLE" ]
   },
   {
     "id": "mon_stirge",
@@ -251,7 +259,7 @@
     "species": [ "MAGICAL_BEAST" ],
     "diff": 2,
     "volume": "1000 ml",
-    "weight": 1250,
+    "weight": "1250 g",
     "hp": 20,
     "speed": 133,
     "material": [ "iflesh" ],
@@ -267,7 +275,7 @@
     "vision_day": 20,
     "vision_night": 20,
     "harvest": "stirge",
-    "special_attacks": [ { "type": "spell", "spell_id": "blood_suck", "spell_level": 3, "cooldown": 3 } ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "blood_suck", "min_level": 3 }, "cooldown": 3 } ],
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE", "SWARMS" ]
@@ -281,7 +289,7 @@
     "species": [ "FUNGUS" ],
     "diff": 2,
     "volume": "62500 ml",
-    "weight": 81500,
+    "weight": "81500 g",
     "hp": 25,
     "speed": 100,
     "material": [ "veggy" ],
@@ -300,6 +308,28 @@
     "flags": [ "SEES", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "PACIFIST" ]
   },
   {
+    "id": "mon_baleful_polymorph_frog",
+    "type": "MONSTER",
+    "name": { "str": "frog" },
+    "description": "A conspicuously average american bullfrog.  You better keep prince charming away from it.",
+    "default_faction": "magical_beast",
+    "species": [ "AMPHIBIAN" ],
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 3,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "b",
+    "color": "green",
+    "melee_cut": 0,
+    "dodge": 6,
+    "harvest": "mammal_tiny",
+    "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
+  },
+  {
     "id": "mon_lemure",
     "type": "MONSTER",
     "name": "lemure",
@@ -309,7 +339,7 @@
     "species": [ "MAGICAL_BEAST" ],
     "diff": 2,
     "volume": "62500 ml",
-    "weight": 45000,
+    "weight": "45 kg",
     "hp": 20,
     "speed": 50,
     "material": [ "flesh" ],
@@ -327,6 +357,7 @@
     "harvest": "lemure",
     "anger_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "REGENERATES_1", "REVIVES" ]
+    "regenerates": 1,
+    "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "PATH_AVOID_FIRE", "REVIVES" ]
   }
 ]

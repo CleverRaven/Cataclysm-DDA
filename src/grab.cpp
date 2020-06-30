@@ -15,27 +15,28 @@
 #include "translations.h"
 #include "units.h"
 
-const efftype_id effect_harnessed( "harnessed" );
+static const efftype_id effect_harnessed( "harnessed" );
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {
     const optional_vpart_position grabbed_vehicle_vp = m.veh_at( u.pos() + u.grab_point );
     if( !grabbed_vehicle_vp ) {
         add_msg( m_info, _( "No vehicle at grabbed point." ) );
-        u.grab( OBJECT_NONE );
+        u.grab( object_type::NONE );
         return false;
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
-    if( !grabbed_vehicle->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+    if( !grabbed_vehicle ||
+        !grabbed_vehicle->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
         return false;
     }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
-    for( size_t part_index = 0; part_index < grabbed_vehicle->parts.size(); ++part_index ) {
+    for( int part_index = 0; part_index < grabbed_vehicle->part_count(); ++part_index ) {
         monster *mon = grabbed_vehicle->get_pet( part_index );
         if( mon != nullptr && mon->has_effect( effect_harnessed ) ) {
             add_msg( m_info, _( "You cannot move this vehicle whilst your %s is harnessed!" ),
                      mon->get_name() );
-            u.grab( OBJECT_NONE );
+            u.grab( object_type::NONE );
             return false;
         }
     }
@@ -54,7 +55,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     if( dp == prev_grab ) {
         // We are pushing in the direction of vehicle
         dp_veh = dp;
-    } else if( abs( dp.x + dp_veh.x ) != 2 && abs( dp.y + dp_veh.y ) != 2 ) {
+    } else if( std::abs( dp.x + dp_veh.x ) != 2 && std::abs( dp.y + dp_veh.y ) != 2 ) {
         // Not actually moving the vehicle, don't do the checks
         u.grab_point = -( dp + dp_veh );
         return false;
@@ -94,7 +95,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         //determine movecost for terrain touching wheels
         const tripoint vehpos = grabbed_vehicle->global_pos3();
         for( int p : wheel_indices ) {
-            const tripoint wheel_pos = vehpos + grabbed_vehicle->parts[p].precalc[0];
+            const tripoint wheel_pos = vehpos + grabbed_vehicle->part( p ).precalc[0];
             const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
             mc += str_req / wheel_indices.size() * mapcost;
         }
@@ -121,13 +122,15 @@ bool game::grabbed_veh_move( const tripoint &dp )
         ///\EFFECT_STR increases speed of dragging vehicles
         u.moves -= 100 * str_req / std::max( 1, u.get_str() );
         const int ex = dice( 1, 3 ) - 1 + str_req;
-        if( ex > u.get_str() ) {
+        if( ex > u.get_str() + 1 ) {
+            // Pain and movement penalty if exertion exceeds character strength
             add_msg( m_bad, _( "You strain yourself to move the %s!" ), grabbed_vehicle->name );
             u.moves -= 200;
             u.mod_pain( 1 );
-        } else if( ex == u.get_str() ) {
-            u.moves -= 200;
+        } else if( ex >= u.get_str() ) {
+            // Movement is slow if exertion nearly equals character strength
             add_msg( _( "It takes some time to move the %s." ), grabbed_vehicle->name );
+            u.moves -= 200;
         }
     } else {
         u.moves -= 100;
@@ -147,7 +150,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         // Grabbed part has to stay at distance 1 to the player
         // and in roughly the same direction.
         const tripoint new_part_pos = grabbed_vehicle->global_pos3() +
-                                      grabbed_vehicle->parts[ grabbed_part ].precalc[ 1 ];
+                                      grabbed_vehicle->part( grabbed_part ).precalc[ 1 ];
         const tripoint expected_pos = u.pos() + dp + from;
         const tripoint actual_dir = expected_pos - new_part_pos;
 
@@ -180,10 +183,9 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     u.grab_point = next_grab;
 
-    tripoint gp = grabbed_vehicle->global_pos3();
-    grabbed_vehicle = m.displace_vehicle( gp, final_dp_veh );
+    m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
 
-    if( grabbed_vehicle == nullptr ) {
+    if( !grabbed_vehicle ) {
         debugmsg( "Grabbed vehicle disappeared" );
         return false;
     }

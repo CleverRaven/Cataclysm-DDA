@@ -2,16 +2,7 @@
   {
     "type": "item_group",
     "id": "oa_discarded_news",
-    "items": [
-      [ "many_years_old_newspaper", 20 ],
-      [ "years_old_newspaper", 20 ],
-      [ "one_year_old_newspaper", 20 ],
-      [ "months_old_newspaper", 20 ],
-      [ "weeks_old_newspaper", 20 ],
-      [ "newest_newspaper", 20 ],
-      [ "news_regional", 20 ],
-      [ "mag_news", 20 ]
-    ]
+    "items": [ { "group": "newspaper", "prob": 60 }, [ "news_regional", 20 ], [ "mag_news", 20 ] ]
   },
   {
     "type": "item_group",
@@ -39,8 +30,8 @@
       [ "bag_canvas", 15 ],
       [ "bag_canvas_small", 25 ],
       [ "bottle_glass", 30 ],
-      [ "can_drink_unsealed", 30 ],
-      [ "can_food_unsealed", 30 ],
+      [ "can_drink", 30 ],
+      [ "can_food", 30 ],
       [ "box_small", 30 ],
       [ "bubblewrap", 20 ],
       [ "cig_butt", 70 ],
@@ -61,12 +52,7 @@
       [ "razor_blade", 10 ],
       [ "survnote", 5 ],
       [ "eclipse_glasses", 5 ],
-      [ "many_years_old_newspaper", 15 ],
-      [ "years_old_newspaper", 15 ],
-      [ "one_year_old_newspaper", 15 ],
-      [ "months_old_newspaper", 15 ],
-      [ "weeks_old_newspaper", 15 ],
-      [ "newest_newspaper", 15 ],
+      { "group": "newspaper", "prob": 60 },
       [ "news_regional", 15 ],
       [ "paper", 20 ],
       [ "rag_bloody", 35 ],

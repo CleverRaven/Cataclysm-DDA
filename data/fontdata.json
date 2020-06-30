@@ -1,15 +1,16 @@
 {
-  "fontblending": false,
-  "fontwidth": 8,
-  "fontheight": 16,
-  "fontsize": 16,
-  "typeface": "unifont",
-  "map_fontwidth": 8,
-  "map_fontheight": 16,
-  "map_fontsize": 16,
-  "map_typeface": "unifont",
-  "overmap_fontwidth": 8,
-  "overmap_fontheight": 16,
-  "overmap_fontsize": 16,
-  "overmap_typeface": "unifont"
+  "//1": "If more than one font is specified for a typeface the list is treated as a fallback order.",
+  "//2": "unifont will always be used as a 'last resort' fallback even if not listed here.",
+  "typeface": [
+    "Terminus",
+    "unifont"
+  ],
+  "map_typeface": [
+    "Terminus",
+    "unifont"
+  ],
+  "overmap_typeface": [
+    "Terminus",
+    "unifont"
+  ]
 }

@@ -1,0 +1,27 @@
+[
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GOO",
+    "default": "mon_blob",
+    "monsters": [
+      { "monster": "mon_blob_small", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_blob_small", "freq": 100, "cost_multiplier": 0, "pack_size": [ 2, 12 ] },
+      { "monster": "mon_blob", "freq": 5, "cost_multiplier": 3, "pack_size": [ 5, 10 ] },
+      { "monster": "mon_blob_large", "freq": 5, "cost_multiplier": 6, "pack_size": [ 5, 10 ] },
+      { "monster": "mon_blob_brain", "freq": 1, "cost_multiplier": 10 },
+      { "monster": "mon_shoggoth", "freq": 1, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_BLOB",
+    "default": "mon_blob",
+    "//": "GROUP_GOO has a shoggoth, which isn't even the same faction as blobs. Also removes brain blob.",
+    "monsters": [
+      { "monster": "mon_blob_small", "freq": 200, "cost_multiplier": 0 },
+      { "monster": "mon_blob_small", "freq": 100, "cost_multiplier": 0, "pack_size": [ 2, 12 ] },
+      { "monster": "mon_blob", "freq": 5, "cost_multiplier": 3, "pack_size": [ 5, 10 ] },
+      { "monster": "mon_blob_large", "freq": 5, "cost_multiplier": 6, "pack_size": [ 5, 10 ] }
+    ]
+  }
+]

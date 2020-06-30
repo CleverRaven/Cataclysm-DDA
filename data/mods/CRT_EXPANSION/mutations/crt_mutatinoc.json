@@ -20,7 +20,7 @@
     "visibility": -7,
     "ugliness": -7,
     "description": "Aside from your appearances, your movements are incredibly graceful and allow you to seemingly glide through every task.",
-    "thresheq": [ "THRESH_VAMP" ],
+    "threshreq": [ "THRESH_VAMP" ],
     "category": [ "VAMP" ],
     "stealth_modifier": 5,
     "noise_modifier": 0.2,

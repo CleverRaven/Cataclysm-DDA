@@ -3,7 +3,7 @@
     "type": "monstergroup",
     "name": "GROUP_MI-GO_CAMP_OM",
     "//": "Mi-go raiding parties spawning in the vicinity of a mi-go camp.  Puts slavers later on and keeps large groups from spawning until the player can deal with them.",
-    "default": "mon_mi_go_slaver",
+    "default": "mon_mi_go",
     "monsters": [
       { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 20, "pack_size": [ 2, 4 ] },
       { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 10, "pack_size": [ 4, 8 ] },
@@ -18,7 +18,7 @@
     "type": "monstergroup",
     "name": "GROUP_MI-GO_BASE_COMMON",
     "//": "Basic mi-go base defenders.",
-    "default": "mon_mi_go_slaver",
+    "default": "mon_mi_go_guard",
     "monsters": [
       { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
       { "monster": "mon_mi_go", "freq": 100, "cost_multiplier": 3, "pack_size": [ 2, 4 ] },

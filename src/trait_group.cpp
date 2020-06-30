@@ -1,19 +1,20 @@
 #include "trait_group.h"
 
-#include <cstddef>
 #include <algorithm>
 #include <cassert>
-#include <sstream>
+#include <cstddef>
 #include <map>
 #include <utility>
 
+#include "compatibility.h"
 #include "debug.h"
 #include "json.h"
+#include "memory_fast.h"
+#include "mutation.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
-#include "compatibility.h"
-#include "mutation.h"
 
 using namespace trait_group;
 
@@ -27,7 +28,7 @@ bool trait_group::group_contains_trait( const Trait_group_tag &gid, const trait_
     return mutation_branch::get_group( gid )->has_trait( tid );
 }
 
-void trait_group::load_trait_group( JsonObject &jsobj, const Trait_group_tag &gid,
+void trait_group::load_trait_group( const JsonObject &jsobj, const Trait_group_tag &gid,
                                     const std::string &subtype )
 {
     mutation_branch::load_trait_group( jsobj, gid, subtype );
@@ -51,31 +52,31 @@ static Trait_group_tag get_unique_trait_group_id()
     }
 }
 
-Trait_group_tag trait_group::load_trait_group( JsonIn &stream, const std::string &default_subtype )
+Trait_group_tag trait_group::load_trait_group( const JsonValue &value,
+        const std::string &default_subtype )
 {
-    if( stream.test_string() ) {
-        return Trait_group_tag( stream.get_string() );
-    } else if( stream.test_object() ) {
+    if( value.test_string() ) {
+        return Trait_group_tag( value.get_string() );
+    } else if( value.test_object() ) {
         const Trait_group_tag group = get_unique_trait_group_id();
 
-        JsonObject jo = stream.get_object();
+        JsonObject jo = value.get_object();
         const std::string subtype = jo.get_string( "subtype", default_subtype );
 
         mutation_branch::load_trait_group( jo, group, subtype );
 
         return group;
-    } else if( stream.test_array() ) {
+    } else if( value.test_array() ) {
         const Trait_group_tag group = get_unique_trait_group_id();
 
-        JsonArray jarr = stream.get_array();
         if( default_subtype != "collection" && default_subtype != "distribution" ) {
-            jarr.throw_error( "invalid subtype for trait group" );
+            value.throw_error( "invalid subtype for trait group" );
         }
 
-        mutation_branch::load_trait_group( jarr, group, default_subtype == "collection" );
+        mutation_branch::load_trait_group( value.get_array(), group, default_subtype == "collection" );
         return group;
     } else {
-        stream.error( "invalid trait group, must be string (group id) or object/array (the group data)" );
+        value.throw_error( "invalid trait group, must be string (group id) or object/array (the group data)" );
         return Trait_group_tag{};
     }
 }
@@ -111,9 +112,8 @@ void trait_group::debug_spawn()
         uilist menu2;
         menu2.text = _( "Result of 100 spawns:" );
         for( const auto &e : traitnames2 ) {
-            std::ostringstream buffer;
-            buffer << e.first << " x " << e.second << "\n";
-            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2, buffer.str() );
+            menu2.entries.emplace_back( static_cast<int>( menu2.entries.size() ), true, -2,
+                                        string_format( _( "%d x %s" ), e.first, e.second ) );
         }
         menu2.query();
     }

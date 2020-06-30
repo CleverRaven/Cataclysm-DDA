@@ -14,7 +14,6 @@
     "sym": "O",
     "color": "red",
     "see_cost": 2,
-    "extras": "field",
     "flags": [ "NO_ROTATE" ]
   },
   {
@@ -95,7 +94,6 @@
     "sym": "F",
     "color": "green",
     "see_cost": 3,
-    "extras": "field",
     "spawns": { "group": "GROUP_STANDING_STONES", "population": [ 1, 4 ], "chance": 100 },
     "flags": [ "NO_ROTATE" ]
   },
@@ -122,7 +120,7 @@
     "id": "mine_entrance",
     "name": "mine entrance",
     "sym": "M",
-    "color": "light_gray",
+    "color": "magenta",
     "see_cost": 5,
     "flags": [ "KNOWN_DOWN", "NO_ROTATE" ]
   },
@@ -187,7 +185,24 @@
     "sym": "C",
     "color": "brown",
     "see_cost": 2,
-    "extras": "field",
+    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_underground",
+    "name": "cave",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": 2,
+    "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "cave_rat_underground",
+    "name": "rat cave",
+    "sym": "C",
+    "color": "brown",
+    "see_cost": 2,
     "flags": [ "NO_ROTATE", "SOURCE_SAFETY" ]
   },
   {
@@ -206,37 +221,6 @@
     "sym": "8",
     "color": "yellow",
     "see_cost": 3,
-    "extras": "field",
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "fungal_bloom",
-    "name": "fungal bloom",
-    "sym": "T",
-    "color": "light_gray",
-    "see_cost": 2,
-    "extras": "marloss",
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "fungal_tower",
-    "name": "fungal tower",
-    "sym": "T",
-    "color": "yellow",
-    "see_cost": 3,
-    "extras": "marloss",
-    "flags": [ "NO_ROTATE", "RISK_HIGH" ]
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "fungal_flowers",
-    "name": "fungal flowers",
-    "sym": "T",
-    "color": "cyan",
-    "see_cost": 5,
-    "extras": "marloss",
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {
@@ -246,7 +230,6 @@
     "sym": "F",
     "color": "green",
     "see_cost": 3,
-    "extras": "field",
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
   {

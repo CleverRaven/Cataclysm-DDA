@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "refugee_tower_5trc",
-    "comment": "top right corner, roof, fifth floor or odd level",
+    "//": "top right corner, roof, fifth floor or odd level",
     "weight": 250,
     "method": "json",
     "object": {

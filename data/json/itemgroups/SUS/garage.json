@@ -1,0 +1,28 @@
+[
+  {
+    "id": "SUS_welding_gear",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a rack of welding gear.",
+    "subtype": "collection",
+    "entries": [
+      {
+        "distribution": [
+          {
+            "collection": [
+              { "item": "oxy_torch" },
+              { "item": "weldtank", "count": [ 1, 3 ], "prob": 80 },
+              { "item": "tinyweldtank", "count": [ 1, 3 ], "prob": 60 }
+            ],
+            "prob": 30
+          },
+          {
+            "collection": [ { "item": "welder" }, { "item": "medium_plus_battery_cell", "count": [ 1, 3 ], "prob": 80 } ],
+            "prob": 70
+          }
+        ]
+      },
+      { "distribution": [ { "item": "welding_mask", "prob": 70 }, { "item": "goggles_welding", "prob": 70 } ] }
+    ]
+  }
+]

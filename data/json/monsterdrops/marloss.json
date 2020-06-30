@@ -1,5 +1,11 @@
 [
   {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "marloss_yellow_drops",
+    "entries": [ { "item": "marloss_gel" }, { "item": "fungal_seeds" } ]
+  },
+  {
     "id": "marloss_zealot_death_drops",
     "type": "item_group",
     "subtype": "collection",
