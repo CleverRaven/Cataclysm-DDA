@@ -2015,12 +2015,18 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
-        if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
-            return false;
-        }
+        //Pseudo items don't have a magazine in it, and they don't need it anymore.
+        //Pseudo magazine in Pseudo item sounds good.
+        //Somehow the set of available ammos in pocket_data loaded from json is alphabetic,
+        //so the default ammo is always atomic, haven't checked the relevant codes yet.
+        item pseudo_magazine( pseudo.magazine_default() );
+        //Load the battery module
+        pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
         int capacity = pseudo.ammo_capacity( ammotype( "battery" ) );
         int qty = capacity - discharge_battery( capacity );
-        pseudo.ammo_set( itype_battery, qty );
+        //Original code:  pseudo.ammo_set( itype_battery, qty );
+        //But only the magazine can be loaded with battery, not the tool itself.
+        pseudo_magazine.ammo_set( itype_battery, qty );
         g->u.invoke_item( &pseudo );
         charge_battery( pseudo.ammo_remaining() );
         return true;
