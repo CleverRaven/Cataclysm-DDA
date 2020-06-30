@@ -228,10 +228,7 @@ void game_menus::inv::common( avatar &you )
             }
         }
 
-        g->refresh_all();
         res = g->inventory_item_menu( location );
-        g->refresh_all();
-
     } while( loop_options.count( res ) != 0 );
 }
 
@@ -264,10 +261,7 @@ void game_menus::inv::common( item_location &loc, avatar &you )
             }
         }
 
-        g->refresh_all();
         res = g->inventory_item_menu( location );
-        g->refresh_all();
-
     } while( loop_options.count( res ) != 0 );
 }
 
@@ -1303,7 +1297,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         item &it = *holstered_item.first;
         bool success = false;
         if( !it.count_by_charges() || it.count() == holstered_item.second ) {
-            if( holster->can_contain( it ) ) {
+            if( holster->contents.can_contain( it ).success() ) {
                 holster->put_in( it, item_pocket::pocket_type::CONTAINER );
                 holstered_item.first.remove_item();
                 success = true;
@@ -1602,7 +1596,6 @@ void game_menus::inv::swap_letters( player &p )
         }
 
         reassign_letter( p, *loc );
-        g->refresh_all();
     }
 }
 

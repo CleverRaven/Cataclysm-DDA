@@ -22,7 +22,7 @@ class safemode
             MAX_TAB
         };
 
-        enum Categories : int {
+        enum class Categories : int {
             HOSTILE_SPOTTED,
             SOUND
         };
@@ -37,7 +37,7 @@ class safemode
                 int proximity;
                 Categories category;
 
-                rules_class() : active( false ), whitelist( false ), attitude( Creature::A_HOSTILE ),
+                rules_class() : active( false ), whitelist( false ), attitude( Creature::Attitude::HOSTILE ),
                     proximity( 0 ), category( Categories::HOSTILE_SPOTTED ) {}
                 rules_class( const std::string &rule_in, bool active_in, bool whitelist_in,
                              Creature::Attitude attitude_in, int proximity_in, Categories cat ) : rule( rule_in ),
@@ -51,7 +51,7 @@ class safemode
                 rule_state state;
                 int proximity;
 
-                rule_state_class() : state( RULE_NONE ), proximity( 0 ) {}
+                rule_state_class() : state( rule_state::NONE ), proximity( 0 ) {}
                 rule_state_class( rule_state state_in, int proximity_in, Categories ) : state( state_in ),
                     proximity( proximity_in ) {}
         };
@@ -60,7 +60,7 @@ class safemode
          * The currently-active set of safemode rules, in a form that allows quick
          * lookup. When this is filled (by @ref safemode::create_rules()), every
          * monster existing in the game that matches a rule (either white- or blacklist)
-         * is added as the key, with RULE_WHITELISTED or RULE_BLACKLISTED as the values.
+         * is added as the key, with rule_state::WHITELISTED or rule_state::BLACKLISTED as the values.
          * safemode_rules[ 'creature name' ][ 'attitude' ].rule_state_class('rule_state', 'proximity')
          */
         std::unordered_map < std::string, std::array < rule_state_class, 3 > > safemode_rules_hostile;

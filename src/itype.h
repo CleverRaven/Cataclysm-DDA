@@ -200,6 +200,11 @@ struct islot_brewable {
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_armor {
@@ -278,10 +283,6 @@ struct islot_pet_armor {
      * Environmental protection of a gas mask with installed filter.
      */
     int env_resist_w_filter = 0;
-    /**
-     * How much storage this items provides when worn.
-     */
-    units::volume storage = 0_ml;
     /**
      * The maximum volume a pet can be and wear this armor
      */
@@ -418,6 +419,11 @@ struct islot_engine {
     public:
         /** for combustion engines the displacement (cc) */
         int displacement = 0;
+
+        bool was_loaded = false;
+
+        void load( const JsonObject &jo );
+        void deserialize( JsonIn &jsin );
 };
 
 struct islot_wheel {
@@ -427,6 +433,11 @@ struct islot_wheel {
 
         /** width of wheel (inches) */
         int width = 0;
+
+        bool was_loaded = false;
+
+        void load( const JsonObject &jo );
+        void deserialize( JsonIn &jsin );
 };
 
 struct fuel_explosion {
@@ -638,12 +649,6 @@ struct islot_magazine {
     /** Default type of ammo contained by a magazine (often set for ammo belts) */
     itype_id default_ammo = itype_id::NULL_ID();
 
-    /**
-     * How reliable this magazine on a range of 0 to 10?
-     * @see doc/GAME_BALANCE.md
-     */
-    int reliability = 0;
-
     /** How long it takes to load each unit of ammo into the magazine */
     int reload_time = 100;
 
@@ -654,6 +659,11 @@ struct islot_magazine {
 struct islot_battery {
     /** Maximum energy the battery can store */
     units::energy max_capacity;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_ammo : common_ranged_data {
@@ -810,6 +820,18 @@ struct conditional_name {
     translation name;
 };
 
+class islot_milling
+{
+    public:
+        itype_id into_;
+        double conversion_rate_;
+
+        bool was_loaded = false;
+
+        void load( const JsonObject &jo );
+        void deserialize( JsonIn &jsin );
+};
+
 struct itype {
         friend class Item_factory;
 
@@ -837,6 +859,7 @@ struct itype {
         cata::value_ptr<islot_seed> seed;
         cata::value_ptr<islot_artifact> artifact;
         cata::value_ptr<relic> relic_data;
+        cata::value_ptr<islot_milling> milling_data;
         /*@}*/
 
         // a hint for tilesets: if it doesn't have a tile, what does it look like?
@@ -905,7 +928,7 @@ struct itype {
 
         /** Weight of item ( or each stack member ) */
         units::mass weight = 0_gram;
-        /** Weight difference with the part it replaces for mods */
+        /** Weight difference with the part it replaces for mods (defaults to weight) */
         units::mass integral_weight = -1_gram;
 
         /**

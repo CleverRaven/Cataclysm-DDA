@@ -92,7 +92,7 @@
     "components": [
       [ [ "water", 5 ], [ "water_clean", 5 ] ],
       [ [ "stomach", 1 ], [ "hstomach", 1 ], [ "demihuman_stomach", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 50, "LIST" ] ]
+      [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ]
     ]
   },
   {

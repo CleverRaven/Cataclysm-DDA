@@ -16,7 +16,7 @@ struct kobject {
     int character;
 };
 
-#define MAXMESSAGES 1200
+static constexpr int MAXMESSAGES = 1200;
 
 class robot_finds_kitten
 {

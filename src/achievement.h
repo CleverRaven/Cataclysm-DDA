@@ -20,6 +20,7 @@ class requirement_watcher;
 class stats_tracker;
 
 enum class achievement_comparison : int {
+    equal,
     less_equal,
     greater_equal,
     anything,

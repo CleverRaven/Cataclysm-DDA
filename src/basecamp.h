@@ -81,7 +81,7 @@ extern const std::map<point, direction_data> all_directions;
 
 point direction_from_id( const std::string &id );
 
-const point base_dir = point_zero;
+const point base_dir{};
 const std::string prefix = "faction_base_";
 const std::string id = "FACTION_CAMP";
 const int prefix_len = 13;

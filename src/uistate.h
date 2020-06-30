@@ -43,8 +43,8 @@ struct advanced_inv_pane_save_state {
 
 struct advanced_inv_save_state {
     public:
-        int exit_code = 0;
-        int re_enter_move_all = 0;
+        aim_exit exit_code = aim_exit::none;
+        aim_entry re_enter_move_all = aim_entry::START;
         int aim_all_location = 1;
 
         bool active_left = true;

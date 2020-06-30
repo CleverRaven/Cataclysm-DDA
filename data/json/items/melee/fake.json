@@ -20,13 +20,12 @@
     "name": { "str": "monomolecular blade" },
     "description": "A foot-long blade made from high-tech alloy and edged with bonded nanocrystals.",
     "weight": "100 g",
-    "to_hit": 3,
     "color": "dark_gray",
     "symbol": "{",
     "material": [ "superalloy" ],
     "techniques": [ "WBLOCK_2" ],
     "volume": "750 ml",
-    "cutting": 36,
+    "cutting": 28,
     "flags": [ "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE", "TRADER_AVOID" ],
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 22 ] ]
   }

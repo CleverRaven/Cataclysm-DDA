@@ -431,7 +431,7 @@ void npc::assess_danger()
 
         if( has_faction_relationship( guy, npc_factions::watch_your_back ) ) {
             ai_cache.friends.emplace_back( g->shared_from( guy ) );
-        } else if( attitude_to( guy ) != A_NEUTRAL && sees( guy.pos() ) ) {
+        } else if( attitude_to( guy ) != Attitude::NEUTRAL && sees( guy.pos() ) ) {
             hostile_guys.emplace_back( g->shared_from( guy ) );
         }
     }
@@ -445,11 +445,11 @@ void npc::assess_danger()
 
     for( const monster &critter : g->all_monsters() ) {
         auto att = critter.attitude_to( *this );
-        if( att == A_FRIENDLY ) {
+        if( att == Attitude::FRIENDLY ) {
             ai_cache.friends.emplace_back( g->shared_from( critter ) );
             continue;
         }
-        if( att != A_HOSTILE && ( critter.friendly || !is_enemy() ) ) {
+        if( att != Attitude::HOSTILE && ( critter.friendly || !is_enemy() ) ) {
             continue;
         }
         if( !sees( critter ) ) {
@@ -457,10 +457,11 @@ void npc::assess_danger()
         }
         float critter_threat = evaluate_enemy( critter );
         // warn and consider the odds for distant enemies
+        int dist = rl_dist( pos(), critter.pos() );
         if( ( is_enemy() || !critter.friendly ) ) {
             assessment += critter_threat;
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-                warn_about( "monster", 10_minutes, critter.type->nname() );
+                warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
         }
         // ignore targets behind glass even if we can see them
@@ -468,7 +469,6 @@ void npc::assess_danger()
             continue;
         }
 
-        int dist = rl_dist( pos(), critter.pos() );
         float scaled_distance = std::max( 1.0f, dist / critter.speed_rating() );
         float hp_percent = 1.0f - static_cast<float>( critter.get_hp() ) / critter.get_hp_max();
         float critter_danger = std::max( critter_threat * ( hp_percent * 0.5f + 0.5f ),
@@ -513,11 +513,11 @@ void npc::assess_danger()
     }
     const auto handle_hostile = [&]( const player & foe, float foe_threat,
     const std::string & bogey, const std::string & warning ) {
+        int dist = rl_dist( pos(), foe.pos() );
         if( foe_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
-            warn_about( "monster", 10_minutes, bogey );
+            warn_about( "monster", 10_minutes, bogey, dist, foe.pos() );
         }
 
-        int dist = rl_dist( pos(), foe.pos() );
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
         // ignore targets behind glass even if we can see them
@@ -614,7 +614,7 @@ float npc::character_danger( const Character &uc ) const
     }
     ret += u_weap_val;
 
-    ret += hp_percentage() * get_hp_max( hp_torso ) / 100.0 / my_weap_val;
+    ret += hp_percentage() * get_hp_max( bodypart_id( "torso" ) ) / 100.0 / my_weap_val;
 
     ret += my_gun ? u.get_dodge() / 2 : u.get_dodge();
 
@@ -1329,7 +1329,7 @@ npc_action npc::method_of_attack()
             return m.melee() || m.flags.count( "NPC_AVOID" ) ||
                    !m->ammo_sufficient( m.qty ) || !can_use( *m.target ) ||
                    m->get_gun_ups_drain() > ups_charges ||
-                   ( ( danger <= ( m.qty == 1 ? 3.0 : 15.0 ) ) && !emergency() ) ||
+                   ( ( danger <= ( m.qty == 1 ? 0.0 : 15 ) ) && !emergency() ) ||
                    ( rules.has_flag( ally_rule::use_silent ) && is_player_ally() &&
                      !m.target->is_silent() );
 
@@ -1395,7 +1395,7 @@ npc_action npc::method_of_attack()
     }
 
     if( dist == 1 && same_z ) {
-        add_msg( m_debug, "%s is trying a melle attack", disp_name() );
+        add_msg( m_debug, "%s is trying a melee attack", disp_name() );
         return npc_melee;
     }
 
@@ -1723,35 +1723,33 @@ healing_options npc::patient_assessment( const Character &c )
     healing_options try_to_fix;
     try_to_fix.clear_all();
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const hp_part part = static_cast<hp_part>( i );
-        const body_part bp_wounded = hp_to_bp( part );
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : c.get_body() ) {
 
-        if( c.has_effect( effect_bleed, bp_wounded ) ) {
+        if( c.has_effect( effect_bleed, elem.first->token ) ) {
             try_to_fix.bleed = true;
         }
 
-        if( c.has_effect( effect_bite, bp_wounded ) ) {
+        if( c.has_effect( effect_bite, elem.first->token ) ) {
             try_to_fix.bite = true;
         }
 
-        if( c.has_effect( effect_infected, bp_wounded ) ) {
+        if( c.has_effect( effect_infected, elem.first->token ) ) {
             try_to_fix.infect = true;
         }
         int part_threshold = 75;
-        if( part == hp_head ) {
+        if( elem.first == bodypart_str_id( "head" ) ) {
             part_threshold += 20;
-        } else if( part == hp_torso ) {
+        } else if( elem.first == bodypart_str_id( "torso" ) ) {
             part_threshold += 10;
         }
         part_threshold = std::min( 80, part_threshold );
-        part_threshold = part_threshold * c.hp_max[i] / 100;
+        part_threshold = part_threshold * elem.second.get_hp_max() / 100;
 
-        if( c.hp_cur[i] <= part_threshold ) {
-            if( !c.has_effect( effect_bandaged, bp_wounded ) ) {
+        if( elem.second.get_hp_cur() <= part_threshold ) {
+            if( !c.has_effect( effect_bandaged, elem.first->token ) ) {
                 try_to_fix.bandage = true;
             }
-            if( !c.has_effect( effect_disinfected, bp_wounded ) ) {
+            if( !c.has_effect( effect_disinfected, elem.first->token ) ) {
                 try_to_fix.disinfect = true;
             }
         }
@@ -2247,7 +2245,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             return;
         }
         const auto att = attitude_to( *critter );
-        if( att == A_HOSTILE ) {
+        if( att == Attitude::HOSTILE ) {
             if( !no_bashing ) {
                 warn_about( "cant_flee", 5_turns + rng( 0, 5 ) * 1_turns );
                 melee_attack( *critter, true );
@@ -2375,9 +2373,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
         const tripoint old_pos = pos();
         setpos( p );
         if( old_pos.x - p.x < 0 ) {
-            facing = FD_RIGHT;
+            facing = FacingDirection::RIGHT;
         } else {
-            facing = FD_LEFT;
+            facing = FacingDirection::LEFT;
         }
         if( is_mounted() ) {
             if( mounted_creature->pos() != pos() ) {
@@ -3068,7 +3066,7 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 
 std::list<item> npc::pick_up_item_map( const tripoint &where )
 {
-    auto stack = g->m.i_at( where );
+    map_stack stack = g->m.i_at( where );
     return npc_pickup_from_stack( *this, stack );
 }
 
@@ -3212,7 +3210,7 @@ bool npc::find_corpse_to_pulp()
             return nullptr;
         }
 
-        const auto items = g->m.i_at( p );
+        const map_stack items = g->m.i_at( p );
         const item *found = nullptr;
         for( const item &it : items )
         {
@@ -3805,6 +3803,7 @@ bool npc::consume_food_from_camp()
     }
     basecamp *bcp = *potential_bc;
     if( get_thirst() > 40 && bcp->has_water() ) {
+        complain_about( "camp_water_thanks", 1_hours, "<camp_water_thanks>", false );
         set_thirst( 0 );
         return true;
     }
@@ -3812,11 +3811,13 @@ bool npc::consume_food_from_camp()
     int camp_kcals = std::min( std::max( 0, 19 * get_healthy_kcal() / 20 - get_stored_kcal() -
                                          stomach.get_calories() ), yours->food_supply );
     if( camp_kcals > 0 ) {
+        complain_about( "camp_food_thanks", 1_hours, "<camp_food_thanks>", false );
         mod_hunger( -camp_kcals );
         mod_stored_kcal( camp_kcals );
         yours->food_supply -= camp_kcals;
         return true;
     }
+    complain_about( "camp_larder_empty", 1_hours, "<camp_larder_empty", false );
     return false;
 }
 
@@ -3944,7 +3945,6 @@ void npc::look_for_player( const player &sought )
     complain_about( "look_for_player", 5_minutes, "<wait>", false );
     update_path( sought.pos() );
     move_to_next();
-    return;
     // The part below is not implemented properly
     /*
     if( sees( sought ) ) {
@@ -4315,7 +4315,21 @@ static body_part bp_affected( npc &who, const efftype_id &effect_type )
     return ret;
 }
 
-void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name )
+static std::string distance_string( int range )
+{
+    if( range < 6 ) {
+        return "<danger_close_distance>";
+    } else if( range < 11 ) {
+        return "<close_distance>";
+    } else if( range < 26 ) {
+        return "<medium_distance>";
+    } else {
+        return "<far_distance>";
+    }
+}
+
+void npc::warn_about( const std::string &type, const time_duration &d, const std::string &name,
+                      int range, const tripoint &danger_pos )
 {
     std::string snip;
     sounds::sound_t spriority = sounds::sound_t::alert;
@@ -4355,9 +4369,16 @@ void npc::warn_about( const std::string &type, const time_duration &d, const std
         return;
     }
     const std::string warning_name = "warning_" + type + name;
-    const std::string speech = name.empty() ? snip :
-                               string_format( _( "%s %s<punc>" ), snip, name );
-    complain_about( warning_name, d, speech, is_enemy(), spriority );
+    if( name.empty() ) {
+        complain_about( warning_name, d, snip, is_enemy(), spriority );
+    } else {
+        const std::string range_str = range < 1 ? "<punc>" :
+                                      string_format( _( " %s, %s" ),
+                                              direction_name( direction_from( pos(), danger_pos ) ),
+                                              distance_string( range ) );
+        const std::string speech = string_format( _( "%s %s%s" ), snip, name, range_str );
+        complain_about( warning_name, d, speech, is_enemy(), spriority );
+    }
 }
 
 bool npc::complain_about( const std::string &issue, const time_duration &dur,
@@ -4516,8 +4537,8 @@ void npc::do_reload( const item &it )
 bool npc::adjust_worn()
 {
     bool any_broken = false;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( is_limb_broken( static_cast<hp_part>( i ) ) ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( is_limb_broken( bp ) ) {
             any_broken = true;
             break;
         }
@@ -4527,9 +4548,9 @@ bool npc::adjust_worn()
         return false;
     }
     const auto covers_broken = [this]( const item & it, side s ) {
-        const auto covered = it.get_covered_body_parts( s );
-        for( size_t i = 0; i < num_hp_parts; i++ ) {
-            if( hp_cur[ i ] <= 0 && covered.test( convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ) ) ) {
+        const body_part_set covered = it.get_covered_body_parts( s );
+        for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+            if( elem.second.get_hp_cur() <= 0 && covered.test( elem.first ) ) {
                 return true;
             }
         }

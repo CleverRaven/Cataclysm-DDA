@@ -124,17 +124,17 @@ TEST_CASE( "lru_cache_perf", "[.]" )
 // 1 | 2
 // -----
 // 3 | 4
-// The partitions are defined by x_partition and y_partition
+// The partitions are defined by partition.x and partition.y
 // Each partition has an expected value, and should be homogenous.
 static void check_quadrants( std::bitset<MAPSIZE *SEEX *MAPSIZE *SEEY> &test_cache,
-                             size_t x_partition, size_t y_partition,
+                             const point &partition,
                              bool first_val, bool second_val, bool third_val, bool fourth_val )
 {
-    size_t y = 0;
-    for( ; y < y_partition; ++y ) {
+    int y = 0;
+    for( ; y < partition.y; ++y ) {
         size_t y_offset = y * SEEX * MAPSIZE;
-        size_t x = 0;
-        for( ; x < x_partition; ++x ) {
+        int x = 0;
+        for( ; x < partition.x; ++x ) {
             INFO( x << " " << y );
             CHECK( first_val == test_cache[ y_offset + x ] );
         }
@@ -145,8 +145,8 @@ static void check_quadrants( std::bitset<MAPSIZE *SEEX *MAPSIZE *SEEY> &test_cac
     }
     for( ; y < SEEY * MAPSIZE; ++y ) {
         size_t y_offset = y * SEEX * MAPSIZE;
-        size_t x = 0;
-        for( ; x < x_partition; ++x ) {
+        int x = 0;
+        for( ; x < partition.x; ++x ) {
             INFO( x << " " << y );
             CHECK( third_val == test_cache[ y_offset + x ] );
         }
@@ -169,56 +169,56 @@ TEST_CASE( "shift_map_memory_seen_cache" )
         WHEN( "positive x shift" ) {
             shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_east );
             THEN( "last 12 columns are 0, rest are 1" ) {
-                check_quadrants( test_cache, last_twelve, 0,
+                check_quadrants( test_cache, point( last_twelve, 0 ),
                                  true, false, true, false );
             }
         }
         WHEN( "negative x shift" ) {
             shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_west );
             THEN( "first 12 columns are 0, rest are 1" ) {
-                check_quadrants( test_cache, first_twelve, 0,
+                check_quadrants( test_cache, point( first_twelve, 0 ),
                                  false, true, false, true );
             }
         }
         WHEN( "positive y shift" ) {
             shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_south );
             THEN( "last 12 rows are 0, rest are 1" ) {
-                check_quadrants( test_cache, 0, last_twelve,
+                check_quadrants( test_cache, point( 0, last_twelve ),
                                  true, true, false, false );
             }
         }
         WHEN( "negative y shift" ) {
             shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_north );
             THEN( "first 12 rows are 0, rest are 1" ) {
-                check_quadrants( test_cache, 0, first_twelve,
+                check_quadrants( test_cache, point( 0, first_twelve ),
                                  false, false, true, true );
             }
         }
         WHEN( "positive x, positive y shift" ) {
             shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_south_east );
             THEN( "last 12 columns and rows are 0, rest are 1" ) {
-                check_quadrants( test_cache, last_twelve, last_twelve,
+                check_quadrants( test_cache, point( last_twelve, last_twelve ),
                                  true, false, false, false );
             }
         }
         WHEN( "positive x, negative y shift" ) {
             shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_north_east );
             THEN( "last 12 columns and first 12 rows are 0, rest are 1" ) {
-                check_quadrants( test_cache, last_twelve, first_twelve,
+                check_quadrants( test_cache, point( last_twelve, first_twelve ),
                                  false, false, true, false );
             }
         }
         WHEN( "negative x, positive y shift" ) {
             shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_south_west );
             THEN( "first 12 columns and last 12 rows are 0, rest are 1" ) {
-                check_quadrants( test_cache, first_twelve, last_twelve,
+                check_quadrants( test_cache, point( first_twelve, last_twelve ),
                                  false, true, false, false );
             }
         }
         WHEN( "negative x, negative y shift" ) {
             shift_bitset_cache<MAPSIZE_X, SEEX>( test_cache, point_north_west );
             THEN( "first 12 columns and rows are 0, rest are 1" ) {
-                check_quadrants( test_cache, first_twelve, first_twelve,
+                check_quadrants( test_cache, point( first_twelve, first_twelve ),
                                  false, false, false, true );
             }
         }

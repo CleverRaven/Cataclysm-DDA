@@ -83,6 +83,7 @@
 #include "visitable.h"
 #include "vitamin.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 #include "weather.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );
@@ -96,6 +97,7 @@ static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
+static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_infected( "infected" );
@@ -118,7 +120,6 @@ static const itype_id itype_UPS( "UPS" );
 
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_firstaid( "firstaid" );
-static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_survival( "survival" );
 
 static const trait_id trait_CENOBITE( "CENOBITE" );
@@ -133,8 +134,6 @@ static const trait_id trait_MUT_JUNKIE( "MUT_JUNKIE" );
 static const trait_id trait_SELFAWARE( "SELFAWARE" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SMALL2( "SMALL2" );
-
-static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const std::string flag_FIT( "FIT" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -645,10 +644,10 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
     veh_data.str( data );
     if( !data.empty() && data[0] >= '0' && data[0] <= '9' ) {
         // starts with a digit -> old format
-        for( auto &elem : veh->parts ) {
+        for( const vpart_reference &vpr : veh->get_all_parts() ) {
             int tmp;
             veh_data >> tmp;
-            veh->set_hp( elem, tmp );
+            veh->set_hp( vpr.part(), tmp );
         }
     } else {
         try {
@@ -657,9 +656,9 @@ int unfold_vehicle_iuse::use( player &p, item &it, bool, const tripoint & ) cons
             // cached values (like precalc, passenger_id, ...)
             std::vector<vehicle_part> parts;
             json.read( parts );
-            for( size_t i = 0; i < parts.size() && i < veh->parts.size(); i++ ) {
+            for( size_t i = 0; i < parts.size() && i < static_cast<size_t>( veh->part_count() ); i++ ) {
                 const vehicle_part &src = parts[i];
-                vehicle_part &dst = veh->parts[i];
+                vehicle_part &dst = veh->part( i );
                 // and now only copy values, that are
                 // expected to be consistent.
                 veh->set_hp( dst, src.hp() );
@@ -861,6 +860,7 @@ void place_monster_iuse::load( const JsonObject &obj )
     obj.read( "difficulty", difficulty );
     obj.read( "moves", moves );
     obj.read( "place_randomly", place_randomly );
+    obj.read( "is_pet", is_pet );
     if( obj.has_array( "skills" ) ) {
         JsonArray skills_ja = obj.get_array( "skills" );
         for( JsonValue s : skills_ja ) {
@@ -937,6 +937,9 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
             p.add_msg_if_player( m_warning, "%s", _( friendly_msg ) );
         }
         newmon.friendly = -1;
+        if( is_pet ) {
+            newmon.add_effect( effect_pet, 1_turns, num_bp, true );
+        }
     }
     return 1;
 }
@@ -1036,38 +1039,6 @@ int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) 
         }
     }
     return 0;
-}
-
-std::unique_ptr<iuse_actor> pick_lock_actor::clone() const
-{
-    return std::make_unique<pick_lock_actor>( *this );
-}
-
-void pick_lock_actor::load( const JsonObject &obj )
-{
-    pick_quality = obj.get_int( "pick_quality" );
-}
-
-int pick_lock_actor::use( player &p, item &it, bool, const tripoint & ) const
-{
-    if( p.is_npc() ) {
-        return 0;
-    }
-
-    avatar &you = dynamic_cast<avatar &>( p );
-    cata::optional<tripoint> target = lockpick_activity_actor::select_location( you );
-    if( !target.has_value() ) {
-        return 0;
-    }
-
-    /** @EFFECT_DEX speeds up door lock picking */
-    /** @EFFECT_LOCKPICK speeds up door lock picking */
-    const int duration = std::max( to_moves<int>( 10_seconds ),
-                                   to_moves<int>( 10_minutes - time_duration::from_minutes( it.get_quality( qual_LOCKPICK ) ) ) -
-                                   ( p.dex_cur + p.get_skill_level( skill_lockpick ) ) * 2300 );
-    you.assign_activity( lockpick_activity_actor( duration, item_location( p, &it ), cata::nullopt,
-                         g->m.getabs( *target ) ) );
-    return it.type->charges_to_use();
 }
 
 std::unique_ptr<iuse_actor> deploy_furn_actor::clone() const
@@ -1251,7 +1222,6 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
         if( const cata::optional<tripoint> pnt_ = choose_adjacent( _( "Light where?" ) ) ) {
             pos = *pnt_;
         } else {
-            g->refresh_all();
             return false;
         }
     }
@@ -1267,7 +1237,7 @@ bool firestarter_actor::prep_firestarter_use( const player &p, tripoint &pos )
     }
     // Check for a brazier.
     bool has_unactivated_brazier = false;
-    for( const auto &i : g->m.i_at( pos ) ) {
+    for( const item &i : g->m.i_at( pos ) ) {
         if( i.typeId() == itype_brazier ) {
             has_unactivated_brazier = true;
         }
@@ -1456,7 +1426,7 @@ bool salvage_actor::valid_to_cut_up( const item &it ) const
 // This is the former valid_to_cut_up with all the messages and queries
 bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 {
-    int pos = p.get_item_position( &it );
+    bool isWearing = p.is_worn( it );
 
     if( it.is_null() ) {
         add_msg( m_info, _( "You do not have that item." ) );
@@ -1465,7 +1435,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
     // There must be some historical significance to these items.
     if( !it.is_salvageable() ) {
         add_msg( m_info, _( "Can't salvage anything from %s." ), it.tname() );
-        if( p.rate_action_disassemble( it ) != hint_rating::cant ) {
+        if( it.is_disassemblable() ) {
             add_msg( m_info, _( "Try disassembling the %s instead." ), it.tname() );
         }
         return false;
@@ -1488,10 +1458,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
         if( !query_yn( _( "You are wielding that, are you sure?" ) ) ) {
             return false;
         }
-    } else if( pos == INT_MIN ) {
-        // Not in inventory
-        return true;
-    } else if( pos < -1 ) {
+    } else if( isWearing ) {
         if( !query_yn( _( "You're wearing that, are you sure?" ) ) ) {
             return false;
         }
@@ -1581,6 +1548,10 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         int amount = salvaged.second;
         item result( mat_name, calendar::turn );
         if( amount > 0 ) {
+            if( result.count_by_charges() ) {
+                result.charges = amount;
+                amount = 1;
+            }
             add_msg( m_good, ngettext( "Salvaged %1$i %2$s.", "Salvaged %1$i %2$s.", amount ),
                      amount, result.display_name( amount ) );
             if( filthy ) {
@@ -1590,7 +1561,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
                 p.i_add_or_drop( result, amount );
             } else {
                 for( int i = 0; i < amount; i++ ) {
-                    g->m.spawn_an_item( pos.xy(), result, amount, 0 );
+                    g->m.add_item_or_charges( pos, result );
                 }
             }
         } else {
@@ -2624,8 +2595,8 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     // Round up if checking, but roll if actually consuming
     // TODO: should 250_ml be part of the cost_scaling?
     const int items_needed = std::max<int>( 1, just_check ?
-                                            std::ceil( fix.volume() / 250_ml * cost_scaling ) :
-                                            roll_remainder( fix.volume() / 250_ml * cost_scaling ) );
+                                            std::ceil( fix.base_volume() / 250_ml * cost_scaling ) :
+                                            roll_remainder( fix.base_volume() / 250_ml * cost_scaling ) );
 
     std::function<bool( const item & )> filter;
     if( fix.is_filthy() ) {
@@ -3234,10 +3205,12 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
     float practice_amount = limb_power * 3.0f;
     const int dam = get_heal_value( healer, healed );
 
-    if( ( patient.hp_cur[healed] >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
-        patient.heal( healed, dam );
-    } else if( ( patient.hp_cur[healed] >= 1 ) && ( dam < 0 ) ) {
-        const bodypart_id bp = convert_bp( player::hp_to_bp( healed ) ).id();
+    const bodypart_id bp = convert_bp( Character::hp_to_bp( healed ) ).id();
+    const int cur_hp = patient.get_part_hp_cur( bp );
+
+    if( ( cur_hp >= 1 ) && ( dam > 0 ) ) { // Prevent first-aid from mending limbs
+        patient.heal( bp, dam );
+    } else if( ( cur_hp >= 1 ) && ( dam < 0 ) ) {
         patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 
@@ -3326,7 +3299,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         patient.add_effect( effect_bandaged, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_bandaged, bp_healed );
         e.set_duration( e.get_int_dur_factor() * bandages_intensity );
-        patient.damage_bandaged[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
+        patient.damage_bandaged[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
         practice_amount += 2 * bandages_intensity;
     }
     if( disinfectant_power > 0 ) {
@@ -3334,7 +3307,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         patient.add_effect( effect_disinfected, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_disinfected, bp_healed );
         e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
-        patient.damage_disinfected[healed] = patient.hp_max[healed] - patient.hp_cur[healed];
+        patient.damage_disinfected[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
         practice_amount += 2 * disinfectant_intensity;
     }
     practice_amount = std::max( 9.0f, practice_amount );
@@ -3367,14 +3340,14 @@ static hp_part pick_part_to_heal(
             return num_hp_parts;
         }
 
-        body_part bp = player::hp_to_bp( healed_part );
-        if( ( infect && patient.has_effect( effect_infected, bp ) ) ||
-            ( bite && patient.has_effect( effect_bite, bp ) ) ||
-            ( bleed && patient.has_effect( effect_bleed, bp ) ) ) {
+        const bodypart_id &bp = convert_bp( player::hp_to_bp( healed_part ) ).id();
+        if( ( infect && patient.has_effect( effect_infected, bp->token ) ) ||
+            ( bite && patient.has_effect( effect_bite, bp->token ) ) ||
+            ( bleed && patient.has_effect( effect_bleed, bp->token ) ) ) {
             return healed_part;
         }
 
-        if( patient.is_limb_broken( healed_part ) ) {
+        if( patient.is_limb_broken( bp ) ) {
             if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
                 add_msg( m_info, _( "That arm is broken.  It needs surgical attention or a splint." ) );
             } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
@@ -3386,7 +3359,7 @@ static hp_part pick_part_to_heal(
             continue;
         }
 
-        if( force || patient.hp_cur[healed_part] < patient.hp_max[healed_part] ) {
+        if( force || patient.get_part_hp_cur( bp ) < patient.get_part_hp_max( bp ) ) {
             return healed_part;
         }
     }
@@ -3394,7 +3367,7 @@ static hp_part pick_part_to_heal(
 
 hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it, bool force ) const
 {
-    hp_part healed = num_hp_parts;
+    bodypart_id healed = bodypart_id( "num_bp" );
     const int head_bonus = get_heal_value( healer, hp_head );
     const int limb_power = get_heal_value( healer, hp_arm_l );
     const int torso_bonus = get_heal_value( healer, hp_torso );
@@ -3410,31 +3383,31 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // NPCs heal whatever has sustained the most damaged that they can heal but never
         // rebandage parts
         int highest_damage = 0;
-        for( int i = 0; i < num_hp_parts; i++ ) {
+        for( const std::pair<const bodypart_str_id, bodypart> &elem : patient.get_body() ) {
+            const bodypart &part = elem.second;
             int damage = 0;
-            const body_part i_bp = player::hp_to_bp( static_cast<hp_part>( i ) );
-            if( ( !patient.has_effect( effect_bandaged, i_bp ) && bandages_power > 0 ) ||
-                ( !patient.has_effect( effect_disinfected, i_bp ) && disinfectant_power > 0 ) ) {
-                damage += patient.hp_max[i] - patient.hp_cur[i];
-                damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 5_minutes;
-                damage += bite * patient.get_effect_dur( effect_bite, i_bp ) / 10_minutes;
-                damage += infect * patient.get_effect_dur( effect_infected, i_bp ) / 10_minutes;
+            if( ( !patient.has_effect( effect_bandaged, elem.first->token ) && bandages_power > 0 ) ||
+                ( !patient.has_effect( effect_disinfected, elem.first->token ) && disinfectant_power > 0 ) ) {
+                damage += part.get_hp_max() - part.get_hp_cur();
+                damage += bleed * patient.get_effect_dur( effect_bleed, elem.first->token ) / 5_minutes;
+                damage += bite * patient.get_effect_dur( effect_bite, elem.first->token ) / 10_minutes;
+                damage += infect * patient.get_effect_dur( effect_infected, elem.first->token ) / 10_minutes;
             }
             if( damage > highest_damage ) {
                 highest_damage = damage;
-                healed = static_cast<hp_part>( i );
+                healed = elem.first.id();
             }
         }
     } else if( patient.is_player() ) {
         // Player healing self - let player select
         if( healer.activity.id() != ACT_FIRSTAID ) {
             const std::string menu_header = _( "Select a body part for: " ) + it.tname();
-            healed = pick_part_to_heal( healer, patient, menu_header,
-                                        limb_power, head_bonus, torso_bonus,
-                                        bleed, bite, infect, force,
-                                        get_bandaged_level( healer ),
-                                        get_disinfected_level( healer ) );
-            if( healed == num_hp_parts ) {
+            healed = convert_bp( Character::hp_to_bp( pick_part_to_heal( healer, patient, menu_header,
+                                 limb_power, head_bonus, torso_bonus,
+                                 bleed, bite, infect, force,
+                                 get_bandaged_level( healer ),
+                                 get_disinfected_level( healer ) ) ) ).id();
+            if( healed == bodypart_id( "num_bp" ) ) {
                 add_msg( m_info, _( "Never mind." ) );
                 return num_hp_parts; // canceled
             }
@@ -3442,10 +3415,11 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
         // Brick healing if using a first aid kit for the first time.
         if( long_action && healer.activity.id() != ACT_FIRSTAID ) {
             // Cancel and wait for activity completion.
-            return healed;
+            return Character::bp_to_hp( healed->token );
         } else if( healer.activity.id() == ACT_FIRSTAID ) {
             // Completed activity, extract body part from it.
-            healed = static_cast<hp_part>( healer.activity.values[0] );
+            healed = convert_bp( Character::hp_to_bp( static_cast<hp_part>
+                                 ( healer.activity.values[0] ) ) ).id();
         }
     } else {
         // Player healing NPC
@@ -3454,18 +3428,18 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
                                         //~ %1$s: patient name, %2$s: healing item name
                                         "Select a body part of %1$s for %2$s:" ),
                                         patient.disp_name(), it.tname() );
-        healed = pick_part_to_heal( healer, patient, menu_header,
-                                    limb_power, head_bonus, torso_bonus,
-                                    bleed, bite, infect, force,
-                                    get_bandaged_level( healer ),
-                                    get_disinfected_level( healer ) );
+        healed = convert_bp( Character::hp_to_bp( pick_part_to_heal( healer, patient, menu_header,
+                             limb_power, head_bonus, torso_bonus,
+                             bleed, bite, infect, force,
+                             get_bandaged_level( healer ),
+                             get_disinfected_level( healer ) ) ) ).id();
     }
 
-    if( healed != num_hp_parts ) {
-        finish_using( healer, patient, it, healed );
+    if( healed != bodypart_id( "num_bp" ) ) {
+        finish_using( healer, patient, it, Character::bp_to_hp( healed->token ) );
     }
 
-    return healed;
+    return Character::bp_to_hp( healed->token );
 }
 
 void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
@@ -3561,10 +3535,10 @@ std::unique_ptr<iuse_actor> place_trap_actor::clone() const
     return std::make_unique<place_trap_actor>( *this );
 }
 
-static bool is_solid_neighbor( const tripoint &pos, const int offset_x, const int offset_y )
+static bool is_solid_neighbor( const tripoint &pos, const point &offset )
 {
-    const tripoint a = pos + tripoint( offset_x, offset_y, 0 );
-    const tripoint b = pos - tripoint( offset_x, offset_y, 0 );
+    const tripoint a = pos + tripoint( offset, 0 );
+    const tripoint b = pos - tripoint( offset, 0 );
     return g->m.move_cost( a ) != 2 && g->m.move_cost( b ) != 2;
 }
 
@@ -3590,8 +3564,8 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
         return false;
     }
     if( needs_solid_neighbor ) {
-        if( !is_solid_neighbor( pos, 1, 0 ) && !is_solid_neighbor( pos, 0, 1 ) &&
-            !is_solid_neighbor( pos, 1, 1 ) && !is_solid_neighbor( pos, 1, -1 ) ) {
+        if( !is_solid_neighbor( pos, point_east ) && !is_solid_neighbor( pos, point_south ) &&
+            !is_solid_neighbor( pos, point_south_east ) && !is_solid_neighbor( pos, point_north_east ) ) {
             p.add_msg_if_player( m_info, _( "You must place the %s between two solid tiles." ), name );
             return false;
         }
@@ -4283,7 +4257,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                 return t;
             };
             // Mod not already present, check if modification is possible
-            if( it.charges < thread_needed ) {
+            if( !it.ammo_sufficient( thread_needed ) ) {
                 //~ %1$s: modification desc, %2$d: number of thread needed
                 prompt = string_format( _( "Can't %1$s (need %2$d thread loaded)" ),
                                         tolower( obj.implement_prompt ), thread_needed );

@@ -39,6 +39,8 @@ class player_activity
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left = 0;
+        /** Controls whether this activity can be cancelled at all */
+        bool interruptable = true;
         /** Controls whether this activity can be cancelled with 'pause' action */
         bool interruptable_with_kb = true;
 
@@ -151,8 +153,9 @@ class player_activity
          */
         bool can_resume_with( const player_activity &other, const Character &who ) const;
 
-        bool is_distraction_ignored( distraction_type type ) const;
-        void ignore_distraction( distraction_type type );
+        bool is_interruptible() const;
+        bool is_distraction_ignored( distraction_type ) const;
+        void ignore_distraction( distraction_type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );
 };

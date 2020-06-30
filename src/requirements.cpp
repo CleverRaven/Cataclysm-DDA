@@ -116,6 +116,14 @@ std::string quality_requirement::to_string( const int, const int ) const
                           count, type.obj().name, level );
 }
 
+std::string quality_requirement::to_colored_string() const
+{
+    //~ %1$d: tool count, %2$s: quality requirement name, %3$d: quality level requirement
+    return string_format( ngettext( "%1$d tool with <info>%2$s of %3$d</info> or more",
+                                    "%1$d tools with <info>%2$s of %3$d</info> or more", count ),
+                          count, type.obj().name, level );
+}
+
 bool tool_comp::by_charges() const
 {
     return count > 0;

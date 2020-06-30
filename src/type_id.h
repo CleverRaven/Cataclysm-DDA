@@ -113,6 +113,13 @@ struct oter_t;
 using oter_id = int_id<oter_t>;
 using oter_str_id = string_id<oter_t>;
 
+struct oter_type_t;
+using oter_type_id = int_id<oter_type_t>;
+using oter_type_str_id = string_id<oter_type_t>;
+
+class profession;
+using profession_id = string_id<profession>;
+
 class recipe;
 using recipe_id = string_id<recipe>;
 

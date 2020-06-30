@@ -153,8 +153,6 @@ void select_language()
         return lang.first.empty() || lang.second.empty();
     } ), languages.end() );
 
-    wrefresh( catacurses::stdscr );
-
     uilist sm;
     sm.allow_cancel = false;
     sm.text = _( "Select your language" );

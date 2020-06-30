@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "event.h"
 #include "event_bus.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "int_id.h"
 #include "item.h"
@@ -19,7 +18,6 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "player.h"
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"
@@ -192,7 +190,7 @@ void trap::reset()
     trap_factory.reset();
 }
 
-bool trap::detect_trap( const tripoint &pos, const player &p ) const
+bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 {
     // Some decisions are based around:
     // * Starting, and thus average perception, is 8.
@@ -222,7 +220,7 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
 }
 
 // Whether or not, in the current state, the player can see the trap.
-bool trap::can_see( const tripoint &pos, const player &p ) const
+bool trap::can_see( const tripoint &pos, const Character &p ) const
 {
     if( is_null() ) {
         // There is no trap at all, so logically one can not see it.
@@ -238,7 +236,7 @@ void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
         bool triggered = act( pos, creature, item );
         if( triggered && is_real_creature ) {
             if( Character *ch = creature->as_character() ) {
-                g->events().send<event_type::character_triggers_trap>( ch->getID(), id );
+                get_event_bus().send<event_type::character_triggers_trap>( ch->getID(), id );
             }
         }
     }

@@ -64,6 +64,42 @@ class item_pocket
             ERR_AMMO
         };
 
+        class favorite_settings
+        {
+            public:
+                void clear();
+
+                void set_priority( int priority );
+                int priority() const {
+                    return priority_rating;
+                }
+
+                // have these settings been modified by the player?
+                bool is_null() const;
+
+                void whitelist_item( const itype_id &id );
+                void blacklist_item( const itype_id &id );
+                void clear_item( const itype_id &id );
+
+                void whitelist_category( const item_category_id &id );
+                void blacklist_category( const item_category_id &id );
+                void clear_category( const item_category_id &id );
+
+                // essentially operator> but needs extra input. checks if *this is better
+                bool is_better_favorite( const item &it, const favorite_settings &rhs ) const;
+
+                void info( std::vector<iteminfo> &info ) const;
+
+                void serialize( JsonOut &json ) const;
+                void deserialize( JsonIn &jsin );
+            private:
+                int priority_rating = 0;
+                cata::flat_set<itype_id> item_whitelist;
+                cata::flat_set<itype_id> item_blacklist;
+                cata::flat_set<item_category_id> category_whitelist;
+                cata::flat_set<item_category_id> category_blacklist;
+        };
+
         item_pocket() = default;
         item_pocket( const pocket_data *data ) : data( data ) {}
 
@@ -160,7 +196,7 @@ class item_pocket
         bool sealed() const;
         std::string translated_sealed_prefix() const;
         bool detonate( const tripoint &p, std::vector<item> &drops );
-        bool process( const itype &type, player *carrier, const tripoint &pos, bool activate,
+        bool process( const itype &type, player *carrier, const tripoint &pos,
                       float insulation, temperature_flag flag );
         void remove_all_ammo( Character &guy );
         void remove_all_mods( Character &guy );
@@ -186,10 +222,14 @@ class item_pocket
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        void process( player *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
         pocket_type saved_type() const {
             return _saved_type;
+        }
+
+        bool saved_sealed() const {
+            return _saved_sealed;
         }
 
         // tries to put an item in the pocket. returns false if failure
@@ -198,7 +238,7 @@ class item_pocket
           * adds an item to the pocket with no checks
           * may create a new pocket
           */
-        void add( const item &it );
+        void add( const item &it, item **ret = nullptr );
         /** fills the pocket to the brim with the item */
         void fill_with( item contained );
         bool can_unload_liquid() const;
@@ -221,6 +261,7 @@ class item_pocket
 
         void general_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;
         void contents_info( std::vector<iteminfo> &info, int pocket_number, bool disp_pocket_number ) const;
+        void favorite_info( std::vector<iteminfo> &info );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -228,14 +269,19 @@ class item_pocket
         bool same_contents( const item_pocket &rhs ) const;
         /** stacks like items inside the pocket */
         void restack();
+        /** same as above, except returns the stack where input item was placed */
+        item *restack( /*const*/ item *it );
         bool has_item_stacks_with( const item &it ) const;
-
+        // returns true if @rhs is a better pocket than this
         bool better_pocket( const item_pocket &rhs, const item &it ) const;
 
         bool operator==( const item_pocket &rhs ) const;
+
+        favorite_settings settings;
     private:
         // the type of pocket, saved to json
         pocket_type _saved_type = pocket_type::LAST;
+        bool _saved_sealed = false;
         const pocket_data *data = nullptr;
         // the items inside the pocket
         std::list<item> contents;

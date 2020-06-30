@@ -121,6 +121,11 @@ static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 class JsonIn;
 class JsonOut;
 
+avatar &get_avatar()
+{
+    return g->u;
+}
+
 avatar::avatar()
 {
     show_map_memory = true;
@@ -276,7 +281,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     }
 
     // Check for conditions that immediately disqualify the player from reading:
-    const optional_vpart_position vp = g->m.veh_at( pos() );
+    const optional_vpart_position vp = get_map().veh_at( pos() );
     if( vp && vp->vehicle().player_in_control( *this ) ) {
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
@@ -423,6 +428,7 @@ bool avatar::read( item &it, const bool continuous )
             add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
         assign_activity( act );
+        g->events().send<event_type::reads_book>( getID(), it.typeId() );
         return true;
     }
 
@@ -434,6 +440,7 @@ bool avatar::read( item &it, const bool continuous )
         } else {
             add_msg( m_info, get_hint() );
         }
+        g->events().send<event_type::reads_book>( getID(), it.typeId() );
         mod_moves( -100 );
         return false;
     }
@@ -666,7 +673,7 @@ bool avatar::read( item &it, const bool continuous )
         elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
-
+    g->events().send<event_type::reads_book>( getID(), it.typeId() );
     return true;
 }
 
@@ -933,16 +940,6 @@ void avatar::do_read( item &book )
 bool avatar::has_identified( const itype_id &item_id ) const
 {
     return items_identified.count( item_id ) > 0;
-}
-
-hint_rating avatar::rate_action_read( const item &it ) const
-{
-    if( !it.is_book() ) {
-        return hint_rating::cant;
-    }
-
-    std::vector<std::string> dummy;
-    return get_book_reader( it, dummy ) == nullptr ? hint_rating::iffy : hint_rating::good;
 }
 
 void avatar::wake_up()
@@ -1389,7 +1386,7 @@ static int xp_to_next( const avatar &you )
     return xp_next;
 }
 
-void avatar::upgrade_stat_prompt( const Character::stat &stat )
+void avatar::upgrade_stat_prompt( const character_stat &stat )
 {
     const int free_points = free_upgrade_points();
     const int next_lvl_xp = xp_to_next( *this );
@@ -1401,19 +1398,19 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
 
     std::string stat_string;
     switch( stat ) {
-        case STRENGTH:
+        case character_stat::STRENGTH:
             stat_string = _( "strength" );
             break;
-        case DEXTERITY:
+        case character_stat::DEXTERITY:
             stat_string = _( "dexterity" );
             break;
-        case INTELLIGENCE:
+        case character_stat::INTELLIGENCE:
             stat_string = _( "intelligence" );
             break;
-        case PERCEPTION:
+        case character_stat::PERCEPTION:
             stat_string = _( "perception" );
             break;
-        case DUMMY_STAT:
+        case character_stat::DUMMY_STAT:
             stat_string = _( "invalid stat" );
             debugmsg( "Tried to use invalid stat" );
             break;
@@ -1424,19 +1421,19 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
     if( query_yn( _( "Are you sure you want to raise %s?  %d points available." ), stat_string,
                   free_points ) ) {
         switch( stat ) {
-            case STRENGTH:
+            case character_stat::STRENGTH:
                 str_upgrade++;
                 break;
-            case DEXTERITY:
+            case character_stat::DEXTERITY:
                 dex_upgrade++;
                 break;
-            case INTELLIGENCE:
+            case character_stat::INTELLIGENCE:
                 int_upgrade++;
                 break;
-            case PERCEPTION:
+            case character_stat::PERCEPTION:
                 per_upgrade++;
                 break;
-            case DUMMY_STAT:
+            case character_stat::DUMMY_STAT:
                 debugmsg( "Tried to use invalid stat" );
                 break;
         }
@@ -1573,6 +1570,8 @@ bool avatar::wield( item &target, const int obtain_cost )
 
     weapon.on_wield( *this, mv );
 
+    g->events().send<event_type::character_wields_item>( getID(), last_item );
+
     inv.update_invlet( weapon );
     inv.update_cache_with_item( weapon );
 
@@ -1613,8 +1612,6 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     }
 
     const std::string &method = std::next( use_methods.begin(), choice )->first;
-
-    g->refresh_all();
 
     return invoke_item( used, method, pt );
 }

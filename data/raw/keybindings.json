@@ -1110,6 +1110,20 @@
   },
   {
     "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "NEW_CHAR_PROFESSIONS",
+    "name": "Randomize profession",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "NEW_CHAR_SCENARIOS",
+    "name": "Randomize scenario",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SORT",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Toggle sorting order",

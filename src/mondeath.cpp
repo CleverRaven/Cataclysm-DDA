@@ -185,7 +185,7 @@ void mdeath::splatter( monster &z )
         const auto area = g->m.points_in_radius( z.pos(), 1 );
         int number_of_gibs = std::min( std::floor( corpse_damage ) - 1, 1 + max_hp / 5.0f );
 
-        if( pulverized && z.type->size >= MS_MEDIUM ) {
+        if( pulverized && z.type->size >= creature_size::medium ) {
             number_of_gibs += rng( 1, 6 );
             sfx::play_variant_sound( "mon_death", "zombie_gibbed", sfx::get_heard_volume( z.pos() ) );
         }
@@ -356,7 +356,7 @@ void mdeath::triffid_heart( monster &z )
     if( g->u.sees( z ) ) {
         add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     }
-    g->timed_events.add( TIMED_EVENT_ROOTS_DIE, calendar::turn + 10_minutes );
+    g->timed_events.add( timed_event_type::ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus( monster &z )
@@ -560,19 +560,19 @@ void mdeath::explode( monster &z )
 {
     int size = 0;
     switch( z.type->size ) {
-        case MS_TINY:
+        case creature_size::tiny:
             size = 4;
             break;
-        case MS_SMALL:
+        case creature_size::small:
             size = 8;
             break;
-        case MS_MEDIUM:
+        case creature_size::medium:
             size = 14;
             break;
-        case MS_LARGE:
+        case creature_size::large:
             size = 20;
             break;
-        case MS_HUGE:
+        case creature_size::huge:
             size = 26;
             break;
     }
@@ -598,9 +598,9 @@ void mdeath::focused_beam( monster &z )
 
         item &settings = z.inv[0];
 
-        int x = z.posx() + settings.get_var( "SL_SPOT_X", 0 );
-        int y = z.posy() + settings.get_var( "SL_SPOT_Y", 0 );
-        tripoint p( x, y, z.posz() );
+        point p2( z.posx() + settings.get_var( "SL_SPOT_X", 0 ), z.posy() + settings.get_var( "SL_SPOT_Y",
+                  0 ) );
+        tripoint p( p2, z.posz() );
 
         std::vector <tripoint> traj = line_to( z.pos(), p, 0, 0 );
         for( auto &elem : traj ) {
@@ -756,7 +756,7 @@ void mdeath::jabberwock( monster &z )
 void mdeath::gameover( monster &z )
 {
     add_msg( m_bad, _( "The %s was destroyed!  GAME OVER!" ), z.name() );
-    g->u.hp_cur[hp_torso] = 0;
+    g->u.set_part_hp_cur( bodypart_id( "torso" ), 0 );
 }
 
 void mdeath::kill_breathers( monster &/*z*/ )

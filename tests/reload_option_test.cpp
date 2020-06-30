@@ -58,6 +58,7 @@ TEST_CASE( "magazine_reload_option", "[reload],[reload_option],[gun]" )
 TEST_CASE( "belt_reload_option", "[reload],[reload_option],[gun]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
 
     item &belt = dummy.i_add( item( "belt308", 0, 0 ) );

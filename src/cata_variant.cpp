@@ -15,6 +15,8 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         case cata_variant_type::body_part: return "body_part";
         case cata_variant_type::bool_: return "bool";
         case cata_variant_type::character_id: return "character_id";
+        case cata_variant_type::chrono_seconds: return "chrono_seconds";
+        case cata_variant_type::debug_menu_index: return "debug_menu_index";
         case cata_variant_type::efftype_id: return "efftype_id";
         case cata_variant_type::hp_part: return "hp_part";
         case cata_variant_type::int_: return "int";
@@ -25,6 +27,9 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         case cata_variant_type::mutagen_technique: return "mutagen_technique";
         case cata_variant_type::mutation_category_id: return "mutation_category_id";
         case cata_variant_type::oter_id: return "oter_id";
+        case cata_variant_type::oter_type_str_id: return "oter_type_str_id";
+        case cata_variant_type::point: return "point";
+        case cata_variant_type::profession_id: return "profession_id";
         case cata_variant_type::skill_id: return "skill_id";
         case cata_variant_type::species_id: return "species_id";
         case cata_variant_type::spell_id: return "spell_id";
@@ -32,6 +37,7 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         case cata_variant_type::ter_id: return "ter_id";
         case cata_variant_type::trait_id: return "trait_id";
         case cata_variant_type::trap_str_id: return "trap_str_id";
+        case cata_variant_type::tripoint: return "tripoint";
         // *INDENT-ON*
         case cata_variant_type::num_types:
             break;

@@ -2,12 +2,51 @@
 #ifndef CATA_SRC_ENUMS_H
 #define CATA_SRC_ENUMS_H
 
+#include <type_traits>
+
 template<typename T> struct enum_traits;
 
 template<typename T>
 constexpr inline int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
+}
+
+enum class aim_exit : int {
+    none = 0,
+    okay,
+    re_entry
+};
+
+// be explicit with the values
+enum class aim_entry : int {
+    START     = 0,
+    VEHICLE   = 1,
+    MAP       = 2,
+    RESET     = 3
+};
+
+using I = std::underlying_type_t<aim_entry>;
+static constexpr aim_entry &operator++( aim_entry &lhs )
+{
+    lhs = static_cast<aim_entry>( static_cast<I>( lhs ) + 1 );
+    return lhs;
+}
+
+static constexpr aim_entry &operator--( aim_entry &lhs )
+{
+    lhs = static_cast<aim_entry>( static_cast<I>( lhs ) - 1 );
+    return lhs;
+}
+
+static constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
+{
+    return static_cast<aim_entry>( static_cast<I>( lhs ) + rhs );
+}
+
+static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
+{
+    return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
 }
 
 enum class holiday : int {
@@ -35,23 +74,23 @@ enum class temperature_flag : int {
 };
 
 //Used for autopickup and safemode rules
-enum rule_state : int {
-    RULE_NONE,
-    RULE_WHITELISTED,
-    RULE_BLACKLISTED
+enum class rule_state : int {
+    NONE,
+    WHITELISTED,
+    BLACKLISTED
 };
 
-enum visibility_type {
-    VIS_HIDDEN,
-    VIS_CLEAR,
-    VIS_LIT,
-    VIS_BOOMER,
-    VIS_DARK,
-    VIS_BOOMER_DARK
+enum class visibility_type : int {
+    HIDDEN,
+    CLEAR,
+    LIT,
+    BOOMER,
+    DARK,
+    BOOMER_DARK
 };
 
 // Matching rules for comparing a string to an overmap terrain id.
-enum ot_match_type {
+enum class ot_match_type : int {
     // The provided string must completely match the overmap terrain id, including
     // linear direction suffixes for linear terrain types or rotation suffixes
     // for rotated terrain types.
@@ -76,11 +115,11 @@ struct enum_traits<ot_match_type> {
     static constexpr ot_match_type last = ot_match_type::num_ot_match_type;
 };
 
-enum special_game_id : int {
-    SGAME_NULL = 0,
-    SGAME_TUTORIAL,
-    SGAME_DEFENSE,
-    NUM_SPECIAL_GAMES
+enum class special_game_type : int {
+    NONE = 0,
+    TUTORIAL,
+    DEFENSE,
+    NUM_SPECIAL_GAME_TYPES
 };
 
 enum art_effect_passive : int {

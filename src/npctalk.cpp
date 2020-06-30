@@ -279,7 +279,6 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
             output_string += std::string( "\n" ) +
                              _( "Other followers might have different temporary orders." );
         }
-        g->refresh_all();
         nmenu.reset();
         nmenu.text = _( "Issue what temporary order?" );
         nmenu.desc_enabled = true;
@@ -623,7 +622,6 @@ void game::chat()
     }
 
     u.moves -= 100;
-    refresh_all();
 }
 
 void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
@@ -879,7 +877,6 @@ void npc::talk_to_u( bool text_only, bool radio_contact )
             d.add_topic( next );
         }
     } while( !d.done );
-    g->refresh_all();
 
     if( g->u.activity.id() == ACT_AIM && !g->u.has_weapon() ) {
         g->u.cancel_activity();
@@ -2951,18 +2948,21 @@ dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo, const std::str
     } else if( jo.has_object( member_name ) ) {
         return dynamic_line_t( jo.get_object( member_name ) );
     } else if( jo.has_string( member_name ) ) {
-        return dynamic_line_t( jo.get_string( member_name ) );
+        translation line;
+        jo.read( member_name, line );
+        return dynamic_line_t( line );
     } else {
         return dynamic_line_t{};
     }
 }
 
-dynamic_line_t::dynamic_line_t( const std::string &line )
+dynamic_line_t::dynamic_line_t( const translation &line )
 {
     function = [line]( const dialogue & ) {
-        return _( line );
+        return line.translated();
     };
 }
+
 
 dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
@@ -2970,7 +2970,9 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         std::vector<dynamic_line_t> lines;
         for( const JsonValue entry : jo.get_array( "and" ) ) {
             if( entry.test_string() ) {
-                lines.emplace_back( entry.get_string() );
+                translation line;
+                entry.read( line );
+                lines.emplace_back( line );
             } else if( entry.test_array() ) {
                 lines.emplace_back( entry.get_array() );
             } else if( entry.test_object() ) {
@@ -2998,6 +3000,11 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         };
     } else if( jo.has_string( "gendered_line" ) ) {
         const std::string line = jo.get_string( "gendered_line" );
+        if( test_mode ) {
+            // HACK: check text style by reading it as a translation object
+            translation dummy;
+            jo.read( "gendered_line", dummy );
+        }
         if( !jo.has_array( "relevant_genders" ) ) {
             jo.throw_error(
                 R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
@@ -3054,7 +3061,9 @@ dynamic_line_t::dynamic_line_t( const JsonArray &ja )
     std::vector<dynamic_line_t> lines;
     for( const JsonValue entry : ja ) {
         if( entry.test_string() ) {
-            lines.emplace_back( entry.get_string() );
+            translation line;
+            entry.read( line );
+            lines.emplace_back( line );
         } else if( entry.test_array() ) {
             lines.emplace_back( entry.get_array() );
         } else if( entry.test_object() ) {
@@ -3433,16 +3442,16 @@ bool npc::item_name_whitelisted( const std::string &to_match )
 
     auto &wlist = *rules.pickup_whitelist;
     const auto rule = wlist.check_item( to_match );
-    if( rule == RULE_WHITELISTED ) {
+    if( rule == rule_state::WHITELISTED ) {
         return true;
     }
 
-    if( rule == RULE_BLACKLISTED ) {
+    if( rule == rule_state::BLACKLISTED ) {
         return false;
     }
 
     wlist.create_rule( to_match );
-    return wlist.check_item( to_match ) == RULE_WHITELISTED;
+    return wlist.check_item( to_match ) == rule_state::WHITELISTED;
 }
 
 bool npc::item_whitelisted( const item &it )

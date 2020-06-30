@@ -15,7 +15,7 @@ namespace
 {
 
 struct rotatable_symbol {
-    uint32_t symbol;
+    uint32_t symbol = 0;
     std::array<uint32_t, 3> rotated_symbol;
 
     bool operator<( const uint32_t &rhs ) const {
