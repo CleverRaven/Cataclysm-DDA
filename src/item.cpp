@@ -592,7 +592,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     const ammotype &ammo_type = ammo->ammo->type;
     if( qty < 0 ) {
         // completely fill an integral or existing magazine
-        if( magazine_integral() || magazine_current() ) {
+        //if( magazine_current() ) then we need capacity of the magazine instead of the item maybe?
+        if( magazine_integral() || magazine_current() ) {   
             qty = ammo_capacity( ammo_type );
 
             // else try to add a magazine using default ammo count property if set

@@ -4937,7 +4937,7 @@ int vehicle::charge_battery( int amount, bool include_other_vehicles )
 }
 
 int vehicle::discharge_battery( int amount, bool recurse )
-{
+{   
     // Key parts by percentage charge level.
     std::multimap<int, vehicle_part *> dischargeable_parts;
     for( vehicle_part &p : parts ) {

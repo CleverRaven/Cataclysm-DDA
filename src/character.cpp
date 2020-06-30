@@ -7686,7 +7686,7 @@ bool Character::invoke_item( item *used, const std::string &method )
 }
 
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt )
-{
+{   
     if( !has_enough_charges( *used, true ) || ( used->is_medication() &&
             !can_use_heal_item( *used ) ) ) {
         add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
@@ -7705,7 +7705,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
     // Prevent accessing the item as it may have been deleted by the invoked iuse function.
-
     if( used->is_tool() || actually_used->is_medication() ) {
         return consume_charges( *actually_used, charges_used );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
