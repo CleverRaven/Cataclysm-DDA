@@ -42,6 +42,7 @@ void remove_ammo( std::list<item> &dis_items, player &p );
 
 bench_location find_best_bench( const player &p, const item &craft );
 
+float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench );
 float crafting_speed_multiplier( const player &p, const recipe &rec, bool in_progress );
 float crafting_speed_multiplier( const player &p, const item &craft, const bench_location &bench );
 void complete_craft( player &p, item &craft, const bench_location &bench );

@@ -8,6 +8,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "construction.h"
+#include "crafting.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -109,6 +110,64 @@ std::string player_activity::get_str_value( size_t index, const std::string &def
     return index < str_values.size() ? str_values[index] : def;
 }
 
+static std::string craft_progress_message( const avatar &u, const player_activity &act )
+{
+    const item *craft = act.targets.front().get_item();
+    if( craft == nullptr ) {
+        // Should never happen (?)
+        return string_format( _( "%s…" ), act.get_verb().translated() );
+    }
+
+    // Horrid copypaste warning! TODO: Functions
+    const recipe &rec = craft->get_making();
+    const tripoint bench_pos = act.coords.front();
+    // Ugly
+    bench_type bench_t = bench_type( act.values[1] );
+
+    const bench_location bench{bench_t, bench_pos};
+
+    const float light_mult = u.lighting_craft_speed_multiplier( rec );
+    const float bench_mult = workbench_crafting_speed_multiplier( *craft, bench );
+    const float morale_mult = u.morale_crafting_speed_multiplier( rec );
+    const int assistants = u.available_assistant_count( craft->get_making() );
+    const float base_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, 0 ) );
+    const float cur_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, assistants ) );
+    const float assist_mult = cur_total_moves / base_total_moves;
+    const float speed_mult = u.get_speed() / 100.0f;
+    const float total_mult = light_mult * bench_mult * morale_mult * assist_mult * speed_mult;
+
+    const double remaining_percentage = 1.0 - craft->item_counter / 10'000'000.0;
+    int remaining_turns = remaining_percentage * base_total_moves / 100 / std::max( 0.01f, total_mult );
+    std::string time_desc = string_format( _( "Time left: %s" ),
+                                           to_string( time_duration::from_turns( remaining_turns ) ) );
+
+    const std::array<std::pair<float, std::string>, 6> mults_with_data = {{
+            { total_mult, _( "Total" ) },
+            { speed_mult, _( "Speed" ) },
+            { light_mult, _( "Light" ) },
+            { bench_mult, _( "Workbench" ) },
+            { morale_mult, _( "Morale" ) },
+            { assist_mult, _( "Assistants" ) },
+        }
+    };
+    std::string mults_desc = _( "Crafting speed multipliers:\n" );
+    // Hack to make sure total always shows
+    bool first = true;
+    for( const std::pair<float, std::string> &p : mults_with_data ) {
+        int percent = static_cast<int>( p.first * 100 );
+        if( first || percent != 100 ) {
+            nc_color col = percent > 100 ? c_green : c_red;
+            std::string colorized = colorize( to_string( percent ) + '%', col );
+            mults_desc += string_format( _( "%s: %s\n" ), p.second, colorized );
+        }
+        first = false;
+    }
+
+    return string_format( _( "%s: %s\n\n%s\n\n%s" ), act.get_verb().translated(), craft->tname(),
+                          time_desc,
+                          mults_desc );
+}
+
 cata::optional<std::string> player_activity::get_progress_message( const avatar &u ) const
 {
     if( type == activity_id( "ACT_NULL" ) || get_verb().empty() ) {
@@ -117,9 +176,7 @@ cata::optional<std::string> player_activity::get_progress_message( const avatar 
 
     std::string extra_info;
     if( type == activity_id( "ACT_CRAFT" ) ) {
-        if( const item *craft = targets.front().get_item() ) {
-            extra_info = craft->tname();
-        }
+        return craft_progress_message( u, *this );
     } else if( type == activity_id( "ACT_READ" ) ) {
         if( const item *book = targets.front().get_item() ) {
             if( const auto &reading = book->type->book ) {

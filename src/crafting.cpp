@@ -196,7 +196,7 @@ static float lerped_multiplier( const T &value, const T &low, const T &high )
     return 1.0f + ( value - low ) * ( 0.25f - 1.0f ) / ( high - low );
 }
 
-static float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench )
+float workbench_crafting_speed_multiplier( const item &craft, const bench_location &bench )
 {
     float multiplier = 0.0f;
     units::mass allowed_mass;

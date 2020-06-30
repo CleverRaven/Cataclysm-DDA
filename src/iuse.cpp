@@ -102,6 +102,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
@@ -9597,7 +9598,7 @@ int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
     return it->type->charges_to_use();
 }
 
-int iuse::craft( player *p, item *it, bool, const tripoint & )
+int iuse::craft( player *p, item *it, bool, const tripoint &pos )
 {
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
@@ -9628,7 +9629,28 @@ int iuse::craft( player *p, item *it, bool, const tripoint & )
         pgettext( "in progress craft", "You start working on the %s." ),
         pgettext( "in progress craft", "<npcname> starts working on the %s." ), craft_name );
     p->assign_activity( ACT_CRAFT );
-    p->activity.targets.push_back( item_location( *p, it ) );
+    // Horrible! We have to find the item again...
+    item_location where;
+    if( p->has_item( *it ) ) {
+        where = item_location( *p, it );
+    } else if( const cata::optional<vpart_reference> vp = g->m.veh_at( pos ).part_with_feature( "CARGO",
+               false ) ) {
+        const vehicle_cursor vc = vehicle_cursor( vp->vehicle(), vp->part_index() );
+        if( vc.has_item( *it ) ) {
+            where = item_location( vc, it ) ;
+        }
+    }
+
+    if( !where ) {
+        map_cursor mc = map_cursor( pos );
+        if( mc.has_item( *it ) ) {
+            where = item_location( map_cursor( pos ), it );
+        } else {
+            debugmsg( "Incomplete item couldn't be found" );
+            return 0;
+        }
+    }
+    p->activity.targets.push_back( where );
     p->activity.coords.push_back( best_bench.position );
     p->activity.values.push_back( 0 ); // Not a long craft
     // Ugly
