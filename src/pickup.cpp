@@ -140,7 +140,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
         return CANCEL;
     }
 
-    player &u = get_avatar();
+    Character &u = get_player_character();
 
     uilist amenu;
 
@@ -175,7 +175,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 
 bool Pickup::query_thief()
 {
-    player &u = get_avatar();
+    Character &u = get_player_character();
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
                             : input_context::allow_all_keys;

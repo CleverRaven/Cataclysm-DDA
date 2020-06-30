@@ -7,10 +7,10 @@
 #include <list>
 #include <map>
 
-#include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "character_id.h"
 #include "color.h"
 #include "common_types.h"
@@ -482,7 +482,7 @@ void overmapbuffer::process_mongroups()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const auto radius = MAPSIZE * 2;
-    const auto center = get_avatar().global_sm_location();
+    const auto center = get_player_character().global_sm_location();
     for( auto &om : get_overmaps_near( center, radius ) ) {
         om->process_mongroups();
     }
@@ -492,7 +492,7 @@ void overmapbuffer::move_hordes()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const auto radius = MAPSIZE * 2;
-    const auto center = get_avatar().global_sm_location();
+    const auto center = get_player_character().global_sm_location();
     for( auto &om : get_overmaps_near( center, radius ) ) {
         om->move_hordes();
     }
@@ -1073,7 +1073,7 @@ shared_ptr_fast<npc> overmapbuffer::remove_npc( const character_id &id )
 
 std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_player( int radius )
 {
-    tripoint plpos = get_avatar().global_omt_location();
+    tripoint plpos = get_player_character().global_omt_location();
     // get_npcs_near needs submap coordinates
     omt_to_sm( plpos.x, plpos.y );
     // INT_MIN is a (a bit ugly) way to inform get_npcs_near not to filter by z-level
@@ -1179,7 +1179,7 @@ static radio_tower_reference create_radio_tower_reference( const overmap &om, ra
 
 radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 {
-    const auto center = get_avatar().global_sm_location();
+    const auto center = get_player_character().global_sm_location();
     for( auto &om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
         for( auto &tower : om->radios ) {
             const auto rref = create_radio_tower_reference( *om, tower, center );
@@ -1194,7 +1194,7 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
 {
     std::vector<radio_tower_reference> result;
-    const auto center = get_avatar().global_sm_location();
+    const auto center = get_player_character().global_sm_location();
     // perceived signal strength is distance (in submaps) - signal strength, so towers
     // further than RADIO_MAX_STRENGTH submaps away can never be received at all.
     const int radius = RADIO_MAX_STRENGTH;

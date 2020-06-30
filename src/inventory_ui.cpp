@@ -1,6 +1,5 @@
 #include "inventory_ui.h"
 
-#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
@@ -17,7 +16,6 @@
 #include "optional.h"
 #include "options.h"
 #include "output.h"
-#include "player.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -113,7 +111,7 @@ class selection_column_preset : public inventory_selector_preset
         }
 
         nc_color get_color( const inventory_entry &entry ) const override {
-            avatar &player_character = get_avatar();
+            Character &player_character = get_player_character();
             if( entry.is_item() ) {
                 if( &*entry.any_item() == &player_character.weapon ) {
                     return c_light_blue;
@@ -171,7 +169,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( get_avatar().inv.assigned_invlet.count( get_invlet() ) ) {
+    } else if( get_player_character().inv.assigned_invlet.count( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -232,7 +230,7 @@ inventory_selector_preset::inventory_selector_preset()
 bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     // Place items with an assigned inventory letter first, since the player cared enough to assign them
     const bool left_fav  = player_character.inv.assigned_invlet.count( lhs.any_item()->invlet );
     const bool right_fav = player_character.inv.assigned_invlet.count( rhs.any_item()->invlet );
@@ -639,7 +637,7 @@ void inventory_column::set_stack_favorite( const item_location &location, bool f
     const item *selected_item = location.get_item();
     std::list<item *> to_favorite;
     map &here = get_map();
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
 
     if( location.where() == item_location::type::character ) {
         int position = player_character.get_item_position( selected_item );
@@ -921,7 +919,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
     return res;
 }
 
-int inventory_column::reassign_custom_invlets( const player &p, int min_invlet, int max_invlet )
+int inventory_column::reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet )
 {
     int cur_invlet = min_invlet;
     for( auto &elem : entries ) {
@@ -1836,7 +1834,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
     }
 }
 
-inventory_selector::inventory_selector( player &u, const inventory_selector_preset &preset )
+inventory_selector::inventory_selector( Character &u, const inventory_selector_preset &preset )
     : u( u )
     , preset( preset )
     , ctxt( "INVENTORY" )
@@ -2133,7 +2131,7 @@ item_location inventory_pick_selector::execute()
     }
 }
 
-inventory_multiselector::inventory_multiselector( player &p,
+inventory_multiselector::inventory_multiselector( Character &p,
         const inventory_selector_preset &preset,
         const std::string &selection_column_title ) :
     inventory_selector( p, preset ),
@@ -2155,7 +2153,7 @@ void inventory_multiselector::rearrange_columns( size_t client_width )
     selection_col->set_visibility( !is_overflown( client_width ) );
 }
 
-inventory_compare_selector::inventory_compare_selector( player &p ) :
+inventory_compare_selector::inventory_compare_selector( Character &p ) :
     inventory_multiselector( p, default_preset, _( "ITEMS TO COMPARE" ) ) {}
 
 std::pair<const item *, const item *> inventory_compare_selector::execute()
@@ -2226,7 +2224,7 @@ void inventory_compare_selector::toggle_entry( inventory_entry *entry )
 }
 
 inventory_iuse_selector::inventory_iuse_selector(
-    player &p,
+    Character &p,
     const std::string &selector_title,
     const inventory_selector_preset &preset,
     const GetStats &get_st
@@ -2334,7 +2332,7 @@ inventory_selector::stats inventory_iuse_selector::get_raw_stats() const
     return stats{{ stat{{ "", "", "", "" }}, stat{{ "", "", "", "" }} }};
 }
 
-inventory_drop_selector::inventory_drop_selector( player &p,
+inventory_drop_selector::inventory_drop_selector( Character &p,
         const inventory_selector_preset &preset, const std::string &selection_column_title ) :
     inventory_multiselector( p, preset, selection_column_title ),
     max_chosen_count( std::numeric_limits<decltype( max_chosen_count )>::max() )
@@ -2431,7 +2429,7 @@ drop_locations inventory_drop_selector::execute()
             const auto filter_to_nonfavorite_and_nonworn = []( const inventory_entry & entry ) {
                 return entry.is_item() &&
                        !entry.any_item()->is_favorite &&
-                       !get_avatar().is_worn( *entry.any_item() );
+                       !get_player_character().is_worn( *entry.any_item() );
             };
 
             const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );

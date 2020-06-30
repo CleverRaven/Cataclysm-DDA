@@ -99,7 +99,7 @@ bool monexamine::pet_menu( monster &z )
 
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     if( z.has_effect( effect_has_bag ) ) {
         amenu.addentry( give_items, true, 'g', _( "Place items into bag" ) );
         amenu.addentry( remove_bag, true, 'b', _( "Remove bag from %s" ), pet_name );
@@ -287,7 +287,7 @@ bool monexamine::pet_menu( monster &z )
 
 void monexamine::shear_animal( monster &z )
 {
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     const int moves = to_moves<int>( time_duration::from_minutes( 30 / player_character.max_quality(
                                          qual_SHEAR ) ) );
 
@@ -325,7 +325,7 @@ static item_location tack_loc()
 
 void monexamine::remove_battery( monster &z )
 {
-    get_map().add_item_or_charges( get_avatar().pos(), *z.battery_item );
+    get_map().add_item_or_charges( get_player_character().pos(), *z.battery_item );
     z.battery_item.reset();
 }
 
@@ -335,7 +335,7 @@ void monexamine::insert_battery( monster &z )
         // already has a battery, shouldn't be called with one, but just incase.
         return;
     }
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     std::vector<item *> bat_inv = player_character.items_with( []( const item & itm ) {
         return itm.has_flag( "MECH_BAT" );
     } );
@@ -367,7 +367,7 @@ void monexamine::insert_battery( monster &z )
 
 bool monexamine::mech_hack( monster &z )
 {
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     itype_id card_type = itype_id_military;
     if( player_character.has_amount( card_type, 1 ) ) {
         if( query_yn( _( "Swipe your ID card into the mech's security port?" ) ) ) {
@@ -400,7 +400,7 @@ static int prompt_for_amount( const char *const msg, const int max )
 
 bool monexamine::pay_bot( monster &z )
 {
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     time_duration friend_time = z.get_effect_dur( effect_pet );
     const int charge_count = player_character.charges_of( itype_cash_card );
 
@@ -443,7 +443,7 @@ void monexamine::attach_or_remove_saddle( monster &z )
 {
     if( z.has_effect( effect_monster_saddled ) ) {
         z.remove_effect( effect_monster_saddled );
-        get_avatar().i_add( *z.tack_item );
+        get_player_character().i_add( *z.tack_item );
         z.tack_item.reset();
     } else {
         item_location loc = tack_loc();
@@ -475,13 +475,13 @@ bool Character::can_mount( const monster &critter ) const
 
 void monexamine::mount_pet( monster &z )
 {
-    get_avatar().mount_creature( z );
+    get_player_character().mount_creature( z );
 }
 
 void monexamine::swap( monster &z )
 {
     std::string pet_name = z.get_name();
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     player_character.moves -= 150;
 
     ///\EFFECT_STR increases chance to successfully swap positions with your pet
@@ -506,7 +506,7 @@ void monexamine::swap( monster &z )
 void monexamine::push( monster &z )
 {
     std::string pet_name = z.get_name();
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     player_character.moves -= 30;
 
     ///\EFFECT_STR increases chance to successfully push your pet
@@ -566,7 +566,7 @@ void monexamine::remove_bag_from( monster &z )
         if( !z.inv.empty() ) {
             dump_items( z );
         }
-        avatar &player_character = get_avatar();
+        Character &player_character = get_player_character();
         get_map().add_item_or_charges( player_character.pos(), *z.storage_item );
         add_msg( _( "You remove the %1$s from %2$s." ), z.storage_item->display_name(), pet_name );
         z.storage_item.reset();
@@ -580,7 +580,7 @@ void monexamine::remove_bag_from( monster &z )
 void monexamine::dump_items( monster &z )
 {
     std::string pet_name = z.get_name();
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     map &here = get_map();
     for( auto &it : z.inv ) {
         here.add_item_or_charges( player_character.pos(), it );
@@ -652,7 +652,7 @@ bool monexamine::add_armor( monster &z )
     loc.remove_item();
     z.add_effect( effect_monster_armor, 1_turns, num_bp, true );
     // TODO: armoring a horse takes a lot longer than 2 seconds. This should be a long action.
-    get_avatar().moves -= 200;
+    get_player_character().moves -= 200;
     return true;
 }
 
@@ -672,7 +672,7 @@ void monexamine::remove_armor( monster &z )
                  pet_name );
         z.armor_item.reset();
         // TODO: removing armor from a horse takes a lot longer than 2 seconds. This should be a long action.
-        get_avatar().moves -= 200;
+        get_player_character().moves -= 200;
     } else {
         add_msg( m_bad, _( "Your %1$s isn't wearing armor!" ), pet_name );
     }
@@ -682,7 +682,7 @@ void monexamine::remove_armor( monster &z )
 void monexamine::play_with( monster &z )
 {
     std::string pet_name = z.get_name();
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     player_character.assign_activity( ACT_PLAY_WITH_PET, rng( 50, 125 ) * 100 );
     player_character.activity.str_values.push_back( pet_name );
 }
@@ -705,7 +705,7 @@ void monexamine::kill_zslave( monster &z )
 
 void monexamine::tie_or_untie( monster &z )
 {
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
         if( z.tied_item ) {
@@ -753,7 +753,7 @@ void monexamine::milk_source( monster &source_mon )
     }
     if( milkable_ammo->second > 0 ) {
         const int moves = to_moves<int>( time_duration::from_minutes( milkable_ammo->second / 2 ) );
-        avatar &player_character = get_avatar();
+        Character &player_character = get_player_character();
         player_character.assign_activity( ACT_MILK, moves, -1 );
         player_character.activity.coords.push_back( get_map().getabs( source_mon.pos() ) );
         // pin the cow in place if it isn't already

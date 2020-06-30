@@ -138,7 +138,7 @@ std::string talk_trial::name() const
 /** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return 1_minutes + 30_seconds * get_avatar().get_skill_level( skill ) -
+    return 1_minutes + 30_seconds * get_player_character().get_skill_level( skill ) -
            1_seconds * p.get_skill_level( skill );
 }
 
