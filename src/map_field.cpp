@@ -488,6 +488,15 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                     // TODO: Allow spreading to the sides if age < 0 && intensity == 3
                 }
+
+                if( curtype == fd_extinguisher ) {
+                    field_entry *fire_here = maptile_at_internal( p ).find_field( fd_fire );
+                    if( fire_here != nullptr ) {
+                        // extinguisher fights fire in 1:1 ratio
+                        fire_here->set_field_intensity( fire_here->get_field_intensity() - cur.get_field_intensity() );
+                        cur.set_field_intensity( cur.get_field_intensity() - fire_here->get_field_intensity() );
+                    }
+                }
                 if( curtype.obj().apply_slime_factor > 0 ) {
                     sblk.apply_slime( p, cur.get_field_intensity() * curtype.obj().apply_slime_factor );
                 }

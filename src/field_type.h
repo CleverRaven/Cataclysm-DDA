@@ -268,6 +268,7 @@ field_type get_field_type_by_legacy_enum( int legacy_enum_id );
 extern field_type_id fd_null,
        fd_blood,
        fd_bile,
+       fd_extinguisher,
        fd_gibs_flesh,
        fd_gibs_veggy,
        fd_web,
