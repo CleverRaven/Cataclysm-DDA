@@ -73,7 +73,7 @@
     "id": "achievement_marathon",
     "type": "achievement",
     "name": "Pheidippides was a hack",
-    "description": "Run a marathon…plus a little bit more.",
+    "description": "Run a marathon… plus a little bit more.",
     "requirements": [ { "event_statistic": "num_moves_ran", "is": ">=", "target": 42196 } ]
   },
   {
@@ -286,5 +286,440 @@
       { "event_statistic": "num_broken_right_arm", "is": ">=", "target": 1, "visible": "when_requirement_completed" },
       { "event_statistic": "num_broken_left_arm", "is": ">=", "target": 1, "visible": "when_requirement_completed" }
     ]
+  },
+  {
+    "id": "achievement_lvl_7_barter",
+    "type": "achievement",
+    "name": "Free Trader",
+    "description": "Extraordinary gizmos for obscenely low prices!",
+    "requirements": [ { "event_statistic": "num_gains_barter_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_barter",
+    "type": "achievement",
+    "name": "Cut-Me-Own-Throat Dibbler",
+    "description": "My Innuit friend, I'm selling you this ice for such a low price, that it's cutting me own throat.",
+    "requirements": [ { "event_statistic": "num_gains_barter_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_barter" ]
+  },
+  {
+    "id": "achievement_lvl_7_speech",
+    "type": "achievement",
+    "name": "Eloquent",
+    "description": "We're frends, aren't we?",
+    "requirements": [ { "event_statistic": "num_gains_speech_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_speech",
+    "type": "achievement",
+    "name": "Silver Tongue",
+    "description": "Legend has it that you convinced a zombie hulk to go away.",
+    "requirements": [ { "event_statistic": "num_gains_speech_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_speech" ]
+  },
+  {
+    "id": "achievement_lvl_7_computer",
+    "type": "achievement",
+    "name": "HackerMan",
+    "description": "This OS has a back door.  There is always a back door.",
+    "requirements": [ { "event_statistic": "num_gains_computer_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_computer",
+    "type": "achievement",
+    "name": "Still not quite like Kevin",
+    "description": "It's not cheating.  It's debugging.",
+    "requirements": [ { "event_statistic": "num_gains_computer_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_computer" ]
+  },
+  {
+    "id": "achievement_lvl_7_firstaid",
+    "type": "achievement",
+    "name": "MD",
+    "description": "Is there a doctor in the house?",
+    "requirements": [ { "event_statistic": "num_gains_firstaid_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_firstaid",
+    "type": "achievement",
+    "name": "Dr House",
+    "description": "It's lupus.",
+    "requirements": [ { "event_statistic": "num_gains_firstaid_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_firstaid" ]
+  },
+  {
+    "id": "achievement_lvl_7_mechanics",
+    "type": "achievement",
+    "name": "Engineer",
+    "description": "Just give me my wrench.",
+    "requirements": [ { "event_statistic": "num_gains_mechanics_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_mechanics",
+    "type": "achievement",
+    "name": "MacGyver",
+    "description": "This whole deal is holding on faith, spit and duct tape.",
+    "requirements": [ { "event_statistic": "num_gains_mechanics_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_mechanics" ]
+  },
+  {
+    "id": "achievement_lvl_7_traps",
+    "type": "achievement",
+    "name": "Trapper",
+    "description": "A good trap doesn't discriminate between beavers and zombeavers.",
+    "requirements": [ { "event_statistic": "num_gains_traps_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_traps",
+    "type": "achievement",
+    "name": "Minesweeper",
+    "description": "All it takes is one mistake.",
+    "requirements": [ { "event_statistic": "num_gains_traps_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_traps" ]
+  },
+  {
+    "id": "achievement_lvl_7_driving",
+    "type": "achievement",
+    "name": "Ace Driver",
+    "description": "No turn is too sharp.",
+    "requirements": [ { "event_statistic": "num_gains_driving_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_driving",
+    "type": "achievement",
+    "name": "The Stig",
+    "description": "Formula One is for Sunday drivers.",
+    "requirements": [ { "event_statistic": "num_gains_driving_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_driving" ]
+  },
+  {
+    "id": "achievement_lvl_7_swimming",
+    "type": "achievement",
+    "name": "Swimmer",
+    "description": "Like a fish to water.",
+    "requirements": [ { "event_statistic": "num_gains_swimming_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_swimming",
+    "type": "achievement",
+    "name": "Michael Phelps",
+    "description": "Faster then Jaws.",
+    "requirements": [ { "event_statistic": "num_gains_swimming_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_swimming" ]
+  },
+  {
+    "id": "achievement_lvl_7_fabrication",
+    "type": "achievement",
+    "name": "Do-It-Yourselfer",
+    "description": "Take this thing, put it in that thing, and voila.",
+    "requirements": [ { "event_statistic": "num_gains_fabrication_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_fabrication",
+    "type": "achievement",
+    "name": "Jack of All Trades",
+    "description": "With a right ammount of glue, there is nothing I can't do.",
+    "requirements": [ { "event_statistic": "num_gains_fabrication_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_fabrication" ]
+  },
+  {
+    "id": "achievement_lvl_7_cooking",
+    "type": "achievement",
+    "name": "Master Chef",
+    "description": "Glazed tenderloin is a cakewalk.",
+    "requirements": [ { "event_statistic": "num_gains_cooking_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_cooking",
+    "type": "achievement",
+    "name": "Hell's Kitchen",
+    "description": "Today's menu: Soupe a l'oignon, Boeuf Bourguignon and Creme brulee.",
+    "requirements": [ { "event_statistic": "num_gains_cooking_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_cooking" ]
+  },
+  {
+    "id": "achievement_lvl_7_tailor",
+    "type": "achievement",
+    "name": "Tailor",
+    "description": "A needle, a thread and a dream.",
+    "requirements": [ { "event_statistic": "num_gains_tailor_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_tailor",
+    "type": "achievement",
+    "name": "Fashion Designer",
+    "description": "Male, feamale and mutant fashion alike.",
+    "requirements": [ { "event_statistic": "num_gains_tailor_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_tailor" ]
+  },
+  {
+    "id": "achievement_lvl_7_survival",
+    "type": "achievement",
+    "name": "Survivalist",
+    "description": "Survival is my game.",
+    "requirements": [ { "event_statistic": "num_gains_survival_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_survival",
+    "type": "achievement",
+    "name": "Bear Grylls",
+    "description": "So you say you can survive on your own urine?",
+    "requirements": [ { "event_statistic": "num_gains_survival_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_survival" ]
+  },
+  {
+    "id": "achievement_lvl_7_electronics",
+    "type": "achievement",
+    "name": "Ohm's Law",
+    "description": "Thunder Ohm.  Two volts enter, one volt leaves.  Resistance is futile.",
+    "requirements": [ { "event_statistic": "num_gains_electronics_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_electronics",
+    "type": "achievement",
+    "name": "Nicola Tesla",
+    "description": "One does not simply taste a 9V battery.",
+    "requirements": [ { "event_statistic": "num_gains_electronics_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_electronics" ]
+  },
+  {
+    "id": "achievement_lvl_7_archery",
+    "type": "achievement",
+    "name": "Bull's Eye",
+    "description": "Better then Legolas.",
+    "requirements": [ { "event_statistic": "num_gains_archery_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_archery",
+    "type": "achievement",
+    "name": "Robin Hood",
+    "description": "Wilhelm Tell?  Never heard of.",
+    "requirements": [ { "event_statistic": "num_gains_archery_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_archery" ]
+  },
+  {
+    "id": "achievement_lvl_7_gun",
+    "type": "achievement",
+    "name": "Eagle Eye",
+    "description": "Only me and my target.",
+    "requirements": [ { "event_statistic": "num_gains_gun_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_gun",
+    "type": "achievement",
+    "name": "Deadshot",
+    "description": "Don't run.  You'll die tired.",
+    "requirements": [ { "event_statistic": "num_gains_gun_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_gun" ]
+  },
+  {
+    "id": "achievement_lvl_7_launcher",
+    "type": "achievement",
+    "name": "Gunner",
+    "description": "Caliber makes the difference.",
+    "requirements": [ { "event_statistic": "num_gains_launcher_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_launcher",
+    "type": "achievement",
+    "name": "Rocket Man",
+    "description": "I'm sending you to the moon.  In pieces.",
+    "requirements": [ { "event_statistic": "num_gains_launcher_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_launcher" ]
+  },
+  {
+    "id": "achievement_lvl_7_pistol",
+    "type": "achievement",
+    "name": "Small But Deadly",
+    "description": "Caliber doesn't count when you're on the recieving side of the barrel.",
+    "requirements": [ { "event_statistic": "num_gains_pistol_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_pistol",
+    "type": "achievement",
+    "name": "Dirty Harry",
+    "description": "But being this is a .44 Magnum, the most powerful handgun in the world and would blow your head clean off, you've gotta ask yourself one question:  Do I feel lucky?  Well, do ya, punk?",
+    "requirements": [ { "event_statistic": "num_gains_pistol_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_pistol" ]
+  },
+  {
+    "id": "achievement_lvl_7_rifle",
+    "type": "achievement",
+    "name": "Rifleman",
+    "description": "This is my rifle.  There are many like it, but this one is mine.  My rifle is my best friend.  It is my life.  I must master it as I must master my life.",
+    "requirements": [ { "event_statistic": "num_gains_rifle_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_rifle",
+    "type": "achievement",
+    "name": "Soldier",
+    "description": "Without me, my rifle is useless.  Without my rifle, I am useless.  I will keep my rifle clean and ready, even as I am clean and ready.  We will become part of each other.",
+    "requirements": [ { "event_statistic": "num_gains_rifle_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_rifle" ]
+  },
+  {
+    "id": "achievement_lvl_7_shotgun",
+    "type": "achievement",
+    "name": "Double Barrel, Double Fun",
+    "description": "When you want to hit your target nine times with one shot.",
+    "requirements": [ { "event_statistic": "num_gains_shotgun_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_shotgun",
+    "type": "achievement",
+    "name": "Elmer Fudd",
+    "description": "What's up doc?  Hunting wabbits?",
+    "requirements": [ { "event_statistic": "num_gains_shotgun_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_shotgun" ]
+  },
+  {
+    "id": "achievement_lvl_7_smg",
+    "type": "achievement",
+    "name": "Spray'n'Pray",
+    "description": "One will hit.  It's a matter of statistics.",
+    "requirements": [ { "event_statistic": "num_gains_smg_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_smg",
+    "type": "achievement",
+    "name": "SMG Goes BRRRT!",
+    "description": "We definitely need more ammo.",
+    "requirements": [ { "event_statistic": "num_gains_smg_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_smg" ]
+  },
+  {
+    "id": "achievement_lvl_7_throw",
+    "type": "achievement",
+    "name": "Yeet!",
+    "description": "And never come back.",
+    "requirements": [ { "event_statistic": "num_gains_throw_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_throw",
+    "type": "achievement",
+    "name": "Kobe Bryant",
+    "description": "Frag out!",
+    "requirements": [ { "event_statistic": "num_gains_throw_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_throw" ]
+  },
+  {
+    "id": "achievement_lvl_7_melee",
+    "type": "achievement",
+    "name": "Brawler",
+    "description": "Bottle in left hand, chair leg in right hand.",
+    "requirements": [ { "event_statistic": "num_gains_melee_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_melee",
+    "type": "achievement",
+    "name": "Street Fighter",
+    "description": "It's winning that matters, not the style.",
+    "requirements": [ { "event_statistic": "num_gains_melee_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_melee" ]
+  },
+  {
+    "id": "achievement_lvl_7_bashing",
+    "type": "achievement",
+    "name": "Batter",
+    "description": "Every strike brings me closer to a home run.",
+    "requirements": [ { "event_statistic": "num_gains_bashing_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_bashing",
+    "type": "achievement",
+    "name": "Stone Age",
+    "description": "Cudgel was humanity's first tool.  And it may be it's last, so why not master it?",
+    "requirements": [ { "event_statistic": "num_gains_bashing_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_bashing" ]
+  },
+  {
+    "id": "achievement_lvl_7_cutting",
+    "type": "achievement",
+    "name": "Way of the Sword",
+    "description": "When the sword is once drawn, the passions of men observe no bounds of moderation.",
+    "requirements": [ { "event_statistic": "num_gains_cutting_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_cutting",
+    "type": "achievement",
+    "name": "Miyamoto Musashi",
+    "description": "The sword has to be more than a simple weapon; it has to be an answer to life's questions.",
+    "requirements": [ { "event_statistic": "num_gains_cutting_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_cutting" ]
+  },
+  {
+    "id": "achievement_lvl_7_dodge",
+    "type": "achievement",
+    "name": "Elusive",
+    "description": "A strongest of blows is nothing if it doesn't land.",
+    "requirements": [ { "event_statistic": "num_gains_dodge_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_dodge",
+    "type": "achievement",
+    "name": "Neo",
+    "description": "But can you dodge a bullet?",
+    "requirements": [ { "event_statistic": "num_gains_dodge_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_dodge" ]
+  },
+  {
+    "id": "achievement_lvl_7_stabbing",
+    "type": "achievement",
+    "name": "Cold Steel",
+    "description": "While you were partying, I studied the blade.",
+    "requirements": [ { "event_statistic": "num_gains_stabbing_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_stabbing",
+    "type": "achievement",
+    "name": "Jack the Ripper",
+    "description": "Is this a dagger which I see before me, the handle toward my hand?  Come, let me clutch thee.",
+    "requirements": [ { "event_statistic": "num_gains_stabbing_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_stabbing" ]
+  },
+  {
+    "id": "achievement_lvl_7_unarmed",
+    "type": "achievement",
+    "name": "Road to Shaolin",
+    "description": "I feel an army in my fist.",
+    "requirements": [ { "event_statistic": "num_gains_unarmed_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_unarmed",
+    "type": "achievement",
+    "name": "Mr Miyagi",
+    "description": "To be your own weapon.",
+    "requirements": [ { "event_statistic": "num_gains_unarmed_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_unarmed" ]
+  },
+  {
+    "id": "achievement_lvl_7_lockpick",
+    "type": "achievement",
+    "name": "Burglar",
+    "description": "Crowbar?  Such a barbarity.",
+    "requirements": [ { "event_statistic": "num_gains_lockpick_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_lockpick",
+    "type": "achievement",
+    "name": "Locksmith",
+    "description": "If there is a lock, there is a key.",
+    "requirements": [ { "event_statistic": "num_gains_lockpick_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_lockpick" ]
+  },
+  {
+    "id": "achievement_lvl_7_chemistry",
+    "type": "achievement",
+    "name": "Periodic Table",
+    "description": "It's somewhat like cooking.  Just don't lick the spoon.",
+    "requirements": [ { "event_statistic": "num_gains_chemistry_level_7", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_lvl_10_chemistry",
+    "type": "achievement",
+    "name": "Heisenberg",
+    "description": "You all know who I am.  I'm the cook.  Say my name.",
+    "requirements": [ { "event_statistic": "num_gains_chemistry_level_10", "is": ">=", "target": 1 } ],
+    "hidden_by": [ "achievement_lvl_7_chemistry" ]
   }
 ]

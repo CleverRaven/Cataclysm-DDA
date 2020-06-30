@@ -47,7 +47,7 @@ void live_view::show( const tripoint &p )
 
             const int max_height = TERMY / 2;
             const int line_limit = max_height - 2;
-            const visibility_variables &cache = g->m.get_visibility_variables_cache();
+            const visibility_variables &cache = get_map().get_visibility_variables_cache();
             int line_out = START_LINE;
             // HACK: using dummy window to get the window height without refreshing.
             win = catacurses::newwin( 1, width, point_zero );
@@ -60,7 +60,7 @@ void live_view::show( const tripoint &p )
         } );
         ui->on_redraw( [this]( const ui_adaptor & ) {
             werase( win );
-            const visibility_variables &cache = g->m.get_visibility_variables_cache();
+            const visibility_variables &cache = get_map().get_visibility_variables_cache();
             int line_out = START_LINE;
             g->pre_print_all_tile_info( mouse_position, win, line_out, getmaxy( win ) - 2, cache );
             draw_border( win );

@@ -126,6 +126,9 @@
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 12,
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 12 } }
+    ],
     "max_charges": 12,
     "charges_per_use": 1,
     "use_action": [ "OXYGEN_BOTTLE" ]
@@ -175,7 +178,9 @@
     "symbol": ";",
     "color": "light_gray",
     "initial_charges": 24,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "ammo_restriction": { "oxygen": 24 } } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "watertight": true, "rigid": true, "ammo_restriction": { "oxygen": 24 } }
+    ],
     "max_charges": 24,
     "charges_per_use": 1,
     "use_action": [ "OXYGEN_BOTTLE" ]
@@ -187,7 +192,7 @@
     "name": { "str": "blood draw kit" },
     "description": "This is a kit for drawing blood, including a test tube for holding the sample.  Use this tool to draw blood, either from yourself or from a corpse you are standing on.",
     "weight": "13 g",
-    "volume": "250 ml",
+    "volume": "262 ml",
     "price": 3000,
     "price_postapoc": 100,
     "to_hit": -3,

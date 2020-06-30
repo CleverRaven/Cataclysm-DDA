@@ -95,6 +95,13 @@ class monster : public Creature
         bool is_monster() const override {
             return true;
         }
+        monster *as_monster() override {
+            return this;
+        }
+        const monster *as_monster() const override {
+            return this;
+        }
+
 
         void poly( const mtype_id &id );
         bool can_upgrade();

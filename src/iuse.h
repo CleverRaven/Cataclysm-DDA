@@ -188,7 +188,6 @@ int talking_doll( player *, item *, bool, const tripoint & );
 int tazer( player *, item *, bool, const tripoint & );
 int tazer2( player *, item *, bool, const tripoint & );
 int teleport( player *, item *, bool, const tripoint & );
-int throwable_extinguisher_act( player *, item *, bool, const tripoint & );
 int toolmod_attach( player *, item *, bool, const tripoint & );
 int tow_attach( player *, item *, bool, const tripoint & );
 int towel( player *, item *, bool, const tripoint & );

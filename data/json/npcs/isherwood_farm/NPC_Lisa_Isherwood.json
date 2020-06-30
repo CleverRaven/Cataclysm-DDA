@@ -123,7 +123,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_LISA_TOPICS",
-    "dynamic_line": "Go on...",
+    "dynamic_line": "Go on…",
     "responses": [
       { "text": "Hi, I'm looking for Jesse.", "topic": "TALK_LISA_JESSE" },
       { "text": "Hi, I'm looking for Chris.", "topic": "TALK_LISA_CHRIS" },

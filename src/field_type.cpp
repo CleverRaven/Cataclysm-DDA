@@ -250,6 +250,8 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "display_field", display_field, false );
     optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
 
+    optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
+
     bash_info.load( jo, "bash", map_bash_info::field );
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
@@ -316,6 +318,7 @@ const std::vector<field_type> &field_types::get_all()
 field_type_id fd_null,
               fd_blood,
               fd_bile,
+              fd_extinguisher,
               fd_gibs_flesh,
               fd_gibs_veggy,
               fd_web,
@@ -373,6 +376,7 @@ void field_types::set_field_type_ids()
     fd_null = field_type_id( "fd_null" );
     fd_blood = field_type_id( "fd_blood" );
     fd_bile = field_type_id( "fd_bile" );
+    fd_extinguisher = field_type_id( "fd_extinguisher" );
     fd_gibs_flesh = field_type_id( "fd_gibs_flesh" );
     fd_gibs_veggy = field_type_id( "fd_gibs_veggy" );
     fd_web = field_type_id( "fd_web" );

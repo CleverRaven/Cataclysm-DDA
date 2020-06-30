@@ -267,13 +267,16 @@ static void draw_description( const catacurses::window &win, const bionic &bio )
 }
 
 static void draw_connectors( const catacurses::window &win, const point &start,
-                             int last_x, const bionic_id &bio_id )
+                             int last_x, const bionic_id &bio_id, const std::map<bodypart_str_id, size_t> &bp_to_pos )
 {
     const int LIST_START_Y = 7;
     // first: pos_y, second: occupied slots
     std::vector<std::pair<int, size_t>> pos_and_num;
     for( const std::pair<const string_id<body_part_type>, size_t> &elem : bio_id->occupied_bodyparts ) {
-        pos_and_num.emplace_back( static_cast<int>( elem.first->token ) + LIST_START_Y, elem.second );
+        auto pos = bp_to_pos.find( elem.first );
+        if( pos != bp_to_pos.end() ) {
+            pos_and_num.emplace_back( pos->second + LIST_START_Y, elem.second );
+        }
     }
     if( pos_and_num.empty() || !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
         return;
@@ -525,12 +528,14 @@ void player::power_bionics()
 
         int max_width = 0;
         std::vector<std::string> bps;
+        std::map<bodypart_str_id, size_t> bp_to_pos;
         for( const bodypart_id &bp : get_all_body_parts() ) {
             const int total = get_total_bionics_slots( bp );
             const std::string s = string_format( "%s: %d/%d",
                                                  body_part_name_as_heading( bp, 1 ),
                                                  total - get_free_bionics_slots( bp ), total );
             bps.push_back( s );
+            bp_to_pos.emplace( bp.id(), bps.size() - 1 );
             max_width = std::max( max_width, utf8_width( s ) );
         }
         const int pos_x = WIDTH - 2 - max_width;
@@ -567,11 +572,11 @@ void player::power_bionics()
                 if( is_highlighted && menu_mode != EXAMINING && get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {
                     const bionic_id bio_id = ( *current_bionic_list )[i]->id;
                     draw_connectors( wBio, point( utf8_width( desc ) + 3, list_start_y + i - scroll_position ),
-                                     pos_x - 2, bio_id );
+                                     pos_x - 2, bio_id, bp_to_pos );
 
                     // redraw highlighted (occupied) body parts
                     for( const std::pair<const string_id<body_part_type>, size_t> &elem : bio_id->occupied_bodyparts ) {
-                        const int i = static_cast<int>( elem.first->token );
+                        const int i = bp_to_pos[elem.first];
                         mvwprintz( wBio, point( pos_x, i + list_start_y ), c_yellow, bps[i] );
                     }
                 }

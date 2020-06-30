@@ -130,6 +130,11 @@ int field_entry::set_field_intensity( int new_intensity )
 
 }
 
+void field_entry::mod_field_intensity( int mod )
+{
+    set_field_intensity( get_field_intensity() + mod );
+}
+
 time_duration field_entry::get_field_age() const
 {
     return age;

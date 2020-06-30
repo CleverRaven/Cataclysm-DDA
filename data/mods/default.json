@@ -1,10 +1,9 @@
-{
-  "type": "MOD_INFO",
-  "ident": "dev:default",
-  "name": "default",
-  "description": "contains all the mods recommended by the developers",
-  "dependencies": [
-    "dda",
-    "no_npc_food"
-  ]
-}
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "dev:default",
+    "name": "default",
+    "description": "contains all the mods recommended by the developers",
+    "dependencies": [ "dda", "no_npc_food" ]
+  }
+]

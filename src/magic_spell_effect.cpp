@@ -32,6 +32,7 @@
 #include "magic_spell_effect_helpers.h"
 #include "magic_teleporter_list.h"
 #include "magic_ter_furn_transform.h"
+#include "monstergenerator.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "messages.h"
@@ -51,6 +52,8 @@
 #include "units.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+
+static const mtype_id mon_generator( "mon_generator" );
 
 namespace spell_detail
 {
@@ -422,6 +425,9 @@ static void damage_targets( const spell &sp, Creature &caster,
         }
         sp.make_sound( target );
         sp.create_field( target );
+        if( sp.has_flag( spell_flag::IGNITE_FLAMMABLE ) && g->m.is_flammable( target ) ) {
+            g->m.add_field( target, fd_fire, 1, 10_minutes );
+        }
         Creature *const cr = g->critter_at<Creature>( target );
         if( !cr ) {
             continue;
@@ -476,6 +482,72 @@ void spell_effect::target_attack( const spell &sp, Creature &caster,
     if( sp.has_flag( spell_flag::SWAP_POS ) ) {
         swap_pos( caster, epicenter );
     }
+}
+
+static void magical_polymorph( monster &victim, Creature &caster, const spell &sp )
+{
+    mtype_id new_id = mtype_id( sp.effect_data() );
+
+    if( sp.has_flag( spell_flag::POLYMORPH_GROUP ) ) {
+        const mongroup_id group_id( sp.effect_data() );
+        new_id = MonsterGroupManager::GetRandomMonsterFromGroup( group_id );
+    }
+
+    // if effect_str is empty, we become a random monster of close difficulty
+    if( new_id.is_empty() ) {
+        int victim_diff = victim.type->difficulty;
+        const std::vector<mtype> &mtypes = MonsterGenerator::generator().get_all_mtypes();
+        for( int difficulty_variance = 1; difficulty_variance < 2048; difficulty_variance *= 2 ) {
+            unsigned int random_entry = rng( 0, mtypes.size() );
+            unsigned int iter = random_entry + 1;
+            while( iter != random_entry && new_id.is_empty() ) {
+                if( iter >= mtypes.size() ) {
+                    iter = 0;
+                }
+                if( ( mtypes[iter].id != victim.type->id ) && ( std::abs( mtypes[iter].difficulty - victim_diff )
+                        <= difficulty_variance ) ) {
+                    if( !mtypes[iter].in_species( species_id( "HALLUCINATION" ) ) &&
+                        mtypes[iter].id != mon_generator ) {
+                        new_id = mtypes[iter].id;
+                        break;
+                    }
+                }
+                iter++;
+            }
+        }
+    }
+
+    if( !new_id.is_valid() ) {
+        debugmsg( "magical_polymorph called with an invalid monster id" );
+        return;
+    }
+
+    if( g->u.sees( victim ) ) {
+        add_msg( _( "The %s transforms into a %s." ), victim.type->nname(),
+                 new_id->nname() );
+    }
+    victim.poly( new_id );
+
+    if( sp.has_flag( spell_flag::FRIENDLY_POLY ) ) {
+        if( caster.as_player() ) {
+            victim.friendly = -1;
+        } else {
+            victim.make_ally( *caster.as_monster() );
+        }
+    }
+}
+
+void spell_effect::targeted_polymorph( const spell &sp, Creature &caster, const tripoint &target )
+{
+    //we only target monsters for now.
+    if( monster *const victim = g->critter_at<monster>( target ) ) {
+        if( victim->get_hp() < sp.damage() ) {
+            magical_polymorph( *victim, caster, sp );
+            return;
+        }
+    }
+    //victim had high hp, or isn't a monster.
+    caster.add_msg_if_player( m_bad, _( "Your target resists transformation." ) );
 }
 
 void spell_effect::cone_attack( const spell &sp, Creature &caster,
