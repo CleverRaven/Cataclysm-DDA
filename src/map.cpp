@@ -203,6 +203,8 @@ VehicleList map::get_vehicles()
             last_full_vehicle_list = get_vehicles( tripoint( 0, 0, -OVERMAP_DEPTH ),
                                                    tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, OVERMAP_HEIGHT ) );
         }
+
+        last_full_vehicle_list_dirty = false;
     }
 
     return last_full_vehicle_list;
