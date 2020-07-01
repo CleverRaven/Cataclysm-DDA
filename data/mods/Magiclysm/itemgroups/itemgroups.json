@@ -1169,7 +1169,6 @@
       { "group": "lair_black_dragon_treasure", "prob": 5 },
       { "group": "enchanted_melee_weapons_plus2", "prob": 20 },
       { "group": "demon_spider_lair_treasure", "prob": 10 }
-
     ]
   },
   {

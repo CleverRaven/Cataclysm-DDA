@@ -232,17 +232,17 @@
     }
   },
   {
-  "id": "achievement_reach_forge_of_wonder",
-  "type": "achievement",
-  "name": "Everything can be had for a price…",
-  "requirements": [
-    {
-      "event_statistic": "last_oter_type_avatar_entered",
-      "is": "==",
-      "target": [ "oter_type_str_id", "forge_1B" ],
-      "visible": "when_achievement_completed",
-      "description": "See the Forge of Wonders"
-    }
-  ]
-}
+    "id": "achievement_reach_forge_of_wonder",
+    "type": "achievement",
+    "name": "Everything can be had for a price…",
+    "requirements": [
+      {
+        "event_statistic": "last_oter_type_avatar_entered",
+        "is": "==",
+        "target": [ "oter_type_str_id", "forge_1B" ],
+        "visible": "when_achievement_completed",
+        "description": "See the Forge of Wonders"
+      }
+    ]
+  }
 ]
