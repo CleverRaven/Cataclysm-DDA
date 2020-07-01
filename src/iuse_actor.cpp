@@ -3207,7 +3207,7 @@ int heal_actor::get_stopbleed_level( const player &healer ) const
 {
     if( bleed > 0 ) {
         /** @EFFECT_FIRSTAID increases healing item effects */
-        return bleed + healer.get_skill_level( skill_firstaid );
+        return bleed + healer.get_skill_level( skill_firstaid ) / 2;
     }
 
     return bleed;

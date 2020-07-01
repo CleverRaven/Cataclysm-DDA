@@ -924,7 +924,7 @@ void player::hardcoded_effects( effect &it )
         if( one_in( 900 / intense ) && !in_sleep_state() ) {
             // Hypovolemic shock
             // stage 1 - early symptoms include headache, fatigue, weakness, thirst, and dizziness.
-            if( intense == 1 ) {
+            if( intense >= 1 ) {
                 switch( dice( 1, 6 ) ) {
                     case 1:
                         add_msg_if_player( m_bad, _( "Your skin looks pale." ) );
@@ -934,7 +934,7 @@ void player::hardcoded_effects( effect &it )
                         break;
                     case 3:
                         add_msg_if_player( m_bad, _( "You suddenly feel thirsty." ) );
-                        mod_thirst( -5 );
+                        mod_thirst( 5 );
                         break;
                     case 4:
                         add_msg_if_player( m_bad, _( "You feel dizzy and lightheaded." ) );
@@ -951,13 +951,14 @@ void player::hardcoded_effects( effect &it )
                 }
             }
             // stage 2 - person may begin sweating and feeling more anxious and restless.
-            else if( intense == 2 ) {
+            if( intense >= 2 ) {
                 switch( dice( 1, 6 ) ) {
                     case 1:
                         add_msg_if_player( m_bad, _( "Your skin is abnormaly pale." ) );
                         break;
                     case 2:
                         add_msg_if_player( m_bad, _( "You are sweating, but it's not from the temperature." ) );
+                        mod_thirst( 5 );
                         break;
                     case 3:
                         add_msg_if_player( m_bad, _( "You feel anxious.  You are not well." ) );
@@ -967,6 +968,7 @@ void player::hardcoded_effects( effect &it )
                         break;
                     case 5:
                         add_msg_if_player( m_bad, _( "You breathe heavily." ) );
+                        mod_fatigue( 3 );
                         break;
                     case 6:
                         add_msg_if_player( m_bad, _( "You feel restless.  Maybe you lost too much blood?" ) );
@@ -975,7 +977,7 @@ void player::hardcoded_effects( effect &it )
             }
             // stage 3 - heart rate will increase to over 120 bpm; rapid breathing
             // mental distress, including anxiety and agitation; skin is pale and cold + cyanosis, sweating
-            else if( intense == 3 ) {
+            if( intense >= 3 ) {
                 switch( dice( 1, 6 ) ) {
                     case 1:
                         add_msg_if_player( m_bad, _( "Your heart is racing like a train." ) );
@@ -1007,7 +1009,7 @@ void player::hardcoded_effects( effect &it )
             }
             // stage 4 is a life threatening condition; extremely rapid heart rate, breathing very fast and difficult
             // drifting in and out of consciousness, sweating heavily, feeling cool to the touch, looking extremely pale
-            else if( intense == 4 ) {
+            if( intense == 4 ) {
                 switch( dice( 1, 6 ) ) {
                     case 1:
                         add_msg_if_player( m_bad, _( "Your heart is racing like crazy, but you feel sluggish." ) );
@@ -1058,7 +1060,7 @@ void player::hardcoded_effects( effect &it )
                                    _( "You cannot breathe and your body gives out!" ),
                                    _( "<npcname> gasps for air and dies!" ) );
             g->events().send<event_type::dies_from_redcells_loss>( getID() );
-            hp_cur[hp_torso] = 0;
+            set_part_hp_cur( bodypart_id( "torso" ), 0 );
         }
         if( one_in( 900 / intense ) && !in_sleep_state() ) {
             // level 1 symptoms are cold limbs, pale skin, and weakness
