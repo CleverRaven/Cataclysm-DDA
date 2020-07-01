@@ -408,7 +408,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 12,
-    "looks_like": "t_machinery_light",
+    "looks_like": "f_machinery_light",
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -453,7 +453,7 @@
     "move_cost_mod": -1,
     "coverage": 40,
     "required_str": 18,
-    "looks_like": "t_machinery_old",
+    "looks_like": "f_machinery_old",
     "flags": [ "BLOCKSDOOR" ],
     "deconstruct": {
       "items": [
@@ -498,7 +498,7 @@
     "move_cost_mod": -1,
     "coverage": 45,
     "required_str": -1,
-    "looks_like": "t_machinery_heavy",
+    "looks_like": "f_machinery_heavy",
     "flags": [ "TRANSPARENT" ],
     "deconstruct": {
       "items": [
@@ -539,7 +539,7 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": -1,
-    "looks_like": "t_machinery_heavy",
+    "looks_like": "f_machinery_heavy",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -578,7 +578,7 @@
     "bgcolor": "white",
     "move_cost_mod": -1,
     "required_str": -1,
-    "looks_like": "t_machinery_electronic",
+    "looks_like": "f_machinery_electronic",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -619,7 +619,7 @@
     "coverage": 65,
     "required_str": -1,
     "flags": [ "PLACE_ITEM", "CONTAINER" ],
-    "looks_like": "t_machinery_electronic",
+    "looks_like": "f_machinery_electronic",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },
@@ -660,7 +660,7 @@
     "coverage": 65,
     "required_str": -1,
     "flags": [ "PLACE_ITEM", "CONTAINER" ],
-    "looks_like": "t_machinery_electronic",
+    "looks_like": "f_machinery_electronic",
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 2, 6 ] },

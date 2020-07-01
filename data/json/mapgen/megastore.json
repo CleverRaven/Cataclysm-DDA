@@ -1989,7 +1989,7 @@
       ],
       "rotation": 1,
       "palettes": [ "megastore" ],
-      "terrain": { "%": "t_machinery_heavy" }
+      "furniture": { "%": "f_machinery_heavy" }
     }
   },
   {

@@ -366,9 +366,10 @@
         "W": "t_window_domestic",
         "*": "t_chainfence",
         "8": "t_chaingate_c",
-        "x": [ "t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic" ]
+        "x": "t_thconc_floor"
       },
-      "furniture": { "I": "f_desk", "h": "f_chair", "f": "f_filing_cabinet" },
+      "furniture": { "I": "f_desk", "h": "f_chair", "f": "f_filing_cabinet",
+        "x": [ "t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic" ] },
       "items": {
         "I": { "item": "office", "chance": 30 },
         "f": { "item": "office_paper", "chance": 30 },

@@ -227,16 +227,18 @@
         "0": "t_reinforced_glass_shutter",
         "^": "t_elevator_control_off",
         "$": "t_elevator",
-        "x": "t_console_broken",
+        "%": "t_floor",
+        "x": "t_floor",
         "+": "t_door_metal_locked",
         "?": "t_door_metal_c_peep",
         "=": "t_door_locked",
         ">": "t_stairs_down",
         "<": "t_stairs_up",
-        "%": "t_machinery_electronic",
         "X": "t_card_military"
       },
       "furniture": {
+        "%": "f_machinery_electronic",
+        "x": "f_console_broken",
         "d": "f_desk",
         "c": "f_chair",
         "a": "f_air_conditioner",
@@ -323,7 +325,7 @@
         "5": "t_floor",
         "6": "t_floor",
         "a": "t_floor",
-        "g": "t_generator_broken",
+        "g": "t_floor",
         "h": "t_switchgear_s",
         "i": "t_station_disc",
         "j": "t_current_trans",
@@ -331,16 +333,24 @@
         "0": "t_reinforced_glass_shutter_open",
         "^": "t_elevator_control_off",
         "$": "t_elevator",
-        "x": "t_console_broken",
+        "x": "t_floor",
         "+": "t_door_metal_locked",
         "?": "t_door_metal_c_peep",
-        "%": "t_machinery_electronic",
+        "%": "t_floor",
         ">": "t_stairs_down",
         "<": "t_stairs_up",
         "X": "t_mdoor_frame",
         "Y": "t_card_military"
       },
-      "furniture": { "a": "f_air_conditioner", "5": "f_utility_shelf", "6": "f_locker", "4": "f_speaker_cabinet" },
+      "furniture": {
+        "g": "f_generator_broken",
+        "%": "f_machinery_electronic",
+        "a": "f_air_conditioner",
+        "x": "f_console_broken",
+        "5": "f_utility_shelf",
+        "6": "f_locker",
+        "4": "f_speaker_cabinet"
+      },
       "items": { "5": { "item": "radiation_meds", "chance": 60, "repeat": 2 }, "6": { "item": "radiation_equipment", "chance": 60 } },
       "place_graffiti": [
         {
@@ -499,10 +509,17 @@
         "Y": "t_card_military",
         "^": "t_elevator_control_off",
         "$": "t_elevator",
-        "x": "t_console_broken",
-        "%": "t_machinery_electronic"
+        "x": "t_rock_floor",
+        "%": "t_rock_floor"
       },
-      "furniture": { "1": "f_speaker_cabinet", "4": "f_speaker_cabinet", "a": "f_air_conditioner", "c": "f_chair" },
+      "furniture": {
+        "x": "f_console_broken",
+        "%": "f_machinery_electronic",
+        "1": "f_speaker_cabinet",
+        "4": "f_speaker_cabinet",
+        "a": "f_air_conditioner",
+        "c": "f_chair"
+      },
       "computers": {
         "6": {
           "name": "Missile Controls",

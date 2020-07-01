@@ -46,7 +46,6 @@
         "E": "t_linoleum_gray",
         "i": "t_linoleum_gray",
         "H": "t_linoleum_gray",
-        "4": "t_machinery_old",
         "R": "t_linoleum_gray",
         "?": "t_linoleum_gray",
         "h": "t_linoleum_gray",
@@ -55,6 +54,7 @@
       },
       "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "furniture": {
+        "4": "f_machinery_old",
         "T": "f_workbench",
         "c": "f_counter",
         "h": "f_chair",

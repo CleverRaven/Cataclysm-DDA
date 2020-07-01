@@ -391,11 +391,11 @@
         "<": "t_wood_stairs_up",
         ">": "t_wood_stairs_down",
         "0": "t_laminated_glass",
-        "y": "t_machinery_old",
         "#": "t_grate",
         "+": "t_laminated_door_glass_c",
         "Q": "t_open_air_rooved"
-      }
+      },
+      "furniture": { "y": "f_machinery_old" }
     }
   },
   {

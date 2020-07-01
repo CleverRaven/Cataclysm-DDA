@@ -203,11 +203,8 @@
         "..............l|X.ccc.X|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "=": "t_conveyor",
-        "%": "t_machinery_heavy"
-      },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ], "=": "t_conveyor" },
+      "furniture": { "%": "f_machinery_heavy" },
       "mapping": { "c": { "items": [ { "item": "chem_lab", "chance": 20 }, { "item": "tools_science", "chance": 20 } ] } },
       "place_nested": [
         { "chunks": [ "lab_spawn_9x9_wall_sw" ], "x": 13, "y": 1 },

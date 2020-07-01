@@ -403,10 +403,7 @@
         "#": "t_rock",
         "6": "t_console",
         "R": "t_railing",
-        "9": "t_conveyor",
-        "7": "t_machinery_light",
-        "8": "t_machinery_heavy",
-        "&": "t_machinery_electronic"
+        "9": "t_conveyor"
       },
       "furniture": {
         "K": "f_counter",
@@ -417,7 +414,10 @@
         "M": "f_server",
         "E": [ "f_ergometer", "f_ergometer_mechanical" ],
         "T": [ "f_treadmill", "f_treadmill_mechanical" ],
-        "X": "f_exercise"
+        "X": "f_exercise",
+        "7": "f_machinery_light",
+        "8": "f_machinery_heavy",
+        "&": "f_machinery_electronic"
       },
       "items": {
         "S": [
