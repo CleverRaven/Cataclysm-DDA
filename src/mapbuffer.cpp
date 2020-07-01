@@ -111,7 +111,6 @@ void mapbuffer::save( bool delete_after_save )
 
     map &here = get_map();
     const tripoint map_origin = sm_to_omt_copy( here.get_abs_sub() );
-    const bool map_has_zlevels = g != nullptr && here.has_zlevels();
 
     static_popup popup;
 
@@ -147,9 +146,8 @@ void mapbuffer::save( bool delete_after_save )
 
         // delete_on_save deletes everything, otherwise delete submaps
         // outside the current map.
-        const bool zlev_del = !map_has_zlevels && om_addr.z != g->get_levz();
         save_quad( dirname, quad_path, om_addr, submaps_to_delete,
-                   delete_after_save || zlev_del ||
+                   delete_after_save ||
                    om_addr.x < map_origin.x || om_addr.y < map_origin.y ||
                    om_addr.x > map_origin.x + HALF_MAPSIZE ||
                    om_addr.y > map_origin.y + HALF_MAPSIZE );

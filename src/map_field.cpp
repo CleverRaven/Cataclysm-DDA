@@ -140,9 +140,7 @@ int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int sc
 bool map::process_fields()
 {
     bool dirty_transparency_cache = false;
-    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int z = minz; z <= maxz; z++ ) {
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         bool zlev_dirty = false;
         auto &field_cache = get_cache( z ).field_cache;
         for( int x = 0; x < my_MAPSIZE; x++ ) {
@@ -287,7 +285,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
 
     // First check if we can fall
     // TODO: Make fall and rise chances parameters to enable heavy/light gas
-    if( zlevels && p.z > -OVERMAP_DEPTH ) {
+    if( p.z > -OVERMAP_DEPTH ) {
         const tripoint down{ p.xy(), p.z - 1 };
         maptile down_tile = maptile_at_internal( down );
         if( gas_can_spread_to( cur, down_tile ) && valid_move( p, down, true, true ) ) {
@@ -317,7 +315,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     const maptile remove_tile = std::get<0>( maptiles );
     const maptile remove_tile2 = std::get<1>( maptiles );
     const maptile remove_tile3 = std::get<2>( maptiles );
-    if( !spread.empty() && ( !zlevels || one_in( spread.size() ) ) ) {
+    if( !spread.empty() && one_in( spread.size() ) ) {
         // Construct the destination from offset and p
         if( g->is_sheltered( p ) || windpower < 5 ) {
             gas_spread_to( cur, neighs[ random_entry( spread ) ] );
@@ -340,7 +338,7 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                 gas_spread_to( cur, neighbour_vec[rng( 0, neighbour_vec.size() - 1 )] );
             }
         }
-    } else if( zlevels && p.z < OVERMAP_HEIGHT ) {
+    } else if( p.z < OVERMAP_HEIGHT ) {
         const tripoint up{ p.xy(), p.z + 1 };
         maptile up_tile = maptile_at_internal( up );
         if( gas_can_spread_to( cur, up_tile ) && valid_move( p, up, true, true ) ) {
@@ -462,7 +460,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
                 if( curtype == fd_acid ) {
                     // Try to fall by a z-level
-                    if( zlevels && p.z > -OVERMAP_DEPTH ) {
+                    if( p.z > -OVERMAP_DEPTH ) {
                         tripoint dst{ p.xy(), p.z - 1 };
                         if( valid_move( p, dst, true, true ) ) {
                             maptile dst_tile = maptile_at_internal( dst );
@@ -643,7 +641,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 add_item_or_charges( p, item( "ash" ) );
                             }
 
-                        } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
+                        } else if( ter.has_flag( TFLAG_NO_FLOOR ) && p.z > -OVERMAP_DEPTH ) {
                             // We're hanging in the air - let's fall down
                             tripoint dst{ p.xy(), p.z - 1 };
                             if( valid_move( p, dst, true, true ) ) {
@@ -807,7 +805,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     // Consume adjacent fuel / terrain / webs to spread.
                     // Allow raging fires (and only raging fires) to spread up
                     // Spreading down is achieved by wrecking the walls/floor and then falling
-                    if( zlevels && cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
+                    if( cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
                         // Let it burn through the floor
                         maptile dst = maptile_at_internal( {p.xy(), p.z + 1} );
                         const auto &dst_ter = dst.get_ter_t();
@@ -951,7 +949,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     if( !ter_furn_has_flag( ter, frn, TFLAG_SUPPRESS_SMOKE ) &&
                         rng( 0, 100 - windpower ) <= smoke &&
                         rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
-                        bool smoke_up = zlevels && p.z < OVERMAP_HEIGHT;
+                        bool smoke_up = p.z < OVERMAP_HEIGHT;
                         if( smoke_up ) {
                             tripoint up{p.xy(), p.z + 1};
                             maptile dst = maptile_at_internal( up );
@@ -1331,9 +1329,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
             }
         }
     }
-    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int z = std::max( submap.z - 1, minz ); z <= std::min( submap.z + 1, maxz ); ++z ) {
+    for( int z = std::max( submap.z - 1, -OVERMAP_DEPTH );
+         z <= std::min( submap.z + 1, OVERMAP_HEIGHT ); ++z ) {
         auto &field_cache = get_cache( z ).field_cache;
         for( int y = std::max( submap.y - 1, 0 ); y <= std::min( submap.y + 1, MAPSIZE - 1 ); ++y ) {
             for( int x = std::max( submap.x - 1, 0 ); x <= std::min( submap.x + 1, MAPSIZE - 1 ); ++x ) {

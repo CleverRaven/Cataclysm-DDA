@@ -4063,13 +4063,6 @@ void npc::set_omt_destination()
         return;
     }
 
-    // all of the following luxuries are at ground level.
-    // so please wallow in hunger & fear if below ground.
-    if( posz() != 0 && !g->m.has_zlevels() ) {
-        goal = no_goal_point;
-        return;
-    }
-
     tripoint surface_omt_loc = global_omt_location();
     // We need that, otherwise find_closest won't work properly
     surface_omt_loc.z = 0;

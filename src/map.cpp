@@ -156,11 +156,7 @@ map::map( int mapsize, bool zlev )
 {
     my_MAPSIZE = mapsize;
     zlevels = zlev;
-    if( zlevels ) {
-        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS ), nullptr );
-    } else {
-        grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE ), nullptr );
-    }
+    grid.resize( static_cast<size_t>( my_MAPSIZE * my_MAPSIZE * OVERMAP_LAYERS ), nullptr );
 
     for( auto &ptr : caches ) {
         ptr = std::make_unique<level_cache>();
@@ -216,11 +212,6 @@ maptile map::maptile_at_internal( const tripoint &p )
 
 VehicleList map::get_vehicles()
 {
-    if( !zlevels ) {
-        return get_vehicles( tripoint( 0, 0, abs_sub.z ),
-                             tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, abs_sub.z ) );
-    }
-
     return get_vehicles( tripoint( 0, 0, -OVERMAP_DEPTH ),
                          tripoint( SEEX * my_MAPSIZE, SEEY * my_MAPSIZE, OVERMAP_HEIGHT ) );
 }
@@ -370,9 +361,7 @@ void map::vehmove()
 {
     // give vehicles movement points
     VehicleList vehicle_list;
-    int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int zlev = minz; zlev <= maxz; ++zlev ) {
+    for( int zlev = -OVERMAP_DEPTH; zlev <= OVERMAP_HEIGHT; ++zlev ) {
         level_cache &cache = get_cache( zlev );
         for( vehicle *veh : cache.vehicle_list ) {
             veh->gain_moves();
@@ -405,7 +394,7 @@ void map::vehmove()
     dirty_vehicle_list.clear();
     // The bool tracks whether the vehicles is on the map or not.
     std::map<vehicle *, bool> connected_vehicles;
-    for( int zlev = minz; zlev <= maxz; ++zlev ) {
+    for( int zlev = -OVERMAP_DEPTH; zlev <= OVERMAP_HEIGHT; ++zlev ) {
         level_cache &cache = get_cache( zlev );
         vehicle::enumerate_vehicles( connected_vehicles, cache.vehicle_list );
     }
@@ -446,9 +435,7 @@ bool map::vehproceed( VehicleList &vehicle_list )
     }
 
     // confirm that veh_in_active_range is still correct for each z-level
-    int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int zlev = minz; zlev <= maxz; ++zlev ) {
+    for( int zlev = -OVERMAP_DEPTH; zlev <= OVERMAP_HEIGHT; ++zlev ) {
         level_cache &cache = get_cache( zlev );
         bool still_active = false;
         if( cache.veh_in_active_range ) {
@@ -1801,8 +1788,6 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     if( from.z == to.z ) {
         // But here we need to, to prevent bashing critters
         return passable( to ) || ( bash && inbounds( to ) );
-    } else if( !zlevels ) {
-        return false;
     }
 
     const bool going_up = from.z < to.z;
@@ -1934,7 +1919,7 @@ int map::climb_difficulty( const tripoint &p ) const
 
 bool map::has_floor( const tripoint &p ) const
 {
-    if( !zlevels || p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ) {
+    if( p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ) {
         return true;
     }
 
@@ -2190,18 +2175,11 @@ void map::drop_fields( const tripoint &p )
 
 void map::support_dirty( const tripoint &p )
 {
-    if( zlevels ) {
-        support_cache_dirty.insert( p );
-    }
+    support_cache_dirty.insert( p );
 }
 
 void map::process_falling()
 {
-    if( !zlevels ) {
-        support_cache_dirty.clear();
-        return;
-    }
-
     if( !support_cache_dirty.empty() ) {
         add_msg( m_debug, "Checking %d tiles for falling objects",
                  support_cache_dirty.size() );
@@ -2843,7 +2821,7 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             }
             // if a wall collapses, walls without support from below risk collapsing and
             //propogate the collapse upwards
-            if( zlevels && wall && p == t && has_flag( "WALL", tz ) ) {
+            if( wall && p == t && has_flag( "WALL", tz ) ) {
                 collapse_at( tz, silent );
             }
             // floors without support from below risk collapsing into open air and can propogate
@@ -2853,10 +2831,8 @@ void map::collapse_at( const tripoint &p, const bool silent, const bool was_supp
             }
             // this tile used to support a roof, now it doesn't, which means there is only
             // open air above us
-            if( zlevels ) {
-                ter_set( tz, t_open_air );
-                furn_set( tz, f_null );
-            }
+            ter_set( tz, t_open_air );
+            furn_set( tz, f_null );
         }
     }
     // it would be great to check if collapsing ceilings smashed through the floor, but
@@ -2987,8 +2963,6 @@ ter_id map::get_roof( const tripoint &p, const bool allow_air )
 {
     // This function should not be called from the 2D mode
     // Just use t_dirt instead
-    assert( zlevels );
-
     if( p.z <= -OVERMAP_DEPTH ) {
         // Could be magma/"void" instead
         return t_rock_floor;
@@ -3064,11 +3038,11 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     // Floor bashing check
     // Only allow bashing floors when we want to bash floors and we're in z-level mode
     // Unless we're destroying, then it gets a little weird
-    if( smash_ter && bash->bash_below && ( !zlevels || !params.bash_floor ) ) {
+    if( smash_ter && bash->bash_below && !params.bash_floor ) {
         if( !params.destroy ) {
             smash_ter = false;
             bash = nullptr;
-        } else if( !bash->ter_set && zlevels ) {
+        } else if( !bash->ter_set ) {
             // HACK: A hack for destroy && !bash_floor
             // We have to check what would we create and cancel if it is what we have now
             tripoint below( p.xy(), p.z - 1 );
@@ -3130,7 +3104,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
 
         if( bash->str_min_supported != -1 || bash->str_max_supported != -1 ) {
             tripoint below( p.xy(), p.z - 1 );
-            if( !zlevels || has_flag( "SUPPORTS_ROOF", below ) ) {
+            if( has_flag( "SUPPORTS_ROOF", below ) ) {
                 if( bash->str_min_supported != -1 ) {
                     smin = bash->str_min_supported;
                 }
@@ -3287,14 +3261,9 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( smash_ter && ter( p ) == t_open_air ) {
-        if( !zlevels ) {
-            // We destroyed something, so we aren't just "plugging" air with dirt here
-            ter_set( p, t_dirt );
-        } else {
-            tripoint below( p.xy(), p.z - 1 );
-            const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
-            ter_set( p, roof );
-        }
+        tripoint below( p.xy(), p.z - 1 );
+        const auto roof = get_roof( below, params.bash_floor && ter( below ).obj().movecost != 0 );
+        ter_set( p, roof );
     }
 
     if( bash->explosive > 0 ) {
@@ -4513,9 +4482,7 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
 
 void map::process_items()
 {
-    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int gz = minz; gz <= maxz; ++gz ) {
+    for( int gz = -OVERMAP_DEPTH; gz <= OVERMAP_HEIGHT; ++gz ) {
         level_cache &cache = access_cache( gz );
         std::set<tripoint> submaps_with_vehicles;
         for( vehicle *this_vehicle : cache.vehicle_list ) {
@@ -5375,7 +5342,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type, int intensity
     }
 
     // Ensure blood type fields don't hang in the air
-    if( zlevels && type.obj().accelerated_decay ) {
+    if( type.obj().accelerated_decay ) {
         support_dirty( p );
     }
 
@@ -5764,7 +5731,7 @@ void map::drawsq( const catacurses::window &w, player &u, const tripoint &p,
 // a check to see if the lower floor needs to be rendered in tiles
 bool map::dont_draw_lower_floor( const tripoint &p )
 {
-    return !zlevels || p.z <= -OVERMAP_DEPTH ||
+    return p.z <= -OVERMAP_DEPTH ||
            !( has_flag( TFLAG_NO_FLOOR, p ) || has_flag( TFLAG_Z_TRANSPARENT, p ) );
 }
 
@@ -5959,7 +5926,7 @@ bool map::draw_maptile( const catacurses::window &w, const player &u, const trip
         }
     }
 
-    return zlevels && item_sym.empty() &&  p.z > -OVERMAP_DEPTH &&
+    return item_sym.empty() &&  p.z > -OVERMAP_DEPTH &&
            ( curr_ter.has_flag( TFLAG_Z_TRANSPARENT ) ||
              ( sym == ' ' && curr_ter.has_flag( TFLAG_NO_FLOOR ) ) );
 }
@@ -6427,12 +6394,8 @@ void map::save()
 {
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            if( zlevels ) {
-                for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
-                    saven( tripoint( gridx, gridy, gridz ) );
-                }
-            } else {
-                saven( tripoint( gridx, gridy, abs_sub.z ) );
+            for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
+                saven( tripoint( gridx, gridy, gridz ) );
             }
         }
     }
@@ -6539,9 +6502,7 @@ void map::shift( const point &sp )
 
     vehicle *remoteveh = g->remoteveh();
 
-    const int zmin = zlevels ? -OVERMAP_DEPTH : abs.z;
-    const int zmax = zlevels ? OVERMAP_HEIGHT : abs.z;
-    for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
         for( vehicle *veh : get_cache( gridz ).vehicle_list ) {
             veh->zones_dirty = true;
         }
@@ -6550,7 +6511,7 @@ void map::shift( const point &sp )
     // Shift the map sx submaps to the right and sy submaps down.
     // sx and sy should never be bigger than +/-1.
     // absx and absy are our position in the world, for saving/loading purposes.
-    for( int gridz = zmin; gridz <= zmax; gridz++ ) {
+    for( int gridz = -OVERMAP_DEPTH; gridz <= OVERMAP_HEIGHT; gridz++ ) {
         // Clear vehicle list and rebuild after shift
         // mlangsdorf 2020 - this is kind of insane, building the cache is not free, why are
         // we doing this?
@@ -6632,18 +6593,11 @@ void map::shift( const point &sp )
             support_cache_dirty.insert( pt + point( -sp.x * SEEX, -sp.y * SEEY ) );
         }
     }
-    if( zlevels ) {
-        calc_max_populated_zlev();
-    }
+    calc_max_populated_zlev();
 }
 
 void map::vertical_shift( const int newz )
 {
-    if( !zlevels ) {
-        debugmsg( "Called map::vertical_shift in a non-z-level world" );
-        return;
-    }
-
     if( newz < -OVERMAP_DEPTH || newz > OVERMAP_HEIGHT ) {
         debugmsg( "Tried to get z-level %d outside allowed range of %d-%d",
                   newz, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
@@ -6652,7 +6606,6 @@ void map::vertical_shift( const int newz )
 
     tripoint trp = get_abs_sub();
     set_abs_sub( tripoint( trp.xy(), newz ) );
-
     // TODO: Remove the function when it's safe
 }
 
@@ -6679,11 +6632,6 @@ void map::saven( const tripoint &grid )
     }
 
     const tripoint abs = abs_sub.xy() + grid;
-
-    if( !zlevels && grid.z != abs_sub.z ) {
-        debugmsg( "Tried to save submap (%d,%d,%d) as (%d,%d,%d), which isn't supported in non-z-level builds",
-                  abs.x, abs.y, abs_sub.z, abs.x, abs.y, grid.z );
-    }
 
     dbg( D_INFO ) << "map::saven abs: " << abs
                   << "  gridn: " << gridn;
@@ -7163,12 +7111,6 @@ void map::actualize( const tripoint &grid )
 
 void map::add_roofs( const tripoint &grid )
 {
-    if( !zlevels ) {
-        // No roofs required!
-        // Why not? Because submaps below and above don't exist yet
-        return;
-    }
-
     submap *const sub_here = get_submap_at_grid( grid );
     if( sub_here == nullptr ) {
         debugmsg( "Tried to add roofs/floors on null submap on %d,%d,%d",
@@ -7414,13 +7356,11 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
 
 void map::spawn_monsters( bool ignore_sight )
 {
-    const int zmin = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    const int zmax = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     tripoint gp;
     int &gx = gp.x;
     int &gy = gp.y;
     int &gz = gp.z;
-    for( gz = zmin; gz <= zmax; gz++ ) {
+    for( gz = -OVERMAP_DEPTH; gz <= OVERMAP_HEIGHT; gz++ ) {
         for( gx = 0; gx < my_MAPSIZE; gx++ ) {
             for( gy = 0; gy < my_MAPSIZE; gy++ ) {
                 spawn_monsters_submap( gp, ignore_sight );
@@ -7760,9 +7700,7 @@ bool map::build_floor_cache( const int zlev )
 
 void map::build_floor_caches()
 {
-    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
-    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
-    for( int z = minz; z <= maxz; z++ ) {
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         build_floor_cache( z );
     }
 }
@@ -7811,10 +7749,8 @@ void map::do_vehicle_caching( int z )
 
 void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
-    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
-    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
     bool seen_cache_dirty = false;
-    for( int z = minz; z <= maxz; z++ ) {
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
         build_outside_cache( z );
         seen_cache_dirty |= build_transparency_cache( z );
         seen_cache_dirty |= build_floor_cache( z );
@@ -7911,12 +7847,8 @@ size_t map::get_nonant( const tripoint &gridp ) const
         return 0;
     }
 
-    if( zlevels ) {
-        const int indexz = gridp.z + OVERMAP_HEIGHT; // Can't be lower than 0
-        return indexz + ( gridp.x + gridp.y * my_MAPSIZE ) * OVERMAP_LAYERS;
-    } else {
-        return gridp.x + gridp.y * my_MAPSIZE;
-    }
+    const int indexz = gridp.z + OVERMAP_HEIGHT; // Can't be lower than 0
+    return indexz + ( gridp.x + gridp.y * my_MAPSIZE ) * OVERMAP_LAYERS;
 }
 
 tinymap::tinymap( int mapsize, bool zlevels )

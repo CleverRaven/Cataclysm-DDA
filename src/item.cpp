@@ -9360,7 +9360,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
         return false;
     }
 
-    if( !g->m.veh_at( *source ) || ( source->z != g->get_levz() && !g->m.has_zlevels() ) ) {
+    if( !g->m.veh_at( *source ) ) {
         if( carrier->has_item( *this ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }

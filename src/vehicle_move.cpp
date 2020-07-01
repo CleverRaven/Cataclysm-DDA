@@ -1022,8 +1022,7 @@ bool vehicle::check_heli_descend( player &p )
     int air_count = 0;
     for( const tripoint &pt : get_points( true ) ) {
         tripoint below( pt.xy(), pt.z - 1 );
-        if( g->m.has_zlevels() && ( pt.z < -OVERMAP_DEPTH ||
-                                    !g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pt ) ) ) {
+        if( pt.z < -OVERMAP_DEPTH || !g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pt ) ) {
             p.add_msg_if_player( _( "You are already landed!" ) );
             return false;
         }
@@ -1598,7 +1597,7 @@ vehicle *vehicle::act_on_map()
 bool vehicle::level_vehicle()
 {
     map &here = get_map();
-    if( !here.has_zlevels() || ( is_flying && is_rotorcraft() ) ) {
+    if( is_flying && is_rotorcraft() ) {
         return true;
     }
     // make sure that all parts are either supported across levels or on the same level
@@ -1657,8 +1656,7 @@ void vehicle::check_falling_or_floating()
         return;
     }
 
-    is_falling = g->m.has_zlevels();
-
+    is_falling = true;
     if( is_flying && is_rotorcraft() ) {
         is_falling = false;
     } else {

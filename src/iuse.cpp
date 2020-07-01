@@ -9638,10 +9638,6 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
 
 int iuse::ladder( player *p, item *, bool, const tripoint & )
 {
-    if( !g->m.has_zlevels() ) {
-        debugmsg( "Ladder can't be used in non-z-level mode" );
-        return 0;
-    }
     if( p->is_mounted() ) {
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;

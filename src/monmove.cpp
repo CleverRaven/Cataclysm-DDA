@@ -839,11 +839,6 @@ void monster::move()
         }
     }
 
-    if( !g->m.has_zlevels() ) {
-        // Otherwise weird things happen
-        destination.z = posz();
-    }
-
     point new_d( destination.xy() - pos().xy() );
 
     // toggle facing direction for sdl flip
@@ -1825,11 +1820,9 @@ void monster::stumble()
         }
     }
 
-    if( g->m.has_zlevels() ) {
-        tripoint below( posx(), posy(), posz() - 1 );
-        if( g->m.valid_move( pos(), below, false, true ) ) {
-            valid_stumbles.push_back( below );
-        }
+    tripoint below( posx(), posy(), posz() - 1 );
+    if( g->m.valid_move( pos(), below, false, true ) ) {
+        valid_stumbles.push_back( below );
     }
     while( !valid_stumbles.empty() && !is_dead() ) {
         const tripoint dest = random_entry_removed( valid_stumbles );

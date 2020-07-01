@@ -4402,11 +4402,6 @@ void iexamine::ledge( player &p, const tripoint &examp )
             break;
         }
         case 2: {
-            if( !here.has_zlevels() ) {
-                // No climbing down in 2D mode
-                return;
-            }
-
             if( !here.valid_move( p.pos(), examp, false, true ) ) {
                 // Covered with something
                 return;

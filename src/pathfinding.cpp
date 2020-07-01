@@ -119,10 +119,6 @@ struct pathfinder {
 template<ter_bitflags flag>
 bool vertical_move_destination( const map &m, tripoint &t )
 {
-    if( !m.has_zlevels() ) {
-        return false;
-    }
-
     constexpr point omtilesz( SEEX * 2, SEEY * 2 );
     real_coords rc( m.getabs( t.xy() ) );
     const point omtile_align_start(
@@ -392,7 +388,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                     const auto &trp = ter_trp.is_benign() ? tile.get_trap_t() : ter_trp;
                     if( !trp.is_benign() ) {
                         // For now make them detect all traps
-                        if( has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR ) ) {
+                        if( terrain.has_flag( TFLAG_NO_FLOOR ) ) {
                             // Special case - ledge in z-levels
                             // Warning: really expensive, needs a cache
                             if( valid_move( p, tripoint( p.xy(), p.z - 1 ), false, true ) ) {
@@ -430,7 +426,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             }
         }
 
-        if( !has_zlevels() || !( cur_special & PF_UPDOWN ) || !settings.allow_climb_stairs ) {
+        if( !( cur_special & PF_UPDOWN ) || !settings.allow_climb_stairs ) {
             // The part below is only for z-level pathing
             continue;
         }

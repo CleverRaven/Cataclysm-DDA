@@ -211,20 +211,6 @@ void map::build_sunlight_cache( int zlev )
     // TODO: if zlev < 0 is open to sunlight, this won't calculate correct light, but neither does g->natural_light_level()
     const float inside_light_level = ( zlev >= 0 && outside_light_level > LIGHT_SOURCE_BRIGHT ) ?
                                      LIGHT_AMBIENT_DIM * 0.8 : LIGHT_AMBIENT_LOW;
-    // Handling when z-levels are disabled is based on whether a tile is considered "outside".
-    if( !zlevels ) {
-        const auto &outside_cache = map_cache.outside_cache;
-        for( int x = 0; x < MAPSIZE_X; x++ ) {
-            for( int y = 0; y < MAPSIZE_Y; y++ ) {
-                if( outside_cache[x][y] ) {
-                    lm[x][y].fill( outside_light_level );
-                } else {
-                    lm[x][y].fill( inside_light_level );
-                }
-            }
-        }
-        return;
-    }
     // If uppermost level, just apply weather illumination since there's no opportunity
     // for light to be blocked.
     if( zlev == std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT ) ) {
@@ -308,13 +294,12 @@ void map::generate_lightmap( const int zlev )
     };
 
     const float natural_light = g->natural_light_level( zlev );
-    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
     // Start at the topmost populated zlevel to avoid unnecessary raycasting
     // Plus one zlevel to prevent clipping inside structures
-    const int maxz = zlevels ? std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT ) : zlev;
+    const int maxz = std::min( map_cache.max_populated_zlev + 1, OVERMAP_HEIGHT );
 
     // Iterate top to bottom because sunlight cache needs to construct in that order.
-    for( int z = maxz; z >= minz; z-- ) {
+    for( int z = maxz; z >= -OVERMAP_DEPTH; z-- ) {
         build_sunlight_cache( z );
     }
     apply_character_light( g->u );

@@ -208,7 +208,6 @@ static void full_map_test( const std::vector<std::string> &setup,
         floor_above << '\n';
     }
 
-    INFO( "zlevels: " << g->m.has_zlevels() );
     INFO( "origin: " << origin );
     INFO( "player: " << g->u.pos() );
     INFO( "unimpaired_range: " << g->u.unimpaired_range() );

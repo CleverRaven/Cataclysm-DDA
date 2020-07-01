@@ -1077,8 +1077,7 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_player( int radiu
     // get_npcs_near needs submap coordinates
     omt_to_sm( plpos.x, plpos.y );
     // INT_MIN is a (a bit ugly) way to inform get_npcs_near not to filter by z-level
-    const int zpos = get_map().has_zlevels() ? INT_MIN : plpos.z;
-    return get_npcs_near( tripoint( plpos.xy(), zpos ), radius );
+    return get_npcs_near( tripoint( plpos.xy(), INT_MIN ), radius );
 }
 
 std::vector<overmap *> overmapbuffer::get_overmaps_near( const tripoint &location,
