@@ -1878,10 +1878,11 @@
     "material_thickness": 2,
     "pocket_data": [
       {
-        "pocket_type": "CONTAINER",
+        "holster": true,
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
         "moves": 3,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       }
