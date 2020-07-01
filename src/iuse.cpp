@@ -9755,12 +9755,12 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
                 ( hard_items && !location->is_soft() ) );
     } );
     auto make_raw_stats = [available_water, available_cleanser](
-                              const std::map<const item *, int> &items
+                              const std::map<const item_location *, int> &locs
     ) {
         units::volume total_volume = 0_ml;
-        for( const auto &p : items ) {
-            total_volume += p.first->volume() * p.second /
-                            ( p.first->count_by_charges() ? p.first->charges : 1 );
+        for( const auto &p : locs ) {
+            total_volume += ( *p.first )->volume() * p.second /
+                            ( ( *p.first )->count_by_charges() ? ( *p.first )->charges : 1 );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
         auto to_string = []( int val ) -> std::string {
@@ -9789,7 +9789,6 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     if( to_clean.empty() ) {
         return 0;
     }
-
     // Determine if we have enough water and cleanser for all the items.
     units::volume total_volume = 0_ml;
     for( drop_location pair : to_clean ) {
@@ -9823,7 +9822,6 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     }
     // Assign the activity values.
     p->assign_activity( ACT_WASH, required.time );
-
     for( const drop_location &pair : to_clean ) {
         p->activity.targets.push_back( pair.first );
         p->activity.values.push_back( pair.second );

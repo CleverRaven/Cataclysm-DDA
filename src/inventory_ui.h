@@ -734,7 +734,7 @@ class inventory_compare_selector : public inventory_multiselector
 class inventory_iuse_selector : public inventory_multiselector
 {
     public:
-        using GetStats = std::function<stats( const std::map<const item *, int> & )>;
+        using GetStats = std::function<stats( const std::map<const item_location *, int> & )>;
         inventory_iuse_selector( player &p,
                                  const std::string &selector_title,
                                  const inventory_selector_preset &preset = default_preset,
@@ -747,7 +747,7 @@ class inventory_iuse_selector : public inventory_multiselector
 
     private:
         GetStats get_stats;
-        std::map<const item *, int> to_use;
+        std::map<const item_location *, int> to_use;
         size_t max_chosen_count;
 };
 
@@ -769,4 +769,6 @@ class inventory_drop_selector : public inventory_multiselector
         std::vector<std::pair<item_location, int>> dropping;
         size_t max_chosen_count;
 };
+
+
 #endif // CATA_SRC_INVENTORY_UI_H
