@@ -75,7 +75,7 @@
     "category": "other",
     "description": "A broken forge born, with all orichalcum you would possibly ever need.  Could be smashed for orichalcum.",
     "price": 100000,
-    "material": [ "orichalcum" ],
+    "material": [ "orichalcum_metal" ],
     "weight": "945 kg",
     "volume": "120 L",
     "bashing": 30,

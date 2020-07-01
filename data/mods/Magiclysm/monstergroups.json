@@ -139,7 +139,7 @@
       { "monster": "mon_forgemaster1", "freq": 3, "cost_multiplier": 10 },
       { "monster": "mon_forgemaster2", "freq": 3, "cost_multiplier": 10 },
       { "monster": "mon_forgemaster3", "freq": 3, "cost_multiplier": 10 },
-      { "monster": "mon_forgedwarves", "freq": 3, "cost_multiplier": 10, "conditions": [ "DAY" ] }
+      { "monster": "mon_forgedwarves", "freq": 3, "cost_multiplier": 10 }
     ]
   },
   {

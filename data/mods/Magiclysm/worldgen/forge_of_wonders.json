@@ -60,10 +60,10 @@
       ],
       "palettes": [ "wonder_forge_palette" ],
       "place_monsters": [
-        { "monster": "GROUP_FISH", "x": [ 77, 82 ], "y": [ 32, 42 ], "density": 0.1, "repeat": [ 1, 3 ] },
-        { "monster": "GROUP_FORGE_STANDARD", "x": [ 24, 47 ], "y": [ 8, 23 ], "density": 0.1, "repeat": [ 1, 3 ] },
-        { "monster": "GROUP_FORGE_STANDARD", "x": [ 48, 71 ], "y": [ 24, 46 ], "density": 0.1, "repeat": [ 1, 3 ] },
-        { "monster": "GROUP_FORGEDEMONS", "x": [ 68, 90 ], "y": [ 8, 16 ], "density": 0.1, "repeat": [ 1, 3 ] }
+        { "monster": "GROUP_FISH", "x": [ 77, 82 ], "y": [ 32, 42 ], "density": 0.3, "repeat": [ 1, 3 ] },
+        { "monster": "GROUP_FORGE_STANDARD", "x": [ 24, 47 ], "y": [ 8, 23 ], "density": 0.5, "repeat": [ 1, 3 ] },
+        { "monster": "GROUP_FORGE_STANDARD", "x": [ 48, 71 ], "y": [ 24, 46 ], "density": 0.5, "repeat": [ 1, 3 ] },
+        { "monster": "GROUP_FORGEDEMONS", "x": [ 80, 90 ], "y": [ 8, 16 ], "density": 0.1, "repeat": [ 1, 3 ] }
       ]
     }
   },
