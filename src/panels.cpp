@@ -1541,11 +1541,6 @@ static void draw_wind_padding( avatar &u, const catacurses::window &w )
 
 static void draw_health_classic( avatar &u, const catacurses::window &w )
 {
-    static std::array<bodypart_id, 6> part = { {
-            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
-        }
-    };
-
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
         veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
