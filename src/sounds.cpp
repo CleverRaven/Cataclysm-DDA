@@ -1066,9 +1066,10 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
 {
     // This is function is run in the main thread.
     const int heard_volume = get_heard_volume( source );
-    const player *p = g->critter_at<npc>( source );
-    if( !p ) {
-        p = &g->u;
+    npc *np = g->critter_at<npc>( source );
+    const player &p = np ? static_cast<player &>( *np ) :
+                      dynamic_cast<player &>( get_player_character() );
+    if( !p.is_npc() ) {
         // sound comes from the same place as the player is, calculation of angle wouldn't work
         ang_src = 0;
         vol_src = heard_volume;
@@ -1079,8 +1080,8 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
         vol_targ = std::max( heard_volume - 20, 0 );
     }
     ang_targ = get_heard_angle( target );
-    weapon_skill = p->weapon.melee_skill();
-    weapon_volume = p->weapon.volume() / units::legacy_volume_factor;
+    weapon_skill = p.weapon.melee_skill();
+    weapon_volume = p.weapon.volume() / units::legacy_volume_factor;
 }
 
 // Operator overload required for thread API.
