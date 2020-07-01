@@ -26,51 +26,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_gas_tank",
-    "name": "fuel tank",
-    "description": "A tank filled with gasoline.",
-    "looks_like": "f_standing_tank",
-    "symbol": "Q",
-    "color": "brown_red",
-    "move_cost": 0,
-    "coverage": 50,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
-    "bash": {
-      "str_min": 40,
-      "str_max": 100,
-      "explosive": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_gas_tank_smashed"
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_gas_tank_smashed",
-    "name": "broken fuel tank",
-    "description": "A broken tank which was filled with gasoline.",
-    "looks_like": "f_wreckage",
-    "symbol": "Q",
-    "color": "light_red",
-    "move_cost": 0,
-    "coverage": 50,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT" ],
-    "bash": {
-      "str_min": 40,
-      "str_max": 100,
-      "explosive": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_pavement",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_gas_pump",
     "name": "gasoline pump",
     "looks_like": "t_machinery_heavy",
@@ -124,51 +79,6 @@
       "ter_set": "t_pavement",
       "items": [
         { "item": "steel_lump", "prob": 50 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_diesel_tank",
-    "name": "fuel tank",
-    "description": "A tank filled with diesel.",
-    "looks_like": "f_standing_tank",
-    "symbol": "Q",
-    "color": "brown_green",
-    "move_cost": 0,
-    "coverage": 50,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
-    "bash": {
-      "str_min": 40,
-      "str_max": 100,
-      "explosive": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_diesel_tank_smashed"
-    }
-  },
-  {
-    "type": "terrain",
-    "id": "t_diesel_tank_smashed",
-    "name": "broken fuel tank",
-    "description": "A broken tank which was filled with diesel.",
-    "looks_like": "f_wreckage",
-    "symbol": "Q",
-    "color": "light_green",
-    "move_cost": 0,
-    "coverage": 50,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT" ],
-    "bash": {
-      "str_min": 40,
-      "str_max": 100,
-      "explosive": 40,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_pavement",
-      "items": [
-        { "item": "steel_lump", "count": [ 1, 4 ] },
         { "item": "steel_chunk", "count": [ 1, 4 ] },
         { "item": "scrap", "count": [ 3, 7 ] }
       ]

@@ -248,7 +248,7 @@
         "************************"
       ],
       "palettes": [ "airport_palette" ],
-      "place_terrain": [ { "ter": "t_gas_tank", "x": 13, "y": 4 } ],
+      "place_furniture": [ { "furn": "f_gas_tank", "x": 13, "y": 4 } ],
       "place_liquids": [ { "liquid": "avgas", "x": 13, "y": 4, "repeat": [ 100, 500 ] } ],
       "gaspumps": { "J": {  } },
       "place_monsters": [ { "monster": "GROUP_SMALL_STATION", "x": [ 4, 23 ], "y": [ 5, 23 ], "density": 0.05 } ],

@@ -1231,5 +1231,51 @@
       "install": { "skills": [ [ "mechanics", 5 ], [ "electronics", 5 ] ] },
       "removal": { "skills": [ [ "mechanics", 3 ] ] }
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_gas_tank",
+    "name": "fuel tank",
+    "description": "A tank filled with gasoline.",
+    "looks_like": "f_gas_tank",
+    "symbol": "Q",
+    "color": "brown_red",
+    "move_cost": 0,
+    "coverage": 50
+  },
+  {
+    "type": "terrain",
+    "id": "t_gas_tank_smashed",
+    "name": "broken fuel tank",
+    "description": "A broken tank which was filled with gasoline.",
+    "looks_like": "f_gas_tank_smashed",
+    "symbol": "Q",
+    "color": "light_red",
+    "move_cost": 0,
+    "coverage": 50
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_diesel_tank",
+    "name": "fuel tank",
+    "description": "A tank filled with diesel.",
+    "looks_like": "f_diesel_tank",
+    "symbol": "Q",
+    "color": "brown_red",
+    "move_cost": 0,
+    "coverage": 50
+  },
+  {
+    "type": "terrain",
+    "id": "t_diesel_tank_smashed",
+    "name": "broken diesel tank",
+    "description": "A broken tank which was filled with diesel.",
+    "looks_like": "f_diesel_tank_smashed",
+    "symbol": "Q",
+    "color": "light_red",
+    "move_cost": 0,
+    "coverage": 50
+    }
   }
 ]
