@@ -247,6 +247,18 @@ struct action_attributes {
 #define JOY_LEFTUP      (256 + 7)
 #define JOY_LEFTDOWN    (256 + 8)
 
+enum class keyboard_mode {
+    // Accept character input and text input. Input in this mode
+    // may be manipulated by the system via IMEs or dead keys.
+    keychar,
+    // Accept raw key code input. Text input is not available in this
+    // mode. All keyboard events are directly fed to the program
+    // in this mode, bypassing IMEs and dead keys. Only supported on
+    // some platforms, such as non-android SDL. On other platforms
+    // this falls back to `keychar` automatically.
+    keycode,
+};
+
 /**
  * Manages the translation from action IDs to associated input.
  *
@@ -442,8 +454,11 @@ class input_context
         }
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
-        input_context( const std::string &category ) : registered_any_input( false ),
-            category( category ), coordinate_input_received( false ), handling_coordinate_input( false ) {
+        input_context( const std::string &category,
+                       const keyboard_mode preferred_keyboard_mode = keyboard_mode::keychar )
+            : registered_any_input( false ), category( category ),
+              coordinate_input_received( false ), handling_coordinate_input( false ),
+              preferred_keyboard_mode( preferred_keyboard_mode ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
@@ -744,6 +759,7 @@ class input_context
         input_event next_action;
         bool iso_mode = false; // should this context follow the game's isometric settings?
         int timeout = -1;
+        keyboard_mode preferred_keyboard_mode = keyboard_mode::keychar;
 
         /**
          * When registering for actions within an input_context, callers can
@@ -752,6 +768,8 @@ class input_context
          * value is the user-visible name.
          */
         std::map<std::string, translation> action_name_overrides;
+
+        bool is_event_type_enabled( input_event_t type ) const;
 
         /**
          * Returns whether action uses the specified input

@@ -79,6 +79,15 @@ bool is_mouse_enabled()
 #endif
 }
 
+static bool is_keycode_mode_supported()
+{
+#if defined(TILES) and !defined(__ANDROID__)
+    return true;
+#else
+    return false;
+#endif
+}
+
 //helper function for those have problem inputting certain characters.
 std::string get_input_string_from_file( const std::string &fname )
 {
@@ -926,10 +935,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     for( auto &events_i : events ) {
         const input_event &event = events_i;
 
-        if( evt_filter( event ) &&
-            // Only display gamepad buttons if a gamepad is available.
-            ( gamepad_available() || event.type != input_event_t::gamepad ) ) {
-
+        if( is_event_type_enabled( event.type ) && evt_filter( event ) ) {
             inputs_to_show.push_back( event );
         }
 
@@ -978,10 +984,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 
     bool na = true;
     for( const auto &evt : events ) {
-        if( evt_filter( evt ) &&
-            // Only display gamepad buttons if a gamepad is available.
-            ( gamepad_available() || evt.type != input_event_t::gamepad ) ) {
-
+        if( is_event_type_enabled( evt.type ) && evt_filter( evt ) ) {
             na = false;
             if( ( evt.type == input_event_t::keyboard_char || evt.type == input_event_t::keyboard_code ) &&
                 evt.modifiers.empty() && evt.sequence.size() == 1 ) {
@@ -1603,8 +1606,10 @@ std::string input_context::press_x( const std::string &action_id, const std::str
     if( action_id == "COORDINATE" ) {
         return _( "mouse movement" );
     }
-    const input_manager::t_input_event_list &events = inp_mngr.get_input_for_action( action_id,
-            category );
+    input_manager::t_input_event_list events = inp_mngr.get_input_for_action( action_id, category );
+    events.erase( std::remove_if( events.begin(), events.end(), [this]( const input_event & evt ) {
+        return !is_event_type_enabled( evt.type );
+    } ), events.end() );
     if( events.empty() ) {
         return key_unbound;
     }
@@ -1664,4 +1669,23 @@ void input_context::set_timeout( int val )
 void input_context::reset_timeout()
 {
     timeout = -1;
+}
+
+bool input_context::is_event_type_enabled( const input_event_t type ) const
+{
+    switch( type ) {
+        case input_event_t::error:
+            return false;
+        case input_event_t::timeout:
+            return true;
+        case input_event_t::keyboard_char:
+            return preferred_keyboard_mode == keyboard_mode::keychar || !is_keycode_mode_supported();
+        case input_event_t::keyboard_code:
+            return preferred_keyboard_mode == keyboard_mode::keycode && is_keycode_mode_supported();
+        case input_event_t::gamepad:
+            return gamepad_available();
+        case input_event_t::mouse:
+            return true;
+    }
+    return true;
 }
