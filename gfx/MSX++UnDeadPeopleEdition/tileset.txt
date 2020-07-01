@@ -1,0 +1,4 @@
+NAME: UNDEAD_PEOPLE
+VIEW: UNDEAD_PEOPLE
+JSON: tile_config.json
+TILESET: tiles.png
