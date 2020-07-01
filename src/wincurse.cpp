@@ -663,7 +663,9 @@ static uint64_t GetPerfCount()
     return Count;
 }
 
-input_event input_manager::get_input_event()
+// we can probably add support for keycode mode, but wincurse is deprecated
+// so we just ignore the mode argument.
+input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
 {
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch

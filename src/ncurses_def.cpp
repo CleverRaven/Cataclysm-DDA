@@ -247,7 +247,9 @@ void catacurses::init_interface()
     init_colors();
 }
 
-input_event input_manager::get_input_event()
+// there isn't a portable way to get raw key code on curses,
+// ignoring preferred keyboard mode
+input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
 {
     int key = ERR;
     input_event rval;

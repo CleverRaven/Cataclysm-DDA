@@ -1762,6 +1762,23 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
     }
 }
 
+static input_event sdl_keysym_to_keycode_evt( const SDL_Keysym &keysym )
+{
+    input_event evt;
+    evt.type = input_event_t::keyboard_code;
+    if( keysym.mod & KMOD_CTRL ) {
+        evt.modifiers.emplace( keymod_t::ctrl );
+    }
+    if( keysym.mod & KMOD_ALT ) {
+        evt.modifiers.emplace( keymod_t::alt );
+    }
+    if( keysym.mod & KMOD_SHIFT ) {
+        evt.modifiers.emplace( keymod_t::shift );
+    }
+    evt.sequence.emplace_back( keysym.sym );
+    return evt;
+}
+
 bool handle_resize( int w, int h )
 {
     if( ( w != WindowWidth ) || ( h != WindowHeight ) ) {
@@ -2924,35 +2941,45 @@ static void CheckMessages()
                 if( get_option<std::string>( "HIDE_CURSOR" ) != "show" && SDL_ShowCursor( -1 ) ) {
                     SDL_ShowCursor( SDL_DISABLE );
                 }
-                const int lc = sdl_keysym_to_curses( ev.key.keysym );
-                if( lc <= 0 ) {
-                    // a key we don't know in curses and won't handle.
-                    break;
-                } else if( add_alt_code( lc ) ) {
-                    // key was handled
-                } else {
-                    last_input = input_event( lc, input_event_t::keyboard_char );
+                keyboard_mode mode = keyboard_mode::keychar;
+#if !defined( __ANDROID__ )
+                if( !SDL_IsTextInputActive() ) {
+                    mode = keyboard_mode::keycode;
+                }
+#endif
+                if( mode == keyboard_mode::keychar ) {
+                    const int lc = sdl_keysym_to_curses( ev.key.keysym );
+                    if( lc <= 0 ) {
+                        // a key we don't know in curses and won't handle.
+                        break;
+                    } else if( add_alt_code( lc ) ) {
+                        // key was handled
+                    } else {
+                        last_input = input_event( lc, input_event_t::keyboard_char );
 #if defined(__ANDROID__)
-                    if( !android_is_hardware_keyboard_available() ) {
-                        if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
-                            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                SDL_StopTextInput();
-                            }
+                        if( !android_is_hardware_keyboard_available() ) {
+                            if( !is_string_input( touch_input_context ) && !touch_input_context.allow_text_entry ) {
+                                if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                                    SDL_StopTextInput();
+                                }
 
-                            // add a quick shortcut
-                            if( !last_input.text.empty() ||
-                                !inp_mngr.get_keyname( lc, input_event_t::keyboard_char ).empty() ) {
-                                qsl.remove( last_input );
-                                add_quick_shortcut( qsl, last_input, false, true );
-                                refresh_display();
-                            }
-                        } else if( lc == '\n' || lc == KEY_ESCAPE ) {
-                            if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
-                                SDL_StopTextInput();
+                                // add a quick shortcut
+                                if( !last_input.text.empty() ||
+                                    !inp_mngr.get_keyname( lc, input_event_t::keyboard_char ).empty() ) {
+                                    qsl.remove( last_input );
+                                    add_quick_shortcut( qsl, last_input, false, true );
+                                    refresh_display();
+                                }
+                            } else if( lc == '\n' || lc == KEY_ESCAPE ) {
+                                if( get_option<bool>( "ANDROID_AUTO_KEYBOARD" ) ) {
+                                    SDL_StopTextInput();
+                                }
                             }
                         }
-                    }
 #endif
+                    }
+                } else {
+                    last_input = sdl_keysym_to_keycode_evt( ev.key.keysym );
                 }
             }
             break;
@@ -2971,13 +2998,23 @@ static void CheckMessages()
                     ac_back_down_time = 0;
                 }
 #endif
+                keyboard_mode mode = keyboard_mode::keychar;
+#if !defined( __ANDROID__ )
+                if( !SDL_IsTextInputActive() ) {
+                    mode = keyboard_mode::keycode;
+                }
+#endif
                 is_repeat = ev.key.repeat;
-                if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
-                    int code = end_alt_code();
-                    if( code ) {
-                        last_input = input_event( code, input_event_t::keyboard_char );
-                        last_input.text = utf32_to_utf8( code );
+                if( mode == keyboard_mode::keychar ) {
+                    if( ev.key.keysym.sym == SDLK_LALT || ev.key.keysym.sym == SDLK_RALT ) {
+                        int code = end_alt_code();
+                        if( code ) {
+                            last_input = input_event( code, input_event_t::keyboard_char );
+                            last_input.text = utf32_to_utf8( code );
+                        }
                     }
+                } else if( is_repeat ) {
+                    last_input = sdl_keysym_to_keycode_evt( ev.key.keysym );
                 }
             }
             break;
@@ -3670,8 +3707,19 @@ void input_manager::set_timeout( const int t )
 
 // This is how we're actually going to handle input events, SDL getch
 // is simply a wrapper around this.
-input_event input_manager::get_input_event()
+input_event input_manager::get_input_event( const keyboard_mode preferred_keyboard_mode )
 {
+#if !defined( __ANDROID__ )
+    if( preferred_keyboard_mode == keyboard_mode::keychar ) {
+        SDL_StartTextInput();
+    } else {
+        SDL_StopTextInput();
+    }
+#else
+    // TODO: support keycode mode if hardware keyboard is connected?
+    ( void ) preferred_keyboard_mode;
+#endif
+
     previously_pressed_key = 0;
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch

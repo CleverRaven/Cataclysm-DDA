@@ -326,13 +326,13 @@ class input_manager
          *
          * Defined in the respective platform wrapper, e.g. sdlcurse.cpp
          */
-        input_event get_input_event();
+        input_event get_input_event( keyboard_mode preferred_keyboard_mode = keyboard_mode::keychar );
 
         /**
          * Wait until the user presses a key. Mouse and similar input is ignored,
          * only input events from the keyboard are considered.
          */
-        void wait_for_any_key();
+        void wait_for_any_key( keyboard_mode preferred_keyboard_mode = keyboard_mode::keychar );
 
         /**
          * Sets global input polling timeout as appropriate for the current interface system.

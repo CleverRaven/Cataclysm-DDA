@@ -1030,7 +1030,7 @@ const std::string &input_context::handle_input( const int timeout )
     next_action.type = input_event_t::error;
     const std::string *result = &CATA_ERROR;
     while( true ) {
-        next_action = inp_mngr.get_input_event();
+        next_action = inp_mngr.get_input_event( preferred_keyboard_mode );
         if( next_action.type == input_event_t::timeout ) {
             result = &TIMEOUT;
             break;
@@ -1469,13 +1469,13 @@ int input_manager::get_previously_pressed_key() const
     return previously_pressed_key;
 }
 
-void input_manager::wait_for_any_key()
+void input_manager::wait_for_any_key( const keyboard_mode preferred_keyboard_mode )
 {
 #if defined(__ANDROID__)
     input_context ctxt( "WAIT_FOR_ANY_KEY" );
 #endif
     while( true ) {
-        const input_event evt = inp_mngr.get_input_event();
+        const input_event evt = inp_mngr.get_input_event( preferred_keyboard_mode );
         switch( evt.type ) {
             case input_event_t::keyboard_char:
                 if( !evt.sequence.empty() ) {
