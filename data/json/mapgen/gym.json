@@ -18,12 +18,12 @@
         "..|55555|      |55555|..",
         "..|                  |..",
         "..| ! ! c      c @ @ |..",
-        "..|     c      c     |..",
-        "..| ! ! c      c @ @ |..",
-        "..|     c      c     |..",
+        "..|                  |..",
         "..| ! ! c      c @ @ |..",
         "..|                  |..",
-        "..|+|    VVVVVV    |+|..",
+        "..|K    V      V   K |..",
+        "..|                  |..",
+        "..|+|    x    x    |+|..",
         "..|&|  B        B  |&|..",
         "..|--+------+--|--+--|..",
         "..|cc cc||cc cc|*= =*|..",
@@ -48,6 +48,8 @@
       },
       "furniture": {
         "!": "f_ergometer",
+        "x": "f_dumbbell_rack",
+        "K": "f_plate_rack",
         "#": "f_counter",
         "*": "f_shower",
         "@": "f_treadmill",
@@ -63,6 +65,8 @@
       "toilets": { "&": {  } },
       "items": {
         "O": { "item": "gym", "chance": 30 },
+        "x": { "item": "gym_dumbbell_rack", "chance": 100, "repeat": [ 1, 6 ] },
+        "K": { "item": "gym_plate_rack", "chance": 100, "repeat": [ 1, 6 ] },
         "c": { "item": "gym", "chance": 10 },
         "f": { "item": "vending_drink_items", "chance": 30, "repeat": [ 2, 4 ] },
         "r": { "item": "snacks", "chance": 20, "repeat": [ 2, 4 ] }
@@ -149,9 +153,9 @@
         ".||      ||||:|*|*|*|T|.",
         ".|{ V V  |::::|||||||||.",
         ".|{      |:~~::::::::|4.",
-        ".|{ V V  5:~~~~~~~~~:|..",
+        ".|{ K K  5:~~~~~~~~~:|..",
         ".|{      =:~~~~~~~~~:|..",
-        ".|{ V V  5:~~~~~~~~~:5..",
+        ".|{ x x  5:~~~~~~~~~:5..",
         ".|||||||||:~~~~~~~~~:5..",
         ".........|:~~~~~~~~~:|..",
         ".........|:::::::::::|..",
@@ -184,6 +188,8 @@
         "*": "f_shower",
         "@": "f_treadmill",
         "O": "f_locker",
+        "x": "f_dumbbell_rack",
+        "K": "f_plate_rack",
         "V": "f_exercise",
         "C": "f_bench",
         "c": "f_bench",
@@ -192,7 +198,12 @@
       },
       "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 12, 19 ], "y": [ 18, 21 ] } ],
       "toilets": { "T": {  } },
-      "items": { "O": { "item": "gym", "chance": 80 }, "H": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] } }
+      "items": {
+        "O": { "item": "gym", "chance": 80 },
+        "H": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] },
+        "x": { "item": "gym_dumbbell_rack", "chance": 100 },
+        "K": { "item": "gym_plate_rack", "chance": 100, "repeat": [ 1, 6 ] }
+      }
     }
   },
   {

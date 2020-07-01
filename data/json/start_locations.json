@@ -415,6 +415,12 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_gym",
+    "name": "Gym",
+    "terrain": [ "gym_fitness", "gym_fitness_1" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_lighthouse_ground",
     "name": "Lighthouse Island",
     "terrain": [ "lighthouse_ground" ]

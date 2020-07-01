@@ -1838,6 +1838,16 @@
     ]
   },
   {
+    "id": "gym_dumbbell_rack",
+    "type": "item_group",
+    "items": [ [ "dumbbell_1lb", 100 ], [ "dumbbell_5lb", 100 ], [ "dumbbell_10lb", 100 ], [ "dumbbell_20lb", 100 ] ]
+  },
+  {
+    "id": "gym_plate_rack",
+    "type": "item_group",
+    "items": [ [ "plate_2_5lb", 100 ], [ "plate_5lb", 100 ], [ "plate_10lb", 100 ], [ "plate_25lb", 100 ], [ "plate_45lb", 100 ] ]
+  },
+  {
     "id": "hotel_coffee_bar",
     "type": "item_group",
     "subtype": "collection",
