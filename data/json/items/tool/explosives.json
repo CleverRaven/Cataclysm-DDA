@@ -1104,7 +1104,7 @@
     "max_charges": 1,
     "turns_per_charge": 1,
     "use_action": [ "MOLOTOV_LIT" ],
-    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH" ]
+    "flags": [ "LIGHT_15", "TRADER_AVOID", "NPC_THROW_NOW", "NO_REPAIR", "WATER_EXTINGUISH", "ACT_ON_RANGED_HIT" ]
   },
   {
     "id": "bootleg_pipebomb",
