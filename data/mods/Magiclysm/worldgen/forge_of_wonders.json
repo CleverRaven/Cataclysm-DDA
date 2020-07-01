@@ -104,6 +104,9 @@
       "Z": "f_magic_bench",
       "!": "f_anvil"
     },
+    "place_npcs": [
+      { "class": "forge_lord_merchant", "x": 79, "y": 10 }
+    ],
     "items": {
       "!": { "item": "magic_smith", "chance": 40, "repeat": [ 1, 2 ] },
       "$": { "item": "forge_vault_items", "chance": 10, "repeat": [ 1, 2 ] }
