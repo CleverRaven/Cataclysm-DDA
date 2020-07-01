@@ -79,6 +79,44 @@
     }
   },
   {
+    "type": "terrain",
+    "id": "f_generator_broken",
+    "name": "broken generator",
+    "description": "This generator is broken and will not help you produce usable electricity.",
+    "symbol": "&",
+    "color": "light_gray",
+    "looks_like": "f_machinery_old",
+    "move_cost_mod": -1,
+    "coverage": 30,
+    "required_str": 16,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE", "BLOCKS_DOOR" ],
+    "bash": {
+      "str_min": 20,
+      "str_max": 150,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "steel_lump", "prob": 50 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] },
+        { "item": "pipe", "count": [ 0, 1 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "cable", "charges": [ 1, 2 ] },
+        { "item": "steel_chunk", "count": [ 1, 2 ] },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "motor_small", "count": [ 0, 1 ] },
+        { "item": "jerrycan", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 1 ] },
+        { "item": "pipe_fittings", "count": [ 0, 1 ] },
+        { "item": "frame", "count": [ 0, 1 ] }
+      ]
+    }
+  },
+  {
     "type": "furniture",
     "id": "f_robotic_arm",
     "name": "robotic arm",

@@ -526,10 +526,9 @@
         "_": "t_thconc_floor",
         "+": "t_door_metal_c",
         "D": "t_chaingate_l",
-        "%": "t_chainfence",
-        "H": "t_generator_broken"
+        "%": "t_chainfence"
       },
-      "furniture": { "Y": "f_standing_tank", "6": "f_water_heater", "7": "f_roof_turbine_vent" },
+      "furniture": { "Y": "f_standing_tank", "H": "f_generator_broken", "6": "f_water_heater", "7": "f_roof_turbine_vent" },
       "liquids": { "6": { "liquid": "water_clean", "amount": [ 0, 100 ] }, "Y": { "liquid": "water_clean", "amount": [ 100, 1000 ] } },
       "place_monsters": [
         { "monster": "GROUP_ROOF_ZOMBIE", "x": [ 7, 23 ], "y": [ 0, 22 ], "repeat": 2 },

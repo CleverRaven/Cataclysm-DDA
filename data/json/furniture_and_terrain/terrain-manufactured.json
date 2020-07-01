@@ -234,30 +234,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_generator_broken",
-    "name": "broken generator",
-    "description": "This generator is broken and will not help you produce usable electricity.",
-    "symbol": "&",
-    "color": "light_gray",
-    "looks_like": "t_machinery_old",
-    "move_cost": 0,
-    "coverage": 30,
-    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT", "MOUNTABLE", "PERMEABLE" ],
-    "bash": {
-      "str_min": 20,
-      "str_max": 150,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "ter_set": "t_pavement",
-      "items": [
-        { "item": "steel_lump", "prob": 50 },
-        { "item": "steel_chunk", "count": [ 1, 4 ] },
-        { "item": "scrap", "count": [ 3, 7 ] }
-      ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_missile",
     "name": "missile",
     "description": "This is a section of an ICBM, an Intercontinental Ballistic Missile.  This isn't the kind of rocket that goes to the moon.",

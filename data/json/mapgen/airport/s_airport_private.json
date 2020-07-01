@@ -69,9 +69,10 @@
         "f": "t_thconc_floor",
         "=": "t_door_metal_locked",
         "&": "t_gates_control_metal",
-        "4": "t_generator_broken"
+        "4": "t_region_groundcover_urban"
       },
       "furniture": {
+        "4": "f_generator_broken",
         "q": "f_dumpster",
         "f": "f_locker",
         "g": "f_crate_o",

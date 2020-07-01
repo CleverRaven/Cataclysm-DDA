@@ -3,8 +3,8 @@
     "type": "palette",
     "id": "sewage_treatment_palette",
     "terrain": {
-      " ": [ "t_dirt", "t_grass" ],
-      "?": "t_shrub",
+      " ": "t_region_groundcover",
+      "?": "t_region_shrub",
       ")": "t_water_pool_shallow",
       ".": "t_pavement",
       "_": "t_sidewalk",
@@ -30,7 +30,6 @@
       "b": "t_door_metal_pickable",
       "e": "t_door_metal_locked",
       "D": "t_door_glass_c",
-      "6": "t_console_broken",
       "+": "t_door_c",
       ",": "t_floor",
       "M": "t_metal_floor",
@@ -42,12 +41,17 @@
       "R": "t_thconc_floor",
       "J": "t_current_trans",
       "U": "t_sai_box",
-      "G": "t_generator_broken",
       "F": "t_potential_trans",
       "7": "t_metal_floor",
       "4": "t_metal_floor",
       "g": "t_metal_floor",
-      "Y": "t_switchgear_s"
+      "Y": "t_switchgear_s",
+      "G": "t_thconc_floor",
+      "6": "t_thconc_floor"
+    },
+    "furniture": {
+      "G": "f_generator_broken",
+      "6": "f_console_broken"
     }
   },
   {
@@ -86,7 +90,6 @@
       "H": "t_sconc_wall",
       "2": "t_sewage_pipe",
       "U": "t_sai_box",
-      "G": "t_generator_broken",
       "Y": "t_switchgear_s",
       "&": "t_sewage_pump",
       "-": "t_wall_glass",
@@ -98,7 +101,12 @@
       "@": "t_machinery_heavy",
       "v": "t_machinery_old",
       "+": "t_door_c",
-      "6": "t_console_broken"
+      "G": "t_thconc_floor",
+      "6": "t_thconc_floor"
+    },
+    "furniture": {
+      "G": "f_generator_broken",
+      "6": "f_console_broken"
     }
   },
   {

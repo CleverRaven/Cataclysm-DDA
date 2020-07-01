@@ -15,8 +15,6 @@
       ";": "t_door_metal_locked",
       ".": "t_thconc_floor",
       "6": "t_gates_mech_control",
-      "@": "t_machinery_heavy",
-      "G": "t_generator_broken",
       "=": "t_conveyor",
       "+": "t_door_c",
       "!": "t_door_locked_interior",
@@ -33,7 +31,9 @@
       ",": "t_thconc_floor"
     },
     "furniture": {
+      "@": "f_machinery_heavy",
       "B": "f_bandsaw",
+      "G": "f_generator_broken",
       "J": "f_jointer",
       "M": "f_mitresaw",
       "P": "f_planer",

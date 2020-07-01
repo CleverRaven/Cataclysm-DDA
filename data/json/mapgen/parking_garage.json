@@ -39,11 +39,18 @@
       "g": "t_chaingate_l",
       "#": "t_rock",
       "*": "t_open_air",
-      "E": "t_elevator",
-      "@": "t_generator_broken",
-      "&": "t_machinery_heavy"
+      "E": "t_elevator"
     },
-    "furniture": { "c": "f_counter", "d": "f_desk", "D": "f_dumpster", "h": "f_chair", "F": "f_filing_cabinet", "%": "f_solar_unit" },
+    "furniture": {
+      "@": "f_generator_broken",
+      "&": "f_machinery_heavy",
+      "c": "f_counter",
+      "d": "f_desk",
+      "D": "f_dumpster",
+      "h": "f_chair",
+      "F": "f_filing_cabinet",
+      "%": "f_solar_unit"
+    },
     "items": {
       "D": { "item": "office", "chance": 45, "repeat": [ 1, 2 ] },
       "Y": { "item": "jackets", "chance": 55, "repeat": [ 1, 6 ] },

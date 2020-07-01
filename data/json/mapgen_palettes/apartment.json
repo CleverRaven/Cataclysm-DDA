@@ -41,8 +41,8 @@
       "<": "t_stairs_up",
       ">": "t_stairs_down",
       "*": "t_open_air",
-      "K": "t_generator_broken",
-      "M": "t_machinery_heavy"
+      "K": "t_thconc_floor",
+      "M": "t_thconc_floor"
     },
     "furniture": {
       "a": "f_small_satelitte_dish",
@@ -57,6 +57,8 @@
       "h": [ [ "f_chair", 2 ], "f_null" ],
       "I": "f_floor_lamp",
       "j": "f_trashcan",
+      "K": "f_generator_broken",
+      "M": "f_machinery_heavy",
       "l": [ [ "f_stool", 2 ], "f_null" ],
       "n": "f_table",
       "o": "f_bookcase",

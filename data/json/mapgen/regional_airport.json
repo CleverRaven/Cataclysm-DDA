@@ -820,8 +820,6 @@
       "3": "t_gutter_south",
       "4": "t_gutter_west",
       "5": "t_gutter_drop",
-      "X": "t_generator_broken",
-      "N": [ "t_machinery_heavy", "t_machinery_electronic", "t_machinery_light" ],
       "6": "t_radio_tower"
     },
     "furniture": {
@@ -848,6 +846,8 @@
       "O": "f_crate_c",
       "a": "f_trashcan",
       "F": "f_filing_cabinet",
+      "N": [ "f_machinery_heavy", "f_machinery_electronic", "f_machinery_light" ],
+      "X": "f_generator_broken",
       "y": "f_locker",
       ")": "f_cellphone_booster",
       "(": "f_small_satelitte_dish",

@@ -141,10 +141,9 @@
         "c...c|.rrr...|-|X.ccc.X|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "f": "f_null" },
+      "furniture": { "f": "f_null", "P": "f_generator_broken" },
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "P": "t_generator_broken",
         "F": "t_chainfence_h",
         "f": "t_chainfence_v",
         "H": "t_chaingate_c",
@@ -254,12 +253,8 @@
         "rrr.....!.....l|-------|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "f": "f_null" },
-      "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "!": [ "t_thconc_floor", "t_thconc_floor", "t_console_broken", "t_generator_broken" ],
-        "C": "t_centrifuge"
-      },
+      "furniture": { "!": [ [ "f_null", 2 ], "f_console_broken", "f_generator_broken" ], "f": "f_null" },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ], "C": "t_centrifuge" },
       "mapping": {
         "c": { "items": [ { "item": "chem_lab", "chance": 10 }, { "item": "tools_science", "chance": 10 } ] },
         "r": { "items": [ { "item": "cleaning", "chance": 30 } ] }
@@ -749,13 +744,12 @@
         ".......|.........|......"
       ],
       "palettes": [ "lab_palette" ],
-      "furniture": { "S": "f_null", "^": "f_indoor_plant", "f": "f_null" },
+      "furniture": { "S": "f_null", "^": "f_indoor_plant", "P": "f_generator_broken", "f": "f_null" },
       "terrain": {
         "F": "t_chainfence_h",
         "f": "t_chainfence_v",
         "H": "t_chaingate_c",
         "&": "t_radio_tower",
-        "P": "t_generator_broken",
         "S": "t_sewage_pump",
         "p": "t_sewage_pipe",
         "C": "t_gates_control_concrete_lab",

@@ -248,7 +248,6 @@
         "+": "t_door_metal_c",
         "D": "t_chaingate_l",
         "%": "t_chainfence",
-        "H": "t_generator_broken",
         "&": "t_flat_roof",
         "A": "t_flat_roof",
         ":": "t_flat_roof",
@@ -257,7 +256,7 @@
         "=": "t_flat_roof",
         "p": "t_machinery_old"
       },
-      "furniture": { "Y": "f_standing_tank", "6": "f_water_heater", "7": "f_roof_turbine_vent" },
+      "furniture": { "H": "f_generator_broken", "Y": "f_standing_tank", "6": "f_water_heater", "7": "f_roof_turbine_vent" },
       "items": { "C": { "item": "snacks", "chance": 30, "repeat": [ 6, 12 ] } }
     }
   }

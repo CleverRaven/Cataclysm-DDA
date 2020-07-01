@@ -168,15 +168,7 @@
       "palettes": [ "lab_palette", "lab_loot_research" ],
       "terrain": {
         "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "!": [
-          "t_thconc_floor",
-          "t_thconc_floor",
-          "t_thconc_floor",
-          "t_thconc_floor",
-          "t_console_broken",
-          "t_generator_broken",
-          "t_centrifuge"
-        ]
+        "!": [ [ "f_null", 4 ], "f_console_broken", "f_generator_broken", "f_centrifuge" ]
       },
       "place_nested": [
         {
