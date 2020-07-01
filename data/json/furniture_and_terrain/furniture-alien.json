@@ -518,18 +518,18 @@
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
         { "item": "cable", "count": [ 1, 4 ] },
-		{ "item": "sheet_metal", "count": [ 0, 1 ] },
-		{ "item": "sheet_metal_small", "count": [ 4, 8 ] },
-		{ "item": "e_scrap", "count": [ 2, 6 ] },
-		{ "item": "metal_tank_little", "count": [ 0, 1 ] },
-		{ "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
+        { "item": "metal_tank_little", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 2, 5 ] },
         { "item": "amplifier", "count": [ 2, 5 ] },
         { "item": "power_supply", "count": [ 2, 8 ] },
-		{ "item": "exodii_module", "count": [ 0, 2 ] },
-		{ "item": "exodii_computer", "count": [ 0, 1 ] }
+        { "item": "exodii_module", "count": [ 0, 2 ] },
+        { "item": "exodii_computer", "count": [ 0, 1 ] }
       ]
-	}
+    }
   },
   {
     "type": "furniture",
@@ -550,19 +550,19 @@
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
         { "item": "cable", "count": [ 1, 4 ] },
-		{ "item": "sheet_metal", "count": [ 0, 1 ] },
-		{ "item": "sheet_metal_small", "count": [ 4, 8 ] },
-		{ "item": "e_scrap", "count": [ 2, 6 ] },
-		{ "item": "metal_tank_little", "count": [ 0, 1 ] },
-		{ "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "sheet_metal_small", "count": [ 4, 8 ] },
+        { "item": "e_scrap", "count": [ 2, 6 ] },
+        { "item": "metal_tank_little", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 2, 5 ] },
         { "item": "amplifier", "count": [ 2, 5 ] },
         { "item": "power_supply", "count": [ 2, 8 ] },
-		{ "item": "large_storage_battery", "count": [ 0, 1 ] },
-		{ "item": "exodii_module", "count": [ 0, 2 ] },
-		{ "item": "exodii_computer", "count": [ 0, 1 ] }
+        { "item": "large_storage_battery", "count": [ 0, 1 ] },
+        { "item": "exodii_module", "count": [ 0, 2 ] },
+        { "item": "exodii_computer", "count": [ 0, 1 ] }
       ]
-	}
+    }
   },
   {
     "type": "furniture",
@@ -583,15 +583,15 @@
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
         { "item": "cable", "count": [ 1, 4 ] },
-		{ "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 2, 5 ] },
         { "item": "amplifier", "count": [ 2, 5 ] },
         { "item": "power_supply", "count": [ 2, 8 ] },
-		{ "item": "exodii_module", "count": [ 0, 2 ] },
-		{ "item": "exodii_portalizer", "count": [ 0, 4 ] },        
-		{ "item": "exodii_computer", "count": [ 0, 1 ] }
+        { "item": "exodii_module", "count": [ 0, 2 ] },
+        { "item": "exodii_portalizer", "count": [ 0, 4 ] },
+        { "item": "exodii_computer", "count": [ 0, 1 ] }
       ]
-	}
+    }
   },
   {
     "type": "furniture",
@@ -612,14 +612,14 @@
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
         { "item": "cable", "count": [ 1, 4 ] },
-		{ "item": "sheet_metal_small", "count": [ 0, 4 ] },
+        { "item": "sheet_metal_small", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 1, 3 ] },
         { "item": "amplifier", "count": [ 1, 3 ] },
         { "item": "power_supply", "count": [ 1, 4 ] },
-		{ "item": "exodii_module", "count": [ 0, 1 ] },
-		{ "item": "exodii_portalizer", "count": [ 0, 2 ] },        
-		{ "item": "exodii_computer", "count": [ 0, 1 ] }
+        { "item": "exodii_module", "count": [ 0, 1 ] },
+        { "item": "exodii_portalizer", "count": [ 0, 2 ] },
+        { "item": "exodii_computer", "count": [ 0, 1 ] }
       ]
-	}
+    }
   }
 ]

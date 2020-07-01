@@ -255,15 +255,17 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-		{ "item": "sheet_metal", "count": [ 0, 1 ] },
-		{ "item": "pipe", "count": [ 0, 4 ] }
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
       ]
-	},
+    },
     "deconstruct": {
       "items": [
-		{ "item": "sheet_metal", "count": 1 },
-		{ "item": "pipe", "count": [ 4, 6 ] }
+        { "item": "pipe_fittings", "count": 1 },
+        { "item": "scrap", "count": 3 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "pipe", "count": 4 }
       ]
-	}
+    }
   }
 ]

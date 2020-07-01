@@ -330,16 +330,18 @@
       "sound_fail": "crash!",
       "items": [
         { "item": "scrap", "count": [ 1, 4 ] },
-		{ "item": "sheet_metal", "count": [ 0, 1 ] },
-		{ "item": "pipe", "count": [ 0, 4 ] }
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
       ]
-	},
+    },
     "deconstruct": {
       "items": [
-		{ "item": "sheet_metal", "count": 1 },
-		{ "item": "pipe", "count": [ 4, 6 ] }
+        { "item": "pipe_fittings", "count": 2 },
+        { "item": "scrap", "count": 4 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "pipe", "count": 4 }
       ]
-	},    
+    },
     "examine_action": "workbench",
     "workbench": { "multiplier": 1.1, "mass": 500000, "volume": "300L" }
   }

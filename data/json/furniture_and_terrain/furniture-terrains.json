@@ -757,16 +757,24 @@
     "color": "light_gray",
     "required_str": -1,
     "flags": [ "TRANSPARENT", "NOCOLLIDE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "scrap", "count": 10 },
+        { "item": "sheet_metal", "count": 2 },
+        { "item": "rebar", "count": 2 },
+        { "item": "wire", "count": 2 }
+      ]
+    },
     "bash": {
       "str_min": 25,
       "str_max": 200,
       "sound": "metal screeching!",
       "sound_fail": "crash!",
       "items": [
-        { "item": "scrap", "count": [ 2, 20 ] },
-        { "item": "sheet_metal", "count": [ 5, 10 ] },
-		{ "item": "rebar", "count": [ 4, 10 ] }
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "rebar", "count": [ 0, 2 ] }
       ]
-	}
+    }
   }
 ]
