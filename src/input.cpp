@@ -96,6 +96,15 @@ std::string get_input_string_from_file( const std::string &fname )
     return ret;
 }
 
+input_event::input_event( const std::set<keymod_t> &mod, const int s, const input_event_t t )
+    : type( t ), modifiers( mod ), edit_refresh( false )
+{
+    sequence.emplace_back( s );
+#if defined(__ANDROID__)
+    shortcut_last_used_action_counter = 0;
+#endif
+}
+
 int input_event::get_first_input() const
 {
     if( sequence.empty() ) {
@@ -179,6 +188,8 @@ void input_manager::init()
     }
 }
 
+static constexpr int current_keybinding_verion = 1;
+
 void input_manager::load( const std::string &file_name, bool is_user_preferences )
 {
     std::ifstream data_file( file_name.c_str(), std::ifstream::in | std::ifstream::binary );
@@ -199,6 +210,13 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
     while( !jsin.end_array() ) {
         // JSON object representing the action
         JsonObject action = jsin.get_object();
+
+        int version = current_keybinding_verion;
+        if( is_user_preferences ) {
+            // if there isn't a "ver" value it means the object was written before
+            // introduction of keybinding version, which is denoted by version 0.
+            version = action.get_int( "ver", 0 );
+        }
 
         const std::string type = action.get_string( "type", "keybinding" );
         if( type != "keybinding" ) {
@@ -224,10 +242,31 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             input_event new_event;
             if( input_method == "keyboard_char" || input_method == "keyboard" ) {
                 new_event.type = input_event_t::keyboard_char;
+            } else if( input_method == "keyboard_code" ) {
+                new_event.type = input_event_t::keyboard_code;
             } else if( input_method == "gamepad" ) {
                 new_event.type = input_event_t::gamepad;
             } else if( input_method == "mouse" ) {
                 new_event.type = input_event_t::mouse;
+            } else {
+                keybinding.throw_error( "input_method", "unknown input_method" );
+            }
+
+            if( keybinding.has_member( "mod" ) ) {
+                for( const JsonValue &val : keybinding.get_array( "mod" ) ) {
+                    const std::string str = val;
+                    keymod_t mod = keymod_t::ctrl;
+                    if( str == "ctrl" ) {
+                        mod = keymod_t::ctrl;
+                    } else if( str == "alt" ) {
+                        mod = keymod_t::alt;
+                    } else if( str == "shift" ) {
+                        mod = keymod_t::shift;
+                    } else {
+                        val.throw_error( "unknown modifier name" );
+                    }
+                    new_event.modifiers.emplace( mod );
+                }
             }
 
             if( keybinding.has_array( "key" ) ) {
@@ -260,6 +299,17 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             // In case this is the second file containing user preferences,
             // this replaces the default bindings with the user's preferences.
             action_attributes &attributes = actions[action_id];
+            if( is_user_preferences && version == 0 ) {
+                // version 0 means the keybinding was written prior to the division
+                // of `input_event_t::keyboard_char` and `input_event_t::keyboard_code`,
+                // so we copy any `input_event_t::keyboard_code` event from the default
+                // keybindings to be compatible with old user keybinding files.
+                for( const input_event &evt : attributes.input_events ) {
+                    if( evt.type == input_event_t::keyboard_code ) {
+                        events.emplace_back( evt );
+                    }
+                }
+            }
             attributes.input_events = events;
             if( action.has_member( "is_user_created" ) ) {
                 attributes.is_user_created = action.get_bool( "is_user_created" );
@@ -281,6 +331,7 @@ void input_manager::save()
                 jsout.start_object();
 
                 jsout.member( "id", action.first );
+                jsout.member( "ver", current_keybinding_verion );
                 jsout.member( "category", a.first );
                 bool is_user_created = action.second.is_user_created;
                 if( is_user_created ) {
@@ -295,6 +346,9 @@ void input_manager::save()
                         case input_event_t::keyboard_char:
                             jsout.member( "input_method", "keyboard_char" );
                             break;
+                        case input_event_t::keyboard_code:
+                            jsout.member( "input_method", "keyboard_code" );
+                            break;
                         case input_event_t::gamepad:
                             jsout.member( "input_method", "gamepad" );
                             break;
@@ -304,6 +358,26 @@ void input_manager::save()
                         default:
                             throw std::runtime_error( "unknown input_event_t" );
                     }
+
+                    jsout.member( "mod" );
+                    jsout.start_array();
+                    for( const keymod_t mod : event.modifiers ) {
+                        switch( mod ) {
+                            case keymod_t::ctrl:
+                                jsout.write( "ctrl" );
+                                break;
+                            case keymod_t::alt:
+                                jsout.write( "alt" );
+                                break;
+                            case keymod_t::shift:
+                                jsout.write( "shift" );
+                                break;
+                            default:
+                                throw std::runtime_error( "unknown keymod_t" );
+                        }
+                    }
+                    jsout.end_array();
+
                     jsout.member( "key" );
                     jsout.start_array();
                     for( size_t i = 0; i < event.sequence.size(); i++ ) {
@@ -325,6 +399,12 @@ void input_manager::add_keyboard_char_keycode_pair( int ch, const std::string &n
 {
     keyboard_char_keycode_to_keyname[ch] = name;
     keyboard_char_keyname_to_keycode[name] = ch;
+}
+
+void input_manager::add_keyboard_code_keycode_pair( const int ch, const std::string &name )
+{
+    keyboard_code_keycode_to_keyname[ch] = name;
+    keyboard_code_keyname_to_keycode[name] = ch;
 }
 
 void input_manager::add_gamepad_keycode_pair( int ch, const std::string &name )
@@ -349,6 +429,7 @@ void input_manager::init_keycode_mapping()
     for( char c = char_key_beg; c <= char_key_end; c++ ) {
         std::string name( 1, c );
         add_keyboard_char_keycode_pair( c, name );
+        add_keyboard_code_keycode_pair( c, name );
     }
 
     add_keyboard_char_keycode_pair( '\t',          translate_marker_context( "key name", "TAB" ) );
@@ -373,6 +454,49 @@ void input_manager::init_keycode_mapping()
         // not marked for translation here, but specially handled in get_keyname so
         // it gets properly translated.
         add_keyboard_char_keycode_pair( KEY_F( i ), string_format( "F%d", i ) );
+    }
+
+    static const std::vector<std::pair<int, std::string>> keyboard_code_keycode_pair = {
+        { keycode::backspace, translate_marker_context( "key name", "BACKSPACE" ) },
+        { keycode::tab,       translate_marker_context( "key name", "TAB" ) },
+        { keycode::return_,   translate_marker_context( "key name", "RETURN" ) },
+        { keycode::escape,    translate_marker_context( "key name", "ESC" ) },
+        { keycode::space,     translate_marker_context( "key name", "SPACE" ) },
+        { keycode::f1,        translate_marker_context( "key name", "F1" ) },
+        { keycode::f2,        translate_marker_context( "key name", "F2" ) },
+        { keycode::f3,        translate_marker_context( "key name", "F3" ) },
+        { keycode::f4,        translate_marker_context( "key name", "F4" ) },
+        { keycode::f5,        translate_marker_context( "key name", "F5" ) },
+        { keycode::f6,        translate_marker_context( "key name", "F6" ) },
+        { keycode::f7,        translate_marker_context( "key name", "F7" ) },
+        { keycode::f8,        translate_marker_context( "key name", "F8" ) },
+        { keycode::f9,        translate_marker_context( "key name", "F9" ) },
+        { keycode::f10,       translate_marker_context( "key name", "F10" ) },
+        { keycode::f11,       translate_marker_context( "key name", "F11" ) },
+        { keycode::f12,       translate_marker_context( "key name", "F12" ) },
+        { keycode::ppage,     translate_marker_context( "key name", "PPAGE" ) },
+        { keycode::home,      translate_marker_context( "key name", "HOME" ) },
+        { keycode::end,       translate_marker_context( "key name", "END" ) },
+        { keycode::npage,     translate_marker_context( "key name", "NPAGE" ) },
+        { keycode::right,     translate_marker_context( "key name", "RIGHT" ) },
+        { keycode::left,      translate_marker_context( "key name", "LEFT" ) },
+        { keycode::down,      translate_marker_context( "key name", "DOWN" ) },
+        { keycode::up,        translate_marker_context( "key name", "UP" ) },
+        { keycode::f13,       translate_marker_context( "key name", "F13" ) },
+        { keycode::f14,       translate_marker_context( "key name", "F14" ) },
+        { keycode::f15,       translate_marker_context( "key name", "F15" ) },
+        { keycode::f16,       translate_marker_context( "key name", "F16" ) },
+        { keycode::f17,       translate_marker_context( "key name", "F17" ) },
+        { keycode::f18,       translate_marker_context( "key name", "F18" ) },
+        { keycode::f19,       translate_marker_context( "key name", "F19" ) },
+        { keycode::f20,       translate_marker_context( "key name", "F20" ) },
+        { keycode::f21,       translate_marker_context( "key name", "F21" ) },
+        { keycode::f22,       translate_marker_context( "key name", "F22" ) },
+        { keycode::f23,       translate_marker_context( "key name", "F23" ) },
+        { keycode::f24,       translate_marker_context( "key name", "F24" ) },
+    };
+    for( const auto &v : keyboard_code_keycode_pair ) {
+        add_keyboard_code_keycode_pair( v.first, v.second );
     }
 
     add_gamepad_keycode_pair( JOY_LEFT,      translate_marker_context( "key name", "JOY_LEFT" ) );
@@ -409,6 +533,9 @@ int input_manager::get_keycode( const input_event_t inp_type, const std::string 
         case input_event_t::keyboard_char:
             map = &keyboard_char_keyname_to_keycode;
             break;
+        case input_event_t::keyboard_code:
+            map = &keyboard_code_keyname_to_keycode;
+            break;
         case input_event_t::gamepad:
             map = &gamepad_keyname_to_keycode;
             break;
@@ -438,6 +565,9 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
         case input_event_t::keyboard_char:
             map = &keyboard_char_keycode_to_keyname;
             break;
+        case input_event_t::keyboard_code:
+            map = &keyboard_code_keycode_to_keyname;
+            break;
         case input_event_t::gamepad:
             map = &gamepad_keycode_to_keyname;
             break;
@@ -448,19 +578,29 @@ std::string input_manager::get_keyname( int ch, input_event_t inp_type, bool por
     if( map ) {
         const auto it = map->find( ch );
         if( it != map->end() ) {
-            if( inp_type == input_event_t::keyboard_char ) {
-                if( IS_F_KEY( ch ) ) {
-                    // special case it since F<num> key names are generated using loop
-                    // and not marked individually for translation
-                    if( portable ) {
+            switch( inp_type ) {
+                case input_event_t::keyboard_char:
+                    if( IS_F_KEY( ch ) ) {
+                        // special case it since F<num> key names are generated using loop
+                        // and not marked individually for translation
+                        if( portable ) {
+                            return it->second;
+                        } else {
+                            return string_format( pgettext( "function key name", "F%d" ), F_KEY_NUM( ch ) );
+                        }
+                    } else if( ch >= char_key_beg && ch <= char_key_end && ch != ' ' ) {
+                        // character keys except space need no translation
                         return it->second;
-                    } else {
-                        return string_format( pgettext( "function key name", "F%d" ), F_KEY_NUM( ch ) );
                     }
-                } else if( ch >= char_key_beg && ch <= char_key_end && ch != ' ' ) {
-                    // character keys except space need no translation
-                    return it->second;
-                }
+                    break;
+                case input_event_t::keyboard_code:
+                    if( ch >= char_key_beg && ch < char_key_end && ch != ' ' ) {
+                        // character keys except space need no translation
+                        return it->second;
+                    }
+                    break;
+                default:
+                    break;
             }
             return portable ? it->second : pgettext( "key name", it->second.c_str() );
         }
@@ -760,6 +900,12 @@ const input_context::input_event_filter input_context::allow_all_keys =
     return true;
 };
 
+static const std::vector<std::pair<keymod_t, translation>> keymod_desc = {
+    { keymod_t::ctrl,  to_translation( "key modifier", "CTRL-" ) },
+    { keymod_t::alt,   to_translation( "key modifier", "ALT-" ) },
+    { keymod_t::shift, to_translation( "key modifier", "SHIFT-" ) },
+};
+
 std::string input_context::get_desc( const std::string &action_descriptor,
                                      const unsigned int max_limit,
                                      const input_context::input_event_filter &evt_filter ) const
@@ -798,6 +944,12 @@ std::string input_context::get_desc( const std::string &action_descriptor,
 
     std::string rval;
     for( size_t i = 0; i < inputs_to_show.size(); ++i ) {
+        // test in fixed order to generate consistent description
+        for( const auto &v : keymod_desc ) {
+            if( inputs_to_show[i].modifiers.count( v.first ) ) {
+                rval += v.second.translated();
+            }
+        }
         for( size_t j = 0; j < inputs_to_show[i].sequence.size(); ++j ) {
             rval += inp_mngr.get_keyname( inputs_to_show[i].sequence[j], inputs_to_show[i].type );
         }
@@ -831,12 +983,15 @@ std::string input_context::get_desc( const std::string &action_descriptor,
             ( gamepad_available() || evt.type != input_event_t::gamepad ) ) {
 
             na = false;
-            if( evt.type == input_event_t::keyboard_char && evt.sequence.size() == 1 ) {
+            if( ( evt.type == input_event_t::keyboard_char || evt.type == input_event_t::keyboard_code ) &&
+                evt.modifiers.empty() && evt.sequence.size() == 1 ) {
                 const int ch = evt.get_first_input();
-                const std::string key = utf32_to_utf8( ch );
-                const auto pos = ci_find_substr( text, key );
-                if( ch > ' ' && ch <= '~' && pos >= 0 ) {
-                    return text.substr( 0, pos ) + "(" + key + ")" + text.substr( pos + key.size() );
+                if( ch > ' ' && ch <= '~' ) {
+                    const std::string key = utf32_to_utf8( ch );
+                    const auto pos = ci_find_substr( text, key );
+                    if( pos >= 0 ) {
+                        return text.substr( 0, pos ) + "(" + key + ")" + text.substr( pos + key.size() );
+                    }
                 }
             }
         }
@@ -1324,6 +1479,8 @@ void input_manager::wait_for_any_key()
                     return;
                 }
                 break;
+            case input_event_t::keyboard_code:
+                return;
             // errors are accepted as well to avoid an infinite loop
             case input_event_t::error:
                 return;
@@ -1453,6 +1610,12 @@ std::string input_context::press_x( const std::string &action_id, const std::str
     }
     std::string keyed = key_bound_pre;
     for( size_t j = 0; j < events.size(); j++ ) {
+        // test in fixed order to generate consistent description
+        for( const auto &v : keymod_desc ) {
+            if( events[j].modifiers.count( v.first ) ) {
+                keyed += v.second.translated();
+            }
+        }
         for( size_t k = 0; k < events[j].sequence.size(); ++k ) {
             keyed += inp_mngr.get_keyname( events[j].sequence[k], events[j].type );
         }

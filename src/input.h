@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <functional>
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -29,6 +30,7 @@ namespace catacurses
 class window;
 } // namespace catacurses
 
+// Curses key constants
 static constexpr int KEY_ESCAPE     = 27;
 static constexpr int KEY_MIN        =
     0x101;    /* minimum extended key value */ //<---------not used
@@ -68,6 +70,56 @@ static constexpr int KEY_ENTER      = 0x157;    /* enter */
 static constexpr int KEY_BTAB       = 0x161;    /* back-tab = shift + tab */
 static constexpr int KEY_END        = 0x168;    /* End */
 
+// Platform independent key code (though largely based on SDL key code)
+//
+// These and other code related to keyboard_code event should NOT be guarded with
+// platform macros, since they are required to load and save keyboard_code events,
+// which should always be done regardless whether the platform supports it, otherwise
+// custom keybindings might be lost when someone switches e.g. from tiles to curses
+// and save the keybindings, and switches back to tiles later.
+namespace keycode
+{
+enum : int {
+    backspace = 0x08,
+    tab       = 0x09,
+    return_   = 0x0D,
+    escape    = 0x1B,
+    space     = 0x20,
+    f1        = 0x4000003A,
+    f2        = 0x4000003B,
+    f3        = 0x4000003C,
+    f4        = 0x4000003D,
+    f5        = 0x4000003E,
+    f6        = 0x4000003F,
+    f7        = 0x40000040,
+    f8        = 0x40000041,
+    f9        = 0x40000042,
+    f10       = 0x40000043,
+    f11       = 0x40000044,
+    f12       = 0x40000045,
+    home      = 0x4000004A,
+    ppage     = 0x4000004B,
+    end       = 0x4000004D,
+    npage     = 0x4000004E,
+    right     = 0x4000004F,
+    left      = 0x40000050,
+    down      = 0x40000051,
+    up        = 0x40000052,
+    f13       = 0x40000068,
+    f14       = 0x40000069,
+    f15       = 0x4000006A,
+    f16       = 0x4000006B,
+    f17       = 0x4000006C,
+    f18       = 0x4000006D,
+    f19       = 0x4000006E,
+    f20       = 0x4000006F,
+    f21       = 0x40000070,
+    f22       = 0x40000071,
+    f23       = 0x40000072,
+    f24       = 0x40000073,
+};
+} // namespace keycode
+
 static constexpr int LEGEND_HEIGHT = 11;
 static constexpr int BORDER_SPACE = 2;
 
@@ -79,9 +131,18 @@ enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, 
 enum class input_event_t : int  {
     error,
     timeout,
+    // used on platforms with only character/text input, such as curses
     keyboard_char,
+    // used on platforms with raw keycode input, such as non-android sdl
+    keyboard_code,
     gamepad,
     mouse
+};
+
+enum class keymod_t {
+    ctrl,
+    alt,
+    shift,
 };
 
 /**
@@ -95,7 +156,7 @@ enum class input_event_t : int  {
 struct input_event {
     input_event_t type;
 
-    std::vector<int> modifiers; // Keys that need to be held down for
+    std::set<keymod_t> modifiers; // Keys that need to be held down for
     // this event to be activated.
 
     std::vector<int> sequence; // The sequence of key or mouse events that
@@ -128,6 +189,7 @@ struct input_event {
         shortcut_last_used_action_counter = 0;
 #endif
     }
+    input_event( const std::set<keymod_t> &mod, int s, input_event_t t );
 
     int get_first_input() const;
 
@@ -148,29 +210,7 @@ struct input_event {
 #endif
 
     bool operator==( const input_event &other ) const {
-        if( type != other.type ) {
-            return false;
-        }
-
-        if( sequence.size() != other.sequence.size() ) {
-            return false;
-        }
-        for( size_t i = 0; i < sequence.size(); ++i ) {
-            if( sequence[i] != other.sequence[i] ) {
-                return false;
-            }
-        }
-
-        if( modifiers.size() != other.modifiers.size() ) {
-            return false;
-        }
-        for( size_t i = 0; i < modifiers.size(); ++i ) {
-            if( modifiers[i] != other.modifiers[i] ) {
-                return false;
-            }
-        }
-
-        return true;
+        return type == other.type && modifiers == other.modifiers && sequence == other.sequence;
     }
 };
 
@@ -305,10 +345,12 @@ class input_manager
 
         using t_key_to_name_map = std::map<int, std::string>;
         t_key_to_name_map keyboard_char_keycode_to_keyname;
+        t_key_to_name_map keyboard_code_keycode_to_keyname;
         t_key_to_name_map gamepad_keycode_to_keyname;
         t_key_to_name_map mouse_keycode_to_keyname;
         using t_name_to_key_map = std::map<std::string, int>;
         t_name_to_key_map keyboard_char_keyname_to_keycode;
+        t_name_to_key_map keyboard_code_keyname_to_keycode;
         t_name_to_key_map gamepad_keyname_to_keycode;
         t_name_to_key_map mouse_keyname_to_keycode;
 
@@ -319,6 +361,7 @@ class input_manager
         // the keycode integers.
         void init_keycode_mapping();
         void add_keyboard_char_keycode_pair( int ch, const std::string &name );
+        void add_keyboard_code_keycode_pair( int ch, const std::string &name );
         void add_gamepad_keycode_pair( int ch, const std::string &name );
         void add_mouse_keycode_pair( int ch, const std::string &name );
 
