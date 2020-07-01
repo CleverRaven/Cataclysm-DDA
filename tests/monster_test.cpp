@@ -8,20 +8,19 @@
 #include <memory>
 #include <utility>
 
-#include "avatar.h"
 #include "catch/catch.hpp"
+#include "character.h"
 #include "game.h"
+#include "game_constants.h"
+#include "item.h"
+#include "line.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "monster.h"
 #include "options_helpers.h"
 #include "options.h"
-#include "player.h"
-#include "test_statistics.h"
-#include "game_constants.h"
-#include "item.h"
-#include "line.h"
 #include "point.h"
+#include "test_statistics.h"
 
 using move_statistics = statistics<int>;
 
@@ -86,10 +85,11 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
 {
     clear_map();
     REQUIRE( g->num_creatures() == 1 ); // the player
-    player &test_player = g->u;
+    Character &test_player = get_player_character();
     // Strip off any potentially encumbering clothing.
-    std::list<item> temp;
-    while( test_player.takeoff( test_player.i_at( -2 ), &temp ) ) {}
+    test_player.remove_worn_items_with( []( item & ) {
+        return true;
+    } );
 
     const tripoint center{ 65, 65, 0 };
     test_player.setpos( center );
@@ -121,14 +121,14 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                 // Verify that only the player and one monster are present.
                 REQUIRE( g->num_creatures() == 2 );
             }
-            const int move_cost = g->m.combined_movecost(
+            const int move_cost = get_map().combined_movecost(
                                       test_player.pos(), test_player.pos() + direction_of_flight, nullptr, 0 );
             tracker.push_back( {'p', move_cost, rl_dist( test_monster.pos(), test_player.pos() ),
                                 test_player.pos()
                                } );
             test_player.mod_moves( -move_cost );
         }
-        g->m.clear_traps();
+        get_map().clear_traps();
         test_monster.set_dest( test_player.pos() );
         test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {

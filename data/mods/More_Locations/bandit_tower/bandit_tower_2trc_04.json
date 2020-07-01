@@ -36,7 +36,7 @@
       "rotation": 1,
       "palettes": [ "tri_tower", "upper_level", "bandit_tower_stuff" ],
       "terrain": { "5": "t_pavement", "8": "t_bridge", "y": "t_wall_wood" },
-      "furniture": { "Y": "f_exercise", "J": "f_treadmill" },
+      "furniture": { "Y": "f_exercise", "J": [ "f_treadmill", "f_treadmill_mechanical" ] },
       "items": { "l": { "item": "sports", "chance": 20 }, "x": { "item": "allsporting", "chance": 20 } },
       "npcs": { "@": { "class": "thug" } }
     }

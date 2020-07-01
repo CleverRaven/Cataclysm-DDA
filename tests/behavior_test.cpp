@@ -6,7 +6,6 @@
 #include "behavior_strategy.h"
 #include "catch/catch.hpp"
 #include "character_oracle.h"
-#include "game.h"
 #include "item.h"
 #include "item_location.h"
 #include "map.h"
@@ -149,7 +148,7 @@ TEST_CASE( "check_npc_behavior_tree", "[npc][behavior]" )
     behavior::character_oracle_t oracle( &test_npc );
     CHECK( npc_needs.tick( &oracle ) == "idle" );
     SECTION( "Freezing" ) {
-        g->weather.temperature = 0;
+        get_weather().temperature = 0;
         test_npc.update_bodytemp();
         CHECK( npc_needs.tick( &oracle ) == "idle" );
         test_npc.worn.push_back( item( "backpack" ) );
@@ -187,6 +186,7 @@ TEST_CASE( "check_monster_behavior_tree", "[monster][behavior]" )
 {
     const tripoint monster_location( 5, 5, 0 );
     clear_map();
+    map &here = get_map();
     monster &test_monster = spawn_test_monster( "mon_locust", monster_location );
 
     behavior::monster_oracle_t oracle( &test_monster );
@@ -197,14 +197,14 @@ TEST_CASE( "check_monster_behavior_tree", "[monster][behavior]" )
         test_monster.reset_special( special_name );
     }
     CHECK( monster_goals.tick( &oracle ) == "idle" );
-    for( const tripoint &near_monster : g->m.points_in_radius( monster_location, 1 ) ) {
-        g->m.ter_set( near_monster, ter_id( "t_grass" ) );
-        g->m.furn_set( near_monster, furn_id( "f_null" ) );
+    for( const tripoint &near_monster : here.points_in_radius( monster_location, 1 ) ) {
+        here.ter_set( near_monster, ter_id( "t_grass" ) );
+        here.furn_set( near_monster, furn_id( "f_null" ) );
     }
     SECTION( "Special Attack" ) {
         test_monster.set_special( "EAT_CROP", 0 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );
-        g->m.furn_set( monster_location, furn_id( "f_plant_seedling" ) );
+        here.furn_set( monster_location, furn_id( "f_plant_seedling" ) );
         CHECK( monster_goals.tick( &oracle ) == "EAT_CROP" );
         test_monster.set_special( "EAT_CROP", 1 );
         CHECK( monster_goals.tick( &oracle ) == "idle" );

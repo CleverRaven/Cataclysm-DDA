@@ -71,6 +71,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "OPAQUE", VPFLAG_OPAQUE },
     { "OPENABLE", VPFLAG_OPENABLE },
     { "SEATBELT", VPFLAG_SEATBELT },
+    { "SIMPLE_PART", VPFLAG_SIMPLE_PART },
     { "WHEEL", VPFLAG_WHEEL },
     { "ROTOR", VPFLAG_ROTOR },
     { "ROTOR_SIMPLE", VPFLAG_ROTOR_SIMPLE },

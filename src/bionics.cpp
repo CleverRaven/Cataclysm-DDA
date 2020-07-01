@@ -281,6 +281,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "fake_item", fake_item, itype_id() );
 
     optional( jsobj, was_loaded, "enchantments", enchantments );
+    optional( jsobj, was_loaded, "spell_on_activation", spell_on_activate );
 
     optional( jsobj, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
     optional( jsobj, was_loaded, "exothermic_power_gen", exothermic_power_gen );
@@ -557,6 +558,11 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
             if( !burn_fuel( b, true ) ) {
                 return false;
             }
+        }
+
+        if( !bio.activate_spell( *this ) ) {
+            // the spell this bionic uses was unable to be cast
+            return false;
         }
 
         // We can actually activate now, do activation-y things
@@ -1663,16 +1669,17 @@ void Character::process_bionic( int b )
                        static_cast<std::string>( bio_hydraulics ) );
     } else if( bio.id == bio_nanobots ) {
         if( get_power_level() >= 40_J ) {
-            std::vector<bodypart_id> bleeding_bp_parts;
-            for( const bodypart_id &bp : get_all_body_parts() ) {
+            std::forward_list<bodypart_id> bleeding_bp_parts;
+            for( const bodypart_id bp : get_all_body_parts() ) {
                 if( has_effect( effect_bleed, bp->token ) ) {
-                    bleeding_bp_parts.push_back( bp );
+                    bleeding_bp_parts.push_front( bp );
                 }
             }
-            std::vector<int> damaged_hp_parts;
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                if( hp_cur[i] > 0 && hp_cur[i] < hp_max[i] ) {
-                    damaged_hp_parts.push_back( i );
+            std::vector<bodypart_id> damaged_hp_parts;
+            for( const std::pair<const bodypart_str_id, bodypart> &part : get_body() ) {
+                const int hp_cur = part.second.get_hp_cur();
+                if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
+                    damaged_hp_parts.push_back( part.first.id() );
                 }
             }
             for( const bodypart_id &i : bleeding_bp_parts ) {
@@ -1688,10 +1695,10 @@ void Character::process_bionic( int b )
             if( calendar::once_every( 60_turns ) ) {
                 bool try_to_heal_bleeding = true;
                 if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
-                    const hp_part part_to_heal = static_cast<hp_part>( damaged_hp_parts[ rng( 0,
-                                                      damaged_hp_parts.size() - 1 ) ] );
+                    const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
                     heal( part_to_heal, 1 );
                     mod_stored_kcal( -5 );
+                    }
                 }
             }
             if( !damaged_hp_parts.empty() || !bleeding_bp_parts.empty() ) {
@@ -1759,10 +1766,8 @@ void Character::process_bionic( int b )
 
 void Character::roll_critical_bionics_failure( body_part bp )
 {
-    const hp_part limb = bp_to_hp( bp );
-
-    if( one_in( hp_cur[limb] / 4 ) ) {
-        hp_cur[limb] -= hp_cur[limb];
+    if( one_in( get_part_hp_cur( convert_bp( bp ).id() ) / 4 ) ) {
+        set_part_hp_cur( convert_bp( bp ).id(), 0 );
     }
 }
 
@@ -2321,6 +2326,9 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
     if( !type.bionic ) {
         debugmsg( "Tried to install NULL bionic" );
         return false;
+    }
+    if( has_trait( trait_DEBUG_BIONICS ) ) {
+        return true;
     }
     if( is_mounted() ) {
         return false;

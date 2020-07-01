@@ -151,7 +151,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CARLOS_TOPICS",
-    "dynamic_line": "Go on...",
+    "dynamic_line": "Go on…",
     "responses": [
       {
         "text": "I heard about Barry, can you tell me what captured him?",

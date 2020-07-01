@@ -308,6 +308,28 @@
     "flags": [ "SEES", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "PACIFIST" ]
   },
   {
+    "id": "mon_baleful_polymorph_frog",
+    "type": "MONSTER",
+    "name": { "str": "frog" },
+    "description": "A conspicuously average american bullfrog.  You better keep prince charming away from it.",
+    "default_faction": "magical_beast",
+    "species": [ "AMPHIBIAN" ],
+    "volume": "750 ml",
+    "weight": "1 kg",
+    "hp": 3,
+    "speed": 80,
+    "material": [ "flesh" ],
+    "symbol": "b",
+    "color": "green",
+    "melee_cut": 0,
+    "dodge": 6,
+    "harvest": "mammal_tiny",
+    "special_attacks": [ { "type": "leap", "cooldown": 10, "max_range": 5 } ],
+    "fear_triggers": [ "PLAYER_CLOSE" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "SWIMS" ]
+  },
+  {
     "id": "mon_lemure",
     "type": "MONSTER",
     "name": "lemure",

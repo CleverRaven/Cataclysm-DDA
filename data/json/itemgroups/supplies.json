@@ -529,5 +529,19 @@
       { "item": "diesel", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 10 },
       { "item": "motor_oil", "charges": [ 0, 10000 ], "container-item": "jerrycan", "prob": 5 }
     ]
+  },
+  {
+    "id": "avgas_barrel",
+    "type": "item_group",
+    "//": "barrel with aviation gas like you would find at a fuel depot for planes or helicopters",
+    "subtype": "distribution",
+    "entries": [ { "item": "avgas", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 30 } ]
+  },
+  {
+    "id": "jp8_barrel",
+    "type": "item_group",
+    "//": "barrel with aviation gas like you would find at a fuel depot for planes or helicopters",
+    "subtype": "distribution",
+    "entries": [ { "item": "jp8", "charges": [ 0, 50000 ], "container-item": "30gal_drum", "prob": 30 } ]
   }
 ]

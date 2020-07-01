@@ -144,7 +144,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->u = avatar();
     g->u.create( character_type::NOW );
 
-    g->m = map( get_option<bool>( "ZLEVELS" ) );
+    g->m = map();
 
     overmap_special_batch empty_specials( point_zero );
     overmap_buffer.create_custom_overmap( point_zero, empty_specials );

@@ -3185,6 +3185,7 @@ void veh_interact::complete_vehicle( player &p )
             } else {
                 veh->remove_part( vehicle_part );
                 veh->part_removal_cleanup();
+                g->m.update_vehicle_cache( veh, veh->sm_pos.z );
             }
             // This will be part of an NPC "job" where they need to clean up the acitivty items afterwards
             if( p.is_npc() ) {
@@ -3196,7 +3197,6 @@ void veh_interact::complete_vehicle( player &p )
             // point because we don't want to put them back into the vehicle part
             // that just got removed).
             put_into_vehicle_or_drop( p, item_drop_reason::deliberate, resulting_items );
-            g->m.update_vehicle_cache( veh, veh->sm_pos.z );
             break;
         }
     }

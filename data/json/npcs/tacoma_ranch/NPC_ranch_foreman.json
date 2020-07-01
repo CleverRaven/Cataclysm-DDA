@@ -122,7 +122,7 @@
           "place_nested": [ { "chunks": [ "tacoma_commune_west_wall_door" ], "x": 22, "y": 0 } ]
         },
         {
-          "om_terrain": "ranch_camp_66",
+          "om_terrain": "ranch_camp_75",
           "translate_ter": [ { "from": "t_underbrush", "to": "t_dirt", "x": 0, "y": 0 } ],
           "place_nested": [
             { "chunks": [ "tacoma_commune_east_wall_door" ], "x": 0, "y": 0 },

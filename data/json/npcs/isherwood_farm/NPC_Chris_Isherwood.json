@@ -144,7 +144,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_CHRIS_TOPICS",
-    "dynamic_line": "Go on...",
+    "dynamic_line": "Go on…",
     "responses": [
       {
         "text": "Your dad asked me to come find you, said you've been looking for your uncle.",

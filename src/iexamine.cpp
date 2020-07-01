@@ -4804,9 +4804,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
         case BONESETTING: {
             int broken_limbs_count = 0;
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const bool broken = patient.is_limb_broken( static_cast<hp_part>( i ) );
-                const bodypart_id &part = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+            for( const bodypart_id &part : patient.get_all_body_parts( true ) ) {
+                const bool broken = patient.is_limb_broken( part );
                 effect &existing_effect = patient.get_effect( effect_mending, part->token );
                 // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
@@ -4822,9 +4821,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 // TODO: fail here if unable to perform the action, i.e. can't wear more, trait mismatch.
                 if( !patient.worn_with_flag( flag_SPLINT, part ) ) {
                     item splint;
-                    if( i == hp_arm_l || i == hp_arm_r ) {
+                    if( part == bodypart_id( "arm_l" ) || part == bodypart_id( "arm_r" ) ) {
                         splint = item( "arm_splint", 0 );
-                    } else if( i == hp_leg_l || i == hp_leg_r ) {
+                    } else if( part == bodypart_id( "leg_l" ) || part == bodypart_id( "leg_r" ) ) {
                         splint = item( "leg_splint", 0 );
                     }
                     item &equipped_splint = patient.i_add( splint );
@@ -4897,8 +4896,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.add_effect( effect_disinfected, 1_turns, bp_healed->token );
                     effect &e = patient.get_effect( effect_disinfected, bp_healed->token );
                     e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
-                    hp_part target_part = patient.bp_to_hp( bp_healed->token );
-                    patient.damage_disinfected[target_part] = patient.hp_max[target_part] - patient.hp_cur[target_part];
+                    patient.set_part_damage_disinfected( bp_healed,
+                                                         patient.get_part_hp_max( bp_healed ) - patient.get_part_hp_cur( bp_healed ) );
                 }
             }
             patient.moves -= 500;
@@ -5952,6 +5951,15 @@ void iexamine::workbench_internal( player &p, const tripoint &examp,
     }
 }
 
+void iexamine::workout( player &p, const tripoint &examp )
+{
+    if( !query_yn( _( "Use the %s to exercise?" ), get_map().furnname( examp ) ) ) {
+        none( p, examp );
+        return;
+    }
+    p.assign_activity( player_activity( workout_activity_actor( examp ) ) );
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -6038,7 +6046,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "quern_examine", &iexamine::quern_examine },
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },
-            { "workbench", &iexamine::workbench }
+            { "workbench", &iexamine::workbench },
+            { "workout", &iexamine::workout }
         }
     };
 
