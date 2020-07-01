@@ -12,6 +12,7 @@
 #include "point.h"
 #include "type_id.h"
 #include "vehicle.h"
+#include "vehicle_selector.h"
 #include "weather.h"
 
 static const itype_id fuel_type_battery( "battery" );
@@ -179,3 +180,71 @@ TEST_CASE( "maximum reverse velocity", "[vehicle][power][reverse]" )
     }
 }
 
+TEST_CASE( "Vehicle charging station", "[vehicle][power]" )
+{
+    reset_player();
+    build_test_map( ter_id( "t_pavement" ) );
+    clear_vehicles();
+
+    GIVEN( "Vehicle with a charged battery and an active recharging station on a box" ) {
+        const tripoint vehicle_origin = tripoint( 10, 10, 0 );
+        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "recharge_test" ), vehicle_origin, 0, 100, 0 );
+        REQUIRE( veh_ptr != nullptr );
+        REQUIRE( veh_ptr->fuel_left( fuel_type_battery ) > 1000 );
+        veh_ptr->update_time( calendar::turn_zero );
+        g->refresh_all();
+
+        auto cargo_part_index = veh_ptr->part_with_feature( {0, 0}, "CARGO", true );
+        REQUIRE( cargo_part_index >= 0 );
+        vehicle_part &cargo_part = veh_ptr->parts[ cargo_part_index ];
+
+        auto chargers = veh_ptr->get_parts_at( vehicle_origin, "RECHARGE", part_status_flag::available );
+        REQUIRE( chargers.size() == 1 );
+        chargers.front()->enabled = true;
+
+        AND_GIVEN( "Rechargable, empty battery in the station" ) {
+            item battery = item( "light_battery_cell" );
+            battery.ammo_unset();
+            REQUIRE( battery.ammo_remaining() == 0 );
+            REQUIRE( battery.has_flag( "RECHARGE" ) );
+            auto bat_in_veh = veh_ptr->add_item( cargo_part, battery );
+            REQUIRE( bat_in_veh );
+            WHEN( "An hour passes" ) {
+                // Should use vehicle::update_time, but that doesn't do charging...
+                for( int i = 0; i < to_turns<int>( 1_hours ); i++ ) {
+                    g->m.process_items();
+                }
+
+                THEN( "The battery is fully charged" ) {
+                    REQUIRE( ( **bat_in_veh ).ammo_remaining() == ( **bat_in_veh ).ammo_capacity() );
+                }
+            }
+        }
+        AND_GIVEN( "Tool with a rechargable, empty battery in the station" ) {
+            item battery = item( "light_battery_cell" );
+            battery.ammo_unset();
+            REQUIRE( battery.ammo_remaining() == 0 );
+            REQUIRE( battery.has_flag( "RECHARGE" ) );
+            auto bat_in_veh = veh_ptr->add_item( cargo_part, battery );
+            REQUIRE( bat_in_veh );
+
+            item tool = item( "soldering_iron" );
+            REQUIRE( tool.magazine_current() == nullptr );
+            item_location tool_location = item_location( vehicle_cursor( *veh_ptr, cargo_part_index ),
+                                          &( **bat_in_veh ) );
+            tool.reload( g->u, tool_location, 1 );
+            auto tool_in_veh = veh_ptr->add_item( cargo_part, tool );
+            REQUIRE( tool_in_veh );
+            WHEN( "An hour passes" ) {
+                for( int i = 0; i < to_turns<int>( 1_hours ); i++ ) {
+                    g->m.process_items();
+                }
+
+                THEN( "The battery is fully charged" ) {
+                    REQUIRE( ( **tool_in_veh ).ammo_remaining() == ( **tool_in_veh ).ammo_capacity() );
+                }
+            }
+        }
+    }
+
+}

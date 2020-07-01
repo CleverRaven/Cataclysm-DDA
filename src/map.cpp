@@ -99,6 +99,9 @@ static const skill_id skill_traps( "traps" );
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 
+static const std::string flag_RECHARGE( "RECHARGE" );
+static const std::string flag_USE_UPS( "USE_UPS" );
+
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
 static cata::colony<item> nulitems;          // Returned when &i_at() is asked for an OOB value
@@ -4398,28 +4401,32 @@ static void process_vehicle_items( vehicle &cur_veh, int part )
     if( recharge_part_idx >= 0 && ( recharge_part = cur_veh.parts[recharge_part_idx] ) &&
         !recharge_part.removed && !recharge_part.is_broken() &&
         ( !recharge_part.info().has_flag( VPFLAG_ENABLED_DRAINS_EPOWER ) || recharge_part.enabled ) ) {
-        for( auto &n : cur_veh.get_items( part ) ) {
-            if( !n.has_flag( "RECHARGE" ) && !n.has_flag( "USE_UPS" ) ) {
-                continue;
-            }
-            // TODO: BATTERIES this should be rewritten when vehicle power and items both use energy quantities
-            if( n.ammo_capacity() > n.ammo_remaining() ||
-                ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
-                int power = recharge_part.info().bonus;
-                while( power >= 1000 || x_in_y( power, 1000 ) ) {
-                    const int missing = cur_veh.discharge_battery( 1, false );
-                    // Around 85% efficient; a few of the discharges don't actually recharge
-                    if( missing == 0 && !one_in( 7 ) ) {
-                        if( n.is_battery() ) {
-                            n.set_energy( 1_kJ );
-                        } else {
-                            n.ammo_set( "battery", n.ammo_remaining() + 1 );
-                        }
-                    }
-                    power -= 1000;
+        for( item &outer : cur_veh.get_items( part ) ) {
+            outer.visit_items( [&cur_veh, &recharge_part]( item * it ) {
+                item &n = *it;
+                if( !n.has_flag( flag_RECHARGE ) && !n.has_flag( flag_USE_UPS ) ) {
+                    return VisitResponse::NEXT;
                 }
-                break;
-            }
+                if( n.ammo_capacity() > n.ammo_remaining() ||
+                    ( n.type->battery && n.type->battery->max_capacity > n.energy_remaining() ) ) {
+                    int power = recharge_part.info().bonus;
+                    while( power >= 1000 || x_in_y( power, 1000 ) ) {
+                        const int missing = cur_veh.discharge_battery( 1, false );
+                        // Around 85% efficient; a few of the discharges don't actually recharge
+                        if( missing == 0 && !one_in( 7 ) ) {
+                            if( n.is_battery() ) {
+                                n.set_energy( 1_kJ );
+                            } else {
+                                n.ammo_set( "battery", n.ammo_remaining() + 1 );
+                            }
+                        }
+                        power -= 1000;
+                    }
+                    return VisitResponse::ABORT;
+                }
+
+                return VisitResponse::SKIP;
+            } );
         }
     }
 }
