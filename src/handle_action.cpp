@@ -2251,6 +2251,12 @@ bool game::handle_action()
                 }
                 break;
 
+            case ACTION_WORKOUT:
+                if( query_yn( _( "Start workout?" ) ) ) {
+                    u.assign_activity( player_activity( workout_activity_actor( u.pos() ) ) );
+                }
+                break;
+
             case ACTION_SUICIDE:
                 if( query_yn( _( "Commit suicide?" ) ) ) {
                     if( query_yn( _( "REALLY commit suicide?" ) ) ) {
