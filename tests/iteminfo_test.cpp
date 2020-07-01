@@ -643,7 +643,7 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( longshirt, cov_warm )
                ==
                "--\n"
-               "Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n" );
+               "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n" );
 
         REQUIRE( longshirt.get_encumber( g->u ) == 3 );
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
