@@ -6,7 +6,7 @@
 #include "player_helpers.h"
 #include "point.h"
 
-TEST_CASE( "active_items_processed_regularly", "[!mayfail][item]" )
+TEST_CASE( "active_items_processed_regularly", "[item]" )
 {
     clear_avatar();
     clear_map();
