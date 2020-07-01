@@ -88,6 +88,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [
+      { "pocket_type": "MAGAZINE", "ammo_restriction": { "22": 19 } },
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
