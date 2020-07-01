@@ -183,8 +183,7 @@
         " ": "t_pavement",
         ",": "t_pavement_y",
         "g": "t_wall_glass",
-        "%": "t_console_broken",
-        "*": "t_shrub",
+        "*": "t_region_shrub",
         "+": "t_door_c",
         "-": "t_wall_b",
         ".": "t_floor",
@@ -193,8 +192,8 @@
         "3": "t_privacy_fencegate_c",
         "O": "t_window",
         "^": "t_chaingate_c",
-        "'": "t_dirt",
-        "G": "t_grass",
+        "'": "t_region_groundcover_barren",
+        "G": "t_region_groundcover",
         "M": "t_door_metal_pickable",
         "i": "t_door_locked_interior",
         "l": "t_linoleum_white",
@@ -211,6 +210,7 @@
         "~": "t_sidewalk"
       },
       "furniture": {
+        "%": "f_console_broken",
         "#": "f_counter",
         "?": "f_sofa",
         "Q": "f_trashcan",

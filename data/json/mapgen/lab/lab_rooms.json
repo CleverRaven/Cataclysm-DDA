@@ -267,7 +267,7 @@
         "........."
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "C": [ "t_centrifuge" ] }
+      "furniture": { "C": [ "f_centrifuge" ] }
     }
   },
   {

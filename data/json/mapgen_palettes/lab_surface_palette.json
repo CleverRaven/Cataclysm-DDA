@@ -129,9 +129,7 @@
       "-": "t_door_glass_frosted_c",
       "=": "t_door_glass_frosted_lab_c",
       ":": "t_reinforced_glass",
-      "m": "t_door_metal_c",
-      "o": "t_centrifuge",
-      "x": "t_console_broken"
+      "m": "t_door_metal_c"
     },
     "furniture": {
       "&": "f_trashcan",
@@ -165,7 +163,9 @@
       "S": "f_sink",
       "t": "f_table",
       "U": "f_utility_shelf",
-      "v": "f_ventilator"
+      "v": "f_ventilator",
+      "o": "f_centrifuge",
+      "x": "f_console_broken"
     }
   }
 ]

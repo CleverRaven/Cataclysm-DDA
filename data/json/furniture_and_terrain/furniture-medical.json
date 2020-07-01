@@ -921,5 +921,45 @@
         { "item": "scrap", "count": [ 2, 7 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_centrifuge",
+    "name": "centrifuge",
+    "looks_like": "f_machinery_electronic",
+    "description": "This is a centrifuge, a liquid separating device with an automated analyzer unit.  For some reason, this one has an attached battery pack.  It could be used to analyze a medical fluid sample, such as blood, if a test tube was placed in it.",
+    "symbol": "{",
+    "color": "magenta",
+    "move_cost": -1,
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "PERMEABLE" ],
+    "deconstruct": {
+      "items": [
+        { "item": "circuit", "count": 4 },
+        { "item": "scrap", "count": 5 },
+        { "item": "motor_small", "count": 1 },
+        { "item": "spectrophotometer", "count": 1 },
+        { "item": "storage_battery", "count": 1 },
+        { "item": "betavoltaic", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": 3 },
+        { "item": "sheet_metal", "count": 3 },
+        { "item": "cable", "charges": 5 }
+      ]
+    },
+    "bash": {
+      "str_min": 3,
+      "str_max": 45,
+      "sound": "crunch!",
+      "sound_fail": "whack!",
+      "items": [
+        { "item": "e_scrap", "count": [ 1, 4 ], "prob": 50 },
+        { "item": "circuit", "count": [ 1, 6 ], "prob": 50 },
+        { "item": "scrap", "count": [ 2, 5 ] },
+        { "item": "steel_chunk", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 1, 3 ] },
+        { "item": "cable", "charges": [ 1, 15 ] }
+      ]
+    }
   }
 ]

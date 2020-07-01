@@ -64,12 +64,13 @@
         "T": "t_linoleum_white",
         "F": "t_linoleum_white",
         "l": "t_linoleum_white",
-        "x": "t_console_broken",
+        "x": "t_linoleum_white",
         "i": "t_ladder_up",
         "I": "t_column",
         "f": "t_chainfence"
       },
       "furniture": {
+        "x": "f_console_broken",
         "c": "f_counter",
         "S": "f_sink",
         "B": "f_bench",

@@ -79,7 +79,7 @@
     }
   },
   {
-    "type": "terrain",
+    "type": "furniture",
     "id": "f_generator_broken",
     "name": "broken generator",
     "description": "This generator is broken and will not help you produce usable electricity.",
@@ -116,7 +116,7 @@
     }
   },
   {
-    "type": "terrain",
+    "type": "furniture",
     "id": "f_compact_ASRG_containment",
     "name": "Compact Advanced Sterling Radioisotope Generator",
     "description": "This hefty lump of steel and lead is the housing unit for a small nuclear reactor.  It is plastered with warning signs.  You could probably ignore those and salvage the steel and lead shielding, what could possibly go wrong?",
@@ -154,7 +154,7 @@
     }
   },
   {
-    "type": "terrain",
+    "type": "furniture",
     "id": "f_compact_ASRG",
     "name": "Compact Advanced Sterling Radioisotope Generator",
     "description": "Some insane fool has removed the outer containment on this small-scale nuclear reactor.  It is still fairly safe as it is: the reactor has considerable built-in containment as well.  Nevertheless, you probably don't want to stand too close for too long.",
@@ -182,7 +182,7 @@
     }
   },
   {
-    "type": "terrain",
+    "type": "furniture",
     "id": "f_machinery_light",
     "name": "light machinery",
     "description": "Assorted light machinery.  You could scavenge it for parts.",
@@ -225,7 +225,7 @@
     }
   },
   {
-    "type": "terrain",
+    "type": "furniture",
     "id": "f_machinery_heavy",
     "name": "heavy machinery",
     "description": "Assorted heavy machinery.  You could scavenge it for parts.",
@@ -274,7 +274,7 @@
     }
   },
   {
-    "type": "terrain",
+    "type": "furniture",
     "id": "f_machinery_old",
     "name": "old machinery",
     "description": "Assorted old, rusty machinery.  You could scavenge it for parts.",
@@ -321,7 +321,7 @@
     }
   },
   {
-    "type": "terrain",
+    "type": "furniture",
     "id": "f_machinery_electronic",
     "name": "electronic machinery",
     "description": "Assorted electronic machinery.  You could scavenge it for parts.",

@@ -62,6 +62,7 @@
     "coverage": 60,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "CONTAINER", "PLACE_ITEM", "MOUNTABLE" ],
+    "connects_to": "COUNTER",
     "bash": {
       "str_min": 8,
       "str_max": 30,

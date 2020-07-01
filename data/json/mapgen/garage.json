@@ -33,21 +33,20 @@
         "                        "
       ],
       "terrain": {
-        " ": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        " ": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub" ],
         "E": "t_pavement",
         "U": "t_pavement",
         "$": "t_door_glass_c",
         "+": "t_door_c",
         "-": "t_brick_wall",
         ".": "t_thconc_floor",
-        "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
         "A": "t_m_frame",
         "H": "t_wall_glass",
         "e": "t_gates_mech_control",
         "|": "t_brick_wall",
-        "W": "t_chainfence_h",
+        "W": "t_chainfence",
         "^": "t_chaingate_c",
         "M": "t_metal_floor",
         "#": "t_grate",
@@ -55,6 +54,7 @@
         "<": "t_ladder_up"
       },
       "furniture": {
+        "6": "f_console_broken",
         "A": "f_air_conditioner",
         "L": "f_locker",
         "b": "f_bench",
@@ -269,7 +269,7 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": "t_region_groundcover_urban,
         "E": "t_pavement",
         "X": "t_sidewalk",
         "U": "t_sidewalk",
@@ -278,7 +278,6 @@
         "O": "t_door_locked",
         "-": "t_wall_b",
         ".": "t_thconc_floor",
-        "6": "t_console_broken",
         ":": "t_window",
         "=": "t_door_metal_locked",
         "A": "t_m_frame",
@@ -294,6 +293,7 @@
       },
       "toilets": { "&": {  } },
       "furniture": {
+        "6": "f_console_broken",
         "A": "f_air_conditioner",
         "L": "f_locker",
         "T": "f_rack",
@@ -368,8 +368,12 @@
         "8": "t_chaingate_c",
         "x": "t_thconc_floor"
       },
-      "furniture": { "I": "f_desk", "h": "f_chair", "f": "f_filing_cabinet",
-        "x": [ "t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic" ] },
+      "furniture": {
+        "I": "f_desk",
+        "h": "f_chair",
+        "f": "f_filing_cabinet",
+        "x": [ "f_machinery_light", "f_machinery_heavy", "f_machinery_old", "f_machinery_electronic" ]
+      },
       "items": {
         "I": { "item": "office", "chance": 30 },
         "f": { "item": "office_paper", "chance": 30 },
