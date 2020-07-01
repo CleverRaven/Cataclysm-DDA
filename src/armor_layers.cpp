@@ -399,7 +399,7 @@ static std::vector<layering_item_info> items_cover_bp( const Character &c, int b
     for( auto elem_it = c.worn.begin(); elem_it != c.worn.end(); ++elem_it ) {
         if( elem_it->covers( convert_bp( static_cast<body_part>( bp ) ).id() ) ) {
             s.push_back( { get_item_penalties( elem_it, c, bp ),
-                           elem_it->get_encumber( c, static_cast<bodypart_id>( bp ).id() ),
+                           elem_it->get_encumber( c, convert_bp( static_cast<body_part>( bp ) ).id() ),
                            elem_it->tname()
                          } );
         }
