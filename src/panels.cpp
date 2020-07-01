@@ -1564,6 +1564,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         wprintz( w, u.limb_color( bp, true, true, true ), str );
         wmove( w, point( 14, i ) );
         draw_limb_health( u, w, bp );
+        i++;
     }
 
     // needs
