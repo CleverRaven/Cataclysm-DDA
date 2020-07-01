@@ -5344,7 +5344,7 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
                                                   p.y / SEEX ) * MAPSIZE ) ) );
         }
         const auto &fdata = field_to_remove.obj();
-        if( fdata.is_transparent() ) {
+        if( !fdata.is_transparent() ) {
             set_transparency_cache_dirty( p.z );
         }
         if( fdata.is_dangerous() ) {
