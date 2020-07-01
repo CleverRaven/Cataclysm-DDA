@@ -32,7 +32,7 @@ class mapbuffer
 
         /** Add a new submap to the buffer.
          *
-         * @param x, y, z The absolute world position in submap coordinates.
+         * @param p The absolute world position in submap coordinates.
          * Same as the ones in @ref lookup_submap.
          * @param sm The submap. If the submap has been added, the unique_ptr
          * is released (set to NULL).
@@ -46,7 +46,7 @@ class mapbuffer
 
         /** Get a submap stored in this buffer.
          *
-         * @param x, y, z The absolute world position in submap coordinates.
+         * @param p The absolute world position in submap coordinates.
          * Same as the ones in @ref add_submap.
          * @return NULL if the submap is not in the mapbuffer
          * and could not be loaded. The mapbuffer takes care of the returned

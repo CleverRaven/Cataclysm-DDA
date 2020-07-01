@@ -115,7 +115,8 @@ void workbench_internal( player &p, const tripoint &examp,
 bool pour_into_keg( const tripoint &pos, item &liquid );
 cata::optional<tripoint> getGasPumpByNumber( const tripoint &p, int number );
 bool toPumpFuel( const tripoint &src, const tripoint &dst, int units );
-cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &gas_units );
+cata::optional<tripoint> getNearFilledGasTank( const tripoint &center, int &fuel_units,
+        const std::string &fuel_type );
 
 bool has_keg( const tripoint &pos );
 

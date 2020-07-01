@@ -96,21 +96,9 @@
   },
   {
     "type": "item_group",
-    "id": "bees",
-    "subtype": "distribution",
-    "entries": [ { "item": "bee_sting", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
     "id": "fungal_sting",
     "subtype": "distribution",
     "entries": [ { "item": "fighter_sting", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "wasps",
-    "subtype": "distribution",
-    "entries": [ { "item": "wasp_sting", "prob": 5 } ]
   },
   {
     "type": "item_group",

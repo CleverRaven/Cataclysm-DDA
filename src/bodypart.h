@@ -8,11 +8,15 @@
 #include <initializer_list>
 #include <string>
 
+#include "flat_set.h"
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
 
 class JsonObject;
+class JsonIn;
+class JsonOut;
+
 template <typename E> struct enum_traits;
 
 // The order is important ; pldata.h has to be in the same order
@@ -65,6 +69,20 @@ struct body_part_type;
 using bodypart_str_id = string_id<body_part_type>;
 using bodypart_id = int_id<body_part_type>;
 
+struct stat_hp_mods {
+
+    float str_mod = 3.0f;
+    float dex_mod = 0.0f;
+    float int_mod = 0.0f;
+    float per_mod = 0.0f;
+
+    float health_mod = 0.0f;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jsobj );
+    void deserialize( JsonIn &jsin );
+};
+
 struct body_part_type {
     public:
         bodypart_str_id id;
@@ -105,10 +123,11 @@ struct body_part_type {
         //Morale parameters
         float hot_morale_mod = 0;
         float cold_morale_mod = 0;
-
         float stylish_bonus = 0;
-
         int squeamish_penalty = 0;
+
+        int base_hp = 60;
+        stat_hp_mods hp_mods;
 
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
@@ -130,62 +149,90 @@ struct body_part_type {
         int bionic_slots_ = 0;
 };
 
+class bodypart
+{
+    private:
+        bodypart_str_id id;
+
+        int hp_cur;
+        int hp_max;
+
+        int healed_total = 0;
+        /** Not used yet*/
+        int damage_bandaged = 0;
+        int damage_disinfected = 0;
+
+    public:
+        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
+        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp )  {}
+
+        bodypart_id get_id() const;
+
+        void set_hp_to_max();
+        bool is_at_max_hp() const;
+
+        int get_hp_cur() const;
+        int get_hp_max() const;
+        int get_healed_total() const;
+        int get_damage_bandaged() const;
+        int get_damage_disinfected() const;
+
+        void set_hp_cur( int set );
+        void set_hp_max( int set );
+        void set_healed_total( int set );
+        void set_damage_bandaged( int set );
+        void set_damage_disinfected( int set );
+
+        void mod_hp_cur( int mod );
+        void mod_hp_max( int mod );
+        void mod_healed_total( int mod );
+        void mod_damage_bandaged( int mod );
+        void mod_damage_disinfected( int mod );
+
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
+};
+
 class body_part_set
 {
     private:
-        std::bitset<num_bp> parts;
 
-        explicit body_part_set( const std::bitset<num_bp> &other ) : parts( other ) { }
+        cata::flat_set<bodypart_str_id> parts;
+
+        explicit body_part_set( const cata::flat_set<bodypart_str_id> &other ) : parts( other ) { }
 
     public:
         body_part_set() = default;
-        body_part_set( std::initializer_list<body_part> bps ) {
-            for( const auto &bp : bps ) {
+        body_part_set( std::initializer_list<bodypart_str_id> bps ) {
+            for( const bodypart_str_id &bp : bps ) {
                 set( bp );
             }
         }
+        body_part_set unify_set( const body_part_set &rhs );
+        body_part_set intersect_set( const body_part_set &rhs );
 
-        body_part_set &operator|=( const body_part_set &rhs ) {
-            parts |= rhs.parts;
-            return *this;
-        }
-        body_part_set &operator&=( const body_part_set &rhs ) {
-            parts &= rhs.parts;
-            return *this;
-        }
+        body_part_set make_intersection( const body_part_set &rhs );
+        body_part_set substract_set( const body_part_set &rhs );
 
-        body_part_set operator|( const body_part_set &rhs ) const {
-            return body_part_set( parts | rhs.parts );
-        }
-        body_part_set operator&( const body_part_set &rhs ) const {
-            return body_part_set( parts & rhs.parts );
-        }
+        void fill( const std::vector<bodypart_id> &bps );
 
-        body_part_set operator~() const {
-            return body_part_set( ~parts );
+        bool test( const bodypart_str_id &bp ) const {
+            return parts.count( bp ) > 0;
         }
-
-        static body_part_set all() {
-            return ~body_part_set();
+        void set( const bodypart_str_id &bp ) {
+            parts.insert( bp );
         }
-
-        bool test( const body_part &bp ) const {
-            return parts.test( bp );
-        }
-        void set( const body_part &bp ) {
-            parts.set( bp );
-        }
-        void reset( const body_part &bp ) {
-            parts.reset( bp );
+        void reset( const bodypart_str_id &bp ) {
+            parts.erase( bp );
         }
         bool any() const {
-            return parts.any();
+            return !parts.empty();
         }
         bool none() const {
-            return parts.none();
+            return parts.empty();
         }
         size_t count() const {
-            return parts.count();
+            return parts.size();
         }
 
         template<typename Stream>

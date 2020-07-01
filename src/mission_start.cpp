@@ -27,8 +27,12 @@
 #include "string_formatter.h"
 #include "translations.h"
 
-static const mtype_id mon_dog( "mon_dog" );
+static const itype_id itype_software_hacking( "software_hacking" );
+static const itype_id itype_software_math( "software_math" );
+static const itype_id itype_software_medical( "software_medical" );
+static const itype_id itype_software_useless( "software_useless" );
 
+static const mtype_id mon_dog( "mon_dog" );
 static const mtype_id mon_zombie( "mon_zombie" );
 static const mtype_id mon_zombie_brute( "mon_zombie_brute" );
 static const mtype_id mon_zombie_dog( "mon_zombie_dog" );
@@ -194,15 +198,15 @@ void mission_start::place_npc_software( mission *miss )
     std::string type = "house";
 
     if( dev->myclass == NC_HACKER ) {
-        miss->item_id = "software_hacking";
+        miss->item_id = itype_software_hacking;
     } else if( dev->myclass == NC_DOCTOR ) {
-        miss->item_id = "software_medical";
+        miss->item_id = itype_software_medical;
         type = "s_pharm";
         miss->follow_up = mission_type_id( "MISSION_GET_ZOMBIE_BLOOD_ANAL" );
     } else if( dev->myclass == NC_SCIENTIST ) {
-        miss->item_id = "software_math";
+        miss->item_id = itype_software_math;
     } else {
-        miss->item_id = "software_useless";
+        miss->item_id = itype_software_useless;
     }
 
     tripoint place;

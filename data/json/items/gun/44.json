@@ -36,7 +36,16 @@
       [ "underbarrel", 1 ]
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
-    "magazines": [ [ "44", [ "deaglemag" ] ] ]
+    "pocket_data": [
+      {
+        "magazine_well": "250 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "deaglemag" ]
+      }
+    ]
   },
   {
     "id": "henry_big_boy",
@@ -74,7 +83,7 @@
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 10 } } ]
   },
   {
     "id": "rifle_44",
@@ -113,7 +122,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "44": 1 } } ]
   },
   {
     "id": "ruger_redhawk",
@@ -137,7 +146,6 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -149,7 +157,7 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "44": 6 } } ]
   },
   {
     "id": "sw629",
@@ -173,7 +181,6 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "magazines": [ [ "44", [ "44_speedloader6" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "barrel", 1 ],
@@ -185,6 +192,6 @@
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
     ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "44": 6 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "rigid": true, "ammo_restriction": { "44": 6 } } ]
   }
 ]

@@ -25,9 +25,6 @@
 class JsonObject;
 template <typename E> struct enum_traits;
 
-enum phase_id : int;
-enum body_part : int;
-
 enum class description_affix : int {
     DESCRIPTION_AFFIX_IN,
     DESCRIPTION_AFFIX_COVERED_IN,
@@ -159,12 +156,14 @@ struct field_type {
 
         int priority = 0;
         time_duration half_life = 0_turns;
-        phase_id phase = PNULL;
+        phase_id phase = phase_id::PNULL;
         bool accelerated_decay = false;
         bool display_items = true;
         bool display_field = false;
         field_type_id wandering_field;
         std::string looks_like;
+
+        bool decrease_intensity_on_contact = false;
 
     public:
         const field_intensity_level &get_intensity_level( int level = 0 ) const;
@@ -271,6 +270,7 @@ field_type get_field_type_by_legacy_enum( int legacy_enum_id );
 extern field_type_id fd_null,
        fd_blood,
        fd_bile,
+       fd_extinguisher,
        fd_gibs_flesh,
        fd_gibs_veggy,
        fd_web,

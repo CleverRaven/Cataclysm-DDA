@@ -44,6 +44,7 @@
 #include "monster.h"
 #include "morale.h"
 #include "morale_types.h"
+#include "move_mode.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -71,15 +72,18 @@
 
 static const activity_id ACT_READ( "ACT_READ" );
 
+static const bionic_id bio_cloak( "bio_cloak" );
 static const bionic_id bio_eye_optic( "bio_eye_optic" );
 static const bionic_id bio_memory( "bio_memory" );
 static const bionic_id bio_watch( "bio_watch" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_contacts( "contacts" );
 static const efftype_id effect_depressants( "depressants" );
 static const efftype_id effect_happy( "happy" );
 static const efftype_id effect_irradiated( "irradiated" );
+static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pkill( "pkill" );
 static const efftype_id effect_sad( "sad" );
 static const efftype_id effect_sleep( "sleep" );
@@ -87,6 +91,9 @@ static const efftype_id effect_sleep_deprived( "sleep_deprived" );
 static const efftype_id effect_slept_through_alarm( "slept_through_alarm" );
 static const efftype_id effect_stim( "stim" );
 static const efftype_id effect_stim_overdose( "stim_overdose" );
+static const efftype_id effect_stunned( "stunned" );
+
+static const itype_id itype_guidebook( "guidebook" );
 
 static const trait_id trait_ARACHNID_ARMS( "ARACHNID_ARMS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -95,6 +102,7 @@ static const trait_id trait_CHITIN2( "CHITIN2" );
 static const trait_id trait_CHITIN3( "CHITIN3" );
 static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_COMPOUND_EYES( "COMPOUND_EYES" );
+static const trait_id trait_DEBUG_CLOAK( "DEBUG_CLOAK" );
 static const trait_id trait_HYPEROPIC( "HYPEROPIC" );
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 static const trait_id trait_INSECT_ARMS( "INSECT_ARMS" );
@@ -113,11 +121,16 @@ static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 class JsonIn;
 class JsonOut;
 
+avatar &get_avatar()
+{
+    return g->u;
+}
+
 avatar::avatar()
 {
     show_map_memory = true;
     active_mission = nullptr;
-    grab_type = OBJECT_NONE;
+    grab_type = object_type::NONE;
 }
 
 void avatar::toggle_map_memory()
@@ -268,7 +281,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
     }
 
     // Check for conditions that immediately disqualify the player from reading:
-    const optional_vpart_position vp = g->m.veh_at( pos() );
+    const optional_vpart_position vp = get_map().veh_at( pos() );
     if( vp && vp->vehicle().player_in_control( *this ) ) {
         reasons.emplace_back( _( "It's a bad idea to read while driving!" ) );
         return nullptr;
@@ -415,10 +428,11 @@ bool avatar::read( item &it, const bool continuous )
             add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
         assign_activity( act );
+        g->events().send<event_type::reads_book>( getID(), it.typeId() );
         return true;
     }
 
-    if( it.typeId() == "guidebook" ) {
+    if( it.typeId() == itype_guidebook ) {
         // special guidebook effect: print a misc. hint when read
         if( reader != this ) {
             add_msg( m_info, fail_messages[0] );
@@ -426,6 +440,7 @@ bool avatar::read( item &it, const bool continuous )
         } else {
             add_msg( m_info, get_hint() );
         }
+        g->events().send<event_type::reads_book>( getID(), it.typeId() );
         mod_moves( -100 );
         return false;
     }
@@ -658,7 +673,7 @@ bool avatar::read( item &it, const bool continuous )
         elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
-
+    g->events().send<event_type::reads_book>( getID(), it.typeId() );
     return true;
 }
 
@@ -667,7 +682,7 @@ void avatar::grab( object_type grab_type, const tripoint &grab_point )
     this->grab_type = grab_type;
     this->grab_point = grab_point;
 
-    path_settings->avoid_rough_terrain = grab_type != OBJECT_NONE;
+    path_settings->avoid_rough_terrain = grab_type != object_type::NONE;
 }
 
 object_type avatar::get_grab_type() const
@@ -922,19 +937,9 @@ void avatar::do_read( item &book )
     activity.set_to_null();
 }
 
-bool avatar::has_identified( const std::string &item_id ) const
+bool avatar::has_identified( const itype_id &item_id ) const
 {
     return items_identified.count( item_id ) > 0;
-}
-
-hint_rating avatar::rate_action_read( const item &it ) const
-{
-    if( !it.is_book() ) {
-        return hint_rating::cant;
-    }
-
-    std::vector<std::string> dummy;
-    return get_book_reader( it, dummy ) == nullptr ? hint_rating::iffy : hint_rating::good;
 }
 
 void avatar::wake_up()
@@ -976,21 +981,51 @@ void avatar::vomit()
     Character::vomit();
 }
 
+nc_color avatar::basic_symbol_color() const
+{
+    if( has_effect( effect_onfire ) ) {
+        return c_red;
+    }
+    if( has_effect( effect_stunned ) ) {
+        return c_light_blue;
+    }
+    if( has_effect( effect_boomered ) ) {
+        return c_pink;
+    }
+    if( has_active_mutation( trait_id( "SHELL2" ) ) ) {
+        return c_magenta;
+    }
+    if( underwater ) {
+        return c_blue;
+    }
+    if( has_active_bionic( bio_cloak ) || has_artifact_with( AEP_INVISIBLE ) ||
+        is_wearing_active_optcloak() || has_trait( trait_DEBUG_CLOAK ) ) {
+        return c_dark_gray;
+    }
+    return move_mode->symbol_color();
+}
+
+int avatar::print_info( const catacurses::window &w, int vStart, int, int column ) const
+{
+    mvwprintw( w, point( column, vStart++ ), _( "You (%s)" ), name );
+    return vStart;
+}
+
 void avatar::disp_morale()
 {
     int equilibrium = calc_focus_equilibrium();
 
     int fatigue_penalty = 0;
-    if( get_fatigue() >= MASSIVE_FATIGUE && equilibrium > 20 ) {
+    if( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && equilibrium > 20 ) {
         fatigue_penalty = equilibrium - 20;
         equilibrium = 20;
-    } else if( get_fatigue() >= EXHAUSTED && equilibrium > 40 ) {
+    } else if( get_fatigue() >= fatigue_levels::EXHAUSTED && equilibrium > 40 ) {
         fatigue_penalty = equilibrium - 40;
         equilibrium = 40;
-    } else if( get_fatigue() >= DEAD_TIRED && equilibrium > 60 ) {
+    } else if( get_fatigue() >= fatigue_levels::DEAD_TIRED && equilibrium > 60 ) {
         fatigue_penalty = equilibrium - 60;
         equilibrium = 60;
-    } else if( get_fatigue() >= TIRED && equilibrium > 80 ) {
+    } else if( get_fatigue() >= fatigue_levels::TIRED && equilibrium > 80 ) {
         fatigue_penalty = equilibrium - 80;
         equilibrium = 80;
     }
@@ -1096,10 +1131,10 @@ int avatar::calc_focus_change() const
     gain *= base_change;
 
     // Fatigue will incrementally decrease any focus above related cap
-    if( ( get_fatigue() >= TIRED && focus_pool > 80 ) ||
-        ( get_fatigue() >= DEAD_TIRED && focus_pool > 60 ) ||
-        ( get_fatigue() >= EXHAUSTED && focus_pool > 40 ) ||
-        ( get_fatigue() >= MASSIVE_FATIGUE && focus_pool > 20 ) ) {
+    if( ( get_fatigue() >= fatigue_levels::TIRED && focus_pool > 80 ) ||
+        ( get_fatigue() >= fatigue_levels::DEAD_TIRED && focus_pool > 60 ) ||
+        ( get_fatigue() >= fatigue_levels::EXHAUSTED && focus_pool > 40 ) ||
+        ( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE && focus_pool > 20 ) ) {
 
         //it can fall faster then 1
         if( gain > -1 ) {
@@ -1158,7 +1193,7 @@ void avatar::reset_stats()
     if( has_trait( trait_ARACHNID_ARMS_OK ) ) {
         if( !wearing_something_on( bodypart_id( "torso" ) ) ) {
             mod_dex_bonus( 2 );
-        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bp_torso ) ) {
+        } else if( !exclusive_flag_coverage( "OVERSIZE" ).test( bodypart_str_id( "torso" ) ) ) {
             mod_dex_bonus( -2 );
             add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
@@ -1351,7 +1386,7 @@ static int xp_to_next( const avatar &you )
     return xp_next;
 }
 
-void avatar::upgrade_stat_prompt( const Character::stat &stat )
+void avatar::upgrade_stat_prompt( const character_stat &stat )
 {
     const int free_points = free_upgrade_points();
     const int next_lvl_xp = xp_to_next( *this );
@@ -1363,19 +1398,19 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
 
     std::string stat_string;
     switch( stat ) {
-        case STRENGTH:
+        case character_stat::STRENGTH:
             stat_string = _( "strength" );
             break;
-        case DEXTERITY:
+        case character_stat::DEXTERITY:
             stat_string = _( "dexterity" );
             break;
-        case INTELLIGENCE:
+        case character_stat::INTELLIGENCE:
             stat_string = _( "intelligence" );
             break;
-        case PERCEPTION:
+        case character_stat::PERCEPTION:
             stat_string = _( "perception" );
             break;
-        case DUMMY_STAT:
+        case character_stat::DUMMY_STAT:
             stat_string = _( "invalid stat" );
             debugmsg( "Tried to use invalid stat" );
             break;
@@ -1386,19 +1421,19 @@ void avatar::upgrade_stat_prompt( const Character::stat &stat )
     if( query_yn( _( "Are you sure you want to raise %s?  %d points available." ), stat_string,
                   free_points ) ) {
         switch( stat ) {
-            case STRENGTH:
+            case character_stat::STRENGTH:
                 str_upgrade++;
                 break;
-            case DEXTERITY:
+            case character_stat::DEXTERITY:
                 dex_upgrade++;
                 break;
-            case INTELLIGENCE:
+            case character_stat::INTELLIGENCE:
                 int_upgrade++;
                 break;
-            case PERCEPTION:
+            case character_stat::PERCEPTION:
                 per_upgrade++;
                 break;
-            case DUMMY_STAT:
+            case character_stat::DUMMY_STAT:
                 debugmsg( "Tried to use invalid stat" );
                 break;
         }
@@ -1410,101 +1445,62 @@ faction *avatar::get_faction() const
     return g->faction_manager_ptr->get( faction_id( "your_followers" ) );
 }
 
-void avatar::set_movement_mode( character_movemode new_mode )
+void avatar::set_movement_mode( const move_mode_id &new_mode )
 {
-    switch( new_mode ) {
-        case CMM_WALK: {
-            if( is_mounted() ) {
-                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                    add_msg( _( "You set your mech's leg power to a loping fast walk." ) );
-                } else {
-                    add_msg( _( "You nudge your steed into a steady trot." ) );
-                }
-            } else {
-                add_msg( _( "You start walking." ) );
-            }
-            break;
+    steed_type steed;
+    if( is_mounted() ) {
+        if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
+            steed = steed_type::MECH;
+        } else {
+            steed = steed_type::ANIMAL;
         }
-        case CMM_RUN: {
-            if( can_run() ) {
-                if( is_hauling() ) {
-                    stop_hauling();
-                }
-                if( is_mounted() ) {
-                    if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                        add_msg( _( "You set the power of your mech's leg servos to maximum." ) );
-                    } else {
-                        add_msg( _( "You spur your steed into a gallop." ) );
-                    }
-                } else {
-                    add_msg( _( "You start running." ) );
-                }
-            } else {
-                if( is_mounted() ) {
-                    // mounts don't currently have stamina, but may do in future.
-                    add_msg( m_bad, _( "Your steed is too tired to go faster." ) );
-                } else if( get_working_leg_count() < 2 ) {
-                    add_msg( m_bad, _( "You need two functional legs to run." ) );
-                } else {
-                    add_msg( m_bad, _( "You're too tired to run." ) );
-                }
-                return;
-            }
-            break;
-        }
-        case CMM_CROUCH: {
-            if( is_mounted() ) {
-                if( mounted_creature->has_flag( MF_RIDEABLE_MECH ) ) {
-                    add_msg( _( "You reduce the power of your mech's leg servos to minimum." ) );
-                } else {
-                    add_msg( _( "You slow your steed to a walk." ) );
-                }
-            } else {
-                add_msg( _( "You start crouching." ) );
-            }
-            break;
-        }
-        default: {
-            return;
-        }
+    } else {
+        steed = steed_type::NONE;
     }
-    move_mode = new_mode;
+
+    if( can_switch_to( new_mode ) ) {
+        add_msg( new_mode->change_message( true, steed ) );
+        move_mode = new_mode;
+        if( new_mode->stop_hauling() ) {
+            stop_hauling();
+        }
+    } else {
+        add_msg( new_mode->change_message( false, steed ) );
+    }
 }
 
 void avatar::toggle_run_mode()
 {
-    if( move_mode == CMM_RUN ) {
-        set_movement_mode( CMM_WALK );
+    if( is_running() ) {
+        set_movement_mode( move_mode_id( "walk" ) );
     } else {
-        set_movement_mode( CMM_RUN );
+        set_movement_mode( move_mode_id( "run" ) );
     }
 }
 
 void avatar::toggle_crouch_mode()
 {
-    if( move_mode == CMM_CROUCH ) {
-        set_movement_mode( CMM_WALK );
+    if( is_crouching() ) {
+        set_movement_mode( move_mode_id( "walk" ) );
     } else {
-        set_movement_mode( CMM_CROUCH );
+        set_movement_mode( move_mode_id( "crouch" ) );
     }
 }
 
 void avatar::reset_move_mode()
 {
-    if( move_mode != CMM_WALK ) {
-        set_movement_mode( CMM_WALK );
+    if( !is_walking() ) {
+        set_movement_mode( move_mode_id( "walk" ) );
     }
 }
 
 void avatar::cycle_move_mode()
 {
-    unsigned char as_uchar = static_cast<unsigned char>( move_mode );
-    as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
-    set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    const move_mode_id next = current_movement_mode()->cycle();
+    set_movement_mode( next );
     // if a movemode is disabled then just cycle to the next one
-    if( !movement_mode_is( static_cast<character_movemode>( as_uchar ) ) ) {
-        as_uchar = ( as_uchar + 1 + CMM_COUNT ) % CMM_COUNT;
-        set_movement_mode( static_cast<character_movemode>( as_uchar ) );
+    if( !movement_mode_is( next ) ) {
+        set_movement_mode( next->cycle() );
     }
 }
 
@@ -1574,6 +1570,8 @@ bool avatar::wield( item &target, const int obtain_cost )
 
     weapon.on_wield( *this, mv );
 
+    g->events().send<event_type::character_wields_item>( getID(), last_item );
+
     inv.update_invlet( weapon );
     inv.update_cache_with_item( weapon );
 
@@ -1615,8 +1613,6 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
 
     const std::string &method = std::next( use_methods.begin(), choice )->first;
 
-    g->refresh_all();
-
     return invoke_item( used, method, pt );
 }
 
@@ -1633,20 +1629,6 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
-}
-
-targeting_data &avatar::get_targeting_data()
-{
-    if( tdata == nullptr ) {
-        debugmsg( "Tried to get targeting data before setting it" );
-        tdata.reset( new targeting_data() );
-    }
-    return *tdata;
-}
-
-void avatar::set_targeting_data( const targeting_data &td )
-{
-    tdata.reset( new targeting_data( td ) );
 }
 
 points_left::points_left()

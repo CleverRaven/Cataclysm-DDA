@@ -25,9 +25,9 @@ THE SOFTWARE.
 #ifndef __GETPOST_H__
 #define __GETPOST_H__
 
+#include <cstdlib>
 #include <cstring>
 #include <string>
-#include <stdlib.h>
 #include <map>
 #include <new>
 
@@ -71,7 +71,7 @@ inline void initializeGet( std::map <std::string, std::string> &Get )
     }
     while( *raw_get != '\0' ) {
         if( *raw_get == '&' ) {
-            if( tmpkey != "" ) {
+            if( !tmpkey.empty() ) {
                 Get[urlDecode( tmpkey )] = urlDecode( tmpvalue );
             }
             tmpkey.clear();
@@ -85,7 +85,7 @@ inline void initializeGet( std::map <std::string, std::string> &Get )
         raw_get++;
     }
     //enter the last pair to the map
-    if( tmpkey != "" ) {
+    if( !tmpkey.empty() ) {
         Get[urlDecode( tmpkey )] = urlDecode( tmpvalue );
         tmpkey.clear();
         tmpvalue.clear();
@@ -112,7 +112,7 @@ inline void initializePost( std::map <std::string, std::string> &Post )
 
     try {
         buffer = new char[content_length * sizeof( char )];
-    } catch( std::bad_alloc &xa ) {
+    } catch( std::bad_alloc & ) {
         Post.clear();
         return;
     }
@@ -125,7 +125,7 @@ inline void initializePost( std::map <std::string, std::string> &Post )
     ibuffer = buffer;
     while( *ibuffer != '\0' ) {
         if( *ibuffer == '&' ) {
-            if( tmpkey != "" ) {
+            if( !tmpkey.empty() ) {
                 Post[urlDecode( tmpkey )] = urlDecode( tmpvalue );
             }
             tmpkey.clear();
@@ -139,7 +139,7 @@ inline void initializePost( std::map <std::string, std::string> &Post )
         ibuffer++;
     }
     //enter the last pair to the map
-    if( tmpkey != "" ) {
+    if( !tmpkey.empty() ) {
         Post[urlDecode( tmpkey )] = urlDecode( tmpvalue );
         tmpkey.clear();
         tmpvalue.clear();

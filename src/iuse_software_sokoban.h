@@ -31,8 +31,8 @@ class sokoban_game
                     sTileOld = " ";
                 }
 
-                cUndo( const int arg_y, const int arg_x, const std::string &arg_tile ) {
-                    old = point( arg_x, arg_y );
+                cUndo( const point &arg, const std::string &arg_tile ) {
+                    old = arg;
                     sTileOld = arg_tile;
                 }
         };

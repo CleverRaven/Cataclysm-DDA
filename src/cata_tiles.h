@@ -29,8 +29,6 @@ class Character;
 class JsonObject;
 class pixel_minimap;
 
-using itype_id = std::string;
-
 extern void set_displaybuffer_rendertarget();
 
 /** Structures */

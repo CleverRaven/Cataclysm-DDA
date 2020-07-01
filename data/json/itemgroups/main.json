@@ -15,7 +15,6 @@
       { "item": "bio_blade", "prob": 10 },
       { "item": "bio_speed", "prob": 10 },
       { "item": "bot_c4_hack", "prob": 30 },
-      { "item": "bot_laserturret", "prob": 20 },
       { "item": "c4", "prob": 50 },
       { "item": "canister_goo", "prob": 80 },
       { "item": "cleansuit", "prob": 100 },
@@ -87,7 +86,6 @@
     "subtype": "distribution",
     "entries": [
       { "item": "12mm", "prob": 10 },
-      { "item": "bot_laserturret", "prob": 10 },
       { "item": "alloy_plate", "prob": 10 },
       { "item": "plasma_gun", "prob": 10 },
       { "item": "can_sealer", "prob": 10 },

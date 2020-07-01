@@ -109,8 +109,9 @@ void mapbuffer::save( bool delete_after_save )
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
-    const tripoint map_origin = sm_to_omt_copy( g->m.get_abs_sub() );
-    const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
+    map &here = get_map();
+    const tripoint map_origin = sm_to_omt_copy( here.get_abs_sub() );
+    const bool map_has_zlevels = g != nullptr && here.has_zlevels();
 
     static_popup popup;
 
@@ -283,11 +284,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 version = jsin.get_int();
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
-                int locx = jsin.get_int();
-                int locy = jsin.get_int();
-                int locz = jsin.get_int();
+                tripoint loc{ jsin.get_int(), jsin.get_int(), jsin.get_int() };
                 jsin.end_array();
-                submap_coordinates = tripoint( locx, locy, locz );
+                submap_coordinates = loc;
             } else {
                 sm->load( jsin, submap_member_name, version );
             }

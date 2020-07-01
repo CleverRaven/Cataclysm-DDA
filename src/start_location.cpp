@@ -73,8 +73,8 @@ void start_location::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", _name );
     std::string ter;
-    ot_match_type ter_match_type = ot_match_type::type;
     for( const JsonValue entry : jo.get_array( "terrain" ) ) {
+        ot_match_type ter_match_type = ot_match_type::type;
         if( entry.test_string() ) {
             ter = entry.get_string();
         } else {
@@ -175,7 +175,7 @@ static void board_up( map &m, const tripoint_range &range )
         const tripoint bp = random_entry_removed( boardables );
         m.furn_set( bp, m.furn( fp ) );
         m.furn_set( fp, f_null );
-        auto destination_items = m.i_at( bp );
+        map_stack destination_items = m.i_at( bp );
         for( const item &moved_item : m.i_at( fp ) ) {
             destination_items.insert( moved_item );
         }
@@ -246,12 +246,12 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 
     // If not checked yet and either can be moved into, can be bashed down or opened,
     // add it on the top of the stack.
-    const auto maybe_add = [&]( const int x, const int y, const tripoint & from ) {
-        if( checked[x][y] >= attempt ) {
+    const auto maybe_add = [&]( const point & add_p, const tripoint & from ) {
+        if( checked[add_p.x][add_p.y] >= attempt ) {
             return;
         }
 
-        const tripoint pt( x, y, p.z );
+        const tripoint pt( add_p, p.z );
         if( m.passable( pt ) ||
             m.bash_resistance( pt ) <= bash_str ||
             m.open_door( pt, !m.is_outside( from ), true ) ) {
@@ -272,14 +272,14 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
             return INT_MAX;
         }
 
-        maybe_add( cur.x - 1, cur.y, cur );
-        maybe_add( cur.x, cur.y - 1, cur );
-        maybe_add( cur.x + 1, cur.y, cur );
-        maybe_add( cur.x, cur.y + 1, cur );
-        maybe_add( cur.x - 1, cur.y - 1, cur );
-        maybe_add( cur.x + 1, cur.y - 1, cur );
-        maybe_add( cur.x - 1, cur.y + 1, cur );
-        maybe_add( cur.x + 1, cur.y + 1, cur );
+        maybe_add( cur.xy() + point_west, cur );
+        maybe_add( cur.xy() + point_north, cur );
+        maybe_add( cur.xy() + point_east, cur );
+        maybe_add( cur.xy() + point_south, cur );
+        maybe_add( cur.xy() + point_north_west, cur );
+        maybe_add( cur.xy() + point_north_east, cur );
+        maybe_add( cur.xy() + point_south_west, cur );
+        maybe_add( cur.xy() + point_south_east, cur );
     }
 
     return area;
@@ -355,14 +355,13 @@ void start_location::burn( const tripoint &omtstart, const size_t count, const i
     tinymap m;
     m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
-    const int ux = g->u.posx() % HALF_MAPSIZE_X;
-    const int uy = g->u.posy() % HALF_MAPSIZE_Y;
+    const point u( g->u.posx() % HALF_MAPSIZE_X, g->u.posy() % HALF_MAPSIZE_Y );
     std::vector<tripoint> valid;
     for( const tripoint &p : m.points_on_zlevel() ) {
         if( !( m.has_flag_ter( "DOOR", p ) ||
                m.has_flag_ter( "OPENCLOSE_INSIDE", p ) ||
                m.is_outside( p ) ||
-               ( p.x >= ux - rad && p.x <= ux + rad && p.y >= uy - rad && p.y <= uy + rad ) ) ) {
+               ( p.x >= u.x - rad && p.x <= u.x + rad && p.y >= u.y - rad && p.y <= u.y + rad ) ) ) {
             if( m.has_flag( "FLAMMABLE", p ) || m.has_flag( "FLAMMABLE_ASH", p ) ) {
                 valid.push_back( p );
             }
@@ -388,24 +387,25 @@ void start_location::add_map_extra( const tripoint &omtstart, const std::string 
 
 void start_location::handle_heli_crash( player &u ) const
 {
-    for( int i = 2; i < num_hp_parts; i++ ) { // Skip head + torso for balance reasons.
-        const auto part = static_cast<hp_part>( i );
-        const auto bp_part = player::hp_to_bp( part );
+    for( const bodypart_id &bp : u.get_all_body_parts() ) {
+        if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
+            continue;// Skip head + torso for balance reasons.
+        }
         const int roll = static_cast<int>( rng( 1, 8 ) );
         switch( roll ) {
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( convert_bp( bp_part ).id(), 6_minutes );
+                u.make_bleed( bp, 6_minutes );
             /* fallthrough */
             case 3:
             case 4:
             // Just damage
             case 5: {
-                const auto maxHp = u.get_hp_max( part );
+                const int maxHp = u.get_hp_max( bp );
                 // Body part health will range from 33% to 66% with occasional bleed
                 const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
-                u.apply_damage( nullptr, convert_bp( bp_part ).id(), dmg );
+                u.apply_damage( nullptr, bp, dmg );
                 break;
             }
             // No damage

@@ -172,7 +172,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
             }
 
             if( better ) {
-                candidates[use] = i;
+                candidates[use] = actual_item;
                 if( actual_item->ammo_required() == 0 ) {
                     to_remove.insert( use );
                 }
@@ -261,7 +261,7 @@ void game::item_action_menu()
     kmenu.text = _( "Execute which action?" );
     kmenu.input_category = "ITEM_ACTIONS";
     input_context ctxt( "ITEM_ACTIONS" );
-    for( const auto &id : item_actions ) {
+    for( const std::pair<const item_action_id, item_action> &id : item_actions ) {
         ctxt.register_action( id.first, id.second.name );
         kmenu.additional_actions.emplace_back( id.first, id.second.name );
     }
@@ -287,7 +287,7 @@ void game::item_action_menu()
     []( const std::pair<item_action_id, item *> &elem ) {
         std::string ss = elem.second->display_name();
         if( elem.second->ammo_required() ) {
-            ss += string_format( " (%d/%d)", elem.second->ammo_required(), elem.second->ammo_remaining() );
+            ss += string_format( "(-%d)", elem.second->ammo_required() );
         }
 
         const auto method = elem.second->get_use( elem.first );
@@ -336,10 +336,6 @@ void game::item_action_menu()
     if( kmenu.ret < 0 || kmenu.ret >= static_cast<int>( iactions.size() ) ) {
         return;
     }
-
-    draw_ter();
-    wrefresh( w_terrain );
-    draw_panels( true );
 
     const item_action_id action = std::get<0>( menu_items[kmenu.ret] );
     item *it = iactions[action];

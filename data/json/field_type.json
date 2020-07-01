@@ -76,9 +76,32 @@
     "id": "fd_web",
     "type": "field_type",
     "legacy_enum_id": 5,
-    "intensity_levels": [ { "name": "cobwebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
+    "intensity_levels": [
+      {
+        "name": "cobwebs",
+        "sym": "}",
+        "effects": [
+          { "effect_id": "webbed", "intensity": 1, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      },
+      {
+        "name": "webs",
+        "effects": [
+          { "effect_id": "webbed", "intensity": 2, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      },
+      {
+        "name": "thick webs",
+        "transparent": false,
+        "effects": [
+          { "effect_id": "webbed", "intensity": 3, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      }
+    ],
     "description_affix": "covered_in",
     "immunity_data": { "traits": [ "WEB_WALKER" ] },
+    "immune_mtypes": [ "mon_spider_web", "mon_spider_web_s" ],
+    "decrease_intensity_on_contact": true,
     "priority": 2,
     "phase": "solid",
     "display_items": false,
@@ -238,6 +261,93 @@
     "phase": "plasma",
     "display_items": false,
     "display_field": true
+  },
+  {
+    "id": "fd_extinguisher",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "extinguisher mist",
+        "sym": "%",
+        "color": "white",
+        "dangerous": true,
+        "translucency": 0.1,
+        "convection_temperature_mod": -10,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the extinguisher mist",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "extinguisher cloud",
+        "color": "white",
+        "convection_temperature_mod": -20,
+        "translucency": 0.4,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the extinguisher cloud",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "thick extinguisher cloud",
+        "color": "white",
+        "convection_temperature_mod": -30,
+        "translucency": 0.7,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied outside of vehicles, so it could apply harsher effect",
+            "immune_outside_vehicle": true,
+            "message": "You feel sick from inhaling the thick extinguisher cloud",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "badpoison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied inside of vehicles, so it could apply lesser effect",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the thick extinguisher cloud",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "description_affix": "on",
+    "decay_amount_factor": 3,
+    "priority": 4,
+    "half_life": "10 seconds",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_fog",
+    "gas_absorption_factor": 15,
+    "has_fume": true,
+    "percent_spread": 90,
+    "dirty_transparency_cache": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] }
   },
   {
     "id": "fd_rubble",

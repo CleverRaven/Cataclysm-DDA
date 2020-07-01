@@ -4,7 +4,7 @@
     "copy-from": "45_jhp",
     "type": "AMMO",
     "name": { "str": ".45 ACP FMJ" },
-    "description": ".45 ACP ammunition with 230gr FMJ bullets.  Noted for its stopping power, the .45 ACP round has been common for almost 150 years.",
+    "description": ".45 ACP ammunition with 230gr FMJ bullets.  Noted for its stopping power, the .45 ACP round has been common for over a century.",
     "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 6 } }
   },
   {

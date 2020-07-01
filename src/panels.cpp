@@ -35,6 +35,7 @@
 #include "magic.h"
 #include "map.h"
 #include "messages.h"
+#include "move_mode.h"
 #include "omdata.h"
 #include "options.h"
 #include "output.h"
@@ -211,8 +212,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                                      const tripoint &global_omt, const point &start_input,
                                      const int width, const int height )
 {
-    const int cursx = global_omt.x;
-    const int cursy = global_omt.y;
+    const point curs( global_omt.xy() );
     const tripoint targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
     const int start_y = start_input.y + ( height / 2 ) - 2;
@@ -220,7 +220,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
-            const tripoint omp( cursx + i, cursy + j, g->get_levz() );
+            const tripoint omp( curs.x + i, curs.y + j, g->get_levz() );
             nc_color ter_color;
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
@@ -347,11 +347,11 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 
     // Print arrow to mission if we have one!
     if( !drew_mission ) {
-        double slope = ( cursx != targ.x ) ? static_cast<double>( targ.y - cursy ) / static_cast<double>
-                       ( targ.x - cursx ) : 4;
+        double slope = ( curs.x != targ.x ) ? static_cast<double>( targ.y - curs.y ) / static_cast<double>
+                       ( targ.x - curs.x ) : 4;
 
-        if( cursx == targ.x || std::fabs( slope ) > 3.5 ) {  // Vertical slope
-            if( targ.y > cursy ) {
+        if( curs.x == targ.x || std::fabs( slope ) > 3.5 ) {  // Vertical slope
+            if( targ.y > curs.y ) {
                 mvwputch( w_minimap, point( 3 + start_x, 6 + start_y ), c_red, '*' );
             } else {
                 mvwputch( w_minimap, point( 3 + start_x, 0 + start_y ), c_red, '*' );
@@ -360,8 +360,8 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             int arrowx = -1;
             int arrowy = -1;
             if( std::fabs( slope ) >= 1. ) {  // y diff is bigger!
-                arrowy = ( targ.y > cursy ? 6 : 0 );
-                arrowx = static_cast<int>( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
+                arrowy = ( targ.y > curs.y ? 6 : 0 );
+                arrowx = static_cast<int>( 3 + 3 * ( targ.y > curs.y ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
                     arrowx = 0;
                 }
@@ -369,8 +369,8 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                     arrowx = 6;
                 }
             } else {
-                arrowx = ( targ.x > cursx ? 6 : 0 );
-                arrowy = static_cast<int>( 3 + 3 * ( targ.x > cursx ? slope : ( 0 - slope ) ) );
+                arrowx = ( targ.x > curs.x ? 6 : 0 );
+                arrowy = static_cast<int>( 3 + 3 * ( targ.x > curs.x ? slope : ( 0 - slope ) ) );
                 if( arrowy < 0 ) {
                     arrowy = 0;
                 }
@@ -388,18 +388,19 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             mvwputch( w_minimap, point( arrowx + start_x, arrowy + start_y ), c_red, glyph );
         }
     }
-
-    const int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
+    avatar &player_character = get_avatar();
+    const int sight_points = player_character.overmap_sight_range( g->light_level(
+                                 player_character.posz() ) );
     for( int i = -3; i <= 3; i++ ) {
         for( int j = -3; j <= 3; j++ ) {
             if( i > -3 && i < 3 && j > -3 && j < 3 ) {
                 continue; // only do hordes on the border, skip inner map
             }
-            const tripoint omp( cursx + i, cursy + j, g->get_levz() );
+            const tripoint omp( curs.x + i, curs.y + j, g->get_levz() );
             int horde_size = overmap_buffer.get_horde_size( omp );
             if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                 if( overmap_buffer.seen( omp )
-                    && g->u.overmap_los( omp, sight_points ) ) {
+                    && player_character.overmap_los( omp, sight_points ) ) {
                     mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
                               horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
@@ -435,7 +436,7 @@ static std::string get_temp( const avatar &u )
     std::string temp;
     if( u.has_item_with_flag( "THERMOMETER" ) ||
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
         return "-";
@@ -674,7 +675,7 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
     return std::make_pair( temp_color, temp_string );
 }
 
-static std::string get_armor( const avatar &u, body_part bp, unsigned int truncate = 0 )
+static std::string get_armor( const avatar &u, bodypart_id bp, unsigned int truncate = 0 )
 {
     for( std::list<item>::const_iterator it = u.worn.end(); it != u.worn.begin(); ) {
         --it;
@@ -872,16 +873,16 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             wprintz( w, color, sym );
         }
     };
-    if( u.is_limb_broken( static_cast<hp_part>( limb_index ) ) && ( limb_index >= hp_arm_l &&
-            limb_index <= hp_leg_r ) ) {
+    const bodypart_id bp = convert_bp( avatar::hp_to_bp( static_cast<hp_part>( limb_index ) ) ).id();
+    if( u.is_limb_broken( bp.id() ) && ( limb_index >= hp_arm_l &&
+                                         limb_index <= hp_leg_r ) ) {
         //Limb is broken
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        const auto bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
-        if( u.worn_with_flag( "SPLINT", convert_bp( bp ).id() ) ) {
+        if( u.worn_with_flag( "SPLINT",  bp ) ) {
             static const efftype_id effect_mending( "mending" );
-            const auto &eff = u.get_effect( effect_mending, bp );
+            const auto &eff = u.get_effect( effect_mending, bp->token );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {
@@ -901,12 +902,14 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         return;
     }
 
-    std::pair<std::string, nc_color> hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
+    const int hp_cur = u.get_part_hp_cur( bp );
+    const int hp_max = u.get_part_hp_max( bp );
+    std::pair<std::string, nc_color> hp = get_hp_bar( hp_cur, hp_max );
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
-        wprintz( w, hp.second, "%3d  ", u.hp_cur[limb_index] );
+        wprintz( w, hp.second, "%3d  ", hp_cur );
     } else if( no_feeling ) {
-        if( u.hp_cur[limb_index] < u.hp_max[limb_index] / 2 ) {
+        if( hp_cur < hp_max / 2 ) {
             hp = std::make_pair( string_format( " %s", _( "Bad" ) ), c_red );
         } else {
             hp = std::make_pair( string_format( " %s", _( "Good" ) ), c_green );
@@ -967,7 +970,7 @@ static void draw_limb2( avatar &u, const catacurses::window &w )
     const auto pwr = power_stat( u );
     mvwprintz( w, point( 31 - utf8_width( pwr.second ), 1 ), pwr.first, pwr.second );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_stats( avatar &u, const catacurses::window &w )
@@ -993,29 +996,17 @@ static void draw_stats( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 25, 0 ), c_light_gray, _( "PER" ) );
     mvwprintz( w, point( stat < 10 ? 30 : 29, 0 ), stat_clr,
                stat < 100 ? to_string( stat ) : "99+" );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static nc_color move_mode_color( avatar &u )
 {
-    if( u.movement_mode_is( CMM_RUN ) ) {
-        return c_red;
-    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-        return c_light_blue;
-    } else {
-        return c_light_gray;
-    }
+    return u.current_movement_mode()->panel_color();
 }
 
-static std::string move_mode_string( avatar &u )
+static char move_mode_string( avatar &u )
 {
-    if( u.movement_mode_is( CMM_RUN ) ) {
-        return pgettext( "movement-type", "R" );
-    } else if( u.movement_mode_is( CMM_CROUCH ) ) {
-        return pgettext( "movement-type", "C" );
-    } else {
-        return pgettext( "movement-type", "W" );
-    }
+    return u.current_movement_mode()->panel_letter();
 }
 
 static void draw_stealth( avatar &u, const catacurses::window &w )
@@ -1034,7 +1025,7 @@ static void draw_stealth( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 30 - utf8_width( snd ), 0 ), u.volume != 0 ? c_yellow : c_light_gray, snd );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_time_graphic( const catacurses::window &w )
@@ -1103,7 +1094,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
     nc_color clr = c_white;
     print_colored_text( w, point( 27, 0 ), clr, c_white, get_moon_graphic() );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_needs_compact( const avatar &u, const catacurses::window &w )
@@ -1128,7 +1119,7 @@ static void draw_needs_compact( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 17, 2 ), c_light_gray, _( "Focus" ) );
     mvwprintz( w, point( 24, 2 ), focus_color( u.focus_pool ), to_string( u.focus_pool ) );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_limb_narrow( avatar &u, const catacurses::window &w )
@@ -1171,7 +1162,7 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
         str = left_justify( str, 5 );
         wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_limb_wide( avatar &u, const catacurses::window &w )
@@ -1195,7 +1186,7 @@ static void draw_limb_wide( avatar &u, const catacurses::window &w )
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
         draw_limb_health( u, w, parts[i].second );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_char_narrow( avatar &u, const catacurses::window &w )
@@ -1212,7 +1203,7 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Move :" ) );
 
     nc_color move_color =  move_mode_color( u );
-    std::string move_char = move_mode_string( u );
+    char move_char = move_mode_string( u );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1236,7 +1227,7 @@ static void draw_char_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 26, 0 ), morale_pair.first, "%s", smiley );
     mvwprintz( w, point( 26, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, point( 26, 2 ), move_color, "%s", movecost );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_char_wide( avatar &u, const catacurses::window &w )
@@ -1253,7 +1244,7 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Move :" ) );
 
     nc_color move_color =  move_mode_color( u );
-    std::string move_char = move_mode_string( u );
+    char move_char = move_mode_string( u );
     std::string movecost = std::to_string( u.movecounter ) + "(" + move_char + ")";
     bool m_style = get_option<std::string>( "MORALE_STYLE" ) == "horizontal";
     std::string smiley = morale_emotion( morale_pair.second, get_face_type( u ), m_style );
@@ -1273,7 +1264,7 @@ static void draw_char_wide( avatar &u, const catacurses::window &w )
 
     mvwprintz( w, point( 23, 1 ), focus_color( u.get_speed() ), "%s", u.get_speed() );
     mvwprintz( w, point( 38, 1 ), move_color, "%s", movecost );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_stat_narrow( avatar &u, const catacurses::window &w )
@@ -1301,7 +1292,7 @@ static void draw_stat_narrow( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 19, 2 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 8, 2 ), pwr_pair.first, "%s", pwr_pair.second );
     mvwprintz( w, point( 26, 2 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_stat_wide( avatar &u, const catacurses::window &w )
@@ -1327,7 +1318,7 @@ static void draw_stat_wide( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 31, 1 ), c_light_gray, _( "Safe :" ) );
     mvwprintz( w, point( 38, 0 ), pwr_pair.first, "%s", pwr_pair.second );
     mvwprintz( w, point( 38, 1 ), safe_color(), g->safe_mode ? _( "On" ) : _( "Off" ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool minimap )
@@ -1345,11 +1336,12 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
-        const weather_datum wdata = weather_data( g->weather.weather );
+        const weather_datum wdata = weather_data( get_weather().weather );
         wprintz( w, wdata.color, " %s", wdata.name );
     }
     // display lighting
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point( 1, 2 ), c_light_gray, "%s ", _( "Light:" ) );
     wprintz( w, ll.second, ll.first );
 
@@ -1373,7 +1365,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
         const tripoint curs = u.global_omt_location();
         overmap_ui::draw_overmap_chunk( w, u, curs, point( offset, -1 ), 5, 5 );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_loc_narrow( const avatar &u, const catacurses::window &w )
@@ -1398,7 +1390,7 @@ static void draw_moon_narrow( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_moon_wide( const avatar &u, const catacurses::window &w )
@@ -1407,20 +1399,19 @@ static void draw_moon_wide( const avatar &u, const catacurses::window &w )
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Moon : %s" ), get_moon() );
     mvwprintz( w, point( 23, 0 ), c_light_gray, _( "Temp : %s" ), get_temp( u ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    nc_color color = c_light_gray;
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wield:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
-    print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
@@ -1443,7 +1434,7 @@ static void draw_needs_narrow( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 2 ), rest_pair.second, rest_pair.first );
     mvwprintz( w, point( 8, 3 ), pain_pair.second, pain_pair.first );
     mvwprintz( w, point( 8, 4 ), temp_pair.first, temp_pair.second );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_needs_labels( const avatar &u, const catacurses::window &w )
@@ -1467,7 +1458,7 @@ static void draw_needs_labels( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 30, 1 ), hunger_pair.second, hunger_pair.first );
     mvwprintz( w, point( 1, 2 ), c_light_gray, _( "Heat :" ) );
     mvwprintz( w, point( 8, 2 ), temp_pair.first, temp_pair.second );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_sound_labels( const avatar &u, const catacurses::window &w )
@@ -1480,7 +1471,7 @@ static void draw_sound_labels( const avatar &u, const catacurses::window &w )
     } else {
         mvwprintz( w, point( 8, 0 ), c_red, _( "Deaf!" ) );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_sound_narrow( const avatar &u, const catacurses::window &w )
@@ -1493,7 +1484,7 @@ static void draw_sound_narrow( const avatar &u, const catacurses::window &w )
     } else {
         mvwprintz( w, point( 8, 0 ), c_red, _( "Deaf!" ) );
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_env_compact( avatar &u, const catacurses::window &w )
@@ -1502,8 +1493,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
 
     draw_minimap( u, w );
     // wielded item
-    nc_color color = c_light_gray;
-    print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
     // style
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
     // location
@@ -1517,7 +1507,8 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 8, 3 ), wdata.color, wdata.name );
     }
     // display lighting
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point( 8, 4 ), ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
@@ -1531,7 +1522,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 31 - utf8_width( temp ), 5 ), c_light_gray, temp );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void render_wind( avatar &u, const catacurses::window &w, const std::string &formatstr )
@@ -1545,7 +1536,7 @@ static void render_wind( avatar &u, const catacurses::window &w, const std::stri
                                             u.pos(), g->weather.winddirection, g->is_sheltered( u.pos() ) );
     mvwprintz( w, point( 8, 0 ), get_wind_color( windpower ),
                get_wind_desc( windpower ) + " " + get_wind_arrow( g->weather.winddirection ) );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_wind( avatar &u, const catacurses::window &w )
@@ -1567,7 +1558,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
 
     werase( w );
@@ -1635,7 +1626,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     if( !veh ) {
         mvwprintz( w, point( 21, 5 ), u.get_speed() < 100 ? c_red : c_white,
                    _( "Spd " ) + to_string( u.get_speed() ) );
-        nc_color move_color = u.movement_mode_is( CMM_WALK ) ? c_white : move_mode_color( u );
+        nc_color move_color = move_mode_color( u );
         std::string move_string = to_string( u.movecounter ) + " " + move_mode_string( u );
         mvwprintz( w, point( 29, 5 ), move_color, move_string );
     }
@@ -1670,7 +1661,7 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
         }
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_armor_padding( const avatar &u, const catacurses::window &w )
@@ -1686,12 +1677,17 @@ static void draw_armor_padding( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 1, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 8;
-    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
-    wrefresh( w );
+    print_colored_text( w, point( 8, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 8, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
+                        max_length ) );
+    wnoutrefresh( w );
 }
 
 static void draw_armor( const avatar &u, const catacurses::window &w )
@@ -1706,12 +1702,17 @@ static void draw_armor( const avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 0, 4 ), color, _( "Feet :" ) );
 
     unsigned int max_length = getmaxx( w ) - 7;
-    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bp_head, max_length ) );
-    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bp_torso, max_length ) );
-    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bp_arm_r, max_length ) );
-    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bp_leg_r, max_length ) );
-    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bp_foot_r, max_length ) );
-    wrefresh( w );
+    print_colored_text( w, point( 7, 0 ), color, color, get_armor( u, bodypart_id( "head" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 1 ), color, color, get_armor( u, bodypart_id( "torso" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 2 ), color, color, get_armor( u, bodypart_id( "arm_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 3 ), color, color, get_armor( u, bodypart_id( "leg_r" ),
+                        max_length ) );
+    print_colored_text( w, point( 7, 4 ), color, color, get_armor( u, bodypart_id( "foot_r" ),
+                        max_length ) );
+    wnoutrefresh( w );
 }
 
 static void draw_messages( avatar &, const catacurses::window &w )
@@ -1720,7 +1721,7 @@ static void draw_messages( avatar &, const catacurses::window &w )
     int line = getmaxy( w ) - 2;
     int maxlength = getmaxx( w );
     Messages::display_messages( w, 1, 0 /*topline*/, maxlength - 1, line );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_messages_classic( avatar &, const catacurses::window &w )
@@ -1729,7 +1730,7 @@ static void draw_messages_classic( avatar &, const catacurses::window &w )
     int line = getmaxy( w ) - 2;
     int maxlength = getmaxx( w );
     Messages::display_messages( w, 0, 0 /*topline*/, maxlength, line );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 #if defined(TILES)
@@ -1737,7 +1738,7 @@ static void draw_mminimap( avatar &, const catacurses::window &w )
 {
     werase( w );
     g->draw_pixel_minimap( w );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 #endif
 
@@ -1745,14 +1746,14 @@ static void draw_compass( avatar &, const catacurses::window &w )
 {
     werase( w );
     g->mon_info( w );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_compass_padding( avatar &, const catacurses::window &w )
 {
     werase( w );
     g->mon_info( w, 1 );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_veh_compact( const avatar &u, const catacurses::window &w )
@@ -1762,7 +1763,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
     // vehicle display
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_zero );
@@ -1784,7 +1785,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
         }
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_veh_padding( const avatar &u, const catacurses::window &w )
@@ -1794,17 +1795,17 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
     // vehicle display
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_east );
         mvwprintz( w, point( 7, 0 ), c_light_gray, to_string( ( veh->face.dir() + 90 ) % 360 ) + "°" );
         // target speed > current speed
         const float strain = veh->strain();
-        nc_color col_vel = strain <= 0 ? c_light_blue :
-                           ( strain <= 0.2 ? c_yellow :
-                             ( strain <= 0.4 ? c_light_red : c_red ) );
         if( veh->cruise_on ) {
+            nc_color col_vel = strain <= 0 ? c_light_blue :
+                               ( strain <= 0.2 ? c_yellow :
+                                 ( strain <= 0.4 ? c_light_red : c_red ) );
             int t_speed = static_cast<int>( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) );
             int c_speed = static_cast<int>( convert_velocity( veh->velocity, VU_VEHICLE ) );
             int offset = get_int_digits( t_speed );
@@ -1816,7 +1817,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
         }
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_ai_goal( const avatar &u, const catacurses::window &w )
@@ -1828,7 +1829,7 @@ static void draw_ai_goal( const avatar &u, const catacurses::window &w )
     std::string current_need = needs.tick( &player_oracle );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Goal: %s" ), current_need );
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_location_classic( const avatar &u, const catacurses::window &w )
@@ -1839,7 +1840,7 @@ static void draw_location_classic( const avatar &u, const catacurses::window &w 
     mvwprintz( w, point( 10, 0 ), c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 13 ) );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_weather_classic( avatar &, const catacurses::window &w )
@@ -1849,7 +1850,7 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
-        const weather_datum wdata = weather_data( g->weather.weather );
+        const weather_datum wdata = weather_data( get_weather().weather );
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
         mvwprintz( w, point( 10, 0 ), wdata.color, wdata.name );
     }
@@ -1857,14 +1858,15 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     nc_color clr = c_white;
     print_colored_text( w, point( 38, 0 ), clr, c_white, get_moon_graphic() );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_lighting_classic( const avatar &u, const catacurses::window &w )
 {
     werase( w );
 
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point_zero, c_light_gray, _( "Lighting:" ) );
     mvwprintz( w, point( 10, 0 ), ll.second, ll.first );
 
@@ -1875,7 +1877,7 @@ static void draw_lighting_classic( const avatar &u, const catacurses::window &w 
         mvwprintz( w, point( 31, 0 ), c_red, _( "Deaf!" ) );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
@@ -1883,8 +1885,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Weapon  :" ) );
-    nc_color color = c_light_gray;
-    print_colored_text( w, point( 10, 0 ), color, color, u.weapname( getmaxx( w ) - 24 ) );
+    trim_and_print( w, point( 10, 0 ), getmaxx( w ) - 24, c_light_gray, u.weapname() );
 
     // Print in sidebar currently used martial style.
     const std::string style = u.martial_arts_data.selected_style_name( u );
@@ -1894,7 +1895,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
         mvwprintz( w, point( 31, 0 ), style_color, style );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_time_classic( const avatar &u, const catacurses::window &w )
@@ -1918,11 +1919,11 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_hint( const avatar &, const catacurses::window &w )
@@ -1933,7 +1934,7 @@ static void draw_hint( const avatar &, const catacurses::window &w )
     mvwprintz( w, point( 1, 0 ), c_light_green, press );
     mvwprintz( w, point( 2 + utf8_width( press ), 0 ), c_white, _( "to open sidebar options" ) );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void print_mana( const player &u, const catacurses::window &w, const std::string &fmt_string,
@@ -1952,7 +1953,7 @@ static void print_mana( const player &u, const catacurses::window &w, const std:
     nc_color gray = c_light_gray;
     print_colored_text( w, point_zero, gray, gray, mana_string );
 
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_mana_classic( const player &u, const catacurses::window &w )
@@ -1981,7 +1982,7 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return g->u.magic.knows_spell();
+    return get_avatar().magic.knows_spell();
 }
 
 bool default_render()
@@ -2341,7 +2342,7 @@ void panel_manager::show_adm()
                    col_width ) + ":" );
         mvwprintz( w, point( col_offset, 6 ), c_white, _( "Exit" ) );
 
-        wrefresh( w );
+        wnoutrefresh( w );
     } );
 
     while( !exit ) {
@@ -2405,8 +2406,7 @@ void panel_manager::show_adm()
             int h; // to_map_font_dimension needs a second input
             to_map_font_dimension( width, h );
             // tell the game that the main screen might have a different size now.
-            g->init_ui( false );
-            g->invalidate_main_ui_adaptor();
+            g->mark_main_ui_adaptor_resize();
             recalc = true;
         } else if( !swapping && ( action == "RIGHT" || action == "LEFT" ) ) {
             // there are only two columns

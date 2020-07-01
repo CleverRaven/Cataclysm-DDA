@@ -23,11 +23,14 @@
       "need_charges_msg": "The energy saber is out of charge.",
       "active": true
     },
-    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_minus_battery_cell",
           "light_plus_battery_cell",
@@ -36,7 +39,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
+      }
     ]
   },
   {
@@ -181,10 +184,16 @@
     "reload": 500,
     "valid_mod_locations": [ [ "accessories", 4 ], [ "sights", 1 ], [ "sling", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ] ],
     "ammo_effects": [ "LASER", "DRAW_AS_LINE" ],
-    "magazines": [
-      [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
-    ],
-    "flags": [ "NEVER_JAMS", "FIRE_20", "NON-FOULING" ]
+    "flags": [ "NEVER_JAMS", "FIRE_20", "NON-FOULING" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "TANK",
@@ -195,7 +204,7 @@
     "name": { "str_sp": "Tankbot Main Gun" },
     "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
     "price": 99999999,
-    "material": "steel",
+    "material": [ "steel" ],
     "skill": "launcher",
     "ammo": [ "120mm" ],
     "weight": "2500 g",

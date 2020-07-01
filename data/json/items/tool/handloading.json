@@ -40,7 +40,7 @@
     "price": 1000,
     "price_postapoc": 2000,
     "bashing": 5,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "green",
     "qualities": [ [ "PULL", 2 ] ]

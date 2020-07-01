@@ -12,7 +12,6 @@ struct vehicle_part;
 namespace veh_utils
 {
 /** Calculates xp for interacting with given part. */
-int calc_xp_gain( const vpart_info &vp, const skill_id &sk );
 int calc_xp_gain( const vpart_info &vp, const skill_id &sk, const Character &who );
 /**
  * Returns a part on a given vehicle that a given character can repair.

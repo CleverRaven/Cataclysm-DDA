@@ -67,10 +67,9 @@ static avatar get_sanitized_player()
 {
     // You'd think that this hp stuff would be in the c'tor...
     avatar ret = avatar();
+    ret.set_body();
     ret.recalc_hp();
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        ret.hp_cur[i] = ret.hp_max[i];
-    }
+
     // Set these insanely high so can_eat doesn't return TOO_FULL
     ret.set_hunger( 10000 );
     ret.set_thirst( 10000 );
@@ -184,7 +183,7 @@ TEST_CASE( "starting_items", "[slow]" )
     std::stringstream failure_messages;
     for( const failure &f : failures ) {
         failure_messages << f.prof.c_str() << " " << f.mut <<
-                         " " << f.item_name << ": " << f.reason << "\n";
+                         " " << f.item_name.str() << ": " << f.reason << "\n";
     }
     INFO( failure_messages.str() );
     REQUIRE( failures.empty() );

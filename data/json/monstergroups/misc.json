@@ -47,7 +47,8 @@
       { "monster": "mon_zombie_pig", "freq": 10, "cost_multiplier": 25, "starts": 2160, "pack_size": [ 1, 5 ] },
       { "monster": "mon_giant_cockroach", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 5 ] },
       { "monster": "mon_pregnant_giant_cockroach", "freq": 1, "cost_multiplier": 3 },
-      { "monster": "mon_giant_cockroach_nymph", "freq": 5, "cost_multiplier": 1 }
+      { "monster": "mon_giant_cockroach_nymph", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_tiger", "freq": 1, "cost_multiplier": 30 }
     ]
   },
   {
@@ -171,7 +172,8 @@
       { "monster": "mon_dog_zombie_rot", "freq": 15, "cost_multiplier": 3 },
       { "monster": "mon_squirrel", "freq": 1, "cost_multiplier": 0 },
       { "monster": "mon_cat", "freq": 10, "cost_multiplier": 0 },
-      { "monster": "mon_dog", "freq": 10, "cost_multiplier": 0 }
+      { "monster": "mon_dog", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_tiger", "freq": 1, "cost_multiplier": 30 }
     ]
   }
 ]

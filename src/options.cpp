@@ -68,8 +68,8 @@ options_manager::options_manager() :
     general_page_( "general", to_translation( "General" ) ),
     interface_page_( "interface", to_translation( "Interface" ) ),
     graphics_page_( "graphics", to_translation( "Graphics" ) ),
-    debug_page_( "debug", to_translation( "Debug" ) ),
     world_default_page_( "world_default", to_translation( "World Defaults" ) ),
+    debug_page_( "debug", to_translation( "Debug" ) ),
     android_page_( "android", to_translation( "Android" ) )
 {
     pages_.emplace_back( general_page_ );
@@ -77,12 +77,10 @@ options_manager::options_manager() :
     pages_.emplace_back( graphics_page_ );
     // when sharing maps only admin is allowed to change these.
     if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
+        pages_.emplace_back( world_default_page_ );
         pages_.emplace_back( debug_page_ );
     }
-    // when sharing maps only admin is allowed to change these.
-    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
-        pages_.emplace_back( world_default_page_ );
-    }
+
 #if defined(__ANDROID__)
     pages_.emplace_back( android_page_ );
 #endif
@@ -841,7 +839,7 @@ void options_manager::cOpt::setValue( int iSetIn )
 }
 
 //set value
-void options_manager::cOpt::setValue( std::string sSetIn )
+void options_manager::cOpt::setValue( const std::string &sSetIn )
 {
     if( sType == "string_select" ) {
         if( getItemPos( sSetIn ) != -1 ) {
@@ -965,7 +963,7 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     // Load from user directory
     std::vector<options_manager::id_and_option> user_tilesets = load_tilesets_from(
                 PATH_INFO::user_gfx() );
-    for( options_manager::id_and_option id : user_tilesets ) {
+    for( const options_manager::id_and_option &id : user_tilesets ) {
         if( std::find( result.begin(), result.end(), id ) == result.end() ) {
             result.emplace_back( id );
         }
@@ -1112,8 +1110,8 @@ void options_manager::init()
     add_options_general();
     add_options_interface();
     add_options_graphics();
-    add_options_debug();
     add_options_world_default();
+    add_options_debug();
     add_options_android();
 
     for( Page &p : pages_ ) {
@@ -1184,7 +1182,7 @@ void options_manager::add_options_general()
 
     add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
          translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
+    { { "off", to_translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_zombie_only", translate_marker( "Pulp Zombies Only" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "pulp_adjacent_zombie_only", translate_marker( "Pulp Adjacent Zombie Only" ) }, { "butcher", translate_marker( "Butcher" ) } },
     "off"
        );
 
@@ -1708,12 +1706,12 @@ void options_manager::add_options_graphics()
     add_empty_line();
 
     add( "TERMINAL_X", "graphics", translate_marker( "Terminal width" ),
-         translate_marker( "Set the size of the terminal along the X axis.  Requires restart." ),
+         translate_marker( "Set the size of the terminal along the X axis." ),
          80, 960, 80, COPT_POSIX_CURSES_HIDE
        );
 
     add( "TERMINAL_Y", "graphics", translate_marker( "Terminal height" ),
-         translate_marker( "Set the size of the terminal along the Y axis.  Requires restart." ),
+         translate_marker( "Set the size of the terminal along the Y axis." ),
          24, 270, 24, COPT_POSIX_CURSES_HIDE
        );
 
@@ -1997,82 +1995,6 @@ void options_manager::add_options_graphics()
 
 }
 
-void options_manager::add_options_debug()
-{
-    const auto add_empty_line = [&]() {
-        debug_page_.items_.emplace_back();
-    };
-
-    add( "DISTANCE_INITIAL_VISIBILITY", "debug", translate_marker( "Distance initial visibility" ),
-         translate_marker( "Determines the scope, which is known in the beginning of the game." ),
-         3, 20, 15
-       );
-
-    add_empty_line();
-
-    add( "INITIAL_STAT_POINTS", "debug", translate_marker( "Initial stat points" ),
-         translate_marker( "Initial points available to spend on stats on character generation." ),
-         0, 1000, 6
-       );
-
-    add( "INITIAL_TRAIT_POINTS", "debug", translate_marker( "Initial trait points" ),
-         translate_marker( "Initial points available to spend on traits on character generation." ),
-         0, 1000, 0
-       );
-
-    add( "INITIAL_SKILL_POINTS", "debug", translate_marker( "Initial skill points" ),
-         translate_marker( "Initial points available to spend on skills on character generation." ),
-         0, 1000, 2
-       );
-
-    add( "MAX_TRAIT_POINTS", "debug", translate_marker( "Maximum trait points" ),
-         translate_marker( "Maximum trait points available for character generation." ),
-         0, 1000, 12
-       );
-
-    add_empty_line();
-
-    add( "SKILL_TRAINING_SPEED", "debug", translate_marker( "Skill training speed" ),
-         translate_marker( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
-         0.0, 100.0, 1.0, 0.1
-       );
-
-    add_empty_line();
-
-    add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
-         translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
-         //~ plain, default, normal
-    {   { "vanilla", translate_marker( "Vanilla" ) },
-        //~ capped at a value
-        { "capped", translate_marker( "Capped" ) },
-        //~ based on intelligence
-        { "int", translate_marker( "Int" ) },
-        //~ based on intelligence and capped
-        { "intcap", translate_marker( "IntCap" ) },
-        { "off", translate_marker( "Off" ) }
-    },
-    "off" );
-
-    add_empty_line();
-
-    add( "FOV_3D", "debug", translate_marker( "Experimental 3D field of vision" ),
-         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
-         false
-       );
-
-    add( "FOV_3D_Z_RANGE", "debug", translate_marker( "Vertical range of 3D field of vision" ),
-         translate_marker( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
-         0, OVERMAP_LAYERS, 4
-       );
-
-    get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
-
-    add( "ENCODING_CONV", "debug", translate_marker( "Experimental path name encoding conversion" ),
-         translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
-         true
-       );
-}
-
 void options_manager::add_options_world_default()
 {
     const auto add_empty_line = [&]() {
@@ -2234,6 +2156,82 @@ void options_manager::add_options_world_default()
          translate_marker( "Allowed point pools for character generation." ),
     { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
     "any"
+       );
+}
+
+void options_manager::add_options_debug()
+{
+    const auto add_empty_line = [&]() {
+        debug_page_.items_.emplace_back();
+    };
+
+    add( "DISTANCE_INITIAL_VISIBILITY", "debug", translate_marker( "Distance initial visibility" ),
+         translate_marker( "Determines the scope, which is known in the beginning of the game." ),
+         3, 20, 15
+       );
+
+    add_empty_line();
+
+    add( "INITIAL_STAT_POINTS", "debug", translate_marker( "Initial stat points" ),
+         translate_marker( "Initial points available to spend on stats on character generation." ),
+         0, 1000, 6
+       );
+
+    add( "INITIAL_TRAIT_POINTS", "debug", translate_marker( "Initial trait points" ),
+         translate_marker( "Initial points available to spend on traits on character generation." ),
+         0, 1000, 0
+       );
+
+    add( "INITIAL_SKILL_POINTS", "debug", translate_marker( "Initial skill points" ),
+         translate_marker( "Initial points available to spend on skills on character generation." ),
+         0, 1000, 2
+       );
+
+    add( "MAX_TRAIT_POINTS", "debug", translate_marker( "Maximum trait points" ),
+         translate_marker( "Maximum trait points available for character generation." ),
+         0, 1000, 12
+       );
+
+    add_empty_line();
+
+    add( "SKILL_TRAINING_SPEED", "debug", translate_marker( "Skill training speed" ),
+         translate_marker( "Scales experience gained from practicing skills and reading books.  0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training." ),
+         0.0, 100.0, 1.0, 0.1
+       );
+
+    add_empty_line();
+
+    add( "SKILL_RUST", "debug", translate_marker( "Skill rust" ),
+         translate_marker( "Set the level of skill rust.  Vanilla: Vanilla Cataclysm - Capped: Capped at skill levels 2 - Int: Intelligence dependent - IntCap: Intelligence dependent, capped - Off: None at all." ),
+         //~ plain, default, normal
+    {   { "vanilla", translate_marker( "Vanilla" ) },
+        //~ capped at a value
+        { "capped", translate_marker( "Capped" ) },
+        //~ based on intelligence
+        { "int", translate_marker( "Int" ) },
+        //~ based on intelligence and capped
+        { "intcap", translate_marker( "IntCap" ) },
+        { "off", translate_marker( "Off" ) }
+    },
+    "off" );
+
+    add_empty_line();
+
+    add( "FOV_3D", "debug", translate_marker( "Experimental 3D field of vision" ),
+         translate_marker( "If false, vision is limited to current z-level.  If true and the world is in z-level mode, the vision will extend beyond current z-level.  Currently very bugged!" ),
+         false
+       );
+
+    add( "FOV_3D_Z_RANGE", "debug", translate_marker( "Vertical range of 3D field of vision" ),
+         translate_marker( "How many levels up and down the experimental 3D field of vision reaches.  (This many levels up, this many levels down.)  3D vision of the full height of the world can slow the game down a lot.  Seeing fewer Z-levels is faster." ),
+         0, OVERMAP_LAYERS, 4
+       );
+
+    get_option( "FOV_3D_Z_RANGE" ).setPrerequisite( "FOV_3D" );
+
+    add( "ENCODING_CONV", "debug", translate_marker( "Experimental path name encoding conversion" ),
+         translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
+         true
        );
 }
 
@@ -2503,17 +2501,13 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
-            if( ingame ) {
-                g->refresh_all();
-            }
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
         }
     } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
-        g->init_ui();
-        g->refresh_all();
+        g->mark_main_ui_adaptor_resize();
     }
 }
 #else
@@ -2537,7 +2531,7 @@ static void draw_borders_external(
             mvwputch( w, point( mapLine.first + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
@@ -2551,7 +2545,7 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
             mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXOX );
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 std::string options_manager::show( bool ingame, const bool world_options_only,
@@ -2721,7 +2715,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
 
         draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
                         page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
-        wrefresh( w_options_border );
+        wnoutrefresh( w_options_border );
 
         //Draw Tabs
         if( !world_options_only ) {
@@ -2740,7 +2734,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             }
         }
 
-        wrefresh( w_options_header );
+        wnoutrefresh( w_options_header );
 
         const std::string &opt_name = *page_items[iCurrentLine];
         cOpt &current_opt = cOPTIONS[opt_name];
@@ -2789,9 +2783,9 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
             wprintz( w_options_tooltip, c_white, "%s",
                      _( "Some of these options may produce unexpected results if changed." ) );
         }
-        wrefresh( w_options_tooltip );
+        wnoutrefresh( w_options_tooltip );
 
-        wrefresh( w_options );
+        wnoutrefresh( w_options );
     } );
 
     while( true ) {
@@ -2980,7 +2974,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only,
         get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
         save();
 
-        handle_resize( projected_window_width(), projected_window_height() );
+        resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
     }
 #else
     ( void ) terminal_size_changed;
@@ -3135,24 +3129,26 @@ bool options_manager::has_option( const std::string &name ) const
 
 options_manager::cOpt &options_manager::get_option( const std::string &name )
 {
-    if( options.count( name ) == 0 ) {
+    std::unordered_map<std::string, cOpt>::iterator opt = options.find( name );
+    if( opt == options.end() ) {
         debugmsg( "requested non-existing option %s", name );
     }
     if( !world_options.has_value() ) {
         // Global options contains the default for new worlds, which is good enough here.
-        return options[name];
+        return opt->second;
     }
-    auto &wopts = *world_options.value();
-    if( wopts.count( name ) == 0 ) {
-        auto &opt = options[name];
-        if( opt.getPage() != "world_default" ) {
+    std::unordered_map<std::string, cOpt>::iterator wopt = ( *world_options )->find( name );
+    if( wopt == ( *world_options )->end() ) {
+        if( opt->second.getPage() != "world_default" ) {
             // Requested a non-world option, deliver it.
-            return opt;
+            return opt->second;
         }
         // May be a new option and an old world - import default from global options.
-        wopts[name] = opt;
+        cOpt &new_world_option = ( **world_options )[name];
+        new_world_option = opt->second;
+        return new_world_option;
     }
-    return wopts[name];
+    return wopt->second;
 }
 
 options_manager::options_container options_manager::get_world_defaults() const
@@ -3206,7 +3202,7 @@ void options_manager::update_global_locale()
         } else if( lang == "zh_TW" ) {
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
         }
-    } catch( std::runtime_error &e ) {
+    } catch( std::runtime_error & ) {
         std::locale::global( std::locale() );
     }
 

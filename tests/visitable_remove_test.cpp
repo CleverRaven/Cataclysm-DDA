@@ -38,9 +38,9 @@ static int count_items( const T &src, const itype_id &id )
 
 TEST_CASE( "visitable_remove", "[visitable]" )
 {
-    const std::string liquid_id = "water";
-    const std::string container_id = "bottle_plastic";
-    const std::string worn_id = "flask_hip";
+    const itype_id liquid_id( "water" );
+    const itype_id container_id( "bottle_plastic" );
+    const itype_id worn_id( "flask_hip" );
     const int count = 5;
 
     REQUIRE( item( container_id ).is_container() );
@@ -499,10 +499,10 @@ TEST_CASE( "inventory_remove_invalidates_binning_cache", "[visitable][inventory]
     inventory inv;
     std::list<item> items = { item( "bone" ) };
     inv += items;
-    CHECK( inv.charges_of( "bone" ) == 1 );
+    CHECK( inv.charges_of( itype_id( "bone" ) ) == 1 );
     inv.remove_items_with( return_true<item> );
     CHECK( inv.size() == 0 );
     // The following used to be a heap use-after-free due to a caching bug.
     // Now should be safe.
-    CHECK( inv.charges_of( "bone" ) == 0 );
+    CHECK( inv.charges_of( itype_id( "bone" ) ) == 0 );
 }

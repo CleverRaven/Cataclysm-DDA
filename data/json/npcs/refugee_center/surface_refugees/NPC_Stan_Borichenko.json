@@ -76,7 +76,7 @@
       "type": "general",
       "context": "meeting",
       "value": "yes",
-      "yes": [ "Hi.", "Hello.", "Hm?  Oh, hi.", "...Hi." ],
+      "yes": [ "Hi.", "Hello.", "Hm?  Oh, hi.", "…Hi." ],
       "no": "Hello.  I'm sorry, if we've met before, I don't really remember.  I'm… I'm Stan."
     },
     "responses": [

@@ -10,7 +10,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
@@ -24,7 +23,7 @@
 #include "type_id.h"
 #include "visitable.h"
 
-const trait_id trait_debug_storage( "DEBUG_STORAGE" );
+static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 
 enum inventory_location {
     GROUND,
@@ -240,7 +239,7 @@ static invlet_state check_invlet( player &p, item &it, const char invlet )
 
 static void drop_at_feet( player &p, const int id )
 {
-    size_t size_before = g->m.i_at( p.pos() ).size();
+    size_t size_before = get_map().i_at( p.pos() ).size();
 
     item *found = retrieve_item( p, id );
     REQUIRE( found );
@@ -249,12 +248,12 @@ static void drop_at_feet( player &p, const int id )
     p.drop( loc, p.pos() );
     p.activity.do_turn( p );
 
-    REQUIRE( g->m.i_at( p.pos() ).size() == size_before + 1 );
+    REQUIRE( get_map().i_at( p.pos() ).size() == size_before + 1 );
 }
 
 static void pick_up_from_feet( player &p, int id )
 {
-    map_stack items = g->m.i_at( p.pos() );
+    map_stack items = get_map().i_at( p.pos() );
     size_t size_before = items.size();
 
     item *found = retrieve_item( map_cursor( p.pos() ), id );
@@ -270,28 +269,28 @@ static void pick_up_from_feet( player &p, int id )
 
 static void wear_from_feet( player &p, int id )
 {
-    map_stack items = g->m.i_at( p.pos() );
+    map_stack items = get_map().i_at( p.pos() );
     size_t size_before = items.size();
 
     item *found = retrieve_item( map_cursor( p.pos() ), id );
     REQUIRE( found );
 
     p.wear_item( *found, false );
-    g->m.i_rem( p.pos(), found );
+    get_map().i_rem( p.pos(), found );
 
     REQUIRE( items.size() == size_before - 1 );
 }
 
 static void wield_from_feet( player &p, int id )
 {
-    map_stack items = g->m.i_at( p.pos() );
+    map_stack items = get_map().i_at( p.pos() );
     size_t size_before = items.size();
 
     item *found = retrieve_item( map_cursor( p.pos() ), id );
     REQUIRE( found );
 
     p.wield( *found );
-    g->m.i_rem( p.pos(), found );
+    get_map().i_rem( p.pos(), found );
 
     REQUIRE( items.size() == size_before - 1 );
 }
@@ -300,7 +299,7 @@ static void add_item( player &p, item &it, const inventory_location loc )
 {
     switch( loc ) {
         case GROUND:
-            g->m.add_item( p.pos(), it );
+            get_map().add_item( p.pos(), it );
             break;
         case INVENTORY:
             p.i_add( it );
@@ -463,7 +462,7 @@ static void invlet_test( player &dummy, const inventory_location from, const inv
         dummy.inv.clear();
         dummy.worn.clear();
         dummy.remove_weapon();
-        g->m.i_clear( dummy.pos() );
+        get_map().i_clear( dummy.pos() );
         dummy.worn.push_back( item( "backpack" ) );
 
         // some two items that can be wielded, worn, and picked up
@@ -545,7 +544,7 @@ static void stack_invlet_test( player &dummy, inventory_location from, inventory
     dummy.inv.clear();
     dummy.worn.clear();
     dummy.remove_weapon();
-    g->m.i_clear( dummy.pos() );
+    get_map().i_clear( dummy.pos() );
     dummy.worn.push_back( item( "backpack" ) );
 
     // some stackable item that can be wielded and worn
@@ -597,7 +596,7 @@ static void swap_invlet_test( player &dummy, inventory_location loc )
     dummy.inv.clear();
     dummy.worn.clear();
     dummy.remove_weapon();
-    g->m.i_clear( dummy.pos() );
+    get_map().i_clear( dummy.pos() );
 
     // two items of the same type that do not stack
     item tshirt1( "tshirt" );
@@ -681,7 +680,7 @@ static void merge_invlet_test( player &dummy, inventory_location from )
         dummy.inv.clear();
         dummy.worn.clear();
         dummy.remove_weapon();
-        g->m.i_clear( dummy.pos() );
+        get_map().i_clear( dummy.pos() );
         dummy.worn.push_back( item( "backpack" ) );
 
         // some stackable item
@@ -750,14 +749,14 @@ static void merge_invlet_test( player &dummy, inventory_location from )
 
 TEST_CASE( "Inventory letter test", "[.invlet]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
     const tripoint spot( 60, 60, 0 );
     clear_map();
     dummy.setpos( spot );
-    g->m.ter_set( spot, ter_id( "t_dirt" ) );
-    g->m.furn_set( spot, furn_id( "f_null" ) );
-    if( !dummy.has_trait( trait_debug_storage ) ) {
-        dummy.set_mutation( trait_debug_storage );
+    get_map().ter_set( spot, ter_id( "t_dirt" ) );
+    get_map().furn_set( spot, furn_id( "f_null" ) );
+    if( !dummy.has_trait( trait_DEBUG_STORAGE ) ) {
+        dummy.set_mutation( trait_DEBUG_STORAGE );
     }
 
     invlet_test_autoletter_off( "Picking up items from the ground", dummy, GROUND, INVENTORY );
@@ -791,36 +790,36 @@ static void verify_invlet_consistency( const invlet_favorites &fav )
 TEST_CASE( "invlet_favourites_can_erase", "[.invlet]" )
 {
     invlet_favorites fav;
-    fav.set( 'a', "a" );
+    fav.set( 'a', itype_id( "a" ) );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "a" );
+    CHECK( fav.invlets_for( itype_id( "a" ) ) == "a" );
     fav.erase( 'a' );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ).empty() );
+    CHECK( fav.invlets_for( itype_id( "a" ) ).empty() );
 }
 
 TEST_CASE( "invlet_favourites_removes_clashing_on_insertion", "[.invlet]" )
 {
     invlet_favorites fav;
-    fav.set( 'a', "a" );
+    fav.set( 'a', itype_id( "a" ) );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "a" );
-    CHECK( fav.invlets_for( "b" ).empty() );
-    fav.set( 'a', "b" );
+    CHECK( fav.invlets_for( itype_id( "a" ) ) == "a" );
+    CHECK( fav.invlets_for( itype_id( "b" ) ).empty() );
+    fav.set( 'a', itype_id( "b" ) );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ).empty() );
-    CHECK( fav.invlets_for( "b" ) == "a" );
+    CHECK( fav.invlets_for( itype_id( "a" ) ).empty() );
+    CHECK( fav.invlets_for( itype_id( "b" ) ) == "a" );
 }
 
 TEST_CASE( "invlet_favourites_retains_order_on_insertion", "[.invlet]" )
 {
     invlet_favorites fav;
-    fav.set( 'a', "a" );
-    fav.set( 'b', "a" );
-    fav.set( 'c', "a" );
+    fav.set( 'a', itype_id( "a" ) );
+    fav.set( 'b', itype_id( "a" ) );
+    fav.set( 'c', itype_id( "a" ) );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "abc" );
-    fav.set( 'b', "a" );
+    CHECK( fav.invlets_for( itype_id( "a" ) ) == "abc" );
+    fav.set( 'b', itype_id( "a" ) );
     verify_invlet_consistency( fav );
-    CHECK( fav.invlets_for( "a" ) == "abc" );
+    CHECK( fav.invlets_for( itype_id( "a" ) ) == "abc" );
 }

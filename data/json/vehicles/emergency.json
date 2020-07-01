@@ -179,6 +179,7 @@
       { "x": 0, "y": 0, "part": "seat" },
       { "x": 0, "y": 0, "part": "seatbelt" },
       { "x": 0, "y": 0, "part": "controls" },
+      { "x": 0, "y": 0, "part": "stereo" },
       { "x": 0, "y": 0, "part": "dashboard" },
       { "x": 0, "y": 0, "part": "vehicle_clock" },
       { "x": 0, "y": 0, "part": "vehicle_alarm" },

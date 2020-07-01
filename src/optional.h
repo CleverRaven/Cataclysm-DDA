@@ -65,7 +65,7 @@ class optional
                 construct( other.get() );
             }
         }
-        optional( optional &&other ) : full( false ) {
+        optional( optional &&other ) noexcept : full( false ) {
             if( other.full ) {
                 construct( std::move( other.get() ) );
             }
@@ -173,7 +173,7 @@ class optional
             }
             return *this;
         }
-        optional &operator=( optional &&other ) {
+        optional &operator=( optional &&other ) noexcept {
             if( full && other.full ) {
                 get() = std::move( other.get() );
             } else if( full ) {

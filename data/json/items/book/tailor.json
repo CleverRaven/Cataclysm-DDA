@@ -136,5 +136,25 @@
     "max_level": 6,
     "intelligence": 8,
     "time": "30 m"
+  },
+  {
+    "id": "scots_tailor",
+    "type": "BOOK",
+    "name": { "str": "Ye Scots Beuk o Tailorin'", "str_pl": "copies of Ye Scots Beuk o Tailorin'" },
+    "description": "A translated Gaelic book from Scotland.  While boring to read due to its technical tone, it provides insights into Scottish culture and information about tailoring.",
+    "weight": "2600 g",
+    "volume": "2 L",
+    "price": 3000,
+    "price_postapoc": 550,
+    "bashing": 5,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "green",
+    "skill": "tailor",
+    "required_level": 2,
+    "max_level": 5,
+    "intelligence": 8,
+    "time": "30 m",
+    "fun": -1
   }
 ]

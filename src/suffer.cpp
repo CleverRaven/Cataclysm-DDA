@@ -103,6 +103,12 @@ static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_winded( "winded" );
 
+static const itype_id itype_e_handcuffs( "e_handcuffs" );
+static const itype_id itype_inhaler( "inhaler" );
+static const itype_id itype_smoxygen_tank( "smoxygen_tank" );
+static const itype_id itype_oxygen_tank( "oxygen_tank" );
+static const itype_id itype_rad_badge( "rad_badge" );
+
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ALBINO( "ALBINO" );
 static const trait_id trait_ASTHMA( "ASTHMA" );
@@ -173,20 +179,20 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
 
 void Character::suffer_water_damage( const mutation_branch &mdata )
 {
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        const float wetness_percentage = static_cast<float>( body_wetness[bp->token] ) /
-                                         drench_capacity[bp->token];
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const float wetness_percentage = static_cast<float>( body_wetness[elem.first->token] ) /
+                                         drench_capacity[elem.first->token];
         const int dmg = mdata.weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
-            apply_damage( nullptr,  bp, dmg );
+            apply_damage( nullptr, elem.first, dmg );
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
                                    _( "<npcname>'s %s is damaged by the water." ),
-                                   body_part_name( bp ) );
-        } else if( dmg < 0 && hp_cur[bp_to_hp( bp->token )] != hp_max[bp_to_hp( bp->token )] ) {
-            heal( bp->token, std::abs( dmg ) );
+                                   body_part_name( elem.first ) );
+        } else if( dmg < 0 && elem.second.is_at_max_hp() ) {
+            heal( elem.first, std::abs( dmg ) );
             add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                    _( "<npcname>'s %s is healed by the water." ),
-                                   body_part_name( bp ) );
+                                   body_part_name( elem.first ) );
         }
     }
 }
@@ -226,7 +232,7 @@ void Character::suffer_mutation_power( const mutation_branch &mdata,
         if( mdata.fatigue ) {
             mod_fatigue( mdata.cost );
             // Exhausted
-            if( get_fatigue() >= EXHAUSTED ) {
+            if( get_fatigue() >= fatigue_levels::EXHAUSTED ) {
                 add_msg_if_player( m_warning,
                                    _( "You're too exhausted to keep your %s going." ),
                                    mdata.name() );
@@ -613,8 +619,8 @@ void Character::suffer_from_asthma( const int current_stim )
                  ( has_effect( effect_sleep ) ? 10 : 1 ) ) ) {
         return;
     }
-    bool auto_use = has_charges( "inhaler", 1 ) || has_charges( "oxygen_tank", 1 ) ||
-                    has_charges( "smoxygen_tank", 1 );
+    bool auto_use = has_charges( itype_inhaler, 1 ) || has_charges( itype_oxygen_tank, 1 ) ||
+                    has_charges( itype_smoxygen_tank, 1 );
     bool oxygenator = has_bionic( bio_gills ) && get_power_level() >= 3_kJ;
     if( underwater ) {
         oxygen = oxygen / 2;
@@ -628,29 +634,29 @@ void Character::suffer_from_asthma( const int current_stim )
         inventory map_inv;
         map_inv.form_from_map( g->u.pos(), 2, &g->u );
         // check if an inhaler is somewhere near
-        bool nearby_use = auto_use || oxygenator || map_inv.has_charges( "inhaler", 1 ) ||
-                          map_inv.has_charges( "oxygen_tank", 1 ) ||
-                          map_inv.has_charges( "smoxygen_tank", 1 );
+        bool nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||
+                          map_inv.has_charges( itype_oxygen_tank, 1 ) ||
+                          map_inv.has_charges( itype_smoxygen_tank, 1 );
         // check if character has an oxygenator first
         if( oxygenator ) {
             mod_power_level( -3_kJ );
             add_msg_if_player( m_info, _( "You use your Oxygenator to clear it up, "
                                           "then go back to sleep." ) );
         } else if( auto_use ) {
-            if( use_charges_if_avail( "inhaler", 1 ) ) {
+            if( use_charges_if_avail( itype_inhaler, 1 ) ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
-            } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
-                       use_charges_if_avail( "smoxygen_tank", 1 ) ) {
+            } else if( use_charges_if_avail( itype_oxygen_tank, 1 ) ||
+                       use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                               "and go back to sleep." ) );
             }
         } else if( nearby_use ) {
             // create new variable to resolve a reference issue
             int amount = 1;
-            if( !g->m.use_charges( g->u.pos(), 2, "inhaler", amount ).empty() ) {
+            if( !g->m.use_charges( g->u.pos(), 2, itype_inhaler, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
-            } else if( !g->m.use_charges( g->u.pos(), 2, "oxygen_tank", amount ).empty() ||
-                       !g->m.use_charges( g->u.pos(), 2, "smoxygen_tank", amount ).empty() ) {
+            } else if( !g->m.use_charges( g->u.pos(), 2, itype_oxygen_tank, amount ).empty() ||
+                       !g->m.use_charges( g->u.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                               "and go back to sleep." ) );
             }
@@ -667,9 +673,9 @@ void Character::suffer_from_asthma( const int current_stim )
         }
     } else if( auto_use ) {
         int charges = 0;
-        if( use_charges_if_avail( "inhaler", 1 ) ) {
+        if( use_charges_if_avail( itype_inhaler, 1 ) ) {
             moves -= 40;
-            charges = charges_of( "inhaler" );
+            charges = charges_of( itype_inhaler );
             if( charges == 0 ) {
                 add_msg_if_player( m_bad, _( "You use your last inhaler charge." ) );
             } else {
@@ -679,10 +685,10 @@ void Character::suffer_from_asthma( const int current_stim )
                                                      "only %d charges left.", charges ),
                                    charges );
             }
-        } else if( use_charges_if_avail( "oxygen_tank", 1 ) ||
-                   use_charges_if_avail( "smoxygen_tank", 1 ) ) {
+        } else if( use_charges_if_avail( itype_oxygen_tank, 1 ) ||
+                   use_charges_if_avail( itype_smoxygen_tank, 1 ) ) {
             moves -= 500; // synched with use action
-            charges = charges_of( "oxygen_tank" ) + charges_of( "smoxygen_tank" );
+            charges = charges_of( itype_oxygen_tank ) + charges_of( itype_smoxygen_tank );
             if( charges == 0 ) {
                 add_msg_if_player( m_bad, _( "You breathe in last bit of oxygen "
                                              "from the tank." ) );
@@ -803,28 +809,28 @@ void Character::suffer_from_albinism()
     }
     //calculate total coverage of skin
     body_part_set affected_bp { {
-            bp_leg_l, bp_leg_r, bp_torso, bp_head, bp_mouth, bp_arm_l,
-            bp_arm_r, bp_foot_l, bp_foot_r, bp_hand_l, bp_hand_r
+            bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ), bodypart_str_id( "torso" ), bodypart_str_id( "head" ), bodypart_str_id( "mouth" ), bodypart_str_id( "arm_l" ),
+            bodypart_str_id( "arm_r" ), bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
         }
     };
     //pecentage of "open skin" by body part
     std::map<body_part, float> open_percent;
     //initialize coverage
-    for( const body_part &bp : all_body_parts ) {
-        if( affected_bp.test( bp ) ) {
-            open_percent[bp] = 1.0;
+    for( const bodypart_id  &bp : get_all_body_parts() ) {
+        if( affected_bp.test( bp.id() ) ) {
+            open_percent[bp->token] = 1.0;
         }
     }
     //calculate coverage for every body part
     for( const item &i : worn ) {
         body_part_set covered = i.get_covered_body_parts();
-        for( const body_part &bp : all_body_parts )  {
-            if( !affected_bp.test( bp ) || !covered.test( bp ) ) {
+        for( const bodypart_id  &bp : get_all_body_parts() )  {
+            if( !affected_bp.test( bp.id() ) || !covered.test( bp.id() ) ) {
                 continue;
             }
             //percent of "not covered skin"
             float p = 1.0 - i.get_coverage() / 100.0;
-            open_percent[bp] = open_percent[bp] * p;
+            open_percent[bp->token] = open_percent[bp->token] * p;
         }
     }
 
@@ -1165,7 +1171,7 @@ void Character::suffer_from_bad_bionics()
         moves -= 150;
         mod_power_level( -10_kJ );
 
-        if( weapon.typeId() == "e_handcuffs" && weapon.charges > 0 ) {
+        if( weapon.typeId() == itype_e_handcuffs && weapon.charges > 0 ) {
             weapon.charges -= rng( 1, 3 ) * 50;
             if( weapon.charges < 1 ) {
                 weapon.charges = 1;
@@ -1423,10 +1429,10 @@ void Character::suffer()
 {
     const int current_stim = get_stim();
     // TODO: Remove this section and encapsulate hp_cur
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        if( hp_cur[i] <= 0 ) {
-            add_effect( effect_disabled, 1_turns, bp, true );
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        if( elem.second.get_hp_cur() <= 0 ) {
+            add_effect( effect_disabled, 1_turns, elem.first->token, true );
+            g->events().send<event_type::broken_bone>( getID(), elem.first->token );
         }
     }
 
@@ -1512,7 +1518,7 @@ bool Character::irradiate( float rads, bool bypass )
 
         // Apply rads to any radiation badges.
         for( item *const it : inv_dump() ) {
-            if( it->typeId() != "rad_badge" ) {
+            if( it->typeId() != itype_rad_badge ) {
                 continue;
             }
 
@@ -1554,8 +1560,8 @@ void Character::mend( int rate_multiplier )
 {
     // Wearing splints can slowly mend a broken limb back to 1 hp.
     bool any_broken = false;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( is_limb_broken( static_cast<hp_part>( i ) ) ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( is_limb_broken( bp ) ) {
             any_broken = true;
             break;
         }
@@ -1589,7 +1595,7 @@ void Character::mend( int rate_multiplier )
     // Bed rest speeds up mending
     if( has_effect( effect_sleep ) ) {
         healing_factor *= 4.0;
-    } else if( get_fatigue() > DEAD_TIRED ) {
+    } else if( get_fatigue() > fatigue_levels::DEAD_TIRED ) {
         // but being dead tired does not...
         healing_factor *= 0.75;
     } else {
@@ -1622,33 +1628,32 @@ void Character::mend( int rate_multiplier )
         return;
     }
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bool broken = is_limb_broken( static_cast<hp_part>( i ) );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        const bool broken = is_limb_broken( bp );
         if( !broken ) {
             continue;
         }
 
-        const bodypart_id &part = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
-        if( needs_splint && !worn_with_flag( "SPLINT",  part ) ) {
+        if( needs_splint && !worn_with_flag( "SPLINT",  bp ) ) {
             continue;
         }
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
-        auto &eff = get_effect( effect_mending, part->token );
+        auto &eff = get_effect( effect_mending, bp->token );
         if( eff.is_null() ) {
-            add_effect( effect_mending, dur_inc, part->token, true );
+            add_effect( effect_mending, dur_inc, bp->token, true );
             continue;
         }
 
         eff.set_duration( eff.get_duration() + dur_inc );
 
         if( eff.get_duration() >= eff.get_max_duration() ) {
-            hp_cur[i] = 1;
-            remove_effect( effect_mending, part->token );
-            g->events().send<event_type::broken_bone_mends>( getID(), part->token );
+            set_part_hp_cur( bp, 1 );
+            remove_effect( effect_mending, bp->token );
+            g->events().send<event_type::broken_bone_mends>( getID(), bp->token );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),
-                               body_part_name( part ) );
+                               body_part_name( bp ) );
         }
     }
 }
@@ -1715,11 +1720,11 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
     }
 
     // Make the body wet
-    for( const body_part bp : all_body_parts ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
-        if( flags.test( bp ) ) {
-            bp_wetness_max = drench_capacity[bp];
+        if( flags.test( bp.id() ) ) {
+            bp_wetness_max = drench_capacity[bp->token];
         }
 
         if( bp_wetness_max == 0 ) {
@@ -1730,8 +1735,8 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         int wetness_increment = ignore_waterproof ? 100 : 2;
         // Respect maximums
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
-        if( body_wetness[bp] < wetness_max ) {
-            body_wetness[bp] = std::min( wetness_max, body_wetness[bp] + wetness_increment );
+        if( body_wetness[bp->token] < wetness_max ) {
+            body_wetness[bp->token] = std::min( wetness_max, body_wetness[bp->token] + wetness_increment );
         }
     }
 
@@ -1769,14 +1774,14 @@ void Character::apply_wetness_morale( int temperature )
 
     int total_morale = 0;
     const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
-    for( const body_part bp : all_body_parts ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
         // Sum of body wetness can go up to 103
-        const int part_drench = body_wetness[bp];
+        const int part_drench = body_wetness[bp->token];
         if( part_drench == 0 ) {
             continue;
         }
 
-        const auto &part_arr = mut_drench[bp];
+        const auto &part_arr = mut_drench[bp->token];
         const int part_ignored = part_arr[WT_IGNORED];
         const int part_neutral = part_arr[WT_NEUTRAL];
         const int part_good    = part_arr[WT_GOOD];
@@ -1786,7 +1791,7 @@ void Character::apply_wetness_morale( int temperature )
         }
 
         int bp_morale = 0;
-        const bool is_friendly = wet_friendliness.test( bp );
+        const bool is_friendly = wet_friendliness.test( bp.id() );
         const int effective_drench = part_drench - part_ignored;
         if( is_friendly ) {
             // Using entire bonus from mutations and then some "human" bonus
@@ -1803,7 +1808,7 @@ void Character::apply_wetness_morale( int temperature )
 
         // Clamp to [COLD,HOT] and cast to double
         const double part_temperature =
-            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[bp] ) );
+            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[bp->token] ) );
         // 0.0 at COLD, 1.0 at HOT
         const double part_mod = ( part_temperature - BODYTEMP_COLD ) /
                                 ( BODYTEMP_HOT - BODYTEMP_COLD );
