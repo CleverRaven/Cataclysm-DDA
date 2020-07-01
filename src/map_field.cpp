@@ -124,7 +124,7 @@ int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int sc
 {
     int total_damage = 0;
     const int intensity = cur.get_field_intensity();
-    const int damage = rng( 1, scale + intensity );
+    const int damage = rng( 1, ( scale + intensity ) / 2 );
     // A bit ugly, but better than being annoyed by acid when in hazmat
     if( u.get_armor_type( DT_ACID, convert_bp( bp ) ) < damage ) {
         const dealt_damage_instance ddi = u.deal_damage( nullptr, convert_bp( bp ).id(),
@@ -1387,16 +1387,13 @@ void map::player_in_field( player &u )
             // you're certainly not standing in it.
             if( !u.in_vehicle && !u.has_trait( trait_ACIDPROOF ) ) {
                 int total_damage = 0;
-                const int intensity = cur.get_field_intensity();
-                // 1-3 at intensity, 1-4 at 2, 1-5 at 3
                 total_damage += burn_body_part( u, cur, bp_foot_l, 2 );
                 total_damage += burn_body_part( u, cur, bp_foot_r, 2 );
-                // 1 dmg at 1 intensity, 1-3 at 2, 1-5 at 3
-                total_damage += burn_body_part( u, cur, bp_leg_l, intensity - 1 );
-                total_damage += burn_body_part( u, cur, bp_leg_r, intensity - 1 );
                 const bool on_ground = u.is_on_ground();
                 if( on_ground ) {
-                    // Before, it would just break the legs and leave the survivor alone
+                    // Apply the effect to the remaining body parts
+                    total_damage += burn_body_part( u, cur, bp_leg_l, 2 );
+                    total_damage += burn_body_part( u, cur, bp_leg_r, 2 );
                     total_damage += burn_body_part( u, cur, bp_hand_l, 2 );
                     total_damage += burn_body_part( u, cur, bp_hand_r, 2 );
                     total_damage += burn_body_part( u, cur, bp_torso, 2 );
