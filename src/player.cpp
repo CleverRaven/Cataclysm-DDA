@@ -1238,8 +1238,7 @@ int player::impact( const int force, const tripoint &p )
 
     int total_dealt = 0;
     if( mod * effective_force >= 5 ) {
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            const bodypart_id bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+        for( const bodypart_id &bp : get_all_body_parts( true ) ) {
             const int bash = effective_force * rng( 60, 100 ) / 100;
             damage_instance di;
             di.add_damage( DT_BASH, bash, 0, armor_eff, mod );

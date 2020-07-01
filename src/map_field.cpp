@@ -1578,8 +1578,7 @@ void map::player_in_field( player &u )
             // Small universal damage based on intensity, only if not electroproofed.
             if( !u.is_elec_immune() ) {
                 int total_damage = 0;
-                for( size_t i = 0; i < num_hp_parts; i++ ) {
-                    const bodypart_id bp = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+                for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
                     const int dmg = rng( 1, cur.get_field_intensity() );
                     total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
                 }

@@ -1702,7 +1702,6 @@ class Character : public Creature, public visitable<Character>
         bool male = false;
 
         std::list<item> worn;
-        std::array<int, num_hp_parts> damage_bandaged, damage_disinfected;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
@@ -1924,11 +1923,6 @@ class Character : public Creature, public visitable<Character>
         void shout( std::string msg = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
-        // adds total healing to the bodypart. this is only a counter.
-        void healed_bp( int bp, int amount );
-
-        // the amount healed per bodypart per day
-        std::array<int, num_hp_parts> healed_total;
 
         std::map<std::string, int> mutation_category_level;
 

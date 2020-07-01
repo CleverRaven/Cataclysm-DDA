@@ -401,8 +401,6 @@ Character &get_player_character()
 Character::Character() :
 
     visitable<Character>(),
-    damage_bandaged( {{ 0 }} ),
-    damage_disinfected( {{ 0 }} ),
     cached_time( calendar::before_time_starts ),
     id( -1 ),
     next_climate_control_check( calendar::before_time_starts ),
@@ -440,7 +438,6 @@ Character::Character() :
     healthy_calories = 55000;
     stored_calories = healthy_calories;
     initialize_stomach_contents();
-    healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
     name.clear();
     custom_profession.clear();
@@ -4583,25 +4580,23 @@ void Character::regen( int rate_multiplier )
     }
 
     // include healing effects
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bodypart_id &bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
         float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
-
         int healing_apply = roll_remainder( healing );
-        healed_bp( i, healing_apply );
+        mod_part_healed_total( bp, healing_apply );
         heal( bp, healing_apply );
-        if( damage_bandaged[i] > 0 ) {
-            damage_bandaged[i] -= healing_apply;
-            if( damage_bandaged[i] <= 0 ) {
-                damage_bandaged[i] = 0;
+        if( get_part_damage_bandaged( bp ) > 0 ) {
+            mod_part_damage_bandaged( bp, -healing_apply );
+            if( get_part_damage_bandaged( bp ) <= 0 ) {
+                set_part_damage_bandaged( bp, 0 );
                 remove_effect( effect_bandaged, bp->token );
                 add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
-        if( damage_disinfected[i] > 0 ) {
-            damage_disinfected[i] -= healing_apply;
-            if( damage_disinfected[i] <= 0 ) {
-                damage_disinfected[i] = 0;
+        if( get_part_damage_disinfected( bp ) > 0 ) {
+            mod_part_damage_disinfected( bp, -healing_apply );
+            if( get_part_damage_disinfected( bp ) <= 0 ) {
+                set_part_damage_disinfected( bp, 0 );
                 remove_effect( effect_disinfected, bp->token );
                 add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
             }
@@ -4609,12 +4604,12 @@ void Character::regen( int rate_multiplier )
 
         // remove effects if the limb was healed by other way
         if( has_effect( effect_bandaged, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
-            damage_bandaged[i] = 0;
+            set_part_damage_bandaged( bp, 0 );
             remove_effect( effect_bandaged, bp->token );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
         if( has_effect( effect_disinfected, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
-            damage_disinfected[i] = 0;
+            set_part_damage_disinfected( bp, 0 );
             remove_effect( effect_disinfected, bp->token );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
         }
@@ -8186,11 +8181,6 @@ tripoint Character::adjacent_tile() const
     return random_entry( ret, pos() ); // player position if no valid adjacent tiles
 }
 
-void Character::healed_bp( int bp, int amount )
-{
-    healed_total[bp] += amount;
-}
-
 void Character::set_fac_id( const std::string &my_fac_id )
 {
     fac_id = faction_id( my_fac_id );
@@ -8951,8 +8941,7 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
 int Character::hitall( int dam, int vary, Creature *source )
 {
     int damage_taken = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bodypart_id bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
         int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
         int cut = 0;
         auto damage = damage_instance::physical( ddam, cut, 0 );

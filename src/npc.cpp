@@ -1054,11 +1054,9 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
     // Splints ignore limits, but only when being equipped on a broken part
     // TODO: Drop splints when healed
     if( it.has_flag( "SPLINT" ) ) {
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            hp_part hpp = static_cast<hp_part>( i );
-            body_part bp = player::hp_to_bp( hpp );
-            if( is_limb_broken( convert_bp( bp ) ) && !has_effect( effect_mending, bp ) &&
-                it.covers( convert_bp( bp ).id() ) ) {
+        for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+            if( is_limb_broken( bp ) && !has_effect( effect_mending, bp->token ) &&
+                it.covers( bp ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return !!wear_item( it, false );
             }

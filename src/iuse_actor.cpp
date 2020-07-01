@@ -3299,7 +3299,8 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         patient.add_effect( effect_bandaged, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_bandaged, bp_healed );
         e.set_duration( e.get_int_dur_factor() * bandages_intensity );
-        patient.damage_bandaged[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
+        patient.set_part_damage_bandaged( bp,
+                                          patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp ) );
         practice_amount += 2 * bandages_intensity;
     }
     if( disinfectant_power > 0 ) {
@@ -3307,7 +3308,8 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         patient.add_effect( effect_disinfected, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_disinfected, bp_healed );
         e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
-        patient.damage_disinfected[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
+        patient.set_part_damage_disinfected( bp,
+                                             patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp ) );
         practice_amount += 2 * disinfectant_intensity;
     }
     practice_amount = std::max( 9.0f, practice_amount );
