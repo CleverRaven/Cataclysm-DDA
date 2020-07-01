@@ -33,6 +33,8 @@ class JsonOut;
 
 // NOLINTNEXTLINE(cata-xy)
 struct point {
+    static constexpr int dimension = 2;
+
     int x = 0;
     int y = 0;
     constexpr point() = default;
@@ -144,6 +146,8 @@ inline point divide_xy_round_to_minus_infinity( const point &p, int d )
 
 // NOLINTNEXTLINE(cata-xy)
 struct tripoint {
+    static constexpr int dimension = 3;
+
     int x = 0;
     int y = 0;
     int z = 0;

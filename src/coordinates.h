@@ -79,6 +79,8 @@ template<typename Point, origin Origin, scale Scale>
 class coord_point
 {
     public:
+        static constexpr int dimension = Point::dimension;
+
         constexpr coord_point() = default;
         explicit constexpr coord_point( const Point &p ) :
             raw_( p )
@@ -87,6 +89,10 @@ class coord_point
         constexpr coord_point( T x, T y ) : raw_( x, y ) {}
         template<typename T>
         constexpr coord_point( T x, T y, T z ) : raw_( x, y, z ) {}
+        template<typename T>
+        constexpr coord_point( const coord_point<point, Origin, Scale> &xy, T z ) :
+            raw_( xy.raw(), z )
+        {}
 
         constexpr Point &raw() {
             return raw_;
@@ -95,14 +101,37 @@ class coord_point
             return raw_;
         }
 
+        constexpr auto &x() {
+            return raw_.x;
+        }
         constexpr auto x() const {
             return raw_.x;
+        }
+        constexpr auto &y() {
+            return raw_.y;
         }
         constexpr auto y() const {
             return raw_.y;
         }
+        constexpr auto xy() const {
+            return coord_point<point, Origin, Scale>( raw_.xy() );
+        }
+        constexpr auto &z() {
+            return raw_.z;
+        }
         constexpr auto z() const {
             return raw_.z;
+        }
+
+        std::string to_string() const {
+            return raw_.to_string();
+        }
+
+        void serialize( JsonOut &jsout ) const {
+            raw().serialize( jsout );
+        }
+        void deserialize( JsonIn &jsin ) {
+            raw().deserialize( jsin );
         }
 
         coord_point &operator+=( const coord_point<Point, origin::relative, Scale> &r ) {
@@ -113,6 +142,42 @@ class coord_point
         coord_point &operator-=( const coord_point<Point, origin::relative, Scale> &r ) {
             raw_ -= r.raw();
             return *this;
+        }
+
+        coord_point &operator+=( const point &r ) {
+            raw_ += r;
+            return *this;
+        }
+
+        coord_point &operator-=( const point &r ) {
+            raw_ -= r;
+            return *this;
+        }
+
+        coord_point &operator+=( const tripoint &r ) {
+            raw_ += r;
+            return *this;
+        }
+
+        coord_point &operator-=( const tripoint &r ) {
+            raw_ -= r;
+            return *this;
+        }
+
+        friend inline coord_point operator+( const coord_point &l, const point &r ) {
+            return coord_point( l.raw() + r );
+        }
+
+        friend inline coord_point operator+( const coord_point &l, const tripoint &r ) {
+            return coord_point( l.raw() + r );
+        }
+
+        friend inline coord_point operator-( const coord_point &l, const point &r ) {
+            return coord_point( l.raw() - r );
+        }
+
+        friend inline coord_point operator-( const coord_point &l, const tripoint &r ) {
+            return coord_point( l.raw() - r );
         }
     private:
         Point raw_;
@@ -139,31 +204,61 @@ constexpr inline bool operator<( const coord_point<Point, Origin, Scale> &l,
     return l.raw() < r.raw();
 }
 
-template<typename Point, origin OriginL, scale Scale>
-constexpr inline coord_point<Point, OriginL, Scale> operator+(
-    const coord_point<Point, OriginL, Scale> &l,
-    const coord_point<Point, origin::relative, Scale> &r )
+template<typename PointL, typename PointR, origin OriginL, scale Scale>
+constexpr inline auto operator+(
+    const coord_point<PointL, OriginL, Scale> &l,
+    const coord_point<PointR, origin::relative, Scale> &r )
 {
-    return coord_point<Point, OriginL, Scale>( l.raw() + r.raw() );
+    using PointResult = decltype( PointL() + PointR() );
+    return coord_point<PointResult, OriginL, Scale>( l.raw() + r.raw() );
 }
 
-template < typename Point, origin OriginR, scale Scale,
+template < typename PointL, typename PointR, origin OriginR, scale Scale,
            // enable_if to prevent ambiguity with above when both args are
            // relative
            typename = std::enable_if_t < OriginR != origin::relative >>
-constexpr inline coord_point<Point, OriginR, Scale> operator+(
-    const coord_point<Point, origin::relative, Scale> &l,
-    const coord_point<Point, OriginR, Scale> &r )
+constexpr inline auto operator+(
+    const coord_point<PointL, origin::relative, Scale> &l,
+    const coord_point<PointR, OriginR, Scale> &r )
 {
-    return coord_point<Point, OriginR, Scale>( l.raw() + r.raw() );
+    using PointResult = decltype( PointL() + PointR() );
+    return coord_point<PointResult, OriginR, Scale>( l.raw() + r.raw() );
 }
 
-template<typename Point, origin OriginL, scale Scale>
-constexpr inline coord_point<Point, OriginL, Scale> operator-(
-    const coord_point<Point, OriginL, Scale> &l,
-    const coord_point<Point, origin::relative, Scale> &r )
+template<typename PointL, typename PointR, origin OriginL, scale Scale>
+constexpr inline auto operator-(
+    const coord_point<PointL, OriginL, Scale> &l,
+    const coord_point<PointR, origin::relative, Scale> &r )
 {
-    return coord_point<Point, OriginL, Scale>( l.raw() - r.raw() );
+    using PointResult = decltype( PointL() + PointR() );
+    return coord_point<PointResult, OriginL, Scale>( l.raw() - r.raw() );
+}
+
+template < typename PointL, typename PointR, origin Origin, scale Scale,
+           // enable_if to prevent ambiguity with above when both args are
+           // relative
+           typename = std::enable_if_t < Origin != origin::relative >>
+constexpr inline auto operator-(
+    const coord_point<PointL, Origin, Scale> &l,
+    const coord_point<PointR, Origin, Scale> &r )
+{
+    using PointResult = decltype( PointL() + PointR() );
+    return coord_point<PointResult, origin::relative, Scale>( l.raw() - r.raw() );
+}
+
+// Only relative points can be multiplied by a constant
+template<typename Point, scale Scale>
+constexpr inline coord_point<Point, origin::relative, Scale> operator*(
+    int l, const coord_point<Point, origin::relative, Scale> &r )
+{
+    return coord_point<Point, origin::relative, Scale>( l * r.raw() );
+}
+
+template<typename Point, scale Scale>
+constexpr inline coord_point<Point, origin::relative, Scale> operator*(
+    const coord_point<Point, origin::relative, Scale> &r, int l )
+{
+    return coord_point<Point, origin::relative, Scale>( r.raw() * l );
 }
 
 template<typename Point, origin Origin, scale Scale>

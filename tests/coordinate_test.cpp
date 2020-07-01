@@ -7,6 +7,22 @@
 
 constexpr int num_trials = 5;
 
+static_assert( point::dimension == 2, "" );
+static_assert( tripoint::dimension == 3, "" );
+static_assert( point_abs_omt::dimension == 2, "" );
+static_assert( tripoint_abs_omt::dimension == 3, "" );
+
+TEST_CASE( "coordinate_strings", "[coords]" )
+{
+    CHECK( point_abs_omt( 3, 4 ).to_string() == "(3,4)" );
+
+    SECTION( "coord_point_matches_point" ) {
+        point p = GENERATE( take( num_trials, random_points() ) );
+        point_abs_ms cp( p );
+        CHECK( p.to_string() == cp.to_string() );
+    }
+}
+
 TEST_CASE( "coordinate_operations", "[coords]" )
 {
     SECTION( "construct_from_raw_point" ) {
@@ -40,9 +56,11 @@ TEST_CASE( "coordinate_operations", "[coords]" )
     }
 
     SECTION( "addition" ) {
-        point p0 = GENERATE( take( num_trials, random_points() ) );
+        tripoint t0 = GENERATE( take( num_trials, random_tripoints() ) );
+        point p0 = t0.xy();
         point p1 = GENERATE( take( num_trials, random_points() ) );
         CAPTURE( p0, p1 );
+        tripoint_abs_ms abst0( t0 );
         point_abs_ms abs0( p0 );
         point_rel_ms rel0( p0 );
         point_rel_ms rel1( p1 );
@@ -52,6 +70,12 @@ TEST_CASE( "coordinate_operations", "[coords]" )
         }
         SECTION( "abs + rel -> abs" ) {
             point_abs_ms sum = abs0 + rel1;
+            CHECK( sum.raw() == p0 + p1 );
+            tripoint_abs_ms sum_t = abst0 + rel1;
+            CHECK( sum_t.raw() == t0 + p1 );
+        }
+        SECTION( "abs + raw -> abs" ) {
+            point_abs_ms sum = abs0 + p1;
             CHECK( sum.raw() == p0 + p1 );
         }
         SECTION( "rel + abs -> abs" ) {
@@ -66,13 +90,20 @@ TEST_CASE( "coordinate_operations", "[coords]" )
             abs0 += rel1;
             CHECK( abs0.raw() == p0 + p1 );
         }
+        SECTION( "abs += raw" ) {
+            abs0 += p1;
+            CHECK( abs0.raw() == p0 + p1 );
+        }
     }
 
     SECTION( "subtraction" ) {
-        point p0 = GENERATE( take( num_trials, random_points() ) );
+        tripoint t0 = GENERATE( take( num_trials, random_tripoints() ) );
+        point p0 = t0.xy();
         point p1 = GENERATE( take( num_trials, random_points() ) );
         CAPTURE( p0, p1 );
+        tripoint_abs_ms abst0( t0 );
         point_abs_ms abs0( p0 );
+        point_abs_ms abs1( p1 );
         point_rel_ms rel0( p0 );
         point_rel_ms rel1( p1 );
         SECTION( "rel - rel -> rel" ) {
@@ -83,12 +114,26 @@ TEST_CASE( "coordinate_operations", "[coords]" )
             point_abs_ms diff = abs0 - rel1;
             CHECK( diff.raw() == p0 - p1 );
         }
+        SECTION( "abs - raw -> abs" ) {
+            point_abs_ms diff = abs0 - p1;
+            CHECK( diff.raw() == p0 - p1 );
+        }
+        SECTION( "abs - abs -> rel" ) {
+            point_rel_ms diff0 = abs0 - abs1;
+            CHECK( diff0.raw() == p0 - p1 );
+            tripoint_rel_ms diff1 = abst0 - abs1;
+            CHECK( diff1.raw() == t0 - p1 );
+        }
         SECTION( "rel -= rel" ) {
             rel0 -= rel1;
             CHECK( rel0.raw() == p0 - p1 );
         }
         SECTION( "abs -= rel" ) {
             abs0 -= rel1;
+            CHECK( abs0.raw() == p0 - p1 );
+        }
+        SECTION( "abs -= raw" ) {
+            abs0 -= p1;
             CHECK( abs0.raw() == p0 - p1 );
         }
     }
