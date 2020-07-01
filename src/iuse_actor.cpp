@@ -3421,8 +3421,8 @@ hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it,
                 damage += bite * patient.get_effect_dur( effect_bite, elem.first->token ) / 10_minutes;
                 damage += infect * patient.get_effect_dur( effect_infected, elem.first->token ) / 10_minutes;
             }
-            if( patient.get_effect_int( effect_bleed, i_bp ) > 5 && bleed > 0 ) {
-                damage += bleed * patient.get_effect_dur( effect_bleed, i_bp ) / 5_minutes;
+            if( patient.get_effect_int( effect_bleed, elem.first->token ) > 5 && bleed > 0 ) {
+                damage += bleed * patient.get_effect_dur( effect_bleed, elem.first->token ) / 5_minutes;
             }
             if( damage > highest_damage ) {
                 highest_damage = damage;

@@ -1685,7 +1685,8 @@ void Character::process_bionic( int b )
             for( const bodypart_id &i : bleeding_bp_parts ) {
                 // effectively reduces by 1 intensity level
                 if( get_stored_kcal() >= 15 ) {
-                    get_effect( effect_bleed, i->token ).mod_duration( -get_effect( effect_bleed, i->token ).get_int_dur_factor() );
+                    get_effect( effect_bleed, i->token ).mod_duration( -get_effect( effect_bleed,
+                            i->token ).get_int_dur_factor() );
                     mod_stored_kcal( -15 );
                 } else {
                     bleeding_bp_parts.clear();
@@ -1698,7 +1699,6 @@ void Character::process_bionic( int b )
                     const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
                     heal( part_to_heal, 1 );
                     mod_stored_kcal( -5 );
-                    }
                 }
             }
             if( !damaged_hp_parts.empty() || !bleeding_bp_parts.empty() ) {

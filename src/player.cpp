@@ -824,7 +824,7 @@ void player::pause()
         time_duration benefit = 5_turns + 10 * time_duration::from_turns( get_skill_level(
                                     skill_firstaid ) );
 
-        if( is_limb_broken( bp_to_hp( bp_arm_l ) ) || is_limb_broken( bp_to_hp( bp_arm_r ) ) ) {
+        if( is_limb_broken( bodypart_id( "arm_l" ) ) || is_limb_broken( bodypart_id( "arm_r" ) ) ) {
             add_msg_player_or_npc( m_warning,
                                    _( "Your broken limb significantly hampers your efforts to puting pressure on the bleeding wound!" ),
                                    _( "<npcname>'s broken limb significantly hampers efforts of putting pressure on the bleeding wound!" ) );

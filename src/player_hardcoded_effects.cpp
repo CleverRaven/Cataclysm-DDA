@@ -914,7 +914,7 @@ void player::hardcoded_effects( effect &it )
                                        _( "<npcname> has a sudden heart attack!" ) );
                 g->events().send<event_type::dies_from_hypovolemia>( getID() );
             }
-            hp_cur[hp_torso] = 0;
+            set_part_hp_cur( bodypart_id( "torso" ), 0 );
         };
         // this goes first because beyond minimum threshold you just die without delay,
         // while stage 4 is on a timer check with an rng grace period

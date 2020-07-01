@@ -110,7 +110,7 @@ DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character_item )
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 75,
+static_assert( static_cast<int>( event_type::num_event_types ) == 78,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );
@@ -139,9 +139,6 @@ DEFINE_EVENT_FIELDS( character_triggers_trap )
 DEFINE_EVENT_FIELDS( character_wakes_up )
 DEFINE_EVENT_FIELDS( crosses_mutation_threshold )
 DEFINE_EVENT_FIELDS( dies_from_drug_overdose )
-DEFINE_EVENT_FIELDS( dies_from_bleeding )
-DEFINE_EVENT_FIELDS( dies_from_hypovolemia )
-DEFINE_EVENT_FIELDS( dies_from_redcells_loss )
 DEFINE_EVENT_FIELDS( evolves_mutation )
 DEFINE_EVENT_FIELDS( fails_to_install_cbm )
 DEFINE_EVENT_FIELDS( fails_to_remove_cbm )
