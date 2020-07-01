@@ -2284,7 +2284,7 @@ drop_locations inventory_iuse_selector::execute()
     }
     drop_locations dropped_pos_and_qty;
 
-    for( const std::pair<const item_location *, int> &use_pair : to_use ) {
+    for( const std::pair<const item_location *const, int> &use_pair : to_use ) {
         dropped_pos_and_qty.push_back( std::make_pair( *use_pair.first, use_pair.second ) );
     }
 
