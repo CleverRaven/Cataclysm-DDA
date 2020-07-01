@@ -1773,7 +1773,20 @@ void islot_armor::load( const JsonObject &jo )
                 tempData.max_encumber = obj.get_int( "encumbrance" );
             }
             tempData.coverage = obj.get_int( "coverage" );
-            data.push_back( tempData );
+
+            if( !data.empty() ) { // Uses copy-from
+                if( tempData.encumber ) {
+                    data[0].encumber = tempData.encumber;
+                }
+                if( tempData.max_encumber ) {
+                    data[0].max_encumber = tempData.max_encumber;
+                }
+                if( tempData.coverage ) {
+                    data[0].coverage = tempData.coverage;
+                }
+            } else {
+                data.push_back( tempData );
+            }
 
             if( obj.has_int( "layer" ) ) {
                 for( auto &piece : data ) {
