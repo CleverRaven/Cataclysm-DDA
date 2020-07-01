@@ -746,5 +746,27 @@
         { "item": "scrap", "count": [ 3, 5 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_scrap_bridge",
+    "name": "scrap metal bridge",
+    "description": "A simple bridge made of riveted sheet metal.",
+    "move_cost_mod": 0,
+    "symbol": "]",
+    "color": "light_gray",
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 2, 20 ] },
+        { "item": "sheet_metal", "count": [ 5, 10 ] },
+		{ "item": "rebar", "count": [ 4, 10 ] }
+      ]
+	}
   }
 ]
