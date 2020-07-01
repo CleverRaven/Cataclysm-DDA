@@ -19,7 +19,7 @@ TEST_CASE( "detaching_vehicle_unboards_passengers" )
     const tripoint test_origin( 60, 60, 0 );
     const tripoint vehicle_origin = test_origin;
     map &here = get_map();
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     vehicle *veh_ptr = here.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
     here.board_vehicle( test_origin, &player_character );
     REQUIRE( player_character.in_vehicle );

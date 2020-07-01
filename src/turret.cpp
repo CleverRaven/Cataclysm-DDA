@@ -291,17 +291,21 @@ void turret_data::post_fire( player &p, int shots )
     veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
 }
 
-int turret_data::fire( player &p, const tripoint &target )
+int turret_data::fire( Character &c, const tripoint &target )
 {
     if( !veh || !part ) {
         return 0;
     }
     int shots = 0;
     auto mode = base()->gun_current_mode();
+    player *player_character = c.as_player();
+    if( player_character == nullptr ) {
+        return 0;
+    }
 
-    prepare_fire( p );
-    shots = p.fire_gun( target, mode.qty, *mode );
-    post_fire( p, shots );
+    prepare_fire( *player_character );
+    shots = player_character->fire_gun( target, mode.qty, *mode );
+    post_fire( *player_character, shots );
     return shots;
 }
 

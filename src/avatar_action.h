@@ -6,12 +6,13 @@
 #include "point.h"
 #include "units.h"
 
+class aim_activity_actor;
 class avatar;
+class Character;
 class item;
 class item_location;
 class map;
 class turret_data;
-class aim_activity_actor;
 
 namespace avatar_action
 {
@@ -53,7 +54,7 @@ bool can_fire_weapon( avatar &you, const map &m, const item &weapon );
 void fire_wielded_weapon( avatar &you );
 
 /** Stores fake gun specified by the mutation and starts interactive aiming */
-void fire_ranged_mutation( avatar &you, const item &fake_gun );
+void fire_ranged_mutation( Character &you, const item &fake_gun );
 
 /** Stores fake gun specified by the bionic and starts interactive aiming */
 void fire_ranged_bionic( avatar &you, const item &fake_gun, const units::energy &cost_per_shot );

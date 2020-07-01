@@ -138,7 +138,7 @@ std::string talk_trial::name() const
 /** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return 1_minutes + 30_seconds * g->u.get_skill_level( skill ) -
+    return 1_minutes + 30_seconds * get_player_character().get_skill_level( skill ) -
            1_seconds * p.get_skill_level( skill );
 }
 
@@ -340,7 +340,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 static void tell_veh_stop_following()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->is_following = false;
@@ -351,7 +351,7 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->activate_animal_follow();
@@ -361,7 +361,7 @@ static void assign_veh_to_follow()
 
 static void tell_magic_veh_to_follow()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->magic ) {
             for( const vpart_reference &vp : v->get_all_parts() ) {
@@ -377,7 +377,7 @@ static void tell_magic_veh_to_follow()
 
 static void tell_magic_veh_stop_following()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->magic ) {
             for( const vpart_reference &vp : v->get_all_parts() ) {
@@ -422,7 +422,7 @@ void game::chat()
     std::vector<vehicle *> following_vehicles;
     std::vector<vehicle *> magic_vehicles;
     std::vector<vehicle *> magic_following_vehicles;
-    for( auto &veh : g->m.get_vehicles() ) {
+    for( auto &veh : get_map().get_vehicles() ) {
         auto &v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             animal_vehicles.push_back( v );
@@ -627,8 +627,9 @@ void game::chat()
 void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
                         int heard_volume, const tripoint &spos )
 {
-    const tripoint s_abs_pos = g->m.getabs( spos );
-    const tripoint my_abs_pos = g->m.getabs( pos() );
+    const map &here = get_map();
+    const tripoint s_abs_pos = here.getabs( spos );
+    const tripoint my_abs_pos = here.getabs( pos() );
 
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, static_cast<int>( spriority ), heard_volume,
@@ -2363,7 +2364,7 @@ void talk_effect_fun_t::set_add_mission( const std::string &mission_id )
     function = [mission_id]( const dialogue & d ) {
         npc &p = *d.beta;
         mission *miss = mission::reserve_new( mission_type_id( mission_id ), p.getID() );
-        miss->assign( g->u );
+        miss->assign( get_avatar() );
         p.chatbin.missions_assigned.push_back( miss );
     };
 }

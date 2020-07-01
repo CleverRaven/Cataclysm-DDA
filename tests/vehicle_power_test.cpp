@@ -2,10 +2,10 @@
 #include <memory>
 #include <vector>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
+#include "character.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
@@ -17,9 +17,10 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
 static const efftype_id effect_blind( "blind" );
 
+// TODO: Move this into player_helpers to avoid character include.
 static void reset_player()
 {
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE( !player_character.in_vehicle );
     player_character.setpos( tripoint_zero );
