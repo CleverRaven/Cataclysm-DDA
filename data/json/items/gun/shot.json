@@ -848,5 +848,20 @@
     "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
+  },
+  {
+    "id": "four_winds_shotgun_d",
+    "copy-from": "four_winds_shotgun",
+    "type": "GUN",
+    "name": { "str": "double four winds shotgun" },
+    "description": "A crude shotgun, composed of four thick steel pipes, two end caps and two nails.  The lack of sights make this weapon only useful at point-blank range.",
+    "weight": "7260 g",
+    "volume": "4530 ml",
+    "dispersion": 960,
+    "durability": 4,
+    "clip_size": 2,
+    "reload": 900,
+    "modes": [ [ "DEFAULT", "double", 2 ] ], //no provision for seperate triggers or ANYTHING
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   }
 ]
