@@ -732,6 +732,7 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "A" ],
+      "terrain": { "A": "t_thconc_floor" },
       "furniture": {
         "A": [
           "f_machinery_heavy",

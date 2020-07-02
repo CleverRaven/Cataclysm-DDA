@@ -197,7 +197,7 @@
         ";": "t_linoleum_gray",
         ",": "t_floor",
         ".": "t_region_groundcover_urban",
-        "T": [ [ "t_region_groundcover_urban", 3 ], [ "t_region_groundcover_tree_shade", 2 ], "t_region_shrub_decorative" ],
+        "T": [ [ "t_region_groundcover_urban", 3 ], [ "t_region_tree_shade", 2 ], "t_region_shrub_decorative" ],
         "z": "t_region_shrub_fruit",
         "@": "t_region_groundcover_urban",
         "1": "t_region_groundcover_urban",

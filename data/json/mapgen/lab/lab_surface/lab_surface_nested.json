@@ -1875,19 +1875,34 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "surface_sub_hall_clutter",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "X" ], "terrain": { "X": "t_strconc_floor" }, "furniture": { "X": "f_IV_pole" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": [ "f_IV_pole", "f_desk", "f_counter" ] }
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "surface_sub_hall_clutter",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "X" ], "terrain": { "X": "t_strconc_floor" }, "furniture": { "X": "f_autoclave" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": [ "f_autoclave", "f_console_broken", "f_centrifuge" ] }
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "surface_sub_hall_clutter",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "X" ], "furniture": { "X": "f_machinery_old" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": [ "f_machinery_old", "f_machinery_light", "f_machinery_electronic" ] }
+    }
   },
   {
     "type": "mapgen",
