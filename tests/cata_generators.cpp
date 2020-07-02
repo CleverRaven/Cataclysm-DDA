@@ -3,7 +3,7 @@
 #include "point.h"
 #include "rng.h"
 
-class RandomPointGenerator :
+class RandomPointGenerator final :
     public Catch::Generators::IGenerator<point>
 {
     public:
@@ -27,7 +27,7 @@ class RandomPointGenerator :
         point current_point;
 };
 
-class RandomTripointGenerator :
+class RandomTripointGenerator final :
     public Catch::Generators::IGenerator<tripoint>
 {
     public:
