@@ -35,13 +35,13 @@
         "........................"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "C": "f_centrifuge", "?": "f_autodoc", "/": "f_autodoc_couch" },
+      "furniture": { "7": "f_console", "C": "f_centrifuge", "?": "f_autodoc", "/": "f_autodoc_couch" },
       "terrain": {
         ",": "t_floor_blue",
         "C": "t_floor_blue",
         "?": "t_floor_blue",
         "/": "t_floor_blue",
-        "7": "t_console",
+        "7": "t_floor_blue",
         "r": "t_floor_blue"
       },
       "place_loot": [

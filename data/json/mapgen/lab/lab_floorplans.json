@@ -525,13 +525,13 @@
         "........................"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "C": "f_centrifuge" },
+      "furniture": { "?": "f_autodoc", "/": "f_autodoc_couch", "7": "f_console", "C": "f_centrifuge" },
       "terrain": {
         ",": "t_floor_blue",
         "C": "t_floor_blue",
         "?": "t_floor_blue",
         "/": "t_floor_blue",
-        "7": "t_console",
+        "7": "t_floor_blue",
         "r": "t_floor_blue"
       },
       "place_loot": [ { "item": "anesthetic_kit", "x": 15, "y": 11, "ammo": 100 } ],
@@ -675,8 +675,8 @@
         "........................"
       ],
       "palettes": [ "lab_palette" ],
-      "furniture": { "C": "f_centrifuge" },
-      "terrain": { "C": "t_floor_blue", "7": "t_console", ",": "t_floor_blue" },
+      "furniture": { "7": "f_console", "C": "f_centrifuge" },
+      "terrain": { "C": "t_floor_blue", "7": "t_floor_blue", ",": "t_floor_blue" },
       "mapping": {
         "c": { "items": [ { "item": "office", "chance": 30 }, { "item": "tools_science", "chance": 15 } ] },
         "l": { "items": [ { "item": "science", "chance": 60 } ] }
@@ -923,7 +923,7 @@
       ],
       "palettes": [ "lab_palette", "lab_loot_home_office" ],
       "furniture": { "F": "f_sofa", "B": "f_bathtub", "C": "f_counter", "O": "f_oven", "V": "f_table" },
-      "terrain": { "w": "t_window_domestic", "`": "t_grass", "+": "t_door_lab_c" },
+      "terrain": { "w": "t_window_domestic", "`": "t_grass_golf", "+": "t_door_lab_c" },
       "mapping": {
         "t": { "items": [ { "item": "livingroom", "chance": 20 } ] },
         "F": { "items": [ { "item": "livingroom", "chance": 5 } ] },

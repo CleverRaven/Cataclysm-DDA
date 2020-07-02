@@ -158,24 +158,24 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
-        "~": [ "t_dirt", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement", "t_pavement" ],
-        "_": [ "t_dirt", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk", "t_sidewalk" ],
-        "*": [ "t_tree_pine", "t_tree", "t_shrub", "t_tree_young" ],
+        " ": "t_region_groundcover",
+        "~": [ "t_region_groundcover_barren", [ "t_pavement", 6 ] ],
+        "_": [ "t_region_groundcover_barren", [ "t_sidewalk", 6 ] ],
+        "*": [ [ "t_region_tree_shade", 3 ], "t_region_shrub" ],
         "J": "t_water_pump",
         "D": "t_door_locked",
         "+": "t_door_c",
         "w": "t_wall_log",
         "U": "t_brick_wall",
         ".": "t_floor",
-        "6": "t_console_broken",
         ":": "t_window",
-        "W": "t_chainfence_h",
+        "W": "t_chainfence",
         "^": "t_chaingate_c",
-        "z": "t_dirt",
+        "z": "t_region_groundcover_barren",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "6": "f_console_broken",
         "L": "f_locker",
         "c": "f_counter",
         "s": "f_sink",
@@ -269,7 +269,7 @@
         "                        "
       ],
       "terrain": {
-        " ": "t_region_groundcover_urban,
+        " ": "t_region_groundcover_urban",
         "E": "t_pavement",
         "X": "t_sidewalk",
         "U": "t_sidewalk",

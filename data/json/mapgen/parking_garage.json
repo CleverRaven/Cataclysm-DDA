@@ -15,7 +15,7 @@
       "'": "t_strconc_floor",
       "+": "t_door_c",
       "!": "t_door_metal_locked",
-      ".": [ [ "t_dirt", 5 ], [ "t_grass", 10 ], [ "t_grass_long", 7 ], [ "t_shrub", 1 ] ],
+      ".": [ [ "t_region_groundcover_urban", 25 ], [ "t_region_shrub", 1 ] ],
       "w": "t_window",
       "W": "t_reinforced_glass",
       "_": "t_pavement",
@@ -31,7 +31,6 @@
       "D": "t_strconc_floor",
       "c": "t_linoleum_white",
       "r": "t_linoleum_white",
-      "x": "t_console_broken",
       ">": "t_stairs_down",
       "<": "t_stairs_up",
       "I": "t_column",
@@ -42,6 +41,7 @@
       "E": "t_elevator"
     },
     "furniture": {
+      "x": "f_console_broken",
       "@": "f_generator_broken",
       "&": "f_machinery_heavy",
       "c": "f_counter",

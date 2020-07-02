@@ -69,7 +69,7 @@
     "om_terrain": [ "silo_1" ],
     "weight": 400,
     "object": {
-      "fill_ter": "t_rock",
+      "fill_ter": "t_floor",
       "rows": [
         "                        ",
         "                        ",
@@ -97,29 +97,13 @@
         "                        "
       ],
       "terrain": {
+        " ": "t_rock",
         "*": "t_missile",
         "`": "t_hole",
         "|": "t_metal_railing",
         "-": "t_metal_railing",
         "~": "t_metal_floor",
-        ".": "t_floor",
-        "&": "t_floor",
-        "1": "t_floor",
-        "a": "t_floor",
-        "b": "t_floor",
-        "B": "t_floor",
-        "c": "t_floor",
-        "l": "t_floor",
-        "r": "t_floor",
-        "f": "t_floor",
-        "e": "t_floor",
-        "s": "t_floor",
-        "S": "t_floor",
-        "t": "t_floor",
-        "T": "t_floor",
         "W": "t_water_dispenser",
-        "C": "t_floor",
-        "6": "t_floor",
         "=": "t_door_locked",
         "+": "t_door_metal_locked",
         "?": "t_door_metal_c_peep",
@@ -127,8 +111,7 @@
         "$": "t_elevator",
         ">": "t_stairs_down",
         "<": "t_stairs_up",
-        "X": "t_card_military",
-        "x": "t_console_broken"
+        "X": "t_card_military"
       },
       "furniture": {
         "d": "f_desk",
@@ -146,7 +129,8 @@
         "S": "f_sink",
         "6": "f_shower",
         "b": "f_bookcase",
-        "1": "f_speaker_cabinet"
+        "1": "f_speaker_cabinet",
+        "x": "f_console_broken"
       },
       "items": {
         "r": { "item": "trash_cart", "chance": 50, "repeat": 2 },

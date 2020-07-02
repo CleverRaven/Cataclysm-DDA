@@ -74,8 +74,15 @@
         "4": "t_gutter_downspout",
         "A": "t_atm"
       },
-      "furniture": { 
-        "P": "f_console_broken", "c": "f_displaycase", "t": "f_toilet", "h": "f_chair", "V": "f_vending_c", "S": "f_sink", "L": "f_locker" },
+      "furniture": {
+        "P": "f_console_broken",
+        "c": "f_displaycase",
+        "t": "f_toilet",
+        "h": "f_chair",
+        "V": "f_vending_c",
+        "S": "f_sink",
+        "L": "f_locker"
+      },
       "toilets": { "t": { "//": "no values needed here" } },
       "items": {
         "c": { "item": "ic_merch", "chance": 20 },
@@ -137,8 +144,7 @@
         "&": "t_flat_roof",
         "=": "t_flat_roof"
       },
-      "furniture": { 
-        "P": "f_console_broken", "k": "f_generator_broken" },
+      "furniture": { "P": "f_console_broken", "k": "f_generator_broken" },
       "place_loot": [ { "item": "television", "x": 14, "y": 9, "chance": 100 }, { "item": "stepladder", "x": 5, "y": 10, "chance": 100 } ],
       "items": {
         "c": { "item": "electronics", "chance": 40 },

@@ -33,15 +33,14 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt", "t_shrub" ],
+        " ": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
         "#": "t_wall_w",
         "$": "t_metal_floor",
-        "%": [ "t_door_c", "t_door_c", "t_door_locked_interior" ],
-        "*": [ "t_door_c", "t_door_c", "t_door_c", "t_door_locked_interior" ],
+        "%": [ [ "t_door_c", 2 ], "t_door_locked_interior" ],
+        "*": [ [ "t_door_c", 3 ], "t_door_locked_interior" ],
         "+": "t_door_c",
         "-": "t_window",
         ".": "t_floor",
-        "6": "t_console",
         "A": "t_atm",
         "G": "t_door_glass_c",
         "M": "t_door_metal_locked",
@@ -53,6 +52,7 @@
         "w": "t_window_alarm"
       },
       "furniture": {
+        "6": "f_console",
         "$": "f_safe_l",
         "C": "f_chair",
         "T": "f_table",
@@ -168,19 +168,17 @@
         "########4               "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        " ": "t_region_groundcover_urban",
         "_": "t_metal_floor",
-        "|": [ "t_door_c", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w", "t_wall_w" ],
+        "|": [ "t_door_c", [ "t_wall_w", 7 ] ],
         "I": "t_wall_w",
         "#": "t_brick_wall",
         "$": "t_metal_floor",
-        "%": [ "t_door_c", "t_door_c", "t_door_locked_interior" ],
-        "*": [ "t_door_c", "t_door_c", "t_door_c", "t_door_locked_interior" ],
+        "%": [ [ "t_door_c", 2 ], "t_door_locked_interior" ],
+        "*": [ [ "t_door_c", 3 ], "t_door_locked_interior" ],
         "+": "t_door_c",
         "-": "t_window",
-        "x": "t_console_broken",
         ".": "t_floor",
-        "6": "t_console",
         "A": "t_atm",
         "G": "t_door_glass_c",
         "M": "t_door_metal_locked",
@@ -194,6 +192,8 @@
         "w": "t_window_alarm"
       },
       "furniture": {
+        "x": "f_console_broken",
+        "6": "f_console",
         "a": "f_armchair",
         "D": "f_sofa",
         "o": "f_bookcase",

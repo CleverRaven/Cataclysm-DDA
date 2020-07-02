@@ -42,7 +42,6 @@
         "-": "t_wall_w",
         ".": "t_grass",
         "3": "t_recycler",
-        "6": "t_console_broken",
         ";": "t_door_locked",
         "_": "t_pavement",
         "s": "t_sidewalk",
@@ -53,6 +52,7 @@
         "9": "t_gutter_downspout"
       },
       "furniture": {
+        "6": "f_console_broken",
         "L": "f_locker",
         "P": "f_indoor_plant",
         "c": "f_counter",

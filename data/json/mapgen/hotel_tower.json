@@ -76,8 +76,8 @@
         " s''''%c..BB|c..BB|o..BB|c.LBB|t.........t|BB..c|BB..c|BB..o|BB..o%''''s"
       ],
       "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "V": "t_pavement", "w": "t_window_domestic", "x": "t_console_broken" },
-      "furniture": { "D": "f_desk" },
+      "terrain": { "V": "t_pavement", "w": "t_window_domestic" },
+      "furniture": { "D": "f_desk", "x": "f_console_broken" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -130,8 +130,8 @@
         "******%c..BB|c..BB|o..BBXc.LBB|t.........t|BB..cXBB..c|BB..o|BB..o%*****"
       ],
       "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "w": "t_window_domestic", "x": "t_console_broken" },
-      "furniture": { "D": "f_desk" },
+      "terrain": { "w": "t_window_domestic" },
+      "furniture": { "D": "f_desk", "x": "f_console_broken" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -180,8 +180,8 @@
         "******%c..BB|c..BB|o..BB|c.LBB|t.........t|BB..c|BB..c|BB..o|BB..o%*****"
       ],
       "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "w": "t_window_domestic", "x": "t_console_broken" },
-      "furniture": { "D": "f_desk" },
+      "terrain": { "w": "t_window_domestic" },
+      "furniture": { "D": "f_desk", "x": "f_console_broken" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -230,8 +230,8 @@
         "******%c..BB|c..BB|o..BB|c.LBB|t.........t|BB..c|BB..c|BB..o|BB..o%*****"
       ],
       "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "w": "t_window_domestic", "x": "t_console_broken" },
-      "furniture": { "D": "f_desk" },
+      "terrain": { "w": "t_window_domestic" },
+      "furniture": { "D": "f_desk", "x": "f_console_broken" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -621,8 +621,8 @@
         "%c.LBB|t.........t|BB..c"
       ],
       "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "w": "t_window_domestic", "x": "t_console_broken" },
-      "furniture": { "D": "f_desk" },
+      "terrain": { "+": [ [ "t_door_c", 2 ], "t_door_o" ], "w": "t_window_domestic" },
+      "furniture": { "D": "f_desk", "x": "f_console_broken" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -667,8 +667,8 @@
         "|c.LBB|t.........t|BB..c"
       ],
       "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "w": "t_window_domestic", "x": "t_console_broken" },
-      "furniture": { "D": "f_desk" },
+      "terrain": { "+": [ [ "t_door_c", 2 ], "t_door_o" ], "w": "t_window_domestic" },
+      "furniture": { "D": "f_desk", "x": "f_console_broken" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -713,14 +713,8 @@
         "|c.LBB|h.........h|BB..c"
       ],
       "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": {
-        "+": [ "t_door_c", "t_door_c", "t_door_o" ],
-        "G": "t_door_glass_c",
-        "w": "t_window_domestic",
-        "V": "t_pavement",
-        "x": "t_console_broken"
-      },
-      "furniture": { "D": "f_desk" },
+      "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "G": "t_door_glass_c", "w": "t_window_domestic", "V": "t_pavement" },
+      "furniture": { "D": "f_desk", "x": "f_console_broken" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },
@@ -766,13 +760,8 @@
         "|c.LBB|t.........t|BB..c"
       ],
       "palettes": [ "hotel_tower_palette.json" ],
-      "terrain": {
-        "+": [ "t_door_c", "t_door_c", "t_door_o" ],
-        "G": "t_door_glass_c",
-        "w": "t_window_domestic",
-        "x": "t_console_broken"
-      },
-      "furniture": { "D": "f_desk" },
+      "terrain": { "+": [ "t_door_c", "t_door_c", "t_door_o" ], "G": "t_door_glass_c", "w": "t_window_domestic" },
+      "furniture": { "D": "f_desk", "x": "f_console_broken" },
       "items": {
         "B": { "item": "bed", "chance": 50 },
         "L": { "item": "hotel_luggage", "chance": 100 },

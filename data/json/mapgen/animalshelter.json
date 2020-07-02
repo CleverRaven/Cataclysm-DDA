@@ -202,9 +202,9 @@
         "s": "t_linoleum_white",
         "t": "t_linoleum_white",
         "F": "t_linoleum_white",
-        "f": "t_dirt",
-        "R": "t_dirt",
-        "Q": "t_dirt",
+        "f": "t_region_groundcover_barren",
+        "R": "t_region_groundcover_barren",
+        "Q": "t_region_groundcover_barren",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up",
         "~": "t_sidewalk"

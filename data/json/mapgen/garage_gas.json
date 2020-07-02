@@ -42,7 +42,7 @@
         "+": "t_door_c",
         "-": "t_wall_w",
         "|": "t_wall_w",
-        ".": "t_region_groundcover_urban,
+        ".": "t_region_groundcover_urban",
         " ": "t_thconc_floor",
         "=": "t_door_metal_locked",
         "I": "t_column",
