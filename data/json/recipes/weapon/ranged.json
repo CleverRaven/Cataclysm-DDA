@@ -488,6 +488,6 @@
         [ "shot_hull", -1 ]
       ]
     ],
-    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "pipe_fittings", 1 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "pipe", 4 ] ], [ [ "nail", 2 ] ], [ [ "pipe_fittings", 2 ] ], [ [ "scrap", 3 ] ] ]
   }
 ]
