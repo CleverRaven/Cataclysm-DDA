@@ -32,7 +32,7 @@
     "id": "FILTER",
     "category": "UILIST",
     "name": "Filter",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
   },
   {
     "type": "keybinding",
@@ -81,7 +81,7 @@
     "id": "FILTER",
     "category": "MELEE_STYLE_PICKER",
     "name": "Filter",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
   },
   {
     "type": "keybinding",
@@ -97,6 +97,7 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "k" },
       { "input_method": "keyboard_any", "key": "8" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_8" },
       { "input_method": "keyboard_any", "key": "UP" },
       { "input_method": "gamepad", "key": "JOY_UP" }
     ]
@@ -109,6 +110,7 @@
       { "input_method": "keyboard_any", "key": "j" },
       { "input_method": "keyboard_any", "key": "DOWN" },
       { "input_method": "keyboard_any", "key": "2" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_2" },
       { "input_method": "gamepad", "key": "JOY_DOWN" }
     ]
   },
@@ -120,6 +122,7 @@
       { "input_method": "keyboard_any", "key": "h" },
       { "input_method": "keyboard_any", "key": "LEFT" },
       { "input_method": "keyboard_any", "key": "4" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_4" },
       { "input_method": "gamepad", "key": "JOY_LEFT" }
     ]
   },
@@ -131,6 +134,7 @@
       { "input_method": "keyboard_any", "key": "l" },
       { "input_method": "keyboard_any", "key": "RIGHT" },
       { "input_method": "keyboard_any", "key": "6" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_6" },
       { "input_method": "gamepad", "key": "JOY_RIGHT" }
     ]
   },
@@ -141,6 +145,7 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "y" },
       { "input_method": "keyboard_any", "key": "7" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_7" },
       { "input_method": "gamepad", "key": "JOY_LEFTUP" }
     ]
   },
@@ -151,6 +156,7 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "u" },
       { "input_method": "keyboard_any", "key": "9" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_9" },
       { "input_method": "gamepad", "key": "JOY_RIGHTUP" }
     ]
   },
@@ -161,6 +167,7 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "b" },
       { "input_method": "keyboard_any", "key": "1" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_1" },
       { "input_method": "gamepad", "key": "JOY_LEFTDOWN" }
     ]
   },
@@ -171,6 +178,7 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "n" },
       { "input_method": "keyboard_any", "key": "3" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_3" },
       { "input_method": "gamepad", "key": "JOY_RIGHTDOWN" }
     ]
   },
@@ -367,14 +375,18 @@
     "id": "MOVE_RULE_UP",
     "category": "AUTO_PICKUP",
     "name": "Move rule up",
-    "bindings": [ { "input_method": "keyboard_char", "key": "+" }, { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
+      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
     "id": "MOVE_RULE_DOWN",
     "category": "AUTO_PICKUP",
     "name": "Move rule down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
@@ -476,14 +488,18 @@
     "id": "MOVE_RULE_UP",
     "category": "SAFEMODE",
     "name": "Move rule up",
-    "bindings": [ { "input_method": "keyboard_char", "key": "+" }, { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
+      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
     "id": "MOVE_RULE_DOWN",
     "category": "SAFEMODE",
     "name": "Move rule down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
@@ -519,14 +535,22 @@
     "id": "MOVE_ARMOR",
     "category": "SORT_ARMOR",
     "name": "Select armor for moving",
-    "bindings": [ { "input_method": "keyboard_any", "key": "s" }, { "input_method": "keyboard_any", "key": "RETURN" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "s" },
+      { "input_method": "keyboard_any", "key": "RETURN" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" }
+    ]
   },
   {
     "type": "keybinding",
     "id": "MOVE_PANEL",
     "category": "PANEL_MGMT",
     "name": "Select panel for moving",
-    "bindings": [ { "input_method": "keyboard_any", "key": "s" }, { "input_method": "keyboard_any", "key": "RETURN" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "s" },
+      { "input_method": "keyboard_any", "key": "RETURN" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" }
+    ]
   },
   {
     "type": "keybinding",
@@ -591,7 +615,8 @@
       { "input_method": "keyboard_any", "key": "f" },
       { "input_method": "keyboard_char", "key": "F" },
       { "input_method": "keyboard_code", "key": "f", "mod": [ "shift" ] },
-      { "input_method": "keyboard_any", "key": "/" }
+      { "input_method": "keyboard_any", "key": "/" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" }
     ]
   },
   {
@@ -662,7 +687,11 @@
     "id": "TOGGLE_FAVORITE",
     "category": "CRAFTING",
     "name": "Toggle recipes to be shown in favorite tab",
-    "bindings": [ { "input_method": "keyboard_char", "key": "*" }, { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -681,14 +710,18 @@
     "id": "NEXT",
     "category": "SOKOBAN",
     "name": "Next level",
-    "bindings": [ { "input_method": "keyboard_char", "key": "+" }, { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
+      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
     "id": "PREV",
     "category": "SOKOBAN",
     "name": "Previous level",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
@@ -730,7 +763,7 @@
     "id": "TOGGLE_5",
     "category": "LIGHTSON",
     "name": "Toggle lights",
-    "bindings": [ { "input_method": "keyboard_any", "key": "5" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "5" }, { "input_method": "keyboard_code", "key": "KEYPAD_5" } ]
   },
   {
     "type": "keybinding",
@@ -743,7 +776,7 @@
     "type": "keybinding",
     "id": "CONFIRM",
     "name": "Confirm Choice",
-    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" } ]
   },
   {
     "type": "keybinding",
@@ -764,14 +797,18 @@
     "id": "ADD_MOD",
     "category": "MODMANAGER_DIALOG",
     "name": "Move selected mod up",
-    "bindings": [ { "input_method": "keyboard_char", "key": "+" }, { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
+      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
     "id": "REMOVE_MOD",
     "category": "MODMANAGER_DIALOG",
     "name": "Move selected mod down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
@@ -792,7 +829,11 @@
     "id": "PICK_RANDOM_WORLDNAME",
     "category": "WORLDGEN_CONFIRM_DIALOG",
     "name": "Pick random world name",
-    "bindings": [ { "input_method": "keyboard_char", "key": "*" }, { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -932,7 +973,7 @@
     "type": "keybinding",
     "id": "SEARCH",
     "name": "Search",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
   },
   {
     "type": "keybinding",
@@ -961,6 +1002,7 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "f" },
       { "input_method": "keyboard_any", "key": "RETURN" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" },
       { "input_method": "mouse", "key": "MOUSE_RIGHT" }
     ]
   },
@@ -992,7 +1034,12 @@
     "id": "AIM",
     "category": "TARGET",
     "name": "Aim",
-    "bindings": [ { "input_method": "keyboard_any", "key": "." }, { "input_method": "keyboard_any", "key": "5" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "." },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PERIOD" },
+      { "input_method": "keyboard_any", "key": "5" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_5" }
+    ]
   },
   {
     "type": "keybinding",
@@ -1052,7 +1099,11 @@
     "id": "TOGGLE_SNAP_TO_TARGET",
     "category": "TARGET",
     "name": "Toggle Snap to Target",
-    "bindings": [ { "input_method": "keyboard_char", "key": "*" }, { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -1116,14 +1167,14 @@
     "type": "keybinding",
     "id": "CENTER",
     "name": "Center On Character",
-    "bindings": [ { "input_method": "keyboard_any", "key": "0" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "0" }, { "input_method": "keyboard_code", "key": "KEYPAD_0" } ]
   },
   {
     "type": "keybinding",
     "id": "HELP",
     "category": "CARAVAN",
     "name": "Display Help",
-    "bindings": [ { "input_method": "keyboard_any", "key": "0" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "0" }, { "input_method": "keyboard_code", "key": "KEYPAD_0" } ]
   },
   {
     "type": "keybinding",
@@ -1178,14 +1229,18 @@
     "id": "RANDOMIZE_CHAR_DESCRIPTION",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Pick random character description",
-    "bindings": [ { "input_method": "keyboard_char", "key": "*" }, { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
     "id": "CHOOSE_LOCATION",
     "category": "NEW_CHAR_DESCRIPTION",
     "name": "Choose character start location",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
   },
   {
     "type": "keybinding",
@@ -1207,14 +1262,22 @@
     "id": "RANDOMIZE",
     "category": "NEW_CHAR_PROFESSIONS",
     "name": "Randomize profession",
-    "bindings": [ { "input_method": "keyboard_char", "key": "*" }, { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
     "id": "RANDOMIZE",
     "category": "NEW_CHAR_SCENARIOS",
     "name": "Randomize scenario",
-    "bindings": [ { "input_method": "keyboard_char", "key": "*" }, { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -1542,14 +1605,18 @@
     "id": "INVENTORY_FILTER",
     "category": "INVENTORY",
     "name": "Set item filter",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
   },
   {
     "type": "keybinding",
     "id": "TOGGLE_FAVORITE",
     "category": "INVENTORY",
     "name": "Toggle item as favorite",
-    "bindings": [ { "input_method": "keyboard_char", "key": "*" }, { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -1584,7 +1651,12 @@
     "name": "Pause",
     "category": "DEFAULTMODE",
     "id": "pause",
-    "bindings": [ { "input_method": "keyboard_any", "key": "." }, { "input_method": "keyboard_any", "key": "5" } ]
+    "bindings": [
+      { "input_method": "keyboard_any", "key": "." },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PERIOD" },
+      { "input_method": "keyboard_any", "key": "5" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_5" }
+    ]
   },
   {
     "type": "keybinding",
@@ -1661,7 +1733,7 @@
     "name": "Advanced Inventory management",
     "category": "DEFAULTMODE",
     "id": "advinv",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
   },
   {
     "type": "keybinding",
@@ -1908,7 +1980,11 @@
     "name": "Re-layer armor/clothing",
     "category": "DEFAULTMODE",
     "id": "sort_armor",
-    "bindings": [ { "input_method": "keyboard_char", "key": "+" }, { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
+      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -1929,14 +2005,18 @@
     "name": "Recraft last recipe",
     "category": "DEFAULTMODE",
     "id": "recraft",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
     "name": "Construct Terrain",
     "category": "DEFAULTMODE",
     "id": "construct",
-    "bindings": [ { "input_method": "keyboard_char", "key": "*" }, { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -2066,7 +2146,7 @@
     "name": "View Help",
     "category": "DEFAULTMODE",
     "id": "help",
-    "bindings": [ { "input_method": "keyboard_any", "key": "0" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "0" }, { "input_method": "keyboard_code", "key": "KEYPAD_0" } ]
   },
   {
     "type": "keybinding",
@@ -2201,7 +2281,7 @@
     "name": "Action Menu",
     "category": "DEFAULTMODE",
     "id": "action_menu",
-    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" } ]
   },
   {
     "type": "keybinding",
@@ -2383,14 +2463,18 @@
     "id": "PRIORITY_INCREASE",
     "category": "LIST_ITEMS",
     "name": "Increase priority",
-    "bindings": [ { "input_method": "keyboard_char", "key": "+" }, { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
+      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
     "id": "PRIORITY_DECREASE",
     "category": "LIST_ITEMS",
     "name": "Decrease priority",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
@@ -2452,6 +2536,7 @@
     "name": "Move cursor up",
     "bindings": [
       { "input_method": "keyboard_any", "key": "8" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_8" },
       { "input_method": "keyboard_any", "key": "UP" },
       { "input_method": "gamepad", "key": "JOY_UP" }
     ]
@@ -2464,6 +2549,7 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "DOWN" },
       { "input_method": "keyboard_any", "key": "2" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_2" },
       { "input_method": "gamepad", "key": "JOY_DOWN" }
     ]
   },
@@ -2481,6 +2567,7 @@
     "name": "Pan up",
     "bindings": [
       { "input_method": "keyboard_any", "key": "8" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_8" },
       { "input_method": "keyboard_any", "key": "UP" },
       { "input_method": "gamepad", "key": "JOY_UP" }
     ]
@@ -2493,6 +2580,7 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "DOWN" },
       { "input_method": "keyboard_any", "key": "2" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_2" },
       { "input_method": "gamepad", "key": "JOY_DOWN" }
     ]
   },
@@ -2523,14 +2611,18 @@
     "id": "REMOVE",
     "category": "HELP_KEYBINDINGS",
     "name": "Remove bindings",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
     "id": "ADD_LOCAL",
     "category": "HELP_KEYBINDINGS",
     "name": "Add local keybinding",
-    "bindings": [ { "input_method": "keyboard_char", "key": "+" }, { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
+      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -2544,7 +2636,7 @@
     "id": "EXECUTE",
     "category": "HELP_KEYBINDINGS",
     "name": "Execute action keybinding",
-    "bindings": [ { "input_method": "keyboard_any", "key": "." } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "." }, { "input_method": "keyboard_code", "key": "KEYPAD_PERIOD" } ]
   },
   {
     "type": "keybinding",
@@ -2573,14 +2665,18 @@
     "id": "MOVE_ZONE_UP",
     "category": "ZONES_MANAGER",
     "name": "Move zone up",
-    "bindings": [ { "input_method": "keyboard_char", "key": "+" }, { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "+" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_PLUS" },
+      { "input_method": "keyboard_code", "key": "=", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
     "id": "MOVE_ZONE_DOWN",
     "category": "ZONES_MANAGER",
     "name": "Move zone down",
-    "bindings": [ { "input_method": "keyboard_any", "key": "-" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "-" }, { "input_method": "keyboard_code", "key": "KEYPAD_MINUS" } ]
   },
   {
     "type": "keybinding",
@@ -2744,7 +2840,7 @@
     "id": "MOVE_SINGLE_ITEM",
     "category": "ADVANCED_INVENTORY",
     "name": "Move a single item",
-    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "RETURN" }, { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" } ]
   },
   {
     "type": "keybinding",
@@ -2779,7 +2875,11 @@
     "id": "TOGGLE_FAVORITE",
     "category": "ADVANCED_INVENTORY",
     "name": "Toggle item as favorite",
-    "bindings": [ { "input_method": "keyboard_char", "key": "*" }, { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -2793,63 +2893,63 @@
     "id": "ITEMS_NW",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ North-West",
-    "bindings": [ { "input_method": "keyboard_any", "key": "7" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "7" }, { "input_method": "keyboard_code", "key": "KEYPAD_7" } ]
   },
   {
     "type": "keybinding",
     "id": "ITEMS_N",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ North",
-    "bindings": [ { "input_method": "keyboard_any", "key": "8" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "8" }, { "input_method": "keyboard_code", "key": "KEYPAD_8" } ]
   },
   {
     "type": "keybinding",
     "id": "ITEMS_NE",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ North-East",
-    "bindings": [ { "input_method": "keyboard_any", "key": "9" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "9" }, { "input_method": "keyboard_code", "key": "KEYPAD_9" } ]
   },
   {
     "type": "keybinding",
     "id": "ITEMS_W",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ West",
-    "bindings": [ { "input_method": "keyboard_any", "key": "4" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "4" }, { "input_method": "keyboard_code", "key": "KEYPAD_4" } ]
   },
   {
     "type": "keybinding",
     "id": "ITEMS_CE",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ center",
-    "bindings": [ { "input_method": "keyboard_any", "key": "5" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "5" }, { "input_method": "keyboard_code", "key": "KEYPAD_5" } ]
   },
   {
     "type": "keybinding",
     "id": "ITEMS_E",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ East",
-    "bindings": [ { "input_method": "keyboard_any", "key": "6" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "6" }, { "input_method": "keyboard_code", "key": "KEYPAD_6" } ]
   },
   {
     "type": "keybinding",
     "id": "ITEMS_SW",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ South-West",
-    "bindings": [ { "input_method": "keyboard_any", "key": "1" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "1" }, { "input_method": "keyboard_code", "key": "KEYPAD_1" } ]
   },
   {
     "type": "keybinding",
     "id": "ITEMS_S",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ South",
-    "bindings": [ { "input_method": "keyboard_any", "key": "2" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "2" }, { "input_method": "keyboard_code", "key": "KEYPAD_2" } ]
   },
   {
     "type": "keybinding",
     "id": "ITEMS_SE",
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ South-East",
-    "bindings": [ { "input_method": "keyboard_any", "key": "3" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "3" }, { "input_method": "keyboard_code", "key": "KEYPAD_3" } ]
   },
   {
     "type": "keybinding",
@@ -2860,7 +2960,8 @@
       { "input_method": "keyboard_any", "key": "i" },
       { "input_method": "keyboard_char", "key": "I" },
       { "input_method": "keyboard_code", "key": "i", "mod": [ "shift" ] },
-      { "input_method": "keyboard_any", "key": "0" }
+      { "input_method": "keyboard_any", "key": "0" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_0" }
     ]
   },
   {
@@ -2952,7 +3053,7 @@
     "id": "FILTER",
     "category": "ITEM_ACTIONS",
     "name": "Filter",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
   },
   {
     "type": "keybinding",
@@ -3139,7 +3240,8 @@
     "bindings": [
       { "input_method": "keyboard_any", "key": "ESC" },
       { "input_method": "keyboard_any", "key": "SPACE" },
-      { "input_method": "keyboard_any", "key": "RETURN" }
+      { "input_method": "keyboard_any", "key": "RETURN" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_ENTER" }
     ]
   },
   {
@@ -3197,7 +3299,7 @@
     "id": "EXAMINE",
     "category": "NPC_TRADE",
     "name": "Examine item",
-    "bindings": [ { "input_method": "keyboard_any", "key": "/" } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "/" }, { "input_method": "keyboard_code", "key": "KEYPAD_DIVIDE" } ]
   },
   {
     "type": "keybinding",
@@ -3210,6 +3312,10 @@
     "type": "keybinding",
     "id": "CHANGE_PROFESSION_NAME",
     "name": "Change profession name",
-    "bindings": [ { "input_method": "keyboard_char", "key": "*" }, { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": "*" },
+      { "input_method": "keyboard_code", "key": "KEYPAD_MULTIPLY" },
+      { "input_method": "keyboard_code", "key": "8", "mod": [ "shift" ] }
+    ]
   }
 ]
