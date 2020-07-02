@@ -596,7 +596,9 @@ bool item_pocket::seal()
 
 void item_pocket::unseal()
 {
-    _sealed = false;
+    if( _sealed ) {
+        _sealed = false;
+    }
 }
 
 bool item_pocket::sealed() const
@@ -1129,7 +1131,7 @@ void item_pocket::on_pickup( Character &guy )
 
 void item_pocket::on_contents_changed()
 {
-    _sealed = false;
+    unseal();
     restack();
 }
 
