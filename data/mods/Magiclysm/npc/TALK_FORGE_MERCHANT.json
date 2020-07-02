@@ -22,7 +22,7 @@
     "bonus_int": { "one_in": 4 },
     "bonus_per": { "one_in": 4 },
     "shopkeeper_item_group": "NC_FORGE_LORD_STORE",
-    "worn_override": "NC_FORGE_LORD_storage",
+    "worn_override": "NC_FORGE_LORD_clothes",
     "skills": [
       {
         "skill": "ALL",
@@ -37,9 +37,15 @@
   },
   {
     "type": "item_group",
-    "id": "NC_FORGE_LORD_storage",
+    "id": "NC_FORGE_LORD_clothes",
     "subtype": "distribution",
-    "entries": [ { "item": "bag_holding_2", "prob": 100 } ]
+    "entries": [
+      { "item": "bag_holding_2", "prob": 100 },
+      { "item": "cloak_morthylla", "prob": 100 },
+      { "item": "mboots_escape", "prob": 100 },
+      { "item": "breeches", "prob": 100 },
+      { "item": "polo_shirt", "prob": 100 }
+    ]
   },
   {
     "type": "item_group",
