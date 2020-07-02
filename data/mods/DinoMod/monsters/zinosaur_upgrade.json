@@ -17,7 +17,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {},
+    "upgrades": {  },
     "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -39,7 +39,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {},
+    "upgrades": {  },
     "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -61,7 +61,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {},
+    "upgrades": {  },
     "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -83,7 +83,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {},
+    "upgrades": {  },
     "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -105,7 +105,139 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {},
+    "upgrades": {  },
+    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zalbertosaurus_brute",
+    "name": { "str": "Alberta Anvil" },
+    "copy-from": "mon_zalbertosaurus",
+    "description": "Massive jaws and grabbing claws lifting by a body bulging with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "upgrades": {  },
+    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zriceratops_brute",
+    "name": { "str": "Triceratruck" },
+    "copy-from": "mon_zriceratops",
+    "description": "A massive shambling rhino-like dinosaur corpse with a bony crest from which three wicked looking horns emerge.  Its black eyes ooze like tears.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "upgrades": {  },
+    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_ztegosaurus_brute",
+    "name": { "str": "Stegosaurus Sledge" },
+    "copy-from": "mon_ztegosaurus",
+    "description": "A large shambling quadruped dinosaur corpse with plates on its back, waving a spiked tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "upgrades": {  },
+    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zankylosaurus_brute",
+    "name": { "str": "Dino Tank" },
+    "copy-from": "mon_zankylosaurus",
+    "description": "Heavily armored zombie dinosaur.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "upgrades": {  },
+    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zapatosaurus_brute",
+    "name": { "str": "Zombie Dreadnought" },
+    "copy-from": "mon_zapatosaurus",
+    "description": "Massive, long-necked, four-legged dinosaur corpse with a long, whip-like tail.  Its entire body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "upgrades": {  },
+    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zeratosaurus_brute",
+    "name": { "str": "Dracolich Titan" },
+    "copy-from": "mon_zeratosaurus",
+    "description": "This zombie is enormous, scaly, studded with bony spikes, and it moves with horrible speed.  Its colorful horns and bone spikes sit on a body bulging with distended muscles and swollen, festering wounds.",
+    "diff": 2,
+    "color": "red",
+    "proportional": { "hp": 1.5, "speed": 1.5 },
+    "relative": {
+      "melee_dice": 1,
+      "melee_dice_sides": 5,
+      "melee_cut": 2,
+      "armor_bash": 4,
+      "armor_cut": 6,
+      "armor_bullet": 5,
+      "vision_night": 1
+    },
+    "upgrades": {  },
     "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -116,7 +248,7 @@
     "copy-from": "mon_zpinosaurus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a huge bipedal dinosaur with a tattered sail.  The head is long and narrow with a V-shaped snout.",
-    "upgrades": {},
+    "upgrades": {  },
     "flags": [
       "SEES",
       "SMELLS",
@@ -144,7 +276,7 @@
     "copy-from": "mon_zyrannosaurus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a huge bipedal dinosaur with feathery edges.  The head looks big, lots of big teeth would fit in it.",
-    "upgrades": {},
+    "upgrades": {  },
     "flags": [
       "SEES",
       "SMELLS",
@@ -171,7 +303,7 @@
     "copy-from": "mon_zeinonychus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a medium-sized bipedal dinosaur with feathery edges.  Both feet brandish a large sickle-like claw.",
-    "upgrades": {},
+    "upgrades": {  },
     "flags": [
       "SEES",
       "SMELLS",
@@ -210,7 +342,7 @@
     "vision_day": 30,
     "hp": 200,
     "description": "Monstrous columns of dense bone lifting enormous sharp pointed teeth dripping with black goo.",
-    "upgrades": {},
+    "upgrades": {  },
     "flags": [ "SEES", "HEARS", "POISON", "HARDTOSHOOT", "BLEED", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
