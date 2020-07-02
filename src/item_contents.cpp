@@ -993,6 +993,54 @@ std::vector<const item *> item_contents::gunmods() const
     return mods;
 }
 
+std::vector<const item *> item_contents::mods() const
+{
+    std::vector<const item *> mods;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
+            for( const item *it : pocket.all_items_top() ) {
+                mods.insert( mods.end(), it );
+            }
+        }
+    }
+    return mods;
+}
+
+void item_contents::update_modified_pockets( const cata::optional<pocket_data> &mag_or_mag_well,
+        std::vector<pocket_data> container_pockets )
+{
+    std::vector<item> contained_items;
+
+    for( item_pocket &pocket : contents ) {
+        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) &&
+            !pocket.is_type( item_pocket::pocket_type::MAGAZINE ) &&
+            !pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            container_pockets.push_back( *pocket.get_pocket_data() );
+        }
+    }
+
+    if( !empty() ) {
+        debugmsg( "item with items in it updated pockets via item mod. put contained items into migration pocket" );
+        for( const item *it : all_items_top() ) {
+            contained_items.push_back( *it );
+        }
+    }
+
+    if( mag_or_mag_well ) {
+        container_pockets.push_back( *mag_or_mag_well );
+    }
+
+    *this = item_contents( container_pockets );
+
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MIGRATION ) ) {
+            for( const item &it : contained_items ) {
+                pocket.insert_item( it );
+            }
+        }
+    }
+}
+
 std::set<itype_id> item_contents::magazine_compatible() const
 {
     std::set<itype_id> ret;
