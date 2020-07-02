@@ -147,15 +147,17 @@ void vehicle:: smart_controller_handle_turn( bool thrusting )
             vp.part().enabled = false;
         }
 
-        if( rotorcraft ) {
-            add_msg( _( "Smart controller does not support flying vehicles." ) );
-        } else if( c_engines.size() <= 1 ) {
-            add_msg( _( "Smart controller detects only a single controllable engine." ) );
-            add_msg( _( "Smart controller is designed to control more than one engine." ) );
-        } else {
-            add_msg( _( "Smart controller does not support more than five engines." ) );
+        if( player_in_control( g->u ) ) {
+            if( rotorcraft ) {
+                add_msg( _( "Smart controller does not support flying vehicles." ) );
+            } else if( c_engines.size() <= 1 ) {
+                add_msg( _( "Smart controller detects only a single controllable engine." ) );
+                add_msg( _( "Smart controller is designed to control more than one engine." ) );
+            } else {
+                add_msg( _( "Smart controller does not support more than five engines." ) );
+            }
+            add_msg( m_bad, _( "Smart controller is shutting down." ) );
         }
-        add_msg( m_bad, _( "Smart controller is shutting down." ) );
         has_enabled_smart_controller = false;
         smart_controller_state = cata::nullopt;
         return;
@@ -341,8 +343,10 @@ void vehicle:: smart_controller_handle_turn( bool thrusting )
             for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
                 vp.part().enabled = false;
             }
-            add_msg( m_bad, _( "Smart controller failed to start an engine." ) );
-            add_msg( m_bad, _( "Smart controller is shutting down." ) );
+            if( player_in_control( g->u ) ) {
+                add_msg( m_bad, _( "Smart controller failed to start an engine." ) );
+                add_msg( m_bad, _( "Smart controller is shutting down." ) );
+            }
             has_enabled_smart_controller = false;
 
         } else {  //successfully changed engines state
@@ -357,7 +361,9 @@ void vehicle:: smart_controller_handle_turn( bool thrusting )
             }
             smart_controller_state = cur_state;
 
-            add_msg( _( "Smart controller optimizes engine state." ) );
+            if( player_in_control( g->u ) ) {
+                add_msg( _( "Smart controller optimizes engine state." ) );
+            }
         }
     } else {
         // as the optimization was performed (even without state change), cache needs to be updated as well
