@@ -17,6 +17,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "upgrades": {},
     "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -38,6 +39,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "upgrades": {},
     "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -59,6 +61,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "upgrades": {},
     "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -80,6 +83,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "upgrades": {},
     "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -101,6 +105,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "upgrades": {},
     "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
@@ -111,6 +116,7 @@
     "copy-from": "mon_zpinosaurus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a huge bipedal dinosaur with a tattered sail.  The head is long and narrow with a V-shaped snout.",
+    "upgrades": {},
     "flags": [
       "SEES",
       "SMELLS",
@@ -138,6 +144,7 @@
     "copy-from": "mon_zyrannosaurus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a huge bipedal dinosaur with feathery edges.  The head looks big, lots of big teeth would fit in it.",
+    "upgrades": {},
     "flags": [
       "SEES",
       "SMELLS",
@@ -164,6 +171,7 @@
     "copy-from": "mon_zeinonychus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a medium-sized bipedal dinosaur with feathery edges.  Both feet brandish a large sickle-like claw.",
+    "upgrades": {},
     "flags": [
       "SEES",
       "SMELLS",
@@ -202,6 +210,7 @@
     "vision_day": 30,
     "hp": 200,
     "description": "Monstrous columns of dense bone lifting enormous sharp pointed teeth dripping with black goo.",
+    "upgrades": {},
     "flags": [ "SEES", "HEARS", "POISON", "HARDTOSHOOT", "BLEED", "NO_BREATHE", "REVIVES", "FILTHY" ],
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
