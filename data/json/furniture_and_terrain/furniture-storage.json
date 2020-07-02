@@ -248,82 +248,6 @@
   },
   {
     "type": "furniture",
-    "id": "f_dumbbell_rack",
-    "name": "dumbbell rack",
-    "looks_like": "f_rack",
-    "description": "A metal frame designed to hold dumbbells for easy access.",
-    "symbol": "{",
-    "color": "black",
-    "move_cost_mod": -1,
-    "coverage": 10,
-    "required_str": 6,
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "DECONSTRUCT", "PERMEABLE", "ROUGH" ],
-    "deconstruct": { "items": [ { "item": "pipe", "count": [ 4, 6 ] } ] },
-    "max_volume": "55 L",
-    "bash": {
-      "str_min": 6,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_vol": 3,
-      "sound_fail": "clang!",
-      "sound_fail_vol": 5,
-      "items": [ { "item": "scrap", "count": [ 2, 8 ] }, { "item": "steel_chunk", "count": [ 2, 4 ] }, { "item": "pipe", "count": 1 } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_plate_rack",
-    "name": "plate rack",
-    "looks_like": "f_rack",
-    "description": "A metal rack designed to hold plated shaped weights",
-    "symbol": "{",
-    "color": "light_gray",
-    "move_cost_mod": -1,
-    "coverage": 10,
-    "required_str": 8,
-    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "DECONSTRUCT", "PERMEABLE", "ROUGH" ],
-    "deconstruct": { "items": [ { "item": "pipe", "count": [ 6, 9 ] } ] },
-    "max_volume": "350 L",
-    "bash": {
-      "str_min": 6,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_vol": 5,
-      "sound_fail": "clang!",
-      "sound_fail_vol": 8,
-      "items": [ { "item": "scrap", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 2, 4 ] }, { "item": "pipe", "count": 2 } ]
-    }
-  },
-  {
-    "type": "furniture",
-    "id": "f_filing_cabinet",
-    "name": "filing cabinet",
-    "looks_like": "f_rack",
-    "description": "A rack of metal drawers designed to hold various files and paperwork.  Paperwork that has more than likely lost all worth or value by now.",
-    "symbol": "}",
-    "color": "dark_gray",
-    "move_cost_mod": 2,
-    "coverage": 70,
-    "required_str": 7,
-    "flags": [ "PLACE_ITEM", "TRANSPARENT", "CONTAINER", "BLOCKSDOOR", "MOUNTABLE" ],
-    "deconstruct": {
-      "items": [
-        { "item": "sheet_metal", "count": [ 2, 6 ] },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "lock", "count": [ 0, 1 ] }
-      ]
-    },
-    "max_volume": "200 L",
-    "bash": {
-      "str_min": 8,
-      "str_max": 30,
-      "sound": "metal screeching!",
-      "sound_fail": "clang!",
-      "items": [ { "item": "scrap", "count": [ 0, 6 ] }, { "item": "sheet_metal", "count": [ 0, 4 ] } ]
-    }
-  },
-  {
-    "type": "furniture",
     "id": "f_glass_cabinet",
     "name": "glass front cabinet",
     "symbol": "[",
@@ -1005,6 +929,54 @@
         { "item": "scrap", "count": [ 10, 20 ] },
         { "item": "splinter", "count": [ 1, 20 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dumbbell_rack",
+    "name": "dumbbell rack",
+    "looks_like": "f_rack",
+    "description": "A metal frame designed to hold dumbbells for easy access.",
+    "symbol": "{",
+    "color": "black",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": 6,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "DECONSTRUCT", "PERMEABLE", "ROUGH" ],
+    "deconstruct": { "items": [ { "item": "pipe", "count": [ 4, 6 ] } ] },
+    "max_volume": "55 L",
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_vol": 3,
+      "sound_fail": "clang!",
+      "sound_fail_vol": 5,
+      "items": [ { "item": "scrap", "count": [ 2, 8 ] }, { "item": "steel_chunk", "count": [ 2, 4 ] }, { "item": "pipe", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_plate_rack",
+    "name": "plate rack",
+    "looks_like": "f_rack",
+    "description": "A metal rack designed to hold plated shaped weights",
+    "symbol": "{",
+    "color": "light_gray",
+    "move_cost_mod": -1,
+    "coverage": 10,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "MOUNTABLE", "DECONSTRUCT", "PERMEABLE", "ROUGH" ],
+    "deconstruct": { "items": [ { "item": "pipe", "count": [ 6, 9 ] } ] },
+    "max_volume": "350 L",
+    "bash": {
+      "str_min": 6,
+      "str_max": 30,
+      "sound": "metal screeching!",
+      "sound_vol": 5,
+      "sound_fail": "clang!",
+      "sound_fail_vol": 8,
+      "items": [ { "item": "scrap", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 2, 4 ] }, { "item": "pipe", "count": 2 } ]
     }
   }
 ]

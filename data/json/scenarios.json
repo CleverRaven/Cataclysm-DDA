@@ -517,13 +517,24 @@
     "points": 3,
     "description": "Despite all the soldiers, guns and minefields, the base you were on got overrun by the dead.  Everyone was ordered to fall back to the armory, but during all the chaos you got lost and you are now stuck in the warehouse all alone.  You are not sure if anyone made it to the armory, or if you are the last man alive.",
     "start_name": "Military Base Warehouse",
-    "allowed_locs": [ "mil_base_2g" ],
-    "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic" ],
+    "allowed_locs": [ "sloc_military_base_warehouse" ],
+    "professions": [ "unemployed", "soldier", "specops", "bio_soldier", "bio_sniper", "labtech", "medic", "mili_pilot" ],
     "flags": [ "CHALLENGE", "LONE_START" ]
   },
   {
     "type": "scenario",
-    "ident": "gym_junkie",
+    "ident": "presort",
+    "name": "Crazy Party",
+    "points": 0,
+    "description": "You thought things couldn't get any worse when the cops came over to bust your wild party, even though you booked it at a private resort.  When the guests started fighting with the police you tried to get them to calm down, only to find out they hungered for more.",
+    "start_name": "Private resort",
+    "allowed_locs": [ "sloc_private_resort" ],
+    "professions": [ "frat", "gangster", "lost_sub", "lawyer", "politician", "dancer", "bio_gangster" ],
+    "flags": [ "CHALLENGE", "LONE_START" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "the_gym",
     "name": "The Gym",
     "points": 0,
     "description": "You were in the middle of getting jacked when the world went to shit. Looks like you can finally cancel your membership.",

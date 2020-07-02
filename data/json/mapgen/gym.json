@@ -47,14 +47,14 @@
         "4": "t_gutter_downspout"
       },
       "furniture": {
-        "!": "f_ergometer",
-        "x": "f_dumbbell_rack",
-        "K": "f_plate_rack",
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
         "#": "f_counter",
         "*": "f_shower",
-        "@": "f_treadmill",
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
         "O": "f_locker",
         "V": "f_exercise",
+        "x": "f_dumbbell_rack",
+        "K": "f_plate_rack",
         "a": "f_stool",
         "r": "f_rack",
         "f": "f_glass_fridge",
@@ -200,10 +200,10 @@
       "toilets": { "T": {  } },
       "items": {
         "O": { "item": "gym", "chance": 80 },
-        "H": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] },
-        "x": { "item": "gym_dumbbell_rack", "chance": 100 },
-        "K": { "item": "gym_plate_rack", "chance": 100, "repeat": [ 1, 6 ] }
-      }
+        "x": { "item": "gym_dumbbell_rack", "chance": 100, "repeat": [ 1, 6 ] },
+        "K": { "item": "gym_plate_rack", "chance": 100, "repeat": [ 1, 6 ] },
+        "H": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] } }
+
     }
   },
   {
