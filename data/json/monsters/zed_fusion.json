@@ -239,7 +239,7 @@
     "vision_day": 1,
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 3, "allow_no_target": true }, [ "scratch", 5 ] ],
     "death_function": [ "GAS" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "GOODHEARING", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "WARM", "POISON", "CLIMBS", "NO_BREATHE", "CLIMBS", "HARDTOSHOOT" ]
   },
   {
     "id": "mon_zombie_hanging_innards",
