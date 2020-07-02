@@ -1161,6 +1161,8 @@ class map
         // See fields.cpp
         bool process_fields();
         bool process_fields_in_submap( submap *current_submap, const tripoint &submap_pos );
+        bool process_fire_field_in_submap( submap *current_submap, field_entry &cur, const tripoint &p,
+                                           bool &dirty_transparency_cache );
         /**
          * Apply field effects to the creature when it's on a square with fields.
          */
