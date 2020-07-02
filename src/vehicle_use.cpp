@@ -2015,7 +2015,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
     }
     auto veh_tool = [&]( const itype_id & obj ) {
         item pseudo( obj );
-        if (fuel_left(itype_battery, true) < pseudo.ammo_required()) {
+        if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
             return false;
         }
         //Pseudo items don't have a magazine in it, and they don't need it anymore.
