@@ -230,7 +230,7 @@ static Creature *sting_get_target( monster *z, float range = 5.0f )
 
     // Can't see/reach target, no attack
     if( !z->sees( *target ) ||
-        !g->m.clear_path( z->pos(), target->pos(), range, 1, 100 ) ) {
+        !get_map().clear_path( z->pos(), target->pos(), range, 1, 100 ) ) {
         return nullptr;
     }
 
@@ -297,7 +297,8 @@ static bool is_adjacent( const monster *z, const Creature *target, const bool al
     const bool target_above = target->posz() > z->posz();
     const tripoint &up   = target_above ? target->pos() : z->pos();
     const tripoint &down = target_above ? z->pos() : target->pos();
-    return g->m.ter( up ) == t_open_air && g->m.is_outside( down );
+    map &here = get_map();
+    return here.ter( up ) == t_open_air && here.is_outside( down );
 }
 
 static npc make_fake_npc( monster *z, int str, int dex, int inte, int per )
@@ -328,15 +329,16 @@ bool mattack::eat_crop( monster *z )
 {
     cata::optional<tripoint> target;
     int num_targets = 1;
-    for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
-        if( g->m.has_flag( "PLANT", p ) && one_in( num_targets ) ) {
+    map &here = get_map();
+    for( const auto &p : here.points_in_radius( z->pos(), 1 ) ) {
+        if( here.has_flag( "PLANT", p ) && one_in( num_targets ) ) {
             num_targets++;
             target = p;
         }
     }
     if( target ) {
-        g->m.furn_set( *target, furn_str_id( g->m.furn( *target )->plant->base ) );
-        g->m.i_clear( *target );
+        here.furn_set( *target, furn_str_id( here.furn( *target )->plant->base ) );
+        here.i_clear( *target );
         return true;
     }
     return true;
@@ -344,12 +346,13 @@ bool mattack::eat_crop( monster *z )
 
 bool mattack::eat_food( monster *z )
 {
-    for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
+    map &here = get_map();
+    for( const auto &p : here.points_in_radius( z->pos(), 1 ) ) {
         //Protect crop seeds from carnivores, give omnivores eat_crop special also
-        if( g->m.has_flag( "PLANT", p ) ) {
+        if( here.has_flag( "PLANT", p ) ) {
             continue;
         }
-        map_stack items = g->m.i_at( p );
+        map_stack items = here.i_at( p );
         for( auto &item : items ) {
             //Fun limit prevents scavengers from eating feces
             if( !item.is_food() || item.get_comestible_fun() < -20 ) {
@@ -359,9 +362,9 @@ bool mattack::eat_food( monster *z )
             if( z->type->baby_egg != item.type->get_id() ) {
                 int consumed = 1;
                 if( item.count_by_charges() ) {
-                    g->m.use_charges( p, 0, item.type->get_id(), consumed );
+                    here.use_charges( p, 0, item.type->get_id(), consumed );
                 } else {
-                    g->m.use_amount( p, 0, item.type->get_id(), consumed );
+                    here.use_amount( p, 0, item.type->get_id(), consumed );
                 }
                 return true;
             }
@@ -374,9 +377,10 @@ bool mattack::antqueen( monster *z )
 {
     std::vector<tripoint> egg_points;
     std::vector<monster *> ants;
+    map &here = get_map();
     // Count up all adjacent tiles the contain at least one egg.
-    for( const auto &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
-        if( g->m.impassable( dest ) ) {
+    for( const auto &dest : here.points_in_radius( z->pos(), 2 ) ) {
+        if( here.impassable( dest ) ) {
             continue;
         }
 
@@ -388,8 +392,8 @@ bool mattack::antqueen( monster *z )
             continue;
         }
 
-        if( g->is_empty( dest ) && g->m.has_items( dest ) ) {
-            for( item &i : g->m.i_at( dest ) ) {
+        if( g->is_empty( dest ) && here.has_items( dest ) ) {
+            for( item &i : here.i_at( dest ) ) {
                 if( i.typeId() == itype_ant_egg ) {
                     egg_points.push_back( dest );
                     // Done looking at this tile
@@ -414,7 +418,7 @@ bool mattack::antqueen( monster *z )
         if( player_character.sees( *z ) ) {
             add_msg( _( "The %s lays an egg!" ), z->name() );
         }
-        g->m.spawn_item( z->pos(), "ant_egg", 1, 0, calendar::turn );
+        here.spawn_item( z->pos(), "ant_egg", 1, 0, calendar::turn );
     } else {
         // There are eggs nearby.  Let's hatch some.
         // It takes a while
@@ -423,7 +427,7 @@ bool mattack::antqueen( monster *z )
             add_msg( m_warning, _( "The %s tends nearby eggs, and they hatch!" ), z->name() );
         }
         for( const tripoint &egg_pos : egg_points ) {
-            map_stack items = g->m.i_at( egg_pos );
+            map_stack items = here.i_at( egg_pos );
             for( map_stack::iterator it = items.begin(); it != items.end(); ) {
                 if( it->typeId() != itype_ant_egg ) {
                     ++it;
@@ -505,7 +509,8 @@ bool mattack::shriek_stun( monster *z )
 
     int target_angle = coord_to_angle( z->pos(), target->pos() );
     int cone_angle = 20;
-    for( const tripoint &cone : g->m.points_in_radius( z->pos(), 4 ) ) {
+    map &here = get_map();
+    for( const tripoint &cone : here.points_in_radius( z->pos(), 4 ) ) {
         int tile_angle = coord_to_angle( z->pos(), cone );
         int diff = std::abs( target_angle - tile_angle );
         // Skip the target, because it's outside cone or it's the source
@@ -514,7 +519,7 @@ bool mattack::shriek_stun( monster *z )
         }
         // Affect the target
         // Small bash to every square, silent to not flood message box
-        g->m.bash( cone, 4, true );
+        here.bash( cone, 4, true );
 
         // If a monster is there, chance for stun
         Creature *target = g->critter_at( cone );
@@ -593,9 +598,10 @@ bool mattack::acid( monster *z )
         return false;
     }
 
+    map &here = get_map();
     // Can't see/reach target, no attack
     if( !z->sees( *target ) ||
-        !g->m.clear_path( z->pos(), target->pos(), 10, 1, 100 ) ) {
+        !here.clear_path( z->pos(), target->pos(), 10, 1, 100 ) ) {
         return false;
     }
     // It takes a while
@@ -612,10 +618,10 @@ bool mattack::acid( monster *z )
     auto dealt = projectile_attack( proj, z->pos(), target->pos(), dispersion_sources{ 5400 }, z );
     const tripoint &hitp = dealt.end_point;
     const Creature *hit_critter = dealt.hit_critter;
-    if( hit_critter == nullptr && g->m.hit_with_acid( hitp ) && get_player_character().sees( hitp ) ) {
+    if( hit_critter == nullptr && here.hit_with_acid( hitp ) && get_player_character().sees( hitp ) ) {
         add_msg( _( "A glob of acid hits the %s!" ),
-                 g->m.tername( hitp ) );
-        if( g->m.impassable( hitp ) ) {
+                 here.tername( hitp ) );
+        if( here.impassable( hitp ) ) {
             // TODO: Allow it to spill on the side it hit from
             return true;
         }
@@ -624,10 +630,10 @@ bool mattack::acid( monster *z )
     for( int i = -3; i <= 3; i++ ) {
         for( int j = -3; j <= 3; j++ ) {
             tripoint dest = hitp + tripoint( i, j, 0 );
-            if( g->m.passable( dest ) &&
-                g->m.clear_path( dest, hitp, 6, 1, 100 ) &&
+            if( here.passable( dest ) &&
+                here.clear_path( dest, hitp, 6, 1, 100 ) &&
                 ( ( one_in( std::abs( j ) ) && one_in( std::abs( i ) ) ) || ( i == 0 && j == 0 ) ) ) {
-                g->m.add_field( dest, fd_acid, 2 );
+                here.add_field( dest, fd_acid, 2 );
             }
         }
     }
@@ -649,7 +655,7 @@ bool mattack::acid_barf( monster *z )
 
     z->moves -= 80;
     // Make sure it happens before uncanny dodge
-    g->m.add_field( target->pos(), fd_acid, 1 );
+    get_map().add_field( target->pos(), fd_acid, 1 );
     bool uncanny = target->uncanny_dodge();
     // Can we dodge the attack? Uses player dodge function % chance (melee.cpp)
     if( uncanny || dodge_check( z, target ) ) {
@@ -742,9 +748,10 @@ bool mattack::shockstorm( monster *z )
 
     Character &player_character = get_player_character();
     bool seen = player_character.sees( *z );
+    map &here = get_map();
     // Can't see/reach target, no attack
     if( !z->sees( *target ) ||
-        !g->m.clear_path( z->pos(), target->pos(), 12, 1, 100 ) ) {
+        !here.clear_path( z->pos(), target->pos(), 12, 1, 100 ) ) {
         return false;
     }
 
@@ -765,13 +772,13 @@ bool mattack::shockstorm( monster *z )
     // Fill the LOS with electricity
     for( auto &i : bolt ) {
         if( !one_in( 4 ) ) {
-            g->m.add_field( i, fd_electricity, rng( 1, 3 ) );
+            here.add_field( i, fd_electricity, rng( 1, 3 ) );
         }
     }
     // 5x5 cloud of electricity at the square hit
-    for( const auto &dest : g->m.points_in_radius( tarp, 2 ) ) {
+    for( const auto &dest : here.points_in_radius( tarp, 2 ) ) {
         if( !one_in( 4 ) ) {
-            g->m.add_field( dest, fd_electricity, rng( 1, 3 ) );
+            here.add_field( dest, fd_electricity, rng( 1, 3 ) );
         }
     }
 
@@ -809,7 +816,7 @@ bool mattack::pull_metal_weapon( monster *z )
     }
 
     // Can't see/reach target, no attack
-    if( !z->sees( *target ) || !g->m.clear_path( z->pos(), target->pos(),
+    if( !z->sees( *target ) || !get_map().clear_path( z->pos(), target->pos(),
             max_distance, 1, 100 ) ) {
         return false;
     }
@@ -860,7 +867,8 @@ bool mattack::boomer( monster *z )
         return false;
     }
 
-    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
+    map &here = get_map();
+    std::vector<tripoint> line = here.find_clear_path( z->pos(), target->pos() );
     // It takes a while
     z->moves -= 250;
     Character &player_character = get_player_character();
@@ -869,13 +877,13 @@ bool mattack::boomer( monster *z )
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
     for( auto &i : line ) {
-        g->m.add_field( i, fd_bile, 1 );
+        here.add_field( i, fd_bile, 1 );
         // If bile hit a solid tile, return.
-        if( g->m.impassable( i ) ) {
-            g->m.add_field( i, fd_bile, 3 );
+        if( here.impassable( i ) ) {
+            here.add_field( i, fd_bile, 3 );
             if( player_character.sees( i ) ) {
                 add_msg( _( "Bile splatters on the %s!" ),
-                         g->m.tername( i ) );
+                         here.tername( i ) );
             }
             return true;
         }
@@ -905,7 +913,8 @@ bool mattack::boomer_glow( monster *z )
         return false;
     }
 
-    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
+    map &here = get_map();
+    std::vector<tripoint> line = here.find_clear_path( z->pos(), target->pos() );
     // It takes a while
     z->moves -= 250;
     Character &player_character = get_player_character();
@@ -914,11 +923,11 @@ bool mattack::boomer_glow( monster *z )
         add_msg( m_warning, _( "The %s spews bile!" ), z->name() );
     }
     for( auto &i : line ) {
-        g->m.add_field( i, fd_bile, 1 );
-        if( g->m.impassable( i ) ) {
-            g->m.add_field( i, fd_bile, 3 );
+        here.add_field( i, fd_bile, 1 );
+        if( here.impassable( i ) ) {
+            here.add_field( i, fd_bile, 3 );
             if( player_character.sees( i ) ) {
-                add_msg( _( "Bile splatters on the %s!" ), g->m.tername( i ) );
+                add_msg( _( "Bile splatters on the %s!" ), here.tername( i ) );
             }
             return true;
         }
@@ -970,13 +979,14 @@ bool mattack::resurrect( monster *z )
     int range = 10;
     bool found_eligible_corpse = false;
     int lowest_raise_score = INT_MAX;
-    for( const tripoint &p : g->m.points_in_radius( z->pos(), range ) ) {
-        if( !g->is_empty( p ) || g->m.get_field_intensity( p, fd_fire ) > 1 ||
-            !g->m.sees( z->pos(), p, -1 ) ) {
+    map &here = get_map();
+    for( const tripoint &p : here.points_in_radius( z->pos(), range ) ) {
+        if( !g->is_empty( p ) || here.get_field_intensity( p, fd_fire ) > 1 ||
+            !here.sees( z->pos(), p, -1 ) ) {
             continue;
         }
 
-        for( item &i : g->m.i_at( p ) ) {
+        for( item &i : here.i_at( p ) ) {
             const mtype *mt = i.get_mtype();
             if( !( i.is_corpse() && i.can_revive() && i.active && mt->has_flag( MF_REVIVES ) &&
                    mt->in_species( species_ZOMBIE ) && !mt->has_flag( MF_NO_NECRO ) ) ) {
@@ -1052,7 +1062,7 @@ bool mattack::resurrect( monster *z )
     float corpse_damage = raised.second->damage_level( 4 );
     // Did we successfully raise something?
     if( g->revive_corpse( raised.first, *raised.second ) ) {
-        g->m.i_rem( raised.first, raised.second );
+        here.i_rem( raised.first, raised.second );
         if( sees_necromancer ) {
             add_msg( m_info, _( "The %s gestures at a nearby corpse." ), z->name() );
         }
@@ -1153,7 +1163,7 @@ find_empty_neighbors( const tripoint &origin )
 
     std::pair < std::array < tripoint, ( 2 * N + 1 )*( 2 * N + 1 ) >, size_t > result;
 
-    for( const tripoint &tmp : g->m.points_in_radius( origin, r ) ) {
+    for( const tripoint &tmp : get_map().points_in_radius( origin, r ) ) {
         if( g->is_empty( tmp ) ) {
             result.first[result.second++] = tmp;
         }
@@ -1351,7 +1361,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
             }
         }
         break;
-        case att_acid_pool :
+        case att_acid_pool : {
             z->moves -= att_cost_acid;
 
             // if the player can see it
@@ -1361,13 +1371,14 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
                          z->name() );
             }
 
+            map &here = get_map();
             // fill empty tiles with acid
             for( size_t i = 0; i < empty_neighbor_count; ++i ) {
                 const tripoint &p = empty_neighbors.first[i];
-                g->m.add_field( p, fd_acid, att_acid_intensity );
+                here.add_field( p, fd_acid, att_acid_intensity );
             }
-
-            break;
+        }
+        break;
         case att_flavor : {
             // flavor messages
             static const std::array<std::string, 4> m_flavor = {{
@@ -1419,20 +1430,21 @@ static body_part body_part_hit_by_plant()
 
 bool mattack::growplants( monster *z )
 {
-    for( const auto &p : g->m.points_in_radius( z->pos(), 3 ) ) {
+    map &here = get_map();
+    for( const auto &p : here.points_in_radius( z->pos(), 3 ) ) {
 
         // Only affect natural, dirtlike terrain or trees.
-        if( !( g->m.has_flag_ter( "DIGGABLE", p ) ||
-               g->m.has_flag_ter( "TREE", p ) ||
-               g->m.ter( p ) == t_tree_young ) ) {
+        if( !( here.has_flag_ter( "DIGGABLE", p ) ||
+               here.has_flag_ter( "TREE", p ) ||
+               here.ter( p ) == t_tree_young ) ) {
             continue;
         }
 
-        if( g->m.is_bashable( p ) && one_in( 3 ) ) {
+        if( here.is_bashable( p ) && one_in( 3 ) ) {
             // Destroy everything
-            g->m.destroy( p );
+            here.destroy( p );
             // And then make the ground fertile
-            g->m.ter_set( p, t_dirtmound );
+            here.ter_set( p, t_dirtmound );
             continue;
         }
 
@@ -1440,7 +1452,7 @@ bool mattack::growplants( monster *z )
         if( !one_in( 4 ) ) {
             if( one_in( 3 ) ) {
                 // If no tree, perhaps underbrush
-                g->m.ter_set( p, t_underbrush );
+                here.ter_set( p, t_underbrush );
             }
 
             continue;
@@ -1454,7 +1466,7 @@ bool mattack::growplants( monster *z )
             continue;
         }
 
-        g->m.ter_set( p, t_tree_young );
+        here.ter_set( p, t_tree_young );
         if( critter == nullptr || critter->uncanny_dodge() ) {
             continue;
         }
@@ -1473,8 +1485,8 @@ bool mattack::growplants( monster *z )
     if( !one_in( 5 ) ) {
         return true;
     }
-    for( const tripoint &p : g->m.points_in_radius( z->pos(), 5 ) ) {
-        const auto ter = g->m.ter( p );
+    for( const tripoint &p : here.points_in_radius( z->pos(), 5 ) ) {
+        const auto ter = here.ter( p );
         if( ter != t_tree_young && ter != t_underbrush ) {
             // Skip as soon as possible to avoid all the checks
             continue;
@@ -1489,10 +1501,10 @@ bool mattack::growplants( monster *z )
         if( ter == t_tree_young ) {
             // Young tree => tree
             // TODO: Make this deal damage too - young tree can be walked on, tree can't
-            g->m.ter_set( p, t_tree );
+            here.ter_set( p, t_tree );
         } else if( ter == t_underbrush ) {
             // Underbrush => young tree
-            g->m.ter_set( p, t_tree_young );
+            here.ter_set( p, t_tree_young );
             if( critter != nullptr && !critter->uncanny_dodge() ) {
                 const body_part hit = body_part_hit_by_plant();
                 critter->add_msg_player_or_npc( m_bad,
@@ -1534,14 +1546,15 @@ bool mattack::grow_vine( monster *z )
 bool mattack::vine( monster *z )
 {
     int vine_neighbors = 0;
-    bool parent_out_of_range = !g->m.inbounds( z->move_target() );
+    map &here = get_map();
+    bool parent_out_of_range = !here.inbounds( z->move_target() );
     monster *parent = g->critter_at<monster>( z->move_target() );
     if( !parent_out_of_range && ( parent == nullptr || parent->type->id != mon_creeper_hub ) ) {
         // TODO: Should probably die instead.
         return true;
     }
     z->moves -= 100;
-    for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+    for( const tripoint &dest : here.points_in_radius( z->pos(), 1 ) ) {
         Creature *critter = g->critter_at( dest );
         if( critter != nullptr && z->attitude_to( *critter ) == Creature::Attitude::HOSTILE ) {
             if( critter->uncanny_dodge() ) {
@@ -1626,26 +1639,27 @@ bool mattack::triffid_heartbeat( monster *z )
         return true;
     }
 
+    map &here = get_map();
     static pathfinding_settings root_pathfind( 10, 20, 50, 0, false, false, false, false, false );
     if( rl_dist( z->pos(), player_character.pos() ) > 5 &&
-        !g->m.route( player_character.pos(), z->pos(), root_pathfind ).empty() ) {
+        !here.route( player_character.pos(), z->pos(), root_pathfind ).empty() ) {
         add_msg( m_warning, _( "The root walls creak around you." ) );
-        for( const tripoint &dest : g->m.points_in_radius( z->pos(), 3 ) ) {
+        for( const tripoint &dest : here.points_in_radius( z->pos(), 3 ) ) {
             if( g->is_empty( dest ) && one_in( 4 ) ) {
-                g->m.ter_set( dest, t_root_wall );
-            } else if( g->m.ter( dest ) == t_root_wall && one_in( 10 ) ) {
-                g->m.ter_set( dest, t_dirt );
+                here.ter_set( dest, t_root_wall );
+            } else if( here.ter( dest ) == t_root_wall && one_in( 10 ) ) {
+                here.ter_set( dest, t_dirt );
             }
         }
         // Open blank tiles as long as there's no possible route
         int tries = 0;
-        while( g->m.route( player_character.pos(), z->pos(), root_pathfind ).empty() &&
+        while( here.route( player_character.pos(), z->pos(), root_pathfind ).empty() &&
                tries < 20 ) {
             point p( rng( player_character.posx(), z->posx() - 3 ),
                      rng( player_character.posy(), z->posy() - 3 ) );
             tripoint dest( p, z->posz() );
             tries++;
-            g->m.ter_set( dest, t_dirt );
+            here.ter_set( dest, t_dirt );
             if( rl_dist( dest, player_character.pos() ) > 3 && g->num_creatures() < 30 &&
                 !g->critter_at( dest ) && one_in( 20 ) ) { // Spawn an extra monster
                 mtype_id montype = mon_triffid;
@@ -1712,15 +1726,16 @@ bool mattack::fungus( monster *z )
         }
     }
 
-    fungal_effects fe( *g, g->m );
-    for( const tripoint &sporep : g->m.points_in_radius( z->pos(), radius ) ) {
+    map &here = get_map();
+    fungal_effects fe( *g, here );
+    for( const tripoint &sporep : here.points_in_radius( z->pos(), radius ) ) {
         if( sporep == z->pos() ) {
             continue;
         }
         const int dist = rl_dist( z->pos(), sporep );
         if( !one_in( dist ) ||
-            g->m.impassable( sporep ) ||
-            ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10 ) ) ) {
+            here.impassable( sporep ) ||
+            ( dist > 1 && !here.clear_path( z->pos(), sporep, 2, 1, 10 ) ) ) {
             continue;
         }
 
@@ -1736,7 +1751,7 @@ bool mattack::fungus_corporate( monster *z )
         sounds::sound( z->pos(), 10, sounds::sound_t::speech, _( "\"Buy SpOreos(tm) now!\"" ) );
         if( get_player_character().sees( *z ) ) {
             add_msg( m_warning, _( "Delicious snacks are released from the %s!" ), z->name() );
-            g->m.add_item( z->pos(), item( "sporeos" ) );
+            get_map().add_item( z->pos(), item( "sporeos" ) );
         } // only spawns SpOreos if the player is near; can't have the COMMONERS stealing our product from good customers
         return true;
     } else {
@@ -1752,8 +1767,9 @@ bool mattack::fungus_haze( monster *z )
         add_msg( m_info, _( "The %s pulses, and fresh fungal material bursts forth." ), z->name() );
     }
     z->moves -= 150;
-    for( const tripoint &dest : g->m.points_in_radius( z->pos(), 3 ) ) {
-        g->m.add_field( dest, fd_fungal_haze, rng( 1, 2 ) );
+    map &here = get_map();
+    for( const tripoint &dest : here.points_in_radius( z->pos(), 3 ) ) {
+        here.add_field( dest, fd_fungal_haze, rng( 1, 2 ) );
     }
 
     return true;
@@ -1763,15 +1779,16 @@ bool mattack::fungus_big_blossom( monster *z )
 {
     bool firealarm = false;
     const auto u_see = get_player_character().sees( *z );
+    map &here = get_map();
     // Fungal fire-suppressor! >:D
-    for( const tripoint &dest : g->m.points_in_radius( z->pos(), 6 ) ) {
-        if( g->m.get_field_intensity( dest, fd_fire ) != 0 ) {
+    for( const tripoint &dest : here.points_in_radius( z->pos(), 6 ) ) {
+        if( here.get_field_intensity( dest, fd_fire ) != 0 ) {
             firealarm = true;
         }
         if( firealarm ) {
-            g->m.remove_field( dest, fd_fire );
-            g->m.remove_field( dest, fd_smoke );
-            g->m.add_field( dest, fd_fungal_haze, 3 );
+            here.remove_field( dest, fd_fire );
+            here.remove_field( dest, fd_smoke );
+            here.add_field( dest, fd_fungal_haze, 3 );
         }
     }
     // Special effects handled outside the loop
@@ -1797,8 +1814,8 @@ bool mattack::fungus_big_blossom( monster *z )
             add_msg( m_info, _( "The %s pulses, and fresh fungal material bursts forth!" ), z->name() );
         }
         z->moves -= 150;
-        for( const tripoint &dest : g->m.points_in_radius( z->pos(), 12 ) ) {
-            g->m.add_field( dest, fd_fungal_haze, rng( 1, 2 ) );
+        for( const tripoint &dest : here.points_in_radius( z->pos(), 12 ) ) {
+            here.add_field( dest, fd_fungal_haze, rng( 1, 2 ) );
         }
     }
 
@@ -1948,7 +1965,7 @@ bool mattack::fungus_sprout( monster *z )
     // To avoid map shift weirdness
     bool push_player = false;
     Character &player_character = get_player_character();
-    for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+    for( const tripoint &dest : get_map().points_in_radius( z->pos(), 1 ) ) {
         if( player_character.pos() == dest ) {
             push_player = true;
         }
@@ -1981,6 +1998,7 @@ bool mattack::fungus_fortify( monster *z )
         player_character.has_trait( trait_THRESH_MYCUS ) ) {
         mycus = true;
     }
+    map &here = get_map();
     if( ( player_character.has_trait( trait_MARLOSS ) ) &&
         ( player_character.has_trait( trait_MARLOSS_BLUE ) ) &&
         !player_character.crossed_threshold() && !mycus ) {
@@ -1998,7 +2016,7 @@ bool mattack::fungus_fortify( monster *z )
                 player_character.unset_mutation( trait_MARLOSS );
                 player_character.unset_mutation( trait_MARLOSS_BLUE );
                 player_character.set_mutation( trait_THRESH_MARLOSS );
-                g->m.ter_set( player_character.pos(),
+                here.ter_set( player_character.pos(),
                               t_marloss ); // We only show you the door.  You walk through it on your own.
                 g->memorial().add(
                     pgettext( "memorial_male", "Was shown to the Marloss Gateway." ),
@@ -2019,7 +2037,7 @@ bool mattack::fungus_fortify( monster *z )
 
     bool fortified = false;
     bool push_player = false; // To avoid map shift weirdness
-    for( const tripoint &dest : g->m.points_in_radius( z->pos(), 1 ) ) {
+    for( const tripoint &dest : here.points_in_radius( z->pos(), 1 ) ) {
         if( player_character.pos() == dest ) {
             push_player = true;
         }
@@ -2258,16 +2276,17 @@ bool mattack::dermatik_growth( monster *z )
 
 bool mattack::fungal_trail( monster *z )
 {
-    fungal_effects fe( *g, g->m );
+    fungal_effects fe( *g, get_map() );
     fe.spread_fungus( z->pos() );
     return false;
 }
 
 bool mattack::plant( monster *z )
 {
-    fungal_effects fe( *g, g->m );
+    map &here = get_map();
+    fungal_effects fe( *g, here );
     const tripoint monster_position = z->pos();
-    const bool is_fungi = g->m.has_flag_ter( "FUNGUS", monster_position );
+    const bool is_fungi = here.has_flag_ter( "FUNGUS", monster_position );
     // Spores taking seed and growing into a fungaloid
     fe.spread_fungus( monster_position );
     Character &player_character = get_player_character();
@@ -2562,7 +2581,7 @@ bool mattack::dogthing( monster *z )
     add_msg( _( "The %s's head explodes in a mass of roiling tentacles!" ),
              z->name() );
 
-    g->m.add_splash( z->bloodType(), z->pos(), 2, 3 );
+    get_map().add_splash( z->bloodType(), z->pos(), 2, 3 );
 
     z->friendly = 0;
     z->poly( mon_headless_dog_thing );
@@ -2634,7 +2653,8 @@ bool mattack::ranged_pull( monster *z )
     }
 
     player *foe = dynamic_cast< player * >( target );
-    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
+    map &here = get_map();
+    std::vector<tripoint> line = here.find_clear_path( z->pos(), target->pos() );
     bool seen = get_player_character().sees( *z );
 
     for( auto &i : line ) {
@@ -2681,7 +2701,7 @@ bool mattack::ranged_pull( monster *z )
 
         if( foe != nullptr ) {
             if( foe->in_vehicle ) {
-                g->m.unboard_vehicle( foe->pos() );
+                here.unboard_vehicle( foe->pos() );
             }
 
             if( target->is_player() && ( pt.x < HALF_MAPSIZE_X || pt.y < HALF_MAPSIZE_Y ||
@@ -2700,7 +2720,7 @@ bool mattack::ranged_pull( monster *z )
     }
     // The monster might drag a target that's not on it's z level
     // So if they leave them on open air, make them fall
-    g->m.creature_on_trap( *target );
+    here.creature_on_trap( *target );
     if( seen ) {
         if( z->type->bodytype == "human" || z->type->bodytype == "angel" ) {
             add_msg( _( "The %1$s's arms fly out and pull and grab %2$s!" ), z->name(),
@@ -2824,7 +2844,7 @@ bool mattack::grab_drag( monster *z )
         }
         if( foe != nullptr ) {
             if( foe->in_vehicle ) {
-                g->m.unboard_vehicle( foe->pos() );
+                get_map().unboard_vehicle( foe->pos() );
             }
             foe->setpos( zpt );
         } else {
@@ -2967,10 +2987,11 @@ bool mattack::nurse_check_up( monster *z )
     bool found_target = false;
     player *target = nullptr;
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
-    for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
+    map &here = get_map();
+    for( auto critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast<player *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
-            g->m.clear_path( z->pos(), tmp_player->pos(), 10, 0,
+            here.clear_path( z->pos(), tmp_player->pos(), 10, 0,
                              100 ) ) { // no need to scan players we can't reach
             if( rl_dist( z->pos(), tmp_player->pos() ) < rl_dist( z->pos(), tmp_pos ) ) {
                 tmp_pos = tmp_player->pos();
@@ -3017,12 +3038,13 @@ bool mattack::nurse_assist( monster *z )
 
     bool found_target = false;
     player *target = nullptr;
+    map &here = get_map();
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
-    for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
+    for( auto critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast<player *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
-            g->m.clear_path( z->pos(), tmp_player->pos(), 10, 0, 100 ) ) {
+            here.clear_path( z->pos(), tmp_player->pos(), 10, 0, 100 ) ) {
             if( rl_dist( z->pos(), tmp_player->pos() ) < rl_dist( z->pos(), tmp_pos ) ) {
                 tmp_pos = tmp_player->pos();
                 target = tmp_player;
@@ -3073,12 +3095,13 @@ bool mattack::nurse_operate( monster *z )
 
     bool found_target = false;
     player *target = nullptr;
+    map &here = get_map();
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
-    for( auto critter : g->m.get_creatures_in_radius( z->pos(), 6 ) ) {
+    for( auto critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast< player *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
-            g->m.clear_path( z->pos(), tmp_player->pos(), 10, 0, 100 ) ) {
+            here.clear_path( z->pos(), tmp_player->pos(), 10, 0, 100 ) ) {
             if( tmp_player->has_any_bionic() ) {
                 if( rl_dist( z->pos(), tmp_player->pos() ) < rl_dist( z->pos(), tmp_pos ) ) {
                     tmp_pos = tmp_player->pos();
@@ -3103,7 +3126,7 @@ bool mattack::nurse_operate( monster *z )
 
         z->friendly = 0;
         z->anger = 100;
-        std::list<tripoint> couch_pos = g->m.find_furnitures_with_flag_in_radius( z->pos(), 10,
+        std::list<tripoint> couch_pos = here.find_furnitures_with_flag_in_radius( z->pos(), 10,
                                         flag_AUTODOC_COUCH );
 
         if( couch_pos.empty() ) {
@@ -3116,7 +3139,7 @@ bool mattack::nurse_operate( monster *z )
 
         // Check if target is already grabbed by something else
         if( target->has_effect( effect_grabbed ) ) {
-            for( auto critter : g->m.get_creatures_in_radius( target->pos(), 1 ) ) {
+            for( auto critter : here.get_creatures_in_radius( target->pos(), 1 ) ) {
                 monster *mon = dynamic_cast<monster *>( critter );
                 if( mon != nullptr && mon != z ) {
                     if( mon->type->id != mon_nursebot_defective ) {
@@ -3158,7 +3181,7 @@ bool mattack::check_money_left( monster *z )
 
             if( !z->inv.empty() ) {
                 for( const item &it : z->inv ) {
-                    g->m.add_item_or_charges( z->pos(), it );
+                    get_map().add_item_or_charges( z->pos(), it );
                 }
                 z->inv.clear();
                 z->remove_effect( effect_has_bag );
@@ -3535,6 +3558,7 @@ bool mattack::searchlight( monster *z )
     const int zposx = z->posx();
     const int zposy = z->posy();
 
+    map &here = get_map();
     //this searchlight is not initialized
     if( z->inv.empty() ) {
 
@@ -3547,7 +3571,7 @@ bool mattack::searchlight( monster *z )
             settings.set_var( "SL_PREFER_RIGHT", "TRUE" );
             settings.set_var( "SL_PREFER_LEFT", "TRUE" );
 
-            for( const tripoint &dest : g->m.points_in_radius( z->pos(), 24 ) ) {
+            for( const tripoint &dest : here.points_in_radius( z->pos(), 24 ) ) {
                 const monster *const mon = g->critter_at<monster>( dest );
                 if( mon && mon->type->id == mon_turret_searchlight ) {
                     if( dest.x < zposx ) {
@@ -3580,7 +3604,7 @@ bool mattack::searchlight( monster *z )
         for( int x = zposx - 24; x < zposx + 24; x++ ) {
             for( int y = zposy - 24; y < zposy + 24; y++ ) {
                 tripoint dest( x, y, z->posz() );
-                if( g->m.ter( dest ) == ter_str_id( "t_plut_generator" ) ) {
+                if( here.ter( dest ) == ter_str_id( "t_plut_generator" ) ) {
                     generator_ok = true;
                 }
             }
@@ -3701,7 +3725,7 @@ bool mattack::searchlight( monster *z )
         settings.set_var( "SL_SPOT_X", x - zposx );
         settings.set_var( "SL_SPOT_Y", y - zposy );
 
-        g->m.add_field( tripoint( x, y, z->posz() ), fd_spotlight, 1 );
+        here.add_field( tripoint( x, y, z->posz() ), fd_spotlight, 1 );
 
     }
 
@@ -3749,27 +3773,28 @@ void mattack::flame( monster *z, Creature *target )
 {
     int dist = rl_dist( z->pos(), target->pos() );
     Character &player_character = get_player_character();
+    map &here = get_map();
     if( target != &player_character ) {
         // friendly
         // It takes a while
         z->moves -= 500;
-        if( !g->m.sees( z->pos(), target->pos(), dist ) ) {
+        if( !here.sees( z->pos(), target->pos(), dist ) ) {
             // shouldn't happen
             debugmsg( "mattack::flame invoked on invisible target" );
         }
-        std::vector<tripoint> traj = g->m.find_clear_path( z->pos(), target->pos() );
+        std::vector<tripoint> traj = here.find_clear_path( z->pos(), target->pos() );
 
         for( auto &i : traj ) {
             // break out of attack if flame hits a wall
             // TODO: Z
-            if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
+            if( here.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
                 if( player_character.sees( i ) ) {
                     add_msg( _( "The tongue of flame hits the %s!" ),
-                             g->m.tername( i.xy() ) );
+                             here.tername( i.xy() ) );
                 }
                 return;
             }
-            g->m.add_field( i, fd_fire, 1 );
+            here.add_field( i, fd_fire, 1 );
         }
         target->add_effect( effect_onfire, 8_turns, bp_torso );
 
@@ -3778,22 +3803,22 @@ void mattack::flame( monster *z, Creature *target )
 
     // It takes a while
     z->moves -= 500;
-    if( !g->m.sees( z->pos(), target->pos(), dist + 1 ) ) {
+    if( !here.sees( z->pos(), target->pos(), dist + 1 ) ) {
         // shouldn't happen
         debugmsg( "mattack::flame invoked on invisible target" );
     }
-    std::vector<tripoint> traj = g->m.find_clear_path( z->pos(), target->pos() );
+    std::vector<tripoint> traj = here.find_clear_path( z->pos(), target->pos() );
 
     for( auto &i : traj ) {
         // break out of attack if flame hits a wall
-        if( g->m.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
+        if( here.hit_with_fire( tripoint( i.xy(), z->posz() ) ) ) {
             if( player_character.sees( i ) ) {
                 add_msg( _( "The tongue of flame hits the %s!" ),
-                         g->m.tername( i.xy() ) );
+                         here.tername( i.xy() ) );
             }
             return;
         }
-        g->m.add_field( i, fd_fire, 1 );
+        here.add_field( i, fd_fire, 1 );
     }
     if( !target->uncanny_dodge() ) {
         target->add_effect( effect_onfire, 8_turns, bp_torso );
@@ -4121,7 +4146,7 @@ bool mattack::breathe( monster *z )
 
     bool able = ( z->type->id == mon_breather_hub );
     if( !able ) {
-        for( const tripoint &dest : g->m.points_in_radius( z->pos(), 3 ) ) {
+        for( const tripoint &dest : get_map().points_in_radius( z->pos(), 3 ) ) {
             monster *const mon = g->critter_at<monster>( dest );
             if( mon && mon->type->id == mon_breather_hub ) {
                 able = true;
@@ -4156,12 +4181,13 @@ bool mattack::stretch_bite( monster *z )
 
     z->moves -= 150;
 
-    for( auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
-        if( g->m.impassable( pnt ) ) {
+    map &here = get_map();
+    for( auto &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
+        if( here.impassable( pnt ) ) {
             z->add_effect( effect_stunned, 6_turns );
             target->add_msg_player_or_npc( _( "The %1$s stretches its head at you, but bounces off the %2$s" ),
                                            _( "The %1$s stretches its head at <npcname>, but bounces off the %2$s" ),
-                                           z->name(), g->m.obstacle_name( pnt ) );
+                                           z->name(), here.obstacle_name( pnt ) );
             return true;
         }
     }
@@ -4308,9 +4334,10 @@ bool mattack::absorb_meat( monster *z )
     //For every milliliter of meat absorbed, heal this many HP
     const float meat_absorption_factor = 0.01;
     Character &player_character = get_player_character();
+    map &here = get_map();
     //Search surrounding tiles for meat
-    for( const auto &p : g->m.points_in_radius( z->pos(), 1 ) ) {
-        map_stack items = g->m.i_at( p );
+    for( const auto &p : here.points_in_radius( z->pos(), 1 ) ) {
+        map_stack items = here.i_at( p );
         for( auto &current_item : items ) {
             const material_id current_item_material = current_item.get_base_material().ident();
             if( current_item_material == material_id( "flesh" ) ||
@@ -4330,13 +4357,13 @@ bool mattack::absorb_meat( monster *z )
                     int meat_absorbed = std::min( max_meat_absorbed, rng( 1, total_charges ) );
                     const int hp_to_heal = meat_absorbed * ml_per_charge * meat_absorption_factor;
                     z->heal( hp_to_heal, true );
-                    g->m.use_charges( p, 0, current_item.type->get_id(), meat_absorbed );
+                    here.use_charges( p, 0, current_item.type->get_id(), meat_absorbed );
                 } else {
                     //Only absorb one meaty item
                     int meat_absorbed = 1;
                     const int hp_to_heal = meat_absorbed * ml_per_charge * meat_absorption_factor;
                     z->heal( hp_to_heal, true );
-                    g->m.use_amount( p, 0, current_item.type->get_id(), meat_absorbed );
+                    here.use_amount( p, 0, current_item.type->get_id(), meat_absorbed );
                 }
                 if( player_character.sees( *z ) ) {
                     add_msg( m_warning, _( "The %1$s absorbs the %2$s, growing larger." ), z->name(),
@@ -4440,16 +4467,17 @@ bool mattack::longswipe( monster *z )
     if( rl_dist( z->pos(), target->pos() ) > 3 || !z->sees( *target ) ) {
         return false;
     }
+    map &here = get_map();
     //Is there something impassable blocking the claw?
-    for( const auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
-        if( g->m.impassable( pnt ) ) {
+    for( const auto &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
+        if( here.impassable( pnt ) ) {
             //If we're here, it's an nonadjacent attack, which is only attempted 1/5 of the time.
             if( !one_in( 5 ) ) {
                 return false;
             }
             target->add_msg_player_or_npc( _( "The %1$s thrusts a claw at you, but it bounces off the %2$s!" ),
                                            _( "The %1$s thrusts a claw at <npcname>, but it bounces off the %2$s!" ),
-                                           z->name(), g->m.obstacle_name( pnt ) );
+                                           z->name(), here.obstacle_name( pnt ) );
             z->mod_moves( -150 );
             return true;
         }
@@ -4745,11 +4773,12 @@ bool mattack::riotbot( monster *z )
 
     player *foe = dynamic_cast<player *>( target );
 
+    map &here = get_map();
     if( calendar::once_every( 1_minutes ) ) {
-        for( const tripoint &dest : g->m.points_in_radius( z->pos(), 4 ) ) {
-            if( g->m.passable( dest ) &&
-                g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
-                g->m.add_field( dest, fd_relax_gas, rng( 1, 3 ) );
+        for( const tripoint &dest : here.points_in_radius( z->pos(), 4 ) ) {
+            if( here.passable( dest ) &&
+                here.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
+                here.add_field( dest, fd_relax_gas, rng( 1, 3 ) );
             }
         }
     }
@@ -4883,10 +4912,10 @@ bool mattack::riotbot( monster *z )
             add_msg( m_bad, _( "The robot sprays tear gas!" ) );
             z->moves -= 200;
 
-            for( const tripoint &dest : g->m.points_in_radius( z->pos(), 2 ) ) {
-                if( g->m.passable( dest ) &&
-                    g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
-                    g->m.add_field( dest, fd_tear_gas, rng( 1, 3 ) );
+            for( const tripoint &dest : here.points_in_radius( z->pos(), 2 ) ) {
+                if( here.passable( dest ) &&
+                    here.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
+                    here.add_field( dest, fd_tear_gas, rng( 1, 3 ) );
                 }
             }
 
@@ -4921,10 +4950,10 @@ bool mattack::riotbot( monster *z )
 
         std::vector<tripoint> traj = line_to( z->pos(), dest, 0, 0 );
         for( auto &elem : traj ) {
-            if( !g->m.is_transparent( elem ) ) {
+            if( !here.is_transparent( elem ) ) {
                 break;
             }
-            g->m.add_field( elem, fd_dazzling, 1 );
+            here.add_field( elem, fd_dazzling, 1 );
         }
         return true;
 
@@ -5078,16 +5107,17 @@ bool mattack::tindalos_teleport( monster *z )
         }
     }
     const int distance_to_target = rl_dist( z->pos(), target->pos() );
+    map &here = get_map();
     if( distance_to_target > 5 ) {
         const tripoint oldpos = z->pos();
-        for( const tripoint &dest : g->m.points_in_radius( target->pos(), 4 ) ) {
-            if( g->m.is_cornerfloor( dest ) ) {
+        for( const tripoint &dest : here.points_in_radius( target->pos(), 4 ) ) {
+            if( here.is_cornerfloor( dest ) ) {
                 if( g->is_empty( dest ) ) {
                     z->setpos( dest );
                     // Not teleporting if it means losing sight of our current target
                     if( z->sees( *target ) ) {
-                        g->m.add_field( oldpos, fd_tindalos_rift, 2 );
-                        g->m.add_field( dest, fd_tindalos_rift, 2 );
+                        here.add_field( oldpos, fd_tindalos_rift, 2 );
+                        here.add_field( dest, fd_tindalos_rift, 2 );
                         if( player_character.sees( *z ) ) {
                             add_msg( m_bad, _( "The %s dissipates and reforms close by." ), z->name() );
                         }
@@ -5128,7 +5158,7 @@ bool mattack::flesh_tendril( monster *z )
         if( monster *const summoned = g->place_critter_around( spawned, z->pos(), 1 ) ) {
             z->moves -= 100;
             summoned->make_ally( *z );
-            g->m.propagate_field( z->pos(), fd_gibs_flesh, 75, 1 );
+            get_map().propagate_field( z->pos(), fd_gibs_flesh, 75, 1 );
             if( get_player_character().sees( *z ) ) {
                 add_msg( m_warning, _( "A %s struggles to pull itself free from the %s!" ), summoned->name(),
                          z->name() );
@@ -5437,7 +5467,7 @@ bool mattack::bio_op_disarm( monster *z )
     if( my_roll >= their_roll && !it.has_flag( "NO_UNWIELD" ) ) {
         target->add_msg_if_player( m_bad, _( "and throws it to the ground!" ) );
         const tripoint tp = foe->pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-        g->m.add_item_or_charges( tp, foe->i_rem( &it ) );
+        get_map().add_item_or_charges( tp, foe->i_rem( &it ) );
     } else {
         target->add_msg_if_player( m_good, _( "but you break its grip!" ) );
     }
@@ -5756,11 +5786,12 @@ bool mattack::stretch_attack( monster *z )
 
     int dam = rng( 5, 10 );
     z->moves -= 100;
-    for( auto &pnt : g->m.find_clear_path( z->pos(), target->pos() ) ) {
-        if( g->m.impassable( pnt ) ) {
+    map &here = get_map();
+    for( auto &pnt : here.find_clear_path( z->pos(), target->pos() ) ) {
+        if( here.impassable( pnt ) ) {
             target->add_msg_player_or_npc( _( "The %1$s thrusts its arm at you, but bounces off the %2$s." ),
                                            _( "The %1$s thrusts its arm at <npcname>, but bounces off the %2$s." ),
-                                           z->name(), g->m.obstacle_name( pnt ) );
+                                           z->name(), here.obstacle_name( pnt ) );
             return true;
         }
     }
@@ -5808,7 +5839,7 @@ bool mattack::stretch_attack( monster *z )
 bool mattack::zombie_fuse( monster *z )
 {
     monster *critter = nullptr;
-    for( const tripoint &p : g->m.points_in_radius( z->pos(), 1 ) ) {
+    for( const tripoint &p : get_map().points_in_radius( z->pos(), 1 ) ) {
         critter = g->critter_at<monster>( p );
         if( critter != nullptr && critter->faction == z->faction
             && critter != z && critter->get_size() <= z->get_size() ) {
@@ -5843,7 +5874,7 @@ bool mattack::doot( monster *z )
         add_msg( _( "The %s doots its trumpet!" ), z->name() );
     }
     int spooks = 0;
-    for( const tripoint &spookyscary : g->m.points_in_radius( z->pos(), 2 ) ) {
+    for( const tripoint &spookyscary : get_map().points_in_radius( z->pos(), 2 ) ) {
         if( !g->is_empty( spookyscary ) ) {
             continue;
         }
