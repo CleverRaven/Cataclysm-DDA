@@ -427,7 +427,6 @@
       "f": "t_chainfence_h",
       "s": "t_sidewalk",
       "w": "t_window",
-      "x": "t_console_broken",
       "|": "t_wall_y",
       "I": "t_column",
       ",": "t_floor_waxed",
