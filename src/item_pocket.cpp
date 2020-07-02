@@ -596,9 +596,7 @@ bool item_pocket::seal()
 
 void item_pocket::unseal()
 {
-    if( _sealed ) {
-        _sealed = false;
-    }
+    _sealed = false;
 }
 
 bool item_pocket::sealed() const
