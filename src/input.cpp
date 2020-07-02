@@ -248,15 +248,19 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         t_input_event_list events;
         for( const JsonObject keybinding : action.get_array( "bindings" ) ) {
             std::string input_method = keybinding.get_string( "input_method" );
-            input_event new_event;
-            if( input_method == "keyboard_char" || input_method == "keyboard" ) {
-                new_event.type = input_event_t::keyboard_char;
+            std::vector<input_event> new_events( 1 );
+            if( input_method == "keyboard_any" ) {
+                new_events.resize( 2 );
+                new_events[0].type = input_event_t::keyboard_char;
+                new_events[1].type = input_event_t::keyboard_code;
+            } else if( input_method == "keyboard_char" || input_method == "keyboard" ) {
+                new_events[0].type = input_event_t::keyboard_char;
             } else if( input_method == "keyboard_code" ) {
-                new_event.type = input_event_t::keyboard_code;
+                new_events[0].type = input_event_t::keyboard_code;
             } else if( input_method == "gamepad" ) {
-                new_event.type = input_event_t::gamepad;
+                new_events[0].type = input_event_t::gamepad;
             } else if( input_method == "mouse" ) {
-                new_event.type = input_event_t::mouse;
+                new_events[0].type = input_event_t::mouse;
             } else {
                 keybinding.throw_error( "input_method", "unknown input_method" );
             }
@@ -274,21 +278,27 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
                     } else {
                         val.throw_error( "unknown modifier name" );
                     }
-                    new_event.modifiers.emplace( mod );
+                    for( input_event &new_event : new_events ) {
+                        new_event.modifiers.emplace( mod );
+                    }
                 }
             }
 
             if( keybinding.has_array( "key" ) ) {
                 for( const std::string line : keybinding.get_array( "key" ) ) {
-                    new_event.sequence.push_back( get_keycode( new_event.type, line ) );
+                    for( input_event &new_event : new_events ) {
+                        new_event.sequence.push_back( get_keycode( new_event.type, line ) );
+                    }
                 }
             } else { // assume string if not array, and throw if not string
-                new_event.sequence.push_back(
-                    get_keycode( new_event.type, keybinding.get_string( "key" ) )
-                );
+                for( input_event &new_event : new_events ) {
+                    new_event.sequence.push_back(
+                        get_keycode( new_event.type, keybinding.get_string( "key" ) )
+                    );
+                }
             }
 
-            events.push_back( new_event );
+            events.insert( events.end(), new_events.begin(), new_events.end() );
         }
 
         // An invariant of this class is that user-created, local keybindings
