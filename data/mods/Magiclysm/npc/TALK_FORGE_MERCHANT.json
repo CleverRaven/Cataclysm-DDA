@@ -3,6 +3,7 @@
     "type": "npc",
     "id": "forge_lord_merchant",
     "//": "The Lord of the Forge of Wonders.",
+    "name_unique": "Valzain of Psiom",
     "name_suffix": "Forge Lord",
     "class": "NC_FORGE_LORD",
     "attitude": 0,
