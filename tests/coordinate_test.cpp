@@ -14,7 +14,7 @@ static_assert( tripoint_abs_omt::dimension == 3, "" );
 
 TEST_CASE( "coordinate_strings", "[coords]" )
 {
-    CHECK( point_abs_omt( 3, 4 ).to_string() == "(3,4)" );
+    CHECK( point_abs_omt( point( 3, 4 ) ).to_string() == "(3,4)" );
 
     SECTION( "coord_point_matches_point" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
