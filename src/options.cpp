@@ -1650,6 +1650,14 @@ void options_manager::add_options_interface()
     },
     30, 30, COPT_CURSES_HIDE );
 
+    add_empty_line();
+
+    add( "WORKBENCH_ALL_OPTIONS", "interface",
+         translate_marker( "List crafting options for workbenches" ),
+         translate_marker( "If false, examining workbench-type furniture will auto-execute pickup and undeploy (where applicable) actions, no crafting-related options will be listed." ),
+         true
+       );
+
 }
 
 void options_manager::add_options_graphics()

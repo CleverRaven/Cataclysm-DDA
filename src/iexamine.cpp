@@ -5817,7 +5817,16 @@ void iexamine::open_safe( player &, const tripoint &examp )
 
 void iexamine::workbench( player &p, const tripoint &examp )
 {
-    workbench_internal( p, examp, cata::nullopt );
+    if( get_option<bool>( "WORKBENCH_ALL_OPTIONS" ) ) {
+        workbench_internal( p, examp, cata::nullopt );
+    } else {
+        if( !get_map().i_at( examp ).empty() ) {
+            Pickup::pick_up( examp, 0 );
+        }
+        if( item::type_is_defined( get_map().furn( examp ).obj().deployed_item ) ) {
+            deployed_furniture( p, examp );
+        }
+    }
 }
 
 void iexamine::workbench_internal( player &p, const tripoint &examp,
