@@ -284,6 +284,8 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
                 keybind( "TOGGLE_SCOOP" ), "SCOOP" );
     add_toggle( pgettext( "electronics menu option", "water purifier" ),
                 keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
+    add_toggle( pgettext( "electronics menu option", "smart controller" ),
+                keybind( "TOGGLE_SMART_ENGINE_CONTROLLER" ), "SMART_ENGINE_CONTROLLER" );
 
     if( has_part( "DOOR_MOTOR" ) ) {
         options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
