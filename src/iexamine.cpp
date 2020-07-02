@@ -4910,9 +4910,9 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         case RAD_AWAY: {
             patient.moves -= 500;
             patient.add_msg_player_or_npc( m_info,
-                                           _( "The autodoc scanned you and detected a radiation level of %d mSv (%d mSv from items)." ),
-                                           _( "The autodoc scanned <npcname> and detected a radiation level of %d mSv (%d mSv from items)." ),
-                                           patient.get_rad(), patient.leak_level( "RADIOACTIVE" ) );
+                                           _( "The autodoc scanned you and detected a radiation level of %d mSv." ),
+                                           _( "The autodoc scanned <npcname> and detected a radiation level of %d mSv." ),
+                                           patient.get_rad() );
             if( patient.get_rad() ) {
                 if( patient.has_effect( effect_pblue ) ) {
                     patient.add_msg_player_or_npc( m_info,
@@ -4924,6 +4924,10 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.mod_pain( 3 );
                     patient.add_effect( effect_pblue, 1_hours );
                 }
+            }
+            if( patient.leak_level( "RADIOACTIVE" ) ) {
+                popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
+                       patient.leak_level( "RADIOACTIVE" ) );
             }
             break;
         }
