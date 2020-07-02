@@ -659,7 +659,7 @@
     "id": "CYCLE_BATCH",
     "category": "CRAFTING",
     "name": "Batch crafting",
-    "bindings": [ { "input_method": "keyboard_char", "key": [ "b" ] } ]
+    "bindings": [ { "input_method": "keyboard_any", "key": [ "b" ] } ]
   },
   {
     "type": "keybinding",
@@ -3205,7 +3205,11 @@
     "id": "YES",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "Yes",
-    "bindings": [ { "input_method": "keyboard_char", "key": [ "Y" ] }, { "input_method": "keyboard_char", "key": [ "y" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": [ "Y" ] },
+      { "input_method": "keyboard_code", "key": [ "y" ], "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": [ "y" ] }
+    ]
   },
   {
     "type": "keybinding",
@@ -3214,8 +3218,9 @@
     "name": "No",
     "bindings": [
       { "input_method": "keyboard_char", "key": [ "N" ] },
-      { "input_method": "keyboard_char", "key": [ "n" ] },
-      { "input_method": "keyboard_char", "key": [ "ESC" ] }
+      { "input_method": "keyboard_code", "key": [ "n" ], "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": [ "n" ] },
+      { "input_method": "keyboard_any", "key": [ "ESC" ] }
     ]
   },
   {
@@ -3223,14 +3228,22 @@
     "id": "ALWAYS",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "Always",
-    "bindings": [ { "input_method": "keyboard_char", "key": [ "A" ] }, { "input_method": "keyboard_char", "key": [ "a" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": [ "A" ] },
+      { "input_method": "keyboard_code", "key": [ "a" ], "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": [ "a" ] }
+    ]
   },
   {
     "type": "keybinding",
     "id": "NEVER",
     "category": "YES_NO_ALWAYS_NEVER",
     "name": "Never",
-    "bindings": [ { "input_method": "keyboard_char", "key": [ "E" ] }, { "input_method": "keyboard_char", "key": [ "e" ] } ]
+    "bindings": [
+      { "input_method": "keyboard_char", "key": [ "E" ] },
+      { "input_method": "keyboard_code", "key": [ "e" ], "mod": [ "shift" ] },
+      { "input_method": "keyboard_any", "key": [ "e" ] }
+    ]
   },
   {
     "type": "keybinding",
