@@ -378,6 +378,7 @@ void Item_modifier::modify( item &new_item ) const
 
     if( !cont.is_null() ) {
         cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
+        cont.seal();
         new_item = cont;
     }
 
@@ -386,6 +387,7 @@ void Item_modifier::modify( item &new_item ) const
         for( const item &it : contentitems ) {
             new_item.put_in( it, item_pocket::pocket_type::CONTAINER );
         }
+        new_item.seal();
     }
 
     for( auto &flag : custom_flags ) {
