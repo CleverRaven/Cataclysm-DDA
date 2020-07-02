@@ -10781,6 +10781,11 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
     return Attitude::NEUTRAL;
 }
 
+npc_attitude Character::get_attitude() const
+{
+    return NPCATT_NULL;
+}
+
 bool Character::sees( const tripoint &t, bool, int ) const
 {
     const int wanted_range = rl_dist( pos(), t );
