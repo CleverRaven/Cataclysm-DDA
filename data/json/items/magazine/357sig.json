@@ -15,7 +15,7 @@
     "ammo_type": [ "357sig" ],
     "capacity": 12,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357sig": 12 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357sig": 12 } } ]
   },
   {
     "id": "p320mag_13rd_357sig",
@@ -34,6 +34,6 @@
     "capacity": 13,
     "reload_time": 140,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "357sig": 13 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "357sig": 13 } } ]
   }
 ]

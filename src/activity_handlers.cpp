@@ -3930,6 +3930,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
+    g->events().send<event_type::cuts_tree>( p->getID() );
     act->set_to_null();
     resume_for_multi_activities( *p );
 }
@@ -4392,26 +4393,24 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
 
 static void blood_magic( player *p, int cost )
 {
-    static std::array<bodypart_id, 6> part = { {
-            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
-        }
-    };
-    int max_hp_part = 0;
     std::vector<uilist_entry> uile;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        uilist_entry entry( i, p->hp_cur[i] > cost, i + 49, body_part_hp_bar_ui_text( part[i] ) );
-        if( p->hp_cur[max_hp_part] < p->hp_cur[i] ) {
-            max_hp_part = i;
-        }
-        const std::pair<std::string, nc_color> &hp = get_hp_bar( p->hp_cur[i], p->hp_max[i] );
+    std::vector<bodypart_id> parts;
+    int i = 0;
+    for( const std::pair<const bodypart_str_id, bodypart> &part : p->get_body() ) {
+        const int hp_cur = part.second.get_hp_cur();
+        uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( part.first.id() ) );
+
+        const std::pair<std::string, nc_color> &hp = get_hp_bar( hp_cur, part.second.get_hp_max() );
         entry.ctxt = colorize( hp.first, hp.second );
         uile.emplace_back( entry );
+        parts.push_back( part.first.id() );
+        i++;
     }
     int action = -1;
     while( action < 0 ) {
         action = uilist( _( "Choose part\nto draw blood from." ), uile );
     }
-    p->hp_cur[action] -= cost;
+    p->mod_part_hp_cur( parts[action], - cost );
     p->mod_pain( std::max( 1, cost / 3 ) );
 }
 
@@ -4427,9 +4426,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     // if level != 1 then we need to set the spell's level
     if( level_override != -1 ) {
-        while( spell_being_cast.get_level() < level_override && !spell_being_cast.is_max_level() ) {
-            spell_being_cast.gain_level();
-        }
+        spell_being_cast.set_level( level_override );
     }
 
     const bool no_fail = act->get_value( 1 ) == 1;

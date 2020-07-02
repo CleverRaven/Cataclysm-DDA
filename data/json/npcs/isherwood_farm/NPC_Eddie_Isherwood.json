@@ -181,7 +181,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_ISHERWOOD_EDDIE_TOPICS",
-    "dynamic_line": "Go on...",
+    "dynamic_line": "Go on…",
     "responses": [
       { "text": "Your son helps with the dairy?", "topic": "TALK_EDDIE_LUKE" },
       { "text": "So, Jesse runs the horse farm?", "topic": "TALK_EDDIE_JESSE" },

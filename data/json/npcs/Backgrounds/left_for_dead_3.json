@@ -1,0 +1,74 @@
+[
+  {
+    "id": "BGSS_LEFT_FOR_DEAD_3_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Let's not dance around it: I joined the riots, at first.  I don't really remember what I was thinking.  I'd protested stuff like police brutality before, but this was different.  I didn't make a sign and go down there expecting to chant and march, I grabbed a bat and went outside planning to fuck shit up.  I've never felt so angry before.  The riots had already been going on a while at that point, and to me, it just looked like the government trying to squash the people again.",
+    "responses": [
+      { "text": "Those rioters had a reputation for being absolutely psycho.", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY2" },
+      { "text": "Not many people made it out of the riots alive.", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LEFT_FOR_DEAD_3_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Yeah, you're telling me.  The rioters… they weren't even like humans, let alone protestors.  Nothing like any protest I'd ever been in before.  That didn't stop me.  I joined them, and I was as bad as a bunch of them.  Smashed windows, beat up bystanders, burnt cars.  I remember ripping riot gear off a cop and… nevermind.  I don't want to remember that.",
+    "responses": [
+      { "text": "How did you survive?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY3" },
+      { "text": "What made you come back?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY4" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LEFT_FOR_DEAD_3_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "At some point, I felt like I was waking up.  It was around the time they were busting out those humvees with riot control turrets on top.  Says something about my frame of mind that I don't even remember if I'd seen them before that point.  Anyway I heard the gunfire going off and just kinda realized I was on the edges of a mob charging a heavily armed military emplacement.  That's when I started seeing the mob for what it was, seeing the wild-eyed animals, even the zombies.  I turned and ran.",
+    "responses": [
+      { "text": "What made you come back?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY4" },
+      { "text": "Where did you go from there?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY5" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LEFT_FOR_DEAD_3_STORY4",
+    "type": "talk_topic",
+    "dynamic_line": "I honestly don't know.  I wonder if some of the others would have come back to their senses, given time.  I don't think I'm anything special.  Maybe a lot of them did, and just weren't on the edge of the crowd at the time.  I'll tell you, almost as soon as I came back to myself, I could see some of the rioters looking at me like I was prey.  I didn't stick around to see what would happen.",
+    "responses": [
+      { "text": "Where did you go from there?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY5" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_LEFT_FOR_DEAD_3_STORY5",
+    "type": "talk_topic",
+    "dynamic_line": "I knew the city pretty well.  I went for an abandoned building I knew about, headed through a broken window, and holed up in there for a few days.  I had a fair bit of stolen food and I just kept to myself.  When things started to quiet down, I headed out, and here I am.",
+    "responses": [
+      { "text": "Thanks for telling me all that.  <done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "Thanks for telling me all that.  <end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "CWH_LEFT_FOR_DEAD_3_IDEAS1",
+    "type": "talk_topic",
+    "dynamic_line": "So, I remember the time leading up to the riots, same as anyone.  Things were bad, there were some really awful crimes being reported in the news, and there was a lot of racial tension as usual from the way the cops were handling it.  Then people started rioting, which isn't unusual, but it was weird the kind of places that the riots were starting in.  Like, upper middle class neighbourhoods, midwestern small towns, things like that.  Anyway, I joined the riots and I don't remember a lot of clear stuff after that.",
+    "responses": [
+      { "text": "You joined the riots?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY1" },
+      {
+        "text": "You must have some insights into what caused all this, then.",
+        "topic": "CWH_LEFT_FOR_DEAD_3_IDEAS2"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "CWH_LEFT_FOR_DEAD_3_IDEAS2",
+    "type": "talk_topic",
+    "dynamic_line": "Kinda, I guess.  I heard people blaming the riots on some kind of mind control drug, and frankly I'm not sure that's far off base.  That's kinda what it felt like, although the whole time I really felt like myself.  It wasn't until I snapped out of it that I realized how weird it was.  That doesn't explain anything else though: the zombies, the monsters, all this stuff is way off base.  Anything I've tried to guess just sounds like bad science fiction, like demonic curses or alien weapons kinda stuff.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

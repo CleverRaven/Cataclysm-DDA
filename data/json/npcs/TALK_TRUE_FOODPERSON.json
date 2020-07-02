@@ -135,7 +135,7 @@
   {
     "id": "TALK_FOODPERSON_INTRODUCTION",
     "type": "talk_topic",
-    "dynamic_line": "Indeed it is I! The one and only FOODPERSON!",
+    "dynamic_line": "Indeed it is I!  The one and only FOODPERSON!",
     "responses": [
       {
         "text": "Wow!  Such an honor to meet you in person!",

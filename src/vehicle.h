@@ -537,7 +537,7 @@ class turret_data
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
          */
-        int fire( player &p, const tripoint &target );
+        int fire( Character &c, const tripoint &target );
 
         bool can_reload() const;
         bool can_unload() const;

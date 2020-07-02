@@ -994,6 +994,9 @@ static bool mx_drugdeal( map &m, const tripoint &abs_sub )
 
 static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
 {
+    const bool intact = x_in_y( 40,
+                                std::max( to_days<int>( calendar::turn - calendar::start_of_cataclysm ), 0 ) + 50 );
+
     int num_crates = rng( 1, 5 );
     for( int i = 0; i < num_crates; i++ ) {
         const auto p = random_point( m, [&m]( const tripoint & n ) {
@@ -1002,37 +1005,42 @@ static bool mx_supplydrop( map &m, const tripoint &/*abs_sub*/ )
         if( !p ) {
             break;
         }
-        m.furn_set( p->xy(), f_crate_c );
-        std::string item_group;
-        switch( rng( 1, 10 ) ) {
-            case 1:
-                item_group = "mil_bulk";
-                break;
-            case 2:
-            case 3:
-            case 4:
-                item_group = "mil_food";
-                break;
-            case 5:
-            case 6:
-            case 7:
-                item_group = "grenades";
-                break;
-            case 8:
-            case 9:
-                item_group = "mil_armor";
-                break;
-            case 10:
-                item_group = "guns_rifle_milspec";
-                break;
-        }
-        int items_created = 0;
-        for( int i = 0; i < 10 && items_created < 2; i++ ) {
-            items_created += m.place_items( item_group, 80, *p, *p, true, calendar::start_of_cataclysm,
-                                            100 ).size();
-        }
-        if( m.i_at( *p ).empty() ) {
-            m.destroy( *p, true );
+
+        if( intact ) {
+            m.furn_set( p->xy(), f_crate_c );
+            std::string item_group;
+            switch( rng( 1, 10 ) ) {
+                case 1:
+                    item_group = "mil_bulk";
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                    item_group = "mil_food";
+                    break;
+                case 5:
+                case 6:
+                case 7:
+                    item_group = "grenades";
+                    break;
+                case 8:
+                case 9:
+                    item_group = "mil_armor";
+                    break;
+                case 10:
+                    item_group = "guns_rifle_milspec";
+                    break;
+            }
+            int items_created = 0;
+            for( int i = 0; i < 10 && items_created < 2; i++ ) {
+                items_created += m.place_items( item_group, 80, *p, *p, true, calendar::start_of_cataclysm,
+                                                100 ).size();
+            }
+            if( m.i_at( *p ).empty() ) {
+                m.destroy( *p, true );
+            }
+        } else {
+            m.furn_set( p->xy(), f_crate_o );
         }
     }
 
@@ -2243,13 +2251,13 @@ static bool mx_reed( map &m, const tripoint &abs_sub )
         return false;
     };
 
+    weighted_int_list<furn_id> vegetation;
+    vegetation.add( f_cattails, 15 );
+    vegetation.add( f_lotus, 5 );
+    vegetation.add( f_lilypad, 1 );
     for( int i = 0; i < SEEX * 2; i++ ) {
         for( int j = 0; j < SEEY * 2; j++ ) {
             const tripoint loc( i, j, abs_sub.z );
-            weighted_int_list<furn_id> vegetation;
-            vegetation.add( f_cattails, 15 );
-            vegetation.add( f_lotus, 5 );
-            vegetation.add( f_lilypad, 1 );
             if( ( m.ter( loc ) == t_water_sh || m.ter( loc ) == t_water_moving_sh ) &&
                 one_in( intensity ) ) {
                 m.furn_set( loc, vegetation.pick()->id() );

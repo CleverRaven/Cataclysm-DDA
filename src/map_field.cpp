@@ -254,7 +254,8 @@ void map::gas_spread_to( field_entry &cur, maptile &dst )
 void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk )
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
+    map &here = get_map();
+    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
     const bool sheltered = g->is_sheltered( p );
     const int winddirection = g->weather.winddirection;
     const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
@@ -397,6 +398,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = nullptr;
 
+    map &here = get_map();
     tripoint thep;
     thep.z = submap.z;
 
@@ -486,13 +488,22 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                     // TODO: Allow spreading to the sides if age < 0 && intensity == 3
                 }
+
+                if( curtype == fd_extinguisher ) {
+                    field_entry *fire_here = maptile_at_internal( p ).find_field( fd_fire );
+                    if( fire_here != nullptr ) {
+                        // extinguisher fights fire in 1:1 ratio
+                        fire_here->set_field_intensity( fire_here->get_field_intensity() - cur.get_field_intensity() );
+                        cur.set_field_intensity( cur.get_field_intensity() - fire_here->get_field_intensity() );
+                    }
+                }
                 if( curtype.obj().apply_slime_factor > 0 ) {
                     sblk.apply_slime( p, cur.get_field_intensity() * curtype.obj().apply_slime_factor );
                 }
                 if( curtype == fd_fire ) {
                     cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
                     // Entire objects for ter/frn for flags
-                    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
+                    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
                     bool sheltered = g->is_sheltered( p );
                     int winddirection = g->weather.winddirection;
                     int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
@@ -983,7 +994,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 if( curtype == fd_fungal_haze ) {
                     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
                         // Haze'd terrain
-                        fungal_effects( *g, g->m ).spread_fungus( p );
+                        fungal_effects( *g, here ).spread_fungus( p );
                     }
                 }
 
@@ -1371,22 +1382,6 @@ void map::player_in_field( player &u )
 
         // Do things based on what field effect we are currently in.
         const field_type_id ft = cur.get_field_type();
-        if( ft == fd_web ) {
-            // If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
-            // Moving through multiple webs stacks the effect.
-            if( !u.has_trait( trait_WEB_WALKER ) && !u.in_vehicle ) {
-                // Between 5 and 15 minus your current web level.
-                u.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
-                // It is spent.
-                cur.set_field_intensity( 0 );
-                continue;
-                // If you are in a vehicle destroy the web.
-                // It should of been destroyed when you ran over it anyway.
-            } else if( u.in_vehicle ) {
-                cur.set_field_intensity( 0 );
-                continue;
-            }
-        }
         if( ft == fd_acid ) {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
@@ -1583,8 +1578,7 @@ void map::player_in_field( player &u )
             // Small universal damage based on intensity, only if not electroproofed.
             if( !u.is_elec_immune() ) {
                 int total_damage = 0;
-                for( size_t i = 0; i < num_hp_parts; i++ ) {
-                    const bodypart_id bp = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+                for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
                     const int dmg = rng( 1, cur.get_field_intensity() );
                     total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
                 }
@@ -1712,6 +1706,10 @@ void map::creature_in_field( Creature &critter )
         const field_type_id cur_field_id = cur_field_entry.get_field_type();
 
         for( const auto &fe : cur_field_entry.field_effects() ) {
+            // the field is decreased even if you are in a vehicle
+            if( cur_field_id->decrease_intensity_on_contact ) {
+                cur_field_entry.mod_field_intensity( -1 );
+            }
             if( in_vehicle && fe.immune_in_vehicle ) {
                 continue;
             }

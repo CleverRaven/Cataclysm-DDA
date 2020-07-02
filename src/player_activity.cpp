@@ -76,6 +76,13 @@ void player_activity::set_to_null()
     sfx::end_activity_sounds(); // kill activity sounds when activity is nullified
 }
 
+void player_activity::sychronize_type_with_actor()
+{
+    if( actor && type != activity_id::NULL_ID() ) {
+        type = actor->get_type();
+    }
+}
+
 bool player_activity::rooted() const
 {
     return type->rooted();
@@ -177,13 +184,17 @@ void player_activity::start_or_resume( Character &who, bool resuming )
     if( actor && !resuming ) {
         actor->start( *this, who );
     }
-    if( rooted() ) {
+    if( !type.is_null() && rooted() ) {
         who.rooted_message();
     }
+    // last, as start function may have changed the type
+    sychronize_type_with_actor();
 }
 
 void player_activity::do_turn( player &p )
 {
+    // first to ensure sync with actor
+    sychronize_type_with_actor();
     // Should happen before activity or it may fail du to 0 moves
     if( *this && type->will_refuel_fires() ) {
         try_fuel_fire( *this, p );
@@ -241,6 +252,7 @@ void player_activity::do_turn( player &p )
     const bool travel_activity = id() == ACT_TRAVELLING;
     // This might finish the activity (set it to null)
     if( actor ) {
+        p.increase_activity_level( actor->get_type()->exertion_level() );
         actor->do_turn( *this, p );
     } else {
         // Use the legacy turn function
@@ -254,7 +266,13 @@ void player_activity::do_turn( player &p )
     // to simulate that the next step will surely use up some stamina anyway
     // this is to ensure that resting will occur when traveling overburdened
     const int adjusted_stamina = travel_activity ? p.get_stamina() - 1 : p.get_stamina();
-    if( adjusted_stamina < previous_stamina && p.get_stamina() < p.get_stamina_max() / 3 ) {
+    activity_id act_id = actor ? actor->get_type() : type;
+    bool excluded = act_id == activity_id( "ACT_WORKOUT_HARD" ) ||
+                    act_id == activity_id( "ACT_WORKOUT_ACTIVE" ) ||
+                    act_id == activity_id( "ACT_WORKOUT_MODERATE" ) ||
+                    act_id == activity_id( "ACT_WORKOUT_LIGHT" );
+    if( !excluded && adjusted_stamina < previous_stamina &&
+        p.get_stamina() < p.get_stamina_max() / 3 ) {
         if( one_in( 50 ) ) {
             p.add_msg_if_player( _( "You pause for a moment to catch your breath." ) );
         }
@@ -280,6 +298,7 @@ void player_activity::do_turn( player &p )
                 set_to_null();
             }
         }
+        p.reset_activity_level();
     }
     if( !*this ) {
         // Make sure data of previous activity is cleared

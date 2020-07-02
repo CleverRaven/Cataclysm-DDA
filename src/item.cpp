@@ -193,6 +193,7 @@ static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
 static const std::string flag_HOT( "HOT" );
 static const std::string flag_IRREMOVABLE( "IRREMOVABLE" );
+static const std::string flag_BURNOUT( "BURNOUT" );
 static const std::string flag_IS_ARMOR( "IS_ARMOR" );
 static const std::string flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
 static const std::string flag_IS_UPS( "IS_UPS" );
@@ -557,6 +558,11 @@ item &item::activate()
     active = true;
 
     return *this;
+}
+
+bool item::activate_thrown( const tripoint &pos )
+{
+    return type->invoke( g->u, *this, pos );
 }
 
 units::energy item::set_energy( const units::energy &qty )
@@ -2662,20 +2668,6 @@ void item::animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query 
     if( !is_pet_armor() ) {
         return;
     }
-    int converted_storage_scale = 0;
-    const double converted_storage = round_up( convert_volume( type->pet_armor->storage.value(),
-                                     &converted_storage_scale ), 2 );
-    if( parts->test( iteminfo_parts::ARMOR_STORAGE ) && converted_storage > 0 ) {
-        const std::string space = "  ";
-        const iteminfo::flags f = converted_storage_scale == 0 ? iteminfo::no_flags : iteminfo::is_decimal;
-        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ),
-                                  string_format( "<num> %s", volume_units_abbr() ),
-                                  f, converted_storage ) );
-    }
-
-    // Whatever the last entry was, we want a newline at this point
-    info.back().bNewLine = true;
-
     armor_protection_info( info, parts, batch, debug );
 }
 
@@ -3074,6 +3066,24 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This tool <info>runs on bionic power</info>." ) );
+    } else if( has_flag( flag_BURNOUT ) && parts->test( iteminfo_parts::TOOL_BURNOUT ) ) {
+        int percent_left = 100 * ammo_remaining() / type->maximum_charges();
+        std::string feedback;
+        if( percent_left == 100 ) {
+            feedback = _( "It's new, and ready to burn." );
+        } else if( percent_left >= 75 ) {
+            feedback = _( "Almost new, with much material to burn." );
+        } else if( percent_left >= 50 ) {
+            feedback = _( "More than a quarter has burned away." );
+        } else if( percent_left >= 25 ) {
+            feedback = _( "More than half has burned away." );
+        } else if( percent_left >= 10 ) {
+            feedback = _( "Less than a quarter left to burn." );
+        } else {
+            feedback = _( "Almost completely burned out." );
+        }
+        feedback = _( "<bold>Fuel</bold>: " ) + feedback;
+        info.push_back( iteminfo( "DESCRIPTION", feedback ) );
     }
 }
 
@@ -4115,9 +4125,9 @@ void item::on_wear( Character &p )
     if( is_sided() && get_side() == side::BOTH ) {
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
-            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( hp_leg_r ) &&
+            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( bodypart_id( "leg_r" ) ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( hp_arm_r ) &&
+                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( bodypart_id( "arm_r" ) ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
@@ -6577,6 +6587,13 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
                 return false;
             }
         }
+        //Now single shoted gun also has magazine_well slot for speedloader
+        //If ammo is not an ammo it may be dangerous to use parameters like ammo->ammo->type
+        //It is complicated: normal magazine in addition to speedloader? Magazines of mods?
+        if( now && !ammo->ammo ) {
+            return magazine_compatible().count( ammo );
+        }
+
         return now ? ammo_remaining() < ammo_capacity( ammo->ammo->type ) : true;
     }
     return magazine_compatible().count( ammo );
@@ -7092,6 +7109,15 @@ int item::ammo_remaining() const
     if( is_magazine() ) {
         int res = 0;
         for( const item *e : contents.all_items_top( item_pocket::pocket_type::MAGAZINE ) ) {
+            res += e->charges;
+        }
+        return res;
+    }
+
+    // Handle non-magazines with ammo_restriction in a CONTAINER type pocket (like quivers)
+    if( !ammo_types().empty() ) {
+        int res = 0;
+        for( const item *e : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
             res += e->charges;
         }
         return res;
@@ -8270,7 +8296,8 @@ int item::fill_with( const itype &contained, const int amount )
 
     item_pocket *pocket = best_pocket( contained_item );
     if( pocket == nullptr ) {
-        debugmsg( "tried to put an item in a container that cannot contain it" );
+        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
+                  contained_item.typeId().str(), typeId().str() );
         return 0;
     }
 
@@ -9457,12 +9484,12 @@ bool item::process_blackpowder_fouling( player *carrier )
     return false;
 }
 
-bool item::process( player *carrier, const tripoint &pos, bool activate, float insulation,
+bool item::process( player *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent )
 {
-    contents.process( carrier, pos, activate, type->insulation_factor * insulation, flag,
+    contents.process( carrier, pos, type->insulation_factor * insulation, flag,
                       spoil_multiplier_parent );
-    return process_internal( carrier, pos, activate, insulation, flag, spoil_multiplier_parent );
+    return process_internal( carrier, pos, insulation, flag, spoil_multiplier_parent );
 }
 
 void item::set_last_rot_check( const time_point &pt )
@@ -9470,7 +9497,7 @@ void item::set_last_rot_check( const time_point &pt )
     last_rot_check = pt;
 }
 
-bool item::process_internal( player *carrier, const tripoint &pos, bool activate,
+bool item::process_internal( player *carrier, const tripoint &pos,
                              float insulation, const temperature_flag flag, float spoil_modifier )
 {
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
@@ -9489,9 +9516,6 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
         return process_blackpowder_fouling( carrier );
     }
 
-    if( activate ) {
-        return type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
-    }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
     // call the processing function. If that function returns true, the item

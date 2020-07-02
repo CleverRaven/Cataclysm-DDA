@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "advanced_inv_area.h"
+#include "advanced_inv_pagination.h"
 #include "advanced_inv_pane.h"
 #include "avatar.h"
 #include "inventory.h"
@@ -80,30 +81,18 @@ bool advanced_inventory_pane::is_filtered( const item &it ) const
 }
 
 /** converts a raw list of items to "stacks" - itms that are not count_by_charges that otherwise stack go into one stack */
-static std::list<std::list<item *>> item_list_to_stack( std::list<item *> item_list )
+static std::vector<std::vector<item *>> item_list_to_stack( std::list<item *> item_list )
 {
-    std::list<std::list<item *>> ret;
-    for( auto iter_outer = item_list.begin(); iter_outer != item_list.end(); ) {
-        std::list<item *> item_stack{};
-        for( auto iter_inner = item_list.begin(); iter_inner != item_list.end(); ) {
-            if( iter_outer == iter_inner ) {
-                ++iter_inner;
-            } else if( ( *iter_outer )->display_stacked_with( **iter_inner ) ) {
-                if( item_stack.empty() ) {
-                    item_stack.push_back( *iter_outer );
-                }
+    std::vector<std::vector<item *>> ret;
+    for( auto iter_outer = item_list.begin(); iter_outer != item_list.end(); ++iter_outer ) {
+        std::vector<item *> item_stack( { *iter_outer } );
+        for( auto iter_inner = std::next( iter_outer ); iter_inner != item_list.end(); ) {
+            if( ( *iter_outer )->display_stacked_with( **iter_inner ) ) {
                 item_stack.push_back( *iter_inner );
                 iter_inner = item_list.erase( iter_inner );
             } else {
                 ++iter_inner;
             }
-        }
-
-        if( item_stack.empty() && !item_list.empty() ) {
-            item_stack.push_back( *iter_outer );
-            iter_outer = item_list.erase( iter_outer );
-        } else {
-            ++iter_outer;
         }
         ret.push_back( item_stack );
     }
@@ -121,7 +110,7 @@ std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inv
         if( worn_item.contents.empty() ) {
             continue;
         }
-        for( const std::list<item *> &it_stack : item_list_to_stack(
+        for( const std::vector<item *> &it_stack : item_list_to_stack(
                  worn_item.contents.all_items_top() ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
@@ -193,30 +182,6 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     }
 }
 
-void advanced_inventory_pane::paginate( size_t itemsPerPage )
-{
-    // not needed as there are no category entries here.
-    if( sortby != SORTBY_CATEGORY ) {
-        return;
-    }
-    // first, we insert all the items, then we sort the result
-    for( size_t i = 0; i < items.size(); ++i ) {
-        if( i % itemsPerPage == 0 ) {
-            // first entry on the page, should be a category header
-            if( items[i].is_item_entry() ) {
-                items.insert( items.begin() + i, advanced_inv_listitem( items[i].cat ) );
-            }
-        }
-        if( ( i + 1 ) % itemsPerPage == 0 && i + 1 < items.size() ) {
-            // last entry of the page, but not the last entry at all!
-            // Must *not* be a category header!
-            if( items[i].is_category_header() ) {
-                items.insert( items.begin() + i, advanced_inv_listitem() );
-            }
-        }
-    }
-}
-
 void advanced_inventory_pane::fix_index()
 {
     if( items.empty() ) {
@@ -227,22 +192,6 @@ void advanced_inventory_pane::fix_index()
         index = 0;
     } else if( static_cast<size_t>( index ) >= items.size() ) {
         index = static_cast<int>( items.size() ) - 1;
-    }
-    skip_category_headers( +1 );
-}
-
-void advanced_inventory_pane::skip_category_headers( int offset )
-{
-    // 0 would make no sense
-    assert( offset != 0 );
-    // valid index is required
-    assert( static_cast<size_t>( index ) < items.size() );
-    // only those two offsets are allowed
-    assert( offset == -1 || offset == +1 );
-    // index would not be valid, and this would be an endless loop
-    assert( !items.empty() );
-    while( !items[index].is_item_entry() ) {
-        mod_index( offset );
     }
 }
 
@@ -267,13 +216,69 @@ void advanced_inventory_pane::scroll_by( int offset )
         return;
     }
     mod_index( offset );
-    skip_category_headers( offset > 0 ? +1 : -1 );
+}
+
+void advanced_inventory_pane::scroll_page( int linesPerPage, int offset )
+{
+    // only those two offsets are allowed
+    assert( offset == -1 || offset == +1 );
+    if( items.empty() ) {
+        return;
+    }
+    const int size = static_cast<int>( items.size() );
+
+    advanced_inventory_pagination old_pagination( linesPerPage, *this );
+    for( int i = 0; i <= index; i++ ) {
+        old_pagination.step( i );
+    }
+
+    // underflow
+    if( old_pagination.page + offset < 0 ) {
+        if( index > 0 ) {
+            // scroll to top of first page
+            index = 0;
+        } else {
+            // scroll wrap
+            index = size - 1;
+        }
+        return;
+    }
+
+    int previous_line = -1; // matching line one up from our line
+    advanced_inventory_pagination new_pagination( linesPerPage, *this );
+    for( int i = 0; i < size; i++ ) {
+        new_pagination.step( i );
+        // right page
+        if( new_pagination.page == old_pagination.page + offset ) {
+            // right line
+            if( new_pagination.line == old_pagination.line ) {
+                index = i;
+                return;
+            }
+            // one up from right line
+            if( new_pagination.line == old_pagination.line - 1 ) {
+                previous_line = i;
+            }
+        }
+    }
+    // second-best matching line
+    if( previous_line != -1 ) {
+        index = previous_line;
+        return;
+    }
+
+    // overflow
+    if( index < size - 1 ) {
+        // scroll to end of last page
+        index = size - 1;
+    } else {
+        // scroll wrap
+        index = 0;
+    }
 }
 
 void advanced_inventory_pane::scroll_category( int offset )
 {
-    // 0 would make no sense
-    assert( offset != 0 );
     // only those two offsets are allowed
     assert( offset == -1 || offset == +1 );
     if( items.empty() ) {
@@ -301,8 +306,6 @@ void advanced_inventory_pane::scroll_category( int offset )
             }
         }
     }
-    // Make sure we land on an item entry.
-    skip_category_headers( offset > 0 ? +1 : -1 );
 }
 
 advanced_inv_listitem *advanced_inventory_pane::get_cur_item_ptr()

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "pamd68",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str": "PA md. 68 Battle Rifle" },
+    "description": "The most popular gun to use the 12.3ln cartridge was, of course, the PA md. 71.  Its predecessor, the md. 68, was viewed by many as a sort of failure: although it was reliable and powerful, it was too heavy to be used as a good infantry weapon, and not really heavy enough to be a good support gun.  Enough were made, though, that during the zombie apocalypse, it gained a great deal of resurgent popularity as a light emplacement gun that used readily available ammunition.  It perfectly served the purposes of the Exodii, who had far less concern about its unwieldiness.",
+    "weight": "9480 g",
+    "volume": "2800 ml",
+    "price": 350000,
+    "price_postapoc": 4000,
+    "to_hit": -3,
+    "bashing": 12,
+    "material": [ "steel", "aluminum" ],
+    "symbol": "(",
+    "color": "dark_gray",
+    "ammo": [ "123ln" ],
+    "skill": "rifle",
+    "dispersion": 190,
+    "durability": 9,
+    "min_cycle_recoil": 3820,
+    "modes": [ [ "DEFAULT", "auto", 2 ], [ "AUTO", "auto", 5 ] ],
+    "barrel_length": "1200 ml",
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "exodiiBRmag" ]
+      }
+    ]
+  },
+  {
+    "id": "pamd71z",
+    "copy-from": "rifle_manual",
+    "looks_like": "ar15",
+    "type": "GUN",
+    "name": { "str": "PA md. 71 zombie hunting rifle" },
+    "description": "This extremely popular Romanian assault rifle, made famous in the third Carpachian War, has been redesigned slightly by the Exodii to serve as a sniper weapon.  It is well suited to precision shots against high-priority targets.  This modified design fires an extremely rapid 5-shot burst, with the goal of shredding the target and preventing revivification.",
+    "weight": "3910 g",
+    "volume": "3 L",
+    "price": 80000,
+    "price_postapoc": 3250,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "aluminum" ],
+    "color": "light_gray",
+    "ammo": [ "123ln" ],
+    "dispersion": 100,
+    "durability": 8,
+    "modes": [ [ "DEFAULT", "auto", 5 ] ],
+    "barrel_length": "250 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "exodiiminimag" ]
+      }
+    ]
+  }
+]

@@ -339,6 +339,19 @@
     "use_action": { "type": "learn_spell", "spells": [ "taze", "laze" ] }
   },
   {
+    "id": "animist_shadows",
+    "type": "BOOK",
+    "name": { "str": "Runic Tablet shard" },
+    "//": "1 classless spell",
+    "description": "A small tablet of blackened stone, apparently cut from a much larger slab.  Golden runes glow over its surface, and slowly shift into intelligible sentences when you stare at them.",
+    "weight": "4000 g",
+    "volume": "2500 ml",
+    "material": [ "stone" ],
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "soulrend" ] }
+  },
+  {
     "id": "translocate_spellbook",
     "type": "BOOK",
     "name": { "str": "Geospatial Systems: The Lie Of Linearity", "str_pl": "copies of Geospatial Systems: The Lie Of Linearity" },

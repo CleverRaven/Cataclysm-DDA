@@ -83,6 +83,7 @@
     "entries": [
       { "item": "tea", "prob": 70 },
       { "item": "tea_raw", "prob": 70 },
+      { "item": "tea_green_raw", "prob": 35 },
       { "item": "ceramic_cup", "prob": 70 },
       { "item": "teapot", "prob": 70 },
       { "item": "clay_teapot", "prob": 70 },
@@ -123,6 +124,13 @@
       { "item": "chamomile", "prob": 30, "charges-min": 1, "charges-max": 2, "container-item": "jar_glass_sealed" },
       { "item": "tea_raw", "prob": 60, "charges-min": 10, "charges-max": 40, "container-item": "jar_glass_sealed" },
       {
+        "item": "tea_green_raw",
+        "prob": 30,
+        "charges-min": 10,
+        "charges-max": 40,
+        "container-item": "jar_glass_sealed"
+      },
+      {
         "item": "wild_herbs",
         "prob": 50,
         "charges-min": 20,
@@ -149,7 +157,7 @@
   {
     "id": "teashop_kitchen_counter",
     "type": "item_group",
-    "items": [ [ "sugar", 30 ], [ "tea_raw", 40 ], [ "teapot", 20 ], [ "spoon", 20 ] ]
+    "items": [ [ "sugar", 30 ], [ "tea_raw", 40 ], [ "tea_green_raw", 20 ], [ "teapot", 20 ], [ "spoon", 20 ] ]
   },
   {
     "id": "bar_alcohol",
@@ -386,6 +394,7 @@
       { "item": "coffee_syrup", "prob": 15 },
       { "item": "cookies", "prob": 35 },
       { "item": "tea_raw", "prob": 50 },
+      { "item": "tea_green_raw", "prob": 25 },
       { "group": "teabag_box", "prob": 30 }
     ]
   },
@@ -404,6 +413,7 @@
       { "item": "sugar", "prob": 70 },
       { "item": "artificial_sweetener", "prob": 15 },
       { "item": "tea_raw", "prob": 15 },
+      { "item": "tea_green_raw", "prob": 10 },
       { "item": "wrapper", "prob": 75 },
       { "group": "teabag_box", "prob": 10 }
     ]
@@ -748,6 +758,7 @@
       { "item": "coffee_syrup", "prob": 35 },
       { "item": "coffee_raw", "prob": 45 },
       { "item": "tea_raw", "prob": 45 },
+      { "item": "tea_green_raw", "prob": 20 },
       { "item": "salt", "prob": 50 },
       { "item": "pepper", "prob": 50 },
       { "item": "soysauce", "prob": 50 },

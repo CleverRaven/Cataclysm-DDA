@@ -2653,6 +2653,7 @@ static void CheckMessages()
                     actions_remove.insert( ACTION_CYCLE_MOVE );
                 }
 
+                map &here = get_map();
                 // Check if we can perform one of our actions on nearby terrain. If so,
                 // display that action at the top of the list.
                 for( int dx = -1; dx <= 1; dx++ ) {
@@ -2664,7 +2665,7 @@ static void CheckMessages()
 
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
                         {
-                            const optional_vpart_position vp = g->m.veh_at( pos );
+                            const optional_vpart_position vp = here.veh_at( pos );
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
                                 const int veh_part = vp ? vp->part_index() : -1;
@@ -2892,9 +2893,11 @@ static void CheckMessages()
                         }
 #endif
                         break;
-                    case SDL_WINDOWEVENT_RESIZED:
+                    case SDL_WINDOWEVENT_RESIZED: {
+                        restore_on_out_of_scope<input_event> prev_last_input( last_input );
                         needupdate = handle_resize( ev.window.data1, ev.window.data2 );
                         break;
+                    }
                     default:
                         break;
                 }
@@ -3228,6 +3231,7 @@ static void CheckMessages()
         }
     }
     if( need_redraw ) {
+        restore_on_out_of_scope<input_event> prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and

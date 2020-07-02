@@ -50,10 +50,10 @@
     "ammo": [ "ammo_shot" ]
   },
   {
-    "id": "slam_shotgun",
-    "copy-from": "slam_shotgun",
+    "id": "four_winds_shotgun",
+    "copy-from": "four_winds_shotgun",
     "type": "GUN",
-    "name": { "str": "slam-fire shotgun" },
+    "name": { "str": "four winds shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
     "weight": "3629 g",
     "volume": "2264 ml",
@@ -62,7 +62,7 @@
     "price_postapoc": 1000,
     "bashing": 8,
     "material": [ "steel" ],
-    "ranged_damage": { "damage_type": "bullet", "amount": -2 },
+    "ranged_damage": { "damage_type": "bullet", "amount": -6 },
     "dispersion": 960,
     "durability": 4,
     "clip_size": 1,

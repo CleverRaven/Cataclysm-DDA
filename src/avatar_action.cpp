@@ -838,7 +838,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
     you.assign_activity( aim_activity_actor::use_wielded(), false );
 }
 
-void avatar_action::fire_ranged_mutation( avatar &you, const item &fake_gun )
+void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
 {
     you.assign_activity( aim_activity_actor::use_mutation( fake_gun ), false );
 }

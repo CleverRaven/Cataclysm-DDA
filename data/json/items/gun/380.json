@@ -39,6 +39,7 @@
     "min_cycle_recoil": 270,
     "pocket_data": [
       {
+        "magazine_well": "44 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -68,6 +69,7 @@
     "min_cycle_recoil": 270,
     "pocket_data": [
       {
+        "magazine_well": "60 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -98,6 +100,7 @@
     "min_cycle_recoil": 270,
     "pocket_data": [
       {
+        "magazine_well": "60 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -126,6 +129,7 @@
     "durability": 7,
     "pocket_data": [
       {
+        "magazine_well": "236 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -156,6 +160,7 @@
     "min_cycle_recoil": 225,
     "pocket_data": [
       {
+        "magazine_well": "74 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",

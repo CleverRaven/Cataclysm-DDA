@@ -639,6 +639,7 @@ class Character : public Creature, public visitable<Character>
         void try_remove_heavysnare();
         void try_remove_crushed();
         void try_remove_webs();
+        void try_remove_impeding_effect();
 
         /** Check against the character's current movement mode */
         bool movement_mode_is( const move_mode_id &mode ) const;
@@ -840,6 +841,8 @@ class Character : public Creature, public visitable<Character>
         /**Unset switched mutation and set target mutation instead*/
         void switch_mutations( const trait_id &switched, const trait_id &target, bool start_powered );
 
+        bool can_power_mutation( const trait_id &mut );
+
         /**Trigger reflex activation if the mutation has one*/
         void mutation_reflex_trigger( const trait_id &mut );
 
@@ -868,9 +871,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns the number of functioning legs */
         int get_working_leg_count() const;
         /** Returns true if the limb is disabled(12.5% or less hp)*/
-        bool is_limb_disabled( hp_part limb ) const;
+        bool is_limb_disabled( const bodypart_id &limb ) const;
         /** Returns true if the limb is broken */
-        bool is_limb_broken( hp_part limb ) const;
+        bool is_limb_broken( const bodypart_id &limb ) const;
         /** source of truth of whether a Character can run */
         bool can_run() const;
         /** Hurts all body parts for dam, no armor reduction */
@@ -881,9 +884,8 @@ class Character : public Creature, public visitable<Character>
         void on_hurt( Creature *source, bool disturb = true );
         /** Heals a body_part for dam */
         void heal_bp( bodypart_id bp, int dam ) override;
-        void heal( body_part healed, int dam );
         /** Heals an hp_part for dam */
-        void heal( hp_part healed, int dam );
+        void heal( const bodypart_id &healed, int dam );
         /** Heals all body parts for dam */
         void healall( int dam );
 
@@ -1317,7 +1319,7 @@ class Character : public Creature, public visitable<Character>
         // returns a list of all item_location the character has, including items contained in other items.
         // only for CONTAINER pocket type; does not look for magazines
         std::vector<item_location> all_items_loc();
-        // Returns list of all the top level item_lodation the character has. Includes worn and held items.
+        // Returns list of all the top level item_lodation the character has. Includes worn items but excludes items held on hand.
         std::vector<item_location> top_items_loc();
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.
@@ -1346,19 +1348,13 @@ class Character : public Creature, public visitable<Character>
         /*@}*/
 
         /**
-         * Try to find containers that can contain @it and fills them up as much as possible.
-         * Does not work for items that are not count by charges.
-         * @param unloading Do not try to add to a container when the item was intentionally unloaded.
-         * @return Remaining charges which could not be stored on the character.
-         */
-        int i_add_to_container( const item &it, bool unloading );
-        /**
          * Adds the item to the character's worn items or wields it, or prompts if the Character cannot pick it up.
          * @avoid is the item to not put @it into
          */
-        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr );
+        item &i_add( item it, bool should_stack = true, const item *avoid = nullptr, bool allow_drop = true,
+                     bool allow_wield = true );
         /** tries to add to the character's inventory without a popup. returns nullptr if it fails. */
-        item *try_add( item it, const item *avoid = nullptr );
+        item *try_add( item it, const item *avoid = nullptr, bool allow_wield = true );
 
         /**
          * Try to pour the given liquid into the given container/vehicle. The transferred charges are
@@ -1706,7 +1702,6 @@ class Character : public Creature, public visitable<Character>
         bool male = false;
 
         std::list<item> worn;
-        std::array<int, num_hp_parts> hp_cur, hp_max, damage_bandaged, damage_disinfected;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
@@ -1928,11 +1923,6 @@ class Character : public Creature, public visitable<Character>
         void shout( std::string msg = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
-        // adds total healing to the bodypart. this is only a counter.
-        void healed_bp( int bp, int amount );
-
-        // the amount healed per bodypart per day
-        std::array<int, num_hp_parts> healed_total;
 
         std::map<std::string, int> mutation_category_level;
 
@@ -2226,11 +2216,6 @@ class Character : public Creature, public visitable<Character>
 
         // used in debugging all health
         int get_lowest_hp() const;
-
-        int get_hp( hp_part bp ) const override;
-        int get_hp() const override;
-        int get_hp_max( hp_part bp ) const override;
-        int get_hp_max() const override;
         bool has_weapon() const override;
         void shift_destination( const point &shift );
         // Auto move methods

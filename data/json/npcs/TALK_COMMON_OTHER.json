@@ -72,7 +72,7 @@
         "no": "Why should I travel with you?",
         "yes": "You asked me recently; ask again later."
       },
-      "yes": "Not until I get some antibiotics..."
+      "yes": "Not until I get some antibiotics…"
     },
     "responses": [
       {
@@ -225,7 +225,7 @@
               "no": {
                 "npc_has_effect": "asked_to_train",
                 "no": "I have some reason for denying you training.",
-                "yes": "Give it some time, I'll show you something new later..."
+                "yes": "Give it some time, I'll show you something new later…"
               },
               "yes": "I'm too tired, let me rest first."
             },
@@ -264,7 +264,7 @@
   {
     "id": "TALK_FRIEND_UNCOMFORTABLE",
     "type": "talk_topic",
-    "dynamic_line": "I really don't feel comfortable doing so...",
+    "dynamic_line": "I really don't feel comfortable doing so…",
     "responses": [ { "text": "I'll give you some space.", "topic": "TALK_FRIEND" } ]
   },
   {
@@ -361,7 +361,7 @@
   {
     "id": "TALK_STOLE_ITEM",
     "type": "talk_topic",
-    "dynamic_line": "You picked up something that does not belong to you...",
+    "dynamic_line": "You picked up something that does not belong to you…",
     "responses": [
       {
         "text": "Okay, okay, this is all a misunderstanding.  Sorry, I'll drop it now.",

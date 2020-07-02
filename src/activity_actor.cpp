@@ -21,6 +21,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "morale_types.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -1293,6 +1294,242 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
+void workout_activity_actor::start( player_activity &act, Character &who )
+{
+    if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+        who.add_msg_if_player( _( "You are too tired to exercise." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    if( who.get_thirst() > 240 ) {
+        who.add_msg_if_player( _( "You are too dehydrated to exercise." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    if( who.is_armed() ) {
+        who.add_msg_if_player( _( "Empty your hands first." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    // free training requires all limbs intact, but specialized workout machines
+    // train upper or lower parts of body only and may permit workout with
+    // broken limbs as long as they are not involved by the machine
+    bool hand_equipment = g->m.has_flag_furn( "WORKOUT_ARMS", location );
+    bool leg_equipment = g->m.has_flag_furn( "WORKOUT_LEGS", location );
+    static const bodypart_id arm_l = bodypart_id( "arm_l" );
+    static const bodypart_id arm_r = bodypart_id( "arm_r" );
+    static const bodypart_id leg_l = bodypart_id( "leg_l" );
+    static const bodypart_id leg_r = bodypart_id( "leg_r" );
+    if( hand_equipment && ( ( who.is_limb_broken( arm_l ) ) ||
+                            who.is_limb_broken( arm_r ) ) ) {
+        who.add_msg_if_player( _( "You cannot train here with a broken arm." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    if( leg_equipment && ( ( who.is_limb_broken( leg_l ) ) ||
+                           who.is_limb_broken( leg_r ) ) ) {
+        who.add_msg_if_player( _( "You cannot train here with a broken leg." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    if( !hand_equipment && !leg_equipment &&
+        ( who.is_limb_broken( arm_l ) ||
+          who.is_limb_broken( arm_r ) ||
+          who.is_limb_broken( leg_l ) ||
+          who.is_limb_broken( leg_r ) ) ) {
+        who.add_msg_if_player( _( "You cannot train freely with a broken limb." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    uilist workout_query;
+    workout_query.desc_enabled = true;
+    workout_query.text =
+        _( "Physical effort determines workout efficiency, but also rate of exhaustion." );
+    workout_query.title = _( "Choose training intensity:" );
+    workout_query.addentry_desc( 1, true, 'l', _( "Light" ),
+                                 _( "Light excercise comparable in intensity to walking, but more focused and methodical." ) );
+    workout_query.addentry_desc( 2, true, 'm', _( "Moderate" ),
+                                 _( "Moderate excercise without excessive exertion, but with enough effort to break a sweat." ) );
+    workout_query.addentry_desc( 3, true, 'a', _( "Active" ),
+                                 _( "Active excercise with full involvement.  Strenuous, but in a controlled manner." ) );
+    workout_query.addentry_desc( 4, true, 'h', _( "High" ),
+                                 _( "High intensity excercise with maximum effort and full power.  Exhausting in the long run." ) );
+    workout_query.query();
+    switch( workout_query.ret ) {
+        case UILIST_CANCEL:
+            act.set_to_null();
+            act_id = activity_id::NULL_ID();
+            return;
+        case 4:
+            act_id = activity_id( "ACT_WORKOUT_HARD" );
+            intensity_modifier = 4;
+            break;
+        case 3:
+            act_id = activity_id( "ACT_WORKOUT_ACTIVE" );
+            intensity_modifier = 3;
+            break;
+        case 2:
+            act_id = activity_id( "ACT_WORKOUT_MODERATE" );
+            intensity_modifier = 2;
+            break;
+        case 1:
+        default:
+            act_id = activity_id( "ACT_WORKOUT_LIGHT" );
+            intensity_modifier = 1;
+            break;
+    }
+    int length;
+    query_int( length, _( "Train for how long (minutes): " ) );
+    if( length > 0 ) {
+        duration = length * 1_minutes;
+    } else {
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    act.moves_total = to_moves<int>( duration );
+    act.moves_left = act.moves_total;
+    if( who.male ) {
+        sfx::play_activity_sound( "plmove", "fatigue_m_med", sfx::get_heard_volume( location ) );
+    } else {
+        sfx::play_activity_sound( "plmove", "fatigue_f_med", sfx::get_heard_volume( location ) );
+    }
+    who.add_msg_if_player( _( "You start your workout session." ) );
+}
+
+void workout_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+        who.add_msg_if_player( _( "You are exhausted so you finish your workout early." ) );
+        act.set_to_null();
+        return;
+    }
+    if( who.get_thirst() > 240 ) {
+        who.add_msg_if_player( _( "You are dehydrated so you finish your workout early." ) );
+        act.set_to_null();
+        return;
+    }
+    if( !rest_mode && who.get_stamina() > who.get_stamina_max() / 3 ) {
+        who.mod_stamina( -25 - intensity_modifier );
+        if( one_in( 180 / intensity_modifier ) ) {
+            who.mod_fatigue( 1 );
+            who.mod_thirst( 1 );
+        }
+        if( calendar::once_every( 16_minutes / intensity_modifier ) ) {
+            //~ heavy breathing when excercising
+            std::string huff = _( "yourself huffing and puffing!" );
+            sounds::sound( location + tripoint_east, 2 * intensity_modifier, sounds::sound_t::speech, huff,
+                           true );
+        }
+        // morale bonus kicks in gradually after 5 minutes of exercise
+        if( calendar::once_every( 2_minutes ) &&
+            ( ( elapsed + act.moves_total - act.moves_left ) / 100 * 1_turns ) > 5_minutes ) {
+            who.add_morale( MORALE_FEELING_GOOD, intensity_modifier, 20, 6_hours, 30_minutes );
+        }
+        if( calendar::once_every( 2_minutes ) ) {
+            who.add_msg_if_player( m_debug, who.activity_level_str() );
+            who.add_msg_if_player( m_debug, act.id().c_str() );
+        }
+    } else if( !rest_mode ) {
+        rest_mode = true;
+        who.add_msg_if_player( _( "You catch your breath for few moments." ) );
+    } else if( who.get_stamina() >= who.get_stamina_max() ) {
+        rest_mode = false;
+        who.add_msg_if_player( _( "You get back to your training." ) );
+    }
+}
+
+void workout_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( !query_keep_training( act, who ) ) {
+        act.set_to_null();
+        who.add_msg_if_player( _( "You finish your workout session." ) );
+    }
+}
+
+void workout_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
+{
+    stop_time = calendar::turn;
+}
+
+bool workout_activity_actor::query_keep_training( player_activity &act, Character &who )
+{
+    if( disable_query || !who.is_avatar() ) {
+        elapsed += act.moves_total - act.moves_left;
+        act.moves_total = to_moves<int>( 60_minutes );
+        act.moves_left = act.moves_total;
+        return true;
+    }
+    int length;
+    uilist workout_query;
+    workout_query.text = _( "You have finished your training cycle, keep training?" );
+    workout_query.addentry( 1, true, 'S', _( "Stop training." ) );
+    workout_query.addentry( 2, true, 'c', _( "Continue training." ) );
+    workout_query.addentry( 3, true, 'C', _( "Continue training and don't ask again." ) );
+    workout_query.query();
+    switch( workout_query.ret ) {
+        case UILIST_CANCEL:
+        case 1:
+            act_id = activity_id::NULL_ID();
+            act.set_to_null();
+            return false;
+        case 3:
+            disable_query = true;
+            elapsed += act.moves_total - act.moves_left;
+            act.moves_total = to_moves<int>( 60_minutes );
+            act.moves_left = act.moves_total;
+            return true;
+        case 2:
+        default:
+            query_int( length, _( "Train for how long (minutes): " ) );
+            elapsed += act.moves_total - act.moves_left;
+            act.moves_total = to_moves<int>( length * 1_minutes );
+            act.moves_left = act.moves_total;
+            return true;
+            break;
+    }
+}
+
+void workout_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "disable_query", disable_query );
+    jsout.member( "act_id", act_id );
+    jsout.member( "duration", duration );
+    jsout.member( "location", location );
+    jsout.member( "stop_time", stop_time );
+    jsout.member( "elapsed", elapsed );
+    jsout.member( "intensity_modifier", intensity_modifier );
+    jsout.member( "rest_mode", rest_mode );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonIn &jsin )
+{
+    workout_activity_actor actor = workout_activity_actor( tripoint_zero );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "disable_query", actor.disable_query );
+    data.read( "act_id", actor.act_id );
+    data.read( "duration", actor.duration );
+    data.read( "location", actor.location );
+    data.read( "stop_time", actor.stop_time );
+    data.read( "elapsed", actor.elapsed );
+    data.read( "intensity_modifier", actor.intensity_modifier );
+    data.read( "rest_mode", actor.rest_mode );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -1311,6 +1548,10 @@ deserialize_functions = {
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
+    { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
+    { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
+    { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },
+    { activity_id( "ACT_WORKOUT_LIGHT" ), &workout_activity_actor::deserialize },
 };
 } // namespace activity_actors
 
