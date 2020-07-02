@@ -19,8 +19,7 @@
       "U": "t_chainfence",
       "#": "t_rock"
     },
-    "furniture": { 
-      "%": "f_machinery_heavy" }
+    "furniture": { "%": "f_machinery_heavy" }
   },
   {
     "type": "mapgen",

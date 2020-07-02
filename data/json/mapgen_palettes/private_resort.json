@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "p_resort_palette_main_floor",
     "furniture": {
+      "&": "f_console_broken",
       "f": "f_glass_fridge",
       "B": "f_workbench",
       "]": "f_fridge",
@@ -72,7 +73,6 @@
       "P": "t_concrete",
       "U": "t_water_pool",
       "m": "t_metal_floor",
-      "&": "t_console_broken",
       "p": "t_door_c_peep",
       "8": "t_door_curtain_c",
       "n": "t_carpet_green",

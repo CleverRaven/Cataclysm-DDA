@@ -168,20 +168,7 @@
         "[[[[L__________________LssssssssssssssssssssssssL__________________L[[[["
       ],
       "terrain": {
-        "*": [
-          "t_grass",
-          "t_grass",
-          "t_dirt",
-          "t_shrub_rose",
-          "t_shrub_lilac",
-          "t_tree_young",
-          "t_shrub_hydrangea",
-          "t_grass_long",
-          "t_woodchips",
-          "t_moss",
-          "t_grass_long",
-          "t_grass_dead"
-        ],
+        "*": [ [ "t_region_groundcover_forest", 2 ], "t_region_shrub_decorative" ],
         "'": [ "t_fence_barbed" ],
         "X": [ "t_strconc_wall" ],
         "+": [ "t_door_c" ],
@@ -215,7 +202,7 @@
         "1": [ "t_floor_red" ],
         "2": [ "t_floor_green" ],
         "3": [ "t_rad_platform" ],
-        "4": [ "t_card_industrial" ],
+        "4": [ "t_card_industrial" ]
       },
       "furniture": {
         "#": [ "f_bench" ],
@@ -223,7 +210,7 @@
         "0": [ "f_console" ],
         "5": [ "f_console" ],
         "6": [ "f_console" ],
-        "7": [ "f_console" ]
+        "7": [ "f_console" ],
         "S": [ "f_locker" ],
         "A": [ "f_locker" ],
         "j": [ "f_locker" ],

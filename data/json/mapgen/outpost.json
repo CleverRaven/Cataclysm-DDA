@@ -33,8 +33,8 @@
       ],
       "fill_ter": "t_thconc_floor",
       "terrain": {
-        " ": t_region_groundcover,
-        "x": t_region_groundcover,
+        " ": "t_region_groundcover",
+        "x": "t_region_groundcover",
         "-": "t_chainfence",
         "|": "t_chainfence",
         "/": "t_concrete_wall",
