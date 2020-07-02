@@ -1243,7 +1243,7 @@ class npc : public player
          */
         void setpos( const tripoint &pos ) override;
         void travel_overmap( const tripoint &pos );
-        npc_attitude get_attitude() const;
+        npc_attitude get_attitude() const override;
         void set_attitude( npc_attitude new_attitude );
         void set_mission( npc_mission new_mission );
         bool has_activity() const;
