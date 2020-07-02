@@ -716,7 +716,7 @@ int iuse::fungicide( player *p, item *it, bool, const tripoint & )
             if( here.passable( dest ) && x_in_y( spore_count, 8 ) ) {
                 if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
                     monster &critter = *mon_ptr;
-                    if( g->u.sees( dest ) &&
+                    if( get_player_character().sees( dest ) &&
                         !critter.type->in_species( species_FUNGUS ) ) {
                         add_msg( m_warning, _( "The %s is covered in tiny spores!" ),
                                  critter.name() );
@@ -2031,14 +2031,15 @@ int iuse::extinguisher( player *p, item *it, bool, const tripoint & )
             blind = true;
             critter.add_effect( effect_blind, rng( 1_minutes, 2_minutes ) );
         }
-        if( g->u.sees( critter ) ) {
+        Character &player_character = get_player_character();
+        if( player_character.sees( critter ) ) {
             p->add_msg_if_player( _( "The %s is sprayed!" ), critter.name() );
             if( blind ) {
                 p->add_msg_if_player( _( "The %s looks blinded." ), critter.name() );
             }
         }
         if( critter.made_of( phase_id::LIQUID ) ) {
-            if( g->u.sees( critter ) ) {
+            if( player_character.sees( critter ) ) {
                 p->add_msg_if_player( _( "The %s is frozen!" ), critter.name() );
             }
             critter.apply_damage( p, bodypart_id( "torso" ), rng( 20, 60 ) );
@@ -2410,8 +2411,9 @@ int iuse::hammer( player *p, item *it, bool, const tripoint & )
     };
 
     map &here = get_map();
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id, &here]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+    const std::function<bool( const tripoint & )> f =
+    [&allowed_ter_id, &here, p]( const tripoint & pnt ) {
+        if( pnt == p->pos() ) {
             return false;
         }
         const ter_id ter = here.ter( pnt );
@@ -2475,9 +2477,9 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
     };
 
     map &here = get_map();
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
-    &allowed_furn_id, &here]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+    const std::function<bool( const tripoint & )> f =
+    [&allowed_ter_id, &allowed_furn_id, &here, p]( const tripoint & pnt ) {
+        if( pnt == p->pos() ) {
             return false;
         }
         const ter_id ter = here.ter( pnt );
@@ -2854,28 +2856,28 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     }
 
     if( grave ) {
-        if( g->u.has_trait( trait_SPIRITUAL ) && !g->u.has_trait( trait_PSYCHOPATH ) &&
-            g->u.query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
+        if( p->has_trait( trait_SPIRITUAL ) && !p->has_trait( trait_PSYCHOPATH ) &&
+            p->query_yn( _( "Would you really touch the sacred resting place of the dead?" ) ) ) {
             add_msg( m_info, _( "Exhuming a grave is really against your beliefs." ) );
-            g->u.add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
+            p->add_morale( MORALE_GRAVEDIGGER, -50, -100, 48_hours, 12_hours );
             if( one_in( 3 ) ) {
-                g->u.vomit();
+                p->vomit();
             }
-        } else if( g->u.has_trait( trait_PSYCHOPATH ) ) {
+        } else if( p->has_trait( trait_PSYCHOPATH ) ) {
             p->add_msg_if_player( m_good,
                                   _( "Exhuming a grave is fun now, where there is no one to object." ) );
-            g->u.add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
-        } else if( !g->u.has_trait( trait_EATDEAD ) &&
-                   !g->u.has_trait( trait_SAPROVORE ) ) {
+            p->add_morale( MORALE_GRAVEDIGGER, 25, 50, 2_hours, 1_hours );
+        } else if( !p->has_trait( trait_EATDEAD ) &&
+                   !p->has_trait( trait_SAPROVORE ) ) {
             p->add_msg_if_player( m_bad, _( "Exhuming this grave is utterly disgusting!" ) );
-            g->u.add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
+            p->add_morale( MORALE_GRAVEDIGGER, -25, -50, 2_hours, 1_hours );
             if( one_in( 5 ) ) {
                 p->vomit();
             }
         }
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = p->get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
         break;
@@ -2982,8 +2984,9 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
     };
 
     map &here = get_map();
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id, &here]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+    const std::function<bool( const tripoint & )> f =
+    [&allowed_ter_id, &here, p]( const tripoint & pnt ) {
+        if( pnt == p->pos() ) {
             return false;
         }
         const ter_id type = here.ter( pnt );
@@ -3017,7 +3020,7 @@ int iuse::fill_pit( player *p, item *it, bool t, const tripoint & )
     } else {
         return 0;
     }
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = p->get_crafting_helpers();
     const int helpersize = p->get_num_crafting_helpers( 3 );
     moves = moves * ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
@@ -3059,7 +3062,7 @@ int iuse::clear_rubble( player *p, item *it, bool, const tripoint & )
     }
 
     int bonus = std::max( it->get_quality( quality_id( "DIG" ) ) - 1, 1 );
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = p->get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
         break;
@@ -3368,7 +3371,7 @@ int iuse::jackhammer( player *p, item *it, bool, const tripoint &pos )
         moves /= 2;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = p->get_crafting_helpers();
     const int helpersize = p->get_num_crafting_helpers( 3 );
     moves *= ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
@@ -3466,7 +3469,7 @@ int iuse::pickaxe( player *p, item *it, bool, const tripoint &pos )
         moves /= 2;
     }
 
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = p->get_crafting_helpers();
     const int helpersize = p->get_num_crafting_helpers( 3 );
     moves *= ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
@@ -3586,7 +3589,7 @@ int iuse::geiger( player *p, item *it, bool t, const tripoint &pos )
                 return 0;
             }
             const tripoint &pnt = *pnt_;
-            if( pnt == g->u.pos() ) {
+            if( pnt == p->pos() ) {
                 p->add_msg_if_player( m_info, _( "Your radiation level: %d mSv (%d mSv from items)" ), p->get_rad(),
                                       p->leak_level( "RADIOACTIVE" ) );
                 break;
@@ -3648,9 +3651,10 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
     if( tries == 10 ) {
         return 0;
     }
+    Character &player_character = get_player_character();
     if( monster *const mon_ptr = g->critter_at<monster>( goop ) ) {
         monster &critter = *mon_ptr;
-        if( g->u.sees( goop ) ) {
+        if( player_character.sees( goop ) ) {
             add_msg( _( "Black goo emerges from the canister and envelopes a %s!" ),
                      critter.name() );
         }
@@ -3659,7 +3663,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
         critter.set_speed_base( critter.get_speed_base() - rng( 5, 25 ) );
         critter.set_hp( critter.get_speed() );
     } else {
-        if( g->u.sees( goop ) ) {
+        if( player_character.sees( goop ) ) {
             add_msg( _( "Living black goo emerges from the canister!" ) );
         }
         if( monster *const goo = g->place_critter_at( mon_blob, goop ) ) {
@@ -3676,7 +3680,7 @@ int iuse::can_goo( player *p, item *it, bool, const tripoint & )
             found = here.passable( goop ) && here.tr_at( goop ).is_null();
         } while( !found && tries < 10 );
         if( found ) {
-            if( g->u.sees( goop ) ) {
+            if( player_character.sees( goop ) ) {
                 add_msg( m_warning, _( "A nearby splatter of goo forms into a goo pit." ) );
             }
             here.trap_set( goop, tr_goo );
@@ -3717,6 +3721,7 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
             auto modified_stat = current_stat + modify_by;
             current_stat = std::max( current_stat, std::min( 15, modified_stat ) );
         };
+        avatar &player_character = get_avatar();
         switch( effect_roll ) {
             case 1:
                 sounds::sound( pos, 100, sounds::sound_t::electronic_speech, _( "BUGFIXES!" ),
@@ -3749,21 +3754,22 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         buff_stat( person->int_max, rng( 0, person->int_max / 2 ) );
                         /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
                         buff_stat( person->per_max, rng( 0, person->per_max / 2 ) );
-                    } else if( g->u.pos() == dest ) {
+                    } else if( player_character.pos() == dest ) {
                         /** @EFFECT_STR_MAX increases possible granade str buff */
-                        buff_stat( g->u.str_max, rng( 0, g->u.str_max / 2 ) );
+                        buff_stat( player_character.str_max, rng( 0, player_character.str_max / 2 ) );
                         /** @EFFECT_DEX_MAX increases possible granade dex buff */
-                        buff_stat( g->u.dex_max, rng( 0, g->u.dex_max / 2 ) );
+                        buff_stat( player_character.dex_max, rng( 0, player_character.dex_max / 2 ) );
                         /** @EFFECT_INT_MAX increases possible granade int buff */
-                        buff_stat( g->u.int_max, rng( 0, g->u.int_max / 2 ) );
+                        buff_stat( player_character.int_max, rng( 0, player_character.int_max / 2 ) );
                         /** @EFFECT_PER_MAX increases possible granade per buff */
-                        buff_stat( g->u.per_max, rng( 0, g->u.per_max / 2 ) );
-                        g->u.recalc_hp();
-                        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
-                            g->u.set_part_hp_cur( bp, g->u.get_part_hp_cur( bp ) * rng_float( 1, 1.2 ) );
-                            const int hp_max = g->u.get_part_hp_max( bp );
-                            if( g->u.get_part_hp_cur( bp ) > hp_max ) {
-                                g->u.set_part_hp_cur( bp, hp_max );
+                        buff_stat( player_character.per_max, rng( 0, player_character.per_max / 2 ) );
+                        player_character.recalc_hp();
+                        for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
+                            player_character.set_part_hp_cur( bp, player_character.get_part_hp_cur( bp ) * rng_float( 1,
+                                                              1.2 ) );
+                            const int hp_max = player_character.get_part_hp_max( bp );
+                            if( player_character.get_part_hp_cur( bp ) > hp_max ) {
+                                player_character.set_part_hp_cur( bp, hp_max );
                             }
                         }
                     }
@@ -3789,20 +3795,20 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         person->int_max -= rng( 0, person->int_max / 2 );
                         /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
                         person->per_max -= rng( 0, person->per_max / 2 );
-                    } else if( g->u.pos() == dest ) {
+                    } else if( player_character.pos() == dest ) {
                         /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
-                        g->u.str_max -= rng( 0, g->u.str_max / 2 );
+                        player_character.str_max -= rng( 0, player_character.str_max / 2 );
                         /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
-                        g->u.dex_max -= rng( 0, g->u.dex_max / 2 );
+                        player_character.dex_max -= rng( 0, player_character.dex_max / 2 );
                         /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
-                        g->u.int_max -= rng( 0, g->u.int_max / 2 );
+                        player_character.int_max -= rng( 0, player_character.int_max / 2 );
                         /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
-                        g->u.per_max -= rng( 0, g->u.per_max / 2 );
-                        g->u.recalc_hp();
-                        for( const bodypart_id &bp : g->u.get_all_body_parts() ) {
-                            const int hp_cur = g->u.get_part_hp_cur( bp );
+                        player_character.per_max -= rng( 0, player_character.per_max / 2 );
+                        player_character.recalc_hp();
+                        for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
+                            const int hp_cur = player_character.get_part_hp_cur( bp );
                             if( hp_cur > 0 ) {
-                                g->u.set_part_hp_cur( bp, rng( 1, hp_cur ) );
+                                player_character.set_part_hp_cur( bp, rng( 1, hp_cur ) );
                             }
                         }
                     }
@@ -3821,9 +3827,9 @@ int iuse::granade_act( player *p, item *it, bool t, const tripoint &pos )
                         critter.clear_effects();
                     } else if( npc *const person = g->critter_at<npc>( dest ) ) {
                         person->environmental_revert_effect();
-                    } else if( g->u.pos() == dest ) {
-                        g->u.environmental_revert_effect();
-                        do_purify( g->u );
+                    } else if( player_character.pos() == dest ) {
+                        player_character.environmental_revert_effect();
+                        do_purify( player_character );
                     }
                 }
                 break;
@@ -4074,7 +4080,7 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
         }
     }
 
-    if( g->u.sees( *p ) ) {
+    if( get_player_character().sees( *p ) ) {
         if( converts == 0 ) {
             add_msg( _( "…but nothing happens." ) );
         } else if( converts == 1 ) {
@@ -4749,7 +4755,7 @@ int iuse::dog_whistle( player *p, item *it, bool, const tripoint & )
     p->add_msg_if_player( _( "You blow your dog whistle." ) );
     for( monster &critter : g->all_monsters() ) {
         if( critter.friendly != 0 && critter.has_flag( MF_DOGFOOD ) ) {
-            bool u_see = g->u.sees( critter );
+            bool u_see = get_player_character().sees( critter );
             if( critter.has_effect( effect_docile ) ) {
                 if( u_see ) {
                     p->add_msg_if_player( _( "Your %s looks ready to attack." ), critter.name() );
@@ -4959,8 +4965,8 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     map &here = get_map();
-    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+    const std::function<bool( const tripoint & )> f = [&here, p]( const tripoint & pnt ) {
+        if( pnt == p->pos() ) {
             return false;
         }
         return here.has_flag( "TREE", pnt );
@@ -4981,7 +4987,7 @@ int iuse::chop_tree( player *p, item *it, bool t, const tripoint & )
         return 0;
     }
     int moves = chop_moves( p, it );
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = p->get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
         break;
@@ -5025,7 +5031,7 @@ int iuse::chop_logs( player *p, item *it, bool t, const tripoint & )
     }
 
     int moves = chop_moves( p, it );
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = p->get_crafting_helpers();
     for( const npc *np : helpers ) {
         add_msg( m_info, _( "%s helps with this task…" ), np->name );
         break;
@@ -5074,9 +5080,9 @@ int iuse::oxytorch( player *p, item *it, bool, const tripoint & )
     };
 
     map &here = get_map();
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
-    &allowed_furn_id, &here]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+    const std::function<bool( const tripoint & )> f =
+    [&allowed_ter_id, &allowed_furn_id, &here, p]( const tripoint & pnt ) {
+        if( pnt == p->pos() ) {
             return false;
         }
         const ter_id ter = here.ter( pnt );
@@ -5165,9 +5171,9 @@ int iuse::hacksaw( player *p, item *it, bool t, const tripoint & )
         f_rack
     };
     map &here = get_map();
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id,
-    &allowed_furn_id, &here]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+    const std::function<bool( const tripoint & )> f =
+    [&allowed_ter_id, &allowed_furn_id, &here, p]( const tripoint & pnt ) {
+        if( pnt == p->pos() ) {
             return false;
         }
         const ter_id ter = here.ter( pnt );
@@ -5227,8 +5233,9 @@ int iuse::boltcutters( player *p, item *it, bool, const tripoint & )
         t_chainfence
     };
     map &here = get_map();
-    const std::function<bool( const tripoint & )> f = [&allowed_ter_id, &here]( const tripoint & pnt ) {
-        if( pnt == g->u.pos() ) {
+    const std::function<bool( const tripoint & )> f =
+    [&allowed_ter_id, &here, p]( const tripoint & pnt ) {
+        if( pnt == p->pos() ) {
             return false;
         }
         const ter_id ter = here.ter( pnt );
@@ -5448,7 +5455,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 bool blood = false;
                 for( const tripoint &tmp : here.points_in_radius( p->pos(), 4 ) ) {
                     if( !one_in( 4 ) && here.add_field( tmp, fd_blood, 3 ) &&
-                        ( blood || g->u.sees( tmp ) ) ) {
+                        ( blood || get_player_character().sees( tmp ) ) ) {
                         blood = true;
                     }
                 }
@@ -6123,7 +6130,8 @@ int iuse::gun_repair( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You need a mechanics skill of 2 to use this repair kit." ) );
         return 0;
     }
-    item_location loc = game_menus::inv::titled_menu( g->u, ( "Select the firearm to repair" ) );
+    item_location loc = game_menus::inv::titled_menu( get_avatar(),
+                        ( "Select the firearm to repair" ) );
     if( !loc ) {
         p->add_msg_if_player( m_info, _( "You do not have that item!" ) );
         return 0;
@@ -7417,7 +7425,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
             Creature *creature;
             if( mon && mon->has_effect( effect_ridden ) ) {
                 // only player can ride, see monexamine::mount_pet
-                guy = &g->u;
+                guy = &get_avatar();
                 description_figures_appearance[ mon->name() ] = "\"" + mon->type->get_description() + "\"";
             }
 
@@ -8540,7 +8548,8 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         return 0;
     }
 
-    point p2( g->u.view_offset.xy() );
+    avatar &player_character = get_avatar();
+    point p2( player_character.view_offset.xy() );
 
     vehicle *veh = pickveh( pos, choice == 0 );
 
@@ -8553,7 +8562,7 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
     }
 
     if( choice == 0 ) {
-        if( g->u.has_trait( trait_WAYFARER ) ) {
+        if( p->has_trait( trait_WAYFARER ) ) {
             add_msg( m_info,
                      _( "Despite using a controller, you still refuse to take control of this vehicle." ) );
         } else {
@@ -8574,8 +8583,8 @@ int iuse::remoteveh( player *p, item *it, bool t, const tripoint &pos )
         }
     }
 
-    g->u.view_offset.x = p2.x;
-    g->u.view_offset.y = p2.y;
+    player_character.view_offset.x = p2.x;
+    player_character.view_offset.y = p2.y;
     return it->type->charges_to_use();
 }
 
@@ -8895,7 +8904,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             std::vector<const recipe *> dishes;
 
-            inventory crafting_inv = g->u.crafting_inventory();
+            inventory crafting_inv = p->crafting_inventory();
             //add some tools and qualities. we can't add this qualities to json, because multicook must be used only by activating, not as component other crafts.
             crafting_inv.push_back( item( "hotplate", 0 ) ); //hotplate inside
             crafting_inv.push_back( item( "tongs", 0 ) ); //some recipes requires tongs
@@ -8904,7 +8913,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             int counter = 0;
 
-            for( const auto &r : g->u.get_learned_recipes().in_category( "CC_FOOD" ) ) {
+            for( const auto &r : get_avatar().get_learned_recipes().in_category( "CC_FOOD" ) ) {
                 if( multicooked_subcats.count( r->subcategory ) > 0 ) {
                     dishes.push_back( r );
                     const bool can_make = r->deduped_requirements().can_make_with_inventory(
@@ -8976,7 +8985,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
 
             bool has_tools = true;
 
-            const inventory &cinv = g->u.crafting_inventory();
+            const inventory &cinv = p->crafting_inventory();
 
             if( !cinv.has_amount( itype_soldering_iron, 1 ) ) {
                 p->add_msg_if_player( m_warning, _( "You need a %s." ),
@@ -9443,7 +9452,7 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
     const w_point weatherPoint = *g->weather.weather_precise;
 
     /* Possibly used twice. Worth spending the time to precalculate. */
-    const auto player_local_temp = g->weather.get_temperature( g->u.pos() );
+    const auto player_local_temp = g->weather.get_temperature( p->pos() );
 
     if( it->typeId() == itype_weather_reader ) {
         p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data…" ),
@@ -9463,12 +9472,12 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
                 print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
-                                                    g->is_sheltered( g->u.pos() ) ) ) );
+                                                    g->is_sheltered( p->pos() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
                 print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
-                                                    g->is_sheltered( g->u.pos() ) ) ) );
+                                                    g->is_sheltered( p->pos() ) ) ) );
         }
     }
     if( it->has_flag( "BAROMETER" ) ) {
@@ -9858,7 +9867,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
                               required.cleanser );
         return 0;
     }
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    const std::vector<npc *> helpers = p->get_crafting_helpers();
     const int helpersize = p->get_num_crafting_helpers( 3 );
     required.time = required.time * ( 1 - ( helpersize / 10 ) );
     for( const npc *np : helpers ) {
