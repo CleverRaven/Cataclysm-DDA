@@ -930,7 +930,7 @@
     "description": "This is a centrifuge, a liquid separating device with an automated analyzer unit.  For some reason, this one has an attached battery pack.  It could be used to analyze a medical fluid sample, such as blood, if a test tube was placed in it.",
     "symbol": "{",
     "color": "magenta",
-    "move_cost": -1,
+    "move_cost_mod": -1,
     "coverage": 30,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "PERMEABLE" ],

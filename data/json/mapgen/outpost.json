@@ -43,8 +43,7 @@
         "=": "t_door_locked",
         ";": "t_door_metal_c"
       },
-      "furniture": {,
-        "p": "f_compact_ASRG_containment"
+      "furniture": {
         "t": "f_table",
         "r": "f_rack",
         "c": "f_chair",
@@ -181,16 +180,15 @@
       ],
       "fill_ter": "t_thconc_floor",
       "terrain": {
-        " ": t_region_groundcover,
-        "x": t_region_groundcover,
+        " ": "t_region_groundcover",
+        "x": "t_region_groundcover",
         "-": "t_chainfence",
         "|": "t_chainfence",
         "/": "t_concrete_wall",
         "+": "t_chaingate_l",
         "*": "t_door_c",
         "=": "t_door_locked",
-        ";": "t_door_metal_c",
-        "p": "t_plut_generator"
+        ";": "t_door_metal_c"
       },
       "furniture": {
         "t": "f_table",

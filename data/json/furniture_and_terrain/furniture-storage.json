@@ -879,7 +879,7 @@
     }
   },
   {
-    "type": "terrain",
+    "type": "furniture",
     "id": "f_gas_tank",
     "name": "fuel tank",
     "description": "A tank filled with gasoline.",
@@ -900,7 +900,7 @@
     }
   },
   {
-    "type": "terrain",
+    "type": "furniture",
     "id": "f_gas_tank_smashed",
     "name": "broken fuel tank",
     "description": "A broken tank which was filled with gasoline.",
@@ -926,7 +926,7 @@
     }
   },
   {
-    "type": "terrain",
+    "type": "furniture",
     "id": "f_diesel_tank",
     "name": "fuel tank",
     "description": "A tank filled with diesel.",
@@ -947,7 +947,7 @@
     }
   },
   {
-    "type": "terrain",
+    "type": "furniture",
     "id": "f_diesel_tank_smashed",
     "name": "broken fuel tank",
     "description": "A broken tank which was filled with diesel.",
