@@ -422,7 +422,7 @@ static point draw_notes( const tripoint &origin )
         nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "EDIT_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
-        const input_context ctxt( nmenu.input_category );
+        const input_context ctxt( nmenu.input_category, keyboard_mode::keychar );
         nmenu.text = string_format(
                          _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
                          colorize( "RETURN", c_yellow ),

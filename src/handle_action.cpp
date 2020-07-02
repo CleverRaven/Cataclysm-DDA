@@ -168,7 +168,7 @@ input_context game::get_player_input( std::string &action )
 {
     input_context ctxt;
     if( uquit == QUIT_WATCH ) {
-        ctxt = input_context( "DEFAULTMODE" );
+        ctxt = input_context( "DEFAULTMODE", keyboard_mode::keychar );
         ctxt.set_iso( true );
         // The list of allowed actions in death-cam mode in game::handle_action
         // *INDENT-OFF*

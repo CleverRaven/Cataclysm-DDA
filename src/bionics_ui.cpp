@@ -67,7 +67,7 @@ char get_free_invlet( player &p )
 static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                    bionic_menu_mode mode )
 {
-    input_context ctxt( "BIONICS" );
+    input_context ctxt( "BIONICS", keyboard_mode::keychar );
 
     werase( window );
     std::string fuel_string;
@@ -505,7 +505,7 @@ void player::power_bionics()
     bionic_menu_mode menu_mode = ACTIVATING;
     int max_scroll_position = 0;
 
-    input_context ctxt( "BIONICS" );
+    input_context ctxt( "BIONICS", keyboard_mode::keychar );
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "TOGGLE_EXAMINE" );

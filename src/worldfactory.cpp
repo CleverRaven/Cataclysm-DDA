@@ -1242,7 +1242,7 @@ int worldfactory::show_worldgen_tab_confirm( const catacurses::window &win, WORL
     int namebar_x = 3 + utf8_width( _( "World Name:" ) );
 
     bool noname = false;
-    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG" );
+    input_context ctxt( "WORLDGEN_CONFIRM_DIALOG", keyboard_mode::keychar );
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ANY_INPUT" );

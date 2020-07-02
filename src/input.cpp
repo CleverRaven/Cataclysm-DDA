@@ -1192,7 +1192,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
     action_id action_to_execute = ACTION_NULL;
 
     // Shamelessly stolen from help.cpp
-    input_context ctxt( "HELP_KEYBINDINGS" );
+    input_context ctxt( "HELP_KEYBINDINGS", keyboard_mode::keychar );
     ctxt.register_action( "UP", to_translation( "Scroll up" ) );
     ctxt.register_action( "DOWN", to_translation( "Scroll down" ) );
     ctxt.register_action( "PAGE_DOWN" );
@@ -1498,7 +1498,7 @@ int input_manager::get_previously_pressed_key() const
 void input_manager::wait_for_any_key( const keyboard_mode preferred_keyboard_mode )
 {
 #if defined(__ANDROID__)
-    input_context ctxt( "WAIT_FOR_ANY_KEY" );
+    input_context ctxt( "WAIT_FOR_ANY_KEY", preferred_keyboard_mode );
 #endif
     while( true ) {
         const input_event evt = inp_mngr.get_input_event( preferred_keyboard_mode );

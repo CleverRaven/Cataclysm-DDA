@@ -87,7 +87,7 @@ std::vector<std::vector<std::string>> query_popup::fold_query(
                                        const std::vector<query_option> &options,
                                        const int max_width, const int horz_padding )
 {
-    input_context ctxt( category );
+    input_context ctxt( category, keyboard_mode::keychar );
 
     std::vector<std::vector<std::string>> folded_query;
     folded_query.emplace_back();
@@ -268,7 +268,7 @@ query_popup::result query_popup::query_once()
 
     ui_manager::redraw();
 
-    input_context ctxt( category );
+    input_context ctxt( category, keyboard_mode::keychar );
     if( cancel || !options.empty() ) {
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }

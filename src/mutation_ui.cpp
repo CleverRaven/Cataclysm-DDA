@@ -170,7 +170,7 @@ void player::power_mutations()
     } );
     ui.mark_resize();
 
-    input_context ctxt( "MUTATIONS" );
+    input_context ctxt( "MUTATIONS", keyboard_mode::keychar );
     ctxt.register_updown();
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "TOGGLE_EXAMINE" );

@@ -289,7 +289,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
     // Colors for hinting if the trade will be accepted or not.
     const nc_color trade_color = npc_will_accept_trade( np ) ? c_green : c_red;
 
-    input_context ctxt( "NPC_TRADE" );
+    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
 
     werase( w_head );
     fold_and_print( w_head, point_zero, getmaxx( w_head ), c_white,
@@ -421,7 +421,7 @@ void trading_window::show_item_data( size_t offset,
         wnoutrefresh( w_tmp );
     } );
 
-    input_context ctxt( "NPC_TRADE" );
+    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "ANY_INPUT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
@@ -491,7 +491,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
         weight_left = 5'000_kilogram;
     }
 
-    input_context ctxt( "NPC_TRADE" );
+    input_context ctxt( "NPC_TRADE", keyboard_mode::keychar );
     ctxt.register_action( "SWITCH_LISTS" );
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );

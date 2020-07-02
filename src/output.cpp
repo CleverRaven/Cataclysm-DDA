@@ -1024,7 +1024,7 @@ input_event draw_item_info( const std::function<catacurses::window()> &init_wind
         redraw();
     } );
 
-    input_context ctxt;
+    input_context ctxt( "default", keyboard_mode::keychar );
     if( data.handle_scrolling ) {
         ctxt.register_action( "PAGE_UP" );
         ctxt.register_action( "PAGE_DOWN" );

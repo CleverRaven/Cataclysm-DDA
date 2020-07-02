@@ -86,7 +86,7 @@ void string_input_popup::create_window()
 
 void string_input_popup::create_context()
 {
-    ctxt_ptr = std::make_unique<input_context>( "STRING_INPUT" );
+    ctxt_ptr = std::make_unique<input_context>( "STRING_INPUT", keyboard_mode::keychar );
     ctxt = ctxt_ptr.get();
     ctxt->register_action( "ANY_INPUT" );
 }

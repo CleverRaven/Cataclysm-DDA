@@ -1834,7 +1834,7 @@ void inventory_selector::draw_footer( const catacurses::window &w ) const
 inventory_selector::inventory_selector( Character &u, const inventory_selector_preset &preset )
     : u( u )
     , preset( preset )
-    , ctxt( "INVENTORY" )
+    , ctxt( "INVENTORY", keyboard_mode::keychar )
     , active_column_index( 0 )
     , mode( navigation_mode::ITEM )
     , own_inv_column( preset )

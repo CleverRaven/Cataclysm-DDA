@@ -1020,7 +1020,7 @@ action_id handle_main_menu()
 
 cata::optional<tripoint> choose_direction( const std::string &message, const bool allow_vertical )
 {
-    input_context ctxt( "DEFAULTMODE" );
+    input_context ctxt( "DEFAULTMODE", keyboard_mode::keychar );
     ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );
