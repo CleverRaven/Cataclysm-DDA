@@ -657,7 +657,7 @@ void emp_blast( const tripoint &p )
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), here.tername( p2 ) );
         }
-        here.ter_set( p2, t_console_broken );
+        here.furn_set( p2, f_console_broken );
         return;
     }
     // TODO: More terrain effects.

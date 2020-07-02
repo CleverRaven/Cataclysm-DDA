@@ -1559,8 +1559,7 @@ class jmapgen_computer : public jmapgen_piece
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             const point r( x.get(), y.get() );
-            dat.m.ter_set( r, t_console );
-            dat.m.furn_set( r, f_null );
+            dat.m.furn_set( r, f_console );
             computer *cpu = dat.m.add_computer( tripoint( r, dat.m.get_abs_sub().z ), name.translated(),
                                                 security );
             for( const auto &opt : options ) {
