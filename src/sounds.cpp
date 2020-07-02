@@ -1168,7 +1168,7 @@ void sfx::do_projectile_hit( const Creature &target )
     play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
 }
 
-void sfx::do_player_death_hurt( const player &target, bool death )
+void sfx::do_player_death_hurt( const Character &target, bool death )
 {
     int heard_volume = get_heard_volume( target.pos() );
     const bool male = target.male;
@@ -1514,7 +1514,7 @@ bool sfx::has_variant_sound( const std::string &, const std::string & )
 }
 void sfx::stop_sound_effect_fade( channel, int ) { }
 void sfx::stop_sound_effect_timed( channel, int ) {}
-void sfx::do_player_death_hurt( const player &, bool ) { }
+void sfx::do_player_death_hurt( const Character &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle( const std::string & ) { }
 /*@}*/
