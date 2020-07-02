@@ -4126,7 +4126,7 @@ int Character::get_thirst() const
 
 std::pair<std::string, nc_color> Character::get_thirst_description() const
 {
-    int thirst = get_thirst() - units::to_milliliter( stomach.get_water() + guts.get_water() ) / 10;
+    int thirst = get_thirst();
     std::string hydration_string;
     nc_color hydration_color = c_white;
     if( thirst > 520 ) {
@@ -4156,7 +4156,7 @@ std::pair<std::string, nc_color> Character::get_thirst_description() const
 
 std::pair<std::string, nc_color> Character::get_hunger_description() const
 {
-    int total_kcal = stored_calories + stomach.get_calories() + guts.get_calories();
+    int total_kcal = stored_calories + stomach.get_calories();
     int max_kcal = max_stored_calories();
     float days_left = static_cast<float>( total_kcal ) / bmr();
     float days_max = static_cast<float>( max_kcal ) / bmr();
@@ -4536,16 +4536,10 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     const bool mycus = has_trait( trait_M_DEPENDENT );
     const float kcal_per_time = bmr() / ( 12.0f * 24.0f );
     const int five_mins = ticks_between( from, to, 5_minutes );
-    const int half_hours = ticks_between( from, to, 30_minutes );
 
     if( five_mins > 0 ) {
-        // Digest nutrients in stomach, they are destined for the guts (except water)
-        food_summary digested_to_guts = stomach.digest( *this, rates, five_mins, half_hours );
-        // Digest nutrients in guts, they will be distributed to needs levels
-        food_summary digested_to_body = guts.digest( *this, rates, five_mins, half_hours );
-        // Water from stomach skips guts and gets absorbed by body
-        mod_thirst( -units::to_milliliter<int>( digested_to_guts.water ) / 5 );
-        guts.ingest( digested_to_guts );
+        // Digest nutrients in stomach
+        food_summary digested_to_body = stomach.digest( rates, five_mins );
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
         if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
             mod_stored_kcal( digested_to_body.nutr.kcal );
@@ -4607,7 +4601,8 @@ void Character::update_needs( int rate_multiplier )
     } else if( asleep ) {
         if( rates.recovery > 0.0f ) {
             int recovered = roll_remainder( rates.recovery * rate_multiplier );
-            if( get_fatigue() - recovered < -20 ) {
+            // Hibernation prevents waking up until you're hungry or thirsty
+            if( get_fatigue() - recovered < -20 && !is_hibernating() ) {
                 // Should be wake up, but that could prevent some retroactive regeneration
                 sleep.set_duration( 1_turns );
                 mod_fatigue( -25 );
@@ -4739,8 +4734,8 @@ needs_rates Character::calc_needs_rates() const
             rates.recovery += accelerated_recovery_rate;
         } else {
             // Hunger and thirst advance *much* more slowly whilst we hibernate.
-            rates.hunger *= ( 2.0f / 7.0f );
-            rates.thirst *= ( 2.0f / 7.0f );
+            rates.hunger *= ( 1.0f / 7.0f );
+            rates.thirst *= ( 1.0f / 7.0f );
         }
         rates.recovery -= static_cast<float>( get_perceived_pain() ) / 60;
 
@@ -4806,42 +4801,27 @@ void Character::check_needs_extremes()
             add_msg_if_player( m_bad, _( "You have starved to death." ) );
             g->events().send<event_type::dies_of_starvation>( getID() );
             hp_cur[hp_torso] = 0;
-        } else {
-            if( calendar::once_every( 1_hours ) ) {
-                std::string category;
-                if( stomach.contains() <= stomach.capacity( *this ) / 4 ) {
-                    if( get_kcal_percent() < 0.1f ) {
-                        category = "starving";
-                    } else if( get_kcal_percent() < 0.25f ) {
-                        category = "emaciated";
-                    } else if( get_kcal_percent() < 0.5f ) {
-                        category = "malnutrition";
-                    } else if( get_kcal_percent() < 0.8f ) {
-                        category = "low_cal";
-                    }
-                } else {
-                    if( get_kcal_percent() < 0.1f ) {
-                        category = "empty_starving";
-                    } else if( get_kcal_percent() < 0.25f ) {
-                        category = "empty_emaciated";
-                    } else if( get_kcal_percent() < 0.5f ) {
-                        category = "empty_malnutrition";
-                    } else if( get_kcal_percent() < 0.8f ) {
-                        category = "empty_low_cal";
-                    }
-                }
-                if( !category.empty() ) {
-                    const translation message = SNIPPET.random_from_category( category ).value_or( translation() );
-                    add_msg_if_player( m_warning, message );
-                }
-
+        } else if( calendar::once_every( 6_hours ) ) {
+            std::string category;
+            if( get_kcal_percent() < 0.1f ) {
+                category = "empty_starving";
+            } else if( get_kcal_percent() < 0.25f ) {
+                category = "empty_emaciated";
+            } else if( get_kcal_percent() < 0.5f ) {
+                category = "empty_malnutrition";
+            } else if( get_kcal_percent() < 0.8f ) {
+                category = "empty_low_cal";
             }
+            if( !category.empty() ) {
+                const translation message = SNIPPET.random_from_category( category ).value_or( translation() );
+                add_msg_if_player( m_warning, message );
+            }
+
         }
     }
 
     // Check if we're dying of thirst
-    if( is_player() && get_thirst() >= 600 && stomach.get_water() == 0_ml &&
-        guts.get_water() == 0_ml ) {
+    if( is_player() && get_thirst() >= 600 ) {
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
             g->events().send<event_type::dies_of_thirst>( getID() );
@@ -4970,14 +4950,8 @@ void Character::check_needs_extremes()
 
 bool Character::is_hibernating() const
 {
-    // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
-    // as a safety catch.  One test subject managed to get two Colds during hibernation;
-    // since those add fatigue and dry out the character, the subject went for the full 10 days plus
-    // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
-    // life like that--but since there's much less fluid reserve than food reserve,
-    // simply using the same numbers won't work.
-    return has_effect( effect_sleep ) && get_kcal_percent() > 0.8f &&
-           get_thirst() <= 80 && has_active_mutation( trait_HIBERNATE );
+    return has_effect( effect_sleep ) && get_kcal_percent() > 0.5f &&
+           get_thirst() <= 200 && has_active_mutation( trait_HIBERNATE );
 }
 
 /* Here lies the intended effects of body temperature
@@ -7538,16 +7512,18 @@ void Character::vomit()
                                _( "<npcname> vomits thousands of live spores!" ) );
         stomach.empty();
         fungal_effects( *g, g->m ).fungalize( pos(), this );
-    } else if( stomach.contains() != 0_ml ) {
+    } else if( stomach.get_calories() > 0 ) {
         add_msg_player_or_npc( m_bad, _( "You throw up heavily!" ), _( "<npcname> throws up heavily!" ) );
         stomach.empty();
         g->m.add_field( adjacent_tile(), fd_bile, 1 );
+    } else {
+        return;
     }
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
         const effect dummy_nausea( &effect_nausea.obj(), 0_turns, num_bp, false, 1, calendar::turn );
-        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * units::to_milliliter(
-                stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
+        add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() *
+                                             stomach.get_calories() / 100, dummy_nausea.get_int_dur_factor() ) );
     }
 
     moves -= 100;
@@ -7565,9 +7541,7 @@ void Character::vomit()
     remove_effect( effect_pkill2 );
     remove_effect( effect_pkill3 );
     // Don't wake up when just retching
-    if( stomach.contains() > 0_ml ) {
-        wake_up();
-    }
+    wake_up();
 }
 
 // adjacent_tile() returns a safe, unoccupied adjacent tile. If there are no such tiles, returns player position instead.
@@ -8564,7 +8538,7 @@ void Character::rooted_message() const
 }
 
 void Character::rooted()
-// Should average a point every two minutes or so; ground isn't uniformly fertile
+// Should average a point every two minutes or so
 {
     double shoe_factor = footwear_factor();
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
@@ -8994,17 +8968,19 @@ void Character::fall_asleep()
             add_msg_if_player( _( "You use your %s to keep warm." ), item_name );
         }
     }
-    if( has_active_mutation( trait_HIBERNATE ) &&
-        get_kcal_percent() > 0.8f ) {
-        if( is_avatar() ) {
-            g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
-                               pgettext( "memorial_female", "Entered hibernation." ) );
+    if( has_active_mutation( trait_HIBERNATE ) ) {
+        if( get_stored_kcal() > max_stored_calories() - bmr() / 4 && get_thirst() < -60 ) {
+            if( is_avatar() ) {
+                g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
+                                   pgettext( "memorial_female", "Entered hibernation." ) );
+            }
+
+            add_msg_if_player( _( "You enter hibernation." ) );
+            fall_asleep( 7_days );
+        } else {
+            add_msg_if_player( m_bad,
+                               _( "You need to be nearly full of food and water to enter hibernation." ) );
         }
-        // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.
-        fall_asleep( 10_days );
-        // If you're not fatigued enough for 10 days, you won't sleep the whole thing.
-        // In practice, the fatigue from filling the tank from (no msg) to Time For Bed
-        // will last about 8 days.
     }
 
     fall_asleep( 10_hours ); // default max sleep time.

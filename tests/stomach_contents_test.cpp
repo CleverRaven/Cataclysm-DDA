@@ -32,7 +32,6 @@ static void pass_time( player &p, time_duration amt )
 static void clear_stomach( player &p )
 {
     p.stomach.empty();
-    p.guts.empty();
 }
 
 static void set_all_vitamins( int target, player &p )
@@ -49,13 +48,8 @@ static void print_stomach_contents( player &p, const bool print )
     if( !print ) {
         return;
     }
-    printf( "stomach: %d guts: %d player: %d/%d hunger: %0.1f\n", p.stomach.get_calories(),
-            p.guts.get_calories(), p.get_stored_kcal(), p.get_healthy_kcal(), p.get_hunger() );
-    printf( "stomach: %d mL/ %d mL guts %d mL/ %d mL\n",
-            units::to_milliliter<int>( p.stomach.contains() ),
-            units::to_milliliter<int>( p.stomach.capacity( p ) ),
-            units::to_milliliter<int>( p.guts.contains() ),
-            units::to_milliliter<int>( p.guts.capacity( p ) ) );
+    printf( "stomach: %d player: %d/%d hunger: %0.1f\n", p.stomach.get_calories(),
+            p.get_stored_kcal(), p.get_healthy_kcal(), p.get_hunger() );
     printf( "metabolic rate: %.2f\n", p.metabolic_rate() );
 }
 
@@ -230,8 +224,7 @@ TEST_CASE( "Stomach calories become stored calories after less than 1 day", "[st
 
     int kcal_after = dummy.get_stored_kcal();
     int kcal_expected = kcal_before + 1000 - static_cast<float>( dummy.bmr() ) * test_time / 1_days;
-    CAPTURE( dummy.stomach.get_calories() );
-    CAPTURE( dummy.guts.get_calories() );
+    CHECK( dummy.stomach.get_calories() == 0 );
     CHECK( kcal_after >= kcal_expected * 0.95f );
     CHECK( kcal_after <= kcal_expected * 1.05f );
 }
@@ -247,7 +240,5 @@ TEST_CASE( "Eating food fills up stomach calories", "[stomach]" )
     do {
     } while( dummy.eat( food, true ) && --attempts > 0 );
     CAPTURE( dummy.stomach.get_calories() );
-    CAPTURE( dummy.guts.get_calories() );
     CHECK( dummy.stomach.get_calories() == 1000 );
-    CHECK( dummy.guts.get_calories() == 0 );
 }

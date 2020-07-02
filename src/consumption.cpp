@@ -77,7 +77,6 @@ static const trait_id trait_FANGS_SPIDER( "FANGS_SPIDER" );
 static const trait_id trait_GIZZARD( "GIZZARD" );
 static const trait_id trait_GOURMAND( "GOURMAND" );
 static const trait_id trait_HERBIVORE( "HERBIVORE" );
-static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_M_DEPENDENT( "M_DEPENDENT" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
@@ -132,8 +131,6 @@ static const std::string flag_FERTILIZER( "FERTILIZER" );
 static const std::string flag_FUNGAL_VECTOR( "FUNGAL_VECTOR" );
 static const std::string flag_INEDIBLE( "INEDIBLE" );
 static const std::string flag_LUPINE( "LUPINE" );
-static const std::string flag_MELTS( "MELTS" );
-static const std::string flag_MUSHY( "MUSHY" );
 static const std::string flag_MYCUS_OK( "MYCUS_OK" );
 static const std::string flag_NEGATIVE_MONOTONY_OK( "NEGATIVE_MONOTONY_OK" );
 static const std::string flag_NO_PARASITES( "NO_PARASITES" );
@@ -695,7 +692,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     const bool edible = comest->comesttype == comesttype_FOOD || food.has_flag( flag_USE_EAT_VERB );
 
-    if( edible && has_effect( effect_nausea ) ) {
+    if( comest->has_calories() && has_effect( effect_nausea ) ) {
         add_consequence( _( "You still feel nauseous and will probably puke it all up again." ), NAUSEA );
     }
 
@@ -714,7 +711,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
 
     int food_kcal = compute_effective_nutrients( food ).kcal;
     if( !food.has_infinite_charges() && food_kcal > 0 &&
-        get_stored_kcal() + stomach.get_calories() + guts.get_calories() + food_kcal
+        get_stored_kcal() + stomach.get_calories() + food_kcal
         > max_stored_calories() ) {
         add_consequence( _( "You're full already and the excess food will be wasted." ), TOO_FULL );
     }
@@ -774,9 +771,7 @@ bool player::eat( item &food, bool force )
     // Note: the block below assumes we decided to eat it
     // No coming back from here
 
-    const bool hibernate = has_active_mutation( trait_HIBERNATE );
     const int nutr = nutrition_for( food );
-    const int quench = food.get_comestible()->quench;
     const bool spoiled = food.rotten();
 
     // The item is solid food
@@ -786,17 +781,6 @@ bool player::eat( item &food, bool force )
     const bool drinkable = !chew && food.get_comestible()->comesttype == comesttype_DRINK;
     // If neither of the above is true then it's a drug and shouldn't get mealtime penalty/bonus
 
-    if( hibernate &&
-        ( get_hunger() > -60 && get_thirst() > -60 ) &&
-        ( get_hunger() - nutr < -60 || get_thirst() - quench < -60 ) ) {
-        add_msg_if_player(
-            _( "You've begun stockpiling calories and liquid for hibernation.  You get the feeling that you should prepare for bed, just in case, but… you're hungry again, and you could eat a whole week's worth of food RIGHT NOW." ) );
-    }
-
-    const bool will_vomit = stomach.stomach_remaining( *this ) < food.volume() &&
-                            rng( units::to_milliliter( stomach.capacity( *this ) ) / 2,
-                                 units::to_milliliter( stomach.contains() ) ) > units::to_milliliter(
-                                stomach.capacity( *this ) );
     const bool saprophage = has_trait( trait_SAPROPHAGE );
     if( spoiled && !saprophage ) {
         add_msg_if_player( m_bad, _( "Ick, this %s doesn't taste so good…" ), food.tname() );
@@ -890,14 +874,8 @@ bool player::eat( item &food, bool force )
         add_effect( effect_fungus, 1_turns, num_bp, true );
     }
 
-    // The fun changes for these effects are applied in fun_for().
-    if( food.has_flag( flag_MUSHY ) ) {
-        add_msg_if_player( m_bad,
-                           _( "You try to ignore its mushy texture, but it leaves you with an awful aftertaste." ) );
-    }
-
     // Chance to become parasitised
-    if( !will_vomit && !( has_bionic( bio_digestion ) || has_trait( trait_PARAIMMUNE ) ) ) {
+    if( !( has_bionic( bio_digestion ) || has_trait( trait_PARAIMMUNE ) ) ) {
         if( food.get_comestible()->parasites > 0 && !food.has_flag( flag_NO_PARASITES ) &&
             one_in( food.get_comestible()->parasites ) ) {
             switch( rng( 0, 3 ) ) {
@@ -922,10 +900,6 @@ bool player::eat( item &food, bool force )
         if( rng( 1, 100 ) <= elem.second ) {
             expose_to_disease( elem.first );
         }
-    }
-
-    if( will_vomit ) {
-        vomit();
     }
 
     consumption_history.emplace_back( food );
@@ -1172,45 +1146,10 @@ bool Character::consume_effects( item &food )
     modify_addiction( comest );
     modify_morale( food, nutr );
 
-    const bool hibernate = has_active_mutation( trait_HIBERNATE );
-    if( hibernate ) {
-        if( ( nutr > 0 && get_hunger() < -60 ) || ( comest.quench > 0 && get_thirst() < -60 ) ) {
-            // Tell the player what's going on
-            add_msg_if_player( _( "You gorge yourself, preparing to hibernate." ) );
-            if( one_in( 2 ) ) {
-                // 50% chance of the food tiring you
-                mod_fatigue( nutr );
-            }
-        }
-        if( ( nutr > 0 && get_hunger() < -200 ) || ( comest.quench > 0 && get_thirst() < -200 ) ) {
-            // Hibernation should cut burn to 60/day
-            add_msg_if_player( _( "You feel stocked for a day or two.  Got your bed all ready and secured?" ) );
-            if( one_in( 2 ) ) {
-                // And another 50%, intended cumulative
-                mod_fatigue( nutr );
-            }
-        }
-
-        if( ( nutr > 0 && get_hunger() < -400 ) || ( comest.quench > 0 && get_thirst() < -400 ) ) {
-            add_msg_if_player(
-                _( "Mmm.  You can still fit some more in… but maybe you should get comfortable and sleep." ) );
-            if( !one_in( 3 ) ) {
-                // Third check, this one at 66%
-                mod_fatigue( nutr );
-            }
-        }
-        if( ( nutr > 0 && get_hunger() < -600 ) || ( comest.quench > 0 && get_thirst() < -600 ) ) {
-            add_msg_if_player( _( "That filled a hole!  Time for bed…" ) );
-            // At this point, you're done.  Schlaf gut.
-            mod_fatigue( nutr );
-        }
-    }
-
     // Moved here and changed a bit - it was too complex
     // Incredibly minor stuff like this shouldn't require complexity
     if( !is_npc() && has_trait( trait_SLIMESPAWNER ) &&
-        ( max_stored_calories() < get_stored_kcal() + 4000 &&
-          get_thirst() - stomach.get_water() / 5_ml < -20 ) && get_thirst() < 40 ) {
+        max_stored_calories() < get_stored_kcal() + 4000 && get_thirst() < 40 ) {
         add_msg_if_player( m_mixed,
                            _( "You feel as though you're going to split open!  In a good way?" ) );
         mod_pain( 5 );
@@ -1229,11 +1168,7 @@ bool Character::consume_effects( item &food )
 
     // Set up food for ingestion
     const item &contained_food = food.is_container() ? food.get_contained() : food;
-    // TODO: Move quench values to mL and remove the magic number here
-    units::volume water = contained_food.type->comestible->quench * 5_ml;
     food_summary ingested{
-        water,
-        contained_food.base_volume() - std::max( water, 0_ml ),
         compute_effective_nutrients( contained_food )
     };
     // Maybe move tapeworm to digestion
@@ -1241,8 +1176,8 @@ bool Character::consume_effects( item &food )
         ingested.nutr /= 2;
     }
 
-    // GET IN MAH BELLY!
     stomach.ingest( ingested );
+    mod_thirst( -contained_food.type->comestible->quench );
     return true;
 }
 

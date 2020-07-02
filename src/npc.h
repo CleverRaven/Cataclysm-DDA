@@ -1187,7 +1187,6 @@ class npc : public player
         /** Returns true if food was consumed, false otherwise. */
         bool consume_food();
         bool consume_food_from_camp();
-        int get_thirst() const override;
 
         // Movement on the overmap scale
         // Do we have a long-term destination?

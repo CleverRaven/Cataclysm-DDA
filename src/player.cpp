@@ -483,7 +483,7 @@ int player::thirst_speed_penalty( int thirst )
     // We die at 1200 thirst
     // Start by dropping speed really fast, but then level it off a bit
     static const std::vector<std::pair<float, float>> thirst_thresholds = {{
-            std::make_pair( 40.0f, 0.0f ),
+            std::make_pair( 80.0f, 0.0f ),
             std::make_pair( 300.0f, -25.0f ),
             std::make_pair( 600.0f, -50.0f ),
             std::make_pair( 1200.0f, -75.0f )
@@ -503,7 +503,7 @@ void player::recalc_speed_bonus()
 
     mod_speed_bonus( -get_pain_penalty().speed );
 
-    if( get_thirst() > 40 ) {
+    if( get_thirst() > 80 ) {
         mod_speed_bonus( thirst_speed_penalty( get_thirst() ) );
     }
     // when underweight, you get slower. cumulative with hunger
@@ -1752,8 +1752,8 @@ double player::vomit_mod()
         mod *= 3;
     }
     // If you're already nauseous, any food in your stomach greatly
-    // increases chance of vomiting. Liquids don't provoke vomiting, though.
-    if( stomach.contains() != 0_ml && has_effect( effect_nausea ) ) {
+    // increases chance of vomiting. Water doesn't provoke vomiting, though.
+    if( stomach.get_calories() > 0 && has_effect( effect_nausea ) ) {
         mod *= 5 * get_effect_int( effect_nausea );
     }
     return mod;

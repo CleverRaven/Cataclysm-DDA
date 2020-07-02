@@ -1045,7 +1045,7 @@ void Character::suffer_from_radiation()
         if( get_option<bool>( "RAD_MUTATION" ) && rng( 100, 10000 ) < get_rad() ) {
             mutate();
             mod_rad( -50 );
-        } else if( get_rad() > 50 && rng( 1, 3000 ) < get_rad() && ( stomach.contains() > 0_ml ||
+        } else if( get_rad() > 50 && rng( 1, 3000 ) < get_rad() && ( stomach.get_calories() > 0 ||
                    radiation_increasing || !in_sleep_state() ) ) {
             vomit();
             mod_rad( -1 );

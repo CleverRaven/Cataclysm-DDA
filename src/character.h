@@ -367,7 +367,7 @@ class Character : public Creature, public visitable<Character>
         int max_stored_calories() const;
         float get_kcal_percent() const;
         float get_hunger() const;
-        virtual int get_thirst() const;
+        int get_thirst() const;
         std::pair<std::string, nc_color> get_thirst_description() const;
         std::pair<std::string, nc_color> get_hunger_description() const;
         std::pair<std::string, nc_color> get_fatigue_description() const;
@@ -1585,7 +1585,6 @@ class Character : public Creature, public visitable<Character>
         character_martial_arts martial_arts_data;
 
         stomach_contents stomach;
-        stomach_contents guts;
         std::list<consumption_event> consumption_history;
 
         int oxygen;

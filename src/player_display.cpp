@@ -1058,7 +1058,7 @@ static void draw_initial_windows( const catacurses::window &w_stats,
                    pgettext( "speed penalty", "Pain                -%2d%%" ), pen );
         line++;
     }
-    if( you.get_thirst() > 40 ) {
+    if( you.get_thirst() > 80 ) {
         pen = std::abs( player::thirst_speed_penalty( you.get_thirst() ) );
         mvwprintz( w_speed, point( 1, line ), c_red,
                    pgettext( "speed penalty", "Thirst              -%2d%%" ), pen );

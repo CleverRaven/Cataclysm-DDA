@@ -246,7 +246,7 @@ static void eff_fun_hallu( player &u, effect &it )
             u.add_msg_if_player( m_warning, _( "Something feels very, very wrong." ) );
         }
     } else if( dur > peakTime && dur < comeupTime ) {
-        if( u.stomach.contains() > 0_ml && ( one_in( 1200 ) || x_in_y( u.vomit_mod(), 300 ) ) ) {
+        if( u.stomach.get_calories() > 0 && ( one_in( 1200 ) || x_in_y( u.vomit_mod(), 300 ) ) ) {
             u.add_msg_if_player( m_bad, _( "You feel sick to your stomach." ) );
             u.mod_hunger( -2 );
             if( one_in( 6 ) ) {

@@ -433,7 +433,7 @@ static int alcohol( player &p, const item &it, const int strength )
                    36_seconds, 1_minutes, 1_minutes ) * p.str_max );
         // Metabolizing the booze improves the nutritional value;
         // might not be healthy, and still causes Thirst problems, though
-        p.stomach.mod_nutr( -( std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
+        p.mod_hunger( -( std::abs( it.get_comestible() ? it.type->comestible->stim : 0 ) ) );
         // Metabolizing it cancels out the depressant
         p.mod_stim( std::abs( it.get_comestible() ? it.get_comestible()->stim : 0 ) );
     } else if( p.has_trait( trait_TOLERANCE ) ) {
@@ -690,7 +690,6 @@ int iuse::antiparasitic( player *p, item *it, bool, const tripoint & )
     }
     if( p->has_effect( effect_tapeworm ) ) {
         p->remove_effect( effect_tapeworm );
-        p->guts.mod_nutr( -1 ); // You just digested the tapeworm.
         if( p->has_trait( trait_NOPAIN ) ) {
             p->add_msg_if_player( m_good, _( "Your bowels clench as something inside them dies." ) );
         } else {
@@ -1018,9 +1017,8 @@ int iuse::blech( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_bad, _( "Blech, that tastes gross!" ) );
         //reverse the harmful values of drinking this acid.
         double multiplier = -1;
-        p->stomach.mod_nutr( -p->nutrition_for( *it ) * multiplier );
-        p->mod_thirst( -it->get_comestible()->quench * multiplier );
-        p->stomach.mod_quench( 20 ); //acidproof people can drink acids like diluted water.
+        p->mod_hunger( -p->nutrition_for( *it ) * multiplier );
+        p->mod_thirst( -it->get_comestible()->quench * multiplier + 20 );
         p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
                             it->get_comestible()->healthy * multiplier );
         p->add_morale( MORALE_FOOD_BAD, it->get_comestible_fun() * multiplier, 60, 1_hours, 30_minutes,
@@ -1063,7 +1061,7 @@ int iuse::plantblech( player *p, item *it, bool, const tripoint &pos )
         }
 
         //reverses the harmful values of drinking fertilizer
-        p->stomach.mod_nutr( p->nutrition_for( *it ) * multiplier );
+        p->mod_hunger( p->nutrition_for( *it ) * multiplier );
         p->mod_thirst( -it->get_comestible()->quench * multiplier );
         p->mod_healthy_mod( it->get_comestible()->healthy * multiplier,
                             it->get_comestible()->healthy * multiplier );
@@ -1292,18 +1290,8 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
             p.set_rad( 0 );
         }
     } else if( effect == 7 ) {
-
-        // previously used to set hunger to -10. with the new system, needs to do something
-        // else that actually makes sense, so it is a little bit more involved.
-        units::volume fulfill_vol = std::max( p.stomach.capacity( p ) / 8 - p.stomach.contains(), 0_ml );
-        if( fulfill_vol != 0_ml ) {
-            p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
-            int fulfill_cal = units::to_milliliter( fulfill_vol * 6 );
-            p.stomach.mod_calories( fulfill_cal );
-            p.stomach.mod_contents( fulfill_vol );
-        } else {
-            p.add_msg_if_player( m_bad, _( "It is delicious, but you can't eat any more." ) );
-        }
+        p.add_msg_if_player( m_good, _( "It is delicious, and very filling!" ) );
+        p.set_hunger( 0 );
     } else if( effect == 8 ) {
         p.add_msg_if_player( m_bad, _( "You take one bite, and immediately vomit!" ) );
         p.vomit();
