@@ -867,7 +867,7 @@
     "default_faction": "dilophosaurus",
     "symbol": "D",
     "color": "magenta_green",
-    "volume": "400000 ml",
+    "volume": "400 L",
     "weight": "400 kg",
     "material": [ "flesh" ],
     "aggression": 10,
