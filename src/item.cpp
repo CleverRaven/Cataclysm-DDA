@@ -879,6 +879,36 @@ item item::in_container( const itype_id &cont, int qty ) const
     return *this;
 }
 
+void item::update_modified_pockets()
+{
+    cata::optional<const pocket_data *> mag_or_mag_well;
+    std::vector<const pocket_data *> container_pockets;
+
+    for( const pocket_data &pocket : type->pockets ) {
+        if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
+            container_pockets.push_back( &pocket );
+        } else if( pocket.type == item_pocket::pocket_type::MAGAZINE ||
+                   pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+            mag_or_mag_well = &pocket;
+        }
+    }
+
+    for( const item *mod : mods() ) {
+        if( mod->type->mod ) {
+            for( const pocket_data &pocket : mod->type->mod->add_pockets ) {
+                if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
+                    container_pockets.push_back( &pocket );
+                } else if( pocket.type == item_pocket::pocket_type::MAGAZINE ||
+                           pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+                    mag_or_mag_well = &pocket;
+                }
+            }
+        }
+    }
+
+    contents.update_modified_pockets( mag_or_mag_well, container_pockets );
+}
+
 int item::charges_per_volume( const units::volume &vol ) const
 {
     if( count_by_charges() ) {
@@ -7393,6 +7423,11 @@ std::vector<item *> item::gunmods()
 std::vector<const item *> item::gunmods() const
 {
     return contents.gunmods();
+}
+
+std::vector<const item *> item::mods() const
+{
+    return contents.mods();
 }
 
 item *item::gunmod_find( const itype_id &mod )

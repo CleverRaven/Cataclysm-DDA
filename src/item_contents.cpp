@@ -1018,6 +1018,81 @@ std::vector<const item *> item_contents::gunmods() const
     return mods;
 }
 
+std::vector<const item *> item_contents::mods() const
+{
+    std::vector<const item *> mods;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
+            for( const item *it : pocket.all_items_top() ) {
+                mods.insert( mods.end(), it );
+            }
+        }
+    }
+    return mods;
+}
+
+void item_contents::update_modified_pockets(
+    const cata::optional<const pocket_data *> &mag_or_mag_well,
+    std::vector<const pocket_data *> container_pockets )
+{
+    for( auto pocket_iter = contents.begin(); pocket_iter != contents.end(); ) {
+        item_pocket &pocket = *pocket_iter;
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+
+            const pocket_data *current = pocket.get_pocket_data();
+            bool found = false;
+            // this loop is to make sure the pockets on the current item are already here from @container_pockets,
+            // so we don't need to clear them (saving the favorite data)
+            for( auto container_pocket = container_pockets.begin(); container_pocket != container_pockets.end();
+               ) {
+                // comparing pointers because each pocket is uniquely defined in json as its own.
+                if( *container_pocket == current ) {
+                    container_pocket = container_pockets.erase( container_pocket );
+                    found = true;
+                    // there will not be more than one pocket with the same pocket_data pointer, so exit early
+                    break;
+                } else {
+                    ++container_pocket;
+                }
+            }
+
+            if( !found ) {
+                if( !pocket.empty() ) {
+                    // in case the debugmsg wasn't clear, this should never happen
+                    debugmsg( "Oops! deleted some items when updating pockets that were added via toolmods" );
+                }
+                pocket_iter = contents.erase( pocket_iter );
+            } else {
+                ++pocket_iter;
+            }
+
+        } else if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ||
+                   pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            if( mag_or_mag_well ) {
+                if( pocket.get_pocket_data() != *mag_or_mag_well ) {
+                    if( !pocket.empty() ) {
+                        // in case the debugmsg wasn't clear, this should never happen
+                        debugmsg( "Oops! deleted some items when updating pockets that were added via toolmods" );
+                    }
+                    contents.push_back( item_pocket( *mag_or_mag_well ) );
+                    pocket_iter = contents.erase( pocket_iter );
+                } else {
+                    ++pocket_iter;
+                }
+            } else {
+                // no mag or mag well, so it needs to be erased
+                pocket_iter = contents.erase( pocket_iter );
+            }
+        }
+    }
+
+    // we've deleted all of the superfluous copies already, so time to add the new pockets
+    for( const pocket_data *container_pocket : container_pockets ) {
+        contents.push_back( item_pocket( container_pocket ) );
+    }
+
+}
+
 std::set<itype_id> item_contents::magazine_compatible() const
 {
     std::set<itype_id> ret;

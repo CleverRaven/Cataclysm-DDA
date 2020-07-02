@@ -121,6 +121,8 @@ class item_pocket
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
         bool is_standard_type() const;
 
+        const pocket_data *get_pocket_data() const;
+
         std::list<item *> all_items_top();
         std::list<const item *> all_items_top() const;
         std::list<item *> all_items_ptr( pocket_type pk_type );
