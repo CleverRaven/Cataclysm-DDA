@@ -348,7 +348,7 @@ class input_manager
          * Wait until the user presses a key. Mouse and similar input is ignored,
          * only input events from the keyboard are considered.
          */
-        void wait_for_any_key( keyboard_mode preferred_keyboard_mode = keyboard_mode::keychar );
+        void wait_for_any_key();
 
         /**
          * Sets global input polling timeout as appropriate for the current interface system.

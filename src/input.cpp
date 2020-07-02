@@ -1495,13 +1495,13 @@ int input_manager::get_previously_pressed_key() const
     return previously_pressed_key;
 }
 
-void input_manager::wait_for_any_key( const keyboard_mode preferred_keyboard_mode )
+void input_manager::wait_for_any_key()
 {
 #if defined(__ANDROID__)
-    input_context ctxt( "WAIT_FOR_ANY_KEY", preferred_keyboard_mode );
+    input_context ctxt( "WAIT_FOR_ANY_KEY", keyboard_mode::keycode );
 #endif
     while( true ) {
-        const input_event evt = inp_mngr.get_input_event( preferred_keyboard_mode );
+        const input_event evt = inp_mngr.get_input_event( keyboard_mode::keycode );
         switch( evt.type ) {
             case input_event_t::keyboard_char:
                 if( !evt.sequence.empty() ) {
