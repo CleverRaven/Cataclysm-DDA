@@ -20,7 +20,8 @@
         [ "wastebread", 1 ],
         [ "cornbread", 1 ],
         [ "macaroni_raw", 1 ],
-        [ "spaghetti_raw", 1 ]
+        [ "spaghetti_raw", 1 ],
+        [ "ruined_chunks", 1 ]
       ]
     ]
   }
