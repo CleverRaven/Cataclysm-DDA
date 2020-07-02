@@ -864,8 +864,7 @@ static int get_int_digits( const int &digits )
 
 static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_index )
 {
-    const bool no_feeling = u.has_trait( trait_NOPAIN );
-    const bool is_self_aware = u.has_trait( trait_SELFAWARE ) && !no_feeling;
+    const bool is_self_aware = u.has_trait( trait_SELFAWARE );
     static auto print_symbol_num = []( const catacurses::window & w, int num, const std::string & sym,
     const nc_color & color ) {
         while( num-- > 0 ) {
@@ -887,13 +886,11 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {
                 limb = string_format( "=%2d%%=", mend_perc );
                 color = c_blue;
-            } else if( !no_feeling ) {
+            } else {
                 const int num = mend_perc / 20;
                 print_symbol_num( w, num, "#", c_blue );
                 print_symbol_num( w, 5 - num, "=", c_blue );
                 return;
-            } else {
-                color = c_blue;
             }
         }
 
@@ -905,13 +902,6 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
         wprintz( w, hp.second, "%3d  ", u.hp_cur[limb_index] );
-    } else if( no_feeling ) {
-        if( u.hp_cur[limb_index] < u.hp_max[limb_index] / 2 ) {
-            hp = std::make_pair( string_format( " %s", _( "Bad" ) ), c_red );
-        } else {
-            hp = std::make_pair( string_format( " %s", _( "Good" ) ), c_green );
-        }
-        wprintz( w, hp.second, hp.first );
     } else {
         wprintz( w, hp.second, hp.first );
 
