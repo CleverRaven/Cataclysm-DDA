@@ -462,7 +462,7 @@
       { "id": "FILE", "level": 1 },
       { "id": "WRENCH", "level": 1 },
       { "id": "DRILL", "level": 2 },
-      { "id": "WELD", "level": 1 },
+      { "id": "WELD", "level": 1 }
     ],
     "tools": [
       [
