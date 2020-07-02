@@ -1721,6 +1721,7 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
                             : input_context::allow_all_keys;
 
     const auto &action = query_popup()
+                         .preferred_keyboard_mode( keyboard_mode::keychar )
                          .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
                          .message( force_uc ?
                                    pgettext( "cancel_activity_or_ignore_query",

@@ -286,6 +286,7 @@ void player::power_mutations()
                         query_popup pop;
                         pop.message( _( "%s; enter new letter." ),
                                      mutation_branch::get_name( mut_id ) )
+                        .preferred_keyboard_mode( keyboard_mode::keychar )
                         .context( "POPUP_WAIT" )
                         .allow_cancel( true )
                         .allow_anykey( true );

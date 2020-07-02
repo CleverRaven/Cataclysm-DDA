@@ -1764,6 +1764,15 @@ static int sdl_keysym_to_curses( const SDL_Keysym &keysym )
 
 static input_event sdl_keysym_to_keycode_evt( const SDL_Keysym &keysym )
 {
+    switch( keysym.sym ) {
+        case SDLK_LCTRL:
+        case SDLK_LSHIFT:
+        case SDLK_LALT:
+        case SDLK_RCTRL:
+        case SDLK_RSHIFT:
+        case SDLK_RALT:
+            return input_event();
+    }
     input_event evt;
     evt.type = input_event_t::keyboard_code;
     if( keysym.mod & KMOD_CTRL ) {

@@ -13,7 +13,7 @@ extern bool test_mode;
 
 query_popup::query_popup()
     : cur( 0 ), default_text_color( c_white ), anykey( false ), cancel( false ), ontop( false ),
-      fullscr( false )
+      fullscr( false ), pref_kbd_mode( keyboard_mode::keycode )
 {
 }
 
@@ -82,12 +82,20 @@ query_popup &query_popup::default_color( const nc_color &d_color )
     return *this;
 }
 
+query_popup &query_popup::preferred_keyboard_mode( const keyboard_mode mode )
+{
+    invalidate_ui();
+    pref_kbd_mode = mode;
+    return *this;
+}
+
 std::vector<std::vector<std::string>> query_popup::fold_query(
                                        const std::string &category,
+                                       const keyboard_mode pref_kbd_mode,
                                        const std::vector<query_option> &options,
                                        const int max_width, const int horz_padding )
 {
-    input_context ctxt( category, keyboard_mode::keychar );
+    input_context ctxt( category, pref_kbd_mode );
 
     std::vector<std::vector<std::string>> folded_query;
     folded_query.emplace_back();
@@ -151,7 +159,8 @@ void query_popup::init() const
     folded_msg = foldstring( text, max_line_width );
 
     // Fold query buttons
-    const auto &folded_query = fold_query( category, options, max_line_width, horz_padding );
+    const auto &folded_query = fold_query( category, pref_kbd_mode, options, max_line_width,
+                                           horz_padding );
 
     // Calculate size of message part
     int msg_width = 0;
@@ -268,7 +277,7 @@ query_popup::result query_popup::query_once()
 
     ui_manager::redraw();
 
-    input_context ctxt( category, keyboard_mode::keychar );
+    input_context ctxt( category, pref_kbd_mode );
     if( cancel || !options.empty() ) {
         ctxt.register_action( "HELP_KEYBINDINGS" );
     }

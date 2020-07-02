@@ -1395,6 +1395,7 @@ action_id input_context::display_menu( const bool permit_execute_action )
                 popup( _( "There are already local keybindings defined for this action, please remove them first." ) );
             } else if( status == s_add || status == s_add_global ) {
                 const input_event new_event = query_popup()
+                                              .preferred_keyboard_mode( preferred_keyboard_mode )
                                               .message( _( "New key for %s" ), name )
                                               .allow_anykey( true )
                                               .query()

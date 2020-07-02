@@ -180,6 +180,7 @@ bool Pickup::query_thief()
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
                             : input_context::allow_all_keys;
     std::string answer = query_popup()
+                         .preferred_keyboard_mode( keyboard_mode::keychar )
                          .allow_cancel( false )
                          .context( "YES_NO_ALWAYS_NEVER" )
                          .message( "%s", force_uc

@@ -689,6 +689,7 @@ bool query_yn( const std::string &text )
                             : input_context::allow_all_keys;
 
     return query_popup()
+           .preferred_keyboard_mode( keyboard_mode::keychar )
            .context( "YESNO" )
            .message( force_uc ?
                      pgettext( "query_yn", "%s (Case Sensitive)" ) :
@@ -736,6 +737,7 @@ std::vector<std::string> get_hotkeys( const std::string &s )
 int popup( const std::string &text, PopupFlags flags )
 {
     query_popup pop;
+    pop.preferred_keyboard_mode( keyboard_mode::keychar );
     pop.message( "%s", text );
     if( flags & PF_GET_KEY ) {
         pop.allow_anykey( true );
