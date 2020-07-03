@@ -843,7 +843,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "coverage_data": [ { "parts": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
+    "coverage_data": [ { "parts": [ "torso", "LEGS", "ARMS" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },

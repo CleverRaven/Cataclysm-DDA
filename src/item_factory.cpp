@@ -517,7 +517,7 @@ void Item_factory::finalize_post( itype &obj )
         // Setting max_encumber must be in finalize_post because it relies on
         // stack_size being set for all ammo, which happens in finalize_pre.
         for( random_armor_data &data : obj.armor->data ) {
-            if( data.max_encumber == 0 ) {
+            if( data.max_encumber == -1 ) {
                 units::volume total_nonrigid_volume = 0_ml;
                 for( const pocket_data &pocket : obj.pockets ) {
                     if( !pocket.rigid ) {
@@ -1750,6 +1750,39 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
     }
 }
 
+template<>
+struct enum_traits<layer_level> {
+    static constexpr layer_level last = layer_level::NUM_LAYER_LEVELS;
+};
+
+namespace io
+{
+template<>
+std::string enum_to_string<layer_level>( layer_level data )
+{
+    switch( data ) {
+        case layer_level::PERSONAL:
+            return "Personal";
+        case layer_level::UNDERWEAR:
+            return "Underwear";
+        case layer_level::REGULAR:
+            return "Regular";
+        case layer_level::WAIST:
+            return "Waist";
+        case layer_level::OUTER:
+            return "Outer";
+        case layer_level::BELTED:
+            return "Belted";
+        case layer_level::AURA:
+            return "Aura";
+        case layer_level::NUM_LAYER_LEVELS:
+            break;
+    }
+    debugmsg( "Invalid layer_level" );
+    abort();
+}
+} // namespace io
+
 void islot_armor::load( const JsonObject &jo )
 {
     if( jo.has_array( "coverage_data" ) ) {
@@ -1764,7 +1797,7 @@ void islot_armor::load( const JsonObject &jo )
                 tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
             } else if( obj.has_int( "encumbrance" ) ) {
                 tempData.encumber = obj.get_int( "encumbrance" );
-                tempData.max_encumber = 0;
+                tempData.max_encumber = -1;
             }
             tempData.coverage = obj.get_int( "coverage" );
             data[0].encumber = tempData.encumber;
@@ -1788,18 +1821,15 @@ void islot_armor::load( const JsonObject &jo )
                 tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
             } else if( obj.has_int( "encumbrance" ) ) {
                 tempData.encumber = obj.get_int( "encumbrance" );
-                tempData.max_encumber = 0;
+                tempData.max_encumber = -1;
             }
             tempData.coverage = obj.get_int( "coverage" );
             data.push_back( tempData );
 
             if( obj.has_string( "layer" ) ) {
                 for( auto &piece : data ) {
-                    const std::string &val = obj.get_string( "layer" );
-                    auto iter = std::find(layer_level_strings.begin(), layer_level_strings.end(), val );
-                    if( iter != layer_level_strings.end() ) {
-                        piece.layer = static_cast<layer_level>( iter - layer_level_strings.begin() );
-                    }
+                    layer_level layer;
+                    obj.read( "layer", layer );
                 }
             } else {
                 for( random_armor_data &piece : data ) {
@@ -1812,7 +1842,7 @@ void islot_armor::load( const JsonObject &jo )
             data.emplace_back();
             optional( jo, was_loaded, "encumbrance", data[0].encumber, 0 );
             // Default max_encumbrance will be set to a reasonable value in finalize_post
-            optional( jo, was_loaded, "max_encumbrance", data[0].max_encumber, 0 );
+            optional( jo, was_loaded, "max_encumbrance", data[0].max_encumber, -1 );
             optional( jo, was_loaded, "coverage", data[0].coverage, 0 );
             body_part_set temp_cover_data;
             assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
@@ -1821,7 +1851,7 @@ void islot_armor::load( const JsonObject &jo )
             random_armor_data child_data;
             optional( jo, was_loaded, "encumbrance", child_data.encumber, 0 );
             // Default max_encumbrance will be set to a reasonable value in finalize_post
-            optional( jo, was_loaded, "max_encumbrance", child_data.max_encumber, 0 );
+            optional( jo, was_loaded, "max_encumbrance", child_data.max_encumber, -1 );
             optional( jo, was_loaded, "coverage", child_data.coverage, 0 );
             // If child item contains data, use that data, otherwise use parents data
             if( child_data.encumber ) {

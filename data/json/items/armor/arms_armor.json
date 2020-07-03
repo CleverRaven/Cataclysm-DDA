@@ -72,13 +72,11 @@
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "ARMS" ],
-    "coverage": 80,
-    "encumbrance": 5,
+    "coverage_data": [ { "covers": "ARMS", "coverage": "80" "encumbrance": 5, "layer": "BELTED" } ],
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_larmor",

@@ -271,23 +271,6 @@ enum class layer_level : int {
     NUM_LAYER_LEVELS
 };
 
-const static std::array<std::string, 7> layer_level_strings  {
-    /* "Personal effects" layer, corresponds to PERSONAL flag */
-    "Personal",
-    /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
-    "Underwear",
-    /* "Normal" layer, default if no flags set */
-    "Regular",
-    /* "Waist" layer, corresponds to WAIST flag. */
-    "Waist",
-    /* "Outer" layer, corresponds to OUTER flag. */
-    "Outer",
-    /* "Strapped" layer, corresponds to BELTED flag */
-    "Belted",
-    /* "Aura" layer, corresponds to AURA flag */
-    "Aura"
-};
-
 inline layer_level &operator++( layer_level &l )
 {
     l = static_cast<layer_level>( static_cast<int>( l ) + 1 );

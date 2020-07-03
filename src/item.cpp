@@ -1216,6 +1216,22 @@ static std::string get_freshness_description( const item &food_item )
 
 item::sizing item::get_sizing( const Character &p ) const
 {
+    const islot_armor *armor_data = find_armor_data();
+    if( !armor_data ) {
+        return sizing::ignore;
+    }
+    bool to_ignore = true;
+    for( const random_armor_data &piece : armor_data->data ) {
+        if( piece.encumber != 0 ) {
+            to_ignore = false;
+        }
+    }
+    if( to_ignore ) {
+        return sizing::ignore;
+    } else {
+        return sizing::human_sized_human_char;
+    }
+
     const bool small = p.has_trait( trait_SMALL2 ) ||
                        p.has_trait( trait_SMALL_OK );
 
@@ -1251,21 +1267,7 @@ item::sizing item::get_sizing( const Character &p ) const
         } else if( small ) {
             return sizing::human_sized_small_char;
         } else {
-            const islot_armor *armor_data = find_armor_data();
-            if( !armor_data ) {
-                return sizing::ignore;
-            }
-            bool to_ignore = true;
-            for( const random_armor_data &piece : armor_data->data ) {
-                if( piece.encumber != 0 ) {
-                    to_ignore = false;
-                }
-            }
-            if( to_ignore ) {
-                return sizing::ignore;
-            } else {
-                return sizing::human_sized_human_char;
-            }
+            return sizing::human_sized_human_char;
         }
     }
 }
@@ -2624,7 +2626,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             }
         }
 
-        info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ) + format ) );
+        info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>:" ) + format ) );
 
         if( const islot_armor *t = find_armor_data() ) {
             if( !t->data.empty() ) {
@@ -2639,8 +2641,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
                     bool operator==( const coverage_data_type &other ) {
                         return encumber == other.encumber
-                            && max_encumber == other.max_encumber
-                            && coverage == other.coverage;
+                               && max_encumber == other.max_encumber
+                               && coverage == other.coverage;
                     };
                 };
 
@@ -3657,21 +3659,20 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     insert_separation_line( info );
 
-    bool any_encumb_increase = false;
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
         if( const islot_armor *t = find_armor_data() ) {
-            any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
+            bool any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
             []( random_armor_data data ) {
                 return data.encumber != data.max_encumber;
             } );
-            if( !any_encumb_increase && !contents.all_pockets_rigid() ) {
-                info.emplace_back( "BASE",
-                                   _( "* This item is <info>not rigid</info>.  Its"
-                                      " volume increases with contents." ) );
-            } else if( any_encumb_increase ) {
+            if( any_encumb_increase ) {
                 info.emplace_back( "BASE",
                                    _( "* This item is <info>not rigid</info>.  Its"
                                       " volume and encumbrance increase with contents." ) );
+            } else if( !contents.all_pockets_rigid() ) {
+                info.emplace_back( "BASE",
+                                   _( "* This item is <info>not rigid</info>.  Its"
+                                      " volume increases with contents." ) );
             }
         }
     }
@@ -5716,7 +5717,7 @@ int item::get_avg_coverage() const
             ++avg_ctr;
         }
     }
-    if( avg_ctr == 0 || avg_coverage == 0 ) {
+    if( avg_coverage == 0 ) {
         return 0;
     } else {
         avg_coverage /= avg_ctr;
