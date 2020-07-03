@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <type_traits>
 
 #include "avatar.h"
 #include "character.h"
@@ -303,46 +304,70 @@ void item_contents::combine( const item_contents &read_input )
     }
 }
 
+struct item_contents::item_contents_helper {
+    // Static helper function to implement the const and non-const versions of
+    // find_pocket_for with less code duplication
+    template<typename ItemContents>
+    using pocket_type = std::conditional_t <
+                        std::is_const<ItemContents>::value,
+                        const item_pocket,
+                        item_pocket
+                        >;
+
+    template<typename ItemContents>
+    static ret_val<pocket_type<ItemContents>*> find_pocket_for(
+        ItemContents &contents, const item &it, item_pocket::pocket_type pk_type ) {
+        using my_pocket_type = pocket_type<ItemContents>;
+        static constexpr item_pocket *null_pocket = nullptr;
+
+        std::vector<std::string> failure_messages;
+        int num_pockets_of_type = 0;
+
+        for( my_pocket_type &pocket : contents.contents ) {
+            if( !pocket.is_type( pk_type ) ) {
+                continue;
+            }
+            if( pk_type != item_pocket::pocket_type::CONTAINER &&
+                pk_type != item_pocket::pocket_type::MAGAZINE &&
+                pk_type != item_pocket::pocket_type::MAGAZINE_WELL &&
+                pocket.is_type( pk_type ) ) {
+                return ret_val<my_pocket_type *>::make_success(
+                           &pocket, "special pocket type override" );
+            }
+            ++num_pockets_of_type;
+            ret_val<item_pocket::contain_code> ret_contain = pocket.can_contain( it );
+            if( ret_contain.success() ) {
+                return ret_val<my_pocket_type *>::make_success( &pocket, ret_contain.str() );
+            } else {
+                failure_messages.push_back( ret_contain.str() );
+            }
+        }
+
+        if( failure_messages.empty() ) {
+            return ret_val<my_pocket_type *>::make_failure( null_pocket, _( "is not a container" ) );
+        }
+        std::sort( failure_messages.begin(), failure_messages.end(), localized_compare );
+        failure_messages.erase(
+            std::unique( failure_messages.begin(), failure_messages.end() ),
+            failure_messages.end() );
+        return ret_val<my_pocket_type *>::make_failure(
+                   null_pocket, string_format(
+                       ngettext( "pocket unacceptable because %s", "pockets unacceptable because %s",
+                                 num_pockets_of_type ),
+                       enumerate_as_string( failure_messages, enumeration_conjunction::or_ ) ) );
+    }
+};
+
 ret_val<item_pocket *> item_contents::find_pocket_for( const item &it,
         item_pocket::pocket_type pk_type )
 {
-    static item_pocket *null_pocket = nullptr;
-    ret_val<item_pocket *> ret = ret_val<item_pocket *>::make_failure( null_pocket,
-                                 _( "is not a container" ) );
-    for( item_pocket &pocket : contents ) {
-        if( !pocket.is_type( pk_type ) ) {
-            continue;
-        }
-        if( pk_type != item_pocket::pocket_type::CONTAINER &&
-            pk_type != item_pocket::pocket_type::MAGAZINE &&
-            pk_type != item_pocket::pocket_type::MAGAZINE_WELL &&
-            pocket.is_type( pk_type ) ) {
-            return ret_val<item_pocket *>::make_success( &pocket, "special pocket type override" );
-        }
-        ret_val<item_pocket::contain_code> ret_contain = pocket.can_contain( it );
-        if( ret_contain.success() ) {
-            return ret_val<item_pocket *>::make_success( &pocket, ret_contain.str() );
-        }
-    }
-    return ret;
+    return item_contents_helper::find_pocket_for( *this, it, pk_type );
 }
 
 ret_val<const item_pocket *> item_contents::find_pocket_for( const item &it,
         item_pocket::pocket_type pk_type ) const
 {
-    static item_pocket *null_pocket = nullptr;
-    ret_val<const item_pocket *> ret = ret_val<const item_pocket *>::make_failure( null_pocket,
-                                       _( "is not a container" ) );
-    for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_type( pk_type ) ) {
-            continue;
-        }
-        ret_val<item_pocket::contain_code> ret_contain = pocket.can_contain( it );
-        if( ret_contain.success() ) {
-            return ret_val<const item_pocket *>::make_success( &pocket, ret_contain.str() );
-        }
-    }
-    return ret;
+    return item_contents_helper::find_pocket_for( *this, it, pk_type );
 }
 
 int item_contents::obtain_cost( const item &it ) const
