@@ -4239,12 +4239,12 @@
     "name": "Yoga Instructor",
     "description": "You were in the middle of downward dog. Now you need to get down and out.",
     "points": 2,
-    "traits": [ "FAST_REFLEXES", "LIGHTEATER", "THINSKIN", "FLIMSY" ],
+    "traits": [ "LIGHTEATER", "LIGHTWEIGHT" ],
     "skills": [ { "level": 1, "name": "dodge" } ],
     "items": {
       "both": {
-        "items": [ "runner_bag", "unitard", "lowtops", "socks_ankle", "wristwatch" ],
-        "entries": [ { "group": "charged_cell_phone" } ]
+        "items": [ "runner_bag", "unitard", "lowtops", "socks_ankle", "wristwatch", "towel", "toothbrush_plain", "hairbrush", "soap" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_mp3" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
@@ -4261,7 +4261,18 @@
     "skills": [ { "level": 1, "name": "dodge" } ],
     "items": {
       "both": {
-        "items": [ "runner_bag", "b_shorts", "tank_top", "sneakers", "socks_ankle", "wristwatch", "towel", "toothbrush_plain", "hairbrush", "soap", "cell_phone" ],
+        "items": [
+          "runner_bag",
+          "b_shorts",
+          "tank_top",
+          "sneakers",
+          "socks_ankle",
+          "wristwatch",
+          "towel",
+          "toothbrush_plain",
+          "hairbrush",
+          "soap"
+        ],
         "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_mp3" } ]
       },
       "male": [ "briefs" ],
@@ -4275,11 +4286,23 @@
     "name": "Lifter",
     "description": "You were miring your gainz in the mirror when you saw the commotion outside.",
     "points": 4,
-    "traits": [  "STRONGBACK", "ADRENALINE", "ANTIJUNK"  ],
+    "traits": [ "STRONGBACK", "ADRENALINE", "ANTIJUNK" ],
     "skills": [ { "level": 2, "name": "bashing" }, { "level": 2, "name": "melee" } ],
     "items": {
       "both": {
-        "items": [ "duffelbag", "b_shorts", "tank_top", "hoodie", "sneakers", "socks_ankle", "wristwatch", "towel", "toothbrush_plain", "hairbrush", "soap", "cell_phone" ],
+        "items": [
+          "duffelbag",
+          "b_shorts",
+          "tank_top",
+          "hoodie",
+          "sneakers",
+          "socks_ankle",
+          "wristwatch",
+          "towel",
+          "toothbrush_plain",
+          "hairbrush",
+          "soap"
+        ],
         "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_mp3" } ]
       },
       "male": [ "briefs" ],

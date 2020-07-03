@@ -21,7 +21,7 @@
         "..|                  |..",
         "..| ! ! c      c @ @ |..",
         "..|                  |..",
-        "..|K    V      V   K |..",
+        "..|K  V   c  c   V  K|..",
         "..|                  |..",
         "..|+|    x    x    |+|..",
         "..|&|  B        B  |&|..",
@@ -198,12 +198,13 @@
       },
       "place_monsters": [ { "monster": "GROUP_MAPGEN_POOL", "x": [ 12, 19 ], "y": [ 18, 21 ] } ],
       "toilets": { "T": {  } },
+      "place_item": [ { "item": "resistance_band", "x": 6, "y": 8, "amount": [ 1, 1 ], "chance": 100 } ],
       "items": {
         "O": { "item": "gym", "chance": 80 },
         "x": { "item": "gym_dumbbell_rack", "chance": 100, "repeat": [ 1, 6 ] },
         "K": { "item": "gym_plate_rack", "chance": 100, "repeat": [ 1, 6 ] },
-        "H": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] } }
-
+        "H": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] }
+      }
     }
   },
   {
@@ -270,7 +271,9 @@
       "place_items": [
         { "item": "gym", "x": [ 3, 9 ], "y": [ 4, 9 ], "chance": 35, "repeat": [ 1, 5 ] },
         { "item": "gym", "x": [ 4, 7 ], "y": [ 16, 18 ], "chance": 30, "repeat": [ 1, 5 ] },
-        { "item": "gym", "x": [ 16, 20 ], "y": [ 10, 13 ], "chance": 30, "repeat": [ 1, 5 ] }
+        { "item": "gym", "x": [ 16, 20 ], "y": [ 10, 13 ], "chance": 30, "repeat": [ 1, 5 ] },
+        { "item": "resistance_band", "x": [ 5, 9 ], "y": [ 4, 8 ], "amount": [ 1, 1 ], "chance": 100 },
+        { "item": "exercise_ball", "x": [ 5, 9 ], "y": [ 4, 8 ], "amount": [ 1, 1 ], "chance": 100 }
       ],
       "items": { "F": { "item": "office_paper", "chance": 30 }, "I": { "item": "softdrugs", "chance": 20, "repeat": [ 2, 4 ] } }
     }
