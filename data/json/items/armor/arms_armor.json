@@ -76,7 +76,7 @@
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
-    "flags": [ "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
+    "flags": [ "BELTED", "WATER_FRIENDLY", "BLOCK_WHILE_WORN" ]
   },
   {
     "id": "armguard_larmor",
