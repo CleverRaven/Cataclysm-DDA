@@ -1813,7 +1813,7 @@ void islot_armor::load( const JsonObject &jo )
             }
             random_armor_data tempData;
             body_part_set temp_cover_data;
-            assign_coverage_from_json( obj, "parts", temp_cover_data, sided );
+            assign_coverage_from_json( obj, "covers", temp_cover_data, sided );
             tempData.covers = temp_cover_data;
 
             if( obj.has_array( "encumbrance" ) ) {
