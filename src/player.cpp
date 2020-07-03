@@ -3761,11 +3761,6 @@ std::set<itype_id> player::get_books_for_recipe( const inventory &crafting_inv,
     for( auto &book_lvl : r->booksets ) {
         itype_id book_id = book_lvl.first;
         int required_skill_level = book_lvl.second;
-        // NPCs don't need to identify books
-        if( !has_identified( book_id ) ) {
-            continue;
-        }
-
         if( skill_level >= required_skill_level && crafting_inv.amount_of( book_id ) > 0 ) {
             book_ids.insert( book_id );
         }

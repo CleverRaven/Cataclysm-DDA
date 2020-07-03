@@ -2662,127 +2662,120 @@ void item::book_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
         info.push_back( iteminfo( "BOOK",
                                   _( "Some sort of <info>martial arts training "
                                      "manual</info>." ) ) );
-        if( g->u.has_identified( typeId() ) ) {
-            const matype_id style_to_learn = martial_art_learned_from( *type );
-            info.push_back( iteminfo( "BOOK",
-                                      string_format( _( "You can learn <info>%s</info> style "
-                                              "from it." ), style_to_learn->name ) ) );
-            info.push_back( iteminfo( "BOOK",
-                                      string_format( _( "This fighting style is <info>%s</info> "
-                                              "to learn." ),
-                                              martialart_difficulty( style_to_learn ) ) ) );
-            info.push_back( iteminfo( "BOOK",
-                                      string_format( _( "It'd be easier to master if you'd have "
-                                              "skill expertise in <info>%s</info>." ),
-                                              style_to_learn->primary_skill->name() ) ) );
-        }
+        const matype_id style_to_learn = martial_art_learned_from( *type );
+        info.push_back( iteminfo( "BOOK",
+                                  string_format( _( "You can learn <info>%s</info> style "
+                                          "from it." ), style_to_learn->name ) ) );
+        info.push_back( iteminfo( "BOOK",
+                                  string_format( _( "This fighting style is <info>%s</info> "
+                                          "to learn." ),
+                                          martialart_difficulty( style_to_learn ) ) ) );
+        info.push_back( iteminfo( "BOOK",
+                                  string_format( _( "It'd be easier to master if you'd have "
+                                          "skill expertise in <info>%s</info>." ),
+                                          style_to_learn->primary_skill->name() ) ) );
     }
     if( book.req == 0 && parts->test( iteminfo_parts::BOOK_REQUIREMENTS_BEGINNER ) ) {
         info.push_back( iteminfo( "BOOK", _( "It can be <info>understood by "
                                              "beginners</info>." ) ) );
     }
-    if( g->u.has_identified( typeId() ) ) {
-        if( book.skill ) {
-            const SkillLevel &skill = g->u.get_skill_level_object( book.skill );
-            if( skill.can_train() && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MAX ) ) {
-                const std::string skill_name = book.skill->name();
-                std::string fmt = string_format( _( "Can bring your <info>%s skill to</info> "
-                                                    "<num>." ), skill_name );
-                info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, book.level ) );
-                fmt = string_format( _( "Your current <stat>%s skill</stat> is <num>." ),
-                                     skill_name );
-                info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, skill.level() ) );
-            }
-
-            if( book.req != 0 && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MIN ) ) {
-                const std::string fmt = string_format(
-                                            _( "<info>Requires %s level</info> <num> to "
-                                               "understand." ), book.skill.obj().name() );
-                info.push_back( iteminfo( "BOOK", "", fmt,
-                                          iteminfo::lower_is_better, book.req ) );
-            }
+    if( !g->u.has_identified( typeId() ) && parts->test( iteminfo_parts::BOOK_UNREAD ) ) {
+        info.push_back( iteminfo( "BOOK",
+                                  _( "You have <info>never read</info> this book." ) ) );
+    }
+    if( book.skill ) {
+        const SkillLevel &skill = g->u.get_skill_level_object( book.skill );
+        if( skill.can_train() && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MAX ) ) {
+            const std::string skill_name = book.skill->name();
+            std::string fmt = string_format( _( "Can bring your <info>%s skill to</info> "
+                                                "<num>." ), skill_name );
+            info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, book.level ) );
+            fmt = string_format( _( "Your current <stat>%s skill</stat> is <num>." ),
+                                 skill_name );
+            info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, skill.level() ) );
         }
 
-        if( book.intel != 0 && parts->test( iteminfo_parts::BOOK_REQUIREMENTS_INT ) ) {
-            info.push_back( iteminfo( "BOOK", "",
-                                      _( "Requires <info>intelligence of</info> <num> to easily "
-                                         "read." ), iteminfo::lower_is_better, book.intel ) );
-        }
-        if( g->u.book_fun_for( *this, g->u ) != 0 &&
-            parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
-            info.push_back( iteminfo( "BOOK", "",
-                                      _( "Reading this book affects your morale by <num>" ),
-                                      iteminfo::show_plus, g->u.book_fun_for( *this, g->u ) ) );
-        }
-        if( parts->test( iteminfo_parts::BOOK_TIMEPERCHAPTER ) ) {
-            std::string fmt = ngettext(
-                                  "A chapter of this book takes <num> <info>minute to "
-                                  "read</info>.",
-                                  "A chapter of this book takes <num> <info>minutes to "
-                                  "read</info>.", book.time );
-            if( type->use_methods.count( "MA_MANUAL" ) ) {
-                fmt = ngettext(
-                          "<info>A training session</info> with this book takes "
-                          "<num> <info>minute</info>.",
-                          "<info>A training session</info> with this book takes "
-                          "<num> <info>minutes</info>.", book.time );
-            }
+        if( book.req != 0 && parts->test( iteminfo_parts::BOOK_SKILLRANGE_MIN ) ) {
+            const std::string fmt = string_format(
+                                        _( "<info>Requires %s level</info> <num> to "
+                                           "understand." ), book.skill.obj().name() );
             info.push_back( iteminfo( "BOOK", "", fmt,
-                                      iteminfo::lower_is_better, book.time ) );
+                                      iteminfo::lower_is_better, book.req ) );
         }
+    }
 
-        if( book.chapters > 0 && parts->test( iteminfo_parts::BOOK_NUMUNREADCHAPTERS ) ) {
-            const int unread = get_remaining_chapters( g->u );
-            std::string fmt = ngettext( "This book has <num> <info>unread chapter</info>.",
-                                        "This book has <num> <info>unread chapters</info>.",
-                                        unread );
-            info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, unread ) );
+    if( book.intel != 0 && parts->test( iteminfo_parts::BOOK_REQUIREMENTS_INT ) ) {
+        info.push_back( iteminfo( "BOOK", "",
+                                  _( "Requires <info>intelligence of</info> <num> to easily "
+                                     "read." ), iteminfo::lower_is_better, book.intel ) );
+    }
+    if( g->u.book_fun_for( *this, g->u ) != 0 &&
+        parts->test( iteminfo_parts::BOOK_MORALECHANGE ) ) {
+        info.push_back( iteminfo( "BOOK", "",
+                                  _( "Reading this book affects your morale by <num>" ),
+                                  iteminfo::show_plus, g->u.book_fun_for( *this, g->u ) ) );
+    }
+    if( parts->test( iteminfo_parts::BOOK_TIMEPERCHAPTER ) ) {
+        std::string fmt = ngettext(
+                              "A chapter of this book takes <num> <info>minute to "
+                              "read</info>.",
+                              "A chapter of this book takes <num> <info>minutes to "
+                              "read</info>.", book.time );
+        if( type->use_methods.count( "MA_MANUAL" ) ) {
+            fmt = ngettext(
+                      "<info>A training session</info> with this book takes "
+                      "<num> <info>minute</info>.",
+                      "<info>A training session</info> with this book takes "
+                      "<num> <info>minutes</info>.", book.time );
         }
+        info.push_back( iteminfo( "BOOK", "", fmt,
+                                  iteminfo::lower_is_better, book.time ) );
+    }
 
-        std::vector<std::string> recipe_list;
-        for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
-            const bool knows_it = g->u.knows_recipe( elem.recipe );
-            const bool can_learn = g->u.get_skill_level( elem.recipe->skill_used )  >= elem.skill_level;
-            // If the player knows it, they recognize it even if it's not clearly stated.
-            if( elem.is_hidden() && !knows_it ) {
-                continue;
-            }
-            if( knows_it ) {
-                // In case the recipe is known, but has a different name in the book, use the
-                // real name to avoid confusing the player.
-                const std::string name = elem.recipe->result_name();
-                recipe_list.push_back( "<bold>" + name + "</bold>" );
-            } else if( !can_learn ) {
-                recipe_list.push_back( "<color_brown>" + elem.name + "</color>" );
-            } else {
-                recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
-            }
+    if( book.chapters > 0 && parts->test( iteminfo_parts::BOOK_NUMUNREADCHAPTERS ) ) {
+        const int unread = get_remaining_chapters( g->u );
+        std::string fmt = ngettext( "This book has <num> <info>unread chapter</info>.",
+                                    "This book has <num> <info>unread chapters</info>.",
+                                    unread );
+        info.push_back( iteminfo( "BOOK", "", fmt, iteminfo::no_flags, unread ) );
+    }
+
+    std::vector<std::string> recipe_list;
+    for( const islot_book::recipe_with_description_t &elem : book.recipes ) {
+        const bool knows_it = g->u.knows_recipe( elem.recipe );
+        const bool can_learn = g->u.get_skill_level( elem.recipe->skill_used )  >= elem.skill_level;
+        // If the player knows it, they recognize it even if it's not clearly stated.
+        if( elem.is_hidden() && !knows_it ) {
+            continue;
         }
-
-        if( !recipe_list.empty() && parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
-            std::string recipe_line =
-                string_format( ngettext( "This book contains %1$d crafting recipe: %2$s",
-                                         "This book contains %1$d crafting recipes: %2$s",
-                                         recipe_list.size() ),
-                               recipe_list.size(), enumerate_as_string( recipe_list ) );
-
-            insert_separation_line( info );
-            info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
+        if( knows_it ) {
+            // In case the recipe is known, but has a different name in the book, use the
+            // real name to avoid confusing the player.
+            const std::string name = elem.recipe->result_name();
+            recipe_list.push_back( "<bold>" + name + "</bold>" );
+        } else if( !can_learn ) {
+            recipe_list.push_back( "<color_brown>" + elem.name + "</color>" );
+        } else {
+            recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
         }
+    }
 
-        if( recipe_list.size() != book.recipes.size() &&
-            parts->test( iteminfo_parts::DESCRIPTION_BOOK_ADDITIONAL_RECIPES ) ) {
-            info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "It might help you figuring out some <good>more "
-                                         "recipes</good>." ) ) );
-        }
+    if( !recipe_list.empty() && parts->test( iteminfo_parts::DESCRIPTION_BOOK_RECIPES ) ) {
+        std::string recipe_line =
+            string_format( ngettext( "This book contains %1$d crafting recipe: %2$s",
+                                     "This book contains %1$d crafting recipes: %2$s",
+                                     recipe_list.size() ),
+                           recipe_list.size(), enumerate_as_string( recipe_list ) );
 
-    } else {
-        if( parts->test( iteminfo_parts::BOOK_UNREAD ) ) {
-            info.push_back( iteminfo( "BOOK",
-                                      _( "You need to <info>read this book to see its "
-                                         "contents</info>." ) ) );
-        }
+        insert_separation_line( info );
+        info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
+    }
+
+    if( recipe_list.size() != book.recipes.size() &&
+        parts->test( iteminfo_parts::DESCRIPTION_BOOK_ADDITIONAL_RECIPES ) ) {
+        info.push_back( iteminfo( "DESCRIPTION",
+                                  _( "It might help you figuring out some <good>more "
+                                     "recipes</good>." ) ) );
     }
 }
 
@@ -6535,14 +6528,6 @@ std::vector<std::pair<const recipe *, int>> item::get_available_recipes( const p
 {
     std::vector<std::pair<const recipe *, int>> recipe_entries;
     if( is_book() ) {
-        // NPCs don't need to identify books
-        // TODO: remove this cast
-        if( const avatar *a = dynamic_cast<const avatar *>( &u ) ) {
-            if( !a->has_identified( typeId() ) ) {
-                return recipe_entries;
-            }
-        }
-
         for( const islot_book::recipe_with_description_t &elem : type->book->recipes ) {
             if( u.get_skill_level( elem.recipe->skill_used ) >= elem.skill_level ) {
                 recipe_entries.push_back( std::make_pair( elem.recipe, elem.skill_level ) );

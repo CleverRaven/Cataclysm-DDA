@@ -112,6 +112,8 @@ static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 class JsonIn;
 class JsonOut;
 
+static void skim_book_msg( const item &book, avatar &u );
+
 avatar::avatar()
 {
     show_map_memory = true;
@@ -273,14 +275,14 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         return nullptr;
     }
     const auto &type = book.type->book;
-    if( !fun_to_read( book ) && !has_morale_to_read() && has_identified( book.typeId() ) ) {
+    if( !fun_to_read( book ) && !has_morale_to_read() ) {
         // Low morale still permits skimming
         reasons.emplace_back( _( "What's the point of studying?  (Your morale is too low!)" ) );
         return nullptr;
     }
     const skill_id &skill = type->skill;
     const int skill_level = get_skill_level( skill );
-    if( skill && skill_level < type->req && has_identified( book.typeId() ) ) {
+    if( skill && skill_level < type->req ) {
         reasons.push_back( string_format( _( "%s %d needed to understand.  You have %d" ),
                                           skill.obj().name(), type->req, skill_level ) );
         return nullptr;
@@ -315,8 +317,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         if( type->intel > 0 && elem->has_trait( trait_ILLITERATE ) ) {
             reasons.push_back( string_format( _( "%s is illiterate!" ),
                                               elem->disp_name() ) );
-        } else if( skill && elem->get_skill_level( skill ) < type->req &&
-                   has_identified( book.typeId() ) ) {
+        } else if( skill && elem->get_skill_level( skill ) < type->req ) {
             reasons.push_back( string_format( _( "%s %d needed to understand.  %s has %d" ),
                                               skill.obj().name(), type->req, elem->disp_name(), elem->get_skill_level( skill ) ) );
         } else if( elem->has_trait( trait_HYPEROPIC ) && !elem->worn_with_flag( flag_FIX_FARSIGHT ) &&
@@ -330,8 +331,7 @@ const player *avatar::get_book_reader( const item &book, std::vector<std::string
         } else if( !elem->sees( *this ) ) {
             reasons.push_back( string_format( _( "%s could read that to you, but they can't see you." ),
                                               elem->disp_name() ) );
-        } else if( !elem->fun_to_read( book ) && !elem->has_morale_to_read() &&
-                   has_identified( book.typeId() ) ) {
+        } else if( !elem->fun_to_read( book ) && !elem->has_morale_to_read() ) {
             // Low morale still permits skimming
             reasons.push_back( string_format( _( "%s morale is too low!" ), elem->disp_name( true ) ) );
         } else if( elem->is_blind() ) {
@@ -368,10 +368,6 @@ int avatar::time_to_read( const item &book, const player &reader, const player *
     if( type->intel > effective_int && !reader.has_trait( trait_PROF_DICEMASTER ) ) {
         retval += type->time * ( type->intel - effective_int ) * 100;
     }
-    if( !has_identified( book.typeId() ) ) {
-        //skimming
-        retval /= 10;
-    }
     return retval;
 }
 
@@ -391,6 +387,11 @@ bool avatar::read( item &it, const bool continuous )
         add_msg( m_info, _( "Never mind." ) );
         return false;
     }
+    if( !has_identified( it.typeId() ) ) {
+        // We insta-identify the book, then try to read it
+        items_identified.insert( it.typeId() );
+        skim_book_msg( it, *this );
+    }
     std::vector<std::string> fail_messages;
     const player *reader = get_book_reader( it, fail_messages );
     if( reader == nullptr ) {
@@ -406,16 +407,6 @@ bool avatar::read( item &it, const bool continuous )
     player_activity act( ACT_READ, time_taken, continuous ? activity.index : 0,
                          reader->getID().get_value() );
     act.targets.emplace_back( item_location( *this, &it ) );
-
-    // If the player hasn't read this book before, skim it to get an idea of what's in it.
-    if( !has_identified( it.typeId() ) ) {
-        if( reader != this ) {
-            add_msg( m_info, fail_messages[0] );
-            add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
-        }
-        assign_activity( act );
-        return true;
-    }
 
     if( it.typeId() == "guidebook" ) {
         // special guidebook effect: print a misc. hint when read
@@ -674,6 +665,67 @@ object_type avatar::get_grab_type() const
     return grab_type;
 }
 
+static void skim_book_msg( const item &book, avatar &u )
+{
+    const auto &reading = book.type->book;
+    const skill_id &skill = reading->skill;
+
+    if( skill && u.get_skill_level_object( skill ).can_train() ) {
+        add_msg( m_info, _( "Can bring your %s skill to %d." ),
+                 skill.obj().name(), reading->level );
+        if( reading->req != 0 ) {
+            add_msg( m_info, _( "Requires %s level %d to understand." ),
+                     skill.obj().name(), reading->req );
+        }
+    }
+
+    if( reading->intel != 0 ) {
+        add_msg( m_info, _( "Requires intelligence of %d to easily read." ), reading->intel );
+    }
+    //It feels wrong to use a pointer to *this, but I can't find any other player pointers in this method.
+    if( u.book_fun_for( book, u ) != 0 ) {
+        add_msg( m_info, _( "Reading this book affects your morale by %d" ), u.book_fun_for( book, u ) );
+    }
+
+    if( book.type->use_methods.count( "MA_MANUAL" ) ) {
+        const matype_id style_to_learn = martial_art_learned_from( *book.type );
+        add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
+        add_msg( m_info, _( "This fighting style is %s to learn." ),
+                 martialart_difficulty( style_to_learn ) );
+        add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
+                 style_to_learn->primary_skill->name() );
+        add_msg( m_info, _( "A training session with this book takes %s" ),
+                 to_string( time_duration::from_minutes( reading->time ) ) );
+    } else {
+        add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
+                                   "A chapter of this book takes %d minutes to read.", reading->time ),
+                 reading->time );
+    }
+
+    std::vector<std::string> recipe_list;
+    for( const auto &elem : reading->recipes ) {
+        // If the player knows it, they recognize it even if it's not clearly stated.
+        if( elem.is_hidden() && !u.knows_recipe( elem.recipe ) ) {
+            continue;
+        }
+        recipe_list.push_back( elem.name );
+    }
+    if( !recipe_list.empty() ) {
+        std::string recipe_line =
+            string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
+                                     "This book contains %1$zu crafting recipes: %2$s",
+                                     recipe_list.size() ),
+                           recipe_list.size(),
+                           enumerate_as_string( recipe_list ) );
+        add_msg( m_info, recipe_line );
+    }
+    if( recipe_list.size() != reading->recipes.size() ) {
+        add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
+    }
+
+    add_msg( _( "You note that you have a copy of %s in your possession." ), book.type_name() );
+}
+
 void avatar::do_read( item &book )
 {
     const auto &reading = book.type->book;
@@ -686,60 +738,7 @@ void avatar::do_read( item &book )
     if( !has_identified( book.typeId() ) ) {
         // Note that we've read the book.
         items_identified.insert( book.typeId() );
-
-        add_msg( _( "You skim %s to find out what's in it." ), book.type_name() );
-        if( skill && get_skill_level_object( skill ).can_train() ) {
-            add_msg( m_info, _( "Can bring your %s skill to %d." ),
-                     skill.obj().name(), reading->level );
-            if( reading->req != 0 ) {
-                add_msg( m_info, _( "Requires %s level %d to understand." ),
-                         skill.obj().name(), reading->req );
-            }
-        }
-
-        if( reading->intel != 0 ) {
-            add_msg( m_info, _( "Requires intelligence of %d to easily read." ), reading->intel );
-        }
-        //It feels wrong to use a pointer to *this, but I can't find any other player pointers in this method.
-        if( book_fun_for( book, *this ) != 0 ) {
-            add_msg( m_info, _( "Reading this book affects your morale by %d" ), book_fun_for( book, *this ) );
-        }
-
-        if( book.type->use_methods.count( "MA_MANUAL" ) ) {
-            const matype_id style_to_learn = martial_art_learned_from( *book.type );
-            add_msg( m_info, _( "You can learn %s style from it." ), style_to_learn->name );
-            add_msg( m_info, _( "This fighting style is %s to learn." ),
-                     martialart_difficulty( style_to_learn ) );
-            add_msg( m_info, _( "It would be easier to master if you'd have skill expertise in %s." ),
-                     style_to_learn->primary_skill->name() );
-            add_msg( m_info, _( "A training session with this book takes %s" ),
-                     to_string( time_duration::from_minutes( reading->time ) ) );
-        } else {
-            add_msg( m_info, ngettext( "A chapter of this book takes %d minute to read.",
-                                       "A chapter of this book takes %d minutes to read.", reading->time ),
-                     reading->time );
-        }
-
-        std::vector<std::string> recipe_list;
-        for( const auto &elem : reading->recipes ) {
-            // If the player knows it, they recognize it even if it's not clearly stated.
-            if( elem.is_hidden() && !knows_recipe( elem.recipe ) ) {
-                continue;
-            }
-            recipe_list.push_back( elem.name );
-        }
-        if( !recipe_list.empty() ) {
-            std::string recipe_line =
-                string_format( ngettext( "This book contains %1$zu crafting recipe: %2$s",
-                                         "This book contains %1$zu crafting recipes: %2$s",
-                                         recipe_list.size() ),
-                               recipe_list.size(),
-                               enumerate_as_string( recipe_list ) );
-            add_msg( m_info, recipe_line );
-        }
-        if( recipe_list.size() != reading->recipes.size() ) {
-            add_msg( m_info, _( "It might help you figuring out some more recipes." ) );
-        }
+        skim_book_msg( book, *this );
         activity.set_to_null();
         return;
     }
@@ -930,6 +929,10 @@ hint_rating avatar::rate_action_read( const item &it ) const
 {
     if( !it.is_book() ) {
         return hint_rating::cant;
+    }
+
+    if( !has_identified( it.typeId() ) ) {
+        return hint_rating::good;
     }
 
     std::vector<std::string> dummy;

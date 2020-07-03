@@ -176,20 +176,6 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
     int moves_western = western.type->book->time * to_moves<int>( 1_minutes );
     int moves_alpha = alpha.type->book->time * to_moves<int>( 1_minutes );
 
-    GIVEN( "some unidentified books and plenty of light" ) {
-        REQUIRE_FALSE( dummy.has_identified( child.typeId() ) );
-        REQUIRE_FALSE( dummy.has_identified( western.typeId() ) );
-
-        // Get some light
-        dummy.i_add( item( "atomic_lamp" ) );
-        REQUIRE( dummy.fine_detail_vision_mod() == 1 );
-
-        THEN( "identifying books takes 1/10th of the normal reading time" ) {
-            CHECK( dummy.time_to_read( western, dummy ) == moves_western / 10 );
-            CHECK( dummy.time_to_read( child, dummy ) == moves_child / 10 );
-        }
-    }
-
     GIVEN( "some identified books and plenty of light" ) {
         // Identify the books
         dummy.do_read( child );
@@ -330,4 +316,3 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
         }
     }
 }
-

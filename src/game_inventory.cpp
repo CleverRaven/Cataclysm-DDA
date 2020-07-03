@@ -949,45 +949,43 @@ class read_inventory_preset: public pickup_inventory_preset
         read_inventory_preset( const player &p ) : pickup_inventory_preset( p ), p( p ) {
             const std::string unknown = _( "<color_dark_gray>?</color>" );
 
-            append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
+            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
                 if( loc->type->can_use( "MA_MANUAL" ) ) {
                     return _( "martial arts" );
                 }
-                if( !is_known( loc ) ) {
-                    return unknown;
-                }
                 const auto &book = get_book( loc );
-                if( book.skill ) {
-                    const SkillLevel &skill = p.get_skill_level_object( book.skill );
-                    if( skill.can_train() ) {
-                        //~ %1$s: book skill name, %2$d: book skill level, %3$d: player skill level
-                        return string_format( pgettext( "skill", "%1$s to %2$d (%3$d)" ), book.skill->name(), book.level,
-                                              skill.level() );
-                    }
+                if( !book.skill ) {
+                    return std::string();
                 }
-                return std::string();
+
+                const SkillLevel &skill = p.get_skill_level_object( book.skill );
+                if( !skill.can_train() ) {
+                    return std::string();
+                }
+
+                if( skill.level() < book.req ) {
+                    //~ %1$s: book skill name, %3$d: book required skill level, %3$d: book skill level, %4$d: player skill level
+                    return string_format( pgettext( "skill", "%1$s from %2$d to %3$d (%4$d)" ), book.skill->name(),
+                                          book.req, book.level,
+                                          skill.level() );
+                }
+
+                //~ %1$s: book skill name, %2$d: book skill level, %3$d: player skill level
+                return string_format( pgettext( "skill", "%1$s to %2$d (%3$d)" ), book.skill->name(), book.level,
+                                      skill.level() );
             }, _( "TRAINS (CURRENT)" ), unknown );
 
-            append_cell( [ this, unknown ]( const item_location & loc ) -> std::string {
-                if( !is_known( loc ) ) {
-                    return unknown;
-                }
+            append_cell( [ this ]( const item_location & loc ) -> std::string {
                 const auto &book = get_book( loc );
                 const int unlearned = book.recipes.size() - get_known_recipes( book );
 
                 return unlearned > 0 ? to_string( unlearned ) : std::string();
             }, _( "RECIPES" ), unknown );
-            append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
-                if( !is_known( loc ) ) {
-                    return unknown;
-                }
+            append_cell( [ this, &p ]( const item_location & loc ) -> std::string {
                 return good_bad_none( p.book_fun_for( *loc, p ) );
             }, _( "FUN" ), unknown );
 
             append_cell( [ this, &p, unknown ]( const item_location & loc ) -> std::string {
-                if( !is_known( loc ) ) {
-                    return unknown;
-                }
                 std::vector<std::string> dummy;
 
                 // This is terrible and needs to be removed asap when this entire file is refactored
@@ -998,7 +996,7 @@ class read_inventory_preset: public pickup_inventory_preset
                 }
                 const player *reader = u->get_book_reader( *loc, dummy );
                 if( reader == nullptr ) {
-                    return std::string();  // Just to make sure
+                    return unknown;
                 }
                 // Actual reading time (in turns). Can be penalized.
                 const int actual_turns = u->time_to_read( *loc, *reader ) / to_moves<int>( 1_turns );
@@ -1028,7 +1026,7 @@ class read_inventory_preset: public pickup_inventory_preset
 
             std::vector<std::string> denials;
             if( u->get_book_reader( *loc, denials ) == nullptr && !denials.empty() &&
-                !loc->type->can_use( "learn_spell" ) ) {
+                !loc->type->can_use( "learn_spell" ) && u->has_identified( loc->typeId() ) ) {
                 return denials.front();
             }
             return pickup_inventory_preset::get_denial( loc );
