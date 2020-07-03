@@ -852,11 +852,6 @@ bool advanced_inventory::move_all_items( bool nested_call )
                     }
                     if( !spane.is_filtered( *it ) ) {
                         const int count = it->count();
-                        if( it->count_by_charges() ) {
-                            count = it->charges;
-                        } else {
-                            count = 1;
-                        }
                         if( it->is_favorite ) {
                             dropped_favorite.emplace_back( item_location( item_location( g->u, &cloth ), it ), count );
                         } else {
