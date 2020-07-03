@@ -146,7 +146,7 @@
     "material": [ "milk", "water" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 14
   },
   {
@@ -391,7 +391,7 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 2
   },
   {
@@ -411,7 +411,7 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3
   },
   {
@@ -499,9 +499,8 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 4,
-    "vitamins": [ [ "iron", 1 ] ]
+    "flags": [ "EATEN_HOT" ],
+    "fun": 4
   },
   {
     "id": "hot_chocolate",
@@ -975,7 +974,7 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 6
   },
   {
@@ -995,7 +994,7 @@
     "volume": "500 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": -5
   },
   {

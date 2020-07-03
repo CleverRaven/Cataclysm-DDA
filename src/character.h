@@ -70,6 +70,7 @@ struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
 template <typename E> struct enum_traits;
+enum npc_attitude : int;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -2213,6 +2214,7 @@ class Character : public Creature, public visitable<Character>
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         Attitude attitude_to( const Creature &other ) const override;
+        virtual npc_attitude get_attitude() const;
 
         // used in debugging all health
         int get_lowest_hp() const;

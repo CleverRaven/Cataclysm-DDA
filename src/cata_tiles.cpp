@@ -2112,7 +2112,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
     if( low_overridden ? !low_override->second : ( invisible[0] ||
-            !here.need_draw_lower_floor( p ) ) ) {
+            here.dont_draw_lower_floor( p ) ) ) {
         return false;
     }
 
@@ -2584,7 +2584,7 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, in
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
     if( low_overridden ? !low_override->second : ( invisible[0] ||
-            !get_map().need_draw_lower_floor( p ) ) ) {
+            get_map().dont_draw_lower_floor( p ) ) ) {
         return false;
     }
     tripoint pbelow( p.xy(), p.z - 1 );
@@ -2661,7 +2661,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
     if( low_overridden ? !low_override->second : ( invisible[0] ||
-            !get_map().need_draw_lower_floor( p ) ) ) {
+            get_map().dont_draw_lower_floor( p ) ) ) {
         return false;
     }
 

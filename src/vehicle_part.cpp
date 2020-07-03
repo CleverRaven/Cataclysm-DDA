@@ -233,7 +233,6 @@ int vehicle_part::ammo_remaining() const
     if( is_tank() ) {
         return base.contents.empty() ? 0 : base.contents.legacy_front().charges;
     }
-
     if( is_fuel_store( false ) || is_turret() ) {
         return base.ammo_remaining();
     }

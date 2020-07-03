@@ -185,7 +185,10 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
 
-    if( !grabbed_vehicle ) {
+    if( grabbed_vehicle ) {
+        m.level_vehicle( *grabbed_vehicle );
+        grabbed_vehicle->check_falling_or_floating();
+    } else {
         debugmsg( "Grabbed vehicle disappeared" );
         return false;
     }

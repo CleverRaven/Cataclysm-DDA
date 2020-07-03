@@ -9,7 +9,7 @@
 #include "optional.h"
 #include "point.h"
 
-class avatar;
+class Character;
 class JsonIn;
 class JsonOut;
 
@@ -23,7 +23,7 @@ class teleporter_list
         cata::optional<tripoint> choose_teleport_location();
         // returns true if a teleport is successful
         // does not do any loading or unloading
-        bool place_avatar_overmap( avatar &you, const tripoint &omt_pt ) const;
+        bool place_avatar_overmap( Character &you, const tripoint &omt_pt ) const;
     public:
         bool knows_translocator( const tripoint &omt_pos ) const;
         // adds teleporter to known_teleporters and does any other activation necessary
