@@ -90,7 +90,7 @@ std::string enum_to_string<WS>( WS data )
 
 aim_activity_actor::aim_activity_actor()
 {
-    initial_view_offset = g->u.view_offset;
+    initial_view_offset = get_avatar().view_offset;
 }
 
 aim_activity_actor aim_activity_actor::use_wielded()
@@ -136,7 +136,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
         aborted = true;
         return;
     }
-    avatar &you = g->u;
+    avatar &you = get_avatar();
 
     item *weapon = get_weapon();
     if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
@@ -241,10 +241,12 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 item *aim_activity_actor::get_weapon()
 {
     switch( weapon_source ) {
-        case WeaponSource::Wielded:
+        case WeaponSource::Wielded: {
+            Character &player_character = get_player_character();
             // Check for lost gun (e.g. yanked by zombie technician)
             // TODO: check that this is the same gun that was used to start aiming
-            return g->u.weapon.is_null() ? nullptr : &g->u.weapon;
+            return player_character.weapon.is_null() ? nullptr : &player_character.weapon;
+        }
         case WeaponSource::Bionic:
         case WeaponSource::Mutation:
             // TODO: check if the player lost relevant bionic/mutation
@@ -257,10 +259,11 @@ item *aim_activity_actor::get_weapon()
 
 void aim_activity_actor::restore_view()
 {
-    bool changed_z = g->u.view_offset.z != initial_view_offset.z;
-    g->u.view_offset = initial_view_offset;
+    avatar &player_character = get_avatar();
+    bool changed_z = player_character.view_offset.z != initial_view_offset.z;
+    player_character.view_offset = initial_view_offset;
     if( changed_z ) {
-        get_map().invalidate_map_cache( g->u.view_offset.z );
+        get_map().invalidate_map_cache( player_character.view_offset.z );
         g->invalidate_main_ui_adaptor();
     }
 }
@@ -268,7 +271,7 @@ void aim_activity_actor::restore_view()
 bool aim_activity_actor::load_RAS_weapon()
 {
     // TODO: use activity for fetching ammo and loading weapon
-    player &you = g->u;
+    player &you = get_avatar();
     item *weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
     const auto ammo_location_is_valid = [&]() -> bool {
@@ -313,7 +316,7 @@ bool aim_activity_actor::load_RAS_weapon()
 void aim_activity_actor::unload_RAS_weapon()
 {
     // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
-    avatar &you = g->u;
+    avatar &you = get_avatar();
     item *weapon = get_weapon();
     if( !weapon ) {
         return;
@@ -390,7 +393,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                           calendar::turn ) );
     }
 
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    const int helpersize = get_avatar().get_num_crafting_helpers( 3 );
     who.mod_stored_nutr( 5 - helpersize );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -460,7 +463,7 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                           calendar::turn ) );
     }
 
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    const int helpersize = get_avatar().get_num_crafting_helpers( 3 );
     who.mod_stored_nutr( 5 - helpersize );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -1129,8 +1132,9 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
 void consume_activity_actor::start( player_activity &act, Character &guy )
 {
     int moves;
+    Character &player_character = get_player_character();
     if( consume_location ) {
-        const auto ret = g->u.will_eat( *consume_location, true );
+        const auto ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             consume_menu_selections = std::vector<int>();
             return;
@@ -1139,7 +1143,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
     } else if( !consume_item.is_null() ) {
-        const auto ret = g->u.will_eat( consume_item, true );
+        const auto ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             consume_menu_selections = std::vector<int>();
             return;
@@ -1163,22 +1167,23 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     // too late; we've already consumed).
     act.interruptable = false;
 
+    avatar &player_character = get_avatar();
     if( consume_location ) {
-        g->u.consume( consume_location, force );
+        player_character.consume( consume_location, force );
     } else if( !consume_item.is_null() ) {
-        g->u.consume( consume_item, force );
+        player_character.consume( consume_item, force );
     } else {
         debugmsg( "Item location/name to be consumed should not be null." );
     }
-    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    if( player_character.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
     }
     //setting act to null clears these so back them up
     std::vector<int> temp_selections = consume_menu_selections;
     act.set_to_null();
     if( !temp_selections.empty() ) {
-        g->u.assign_activity( ACT_EAT_MENU );
-        g->u.activity.values = temp_selections;
+        player_character.assign_activity( ACT_EAT_MENU );
+        player_character.activity.values = temp_selections;
     }
 }
 
@@ -1314,11 +1319,12 @@ void workout_activity_actor::start( player_activity &act, Character &who )
         act.set_to_null();
         return;
     }
+    map &here = get_map();
     // free training requires all limbs intact, but specialized workout machines
     // train upper or lower parts of body only and may permit workout with
     // broken limbs as long as they are not involved by the machine
-    bool hand_equipment = g->m.has_flag_furn( "WORKOUT_ARMS", location );
-    bool leg_equipment = g->m.has_flag_furn( "WORKOUT_LEGS", location );
+    bool hand_equipment = here.has_flag_furn( "WORKOUT_ARMS", location );
+    bool leg_equipment = here.has_flag_furn( "WORKOUT_LEGS", location );
     static const bodypart_id arm_l = bodypart_id( "arm_l" );
     static const bodypart_id arm_r = bodypart_id( "arm_r" );
     static const bodypart_id leg_l = bodypart_id( "leg_l" );
