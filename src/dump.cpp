@@ -106,9 +106,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         header = {
             "Name", "Encumber (fit)", "Warmth", "Weight", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
         };
-
         body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
-
         auto dump = [&rows, &bp]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
@@ -123,8 +121,6 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.fire_resist() ) );
             rows.push_back( r );
         };
-
-
 
         for( const itype *e : item_controller->all() ) {
             if( e->armor ) {

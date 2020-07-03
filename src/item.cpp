@@ -1251,7 +1251,10 @@ item::sizing item::get_sizing( const Character &p ) const
         } else if( small ) {
             return sizing::human_sized_small_char;
         } else {
-            const islot_armor* armor_data = find_armor_data();
+            const islot_armor *armor_data = find_armor_data();
+            if( !armor_data ) {
+                return sizing::ignore;
+            }
             bool to_ignore = true;
             for( const random_armor_data &piece : armor_data->data ) {
                 if( piece.encumber != 0 ) {
