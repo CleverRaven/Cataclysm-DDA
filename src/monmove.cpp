@@ -1514,25 +1514,24 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     bool was_water = g->m.is_divable( pos() );
     bool will_be_water = on_ground && can_submerge() && g->m.is_divable( destination );
 
-    //Birds and other flying creatures flying over the deep water terrain
-    if( was_water && flies() && g->u.sees( destination ) ) {
-        if( one_in( 4 ) ) {
-            add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name(),
+    // Attitude check is kinda slow, better gate it
+    if( was_water != will_be_water && !flies() ) {
+        if( attitude( &g->u ) != MATT_ATTACK ) {
+            // Nothing, no need to spam
+        } else if( was_water && !will_be_water && g->u.sees( p ) ) {
+            // Use more dramatic messages for swimming monsters
+            //~ Message when a monster emerges from water
+            //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
+            add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ), name(),
+                     swims() || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
                      g->m.tername( pos() ) );
+        } else if( !was_water && will_be_water && g->u.sees( destination ) ) {
+            //~ Message when a monster enters water
+            //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
+            add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s into the %3$s!" ), name(),
+                     swims() || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
+                     g->m.tername( destination ) );
         }
-    } else if( was_water && !will_be_water && g->u.sees( p ) ) {
-        // Use more dramatic messages for swimming monsters
-        //~ Message when a monster emerges from water
-        //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
-        add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ), name(),
-                 swims() || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
-                 g->m.tername( pos() ) );
-    } else if( !was_water && will_be_water && g->u.sees( destination ) ) {
-        //~ Message when a monster enters water
-        //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
-        add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s into the %3$s!" ), name(),
-                 swims() || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
-                 g->m.tername( destination ) );
     }
 
     setpos( destination );
