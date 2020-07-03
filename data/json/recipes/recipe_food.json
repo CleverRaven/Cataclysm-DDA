@@ -978,13 +978,6 @@
     "difficulty": 1,
     "time": "12 m",
     "autolearn": true,
-    "book_learn": [
-      [ "pocket_survival", 1 ],
-      [ "survival_book", 1 ],
-      [ "textbook_survival", 1 ],
-      [ "manual_survival", 1 ],
-      [ "survival_book", 1 ]
-    ],
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [ [ [ "salsify_raw", 1 ] ] ]
@@ -2270,7 +2263,6 @@
     "charges": 2,
     "batch_time_factors": [ 50, 4 ],
     "autolearn": true,
-    "book_learn": [ [ "cookbook_indian", 1 ], [ "cookbook", 1 ] ],
     "qualities": [ { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [ [ [ "flour", 11 ] ], [ [ "water", 2 ], [ "water_clean", 2 ] ] ]

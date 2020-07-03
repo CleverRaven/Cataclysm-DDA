@@ -2409,7 +2409,7 @@
     "difficulty": 3,
     "time": "24 m",
     "autolearn": true,
-    "book_learn": [ [ "textbook_weapwest", 2 ], [ "recipe_melee", 3 ] ],
+    "book_learn": [ [ "textbook_weapwest", 1 ] ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "components": [ [ [ "q_staff", 1 ] ] ]
   },

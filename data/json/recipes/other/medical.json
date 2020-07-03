@@ -72,7 +72,6 @@
     "subcategory": "CSC_OTHER_MEDICAL",
     "skill_used": "cooking",
     "autolearn": true,
-    "book_learn": [ [ "isherwood_herbal_remedies", 1 ] ],
     "time": "30 s",
     "components": [ [ [ "chem_ethanol", 250 ], [ "denat_alcohol", 250 ] ] ]
   },

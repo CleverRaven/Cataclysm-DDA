@@ -891,7 +891,7 @@
     "skill_used": "cooking",
     "difficulty": 4,
     "time": "40 m",
-    "book_learn": [ [ "cookbook", 4 ], [ "manual_canning", 3 ] ],
+    "book_learn": [ [ "manual_canning", 3 ] ],
     "result_mult": 24,
     "autolearn": true,
     "batch_time_factors": [ 83, 5 ],
