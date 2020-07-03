@@ -9813,7 +9813,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     ) {
         units::volume total_volume = 0_ml;
         for( const auto &p : locs ) {
-            total_volume += ( *p.first )->volume() * p.second /
+            total_volume += ( *p.first )->base_volume() * p.second /
                             ( ( *p.first )->count_by_charges() ? ( *p.first )->charges : 1 );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
@@ -9851,7 +9851,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
             return 0;
         }
         item &i = *pair.first;
-        total_volume += i.volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
+        total_volume += i.base_volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
     }
 
     washing_requirements required = washing_requirements_for_volume( total_volume );
