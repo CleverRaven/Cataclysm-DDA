@@ -1793,12 +1793,16 @@ void islot_armor::load( const JsonObject &jo )
             tempData.coverage = obj.get_int( "coverage" );
             data.push_back( tempData );
 
-            if( obj.has_int( "layer" ) ) {
+            if( obj.has_string( "layer" ) ) {
                 for( auto &piece : data ) {
-                    piece.layer = static_cast<layer_level>( obj.get_int( "layer" ) );
+                    const std::string &val = obj.get_string( "layer" );
+                    auto iter = std::find(layer_level_strings.begin(), layer_level_strings.end(), val );
+                    if( iter != layer_level_strings.end() ) {
+                        piece.layer = static_cast<layer_level>( iter - layer_level_strings.begin() );
+                    }
                 }
             } else {
-                for( auto &piece : data ) {
+                for( random_armor_data &piece : data ) {
                     piece.layer = layer_level::REGULAR;
                 }
             }
