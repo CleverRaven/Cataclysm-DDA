@@ -2,35 +2,14 @@
   {
     "id": "TALK_OLD_GUARD_REP",
     "type": "talk_topic",
-    "responses": [
-      {
-        "text": "What can you tell me about the dinosaurs?",
-        "condition": { "not": { "u_has_var": "OG_DINO_MISSION_1", "type": "general", "context": "mission", "value": "yes" } },
-        "topic": "TALK_OLD_GUARD_REP_DINOSAURS"
-      },
-      {
-        "text": "Has there been any news about the dinosaurs?",
-        "condition": { "u_has_var": "OG_DINO_MISSION_1", "type": "general", "context": "mission", "value": "yes" },
-        "topic": "MISSION_OLD_GUARD_DINO_2"
-      },
-      {
-        "text": "Anything new about the dinosaurs?",
-        "condition": {
-          "and": [
-            { "u_has_var": "OG_DINO_MISSION_2", "type": "general", "context": "mission", "value": "yes" },
-            { "not": { "u_has_var": "OG_DINO_MISSION_3", "type": "general", "context": "mission", "value": "yes" } }
-          ]
-        },
-        "topic": "MISSION_OLD_GUARD_DINO_3"
-      }
-    ]
+    "responses": [ { "text": "What can you tell me about the dinosaurs?", "topic": "TALK_OLD_GUARD_REP_DINOSAURS" } ]
   },
   {
     "id": "TALK_OLD_GUARD_REP_DINOSAURS",
     "type": "talk_topic",
     "dynamic_line": "They just started showing up about the same time it all fell apart.  They attack the caravans and the bandits both.  Hungry bastards.  All dinosaurs are shoot on sight.  We don't eat them, they're probably poisoned with whatever got the dead ones.  Just leave them for the crows.  Same with the eggs.",
     "responses": [
-      { "text": "Kill all dinosaurs, interesting…", "topic": "MISSION_OLD_GUARD_DINO_1" },
+      { "text": "Kill all dinosaurs, interesting…", "topic": "MISSION_OLD_GUARD_DINO_3" },
       { "text": "Probably not important.", "topic": "TALK_OLD_GUARD_REP" }
     ]
   }
