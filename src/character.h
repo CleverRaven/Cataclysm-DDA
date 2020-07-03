@@ -346,6 +346,8 @@ class Character : public Creature, public visitable<Character>
         bool in_species( const species_id &spec ) const override;
         // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         bool death_drops;
+        // Is currently in control of a vehicle
+        bool controlling_vehicle = false;
 
         enum class comfort_level : int {
             impossible = -999,
