@@ -292,7 +292,6 @@
     "id": "enchanted_misc",
     "type": "item_group",
     "//": "all enchanted miscellanious items",
-    "subtype": "collection",
     "items": [
       [ "item": "heat_cube", 100 ],
       [ "item": "mkey_opening", 100 ],
