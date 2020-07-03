@@ -2351,6 +2351,13 @@
     "components": [ [ [ "scrap", 3 ] ], [ [ "steel_chunk", 1 ] ] ]
   },
   {
+    "result": "makeshift_sheets_bag",
+    "type": "uncraft",
+    "time": "20 s",
+    "components": [ [ [ "sheet", 2 ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "makeshift_sling",
     "type": "uncraft",
     "time": "6 s",

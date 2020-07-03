@@ -500,6 +500,18 @@
     "flags": [ "BLIND_HARD" ]
   },
   {
+    "result": "makeshift_sheets_bag",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "time": "10 m",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "sheet", 2 ], [ "blanket", 2 ], [ "electric_blanket", 2 ] ], [ [ "filament", 300, "LIST" ] ] ],
+    "flags": [ "BLIND_HARD" ]
+  },
+  {
     "result": "makeshift_sling",
     "type": "recipe",
     "category": "CC_ARMOR",

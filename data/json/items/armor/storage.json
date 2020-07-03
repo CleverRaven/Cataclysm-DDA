@@ -833,6 +833,38 @@
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {
+    "id": "makeshift_sheets_bag",
+    "type": "ARMOR",
+    "name": { "str": "makeshift sheets bag" },
+    "description": "Two large sheets stitched together into a crude, oversized bag. You could even carry stout branches with this, just stay away from enemies while you do.",
+    "weight": "1550 g",
+    "volume": "10 L",
+    "price": 200,
+    "price_postapoc": 20,
+    "to_hit": -2,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "ragpouch",
+    "color": "light_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 60,
+    "encumbrance": 10,
+    "max_encumbrance": 45,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "22 kg",
+        "max_item_length": "150 cm",
+        "magazine_well": "5 L",
+        "moves": 300
+      }
+    ],
+    "warmth": 15,
+    "material_thickness": 2,
+    "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
     "id": "makeshift_sling",
     "type": "ARMOR",
     "name": { "str": "makeshift sling" },
