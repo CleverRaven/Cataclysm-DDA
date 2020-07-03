@@ -1,4 +1,7 @@
-#include "requirements.h"
+#include "item.h"
+#include "itype.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
 
 #include <algorithm>
 #include <cstddef>
@@ -6,116 +9,25 @@
 
 #include "catch/catch.hpp"
 
-static void test_requirement_deduplication(
-    const requirement_data::alter_item_comp_vector &before,
-    std::vector<requirement_data::alter_item_comp_vector> after
-)
+TEST_CASE( "No book grant a recipe at skill levels above autolearn", "[recipe]" )
 {
-    requirement_data in( {}, {}, before );
-    deduped_requirement_data out( in, recipe_id::NULL_ID() );
-    CHECK( out.alternatives().size() == after.size() );
-    while( after.size() < out.alternatives().size() ) {
-        after.emplace_back();
+    for( const recipe *rec : recipe_dict.all_autolearn() ) {
+        // Booklearning requires only one skill - the primary one
+        // If autolearn requires any other skill, booklearn is not 100% useless
+        if( rec->autolearn_requirements.size() > 1 ||
+            rec->autolearn_requirements.count( rec->skill_used ) < 1 ) {
+            continue;
+        }
+        for( const std::pair<std::string, int> &p : rec->booksets ) {
+            const std::string recipe_ident = rec->ident().str();
+            const std::string item_type = rec->result();
+            const std::string item_name = item::nname( rec->result() );
+            const std::string bookname = item::nname( p.first );
+            CAPTURE( recipe_ident );
+            CAPTURE( item_type );
+            CAPTURE( item_name );
+            CAPTURE( bookname );
+            CHECK( p.second < rec->autolearn_requirements.begin()->second );
+        }
     }
-
-    for( size_t i = 0; i < out.alternatives().size(); ++i ) {
-        CAPTURE( i );
-        requirement_data this_expected( {}, {}, after[i] );
-        CHECK( out.alternatives()[i].list_all() == this_expected.list_all() );
-    }
-}
-
-TEST_CASE( "simple_requirements_dont_multiply", "[requirement]" )
-{
-    test_requirement_deduplication( { { { "rock", 1 } } }, { { { { "rock", 1 } } } } );
-}
-
-TEST_CASE( "survivor_telescope_inspired_example", "[requirement]" )
-{
-    requirement_data::alter_item_comp_vector before;
-    test_requirement_deduplication(
-    { { { "rock", 1 }, { "soap", 1 } }, { { "rock", 1 } } }, {
-        { { { "soap", 1 } }, { { "rock", 1 } } },
-        { { { "rock", 2 } } }
-    } );
-}
-
-TEST_CASE( "survivor_telescope_inspired_example_2", "[requirement]" )
-{
-    requirement_data::alter_item_comp_vector before;
-    test_requirement_deduplication(
-    { { { "ash", 1 } }, { { "rock", 1 }, { "soap", 1 } }, { { "rock", 1 } }, { { "lye", 1 } } }, {
-        { { { "ash", 1 } }, { { "soap", 1 } }, { { "rock", 1 } }, { { "lye", 1 } } },
-        { { { "ash", 1 } }, { { "rock", 2 } }, { { "lye", 1 } } }
-    } );
-}
-
-TEST_CASE( "woods_soup_inspired_example", "[requirement]" )
-{
-    requirement_data::alter_item_comp_vector before;
-    test_requirement_deduplication(
-    { { { "rock", 1 }, { "soap", 1 } }, { { "rock", 1 }, { "yarn", 1 } } }, {
-        { { { "soap", 1 } }, { { "rock", 1 }, { "yarn", 1 } } },
-        { { { "rock", 1 } }, { { "yarn", 1 } } },
-        { { { "rock", 2 } } }
-    } );
-}
-
-TEST_CASE( "triple_overlap_1", "[requirement]" )
-{
-    requirement_data::alter_item_comp_vector before;
-    test_requirement_deduplication( {
-        { { "rock", 1 }, { "soap", 1 } },
-        { { "rock", 1 } },
-        { { "soap", 1 } }
-    }, {
-        { { { "rock", 1 } }, { { "soap", 2 } } },
-        { { { "rock", 2 } }, { { "soap", 1 } } },
-    } );
-}
-
-TEST_CASE( "triple_overlap_2", "[requirement]" )
-{
-    requirement_data::alter_item_comp_vector before;
-    test_requirement_deduplication( {
-        { { "rock", 1 }, { "soap", 1 } },
-        { { "rock", 1 }, { "yarn", 1 } },
-        { { "soap", 1 }, { "acid", 1 } }
-    }, {
-        { { { "soap", 1 } }, { { "rock", 1 }, { "yarn", 1 } }, { { "acid", 1 } } },
-        { { { "rock", 1 }, { "yarn", 1 } }, { { "soap", 2 } } },
-        { { { "rock", 1 } }, { { "yarn", 1 } }, { { "acid", 1 }, { "soap", 1 } } },
-        { { { "rock", 2 } }, { { "acid", 1 }, { "soap", 1 } } },
-    } );
-}
-
-TEST_CASE( "triple_overlap_3", "[requirement]" )
-{
-    requirement_data::alter_item_comp_vector before;
-    test_requirement_deduplication( {
-        { { "rock", 1 }, { "soap", 1 } },
-        { { "rock", 1 }, { "yarn", 1 } },
-        { { "soap", 1 }, { "yarn", 1 } }
-    }, {
-        // These results are not ideal.  Two of them are equivalent and
-        // another two could be merged.  But they are correct, and that
-        // seems good enough for now.  I don't anticipate any real recipes
-        // being as complicated to resolve as this one.
-        { { { "soap", 1 } }, { { "rock", 1 } }, { { "yarn", 1 } } },
-        { { { "soap", 1 } }, { { "yarn", 2 } } },
-        { { { "rock", 1 }, { "yarn", 1 } }, { { "soap", 2 } } },
-        { { { "rock", 1 } }, { { "yarn", 1 } }, { { "soap", 1 } } },
-        { { { "rock", 1 } }, { { "yarn", 2 } } },
-        { { { "rock", 2 } }, { { "yarn", 1 }, { "soap", 1 } } },
-    } );
-}
-
-TEST_CASE( "deduplicate_repeated_requirements", "[requirement]" )
-{
-    requirement_data::alter_item_comp_vector before;
-    test_requirement_deduplication( {
-        { { "rock", 1 } }, { { "yarn", 1 } }, { { "rock", 1 } }, { { "yarn", 1 } }
-    }, {
-        { { { "rock", 2 } }, { { "yarn", 2 } } },
-    } );
 }
