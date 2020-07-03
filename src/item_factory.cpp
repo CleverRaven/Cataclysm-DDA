@@ -97,11 +97,6 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
                                        body_part_set &parts, bool &sided )
 {
     auto parse = [&parts, &sided]( const std::string & val ) {
-        // If the item doesnt have coverage_data (then its coverage will be old style, TORSO etc. )
-        // Set legacy flag so we process it differently later
-        if( is_legacy_bodypart_id( val ) ) {
-            parts.set( bodypart_str_id( "num_bp" ) );
-        }
         if( val == "ARMS" || val == "ARM_EITHER" ) {
             parts.set( bodypart_str_id( "arm_l" ) );
             parts.set( bodypart_str_id( "arm_r" ) );
@@ -1758,7 +1753,6 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
 void islot_armor::load( const JsonObject &jo )
 {
     if( jo.has_array( "coverage_data" ) ) {
-
         for( const JsonObject &obj : jo.get_array( "coverage_data" ) ) {
             random_armor_data tempData;
             body_part_set temp_cover_data;
@@ -1770,7 +1764,7 @@ void islot_armor::load( const JsonObject &jo )
                 tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
             } else if( obj.has_int( "encumbrance" ) ) {
                 tempData.encumber = obj.get_int( "encumbrance" );
-                tempData.max_encumber = obj.get_int( "encumbrance" );
+                tempData.max_encumber = 0;
             }
             tempData.coverage = obj.get_int( "coverage" );
 

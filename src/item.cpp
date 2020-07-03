@@ -2489,7 +2489,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         return;
     }
 
-    const sizing sizing_level = get_sizing( g->u );
     const std::string space = "  ";
     body_part_set covered_parts = get_covered_body_parts();
     bool covers_anything = covered_parts.any();
@@ -2590,37 +2589,51 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
         std::string format;
+        const int encumbrance = get_encumber( g->u ) != 0;
         if( has_flag( flag_FIT ) ) {
-            format = _( "<num> <info>(fits)</info>" );
-        } else if( has_flag( flag_VARSIZE ) ) {
-            format = _( "<num> <bad>(poor fit)</bad>" );
+            format = _( " <info>(fits)</info>" );
+        } else if( has_flag( flag_VARSIZE ) && encumbrance ) {
+            format = _( " <bad>(poor fit)</bad>" );
         }
 
-        //If we have the wrong size, we do not fit so alert the player
-        if( sizing_level == sizing::human_sized_small_char ) {
-            format = _( "<num> <bad>(too big)</bad>" );
-        } else if( sizing_level == sizing::big_sized_small_char ) {
-            format = _( "<num> <bad>(huge!)</bad>" );
-        } else if( sizing_level == sizing::small_sized_human_char ||
-                   sizing_level == sizing::human_sized_big_char ) {
-            format = _( "<num> <bad>(too small)</bad>" );
-        } else if( sizing_level == sizing::small_sized_big_char ) {
-            format = _( "<num> <bad>(tiny!)</bad>" );
+        if( encumbrance ) {
+            const sizing sizing_level = get_sizing( g->u );
+            //If we have the wrong size, we do not fit so alert the player
+            if( sizing_level == sizing::human_sized_small_char ) {
+                format = _( " <bad>(too big)</bad>" );
+            } else if( sizing_level == sizing::big_sized_small_char ) {
+                format = _( " <bad>(huge!)</bad>" );
+            } else if( sizing_level == sizing::small_sized_human_char ||
+                       sizing_level == sizing::human_sized_big_char ) {
+                format = _( " <bad>(too small)</bad>" );
+            } else if( sizing_level == sizing::small_sized_big_char ) {
+                format = _( " <bad>(tiny!)</bad>" );
+            }
         }
 
-        info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>:" ), format,
-                                  iteminfo::lower_is_better ) );
+        info.push_back( iteminfo( "ARMOR", _( "<bold>Encumbrance</bold>: " ) + format ) );
 
         if( const islot_armor *t = find_armor_data() ) {
             if( !t->data.empty() ) {
-                // .first is name_as_heading from JSON
-                // .second is name_as_heading_multiple from JSON
-                using translation_pair = std::pair<translation, translation>;
+                struct translation_pair {
+                    translation to_display;
+                    translation name_as_heading_multiple;
+                };
+                struct coverage_data_type {
+                    int encumber;
+                    int max_encumber;
+                    int coverage;
 
-                // 0 is encumber from JSON
-                // 1 is max_encumber from JSON
-                // 2 is coverage from JSON
-                using coverage_data_type = std::tuple<int, int, int>;
+                    bool operator==( const coverage_data_type &other ) {
+                        if( encumber == other.encumber
+                            && max_encumber == other.max_encumber
+                            && coverage == other.coverage ) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    };
+                };
 
                 std::unordered_map<bodypart_str_id, std::pair<coverage_data_type, translation_pair>> encumb_data;
 
@@ -2651,8 +2664,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                             bodypart_str_id( "foot_l" ) ).first ) {
                         encumb_data.erase( encumb_data.find( bodypart_str_id( "foot_l" ) ) );
                         encumb_data[bodypart_str_id( "Feet" )] = encumb_data.at( bodypart_str_id( "foot_r" ) );
-                        encumb_data[bodypart_str_id( "Feet" )].second.first =
-                            encumb_data[bodypart_str_id( "Feet" )].second.second;
+                        encumb_data[bodypart_str_id( "Feet" )].second.to_display =
+                            encumb_data[bodypart_str_id( "Feet" )].second.name_as_heading_multiple;
                         encumb_data.erase( encumb_data.find( bodypart_str_id( "foot_r" ) ) );
                     }
                     if( covers( bodypart_id( "arm_l" ) ) && covers( bodypart_id( "arm_r" ) )
@@ -2660,8 +2673,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                             bodypart_str_id( "arm_r" ) ).first ) {
                         encumb_data.erase( encumb_data.find( bodypart_str_id( "arm_l" ) ) );
                         encumb_data[bodypart_str_id( "Arms" )] = encumb_data.at( bodypart_str_id( "arm_r" ) );
-                        encumb_data[bodypart_str_id( "Arms" )].second.first =
-                            encumb_data[bodypart_str_id( "Arms" )].second.second;
+                        encumb_data[bodypart_str_id( "Arms" )].second.to_display =
+                            encumb_data[bodypart_str_id( "Arms" )].second.name_as_heading_multiple;
                         encumb_data.erase( encumb_data.find( bodypart_str_id( "arm_r" ) ) );
                     }
                     if( covers( bodypart_id( "leg_l" ) ) && covers( bodypart_id( "leg_r" ) )
@@ -2669,8 +2682,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                             bodypart_str_id( "leg_r" ) ).first ) {
                         encumb_data.erase( encumb_data.find( bodypart_str_id( "leg_l" ) ) );
                         encumb_data[bodypart_str_id( "Legs" )] = encumb_data.at( bodypart_str_id( "leg_r" ) );
-                        encumb_data[bodypart_str_id( "Legs" )].second.first =
-                            encumb_data[bodypart_str_id( "Legs" )].second.second;
+                        encumb_data[bodypart_str_id( "Legs" )].second.to_display =
+                            encumb_data[bodypart_str_id( "Legs" )].second.name_as_heading_multiple;
                         encumb_data.erase( encumb_data.find( bodypart_str_id( "leg_r" ) ) );
                     }
                     if( covers( bodypart_id( "hand_l" ) ) && covers( bodypart_id( "hand_r" ) )
@@ -2678,47 +2691,32 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                             bodypart_str_id( "hand_r" ) ).first ) {
                         encumb_data.erase( encumb_data.find( bodypart_str_id( "hand_l" ) ) );
                         encumb_data[bodypart_str_id( "Hands" )] = encumb_data.at( bodypart_str_id( "hand_r" ) );
-                        encumb_data[bodypart_str_id( "Hands" )].second.first =
-                            encumb_data[bodypart_str_id( "Hands" )].second.second;
+                        encumb_data[bodypart_str_id( "Hands" )].second.to_display =
+                            encumb_data[bodypart_str_id( "Hands" )].second.name_as_heading_multiple;
                         encumb_data.erase( encumb_data.find( bodypart_str_id( "hand_r" ) ) );
                     }
                 }
-
                 for( auto &encumb : encumb_data ) {
                     if( t->sided ) {
                         const bodypart_str_id &covering_id = std::get<0>( encumb );
-                        if( !covers( bodypart_id( "arm_l" ) ) && covering_id == bodypart_str_id( "arm_l" ) ) {
-                            continue;
-                        } else if( !covers( bodypart_id( "arm_r" ) ) && covering_id == bodypart_str_id( "arm_r" ) ) {
-                            continue;
-                        } else if( !covers( bodypart_id( "hand_r" ) ) && covering_id == bodypart_str_id( "hand_r" ) ) {
-                            continue;
-                        } else if( !covers( bodypart_id( "hand_l" ) ) && covering_id == bodypart_str_id( "hand_l" ) ) {
-                            continue;
-                        } else if( !covers( bodypart_id( "leg_l" ) ) && covering_id == bodypart_str_id( "leg_l" ) )  {
-                            continue;
-                        } else if( !covers( bodypart_id( "leg_r" ) ) && covering_id == bodypart_str_id( "leg_r" ) ) {
-                            continue;
-                        } else if( !covers( bodypart_id( "foot_r" ) ) && covering_id == bodypart_str_id( "foot_r" ) ) {
-                            continue;
-                        } else if( !covers( bodypart_id( "foot_l" ) ) && covering_id == bodypart_str_id( "foot_l" ) ) {
+                        if( !covers( covering_id.id() ) ) {
                             continue;
                         }
                     }
                     const coverage_data_type &coverage_data = encumb.second.first;
 
                     info.push_back( iteminfo( "ARMOR",
-                                              encumb.second.second.first.translated() + ':' + space, "",
+                                              string_format( _( "%s:" ), encumb.second.second.to_display.translated() ) + space, "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
-                                              std::get<0>( coverage_data ) ) );
+                                              coverage_data.encumber ) ) ;
 
-                    info.push_back( iteminfo( "ARMOR", space + _( "When Full" ) + ':' + space, "",
+                    info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
-                                              std::get<1>( coverage_data ) ) );
+                                              coverage_data.max_encumber ) ) ;
 
-                    info.push_back( iteminfo( "ARMOR", space + _( "Coverage" ) + ':' + space, "",
+                    info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
                                               iteminfo::lower_is_better,
-                                              std::get<2>( coverage_data ) ) );
+                                              coverage_data.coverage ) );
                 }
             }
         }
@@ -3653,21 +3651,18 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     bool any_encumb_increase = false;
     if( parts->test( iteminfo_parts::BASE_RIGIDITY ) ) {
         if( const islot_armor *t = find_armor_data() ) {
-            if( !t->data.empty() ) {
-                for( const random_armor_data &data : t->data ) {
-                    if( data.encumber != data.max_encumber ) {
-                        info.emplace_back( "BASE",
-                                           _( "* This item is <info>not rigid</info>.  Its"
-                                              " volume and encumbrance increase with contents." ) );
-                        any_encumb_increase = true;
-                        break;
-                    }
-                }
-            }
+            any_encumb_increase = std::any_of( t->data.begin(), t->data.end(),
+            []( random_armor_data data ) {
+                return data.encumber != data.max_encumber;
+            } );
             if( !any_encumb_increase && !contents.all_pockets_rigid() ) {
                 info.emplace_back( "BASE",
                                    _( "* This item is <info>not rigid</info>.  Its"
                                       " volume increases with contents." ) );
+            } else if( any_encumb_increase ) {
+                info.emplace_back( "BASE",
+                                   _( "* This item is <info>not rigid</info>.  Its"
+                                      " volume and encumbrance increase with contents." ) );
             }
         }
     }
@@ -5639,8 +5634,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     for( const random_armor_data &data : t->data ) {
-        if( bodypart == bodypart_id( bodypart_str_id( "num_bp" ) )
-            || ( data.covers.has_value() && data.covers->test( bodypart.id() ) ) ) {
+        if( data.covers.has_value() && data.covers->test( bodypart.id() ) ) {
             encumber = data.encumber;
             encumber += std::ceil( relative_encumbrance * ( data.max_encumber - data.encumber ) );
         }
@@ -5710,8 +5704,8 @@ int item::get_coverage( const bodypart_id &bodypart ) const
     if( bodypart == bodypart_id( bodypart_str_id( "num_bp" ) ) ) {
         for( const random_armor_data &entry : t->data ) {
             if( entry.covers.has_value() ) {
-                avg_coverage += entry.coverage * entry.covers.value().count();
-                avg_ctr += entry.covers.value().count();
+                avg_coverage += entry.coverage * entry.covers->count();
+                avg_ctr += entry.covers->count();
             }
         }
         if( avg_ctr == 0 || avg_coverage == 0 ) {
