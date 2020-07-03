@@ -2638,13 +2638,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     int coverage;
 
                     bool operator==( const coverage_data_type &other ) {
-                        if( encumber == other.encumber
+                        return encumber == other.encumber
                             && max_encumber == other.max_encumber
-                            && coverage == other.coverage ) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                            && coverage == other.coverage;
                     };
                 };
 
