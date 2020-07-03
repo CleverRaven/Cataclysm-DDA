@@ -104,7 +104,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
     } else if( what == "ARMOR" ) {
         header = {
-            "Name", "Encumber (fit)", "Warmth", "Weight", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
+            "Name", "Encumber (fit)", "Warmth", "Weight", "Avg Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
         };
         auto dump = [&rows]( const item & obj ) {
             std::vector<std::string> r;
@@ -112,7 +112,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.get_encumber( g->u ) ) );
             r.push_back( to_string( obj.get_warmth() ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.get_coverage() ) );
+            r.push_back( to_string( obj.get_avg_coverage() ) );
             r.push_back( to_string( obj.bash_resist() ) );
             r.push_back( to_string( obj.cut_resist() ) );
             r.push_back( to_string( obj.bullet_resist() ) );

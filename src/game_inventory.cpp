@@ -296,8 +296,8 @@ class armor_inventory_preset: public inventory_selector_preset
             }, _( "ENCUMBRANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return string_format( "<%s>%d%%</color>", color, loc->get_coverage() );
-            }, _( "COVERAGE" ) );
+                return string_format( "<%s>%d%%</color>", color, loc->get_avg_coverage() );
+            }, _( "AVG COVERAGE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->get_warmth() );

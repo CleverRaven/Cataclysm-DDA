@@ -1561,13 +1561,19 @@ class item : public visitable<item>
          * Returns clothing layer for item.
          */
         layer_level get_layer() const;
-        /**
-         * Returns the relative coverage that this item has when worn.
-         * Values range from 0 (not covering anything, or no armor at all) to
-         * 100 (covering the whole body part). Items that cover more are more likely to absorb
-         * damage from attacks.
+
+        /*
+         * Returns the average coverage of each piece of data this item contains that covers the bodypart
+         * Currently we do not support multiple pieces of data in the same item covering the same bodypart
+         * So for now this should return the same as get_coverage
          */
-        int get_coverage( const bodypart_id &bodypart = bodypart_id( "num_bp" ) ) const;
+        int get_avg_coverage() const;
+        /**
+         * Returns the highest coverage that any piece of data that this item has that covers the bodypart.
+         * Values range from 0 (not covering anything) to 100 (covering the whole body part).
+         * Items that cover more are more likely to absorb damage from attacks.
+         */
+        int get_coverage( const bodypart_id &bodypart ) const;
 
         enum class encumber_flags : int {
             none = 0,

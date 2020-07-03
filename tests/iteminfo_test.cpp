@@ -638,7 +638,7 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
 
         // Coverage and warmth are displayed together on a single line
         std::vector<iteminfo_parts> cov_warm = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
-        REQUIRE( longshirt.get_coverage() == 90 );
+        REQUIRE( longshirt.get_avg_coverage() == 90 );
         REQUIRE( longshirt.get_warmth() == 5 );
         CHECK( item_info_str( longshirt, cov_warm )
                ==

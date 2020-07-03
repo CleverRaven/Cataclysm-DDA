@@ -2579,7 +2579,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_COVERAGE ) && covers_anything ) {
         info.push_back( iteminfo( "ARMOR", _( "Average Coverage: " ), "<num>%",
-                                  iteminfo::no_newline, get_coverage() ) );
+                                  iteminfo::no_newline, get_avg_coverage() ) );
     }
     if( parts->test( iteminfo_parts::ARMOR_WARMTH ) && covers_anything ) {
         info.push_back( iteminfo( "ARMOR", space + _( "Warmth: " ), get_warmth() ) );
@@ -5692,32 +5692,16 @@ layer_level item::get_layer() const
     }
 }
 
-int item::get_coverage( const bodypart_id &bodypart ) const
+int item::get_avg_coverage() const
 {
     const islot_armor *t = find_armor_data();
     if( t == nullptr ) {
         return 0;
     }
-
     int avg_coverage = 0;
     int avg_ctr = 0;
-    if( bodypart == bodypart_id( bodypart_str_id( "num_bp" ) ) ) {
-        for( const random_armor_data &entry : t->data ) {
-            if( entry.covers.has_value() ) {
-                avg_coverage += entry.coverage * entry.covers->count();
-                avg_ctr += entry.covers->count();
-            }
-        }
-        if( avg_ctr == 0 || avg_coverage == 0 ) {
-            return 0;
-        } else {
-            avg_coverage /= avg_ctr;
-            return avg_coverage;
-        }
-    }
-
     for( const random_armor_data &entry : t->data ) {
-        if( entry.covers.has_value() && entry.covers.value().test( bodypart.id() ) ) {
+        if( entry.covers.has_value() ) {
             avg_coverage += entry.coverage;
             ++avg_ctr;
         }
@@ -5728,6 +5712,25 @@ int item::get_coverage( const bodypart_id &bodypart ) const
         avg_coverage /= avg_ctr;
         return avg_coverage;
     }
+}
+
+int item::get_coverage( const bodypart_id &bodypart ) const
+{
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        return 0;
+    }
+
+    int coverage = 0;
+    for( const random_armor_data &entry : t->data ) {
+        if( entry.covers.has_value() && entry.covers->test( bodypart.id() ) ) {
+            if( entry.coverage > coverage ) {
+                coverage = entry.coverage;
+            }
+        }
+    }
+
+    return coverage;
 }
 
 int item::get_thickness() const
