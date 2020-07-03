@@ -1299,7 +1299,8 @@ ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
     const ret_val<item_pocket::contain_code> ret = can_contain( it );
     if( contain_override || ret.success() ) {
         contents.push_back( it );
-        ret.make_success(); //may be bad for debugging but better than possible dublication
+        restack();
+        return ret.make_success(); //may be bad for debugging but better than possible dublication
     }
     restack();
     return ret;
