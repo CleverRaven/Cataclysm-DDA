@@ -265,7 +265,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
             if( comp.typeId() == big_comp && !is_armed() ) {
                 wield( comp );
             } else {
-                g->m.add_item_or_charges( pos(), comp );
+                get_map().add_item_or_charges( pos(), comp );
             }
         }
     } else {
@@ -454,6 +454,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
 
     int move_cost = attack_speed( *cur_weapon );
 
+    Character &player_character = get_player_character();
     if( hit_spread < 0 ) {
         int stumble_pen = stumble( *this, *cur_weapon );
         sfx::generate_melee_sound( pos(), t.pos(), false, false );
@@ -476,7 +477,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             } else {
                 add_msg( _( "You miss." ) );
             }
-        } else if( g->u.sees( *this ) ) {
+        } else if( player_character.sees( *this ) ) {
             if( stumble_pen >= 60 ) {
                 add_msg( _( "%s misses and stumbles with the momentum." ), name );
             } else if( stumble_pen >= 10 ) {
@@ -502,7 +503,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
     } else {
         melee::melee_stats.hit_count += 1;
         // Remember if we see the monster at start - it may change
-        const bool seen = g->u.sees( t );
+        const bool seen = player_character.sees( t );
         // Start of attacks.
         const bool critical_hit = scored_crit( t.dodge_roll(), *cur_weapon );
         if( critical_hit ) {
@@ -594,7 +595,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             }
 
             // Treat monster as seen if we see it before or after the attack
-            if( seen || g->u.sees( t ) ) {
+            if( seen || player_character.sees( t ) ) {
                 std::string message = melee_message( technique, *this, dealt_dam );
                 player_hit_message( this, message, t, dam, critical_hit );
             } else {
@@ -664,6 +665,7 @@ void player::reach_attack( const tripoint &p )
     int move_cost = attack_speed( weapon );
     int skill = std::min( 10, get_skill_level( skill_stabbing ) );
     int t = 0;
+    map &here = get_map();
     std::vector<tripoint> path = line_to( pos(), p, t, 0 );
     path.pop_back(); // Last point is our critter
     for( const tripoint &path_point : path ) {
@@ -677,13 +679,13 @@ void player::reach_attack( const tripoint &p )
             critter = inter;
             break;
             /** @EFFECT_STABBING increases ability to reach attack through fences */
-        } else if( g->m.impassable( path_point ) &&
+        } else if( here.impassable( path_point ) &&
                    // Fences etc. Spears can stab through those
                    !( weapon.has_flag( "SPEAR" ) &&
-                      g->m.has_flag( "THIN_OBSTACLE", path_point ) &&
+                      here.has_flag( "THIN_OBSTACLE", path_point ) &&
                       x_in_y( skill, 10 ) ) ) {
             /** @EFFECT_STR increases bash effects when reach attacking past something */
-            g->m.bash( path_point, str_cur + weapon.damage_melee( DT_BASH ) );
+            here.bash( path_point, str_cur + weapon.damage_melee( DT_BASH ) );
             handle_melee_wear( weapon );
             mod_moves( -move_cost );
             return;
@@ -830,7 +832,7 @@ float player::get_dodge() const
 
     if( has_effect( effect_grabbed ) ) {
         int zed_number = 0;
-        for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+        for( auto &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number++;
@@ -1170,7 +1172,7 @@ matec_id Character::pick_technique( Creature &t, const item &weap,
 
     bool downed = t.has_effect( effect_downed );
     bool stunned = t.has_effect( effect_stunned );
-    bool wall_adjacent = g->m.is_wall_adjacent( pos() );
+    bool wall_adjacent = get_map().is_wall_adjacent( pos() );
 
     // first add non-aoe tecs
     for( const matec_id &tec_id : all ) {
@@ -1353,7 +1355,7 @@ bool Character::valid_aoe_technique( Creature &t, const ma_technique &technique,
     }
 
     if( targets.empty() && technique.aoe == "spin" ) {
-        for( const tripoint &tmp : g->m.points_in_radius( pos(), 1 ) ) {
+        for( const tripoint &tmp : get_map().points_in_radius( pos(), 1 ) ) {
             if( tmp == t.pos() ) {
                 continue;
             }
@@ -1476,6 +1478,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         t.add_effect( effect_stunned, rng( 1_turns, time_duration::from_turns( technique.stun_dur ) ) );
     }
 
+    map &here = get_map();
     if( technique.knockback_dist ) {
         const tripoint prev_pos = t.pos(); // track target startpoint for knockback_follow
         const int kb_offset_x = rng( -technique.knockback_spread, technique.knockback_spread );
@@ -1486,10 +1489,10 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         }
         // This technique makes the player follow into the tile the target was knocked from
         if( technique.knockback_follow ) {
-            const optional_vpart_position vp0 = g->m.veh_at( pos() );
+            const optional_vpart_position vp0 = here.veh_at( pos() );
             vehicle *const veh0 = veh_pointer_or_null( vp0 );
-            bool to_swimmable = g->m.has_flag( "SWIMMABLE", prev_pos );
-            bool to_deepwater = g->m.has_flag( TFLAG_DEEP_WATER, prev_pos );
+            bool to_swimmable = here.has_flag( "SWIMMABLE", prev_pos );
+            bool to_deepwater = here.has_flag( TFLAG_DEEP_WATER, prev_pos );
 
             // Check if it's possible to move to the new tile
             bool move_issue =
@@ -1497,7 +1500,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
                 ( to_swimmable && to_deepwater ) || // Dive into deep water
                 is_mounted() ||
                 ( veh0 != nullptr && std::abs( veh0->velocity ) > 100 ) || // Diving from moving vehicle
-                ( veh0 != nullptr && veh0->player_in_control( g->u ) ) || // Player is driving
+                ( veh0 != nullptr && veh0->player_in_control( get_avatar() ) ) || // Player is driving
                 has_effect( effect_amigara );
 
             if( !move_issue ) {
@@ -1524,7 +1527,7 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
     }
 
     if( technique.disarms && p != nullptr && p->is_armed() ) {
-        g->m.add_item_or_charges( p->pos(), p->remove_weapon() );
+        here.add_item_or_charges( p->pos(), p->remove_weapon() );
         if( p->is_player() ) {
             add_msg_if_npc( _( "<npcname> disarms you!" ) );
         } else {
@@ -2193,6 +2196,7 @@ void player_hit_message( Character *attacker, const std::string &message,
     std::string sSCTmod;
     game_message_type gmtSCTcolor = m_good;
 
+    Character &player_character = get_player_character();
     if( dam <= 0 ) {
         if( attacker->is_npc() ) {
             //~ NPC hits something but does no damage
@@ -2202,9 +2206,9 @@ void player_hit_message( Character *attacker, const std::string &message,
             msg = string_format( _( "%s but do no damage." ), message );
         }
         msgtype = m_neutral;
-    } else if(
-        crit ) { //Player won't see exact numbers of damage dealt by NPC unless player has DEBUG_NIGHTVISION trait
-        if( attacker->is_npc() && !g->u.has_trait( trait_DEBUG_NIGHTVISION ) ) {
+    } else if( crit ) {
+        //Player won't see exact numbers of damage dealt by NPC unless player has DEBUG_NIGHTVISION trait
+        if( attacker->is_npc() && !player_character.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something (critical)
             msg = string_format( _( "%s. Critical!" ), message );
         } else {
@@ -2214,7 +2218,7 @@ void player_hit_message( Character *attacker, const std::string &message,
         sSCTmod = _( "Critical!" );
         gmtSCTcolor = m_critical;
     } else {
-        if( attacker->is_npc() && !g->u.has_trait( trait_DEBUG_NIGHTVISION ) ) {
+        if( attacker->is_npc() && !player_character.has_trait( trait_DEBUG_NIGHTVISION ) ) {
             //~ NPC hits something
             msg = string_format( _( "%s." ), message );
         } else {
@@ -2372,6 +2376,7 @@ void player::disarm( npc &target )
         return;
     }
 
+    map &here = get_map();
     // hitspread >= 0, which means we are going to disarm by grabbing target by their weapon
     if( !is_armed() ) {
         /** @EFFECT_UNARMED increases chance to disarm, bonus when nothing wielded */
@@ -2389,7 +2394,7 @@ void player::disarm( npc &target )
             add_msg( _( "You grab at %s and pull with all your force, but it drops nearby!" ),
                      it.tname() );
             const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-            g->m.add_item_or_charges( tp, target.i_rem( &it ) );
+            here.add_item_or_charges( tp, target.i_rem( &it ) );
             mod_moves( -100 );
         } else {
             add_msg( _( "You grab at %s and pull with all your force, but in vain!" ), it.tname() );
@@ -2406,7 +2411,7 @@ void player::disarm( npc &target )
         add_msg( _( "You smash %s with all your might forcing their %s to drop down nearby!" ),
                  target.name, it.tname() );
         const tripoint tp = target.pos() + tripoint( rng( -1, 1 ), rng( -1, 1 ), 0 );
-        g->m.add_item_or_charges( tp, target.i_rem( &it ) );
+        here.add_item_or_charges( tp, target.i_rem( &it ) );
     } else {
         add_msg( _( "You smash %s with all your might but %s remains in their hands!" ),
                  target.name, it.tname() );
