@@ -1753,7 +1753,31 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
 void islot_armor::load( const JsonObject &jo )
 {
     if( jo.has_array( "coverage_data" ) ) {
+        bool dont_add_first = false;
+        if( !data.empty() ) { // Uses copy-from
+            dont_add_first = true;
+            const JsonObject &obj = *jo.get_array( "coverage_data" ).begin();
+            random_armor_data tempData;
+
+            if( obj.has_array( "encumbrance" ) ) {
+                tempData.encumber = obj.get_array( "encumbrance" ).get_int( 0 );
+                tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
+            } else if( obj.has_int( "encumbrance" ) ) {
+                tempData.encumber = obj.get_int( "encumbrance" );
+                tempData.max_encumber = 0;
+            }
+            tempData.coverage = obj.get_int( "coverage" );
+            data[0].encumber = tempData.encumber;
+            data[0].max_encumber = tempData.max_encumber;
+            data[0].coverage = tempData.coverage;
+        }
+
         for( const JsonObject &obj : jo.get_array( "coverage_data" ) ) {
+            // If this item used copy-from, data[0] is already set, so skip adding first data
+            if( dont_add_first ) {
+                dont_add_first = false;
+                continue;
+            }
             random_armor_data tempData;
             body_part_set temp_cover_data;
             assign_coverage_from_json( obj, "parts", temp_cover_data, sided );
@@ -1767,20 +1791,7 @@ void islot_armor::load( const JsonObject &jo )
                 tempData.max_encumber = 0;
             }
             tempData.coverage = obj.get_int( "coverage" );
-
-            if( !data.empty() ) { // Uses copy-from
-                if( tempData.encumber ) {
-                    data[0].encumber = tempData.encumber;
-                }
-                if( tempData.max_encumber ) {
-                    data[0].max_encumber = tempData.max_encumber;
-                }
-                if( tempData.coverage ) {
-                    data[0].coverage = tempData.coverage;
-                }
-            } else {
-                data.push_back( tempData );
-            }
+            data.push_back( tempData );
 
             if( obj.has_int( "layer" ) ) {
                 for( auto &piece : data ) {
