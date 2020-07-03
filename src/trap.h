@@ -83,6 +83,26 @@ struct vehicle_handle_trap_data {
 
 using trap_function = std::function<bool( const tripoint &, Creature *, item * )>;
 
+/**
+ * Some traps aren't actually traps in the usual sense of the word. We use traps to implement
+ * funnels (the main map keeps a list of traps and we iterate over that list during rain
+ * in order to fill the containers with water).
+ * Use @ref is_benign to check for that kind of "non-dangerous" traps. Traps that are not benign
+ * are considered dangerous.
+ *
+ * Some traps are always invisible. They are never revealed as such to the player.
+ * They can still be triggered. Use @ref is_always_invisible to check for that.
+ *
+ * Traps names can be empty. This usually applies to always invisible traps.
+ *
+ * Some traps are always revealed to the player (e.g. funnels). Other traps can be spotted when
+ * the player is close (also needs perception stat).
+ *
+ * Use @ref map::can_see_trap_at or @ref trap::can_see to check whether a creature knows about a
+ * given trap. Monsters / NPCs should base their behavior on that information and not on a simple
+ * check for any trap being there (e.g. don't use `map::tr_at(...).is_null()` - that would reveal
+ * the existence of the trap).
+ */
 struct trap {
         trap_str_id id;
         trap_id loadid;
