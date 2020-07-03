@@ -2711,7 +2711,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
                 for( auto &encumb : encumb_data ) {
                     if( t->sided ) {
-                        const bodypart_str_id &covering_id = std::get<0>( encumb );
+                        const bodypart_str_id &covering_id = encumb.first;
                         if( !covers( covering_id.id() ) ) {
                             continue;
                         }
