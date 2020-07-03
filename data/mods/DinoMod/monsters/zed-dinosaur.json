@@ -402,7 +402,7 @@
     "armor_bullet": 2,
     "hp": 170,
     "description": "The swaying, hopping corpse of a large bipedal dinosaur with feathered arms, a long tail, and long sharp scythe-like claws.",
-    "upgrades": { "half_life": 14, "into": "mon_zutahraptor_brute" }
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zutahraptor_UPGRADE" }
   },
   {
     "type": "MONSTER",
