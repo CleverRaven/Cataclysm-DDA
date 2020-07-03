@@ -101,7 +101,7 @@ const weather_type &weather_type_id::obj() const
 template<>
 bool string_id<weather_type>::is_valid() const
 {
-    return weather_type_factory.is_valid(*this);
+    return weather_type_factory.is_valid( *this );
 }
 
 void weather_type::finalize()
@@ -112,7 +112,7 @@ void weather_type::finalize()
 void weather_type::check() const
 {
     for( const std::string &required : requirements.required_weathers ) {
-        if (!(weather_type_id(required).is_valid())) {
+        if( !( weather_type_id( required ).is_valid() ) ) {
             debugmsg( "Required weather type %s does not exist.", required );
             abort();
         }
@@ -225,13 +225,13 @@ const std::vector<weather_type> &weather_types::get_all()
     return weather_type_factory.get_all();
 }
 
-void weather_types::check_consistency() 
+void weather_types::check_consistency()
 {
-    if (!WEATHER_CLEAR.is_valid()) {
+    if( !WEATHER_CLEAR.is_valid() ) {
         debugmsg( "Weather type clear is required." );
         abort();
     }
-    if (!WEATHER_NULL.is_valid()) {
+    if( !WEATHER_NULL.is_valid() ) {
         debugmsg( "Weather type null is required." );
         abort();
     }

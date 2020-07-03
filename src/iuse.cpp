@@ -9472,12 +9472,12 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
                 print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                                    g->is_sheltered( p.pos() ) ) ) );
+                                                    g->is_sheltered( p->pos() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
                 print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
-                                                    g->is_sheltered( p.pos() ) ) ) );
+                                                    g->is_sheltered( p->pos() ) ) ) );
         }
     }
     if( it->has_flag( "BAROMETER" ) ) {

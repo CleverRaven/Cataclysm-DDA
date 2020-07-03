@@ -119,16 +119,17 @@ class weather_type
         void check() const;
         weather_type() = default;
 };
-namespace weather_types {
-    /** Get all currently loaded weather types */
-    const std::vector<weather_type>& get_all();
-    /** Finalize all loaded weather types */
-    void finalize_all();
-    /** Clear all loaded weather types (invalidating any pointers) */
-    void reset();
-    /** Load weather type from JSON definition */
-    void load( const JsonObject &jo, const std::string &src );
-    /** Checks all loaded from JSON are valid */
-    void check_consistency();
+namespace weather_types
+{
+/** Get all currently loaded weather types */
+const std::vector<weather_type> &get_all();
+/** Finalize all loaded weather types */
+void finalize_all();
+/** Clear all loaded weather types (invalidating any pointers) */
+void reset();
+/** Load weather type from JSON definition */
+void load( const JsonObject &jo, const std::string &src );
+/** Checks all loaded from JSON are valid */
+void check_consistency();
 } // namespace weather_types
 #endif // CATA_SRC_WEATHER_TYPE_H

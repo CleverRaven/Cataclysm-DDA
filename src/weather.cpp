@@ -1008,7 +1008,7 @@ void weather_manager::update_weather()
         // TODO: predict when the weather changes and use that time.
         nextweather = calendar::turn + 5_minutes;
         if( weather_id != old_weather && weather_id->dangerous &&
-            g->get_levz() >= 0 && here.is_outside( g->u.pos() )
+            g->get_levz() >= 0 && get_map().is_outside( g->u.pos() )
             && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), weather_id->name ) );
@@ -1021,7 +1021,7 @@ void weather_manager::update_weather()
         if( weather_id->sight_penalty !=
             old_weather->sight_penalty ) {
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
-                here.set_transparency_cache_dirty( i );
+                get_map().set_transparency_cache_dirty( i );
             }
         }
     }
