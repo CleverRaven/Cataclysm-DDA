@@ -2548,7 +2548,6 @@ struct weldrig_hack {
         if( veh != nullptr && part >= 0 ) {
             item pseudo_magazine( pseudo.magazine_default() );
             pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
-            pseudo_magazine.contents.clear_items();
             pseudo.ammo_set( itype_battery,  veh->drain( itype_battery,
                              pseudo.ammo_capacity( ammotype( "battery" ) ) ) );
             return pseudo;
