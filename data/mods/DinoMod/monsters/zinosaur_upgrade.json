@@ -570,5 +570,30 @@
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_sutahraptor",
+    "name": { "str": "Utah Bones" },
+    "copy-from": "mon_zutahraptor",
+    "color": "white",
+    "material": [ "bone" ],
+    "armor_bash": 0,
+    "description": "Monstrous columns of dense bone lifting sharp pointed teeth dripping with black goo.  There is a long tail and long sharp scythe-like claws",
+    "proportional": { "hp": 0.4, "speed": 0.875 },
+    "relative": {
+      "melee_dice": 9,
+      "melee_dice_sides": 5,
+      "melee_cut": 7,
+      "armor_cut": 22,
+      "armor_bullet": 30,
+      "armor_stab": 30,
+      "armor_acid": 3,
+      "vision_day": -20
+    },
+    "upgrades": {  },
+    "extend": { "flags": [ "HARDTOSHOOT" ] },
+    "harvest": "mr_bones",
+    "categories": [ "DINOSAUR" ]
   }
 ]
