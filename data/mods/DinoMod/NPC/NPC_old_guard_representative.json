@@ -8,9 +8,6 @@
     "id": "TALK_OLD_GUARD_REP_DINOSAURS",
     "type": "talk_topic",
     "dynamic_line": "They just started showing up about the same time it all fell apart.  They attack the caravans and the bandits both.  Hungry bastards.  All dinosaurs are shoot on sight.  We don't eat them, they're probably poisoned with whatever got the dead ones.  Just leave them for the crows.  Same with the eggs.",
-    "responses": [
-      { "text": "Kill all dinosaurs, interesting…", "topic": "MISSION_OLD_GUARD_DINO_3" },
-      { "text": "Probably not important.", "topic": "TALK_OLD_GUARD_REP" }
-    ]
+    "responses": [ { "text": "Probably for the best.", "topic": "TALK_OLD_GUARD_REP" } ]
   }
 ]
