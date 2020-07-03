@@ -861,7 +861,8 @@
     "durability": 4,
     "clip_size": 2,
     "reload": 900,
-    "modes": [ [ "DEFAULT", "double", 2 ] ], "//":"no provision for seperate triggers",
+    "modes": [ [ "DEFAULT", "double", 2 ] ],
+    "//": "no provision for separate triggers",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   }
 ]
