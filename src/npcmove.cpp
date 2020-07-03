@@ -2842,7 +2842,7 @@ void npc::find_item()
             return;
         }
 
-        const auto harvest = here.get_harvest_names( p );
+        const auto &harvest = here.get_harvest_names( p );
         for( const auto &entry : harvest ) {
             if( item_name_whitelisted( entry ) ) {
                 wanted_name = entry;
