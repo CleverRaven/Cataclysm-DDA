@@ -741,9 +741,9 @@ class game
         bool npc_menu( npc &who );
 
         // Handle phasing through walls, returns true if it handled the move
-        bool phasing_move( const tripoint &dest );
+        bool phasing_move( const tripoint &dest, bool via_ramp = false );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest );
+        bool walk_move( const tripoint &dest, bool via_ramp = false );
         void on_move_effects();
     private:
         // Game-start procedures

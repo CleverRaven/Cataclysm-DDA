@@ -3065,7 +3065,7 @@ void veh_interact::complete_vehicle( player &p )
             for( const auto &sk : vpinfo.install_skills ) {
                 p.practice( sk.first, veh_utils::calc_xp_gain( vpinfo, sk.first, p ) );
             }
-            here.update_vehicle_cache( veh, veh->sm_pos.z );
+            here.add_vehicle_to_cache( veh );
             break;
         }
 
@@ -3132,7 +3132,6 @@ void veh_interact::complete_vehicle( player &p )
                 add_msg( m_info, _( "You don't meet the requirements to remove the %s." ), vpinfo.name() );
                 break;
             }
-
             for( const auto &e : reqs.get_components() ) {
                 p.consume_items( e, 1, is_crafting_component );
             }
@@ -3198,11 +3197,17 @@ void veh_interact::complete_vehicle( player &p )
             if( veh->part_count() < 2 ) {
                 p.add_msg_if_player( _( "You completely dismantle the %s." ), veh->name );
                 p.activity.set_to_null();
+                // destroy vehicle clears the cache
                 here.destroy_vehicle( veh );
             } else {
+                point mount = veh->part( vehicle_part ).mount;
+                const tripoint &part_pos = veh->global_part_pos3( vehicle_part );
                 veh->remove_part( vehicle_part );
+                // part_removal_cleanup calls refresh, so parts_at_relative is valid
                 veh->part_removal_cleanup();
-                here.update_vehicle_cache( veh, veh->sm_pos.z );
+                if( veh->parts_at_relative( mount, true ).empty() ) {
+                    g->m.clear_vehicle_point_from_cache( veh, part_pos );
+                }
             }
             // This will be part of an NPC "job" where they need to clean up the acitivty items afterwards
             if( p.is_npc() ) {
@@ -3210,7 +3215,7 @@ void veh_interact::complete_vehicle( player &p )
                     it.set_var( "activity_var", p.name );
                 }
             }
-            // Finally, put all the reults somewhere (we wanted to wait until this
+            // Finally, put all the results somewhere (we wanted to wait until this
             // point because we don't want to put them back into the vehicle part
             // that just got removed).
             put_into_vehicle_or_drop( p, item_drop_reason::deliberate, resulting_items );

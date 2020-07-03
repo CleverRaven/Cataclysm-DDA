@@ -439,7 +439,7 @@ class map
         */
         int combined_movecost( const tripoint &from, const tripoint &to,
                                const vehicle *ignored_vehicle = nullptr,
-                               int modifier = 0, bool flying = false ) const;
+                               int modifier = 0, bool flying = false, bool via_ramp = false ) const;
 
         /**
          * Returns true if a creature could walk from `from` to `to` in one step.
@@ -447,7 +447,7 @@ class map
          * by stairs or (in case of flying monsters) open air with no floors.
          */
         bool valid_move( const tripoint &from, const tripoint &to,
-                         bool bash = false, bool flying = false ) const;
+                         bool bash = false, bool flying = false, bool via_ramp = false ) const;
 
         /**
          * Size of map objects at `p` for purposes of ranged combat.
@@ -543,6 +543,7 @@ class map
         // Vehicles: Common to 2D and 3D
         VehicleList get_vehicles();
         void add_vehicle_to_cache( vehicle * );
+        void clear_vehicle_point_from_cache( vehicle *veh, const tripoint &pt );
         void update_vehicle_cache( vehicle *, int old_zlevel );
         void reset_vehicle_cache( int zlev );
         void clear_vehicle_cache( int zlev );
@@ -582,7 +583,12 @@ class map
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
         // Change vehicle coordinates and move vehicle's driver along.
         // WARNING: not checking collisions!
-        bool displace_vehicle( vehicle &veh, const tripoint &dp );
+        // optionally: include a list of parts to displace instead of the entire vehicle
+        bool displace_vehicle( vehicle &veh, const tripoint &dp, bool adjust_pos = true,
+                               const std::set<int> &parts_to_move = {} );
+        // make sure a vehicle that is split across z-levels is properly supported
+        // calls displace_vehicle() and shouldn't be called from displace_vehicle
+        void level_vehicle( vehicle &veh );
         // move water under wheels. true if moved
         bool displace_water( const tripoint &dp );
 
@@ -1650,7 +1656,7 @@ class map
 
         /**
          * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
-         * Returns true if it has drawn all it should, false if `draw_from_above` should be called after.
+         * Returns false if it has drawn all it should, true if `draw_from_above` should be called after.
          */
         bool draw_maptile( const catacurses::window &w, const player &u, const tripoint &p,
                            const maptile &tile,
@@ -1810,7 +1816,7 @@ class map
 
         level_cache &access_cache( int zlev );
         const level_cache &access_cache( int zlev ) const;
-        bool need_draw_lower_floor( const tripoint &p );
+        bool dont_draw_lower_floor( const tripoint &p );
 };
 
 map &get_map();

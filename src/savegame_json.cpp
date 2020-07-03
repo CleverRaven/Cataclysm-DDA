@@ -2542,6 +2542,14 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "enabled", enabled );
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
+    if( data.has_int( "z_offset" ) ) {
+        int z_offset = data.get_int( "z_offset" );
+        if( std::abs( z_offset ) > 10 ) {
+            data.throw_error( "z_offset out of range", "z_offset" );
+        }
+        precalc[0].z = z_offset;
+        precalc[1].z = z_offset;
+    }
     JsonArray ja = data.get_array( "carry" );
     // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
     for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
@@ -2615,6 +2623,9 @@ void vehicle_part::serialize( JsonOut &json ) const
     }
     json.member( "passenger_id", passenger_id );
     json.member( "crew_id", crew_id );
+    if( precalc[0].z ) {
+        json.member( "z_offset", precalc[0].z );
+    }
     json.member( "items", items );
     if( target.first != tripoint_min ) {
         json.member( "target_first_x", target.first.x );
