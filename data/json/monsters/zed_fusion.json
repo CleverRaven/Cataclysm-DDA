@@ -276,7 +276,7 @@
     "id": "mon_zombie_giant_heart",
     "type": "MONSTER",
     "name": { "str": "spasming lump" },
-    "description": "A great pile of merged bodies an mutated flesh.  It spasms in an arrhythmic and desperate manner.",
+    "description": "A great pile of merged bodies and mutated flesh.  It spasms in an arrhythmic and desperate manner.",
     "default_faction": "zombie",
     "volume": "875000 ml",
     "weight": "200 kg",
