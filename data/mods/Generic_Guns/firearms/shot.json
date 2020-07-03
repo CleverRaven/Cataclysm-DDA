@@ -55,7 +55,7 @@
     "type": "GUN",
     "name": { "str": "four winds shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
-    "ammo": [ "ammo_shot" ],
+    "ammo": [ "ammo_shot" ]
   },
   {
     "id": "four_winds_shotgun_d",
@@ -63,7 +63,7 @@
     "type": "GUN",
     "name": { "str": "double four winds shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
-    "ammo": [ "ammo_shot" ],
+    "ammo": [ "ammo_shot" ]
   }
   
 ]
