@@ -4256,19 +4256,13 @@
     "ident": "runner",
     "name": "Runner",
     "description": "Forest Chump was your role model growing up. Time to make him proud.",
-    "points": 2,
-    "traits": [ "GOODCARDIO", "HUNGER", "FLEET", "FLIMSY" ],
+    "points": 3,
+    "traits": [ "GOODCARDIO", "HUNGER", "FLEET", "LIGHTWEIGHT" ],
     "skills": [ { "level": 1, "name": "dodge" } ],
     "items": {
       "both": {
-        "items": [ "runner_bag", "b_shorts", "tank_top", "sneakers", "socks_ankle", "wristwatch" ],
-        "entries": [
-          { "group": "charged_cell_phone" },
-          { "group": "charged_mp3" },
-          { "item": "towel" },
-          { "item": "toothbrush_plain" },
-          { "item": "hairbrush" }
-        ]
+        "items": [ "runner_bag", "b_shorts", "tank_top", "sneakers", "socks_ankle", "wristwatch", "towel", "toothbrush_plain", "hairbrush", "soap", "cell_phone" ],
+        "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_mp3" } ]
       },
       "male": [ "briefs" ],
       "female": [ "sports_bra", "panties" ]
@@ -4281,11 +4275,11 @@
     "name": "Lifter",
     "description": "You were miring your gainz in the mirror when you saw the commotion outside.",
     "points": 4,
-    "traits": [ "WEAKSTOMACH", "SMELLY", "CLUMSY", "STRONGBACK", "ADRENALINE", "GOODCARDIO", "ANTIJUNK" ],
+    "traits": [  "STRONGBACK", "ADRENALINE", "ANTIJUNK"  ],
     "skills": [ { "level": 2, "name": "bashing" }, { "level": 2, "name": "melee" } ],
     "items": {
       "both": {
-        "items": [ "duffelbag", "b_shorts", "tank_top", "hoodie", "sneakers", "socks_ankle", "wristwatch" ],
+        "items": [ "duffelbag", "b_shorts", "tank_top", "hoodie", "sneakers", "socks_ankle", "wristwatch", "towel", "toothbrush_plain", "hairbrush", "soap", "cell_phone" ],
         "entries": [ { "group": "charged_cell_phone" }, { "group": "charged_mp3" } ]
       },
       "male": [ "briefs" ],

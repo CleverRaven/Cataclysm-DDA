@@ -214,7 +214,7 @@
     "time": "3 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "hose", 1 ] ] ]
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "hose", 1 ], ["resistance_band", 1] ] ]
   },
   {
     "type": "recipe",
