@@ -202,7 +202,7 @@
     "hp": 330,
     "special_attacks": [ { "type": "bite", "cooldown": 5 }, [ "GRAB", 7 ], [ "scratch", 20 ], [ "LUNGE", 5 ] ],
     "description": "Massive jaws drooling black liquid lifted over grasping claws by a huge shuffling dinosaur corpse.",
-    "upgrades": { "half_life": 14, "into": "mon_zalbertosaurus_brute" }
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zalbertosaurus_UPGRADE" }
   },
   {
     "type": "MONSTER",
@@ -309,7 +309,7 @@
     "armor_bullet": 2,
     "hp": 115,
     "description": "This zombie is enormous, scaly, studded with bony spikes, and it moves with horrible speed.  Its colorful horns are worn and wet with filth and its bright scales and bone spikes have taken a beating.",
-    "upgrades": { "half_life": 14, "into": "mon_zeratosaurus_brute" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zeratosaurus_UPGRADE" },
     "flags": [
       "SEES",
       "SMELLS",
@@ -343,7 +343,7 @@
     "armor_bullet": 2,
     "hp": 200,
     "description": "The shambling corpse of a large predatory bipedal dinosaur, with tiger-like stripes on its broad, scaled back.",
-    "upgrades": { "half_life": 14, "into": "mon_zallosaurus_brute" },
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zallosaurus_UPGRADE" },
     "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "BLEED", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
