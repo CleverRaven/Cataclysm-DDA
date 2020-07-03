@@ -7,9 +7,12 @@
 #include "calendar.h"
 #include "catch/catch.hpp"
 #include "debug.h"
+#include "options.h"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
+#include "recipe_dictionary.h"
+#include "skill.h"
 #include "type_id.h"
 #include "value_ptr.h"
 
@@ -312,6 +315,58 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
                 CHECK( dummy.get_book_reader( western, reasons ) != nullptr );
                 expect_reasons = {};
                 CHECK( reasons == expect_reasons );
+            }
+        }
+    }
+}
+
+// Now that's an ugly test
+TEST_CASE( "Learning recipes from books", "[reading][book][recipe]" )
+{
+    avatar dummy;
+    item &alpha = dummy.i_add( item( "recipe_alpha" ) );
+    auto mutagen_iter = std::find_if( recipe_dict.begin(),
+    recipe_dict.end(), []( const std::pair<recipe_id, recipe> &p ) {
+        return p.second.result() == "mutagen_alpha";
+    } );
+
+    REQUIRE( mutagen_iter != recipe_dict.end() );
+    REQUIRE( get_option<bool>( "ALLOW_LEARNING_BOOK_RECIPES" ) );
+
+    const recipe *rec = &( mutagen_iter->second );
+
+    REQUIRE( alpha.type->book );
+    const auto book_recipes = alpha.type->book->recipes;
+    bool book_has_recipe = std::find_if( book_recipes.begin(),
+    book_recipes.end(), [rec]( const islot_book::recipe_with_description_t &rec_d ) {
+        return rec_d.recipe == rec;
+    } ) != book_recipes.end();
+    REQUIRE( book_has_recipe );
+
+    REQUIRE_FALSE( dummy.knows_recipe( rec ) );
+    // Just skim
+    // TODO: Do without it somehow
+    dummy.do_read( alpha );
+
+    SECTION( "You do not have the skills to understand the recipe in the book" ) {
+        REQUIRE_FALSE( dummy.has_recipe_requirements( *rec ) );
+        AND_WHEN( "You read the book" ) {
+            dummy.do_read( alpha );
+            THEN( "You still don't know the recipe" ) {
+                CHECK_FALSE( dummy.knows_recipe( rec ) );
+            }
+        }
+    }
+
+    SECTION( "You do have enough skills to understand the recipe in the book" ) {
+        for( const Skill &s : Skill::skills ) {
+            dummy.set_skill_level( s.ident(), 10 );
+        }
+        REQUIRE( dummy.has_recipe_requirements( *rec ) );
+        AND_WHEN( "You read the book" ) {
+            dummy.do_read( alpha );
+            THEN( "You know the recipe now" ) {
+                CHECK( dummy.knows_recipe( rec ) );
             }
         }
     }

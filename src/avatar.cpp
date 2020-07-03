@@ -743,6 +743,8 @@ void avatar::do_read( item &book )
         return;
     }
 
+    const bool allow_recipes = get_option<bool>( "ALLOW_LEARNING_BOOK_RECIPES" );
+
     //learners and their penalties
     std::vector<std::pair<player *, double>> learners;
     for( size_t i = 0; i < activity.values.size(); i++ ) {
@@ -772,6 +774,18 @@ void avatar::do_read( item &book )
         }
 
         book.mark_chapter_as_read( *learner );
+
+        const auto available_recipes = book.get_available_recipes( *learner );
+        std::vector<const recipe *> learnable_recipes;
+        for( const std::pair<const recipe *, int> &p : available_recipes ) {
+            if( allow_recipes && !learner->knows_recipe( p.first ) ) {
+                learnable_recipes.push_back( p.first );
+                learner->learn_recipe( p.first );
+                if( learner->is_player() ) {
+                    add_msg( m_info, _( "You memorize a recipe for %s." ), p.first->result_name() );
+                }
+            }
+        }
 
         if( skill && learner->get_skill_level( skill ) < reading->level &&
             learner->get_skill_level_object( skill ).can_train() ) {
@@ -830,16 +844,14 @@ void avatar::do_read( item &book )
                 }
             }
 
-            if( ( skill_level == reading->level || !skill_level.can_train() ) ||
-                ( ( learner->has_trait( trait_SCHIZOPHRENIC ) ||
-                    learner->has_artifact_with( AEP_SCHIZO ) ) && one_in( 25 ) ) ) {
+            if( learnable_recipes.empty() && ( skill_level == reading->level || !skill_level.can_train() ) ) {
                 if( learner->is_player() ) {
                     add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name() );
                 } else {
                     cant_learn.insert( learner->disp_name() );
                 }
             }
-        } else if( skill ) {
+        } else if( learnable_recipes.empty() && skill ) {
             if( learner->is_player() ) {
                 add_msg( m_info, _( "You can no longer learn from %s." ), book.type_name() );
             } else {
