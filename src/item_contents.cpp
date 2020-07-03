@@ -270,11 +270,10 @@ void item_contents::combine( const item_contents &read_input )
             std::advance( current_pocket_iter, pocket_index );
 
             for( const item *it : pocket.all_items_top() ) {
-                //try to save mods if they are not accessible anymore (SOFTWARE usually not exists and MIGRATION is safe)
-                //that is common, since CORPSE is added before MOD in item_factory, and guns don't have MOD defined.
+                //try to save mods if they are not accessible anymore
                 //may not be the right way but should be compatible with most saves.
                 if( ( it->is_gunmod() || it->is_toolmod() ) &&
-                    current_pocket_iter->is_type( item_pocket::pocket_type::CORPSE ) ) {
+                    !current_pocket_iter->is_type( item_pocket::pocket_type::CONTAINER ) ) {
                     insert_item( *it, item_pocket::pocket_type::MOD );
 
                 } else {
