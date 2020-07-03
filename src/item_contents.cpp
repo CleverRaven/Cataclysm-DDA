@@ -400,7 +400,7 @@ ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_ty
 
     ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
     if( pocket.value() == nullptr ) {
-        return ret_val<bool>::make_failure( "No success" );
+        return ret_val<bool>::make_failure( "No pocket found: " + pocket.str() );
     }
 
     ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
