@@ -245,6 +245,233 @@ You can assign a spell as a special attack for a monster.
 * spell_level: the level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
 * cooldown: how often the monster can cast this spell
 
+### Monster spells examples
+
+Below you can see the proper examples of monster spells - most common types and even some advanced ones:
+
+```
+Spell types:
+
+1) Summon:
+    {
+    "type": "SPELL",
+    "id": "test_summon",
+    "name": "Summon",
+    "description": "Summons the creature specified in 'effect_str'",
+    "flags": [ "SILENT", "HOSTILE_SUMMON", "RANDOM_TARGET" ],
+    "valid_targets": [ "ground" ],  
+	
+	"note": " `RANDOM_TARGET` flag+ `ground` in `valid_targets` allows spawning the summoned creature in absolutely any random point on the surface.This is also done to prevent AOE explosion effect, thus hampering the performance of the game",
+	
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_range": 3,
+    "max_range": 3,
+    "effect": "summon",
+    "effect_str": "mon_test_monster",
+    "min_duration": 6250,
+    "max_duration": 6250
+  } ;
+2) Typical attack:
+    {
+    "id": "test_attack",
+    "type": "SPELL",
+    "name": "Ranged Strike",
+    "description": "Deals damage to the target with 100% accuracy. Will always apply the status effect specified in 'effect_str'.",
+    "valid_targets": [ "ground", "hostile" ],
+    "note": "Uses both `ground` and `hostile` in `valid_targets` as well for better efficiency",
+    "effect": "projectile_attack",
+    "effect_str": "stunned",
+    "min_damage": 10,
+    "max_damage": 20, 
+    "min_range": 4,
+    "max_range": 4,
+    "base_casting_time": 500,
+    "min_duration": 200,
+    "max_duration": 300,
+    "damage_type": "stab"
+  } ;
+3) Consecutively cast spells:
+    {
+    "id": "test_combo",
+    "type": "SPELL",
+    "name": "Combo Strikes",
+    "description": "Upon casting this spell, will also activate the spells specified on the 'extra_effects' in descending order.",
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_AOE" ], /"Notice, now `WONDER` flag here"
+    "valid_targets": [ "hostile", "ground" ],
+    "effect": "projectile_attack",
+    "effect_str": "downed",
+    "extra_effects": [ { "id": "test_atk1" }, { "id": "test_atk2" } ], 
+	
+	"note": "If you put two or more spells in `extra_effects` WITHOUT `WONDER` flag, it will simply cast all the spells consecutively - first spell in `extra_effects`, second in `extra_effects`, third in `extra_effects` and etc",
+	
+    "min_damage": 7,
+    "max_damage": 14,
+    "min_aoe": 2,
+    "max_aoe": 4,
+    "min_range": 10,
+    "max_range": 10,
+    "base_casting_time": 750,
+    "min_duration": 325,
+    "max_duration": 325,
+    "damage_type": "stab"
+  } ;
+4) Randomly cast spells:
+  {
+    "id": "test_starter_spell",
+    "type": "SPELL",
+    "name": "Starter",
+    "description": "Upon casting this spell, randomly selects one spell specified in'extra_effects' to cast. This spell's damage counts how many times it will randomly select from the list",
+    "flags": [ "SILENT", "WONDER", "RANDOM_DAMAGE" ], 
+	
+	"note": " `WONDER` flag does wonders here (hehehe, a pun), it works as a dice emulator IF AND ONLY IF there are more than 1 spells specified in `extra_effects` - it basically picks one out of these spells (IT CANNOT FAIL, it will ALWAYS pick ONE RANDDOM spell if there are multiple spells specified in `extra_effects`), the amount of `rolls` of this dice are specified via `min_damage` and `max_damage` with the help of `RANDOM_DAMAGE` flag of course - in this example, this spell will be repeated MINIMUM 3 times and MAXIMUM 5 times thus it will ALWAYS be cast 3-5 times",
+	
+    "valid_targets": [ "hostile" ],
+    "effect": "projectile_attack",
+    "extra_effects": [
+      { "id": "test_atk1" },
+      { "id": "test_atk2" },
+      { "id": "test_atk3" },
+      { "id": "test_atk4" },
+      { "id": "test_atk5" },
+      { "id": "test_atk6" }
+    ],
+    "min_damage": 3,
+    "max_damage": 5,
+    "min_range": 10,
+    "max_range": 10
+  } ;
+5) Repeatedly cast same spell:
+	{
+    "type": "SPELL",
+    "id": "test_attack_repeat",
+    "name": "a spell",
+    "description": "Upon casting this spell it will repeat the spell specified in `extra_effects` - the amount of repetitions is the interval `min_damage`-`max_damage` ",
+    "extra_effects": [ { "id": "test_attack" } ],
+    "flags": [ "SILENT", "WONDER", "RANDOM_DAMAGE" ],
+	
+	"note": "Notice how we have `WONDER`, `RANDOM_DAMAGE` combo again - we have `min_damage` set to 5, `max_damage` set to 7 so that means that the `dice` will `roll` 5-7 times, BUT THIS TIME we have ONLY ONE SPELL in `extra_effects`, considering that `WONDER` has 100% chance of picking a spell if there is only 1 spell in `extra_effets`, it will SIMPLY REPEAT CASTING THE SPELL 5-7 times, oh and `valid_targets` is [ `hostile` ], though it's just something to note",
+	
+    "valid_targets": [ "hostile" ],
+    "effect": "target_attack",
+    "effect_str": "target_message",
+    "min_damage": 5,
+    "max_damage": 7,
+    "min_range": 10,
+    "max_range": 10,
+    "min_duration": 1,
+    "max_duration": 1
+  } ;
+6) Nested spells with proper notice about casted spell's result:
+    {
+    "id": "test_note",
+    "type": "SPELL",
+    "name": "Note",
+    "description": "This spell applies a harmless status effect to notify the player about the spell that the user has casted.",
+    "flags": [ "SILENT" ],
+    "valid_targets": [ "hostile" ],
+    "effect": "target_attack",
+    "extra_effects": [ { "id": "test_atk1" } ],
+    "effect_str": "eff_test_note",
+    
+    "note": "You need to make a new status effect with `apply_message` which describes the casted spell to the player, then insert it to the `effect_str` of the spell",
+    
+    "min_aoe": 69,
+    "max_aoe": 69,
+    "min_duration": 1,
+    "max_duration": 1
+  } ;
+7) "hit_self" use in spells:
+	{
+    "id": "test_attack_note",
+    "type": "SPELL",
+    "name": "a note",
+    "description": "This spell applies a harmless status effect to notify the player about the spell that the user has casted.",
+    "flags": [ "SILENT" ],
+    "valid_targets": [ "hostile" ],
+    "effect": "target_attack",
+    "extra_effects": [ { "id": "sacrifice_spell", "hit_self": true }, { "id": "test_attack" } ],
+    "effect_str": "eff_test_note",
+	
+	"note": "Look at the code above - here we have to use one spell on the monster itself and the other on hostile target aka player or hostile faction monsters, in order to make the monster cast some spell on itself - you must specify the `id` of whatever spell you're using and write near it in the same brackets `hit_self`: true, the second spell will affect only the hostile to monster target aka the player or hostile faction monster
+	NOTE: This is used ONLY if we are dealing with 2 or more spells which separately affect monster itself and the hostile to monster being - IF AND ONLY IF you want the monster to use spell on ITSELF ONLY, you don't need to use `hit_self` but only specify `valid_targets` : [ `self` ], if you want the monster to affect hostile creature then it's `valid_targets` : [ `hostile` ] ",
+	
+    "min_aoe": 69,
+    "max_aoe": 69,
+    "min_duration": 1,
+    "max_duration": 1
+  } ;
+8) Monster transformation upon death spell:
+	{
+    "type": "SPELL",
+    "id": "test_summon",
+    "name": "Summon",
+    "description": "Summons the creature specified in 'effect_str' ",
+    "flags": [ "SILENT", "PERMANENT", "HOSTILE_SUMMON" ],
+    "valid_targets": [ "ground" ],
+    "min_damage": 1,
+    "max_damage": 1,
+    "effect": "summon",
+    "effect_str": "mon_test_monster",
+	
+	"note": "Provides foundation for the new monster upon the death of the old one"
+	
+  },
+  {
+    "type": "SPELL",
+    "id": "test_upon_death_summon",
+    "name": "a spell",
+    "description": "Summons a new monster on the place of old monster, instantly killing the old monster sort of doing an instant evolution type of a spell",
+    "extra_effects": [ { "id": "sacrifice_spell", "hit_self": true }, { "id": "test_summon", "hit_self": true } ],
+    "flags": [ "SILENT" ],
+    "valid_targets": [ "ally", "hostile", "ground" ],
+	
+	"note": "This spell is very interesting - the trick is that we use two spells - one - `sacrifice_spell`+`hit_self` (as explained in 7) ) will kill the old monster, after that due to consecutive nature of this type of spell casting (as explained in 3) ) and thanks to the combination of summon spell above+`hit_self` (first spell in 8), `test_summon` ), it will successfully first kill the original monster and spawn the new one on it's place",
+	
+    "effect": "target_attack",
+    "min_range": 1,
+    "max_range": 1
+  } ;
+9) Targeting in more peculiar cases like 2 spells - one of which is a buff for monster and other is targeting against hostile to monster creatures:
+	{
+    "type": "SPELL",
+    "id": "mon_test_monster_speed_buff",
+    "name": "Monster speed buff",
+    "description": "Increases the movement speed of a certain monster",
+    "flags": [ "SILENT" ],
+    "valid_targets": [ "ground", "ally" ],
+    "effect": "target_attack",
+    "effect_str": "mon_test_buff",
+	"note": "The foundation for the buff of the monster - this one increases it's movement speed",
+    "min_duration": 1500,
+    "max_duration": 1500
+  },
+  {
+    "type": "SPELL",
+    "id": "mon_test_monster_speed_buff_target",
+    "name": "a spell",
+    "description": "Applies speed buff to the monster and makes sure that the monster targets all the hostile creatures properly after that",
+    "extra_effects": [
+      {
+        "id": "mon_test_monster_speed_buff",
+        "hit_self": true,
+        "note": " `hit_self`, so it forces the monster to cast the spell with 0 range value to itself, receiving (de)buff, damage or healing spell effect."
+      }
+    ],
+    "flags": [ "SILENT" ],
+    "valid_targets": [ "ground", "hostile" ], 
+	
+	"note":  "Once again we're using 'hit_self' here just like in 7) for trivial and obvious reasons (we don't want to use for some reason 'valid_targets': [ 'self' ] in the first spell), now for targeting `valid_targets`: [ `ground`, `hostile` ] is the MOST IMPORTANT LINE here - because the first spell does not specify WHO the monster is buffing up against, but the second spell (`mon_test_monster_speed_buff_target`) clearly specifies with it's `valid_targets` line WHO the monster is going to chase",
+    
+    "effect": "target_attack",
+    "effect_str": "target_message",
+    "min_range": 69,
+    "max_range": 69,
+    "min_duration": 1,
+    "max_duration": 1
+  }
+```
+
 ### Enchantments
 | Identifier                  | Description
 |---                          |---
