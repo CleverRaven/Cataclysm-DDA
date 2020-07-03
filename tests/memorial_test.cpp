@@ -58,9 +58,10 @@ TEST_CASE( "memorials" )
 
     event_bus &b = g->events();
 
-    g->u.male = false;
-    character_id ch = g->u.getID();
-    std::string u_name = g->u.name;
+    avatar &player_character = get_avatar();
+    player_character.male = false;
+    character_id ch = player_character.getID();
+    std::string u_name = player_character.name;
     character_id ch2 = character_id( ch.get_value() + 1 );
     mutagen_technique mutagen = mutagen_technique::injected_purifier;
     mtype_id mon( "mon_zombie_kevlar_2" );
@@ -193,8 +194,8 @@ TEST_CASE( "memorials" )
         std::chrono::seconds( 100 ) );
 
     check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, g->u.male,
-        g->u.prof->ident(), g->u.custom_profession, "VERSION_STRING" );
+        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, player_character.male,
+        player_character.prof->ident(), player_character.custom_profession, "VERSION_STRING" );
 
     // Invokes achievement, so send another to clear the log for the test
     b.send<event_type::installs_cbm>( ch, cbm );
