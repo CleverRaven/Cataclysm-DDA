@@ -106,12 +106,30 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zpinosaurus_UPGRADE",
+    "default": "mon_zpinosaurus_brute",
+    "monsters": [
+      { "monster": "mon_zpinosaurus_shady", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zpinosaurus_brute", "freq": 23, "cost_multiplier": 5 }
+    ]
+  },
+    {
+    "type": "monstergroup",
     "name": "GROUP_zyrannosaurus_UPGRADE",
     "default": "mon_syrannosaurus",
-    "//": "No dogs, humans, bionics, or profession-types",
     "monsters": [
       { "monster": "mon_syrannosaurus", "freq": 45, "cost_multiplier": 5 },
-      { "monster": "mon_zyrannosaurus_shady", "freq": 15, "cost_multiplier": 5 }
+      { "monster": "mon_zyrannosaurus_shady", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zyrannosaurus_brute", "freq": 23, "cost_multiplier": 5 }
+    ]
+  },
+    {
+    "type": "monstergroup",
+    "name": "GROUP_zeinonychus_UPGRADE",
+    "default": "mon_zeinonychus_brute",
+    "monsters": [
+      { "monster": "mon_zeinonychus_shady", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zeinonychus_brute", "freq": 23, "cost_multiplier": 5 }
     ]
   },
   {
