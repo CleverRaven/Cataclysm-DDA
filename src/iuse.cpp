@@ -7624,9 +7624,8 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         } else {
             photo_text += _( "It is day. " );
         }
-
-        const weather_datum &w_data = g->weather.data();
-        photo_text += string_format( _( "The weather is %s." ), colorize( w_data.name, w_data.color ) );
+        photo_text += string_format( _( "The weather is %s." ), colorize( get_weather().weather_id->name,
+                                     get_weather().weather_id->color ) );
     }
 
     for( const auto &figure : description_figures_appearance ) {
@@ -9472,12 +9471,12 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         if( it->typeId() == itype_hygrometer ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather_index,
+                print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                                     g->is_sheltered( p.pos() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather_index,
+                print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                                     g->is_sheltered( p.pos() ) ) ) );
         }
     }

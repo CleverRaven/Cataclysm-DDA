@@ -61,7 +61,7 @@
 #   define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 #endif
 
-weather_type previous_weather;
+weather_type_id previous_weather;
 int prev_hostiles = 0;
 int previous_speed = 0;
 int previous_gear = 0;
@@ -278,7 +278,7 @@ static int get_signal_for_hordes( const centroid &centr )
 {
     //Volume in  tiles. Signal for hordes in submaps
     //modify vol using weather vol.Weather can reduce monster hearing
-    const int vol = centr.volume - get_weather().data().sound_attn;
+    const int vol = centr.volume - get_weather().weather_id->sound_attn;
     const int min_vol_cap = 60; //Hordes can't hear volume lower than this
     const int underground_div = 2; //Coefficient for volume reduction underground
     const int hordes_sig_div = SEEX; //Divider coefficient for hordes
@@ -302,7 +302,7 @@ static int get_signal_for_hordes( const centroid &centr )
 void sounds::process_sounds()
 {
     std::vector<centroid> sound_clusters = cluster_sounds( recent_sounds );
-    const int weather_vol = get_weather().data().sound_attn;
+    const int weather_vol = get_weather().weather_id->sound_attn;
     for( const auto &this_centroid : sound_clusters ) {
         // Since monsters don't go deaf ATM we can just use the weather modified volume
         // If they later get physical effects from loud noises we'll have to change this
@@ -384,7 +384,7 @@ void sounds::process_sound_markers( player *p )
 {
     bool is_deaf = p->is_deaf();
     const float volume_multiplier = p->hearing_ability();
-    const int weather_vol = get_weather().data().sound_attn;
+    const int weather_vol = get_weather().weather_id->sound_attn;
     for( const auto &sound_event_pair : sounds_since_last_turn ) {
         const tripoint &pos = sound_event_pair.first;
         const sound_event &sound = sound_event_pair.second;
@@ -868,7 +868,7 @@ void sfx::do_ambient()
     const int heard_volume = get_heard_volume( gplayer_character.pos() );
     const bool is_underground = player_character.pos().z < 0;
     const bool is_sheltered = g->is_sheltered( player_character.pos() );
-    const bool weather_changed = get_weather().weather_index != previous_weather;
+    const bool weather_changed = get_weather().weather_id != previous_weather;
     // Step in at night time / we are not indoors
     if( is_night( calendar::turn ) && !is_sheltered &&
         !is_channel_playing( channel::nighttime_outdoors_env ) && !is_deaf ) {
@@ -900,16 +900,15 @@ void sfx::do_ambient()
         play_ambient_variant_sound( "environment", "indoors", heard_volume, channel::indoors_env, 1000 );
     }
 
-    const weather_datum &current_weather = get_weather().data();
     // We are indoors and it is also raining
-    if( current_weather.rains &&
-        current_weather.precip != precip_class::VERY_LIGHT &&
+    if( get_weather().weather_id->rains &&
+        get_weather().weather_id->precip != precip_class::very_light &&
         !is_underground && is_sheltered && !is_channel_playing( channel::indoors_rain_env ) ) {
         play_ambient_variant_sound( "environment", "indoors_rain", heard_volume, channel::indoors_rain_env,
                                     1000 );
     }
     if( ( !is_sheltered &&
-          current_weather.sound_category != weather_sound_category::NONE && !is_deaf &&
+          get_weather().weather_id->sound_category != weather_sound_category::silent && !is_deaf &&
           !is_channel_playing( channel::outdoors_snow_env ) &&
           !is_channel_playing( channel::outdoors_flurry_env ) &&
           !is_channel_playing( channel::outdoors_thunderstorm_env ) &&
@@ -920,42 +919,42 @@ void sfx::do_ambient()
              weather_changed  && !is_deaf ) ) {
         fade_audio_group( group::weather, 1000 );
         // We are outside and there is precipitation
-        switch( current_weather.sound_category ) {
-            case weather_sound_category::DRIZZLE:
+        switch( get_weather().weather_id->sound_category ) {
+            case weather_sound_category::drizzle:
                 play_ambient_variant_sound( "environment", "WEATHER_DRIZZLE", heard_volume,
                                             channel::outdoors_drizzle_env,
                                             1000 );
                 break;
-            case weather_sound_category::RAINY:
+            case weather_sound_category::rainy:
                 play_ambient_variant_sound( "environment", "WEATHER_RAINY", heard_volume,
                                             channel::outdoors_rain_env,
                                             1000 );
                 break;
-            case weather_sound_category::THUNDER:
+            case weather_sound_category::thunder:
                 play_ambient_variant_sound( "environment", "WEATHER_THUNDER", heard_volume,
                                             channel::outdoors_thunderstorm_env,
                                             1000 );
                 break;
-            case weather_sound_category::FLURRIES:
+            case weather_sound_category::flurries:
                 play_ambient_variant_sound( "environment", "WEATHER_FLURRIES", heard_volume,
                                             channel::outdoors_flurry_env,
                                             1000 );
                 break;
-            case weather_sound_category::SNOWSTORM:
+            case weather_sound_category::snowstorm:
                 play_ambient_variant_sound( "environment", "WEATHER_SNOWSTORM", heard_volume,
                                             channel::outdoor_blizzard,
                                             1000 );
                 break;
-            case weather_sound_category::SNOW:
+            case weather_sound_category::snow:
                 play_ambient_variant_sound( "environment", "WEATHER_SNOW", heard_volume, channel::outdoors_snow_env,
                                             1000 );
                 break;
-            case weather_sound_category::NONE:
+            case weather_sound_category::silent:
                 break;
         }
     }
     // Keep track of weather to compare for next iteration
-    previous_weather = get_weather().weather_index;
+    previous_weather = get_weather().weather_id;
 }
 
 // firing is the item that is fired. It may be the wielded gun, but it can also be an attached

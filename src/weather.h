@@ -44,23 +44,8 @@ class item;
 struct trap;
 struct rl_vec2d;
 
-const int WEATHER_NULL = 0;
-const int WEATHER_DEFAULT = 1;
-
-static std::vector<weather_datum> weather_datums;
-
-enum weather_sound_category : int {
-    NONE,
-    DRIZZLE,
-    RAINY,
-    THUNDER,
-    FLURRIES,
-    SNOWSTORM,
-    SNOW
-};
-
 double precip_mm_per_hour( precip_class p );
-void handle_weather_effects( weather_type w );
+void handle_weather_effects( weather_type_id w );
 
 /**
  * Weather drawing tracking.
@@ -69,7 +54,7 @@ void handle_weather_effects( weather_type w );
  */
 struct weather_printable {
     //!< Weather type in use.
-    weather_type wtype;
+    weather_type_id wtype;
     //!< Coordinates targeted for droplets.
     std::vector<std::pair<int, int> > vdrops;
     //!< Color to draw glyph this animation frame.
@@ -98,14 +83,7 @@ struct weather_sum {
     int wind_amount = 0;
 };
 
-namespace weather
-{
-void load_weather_type( const JsonObject &jo );
-const weather_datum &data( weather_type type );
-weather_type get_bad_weather();
-int get_count();
-} // namespace weather
-
+weather_type_id get_bad_weather();
 std::string get_shortdirstring( int angle );
 
 std::string get_dirstring( int angle );
@@ -125,7 +103,7 @@ std::string print_pressure( double pressure, int decimals = 0 );
 // Return windchill offset in degrees F, starting from given temperature, humidity and wind
 int get_local_windchill( double temperature_f, double humidity, double wind_mph );
 
-int get_local_humidity( double humidity, weather_type weather, bool sheltered = false );
+int get_local_humidity( double humidity, weather_type_id weather, bool sheltered = false );
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection,
                             bool sheltered = false );
@@ -163,15 +141,15 @@ bool warm_enough_to_plant( const tripoint &pos );
 
 bool is_wind_blocker( const tripoint &location );
 
-weather_type current_weather( const tripoint &location,
-                              const time_point &t = calendar::turn );
+weather_type_id current_weather( const tripoint &location,
+                                 const time_point &t = calendar::turn );
 
-void glare( weather_type w );
+void glare( weather_type_id w );
 /**
  * Amount of sunlight incident at the ground, taking weather and time of day
  * into account.
  */
-int incident_sunlight( weather_type wtype,
+int incident_sunlight( weather_type_id wtype,
                        const time_point &t = calendar::turn );
 
 class weather_manager
@@ -185,16 +163,14 @@ class weather_manager
         int temperature = 0;
         bool lightning_active = false;
         // Weather pattern
-        weather_type weather_index = WEATHER_NULL;
-        const weather_datum &data();
-        const weather_datum &data( weather_type type );
+        weather_type_id weather_id = WEATHER_NULL;
         int winddirection = 0;
         int windspeed = 0;
         // Cached weather data
         pimpl<w_point> weather_precise;
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
-        weather_type weather_override;
+        weather_type_id weather_override;
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );
         // The time at which weather will shift next.

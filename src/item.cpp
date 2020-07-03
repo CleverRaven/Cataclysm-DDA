@@ -9263,16 +9263,16 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool submerged = false;
     bool precipitation = false;
     bool windtoostrong = false;
-    w_point weatherPoint = *g->weather.weather_precise;
-    int windpower = g->weather.windspeed;
-    switch( g->weather.data().precip ) {
-        case precip_class::VERY_LIGHT:
+    w_point weatherPoint = *get_weather().weather_precise;
+    int windpower = get_weather().windspeed;
+    switch( get_weather().weather_id->precip ) {
+        case precip_class::very_light:
             precipitation = one_in( 100 );
             break;
-        case precip_class::LIGHT:
+        case precip_class::light:
             precipitation = one_in( 50 );
             break;
-        case precip_class::HEAVY:
+        case precip_class::heavy:
             precipitation = one_in( 10 );
             break;
         default:

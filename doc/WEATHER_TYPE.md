@@ -1,9 +1,6 @@
 ## Weather_type
 
-Each weather type is a type of weather that occurs, its effects and what causes it.  The very first entry 
-is a null value and should not happen.  The second entry will be the default weather.  All others postion only
- matters for deciding what the current weather is.  All entries will be processed in order and the last valid
- weather is the current.
+Each weather type is a type of weather that occurs, its effects and what causes it.  The only required entries are null and clear.
 
 
 ##Fields
@@ -19,12 +16,13 @@ is a null value and should not happen.  The second entry will be the default wea
 | `light_modifier`               | modification to ambient light.                                        |
 | `sound_attn`                   | Sound attenuation of a given weather type.                            |
 | `dangerous`                    | If true, our activity gets interrupted.                               |
-| `precip`                       | Amount of associated precipitation.                                   |
+| `precip`                       | Amount of associated precipitation. Valid values are: none, very_light, light and heavy |
 | `rains`                        | Whether said precipitation falls as rain.                             |
 | `acidic`                       | Whether said precipitation is acidic.                                 |
 | `tiles_animation`              | Optional, name of the tiles animation to use                          |
-| `sound_category`               | Optional, if playing sound effects what to use                        |
-| `sun_intensity`                | Strength of the sun with 0 as weakest and 3 as the highest            |
+| `sound_category`               | Optional, if playing sound effects what to use. Valid values are: silent, drizzle, rainy, thunder, flurries,
+    snowstorm and snow. |
+| `sun_intensity`                | Strength of the sun. Valid values are: none, light, normal, and high  |
 | `weather_animation`            | Optional, Information controlling weather animations.  Members: factor, color and glyph |
 | `effects`                      | String, int pair array for the effects the weather has.  At present wet, thunder, lightning, light_acid, and acid are supported. |  
 	`wet`                         | wets player by int amount
@@ -33,7 +31,7 @@ is a null value and should not happen.  The second entry will be the default wea
 	`light_acid`                  | causes pain unless waterproof
 	`acid_rain`                   | causes more pain unless waterproof
 
-| `requirements`                 | Optional, is what determines what weather it is.  All members are optional.  
+| `requirements`                  | Optional, is what determines what weather it is.  All members are optional.  
 	When checking what weather it is it loops through the entries in order and uses the last one to succeed. |
 	
 	`pressure_min`
@@ -48,33 +46,32 @@ is a null value and should not happen.  The second entry will be the default wea
 	
 	`humidity_and_pressure`      | if there are pressure and humidity requirements are they both required or just one |
 	`acidic`                     | does this require acidic precipitation                                |
-	`time`                       | 0 for only during the day, 1 for only at night, 2 for both            |
+	`time`                       | Valid values are: day, night, and both.                               |
 	`required_weathers`          | a string array of possible weathers it is at this point in the loop. i.e. rain can only happen if the conditions for clouds light drizzle or drizzle are present |
-
 
 ### Example
 
 ```json
 {
-	{
-          "name": "Lightning Storm",
-          "color": "c_yellow",
-          "map_color": "h_yellow",
-          "glyph": "%",
-          "ranged_penalty": 4,
-          "sight_penalty": 1.25,
-          "light_modifier": -45,
-          "sound_attn": 8,
-          "dangerous": false,
-          "precip": 3,
-          "rains": true,
-          "acidic": false,
-          "effects": [ { "name": "thunder", "intensity": 50 }, { "name": "lightning", "intensity": 600 } ],
-          "tiles_animation": "weather_rain_drop",
-          "weather_animation": { "factor": 0.04, "color": "c_light_blue", "glyph": "," },
-          "sound_category": 3,
-          "sun_intensity": 0,
-          "requirements": { "pressure_max": 990, "required_weathers": [ "Thunder Storm" ] }
-        }
+    "id": "lightning",
+    "type": "weather_type",
+    "name": "Lightning Storm",
+    "color": "c_yellow",
+    "map_color": "h_yellow",
+    "glyph": "%",
+    "ranged_penalty": 4,
+    "sight_penalty": 1.25,
+    "light_modifier": -45,
+    "sound_attn": 8,
+    "dangerous": false,
+    "precip": "heavy",
+    "rains": true,
+    "acidic": false,
+    "effects": [ { "name": "thunder", "intensity": 50 }, { "name": "lightning", "intensity": 600 } ],
+    "tiles_animation": "weather_rain_drop",
+    "weather_animation": { "factor": 0.04, "color": "c_light_blue", "glyph": "," },
+    "sound_category": "thunder",
+    "sun_intensity": "none",
+    "requirements": { "pressure_max": 990, "required_weathers": [ "thunder" ] }
 }
 ```

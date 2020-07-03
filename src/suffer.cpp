@@ -720,9 +720,9 @@ void Character::suffer_in_sunlight()
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
     if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
-        const float weather_factor = ( g->weather.data().sun_intensity >=
+        const float weather_factor = ( get_weather().weather_id->sun_intensity >=
                                        sun_intensity_type::normal ) ? 1.0 : 0.5;
-        const int player_local_temp = g->weather.get_temperature( pos() );
+        const int player_local_temp = get_weather().get_temperature( pos() );
         int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
             sunlight_nutrition += ( 100 + flux ) * weather_factor;
@@ -765,7 +765,7 @@ void Character::suffer_in_sunlight()
     }
 
     if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
-        g->weather.data().sun_intensity >= sun_intensity_type::high ) {
+        get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
         mod_str_bonus( -1 );
         mod_dex_bonus( -1 );
         add_miss_reason( _( "The sunlight distracts you." ), 1 );
@@ -1262,9 +1262,9 @@ void Character::suffer_from_artifacts()
     }
 
     if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
-        g->weather.data().precip < precip_class::HEAVY ) {
-        g->weather.weather_override = weather::get_bad_weather();
-        g->weather.set_nextweather( calendar::turn );
+        get_weather().weather_id->precip < precip_class::heavy ) {
+        get_weather().weather_override = get_bad_weather();
+        get_weather().set_nextweather( calendar::turn );
     }
 
     if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {

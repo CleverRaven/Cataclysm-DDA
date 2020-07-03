@@ -168,26 +168,21 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
     return w_point{ T, H, P, W, wind_desc, current_winddir, acid };
 }
 
-weather_type weather_generator::get_weather_conditions( const tripoint &location,
+weather_type_id weather_generator::get_weather_conditions( const tripoint &location,
         const time_point &t, unsigned seed ) const
 {
     w_point w( get_weather( location, t, seed ) );
-    weather_type wt = get_weather_conditions( w );
+    weather_type_id wt = get_weather_conditions( w );
     return wt;
 }
 
-weather_type weather_generator::get_weather_conditions( const w_point &w ) const
+weather_type_id weather_generator::get_weather_conditions( const w_point &w ) const
 {
-    weather_type current_conditions( WEATHER_DEFAULT );
-    for( int weather_index = WEATHER_DEFAULT; weather_index < weather::get_count();
-         weather_index++ ) {
-        const weather_datum &wdata = weather::data( weather_index );
-        //if the region doesn't have the condition then skip it
-        if( std::find( weather_types.begin(), weather_types.end(), wdata.id ) == weather_types.end() ) {
-            continue;
-        }
+    weather_type_id current_conditions = WEATHER_CLEAR;
+    for( int i = 0; i < weather_types.size(); i++ ) {
+        weather_type_id type = weather_type_id( weather_types[i] );
 
-        const weather_requirements &requires = weather::data( weather_index ).requirements;
+        const weather_requirements &requires = type->requirements;
         bool test_pressure =
             requires.pressure_max > w.pressure &&
             requires.pressure_min < w.pressure;
@@ -210,19 +205,19 @@ weather_type weather_generator::get_weather_conditions( const w_point &w ) const
         }
 
         if( !requires.required_weathers.empty() ) {
-            const weather_datum &wcurrentdata = weather::data( current_conditions );
+            std::string cur_id = current_conditions->id.c_str();
             if( std::find( requires.required_weathers.begin(), requires.required_weathers.end(),
-                           wcurrentdata.id ) == requires.required_weathers.end() ) {
+                           cur_id ) == requires.required_weathers.end() ) {
                 continue;
             }
         }
 
-        if( !( requires.time == time_requirement_type::both ||
-               ( requires.time == time_requirement_type::day && is_day( calendar::turn ) ) ||
-               ( requires.time == time_requirement_type::night && !is_day( calendar::turn ) ) ) ) {
+        if( !( requires.time == weather_time_requirement_type::both ||
+               ( requires.time == weather_time_requirement_type::day && is_day( calendar::turn ) ) ||
+               ( requires.time == weather_time_requirement_type::night && !is_day( calendar::turn ) ) ) ) {
             continue;
         }
-        current_conditions = weather_index;
+        current_conditions = type;
     }
     return current_conditions;
 }
@@ -299,8 +294,7 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
         const time_point end = begin + 2 * calendar::year_length();
         for( time_point i = begin; i < end; i += 20_minutes ) {
             w_point w = get_weather( tripoint_zero, to_turn<int>( i ), seed );
-            weather_type c = get_weather_conditions( w );
-            const weather_datum &wd = weather::data( c );
+            weather_type_id conditions = get_weather_conditions( w );
 
             int year = to_turns<int>( i - calendar::turn_zero ) / to_turns<int>
                        ( calendar::year_length() ) + 1;
@@ -313,7 +307,8 @@ void weather_generator::test_weather( unsigned seed = 1000 ) const
                 day = day_of_season<int>( i );
             }
             testfile << "|;" << year << ";" << season_of_year( i ) << ";" << day << ";" << hour << ";" << minute
-                     << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << wd.name << ";" <<
+                     << ";" << w.temperature << ";" << w.humidity << ";" << w.pressure << ";" << conditions->name << ";"
+                     <<
                      w.windpower << ";" << w.winddirection << std::endl;
         }
 
@@ -339,5 +334,8 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.autumn_humidity_manual_mod = jo.get_int( "autumn_humidity_manual_mod", 0 );
     ret.winter_humidity_manual_mod = jo.get_int( "winter_humidity_manual_mod", 0 );
     ret.weather_types = jo.get_string_array( "weather_types" );
+    if( ret.weather_types.size() < 2 ) {
+        jo.throw_error( "Need at least 2 weather types per region for null and default." );
+    }
     return ret;
 }
