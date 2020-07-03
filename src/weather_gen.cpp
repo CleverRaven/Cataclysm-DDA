@@ -179,7 +179,7 @@ weather_type_id weather_generator::get_weather_conditions( const tripoint &locat
 weather_type_id weather_generator::get_weather_conditions( const w_point &w ) const
 {
     weather_type_id current_conditions = WEATHER_CLEAR;
-    for( int i = 0; i < weather_types.size(); i++ ) {
+    for( size_t i = 0; i < weather_types.size(); i++ ) {
         weather_type_id type = weather_type_id( weather_types[i] );
 
         const weather_requirements &requires = type->requirements;
