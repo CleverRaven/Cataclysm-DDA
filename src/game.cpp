@@ -10182,13 +10182,6 @@ void game::vertical_move( int movez, bool force )
         return;
     }
 
-    if( m.has_flag( "UNSTABLE", u.pos() ) ) {
-        u.moves -= 500;
-        if( movez == 1 && slip_down() ) {
-            return;
-        }
-    }
-
     // Check if there are monsters are using the stairs.
     bool slippedpast = false;
     if( !m.has_zlevels() && !coming_to_stairs.empty() && !force ) {
@@ -12058,7 +12051,7 @@ void game::shift_destination_preview( const point &delta )
     }
 }
 
-bool game::slip_down( bool check_for_traps )
+bool game::slip_down()
 {
     ///\EFFECT_DEX decreases chances of slipping while climbing
     int climb = u.dex_cur;
@@ -12069,9 +12062,6 @@ bool game::slip_down( bool check_for_traps )
         add_msg( m_bad, _( "You slip while climbing and fall down again." ) );
         if( climb <= 1 ) {
             add_msg( m_bad, _( "Climbing is impossible in your current state." ) );
-        }
-        if( check_for_traps ) {
-            m.creature_on_trap( u );
         }
         return true;
     }

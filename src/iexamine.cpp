@@ -4206,7 +4206,8 @@ void iexamine::ledge( player &p, const tripoint &examp )
     uilist cmenu;
     cmenu.text = _( "There is a ledge here.  What do you want to do?" );
     cmenu.addentry( 1, true, 'j', _( "Jump over." ) );
-    cmenu.addentry( 2, true, 'c', _( "Climb down." ) );
+    bool can_climb = g->m.has_zlevels() && g->m.valid_move( p.pos(), examp, false, true );
+    cmenu.addentry( 2, can_climb, 'c', _( "Climb down." ) );
     cmenu.query();
 
     switch( cmenu.ret ) {
@@ -4231,16 +4232,6 @@ void iexamine::ledge( player &p, const tripoint &examp )
             break;
         }
         case 2: {
-            if( !g->m.has_zlevels() ) {
-                // No climbing down in 2D mode
-                return;
-            }
-
-            if( !g->m.valid_move( p.pos(), examp, false, true ) ) {
-                // Covered with something
-                return;
-            }
-
             tripoint where = examp;
             tripoint below = examp;
             below.z--;
@@ -4281,10 +4272,6 @@ void iexamine::ledge( player &p, const tripoint &examp )
 
             p.moves -= to_moves<int>( 1_seconds + 1_seconds * fall_mod );
             p.setpos( examp );
-
-            if( g->slip_down( true ) ) {
-                return;
-            }
 
             if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
                 // One tile of falling less (possibly zero)
