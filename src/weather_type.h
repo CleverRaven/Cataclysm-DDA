@@ -89,7 +89,7 @@ struct weather_requirements {
     std::vector<std::string> required_weathers;
 };
 
-class weather_type
+struct weather_type
 {
     public:
         friend class generic_factory<weather_type>;
