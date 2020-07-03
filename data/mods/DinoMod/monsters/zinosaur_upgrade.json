@@ -18,7 +18,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -40,7 +41,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -62,7 +64,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -84,7 +87,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -106,7 +110,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -128,7 +133,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -150,7 +156,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -172,7 +179,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -194,7 +202,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -216,7 +225,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -238,7 +248,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -260,7 +271,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -282,7 +294,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -304,7 +317,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -326,7 +340,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -348,7 +363,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
@@ -370,7 +386,8 @@
       "vision_night": 1
     },
     "upgrades": {  },
-    "extend": { "special_attacks": [ "SMASH", 30 ], "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
+    "special_attacks": [ "SMASH", 30 ],
+    "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
   },
   {
