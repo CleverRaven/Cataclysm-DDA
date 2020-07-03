@@ -851,7 +851,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
                         continue;
                     }
                     if( !spane.is_filtered( *it ) ) {
-                        int count;
+                        const int count = it->count();
                         if( it->count_by_charges() ) {
                             count = it->charges;
                         } else {
