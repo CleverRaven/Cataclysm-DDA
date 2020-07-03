@@ -351,10 +351,10 @@ struct item_contents::item_contents_helper {
             std::unique( failure_messages.begin(), failure_messages.end() ),
             failure_messages.end() );
         return ret_val<my_pocket_type *>::make_failure(
-                   null_pocket, string_format(
-                       ngettext( "pocket unacceptable because %s", "pockets unacceptable because %s",
-                                 num_pockets_of_type ),
-                       enumerate_as_string( failure_messages, enumeration_conjunction::or_ ) ) );
+                   null_pocket,
+                   ngettext( "pocket unacceptable because %s", "pockets unacceptable because %s",
+                             num_pockets_of_type ),
+                   enumerate_as_string( failure_messages, enumeration_conjunction::or_ ) );
     }
 };
 
