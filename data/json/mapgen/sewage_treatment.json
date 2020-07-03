@@ -49,12 +49,7 @@
       "G": "t_thconc_floor",
       "6": "t_thconc_floor"
     },
-    "furniture": {
-      "%": "f_machinery_heavy",
-      "$": "f_machinery_light",
-      "G": "f_generator_broken",
-      "6": "f_console_broken"
-    }
+    "furniture": { "%": "f_machinery_heavy", "$": "f_machinery_light", "G": "f_generator_broken", "6": "f_console_broken" }
   },
   {
     "type": "palette",
