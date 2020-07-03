@@ -1028,10 +1028,11 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-void item::put_in( const item &payload, item_pocket::pocket_type pk_type )
+ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
 {
-    contents.insert_item( payload, pk_type );
+    ret_val<bool> result = contents.insert_item( payload, pk_type );
     on_contents_changed();
+    return result;
 }
 
 void item::set_var( const std::string &name, const int value )
