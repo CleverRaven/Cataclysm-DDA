@@ -951,6 +951,9 @@ void sfx::do_ambient()
                 break;
             case weather_sound_category::silent:
                 break;
+            case weather_sound_category::last:
+                debugmsg( "Invalid weather sound category." );
+                break;
         }
     }
     // Keep track of weather to compare for next iteration

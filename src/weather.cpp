@@ -72,8 +72,8 @@ weather_type_id get_bad_weather()
 {
     weather_type_id bad_weather = WEATHER_NULL;
     const weather_generator &weather_gen = get_weather().get_cur_weather_gen();
-    for( size_t i = 0; i < weather_gen.weather_types.size(); i++ ) {
-        weather_type_id current_conditions = weather_type_id( weather_gen.weather_types[i] );
+    for( const std::string &weather_type : weather_gen.weather_types ) {
+        weather_type_id current_conditions = weather_type_id( weather_type );
         if( current_conditions->precip == precip_class::heavy ) {
             bad_weather = current_conditions;
         }

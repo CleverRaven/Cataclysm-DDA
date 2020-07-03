@@ -89,7 +89,8 @@ std::string enum_to_string<weather_sound_category>( weather_sound_category data 
     debugmsg( "Invalid time_requirement_type" );
     abort();
 }
-}
+
+} // namespace io
 
 template<>
 const weather_type &weather_type_id::obj() const

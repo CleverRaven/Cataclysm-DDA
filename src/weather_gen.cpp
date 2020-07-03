@@ -179,8 +179,8 @@ weather_type_id weather_generator::get_weather_conditions( const tripoint &locat
 weather_type_id weather_generator::get_weather_conditions( const w_point &w ) const
 {
     weather_type_id current_conditions = WEATHER_CLEAR;
-    for( size_t i = 0; i < weather_types.size(); i++ ) {
-        weather_type_id type = weather_type_id( weather_types[i] );
+    for( const std::string &weather_type : weather_types ) {
+        weather_type_id type = weather_type_id( weather_type );
 
         const weather_requirements &requires = type->requirements;
         bool test_pressure =
