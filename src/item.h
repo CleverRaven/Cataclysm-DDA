@@ -738,7 +738,7 @@ class item : public visitable<item>
             return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
         }
         /**
-         * Puts the given item into this one, no checks are performed.
+         * Puts the given item into this one.
          */
         ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type );
 
