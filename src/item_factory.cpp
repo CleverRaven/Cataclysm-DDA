@@ -1826,16 +1826,17 @@ void islot_armor::load( const JsonObject &jo )
             tempData.coverage = obj.get_int( "coverage" );
             data.push_back( tempData );
 
-            if( obj.has_string( "layer" ) ) {
-                for( auto &piece : data ) {
-                    layer_level layer;
-                    obj.read( "layer", layer );
-                }
-            } else {
-                for( random_armor_data &piece : data ) {
-                    piece.layer = layer_level::REGULAR;
-                }
-            }
+            // TODO: Not currently supported, we still use flags for this
+            //if( obj.has_string( "layer" ) ) {
+            //    for( auto &piece : data ) {
+            //        layer_level layer;
+            //        obj.read( "layer", layer );
+            //    }
+            //} else {
+            //    for( random_armor_data &piece : data ) {
+            //        piece.layer = layer_level::REGULAR;
+            //    }
+            //}
         }
     } else {
         if( data.empty() ) { // Loading item does not have copy-from

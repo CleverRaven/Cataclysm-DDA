@@ -218,6 +218,7 @@ struct random_armor_data {
     cata::optional<body_part_set> covers;
 
     // What layer does it cover if any
+    // TODO: Not currently supported, we still use flags for this
     cata::optional<layer_level> layer;
 };
 
