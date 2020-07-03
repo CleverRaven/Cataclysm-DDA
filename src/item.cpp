@@ -1251,10 +1251,20 @@ item::sizing item::get_sizing( const Character &p ) const
         } else if( small ) {
             return sizing::human_sized_small_char;
         } else {
-            return sizing::human_sized_human_char;
+            const islot_armor* armor_data = find_armor_data();
+            bool to_ignore = true;
+            for( const random_armor_data &piece : armor_data->data ) {
+                if( piece.encumber != 0 ) {
+                    to_ignore = false;
+                }
+            }
+            if( to_ignore ) {
+                return sizing::ignore;
+            } else {
+                return sizing::human_sized_human_char;
+            }
         }
     }
-
 }
 
 static int get_base_env_resist( const item &it )
@@ -5634,7 +5644,8 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     for( const random_armor_data &data : t->data ) {
-        if( data.covers.has_value() && data.covers->test( bodypart.id() ) ) {
+        if( data.covers.has_value()
+            && ( data.covers->test( bodypart.id() ) || bodypart == bodypart_id( "num_bp" ) ) ) {
             encumber = data.encumber;
             encumber += std::ceil( relative_encumbrance * ( data.max_encumber - data.encumber ) );
         }
@@ -5723,7 +5734,8 @@ int item::get_coverage( const bodypart_id &bodypart ) const
 
     int coverage = 0;
     for( const random_armor_data &entry : t->data ) {
-        if( entry.covers.has_value() && entry.covers->test( bodypart.id() ) ) {
+        if( entry.covers.has_value()
+            && ( entry.covers->test( bodypart.id() ) || bodypart == bodypart_id( "num_bp" ) ) ) {
             if( entry.coverage > coverage ) {
                 coverage = entry.coverage;
             }

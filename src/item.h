@@ -1563,9 +1563,7 @@ class item : public visitable<item>
         layer_level get_layer() const;
 
         /*
-         * Returns the average coverage of each piece of data this item contains that covers the bodypart
-         * Currently we do not support multiple pieces of data in the same item covering the same bodypart
-         * So for now this should return the same as get_coverage
+         * Returns the average coverage of each piece of data this item
          */
         int get_avg_coverage() const;
         /**
@@ -1573,7 +1571,7 @@ class item : public visitable<item>
          * Values range from 0 (not covering anything) to 100 (covering the whole body part).
          * Items that cover more are more likely to absorb damage from attacks.
          */
-        int get_coverage( const bodypart_id &bodypart ) const;
+        int get_coverage( const bodypart_id &bodypart = bodypart_id( "num_bp" ) ) const;
 
         enum class encumber_flags : int {
             none = 0,
@@ -2150,7 +2148,8 @@ class item : public visitable<item>
             small_sized_big_char,
             small_sized_small_char,
             human_sized_small_char,
-            big_sized_small_char
+            big_sized_small_char,
+            ignore
         };
 
         sizing get_sizing( const Character & ) const;
