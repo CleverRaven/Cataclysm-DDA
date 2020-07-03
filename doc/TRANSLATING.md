@@ -99,8 +99,10 @@ etymology in order to help translations.
   attacked by the Blob and try to rescue survivors.  Exodii is a horrible
   mangling of "Exodus" - the word literally means leaving or going out and has
   connotations of forced emigration and refugees.  The Exodii are the people of
-  an Exodus.  Except Exodus is a Greek word and "ii" to indicate a plural is a
-  Latin thing - so it's grammatically incorrect.
+  an Exodus.  While Exodus is a Latin word and "ii" to indicate a plural is a
+  Latin thing, but this isn't actually the [correct Latin
+  plural](https://www.latin-is-simple.com/en/vocabulary/noun/9294/) for this
+  word.
 
 ### Grammatical gender
 
