@@ -86,7 +86,7 @@ void weather::add_datum( weather_datum new_weather )
     weather_datums.push_back( new_weather );
 }
 
-const weather_datum &weather::data( const weather_type type )
+weather_type_id get_bad_weather()
 {
     const size_t i = static_cast<size_t>( type );
     if( i < weather_datums.size() ) {
@@ -100,10 +100,11 @@ weather_type weather::get_bad_weather()
 {
     weather_type bad_weather = WEATHER_NULL;
     int current_weather = 0;
-    for( const weather_datum &weather : weather_datums ) {
-        current_weather++;
-        if( weather.precip == precip_class::HEAVY ) {
-            bad_weather = current_weather;
+    const weather_generator &weather_gen = get_weather().get_cur_weather_gen();
+    for( int i = 0; i < weather_gen.weather_types.size(); i++ ) {
+        weather_type_id current_conditions = weather_type_id( weather_gen.weather_types[i] );
+        if( current_conditions->precip == precip_class::heavy ) {
+            bad_weather = current_conditions;
         }
     }
     return bad_weather;
@@ -1057,16 +1058,6 @@ void weather_manager::update_weather()
             }
         }
     }
-}
-
-const weather_datum &weather_manager::data()
-{
-    return weather::data( weather_index );
-}
-
-const weather_datum &weather_manager::data( weather_type type )
-{
-    return weather::data( type );
 }
 
 void weather_manager::set_nextweather( time_point t )
