@@ -2589,7 +2589,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
         std::string format;
-        const int encumbrance = get_encumber( g->u ) != 0;
+        const int encumbrance = get_encumber( g->u );
         if( has_flag( flag_FIT ) ) {
             format = _( " <info>(fits)</info>" );
         } else if( has_flag( flag_VARSIZE ) && encumbrance ) {
