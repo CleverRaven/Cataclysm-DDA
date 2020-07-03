@@ -113,7 +113,7 @@
       { "monster": "mon_zpinosaurus_brute", "freq": 23, "cost_multiplier": 5 }
     ]
   },
-    {
+  {
     "type": "monstergroup",
     "name": "GROUP_zyrannosaurus_UPGRADE",
     "default": "mon_syrannosaurus",
@@ -123,7 +123,7 @@
       { "monster": "mon_zyrannosaurus_brute", "freq": 23, "cost_multiplier": 5 }
     ]
   },
-    {
+  {
     "type": "monstergroup",
     "name": "GROUP_zeinonychus_UPGRADE",
     "default": "mon_zeinonychus_brute",
