@@ -303,9 +303,7 @@
     "difficulty": 1,
     "time": "2 h",
     "autolearn": true,
-    "qualities": [
-      { "id": "WELD", "level": 1 }
-    ],
+    "qualities": [ { "id": "WELD", "level": 1 } ],
     "components": [ [ [ "four_winds_shotgun", 2 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
@@ -320,5 +318,4 @@
     "autolearn": true,
     "components": [ [ [ "four_winds_shotgun", 2 ] ], [ [ "duct_tape", 100 ] ] ]
   }
-]
 ]
