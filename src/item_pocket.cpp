@@ -1129,7 +1129,7 @@ void item_pocket::on_pickup( Character &guy )
 
 void item_pocket::on_contents_changed()
 {
-    _sealed = false;
+    unseal();
     restack();
 }
 

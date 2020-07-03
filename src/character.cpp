@@ -7698,7 +7698,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
     // Prevent accessing the item as it may have been deleted by the invoked iuse function.
-
     if( used->is_tool() || actually_used->is_medication() ) {
         return consume_charges( *actually_used, charges_used );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
@@ -10780,6 +10779,11 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
     }
 
     return Attitude::NEUTRAL;
+}
+
+npc_attitude Character::get_attitude() const
+{
+    return NPCATT_NULL;
 }
 
 bool Character::sees( const tripoint &t, bool, int ) const

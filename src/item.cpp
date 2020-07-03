@@ -592,6 +592,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     const ammotype &ammo_type = ammo->ammo->type;
     if( qty < 0 ) {
         // completely fill an integral or existing magazine
+        //if( magazine_current() ) then we need capacity of the magazine instead of the item maybe?
         if( magazine_integral() || magazine_current() ) {
             qty = ammo_capacity( ammo_type );
 
@@ -628,7 +629,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     // check ammo is valid for the item
     const itype *atype = item_controller->find_template( ammo );
     if( atype->ammo && ammo_types().count( atype->ammo->type ) == 0 &&
-        !magazine_compatible().count( atype->get_id() ) ) {
+        !magazine_compatible().count( atype->get_id() ) && !( magazine_current() &&
+                magazine_current()->ammo_types().count( atype->ammo->type ) ) ) {
         debugmsg( "Tried to set invalid ammo of %s for %s", atype->nname( qty ), tname() );
         return *this;
     }

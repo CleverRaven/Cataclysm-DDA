@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "addiction.h"
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -262,7 +261,7 @@ void Character::suffer_while_underwater()
             apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
         }
     }
-    if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
+    if( has_trait( trait_FRESHWATEROSMOSIS ) && !get_map().has_flag_ter( "SALT_WATER", pos() ) &&
         get_thirst() > -60 ) {
         mod_thirst( -1 );
     }
@@ -630,9 +629,11 @@ void Character::suffer_from_asthma( const int current_stim )
     add_msg_player_or_npc( m_bad, _( "You have an asthma attack!" ),
                            "<npcname> starts wheezing and coughing." );
 
+    map &here = get_map();
     if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
         inventory map_inv;
-        map_inv.form_from_map( g->u.pos(), 2, &g->u );
+        Character &player_character = get_player_character();
+        map_inv.form_from_map( player_character.pos(), 2, &player_character );
         // check if an inhaler is somewhere near
         bool nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||
                           map_inv.has_charges( itype_oxygen_tank, 1 ) ||
@@ -653,10 +654,10 @@ void Character::suffer_from_asthma( const int current_stim )
         } else if( nearby_use ) {
             // create new variable to resolve a reference issue
             int amount = 1;
-            if( !g->m.use_charges( g->u.pos(), 2, itype_inhaler, amount ).empty() ) {
+            if( !here.use_charges( player_character.pos(), 2, itype_inhaler, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
-            } else if( !g->m.use_charges( g->u.pos(), 2, itype_oxygen_tank, amount ).empty() ||
-                       !g->m.use_charges( g->u.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
+            } else if( !here.use_charges( player_character.pos(), 2, itype_oxygen_tank, amount ).empty() ||
+                       !here.use_charges( player_character.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                               "and go back to sleep." ) );
             }
@@ -718,7 +719,7 @@ void Character::suffer_in_sunlight()
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
-    if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+    if( leafy && get_map().is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
         const float weather_factor = ( g->weather.weather == WEATHER_CLEAR ||
                                        g->weather.weather == WEATHER_SUNNY ) ? 1.0 : 0.5;
         const int player_local_temp = g->weather.get_temperature( pos() );
@@ -882,9 +883,10 @@ void Character::suffer_from_albinism()
 
 void Character::suffer_from_other_mutations()
 {
+    map &here = get_map();
     if( has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
-        g->m.spawn_item( pos(), "bone", 1 );
+        here.spawn_item( pos(), "bone", 1 );
     }
 
     if( has_active_mutation( trait_WINGS_INSECT ) ) {
@@ -896,7 +898,7 @@ void Character::suffer_from_other_mutations()
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     int root_vitamins = 0;
     int root_water = 0;
-    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
+    if( has_trait( trait_ROOTS3 ) && here.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
         root_vitamins += 1;
         if( get_thirst() <= -2000 ) {
             root_water += 51;
@@ -930,7 +932,7 @@ void Character::suffer_from_other_mutations()
     //Web Weavers...weave web
     if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
         // this adds intensity to if its not already there.
-        g->m.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), fd_web, 1 );
 
     }
 
@@ -955,7 +957,7 @@ void Character::suffer_from_other_mutations()
 
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
-        g->m.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), fd_web, 1 );
     }
 
     bool should_mutate = has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
@@ -990,9 +992,10 @@ void Character::suffer_from_other_mutations()
 
 void Character::suffer_from_radiation()
 {
+    map &here = get_map();
     // checking for radioactive items in inventory
     const int item_radiation = leak_level( "RADIOACTIVE" );
-    const int map_radiation = g->m.get_radiation( pos() );
+    const int map_radiation = here.get_radiation( pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
     int rad_mut = 0;
@@ -1025,8 +1028,8 @@ void Character::suffer_from_radiation()
             // If you can't, irradiate the player instead
             tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
             // TODO: Radioactive vehicles?
-            if( g->m.get_radiation( rad_point ) < rad_mut ) {
-                g->m.adjust_radiation( rad_point, 1 );
+            if( here.get_radiation( rad_point ) < rad_mut ) {
+                here.adjust_radiation( rad_point, 1 );
             } else {
                 rads += rad_mut;
             }
@@ -1186,7 +1189,7 @@ void Character::suffer_from_bad_bionics()
         add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
         hurtall( 1, nullptr );
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
-        sfx::do_player_death_hurt( g->u, false );
+        sfx::do_player_death_hurt( get_player_character(), false );
     }
     if( has_bionic( bio_drain ) && get_power_level() > 24_kJ && one_turn_in( 1_hours ) ) {
         add_msg_if_player( m_bad, _( "Your batteries discharge slightly." ) );

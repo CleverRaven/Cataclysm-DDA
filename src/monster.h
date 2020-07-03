@@ -295,7 +295,7 @@ class monster : public Creature
         void knock_back_to( const tripoint &to ) override;
 
         // Combat
-        bool is_fleeing( player &u ) const; // True if we're fleeing
+        bool is_fleeing( Character &u ) const;
         monster_attitude attitude( const Character *u = nullptr ) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us
