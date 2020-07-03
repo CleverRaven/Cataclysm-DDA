@@ -125,6 +125,33 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zalbertosaurus_UPGRADE",
+    "default": "mon_salbertosaurus",
+    "monsters": [
+      { "monster": "mon_salbertosaurus", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_zalbertosaurus_brute", "freq": 23, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zeratosaurus_UPGRADE",
+    "default": "mon_seratosaurus",
+    "monsters": [
+      { "monster": "mon_seratosaurus", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_zeratosaurus_brute", "freq": 23, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zallosaurus_UPGRADE",
+    "default": "mon_sallosaurus",
+    "monsters": [
+      { "monster": "mon_sallosaurus", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_zallosaurus_brute", "freq": 23, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_zeinonychus_UPGRADE",
     "default": "mon_zeinonychus_brute",
     "monsters": [
