@@ -365,8 +365,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_concrete",
-      "furn_set": "f_console_broken",
+      "ter_set": "t_console_broken",
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
@@ -397,8 +396,7 @@
       "str_max": 150,
       "sound": "crunch!",
       "sound_fail": "whack!",
-      "ter_set": "t_concrete",
-      "furn_set": "f_console_broken",
+      "ter_set": "t_console_broken",
       "items": [
         { "item": "processor", "prob": 25 },
         { "item": "RAM", "count": [ 0, 2 ], "prob": 50 },
