@@ -320,7 +320,8 @@
           "medium_battery_cell",
           "medium_plus_battery_cell",
           "heavy_battery_cell",
-          "heavy_plus_battery_cell"
+          "heavy_plus_battery_cell",
+          "battery"
         ]
       }
     ]
