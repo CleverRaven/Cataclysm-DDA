@@ -205,9 +205,8 @@ weather_type_id weather_generator::get_weather_conditions( const w_point &w ) co
         }
 
         if( !requires.required_weathers.empty() ) {
-            std::string cur_id = current_conditions->id.c_str();
             if( std::find( requires.required_weathers.begin(), requires.required_weathers.end(),
-                           cur_id ) == requires.required_weathers.end() ) {
+                           current_conditions ) == requires.required_weathers.end() ) {
                 continue;
             }
         }

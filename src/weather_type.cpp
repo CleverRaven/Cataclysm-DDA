@@ -112,9 +112,9 @@ void weather_type::finalize()
 
 void weather_type::check() const
 {
-    for( const std::string &required : requirements.required_weathers ) {
-        if( !( weather_type_id( required ).is_valid() ) ) {
-            debugmsg( "Required weather type %s does not exist.", required );
+    for( const weather_type_id &required : requirements.required_weathers ) {
+        if( !required.is_valid() ) {
+            debugmsg( "Required weather type %s does not exist.", required.c_str() );
             abort();
         }
     }
@@ -201,9 +201,10 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         optional( weather_requires, was_loaded, "acidic", new_requires.acidic, false );
         optional( weather_requires, was_loaded, "time", new_requires.time,
                   weather_time_requirement_type::both );
-
-        new_requires.required_weathers = weather_requires.get_string_array( "required_weathers" );
-
+        for( const std::string required_weather :
+             weather_requires.get_string_array( "required_weathers" ) ) {
+            new_requires.required_weathers.push_back( weather_type_id( required_weather ) );
+        }
         requirements = new_requires;
     }
 }

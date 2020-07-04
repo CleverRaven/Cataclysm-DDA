@@ -86,7 +86,7 @@ struct weather_requirements {
     bool humidity_and_pressure = true;
     bool acidic = false;
     weather_time_requirement_type time;
-    std::vector<std::string> required_weathers;
+    std::vector<weather_type_id> required_weathers;
 };
 
 struct weather_type {
