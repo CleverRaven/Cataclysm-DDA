@@ -312,5 +312,148 @@
       ],
       "palettes": [ "roof_palette" ]
     }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "gym_fitness_2" ],
+    "weight": 500,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "...................,....",
+        "..4................,.9..",
+        ".4|55555|-55-|555|.,....",
+        "..|B   A|Z  65 sX|5=5|..",
+        "..|B   -|Z s#|  s    5..",
+        "..|B   c|S   +      F|..",
+        "..|B   c|S  &|  |a  F5..",
+        "..|B   s|-55-|  --  T|..",
+        "..|B    =          OO5..",
+        "..|-----|            |..",
+        "..|BV  V     P   ! @ 5..",
+        "..|B     K           |..",
+        "..|B  KV    ccc  ! @ 5..",
+        "..|B  cc             |..",
+        "..|Bxxx     ccc  ! @ 5..",
+        "..|----|V K          |..",
+        "..|q  Q|    V K      5..",
+        "..|--+-|  -------    |..",
+        "..|                  5..",
+        "..|--+-|--+-|--+-|-+-|..",
+        "..|*  Q|*  Q|*  Q|Q  5..",
+        "..|s  q|s  q|s  q|Y b|..",
+        "..|----|----|----|---|4.",
+        ".....................4.."
+      ],
+      "set": [ { "point": "trap", "id": "tr_rollmat", "x": [ 4, 6 ], "y": [ 3, 7 ], "repeat": [ 2, 4 ] } ],
+      "terrain": {
+        " ": "t_floor",
+        "+": "t_door_c",
+        ",": "t_sidewalk",
+        "-": "t_wall_w",
+        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "5": "t_wall_glass",
+        "=": "t_door_glass_c",
+        "|": "t_wall_w",
+        "4": "t_gutter_downspout",
+        "6": "t_console",
+        "9": "t_tree"
+      },
+      "furniture": {
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "#": "f_counter",
+        "*": "f_shower",
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "O": "f_locker",
+        "V": "f_exercise",
+        "x": "f_dumbbell_rack",
+        "K": "f_plate_rack",
+        "a": "f_vending_c",
+        "r": "f_rack",
+        "f": "f_glass_fridge",
+        "c": "f_bench",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "B": "f_bigmirror",
+        "S": "f_server",
+        "s": "f_chair",
+        "&": "f_trashcan",
+        "F": "f_sofa",
+        "T": "f_rack_coat",
+        "Z": "f_filing_cabinet",
+        "X": "f_table",
+        "Q": "f_sink",
+        "q": "f_toilet",
+        "A": "f_cardboard_box",
+        "b": "f_cardboard_box",
+        "Y": "f_utility_shelf",
+        "P": "f_punching_bag"
+      },
+      "toilets": { "q": {  } },
+      "items": {
+        "O": { "item": "gym", "chance": 80 },
+        "c": { "item": "gym", "chance": 10 },
+        "x": { "item": "gym_dumbbell_rack", "chance": 50, "repeat": [ 1, 6 ] },
+        "K": { "item": "gym_plate_rack", "chance": 50, "repeat": [ 1, 6 ] },
+        "A": { "item": "gym_light_exercise_equipment", "chance": 35, "repeat": [ 1, 6 ] },
+        "Y": { "item": "gym_cleaning_supplies", "chance": 100 },
+        "Z": { "item": "SUS_office_filing_cabinet", "chance": 100 },
+        "#": { "item": "SUS_office_desk", "chance": 100 },
+        "a": { "item": "vending_drink", "chance": 75, "repeat": [ 4, 8 ] }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "gym_fitness_roof_2",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "  5--------------|      ",
+        "  |..............|---|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |..................|  ",
+        "  |------------------5  ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 17 ],
+          "y": [ 10, 11 ]
+        },
+        {
+          "chunks": [ [ "null", 20 ], [ "roof_4x4_utility", 40 ], [ "roof_6x6_utility", 20 ] ],
+          "x": [ 4, 13 ],
+          "y": 15
+        }
+      ]
+    }
   }
 ]

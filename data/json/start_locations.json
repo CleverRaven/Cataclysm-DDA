@@ -435,6 +435,6 @@
     "type": "start_location",
     "id": "sloc_gym",
     "name": "Gym",
-    "terrain": [ "gym_fitness", "gym_fitness_1" ]
+    "terrain": [ "gym_fitness", "gym_fitness_1", "gym_fitness_2" ]
   }
 ]

@@ -539,7 +539,22 @@
     "points": 0,
     "description": "You were in the middle of getting jacked when the world went to shit. Looks like you can finally cancel your membership.",
     "start_name": "Gym",
-    "professions": [ "yoga_instructor", "runner", "weight_lifter" ],
+    "professions": [
+      "unemployed",
+      "blackbelt_novice",
+      "dancer",
+      "basketball_player",
+      "student",
+      "dodgeball_player",
+      "cyclist",
+      "blackbelt_intermediate",
+      "boxer",
+      "gym_teacher",
+      "blackbelt",
+      "yoga_instructor",
+      "runner",
+      "weight_lifter"
+    ],
     "allowed_locs": [ "sloc_gym" ],
     "flags": [ "LONE_START", "CITY_START", "SPR_START" ]
   }
