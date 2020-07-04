@@ -1048,7 +1048,13 @@ void player::hardcoded_effects( effect &it )
             rng( 1, 3000 ) > ( 5000 + vitamin_get( vitamin_blood ) ) ) {
             bleed_out();
         }
-    } else if( id == effect_anemia || id == effect_redcells_anemia ) {
+    } else if( id == effect_anemia ) {
+        // effects: reduces effective redcells regen and depletes redcells at high intensity
+        if( calendar::once_every( vitamin_rate( vitamin_redcells ) ) ) {
+            add_msg( "%d", vitamin_get( vitamin_redcells ) );
+            vitamin_mod( vitamin_redcells, -rng( 0, intense ) );
+        }
+    } else if( id == effect_redcells_anemia ) {
         // Lack of iron impairs production of hemoglobin and therefore ability to carry
         // oxygen by red blood cells. Alternatively hemorrage causes physical loss of red blood cells.
         // This triggers veriety of symptoms, focusing on weakness,

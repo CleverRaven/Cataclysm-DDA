@@ -1676,8 +1676,12 @@
   {
     "type": "effect_type",
     "id": "anemia",
-    "name": [ "Early anemia", "Anemia", "Acute anemia" ],
-    "desc": [ "A lack of iron in your diet results in progressively worsening anemia." ],
+    "name": [ "Early iron deficiency anemia", "Iron deficiency anemia", "Acute iron deficiency anemia" ],
+    "desc": [
+      "A lack of iron in your diet results in early stage of anemia.  Regeneration of your red blood cells is hampered.",
+      "A lack of iron in your diet results in anemia.  Regeneration of your red blood cells is compromised.",
+      "A lack of iron in your diet results in severe anemia.  Your red blood cells are dying faster then they regenerate."
+    ],
     "apply_message": "You begin feeling increasingly tired and listless.",
     "remove_message": "You no longer feel anemic.",
     "decay_messages": [ [ "Your anemia is nearly resolved.", "good" ], [ "Your feel stronger as your anemia starts to improve.", "good" ] ],
