@@ -95,6 +95,13 @@ class monster : public Creature
         bool is_monster() const override {
             return true;
         }
+        monster *as_monster() override {
+            return this;
+        }
+        const monster *as_monster() const override {
+            return this;
+        }
+
 
         void poly( const mtype_id &id );
         bool can_upgrade();
@@ -110,9 +117,9 @@ class monster : public Creature
         units::mass get_weight() const override;
         units::mass weight_capacity() const override;
         units::volume get_volume() const;
-        int get_hp( hp_part ) const override;
+        int get_hp( const bodypart_id & ) const override;
         int get_hp() const override;
-        int get_hp_max( hp_part ) const override;
+        int get_hp_max( const bodypart_id & ) const override;
         int get_hp_max() const override;
         int hp_percentage() const override;
 
@@ -288,7 +295,7 @@ class monster : public Creature
         void knock_back_to( const tripoint &to ) override;
 
         // Combat
-        bool is_fleeing( player &u ) const; // True if we're fleeing
+        bool is_fleeing( Character &u ) const;
         monster_attitude attitude( const Character *u = nullptr ) const; // See the enum above
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us

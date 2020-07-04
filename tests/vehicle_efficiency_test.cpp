@@ -171,7 +171,8 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     clear_game( terrain );
 
     const tripoint map_starting_point( 60, 60, 0 );
-    vehicle *veh_ptr = g->m.add_vehicle( veh_id, map_starting_point, -90, 0, 0 );
+    map &here = get_map();
+    vehicle *veh_ptr = here.add_vehicle( veh_id, map_starting_point, -90, 0, 0 );
 
     REQUIRE( veh_ptr != nullptr );
     if( veh_ptr == nullptr ) {
@@ -221,18 +222,18 @@ static int test_efficiency( const vproto_id &veh_id, int &expected_mass,
     CHECK( veh.safe_velocity() > 0 );
     while( veh.engine_on && veh.safe_velocity() > 0 && cycles_left > 0 ) {
         cycles_left--;
-        g->m.vehmove();
+        here.vehmove();
         veh.idle( true );
         // If the vehicle starts skidding, the effects become random and test is RUINED
         REQUIRE( !veh.skidding );
         for( const tripoint &pos : veh.get_points() ) {
-            REQUIRE( g->m.ter( pos ) );
+            REQUIRE( here.ter( pos ) );
         }
         // How much it moved
         tiles_travelled += square_dist( starting_point, veh.global_pos3() );
         // Bring it back to starting point to prevent it from leaving the map
         const tripoint displacement = starting_point - veh.global_pos3();
-        g->m.displace_vehicle( veh, displacement );
+        here.displace_vehicle( veh, displacement );
         if( reset_velocity_turn < 0 ) {
             continue;
         }

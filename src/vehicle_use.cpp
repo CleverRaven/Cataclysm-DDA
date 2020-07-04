@@ -2018,6 +2018,14 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
             return false;
         }
+        //Pseudo items don't have a magazine in it, and they don't need it anymore.
+        //Pseudo magazine in Pseudo item sounds good.
+        //Somehow the set of available ammos in pocket_data loaded from json is alphabetic,
+        //so the default ammo is always atomic, haven't checked the relevant codes yet.
+        item pseudo_magazine( pseudo.magazine_default() );
+        //no initial ammo
+        pseudo_magazine.contents.clear_items();
+        pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
         int capacity = pseudo.ammo_capacity( ammotype( "battery" ) );
         int qty = capacity - discharge_battery( capacity );
         pseudo.ammo_set( itype_battery, qty );
@@ -2071,7 +2079,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         case DRINK: {
             item water( "water_clean", 0 );
             if( g->u.can_consume( water ) ) {
-                g->u.assign_activity( player_activity( consume_activity_actor( water, false ) ) );
+                g->u.assign_activity( player_activity( consume_activity_actor( water ) ) );
                 drain( itype_water_clean, 1 );
             }
             return;

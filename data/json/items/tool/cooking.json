@@ -86,6 +86,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -122,6 +123,7 @@
     "material": [ "wood", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 150 } } ],
     "initial_charges": 150,
     "max_charges": 150,
     "charges_per_use": 1,
@@ -143,6 +145,7 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": [ "charcoal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 200 } } ],
     "max_charges": 200,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -162,6 +165,7 @@
     "color": "green",
     "ammo": [ "charcoal" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 50 } } ],
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
@@ -174,7 +178,7 @@
     "name": { "str": "clay pot" },
     "description": "A crude clay pot with lid used for cooking.",
     "weight": "480 g",
-    "volume": "2 L",
+    "volume": "2100 ml",
     "price": 2500,
     "price_postapoc": 10,
     "bashing": 1,
@@ -207,7 +211,7 @@
     "name": { "str": "clay teapot" },
     "description": "A clay teapot.  Now all you need is tea and water.",
     "weight": "429 g",
-    "volume": "750 ml",
+    "volume": "787 ml",
     "price": 2000,
     "price_postapoc": 10,
     "to_hit": 1,
@@ -239,6 +243,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -265,6 +270,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -311,6 +317,7 @@
     "color": "light_gray",
     "ammo": [ "esbit" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 50 } } ],
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
@@ -363,6 +370,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -386,6 +394,7 @@
     "color": "green",
     "ammo": [ "gasoline" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 } } ],
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
@@ -440,6 +449,7 @@
     "symbol": ",",
     "color": "light_gray",
     "ammo": [ "tinder" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "tinder": 100 } } ],
     "max_charges": 100,
     "charges_per_use": 25,
     "use_action": [ "HOTPLATE" ]
@@ -464,6 +474,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -559,6 +570,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -588,6 +600,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -675,6 +688,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -718,6 +732,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -749,6 +764,7 @@
     "color": "green",
     "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 } } ],
     "initial_charges": 800,
     "max_charges": 800,
     "charges_per_use": 1,
@@ -810,6 +826,7 @@
     "color": "light_gray",
     "ammo": [ "conc_alcohol" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "conc_alcohol": 500 } } ],
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
@@ -937,6 +954,7 @@
     "color": "brown",
     "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 } } ],
     "max_charges": 800,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
@@ -949,7 +967,7 @@
     "name": { "str": "teapot" },
     "description": "A small metal teapot.  Teatime wouldn't be complete without one.",
     "weight": "229 g",
-    "volume": "500 ml",
+    "volume": "525 ml",
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": 2,
@@ -979,6 +997,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1024,6 +1043,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",

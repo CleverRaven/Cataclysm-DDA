@@ -146,7 +146,7 @@
     "material": [ "milk", "water" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 14
   },
   {
@@ -391,7 +391,7 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 2
   },
   {
@@ -411,7 +411,7 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3
   },
   {
@@ -499,9 +499,8 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 4,
-    "vitamins": [ [ "iron", 1 ] ]
+    "flags": [ "EATEN_HOT" ],
+    "fun": 4
   },
   {
     "id": "hot_chocolate",
@@ -959,7 +958,7 @@
   {
     "type": "COMESTIBLE",
     "id": "tea",
-    "name": "tea",
+    "name": "black tea",
     "weight": "250 g",
     "color": "brown",
     "fatigue_mod": 9,
@@ -969,13 +968,13 @@
     "symbol": "~",
     "quench": 40,
     "calories": 2,
-    "description": "The beverage of gentlemen everywhere, made from applying hot water to leaves of the tea plant /Camellia sinensis/.",
+    "description": "The beverage of gentlemen everywhere, made from applying hot water to oxidized leaves of the tea plant /Camellia sinensis/.",
     "price": 90,
     "price_postapoc": 25,
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 6
   },
   {
@@ -995,7 +994,7 @@
     "volume": "500 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": -5
   },
   {
@@ -1041,6 +1040,29 @@
     "proportional": { "quench": 1.2 },
     "relative": { "fun": 1 },
     "use_action": [  ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tea_green",
+    "name": "green tea",
+    "copy-from": "tea",
+    "color": "green",
+    "fatigue_mod": 7,
+    "stim": 2,
+    "calories": 2,
+    "description": "Made from applying hot water to leaves of the tea plant /Camellia sinensis/.  Green tea has a lighter, fresher taste than black and is traditionally preferred in Asian cultures."
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "tea_fruit",
+    "name": "fruit tea",
+    "copy-from": "tea",
+    "color": "red",
+    "calories": 6,
+    "fatigue_mod": 0,
+    "stim": 0,
+    "description": "A tasty beverage made with herbs and dried fruit from plants other than the tea plant.  While colloquially called 'tea', technically it's an infusion.",
+    "fun": 8
   },
   {
     "type": "COMESTIBLE",

@@ -66,6 +66,8 @@ static const efftype_id effect_flu( "flu" );
 static const efftype_id effect_foodpoison( "foodpoison" );
 static const efftype_id effect_fungus( "fungus" );
 static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_hunger_engorged( "hunger_engorged" );
+static const efftype_id effect_hunger_full( "hunger_full" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_paincysts( "paincysts" );
 static const efftype_id effect_poison( "poison" );
@@ -794,7 +796,9 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
         add_consequence( _( "Your stomach won't be happy (not rotten enough)." ), ALLERGY_WEAK );
     }
 
-    if( food.charges > 0 && food.charges_per_volume( stomach.stomach_remaining( *this ) ) < 1 ) {
+    if( food.charges > 0 && food.is_food() &&
+        ( food.charges_per_volume( stomach.stomach_remaining( *this ) ) < 1 ||
+          has_effect( effect_hunger_full ) || has_effect( effect_hunger_engorged ) ) ) {
         if( edible ) {
             add_consequence( _( "You're full already and will be forcing yourself to eat." ), TOO_FULL );
         } else {
@@ -1330,13 +1334,16 @@ bool Character::consume_effects( item &food )
 
     nutrients food_nutrients = compute_effective_nutrients( food );
     // TODO: Move quench values to mL and remove the magic number here
-    units::volume water_vol = food.type->comestible->quench * 5_ml;
-    units::volume food_vol = food.base_volume() - std::max( water_vol, 0_ml );
-    units::mass food_weight = ( food.weight() / food.count() ) - units::from_gram( units::to_milliliter(
-                                  water_vol ) ); //water is 1 gram per milliliter
+    units::volume water_vol = ( food.type->comestible->quench > 0 ) ? food.type->comestible->quench *
+                              5_ml : 0_ml;
+    units::volume food_vol = food.base_volume() - water_vol;
+    units::mass food_weight = ( food.weight() / food.count() );
     double ratio = 1.0f;
     if( units::to_gram( food_weight ) != 0 ) {
         ratio = std::max( static_cast<double>( food_nutrients.kcal ) / units::to_gram( food_weight ), 1.0 );
+        if( ratio > 3.0f ) {
+            ratio = std::sqrt( 3 * ratio );
+        }
     }
 
     food_summary ingested{
@@ -1344,6 +1351,10 @@ bool Character::consume_effects( item &food )
         food_vol * ratio,
         food_nutrients
     };
+    add_msg( m_debug,
+             "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
+             units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
+             food_nutrients.kcal, units::to_gram( food_weight ) );
     // Maybe move tapeworm to digestion
     if( has_effect( effect_tapeworm ) ) {
         ingested.nutr /= 2;
@@ -1806,10 +1817,12 @@ bool player::consume( item_location loc, bool force )
     bool wielding = is_wielding( target );
     bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
-
     if( consume( target, force ) ) {
-
-        i_rem( loc.get_item() );
+        if( loc.where() == item_location::type::character ) {
+            i_rem( loc.get_item() );
+        } else {
+            loc.remove_item();
+        }
 
     } else if( inv_item ) {
         if( Pickup::handle_spillable_contents( *this, target, get_map() ) ) {

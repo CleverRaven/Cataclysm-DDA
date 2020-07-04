@@ -27,7 +27,6 @@
 
 class Character;
 class item;
-class player;
 class string_input_popup;
 struct tripoint;
 class ui_adaptor;
@@ -233,7 +232,7 @@ class inventory_holster_preset : public inventory_selector_preset
 
         /** Does this entry satisfy the basic preset conditions? */
         bool is_shown( const item_location &contained ) const override {
-            return holster->can_contain( *contained ) && !holster->has_item( *contained );
+            return holster->contents.can_contain( *contained ).success() && !holster->has_item( *contained );
         }
     private:
         // this is the item that we are putting something into
@@ -336,7 +335,7 @@ class inventory_column
         /** Resets width to original (unchanged). */
         virtual void reset_width( const std::vector<inventory_column *> &all_columns );
         /** Returns next custom inventory letter. */
-        int reassign_custom_invlets( const player &p, int min_invlet, int max_invlet );
+        int reassign_custom_invlets( const Character &p, int min_invlet, int max_invlet );
         /** Reorder entries, repopulate titles, adjust to the new height. */
         virtual void prepare_paging( const std::string &filter = "" );
         /**
@@ -479,7 +478,7 @@ class selection_column : public inventory_column
 class inventory_selector
 {
     public:
-        inventory_selector( player &u, const inventory_selector_preset &preset = default_preset );
+        inventory_selector( Character &u, const inventory_selector_preset &preset = default_preset );
         virtual ~inventory_selector();
         /** These functions add items from map / vehicles. */
         void add_contained_items( item_location &container );
@@ -519,7 +518,7 @@ class inventory_selector
         bool keep_open = false;
 
     protected:
-        player &u;
+        Character &u;
         const inventory_selector_preset &preset;
 
         /**
@@ -698,7 +697,7 @@ inventory_selector::stat display_stat( const std::string &caption, int cur_value
 class inventory_pick_selector : public inventory_selector
 {
     public:
-        inventory_pick_selector( player &p,
+        inventory_pick_selector( Character &p,
                                  const inventory_selector_preset &preset = default_preset ) :
             inventory_selector( p, preset ) {}
 
@@ -708,7 +707,7 @@ class inventory_pick_selector : public inventory_selector
 class inventory_multiselector : public inventory_selector
 {
     public:
-        inventory_multiselector( player &p, const inventory_selector_preset &preset = default_preset,
+        inventory_multiselector( Character &p, const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = "" );
     protected:
         void rearrange_columns( size_t client_width ) override;
@@ -720,7 +719,7 @@ class inventory_multiselector : public inventory_selector
 class inventory_compare_selector : public inventory_multiselector
 {
     public:
-        inventory_compare_selector( player &p );
+        inventory_compare_selector( Character &p );
         std::pair<const item *, const item *> execute();
 
     protected:
@@ -734,8 +733,8 @@ class inventory_compare_selector : public inventory_multiselector
 class inventory_iuse_selector : public inventory_multiselector
 {
     public:
-        using GetStats = std::function<stats( const std::map<const item *, int> & )>;
-        inventory_iuse_selector( player &p,
+        using GetStats = std::function<stats( const std::map<const item_location *, int> & )>;
+        inventory_iuse_selector( Character &p,
                                  const std::string &selector_title,
                                  const inventory_selector_preset &preset = default_preset,
                                  const GetStats & = {} );
@@ -747,14 +746,14 @@ class inventory_iuse_selector : public inventory_multiselector
 
     private:
         GetStats get_stats;
-        std::map<const item *, int> to_use;
+        std::map<const item_location *, int> to_use;
         size_t max_chosen_count;
 };
 
 class inventory_drop_selector : public inventory_multiselector
 {
     public:
-        inventory_drop_selector( player &p,
+        inventory_drop_selector( Character &p,
                                  const inventory_selector_preset &preset = default_preset,
                                  const std::string &selection_column_title = _( "ITEMS TO DROP" ) );
         drop_locations execute();
@@ -769,4 +768,6 @@ class inventory_drop_selector : public inventory_multiselector
         std::vector<std::pair<item_location, int>> dropping;
         size_t max_chosen_count;
 };
+
+
 #endif // CATA_SRC_INVENTORY_UI_H

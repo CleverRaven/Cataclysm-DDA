@@ -175,8 +175,11 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "BLOCK_WIND",               TFLAG_BLOCK_WIND },     // This tile will partially block the wind.
         { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
+        { "RAMP_DOWN",                TFLAG_RAMP_DOWN },      // Anything entering this tile moves down a z-level
+        { "RAMP_UP",                  TFLAG_RAMP_UP },        // Anything entering this tile moves up a z-level
         { "RAIL",                     TFLAG_RAIL },           // Rail tile (used heavily)
         { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
+        { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE }   // A small passage, that large or huge things cannot pass through
     }
 };
@@ -954,7 +957,7 @@ furn_id f_null,
         f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
         f_skin_door_o, f_skin_groundsheet,
         f_mutpoppy, f_flower_fungal, f_fungal_mass, f_fungal_clump, f_dahlia, f_datura, f_dandelion,
-        f_cattails, f_bluebell,
+        f_cattails, f_bluebell, f_lotus, f_lilypad,
         f_safe_c, f_safe_l, f_safe_o,
         f_plant_seed, f_plant_seedling, f_plant_mature, f_plant_harvest,
         f_fvat_empty, f_fvat_full,
@@ -1052,6 +1055,8 @@ void set_furn_ids()
     f_datura = furn_id( "f_datura" );
     f_dandelion = furn_id( "f_dandelion" );
     f_cattails = furn_id( "f_cattails" );
+    f_lilypad = furn_id( "f_lilypad" );
+    f_lotus = furn_id( "f_lotus" );
     f_safe_c = furn_id( "f_safe_c" );
     f_safe_l = furn_id( "f_safe_l" );
     f_safe_o = furn_id( "f_safe_o" );

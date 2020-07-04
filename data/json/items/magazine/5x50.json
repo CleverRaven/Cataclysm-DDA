@@ -16,7 +16,7 @@
     "capacity": 100,
     "reload_time": 60,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "5x50": 100 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "5x50": 100 } } ]
   },
   {
     "id": "5x50_50_mag",
@@ -35,6 +35,6 @@
     "capacity": 50,
     "reload_time": 50,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "5x50": 50 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "5x50": 50 } } ]
   }
 ]

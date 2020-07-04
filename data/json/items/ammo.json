@@ -29,6 +29,7 @@
     "weight": "1 mg",
     "color": "white",
     "flags": [ "TRADER_AVOID" ],
+    "phase": "liquid",
     "ammo_type": "butane"
   },
   {
@@ -1126,6 +1127,23 @@
     "weight": "1 g",
     "phase": "gas",
     "ammo_type": "nitrox"
+  },
+  {
+    "type": "AMMO",
+    "id": "extinguishing_agent",
+    "category": "chems",
+    "price": 500,
+    "price_postapoc": 250,
+    "name": { "str_sp": "extinguishing agent" },
+    "symbol": "%",
+    "color": "white",
+    "container": "bottle_plastic",
+    "description": "Dry chemical solution effective in extinguishing fires.",
+    "volume": "250 ml",
+    "weight": "1 g",
+    "phase": "gas",
+    "ammo_type": "extinguishing_agent",
+    "count": 10
   },
   {
     "id": "tinder",

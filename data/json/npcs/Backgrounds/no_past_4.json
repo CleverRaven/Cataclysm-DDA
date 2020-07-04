@@ -33,5 +33,44 @@
     "type": "talk_topic",
     "dynamic_line": "Listen.  I said it clearly, and if you keep picking at it I'm gonna get mad.  Who I was is gone.  Dead.  I don't give a shit about your 'healthy', don't <swear> ask again.",
     "responses": [ { "text": "What were you saying before?", "topic": "TALK_NONE" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  },
+  {
+    "id": "CWH_NO_PAST_4_IDEAS1",
+    "type": "talk_topic",
+    "dynamic_line": "You're asking me what I think caused all this?  It was all over the news.  Some kind of Chinese bio-weapon.  It's no different from the pandemic a few years back, but this time they got the formula right.  Maybe too right.  Doesn't matter anyway, I hear it got out on them and wiped them out too.  Serves em right.",
+    "responses": [
+      { "text": "Can you tell me more about what actually went down, though?", "topic": "CWH_NO_PAST_4_IDEAS2" },
+      {
+        "condition": { "or": [ { "u_has_perception": 7 }, { "u_has_intelligence": 8 } ] },
+        "text": "How does that explain all the other crazy stuff?",
+        "topic": "CWH_NO_PAST_4_SKEPTIC"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_NONE" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "CWH_NO_PAST_4_IDEAS2",
+    "type": "talk_topic",
+    "dynamic_line": "Well, you know.  First there were the riots from the mind-control drugs in the water.  Except I think we can all see now it was actually a virus again.  The military and the cops did their damndest to put it down but it got out of hand.  Then the virus mutated and started bringing the dead back to life like in some kinda B-movie, and shit got really real.  They let the big things loose, or they set them on us, I dunno.  Huge unspeakable monsters… still makes me shudder to think of them.  They obviously weren't built for combat though, and the military took 'em down fast.",
+    "responses": [
+      {
+        "condition": { "or": [ { "u_has_perception": 7 }, { "u_has_intelligence": 8 } ] },
+        "text": "How does that explain all the other crazy stuff?",
+        "topic": "CWH_NO_PAST_4_SKEPTIC"
+      },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "CWH_NO_PAST_4_SKEPTIC",
+    "type": "talk_topic",
+    "dynamic_line": "What?  Of course it does.  They started with a bioweapon and then it went full nuclear.  Only the weapons we had now were a lot worse than H-bombs.  Uncle Sam managed to beat back the really nasty stuff, but I guess it was with his dying breath.",
+    "responses": [
+      { "text": "Can you tell me more about what actually went down, though?", "topic": "CWH_NO_PAST_4_IDEAS2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
   }
 ]

@@ -73,7 +73,7 @@ class advanced_inventory
 
         bool inCategoryMode = false;
 
-        int itemsPerPage = 0;
+        int linesPerPage = 0;
         int w_height = 0;
         int w_width = 0;
 
@@ -81,6 +81,7 @@ class advanced_inventory
         int colstart = 0;
 
         bool recalc = false;
+        bool always_recalc = false;
         /**
          * Which panels is active (item moved from there).
          */

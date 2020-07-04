@@ -49,6 +49,7 @@
     "path_settings": { "max_dist": 10 },
     "anger_triggers": [ "HURT", "PLAYER_NEAR_BABY" ],
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zombie_upliftedbear",
     "death_drops": "xl_uplift_death_drop",
     "harvest": "demihuman_large_fur",
     "reproduction": { "baby_monster": "mon_uplifted_bear_cub", "baby_count": 1, "baby_timer": 700 },
@@ -106,6 +107,7 @@
     "harvest": "demihuman_large_fur",
     "special_attacks": [ [ "scratch", 20 ] ],
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_uplifted_ape_zed",
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "BASHES", "GROUP_BASH", "ANIMAL", "PATH_AVOID_DANGER_1", "PATH_AVOID_DANGER_1" ]
   }
 ]

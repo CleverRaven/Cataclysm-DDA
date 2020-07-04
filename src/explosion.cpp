@@ -220,7 +220,7 @@ static void do_blast( const tripoint &p, const float power,
                 continue;
             }
 
-            if( bashed.count( dest ) != 0 ) {
+            if( bashed.count( dest ) == 0 ) {
                 bashed.insert( dest );
                 // Up to 200% bonus for shaped charge
                 // But not if the explosion is fiery, then only half the force and no bonus

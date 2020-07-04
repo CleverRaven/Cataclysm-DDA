@@ -103,7 +103,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p );
 bool generic_multi_activity_handler( player_activity &act, player &p, bool check_only = false );
 void activity_on_turn_fetch( player_activity &, player *p );
 void activity_on_turn_wear( player_activity &act, player &p );
-bool find_auto_consume( player &p, bool food );
+int get_auto_consume_moves( player &p, bool food );
 void try_fuel_fire( player_activity &act, player &p, bool starting_fire = false );
 
 enum class item_drop_reason : int {

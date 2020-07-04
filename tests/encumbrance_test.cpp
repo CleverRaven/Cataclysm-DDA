@@ -5,26 +5,25 @@
 #include <string>
 #include <vector>
 
-#include "avatar.h"
 #include "catch/catch.hpp"
-#include "npc.h"
-#include "player.h"
 #include "bodypart.h"
 #include "character.h"
+#include "debug.h"
 #include "item.h"
 #include "material.h"
+#include "npc.h"
 #include "type_id.h"
-#include "debug.h"
 
 static void test_encumbrance_on(
-    player &p,
+    Character &p,
     const std::vector<item> &clothing,
     const std::string &body_part,
     int expected_encumbrance,
-    const std::function<void( player & )> &tweak_player = {}
+    const std::function<void( Character & )> &tweak_player = {}
 )
 {
     CAPTURE( body_part );
+    p.set_body();
     p.clear_mutations();
     p.worn.clear();
     if( tweak_player ) {
@@ -42,7 +41,7 @@ static void test_encumbrance_items(
     const std::vector<item> &clothing,
     const std::string &body_part,
     const int expected_encumbrance,
-    const std::function<void( player & )> &tweak_player = {}
+    const std::function<void( Character & )> &tweak_player = {}
 )
 {
     // Test NPC first because NPC code can accidentally end up using properties
@@ -52,7 +51,8 @@ static void test_encumbrance_items(
         test_encumbrance_on( example_npc, clothing, body_part, expected_encumbrance, tweak_player );
     }
     SECTION( "testing on player" ) {
-        test_encumbrance_on( get_avatar(), clothing, body_part, expected_encumbrance, tweak_player );
+        test_encumbrance_on( get_player_character(), clothing, body_part, expected_encumbrance,
+                             tweak_player );
     }
 }
 
@@ -74,7 +74,7 @@ struct add_trait {
     add_trait( const std::string &t ) : trait( t ) {}
     add_trait( const trait_id &t ) : trait( t ) {}
 
-    void operator()( player &p ) {
+    void operator()( Character &p ) {
         p.toggle_trait( trait );
     }
 

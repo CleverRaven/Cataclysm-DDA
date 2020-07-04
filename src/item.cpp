@@ -193,6 +193,7 @@ static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
 static const std::string flag_HOT( "HOT" );
 static const std::string flag_IRREMOVABLE( "IRREMOVABLE" );
+static const std::string flag_BURNOUT( "BURNOUT" );
 static const std::string flag_IS_ARMOR( "IS_ARMOR" );
 static const std::string flag_IS_PET_ARMOR( "IS_PET_ARMOR" );
 static const std::string flag_IS_UPS( "IS_UPS" );
@@ -510,6 +511,10 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
         result.set_var( "upgrade_time", std::to_string( upgrade_time ) );
     }
 
+    if( !mt->zombify_into.is_empty() ) {
+        result.set_var( "zombie_form", mt->zombify_into.c_str() );
+    }
+
     // This is unconditional because the const itemructor above sets result.name to
     // "human corpse".
     result.corpse_name = name;
@@ -555,6 +560,11 @@ item &item::activate()
     return *this;
 }
 
+bool item::activate_thrown( const tripoint &pos )
+{
+    return type->invoke( g->u, *this, pos );
+}
+
 units::energy item::set_energy( const units::energy &qty )
 {
     if( !is_battery() ) {
@@ -582,6 +592,7 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     const ammotype &ammo_type = ammo->ammo->type;
     if( qty < 0 ) {
         // completely fill an integral or existing magazine
+        //if( magazine_current() ) then we need capacity of the magazine instead of the item maybe?
         if( magazine_integral() || magazine_current() ) {
             qty = ammo_capacity( ammo_type );
 
@@ -618,7 +629,8 @@ item &item::ammo_set( const itype_id &ammo, int qty )
     // check ammo is valid for the item
     const itype *atype = item_controller->find_template( ammo );
     if( atype->ammo && ammo_types().count( atype->ammo->type ) == 0 &&
-        !magazine_compatible().count( atype->get_id() ) ) {
+        !magazine_compatible().count( atype->get_id() ) && !( magazine_current() &&
+                magazine_current()->ammo_types().count( atype->ammo->type ) ) ) {
         debugmsg( "Tried to set invalid ammo of %s for %s", atype->nname( qty ), tname() );
         return *this;
     }
@@ -1016,10 +1028,11 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-void item::put_in( const item &payload, item_pocket::pocket_type pk_type )
+ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
 {
-    contents.insert_item( payload, pk_type );
+    ret_val<bool> result = contents.insert_item( payload, pk_type );
     on_contents_changed();
+    return result;
 }
 
 void item::set_var( const std::string &name, const int value )
@@ -2658,20 +2671,6 @@ void item::animal_armor_info( std::vector<iteminfo> &info, const iteminfo_query 
     if( !is_pet_armor() ) {
         return;
     }
-    int converted_storage_scale = 0;
-    const double converted_storage = round_up( convert_volume( type->pet_armor->storage.value(),
-                                     &converted_storage_scale ), 2 );
-    if( parts->test( iteminfo_parts::ARMOR_STORAGE ) && converted_storage > 0 ) {
-        const std::string space = "  ";
-        const iteminfo::flags f = converted_storage_scale == 0 ? iteminfo::no_flags : iteminfo::is_decimal;
-        info.push_back( iteminfo( "ARMOR", space + _( "Storage: " ),
-                                  string_format( "<num> %s", volume_units_abbr() ),
-                                  f, converted_storage ) );
-    }
-
-    // Whatever the last entry was, we want a newline at this point
-    info.back().bNewLine = true;
-
     armor_protection_info( info, parts, batch, debug );
 }
 
@@ -3070,6 +3069,24 @@ void item::tool_info( std::vector<iteminfo> &info, const iteminfo_query *parts, 
     } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
         info.emplace_back( "DESCRIPTION",
                            _( "* This tool <info>runs on bionic power</info>." ) );
+    } else if( has_flag( flag_BURNOUT ) && parts->test( iteminfo_parts::TOOL_BURNOUT ) ) {
+        int percent_left = 100 * ammo_remaining() / type->maximum_charges();
+        std::string feedback;
+        if( percent_left == 100 ) {
+            feedback = _( "It's new, and ready to burn." );
+        } else if( percent_left >= 75 ) {
+            feedback = _( "Almost new, with much material to burn." );
+        } else if( percent_left >= 50 ) {
+            feedback = _( "More than a quarter has burned away." );
+        } else if( percent_left >= 25 ) {
+            feedback = _( "More than half has burned away." );
+        } else if( percent_left >= 10 ) {
+            feedback = _( "Less than a quarter left to burn." );
+        } else {
+            feedback = _( "Almost completely burned out." );
+        }
+        feedback = _( "<bold>Fuel</bold>: " ) + feedback;
+        info.push_back( iteminfo( "DESCRIPTION", feedback ) );
     }
 }
 
@@ -4111,9 +4128,9 @@ void item::on_wear( Character &p )
     if( is_sided() && get_side() == side::BOTH ) {
         if( has_flag( flag_SPLINT ) ) {
             set_side( side::LEFT );
-            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( hp_leg_r ) &&
+            if( ( covers( bodypart_id( "leg_l" ) ) && p.is_limb_broken( bodypart_id( "leg_r" ) ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( hp_arm_r ) &&
+                ( covers( bodypart_id( "arm_l" ) ) && p.is_limb_broken( bodypart_id( "arm_r" ) ) &&
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
@@ -5636,7 +5653,8 @@ const std::vector<itype_id> &item::brewing_results() const
 
 bool item::can_revive() const
 {
-    return is_corpse() && corpse->has_flag( MF_REVIVES ) && damage() < max_damage() &&
+    return is_corpse() && ( corpse->has_flag( MF_REVIVES ) || has_var( "zombie_form" ) ) &&
+           damage() < max_damage() &&
            !( has_flag( flag_FIELD_DRESS ) || has_flag( flag_FIELD_DRESS_FAILED ) ||
               has_flag( flag_QUARTERED ) ||
               has_flag( flag_SKINNED ) || has_flag( flag_PULPED ) );
@@ -6572,6 +6590,13 @@ bool item::is_reloadable_helper( const itype_id &ammo, bool now ) const
                 return false;
             }
         }
+        //Now single shoted gun also has magazine_well slot for speedloader
+        //If ammo is not an ammo it may be dangerous to use parameters like ammo->ammo->type
+        //It is complicated: normal magazine in addition to speedloader? Magazines of mods?
+        if( now && !ammo->ammo ) {
+            return magazine_compatible().count( ammo );
+        }
+
         return now ? ammo_remaining() < ammo_capacity( ammo->ammo->type ) : true;
     }
     return magazine_compatible().count( ammo );
@@ -7092,6 +7117,15 @@ int item::ammo_remaining() const
         return res;
     }
 
+    // Handle non-magazines with ammo_restriction in a CONTAINER type pocket (like quivers)
+    if( !ammo_types().empty() ) {
+        int res = 0;
+        for( const item *e : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            res += e->charges;
+        }
+        return res;
+    }
+
     return 0;
 }
 
@@ -7199,7 +7233,7 @@ const itype *item::ammo_data() const
         }
     }
 
-    if( is_gun() && !contents.empty() ) {
+    if( is_gun() && ammo_remaining() != 0 ) {
         return contents.first_ammo().ammo_data();
     }
     return nullptr;
@@ -8265,7 +8299,8 @@ int item::fill_with( const itype &contained, const int amount )
 
     item_pocket *pocket = best_pocket( contained_item );
     if( pocket == nullptr ) {
-        debugmsg( "tried to put an item in a container that cannot contain it" );
+        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
+                  contained_item.typeId().str(), typeId().str() );
         return 0;
     }
 
@@ -9052,6 +9087,13 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( corpse == nullptr || damage() >= max_damage() ) {
         return false;
     }
+
+    // handle human corpses rising as zombies
+    if( corpse->id == mtype_id::NULL_ID() && !has_var( "zombie_form" ) &&
+        !mtype_id( "mon_human" )->zombify_into.is_empty() ) {
+        set_var( "zombie_form", mtype_id( "mon_human" )->zombify_into.c_str() );
+    }
+
     if( !ready_to_revive( pos ) ) {
         return false;
     }
@@ -9445,12 +9487,12 @@ bool item::process_blackpowder_fouling( player *carrier )
     return false;
 }
 
-bool item::process( player *carrier, const tripoint &pos, bool activate, float insulation,
+bool item::process( player *carrier, const tripoint &pos, float insulation,
                     temperature_flag flag, float spoil_multiplier_parent )
 {
-    contents.process( carrier, pos, activate, type->insulation_factor * insulation, flag,
+    contents.process( carrier, pos, type->insulation_factor * insulation, flag,
                       spoil_multiplier_parent );
-    return process_internal( carrier, pos, activate, insulation, flag, spoil_multiplier_parent );
+    return process_internal( carrier, pos, insulation, flag, spoil_multiplier_parent );
 }
 
 void item::set_last_rot_check( const time_point &pt )
@@ -9458,7 +9500,7 @@ void item::set_last_rot_check( const time_point &pt )
     last_rot_check = pt;
 }
 
-bool item::process_internal( player *carrier, const tripoint &pos, bool activate,
+bool item::process_internal( player *carrier, const tripoint &pos,
                              float insulation, const temperature_flag flag, float spoil_modifier )
 {
     if( has_flag( flag_ETHEREAL_ITEM ) ) {
@@ -9477,9 +9519,6 @@ bool item::process_internal( player *carrier, const tripoint &pos, bool activate
         return process_blackpowder_fouling( carrier );
     }
 
-    if( activate ) {
-        return type->invoke( carrier != nullptr ? *carrier : g->u, *this, pos );
-    }
     // How this works: it checks what kind of processing has to be done
     // (e.g. for food, for drying towels, lit cigars), and if that matches,
     // call the processing function. If that function returns true, the item

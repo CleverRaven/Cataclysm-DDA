@@ -83,8 +83,9 @@ bool leap_actor::call( monster &z ) const
     if( !allow_no_target && z.attack_target() == nullptr ) {
         return false;
     }
+    map &here = get_map();
     std::multimap<int, tripoint> candidates;
-    for( const tripoint &candidate : g->m.points_in_radius( z.pos(), max_range ) ) {
+    for( const tripoint &candidate : here.points_in_radius( z.pos(), max_range ) ) {
         if( candidate == z.pos() ) {
             continue;
         }
@@ -113,9 +114,9 @@ bool leap_actor::call( monster &z ) const
         }
         bool blocked_path = false;
         // check if monster has a clear path to the proposed point
-        std::vector<tripoint> line = g->m.find_clear_path( z.pos(), dest );
+        std::vector<tripoint> line = here.find_clear_path( z.pos(), dest );
         for( auto &i : line ) {
-            if( g->m.impassable( i ) ) {
+            if( here.impassable( i ) ) {
                 blocked_path = true;
                 break;
             }

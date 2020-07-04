@@ -96,6 +96,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
+        "max_item_length": "60 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -104,6 +105,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
+        "max_item_length": "60 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -112,6 +114,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
+        "max_item_length": "60 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -120,6 +123,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
+        "max_item_length": "60 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -559,7 +563,7 @@
     "name": "TEST gallon jug",
     "description": "A standard plastic jug used for milk and household cleaning chemicals.",
     "weight": "190 g",
-    "volume": "3750 ml",
+    "volume": "3938 ml",
     "price": 0,
     "to_hit": 1,
     "material": [ "plastic" ],
@@ -662,7 +666,7 @@
     "name": "TEST briefcase",
     "description": "Useful for carrying money, documents, or smuggled goods.",
     "weight": "1700 g",
-    "volume": "15 L",
+    "volume": "15750 ml",
     "price": 24000,
     "to_hit": -2,
     "bashing": 5,
@@ -919,7 +923,7 @@
     "name": { "str": "test box" },
     "description": "A simple 1-liter cardboard box of deliberately undefined proportions.",
     "weight": "100 g",
-    "volume": "1 L",
+    "volume": "1050 ml",
     "price": 0,
     "price_postapoc": 25,
     "material": [ "cardboard" ],

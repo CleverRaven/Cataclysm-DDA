@@ -42,7 +42,7 @@ class advanced_inv_area
 {
     public:
         // roll our own, to handle moving stacks better
-        using itemstack = std::vector<std::list<item *> >;
+        using itemstack = std::vector<std::vector<item *> >;
 
         const aim_location id;
         // Used for the small overview 3x3 grid

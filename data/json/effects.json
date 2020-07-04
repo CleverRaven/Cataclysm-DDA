@@ -1310,7 +1310,7 @@
     "name": [ "High" ],
     "desc": [ "You are high as a kite." ],
     "apply_message": "You feel lightheaded.",
-    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -1 ] }
+    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -1 ], "vomit_tick": [ 60 ] }
   },
   {
     "type": "effect_type",
@@ -1991,7 +1991,7 @@
     "desc": [ "Your stomach is full to bursting. This was a mistake." ],
     "apply_message": "Your stomach is full to bursting. This was a mistake.",
     "rating": "bad",
-    "base_mods": { "speed_mod": [ -10 ], "fatigue_amount": [ 2 ], "vomit_chance": [ 5 ], "vomit_tick": [ 60 ], "pain_amount": [ 3 ] }
+    "base_mods": { "speed_mod": [ -10 ], "fatigue_amount": [ 2 ], "vomit_chance": [ 500 ], "vomit_tick": [ 10 ], "pain_amount": [ 3 ] }
   },
   {
     "type": "effect_type",
