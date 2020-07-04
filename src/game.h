@@ -554,7 +554,7 @@ class game
         Creature *is_hostile_very_close();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        point update_map( player &p );
+        point update_map( Character &p );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
