@@ -185,7 +185,8 @@ namespace character_attributes
 constexpr float health_factor = std::pow( 2.0f, get_healthy() / 50.0f );
 
 // Characters get sick a minimum of 3 times per year + modifiers found from mutations
-constexpr float base_diseases_per_year = 3.0f + mutation_value( "base_disease_rate_modifier" );
+constexpr float base_diseases_per_year = 3.0f +
+        Character::mutation_value( "base_disease_rate_modifier" );
 } // namespace character_attributes
 
 #endif // CATA_SRC_GAME_CONSTANTS_H
