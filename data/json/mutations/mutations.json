@@ -588,7 +588,9 @@
     "description": "It's very unlikely that you will catch ambient diseases like a cold or the flu.",
     "starting_trait": true,
     "changes_to": [ "DISIMMUNE" ],
-    "category": [ "CATTLE", "RAT", "MEDICAL" ]
+    "cancels": [ "DISYIELDING" ],
+    "category": [ "CATTLE", "RAT", "MEDICAL" ],
+    "base_disease_rate_modifier": -2
   },
   {
     "type": "mutation",
@@ -6849,5 +6851,25 @@
     "description": "You have fast reflexes, allowing you to dodge attacks and grabs more easily.",
     "starting_trait": true,
     "dodge_modifier": 2
+  },
+  {
+    "type": "mutation",
+    "id": "MUSCLEATROPHY",
+    "name": { "str": "Muscle Atrophy" },
+    "points": -1,
+    "description": "You have less muscle mass than average.  Whether due to too much cardio, a sedentary lifestyle, disease or genetics, you suffer a 15% reduction to your maximum carry weight.",
+    "starting_trait": true,
+    "cancels": [ "STRONGBACK" ],
+    "weight_capacity_modifier": 0.85
+  },
+  {
+    "type": "mutation",
+    "id": "DISYIELDING",
+    "name": { "str": "Disease Yielding" },
+    "points": -1,
+    "description": "Whether due to a environmental factors, excessive exercising or poor genetic lottery, your immune system is weaker than most.  You will become sick more often.",
+    "starting_trait": true,
+    "cancels": [ "DISRESISTANT" ],
+    "base_disease_rate_modifier": 2
   }
 ]

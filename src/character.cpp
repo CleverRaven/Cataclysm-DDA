@@ -209,6 +209,7 @@ static const trait_id trait_BADBACK( "BADBACK" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
+static const trait_id trait_MUSCLEATROPHY( "MUSCLEATROPHY" );
 static const trait_id trait_SMALL2( "SMALL2" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
@@ -262,6 +263,7 @@ static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 static const trait_id trait_DEBUG_NOTEMP( "DEBUG_NOTEMP" );
 static const trait_id trait_DEBUG_STORAGE( "DEBUG_STORAGE" );
 static const trait_id trait_DISRESISTANT( "DISRESISTANT" );
+static const trait_id trait_DISYIELDING( "DISYIELDING" );
 static const trait_id trait_DOWN( "DOWN" );
 static const trait_id trait_ELECTRORECEPTORS( "ELECTRORECEPTORS" );
 static const trait_id trait_ELFA_FNV( "ELFA_FNV" );
@@ -5318,11 +5320,7 @@ void Character::get_sick()
     }
 
     // Normal people get sick about 2-4 times/year.
-    int base_diseases_per_year = 3;
-    if( has_trait( trait_DISRESISTANT ) ) {
-        // Disease resistant people only get sick once a year.
-        base_diseases_per_year = 1;
-    }
+    int base_diseases_per_year = 3 + base_disease_rate_modifier;
 
     // This check runs once every 30 minutes, so double to get hours, *24 to get days.
     const int checks_per_year = 2 * 24 * 365;
@@ -7040,6 +7038,7 @@ mutation_value_map = {
     { "attackcost_modifier", calc_mutation_value_multiplicative<&mutation_branch::attackcost_modifier> },
     { "max_stamina_modifier", calc_mutation_value_multiplicative<&mutation_branch::max_stamina_modifier> },
     { "weight_capacity_modifier", calc_mutation_value_multiplicative<&mutation_branch::weight_capacity_modifier> },
+    { "base_disease_rate_modifier", calc_mutation_value_multiplicative<&mutation_branch::base_disease_rate_modifier> },
     { "hearing_modifier", calc_mutation_value_multiplicative<&mutation_branch::hearing_modifier> },
     { "movecost_swim_modifier", calc_mutation_value_multiplicative<&mutation_branch::movecost_swim_modifier> },
     { "noise_modifier", calc_mutation_value_multiplicative<&mutation_branch::noise_modifier> },
@@ -7592,7 +7591,7 @@ void Character::burn_move_stamina( int moves )
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
     // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
     // Starts at 1 in 25, goes down by 5 for every 50% more carried
-    if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || get_stamina() == 0 ) &&
+    if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || ( current_weight > max_weight ) && ( has_trait( trait_MUSCLEATROPHY ) || get_stamina() == 0 ) &&
         one_in( 35 - 5 * current_weight / ( max_weight / 2 ) ) ) {
         add_msg_if_player( m_bad, _( "Your body strains under the weight!" ) );
         // 1 more pain for every 800 grams more (5 per extra STR needed)
