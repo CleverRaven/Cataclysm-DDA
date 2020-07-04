@@ -117,9 +117,9 @@
         "9": { "item_group": "vending_food" }
       },
       "place_npcs": [
-        { "class": "old_guard_red", "x": 44, "y": 21 },
-        { "class": "guard", "x": 43, "y": 21 },
-        { "class": "guard", "x": 63, "y": 15 }
+        { "class": "old_guard_red", "x": 27, "y": 23 },
+        { "class": "guard", "x": 25, "y": 25 },
+        { "class": "guard", "x": 29, "y": 25 }
       ]
     }
   },
