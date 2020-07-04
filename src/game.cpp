@@ -11117,7 +11117,7 @@ void game::vertical_notes( int z_before, int z_after )
     }
 }
 
-point game::update_map( player &p )
+point game::update_map( Character &p )
 {
     point p2( p.posx(), p.posy() );
     return update_map( p2.x, p2.y );
