@@ -163,8 +163,7 @@
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.02, "color": "c_light_blue", "glyph": "." },
     "sound_category": "thunder",
-    "sun_intensity": "none",
-    "requirements": { "pressure_max": 996, "required_weathers": [ "rain" ] }
+    "sun_intensity": "none"
   },
   {
     "id": "lightning",
