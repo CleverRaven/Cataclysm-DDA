@@ -148,23 +148,25 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "sound_category", sound_category, weather_sound_category::silent );
     mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
 
-    for( const JsonObject weather_effect : jo.get_array( "effects" ) ) {
+    for( const JsonObject weather_effect_jo : jo.get_array( "effects" ) ) {
 
-        std::pair<std::string, int> pair = std::make_pair( weather_effect.get_string( "name" ),
-                                           weather_effect.get_int( "intensity" ) );
+        weather_effect effect;
 
-        static const std::map<std::string, weather_effect_fn> all_weather_effects = {
-            { "wet", &weather_effect::wet_player },
-            { "thunder", &weather_effect::thunder },
-            { "lightning", &weather_effect::lightning },
-            { "light_acid", &weather_effect::light_acid },
-            { "acid", &weather_effect::acid }
-        };
-        const auto iter = all_weather_effects.find( pair.first );
-        if( iter == all_weather_effects.end() ) {
-            weather_effect.throw_error( "Invalid weather effect", "name" );
-        }
-        effects.emplace_back( iter->second, pair.second );
+        optional( weather_effect_jo, was_loaded, "message", effect.message, "" );
+        optional( weather_effect_jo, was_loaded, "sound_message", effect.sound_message, "" );
+        optional( weather_effect_jo, was_loaded, "sound_effect", effect.sound_effect, "" );
+        optional( weather_effect_jo, was_loaded, "intensity", effect.intensity, 0 );
+        mandatory( weather_effect_jo, was_loaded, "must_be_outside", effect.must_be_outside );
+        optional( weather_effect_jo, was_loaded, "one_in_chance", effect.one_in_chance, -1 );
+        optional( weather_effect_jo, was_loaded, "seconds_between", effect.seconds_between, -1 );
+        optional( weather_effect_jo, was_loaded, "lightning", effect.lightning, false );
+        optional( weather_effect_jo, was_loaded, "rain_proof", effect.rain_proof, false );
+        optional( weather_effect_jo, was_loaded, "pain_max", effect.pain_max, INT_MAX );
+        optional( weather_effect_jo, was_loaded, "pain", effect.pain, 0 );
+        optional( weather_effect_jo, was_loaded, "wet", effect.wet, 0 );
+        //mandatory( weather_effect_jo, was_loaded, "effect", effect.effect, -1 );
+
+        effects.emplace_back( effect );
     }
     weather_animation = { 0.0f, c_white, '?' };
     if( jo.has_member( "weather_animation" ) ) {

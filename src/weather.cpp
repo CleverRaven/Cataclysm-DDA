@@ -429,7 +429,7 @@ static void fill_water_collectors( int mmPerHour, bool acid )
  * @see map::decay_fields_and_scent
  * @see player::drench
  */
-void weather_effect::wet_player( int amount )
+void wet_player( int amount )
 {
     if( !is_player_outside() ||
         g->u.has_trait( trait_FEATHERS ) ||
@@ -463,90 +463,20 @@ void weather_effect::wet_player( int amount )
  * Thunder.
  * Flavor messages. Very wet.
  */
-void weather_effect::thunder( int intensity )
+void weather_sound( std::string sound_message, std::string sound_effect )
 {
-    if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() && one_in( intensity ) ) {
+    if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() ) {
         if( g->get_levz() >= 0 ) {
-            add_msg( _( "You hear a distant rumble of thunder." ) );
-            sfx::play_variant_sound( "environment", "thunder_far", 80, rng( 0, 359 ) );
+            add_msg( sound_message );
+            if( !sound_effect.empty() ) {
+                sfx::play_variant_sound( "environment", sound_effect, 80, rng( 0, 359 ) );
+            }
         } else if( one_in( std::max( roll_remainder( 2.0f * g->get_levz() /
                                      g->u.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
-            add_msg( _( "You hear a rumble of thunder from above." ) );
-            sfx::play_variant_sound( "environment", "thunder_far",
-                                     ( 80 * g->u.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
-        }
-    }
-}
-
-/**
- * Lightning.
- * Chance of lightning illumination for the current turn when aboveground. Thunder.
- *
- * This used to manifest actual lightning on the map, causing fires and such, but since such effects
- * only manifest properly near the player due to the "reality bubble", this was causing undesired metagame tactics
- * such as players leaving their shelter for a more "expendable" area during lightning storms.
- */
-void weather_effect::lightning( int intensity )
-{
-    if( one_in( intensity ) ) {
-        if( g->get_levz() >= 0 ) {
-            add_msg( _( "A flash of lightning illuminates your surroundings!" ) );
-            sfx::play_variant_sound( "environment", "thunder_near", 100, rng( 0, 359 ) );
-            g->weather.lightning_active = true;
-        }
-    } else {
-        g->weather.lightning_active = false;
-    }
-}
-/**
- * Acid drizzle.
- * Causes minor pain only.
- */
-void weather_effect::light_acid( int intensity )
-{
-    if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && !one_in( 3 ) ) {
-            add_msg( _( "Your %s protects you from the acidic drizzle." ), g->u.weapon.tname() );
-        } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && !one_in( 4 ) ) {
-                add_msg( _( "Your clothing protects you from the acidic drizzle." ) );
-            } else {
-                bool has_helmet = false;
-                if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 4 ) ) ) {
-                    add_msg( _( "Your power armor protects you from the acidic drizzle." ) );
-                } else {
-                    add_msg( m_warning, _( "The acid rain stings, but is mostly harmless for now…" ) );
-                    if( one_in( 10 ) && ( g->u.get_pain() < 10 ) ) {
-                        g->u.mod_pain( 1 );
-                    }
-                }
-            }
-        }
-    }
-}
-
-/**
- * Acid rain.
- * Causes major pain. Damages non acid-proof mobs. Very wet (acid).
- */
-void weather_effect::acid( int intensity )
-{
-    if( calendar::once_every( time_duration::from_seconds( intensity ) ) && is_player_outside() ) {
-        if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && one_in( 4 ) ) {
-            add_msg( _( "Your umbrella protects you from the acid rain." ) );
-        } else {
-            if( g->u.worn_with_flag( "RAINPROOF" ) && one_in( 2 ) ) {
-                add_msg( _( "Your clothing protects you from the acid rain." ) );
-            } else {
-                bool has_helmet = false;
-                if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || !one_in( 2 ) ) ) {
-                    add_msg( _( "Your power armor protects you from the acid rain." ) );
-                } else {
-                    add_msg( m_bad, _( "The acid rain burns!" ) );
-                    if( one_in( 2 ) && ( g->u.get_pain() < 100 ) ) {
-                        g->u.mod_pain( rng( 1, 5 ) );
-                    }
-                }
+            add_msg( sound_message );
+            if( !sound_effect.empty() ) {
+                sfx::play_variant_sound( "environment", sound_effect,
+                                         ( 80 * g->u.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
             }
         }
     }
@@ -584,10 +514,52 @@ void handle_weather_effects( weather_type_id const w )
         weather_effect::wet_player( wetness );
     }
     glare( w );
-    std::vector<std::pair<weather_effect_fn, int>> weather_effects = w->effects;
+    g->weather.lightning_active = false;
+    for( auto &effect : w->effects ) {
+        if( effect.must_be_outside && !is_player_outside() ) {
+            continue;
+        }
+        if( effect.seconds_between > 0 &&
+            !calendar::once_every( time_duration::from_seconds( effect.seconds_between ) ) ) {
+            continue;
+        }
+        if( !one_in( effect.one_in_chance ) ) {
+            continue;
+        }
+        if( effect.lightning && g->get_levz() >= 0 ) {
+            g->weather.lightning_active = true;
+        }
+        if( effect.rain_proof ) {
+            int chance = 0;
+            if( w->precip <= precip_class::light ) {
+                chance = 2;
+            } else if( w->precip >= precip_class::heavy ) {
+                chance = 4;
+            }
+            if( g->u.weapon.has_flag( "RAIN_PROTECT" ) && one_in( chance ) ) {
+                add_msg( _( "Your %s protects you from the weather." ), g->u.weapon.tname() );
+                continue;
+            } else {
+                if( g->u.worn_with_flag( "RAINPROOF" ) && one_in( chance * 2 ) ) {
+                    add_msg( _( "Your clothing protects you from the weather." ) );
+                    continue;
+                } else {
+                    bool has_helmet = false;
+                    if( g->u.is_wearing_power_armor( &has_helmet ) && ( has_helmet || one_in( chance * 2 ) ) ) {
+                        add_msg( _( "Your power armor protects you from the weather." ) );
+                        continue;
+                    }
+                }
+            }
+        }
+        if( get_player_character().get_pain() >= effect.pain_max ) {
+            continue;
+        }
+        wet_player( effect.wet );
+        get_player_character().mod_pain( effect.pain );
+        weather_sound( effect.sound_message, effect.sound_effect );
+        get_player_character().add_msg_if_player( effect.message );
 
-    for( const std::pair<const weather_effect_fn, int> &effect : weather_effects ) {
-        effect.first( effect.second );
     }
 }
 

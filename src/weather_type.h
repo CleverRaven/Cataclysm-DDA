@@ -8,8 +8,6 @@
 #include "translations.h"
 #include "type_id.h"
 
-using weather_effect_fn = void ( * )( int intensity );
-
 const weather_type_id WEATHER_NULL( "null" );
 const weather_type_id WEATHER_CLEAR( "clear" );
 
@@ -89,6 +87,22 @@ struct weather_requirements {
     std::vector<weather_type_id> required_weathers;
 };
 
+struct weather_effect {
+    int one_in_chance;
+    int seconds_between;
+    int intensity;
+    std::string message;
+    bool must_be_outside;
+    std::string effect;
+    std::string sound_message;
+    std::string sound_effect;
+    bool lightning;
+    bool rain_proof;
+    int pain;
+    int pain_max;
+    int wet;
+};
+
 struct weather_type {
     public:
         friend class generic_factory<weather_type>;
@@ -106,7 +120,7 @@ struct weather_type {
         precip_class precip;          //!< Amount of associated precipitation.
         bool rains;                   //!< Whether said precipitation falls as rain.
         bool acidic;                  //!< Whether said precipitation is acidic.
-        std::vector < std::pair < weather_effect_fn, int >> effects;      //!< vector for weather effects.
+        std::vector<weather_effect> effects;      //!< vector for weather effects.
         std::string tiles_animation;  //!< string for tiles animation
         weather_animation_t weather_animation; //!< Information for weather animations
         weather_sound_category sound_category; //!< if playing sound effects what to use
