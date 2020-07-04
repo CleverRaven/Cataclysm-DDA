@@ -360,6 +360,18 @@ TEST_CASE( "burning stamina when overburdened may cause pain", "[stamina][burn][
                 CHECK( pain_after > pain_before );
             }
         }
+
+        WHEN( "they have muscle atrophy" ) {
+            dummy.toggle_trait( trait_id( "MUSCLEATROPHY" ) );
+            REQUIRE( dummy.has_trait( trait_id( "MUSCLEATROPHY" ) ) );
+
+            THEN( "they feel pain when carrying too much weight" ) {
+                pain_before = dummy.get_pain();
+                dummy.burn_move_stamina( to_moves<int>( 1_turns ) );
+                pain_after = dummy.get_pain();
+                CHECK( pain_after > pain_before );
+            }
+        }
     }
 }
 
