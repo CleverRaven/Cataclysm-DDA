@@ -443,6 +443,7 @@
     "starting_trait": true,
     "valid": false,
     "cancels": [ "BADBACK" ],
+    "flags": [ "DEGENWEIGHT" ],
     "weight_capacity_modifier": 1.35
   },
   {
@@ -6860,12 +6861,13 @@
     "description": "You have less muscle mass than average.  Whether due to too much cardio, a sedentary lifestyle, disease or genetics, you suffer a 15% reduction to your maximum carry weight.",
     "starting_trait": true,
     "cancels": [ "STRONGBACK" ],
+    "flags": [ "DEGENWEIGHT" ],
     "weight_capacity_modifier": 0.85
   },
   {
     "type": "mutation",
     "id": "DISYIELDING",
-    "name": { "str": "Disease Yielding" },
+    "name": { "str": "Suppressed Immunity" },
     "points": -1,
     "description": "Whether due to a environmental factors, excessive exercising or poor genetic lottery, your immune system is weaker than most.  You will become sick more often.",
     "starting_trait": true,

@@ -7593,7 +7593,7 @@ void Character::burn_move_stamina( int moves )
 
     // If stamina runs out, or if we have BADBACK or MUSCLEATROPHY trait,
     // there is a chance to suffer pain when overburdened.
-    if( get_stamina() == 0 || has_trait( trait_BADBACK ) || has_trait( trait_MUSCLEATROPHY ) ) {
+    if( get_stamina() == 0 || has_trait_flag( "DEGENWEIGHT" ) ) {
         // Chance of pain starts at 1 in 25, goes down by 5 for every 50% more carried
         int odds_against_pain = 35 - 5 * current_weight / ( max_weight / 2 );
         if( current_weight > max_weight && one_in( odds_against_pain ) ) {

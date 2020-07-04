@@ -1117,6 +1117,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
 - ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
+- ```DEGENWEIGHT``` This mutation reduces carried weight.
 
 
 ### Categories
