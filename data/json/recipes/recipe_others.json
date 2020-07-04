@@ -2118,9 +2118,7 @@
     "reversible": true,
     "//": "melting the chisel back down seems unlikely to teach anything useful",
     "autolearn": true,
-    "book_learn": [
-      [ "textbook_fabrication", 3 ]
-    ],
+    "book_learn": [ [ "textbook_fabrication", 3 ] ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ]
   },
   {
