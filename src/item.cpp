@@ -8416,15 +8416,19 @@ void item::set_snippet( const snippet_id &id )
     snip_id = id;
 }
 
-const item_category &item::get_category( bool insides ) const
+const item_category &item::get_category() const
 {
     static item_category null_category;
-    if( insides && type->category_force == item_category_container &&
-        contents.num_item_stacks() == 1 ) {
+    return type->category_force.is_valid() ? type->category_force.obj() : null_category;
+}
+
+const item_category &item::get_category_of_contents() const
+{
+    if( type->category_force == item_category_container && contents.num_item_stacks() == 1 ) {
         const item &ci = contents.only_item();
-        return ci.type->category_force.is_valid() ? ci.type->category_force.obj() : null_category;
+        return ci.get_category();
     } else {
-        return type->category_force.is_valid() ? type->category_force.obj() : null_category;
+        return this->get_category();
     }
 }
 
