@@ -453,7 +453,6 @@ bool map::vehproceed( VehicleList &vehicle_list )
         level_cache &cache = get_cache( zlev );
 
         // Check if any vehicles exist in the active range for this z-level
-        // Short-circuit the evaluation if no "veh_in_active_range" for performance
         cache.veh_in_active_range = cache.veh_in_active_range &&
                                     std::any_of( std::begin( cache.veh_exists_at ),
         std::end( cache.veh_exists_at ), []( const auto & row ) {
