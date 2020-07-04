@@ -7591,7 +7591,7 @@ void Character::burn_move_stamina( int moves )
         int odds_against_pain = 35 - 5 * current_weight / ( max_weight / 2 );
         if( current_weight > max_weight && one_in( odds_against_pain ) ) {
             // 1 more pain for every 800 grams more (5 per extra STR needed)
-            if( ( ( current_weight - max_weight ) / 800_gram > get_pain() && get_pain() < 100 ) ) {
+            if( ( current_weight - max_weight ) / 800_gram > get_pain() && get_pain() < 100 ) {
                 mod_pain( 1 );
             }
         }
