@@ -1697,7 +1697,6 @@ void Character::process_bionic( int b )
                 }
             }
             if( calendar::once_every( 60_turns ) ) {
-                bool try_to_heal_bleeding = true;
                 if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
                     const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
                     heal( part_to_heal, 1 );
