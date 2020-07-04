@@ -5319,8 +5319,9 @@ void Character::get_sick()
         return;
     }
 
+
     // Normal people get sick about 2-4 times/year.
-    int base_diseases_per_year = 3 + base_disease_rate_modifier;
+    float base_diseases_per_year = 3.0f + mutation_value( "base_disease_rate_modifier" );
 
     // This check runs once every 30 minutes, so double to get hours, *24 to get days.
     const int checks_per_year = 2 * 24 * 365;
@@ -7589,14 +7590,17 @@ void Character::burn_move_stamina( int moves )
     burn_ratio *= move_mode->stamina_mult();
     mod_stamina( -( ( moves * burn_ratio ) / 100.0 ) * stamina_move_cost_modifier() );
     add_msg( m_debug, "Stamina burn: %d", -( ( moves * burn_ratio ) / 100 ) );
-    // Chance to suffer pain if overburden and stamina runs out or has trait BADBACK
-    // Starts at 1 in 25, goes down by 5 for every 50% more carried
-    if( ( current_weight > max_weight ) && ( has_trait( trait_BADBACK ) || ( current_weight > max_weight ) && ( has_trait( trait_MUSCLEATROPHY ) || get_stamina() == 0 ) &&
-        one_in( 35 - 5 * current_weight / ( max_weight / 2 ) ) ) {
-        add_msg_if_player( m_bad, _( "Your body strains under the weight!" ) );
-        // 1 more pain for every 800 grams more (5 per extra STR needed)
-        if( ( ( current_weight - max_weight ) / 800_gram > get_pain() && get_pain() < 100 ) ) {
-            mod_pain( 1 );
+
+    // If stamina runs out, or if we have BADBACK or MUSCLEATROPHY trait,
+    // there is a chance to suffer pain when overburdened.
+    if( get_stamina() == 0 || has_trait( trait_BADBACK ) || has_trait( trait_MUSCLEATROPHY ) ) {
+        // Chance of pain starts at 1 in 25, goes down by 5 for every 50% more carried
+        int odds_against_pain = 35 - 5 * current_weight / ( max_weight / 2 );
+        if( current_weight > max_weight && one_in( odds_against_pain ) ) {
+            // 1 more pain for every 800 grams more (5 per extra STR needed)
+            if( ( ( current_weight - max_weight ) / 800_gram > get_pain() && get_pain() < 100 ) ) {
+                mod_pain( 1 );
+            }
         }
     }
 }

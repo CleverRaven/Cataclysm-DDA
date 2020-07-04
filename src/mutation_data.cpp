@@ -416,6 +416,7 @@ void mutation_branch::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "attackcost_modifier", attackcost_modifier, 1.0f );
     optional( jo, was_loaded, "max_stamina_modifier", max_stamina_modifier, 1.0f );
     optional( jo, was_loaded, "weight_capacity_modifier", weight_capacity_modifier, 1.0f );
+    optional( jo, was_loaded, "base_disease_rate_modifier", base_disease_rate_modifier, 0.0f );
     optional( jo, was_loaded, "hearing_modifier", hearing_modifier, 1.0f );
     optional( jo, was_loaded, "noise_modifier", noise_modifier, 1.0f );
     optional( jo, was_loaded, "temperature_speed_modifier", temperature_speed_modifier, 0.0f );
