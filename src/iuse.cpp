@@ -8933,9 +8933,9 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 const recipe *meal = dishes[choice];
                 int mealtime;
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                    mealtime = meal->time;
+                    mealtime = meal->time_to_craft_moves();
                 } else {
-                    mealtime = meal->time * 2;
+                    mealtime = meal->time_to_craft_moves() * 2;
                 }
 
                 const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );

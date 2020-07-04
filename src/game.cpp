@@ -8378,8 +8378,8 @@ static void add_disassemblables( uilist &menu,
             const auto &msg = string_format( pgettext( "butchery menu", "%s (%d)" ),
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
-                               to_string_clipped( time_duration::from_turns( recipe_dictionary::get_uncraft(
-                                       it.typeId() ).time / 100 ) ) );
+                               to_string_clipped( recipe_dictionary::get_uncraft(
+                                       it.typeId() ).time_to_craft() ) );
             hotkey = -1;
         }
     }
@@ -8681,7 +8681,7 @@ void game::butcher()
             int time_to_disassemble = 0;
             int time_to_disassemble_all = 0;
             for( const auto &stack : disassembly_stacks ) {
-                const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time;
+                const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves();
                 time_to_disassemble += time;
                 time_to_disassemble_all += time * stack.second;
             }
