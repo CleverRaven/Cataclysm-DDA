@@ -8933,9 +8933,9 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 const recipe *meal = dishes[choice];
                 int mealtime;
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                    mealtime = meal->time;
+                    mealtime = meal->time_to_craft_moves();
                 } else {
-                    mealtime = meal->time * 2;
+                    mealtime = meal->time_to_craft_moves() * 2;
                 }
 
                 const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
@@ -9813,7 +9813,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     ) {
         units::volume total_volume = 0_ml;
         for( const auto &p : locs ) {
-            total_volume += ( *p.first )->volume() * p.second /
+            total_volume += ( *p.first )->base_volume() * p.second /
                             ( ( *p.first )->count_by_charges() ? ( *p.first )->charges : 1 );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
@@ -9851,7 +9851,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
             return 0;
         }
         item &i = *pair.first;
-        total_volume += i.volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
+        total_volume += i.base_volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
     }
 
     washing_requirements required = washing_requirements_for_volume( total_volume );

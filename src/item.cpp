@@ -1028,10 +1028,11 @@ bool item::merge_charges( const item &rhs )
     return true;
 }
 
-void item::put_in( const item &payload, item_pocket::pocket_type pk_type )
+ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
 {
-    contents.insert_item( payload, pk_type );
+    ret_val<bool> result = contents.insert_item( payload, pk_type );
     on_contents_changed();
+    return result;
 }
 
 void item::set_var( const std::string &name, const int value )
@@ -3138,7 +3139,7 @@ void item::disassembly_info( std::vector<iteminfo> &info, const iteminfo_query *
     const recipe &dis = recipe_dictionary::get_uncraft( typeId() );
     const requirement_data &req = dis.disassembly_requirements();
     if( !req.is_empty() ) {
-        const std::string approx_time = to_string_approx( time_duration::from_turns( dis.time / 100 ) );
+        const std::string approx_time = to_string_approx( dis.time_to_craft() );
 
         const requirement_data::alter_item_comp_vector &comps_list = req.get_components();
         const std::string comps_str = enumerate_as_string( comps_list.begin(), comps_list.end(),

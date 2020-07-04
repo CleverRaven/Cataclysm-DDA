@@ -2434,6 +2434,7 @@ drop_locations inventory_drop_selector::execute()
 
             const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
             process_selected( count, selected );
+            deselect_contained_items();
         } else if( input.action == "RIGHT" ) {
             const auto selected( get_active_column().get_all_selected() );
 

@@ -465,6 +465,27 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                               cur, above );
             }
         }
+        if( cur.z < maxz && parent_terrain.has_flag( TFLAG_RAMP_UP ) &&
+            valid_move( cur, tripoint( cur.xy(), cur.z + 1 ), false, true, true ) ) {
+            auto &layer = pf.get_layer( cur.z + 1 );
+            for( size_t it = 0; it < 8; it++ ) {
+                const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
+                pf.add_point( layer.gscore[parent_index] + 4,
+                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
+                              cur, above );
+            }
+        }
+        if( cur.z > minz && parent_terrain.has_flag( TFLAG_RAMP_DOWN ) &&
+            valid_move( cur, tripoint( cur.xy(), cur.z - 1 ), false, true, true ) ) {
+            auto &layer = pf.get_layer( cur.z - 1 );
+            for( size_t it = 0; it < 8; it++ ) {
+                const tripoint below( cur.x + x_offset[it], cur.y + y_offset[it], cur.z - 1 );
+                pf.add_point( layer.gscore[parent_index] + 4,
+                              layer.score[parent_index] + 4 + 2 * rl_dist( below, t ),
+                              cur, below );
+            }
+        }
+
     } while( !done && !pf.empty() );
 
     if( done ) {

@@ -50,7 +50,7 @@ struct four_quadrants {
     friend four_quadrants operator*( const four_quadrants &l, const four_quadrants &r ) {
         four_quadrants result;
         std::transform( l.values.begin(), l.values.end(), r.values.begin(),
-                        result.values.begin(), std::multiplies<float>() );
+                        result.values.begin(), std::multiplies<>() );
         return result;
     }
 
