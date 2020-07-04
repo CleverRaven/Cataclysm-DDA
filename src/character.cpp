@@ -5319,18 +5319,11 @@ void Character::get_sick()
         return;
     }
 
-
-    // Normal people get sick about 2-4 times/year.
-    float base_diseases_per_year = 3.0f + mutation_value( "base_disease_rate_modifier" );
-
     // This check runs once every 30 minutes, so double to get hours, *24 to get days.
     const int checks_per_year = 2 * 24 * 365;
 
-    // Health is in the range [-200,200].
-    // Diseases are half as common for every 50 health you gain.
-    float health_factor = std::pow( 2.0f, get_healthy() / 50.0f );
-
-    int disease_rarity = static_cast<int>( checks_per_year * health_factor / base_diseases_per_year );
+    int disease_rarity = static_cast<int>( checks_per_year * character_attributes::health_factor /
+                                           character_attributes::base_diseases_per_year );
     add_msg( m_debug, "disease_rarity = %d", disease_rarity );
     if( one_in( disease_rarity ) ) {
         if( one_in( 6 ) ) {
