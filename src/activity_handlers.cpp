@@ -2546,7 +2546,10 @@ struct weldrig_hack {
 
     item &get_item() {
         if( veh != nullptr && part >= 0 ) {
-            pseudo.charges = veh->drain( itype_battery, 1000 - pseudo.charges );
+            item pseudo_magazine( pseudo.magazine_default() );
+            pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
+            pseudo.ammo_set( itype_battery,  veh->drain( itype_battery,
+                             pseudo.ammo_capacity( ammotype( "battery" ) ) ) );
             return pseudo;
         }
 
@@ -2560,8 +2563,7 @@ struct weldrig_hack {
             return;
         }
 
-        veh->charge_battery( pseudo.charges );
-        pseudo.charges = 0;
+        veh->charge_battery( pseudo.ammo_remaining() );
     }
 
     ~weldrig_hack() {
@@ -2670,7 +2672,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     const item &fix = *act->targets[1];
-
     if( repeat == repeat_type::INIT ) {
         const int level = p->get_skill_level( actor->used_skill );
         repair_item_actor::repair_type action_type = actor->default_action( fix, level );
@@ -2726,7 +2727,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             }
         } while( repeat == repeat_type::INIT );
     }
-
     // Otherwise keep retrying
     act->moves_left = actor->move_cost;
 }
