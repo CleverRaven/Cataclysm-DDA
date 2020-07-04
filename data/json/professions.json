@@ -1162,7 +1162,22 @@
     "description": "Everyone is dead?  Oh well, it doesn't matter; it's not like you got along with people much anyway.  Your beloved cats are all the friends you need!",
     "points": 5,
     "skills": [ { "level": 1, "name": "survival" }, { "level": 1, "name": "cooking" }, { "level": 1, "name": "tailor" } ],
-    "pets": [ { "name": "mon_cat", "amount": 30 } ],
+    "pets": [
+      { "name": "mon_cat", "amount": 5 },
+      { "name": "mon_cat_tabby", "amount": 4 },
+      { "name": "mon_cat_longhair", "amount": 3 },
+      { "name": "mon_cat_persian", "amount": 3 },
+      { "name": "mon_cat_siamese", "amount": 3 },
+      { "name": "mon_cat_calico", "amount": 2 },
+      { "name": "mon_cat_maine_coon", "amount": 2 },
+      { "name": "mon_cat_devon_rex", "amount": 2 },
+      { "name": "mon_cat_bengal", "amount": 1 },
+      { "name": "mon_cat_sphynx", "amount": 1 },
+      { "name": "mon_cat_chonker_kitten", "amount": 1 },
+      { "name": "mon_cat_longhair_kitten", "amount": 1 },
+      { "name": "mon_cat_calico_kitten", "amount": 1 },
+      { "name": "mon_cat_tabby_kitten", "amount": 1 }
+    ],
     "items": {
       "both": {
         "items": [ "jeans", "longshirt", "socks", "coat_winter", "boots_winter", "knit_scarf", "pockknife", "water_clean", "wristwatch" ],
