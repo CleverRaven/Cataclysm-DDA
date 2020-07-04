@@ -1404,8 +1404,13 @@ class vehicle
         // @param z = z thrust for helicopters etc
         void thrust( int thd, int z = 0 );
 
-        // if smart controller is enabled, turns on and off engines depending on load and battery level
-        void smart_controller_handle_turn( bool thrusting = false );
+        /**
+         * if smart controller is enabled, turns on and off engines depending on load and battery level
+         * @param thrusting must be true when called from vehicle::thrust and vehicle is thrusting
+         * @param k_traction_cache cached value of vehicle::k_traction, if empty, will be computed
+         */
+        void smart_controller_handle_turn( bool thrusting = false,
+                                           cata::optional<float> k_traction_cache = cata::nullopt );
 
         //deceleration due to ground friction and air resistance
         int slowdown( int velocity ) const;
@@ -1658,14 +1663,10 @@ class vehicle
         //returns whether the engine uses one of specific "combustion" fuel types (gas, diesel and diesel substitutes)
         bool is_combustion_engine_type( const int e ) const;
         //returns whether the alternator is operational
-        //If enabled true, co-mounted engine must be enabled to return true
-        bool is_alternator_on( const int a, bool enabled = true ) const;
-        // returns index of the engine that is co-mounted with the given alternator (or -1 if not found)
-        // note, returned index is in `engines` array
-        int alternator_engine_idx( const int a ) const;
+        bool is_alternator_on( int a ) const;
         //turn engine as on or off (note: doesn't perform checks if engine can start)
         void toggle_specific_engine( int e, bool on );
-        // try to turn engine as on or off
+        // try to turn engine on or off
         // (tries to start it and toggles it on if successful, shutdown is always a success)
         // returns true if engine status was changed
         bool start_engine( int e, bool turn_on );
@@ -1872,7 +1873,11 @@ class vehicle
         point pos;
         // vehicle current velocity, mph * 100
         int velocity = 0;
-        // vehicle exponential average velocity (av = (av + velocity) / 2), mph * 100
+        /**
+         * vehicle continuous moving average velocity
+         * see https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average
+         * alpha is 0.5:  avg_velocity = avg_velocity + 0.5(velocity - avg_velocity) = 0.5 avg_velocity + 0.5 velocity
+         */
         int avg_velocity = 0;
         // velocity vehicle's cruise control trying to achieve
         int cruise_velocity = 0;

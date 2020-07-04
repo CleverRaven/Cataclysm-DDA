@@ -1169,32 +1169,19 @@ bool vehicle::is_part_on( const int p ) const
     return parts[p].enabled;
 }
 
-bool vehicle::is_alternator_on( const int a, bool enabled ) const
+bool vehicle::is_alternator_on( const int a ) const
 {
     auto alt = parts[ alternators [ a ] ];
     if( alt.is_unavailable() ) {
         return false;
     }
-    int e = alternator_engine_idx( a );
-    if( e < 0 ) {
-        return false;
-    }
-    const vehicle_part &eng = parts[engines[e]];
-    //fuel_left checks that the engine can produce power to be absorbed
-    return eng.is_available() && ( !enabled || eng.enabled ) && fuel_left( eng.fuel_current() ) &&
-           !eng.faults().count( fault_engine_belt_drive );
-}
 
-int vehicle::alternator_engine_idx( const int a ) const
-{
-    const vehicle_part &alt = parts[ alternators [ a ] ];
-    for( size_t e = 0; e < engines.size(); e++ ) {
-        auto &eng = parts[engines[e]];
-        if( eng.mount == alt.mount ) {
-            return static_cast<int>( e );
-        }
-    }
-    return -1;
+    return std::any_of( engines.begin(), engines.end(), [this, &alt]( int idx ) {
+        auto &eng = parts [ idx ];
+        //fuel_left checks that the engine can produce power to be absorbed
+        return eng.is_available() && eng.enabled && fuel_left( eng.fuel_current() ) &&
+               eng.mount == alt.mount && !eng.faults().count( fault_engine_belt_drive );
+    } );
 }
 
 bool vehicle::has_security_working() const

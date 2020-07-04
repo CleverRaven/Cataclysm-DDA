@@ -117,7 +117,8 @@ int vehicle::slowdown( int at_velocity ) const
     return std::max( 1, slowdown );
 }
 
-void vehicle:: smart_controller_handle_turn( bool thrusting )
+void vehicle:: smart_controller_handle_turn( bool thrusting,
+        cata::optional<float> k_traction_cache )
 {
 
     if( !engine_on || !has_enabled_smart_controller ) {
@@ -173,11 +174,12 @@ void vehicle:: smart_controller_handle_turn( bool thrusting )
     bool discharge_forbidden_soft = battery_level_percent <= 90;
     bool discharge_forbidden_hard = battery_level_percent <= 25;
     int target_charging_rate = ( max_battery_level == 0 || !discharge_forbidden_soft ) ? 0 :
-                               ( max_battery_level * 9 / 10 - cur_battery_level ) * 10 / ( 6 * 3 );
-    //                                                                            * (1000 / (60 * 30))   // originally
-    //                                                   ^-90%                bat to W ^         ^30 minutes
+                               ( 9 * max_battery_level - 10 * cur_battery_level ) / ( 6 * 3 );
+    //                         ( max_battery_level * 0.9 - cur_battery_level )  * (1000 / (60 * 30))   // originally
+    //                                              ^ 90%                   bat to W ^         ^ 30 minutes
 
-    float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
+    float traction = k_traction_cache ? *k_traction_cache : k_traction( g->m.vehicle_wheel_traction(
+                         *this ) );
     int accel_demand = cruise_on
                        ? // using avg_velocity reduces unnecessary oscillations when traction is low
                        std::max( std::abs( cruise_velocity - velocity ), std::abs( cruise_velocity - avg_velocity ) ) :
@@ -255,8 +257,8 @@ void vehicle:: smart_controller_handle_turn( bool thrusting )
 
         bool gas_engine_to_shut_down = false;
         for( size_t i = 0; i < c_engines.size(); ++i ) {
-            bool old_state = static_cast<bool>( ( prev_mask & ( 1 << i ) ) != 0 );
-            bool new_state = static_cast<bool>( ( mask & ( 1 << i ) ) != 0 );
+            bool old_state = ( prev_mask & ( 1 << i ) ) != 0;
+            bool new_state = ( mask & ( 1 << i ) ) != 0;
             // switching enabled flag temporarily to perform calculations below
             toggle_specific_engine( c_engines[i], new_state );
 
@@ -405,12 +407,13 @@ void vehicle::thrust( int thd, int z )
         thrusting = ( sgn == thd );
     }
 
-    if( thrusting ) {
-        smart_controller_handle_turn( true );
-    }
-
     // TODO: Pass this as an argument to avoid recalculating
     float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
+
+    if( thrusting ) {
+        smart_controller_handle_turn( true, traction );
+    }
+
     int accel = current_acceleration() * traction;
     if( accel < 200 && velocity > 0 && is_towing() ) {
         if( pl_ctrl ) {
