@@ -8425,8 +8425,7 @@ const item_category &item::get_category() const
 const item_category &item::get_category_of_contents() const
 {
     if( type->category_force == item_category_container && contents.num_item_stacks() == 1 ) {
-        const item &ci = contents.only_item();
-        return ci.get_category();
+        return contents.only_item().get_category();
     } else {
         return this->get_category();
     }
