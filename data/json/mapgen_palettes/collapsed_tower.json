@@ -39,7 +39,7 @@
       ":": "f_dresser",
       ";": "f_toilet",
       "=": "f_fireplace",
-      ">": "f_counter",
+      "c": "f_counter",
       "?": "f_sofa",
       "@": "f_bed",
       "A": "f_sink",

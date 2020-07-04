@@ -758,9 +758,9 @@ class vehicle
         bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
 
         // check if given player controls this vehicle
-        bool player_in_control( const player &p ) const;
+        bool player_in_control( const Character &p ) const;
         // check if player controls this vehicle remotely
-        bool remote_controlled( const player &p ) const;
+        bool remote_controlled( const Character &p ) const;
 
         // init parts state for randomly generated vehicle
         void init_state( int init_veh_fuel, int init_veh_status );

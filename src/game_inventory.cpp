@@ -468,7 +468,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             }, _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return to_string_clipped( time_duration::from_turns( get_recipe( loc ).time / 100 ) );
+                return to_string_clipped( get_recipe( loc ).time_to_craft() );
             }, _( "TIME" ) );
         }
 

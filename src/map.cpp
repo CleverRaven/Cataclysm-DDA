@@ -1,6 +1,7 @@
 #include "map.h"
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <climits>
 #include <cmath>
@@ -450,17 +451,17 @@ bool map::vehproceed( VehicleList &vehicle_list )
     int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
     for( int zlev = minz; zlev <= maxz; ++zlev ) {
         level_cache &cache = get_cache( zlev );
-        bool still_active = false;
-        if( cache.veh_in_active_range ) {
-            for( const bool &has_vehicle : cache.veh_exists_at ) {
-                if( has_vehicle ) {
-                    still_active = true;
-                    break;
-                }
-            }
-        }
-        cache.veh_in_active_range = still_active;
+
+        // Check if any vehicles exist in the active range for this z-level
+        cache.veh_in_active_range = cache.veh_in_active_range &&
+                                    std::any_of( std::begin( cache.veh_exists_at ),
+        std::end( cache.veh_exists_at ), []( const auto & row ) {
+            return std::any_of( std::begin( row ), std::end( row ), []( bool veh_exists ) {
+                return veh_exists;
+            } );
+        } );
     }
+
     return true;
 }
 

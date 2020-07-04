@@ -772,7 +772,7 @@ TEST_CASE( "colony sort", "[colony]" )
     // Less-than sort test
     CHECK( sorted );
 
-    test_colony.sort( std::greater<int>() );
+    test_colony.sort( std::greater<>() );
 
     prev = 65536;
 
