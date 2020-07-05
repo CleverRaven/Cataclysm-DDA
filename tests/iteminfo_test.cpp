@@ -359,6 +359,7 @@ TEST_CASE( "item price and barter value", "[iteminfo][price]" )
 // "encumbrance"
 // "max_encumbrance"
 // "pocket_data"
+// "coverage"
 // - "rigid"
 // - "max_contains_volume"
 //
