@@ -358,7 +358,7 @@ class spell
         float spell_fail( const Character &guy ) const;
         std::string colorized_fail_percent( const Character &guy ) const;
         // how long does it take to cast the spell
-        int casting_time( const Character &guy ) const;
+        int casting_time( const Character &guy, bool ignore_encumb = false ) const;
 
         // can the Character cast this spell?
         bool can_cast( const Character &guy ) const;

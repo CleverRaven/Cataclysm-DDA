@@ -643,7 +643,7 @@ class Character : public Creature, public visitable<Character>
         */
         void flag_encumbrance();
         /**
-         * Checks worn items for the "calc_encumbrance" flag, which indicates
+         * Checks worn items for the "RESET_ENCUMBRANCE" flag, which indicates
          * that encumbrance may have changed and require recalculating.
          */
         void check_item_encumbrance_flag();
@@ -2239,7 +2239,6 @@ class Character : public Creature, public visitable<Character>
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
-        mutable std::array<encumbrance_data, num_bp> encumbrance_cache;
         bool bio_soporific_powered_at_last_sleep_check = false;
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;

@@ -732,7 +732,7 @@ int spell::get_difficulty() const
     return type->difficulty;
 }
 
-int spell::casting_time( const Character &guy ) const
+int spell::casting_time( const Character &guy, bool ignore_encumb ) const
 {
     // casting time in moves
     int casting_time = 0;
@@ -747,17 +747,19 @@ int spell::casting_time( const Character &guy ) const
     } else {
         casting_time = type->base_casting_time;
     }
-    if( !has_flag( spell_flag::NO_LEGS ) ) {
-        // the first 20 points of encumbrance combined is ignored
-        const int legs_encumb = std::max( 0,
-                                          guy.encumb( bodypart_id( "leg_l" ) ) + guy.encumb( bodypart_id( "leg_r" ) ) - 20 );
-        casting_time += legs_encumb * 3;
-    }
-    if( has_flag( spell_flag::SOMATIC ) ) {
-        // the first 20 points of encumbrance combined is ignored
-        const int arms_encumb = std::max( 0,
-                                          guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb( bodypart_id( "arm_r" ) ) - 20 );
-        casting_time += arms_encumb * 2;
+    if( !ignore_encumb ) {
+        if( !has_flag( spell_flag::NO_LEGS ) ) {
+            // the first 20 points of encumbrance combined is ignored
+            const int legs_encumb = std::max( 0,
+                                              guy.encumb( bodypart_id( "leg_l" ) ) + guy.encumb( bodypart_id( "leg_r" ) ) - 20 );
+            casting_time += legs_encumb * 3;
+        }
+        if( has_flag( spell_flag::SOMATIC ) ) {
+            // the first 20 points of encumbrance combined is ignored
+            const int arms_encumb = std::max( 0,
+                                              guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb( bodypart_id( "arm_r" ) ) - 20 );
+            casting_time += arms_encumb * 2;
+        }
     }
     return casting_time;
 }
