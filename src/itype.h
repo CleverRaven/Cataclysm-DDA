@@ -202,7 +202,7 @@ struct islot_brewable {
     time_duration time = 0_turns;
 };
 
-struct random_armor_data {
+struct armor_portion_data {
 
     // How much this piece encumbers the player.
     int encumber = 0;
@@ -262,7 +262,7 @@ struct islot_armor {
     std::vector<std::string> valid_mods;
 
     // Layer, encumbrance and coverage information.
-    std::vector<random_armor_data> data;
+    std::vector<armor_portion_data> data;
 
     bool was_loaded = false;
 

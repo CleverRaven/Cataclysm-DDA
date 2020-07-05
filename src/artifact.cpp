@@ -1409,7 +1409,7 @@ void it_artifact_armor::serialize( JsonOut &json ) const
     json.member( "techniques", techniques );
 
     // armor data
-    random_armor_data tempData;
+    armor_portion_data tempData;
     json.member( "encumber", tempData.encumber );
     json.member( "max_encumber", tempData.max_encumber );
     json.member( "coverage", tempData.coverage );

@@ -516,7 +516,7 @@ void Item_factory::finalize_post( itype &obj )
     if( obj.armor ) {
         // Setting max_encumber must be in finalize_post because it relies on
         // stack_size being set for all ammo, which happens in finalize_pre.
-        for( random_armor_data &data : obj.armor->data ) {
+        for( armor_portion_data &data : obj.armor->data ) {
             if( data.max_encumber == -1 ) {
                 units::volume total_nonrigid_volume = 0_ml;
                 for( const pocket_data &pocket : obj.pockets ) {
@@ -1785,12 +1785,12 @@ std::string enum_to_string<layer_level>( layer_level data )
 
 void islot_armor::load( const JsonObject &jo )
 {
-    if( jo.has_array( "coverage_data" ) ) {
+    if( jo.has_array( "armor_portion_data" ) ) {
         bool dont_add_first = false;
         if( !data.empty() ) { // Uses copy-from
             dont_add_first = true;
-            const JsonObject &obj = *jo.get_array( "coverage_data" ).begin();
-            random_armor_data tempData;
+            const JsonObject &obj = *jo.get_array( "armor_portion_data" ).begin();
+            armor_portion_data tempData;
 
             if( obj.has_array( "encumbrance" ) ) {
                 tempData.encumber = obj.get_array( "encumbrance" ).get_int( 0 );
@@ -1805,13 +1805,13 @@ void islot_armor::load( const JsonObject &jo )
             data[0].coverage = tempData.coverage;
         }
 
-        for( const JsonObject &obj : jo.get_array( "coverage_data" ) ) {
+        for( const JsonObject &obj : jo.get_array( "armor_portion_data" ) ) {
             // If this item used copy-from, data[0] is already set, so skip adding first data
             if( dont_add_first ) {
                 dont_add_first = false;
                 continue;
             }
-            random_armor_data tempData;
+            armor_portion_data tempData;
             body_part_set temp_cover_data;
             assign_coverage_from_json( obj, "covers", temp_cover_data, sided );
             tempData.covers = temp_cover_data;
@@ -1833,7 +1833,7 @@ void islot_armor::load( const JsonObject &jo )
             //        obj.read( "layer", layer );
             //    }
             //} else {
-            //    for( random_armor_data &piece : data ) {
+            //    for( armor_portion_data &piece : data ) {
             //        piece.layer = layer_level::REGULAR;
             //    }
             //}
@@ -1849,7 +1849,7 @@ void islot_armor::load( const JsonObject &jo )
             assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
             data[0].covers = temp_cover_data;
         } else { // This item has copy-from and already has taken data from parent
-            random_armor_data child_data;
+            armor_portion_data child_data;
             optional( jo, was_loaded, "encumbrance", child_data.encumber, 0 );
             // Default max_encumbrance will be set to a reasonable value in finalize_post
             optional( jo, was_loaded, "max_encumbrance", child_data.max_encumber, -1 );

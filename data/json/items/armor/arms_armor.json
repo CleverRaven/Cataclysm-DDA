@@ -72,7 +72,7 @@
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
     "color": "dark_gray",
-    "coverage_data": [ { "covers": "ARMS", "coverage": 80, "encumbrance": 5, "layer": "Belted" } ],
+    "armor_portion_data": [ { "covers": "ARMS", "coverage": 80, "encumbrance": 5, "layer": "Belted" } ],
     "warmth": 20,
     "material_thickness": 3,
     "environmental_protection": 1,
