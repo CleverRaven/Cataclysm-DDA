@@ -395,6 +395,8 @@ void Item_modifier::modify( item &new_item ) const
     if( !cont.is_null() ) {
         if( new_item.is_magazine() ) {
             cont.put_in( new_item, item_pocket::pocket_type::MAGAZINE_WELL );
+        } else if( new_item.is_ammo() ) {
+            cont.put_in( new_item, item_pocket::pocket_type::MAGAZINE );
         } else {
             cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
             cont.seal();

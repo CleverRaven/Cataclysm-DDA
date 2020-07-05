@@ -407,6 +407,12 @@ std::list<item> profession::items( bool male, const std::vector<trait_id> &trait
         }
     }
     for( item &it : result ) {
+        if( it.is_magazine() ) {
+            itype_id ammo = it.ammo_default();
+            if( ammo ) {
+                it.ammo_set( ammo, it.ammo_capacity( ammo->ammo->type ) );
+            }
+        }
         it.visit_items( []( item * it ) {
             clear_faults( *it );
             return VisitResponse::NEXT;
@@ -670,7 +676,6 @@ std::vector<item> json_item_substitution::get_substitution( const item &it,
     for( const substitution::info &inf : sub->infos ) {
         item result( inf.new_item, advanced_spawn_time() );
         int new_amount = std::max( 1, static_cast<int>( std::round( inf.ratio * old_amt ) ) );
-
         if( !result.count_by_charges() ) {
             for( int i = 0; i < new_amount; i++ ) {
                 ret.push_back( result.in_its_container() );
