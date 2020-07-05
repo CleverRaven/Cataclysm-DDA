@@ -109,8 +109,6 @@ struct smart_controller_cache {
     int battery_percent;
     int battery_net_charge_rate;
     float load;
-    int engines_hash;
-    int engines_mask;
 };
 
 struct veh_collision {
@@ -1822,7 +1820,7 @@ class vehicle
         bool magic = false;
         // when does the magic vehicle disappear?
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
-        // time since gas engines were turned on by smart controller
+        // cached values of the factors that determined last chosen engine state
         cata::optional<smart_controller_cache> smart_controller_state = cata::nullopt;
         bool has_enabled_smart_controller = false;
 

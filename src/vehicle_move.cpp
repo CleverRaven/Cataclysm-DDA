@@ -178,8 +178,6 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
     //                         ( max_battery_level * 0.9 - cur_battery_level )  * (1000 / (60 * 30))   // originally
     //                                              ^ 90%                   bat to W ^         ^ 30 minutes
 
-    float traction = k_traction_cache ? *k_traction_cache : k_traction( g->m.vehicle_wheel_traction(
-                         *this ) );
     int accel_demand = cruise_on
                        ? // using avg_velocity reduces unnecessary oscillations when traction is low
                        std::max( std::abs( cruise_velocity - velocity ), std::abs( cruise_velocity - avg_velocity ) ) :
@@ -187,29 +185,35 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
     if( velocity != 0 && accel_demand == 0 ) {
         accel_demand = 1;    // to prevent zero fuel usage
     }
+
     int velocity_demand = std::max( std::abs( this->velocity ), std::abs( cruise_velocity ) );
+
+    // for stationary vehicles all velocity and acceleration calculations are skipped
+    bool is_stationary = avg_velocity == 0 && velocity_demand == 0 && accel_demand == 0;
+
     bool gas_engine_shutdown_forbidden = smart_controller_state &&
                                          ( calendar::turn - smart_controller_state->gas_engine_last_turned_on ) <
                                          15_seconds;
 
+
     smart_controller_cache cur_state;
+
+    float traction = is_stationary ? 1.0f :
+                     ( k_traction_cache ? *k_traction_cache : k_traction( g->m.vehicle_wheel_traction( *this ) ) );
 
     int prev_mask = 0;
     // opt_ prefix denotes values for currently found "optimal" engine configuration
     int opt_net_echarge_rate = net_battery_charge_rate_w();
     // total engine fuel energy usage (J)
     int opt_fuel_usage = 0;
-    int opt_accel = current_acceleration() * traction;
-    bool opt_safe_vel = safe_ground_velocity( true );
+
+    int opt_accel = is_stationary ? 1 : current_acceleration() * traction;
+    bool opt_safe_vel = is_stationary ? 1 : safe_ground_velocity( true );
     float cur_load_approx = static_cast<float>( std::min( accel_demand,
                             opt_accel ) )  / std::max( opt_accel, 1 );
     float cur_load_alternator = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
 
-    cur_state.engines_hash = 31 * c_engines.size();
-
     for( size_t i = 0; i < c_engines.size(); ++i ) {
-        cur_state.engines_hash += i * c_engines[i] * 13;
-
         if( is_engine_on( c_engines[i] ) ) {
             prev_mask |= 1 << i;
             bool is_electric = is_engine_type( c_engines[i], fuel_type_battery );
@@ -222,7 +226,6 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
         }
     }
     cur_state.created = calendar::turn;
-    cur_state.engines_mask = prev_mask;
     cur_state.battery_percent = battery_level_percent;
     cur_state.battery_net_charge_rate = opt_net_echarge_rate;
     cur_state.velocity = avg_velocity;
@@ -239,9 +242,7 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
         std::abs( smart_controller_state->velocity - cur_state.velocity ) < 100 &&
         std::abs( smart_controller_state->battery_percent - cur_state.battery_percent ) <= 2 &&
         std::abs( smart_controller_state->load - cur_state.load ) < 0.1 && // load diff < 10%
-        smart_controller_state->engines_hash == cur_state.engines_hash &&
         smart_controller_state->battery_net_charge_rate == cur_state.battery_net_charge_rate &&
-        smart_controller_state->engines_mask == cur_state.engines_mask &&
         // reevaluate cache if when cache was created, gas engine shutdown was forbidden, but now it's not
         !( smart_controller_state->gas_engine_shutdown_forbidden && !gas_engine_shutdown_forbidden )
       ) {
@@ -271,8 +272,8 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
             continue; // skip checking this state
         }
 
-        bool safe_vel = safe_ground_velocity( true );
-        int accel = current_acceleration() * traction;
+        bool safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
+        int accel = is_stationary ? 1 : current_acceleration() * traction;
         int fuel_usage = 0;
         int net_echarge_rate = net_battery_charge_rate_w();
         float load_approx = static_cast<float>( std::min( accel_demand, accel ) ) / std::max( accel, 1 );
@@ -313,7 +314,6 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
             opt_accel = accel;
             opt_safe_vel = safe_vel;
 
-            cur_state.engines_mask = mask;
             cur_state.battery_net_charge_rate = net_echarge_rate;
             cur_state.load = load_approx + load_approx_alternator;
             // other `cur_state` fields do not change for different engine state combinations

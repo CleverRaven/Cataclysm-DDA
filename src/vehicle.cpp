@@ -5582,6 +5582,7 @@ void vehicle::refresh()
     int railwheel_ymax = INT_MIN;
 
     has_enabled_smart_controller = false;
+    smart_controller_state = cata::nullopt;
 
     bool refresh_done = false;
 
