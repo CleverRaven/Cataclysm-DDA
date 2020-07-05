@@ -304,7 +304,8 @@ void Item_modifier::modify( item &new_item ) const
                 charges_max );
     } else if( !cont.is_null() && new_item.made_of( phase_id::LIQUID ) ) {
         new_item.charges = std::max( 1, max_capacity );
-    } else if( new_item.is_magazine() ) {
+    }
+    if( new_item.is_magazine() && charges_not_set ) {
         itype_id ammo = new_item.ammo_default();
         if( ammo ) {
             new_item.ammo_set( ammo, rng( 0, new_item.ammo_capacity( ammo->ammo->type ) ) );
@@ -320,9 +321,12 @@ void Item_modifier::modify( item &new_item ) const
         } else if( new_item.is_tool() ) {
             if( !new_item.magazine_default().is_null() ) {
                 // pick a random magazine
-                // todo: make certain magazine rarer
                 auto magset = new_item.magazine_compatible();
                 item mag = item( random_entry( magset ) );
+                // if atomic battery is picked, roll again
+                if( mag.typeId().str().find( "atomic" ) != std::string::npos ) {
+                    mag = item( random_entry( magset ) );
+                }
                 mag.ammo_set( mag.ammo_default(), ch );
                 new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
             } else if( new_item.is_magazine() ) {
@@ -371,6 +375,9 @@ void Item_modifier::modify( item &new_item ) const
         if( spawn_mag ) {
             auto magset = new_item.magazine_compatible();
             item mag = item( random_entry( magset ), new_item.birthday() );
+            if( mag.typeId().str().find( "atomic" ) != std::string::npos ) {
+                mag = item( random_entry( magset ) );
+            }
             if( spawn_ammo ) {
                 mag.ammo_set( mag.ammo_default() );
             }
@@ -386,8 +393,12 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( !cont.is_null() ) {
-        cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
-        cont.seal();
+        if( new_item.is_magazine() ) {
+            cont.put_in( new_item, item_pocket::pocket_type::MAGAZINE_WELL );
+        } else {
+            cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
+            cont.seal();
+        }
         new_item = cont;
     }
 
