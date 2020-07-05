@@ -2044,7 +2044,7 @@ void options_manager::add_options_world_default()
 
     add( "NPC_DENSITY", "world_default", translate_marker( "NPC spawn rate scaling factor" ),
          translate_marker( "A scaling factor that determines density of dynamic NPC spawns." ),
-         0.0, 100.0, 0.1, 0.01
+         0.0, 100.0, 1.0, 0.01
        );
 
     add( "MONSTER_UPGRADE_FACTOR", "world_default",
@@ -2113,26 +2113,6 @@ void options_manager::add_options_world_default()
 
     add( "BLACK_ROAD", "world_default", translate_marker( "Surrounded start" ),
          translate_marker( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
-         false
-       );
-
-    add_empty_line();
-
-    add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
-         translate_marker( "If true, static NPCs will spawn at pre-defined locations.  Requires world reset." ),
-         true
-       );
-
-    add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
-         translate_marker( "Determines whether starting NPCs should spawn, and if they do, how exactly." ),
-    { { "never", translate_marker( "Never" ) }, { "always", translate_marker( "Always" ) }, { "scenario", translate_marker( "Scenario-based" ) } },
-    "scenario"
-       );
-
-    get_option( "STARTING_NPC" ).setPrerequisite( "STATIC_NPC" );
-
-    add( "RANDOM_NPC", "world_default", translate_marker( "Random NPCs" ),
-         translate_marker( "If true, the game will randomly spawn NPCs during gameplay." ),
          false
        );
 
