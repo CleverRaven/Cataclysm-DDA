@@ -377,7 +377,19 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
         REQUIRE( briefcase.contents.all_pockets_rigid() );
         CHECK( item_info_str( briefcase, encumbrance ) ==
                "--\n"
-               "<color_c_white>Encumbrance</color>: <color_c_yellow>30</color>\n" );
+               "<color_c_white>Encumbrance</color>:\n"
+               "L. Arm:  <color_c_yellow>30</color>  "
+               "When Full:  <color_c_yellow>30</color>  "
+               "Coverage:  <color_c_yellow>10</color>\n"
+               "R. Arm:  <color_c_yellow>30</color>  "
+               "When Full:  <color_c_yellow>30</color>  "
+               "Coverage:  <color_c_yellow>10</color>\n"
+               "L. Hand:  <color_c_yellow>30</color>  "
+               "When Full:  <color_c_yellow>30</color>  "
+               "Coverage:  <color_c_yellow>10</color>\n"
+               "R. Hand:  <color_c_yellow>30</color>  "
+               "When Full:  <color_c_yellow>30</color>  "
+               "Coverage:  <color_c_yellow>10</color>\n" );
     }
 
     SECTION( "non-rigid items indicate their flexible volume/encumbrance" ) {
@@ -412,20 +424,32 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
             // based on the pocket "max_contains_volume" (1 encumbrance per 250 ml).
             CHECK( item_info_str( waterskin, encumbrance ) ==
                    "--\n"
-                   "<color_c_white>Encumbrance</color>: <color_c_yellow>0</color>"
-                   "  Encumbrance when full: <color_c_yellow>6</color>\n" );
+                   "<color_c_white>Encumbrance</color>:\n"
+                   "L. Leg:  <color_c_yellow>0</color>  "
+                   "When Full:  <color_c_yellow>6</color>  "
+                   "Coverage:  <color_c_yellow>5</color>\n"
+                   "R. Leg:  <color_c_yellow>0</color>  "
+                   "When Full:  <color_c_yellow>6</color>  "
+                   "Coverage:  <color_c_yellow>5</color>\n" );
 
             // test_backpack has an explicit "encumbrance" and "max_encumbrance"
             CHECK( item_info_str( backpack, encumbrance ) ==
                    "--\n"
-                   "<color_c_white>Encumbrance</color>: <color_c_yellow>2</color>"
-                   "  Encumbrance when full: <color_c_yellow>15</color>\n" );
+                   "<color_c_white>Encumbrance</color>:\n"
+                   "Torso:  <color_c_yellow>2</color>  "
+                   "When Full:  <color_c_yellow>15</color>  "
+                   "Coverage:  <color_c_yellow>30</color>\n" );
 
             // quiver has no volume, only an implicit volume via ammo
             CHECK( item_info_str( quiver, encumbrance ) ==
                    "--\n"
-                   "<color_c_white>Encumbrance</color>: <color_c_yellow>3</color>"
-                   "  Encumbrance when full: <color_c_yellow>11</color>\n" );
+                   "<color_c_white>Encumbrance</color>:\n"
+                   "L. Leg:  <color_c_yellow>3</color>  "
+                   "When Full:  <color_c_yellow>11</color>  "
+                   "Coverage:  <color_c_yellow>10</color>\n"
+                   "R. Leg:  <color_c_yellow>3</color>  "
+                   "When Full:  <color_c_yellow>11</color>  "
+                   "Coverage:  <color_c_yellow>10</color>\n" );
         }
     }
 }
@@ -648,9 +672,13 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "num_bp" ) ) == 3 );
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
                "--\n"
-               "<color_c_white>Encumbrance</color>:"
-               " <color_c_yellow>3</color>"
-               " <color_c_red>(poor fit)</color>\n" );
+               "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
+               "Torso:  <color_c_yellow>3</color>  "
+               "When Full:  <color_c_yellow>3</color>  "
+               "Coverage:  <color_c_yellow>90</color>\n"
+               "Arms:  <color_c_yellow>3</color>  "
+               "When Full:  <color_c_yellow>3</color>  "
+               "Coverage:  <color_c_yellow>90</color>\n" );
     }
 
     SECTION( "armor with no coverage omits irrelevant info" ) {
