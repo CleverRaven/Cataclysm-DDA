@@ -268,8 +268,8 @@ TEST_CASE( "hunger" )
     if( print_tests ) {
         printf( "%d minutes til hunger sets in\n", hunger_time );
     }
-    CHECK( hunger_time <= 375 );
-    CHECK( hunger_time >= 345 );
+    CHECK( hunger_time <= 285 );
+    CHECK( hunger_time >= 255 );
     if( print_tests ) {
         print_stomach_contents( dummy, print_tests );
         printf( "eat 16 veggy\n" );
