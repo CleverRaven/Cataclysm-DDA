@@ -293,17 +293,17 @@
     "type": "item_group",
     "//": "all enchanted miscellanious items",
     "items": [
-      [ "heat_cube", 100 ],
-      [ "mkey_opening", 100 ],
-      [ "mtorch_everburning", 100 ],
-      [ "mflask_hip_whiskey", 100 ],
-      [ "mtailors_kit", 100 ],
-      [ "mspider_box", 100 ],
-      [ "cauldron_demon_chitin", 20 ],
-      [ "fridge_holding_1", 12 ],
-      [ "bag_holding_1", 8 ],
-      [ "bag_holding_2", 1 ],
-      [ "cauldron_orichalcum", 100 ]
+      [ "item": "heat_cube", 100 ],
+      [ "item": "mkey_opening", 100 ],
+      [ "item": "mtorch_everburning", 100 ],
+      [ "item": "mflask_hip_whiskey", 100 ],
+      [ "item": "mtailors_kit", 100 ],
+      [ "item": "mspider_box", 100 ],
+      [ "item": "cauldron_demon_chitin", 20 ],
+      [ "item": "fridge_holding_1", 12 ],
+      [ "item": "bag_holding_1", 8 ],
+      [ "item": "bag_holding_2", 1 ],
+      [ "item": "cauldron_orichalcum", 100 ]
     ]
   },
   {
