@@ -335,7 +335,7 @@
     "price": 12500,
     "price_postapoc": 7000,
     "bashing": 3,
-    "material": [ "leather", "steel"],
+    "material": [ "leather", "steel" ],
     "symbol": "[",
     "looks_like": "bscabbard",
     "color": "brown",
