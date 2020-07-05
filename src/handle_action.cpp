@@ -110,9 +110,10 @@ static const bionic_id bio_remote( "bio_remote" );
 
 static const trait_id trait_HIBERNATE( "HIBERNATE" );
 static const trait_id trait_PROF_CHURL( "PROF_CHURL" );
-static const trait_id trait_PROF_HELI_PILOT( "PROF_HELI_PILOT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_WAYFARER( "WAYFARER" );
+
+static const proficiency_id proficiency_prof_helicopter_pilot( "prof_helicopter_pilot" );
 
 static const std::string flag_LITCIG( "LITCIG" );
 static const std::string flag_LOCKED( "LOCKED" );
@@ -436,7 +437,7 @@ static void pldrive( const tripoint &p )
         }
     }
     if( p.z != 0 ) {
-        if( !u.has_trait( trait_PROF_HELI_PILOT ) ) {
+        if( !u.has_proficiency( proficiency_prof_helicopter_pilot ) ) {
             u.add_msg_if_player( m_info, _( "You have no idea how to make the vehicle fly." ) );
             return;
         }

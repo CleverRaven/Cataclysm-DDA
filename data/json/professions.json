@@ -1121,7 +1121,7 @@
     "description": "You got your pilot's license, and earned a living ferrying businessmen and tourists around.  The Cataclysm has grounded you for now, but the sky still calls to you…",
     "points": 4,
     "skills": [ { "level": 4, "name": "driving" }, { "level": 1, "name": "speech" }, { "level": 3, "name": "mechanics" } ],
-    "traits": [ "PROF_HELI_PILOT" ],
+    "proficiencies": [ "prof_helicopter_pilot" ],
     "items": {
       "both": {
         "items": [ "pants_cargo", "socks", "polo_shirt", "boots", "wristwatch", "fancy_sunglasses" ],
@@ -2248,6 +2248,7 @@
     "description": "You ran into trouble coming out of class at your community college's metalsmithing program, but despite the havoc you've managed to keep ahold of some of the equipment you were carrying.",
     "points": 1,
     "skills": [ { "level": 4, "name": "fabrication" } ],
+    "proficiencies": [ "prof_blacksmithing" ],
     "items": {
       "both": {
         "items": [ "jeans", "socks", "boots", "tank_top", "apron_leather", "fire_gauntlets", "wristwatch", "hammer" ],
@@ -3140,6 +3141,7 @@
       { "level": 2, "name": "chemistry" },
       { "level": 3, "name": "cooking" }
     ],
+    "proficiencies": [ "prof_knapping" ],
     "items": {
       "both": {
         "items": [
@@ -4107,7 +4109,7 @@
       { "level": 3, "name": "mechanics" },
       { "level": 3, "name": "gun" }
     ],
-    "traits": [ "PROF_HELI_PILOT" ],
+    "proficiencies": [ "prof_helicopter_pilot" ],
     "items": {
       "both": {
         "items": [
