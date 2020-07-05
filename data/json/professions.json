@@ -15,13 +15,13 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_cell_phone",
-    "entries": [ { "item": "light_plus_battery_cell", "ammo-item": "battery", "charges": 150, "container-item": "cell_phone" } ]
+    "entries": [ { "item": "cell_phone", "ammo-item": "battery", "charges": 150 } ]
   },
   {
     "type": "item_group",
     "subtype": "collection",
     "id": "charged_smart_phone",
-    "entries": [ { "item": "smart_phone", "ammo-item": "battery", "charges": 120 } ]
+    "entries": [ { "item": "smart_phone", "ammo-item": "battery", "charges": 150 } ]
   },
   {
     "type": "item_group",
