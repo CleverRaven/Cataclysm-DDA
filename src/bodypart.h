@@ -132,6 +132,8 @@ struct body_part_type {
 
         bool is_limb = false;
 
+        int drench_max;
+
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
@@ -200,6 +202,9 @@ class bodypart
         int hp_cur;
         int hp_max;
 
+        int drench_capacity;
+        int wetness = 0;
+
         int healed_total = 0;
         int damage_bandaged = 0;
         int damage_disinfected = 0;
@@ -207,19 +212,24 @@ class bodypart
         encumbrance_data encumb_data;
 
     public:
-        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
-        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp )  {}
+        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ), drench_capacity( 0 ) {}
+        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
+            drench_capacity( id->drench_max )  {}
 
         bodypart_id get_id() const;
 
         void set_hp_to_max();
         bool is_at_max_hp() const;
 
+        float get_wetness_percentage() const;
+
         int get_hp_cur() const;
         int get_hp_max() const;
         int get_healed_total() const;
         int get_damage_bandaged() const;
         int get_damage_disinfected() const;
+        int get_drench_capacity() const;
+        int get_wetness() const;
 
         encumbrance_data get_encumbrance_data() const;
 
@@ -228,6 +238,7 @@ class bodypart
         void set_healed_total( int set );
         void set_damage_bandaged( int set );
         void set_damage_disinfected( int set );
+        void set_wetness( int set );
 
         void set_encumbrance_data( encumbrance_data set );
 
@@ -236,6 +247,7 @@ class bodypart
         void mod_healed_total( int mod );
         void mod_damage_bandaged( int mod );
         void mod_damage_disinfected( int mod );
+        void mod_wetness( int mod );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

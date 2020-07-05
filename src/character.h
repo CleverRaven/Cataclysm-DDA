@@ -2571,8 +2571,6 @@ class Character : public Creature, public visitable<Character>
     public:
         // TODO: make these private
         std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
-        std::array<int, num_bp> body_wetness;
-        std::array<int, num_bp> drench_capacity;
 
         time_point next_climate_control_check;
         bool last_climate_control_ret;

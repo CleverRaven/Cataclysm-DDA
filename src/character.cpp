@@ -453,20 +453,6 @@ Character::Character() :
     frostbite_timer.fill( 0 );
     temp_conv.fill( BODYTEMP_NORM );
 
-    body_wetness.fill( 0 );
-
-    drench_capacity[bp_eyes] = 1;
-    drench_capacity[bp_mouth] = 1;
-    drench_capacity[bp_head] = 7;
-    drench_capacity[bp_leg_l] = 11;
-    drench_capacity[bp_leg_r] = 11;
-    drench_capacity[bp_foot_l] = 3;
-    drench_capacity[bp_foot_r] = 3;
-    drench_capacity[bp_arm_l] = 10;
-    drench_capacity[bp_arm_r] = 10;
-    drench_capacity[bp_hand_l] = 3;
-    drench_capacity[bp_hand_r] = 3;
-    drench_capacity[bp_torso] = 40;
 }
 // *INDENT-ON*
 
@@ -5982,7 +5968,7 @@ void Character::update_bodytemp()
             bp == bodypart_id( "foot_l" ) || bp == bodypart_id( "hand_r" ) || bp == bodypart_id( "hand_l" ) ) {
             // Handle the frostbite timer
             // Need temps in F, windPower already in mph
-            int wetness_percentage = 100 * body_wetness[bp->token] / drench_capacity[bp->token]; // 0 - 100
+            int wetness_percentage = 100 * get_part_wetness_percentage( bp ); // 0 - 100
             // Warmth gives a slight buff to temperature resistance
             // Wetness gives a heavy nerf to temperature resistance
             double adjusted_warmth = warmth( bp ) - wetness_percentage;
@@ -10002,7 +9988,7 @@ int Character::warmth( const bodypart_id &bp ) const
             // Wool items do not lose their warmth due to being wet.
             // Warmth is reduced by 0 - 66% based on wetness.
             if( !i.made_of( material_id( "wool" ) ) ) {
-                warmth *= 1.0 - 0.66 * body_wetness[bp->token] / drench_capacity[bp->token];
+                warmth *= 1.0 - 0.66 * get_part_wetness_percentage( bp );
             }
             ret += warmth;
         }

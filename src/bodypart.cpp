@@ -224,6 +224,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "stat_hp_mods", hp_mods );
 
     optional( jo, was_loaded, "is_limb", is_limb, false );
+    mandatory( jo, was_loaded, "drench_capacity", drench_max );
 
     mandatory( jo, was_loaded, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
@@ -408,6 +409,11 @@ bool bodypart::is_at_max_hp() const
     return hp_cur == hp_max;
 }
 
+float bodypart::get_wetness_percentage() const
+{
+    return static_cast<float>( wetness / drench_capacity );
+}
+
 int bodypart::get_hp_cur() const
 {
     return hp_cur;
@@ -436,6 +442,16 @@ int bodypart::get_damage_disinfected() const
 encumbrance_data bodypart::get_encumbrance_data() const
 {
     return encumb_data;
+}
+
+int bodypart::get_drench_capacity() const
+{
+    return drench_capacity;
+}
+
+int bodypart::get_wetness() const
+{
+    return wetness;
 }
 
 void bodypart::set_hp_cur( int set )
@@ -468,6 +484,11 @@ void bodypart::set_encumbrance_data( encumbrance_data set )
     encumb_data = set;
 }
 
+void bodypart::set_wetness( int set )
+{
+    wetness = set;
+}
+
 void bodypart::mod_hp_cur( int mod )
 {
     hp_cur += mod;
@@ -491,6 +512,11 @@ void bodypart::mod_damage_bandaged( int mod )
 void bodypart::mod_damage_disinfected( int mod )
 {
     damage_disinfected += mod;
+}
+
+void bodypart::mod_wetness( int mod )
+{
+    wetness += mod;
 }
 
 void bodypart::serialize( JsonOut &json ) const
