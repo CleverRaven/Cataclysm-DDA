@@ -858,7 +858,7 @@ itype_id new_artifact()
                     def.weight = 1_gram;
                 }
 
-                def.armor->data.push_back( { modinfo.encumb, modinfo.max_encumb, modinfo.coverage } );
+                def.armor->data.push_back( { modinfo.encumb, modinfo.max_encumb, modinfo.coverage, {} } );
 
                 if( modinfo.thickness > 0 || def.armor->thickness > std::abs( modinfo.thickness ) ) {
                     def.armor->thickness += modinfo.thickness;
@@ -1270,7 +1270,7 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     item_tags = jo.get_tags( "item_flags" );
 
     // Old saves don't have max_encumber, so set it to base encumbrance value
-    armor->data.push_back( { jo.get_int( "encumber" ), jo.get_int( "max_encumber", jo.get_int( "encumber" ) ), jo.get_int( "coverage" ) } );
+    armor->data.push_back( { jo.get_int( "encumber" ), jo.get_int( "max_encumber", jo.get_int( "encumber" ) ), jo.get_int( "coverage" ), {} } );
 
     // A horrible solution to the required change here, but it works for now
     jo.read( "covers", armor->data[0].covers );
