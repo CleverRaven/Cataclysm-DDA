@@ -574,6 +574,24 @@
     "components": [ [ [ "leather", 8 ], [ "tanned_hide", 1 ] ] ]
   },
   {
+    "result": "rail_quiver",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 5,
+    "skills_required": [ "gun", 4 ],
+    "time": "40 m",
+    "reversible": true,
+    "decomp_learn": 3,
+    "autolearn": true,
+    "book_learn": [ [ "recipe_arrows", 4 ] ],
+    "using": [ [ "sewing_standard", 16 ], [ "steel_tiny", 6 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 2 } ],
+    "tools": [ [ [ "welder", 30 ], [ "welder_crude", 40 ], [ "soldering_iron", 40 ], [ "toolset", 40 ] ] ],
+    "components": [ [ [ "leather", 10 ], [ "tanned_hide", 1 ] ] ]
+  },
+  {
     "result": "quiver_large_birchbark",
     "type": "recipe",
     "category": "CC_ARMOR",
