@@ -929,134 +929,78 @@ void player::hardcoded_effects( effect &it )
         if( vitamin_get( vitamin_blood ) == -5000 ) {
             bleed_out();
         }
-        if( one_in( 900 / intense ) && !in_sleep_state() ) {
-            // Hypovolemic shock
-            // stage 1 - early symptoms include headache, fatigue, weakness, thirst, and dizziness.
-            if( intense >= 1 ) {
-                switch( dice( 1, 6 ) ) {
+
+        // Hypovolemic shock
+        // stage 1 - early symptoms include headache, fatigue, weakness, thirst, and dizziness.
+        // stage 2 - person may begin sweating and feeling more anxious and restless.
+        // stage 3 - heart rate will increase to over 120 bpm; rapid breathing
+        // mental distress, including anxiety and agitation; skin is pale and cold + cyanosis, sweating
+        // stage 4 is a life threatening condition; extremely rapid heart rate, breathing very fast and difficult
+        // drifting in and out of consciousness, sweating heavily, feeling cool to the touch, looking extremely pale
+
+        if( one_in( 1200 / intense ) && !in_sleep_state() ) {
+            std::string warning;
+
+            if( one_in( 5 ) ) {
+                // no-effect message block
+                if( intense == 1 ) {
+                    warning = _( "Your skin looks pale and you feel anxious and thirsty.  Blood loss?" );
+                } else if( intense == 2 ) {
+                    warning = _( "Your pale skin is sweating, your heart beats fast and you feel restless.  Maybe you lost too much blood?" );
+                } else if( intense == 3 ) {
+                    warning = _( "You're unsettlingly white, but your fingetips are bluish.  You are agitated and your heart is racing.  Your blood loss must be serious." );
+                } else { //intense == 4
+                    warning = _( "You are pale as a ghost, dripping wet from the sweat, and sluggish despite your heart racing like a train.  You are on a brink of colapse from effects of a bood loss." );
+                }
+                add_msg_if_player( m_bad, warning );
+            } else {
+                // effect dice, with progresion of effects, 3 possible effects per tier
+                int dice_roll = rng( 0, 2 ) + intense;
+                switch( dice_roll ) {
                     case 1:
-                        add_msg_if_player( m_bad, _( "Your skin looks pale." ) );
+                        warning = _( "You feel dizzy and lightheaded." );
+                        add_effect( effect_stunned, rng( 5_seconds * intense, 2_minutes * intense ) );
                         break;
                     case 2:
-                        add_msg_if_player( m_bad, _( "You suddenly feel anxious for a moment." ) );
+                        warning = _( "You feel tired and you breathe heavily." );
+                        mod_fatigue( 3 * intense );
                         break;
                     case 3:
-                        add_msg_if_player( m_bad, _( "You suddenly feel thirsty." ) );
-                        mod_thirst( 5 );
-                        break;
+                        warning = _( "You are anxcious and cannot collect your thoughts." );
+                        focus_pool -= rng( 1, focus_pool * intense / it.get_max_intensity() );
                     case 4:
-                        add_msg_if_player( m_bad, _( "You feel dizzy and lightheaded." ) );
-                        add_effect( effect_stunned, rng( 15_seconds, 2_minutes ) );
+                        warning = _( "You are sweating profusely, but you feel cold." );
+                        temp_conv[bp_hand_l] -= 1000 * intense;
+                        temp_conv[bp_hand_r] -= 1000 * intense;
+                        temp_conv[bp_foot_l] -= 1000 * intense;
+                        temp_conv[bp_foot_r] -= 1000 * intense;
                         break;
                     case 5:
-                        add_msg_if_player( m_bad, _( "Your head aches." ) );
-                        mod_pain( 5 );
+                        warning = _( "You huff and puff.  Your breath is rapid and shallow." );
+                        mod_stamina( -500 * intense );
                         break;
                     case 6:
-                        add_msg_if_player( m_bad, _( "You feel tired and weak." ) );
-                        mod_fatigue( 3 );
-                        break;
+                        if( one_in( 2 ) ) {
+                            warning = _( "You drop to the ground, fighting to keep yourself conscious." );
+                            add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
+                            break;
+                        } else {
+                            warning = _( "Your mind slips away." );
+                            fall_asleep( rng( 2_minutes, 5_minutes ) );
+                            break;
+                        }
                 }
-            }
-            // stage 2 - person may begin sweating and feeling more anxious and restless.
-            if( intense >= 2 ) {
-                switch( dice( 1, 6 ) ) {
-                    case 1:
-                        add_msg_if_player( m_bad, _( "Your skin is abnormaly pale." ) );
-                        break;
-                    case 2:
-                        add_msg_if_player( m_bad, _( "You are sweating, but it's not from the temperature." ) );
-                        mod_thirst( 5 );
-                        break;
-                    case 3:
-                        add_msg_if_player( m_bad, _( "You feel anxious.  You are not well." ) );
-                        break;
-                    case 4:
-                        add_msg_if_player( m_bad, _( "You feel the beating of your hart.  It's fast." ) );
-                        break;
-                    case 5:
-                        add_msg_if_player( m_bad, _( "You breathe heavily." ) );
-                        mod_fatigue( 3 );
-                        break;
-                    case 6:
-                        add_msg_if_player( m_bad, _( "You feel restless.  Maybe you lost too much blood?" ) );
-                        break;
-                }
-            }
-            // stage 3 - heart rate will increase to over 120 bpm; rapid breathing
-            // mental distress, including anxiety and agitation; skin is pale and cold + cyanosis, sweating
-            if( intense >= 3 ) {
-                switch( dice( 1, 6 ) ) {
-                    case 1:
-                        add_msg_if_player( m_bad, _( "Your heart is racing like a train." ) );
-                        break;
-                    case 2:
-                        add_msg_if_player( m_bad, _( "You huff and puff.  Your breath is rapid and shallow." ) );
-                        mod_stamina( -500 );
-                        break;
-                    case 3:
-                        add_msg_if_player( m_bad, _( "You are frightened and cannot collect your thoughts." ) );
-                        focus_pool -= rng( 1, focus_pool / 2 );
-                        break;
-                    case 4:
-                        add_msg_if_player( m_bad,
-                                           _( "Your skin is unsettlingly white, and your fingertips became blueish." ) );
-                        break;
-                    case 5:
-                        add_msg_if_player( m_bad, _( "You are sweating profusely, but you feel cold." ) );
-                        temp_conv[bp_hand_l] -= 1000;
-                        temp_conv[bp_hand_r] -= 1000;
-                        temp_conv[bp_foot_l] -= 1000;
-                        temp_conv[bp_foot_r] -= 1000;
-                        break;
-                    case 6:
-                        add_msg_if_player( m_bad,
-                                           _( "You are agitated.  You feel an urge do something, but what exactly?" ) );
-                        break;
-                }
-            }
-            // stage 4 is a life threatening condition; extremely rapid heart rate, breathing very fast and difficult
-            // drifting in and out of consciousness, sweating heavily, feeling cool to the touch, looking extremely pale
-            if( intense == 4 ) {
-                switch( dice( 1, 6 ) ) {
-                    case 1:
-                        add_msg_if_player( m_bad, _( "Your heart is racing like crazy, but you feel sluggish." ) );
-                        break;
-                    case 2:
-                        add_msg_if_player( m_bad, _( "You are pale as a ghost, and your limbs are cold as ice." ) );
-                        temp_conv[bp_hand_l] -= 2000;
-                        temp_conv[bp_hand_r] -= 2000;
-                        temp_conv[bp_foot_l] -= 2000;
-                        temp_conv[bp_foot_r] -= 2000;
-                        break;
-                    case 3:
-                        add_msg_if_player( m_bad, _( "You gasp for air!" ) );
-                        set_stamina( 0 );
-                        add_effect( effect_winded, rng( 30_seconds, 3_minutes ) );
-                        break;
-                    case 4:
-                        add_msg_if_player( m_bad, _( "You are dripping wet from the sweat." ) );
-                        break;
-                    case 5:
-                        add_msg_if_player( m_bad, _( "Your mind slips away." ) );
-                        fall_asleep( rng( 2_minutes, 5_minutes ) );
-                        break;
-                    case 6:
-                        add_msg_if_player( m_bad, _( "You drop to the ground, fighting to keep yourself conscious." ) );
-                        add_effect( effect_downed, rng( 1_minutes, 2_minutes ) );
-                        break;
-                }
+                add_msg_if_player( m_bad, warning );
             }
         }
         // this goes last because we don't want in_sleep_state to prevent you from dying
-        if( intense == 4 && one_in( 900 / intense ) &&
+        if( intense == 4 && one_in( 900 ) &&
             rng( 1, 3000 ) > ( 5000 + vitamin_get( vitamin_blood ) ) ) {
             bleed_out();
         }
     } else if( id == effect_anemia ) {
         // effects: reduces effective redcells regen and depletes redcells at high intensity
         if( calendar::once_every( vitamin_rate( vitamin_redcells ) ) ) {
-            add_msg( "%d", vitamin_get( vitamin_redcells ) );
             vitamin_mod( vitamin_redcells, -rng( 0, intense ) );
         }
     } else if( id == effect_redcells_anemia ) {
