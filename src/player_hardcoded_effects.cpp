@@ -970,6 +970,7 @@ void player::hardcoded_effects( effect &it )
                     case 3:
                         warning = _( "You are anxcious and cannot collect your thoughts." );
                         focus_pool -= rng( 1, focus_pool * intense / it.get_max_intensity() );
+                        break;
                     case 4:
                         warning = _( "You are sweating profusely, but you feel cold." );
                         temp_conv[bp_hand_l] -= 1000 * intense;
