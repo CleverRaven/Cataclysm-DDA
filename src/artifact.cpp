@@ -858,7 +858,7 @@ itype_id new_artifact()
                     def.weight = 1_gram;
                 }
 
-                def.armor->data.push_back( { modinfo.encumb, modinfo.max_encumb, modinfo.coverage, {} } );
+                def.armor->data.push_back( { modinfo.encumb, modinfo.max_encumb, modinfo.coverage, modinfo.covers } );
 
                 if( modinfo.thickness > 0 || def.armor->thickness > std::abs( modinfo.thickness ) ) {
                     def.armor->thickness += modinfo.thickness;
