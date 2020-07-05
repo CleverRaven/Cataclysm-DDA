@@ -1540,7 +1540,6 @@ void debug()
             smenu.query();
             bodypart_id part;
             int intensity = 0;
-            int duration = 0;
             switch( smenu.ret ) {
                 case 0:
                     part = bodypart_id( "torso" );
@@ -1564,7 +1563,7 @@ void debug()
                     break;
             }
             if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
-                u.make_bleed( part, 1_minutes * duration );
+                u.make_bleed( part, 1_minutes * intensity );
             }
         }
         break;
