@@ -1130,7 +1130,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     std::max( get_skill_level( making.skill_used ), 1 ) *
                     std::max( get_int(), 1 );
                 const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
-                if( x_in_y( making.time, time_to_learn ) ) {
+                if( x_in_y( making.time_to_craft_moves(), time_to_learn ) ) {
                     learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
                              making.result_name() );
@@ -2055,12 +2055,12 @@ bool player::disassemble( item_location target, bool interactive )
 
     if( activity.id() != ACT_DISASSEMBLE ) {
         if( num_dis != 0 ) {
-            assign_activity( ACT_DISASSEMBLE, r.time * num_dis );
+            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves() * num_dis );
         } else {
-            assign_activity( ACT_DISASSEMBLE, r.time );
+            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves() );
         }
     } else if( activity.moves_left <= 0 ) {
-        activity.moves_left = r.time;
+        activity.moves_left = r.time_to_craft_moves();
     }
 
     // index is used as a bool that indicates if we want recursive uncraft.
@@ -2144,7 +2144,7 @@ void player::complete_disassemble()
         return;
     }
 
-    activity.moves_left = next_recipe.time;
+    activity.moves_left = next_recipe.time_to_craft_moves();
 }
 
 void player::complete_disassemble( item_location &target, const recipe &dis )

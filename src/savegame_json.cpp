@@ -544,7 +544,6 @@ void Character::load( const JsonObject &data )
     // health
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
-    data.read( "healed_24h", healed_total );
 
     // status
     temp_cur.fill( 5000 );
@@ -563,10 +562,7 @@ void Character::load( const JsonObject &data )
     data.read( "stim", stim );
     data.read( "stamina", stamina );
 
-    data.read( "damage_bandaged", damage_bandaged );
-    data.read( "damage_disinfected", damage_disinfected );
     data.read( "magic", magic );
-    JsonArray parray;
 
     data.read( "underwater", underwater );
 
@@ -645,7 +641,42 @@ void Character::load( const JsonObject &data )
         set_part_hp_cur( bodypart_id( "leg_r" ), hp_cur[5] );
         set_part_hp_max( bodypart_id( "leg_r" ), hp_max[5] );
     }
-
+    if( data.has_array( "damage_bandaged" ) ) {
+        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_body();
+        std::array<int, 6> damage_bandaged;
+        data.read( "damage_bandaged", damage_bandaged );
+        set_part_damage_bandaged( bodypart_id( "head" ), damage_bandaged[0] );
+        set_part_damage_bandaged( bodypart_id( "torso" ), damage_bandaged[1] );
+        set_part_damage_bandaged( bodypart_id( "arm_l" ), damage_bandaged[2] );
+        set_part_damage_bandaged( bodypart_id( "arm_r" ), damage_bandaged[3] );
+        set_part_damage_bandaged( bodypart_id( "leg_l" ), damage_bandaged[4] );
+        set_part_damage_bandaged( bodypart_id( "leg_r" ), damage_bandaged[5] );
+    }
+    if( data.has_array( "damage_disinfected" ) ) {
+        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_body();
+        std::array<int, 6> damage_disinfected;
+        data.read( "damage_disinfected", damage_disinfected );
+        set_part_damage_disinfected( bodypart_id( "head" ), damage_disinfected[0] );
+        set_part_damage_disinfected( bodypart_id( "torso" ), damage_disinfected[1] );
+        set_part_damage_disinfected( bodypart_id( "arm_l" ), damage_disinfected[2] );
+        set_part_damage_disinfected( bodypart_id( "arm_r" ), damage_disinfected[3] );
+        set_part_damage_disinfected( bodypart_id( "leg_l" ), damage_disinfected[4] );
+        set_part_damage_disinfected( bodypart_id( "leg_r" ), damage_disinfected[5] );
+    }
+    if( data.has_array( "healed_24h" ) ) {
+        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_body();
+        std::array<int, 6> healed_total;
+        data.read( "healed_24h", healed_total );
+        set_part_healed_total( bodypart_id( "head" ), healed_total[0] );
+        set_part_healed_total( bodypart_id( "torso" ), healed_total[1] );
+        set_part_healed_total( bodypart_id( "arm_l" ), healed_total[2] );
+        set_part_healed_total( bodypart_id( "arm_r" ), healed_total[3] );
+        set_part_healed_total( bodypart_id( "leg_l" ), healed_total[4] );
+        set_part_healed_total( bodypart_id( "leg_r" ), healed_total[5] );
+    }
 
     inv.clear();
     if( data.has_member( "inv" ) ) {
@@ -771,7 +802,6 @@ void Character::store( JsonOut &json ) const
     // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
-    json.member( "healed_24h", healed_total );
 
     // status
     json.member( "temp_cur", temp_cur );
@@ -901,9 +931,6 @@ void player::store( JsonOut &json ) const
     json.member( "in_vehicle", in_vehicle );
     json.member( "id", getID() );
 
-    // potential incompatibility with future expansion
-    json.member( "damage_bandaged", damage_bandaged );
-    json.member( "damage_disinfected", damage_disinfected );
     // "Looks like I picked the wrong week to quit smoking." - Steve McCroskey
     json.member( "addictions", addictions );
     json.member( "followers", follower_ids );
@@ -2515,6 +2542,14 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "enabled", enabled );
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
+    if( data.has_int( "z_offset" ) ) {
+        int z_offset = data.get_int( "z_offset" );
+        if( std::abs( z_offset ) > 10 ) {
+            data.throw_error( "z_offset out of range", "z_offset" );
+        }
+        precalc[0].z = z_offset;
+        precalc[1].z = z_offset;
+    }
     JsonArray ja = data.get_array( "carry" );
     // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
     for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
@@ -2588,6 +2623,9 @@ void vehicle_part::serialize( JsonOut &json ) const
     }
     json.member( "passenger_id", passenger_id );
     json.member( "crew_id", crew_id );
+    if( precalc[0].z ) {
+        json.member( "z_offset", precalc[0].z );
+    }
     json.member( "items", items );
     if( target.first != tripoint_min ) {
         json.member( "target_first_x", target.first.x );

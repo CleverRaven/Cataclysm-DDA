@@ -401,8 +401,6 @@ Character &get_player_character()
 Character::Character() :
 
     visitable<Character>(),
-    damage_bandaged( {{ 0 }} ),
-    damage_disinfected( {{ 0 }} ),
     cached_time( calendar::before_time_starts ),
     id( -1 ),
     next_climate_control_check( calendar::before_time_starts ),
@@ -440,7 +438,6 @@ Character::Character() :
     healthy_calories = 55000;
     stored_calories = healthy_calories;
     initialize_stomach_contents();
-    healed_total = { { 0, 0, 0, 0, 0, 0 } };
 
     name.clear();
     custom_profession.clear();
@@ -2454,10 +2451,6 @@ std::vector<item_location> Character::all_items_loc()
 std::vector<item_location> Character::top_items_loc()
 {
     std::vector<item_location> ret;
-    if( has_weapon() ) {
-        item_location weap_loc( *this, &weapon );
-        ret.push_back( weap_loc );
-    }
     for( item &worn_it : worn ) {
         item_location worn_loc( *this, &worn_it );
         ret.push_back( worn_loc );
@@ -4587,25 +4580,23 @@ void Character::regen( int rate_multiplier )
     }
 
     // include healing effects
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bodypart_id &bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
         float healing = healing_rate_medicine( rest, bp ) * to_turns<int>( 5_minutes );
-
         int healing_apply = roll_remainder( healing );
-        healed_bp( i, healing_apply );
+        mod_part_healed_total( bp, healing_apply );
         heal( bp, healing_apply );
-        if( damage_bandaged[i] > 0 ) {
-            damage_bandaged[i] -= healing_apply;
-            if( damage_bandaged[i] <= 0 ) {
-                damage_bandaged[i] = 0;
+        if( get_part_damage_bandaged( bp ) > 0 ) {
+            mod_part_damage_bandaged( bp, -healing_apply );
+            if( get_part_damage_bandaged( bp ) <= 0 ) {
+                set_part_damage_bandaged( bp, 0 );
                 remove_effect( effect_bandaged, bp->token );
                 add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
-        if( damage_disinfected[i] > 0 ) {
-            damage_disinfected[i] -= healing_apply;
-            if( damage_disinfected[i] <= 0 ) {
-                damage_disinfected[i] = 0;
+        if( get_part_damage_disinfected( bp ) > 0 ) {
+            mod_part_damage_disinfected( bp, -healing_apply );
+            if( get_part_damage_disinfected( bp ) <= 0 ) {
+                set_part_damage_disinfected( bp, 0 );
                 remove_effect( effect_disinfected, bp->token );
                 add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
             }
@@ -4613,12 +4604,12 @@ void Character::regen( int rate_multiplier )
 
         // remove effects if the limb was healed by other way
         if( has_effect( effect_bandaged, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
-            damage_bandaged[i] = 0;
+            set_part_damage_bandaged( bp, 0 );
             remove_effect( effect_bandaged, bp->token );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
         if( has_effect( effect_disinfected, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
-            damage_disinfected[i] = 0;
+            set_part_damage_disinfected( bp, 0 );
             remove_effect( effect_disinfected, bp->token );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
         }
@@ -7687,8 +7678,10 @@ bool Character::invoke_item( item *used, const std::string &method )
 
 bool Character::invoke_item( item *used, const std::string &method, const tripoint &pt )
 {
-    if( !has_enough_charges( *used, true ) || ( used->is_medication() &&
-            !can_use_heal_item( *used ) ) ) {
+    if( !has_enough_charges( *used, true ) ) {
+        return false;
+    }
+    if( used->is_medication() && !can_use_heal_item( *used ) ) {
         add_msg_if_player( m_bad, _( "Your biology is not compatible with that healing item." ) );
         return false;
     }
@@ -7705,7 +7698,6 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return false;
     }
     // Prevent accessing the item as it may have been deleted by the invoked iuse function.
-
     if( used->is_tool() || actually_used->is_medication() ) {
         return consume_charges( *actually_used, charges_used );
     } else if( used->is_bionic() || used->is_deployable() || method == "place_trap" ) {
@@ -8166,31 +8158,34 @@ tripoint Character::adjacent_tile() const
             // Don't consider player position
             continue;
         }
+        if( g->critter_at( p ) != nullptr ) {
+            continue;
+        }
+        if( here.impassable( p ) ) {
+            continue;
+        }
         const trap &curtrap = here.tr_at( p );
-        if( g->critter_at( p ) == nullptr && here.passable( p ) &&
-            ( curtrap.is_null() || curtrap.is_benign() ) ) {
-            // Only consider tile if unoccupied, passable and has no traps
-            dangerous_fields = 0;
-            auto &tmpfld = here.field_at( p );
-            for( auto &fld : tmpfld ) {
-                const field_entry &cur = fld.second;
-                if( cur.is_dangerous() ) {
-                    dangerous_fields++;
-                }
+        // If we don't known a trap here, the spot "appears" to be good, so consider it.
+        // Same if we know a benign trap (as it's not dangerous).
+        if( curtrap.can_see( p, *this ) && !curtrap.is_benign() ) {
+            continue;
+        }
+        // Only consider tile if unoccupied, passable and has no traps
+        dangerous_fields = 0;
+        auto &tmpfld = here.field_at( p );
+        for( auto &fld : tmpfld ) {
+            const field_entry &cur = fld.second;
+            if( cur.is_dangerous() ) {
+                dangerous_fields++;
             }
+        }
 
-            if( dangerous_fields == 0 ) {
-                ret.push_back( p );
-            }
+        if( dangerous_fields == 0 ) {
+            ret.push_back( p );
         }
     }
 
     return random_entry( ret, pos() ); // player position if no valid adjacent tiles
-}
-
-void Character::healed_bp( int bp, int amount )
-{
-    healed_total[bp] += amount;
 }
 
 void Character::set_fac_id( const std::string &my_fac_id )
@@ -8953,8 +8948,7 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
 int Character::hitall( int dam, int vary, Creature *source )
 {
     int damage_taken = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bodypart_id bp = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
         int ddam = vary ? dam * rng( 100 - vary, 100 ) / 100 : dam;
         int cut = 0;
         auto damage = damage_instance::physical( ddam, cut, 0 );
@@ -10793,6 +10787,11 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
     }
 
     return Attitude::NEUTRAL;
+}
+
+npc_attitude Character::get_attitude() const
+{
+    return NPCATT_NULL;
 }
 
 bool Character::sees( const tripoint &t, bool, int ) const

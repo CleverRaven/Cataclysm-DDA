@@ -871,9 +871,8 @@ void vehicle::handle_trap( const tripoint &p, int part )
         return;
     }
     const trap &tr = g->m.tr_at( p );
-    const trap_id t = tr.loadid;
 
-    if( t == tr_null ) {
+    if( tr.is_null() ) {
         // If the trap doesn't exist, we can't interact with it, so just return
         return;
     }
@@ -884,7 +883,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 
     const bool seen = g->u.sees( p );
-    const bool known = g->u.knows_trap( p );
+    const bool known = tr.can_see( p, g->u );
     if( seen ) {
         if( known ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
@@ -1277,7 +1276,7 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_di
     for( int part_index : wheelcache ) {
         const auto &wheel = parts[ part_index ];
         bool rails_ahead = true;
-        point wheel_point;
+        tripoint wheel_point;
         coord_translate( mdir.dir(), this->pivot_point(), wheel.mount,
                          wheel_point );
 
@@ -1595,6 +1594,54 @@ vehicle *vehicle::act_on_map()
     return g->m.move_vehicle( *this, dp, mdir );
 }
 
+bool vehicle::level_vehicle()
+{
+    map &here = get_map();
+    if( !here.has_zlevels() || ( is_flying && is_rotorcraft() ) ) {
+        return true;
+    }
+    // make sure that all parts are either supported across levels or on the same level
+    std::map<int, bool> no_support;
+    for( vehicle_part &prt : parts ) {
+        if( prt.info().location != part_location_structure ) {
+            continue;
+        }
+        const tripoint part_pos = global_part_pos3( prt );
+        if( no_support.find( part_pos.z ) == no_support.end() ) {
+            no_support[part_pos.z] = part_pos.z > -OVERMAP_DEPTH;
+        }
+        if( no_support[part_pos.z] ) {
+            no_support[part_pos.z] = here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, part_pos ) &&
+                                     !here.supports_above( part_pos + tripoint_below );
+        }
+    }
+    std::set<int> dropped_parts;
+    // if it's unsupported but on the same level, just let it fall
+    bool center_drop = false;
+    bool adjust_level = false;
+    if( no_support.size() > 1 ) {
+        for( int zlevel = -OVERMAP_DEPTH; zlevel <= OVERMAP_DEPTH; zlevel++ ) {
+            if( no_support.find( zlevel ) == no_support.end() || !no_support[zlevel] ) {
+                continue;
+            }
+            center_drop |= global_pos3().z == zlevel;
+            adjust_level = true;
+            // drop unsupported parts 1 zlevel
+            for( size_t prt = 0; prt < parts.size(); prt++ ) {
+                if( global_part_pos3( prt ).z == zlevel ) {
+                    dropped_parts.insert( static_cast<int>( prt ) );
+                }
+            }
+        }
+    }
+    if( adjust_level ) {
+        here.displace_vehicle( *this, tripoint_below, center_drop, dropped_parts );
+        return false;
+    } else {
+        return true;
+    }
+}
+
 void vehicle::check_falling_or_floating()
 {
     // TODO: Make the vehicle "slide" towards its center of weight
@@ -1616,13 +1663,14 @@ void vehicle::check_falling_or_floating()
     } else {
         is_flying = false;
     }
+
     size_t deep_water_tiles = 0;
     size_t water_tiles = 0;
     for( const tripoint &p : pts ) {
         if( is_falling ) {
             tripoint below( p.xy(), p.z - 1 );
-            is_falling &= g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) && ( p.z > -OVERMAP_DEPTH ) &&
-                          !g->m.supports_above( below );
+            is_falling &= g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) &&
+                          ( p.z > -OVERMAP_DEPTH ) && !g->m.supports_above( below );
         }
         deep_water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
         water_tiles += g->m.has_flag( TFLAG_SWIMMABLE, p ) ? 1 : 0;

@@ -1857,6 +1857,12 @@
   },
   {
     "type": "keybinding",
+    "name": "Workout",
+    "category": "DEFAULTMODE",
+    "id": "workout"
+  },
+  {
+    "type": "keybinding",
     "name": "Control Vehicle",
     "category": "DEFAULTMODE",
     "id": "control_vehicle",

@@ -583,7 +583,7 @@ TEST_CASE( "list sort and reverse", "[list]" )
     }
 
     SECTION( "greater than (predicate)" ) {
-        test_list.sort( std::greater<int>() );
+        test_list.sort( std::greater<>() );
 
         bool passed = true;
         int previous = 65535;

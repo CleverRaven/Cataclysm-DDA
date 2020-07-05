@@ -1348,8 +1348,12 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         // "return to AIM".
         do_return_entry();
         assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
+        // `inventory_item_menu` may call functions that move items, so we should
+        // always recalculate during this period to ensure all item references are valid
+        always_recalc = true;
         ret = g->inventory_item_menu( loc, info_startx, info_width,
                                       src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
+        always_recalc = false;
         if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
             exit = true;
         } else {
@@ -1432,6 +1436,10 @@ void advanced_inventory::display()
         ui->mark_resize();
 
         ui->on_redraw( [&]( const ui_adaptor & ) {
+            if( always_recalc ) {
+                recalc = true;
+            }
+
             redraw_pane( advanced_inventory::side::left );
             redraw_pane( advanced_inventory::side::right );
             redraw_sidebar();

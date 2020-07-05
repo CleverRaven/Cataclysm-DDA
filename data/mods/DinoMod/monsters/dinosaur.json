@@ -868,7 +868,7 @@
     "symbol": "D",
     "color": "magenta_green",
     "volume": "400000 ml",
-    "weight": 400000,
+    "weight": "400 kg",
     "material": [ "flesh" ],
     "aggression": 10,
     "morale": 30,

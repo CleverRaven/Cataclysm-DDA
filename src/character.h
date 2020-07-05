@@ -70,6 +70,7 @@ struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
 template <typename E> struct enum_traits;
+enum npc_attitude : int;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
@@ -345,6 +346,8 @@ class Character : public Creature, public visitable<Character>
         bool in_species( const species_id &spec ) const override;
         // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         bool death_drops;
+        // Is currently in control of a vehicle
+        bool controlling_vehicle = false;
 
         enum class comfort_level : int {
             impossible = -999,
@@ -1319,7 +1322,7 @@ class Character : public Creature, public visitable<Character>
         // returns a list of all item_location the character has, including items contained in other items.
         // only for CONTAINER pocket type; does not look for magazines
         std::vector<item_location> all_items_loc();
-        // Returns list of all the top level item_lodation the character has. Includes worn and held items.
+        // Returns list of all the top level item_lodation the character has. Includes worn items but excludes items held on hand.
         std::vector<item_location> top_items_loc();
         /** Return the item pointer of the item with given invlet, return nullptr if
          * the player does not have such an item with that invlet. Don't use this on npcs.
@@ -1702,7 +1705,6 @@ class Character : public Creature, public visitable<Character>
         bool male = false;
 
         std::list<item> worn;
-        std::array<int, num_hp_parts> damage_bandaged, damage_disinfected;
         bool nv_cached = false;
         // Means player sit inside vehicle on the tile he is now
         bool in_vehicle = false;
@@ -1924,11 +1926,6 @@ class Character : public Creature, public visitable<Character>
         void shout( std::string msg = "", bool order = false );
         /** Handles Character vomiting effects */
         void vomit();
-        // adds total healing to the bodypart. this is only a counter.
-        void healed_bp( int bp, int amount );
-
-        // the amount healed per bodypart per day
-        std::array<int, num_hp_parts> healed_total;
 
         std::map<std::string, int> mutation_category_level;
 
@@ -2209,6 +2206,8 @@ class Character : public Creature, public visitable<Character>
         float hearing_ability() const;
 
         using trap_map = std::map<tripoint, std::string>;
+        // Use @ref trap::can_see to check whether a character knows about a
+        // specific trap - it will consider visibile and known traps.
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
         /** Define color for displaying the body temperature */
@@ -2219,6 +2218,7 @@ class Character : public Creature, public visitable<Character>
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         Attitude attitude_to( const Creature &other ) const override;
+        virtual npc_attitude get_attitude() const;
 
         // used in debugging all health
         int get_lowest_hp() const;

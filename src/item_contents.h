@@ -243,6 +243,9 @@ class item_contents
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
 
         std::list<item_pocket> contents;
+
+        struct item_contents_helper;
+        friend struct item_contents_helper;
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

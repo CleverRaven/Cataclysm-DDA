@@ -3,10 +3,10 @@
 #include <string>
 #include <vector>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
+#include "character.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
@@ -27,7 +27,7 @@ static void clear_game_drag( const ter_id &terrain )
     clear_creatures();
     clear_npcs();
 
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     // Move player somewhere safe
     CHECK( !player_character.in_vehicle );
     player_character.setpos( tripoint_zero );

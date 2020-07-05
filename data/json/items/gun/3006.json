@@ -130,6 +130,7 @@
     ],
     "flags": [ "RELOAD_ONE" ],
     "pocket_data": [
+      { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 5 } },
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,

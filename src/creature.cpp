@@ -1519,6 +1519,16 @@ int Creature::get_part_healed_total( const bodypart_id &id ) const
     return get_part( id ).get_healed_total();
 }
 
+int Creature::get_part_damage_disinfected( const bodypart_id &id ) const
+{
+    return get_part( id ).get_damage_disinfected();
+}
+
+int Creature::get_part_damage_bandaged( const bodypart_id &id ) const
+{
+    return get_part( id ).get_damage_bandaged();
+}
+
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
     get_part( id )->set_hp_cur( set );
@@ -1534,6 +1544,16 @@ void Creature::set_part_healed_total( const bodypart_id &id, int set )
     get_part( id )->set_healed_total( set );
 }
 
+void Creature::set_part_damage_disinfected( const bodypart_id &id, int set )
+{
+    get_part( id )->set_damage_disinfected( set );
+}
+
+void Creature::set_part_damage_bandaged( const bodypart_id &id, int set )
+{
+    get_part( id )->set_damage_bandaged( set );
+}
+
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_hp_cur( mod );
@@ -1547,6 +1567,16 @@ void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
 void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_healed_total( mod );
+}
+
+void Creature::mod_part_damage_disinfected( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_damage_disinfected( mod );
+}
+
+void Creature::mod_part_damage_bandaged( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_damage_bandaged( mod );
 }
 
 void Creature::set_all_parts_hp_cur( const int set )

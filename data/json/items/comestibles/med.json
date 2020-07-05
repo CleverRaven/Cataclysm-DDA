@@ -10,6 +10,7 @@
     "price": 3000,
     "price_postapoc": 3000,
     "material": [ "plastic" ],
+    "ascii_picture": "1st_aid",
     "symbol": "!",
     "color": "red",
     "use_action": [ "DISASSEMBLE" ],

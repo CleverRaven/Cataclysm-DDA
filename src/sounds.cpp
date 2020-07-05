@@ -11,9 +11,9 @@
 #include <type_traits>
 #include <unordered_map>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "character.h"
 #include "coordinate_conversions.h"
 #include "creature.h"
 #include "debug.h"
@@ -647,7 +647,7 @@ int sfx::set_channel_volume( channel channel, int volume )
 void sfx::do_vehicle_engine_sfx()
 {
     static const channel ch = channel::interior_engine_sound;
-    const avatar &player_character = get_avatar();
+    const Character &player_character = get_player_character();
     if( !player_character.in_vehicle ) {
         fade_audio_channel( ch, 300 );
         add_msg( m_debug, "STOP interior_engine_sound, OUT OF CAR" );
@@ -768,7 +768,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
 {
     static const channel ch = channel::exterior_engine_sound;
     static const int ch_int = static_cast<int>( ch );
-    const avatar &player_character = get_avatar();
+    const Character &player_character = get_player_character();
     // early bail-outs for efficiency
     if( player_character.in_vehicle ) {
         fade_audio_channel( ch, 300 );
@@ -855,7 +855,7 @@ void sfx::do_vehicle_exterior_engine_sfx()
 
 void sfx::do_ambient()
 {
-    const avatar &player_character = get_avatar();
+    const Character &player_character = get_player_character();
     if( player_character.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 300 );
         audio_muted = true;
@@ -986,7 +986,7 @@ void sfx::generate_gun_sound( const player &source_arg, const item &firing )
     int angle = 0;
     int distance = 0;
     std::string selected_sound;
-    const avatar &player_character = get_avatar();
+    const Character &player_character = get_player_character();
     // this does not mean p == avatar (it could be a vehicle turret)
     if( player_character.pos() == source ) {
         selected_sound = "fire_gun";
@@ -1066,9 +1066,10 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
 {
     // This is function is run in the main thread.
     const int heard_volume = get_heard_volume( source );
-    const player *p = g->critter_at<npc>( source );
-    if( !p ) {
-        p = &g->u;
+    npc *np = g->critter_at<npc>( source );
+    const player &p = np ? static_cast<player &>( *np ) :
+                      dynamic_cast<player &>( get_player_character() );
+    if( !p.is_npc() ) {
         // sound comes from the same place as the player is, calculation of angle wouldn't work
         ang_src = 0;
         vol_src = heard_volume;
@@ -1079,8 +1080,8 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
         vol_targ = std::max( heard_volume - 20, 0 );
     }
     ang_targ = get_heard_angle( target );
-    weapon_skill = p->weapon.melee_skill();
-    weapon_volume = p->weapon.volume() / units::legacy_volume_factor;
+    weapon_skill = p.weapon.melee_skill();
+    weapon_volume = p.weapon.volume() / units::legacy_volume_factor;
 }
 
 // Operator overload required for thread API.
@@ -1167,7 +1168,7 @@ void sfx::do_projectile_hit( const Creature &target )
     play_variant_sound( "bullet_hit", "hit_flesh", heard_volume, angle, 0.8, 1.2 );
 }
 
-void sfx::do_player_death_hurt( const player &target, bool death )
+void sfx::do_player_death_hurt( const Character &target, bool death )
 {
     int heard_volume = get_heard_volume( target.pos() );
     const bool male = target.male;
@@ -1184,7 +1185,7 @@ void sfx::do_player_death_hurt( const player &target, bool death )
 
 void sfx::do_danger_music()
 {
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     if( player_character.in_sleep_state() && !audio_muted ) {
         fade_audio_channel( channel::any, 100 );
         audio_muted = true;
@@ -1235,7 +1236,7 @@ void sfx::do_danger_music()
 
 void sfx::do_fatigue()
 {
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     /*15: Stamina 75%
     16: Stamina 50%
     17: Stamina 25%*/
@@ -1315,7 +1316,7 @@ void sfx::do_footstep()
     end_sfx_timestamp = std::chrono::high_resolution_clock::now();
     sfx_time = end_sfx_timestamp - start_sfx_timestamp;
     if( std::chrono::duration_cast<std::chrono::milliseconds> ( sfx_time ).count() > 400 ) {
-        const avatar &player_character = get_avatar();
+        const Character &player_character = get_player_character();
         int heard_volume = sfx::get_heard_volume( player_character.pos() );
         const auto terrain = get_map().ter( player_character.pos() ).id();
         static const std::set<ter_str_id> grass = {
@@ -1446,7 +1447,7 @@ void sfx::do_footstep()
 
 void sfx::do_obstacle( const std::string &obst )
 {
-    int heard_volume = sfx::get_heard_volume( get_avatar().pos() );
+    int heard_volume = sfx::get_heard_volume( get_player_character().pos() );
     if( sfx::has_variant_sound( "plmove", obst ) ) {
         play_variant_sound( "plmove", obst, heard_volume, 0, 0.8, 1.2 );
     } else if( ter_str_id( obst ).is_valid() &&
@@ -1460,7 +1461,7 @@ void sfx::do_obstacle( const std::string &obst )
 
 void sfx::play_activity_sound( const std::string &id, const std::string &variant, int volume )
 {
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     if( act != player_character.activity.id() ) {
         act = player_character.activity.id();
         play_ambient_variant_sound( id, variant, volume, channel::player_activities, 0 );
@@ -1513,7 +1514,7 @@ bool sfx::has_variant_sound( const std::string &, const std::string & )
 }
 void sfx::stop_sound_effect_fade( channel, int ) { }
 void sfx::stop_sound_effect_timed( channel, int ) {}
-void sfx::do_player_death_hurt( const player &, bool ) { }
+void sfx::do_player_death_hurt( const Character &, bool ) { }
 void sfx::do_fatigue() { }
 void sfx::do_obstacle( const std::string & ) { }
 /*@}*/
@@ -1525,7 +1526,7 @@ void sfx::do_obstacle( const std::string & ) { }
 /*@{*/
 int sfx::get_heard_volume( const tripoint &source )
 {
-    int distance = sound_distance( get_avatar().pos(), source );
+    int distance = sound_distance( get_player_character().pos(), source );
     // fract = -100 / 24
     const float fract = -4.166666;
     int heard_volume = fract * distance - 1 + 100;
@@ -1538,7 +1539,7 @@ int sfx::get_heard_volume( const tripoint &source )
 
 int sfx::get_heard_angle( const tripoint &source )
 {
-    int angle = coord_to_angle( get_avatar().pos(), source ) + 90;
+    int angle = coord_to_angle( get_player_character().pos(), source ) + 90;
     //add_msg(m_warning, "angle: %i", angle);
     return ( angle );
 }

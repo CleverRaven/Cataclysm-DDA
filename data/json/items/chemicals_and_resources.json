@@ -1020,6 +1020,7 @@
     "id": "pur_tablets",
     "name": "water purification tablet",
     "category": "chems",
+    "material": [ "powder" ],
     "weight": "1 g",
     "color": "white",
     "use_action": [ "WATER_PURIFIER" ],

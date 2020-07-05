@@ -1771,7 +1771,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             debugmsg( "Invalid season" );
     }
 
-    here.ter_set( here.getlocal( act->placement ), next_ter );
+    const tripoint bush_pos = here.getlocal( act->placement );
+    here.ter_set( bush_pos, next_ter );
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
@@ -1809,6 +1810,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     iexamine::practice_survival_while_foraging( p );
 
     act->set_to_null();
+
+    here.maybe_trigger_trap( bush_pos, *p, true );
 }
 
 void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
@@ -2546,7 +2549,10 @@ struct weldrig_hack {
 
     item &get_item() {
         if( veh != nullptr && part >= 0 ) {
-            pseudo.charges = veh->drain( itype_battery, 1000 - pseudo.charges );
+            item pseudo_magazine( pseudo.magazine_default() );
+            pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
+            pseudo.ammo_set( itype_battery,  veh->drain( itype_battery,
+                             pseudo.ammo_capacity( ammotype( "battery" ) ) ) );
             return pseudo;
         }
 
@@ -2560,8 +2566,7 @@ struct weldrig_hack {
             return;
         }
 
-        veh->charge_battery( pseudo.charges );
-        pseudo.charges = 0;
+        veh->charge_battery( pseudo.ammo_remaining() );
     }
 
     ~weldrig_hack() {
@@ -2670,7 +2675,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     const item &fix = *act->targets[1];
-
     if( repeat == repeat_type::INIT ) {
         const int level = p->get_skill_level( actor->used_skill );
         repair_item_actor::repair_type action_type = actor->default_action( fix, level );
@@ -2726,7 +2730,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             }
         } while( repeat == repeat_type::INIT );
     }
-
     // Otherwise keep retrying
     act->moves_left = actor->move_cost;
 }
@@ -2900,6 +2903,8 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
     here.furn_set( pos, f_null );
 
     act->set_to_null();
+
+    here.maybe_trigger_trap( pos, *p, true );
 }
 
 void activity_handlers::meditate_finish( player_activity *act, player *p )

@@ -118,6 +118,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // Well that sure was easy
         return true;
     }
+    bool via_ramp = false;
+    if( m.has_flag( TFLAG_RAMP_UP, dest_loc ) ) {
+        dest_loc.z += 1;
+        via_ramp = true;
+    } else if( m.has_flag( TFLAG_RAMP_DOWN, dest_loc ) ) {
+        dest_loc.z -= 1;
+        via_ramp = true;
+    }
 
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
@@ -210,11 +218,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 mons->facing = FacingDirection::LEFT;
             }
         }
-    }
-
-    if( d.z == 0 && ramp_move( you, m, dest_loc ) ) {
-        // TODO: Make it work nice with automove (if it doesn't do so already?)
-        return false;
     }
 
     if( you.has_effect( effect_amigara ) ) {
@@ -397,7 +400,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
         return true;
     }
-    if( g->walk_move( dest_loc ) ) {
+    if( g->walk_move( dest_loc, via_ramp ) ) {
         return true;
     }
     if( g->phasing_move( dest_loc ) ) {
@@ -838,7 +841,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
     you.assign_activity( aim_activity_actor::use_wielded(), false );
 }
 
-void avatar_action::fire_ranged_mutation( avatar &you, const item &fake_gun )
+void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
 {
     you.assign_activity( aim_activity_actor::use_mutation( fake_gun ), false );
 }

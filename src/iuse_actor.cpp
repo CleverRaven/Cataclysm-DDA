@@ -3299,7 +3299,8 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         patient.add_effect( effect_bandaged, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_bandaged, bp_healed );
         e.set_duration( e.get_int_dur_factor() * bandages_intensity );
-        patient.damage_bandaged[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
+        patient.set_part_damage_bandaged( bp,
+                                          patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp ) );
         practice_amount += 2 * bandages_intensity;
     }
     if( disinfectant_power > 0 ) {
@@ -3307,7 +3308,8 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, hp_part
         patient.add_effect( effect_disinfected, 1_turns, bp_healed );
         effect &e = patient.get_effect( effect_disinfected, bp_healed );
         e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
-        patient.damage_disinfected[healed] = patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp );
+        patient.set_part_damage_disinfected( bp,
+                                             patient.get_part_hp_max( bp ) - patient.get_part_hp_cur( bp ) );
         practice_amount += 2 * disinfectant_intensity;
     }
     practice_amount = std::max( 9.0f, practice_amount );
@@ -3582,7 +3584,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
-            existing_trap.trigger( pos, &p );
+            existing_trap.trigger( pos, p );
         }
         return false;
     }
@@ -3757,8 +3759,10 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.can_install_bionics( *it.type, p, false ) ) {
-        p.consume_installation_requirment( it.type->bionic->id );
-        p.consume_anesth_requirment( *it.type, p );
+        if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
+            p.consume_installation_requirment( it.type->bionic->id );
+            p.consume_anesth_requirment( *it.type, p );
+        }
         return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
     } else {
         return 0;
