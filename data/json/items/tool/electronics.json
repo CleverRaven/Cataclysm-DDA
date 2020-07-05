@@ -385,6 +385,7 @@
     "price": 3000,
     "price_postapoc": 100,
     "material": [ "aluminum", "plastic" ],
+    "ascii_picture": "mp3",
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "battery" ],
