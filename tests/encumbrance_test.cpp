@@ -32,7 +32,7 @@ static void test_encumbrance_on(
     for( const item &i : clothing ) {
         p.worn.push_back( i );
     }
-    p.reset_encumbrance();
+    p.calc_encumbrance();
     encumbrance_data enc = p.get_part_encumbrance_data( bodypart_id( body_part ) );
     CHECK( enc.encumbrance == expected_encumbrance );
 }

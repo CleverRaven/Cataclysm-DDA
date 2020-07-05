@@ -1915,7 +1915,7 @@ void Character::check_item_encumbrance_flag()
     }
 
     if( update_required ) {
-        reset_encumbrance();
+        calc_encumbrance();
     }
 }
 
@@ -2267,7 +2267,7 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
     inv.update_cache_with_item( *new_item_it );
 
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 
     return new_item_it;
 }
@@ -3615,11 +3615,6 @@ bool Character::has_nv()
     return nv;
 }
 
-void Character::reset_encumbrance()
-{
-    encumbrance_cache_dirty = true;
-}
-
 void Character::calc_encumbrance()
 {
     calc_encumbrance( item() );
@@ -3673,7 +3668,7 @@ bool Character::change_side( item &it, bool interactive )
     }
 
     mod_moves( -250 );
-    reset_encumbrance();
+    calc_encumbrance();
 
     return true;
 }

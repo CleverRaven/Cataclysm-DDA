@@ -733,7 +733,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
 
     // In case we were wearing something just consumed
     if( !craft.components.empty() ) {
-        reset_encumbrance();
+        calc_encumbrance();
     }
 
     item_location craft_in_world;

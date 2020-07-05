@@ -2075,7 +2075,7 @@ int iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "Electro-reactive armor system:  ONLINE." ) );
         p->add_msg_if_player( _( "All systems nominal." ) );
         it->convert( itype_id( oname ) ).active = true;
-        p->reset_encumbrance();
+        p->calc_encumbrance();
         return it->type->charges_to_use();
     }
 }
@@ -2095,7 +2095,7 @@ int iuse::rm13armor_on( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "Shutting down." ) );
         p->add_msg_if_player( _( "Your RM13 combat armor turns off." ) );
         it->convert( itype_id( oname ) ).active = false;
-        p->reset_encumbrance();
+        p->calc_encumbrance();
     }
     return it->type->charges_to_use();
 }

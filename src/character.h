@@ -546,8 +546,6 @@ class Character : public Creature, public visitable<Character>
         /** Handles stat and bonus reset. */
         void reset() override;
 
-        /** Recalculates encumbrance cache. */
-        void reset_encumbrance();
         /** Returns ENC provided by armor, etc. */
         int encumb( const bodypart_id &bp ) const;
 
@@ -645,7 +643,7 @@ class Character : public Creature, public visitable<Character>
         */
         void flag_encumbrance();
         /**
-         * Checks worn items for the "RESET_ENCUMBRANCE" flag, which indicates
+         * Checks worn items for the "calc_encumbrance" flag, which indicates
          * that encumbrance may have changed and require recalculating.
          */
         void check_item_encumbrance_flag();
@@ -935,11 +933,6 @@ class Character : public Creature, public visitable<Character>
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );
 
-        /** Recalculate encumbrance for all body parts. */
-        void calc_encumbrance();
-        /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
-        void calc_encumbrance( const item &new_item );
-
         /** Applies encumbrance from mutations and bionics only */
         void mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const;
 
@@ -955,6 +948,11 @@ class Character : public Creature, public visitable<Character>
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 
     public:
+        /** Recalculate encumbrance for all body parts. */
+        void calc_encumbrance();
+        /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
+        void calc_encumbrance( const item &new_item );
+
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
         // gets add and mult value from enchantment cache
@@ -2242,7 +2240,6 @@ class Character : public Creature, public visitable<Character>
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
         mutable std::array<encumbrance_data, num_bp> encumbrance_cache;
-        mutable bool encumbrance_cache_dirty = true;
         bool bio_soporific_powered_at_last_sleep_check = false;
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
