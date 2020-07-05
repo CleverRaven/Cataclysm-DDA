@@ -1275,7 +1275,7 @@ bool mattack::science( monster *const z ) // I said SCIENCE again!
     }
 
     Character *const foe = dynamic_cast<Character *>( target );
-    if( ( foe->is_avatar() ) && dist <= 2 ) {
+    if( ( foe && foe->is_avatar() ) && dist <= 2 ) {
         valid_attacks[valid_attack_count++] = att_radiation;
     }
 
@@ -2670,7 +2670,7 @@ bool mattack::ranged_pull( monster *z )
     const bool uncanny = target->uncanny_dodge();
     if( uncanny || dodge_check( z, target ) ) {
         z->moves -= 200;
-        auto msg_type = foe->is_avatar() ? m_warning : m_info;
+        auto msg_type = foe && foe->is_avatar() ? m_warning : m_info;
         target->add_msg_player_or_npc( msg_type, _( "The %s's arms fly out at you, but you dodge!" ),
                                        _( "The %s's arms fly out at <npcname>, but they dodge!" ),
                                        z->name() );
