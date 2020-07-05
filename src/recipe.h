@@ -18,8 +18,6 @@
 class JsonObject;
 class item;
 class time_duration;
-
-using itype_id = std::string; // From itype.h
 class Character;
 
 enum class recipe_filter_flags : int {
@@ -38,13 +36,15 @@ class recipe
         friend class recipe_dictionary;
 
     private:
-        itype_id result_ = "null";
+        itype_id result_ = itype_id::NULL_ID();
+
+        int time = 0; // in movement points (100 per turn)
 
     public:
         recipe();
 
         operator bool() const {
-            return result_ != "null";
+            return !result_.is_null();
         }
 
         const itype_id &result() const {
@@ -58,7 +58,6 @@ class recipe
 
         translation description;
 
-        int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
 
         /** Fetch combined requirement data (inline and via "using" syntax).
@@ -130,7 +129,6 @@ class recipe
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string() const;
 
-
         // Create a string to describe the time savings of batch-crafting, if any.
         // Format: "N% at >M units" or "none"
         std::string batch_savings_string() const;
@@ -148,6 +146,9 @@ class recipe
         int batch_time( int batch, float multiplier, size_t assistants ) const;
         time_duration batch_duration( int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
+
+        time_duration time_to_craft() const;
+        int time_to_craft_moves() const;
 
         bool has_flag( const std::string &flag_name ) const;
 
@@ -197,7 +198,7 @@ class recipe
         bool reversible = false;
 
         /** What does the item spawn contained in? Unset ("null") means default container. */
-        itype_id container = "null";
+        itype_id container = itype_id::NULL_ID();
 
         /** External requirements (via "using" syntax) where second field is multiplier */
         std::vector<std::pair<requirement_id, int>> reqs_external;

@@ -294,7 +294,8 @@
     "default": "mon_zombie_gasbag",
     "monsters": [
       { "monster": "mon_zombie_gasbag", "freq": 20, "cost_multiplier": 0 },
-      { "monster": "mon_boomer", "freq": 480, "cost_multiplier": 2 }
+      { "monster": "mon_boomer", "freq": 480, "cost_multiplier": 2 },
+      { "monster": "mon_zombie_necro_boomer", "freq": 1, "cost_multiplier": 27 }
     ]
   },
   {
@@ -335,6 +336,7 @@
       { "monster": "mon_zombie_shrieker", "freq": 45, "cost_multiplier": 5 },
       { "monster": "mon_zombie_acidic", "freq": 45, "cost_multiplier": 2 },
       { "monster": "mon_zombie_necro", "freq": 8, "cost_multiplier": 25 },
+      { "monster": "mon_zombie_necro_boomer", "freq": 6, "cost_multiplier": 27 },
       { "monster": "mon_boomer", "freq": 45, "cost_multiplier": 5 },
       { "monster": "mon_zombie_brute", "freq": 23, "cost_multiplier": 15 },
       { "monster": "mon_zombie_master", "freq": 2, "cost_multiplier": 30 },

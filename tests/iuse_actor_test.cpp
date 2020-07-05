@@ -20,7 +20,7 @@ static player &get_sanitized_player( )
 
     // Remove first worn item until there are none left.
     std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) );
+    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
     dummy.inv.clear();
     dummy.remove_weapon();
 
@@ -58,7 +58,7 @@ TEST_CASE( "manhack", "[iuse_actor][manhack]" )
     dummy.invoke_item( &test_item );
 
     REQUIRE( !dummy.has_item_with( []( const item & it ) {
-        return it.typeId() == "bot_manhack";
+        return it.typeId() == itype_id( "bot_manhack" );
     } ) );
 
     new_manhack = find_adjacent_monster( dummy.pos() );

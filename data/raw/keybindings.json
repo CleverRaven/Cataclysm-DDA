@@ -965,6 +965,13 @@
   },
   {
     "type": "keybinding",
+    "id": "TOGGLE_MOVE_CURSOR_VIEW",
+    "category": "TARGET",
+    "name": "Toggle moving view / cursor",
+    "bindings": [ { "input_method": "keyboard", "key": "v" } ]
+  },
+  {
+    "type": "keybinding",
     "id": "SELECT",
     "name": "Select",
     "bindings": [ { "input_method": "mouse", "key": "MOUSE_LEFT" } ]
@@ -1100,6 +1107,20 @@
     "category": "NEW_CHAR_PROFESSIONS",
     "name": "Toggle sorting order",
     "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "NEW_CHAR_PROFESSIONS",
+    "name": "Randomize profession",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "RANDOMIZE",
+    "category": "NEW_CHAR_SCENARIOS",
+    "name": "Randomize scenario",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   },
   {
     "type": "keybinding",
@@ -1833,6 +1854,12 @@
     "category": "DEFAULTMODE",
     "id": "sleep",
     "bindings": [ { "input_method": "keyboard", "key": "$" } ]
+  },
+  {
+    "type": "keybinding",
+    "name": "Workout",
+    "category": "DEFAULTMODE",
+    "id": "workout"
   },
   {
     "type": "keybinding",
@@ -2968,5 +2995,11 @@
     "category": "NPC_TRADE",
     "name": "Cancel trading",
     "bindings": [ { "input_method": "keyboard", "key": "ESC" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "CHANGE_PROFESSION_NAME",
+    "name": "Change profession name",
+    "bindings": [ { "input_method": "keyboard", "key": "*" } ]
   }
 ]

@@ -57,6 +57,8 @@
 using ItemCount = std::pair<item, int>;
 using PickupMap = std::map<std::string, ItemCount>;
 
+static const itype_id itype_water( "water" );
+
 // Pickup helper functions
 static bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
                          PickupMap &mapPickup, bool autopickup );
@@ -86,14 +88,14 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
                 const std::string sItemName = begin_iterator->tname( 1, false );
 
                 //Check the Pickup Rules
-                if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
+                if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
                     bPickup = true;
-                } else if( get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
+                } else if( get_auto_pickup().check_item( sItemName ) != rule_state::BLACKLISTED ) {
                     //No prematched pickup rule found
                     //check rules in more detail
                     get_auto_pickup().create_rule( &*begin_iterator );
 
-                    if( get_auto_pickup().check_item( sItemName ) == RULE_WHITELISTED ) {
+                    if( get_auto_pickup().check_item( sItemName ) == rule_state::WHITELISTED ) {
                         bPickup = true;
                     }
                 }
@@ -106,7 +108,7 @@ static bool select_autopickup_items( std::vector<std::list<item_stack::iterator>
                     if( weight_limit && volume_limit ) {
                         if( begin_iterator->volume() <= units::from_milliliter( volume_limit * 50 ) &&
                             begin_iterator->weight() <= weight_limit * 50_gram &&
-                            get_auto_pickup().check_item( sItemName ) != RULE_BLACKLISTED ) {
+                            get_auto_pickup().check_item( sItemName ) != rule_state::BLACKLISTED ) {
                             bPickup = true;
                         }
                     }
@@ -138,7 +140,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
         return CANCEL;
     }
 
-    player &u = g->u;
+    Character &u = get_player_character();
 
     uilist amenu;
 
@@ -173,7 +175,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 
 bool Pickup::query_thief()
 {
-    player &u = g->u;
+    Character &u = get_player_character();
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
                             : input_context::allow_all_keys;
@@ -217,7 +219,7 @@ bool Pickup::query_thief()
 bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
                   PickupMap &mapPickup, bool autopickup )
 {
-    player &u = g->u;
+    player &u = get_avatar();
     int moves_taken = 100;
     bool picked_up = false;
     pickup_answer option = CANCEL;
@@ -233,7 +235,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     const auto wield_check = u.can_wield( newit );
 
-    if( !newit.is_owned_by( g->u, true ) ) {
+    if( !newit.is_owned_by( u, true ) ) {
         // Has the player given input on if stealing is ok?
         if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             Pickup::query_thief();
@@ -260,17 +262,11 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     }
 
     bool did_prompt = false;
-    if( newit.count_by_charges() ) {
-        newit.charges -= u.i_add( newit ).charges;
-    }
-    if( newit.is_ammo() && newit.charges <= 0 ) {
-        picked_up = true;
-        option = NUM_ANSWERS; //Skip the options part
-    } else if( newit.is_frozen_liquid() ) {
+    if( newit.is_frozen_liquid() ) {
         if( !( got_water = !( u.crush_frozen_liquid( newloc ) ) ) ) {
             option = STASH;
         }
-    } else if( newit.made_of_from_type( LIQUID ) && !newit.is_frozen_liquid() ) {
+    } else if( newit.made_of_from_type( phase_id::LIQUID ) && !newit.is_frozen_liquid() ) {
         got_water = true;
     } else if( !u.can_pickWeight( newit, false ) ) {
         if( !autopickup ) {
@@ -341,12 +337,22 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 break;
             }
         // Intentional fallthrough
-        case STASH:
-            auto &entry = mapPickup[newit.tname()];
-            entry.second += newit.count();
-            entry.first = u.i_add( newit );
-            picked_up = true;
+        case STASH: {
+            item &added_it = u.i_add( newit, true, nullptr, /*allow_drop=*/false );
+            if( added_it.is_null() ) {
+                // failed to add, do nothing
+            } else if( &added_it == &it ) {
+                // merged to the original stack, restore original charges
+                it.charges -= newit.charges;
+            } else {
+                // successfully added
+                auto &entry = mapPickup[newit.tname()];
+                entry.second += newit.count();
+                entry.first = added_it;
+                picked_up = true;
+            }
             break;
+        }
     }
 
     if( picked_up ) {
@@ -357,7 +363,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         } else {
             loc.remove_item();
         }
-        g->u.moves -= moves_taken;
+        u.moves -= moves_taken;
     }
 
     return picked_up || !did_prompt;
@@ -410,7 +416,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 {
     int cargo_part = -1;
 
-    const optional_vpart_position vp = g->m.veh_at( p );
+    map &local = get_map();
+    const optional_vpart_position vp = local.veh_at( p );
     vehicle *const veh = veh_pointer_or_null( vp );
     bool from_vehicle = false;
 
@@ -418,7 +425,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         if( veh != nullptr && get_items_from == prompt ) {
             const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
             const bool veh_has_items = carg && !veh->get_items( carg->part_index() ).empty();
-            const bool map_has_items = g->m.has_items( p );
+            const bool map_has_items = local.has_items( p );
             if( veh_has_items && map_has_items ) {
                 uilist amenu( _( "Get items from where?" ), { _( "Get items from vehicle cargo" ), _( "Get items on the ground" ) } );
                 if( amenu.ret == UILIST_CANCEL ) {
@@ -435,21 +442,21 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             from_vehicle = cargo_part >= 0;
         } else {
             // Nothing to change, default is to pick from ground anyway.
-            if( g->m.has_flag( "SEALED", p ) ) {
+            if( local.has_flag( "SEALED", p ) ) {
                 return;
             }
         }
     }
 
     if( !from_vehicle ) {
-        bool isEmpty = ( g->m.i_at( p ).empty() );
+        bool isEmpty = ( local.i_at( p ).empty() );
 
         // Hide the pickup window if this is a toilet and there's nothing here
         // but non-frozen water.
-        if( ( !isEmpty ) && g->m.furn( p ) == f_toilet ) {
+        if( ( !isEmpty ) && local.furn( p ) == f_toilet ) {
             isEmpty = true;
-            for( const item &maybe_water : g->m.i_at( p ) ) {
-                if( maybe_water.typeId() != "water"  || maybe_water.is_frozen_liquid() ) {
+            for( const item &maybe_water : local.i_at( p ) ) {
+                if( maybe_water.typeId() != itype_water  || maybe_water.is_frozen_liquid() ) {
                     isEmpty = false;
                     break;
                 }
@@ -469,7 +476,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             here.push_back( it );
         }
     } else {
-        map_stack mapitems = g->m.i_at( p );
+        map_stack mapitems = local.i_at( p );
         for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
             here.push_back( it );
         }
@@ -492,7 +499,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // Bail out if this square cannot be auto-picked-up
         if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
-        } else if( g->m.has_flag( "SEALED", p ) ) {
+        } else if( local.has_flag( "SEALED", p ) ) {
             return;
         }
     }
@@ -516,7 +523,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
     }
 
     std::vector<std::list<item_stack::iterator>> stacked_here;
-    for( item_stack::iterator it : here ) {
+    for( const item_stack::iterator &it : here ) {
         bool found_stack = false;
         for( std::list<item_stack::iterator> &stack : stacked_here ) {
             if( stack.front()->display_stacked_with( *it ) ) {
@@ -650,7 +657,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 draw_item_info( w_item_info, dummy );
             } else {
                 werase( w_item_info );
-                wrefresh( w_item_info );
+                wnoutrefresh( w_item_info );
             }
             draw_custom_border( w_item_info, 0 );
 
@@ -659,7 +666,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             trim_and_print( w_item_info, point( 4, 0 ), pickupW - 8, selected_item.color_in_inventory(),
                             selected_item.display_name() );
             wprintw( w_item_info, " >" );
-            wrefresh( w_item_info );
+            wnoutrefresh( w_item_info );
 
             const std::string pickup_chars = ctxt.get_available_single_char_hotkeys( all_pickup_chars );
 
@@ -702,7 +709,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                         // TODO: transition to the item_location system used for the inventory
                         unsigned int charges_total = 0;
                         for( const item_stack::iterator &it : stacked_here[true_it] ) {
-                            charges_total += it->charges;
+                            charges_total += it->ammo_remaining();
                         }
                         //Picking up none or all the cards in a stack
                         if( !getitem[true_it].pick || getitem[true_it].count == 0 ) {
@@ -713,7 +720,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                             int c = getitem[true_it].count;
                             for( std::list<item_stack::iterator>::iterator it = stacked_here[true_it].begin();
                                  it != stacked_here[true_it].end() && c > 0; ++it, --c ) {
-                                charges += ( *it )->charges;
+                                charges += ( *it )->ammo_remaining();
                             }
                             item_name = stacked_here[true_it].front()->display_money( getitem[true_it].count, charges_total,
                                         charges );
@@ -772,7 +779,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                                            fmted_weight_predict, fmted_weight_capacity,
                                            fmted_volume_predict, fmted_volume_capacity ) );
 
-            wrefresh( w_pickup );
+            wnoutrefresh( w_pickup );
         } );
 
         // Now print the two lists; those on the ground and about to be added to inv

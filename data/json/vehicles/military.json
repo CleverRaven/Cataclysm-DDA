@@ -388,7 +388,8 @@
     ],
     "items": [
       { "x": 0, "y": 0, "chance": 5, "items": [ "id_military" ] },
-      { "x": -2, "y": 2, "chance": 15, "item_groups": [ "fuel_diesel" ] }
+      { "x": -2, "y": 2, "chance": 15, "item_groups": [ "fuel_diesel" ] },
+      { "x": -2, "y": 1, "chance": 7, "item_groups": [ "military_standard_sniper_rifles" ] }
     ]
   },
   {

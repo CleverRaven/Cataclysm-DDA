@@ -19,7 +19,15 @@
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 95,
     "encumbrance": 40,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "15 kg", "moves": 200 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "15 kg",
+        "moves": 200
+      }
+    ],
     "warmth": 50,
     "material_thickness": 8,
     "environmental_protection": 6,
@@ -69,7 +77,15 @@
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
     "encumbrance": 50,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "2500 ml", "max_contains_weight": "15 kg", "moves": 200 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "15 kg",
+        "moves": 200
+      }
+    ],
     "warmth": 90,
     "power_armor": true,
     "material_thickness": 14,
@@ -84,7 +100,7 @@
     "name": { "str": "power armor hauling frame" },
     "description": "A heavy duty hauling frame designed to interface with military exoskeletons.",
     "weight": "1640 g",
-    "volume": "12 L",
+    "volume": "45 L",
     "price": 1000000,
     "price_postapoc": 10000,
     "to_hit": 1,
@@ -95,7 +111,15 @@
     "color": "light_gray",
     "coverage": 100,
     "encumbrance": 40,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "30 L", "max_contains_weight": "150 kg", "moves": 300 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "30 L",
+        "max_contains_weight": "150 kg",
+        "moves": 300
+      }
+    ],
     "power_armor": true,
     "material_thickness": 10,
     "flags": [ "WATERPROOF", "STURDY", "BELTED" ]
@@ -120,7 +144,15 @@
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
     "encumbrance": 60,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "30 kg", "moves": 200 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "30 kg",
+        "moves": 200
+      }
+    ],
     "warmth": 60,
     "power_armor": true,
     "material_thickness": 16,
@@ -225,7 +257,15 @@
     "covers": [ "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
     "coverage": 100,
     "encumbrance": 40,
-    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "4 L", "max_contains_weight": "30 kg", "moves": 200 } ],
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "30 kg",
+        "moves": 200
+      }
+    ],
     "warmth": 60,
     "power_armor": true,
     "material_thickness": 8,

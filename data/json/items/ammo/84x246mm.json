@@ -12,6 +12,7 @@
     "description": "A 84x246mm High Explosive anti-personnel round for the Carl Gustav M3 recoilless rifle.  Designed to be highly effective against personnel.",
     "material": [ "steel", "powder" ],
     "volume": "1250 ml",
+    "longest_side": "246 mm",
     "weight": "3200 g",
     "ammo_type": "84x246mm",
     "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 10 },

@@ -248,5 +248,27 @@
       "§": "t_water_pool_shallow_outdoors"
     },
     "toilets": { "t": {  } }
+  },
+  {
+    "type": "palette",
+    "id": "mall_palette_basement",
+    "terrain": {
+      ".": "t_thconc_floor",
+      "N": "t_chainfence",
+      "T": "t_chaingate_c",
+      "0": "t_door_metal_pickable",
+      "1": "t_door_metal_locked",
+      "=": [ "t_door_c", "t_door_locked" ],
+      "|": "t_concrete_wall",
+      " ": "t_rock",
+      "3": "t_gates_control_brick",
+      "E": "t_elevator",
+      "<": "t_stairs_up",
+      ">": "t_stairs_down",
+      "Ŋ": "t_elevator_control_off",
+      "H": "t_laminated_glass",
+      "+": "t_laminated_door_glass_c"
+    },
+    "furniture": { "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ], "F": "f_bench" }
   }
 ]

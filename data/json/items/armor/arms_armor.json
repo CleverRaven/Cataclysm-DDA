@@ -279,5 +279,15 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "flags": [ "STURDY", "BELTED", "WATER_FRIENDLY" ]
+  },
+  {
+    "id": "armguard_cut_resistant",
+    "type": "ARMOR",
+    "name": { "str": "pair of cut-resistant arm sleeves", "str_pl": "pairs of cut-resistant arm sleeves" },
+    "description": "A long pair of cut resistant sleeves, with thumbholes.  Useful for chainsaw protection.",
+    "weight": "113 g",
+    "copy-from": "armguard_soft",
+    "price": 1200,
+    "material": [ "kevlar" ]
   }
 ]

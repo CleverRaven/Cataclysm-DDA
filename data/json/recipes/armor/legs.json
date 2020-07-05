@@ -211,7 +211,7 @@
     "skill_used": "tailor",
     "difficulty": 4,
     "time": "90 m",
-    "book_learn": [ [ "scots_cookbook", 4 ] ],
+    "book_learn": [ [ "scots_tailor", 4 ], [ "scots_cookbook", 7 ] ],
     "using": [ [ "sewing_standard", 30 ] ],
     "components": [ [ [ "felt_patch", 18 ] ] ]
   },
@@ -425,7 +425,7 @@
         [ "fanny", 2 ]
       ],
       [ [ "duct_tape", 50 ] ],
-      [ [ "kevlar_plate", 8 ] ]
+      [ [ "sheet_kevlar_layered", 8 ] ]
     ]
   },
   {
@@ -517,7 +517,7 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [
       [ [ "pants_army", 1 ], [ "pants_cargo", 1 ], [ "shorts_cargo", 1 ] ],
-      [ [ "kevlar", 1 ], [ "kevlar_plate", 12 ] ],
+      [ [ "kevlar", 1 ], [ "sheet_kevlar_layered", 12 ] ],
       [ [ "rag", 12 ] ],
       [
         [ "tacvest", 1 ],

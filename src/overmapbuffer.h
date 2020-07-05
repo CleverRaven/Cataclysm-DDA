@@ -36,6 +36,7 @@ struct path_type {
     bool amphibious = false;
     bool only_air = false;
     bool avoid_danger = false;
+    bool only_known_by_player = false;
 };
 
 struct radio_tower_reference {

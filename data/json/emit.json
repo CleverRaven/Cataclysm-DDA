@@ -131,6 +131,14 @@
     "chance": 50
   },
   {
+    "id": "emit_shadow_field",
+    "type": "emit",
+    "field": "fd_shadow",
+    "intensity": 1,
+    "qty": 10,
+    "chance": 100
+  },
+  {
     "id": "emit_shock_burst",
     "type": "emit",
     "//": "small cloud of lightning",
@@ -323,5 +331,12 @@
     "field": "fd_fog",
     "intensity": 2,
     "qty": 200
+  },
+  {
+    "id": "emit_extinguisher_burst",
+    "type": "emit",
+    "field": "fd_extinguisher",
+    "intensity": 1,
+    "qty": 10
   }
 ]

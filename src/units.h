@@ -540,7 +540,7 @@ inline constexpr value_type to_kilometer( const quantity<value_type, length_in_m
 
 // converts a volume as if it were a cube to the length of one side
 template<typename value_type>
-inline constexpr quantity<value_type, length_in_millimeter_tag> cube_to_volume(
+inline constexpr quantity<value_type, length_in_millimeter_tag> default_length_from_volume(
     const quantity<value_type, volume_in_milliliter_tag> &v )
 {
     return units::from_centimeter<int>(
@@ -587,12 +587,12 @@ inline std::string display( const units::energy v )
     const int kj = units::to_kilojoule( v );
     const int j = units::to_joule( v );
     // at least 1 kJ and there is no fraction
-    if( kj >= 1 && float( j ) / kj == 1000 ) {
+    if( kj >= 1 && static_cast<float>( j ) / kj == 1000 ) {
         return to_string( kj ) + ' ' + pgettext( "energy unit: kilojoule", "kJ" );
     }
     const int mj = units::to_millijoule( v );
     // at least 1 J and there is no fraction
-    if( j >= 1 && float( mj ) / j  == 1000 ) {
+    if( j >= 1 && static_cast<float>( mj ) / j  == 1000 ) {
         return to_string( j ) + ' ' + pgettext( "energy unit: joule", "J" );
     }
     return to_string( mj ) + ' ' + pgettext( "energy unit: millijoule", "mJ" );

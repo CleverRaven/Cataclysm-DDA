@@ -163,6 +163,11 @@ std::vector<item_pricing> npc_trading::init_buying( player &buyer, player &selle
             return;
         }
 
+        if( it.count() <= 0 ) {
+            debugmsg( "item %s has zero or negative charges", it.typeId().str() );
+            return;
+        }
+
         const int market_price = it.price( true );
         int val = np.value( it, market_price );
         if( ( is_npc && np.wants_to_sell( it, val, market_price ) ) ||
@@ -212,9 +217,13 @@ void item_pricing::set_values( int ip_count )
         count = ip_count;
     } else {
         charges = i_p->count();
-        price /= charges;
-        vol /= charges;
-        weight /= charges;
+        if( charges > 0 ) {
+            price /= charges;
+            vol /= charges;
+            weight /= charges;
+        } else {
+            debugmsg( "item %s has zero or negative charges", i_p->typeId().str() );
+        }
     }
 }
 
@@ -278,8 +287,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
     bool npc_out_of_space = volume_left < 0_ml || weight_left < 0_gram;
 
     // Colors for hinting if the trade will be accepted or not.
-    const nc_color trade_color       = npc_will_accept_trade( np ) ? c_green : c_red;
-    const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
+    const nc_color trade_color = npc_will_accept_trade( np ) ? c_green : c_red;
 
     input_context ctxt( "NPC_TRADE" );
 
@@ -316,6 +324,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
                trade_color, cost_str );
 
     if( !deal.empty() ) {
+        const nc_color trade_color_light = npc_will_accept_trade( np ) ? c_light_green : c_light_red;
         mvwprintz( w_head, point( ( TERMX - utf8_width( deal ) ) / 2, 3 ),
                    trade_color_light, deal );
     }
@@ -324,9 +333,6 @@ void trading_window::update_win( npc &np, const std::string &deal )
 
     mvwprintz( w_them, point( 2, 0 ), trade_color, np.name );
     mvwprintz( w_you,  point( 2, 0 ), trade_color, _( "You" ) );
-#if defined(__ANDROID__)
-    input_context ctxt( "NPC_TRADE" );
-#endif
     // Draw lists of items, starting from offset
     for( size_t whose = 0; whose <= 1; whose++ ) {
         const bool they = whose == 0;
@@ -389,9 +395,9 @@ void trading_window::update_win( npc &np, const std::string &deal )
             mvwprintw( w_whose, point( 9, entries_per_page + 2 ), _( "More >" ) );
         }
     }
-    wrefresh( w_head );
-    wrefresh( w_them );
-    wrefresh( w_you );
+    wnoutrefresh( w_head );
+    wnoutrefresh( w_them );
+    wnoutrefresh( w_you );
 }
 
 void trading_window::show_item_data( size_t offset,
@@ -412,7 +418,7 @@ void trading_window::show_item_data( size_t offset,
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w_tmp, point( 1, 1 ), c_red, _( "Examine which item?" ) );
         draw_border( w_tmp );
-        wrefresh( w_tmp );
+        wnoutrefresh( w_tmp );
     } );
 
     input_context ctxt( "NPC_TRADE" );
@@ -428,7 +434,7 @@ void trading_window::show_item_data( size_t offset,
             exit = true;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != CATA_INPUT_KEYBOARD || evt.sequence.empty() ) {
+            if( evt.type != input_event_t::keyboard || evt.sequence.empty() ) {
                 continue;
             }
             size_t help = evt.get_first_input();
@@ -563,7 +569,7 @@ bool trading_window::perform_trade( npc &np, const std::string &deal )
             confirm = false;
         } else if( action == "ANY_INPUT" ) {
             const input_event evt = ctxt.get_raw_input();
-            if( evt.type != CATA_INPUT_KEYBOARD || evt.sequence.empty() ) {
+            if( evt.type != input_event_t::keyboard || evt.sequence.empty() ) {
                 continue;
             }
             size_t ch = evt.get_first_input();
@@ -702,7 +708,6 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
             g->u.practice( skill_barter, practice / 10000 );
         }
     }
-    g->refresh_all();
     return traded;
 }
 

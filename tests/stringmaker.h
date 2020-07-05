@@ -12,10 +12,17 @@
 namespace Catch
 {
 
+template<typename T>
+struct StringMaker<string_id<T>> {
+    static std::string convert( const string_id<T> &i ) {
+        return string_format( "string_id( \"%s\" )", i.str() );
+    }
+};
+
 template<>
 struct StringMaker<item> {
     static std::string convert( const item &i ) {
-        return string_format( "item( \"%s\" )", i.typeId() );
+        return string_format( "item( itype_id( \"%s\" ) )", i.typeId().str() );
     }
 };
 

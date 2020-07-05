@@ -42,6 +42,7 @@
       { "group": "ammo_swat", "prob": 20 },
       { "group": "guns_swat", "prob": 20 },
       { "group": "mags_swat", "prob": 20 },
+      { "group": "eod_armor", "prob": 20 },
       { "item": "survnote", "prob": 1 }
     ]
   },
@@ -646,6 +647,7 @@
       [ "glowstick_dead", 15 ],
       { "item": "cash_card", "prob": 5, "charges-min": 5, "charges-max": 5000 },
       [ "id_science", 3 ],
+      [ "sandbox_kit", 5 ],
       [ "ear_spool", 15 ],
       { "item": "lighter", "prob": 35, "charges-min": 0, "charges-max": 15 },
       [ "funnel", 25 ],
@@ -708,7 +710,7 @@
       [ "antenna", 30 ],
       [ "bat_metal", 2 ],
       [ "can_drink", 130 ],
-      [ "can_drink_unsealed", 130 ],
+      [ "can_drink", 130 ],
       [ "keg", 15 ],
       [ "material_aluminium_ingot", 25 ],
       [ "xlframe", 10 ],
@@ -778,9 +780,9 @@
     "type": "item_group",
     "items": [
       [ "can_food", 65 ],
-      [ "can_food_unsealed", 65 ],
+      [ "can_food", 65 ],
       [ "can_medium", 65 ],
-      [ "can_medium_unsealed", 65 ],
+      [ "can_medium", 65 ],
       { "item": "scrap", "prob": 50, "charges-min": 1, "charges-max": 3 },
       { "item": "steel_chunk", "prob": 50, "charges-min": 1, "charges-max": 2 },
       { "item": "steel_lump", "prob": 50, "charges-min": 1, "charges-max": 2 },
@@ -841,8 +843,8 @@
       [ "bottle_plastic", 10 ],
       [ "bottle_plastic_small", 5 ],
       [ "bottle_glass", 10 ],
-      [ "can_drink_unsealed", 10 ],
-      [ "can_food_unsealed", 10 ],
+      [ "can_drink", 10 ],
+      [ "can_food", 10 ],
       [ "lighter", 60 ],
       [ "ref_lighter", 1 ],
       [ "matches", 60 ],
@@ -1823,7 +1825,9 @@
       [ "radio_car_box", 3 ],
       [ "radiocontrol", 10 ],
       [ "scots_cookbook", 1 ],
+      [ "scots_tailor", 1 ],
       [ "eclipse_glasses", 1 ],
+      [ "sandbox_kit", 1 ],
       [ "dnd_handbook", 1 ],
       [ "balloon", 5 ]
     ]

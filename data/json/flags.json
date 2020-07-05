@@ -246,6 +246,12 @@
     "info": "This gear is equipped with an accurate hygrometer (which is used to measure humidity)."
   },
   {
+    "id": "BURNOUT",
+    "type": "json_flag",
+    "context": [ "TOOL" ],
+    "//": "You can visually inspect how much it is burned out (candle, torch)."
+  },
+  {
     "id": "IRREMOVABLE",
     "type": "json_flag",
     "context": [ "GUNMOD" ],
@@ -339,12 +345,6 @@
     "info": "As a weapon, this item needs considerable space to use properly and does 70% of its normal damage to adjacent enemies."
   },
   {
-    "id": "POWERED",
-    "type": "json_flag",
-    "context": [ "TOOL" ],
-    "//": "If turned ON, it uses its own source of power, instead of relying on power of the user."
-  },
-  {
     "id": "PSYSHIELD_PARTIAL",
     "type": "json_flag",
     "context": [ "ARMOR", "TOOL_ARMOR" ],
@@ -376,6 +376,12 @@
     "type": "json_flag",
     "context": [ "GENERIC", "TOOL_ARMOR", "TOOL" ],
     "info": "This item can be used to communicate with radio waves."
+  },
+  {
+    "id": "PERFECT_LOCKPICK",
+    "type": "json_flag",
+    "context": [  ],
+    "info": "This item can be used to <info>pick locks</info> with <good>zero effort</good>."
   },
   {
     "id": "RAINPROOF",
@@ -608,6 +614,12 @@
     "type": "json_flag",
     "context": [ "SPELL" ],
     "//": "This makes the spell's effects permanent."
+  },
+  {
+    "id": "NO_FAIL",
+    "type": "json_flag",
+    "context": [ "SPELL" ],
+    "//": "Spellcasting never fails for this spell"
   },
   {
     "id": "IGNORE_WALLS",

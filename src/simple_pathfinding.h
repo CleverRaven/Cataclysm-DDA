@@ -37,8 +37,7 @@ struct path {
 /**
  * @param source Starting point of path
  * @param dest End point of path
- * @param max_x Max permissible x coordinate for a point on the path
- * @param max_y Max permissible y coordinate for a point on the path
+ * @param max Max permissible coordinates for a point on the path
  * @param estimator BinaryPredicate( node &previous, node *current ) returns
  * integer estimation (smaller - better) for the current node or a negative value
  * if the node is unsuitable.
@@ -46,16 +45,15 @@ struct path {
 template<class BinaryPredicate>
 path find_path( const point &source,
                 const point &dest,
-                const int max_x,
-                const int max_y,
+                const point &max,
                 BinaryPredicate estimator )
 {
-    const auto inbounds = [ max_x, max_y ]( const point & p ) {
-        return p.x >= 0 && p.x < max_x && p.y >= 0 && p.y < max_y;
+    const auto inbounds = [ max ]( const point & p ) {
+        return p.x >= 0 && p.x < max.x && p.y >= 0 && p.y < max.y;
     };
 
-    const auto map_index = [ max_x ]( const point & p ) {
-        return p.y * max_x + p.x;
+    const auto map_index = [ max ]( const point & p ) {
+        return p.y * max.x + p.x;
     };
 
     path res;
@@ -74,7 +72,7 @@ path find_path( const point &source,
         return res;
     }
 
-    const size_t map_size = max_x * max_y;
+    const size_t map_size = max.x * max.y;
 
     std::vector<bool> closed( map_size, false );
     std::vector<int> open( map_size, 0 );

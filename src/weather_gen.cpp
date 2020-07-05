@@ -33,12 +33,12 @@ weather_generator::weather_generator() = default;
 int weather_generator::current_winddir = 1000;
 
 struct weather_gen_common {
-    double x;
-    double y;
-    double z;
-    double cyf;
-    unsigned modSEED;
-    season_type season;
+    double x = 0;
+    double y = 0;
+    double z = 0;
+    double cyf = 0;
+    unsigned modSEED = 0u;
+    season_type season = season_type::SPRING;
 };
 
 static weather_gen_common get_common_data( const tripoint &location, const time_point &t,

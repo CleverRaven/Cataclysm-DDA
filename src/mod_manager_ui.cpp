@@ -89,7 +89,7 @@ void mod_ui::try_add( const mod_id &mod_to_add,
             return;
         }
         errs = checknode->has_errors();
-    } catch( std::exception &e ) {
+    } catch( std::exception & ) {
         errs = true;
     }
 

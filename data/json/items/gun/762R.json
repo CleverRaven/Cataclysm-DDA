@@ -9,11 +9,11 @@
     "price": 23000,
     "price_postapoc": 3000,
     "relative": {
-      "volume": -2,
+      "volume": "-500 ml",
       "range": -6,
       "ranged_damage": { "damage_type": "bullet", "amount": -3 },
       "dispersion": 60,
-      "barrel_length": -2
+      "barrel_length": "-500 ml"
     }
   },
   {
@@ -71,8 +71,17 @@
       [ "sights", 1 ],
       [ "sling", 1 ]
     ],
-    "magazines": [ [ "762R", [ "762R_clip" ] ] ],
-    "flags": [ "RELOAD_ONE" ]
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "ammo_restriction": { "762R": 5 } },
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "762R_clip" ]
+      }
+    ]
   },
   {
     "id": "mosin91_30_ebr",

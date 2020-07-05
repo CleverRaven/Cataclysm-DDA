@@ -35,6 +35,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     int tries = 0;
     tripoint origin = critter.pos();
     tripoint new_pos = origin;
+    map &here = get_map();
     //The teleportee is dimensionally anchored so nothing happens
     if( p && ( p->worn_with_flag( "DIMENSIONAL_ANCHOR" ) ||
                p->has_effect_with_flag( "DIMENSIONAL_ANCHOR" ) ) ) {
@@ -47,9 +48,9 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         new_pos.x = origin.x + rdistance * std::cos( rangle );
         new_pos.y = origin.y + rdistance * std::sin( rangle );
         tries++;
-    } while( g->m.impassable( new_pos ) && tries < 20 );
+    } while( here.impassable( new_pos ) && tries < 20 );
     //handles teleporting into solids.
-    if( g->m.impassable( new_pos ) ) {
+    if( here.impassable( new_pos ) ) {
         if( safe ) {
             if( c_is_u ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
@@ -58,7 +59,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         }
         critter.apply_damage( nullptr, bodypart_id( "torso" ), 9999 );
         if( c_is_u ) {
-            g->events().send<event_type::teleports_into_wall>( p->getID(), g->m.obstacle_name( new_pos ) );
+            g->events().send<event_type::teleports_into_wall>( p->getID(), here.obstacle_name( new_pos ) );
             add_msg( m_bad, _( "You die after teleporting into a solid." ) );
         }
         critter.check_dead_state();

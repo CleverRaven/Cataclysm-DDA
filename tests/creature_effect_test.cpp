@@ -33,6 +33,7 @@
 TEST_CASE( "character add_effect", "[creature][character][effect][add]" )
 {
     avatar dummy;
+    dummy.set_body();
     const efftype_id effect_bleed( "bleed" );
     const efftype_id effect_grabbed( "grabbed" );
     const body_part left_arm = bodypart_id( "arm_l" )->token;

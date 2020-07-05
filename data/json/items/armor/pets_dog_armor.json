@@ -9,7 +9,7 @@
     "description": "A blue bulletproof harness, designed to be worn by canines in the service of local law enforcement, that protects from shoulders to abdomen.  You could put this on a friendly dog.",
     "price": 30000,
     "price_postapoc": 1000,
-    "material": [ "kevlar" ],
+    "material": [ "kevlar_layered" ],
     "weight": "4290 g",
     "volume": "4500 ml",
     "bashing": 5,
@@ -18,7 +18,37 @@
     "material_thickness": 2,
     "max_pet_vol": "35000 ml",
     "min_pet_vol": "25000 ml",
-    "pet_bodytype": "dog"
+    "pet_bodytype": "dog",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "60 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "60 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "moves": 200
+      }
+    ]
   },
   {
     "type": "PET_ARMOR",
@@ -67,7 +97,7 @@
     "description": "A neck to hip harness made from leather that can be attached to a canine for protection.  You could put this on a friendly dog.",
     "price": 17500,
     "price_postapoc": 1750,
-    "material": [ "cotton", "leather" ],
+    "material": [ "leather" ],
     "weight": "2145 g",
     "extend": { "flags": [ "NO_SALVAGE" ] }
   },
@@ -79,7 +109,7 @@
     "description": "Decorative bones affixed to a leather dog harness for that true post-apocalyptic style, even with a skull bone headpiece!  You could put this on a friendly dog.",
     "price": 19000,
     "price_postapoc": 1900,
-    "material": [ "bone", "leather" ],
+    "material": [ "leather" ],
     "weight": "2645 g"
   },
   {
@@ -109,6 +139,36 @@
     "price_postapoc": 5000,
     "material": [ "superalloy" ],
     "weight": "3125 g",
-    "min_pet_vol": "20000 ml"
+    "min_pet_vol": "20000 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "80 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "80 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "30 cm",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "30 cm",
+        "moves": 200
+      }
+    ]
   }
 ]

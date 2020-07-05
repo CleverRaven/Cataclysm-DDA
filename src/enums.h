@@ -2,12 +2,51 @@
 #ifndef CATA_SRC_ENUMS_H
 #define CATA_SRC_ENUMS_H
 
+#include <type_traits>
+
 template<typename T> struct enum_traits;
 
 template<typename T>
 constexpr inline int sgn( const T x )
 {
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
+}
+
+enum class aim_exit : int {
+    none = 0,
+    okay,
+    re_entry
+};
+
+// be explicit with the values
+enum class aim_entry : int {
+    START     = 0,
+    VEHICLE   = 1,
+    MAP       = 2,
+    RESET     = 3
+};
+
+using I = std::underlying_type_t<aim_entry>;
+static constexpr aim_entry &operator++( aim_entry &lhs )
+{
+    lhs = static_cast<aim_entry>( static_cast<I>( lhs ) + 1 );
+    return lhs;
+}
+
+static constexpr aim_entry &operator--( aim_entry &lhs )
+{
+    lhs = static_cast<aim_entry>( static_cast<I>( lhs ) - 1 );
+    return lhs;
+}
+
+static constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
+{
+    return static_cast<aim_entry>( static_cast<I>( lhs ) + rhs );
+}
+
+static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
+{
+    return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
 }
 
 enum class holiday : int {
@@ -26,32 +65,32 @@ struct enum_traits<holiday> {
     static constexpr holiday last = holiday::num_holiday;
 };
 
-enum temperature_flag : int {
-    TEMP_NORMAL = 0,
-    TEMP_HEATER,
-    TEMP_FRIDGE,
-    TEMP_FREEZER,
-    TEMP_ROOT_CELLAR
+enum class temperature_flag : int {
+    NORMAL = 0,
+    HEATER,
+    FRIDGE,
+    FREEZER,
+    ROOT_CELLAR
 };
 
 //Used for autopickup and safemode rules
-enum rule_state : int {
-    RULE_NONE,
-    RULE_WHITELISTED,
-    RULE_BLACKLISTED
+enum class rule_state : int {
+    NONE,
+    WHITELISTED,
+    BLACKLISTED
 };
 
-enum visibility_type {
-    VIS_HIDDEN,
-    VIS_CLEAR,
-    VIS_LIT,
-    VIS_BOOMER,
-    VIS_DARK,
-    VIS_BOOMER_DARK
+enum class visibility_type : int {
+    HIDDEN,
+    CLEAR,
+    LIT,
+    BOOMER,
+    DARK,
+    BOOMER_DARK
 };
 
 // Matching rules for comparing a string to an overmap terrain id.
-enum ot_match_type {
+enum class ot_match_type : int {
     // The provided string must completely match the overmap terrain id, including
     // linear direction suffixes for linear terrain types or rotation suffixes
     // for rotated terrain types.
@@ -76,11 +115,11 @@ struct enum_traits<ot_match_type> {
     static constexpr ot_match_type last = ot_match_type::num_ot_match_type;
 };
 
-enum special_game_id : int {
-    SGAME_NULL = 0,
-    SGAME_TUTORIAL,
-    SGAME_DEFENSE,
-    NUM_SPECIAL_GAMES
+enum class special_game_type : int {
+    NONE = 0,
+    TUTORIAL,
+    DEFENSE,
+    NUM_SPECIAL_GAME_TYPES
 };
 
 enum art_effect_passive : int {
@@ -158,8 +197,13 @@ enum artifact_natural_property {
     ARTPROP_MAX
 };
 
-enum phase_id : int {
-    PNULL, SOLID, LIQUID, GAS, PLASMA, num_phases
+enum class phase_id : int {
+    PNULL,
+    SOLID,
+    LIQUID,
+    GAS,
+    PLASMA,
+    num_phases
 };
 
 template<>
@@ -168,26 +212,36 @@ struct enum_traits<phase_id> {
 };
 
 // Return the class an in-world object uses to interact with the world.
-//   ex; if ( player.grab_type == OBJECT_VEHICLE ) { ...
-//   or; if ( baseactor_just_shot_at.object_type() == OBJECT_NPC ) { ...
-enum object_type {
-    OBJECT_NONE,      // Nothing, invalid.
-    OBJECT_ITEM,      // item.h
-    OBJECT_ACTOR,     // potential virtual base class, get_object_type() would return one of the types below
-    OBJECT_PLAYER,  // player.h, npc.h
-    OBJECT_NPC,   // nph.h
-    OBJECT_MONSTER, // monster.h
-    OBJECT_VEHICLE,   // vehicle.h
-    OBJECT_TRAP,      // trap.h
-    OBJECT_FIELD,     // field.h; field_entry
-    OBJECT_TERRAIN,   // Not a real object
-    OBJECT_FURNITURE, // Not a real object
-    NUM_OBJECTS,
+//   ex; if ( player.grab_type == object_type::VEHICLE ) { ...
+//   or; if ( baseactor_just_shot_at.object_type() == object_type::NPC ) { ...
+enum class object_type : int {
+    NONE,      // Nothing, invalid.
+    ITEM,      // item.h
+    ACTOR,     // potential virtual base class, get_object_type() would return one of the types below
+    PLAYER,  // player.h, npc.h
+    NPC,   // nph.h
+    MONSTER, // monster.h
+    VEHICLE,   // vehicle.h
+    TRAP,      // trap.h
+    FIELD,     // field.h; field_entry
+    TERRAIN,   // Not a real object
+    FURNITURE, // Not a real object
+    NUM_OBJECT_TYPES,
 };
 
-enum liquid_source_type { LST_INFINITE_MAP = 1, LST_MAP_ITEM = 2, LST_VEHICLE = 3, LST_MONSTER = 4};
+enum class liquid_source_type : int {
+    INFINITE_MAP = 1,
+    MAP_ITEM = 2,
+    VEHICLE = 3,
+    MONSTER = 4
+};
 
-enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_MONSTER = 4 };
+enum class liquid_target_type : int {
+    CONTAINER = 1,
+    VEHICLE = 2,
+    MAP = 3,
+    MONSTER = 4
+};
 
 /**
  *  Possible layers that a piece of clothing/armor can occupy
@@ -198,33 +252,33 @@ enum liquid_target_type { LTT_CONTAINER = 1, LTT_VEHICLE = 2, LTT_MAP = 3, LTT_M
  *  and by @ref profession to place the characters' clothing in a sane order
  *  when starting the game.
  */
-enum layer_level {
+enum class layer_level : int {
     /* "Personal effects" layer, corresponds to PERSONAL flag */
-    PERSONAL_LAYER = 0,
+    PERSONAL = 0,
     /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
-    UNDERWEAR_LAYER,
+    UNDERWEAR,
     /* "Normal" layer, default if no flags set */
-    REGULAR_LAYER,
+    REGULAR,
     /* "Waist" layer, corresponds to WAIST flag. */
-    WAIST_LAYER,
+    WAIST,
     /* "Outer" layer, corresponds to OUTER flag. */
-    OUTER_LAYER,
+    OUTER,
     /* "Strapped" layer, corresponds to BELTED flag */
-    BELTED_LAYER,
+    BELTED,
     /* "Aura" layer, corresponds to AURA flag */
-    AURA_LAYER,
+    AURA,
     /* Not a valid layer; used for C-style iteration through this enum */
-    MAX_CLOTHING_LAYER
+    NUM_LAYER_LEVELS
 };
 
 inline layer_level &operator++( layer_level &l )
 {
-    l = static_cast<layer_level>( l + 1 );
+    l = static_cast<layer_level>( static_cast<int>( l ) + 1 );
     return l;
 }
 
 /** Possible reasons to interrupt an activity. */
-enum class distraction_type {
+enum class distraction_type : int {
     noise,
     pain,
     attacked,

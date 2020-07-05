@@ -13,8 +13,6 @@
 static const matype_id style_kicks( "style_kicks" );
 static const matype_id style_none( "style_none" );
 
-using itype_id = std::string;
-
 character_martial_arts::character_martial_arts()
 {
 
@@ -89,6 +87,17 @@ void character_martial_arts::set_style( const matype_id &mastyle, bool force )
 void character_martial_arts::reset_style()
 {
     style_selected = style_none;
+}
+
+void character_martial_arts::clear_styles()
+{
+    keep_hands_free = false;
+
+    ma_styles = { {
+            style_none, style_kicks
+        }
+    };
+    reset_style();
 }
 
 void character_martial_arts::selected_style_check()

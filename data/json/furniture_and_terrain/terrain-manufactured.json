@@ -26,27 +26,6 @@
   },
   {
     "type": "terrain",
-    "id": "t_gas_pump",
-    "name": "gasoline pump",
-    "looks_like": "t_machinery_heavy",
-    "description": "Precious GASOLINE.  The former world bowed to their petroleum god as it led them to their ruin.  There's plenty left over to fuel your inner road warrior.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
-    "symbol": "&",
-    "color": "red",
-    "move_cost": 0,
-    "coverage": 65,
-    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE" ],
-    "examine_action": "gaspump",
-    "bash": {
-      "str_min": 8,
-      "str_max": 150,
-      "sound": "crunch!",
-      "sound_fail": "clang!",
-      "ter_set": "t_gas_pump_smashed",
-      "items": [ { "item": "scrap", "count": 1 } ]
-    }
-  },
-  {
-    "type": "terrain",
     "id": "t_gas_tank",
     "name": "fuel tank",
     "description": "A tank filled with gasoline.",
@@ -92,6 +71,27 @@
   },
   {
     "type": "terrain",
+    "id": "t_gas_pump",
+    "name": "gasoline pump",
+    "looks_like": "t_machinery_heavy",
+    "description": "Precious GASOLINE.  The former world bowed to their petroleum god as it led them to their ruin.  There's plenty left over to fuel your inner road warrior.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
+    "symbol": "&",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE" ],
+    "examine_action": "gaspump",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_gas_pump_smashed",
+      "items": [ { "item": "scrap", "count": 1 } ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_gas_pump_a",
     "name": "gasoline pump",
     "description": "Precious GASOLINE.  The former world bowed to their petroleum god as it led them to their ruin.  There's plenty left over to fuel your inner road warrior.  If this gas dispenser doesn't give up the goods for free, you may have to pay at a nearby terminal.",
@@ -131,12 +131,79 @@
   },
   {
     "type": "terrain",
+    "id": "t_diesel_tank",
+    "name": "fuel tank",
+    "description": "A tank filled with diesel.",
+    "looks_like": "f_standing_tank",
+    "symbol": "Q",
+    "color": "brown_green",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 100,
+      "explosive": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_diesel_tank_smashed"
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_diesel_tank_smashed",
+    "name": "broken fuel tank",
+    "description": "A broken tank which was filled with diesel.",
+    "looks_like": "f_wreckage",
+    "symbol": "Q",
+    "color": "light_green",
+    "move_cost": 0,
+    "coverage": 50,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 100,
+      "explosive": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_pavement",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "terrain",
     "id": "t_diesel_pump",
     "name": "diesel pump",
     "description": "This is a diesel fuel pump.  This roadside attraction provides all the thick, gloopy liquid POWER you need to move your sensibly oversized APOCOLYPTIC SUPERTRUCK from point A to points beyond.  If it doesn't dispense fuel immediately, try banging on it or grunt your way over the nearby payment terminal.",
     "symbol": "&",
     "color": "green",
     "looks_like": "t_gas_pump",
+    "move_cost": 0,
+    "coverage": 65,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE" ],
+    "examine_action": "gaspump",
+    "bash": {
+      "str_min": 8,
+      "str_max": 150,
+      "sound": "crunch!",
+      "sound_fail": "clang!",
+      "ter_set": "t_diesel_pump_smashed",
+      "items": [ { "item": "scrap", "count": 1 } ]
+    }
+  },
+  {
+    "type": "terrain",
+    "id": "t_diesel_pump_a",
+    "name": "diesel pump",
+    "description": "This is a diesel fuel pump.  This roadside attraction provides all the thick, gloopy liquid POWER you need to move your sensibly oversized APOCOLYPTIC SUPERTRUCK from point A to points beyond.  If it doesn't dispense fuel immediately, try banging on it or grunt your way over the nearby payment terminal.",
+    "//": "clone of t_diesel_pump, but other color, must be clone every time",
+    "symbol": "&",
+    "color": "yellow_red",
+    "looks_like": "t_gas_pump_a",
     "move_cost": 0,
     "coverage": 65,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT", "PERMEABLE" ],
@@ -295,7 +362,7 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "ter_set": "t_missile_exploded",
-      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "plut_cell", "charges": [ 0, 3 ] } ]
+      "items": [ { "item": "scrap", "count": [ 4, 8 ] }, { "item": "plutonium", "charges": [ 0, 3 ] } ]
     }
   },
   {
@@ -701,14 +768,13 @@
       "items": [
         { "item": "scrap", "count": [ 4, 16 ] },
         { "item": "steel_chunk", "count": [ 1, 6 ] },
-        { "item": "plut_cell", "charges": [ 0, 3 ] },
+        { "item": "plutonium", "charges": [ 0, 3 ] },
         { "item": "lead", "charges": [ 12, 18 ] }
       ]
     },
     "deconstruct": {
       "ter_set": "t_concrete",
       "items": [
-        { "item": "minireactor", "prob": 25 },
         { "item": "RAM", "count": [ 4, 8 ] },
         { "item": "cable", "charges": [ 8, 16 ] },
         { "item": "small_lcd_screen", "count": [ 2, 4 ] },
@@ -717,7 +783,7 @@
         { "item": "circuit", "count": [ 6, 10 ] },
         { "item": "power_supply", "count": [ 4, 8 ] },
         { "item": "amplifier", "count": [ 3, 6 ] },
-        { "item": "plut_cell", "charges": [ 2, 8 ] },
+        { "item": "plutonium", "charges": [ 2, 8 ] },
         { "item": "scrap", "count": [ 8, 16 ] }
       ]
     }

@@ -204,7 +204,7 @@
     "volume": "179 ml",
     "price": 78000,
     "price_postapoc": 1500,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ":",
     "color": "dark_gray",
     "location": "muzzle",

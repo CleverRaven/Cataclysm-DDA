@@ -63,7 +63,7 @@ static void write_object( JsonIn &jsin, JsonOut &jsout, int depth, bool force_wr
 }
 
 static void format_collection( JsonIn &jsin, JsonOut &jsout, int depth,
-                               std::function<void( JsonIn &, JsonOut &, int, bool )>write_func,
+                               const std::function<void( JsonIn &, JsonOut &, int, bool )> &write_func,
                                bool force_wrap )
 {
     if( depth > 1 && !force_wrap ) {
@@ -198,7 +198,7 @@ int main( int argc, char *argv[] )
         header = "Content-type: application/json\n\n";
     }
 
-    if( in.str().size() == 0 ) {
+    if( in.str().empty() ) {
         std::cout << "Error, input empty." << std::endl;
         exit( EXIT_FAILURE );
     }
@@ -223,11 +223,9 @@ int main( int argc, char *argv[] )
 #else
         bool supports_color = isatty( STDOUT_FILENO );
 #endif
-        std::string color_good = supports_color ? "\x1b[32m" : std::string();
         std::string color_bad = supports_color ? "\x1b[31m" : std::string();
         std::string color_end = supports_color ? "\x1b[0m" : std::string();
         if( in_str == out.str() ) {
-            std::cout << color_good << "Well formatted: " << color_end << filename << std::endl;
             exit( EXIT_SUCCESS );
         } else {
             std::ofstream fout( filename, std::ios::binary | std::ios::trunc );

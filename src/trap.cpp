@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "event.h"
 #include "event_bus.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "int_id.h"
 #include "item.h"
@@ -19,7 +18,6 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "player.h"
 #include "point.h"
 #include "rng.h"
 #include "string_id.h"
@@ -128,20 +126,20 @@ void trap::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "spell_data", spell_data );
     assign( jo, "trigger_weight", trigger_weight );
     for( const JsonValue entry : jo.get_array( "drops" ) ) {
-        std::string item_type;
+        itype_id item_type;
         int quantity = 0;
         int charges = 0;
         if( entry.test_object() ) {
             JsonObject jc = entry.get_object();
-            item_type = jc.get_string( "item" );
+            jc.read( "item", item_type, true );
             quantity = jc.get_int( "quantity", 1 );
             charges = jc.get_int( "charges", 1 );
         } else {
-            item_type = entry.get_string();
+            entry.read( item_type, true );
             quantity = 1;
             charges = 1;
         }
-        if( !item_type.empty() && quantity > 0 && charges > 0 ) {
+        if( !item_type.is_empty() && quantity > 0 && charges > 0 ) {
             components.emplace_back( std::make_tuple( item_type, quantity, charges ) );
         }
     }
@@ -162,9 +160,10 @@ void trap::load( const JsonObject &jo, const std::string & )
             for( const JsonValue entry : jv.get_array( "spawn_items" ) ) {
                 if( entry.test_object() ) {
                     JsonObject joitm = entry.get_object();
-                    vehicle_data.spawn_items.emplace_back( joitm.get_string( "id" ), joitm.get_float( "chance" ) );
+                    vehicle_data.spawn_items.emplace_back(
+                        itype_id( joitm.get_string( "id" ) ), joitm.get_float( "chance" ) );
                 } else {
-                    vehicle_data.spawn_items.emplace_back( entry.get_string(), 1.0 );
+                    vehicle_data.spawn_items.emplace_back( itype_id( entry.get_string() ), 1.0 );
                 }
             }
         }
@@ -191,7 +190,19 @@ void trap::reset()
     trap_factory.reset();
 }
 
-bool trap::detect_trap( const tripoint &pos, const player &p ) const
+bool trap::is_trivial_to_spot() const
+{
+    // @TODO technically the trap may not be detected even with visibility == 0, see trap::detect_trap
+    return visibility <= 0 && !is_always_invisible();
+}
+
+bool trap::detected_by_ground_sonar() const
+{
+    // @TODO make this a property
+    return loadid == tr_beartrap_buried || loadid == tr_landmine_buried || loadid == tr_sinkhole;
+}
+
+bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 {
     // Some decisions are based around:
     // * Starting, and thus average perception, is 8.
@@ -221,23 +232,39 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
 }
 
 // Whether or not, in the current state, the player can see the trap.
-bool trap::can_see( const tripoint &pos, const player &p ) const
+bool trap::can_see( const tripoint &pos, const Character &p ) const
 {
     if( is_null() ) {
         // There is no trap at all, so logically one can not see it.
         return false;
     }
+    if( is_always_invisible() ) {
+        return false;
+    }
     return visibility < 0 || p.knows_trap( pos );
+}
+
+void trap::trigger( const tripoint &pos, Creature &creature ) const
+{
+    return trigger( pos, &creature, nullptr );
+}
+
+void trap::trigger( const tripoint &pos, item &item ) const
+{
+    return trigger( pos, nullptr, &item );
 }
 
 void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
+    if( is_null() ) {
+        return;
+    }
     const bool is_real_creature = creature != nullptr && !creature->is_hallucination();
     if( is_real_creature || item != nullptr ) {
         bool triggered = act( pos, creature, item );
         if( triggered && is_real_creature ) {
             if( Character *ch = creature->as_character() ) {
-                g->events().send<event_type::character_triggers_trap>( ch->getID(), id );
+                get_event_bus().send<event_type::character_triggers_trap>( ch->getID(), id );
             }
         }
     }
@@ -261,7 +288,7 @@ bool trap::is_funnel() const
 void trap::on_disarmed( map &m, const tripoint &p ) const
 {
     for( auto &i : components ) {
-        const std::string &item_type = std::get<0>( i );
+        const itype_id &item_type = std::get<0>( i );
         const int quantity = std::get<1>( i );
         const int charges = std::get<2>( i );
         m.spawn_item( p.xy(), item_type, quantity, charges );
@@ -275,26 +302,9 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
 // convenient int-lookup names for hard-coded functions
 trap_id
 tr_null,
-tr_bubblewrap,
-tr_glass,
-tr_cot,
-tr_funnel,
-tr_metal_funnel,
-tr_makeshift_funnel,
-tr_leather_funnel,
-tr_rollmat,
-tr_fur_rollmat,
-tr_beartrap,
 tr_beartrap_buried,
-tr_nailboard,
-tr_caltrops,
-tr_caltrops_glass,
-tr_tripwire,
-tr_crossbow,
 tr_shotgun_2,
-tr_shotgun_2_1,
 tr_shotgun_1,
-tr_engine,
 tr_blade,
 tr_landmine,
 tr_landmine_buried,
@@ -303,30 +313,37 @@ tr_goo,
 tr_dissector,
 tr_sinkhole,
 tr_pit,
-tr_spike_pit,
 tr_lava,
 tr_portal,
 tr_ledge,
-tr_boobytrap,
 tr_temple_flood,
 tr_temple_toggle,
 tr_glow,
 tr_hum,
 tr_shadow,
 tr_drain,
-tr_snake,
-tr_glass_pit;
+tr_snake;
 
 void trap::check_consistency()
 {
     for( const auto &t : trap_factory.get_all() ) {
         for( auto &i : t.components ) {
-            const std::string &item_type = std::get<0>( i );
+            const itype_id &item_type = std::get<0>( i );
             if( !item::type_is_defined( item_type ) ) {
-                debugmsg( "trap %s has unknown item as component %s", t.id.c_str(), item_type.c_str() );
+                debugmsg( "trap %s has unknown item as component %s", t.id.str(), item_type.str() );
             }
         }
     }
+}
+
+bool trap::easy_take_down() const
+{
+    return avoidance == 0 && difficulty == 0;
+}
+
+bool trap::can_not_be_disarmed() const
+{
+    return difficulty >= 99;
 }
 
 void trap::finalize()
@@ -343,26 +360,9 @@ void trap::finalize()
         return trap_str_id( id ).id();
     };
     tr_null = trap_str_id::NULL_ID().id();
-    tr_bubblewrap = trapfind( "tr_bubblewrap" );
-    tr_glass = trapfind( "tr_glass" );
-    tr_cot = trapfind( "tr_cot" );
-    tr_funnel = trapfind( "tr_funnel" );
-    tr_metal_funnel = trapfind( "tr_metal_funnel" );
-    tr_makeshift_funnel = trapfind( "tr_makeshift_funnel" );
-    tr_leather_funnel = trapfind( "tr_leather_funnel" );
-    tr_rollmat = trapfind( "tr_rollmat" );
-    tr_fur_rollmat = trapfind( "tr_fur_rollmat" );
-    tr_beartrap = trapfind( "tr_beartrap" );
     tr_beartrap_buried = trapfind( "tr_beartrap_buried" );
-    tr_nailboard = trapfind( "tr_nailboard" );
-    tr_caltrops = trapfind( "tr_caltrops" );
-    tr_caltrops_glass = trapfind( "tr_caltrops_glass" );
-    tr_tripwire = trapfind( "tr_tripwire" );
-    tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );
-    tr_shotgun_2_1 = trapfind( "tr_shotgun_2_1" );
     tr_shotgun_1 = trapfind( "tr_shotgun_1" );
-    tr_engine = trapfind( "tr_engine" );
     tr_blade = trapfind( "tr_blade" );
     tr_landmine = trapfind( "tr_landmine" );
     tr_landmine_buried = trapfind( "tr_landmine_buried" );
@@ -371,11 +371,9 @@ void trap::finalize()
     tr_dissector = trapfind( "tr_dissector" );
     tr_sinkhole = trapfind( "tr_sinkhole" );
     tr_pit = trapfind( "tr_pit" );
-    tr_spike_pit = trapfind( "tr_spike_pit" );
     tr_lava = trapfind( "tr_lava" );
     tr_portal = trapfind( "tr_portal" );
     tr_ledge = trapfind( "tr_ledge" );
-    tr_boobytrap = trapfind( "tr_boobytrap" );
     tr_temple_flood = trapfind( "tr_temple_flood" );
     tr_temple_toggle = trapfind( "tr_temple_toggle" );
     tr_glow = trapfind( "tr_glow" );
@@ -383,5 +381,10 @@ void trap::finalize()
     tr_shadow = trapfind( "tr_shadow" );
     tr_drain = trapfind( "tr_drain" );
     tr_snake = trapfind( "tr_snake" );
-    tr_glass_pit = trapfind( "tr_glass_pit" );
+}
+
+std::string trap::debug_describe() const
+{
+    return string_format( _( "Visible: %d\nAvoidance: %d\nDifficulty: %d\nBenign: %s" ), visibility,
+                          avoidance, difficulty, is_benign() ? _( "Yes" ) : _( "No" ) );
 }

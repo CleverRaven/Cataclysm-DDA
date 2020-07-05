@@ -376,12 +376,12 @@ constexpr time_duration operator"" _weeks( const unsigned long long int v )
  */
 std::string to_string( const time_duration &d );
 
-enum class clipped_align {
+enum class clipped_align : int {
     none,
     right,
 };
 
-enum class clipped_unit {
+enum class clipped_unit : int {
     forever,
     second,
     minute,
@@ -453,54 +453,46 @@ class time_point
             return point.turn_;
         }
 
+        friend constexpr inline bool operator<( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) < to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator<=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) <= to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator>( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) > to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator>=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) >= to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator==( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) == to_turn<int>( rhs );
+        }
+        friend constexpr inline bool operator!=( const time_point &lhs, const time_point &rhs ) {
+            return to_turn<int>( lhs ) != to_turn<int>( rhs );
+        }
+
+        friend constexpr inline time_duration operator-(
+            const time_point &lhs, const time_point &rhs ) {
+            return time_duration::from_turns( to_turn<int>( lhs ) - to_turn<int>( rhs ) );
+        }
+        friend constexpr inline time_point operator+(
+            const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator+=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
+        }
+        friend constexpr inline time_point operator-(
+            const time_point &lhs, const time_duration &rhs ) {
+            return time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+        }
+        friend time_point inline &operator-=( time_point &lhs, const time_duration &rhs ) {
+            return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
+        }
+
         // TODO: implement minutes_of_hour and so on and use it.
 };
-
-constexpr inline bool operator<( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) < to_turn<int>( rhs );
-}
-constexpr inline bool operator<=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) <= to_turn<int>( rhs );
-}
-constexpr inline bool operator>( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) > to_turn<int>( rhs );
-}
-constexpr inline bool operator>=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) >= to_turn<int>( rhs );
-}
-constexpr inline bool operator==( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) == to_turn<int>( rhs );
-}
-constexpr inline bool operator!=( const time_point &lhs, const time_point &rhs )
-{
-    return to_turn<int>( lhs ) != to_turn<int>( rhs );
-}
-
-constexpr inline time_duration operator-( const time_point &lhs, const time_point &rhs )
-{
-    return time_duration::from_turns( to_turn<int>( lhs ) - to_turn<int>( rhs ) );
-}
-constexpr inline time_point operator+( const time_point &lhs, const time_duration &rhs )
-{
-    return time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
-}
-time_point inline &operator+=( time_point &lhs, const time_duration &rhs )
-{
-    return lhs = time_point::from_turn( to_turn<int>( lhs ) + to_turns<int>( rhs ) );
-}
-constexpr inline time_point operator-( const time_point &lhs, const time_duration &rhs )
-{
-    return time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
-}
-time_point inline &operator-=( time_point &lhs, const time_duration &rhs )
-{
-    return lhs = time_point::from_turn( to_turn<int>( lhs ) - to_turns<int>( rhs ) );
-}
 
 inline time_duration time_past_midnight( const time_point &p )
 {
@@ -538,7 +530,9 @@ season_type season_of_year( const time_point &p );
 std::string to_string( const time_point &p );
 /// @returns The time point formatted to be shown to the player. Contains only the time of day, not the year, day or season.
 std::string to_string_time_of_day( const time_point &p );
-/** Returns the current light level of the moon. */
+/** Returns the default duration of a lunar month (duration between syzygies) */
+time_duration lunar_month();
+/** Returns the current phase of the moon. */
 moon_phase get_moon_phase( const time_point &p );
 /** Returns the current sunrise time based on the time of year. */
 time_point sunrise( const time_point &p );

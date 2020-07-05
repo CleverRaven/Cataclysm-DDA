@@ -4,16 +4,16 @@
 
 #include <string>
 
-enum nameFlags {
-    nameIsMaleName   = 1 << 0,
-    nameIsFemaleName = 1 << 1,
-    nameIsUnisexName = nameIsMaleName | nameIsFemaleName,
-    nameIsGivenName  = 1 << 2,
-    nameIsFamilyName = 1 << 3,
-    nameIsNickName   = 1 << 4,
-    nameIsTownName   = 1 << 5,
-    nameIsFullName   = 1 << 6,
-    nameIsWorldName  = 1 << 7
+enum class nameFlags : int {
+    IsMaleName   = 1 << 0,
+    IsFemaleName = 1 << 1,
+    IsUnisexName = IsMaleName | IsFemaleName,
+    IsGivenName  = 1 << 2,
+    IsFamilyName = 1 << 3,
+    IsNickName   = 1 << 4,
+    IsTownName   = 1 << 5,
+    IsFullName   = 1 << 6,
+    IsWorldName  = 1 << 7
 };
 
 namespace Name

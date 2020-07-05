@@ -3,6 +3,7 @@
     "abstract": "40x53mm_grenade",
     "type": "AMMO",
     "name": { "str": "40x53mm grenade" },
+    "longest_side": "112 mm",
     "price": 10000,
     "price_postapoc": 6000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],

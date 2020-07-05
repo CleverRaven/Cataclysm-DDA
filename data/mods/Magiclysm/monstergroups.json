@@ -47,6 +47,16 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_POLYMORPH_SHADOW",
+    "default": "mon_shadow",
+    "is_animal": true,
+    "monsters": [
+      { "monster": "mon_shadow", "freq": 100, "cost_multiplier": 1 },
+      { "monster": "mon_shadow_snake", "freq": 10, "cost_multiplier": 1 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_WORM",
     "default": "mon_worm",
     "is_animal": true,
@@ -114,5 +124,20 @@
       { "monster": "mon_stonegolem", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_irongolem", "freq": 5, "cost_multiplier": 1 }
     ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GOBLIN_STANDARD",
+    "default": "mon_goblin_warrior",
+    "monsters": [
+      { "monster": "mon_goblin_warrior", "freq": 35, "cost_multiplier": 1, "pack_size": [ 2, 4 ] },
+      { "monster": "mon_goblin_slinger", "freq": 65, "cost_multiplier": 1, "pack_size": [ 2, 4 ] }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_GOBLIN_ADVANCED",
+    "default": "mon_goblin_chieftain",
+    "monsters": [ { "monster": "mon_goblin_chieftain", "freq": 40, "cost_multiplier": 1 } ]
   }
 ]

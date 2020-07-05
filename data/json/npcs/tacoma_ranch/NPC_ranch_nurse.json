@@ -294,7 +294,7 @@
     "item": "emergency_book",
     "start": "ranch_nurse_8",
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_RANCH_NURSE_10",
+    "followup": "MISSION_RANCH_NURSE_11",
     "dialogue": {
       "describe": "We need help…",
       "offer": "Have you heard of a book called the 'Guide to Advanced Emergency Care?'  I really need a copy.  The doctor is requesting a lot of supplies that I'm not familiar with but I believe I could make if I could get a copy of the book.",

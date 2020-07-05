@@ -708,6 +708,15 @@
     ]
   },
   {
+    "id": "mon_zombie_necro_boomer",
+    "type": "MONSTER",
+    "name": { "str": "zombie necro-boomer" },
+    "description": "At first this creature looks like nothing more than a grotesque and oleaginous husk, bloated and punctured by jet-black pustules.  When approached its glowing red eyes and an aching grin take form; its skin tears and guts teem with unmatched fecundity, as its gaze inspires fear of nothing less than cosmic, inhuman ecstasy.",
+    "copy-from": "mon_zombie_necro",
+    "diff": 25,
+    "death_function": [ "NECRO_BOOMER" ]
+  },
+  {
     "id": "mon_zombie_runner",
     "type": "MONSTER",
     "name": { "str": "feral runner" },

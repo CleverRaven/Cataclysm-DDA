@@ -18,8 +18,10 @@
 #include "string_id.h"
 #include "units.h"
 
+static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_beartrap( "beartrap" );
 static const efftype_id effect_crushed( "crushed" );
+static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_heavysnare( "heavysnare" );
@@ -28,6 +30,9 @@ static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
+
+static const itype_id itype_holybook_bible( "holybook_bible" );
+static const itype_id itype_money_bundle( "money_bundle" );
 
 static const trait_id trait_LACTOSE( "LACTOSE" );
 static const trait_id trait_VEGETARIAN( "VEGETARIAN" );
@@ -101,7 +106,7 @@ void weed_msg( player &p )
                 }
                 return;
             case 4:
-                if( p.has_amount( "money_bundle", 1 ) ) { // Half Baked
+                if( p.has_amount( itype_money_bundle, 1 ) ) { // Half Baked
                     p.add_msg_if_player( _( "You ever see the back of a twenty dollar bill… on weed?" ) );
                     if( one_in( 2 ) ) {
                         p.add_msg_if_player(
@@ -110,7 +115,7 @@ void weed_msg( player &p )
                             p.add_msg_if_player( _( "RED TEAM GO, RED TEAM GO!" ) );
                         }
                     }
-                } else if( p.has_amount( "holybook_bible", 1 ) ) {
+                } else if( p.has_amount( itype_holybook_bible, 1 ) ) {
                     p.add_msg_if_player( _( "You have a sudden urge to flip your bible open to Genesis 1:29…" ) );
                 } else { // Big Lebowski
                     p.add_msg_if_player( _( "That rug really tied the room together…" ) );
@@ -209,7 +214,8 @@ static void extract_effect(
     const JsonObject &j,
     std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double,
     cata::tuple_hash> &data,
-    const std::string &mod_type, std::string data_key, std::string type_key, std::string arg_key )
+    const std::string &mod_type, const std::string &data_key,
+    const std::string &type_key, const std::string &arg_key )
 {
     double val = 0;
     double reduced_val = 0;
@@ -524,7 +530,7 @@ std::string effect::disp_name() const
         }
         ret += eff_type->name[0].translated();
         if( intensity > 1 ) {
-            if( eff_type->id == "bandaged" || eff_type->id == "disinfected" ) {
+            if( eff_type->id == effect_bandaged || eff_type->id == effect_disinfected ) {
                 ret += string_format( " [%s]", texitify_healing_power( intensity ) );
             } else {
                 ret += string_format( " [%d]", intensity );
@@ -532,7 +538,7 @@ std::string effect::disp_name() const
         }
     }
     if( bp != num_bp ) {
-        ret += string_format( " (%s)", body_part_name( bp ) );
+        ret += string_format( " (%s)", body_part_name( convert_bp( bp ).id() ) );
     }
 
     return ret;
@@ -690,7 +696,7 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret += string_format( _( tmp_str ), body_part_name( bp ) );
+        ret += string_format( _( tmp_str ), body_part_name( convert_bp( bp ).id() ) );
     } else {
         if( !tmp_str.empty() ) {
             ret += _( tmp_str );
@@ -864,7 +870,7 @@ std::vector<efftype_id> effect::get_blocks_effects() const
     return ret;
 }
 
-int effect::get_mod( std::string arg, bool reduced ) const
+int effect::get_mod( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double min = 0;
@@ -896,7 +902,7 @@ int effect::get_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_avg_mod( std::string arg, bool reduced ) const
+int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double min = 0;
@@ -928,7 +934,7 @@ int effect::get_avg_mod( std::string arg, bool reduced ) const
     }
 }
 
-int effect::get_amount( std::string arg, bool reduced ) const
+int effect::get_amount( const std::string &arg, bool reduced ) const
 {
     int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
                                eff_type->max_effective_intensity, intensity ) : intensity;
@@ -945,7 +951,7 @@ int effect::get_amount( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_min_val( std::string arg, bool reduced ) const
+int effect::get_min_val( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
@@ -960,7 +966,7 @@ int effect::get_min_val( std::string arg, bool reduced ) const
     return static_cast<int>( ret );
 }
 
-int effect::get_max_val( std::string arg, bool reduced ) const
+int effect::get_max_val( const std::string &arg, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     double ret = 0;
@@ -985,7 +991,7 @@ bool effect::get_sizing( const std::string &arg ) const
     return false;
 }
 
-double effect::get_percentage( std::string arg, int val, bool reduced ) const
+double effect::get_percentage( const std::string &arg, int val, bool reduced ) const
 {
     auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
@@ -1062,7 +1068,7 @@ double effect::get_percentage( std::string arg, int val, bool reduced ) const
     return ret;
 }
 
-bool effect::activated( const time_point &when, std::string arg, int val, bool reduced,
+bool effect::activated( const time_point &when, const std::string &arg, int val, bool reduced,
                         double mod ) const
 {
     auto &mod_data = eff_type->mod_data;
