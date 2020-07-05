@@ -118,6 +118,18 @@ void weather_type::check() const
             abort();
         }
     }
+    for( const weather_effect &effect : effects ) {
+        if( !effect.add_effect.is_empty() && !effect.add_effect.is_valid() ) {
+            debugmsg( "Required effect type %s does not exist.", effect.add_effect.c_str() );
+            abort();
+        }
+        for( const spawn_type &spawn : effect.spawns ) {
+            if( !spawn.target.is_empty() && !spawn.target.is_valid() ) {
+                debugmsg( "Required spawn target %s does not exist.", spawn.target.c_str() );
+                abort();
+            }
+        }
+    }
 }
 
 void weather_type::load( const JsonObject &jo, const std::string & )
@@ -158,14 +170,27 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         optional( weather_effect_jo, was_loaded, "intensity", effect.intensity, 0 );
         mandatory( weather_effect_jo, was_loaded, "must_be_outside", effect.must_be_outside );
         optional( weather_effect_jo, was_loaded, "one_in_chance", effect.one_in_chance, -1 );
-        optional( weather_effect_jo, was_loaded, "seconds_between", effect.seconds_between, -1 );
+        optional( weather_effect_jo, was_loaded, "time_between", effect.time_between );
         optional( weather_effect_jo, was_loaded, "lightning", effect.lightning, false );
         optional( weather_effect_jo, was_loaded, "rain_proof", effect.rain_proof, false );
         optional( weather_effect_jo, was_loaded, "pain_max", effect.pain_max, INT_MAX );
         optional( weather_effect_jo, was_loaded, "pain", effect.pain, 0 );
         optional( weather_effect_jo, was_loaded, "wet", effect.wet, 0 );
-        //mandatory( weather_effect_jo, was_loaded, "effect", effect.effect, -1 );
+        optional( weather_effect_jo, was_loaded, "radiation", effect.radiation, 0 );
+        optional( weather_effect_jo, was_loaded, "healthy", effect.healthy, 0 );
+        optional( weather_effect_jo, was_loaded, "add_effect", effect.add_effect );
+        optional( weather_effect_jo, was_loaded, "effect_duration", effect.effect_duration );
+        for( const JsonObject spawn_jo : weather_effect_jo.get_array( "spawns" ) ) {
+            spawn_type spawn;
+            mandatory( spawn_jo, was_loaded, "max_radius", spawn.max_radius );
+            mandatory( spawn_jo, was_loaded, "min_radius", spawn.min_radius );
+            optional( spawn_jo, was_loaded, "hallucination_count", spawn.hallucination_count, 0 );
+            optional( spawn_jo, was_loaded, "real_count", spawn.real_count, 0 );
+            optional( spawn_jo, was_loaded, "target", spawn.target );
+            optional( spawn_jo, was_loaded, "target_range", spawn.target_range, 30 );
 
+            effect.spawns.emplace_back( spawn );
+        }
         effects.emplace_back( effect );
     }
     weather_animation = { 0.0f, c_white, '?' };

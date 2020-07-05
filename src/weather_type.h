@@ -87,9 +87,18 @@ struct weather_requirements {
     std::vector<weather_type_id> required_weathers;
 };
 
+struct spawn_type {
+    mtype_id target;
+    int target_range;
+    int hallucination_count;
+    int real_count;
+    int min_radius;
+    int max_radius;
+};
+
 struct weather_effect {
     int one_in_chance;
-    int seconds_between;
+    time_duration time_between;
     int intensity;
     std::string message;
     bool must_be_outside;
@@ -101,6 +110,11 @@ struct weather_effect {
     int pain;
     int pain_max;
     int wet;
+    int radiation;
+    int healthy;
+    efftype_id add_effect;
+    time_duration effect_duration;
+    std::vector<spawn_type> spawns;
 };
 
 struct weather_type {
