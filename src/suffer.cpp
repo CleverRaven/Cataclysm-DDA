@@ -919,8 +919,8 @@ void Character::suffer_from_other_mutations()
     }
 
     if( has_trait( trait_SORES ) ) {
-        for( const body_part bp : all_body_parts ) {
-            if( bp == bp_head ) {
+        for( const bodypart_id bp : get_all_body_parts() ) {
+            if( bp == bodypart_id( "head" ) ) {
                 continue;
             }
             int sores_pain = 5 + 0.4 * std::abs( encumb( bp ) );

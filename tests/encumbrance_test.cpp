@@ -33,7 +33,7 @@ static void test_encumbrance_on(
         p.worn.push_back( i );
     }
     p.reset_encumbrance();
-    encumbrance_data enc = p.get_encumbrance()[ get_body_part_token( body_part ) ];
+    encumbrance_data enc = p.get_part_encumbrance_data( bodypart_id( body_part ) );
     CHECK( enc.encumbrance == expected_encumbrance );
 }
 

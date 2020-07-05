@@ -56,11 +56,13 @@ static body_part other_part( body_part bp )
 static bool should_combine_bps( const player &p, body_part l, body_part r,
                                 const item *selected_clothing )
 {
-    const auto enc_data = p.get_encumbrance();
+    const encumbrance_data enc_l = p.get_part_encumbrance_data( convert_bp( l ).id() );
+    const encumbrance_data enc_r = p.get_part_encumbrance_data( convert_bp( r ).id() );
+
     return l != r && // are different parts
            l == other_part( r ) && r == other_part( l ) && // are complementary parts
            // same encumberance & temperature
-           enc_data[l] == enc_data[r] &&
+           enc_l == enc_r &&
            temperature_print_rescaling( p.temp_conv[l] ) == temperature_print_rescaling( p.temp_conv[r] ) &&
            // selected_clothing covers both or neither parts
            ( !selected_clothing ||
@@ -109,7 +111,6 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
      *** for displaying triple digit encumbrance, due to new encumbrance system.    ***
      *** If the player wants to see the total without having to do them maths, the  ***
      *** armor layers ui shows everything they want :-) -Davek                      ***/
-    const auto enc_data = get_encumbrance();
     for( int i = 0; i < height; ++i ) {
         int thisline = firstline + i;
         if( thisline < 0 ) {
@@ -120,7 +121,7 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         }
         const body_part bp = bps[thisline].first;
         const bool combine = bps[thisline].second;
-        const encumbrance_data &e = enc_data[bp];
+        const encumbrance_data &e = get_part_encumbrance_data( convert_bp( bp ).id() );
         const bool highlighted = selected_clothing ? selected_clothing->covers( convert_bp(
                                      bp ).id() ) : false;
         std::string out = body_part_name_as_heading( convert_bp( bp ).id(), combine ? 2 : 1 );
@@ -201,7 +202,7 @@ static int get_encumbrance( const player &p, body_part bp, bool combine )
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
     const bool combines_with_other = static_cast<int>( bp_aiOther[bp] ) != bp;
-    return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
+    return p.encumb( convert_bp( bp ).id() ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
 static std::string get_encumbrance_description( const player &p, body_part bp, bool combine )

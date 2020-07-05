@@ -1150,9 +1150,11 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( ( p.encumb( bp_torso ) ) >= 10 ) && ( ( p.encumb( bp_head ) ) >= 10 ) &&
-        ( p.encumb( bp_foot_l ) >= 10 ||
-          p.encumb( bp_foot_r ) >= 10 ) ) { // Most likely places for rigid gear that would catch on the bars.
+    if( ( ( p.encumb( bodypart_id( "torso" ) ) ) >= 10 ) &&
+        ( ( p.encumb( bodypart_id( "head" ) ) ) >= 10 ) &&
+        ( p.encumb( bodypart_id( "foot_l" ) ) >= 10 ||
+          p.encumb( bodypart_id( "foot_r" ) ) >=
+          10 ) ) { // Most likely places for rigid gear that would catch on the bars.
         add_msg( m_info,
                  _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
                  here.tername( examp ) );
