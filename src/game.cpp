@@ -11533,7 +11533,7 @@ void game::perhaps_add_random_npc()
 
     // spawn algorithm is a chance per hour, but the config is specified in average days
     // actual chance per hour is (100 / 24 ) / days
-    static constexpr double days_to_rate_factor = ( 100 / 24 );
+    static constexpr double days_to_rate_factor = 100.0 / 24;
     double spawn_rate = days_to_rate_factor / spawn_time;
     static constexpr int radius_spawn_range = 90;
     std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( radius_spawn_range );
