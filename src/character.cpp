@@ -5328,8 +5328,7 @@ void Character::get_sick()
     // Characters get sick a minimum of 3 times per year + modifiers found from mutations
     float base_diseases_per_year = 3.0f + mutation_value( "base_disease_rate_modifier" );
 
-    int disease_rarity = static_cast<int>( checks_per_year * character_attributes::health_factor /
-                                           character_attributes::base_diseases_per_year );
+    int disease_rarity = static_cast<int>( checks_per_year * health_factor / base_diseases_per_year );
     add_msg( m_debug, "disease_rarity = %d", disease_rarity );
     if( one_in( disease_rarity ) ) {
         if( one_in( 6 ) ) {
