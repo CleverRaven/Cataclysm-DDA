@@ -11527,9 +11527,8 @@ void game::perhaps_add_random_npc()
     // Create a new NPC?
 
     float density = get_option<float>( "NPC_DENSITY" );
-    static constexpr int density_search_radius = 60;
-    std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player(
-                                       density_search_radius );
+    static constexpr int radius_spawn_range = 90;
+    std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( radius_spawn_range );
     size_t npc_num = npcs.size();
     for( size_t i = 0; i < npcs.size(); i++ ) {
         if( npcs[i]->has_trait( trait_NPC_STATIC_NPC ) || npcs[i]->has_trait( trait_NPC_STARTING_NPC ) ) {
@@ -11552,7 +11551,6 @@ void game::perhaps_add_random_npc()
         if( counter >= 10 ) {
             return;
         }
-        static constexpr int radius_spawn_range = 120;
         const tripoint u_omt = u.global_omt_location();
         spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
                                      rng( -radius_spawn_range, radius_spawn_range ) );
