@@ -2604,14 +2604,14 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
         std::string format;
-        const int encumbrance = get_encumber( g->u );
+        const bool sizing_matters = get_sizing( g->u ) != sizing::ignore;
         if( has_flag( flag_FIT ) ) {
             format = _( " <info>(fits)</info>" );
-        } else if( has_flag( flag_VARSIZE ) && encumbrance ) {
+        } else if( has_flag( flag_VARSIZE ) && sizing_matters ) {
             format = _( " <bad>(poor fit)</bad>" );
         }
 
-        if( encumbrance ) {
+        if( sizing_matters ) {
             const sizing sizing_level = get_sizing( g->u );
             //If we have the wrong size, we do not fit so alert the player
             if( sizing_level == sizing::human_sized_small_char ) {
@@ -2796,7 +2796,6 @@ void item::armor_fit_info( std::vector<iteminfo> &info, const iteminfo_query *pa
         return;
     }
 
-    int encumbrance = get_encumber( g->u );
     const sizing sizing_level = get_sizing( g->u );
 
     if( has_flag( flag_HELMET_COMPAT ) &&

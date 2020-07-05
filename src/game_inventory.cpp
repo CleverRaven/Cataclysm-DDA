@@ -292,7 +292,7 @@ class armor_inventory_preset: public inventory_selector_preset
         armor_inventory_preset( player &pl, const std::string &color_in ) :
             p( pl ), color( color_in ) {
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->get_encumber( p ) );
+                return get_number_string( loc->get_encumber( p, bodypart_id( "num_bp" ) ) );
             }, _( "ENCUMBRANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {

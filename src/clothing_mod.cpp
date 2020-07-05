@@ -95,7 +95,7 @@ void clothing_mod::load( const JsonObject &jo, const std::string & )
 float clothing_mod::get_mod_val( const clothing_mod_type &type, const item &it ) const
 {
     const int thickness = it.get_thickness();
-    const int coverage = it.get_coverage();
+    const int coverage = it.get_coverage( bodypart_id( "num_bp" ) );
     float result = 0.0f;
     for( const mod_value &mv : mod_values ) {
         if( mv.type == type ) {
