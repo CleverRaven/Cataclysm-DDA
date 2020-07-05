@@ -270,10 +270,11 @@ bool vehicle::player_in_control( const Character &p ) const
 
     const optional_vpart_position vp = get_map().veh_at( p.pos() );
     if( vp && &vp->vehicle() == this &&
+        p.controlling_vehicle &&
         ( ( part_with_feature( vp->part_index(), "CONTROL_ANIMAL", true ) >= 0 &&
             has_engine_type( fuel_type_animal, false ) && has_harnessed_animal() ) ||
-          ( part_with_feature( vp->part_index(), VPFLAG_CONTROLS, false ) >= 0 ) ) &&
-        p.controlling_vehicle ) {
+          ( part_with_feature( vp->part_index(), VPFLAG_CONTROLS, false ) >= 0 ) )
+      ) {
         return true;
     }
 
@@ -1179,8 +1180,9 @@ bool vehicle::is_alternator_on( const int a ) const
     return std::any_of( engines.begin(), engines.end(), [this, &alt]( int idx ) {
         auto &eng = parts [ idx ];
         //fuel_left checks that the engine can produce power to be absorbed
-        return eng.is_available() && eng.enabled && fuel_left( eng.fuel_current() ) &&
-               eng.mount == alt.mount && !eng.faults().count( fault_engine_belt_drive );
+        return eng.mount == alt.mount && eng.is_available() && eng.enabled &&
+               fuel_left( eng.fuel_current() ) &&
+               !eng.faults().count( fault_engine_belt_drive );
     } );
 }
 
@@ -3242,15 +3244,18 @@ point vehicle::pivot_displacement() const
 
 int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
 {
-    int fl = std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
-    const vehicle_part & rhs ) {
-        // don't count frozen liquid
-        if( rhs.is_tank() && !rhs.base.contents.empty() &&
-            rhs.base.contents.legacy_front().made_of( phase_id::SOLID ) ) {
-            return lhs;
+    int fl = 0;
+
+    for( size_t i = 0; i < fuel_containers.size(); ++i ) {
+        const vehicle_part &part = parts[fuel_containers[i]];
+        if( part.ammo_current() != ftype ||
+            // don't count frozen liquid
+            ( !part.base.contents.empty() && part.is_tank() &&
+              part.base.contents.legacy_front().made_of( phase_id::SOLID ) ) ) {
+            continue;
         }
-        return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
-    } );
+        fl += part.ammo_remaining();
+    }
 
     if( recurse && ftype == fuel_type_battery ) {
         auto fuel_counting_visitor = [&]( vehicle const * veh, int amount, int ) {
@@ -5557,6 +5562,7 @@ void vehicle::refresh()
     speciality.clear();
     floating.clear();
     batteries.clear();
+    fuel_containers.clear();
 
     alternator_load = 0;
     extra_drag = 0;
@@ -5632,6 +5638,9 @@ void vehicle::refresh()
         }
         if( vp.part().is_battery() ) {
             batteries.push_back( p );
+        }
+        if( vp.part().ammo_current() != itype_id::NULL_ID() ) {
+            fuel_containers.push_back( p );
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );

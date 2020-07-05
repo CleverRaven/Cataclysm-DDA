@@ -1797,7 +1797,8 @@ class vehicle
         // List of parts that will not be on a vehicle very often, or which only one will be present
         std::vector<int> speciality;
         std::vector<int> floating;         // List of parts that provide buoyancy to boats
-        std::vector<int> batteries;         // List of batteries
+        std::vector<int> batteries;        // List of batteries
+        std::vector<int> fuel_containers;  // List parts with non-null ammo_type
 
         // config values
         std::string name;   // vehicle name
