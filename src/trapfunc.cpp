@@ -437,7 +437,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
 {
     map &here = get_map();
     sounds::sound( p, 60, sounds::sound_t::combat, _( "Kerblam!" ), false, "fire_gun",
-                   here.tr_at( p ).loadid == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
+                   here.tr_at( p ) == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
     int shots = 1;
     if( c != nullptr ) {
         if( c->has_effect( effect_ridden ) ) {
@@ -450,7 +450,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
         if( n != nullptr ) {
             ///\EFFECT_STR_MAX increases chance of two shots from shotgun trap
             shots = ( one_in( 8 ) || one_in( 20 - n->str_max ) ? 2 : 1 );
-            if( here.tr_at( p ).loadid != tr_shotgun_2 ) {
+            if( here.tr_at( p ) != tr_shotgun_2 ) {
                 shots = 1;
             }
             ///\EFFECT_DODGE reduces chance of being hit by shotgun trap
@@ -512,7 +512,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                     break;
             }
             shots = ( one_in( 8 ) || one_in( chance ) ? 2 : 1 );
-            if( here.tr_at( p ).loadid != tr_shotgun_2 ) {
+            if( here.tr_at( p ) != tr_shotgun_2 ) {
                 shots = 1;
             }
             if( seen ) {
@@ -524,7 +524,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
         c->check_dead_state();
     }
 
-    here.spawn_item( p, here.tr_at( p ).loadid == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
+    here.spawn_item( p, here.tr_at( p ) == tr_shotgun_1 ? "shotgun_s" : "shotgun_d" );
     here.spawn_item( p, "string_36" );
     here.remove_trap( p );
     return true;
@@ -1062,7 +1062,7 @@ static bool sinkhole_safety_roll( player *p, const itype_id &itemname, const int
 
     std::vector<tripoint> safe;
     for( const tripoint &tmp : here.points_in_radius( p->pos(), 1 ) ) {
-        if( here.passable( tmp ) && here.tr_at( tmp ).loadid != tr_pit ) {
+        if( here.passable( tmp ) && here.tr_at( tmp ) != tr_pit ) {
             safe.push_back( tmp );
         }
     }
@@ -1247,7 +1247,7 @@ bool trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
         map &here = get_map();
         for( i = 0; i < MAPSIZE_X; i++ ) {
             for( j = 0; j < MAPSIZE_Y; j++ ) {
-                if( here.tr_at( tmp ).loadid == tr_temple_flood ) {
+                if( here.tr_at( tmp ) == tr_temple_flood ) {
                     here.remove_trap( tmp );
                 }
             }

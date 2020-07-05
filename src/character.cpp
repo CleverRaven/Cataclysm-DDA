@@ -8158,22 +8158,30 @@ tripoint Character::adjacent_tile() const
             // Don't consider player position
             continue;
         }
+        if( g->critter_at( p ) != nullptr ) {
+            continue;
+        }
+        if( here.impassable( p ) ) {
+            continue;
+        }
         const trap &curtrap = here.tr_at( p );
-        if( g->critter_at( p ) == nullptr && here.passable( p ) &&
-            ( curtrap.is_null() || curtrap.is_benign() ) ) {
-            // Only consider tile if unoccupied, passable and has no traps
-            dangerous_fields = 0;
-            auto &tmpfld = here.field_at( p );
-            for( auto &fld : tmpfld ) {
-                const field_entry &cur = fld.second;
-                if( cur.is_dangerous() ) {
-                    dangerous_fields++;
-                }
+        // If we don't known a trap here, the spot "appears" to be good, so consider it.
+        // Same if we know a benign trap (as it's not dangerous).
+        if( curtrap.can_see( p, *this ) && !curtrap.is_benign() ) {
+            continue;
+        }
+        // Only consider tile if unoccupied, passable and has no traps
+        dangerous_fields = 0;
+        auto &tmpfld = here.field_at( p );
+        for( auto &fld : tmpfld ) {
+            const field_entry &cur = fld.second;
+            if( cur.is_dangerous() ) {
+                dangerous_fields++;
             }
+        }
 
-            if( dangerous_fields == 0 ) {
-                ret.push_back( p );
-            }
+        if( dangerous_fields == 0 ) {
+            ret.push_back( p );
         }
     }
 
