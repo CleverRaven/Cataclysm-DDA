@@ -1229,45 +1229,44 @@ item::sizing item::get_sizing( const Character &p ) const
     if( to_ignore ) {
         return sizing::ignore;
     } else {
-        return sizing::human_sized_human_char;
-    }
 
-    const bool small = p.has_trait( trait_SMALL2 ) ||
-                       p.has_trait( trait_SMALL_OK );
+        const bool small = p.has_trait( trait_SMALL2 ) ||
+                           p.has_trait( trait_SMALL_OK );
 
-    const bool big = p.has_trait( trait_HUGE ) ||
-                     p.has_trait( trait_HUGE_OK );
+        const bool big = p.has_trait( trait_HUGE ) ||
+                         p.has_trait( trait_HUGE_OK );
 
-    // due to the iterative nature of these features, something can fit and be undersized/oversized
-    // but that is fine because we have separate logic to adjust encumberance per each. One day we
-    // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
-    // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
-    const bool undersize = has_flag( flag_UNDERSIZE );
-    const bool oversize = has_flag( flag_OVERSIZE );
+        // due to the iterative nature of these features, something can fit and be undersized/oversized
+        // but that is fine because we have separate logic to adjust encumberance per each. One day we
+        // may want to have fit be a flag that only applies if a piece of clothing is sized for you as there
+        // is a bit of cognitive dissonance when something 'fits' and is 'oversized' and the same time
+        const bool undersize = has_flag( flag_UNDERSIZE );
+        const bool oversize = has_flag( flag_OVERSIZE );
 
-    if( undersize ) {
-        if( small ) {
-            return sizing::small_sized_small_char;
-        } else if( big ) {
-            return sizing::small_sized_big_char;
+        if( undersize ) {
+            if( small ) {
+                return sizing::small_sized_small_char;
+            } else if( big ) {
+                return sizing::small_sized_big_char;
+            } else {
+                return sizing::small_sized_human_char;
+            }
+        } else if( oversize ) {
+            if( big ) {
+                return sizing::big_sized_big_char;
+            } else if( small ) {
+                return sizing::big_sized_small_char;
+            } else {
+                return sizing::big_sized_human_char;
+            }
         } else {
-            return sizing::small_sized_human_char;
-        }
-    } else if( oversize ) {
-        if( big ) {
-            return sizing::big_sized_big_char;
-        } else if( small ) {
-            return sizing::big_sized_small_char;
-        } else {
-            return sizing::big_sized_human_char;
-        }
-    } else {
-        if( big ) {
-            return sizing::human_sized_big_char;
-        } else if( small ) {
-            return sizing::human_sized_small_char;
-        } else {
-            return sizing::human_sized_human_char;
+            if( big ) {
+                return sizing::human_sized_big_char;
+            } else if( small ) {
+                return sizing::human_sized_small_char;
+            } else {
+                return sizing::human_sized_human_char;
+            }
         }
     }
 }
@@ -2646,7 +2645,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     };
                 };
 
-                std::unordered_map<bodypart_str_id, std::pair<armor_portion_data_type, translation_pair>> encumb_data;
+                std::unordered_map<bodypart_str_id, std::pair<armor_portion_data_type, translation_pair>>
+                        encumb_data;
 
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
