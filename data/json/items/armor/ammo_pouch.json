@@ -328,7 +328,7 @@
     "id": "rail_quiver",
     "type": "ARMOR",
     "name": { "str": "rail quiver" },
-    "description": "A leather and steel quiver worn at the waist that can hold 10 ferromagnetic rails.  Use insert to store rails.",
+    "description": "A leather and steel quiver worn at the waist that can hold 20 ferromagnetic rails.  Use insert to store rails.",
     "weight": "520 g",
     "rigid": false,
     "volume": "600 ml",
@@ -344,7 +344,7 @@
     "encumbrance": 2,
     "max_encumbrance": 8,
     "material_thickness": 1,
-    "pocket_data": [ { "ammo_restriction": { "metal_rail": 10 }, "moves": 20 } ],
+    "pocket_data": [ { "ammo_restriction": { "metal_rail": 20 }, "moves": 20 } ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
