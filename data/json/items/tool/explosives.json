@@ -720,7 +720,7 @@
       "emp_blast_radius": 4,
       "sound_volume": 0,
       "sound_msg": "Tick.",
-      "explosion": { "power": 240, "shrapnel": { "casing_mass": 1285, "fragment_mass": 0.2 } },
+      "explosion": { "power": 240, "shrapnel": { "casing_mass": 217, "fragment_mass": 0.15 } },
       "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead."
     },
     "flags": [ "TRADER_AVOID" ]
