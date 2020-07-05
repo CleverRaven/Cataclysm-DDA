@@ -45,6 +45,7 @@
 #include "pldata.h"
 #include "popup.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
@@ -590,6 +591,10 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
     // Adjust current energy level to maximum
     set_power_level( get_max_power_level() );
+
+    for( const proficiency_id &pri : prof->proficiencies() ) {
+        add_proficiency( pri );
+    }
 
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
@@ -1551,6 +1556,17 @@ tab_direction set_profession( avatar &u, points_left &points,
                     } else {
                         buffer += cbm.name + "\n";
                     }
+                }
+            }
+            // Proficiencies
+            const std::string newline = "\n";
+            std::vector<proficiency_id> prof_proficiencies = sorted_profs[cur_id]->proficiencies();
+            buffer += colorize( _( "Profession proficiencies:" ), c_light_blue ) + newline;
+            if( prof_proficiencies.empty() ) {
+                buffer += pgettext( "Profession has no proficiencies", "None" ) + newline;
+            } else {
+                for( const proficiency_id &prof : prof_proficiencies ) {
+                    buffer += prof->name() + newline;
                 }
             }
             // Profession pet
