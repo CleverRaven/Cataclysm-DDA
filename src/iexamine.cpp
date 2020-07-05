@@ -117,6 +117,8 @@ static const skill_id skill_lockpick( "lockpick" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
 
+static const ter_str_id t_dimensional_portal( "t_dimensional_portal" );
+
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
 static const trait_id trait_BADKNEES( "BADKNEES" );
@@ -155,6 +157,7 @@ static const bionic_id bio_power_storage_mkII( "bio_power_storage_mkII" );
 
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
 static const std::string flag_BARRICADABLE_WINDOW_CURTAINS( "BARRICADABLE_WINDOW_CURTAINS" );
+static const std::string flag_CLOSES_PORTAL( "CLOSES_PORTAL" );
 static const std::string flag_CLIMB_SIMPLE( "CLIMB_SIMPLE" );
 static const std::string flag_COOKED( "COOKED" );
 static const std::string flag_DIAMOND( "DIAMOND" );
@@ -5563,6 +5566,46 @@ void iexamine::workbench( player &, const tripoint & )
     // Dummied out and only used for function equality check
 }
 
+void iexamine::dimensional_portal( player &p, const tripoint &pos )
+{
+    uilist menu;
+    menu.text = _( "What to do with the portal:" );
+    menu.desc_enabled = true;
+
+    std::vector<const item *> nukes = p.all_items_with_flag( flag_CLOSES_PORTAL );
+    menu.addentry_desc( 0, !nukes.empty(), 'e', _( "Close from here" ),
+                        _( "Requires a nuclear explosive" ) );
+    menu.addentry_desc( 1, true, 'Q', _( "Sacrifice yourself" ),
+                        _( "This will kill you, but close the portal" ) );
+    menu.query();
+
+    switch( menu.ret ) {
+        case 0: {
+            item_location the_nuke = game_menus::inv::titled_filter_menu( []( const item & it ) {
+                return it.has_flag( flag_CLOSES_PORTAL );
+            }, static_cast<avatar &>( p ), _( "What to use to close the portal?" ) );
+            if( !the_nuke ) {
+                add_msg( m_info, _( "Never mind." ) );
+                break;
+            }
+
+            add_msg( m_good, _( "You throw the armed %s into the portal!" ), the_nuke->tname() );
+            the_nuke.remove_item();
+            g->m.translate_radius( t_dimensional_portal, t_thconc_floor, 5, pos, true );
+            g->win();
+            break;
+        }
+
+        case 1:
+            p.hp_cur[hp_torso] = 0;
+            g->m.translate_radius( t_dimensional_portal, t_thconc_floor, 5, pos, true );
+            g->win();
+            break;
+        default:
+            add_msg( m_info, _( "Never mind." ) );
+    }
+}
+
 /**
  * Given then name of one of the above functions, returns the matching function
  * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -5649,7 +5692,8 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "quern_examine", &iexamine::quern_examine },
             { "smoker_options", &iexamine::smoker_options },
             { "open_safe", &iexamine::open_safe },
-            { "workbench", &iexamine::workbench }
+            { "workbench", &iexamine::workbench },
+            {"dimensional_portal", &iexamine::dimensional_portal},
         }
     };
 

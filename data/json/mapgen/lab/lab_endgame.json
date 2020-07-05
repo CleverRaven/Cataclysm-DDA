@@ -1,0 +1,45 @@
+[
+  {
+    "//": "turrets finale",
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "central_lab_endgame" ],
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_thconc_floor",
+      "rows": [
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        ",,,,,,,,,,,**,,,,,,,,,,M",
+        ",,,,,,,,,,,**,,,,,,,,,,M",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,    6     |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "           ,,          |",
+        "-----------MM----------|"
+      ],
+      "palettes": [ "lab_palette" ],
+      "terrain": { "*": "t_dimensional_portal", " ": [ [ "t_thconc_floor", 9 ], "t_lava" ] },
+      "place_monsters": [
+        { "monster": "GROUP_ENDGAME_FINALE", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.5, "repeat": 3 },
+        { "monster": "GROUP_ENDGAME_FINALE", "x": [ 6, 17 ], "y": [ 6, 17 ], "density": 0.5, "repeat": 2 }
+      ],
+      "place_nested": [ { "chunks": [ "lab_border_walls" ], "x": 0, "y": 0 } ]
+    }
+  }
+]

@@ -55,6 +55,7 @@ static const efftype_id effect_pet( "pet" );
 static const species_id ZOMBIE( "ZOMBIE" );
 
 static const mongroup_id GROUP_CHUD( "GROUP_CHUD" );
+static const mongroup_id GROUP_DIMENSIONAL_SURFACE( "GROUP_DIMENSIONAL_SURFACE" );
 static const mongroup_id GROUP_RIVER( "GROUP_RIVER" );
 static const mongroup_id GROUP_SEWER( "GROUP_SEWER" );
 static const mongroup_id GROUP_SPIRAL( "GROUP_SPIRAL" );
@@ -321,6 +322,27 @@ bool operator==( const int_id<oter_t> &lhs, const char *rhs )
 bool operator!=( const int_id<oter_t> &lhs, const char *rhs )
 {
     return !( lhs == rhs );
+}
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<lab_type>( lab_type data )
+{
+    switch( data ) {
+        case lab_type::standard:
+            return "standard";
+        case lab_type::ice:
+            return "ice";
+        case lab_type::central:
+            return "central";
+        case lab_type::invalid:
+            return "invalid";
+    }
+    return "BUGGED";
+}
+
 }
 
 static void set_oter_ids()   // FIXME: constify
@@ -1454,6 +1476,36 @@ void overmap::set_scent( const tripoint &loc, const scent_trace &new_scent )
     scents[loc] = new_scent;
 }
 
+static void fixup_labs( overmap &om )
+{
+    if( om.pos() != point_zero ) {
+        return;
+    }
+
+    bool has_endgame = false;
+    for( lab &l : om.labs ) {
+        if( l.type != lab_type::central ) {
+            continue;
+        }
+
+        auto lowest = std::min_element( l.finales.begin(), l.finales.end(), []( const tripoint & l,
+        const tripoint & r ) {
+            return l.z < r.z;
+        } );
+        if( lowest == l.finales.end() ) {
+            debugmsg( _( "Endgame lab was generated with no finales." ) );
+            continue;
+        }
+
+        om.ter_set( *lowest, oter_id( "central_lab_endgame" ) );
+        has_endgame = true;
+    }
+
+    if( !has_endgame ) {
+        debugmsg( _( "No endgame lab was generated." ) );
+    }
+}
+
 void overmap::generate( const overmap *north, const overmap *east,
                         const overmap *south, const overmap *west,
                         overmap_special_batch &enabled_specials )
@@ -1464,6 +1516,13 @@ void overmap::generate( const overmap *north, const overmap *east,
     }
 
     dbg( D_INFO ) << "overmap::generate start…";
+
+    clear_labs();
+
+    bool needs_endgame = std::any_of( enabled_specials.begin(),
+    enabled_specials.end(), []( const overmap_special_placement & pl ) {
+        return pl.special_details->flags.count( "ENDGAME" );
+    } );
 
     populate_connections_out_from_neighbors( north, east, south, west );
 
@@ -1489,6 +1548,11 @@ void overmap::generate( const overmap *north, const overmap *east,
         requires_sub = generate_sub( z );
     } while( requires_sub && ( --z >= -OVERMAP_DEPTH ) );
 
+    // We don't need it if we're in a test method or a mod that doesn't have endgame
+    if( needs_endgame ) {
+        fixup_labs( *this );
+    }
+
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
@@ -1503,9 +1567,9 @@ bool overmap::generate_sub( const int z )
 
     std::vector<city> ant_points;
     std::vector<city> goo_points;
-    std::vector<city> lab_points;
-    std::vector<city> ice_lab_points;
-    std::vector<city> central_lab_points;
+    std::vector<point> lab_points;
+    std::vector<point> ice_lab_points;
+    std::vector<point> central_lab_points;
     std::vector<point> lab_train_points;
     std::vector<point> central_lab_train_points;
     std::vector<point> shaft_points;
@@ -1514,6 +1578,32 @@ bool overmap::generate_sub( const int z )
     const oter_id skip_above[5] = {
         oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
         oter_id( "forest_thick" ), oter_id( "forest_water" )
+    };
+
+    // TODO: Clean up
+    const auto find_lab_for = [this]( const tripoint & p ) {
+        for( lab &l : labs )   {
+            if( l.tiles.count( p ) > 0 ) {
+                return &l;
+            }
+        }
+
+        return static_cast<lab *>( nullptr );
+    };
+
+    const auto handle_lab_core = [this, &find_lab_for]( const tripoint & p,
+    std::vector<point> &points, lab_type type ) {
+        points.push_back( p.xy() );
+        lab *l = find_lab_for( p + tripoint_above );
+        if( l == nullptr ) {
+            debugmsg( "Couldn't find lab for point %d,%d,%d", p.x, p.y, p.z );
+            return;
+        }
+        if( l->type != type ) {
+            debugmsg( "Lab type mismatch for lab at %d,%d,%d", p.x, p.y, p.z );
+            return;
+        }
+        l->tiles.insert( p );
     };
 
     for( int i = 0; i < OMAPX; i++ ) {
@@ -1564,20 +1654,20 @@ bool overmap::generate_sub( const int z )
                 chip_rock( p );
             } else if( oter_above == "lab_core" ||
                        ( z == -1 && oter_above == "lab_stairs" ) ) {
-                lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
+                handle_lab_core( p, lab_points, lab_type::standard );
             } else if( oter_above == "lab_stairs" ) {
                 ter_set( p, oter_id( "lab" ) );
             } else if( oter_above == "ice_lab_core" ||
                        ( z == -1 && oter_above == "ice_lab_stairs" ) ) {
-                ice_lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
+                handle_lab_core( p, ice_lab_points, lab_type::ice );
             } else if( oter_above == "ice_lab_stairs" ) {
                 ter_set( p, oter_id( "ice_lab" ) );
             } else if( oter_above == "central_lab_core" ) {
-                central_lab_points.push_back( city( p.xy(), rng( std::max( 1, 7 + z ), 9 + z ) ) );
+                handle_lab_core( p, central_lab_points, lab_type::central );
             } else if( oter_above == "central_lab_stairs" ) {
                 ter_set( p, oter_id( "central_lab" ) );
             } else if( is_ot_match( "hidden_lab_stairs", oter_above, ot_match_type::contains ) ) {
-                lab_points.push_back( city( p.xy(), rng( 1, 5 + z ) ) );
+                handle_lab_core( p, lab_points, lab_type::standard );
             } else if( oter_above == "mine_entrance" ) {
                 shaft_points.push_back( p.xy() );
             } else if( oter_above == "mine_shaft" ||
@@ -1604,37 +1694,36 @@ bool overmap::generate_sub( const int z )
     connect_closest_points( sewer_points, z, *sewer_tunnel );
 
     // A third of overmaps have labs with a 1-in-2 chance of being subway connected.
-    // If the central lab exists, all labs which go down to z=4 will have a subway to central.
+    // If a central (but not truly central) lab exists, all labs which go down to z=4 will have a subway to central.
     int lab_train_odds = 0;
     if( z == -2 && one_in( 3 ) ) {
         lab_train_odds = 2;
     }
-    if( z == -4 && !central_lab_points.empty() ) {
+    if( z == -4 && !central_lab_points.empty() && pos() != point_zero ) {
         lab_train_odds = 1;
     }
 
-    for( auto &i : lab_points ) {
-        bool lab = build_lab( tripoint( i.pos, z ), i.size, &lab_train_points, "", lab_train_odds );
-        requires_sub |= lab;
-        if( !lab && ter( tripoint( i.pos, z ) ) == "lab_core" ) {
-            ter_set( tripoint( i.pos, z ), oter_id( "lab" ) );
+    const auto handle_lab_type = [&]( std::string prefix, const std::vector<point> &pts ) {
+        for( auto &i : pts ) {
+            int size = prefix == "central_" ? rng( std::max( 1, 7 + z ), 9 + z ) : rng( 1, 5 + z ) ;
+            const tripoint p( i, z );
+            lab *l = find_lab_for( p );
+            if( l == nullptr ) {
+                debugmsg( _( "Couldn't find lab for point (%d,%d,%d) on overmap (%d,%d)" ), p.x, p.y, p.z, pos().x,
+                          pos().y );
+                continue;
+            }
+            bool goes_lower = build_lab( p, *l, size, lab_train_points, prefix, lab_train_odds );
+            requires_sub |= goes_lower;
+            if( !goes_lower && ter( p ) == oter_id( prefix + "lab_core" ) ) {
+                ter_set( p, oter_id( prefix + "lab" ) );
+            }
         }
-    }
-    for( auto &i : ice_lab_points ) {
-        bool ice_lab = build_lab( tripoint( i.pos, z ), i.size, &lab_train_points, "ice_", lab_train_odds );
-        requires_sub |= ice_lab;
-        if( !ice_lab && ter( tripoint( i.pos, z ) ) == "ice_lab_core" ) {
-            ter_set( tripoint( i.pos, z ), oter_id( "ice_lab" ) );
-        }
-    }
-    for( auto &i : central_lab_points ) {
-        bool central_lab = build_lab( tripoint( i.pos, z ), i.size, &central_lab_train_points,
-                                      "central_", lab_train_odds );
-        requires_sub |= central_lab;
-        if( !central_lab && ter( tripoint( i.pos, z ) ) == "central_lab_core" ) {
-            ter_set( tripoint( i.pos, z ), oter_id( "central_lab" ) );
-        }
-    }
+    };
+
+    handle_lab_type( "", lab_points );
+    handle_lab_type( "ice_", ice_lab_points );
+    handle_lab_type( "central_", central_lab_points );
 
     const auto create_real_train_lab_points = [this, z]( const std::vector<point> &train_points,
     std::vector<point> &real_train_points ) {
@@ -1675,7 +1764,9 @@ bool overmap::generate_sub( const int z )
                           subway_lab_train_points.end() );
     connect_closest_points( subway_points, z, *subway_tunnel );
     // If on z = 4 and central lab is present, be sure to connect normal labs and central labs (just in case).
-    if( z == -4 && !central_lab_points.empty() ) {
+    // Unless we're center of the world - then central lab has no train connections
+    const bool true_center = pos() == point_zero;
+    if( z == -4 && !central_lab_points.empty() && !true_center ) {
         std::vector<point> extra_route;
         extra_route.push_back( subway_lab_train_points.back() );
         connect_closest_points( extra_route, z, *subway_tunnel );
@@ -1840,6 +1931,10 @@ void overmap::clear_overmap_special_placements()
 void overmap::clear_cities()
 {
     cities.clear();
+}
+void overmap::clear_labs()
+{
+    labs.clear();
 }
 void overmap::clear_connections_out()
 {
@@ -2801,16 +2896,6 @@ void overmap::place_river( point pa, point pb )
     } while( pb.x != x || pb.y != y );
 }
 
-/*: the root is overmap::place_cities()
-20:50 <kevingranade>: which is at overmap.cpp:1355 or so
-20:51 <kevingranade>: the key is cs = rng(4, 17), setting the "size" of the city
-20:51 <kevingranade>: which is roughly it's radius in overmap tiles
-20:52 <kevingranade>: then later overmap::place_mongroups() is called
-20:52 <kevingranade>: which creates a mongroup with radius city_size * 2.5 and population city_size * 80
-20:53 <kevingranade>: tadaa
-
-spawns happen at... <cue Clue music>
-20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
     int op_city_size = get_option<int>( "CITY_SIZE" );
@@ -3001,7 +3086,7 @@ void overmap::build_city_street( const overmap_connection &connection, const poi
     }
 }
 
-bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train_points,
+bool overmap::build_lab( const tripoint &p, lab &l, int s, std::vector<point> &lab_train_points,
                          const std::string &prefix, int train_odds )
 {
     std::vector<tripoint> generated_lab;
@@ -3012,16 +3097,20 @@ bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train
     const oter_id labt_ants( "ants_lab" );
     const oter_id labt_ants_stairs( "ants_lab_stairs" );
 
+    bool is_true_center = pos() == point_zero && labt.id().str() == "central_lab";
+
     ter_set( p, labt );
     generated_lab.push_back( p );
 
-    // maintain a list of potential new lab maps
-    // grows outwards from previously placed lab maps
+    // maintain a list of potential new lab tiles
+    // grows outwards from previously placed lab tiles
+    std::set<tripoint> closed_candidates;
     std::set<tripoint> candidates;
     candidates.insert( { p + point_north, p + point_east, p + point_south, p + point_west } );
     while( !candidates.empty() ) {
         const tripoint cand = *candidates.begin();
         candidates.erase( candidates.begin() );
+        closed_candidates.insert( cand );
         if( !inbounds( cand ) ) {
             continue;
         }
@@ -3042,7 +3131,7 @@ bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train
                 for( const point &offset : four_adjacent_offsets ) {
                     const tripoint new_cand = cand + offset;
                     const int new_dist = manhattan_dist( p.xy(), new_cand.xy() );
-                    if( ter( new_cand ) != labt && new_dist > dist ) {
+                    if( closed_candidates.count( new_cand ) == 0 && ter( new_cand ) != labt && new_dist > dist ) {
                         candidates.insert( new_cand );
                     }
                 }
@@ -3092,18 +3181,48 @@ bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train
         }
     }
 
+    bool endgame_finale = is_true_center && numstairs == 0;
     // We need a finale on the bottom of labs.  Central labs have a chance of additional finales.
     if( numstairs == 0 || ( prefix == "central_" && one_in( -p.z - 1 ) ) ) {
-        tripoint finale;
-        int tries = 0;
-        do {
-            finale = p + point( rng( -s, s ), rng( -s, s ) );
-            tries++;
-        } while( tries < 15 && ter( finale ) != labt && ter( finale ) != labt_core );
-        ter_set( finale, labt_finale );
+        std::set<tripoint> finale_candidates;
+        // This is for when we can't find any proper candidates
+        std::set<tripoint> secondary_candidates;
+        for( const tripoint &c : closest_tripoints_first( p, s ) ) {
+            if( ter( c ) == labt || ( !endgame_finale && ter( c ) == labt_core ) ) {
+                finale_candidates.insert( c );
+            }
+
+
+            if( endgame_finale && is_ot_match( labt.id().str(), ter( c ), ot_match_type::contains ) ) {
+                for( const point &offset : four_adjacent_offsets ) {
+                    if( inbounds( c + offset ) && ter( c + offset ) != labt_stairs ) {
+                        secondary_candidates.insert( c + offset );
+                    }
+                }
+            }
+        }
+
+        tripoint finale_pos;
+        if( !finale_candidates.empty() ) {
+            finale_pos = random_entry( finale_candidates );
+        } else if( endgame_finale && !secondary_candidates.empty() ) {
+            finale_pos = random_entry( secondary_candidates );
+        } else if( endgame_finale ) {
+            debugmsg( _( "Endgame finale could not be generated." ) );
+        }
+
+        ter_set( finale_pos, labt_finale );
+        l.finales.insert( finale_pos );
+        if( std::count( generated_lab.begin(), generated_lab.end(), finale_pos ) == 0 ) {
+            generated_lab.push_back( finale_pos );
+        }
     }
 
-    if( train_odds > 0 && one_in( train_odds ) ) {
+    for( const tripoint &p : generated_lab ) {
+        l.tiles.insert( p );
+    }
+
+    if( !is_true_center && train_odds > 0 && one_in( train_odds ) ) {
         tripoint train;
         int tries = 0;
         int adjacent_labs;
@@ -3124,11 +3243,11 @@ bool overmap::build_lab( const tripoint &p, int s, std::vector<point> *lab_train
                      ter( train ) == labt_finale ||
                      adjacent_labs != 1 ) );
         if( tries < 50 ) {
-            lab_train_points->push_back( train.xy() ); // possible train depot
+            lab_train_points.push_back( train.xy() ); // possible train depot
             // next is rail connection
             for( const point &offset : four_adjacent_offsets ) {
                 if( is_ot_match( "lab", ter( train + offset ), ot_match_type::contains ) ) {
-                    lab_train_points->push_back( train.xy() - offset );
+                    lab_train_points.push_back( train.xy() - offset );
                     break;
                 }
             }
@@ -3911,6 +4030,32 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
 
     const bool blob = special.flags.count( "BLOB" ) > 0;
 
+    if( true ) {
+        bool is_lab = false;
+        lab_type type;
+        std::set<tripoint> all_points;
+        for( const auto &elem : special.terrains ) {
+            const tripoint location = p + om_direction::rotate( elem.p, dir );
+            all_points.insert( location );
+
+
+            if( is_ot_match( "lab_stairs", elem.terrain, ot_match_type::contains ) ) {
+                is_lab = true;
+                if( is_ot_match( "central_lab", elem.terrain, ot_match_type::contains ) ) {
+                    type = lab_type::central;
+                } else if( is_ot_match( "ice_lab", elem.terrain, ot_match_type::contains ) ) {
+                    type = lab_type::ice;
+                } else {
+                    type = lab_type::standard;
+                }
+            }
+        }
+
+        if( is_lab ) {
+            labs.push_back( lab{type, all_points, {}} );
+        }
+    }
+
     for( const auto &elem : special.terrains ) {
         const tripoint location = p + om_direction::rotate( elem.p, dir );
         const oter_id tid = elem.terrain->get_rotated( dir );
@@ -4056,6 +4201,42 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
         }
     }
 
+    om_special_sectors sectors = get_sectors( OMSPEC_FREQ );
+
+    // At true center, central lab is truly mandatory and can't be pushed to neighbors
+    bool is_true_center = pos() == point_zero;
+    if( is_true_center ) {
+        std::vector<const overmap_special *> truly_mandatory_specials;
+        // Ugly hack. TODO: Un-ugly
+        for( const auto &s :  overmap_specials::get_all() ) {
+            if( s.flags.count( "ENDGAME" ) > 0 ) {
+                truly_mandatory_specials.push_back( &s );
+            }
+        }
+        overmap_special_batch truly_mandatory_batch( point_zero, truly_mandatory_specials );
+        place_specials_pass( truly_mandatory_batch, sectors, false, false );
+        // Add instances_placed from truly mandatory batch to regular batch, to avoid double placement
+        // But only if they exist in both - we don't want endgame specials to be pushed to neighbor OMs
+        for( auto iter_true = truly_mandatory_batch.begin(); iter_true != truly_mandatory_batch.end(); ) {
+            const overmap_special_id &special_id = iter_true->special_details->id;
+            auto iter_normal = std::find_if( enabled_specials.begin(),
+            enabled_specials.end(), [special_id]( const overmap_special_placement & pl ) {
+                return pl.special_details->id == special_id;
+            } );
+            if( iter_normal != enabled_specials.end() ) {
+                iter_normal->instances_placed += iter_true->instances_placed;
+            }
+        }
+
+        for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ) {
+            if( iter->special_details->flags.count( "ENDGAME" ) > 0 ) {
+                iter = enabled_specials.erase( iter );
+                continue;
+            }
+            ++iter;
+        }
+    }
+
     for( auto iter = enabled_specials.begin(); iter != enabled_specials.end(); ) {
         // If this special has the LAKE flag and the overmap doesn't have any
         // lake terrain, then remove this special from the candidates for this
@@ -4065,6 +4246,7 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
             continue;
         }
 
+        // Endgame specials were placed above, don't let UNIQUE overwrite that
         if( iter->special_details->flags.count( "UNIQUE" ) > 0 ) {
             const int min = iter->special_details->occurrences.min;
             const int max = iter->special_details->occurrences.max;
@@ -4084,7 +4266,6 @@ void overmap::place_specials( overmap_special_batch &enabled_specials )
     if( enabled_specials.empty() ) {
         return;
     }
-    om_special_sectors sectors = get_sectors( OMSPEC_FREQ );
 
     // First, place the mandatory specials to ensure that all minimum instance
     // counts are met.
@@ -4229,6 +4410,18 @@ void overmap::place_mongroups()
         }
     }
 
+    if( pos() == point_zero ) {
+        // Figure out where the dimensional lab is, and flood area with nether critters
+        for( int x = 0; x < OMAPX; x++ ) {
+            for( int y = 0; y < OMAPY; y++ ) {
+                tripoint p( x, y, 0 );
+                if( ter( p ) == "central_lab_entrance" ) {
+                    add_mon_group( mongroup( GROUP_DIMENSIONAL_SURFACE, omt_to_sm_copy( p ), 5, 30 ) );
+                }
+            }
+        }
+    }
+
     // Place the "put me anywhere" groups
     int numgroups = rng( 0, 3 );
     for( int i = 0; i < numgroups; i++ ) {
@@ -4279,6 +4472,13 @@ void overmap::place_radios()
                                             "  Supplies are limited, please bring supplemental food, water, and bedding."
                                             "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
                 radios.push_back( radio_tower( pos_sm, strength(), message ) );
+            } else if( ter( pos_omt ) == "central_lab_entrance" && pos() == point_zero ) {
+                std::string message =
+                    _( "If you can hear this message, the probe to 021XC is functioning correctly." );
+                // Repeat the message on different frequencies
+                for( int i = 0; i < 10; i++ ) {
+                    radios.push_back( radio_tower( pos_sm, RADIO_MAX_STRENGTH, message ) );
+                }
             }
         }
     }

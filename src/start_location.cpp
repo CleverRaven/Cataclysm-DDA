@@ -199,7 +199,12 @@ tripoint start_location::find_player_initial_location() const
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 3;
-    for( const point &omp : closest_points_first( point_zero, radius ) ) {
+    std::vector<point> overmaps = closest_points_first( point_zero, radius );
+    // Skip overmap (0,0), that's endgame
+    overmaps.erase( overmaps.begin() );
+    // Shuffle 8 first ones so that we don't always start at (1,0)
+    std::shuffle( overmaps.begin(), overmaps.begin() + 7, rng_get_engine() );
+    for( const point &omp : overmaps ) {
         overmap &omap = overmap_buffer.get( omp );
         const tripoint omtstart = omap.find_random_omt( random_target() );
         if( omtstart != overmap::invalid_tripoint ) {

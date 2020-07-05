@@ -855,6 +855,11 @@ class game
          */
         void despawn_monster( monster &critter );
 
+        /**
+         * Marks the game as won. Doesn't end the game.
+         */
+        void win();
+
     private:
         void perhaps_add_random_npc();
 
@@ -872,6 +877,7 @@ class game
 
         bool is_game_over();     // Returns true if the player quit or died
         void death_screen();     // Display our stats, "GAME OVER BOO HOO"
+        void win_screen();       // Display our stats, "CONGRATULATIONS!"
         void draw_minimap();     // Draw the 5x5 minimap
     public:
         /**

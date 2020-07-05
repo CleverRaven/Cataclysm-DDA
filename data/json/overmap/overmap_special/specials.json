@@ -707,7 +707,7 @@
     "city_distance": [ 20, -1 ],
     "city_sizes": [ 0, 6 ],
     "occurrences": [ 1, 1 ],
-    "flags": [ "UNIQUE", "LAB" ],
+    "flags": [ "UNIQUE", "LAB", "ENDGAME" ],
     "rotate": false
   },
   {

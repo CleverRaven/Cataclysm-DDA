@@ -168,9 +168,9 @@
   {
     "type": "overmap_terrain",
     "id": "central_lab_entrance",
-    "name": "forest",
-    "sym": "F",
-    "color": "green",
+    "name": "access shaft",
+    "sym": "0",
+    "color": "light_gray",
     "see_cost": 3,
     "flags": [ "NO_ROTATE", "RISK_HIGH" ]
   },
@@ -247,6 +247,15 @@
     "see_cost": 5,
     "flags": [ "NO_ROTATE" ],
     "spawns": { "group": "GROUP_CENTRAL_LAB", "population": [ 0, 5 ], "chance": 20 }
+  },
+  {
+    "type": "overmap_terrain",
+    "id": "central_lab_endgame",
+    "name": "central lab",
+    "sym": "L",
+    "color": "red",
+    "see_cost": 5,
+    "flags": [ "NO_ROTATE" ]
   },
   {
     "type": "overmap_terrain",

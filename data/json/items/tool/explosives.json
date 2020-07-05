@@ -1024,7 +1024,7 @@
     "symbol": "*",
     "color": "light_green",
     "use_action": "MININUKE",
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB", "CLOSES_PORTAL" ]
   },
   {
     "id": "mininuke_act",
@@ -1054,7 +1054,7 @@
       "no_deactivate_msg": "You've already set the %s's timer, you might want to get away from it.",
       "explosion": { "power": 9000000 }
     },
-    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID", "CLOSES_PORTAL" ]
   },
   {
     "id": "molotov",

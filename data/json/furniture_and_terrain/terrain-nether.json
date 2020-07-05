@@ -1,0 +1,16 @@
+[
+  {
+    "type": "terrain",
+    "id": "t_dimensional_portal",
+    "name": "dimensional portal",
+    "description": "The portal that started it all.  A dimly shimmering, completely opaque mist, jet black at the edges, and deep red in the center.  A nuclear explosive placed inside may destabilize and close it.  Alternatively, you may be able to close it from the other side.",
+    "symbol": "LINE_OXOX",
+    "color": "red",
+    "move_cost": 0,
+    "coverage": 100,
+    "roof": "t_flat_roof",
+    "light_emitted": 50,
+    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL" ],
+    "examine_action": "dimensional_portal"
+  }
+]

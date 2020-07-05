@@ -106,6 +106,27 @@ TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[
     CHECK( found_optional == true );
 }
 
+TEST_CASE( "Exactly one endgame lab finale is generated in (0,0) overmap", "[overmap][slow]" )
+{
+    const oter_id labt_endgame( "central_lab_endgame" );
+    const point origin = point_zero;
+    auto batch = overmap_specials::get_default_batch( origin );
+    overmap_buffer.create_custom_overmap( origin, batch );
+    overmap *test_overmap = overmap_buffer.get_existing( origin );
+    int endgame_count = 0;
+    for( int z = -OVERMAP_DEPTH; z < 0; ++z ) {
+        for( int x = 0; x < OMAPX; ++x ) {
+            for( int y = 0; y < OMAPY; ++y ) {
+                const oter_id t = test_overmap->ter( { x, y, z } );
+                if( t == labt_endgame ) {
+                    endgame_count++;
+                }
+            }
+        }
+    }
+    CHECK( endgame_count == 1 );
+}
+
 TEST_CASE( "is_ot_match", "[overmap][terrain]" )
 {
     SECTION( "exact match" ) {
@@ -174,4 +195,3 @@ TEST_CASE( "is_ot_match", "[overmap][terrain]" )
         CHECK_FALSE( is_ot_match( "forestry", oter_id( "forest" ), ot_match_type::contains ) );
     }
 }
-

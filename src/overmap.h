@@ -37,6 +37,7 @@ class character_id;
 class map_extra;
 class npc;
 class overmap_connection;
+template <typename E> struct enum_traits;
 
 namespace pf
 {
@@ -55,6 +56,32 @@ struct city {
     }
 
     int get_distance_from( const tripoint &p ) const;
+};
+
+enum class lab_type : int {
+    standard = 0,
+    ice,
+    central,
+    invalid
+};
+
+namespace io
+{
+
+template<>
+std::string enum_to_string<lab_type>( lab_type data );
+
+} // namespace io
+
+template<>
+struct enum_traits<lab_type> {
+    static constexpr auto last = lab_type::invalid;
+};
+
+struct lab {
+    lab_type type;
+    std::set<tripoint> tiles;
+    std::set<tripoint> finales;
 };
 
 struct om_note {
@@ -306,6 +333,7 @@ class overmap
         void clear_mon_groups();
         void clear_overmap_special_placements();
         void clear_cities();
+        void clear_labs();
         void clear_connections_out();
         void place_special_forced( const overmap_special_id &special_id, const tripoint &p,
                                    om_direction::type dir );
@@ -321,6 +349,7 @@ class overmap
         std::map<int, om_vehicle> vehicles;
         std::vector<basecamp> camps;
         std::vector<city> cities;
+        std::vector<lab> labs;
         std::map<string_id<overmap_connection>, std::vector<tripoint>> connections_out;
         cata::optional<basecamp *> find_camp( const point &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
@@ -421,7 +450,7 @@ class overmap
 
         void build_city_street( const overmap_connection &connection, const point &p, int cs,
                                 om_direction::type dir, const city &town, int block_width = 2 );
-        bool build_lab( const tripoint &p, int s, std::vector<point> *lab_train_points,
+        bool build_lab( const tripoint &p, lab &l, int size, std::vector<point> &lab_train_points,
                         const std::string &prefix, int train_odds );
         void build_anthill( const tripoint &p, int s );
         void build_tunnel( const tripoint &p, int s, om_direction::type dir );

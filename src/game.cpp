@@ -2671,6 +2671,46 @@ void game::death_screen()
     display_faction_epilogues();
 }
 
+void game::win()
+{
+    win_screen();
+    const time_duration game_duration = calendar::turn - calendar::start_of_game;
+    memorial().add(
+        pgettext( "memorial_male", "Closed the portal in %1$.1f days (%2$d seconds)." ),
+        pgettext( "memorial_female", "Closed the portal in %1$.1f days (%2$d seconds)." ),
+        to_days<float>( game_duration ), to_seconds<int>( game_duration ) );
+    if( !u.is_dead_state() ) {
+        Messages::display_messages();
+        show_scores_ui( *achievements_tracker_ptr, stats(), get_kill_tracker() );
+    }
+}
+
+void game::win_screen()
+{
+    // TODO: Move this wall somewhere
+    const time_duration game_duration = calendar::turn - calendar::start_of_game;
+    std::string msg = _( "You managed to close the portal and end the invasion!" );
+    msg += '\n';
+    if( u.is_dead_state() ) {
+        translation t = translation::to_translation( "win_game",
+                        "Unfortunately, you had to sacrifice your life to achieve this." );
+        msg += colorize( t, c_red ) + '\n';
+        memorial().add(
+            pgettext( "memorial_male", "Sacrificed his life to close the portal." ),
+            pgettext( "memorial_female", "Sacrificed her life to close the portal." ) );
+    } else {
+        translation t = translation::to_translation( "win_game", "You managed to survive the ordeal." );
+        msg += colorize( t, c_green ) + '\n';
+        memorial().add(
+            pgettext( "memorial_male", "Safely closed the portal." ),
+            pgettext( "memorial_female", "Safely closed the portal." ) );
+    }
+    msg += string_format( _( "It took you %1$.1f days (%2$d seconds)." ),
+                          to_days<float>( game_duration ), to_seconds<int>( game_duration ) );
+    // TODO: Print starting stats, traits, skills, all mods ever used, easiest of settings
+    popup( msg );
+}
+
 void game::move_save_to_graveyard()
 {
     const std::string &save_dir      = get_world_base_save_path();

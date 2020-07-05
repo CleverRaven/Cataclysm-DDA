@@ -321,19 +321,7 @@
     "armor_bash": 8,
     "harvest": "exempt",
     "death_function": [ "MELT" ],
-    "flags": [
-      "SMELLS",
-      "HEARS",
-      "GOODHEARING",
-      "NOHEAD",
-      "BASHES",
-      "FLIES",
-      "ATTACKMON",
-      "PLASTIC",
-      "NO_BREATHE",
-      "HIT_AND_RUN",
-      "NOGIB"
-    ]
+    "flags": [ "SMELLS", "HEARS", "GOODHEARING", "NOHEAD", "BASHES", "FLIES", "PLASTIC", "NO_BREATHE", "HIT_AND_RUN", "NOGIB" ]
   },
   {
     "id": "mon_gozu",
