@@ -1229,7 +1229,6 @@ item::sizing item::get_sizing( const Character &p ) const
     if( to_ignore ) {
         return sizing::ignore;
     } else {
-
         const bool small = p.has_trait( trait_SMALL2 ) ||
                            p.has_trait( trait_SMALL_OK );
 
