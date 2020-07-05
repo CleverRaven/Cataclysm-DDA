@@ -558,6 +558,11 @@ void Character::load( const JsonObject &data )
     body_wetness.fill( 0 );
     data.read( "body_wetness", body_wetness );
 
+    // Remove check after 0.F
+    if( savegame_loading_version >= 30 ) {
+        data.read( "proficiencies", _proficiencies );
+    }
+
     //energy
     data.read( "stim", stim );
     data.read( "stamina", stamina );
@@ -869,6 +874,8 @@ void Character::store( JsonOut &json ) const
         json.member( pair.first.str(), pair.second );
     }
     json.end_object();
+
+    json.member( "proficiencies", _proficiencies );
 
     // npc; unimplemented
     if( power_level < 1_J ) {

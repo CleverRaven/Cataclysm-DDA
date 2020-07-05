@@ -20,6 +20,7 @@
 #include "optional.h"
 #include "output.h"
 #include "player.h"
+#include "proficiency.h"
 #include "skill.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -35,22 +36,31 @@ extern bool test_mode;
 
 recipe::recipe() : skill_used( skill_id::NULL_ID() ) {}
 
-time_duration recipe::batch_duration( int batch, float multiplier, size_t assistants ) const
+time_duration recipe::batch_duration( const Character &guy, int batch, float multiplier,
+                                      size_t assistants ) const
 {
-    return time_duration::from_turns( batch_time( batch, multiplier, assistants ) / 100 );
+    return time_duration::from_turns( batch_time( guy, batch, multiplier, assistants ) / 100 );
 }
 
-time_duration recipe::time_to_craft() const
+time_duration recipe::time_to_craft( const Character &guy ) const
 {
-    return time_duration::from_seconds( time_to_craft_moves() / 100 );
+    return time_duration::from_seconds( time_to_craft_moves( guy ) / 100 );
 }
 
-int recipe::time_to_craft_moves() const
+int recipe::time_to_craft_moves( const Character &guy ) const
 {
-    return time;
+    int ret = time;
+    for( const recipe_proficiency &prof : proficiencies ) {
+        if( !prof.required ) {
+            if( !guy.has_proficiency( prof.id ) ) {
+                ret *= prof.time_multiplier;
+            }
+        }
+    }
+    return ret;
 }
 
-int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
+int recipe::batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const
 {
     // 1.0f is full speed
     // 0.33f is 1/3 speed
@@ -59,7 +69,7 @@ int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
         multiplier = 1.0f;
     }
 
-    const float local_time = static_cast<float>( time ) / multiplier;
+    const float local_time = static_cast<float>( time_to_craft_moves( guy ) ) / multiplier;
 
     // if recipe does not benefit from batching and we have no assistants, don't do unnecessary additional calculations
     if( batch_rscale == 0.0 && assistants == 0 ) {
@@ -159,6 +169,8 @@ void recipe::load( const JsonObject &jo, const std::string &src )
             required_skills[skill_id( sk.get_string( 0 ) )] = sk.get_int( 1 );
         }
     }
+
+    jo.read( "proficiencies", proficiencies );
 
     // simplified autolearn sets requirements equal to required skills at finalization
     if( jo.has_bool( "autolearn" ) ) {
@@ -344,6 +356,39 @@ void recipe::finalize()
         container = item::find_type( result_ )->default_container.value_or( "null" );
     }
 
+    std::set<proficiency_id> required;
+    std::set<proficiency_id> used;
+    for( const recipe_proficiency &rpof : proficiencies ) {
+        if( !rpof.id.is_valid() ) {
+            debugmsg( "proficiency %s does not exist in recipe %s", rpof.id.str(), ident_.str() );
+        }
+
+        if( rpof.required && rpof.time_multiplier != 1.0f ) {
+            debugmsg( "proficiencies in recipes cannot be both required and provide a malus in %s",
+                      rpof.id.str(), ident_.str() );
+        }
+        if( required.count( rpof.id ) || used.count( rpof.id ) ) {
+            debugmsg( "proficiency %s listed twice recipe %s", rpof.id.str(),
+                      ident_.str() );
+        }
+
+        if( rpof.time_multiplier < 1.0f ) {
+            debugmsg( "proficiency %s provides a bonus for not being known in recipe %s", rpof.id.str(),
+                      ident_.str() );
+        }
+        if( rpof.fail_multiplier < 1.0f ) {
+            debugmsg( "proficiency %s provides a bonus for not being known in recipe %s", rpof.id.str(),
+                      ident_.str() );
+        }
+        // Now that we've done the error checking, log that a proficiency with this id is used
+        if( rpof.required ) {
+            required.insert( rpof.id );
+        } else {
+            used.insert( rpof.id );
+        }
+    }
+
+
     if( autolearn && autolearn_requirements.empty() ) {
         autolearn_requirements = required_skills;
         if( skill_used ) {
@@ -487,6 +532,67 @@ std::vector<item> recipe::create_byproducts( int batch ) const
 bool recipe::has_byproducts() const
 {
     return !byproducts.empty();
+}
+
+std::string recipe::required_proficiencies_string( const Character &c ) const
+{
+    std::vector<proficiency_id> required_profs;
+    std::vector<std::pair<proficiency_id, float>> used_profs;
+
+    for( const recipe_proficiency &rec : proficiencies ) {
+        if( rec.required ) {
+            required_profs.push_back( rec.id );
+        } else {
+            used_profs.push_back( { rec.id, rec.time_multiplier } );
+        }
+    }
+    std::string required = enumerate_as_string( required_profs.begin(),
+    required_profs.end(), [&]( const proficiency_id & id ) {
+        const nc_color color = c.has_proficiency( id ) ? c_green : c_red;
+        return colorize( id->name(), color );
+    } );
+
+    std::string used = enumerate_as_string( used_profs.begin(),
+    used_profs.end(), [&]( const std::pair<proficiency_id, float> &pair ) {
+        const std::string color = c.has_proficiency( pair.first ) ? "white" : "yellow";
+        return string_format( "<color_cyan>%s</color> <color_%s>%gx</color>", pair.first->name(), color,
+                              pair.second );
+    } );
+    used = string_format( _( "Proficiencies Used: %s" ), used );
+
+    return string_format( "%s\n%s", required, used );
+}
+
+std::set<proficiency_id> recipe::required_proficiencies() const
+{
+    std::set<proficiency_id> ret;
+    for( const recipe_proficiency &rec : proficiencies ) {
+        if( rec.required ) {
+            ret.insert( rec.id );
+        }
+    }
+    return ret;
+}
+
+bool recipe::character_has_required_proficiencies( const Character &c ) const
+{
+    for( const proficiency_id &id : required_proficiencies() ) {
+        if( !c.has_proficiency( id ) ) {
+            return false;
+        }
+    }
+    return true;
+}
+
+std::set<proficiency_id> recipe::assist_proficiencies() const
+{
+    std::set<proficiency_id> ret;
+    for( const recipe_proficiency &rec : proficiencies ) {
+        if( !rec.required ) {
+            ret.insert( rec.id );
+        }
+    }
+    return ret;
 }
 
 // Format a std::pair<skill_id, int> for the crafting menu.
@@ -773,4 +879,17 @@ bool recipe::hot_result() const
         }
     }
     return false;
+}
+
+void recipe_proficiency::deserialize( JsonIn &jsin )
+{
+    load( jsin.get_object() );
+}
+
+void recipe_proficiency::load( const JsonObject &jo )
+{
+    jo.read( "proficiency", id );
+    jo.read( "required", required );
+    jo.read( "time_multiplier", time_multiplier );
+    jo.read( "fail_multiplier", fail_multiplier );
 }

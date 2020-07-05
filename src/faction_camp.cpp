@@ -1595,7 +1595,8 @@ void basecamp::start_upgrade( const std::string &bldg, const point &dir,
             return;
         }
 
-        time_duration work_days = base_camps::to_workdays( making.batch_duration() );
+        time_duration work_days = base_camps::to_workdays( making.batch_duration(
+                                      get_player_character() ) );
         npc_ptr comp = nullptr;
         if( making.required_skills.empty() ) {
             if( making.skill_used.is_valid() ) {
@@ -2151,7 +2152,7 @@ void basecamp::start_fortifications( std::string &bldg_exp )
                 return;
             }
             trips += 2;
-            build_time += making.batch_duration();
+            build_time += making.batch_duration( get_player_character() );
             dist += rl_dist( fort_om.xy(), omt_pos.xy() );
             travel_time += companion_travel_time_calc( fort_om, omt_pos, 0_minutes, 2 );
         }
@@ -2252,7 +2253,8 @@ void basecamp::start_crafting( const std::string &cur_id, const point &cur_dir,
             return;
         }
 
-        time_duration work_days = base_camps::to_workdays( making.batch_duration( batch_size ) );
+        time_duration work_days = base_camps::to_workdays( making.batch_duration( get_player_character(),
+                                  batch_size ) );
         npc_ptr comp = start_mission( miss_id + cur_dir_id, work_days, true,
                                       _( "begins to work…" ), false, {},
                                       making.required_skills );
@@ -2609,7 +2611,8 @@ bool basecamp::upgrade_return( const point &dir, const std::string &miss,
     const tripoint upos = e->second.pos;
     const recipe &making = recipe_id( bldg ).obj();
 
-    time_duration work_days = base_camps::to_workdays( making.batch_duration() );
+    time_duration work_days = base_camps::to_workdays( making.batch_duration(
+                                  get_player_character() ) );
     npc_ptr comp = companion_choose_return( miss, work_days );
 
     if( comp == nullptr ) {
@@ -3041,7 +3044,7 @@ int basecamp::recipe_batch_max( const recipe &making ) const
     for( size_t batch_size = 1000; batch_size > 0; batch_size /= 10 ) {
         for( int iter = 0; iter < max_checks; iter++ ) {
             time_duration work_days = base_camps::to_workdays( making.batch_duration(
-                                          max_batch + batch_size ) );
+                                          get_player_character(), max_batch + batch_size ) );
             int food_req = time_to_food( work_days );
             bool can_make = making.deduped_requirements().can_make_with_inventory(
                                 _inv, making.get_component_filter(), max_batch + batch_size );
@@ -3676,7 +3679,7 @@ std::string basecamp::craft_description( const recipe_id &itm )
     }
     comp = string_format( _( "Skill used: %s\nDifficulty: %d\n%s\nTime: %s\n" ),
                           making.skill_used.obj().name(), making.difficulty, comp,
-                          to_string( base_camps::to_workdays( making.batch_duration() ) ) );
+                          to_string( base_camps::to_workdays( making.batch_duration( get_player_character() ) ) ) );
     return comp;
 }
 

@@ -63,6 +63,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "proficiency.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -10959,6 +10960,21 @@ int Character::intimidation() const
     }
 
     return ret;
+}
+
+bool Character::has_proficiency( const proficiency_id &prof ) const
+{
+    return _proficiencies.count( prof );
+}
+
+void Character::add_proficiency( const proficiency_id &prof )
+{
+    _proficiencies.insert( prof );
+}
+
+const std::set<proficiency_id> &Character::proficiencies() const
+{
+    return _proficiencies;
 }
 
 bool Character::defer_move( const tripoint &next )

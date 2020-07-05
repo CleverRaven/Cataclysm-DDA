@@ -223,7 +223,7 @@ std::string basecamp::om_upgrade_description( const std::string &bldg, bool trun
     comp = string_format( _( "Notes:\n%s\n\nSkills used: %s\n%s\n" ),
                           making.description, making.required_all_skills_string(), comp );
     if( !trunc ) {
-        time_duration base_time = making.batch_duration();
+        time_duration base_time = making.batch_duration( get_player_character() );
         comp += string_format( _( "Risk: None\nTime: %s\n" ),
                                to_string( base_camps::to_workdays( base_time ) ) );
     }
