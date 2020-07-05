@@ -2632,20 +2632,19 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     translation to_display;
                     translation name_as_heading_multiple;
                 };
-                struct armor_portion_data_type {
+                struct armor_portion_type {
                     int encumber;
                     int max_encumber;
                     int coverage;
 
-                    bool operator==( const armor_portion_data_type &other ) {
+                    bool operator==( const armor_portion_type &other ) {
                         return encumber == other.encumber
                                && max_encumber == other.max_encumber
                                && coverage == other.coverage;
                     };
                 };
 
-                std::unordered_map<bodypart_str_id, std::pair<armor_portion_data_type, translation_pair>>
-                        encumb_data;
+                std::unordered_map<bodypart_str_id, std::pair<armor_portion_type, translation_pair>> encumb_data;
 
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
@@ -2713,7 +2712,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                             continue;
                         }
                     }
-                    const armor_portion_data_type &armor_portion_data = encumb.second.first;
+                    const armor_portion_type &armor_portion_data = encumb.second.first;
 
                     info.push_back( iteminfo( "ARMOR",
                                               string_format( _( "%s:" ), encumb.second.second.to_display.translated() ) + space, "",
