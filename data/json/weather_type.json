@@ -327,5 +327,38 @@
     "sound_category": "snowstorm",
     "sun_intensity": "none",
     "requirements": { "temperature_max": 33, "windpower_min": 15, "required_weathers": [ "thunder", "lightning" ] }
+  },
+  {
+    "id": "debug_storm",
+    "type": "weather_type",
+    "name": "Debug_storm",
+    "color": "c_red",
+    "map_color": "c_red",
+    "glyph": "%",
+    "ranged_penalty": 6,
+    "sight_penalty": 1.2,
+    "light_modifier": -30,
+    "sound_attn": 6,
+    "dangerous": false,
+    "precip": "light",
+    "rains": false,
+    "acidic": false,
+    "effects": [  {
+      "must_be_outside":true,
+      "radiation":10,
+      "healthy":1,
+      "message":"Suddenly a something",
+      "add_effect":"winded",
+      "effect_duration":"10 minutes",
+      "spawns":[{
+        "max_radius":10,
+        "min_radius":10,
+        "target":"mon_zombie_survivor_elite",
+        "hallucination_count":0,
+        "real_count":2
+      }]
+    } ],    
+    "weather_animation": { "factor": 0.04, "color": "c_blue", "glyph": "X" },
+    "sun_intensity": "none"
   }
 ]

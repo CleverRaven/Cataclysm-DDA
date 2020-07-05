@@ -932,7 +932,8 @@
         "acid_rain",
         "flurries",
         "snowing",
-        "snowstorm"
+        "snowstorm",
+        "debug_storm"
       ]
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
