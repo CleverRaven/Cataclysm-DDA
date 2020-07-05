@@ -304,6 +304,11 @@ void Item_modifier::modify( item &new_item ) const
                 charges_max );
     } else if( !cont.is_null() && new_item.made_of( phase_id::LIQUID ) ) {
         new_item.charges = std::max( 1, max_capacity );
+    } else if( new_item.is_magazine() ) {
+        itype_id ammo = new_item.ammo_default();
+        if( ammo ) {
+            new_item.ammo_set( ammo, rng( 0, new_item.ammo_capacity( ammo->ammo->type ) ) );
+        }
     }
 
     if( ch != -1 ) {
@@ -314,12 +319,10 @@ void Item_modifier::modify( item &new_item ) const
             new_item.charges = std::max( 1, ch );
         } else if( new_item.is_tool() ) {
             if( !new_item.magazine_default().is_null() ) {
+                // pick a random magazine
+                // todo: make certain magazine rarer
                 auto magset = new_item.magazine_compatible();
-                auto iter = magset.begin();
-                //make the chance of spawning default magazine slightly lower than others
-                int rng = ( magset.size() * 2 - 1 - ( rand() % ( magset.size() * 2 - 1 ) ) ) / 2;
-                std::advance( iter, rng );
-                item mag( *iter );
+                item mag = item( random_entry( magset ) );
                 mag.ammo_set( mag.ammo_default(), ch );
                 new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
             } else if( new_item.is_magazine() ) {
@@ -367,10 +370,7 @@ void Item_modifier::modify( item &new_item ) const
 
         if( spawn_mag ) {
             auto magset = new_item.magazine_compatible();
-            auto iter = magset.begin();
-            int rng = ( magset.size() * 2 - 1 - ( rand() % ( magset.size() * 2 - 1 ) ) ) / 2;
-            std::advance( iter, rng );
-            item mag( *iter, new_item.birthday() );
+            item mag = item( random_entry( magset ), new_item.birthday() );
             if( spawn_ammo ) {
                 mag.ammo_set( mag.ammo_default() );
             }
