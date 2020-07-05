@@ -29,6 +29,7 @@
 #include "translations.h"
 #include "units.h"
 #include "weather.h"
+#include "vitamin.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)
@@ -247,19 +248,19 @@ static void eff_fun_bleed( player &u, effect &it )
     // on the wound or otherwise suppressing the flow. (Kits contain either
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
-    // tourniquet reduces effective bleeding by 1/3 but doesn't modify the effect's intensity
-    int tourniquet = u.worn_with_flag( flag_TOURNIQUET, convert_bp( it.get_bp() ) ) ? 3 : 1;
-    if( one_in( 150 / intense * tourniquet ) && u.activity.id() != ACT_FIRSTAID ) {
-        u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
-                                 _( "<npcname> loses some blood." ) );
+    // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
+    bool tourniquet = u.worn_with_flag( flag_TOURNIQUET, convert_bp( it.get_bp() ) );
+    if( !( tourniquet && one_in( 3 ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
-        u.vitamin_mod( vitamin_redcells, rng( -1, -intense ) );
-        u.vitamin_mod( vitamin_blood, rng( -1, -intense ) );
-        if( one_in( 100 / intense ) ) {
+        u.vitamin_mod( vitamin_redcells, -intense );
+        u.vitamin_mod( vitamin_blood, -intense );
+        if( one_in( 400 / intense ) ) {
             u.mod_pain( 1 );
         }
-        if( one_in( 40 / intense ) ) {
+        if( one_in( 120 / intense ) ) {
             u.bleed();
+            u.add_msg_player_or_npc( m_bad, _( "You lose some blood." ),
+                                     _( "<npcname> loses some blood." ) );
         }
     }
 }
@@ -926,7 +927,8 @@ void player::hardcoded_effects( effect &it )
         };
         // this goes first because beyond minimum threshold you just die without delay,
         // while stage 4 is on a timer check with an rng grace period
-        if( vitamin_get( vitamin_blood ) == -5000 ) {
+
+        if( vitamin_get( vitamin_blood ) == vitamin_blood->min() ) {
             bleed_out();
         }
 
@@ -995,7 +997,8 @@ void player::hardcoded_effects( effect &it )
         }
         // this goes last because we don't want in_sleep_state to prevent you from dying
         if( intense == 4 && one_in( 900 ) &&
-            rng( 1, 3000 ) > ( 5000 + vitamin_get( vitamin_blood ) ) ) {
+            rng( 1, -vitamin_blood->min() * 3 / 5 ) > ( -vitamin_blood->min() + vitamin_get(
+                        vitamin_blood ) ) ) {
             bleed_out();
         }
     } else if( id == effect_anemia ) {
@@ -1013,7 +1016,7 @@ void player::hardcoded_effects( effect &it )
         // are placed in effect JSON
 
         // you can only lose as much red blood cells before your body fails to function
-        if( vitamin_get( vitamin_redcells ) <= -4995 ) {
+        if( vitamin_get( vitamin_redcells ) <= vitamin_redcells->min() + 5 ) {
             add_msg_player_or_npc( m_bad,
                                    _( "You cannot breathe and your body gives out!" ),
                                    _( "<npcname> gasps for air and dies!" ) );

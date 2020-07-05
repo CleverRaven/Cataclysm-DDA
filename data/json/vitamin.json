@@ -82,11 +82,11 @@
     "vit_type": "counter",
     "name": { "str": "Blood" },
     "deficiency": "hypovolemia",
-    "min": -5000,
+    "min": -50000,
     "max": 0,
-    "rate": "-1 m",
+    "rate": "-6 s",
     "flags": [ "NO_DISPLAY" ],
-    "disease": [ [ -500, -750 ], [ -751, -1500 ], [ -1501, -2000 ], [ -2001, -5000 ] ]
+    "disease": [ [ -5000, -7500 ], [ -7510, -15000 ], [ -15010, -20000 ], [ -20010, -50000 ] ]
   },
   {
     "id": "redcells",
@@ -94,10 +94,10 @@
     "vit_type": "counter",
     "name": { "str": "Red Blood Cells" },
     "deficiency": "redcells_anemia",
-    "min": -5000,
+    "min": -50000,
     "max": 0,
-    "rate": "-2 m",
+    "rate": "-12 s",
     "flags": [ "NO_DISPLAY" ],
-    "disease": [ [ -751, -2000 ], [ -2001, -3500 ], [ -3501, -5000 ] ]
+    "disease": [ [ -7510, -20000 ], [ -20010, -35000 ], [ -35010, -50000 ] ]
   }
 ]
