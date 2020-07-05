@@ -271,6 +271,11 @@ enum class layer_level : int {
     NUM_LAYER_LEVELS
 };
 
+template<>
+struct enum_traits<layer_level> {
+    static constexpr layer_level last = layer_level::NUM_LAYER_LEVELS;
+};
+
 inline layer_level &operator++( layer_level &l )
 {
     l = static_cast<layer_level>( static_cast<int>( l ) + 1 );

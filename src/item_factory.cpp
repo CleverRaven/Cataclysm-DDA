@@ -1750,11 +1750,6 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
     }
 }
 
-template<>
-struct enum_traits<layer_level> {
-    static constexpr layer_level last = layer_level::NUM_LAYER_LEVELS;
-};
-
 namespace io
 {
 template<>
