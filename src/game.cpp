@@ -11538,8 +11538,8 @@ void game::perhaps_add_random_npc()
     static constexpr int radius_spawn_range = 90;
     std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( radius_spawn_range );
     size_t npc_num = npcs.size();
-    for( size_t i = 0; i < npcs.size(); i++ ) {
-        if( npcs[i]->has_trait( trait_NPC_STATIC_NPC ) || npcs[i]->has_trait( trait_NPC_STARTING_NPC ) ) {
+    for( auto &npc : npcs ) {
+        if( npc->has_trait( trait_NPC_STATIC_NPC ) || npc->has_trait( trait_NPC_STARTING_NPC ) ) {
             npc_num--;
         }
     }
