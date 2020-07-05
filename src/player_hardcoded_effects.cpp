@@ -902,6 +902,11 @@ void player::hardcoded_effects( effect &it )
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         }
     } else if( id == effect_hypovolemia ) {
+        // hypovolemia and dehydration are closely related so it will pull water
+        // from your system to replenish blood quantity
+        if( calendar::once_every( -vitamin_rate( vitamin_blood ) ) ) {
+            mod_thirst( rng( 0, intense ) );
+        }
         // bleed out lambda
         auto bleed_out = [&] {
             if( has_effect( effect_bleed ) )
