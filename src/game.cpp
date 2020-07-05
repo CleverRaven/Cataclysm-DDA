@@ -11526,7 +11526,15 @@ void game::perhaps_add_random_npc()
     }
     // Create a new NPC?
 
-    float density = get_option<float>( "NPC_DENSITY" );
+    double spawn_time = get_option<float>( "NPC_SPAWNTIME" );
+    if( spawn_time == 0.0 ) {
+        return;
+    }
+
+    // spawn algorithm is a chance per hour, but the config is specified in average days
+    // actual chance per hour is (100 / 24 ) / days
+    static constexpr double days_to_rate_factor = ( 100 / 24 );
+    double spawn_rate = days_to_rate_factor / spawn_time;
     static constexpr int radius_spawn_range = 90;
     std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( radius_spawn_range );
     size_t npc_num = npcs.size();
@@ -11538,10 +11546,10 @@ void game::perhaps_add_random_npc()
 
     if( npc_num > 0 ) {
         // 100%, 80%, 64%, 52%, 41%, 33%...
-        density *= std::pow( 0.8f, npc_num );
+        spawn_rate *= std::pow( 0.8f, npc_num );
     }
 
-    if( !x_in_y( density, 100 ) ) {
+    if( !x_in_y( spawn_rate, 100 ) ) {
         return;
     }
     bool spawn_allowed = false;

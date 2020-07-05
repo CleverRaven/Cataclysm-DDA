@@ -2042,9 +2042,9 @@ void options_manager::add_options_world_default()
          0.01, 10.0, 1.0, 0.01
        );
 
-    add( "NPC_DENSITY", "world_default", translate_marker( "NPC spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines density of dynamic NPC spawns." ),
-         0.0, 100.0, 1.0, 0.01
+    add( "NPC_SPAWNTIME", "world_default", translate_marker( "Random NPC spawn time" ),
+         translate_marker( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  Set to 0 days to disable random NPCs." ),
+         0.0, 100.0, 4.0, 0.01
        );
 
     add( "MONSTER_UPGRADE_FACTOR", "world_default",
