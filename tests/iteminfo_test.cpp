@@ -650,6 +650,10 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         // Long-sleeved shirt covering torso and arms
         item longshirt( "test_longshirt" );
         REQUIRE( longshirt.get_covered_body_parts().any() );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "num_bp" ) ) == 90 );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "torso" ) ) == 90 );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "arm_l" ) ) == 90 );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "arm_r" ) ) == 90 );
 
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
                "--\n"
@@ -671,6 +675,11 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n" );
 
         REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "num_bp" ) ) == 3 );
+        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "torso" ) ) == 3 );
+        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "arm_l" ) ) == 3 );
+        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "arm_r" ) ) == 3 );
+
+
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
                "--\n"
                "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
@@ -680,6 +689,23 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "Arms:  <color_c_yellow>3</color>  "
                "When Full:  <color_c_yellow>3</color>  "
                "Coverage:  <color_c_yellow>90</color>\n" );
+
+        item swat_armor( "test_swat_armor" );
+        REQUIRE( swat_armor.get_covered_body_parts().any() );
+        REQUIRE( swat_armor.get_avg_coverage() == 95 );
+        REQUIRE( swat_armor.get_coverage( bodypart_id( "num_bp" ) ) == 95 );
+        REQUIRE( swat_armor.get_coverage( bodypart_id( "torso" ) ) == 95 );
+        REQUIRE( swat_armor.get_coverage( bodypart_id( "leg_l" ) ) == 95 );
+        REQUIRE( swat_armor.get_coverage( bodypart_id( "leg_r" ) ) == 95 );
+        REQUIRE( swat_armor.get_coverage( bodypart_id( "arm_l" ) ) == 95 );
+        REQUIRE( swat_armor.get_coverage( bodypart_id( "arm_r" ) ) == 95 );
+
+        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "num_bp" ) ) == 12 );
+        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "torso" ) ) == 12 );
+        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "leg_l" ) ) == 12 );
+        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "leg_r" ) ) == 12 );
+        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "arm_l" ) ) == 12 );
+        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "arm_r" ) ) == 12 );
     }
 
     SECTION( "armor with no coverage omits irrelevant info" ) {

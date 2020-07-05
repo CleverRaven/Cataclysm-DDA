@@ -1215,5 +1215,36 @@
     "price": 0,
     "price_postapoc": 0,
     "fun": -20
+  },
+  {
+    "id": "test_swat_armor",
+    "repairs_like": "survivor_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "SWAT armor" },
+    "//": "This is well within the pricing structure I found for ballistic vest, shins, and LBE.  LEO gear ain't cheap.",
+    "description": "A suit of black bulletproof armor with lots of pockets.  The word SWAT is emblazoned across the back.",
+    "weight": "7800 g",
+    "volume": "13 L",
+    "price": 285000,
+    "price_postapoc": 2000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "kevlar_layered", "cotton" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "dark_gray",
+    "armor_portion_data": [ { "covers": [ "torso", "LEGS", "ARMS" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
+    "warmth": 35,
+    "material_thickness": 11,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 4,
+    "flags": [ "POCKETS", "STURDY" ]
   }
 ]
