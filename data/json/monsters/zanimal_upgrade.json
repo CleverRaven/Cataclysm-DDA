@@ -98,6 +98,7 @@
     "type": "MONSTER",
     "name": { "str": "skeletal wolf" },
     "description": "This once-canine has shed all of its skin, revealing a carapace of fused bones and ribs.  Devoid entirely of flesh, this walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
+    "looks_like": "mon_dog_skeleton",
     "default_faction": "zombie",
     "bodytype": "dog",
     "species": [ "ZOMBIE" ],
