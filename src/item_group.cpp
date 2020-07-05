@@ -372,9 +372,9 @@ void Item_modifier::modify( item &new_item ) const
             std::advance( iter, rng );
             item mag( *iter, new_item.birthday() );
             if( spawn_ammo ) {
-                mag.ammo_set( mag.ammo_default(), ch );               
+                mag.ammo_set( mag.ammo_default() );
             }
-            new_item.put_in(mag, item_pocket::pocket_type::MAGAZINE_WELL);
+            new_item.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
         } else if( spawn_ammo && !new_item.ammo_default().is_null() ) {
             if( ammo ) {
                 const item am = ammo->create_single( new_item.birthday() );
