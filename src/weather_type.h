@@ -100,7 +100,6 @@ struct spawn_type {
 struct weather_effect {
     int one_in_chance;
     time_duration time_between;
-    int intensity;
     translation message;
     bool must_be_outside;
     translation sound_message;

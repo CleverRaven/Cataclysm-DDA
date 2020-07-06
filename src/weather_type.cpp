@@ -171,7 +171,6 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         optional( weather_effect_jo, was_loaded, "message", effect.message );
         optional( weather_effect_jo, was_loaded, "sound_message", effect.sound_message );
         optional( weather_effect_jo, was_loaded, "sound_effect", effect.sound_effect, "" );
-        optional( weather_effect_jo, was_loaded, "intensity", effect.intensity, 0 );
         mandatory( weather_effect_jo, was_loaded, "must_be_outside", effect.must_be_outside );
         optional( weather_effect_jo, was_loaded, "one_in_chance", effect.one_in_chance, -1 );
         optional( weather_effect_jo, was_loaded, "time_between", effect.time_between );

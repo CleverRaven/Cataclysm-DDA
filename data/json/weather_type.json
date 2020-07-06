@@ -152,17 +152,19 @@
     "precip": "heavy",
     "rains": true,
     "acidic": false,
-    "effects": [ 
-      { "one_in_chance": 50,
-        "must_be_outside":false,
+    "effects": [
+      {
+        "one_in_chance": 50,
+        "must_be_outside": false,
         "sound_message": "You hear a distant rumble of thunder.",
-        "sound_effect": "thunder_far" 
+        "sound_effect": "thunder_far"
       }
-       ],
+    ],
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.02, "color": "c_light_blue", "glyph": "." },
     "sound_category": "thunder",
-    "sun_intensity": "none"
+    "sun_intensity": "none",
+    "requirements": { "pressure_max": 996, "required_weathers": [ "rain" ] }
   },
   {
     "id": "lightning",
@@ -179,21 +181,21 @@
     "precip": "heavy",
     "rains": true,
     "acidic": false,
-    "effects": [ 
-    { 
-      "one_in_chance": 50,
-      "must_be_outside":false,
-      "sound_message": "You hear a distant rumble of thunder.",
-      "sound_effect": "thunder_far" 
-    },
-    { 
-      "one_in_chance": 600,
-      "must_be_outside":false,
-      "message": "A flash of lightning illuminates your surroundings!.",
-      "sound_effect": "thunder_near",
-      "lightning":true
-    }
-  ],
+    "effects": [
+      {
+        "one_in_chance": 50,
+        "must_be_outside": false,
+        "sound_message": "You hear a distant rumble of thunder.",
+        "sound_effect": "thunder_far"
+      },
+      {
+        "one_in_chance": 600,
+        "must_be_outside": false,
+        "message": "A flash of lightning illuminates your surroundings!.",
+        "sound_effect": "thunder_near",
+        "lightning": true
+      }
+    ],
     "tiles_animation": "weather_rain_drop",
     "weather_animation": { "factor": 0.04, "color": "c_light_blue", "glyph": "," },
     "sound_category": "thunder",
@@ -215,16 +217,16 @@
     "precip": "light",
     "rains": true,
     "acidic": true,
-    "effects": [ 
-      { 
+    "effects": [
+      {
         "time_between": "3 minutes",
-        "must_be_outside":true,
+        "must_be_outside": true,
         "message": "The acid rain stings, but is mostly harmless for now…",
         "rain_proof": true,
         "pain_max": 10,
         "pain": 1
       }
-      ],
+    ],
     "tiles_animation": "weather_acid_drop",
     "weather_animation": { "factor": 0.01, "color": "c_light_green", "glyph": "." },
     "sound_category": "drizzle",
@@ -246,16 +248,16 @@
     "precip": "heavy",
     "rains": true,
     "acidic": true,
-    "effects": [ 
-      { 
+    "effects": [
+      {
         "time_between": "2 seconds",
-        "must_be_outside":true,
+        "must_be_outside": true,
         "message": "The acid rain burns!",
         "rain_proof": true,
         "pain_max": 100,
-        "pain":3
+        "pain": 3
       }
-     ],
+    ],
     "tiles_animation": "weather_acid_drop",
     "weather_animation": { "factor": 0.02, "color": "c_light_green", "glyph": "," },
     "sound_category": "rainy",
@@ -298,10 +300,7 @@
     "precip": "heavy",
     "rains": false,
     "acidic": false,
-    "effects": [{ 
-      "must_be_outside":true,
-      "wet":10
-    } ],
+    "effects": [ { "must_be_outside": true, "wet": 10 } ],
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.02, "color": "c_white", "glyph": "," },
     "sound_category": "snow",
@@ -323,42 +322,11 @@
     "precip": "heavy",
     "rains": false,
     "acidic": false,
-    "effects": [  {
-      "must_be_outside":true,
-      "wet":40
-    } ],
+    "effects": [ { "must_be_outside": true, "wet": 40 } ],
     "tiles_animation": "weather_snowflake",
     "weather_animation": { "factor": 0.04, "color": "c_white", "glyph": "*" },
     "sound_category": "snowstorm",
     "sun_intensity": "none",
     "requirements": { "temperature_max": 33, "windpower_min": 15, "required_weathers": [ "thunder", "lightning" ] }
-  },
-  {
-    "id": "debug_storm",
-    "type": "weather_type",
-    "name": "Debug_storm",
-    "color": "c_red",
-    "map_color": "c_red",
-    "glyph": "%",
-    "ranged_penalty": 6,
-    "sight_penalty": 1.2,
-    "light_modifier": -30,
-    "sound_attn": 6,
-    "dangerous": false,
-    "precip": "light",
-    "rains": false,
-    "acidic": false,
-    "effects": [  {
-      "must_be_outside":true,
-      "radiation":10,
-      "healthy":1,
-      "message":"Suddenly a something",
-      "effect_id":"bite",
-      "effect_duration":"10 minutes",
-      "target_part": "arm_l",
-      "damage":5
-    } ],    
-    "weather_animation": { "factor": 0.04, "color": "c_blue", "glyph": "X" },
-    "sun_intensity": "none"
   }
 ]
