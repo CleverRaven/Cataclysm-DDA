@@ -2667,46 +2667,21 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
                 // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
                 if( !t->sided ) {
-                    bodypart_str_id right_foot = bodypart_id( "foot_l" )->opposite_part;
-                    bodypart_str_id right_leg = bodypart_id( "leg_l" )->opposite_part;
-                    bodypart_str_id right_arm = bodypart_id( "arm_l" )->opposite_part;
-                    bodypart_str_id right_hand = bodypart_id( "hand_l" )->opposite_part;
-                    bodypart_str_id left_foot = bodypart_id( "foot_r" )->opposite_part;
-                    bodypart_str_id left_leg = bodypart_id( "leg_r" )->opposite_part;
-                    bodypart_str_id left_arm = bodypart_id( "arm_r" )->opposite_part;
-                    bodypart_str_id left_hand = bodypart_id( "hand_r" )->opposite_part;
-                    bodypart_str_id feet( "Feet" );
-                    bodypart_str_id arms( "Arms" );
-                    bodypart_str_id legs( "Legs" );
-                    bodypart_str_id hands( "Hands" );
-
-                    if( covers( left_foot ) && covers( right_foot )
-                        && piece_data.at( left_foot ).first == piece_data.at( right_foot ).first ) {
-                        piece_data.erase( piece_data.find( left_foot ) );
-                        piece_data[feet] = piece_data.at( right_foot );
-                        piece_data[feet].second.to_display = piece_data[feet].second.multiple_name;
-                        piece_data.erase( piece_data.find( right_foot ) );
+                    // Cannot remove from a container we are iterating through so store what to remove then remove it afterwards
+                    std::vector<bodypart_str_id> to_remove;
+                    for( const body_part &legacy_part : all_body_parts ) {
+                        bodypart_str_id bp( convert_bp( legacy_part ) );
+                        bodypart_str_id opposite = bp->opposite_part;
+                        if( opposite != bp && covers( bp ) && covers( opposite )
+                            && piece_data.at( bp ).first == piece_data.at( opposite ).first ) {
+                            piece_data[bodypart_str_id( bp->name_as_heading_multiple.translated() )] = piece_data.at( bp );
+                            piece_data[bodypart_str_id( bp->name_as_heading_multiple.translated() )].second.to_display =
+                                piece_data[bp].second.multiple_name;
+                            to_remove.push_back( bp );
+                        }
                     }
-                    if( covers( left_arm ) && covers( right_arm )
-                        && piece_data.at( left_arm ).first == piece_data.at( right_arm ).first ) {
-                        piece_data.erase( piece_data.find( left_arm ) );
-                        piece_data[arms] = piece_data.at( right_arm );
-                        piece_data[arms].second.to_display = piece_data[arms].second.multiple_name;
-                        piece_data.erase( piece_data.find( right_arm ) );
-                    }
-                    if( covers( left_leg ) && covers( right_leg )
-                        && piece_data.at( left_leg ).first == piece_data.at( right_leg ).first ) {
-                        piece_data.erase( piece_data.find( left_leg ) );
-                        piece_data[legs] = piece_data.at( right_leg );
-                        piece_data[legs].second.to_display = piece_data[legs].second.multiple_name;
-                        piece_data.erase( piece_data.find( right_leg ) );
-                    }
-                    if( covers( left_hand ) && covers( right_hand )
-                        && piece_data.at( left_hand ).first == piece_data.at( right_hand ).first ) {
-                        piece_data.erase( piece_data.find( left_hand ) );
-                        piece_data[hands] = piece_data.at( right_hand );
-                        piece_data[hands].second.to_display = piece_data[hands].second.multiple_name;
-                        piece_data.erase( piece_data.find( right_hand ) );
+                    for( const bodypart_str_id &remove : to_remove ) {
+                        piece_data.erase( remove );
                     }
                 }
                 for( auto &piece : piece_data ) {
