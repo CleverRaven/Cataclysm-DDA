@@ -372,6 +372,9 @@ static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
+static const ter_str_id ter_CLAY( "t_clay" );
+static const ter_str_id ter_SAND( "t_sand" );
+
 // how many characters per turn of radio
 static constexpr int RADIO_PER_TURN = 25;
 
@@ -2742,7 +2745,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     // as the soil composition is going to have a big influence on this. The
     // engineering toolbox https://www.engineeringtoolbox.com/dirt-mud-densities-d_1727.html
     // lists the density of wet and dry versions of many materials. I'm going with the
-    // assumption that this is moist/wet soil that includes clay, silt, load, as well as
+    // assumption that this is moist/wet soil that includes clay, silt, loam, as well as
     // some rock, so I'll just call it 1700 kg/m^3 on average.
     //
     // Shallow pit is 0.25 m^3 * 1700 kg/m^3, or 425 kg.
@@ -2761,7 +2764,18 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     constexpr double shallow_pit_volume_m3 = 0.25;
     constexpr double deep_pit_volume_m3 = 2;
     constexpr int dig_rate_kg_min = 25;
-    constexpr int material_density_kg_m3 = 1700;
+    int material_density_kg_m3 = 1700; // default soil
+    std::string byproducts_item_group = "digging_soil_loam_50L"; // default soil
+
+    tripoint dig_point = p->pos();
+    ter_str_id dig_what = g->m.ter( dig_point ).id();
+    if( dig_what == ter_CLAY ) {
+        material_density_kg_m3 = 1760;
+        byproducts_item_group = "digging_clay_50L";
+    } else if( dig_what == ter_SAND ) {
+        material_density_kg_m3 = 1905;
+        byproducts_item_group = "digging_sand_50L";
+    }
 
     // At the time of writing this, a shovel is DIG 3, which is what the numbers are
     // balanced around.
@@ -2798,7 +2812,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
         result_terrain = deep ? ter_id( "t_pit" ) : ter_id( "t_pit_shallow" );
     }
 
-    return { moves, static_cast<int>( volume_m3 / 0.05 ), "digging_soil_loam_50L", result_terrain };
+    return { moves, static_cast<int>( volume_m3 / 0.05 ), byproducts_item_group, result_terrain };
 }
 
 int iuse::dig( player *p, item *it, bool t, const tripoint & )
