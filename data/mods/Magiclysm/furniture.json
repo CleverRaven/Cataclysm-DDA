@@ -229,16 +229,15 @@
     }
   },
   {
-    "type": "terrain",
-    "id": "t_everburning_candelabra",
+    "type": "furniture",
+    "id": "f_everburning_candelabra",
     "name": "candelabra of everlasting candles",
     "description": "A candelabra, strangely the candles never seem to burn down.  Smashing it doesn't seem like it'd produce any worthwhile salvage.",
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
-    "roof": "t_flat_roof",
     "light_emitted": 40,
-    "flags": [ "TRANSPARENT", "FLAMMABLE_HARD", "SUPPORTS_ROOF", "COLLAPSES", "INDOORS", "FLAT", "ROAD", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "BASHABLE" ],
     "bash": {
       "sound": "SMASH!",
       "ter_set": "t_null",
