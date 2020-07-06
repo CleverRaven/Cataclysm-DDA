@@ -611,7 +611,7 @@ static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
     std::pair<bodypart_id, bodypart_id> temp_pair = temp_delta( u );
     // Assign zones for comparisons
     const int cur_zone = define_temp_level( u.get_part_temp_cur( temp_pair.first ) );
-    const int conv_zone = define_temp_level( u.get_part_temp_conv(temp_pair.second));
+    const int conv_zone = define_temp_level( u.get_part_temp_conv( temp_pair.second ) );
 
     // delta will be positive if temp_cur is rising
     const int delta = conv_zone - cur_zone;
