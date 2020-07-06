@@ -345,6 +345,12 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
     }
 }
 
+static inline bool check_flammable( const map_data_common_t &t )
+{
+    return t.has_flag( TFLAG_FLAMMABLE ) || t.has_flag( TFLAG_FLAMMABLE_ASH ) ||
+           t.has_flag( TFLAG_FLAMMABLE_HARD );
+}
+
 /*
 Helper function that encapsulates the logic involved in creating hot air.
 */
@@ -503,7 +509,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     const bool can_spread = !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
                     // If the flames are in furniture with fire_container flag like brazier or oven,
                     // they're fully contained, so skip consuming terrain
-                    const bool can_burn = can_spread && ( ter.is_flammable() || frn.is_flammable() );
+                    const bool can_burn = can_spread && ( check_flammable( ter ) || check_flammable( frn ) );
                     // The huge indent below should probably be somehow moved away from here
                     // without forcing the function to use i_at( p ) for fires without items
                     if( !is_sealed && map_tile.get_item_count() > 0 ) {
@@ -784,7 +790,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             // Allow weaker fires to spread occasionally
                             const int power = cur.get_field_intensity() + one_in( 5 );
                             if( can_spread && rng( 1, 100 ) < spread_chance &&
-                                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
+                                ( check_flammable( dster ) || check_flammable( dsfrn ) ) &&
                                 ( in_pit == ( dster.id.id() == t_pit ) ) &&
                                 (
                                     ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
