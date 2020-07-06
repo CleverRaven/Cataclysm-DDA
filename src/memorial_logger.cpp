@@ -151,7 +151,8 @@ std::string memorial_logger::dump() const
     return output;
 }
 
-void memorial_logger::write( std::ostream &file, const std::string &epitaph ) const
+void memorial_logger::write_text_memorial( std::ostream &file,
+        const std::string &epitaph ) const
 {
     avatar &u = g->u;
     static const char *eol = cata_files::eol();
@@ -360,6 +361,17 @@ void memorial_logger::write( std::ostream &file, const std::string &epitaph ) co
     //History
     file << _( "Game History" ) << eol;
     file << dump();
+}
+
+void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
+{
+    JsonOut jsout( memorial_file, true, 2 );
+    jsout.start_object();
+    jsout.member( "memorial_version", 0 );
+    jsout.member( "log", log );
+    jsout.member( "achievements", g->achievements() );
+    jsout.member( "stats", g->stats() );
+    jsout.end_object();
 }
 
 void memorial_logger::notify( const cata::event &e )

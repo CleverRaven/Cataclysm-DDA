@@ -3257,11 +3257,15 @@ void game::write_memorial_file( std::string sLastWords )
     std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime( &t ) );
     memorial_file_path << buffer;
 
-    memorial_file_path << ".txt";
+    const std::string text_path_string = memorial_file_path.str() + ".txt";
+    const std::string json_path_string = memorial_file_path.str() + ".json";
 
-    const std::string path_string = memorial_file_path.str();
-    write_to_file( memorial_file_path.str(), [&]( std::ostream & fout ) {
-        memorial().write( fout, sLastWords );
+    write_to_file( text_path_string, [&]( std::ostream & fout ) {
+        memorial().write_text_memorial( fout, sLastWords );
+    }, _( "player memorial" ) );
+
+    write_to_file( json_path_string, [&]( std::ostream & fout ) {
+        memorial().write_json_memorial( fout );
     }, _( "player memorial" ) );
 }
 

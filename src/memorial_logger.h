@@ -41,7 +41,9 @@ class memorial_logger : public event_subscriber
         std::string dump() const;
 
         // Prints out the final memorial file
-        void write( std::ostream &memorial_file, const std::string &epitaph ) const;
+        void write_text_memorial( std::ostream &memorial_file,
+                                  const std::string &epitaph ) const;
+        void write_json_memorial( std::ostream &memorial_file ) const;
 
         void notify( const cata::event & ) override;
     private:
