@@ -71,7 +71,7 @@
     "id": "mon_forgedemons",
     "type": "MONSTER",
     "name": { "str": "forge demon" },
-    "description": "The first thing you notice is that this creature has five arms.  The next is that it walks on three legs. It walks amongst the vault until it notices you then throws itself at the walls screaming bloody murder.  Its mere presence fills you with an unfathomable dread.",
+    "description": "The first thing you notice is that this creature has five arms.  The next is that it walks on three legs.  It walks amongst the vault until it notices you then throws itself at the walls screaming bloody murder.  Its mere presence fills you with an unfathomable dread.",
     "default_faction": "wonder_forge",
     "bodytype": "human",
     "species": [ "NETHER" ],

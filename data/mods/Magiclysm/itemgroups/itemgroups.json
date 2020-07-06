@@ -1137,7 +1137,7 @@
     "id": "magic_smith",
     "//": "the things that would be on the same tile as a magicians anvil, such as tools and one product.",
     "subtype": "collection",
-    "items": [ { "group": "enchanted_combat_items", "prob": 100 }, { "group": "tools_anvil", "prob": 80, "repeat": 3 } ]
+    "items": [ { "group": "enchanted_combat_items", "prob": 100 }, { "group": "tools_anvil", "prob": 80, "count": [ 2, 5 ] } ]
   },
   {
     "id": "tools_anvil",
