@@ -115,11 +115,11 @@
     "color": "dark_gray",
     "description": "A handful of New England sand.  If you had a stoked furnace, you could turn it into glass.  Otherwise, it's only good for making cement.",
     "material": [ "powder_nonflam" ],
-    "volume": "250 ml",
-    "weight": "8 g",
+    "volume": "1 L",
+    "weight": "150 g",
     "bashing": 1,
     "ammo_type": "components",
-    "count": 50
+    "count": 10
   },
   {
     "type": "AMMO",
