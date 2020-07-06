@@ -77,6 +77,11 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         int qty = tmp.charges;
         if( modifier ) {
             qty = rng( modifier->charges.first, modifier->charges.second );
+        } else if( tmp.is_magazine() ) {
+            itype_id ammo = tmp.ammo_default();
+            if( ammo ) {
+                tmp.ammo_set( ammo, rng( 0, tmp.ammo_capacity( ammo->ammo->type ) ) );
+            }
         }
         // TODO: change the spawn lists to contain proper references to containers
         tmp = tmp.in_its_container( qty );
