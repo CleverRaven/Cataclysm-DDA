@@ -1061,6 +1061,9 @@ bool item::merge_charges( const item &rhs )
 ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
 {
     ret_val<bool> result = contents.insert_item( payload, pk_type );
+    if( pk_type == item_pocket::pocket_type::MOD ) {
+        update_modified_pockets();
+    }
     on_contents_changed();
     return result;
 }

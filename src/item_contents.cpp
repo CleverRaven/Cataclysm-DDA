@@ -1083,6 +1083,8 @@ void item_contents::update_modified_pockets(
                 // no mag or mag well, so it needs to be erased
                 pocket_iter = contents.erase( pocket_iter );
             }
+        } else {
+            ++pocket_iter;
         }
     }
 
