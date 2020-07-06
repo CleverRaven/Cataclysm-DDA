@@ -594,11 +594,19 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                     if( granted.count_by_charges() ) {
                         if( amount > 0 ) {
                             granted.charges = amount;
-                            p->i_add( granted );
+                            if( p->can_stash( granted ) ) {
+                                p->i_add( granted );
+                            } else {
+                                get_map().add_item_or_charges( p->pos(), granted );
+                            }
                         }
                     } else {
                         for( int i = 0; i < amount; i++ ) {
-                            p->i_add( granted );
+                            if( p->can_stash( granted ) ) {
+                                p->i_add( granted );
+                            } else {
+                                get_map().add_item_or_charges( p->pos(), granted );
+                            }
                         }
                     }
                     p->invalidate_crafting_inventory();
