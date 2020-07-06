@@ -237,7 +237,8 @@
     "entries": [
       { "group": "default_zombie_clothes" },
       { "group": "default_zombie_items", "prob": 50 },
-      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 }
+      { "item": "cash_card", "prob": 10, "charges-min": 0, "charges-max": 50000 },
+      { "item": "lipo_battery", "prob": 1, "charges-min": 0, "charges-max": 150 }
     ]
   }
 ]

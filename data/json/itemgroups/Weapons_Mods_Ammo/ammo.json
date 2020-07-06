@@ -515,7 +515,9 @@
       { "item": "light_battery_cell", "prob": 25, "charges-min": 0, "charges-max": 100 },
       { "item": "light_minus_battery_cell", "prob": 12, "charges-min": 0, "charges-max": 50 },
       { "item": "light_plus_battery_cell", "prob": 9, "charges-min": 0, "charges-max": 150 },
-      { "item": "light_disposable_cell", "prob": 50, "charges-min": 0, "charges-max": 300 }
+      { "item": "light_disposable_cell", "prob": 50, "charges-min": 0, "charges-max": 300 },
+      { "item": "small_lipo_battery", "prob": 27, "charges-min": 0, "charges-max": 75 },
+      { "item": "lipo_battery", "prob": 18, "charges-min": 0, "charges-max": 150 }
     ]
   },
   {
@@ -525,7 +527,9 @@
       { "item": "light_battery_cell", "prob": 25, "charges-min": 100, "charges-max": 100 },
       { "item": "light_minus_battery_cell", "prob": 12, "charges-min": 50, "charges-max": 50 },
       { "item": "light_plus_battery_cell", "prob": 9, "charges-min": 150, "charges-max": 150 },
-      { "item": "light_disposable_cell", "prob": 50, "charges-min": 300, "charges-max": 300 }
+      { "item": "light_disposable_cell", "prob": 50, "charges-min": 300, "charges-max": 300 },
+      { "item": "small_lipo_battery", "prob": 18, "charges": 75 },
+      { "item": "lipo_battery", "prob": 9, "charges": 150 }
     ]
   },
   {
@@ -535,7 +539,8 @@
     "entries": [
       { "item": "medium_battery_cell", "prob": 40, "charges-min": 0, "charges-max": 500 },
       { "item": "medium_plus_battery_cell", "prob": 10, "charges-min": 0, "charges-max": 600 },
-      { "item": "medium_disposable_cell", "prob": 80, "charges-min": 0, "charges-max": 1200 }
+      { "item": "medium_disposable_cell", "prob": 80, "charges-min": 0, "charges-max": 1200 },
+      { "item": "medium_lipo_battery", "prob": 10, "charges-min": 0, "charges-max": 300 }
     ]
   },
   {
@@ -545,7 +550,8 @@
     "entries": [
       { "item": "medium_battery_cell", "prob": 40, "charges-min": 500, "charges-max": 500 },
       { "item": "medium_plus_battery_cell", "prob": 10, "charges-min": 600, "charges-max": 600 },
-      { "item": "medium_disposable_cell", "prob": 80, "charges-min": 1200, "charges-max": 1200 }
+      { "item": "medium_disposable_cell", "prob": 80, "charges-min": 1200, "charges-max": 1200 },
+      { "item": "medium_lipo_battery", "prob": 5, "charges-min": 0, "charges-max": 300 }
     ]
   },
   {
@@ -570,12 +576,33 @@
   },
   {
     "type": "item_group",
+    "id": "ammo_lipo_batteries_full",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "small_lipo_battery", "prob": 18, "charges": 75 },
+      { "item": "lipo_battery", "prob": 9, "charges": 150 },
+      { "item": "medium_lipo_battery", "prob": 5, "charges": 300 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_lipo_batteries",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "small_lipo_battery", "prob": 27, "charges-min": 0, "charges-max": 75 },
+      { "item": "lipo_battery", "prob": 18, "charges-min": 0, "charges-max": 150 },
+      { "item": "medium_lipo_battery", "prob": 10, "charges-min": 0, "charges-max": 300 }
+    ]
+  },
+  {
+    "type": "item_group",
     "id": "ammo_any_batteries_full",
     "subtype": "distribution",
     "entries": [
       { "group": "ammo_light_batteries_full", "prob": 5 },
       { "group": "ammo_medium_batteries_full", "prob": 5 },
-      { "group": "ammo_heavy_batteries_full", "prob": 5 }
+      { "group": "ammo_heavy_batteries_full", "prob": 5 },
+      { "group": "ammo_lipo_batteries_full", "prob": 5 }
     ]
   },
   {
@@ -585,8 +612,15 @@
     "entries": [
       { "group": "ammo_light_batteries", "prob": 5 },
       { "group": "ammo_medium_batteries", "prob": 5 },
-      { "group": "ammo_heavy_batteries", "prob": 5 }
+      { "group": "ammo_heavy_batteries", "prob": 5 },
+      { "group": "ammo_lipo_batteries", "prob": 5 }
     ]
+  },
+  {
+    "type": "item_group",
+    "id": "ammo_any_lipo_batteries_full",
+    "subtype": "distribution",
+    "entries": [ { "group": "ammo_lipo_batteries_full", "prob": 5 } ]
   },
   {
     "type": "item_group",
