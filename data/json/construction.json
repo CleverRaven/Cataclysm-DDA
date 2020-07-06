@@ -2907,30 +2907,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_extract_sand",
-    "description": "Extract Sand",
-    "category": "OTHER",
-    "required_skills": [ [ "survival", 0 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "material_sand", "charges": [ 300, 600 ] } ],
-    "pre_terrain": "t_sand",
-    "post_special": "done_extract_maybe_revert_to_dirt"
-  },
-  {
-    "type": "construction",
-    "id": "constr_extract_clay",
-    "description": "Extract Clay",
-    "category": "OTHER",
-    "required_skills": [ [ "survival", 0 ] ],
-    "time": "30 m",
-    "qualities": [ [ { "id": "DIG", "level": 1 } ] ],
-    "byproducts": [ { "item": "clay_lump", "count": [ 6, 12 ] } ],
-    "pre_terrain": "t_clay",
-    "post_special": "done_extract_maybe_revert_to_dirt"
-  },
-  {
-    "type": "construction",
     "id": "constr_kiln_empty",
     "description": "Build Charcoal Kiln",
     "category": "FURN",

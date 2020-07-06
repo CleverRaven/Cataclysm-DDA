@@ -122,7 +122,6 @@ void done_mine_downstair( const tripoint & );
 void done_mine_upstair( const tripoint & );
 void done_wood_stairs( const tripoint & );
 void done_window_curtains( const tripoint & );
-void done_extract_maybe_revert_to_dirt( const tripoint & );
 void done_mark_firewood( const tripoint & );
 void done_mark_practice_target( const tripoint & );
 void done_ramp_low( const tripoint & );
@@ -1413,23 +1412,6 @@ void construct::done_window_curtains( const tripoint & )
         _( "After boarding up the window the curtains and curtain rod are left." ) );
 }
 
-void construct::done_extract_maybe_revert_to_dirt( const tripoint &p )
-{
-    map &here = get_map();
-    if( one_in( 10 ) ) {
-        here.ter_set( p, t_dirt );
-    }
-
-    if( here.ter( p ) == t_clay ) {
-        add_msg( _( "You gather some clay." ) );
-    } else if( here.ter( p ) == t_sand ) {
-        add_msg( _( "You gather some sand." ) );
-    } else {
-        // Fall through to an undefined material.
-        add_msg( _( "You gather some materials." ) );
-    }
-}
-
 void construct::done_mark_firewood( const tripoint &p )
 {
     get_map().trap_set( p, tr_firewood_source );
@@ -1571,7 +1553,6 @@ void load_construction( const JsonObject &jo )
             { "done_mine_upstair", construct::done_mine_upstair },
             { "done_wood_stairs", construct::done_wood_stairs },
             { "done_window_curtains", construct::done_window_curtains },
-            { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
             { "done_mark_firewood", construct::done_mark_firewood },
             { "done_mark_practice_target", construct::done_mark_practice_target },
             { "done_ramp_low", construct::done_ramp_low },
