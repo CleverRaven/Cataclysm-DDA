@@ -167,6 +167,7 @@
     "description": "A bullpup pump-action shotgun, the Kel-Tec KSG-25 uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.  The big brother of the KSG, it has a longer barrel and longer magazine tubes.",
     "weight": "2100 g",
     "volume": "4495 ml",
+    "longest_side": "971 mm",
     "price": 140000,
     "to_hit": -1,
     "bashing": 9,
