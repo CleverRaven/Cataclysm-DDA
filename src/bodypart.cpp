@@ -411,7 +411,7 @@ bool bodypart::is_at_max_hp() const
 
 float bodypart::get_wetness_percentage() const
 {
-    return static_cast<float>( wetness / drench_capacity );
+    return static_cast<float>( wetness ) / drench_capacity;
 }
 
 int bodypart::get_hp_cur() const
