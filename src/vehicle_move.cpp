@@ -871,9 +871,8 @@ void vehicle::handle_trap( const tripoint &p, int part )
         return;
     }
     const trap &tr = g->m.tr_at( p );
-    const trap_id t = tr.loadid;
 
-    if( t == tr_null ) {
+    if( tr.is_null() ) {
         // If the trap doesn't exist, we can't interact with it, so just return
         return;
     }
@@ -884,7 +883,7 @@ void vehicle::handle_trap( const tripoint &p, int part )
     }
 
     const bool seen = g->u.sees( p );
-    const bool known = g->u.knows_trap( p );
+    const bool known = tr.can_see( p, g->u );
     if( seen ) {
         if( known ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name

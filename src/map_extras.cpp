@@ -3029,7 +3029,7 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
         for( const tripoint &p : points_in_radius( trap_center, 1 ) ) {
             compmap.trap_set( p, tr_blade );
         }
-        compmap.trap_set( trap_center, tr_engine );
+        compmap.trap_set( trap_center, trap_str_id( "tr_engine" ) );
         //... and a loudspeaker to attract zombies
         compmap.add_spawn( mon_turret_speaker, 1, trap_center );
     }

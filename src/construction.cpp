@@ -941,7 +941,7 @@ void place_construction( const std::string &desc )
     // Special handling for constructions that take place on existing traps.
     // Basically just don't add the unfinished construction trap.
     // TODO: handle this cleaner, instead of adding a special case to pit iexamine.
-    if( here.tr_at( pnt ).loadid == tr_null ) {
+    if( here.tr_at( pnt ).is_null() ) {
         here.trap_set( pnt, tr_unfinished_construction );
     }
     // Use up the components
@@ -969,7 +969,7 @@ void complete_construction( player *p )
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
+        if( here.tr_at( terp ) == tr_unfinished_construction ) {
             here.remove_trap( terp );
         }
         if( p->is_npc() ) {
@@ -1003,7 +1003,7 @@ void complete_construction( player *p )
             award_xp( *elem );
         }
     }
-    if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
+    if( here.tr_at( terp ) == tr_unfinished_construction ) {
         here.remove_trap( terp );
     }
     here.partial_con_remove( terp );
@@ -1059,6 +1059,8 @@ void complete_construction( player *p )
 bool construct::check_empty( const tripoint &p )
 {
     map &here = get_map();
+    // @TODO should check for *visible* traps only. But calling code must
+    // first know how to handle constructing on top of an invisible trap!
     return ( here.has_flag( flag_FLAT, p ) && !here.has_furn( p ) &&
              g->is_empty( p ) && here.tr_at( p ).is_null() &&
              here.i_at( p ).empty() && !here.veh_at( p ) );

@@ -2206,6 +2206,8 @@ class Character : public Creature, public visitable<Character>
         float hearing_ability() const;
 
         using trap_map = std::map<tripoint, std::string>;
+        // Use @ref trap::can_see to check whether a character knows about a
+        // specific trap - it will consider visibile and known traps.
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
         /** Define color for displaying the body temperature */

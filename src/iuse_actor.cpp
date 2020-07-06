@@ -3616,7 +3616,7 @@ bool place_trap_actor::is_allowed( player &p, const tripoint &pos, const std::st
                                  name );
         } else {
             p.add_msg_if_player( m_bad, _( "You trigger a %s!" ), existing_trap.name() );
-            existing_trap.trigger( pos, &p );
+            existing_trap.trigger( pos, p );
         }
         return false;
     }
@@ -3791,8 +3791,10 @@ std::unique_ptr<iuse_actor> saw_barrel_actor::clone() const
 int install_bionic_actor::use( player &p, item &it, bool, const tripoint & ) const
 {
     if( p.can_install_bionics( *it.type, p, false ) ) {
-        p.consume_installation_requirment( it.type->bionic->id );
-        p.consume_anesth_requirment( *it.type, p );
+        if( !p.has_trait( trait_DEBUG_BIONICS ) ) {
+            p.consume_installation_requirment( it.type->bionic->id );
+            p.consume_anesth_requirment( *it.type, p );
+        }
         return p.install_bionics( *it.type, p, false ) ? it.type->charges_to_use() : 0;
     } else {
         return 0;

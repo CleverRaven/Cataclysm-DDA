@@ -138,7 +138,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             }
             const trap &tr = here.tr_at( pt );
             if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, nullptr, &dropped_item );
+                tr.trigger( pt, dropped_item );
             }
         }
     }

@@ -1771,7 +1771,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             debugmsg( "Invalid season" );
     }
 
-    here.ter_set( here.getlocal( act->placement ), next_ter );
+    const tripoint bush_pos = here.getlocal( act->placement );
+    here.ter_set( bush_pos, next_ter );
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
@@ -1809,6 +1810,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     iexamine::practice_survival_while_foraging( p );
 
     act->set_to_null();
+
+    here.maybe_trigger_trap( bush_pos, *p, true );
 }
 
 void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
@@ -2900,6 +2903,8 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
     here.furn_set( pos, f_null );
 
     act->set_to_null();
+
+    here.maybe_trigger_trap( pos, *p, true );
 }
 
 void activity_handlers::meditate_finish( player_activity *act, player *p )

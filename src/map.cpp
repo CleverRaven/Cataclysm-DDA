@@ -114,8 +114,6 @@ static const itype_id itype_welder( "welder" );
 
 static const mtype_id mon_zombie( "mon_zombie" );
 
-static const skill_id skill_traps( "traps" );
-
 static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_crushed( "crushed" );
 
@@ -1820,7 +1818,7 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
     // actually make a valid ledge drop location with zlevels on, this forces
     // at least one zlevel drop and if down_ter is impassible it's probably
     // inside a wall, we could workaround that further but it's unnecessary.
-    const bool up_is_ledge = tr_at( up_p ).loadid == tr_ledge;
+    const bool up_is_ledge = tr_at( up_p ) == tr_ledge;
 
     if( up_ter.movecost == 0 ) {
         // Unpassable tile
@@ -5061,6 +5059,11 @@ std::list<std::pair<tripoint, item *> > map::get_rc_items( const tripoint &p )
     return rc_pairs;
 }
 
+bool map::can_see_trap_at( const tripoint &p, const Character &c ) const
+{
+    return tr_at( p ).can_see( p, c );
+}
+
 const trap &map::tr_at( const tripoint &p ) const
 {
     if( !inbounds( p ) ) {
@@ -5136,64 +5139,6 @@ void map::trap_set( const tripoint &p, const trap_id &type )
     current_submap->set_trap( l, type );
     if( type != tr_null ) {
         traplocs[type.to_i()].push_back( p );
-    }
-}
-
-void map::disarm_trap( const tripoint &p )
-{
-    const trap &tr = tr_at( p );
-    if( tr.is_null() ) {
-        debugmsg( "Tried to disarm a trap where there was none (%d %d %d)", p.x, p.y, p.z );
-        return;
-    }
-
-    const int tSkillLevel = g->u.get_skill_level( skill_traps );
-    const int diff = tr.get_difficulty();
-    int roll = rng( tSkillLevel, 4 * tSkillLevel );
-
-    // Some traps are not actual traps. Skip the rolls, different message and give the option to grab it right away.
-    if( tr.get_avoidance() == 0 && tr.get_difficulty() == 0 ) {
-        add_msg( _( "The %s is taken down." ), tr.name() );
-        tr.on_disarmed( *this, p );
-        return;
-    }
-
-    ///\EFFECT_PER increases chance of disarming trap
-
-    ///\EFFECT_DEX increases chance of disarming trap
-
-    ///\EFFECT_TRAPS increases chance of disarming trap
-    while( ( rng( 5, 20 ) < g->u.per_cur || rng( 1, 20 ) < g->u.dex_cur ) && roll < 50 ) {
-        roll++;
-    }
-    if( roll >= diff ) {
-        add_msg( _( "You disarm the trap!" ) );
-        const int morale_buff = tr.get_avoidance() * 0.4 + tr.get_difficulty() + rng( 0, 4 );
-        g->u.rem_morale( MORALE_FAILURE );
-        g->u.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
-        tr.on_disarmed( *this, p );
-        if( diff > 1.25 * tSkillLevel ) { // failure might have set off trap
-            g->u.practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
-        }
-    } else if( roll >= diff * .8 ) {
-        add_msg( _( "You fail to disarm the trap." ) );
-        const int morale_debuff = -rng( 6, 18 );
-        g->u.rem_morale( MORALE_ACCOMPLISHMENT );
-        g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
-        if( diff > 1.25 * tSkillLevel ) {
-            g->u.practice( skill_traps, 1.5 * ( diff - tSkillLevel ) );
-        }
-    } else {
-        add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
-        const int morale_debuff = -rng( 12, 24 );
-        g->u.rem_morale( MORALE_ACCOMPLISHMENT );
-        g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
-        tr.trigger( p, &g->u );
-        if( diff - roll <= 6 ) {
-            // Give xp for failing, but not if we failed terribly (in which
-            // case the trap may not be disarmable).
-            g->u.practice( skill_traps, 2 * diff );
-        }
     }
 }
 
@@ -8058,20 +8003,36 @@ field &map::get_field( const tripoint &p )
 
 void map::creature_on_trap( Creature &c, const bool may_avoid )
 {
-    const auto &tr = tr_at( c.pos() );
-    if( tr.is_null() ) {
-        return;
-    }
     // boarded in a vehicle means the player is above the trap, like a flying monster and can
     // never trigger the trap.
     const player *const p = dynamic_cast<const player *>( &c );
     if( p != nullptr && p->in_vehicle ) {
         return;
     }
-    if( may_avoid && c.avoid_trap( c.pos(), tr ) ) {
+    maybe_trigger_trap( c.pos(), c, may_avoid );
+}
+
+void map::maybe_trigger_trap( const tripoint &pos, Creature &c, const bool may_avoid )
+{
+    const auto &tr = tr_at( pos );
+    if( tr.is_null() ) {
         return;
     }
-    tr.trigger( c.pos(), &c );
+
+    if( may_avoid && c.avoid_trap( pos, tr ) ) {
+        player *const pl = c.as_player();
+        if( !tr.is_always_invisible() && pl && !pl->knows_trap( pos ) ) {
+            pl->add_msg_if_player( _( "You've spotted a %1$ss!" ), tr.name() );
+            pl->add_known_trap( pos, tr );
+        }
+        return;
+    }
+
+    if( !tr.is_always_invisible() ) {
+        c.add_msg_player_or_npc( m_bad, _( "You trigger a %s!" ), _( "<npcname> triggers a %s!" ),
+                                 tr.name() );
+    }
+    tr.trigger( c.pos(), c );
 }
 
 template<typename Functor>
