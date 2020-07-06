@@ -5628,59 +5628,38 @@ bool item::is_power_armor() const
 int item::get_avg_encumber( const Character &p, encumber_flags flags ) const
 {
     const islot_armor *t = find_armor_data();
-    if( t == nullptr ) {
+    if( !t ) {
         // handle wearable guns (e.g. shoulder strap) as special case
         return is_gun() ? volume() / 750_ml : 0;
     }
 
-    int encumber = 0;
+    int avg_encumber = 0;
+    int avg_ctr = 0;
 
-    // Additional encumbrance from non-rigid pockets
-    float relative_encumbrance = 1;
-    if( !( flags & encumber_flags::assume_full ) ) {
-        relative_encumbrance = contents.relative_encumbrance();
-    }
-
-    for( const armor_portion_data &data : t->data ) {
-        if( data.covers.has_value() ) {
-            encumber += data.encumber;
-            encumber += std::ceil( relative_encumbrance * ( data.max_encumber - data.encumber ) );
+    for( const armor_portion_data &entry : t->data ) {
+        if( entry.covers.has_value() ) {
+            for( const bodypart_str_id &limb : entry.covers.value() ) {
+                int encumber = get_encumber( p, bodypart_id( limb ), flags );
+                if( encumber ) {
+                    avg_encumber += encumber;
+                    ++avg_ctr;
+                }
+            }
         }
     }
-    encumber /= t->data.size();
-
-    // Fit checked before changes, fitting shouldn't reduce penalties from patching.
-    if( has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {
-        encumber = std::max( encumber / 2, encumber - 10 );
+    if( avg_encumber == 0 ) {
+        return 0;
+    } else {
+        avg_encumber /= avg_ctr;
+        return avg_encumber;
     }
-
-    // TODO: Should probably have sizing affect coverage
-    const sizing sizing_level = get_sizing( p );
-    switch( sizing_level ) {
-        case sizing::small_sized_human_char:
-        case sizing::small_sized_big_char:
-            // non small characters have a HARD time wearing undersized clothing
-            encumber *= 3;
-            break;
-        case sizing::human_sized_small_char:
-        case sizing::big_sized_small_char:
-            // clothes bag up around smol characters and encumber them more
-            encumber *= 2;
-            break;
-        default:
-            break;
-    }
-
-    encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
-
-    return encumber;
 }
 
 int item::get_encumber( const Character &p, const bodypart_id &bodypart,
                         encumber_flags flags ) const
 {
     const islot_armor *t = find_armor_data();
-    if( t == nullptr ) {
+    if( !t ) {
         // handle wearable guns (e.g. shoulder strap) as special case
         return is_gun() ? volume() / 750_ml : 0;
     }
@@ -5757,7 +5736,7 @@ layer_level item::get_layer() const
 int item::get_avg_coverage() const
 {
     const islot_armor *t = find_armor_data();
-    if( t == nullptr ) {
+    if( !t ) {
         return 0;
     }
     int avg_coverage = 0;
