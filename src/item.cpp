@@ -7390,21 +7390,6 @@ itype_id item::magazine_default( bool conversion ) const
 
 std::set<itype_id> item::magazine_compatible( bool conversion ) const
 {
-    std::set<itype_id> mags = {};
-    // mods that define magazine_adaptor may override the items usual magazines
-    const std::vector<const item *> &mods = is_gun() ? gunmods() : toolmods();
-    for( const item *m : mods ) {
-        if( !m->type->mod->magazine_adaptor.empty() ) {
-            for( const ammotype &atype : ammo_types( conversion ) ) {
-                if( m->type->mod->magazine_adaptor.count( atype ) ) {
-                    std::set<itype_id> magazines_for_atype = m->type->mod->magazine_adaptor.find( atype )->second;
-                    mags.insert( magazines_for_atype.begin(), magazines_for_atype.end() );
-                }
-            }
-            return mags;
-        }
-    }
-
     return contents.magazine_compatible();
 }
 
