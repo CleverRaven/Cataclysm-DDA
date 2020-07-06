@@ -83,5 +83,27 @@
       "ter_set": "t_floor",
       "items": [ { "item": "glassteel_shard", "count": [ 42, 84 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_thconc_floor_echandelier",
+    "name": "concrete floor, everburning chandelier",
+    "description": "A bare and cold concrete floor with an elaborate chandelier filled with everburning candles.",
+    "symbol": ".",
+    "color": "white",
+    "move_cost": 2,
+    "light_emitted": 80,
+    "roof": "t_flat_roof",
+    "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
+    "bash": {
+      "str_min": 4,
+      "str_max": 12,
+      "sound": "glass breaking!",
+      "sound_fail": "whack!",
+      "sound_vol": 16,
+      "sound_fail_vol": 10,
+      "ter_set": "t_thconc_floor",
+      "items": [ { "item": "glass_shard", "count": [ 8, 16 ] } ]
+    }
   }
 ]
