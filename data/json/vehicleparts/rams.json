@@ -314,62 +314,62 @@
   },
   {
     "copy-from": "ram_alloy_abstract",
-    "id": "ram_alloy_vertical",
-    "symbol": "j",
+    "id": "ram_alloy_vertical_left",
+    "symbol": "L",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_hardsteel_abstract",
-    "id": "ram_hardsteel_vertical",
-    "symbol": "j",
+    "id": "ram_hardsteel_vertical_left",
+    "symbol": "L",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_military_horizontal_abstract",
-    "id": "ram_military_horizontal_vertical",
-    "symbol": "j",
+    "id": "ram_military_horizontal_vertical_left",
+    "symbol": "L",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_spiked_abstract",
-    "id": "ram_spiked_vertical",
-    "symbol": "j",
+    "id": "ram_spiked_vertical_left",
+    "symbol": "L",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_steel_abstract",
-    "id": "ram_steel_vertical",
-    "symbol": "j",
+    "id": "ram_steel_vertical_left",
+    "symbol": "L",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_wood_abstract",
-    "id": "ram_wood_vertical",
-    "symbol": "j",
+    "id": "ram_wood_vertical_left",
+    "symbol": "L",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_chitin_abstract",
-    "id": "ram_chitin_vertical",
-    "symbol": "j",
+    "id": "ram_chitin_vertical_left",
+    "symbol": "L",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_acidchitin_abstract",
-    "id": "ram_acidchitin_vertical",
-    "symbol": "j",
+    "id": "ram_acidchitin_vertical_left",
+    "symbol": "L",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_mattress_abstract",
-    "id": "ram_mattress_vertical",
-    "symbol": "j",
+    "id": "ram_mattress_vertical_left",
+    "symbol": "L",
     "type": "vehicle_part"
   },
   {
     "copy-from": "tearer_abstract",
-    "id": "tearer_vertical",
-    "symbol": "j",
+    "id": "tearer_vertical_left",
+    "symbol": "L",
     "type": "vehicle_part"
   },
   {
@@ -494,62 +494,62 @@
   },
   {
     "copy-from": "ram_alloy_abstract",
-    "id": "ram_alloy_vertical_2",
-    "symbol": "H",
+    "id": "ram_alloy_vertical_right",
+    "symbol": "R",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_hardsteel_abstract",
-    "id": "ram_hardsteel_vertical_2",
-    "symbol": "H",
+    "id": "ram_hardsteel_vertical_right",
+    "symbol": "R",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_military_horizontal_abstract",
-    "id": "ram_military_horizontal_vertical_2",
-    "symbol": "H",
+    "id": "ram_military_horizontal_vertical_right",
+    "symbol": "R",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_spiked_abstract",
-    "id": "ram_spiked_vertical_2",
-    "symbol": "H",
+    "id": "ram_spiked_vertical_right",
+    "symbol": "R",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_steel_abstract",
-    "id": "ram_steel_vertical_2",
-    "symbol": "H",
+    "id": "ram_steel_vertical_right",
+    "symbol": "R",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_wood_abstract",
-    "id": "ram_wood_vertical_2",
-    "symbol": "H",
+    "id": "ram_wood_vertical_right",
+    "symbol": "R",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_chitin_abstract",
-    "id": "ram_chitin_vertical_2",
-    "symbol": "H",
+    "id": "ram_chitin_vertical_right",
+    "symbol": "R",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_acidchitin_abstract",
-    "id": "ram_acidchitin_vertical_2",
-    "symbol": "H",
+    "id": "ram_acidchitin_vertical_right",
+    "symbol": "R",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_mattress_abstract",
-    "id": "ram_mattress_vertical_2",
-    "symbol": "H",
+    "id": "ram_mattress_vertical_right",
+    "symbol": "R",
     "type": "vehicle_part"
   },
   {
     "copy-from": "tearer_abstract",
-    "id": "tearer_vertical_2",
-    "symbol": "H",
+    "id": "tearer_vertical_right",
+    "symbol": "R",
     "type": "vehicle_part"
   },
   {
@@ -674,242 +674,122 @@
   },
   {
     "copy-from": "ram_alloy_abstract",
-    "id": "ram_alloy_horizontal",
+    "id": "ram_alloy_front",
     "symbol": "h",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_hardsteel_abstract",
-    "id": "ram_hardsteel_horizontal",
+    "id": "ram_hardsteel_front",
     "symbol": "h",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_military_horizontal_abstract",
-    "id": "ram_military_horizontal_horizontal",
+    "id": "ram_military_horizontal_front",
     "symbol": "h",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_spiked_abstract",
-    "id": "ram_spiked_horizontal",
+    "id": "ram_spiked_front",
     "symbol": "h",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_steel_abstract",
-    "id": "ram_steel_horizontal",
+    "id": "ram_steel_front",
     "symbol": "h",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_wood_abstract",
-    "id": "ram_wood_horizontal",
+    "id": "ram_wood_front",
     "symbol": "h",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_chitin_abstract",
-    "id": "ram_chitin_horizontal",
+    "id": "ram_chitin_front",
     "symbol": "h",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_acidchitin_abstract",
-    "id": "ram_acidchitin_horizontal",
+    "id": "ram_acidchitin_front",
     "symbol": "h",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_mattress_abstract",
-    "id": "ram_mattress_horizontal",
+    "id": "ram_mattress_front",
     "symbol": "h",
     "type": "vehicle_part"
   },
   {
     "copy-from": "tearer_abstract",
-    "id": "tearer_horizontal",
+    "id": "tearer_front",
     "symbol": "h",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_alloy_abstract",
-    "id": "ram_alloy_horizontal_2",
+    "id": "ram_alloy_rear",
     "symbol": "=",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_hardsteel_abstract",
-    "id": "ram_hardsteel_horizontal_2",
+    "id": "ram_hardsteel_rear",
     "symbol": "=",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_military_horizontal_abstract",
-    "id": "ram_military_horizontal_horizontal_2",
+    "id": "ram_military_horizontal_rear",
     "symbol": "=",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_spiked_abstract",
-    "id": "ram_spiked_horizontal_2",
+    "id": "ram_spiked_rear",
     "symbol": "=",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_steel_abstract",
-    "id": "ram_steel_horizontal_2",
+    "id": "ram_steel_rear",
     "symbol": "=",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_wood_abstract",
-    "id": "ram_wood_horizontal_2",
+    "id": "ram_wood_rear",
     "symbol": "=",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_chitin_abstract",
-    "id": "ram_chitin_horizontal_2",
+    "id": "ram_chitin_rear",
     "symbol": "=",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_acidchitin_abstract",
-    "id": "ram_acidchitin_horizontal_2",
+    "id": "ram_acidchitin_rear",
     "symbol": "=",
     "type": "vehicle_part"
   },
   {
     "copy-from": "ram_mattress_abstract",
-    "id": "ram_mattress_horizontal_2",
+    "id": "ram_mattress_rear",
     "symbol": "=",
     "type": "vehicle_part"
   },
   {
     "copy-from": "tearer_abstract",
-    "id": "tearer_horizontal_2",
+    "id": "tearer_rear",
     "symbol": "=",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_alloy_abstract",
-    "id": "ram_alloy_cross",
-    "symbol": "c",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_hardsteel_abstract",
-    "id": "ram_hardsteel_cross",
-    "symbol": "c",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_military_horizontal_abstract",
-    "id": "ram_military_horizontal_cross",
-    "symbol": "c",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_spiked_abstract",
-    "id": "ram_spiked_cross",
-    "symbol": "c",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_steel_abstract",
-    "id": "ram_steel_cross",
-    "symbol": "c",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_wood_abstract",
-    "id": "ram_wood_cross",
-    "symbol": "c",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_chitin_abstract",
-    "id": "ram_chitin_cross",
-    "symbol": "c",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_acidchitin_abstract",
-    "id": "ram_acidchitin_cross",
-    "symbol": "c",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_mattress_abstract",
-    "id": "ram_mattress_cross",
-    "symbol": "c",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "tearer_abstract",
-    "id": "tearer_cross",
-    "symbol": "c",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_alloy_abstract",
-    "id": "ram_alloy_box",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_hardsteel_abstract",
-    "id": "ram_hardsteel_box",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_military_horizontal_abstract",
-    "id": "ram_military_horizontal_box",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_spiked_abstract",
-    "id": "ram_spiked_box",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_steel_abstract",
-    "id": "ram_steel_box",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_wood_abstract",
-    "id": "ram_wood_box",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_chitin_abstract",
-    "id": "ram_chitin_box",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_acidchitin_abstract",
-    "id": "ram_acidchitin_box",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "ram_mattress_abstract",
-    "id": "ram_mattress_box",
-    "symbol": "#",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "tearer_abstract",
-    "id": "tearer_box",
-    "symbol": "#",
     "type": "vehicle_part"
   }
 ]

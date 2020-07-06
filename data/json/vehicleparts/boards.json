@@ -238,6 +238,140 @@
     "symbol": "h"
   },
   {
+    "id": "board_horizontal_top",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "clothboard_horizontal_top",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "cloth_halfboard_horizontal_top",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "halfboard_horizontal_top",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "stowboard_horizontal_top",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "hdstowboard_horizontal_top",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_horizontal_top",
+    "symbol": "T"
+  },
+  {
+    "id": "hdboard_horizontal_top",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "hdhalfboard_horizontal_top",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "woodboard_horizontal_top",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "woodhalfboard_horizontal_top",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "xlhalfboard_horizontal_top",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "board_horizontal_bottom",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "clothboard_horizontal_bottom",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "cloth_halfboard_horizontal_bottom",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "halfboard_horizontal_bottom",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "stowboard_horizontal_bottom",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "hdstowboard_horizontal_bottom",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_horizontal_bottom",
+    "symbol": "B"
+  },
+  {
+    "id": "hdboard_horizontal_bottom",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "hdhalfboard_horizontal_bottom",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "woodboard_horizontal_bottom",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "woodhalfboard_horizontal_bottom",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "xlhalfboard_horizontal_bottom",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
     "id": "cloth_halfboard_horizontal_2",
     "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
@@ -536,6 +670,274 @@
     "symbol": "b"
   },
   {
+    "id": "board_ne_internal",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "1"
+  },
+  {
+    "id": "clothboard_ne_internal",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "1"
+  },
+  {
+    "id": "cloth_halfboard_ne_internal",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "1"
+  },
+  {
+    "id": "halfboard_ne_internal",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "1"
+  },
+  {
+    "id": "stowboard_ne_internal",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "1"
+  },
+  {
+    "id": "hdstowboard_ne_internal",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_ne_internal",
+    "symbol": "1"
+  },
+  {
+    "id": "hdboard_ne_internal",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "1"
+  },
+  {
+    "id": "hdhalfboard_ne_internal",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "1"
+  },
+  {
+    "id": "woodboard_ne_internal",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "1"
+  },
+  {
+    "id": "woodhalfboard_ne_internal",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "1"
+  },
+  {
+    "id": "xlhalfboard_ne_internal",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "1"
+  },
+  {
+    "id": "board_nw_internal",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "2"
+  },
+  {
+    "id": "clothboard_nw_internal",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "2"
+  },
+  {
+    "id": "cloth_halfboard_nw_internal",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "2"
+  },
+  {
+    "id": "halfboard_nw_internal",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "2"
+  },
+  {
+    "id": "stowboard_nw_internal",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "2"
+  },
+  {
+    "id": "hdstowboard_nw_internal",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_nw_internal",
+    "symbol": "2"
+  },
+  {
+    "id": "hdboard_nw_internal",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "2"
+  },
+  {
+    "id": "hdhalfboard_nw_internal",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "2"
+  },
+  {
+    "id": "woodboard_nw_internal",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "2"
+  },
+  {
+    "id": "woodhalfboard_nw_internal",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "2"
+  },
+  {
+    "id": "xlhalfboard_nw_internal",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "2"
+  },
+  {
+    "id": "board_se_internal",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "3"
+  },
+  {
+    "id": "clothboard_se_internal",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "3"
+  },
+  {
+    "id": "cloth_halfboard_se_internal",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "3"
+  },
+  {
+    "id": "halfboard_se_internal",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "3"
+  },
+  {
+    "id": "stowboard_se_internal",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "3"
+  },
+  {
+    "id": "hdstowboard_se_internal",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_se_internal",
+    "symbol": "3"
+  },
+  {
+    "id": "hdboard_se_internal",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "3"
+  },
+  {
+    "id": "hdhalfboard_se_internal",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "3"
+  },
+  {
+    "id": "woodboard_se_internal",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "3"
+  },
+  {
+    "id": "woodhalfboard_se_internal",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "3"
+  },
+  {
+    "id": "xlhalfboard_se_internal",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "3"
+  },
+  {
+    "id": "board_sw_internal",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "4"
+  },
+  {
+    "id": "clothboard_sw_internal",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "4"
+  },
+  {
+    "id": "cloth_halfboard_sw_internal",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "4"
+  },
+  {
+    "id": "halfboard_sw_internal",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "4"
+  },
+  {
+    "id": "stowboard_sw_internal",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "4"
+  },
+  {
+    "id": "hdstowboard_sw_internal",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_sw_internal",
+    "symbol": "4"
+  },
+  {
+    "id": "hdboard_sw_internal",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "4"
+  },
+  {
+    "id": "hdhalfboard_sw_internal",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "4"
+  },
+  {
+    "id": "woodboard_sw_internal",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "4"
+  },
+  {
+    "id": "woodhalfboard_sw_internal",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "4"
+  },
+  {
+    "id": "xlhalfboard_sw_internal",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "4"
+  },
+  {
     "id": "board_vertical",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -601,6 +1003,140 @@
     "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "j"
+  },
+  {
+    "id": "board_vertical_left",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "L"
+  },
+  {
+    "id": "clothboard_vertical_left",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "L"
+  },
+  {
+    "id": "cloth_halfboard_vertical_left",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "L"
+  },
+  {
+    "id": "halfboard_vertical_left",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "L"
+  },
+  {
+    "id": "stowboard_vertical_left",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "L"
+  },
+  {
+    "id": "hdstowboard_vertical_left",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_vertical_left",
+    "symbol": "L"
+  },
+  {
+    "id": "hdboard_vertical_left",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "L"
+  },
+  {
+    "id": "hdhalfboard_vertical_left",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "L"
+  },
+  {
+    "id": "woodboard_vertical_left",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "L"
+  },
+  {
+    "id": "woodhalfboard_vertical_left",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "L"
+  },
+  {
+    "id": "xlhalfboard_vertical_left",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "L"
+  },
+  {
+    "id": "board_vertical_right",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "R"
+  },
+  {
+    "id": "clothboard_vertical_right",
+    "copy-from": "clothboard",
+    "type": "vehicle_part",
+    "symbol": "R"
+  },
+  {
+    "id": "cloth_halfboard_vertical_right",
+    "copy-from": "cloth_halfboard",
+    "type": "vehicle_part",
+    "symbol": "R"
+  },
+  {
+    "id": "halfboard_vertical_right",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "R"
+  },
+  {
+    "id": "stowboard_vertical_right",
+    "copy-from": "stowboard",
+    "type": "vehicle_part",
+    "symbol": "R"
+  },
+  {
+    "id": "hdstowboard_vertical_right",
+    "copy-from": "hdstowboard",
+    "type": "vehicle_part",
+    "looks_like": "stowboard_vertical_right",
+    "symbol": "R"
+  },
+  {
+    "id": "hdboard_vertical_right",
+    "copy-from": "hdboard",
+    "type": "vehicle_part",
+    "symbol": "R"
+  },
+  {
+    "id": "hdhalfboard_vertical_right",
+    "copy-from": "hdhalfboard",
+    "type": "vehicle_part",
+    "symbol": "R"
+  },
+  {
+    "id": "woodboard_vertical_right",
+    "copy-from": "woodboard",
+    "type": "vehicle_part",
+    "symbol": "R"
+  },
+  {
+    "id": "woodhalfboard_vertical_right",
+    "copy-from": "woodhalfboard",
+    "type": "vehicle_part",
+    "symbol": "R"
+  },
+  {
+    "id": "xlhalfboard_vertical_right",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "R"
   },
   {
     "id": "cloth_halfboard_vertical_2",
