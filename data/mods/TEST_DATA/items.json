@@ -1247,7 +1247,7 @@
     "environmental_protection": 4,
     "flags": [ "POCKETS", "STURDY" ]
   },
-    {
+  {
     "id": "test_pants_fur",
     "type": "ARMOR",
     "name": { "str_sp": "fur pants" },
@@ -1295,16 +1295,8 @@
     "description": "A TEST OBJECT SHOULD NOT BE IN GAME",
     "material": [ "faux_fur", "cotton" ],
     "armor_portion_data": [
-      {
-        "covers": [ "torso", "leg_r", "arm_r" ],
-        "coverage": 100,
-        "encumbrance": [ 10, 25 ]
-      },
-      {
-        "covers": [ "arm_l", "leg_l", "head" ],
-        "coverage": 50,
-        "encumbrance": 5
-      }
+      { "covers": [ "torso", "leg_r", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 25 ] },
+      { "covers": [ "arm_l", "leg_l", "head" ], "coverage": 50, "encumbrance": 5 }
     ],
     "warmth": 5
   }
