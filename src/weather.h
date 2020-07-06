@@ -139,6 +139,9 @@ void glare( weather_type_id w );
 int incident_sunlight( weather_type_id wtype,
                        const time_point &t = calendar::turn );
 
+void weather_sound( translation sound_message, std::string sound_effect );
+void wet( Character &target, int amount );
+
 class weather_manager
 {
     public:

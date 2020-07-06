@@ -461,10 +461,6 @@ void wet( Character &target, int amount )
     target.drench( amount, drenched_parts, false );
 }
 
-/**
- * Thunder.
- * Flavor messages. Very wet.
- */
 void weather_sound( translation sound_message, std::string sound_effect )
 {
     if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() ) {
@@ -582,7 +578,7 @@ void handle_weather_effects( weather_type_id const w )
                 target_monster = spawn.target;
             }
 
-            for( size_t i = 0; i < spawn.hallucination_count; i++ ) {
+            for( int i = 0; i < spawn.hallucination_count; i++ ) {
                 tripoint point;
                 if( g->find_nearby_spawn_point( target_character, target_monster.type->id, spawn.min_radius,
                                                 spawn.max_radius, point ) ) {
@@ -590,7 +586,7 @@ void handle_weather_effects( weather_type_id const w )
                     spawned = true;
                 }
             }
-            for( size_t i = 0; i < spawn.real_count; i++ ) {
+            for( int i = 0; i < spawn.real_count; i++ ) {
                 tripoint point;
                 if( g->find_nearby_spawn_point( target_character, target_monster.type->id, spawn.min_radius,
                                                 spawn.max_radius, point ) ) {
