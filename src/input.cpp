@@ -197,7 +197,7 @@ void input_manager::init()
     }
 }
 
-static constexpr int current_keybinding_verion = 1;
+static constexpr int current_keybinding_version = 1;
 
 void input_manager::load( const std::string &file_name, bool is_user_preferences )
 {
@@ -220,11 +220,11 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
         // JSON object representing the action
         JsonObject action = jsin.get_object();
 
-        int version = current_keybinding_verion;
+        int version = current_keybinding_version;
         if( is_user_preferences ) {
-            // if there isn't a "ver" value it means the object was written before
+            // if there isn't a "version" value it means the object was written before
             // introduction of keybinding version, which is denoted by version 0.
-            version = action.get_int( "ver", 0 );
+            version = action.get_int( "version", 0 );
         }
 
         const std::string type = action.get_string( "type", "keybinding" );
@@ -262,7 +262,7 @@ void input_manager::load( const std::string &file_name, bool is_user_preferences
             } else if( input_method == "mouse" ) {
                 new_events[0].type = input_event_t::mouse;
             } else {
-                keybinding.throw_error( "input_method", "unknown input_method" );
+                keybinding.throw_error( "unknown input_method", "input_method" );
             }
 
             if( keybinding.has_member( "mod" ) ) {
@@ -350,7 +350,7 @@ void input_manager::save()
                 jsout.start_object();
 
                 jsout.member( "id", action.first );
-                jsout.member( "ver", current_keybinding_verion );
+                jsout.member( "version", current_keybinding_version );
                 jsout.member( "category", a.first );
                 bool is_user_created = action.second.is_user_created;
                 if( is_user_created ) {
