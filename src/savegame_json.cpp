@@ -545,9 +545,6 @@ void Character::load( const JsonObject &data )
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
 
-    frostbite_timer.fill( 0 );
-    data.read( "frostbite_timer", frostbite_timer );
-
     // Remove check after 0.F
     if( savegame_loading_version >= 30 ) {
         data.read( "proficiencies", _proficiencies );
@@ -737,6 +734,25 @@ void Character::load( const JsonObject &data )
         set_part_temp_conv( bodypart_id( "foot_l" ), temp_conv[10] );
         set_part_temp_conv( bodypart_id( "foot_r" ), temp_conv[11] );
     }
+    if( data.has_array( "frostbite_timer" ) ) {
+        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_body();
+        std::array<int, 12> frostbite_timer;
+        frostbite_timer.fill( 0 );
+        data.read( "frostbite_timer", frostbite_timer );
+        set_part_frostbite_timer( bodypart_id( "torso" ), frostbite_timer[0] );
+        set_part_frostbite_timer( bodypart_id( "head" ), frostbite_timer[1] );
+        set_part_frostbite_timer( bodypart_id( "eyes" ), frostbite_timer[2] );
+        set_part_frostbite_timer( bodypart_id( "mouth" ), frostbite_timer[3] );
+        set_part_frostbite_timer( bodypart_id( "arm_l" ), frostbite_timer[4] );
+        set_part_frostbite_timer( bodypart_id( "arm_r" ), frostbite_timer[5] );
+        set_part_frostbite_timer( bodypart_id( "hand_l" ), frostbite_timer[6] );
+        set_part_frostbite_timer( bodypart_id( "hand_r" ), frostbite_timer[7] );
+        set_part_frostbite_timer( bodypart_id( "leg_l" ), frostbite_timer[8] );
+        set_part_frostbite_timer( bodypart_id( "leg_r" ), frostbite_timer[9] );
+        set_part_frostbite_timer( bodypart_id( "foot_l" ), frostbite_timer[10] );
+        set_part_frostbite_timer( bodypart_id( "foot_r" ), frostbite_timer[11] );
+    }
 
     inv.clear();
     if( data.has_member( "inv" ) ) {
@@ -862,9 +878,6 @@ void Character::store( JsonOut &json ) const
     // health
     json.member( "healthy", healthy );
     json.member( "healthy_mod", healthy_mod );
-
-    // status
-    json.member( "frostbite_timer", frostbite_timer );
 
     // needs
     json.member( "thirst", thirst );

@@ -1567,6 +1567,11 @@ int Creature::get_part_temp_conv( const bodypart_id &id ) const
     return get_part( id ).get_temp_conv();;
 }
 
+int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
+{
+    return get_part( id ).get_frotbite_timer();
+}
+
 float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 {
     return get_part( id ).get_wetness_percentage();
@@ -1617,6 +1622,11 @@ void Creature::set_part_temp_conv( const bodypart_id &id, int set )
     get_part( id )->set_temp_conv( set );
 }
 
+void Creature::set_part_frostbite_timer( const bodypart_id &id, int set )
+{
+    get_part( id )->set_frostbite_timer( set );
+}
+
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_hp_cur( mod );
@@ -1655,6 +1665,11 @@ void Creature::mod_part_temp_cur( const bodypart_id &id, int mod )
 void Creature::mod_part_temp_conv( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_temp_conv( mod );
+}
+
+void Creature::mod_part_frostbite_timer( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_frostbite_timer( mod );
 }
 
 void Creature::set_all_parts_temp_cur( int set )

@@ -454,6 +454,11 @@ int bodypart::get_wetness() const
     return wetness;
 }
 
+int bodypart::get_frotbite_timer() const
+{
+    return frostbite_timer;
+}
+
 int bodypart::get_temp_cur() const
 {
     return temp_cur;
@@ -509,6 +514,11 @@ void bodypart::set_temp_conv( int set )
     temp_conv = set;
 }
 
+void bodypart::set_frostbite_timer( int set )
+{
+    frostbite_timer = set;
+}
+
 void bodypart::mod_hp_cur( int mod )
 {
     hp_cur += mod;
@@ -547,6 +557,11 @@ void bodypart::mod_temp_cur( int mod )
 void bodypart::mod_temp_conv( int mod )
 {
     temp_conv += mod;
+}
+
+void bodypart::mod_frostbite_timer( int mod )
+{
+    frostbite_timer += mod;
 }
 
 void bodypart::serialize( JsonOut &json ) const

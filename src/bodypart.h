@@ -207,6 +207,7 @@ class bodypart
         int wetness = 0;
         int temp_cur = BODYTEMP_NORM;
         int temp_conv = BODYTEMP_NORM;
+        int frostbite_timer = 0;
 
         int healed_total = 0;
         int damage_bandaged = 0;
@@ -233,6 +234,7 @@ class bodypart
         int get_damage_disinfected() const;
         int get_drench_capacity() const;
         int get_wetness() const;
+        int get_frotbite_timer() const;
         int get_temp_cur() const;
         int get_temp_conv() const;
 
@@ -246,6 +248,7 @@ class bodypart
         void set_wetness( int set );
         void set_temp_cur( int set );
         void set_temp_conv( int set );
+        void set_frostbite_timer( int set );
 
         void set_encumbrance_data( encumbrance_data set );
 
@@ -257,6 +260,7 @@ class bodypart
         void mod_wetness( int mod );
         void mod_temp_cur( int mod );
         void mod_temp_conv( int mod );
+        void mod_frostbite_timer( int mod );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

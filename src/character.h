@@ -2569,9 +2569,6 @@ class Character : public Creature, public visitable<Character>
         std::unordered_map<point, time_duration> overmap_time;
 
     public:
-        // TODO: make these private
-        std::array<int, num_bp> frostbite_timer;
-
         time_point next_climate_control_check;
         bool last_climate_control_ret;
 };

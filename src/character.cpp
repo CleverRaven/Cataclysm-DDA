@@ -449,8 +449,6 @@ Character::Character() :
 
     move_mode = move_mode_id( "walk" );
     next_expected_position = cata::nullopt;
-    frostbite_timer.fill( 0 );
-
 }
 // *INDENT-ON*
 
@@ -5724,8 +5722,8 @@ void Character::update_bodytemp()
         // Bark : lowers blister count to -5; harder to get blisters
         int blister_count = ( has_bark ? -5 : 0 ); // If the counter is high, your skin starts to burn
 
-        if( frostbite_timer[bp->token] > 0 ) {
-            frostbite_timer[bp->token] -= std::max( 5, h_radiation );
+        if( get_part_frostbite_timer( bp ) > 0 ) {
+            mod_part_frostbite_timer( bp, -std::max( 5, h_radiation ) );
         }
         // 111F (44C) is a temperature in which proteins break down: https://en.wikipedia.org/wiki/Burn
         blister_count += h_radiation - 111 > 0 ?
@@ -5982,8 +5980,8 @@ void Character::update_bodytemp()
             if( temp_after < BODYTEMP_COLD && ( ( Ftemperature < 30 && Ftemperature >= 10 ) ||
                                                 ( Ftemperature < 10 && Ftemperature >= -5 && FBwindPower < 20 &&
                                                   -4 * Ftemperature + 3 * FBwindPower - 20 >= 0 ) ) ) {
-                if( frostbite_timer[bp->token] < 2000 ) {
-                    frostbite_timer[bp->token] += 3;
+                if( get_part_frostbite_timer( bp ) < 2000 ) {
+                    mod_part_frostbite_timer( bp, 3 );
                 }
                 if( one_in( 100 ) && !has_effect( effect_frostbite, bp->token ) ) {
                     add_msg( m_warning, _( "Your %s will be frostnipped in the next few hours." ),
@@ -5997,7 +5995,7 @@ void Character::update_bodytemp()
                          ( Ftemperature < -5 && FBwindPower < 10 ) ||
                          ( Ftemperature < -5 && FBwindPower >= 10 &&
                            -4 * Ftemperature + 3 * FBwindPower - 170 >= 0 ) ) ) {
-                frostbite_timer[bp->token] += 8;
+                mod_part_frostbite_timer( bp, 8 );
                 if( one_in( 100 ) && intense < 2 ) {
                     add_msg( m_warning, _( "Your %s will be frostbitten within the hour!" ),
                              body_part_name( bp ) );
@@ -6007,35 +6005,37 @@ void Character::update_bodytemp()
                        ( ( Ftemperature < -5 && FBwindPower >= 10 &&
                            -4 * Ftemperature + 3 * FBwindPower - 170 < 0 ) ||
                          ( Ftemperature < -35 && FBwindPower >= 10 ) ) ) {
-                frostbite_timer[bp->token] += 72;
+                mod_part_frostbite_timer( bp, 72 );
                 if( one_in( 100 ) && intense < 2 ) {
                     add_msg( m_warning, _( "Your %s will be frostbitten any minute now!" ),
                              body_part_name( bp ) );
                 }
                 // Risk free, so reduce frostbite timer
             } else {
-                frostbite_timer[bp->token] -= 3;
+                mod_part_frostbite_timer( bp, - 3 );
             }
 
+            int frostbite_timer = get_part_frostbite_timer( bp );
             // Handle the bestowing of frostbite
-            if( frostbite_timer[bp->token] < 0 ) {
-                frostbite_timer[bp->token] = 0;
-            } else if( frostbite_timer[bp->token] > 4200 ) {
+            if( frostbite_timer < 0 ) {
+                set_part_frostbite_timer( bp, 0 );
+            } else if( frostbite_timer > 4200 ) {
                 // This ensures that the player will recover in at most 3 hours.
-                frostbite_timer[bp->token] = 4200;
+                set_part_frostbite_timer( bp, 4200 );
             }
+            frostbite_timer = get_part_frostbite_timer( bp );
             // Frostbite, no recovery possible
-            if( frostbite_timer[bp->token] >= 3600 ) {
+            if( frostbite_timer >= 3600 ) {
                 add_effect( effect_frostbite, 1_turns, bp->token, true, 2 );
                 remove_effect( effect_frostbite_recovery, bp->token );
                 // Else frostnip, add recovery if we were frostbitten
-            } else if( frostbite_timer[bp->token] >= 1800 ) {
+            } else if( frostbite_timer >= 1800 ) {
                 if( intense == 2 ) {
                     add_effect( effect_frostbite_recovery, 1_turns, bp->token, true );
                 }
                 add_effect( effect_frostbite, 1_turns, bp->token, true, 1 );
                 // Else fully recovered
-            } else if( frostbite_timer[bp->token] == 0 ) {
+            } else if( frostbite_timer == 0 ) {
                 remove_effect( effect_frostbite, bp->token );
                 remove_effect( effect_frostbite_recovery, bp->token );
             }
