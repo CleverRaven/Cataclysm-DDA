@@ -348,15 +348,10 @@
       "radiation":10,
       "healthy":1,
       "message":"Suddenly a something",
-      "add_effect":"winded",
+      "effect_id":"bite",
       "effect_duration":"10 minutes",
-      "spawns":[{
-        "max_radius":10,
-        "min_radius":10,
-        "target":"mon_zombie_survivor_elite",
-        "hallucination_count":0,
-        "real_count":2
-      }]
+      "target_part": "arm_l",
+      "damage":5
     } ],    
     "weather_animation": { "factor": 0.04, "color": "c_blue", "glyph": "X" },
     "sun_intensity": "none"
