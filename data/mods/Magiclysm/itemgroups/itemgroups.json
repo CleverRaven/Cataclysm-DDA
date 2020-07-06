@@ -1184,5 +1184,19 @@
       [ "armguard_demonchitin", 8 ],
       [ "gauntlets_demonchitin", 14 ]
     ]
+  },
+  {
+    "id": "forge_vault_money",
+    "//": "Items that can be traded for at the forge of wonders.",
+    "type": "item_group",
+    "subtype": "distribution",
+    "items": [
+      { "item": "RobofacCoin", "prob": 40, "count": [ 1, 3 ] },
+      { "item": "FMCNote", "prob": 50, "count": [ 10, 36 ] },
+      { "item": "signed_chit", "prob": 20, "count": [ 12, 39 ] },
+      { "item": "icon", "prob": 30, "count": [ 1, 13 ] },
+      { "item": "gold_small", "prob": 20, "count": [ 120, 390 ]  },
+      { "item": "silver_small", "prob": 5, "count": [ 68, 560 ]  }
+    ]
   }
 ]

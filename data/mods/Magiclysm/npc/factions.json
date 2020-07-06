@@ -131,13 +131,13 @@
     "size": 5,
     "power": 100,
     "food_supply": 115200,
-    "wealth": 100000,
+    "wealth": 1000000,
     "relations": {
       "lobby_beggars": {
         "kill on sight": false,
         "watch your back": false,
-        "share my stuff": true,
-        "guard your stuff": true,
+        "share my stuff": false,
+        "guard your stuff": false,
         "lets you in": false,
         "defends your space": false,
         "knows your voice": true
