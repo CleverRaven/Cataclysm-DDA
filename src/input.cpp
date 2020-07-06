@@ -1354,7 +1354,7 @@ cata::optional<point> input_context::get_coordinates_text( const catacurses::win
 {
 #if !defined( TILES )
     ( void ) capture_win;
-    return std::make_pair( point(), false );
+    return cata::nullopt;
 #else
     if( !coordinate_input_received ) {
         return cata::nullopt;
