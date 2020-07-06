@@ -1591,7 +1591,7 @@ bool overmap::generate_sub( const int z )
         return static_cast<lab *>( nullptr );
     };
 
-    const auto handle_lab_core = [this, &find_lab_for]( const tripoint & p,
+    const auto handle_lab_core = [&find_lab_for]( const tripoint & p,
     std::vector<point> &points, lab_type type ) {
         points.push_back( p.xy() );
         lab *l = find_lab_for( p + tripoint_above );
