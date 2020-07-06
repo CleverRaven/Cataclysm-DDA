@@ -1195,8 +1195,8 @@
       { "item": "FMCNote", "prob": 50, "count": [ 10, 36 ] },
       { "item": "signed_chit", "prob": 20, "count": [ 12, 39 ] },
       { "item": "icon", "prob": 30, "count": [ 1, 13 ] },
-      { "item": "gold_small", "prob": 20, "count": [ 120, 390 ]  },
-      { "item": "silver_small", "prob": 5, "count": [ 68, 560 ]  }
+      { "item": "gold_small", "prob": 20, "count": [ 120, 390 ] },
+      { "item": "silver_small", "prob": 5, "count": [ 68, 560 ] }
     ]
   }
 ]
