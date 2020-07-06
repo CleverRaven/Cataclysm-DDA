@@ -194,7 +194,7 @@
     "name": { "str": "body bag" },
     "looks_like": "bag_canvas",
     "description": "A large, human size, rectangular bag made of strong plastic, with a zipper in the middle.  Used to hold a dead body.",
-    "weight": "500 g",
+    "weight": "1500 g",
     "volume": "1 L",
     "price": 0,
     "price_postapoc": 10,
