@@ -47,6 +47,7 @@ class nc_color;
 class player;
 class recipe;
 class relic;
+struct armor_portion_data;
 struct islot_comestible;
 struct itype;
 struct mtype;
@@ -1577,6 +1578,8 @@ class item : public visitable<item>
             none = 0,
             assume_full = 1,
         };
+
+        cata::optional<armor_portion_data> item::portion_for_bodypart( const bodypart_id &bodypart ) const;
 
         /**
          * Returns the average encumbrance value that this item across all portions

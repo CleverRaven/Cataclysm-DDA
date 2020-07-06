@@ -5736,19 +5736,24 @@ int item::get_avg_coverage() const
 
 int item::get_coverage( const bodypart_id &bodypart ) const
 {
-    const islot_armor *t = find_armor_data();
-    if( t == nullptr ) {
-        return 0;
-    }
+    if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
+        return portion_data->coverage;
+    };
+    return 0;
+}
 
-    int coverage = 0;
+cata::optional<armor_portion_data> item::portion_for_bodypart( const bodypart_id &bodypart ) const
+{
+    const islot_armor *t = find_armor_data();
+    if( !t ) {
+        return cata::optional<armor_portion_data>();
+    }
     for( const armor_portion_data &entry : t->data ) {
-        if( entry.covers.has_value() && entry.covers->test( bodypart.id() ) && entry.coverage > coverage ) {
-            coverage = entry.coverage;
+        if( entry.covers.has_value() && entry.covers->test( bodypart.id() ) ) {
+            return entry;
         }
     }
-
-    return coverage;
+    return cata::optional<armor_portion_data>();
 }
 
 int item::get_thickness() const
