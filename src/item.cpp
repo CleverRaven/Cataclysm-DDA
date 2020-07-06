@@ -2643,8 +2643,12 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                && coverage == other.coverage;
                     };
                 };
+                struct bodypart_info_pair {
+                    armor_portion_type portion;
+                    translation_pair translations;
+                };
 
-                std::map<bodypart_str_id, std::pair<armor_portion_type, translation_pair>> piece_data;
+                std::map<bodypart_str_id, bodypart_info_pair> piece_data;
 
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
@@ -2673,10 +2677,10 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         bodypart_str_id bp( convert_bp( legacy_part ) );
                         bodypart_str_id opposite = bp->opposite_part;
                         if( opposite != bp && covers( bp ) && covers( opposite )
-                            && piece_data.at( bp ).first == piece_data.at( opposite ).first ) {
-                            piece_data[bodypart_str_id( bp->name_as_heading_multiple.translated() )] = piece_data.at( bp );
-                            piece_data[bodypart_str_id( bp->name_as_heading_multiple.translated() )].second.to_display =
-                                piece_data[bp].second.multiple_name;
+                            && piece_data.at( bp ).portion == piece_data.at( opposite ).portion ) {
+                            const bodypart_str_id translated = bodypart_str_id( bp->name_as_heading_multiple.translated() );
+                            piece_data[translated] = piece_data.at( bp );
+                            piece_data[translated].translations.to_display = piece_data[bp].translations.multiple_name;
                             to_remove.push_back( bp );
                         }
                     }
@@ -2692,17 +2696,17 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         }
                     }
                     info.push_back( iteminfo( "ARMOR",
-                                              string_format( _( "%s:" ), piece.second.second.to_display.translated() ) + space, "",
+                                              string_format( _( "%s:" ), piece.second.translations.to_display.translated() ) + space, "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
-                                              piece.second.first.encumber ) ) ;
+                                              piece.second.portion.encumber ) ) ;
 
                     info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
-                                              piece.second.first.max_encumber ) ) ;
+                                              piece.second.portion.max_encumber ) ) ;
 
                     info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
                                               iteminfo::lower_is_better,
-                                              piece.second.first.coverage ) );
+                                              piece.second.portion.coverage ) );
                 }
             }
         }
