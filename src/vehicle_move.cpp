@@ -364,7 +364,7 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
             smart_controller_state = cur_state;
 
             if( player_in_control( g->u ) ) {
-                add_msg( _( "Smart controller optimizes engine state." ) );
+                add_msg( m_debug, _( "Smart controller optimizes engine state." ) );
             }
         }
     } else {
