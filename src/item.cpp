@@ -2644,7 +2644,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     };
                 };
 
-                std::unordered_map<bodypart_str_id, std::pair<armor_portion_type, translation_pair>> encumb_data;
+                std::map<bodypart_str_id, std::pair<armor_portion_type, translation_pair>> encumb_data;
 
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {

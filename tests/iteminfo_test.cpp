@@ -683,10 +683,10 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
                "--\n"
                "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
-               "Torso:  <color_c_yellow>3</color>  "
+               "Arms:  <color_c_yellow>3</color>  "
                "When Full:  <color_c_yellow>3</color>  "
                "Coverage:  <color_c_yellow>90</color>\n"
-               "Arms:  <color_c_yellow>3</color>  "
+               "Torso:  <color_c_yellow>3</color>  "
                "When Full:  <color_c_yellow>3</color>  "
                "Coverage:  <color_c_yellow>90</color>\n" );
 
