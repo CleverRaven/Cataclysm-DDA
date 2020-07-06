@@ -465,7 +465,7 @@ void wet( Character &target, int amount )
  * Thunder.
  * Flavor messages. Very wet.
  */
-void weather_sound( std::string sound_message, std::string sound_effect )
+void weather_sound( translation sound_message, std::string sound_effect )
 {
     if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() ) {
         if( g->get_levz() >= 0 ) {
@@ -562,9 +562,7 @@ void handle_weather_effects( weather_type_id const w )
         if( target_character.get_pain() >= current_effect.pain_max ) {
             continue;
         }
-        if( current_effect.add_effect.is_valid() ) {
-            target_character.add_effect( current_effect.add_effect, current_effect.effect_duration );
-        }
+
         bool spawned = current_effect.spawns.empty();
         for( const spawn_type &spawn : current_effect.spawns ) {
             monster target_monster;
@@ -603,6 +601,22 @@ void handle_weather_effects( weather_type_id const w )
         }
         if( !spawned ) {
             continue;
+        }
+        if( current_effect.effect_id.is_valid() ) {
+            if( current_effect.target_part.is_valid() ) {
+                target_character.add_effect( current_effect.effect_id, current_effect.effect_duration,
+                                             current_effect.target_part->token );
+            } else {
+                target_character.add_effect( current_effect.effect_id, current_effect.effect_duration );
+            }
+        }
+        if( current_effect.target_part.is_valid() ) {
+            target_character.deal_damage( nullptr, current_effect.target_part, damage_instance( DT_BASH,
+                                          current_effect.damage ) );
+        } else {
+            for( const bodypart_id &bp : target_character.get_all_body_parts() ) {
+                target_character.deal_damage( nullptr, bp, damage_instance( DT_BASH, current_effect.damage ) );
+            }
         }
         target_character.mod_healthy( current_effect.healthy );
         target_character.mod_rad( current_effect.radiation );

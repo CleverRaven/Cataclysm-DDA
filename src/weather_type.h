@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "bodypart.h"
 #include "generic_factory.h"
 #include "translations.h"
 #include "type_id.h"
@@ -100,10 +101,9 @@ struct weather_effect {
     int one_in_chance;
     time_duration time_between;
     int intensity;
-    std::string message;
+    translation message;
     bool must_be_outside;
-    std::string effect;
-    std::string sound_message;
+    translation sound_message;
     std::string sound_effect;
     bool lightning;
     bool rain_proof;
@@ -112,8 +112,10 @@ struct weather_effect {
     int wet;
     int radiation;
     int healthy;
-    efftype_id add_effect;
+    efftype_id effect_id;
     time_duration effect_duration;
+    bodypart_str_id target_part;
+    int damage;
     std::vector<spawn_type> spawns;
 };
 

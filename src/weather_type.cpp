@@ -119,13 +119,17 @@ void weather_type::check() const
         }
     }
     for( const weather_effect &effect : effects ) {
-        if( !effect.add_effect.is_empty() && !effect.add_effect.is_valid() ) {
-            debugmsg( "Required effect type %s does not exist.", effect.add_effect.c_str() );
+        if( !effect.effect_id.is_empty() && !effect.effect_id.is_valid() ) {
+            debugmsg( "Effect type %s does not exist.", effect.effect_id.c_str() );
+            abort();
+        }
+        if( !effect.target_part.is_empty() && !effect.target_part.is_valid() ) {
+            debugmsg( "Target part %s does not exist.", effect.target_part.c_str() );
             abort();
         }
         for( const spawn_type &spawn : effect.spawns ) {
             if( !spawn.target.is_empty() && !spawn.target.is_valid() ) {
-                debugmsg( "Required spawn target %s does not exist.", spawn.target.c_str() );
+                debugmsg( "Spawn target %s does not exist.", spawn.target.c_str() );
                 abort();
             }
         }
@@ -164,8 +168,8 @@ void weather_type::load( const JsonObject &jo, const std::string & )
 
         weather_effect effect;
 
-        optional( weather_effect_jo, was_loaded, "message", effect.message, "" );
-        optional( weather_effect_jo, was_loaded, "sound_message", effect.sound_message, "" );
+        optional( weather_effect_jo, was_loaded, "message", effect.message );
+        optional( weather_effect_jo, was_loaded, "sound_message", effect.sound_message );
         optional( weather_effect_jo, was_loaded, "sound_effect", effect.sound_effect, "" );
         optional( weather_effect_jo, was_loaded, "intensity", effect.intensity, 0 );
         mandatory( weather_effect_jo, was_loaded, "must_be_outside", effect.must_be_outside );
@@ -178,8 +182,10 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         optional( weather_effect_jo, was_loaded, "wet", effect.wet, 0 );
         optional( weather_effect_jo, was_loaded, "radiation", effect.radiation, 0 );
         optional( weather_effect_jo, was_loaded, "healthy", effect.healthy, 0 );
-        optional( weather_effect_jo, was_loaded, "add_effect", effect.add_effect );
+        optional( weather_effect_jo, was_loaded, "effect_id", effect.effect_id );
         optional( weather_effect_jo, was_loaded, "effect_duration", effect.effect_duration );
+        optional( weather_effect_jo, was_loaded, "target_part", effect.target_part );
+        optional( weather_effect_jo, was_loaded, "damage", effect.damage, 0 );
         for( const JsonObject spawn_jo : weather_effect_jo.get_array( "spawns" ) ) {
             spawn_type spawn;
             mandatory( spawn_jo, was_loaded, "max_radius", spawn.max_radius );
