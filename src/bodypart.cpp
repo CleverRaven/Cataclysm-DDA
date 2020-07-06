@@ -454,6 +454,16 @@ int bodypart::get_wetness() const
     return wetness;
 }
 
+int bodypart::get_temp_cur() const
+{
+    return temp_cur;
+}
+
+int bodypart::get_temp_conv() const
+{
+    return temp_conv;
+}
+
 void bodypart::set_hp_cur( int set )
 {
     hp_cur = set;
@@ -489,6 +499,16 @@ void bodypart::set_wetness( int set )
     wetness = set;
 }
 
+void bodypart::set_temp_cur( int set )
+{
+    temp_cur = set;
+}
+
+void bodypart::set_temp_conv( int set )
+{
+    temp_conv = set;
+}
+
 void bodypart::mod_hp_cur( int mod )
 {
     hp_cur += mod;
@@ -517,6 +537,16 @@ void bodypart::mod_damage_disinfected( int mod )
 void bodypart::mod_wetness( int mod )
 {
     wetness += mod;
+}
+
+void bodypart::mod_temp_cur( int mod )
+{
+    temp_cur += mod;
+}
+
+void bodypart::mod_temp_conv( int mod )
+{
+    temp_conv += mod;
 }
 
 void bodypart::serialize( JsonOut &json ) const

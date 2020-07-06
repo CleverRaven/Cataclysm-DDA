@@ -545,13 +545,6 @@ void Character::load( const JsonObject &data )
     data.read( "healthy", healthy );
     data.read( "healthy_mod", healthy_mod );
 
-    // status
-    temp_cur.fill( 5000 );
-    data.read( "temp_cur", temp_cur );
-
-    temp_conv.fill( 5000 );
-    data.read( "temp_conv", temp_conv );
-
     frostbite_timer.fill( 0 );
     data.read( "frostbite_timer", frostbite_timer );
 
@@ -706,6 +699,44 @@ void Character::load( const JsonObject &data )
         set_part_wetness( bodypart_id( "foot_l" ), body_wetness[10] );
         set_part_wetness( bodypart_id( "foot_r" ), body_wetness[11] );
     }
+    if( data.has_array( "temp_cur" ) ) {
+        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_body();
+        std::array<int, 12> temp_cur;
+        temp_cur.fill( BODYTEMP_NORM );
+        data.read( "temp_cur", temp_cur );
+        set_part_temp_cur( bodypart_id( "torso" ), temp_cur[0] );
+        set_part_temp_cur( bodypart_id( "head" ), temp_cur[1] );
+        set_part_temp_cur( bodypart_id( "eyes" ), temp_cur[2] );
+        set_part_temp_cur( bodypart_id( "mouth" ), temp_cur[3] );
+        set_part_temp_cur( bodypart_id( "arm_l" ), temp_cur[4] );
+        set_part_temp_cur( bodypart_id( "arm_r" ), temp_cur[5] );
+        set_part_temp_cur( bodypart_id( "hand_l" ), temp_cur[6] );
+        set_part_temp_cur( bodypart_id( "hand_r" ), temp_cur[7] );
+        set_part_temp_cur( bodypart_id( "leg_l" ), temp_cur[8] );
+        set_part_temp_cur( bodypart_id( "leg_r" ), temp_cur[9] );
+        set_part_temp_cur( bodypart_id( "foot_l" ), temp_cur[10] );
+        set_part_temp_cur( bodypart_id( "foot_r" ), temp_cur[11] );
+    }
+    if( data.has_array( "temp_conv" ) ) {
+        set_anatomy( anatomy_id( "human_anatomy" ) );
+        set_body();
+        std::array<int, 12> temp_conv;
+        temp_conv.fill( BODYTEMP_NORM );
+        data.read( "temp_conv", temp_conv );
+        set_part_temp_conv( bodypart_id( "torso" ), temp_conv[0] );
+        set_part_temp_conv( bodypart_id( "head" ), temp_conv[1] );
+        set_part_temp_conv( bodypart_id( "eyes" ), temp_conv[2] );
+        set_part_temp_conv( bodypart_id( "mouth" ), temp_conv[3] );
+        set_part_temp_conv( bodypart_id( "arm_l" ), temp_conv[4] );
+        set_part_temp_conv( bodypart_id( "arm_r" ), temp_conv[5] );
+        set_part_temp_conv( bodypart_id( "hand_l" ), temp_conv[6] );
+        set_part_temp_conv( bodypart_id( "hand_r" ), temp_conv[7] );
+        set_part_temp_conv( bodypart_id( "leg_l" ), temp_conv[8] );
+        set_part_temp_conv( bodypart_id( "leg_r" ), temp_conv[9] );
+        set_part_temp_conv( bodypart_id( "foot_l" ), temp_conv[10] );
+        set_part_temp_conv( bodypart_id( "foot_r" ), temp_conv[11] );
+    }
 
     inv.clear();
     if( data.has_member( "inv" ) ) {
@@ -833,8 +864,6 @@ void Character::store( JsonOut &json ) const
     json.member( "healthy_mod", healthy_mod );
 
     // status
-    json.member( "temp_cur", temp_cur );
-    json.member( "temp_conv", temp_conv );
     json.member( "frostbite_timer", frostbite_timer );
 
     // needs

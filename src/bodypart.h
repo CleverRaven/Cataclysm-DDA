@@ -13,6 +13,7 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
+#include "weather.h"
 
 class JsonObject;
 class JsonIn;
@@ -204,6 +205,8 @@ class bodypart
 
         int drench_capacity;
         int wetness = 0;
+        int temp_cur = BODYTEMP_NORM;
+        int temp_conv = BODYTEMP_NORM;
 
         int healed_total = 0;
         int damage_bandaged = 0;
@@ -230,6 +233,8 @@ class bodypart
         int get_damage_disinfected() const;
         int get_drench_capacity() const;
         int get_wetness() const;
+        int get_temp_cur() const;
+        int get_temp_conv() const;
 
         encumbrance_data get_encumbrance_data() const;
 
@@ -239,6 +244,8 @@ class bodypart
         void set_damage_bandaged( int set );
         void set_damage_disinfected( int set );
         void set_wetness( int set );
+        void set_temp_cur( int set );
+        void set_temp_conv( int set );
 
         void set_encumbrance_data( encumbrance_data set );
 
@@ -248,6 +255,8 @@ class bodypart
         void mod_damage_bandaged( int mod );
         void mod_damage_disinfected( int mod );
         void mod_wetness( int mod );
+        void mod_temp_cur( int mod );
+        void mod_temp_conv( int mod );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );

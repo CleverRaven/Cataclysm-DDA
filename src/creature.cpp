@@ -1557,6 +1557,16 @@ int Creature::get_part_wetness( const bodypart_id &id ) const
     return get_part( id ).get_wetness();
 }
 
+int Creature::get_part_temp_cur( const bodypart_id &id ) const
+{
+    return get_part( id ).get_temp_cur();
+}
+
+int Creature::get_part_temp_conv( const bodypart_id &id ) const
+{
+    return get_part( id ).get_temp_conv();;
+}
+
 float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 {
     return get_part( id ).get_wetness_percentage();
@@ -1597,6 +1607,16 @@ void Creature::set_part_wetness( const bodypart_id &id, int set )
     get_part( id )->set_wetness( set );
 }
 
+void Creature::set_part_temp_cur( const bodypart_id &id, int set )
+{
+    get_part( id )->set_temp_cur( set );
+}
+
+void Creature::set_part_temp_conv( const bodypart_id &id, int set )
+{
+    get_part( id )->set_temp_conv( set );
+}
+
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_hp_cur( mod );
@@ -1625,6 +1645,30 @@ void Creature::mod_part_damage_bandaged( const bodypart_id &id, int mod )
 void Creature::mod_part_wetness( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_wetness( mod );
+}
+
+void Creature::mod_part_temp_cur( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_temp_cur( mod );
+}
+
+void Creature::mod_part_temp_conv( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_temp_conv( mod );
+}
+
+void Creature::set_all_parts_temp_cur( int set )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        elem.second.set_temp_cur( set );
+    }
+}
+
+void Creature::set_all_parts_temp_conv( int set )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        elem.second.set_temp_conv( set );
+    }
 }
 
 void Creature::set_all_parts_wetness( int set )
