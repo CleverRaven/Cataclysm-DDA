@@ -879,15 +879,15 @@ item item::in_container( const itype_id &cont, int qty ) const
 
 void item::update_modified_pockets()
 {
-    cata::optional<pocket_data> mag_or_mag_well;
-    std::vector<pocket_data> container_pockets;
+    cata::optional<const pocket_data *> mag_or_mag_well;
+    std::vector<const pocket_data *> container_pockets;
 
     for( const pocket_data &pocket : type->pockets ) {
         if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
-            container_pockets.push_back( pocket );
+            container_pockets.push_back( &pocket );
         } else if( pocket.type == item_pocket::pocket_type::MAGAZINE ||
                    pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
-            mag_or_mag_well = pocket;
+            mag_or_mag_well = &pocket;
         }
     }
 
@@ -895,10 +895,10 @@ void item::update_modified_pockets()
         if( mod->type->mod ) {
             for( const pocket_data &pocket : mod->type->mod->add_pockets ) {
                 if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
-                    container_pockets.push_back( pocket );
+                    container_pockets.push_back( &pocket );
                 } else if( pocket.type == item_pocket::pocket_type::MAGAZINE ||
                            pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
-                    mag_or_mag_well = pocket;
+                    mag_or_mag_well = &pocket;
                 }
             }
         }
