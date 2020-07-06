@@ -2630,7 +2630,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
             if( !t->data.empty() ) {
                 struct translation_pair {
                     translation to_display;
-                    translation name_as_heading_multiple;
+                    translation multiple_name;
                 };
                 struct armor_portion_type {
                     int encumber;
@@ -2644,13 +2644,13 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     };
                 };
 
-                std::map<bodypart_str_id, std::pair<armor_portion_type, translation_pair>> encumb_data;
+                std::map<bodypart_str_id, std::pair<armor_portion_type, translation_pair>> piece_data;
 
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
                         for( const bodypart_str_id &covering_id : piece.covers.value() ) {
                             if( covering_id != bodypart_str_id( "num_bp" ) ) {
-                                encumb_data.insert( {
+                                piece_data.insert( {
                                     covering_id, { {
                                             get_encumber( g->u, covering_id ),
                                             get_encumber( g->u, covering_id, encumber_flags::assume_full ),
@@ -2665,67 +2665,69 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         }
                     }
                 }
-
-                // Handle things that use both sides to avoid showing L Arm R Arm etc when not needed
+                // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
                 if( !t->sided ) {
-                    if( covers( bodypart_id( "foot_l" ) ) && covers( bodypart_id( "foot_r" ) )
-                        && encumb_data.at( bodypart_str_id( "foot_r" ) ).first == encumb_data.at(
-                            bodypart_str_id( "foot_l" ) ).first ) {
-                        encumb_data.erase( encumb_data.find( bodypart_str_id( "foot_l" ) ) );
-                        encumb_data[bodypart_str_id( "Feet" )] = encumb_data.at( bodypart_str_id( "foot_r" ) );
-                        encumb_data[bodypart_str_id( "Feet" )].second.to_display =
-                            encumb_data[bodypart_str_id( "Feet" )].second.name_as_heading_multiple;
-                        encumb_data.erase( encumb_data.find( bodypart_str_id( "foot_r" ) ) );
+                    bodypart_str_id right_foot = bodypart_id( "foot_l" )->opposite_part;
+                    bodypart_str_id right_leg = bodypart_id( "leg_l" )->opposite_part;
+                    bodypart_str_id right_arm = bodypart_id( "arm_l" )->opposite_part;
+                    bodypart_str_id right_hand = bodypart_id( "hand_l" )->opposite_part;
+                    bodypart_str_id left_foot = bodypart_id( "foot_r" )->opposite_part;
+                    bodypart_str_id left_leg = bodypart_id( "leg_r" )->opposite_part;
+                    bodypart_str_id left_arm = bodypart_id( "arm_r" )->opposite_part;
+                    bodypart_str_id left_hand = bodypart_id( "hand_r" )->opposite_part;
+                    bodypart_str_id feet( "Feet" );
+                    bodypart_str_id arms( "Arms" );
+                    bodypart_str_id legs( "Legs" );
+                    bodypart_str_id hands( "Hands" );
+
+                    if( covers( left_foot ) && covers( right_foot )
+                        && piece_data.at( left_foot ).first == piece_data.at( right_foot ).first ) {
+                        piece_data.erase( piece_data.find( left_foot ) );
+                        piece_data[feet] = piece_data.at( right_foot );
+                        piece_data[feet].second.to_display = piece_data[feet].second.multiple_name;
+                        piece_data.erase( piece_data.find( right_foot ) );
                     }
-                    if( covers( bodypart_id( "arm_l" ) ) && covers( bodypart_id( "arm_r" ) )
-                        && encumb_data.at( bodypart_str_id( "arm_l" ) ).first == encumb_data.at(
-                            bodypart_str_id( "arm_r" ) ).first ) {
-                        encumb_data.erase( encumb_data.find( bodypart_str_id( "arm_l" ) ) );
-                        encumb_data[bodypart_str_id( "Arms" )] = encumb_data.at( bodypart_str_id( "arm_r" ) );
-                        encumb_data[bodypart_str_id( "Arms" )].second.to_display =
-                            encumb_data[bodypart_str_id( "Arms" )].second.name_as_heading_multiple;
-                        encumb_data.erase( encumb_data.find( bodypart_str_id( "arm_r" ) ) );
+                    if( covers( left_arm ) && covers( right_arm )
+                        && piece_data.at( left_arm ).first == piece_data.at( right_arm ).first ) {
+                        piece_data.erase( piece_data.find( left_arm ) );
+                        piece_data[arms] = piece_data.at( right_arm );
+                        piece_data[arms].second.to_display = piece_data[arms].second.multiple_name;
+                        piece_data.erase( piece_data.find( right_arm ) );
                     }
-                    if( covers( bodypart_id( "leg_l" ) ) && covers( bodypart_id( "leg_r" ) )
-                        && encumb_data.at( bodypart_str_id( "leg_l" ) ).first == encumb_data.at(
-                            bodypart_str_id( "leg_r" ) ).first ) {
-                        encumb_data.erase( encumb_data.find( bodypart_str_id( "leg_l" ) ) );
-                        encumb_data[bodypart_str_id( "Legs" )] = encumb_data.at( bodypart_str_id( "leg_r" ) );
-                        encumb_data[bodypart_str_id( "Legs" )].second.to_display =
-                            encumb_data[bodypart_str_id( "Legs" )].second.name_as_heading_multiple;
-                        encumb_data.erase( encumb_data.find( bodypart_str_id( "leg_r" ) ) );
+                    if( covers( left_leg ) && covers( right_leg )
+                        && piece_data.at( left_leg ).first == piece_data.at( right_leg ).first ) {
+                        piece_data.erase( piece_data.find( left_leg ) );
+                        piece_data[legs] = piece_data.at( right_leg );
+                        piece_data[legs].second.to_display = piece_data[legs].second.multiple_name;
+                        piece_data.erase( piece_data.find( right_leg ) );
                     }
-                    if( covers( bodypart_id( "hand_l" ) ) && covers( bodypart_id( "hand_r" ) )
-                        && encumb_data.at( bodypart_str_id( "hand_l" ) ).first == encumb_data.at(
-                            bodypart_str_id( "hand_r" ) ).first ) {
-                        encumb_data.erase( encumb_data.find( bodypart_str_id( "hand_l" ) ) );
-                        encumb_data[bodypart_str_id( "Hands" )] = encumb_data.at( bodypart_str_id( "hand_r" ) );
-                        encumb_data[bodypart_str_id( "Hands" )].second.to_display =
-                            encumb_data[bodypart_str_id( "Hands" )].second.name_as_heading_multiple;
-                        encumb_data.erase( encumb_data.find( bodypart_str_id( "hand_r" ) ) );
+                    if( covers( left_hand ) && covers( right_hand )
+                        && piece_data.at( left_hand ).first == piece_data.at( right_hand ).first ) {
+                        piece_data.erase( piece_data.find( left_hand ) );
+                        piece_data[hands] = piece_data.at( right_hand );
+                        piece_data[hands].second.to_display = piece_data[hands].second.multiple_name;
+                        piece_data.erase( piece_data.find( right_hand ) );
                     }
                 }
-                for( auto &encumb : encumb_data ) {
+                for( auto &piece : piece_data ) {
                     if( t->sided ) {
-                        const bodypart_str_id &covering_id = encumb.first;
+                        const bodypart_str_id &covering_id = piece.first;
                         if( !covers( covering_id.id() ) ) {
                             continue;
                         }
                     }
-                    const armor_portion_type &armor_portion_data = encumb.second.first;
-
                     info.push_back( iteminfo( "ARMOR",
-                                              string_format( _( "%s:" ), encumb.second.second.to_display.translated() ) + space, "",
+                                              string_format( _( "%s:" ), piece.second.second.to_display.translated() ) + space, "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
-                                              armor_portion_data.encumber ) ) ;
+                                              piece.second.first.encumber ) ) ;
 
                     info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
                                               iteminfo::no_newline | iteminfo::lower_is_better,
-                                              armor_portion_data.max_encumber ) ) ;
+                                              piece.second.first.max_encumber ) ) ;
 
                     info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
                                               iteminfo::lower_is_better,
-                                              armor_portion_data.coverage ) );
+                                              piece.second.first.coverage ) );
                 }
             }
         }
