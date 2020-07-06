@@ -92,7 +92,7 @@
     "symbol": ".",
     "color": "white",
     "move_cost": 2,
-    "light_emitted": 80,
+    "light_emitted": 90,
     "roof": "t_flat_roof",
     "flags": [ "TRANSPARENT", "SUPPORTS_ROOF", "INDOORS", "FLAT", "ROAD" ],
     "bash": {

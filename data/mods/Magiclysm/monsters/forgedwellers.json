@@ -31,7 +31,7 @@
     "special_attacks": [ { "type": "spell", "spell_data": { "id": "manatouched_seeker_bolts", "min_level": 5 }, "cooldown": 60 } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "death_function": [ "BROKEN" ],
-    "flags": [ "SEES", "NO_BREATHE", "PATH_AVOID_DANGER_1", "LOUDMOVES" ]
+    "flags": [ "SEES", "NO_BREATHE", "PATH_AVOID_DANGER_2", "LOUDMOVES" ]
   },
   {
     "id": "mon_forgemaster1",
@@ -100,7 +100,7 @@
   {
     "id": "mon_forgedwarves",
     "type": "MONSTER",
-    "name": { "str": "forge workers" },
+    "name": { "str": "forge worker" },
     "description": "A squat humanoid that looks quite sturdily built.  They style their hair in mohawks and other strange fashions that seem to be dictated by what parts of their skin aren't scarred from burns.  Their clothes are designed to protect them from the intense environment they work in.",
     "default_faction": "wonder_forge",
     "bodytype": "human",
@@ -126,6 +126,6 @@
     "harvest": "demihuman",
     "death_drops": { "subtype": "collection", "groups": [ [ "forge_life", 40 ], [ "bedroom", 1 ], [ "dresser", 5 ], [ "ammo", 18 ] ] },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "PATH_AVOID_DANGER_2" ]
   }
 ]
