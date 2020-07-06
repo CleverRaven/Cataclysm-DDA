@@ -4690,7 +4690,7 @@ bool mattack::slimespring( monster *z )
             }
             if( player_character.has_effect( effect_bleed ) ) {
                 if( one_in( 2 ) ) {
-                    effect e = player_character.get_effect( effect_bleed );
+                    effect &e = player_character.get_effect( effect_bleed );
                     e.mod_duration( -e.get_int_dur_factor() * rng( 1, 5 ) );
                     add_msg( m_good, _( "The slime seals up your leaks!" ) );
                 } else {
