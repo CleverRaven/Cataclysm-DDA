@@ -238,135 +238,135 @@
     "symbol": "h"
   },
   {
-    "id": "board_horizontal_top",
+    "id": "board_horizontal_front",
     "copy-from": "board",
     "type": "vehicle_part",
     "symbol": "T"
   },
   {
-    "id": "clothboard_horizontal_top",
+    "id": "clothboard_horizontal_front",
     "copy-from": "clothboard",
     "type": "vehicle_part",
     "symbol": "T"
   },
   {
-    "id": "cloth_halfboard_horizontal_top",
+    "id": "cloth_halfboard_horizontal_front",
     "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
     "symbol": "T"
   },
   {
-    "id": "halfboard_horizontal_top",
+    "id": "halfboard_horizontal_front",
     "copy-from": "halfboard",
     "type": "vehicle_part",
     "symbol": "T"
   },
   {
-    "id": "stowboard_horizontal_top",
+    "id": "stowboard_horizontal_front",
     "copy-from": "stowboard",
     "type": "vehicle_part",
     "symbol": "T"
   },
   {
-    "id": "hdstowboard_horizontal_top",
+    "id": "hdstowboard_horizontal_front",
     "copy-from": "hdstowboard",
     "type": "vehicle_part",
-    "looks_like": "stowboard_horizontal_top",
+    "looks_like": "stowboard_horizontal_front",
     "symbol": "T"
   },
   {
-    "id": "hdboard_horizontal_top",
+    "id": "hdboard_horizontal_front",
     "copy-from": "hdboard",
     "type": "vehicle_part",
     "symbol": "T"
   },
   {
-    "id": "hdhalfboard_horizontal_top",
+    "id": "hdhalfboard_horizontal_front",
     "copy-from": "hdhalfboard",
     "type": "vehicle_part",
     "symbol": "T"
   },
   {
-    "id": "woodboard_horizontal_top",
+    "id": "woodboard_horizontal_front",
     "copy-from": "woodboard",
     "type": "vehicle_part",
     "symbol": "T"
   },
   {
-    "id": "woodhalfboard_horizontal_top",
+    "id": "woodhalfboard_horizontal_front",
     "copy-from": "woodhalfboard",
     "type": "vehicle_part",
     "symbol": "T"
   },
   {
-    "id": "xlhalfboard_horizontal_top",
+    "id": "xlhalfboard_horizontal_front",
     "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "T"
   },
   {
-    "id": "board_horizontal_bottom",
+    "id": "board_horizontal_rear",
     "copy-from": "board",
     "type": "vehicle_part",
     "symbol": "B"
   },
   {
-    "id": "clothboard_horizontal_bottom",
+    "id": "clothboard_horizontal_rear",
     "copy-from": "clothboard",
     "type": "vehicle_part",
     "symbol": "B"
   },
   {
-    "id": "cloth_halfboard_horizontal_bottom",
+    "id": "cloth_halfboard_horizontal_rear",
     "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
     "symbol": "B"
   },
   {
-    "id": "halfboard_horizontal_bottom",
+    "id": "halfboard_horizontal_rear",
     "copy-from": "halfboard",
     "type": "vehicle_part",
     "symbol": "B"
   },
   {
-    "id": "stowboard_horizontal_bottom",
+    "id": "stowboard_horizontal_rear",
     "copy-from": "stowboard",
     "type": "vehicle_part",
     "symbol": "B"
   },
   {
-    "id": "hdstowboard_horizontal_bottom",
+    "id": "hdstowboard_horizontal_rear",
     "copy-from": "hdstowboard",
     "type": "vehicle_part",
-    "looks_like": "stowboard_horizontal_bottom",
+    "looks_like": "stowboard_horizontal_rear",
     "symbol": "B"
   },
   {
-    "id": "hdboard_horizontal_bottom",
+    "id": "hdboard_horizontal_rear",
     "copy-from": "hdboard",
     "type": "vehicle_part",
     "symbol": "B"
   },
   {
-    "id": "hdhalfboard_horizontal_bottom",
+    "id": "hdhalfboard_horizontal_rear",
     "copy-from": "hdhalfboard",
     "type": "vehicle_part",
     "symbol": "B"
   },
   {
-    "id": "woodboard_horizontal_bottom",
+    "id": "woodboard_horizontal_rear",
     "copy-from": "woodboard",
     "type": "vehicle_part",
     "symbol": "B"
   },
   {
-    "id": "woodhalfboard_horizontal_bottom",
+    "id": "woodhalfboard_horizontal_rear",
     "copy-from": "woodhalfboard",
     "type": "vehicle_part",
     "symbol": "B"
   },
   {
-    "id": "xlhalfboard_horizontal_bottom",
+    "id": "xlhalfboard_horizontal_rear",
     "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "B"
