@@ -72,7 +72,7 @@
     "material": [ "plastic", "neoprene" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": "ARMS",
+    "covers": [ "ARMS" ],
     "coverage": 80,
     "encumbrance": 5,
     "warmth": 20,
