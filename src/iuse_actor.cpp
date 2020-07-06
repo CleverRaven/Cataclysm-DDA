@@ -4288,9 +4288,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         desc += format_desc_string( _( "Acid" ), mod.acid_resist(), temp_item.acid_resist(), true );
         desc += format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
         desc += format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
-        desc += format_desc_string( _( "Encumbrance" ), mod.get_encumber( p, bodypart_id( "num_bp" ) ),
-                                    temp_item.get_encumber( p, bodypart_id( "num_bp" ) ),
-                                    false );
+        desc += format_desc_string( _( "Encumbrance" ), mod.get_avg_encumber( p ),
+                                    temp_item.get_avg_encumber( p ), false );
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }

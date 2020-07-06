@@ -7966,7 +7966,7 @@ int Character::item_wear_cost( const item &it ) const
             break;
     }
 
-    mv *= std::max( it.get_encumber( *this, bodypart_id( "num_bp" ) ) / 10.0, 1.0 );
+    mv *= std::max( it.get_avg_encumber( *this ) / 10.0, 1.0 );
 
     return mv;
 }

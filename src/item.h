@@ -1577,13 +1577,19 @@ class item : public visitable<item>
             none = 0,
             assume_full = 1,
         };
+
+        /**
+         * Returns the average encumbrance value that this item across all portions
+         * Returns 0 if this is can not be worn at all.
+         */
+        int get_avg_encumber( const Character &, encumber_flags = encumber_flags::none ) const;
+
         /**
          * Returns the encumbrance value that this item has when worn by given
          * player.
          * Returns 0 if this is can not be worn at all.
          */
-        int get_encumber( const Character &,
-                          const bodypart_id &bodypart,
+        int get_encumber( const Character &, const bodypart_id &bodypart,
                           encumber_flags = encumber_flags::none ) const;
 
         /**

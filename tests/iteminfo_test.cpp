@@ -650,7 +650,6 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         // Long-sleeved shirt covering torso and arms
         item longshirt( "test_longshirt" );
         REQUIRE( longshirt.get_covered_body_parts().any() );
-        REQUIRE( longshirt.get_coverage( bodypart_id( "num_bp" ) ) == 90 );
         REQUIRE( longshirt.get_coverage( bodypart_id( "torso" ) ) == 90 );
         REQUIRE( longshirt.get_coverage( bodypart_id( "arm_l" ) ) == 90 );
         REQUIRE( longshirt.get_coverage( bodypart_id( "arm_r" ) ) == 90 );
@@ -674,10 +673,19 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "--\n"
                "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n" );
 
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "num_bp" ) ) == 3 );
+        REQUIRE( longshirt.get_avg_encumber( g->u ) == 3 );
         REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "torso" ) ) == 3 );
         REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "arm_l" ) ) == 3 );
         REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "arm_r" ) ) == 3 );
+
+        REQUIRE( longshirt.get_avg_encumber( g->u,
+                                             item::encumber_flags::assume_full ) == 3 );
+        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "torso" ),
+                                         item::encumber_flags::assume_full ) == 3 );
+        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "arm_l" ),
+                                         item::encumber_flags::assume_full ) == 3 );
+        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "arm_r" ),
+                                         item::encumber_flags::assume_full ) == 3 );
 
 
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
@@ -693,19 +701,88 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         item swat_armor( "test_swat_armor" );
         REQUIRE( swat_armor.get_covered_body_parts().any() );
         REQUIRE( swat_armor.get_avg_coverage() == 95 );
-        REQUIRE( swat_armor.get_coverage( bodypart_id( "num_bp" ) ) == 95 );
         REQUIRE( swat_armor.get_coverage( bodypart_id( "torso" ) ) == 95 );
         REQUIRE( swat_armor.get_coverage( bodypart_id( "leg_l" ) ) == 95 );
         REQUIRE( swat_armor.get_coverage( bodypart_id( "leg_r" ) ) == 95 );
         REQUIRE( swat_armor.get_coverage( bodypart_id( "arm_l" ) ) == 95 );
         REQUIRE( swat_armor.get_coverage( bodypart_id( "arm_r" ) ) == 95 );
+        REQUIRE( swat_armor.get_coverage( bodypart_id( "head" ) ) == 0 );
+        REQUIRE( swat_armor.get_coverage( bodypart_id( "mouth" ) ) == 0 );
 
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "num_bp" ) ) == 12 );
+        REQUIRE( swat_armor.get_avg_encumber( g->u ) == 12 );
         REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "torso" ) ) == 12 );
         REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "leg_l" ) ) == 12 );
         REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "leg_r" ) ) == 12 );
         REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "arm_l" ) ) == 12 );
         REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "arm_r" ) ) == 12 );
+
+        REQUIRE( swat_armor.get_avg_encumber( g->u, item::encumber_flags::assume_full ) == 25 );
+        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "torso" ),
+                                          item::encumber_flags::assume_full ) == 25 );
+        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "leg_l" ),
+                                          item::encumber_flags::assume_full ) == 25 );
+        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "leg_r" ),
+                                          item::encumber_flags::assume_full ) == 25 );
+        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "arm_l" ),
+                                          item::encumber_flags::assume_full ) == 25 );
+        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "arm_r" ),
+                                          item::encumber_flags::assume_full ) == 25 );
+
+        // Test copy-from
+        item faux_fur_pants( "test_pants_faux_fur" );
+        REQUIRE( faux_fur_pants.get_covered_body_parts().any() );
+        REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
+        REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "leg_l" ) ) == 95 );
+        REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "leg_r" ) ) == 95 );
+        REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "arm_l" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "arm_r" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "foot_r" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "foot_l" ) ) == 0 );
+
+        REQUIRE( faux_fur_pants.get_avg_encumber( g->u ) == 16 );
+        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "leg_l" ) ) == 16 );
+        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "leg_r" ) ) == 16 );
+
+        REQUIRE( faux_fur_pants.get_avg_encumber( g->u, item::encumber_flags::assume_full ) == 20 );
+        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "leg_l" ),
+                                              item::encumber_flags::assume_full ) == 20 );
+        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "leg_r" ),
+                                              item::encumber_flags::assume_full ) == 20 );
+        REQUIRE( faux_fur_pants.get_warmth() == 70 );
+
+        item faux_fur_suit( "test_new_copy_faux_fur_suit" );
+        REQUIRE( faux_fur_suit.get_covered_body_parts().any() );
+        REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
+        REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "torso" ) ) == 100 );
+        REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "leg_l" ) ) == 50 );
+        REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "leg_r" ) ) == 100 );
+        REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "arm_l" ) ) == 50 );
+        REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "arm_r" ) ) == 100 );
+        REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "head" ) ) == 50 );
+        REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "mouth" ) ) == 0 );
+
+        REQUIRE( faux_fur_suit.get_avg_encumber( g->u ) == 7 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "torso" ) ) == 10 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "leg_l" ) ) == 5 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "leg_r" ) ) == 10 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "arm_l" ) ) == 5 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "arm_r" ) ) == 10 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "head" ) ) == 5 );
+
+        REQUIRE( faux_fur_suit.get_avg_encumber( g->u, item::encumber_flags::assume_full ) == 17 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "torso" ),
+                                             item::encumber_flags::assume_full ) == 25 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "leg_l" ),
+                                             item::encumber_flags::assume_full ) == 9 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "leg_r" ),
+                                             item::encumber_flags::assume_full ) == 25 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "arm_l" ),
+                                             item::encumber_flags::assume_full ) == 9 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "arm_r" ),
+                                             item::encumber_flags::assume_full ) == 25 );
+        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "head" ),
+                                             item::encumber_flags::assume_full ) == 9 );
+        REQUIRE( faux_fur_suit.get_warmth() == 5 );
     }
 
     SECTION( "armor with no coverage omits irrelevant info" ) {

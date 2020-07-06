@@ -5625,6 +5625,57 @@ bool item::is_power_armor() const
     return t->power_armor;
 }
 
+int item::get_avg_encumber( const Character &p, encumber_flags flags ) const
+{
+    const islot_armor *t = find_armor_data();
+    if( t == nullptr ) {
+        // handle wearable guns (e.g. shoulder strap) as special case
+        return is_gun() ? volume() / 750_ml : 0;
+    }
+
+    int encumber = 0;
+
+    // Additional encumbrance from non-rigid pockets
+    float relative_encumbrance = 1;
+    if( !( flags & encumber_flags::assume_full ) ) {
+        relative_encumbrance = contents.relative_encumbrance();
+    }
+
+    for( const armor_portion_data &data : t->data ) {
+        if( data.covers.has_value() ) {
+            encumber += data.encumber;
+            encumber += std::ceil( relative_encumbrance * ( data.max_encumber - data.encumber ) );
+        }
+    }
+    encumber /= t->data.size();
+
+    // Fit checked before changes, fitting shouldn't reduce penalties from patching.
+    if( has_flag( flag_FIT ) && has_flag( flag_VARSIZE ) ) {
+        encumber = std::max( encumber / 2, encumber - 10 );
+    }
+
+    // TODO: Should probably have sizing affect coverage
+    const sizing sizing_level = get_sizing( p );
+    switch( sizing_level ) {
+        case sizing::small_sized_human_char:
+        case sizing::small_sized_big_char:
+            // non small characters have a HARD time wearing undersized clothing
+            encumber *= 3;
+            break;
+        case sizing::human_sized_small_char:
+        case sizing::big_sized_small_char:
+            // clothes bag up around smol characters and encumber them more
+            encumber *= 2;
+            break;
+        default:
+            break;
+    }
+
+    encumber += static_cast<int>( std::ceil( get_clothing_mod_val( clothing_mod_type_encumbrance ) ) );
+
+    return encumber;
+}
+
 int item::get_encumber( const Character &p, const bodypart_id &bodypart,
                         encumber_flags flags ) const
 {
@@ -5643,10 +5694,11 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     for( const armor_portion_data &data : t->data ) {
-        if( data.covers.has_value()
-            && ( data.covers->test( bodypart.id() ) || bodypart == bodypart_id( "num_bp" ) ) ) {
-            encumber = data.encumber;
-            encumber += std::ceil( relative_encumbrance * ( data.max_encumber - data.encumber ) );
+        if( data.covers.has_value() ) {
+            if( data.covers->test( bodypart.id() ) ) {
+                encumber = data.encumber;
+                encumber += std::ceil( relative_encumbrance * ( data.max_encumber - data.encumber ) );
+            }
         }
     }
 
@@ -5733,11 +5785,8 @@ int item::get_coverage( const bodypart_id &bodypart ) const
 
     int coverage = 0;
     for( const armor_portion_data &entry : t->data ) {
-        if( entry.covers.has_value()
-            && ( entry.covers->test( bodypart.id() ) || bodypart == bodypart_id( "num_bp" ) ) ) {
-            if( entry.coverage > coverage ) {
-                coverage = entry.coverage;
-            }
+        if( entry.covers.has_value() && entry.covers->test( bodypart.id() ) && entry.coverage > coverage ) {
+            coverage = entry.coverage;
         }
     }
 

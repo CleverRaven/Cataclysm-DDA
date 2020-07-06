@@ -1794,10 +1794,23 @@ void islot_armor::load( const JsonObject &jo )
                 tempData.encumber = obj.get_int( "encumbrance" );
                 tempData.max_encumber = -1;
             }
-            tempData.coverage = obj.get_int( "coverage" );
-            data[0].encumber = tempData.encumber;
-            data[0].max_encumber = tempData.max_encumber;
-            data[0].coverage = tempData.coverage;
+            if( obj.has_int( "coverage" ) ) {
+                tempData.coverage = obj.get_int( "coverage" );
+            }
+            if( tempData.encumber != data[0].encumber ) {
+                data[0].encumber = tempData.encumber;
+            }
+            if( tempData.max_encumber != data[0].max_encumber ) {
+                data[0].max_encumber = tempData.max_encumber;
+            }
+            if( tempData.coverage != data[0].coverage ) {
+                data[0].coverage = tempData.coverage;
+            }
+            body_part_set temp_cover_data;
+            assign_coverage_from_json( obj, "covers", temp_cover_data, sided );
+            if( temp_cover_data.any() ) {
+                data[0].covers = temp_cover_data;
+            }
         }
 
         for( const JsonObject &obj : jo.get_array( "armor_portion_data" ) ) {
@@ -1818,7 +1831,9 @@ void islot_armor::load( const JsonObject &jo )
                 tempData.encumber = obj.get_int( "encumbrance" );
                 tempData.max_encumber = -1;
             }
-            tempData.coverage = obj.get_int( "coverage" );
+            if( obj.has_int( "coverage" ) ) {
+                tempData.coverage = obj.get_int( "coverage" );
+            }
             data.push_back( tempData );
 
             // TODO: Not currently supported, we still use flags for this
@@ -1845,19 +1860,32 @@ void islot_armor::load( const JsonObject &jo )
             data[0].covers = temp_cover_data;
         } else { // This item has copy-from and already has taken data from parent
             armor_portion_data child_data;
-            optional( jo, was_loaded, "encumbrance", child_data.encumber, 0 );
-            // Default max_encumbrance will be set to a reasonable value in finalize_post
-            optional( jo, was_loaded, "max_encumbrance", child_data.max_encumber, -1 );
-            optional( jo, was_loaded, "coverage", child_data.coverage, 0 );
+            if( jo.has_int( "encumbrance" ) ) {
+                child_data.encumber = jo.get_int( "encumbrance" );
+                child_data.max_encumber = -1;
+            }
+            if( jo.has_int( "max_encumbrance" ) ) {
+                child_data.max_encumber = jo.get_int( "max_encumbrance" );
+            } else {
+                child_data.max_encumber = -1;
+            }
+            if( jo.has_int( "coverage" ) ) {
+                child_data.coverage = jo.get_int( "coverage" );
+            }
             // If child item contains data, use that data, otherwise use parents data
-            if( child_data.encumber ) {
+            if( child_data.encumber != data[0].encumber && child_data.encumber != 0 ) {
                 data[0].encumber = child_data.encumber;
             }
-            if( child_data.max_encumber ) {
+            if( child_data.max_encumber != data[0].max_encumber && child_data.max_encumber != -1 ) {
                 data[0].max_encumber = child_data.max_encumber;
             }
-            if( child_data.coverage ) {
+            if( child_data.coverage != data[0].coverage && child_data.coverage != 0 ) {
                 data[0].coverage = child_data.coverage;
+            }
+            body_part_set temp_cover_data;
+            assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
+            if( temp_cover_data.any() ) {
+                data[0].covers = temp_cover_data;
             }
         }
     }
