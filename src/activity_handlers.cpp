@@ -1718,7 +1718,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 
     // TODO: Store the patient somehow, retrieve here
     player &patient = *p;
-    const hp_part healed = static_cast<hp_part>( act->values[0] );
+    const bodypart_id healed = bodypart_id( act->str_values[0] );
     const int charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
     p->consume_charges( it, charges_consumed );
 

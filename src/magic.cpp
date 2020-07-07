@@ -877,7 +877,7 @@ std::string spell::energy_cost_string( const Character &guy ) const
         return colorize( to_string( energy_cost( guy ) ), c_light_blue );
     }
     if( energy_source() == magic_energy_type::hp ) {
-        auto pair = get_hp_bar( energy_cost( guy ), guy.get_hp_max() / num_hp_parts );
+        auto pair = get_hp_bar( energy_cost( guy ), guy.get_hp_max() / 6 );
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == magic_energy_type::stamina ) {

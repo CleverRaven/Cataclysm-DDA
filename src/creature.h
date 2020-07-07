@@ -43,7 +43,6 @@ struct point;
 
 enum damage_type : int;
 enum m_flag : int;
-enum hp_part : int;
 struct damage_instance;
 struct damage_unit;
 struct dealt_damage_instance;

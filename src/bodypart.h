@@ -129,6 +129,8 @@ struct body_part_type {
         int base_hp = 60;
         stat_hp_mods hp_mods;
 
+        bool is_limb = false;
+
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
