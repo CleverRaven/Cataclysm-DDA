@@ -3463,7 +3463,8 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
                                get_heal_value( player_character, bodypart_id( "head" ) ) );
             dump.emplace_back( "HEAL_ACT", _( "  Torso: " ), "", iteminfo::no_newline,
                                get_heal_value( player_character, bodypart_id( "torso" ) ) );
-            dump.emplace_back( "HEAL_ACT", _( "  Limbs: " ), get_heal_value( player_character, bodypart_id( "arm_l" ) ) );
+            dump.emplace_back( "HEAL_ACT", _( "  Limbs: " ), get_heal_value( player_character,
+                               bodypart_id( "arm_l" ) ) );
         }
     }
 
