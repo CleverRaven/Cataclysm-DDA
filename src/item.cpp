@@ -10071,7 +10071,7 @@ units::volume item::check_for_free_space( const item *it ) const
         if( containedPockets.success() ) {
             volume += check_for_free_space( container );
 
-            for( auto pocket : containedPockets.value() ) {
+            for( const auto &pocket : containedPockets.value() ) {
                 if( pocket.rigid() ) {
                     volume += pocket.remaining_volume();
                 }

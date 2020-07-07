@@ -1296,7 +1296,7 @@ void known_magic::serialize( JsonOut &json ) const
 
     json.member( "spellbook" );
     json.start_array();
-    for( auto pair : spellbook ) {
+    for( const auto &pair : spellbook ) {
         json.start_object();
         json.member( "id", pair.second.id() );
         json.member( "xp", pair.second.xp() );
