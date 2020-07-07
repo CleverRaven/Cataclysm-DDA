@@ -42,6 +42,6 @@
     "price_postapoc": 2000,
     "blackpowder_tolerance": 80,
     "ammo": [ "410shot" ],
-	"pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "410shot": 1 } } ]
   }
 ]
