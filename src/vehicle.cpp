@@ -5639,7 +5639,7 @@ void vehicle::refresh()
         if( vp.part().is_battery() ) {
             batteries.push_back( p );
         }
-        if( vp.part().ammo_current() != itype_id::NULL_ID() ) {
+        if( vp.part().is_fuel_store( false ) ) {
             fuel_containers.push_back( p );
         }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
