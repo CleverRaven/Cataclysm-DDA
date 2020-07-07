@@ -879,6 +879,36 @@ item item::in_container( const itype_id &cont, int qty ) const
     return *this;
 }
 
+void item::update_modified_pockets()
+{
+    cata::optional<const pocket_data *> mag_or_mag_well;
+    std::vector<const pocket_data *> container_pockets;
+
+    for( const pocket_data &pocket : type->pockets ) {
+        if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
+            container_pockets.push_back( &pocket );
+        } else if( pocket.type == item_pocket::pocket_type::MAGAZINE ||
+                   pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+            mag_or_mag_well = &pocket;
+        }
+    }
+
+    for( const item *mod : mods() ) {
+        if( mod->type->mod ) {
+            for( const pocket_data &pocket : mod->type->mod->add_pockets ) {
+                if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
+                    container_pockets.push_back( &pocket );
+                } else if( pocket.type == item_pocket::pocket_type::MAGAZINE ||
+                           pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+                    mag_or_mag_well = &pocket;
+                }
+            }
+        }
+    }
+
+    contents.update_modified_pockets( mag_or_mag_well, container_pockets );
+}
+
 int item::charges_per_volume( const units::volume &vol ) const
 {
     if( count_by_charges() ) {
@@ -1031,6 +1061,9 @@ bool item::merge_charges( const item &rhs )
 ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
 {
     ret_val<bool> result = contents.insert_item( payload, pk_type );
+    if( pk_type == item_pocket::pocket_type::MOD ) {
+        update_modified_pockets();
+    }
     on_contents_changed();
     return result;
 }
@@ -7357,26 +7390,6 @@ itype_id item::magazine_default( bool conversion ) const
 
 std::set<itype_id> item::magazine_compatible( bool conversion ) const
 {
-    std::set<itype_id> mags = {};
-    // mods that define magazine_adaptor may override the items usual magazines
-    const std::vector<const item *> &mods = is_gun() ? gunmods() : toolmods();
-    for( const item *m : mods ) {
-        if( !m->type->mod->magazine_adaptor.empty() ) {
-            // Use item's ammo_types, unless it is a tool with ammo_id set
-            std::set<ammotype> ammos = ammo_types( conversion );
-            if( is_tool() && !type->tool->ammo_id.empty() ) {
-                ammos = type->tool->ammo_id;
-            }
-            for( const ammotype &atype : ammos ) {
-                if( m->type->mod->magazine_adaptor.count( atype ) ) {
-                    std::set<itype_id> magazines_for_atype = m->type->mod->magazine_adaptor.find( atype )->second;
-                    mags.insert( magazines_for_atype.begin(), magazines_for_atype.end() );
-                }
-            }
-            return mags;
-        }
-    }
-
     return contents.magazine_compatible();
 }
 
@@ -7398,6 +7411,11 @@ std::vector<item *> item::gunmods()
 std::vector<const item *> item::gunmods() const
 {
     return contents.gunmods();
+}
+
+std::vector<const item *> item::mods() const
+{
+    return contents.mods();
 }
 
 item *item::gunmod_find( const itype_id &mod )

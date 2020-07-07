@@ -692,6 +692,13 @@ class item : public visitable<item>
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
+
+        /**
+         * Updates the pockets of this item to be correct based on the mods that are installed.
+         * Pockets which are modified that contain an item will be spilled
+         * NOTE: This assumes that there is always one and only one pocket where ammo goes (mag or mag well)
+         */
+        void update_modified_pockets();
         // for pocket update stuff, which pocket is @contained in?
         // returns a nullptr if the item is not contaiend, and prints a debug message
         item_pocket *contained_where( const item &contained );
@@ -1812,6 +1819,8 @@ class item : public visitable<item>
         /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
         std::vector<item *> gunmods();
         std::vector<const item *> gunmods() const;
+
+        std::vector<const item *> mods() const;
 
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );
