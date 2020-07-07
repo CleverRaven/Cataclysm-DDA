@@ -260,6 +260,17 @@ size_t item_contents::size() const
     return contents.size();
 }
 
+void item_contents::read_mods( const item_contents &read_input )
+{
+    for( const item_pocket &pocket : read_input.contents ) {
+        if( pocket.saved_type() == item_pocket::pocket_type::MOD ) {
+            for( const item *it : pocket.all_items_top() ) {
+                insert_item( *it, item_pocket::pocket_type::MOD );
+            }
+        }
+    }
+}
+
 void item_contents::combine( const item_contents &read_input )
 {
     std::vector<item> uninserted_items;
@@ -267,15 +278,11 @@ void item_contents::combine( const item_contents &read_input )
 
     for( const item_pocket &pocket : read_input.contents ) {
         if( pocket_index < contents.size() ) {
-            auto current_pocket_iter = contents.begin();
-            std::advance( current_pocket_iter, pocket_index );
+            if( pocket.saved_type() != item_pocket::pocket_type::MOD ) {
+                auto current_pocket_iter = contents.begin();
+                std::advance( current_pocket_iter, pocket_index );
 
-            for( const item *it : pocket.all_items_top() ) {
-                if( it->is_gunmod() || it->is_toolmod() ) {
-                    if( !insert_item( *it, item_pocket::pocket_type::MOD ).success() ) {
-                        uninserted_items.push_back( *it );
-                    }
-                } else {
+                for( const item *it : pocket.all_items_top() ) {
                     const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
                     if( !inserted.success() ) {
                         uninserted_items.push_back( *it );
@@ -283,12 +290,12 @@ void item_contents::combine( const item_contents &read_input )
                                   inserted.str() );
                     }
                 }
-            }
 
-            if( pocket.saved_sealed() ) {
-                current_pocket_iter->seal();
+                if( pocket.saved_sealed() ) {
+                    current_pocket_iter->seal();
+                }
+                current_pocket_iter->settings = pocket.settings;
             }
-            current_pocket_iter->settings = pocket.settings;
         } else {
             for( const item *it : pocket.all_items_top() ) {
                 uninserted_items.push_back( *it );

@@ -2433,6 +2433,8 @@ void item::deserialize( JsonIn &jsin )
     } else {
         item_contents read_contents;
         data.read( "contents", read_contents );
+        contents.read_mods( read_contents );
+        update_modified_pockets();
         contents.combine( read_contents );
 
         if( data.has_object( "contents" ) && data.get_object( "contents" ).has_array( "items" ) ) {

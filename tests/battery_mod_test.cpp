@@ -176,7 +176,7 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
         SECTION( "has compatible ammo types" ) {
             const std::set<ammotype> bat_ammos = bat_cell.ammo_types();
             CHECK_FALSE( bat_ammos.empty() );
-            CHECK( bat_ammos.count( bat_ammotype) );
+            CHECK( bat_ammos.count( bat_ammotype ) );
         }
 
         SECTION( "has capacity to hold battery ammo type" ) {

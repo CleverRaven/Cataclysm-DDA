@@ -233,6 +233,8 @@ class item_contents
 
         void info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
+        // reads the items in the MOD pocket first
+        void read_mods( const item_contents &read_input );
         void combine( const item_contents &read_input );
 
         void serialize( JsonOut &json ) const;
