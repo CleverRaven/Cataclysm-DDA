@@ -124,7 +124,7 @@ void vehicle::thrust( int thd, int z )
         turn_dir = face.dir();
         stop();
     }
-    bool pl_ctrl = player_in_control( g->u );
+    bool pl_ctrl = player_in_control( get_player_character() );
 
     // No need to change velocity if there are no wheels
     if( ( in_water && can_float() ) || ( is_rotorcraft() && ( z != 0 || is_flying ) ) ) {
@@ -150,7 +150,7 @@ void vehicle::thrust( int thd, int z )
     }
 
     // TODO: Pass this as an argument to avoid recalculating
-    float traction = k_traction( g->m.vehicle_wheel_traction( *this ) );
+    float traction = k_traction( get_map().vehicle_wheel_traction( *this ) );
     int accel = current_acceleration() * traction;
     if( accel < 200 && velocity > 0 && is_towing() ) {
         if( pl_ctrl ) {
@@ -358,8 +358,9 @@ void vehicle::stop( bool update_cache )
     if( !update_cache ) {
         return;
     }
+    map &here = get_map();
     for( const tripoint &p : get_points() ) {
-        g->m.set_memory_seen_cache_dirty( p );
+        here.set_memory_seen_cache_dirty( p );
     }
 }
 
@@ -407,6 +408,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
     int lowest_velocity = coll_velocity;
     const int sign_before = sgn( velocity_before );
     bool empty = true;
+    map &here = get_map();
     for( int p = 0; static_cast<size_t>( p ) < parts.size(); p++ ) {
         const vpart_info &info = part_info( p );
         if( ( info.location != part_location_structure && info.rotor_diameter() == 0 ) ||
@@ -420,7 +422,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
         veh_collision coll = part_collision( p, dsp, just_detect, bash_floor );
         if( coll.type == veh_coll_nothing && info.rotor_diameter() > 0 ) {
             size_t radius = static_cast<size_t>( std::round( info.rotor_diameter() / 2.0f ) );
-            for( const tripoint &rotor_point : g->m.points_in_radius( dsp, radius ) ) {
+            for( const tripoint &rotor_point : here.points_in_radius( dsp, radius ) ) {
                 veh_collision rotor_coll = part_collision( p, rotor_point, just_detect, false );
                 if( rotor_coll.type != veh_coll_nothing ) {
                     coll = rotor_coll;
@@ -485,9 +487,10 @@ static void terrain_collision_data( const tripoint &p, bool bash_floor,
                                     float &mass, float &density, float &elastic )
 {
     elastic = 0.30;
+    map &here = get_map();
     // Just a rough rescale for now to obtain approximately equal numbers
-    const int bash_min = g->m.bash_resistance( p, bash_floor );
-    const int bash_max = g->m.bash_strength( p, bash_floor );
+    const int bash_min = here.bash_resistance( p, bash_floor );
+    const int bash_max = here.bash_strength( p, bash_floor );
     mass = ( bash_min + bash_max ) / 2.0;
     density = bash_min;
 }
@@ -498,11 +501,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // Vertical collisions need to be handled differently
     // All collisions have to be either fully vertical or fully horizontal for now
     const bool vert_coll = bash_floor || p.z != sm_pos.z;
-    const bool pl_ctrl = player_in_control( g->u );
+    Character &player_character = get_player_character();
+    const bool pl_ctrl = player_in_control( player_character );
     Creature *critter = g->critter_at( p, true );
     player *ph = dynamic_cast<player *>( critter );
 
-    Creature *driver = pl_ctrl ? &g->u : nullptr;
+    Creature *driver = pl_ctrl ? &player_character : nullptr;
 
     // If in a vehicle assume it's this one
     if( ph != nullptr && ph->in_vehicle ) {
@@ -510,7 +514,8 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         ph = nullptr;
     }
 
-    const optional_vpart_position ovp = g->m.veh_at( p );
+    map &here = get_map();
+    const optional_vpart_position ovp = here.veh_at( p );
     // Disable vehicle/critter collisions when bashing floor
     // TODO: More elegant code
     const bool is_veh_collision = !bash_floor && ovp && &ovp->vehicle() != this;
@@ -547,7 +552,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             return ret;
         }
         // we just ran into a fish, so move it out of the way
-        if( g->m.has_flag( "SWIMMABLE", critter->pos() ) ) {
+        if( here.has_flag( "SWIMMABLE", critter->pos() ) ) {
             tripoint end_pos = critter->pos();
             tripoint start_pos;
             const int angle = move.dir() + 45 * ( parts[part].mount.x > pivot_point().x ? -1 : 1 );
@@ -589,31 +594,31 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         part_dens = 15;
         mass2 = units::to_kilogram( critter->get_weight() );
         ret.target_name = critter->disp_name();
-    } else if( ( bash_floor && g->m.is_bashable_ter_furn( p, true ) ) ||
-               ( g->m.is_bashable_ter_furn( p, false ) && g->m.move_cost_ter_furn( p ) != 2 &&
+    } else if( ( bash_floor && here.is_bashable_ter_furn( p, true ) ) ||
+               ( here.is_bashable_ter_furn( p, false ) && here.move_cost_ter_furn( p ) != 2 &&
                  // Don't collide with tiny things, like flowers, unless we have a wheel in our space.
                  ( part_with_feature( ret.part, VPFLAG_WHEEL, true ) >= 0 ||
-                   !g->m.has_flag_ter_or_furn( "TINY", p ) ) &&
+                   !here.has_flag_ter_or_furn( "TINY", p ) ) &&
                  // Protrusions don't collide with short terrain.
                  // Tiny also doesn't, but it's already excluded unless there's a wheel present.
                  !( part_with_feature( ret.part, "PROTRUSION", true ) >= 0 &&
-                    g->m.has_flag_ter_or_furn( "SHORT", p ) ) &&
+                    here.has_flag_ter_or_furn( "SHORT", p ) ) &&
                  // These are bashable, but don't interact with vehicles.
-                 !g->m.has_flag_ter_or_furn( "NOCOLLIDE", p ) &&
+                 !here.has_flag_ter_or_furn( "NOCOLLIDE", p ) &&
                  // Do not collide with track tiles if we can use rails
-                 !( g->m.has_flag_ter_or_furn( TFLAG_RAIL, p ) && this->can_use_rails() ) ) ) {
+                 !( here.has_flag_ter_or_furn( TFLAG_RAIL, p ) && this->can_use_rails() ) ) ) {
         // Movecost 2 indicates flat terrain like a floor, no collision there.
         ret.type = veh_coll_bashable;
         terrain_collision_data( p, bash_floor, mass2, part_dens, e );
-        ret.target_name = g->m.disp_name( p );
-    } else if( g->m.impassable_ter_furn( p ) ||
-               ( bash_floor && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) ) {
+        ret.target_name = here.disp_name( p );
+    } else if( here.impassable_ter_furn( p ) ||
+               ( bash_floor && !here.has_flag( TFLAG_NO_FLOOR, p ) ) ) {
         // not destructible
         ret.type = veh_coll_other;
         mass2 = 1000;
         e = 0.10;
         part_dens = 80;
-        ret.target_name = g->m.disp_name( p );
+        ret.target_name = here.disp_name( p );
     }
 
     if( ret.type == veh_coll_nothing || just_detect ) {
@@ -713,23 +718,23 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             // Something bashable -- use map::bash to determine outcome
             // NOTE: Floor bashing disabled for balance reasons
             //       Floor values are still used to set damage dealt to vehicle
-            smashed = g->m.is_bashable_ter_furn( p, false ) &&
-                      g->m.bash_resistance( p, bash_floor ) <= obj_dmg &&
-                      g->m.bash( p, obj_dmg, false, false, false, this ).success;
+            smashed = here.is_bashable_ter_furn( p, false ) &&
+                      here.bash_resistance( p, bash_floor ) <= obj_dmg &&
+                      here.bash( p, obj_dmg, false, false, false, this ).success;
             if( smashed ) {
-                if( g->m.is_bashable_ter_furn( p, bash_floor ) ) {
+                if( here.is_bashable_ter_furn( p, bash_floor ) ) {
                     // There's new terrain there to smash
                     smashed = false;
                     terrain_collision_data( p, bash_floor, mass2, part_dens, e );
-                    ret.target_name = g->m.disp_name( p );
-                } else if( g->m.impassable_ter_furn( p ) ) {
+                    ret.target_name = here.disp_name( p );
+                } else if( here.impassable_ter_furn( p ) ) {
                     // There's new terrain there, but we can't smash it!
                     smashed = false;
                     ret.type = veh_coll_other;
                     mass2 = 1000;
                     e = 0.10;
                     part_dens = 80;
-                    ret.target_name = g->m.disp_name( p );
+                    ret.target_name = here.disp_name( p );
                 }
             }
         } else if( ret.type == veh_coll_body ) {
@@ -870,7 +875,8 @@ void vehicle::handle_trap( const tripoint &p, int part )
     if( pwh < 0 ) {
         return;
     }
-    const trap &tr = g->m.tr_at( p );
+    map &here = get_map();
+    const trap &tr = here.tr_at( p );
 
     if( tr.is_null() ) {
         // If the trap doesn't exist, we can't interact with it, so just return
@@ -882,8 +888,9 @@ void vehicle::handle_trap( const tripoint &p, int part )
         return;
     }
 
-    const bool seen = g->u.sees( p );
-    const bool known = tr.can_see( p, g->u );
+    Character &player_character = get_player_character();
+    const bool seen = player_character.sees( p );
+    const bool known = tr.can_see( p, player_character );
     if( seen ) {
         if( known ) {
             //~ %1$s: name of the vehicle; %2$s: name of the related vehicle part; %3$s: trap name
@@ -906,28 +913,28 @@ void vehicle::handle_trap( const tripoint &p, int part )
         }
         bool still_has_trap = true;
         if( veh_data.remove_trap || veh_data.do_explosion ) {
-            g->m.remove_trap( p );
+            here.remove_trap( p );
             still_has_trap = false;
         }
         for( const auto &it : veh_data.spawn_items ) {
             int cnt = roll_remainder( it.second );
             if( cnt > 0 ) {
-                g->m.spawn_item( p, it.first, cnt );
+                here.spawn_item( p, it.first, cnt );
             }
         }
         if( veh_data.set_trap ) {
-            g->m.trap_set( p, veh_data.set_trap.id() );
+            here.trap_set( p, veh_data.set_trap.id() );
             still_has_trap = true;
         }
         if( still_has_trap ) {
-            const trap &tr = g->m.tr_at( p );
+            const trap &tr = here.tr_at( p );
             if( seen || known ) {
                 // known status has been reset by map::trap_set()
-                g->u.add_known_trap( p, tr );
+                player_character.add_known_trap( p, tr );
             }
             if( seen && !known ) {
                 // hard to miss!
-                const std::string direction = direction_name( direction_from( g->u.pos(), p ) );
+                const std::string direction = direction_name( direction_from( player_character.pos(), p ) );
                 add_msg( _( "You've spotted a %1$s to the %2$s!" ), tr.name(), direction );
             }
         }
@@ -1004,7 +1011,7 @@ bool vehicle::check_is_heli_landed()
 {
     // @TODO - when there are chasms that extend below z-level 0 - perhaps the heli
     // will be able to descend into them but for now, assume z-level-0 == the ground.
-    if( global_pos3().z == 0 || !g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, global_pos3() ) ) {
+    if( global_pos3().z == 0 || !get_map().has_flag_ter_or_furn( TFLAG_NO_FLOOR, global_pos3() ) ) {
         is_flying = false;
         return true;
     }
@@ -1019,20 +1026,21 @@ bool vehicle::check_heli_descend( player &p )
     }
     int count = 0;
     int air_count = 0;
+    map &here = get_map();
     for( const tripoint &pt : get_points( true ) ) {
         tripoint below( pt.xy(), pt.z - 1 );
-        if( g->m.has_zlevels() && ( pt.z < -OVERMAP_DEPTH ||
-                                    !g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pt ) ) ) {
+        if( here.has_zlevels() && ( pt.z < -OVERMAP_DEPTH ||
+                                    !here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, pt ) ) ) {
             p.add_msg_if_player( _( "You are already landed!" ) );
             return false;
         }
-        const optional_vpart_position ovp = g->m.veh_at( below );
-        if( g->m.impassable_ter_furn( below ) || ovp || g->critter_at( below ) ) {
+        const optional_vpart_position ovp = here.veh_at( below );
+        if( here.impassable_ter_furn( below ) || ovp || g->critter_at( below ) ) {
             p.add_msg_if_player( m_bad,
                                  _( "It would be unsafe to try and land when there are obstacles below you." ) );
             return false;
         }
-        if( g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, below ) ) {
+        if( here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, below ) ) {
             air_count++;
         }
         count++;
@@ -1055,10 +1063,11 @@ bool vehicle::check_heli_ascend( player &p )
         p.add_msg_if_player( m_bad, _( "It would be unsafe to try and take off while you are moving." ) );
         return false;
     }
+    map &here = get_map();
     for( const tripoint &pt : get_points( true ) ) {
         tripoint above( pt.xy(), pt.z + 1 );
-        const optional_vpart_position ovp = g->m.veh_at( above );
-        if( g->m.has_flag_ter_or_furn( TFLAG_INDOORS, pt ) || g->m.impassable_ter_furn( above ) || ovp ||
+        const optional_vpart_position ovp = here.veh_at( above );
+        if( here.has_flag_ter_or_furn( TFLAG_INDOORS, pt ) || here.impassable_ter_furn( above ) || ovp ||
             g->critter_at( above ) ) {
             p.add_msg_if_player( m_bad,
                                  _( "It would be unsafe to try and ascend when there are obstacles above you." ) );
@@ -1070,9 +1079,9 @@ bool vehicle::check_heli_ascend( player &p )
 
 void vehicle::pldrive( const point &p, int z )
 {
-    player &u = g->u;
+    player &player_character = get_avatar();
     if( z != 0 && is_rotorcraft() ) {
-        u.moves = std::min( u.moves, 0 );
+        player_character.moves = std::min( player_character.moves, 0 );
         thrust( 0, z );
     }
     int turn_delta = 15 * p.x;
@@ -1096,15 +1105,15 @@ void vehicle::pldrive( const point &p, int z )
 
         // If you've got more moves than speed, it's most likely time stop
         // Let's get rid of that
-        u.moves = std::min( u.moves, u.get_speed() );
+        player_character.moves = std::min( player_character.moves, player_character.get_speed() );
 
         ///\EFFECT_DEX reduces chance of losing control of vehicle when turning
 
         ///\EFFECT_PER reduces chance of losing control of vehicle when turning
 
         ///\EFFECT_DRIVING reduces chance of losing control of vehicle when turning
-        float skill = std::min( 10.0f,
-                                u.get_skill_level( skill_driving ) + ( u.get_dex() + u.get_per() ) / 10.0f );
+        float skill = std::min( 10.0f, player_character.get_skill_level( skill_driving ) +
+                                ( player_character.get_dex() + player_character.get_per() ) / 10.0f );
         float penalty = rng_float( 0.0f, handling_diff ) - skill;
         int cost;
         if( penalty > 0.0f ) {
@@ -1112,7 +1121,7 @@ void vehicle::pldrive( const point &p, int z )
             cost = 100 * ( 1.0f + penalty / 2.5f );
         } else {
             // At 10 skill, with a perfect vehicle, we could turn up to 3 times per turn
-            cost = std::max( u.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
+            cost = std::max( player_character.get_speed(), 100 ) * ( 1.0f - ( -penalty / 10.0f ) * 2 / 3 );
         }
 
         if( penalty > skill || cost > 400 ) {
@@ -1120,12 +1129,12 @@ void vehicle::pldrive( const point &p, int z )
             // Anything from a wasted attempt to 2 turns in the intended direction
             turn_delta *= rng( 0, 2 );
             // Also wastes next turn
-            cost = std::max( cost, u.moves + 100 );
+            cost = std::max( cost, player_character.moves + 100 );
         } else if( one_in( 10 ) ) {
             // Don't warn all the time or it gets spammy
-            if( cost >= u.get_speed() * 2 ) {
+            if( cost >= player_character.get_speed() * 2 ) {
                 add_msg( m_warning, _( "It takes you a very long time to steer that vehicle!" ) );
-            } else if( cost >= u.get_speed() * 1.5f ) {
+            } else if( cost >= player_character.get_speed() * 1.5f ) {
                 add_msg( m_warning, _( "It takes you a long time to steer that vehicle!" ) );
             }
         }
@@ -1133,7 +1142,7 @@ void vehicle::pldrive( const point &p, int z )
         turn( turn_delta );
 
         // At most 3 turns per turn, because otherwise it looks really weird and jumpy
-        u.moves -= std::max( cost, u.get_speed() / 3 + 1 );
+        player_character.moves -= std::max( cost, player_character.get_speed() / 3 + 1 );
     }
 
     if( p.y != 0 ) {
@@ -1142,7 +1151,7 @@ void vehicle::pldrive( const point &p, int z )
             cruise_thrust( -p.y * thr_amount );
         } else {
             thrust( -p.y );
-            u.moves = std::min( u.moves, 0 );
+            player_character.moves = std::min( player_character.moves, 0 );
         }
     }
 
@@ -1152,9 +1161,10 @@ void vehicle::pldrive( const point &p, int z )
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
         ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
-        if( handling_diff * rng( 1, 10 ) < u.dex_cur + u.get_skill_level( skill_driving ) * 2 ) {
+        if( handling_diff * rng( 1, 10 ) <
+            player_character.dex_cur + player_character.get_skill_level( skill_driving ) * 2 ) {
             add_msg( _( "You regain control of the %s." ), name );
-            u.practice( skill_driving, velocity / 5 );
+            player_character.practice( skill_driving, velocity / 5 );
             velocity = static_cast<int>( forward_velocity() );
             skidding = false;
             move.init( turn_dir );
@@ -1273,6 +1283,7 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_di
     */
     turning_wheels_that_are_one_axis = 0;
 
+    map &here = get_map();
     for( int part_index : wheelcache ) {
         const auto &wheel = parts[ part_index ];
         bool rails_ahead = true;
@@ -1293,7 +1304,7 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_di
             // advance precalculated wheel position 1 time in direction of moving
             wheel_tripoint += dp;
 
-            if( !g->m.has_flag_ter_or_furn( ter_flag_to_check, wheel_tripoint ) ) {
+            if( !here.has_flag_ter_or_furn( ter_flag_to_check, wheel_tripoint ) ) {
                 // this tile is not allowed, disallow turn
                 rails_ahead = false;
                 break;
@@ -1301,7 +1312,7 @@ void vehicle::precalculate_vehicle_turning( int new_turn_dir, bool check_rail_di
 
             // special case for rails
             if( check_rail_direction ) {
-                ter_id terrain_at_wheel = g->m.ter( wheel_tripoint );
+                ter_id terrain_at_wheel = here.ter( wheel_tripoint );
                 // check is it correct tile to turn into
                 if( !is_diagonal_movement &&
                     ( terrain_at_wheel == t_railroad_track_d || terrain_at_wheel == t_railroad_track_d1 ||
@@ -1424,7 +1435,8 @@ bool vehicle::is_wheel_state_correct_to_turn_on_rails( int wheels_on_rail, int w
 vehicle *vehicle::act_on_map()
 {
     const tripoint pt = global_pos3();
-    if( !g->m.inbounds( pt ) ) {
+    map &here = get_map();
+    if( !here.inbounds( pt ) ) {
         dbg( D_INFO ) << "stopping out-of-map vehicle.  (x,y,z)=(" << pt.x << "," << pt.y << "," << pt.z <<
                       ")";
         stop( false );
@@ -1435,7 +1447,8 @@ vehicle *vehicle::act_on_map()
     if( decrement_summon_timer() ) {
         return nullptr;
     }
-    const bool pl_ctrl = player_in_control( g->u );
+    Character &player_character = get_player_character();
+    const bool pl_ctrl = player_in_control( player_character );
     // TODO: Remove this hack, have vehicle sink a z-level
     if( is_floating && !can_float() ) {
         add_msg( m_bad, _( "Your %s sank." ), name );
@@ -1446,9 +1459,9 @@ vehicle *vehicle::act_on_map()
             g->setremoteveh( nullptr );
         }
 
-        g->m.on_vehicle_moved( sm_pos.z );
+        here.on_vehicle_moved( sm_pos.z );
         // Destroy vehicle (sank to nowhere)
-        g->m.destroy_vehicle( this );
+        here.destroy_vehicle( this );
         return nullptr;
     }
 
@@ -1482,7 +1495,7 @@ vehicle *vehicle::act_on_map()
         return this;
     }
 
-    const float wheel_traction_area = g->m.vehicle_wheel_traction( *this );
+    const float wheel_traction_area = here.vehicle_wheel_traction( *this );
     const float traction = k_traction( wheel_traction_area );
     if( traction < 0.001f ) {
         of_turn = 0;
@@ -1591,7 +1604,7 @@ vehicle *vehicle::act_on_map()
         }
     }
 
-    return g->m.move_vehicle( *this, dp, mdir );
+    return here.move_vehicle( *this, dp, mdir );
 }
 
 bool vehicle::level_vehicle()
@@ -1656,7 +1669,8 @@ void vehicle::check_falling_or_floating()
         return;
     }
 
-    is_falling = g->m.has_zlevels();
+    map &here = get_map();
+    is_falling = here.has_zlevels();
 
     if( is_flying && is_rotorcraft() ) {
         is_falling = false;
@@ -1669,11 +1683,11 @@ void vehicle::check_falling_or_floating()
     for( const tripoint &p : pts ) {
         if( is_falling ) {
             tripoint below( p.xy(), p.z - 1 );
-            is_falling &= g->m.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) &&
-                          ( p.z > -OVERMAP_DEPTH ) && !g->m.supports_above( below );
+            is_falling &= here.has_flag_ter_or_furn( TFLAG_NO_FLOOR, p ) &&
+                          ( p.z > -OVERMAP_DEPTH ) && !here.supports_above( below );
         }
-        deep_water_tiles += g->m.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
-        water_tiles += g->m.has_flag( TFLAG_SWIMMABLE, p ) ? 1 : 0;
+        deep_water_tiles += here.has_flag( TFLAG_DEEP_WATER, p ) ? 1 : 0;
+        water_tiles += here.has_flag( TFLAG_SWIMMABLE, p ) ? 1 : 0;
     }
     // floating if 2/3rds of the vehicle is in deep water
     is_floating = 3 * deep_water_tiles >= 2 * pts.size();
@@ -1827,7 +1841,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                                             _( "<npcname> is hurled from the %s's seat by "
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
-            } else if( g->u.sees( part_pos ) ) {
+            } else if( get_player_character().sees( part_pos ) ) {
                 add_msg( m_bad, _( "The %s is hurled from %s's by the power of the impact!" ),
                          pet->disp_name(), veh.name );
             }
