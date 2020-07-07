@@ -4,11 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -16,7 +14,7 @@
 #include "map.h"
 #include "map_selector.h"
 #include "optional.h"
-#include "player.h"
+#include "character.h"
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
@@ -38,32 +36,34 @@ static int count_items( const T &src, const itype_id &id )
 
 TEST_CASE( "visitable_remove", "[visitable]" )
 {
-    const std::string liquid_id = "water";
-    const std::string container_id = "bottle_plastic";
-    const std::string worn_id = "flask_hip";
+    const itype_id liquid_id( "water" );
+    const itype_id container_id( "bottle_plastic" );
+    const itype_id worn_id( "flask_hip" );
     const int count = 5;
 
     REQUIRE( item( container_id ).is_container() );
     REQUIRE( item( worn_id ).is_container() );
 
-    player &p = g->u;
+    Character &p = get_player_character();
     p.worn.clear();
+    p.worn.push_back( item( "backpack" ) );
     p.inv.clear();
     p.remove_weapon();
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
+    map &here = get_map();
 
     // check if all tiles within radius are loaded within current submap and passable
-    const auto suitable = []( const tripoint & pos, const int radius ) {
+    const auto suitable = [&here]( const tripoint & pos, const int radius ) {
         std::vector<tripoint> tiles = closest_tripoints_first( pos, radius );
-        return std::all_of( tiles.begin(), tiles.end(), []( const tripoint & e ) {
-            if( !g->m.inbounds( e ) ) {
+        return std::all_of( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
+            if( !here.inbounds( e ) ) {
                 return false;
             }
-            if( const optional_vpart_position vp = g->m.veh_at( e ) ) {
-                g->m.destroy_vehicle( &vp->vehicle() );
+            if( const optional_vpart_position vp = here.veh_at( e ) ) {
+                here.destroy_vehicle( &vp->vehicle() );
             }
-            g->m.i_clear( e );
-            return g->m.passable( e );
+            here.i_clear( e );
+            return here.passable( e );
         } );
     };
 
@@ -78,7 +78,10 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     item temp_liquid( liquid_id );
     item obj = temp_liquid.in_container( temp_liquid.type->default_container.value_or( "null" ) );
     REQUIRE( obj.contents.num_item_stacks() == 1 );
-    REQUIRE( obj.contents.front().typeId() == liquid_id );
+    const auto has_liquid_filter = [&liquid_id]( const item & it ) {
+        return it.typeId() == liquid_id;
+    };
+    REQUIRE( obj.has_item_with( has_liquid_filter ) );
 
     GIVEN( "A player with several bottles of water" ) {
         for( int i = 0; i != count; ++i ) {
@@ -107,8 +110,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     } ) );
                 }
                 AND_THEN( "the removed items all contain water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&has_liquid_filter]( const item & e ) {
+                        return e.contents.num_item_stacks() == 1 && e.has_item_with( has_liquid_filter );
                     } ) );
                 }
             }
@@ -134,15 +137,15 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     } ) );
                 }
                 AND_THEN( "the removed items all contained water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&has_liquid_filter]( const item & e ) {
+                        return e.contents.num_item_stacks() == 1 && e.has_item_with( has_liquid_filter );
                     } ) );
                 }
             }
         }
 
         WHEN( "one of the bottles is wielded" ) {
-            p.wield( p.i_at( 0 ) );
+            p.wield( p.worn.front().contents.legacy_front() );
             REQUIRE( p.weapon.typeId() == container_id );
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count );
@@ -170,8 +173,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                         } ) );
                     }
                     AND_THEN( "the removed items all contain water" ) {
-                        CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                            return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                        CHECK( std::all_of( del.begin(), del.end(), [&has_liquid_filter]( const item & e ) {
+                            return e.contents.num_item_stacks() == 1 && e.has_item_with( has_liquid_filter );
                         } ) );
                     }
                 }
@@ -189,7 +192,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
 
                         AND_THEN( "the remaining water is contained by the currently wielded bottle" ) {
                             REQUIRE( p.weapon.contents.num_item_stacks() == 1 );
-                            REQUIRE( p.weapon.contents.front().typeId() == liquid_id );
+                            REQUIRE( p.weapon.has_item_with( has_liquid_filter ) );
                         }
                     }
                 }
@@ -206,19 +209,19 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                         } ) );
                     }
                     AND_THEN( "the removed items all contained water" ) {
-                        CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                            return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                        CHECK( std::all_of( del.begin(), del.end(), [&has_liquid_filter]( const item & e ) {
+                            return e.contents.num_item_stacks() == 1 && e.has_item_with( has_liquid_filter );
                         } ) );
                     }
                 }
             }
         }
 
-        WHEN( "a hip flask containing water is worn" ) {
+        WHEN( "a hip flask containing water is wielded" ) {
             item obj( worn_id );
-            obj.put_in( item( liquid_id, calendar::turn,
-                              temp_liquid.charges_per_volume( obj.get_container_capacity() ) ) );
-            p.wear_item( obj );
+            item liquid( liquid_id, calendar::turn );
+            liquid.charges -= obj.fill_with( *liquid.type, liquid.charges );
+            p.wield( obj );
 
             REQUIRE( count_items( p, container_id ) == count );
             REQUIRE( count_items( p, liquid_id ) == count + 1 );
@@ -243,11 +246,11 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     } );
                     REQUIRE( found.size() == 1 );
                     AND_THEN( "the hip flask is still worn" ) {
-                        REQUIRE( p.is_worn( *found[0] ) );
+                        REQUIRE( p.is_wielding( *found[0] ) );
 
                         AND_THEN( "the hip flask contains water" ) {
                             REQUIRE( found[0]->contents.num_item_stacks() == 1 );
-                            REQUIRE( found[0]->contents.front().typeId() == liquid_id );
+                            REQUIRE( found[0]->has_item_with( has_liquid_filter ) );
                         }
                     }
                 }
@@ -279,7 +282,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                         } );
                         REQUIRE( found.size() == 1 );
                         AND_THEN( "the hip flask is worn" ) {
-                            REQUIRE( p.is_worn( *found[0] ) );
+                            REQUIRE( p.is_wielding( *found[0] ) );
 
                             AND_THEN( "the hip flask is empty" ) {
                                 REQUIRE( found[0]->contents.empty() );
@@ -302,11 +305,11 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             if( i == 0 || tiles.empty() ) {
                 // always place at least one bottle on player tile
                 our++;
-                g->m.add_item( p.pos(), obj );
+                here.add_item( p.pos(), obj );
             } else {
                 // randomly place bottles on adjacent tiles
                 adj++;
-                g->m.add_item( random_entry( tiles ), obj );
+                here.add_item( random_entry( tiles ), obj );
             }
         }
         REQUIRE( our + adj == count );
@@ -340,8 +343,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     } ) );
                 }
                 AND_THEN( "the removed items all contain water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&has_liquid_filter]( const item & e ) {
+                        return e.contents.num_item_stacks() == 1 && e.has_item_with( has_liquid_filter );
                     } ) );
                 }
             }
@@ -367,8 +370,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     } ) );
                 }
                 AND_THEN( "the removed items all contained water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&has_liquid_filter]( const item & e ) {
+                        return e.contents.num_item_stacks() == 1 && e.has_item_with( has_liquid_filter );
                     } ) );
                 }
             }
@@ -400,8 +403,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     } ) );
                 }
                 AND_THEN( "the removed items all contained water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [has_liquid_filter]( const item & e ) {
+                        return e.contents.num_item_stacks() == 1 && e.has_item_with( has_liquid_filter );
                     } ) );
                 }
             }
@@ -412,13 +415,13 @@ TEST_CASE( "visitable_remove", "[visitable]" )
         std::vector<tripoint> tiles = closest_tripoints_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
         tripoint veh = random_entry( tiles );
-        REQUIRE( g->m.add_vehicle( vproto_id( "shopping_cart" ), veh, 0, 0, 0 ) );
+        REQUIRE( here.add_vehicle( vproto_id( "shopping_cart" ), veh, 0, 0, 0 ) );
 
-        REQUIRE( std::count_if( tiles.begin(), tiles.end(), []( const tripoint & e ) {
-            return static_cast<bool>( g->m.veh_at( e ) );
+        REQUIRE( std::count_if( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
+            return static_cast<bool>( here.veh_at( e ) );
         } ) == 1 );
 
-        const cata::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO", true );
+        const cata::optional<vpart_reference> vp = here.veh_at( veh ).part_with_feature( "CARGO", true );
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
         const int part = vp->part_index();
@@ -454,8 +457,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     } ) );
                 }
                 AND_THEN( "the removed items all contain water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&has_liquid_filter]( const item & e ) {
+                        return e.contents.num_item_stacks() == 1 && e.has_item_with( has_liquid_filter );
                     } ) );
                 }
             }
@@ -481,8 +484,8 @@ TEST_CASE( "visitable_remove", "[visitable]" )
                     } ) );
                 }
                 AND_THEN( "the removed items all contained water" ) {
-                    CHECK( std::all_of( del.begin(), del.end(), [&liquid_id]( const item & e ) {
-                        return e.contents.num_item_stacks() == 1 && e.contents.front().typeId() == liquid_id;
+                    CHECK( std::all_of( del.begin(), del.end(), [&has_liquid_filter]( const item & e ) {
+                        return e.contents.num_item_stacks() == 1 && e.has_item_with( has_liquid_filter );
                     } ) );
                 }
             }
@@ -495,10 +498,10 @@ TEST_CASE( "inventory_remove_invalidates_binning_cache", "[visitable][inventory]
     inventory inv;
     std::list<item> items = { item( "bone" ) };
     inv += items;
-    CHECK( inv.charges_of( "bone" ) == 1 );
+    CHECK( inv.charges_of( itype_id( "bone" ) ) == 1 );
     inv.remove_items_with( return_true<item> );
     CHECK( inv.size() == 0 );
     // The following used to be a heap use-after-free due to a caching bug.
     // Now should be safe.
-    CHECK( inv.charges_of( "bone" ) == 0 );
+    CHECK( inv.charges_of( itype_id( "bone" ) ) == 0 );
 }

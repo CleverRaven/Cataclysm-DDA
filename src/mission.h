@@ -219,15 +219,15 @@ struct mission_type {
         bool has_generic_rewards = true;
 
         // A limited subset of the talk_effects on the mission
-        std::vector<std::pair<int, std::string>> likely_rewards;
+        std::vector<std::pair<int, itype_id>> likely_rewards;
 
         // Points of origin
         std::vector<mission_origin> origins;
-        itype_id item_id = "null";
+        itype_id item_id = itype_id::NULL_ID();
         Group_tag group_id = "null";
-        itype_id container_id = "null";
+        itype_id container_id = itype_id::NULL_ID();
         bool remove_container = false;
-        itype_id empty_container = "null";
+        itype_id empty_container = itype_id::NULL_ID();
         int item_count = 1;
         npc_class_id recruit_class = npc_class_id( "NC_NONE" );  // The type of NPC you are to recruit
         character_id target_npc_id;
@@ -289,7 +289,7 @@ struct mission_type {
 class mission
 {
     public:
-        enum class mission_status {
+        enum class mission_status : int {
             yet_to_start,
             in_progress,
             success,
@@ -317,7 +317,7 @@ class mission
         // Item that needs to be found (or whatever)
         itype_id item_id;
         // The number of above items needed
-        int item_count;
+        int item_count = 0;
         // Destination type to be reached
         string_id<oter_type_t> target_id;
         // The type of NPC you are to recruit
@@ -329,16 +329,17 @@ class mission
         // Monster species that are to be killed
         species_id monster_species;
         // The number of monsters you need to kill
-        int monster_kill_goal;
+        int monster_kill_goal = 0;
         // The kill count you need to reach to complete mission
-        int kill_count_to_reach;
+        int kill_count_to_reach = 0;
         time_point deadline;
         // ID of a related npc
         character_id npc_id;
         // IDs of the protagonist/antagonist factions
-        int good_fac_id, bad_fac_id;
+        int good_fac_id = 0;
+        int bad_fac_id = 0;
         // How much have we completed?
-        int step;
+        int step = 0;
         // What mission do we get after this succeeds?
         mission_type_id follow_up;
         // The id of the player that has accepted this mission.
@@ -363,9 +364,9 @@ class mission
         mission_type_id get_follow_up() const;
         int get_value() const;
         int get_id() const;
-        const std::string &get_item_id() const;
+        const itype_id &get_item_id() const;
         character_id get_npc_id() const;
-        const std::vector<std::pair<int, std::string>> &get_likely_rewards() const;
+        const std::vector<std::pair<int, itype_id>> &get_likely_rewards() const;
         bool has_generic_rewards() const;
         /**
          * Whether the mission is assigned to a player character. If not, the mission is free and

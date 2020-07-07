@@ -11,7 +11,7 @@
     "count": 100,
     "stack_size": 150,
     "recoil": 39,
-    "proportional": { "range": 0.6, "damage": { "damage_type": "stab", "amount": 0.5 }, "dispersion": 1.2 },
+    "proportional": { "range": 0.6, "damage": { "damage_type": "bullet", "amount": 0.5 }, "dispersion": 1.2 },
     "extend": { "effects": [ "NOGIB" ] }
   },
   {
@@ -20,7 +20,7 @@
     "type": "AMMO",
     "name": { "str": ".22 FMJ" },
     "description": ".22 Long Rifle ammunition with 30gr FMJ bullets.  The .22LR round is extremely weak with very low stopping power, short range, and negligible recoil.  It is most useful for rifle training, and hunting small animals.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -1, "armor_penetration": 2 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -1, "armor_penetration": 2 } }
   },
   {
     "id": "22_lr",
@@ -40,7 +40,7 @@
     "ammo_type": "22",
     "casing": "22_casing",
     "range": 13,
-    "damage": { "damage_type": "stab", "amount": 12 },
+    "damage": { "damage_type": "bullet", "amount": 12 },
     "dispersion": 60,
     "recoil": 150,
     "effects": [ "COOKOFF" ]
@@ -54,7 +54,7 @@
     "count": 100,
     "price_postapoc": 400,
     "dispersion": 0,
-    "proportional": { "range": 0.6, "damage": { "damage_type": "stab", "amount": 0.5 }, "recoil": 0.5 },
+    "proportional": { "range": 0.6, "damage": { "damage_type": "bullet", "amount": 0.5 }, "recoil": 0.5 },
     "extend": { "effects": [ "SHOT", "NOGIB" ] }
   },
   {
@@ -64,7 +64,7 @@
     "name": { "str": ".22 LR FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.57, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
       "recoil": 0.57,
       "dispersion": 1.2
     },
@@ -78,7 +78,7 @@
     "name": { "str": ".22 LR, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.57, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.57, "armor_penetration": 0.5 },
       "recoil": 0.57,
       "dispersion": 1.2
     },
@@ -90,7 +90,7 @@
     "copy-from": "22_lr",
     "type": "AMMO",
     "name": { "str": ".22 LR, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -99,7 +99,7 @@
     "copy-from": "22_fmj",
     "type": "AMMO",
     "name": { "str": ".22 FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

@@ -98,6 +98,11 @@
     "trail": { "field_type": "fd_plasma", "intensity_min": 1, "intensity_max": 2, "chance": 50 }
   },
   {
+    "id": "PLASMA_BUBBLE",
+    "type": "ammo_effect",
+    "aoe": { "field_type": "fd_plasma", "intensity_min": 1, "intensity_max": 3, "radius": 1, "chance": 10 }
+  },
+  {
     "id": "EXPLOSIVE_HUGE",
     "type": "ammo_effect",
     "explosion": { "power": 1200 }

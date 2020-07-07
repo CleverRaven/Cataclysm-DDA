@@ -10,7 +10,7 @@
     "price_postapoc": 0,
     "weight": "100 g",
     "volume": "50 ml",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "bashing": 1,
     "to_hit": -1
   },
@@ -96,6 +96,7 @@
     "name": { "str": "dental floss", "str_pl": "rolls of dental floss" },
     "type": "GENERIC",
     "description": "Twenty-five yards of finely waxed thread wound up inside a plastic container.  Perfect for picking bits of smoked meat out of your teeth.  Disassemble to use the thread for something else.",
+    "weight": "28 g",
     "copy-from": "base_toiletries",
     "symbol": "~",
     "material": [ "plastic", "cotton" ]
@@ -144,7 +145,7 @@
     "price_postapoc": 10,
     "weight": "680 g",
     "volume": "2400 ml",
-    "material": "plastic",
+    "material": [ "plastic" ],
     "bashing": 2,
     "to_hit": -1
   },
@@ -160,7 +161,7 @@
     "price_postapoc": 180,
     "volume": "250 ml",
     "weight": "227 g",
-    "material": "paper",
+    "material": [ "paper" ],
     "to_hit": -2,
     "snippet_category": [
       {

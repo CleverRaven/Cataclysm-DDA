@@ -17,7 +17,7 @@
     "ammo_type": "270win",
     "casing": "270win_casing",
     "range": 65,
-    "damage": { "damage_type": "stab", "amount": 64, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 64, "armor_penetration": 4 },
     "dispersion": 10,
     "recoil": 3800,
     "effects": [ "COOKOFF", "NEVER_MISFIRES" ]
@@ -29,7 +29,7 @@
     "name": { "str": ".270 Winchester JSP, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.7, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.7, "armor_penetration": 0.5 },
       "recoil": 0.7,
       "dispersion": 1.2
     },
@@ -41,7 +41,7 @@
     "copy-from": "270win_jsp",
     "type": "AMMO",
     "name": { "str": ".270 Winchester JSP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

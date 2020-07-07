@@ -127,6 +127,7 @@ struct ExpressionComponent {
 
 static bool operator<( const ExpressionComponent &l, const ExpressionComponent &r )
 {
+    // NOLINTNEXTLINE(cata-use-localized-sorting)
     return l.sortKey() < r.sortKey();
 }
 

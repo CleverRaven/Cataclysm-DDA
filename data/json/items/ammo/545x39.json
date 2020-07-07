@@ -18,7 +18,7 @@
     "ammo_type": "545x39",
     "casing": "545_casing",
     "range": 37,
-    "damage": { "damage_type": "stab", "amount": 40, "armor_penetration": 6 },
+    "damage": { "damage_type": "bullet", "amount": 40, "armor_penetration": 6 },
     "dispersion": 30,
     "recoil": 1400,
     "effects": [ "COOKOFF" ]
@@ -34,7 +34,7 @@
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "symbol": "=",
     "color": "yellow",
-    "relative": { "damage": { "damage_type": "stab", "amount": -2, "armor_penetration": 8 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 8 } }
   },
   {
     "id": "reloaded_545",
@@ -42,7 +42,7 @@
     "type": "AMMO",
     "name": { "str": "5.45x39mm, reloaded" },
     "description": "The 5.45x39mm was the standard ammunition for the AK series from 1974.  Its designers were inspired by the 5.56x45mm NATO cartridge.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -52,7 +52,7 @@
     "type": "AMMO",
     "name": { "str": "5.45x39mm AP, reloaded" },
     "description": "Armor piercing 5.45x39mm ammunition with hand-reloaded bullets containing a steel penetrator.  Developed in 1998 by the Russian military.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

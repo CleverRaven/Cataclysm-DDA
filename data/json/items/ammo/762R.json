@@ -17,7 +17,7 @@
     "ammo_type": "762R",
     "casing": "762R_casing",
     "range": 75,
-    "damage": { "damage_type": "stab", "amount": 54, "armor_penetration": 10 },
+    "damage": { "damage_type": "bullet", "amount": 54, "armor_penetration": 10 },
     "dispersion": 15,
     "recoil": 2650,
     "effects": [ "COOKOFF" ]
@@ -27,7 +27,7 @@
     "copy-from": "762_54R",
     "type": "AMMO",
     "name": { "str": "7.62x54mmR, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

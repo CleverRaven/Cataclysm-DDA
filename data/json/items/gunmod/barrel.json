@@ -31,7 +31,7 @@
     "color": "light_gray",
     "location": "barrel",
     "mod_targets": [ "smg", "rifle", "shotgun", "pistol" ],
-    "damage_modifier": 500,
+    "damage_modifier": { "damage_type": "stab", "amount": 500 },
     "dispersion_modifier": 500,
     "ups_charges_multiplier": 50.0,
     "min_skills": [ [ "gun", 1 ] ]

@@ -5,7 +5,7 @@
     "type": "AMMO",
     "name": { "str": ".460 Rowland HCFN" },
     "description": "A plated, hard cast flat nosed variant of the .460 Rowland round.  This increases penetration slightly at the cost of reduced damage from expansion.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -4, "armor_penetration": 8 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
   },
   {
     "id": "460_rowland",
@@ -15,7 +15,7 @@
     "description": ".460 Rowland ammunition with 185gr JHP bullets.  The .460 Rowland round is designed to emulate hard-hitting .44 magnum in common autoloading pistols.  Like the .44, .460 Rowland has exceptional power - and recoil.  It is almost dimensionally identical to .45ACP, save for having a longer case and deeper seated bullets to prevent ammunition mix-ups.",
     "ammo_type": "460",
     "casing": "460_casing",
-    "proportional": { "range": 0.95, "damage": { "damage_type": "stab", "amount": 0.95, "armor_penetration": 0.95 }, "recoil": 0.95 }
+    "proportional": { "range": 0.95, "damage": { "damage_type": "bullet", "amount": 0.95, "armor_penetration": 0.95 }, "recoil": 0.95 }
   },
   {
     "id": "bp_460_fmj",
@@ -24,7 +24,7 @@
     "name": { "str": ".460 Rowland FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -38,7 +38,7 @@
     "name": { "str": ".460 Rowland, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -51,7 +51,7 @@
     "type": "AMMO",
     "name": { "str": ".460 Rowland FMJ, reloaded" },
     "description": "A brass-jacketed variant of the .460 Rowland round.  This increases penetration slightly at the cost of reduced damage from expansion.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -60,7 +60,7 @@
     "copy-from": "460_rowland",
     "type": "AMMO",
     "name": { "str": ".460 Rowland, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

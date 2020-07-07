@@ -36,7 +36,7 @@ static const skill_id skill_melee( "melee" );
 static const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 static const mtype_id mon_spore( "mon_spore" );
 
-static const species_id FUNGUS( "FUNGUS" );
+static const species_id species_FUNGUS( "FUNGUS" );
 
 static const trait_id trait_TAIL_CATTLE( "TAIL_CATTLE" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
@@ -64,7 +64,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
     if( monster *const mon_ptr = g->critter_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
         if( gm.u.sees( p ) &&
-            !critter.type->in_species( FUNGUS ) ) {
+            !critter.type->in_species( species_FUNGUS ) ) {
             add_msg( _( "The %s is covered in tiny spores!" ), critter.name() );
         }
         if( !critter.make_fungus() ) {
@@ -111,7 +111,7 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
 
 void fungal_effects::create_spores( const tripoint &p, Creature *origin )
 {
-    for( const tripoint &tmp : g->m.points_in_radius( p, 1 ) ) {
+    for( const tripoint &tmp : get_map().points_in_radius( p, 1 ) ) {
         fungalize( tmp, origin, 0.25 );
     }
 }
@@ -240,7 +240,8 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
 void fungal_effects::spread_fungus( const tripoint &p )
 {
     int growth = 1;
-    for( const tripoint &tmp : g->m.points_in_radius( p, 1 ) ) {
+    map &here = get_map();
+    for( const tripoint &tmp : here.points_in_radius( p, 1 ) ) {
         if( tmp == p ) {
             continue;
         }
@@ -256,7 +257,7 @@ void fungal_effects::spread_fungus( const tripoint &p )
         if( growth == 9 ) {
             return;
         }
-        for( const tripoint &dest : g->m.points_in_radius( p, 1 ) ) {
+        for( const tripoint &dest : here.points_in_radius( p, 1 ) ) {
             // One spread on average
             if( !m.has_flag( flag_FUNGUS, dest ) && one_in( 9 - growth ) ) {
                 //growth chance is 100 in X simplified

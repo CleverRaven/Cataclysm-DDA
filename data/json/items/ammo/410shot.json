@@ -17,7 +17,7 @@
     "ammo_type": "410shot",
     "casing": "410shot_hull",
     "range": 12,
-    "damage": { "damage_type": "stab", "amount": 30 },
+    "damage": { "damage_type": "bullet", "amount": 30 },
     "recoil": 1350,
     "loudness": 90,
     "effects": [ "COOKOFF", "SHOT" ]
@@ -27,7 +27,7 @@
     "copy-from": "410shot_000",
     "type": "AMMO",
     "name": { "str": ".410 000 shot, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

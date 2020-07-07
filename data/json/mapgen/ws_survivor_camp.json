@@ -70,8 +70,8 @@
       "rows": [
         ",,..,...................",
         "...,,,.....p......,.....",
-        ".....p..p......p....p.,.",
-        "..,p.,.p..,..p...p......",
+        "........p......p....p.,.",
+        "..,..,.p..,..p...p......",
         "..,p...........,...,.p..",
         "......p....p......p...,.",
         ",...p..p..,..,..p,...p..",
@@ -118,7 +118,8 @@
         { "monster": "GROUP_ZOMBIE_SURVIVOR_CAMP", "x": 11, "y": 10 },
         { "monster": "GROUP_ZOMBIE_SURVIVOR_CAMP", "x": 10, "y": 9 },
         { "monster": "GROUP_ZOMBIE_SURVIVOR_CAMP", "x": 12, "y": 8 }
-      ]
+      ],
+      "place_vehicles": [ { "vehicle": "surv_car", "x": 4, "y": 1, "chance": 20, "rotation": 0, "status": -1, "fuel": 1 } ]
     }
   }
 ]

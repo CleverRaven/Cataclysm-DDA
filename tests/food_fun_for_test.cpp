@@ -382,7 +382,7 @@ TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
         }
 
         WHEN( "character has just eaten one" ) {
-            dummy.eat( toastem );
+            dummy.consume( toastem );
 
             THEN( "the next one is less enjoyable" ) {
                 actual_fun = dummy.fun_for( toastem );
@@ -390,7 +390,7 @@ TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
             }
 
             AND_WHEN( "character has eaten another one" ) {
-                dummy.eat( toastem );
+                dummy.consume( toastem );
 
                 THEN( "the one after that is even less enjoyable" ) {
                     actual_fun = dummy.fun_for( toastem );

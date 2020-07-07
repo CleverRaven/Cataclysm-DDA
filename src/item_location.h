@@ -90,6 +90,16 @@ class item_location
         /** returns the parent item, or an invalid location if it has no parent */
         item_location parent_item() const;
 
+        /** returns true if the item is in the inventory of the given character **/
+        bool held_by( Character &who ) const;
+
+        /**
+         * true if this item location can and does have a parent
+         *
+         * exists because calling parent_item() naively causes debug messages
+         **/
+        bool has_parent() const;
+
     private:
         class impl;
 

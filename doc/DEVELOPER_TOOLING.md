@@ -1,3 +1,18 @@
+## Pre-commit hook
+
+If you have all the relevant tools installed, you can have git automatically
+check the style of code and json by adding these commands to your git
+pre-commit hook (typically at `.git/hooks/pre-commit`):
+
+```BASH
+git diff --cached --name-only -z HEAD | grep -z 'data/.*\.json' | \
+    xargs -r -0 -L 1 ./tools/format/json_formatter.[ce]* || exit 1
+
+make astyle-check || exit 1
+```
+
+More details below on how to make these work and other ways to invoke these tools.
+
 ## Code style (astyle)
 
 Automatic formatting of source code is performed by [Artistic Style](http://astyle.sourceforge.net/).

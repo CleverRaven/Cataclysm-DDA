@@ -22,8 +22,7 @@ class ui_adaptor
 
         ui_adaptor();
         // ui_adaptor constructed this way will block any uis below from being
-        // redrawn or resized until it is deconstructed. It is used for `debug_msg`
-        // and for temporarily disabling redrawing of lower UIs in unmigrated UIs.
+        // redrawn or resized until it is deconstructed. It is used for `debug_msg`.
         ui_adaptor( disable_uis_below );
         ui_adaptor( const ui_adaptor &rhs ) = delete;
         ui_adaptor( ui_adaptor &&rhs ) = delete;
@@ -32,15 +31,20 @@ class ui_adaptor
         ui_adaptor &operator=( const ui_adaptor &rhs ) = delete;
         ui_adaptor &operator=( ui_adaptor &&rhs ) = delete;
 
+        // If win is null, the function has the same effect as position( point_zero, point_zero )
         void position_from_window( const catacurses::window &win );
         // Set the position and size of the ui to that of an imaginary normal
         // catacurses::window, except that size can be zero.
         // Note that `topleft` and `size` are in console cells on both tiles
         // and curses build.
         void position( const point &topleft, const point &size );
-        // Set redraw and resizing callbacks. These callbacks should NOT call
-        // `debugmsg`, construct new `ui_adaptor` instances, deconstruct old
+        // Set redraw and resizing callbacks. These callbacks should NOT
+        // construct new `ui_adaptor` instances, deconstruct old
         // `ui_adaptor` instances, call `redraw`, or call `screen_resized`.
+        //
+        // As a special case, calling `debugmsg` inside the callbacks is (semi-)
+        // supported, but may cause display glitches after the debug message is
+        // closed.
         //
         // The redraw callback should also not call `position_from_window`,
         // otherwise it may cause UI glitch if the window position changes.
@@ -57,8 +61,12 @@ class ui_adaptor
         // to redraw.
         void invalidate_ui() const;
 
+        // Reset all callbacks and dimensions
+        void reset();
+
         static void invalidate( const rectangle &rect );
         static void redraw();
+        static void redraw_invalidated();
         static void screen_resized();
     private:
         static void invalidation_consistency_and_optimization();
@@ -91,6 +99,8 @@ namespace ui_manager
 void invalidate( const rectangle &rect );
 // invalidate the top window and redraw all invalidated windows
 void redraw();
+// redraw all invalidated windows without invalidating the top window
+void redraw_invalidated();
 void screen_resized();
 } // namespace ui_manager
 

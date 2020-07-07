@@ -7419,8 +7419,8 @@
     "id": "bandit_garage_2",
     "copy-from": "bandit_garage_2",
     "name": "forest",
-    "sym": "b",
-    "color": "light_blue"
+    "sym": "#",
+    "color": "green"
   },
   {
     "id": "pavilion",

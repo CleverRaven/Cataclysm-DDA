@@ -43,8 +43,8 @@ struct advanced_inv_pane_save_state {
 
 struct advanced_inv_save_state {
     public:
-        int exit_code = 0;
-        int re_enter_move_all = 0;
+        aim_exit exit_code = aim_exit::none;
+        aim_entry re_enter_move_all = aim_entry::START;
         int aim_all_location = 1;
 
         bool active_left = true;
@@ -89,8 +89,6 @@ class uistatedata
 {
         /**** this will set a default value on startup, however to save, see below ****/
     private:
-        // not needed for compilation, but keeps syntax plugins happy
-        using itype_id = std::string;
         enum side { left = 0, right = 1, NUM_PANES = 2 };
     public:
         int ags_pay_gas_selected_pump = 0;
@@ -102,8 +100,8 @@ class uistatedata
 
         int adv_inv_container_location = -1;
         int adv_inv_container_index = 0;
-        itype_id adv_inv_container_type = "null";
-        itype_id adv_inv_container_content_type = "null";
+        itype_id adv_inv_container_type = itype_id::NULL_ID();
+        itype_id adv_inv_container_content_type = itype_id::NULL_ID();
         bool adv_inv_container_in_vehicle = false;
 
         advanced_inv_save_state transfer_save;

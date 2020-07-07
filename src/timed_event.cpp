@@ -27,6 +27,8 @@
 #include "translations.h"
 #include "type_id.h"
 
+static const itype_id itype_petrified_eye( "petrified_eye" );
+
 static const mtype_id mon_amigara_horror( "mon_amigara_horror" );
 static const mtype_id mon_copbot( "mon_copbot" );
 static const mtype_id mon_dark_wyrm( "mon_dark_wyrm" );
@@ -48,24 +50,24 @@ timed_event::timed_event( timed_event_type e_t, const time_point &w, int f_id, t
 void timed_event::actualize()
 {
     switch( type ) {
-        case TIMED_EVENT_HELP:
+        case timed_event_type::HELP:
             debugmsg( "Currently disabled while NPC and monster factions are being rewritten." );
             break;
 
-        case TIMED_EVENT_ROBOT_ATTACK: {
+        case timed_event_type::ROBOT_ATTACK: {
             const auto u_pos = g->u.global_sm_location();
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
                 g->events().send<event_type::becomes_wanted>( g->u.getID() );
-                int robx = u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4;
-                int roby = u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4;
-                g->place_critter_at( robot_type, tripoint( robx, roby, g->u.posz() ) );
+                point rob( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4,
+                           u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
+                g->place_critter_at( robot_type, tripoint( rob, g->u.posz() ) );
             }
         }
         break;
 
-        case TIMED_EVENT_SPAWN_WYRMS: {
+        case timed_event_type::SPAWN_WYRMS: {
             if( g->get_levz() >= 0 ) {
                 return;
             }
@@ -79,7 +81,7 @@ void timed_event::actualize()
                 }
             }
             // You could drop the flag, you know.
-            if( g->u.has_amount( "petrified_eye", 1 ) ) {
+            if( g->u.has_amount( itype_petrified_eye, 1 ) ) {
                 sounds::sound( g->u.pos(), 60, sounds::sound_t::alert, _( "a tortured scream!" ), false, "shout",
                                "scream_tortured" );
                 if( !g->u.is_deaf() ) {
@@ -89,13 +91,13 @@ void timed_event::actualize()
             }
             // They just keep coming!
             if( !one_in( 25 ) ) {
-                g->timed_events.add( TIMED_EVENT_SPAWN_WYRMS,
+                g->timed_events.add( timed_event_type::SPAWN_WYRMS,
                                      calendar::turn + rng( 1_minutes, 3_minutes ) );
             }
         }
         break;
 
-        case TIMED_EVENT_AMIGARA: {
+        case timed_event_type::AMIGARA: {
             g->events().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
             cata::optional<tripoint> fault_point;
@@ -134,7 +136,7 @@ void timed_event::actualize()
         }
         break;
 
-        case TIMED_EVENT_ROOTS_DIE:
+        case timed_event_type::ROOTS_DIE:
             g->events().send<event_type::destroys_triffid_grove>();
             for( const tripoint &p : g->m.points_on_zlevel() ) {
                 if( g->m.ter( p ) == t_root_wall && one_in( 3 ) ) {
@@ -143,7 +145,7 @@ void timed_event::actualize()
             }
             break;
 
-        case TIMED_EVENT_TEMPLE_OPEN: {
+        case timed_event_type::TEMPLE_OPEN: {
             g->events().send<event_type::opens_temple>();
             bool saw_grate = false;
             for( const tripoint &p : g->m.points_on_zlevel() ) {
@@ -160,7 +162,7 @@ void timed_event::actualize()
         }
         break;
 
-        case TIMED_EVENT_TEMPLE_FLOOD: {
+        case timed_event_type::TEMPLE_FLOOD: {
             bool flooded = false;
 
             ter_id flood_buf[MAPSIZE_X][MAPSIZE_Y];
@@ -218,12 +220,12 @@ void timed_event::actualize()
             for( const tripoint &p : g->m.points_on_zlevel() ) {
                 g->m.ter_set( p, flood_buf[p.x][p.y] );
             }
-            g->timed_events.add( TIMED_EVENT_TEMPLE_FLOOD,
+            g->timed_events.add( timed_event_type::TEMPLE_FLOOD,
                                  calendar::turn + rng( 2_turns, 3_turns ) );
         }
         break;
 
-        case TIMED_EVENT_TEMPLE_SPAWN: {
+        case timed_event_type::TEMPLE_SPAWN: {
             static const std::array<mtype_id, 4> temple_monsters = { {
                     mon_sewer_snake, mon_dermatik, mon_spider_widow_giant, mon_spider_cellar_giant
                 }
@@ -242,7 +244,7 @@ void timed_event::actualize()
 void timed_event::per_turn()
 {
     switch( type ) {
-        case TIMED_EVENT_WANTED: {
+        case timed_event_type::WANTED: {
             // About once every 5 minutes. Suppress in classic zombie mode.
             if( g->get_levz() >= 0 && one_in( 50 ) && !get_option<bool>( "DISABLE_ROBOT_RESPONSE" ) ) {
                 point place = g->m.random_outdoor_tile();
@@ -260,7 +262,7 @@ void timed_event::per_turn()
         }
         break;
 
-        case TIMED_EVENT_SPAWN_WYRMS:
+        case timed_event_type::SPAWN_WYRMS:
             if( g->get_levz() >= 0 ) {
                 when -= 1_turns;
                 return;
@@ -270,11 +272,11 @@ void timed_event::per_turn()
             }
             break;
 
-        case TIMED_EVENT_AMIGARA:
+        case timed_event_type::AMIGARA:
             add_msg( m_warning, _( "The entire cavern shakes!" ) );
             break;
 
-        case TIMED_EVENT_TEMPLE_OPEN:
+        case timed_event_type::TEMPLE_OPEN:
             add_msg( m_warning, _( "The earth rumbles." ) );
             break;
 

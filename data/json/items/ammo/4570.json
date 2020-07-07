@@ -17,7 +17,7 @@
     "ammo_type": "4570",
     "casing": "4570_casing",
     "range": 48,
-    "damage": { "damage_type": "stab", "amount": 57, "armor_penetration": 3 },
+    "damage": { "damage_type": "bullet", "amount": 57, "armor_penetration": 3 },
     "dispersion": 20,
     "recoil": 4300,
     "effects": [ "COOKOFF" ]
@@ -32,7 +32,7 @@
     "price_postapoc": 600,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 10,
-    "relative": { "range": 2, "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 7 }, "recoil": 300 }
+    "relative": { "range": 2, "damage": { "damage_type": "bullet", "amount": 4, "armor_penetration": 7 }, "recoil": 300 }
   },
   {
     "id": "4570_low",
@@ -43,7 +43,7 @@
     "price": 250,
     "price_postapoc": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
-    "relative": { "range": -8, "damage": { "damage_type": "stab", "amount": -14, "armor_penetration": -2 }, "recoil": -900 }
+    "relative": { "range": -8, "damage": { "damage_type": "bullet", "amount": -14, "armor_penetration": -2 }, "recoil": -900 }
   },
   {
     "id": "reloaded_4570_sp",
@@ -51,7 +51,7 @@
     "type": "AMMO",
     "name": { "str": ".45-70 SP, reloaded" },
     "description": ".45-70 Government ammunition loaded with a 305 grain soft point round.  One of the oldest cartridges still in use, it is still a favorite for large game hunting at short ranges.  This one has been hand-loaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -61,7 +61,7 @@
     "type": "AMMO",
     "name": { "str": ".45-70 +P penetrator, reloaded" },
     "description": ".45-70 Government +P ammunition loaded with a 305 grain solid copper penetrator projectile.  Designed for maximum penetration through thick hide and bone while maintaining ideal wounding characteristics.  This one has been hand-loaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -71,7 +71,7 @@
     "type": "AMMO",
     "name": { "str": ".45-70 LFN cowboy, reloaded" },
     "description": ".45-70 Government ammunition loaded with a 405 grain lead flat nose bullet to original specifications for safe use in antique firearms.  Quite a bit less powerful than modern ammo, but still packs a punch.  This one has been hand-loaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -82,7 +82,7 @@
     "type": "AMMO",
     "name": { "str": ".45-70, black powder" },
     "description": ".45-70 Government ammunition loaded with a 405 grain lead flat nose bullet using black powder to original specifications.  Quite a bit less powerful and a lot dirtier than modern ammo, but still packs a punch.  This one has been hand-loaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.3 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.3 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

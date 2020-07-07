@@ -1,20 +1,37 @@
 [
   {
+    "abstract": "book_nonf_hard_arch_tpl",
+    "type": "BOOK",
+    "name": "archery skill training abstract",
+    "description": "template for heavy books that confer archery skill training",
+    "weight": "1454 g",
+    "volume": "1250 ml",
+    "price": 2000,
+    "price_postapoc": 500,
+    "material": [ "paper", "cardboard" ],
+    "symbol": "?",
+    "looks_like": "story_book",
+    "color": "green",
+    "intelligence": 7,
+    "skill": "archery",
+    "time": "20 m"
+  },
+  {
     "id": "book_archery",
     "type": "BOOK",
     "name": { "str": "Lessons for the Novice Bowhunter", "str_pl": "copies of Lessons for the Novice Bowhunter" },
     "description": "This hefty paperback book contains all the information needed for novice archers to get started hunting with a variety of bows and crossbows.",
-    "weight": "932 g",
-    "volume": "1250 ml",
-    "price": 2000,
-    "price_postapoc": 500,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "green",
-    "skill": "archery",
     "max_level": 2,
-    "intelligence": 7,
-    "time": "20 m"
+    "copy-from": "book_nonf_hard_arch_tpl",
+    "relative": { "price": 100, "price_post": 2500 }
+  },
+  {
+    "id": "manual_archery",
+    "type": "BOOK",
+    "name": { "str": "Zen and the Art of Archery", "str_pl": "copies of Zen and the Art of Archery" },
+    "description": "This massive book contains a wealth of vital information for the novice archer.",
+    "max_level": 3,
+    "copy-from": "book_nonf_hard_arch_tpl"
   },
   {
     "id": "mag_archery",
@@ -33,22 +50,5 @@
     "intelligence": 2,
     "time": "7 m",
     "fun": 1
-  },
-  {
-    "id": "manual_archery",
-    "type": "BOOK",
-    "name": { "str": "Zen and the Art of Archery", "str_pl": "copies of Zen and the Art of Archery" },
-    "description": "This massive book contains a wealth of vital information for the novice archer.",
-    "weight": "1454 g",
-    "volume": "1250 ml",
-    "price": 1900,
-    "price_postapoc": 500,
-    "material": [ "paper" ],
-    "symbol": "?",
-    "color": "green",
-    "skill": "archery",
-    "max_level": 3,
-    "intelligence": 7,
-    "time": "20 m"
   }
 ]

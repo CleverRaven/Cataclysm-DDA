@@ -58,15 +58,15 @@ void user_interface::show()
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
-        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
         w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       point( iOffsetX, iOffsetY ) );
+                                       iOffset );
         w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       point( 1 + iOffsetX, 1 + iOffsetY ) );
+                                       iOffset + point_south_east );
         w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
+                                iOffset + point( 1, iHeaderHeight + 1 ) );
 
         ui.position_from_window( w_border );
     };
@@ -89,7 +89,7 @@ void user_interface::show()
         mvwputch( w_border, point( 5, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         mvwputch( w_border, point( 51, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         // Redraw the header
         int tmpx = 0;
@@ -138,7 +138,7 @@ void user_interface::show()
         locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
         shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
 
-        wrefresh( w_header );
+        wnoutrefresh( w_header );
 
         // Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -152,7 +152,7 @@ void user_interface::show()
         }
 
         draw_scrollbar( w_border, iLine, iContentHeight, cur_rules.size(), point( 0, 5 ) );
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         calcStartPos( iStartPos, iLine, iContentHeight, cur_rules.size() );
 
@@ -181,7 +181,7 @@ void user_interface::show()
             }
         }
 
-        wrefresh( w );
+        wnoutrefresh( w );
     } );
 
     bStuffChanged = false;
@@ -283,11 +283,11 @@ void user_interface::show()
                 ui_adaptor help_ui;
                 catacurses::window w_help;
                 const auto init_help_window = [&]( ui_adaptor & help_ui ) {
-                    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-                    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+                    const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
                     w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 + 2,
                                                  FULL_SCREEN_WIDTH * 3 / 4,
-                                                 point( iOffsetX + 19 / 2, 7 + iOffsetY + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+                                                 iOffset + point( 19 / 2, 7 + FULL_SCREEN_HEIGHT / 2 / 2 ) );
                     help_ui.position_from_window( w_help );
                 };
                 init_help_window( help_ui );
@@ -312,7 +312,7 @@ void user_interface::show()
                                   );
 
                     draw_border( w_help );
-                    wrefresh( w_help );
+                    wnoutrefresh( w_help );
                 } );
                 const std::string r = string_input_popup()
                                       .title( _( "Pickup Rule:" ) )
@@ -438,17 +438,17 @@ void rule::test_pattern() const
     ui_adaptor ui;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        const int iOffsetX = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-        const int iOffsetY = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
-                                   0 );
+        const point iOffset( 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
+                             5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
+                                   0 ) );
         iContentHeight = FULL_SCREEN_HEIGHT - 8;
         iContentWidth = FULL_SCREEN_WIDTH - 30;
 
         w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth,
-                             point( iOffsetX, iOffsetY ) );
+                             iOffset );
         w_test_rule_content = catacurses::newwin( iContentHeight,
                               iContentWidth - 2,
-                              point( 1 + iOffsetX, 1 + iOffsetY ) );
+                              iOffset + point_south_east );
 
         ui.position_from_window( w_test_rule_border );
     };
@@ -471,7 +471,7 @@ void rule::test_pattern() const
         draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
         center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
                       _( "Won't display content or suffix matches" ) );
-        wrefresh( w_test_rule_border );
+        wnoutrefresh( w_test_rule_border );
 
         // Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -502,7 +502,7 @@ void rule::test_pattern() const
             }
         }
 
-        wrefresh( w_test_rule_content );
+        wnoutrefresh( w_test_rule_content );
     } );
 
     while( true ) {
@@ -611,7 +611,7 @@ void rule_list::create_rule( cache &map_items, const std::string &to_match )
             continue;
         }
 
-        map_items[ to_match ] = elem.bExclude ? RULE_BLACKLISTED : RULE_WHITELISTED;
+        map_items[ to_match ] = elem.bExclude ? rule_state::BLACKLISTED : rule_state::WHITELISTED;
     }
 }
 
@@ -634,7 +634,7 @@ void rule_list::create_rule( cache &map_items, const item &it )
             continue;
         }
 
-        map_items[ to_match ] = elem.bExclude ? RULE_BLACKLISTED : RULE_WHITELISTED;
+        map_items[ to_match ] = elem.bExclude ? rule_state::BLACKLISTED : rule_state::WHITELISTED;
     }
 }
 
@@ -663,7 +663,7 @@ void rule_list::refresh_map_items( cache &map_items ) const
                     continue;
                 }
 
-                map_items[ cur_item ] = RULE_WHITELISTED;
+                map_items[ cur_item ] = rule_state::WHITELISTED;
                 map_items.temp_items[ cur_item ] = e;
             }
         } else {
@@ -675,7 +675,7 @@ void rule_list::refresh_map_items( cache &map_items ) const
                     continue;
                 }
 
-                map_items[ map_item.first ] = RULE_BLACKLISTED;
+                map_items[ map_item.first ] = rule_state::BLACKLISTED;
             }
         }
     }
@@ -692,7 +692,7 @@ rule_state base_settings::check_item( const std::string &sItemName ) const
         return iter->second;
     }
 
-    return RULE_NONE;
+    return rule_state::NONE;
 }
 
 void player_settings::clear_character_rules()

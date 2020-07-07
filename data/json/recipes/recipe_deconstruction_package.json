@@ -30,7 +30,7 @@
     "components": [
       [ [ "mre_chilibeans", 1 ] ],
       [ [ "crackers", 1 ] ],
-      [ [ "can_cheese", 1 ] ],
+      [ [ "spread_peanutbutter", 1 ] ],
       [ [ "heatpack", 1 ] ],
       [ [ "mre_dessert", 1 ] ],
       [ [ "mre_accessory", 1 ] ],
@@ -196,6 +196,36 @@
       [ [ "mre_macaronimarinara", 1 ] ],
       [ [ "crackers", 1 ] ],
       [ [ "can_cheese", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_sfettuccine_box",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [
+      [ [ "mre_sfettuccine", 1 ] ],
+      [ [ "crackers", 1 ] ],
+      [ [ "spread_peanutbutter", 1 ] ],
+      [ [ "heatpack", 1 ] ],
+      [ [ "mre_dessert", 1 ] ],
+      [ [ "mre_accessory", 1 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "mre_ratatouille_box",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [
+      [ [ "mre_ratatouille", 1 ] ],
+      [ [ "crackers", 1 ] ],
+      [ [ "spread_peanutbutter", 1 ] ],
       [ [ "heatpack", 1 ] ],
       [ [ "mre_dessert", 1 ] ],
       [ [ "mre_accessory", 1 ] ],

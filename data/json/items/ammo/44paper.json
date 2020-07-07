@@ -14,7 +14,7 @@
     "count": 25,
     "ammo_type": "44paper",
     "range": 18,
-    "damage": { "damage_type": "stab", "amount": 27 },
+    "damage": { "damage_type": "bullet", "amount": 27 },
     "dispersion": 70,
     "recoil": 580,
     "effects": [ "COOKOFF", "MUZZLE_SMOKE", "BLACKPOWDER" ]

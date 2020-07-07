@@ -17,7 +17,7 @@
     "ammo_type": "32",
     "casing": "32_casing",
     "range": 12,
-    "damage": { "damage_type": "stab", "amount": 16 },
+    "damage": { "damage_type": "bullet", "amount": 16 },
     "dispersion": 70,
     "recoil": 150,
     "effects": [ "COOKOFF" ]
@@ -29,7 +29,7 @@
     "name": { "str": ".32 ACP, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -41,7 +41,7 @@
     "copy-from": "32_acp",
     "type": "AMMO",
     "name": { "str": ".32 ACP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

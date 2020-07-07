@@ -481,11 +481,12 @@ void talk_function::bionic_remove( npc &p )
     std::vector<itype_id> bionic_types;
     std::vector<std::string> bionic_names;
     for( const bionic &bio : all_bio ) {
-        if( std::find( bionic_types.begin(), bionic_types.end(), bio.id.str() ) == bionic_types.end() ) {
+        if( std::find( bionic_types.begin(), bionic_types.end(),
+                       bio.info().itype() ) == bionic_types.end() ) {
             if( bio.id != bio_power_storage ||
                 bio.id != bio_power_storage_mkII ) {
-                bionic_types.push_back( bio.id.str() );
-                if( item::type_is_defined( bio.id.str() ) ) {
+                bionic_types.push_back( bio.info().itype() );
+                if( item::type_is_defined( bio.info().itype() ) ) {
                     item tmp = item( bio.id.str(), 0 );
                     bionic_names.push_back( tmp.tname() + " - " + format_money( 50000 + ( tmp.price( true ) / 4 ) ) );
                 } else {
@@ -514,9 +515,9 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false ) ) {
+    if( g->u.can_uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false ) ) {
         g->u.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
-        g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index] ), p, false );
+        g->u.uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false );
     }
 
 }
@@ -553,17 +554,16 @@ void talk_function::give_equipment( npc &p )
 void talk_function::give_aid( npc &p )
 {
     p.add_effect( effect_currently_busy, 30_minutes );
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
-        g->u.heal( static_cast<hp_part>( i ), 5 * rng( 2, 5 ) );
-        if( g->u.has_effect( effect_bite, bp_healed ) ) {
-            g->u.remove_effect( effect_bite, bp_healed );
+    for( const bodypart_id &bp : g->u.get_all_body_parts( true ) ) {
+        g->u.heal( bp, 5 * rng( 2, 5 ) );
+        if( g->u.has_effect( effect_bite, bp->token ) ) {
+            g->u.remove_effect( effect_bite, bp->token );
         }
-        if( g->u.has_effect( effect_bleed, bp_healed ) ) {
-            g->u.remove_effect( effect_bleed, bp_healed );
+        if( g->u.has_effect( effect_bleed, bp->token ) ) {
+            g->u.remove_effect( effect_bleed, bp->token );
         }
-        if( g->u.has_effect( effect_infected, bp_healed ) ) {
-            g->u.remove_effect( effect_infected, bp_healed );
+        if( g->u.has_effect( effect_infected, bp->token ) ) {
+            g->u.remove_effect( effect_infected, bp->token );
         }
     }
     const int moves = to_moves<int>( 100_minutes );
@@ -577,17 +577,16 @@ void talk_function::give_all_aid( npc &p )
     give_aid( p );
     for( npc &guy : g->all_npcs() ) {
         if( guy.is_walking_with() && rl_dist( guy.pos(), g->u.pos() ) < PICKUP_RANGE ) {
-            for( int i = 0; i < num_hp_parts; i++ ) {
-                const body_part bp_healed = player::hp_to_bp( static_cast<hp_part>( i ) );
-                guy.heal( static_cast<hp_part>( i ), 5 * rng( 2, 5 ) );
-                if( guy.has_effect( effect_bite, bp_healed ) ) {
-                    guy.remove_effect( effect_bite, bp_healed );
+            for( const bodypart_id &bp : guy.get_all_body_parts( true ) ) {
+                guy.heal( bp, 5 * rng( 2, 5 ) );
+                if( guy.has_effect( effect_bite, bp->token ) ) {
+                    guy.remove_effect( effect_bite, bp->token );
                 }
-                if( guy.has_effect( effect_bleed, bp_healed ) ) {
-                    guy.remove_effect( effect_bleed, bp_healed );
+                if( guy.has_effect( effect_bleed, bp->token ) ) {
+                    guy.remove_effect( effect_bleed, bp->token );
                 }
-                if( guy.has_effect( effect_infected, bp_healed ) ) {
-                    guy.remove_effect( effect_infected, bp_healed );
+                if( guy.has_effect( effect_infected, bp->token ) ) {
+                    guy.remove_effect( effect_infected, bp->token );
                 }
             }
         }
@@ -608,7 +607,7 @@ static void generic_barber( const std::string &mut_type )
     hair_menu.addentry( index, true, 'q', _( "Actually…  I've changed my mind." ) );
     std::vector<trait_id> hair_muts = get_mutations_in_type( mut_type );
     trait_id cur_hair;
-    for( auto elem : hair_muts ) {
+    for( const trait_id &elem : hair_muts ) {
         if( g->u.has_trait( elem ) ) {
             cur_hair = elem;
         }
@@ -822,12 +821,13 @@ void talk_function::stranger_neutral( npc &p )
 
 void talk_function::drop_stolen_item( npc &p )
 {
+    map &here = get_map();
     for( auto &elem : g->u.inv_dump() ) {
         if( elem->is_old_owner( p ) ) {
             item to_drop = g->u.i_rem( elem );
             to_drop.remove_old_owner();
             to_drop.set_owner( p );
-            g->m.add_item_or_charges( g->u.pos(), to_drop );
+            here.add_item_or_charges( g->u.pos(), to_drop );
         }
     }
     if( p.known_stolen_item ) {
@@ -864,7 +864,7 @@ void talk_function::drop_weapon( npc &p )
     if( p.is_hallucination() ) {
         return;
     }
-    g->m.add_item_or_charges( p.pos(), p.remove_weapon() );
+    get_map().add_item_or_charges( p.pos(), p.remove_weapon() );
 }
 
 void talk_function::player_weapon_away( npc &/*p*/ )
@@ -874,7 +874,7 @@ void talk_function::player_weapon_away( npc &/*p*/ )
 
 void talk_function::player_weapon_drop( npc &/*p*/ )
 {
-    g->m.add_item_or_charges( g->u.pos(), g->u.remove_weapon() );
+    get_map().add_item_or_charges( g->u.pos(), g->u.remove_weapon() );
 }
 
 void talk_function::lead_to_safety( npc &p )
@@ -969,7 +969,7 @@ npc *pick_follower()
     uilist menu;
     menu.text = _( "Select a follower" );
     menu.callback = &callback;
-    menu.w_y = 2;
+    menu.w_y_setup = 2;
 
     for( const npc *p : followers ) {
         menu.addentry( -1, true, MENU_AUTOASSIGN, p->name );

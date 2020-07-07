@@ -42,7 +42,7 @@
     "price_postapoc": 100,
     "to_hit": -2,
     "bashing": 9,
-    "material": "wood",
+    "material": [ "wood" ],
     "qualities": [ [ "CHURN", 1 ] ],
     "symbol": "H",
     "color": "light_cyan",
@@ -60,7 +60,7 @@
     "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 8,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -79,17 +79,20 @@
     "material": [ "steel", "plastic" ],
     "symbol": "/",
     "color": "yellow",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "CARVER_OFF",
+    "use_action": [ "CARVER_OFF" ],
     "flags": [ "SHEATH_SWORD", "NONCONDUCTIVE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "carver_on",
@@ -103,9 +106,8 @@
     "charges_per_use": 0,
     "revert_to": "carver_off",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 25 ] ],
-    "use_action": "CARVER_ON",
-    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ],
-    "magazine_well": 2
+    "use_action": [ "CARVER_ON" ],
+    "flags": [ "MESSY", "TRADER_AVOID", "NONCONDUCTIVE" ]
   },
   {
     "id": "char_purifier",
@@ -121,10 +123,11 @@
     "material": [ "wood", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 150 } } ],
     "initial_charges": 150,
     "max_charges": 150,
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER",
+    "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -138,10 +141,11 @@
     "price_postapoc": 1500,
     "to_hit": -2,
     "bashing": 9,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "charcoal",
+    "ammo": [ "charcoal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 200 } } ],
     "max_charges": 200,
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
@@ -156,15 +160,16 @@
     "price_postapoc": 250,
     "to_hit": -1,
     "bashing": 4,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "charcoal",
+    "ammo": [ "charcoal" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 50 } } ],
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "clay_pot",
@@ -173,16 +178,16 @@
     "name": { "str": "clay pot" },
     "description": "A crude clay pot with lid used for cooking.",
     "weight": "480 g",
-    "volume": "2 L",
+    "volume": "2100 ml",
     "price": 2500,
     "price_postapoc": 10,
     "bashing": 1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": "2 L", "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -195,7 +200,7 @@
     "volume": "1500 ml",
     "price": 3000,
     "price_postapoc": 10,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ":",
     "color": "brown"
   },
@@ -206,15 +211,15 @@
     "name": { "str": "clay teapot" },
     "description": "A clay teapot.  Now all you need is tea and water.",
     "weight": "429 g",
-    "volume": "750 ml",
+    "volume": "787 ml",
     "price": 2000,
     "price_postapoc": 10,
     "to_hit": 1,
     "bashing": 1,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ")",
     "color": "brown",
-    "container_data": { "contains": "750 ml", "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "750 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -231,17 +236,20 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 10,
     "qualities": [ [ "BOIL", 1 ] ],
-    "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "use_action": [ "HOTPLATE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "dehydrator",
@@ -257,15 +265,18 @@
     "material": [ "plastic" ],
     "symbol": ";",
     "color": "blue",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "eggs_ferment",
@@ -301,11 +312,12 @@
     "price_postapoc": 100,
     "to_hit": -1,
     "bashing": 2,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "esbit",
+    "ammo": [ "esbit" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "esbit": 50 } } ],
     "initial_charges": 50,
     "max_charges": 50,
     "charges_per_use": 1,
@@ -353,15 +365,18 @@
     "material": [ "iron" ],
     "symbol": "%",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "gasoline_cooker",
@@ -374,15 +389,16 @@
     "price_postapoc": 250,
     "to_hit": -1,
     "bashing": 4,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "gasoline",
+    "ammo": [ "gasoline" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasoline": 500 } } ],
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "heatpack",
@@ -396,10 +412,10 @@
     "to_hit": 1,
     "bashing": 1,
     "cutting": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray",
-    "use_action": "HEATPACK"
+    "use_action": [ "HEATPACK" ]
   },
   {
     "id": "heatpack_used",
@@ -414,7 +430,7 @@
     "to_hit": 1,
     "bashing": 1,
     "cutting": 1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": ";",
     "color": "light_gray"
   },
@@ -429,13 +445,14 @@
     "price_postapoc": 0,
     "to_hit": -1,
     "bashing": 2,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ",",
     "color": "light_gray",
-    "ammo": "tinder",
+    "ammo": [ "tinder" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "tinder": 100 } } ],
     "max_charges": 100,
     "charges_per_use": 25,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "hotplate",
@@ -451,16 +468,19 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 5,
-    "use_action": "HOTPLATE",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "use_action": [ "HOTPLATE" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "jar_eggs_pickled",
@@ -545,13 +565,17 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
     ]
   },
   {
@@ -568,18 +592,21 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "sub": "hotplate",
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "mess_tin",
@@ -593,11 +620,11 @@
     "price_postapoc": 50,
     "to_hit": 2,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 1 ], [ "CONTAIN", 1 ] ],
-    "use_action": "HEAT_FOOD"
+    "use_action": [ "HEAT_FOOD" ]
   },
   {
     "id": "milk_cream_jar",
@@ -611,7 +638,7 @@
     "price": 10,
     "price_postapoc": 10,
     "bashing": 8,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": "%",
     "color": "white"
   },
@@ -626,7 +653,7 @@
     "price": 10,
     "price_postapoc": 10,
     "bashing": 8,
-    "material": "glass",
+    "material": [ "glass" ],
     "symbol": "%",
     "looks_like": "jar_sauerkraut_pickled",
     "color": "white",
@@ -653,18 +680,21 @@
     "material": [ "superalloy", "ceramic" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "sub": "hotplate",
     "charges_per_use": 5,
     "qualities": [ [ "COOK", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ],
     "use_action": [ "HOTPLATE", "HEAT_FOOD" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_plus_battery_cell", "medium_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "mortar_pestle",
@@ -677,7 +707,7 @@
     "price_postapoc": 10,
     "to_hit": -4,
     "bashing": 3,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ":",
     "color": "light_gray",
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -695,17 +725,20 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "power_draw": 1500000,
     "qualities": [ [ "CONTAIN", 1 ] ],
-    "use_action": "MULTICOOKER",
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "use_action": [ "MULTICOOKER" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "multi_cooker_filled",
@@ -726,15 +759,16 @@
     "price_postapoc": 250,
     "to_hit": -1,
     "bashing": 4,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "green",
-    "ammo": "lamp_oil",
+    "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 } } ],
     "initial_charges": 800,
     "max_charges": 800,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "pastaextruder",
@@ -748,7 +782,7 @@
     "price_postapoc": 100,
     "to_hit": 2,
     "bashing": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ")",
     "color": "dark_gray"
   },
@@ -787,15 +821,16 @@
     "price": 250,
     "price_postapoc": 10,
     "bashing": 1,
-    "material": "aluminum",
+    "material": [ "aluminum" ],
     "symbol": ";",
     "color": "light_gray",
-    "ammo": "conc_alcohol",
+    "ammo": [ "conc_alcohol" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "conc_alcohol": 500 } } ],
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
-    "use_action": "HOTPLATE"
+    "use_action": [ "HOTPLATE" ]
   },
   {
     "id": "pressure_cooker",
@@ -809,13 +844,13 @@
     "price_postapoc": 50,
     "to_hit": 1,
     "bashing": 6,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "light_gray",
     "looks_like": "pot_canning",
-    "container_data": { "contains": "2 L", "seals": true, "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "2 L", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -829,7 +864,7 @@
     "price_postapoc": 0,
     "to_hit": -4,
     "bashing": 5,
-    "material": "stone",
+    "material": [ "stone" ],
     "symbol": ":",
     "color": "light_gray"
   },
@@ -898,7 +933,7 @@
     "price_postapoc": 250,
     "to_hit": -6,
     "bashing": 10,
-    "material": "copper",
+    "material": [ "copper" ],
     "symbol": "L",
     "color": "white",
     "qualities": [ [ "DISTILL", 2 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -917,8 +952,9 @@
     "material": [ "steel", "glass" ],
     "symbol": ";",
     "color": "brown",
-    "ammo": "lamp_oil",
+    "ammo": [ "lamp_oil" ],
     "sub": "hotplate",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "lamp_oil": 800 } } ],
     "max_charges": 800,
     "charges_per_use": 1,
     "qualities": [ [ "COOK", 3 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ], [ "CHEM", 1 ] ],
@@ -931,15 +967,15 @@
     "name": { "str": "teapot" },
     "description": "A small metal teapot.  Teatime wouldn't be complete without one.",
     "weight": "229 g",
-    "volume": "500 ml",
+    "volume": "525 ml",
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": 2,
     "bashing": 3,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ")",
     "color": "dark_gray",
-    "container_data": { "contains": "500 ml", "watertight": true },
+    "pocket_data": [ { "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "watertight": true, "rigid": true } ],
     "qualities": [ [ "BOIL", 1 ] ]
   },
   {
@@ -956,15 +992,18 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "white",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
-      ]
-    ],
-    "magazine_well": 2
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
+      }
+    ]
   },
   {
     "id": "waffleiron",
@@ -978,7 +1017,7 @@
     "price_postapoc": 10,
     "to_hit": 2,
     "bashing": 10,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": ")",
     "color": "dark_gray",
     "qualities": [ [ "COOK", 1 ] ]
@@ -997,14 +1036,18 @@
     "material": [ "plastic", "steel" ],
     "symbol": ";",
     "color": "light_blue",
-    "ammo": "battery",
+    "ammo": [ "battery" ],
     "charges_per_use": 1,
-    "use_action": "WATER_PURIFIER",
+    "use_action": [ "WATER_PURIFIER" ],
     "flags": [ "ALLOWS_REMOTE_USE" ],
-    "magazines": [
-      [
-        "battery",
-        [
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [
           "light_battery_cell",
           "light_plus_battery_cell",
           "light_minus_battery_cell",
@@ -1013,8 +1056,7 @@
           "light_minus_disposable_cell",
           "light_disposable_cell"
         ]
-      ]
-    ],
-    "magazine_well": 1
+      }
+    ]
   }
 ]

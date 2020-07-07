@@ -146,6 +146,47 @@
     "flags": [ "VARSIZE", "WATERPROOF", "STURDY" ]
   },
   {
+    "id": "foot_protectors_eod",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "pair of EOD foot protectors", "str_pl": "pairs of EOD foot protectors" },
+    "description": "Armored foot protectors constructed from steel and nomex for explosive ordnance disposal.  They are designed to protect against overpressure, fragmentation, impact and heat.",
+    "weight": "1220 g",
+    "volume": "3 L",
+    "price": 50000,
+    "covers": [ "FEET" ],
+    "coverage": 100,
+    "encumbrance": 40,
+    "warmth": 10,
+    "material": [ "steel", "nomex" ],
+    "symbol": "[",
+    "color": "light_gray",
+    "environmental_protection": 2,
+    "material_thickness": 7,
+    "flags": [ "STURDY", "OUTER" ]
+  },
+  {
+    "id": "toecaps",
+    "type": "ARMOR",
+    "name": { "str": "pair of toecaps", "str_pl": "pairs of toecaps" },
+    "description": "Rubbery overshoes that cover your toes with sturdy, ANSI compliant steel toes.",
+    "weight": "907 g",
+    "volume": "1 L",
+    "price": 2500,
+    "to_hit": -1,
+    "bashing": 2,
+    "material": [ "plastic", "steel" ],
+    "symbol": "[",
+    "color": "brown",
+    "covers": [ "FEET" ],
+    "coverage": 15,
+    "encumbrance": 10,
+    "warmth": 10,
+    "material_thickness": 3,
+    "environmental_protection": 1,
+    "flags": [ "OUTER", "STURDY" ]
+  },
+  {
     "id": "boots_fsurvivor",
     "type": "ARMOR",
     "category": "armor",
@@ -440,7 +481,11 @@
     "price_postapoc": 750,
     "coverage": 95,
     "proportional": { "weight": 1.2, "volume": 1.2, "price": 2, "encumbrance": 2 },
-    "use_action": { "type": "holster", "max_volume": "250 ml", "max_weight": 600, "draw_cost": 80, "multi": 2, "skills": [ "pistol" ] },
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "600 g", "moves": 80 }
+    ],
+    "use_action": { "type": "holster" },
     "extend": { "flags": [ "FANCY" ] }
   },
   {
@@ -1246,6 +1291,16 @@
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
   },
   {
+    "id": "xlnomex_socks",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL flame-resistant socks", "str_pl": "pairs of XL flame-resistant socks" },
+    "description": "A snug fitting pair of stockings made from thin and lightweight Nomex fire-resistant fabric.  Tough yet breathable, they are light and comfortable to wear under clothing.",
+    "weight": "300 g",
+    "volume": "1000 ml",
+    "copy-from": "nomex_socks",
+    "flags": [ "VARSIZE", "WATER_FRIENDLY", "SKINTIGHT", "STURDY" ]
+  },
+  {
     "id": "socks",
     "type": "ARMOR",
     "name": { "str": "pair of socks", "str_pl": "pairs of socks" },
@@ -1263,6 +1318,16 @@
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "xlsocks",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL socks", "str_pl": "pairs of XL socks" },
+    "description": "Socks.  Big ones.  Put 'em on your feet.",
+    "weight": "58 g",
+    "volume": "250 ml",
+    "copy-from": "socks",
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
     "id": "socks_ankle",
@@ -1339,6 +1404,16 @@
     "warmth": 30,
     "material_thickness": 1,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
+  },
+  {
+    "id": "xlsocks_wool",
+    "type": "ARMOR",
+    "name": { "str": "pair of XL wool socks", "str_pl": "pairs of XL wool socks" },
+    "description": "Warm socks made of wool for a larger than you'd previously thought possible human.",
+    "weight": "77 g",
+    "volume": "500 ml",
+    "copy-from": "socks_wool",
+    "flags": [ "VARSIZE", "SKINTIGHT", "OVERSIZE" ]
   },
   {
     "id": "stockings",

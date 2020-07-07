@@ -24,7 +24,8 @@
     },
     "dispersion_modifier": 60,
     "min_skills": [ [ "weapon", 2 ], [ "rifle", 1 ] ],
-    "flags": [ "STR_RELOAD", "NON-FOULING" ]
+    "flags": [ "NON-FOULING" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "bolt": 1 } } ]
   },
   {
     "id": "gun_crossbow_mod",

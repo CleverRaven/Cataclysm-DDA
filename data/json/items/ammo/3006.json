@@ -17,7 +17,7 @@
     "ammo_type": "3006",
     "casing": "3006_casing",
     "range": 61,
-    "damage": { "damage_type": "stab", "amount": 62, "armor_penetration": 10 },
+    "damage": { "damage_type": "bullet", "amount": 62, "armor_penetration": 10 },
     "dispersion": 20,
     "recoil": 3800,
     "effects": [ "COOKOFF" ]
@@ -36,7 +36,7 @@
     "type": "AMMO",
     "name": { "str": ".30-06 M2 AP" },
     "description": "Armor piercing .30-06 M2 ammunition with 168gr FMJ bullets.  It is an extremely powerful and accurate cartridge but pays for its armor penetration abilities with lowered damage.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -4, "armor_penetration": 8 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -4, "armor_penetration": 8 } }
   },
   {
     "id": "bp_3006",
@@ -45,7 +45,7 @@
     "name": { "str": ".30-06 Springfield, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -59,7 +59,7 @@
     "name": { "str": ".30-06 Springfield tracer, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -73,7 +73,7 @@
     "name": { "str": ".30-06 Springfield M2 AP, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -85,7 +85,7 @@
     "copy-from": "3006",
     "type": "AMMO",
     "name": { "str": ".30-06 Springfield, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -94,7 +94,7 @@
     "copy-from": "3006_incendiary",
     "type": "AMMO",
     "name": { "str": ".30-06 incendiary, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -103,7 +103,7 @@
     "copy-from": "3006fmj",
     "type": "AMMO",
     "name": { "str": ".30-06 M2 AP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

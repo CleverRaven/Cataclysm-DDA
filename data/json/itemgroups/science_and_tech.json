@@ -125,7 +125,18 @@
       [ "chem_muriatic_acid", 2 ],
       [ "chem_hexamine", 2 ],
       [ "denat_alcohol", 1 ],
-      [ "remotevehcontrol", 5 ]
+      [ "remotevehcontrol", 5 ],
+      { "item": "textbook_extraction", "prob": 10 },
+      { "item": "recovery_pump", "prob": 5 },
+      { "item": "vac_pump", "prob": 5 },
+      { "item": "closed_loop_extractor_large", "prob": 2 },
+      { "item": "closed_loop_extractor_small", "prob": 2 },
+      { "item": "filter_paper_qualitative", "prob": 10 },
+      { "item": "filter_paper_quantitative", "prob": 10 },
+      { "item": "gasket_plastic", "prob": 10 },
+      { "item": "butane_tank", "prob": 15 },
+      { "item": "vac_oven_small", "prob": 5 },
+      { "item": "butane_can", "prob": 2 }
     ]
   },
   {
@@ -423,7 +434,7 @@
       [ "bfipowder", 15 ],
       [ "quikclot", 10 ],
       [ "anesthetic", 20 ],
-      [ "anesthetic_kit", 10 ]
+      { "item": "anesthetic_kit", "prob": 10, "charges-min": 0 }
     ]
   },
   {

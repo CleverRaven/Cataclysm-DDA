@@ -9,9 +9,7 @@
 static const int sx[4] = { 1, -1, -1, 1 };
 static const int sy[4] = { 1, 1, -1, -1 };
 
-tileray::tileray(): leftover( 0 ), direction( 0 ), steps( 0 ), infinite( false )
-{
-}
+tileray::tileray() = default;
 
 tileray::tileray( const point &ad )
 {
@@ -26,7 +24,7 @@ tileray::tileray( int adir ): direction( adir )
 void tileray::init( const point &ad )
 {
     delta = ad;
-    abs_d = abs( delta );
+    abs_d = delta.abs();
     if( delta == point_zero ) {
         direction = 0;
     } else {
@@ -49,7 +47,7 @@ void tileray::init( int adir )
     float direction_radians = static_cast<float>( direction ) * M_PI / 180.0;
     rl_vec2d delta_f( std::cos( direction_radians ), std::sin( direction_radians ) );
     delta = ( delta_f * 100 ).as_point();
-    abs_d = abs( delta );
+    abs_d = delta.abs();
     steps = 0;
     infinite = true;
 }

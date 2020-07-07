@@ -126,6 +126,10 @@ struct jmapgen_setmap {
     bool has_vehicle_collision( mapgendata &dat, const point &offset ) const;
 };
 
+struct spawn_data {
+    std::map<itype_id, jmapgen_int> ammo;
+};
+
 /**
  * Basic mapgen object. It is supposed to place or do something on a specific square on the map.
  * Inherit from this class and implement the @ref apply function.
@@ -262,7 +266,7 @@ struct jmapgen_objects {
 
         bool check_bounds( const jmapgen_place &place, const JsonObject &jso );
 
-        void add( const jmapgen_place &place, shared_ptr_fast<const jmapgen_piece> piece );
+        void add( const jmapgen_place &place, const shared_ptr_fast<const jmapgen_piece> &piece );
 
         /**
          * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
@@ -270,7 +274,7 @@ struct jmapgen_objects {
          * them in @ref objects.
          */
         template<typename PieceType>
-        void load_objects( JsonArray parray );
+        void load_objects( const JsonArray &parray );
 
         /**
          * Loads the mapgen objects from the array inside of jsi. If jsi has no member of that name,

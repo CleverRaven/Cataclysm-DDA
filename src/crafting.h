@@ -4,6 +4,7 @@
 
 #include <list>
 
+class Character;
 class item;
 class player;
 
@@ -23,4 +24,5 @@ void remove_ammo( item &dis_item, player &p );
 // same as above but for each item in the list
 void remove_ammo( std::list<item> &dis_items, player &p );
 
+void drop_or_handle( const item &newit, Character &p );
 #endif // CATA_SRC_CRAFTING_H

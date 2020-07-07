@@ -83,12 +83,6 @@ class string_id
             return _id != rhs._id;
         }
         /**
-         * The unusual comparator, compares the string id to char *
-         */
-        bool operator==( const char *rhs ) const {
-            return _id == rhs;
-        }
-        /**
          * Interface to the plain C-string of the id. This function mimics the std::string
          * object. Ids are often used in debug messages, where they are forwarded as C-strings
          * to be included in the format string, e.g. debugmsg("invalid id: %s", id.c_str())

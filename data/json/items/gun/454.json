@@ -8,6 +8,7 @@
     "description": "The Taurus Raging Bull is a 5-shot revolver chambered in .454 Casull.  It has impressive stopping power.",
     "weight": "1502 g",
     "volume": "565 ml",
+    "longest_side": "332 mm",
     "price": 64100,
     "price_postapoc": 2500,
     "to_hit": -2,
@@ -20,7 +21,6 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 5,
-    "magazines": [ [ "454", [ "454_speedloader5" ] ] ],
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "grip", 1 ],
@@ -29,7 +29,8 @@
       [ "sights", 1 ],
       [ "stock mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "454": 5, "410shot": 5, "45colt": 5 } } ]
   },
   {
     "id": "raging_judge",
@@ -40,7 +41,8 @@
     "description": "The Taurus Raging Judge Magnum is a 6-shot revolver chambered in .454 Casull.  It can fire .410 shotshells and .45 Colt cartridges as well.",
     "weight": "2070 g",
     "volume": "1175 ml",
+    "longest_side": "385 mm",
     "clip_size": 6,
-    "magazines": [ [ "454", [ "454_speedloader6" ] ] ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "454": 6, "410shot": 6, "45colt": 6 } } ]
   }
 ]

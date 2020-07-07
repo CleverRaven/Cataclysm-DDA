@@ -17,7 +17,7 @@
     "ammo_type": "9x18",
     "casing": "9x18mm_casing",
     "range": 13,
-    "damage": { "damage_type": "stab", "amount": 16, "armor_penetration": 2 },
+    "damage": { "damage_type": "bullet", "amount": 16, "armor_penetration": 2 },
     "dispersion": 60,
     "recoil": 300,
     "effects": [ "COOKOFF" ]
@@ -32,7 +32,7 @@
     "price_postapoc": 1000,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
     "count": 25,
-    "relative": { "range": 2, "damage": { "damage_type": "stab", "amount": 4 }, "dispersion": -10 },
+    "relative": { "range": 2, "damage": { "damage_type": "bullet", "amount": 4 }, "dispersion": -10 },
     "proportional": { "recoil": 1.1 }
   },
   {
@@ -43,7 +43,7 @@
     "description": "9x18mm Makarov RG028 ammunition.  The RG028 round uses bullets with a hardened steel core to improve armor penetration.",
     "price": 200,
     "price_postapoc": 3100,
-    "relative": { "damage": { "damage_type": "stab", "amount": -2, "armor_penetration": 8 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 8 } }
   },
   {
     "id": "bp_9x18mm",
@@ -52,7 +52,7 @@
     "name": { "str": "9x18mm, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -66,7 +66,7 @@
     "name": { "str": "9x18mm FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -79,7 +79,7 @@
     "type": "AMMO",
     "name": { "str": "9x18mm, reloaded" },
     "description": "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the Makarov PM.  As the designation implies, it is a bit shorter in case length compared to 9mm Parabellum.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -90,7 +90,7 @@
     "name": { "str": "9x18mm +P+, reloaded" },
     "//": "Rather than give it a military designation, this is simply handmade overpressure ammo.",
     "description": "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the Makarov PM.  This one has been hand-reloaded to generate higher internal pressure, boosting flight stability and damage.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -100,7 +100,7 @@
     "type": "AMMO",
     "name": { "str": "9x18mm FMJ, reloaded" },
     "description": "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the Makarov PM.  This brass-jacketed round increases penetration slightly, at the cost of reduced expansion.  This one has been hand-reloaded.",
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

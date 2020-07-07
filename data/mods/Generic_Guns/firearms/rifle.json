@@ -4,54 +4,67 @@
     "copy-from": "hk417_13",
     "type": "GUN",
     "name": { "str": "assault rifle" },
-    "ammo": "ammo_rifle",
+    "ammo": [ "ammo_rifle" ],
     "description": "The products of decades of improvement, rifle such as this are handy, reliable, and adaptable.  An 'assault rifle', it is capable of providing both accurate semi-automatic fire and bursts of automatic fire.  Short of large creatures and light vehicles, this should take care of most of your problems out to several hundred meters.",
-    "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_sniper_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_mag", "rifle_sniper_mag" ]
+      }
+    ]
   },
   {
     "id": "rifle_lmg",
     "copy-from": "m240",
     "type": "GUN",
     "name": { "str": "light machine gun" },
-    "ammo": "ammo_rifle",
+    "ammo": [ "ammo_rifle" ],
     "description": "The light machine gun is a formidable implement for suppressive fire, an important part of squad tactics.  Its belt feed allows for hundreds of rounds to be loaded, and its heavy components can withstand long bursts of fire.  While perhaps not as precise as a service rifle, a light machinegun does allow for a considerable amount of energy to be sent down range.  Slow to reload.",
-    "magazines": [ [ "ammo_rifle", [ "rifle_belt" ] ] ]
-  },
-  {
-    "id": "rifle_pipe_rifle",
-    "copy-from": "rifle_308",
-    "type": "GUN",
-    "name": { "str": "pipe rifle" },
-    "ammo": "ammo_rifle",
-    "description": "A crude longarm chambered in standard rifle ammunition, reinforced near the chamber.  It holds a single a round and has a crude assembly to fire it.  There's no extractor, so it might be slow to reload, and its construction makes for poor reliability and longevity.",
-    "clip_size": 1,
-    "magazines": [  ]
-  },
-  {
-    "id": "rifle_pipe_carbine",
-    "copy-from": "surv_carbine_223",
-    "type": "GUN",
-    "name": "survivor carbine",
-    "ammo": "ammo_rifle",
-    "description": "A crudely constructed carbine chambered for standard rifle ammo, fed from service rifle magazines.  It locks with a rudimentary lever action system.  The high pressures involved and questionable construction make for less than ideal durability and reliability, but this should still be a serviceable weapon, provided you can stay accurate with it.",
-    "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_sniper_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_belt" ]
+      }
+    ]
   },
   {
     "id": "rifle_sniper",
     "copy-from": "m2010",
     "type": "GUN",
     "name": "sniper rifle",
-    "ammo": "ammo_rifle",
+    "ammo": [ "ammo_rifle" ],
     "description": "Sniper rifles fill military, police and civilian needs for precise, accurate fire.  Modern examples feature detachable magazines and various mounting interfaces for optics and supports.  With care and practice, all should be quite capable of eliminating bipedal threats from very safe ranges. ",
-    "magazines": [ [ "ammo_rifle", [ "rifle_sniper_mag", "rifle_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_sniper_mag", "rifle_mag" ]
+      }
+    ]
   },
   {
     "id": "rifle_sporter",
     "copy-from": "ar10",
     "type": "GUN",
     "name": "sporter carbine",
-    "ammo": "ammo_rifle",
+    "ammo": [ "ammo_rifle" ],
     "description": "Though often mislabeled an asssault rifle, this common, cheap magazine fed carbine isn't capable of automatic fire.  While almost as effective as a proper rifle, the wider variety of components and varying levels of maintenance make these less reliable than their military brethren.  These rifles are just as adequate for taking on anything smaller than large game, however.",
-    "magazines": [ [ "ammo_rifle", [ "rifle_mag", "rifle_sniper_mag" ] ] ]
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "rifle_mag", "rifle_sniper_mag" ]
+      }
+    ]
   }
 ]

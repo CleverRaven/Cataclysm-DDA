@@ -17,7 +17,7 @@
     "ammo_type": "308",
     "casing": "308_casing",
     "range": 65,
-    "damage": { "damage_type": "stab", "amount": 60, "armor_penetration": 2 },
+    "damage": { "damage_type": "bullet", "amount": 60, "armor_penetration": 2 },
     "dispersion": 15,
     "recoil": 3000,
     "effects": [ "COOKOFF" ]
@@ -29,7 +29,7 @@
     "name": { "str": "7.62x51mm M80" },
     "casing": "762_51_casing",
     "description": "A 7.62x51mm NATO round with a 147gr FMJ bullet.  It is a powerful rifle cartridge commonly used by hunters and military snipers because of its high accuracy and long range.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -2, "armor_penetration": 4 }, "dispersion": -10 },
+    "relative": { "damage": { "damage_type": "bullet", "amount": -2, "armor_penetration": 4 }, "dispersion": -10 },
     "proportional": { "recoil": 1.1 },
     "extend": { "effects": [ "NEVER_MISFIRES" ] }
   },
@@ -48,7 +48,7 @@
     "name": { "str": ".308 Winchester, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -62,7 +62,7 @@
     "name": { "str": "7.62x51mm, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -76,7 +76,7 @@
     "name": { "str": "7.62x51mm tracer, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -88,7 +88,7 @@
     "copy-from": "308",
     "type": "AMMO",
     "name": { "str": ".308 Winchester, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -97,7 +97,7 @@
     "copy-from": "762_51",
     "type": "AMMO",
     "name": { "str": "7.62x51mm, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -106,7 +106,7 @@
     "copy-from": "762_51_incendiary",
     "type": "AMMO",
     "name": { "str": "7.62x51mm incendiary, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

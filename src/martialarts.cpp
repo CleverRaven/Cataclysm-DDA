@@ -16,7 +16,6 @@
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "item.h"
@@ -58,7 +57,7 @@ matype_id martial_art_learned_from( const itype &type )
 
     if( !type.book || type.book->martial_art.is_null() ) {
         debugmsg( "Item '%s' which claims to teach a martial art is missing martial_art",
-                  type.get_id() );
+                  type.get_id().str() );
         return {};
     }
 
@@ -468,7 +467,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         return false;
     }
 
-    if( wall_adjacent && !g->m.is_wall_adjacent( u.pos() ) ) {
+    if( wall_adjacent && !get_map().is_wall_adjacent( u.pos() ) ) {
         return false;
     }
 
@@ -646,6 +645,10 @@ int ma_buff::hit_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::HIT );
 }
+int ma_buff::critical_hit_chance_bonus( const Character &u ) const
+{
+    return bonuses.get_flat( u, affected_stat::CRITICAL_HIT_CHANCE );
+}
 int ma_buff::dodge_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::DODGE );
@@ -653,6 +656,10 @@ int ma_buff::dodge_bonus( const Character &u ) const
 int ma_buff::block_bonus( const Character &u ) const
 {
     return bonuses.get_flat( u, affected_stat::BLOCK );
+}
+int ma_buff::block_effectiveness_bonus( const Character &u ) const
+{
+    return bonuses.get_flat( u, affected_stat::BLOCK_EFFECTIVENESS );
 }
 int ma_buff::speed_bonus( const Character &u ) const
 {
@@ -974,7 +981,8 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
                             skill_unarmed );
 
     // Success conditions.
-    if( !owner.is_limb_broken( hp_arm_l ) || !owner.is_limb_broken( hp_arm_r ) ) {
+    if( !owner.is_limb_broken( bodypart_id( "arm_l" ) ) ||
+        !owner.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
         } else if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bio_armor_arms ) ) {
@@ -1077,6 +1085,14 @@ float Character::mabuff_tohit_bonus() const
     } );
     return ret;
 }
+float Character::mabuff_critical_hit_chance_bonus() const
+{
+    float ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
+        ret += d.get_intensity() * b.critical_hit_chance_bonus( *this );
+    } );
+    return ret;
+}
 float Character::mabuff_dodge_bonus() const
 {
     float ret = 0;
@@ -1090,6 +1106,14 @@ int Character::mabuff_block_bonus() const
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         ret += d.get_intensity() * b.block_bonus( *this );
+    } );
+    return ret;
+}
+int Character::mabuff_block_effectiveness_bonus( ) const
+{
+    int ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
+        ret += d.get_intensity() * b.block_effectiveness_bonus( *this );
     } );
     return ret;
 }
@@ -1379,7 +1403,7 @@ std::string ma_technique::get_description() const
 }
 
 bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
-                             uilist *menu )
+                             uilist * )
 {
     const std::string &action = ctxt.input_to_action( event );
     if( action != "SHOW_DESCRIPTION" ) {
@@ -1463,9 +1487,9 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         if( !ma.weapons.empty() ) {
             std::vector<std::string> weapons;
             std::transform( ma.weapons.begin(), ma.weapons.end(),
-                            std::back_inserter( weapons ), []( const std::string & wid )-> std::string { return item::nname( wid ); } );
+                            std::back_inserter( weapons ), []( const itype_id & wid )-> std::string { return item::nname( wid ); } );
             // Sorting alphabetically makes it easier to find a specific weapon
-            std::sort( weapons.begin(), weapons.end() );
+            std::sort( weapons.begin(), weapons.end(), localized_compare );
             // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
             auto last = std::unique( weapons.begin(), weapons.end() );
             weapons.erase( last, weapons.end() );
@@ -1516,7 +1540,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
             fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
             draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
             draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
-            wrefresh( w );
+            wnoutrefresh( w );
         } );
 
         do {
@@ -1540,8 +1564,6 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 selected--;
             }
         } while( true );
-
-        menu->redraw();
     }
     return true;
 }

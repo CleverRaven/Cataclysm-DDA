@@ -4,28 +4,28 @@
     "name": "quiver",
     "copy-from": "quiver",
     "type": "ARMOR",
-    "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20, "arrow_orichalcum": 20 }, "moves": 20 } ]
   },
   {
     "id": "quiver_large",
     "name": "large quiver",
     "copy-from": "quiver_large",
     "type": "ARMOR",
-    "use_action": { "type": "bandolier", "capacity": 60, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60, "arrow_orichalcum": 60 }, "moves": 20 } ]
   },
   {
     "id": "quiver_birchbark",
     "name": { "str": "birchbark quiver" },
     "copy-from": "quiver_birchbark",
     "type": "ARMOR",
-    "use_action": { "type": "bandolier", "capacity": 20, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "arrow": 20, "bolt": 20, "arrow_orichalcum": 20 }, "moves": 20 } ]
   },
   {
     "id": "quiver_large_birchbark",
     "name": "large birchbark quiver",
     "copy-from": "quiver_large_birchbark",
     "type": "ARMOR",
-    "use_action": { "type": "bandolier", "capacity": 60, "ammo": [ "arrow", "bolt", "arrow_orichalcum" ], "draw_cost": 20 }
+    "pocket_data": [ { "ammo_restriction": { "arrow": 60, "bolt": 60, "arrow_orichalcum": 60 }, "moves": 20 } ]
   },
   {
     "id": "armguard_demonchitin",

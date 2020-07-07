@@ -301,6 +301,30 @@
   },
   {
     "type": "ammunition_type",
+    "id": "butane",
+    "name": "butane",
+    "default": "butane"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "flare_nitrate",
+    "name": "flare pyrotechnic",
+    "default": "flare_nitrate"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "match",
+    "name": "match",
+    "default": "match"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "oxygen",
+    "name": "oxygen",
+    "default": "oxygen"
+  },
+  {
+    "type": "ammunition_type",
     "id": "motor_oil",
     "name": "motor oil",
     "default": "motor_oil"
@@ -442,6 +466,12 @@
     "id": "ampoule",
     "name": "chemical ampoule",
     "default": "ampoule"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "albuterol",
+    "name": "albuterol",
+    "default": "albuterol"
   },
   {
     "type": "ammunition_type",
@@ -600,6 +630,12 @@
     "default": "nitrox"
   },
   {
+    "type": "ammunition_type",
+    "id": "extinguishing_agent",
+    "name": "extinguishing agent",
+    "default": "extinguishing_agent"
+  },
+  {
     "id": "tinder",
     "name": "tinder",
     "default": "tinder",
@@ -622,5 +658,11 @@
     "id": "300blk",
     "name": ".300 AAC Blackout",
     "default": "300blk"
+  },
+  {
+    "type": "ammunition_type",
+    "id": "123ln",
+    "name": "12.3ln cartridge",
+    "default": "123ln"
   }
 ]

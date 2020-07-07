@@ -6,7 +6,7 @@
 #include <memory>
 
 #include "activity_handlers.h"
-#include "avatar.h"
+#include "character.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -86,13 +86,14 @@ static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teleglow( "teleglow" );
+static const efftype_id effect_tindrift( "tindrift" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_toxin_buildup( "toxin_buildup" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
 
-const vitamin_id vitamin_iron( "iron" );
+static const vitamin_id vitamin_iron( "iron" );
 
 static const mongroup_id GROUP_NETHER( "GROUP_NETHER" );
 
@@ -181,8 +182,9 @@ static void eff_fun_fungus( player &u, effect &it )
                                          _( "<npcname> vomits thousands of live spores!" ) );
 
                 u.moves = -500;
-                fungal_effects fe( *g, g->m );
-                for( const tripoint &sporep : g->m.points_in_radius( u.pos(), 1 ) ) {
+                map &here = get_map();
+                fungal_effects fe( *g, here );
+                for( const tripoint &sporep : here.points_in_radius( u.pos(), 1 ) ) {
                     if( sporep == u.pos() ) {
                         continue;
                     }
@@ -190,8 +192,8 @@ static void eff_fun_fungus( player &u, effect &it )
                 }
                 // We're fucked
             } else if( one_in( 36000 + bonus * 120 ) ) {
-                if( u.is_limb_broken( hp_arm_l ) || u.is_limb_broken( hp_arm_r ) ) {
-                    if( u.is_limb_broken( hp_arm_l ) && u.is_limb_broken( hp_arm_r ) ) {
+                if( u.is_limb_broken( bodypart_id( "arm_l" ) ) || u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
+                    if( u.is_limb_broken( bodypart_id( "arm_l" ) ) && u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
                         u.add_msg_player_or_npc( m_bad,
                                                  _( "The flesh on your broken arms bulges.  Fungus stalks burst through!" ),
                                                  _( "<npcname>'s broken arms bulge.  Fungus stalks burst out of the bulges!" ) );
@@ -486,8 +488,10 @@ void player::hardcoded_effects( effect &it )
 
     const time_duration dur = it.get_duration();
     int intense = it.get_intensity();
-    body_part bp = it.get_bp();
+    const bodypart_id &bp = convert_bp( it.get_bp() ).id();
     bool sleeping = has_effect( effect_sleep );
+    map &here = get_map();
+    Character &player_character = get_player_character();
     if( id == effect_dermatik ) {
         bool triggered = false;
         int formication_chance = 3600;
@@ -495,7 +499,7 @@ void player::hardcoded_effects( effect &it )
             formication_chance += 14400 - to_turns<int>( dur );
         }
         if( one_in( formication_chance ) ) {
-            add_effect( effect_formication, 60_minutes, bp );
+            add_effect( effect_formication, 60_minutes, bp->token );
         }
         if( dur < 1_days && one_in( 14400 ) ) {
             vomit();
@@ -505,7 +509,7 @@ void player::hardcoded_effects( effect &it )
             // Choose how many insects; more for large characters
             ///\EFFECT_STR_MAX increases number of insects hatched from dermatik infection
             int num_insects = rng( 1, std::min( 3, str_max / 3 ) );
-            apply_damage( nullptr, convert_bp( bp ).id(), rng( 2, 4 ) * num_insects );
+            apply_damage( nullptr,  bp, rng( 2, 4 ) * num_insects );
             // Figure out where they may be placed
             add_msg_player_or_npc( m_bad,
                                    _( "Your flesh crawls; insects tear through the flesh and begin to emerge!" ),
@@ -518,7 +522,7 @@ void player::hardcoded_effects( effect &it )
                 }
             }
             g->events().send<event_type::dermatik_eggs_hatch>( getID() );
-            remove_effect( effect_formication, bp );
+            remove_effect( effect_formication, bp->token );
             moves -= 600;
             triggered = true;
         }
@@ -534,14 +538,16 @@ void player::hardcoded_effects( effect &it )
         if( x_in_y( intense, 600 + 300 * get_int() ) && !has_effect( effect_narcosis ) ) {
             if( !is_npc() ) {
                 //~ %s is bodypart in accusative.
-                add_msg( m_warning, _( "You start scratching your %s!" ), body_part_name_accusative( bp ) );
-                g->u.cancel_activity();
-            } else if( g->u.sees( pos() ) ) {
+                add_msg( m_warning, _( "You start scratching your %s!" ),
+                         body_part_name_accusative( bp ) );
+                player_character.cancel_activity();
+            } else if( player_character.sees( pos() ) ) {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg( _( "%1$s starts scratching their %2$s!" ), name, body_part_name_accusative( bp ) );
+                add_msg( _( "%1$s starts scratching their %2$s!" ), name,
+                         body_part_name_accusative( bp ) );
             }
             moves -= 150;
-            apply_damage( nullptr, convert_bp( bp ).id(), 1 );
+            apply_damage( nullptr, bp, 1 );
         }
     } else if( id == effect_evil ) {
         // Worn or wielded; diminished effects
@@ -585,13 +591,13 @@ void player::hardcoded_effects( effect &it )
                 tries++;
             } while( g->critter_at( dest ) && tries < 10 );
             if( tries < 10 ) {
-                if( g->m.impassable( dest ) ) {
-                    g->m.make_rubble( dest, f_rubble_rock, true );
+                if( here.impassable( dest ) ) {
+                    here.make_rubble( dest, f_rubble_rock, true );
                 }
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                        GROUP_NETHER );
                 g->place_critter_at( spawn_details.name, dest );
-                if( g->u.sees( dest ) ) {
+                if( player_character.sees( dest ) ) {
                     g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                         _( "A monster appears nearby!" ) );
                     add_msg_if_player( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -622,6 +628,16 @@ void player::hardcoded_effects( effect &it )
                 mod_fatigue( dice( 1, 6 ) );
             }
         }
+    } else if( id == effect_tindrift ) {
+        add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
+        for( const tripoint &dest : here.points_in_radius( pos(), 6 ) ) {
+            if( here.is_cornerfloor( dest ) ) {
+                here.add_field( dest, fd_tindalos_rift, 3 );
+                add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
+                //Remove the effect, since it's done all it needs to do to the target.
+                remove_effect( effect_tindrift );
+            }
+        }
     } else if( id == effect_teleglow ) {
         // Default we get around 300 duration points per teleport (possibly more
         // depending on the source).
@@ -644,29 +660,22 @@ void player::hardcoded_effects( effect &it )
                     it.set_duration( 0_turns );
                 }
             }
-            if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
-                add_msg_if_player( m_bad, _( "You are beset with a vision of a prowling beast." ) );
-                for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
-                    if( g->m.is_cornerfloor( dest ) ) {
-                        g->m.add_field( dest, fd_tindalos_rift, 3 );
-                        add_msg_if_player( m_info, _( "Your surroundings are permeated with a foul scent." ) );
-                        break;
-                    }
-                }
-                if( one_in( 2 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
+        }
+        if( one_in( 7200 - ( dur - 360_minutes ) / 4_turns ) ) {
+            //Spawn a tindalos rift via effect_tindrift rather than it being hard-coded to teleglow
+            add_effect( effect_tindrift, 5_turns );
+
+            if( one_in( 2 ) ) {
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
             }
-            if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
-                if( !is_npc() ) {
-                    add_msg( m_bad, _( "You pass out." ) );
-                }
-                fall_asleep( 2_hours );
-                if( one_in( 6 ) ) {
-                    // Set ourselves up for removal
-                    it.set_duration( 0_turns );
-                }
+        }
+        if( one_in( 7200 - ( ( dur - 600_minutes ) / 30_seconds ) ) && one_in( 20 ) ) {
+            add_msg_if_player( m_bad, _( "You pass out." ) );
+            fall_asleep( 2_hours );
+            if( one_in( 6 ) ) {
+                // Set ourselves up for removal
+                it.set_duration( 0_turns );
             }
         }
         if( dur > 6_hours ) {
@@ -685,13 +694,13 @@ void player::hardcoded_effects( effect &it )
                     }
                 } while( g->critter_at( dest ) );
                 if( tries < 10 ) {
-                    if( g->m.impassable( dest ) ) {
-                        g->m.make_rubble( dest, f_rubble_rock, true );
+                    if( here.impassable( dest ) ) {
+                        here.make_rubble( dest, f_rubble_rock, true );
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup(
                                                            GROUP_NETHER );
                     g->place_critter_at( spawn_details.name, dest );
-                    if( g->u.sees( dest ) ) {
+                    if( player_character.sees( dest ) ) {
                         g->cancel_activity_or_ignore_query( distraction_type::hostile_spotted_far,
                                                             _( "A monster appears nearby!" ) );
                         add_msg( m_warning, _( "A portal opens nearby, and a monster crawls through!" ) );
@@ -877,12 +886,12 @@ void player::hardcoded_effects( effect &it )
                     _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
             }
             g->events().send<event_type::dies_from_drug_overdose>( getID(), id );
-            hp_cur[hp_torso] = 0;
+            set_part_hp_cur( bodypart_id( "torso" ), 0 );
         }
     } else if( id == effect_grabbed ) {
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
         int zed_number = 0;
-        for( auto &dest : g->m.points_in_radius( pos(), 1, 0 ) ) {
+        for( auto &dest : here.points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number += mon->get_grab_strength();
@@ -948,7 +957,7 @@ void player::hardcoded_effects( effect &it )
         if( !recovered ) {
             // Move up to infection
             if( dur > 6_hours ) {
-                add_effect( effect_infected, 1_turns, bp, true );
+                add_effect( effect_infected, 1_turns, bp->token, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
             } else if( has_effect( effect_strong_antibiotic ) ) {
@@ -1070,7 +1079,7 @@ void player::hardcoded_effects( effect &it )
 
         if( calendar::once_every( 10_minutes ) && ( has_trait( trait_CHLOROMORPH ) ||
                 has_trait( trait_M_SKIN3 ) || has_trait( trait_WATERSLEEP ) ) &&
-            g->m.is_outside( pos() ) ) {
+            here.is_outside( pos() ) ) {
             if( has_trait( trait_CHLOROMORPH ) ) {
                 // Hunger and thirst fall before your Chloromorphic physiology!
                 if( g->natural_light_level( posz() ) >= 12 && compatible_weather_types ) {
@@ -1086,7 +1095,7 @@ void player::hardcoded_effects( effect &it )
             }
             if( has_trait( trait_M_SKIN3 ) ) {
                 // Spores happen!
-                if( g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
+                if( here.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
                     if( get_fatigue() >= 0 ) {
                         mod_fatigue( -5 ); // Local guides need less sleep on fungal soil
                     }
@@ -1144,7 +1153,7 @@ void player::hardcoded_effects( effect &it )
                     trait_SEESLEEP ) ) { // People who can see while sleeping are acclimated to the light.
                 if( has_trait( trait_HEAVYSLEEPER2 ) && !has_trait( trait_HIBERNATE ) ) {
                     // So you can too sleep through noon
-                    if( ( tirednessVal * 1.25 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
+                    if( ( tirednessVal * 1.25 ) < here.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
                             one_in( get_fatigue() / 2 ) ) ) {
                         add_msg_if_player( _( "It's too bright to sleep." ) );
                         // Set ourselves up for removal
@@ -1153,14 +1162,14 @@ void player::hardcoded_effects( effect &it )
                     }
                     // Ursine hibernators would likely do so indoors.  Plants, though, might be in the sun.
                 } else if( has_trait( trait_HIBERNATE ) ) {
-                    if( ( tirednessVal * 5 ) < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
+                    if( ( tirednessVal * 5 ) < here.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
                             one_in( get_fatigue() / 2 ) ) ) {
                         add_msg_if_player( _( "It's too bright to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );
                         woke_up = true;
                     }
-                } else if( tirednessVal < g->m.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
+                } else if( tirednessVal < here.ambient_light_at( pos() ) && ( get_fatigue() < 10 ||
                            one_in( get_fatigue() / 2 ) ) ) {
                     add_msg_if_player( _( "It's too bright to sleep." ) );
                     // Set ourselves up for removal
@@ -1216,12 +1225,12 @@ void player::hardcoded_effects( effect &it )
                 } else {
                     int max_count = rng( 1, 3 );
                     int count = 0;
-                    for( const tripoint &mp : g->m.points_in_radius( pos(), 1 ) ) {
+                    for( const tripoint &mp : here.points_in_radius( pos(), 1 ) ) {
                         if( mp == pos() ) {
                             continue;
                         }
-                        if( g->m.has_flag( "FLAT", mp ) &&
-                            g->m.pl_sees( mp, 2 ) ) {
+                        if( here.has_flag( "FLAT", mp ) &&
+                            here.pl_sees( mp, 2 ) ) {
                             g->spawn_hallucination( mp );
                             if( ++count > max_count ) {
                                 break;
@@ -1289,9 +1298,9 @@ void player::hardcoded_effects( effect &it )
             }
         } else {
             if( dur == 1_turns ) {
-                if( g->u.has_alarm_clock() ) {
-                    sounds::sound( g->u.pos(), 16, sounds::sound_t::alarm, _( "beep-beep-beep!" ), false, "tool",
-                                   "alarm_clock" );
+                if( player_character.has_alarm_clock() ) {
+                    sounds::sound( player_character.pos(), 16, sounds::sound_t::alarm,
+                                   _( "beep-beep-beep!" ), false, "tool", "alarm_clock" );
                     const std::string alarm = _( "Your alarm is going off." );
                     g->cancel_activity_or_ignore_query( distraction_type::noise, alarm );
                     add_msg( _( "Your alarm went off." ) );
@@ -1299,20 +1308,14 @@ void player::hardcoded_effects( effect &it )
             }
         }
     } else if( id == effect_mending ) {
-        if( !is_limb_broken( bp_to_hp( bp ) ) ) {
+        if( !is_limb_broken( bp ) ) {
             it.set_duration( 0_turns );
         }
     } else if( id == effect_disabled ) {
-        if( !is_limb_broken( bp_to_hp( bp ) ) ) {
+        if( !is_limb_broken( bp ) ) {
             // Just unpause, in case someone added it as a temporary effect (numbing poison etc.)
             it.unpause_effect();
         }
-    } else if( id == effect_panacea ) {
-        // restore health all body parts, dramatically reduce pain
-        for( int i = 0; i < num_hp_parts; i++ ) {
-            hp_cur[i] += 10;
-        }
-        mod_pain( -10 );
     } else if( id == effect_toxin_buildup ) {
         // Loosely based on toxic man-made compounds (mostly pesticides) which don't degrade
         // easily, leading to build-up in muscle and fat tissue through bioaccumulation.

@@ -33,7 +33,7 @@
         "|||||| PP  PP  PP ||||||"
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" },
       "computers": {
         "6": {
           "name": "Security Terminal",
@@ -78,7 +78,7 @@
         "|||||| PP  PP  PP ||||||"
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" },
       "computers": {
         "6": {
           "name": "Security Terminal",
@@ -124,7 +124,7 @@
       ],
       "set": [ { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] } ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" },
       "monster": { "M": { "monster": "mon_mutant_experimental" }, "ü": { "monster": "mon_mutant_evolved" } },
       "computers": {
         "6": {
@@ -171,7 +171,7 @@
       ],
       "set": [ { "point": "bash", "x": [ 6, 18 ], "y": [ 6, 18 ], "repeat": [ 30, 100 ] } ],
       "palettes": [ "microlab" ],
-      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_red" },
+      "terrain": { "X": "t_region_shrub_decorative", "P": "t_carpet_concrete_red" },
       "monster": { "M": { "monster": "mon_hunting_horror" }, "ü": { "monster": "mon_breather_hub" } },
       "computers": {
         "6": {

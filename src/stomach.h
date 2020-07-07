@@ -132,12 +132,12 @@ class stomach_contents
         void mod_nutr( int nutr );
         // changes water amount in stomach
         // overflow draws from player thirst
-        void mod_water( units::volume h2o );
+        void mod_water( const units::volume &h2o );
         // changes water amount in stomach converted from quench value
         // TODO: Move to mL values of water
         void mod_quench( int quench );
         // adds volume to your stomach
-        void mod_contents( units::volume vol );
+        void mod_contents( const units::volume &vol );
 
         // how long has it been since i ate?
         // only really relevant for player::stomach

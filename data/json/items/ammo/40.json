@@ -5,7 +5,7 @@
     "type": "AMMO",
     "name": { "str": ".40 S&W FMJ" },
     "description": ".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto cartridge's power with lower recoil, the .40 S&W round became popular for law enforcement and personal defense.",
-    "relative": { "damage": { "damage_type": "stab", "amount": -3, "armor_penetration": 6 } }
+    "relative": { "damage": { "damage_type": "bullet", "amount": -3, "armor_penetration": 6 } }
   },
   {
     "id": "40sw",
@@ -25,7 +25,7 @@
     "ammo_type": "40",
     "casing": "40_casing",
     "range": 14,
-    "damage": { "damage_type": "stab", "amount": 26, "armor_penetration": 4 },
+    "damage": { "damage_type": "bullet", "amount": 26, "armor_penetration": 4 },
     "dispersion": 50,
     "recoil": 560,
     "effects": [ "COOKOFF" ]
@@ -37,7 +37,7 @@
     "name": { "str": ".40 S&W FMJ, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -51,7 +51,7 @@
     "name": { "str": ".40 S&W JHP, black powder" },
     "proportional": {
       "price": 0.3,
-      "damage": { "damage_type": "stab", "amount": 0.76, "armor_penetration": 0.5 },
+      "damage": { "damage_type": "bullet", "amount": 0.76, "armor_penetration": 0.5 },
       "recoil": 0.76,
       "dispersion": 1.2
     },
@@ -63,7 +63,7 @@
     "copy-from": "40fmj",
     "type": "AMMO",
     "name": { "str": ".40 S&W FMJ, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   },
@@ -72,7 +72,7 @@
     "copy-from": "40sw",
     "type": "AMMO",
     "name": { "str": ".40 S&W JHP, reloaded" },
-    "proportional": { "price": 0.7, "damage": { "damage_type": "stab", "amount": 0.9 }, "dispersion": 1.1 },
+    "proportional": { "price": 0.7, "damage": { "damage_type": "bullet", "amount": 0.9 }, "dispersion": 1.1 },
     "extend": { "effects": [ "RECYCLED" ] },
     "delete": { "effects": [ "NEVER_MISFIRES" ], "flags": [ "IRREPLACEABLE_CONSUMABLE" ] }
   }

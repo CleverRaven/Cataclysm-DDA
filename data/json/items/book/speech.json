@@ -71,5 +71,24 @@
     "max_level": 5,
     "intelligence": 9,
     "time": "30 m"
+  },
+  {
+    "id": "book_nonf_soft_speech_naillaw",
+    "type": "BOOK",
+    "name": { "str": "Nail Your Law Firm Interview", "str_pl": "copies of Nail Your Law Firm Interview" },
+    "description": "This lightweight book proclaims itself to be \"the ONLY gold star interview guide for lawyers interviewing in any type of a job interview.\"  It was suppsed to help new lawyers find work.",
+    "weight": "360 g",
+    "volume": "528 ml",
+    "price": 2000,
+    "price_postapoc": 8000,
+    "bashing": 1,
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "blue",
+    "skill": "speech",
+    "required_level": 3,
+    "max_level": 4,
+    "intelligence": 7,
+    "time": "24 m"
   }
 ]

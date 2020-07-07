@@ -17,7 +17,6 @@
 class material_type;
 
 enum damage_type : int;
-using itype_id = std::string;
 class JsonObject;
 
 using mat_burn_products = std::vector<std::pair<itype_id, float>>;
@@ -40,6 +39,7 @@ class material_type
         int _acid_resist = 0;
         int _elec_resist = 0;
         int _fire_resist = 0;
+        int _bullet_resist = 0;
         int _chip_resist = 0;                         // Resistance to physical damage of the item itself
         int _density = 1;                             // relative to "powder", which is 1
         float _specific_heat_liquid = 4.186;
@@ -84,6 +84,7 @@ class material_type
         itype_id repaired_with() const;
         int bash_resist() const;
         int cut_resist() const;
+        int bullet_resist() const;
         std::string bash_dmg_verb() const;
         std::string cut_dmg_verb() const;
         std::string dmg_adj( int damage ) const;

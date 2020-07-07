@@ -10,11 +10,11 @@ TEST_CASE( "visitable_summation" )
     item bottle_of_water( "bottle_plastic", calendar::turn );
     item water_in_bottle( "water", calendar::turn );
     water_in_bottle.charges = bottle_of_water.get_remaining_capacity_for_liquid( water_in_bottle );
-    bottle_of_water.put_in( water_in_bottle );
+    bottle_of_water.put_in( water_in_bottle, item_pocket::pocket_type::CONTAINER );
     test_inv.add_item( bottle_of_water );
 
     const item unlimited_water( "water", 0, item::INFINITE_CHARGES );
     test_inv.add_item( unlimited_water );
 
-    CHECK( test_inv.charges_of( "water", item::INFINITE_CHARGES ) > 1 );
+    CHECK( test_inv.charges_of( itype_id( "water" ), item::INFINITE_CHARGES ) > 1 );
 }
