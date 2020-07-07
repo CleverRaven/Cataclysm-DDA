@@ -110,7 +110,8 @@ Things that weather can cause to happen.
 | `target_part`                  | Optional: Bodypart that above effect or damage are applied to, if blank affects whole body. |
 | `damage`                       | Optional: Hp bashing damage applied.                                  |
 | `spawns`                       | Optional: Array of spawns to cause.  If spawns are selected but are unable to spawn the effect is cancelled. |
-        
+| `fields`                       | Optional: Array of fields to cause.  Elements are discussed below     |
+      
         optional( weather_effect_jo, was_loaded, "", effect.lightning, false );
         ### Example
 
@@ -133,9 +134,9 @@ Things that weather can cause to happen.
         "real_count":0
 }]
 ```  
-   ### Weather_effects
+   ### spawn_type
 
-Things that weather can cause to happen.
+How many and what spawns
 
 ##Fields     
         
@@ -147,4 +148,20 @@ Things that weather can cause to happen.
 | `real_count`                   | Optional: Number of real copies to spawn.                             |
 | `target`                       | Optional: Monster id of target to spawn.  If left blank a nearby monster will be used. |
 | `target_range`                 | Optional: If target is left blank how far away to look for something to copy. |
+
+ ### fields
+
+Fields to create what kind and where
+
+##Fields     
+        
+|     Identifier                 |                              Description                              |
+| ------------------------------ | --------------------------------------------------------------------- |
+| `type`                         | The string id of the field.                                           |
+| `intensity`                    | Intensity of the field.                                               |
+| `age`                          | Age of the field.                                                     |
+| `outdoor_only`                 | Optional: Defaults to true. If true field will only spawn outdoors.   |
+| `radius`                       | Optional: Radius around player the effect will spread, defaults to everywhere.  |
+
+
 

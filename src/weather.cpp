@@ -21,6 +21,7 @@
 #include "item_contents.h"
 #include "line.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "math_defines.h"
 #include "messages.h"
 #include "options.h"
@@ -597,6 +598,13 @@ void handle_weather_effects( weather_type_id const w )
         }
         if( !spawned ) {
             continue;
+        }
+        for( const weather_field &field : current_effect.fields ) {
+            for( const tripoint &dest : get_map().points_in_radius( target_character.pos(), field.radius ) ) {
+                if( !field.outdoor_only || get_map().is_outside( dest ) ) {
+                    get_map().add_field( dest, field.type, field.intensity, field.age );
+                }
+            }
         }
         if( current_effect.effect_id.is_valid() ) {
             if( current_effect.target_part.is_valid() ) {

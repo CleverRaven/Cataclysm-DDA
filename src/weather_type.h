@@ -5,6 +5,7 @@
 #include <string>
 
 #include "bodypart.h"
+#include "field.h"
 #include "generic_factory.h"
 #include "translations.h"
 #include "type_id.h"
@@ -88,6 +89,14 @@ struct weather_requirements {
     std::vector<weather_type_id> required_weathers;
 };
 
+struct weather_field {
+    field_type_str_id type;
+    int intensity;
+    time_duration age;
+    int radius;
+    bool outdoor_only;
+};
+
 struct spawn_type {
     mtype_id target;
     int target_range;
@@ -116,6 +125,7 @@ struct weather_effect {
     bodypart_str_id target_part;
     int damage;
     std::vector<spawn_type> spawns;
+    std::vector<weather_field> fields;
 };
 
 struct weather_type {

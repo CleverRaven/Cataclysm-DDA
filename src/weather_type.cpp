@@ -133,6 +133,12 @@ void weather_type::check() const
                 abort();
             }
         }
+        for( const weather_field &field : effect.fields ) {
+            if( !field.type.is_valid() ) {
+                debugmsg( "field type %s does not exist.", field.type.c_str() );
+                abort();
+            }
+        }
     }
 }
 
@@ -185,6 +191,16 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         optional( weather_effect_jo, was_loaded, "effect_duration", effect.effect_duration );
         optional( weather_effect_jo, was_loaded, "target_part", effect.target_part );
         optional( weather_effect_jo, was_loaded, "damage", effect.damage, 0 );
+        for( const JsonObject field_jo : weather_effect_jo.get_array( "fields" ) ) {
+            weather_field new_field;
+            mandatory( field_jo, was_loaded, "type", new_field.type );
+            mandatory( field_jo, was_loaded, "intensity", new_field.intensity );
+            mandatory( field_jo, was_loaded, "age", new_field.age );
+            optional( field_jo, was_loaded, "outdoor_only", new_field.outdoor_only, true );
+            optional( field_jo, was_loaded, "radius", new_field.radius, 10000000 );
+
+            effect.fields.emplace_back( new_field );
+        }
         for( const JsonObject spawn_jo : weather_effect_jo.get_array( "spawns" ) ) {
             spawn_type spawn;
             mandatory( spawn_jo, was_loaded, "max_radius", spawn.max_radius );
