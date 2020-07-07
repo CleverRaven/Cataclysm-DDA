@@ -2619,7 +2619,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_ENCUMBRANCE ) && covers_anything ) {
         std::string format;
-        const bool sizing_matters = get_sizing( g->u ) != sizing::ignore;
+        const bool sizing_matters = get_sizing( player_character ) != sizing::ignore;
         if( has_flag( flag_FIT ) ) {
             format = _( " <info>(fits)</info>" );
         } else if( has_flag( flag_VARSIZE ) && sizing_matters ) {
@@ -2627,7 +2627,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         }
 
         if( sizing_matters ) {
-            const sizing sizing_level = get_sizing( g->u );
+            const sizing sizing_level = get_sizing( player_character );
             //If we have the wrong size, we do not fit so alert the player
             if( sizing_level == sizing::human_sized_small_char ) {
                 format = _( " <bad>(too big)</bad>" );
@@ -2673,8 +2673,8 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                             if( covering_id != bodypart_str_id( "num_bp" ) ) {
                                 piece_data.insert( {
                                     covering_id, { {
-                                            get_encumber( g->u, covering_id ),
-                                            get_encumber( g->u, covering_id, encumber_flags::assume_full ),
+                                            get_encumber( player_character, covering_id ),
+                                            get_encumber( player_character, covering_id, encumber_flags::assume_full ),
                                             piece.coverage
                                         }, {
                                             covering_id.obj().name_as_heading,
