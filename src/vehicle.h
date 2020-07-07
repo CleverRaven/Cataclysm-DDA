@@ -1659,7 +1659,7 @@ class vehicle
         //returns whether the engine uses specified fuel type
         bool is_engine_type( int e, const itype_id &ft ) const;
         //returns whether the engine uses one of specific "combustion" fuel types (gas, diesel and diesel substitutes)
-        bool is_combustion_engine_type( const int e ) const;
+        bool is_combustion_engine_type( int e ) const;
         //returns whether the alternator is operational
         bool is_alternator_on( int a ) const;
         //turn engine as on or off (note: doesn't perform checks if engine can start)
