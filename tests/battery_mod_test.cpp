@@ -99,7 +99,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                 // FIXME: Required to fix #40948
                 itype_id mag_default = flashlight.magazine_default( false );
                 CHECK_FALSE( mag_default.is_null() );
-                CHECK( mag_default.str() == "medium_battery_cell" );
+                CHECK( mag_default.str() == "medium_atomic_battery_cell" );
             }
 
             THEN( "light batteries no longer fit" ) {
@@ -109,14 +109,15 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
 
             AND_WHEN( "a medium battery is installed" ) {
                 item med_battery( "medium_battery_cell" );
-                ret_val<bool> result = flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
 
                 THEN( "battery installation succeeds" ) {
+                    ret_val<bool> result = flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
                     // FIXME: Required to fix #40948
                     CHECK( result.success() );
                 }
 
                 THEN( "the flashlight has a battery" ) {
+                    flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
                     // FIXME: Required to fix #40948
                     CHECK( flashlight.magazine_current() );
                 }
@@ -125,6 +126,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                     const int bat_charges = med_battery.ammo_capacity( ammotype( "battery" ) );
                     med_battery.ammo_set( med_battery.ammo_default(), bat_charges );
                     REQUIRE( med_battery.ammo_remaining() == bat_charges );
+                    flashlight.put_in( med_battery, item_pocket::pocket_type::MAGAZINE_WELL );
 
                     THEN( "the flashlight has charges" ) {
                         // FIXME: Required to fix #40948
@@ -232,7 +234,7 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
             itype_id mag_default = flashlight.magazine_default( false );
             CHECK_FALSE( mag_default.is_null() );
             // FIXME: Required to fix #40800
-            CHECK( mag_default.str() == "light_battery_cell" );
+            CHECK( mag_default.str() == "light_atomic_battery_cell" );
         }
 
         SECTION( "can use battery ammo" ) {
