@@ -628,7 +628,7 @@ void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoi
             mvwputch( w, point( k, j ), col, sym );
         } else {
             // This function reveals tile at p and writes it to the player's memory
-            g.m.drawsq( g.w_terrain, g.u, p, true, true, center );
+            get_map().drawsq( g.w_terrain, g.u, p, true, true, center );
         }
     }
 }
@@ -665,8 +665,9 @@ namespace
 {
 void draw_line_curses( game &g, const std::vector<tripoint> &points )
 {
+    map &here = get_map();
     for( const tripoint &p : points ) {
-        g.m.drawsq( g.w_terrain, g.u, p, true, true );
+        here.drawsq( g.w_terrain, g.u, p, true, true );
     }
 
     const tripoint p = points.empty() ? tripoint {POSX, POSY, 0} :
