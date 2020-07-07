@@ -1764,19 +1764,17 @@ class item : public visitable<item>
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
         itype_id ammo_current() const;
-        /** Set of ammo types (@ref ammunition_type) used by item
-         *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
-        std::set<ammotype> ammo_types( bool conversion = true ) const;
-
         /** Ammo type of an ammo item
          *  @return ammotype of ammo item or a null id if the item is not ammo */
         ammotype ammo_type() const;
 
-        /** Get default ammo used by item or a null id if item does not have a default ammo type
+        /** Ammo types (@ref ammunition_type) the item magazine pocket can contain.
          *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return itype_id::NULL_ID() if item does not use a specific ammo type
-         *  (and is consequently not reloadable) */
+         *  @return empty set if item does not have a magazine for a specific ammo type */
+        std::set<ammotype> ammo_types( bool conversion = true ) const;
+        /** Default ammo for the the item magazine pocket, if item has ammo_types().
+         *  @param conversion whether to include the effect of any flags or mods which convert the type
+         *  @return itype_id::NULL_ID() if item does have a magazine for a specific ammo type */
         itype_id ammo_default( bool conversion = true ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
