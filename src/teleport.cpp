@@ -31,7 +31,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         return false;
     }
     player *const p = critter.as_player();
-    const bool c_is_u = p != nullptr && p == &g->u;
+    const bool c_is_u = p != nullptr && p->is_avatar();
     int tries = 0;
     tripoint origin = critter.pos();
     tripoint new_pos = origin;
@@ -78,7 +78,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
             poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             return false;
         } else {
-            const bool poor_soul_is_u = ( poor_soul == &g->u );
+            const bool poor_soul_is_u = ( poor_soul->is_avatar() );
             if( poor_soul_is_u ) {
                 add_msg( m_bad, _( "…" ) );
                 add_msg( m_bad, _( "You explode into thousands of fragments." ) );
