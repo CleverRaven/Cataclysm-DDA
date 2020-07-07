@@ -12,6 +12,7 @@
     "name": "whately",
     "friendly": [ "human", "player" ],
     "neutral": "herbivore",
-    "by_mood": [ "insect", "small_animal" ]
+    "by_mood": [ "insect", "small_animal" ],
+    "hate": "zombie"
   }
 ]

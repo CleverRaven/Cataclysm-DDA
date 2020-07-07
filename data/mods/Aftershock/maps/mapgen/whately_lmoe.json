@@ -9,13 +9,13 @@
     "object": {
       "rows": [
         "       S     S         S",
-        "   S       S     S      ",
-        " S     S            S   ",
+        "   S  X    S     S      ",
+        " S     S         X  S   ",
         "          S             ",
         "   S    S SSSSS      S  ",
         "      SSSSSSSSSSSS      ",
         "     SS$$$$$$$$$$SS     ",
-        "     S$$TTTTTTTT$$S   S ",
+        "  X  S$$TTTTTTTT$$S   S ",
         "    SS$$T))))))T$$S     ",
         " S  SS$$T)####)T$$SS    ",
         "    SS$$T)#<>#)T$$SS    ",
@@ -25,9 +25,9 @@
         "     S$$$$$_$$$$$$S     ",
         "     SS$$$$_$$$$$SS  S  ",
         "      SSSSS_SSSSSS      ",
-        "S      S S   SS S       ",
+        "S X    S S   SS S       ",
         "                 S    S ",
-        "   S   S                ",
+        "   S   S           X    ",
         "            S  S        ",
         "                       S",
         "    S      S            ",
@@ -265,6 +265,9 @@
       "(": "t_slope_down",
       "T": [ "t_region_tree_fruit", "t_region_tree_nut" ]
     },
-    "items": { " ": [ { "item": "forest", "chance": 1 }, { "item": "field", "chance": 2 } ] }
+    "items": { " ": [ { "item": "forest", "chance": 1 }, { "item": "field", "chance": 2 } ] },
+    "monster": {
+    "X": { "monster": "mon_migoturret_whately" }
+    }
   }
 ]
