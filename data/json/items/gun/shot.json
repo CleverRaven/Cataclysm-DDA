@@ -383,6 +383,7 @@
     "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is a 28 inch barreled model for hunting fowl and game.",
     "weight": "3400 g",
     "volume": "2487 ml",
+    "longest_side": "1234 mm",
     "price": 58700,
     "price_postapoc": 2500,
     "to_hit": -1,
@@ -403,6 +404,7 @@
     "description": "This Remington 870 Modular Combat System shotgun is currently setup for breaching operations, with a 10 inch barrel and no stock.  It is small enough to carry as a secondary weapon, specifically to pop open any pesky doors you might come across.  The grip's design makes for controllable yet unpleasant recoil, and the barrel lacks any sights.",
     "weight": "2812 g",
     "volume": "1284 ml",
+    "longest_side": "53 cm",
     "looks_like": "remington_870",
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "skill": "pistol",
@@ -438,6 +440,7 @@
     "description": "With over 10 million made, the Remington 870 is one of the most popular shotguns on the market, and finds use with hunters and law enforcement agencies alike thanks to its high accuracy and muzzle velocity.  This one is an 18.5 inch barreled defensive model.",
     "weight": "3402 g",
     "volume": "2365 ml",
+    "longest_side": "983 mm",
     "looks_like": "remington_870",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 345,
@@ -454,6 +457,7 @@
     "description": "This semi-automatic shotgun features a self compensating gas system that will feed a wide array of shells while also reducing recoil.  Introduced in 1963, it is favored by law enforcement, hunters and competition shooters, and has been the best-selling autoloading shotgun in U.S. history.  This is the nickel finished, teflon coated competition model, with a full length magazine tube and 30 inch barrel.",
     "weight": "3742 g",
     "volume": "2626 ml",
+    "longest_side": "1288 mm",
     "price_postapoc": 3250,
     "looks_like": "remington_870",
     "price": 130000,
@@ -480,7 +484,7 @@
       [ "underbarrel mount", 1 ]
     ],
     "extend": { "flags": [ "RELOAD_ONE" ] },
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
     "id": "revolver_shotgun",
