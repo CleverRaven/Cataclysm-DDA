@@ -7388,7 +7388,7 @@ itype_id item::magazine_default( bool conversion ) const
     return itype_id::NULL_ID();
 }
 
-std::set<itype_id> item::magazine_compatible( bool conversion ) const
+std::set<itype_id> item::magazine_compatible( bool /* conversion */ ) const
 {
     return contents.magazine_compatible();
 }
