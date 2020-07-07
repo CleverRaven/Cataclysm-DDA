@@ -196,6 +196,7 @@
     "description": "A large, human size, rectangular bag made of strong plastic, with a zipper in the middle.  Used to hold a dead body.",
     "weight": "1500 g",
     "volume": "1 L",
+    "longest_side": "40 cm",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -5,
