@@ -147,5 +147,17 @@
     "name": "GROUP_FORGEDEMONS",
     "default": "mon_forgedemons",
     "monsters": [ { "monster": "mon_forgedemons", "freq": 100, "cost_multiplier": 3 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FORGE_DWARVES",
+    "default": "mon_forgedwarves",
+    "monsters": [ { "monster": "mon_forgedemons", "freq": 100, "cost_multiplier": 3 } ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_FORGE_AUTOMATA",
+    "default": "mon_forgeborn",
+    "monsters": [ { "monster": "mon_forgedemons", "freq": 100, "cost_multiplier": 3 } ]
   }
 ]

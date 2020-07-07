@@ -40,7 +40,7 @@
     "id": "NC_FORGE_LORD_clothes",
     "subtype": "collection",
     "entries": [
-      { "item": "bag_holding_1", "prob": 100 },
+      { "item": "mbelt_pockets_greater", "prob": 100 },
       { "item": "cloak_morthylla", "prob": 100 },
       { "item": "mboots_escape", "prob": 100 },
       { "item": "breeches", "prob": 100 },
