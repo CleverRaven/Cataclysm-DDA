@@ -327,9 +327,10 @@ static void set_time( const time_point &time )
     calendar::turn = time;
     g->reset_light_level();
     int z = g->u.posz();
-    g->m.update_visibility_cache( z );
-    g->m.invalidate_map_cache( z );
-    g->m.build_map_cache( z );
+    map &here = get_map();
+    here.update_visibility_cache( z );
+    here.invalidate_map_cache( z );
+    here.build_map_cache( z );
 }
 
 // This tries to actually run the whole craft activity, which is more thorough,

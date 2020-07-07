@@ -866,5 +866,33 @@
     "activity_level": "NO_EXERCISE",
     "verb": "consuming",
     "based_on": "time"
+  },
+  {
+    "id": "ACT_WORKOUT_HARD",
+    "type": "activity_type",
+    "activity_level": "EXTRA_EXERCISE",
+    "verb": { "ctxt": "training", "str": "working out" },
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_WORKOUT_ACTIVE",
+    "type": "activity_type",
+    "activity_level": "ACTIVE_EXERCISE",
+    "verb": { "ctxt": "training", "str": "working out" },
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_WORKOUT_MODERATE",
+    "type": "activity_type",
+    "activity_level": "MODERATE_EXERCISE",
+    "verb": { "ctxt": "training", "str": "working out" },
+    "based_on": "time"
+  },
+  {
+    "id": "ACT_WORKOUT_LIGHT",
+    "type": "activity_type",
+    "activity_level": "LIGHT_EXERCISE",
+    "verb": { "ctxt": "training", "str": "working out" },
+    "based_on": "time"
   }
 ]

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <memory>
+#include <type_traits>
 
 #include "avatar.h"
 #include "character.h"
@@ -147,8 +148,8 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
         }
         std::sort( itype_initializer.begin(), itype_initializer.end(), localized_compare );
 
-        for( const std::pair<std::string, const itype *> it : nearby_itypes ) {
-            selector_menu.addentry( it.first );
+        for( const std::string &it : itype_initializer ) {
+            selector_menu.addentry( it );
         }
         selector_menu.query();
 
@@ -189,6 +190,10 @@ item_contents::item_contents( const std::vector<pocket_data> &pockets )
     for( const pocket_data &data : pockets ) {
         contents.push_back( item_pocket( &data ) );
     }
+}
+bool item_contents::empty_real() const
+{
+    return contents.empty();
 }
 
 bool item_contents::empty() const
@@ -247,7 +252,7 @@ bool item_contents::bigger_on_the_inside( const units::volume &container_volume 
             }
         }
     }
-    return container_volume < min_logical_volume;
+    return container_volume <= min_logical_volume;
 }
 
 size_t item_contents::size() const
@@ -266,11 +271,17 @@ void item_contents::combine( const item_contents &read_input )
             std::advance( current_pocket_iter, pocket_index );
 
             for( const item *it : pocket.all_items_top() ) {
-                const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
-                if( !inserted.success() ) {
-                    uninserted_items.push_back( *it );
-                    debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
-                              inserted.str() );
+                if( it->is_gunmod() || it->is_toolmod() ) {
+                    if( !insert_item( *it, item_pocket::pocket_type::MOD ).success() ) {
+                        uninserted_items.push_back( *it );
+                    }
+                } else {
+                    const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
+                    if( !inserted.success() ) {
+                        uninserted_items.push_back( *it );
+                        debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
+                                  inserted.str() );
+                    }
                 }
             }
 
@@ -287,50 +298,76 @@ void item_contents::combine( const item_contents &read_input )
     }
 
     for( const item &uninserted_item : uninserted_items ) {
-        insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION );
+        if( !insert_item( uninserted_item, item_pocket::pocket_type::MOD ).success() ) {
+            insert_item( uninserted_item, item_pocket::pocket_type::MIGRATION );
+        }
     }
 }
+
+struct item_contents::item_contents_helper {
+    // Static helper function to implement the const and non-const versions of
+    // find_pocket_for with less code duplication
+    template<typename ItemContents>
+    using pocket_type = std::conditional_t <
+                        std::is_const<ItemContents>::value,
+                        const item_pocket,
+                        item_pocket
+                        >;
+
+    template<typename ItemContents>
+    static ret_val<pocket_type<ItemContents>*> find_pocket_for(
+        ItemContents &contents, const item &it, item_pocket::pocket_type pk_type ) {
+        using my_pocket_type = pocket_type<ItemContents>;
+        static constexpr item_pocket *null_pocket = nullptr;
+
+        std::vector<std::string> failure_messages;
+        int num_pockets_of_type = 0;
+
+        for( my_pocket_type &pocket : contents.contents ) {
+            if( !pocket.is_type( pk_type ) ) {
+                continue;
+            }
+            if( pk_type != item_pocket::pocket_type::CONTAINER &&
+                pk_type != item_pocket::pocket_type::MAGAZINE &&
+                pk_type != item_pocket::pocket_type::MAGAZINE_WELL &&
+                pocket.is_type( pk_type ) ) {
+                return ret_val<my_pocket_type *>::make_success(
+                           &pocket, "special pocket type override" );
+            }
+            ++num_pockets_of_type;
+            ret_val<item_pocket::contain_code> ret_contain = pocket.can_contain( it );
+            if( ret_contain.success() ) {
+                return ret_val<my_pocket_type *>::make_success( &pocket, ret_contain.str() );
+            } else {
+                failure_messages.push_back( ret_contain.str() );
+            }
+        }
+
+        if( failure_messages.empty() ) {
+            return ret_val<my_pocket_type *>::make_failure( null_pocket, _( "is not a container" ) );
+        }
+        std::sort( failure_messages.begin(), failure_messages.end(), localized_compare );
+        failure_messages.erase(
+            std::unique( failure_messages.begin(), failure_messages.end() ),
+            failure_messages.end() );
+        return ret_val<my_pocket_type *>::make_failure(
+                   null_pocket,
+                   ngettext( "pocket unacceptable because %s", "pockets unacceptable because %s",
+                             num_pockets_of_type ),
+                   enumerate_as_string( failure_messages, enumeration_conjunction::or_ ) );
+    }
+};
 
 ret_val<item_pocket *> item_contents::find_pocket_for( const item &it,
         item_pocket::pocket_type pk_type )
 {
-    static item_pocket *null_pocket = nullptr;
-    ret_val<item_pocket *> ret = ret_val<item_pocket *>::make_failure( null_pocket,
-                                 _( "is not a container" ) );
-    for( item_pocket &pocket : contents ) {
-        if( !pocket.is_type( pk_type ) ) {
-            continue;
-        }
-        if( pk_type != item_pocket::pocket_type::CONTAINER &&
-            pk_type != item_pocket::pocket_type::MAGAZINE &&
-            pk_type != item_pocket::pocket_type::MAGAZINE_WELL &&
-            pocket.is_type( pk_type ) ) {
-            return ret_val<item_pocket *>::make_success( &pocket, "special pocket type override" );
-        }
-        ret_val<item_pocket::contain_code> ret_contain = pocket.can_contain( it );
-        if( ret_contain.success() ) {
-            return ret_val<item_pocket *>::make_success( &pocket, ret_contain.str() );
-        }
-    }
-    return ret;
+    return item_contents_helper::find_pocket_for( *this, it, pk_type );
 }
 
 ret_val<const item_pocket *> item_contents::find_pocket_for( const item &it,
         item_pocket::pocket_type pk_type ) const
 {
-    static item_pocket *null_pocket = nullptr;
-    ret_val<const item_pocket *> ret = ret_val<const item_pocket *>::make_failure( null_pocket,
-                                       _( "is not a container" ) );
-    for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_type( pk_type ) ) {
-            continue;
-        }
-        ret_val<item_pocket::contain_code> ret_contain = pocket.can_contain( it );
-        if( ret_contain.success() ) {
-            return ret_val<const item_pocket *>::make_success( &pocket, ret_contain.str() );
-        }
-    }
-    return ret;
+    return item_contents_helper::find_pocket_for( *this, it, pk_type );
 }
 
 int item_contents::obtain_cost( const item &it ) const
@@ -360,10 +397,10 @@ ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_ty
         // LAST is invalid, so we assume it will be a regular container
         pk_type = item_pocket::pocket_type::CONTAINER;
     }
-    ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
 
+    ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
     if( pocket.value() == nullptr ) {
-        return ret_val<bool>::make_failure( "No success" );
+        return ret_val<bool>::make_failure( "No pocket found: " + pocket.str() );
     }
 
     ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
@@ -607,10 +644,8 @@ std::set<ammotype> item_contents::ammo_types() const
 {
     std::set<ammotype> ret;
     for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ) {
-            for( const ammotype &ammo : pocket.ammo_types() ) {
-                ret.emplace( ammo );
-            }
+        for( const ammotype &ammo : pocket.ammo_types() ) {
+            ret.emplace( ammo );
         }
     }
     return ret;
@@ -817,12 +852,14 @@ const item &item_contents::only_item() const
         return null_item_reference();
     }
     for( const item_pocket &pocket : contents ) {
-        if( pocket.empty() || !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+        if( pocket.empty() || !( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ||
+                                 pocket.is_type( item_pocket::pocket_type::SOFTWARE ) ) ) {
             continue;
         }
         // the first item we come to is the only one.
         return pocket.front();
     }
+
     return null_item_reference();
 }
 
@@ -1087,13 +1124,13 @@ void item_contents::remove_internal( const std::function<bool( item & )> &filter
     }
 }
 
-void item_contents::process( player *carrier, const tripoint &pos, bool activate, float insulation,
+void item_contents::process( player *carrier, const tripoint &pos, float insulation,
                              temperature_flag flag, float spoil_multiplier_parent )
 {
     for( item_pocket &pocket : contents ) {
         // no reason to check mods, they won't rot
         if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
-            pocket.process( carrier, pos, activate, insulation, flag, spoil_multiplier_parent );
+            pocket.process( carrier, pos, insulation, flag, spoil_multiplier_parent );
         }
     }
 }

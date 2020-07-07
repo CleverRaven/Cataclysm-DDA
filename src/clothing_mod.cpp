@@ -51,7 +51,6 @@ std::string enum_to_string<clothing_mod_type>( clothing_mod_type data )
         case clothing_mod_type_bullet: return "bullet";
         case clothing_mod_type_encumbrance: return "encumbrance";
         case clothing_mod_type_warmth: return "warmth";
-        case clothing_mod_type_storage: return "storage";
         case clothing_mod_type_invalid: return "invalid";
         // *INDENT-ON*
         case num_clothing_mod_types:

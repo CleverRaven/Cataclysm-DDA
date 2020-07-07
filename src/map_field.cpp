@@ -124,7 +124,7 @@ int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int sc
 {
     int total_damage = 0;
     const int intensity = cur.get_field_intensity();
-    const int damage = rng( 1, scale + intensity );
+    const int damage = rng( 1, ( scale + intensity ) / 2 );
     // A bit ugly, but better than being annoyed by acid when in hazmat
     if( u.get_armor_type( DT_ACID, convert_bp( bp ) ) < damage ) {
         const dealt_damage_instance ddi = u.deal_damage( nullptr, convert_bp( bp ).id(),
@@ -254,7 +254,8 @@ void map::gas_spread_to( field_entry &cur, maptile &dst )
 void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk )
 {
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
+    map &here = get_map();
+    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
     const bool sheltered = g->is_sheltered( p );
     const int winddirection = g->weather.winddirection;
     const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
@@ -397,6 +398,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = nullptr;
 
+    map &here = get_map();
     tripoint thep;
     thep.z = submap.z;
 
@@ -452,7 +454,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     cur.set_field_intensity( cur.get_field_intensity() + 1 );
                 }
 
-                int part;
                 const ter_t &ter = map_tile.get_ter_t();
                 // Dissipate faster in water
                 if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
@@ -486,488 +487,21 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     }
                     // TODO: Allow spreading to the sides if age < 0 && intensity == 3
                 }
+
+                if( curtype == fd_extinguisher ) {
+                    field_entry *fire_here = maptile_at_internal( p ).find_field( fd_fire );
+                    if( fire_here != nullptr ) {
+                        // extinguisher fights fire in 1:1 ratio
+                        fire_here->set_field_intensity( fire_here->get_field_intensity() - cur.get_field_intensity() );
+                        cur.set_field_intensity( cur.get_field_intensity() - fire_here->get_field_intensity() );
+                    }
+                }
                 if( curtype.obj().apply_slime_factor > 0 ) {
                     sblk.apply_slime( p, cur.get_field_intensity() * curtype.obj().apply_slime_factor );
                 }
                 if( curtype == fd_fire ) {
-                    cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
-                    // Entire objects for ter/frn for flags
-                    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( g->m.getabs( p ) ) );
-                    bool sheltered = g->is_sheltered( p );
-                    int winddirection = g->weather.winddirection;
-                    int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
-                                                         sheltered );
-                    const ter_t &ter = map_tile.get_ter_t();
-                    const furn_t &frn = map_tile.get_furn_t();
-
-                    // We've got ter/furn cached, so let's use that
-                    const bool is_sealed = ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
-                                           !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT );
-                    // Smoke generation probability, consumed items count
-                    int smoke = 0;
-                    int consumed = 0;
-                    // How much time to add to the fire's life due to burned items/terrain/furniture
-                    time_duration time_added = 0_turns;
-                    // Checks if the fire can spread
-                    const bool can_spread = !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
-                    // If the flames are in furniture with fire_container flag like brazier or oven,
-                    // they're fully contained, so skip consuming terrain
-                    const bool can_burn = ( ter.is_flammable() || frn.is_flammable() ) &&
-                                          !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
-                    // The huge indent below should probably be somehow moved away from here
-                    // without forcing the function to use i_at( p ) for fires without items
-                    if( !is_sealed && map_tile.get_item_count() > 0 ) {
-                        map_stack items_here = i_at( p );
-                        std::vector<item> new_content;
-                        for( auto it = items_here.begin(); it != items_here.end(); ) {
-                            if( it->will_explode_in_fire() ) {
-                                // We need to make a copy because the iterator validity is not predictable
-                                item copy = *it;
-                                it = items_here.erase( it );
-                                if( copy.detonate( p, new_content ) ) {
-                                    // Need to restart, iterators may not be valid
-                                    it = items_here.begin();
-                                }
-                            } else {
-                                ++it;
-                            }
-                        }
-
-                        fire_data frd( cur.get_field_intensity(), !can_spread );
-                        // The highest # of items this fire can remove in one turn
-                        int max_consume = cur.get_field_intensity() * 2;
-
-                        for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
-                            // `item::burn` modifies the charges in order to simulate some of them getting
-                            // destroyed by the fire, this changes the item weight, but may not actually
-                            // destroy it. We need to spawn products anyway.
-                            const units::mass old_weight = fuel->weight( false );
-                            bool destroyed = fuel->burn( frd );
-                            // If the item is considered destroyed, it may have negative charge count,
-                            // see `item::burn?. This in turn means `item::weight` returns a negative value,
-                            // which we can not use, so only call `weight` when it's still an existing item.
-                            const units::mass new_weight = destroyed ? 0_gram : fuel->weight( false );
-                            if( old_weight != new_weight ) {
-                                create_burnproducts( p, *fuel, old_weight - new_weight );
-                            }
-
-                            if( destroyed ) {
-                                // If we decided the item was destroyed by fire, remove it.
-                                // But remember its contents, except for irremovable mods, if any
-                                const std::list<item *> content_list = fuel->contents.all_items_top();
-                                for( item *it : content_list ) {
-                                    if( !it->is_irremovable() ) {
-                                        new_content.push_back( item( *it ) );
-                                    }
-                                }
-                                fuel = items_here.erase( fuel );
-                                consumed++;
-                            } else {
-                                ++fuel;
-                            }
-                        }
-
-                        spawn_items( p, new_content );
-                        smoke = roll_remainder( frd.smoke_produced );
-                        time_added = 1_turns * roll_remainder( frd.fuel_produced );
-                    }
-
-                    // Get the part of the vehicle in the fire (_internal skips the boundary check)
-                    vehicle *veh = veh_at_internal( p, part );
-                    if( veh != nullptr ) {
-                        veh->damage( part, cur.get_field_intensity() * 10, DT_HEAT, true );
-                        // Damage the vehicle in the fire.
-                    }
-                    if( can_burn ) {
-                        if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
-                            // Flames die quickly on water
-                            cur.set_field_age( cur.get_field_age() + 4_minutes );
-                        }
-
-                        // Consume the terrain we're on
-                        if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE ) ) {
-                            // The fire feeds on the ground itself until max intensity.
-                            time_added += 1_turns * ( 5 - cur.get_field_intensity() );
-                            smoke += 2;
-                            smoke += static_cast<int>( windpower / 5 );
-                            if( cur.get_field_intensity() > 1 &&
-                                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                                destroy( p, false );
-                            }
-
-                        } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) &&
-                                   one_in( 3 ) ) {
-                            // The fire feeds on the ground itself until max intensity.
-                            time_added += 1_turns * ( 4 - cur.get_field_intensity() );
-                            smoke += 2;
-                            smoke += static_cast<int>( windpower / 5 );
-                            if( cur.get_field_intensity() > 1 &&
-                                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                                destroy( p, false );
-                            }
-
-                        } else if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
-                            // The fire feeds on the ground itself until max intensity.
-                            time_added += 1_turns * ( 5 - cur.get_field_intensity() );
-                            smoke += 2;
-                            smoke += static_cast<int>( windpower / 5 );
-                            if( cur.get_field_intensity() > 1 &&
-                                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                                if( p.z > 0 ) {
-                                    // We're in the air
-                                    ter_set( p, t_open_air );
-                                } else {
-                                    ter_set( p, t_dirt );
-                                }
-                            }
-
-                        } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
-                            // The fire feeds on the ground itself until max intensity.
-                            time_added += 1_turns * ( 5 - cur.get_field_intensity() );
-                            smoke += 2;
-                            smoke += static_cast<int>( windpower / 5 );
-                            if( cur.get_field_intensity() > 1 &&
-                                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
-                                furn_set( p, f_ash );
-                                add_item_or_charges( p, item( "ash" ) );
-                            }
-
-                        } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
-                            // We're hanging in the air - let's fall down
-                            tripoint dst{ p.xy(), p.z - 1 };
-                            if( valid_move( p, dst, true, true ) ) {
-                                maptile dst_tile = maptile_at_internal( dst );
-                                field_entry *fire_there = dst_tile.find_field( fd_fire );
-                                if( fire_there == nullptr ) {
-                                    dst_tile.add_field( fd_fire, 1, 0_turns );
-                                    cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                                } else {
-                                    // Don't fuel raging fires or they'll burn forever
-                                    // as they can produce small fires above themselves
-                                    int new_intensity = std::max( cur.get_field_intensity(),
-                                                                  fire_there->get_field_intensity() );
-                                    // Allow smaller fires to combine
-                                    if( new_intensity < 3 &&
-                                        cur.get_field_intensity() == fire_there->get_field_intensity() ) {
-                                        new_intensity++;
-                                    }
-                                    // A raging fire below us can support us for a while
-                                    // Otherwise decay and decay fast
-                                    if( fire_there->get_field_intensity() < 3 || one_in( 10 ) ) {
-                                        cur.set_field_intensity( cur.get_field_intensity() - 1 );
-                                    }
-                                    fire_there->set_field_intensity( new_intensity );
-                                }
-                                break;
-                            }
-                        }
-                    }
-                    // Lower age is a longer lasting fire
-                    if( time_added != 0_turns ) {
-                        cur.set_field_age( cur.get_field_age() - time_added );
-                    } else if( can_burn ) {
-                        // Nothing to burn = fire should be dying out faster
-                        // Drain more power from big fires, so that they stop raging over nothing
-                        // Except for fires on stoves and fireplaces, those are made to keep the fire alive
-                        cur.mod_field_age( 10_seconds * cur.get_field_intensity() );
-                    }
-
-                    // Below we will access our nearest 8 neighbors, so let's cache them now
-                    // This should probably be done more globally, because large fires will re-do it a lot
-                    auto neighs = get_neighbors( p );
-                    // Get the neighbours that are allowed due to wind direction
-                    auto maptiles = get_wind_blockers( winddirection, p );
-                    maptile remove_tile = std::get<0>( maptiles );
-                    maptile remove_tile2 = std::get<1>( maptiles );
-                    maptile remove_tile3 = std::get<2>( maptiles );
-                    std::vector<maptile> neighbour_vec;
-                    size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
-                    // Start at end_it + 1, then wrap around until all elements have been processed
-                    for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
-                         count != neighs.size();
-                         i = ( i + 1 ) % neighs.size(), count++ ) {
-                        const auto &neigh = neighs[i];
-                        if( ( neigh.pos_.x != remove_tile.pos_.x && neigh.pos_.y != remove_tile.pos_.y ) ||
-                            ( neigh.pos_.x != remove_tile2.pos_.x && neigh.pos_.y != remove_tile2.pos_.y ) ||
-                            ( neigh.pos_.x != remove_tile3.pos_.x && neigh.pos_.y != remove_tile3.pos_.y ) ) {
-                            neighbour_vec.push_back( neigh );
-                        } else if( x_in_y( 1, std::max( 2, windpower ) ) ) {
-                            neighbour_vec.push_back( neigh );
-                        }
-                    }
-                    // If the flames are in a pit, it can't spread to non-pit
-                    const bool in_pit = ter.id.id() == t_pit;
-
-                    // Count adjacent fires, to optimize out needless smoke and hot air
-                    int adjacent_fires = 0;
-
-                    // If the flames are big, they contribute to adjacent flames
-                    if( can_spread ) {
-                        if( cur.get_field_intensity() > 1 && one_in( 3 ) ) {
-                            // Basically: Scan around for a spot,
-                            // if there is more fire there, make it bigger and give it some fuel.
-                            // This is how big fires spend their excess age:
-                            // making other fires bigger. Flashpoint.
-                            if( sheltered || windpower < 5 ) {
-                                end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
-                                for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
-                                     count != neighs.size() && cur.get_field_age() < 0_turns;
-                                     i = ( i + 1 ) % neighs.size(), count++ ) {
-                                    maptile &dst = neighs[i];
-                                    auto dstfld = dst.find_field( fd_fire );
-                                    // If the fire exists and is weaker than ours, boost it
-                                    if( dstfld != nullptr &&
-                                        ( dstfld->get_field_intensity() <= cur.get_field_intensity() ||
-                                          dstfld->get_field_age() > cur.get_field_age() ) &&
-                                        ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
-                                        if( dstfld->get_field_intensity() < 2 ) {
-                                            dstfld->set_field_intensity( dstfld->get_field_intensity() + 1 );
-                                        }
-
-                                        dstfld->set_field_age( dstfld->get_field_age() - 5_minutes );
-                                        cur.set_field_age( cur.get_field_age() + 5_minutes );
-                                    }
-                                    if( dstfld != nullptr ) {
-                                        adjacent_fires++;
-                                    }
-                                }
-                            } else {
-                                end_it = static_cast<size_t>( rng( 0, neighbour_vec.size() - 1 ) );
-                                for( size_t i = ( end_it + 1 ) % neighbour_vec.size(), count = 0;
-                                     count != neighbour_vec.size() && cur.get_field_age() < 0_turns;
-                                     i = ( i + 1 ) % neighbour_vec.size(), count++ ) {
-                                    maptile &dst = neighbour_vec[i];
-                                    field_entry *dstfld = dst.find_field( fd_fire );
-                                    // If the fire exists and is weaker than ours, boost it
-                                    if( dstfld != nullptr &&
-                                        ( dstfld->get_field_intensity() <= cur.get_field_intensity() ||
-                                          dstfld->get_field_age() > cur.get_field_age() ) &&
-                                        ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
-                                        if( dstfld->get_field_intensity() < 2 ) {
-                                            dstfld->set_field_intensity( dstfld->get_field_intensity() + 1 );
-                                        }
-
-                                        dstfld->set_field_age( dstfld->get_field_age() - 5_minutes );
-                                        cur.set_field_age( cur.get_field_age() + 5_minutes );
-                                    }
-
-                                    if( dstfld != nullptr ) {
-                                        adjacent_fires++;
-                                    }
-                                }
-                            }
-                        } else if( cur.get_field_age() < 0_turns && cur.get_field_intensity() < 3 ) {
-                            // See if we can grow into a stage 2/3 fire, for this
-                            // burning neighbors are necessary in addition to
-                            // field age < 0, or alternatively, a LOT of fuel.
-
-                            // The maximum fire intensity is 1 for a lone fire, 2 for at least 1 neighbor,
-                            // 3 for at least 2 neighbors.
-                            int maximum_intensity = 1;
-
-                            // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
-                            // 1. Calculate maximum field intensity based on fuel, -50 minutes is 2(medium), -500 minutes is 3(raging)
-                            // 2. Calculate maximum field intensity based on neighbors, 3 neighbors is 2(medium), 7 or more neighbors is 3(raging)
-                            // 3. Pick the higher maximum between 1. and 2.
-                            if( cur.get_field_age() < -500_minutes ) {
-                                maximum_intensity = 3;
-                            } else {
-                                for( auto &neigh : neighs ) {
-                                    if( neigh.get_field().find_field( fd_fire ) != nullptr ) {
-                                        adjacent_fires++;
-                                    }
-                                }
-                                maximum_intensity = 1 + ( adjacent_fires >= 3 ) + ( adjacent_fires >= 7 );
-
-                                if( maximum_intensity < 2 && cur.get_field_age() < -50_minutes ) {
-                                    maximum_intensity = 2;
-                                }
-                            }
-
-                            // If we consumed a lot, the flames grow higher
-                            if( cur.get_field_intensity() < maximum_intensity && cur.get_field_age() < 0_turns ) {
-                                // Fires under 0 age grow in size. Level 3 fires under 0 spread later on.
-                                // Weaken the newly-grown fire
-                                cur.set_field_intensity( cur.get_field_intensity() + 1 );
-                                cur.set_field_age( cur.get_field_age() + 10_minutes * cur.get_field_intensity() );
-                            }
-                        }
-                    }
-                    // Consume adjacent fuel / terrain / webs to spread.
-                    // Allow raging fires (and only raging fires) to spread up
-                    // Spreading down is achieved by wrecking the walls/floor and then falling
-                    if( zlevels && cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
-                        // Let it burn through the floor
-                        maptile dst = maptile_at_internal( {p.xy(), p.z + 1} );
-                        const auto &dst_ter = dst.get_ter_t();
-                        if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ||
-                            dst_ter.has_flag( TFLAG_FLAMMABLE ) ||
-                            dst_ter.has_flag( TFLAG_FLAMMABLE_ASH ) ||
-                            dst_ter.has_flag( TFLAG_FLAMMABLE_HARD ) ) {
-                            field_entry *nearfire = dst.find_field( fd_fire );
-                            if( nearfire != nullptr ) {
-                                nearfire->mod_field_age( -2_turns );
-                            } else {
-                                dst.add_field( fd_fire, 1, 0_turns );
-                            }
-                            // Fueling fires above doesn't cost fuel
-                        }
-                    }
-                    // Our iterator will start at end_i + 1 and increment from there and then wrap around.
-                    // This guarantees it will check all neighbors, starting from a random one
-                    if( sheltered || windpower < 5 ) {
-                        const size_t end_i = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
-                        for( size_t i = ( end_i + 1 ) % neighs.size(), count = 0;
-                             count != neighs.size();
-                             i = ( i + 1 ) % neighs.size(), count++ ) {
-                            if( one_in( cur.get_field_intensity() * 2 ) ) {
-                                // Skip some processing to save on CPU
-                                continue;
-                            }
-
-                            maptile &dst = neighs[i];
-                            // No bounds checking here: we'll treat the invalid neighbors as valid.
-                            // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
-                            // This will create small oddities on map edges, but nothing more noticeable than
-                            // "cut-off" that happens with bounds checks.
-
-                            field_entry *nearfire = dst.find_field( fd_fire );
-                            if( nearfire != nullptr ) {
-                                // We handled supporting fires in the section above, no need to do it here
-                                continue;
-                            }
-
-                            field_entry *nearwebfld = dst.find_field( fd_web );
-                            int spread_chance = 25 * ( cur.get_field_intensity() - 1 );
-                            if( nearwebfld != nullptr ) {
-                                spread_chance = 50 + spread_chance / 2;
-                            }
-
-                            const ter_t &dster = dst.get_ter_t();
-                            const furn_t &dsfrn = dst.get_furn_t();
-                            // Allow weaker fires to spread occasionally
-                            const int power = cur.get_field_intensity() + one_in( 5 );
-                            if( can_spread && rng( 1, 100 ) < spread_chance &&
-                                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
-                                ( in_pit == ( dster.id.id() == t_pit ) ) &&
-                                (
-                                    ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
-                                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
-                                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
-                                    ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                                    nearwebfld || ( dst.get_item_count() > 0 &&
-                                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
-                                                    one_in( 5 ) )
-                                ) ) {
-                                // Nearby open flammable ground? Set it on fire.
-                                dst.add_field( fd_fire, 1, 0_turns );
-                                tmpfld = dst.find_field( fd_fire );
-                                if( tmpfld != nullptr ) {
-                                    // Make the new fire quite weak, so that it doesn't start jumping around instantly
-                                    tmpfld->set_field_age( 2_minutes );
-                                    // Consume a bit of our fuel
-                                    cur.set_field_age( cur.get_field_age() + 1_minutes );
-                                }
-                                if( nearwebfld ) {
-                                    nearwebfld->set_field_intensity( 0 );
-                                }
-                            }
-                        }
-                    } else {
-                        const size_t end_i = static_cast<size_t>( rng( 0, neighbour_vec.size() - 1 ) );
-                        for( size_t i = ( end_i + 1 ) % neighbour_vec.size(), count = 0;
-                             count != neighbour_vec.size();
-                             i = ( i + 1 ) % neighbour_vec.size(), count++ ) {
-                            if( one_in( cur.get_field_intensity() * 2 ) ) {
-                                // Skip some processing to save on CPU
-                                continue;
-                            }
-
-                            if( neighbour_vec.empty() ) {
-                                continue;
-                            }
-
-                            maptile &dst = neighbour_vec[i];
-                            // No bounds checking here: we'll treat the invalid neighbors as valid.
-                            // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
-                            // This will create small oddities on map edges, but nothing more noticeable than
-                            // "cut-off" that happens with bounds checks.
-
-                            field_entry *nearfire = dst.find_field( fd_fire );
-                            if( nearfire != nullptr ) {
-                                // We handled supporting fires in the section above, no need to do it here
-                                continue;
-                            }
-
-                            field_entry *nearwebfld = dst.find_field( fd_web );
-                            int spread_chance = 25 * ( cur.get_field_intensity() - 1 );
-                            if( nearwebfld != nullptr ) {
-                                spread_chance = 50 + spread_chance / 2;
-                            }
-
-                            const ter_t &dster = dst.get_ter_t();
-                            const furn_t &dsfrn = dst.get_furn_t();
-                            // Allow weaker fires to spread occasionally
-                            const int power = cur.get_field_intensity() + one_in( 5 );
-                            if( can_spread && rng( 1, 100 - windpower ) < spread_chance &&
-                                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
-                                ( in_pit == ( dster.id.id() == t_pit ) ) &&
-                                (
-                                    ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
-                                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
-                                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
-                                    ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
-                                    nearwebfld || ( dst.get_item_count() > 0 &&
-                                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
-                                                    one_in( 5 ) )
-                                ) ) {
-                                // Nearby open flammable ground? Set it on fire.
-                                dst.add_field( fd_fire, 1, 0_turns );
-                                tmpfld = dst.find_field( fd_fire );
-                                if( tmpfld != nullptr ) {
-                                    // Make the new fire quite weak, so that it doesn't start jumping around instantly
-                                    tmpfld->set_field_age( 2_minutes );
-                                    // Consume a bit of our fuel
-                                    cur.set_field_age( cur.get_field_age() + 1_minutes );
-                                }
-                                if( nearwebfld ) {
-                                    nearwebfld->set_field_intensity( 0 );
-                                }
-                            }
-                        }
-                    }
-                    // Create smoke once - above us if possible, at us otherwise
-                    if( !ter_furn_has_flag( ter, frn, TFLAG_SUPPRESS_SMOKE ) &&
-                        rng( 0, 100 - windpower ) <= smoke &&
-                        rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
-                        bool smoke_up = zlevels && p.z < OVERMAP_HEIGHT;
-                        if( smoke_up ) {
-                            tripoint up{p.xy(), p.z + 1};
-                            maptile dst = maptile_at_internal( up );
-                            const ter_t &dst_ter = dst.get_ter_t();
-                            if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ) {
-                                dst.add_field( fd_smoke, rng( 1, cur.get_field_intensity() ), 0_turns );
-                            } else {
-                                // Can't create smoke above
-                                smoke_up = false;
-                            }
-                        }
-
-                        if( !smoke_up ) {
-                            maptile dst = maptile_at_internal( p );
-                            // Create thicker smoke
-                            dst.add_field( fd_smoke, cur.get_field_intensity(), 0_turns );
-                        }
-
-                        // Smoke affects transparency
-                        dirty_transparency_cache = true;
-                    }
-
-                    // Hot air is a load on the CPU
-                    // Don't produce too much of it if we have a lot fires nearby, they produce
-                    // radiant heat which does what hot air would do anyway
-                    if( adjacent_fires < 5 && rng( 0, 4 - adjacent_fires ) ) {
-                        create_hot_air( p, cur.get_field_intensity() );
+                    if( process_fire_field_in_submap( map_tile, p, cur, dirty_transparency_cache ) ) {
+                        break;
                     }
                 }
 
@@ -983,7 +517,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 if( curtype == fd_fungal_haze ) {
                     if( one_in( 10 - 2 * cur.get_field_intensity() ) ) {
                         // Haze'd terrain
-                        fungal_effects( *g, g->m ).spread_fungus( p );
+                        fungal_effects( *g, here ).spread_fungus( p );
                     }
                 }
 
@@ -1338,6 +872,497 @@ bool map::process_fields_in_submap( submap *const current_submap,
     return dirty_transparency_cache;
 }
 
+bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p,
+                                        field_entry &cur, bool &dirty_transparency_cache )
+{
+    bool breaks_loop = false;
+    map &here = get_map();
+    field_entry *tmpfld = nullptr;
+    cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
+    // Entire objects for ter/frn for flags
+    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
+    bool sheltered = g->is_sheltered( p );
+    int winddirection = g->weather.winddirection;
+    int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
+                                         sheltered );
+    const ter_t &ter = map_tile.get_ter_t();
+    const furn_t &frn = map_tile.get_furn_t();
+
+    // We've got ter/furn cached, so let's use that
+    const bool is_sealed = ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
+                           !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT );
+    // Smoke generation probability, consumed items count
+    int smoke = 0;
+    int consumed = 0;
+    // How much time to add to the fire's life due to burned items/terrain/furniture
+    time_duration time_added = 0_turns;
+    // Checks if the fire can spread
+    const bool can_spread = !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
+    // If the flames are in furniture with fire_container flag like brazier or oven,
+    // they're fully contained, so skip consuming terrain
+    const bool can_burn = ( ter.is_flammable() || frn.is_flammable() ) &&
+                          !ter_furn_has_flag( ter, frn, TFLAG_FIRE_CONTAINER );
+    // The huge indent below should probably be somehow moved away from here
+    // without forcing the function to use i_at( p ) for fires without items
+    if( !is_sealed && map_tile.get_item_count() > 0 ) {
+        map_stack items_here = i_at( p );
+        std::vector<item> new_content;
+        for( auto it = items_here.begin(); it != items_here.end(); ) {
+            if( it->will_explode_in_fire() ) {
+                // We need to make a copy because the iterator validity is not predictable
+                item copy = *it;
+                it = items_here.erase( it );
+                if( copy.detonate( p, new_content ) ) {
+                    // Need to restart, iterators may not be valid
+                    it = items_here.begin();
+                }
+            } else {
+                ++it;
+            }
+        }
+
+        fire_data frd( cur.get_field_intensity(), !can_spread );
+        // The highest # of items this fire can remove in one turn
+        int max_consume = cur.get_field_intensity() * 2;
+
+        for( auto fuel = items_here.begin(); fuel != items_here.end() && consumed < max_consume; ) {
+            // `item::burn` modifies the charges in order to simulate some of them getting
+            // destroyed by the fire, this changes the item weight, but may not actually
+            // destroy it. We need to spawn products anyway.
+            const units::mass old_weight = fuel->weight( false );
+            bool destroyed = fuel->burn( frd );
+            // If the item is considered destroyed, it may have negative charge count,
+            // see `item::burn?. This in turn means `item::weight` returns a negative value,
+            // which we can not use, so only call `weight` when it's still an existing item.
+            const units::mass new_weight = destroyed ? 0_gram : fuel->weight( false );
+            if( old_weight != new_weight ) {
+                create_burnproducts( p, *fuel, old_weight - new_weight );
+            }
+
+            if( destroyed ) {
+                // If we decided the item was destroyed by fire, remove it.
+                // But remember its contents, except for irremovable mods, if any
+                const std::list<item *> content_list = fuel->contents.all_items_top();
+                for( item *it : content_list ) {
+                    if( !it->is_irremovable() ) {
+                        new_content.push_back( item( *it ) );
+                    }
+                }
+                fuel = items_here.erase( fuel );
+                consumed++;
+            } else {
+                ++fuel;
+            }
+        }
+
+        spawn_items( p, new_content );
+        smoke = roll_remainder( frd.smoke_produced );
+        time_added = 1_turns * roll_remainder( frd.fuel_produced );
+    }
+
+    int part;
+    // Get the part of the vehicle in the fire (_internal skips the boundary check)
+    vehicle *veh = veh_at_internal( p, part );
+    if( veh != nullptr ) {
+        veh->damage( part, cur.get_field_intensity() * 10, DT_HEAT, true );
+        // Damage the vehicle in the fire.
+    }
+    if( can_burn ) {
+        if( ter.has_flag( TFLAG_SWIMMABLE ) ) {
+            // Flames die quickly on water
+            cur.set_field_age( cur.get_field_age() + 4_minutes );
+        }
+
+        // Consume the terrain we're on
+        if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE ) ) {
+            // The fire feeds on the ground itself until max intensity.
+            time_added += 1_turns * ( 5 - cur.get_field_intensity() );
+            smoke += 2;
+            smoke += static_cast<int>( windpower / 5 );
+            if( cur.get_field_intensity() > 1 &&
+                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
+                destroy( p, false );
+            }
+
+        } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) &&
+                   one_in( 3 ) ) {
+            // The fire feeds on the ground itself until max intensity.
+            time_added += 1_turns * ( 4 - cur.get_field_intensity() );
+            smoke += 2;
+            smoke += static_cast<int>( windpower / 5 );
+            if( cur.get_field_intensity() > 1 &&
+                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
+                destroy( p, false );
+            }
+
+        } else if( ter.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
+            // The fire feeds on the ground itself until max intensity.
+            time_added += 1_turns * ( 5 - cur.get_field_intensity() );
+            smoke += 2;
+            smoke += static_cast<int>( windpower / 5 );
+            if( cur.get_field_intensity() > 1 &&
+                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
+                if( p.z > 0 ) {
+                    // We're in the air
+                    ter_set( p, t_open_air );
+                } else {
+                    ter_set( p, t_dirt );
+                }
+            }
+
+        } else if( frn.has_flag( TFLAG_FLAMMABLE_ASH ) ) {
+            // The fire feeds on the ground itself until max intensity.
+            time_added += 1_turns * ( 5 - cur.get_field_intensity() );
+            smoke += 2;
+            smoke += static_cast<int>( windpower / 5 );
+            if( cur.get_field_intensity() > 1 &&
+                one_in( 200 - cur.get_field_intensity() * 50 ) ) {
+                furn_set( p, f_ash );
+                add_item_or_charges( p, item( "ash" ) );
+            }
+
+        } else if( ter.has_flag( TFLAG_NO_FLOOR ) && zlevels && p.z > -OVERMAP_DEPTH ) {
+            // We're hanging in the air - let's fall down
+            tripoint dst{ p.xy(), p.z - 1 };
+            if( valid_move( p, dst, true, true ) ) {
+                maptile dst_tile = maptile_at_internal( dst );
+                field_entry *fire_there = dst_tile.find_field( fd_fire );
+                if( fire_there == nullptr ) {
+                    dst_tile.add_field( fd_fire, 1, 0_turns );
+                    cur.set_field_intensity( cur.get_field_intensity() - 1 );
+                } else {
+                    // Don't fuel raging fires or they'll burn forever
+                    // as they can produce small fires above themselves
+                    int new_intensity = std::max( cur.get_field_intensity(),
+                                                  fire_there->get_field_intensity() );
+                    // Allow smaller fires to combine
+                    if( new_intensity < 3 &&
+                        cur.get_field_intensity() == fire_there->get_field_intensity() ) {
+                        new_intensity++;
+                    }
+                    // A raging fire below us can support us for a while
+                    // Otherwise decay and decay fast
+                    if( fire_there->get_field_intensity() < 3 || one_in( 10 ) ) {
+                        cur.set_field_intensity( cur.get_field_intensity() - 1 );
+                    }
+                    fire_there->set_field_intensity( new_intensity );
+                }
+                dirty_transparency_cache = true;
+                return breaks_loop;
+            }
+        }
+    }
+    // Lower age is a longer lasting fire
+    if( time_added != 0_turns ) {
+        cur.set_field_age( cur.get_field_age() - time_added );
+    } else if( can_burn ) {
+        // Nothing to burn = fire should be dying out faster
+        // Drain more power from big fires, so that they stop raging over nothing
+        // Except for fires on stoves and fireplaces, those are made to keep the fire alive
+        cur.mod_field_age( 10_seconds * cur.get_field_intensity() );
+    }
+
+    // Below we will access our nearest 8 neighbors, so let's cache them now
+    // This should probably be done more globally, because large fires will re-do it a lot
+    auto neighs = get_neighbors( p );
+    // Get the neighbours that are allowed due to wind direction
+    auto maptiles = get_wind_blockers( winddirection, p );
+    maptile remove_tile = std::get<0>( maptiles );
+    maptile remove_tile2 = std::get<1>( maptiles );
+    maptile remove_tile3 = std::get<2>( maptiles );
+    std::vector<maptile> neighbour_vec;
+    size_t end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
+    // Start at end_it + 1, then wrap around until all elements have been processed
+    for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
+         count != neighs.size();
+         i = ( i + 1 ) % neighs.size(), count++ ) {
+        const auto &neigh = neighs[i];
+        if( ( neigh.pos_.x != remove_tile.pos_.x && neigh.pos_.y != remove_tile.pos_.y ) ||
+            ( neigh.pos_.x != remove_tile2.pos_.x && neigh.pos_.y != remove_tile2.pos_.y ) ||
+            ( neigh.pos_.x != remove_tile3.pos_.x && neigh.pos_.y != remove_tile3.pos_.y ) ) {
+            neighbour_vec.push_back( neigh );
+        } else if( x_in_y( 1, std::max( 2, windpower ) ) ) {
+            neighbour_vec.push_back( neigh );
+        }
+    }
+    // If the flames are in a pit, it can't spread to non-pit
+    const bool in_pit = ter.id.id() == t_pit;
+
+    // Count adjacent fires, to optimize out needless smoke and hot air
+    int adjacent_fires = 0;
+
+    // If the flames are big, they contribute to adjacent flames
+    if( can_spread ) {
+        if( cur.get_field_intensity() > 1 && one_in( 3 ) ) {
+            // Basically: Scan around for a spot,
+            // if there is more fire there, make it bigger and give it some fuel.
+            // This is how big fires spend their excess age:
+            // making other fires bigger. Flashpoint.
+            if( sheltered || windpower < 5 ) {
+                end_it = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
+                for( size_t i = ( end_it + 1 ) % neighs.size(), count = 0;
+                     count != neighs.size() && cur.get_field_age() < 0_turns;
+                     i = ( i + 1 ) % neighs.size(), count++ ) {
+                    maptile &dst = neighs[i];
+                    auto dstfld = dst.find_field( fd_fire );
+                    // If the fire exists and is weaker than ours, boost it
+                    if( dstfld != nullptr &&
+                        ( dstfld->get_field_intensity() <= cur.get_field_intensity() ||
+                          dstfld->get_field_age() > cur.get_field_age() ) &&
+                        ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
+                        if( dstfld->get_field_intensity() < 2 ) {
+                            dstfld->set_field_intensity( dstfld->get_field_intensity() + 1 );
+                        }
+
+                        dstfld->set_field_age( dstfld->get_field_age() - 5_minutes );
+                        cur.set_field_age( cur.get_field_age() + 5_minutes );
+                    }
+                    if( dstfld != nullptr ) {
+                        adjacent_fires++;
+                    }
+                }
+            } else {
+                end_it = static_cast<size_t>( rng( 0, neighbour_vec.size() - 1 ) );
+                for( size_t i = ( end_it + 1 ) % neighbour_vec.size(), count = 0;
+                     count != neighbour_vec.size() && cur.get_field_age() < 0_turns;
+                     i = ( i + 1 ) % neighbour_vec.size(), count++ ) {
+                    maptile &dst = neighbour_vec[i];
+                    field_entry *dstfld = dst.find_field( fd_fire );
+                    // If the fire exists and is weaker than ours, boost it
+                    if( dstfld != nullptr &&
+                        ( dstfld->get_field_intensity() <= cur.get_field_intensity() ||
+                          dstfld->get_field_age() > cur.get_field_age() ) &&
+                        ( in_pit == ( dst.get_ter() == t_pit ) ) ) {
+                        if( dstfld->get_field_intensity() < 2 ) {
+                            dstfld->set_field_intensity( dstfld->get_field_intensity() + 1 );
+                        }
+
+                        dstfld->set_field_age( dstfld->get_field_age() - 5_minutes );
+                        cur.set_field_age( cur.get_field_age() + 5_minutes );
+                    }
+
+                    if( dstfld != nullptr ) {
+                        adjacent_fires++;
+                    }
+                }
+            }
+        } else if( cur.get_field_age() < 0_turns && cur.get_field_intensity() < 3 ) {
+            // See if we can grow into a stage 2/3 fire, for this
+            // burning neighbors are necessary in addition to
+            // field age < 0, or alternatively, a LOT of fuel.
+
+            // The maximum fire intensity is 1 for a lone fire, 2 for at least 1 neighbor,
+            // 3 for at least 2 neighbors.
+            int maximum_intensity = 1;
+
+            // The following logic looks a bit complex due to optimization concerns, so here are the semantics:
+            // 1. Calculate maximum field intensity based on fuel, -50 minutes is 2(medium), -500 minutes is 3(raging)
+            // 2. Calculate maximum field intensity based on neighbors, 3 neighbors is 2(medium), 7 or more neighbors is 3(raging)
+            // 3. Pick the higher maximum between 1. and 2.
+            if( cur.get_field_age() < -500_minutes ) {
+                maximum_intensity = 3;
+            } else {
+                for( auto &neigh : neighs ) {
+                    if( neigh.get_field().find_field( fd_fire ) != nullptr ) {
+                        adjacent_fires++;
+                    }
+                }
+                maximum_intensity = 1 + ( adjacent_fires >= 3 ) + ( adjacent_fires >= 7 );
+
+                if( maximum_intensity < 2 && cur.get_field_age() < -50_minutes ) {
+                    maximum_intensity = 2;
+                }
+            }
+
+            // If we consumed a lot, the flames grow higher
+            if( cur.get_field_intensity() < maximum_intensity && cur.get_field_age() < 0_turns ) {
+                // Fires under 0 age grow in size. Level 3 fires under 0 spread later on.
+                // Weaken the newly-grown fire
+                cur.set_field_intensity( cur.get_field_intensity() + 1 );
+                cur.set_field_age( cur.get_field_age() + 10_minutes * cur.get_field_intensity() );
+            }
+        }
+    }
+    // Consume adjacent fuel / terrain / webs to spread.
+    // Allow raging fires (and only raging fires) to spread up
+    // Spreading down is achieved by wrecking the walls/floor and then falling
+    if( zlevels && cur.get_field_intensity() == 3 && p.z < OVERMAP_HEIGHT ) {
+        // Let it burn through the floor
+        maptile dst = maptile_at_internal( {p.xy(), p.z + 1} );
+        const auto &dst_ter = dst.get_ter_t();
+        if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ||
+            dst_ter.has_flag( TFLAG_FLAMMABLE ) ||
+            dst_ter.has_flag( TFLAG_FLAMMABLE_ASH ) ||
+            dst_ter.has_flag( TFLAG_FLAMMABLE_HARD ) ) {
+            field_entry *nearfire = dst.find_field( fd_fire );
+            if( nearfire != nullptr ) {
+                nearfire->mod_field_age( -2_turns );
+            } else {
+                dst.add_field( fd_fire, 1, 0_turns );
+            }
+            // Fueling fires above doesn't cost fuel
+        }
+    }
+    // Our iterator will start at end_i + 1 and increment from there and then wrap around.
+    // This guarantees it will check all neighbors, starting from a random one
+    if( sheltered || windpower < 5 ) {
+        const size_t end_i = static_cast<size_t>( rng( 0, neighs.size() - 1 ) );
+        for( size_t i = ( end_i + 1 ) % neighs.size(), count = 0;
+             count != neighs.size();
+             i = ( i + 1 ) % neighs.size(), count++ ) {
+            if( one_in( cur.get_field_intensity() * 2 ) ) {
+                // Skip some processing to save on CPU
+                continue;
+            }
+
+            maptile &dst = neighs[i];
+            // No bounds checking here: we'll treat the invalid neighbors as valid.
+            // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
+            // This will create small oddities on map edges, but nothing more noticeable than
+            // "cut-off" that happens with bounds checks.
+
+            field_entry *nearfire = dst.find_field( fd_fire );
+            if( nearfire != nullptr ) {
+                // We handled supporting fires in the section above, no need to do it here
+                continue;
+            }
+
+            field_entry *nearwebfld = dst.find_field( fd_web );
+            int spread_chance = 25 * ( cur.get_field_intensity() - 1 );
+            if( nearwebfld != nullptr ) {
+                spread_chance = 50 + spread_chance / 2;
+            }
+
+            const ter_t &dster = dst.get_ter_t();
+            const furn_t &dsfrn = dst.get_furn_t();
+            // Allow weaker fires to spread occasionally
+            const int power = cur.get_field_intensity() + one_in( 5 );
+            if( can_spread && rng( 1, 100 ) < spread_chance &&
+                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
+                ( in_pit == ( dster.id.id() == t_pit ) ) &&
+                (
+                    ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
+                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
+                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
+                    ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
+                    nearwebfld || ( dst.get_item_count() > 0 &&
+                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
+                                    one_in( 5 ) )
+                ) ) {
+                // Nearby open flammable ground? Set it on fire.
+                dst.add_field( fd_fire, 1, 0_turns );
+                tmpfld = dst.find_field( fd_fire );
+                if( tmpfld != nullptr ) {
+                    // Make the new fire quite weak, so that it doesn't start jumping around instantly
+                    tmpfld->set_field_age( 2_minutes );
+                    // Consume a bit of our fuel
+                    cur.set_field_age( cur.get_field_age() + 1_minutes );
+                }
+                if( nearwebfld ) {
+                    nearwebfld->set_field_intensity( 0 );
+                }
+            }
+        }
+    } else {
+        const size_t end_i = static_cast<size_t>( rng( 0, neighbour_vec.size() - 1 ) );
+        for( size_t i = ( end_i + 1 ) % neighbour_vec.size(), count = 0;
+             count != neighbour_vec.size();
+             i = ( i + 1 ) % neighbour_vec.size(), count++ ) {
+            if( one_in( cur.get_field_intensity() * 2 ) ) {
+                // Skip some processing to save on CPU
+                continue;
+            }
+
+            if( neighbour_vec.empty() ) {
+                continue;
+            }
+
+            maptile &dst = neighbour_vec[i];
+            // No bounds checking here: we'll treat the invalid neighbors as valid.
+            // We're using the map tile wrapper, so we can treat invalid tiles as sentinels.
+            // This will create small oddities on map edges, but nothing more noticeable than
+            // "cut-off" that happens with bounds checks.
+
+            field_entry *nearfire = dst.find_field( fd_fire );
+            if( nearfire != nullptr ) {
+                // We handled supporting fires in the section above, no need to do it here
+                continue;
+            }
+
+            field_entry *nearwebfld = dst.find_field( fd_web );
+            int spread_chance = 25 * ( cur.get_field_intensity() - 1 );
+            if( nearwebfld != nullptr ) {
+                spread_chance = 50 + spread_chance / 2;
+            }
+
+            const ter_t &dster = dst.get_ter_t();
+            const furn_t &dsfrn = dst.get_furn_t();
+            // Allow weaker fires to spread occasionally
+            const int power = cur.get_field_intensity() + one_in( 5 );
+            if( can_spread && rng( 1, 100 - windpower ) < spread_chance &&
+                ( dster.is_flammable() || dsfrn.is_flammable() ) &&
+                ( in_pit == ( dster.id.id() == t_pit ) ) &&
+                (
+                    ( power >= 3 && cur.get_field_age() < 0_turns && one_in( 20 ) ) ||
+                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE ) && one_in( 2 ) ) ) ||
+                    ( power >= 2 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_ASH ) && one_in( 2 ) ) ) ||
+                    ( power >= 3 && ( ter_furn_has_flag( dster, dsfrn, TFLAG_FLAMMABLE_HARD ) && one_in( 5 ) ) ) ||
+                    nearwebfld || ( dst.get_item_count() > 0 &&
+                                    flammable_items_at( p + eight_horizontal_neighbors[i] ) &&
+                                    one_in( 5 ) )
+                ) ) {
+                // Nearby open flammable ground? Set it on fire.
+                dst.add_field( fd_fire, 1, 0_turns );
+                tmpfld = dst.find_field( fd_fire );
+                if( tmpfld != nullptr ) {
+                    // Make the new fire quite weak, so that it doesn't start jumping around instantly
+                    tmpfld->set_field_age( 2_minutes );
+                    // Consume a bit of our fuel
+                    cur.set_field_age( cur.get_field_age() + 1_minutes );
+                }
+                if( nearwebfld ) {
+                    nearwebfld->set_field_intensity( 0 );
+                }
+            }
+        }
+    }
+    // Create smoke once - above us if possible, at us otherwise
+    if( !ter_furn_has_flag( ter, frn, TFLAG_SUPPRESS_SMOKE ) &&
+        rng( 0, 100 - windpower ) <= smoke &&
+        rng( 3, 35 ) < cur.get_field_intensity() * 10 ) {
+        bool smoke_up = zlevels && p.z < OVERMAP_HEIGHT;
+        if( smoke_up ) {
+            tripoint up{p.xy(), p.z + 1};
+            maptile dst = maptile_at_internal( up );
+            const ter_t &dst_ter = dst.get_ter_t();
+            if( dst_ter.has_flag( TFLAG_NO_FLOOR ) ) {
+                dst.add_field( fd_smoke, rng( 1, cur.get_field_intensity() ), 0_turns );
+            } else {
+                // Can't create smoke above
+                smoke_up = false;
+            }
+        }
+
+        if( !smoke_up ) {
+            maptile dst = maptile_at_internal( p );
+            // Create thicker smoke
+            dst.add_field( fd_smoke, cur.get_field_intensity(), 0_turns );
+        }
+
+        // Smoke affects transparency
+        dirty_transparency_cache = true;
+    }
+
+    // Hot air is a load on the CPU
+    // Don't produce too much of it if we have a lot fires nearby, they produce
+    // radiant heat which does what hot air would do anyway
+    if( adjacent_fires < 5 && rng( 0, 4 - adjacent_fires ) ) {
+        create_hot_air( p, cur.get_field_intensity() );
+    }
+
+    return breaks_loop;
+}
+
 // This entire function makes very little sense. Why are the rules the way they are? Why does walking into some things destroy them but not others?
 
 /*
@@ -1371,37 +1396,18 @@ void map::player_in_field( player &u )
 
         // Do things based on what field effect we are currently in.
         const field_type_id ft = cur.get_field_type();
-        if( ft == fd_web ) {
-            // If we are in a web, can't walk in webs or are in a vehicle, get webbed maybe.
-            // Moving through multiple webs stacks the effect.
-            if( !u.has_trait( trait_WEB_WALKER ) && !u.in_vehicle ) {
-                // Between 5 and 15 minus your current web level.
-                u.add_effect( effect_webbed, 1_turns, num_bp, true, cur.get_field_intensity() );
-                // It is spent.
-                cur.set_field_intensity( 0 );
-                continue;
-                // If you are in a vehicle destroy the web.
-                // It should of been destroyed when you ran over it anyway.
-            } else if( u.in_vehicle ) {
-                cur.set_field_intensity( 0 );
-                continue;
-            }
-        }
         if( ft == fd_acid ) {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
             if( !u.in_vehicle && !u.has_trait( trait_ACIDPROOF ) ) {
                 int total_damage = 0;
-                const int intensity = cur.get_field_intensity();
-                // 1-3 at intensity, 1-4 at 2, 1-5 at 3
                 total_damage += burn_body_part( u, cur, bp_foot_l, 2 );
                 total_damage += burn_body_part( u, cur, bp_foot_r, 2 );
-                // 1 dmg at 1 intensity, 1-3 at 2, 1-5 at 3
-                total_damage += burn_body_part( u, cur, bp_leg_l, intensity - 1 );
-                total_damage += burn_body_part( u, cur, bp_leg_r, intensity - 1 );
                 const bool on_ground = u.is_on_ground();
                 if( on_ground ) {
-                    // Before, it would just break the legs and leave the survivor alone
+                    // Apply the effect to the remaining body parts
+                    total_damage += burn_body_part( u, cur, bp_leg_l, 2 );
+                    total_damage += burn_body_part( u, cur, bp_leg_r, 2 );
                     total_damage += burn_body_part( u, cur, bp_hand_l, 2 );
                     total_damage += burn_body_part( u, cur, bp_hand_r, 2 );
                     total_damage += burn_body_part( u, cur, bp_torso, 2 );
@@ -1583,8 +1589,7 @@ void map::player_in_field( player &u )
             // Small universal damage based on intensity, only if not electroproofed.
             if( !u.is_elec_immune() ) {
                 int total_damage = 0;
-                for( size_t i = 0; i < num_hp_parts; i++ ) {
-                    const bodypart_id bp = convert_bp( player::hp_to_bp( static_cast<hp_part>( i ) ) ).id();
+                for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
                     const int dmg = rng( 1, cur.get_field_intensity() );
                     total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
                 }
@@ -1712,6 +1717,10 @@ void map::creature_in_field( Creature &critter )
         const field_type_id cur_field_id = cur_field_entry.get_field_type();
 
         for( const auto &fe : cur_field_entry.field_effects() ) {
+            // the field is decreased even if you are in a vehicle
+            if( cur_field_id->decrease_intensity_on_contact ) {
+                cur_field_entry.mod_field_intensity( -1 );
+            }
             if( in_vehicle && fe.immune_in_vehicle ) {
                 continue;
             }

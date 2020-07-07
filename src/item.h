@@ -233,6 +233,14 @@ class item : public visitable<item>
         item &activate();
 
         /**
+         * Invoke use function on a thrown item that had "ACT_ON_RANGED_HIT" flag.
+         * The function is called on the spot where the item landed.
+         * @param pos position
+         * @return true if the item was destroyed (exploded)
+         */
+        bool activate_thrown( const tripoint &pos );
+
+        /**
          * Add or remove energy from a battery.
          * If adding the specified energy quantity would go over the battery's capacity fill
          * the battery and ignore the remainder.
@@ -731,9 +739,9 @@ class item : public visitable<item>
             return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
         }
         /**
-         * Puts the given item into this one, no checks are performed.
+         * Puts the given item into this one.
          */
-        void put_in( const item &payload, item_pocket::pocket_type pk_type );
+        ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
@@ -1087,7 +1095,7 @@ class item : public visitable<item>
          * Check whether the item has been marked (by calling mark_as_used_by_player)
          * as used by this specific player.
          */
-        bool already_used_by_player( const player &p ) const;
+        bool already_used_by_player( const Character &p ) const;
         /**
          * Marks the item as being used by this specific player, it remains unmarked
          * for other players. The player is identified by its id.
@@ -1112,7 +1120,7 @@ class item : public visitable<item>
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        bool process( player *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         /**
@@ -2126,7 +2134,7 @@ class item : public visitable<item>
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
-        bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        bool process_internal( player *carrier, const tripoint &pos, float insulation = 1,
                                temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
         /**
          * Calculate the thermal energy and temperature change of the item

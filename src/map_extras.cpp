@@ -1098,7 +1098,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
     return true;
 }
 
-static bool mx_minefield( map &m, const tripoint &abs_sub )
+static bool mx_minefield( map &, const tripoint &abs_sub )
 {
     const tripoint abs_omt = sm_to_omt_copy( abs_sub );
     const oter_id &center = overmap_buffer.ter( abs_omt );
@@ -1107,7 +1107,7 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
     const oter_id &east = overmap_buffer.ter( abs_omt + point_east );
 
-    const bool bridge_at_center = is_ot_match( "bridge", center, ot_match_type::type );
+    const bool bridgehead_at_center = is_ot_match( "bridgehead_ground", center, ot_match_type::type );
     const bool bridge_at_north = is_ot_match( "bridge", north, ot_match_type::type );
     const bool bridge_at_south = is_ot_match( "bridge", south, ot_match_type::type );
     const bool bridge_at_west = is_ot_match( "bridge", west, ot_match_type::type );
@@ -1124,7 +1124,14 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
 
     bool did_something = false;
 
-    if( bridge_at_north && bridge_at_center && road_at_south ) {
+    if( !bridgehead_at_center ) {
+        return false;
+    }
+
+    tinymap m;
+    if( bridge_at_north && bridgehead_at_center && road_at_south ) {
+        m.load( omt_to_sm_copy( abs_omt + point_south ), false );
+
         //Sandbag block at the left edge
         line_furn( &m, f_sandbag_half, point( 3, 4 ), point( 3, 7 ) );
         line_furn( &m, f_sandbag_half, point( 3, 7 ), point( 9, 7 ) );
@@ -1222,7 +1229,8 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_south && bridge_at_center && road_at_north ) {
+    if( bridge_at_south && bridgehead_at_center && road_at_north ) {
+        m.load( omt_to_sm_copy( abs_omt + point_north ), false );
         //Two horizontal lines of sandbags
         line_furn( &m, f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
         line_furn( &m, f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
@@ -1323,7 +1331,8 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_west && bridge_at_center && road_at_east ) {
+    if( bridge_at_west && bridgehead_at_center && road_at_east ) {
+        m.load( omt_to_sm_copy( abs_omt + point_east ), false );
         //Draw walls of first tent
         square_furn( &m, f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
 
@@ -1469,7 +1478,8 @@ static bool mx_minefield( map &m, const tripoint &abs_sub )
         did_something = true;
     }
 
-    if( bridge_at_east && bridge_at_center && road_at_west ) {
+    if( bridge_at_east && bridgehead_at_center && road_at_west ) {
+        m.load( omt_to_sm_copy( abs_omt + point_west ), false );
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 15, 11 ), 270, 70, 1 );
 
@@ -3019,7 +3029,7 @@ static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
         for( const tripoint &p : points_in_radius( trap_center, 1 ) ) {
             compmap.trap_set( p, tr_blade );
         }
-        compmap.trap_set( trap_center, tr_engine );
+        compmap.trap_set( trap_center, trap_str_id( "tr_engine" ) );
         //... and a loudspeaker to attract zombies
         compmap.add_spawn( mon_turret_speaker, 1, trap_center );
     }

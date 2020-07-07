@@ -107,6 +107,8 @@ bool check_empty_up_OK( const tripoint & ); // tile is empty and below OVERMAP_H
 bool check_up_OK( const tripoint & ); // tile is below OVERMAP_HEIGHT
 bool check_down_OK( const tripoint & ); // tile is above OVERMAP_DEPTH
 bool check_no_trap( const tripoint & );
+bool check_ramp_low( const tripoint & );
+bool check_ramp_high( const tripoint & );
 
 // Special actions to be run post-terrain-mod
 static void done_nothing( const tripoint & ) {}
@@ -123,6 +125,8 @@ void done_window_curtains( const tripoint & );
 void done_extract_maybe_revert_to_dirt( const tripoint & );
 void done_mark_firewood( const tripoint & );
 void done_mark_practice_target( const tripoint & );
+void done_ramp_low( const tripoint & );
+void done_ramp_high( const tripoint & );
 
 void failure_standard( const tripoint & );
 void failure_deconstruct( const tripoint & );
@@ -937,7 +941,7 @@ void place_construction( const std::string &desc )
     // Special handling for constructions that take place on existing traps.
     // Basically just don't add the unfinished construction trap.
     // TODO: handle this cleaner, instead of adding a special case to pit iexamine.
-    if( here.tr_at( pnt ).loadid == tr_null ) {
+    if( here.tr_at( pnt ).is_null() ) {
         here.trap_set( pnt, tr_unfinished_construction );
     }
     // Use up the components
@@ -965,7 +969,7 @@ void complete_construction( player *p )
     partial_con *pc = here.partial_con_at( terp );
     if( !pc ) {
         debugmsg( "No partial construction found at activity placement in complete_construction()" );
-        if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
+        if( here.tr_at( terp ) == tr_unfinished_construction ) {
             here.remove_trap( terp );
         }
         if( p->is_npc() ) {
@@ -999,7 +1003,7 @@ void complete_construction( player *p )
             award_xp( *elem );
         }
     }
-    if( here.tr_at( terp ).loadid == tr_unfinished_construction ) {
+    if( here.tr_at( terp ) == tr_unfinished_construction ) {
         here.remove_trap( terp );
     }
     here.partial_con_remove( terp );
@@ -1055,6 +1059,8 @@ void complete_construction( player *p )
 bool construct::check_empty( const tripoint &p )
 {
     map &here = get_map();
+    // @TODO should check for *visible* traps only. But calling code must
+    // first know how to handle constructing on top of an invisible trap!
     return ( here.has_flag( flag_FLAT, p ) && !here.has_furn( p ) &&
              g->is_empty( p ) && here.tr_at( p ).is_null() &&
              here.i_at( p ).empty() && !here.veh_at( p ) );
@@ -1116,6 +1122,24 @@ bool construct::check_down_OK( const tripoint & )
 bool construct::check_no_trap( const tripoint &p )
 {
     return get_map().tr_at( p ).is_null();
+}
+
+bool construct::check_ramp_high( const tripoint &p )
+{
+    if( check_up_OK( p ) && check_up_OK( p + tripoint_above ) ) {
+        for( const point &car_d : four_cardinal_directions ) {
+            // check adjacent points on the z-level above for a completed down ramp
+            if( get_map().has_flag( TFLAG_RAMP_DOWN, p + car_d + tripoint_above ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool construct::check_ramp_low( const tripoint &p )
+{
+    return check_up_OK( p ) && check_up_OK( p + tripoint_above );
 }
 
 void construct::done_trunk_plank( const tripoint &/*p*/ )
@@ -1416,6 +1440,18 @@ void construct::done_mark_practice_target( const tripoint &p )
     get_map().trap_set( p, tr_practice_target );
 }
 
+void construct::done_ramp_low( const tripoint &p )
+{
+    const tripoint top = p + tripoint_above;
+    get_map().ter_set( top, ter_id( "t_ramp_down_low" ) );
+}
+
+void construct::done_ramp_high( const tripoint &p )
+{
+    const tripoint top = p + tripoint_above;
+    get_map().ter_set( top, ter_id( "t_ramp_down_high" ) );
+}
+
 void construct::failure_standard( const tripoint & )
 {
     add_msg( m_info, _( "You cannot build there!" ) );
@@ -1519,7 +1555,9 @@ void load_construction( const JsonObject &jo )
             { "check_empty_up_OK", construct::check_empty_up_OK },
             { "check_up_OK", construct::check_up_OK },
             { "check_down_OK", construct::check_down_OK },
-            { "check_no_trap", construct::check_no_trap }
+            { "check_no_trap", construct::check_no_trap },
+            { "check_ramp_low", construct::check_ramp_low },
+            { "check_ramp_high", construct::check_ramp_high }
         }
     };
     static const std::map<std::string, std::function<void( const tripoint & )>> post_special_map = {{
@@ -1535,7 +1573,9 @@ void load_construction( const JsonObject &jo )
             { "done_window_curtains", construct::done_window_curtains },
             { "done_extract_maybe_revert_to_dirt", construct::done_extract_maybe_revert_to_dirt },
             { "done_mark_firewood", construct::done_mark_firewood },
-            { "done_mark_practice_target", construct::done_mark_practice_target }
+            { "done_mark_practice_target", construct::done_mark_practice_target },
+            { "done_ramp_low", construct::done_ramp_low },
+            { "done_ramp_high", construct::done_ramp_high }
         }
     };
     std::map<std::string, std::function<void( const tripoint & )>> explain_fail_map;

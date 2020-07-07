@@ -46,6 +46,8 @@ class item_contents
         ret_val<bool> can_contain_rigid( const item &it ) const;
         ret_val<bool> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+        // does not ignore mods
+        bool empty_real() const;
         bool empty() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
         bool empty_container() const;
@@ -206,7 +208,7 @@ class item_contents
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        void process( player *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         void migrate_item( item &obj, const std::set<itype_id> &migrations );
@@ -241,6 +243,9 @@ class item_contents
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
 
         std::list<item_pocket> contents;
+
+        struct item_contents_helper;
+        friend struct item_contents_helper;
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

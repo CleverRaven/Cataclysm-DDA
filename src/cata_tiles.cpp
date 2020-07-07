@@ -2112,7 +2112,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
     if( low_overridden ? !low_override->second : ( invisible[0] ||
-            !here.need_draw_lower_floor( p ) ) ) {
+            here.dont_draw_lower_floor( p ) ) ) {
         return false;
     }
 
@@ -2433,8 +2433,8 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
 
     map &here = get_map();
     // first memorize the actual trap
-    const trap_id &tr = here.tr_at( p ).loadid;
-    if( tr && !invisible[0] && tr.obj().can_see( p, g->u ) ) {
+    const trap &tr = here.tr_at( p );
+    if( !tr.is_null() && !invisible[0] && tr.can_see( p, g->u ) ) {
         const int neighborhood[4] = {
             static_cast<int>( here.tr_at( p + point_south ).loadid ),
             static_cast<int>( here.tr_at( p + point_east ).loadid ),
@@ -2443,8 +2443,8 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
         };
         int subtile = 0;
         int rotation = 0;
-        get_tile_values( tr.to_i(), neighborhood, subtile, rotation );
-        const std::string trname = tr.id().str();
+        get_tile_values( tr.loadid.to_i(), neighborhood, subtile, rotation );
+        const std::string trname = tr.loadid.id().str();
         if( here.check_seen_cache( p ) ) {
             g->u.memorize_tile( here.getabs( p ), trname, subtile, rotation );
         }
@@ -2454,9 +2454,9 @@ bool cata_tiles::draw_trap( const tripoint &p, const lit_level ll, int &height_3
                                         nv_goggles_activated, height_3d );
         }
     }
-    if( overridden || ( !invisible[0] && neighborhood_overridden && tr.obj().can_see( p, g->u ) ) ) {
+    if( overridden || ( !invisible[0] && neighborhood_overridden && tr.can_see( p, g->u ) ) ) {
         // and then draw the override trap
-        const trap_id &tr2 = overridden ? override->second : tr;
+        const trap_id &tr2 = overridden ? override->second : tr.loadid;
         if( tr2 ) {
             // both the current and neighboring overrides may change the appearance
             // of the tile, so always re-calculate it.
@@ -2584,7 +2584,7 @@ bool cata_tiles::draw_vpart_below( const tripoint &p, const lit_level /*ll*/, in
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
     if( low_overridden ? !low_override->second : ( invisible[0] ||
-            !get_map().need_draw_lower_floor( p ) ) ) {
+            get_map().dont_draw_lower_floor( p ) ) ) {
         return false;
     }
     tripoint pbelow( p.xy(), p.z - 1 );
@@ -2661,7 +2661,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
     const auto low_override = draw_below_override.find( p );
     const bool low_overridden = low_override != draw_below_override.end();
     if( low_overridden ? !low_override->second : ( invisible[0] ||
-            !get_map().need_draw_lower_floor( p ) ) ) {
+            get_map().dont_draw_lower_floor( p ) ) ) {
         return false;
     }
 
