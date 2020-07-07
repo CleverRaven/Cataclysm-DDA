@@ -923,11 +923,11 @@ class heal_actor : public iuse_actor
         std::set<std::string> used_up_item_flags;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
-        int get_heal_value( const player &healer, bodypart_id healed ) const;
+        int get_heal_value( const Character &healer, bodypart_id healed ) const;
         /** How many intensity levels will be applied using this actor by `healer`. */
-        int get_bandaged_level( const player &healer ) const;
+        int get_bandaged_level( const Character &healer ) const;
         /** How many intensity levels will be applied using this actor by `healer`. */
-        int get_disinfected_level( const player &healer ) const;
+        int get_disinfected_level( const Character &healer ) const;
         /** Does the actual healing. Used by both long and short actions. Returns charges used. */
         int finish_using( player &healer, player &patient, item &it, bodypart_id healed ) const;
 
