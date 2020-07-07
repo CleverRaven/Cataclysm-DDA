@@ -278,24 +278,34 @@ void item_contents::combine( const item_contents &read_input )
 
     for( const item_pocket &pocket : read_input.contents ) {
         if( pocket_index < contents.size() ) {
-            if( pocket.saved_type() != item_pocket::pocket_type::MOD ) {
-                auto current_pocket_iter = contents.begin();
-                std::advance( current_pocket_iter, pocket_index );
-
+            if( pocket.saved_type() == item_pocket::pocket_type::MOD ) {
+                // this is already handled in item_contents::read_mods
+                ++pocket_index;
+                continue;
+            } else if( pocket.saved_type() == item_pocket::pocket_type::MIGRATION ||
+                       pocket.saved_type() == item_pocket::pocket_type::CORPSE ) {
                 for( const item *it : pocket.all_items_top() ) {
-                    const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
-                    if( !inserted.success() ) {
-                        uninserted_items.push_back( *it );
-                        debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
-                                  inserted.str() );
-                    }
+                    insert_item( *it, pocket.saved_type() );
                 }
-
-                if( pocket.saved_sealed() ) {
-                    current_pocket_iter->seal();
-                }
-                current_pocket_iter->settings = pocket.settings;
+                ++pocket_index;
+                continue;
             }
+            auto current_pocket_iter = contents.begin();
+            std::advance( current_pocket_iter, pocket_index );
+
+            for( const item *it : pocket.all_items_top() ) {
+                const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
+                if( !inserted.success() ) {
+                    uninserted_items.push_back( *it );
+                    debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
+                              inserted.str() );
+                }
+            }
+
+            if( pocket.saved_sealed() ) {
+                current_pocket_iter->seal();
+            }
+            current_pocket_iter->settings = pocket.settings;
         } else {
             for( const item *it : pocket.all_items_top() ) {
                 uninserted_items.push_back( *it );

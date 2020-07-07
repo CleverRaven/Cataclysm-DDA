@@ -197,14 +197,12 @@ void item_contents::deserialize( JsonIn &jsin )
 
 void item_pocket::serialize( JsonOut &json ) const
 {
-    if( !contents.empty() ) {
-        json.start_object();
-        json.member( "pocket_type", data->type );
-        json.member( "contents", contents );
-        json.member( "_sealed", _sealed );
-        json.member( "favorite_settings", this->settings );
-        json.end_object();
-    }
+    json.start_object();
+    json.member( "pocket_type", data->type );
+    json.member( "contents", contents );
+    json.member( "_sealed", _sealed );
+    json.member( "favorite_settings", this->settings );
+    json.end_object();
 }
 
 void item_pocket::deserialize( JsonIn &jsin )
