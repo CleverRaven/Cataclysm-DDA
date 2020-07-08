@@ -5837,11 +5837,10 @@ void Character::update_bodytemp()
 
         const int comfortable_warmth = bonus_fire_warmth + lying_warmth;
         const int bonus_warmth = comfortable_warmth + metabolism_warmth + mutation_heat_bonus;
-        const int temp_before = get_part_temp_cur( bp );
         if( bonus_warmth > 0 ) {
             // Approximate temp_conv needed to reach comfortable temperature in this very turn
             // Basically inverted formula for temp_cur below
-            int desired = 501 * BODYTEMP_NORM - 499 * temp_before;
+            int desired = 501 * BODYTEMP_NORM - 499 * get_part_temp_conv( bp );
             if( std::abs( BODYTEMP_NORM - desired ) < 1000 ) {
                 desired = BODYTEMP_NORM; // Ensure that it converges
             } else if( desired > BODYTEMP_HOT ) {
@@ -5866,11 +5865,12 @@ void Character::update_bodytemp()
                 ( 1_minutes * bp->token ) / to_turns<int>( 1_minutes * num_bp ) &&
                 get_effect_int( effect_cold, num_bp ) == 0 &&
                 get_effect_int( effect_hot, num_bp ) == 0 &&
-                temp_before > BODYTEMP_COLD && temp_before <= BODYTEMP_NORM ) {
+                get_part_temp_conv( bp ) > BODYTEMP_COLD && get_part_temp_conv( bp ) <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 10, 2_minutes, 1_minutes, true );
             }
         }
 
+        const int temp_before = get_part_temp_cur( bp );
         const int cur_temp_conv = get_part_temp_conv( bp );
         int temp_difference = temp_before - cur_temp_conv; // Negative if the player is warming up.
         // exp(-0.001) : half life of 60 minutes, exp(-0.002) : half life of 30 minutes,
@@ -5888,7 +5888,7 @@ void Character::update_bodytemp()
         // If, after all the warmth calculations, we should be, then we have to recalculate the temperature.
         if( clothing_warmth_adjusted_bonus != 0 &&
             ( ( cur_temp_conv + clothing_warmth_adjusted_bonus ) < BODYTEMP_HOT ||
-              temp_before < BODYTEMP_COLD ) ) {
+              get_part_temp_cur( bp ) < BODYTEMP_COLD ) ) {
             mod_part_temp_conv( bp, clothing_warmth_adjusted_bonus );
             rounding_error = 0;
             if( temp_difference < 0 && temp_difference > -600 ) {
@@ -5896,7 +5896,7 @@ void Character::update_bodytemp()
             }
             const int new_temp_conv = get_part_temp_conv( bp );
             if( temp_before != new_temp_conv ) {
-                temp_difference = temp_before - new_temp_conv;
+                temp_difference = get_part_temp_cur( bp ) - new_temp_conv;
                 set_part_temp_cur( bp, static_cast<int>( temp_difference * std::exp( -0.002 ) + new_temp_conv +
                                    rounding_error ) );
             }
@@ -5925,13 +5925,9 @@ void Character::update_bodytemp()
                 add_effect( effect_hot_speed, 1_turns, bp->token, true, 1 );
             }
         } else {
-            if( temp_after >= BODYTEMP_COLD ) {
-                remove_effect( effect_cold, bp->token );
-            }
-            if( temp_after <= BODYTEMP_HOT ) {
-                remove_effect( effect_hot, bp->token );
-                remove_effect( effect_hot_speed, bp->token );
-            }
+            remove_effect( effect_cold, bp->token );
+            remove_effect( effect_hot, bp->token );
+            remove_effect( effect_hot_speed, bp->token );
         }
         // FROSTBITE - only occurs to hands, feet, face
         /**
@@ -11141,7 +11137,7 @@ nc_color Character::bodytemp_color( const bodypart_id &bp ) const
         color = c_light_blue;
     } else if( temp_conv  > BODYTEMP_FREEZING ) {
         color = c_cyan;
-    } else if( temp_conv <= BODYTEMP_FREEZING ) {
+    } else {
         color = c_blue;
     }
     return color;
