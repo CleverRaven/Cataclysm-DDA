@@ -1821,30 +1821,34 @@ void islot_pet_armor::deserialize( JsonIn &jsin )
     load( jo );
 }
 
-void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::string &src )
+void islot_tool::load( const JsonObject &jo )
 {
-    bool strict = src == "dda";
-
-    assign( jo, "ammo", slot.ammo_id, strict );
-    assign( jo, "max_charges", slot.max_charges, strict, 0 );
-    assign( jo, "initial_charges", slot.def_charges, strict, 0 );
-    assign( jo, "charges_per_use", slot.charges_per_use, strict, 0 );
-    assign( jo, "charge_factor", slot.charge_factor, strict, 1 );
-    assign( jo, "turns_per_charge", slot.turns_per_charge, strict, 0 );
-    assign( jo, "power_draw", slot.power_draw, strict, 0 );
-    assign( jo, "revert_to", slot.revert_to, strict );
-    assign( jo, "revert_msg", slot.revert_msg, strict );
-    assign( jo, "sub", slot.subtype, strict );
+    if( jo.has_string( "ammo" ) ) {
+        ammotype am;
+        optional( jo, false, "ammo", am );
+        ammo_id.emplace( am );
+    } else {
+        optional( jo, was_loaded, "ammo", ammo_id );
+    }
+    optional( jo, was_loaded, "max_charges", max_charges, 0 );
+    optional( jo, was_loaded, "initial_charges", def_charges, 0 );
+    optional( jo, was_loaded, "charges_per_use", charges_per_use, 0 );
+    optional( jo, was_loaded, "charge_factor", charge_factor, 1 );
+    optional( jo, was_loaded, "turns_per_charge", power_draw, 0 );
+    optional( jo, was_loaded, "power_draw", power_draw, 0 );
+    optional( jo, was_loaded, "revert_to", revert_to );
+    optional( jo, was_loaded, "revert_msg", revert_msg );
+    optional( jo, was_loaded, "sub", subtype );
 
     if( jo.has_array( "rand_charges" ) ) {
         if( jo.has_member( "initial_charges" ) ) {
             jo.throw_error( "You can have a fixed initial amount of charges, or randomized.  Not both.",
                             "rand_charges" );
         }
-        for( const int charge : jo.get_array( "rand_charges" ) ) {
-            slot.rand_charges.push_back( charge );
-        }
-        if( slot.rand_charges.size() == 1 ) {
+
+        optional( jo, was_loaded, "rand_charges", rand_charges );
+
+        if( rand_charges.size() == 1 ) {
             // see item::item(...) for the use of this array
             jo.throw_error( "a rand_charges array with only one entry will be ignored, it needs at least 2 entries!",
                             "rand_charges" );
@@ -1852,11 +1856,27 @@ void Item_factory::load( islot_tool &slot, const JsonObject &jo, const std::stri
     }
 }
 
+void islot_tool::deserialize( JsonIn &jsin )
+{
+    const JsonObject jo = jsin.get_object();
+    load( jo );
+}
+
 void Item_factory::load_tool( const JsonObject &jo, const std::string &src )
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.tool, jo, src );
+        if( def.was_loaded ) {
+            if( def.tool ) {
+                def.tool->was_loaded = true;
+            } else {
+                def.tool = cata::make_value<islot_tool>();
+                def.tool->was_loaded = true;
+            }
+        } else {
+            def.tool = cata::make_value<islot_tool>();
+        }
+        def.tool->load( jo );
         load_basic_info( jo, def, src );
     }
 }
@@ -1914,7 +1934,10 @@ void Item_factory::load_tool_armor( const JsonObject &jo, const std::string &src
 {
     itype def;
     if( load_definition( jo, src, def ) ) {
-        load_slot( def.tool, jo, src );
+        if( !def.tool ) {
+            def.tool = cata::make_value<islot_tool>();
+        }
+        def.tool->load( jo );
         if( def.was_loaded ) {
             if( def.armor ) {
                 def.armor->was_loaded = true;

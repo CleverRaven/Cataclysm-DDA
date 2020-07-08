@@ -296,7 +296,6 @@ class Item_factory
         void load_slot_optional( cata::value_ptr<SlotType> &slotptr, const JsonObject &jo,
                                  const std::string &member, const std::string &src );
 
-        void load( islot_tool &slot, const JsonObject &jo, const std::string &src );
         void load( islot_comestible &slot, const JsonObject &jo, const std::string &src );
         void load( islot_mod &slot, const JsonObject &jo, const std::string &src );
         void load( islot_fuel &slot, const JsonObject &jo, const std::string &src );

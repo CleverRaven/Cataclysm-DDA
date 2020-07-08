@@ -106,6 +106,11 @@ struct islot_tool {
     int power_draw = 0;
 
     std::vector<int> rand_charges;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_comestible {
