@@ -2644,20 +2644,20 @@ void vehicle_part::serialize( JsonOut &json ) const
 /*
  * label
  */
-static void deserialize( label &val, JsonIn &jsin )
+void label::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    data.read( "x", val.x );
-    data.read( "y", val.y );
-    data.read( "text", val.text );
+    data.read( "x", x );
+    data.read( "y", y );
+    data.read( "text", text );
 }
 
-static void serialize( const label &val, JsonOut &json )
+void label::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "x", val.x );
-    json.member( "y", val.y );
-    json.member( "text", val.text );
+    json.member( "x", x );
+    json.member( "y", y );
+    json.member( "text", text );
     json.end_object();
 }
 
@@ -3326,19 +3326,19 @@ void map_memory::load( const JsonObject &jsin )
     }
 }
 
-void deserialize( point &p, JsonIn &jsin )
+void point::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
-    p.x = jsin.get_int();
-    p.y = jsin.get_int();
+    x = jsin.get_int();
+    y = jsin.get_int();
     jsin.end_array();
 }
 
-void serialize( const point &p, JsonOut &jsout )
+void point::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
-    jsout.write( p.x );
-    jsout.write( p.y );
+    jsout.write( x );
+    jsout.write( y );
     jsout.end_array();
 }
 

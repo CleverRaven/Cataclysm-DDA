@@ -106,6 +106,9 @@ struct point {
 
     std::string to_string() const;
 
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
+
     friend inline constexpr bool operator<( const point &a, const point &b ) {
         return a.x < b.x || ( a.x == b.x && a.y < b.y );
     }
@@ -121,9 +124,6 @@ struct point {
     friend std::istream &operator>>( std::istream &, point & );
 #endif
 };
-
-void serialize( const point &p, JsonOut &jsout );
-void deserialize( point &p, JsonIn &jsin );
 
 inline int divide_round_to_minus_infinity( int n, int d )
 {
