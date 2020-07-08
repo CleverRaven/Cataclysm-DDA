@@ -1250,7 +1250,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         clear_window_area( w );
         tilecontext->draw_minimap(
             point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            tripoint( g->u.pos().xy(), g->ter_view_p.z ),
+            tripoint( get_player_character().pos().xy(), g->ter_view_p.z ),
             win->width * font->fontwidth, win->height * font->fontheight );
         update = true;
 
@@ -1854,7 +1854,8 @@ input_context touch_input_context;
 
 std::string get_quick_shortcut_name( const std::string &category )
 {
-    if( category == "DEFAULTMODE" && g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), g->u.pos() ) &&
+    if( category == "DEFAULTMODE" &&
+        g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), get_player_character().pos() ) &&
         get_option<bool>( "ANDROID_SHORTCUT_ZONE" ) ) {
         return "DEFAULTMODE____SHORTCUTS";
     }
@@ -2112,10 +2113,11 @@ void remove_stale_inventory_quick_shortcuts()
             valid = inv_chars.valid( key );
             in_inventory = false;
             if( valid ) {
-                in_inventory = g->u.inv.invlet_to_position( key ) != INT_MIN;
+                Character &player_character = get_player_character();
+                in_inventory = player_character.inv.invlet_to_position( key ) != INT_MIN;
                 if( !in_inventory ) {
                     // We couldn't find this item in the inventory, let's check worn items
-                    for( const auto &item : g->u.worn ) {
+                    for( const auto &item : player_character.worn ) {
                         if( item.invlet == key ) {
                             in_inventory = true;
                             break;
@@ -2124,7 +2126,7 @@ void remove_stale_inventory_quick_shortcuts()
                 }
                 if( !in_inventory ) {
                     // We couldn't find it in worn items either, check weapon held
-                    if( g->u.weapon.invlet == key ) {
+                    if( player_character.weapon.invlet == key ) {
                         in_inventory = true;
                     }
                 }
@@ -2244,11 +2246,13 @@ void draw_quick_shortcuts()
         std::string hint_text;
         if( show_hint ) {
             if( touch_input_context.get_category() == "INVENTORY" && inv_chars.valid( key ) ) {
+                Character &player_character = get_player_character();
                 // Special case for inventory items - show the inventory item name as help text
-                hint_text = g->u.inv.find_item( g->u.inv.invlet_to_position( key ) ).display_name();
+                hint_text = player_character.inv.find_item( player_character.inv.invlet_to_position(
+                                key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
-                    for( const auto &item : g->u.worn ) {
+                    for( const auto &item : player_character.worn ) {
                         if( item.invlet == key ) {
                             hint_text = item.display_name();
                             break;
@@ -2257,8 +2261,8 @@ void draw_quick_shortcuts()
                 }
                 if( hint_text == "none" ) {
                     // We couldn't find it in worn items either, must be weapon held
-                    if( g->u.weapon.invlet == key ) {
-                        hint_text = g->u.weapon.display_name();
+                    if( player_character.weapon.invlet == key ) {
+                        hint_text = player_character.weapon.display_name();
                     }
                 }
             } else {
@@ -2627,24 +2631,25 @@ static void CheckMessages()
                 // Actions to remove - we only want to remove things that we're 100% sure won't be useful to players otherwise
                 std::set<action_id> actions_remove;
 
+                Character &player_character = get_player_character();
                 // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-                if( !g->u.get_hostile_creatures( 60 ).empty() ) {
+                if( !player_character.get_hostile_creatures( 60 ).empty() ) {
                     // Only prioritize movement options if we're not driving.
-                    if( !g->u.controlling_vehicle ) {
+                    if( !player_character.controlling_vehicle ) {
                         actions.insert( ACTION_CYCLE_MOVE );
                     }
                     // Only prioritize fire weapon options if we're wielding a ranged weapon.
-                    if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+                    if( player_character.weapon.is_gun() || player_character.weapon.has_flag( "REACH_ATTACK" ) ) {
                         actions.insert( ACTION_FIRE );
                     }
                 }
 
                 // If we're already running, make it simple to toggle running to off.
-                if( g->u.is_running() ) {
+                if( player_character.is_running() ) {
                     actions.insert( ACTION_TOGGLE_RUN );
                 }
                 // If we're already crouching, make it simple to toggle crouching to off.
-                if( g->u.is_crouching() ) {
+                if( player_character.is_crouching() ) {
                     actions.insert( ACTION_TOGGLE_CROUCH );
                 }
 
@@ -2653,18 +2658,19 @@ static void CheckMessages()
                     actions_remove.insert( ACTION_CYCLE_MOVE );
                 }
 
+                map &here = get_map();
                 // Check if we can perform one of our actions on nearby terrain. If so,
                 // display that action at the top of the list.
                 for( int dx = -1; dx <= 1; dx++ ) {
                     for( int dy = -1; dy <= 1; dy++ ) {
-                        int x = g->u.posx() + dx;
-                        int y = g->u.posy() + dy;
-                        int z = g->u.posz();
+                        int x = player_character.posx() + dx;
+                        int y = player_character.posy() + dy;
+                        int z = player_character.posz();
                         const tripoint pos( x, y, z );
 
                         // Check if we're near a vehicle, if so, vehicle controls should be top.
                         {
-                            const optional_vpart_position vp = g->m.veh_at( pos );
+                            const optional_vpart_position vp = here.veh_at( pos );
                             vehicle *const veh = veh_pointer_or_null( vp );
                             if( veh ) {
                                 const int veh_part = vp ? vp->part_index() : -1;
@@ -2756,12 +2762,12 @@ static void CheckMessages()
                 }
 
                 // Check if we're significantly hungry or thirsty - if so, add eat
-                if( g->u.get_hunger() > 100 || g->u.get_thirst() > 40 ) {
+                if( player_character.get_hunger() > 100 || player_character.get_thirst() > 40 ) {
                     actions.insert( ACTION_EAT );
                 }
 
                 // Check if we're dead tired - if so, add sleep
-                if( g->u.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+                if( player_character.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
                     actions.insert( ACTION_SLEEP );
                 }
 
@@ -2892,9 +2898,11 @@ static void CheckMessages()
                         }
 #endif
                         break;
-                    case SDL_WINDOWEVENT_RESIZED:
+                    case SDL_WINDOWEVENT_RESIZED: {
+                        restore_on_out_of_scope<input_event> prev_last_input( last_input );
                         needupdate = handle_resize( ev.window.data1, ev.window.data2 );
                         break;
+                    }
                     default:
                         break;
                 }
@@ -3228,6 +3236,7 @@ static void CheckMessages()
         }
     }
     if( need_redraw ) {
+        restore_on_out_of_scope<input_event> prev_last_input( last_input );
         // FIXME: SDL_RENDER_TARGETS_RESET only seems to be fired after the first redraw
         // when restoring the window after system sleep, rather than immediately
         // on focus gain. This seems to mess up the first redraw and

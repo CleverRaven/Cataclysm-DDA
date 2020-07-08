@@ -4,7 +4,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "creature.h"
-#include "game.h"
 #include "item.h"
 #include "melee.h"
 #include "player.h"
@@ -96,7 +95,7 @@ static void check_accuracy_dps( avatar &attacker, monster &defender, item &wpn1,
 }
 TEST_CASE( "effective damage per second", "[effective][dps]" )
 {
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     item clumsy_sword( "test_clumsy_sword" );
@@ -159,7 +158,7 @@ TEST_CASE( "effective damage per second", "[effective][dps]" )
 
 TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
 {
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     monster soldier( mtype_id( "mon_zombie_soldier" ) );
@@ -191,7 +190,7 @@ TEST_CASE( "effective vs actual damage per second", "[actual][dps][!mayfail]" )
 
 TEST_CASE( "accuracy increases success", "[accuracy][dps]" )
 {
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     monster soldier( mtype_id( "mon_zombie_soldier" ) );
@@ -229,7 +228,9 @@ static void make_experienced_tester( avatar &test_guy )
     test_guy.reset_bonuses();
     test_guy.set_speed_base( 100 );
     test_guy.set_speed_bonus( 0 );
-    test_guy.hp_cur.fill( test_guy.get_hp_max() );
+    test_guy.set_body();
+    test_guy.set_all_parts_hp_to_max();
+
     test_guy.set_skill_level( skill_id( "bashing" ), 4 );
     test_guy.set_skill_level( skill_id( "cutting" ), 4 );
     test_guy.set_skill_level( skill_id( "stabbing" ), 4 );
@@ -248,8 +249,8 @@ static void make_experienced_tester( avatar &test_guy )
 static void calc_expected_dps( avatar &test_guy, const std::string &weapon_id, double target )
 {
     item weapon( weapon_id );
-    CHECK( test_guy.melee_value( weapon ) == Approx( target ).margin( 0.75 ) );
-    if( test_guy.melee_value( weapon ) != Approx( target ).margin( 0.75 ) ) {
+    CHECK( test_guy.melee_value( weapon ) == Approx( target ).margin( 0.5 ) );
+    if( test_guy.melee_value( weapon ) != Approx( target ).margin( 0.5 ) ) {
         std::cout << weapon_id << " out of range, expected: " << target;
         std::cout << " got " << test_guy.melee_value( weapon ) << std::endl;
     }
@@ -261,21 +262,21 @@ static void calc_expected_dps( avatar &test_guy, const std::string &weapon_id, d
  */
 TEST_CASE( "expected weapon dps", "[expected][dps]" )
 {
-    avatar &test_guy = g->u;
+    avatar &test_guy = get_avatar();
     make_experienced_tester( test_guy );
 
     SECTION( "staves" ) { // typical value around 18
         calc_expected_dps( test_guy, "i_staff", 18.0 );
         calc_expected_dps( test_guy, "q_staff", 17.0 );
-        calc_expected_dps( test_guy, "l-stick_on", 18.0 );
-        calc_expected_dps( test_guy, "l-stick", 18.0 );
+        calc_expected_dps( test_guy, "l-stick_on", 17.5 );
+        calc_expected_dps( test_guy, "l-stick", 17.5 );
         calc_expected_dps( test_guy, "shock_staff", 17.0 );
-        calc_expected_dps( test_guy, "hockey_stick", 13.0 );
+        calc_expected_dps( test_guy, "hockey_stick", 13.75 );
         calc_expected_dps( test_guy, "pool_cue", 10.0 );
-        calc_expected_dps( test_guy, "broom", 4.0 );
+        calc_expected_dps( test_guy, "broom", 3.25 );
     }
     SECTION( "spear" ) { // typical value around 24
-        calc_expected_dps( test_guy, "spear_steel", 24.0 );
+        calc_expected_dps( test_guy, "spear_steel", 24.5 );
         calc_expected_dps( test_guy, "pike", 23.0 );
         calc_expected_dps( test_guy, "qiang", 23.0 );
         calc_expected_dps( test_guy, "spear_dory", 23 );
@@ -295,9 +296,9 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "halberd", 36.0 );
         calc_expected_dps( test_guy, "halberd_fake", 15.0 );
         calc_expected_dps( test_guy, "ji", 35.0 );
-        calc_expected_dps( test_guy, "glaive", 35.0 );
+        calc_expected_dps( test_guy, "glaive", 34.5 );
         calc_expected_dps( test_guy, "naginata", 35.0 );
-        calc_expected_dps( test_guy, "naginata_inferior", 21.0 );
+        calc_expected_dps( test_guy, "naginata_inferior", 21.5 );
         calc_expected_dps( test_guy, "naginata_fake", 10.0 );
         calc_expected_dps( test_guy, "lucern_hammer", 36.0 );
         calc_expected_dps( test_guy, "lucern_hammerfake", 14.0 );
@@ -307,10 +308,10 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
     SECTION( "two-handed axe" ) { // typical value around 29
         calc_expected_dps( test_guy, "battleaxe", 29.0 );
         calc_expected_dps( test_guy, "battleaxe_fake", 11.0 );
-        calc_expected_dps( test_guy, "battleaxe_inferior", 20.0 );
+        calc_expected_dps( test_guy, "battleaxe_inferior", 19.25 );
         calc_expected_dps( test_guy, "fire_ax", 25.0 );
         calc_expected_dps( test_guy, "lobotomizer", 24.0 );
-        calc_expected_dps( test_guy, "ax", 21.0 );
+        calc_expected_dps( test_guy, "ax", 20.25 );
         calc_expected_dps( test_guy, "copper_ax", 12.0 );
         calc_expected_dps( test_guy, "e_combatsaw_on", 28.0 );
         calc_expected_dps( test_guy, "combatsaw_on", 28.0 );
@@ -323,12 +324,12 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "combatsaw_off", 3.0 );
         calc_expected_dps( test_guy, "chainsaw_off", 2.0 );
         calc_expected_dps( test_guy, "cs_lajatang_off", 2.5 );
-        calc_expected_dps( test_guy, "circsaw_off", 2.0 );
+        calc_expected_dps( test_guy, "circsaw_off", 1.25 );
     }
     SECTION( "two-handed club/hammer" ) { // expected value ideally around 28
         calc_expected_dps( test_guy, "warhammer", 28.0 );
         calc_expected_dps( test_guy, "hammer_sledge", 20.0 );
-        calc_expected_dps( test_guy, "halligan", 17.0 );
+        calc_expected_dps( test_guy, "halligan", 15.25 );
         calc_expected_dps( test_guy, "stick_long", 6.0 );
     }
     SECTION( "two-handed flails" ) { // expected value ideally around 28
@@ -337,7 +338,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "homewrecker", 13.0 );
     }
     SECTION( "fist weapons" ) { // expected value around 10 but wide variation
-        calc_expected_dps( test_guy, "bio_claws_weapon", 18.0 ); // basically a knife
+        calc_expected_dps( test_guy, "bio_claws_weapon", 17.25 ); // basically a knife
         calc_expected_dps( test_guy, "bagh_nakha", 14.5 );
         calc_expected_dps( test_guy, "punch_dagger", 11.0 );
         calc_expected_dps( test_guy, "knuckle_katar", 10.5 );
@@ -381,7 +382,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "golf_club", 14.0 );
         calc_expected_dps( test_guy, "mace_fake", 13.0 );
         calc_expected_dps( test_guy, "claw_bar", 11.0 );
-        calc_expected_dps( test_guy, "shovel", 11.0 );
+        calc_expected_dps( test_guy, "shovel", 10.25 );
         calc_expected_dps( test_guy, "e_tool", 11.0 );
         calc_expected_dps( test_guy, "sword_nail", 11.0 );
         calc_expected_dps( test_guy, "sword_wood", 10.5 );
@@ -399,15 +400,15 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "rock", 6.0 );
     }
     SECTION( "two-handed sword" ) { // expected value around 27, 25 for long swords
-        calc_expected_dps( test_guy, "nodachi", 27.0 );
+        calc_expected_dps( test_guy, "nodachi", 26.5 );
         calc_expected_dps( test_guy, "zweihander", 27.0 );
         calc_expected_dps( test_guy, "estoc", 27.0 );
-        calc_expected_dps( test_guy, "longsword", 25.0 );
+        calc_expected_dps( test_guy, "longsword", 24.25 );
         calc_expected_dps( test_guy, "katana", 25.0 );
         calc_expected_dps( test_guy, "longsword_inferior", 18.5 );
         calc_expected_dps( test_guy, "zweihander_inferior", 16.5 );
-        calc_expected_dps( test_guy, "katana_inferior", 16.0 );
-        calc_expected_dps( test_guy, "nodachi_inferior", 17.0 );
+        calc_expected_dps( test_guy, "katana_inferior", 14.0 );
+        calc_expected_dps( test_guy, "nodachi_inferior", 16.25 );
         calc_expected_dps( test_guy, "estoc_inferior", 16.0 );
         calc_expected_dps( test_guy, "estoc_fake", 11.0 );
         calc_expected_dps( test_guy, "zweihander_fake", 10.0 );
@@ -426,16 +427,16 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "broadsword_fake", 10.0 );
         calc_expected_dps( test_guy, "rapier_fake", 8.0 );
         calc_expected_dps( test_guy, "arming_sword_fake", 13.0 );
-        calc_expected_dps( test_guy, "jian_fake", 8.0 );
+        calc_expected_dps( test_guy, "jian_fake", 8.25 );
         calc_expected_dps( test_guy, "glass_macuahuitl", 11.0 );
-        calc_expected_dps( test_guy, "blade_scythe", 6.0 );
+        calc_expected_dps( test_guy, "blade_scythe", 5.25 );
     }
     SECTION( "shortsword" ) { // expected value 22
         calc_expected_dps( test_guy, "scimitar", 22.0 );
         calc_expected_dps( test_guy, "butterfly_swords", 22.0 );
         calc_expected_dps( test_guy, "cutlass", 22.0 );
-        calc_expected_dps( test_guy, "sword_bayonet", 22.0 );
-        calc_expected_dps( test_guy, "kukri", 22.0 );
+        calc_expected_dps( test_guy, "sword_bayonet", 22.75 );
+        calc_expected_dps( test_guy, "kukri", 22.75 );
         calc_expected_dps( test_guy, "wakizashi", 22.0 );
         calc_expected_dps( test_guy, "sword_xiphos", 22.0 );
         calc_expected_dps( test_guy, "khopesh", 21.0 );
@@ -450,7 +451,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "wakizashi_inferior", 13.0 );
         calc_expected_dps( test_guy, "makeshift_machete", 11.0 );
         calc_expected_dps( test_guy, "cavalry_sabre_fake", 8.0 );
-        calc_expected_dps( test_guy, "cutlass_fake", 7.0 );
+        calc_expected_dps( test_guy, "cutlass_fake", 7.75 );
         calc_expected_dps( test_guy, "scimitar_fake", 7.0 );
         calc_expected_dps( test_guy, "wakizashi_fake", 7.0 );
         calc_expected_dps( test_guy, "blade", 7.0 );
@@ -475,7 +476,7 @@ TEST_CASE( "expected weapon dps", "[expected][dps]" )
         calc_expected_dps( test_guy, "copper_knife", 8.0 );
         calc_expected_dps( test_guy, "knife_butcher", 7.5 );
         calc_expected_dps( test_guy, "throwing_knife", 7.0 );
-        calc_expected_dps( test_guy, "tanto_fake", 7.0 );
+        calc_expected_dps( test_guy, "tanto_fake", 7.75 );
         calc_expected_dps( test_guy, "pockknife", 4.5 );
         calc_expected_dps( test_guy, "spike", 4.0 );
         calc_expected_dps( test_guy, "kris_fake", 2.5 );

@@ -140,7 +140,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
         return CANCEL;
     }
 
-    player &u = g->u;
+    Character &u = get_player_character();
 
     uilist amenu;
 
@@ -175,7 +175,7 @@ static pickup_answer handle_problematic_pickup( const item &it, bool &offered_sw
 
 bool Pickup::query_thief()
 {
-    player &u = g->u;
+    Character &u = get_player_character();
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
                             : input_context::allow_all_keys;
@@ -219,7 +219,7 @@ bool Pickup::query_thief()
 bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offered_swap,
                   PickupMap &mapPickup, bool autopickup )
 {
-    player &u = g->u;
+    player &u = get_avatar();
     int moves_taken = 100;
     bool picked_up = false;
     pickup_answer option = CANCEL;
@@ -231,11 +231,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     item &it = *newloc.get_item();
     //new item (copy)
     item newit = it;
-    item leftovers = newit;
 
-    const auto wield_check = u.can_wield( newit );
-
-    if( !newit.is_owned_by( g->u, true ) ) {
+    if( !newit.is_owned_by( u, true ) ) {
         // Has the player given input on if stealing is ok?
         if( u.get_value( "THIEF_MODE" ) == "THIEF_ASK" ) {
             Pickup::query_thief();
@@ -253,25 +250,13 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     // Handle charges, quantity == 0 means move all
     if( quantity != 0 && newit.count_by_charges() ) {
-        leftovers.charges = newit.charges - quantity;
-        if( leftovers.charges > 0 ) {
+        if( newit.charges > quantity ) {
             newit.charges = quantity;
         }
-    } else {
-        leftovers.charges = 0;
     }
 
     bool did_prompt = false;
-    if( newit.count_by_charges() ) {
-        newit.charges -= u.i_add( newit ).charges;
-        // if the item stacks with another item when added,
-        // the charges returned may be larger than the charges of the item added.
-        newit.charges = std::max( 0, newit.charges );
-    }
-    if( newit.is_ammo() && newit.charges <= 0 ) {
-        picked_up = true;
-        option = NUM_ANSWERS; //Skip the options part
-    } else if( newit.is_frozen_liquid() ) {
+    if( newit.is_frozen_liquid() ) {
         if( !( got_water = !( u.crush_frozen_liquid( newloc ) ) ) ) {
             option = STASH;
         }
@@ -318,7 +303,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         case WEAR:
             picked_up = !!u.wear_item( newit );
             break;
-        case WIELD:
+        case WIELD: {
+            const auto wield_check = u.can_wield( it );
             if( wield_check.success() ) {
                 //using original item, possibly modifying it
                 picked_up = u.wield( it );
@@ -335,6 +321,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 add_msg( m_neutral, wield_check.c_str() );
             }
             break;
+        }
         case SPILL:
             if( newit.is_container_empty() ) {
                 debugmsg( "Tried to spill contents from an empty container" );
@@ -346,23 +333,35 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 break;
             }
         // Intentional fallthrough
-        case STASH:
-            auto &entry = mapPickup[newit.tname()];
-            entry.second += newit.count();
-            entry.first = u.i_add( newit );
-            picked_up = true;
+        case STASH: {
+            item &added_it = u.i_add( newit, true, nullptr, /*allow_drop=*/false );
+            if( added_it.is_null() ) {
+                // failed to add, do nothing
+            } else if( &added_it == &it ) {
+                // merged to the original stack, restore original charges
+                it.charges -= newit.charges;
+            } else {
+                // successfully added
+                auto &entry = mapPickup[newit.tname()];
+                entry.second += newit.count();
+                entry.first = added_it;
+                picked_up = true;
+            }
             break;
+        }
     }
 
     if( picked_up ) {
-        // If we picked up a whole stack, remove the original item
-        // Otherwise, replace the item with the leftovers
-        if( leftovers.charges > 0 ) {
-            *loc.get_item() = std::move( leftovers );
+        item &orig_it = *loc.get_item();
+        // Subtract moved charges instead of assigning leftover charges,
+        // since the total charges of the original item may have changed
+        // due to merging.
+        if( orig_it.charges > newit.charges ) {
+            orig_it.charges -= newit.charges;
         } else {
             loc.remove_item();
         }
-        g->u.moves -= moves_taken;
+        u.moves -= moves_taken;
     }
 
     return picked_up || !did_prompt;
@@ -415,7 +414,8 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 {
     int cargo_part = -1;
 
-    const optional_vpart_position vp = g->m.veh_at( p );
+    map &local = get_map();
+    const optional_vpart_position vp = local.veh_at( p );
     vehicle *const veh = veh_pointer_or_null( vp );
     bool from_vehicle = false;
 
@@ -423,7 +423,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         if( veh != nullptr && get_items_from == prompt ) {
             const cata::optional<vpart_reference> carg = vp.part_with_feature( "CARGO", false );
             const bool veh_has_items = carg && !veh->get_items( carg->part_index() ).empty();
-            const bool map_has_items = g->m.has_items( p );
+            const bool map_has_items = local.has_items( p );
             if( veh_has_items && map_has_items ) {
                 uilist amenu( _( "Get items from where?" ), { _( "Get items from vehicle cargo" ), _( "Get items on the ground" ) } );
                 if( amenu.ret == UILIST_CANCEL ) {
@@ -440,20 +440,20 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             from_vehicle = cargo_part >= 0;
         } else {
             // Nothing to change, default is to pick from ground anyway.
-            if( g->m.has_flag( "SEALED", p ) ) {
+            if( local.has_flag( "SEALED", p ) ) {
                 return;
             }
         }
     }
 
     if( !from_vehicle ) {
-        bool isEmpty = ( g->m.i_at( p ).empty() );
+        bool isEmpty = ( local.i_at( p ).empty() );
 
         // Hide the pickup window if this is a toilet and there's nothing here
         // but non-frozen water.
-        if( ( !isEmpty ) && g->m.furn( p ) == f_toilet ) {
+        if( ( !isEmpty ) && local.furn( p ) == f_toilet ) {
             isEmpty = true;
-            for( const item &maybe_water : g->m.i_at( p ) ) {
+            for( const item &maybe_water : local.i_at( p ) ) {
                 if( maybe_water.typeId() != itype_water  || maybe_water.is_frozen_liquid() ) {
                     isEmpty = false;
                     break;
@@ -474,7 +474,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             here.push_back( it );
         }
     } else {
-        map_stack mapitems = g->m.i_at( p );
+        map_stack mapitems = local.i_at( p );
         for( item_stack::iterator it = mapitems.begin(); it != mapitems.end(); ++it ) {
             here.push_back( it );
         }
@@ -497,7 +497,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
         // Bail out if this square cannot be auto-picked-up
         if( g->check_zone( zone_type_id( "NO_AUTO_PICKUP" ), p ) ) {
             return;
-        } else if( g->m.has_flag( "SEALED", p ) ) {
+        } else if( local.has_flag( "SEALED", p ) ) {
             return;
         }
     }

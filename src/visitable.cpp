@@ -14,7 +14,6 @@
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -469,13 +468,13 @@ VisitResponse visitable<map_cursor>::visit_items(
     const std::function<VisitResponse( item *, item * )> &func )
 {
     auto cur = static_cast<map_cursor *>( this );
-
+    map &here = get_map();
     // skip inaccessible items
-    if( g->m.has_flag( "SEALED", *cur ) && !g->m.has_flag( "LIQUIDCONT", *cur ) ) {
+    if( here.has_flag( "SEALED", *cur ) && !here.has_flag( "LIQUIDCONT", *cur ) ) {
         return VisitResponse::NEXT;
     }
 
-    for( item &e : g->m.i_at( *cur ) ) {
+    for( item &e : here.i_at( *cur ) ) {
         if( visit_internal( func, &e ) == VisitResponse::ABORT ) {
             return VisitResponse::ABORT;
         }
@@ -671,14 +670,15 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
         return res;
     }
 
-    if( !g->m.inbounds( *cur ) ) {
+    map &here = get_map();
+    if( !here.inbounds( *cur ) ) {
         debugmsg( "cannot remove items from map: cursor out-of-bounds" );
         return res;
     }
 
     // fetch the appropriate item stack
     point offset;
-    submap *sub = g->m.get_submap_at( *cur, offset );
+    submap *sub = here.get_submap_at( *cur, offset );
     cata::colony<item> &stack = sub->get_items( offset );
 
     for( auto iter = stack.begin(); iter != stack.end(); ) {
@@ -704,7 +704,7 @@ std::list<item> visitable<map_cursor>::remove_items_with( const
             ++iter;
         }
     }
-    g->m.update_submap_active_item_status( *cur );
+    here.update_submap_active_item_status( *cur );
     return res;
 }
 

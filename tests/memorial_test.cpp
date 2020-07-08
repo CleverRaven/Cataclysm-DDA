@@ -58,8 +58,10 @@ TEST_CASE( "memorials" )
 
     event_bus &b = g->events();
 
-    character_id ch = g->u.getID();
-    std::string u_name = g->u.name;
+    avatar &player_character = get_avatar();
+    player_character.male = false;
+    character_id ch = player_character.getID();
+    std::string u_name = player_character.name;
     character_id ch2 = character_id( ch.get_value() + 1 );
     mutagen_technique mutagen = mutagen_technique::injected_purifier;
     mtype_id mon( "mon_zombie_kevlar_2" );
@@ -86,6 +88,13 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::becomes_wanted>(
         m, b, "Became wanted by the police!", ch );
+
+    // To insure we don't trigger losing the Structural Integrity conduct during the test,
+    // Break the subject's leg first.
+    b.send<event_type::broken_bone>( ch, bp_leg_l );
+
+    check_memorial<event_type::broken_bone>(
+        m, b, "Broke her right arm.", ch, bp_arm_r );
 
     check_memorial<event_type::broken_bone_mends>(
         m, b, "Broken right arm began to mend.", ch, bp_arm_r );
@@ -189,8 +198,11 @@ TEST_CASE( "memorials" )
         std::chrono::seconds( 100 ) );
 
     check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, g->u.male,
-        g->u.prof->ident(), g->u.custom_profession, "VERSION_STRING" );
+        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, player_character.male,
+        player_character.prof->ident(), player_character.custom_profession, "VERSION_STRING" );
+
+    // Invokes achievement, so send another to clear the log for the test
+    b.send<event_type::installs_cbm>( ch, cbm );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );

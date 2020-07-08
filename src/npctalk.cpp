@@ -138,7 +138,7 @@ std::string talk_trial::name() const
 /** Time (in turns) and cost (in cent) for training: */
 time_duration calc_skill_training_time( const npc &p, const skill_id &skill )
 {
-    return 1_minutes + 30_seconds * g->u.get_skill_level( skill ) -
+    return 1_minutes + 30_seconds * get_player_character().get_skill_level( skill ) -
            1_seconds * p.get_skill_level( skill );
 }
 
@@ -340,7 +340,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 static void tell_veh_stop_following()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->is_following = false;
@@ -351,7 +351,7 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             v->activate_animal_follow();
@@ -361,7 +361,7 @@ static void assign_veh_to_follow()
 
 static void tell_magic_veh_to_follow()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->magic ) {
             for( const vpart_reference &vp : v->get_all_parts() ) {
@@ -377,7 +377,7 @@ static void tell_magic_veh_to_follow()
 
 static void tell_magic_veh_stop_following()
 {
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
+    for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->magic ) {
             for( const vpart_reference &vp : v->get_all_parts() ) {
@@ -422,7 +422,7 @@ void game::chat()
     std::vector<vehicle *> following_vehicles;
     std::vector<vehicle *> magic_vehicles;
     std::vector<vehicle *> magic_following_vehicles;
-    for( auto &veh : g->m.get_vehicles() ) {
+    for( auto &veh : get_map().get_vehicles() ) {
         auto &v = veh.v;
         if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
             animal_vehicles.push_back( v );
@@ -627,8 +627,9 @@ void game::chat()
 void npc::handle_sound( const sounds::sound_t spriority, const std::string &description,
                         int heard_volume, const tripoint &spos )
 {
-    const tripoint s_abs_pos = g->m.getabs( spos );
-    const tripoint my_abs_pos = g->m.getabs( pos() );
+    const map &here = get_map();
+    const tripoint s_abs_pos = here.getabs( spos );
+    const tripoint my_abs_pos = here.getabs( pos() );
 
     add_msg( m_debug, "%s heard '%s', priority %d at volume %d from %d:%d, my pos %d:%d",
              disp_name(), description, static_cast<int>( spriority ), heard_volume,
@@ -1994,13 +1995,18 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
 void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member );
-    const std::string &value = jo.get_string( "value" );
-    function = [is_npc, var_name, value]( const dialogue & d ) {
+    const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
+    const std::string &value = time_check ? "" : jo.get_string( "value" );
+    function = [is_npc, var_name, value, time_check]( const dialogue & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->set_value( var_name, value );
+        if( time_check ) {
+            actor->set_value( var_name, string_format( "%d", to_turn<int>( calendar::turn ) ) );
+        } else {
+            actor->set_value( var_name, value );
+        }
     };
 }
 
@@ -2363,7 +2369,7 @@ void talk_effect_fun_t::set_add_mission( const std::string &mission_id )
     function = [mission_id]( const dialogue & d ) {
         npc &p = *d.beta;
         mission *miss = mission::reserve_new( mission_type_id( mission_id ), p.getID() );
-        miss->assign( g->u );
+        miss->assign( get_avatar() );
         p.chatbin.missions_assigned.push_back( miss );
     };
 }
@@ -2948,18 +2954,21 @@ dynamic_line_t dynamic_line_t::from_member( const JsonObject &jo, const std::str
     } else if( jo.has_object( member_name ) ) {
         return dynamic_line_t( jo.get_object( member_name ) );
     } else if( jo.has_string( member_name ) ) {
-        return dynamic_line_t( jo.get_string( member_name ) );
+        translation line;
+        jo.read( member_name, line );
+        return dynamic_line_t( line );
     } else {
         return dynamic_line_t{};
     }
 }
 
-dynamic_line_t::dynamic_line_t( const std::string &line )
+dynamic_line_t::dynamic_line_t( const translation &line )
 {
     function = [line]( const dialogue & ) {
-        return _( line );
+        return line.translated();
     };
 }
+
 
 dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
@@ -2967,7 +2976,9 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         std::vector<dynamic_line_t> lines;
         for( const JsonValue entry : jo.get_array( "and" ) ) {
             if( entry.test_string() ) {
-                lines.emplace_back( entry.get_string() );
+                translation line;
+                entry.read( line );
+                lines.emplace_back( line );
             } else if( entry.test_array() ) {
                 lines.emplace_back( entry.get_array() );
             } else if( entry.test_object() ) {
@@ -2995,6 +3006,11 @@ dynamic_line_t::dynamic_line_t( const JsonObject &jo )
         };
     } else if( jo.has_string( "gendered_line" ) ) {
         const std::string line = jo.get_string( "gendered_line" );
+        if( test_mode ) {
+            // HACK: check text style by reading it as a translation object
+            translation dummy;
+            jo.read( "gendered_line", dummy );
+        }
         if( !jo.has_array( "relevant_genders" ) ) {
             jo.throw_error(
                 R"(dynamic line with "gendered_line" must also have "relevant_genders")" );
@@ -3051,7 +3067,9 @@ dynamic_line_t::dynamic_line_t( const JsonArray &ja )
     std::vector<dynamic_line_t> lines;
     for( const JsonValue entry : ja ) {
         if( entry.test_string() ) {
-            lines.emplace_back( entry.get_string() );
+            translation line;
+            entry.read( line );
+            lines.emplace_back( line );
         } else if( entry.test_array() ) {
             lines.emplace_back( entry.get_array() );
         } else if( entry.test_object() ) {

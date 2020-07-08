@@ -367,6 +367,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
         }
         loops++;
     }
+    set_body();
 }
 
 void avatar::add_profession_items()
@@ -434,6 +435,9 @@ bool avatar::create( character_type type, const std::string &tempname )
             if( !load_template( tempname, points ) ) {
                 return false;
             }
+            // TEMPORARY until 0.F
+            set_all_parts_hp_to_max();
+
             // We want to prevent recipes known by the template from being applied to the
             // new character. The recipe list will be rebuilt when entering the game.
             // Except if it is a character transfer template
@@ -450,7 +454,7 @@ bool avatar::create( character_type type, const std::string &tempname )
                              "Saving will override the already existing character.\n\n"
                              "Continue anyways?" ), name );
     };
-
+    set_body();
     const bool allow_reroll = type == character_type::RANDOM;
     tab_direction result = tab_direction::QUIT;
     do {
@@ -526,9 +530,6 @@ bool avatar::create( character_type type, const std::string &tempname )
     save_template( _( "Last Character" ), points );
 
     recalc_hp();
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        hp_cur[i] = hp_max[i];
-    }
 
     if( has_trait( trait_SMELLY ) ) {
         scent = 800;
@@ -541,7 +542,7 @@ bool avatar::create( character_type type, const std::string &tempname )
 
     // Grab the skills from the profession, if there are any
     // We want to do this before the recipes
-    for( auto &e : prof->skills() ) {
+    for( const profession::StartingSkill &e : prof->skills() ) {
         mod_skill_level( e.first, e.second );
     }
 
@@ -584,7 +585,7 @@ bool avatar::create( character_type type, const std::string &tempname )
         addictions.push_back( iter );
     }
 
-    for( auto &bio : prof->CBMs() ) {
+    for( const bionic_id &bio : prof->CBMs() ) {
         add_bionic( bio );
     }
     // Adjust current energy level to maximum
@@ -850,7 +851,8 @@ tab_direction set_stats( avatar &u, points_left &points )
                                _( "Increasing Str further costs 2 points." ) );
                 }
                 u.recalc_hp();
-                mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ), u.hp_max[0] );
+                mvwprintz( w_description, point_zero, COL_STAT_NEUTRAL, _( "Base HP: %d" ),
+                           u.get_part_hp_max( bodypart_id( "head" ) ) );
                 // NOLINTNEXTLINE(cata-use-named-point-constants)
                 mvwprintz( w_description, point( 0, 1 ), COL_STAT_NEUTRAL, _( "Carry weight: %.1f %s" ),
                            convert_weight( u.weight_capacity() ), weight_units() );
@@ -1369,6 +1371,7 @@ tab_direction set_profession( avatar &u, points_left &points,
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "RANDOMIZE" );
 
     bool recalc_profs = true;
     int profs_length = 0;
@@ -1689,6 +1692,8 @@ tab_direction set_profession( avatar &u, points_left &points,
             recalc_profs = true;
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
+        } else if( action == "RANDOMIZE" ) {
+            cur_id = rng( 0, profs_length - 1 );
         }
 
     } while( retval == tab_direction::NONE );
@@ -1990,6 +1995,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
     ctxt.register_action( "HELP_KEYBINDINGS" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "QUIT" );
+    ctxt.register_action( "RANDOMIZE" );
 
     bool recalc_scens = true;
     int scens_length = 0;
@@ -2181,8 +2187,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 wprintz( w_flags, c_light_gray, _( "Fungal infected player" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
-            if( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
-                sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
+            if( sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
@@ -2280,6 +2285,8 @@ tab_direction set_scenario( avatar &u, points_left &points,
             recalc_scens = true;
         } else if( action == "QUIT" && query_yn( _( "Return to main menu?" ) ) ) {
             retval = tab_direction::QUIT;
+        } else if( action == "RANDOMIZE" ) {
+            cur_id = rng( 0, scens_length - 1 );
         }
     } while( retval == tab_direction::NONE );
 
@@ -2907,8 +2914,8 @@ void Character::add_traits()
 
 void Character::add_traits( points_left &points )
 {
-    // TODO: get rid of using g->u here, use `this` instead
-    for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
+    // TODO: get rid of using get_avatar() here, use `this` instead
+    for( const trait_id &tr : get_avatar().prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
         } else {

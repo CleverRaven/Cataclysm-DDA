@@ -89,6 +89,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "vehicle.h"
 #include "veh_type.h"
 #include "vitamin.h"
 #include "vpart_position.h"
@@ -101,8 +102,6 @@ static const efftype_id effect_flu( "flu" );
 static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
-
-class vehicle;
 
 extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
         nested_mapgen;
@@ -177,6 +176,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::LEVEL_SPELLS: return "LEVEL_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
+        case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -275,6 +275,15 @@ static int game_uilist()
     return uilist( _( "Game…" ), uilist_initializer );
 }
 
+static int vehicle_uilist()
+{
+    std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change [b]attery charge" ) ) },
+    };
+
+    return uilist( _( "Vehicle…" ), uilist_initializer );
+}
+
 static int teleport_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
@@ -336,6 +345,7 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
             { uilist_entry( 6, true, 'g', _( "Game…" ) ) },
             { uilist_entry( 2, true, 's', _( "Spawning…" ) ) },
             { uilist_entry( 3, true, 'p', _( "Player…" ) ) },
+            { uilist_entry( 7, true, 'v', _( "Vehicle…" ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
             { uilist_entry( 5, true, 'm', _( "Map…" ) ) },
         };
@@ -374,6 +384,9 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
                 break;
             case 6:
                 action = game_uilist();
+                break;
+            case 7:
+                action = vehicle_uilist();
                 break;
 
             default:
@@ -623,36 +636,49 @@ void character_edit_menu()
         }
         break;
         case D_HP: {
+            const int torso_hp = p.get_part_hp_cur( bodypart_id( "torso" ) );
+            const int head_hp = p.get_part_hp_cur( bodypart_id( "head" ) );
+            const int arm_l_hp = p.get_part_hp_cur( bodypart_id( "arm_l" ) );
+            const int arm_r_hp = p.get_part_hp_cur( bodypart_id( "arm_r" ) );
+            const int leg_l_hp = p.get_part_hp_cur( bodypart_id( "leg_l" ) );
+            const int leg_r_hp = p.get_part_hp_cur( bodypart_id( "leg_r" ) );
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), p.hp_cur[hp_torso] );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), p.hp_cur[hp_head] );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), p.hp_cur[hp_arm_l] );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), p.hp_cur[hp_arm_r] );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), p.hp_cur[hp_leg_l] );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), p.hp_cur[hp_leg_r] );
+            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
+            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
+            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
+            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
+            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
             smenu.addentry( 6, true, 'e', "%s: %d", _( "All" ), p.get_lowest_hp() );
             smenu.query();
-            int *bp_ptr = nullptr;
+            bodypart_str_id bp = bodypart_str_id( "no_a_real_part" );
+            int bp_ptr = -1;
             bool all_select = false;
 
             switch( smenu.ret ) {
                 case 0:
-                    bp_ptr = &p.hp_cur[hp_torso];
+                    bp = bodypart_str_id( "torso" );
+                    bp_ptr = torso_hp;
                     break;
                 case 1:
-                    bp_ptr = &p.hp_cur[hp_head];
+                    bp = bodypart_str_id( "head" );
+                    bp_ptr = head_hp;
                     break;
                 case 2:
-                    bp_ptr = &p.hp_cur[hp_arm_l];
+                    bp = bodypart_str_id( "arm_l" );
+                    bp_ptr = arm_l_hp;
                     break;
                 case 3:
-                    bp_ptr = &p.hp_cur[hp_arm_r];
+                    bp = bodypart_str_id( "arm_r" );
+                    bp_ptr = arm_r_hp;
                     break;
                 case 4:
-                    bp_ptr = &p.hp_cur[hp_leg_l];
+                    bp = bodypart_str_id( "leg_l" );
+                    bp_ptr = leg_l_hp;
                     break;
                 case 5:
-                    bp_ptr = &p.hp_cur[hp_leg_r];
+                    bp = bodypart_str_id( "leg_r" );
+                    bp_ptr = leg_r_hp;
                     break;
                 case 6:
                     all_select = true;
@@ -661,19 +687,17 @@ void character_edit_menu()
                     break;
             }
 
-            if( bp_ptr != nullptr ) {
+            if( bp.is_valid() ) {
                 int value;
-                if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), *bp_ptr ) && value >= 0 ) {
-                    *bp_ptr = value;
+                if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), bp_ptr ) && value >= 0 ) {
+                    p.set_part_hp_cur( bp.id(), value );
                     p.reset_stats();
                 }
             } else if( all_select ) {
                 int value;
                 if( query_int( value, _( "Set the hitpoints to?  Currently: %d" ), p.get_lowest_hp() ) &&
                     value >= 0 ) {
-                    for( int &cur_hp : p.hp_cur ) {
-                        cur_hp = value;
-                    }
+                    p.set_all_parts_hp_cur( value );
                     p.reset_stats();
                 }
             }
@@ -1256,15 +1280,13 @@ void debug()
             popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
-            s += _( "Current turn: %d.\n%s\n" );
+            s += _( "Current turn: %d.\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
             popup_top(
                 s.c_str(),
                 u.posx(), g->u.posy(), g->get_levx(), g->get_levy(),
                 overmap_buffer.ter( g->u.global_omt_location() )->get_name(),
                 to_turns<int>( calendar::turn - calendar::turn_zero ),
-                get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
-                _( "NPCs are NOT going to spawn." ),
                 g->num_creatures() );
             for( const npc &guy : g->all_npcs() ) {
                 tripoint t = guy.global_sm_location();
@@ -1295,7 +1317,7 @@ void debug()
         case debug_menu_index::KILL_NPCS:
             for( npc &guy : g->all_npcs() ) {
                 add_msg( _( "%s's head implodes!" ), guy.name );
-                guy.hp_cur[bp_head] = 0;
+                guy.set_part_hp_cur( bodypart_id( "head" ), 0 );
             }
             break;
 
@@ -1330,11 +1352,20 @@ void debug()
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
                     // Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
-                    // TODO: Allow picking this when add_vehicle has 3d argument
                     tripoint dest = u.pos();
-                    vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, 0 );
-                    if( veh != nullptr ) {
-                        here.board_vehicle( dest, &u );
+                    uilist veh_cond_menu;
+                    veh_cond_menu.text = _( "Vehicle condition" );
+                    veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
+                    veh_cond_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
+                    veh_cond_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Disabled (tires or engine)" ) );
+                    veh_cond_menu.query();
+
+                    if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
+                        // TODO: Allow picking this when add_vehicle has 3d argument
+                        vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, veh_cond_menu.ret - 1 );
+                        if( veh != nullptr ) {
+                            here.board_vehicle( dest, &u );
+                        }
                     }
                 }
             }
@@ -1392,15 +1423,16 @@ void debug()
             weather_menu.text = _( "Select new weather pattern:" );
             weather_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
-            for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
-                weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
-                                       weather::name( static_cast<weather_type>( weather_id ) ) );
+            for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
+                weather_menu.addentry( i, true, MENU_AUTOASSIGN,
+                                       weather_types::get_all()[i].name );
             }
 
             weather_menu.query();
 
-            if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
-                weather_type selected_weather = static_cast<weather_type>( weather_menu.ret );
+            if( weather_menu.ret >= 0 &&
+                static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
+                const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
                 g->weather.weather_override = selected_weather;
                 g->weather.set_nextweather( calendar::turn );
             }
@@ -1470,13 +1502,19 @@ void debug()
 
         // Damage Self
         case debug_menu_index::DAMAGE_SELF: {
+            const int torso_hp = u.get_part_hp_cur( bodypart_id( "torso" ) );
+            const int head_hp = u.get_part_hp_cur( bodypart_id( "head" ) );
+            const int arm_l_hp = u.get_part_hp_cur( bodypart_id( "arm_l" ) );
+            const int arm_r_hp = u.get_part_hp_cur( bodypart_id( "arm_r" ) );
+            const int leg_l_hp = u.get_part_hp_cur( bodypart_id( "leg_l" ) );
+            const int leg_r_hp = u.get_part_hp_cur( bodypart_id( "leg_r" ) );
             uilist smenu;
-            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), u.hp_cur[hp_torso] );
-            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), u.hp_cur[hp_head] );
-            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), u.hp_cur[hp_arm_l] );
-            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), u.hp_cur[hp_arm_r] );
-            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), u.hp_cur[hp_leg_l] );
-            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), u.hp_cur[hp_leg_r] );
+            smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
+            smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
+            smenu.addentry( 2, true, 'a', "%s: %d", _( "Left arm" ), arm_l_hp );
+            smenu.addentry( 3, true, 's', "%s: %d", _( "Right arm" ), arm_r_hp );
+            smenu.addentry( 4, true, 'z', "%s: %d", _( "Left leg" ), leg_l_hp );
+            smenu.addentry( 5, true, 'x', "%s: %d", _( "Right leg" ), leg_r_hp );
             smenu.query();
             bodypart_id part;
             int dbg_damage;
@@ -1856,6 +1894,32 @@ void debug()
         case debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
             break;
+
+        case debug_menu_index::VEHICLE_BATTERY_CHARGE: {
+
+            optional_vpart_position v_part_pos = here.veh_at( u.pos() );
+            if( !v_part_pos ) {
+                add_msg( m_bad, _( "There's no vehicle there." ) );
+                break;
+            }
+
+            int amount = 0;
+            string_input_popup popup;
+            popup
+            .title( _( "By how much?  (in kJ, negative to discharge)" ) )
+            .width( 30 )
+            .edit( amount );
+            if( !popup.canceled() ) {
+                vehicle &veh = v_part_pos->vehicle();
+                if( amount >= 0 ) {
+                    veh.charge_battery( amount, false );
+                } else {
+                    veh.discharge_battery( -amount, false );
+                }
+            }
+            break;
+        }
+
         case debug_menu_index::last:
             return;
     }

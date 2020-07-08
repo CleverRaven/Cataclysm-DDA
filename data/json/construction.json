@@ -2437,17 +2437,6 @@
   },
   {
     "type": "construction",
-    "id": "constr_revert_carpet",
-    "description": "Remove Carpet",
-    "category": "DECORATE",
-    "required_skills": [ [ "fabrication", 0 ] ],
-    "time": "10 m",
-    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
-    "pre_flags": "RUG",
-    "post_terrain": "t_floor"
-  },
-  {
-    "type": "construction",
     "id": "constr_carpet_red",
     "description": "Carpet Floor Red",
     "category": "DECORATE",
@@ -2625,6 +2614,40 @@
     "pre_special": "check_up_OK",
     "pre_terrain": "t_rock",
     "post_special": "done_mine_upstair"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_ramp_low",
+    "description": "Build Low End of a Concrete Ramp",
+    "//": "Builds a low end of a concrete ramp going up on this level and down on the level above.",
+    "pre_note": "Build a concrete ramp leading to the next z-level above, and the corresponding ramp down leading from the z-level above to this level.  The high end of a ramp must be built adjacent to allow moving between z-levels in both directions.",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "150 m",
+    "tools": [ [ [ "con_mix", 125 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
+    "pre_terrain": "t_pit_shallow",
+    "pre_special": "check_ramp_low",
+    "post_terrain": "t_ramp_up_low",
+    "post_special": "done_ramp_low"
+  },
+  {
+    "type": "construction",
+    "id": "constr_concrete_ramp_high",
+    "description": "Build High End of a Concrete Ramp",
+    "//": "Builds a high end of a concrete ramp going up on this level and down on the level above.",
+    "pre_note": "Build a concrete ramp leading to the next z-level above, and the corresponding ramp down leading from the z-level above to this level.  It must be built next to a low end of a ramp to allow moving between z-levels in both directions.",
+    "category": "DIG",
+    "required_skills": [ [ "fabrication", 3 ] ],
+    "time": "150 m",
+    "tools": [ [ [ "con_mix", 125 ] ] ],
+    "qualities": [ [ { "id": "SMOOTH", "level": 1 } ] ],
+    "components": [ [ [ "concrete", 5 ] ], [ [ "water", 5 ] ] ],
+    "pre_terrain": "t_pit_shallow",
+    "pre_special": "check_ramp_high",
+    "post_terrain": "t_ramp_up_high",
+    "post_special": "done_ramp_high"
   },
   {
     "type": "construction",

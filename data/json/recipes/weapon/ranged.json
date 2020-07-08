@@ -260,13 +260,13 @@
   },
   {
     "type": "recipe",
-    "result": "slam_shotgun",
+    "result": "four_winds_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
     "skills_required": [ [ "gun", 1 ] ],
     "difficulty": 1,
-    "time": "2 h",
+    "time": "4 h",
     "autolearn": true,
     "book_learn": [ [ "manual_shotgun", 1 ] ],
     "qualities": [
@@ -301,5 +301,48 @@
       ]
     ],
     "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "four_winds_shotgun",
+    "id_suffix": "without_welding",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "skills_required": [ [ "gun", 1 ] ],
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M", "level": 1 },
+      { "id": "HAMMER", "level": 2 },
+      { "id": "FILE", "level": 1 },
+      { "id": "WRENCH", "level": 1 },
+      { "id": "DRILL", "level": 2 }
+    ],
+    "tools": [
+      [
+        [ "shot_00", -1 ],
+        [ "shot_bird", -1 ],
+        [ "shot_dragon", -1 ],
+        [ "shot_flechette", -1 ],
+        [ "shot_slug", -1 ],
+        [ "shot_scrap", -1 ],
+        [ "shot_he", -1 ],
+        [ "shot_beanbag", -1 ],
+        [ "reloaded_shot_00", -1 ],
+        [ "reloaded_shot_bird", -1 ],
+        [ "reloaded_shot_dragon", -1 ],
+        [ "reloaded_shot_flechette", -1 ],
+        [ "reloaded_shot_slug", -1 ],
+        [ "bp_shot_00", -1 ],
+        [ "bp_shot_bird", -1 ],
+        [ "bp_shot_dragon", -1 ],
+        [ "bp_shot_flechette", -1 ],
+        [ "bp_shot_slug", -1 ],
+        [ "bp_shot_scrap", -1 ],
+        [ "shot_hull", -1 ]
+      ]
+    ],
+    "components": [ [ [ "pipe", 2 ] ], [ [ "nail", 1 ] ], [ [ "pipe_fittings", 1 ] ] ]
   }
 ]

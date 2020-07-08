@@ -135,6 +135,7 @@
     ],
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
     "pocket_data": [
+      { "pocket_type": "MAGAZINE", "ammo_restriction": { "762": 10 } },
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,

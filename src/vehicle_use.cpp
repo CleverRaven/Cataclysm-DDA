@@ -284,6 +284,8 @@ void vehicle::set_electronics_menu_options( std::vector<uilist_entry> &options,
                 keybind( "TOGGLE_SCOOP" ), "SCOOP" );
     add_toggle( pgettext( "electronics menu option", "water purifier" ),
                 keybind( "TOGGLE_WATER_PURIFIER" ), "WATER_PURIFIER" );
+    add_toggle( pgettext( "electronics menu option", "smart controller" ),
+                keybind( "TOGGLE_SMART_ENGINE_CONTROLLER" ), "SMART_ENGINE_CONTROLLER" );
 
     if( has_part( "DOOR_MOTOR" ) ) {
         options.emplace_back( _( "Toggle doors" ), keybind( "TOGGLE_DOORS" ) );
@@ -400,7 +402,7 @@ void vehicle::control_engines()
 
     if( engines_were_on && !engine_on ) {
         add_msg( _( "You turn off the %s's engines to change their configurations." ), name );
-    } else if( !g->u.controlling_vehicle ) {
+    } else if( !get_player_character().controlling_vehicle ) {
         add_msg( _( "You change the %s's engine configuration." ), name );
         return;
     }
@@ -437,15 +439,16 @@ bool vehicle::interact_vehicle_locked()
         return true;
     }
 
+    Character &player_character = get_player_character();
     add_msg( _( "You don't find any keys in the %s." ), name );
-    const inventory &inv = g->u.crafting_inventory();
+    const inventory &inv = player_character.crafting_inventory();
     if( inv.has_quality( quality_id( "SCREW" ) ) ) {
         if( query_yn( _( "You don't find any keys in the %s. Attempt to hotwire vehicle?" ), name ) ) {
             ///\EFFECT_MECHANICS speeds up vehicle hotwiring
-            int skill = g->u.get_skill_level( skill_mechanics );
+            int skill = player_character.get_skill_level( skill_mechanics );
             const int moves = to_moves<int>( 6000_seconds / ( ( skill > 0 ) ? skill : 1 ) );
-            tripoint target = g->m.getabs( global_pos3() ) + coord_translate( parts[0].mount );
-            g->u.assign_activity( hotwire_car_activity_actor( moves, target ) );
+            tripoint target = get_map().getabs( global_pos3() ) + coord_translate( parts[0].mount );
+            player_character.assign_activity( hotwire_car_activity_actor( moves, target ) );
         } else if( has_security_working() && query_yn( _( "Trigger the %s's Alarm?" ), name ) ) {
             is_alarm_on = true;
         } else {
@@ -471,10 +474,11 @@ void vehicle::smash_security_system()
             break;
         }
     }
+    Character &player_character = get_player_character();
     //controls and security must both be valid
     if( c >= 0 && s >= 0 ) {
         ///\EFFECT_MECHANICS reduces chance of damaging controls when smashing security system
-        int skill = g->u.get_skill_level( skill_mechanics );
+        int skill = player_character.get_skill_level( skill_mechanics );
         int percent_controls = 70 / ( 1 + skill );
         int percent_alarm = ( skill + 3 ) * 10;
         int rand = rng( 1, 100 );
@@ -483,7 +487,7 @@ void vehicle::smash_security_system()
             damage_direct( c, part_info( c ).durability / 4 );
 
             if( parts[ c ].removed || parts[ c ].is_broken() ) {
-                g->u.controlling_vehicle = false;
+                player_character.controlling_vehicle = false;
                 is_alarm_on = false;
                 add_msg( _( "You destroy the controls…" ) );
             } else {
@@ -511,7 +515,7 @@ std::string vehicle::tracking_toggle_string()
 void vehicle::autopilot_patrol_check()
 {
     zone_manager &mgr = zone_manager::get_manager();
-    if( mgr.has_near( zone_type_id( "VEHICLE_PATROL" ), g->m.getabs( global_pos3() ), 60 ) ) {
+    if( mgr.has_near( zone_type_id( "VEHICLE_PATROL" ), get_map().getabs( global_pos3() ), 60 ) ) {
         enable_patrol();
     } else {
         g->zones_manager();
@@ -581,11 +585,12 @@ void vehicle::use_controls( const tripoint &pos )
 
     bool remote = g->remoteveh() == this;
     bool has_electronic_controls = false;
+    avatar &player_character = get_avatar();
 
     if( remote ) {
         options.emplace_back( _( "Stop controlling" ), keybind( "RELEASE_CONTROLS" ) );
         actions.push_back( [&] {
-            g->u.controlling_vehicle = false;
+            player_character.controlling_vehicle = false;
             g->setremoteveh( nullptr );
             add_msg( _( "You stop controlling the vehicle." ) );
             refresh();
@@ -593,11 +598,11 @@ void vehicle::use_controls( const tripoint &pos )
 
         has_electronic_controls = has_part( "CTRL_ELECTRONIC" ) || has_part( "REMOTE_CONTROLS" );
 
-    } else if( veh_pointer_or_null( g->m.veh_at( pos ) ) == this ) {
-        if( g->u.controlling_vehicle ) {
+    } else if( veh_pointer_or_null( get_map().veh_at( pos ) ) == this ) {
+        if( player_character.controlling_vehicle ) {
             options.emplace_back( _( "Let go of controls" ), keybind( "RELEASE_CONTROLS" ) );
             actions.push_back( [&] {
-                g->u.controlling_vehicle = false;
+                player_character.controlling_vehicle = false;
                 add_msg( _( "You let go of the controls." ) );
                 refresh();
             } );
@@ -617,7 +622,7 @@ void vehicle::use_controls( const tripoint &pos )
     }
 
     if( has_part( "ENGINE" ) ) {
-        if( g->u.controlling_vehicle || ( remote && engine_on ) ) {
+        if( player_character.controlling_vehicle || ( remote && engine_on ) ) {
             options.emplace_back( _( "Stop driving" ), keybind( "TOGGLE_ENGINE" ) );
             actions.push_back( [&] {
                 if( engine_on && has_engine_type_not( fuel_type_muscle, true ) )
@@ -653,7 +658,7 @@ void vehicle::use_controls( const tripoint &pos )
                 }
                 vehicle_noise = 0;
                 engine_on = false;
-                g->u.controlling_vehicle = false;
+                player_character.controlling_vehicle = false;
                 g->setremoteveh( nullptr );
                 sfx::do_vehicle_engine_sfx();
                 refresh();
@@ -759,7 +764,7 @@ void vehicle::use_controls( const tripoint &pos )
     if( menu.ret >= 0 ) {
         // allow player to turn off engine without triggering another warning
         if( menu.ret != 0 && menu.ret != 1 && menu.ret != 2 && menu.ret != 3 ) {
-            if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( !handle_potential_theft( player_character ) ) {
                 return;
             }
         }
@@ -778,7 +783,8 @@ bool vehicle::fold_up()
         return false;
     }
 
-    if( g->u.controlling_vehicle ) {
+    avatar &player_character = get_avatar();
+    if( player_character.controlling_vehicle ) {
         add_msg( m_warning,
                  _( "As the pitiless metal bars close on your nether regions, you reconsider trying to fold the %s while riding it." ),
                  name );
@@ -792,8 +798,8 @@ bool vehicle::fold_up()
 
     add_msg( _( "You painstakingly pack the %s into a portable configuration." ), name );
 
-    if( g->u.get_grab_type() != object_type::NONE ) {
-        g->u.grab( object_type::NONE );
+    if( player_character.get_grab_type() != object_type::NONE ) {
+        player_character.grab( object_type::NONE );
         add_msg( _( "You let go of %s as you fold it." ), name );
     }
 
@@ -808,11 +814,12 @@ bool vehicle::fold_up()
     // create a folding [non]bicycle item
     item bicycle( can_be_folded ? "generic_folded_vehicle" : "folding_bicycle", calendar::turn );
 
+    map &here = get_map();
     // Drop stuff in containers on ground
     for( const vpart_reference &vp : get_any_parts( "CARGO" ) ) {
         const size_t p = vp.part_index();
         for( auto &elem : get_items( p ) ) {
-            g->m.add_item_or_charges( g->u.pos(), elem );
+            here.add_item_or_charges( player_character.pos(), elem );
         }
         while( !get_items( p ).empty() ) {
             get_items( p ).erase( get_items( p ).begin() );
@@ -844,12 +851,12 @@ bool vehicle::fold_up()
         bicycle.set_var( "description", string_format( _( "A folded %s." ), name ) );
     }
 
-    g->m.add_item_or_charges( global_part_pos3( 0 ), bicycle );
-    g->m.destroy_vehicle( this );
+    here.add_item_or_charges( global_part_pos3( 0 ), bicycle );
+    here.destroy_vehicle( this );
 
     // TODO: take longer to fold bigger vehicles
     // TODO: make this interruptible
-    g->u.moves -= 500;
+    player_character.moves -= 500;
     return true;
 }
 
@@ -859,7 +866,7 @@ double vehicle::engine_cold_factor( const int e ) const
         return 0.0;
     }
 
-    int eff_temp = g->weather.get_temperature( g->u.pos() );
+    int eff_temp = g->weather.get_temperature( get_player_character().pos() );
     if( !parts[ engines[ e ] ].faults().count( fault_engine_glow_plug ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
@@ -906,13 +913,14 @@ bool vehicle::start_engine( const int e )
         out_of_fuel = true;
     }
 
+    Character &player_character = get_player_character();
     if( out_of_fuel ) {
         if( einfo.fuel_type == fuel_type_muscle ) {
             // Muscle engines cannot start with broken limbs
-            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( g->u.get_working_arm_count() < 2 ) ) {
+            if( einfo.has_flag( "MUSCLE_ARMS" ) && ( player_character.get_working_arm_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken arm." ), eng.name() );
                 return false;
-            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( g->u.get_working_leg_count() < 2 ) ) {
+            } else if( einfo.has_flag( "MUSCLE_LEGS" ) && ( player_character.get_working_leg_count() < 2 ) ) {
                 add_msg( _( "You cannot use %s with a broken leg." ), eng.name() );
                 return false;
             }
@@ -1062,14 +1070,15 @@ void vehicle::start_engines( const bool take_control, const bool autodrive )
         return;
     }
 
-    if( take_control && !g->u.controlling_vehicle ) {
-        g->u.controlling_vehicle = true;
+    Character &player_character = get_player_character();
+    if( take_control && !player_character.controlling_vehicle ) {
+        player_character.controlling_vehicle = true;
         add_msg( _( "You take control of the %s." ), name );
     }
     if( !autodrive ) {
-        g->u.assign_activity( ACT_START_ENGINES, start_time );
-        g->u.activity.placement = starting_engine_position - g->u.pos();
-        g->u.activity.values.push_back( take_control );
+        player_character.assign_activity( ACT_START_ENGINES, start_time );
+        player_character.activity.placement = starting_engine_position - player_character.pos();
+        player_character.activity.values.push_back( take_control );
     }
 }
 
@@ -1122,9 +1131,8 @@ void vehicle::honk_horn()
 
 void vehicle::reload_seeds( const tripoint &pos )
 {
-    player &p = g->u;
-
-    std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
+    Character &player_character = get_player_character();
+    std::vector<item *> seed_inv = player_character.items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
 
@@ -1149,13 +1157,13 @@ void vehicle::reload_seeds( const tripoint &pos )
             itype_id seed_id = std::get<0>( seed_entries[seed_index] );
             std::list<item> used_seed;
             if( item::count_by_charges( seed_id ) ) {
-                used_seed = p.use_charges( seed_id, actual_amount );
+                used_seed = player_character.use_charges( seed_id, actual_amount );
             } else {
-                used_seed = p.use_amount( seed_id, actual_amount );
+                used_seed = player_character.use_amount( seed_id, actual_amount );
             }
             used_seed.front().set_age( 0_turns );
             //place seeds into the planter
-            put_into_vehicle_or_drop( p, item_drop_reason::deliberate, used_seed, pos );
+            put_into_vehicle_or_drop( player_character, item_drop_reason::deliberate, used_seed, pos );
         }
     }
 }
@@ -1182,8 +1190,9 @@ void vehicle::beeper_sound()
 
 void vehicle::play_music()
 {
+    Character &player_character = get_player_character();
     for( const vpart_reference &vp : get_enabled_parts( "STEREO" ) ) {
-        iuse::play_music( g->u, vp.pos(), 15, 30 );
+        iuse::play_music( player_character, vp.pos(), 15, 30 );
     }
 }
 
@@ -1204,29 +1213,30 @@ void vehicle::crash_terrain_around()
     if( total_power_w() <= 0 ) {
         return;
     }
+    map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "CRASH_TERRAIN_AROUND" ) ) {
         tripoint crush_target( 0, 0, -OVERMAP_LAYERS );
         const tripoint start_pos = vp.pos();
         const transform_terrain_data &ttd = vp.info().transform_terrain;
         for( size_t i = 0; i < eight_horizontal_neighbors.size() &&
-             !g->m.inbounds_z( crush_target.z ); i++ ) {
+             !here.inbounds_z( crush_target.z ); i++ ) {
             tripoint cur_pos = start_pos + eight_horizontal_neighbors.at( i );
             bool busy_pos = false;
             for( const vpart_reference &vp_tmp : get_all_parts() ) {
                 busy_pos |= vp_tmp.pos() == cur_pos;
             }
             for( const std::string &flag : ttd.pre_flags ) {
-                if( g->m.has_flag( flag, cur_pos ) && !busy_pos ) {
+                if( here.has_flag( flag, cur_pos ) && !busy_pos ) {
                     crush_target = cur_pos;
                     break;
                 }
             }
         }
         //target chosen
-        if( g->m.inbounds_z( crush_target.z ) ) {
+        if( here.inbounds_z( crush_target.z ) ) {
             velocity = 0;
             cruise_velocity = 0;
-            g->m.destroy( crush_target );
+            here.destroy( crush_target );
             sounds::sound( crush_target, 500, sounds::sound_t::combat, _( "Clanggggg!" ), false,
                            "smash_success", "hit_vehicle" );
         }
@@ -1235,12 +1245,13 @@ void vehicle::crash_terrain_around()
 
 void vehicle::transform_terrain()
 {
+    map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "TRANSFORM_TERRAIN" ) ) {
         const tripoint start_pos = vp.pos();
         const transform_terrain_data &ttd = vp.info().transform_terrain;
         bool prereq_fulfilled = false;
         for( const std::string &flag : ttd.pre_flags ) {
-            if( g->m.has_flag( flag, start_pos ) ) {
+            if( here.has_flag( flag, start_pos ) ) {
                 prereq_fulfilled = true;
                 break;
             }
@@ -1248,15 +1259,15 @@ void vehicle::transform_terrain()
         if( prereq_fulfilled ) {
             const ter_id new_ter = ter_id( ttd.post_terrain );
             if( new_ter != t_null ) {
-                g->m.ter_set( start_pos, new_ter );
+                here.ter_set( start_pos, new_ter );
             }
             const furn_id new_furn = furn_id( ttd.post_furniture );
             if( new_furn != f_null ) {
-                g->m.furn_set( start_pos, new_furn );
+                here.furn_set( start_pos, new_furn );
             }
             const field_type_id new_field = field_type_id( ttd.post_field );
             if( new_field.id() ) {
-                g->m.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
+                here.add_field( start_pos, new_field, ttd.post_field_intensity, ttd.post_field_age );
             }
         } else {
             const int speed = std::abs( velocity );
@@ -1270,17 +1281,18 @@ void vehicle::transform_terrain()
 
 void vehicle::operate_reaper()
 {
+    map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "REAPER" ) ) {
         const size_t reaper_id = vp.part_index();
         const tripoint reaper_pos = vp.pos();
         const int plant_produced = rng( 1, vp.info().bonus );
         const int seed_produced = rng( 1, 3 );
         const units::volume max_pickup_volume = vp.info().size / 20;
-        if( g->m.furn( reaper_pos ) != f_plant_harvest ) {
+        if( here.furn( reaper_pos ) != f_plant_harvest ) {
             continue;
         }
         // Can't use item_stack::only_item() since there might be fertilizer
-        map_stack items = g->m.i_at( reaper_pos );
+        map_stack items = here.i_at( reaper_pos );
         map_stack::iterator seed = std::find_if( items.begin(), items.end(), []( const item & it ) {
             return it.is_seed();
         } );
@@ -1289,13 +1301,13 @@ void vehicle::operate_reaper()
             // Otherworldly plants, the earth-made reaper can not handle those.
             continue;
         }
-        g->m.furn_set( reaper_pos, f_null );
+        here.furn_set( reaper_pos, f_null );
         // Secure the seed type before i_clear destroys the item.
         const itype &seed_type = *seed->type;
-        g->m.i_clear( reaper_pos );
+        here.i_clear( reaper_pos );
         for( auto &i : iexamine::get_harvest_items(
                  seed_type, plant_produced, seed_produced, false ) ) {
-            g->m.add_item_or_charges( reaper_pos, i );
+            here.add_item_or_charges( reaper_pos, i );
         }
         sounds::sound( reaper_pos, rng( 10, 25 ), sounds::sound_t::combat, _( "Swish" ), false, "vehicle",
                        "reaper" );
@@ -1314,6 +1326,7 @@ void vehicle::operate_reaper()
 
 void vehicle::operate_planter()
 {
+    map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
         const size_t planter_id = vp.part_index();
         const tripoint loc = vp.pos();
@@ -1321,12 +1334,12 @@ void vehicle::operate_planter()
         for( auto i = v.begin(); i != v.end(); i++ ) {
             if( i->is_seed() ) {
                 // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
-                if( g->m.ter( loc ) != t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
+                if( here.ter( loc ) != t_dirtmound && vp.has_feature( "ADVANCED_PLANTER" ) ) {
                     //then don't put the item there.
                     break;
-                } else if( g->m.ter( loc ) == t_dirtmound ) {
-                    g->m.set( loc, t_dirt, f_plant_seed );
-                } else if( !g->m.has_flag( "PLOWABLE", loc ) ) {
+                } else if( here.ter( loc ) == t_dirtmound ) {
+                    here.set( loc, t_dirt, f_plant_seed );
+                } else if( !here.has_flag( "PLOWABLE", loc ) ) {
                     //If it isn't plowable terrain, then it will most likely be damaged.
                     damage( planter_id, rng( 1, 10 ), DT_BASH, false );
                     sounds::sound( loc, rng( 10, 20 ), sounds::sound_t::combat, _( "Clink" ), false, "smash_success",
@@ -1334,13 +1347,13 @@ void vehicle::operate_planter()
                 }
                 if( !i->count_by_charges() || i->charges == 1 ) {
                     i->set_age( 0_turns );
-                    g->m.add_item( loc, *i );
+                    here.add_item( loc, *i );
                     v.erase( i );
                 } else {
                     item tmp = *i;
                     tmp.charges = 1;
                     tmp.set_age( 0_turns );
-                    g->m.add_item( loc, tmp );
+                    here.add_item( loc, tmp );
                     i->charges--;
                 }
                 break;
@@ -1351,6 +1364,7 @@ void vehicle::operate_planter()
 
 void vehicle::operate_scoop()
 {
+    map &here = get_map();
     for( const vpart_reference &vp : get_enabled_parts( "SCOOP" ) ) {
         const size_t scoop = vp.part_index();
         const int chance_to_damage_item = 9;
@@ -1363,17 +1377,17 @@ void vehicle::operate_scoop()
                        random_entry_ref( sound_msgs ), false, "vehicle", "scoop" );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
-             g->m.points_in_radius( global_part_pos3( scoop ), 1 ) ) {
+             here.points_in_radius( global_part_pos3( scoop ), 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {
-            g->m.mop_spills( position );
-            if( !g->m.has_items( position ) ) {
+            here.mop_spills( position );
+            if( !here.has_items( position ) ) {
                 continue;
             }
             item *that_item_there = nullptr;
-            map_stack items = g->m.i_at( position );
-            if( g->m.has_flag( "SEALED", position ) ) {
+            map_stack items = here.i_at( position );
+            if( here.has_flag( "SEALED", position ) ) {
                 // Ignore it. Street sweepers are not known for their ability to harvest crops.
                 continue;
             }
@@ -1396,7 +1410,7 @@ void vehicle::operate_scoop()
             }
             //This attempts to add the item to the scoop inventory and if successful, removes it from the map.
             if( add_item( scoop, *that_item_there ) ) {
-                g->m.i_rem( position, that_item_there );
+                here.i_rem( position, that_item_there );
             } else {
                 break;
             }
@@ -1485,8 +1499,9 @@ void vehicle::open_or_close( const int part_index, const bool opening )
     //find_lines_of_parts() doesn't return the part_index we passed, so we set it on it's own
     parts[part_index].open = opening;
     insides_dirty = true;
-    g->m.set_transparency_cache_dirty( sm_pos.z );
-    const int dist = rl_dist( g->u.pos(), mount_to_tripoint( parts[part_index].mount ) );
+    get_map().set_transparency_cache_dirty( sm_pos.z );
+    const int dist = rl_dist( get_player_character().pos(),
+                              mount_to_tripoint( parts[part_index].mount ) );
     if( dist < 20 ) {
         sfx::play_variant_sound( opening ? "vehicle_open" : "vehicle_close",
                                  parts[ part_index ].info().get_id().str(), 100 - dist * 3 );
@@ -1553,8 +1568,9 @@ void vehicle::use_autoclave( int p )
 
 void vehicle::use_washing_machine( int p )
 {
+    avatar &player_character = get_avatar();
     // Get all the items that can be used as detergent
-    const inventory &inv = g->u.crafting_inventory();
+    const inventory &inv = player_character.crafting_inventory();
     std::vector<const item *> detergents = inv.items_with( [inv]( const item & it ) {
         return it.has_flag( "DETERGENT" ) && inv.has_charges( it.typeId(), 5 );
     } );
@@ -1629,7 +1645,7 @@ void vehicle::use_washing_machine( int p )
 
         std::vector<item_comp> detergent;
         detergent.push_back( item_comp( det_types[chosen_detergent], 5 ) );
-        g->u.consume_items( detergent, 1, is_crafting_component );
+        player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
                  _( "You pour some detergent into the washing machine, close its lid, and turn it on.  The washing machine is being filled with water from vehicle tanks." ) );
@@ -1638,7 +1654,8 @@ void vehicle::use_washing_machine( int p )
 
 void vehicle::use_dishwasher( int p )
 {
-    bool detergent_is_enough = g->u.crafting_inventory().has_charges( itype_detergent, 5 );
+    avatar &player_character = get_avatar();
+    bool detergent_is_enough = player_character.crafting_inventory().has_charges( itype_detergent, 5 );
     auto items = get_items( p );
     static const std::string filthy( "FILTHY" );
     bool filthy_items = std::all_of( items.begin(), items.end(), []( const item & i ) {
@@ -1686,7 +1703,7 @@ void vehicle::use_dishwasher( int p )
 
         std::vector<item_comp> detergent;
         detergent.push_back( item_comp( itype_detergent, 5 ) );
-        g->u.consume_items( detergent, 1, is_crafting_component );
+        player_character.consume_items( detergent, 1, is_crafting_component );
 
         add_msg( m_good,
                  _( "You pour some detergent into the dishwasher, close its lid, and turn it on.  The dishwasher is being filled with water from vehicle tanks." ) );
@@ -1699,7 +1716,7 @@ void vehicle::use_monster_capture( int part, const tripoint &pos )
         return;
     }
     item base = item( parts[part].get_base() );
-    base.type->invoke( g->u, base, pos );
+    base.type->invoke( get_avatar(), base, pos );
     parts[part].set_base( base );
     if( base.has_var( "contained_name" ) ) {
         parts[part].set_flag( vehicle_part::animal_flag );
@@ -1762,7 +1779,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         add_msg( m_info, _( "You untie your %s." ), m.get_name() );
         m.remove_effect( effect_tied );
         if( m.tied_item ) {
-            g->u.i_add( *m.tied_item );
+            get_player_character().i_add( *m.tied_item );
             m.tied_item.reset();
         }
     }
@@ -1860,7 +1877,7 @@ void vehicle::use_bike_rack( int part )
         success = try_to_rack_nearby_vehicle( racks_parts );
     }
     if( success ) {
-        g->m.invalidate_map_cache( g->get_levz() );
+        get_map().invalidate_map_cache( g->get_levz() );
     }
 }
 
@@ -1869,8 +1886,10 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
 {
     std::vector<std::string> menu_items;
     std::vector<uilist_entry> options_message;
-    const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
-    const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
+    map &here = get_map();
+    avatar &player_character = get_avatar();
+    const bool has_items_on_ground = here.sees_some_items( pos, player_character );
+    const bool items_are_sealed = here.has_flag( "SEALED", pos );
 
     auto turret = turret_query( pos );
 
@@ -2009,7 +2028,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         choice = selectmenu.ret;
     }
     if( choice != EXAMINE && choice != TRACK && choice != GET_ITEMS_ON_GROUND ) {
-        if( !handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        if( !handle_potential_theft( dynamic_cast<player &>( player_character ) ) ) {
             return;
         }
     }
@@ -2018,10 +2037,18 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         if( fuel_left( itype_battery, true ) < pseudo.ammo_required() ) {
             return false;
         }
+        //Pseudo items don't have a magazine in it, and they don't need it anymore.
+        //Pseudo magazine in Pseudo item sounds good.
+        //Somehow the set of available ammos in pocket_data loaded from json is alphabetic,
+        //so the default ammo is always atomic, haven't checked the relevant codes yet.
+        item pseudo_magazine( pseudo.magazine_default() );
+        //no initial ammo
+        pseudo_magazine.contents.clear_items();
+        pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
         int capacity = pseudo.ammo_capacity( ammotype( "battery" ) );
         int qty = capacity - discharge_battery( capacity );
         pseudo.ammo_set( itype_battery, qty );
-        g->u.invoke_item( &pseudo );
+        player_character.invoke_item( &pseudo );
         charge_battery( pseudo.ammo_remaining() );
         return true;
     };
@@ -2049,7 +2076,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case USE_TOWEL: {
-            iuse::towel_common( &g->u, nullptr, false );
+            iuse::towel_common( &player_character, nullptr, false );
             return;
         }
         case USE_AUTOCLAVE: {
@@ -2065,13 +2092,13 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case FILL_CONTAINER: {
-            g->u.siphon( *this, itype_water_clean );
+            player_character.siphon( *this, itype_water_clean );
             return;
         }
         case DRINK: {
             item water( "water_clean", 0 );
-            if( g->u.can_consume( water ) ) {
-                g->u.assign_activity( player_activity( consume_activity_actor( water ) ) );
+            if( player_character.can_consume( water ) ) {
+                player_character.assign_activity( player_activity( consume_activity_actor( water ) ) );
                 drain( itype_water_clean, 1 );
             }
             return;
@@ -2079,7 +2106,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         case USE_WELDER: {
             if( veh_tool( itype_welder ) ) {
                 // HACK: Evil hack incoming
-                auto &act = g->u.activity;
+                auto &act = player_character.activity;
                 if( act.id() == ACT_REPAIR_ITEM ) {
                     // Magic: first tell activity the item doesn't really exist
                     act.index = INT_MIN;
@@ -2125,11 +2152,11 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case RELOAD_TURRET: {
-            item::reload_option opt = g->u.select_ammo( *turret.base(), true );
+            item::reload_option opt = player_character.select_ammo( *turret.base(), true );
             if( opt ) {
-                g->u.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
-                g->u.activity.targets.emplace_back( turret.base() );
-                g->u.activity.targets.push_back( std::move( opt.ammo ) );
+                player_character.assign_activity( ACT_RELOAD, opt.moves(), opt.qty() );
+                player_character.activity.targets.emplace_back( turret.base() );
+                player_character.activity.targets.push_back( std::move( opt.ammo ) );
             }
             return;
         }
@@ -2170,7 +2197,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
             return;
         }
         case WORKBENCH: {
-            iexamine::workbench_internal( g->u, pos, vpart_reference( *this, workbench_part ) );
+            iexamine::workbench_internal( player_character, pos, vpart_reference( *this, workbench_part ) );
             return;
         }
     }

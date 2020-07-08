@@ -261,6 +261,7 @@ void inventory::update_cache_with_item( item &newit )
 
 char inventory::find_usable_cached_invlet( const itype_id &item_type )
 {
+    Character &player_character = get_player_character();
     // Some of our preferred letters might already be used.
     for( auto invlet : invlet_cache.invlets_for( item_type ) ) {
         // Don't overwrite user assignments.
@@ -268,7 +269,7 @@ char inventory::find_usable_cached_invlet( const itype_id &item_type )
             continue;
         }
         // Check if anything is using this invlet.
-        if( g->u.invlet_to_item( invlet ) != nullptr ) {
+        if( player_character.invlet_to_item( invlet ) != nullptr ) {
             continue;
         }
         return invlet;
@@ -281,6 +282,7 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
 {
     binned = false;
 
+    Character &player_character = get_player_character();
     if( should_stack ) {
         // See if we can't stack this item.
         for( auto &elem : items ) {
@@ -302,7 +304,7 @@ item &inventory::add_item( item newit, bool keep_invlet, bool assign_invlet, boo
                 return elem.back();
             } else if( keep_invlet && assign_invlet && it_ref->invlet == newit.invlet ) {
                 // If keep_invlet is true, we'll be forcing other items out of their current invlet.
-                assign_empty_invlet( *it_ref, g->u );
+                assign_empty_invlet( *it_ref, player_character );
             }
         }
     }
@@ -410,7 +412,7 @@ void inventory::form_from_map( const tripoint &origin, int range, const Characte
                                bool assign_invlet,
                                bool clear_path )
 {
-    form_from_map( g->m, origin, range, pl, assign_invlet, clear_path );
+    form_from_map( get_map(), origin, range, pl, assign_invlet, clear_path );
 }
 
 void inventory::form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl,
@@ -457,8 +459,6 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
                     // NOTE: This only works if the pseudo item has a MAGAZINE pocket, not a MAGAZINE_WELL!
                     item furn_ammo( ammo, calendar::turn, count_charges_in_list( ammo, m.i_at( p ) ) );
                     furn_item.put_in( furn_ammo, item_pocket::pocket_type::MAGAZINE );
-                } else {
-                    debugmsg( "ERROR: Furniture crafting pseudo item does not have magazine for ammo" );
                 }
                 furn_item.item_tags.insert( "PSEUDO" );
                 add_item( furn_item );
@@ -879,6 +879,8 @@ item *inventory::most_appropriate_painkiller( int pain )
 
 void inventory::rust_iron_items()
 {
+    Character &player_character = get_player_character();
+    map &here = get_map();
     for( auto &elem : items ) {
         for( auto &elem_stack_iter : elem ) {
             if( elem_stack_iter.made_of( material_id( "iron" ) ) &&
@@ -896,7 +898,7 @@ void inventory::rust_iron_items()
                                     elem_stack_iter.base_volume().value() ) / 250 ) ) ) ) &&
                 //                       ^season length   ^14/5*0.75/pi (from volume of sphere)
                 //Freshwater without oxygen rusts slower than air
-                g->m.water_from( g->u.pos() ).typeId() == itype_salt_water ) {
+                here.water_from( player_character.pos() ).typeId() == itype_salt_water ) {
                 elem_stack_iter.inc_damage( DT_ACID ); // rusting never completely destroys an item
                 add_msg( m_bad, _( "Your %s is damaged by rust." ), elem_stack_iter.tname() );
             }
@@ -1042,8 +1044,7 @@ void inventory::assign_empty_invlet( item &it, const Character &p, const bool fo
     if( cur_inv.count() < inv_chars.size() ) {
         // XXX YUCK I don't know how else to get the keybindings
         // FIXME: Find a better way to get bound keys
-        avatar &u = g->u;
-        inventory_selector selector( u );
+        inventory_selector selector( get_avatar() );
 
         for( const auto &inv_char : inv_chars ) {
             if( assigned_invlet.count( inv_char ) ) {
@@ -1103,11 +1104,12 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
         }
     }
 
+    Character &player_character = get_player_character();
     // Remove letters that have been assigned to other items in the inventory
     if( newit.invlet ) {
         char tmp_invlet = newit.invlet;
         newit.invlet = '\0';
-        if( g->u.invlet_to_item( tmp_invlet ) == nullptr ) {
+        if( player_character.invlet_to_item( tmp_invlet ) == nullptr ) {
             newit.invlet = tmp_invlet;
         }
     }
@@ -1120,7 +1122,7 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
 
         // Give the item an invlet if it has none
         if( !newit.invlet ) {
-            assign_empty_invlet( newit, g->u );
+            assign_empty_invlet( newit, player_character );
         }
     }
 }

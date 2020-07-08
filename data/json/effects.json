@@ -1310,7 +1310,7 @@
     "name": [ "High" ],
     "desc": [ "You are high as a kite." ],
     "apply_message": "You feel lightheaded.",
-    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -1 ] }
+    "base_mods": { "int_mod": [ -1 ], "per_mod": [ -1 ], "vomit_tick": [ 60 ] }
   },
   {
     "type": "effect_type",

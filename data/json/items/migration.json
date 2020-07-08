@@ -1233,5 +1233,10 @@
     "id": "carton_unsealed",
     "type": "MIGRATION",
     "replace": "carton_sealed"
+  },
+  {
+    "id": "slam_shotgun",
+    "type": "MIGRATION",
+    "replace": "four_winds_shotgun"
   }
 ]

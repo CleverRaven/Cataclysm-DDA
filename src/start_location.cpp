@@ -159,9 +159,10 @@ static void board_up( map &m, const tripoint_range &range )
             continue;
         }
         // If the furniture is movable and the character can move it, use it to barricade
-        // g->u is workable here as NPCs by definition are not starting the game.  (Let's hope.)
+        //  is workable here as NPCs by definition are not starting the game.  (Let's hope.)
         ///\EFFECT_STR determines what furniture might be used as a starting area barricade
-        if( m.furn( p ).obj().is_movable() && m.furn( p ).obj().move_str_req < g->u.get_str() ) {
+        if( m.furn( p ).obj().is_movable() &&
+            m.furn( p ).obj().move_str_req < get_player_character().get_str() ) {
             if( m.furn( p ).obj().movecost == 0 ) {
                 // Obstacles are better, prefer them
                 furnitures1.push_back( p );
@@ -288,13 +289,13 @@ static int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 void start_location::place_player( player &u ) const
 {
     // Need the "real" map with it's inside/outside cache and the like.
-    map &m = g->m;
+    map &here = get_map();
     // Start us off somewhere in the center of the map
     u.setx( HALF_MAPSIZE_X );
     u.sety( HALF_MAPSIZE_Y );
     u.setz( g->get_levz() );
-    m.invalidate_map_cache( m.get_abs_sub().z );
-    m.build_map_cache( m.get_abs_sub().z );
+    here.invalidate_map_cache( here.get_abs_sub().z );
+    here.build_map_cache( here.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;
     ///\EFFECT_STR allows player to start behind less-bashable furniture and terrain
     // TODO: Allow using items here
@@ -315,7 +316,7 @@ void start_location::place_player( player &u ) const
     int tries = 0;
     const auto check_spot = [&]( const tripoint & pt ) {
         tries++;
-        const int rate = rate_location( m, pt, must_be_inside, bash, tries, checked );
+        const int rate = rate_location( here, pt, must_be_inside, bash, tries, checked );
         if( best_rate < rate ) {
             best_rate = rate;
             u.setpos( pt );
@@ -355,7 +356,8 @@ void start_location::burn( const tripoint &omtstart, const size_t count, const i
     tinymap m;
     m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
-    const point u( g->u.posx() % HALF_MAPSIZE_X, g->u.posy() % HALF_MAPSIZE_Y );
+    point player_pos = get_player_character().pos().xy();
+    const point u( player_pos.x % HALF_MAPSIZE_X, player_pos.y % HALF_MAPSIZE_Y );
     std::vector<tripoint> valid;
     for( const tripoint &p : m.points_on_zlevel() ) {
         if( !( m.has_flag_ter( "DOOR", p ) ||
@@ -387,24 +389,25 @@ void start_location::add_map_extra( const tripoint &omtstart, const std::string 
 
 void start_location::handle_heli_crash( player &u ) const
 {
-    for( int i = 2; i < num_hp_parts; i++ ) { // Skip head + torso for balance reasons.
-        const auto part = static_cast<hp_part>( i );
-        const auto bp_part = player::hp_to_bp( part );
+    for( const bodypart_id &bp : u.get_all_body_parts() ) {
+        if( bp == bodypart_id( "head" ) || bp == bodypart_id( "torso" ) ) {
+            continue;// Skip head + torso for balance reasons.
+        }
         const int roll = static_cast<int>( rng( 1, 8 ) );
         switch( roll ) {
             // Damage + Bleed
             case 1:
             case 2:
-                u.make_bleed( convert_bp( bp_part ).id(), 6_minutes );
+                u.make_bleed( bp, 6_minutes );
             /* fallthrough */
             case 3:
             case 4:
             // Just damage
             case 5: {
-                const auto maxHp = u.get_hp_max( part );
+                const int maxHp = u.get_hp_max( bp );
                 // Body part health will range from 33% to 66% with occasional bleed
                 const int dmg = static_cast<int>( rng( maxHp / 3, maxHp * 2 / 3 ) );
-                u.apply_damage( nullptr, convert_bp( bp_part ).id(), dmg );
+                u.apply_damage( nullptr, bp, dmg );
                 break;
             }
             // No damage

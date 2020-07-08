@@ -577,6 +577,22 @@
     ]
   },
   {
+    "id": "mon_tiger",
+    "type": "MONSTER",
+    "name": { "str": "tiger" },
+    "copy-from": "mon_cougar",
+    "description": "The majestic tiger, a large feline predator.  Native to Asia, they are now most populous in private reserves in the United States.  Fast and powerful, this predator is one of the most recognizable and beloved animals in the world.  Also one of the deadliest.",
+    "volume": "190 L",
+    "weight": "190 kg",
+    "hp": 180,
+    "speed": 140,
+    "symbol": "T",
+    "morale": 60,
+    "melee_dice": 3,
+    "dodge": 2,
+    "zombify_into": "mon_ziger"
+  },
+  {
     "id": "mon_cow_calf",
     "type": "MONSTER",
     "name": { "str": "calf", "str_pl": "calves" },

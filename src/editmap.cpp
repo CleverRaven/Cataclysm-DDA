@@ -777,7 +777,7 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     }
 
     const trap &cur_trap = here.tr_at( target );
-    if( cur_trap.loadid != tr_null ) {
+    if( !cur_trap.is_null() ) {
         mvwprintz( w_info, point( 1, off ), cur_trap.color, _( "trap: %s (%d)" ), cur_trap.name(),
                    cur_trap.loadid.to_i() );
         off++; // 11
@@ -959,9 +959,7 @@ std::string describe( const furn_t &type )
 template<>
 std::string describe( const trap &type )
 {
-    return string_format( _( "Visible: %d\nAvoidance: %d\nDifficulty: %d\nBenign: %s" ),
-                          type.get_visibility(), type.get_avoidance(), type.get_difficulty(),
-                          type.is_benign() ? _( "Yes" ) : _( "No" ) );
+    return type.debug_describe();
 }
 
 template<typename T_id>

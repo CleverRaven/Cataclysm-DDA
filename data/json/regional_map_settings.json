@@ -499,8 +499,8 @@
           "mx_prison_bus": 15
         }
       },
+      "bridgehead_ground": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "road_nesw_manhole": { "chance": 20, "extras": { "mx_city_trap": 100 } },
-      "bridge": { "chance": 5, "extras": { "mx_minefield": 100 } },
       "build": {
         "chance": 90,
         "extras": {
@@ -918,7 +918,22 @@
       "base_acid": 0.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
-      "base_wind_season_variation": 50
+      "base_wind_season_variation": 50,
+      "weather_types": [
+        "clear",
+        "sunny",
+        "cloudy",
+        "light_drizzle",
+        "drizzle",
+        "rain",
+        "thunder",
+        "lightning",
+        "acid_drizzle",
+        "acid_rain",
+        "flurries",
+        "snowing",
+        "snowstorm"
+      ]
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   }

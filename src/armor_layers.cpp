@@ -742,7 +742,7 @@ void player::sort_armor()
                 }
                 worn.splice( to, worn, tmp_worn[selected] );
                 selected = leftListIndex;
-                reset_encumbrance();
+                calc_encumbrance();
             }
         };
 
@@ -817,7 +817,7 @@ void player::sort_armor()
             }
                             );
             std::copy( worn_copy.begin(), worn_copy.end(), worn.begin() );
-            reset_encumbrance();
+            calc_encumbrance();
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
             item_location loc = game_menus::inv::wear( *this );

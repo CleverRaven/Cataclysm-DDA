@@ -6,7 +6,7 @@
 #include <memory>
 #include <set>
 
-#include "avatar.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
@@ -72,8 +72,9 @@ item vehicle_part::properties_to_item() const
     // Cables get special handling: their target coordinates need to remain
     // stored, and if a cable actually drops, it should be half-connected.
     if( tmp.has_flag( "CABLE_SPOOL" ) && !tmp.has_flag( "TOW_CABLE" ) ) {
-        const tripoint local_pos = g->m.getlocal( target.first );
-        if( !g->m.veh_at( local_pos ) ) {
+        map &here = get_map();
+        const tripoint local_pos = here.getlocal( target.first );
+        if( !here.veh_at( local_pos ) ) {
             // That vehicle ain't there no more.
             tmp.item_tags.insert( "NO_DROP" );
         }
@@ -232,7 +233,6 @@ int vehicle_part::ammo_remaining() const
     if( is_tank() ) {
         return base.contents.empty() ? 0 : base.contents.legacy_front().charges;
     }
-
     if( is_fuel_store( false ) || is_turret() ) {
         return base.ammo_remaining();
     }
@@ -370,11 +370,11 @@ bool vehicle_part::can_reload( const item &obj ) const
     }
 
     if( is_reactor() ) {
-        return false;
+        return true;
     }
 
-    return base.is_reloadable() &&
-           ammo_remaining() < ammo_capacity( item::find_type( ammo_current() )->ammo->type );
+    return is_tank() &&
+           ammo_remaining() <= ammo_capacity( item::find_type( ammo_current() )->ammo->type );
 }
 
 void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
@@ -388,13 +388,13 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
         if( e_heater ) {
             flag = temperature_flag::HEATER;
         }
-        base.process( nullptr, pos, false, 1, flag );
+        base.process( nullptr, pos, 1, flag );
     }
 }
 
 bool vehicle_part::fill_with( item &liquid, int qty )
 {
-    if( !is_tank() || !can_reload( liquid ) ) {
+    if( ( is_tank() && !liquid.made_of( phase_id::LIQUID ) ) || !can_reload( liquid ) ) {
         return false;
     }
 
@@ -579,7 +579,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( g->u.pos() ) ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

@@ -12,7 +12,7 @@
     "quench": -5,
     "description": "A crumbly white pill half the size of your thumb, packed with vitamins and calories.  Provides a whole day's nutrition in portable form, but it's a little hard to keep down, thanks to the rancid taste and chalky texture.",
     "price": 10000,
-    "volume": 0,
+    "volume": "0 L",
     "charges": 5,
     "looks_like": "vitamins",
     "fun": -8,

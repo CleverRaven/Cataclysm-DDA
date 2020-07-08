@@ -1718,7 +1718,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 
     // TODO: Store the patient somehow, retrieve here
     player &patient = *p;
-    const hp_part healed = static_cast<hp_part>( act->values[0] );
+    const bodypart_id healed = bodypart_id( act->str_values[0] );
     const int charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
     p->consume_charges( it, charges_consumed );
 
@@ -1771,7 +1771,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             debugmsg( "Invalid season" );
     }
 
-    here.ter_set( here.getlocal( act->placement ), next_ter );
+    const tripoint bush_pos = here.getlocal( act->placement );
+    here.ter_set( bush_pos, next_ter );
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
@@ -1809,6 +1810,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     iexamine::practice_survival_while_foraging( p );
 
     act->set_to_null();
+
+    here.maybe_trigger_trap( bush_pos, *p, true );
 }
 
 void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
@@ -2284,7 +2287,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
     item &vibrator_item = *act->targets.front();
 
-    if( p->encumb( bp_mouth ) >= 30 ) {
+    if( p->encumb( bodypart_id( "mouth" ) ) >= 30 ) {
         act->moves_left = 0;
         add_msg( m_bad, _( "You have trouble breathing, and stop." ) );
     }
@@ -2546,7 +2549,10 @@ struct weldrig_hack {
 
     item &get_item() {
         if( veh != nullptr && part >= 0 ) {
-            pseudo.charges = veh->drain( itype_battery, 1000 - pseudo.charges );
+            item pseudo_magazine( pseudo.magazine_default() );
+            pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
+            pseudo.ammo_set( itype_battery,  veh->drain( itype_battery,
+                             pseudo.ammo_capacity( ammotype( "battery" ) ) ) );
             return pseudo;
         }
 
@@ -2560,8 +2566,7 @@ struct weldrig_hack {
             return;
         }
 
-        veh->charge_battery( pseudo.charges );
-        pseudo.charges = 0;
+        veh->charge_battery( pseudo.ammo_remaining() );
     }
 
     ~weldrig_hack() {
@@ -2670,7 +2675,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     const item &fix = *act->targets[1];
-
     if( repeat == repeat_type::INIT ) {
         const int level = p->get_skill_level( actor->used_skill );
         repair_item_actor::repair_type action_type = actor->default_action( fix, level );
@@ -2726,7 +2730,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             }
         } while( repeat == repeat_type::INIT );
     }
-
     // Otherwise keep retrying
     act->moves_left = actor->move_cost;
 }
@@ -2900,6 +2903,8 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
     here.furn_set( pos, f_null );
 
     act->set_to_null();
+
+    here.maybe_trigger_trap( pos, *p, true );
 }
 
 void activity_handlers::meditate_finish( player_activity *act, player *p )
@@ -3930,6 +3935,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
+    g->events().send<event_type::cuts_tree>( p->getID() );
     act->set_to_null();
     resume_for_multi_activities( *p );
 }
@@ -4392,26 +4398,24 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
 
 static void blood_magic( player *p, int cost )
 {
-    static std::array<bodypart_id, 6> part = { {
-            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
-        }
-    };
-    int max_hp_part = 0;
     std::vector<uilist_entry> uile;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        uilist_entry entry( i, p->hp_cur[i] > cost, i + 49, body_part_hp_bar_ui_text( part[i] ) );
-        if( p->hp_cur[max_hp_part] < p->hp_cur[i] ) {
-            max_hp_part = i;
-        }
-        const std::pair<std::string, nc_color> &hp = get_hp_bar( p->hp_cur[i], p->hp_max[i] );
+    std::vector<bodypart_id> parts;
+    int i = 0;
+    for( const std::pair<const bodypart_str_id, bodypart> &part : p->get_body() ) {
+        const int hp_cur = part.second.get_hp_cur();
+        uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( part.first.id() ) );
+
+        const std::pair<std::string, nc_color> &hp = get_hp_bar( hp_cur, part.second.get_hp_max() );
         entry.ctxt = colorize( hp.first, hp.second );
         uile.emplace_back( entry );
+        parts.push_back( part.first.id() );
+        i++;
     }
     int action = -1;
     while( action < 0 ) {
         action = uilist( _( "Choose part\nto draw blood from." ), uile );
     }
-    p->hp_cur[action] -= cost;
+    p->mod_part_hp_cur( parts[action], - cost );
     p->mod_pain( std::max( 1, cost / 3 ) );
 }
 
@@ -4427,9 +4431,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     // if level != 1 then we need to set the spell's level
     if( level_override != -1 ) {
-        while( spell_being_cast.get_level() < level_override && !spell_being_cast.is_max_level() ) {
-            spell_being_cast.gain_level();
-        }
+        spell_being_cast.set_level( level_override );
     }
 
     const bool no_fail = act->get_value( 1 ) == 1;

@@ -124,7 +124,6 @@ then
         else
             remaining_cpp_files="$all_cpp_files"
         fi
-        set -x
 
         function analyze_files_in_random_order
         {
@@ -142,6 +141,7 @@ then
 
         echo "Analyzing remaining files"
         analyze_files_in_random_order "$remaining_cpp_files"
+        set -x
     else
         # Regular build
         make -j$num_jobs

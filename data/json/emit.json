@@ -331,5 +331,12 @@
     "field": "fd_fog",
     "intensity": 2,
     "qty": 200
+  },
+  {
+    "id": "emit_extinguisher_burst",
+    "type": "emit",
+    "field": "fd_extinguisher",
+    "intensity": 1,
+    "qty": 10
   }
 ]

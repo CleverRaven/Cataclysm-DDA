@@ -12,10 +12,12 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "flat_set.h"
+#include "magic.h"
 #include "optional.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "value_ptr.h"
 
 class JsonIn;
 class JsonObject;
@@ -85,6 +87,7 @@ struct bionic_data {
     /** bionic enchantments */
     std::vector<enchantment_id> enchantments;
 
+    cata::value_ptr<fake_spell> spell_on_activate;
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
@@ -178,12 +181,18 @@ struct bionic {
         float get_auto_start_thresh() const;
         bool is_auto_start_on() const;
 
+        void set_safe_fuel_thresh( float val );
+        float get_safe_fuel_thresh() const;
+        bool is_safe_fuel_on() const;
+        bool activate_spell( Character &caster );
+
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
     private:
         // generic bionic specific flags
         cata::flat_set<std::string> bionic_tags;
         float auto_start_threshold = -1.0;
+        float safe_fuel_threshold = -1.0;
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not

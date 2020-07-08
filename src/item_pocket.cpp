@@ -1,10 +1,10 @@
 #include "item_pocket.h"
 
+#include "ammo.h"
 #include "assign.h"
 #include "cata_utility.h"
 #include "crafting.h"
 #include "enums.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "handle_liquid.h"
 #include "item.h"
@@ -251,7 +251,9 @@ bool item_pocket::stacks_with( const item_pocket &rhs ) const
 
 bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
 {
-    static const std::vector<item> allowed_liquids{
+    // should not be static, since after reloading some members of the item objects,
+    // such as item types, may be invalidated.
+    const std::vector<item> allowed_liquids{
         item( "water", calendar::turn_zero, 1 ),
         item( "water_acid", calendar::turn_zero, 1 ),
         item( "water_acid_weak", calendar::turn_zero, 1 )
@@ -628,7 +630,7 @@ bool item_pocket::detonate( const tripoint &pos, std::vector<item> &drops )
     return false;
 }
 
-bool item_pocket::process( const itype &type, player *carrier, const tripoint &pos, bool activate,
+bool item_pocket::process( const itype &type, player *carrier, const tripoint &pos,
                            float insulation, const temperature_flag flag )
 {
     bool processed = false;
@@ -638,7 +640,7 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
             // is not changed, the item is still fresh.
             it->set_last_rot_check( calendar::turn );
         }
-        if( it->process( carrier, pos, activate, type.insulation_factor * insulation, flag ) ) {
+        if( it->process( carrier, pos, type.insulation_factor * insulation, flag ) ) {
             it = contents.erase( it );
             processed = true;
         } else {
@@ -706,9 +708,20 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", pocket_num );
     }
 
-    info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity() ) );
-    info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity() ) );
-    info.back().bNewLine = true;
+    // Show volume/weight for normal containers, or ammo capacity if ammo_restriction is defined
+    if( data->ammo_restriction.empty() ) {
+        info.push_back( vol_to_info( "CONTAINER", _( "Volume: " ), volume_capacity() ) );
+        info.push_back( weight_to_info( "CONTAINER", _( "  Weight: " ), weight_capacity() ) );
+        info.back().bNewLine = true;
+    } else {
+        for( const ammotype &at : ammo_types() ) {
+            const std::string fmt = string_format( ngettext( "<num> round of %s",
+                                                   "<num> rounds of %s", ammo_capacity( at ) ),
+                                                   at->name() );
+            info.emplace_back( "MAGAZINE", _( "Holds: " ), fmt, iteminfo::no_flags,
+                               ammo_capacity( at ) );
+        }
+    }
 
     if( data->max_item_length != 0_mm ) {
         info.back().bNewLine = true;
@@ -772,7 +785,7 @@ void item_pocket::general_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION",
                            string_format(
                                _( "This pocket expands at <neutral>%.0f%%</neutral> of the rate of volume of items inside." ),
-                               data->weight_multiplier * 100 ) );
+                               data->volume_multiplier * 100 ) );
     }
 }
 
@@ -800,12 +813,19 @@ void item_pocket::contents_info( std::vector<iteminfo> &info, int pocket_number,
         info.emplace_back( "DESCRIPTION", _( "This pocket is <info>sealed</info>." ) );
     }
 
-    info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
-    info.emplace_back( vol_to_info( "CONTAINER", _( " of " ), volume_capacity() ) );
-
-    info.back().bNewLine = true;
-    info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
-    info.emplace_back( weight_to_info( "CONTAINER", _( " of " ), weight_capacity() ) );
+    if( data->ammo_restriction.empty() ) {
+        // With no ammo_restriction defined, show current volume/weight, and total capacity
+        info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
+        info.emplace_back( vol_to_info( "CONTAINER", _( " of " ), volume_capacity() ) );
+        info.back().bNewLine = true;
+        info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
+        info.emplace_back( weight_to_info( "CONTAINER", _( " of " ), weight_capacity() ) );
+    } else {
+        // With ammo_restriction, total capacity does not matter, but show current volume/weight
+        info.emplace_back( vol_to_info( "CONTAINER", _( "Volume: " ), contains_volume() ) );
+        info.back().bNewLine = true;
+        info.emplace_back( weight_to_info( "CONTAINER", _( "Weight: " ), contains_weight() ) );
+    }
 
     bool contents_header = false;
     for( const item &contents_item : contents ) {
@@ -939,6 +959,7 @@ ret_val<item_pocket::contain_code> item_pocket::can_contain( const item &it ) co
     // liquids and gases avoid the size limit altogether
     // soft items also avoid the size limit
     if( !it.made_of( phase_id::LIQUID ) && !it.made_of( phase_id::GAS ) &&
+        !it.is_frozen_liquid() &&
         !it.is_soft() && data->max_item_volume &&
         it.volume() > *data->max_item_volume ) {
         return ret_val<item_pocket::contain_code>::make_failure(
@@ -1032,6 +1053,7 @@ void item_pocket::overflow( const tripoint &pos )
         // no items to overflow
         return;
     }
+    map &here = get_map();
     // first remove items that shouldn't be in there anyway
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         ret_val<item_pocket::contain_code> ret_contain = can_contain( *iter );
@@ -1039,7 +1061,7 @@ void item_pocket::overflow( const tripoint &pos )
             ( !ret_contain.success() &&
               ret_contain.value() != contain_code::ERR_NO_SPACE &&
               ret_contain.value() != contain_code::ERR_CANNOT_SUPPORT ) ) {
-            g->m.add_item_or_charges( pos, *iter );
+            here.add_item_or_charges( pos, *iter );
             iter = contents.erase( iter );
         } else {
             ++iter;
@@ -1063,7 +1085,7 @@ void item_pocket::overflow( const tripoint &pos )
             if( overflow_count > 0 ) {
                 ammo.charges -= overflow_count;
                 item dropped_ammo( ammo.typeId(), ammo.birthday(), overflow_count );
-                g->m.add_item_or_charges( pos, contents.front() );
+                here.add_item_or_charges( pos, contents.front() );
                 total_qty -= overflow_count;
             }
             if( ammo.count() == 0 ) {
@@ -1082,7 +1104,7 @@ void item_pocket::overflow( const tripoint &pos )
             return left.volume() > right.volume();
         } );
         while( remaining_volume() < 0_ml && !contents.empty() ) {
-            g->m.add_item_or_charges( pos, contents.front() );
+            here.add_item_or_charges( pos, contents.front() );
             contents.pop_front();
         }
     }
@@ -1091,7 +1113,7 @@ void item_pocket::overflow( const tripoint &pos )
             return left.weight() > right.weight();
         } );
         while( remaining_weight() < 0_gram && !contents.empty() ) {
-            g->m.add_item_or_charges( pos, contents.front() );
+            here.add_item_or_charges( pos, contents.front() );
             contents.pop_front();
         }
     }
@@ -1107,14 +1129,15 @@ void item_pocket::on_pickup( Character &guy )
 
 void item_pocket::on_contents_changed()
 {
-    _sealed = false;
+    unseal();
     restack();
 }
 
 bool item_pocket::spill_contents( const tripoint &pos )
 {
+    map &here = get_map();
     for( item &it : contents ) {
-        g->m.add_item_or_charges( pos, it );
+        here.add_item_or_charges( pos, it );
     }
 
     contents.clear();
@@ -1172,11 +1195,11 @@ void item_pocket::remove_rotten( const tripoint &pnt )
     }
 }
 
-void item_pocket::process( player *carrier, const tripoint &pos, bool activate, float insulation,
+void item_pocket::process( player *carrier, const tripoint &pos, float insulation,
                            temperature_flag flag, float spoil_multiplier_parent )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->process( carrier, pos, activate, insulation, flag,
+        if( iter->process( carrier, pos, insulation, flag,
                            // spoil multipliers on pockets are not additive or multiplicative, they choose the best
                            std::min( spoil_multiplier_parent, spoil_multiplier() ) ) ) {
             iter = contents.erase( iter );

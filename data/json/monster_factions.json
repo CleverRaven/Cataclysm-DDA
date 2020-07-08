@@ -73,6 +73,13 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "exodii",
+    "neutral": [ "bot" ],
+    "by_mood": [ "animal", "nether" ],
+    "hate": [ "zombie", "fungus", "cult", "triffid" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "science",
     "base_faction": "zombie",
     "neutral": [ "bot" ]

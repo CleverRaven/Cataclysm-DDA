@@ -656,13 +656,15 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     game_message_type gmtSCTcolor = m_neutral;
     if( magic ) {
         damage_mult *= rng_float( 0.9, 1.1 );
-    } else if( goodhit < accuracy_headshot && max_damage * crit_multiplier > get_hp_max( hp_head ) ) {
+    } else if( goodhit < accuracy_headshot &&
+               max_damage * crit_multiplier > get_hp_max( bodypart_id( "head" ) ) ) {
         message = _( "Headshot!" );
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float( 0.95, 1.05 );
         damage_mult *= crit_multiplier;
         bp_hit = bodypart_id( "head" ); // headshot hits the head, of course
-    } else if( goodhit < accuracy_critical && max_damage * crit_multiplier > get_hp_max( hp_torso ) ) {
+    } else if( goodhit < accuracy_critical &&
+               max_damage * crit_multiplier > get_hp_max( bodypart_id( "torso" ) ) ) {
         message = _( "Critical!" );
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float( 0.75, 1.0 );
@@ -696,8 +698,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     impact.mult_damage( damage_mult );
 
     if( proj_effects.count( "NOGIB" ) > 0 ) {
-        float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( player::bp_to_hp(
-                              bp_hit->token ) );
+        float dmg_ratio = static_cast<float>( impact.total_damage() ) / get_hp_max( bp_hit );
         if( dmg_ratio > 1.25f ) {
             impact.mult_damage( 1.0f / dmg_ratio );
         }
@@ -1144,12 +1145,25 @@ bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) con
 {
     for( auto &elem : *effects ) {
         for( const std::pair<const body_part, effect> &_it : elem.second ) {
-            if( bp == _it.first && _it.second.has_flag( flag ) ) {
+            if( ( bp == _it.first || bp == num_bp ) && _it.second.has_flag( flag ) ) {
                 return true;
             }
         }
     }
     return false;
+}
+
+std::vector<effect> Creature::get_effects_with_flag( const std::string &flag ) const
+{
+    std::vector<effect> effs;
+    for( auto &elem : *effects ) {
+        for( const std::pair<const body_part, effect> &_it : elem.second ) {
+            if( _it.second.has_flag( flag ) ) {
+                effs.push_back( _it.second );
+            }
+        }
+    }
+    return effs;
 }
 
 effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
@@ -1434,6 +1448,162 @@ void Creature::set_anatomy( const anatomy_id &anat )
     creature_anatomy = anat;
 }
 
+std::map<bodypart_str_id, bodypart> Creature::get_body() const
+{
+    return body;
+}
+
+void Creature::set_body()
+{
+    for( const bodypart_id &bp : get_anatomy()->get_bodyparts() ) {
+        body.emplace( bp.id(), bodypart( bp.id() ) );
+    }
+}
+
+void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max, int dex_max,
+                                  int per_max,  int int_max, int healthy_mod,  int fat_to_max_hp )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &part : body ) {
+        int new_max = ( part.first->base_hp + str_max * part.first->hp_mods.str_mod + dex_max *
+                        part.first->hp_mods.dex_mod + int_max * part.first->hp_mods.int_mod + per_max *
+                        part.first->hp_mods.per_mod + part.first->hp_mods.health_mod * healthy_mod + fat_to_max_hp +
+                        hp_adjustment ) * hp_mod;
+
+        if( has_trait( trait_id( "GLASSJAW" ) ) && part.first == bodypart_str_id( "head" ) ) {
+            new_max *= 0.8;
+        }
+
+        float max_hp_ratio = static_cast<float>( new_max ) /
+                             static_cast<float>( part.second.get_hp_max() );
+
+        int new_cur = std::ceil( static_cast<float>( part.second.get_hp_cur() ) * max_hp_ratio );
+
+        part.second.set_hp_max( std::max( new_max, 1 ) );
+        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 1 ) );
+    }
+}
+
+
+bodypart *Creature::get_part( const bodypart_id &id )
+{
+    auto found = body.find( id.id() );
+    if( found == body.end() ) {
+        debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
+        return nullptr;
+    }
+    return &found->second;
+}
+
+bodypart Creature::get_part( const bodypart_id &id ) const
+{
+    auto found = body.find( id.id() );
+    if( found == body.end() ) {
+        debugmsg( "Could not find bodypart %s in %s's body", id.id().c_str(), get_name() );
+        return bodypart();
+    }
+    return found->second;
+}
+
+int Creature::get_part_hp_cur( const bodypart_id &id ) const
+{
+    return get_part( id ).get_hp_cur();
+}
+
+int Creature::get_part_hp_max( const bodypart_id &id ) const
+{
+    return get_part( id ).get_hp_max();
+}
+
+int Creature::get_part_healed_total( const bodypart_id &id ) const
+{
+    return get_part( id ).get_healed_total();
+}
+
+int Creature::get_part_damage_disinfected( const bodypart_id &id ) const
+{
+    return get_part( id ).get_damage_disinfected();
+}
+
+int Creature::get_part_damage_bandaged( const bodypart_id &id ) const
+{
+    return get_part( id ).get_damage_bandaged();
+}
+
+encumbrance_data Creature::get_part_encumbrance_data( const bodypart_id &id ) const
+{
+    return get_part( id ).get_encumbrance_data();
+}
+
+void Creature::set_part_hp_cur( const bodypart_id &id, int set )
+{
+    get_part( id )->set_hp_cur( set );
+}
+
+void Creature::set_part_hp_max( const bodypart_id &id, int set )
+{
+    get_part( id )->set_hp_max( set );
+}
+
+void Creature::set_part_healed_total( const bodypart_id &id, int set )
+{
+    get_part( id )->set_healed_total( set );
+}
+
+void Creature::set_part_damage_disinfected( const bodypart_id &id, int set )
+{
+    get_part( id )->set_damage_disinfected( set );
+}
+
+void Creature::set_part_damage_bandaged( const bodypart_id &id, int set )
+{
+    get_part( id )->set_damage_bandaged( set );
+}
+
+void Creature::set_part_encumbrance_data( const bodypart_id &id, encumbrance_data set )
+{
+    get_part( id )->set_encumbrance_data( set );
+}
+
+void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_hp_cur( mod );
+}
+
+void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_hp_max( mod );
+}
+
+void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_healed_total( mod );
+}
+
+void Creature::mod_part_damage_disinfected( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_damage_disinfected( mod );
+}
+
+void Creature::mod_part_damage_bandaged( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_damage_bandaged( mod );
+}
+
+void Creature::set_all_parts_hp_cur( const int set )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        elem.second.set_hp_cur( set );
+    }
+}
+
+void Creature::set_all_parts_hp_to_max()
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        elem.second.set_hp_to_max();
+    }
+}
+
+
 bodypart_id Creature::get_random_body_part( bool main ) const
 {
     // TODO: Refuse broken limbs, adjust for mutations
@@ -1443,17 +1613,49 @@ bodypart_id Creature::get_random_body_part( bool main ) const
 
 std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
 {
-    // TODO: Remove broken parts, parts removed by mutations etc.
-
-    const std::vector<bodypart_id> all_bps = get_anatomy()->get_bodyparts();
-    std::vector<bodypart_id> main_bps;
-
-    for( const bodypart_id bp : all_bps ) {
-        if( bp->main_part.id() == bp ) {
-            main_bps.emplace_back( bp );
+    std::vector<bodypart_id> all_bps;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        if( only_main && elem.first->main_part != elem.first ) {
+            continue;
         }
+        all_bps.push_back( elem.first );
     }
-    return only_main ? main_bps : all_bps;
+
+    return  all_bps;
+}
+
+int Creature::get_hp( const bodypart_id &bp ) const
+{
+    if( bp != bodypart_id( "num_bp" ) ) {
+        return get_part_hp_cur( bp );
+    }
+    int hp_total = 0;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        hp_total += elem.second.get_hp_cur();
+    }
+    return hp_total;
+}
+
+int Creature::get_hp() const
+{
+    return get_hp( bodypart_id( "num_bp" ) );
+}
+
+int Creature::get_hp_max( const bodypart_id &bp ) const
+{
+    if( bp != bodypart_id( "num_bp" ) ) {
+        return get_part_hp_max( bp );
+    }
+    int hp_total = 0;
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        hp_total += elem.second.get_hp_max();
+    }
+    return hp_total;
+}
+
+int Creature::get_hp_max() const
+{
+    return get_hp_max( bodypart_id( "num_bp" ) );
 }
 
 int Creature::get_speed_base() const

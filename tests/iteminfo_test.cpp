@@ -1721,6 +1721,23 @@ TEST_CASE( "tool info", "[iteminfo][tool]" )
                "<color_c_white>Charges</color>: 20\n" );
     }
 
+    SECTION( "candle with feedback on burnout" ) {
+        std::vector<iteminfo_parts> burnout = { iteminfo_parts::TOOL_BURNOUT };
+
+        item candle( "candle" );
+        REQUIRE( candle.ammo_remaining() > 0 );
+
+        candle.charges = candle.type->maximum_charges();
+        CHECK( item_info_str( candle, burnout ) ==
+               "--\n"
+               "<color_c_white>Fuel</color>: It's new, and ready to burn.\n" );
+
+        candle.charges = ( candle.type->maximum_charges() / 2 ) - 1;
+        CHECK( item_info_str( candle, burnout ) ==
+               "--\n"
+               "<color_c_white>Fuel</color>: More than half has burned away.\n" );
+    }
+
     SECTION( "UPS charged tool" ) {
         std::vector<iteminfo_parts> recharge_ups = { iteminfo_parts::DESCRIPTION_RECHARGE_UPSMODDED };
 
@@ -2100,10 +2117,56 @@ TEST_CASE( "pocket info for a multi-pocket item", "[iteminfo][pocket][multiple]"
            "--\n"
            "<color_c_white>4 Pockets</color> with capacity:\n"
            "Volume: <color_c_yellow>1.50</color> L  Weight: <color_c_yellow>1.00</color> kg\n"
-           "Maximum item length: <color_c_yellow>155</color> mm\n"
+           "Maximum item length: <color_c_yellow>60</color> cm\n"
            "Minimum item volume: <color_c_yellow>0.050 L</color>\n"
            "Base moves to remove item: <color_c_yellow>50</color>\n" );
 }
+
+TEST_CASE( "ammo restriction info", "[iteminfo][ammo_restriction]" )
+{
+    SECTION( "container pocket with ammo restriction" ) {
+        // For non-MAGAZINE pockets with ammo_restriction, pocket info shows what it can hold
+        std::vector<iteminfo_parts> pockets = { iteminfo_parts::DESCRIPTION_POCKETS };
+
+        // Quiver is a CONTAINER with ammo_restriction "arrow" or "bolt"
+        item quiver( "test_quiver" );
+        // Not a magazine, but it should have ammo_types
+        REQUIRE_FALSE( quiver.is_magazine() );
+        REQUIRE_FALSE( quiver.ammo_types().empty() );
+
+        CHECK( item_info_str( quiver, pockets ) ==
+               "--\n"
+               "<color_c_white>Total capacity</color>:\n"
+               "Holds: <color_c_yellow>20</color> rounds of arrows\n"
+               "Holds: <color_c_yellow>20</color> rounds of bolts\n"
+               "Base moves to remove item: <color_c_yellow>20</color>\n" );
+    }
+
+    SECTION( "magazine pocket with ammo restriction" ) {
+        // For MAGAZINE pockets, ammo_restriction is shown in magazine info
+        std::vector<iteminfo_parts> mag_cap = { iteminfo_parts::MAGAZINE_CAPACITY };
+
+        // Matches are TOOL with MAGAZINE pocket, and ammo_restriction "match"
+        item matches( "test_matches" );
+        REQUIRE( matches.is_magazine() );
+        REQUIRE_FALSE( matches.ammo_types().empty() );
+        // But they have the NO_RELOAD flag, so their capacity should not be displayed
+        REQUIRE( matches.has_flag( "NO_RELOAD" ) );
+        CHECK( item_info_str( matches, mag_cap ).empty() );
+
+        // Compound bow is a GUN with integral MAGAZINE pocket, ammo_restriction "arrow"
+        item compbow( "test_compbow" );
+        REQUIRE( compbow.is_magazine() );
+        REQUIRE_FALSE( compbow.ammo_types().empty() );
+        // It can be reloaded, so its magazine capacity should be displayed
+        REQUIRE_FALSE( compbow.has_flag( "NO_RELOAD" ) );
+        CHECK( item_info_str( compbow, mag_cap ) ==
+               "--\n"
+               "Capacity: <color_c_yellow>1</color> round of arrows\n" );
+
+    }
+}
+
 
 // Functions:
 // vol_to_info from item.cpp

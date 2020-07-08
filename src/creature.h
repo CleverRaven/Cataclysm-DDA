@@ -43,7 +43,6 @@ struct point;
 
 enum damage_type : int;
 enum m_flag : int;
-enum hp_part : int;
 struct damage_instance;
 struct damage_unit;
 struct dealt_damage_instance;
@@ -240,6 +239,12 @@ class Creature
             return nullptr;
         }
         virtual const avatar *as_avatar() const {
+            return nullptr;
+        }
+        virtual monster *as_monster() {
+            return nullptr;
+        }
+        virtual const monster *as_monster() const {
             return nullptr;
         }
         /** return the direction the creature is facing, for sdl horizontal flip **/
@@ -488,6 +493,7 @@ class Creature
         bool has_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         /** Check if creature has any effect with the given flag. */
         bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        std::vector<effect> get_effects_with_flag( const std::string &flag ) const;
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;
         effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp );
@@ -561,10 +567,10 @@ class Creature
 
         virtual int get_speed() const;
         virtual creature_size get_size() const = 0;
-        virtual int get_hp( hp_part bp ) const = 0;
-        virtual int get_hp() const = 0;
-        virtual int get_hp_max( hp_part bp ) const = 0;
-        virtual int get_hp_max() const = 0;
+        virtual int get_hp( const bodypart_id &bp ) const;
+        virtual int get_hp() const;
+        virtual int get_hp_max( const bodypart_id &bp ) const;
+        virtual int get_hp_max() const;
         virtual int hp_percentage() const = 0;
         virtual bool made_of( const material_id &m ) const = 0;
         virtual bool made_of_any( const std::set<material_id> &ms ) const = 0;
@@ -583,16 +589,56 @@ class Creature
             return false;
         }
 
+    private:
+        /**anatomy is the plan of the creature's body*/
         anatomy_id creature_anatomy = anatomy_id( "default_anatomy" );
+        /**this is the actual body of the creature*/
+        std::map<bodypart_str_id, bodypart> body;
+    public:
         anatomy_id get_anatomy() const;
         void set_anatomy( const anatomy_id &anat );
 
         bodypart_id get_random_body_part( bool main = false ) const;
         /**
-         * Returns body parts in order in which they should be displayed.
+         * Returns body parts this creature have.
          * @param only_main If true, only displays parts that can have hit points
          */
         std::vector<bodypart_id> get_all_body_parts( bool only_main = false ) const;
+
+        std::map<bodypart_str_id, bodypart> get_body() const;
+        void set_body();
+        void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
+                                int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
+                                int fat_to_max_hp = 0 );
+        bodypart *get_part( const bodypart_id &id );
+        bodypart get_part( const bodypart_id &id ) const;
+
+        int get_part_hp_cur( const bodypart_id &id ) const;
+        int get_part_hp_max( const bodypart_id &id ) const;
+
+        int get_part_healed_total( const bodypart_id &id ) const;
+        int get_part_damage_disinfected( const bodypart_id &id ) const;
+        int get_part_damage_bandaged( const bodypart_id &id ) const;
+
+        encumbrance_data get_part_encumbrance_data( const bodypart_id &id )const;
+
+        void set_part_hp_cur( const bodypart_id &id, int set );
+        void set_part_hp_max( const bodypart_id &id, int set );
+        void set_part_healed_total( const bodypart_id &id, int set );
+        void set_part_damage_disinfected( const bodypart_id &id, int set );
+        void set_part_damage_bandaged( const bodypart_id &id, int set );
+
+        void set_part_encumbrance_data( const bodypart_id &id, encumbrance_data set );
+
+        void mod_part_hp_cur( const bodypart_id &id, int mod );
+        void mod_part_hp_max( const bodypart_id &id, int mod );
+        void mod_part_healed_total( const bodypart_id &id, int mod );
+        void mod_part_damage_disinfected( const bodypart_id &id, int mod );
+        void mod_part_damage_bandaged( const bodypart_id &id, int mod );
+
+
+        void set_all_parts_hp_cur( int set );
+        void set_all_parts_hp_to_max();
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;

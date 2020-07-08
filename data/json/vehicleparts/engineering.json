@@ -42,7 +42,7 @@
     "broken_color": "light_blue",
     "durability": 100,
     "description": "An extendable cantilever crane.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want jack up the other vehicle to change the its wheels.  To use it to lift a heavy component like an engine that you are installing or removing, the crane must have line of sight to where it is going and it must be within four tiles of it.",
-    "folded_volume": 12,
+    "folded_volume": "3 L",
     "breaks_into": [ { "item": "pipe", "count": [ 2, 8 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 7 ], [ "JACK", 7 ] ],
     "requirements": {
@@ -65,7 +65,7 @@
     "broken_color": "light_blue",
     "durability": 100,
     "description": "A small pallet lifter.  If it is in your line of sight and within two tiles of another vehicle, you will automatically use it when you want jack up the other vehicle to change the its wheels.  To use it to lift a heavy component like an engine that you are installing or removing, the crane must have line of sight to where it is going and it must be within four tiles of it.",
-    "folded_volume": 12,
+    "folded_volume": "3 L",
     "breaks_into": [ { "item": "pipe", "count": [ 1, 4 ] }, { "item": "scrap", "count": [ 2, 6 ] } ],
     "qualities": [ [ "LIFT", 1 ], [ "JACK", 1 ] ],
     "requirements": {
@@ -118,7 +118,7 @@
     "damage_modifier": 100,
     "durability": 300,
     "description": "A large metal disc, powered by the vehicle's engines.  Use the vehicle controls to turn it on or off.  When turned on, it will stop the vehicle unless it has a strong engine.  When turned on, it will dig a shallow pit in dirt.  Mount it on the edge of your vehicle.",
-    "folded_volume": 12,
+    "folded_volume": "3 L",
     "power": -70000,
     "breaks_into": [
       { "item": "steel_lump", "count": [ 4, 6 ] },
