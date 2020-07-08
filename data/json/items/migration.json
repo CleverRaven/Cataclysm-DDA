@@ -1238,5 +1238,15 @@
     "id": "slam_shotgun",
     "type": "MIGRATION",
     "replace": "four_winds_shotgun"
+  },
+  {
+    "id": "four_winds_shotgun",
+    "type": "MIGRATION",
+    "replace": "slamfire_shotgun"
+  },
+  {
+    "id": "four_winds_shotgun_d",
+    "type": "MIGRATION",
+    "replace": "slamfire_shotgun_d"
   }
 ]
