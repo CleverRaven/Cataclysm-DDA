@@ -622,7 +622,7 @@
       [ [ "steel_chunk", 12 ] ]
     ]
   },
-  {	
+  {
     "result": "broken_robofac_laserturret_mk1",
     "type": "uncraft",
     "skill_used": "electronics",
