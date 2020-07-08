@@ -273,7 +273,7 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         it.put_in( *obj, item_pocket::pocket_type::CONTAINER );
     }
     if( p.is_worn( *obj ) ) {
-        p.reset_encumbrance();
+        p.calc_encumbrance();
         p.update_bodytemp();
         p.on_worn_item_transform( obj_copy, *obj );
     }
@@ -1029,7 +1029,7 @@ int ups_based_armor_actor::use( player &p, item &it, bool t, const tripoint & ) 
         return 0;
     }
     it.active = !it.active;
-    p.reset_encumbrance();
+    p.calc_encumbrance();
     if( it.active ) {
         if( activate_msg.empty() ) {
             p.add_msg_if_player( m_info, _( "You activate your %s." ), it.tname() );
@@ -1549,7 +1549,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     // Original item has been consumed.
     cut.remove_item();
     // Force an encumbrance update in case they were wearing that item.
-    p.reset_encumbrance();
+    p.calc_encumbrance();
 
     map &here = get_map();
     for( const auto &salvaged : materials_salvaged ) {

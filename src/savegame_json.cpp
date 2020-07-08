@@ -727,7 +727,7 @@ void Character::load( const JsonObject &data )
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 
     assign( data, "power_level", power_level, false, 0_kJ );
     assign( data, "max_power_level", max_power_level, false, 0_kJ );

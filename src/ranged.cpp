@@ -863,8 +863,8 @@ int throw_cost( const player &c, const item &to_throw )
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
     ///\EFFECT_DEX increases throwing speed
     const int dexbonus = c.get_dex();
-    const int encumbrance_penalty = c.encumb( bp_torso ) +
-                                    ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 2;
+    const int encumbrance_penalty = c.encumb( bodypart_id( "torso" ) ) +
+                                    ( c.encumb( bodypart_id( "hand_l" ) ) + c.encumb( bodypart_id( "hand_r" ) ) ) / 2;
     const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
@@ -885,7 +885,8 @@ int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
     // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
     // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
     // Maybe TODO: Only use one hand
-    const int encumbrance = add_encumbrance ? encumb( bp_hand_l ) + encumb( bp_hand_r ) : 0;
+    const int encumbrance = add_encumbrance ? encumb( bodypart_id( "hand_l" ) ) + encumb(
+                                bodypart_id( "hand_r" ) ) : 0;
     ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
     float effective_dex = 2 + get_dex() / 4.0f - ( encumbrance ) / 40.0f;
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
@@ -927,7 +928,7 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     }
     // 1 perception per 1 eye encumbrance
     ///\EFFECT_PER decreases throwing accuracy penalty from eye encumbrance
-    dispersion += std::max( 0, ( encumb( bp_eyes ) - get_per() ) * 10 );
+    dispersion += std::max( 0, ( encumb( bodypart_id( "eyes" ) ) - get_per() ) * 10 );
 
     // If throwing blind, we're assuming they mechanically can't achieve the
     // accuracy of a normal throw.
@@ -1706,7 +1707,8 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0 );
+    dispersion.add_range( ( encumb( bodypart_id( "arm_l" ) ) + encumb( bodypart_id( "arm_r" ) ) ) /
+                          5.0 );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -1797,7 +1799,8 @@ double player::gun_value( const item &weap, int ammo ) const
     int move_cost = time_to_attack( *this, *weap.type );
     if( gun.clip != 0 && gun.clip < 10 ) {
         // TODO: RELOAD_ONE should get a penalty here
-        int reload_cost = gun.reload_time + encumb( bp_hand_l ) + encumb( bp_hand_r );
+        int reload_cost = gun.reload_time + encumb( bodypart_id( "hand_l" ) ) + encumb(
+                              bodypart_id( "hand_r" ) );
         reload_cost /= gun.clip;
         move_cost += reload_cost;
     }

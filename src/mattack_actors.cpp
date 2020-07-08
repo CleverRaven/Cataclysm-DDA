@@ -167,7 +167,7 @@ void mon_spellcasting_actor::load_internal( const JsonObject &obj, const std::st
     spell_data = intermediate.get_spell();
     spell_data.set_message( monster_message );
     avatar fake_player;
-    move_cost = spell_data.casting_time( fake_player );
+    move_cost = spell_data.casting_time( fake_player, true );
 }
 
 bool mon_spellcasting_actor::call( monster &mon ) const

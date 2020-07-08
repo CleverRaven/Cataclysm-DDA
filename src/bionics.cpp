@@ -1117,7 +1117,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_encumbrance();
+    calc_encumbrance();
     reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
@@ -1195,7 +1195,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_encumbrance();
+    calc_encumbrance();
     reset();
     if( !bio.id->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -2704,7 +2704,7 @@ void Character::add_bionic( const bionic_id &b )
         }
     }
 
-    reset_encumbrance();
+    calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -2741,7 +2741,7 @@ void Character::remove_bionic( const bionic_id &b )
     }
 
     *my_bionics = new_my_bionics;
-    reset_encumbrance();
+    calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();

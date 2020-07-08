@@ -417,6 +417,7 @@ TEST_CASE( "monster is_immune_effect", "[creature][monster][effect][immune]" )
 TEST_CASE( "character is_immune_effect", "[creature][character][effect][immune]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.clear_mutations();
 
     // TODO: Character may be immune to:

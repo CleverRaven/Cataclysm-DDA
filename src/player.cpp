@@ -278,7 +278,7 @@ player::player()
     }
 
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 player::~player() = default;
@@ -1119,8 +1119,9 @@ float player::fall_damage_mod() const
     /** @EFFECT_DODGE decreases damage from falling */
     float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
-    const float average_leg_encumb = ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2.0;
-    dex_dodge -= ( average_leg_encumb + encumb( bp_torso ) ) / 10;
+    const float average_leg_encumb = ( encumb( bodypart_id( "leg_l" ) ) + encumb(
+                                           bodypart_id( "leg_r" ) ) ) / 2.0;
+    dex_dodge -= ( average_leg_encumb + encumb( bodypart_id( "torso" ) ) ) / 10;
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
@@ -1833,7 +1834,7 @@ void player::process_items()
         w.encumbrance_update_ = false;
     }
     if( update_required ) {
-        reset_encumbrance();
+        calc_encumbrance();
     }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
         ch_UPS += units::to_kilojoule( get_power_level() );
@@ -2793,7 +2794,7 @@ bool player::takeoff( item &it, std::list<item> *res )
     mod_moves( -250 );
 
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 
     return true;
 }
@@ -3938,7 +3939,7 @@ void player::store( item &container, item &put, bool penalties, int base_cost,
 {
     moves -= item_store_cost( put, container, penalties, base_cost );
     container.put_in( i_rem( &put ), pk_type );
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 nc_color encumb_color( int level )
@@ -4025,7 +4026,7 @@ void player::environmental_revert_effect()
     set_rad( 0 );
 
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 //message related stuff

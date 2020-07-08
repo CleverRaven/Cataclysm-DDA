@@ -1375,7 +1375,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
 {
     const float mon_dodge = mon.get_dodge();
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
-    base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bp_torso ) / 100.0f );
+    base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bodypart_id( "torso" ) ) / 100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0;
     constexpr double hit_trials = 10000.0;
     const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
@@ -4157,15 +4157,13 @@ void item::on_wear( Character &p )
             int lhs = 0;
             int rhs = 0;
             set_side( side::LEFT );
-            const auto left_enc = p.get_encumbrance( *this );
-            for( const body_part bp : all_body_parts ) {
-                lhs += left_enc[bp].encumbrance;
+            for( const bodypart_id &bp : p.get_all_body_parts() ) {
+                lhs += p.get_part_encumbrance_data( bp ).encumbrance;
             }
 
             set_side( side::RIGHT );
-            const auto right_enc = p.get_encumbrance( *this );
-            for( const body_part bp : all_body_parts ) {
-                rhs += right_enc[bp].encumbrance;
+            for( const bodypart_id &bp : p.get_all_body_parts() ) {
+                rhs += p.get_part_encumbrance_data( bp ).encumbrance;
             }
 
             set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
