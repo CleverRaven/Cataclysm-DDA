@@ -82,40 +82,6 @@ weather_type_id get_bad_weather()
     return bad_weather;
 }
 
-void weather::add_datum( weather_datum new_weather )
-{
-    weather_datums.push_back( new_weather );
-}
-
-weather_type_id get_bad_weather()
-{
-    const size_t i = static_cast<size_t>( type );
-    if( i < weather_datums.size() ) {
-        return { &weather_datums[i] };
-    }
-    debugmsg( "Invalid weather requested." );
-    return { &weather_datums[WEATHER_NULL] };
-}
-
-weather_type weather::get_bad_weather()
-{
-    weather_type bad_weather = WEATHER_NULL;
-    int current_weather = 0;
-    const weather_generator &weather_gen = get_weather().get_cur_weather_gen();
-    for( int i = 0; i < weather_gen.weather_types.size(); i++ ) {
-        weather_type_id current_conditions = weather_type_id( weather_gen.weather_types[i] );
-        if( current_conditions->precip == precip_class::heavy ) {
-            bad_weather = current_conditions;
-        }
-    }
-    return bad_weather;
-}
-
-int weather::get_count()
-{
-    return weather_datums.size();
-}
-
 /**
  * Glare.
  * Causes glare effect to player's eyes if they are not wearing applicable eye protection.
@@ -512,7 +478,7 @@ void handle_weather_effects( weather_type_id const w )
             wetness = 60;
         }
         get_map().decay_fields_and_scent( decay_time );
-        weather_effect::wet_player( wetness );
+        wet( target_character, wetness );
     }
     glare( w );
     g->weather.lightning_active = false;
