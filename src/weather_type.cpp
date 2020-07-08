@@ -201,7 +201,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         optional( weather_requires, was_loaded, "acidic", new_requires.acidic, false );
         optional( weather_requires, was_loaded, "time", new_requires.time,
                   weather_time_requirement_type::both );
-        for( const std::string required_weather :
+        for( const std::string &required_weather :
              weather_requires.get_string_array( "required_weathers" ) ) {
             new_requires.required_weathers.push_back( weather_type_id( required_weather ) );
         }
