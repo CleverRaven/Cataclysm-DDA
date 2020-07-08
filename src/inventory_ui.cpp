@@ -2384,7 +2384,7 @@ void inventory_drop_selector::deselect_contained_items()
                         if( !selected->is_item() ) {
                             continue;
                         }
-                        for( item_location selected_loc : selected->locations ) {
+                        for( const item_location &selected_loc : selected->locations ) {
                             if( selected_loc == loc_contained ) {
                                 set_chosen_count( *selected, 0 );
                             }

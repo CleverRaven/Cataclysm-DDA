@@ -1529,6 +1529,11 @@ int Creature::get_part_damage_bandaged( const bodypart_id &id ) const
     return get_part( id ).get_damage_bandaged();
 }
 
+encumbrance_data Creature::get_part_encumbrance_data( const bodypart_id &id ) const
+{
+    return get_part( id ).get_encumbrance_data();
+}
+
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
     get_part( id )->set_hp_cur( set );
@@ -1552,6 +1557,11 @@ void Creature::set_part_damage_disinfected( const bodypart_id &id, int set )
 void Creature::set_part_damage_bandaged( const bodypart_id &id, int set )
 {
     get_part( id )->set_damage_bandaged( set );
+}
+
+void Creature::set_part_encumbrance_data( const bodypart_id &id, encumbrance_data set )
+{
+    get_part( id )->set_encumbrance_data( set );
 }
 
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )

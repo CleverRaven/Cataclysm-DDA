@@ -644,7 +644,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
         const w_point weatherPoint = *g->weather.weather_precise;
-        int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+        int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                            g->is_sheltered( g->u.pos() ) );
         // thirst units = 5 mL
         int water_available = std::lround( humidity * 3.0 / 100.0 );
@@ -1011,7 +1011,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         const w_point weatherPoint = *g->weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
-                               get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                               get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                        g->is_sheltered( g->u.pos() ) ) ) );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
@@ -1117,7 +1117,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_encumbrance();
+    calc_encumbrance();
     reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
@@ -1195,7 +1195,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_encumbrance();
+    calc_encumbrance();
     reset();
     if( !bio.id->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -1306,7 +1306,7 @@ bool Character::burn_fuel( int b, bool start )
                         mod_power_level( power_gain );
                     } else if( is_perpetual_fuel ) {
                         if( fuel == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
-                            const weather_type &wtype = current_weather( pos() );
+                            const weather_type_id &wtype = current_weather( pos() );
                             const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
                             const double intensity = tick_sunlight / default_daylight_level();
                             mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
@@ -1737,8 +1737,8 @@ void Character::process_bionic( int b )
         // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
-            const w_point weatherPoint = *g->weather.weather_precise;
-            int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+            const w_point weatherPoint = *get_weather().weather_precise;
+            int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                                g->is_sheltered( g->u.pos() ) );
             // in thirst units = 5 mL water
             int water_available = std::lround( humidity * 3.0 / 100.0 );
@@ -2704,7 +2704,7 @@ void Character::add_bionic( const bionic_id &b )
         }
     }
 
-    reset_encumbrance();
+    calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -2741,7 +2741,7 @@ void Character::remove_bionic( const bionic_id &b )
     }
 
     *my_bionics = new_my_bionics;
-    reset_encumbrance();
+    calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();

@@ -102,6 +102,7 @@ static const ammotype ammo_plutonium( "plutonium" );
 static const item_category_id item_category_drugs( "drugs" );
 static const item_category_id item_category_food( "food" );
 static const item_category_id item_category_maps( "maps" );
+static const item_category_id item_category_container( "container" );
 
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );
@@ -1375,7 +1376,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
 {
     const float mon_dodge = mon.get_dodge();
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
-    base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bp_torso ) / 100.0f );
+    base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bodypart_id( "torso" ) ) / 100.0f );
     float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0;
     constexpr double hit_trials = 10000.0;
     const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
@@ -4157,15 +4158,13 @@ void item::on_wear( Character &p )
             int lhs = 0;
             int rhs = 0;
             set_side( side::LEFT );
-            const auto left_enc = p.get_encumbrance( *this );
-            for( const body_part bp : all_body_parts ) {
-                lhs += left_enc[bp].encumbrance;
+            for( const bodypart_id &bp : p.get_all_body_parts() ) {
+                lhs += p.get_part_encumbrance_data( bp ).encumbrance;
             }
 
             set_side( side::RIGHT );
-            const auto right_enc = p.get_encumbrance( *this );
-            for( const body_part bp : all_body_parts ) {
-                rhs += right_enc[bp].encumbrance;
+            for( const bodypart_id &bp : p.get_all_body_parts() ) {
+                rhs += p.get_part_encumbrance_data( bp ).encumbrance;
             }
 
             set_side( lhs <= rhs ? side::LEFT : side::RIGHT );
@@ -8444,6 +8443,15 @@ const item_category &item::get_category() const
     return type->category_force.is_valid() ? type->category_force.obj() : null_category;
 }
 
+const item_category &item::get_category_of_contents() const
+{
+    if( type->category_force == item_category_container && contents.num_item_stacks() == 1 ) {
+        return contents.only_item().get_category();
+    } else {
+        return this->get_category();
+    }
+}
+
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,
                     flags Flags, double Value )
 {
@@ -9263,23 +9271,16 @@ bool item::process_extinguish( player *carrier, const tripoint &pos )
     bool submerged = false;
     bool precipitation = false;
     bool windtoostrong = false;
-    w_point weatherPoint = *g->weather.weather_precise;
-    int windpower = g->weather.windspeed;
-    switch( g->weather.weather ) {
-        case WEATHER_LIGHT_DRIZZLE:
+    w_point weatherPoint = *get_weather().weather_precise;
+    int windpower = get_weather().windspeed;
+    switch( get_weather().weather_id->precip ) {
+        case precip_class::very_light:
             precipitation = one_in( 100 );
             break;
-        case WEATHER_DRIZZLE:
-        case WEATHER_FLURRIES:
+        case precip_class::light:
             precipitation = one_in( 50 );
             break;
-        case WEATHER_RAINY:
-        case WEATHER_SNOW:
-            precipitation = one_in( 25 );
-            break;
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-        case WEATHER_SNOWSTORM:
+        case precip_class::heavy:
             precipitation = one_in( 10 );
             break;
         default:
@@ -10071,7 +10072,7 @@ units::volume item::check_for_free_space( const item *it ) const
         if( containedPockets.success() ) {
             volume += check_for_free_space( container );
 
-            for( auto pocket : containedPockets.value() ) {
+            for( const auto &pocket : containedPockets.value() ) {
                 if( pocket.rigid() ) {
                     volume += pocket.remaining_volume();
                 }

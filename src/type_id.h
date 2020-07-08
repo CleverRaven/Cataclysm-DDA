@@ -179,6 +179,9 @@ using vpart_id = string_id<vpart_info>;
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 
+struct weather_type;
+using weather_type_id = string_id<weather_type>;
+
 class zone_type;
 using zone_type_id = string_id<zone_type>;
 

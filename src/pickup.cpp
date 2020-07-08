@@ -231,9 +231,6 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     item &it = *newloc.get_item();
     //new item (copy)
     item newit = it;
-    item leftovers = newit;
-
-    const auto wield_check = u.can_wield( newit );
 
     if( !newit.is_owned_by( u, true ) ) {
         // Has the player given input on if stealing is ok?
@@ -253,12 +250,9 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
 
     // Handle charges, quantity == 0 means move all
     if( quantity != 0 && newit.count_by_charges() ) {
-        leftovers.charges = newit.charges - quantity;
-        if( leftovers.charges > 0 ) {
+        if( newit.charges > quantity ) {
             newit.charges = quantity;
         }
-    } else {
-        leftovers.charges = 0;
     }
 
     bool did_prompt = false;
@@ -309,7 +303,8 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
         case WEAR:
             picked_up = !!u.wear_item( newit );
             break;
-        case WIELD:
+        case WIELD: {
+            const auto wield_check = u.can_wield( it );
             if( wield_check.success() ) {
                 //using original item, possibly modifying it
                 picked_up = u.wield( it );
@@ -326,6 +321,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 add_msg( m_neutral, wield_check.c_str() );
             }
             break;
+        }
         case SPILL:
             if( newit.is_container_empty() ) {
                 debugmsg( "Tried to spill contents from an empty container" );
@@ -356,10 +352,12 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
     }
 
     if( picked_up ) {
-        // If we picked up a whole stack, remove the original item
-        // Otherwise, replace the item with the leftovers
-        if( leftovers.charges > 0 ) {
-            *loc.get_item() = std::move( leftovers );
+        item &orig_it = *loc.get_item();
+        // Subtract moved charges instead of assigning leftover charges,
+        // since the total charges of the original item may have changed
+        // due to merging.
+        if( orig_it.charges > newit.charges ) {
+            orig_it.charges -= newit.charges;
         } else {
             loc.remove_item();
         }

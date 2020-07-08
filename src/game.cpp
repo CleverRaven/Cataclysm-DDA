@@ -249,6 +249,8 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
+static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
+static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -587,7 +589,7 @@ void game::setup()
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
-    weather.weather = WEATHER_CLEAR; // Start with some nice weather...
+    weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
     weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
                               get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
@@ -704,10 +706,8 @@ bool game::start_game()
     get_auto_notes_settings().clear();
     get_auto_notes_settings().default_initialize();
 
-    //Put some NPCs in there!
-    if( get_option<std::string>( "STARTING_NPC" ) == "always" ||
-        ( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
-          !g->scen->has_flag( "LONE_START" ) ) ) {
+    // spawn the starting NPC, assuming it's not disallowed by the scenario
+    if( !g->scen->has_flag( "LONE_START" ) ) {
         create_starting_npcs();
     }
     //Load NPCs. Set nearby npcs to active.
@@ -946,11 +946,6 @@ const kill_tracker &game::get_kill_tracker() const
 
 void game::create_starting_npcs()
 {
-    if( !get_option<bool>( "STATIC_NPC" ) ||
-        get_option<std::string>( "STARTING_NPC" ) == "never" ) {
-        return; //Do not generate a starting npc.
-    }
-
     //We don't want more than one starting npc per starting location
     const int radius = 1;
     if( !overmap_buffer.get_npcs_near_player( radius ).empty() ) {
@@ -1573,8 +1568,7 @@ bool game::do_turn()
     }
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
-        do_rain( weather.weather );
-        weather::effect( weather.weather )();
+        handle_weather_effects( weather.weather_id );
     }
 
     const bool player_is_sleeping = u.has_effect( effect_sleep );
@@ -3326,7 +3320,8 @@ void game::disp_NPCs()
 {
     const tripoint ppos = u.global_omt_location();
     const tripoint &lpos = u.pos();
-    std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( 100 );
+    const int scan_range = 120;
+    std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( scan_range );
     std::sort( npcs.begin(), npcs.end(), npc_dist_to_player() );
 
     catacurses::window w;
@@ -3346,13 +3341,22 @@ void game::disp_NPCs()
         mvwprintz( w, point( 0, 1 ), c_white, _( "Your local position: %d, %d, %d" ), lpos.x, lpos.y,
                    lpos.z );
         size_t i;
+        int static_npc_count = 0;
+        for( i = 0; i < npcs.size(); i++ ) {
+            if(
+                npcs[i]->has_trait( trait_NPC_STARTING_NPC ) || npcs[i]->has_trait( trait_NPC_STATIC_NPC ) ) {
+                static_npc_count++;
+            }
+        }
+        mvwprintz( w, point( 0, 2 ), c_white, _( "Total NPCs within %d OMTs: %d.  %d are static NPCs." ),
+                   scan_range, npcs.size(), static_npc_count );
         for( i = 0; i < 20 && i < npcs.size(); i++ ) {
             const tripoint apos = npcs[i]->global_omt_location();
-            mvwprintz( w, point( 0, i + 3 ), c_white, "%s: %d, %d, %d", npcs[i]->name,
+            mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %d, %d, %d", npcs[i]->name,
                        apos.x, apos.y, apos.z );
         }
         for( const monster &m : all_monsters() ) {
-            mvwprintz( w, point( 0, i + 3 ), c_white, "%s: %d, %d, %d", m.name(),
+            mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %d, %d, %d", m.name(),
                        m.posx(), m.posy(), m.posz() );
             ++i;
         }
@@ -3981,7 +3985,7 @@ float game::natural_light_level( const int zlev ) const
         ret = default_daylight_level();
     }
 
-    ret += weather::light_modifier( weather.weather );
+    ret += get_weather().weather_id->light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
@@ -5238,8 +5242,8 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    return ( m.is_outside( p ) && light_level( p.z ) >= 40 &&
-             ( weather.weather == WEATHER_CLEAR || weather.weather == WEATHER_SUNNY ) );
+    return ( m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
+             get_weather().weather_id->sun_intensity >= sun_intensity_type::normal );
 }
 
 bool game::is_sheltered( const tripoint &p )
@@ -11521,20 +11525,31 @@ void game::perhaps_add_random_npc()
         return;
     }
     // Create a new NPC?
-    // Only allow NPCs on 0 z-level, otherwise they can bug out due to lack of spots
-    if( !get_option<bool>( "RANDOM_NPC" ) || ( !m.has_zlevels() && get_levz() != 0 ) ) {
+
+    double spawn_time = get_option<float>( "NPC_SPAWNTIME" );
+    if( spawn_time == 0.0 ) {
         return;
     }
 
-    float density = get_option<float>( "NPC_DENSITY" );
-    static constexpr int density_search_radius = 60;
-    const float npc_num = overmap_buffer.get_npcs_near_player( density_search_radius ).size();
-    if( npc_num > 0.0 ) {
-        // 100%, 80%, 64%, 52%, 41%, 33%...
-        density *= std::pow( 0.8f, npc_num );
+    // spawn algorithm is a chance per hour, but the config is specified in average days
+    // actual chance per hour is (100 / 24 ) / days
+    static constexpr double days_to_rate_factor = 100.0 / 24;
+    double spawn_rate = days_to_rate_factor / spawn_time;
+    static constexpr int radius_spawn_range = 90;
+    std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( radius_spawn_range );
+    size_t npc_num = npcs.size();
+    for( auto &npc : npcs ) {
+        if( npc->has_trait( trait_NPC_STATIC_NPC ) || npc->has_trait( trait_NPC_STARTING_NPC ) ) {
+            npc_num--;
+        }
     }
 
-    if( !x_in_y( density, 100 ) ) {
+    if( npc_num > 0 ) {
+        // 100%, 80%, 64%, 52%, 41%, 33%...
+        spawn_rate *= std::pow( 0.8f, npc_num );
+    }
+
+    if( !x_in_y( spawn_rate, 100 ) ) {
         return;
     }
     bool spawn_allowed = false;
@@ -11544,7 +11559,6 @@ void game::perhaps_add_random_npc()
         if( counter >= 10 ) {
             return;
         }
-        static constexpr int radius_spawn_range = 120;
         const tripoint u_omt = u.global_omt_location();
         spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
                                      rng( -radius_spawn_range, radius_spawn_range ) );
@@ -11566,6 +11580,7 @@ void game::perhaps_add_random_npc()
                             faction_id( "no_faction" ) );
     tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
     // adds the npc to the correct overmap.
+    // Only spawn random NPCs on z-level 0
     tripoint submap_spawn = omt_to_sm_copy( spawn_point );
     tmp->spawn_at_sm( tripoint( submap_spawn.xy(), 0 ) );
     overmap_buffer.insert_npc( tmp );

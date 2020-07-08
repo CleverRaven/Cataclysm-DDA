@@ -428,6 +428,7 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
     player &dummy = g->u;
     clear_character( dummy );
     catch_breath( dummy );
+    dummy.set_body();
 
     int turn_moves = to_moves<int>( 1_turns );
 
@@ -436,7 +437,7 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
 
     GIVEN( "character has mouth encumbrance" ) {
         dummy.wear_item( item( "scarf_fur" ) );
-        REQUIRE( dummy.encumb( bp_mouth ) == 10 );
+        REQUIRE( dummy.encumb( bodypart_id( "mouth" ) ) == 10 );
 
         THEN( "stamina regen is reduced" ) {
             CHECK( actual_regen_rate( dummy, turn_moves ) == ( normal_regen_rate - 2 ) * turn_moves );
@@ -444,7 +445,7 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
             WHEN( "they have even more mouth encumbrance" ) {
                 // Layering two scarves triples the encumbrance
                 dummy.wear_item( item( "scarf_fur" ) );
-                REQUIRE( dummy.encumb( bp_mouth ) == 30 );
+                REQUIRE( dummy.encumb( bodypart_id( "mouth" ) ) == 30 );
 
                 THEN( "stamina regen is reduced further" ) {
                     CHECK( actual_regen_rate( dummy, turn_moves ) == ( normal_regen_rate - 6 ) * turn_moves );

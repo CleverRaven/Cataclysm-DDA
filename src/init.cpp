@@ -90,6 +90,8 @@
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
+#include "weather.h"
+#include "weather_type.h"
 #include "worldfactory.h"
 
 DynamicDataLoader::DynamicDataLoader()
@@ -202,6 +204,7 @@ void DynamicDataLoader::initialize()
     add( "json_flag", &json_flag::load );
     add( "fault", &fault::load_fault );
     add( "field_type", &field_types::load );
+    add( "weather_type", &weather_types::load );
     add( "ammo_effect", &ammo_effects::load );
     add( "emit", &emit::load_emit );
     add( "activity_type", &activity_type::load );
@@ -553,6 +556,7 @@ void DynamicDataLoader::unload_data()
     vehicle_prototype::reset();
     vitamin::reset();
     vpart_info::reset();
+    weather_types::reset();
 }
 
 void DynamicDataLoader::finalize_loaded_data()
@@ -571,6 +575,7 @@ void DynamicDataLoader::finalize_loaded_data( loading_ui &ui )
     using named_entry = std::pair<std::string, std::function<void()>>;
     const std::vector<named_entry> entries = {{
             { _( "Body parts" ), &body_part_type::finalize_all },
+            { _( "Weather types" ), &weather_types::finalize_all },
             { _( "Field types" ), &field_types::finalize_all },
             { _( "Ammo effects" ), &ammo_effects::finalize_all },
             { _( "Emissions" ), &emit::finalize },
@@ -653,6 +658,7 @@ void DynamicDataLoader::check_consistency( loading_ui &ui )
                 }
             },
             { _( "Vitamins" ), &vitamin::check_consistency },
+            { _( "Weather types" ), &weather_types::check_consistency },
             { _( "Field types" ), &field_types::check_consistency },
             { _( "Ammo effects" ), &ammo_effects::check_consistency },
             { _( "Emissions" ), &emit::check_consistency },
