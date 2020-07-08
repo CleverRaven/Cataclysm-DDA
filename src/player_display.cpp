@@ -50,11 +50,6 @@ static int temperature_print_rescaling( int temp )
     return ( temp / 100.0 ) * 2 - 100;
 }
 
-static bodypart_id other_part( const bodypart_id &bp )
-{
-    return bp->opposite_part;
-}
-
 static bool should_combine_bps( const player &p, const bodypart_id &l, const bodypart_id &r,
                                 const item *selected_clothing )
 {
