@@ -227,46 +227,6 @@ enum class rechargeable_cbm : int {
     other
 };
 
-struct layer_details {
-
-    std::vector<int> pieces;
-    int max = 0;
-    int total = 0;
-
-    void reset();
-    int layer( int encumbrance );
-
-    bool operator ==( const layer_details &rhs ) const {
-        return max == rhs.max &&
-               total == rhs.total &&
-               pieces == rhs.pieces;
-    }
-};
-
-struct encumbrance_data {
-    int encumbrance = 0;
-    int armor_encumbrance = 0;
-    int layer_penalty = 0;
-
-    std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
-    layer_penalty_details;
-
-    void layer( const layer_level level, const int encumbrance ) {
-        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance );
-    }
-
-    void reset() {
-        *this = encumbrance_data();
-    }
-
-    bool operator ==( const encumbrance_data &rhs ) const {
-        return encumbrance == rhs.encumbrance &&
-               armor_encumbrance == rhs.armor_encumbrance &&
-               layer_penalty == rhs.layer_penalty &&
-               layer_penalty_details == rhs.layer_penalty_details;
-    }
-};
-
 struct aim_type {
     std::string name;
     std::string action;
@@ -586,19 +546,11 @@ class Character : public Creature, public visitable<Character>
         /** Handles stat and bonus reset. */
         void reset() override;
 
-        /** Recalculates encumbrance cache. */
-        void reset_encumbrance();
         /** Returns ENC provided by armor, etc. */
-        int encumb( body_part bp ) const;
+        int encumb( const bodypart_id &bp ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
-        /** Get encumbrance for all body parts. */
-        std::array<encumbrance_data, num_bp> get_encumbrance() const;
-        /** Get encumbrance for all body parts as if `new_item` was also worn. */
-        std::array<encumbrance_data, num_bp> get_encumbrance( const item &new_item ) const;
-        /** Get encumbrance penalty per layer & body part */
-        int extraEncumbrance( layer_level level, int bp ) const;
 
         /** Returns true if the character is wearing power armor */
         bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
@@ -853,11 +805,6 @@ class Character : public Creature, public visitable<Character>
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
 
-        /** Converts a body_part to an hp_part */
-        static hp_part bp_to_hp( body_part bp );
-        /** Converts an hp_part to a body_part */
-        static body_part hp_to_bp( hp_part hpart );
-
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
         bool is_mounted() const;
@@ -887,7 +834,7 @@ class Character : public Creature, public visitable<Character>
         void on_hurt( Creature *source, bool disturb = true );
         /** Heals a body_part for dam */
         void heal_bp( bodypart_id bp, int dam ) override;
-        /** Heals an hp_part for dam */
+        /** Heals an part for dam */
         void heal( const bodypart_id &healed, int dam );
         /** Heals all body parts for dam */
         void healall( int dam );
@@ -910,10 +857,10 @@ class Character : public Creature, public visitable<Character>
          * bandage_power - quality of bandage
          * disinfectant_power - quality of disinfectant
          */
-        hp_part body_window( const std::string &menu_header,
-                             bool show_all, bool precise,
-                             int normal_bonus, int head_bonus, int torso_bonus,
-                             float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
+        bodypart_id body_window( const std::string &menu_header,
+                                 bool show_all, bool precise,
+                                 int normal_bonus, int head_bonus, int torso_bonus,
+                                 float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
@@ -981,13 +928,8 @@ class Character : public Creature, public visitable<Character>
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );
 
-        /** Recalculate encumbrance for all body parts. */
-        std::array<encumbrance_data, num_bp> calc_encumbrance() const;
-        /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
-        std::array<encumbrance_data, num_bp> calc_encumbrance( const item &new_item ) const;
-
         /** Applies encumbrance from mutations and bionics only */
-        void mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const;
+        void mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const;
 
         /** Return the position in the worn list where new_item would be
          * put by default */
@@ -996,12 +938,16 @@ class Character : public Creature, public visitable<Character>
         /** Applies encumbrance from items only
          * If new_item is not null, then calculate under the asumption that it
          * is added to existing work items. */
-        void item_encumb( std::array<encumbrance_data, num_bp> &vals,
-                          const item &new_item ) const;
+        void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item ) const;
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 
     public:
+        /** Recalculate encumbrance for all body parts. */
+        void calc_encumbrance();
+        /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
+        void calc_encumbrance( const item &new_item );
+
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
         // gets add and mult value from enchantment cache
@@ -2288,8 +2234,6 @@ class Character : public Creature, public visitable<Character>
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
-        mutable std::array<encumbrance_data, num_bp> encumbrance_cache;
-        mutable bool encumbrance_cache_dirty = true;
         bool bio_soporific_powered_at_last_sleep_check = false;
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;

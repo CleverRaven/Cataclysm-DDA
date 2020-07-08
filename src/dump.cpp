@@ -8,8 +8,8 @@
 #include <set>
 #include <utility>
 
-#include "avatar.h"
 #include "bodypart.h"
+#include "character.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "damage.h"
 #include "flat_set.h"
@@ -110,7 +110,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         auto dump = [&rows, &bp]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( to_string( obj.get_encumber( g->u, convert_bp( bp ).id() ) ) );
+            r.push_back( to_string( obj.get_encumber( get_player_character(), convert_bp( bp ).id() ) ) );
             r.push_back( to_string( obj.get_warmth() ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
             r.push_back( to_string( obj.get_coverage( convert_bp( bp ).id() ) ) );
@@ -160,7 +160,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         for( const itype *e : item_controller->all() ) {
             item food( e, calendar::turn, item::solitary_tag {} );
 
-            if( food.is_food() && g->u.can_eat( food ).success() ) {
+            if( food.is_food() && get_player_character().can_eat( food ).success() ) {
                 dump( food );
             }
         }

@@ -197,8 +197,6 @@ void print_action( const char *prepend, npc_action action );
 
 bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b );
 
-hp_part most_damaged_hp_part( const Character &c );
-
 bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b )
 {
     if( sound_a.type != sound_b.type ) {

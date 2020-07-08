@@ -167,7 +167,8 @@ automatically_convertible = {
     "vehicle_part",
     "vitamin",
     "WHEEL",
-    "help"
+    "help",
+    "weather_type"
 }
 
 # for these objects a plural form is needed

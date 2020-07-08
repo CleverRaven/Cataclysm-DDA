@@ -1015,7 +1015,7 @@ void map::board_vehicle( const tripoint &pos, Character *p )
 
     p->setpos( pos );
     p->in_vehicle = true;
-    if( p == &g->u ) {
+    if( p->is_avatar() ) {
         g->update_map( g->u );
     }
 }
@@ -1178,7 +1178,7 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
                 complete = false;
                 continue;
             }
-            if( psg == &g->u ) {
+            if( psg->is_avatar() ) {
                 // If passenger is you, we need to update the map
                 need_update = true;
                 z_change = psgp.z - part_pos.z;
@@ -5153,7 +5153,7 @@ void map::remove_trap( const tripoint &p )
 
     trap_id tid = current_submap->get_trap( l );
     if( tid != tr_null ) {
-        if( g != nullptr && this == &g->m ) {
+        if( g != nullptr && this == &get_map() ) {
             g->u.add_known_trap( p, tr_null.obj() );
         }
 
@@ -5308,7 +5308,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type, int intensity
         }
     }
 
-    if( g != nullptr && this == &g->m && p == g->u.pos() ) {
+    if( g != nullptr && this == &get_map() && p == g->u.pos() ) {
         creature_in_field( g->u ); //Hit the player with the field if it spawned on top of them.
     }
 
@@ -7336,7 +7336,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
             const auto valid_location = [&]( const tripoint & p ) {
                 // Checking for creatures via g is only meaningful if this is the main game map.
                 // If it's some local map instance, the coordinates will most likely not even match.
-                return ( !g || &g->m != this || !g->critter_at( p ) ) && tmp.can_move_to( p );
+                return ( !g || &get_map() != this || !g->critter_at( p ) ) && tmp.can_move_to( p );
             };
 
             const auto place_it = [&]( const tripoint & p ) {
