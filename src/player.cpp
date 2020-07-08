@@ -821,7 +821,7 @@ void player::pause()
             }
         }
         effect &e = get_effect( effect_bleed, bp_id->token );
-        time_duration penalty = 1_turns * ( encumb( bp_hand_l ) + encumb( bp_hand_r ) );
+        time_duration penalty = 1_turns * ( encumb( bodypart_id( "hand_r" ) ) + encumb( bodypart_id( "hand_l" ) ) );
         time_duration benefit = 5_turns + 10_turns * get_skill_level( skill_firstaid );
 
         if( is_limb_broken( bodypart_id( "arm_l" ) ) || is_limb_broken( bodypart_id( "arm_r" ) ) ) {
