@@ -1188,7 +1188,7 @@ class vehicle
         void power_parts();
 
         // Current and total battery power level as a pair
-        const std::pair<int, int> battery_power_level() const;
+        std::pair<int, int> battery_power_level() const;
 
         /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.

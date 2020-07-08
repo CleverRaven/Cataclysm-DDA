@@ -3246,8 +3246,8 @@ int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
 {
     int fl = 0;
 
-    for( size_t i = 0; i < fuel_containers.size(); ++i ) {
-        const vehicle_part &part = parts[fuel_containers[i]];
+    for( const int i : fuel_containers ) {
+        const vehicle_part &part = parts[i];
         if( part.ammo_current() != ftype ||
             // don't count frozen liquid
             ( !part.base.contents.empty() && part.is_tank() &&
@@ -4622,7 +4622,7 @@ int vehicle::total_accessory_epower_w() const
     return epower;
 }
 
-const std::pair<int, int> vehicle::battery_power_level() const
+std::pair<int, int> vehicle::battery_power_level() const
 {
     int total_epower_capacity = 0;
     int remaining_epower = 0;

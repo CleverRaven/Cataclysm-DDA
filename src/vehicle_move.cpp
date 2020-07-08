@@ -199,7 +199,7 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
     smart_controller_cache cur_state;
 
     float traction = is_stationary ? 1.0f :
-                     ( k_traction_cache ? *k_traction_cache : k_traction( g->m.vehicle_wheel_traction( *this ) ) );
+                     ( k_traction_cache ? *k_traction_cache : k_traction( get_map().vehicle_wheel_traction( *this ) ) );
 
     int prev_mask = 0;
     // opt_ prefix denotes values for currently found "optimal" engine configuration
@@ -208,7 +208,7 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
     int opt_fuel_usage = 0;
 
     int opt_accel = is_stationary ? 1 : current_acceleration() * traction;
-    bool opt_safe_vel = is_stationary ? 1 : safe_ground_velocity( true );
+    int opt_safe_vel = is_stationary ? 1 : safe_ground_velocity( true );
     float cur_load_approx = static_cast<float>( std::min( accel_demand,
                             opt_accel ) )  / std::max( opt_accel, 1 );
     float cur_load_alternator = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
@@ -251,7 +251,7 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
     }
 
     // trying all combinations of engine state (max 31 iterations for 5 engines)
-    for( int mask = 1; mask < 1 << c_engines.size(); ++mask ) {
+    for( int mask = 1; mask < static_cast<int>( 1 << c_engines.size() ); ++mask ) {
         if( mask == prev_mask ) {
             continue;
         }
@@ -272,7 +272,7 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
             continue; // skip checking this state
         }
 
-        bool safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
+        int safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
         int accel = is_stationary ? 1 : current_acceleration() * traction;
         int fuel_usage = 0;
         int net_echarge_rate = net_battery_charge_rate_w();
