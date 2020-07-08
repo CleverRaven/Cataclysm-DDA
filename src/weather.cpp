@@ -546,7 +546,7 @@ void handle_weather_effects( weather_type_id const w )
             decay_time = 45_turns;
             wetness = 60;
         }
-        g->m.decay_fields_and_scent( decay_time );
+        get_map().decay_fields_and_scent( decay_time );
         weather_effect::wet_player( wetness );
     }
     glare( w );
