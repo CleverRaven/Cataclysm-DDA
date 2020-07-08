@@ -1907,7 +1907,7 @@ void debug()
             int amount = 0;
             string_input_popup popup;
             popup
-            .title( _( "By how much? (in kJ, negative to discharge)" ) )
+            .title( _( "By how much?  (in kJ, negative to discharge)" ) )
             .width( 30 )
             .edit( amount );
             if( !popup.canceled() ) {
