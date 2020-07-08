@@ -210,7 +210,7 @@
     "id": "shotgun_trap",
     "type": "TOOL",
     "name": { "str": "shotgun trap" },
-    "description": "This is a simple tripwire is attached to the trigger of a loaded double four winds shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
+    "description": "This is a simple tripwire is attached to the trigger of a loaded double slamfire shotgun.  When pulled, the shotgun fires.  Two shells are loaded; the first time the trigger is pulled, one or both shells may be discharged.",
     "weight": "2922 g",
     "volume": "1750 ml",
     "price": 25000,
