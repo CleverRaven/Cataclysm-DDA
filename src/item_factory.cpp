@@ -1830,22 +1830,17 @@ void islot_armor::load( const JsonObject &jo )
             } else if( obj.has_int( "encumbrance" ) ) {
                 tempData.encumber = obj.get_int( "encumbrance" );
                 tempData.max_encumber = -1;
-            } else {
-                tempData.encumber = -1;
-                tempData.max_encumber = -1;
             }
             if( obj.has_int( "coverage" ) ) {
                 tempData.coverage = obj.get_int( "coverage" );
-            } else {
-                tempData.coverage = -1;
             }
-            if( tempData.encumber != data[0].encumber && tempData.encumber != -1 ) {
+            if( tempData.encumber != data[0].encumber ) {
                 data[0].encumber = tempData.encumber;
             }
-            if( tempData.max_encumber != data[0].max_encumber && tempData.max_encumber != -1 ) {
+            if( tempData.max_encumber != data[0].max_encumber ) {
                 data[0].max_encumber = tempData.max_encumber;
             }
-            if( tempData.coverage != data[0].coverage && tempData.coverage != -1 ) {
+            if( tempData.coverage != data[0].coverage ) {
                 data[0].coverage = tempData.coverage;
             }
             body_part_set temp_cover_data;
@@ -1906,8 +1901,6 @@ void islot_armor::load( const JsonObject &jo )
             if( jo.has_int( "encumbrance" ) ) {
                 child_data.encumber = jo.get_int( "encumbrance" );
                 child_data.max_encumber = -1;
-            } else {
-                child_data.encumber = -1;
             }
             if( jo.has_int( "max_encumbrance" ) ) {
                 child_data.max_encumber = jo.get_int( "max_encumbrance" );
@@ -1916,17 +1909,15 @@ void islot_armor::load( const JsonObject &jo )
             }
             if( jo.has_int( "coverage" ) ) {
                 child_data.coverage = jo.get_int( "coverage" );
-            } else {
-                child_data.coverage = -1;
             }
             // If child item contains data, use that data, otherwise use parents data
-            if( child_data.encumber != data[0].encumber && child_data.encumber != -1 ) {
+            if( child_data.encumber != data[0].encumber && child_data.encumber != 0 ) {
                 data[0].encumber = child_data.encumber;
             }
             if( child_data.max_encumber != data[0].max_encumber && child_data.max_encumber != -1 ) {
                 data[0].max_encumber = child_data.max_encumber;
             }
-            if( child_data.coverage != data[0].coverage && child_data.coverage != -1 ) {
+            if( child_data.coverage != data[0].coverage && child_data.coverage != 0 ) {
                 data[0].coverage = child_data.coverage;
             }
             body_part_set temp_cover_data;
