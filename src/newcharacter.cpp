@@ -2915,8 +2915,8 @@ void Character::add_traits()
 
 void Character::add_traits( points_left &points )
 {
-    // TODO: get rid of using g->u here, use `this` instead
-    for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
+    // TODO: get rid of using get_avatar() here, use `this` instead
+    for( const trait_id &tr : get_avatar().prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
         } else {
