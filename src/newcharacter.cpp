@@ -2187,8 +2187,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 wprintz( w_flags, c_light_gray, _( "Fungal infected player" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
-            if( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
-                sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
+            if( sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
