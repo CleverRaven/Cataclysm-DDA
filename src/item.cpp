@@ -102,6 +102,7 @@ static const ammotype ammo_plutonium( "plutonium" );
 static const item_category_id item_category_drugs( "drugs" );
 static const item_category_id item_category_food( "food" );
 static const item_category_id item_category_maps( "maps" );
+static const item_category_id item_category_container( "container" );
 
 static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );
@@ -8440,6 +8441,15 @@ const item_category &item::get_category() const
 {
     static item_category null_category;
     return type->category_force.is_valid() ? type->category_force.obj() : null_category;
+}
+
+const item_category &item::get_category_of_contents() const
+{
+    if( type->category_force == item_category_container && contents.num_item_stacks() == 1 ) {
+        return contents.only_item().get_category();
+    } else {
+        return this->get_category();
+    }
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt,

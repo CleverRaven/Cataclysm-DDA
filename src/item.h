@@ -463,6 +463,9 @@ class item : public visitable<item>
 
         // Returns the category of this item.
         const item_category &get_category() const;
+        // Returns the category of item inside this item. I.e. "can of meat" would be food, instead of container.
+        // If there are multiple items/stacks or none then it defaults to category of this item.
+        const item_category &get_category_of_contents() const;
 
         class reload_option
         {
