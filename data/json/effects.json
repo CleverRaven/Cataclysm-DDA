@@ -1676,15 +1676,15 @@
   {
     "type": "effect_type",
     "id": "anemia",
-    "name": [ "Early iron deficiency anemia", "Iron deficiency anemia", "Acute iron deficiency anemia" ],
+    "name": [ "Early iron deficiency", "Iron deficiency", "Acute iron deficiency" ],
     "desc": [
-      "A lack of iron in your diet results in early stage of anemia.  Regeneration of your red blood cells is hampered.",
-      "A lack of iron in your diet results in anemia.  Regeneration of your red blood cells is compromised.",
-      "A lack of iron in your diet results in severe anemia.  Your red blood cells are dying faster then they regenerate."
+      "A lack of iron in your diet has hampered efficiency and regeneration of your red blood cells.",
+      "Prolonged lack of iron in your diet has compromised efficiency and regeneration of your red blood cells.",
+      "Severe lack of iron in your diet results in your red blood cells dying faster then they are regenerating."
     ],
     "apply_message": "You begin feeling increasingly tired and listless.",
-    "remove_message": "You no longer feel anemic.",
-    "decay_messages": [ [ "Your anemia is nearly resolved.", "good" ], [ "Your feel stronger as your anemia starts to improve.", "good" ] ],
+    "remove_message": "You are no longer in risk of becoming anemic.",
+    "decay_messages": [ [ "Your irom deficiency is nearly resolved.", "good" ], [ "Your feel stronger as your iron deficiency starts to improve.", "good" ] ],
     "max_intensity": 3,
     "rating": "bad",
     "base_mods": {
@@ -1714,7 +1714,7 @@
     "type": "effect_type",
     "id": "redcells_anemia",
     "name": [ "Early anemia", "Anemia", "Acute anemia" ],
-    "desc": [ "Loss of red blood cells from hemorrhage results in progressively worsening anemia." ],
+    "desc": [ "Loss of red blood cells results in progressively worsening anemia." ],
     "apply_message": "You begin feeling increasingly tired and listless.",
     "remove_message": "You no longer feel anemic.",
     "decay_messages": [ [ "Your anemia is nearly resolved.", "good" ], [ "Your feel stronger as your anemia starts to improve.", "good" ] ],
