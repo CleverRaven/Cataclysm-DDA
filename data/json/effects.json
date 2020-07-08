@@ -1684,7 +1684,10 @@
     ],
     "apply_message": "You begin feeling increasingly tired and listless.",
     "remove_message": "You are no longer in risk of becoming anemic.",
-    "decay_messages": [ [ "Your irom deficiency is nearly resolved.", "good" ], [ "Your feel stronger as your iron deficiency starts to improve.", "good" ] ],
+    "decay_messages": [
+      [ "Your irom deficiency is nearly resolved.", "good" ],
+      [ "Your feel stronger as your iron deficiency starts to improve.", "good" ]
+    ],
     "max_intensity": 3,
     "rating": "bad",
     "base_mods": {
