@@ -373,7 +373,9 @@ static const std::string flag_PLANT( "PLANT" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 
 static const ter_str_id ter_CLAY( "t_clay" );
+static const ter_str_id ter_CLAY_UNDERGROUND( "t_clay_underground" );
 static const ter_str_id ter_SAND( "t_sand" );
+static const ter_str_id ter_SAND_UNDERGROUND( "t_sand_underground" );
 
 // how many characters per turn of radio
 static constexpr int RADIO_PER_TURN = 25;
@@ -2769,10 +2771,10 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
 
     tripoint dig_point = p->pos();
     ter_str_id dig_what = g->m.ter( dig_point ).id();
-    if( dig_what == ter_CLAY ) {
+    if( dig_what == ter_CLAY || dig_what == ter_CLAY_UNDERGROUND ) {
         material_density_kg_m3 = 1760;
         byproducts_item_group = "digging_clay_50L";
-    } else if( dig_what == ter_SAND ) {
+    } else if( dig_what == ter_SAND || dig_what == ter_SAND_UNDERGROUND ) {
         material_density_kg_m3 = 1905;
         byproducts_item_group = "digging_sand_50L";
     }
