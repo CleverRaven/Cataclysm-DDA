@@ -10,10 +10,10 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
+#include "character.h"
 #include "enums.h"
 #include "game.h"
 #include "item.h"
@@ -42,11 +42,12 @@ static void clear_game( const ter_id &terrain )
     clear_npcs();
     clear_vehicles();
 
+    Character &player_character = get_player_character();
     // Move player somewhere safe
-    REQUIRE_FALSE( g->u.in_vehicle );
-    g->u.setpos( tripoint_zero );
+    REQUIRE_FALSE( player_character.in_vehicle );
+    player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 1_turns, num_bp, true );
+    player_character.add_effect( effect_blind, 1_turns, num_bp, true );
 
     build_test_map( terrain );
 }

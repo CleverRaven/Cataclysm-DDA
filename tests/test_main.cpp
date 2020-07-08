@@ -141,8 +141,8 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
-    g->u = avatar();
-    g->u.create( character_type::NOW );
+    get_avatar() = avatar();
+    get_avatar().create( character_type::NOW );
 
     get_map() = map();
 
@@ -151,7 +151,7 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     get_map().load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
 
-    g->weather.update_weather();
+    get_weather().update_weather();
 }
 
 // Checks if any of the flags are in container, removes them all

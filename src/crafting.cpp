@@ -1993,8 +1993,9 @@ bool player::disassemble( item_location target, bool interactive )
         return false;
     }
 
+    avatar &player_character = get_avatar();
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
-    if( !obj.is_owned_by( g->u, true ) ) {
+    if( !obj.is_owned_by( player_character, true ) ) {
         if( !query_yn( _( "Disassembling the %s may anger the people who own it, continue?" ),
                        obj.tname() ) ) {
             return false;
@@ -2002,15 +2003,15 @@ bool player::disassemble( item_location target, bool interactive )
             if( obj.get_owner() ) {
                 std::vector<npc *> witnesses;
                 for( npc &elem : g->all_npcs() ) {
-                    if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                        obj.is_owned_by( elem ) && elem.sees( g->u.pos() ) ) {
+                    if( rl_dist( elem.pos(), player_character.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
+                        obj.is_owned_by( elem ) && elem.sees( player_character.pos() ) ) {
                         elem.say( "<witnessed_thievery>", 7 );
                         npc *npc_to_add = &elem;
                         witnesses.push_back( npc_to_add );
                     }
                 }
                 if( !witnesses.empty() ) {
-                    if( g->u.add_faction_warning( obj.get_owner() ) ) {
+                    if( player_character.add_faction_warning( obj.get_owner() ) ) {
                         for( npc *elem : witnesses ) {
                             elem->make_angry();
                         }
@@ -2276,7 +2277,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
         item act_item = newit;
 
         if( act_item.has_temperature() ) {
-            act_item.set_item_temperature( temp_to_kelvin( g->weather.get_temperature( loc ) ) );
+            act_item.set_item_temperature( temp_to_kelvin( get_weather().get_temperature( loc ) ) );
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)

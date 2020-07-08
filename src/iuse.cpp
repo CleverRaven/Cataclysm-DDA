@@ -7005,7 +7005,7 @@ static std::string colorized_trap_name_at( const tripoint &point )
 {
     const trap &trap = get_map().tr_at( point );
     std::string name;
-    if( trap.can_see( point, g->u ) ) {
+    if( trap.can_see( point, get_player_character() ) ) {
         name = colorize( trap.name(), trap.color ) + _( " on " );
     }
     return name;
