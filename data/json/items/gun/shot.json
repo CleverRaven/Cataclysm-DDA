@@ -668,6 +668,7 @@
     "description": "Mean and intimidating looking, the SPAS 12 has the dubious honor of being declared a destructive device and being banned from import by name, adding to its already considerable appeal.  It is a combination pump-action and semi-automatic firearm, with an arm stabilizing hook for one handed shooting.",
     "weight": "4400 g",
     "volume": "2768 ml",
+    "longest_side": "835 mm",
     "looks_like": "m1014",
     "price": 180000,
     "price_postapoc": 4750,
