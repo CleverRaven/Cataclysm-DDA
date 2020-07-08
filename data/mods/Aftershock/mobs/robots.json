@@ -19,6 +19,7 @@
     "armor_bash": 14,
     "armor_cut": 16,
     "vision_day": 50,
+    "starting_ammo": { "acidic_bore": 500 },
     "revert_to_itype": "bot_migoturret",
     "special_attacks": [
       [ "PARROT", 0 ],
