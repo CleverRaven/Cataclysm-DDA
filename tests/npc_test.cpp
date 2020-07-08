@@ -5,7 +5,6 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
 #include "common_types.h"
@@ -313,40 +312,42 @@ TEST_CASE( "npc-movement" )
 
     clear_map();
 
+    Character &player_character = get_player_character();
+    map &here = get_map();
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];
-            const tripoint p = g->u.pos() + point( x, y );
+            const tripoint p = player_character.pos() + point( x, y );
             // create walls
             if( type == '#' ) {
-                g->m.ter_set( p, t_reinforced_glass );
+                here.ter_set( p, t_reinforced_glass );
             } else {
-                g->m.ter_set( p, t_floor );
+                here.ter_set( p, t_floor );
             }
             // spawn acid
             // a copy is needed because we will remove elements from it
-            const field fs = g->m.field_at( p );
+            const field fs = here.field_at( p );
             for( const auto &f : fs ) {
-                g->m.remove_field( p, f.first );
+                here.remove_field( p, f.first );
             }
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
-                g->m.add_field( p, fd_acid, 3 );
+                here.add_field( p, fd_acid, 3 );
             }
             // spawn rubbles
             if( type == 'R' ) {
-                g->m.furn_set( p, f_rubble );
+                here.furn_set( p, f_rubble );
             } else {
-                g->m.furn_set( p, f_null );
+                here.furn_set( p, f_null );
             }
             // create vehicles
             if( type == 'V' || type == 'W' || type == 'M' ) {
-                vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
+                vehicle *veh = here.add_vehicle( vproto_id( "none" ), p, 270, 0, 0 );
                 REQUIRE( veh != nullptr );
                 veh->install_part( point_zero, vpart_frame_vertical );
                 veh->install_part( point_zero, vpart_seat );
-                g->m.add_vehicle_to_cache( veh );
+                here.add_vehicle_to_cache( veh );
             }
             // spawn npcs
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
@@ -374,28 +375,28 @@ TEST_CASE( "npc-movement" )
     for( int y = 0; y < height; ++y ) {
         for( int x = 0; x < width; ++x ) {
             const char type = setup[y][x];
-            const tripoint p = g->u.pos() + point( x, y );
+            const tripoint p = player_character.pos() + point( x, y );
             if( type == '#' ) {
-                REQUIRE( !g->m.passable( p ) );
+                REQUIRE( !here.passable( p ) );
             } else {
-                REQUIRE( g->m.passable( p ) );
+                REQUIRE( here.passable( p ) );
             }
             if( type == 'R' ) {
-                REQUIRE( g->m.has_flag( "UNSTABLE", p ) );
+                REQUIRE( here.has_flag( "UNSTABLE", p ) );
             } else {
-                REQUIRE( !g->m.has_flag( "UNSTABLE", p ) );
+                REQUIRE( !here.has_flag( "UNSTABLE", p ) );
             }
             if( type == 'V' || type == 'W' || type == 'M' ) {
-                REQUIRE( g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );
+                REQUIRE( here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );
             } else {
-                REQUIRE( !g->m.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );
+                REQUIRE( !here.veh_at( p ).part_with_feature( VPFLAG_BOARDABLE, true ).has_value() );
             }
             npc *guy = g->critter_at<npc>( p );
             if( type == 'A' || type == 'R' || type == 'W' || type == 'M'
                 || type == 'B' || type == 'C' ) {
 
                 REQUIRE( guy != nullptr );
-                REQUIRE( guy->is_dangerous_fields( g->m.field_at( p ) ) );
+                REQUIRE( guy->is_dangerous_fields( here.field_at( p ) ) );
             } else {
                 REQUIRE( guy == nullptr );
             }
@@ -403,16 +404,16 @@ TEST_CASE( "npc-movement" )
     }
 
     SECTION( "NPCs escape dangerous terrain by pushing other NPCs" ) {
-        check_npc_movement( g->u.pos() );
+        check_npc_movement( player_character.pos() );
     }
 
     SECTION( "Player in vehicle & NPCs escaping dangerous terrain" ) {
-        const tripoint origin = g->u.pos();
+        const tripoint origin = player_character.pos();
 
         for( int y = 0; y < height; ++y ) {
             for( int x = 0; x < width; ++x ) {
                 if( setup[y][x] == 'V' ) {
-                    g->place_player( g->u.pos() + point( x, y ) );
+                    g->place_player( player_character.pos() + point( x, y ) );
                     break;
                 }
             }
@@ -434,8 +435,9 @@ TEST_CASE( "npc_can_target_player" )
     clear_npcs();
     clear_creatures();
 
-    npc &hostile = spawn_npc( g->u.pos().xy() + point_south, "thug" );
-    REQUIRE( rl_dist( g->u.pos(), hostile.pos() ) <= 1 );
+    Character &player_character = get_player_character();
+    npc &hostile = spawn_npc( player_character.pos().xy() + point_south, "thug" );
+    REQUIRE( rl_dist( player_character.pos(), hostile.pos() ) <= 1 );
     hostile.set_attitude( NPCATT_KILL );
     hostile.name = "Enemy NPC";
 
@@ -443,5 +445,5 @@ TEST_CASE( "npc_can_target_player" )
 
     hostile.regen_ai_cache();
     REQUIRE( hostile.current_target() != nullptr );
-    CHECK( hostile.current_target() == static_cast<Creature *>( &g->u ) );
+    CHECK( hostile.current_target() == static_cast<Creature *>( &player_character ) );
 }
