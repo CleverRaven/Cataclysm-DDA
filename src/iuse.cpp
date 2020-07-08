@@ -4297,7 +4297,8 @@ static std::string get_music_description()
     return _( "a sweet guitar solo!" );
 }
 
-void iuse::play_music( player &p, const tripoint &source, const int volume, const int max_morale )
+void iuse::play_music( Character &p, const tripoint &source, const int volume,
+                       const int max_morale )
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
@@ -5845,7 +5846,7 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
     return towel_common( p, it, t );
 }
 
-int iuse::towel_common( player *p, item *it, bool t )
+int iuse::towel_common( Character *p, item *it, bool t )
 {
     if( t ) {
         // Continuous usage, do nothing as not initiated by the player, this is for
