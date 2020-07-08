@@ -856,6 +856,31 @@ TEST_CASE( "npc_talk_adjust_vars", "[npc_talk]" )
     CHECK( d.responses[10].text == "This is a npc_compare_var test response for < 0." );
 }
 
+TEST_CASE( "npc_talk_vars_time", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    time_point start_turn = calendar::turn;
+    calendar::turn = calendar::turn + time_duration( 1_hours );
+    d.add_topic( "TALK_TEST_VARS_TIME" );
+    gen_response_lines( d, 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a u_add_var time test response." );
+    CHECK( d.responses[2].text == "This is a npc_add_var time test response." );
+    talk_effect_t &effects = d.responses[1].success;
+    effects.apply( d );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    time_point then = calendar::turn;
+    calendar::turn = calendar::turn + time_duration( 4_days );
+    REQUIRE( then < calendar::turn );
+    gen_response_lines( d, 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a u_compare_var time test response for > 3_days." );
+    calendar::turn = start_turn;
+}
+
 TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
 {
     dialogue d;
