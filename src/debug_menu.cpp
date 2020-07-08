@@ -89,6 +89,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "vehicle.h"
 #include "veh_type.h"
 #include "vitamin.h"
 #include "vpart_position.h"
@@ -101,8 +102,6 @@ static const efftype_id effect_flu( "flu" );
 static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
-
-class vehicle;
 
 extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
         nested_mapgen;
@@ -177,6 +176,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::LEVEL_SPELLS: return "LEVEL_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
+        case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -275,6 +275,15 @@ static int game_uilist()
     return uilist( _( "Game…" ), uilist_initializer );
 }
 
+static int vehicle_uilist()
+{
+    std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change [b]attery charge" ) ) },
+    };
+
+    return uilist( _( "Vehicle…" ), uilist_initializer );
+}
+
 static int teleport_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
@@ -336,6 +345,7 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
             { uilist_entry( 6, true, 'g', _( "Game…" ) ) },
             { uilist_entry( 2, true, 's', _( "Spawning…" ) ) },
             { uilist_entry( 3, true, 'p', _( "Player…" ) ) },
+            { uilist_entry( 7, true, 'v', _( "Vehicle…" ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
             { uilist_entry( 5, true, 'm', _( "Map…" ) ) },
         };
@@ -374,6 +384,9 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
                 break;
             case 6:
                 action = game_uilist();
+                break;
+            case 7:
+                action = vehicle_uilist();
                 break;
 
             default:
@@ -1341,11 +1354,20 @@ void debug()
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
                     // Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
-                    // TODO: Allow picking this when add_vehicle has 3d argument
                     tripoint dest = u.pos();
-                    vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, 0 );
-                    if( veh != nullptr ) {
-                        here.board_vehicle( dest, &u );
+                    uilist veh_cond_menu;
+                    veh_cond_menu.text = _( "Vehicle condition" );
+                    veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
+                    veh_cond_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
+                    veh_cond_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Disabled (tires or engine)" ) );
+                    veh_cond_menu.query();
+
+                    if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
+                        // TODO: Allow picking this when add_vehicle has 3d argument
+                        vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, veh_cond_menu.ret - 1 );
+                        if( veh != nullptr ) {
+                            here.board_vehicle( dest, &u );
+                        }
                     }
                 }
             }
@@ -1874,6 +1896,32 @@ void debug()
         case debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
             break;
+
+        case debug_menu_index::VEHICLE_BATTERY_CHARGE: {
+
+            optional_vpart_position v_part_pos = here.veh_at( u.pos() );
+            if( !v_part_pos ) {
+                add_msg( m_bad, _( "There's no vehicle there." ) );
+                break;
+            }
+
+            int amount = 0;
+            string_input_popup popup;
+            popup
+            .title( _( "By how much?  (in kJ, negative to discharge)" ) )
+            .width( 30 )
+            .edit( amount );
+            if( !popup.canceled() ) {
+                vehicle &veh = v_part_pos->vehicle();
+                if( amount >= 0 ) {
+                    veh.charge_battery( amount, false );
+                } else {
+                    veh.discharge_battery( -amount, false );
+                }
+            }
+            break;
+        }
+
         case debug_menu_index::last:
             return;
     }
