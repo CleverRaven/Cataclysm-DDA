@@ -44,50 +44,8 @@ class item;
 struct trap;
 struct rl_vec2d;
 
-/**
- * Weather type enum.
- */
-enum weather_type : int {
-    WEATHER_NULL,         //!< For data and stuff
-    WEATHER_CLEAR,        //!< No effects
-    WEATHER_SUNNY,        //!< Glare if no eye protection
-    WEATHER_CLOUDY,       //!< No effects
-    WEATHER_LIGHT_DRIZZLE,//!< very Light rain
-    WEATHER_DRIZZLE,      //!< Light rain
-    WEATHER_RAINY,        //!< Lots of rain, sight penalties
-    WEATHER_THUNDER,      //!< Warns of lightning to come
-    WEATHER_LIGHTNING,    //!< Rare lightning strikes!
-    WEATHER_ACID_DRIZZLE, //!< No real effects; warning of acid rain
-    WEATHER_ACID_RAIN,    //!< Minor acid damage
-    WEATHER_FLURRIES,     //!< Light snow
-    WEATHER_SNOW,         //!< snow glare effects
-    WEATHER_SNOWSTORM,    //!< sight penalties
-    NUM_WEATHER_TYPES     //!< Sentinel value
-};
-
-enum class precip_class : int {
-    NONE,
-    VERY_LIGHT,
-    LIGHT,
-    HEAVY
-};
-
 double precip_mm_per_hour( precip_class p );
-void do_rain( weather_type w );
-
-/**
- * Weather animation class.
- */
-struct weather_animation_t {
-    float    factor;
-    nc_color color;
-    char     glyph;
-};
-
-/**
- * Weather animation settings for the given type.
- */
-weather_animation_t get_weather_animation( weather_type type );
+void handle_weather_effects( weather_type_id w );
 
 /**
  * Weather drawing tracking.
@@ -96,7 +54,7 @@ weather_animation_t get_weather_animation( weather_type type );
  */
 struct weather_printable {
     //!< Weather type in use.
-    weather_type wtype;
+    weather_type_id wtype;
     //!< Coordinates targeted for droplets.
     std::vector<std::pair<int, int> > vdrops;
     //!< Color to draw glyph this animation frame.
@@ -111,43 +69,12 @@ struct weather_printable {
  */
 namespace weather_effect
 {
-
-enum class sun_intensity : int {
-    normal = 1,
-    high
-};
-
-//!< Fallback weather.
-void none();
-void glare( sun_intensity );
-void thunder();
-void lightning();
-void light_acid();
-void acid();
-//!< Currently flurries have no additional effects.
-void flurry();
-void snow();
-void sunny();
-void snowstorm();
-} //namespace weather_effect
-
-using weather_effect_fn = void ( * )();
-
-struct weather_datum {
-    std::string name;             //!< UI name of weather type.
-    nc_color color;               //!< UI color of weather type.
-    nc_color map_color;           //!< Map color of weather type.
-    char glyph;                   //!< Map glyph of weather type.
-    int ranged_penalty;           //!< Penalty to ranged attacks.
-    float sight_penalty;          //!< Penalty to per-square visibility, applied in transparency map.
-    int light_modifier;           //!< Modification to ambient light.
-    int sound_attn;               //!< Sound attenuation of a given weather type.
-    bool dangerous;               //!< If true, our activity gets interrupted.
-    precip_class precip;          //!< Amount of associated precipitation.
-    bool rains;                   //!< Whether said precipitation falls as rain.
-    bool acidic;                  //!< Whether said precipitation is acidic.
-    weather_effect_fn effect;     //!< Function pointer for weather effects.
-};
+void thunder( int intensity );
+void lightning( int intensity );
+void light_acid( int intensity );
+void acid( int intensity );
+void wet_player( int amount );
+} // namespace weather_effect
 
 struct weather_sum {
     int rain_amount = 0;
@@ -156,24 +83,7 @@ struct weather_sum {
     int wind_amount = 0;
 };
 
-weather_datum weather_data( weather_type type );
-namespace weather
-{
-std::string name( weather_type type );
-nc_color color( weather_type type );
-nc_color map_color( weather_type type );
-char glyph( weather_type type );
-int ranged_penalty( weather_type type );
-float sight_penalty( weather_type type );
-int light_modifier( weather_type type );
-int sound_attn( weather_type type );
-bool dangerous( weather_type type );
-precip_class precip( weather_type type );
-bool rains( weather_type type );
-bool acidic( weather_type type );
-weather_effect_fn effect( weather_type type );
-} // namespace weather
-
+weather_type_id get_bad_weather();
 std::string get_shortdirstring( int angle );
 
 std::string get_dirstring( int angle );
@@ -193,7 +103,7 @@ std::string print_pressure( double pressure, int decimals = 0 );
 // Return windchill offset in degrees F, starting from given temperature, humidity and wind
 int get_local_windchill( double temperature_f, double humidity, double wind_mph );
 
-int get_local_humidity( double humidity, weather_type weather, bool sheltered = false );
+int get_local_humidity( double humidity, weather_type_id weather, bool sheltered = false );
 double get_local_windpower( double windpower, const oter_id &omter, const tripoint &location,
                             const int &winddirection,
                             bool sheltered = false );
@@ -231,14 +141,15 @@ bool warm_enough_to_plant( const tripoint &pos );
 
 bool is_wind_blocker( const tripoint &location );
 
-weather_type current_weather( const tripoint &location,
-                              const time_point &t = calendar::turn );
+weather_type_id current_weather( const tripoint &location,
+                                 const time_point &t = calendar::turn );
 
+void glare( weather_type_id w );
 /**
  * Amount of sunlight incident at the ground, taking weather and time of day
  * into account.
  */
-int incident_sunlight( weather_type wtype,
+int incident_sunlight( weather_type_id wtype,
                        const time_point &t = calendar::turn );
 
 class weather_manager
@@ -252,14 +163,14 @@ class weather_manager
         int temperature = 0;
         bool lightning_active = false;
         // Weather pattern
-        weather_type weather = weather_type::WEATHER_NULL;
+        weather_type_id weather_id = WEATHER_NULL;
         int winddirection = 0;
         int windspeed = 0;
         // Cached weather data
         pimpl<w_point> weather_precise;
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
-        weather_type weather_override;
+        weather_type_id weather_override;
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );
         // The time at which weather will shift next.
