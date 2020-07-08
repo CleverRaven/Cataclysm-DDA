@@ -590,14 +590,14 @@
   },
   {
     "type": "overmap_terrain",
-    "id": [ "gym_fitness", "gym_fitness_1", "gym_fitness_2ndFloor_1" ],
+    "id": [ "gym_fitness", "gym_fitness_1", "gym_fitness_2", "gym_fitness_2ndFloor_1" ],
     "name": "fitness gym",
     "copy-from": "generic_city_building",
     "color": "i_light_cyan"
   },
   {
     "type": "overmap_terrain",
-    "id": [ "gym_fitness_roof", "gym_fitness_roof_1" ],
+    "id": [ "gym_fitness_roof", "gym_fitness_roof_1", "gym_fitness_roof_2" ],
     "name": "fitness gym roof",
     "copy-from": "generic_city_building",
     "color": "i_light_cyan"

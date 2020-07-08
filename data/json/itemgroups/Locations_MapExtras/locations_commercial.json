@@ -1834,7 +1834,9 @@
       [ "yoghurt", 12 ],
       [ "vitamins", 10 ],
       [ "aspirin", 10 ],
-      [ "fitness_band", 10 ]
+      [ "fitness_band", 10 ],
+      { "item": "water_clean", "prob": 80, "container-item": "jug_plastic", "charges-min": 1, "charges-max": 15 },
+      { "item": "pre_workout_mix", "prob": 80, "container-item": "sample_pack", "charges-min": 1, "charges-max": 3 }
     ]
   },
   {
@@ -1896,5 +1898,39 @@
     "type": "item_group",
     "id": "gunshop_accessories",
     "items": [ [ "powered_earmuffs", 50 ], [ "ear_plugs", 80 ] ]
+  },
+  {
+    "id": "gym_dumbbell_rack",
+    "type": "item_group",
+    "items": [ [ "dumbbell_1lb", 100 ], [ "dumbbell_5lb", 100 ], [ "dumbbell_10lb", 100 ], [ "dumbbell_20lb", 100 ] ]
+  },
+  {
+    "id": "gym_plate_rack",
+    "type": "item_group",
+    "items": [ [ "plate_2_5lb", 100 ], [ "plate_5lb", 100 ], [ "plate_10lb", 100 ], [ "plate_25lb", 100 ], [ "plate_45lb", 100 ] ]
+  },
+  {
+    "id": "gym_light_exercise_equipment",
+    "type": "item_group",
+    "items": [ [ "exercise_ball", 100 ], [ "resistance_band", 100 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "gym_cleaning_supplies",
+    "subtype": "collection",
+    "entries": [
+      { "item": "bleach", "prob": 20, "charges-min": 1 },
+      { "item": "ammonia", "prob": 24, "charges-min": 1 },
+      { "item": "broom", "prob": 30 },
+      { "item": "mop", "prob": 30 },
+      { "item": "sponge", "prob": 30 },
+      { "item": "gloves_rubber", "prob": 20 },
+      { "item": "towel", "prob": 40 },
+      { "item": "rag", "prob": 1 },
+      { "item": "boots_rubber", "prob": 20 },
+      { "item": "soap", "prob": 80 },
+      { "item": "plunger_toilet", "prob": 30 },
+      { "item": "toilet_paper", "prob": 10 }
+    ]
   }
 ]

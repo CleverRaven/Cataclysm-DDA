@@ -1629,5 +1629,21 @@
     "symbol": ")",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]
+  },
+  {
+    "id": "sample_pack",
+    "type": "GENERIC",
+    "category": "container",
+    "name": { "str": "small sample pack" },
+    "description": "A very small aluminum bag with perforated edges for easy tearing.  Basically trash once you tear it open.",
+    "looks_like": "wrapper",
+    "weight": "2 g",
+    "volume": "15 ml",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "aluminum" ],
+    "symbol": ".",
+    "color": "light_gray",
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "12 ml", "max_contains_weight": "15 g" } ]
   }
 ]

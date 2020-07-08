@@ -695,6 +695,17 @@
   },
   {
     "type": "recipe",
+    "result": "pre_workout_drink",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "time": "4 m",
+    "autolearn": true,
+    "flags": [ "BLIND_HARD" ],
+    "components": [ [ [ "pre_workout_mix", 1 ] ], [ [ "water_clean", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "protein_drink",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_DRINKS",

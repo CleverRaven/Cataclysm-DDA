@@ -4184,5 +4184,93 @@
     "time": "6 s",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "splinter", 3 ] ] ]
+  },
+  {
+    "result": "resistance_band",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "15 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 2 ] ], [ [ "hose", 1 ] ] ]
+  },
+  {
+    "result": "exercise_ball",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "10 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "chunk_rubber", 2 ] ] ]
+  },
+  {
+    "result": "dumbbell_1lb",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 2 ] ] ]
+  },
+  {
+    "result": "dumbbell_5lb",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "3 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 2 ] ] ]
+  },
+  {
+    "result": "dumbbell_10lb",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 3 ] ] ]
+  },
+  {
+    "result": "dumbbell_20lb",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 4 ] ] ]
+  },
+  {
+    "result": "plate_2_5lb",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "3 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 2 ] ] ]
+  },
+  {
+    "result": "plate_5lb",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 2 ] ] ]
+  },
+  {
+    "result": "plate_10lb",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "10 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 3 ] ] ]
+  },
+  {
+    "result": "plate_25lb",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "25 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 4 ] ] ]
+  },
+  {
+    "result": "plate_45lb",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "45 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 4 ] ], [ [ "steel_chunk", 1 ] ] ]
   }
 ]

@@ -1125,5 +1125,31 @@
     "price": 490,
     "price_postapoc": 60,
     "fun": 14
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "pre_workout_drink",
+    "name": "pre workout",
+    "//": "This is never referred to as pre workout drink or even a pre workout drink. We all just call it pre workout. Example: Hey did you take your pre workout?",
+    "weight": "257 g",
+    "color": "light_green",
+    "addiction_type": "caffeine",
+    "fatigue_mod": 112,
+    "comestible_type": "DRINK",
+    "symbol": "~",
+    "quench": 15,
+    "healthy": -5,
+    "addiction_potential": 10,
+    "calories": 5,
+    "description": "This is pre workout.  When drank, it will not only make you feel stimulated, you will also be motivated to work harder in your workouts.",
+    "price": 170,
+    "price_postapoc": 50,
+    "primary_material": "water",
+    "volume": "250 ml",
+    "phase": "liquid",
+    "flags": [ "TRADER_AVOID" ],
+    "vitamins": [ [ "vitC", 417 ], [ "vitB", 583 ], [ "calcium", 2 ] ],
+    "fun": 5,
+    "use_action": { "type": "consume_drug", "effects": [ { "id": "pre_workout_jam", "duration": 2400 } ] }
   }
 ]

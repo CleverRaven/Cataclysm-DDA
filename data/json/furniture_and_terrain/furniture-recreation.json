@@ -2,7 +2,7 @@
   {
     "type": "furniture",
     "id": "f_exercise",
-    "name": "exercise machine",
+    "name": "bench press",
     "symbol": "T",
     "description": "A heavy set of weightlifting equipment for strength training, with a pair of heavy weights affixed to opposite ends of a sturdy pipe.  You can adjust the set by hand-picking the weights you wish to use.",
     "color": "dark_gray",
@@ -12,11 +12,77 @@
     "flags": [ "TRANSPARENT", "MINEABLE", "WORKOUT_ARMS" ],
     "examine_action": "workout",
     "deconstruct": {
+      "items": [ { "item": "pipe", "count": 1 }, { "item": "steel_chunk", "count": 1 }, { "item": "scrap", "count": [ 2, 6 ] } ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 2, 6 ] }, { "item": "steel_chunk", "prob": 50 }, { "item": "pipe", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_power_tower",
+    "name": "power tower",
+    "symbol": "H",
+    "description": "A tower frame used to perform pull ups, chin ups, dips and leg raises.  Also known as a captain's chair.  You have to be strong to use this",
+    "color": "white",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 4 }, { "item": "scrap", "count": [ 2, 6 ] }, { "item": "leather", "count": 3 } ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 1, 3 ] }, { "item": "pipe", "count": 1 }, { "item": "leather", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_power_rack",
+    "name": "power rack",
+    "symbol": "P",
+    "description": "A box framed tower used to do squats, deadlifts, overhead press, rows and bench press safely",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "deconstruct": {
+      "items": [ { "item": "pipe", "count": 4 }, { "item": "steel_chunk", "count": 1 }, { "item": "scrap", "count": [ 4, 6 ] } ]
+    },
+    "bash": {
+      "str_min": 18,
+      "str_max": 60,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [ { "item": "scrap", "count": [ 2, 6 ] }, { "item": "pipe", "count": 1 }, { "item": "steel_chunk", "prob": 75 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_elliptical",
+    "name": "elliptical",
+    "symbol": "E",
+    "description": "A stationary mechanic bike used to simulate bike riding.  Really good for cardio.",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 35,
+    "required_str": 10,
+    "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "deconstruct": {
       "items": [
-        { "item": "pipe", "count": 1 },
-        { "item": "steel_chunk", "count": 1 },
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "lead", "charges": [ 1000, 2000 ] }
+        { "item": "pipe", "count": 4 },
+        { "item": "scrap", "count": [ 4, 6 ] },
+        { "item": "plastic_chunk", "count": [ 2, 6 ] },
+        { "item": "leather", "count": 1 }
       ]
     },
     "bash": {
@@ -25,11 +91,56 @@
       "sound": "metal screeching!",
       "sound_fail": "clang!",
       "items": [
-        { "item": "scrap", "count": [ 2, 6 ] },
-        { "item": "steel_chunk", "prob": 50 },
+        { "item": "scrap", "count": [ 2, 3 ] },
         { "item": "pipe", "count": 1 },
-        { "item": "lead", "charges": [ 1000, 2000 ] }
+        { "item": "plastic_chunk", "count": [ 1, 3 ] }
       ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_dumbbell_rack",
+    "name": "dumbbell rack",
+    "looks_like": "f_rack",
+    "description": "A metal frame designed to hold dumbbells for easy access.",
+    "symbol": "{",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": 6,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "pipe", "count": [ 4, 6 ] } ] },
+    "max_volume": "55 L",
+    "bash": {
+      "str_min": 6,
+      "sound": "metal screeching!",
+      "sound_vol": 3,
+      "sound_fail": "clang!",
+      "sound_fail_vol": 5,
+      "items": [ { "item": "scrap", "count": [ 2, 8 ] }, { "item": "steel_chunk", "count": [ 2, 4 ] }, { "item": "pipe", "count": 1 } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_plate_rack",
+    "name": "plate rack",
+    "looks_like": "f_rack",
+    "description": "A metal rack designed to hold plate shaped weights.",
+    "symbol": "{",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 10,
+    "required_str": 8,
+    "flags": [ "TRANSPARENT", "PLACE_ITEM", "DECONSTRUCT" ],
+    "deconstruct": { "items": [ { "item": "pipe", "count": [ 6, 9 ] } ] },
+    "max_volume": "350 L",
+    "bash": {
+      "str_min": 6,
+      "sound": "metal screeching!",
+      "sound_vol": 5,
+      "sound_fail": "clang!",
+      "sound_fail_vol": 8,
+      "items": [ { "item": "scrap", "count": [ 2, 3 ] }, { "item": "steel_chunk", "count": [ 2, 4 ] }, { "item": "pipe", "count": 2 } ]
     }
   },
   {

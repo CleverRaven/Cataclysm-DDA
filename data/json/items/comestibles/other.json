@@ -826,5 +826,21 @@
     "copy-from": "tea_bag",
     "color": "green",
     "description": "Paper sachet with dried wild herbs inside.  Put it into boiling water to make some healthy warm drink."
+  },
+  {
+    "id": "pre_workout_mix",
+    "type": "COMESTIBLE",
+    "comestible_type": "FOOD",
+    "name": { "str": "pre workout mix" },
+    "flags": [ "IRREPLACEABLE_CONSUMABLE", "INEDIBLE" ],
+    "weight": "7 g",
+    "volume": "10 ml",
+    "color": "yellow",
+    "symbol": ">",
+    "container": "sample_pack",
+    "material": [ "powder" ],
+    "price": 50,
+    "price_postapoc": 200,
+    "description": "A small bag of pre workout mix.  Mix it with water to have a potent drink."
   }
 ]

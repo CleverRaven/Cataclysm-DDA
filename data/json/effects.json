@@ -2020,5 +2020,45 @@
   {
     "type": "effect_type",
     "id": "hunger_blank"
+  },
+  {
+    "type": "effect_type",
+    "id": "pre_workout_jam",
+    "name": [ "Pre Workout Comedown", "Pre Workout Leveling", "Pre Workout Rush" ],
+    "desc": [
+      "You don't feel that great anymore.",
+      "You're leveling off.",
+      "You feel jittery, motivated and even a little bit stronger!"
+    ],
+    "apply_message": "You feel like you could take on the world.",
+    "rating": "good",
+    "decay_messages": [
+      [ "The pre workout has worn off.  You feel uncomfortable, jittery and wore out.", "bad" ],
+      [ "Your pre workout is wearing off.", "neutral" ]
+    ],
+    "int_dur_factor": "800 s",
+    "max_intensity": 3,
+    "removes_effects": [ "winded" ],
+    "base_mods": {
+      "speed_mod": [ -5 ],
+      "str_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "int_mod": [ -1 ],
+      "per_mod": [ -1 ],
+      "thirst_tick": [ 100 ],
+      "hunger_tick": [ 100 ],
+      "thirst_min": [ 10 ],
+      "hunger_min": [ 10 ]
+    },
+    "scaling_mods": {
+      "speed_mod": [ 10 ],
+      "str_mod": [ 1 ],
+      "per_mod": [ 1 ],
+      "dex_mod": [ 0.5 ],
+      "int_mod": [ 0.5 ],
+      "stim_tick": [ 60 ],
+      "stim_min": [ 2 ],
+      "//": "+1 str, +1 per + 15 good, +5 speed neutral, -1 str/dex/per/int bad.  Causes stimulant overdose and stimulants which cancel each other out until overdose wears off.  Punishes player for repeated use."
+    }
   }
 ]
