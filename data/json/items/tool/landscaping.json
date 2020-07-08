@@ -65,7 +65,7 @@
     "volume": "4 L",
     "longest_side": "120 cm",
     "price": 100,
-    "bashing": 12,
+    "bashing": 15,
     "cutting": 1,
     "material": [ "wood" ],
     "symbol": "/",
