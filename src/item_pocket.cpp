@@ -636,9 +636,9 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
     bool processed = false;
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( _sealed ) {
-            // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
+            // Simulate that the item has already "rotten" up to last_temp_check, but as item::rot
             // is not changed, the item is still fresh.
-            it->set_last_rot_check( calendar::turn );
+            it->set_last_temp_check( calendar::turn );
         }
         if( it->process( carrier, pos, type.insulation_factor * insulation, flag ) ) {
             it = contents.erase( it );
