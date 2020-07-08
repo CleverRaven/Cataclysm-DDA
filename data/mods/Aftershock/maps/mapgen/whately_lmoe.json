@@ -7,6 +7,7 @@
     "weight": 100,
     "//2": "ask curstwist how to appropriately remove weight based on quest generated mapgen.",
     "object": {
+      "fill_ter": "t_dirt",
       "rows": [
         "       S     S         S",
         "   S  X    S     S      ",
@@ -43,6 +44,7 @@
     "//": "Above ground",
     "weight": 100,
     "object": {
+      "fill_ter": "t_dirt",
       "rows": [
         "vvvvvvvvvvvvvvvvvvvvvvvv",
         "vvvvvvvvvvvvvvvvvvvvvvvv",
@@ -263,7 +265,8 @@
       ">": "t_stairs_down",
       ")": "t_slope_up",
       "(": "t_slope_down",
-      "T": [ "t_region_tree_fruit", "t_region_tree_nut" ]
+      "T": [ "t_region_tree_fruit", "t_region_tree_nut" ],
+      "X": "t_grass_dead"
     },
     "items": { " ": [ { "item": "forest", "chance": 1 }, { "item": "field", "chance": 2 } ] },
     "monster": { "X": { "monster": "mon_migoturret_whately" } }
