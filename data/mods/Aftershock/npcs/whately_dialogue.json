@@ -189,7 +189,7 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "I can't be Dr Frankenstein unless you get me these."
     },
-    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "container": "flask_glass", "count": 2 } ] }
+    "end": { "effect": [ { "u_buy_item": "mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
   },
   {
     "id": "MISSION_FIND_CYRUS",
@@ -215,7 +215,8 @@
     "start": {
       "assign_mission_target": {
         "om_terrain": "lmoe_whately",
-        "om_special": "Whately_lmoe",
+        "om_special": "Strange LMOE Shelter",
+        "z": 0,
         "reveal_radius": 3,
         "must_see": false,
         "random": true,
