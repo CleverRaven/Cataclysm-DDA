@@ -308,12 +308,12 @@
     "replace": "shot_pump"
   },
   {
-    "id": "four_winds_shotgun",
+    "id": "slamfire_shotgun",
     "type": "MIGRATION",
     "replace": "slamfire_shotgun"
   },
   {
-    "id": "four_winds_shotgun_d",
+    "id": "slamfire_shotgun_d",
     "type": "MIGRATION",
     "replace": "slamfire_shotgun_d"
   }
