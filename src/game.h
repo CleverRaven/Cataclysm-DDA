@@ -968,8 +968,8 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
 
-    public:
         map &m;
+    public:
         avatar &u;
         scent_map &scent;
         timed_event_manager &timed_events;

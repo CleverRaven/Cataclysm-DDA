@@ -229,8 +229,8 @@ int artifact( player *, item *, bool, const tripoint & );
 
 // Helper functions for other iuse functions
 void cut_log_into_planks( player & );
-void play_music( player &p, const tripoint &source, int volume, int max_morale );
-int towel_common( player *, item *, bool );
+void play_music( Character &p, const tripoint &source, int volume, int max_morale );
+int towel_common( Character *, item *, bool );
 
 // Helper for validating a potential taget of robot control
 bool robotcontrol_can_target( player *, const monster & );

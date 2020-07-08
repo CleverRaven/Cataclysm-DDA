@@ -881,7 +881,7 @@ void monster::move()
                 via_ramp = true;
                 candidate.z -= 1;
             }
-            tripoint candidate_abs = g->m.getabs( candidate );
+            tripoint candidate_abs = get_map().getabs( candidate );
 
             if( candidate.z != posz() ) {
                 bool can_z_move = true;
@@ -1827,9 +1827,9 @@ void monster::stumble()
     const bool avoid_water = has_flag( MF_NO_BREATHE ) && !swims() && !has_flag( MF_AQUATIC );
     for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
         if( dest != pos() ) {
-            if( g->m.has_flag( TFLAG_RAMP_DOWN, dest ) ) {
+            if( here.has_flag( TFLAG_RAMP_DOWN, dest ) ) {
                 valid_stumbles.push_back( tripoint( dest.xy(), dest.z - 1 ) );
-            } else  if( g->m.has_flag( TFLAG_RAMP_UP, dest ) ) {
+            } else  if( here.has_flag( TFLAG_RAMP_UP, dest ) ) {
                 valid_stumbles.push_back( tripoint( dest.xy(), dest.z + 1 ) );
             } else {
                 valid_stumbles.push_back( dest );
