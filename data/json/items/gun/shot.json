@@ -736,6 +736,7 @@
     "description": "The USAS 12 looks like a boxy upsized caricature of the M16A2.  Like its Auto Assault-12 predecessor, it is a select-fire shotgun fed from large box or drum magazines.  The in-line recoil system and sheer weight make for pleasant shooting.",
     "weight": "5450 g",
     "volume": "4695 ml",
+    "longest_side": "962 mm",
     "looks_like": "saiga_12",
     "price": 300000,
     "price_postapoc": 5000,
