@@ -857,8 +857,6 @@
     "description": "A crude shotgun, composed of four thick steel pipes, two end caps and two nails.  The lack of sights make this weapon only useful at point-blank range.",
     "weight": "7260 g",
     "volume": "4530 ml",
-    "dispersion": 960,
-    "durability": 4,
     "clip_size": 2,
     "reload": 900,
     "modes": [ [ "DEFAULT", "double", 2 ] ],
