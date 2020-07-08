@@ -156,7 +156,7 @@
     "name": { "str": "Dr Moreau and You", "str_pl": "copies of Dr Moreau and You" },
     "description": "In what many considered a stunning example of poor taste and others considered overt specieism this text on the creation of Uplifted Animals references a story about sapient animals killing their creator.  Otherwise a dry text about genetic modification.",
     "copy-from": "textbook_atomic",
-    "skill": "cooking",
+    "skill": "chemistry",
     "required_level": 9,
     "max_level": 10
   },
@@ -172,7 +172,7 @@
     "symbol": "?",
     "looks_like": "ZSG",
     "color": "cyan",
-    "skill": "cooking",
+    "skill": "chemistry",
     "required_level": 10,
     "max_level": 10,
     "intelligence": 16,

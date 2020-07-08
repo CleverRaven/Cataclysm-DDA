@@ -266,8 +266,6 @@
       "T": [ "t_region_tree_fruit", "t_region_tree_nut" ]
     },
     "items": { " ": [ { "item": "forest", "chance": 1 }, { "item": "field", "chance": 2 } ] },
-    "monster": {
-    "X": { "monster": "mon_migoturret_whately" }
-    }
+    "monster": { "X": { "monster": "mon_migoturret_whately" } }
   }
 ]
