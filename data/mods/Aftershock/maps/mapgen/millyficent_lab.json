@@ -241,7 +241,7 @@
         "m": "t_door_metal_c",
         "o": "t_centrifuge",
         "x": "t_console_broken",
-        "*": "t_thconc_floor_olight",
+        "*": "t_floor_olight",
         "w": "t_window_bars_curtains",
         ">": "t_wood_stairs_down",
         "_": "t_open_air"
