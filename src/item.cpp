@@ -5772,7 +5772,7 @@ int item::get_coverage( const bodypart_id &bodypart ) const
 {
     if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
         return portion_data->coverage;
-    };
+    }
     return 0;
 }
 
