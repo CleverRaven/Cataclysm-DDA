@@ -47,11 +47,12 @@ static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up
     clear_npcs();
     clear_vehicles();
 
+    Character &player_character = get_player_character();
     // Move player somewhere safe
-    REQUIRE_FALSE( g->u.in_vehicle );
-    g->u.setpos( tripoint_zero );
+    REQUIRE_FALSE( player_character.in_vehicle );
+    player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    //g->u.add_effect( effect_blind, 1_turns, num_bp, true );
+    //player_character.add_effect( effect_blind, 1_turns, num_bp, true );
 
     map &here = get_map();
     wipe_map_terrain();
@@ -124,15 +125,16 @@ static void ramp_transition_angled( const vproto_id &veh_id, const int angle,
 
     veh.tags.insert( "IN_CONTROL_OVERRIDE" );
     veh.engine_on = true;
-    g->u.setpos( map_starting_point );
+    Character &player_character = get_player_character();
+    player_character.setpos( map_starting_point );
 
-    REQUIRE( g->u.pos() == map_starting_point );
-    if( g->u.pos() != map_starting_point ) {
+    REQUIRE( player_character.pos() == map_starting_point );
+    if( player_character.pos() != map_starting_point ) {
         return;
     }
-    g->m.board_vehicle( map_starting_point, &g->u );
-    REQUIRE( g->u.pos() == map_starting_point );
-    if( g->u.pos() != map_starting_point ) {
+    get_map().board_vehicle( map_starting_point, &player_character );
+    REQUIRE( player_character.pos() == map_starting_point );
+    if( player_character.pos() != map_starting_point ) {
         return;
     }
     const int transition_cycle = 3;
@@ -173,20 +175,20 @@ static void ramp_transition_angled( const vproto_id &veh_id, const int angle,
                 CHECK( ppos.z == 0 );
             }
             if( pmount.x == 0 && pmount.y == 0 ) {
-                CHECK( g->u.pos() == ppos );
+                CHECK( player_character.pos() == ppos );
             }
         }
         vpts = veh.get_points();
         cycles++;
     }
-    const cata::optional<vpart_reference> vp = here.veh_at( g->u.pos() ).part_with_feature(
+    const cata::optional<vpart_reference> vp = here.veh_at( player_character.pos() ).part_with_feature(
                 VPFLAG_BOARDABLE, true );
     REQUIRE( vp );
     if( vp ) {
-        const int z_change = map_starting_point.z - g->u.pos().z;
-        here.unboard_vehicle( *vp, &g->u, false );
+        const int z_change = map_starting_point.z - player_character.pos().z;
+        here.unboard_vehicle( *vp, &player_character, false );
         here.ter_set( map_starting_point, ter_id( "t_pavement" ) );
-        g->u.setpos( map_starting_point );
+        player_character.setpos( map_starting_point );
         if( z_change ) {
             g->vertical_move( z_change, true );
         }

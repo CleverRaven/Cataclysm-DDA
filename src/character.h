@@ -853,11 +853,6 @@ class Character : public Creature, public visitable<Character>
         void activate_mutation( const trait_id &mutation );
         void deactivate_mutation( const trait_id &mut );
 
-        /** Converts a body_part to an hp_part */
-        static hp_part bp_to_hp( body_part bp );
-        /** Converts an hp_part to a body_part */
-        static body_part hp_to_bp( hp_part hpart );
-
         bool can_mount( const monster &critter ) const;
         void mount_creature( monster &z );
         bool is_mounted() const;
@@ -887,7 +882,7 @@ class Character : public Creature, public visitable<Character>
         void on_hurt( Creature *source, bool disturb = true );
         /** Heals a body_part for dam */
         void heal_bp( bodypart_id bp, int dam ) override;
-        /** Heals an hp_part for dam */
+        /** Heals an part for dam */
         void heal( const bodypart_id &healed, int dam );
         /** Heals all body parts for dam */
         void healall( int dam );
@@ -910,10 +905,10 @@ class Character : public Creature, public visitable<Character>
          * bandage_power - quality of bandage
          * disinfectant_power - quality of disinfectant
          */
-        hp_part body_window( const std::string &menu_header,
-                             bool show_all, bool precise,
-                             int normal_bonus, int head_bonus, int torso_bonus,
-                             float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
+        bodypart_id body_window( const std::string &menu_header,
+                                 bool show_all, bool precise,
+                                 int normal_bonus, int head_bonus, int torso_bonus,
+                                 float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;

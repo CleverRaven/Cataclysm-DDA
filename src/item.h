@@ -1094,7 +1094,7 @@ class item : public visitable<item>
          * Check whether the item has been marked (by calling mark_as_used_by_player)
          * as used by this specific player.
          */
-        bool already_used_by_player( const player &p ) const;
+        bool already_used_by_player( const Character &p ) const;
         /**
          * Marks the item as being used by this specific player, it remains unmarked
          * for other players. The player is identified by its id.

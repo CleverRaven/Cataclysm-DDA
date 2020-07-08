@@ -6067,10 +6067,10 @@ float Character::get_hit_base() const
     return get_dex() / 4.0f;
 }
 
-hp_part Character::body_window( const std::string &menu_header,
-                                bool show_all, bool precise,
-                                int normal_bonus, int head_bonus, int torso_bonus,
-                                float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
+bodypart_id Character::body_window( const std::string &menu_header,
+                                    bool show_all, bool precise,
+                                    int normal_bonus, int head_bonus, int torso_bonus,
+                                    float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
     /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
@@ -6078,24 +6078,23 @@ hp_part Character::body_window( const std::string &menu_header,
     struct healable_bp {
         mutable bool allowed;
         bodypart_id bp;
-        hp_part hp;
         std::string name; // Translated name as it appears in the menu.
         int bonus;
     };
     /* The array of the menu entries show to the player. The entries are displayed in this order,
      * it may be changed here. */
-    std::array<healable_bp, num_hp_parts> parts = { {
-            { false, bodypart_id( "head" ), hp_head, _( "Head" ), head_bonus },
-            { false, bodypart_id( "torso" ), hp_torso, _( "Torso" ), torso_bonus },
-            { false, bodypart_id( "arm_l" ), hp_arm_l, _( "Left Arm" ), normal_bonus },
-            { false, bodypart_id( "arm_r" ), hp_arm_r, _( "Right Arm" ), normal_bonus },
-            { false, bodypart_id( "leg_l" ), hp_leg_l, _( "Left Leg" ), normal_bonus },
-            { false, bodypart_id( "leg_r" ), hp_leg_r, _( "Right Leg" ), normal_bonus },
+    std::array<healable_bp, 6> parts = { {
+            { false, bodypart_id( "head" ),  _( "Head" ), head_bonus },
+            { false, bodypart_id( "torso" ), _( "Torso" ), torso_bonus },
+            { false, bodypart_id( "arm_l" ), _( "Left Arm" ), normal_bonus },
+            { false, bodypart_id( "arm_r" ),  _( "Right Arm" ), normal_bonus },
+            { false, bodypart_id( "leg_l" ),  _( "Left Leg" ), normal_bonus },
+            { false, bodypart_id( "leg_r" ),  _( "Right Leg" ), normal_bonus },
         }
     };
 
     int max_bp_name_len = 0;
-    for( const auto &e : parts ) {
+    for( const healable_bp &e : parts ) {
         max_bp_name_len = std::max( max_bp_name_len, utf8_width( e.name ) );
     }
 
@@ -6107,7 +6106,7 @@ hp_part Character::body_window( const std::string &menu_header,
     bool is_valid_choice = false;
 
     for( size_t i = 0; i < parts.size(); i++ ) {
-        const auto &e = parts[i];
+        const healable_bp &e = parts[i];
         const bodypart_id &bp = e.bp;
         const body_part bp_token = bp->token;
         const int maximal_hp = get_part_hp_max( bp );
@@ -6280,9 +6279,9 @@ hp_part Character::body_window( const std::string &menu_header,
     bmenu.query();
     if( bmenu.ret >= 0 && static_cast<size_t>( bmenu.ret ) < parts.size() &&
         parts[bmenu.ret].allowed ) {
-        return parts[bmenu.ret].hp;
+        return parts[bmenu.ret].bp;
     } else {
-        return num_hp_parts;
+        return bodypart_id( "num_bp" );
     }
 }
 
@@ -6866,52 +6865,6 @@ float Character::rest_quality() const
     // Just a placeholder for now.
     // TODO: Waiting/reading/being unconscious on bed/sofa/grass
     return has_effect( effect_sleep ) ? 1.0f : 0.0f;
-}
-
-hp_part Character::bp_to_hp( const body_part bp )
-{
-    switch( bp ) {
-        case bp_head:
-        case bp_eyes:
-        case bp_mouth:
-            return hp_head;
-        case bp_torso:
-            return hp_torso;
-        case bp_arm_l:
-        case bp_hand_l:
-            return hp_arm_l;
-        case bp_arm_r:
-        case bp_hand_r:
-            return hp_arm_r;
-        case bp_leg_l:
-        case bp_foot_l:
-            return hp_leg_l;
-        case bp_leg_r:
-        case bp_foot_r:
-            return hp_leg_r;
-        default:
-            return num_hp_parts;
-    }
-}
-
-body_part Character::hp_to_bp( const hp_part hpart )
-{
-    switch( hpart ) {
-        case hp_head:
-            return bp_head;
-        case hp_torso:
-            return bp_torso;
-        case hp_arm_l:
-            return bp_arm_l;
-        case hp_arm_r:
-            return bp_arm_r;
-        case hp_leg_l:
-            return bp_leg_l;
-        case hp_leg_r:
-            return bp_leg_r;
-        default:
-            return num_bp;
-    }
 }
 
 std::string Character::extended_description() const

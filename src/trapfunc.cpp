@@ -1043,40 +1043,40 @@ static tripoint random_neighbor( tripoint center )
     return center;
 }
 
-static bool sinkhole_safety_roll( player *p, const itype_id &itemname, const int diff )
+static bool sinkhole_safety_roll( player &p, const itype_id &itemname, const int diff )
 {
     ///\EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
 
     ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
 
     ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
-    const int throwing_skill_level = p->get_skill_level( skill_throw );
-    const int roll = rng( throwing_skill_level, throwing_skill_level + p->str_cur + p->dex_cur );
+    const int throwing_skill_level = p.get_skill_level( skill_throw );
+    const int roll = rng( throwing_skill_level, throwing_skill_level + p.str_cur + p.dex_cur );
     map &here = get_map();
     if( roll < diff ) {
-        p->add_msg_if_player( m_bad, _( "You fail to attach it…" ) );
-        p->use_amount( itemname, 1 );
-        here.spawn_item( random_neighbor( p->pos() ), itemname );
+        p.add_msg_if_player( m_bad, _( "You fail to attach it…" ) );
+        p.use_amount( itemname, 1 );
+        here.spawn_item( random_neighbor( p.pos() ), itemname );
         return false;
     }
 
     std::vector<tripoint> safe;
-    for( const tripoint &tmp : here.points_in_radius( p->pos(), 1 ) ) {
+    for( const tripoint &tmp : here.points_in_radius( p.pos(), 1 ) ) {
         if( here.passable( tmp ) && here.tr_at( tmp ) != tr_pit ) {
             safe.push_back( tmp );
         }
     }
     if( safe.empty() ) {
-        p->add_msg_if_player( m_bad, _( "There's nowhere to pull yourself to, and you sink!" ) );
-        p->use_amount( itemname, 1 );
-        here.spawn_item( random_neighbor( p->pos() ), itemname );
+        p.add_msg_if_player( m_bad, _( "There's nowhere to pull yourself to, and you sink!" ) );
+        p.use_amount( itemname, 1 );
+        here.spawn_item( random_neighbor( p.pos() ), itemname );
         return false;
     } else {
-        p->add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
-                                  _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
-        p->setpos( random_entry( safe ) );
-        if( p->is_avatar() ) {
-            g->update_map( *p );
+        p.add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
+                                 _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
+        p.setpos( random_entry( safe ) );
+        if( p.is_avatar() ) {
+            g->update_map( p );
         }
 
         return true;
@@ -1101,13 +1101,13 @@ bool trapfunc::sinkhole( const tripoint &p, Creature *c, item *i )
         bool success = false;
         if( query_for_item( pl, itype_grapnel,
                             _( "You step into a sinkhole!  Throw your grappling hook out to try to catch something?" ) ) ) {
-            success = sinkhole_safety_roll( pl, itype_grapnel, 6 );
+            success = sinkhole_safety_roll( *pl, itype_grapnel, 6 );
         } else if( query_for_item( pl, itype_bullwhip,
                                    _( "You step into a sinkhole!  Throw your whip out to try and snag something?" ) ) ) {
-            success = sinkhole_safety_roll( pl, itype_bullwhip, 8 );
+            success = sinkhole_safety_roll( *pl, itype_bullwhip, 8 );
         } else if( query_for_item( pl, itype_rope_30,
                                    _( "You step into a sinkhole!  Throw your rope out to try to catch something?" ) ) ) {
-            success = sinkhole_safety_roll( pl, itype_rope_30, 12 );
+            success = sinkhole_safety_roll( *pl, itype_rope_30, 12 );
         }
 
         pl->add_msg_player_or_npc( m_warning, _( "The sinkhole collapses!" ),
@@ -1238,6 +1238,9 @@ bool trapfunc::ledge( const tripoint &p, Creature *c, item * )
 
 bool trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
 {
+    if( c == nullptr ) {
+        return false;
+    }
     // Monsters and npcs are completely ignored here, should they?
     if( c->is_avatar() ) {
         add_msg( m_warning, _( "You step on a loose tile, and water starts to flood the room!" ) );
@@ -1260,6 +1263,9 @@ bool trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
 
 bool trapfunc::temple_toggle( const tripoint &p, Creature *c, item * )
 {
+    if( c == nullptr ) {
+        return false;
+    }
     // Monsters and npcs are completely ignored here, should they?
     if( c->is_avatar() ) {
         add_msg( _( "You hear the grinding of shifting rock." ) );
@@ -1358,7 +1364,7 @@ bool trapfunc::hum( const tripoint &p, Creature *, item * )
 
 bool trapfunc::shadow( const tripoint &p, Creature *c, item * )
 {
-    if( !c->is_avatar() ) {
+    if( c == nullptr || !c->is_avatar() ) {
         return false;
     }
     map &here = get_map();
