@@ -122,7 +122,8 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         if( static_cast<size_t>( thisline ) >= bps.size() ) {
             break;
         }
-        const bodypart_id bp = bps[thisline].first;
+
+        const bodypart_id &bp = bps[thisline].first;
         const bool combine = bps[thisline].second;
         const encumbrance_data &e = get_part_encumbrance_data( bp );
 
