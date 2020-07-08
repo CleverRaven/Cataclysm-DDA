@@ -95,6 +95,7 @@ static const activity_id ACT_WAIT_STAMINA( "ACT_WAIT_STAMINA" );
 static const activity_id ACT_WAIT_WEATHER( "ACT_WAIT_WEATHER" );
 
 static const efftype_id effect_alarm_clock( "alarm_clock" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_relax_gas( "relax_gas" );
 
@@ -1868,6 +1869,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't open things while you're in your shell." ) );
                 } else if( player_character.is_mounted() ) {
                     add_msg( m_info, _( "You can't open things while you're riding." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
                     open();
                 }
@@ -1876,6 +1879,8 @@ bool game::handle_action()
             case ACTION_CLOSE:
                 if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't close things while you're in your shell." ) );
+                } else if( player_character.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else if( player_character.is_mounted() ) {
                     auto mon = player_character.mounted_creature.get();
                     if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
@@ -1893,6 +1898,8 @@ bool game::handle_action()
                     handbrake();
                 } else if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't smash things while you're in your shell." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
                     smash();
                 }
@@ -1913,6 +1920,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't move mass quantities while you're in your shell." ) );
                 } else if( player_character.is_mounted() ) {
                     add_msg( m_info, _( "You can't move mass quantities while you're riding." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
                     create_advanced_inv();
                 }
@@ -1923,6 +1932,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
                 } else if( player_character.is_mounted() ) {
                     add_msg( m_info, _( "You can't pick anything up while you're riding." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else if( mouse_target ) {
                     pickup( *mouse_target );
                 } else {
@@ -1933,6 +1944,8 @@ bool game::handle_action()
             case ACTION_PICKUP_FEET:
                 if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't pick anything up while you're in your shell." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
                     pickup_feet();
                 }
@@ -1943,6 +1956,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't grab things while you're in your shell." ) );
                 } else if( player_character.is_mounted() ) {
                     add_msg( m_info, _( "You can't grab things while you're riding." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
                     grab();
                 }
@@ -1953,6 +1968,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't haul things while you're in your shell." ) );
                 } else if( player_character.is_mounted() ) {
                     add_msg( m_info, _( "You can't haul things while you're riding." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
                     haul();
                 }
@@ -1963,6 +1980,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't butcher while you're in your shell." ) );
                 } else if( player_character.is_mounted() ) {
                     add_msg( m_info, _( "You can't butcher while you're riding." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
                     butcher();
                 }
@@ -2141,6 +2160,8 @@ bool game::handle_action()
             case ACTION_CRAFT:
                 if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
+                } else if( player_character.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else if( player_character.is_mounted() ) {
                     add_msg( m_info, _( "You can't craft while you're riding." ) );
                 } else {
@@ -2151,6 +2172,8 @@ bool game::handle_action()
             case ACTION_RECRAFT:
                 if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
+                } else if( player_character.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else if( player_character.is_mounted() ) {
                     add_msg( m_info, _( "You can't craft while you're riding." ) );
                 } else {
@@ -2163,6 +2186,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't craft while you're in your shell." ) );
                 } else if( player_character.is_mounted() ) {
                     add_msg( m_info, _( "You can't craft while you're riding." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
                     player_character.long_craft();
                 }
@@ -2173,6 +2198,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't disassemble items while driving." ) );
                 } else if( player_character.is_mounted() ) {
                     add_msg( m_info, _( "You can't disassemble items while you're riding." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
                     player_character.disassemble();
                 }
@@ -2185,6 +2212,8 @@ bool game::handle_action()
                     add_msg( m_info, _( "You can't construct while you're in your shell." ) );
                 } else if( player_character.is_mounted() ) {
                     add_msg( m_info, _( "You can't construct while you're riding." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
                     construction_menu( false );
                 }
@@ -2207,6 +2236,8 @@ bool game::handle_action()
                     player_character.dismount();
                 } else if( player_character.has_trait( trait_WAYFARER ) ) {
                     add_msg( m_info, _( "You refuse to take control of this vehicle." ) );
+                } else if( u.has_effect( effect_incorporeal ) ) {
+                    add_msg( m_info, _( "You lack the substance to affect anything." ) );
                 } else {
                     control_vehicle();
                 }

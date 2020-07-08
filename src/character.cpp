@@ -123,6 +123,7 @@ static const efftype_id effect_crushed( "crushed" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_deaf( "deaf" );
 static const efftype_id effect_disinfected( "disinfected" );
+static const efftype_id effect_disrupted_sleep( "disrupted_sleep" );
 static const efftype_id effect_downed( "downed" );
 static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_earphones( "earphones" );
@@ -151,6 +152,7 @@ static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
 static const efftype_id effect_hypovolemia( "hypovolemia" );
 static const efftype_id effect_in_pit( "in_pit" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_jetinjector( "jetinjector" );
 static const efftype_id effect_lack_sleep( "lack_sleep" );
@@ -161,12 +163,12 @@ static const efftype_id effect_melatonin( "melatonin" );
 static const efftype_id effect_mending( "mending" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_nausea( "nausea" );
+static const efftype_id effect_nightmares( "nightmares" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
-static const efftype_id effect_recently_coughed( "recently_coughed" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
@@ -377,6 +379,7 @@ static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
 static const vitamin_id vitamin_blood( "blood" );
+static const morale_type morale_nightmare( "morale_nightmare" );
 
 namespace io
 {
@@ -3197,6 +3200,11 @@ bool Character::can_pickWeight( const item &it, bool safe ) const
 
 bool Character::can_use( const item &it, const item &context ) const
 {
+    if( has_effect( effect_incorporeal ) ) {
+        add_msg_player_or_npc( m_bad, _( "You can't use anything while incorporeal." ),
+                               _( "<npcname> can't use anything while incorporeal." ) );
+        return false;
+    }
     const auto &ctx = !context.is_null() ? context : it;
 
     if( !meets_requirements( it, ctx ) ) {
@@ -3222,6 +3230,9 @@ bool Character::can_use( const item &it, const item &context ) const
 
 ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) const
 {
+    if( has_effect( effect_incorporeal ) ) {
+        return ret_val<bool>::make_failure( _( "You can't wear anything while incorporeal." ) );
+    }
     if( !it.is_armor() ) {
         return ret_val<bool>::make_failure( _( "Putting on a %s would be tricky." ), it.tname() );
     }
@@ -5151,7 +5162,7 @@ void Character::update_needs( int rate_multiplier )
                 sleep.set_duration( 1_turns );
                 mod_fatigue( -25 );
             } else {
-                if( has_effect( effect_recently_coughed ) ) {
+                if( has_effect( effect_disrupted_sleep ) ) {
                     recovered *= .5;
                 }
                 mod_fatigue( -recovered );
@@ -6618,7 +6629,7 @@ nc_color Character::symbol_color() const
 bool Character::is_immune_field( const field_type_id &fid ) const
 {
     // Obviously this makes us invincible
-    if( has_trait( trait_DEBUG_NODMG ) ) {
+    if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
         return true;
     }
     // Check to see if we are immune
@@ -8175,7 +8186,7 @@ void Character::cough( bool harmful, int loudness )
 
     moves -= 80;
 
-    add_effect( effect_recently_coughed, 5_minutes );
+    add_effect( effect_disrupted_sleep, 5_minutes );
 }
 
 void Character::wake_up()
@@ -8195,6 +8206,12 @@ void Character::wake_up()
         get_effect( effect_alarm_clock ).set_duration( 0_turns );
     }
     recalc_sight_limits();
+
+    if( has_effect( effect_nightmares ) ) {
+        add_msg_if_player( m_bad, "%s",
+                           SNIPPET.random_from_category( "nightmares" ).value_or( translation() ) );
+        add_morale( morale_nightmare, -15, -30, 30_minutes );
+    }
 }
 
 int Character::get_shout_volume() const
@@ -8869,6 +8886,9 @@ void Character::did_hit( Creature &target )
 
 ret_val<bool> Character::can_wield( const item &it ) const
 {
+     if( has_effect( effect_incorporeal ) ) {
+        return ret_val<bool>::make_failure( _( "You can't wield anything while incorporeal." ) );
+    }
     if( it.made_of_from_type( phase_id::LIQUID ) ) {
         return ret_val<bool>::make_failure( _( "Can't wield spilt liquids." ) );
     }
@@ -8968,9 +8988,10 @@ void Character::on_hit( Creature *source, bodypart_id /*bp_hit*/,
  */
 void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const bool bypass_med )
 {
-    if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) ) {
+    if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
         // don't do any more damage if we're already dead
         // Or if we're debugging and don't want to die
+        // Or we are intangible
         return;
     }
 
@@ -9019,7 +9040,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
 dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         const damage_instance &d )
 {
-    if( has_trait( trait_DEBUG_NODMG ) ) {
+    if( has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ) {
         return dealt_damage_instance();
     }
 
@@ -9215,7 +9236,8 @@ void Character::healall( int dam )
 
 void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
 {
-    if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || dam <= 0 ) {
+    if( is_dead_state() || has_trait( trait_DEBUG_NODMG ) || has_effect( effect_incorporeal ) ||
+        dam <= 0 ) {
         return;
     }
 

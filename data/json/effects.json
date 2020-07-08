@@ -2129,7 +2129,17 @@
   },
   {
     "type": "effect_type",
-    "id": "recently_coughed"
+    "id": "disrupted_sleep"
+  },
+  {
+    "type": "effect_type",
+    "id": "nightmares"
+  },
+  {
+    "type": "effect_type",
+    "id": "incorporeal",
+    "name": [ "Incorporeal" ],
+    "desc": [ "You lack substance, as if composed of mist." ]
   },
   {
     "type": "effect_type",

@@ -88,6 +88,8 @@ static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
+
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_nausea( "nausea" );
 
@@ -2209,7 +2211,7 @@ static bool mine_activity( player &p, const tripoint &src_loc )
     } );
     map &here = get_map();
     if( mining_inv.empty() || p.is_mounted() || p.is_underwater() || here.veh_at( src_loc ) ||
-        !here.has_flag( "MINEABLE", src_loc ) ) {
+        !here.has_flag( "MINEABLE", src_loc ) || p.has_effect( effect_incorporeal ) ) {
         return false;
     }
     item *chosen_item = nullptr;
