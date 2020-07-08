@@ -1801,7 +1801,13 @@ bool overmap::generate_over( const int z )
         }
     }
 
-    // Check and put bridgeheads
+    generate_bridgeheads( bridge_points );
+
+    return requires_over;
+}
+
+void overmap::generate_bridgeheads( const std::vector<point> &bridge_points )
+{
     std::vector<std::pair<point, std::string>> bridgehead_points;
     for( const point &bp : bridge_points ) {
         //const oter_id oter_ground = ter( tripoint( bp, 0 ) );
@@ -1833,10 +1839,7 @@ bool overmap::generate_over( const int z )
         ter_set( p, oter_id( "bridgehead_ground" + bhp.second ) );
         ter_set( p + tripoint_above, oter_id( "bridgehead_ramp" + bhp.second ) );
     }
-
-    return requires_over;
 }
-
 
 std::vector<point> overmap::find_terrain( const std::string &term, int zlevel )
 {
