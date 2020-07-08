@@ -33,6 +33,8 @@ class JsonOut;
 
 // NOLINTNEXTLINE(cata-xy)
 struct point {
+    static constexpr int dimension = 2;
+
     int x = 0;
     int y = 0;
     constexpr point() = default;
@@ -123,8 +125,29 @@ struct point {
 void serialize( const point &p, JsonOut &jsout );
 void deserialize( point &p, JsonIn &jsin );
 
+inline int divide_round_to_minus_infinity( int n, int d )
+{
+    if( n >= 0 ) {
+        return n / d;
+    }
+    return ( n - d + 1 ) / d;
+}
+
+inline point multiply_xy( const point &p, int f )
+{
+    return point( p.x * f, p.y * f );
+}
+
+inline point divide_xy_round_to_minus_infinity( const point &p, int d )
+{
+    return point( divide_round_to_minus_infinity( p.x, d ),
+                  divide_round_to_minus_infinity( p.y, d ) );
+}
+
 // NOLINTNEXTLINE(cata-xy)
 struct tripoint {
+    static constexpr int dimension = 3;
+
     int x = 0;
     int y = 0;
     int z = 0;
@@ -227,6 +250,18 @@ struct tripoint {
         return false;
     }
 };
+
+inline tripoint multiply_xy( const tripoint &p, int f )
+{
+    return tripoint( p.x * f, p.y * f, p.z );
+}
+
+inline tripoint divide_xy_round_to_minus_infinity( const tripoint &p, int d )
+{
+    return tripoint( divide_round_to_minus_infinity( p.x, d ),
+                     divide_round_to_minus_infinity( p.y, d ),
+                     p.z );
+}
 
 struct rectangle {
     point p_min;

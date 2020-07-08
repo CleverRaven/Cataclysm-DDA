@@ -452,7 +452,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "20 m",
+    "time": "5 m",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -491,6 +491,7 @@
     "difficulty": 2,
     "time": "25 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [

@@ -577,7 +577,7 @@ class map
         void board_vehicle( const tripoint &p, Character *pl );
         // Remove given passenger from given vehicle part.
         // If dead_passenger, then null passenger is acceptable.
-        void unboard_vehicle( const vpart_reference &, player *passenger,
+        void unboard_vehicle( const vpart_reference &, Character *passenger,
                               bool dead_passenger = false );
         // Remove passenger from vehicle at p.
         void unboard_vehicle( const tripoint &p, bool dead_passenger = false );
@@ -1360,8 +1360,7 @@ class map
         void place_toilet( const point &p, int charges = 6 * 4 );
         void place_vending( const point &p, const std::string &type, bool reinforced = false );
         // places an NPC, if static NPCs are enabled or if force is true
-        character_id place_npc( const point &p, const string_id<npc_template> &type,
-                                bool force = false );
+        character_id place_npc( const point &p, const string_id<npc_template> &type );
         void apply_faction_ownership( const point &p1, const point &p2, const faction_id &id );
         void add_spawn( const mtype_id &type, int count, const tripoint &p,
                         bool friendly = false, int faction_id = -1, int mission_id = -1,

@@ -1995,13 +1995,18 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
 void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member );
-    const std::string &value = jo.get_string( "value" );
-    function = [is_npc, var_name, value]( const dialogue & d ) {
+    const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
+    const std::string &value = time_check ? "" : jo.get_string( "value" );
+    function = [is_npc, var_name, value, time_check]( const dialogue & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
         }
-        actor->set_value( var_name, value );
+        if( time_check ) {
+            actor->set_value( var_name, string_format( "%d", to_turn<int>( calendar::turn ) ) );
+        } else {
+            actor->set_value( var_name, value );
+        }
     };
 }
 

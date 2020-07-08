@@ -917,10 +917,11 @@ struct pointmenu_cb::impl_t {
 pointmenu_cb::impl_t::impl_t( const std::vector<tripoint> &pts ) : points( pts )
 {
     last = INT_MIN;
-    last_view = g->u.view_offset;
-    terrain_draw_cb = make_shared_fast<game::draw_callback_t>( [this]() {
+    avatar &player_character = get_avatar();
+    last_view = player_character.view_offset;
+    terrain_draw_cb = make_shared_fast<game::draw_callback_t>( [this, &player_character]() {
         if( last >= 0 && static_cast<size_t>( last ) < points.size() ) {
-            g->draw_trail_to_square( g->u.view_offset, true );
+            g->draw_trail_to_square( player_character.view_offset, true );
         }
     } );
     g->add_draw_callback( terrain_draw_cb );
@@ -928,7 +929,7 @@ pointmenu_cb::impl_t::impl_t( const std::vector<tripoint> &pts ) : points( pts )
 
 pointmenu_cb::impl_t::~impl_t()
 {
-    g->u.view_offset = last_view;
+    get_avatar().view_offset = last_view;
 }
 
 void pointmenu_cb::impl_t::select( uilist *const menu )
@@ -937,13 +938,14 @@ void pointmenu_cb::impl_t::select( uilist *const menu )
         return;
     }
     last = menu->selected;
+    avatar &player_character = get_avatar();
     if( menu->selected < 0 || menu->selected >= static_cast<int>( points.size() ) ) {
-        g->u.view_offset = tripoint_zero;
+        player_character.view_offset = tripoint_zero;
     } else {
         const tripoint &center = points[menu->selected];
-        g->u.view_offset = center - g->u.pos();
+        player_character.view_offset = center - player_character.pos();
         // TODO: Remove this line when it's safe
-        g->u.view_offset.z = 0;
+        player_character.view_offset.z = 0;
     }
     g->invalidate_main_ui_adaptor();
 }
