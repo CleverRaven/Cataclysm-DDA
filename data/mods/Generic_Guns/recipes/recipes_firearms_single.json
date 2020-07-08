@@ -125,7 +125,7 @@
   },
   {
     "type": "recipe",
-    "result": "four_winds_shotgun",
+    "result": "slamfire_shotgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
@@ -167,7 +167,7 @@
   },
   {
     "type": "recipe",
-    "result": "four_winds_shotgun",
+    "result": "slamfire_shotgun",
     "id_suffix": "without_welding",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -208,7 +208,7 @@
   },
   {
     "type": "recipe",
-    "result": "four_winds_shotgun_d",
+    "result": "slamfire_shotgun_d",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
@@ -250,7 +250,7 @@
   },
   {
     "type": "recipe",
-    "result": "four_winds_shotgun_d",
+    "result": "slamfire_shotgun_d",
     "id_suffix": "welded_and_bolted",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -294,7 +294,7 @@
   },
   {
     "type": "recipe",
-    "result": "four_winds_shotgun_d",
+    "result": "slamfire_shotgun_d",
     "id_suffix": "welded_together",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
@@ -308,7 +308,7 @@
   },
   {
     "type": "recipe",
-    "result": "four_winds_shotgun_d",
+    "result": "slamfire_shotgun_d",
     "id_suffix": "taped_together",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
