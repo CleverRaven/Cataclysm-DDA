@@ -89,6 +89,10 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::becomes_wanted>(
         m, b, "Became wanted by the police!", ch );
 
+    // To insure we don't trigger losing the Structural Integrity conduct during the test,
+    // Break the subject's leg first.
+    b.send<event_type::broken_bone>( ch, bp_leg_l );
+
     check_memorial<event_type::broken_bone>(
         m, b, "Broke her right arm.", ch, bp_arm_r );
 
