@@ -827,10 +827,10 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
-    "id": "slamfire_shotgun",
+    "id": "four_winds_shotgun",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "slam-fire pipe shotgun" },
+    "name": { "str": "four winds shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
     "weight": "3629 g",
     "volume": "2264 ml",
