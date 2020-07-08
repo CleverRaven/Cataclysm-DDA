@@ -2539,5 +2539,5 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.weight_carried_with_tweaks( dropping ),
                u.weight_capacity(),
                u.volume_carried_with_tweaks( dropping ),
-               u.volume_capacity() );
+               u.volume_capacity_with_tweaks( dropping ) );
 }

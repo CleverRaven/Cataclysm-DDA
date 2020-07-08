@@ -1434,6 +1434,9 @@ class Character : public Creature, public visitable<Character>
         const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
+        units::volume volume_capacity_with_tweaks(const item_tweaks& tweaks) const;
+        units::volume volume_capacity_with_tweaks(const std::vector<std::pair<item_location, int>>
+            & locations) const;
         units::volume free_space() const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
