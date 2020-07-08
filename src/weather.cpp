@@ -552,7 +552,7 @@ void handle_weather_effects( weather_type_id const w )
     glare( w );
     std::vector<std::pair<weather_effect_fn, int>> weather_effects = w->effects;
 
-    for( const std::pair<const weather_effect_fn, int> &effect : weather_effects ) {
+    for( const std::pair<weather_effect_fn, int> &effect : weather_effects ) {
         effect.first( effect.second );
     }
 }
