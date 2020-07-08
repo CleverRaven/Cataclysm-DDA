@@ -1853,6 +1853,7 @@ void islot_armor::load( const JsonObject &jo )
         for( const JsonObject &obj : jo.get_array( "armor_portion_data" ) ) {
             // If this item used copy-from, data[0] is already set, so skip adding first data
             if( dont_add_first ) {
+                obj.allow_omitted_members();
                 dont_add_first = false;
                 continue;
             }
