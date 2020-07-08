@@ -304,7 +304,7 @@
     "time": "2 h",
     "autolearn": true,
     "qualities": [ { "id": "WELD", "level": 1 } ],
-    "components": [ [ [ "four_winds_shotgun", 2 ] ], [ [ "scrap", 2 ] ] ]
+    "components": [ [ [ "slamfire_shotgun", 2 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -316,6 +316,6 @@
     "skills_required": [ [ "gun", 1 ] ],
     "time": "1 h",
     "autolearn": true,
-    "components": [ [ [ "four_winds_shotgun", 2 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [ [ [ "slamfire_shotgun", 2 ] ], [ [ "duct_tape", 100 ] ] ]
   }
 ]
