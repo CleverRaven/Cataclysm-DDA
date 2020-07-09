@@ -53,18 +53,20 @@
         "trial": {
           "type": "CONDITION",
           "condition": {
-            "or": [
-              { "npc_need": "thirst", "amount": 80 },
-              { "npc_need": "hunger", "amount": 160 },
-              { "npc_need": "fatigue", "level": "TIRED" },
-              { "npc_has_effect": "asked_to_train" },
-              "u_driving",
-              "npc_driving"
-            ]
+            "not": {
+              "or": [
+                { "npc_need": "thirst", "amount": 80 },
+                { "npc_need": "hunger", "amount": 160 },
+                { "npc_need": "fatigue", "level": "TIRED" },
+                { "npc_has_effect": "asked_to_train" },
+                "u_driving",
+                "npc_driving"
+              ]
+            }
           }
         },
-        "success": { "topic": "TALK_DENY_TRAIN" },
-        "failure": { "topic": "TALK_TRAIN_PERSUADE" }
+        "success": { "topic": "TALK_TRAIN_PERSUADE" },
+        "failure": { "topic": "TALK_DENY_TRAIN" }
       },
       {
         "text": "Let's trade items",
