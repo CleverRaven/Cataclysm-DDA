@@ -259,6 +259,7 @@
     "price_postapoc": 2000,
     "bashing": 5,
     "material": [ "paper" ],
+    "ascii_picture": "textbook_chemistry",
     "symbol": "?",
     "color": "blue",
     "skill": "chemistry",

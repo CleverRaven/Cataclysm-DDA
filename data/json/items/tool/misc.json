@@ -808,6 +808,7 @@
     "bashing": 6,
     "cutting": 4,
     "material": [ "plastic", "aluminum" ],
+    "ascii_picture": "umbrella",
     "symbol": "/",
     "color": "magenta",
     "techniques": [ "WBLOCK_1" ],
