@@ -2323,7 +2323,7 @@ void overmap::place_forest_trailheads()
 
     const auto trailhead_close_to_road = [&]( const tripoint & trailhead ) {
         bool close = false;
-        for( const tripoint &nearby_point : closest_tripoints_first(
+        for( const tripoint &nearby_point : closest_points_first(
                  trailhead,
                  settings.forest_trail.trailhead_road_distance
              ) ) {
