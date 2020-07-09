@@ -175,7 +175,7 @@
       "~": "t_water_pump",
       "G": "t_generator_broken",
       "t": "t_metal_floor",
-      "k": "t_thconc_floor_olight"
+      "k": "t_metal_floor_olight"
     },
     "furniture": {
       "A": "f_air_filter",
@@ -269,6 +269,6 @@
       "X": "t_grass_dead"
     },
     "items": { " ": [ { "item": "forest", "chance": 1 }, { "item": "field", "chance": 2 } ] },
-    "monster": { "X": { "monster": "mon_migoturret_whately" } }
+    "monster": { "X": { "monster": "mon_migoturret_whately", "friendly": "true" } }
   }
 ]

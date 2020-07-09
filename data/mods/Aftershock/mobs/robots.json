@@ -41,7 +41,8 @@
     "name": { "str": "Whately family brain blaster" },
     "description": "The Whately family deploys mi-go style techno-organic defensive turrets.  They claim that these turrets are made from family members near death, but you have doubts.",
     "default_faction": "whately",
-    "copy-from": "afs_mon_migoturret"
+    "copy-from": "afs_mon_migoturret",
+    "aggression": 1
   },
   {
     "id": "mon_chickenbot",

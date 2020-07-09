@@ -17,5 +17,21 @@
       { "trait": "BGSS_VATGROWN_1" },
       { "trait": "BGSS_CRIMINAL_EXPERIMENT" }
     ]
+  },
+  {
+    "//": "This group picks out background traits that could apply to any Frankenstein revivee.",
+    "type": "trait_group",
+    "id": "BG_revival_story_FRANKENSTEIN",
+    "subtype": "distribution",
+    "traits": [
+      { "trait": "BGRS_Confused_1" },
+      { "trait": "BGRS_No_Past_1" },
+      { "trait": "BGRS_No_Past_2" },
+      { "trait": "BGRS_No_Past_3" },
+      { "trait": "BGRS_Religious_1" },
+      { "trait": "BGRS_Religious_2" },
+      { "trait": "BGRS_Dreamer" },
+      { "trait": "BGRS_Bonesinger_1" }
+    ]
   }
 ]

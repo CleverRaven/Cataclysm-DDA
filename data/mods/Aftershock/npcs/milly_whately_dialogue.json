@@ -196,7 +196,7 @@
     "type": "mission_definition",
     "name": "Find my great uncle Cyrus Whately",
     "description": "Cyrus and his family were poorly liked even for Whately's before the end of the world.  They went so far off grid that they may not even know anything has changed.  I need to know he's alive and where his research has taken him.",
-    "goal": "MGOAL_TALK_TO_NPC",
+    "goal": "MGOAL_GO_TO_TYPE",
     "difficulty": 2,
     "value": 150000,
     "origins": [ "ORIGIN_SECONDARY" ],

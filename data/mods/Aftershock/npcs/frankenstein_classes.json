@@ -6,7 +6,7 @@
     "job_description": "The mi-go took me and vivisected me.  Now you've given me a body again.",
     "//": "Make a Frankenstein BG story",
     "traits": [
-      { "group": "BG_survival_story_UNIVERSAL" },
+      { "group": "BG_revival_story_FRANKENSTEIN" },
       { "group": "NPC_starting_traits" },
       { "group": "Appearance_demographics" },
       [ "SHOUT1", 75 ]
