@@ -519,7 +519,7 @@
         "item_restriction": [ "lipo_battery" ]
       }
     ],
-    "flags": [ "WATCH", "ALARMCLOCK" ]
+    "flags": [ "WATCH", "ALARMCLOCK", "NO_UNLOAD", "NO_RELOAD" ]
   },
   {
     "id": "smartphone_music",
