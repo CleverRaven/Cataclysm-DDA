@@ -165,6 +165,8 @@ static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_NO_TAKEOFF( "NO_TAKEOFF" );
+static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_RAD_RESIST( "RAD_RESIST" );
 static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 static const std::string flag_TOURNIQUET( "TOURNIQUET" );
@@ -890,7 +892,9 @@ void Character::suffer_from_item_dropping()
         std::vector<item *> dump = inv_dump();
         std::list<item> tumble_items;
         for( item *dump_item : dump ) {
-            tumble_items.push_back( *dump_item );
+            if( !dump_item->has_flag( flag_NO_UNWIELD ) && !dump_item->has_flag( flag_NO_TAKEOFF ) ) {
+                tumble_items.push_back( *dump_item );
+            }
         }
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, tumble_items );
         for( auto i : dump ) {
