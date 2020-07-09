@@ -86,7 +86,7 @@
     "type": "talk_topic",
     "dynamic_line": {
       "u_is_wearing": "badge_marshal",
-      "yes": "Well here and now I am the law and the law here is people purchase my goods they take them out into the world and they die or they return to buy more of my goods, either way I write poetry about them.",
+      "yes": "Well here and now I am the law, and the law here is that people purchase my goods, they take them out into the world and they die; or they return to buy more of my goods.  Either way, I write poetry about them.",
       "no": "Once I was lost in the throes of love, now I've built an empire of material goods."
     },
     "responses": [ { "text": "Good day, sir.", "topic": "TALK_FORGE_LORD" } ]
