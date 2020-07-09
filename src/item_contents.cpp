@@ -1076,7 +1076,7 @@ void item_contents::update_modified_pockets(
             if( !found ) {
                 if( !pocket.empty() ) {
                     // in case the debugmsg wasn't clear, this should never happen
-                    debugmsg( "Oops! deleted some items when updating pockets that were added via toolmods" );
+                    debugmsg( "Oops!  deleted some items when updating pockets that were added via toolmods" );
                 }
                 pocket_iter = contents.erase( pocket_iter );
             } else {
@@ -1089,7 +1089,7 @@ void item_contents::update_modified_pockets(
                 if( pocket.get_pocket_data() != *mag_or_mag_well ) {
                     if( !pocket.empty() ) {
                         // in case the debugmsg wasn't clear, this should never happen
-                        debugmsg( "Oops! deleted some items when updating pockets that were added via toolmods" );
+                        debugmsg( "Oops!  deleted some items when updating pockets that were added via toolmods" );
                     }
                     contents.push_back( item_pocket( *mag_or_mag_well ) );
                     pocket_iter = contents.erase( pocket_iter );
