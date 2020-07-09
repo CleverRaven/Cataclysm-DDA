@@ -73,7 +73,7 @@
         "Do you have any tales of adventure I could write down?",
         "In case you were wondering, we no longer respect any pre-existing weapon laws."
       ],
-      "no": [ "Welcome to the Forge of Wonders.", "Here to trade, I hope?", "Bring me, tales and we can trade." ]
+      "no": [ "Welcome to the Forge of Wonders.", "Here to trade, I hope?", "Bring me tales and we can trade." ]
     },
     "responses": [
       { "text": "Let's trade.", "effect": "start_trade", "topic": "TALK_FORGE_LORD" },
