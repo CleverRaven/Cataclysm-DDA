@@ -35,7 +35,7 @@
     "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
     "weight": "2041 g",
     "volume": "2750 ml",
-    "longest_side": "46 cm",
+    "longest_side": "80 cm",
     "price": 75000,
     "price_postapoc": 5000,
     "to_hit": -2,
@@ -47,7 +47,7 @@
     "ranged_damage": { "damage_type": "stab", "amount": 1 },
     "dispersion": 180,
     "durability": 5,
-    "ups_charges": 1,
+    "ups_charges": 2,
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],
