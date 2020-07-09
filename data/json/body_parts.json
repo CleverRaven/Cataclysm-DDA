@@ -313,7 +313,7 @@
     "hit_difficulty": 0,
     "side": "both",
     "base_hp": 60,
-    "drench_capacity": 0,
+    "drench_capacity": 1,
     "legacy_id": "NUM_BP"
   }
 ]
