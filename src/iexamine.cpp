@@ -899,7 +899,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
         } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( critter.pos(), 10 ) ) {
+                for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
                     if( here.ter( candidate ) != ter_id( "t_elevator" ) &&
                         here.passable( candidate ) &&
                         !g->critter_at( candidate ) ) {
@@ -922,7 +922,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( p.pos(), 10 ) ) {
+                for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
                     if( here.ter( candidate ) == ter_id( "t_elevator" ) &&
                         candidate != p.pos() &&
                         !g->critter_at( candidate ) ) {
@@ -1150,9 +1150,11 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( ( p.encumb( bp_torso ) ) >= 10 ) && ( ( p.encumb( bp_head ) ) >= 10 ) &&
-        ( p.encumb( bp_foot_l ) >= 10 ||
-          p.encumb( bp_foot_r ) >= 10 ) ) { // Most likely places for rigid gear that would catch on the bars.
+    if( ( ( p.encumb( bodypart_id( "torso" ) ) ) >= 10 ) &&
+        ( ( p.encumb( bodypart_id( "head" ) ) ) >= 10 ) &&
+        ( p.encumb( bodypart_id( "foot_l" ) ) >= 10 ||
+          p.encumb( bodypart_id( "foot_r" ) ) >=
+          10 ) ) { // Most likely places for rigid gear that would catch on the bars.
         add_msg( m_info,
                  _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
                  here.tername( examp ) );
@@ -2000,7 +2002,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     here.furn_set( examp, f_egg_sacke );
     int monster_count = 0;
     if( one_in( 2 ) ) {
-        for( const tripoint &nearby_pos : closest_tripoints_first( examp, 1 ) ) {
+        for( const tripoint &nearby_pos : closest_points_first( examp, 1 ) ) {
             if( !one_in( 3 ) ) {
                 continue;
             } else if( g->place_critter_at( montype, nearby_pos ) ) {

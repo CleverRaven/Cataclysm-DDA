@@ -88,7 +88,6 @@ enum safe_mode_type {
 };
 
 enum body_part : int;
-enum weather_type : int;
 enum action_id : int;
 
 struct special_game;
@@ -149,6 +148,10 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend map &get_map();
+        friend Character &get_player_character();
+        friend avatar &get_avatar();
+        friend weather_manager &get_weather();
     public:
         game();
         ~game();
@@ -964,9 +967,8 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
 
-    public:
-        /** Make map a reference here, to avoid map.h in game.h */
         map &m;
+    public:
         avatar &u;
         scent_map &scent;
         timed_event_manager &timed_events;

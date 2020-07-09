@@ -151,7 +151,7 @@ void Character::set_mutation( const trait_id &trait )
     cached_mutations.push_back( &trait.obj() );
     mutation_effect( trait );
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 void Character::unset_mutation( const trait_id &trait_ )
@@ -170,7 +170,7 @@ void Character::unset_mutation( const trait_id &trait_ )
     my_mutations.erase( iter );
     mutation_loss_effect( trait );
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 void Character::switch_mutations( const trait_id &switched, const trait_id &target,

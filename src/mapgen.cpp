@@ -5673,11 +5673,8 @@ void map::place_vending( const point &p, const std::string &type, bool reinforce
     }
 }
 
-character_id map::place_npc( const point &p, const string_id<npc_template> &type, bool force )
+character_id map::place_npc( const point &p, const string_id<npc_template> &type )
 {
-    if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
-        return character_id(); //Do not generate an npc.
-    }
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
     temp->normalize();
     temp->load_npc_template( type );
