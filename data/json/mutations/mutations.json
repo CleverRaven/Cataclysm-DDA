@@ -535,16 +535,6 @@
   },
   {
     "type": "mutation",
-    "id": "ROBUST",
-    "name": { "str": "Robust Genetics" },
-    "points": 3,
-    "description": "You have a very strong genetic base.  If you mutate, the odds that the mutation will be beneficial are greatly increased.",
-    "starting_trait": true,
-    "cancels": [ "CHAOTIC_BAD" ],
-    "category": [ "FISH", "SLIME", "ALPHA", "MEDICAL" ]
-  },
-  {
-    "type": "mutation",
     "id": "EAGLEEYED",
     "//": "Can't change the ID as that breaks save-compatibility.",
     "name": { "str": "Scout" },
@@ -679,7 +669,6 @@
     "points": 1,
     "description": "You have no qualms about bending the truth, and have practically no tells.  Telling lies and otherwise bluffing will be much easier for you.",
     "starting_trait": true,
-    "cancels": [ "TRUTHTELLER" ],
     "social_modifiers": { "lie": 40 }
   },
   {
@@ -1211,16 +1200,6 @@
     "description": "You are badly allergic to wool, and cannot wear any clothing made of the substance.",
     "starting_trait": true,
     "valid": true
-  },
-  {
-    "type": "mutation",
-    "id": "TRUTHTELLER",
-    "name": { "str": "Truth Teller" },
-    "points": -1,
-    "description": "When you try to tell a lie, you blush, stammer, and get all shifty-eyed.  Telling lies and otherwise bluffing will be much more difficult for you.",
-    "starting_trait": true,
-    "cancels": [ "LIAR" ],
-    "social_modifiers": { "lie": -40 }
   },
   {
     "type": "mutation",
@@ -2786,7 +2765,6 @@
     "ugliness": 2,
     "mixed_effect": true,
     "description": "You have grown large, curved, and wickedly sharp talons in place of your big toes.  Fortunately, they don't get in the way of your movement.  Unfortunately, they do prevent wearing footgear.",
-    "valid": false,
     "types": [ "LEGS" ],
     "category": [ "RAPTOR" ],
     "restricts_gear": [ "FOOT_L", "FOOT_R" ],
@@ -2802,7 +2780,7 @@
     "type": "mutation",
     "id": "HOOVES",
     "name": { "str": "Hooves" },
-    "points": -4,
+    "points": -2,
     "visibility": 2,
     "ugliness": 2,
     "mixed_effect": true,
@@ -2812,7 +2790,7 @@
     "wet_protection": [ { "part": "FOOT_L", "neutral": 10 }, { "part": "FOOT_R", "neutral": 10 } ],
     "restricts_gear": [ "FOOT_L", "FOOT_R" ],
     "destroys_gear": true,
-    "armor": [ { "parts": [ "FOOT_L", "FOOT_R" ], "bash": 1 } ],
+    "armor": [ { "parts": [ "FOOT_L", "FOOT_R" ], "bash": 5, "cut": 5 } ],
     "attacks": {
       "attack_text_u": "You kick %s with your hooves",
       "attack_text_npc": "%1$s kicks %2$s with their hooves",
@@ -3176,7 +3154,7 @@
     "type": "mutation",
     "id": "TAIL_RAT",
     "name": { "str": "Rodent Tail" },
-    "points": 1,
+    "points": 0,
     "visibility": 6,
     "ugliness": 4,
     "description": "You have a long but hairless tail.  It's a pretty effective balancing aid, but does look, uh, ratty.  Prevents wearing non-fabric pants.",
@@ -3191,7 +3169,7 @@
     "type": "mutation",
     "id": "TAIL_THICK",
     "name": { "str": "Thick Tail" },
-    "points": 1,
+    "points": 0,
     "visibility": 8,
     "ugliness": 2,
     "description": "You have a long, thick, lizardlike tail.  It helps you balance a bit but also makes a serviceable whip.  Prevents wearing non-fabric pants.",
@@ -3243,7 +3221,7 @@
     "type": "mutation",
     "id": "TAIL_STING",
     "name": { "str": "Spiked Tail" },
-    "points": 0,
+    "points": -1,
     "visibility": 6,
     "ugliness": 3,
     "description": "You have a long tail that ends in a vicious stinger.  It does not improve your balance at all, but allows for a powerful piercing attack.  Prevents wearing non-fabric pants.",
@@ -3262,7 +3240,7 @@
     "type": "mutation",
     "id": "TAIL_CLUB",
     "name": { "str": "Club Tail" },
-    "points": 0,
+    "points": -1,
     "visibility": 7,
     "ugliness": 2,
     "description": "You have a long tail that ends in a heavy, bony club.  It does not improve your balance at all, but allows for a powerful bashing attack.  Prevents wearing non-fabric pants.",
@@ -3334,32 +3312,6 @@
     "cancels": [ "FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW" ],
     "category": [ "URSINE", "CATTLE" ],
     "hp_modifier_secondary": 0.4
-  },
-  {
-    "type": "mutation",
-    "id": "PAINREC1",
-    "name": { "str": "Pain Recovery" },
-    "points": 3,
-    "description": "You recover from pain slightly faster than normal.",
-    "changes_to": [ "PAINREC2" ]
-  },
-  {
-    "type": "mutation",
-    "id": "PAINREC2",
-    "name": { "str": "Quick Pain Recovery" },
-    "points": 5,
-    "description": "You recover from pain faster than normal.",
-    "prereqs": [ "PAINREC1" ],
-    "changes_to": [ "PAINREC3" ]
-  },
-  {
-    "type": "mutation",
-    "id": "PAINREC3",
-    "name": { "str": "Very Quick Pain Recovery" },
-    "points": 8,
-    "description": "You recover from pain much faster than normal.",
-    "prereqs": [ "PAINREC2" ],
-    "category": [ "MEDICAL" ]
   },
   {
     "type": "mutation",

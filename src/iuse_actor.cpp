@@ -91,6 +91,7 @@ static const activity_id ACT_SPELLCASTING( "ACT_SPELLCASTING" );
 static const activity_id ACT_STUDY_SPELL( "ACT_STUDY_SPELL" );
 static const activity_id ACT_START_FIRE( "ACT_START_FIRE" );
 
+static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_bite( "bite" );
@@ -4350,11 +4351,24 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         return checks.charges_used;
     }
 
-    if( is_weak && !one_in( 3 ) ) {
+    bool no_category = mutation_category == "ANY";
+    bool balanced = get_option<bool>( "BALANCED_MUTATIONS" );
+    int accumulated_mutagen = p.get_effect_int( effect_accumulated_mutagen );
+    if( balanced && !is_strong && is_weak && accumulated_mutagen < 2 && no_category && !p.query_yn(
+            _( "Looking at it just makes you tired.  It probably won't work.  Do you want to try anyway?" )
+        ) ) {
+        return 0;
+    }
+    if( is_weak && !one_in( 3 ) && !balanced ) {
         // Nothing! Mutagenic flesh often just fails to work.
         return it.type->charges_to_use();
     }
 
+    if( balanced && no_category ) {
+        for( int i = ( is_strong ? 1 : 0 ) + ( is_weak ? 0 : 1 ); i > 0; i-- ) {
+            p.add_effect( effect_accumulated_mutagen, 2_days, num_bp, true );
+        }
+    }
     const mutation_category_trait &m_category = mutation_category_trait::get_category(
                 mutation_category );
 

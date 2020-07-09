@@ -74,6 +74,7 @@ static const bionic_id bio_spasm( "bio_spasm" );
 static const bionic_id bio_sunglasses( "bio_sunglasses" );
 static const bionic_id bio_trip( "bio_trip" );
 
+static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
@@ -1477,6 +1478,10 @@ void Character::suffer()
 
     suffer_without_sleep( sleep_deprivation );
     suffer_from_pain();
+
+    if( calendar::once_every( 1_hours ) ) {
+        add_effect( effect_accumulated_mutagen, 1_hours, num_bp, true );
+    }
 }
 
 bool Character::irradiate( float rads, bool bypass )

@@ -1950,5 +1950,12 @@
     "id": "ignore_fall_damage",
     "//": "Used for translocation via teleporter_list as a way to avoid fall damage by teleporting Z levels",
     "flags": [ "EFFECT_FEATHER_FALL" ]
+  },
+  {
+    "type": "effect_type",
+    "id": "accumulated_mutagen",
+    "max_intensity": 7,
+    "max_duration": "22 d",
+    "int_dur_factor": "3 d"
   }
 ]

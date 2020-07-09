@@ -931,6 +931,10 @@ class Character : public Creature, public visitable<Character>
         void mutation_loss_effect( const trait_id &mut );
 
         bool has_active_mutation( const trait_id &b ) const;
+    private:
+        // The old mutation algorithm
+        void old_mutate();
+    public:
         /** Picks a random valid mutation and gives it to the Character, possibly removing/changing others along the way */
         void mutate();
         /** Returns true if the player doesn't have the mutation or a conflicting one and it complies with the force typing */
@@ -943,6 +947,8 @@ class Character : public Creature, public visitable<Character>
         bool mutate_towards( const trait_id &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const trait_id &mut, bool silent = false );
+        /** Calculate percentage chances for mutations */
+        std::map<trait_id, float> mutation_chances() const;
         /** Returns true if the player has the entered mutation child flag */
         bool has_child_flag( const trait_id &flag ) const;
         /** Removes the mutation's child flag from the player's list */

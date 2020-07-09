@@ -142,6 +142,7 @@ enum debug_menu_index {
     DEBUG_CHANGE_TIME,
     DEBUG_SET_AUTOMOVE,
     DEBUG_SHOW_MUT_CAT,
+    DEBUG_SHOW_MUT_CHANCES,
     DEBUG_OM_EDITOR,
     DEBUG_BENCHMARK,
     DEBUG_OM_TELEPORT,
@@ -227,6 +228,7 @@ static int info_uilist( bool display_all_entries = true )
             { uilist_entry( DEBUG_DISPLAY_LIGHTING, true, 'l', _( "Toggle display lighting" ) ) },
             { uilist_entry( DEBUG_DISPLAY_RADIATION, true, 'R', _( "Toggle display radiation" ) ) },
             { uilist_entry( DEBUG_SHOW_MUT_CAT, true, 'm', _( "Show mutation category levels" ) ) },
+            { uilist_entry( DEBUG_SHOW_MUT_CHANCES, true, 'u', _( "Show mutation trait chances" ) ) },
             { uilist_entry( DEBUG_BENCHMARK, true, 'b', _( "Draw benchmark (X seconds)" ) ) },
             { uilist_entry( DEBUG_TRAIT_GROUP, true, 't', _( "Test trait group" ) ) },
             { uilist_entry( DEBUG_SHOW_MSG, true, 'd', _( "Show debug message" ) ) },
@@ -1548,6 +1550,12 @@ void debug()
         case DEBUG_SHOW_MUT_CAT:
             for( const auto &elem : u.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
+            }
+            break;
+
+        case DEBUG_SHOW_MUT_CHANCES:
+            for( const auto &elem : u.mutation_chances() ) {
+                add_msg( "%s: %.2f", elem.first.c_str(), elem.second );
             }
             break;
 

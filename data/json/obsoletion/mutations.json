@@ -1,0 +1,47 @@
+[
+  {
+    "type": "mutation",
+    "id": "ROBUST",
+    "name": { "str": "Robust Genetics" },
+    "points": 0,
+    "description": "Genetics?  Doesn't excuse not eating healthy, though.",
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "TRUTHTELLER",
+    "name": { "str": "Truth Teller" },
+    "points": 0,
+    "description": "I'd lie if I said this trait was worth a whole point.",
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PAINREC1",
+    "name": { "str": "Pain Recovery" },
+    "points": 0,
+    "description": "You recover from pain slightly faster than normal.  DUMMIED OUT because it wasn't actually functional…",
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PAINREC2",
+    "name": { "str": "Quick Pain Recovery" },
+    "points": 0,
+    "description": "You recover from pain faster than normal.  DUMMIED OUT because it wasn't actually functional…",
+    "valid": false,
+    "player_display": false
+  },
+  {
+    "type": "mutation",
+    "id": "PAINREC3",
+    "name": { "str": "Very Quick Pain Recovery" },
+    "points": 0,
+    "description": "You recover from pain much faster than normal.  DUMMIED OUT because it wasn't actually functional…",
+    "valid": false,
+    "player_display": false
+  }
+]

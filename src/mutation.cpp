@@ -24,6 +24,7 @@
 #include "memorial_logger.h"
 #include "monster.h"
 #include "omdata.h"
+#include "options.h"
 #include "output.h"
 #include "overmapbuffer.h"
 #include "player_activity.h"
@@ -34,6 +35,7 @@
 
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 
+static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_stunned( "stunned" );
 
 static const trait_id trait_CARNIVORE( "CARNIVORE" );
@@ -690,7 +692,216 @@ bool Character::mutation_ok( const trait_id &mutation, bool force_good, bool for
     return true;
 }
 
+static int sum_of_mutation_costs( const Character &c )
+{
+    const auto mutations = c.get_mutations();
+    return std::accumulate( mutations.begin(), mutations.end(), 0, []( int i, const trait_id & tr ) {
+        return i + tr->cost;
+    } );
+}
+
+// Stat sum + good trait sum - bad trait sum
+static int genetic_score( const Character &c )
+{
+    // Assumes 4*8+6 stats
+    // TODO: Get actual starting stats
+    return 38 + sum_of_mutation_costs( c );
+}
+
+static float score_difference_to_chance( float diff )
+{
+    const float M_SQRT_PI_2 = std::sqrt( 2 * M_PI );
+    constexpr float mean = 0.0f;
+    constexpr float sigma = 5.0f;
+    return ( 1 / ( sigma * M_SQRT_PI_2 ) ) * exp( -0.5 * pow( ( diff - mean ) / sigma, 2.0 ) );
+}
+
+template<class T, class V = typename T::value_type>
+static T normalized_map( const T &ctn )
+{
+    T ret;
+    float sum = std::accumulate( std::begin( ctn ), std::end( ctn ), 0.0f,
+    []( float acc, const V & v ) {
+        return acc + v.second;
+    } );
+    std::transform( std::begin( ctn ), std::end( ctn ), std::inserter( ret, ret.end() ),
+    [sum]( const V & v ) {
+        return V( v.first, v.second / sum );
+    } );
+    return ret;
+}
+
+// Weights are proportional to:
+// 1+4*cat_lvl/max(hi_lvl, 20)
+// *2 if it's the highest level category (ties favor the one earlier in vector)
+// For removals it's:
+// 5-4*cat_lvl/max(hi_lvl, 20)
+// /2 if highest lvl
+static std::map<std::string, float> calc_category_weights( const std::map<std::string, int> &mcl,
+        bool addition )
+{
+    std::map<std::string, float> category_weights;
+    auto max_lvl_iter = std::max_element( mcl.begin(), mcl.end(),
+    []( const auto & best, const auto & current ) {
+        return current.second > best.second;
+    } );
+    float h_lvl = std::max<float>( max_lvl_iter->second, 20.0f );
+    for( const auto &cat_lvl : mcl ) {
+        float weight = addition ? ( 1 + 4 * ( cat_lvl.second / h_lvl ) )
+                       : ( 5 - 4 * ( cat_lvl.second / h_lvl ) );
+        category_weights[cat_lvl.first] = weight;
+    }
+    category_weights[max_lvl_iter->first] *= 2;
+
+    return normalized_map( category_weights );
+}
+
+struct potential_mutation {
+    potential_mutation( const trait_id &f, const trait_id &t, int w )
+        : from( f )
+        , to( t )
+        , weight( w ) {
+    }
+    // Set to null if we're evolving from zero
+    trait_id from;
+    // Set to null if we're removing it completely
+    trait_id to;
+    // Multiplier on relative importance (not directly on chance!)
+    int weight;
+};
+
+std::map<trait_id, float> Character::mutation_chances() const
+{
+    bool force_bad = false;
+    const bool force_good = false;
+    if( has_trait( trait_CHAOTIC_BAD ) ) {
+        force_bad = true;
+    }
+
+    int current_score = genetic_score( *this );
+    // 10/10/10/10 in stats, balanced traits, plus tip
+    int expected_score = 4 * 10 + 6;
+    int direction = expected_score - current_score;
+
+    // Duplicates allowed - they'll increase chances of change
+    std::vector<potential_mutation> potential;
+
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
+        const trait_id &base_mutation = traits_iter.id;
+        const mutation_branch &base_mdata = traits_iter;
+        bool thresh_save = base_mdata.threshold;
+        bool prof_save = base_mdata.profession;
+        bool purify_save = !base_mdata.purifiable;
+        bool can_remove = !thresh_save && !prof_save && !purify_save;
+
+        if( has_trait( base_mutation ) ) {
+            for( const trait_id &mutation : base_mdata.replacements ) {
+                if( mutation->valid && mutation_ok( mutation, force_good, force_bad ) ) {
+                    potential.emplace_back( base_mutation, mutation, 3 );
+                }
+            }
+
+            for( const trait_id &mutation : base_mdata.additions ) {
+                if( mutation->valid && mutation_ok( mutation, force_good, force_bad ) ) {
+                    potential.emplace_back( trait_id::NULL_ID(), mutation, 3 );
+                }
+            }
+
+            // Removal or downgrade (if possible)
+            if( can_remove ) {
+                potential.emplace_back( base_mutation, trait_id::NULL_ID(), 2 );
+            }
+        } else {
+            // Addition from nothing
+            // Duplicates addition above, but that's OK, we need to handle dupes anyway
+            if( base_mutation->valid && mutation_ok( base_mutation, force_good, force_bad ) ) {
+                potential.emplace_back( trait_id::NULL_ID(), base_mutation, 1 );
+            }
+        }
+    }
+
+    // We need all mutation categories in here
+    std::map<std::string, int> padded_mut_cat_lvl = mutation_category_level;
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
+        for( const std::string &cat : traits_iter.category ) {
+            // Will do nothing if it exists already
+            padded_mut_cat_lvl.insert( std::make_pair( cat, 0 ) );
+        }
+    }
+
+    const std::map<std::string, float> add_weighs =
+        calc_category_weights( padded_mut_cat_lvl, true );
+    const std::map<std::string, float> rem_weighs =
+        calc_category_weights( padded_mut_cat_lvl, false );
+
+    // Not normalized
+    std::map<trait_id, float> chances;
+
+    // Warning: has duplicates
+    for( const potential_mutation &pm : potential ) {
+        int cost_from = pm.from.is_valid() ? pm.from->cost : 0;
+        int cost_to = pm.to.is_valid() ? pm.to->cost : 0;
+        int score_diff = cost_to - cost_from;
+
+        if( pm.to.is_valid() ) {
+            float cat_mod = std::accumulate( pm.to->category.begin(), pm.to->category.end(), 0.0f,
+            [&add_weighs]( float m, const std::string & cat ) {
+                return std::max( m, add_weighs.at( cat ) );
+            } );
+            float c = score_difference_to_chance( direction + score_diff );
+            chances[pm.to] += c * cat_mod;
+        } else if( pm.from.is_valid() ) {
+            float cat_mod = std::accumulate( pm.from->category.begin(), pm.from->category.end(), 0.0f,
+            [&rem_weighs]( float m, const std::string & cat ) {
+                return std::min( m, rem_weighs.at( cat ) );
+            } );
+            float c = score_difference_to_chance( direction - score_diff );
+            chances[pm.from] += c * cat_mod;
+        }
+    }
+
+    return normalized_map( chances );
+}
+
 void Character::mutate()
+{
+    if( get_option<bool>( "BALANCED_MUTATIONS" ) ) {
+        effect &mutagen = get_effect( effect_accumulated_mutagen );
+        float mut_power = to_turns<float>( mutagen.get_duration() ) / to_turns<float>
+                          ( mutagen.get_int_dur_factor() );
+        add_msg_if_player( m_debug, "Mutation accumulation: %.1f", mut_power );
+        while( mut_power > 1 || roll_remainder( mut_power ) > 0 ) {
+            std::map<trait_id, float> chances = mutation_chances();
+
+            weighted_float_list<trait_id> mutation_picker;
+            for( const std::pair<trait_id, float> &p : chances ) {
+                mutation_picker.add( p.first, p.second );
+            }
+
+            for( int tries = 0; tries < 3; tries++ ) {
+                const trait_id *selected = mutation_picker.pick();
+                if( selected == nullptr ) {
+                    continue;
+                }
+                add_msg_if_player( m_debug, "Selected mutation %s", selected->obj().name().c_str() );
+                if( has_trait( *selected ) ) {
+                    remove_mutation( *selected );
+                    break;
+                } else {
+                    mutate_towards( *selected );
+                    break;
+                }
+            }
+
+            mutagen.mod_duration( -mutagen.get_int_dur_factor() );
+            mut_power -= 1.0f;
+        }
+    } else {
+        old_mutate();
+    }
+}
+
+void Character::old_mutate()
 {
     bool force_bad = one_in( 3 );
     bool force_good = false;
@@ -856,13 +1067,17 @@ void Character::mutate_category( const std::string &cat )
         return;
     }
 
-    bool force_bad = one_in( 3 );
+    bool force_bad = one_in( 3 ) && !get_option<bool>( "BALANCED_MUTATIONS" );
     bool force_good = false;
     if( has_trait( trait_ROBUST ) && force_bad ) {
         // Robust Genetics gives you a 33% chance for a good mutation,
         // instead of the 33% chance of a bad one.
         force_bad = false;
         force_good = true;
+    }
+    if( has_trait( trait_CHAOTIC_BAD ) ) {
+        force_bad = true;
+        force_good = false;
     }
 
     // Pull the category's list for valid mutations

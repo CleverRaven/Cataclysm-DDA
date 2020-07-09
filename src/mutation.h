@@ -449,7 +449,7 @@ struct mutation_category_trait {
         // These are defaults
         int mutagen_hunger  = 10;
         int mutagen_thirst  = 10;
-        int mutagen_pain    = 2;
+        int mutagen_pain    = 0;
         int mutagen_fatigue = 5;
         int mutagen_morale  = 0;
         // The minimum mutations an injection provides

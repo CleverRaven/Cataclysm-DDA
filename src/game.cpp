@@ -194,6 +194,7 @@ static const skill_id skill_computer( "computer" );
 
 static const species_id PLANT( "PLANT" );
 
+static const efftype_id effect_accumulated_mutagen( "accumulated_mutagen" );
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_blind( "blind" );
@@ -793,6 +794,7 @@ bool game::start_game()
     u.set_highest_cat_level();
     //Calculate mutation drench protection stats
     u.drench_mut_calc();
+    u.add_effect( effect_accumulated_mutagen, 27_days, num_bp, true );
     if( scen->has_flag( "FIRE_START" ) ) {
         start_loc.burn( omtstart, 3, 3 );
     }

@@ -90,7 +90,7 @@ void mutation_category_trait::load( const JsonObject &jsobj )
     new_category.raw_mutagen_message = jsobj.get_string( "mutagen_message" );
     new_category.mutagen_hunger  = jsobj.get_int( "mutagen_hunger", 10 );
     new_category.mutagen_thirst  = jsobj.get_int( "mutagen_thirst", 10 );
-    new_category.mutagen_pain    = jsobj.get_int( "mutagen_pain", 2 );
+    new_category.mutagen_pain    = jsobj.get_int( "mutagen_pain", 0 );
     new_category.mutagen_fatigue = jsobj.get_int( "mutagen_fatigue", 5 );
     new_category.mutagen_morale  = jsobj.get_int( "mutagen_morale", 0 );
     new_category.raw_iv_message = jsobj.get_string( "iv_message" );

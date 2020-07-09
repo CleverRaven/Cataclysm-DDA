@@ -201,5 +201,12 @@
     "info": "Allows learning recipes by reading books.",
     "stype": "bool",
     "value": true
+  },
+  {
+    "type": "EXTERNAL_OPTION",
+    "name": "BALANCED_MUTATIONS",
+    "info": "Makes mutation more balanced and interesting.",
+    "stype": "bool",
+    "value": true
   }
 ]
