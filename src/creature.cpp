@@ -1581,7 +1581,6 @@ int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
 
 float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
 {
-    add_msg( "%s: %i", id.id().c_str(), get_part( id ).get_drench_capacity() );
     return get_part( id ).get_wetness_percentage();
 }
 
