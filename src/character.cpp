@@ -2919,16 +2919,16 @@ units::volume Character::volume_carried_with_tweaks( const
 
 units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
-    const std::map<const item*, int> empty;
-    const std::map<const item*, int>& without = tweaks.without_items ? tweaks.without_items->get() :
-        empty;
+    const std::map<const item *, int> empty;
+    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+            empty;
 
     // Worn items
     units::volume ret = 0_ml;
-    for (auto& i : worn) {
-        if (!without.count(&i)) {
-            for (auto j : i.contents.all_items_ptr(item_pocket::pocket_type::CONTAINER)) {
-                if (!without.count(j)) {
+    for( auto &i : worn ) {
+        if( !without.count( &i ) ) {
+            for( auto j : i.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+                if( !without.count( j ) ) {
                     ret += j->volume();
                 }
             }
@@ -2936,13 +2936,13 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     }
 
     // Items in inventory
-    const inventory& i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
-    ret += i.volume_without(without);
+    const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
+    ret += i.volume_without( without );
 
     // Wielded item
-    if (!without.count(&weapon)) {
-        for (auto j : weapon.contents.all_items_ptr(item_pocket::pocket_type::CONTAINER)) {
-            if (!without.count(j)) {
+    if( !without.count( &weapon ) ) {
+        for( auto j : weapon.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+            if( !without.count( j ) ) {
                 ret += j->volume();
             }
         }
@@ -9254,30 +9254,31 @@ units::volume Character::volume_capacity() const
     return volume_capacity;
 }
 
-units::volume Character::volume_capacity_with_tweaks(const
-    std::vector<std::pair<item_location, int>>
-    & locations) const
+units::volume Character::volume_capacity_with_tweaks( const
+        std::vector<std::pair<item_location, int>>
+        &locations ) const
 {
-    std::map<const item*, int> dropping;
-    for (const std::pair<item_location, int>& location_pair : locations) {
-        dropping.emplace(location_pair.first.get_item(), location_pair.second);
+    std::map<const item *, int> dropping;
+    for( const std::pair<item_location, int> &location_pair : locations ) {
+        dropping.emplace( location_pair.first.get_item(), location_pair.second );
     }
-    return volume_capacity_with_tweaks({ dropping });
+    return volume_capacity_with_tweaks( { dropping } );
 }
 
-units::volume Character::volume_capacity_with_tweaks(const item_tweaks& tweaks) const {
-    const std::map<const item*, int> empty;
-    const std::map<const item*, int>& without = tweaks.without_items ? tweaks.without_items->get() :
-        empty;
+units::volume Character::volume_capacity_with_tweaks( const item_tweaks &tweaks ) const
+{
+    const std::map<const item *, int> empty;
+    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+            empty;
 
     units::volume volume_capacity = 0_ml;
 
-    if (!without.count(&weapon)) {
+    if( !without.count( &weapon ) ) {
         volume_capacity += weapon.contents.total_container_capacity();
     }
 
-    for (auto& i : worn) {
-        if (!without.count(&i)) {
+    for( auto &i : worn ) {
+        if( !without.count( &i ) ) {
             volume_capacity += i.contents.total_container_capacity();
         }
     }
