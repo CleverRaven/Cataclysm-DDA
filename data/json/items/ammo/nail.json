@@ -8,7 +8,7 @@
     "material": [ "steel" ],
     "symbol": "=",
     "color": "dark_gray",
-    "proportional": { "price": 3, "damage": { "damage_type": "stab", "amount": 3.0, "armor_penetration": 3.0 } }
+    "proportional": { "price": 3, "range": 2.0, "damage": { "damage_type": "stab", "amount": 2.0 }, "dispersion": 0.5 }
   },
   {
     "id": "nail",
