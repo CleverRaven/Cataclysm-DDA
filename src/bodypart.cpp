@@ -506,6 +506,11 @@ void bodypart::set_wetness( int set )
     wetness = set;
 }
 
+void bodypart::set_drench_capacity( int set )
+{
+    drench_capacity = set;
+}
+
 void bodypart::set_temp_cur( int set )
 {
     temp_cur = set;
@@ -574,6 +579,12 @@ void bodypart::serialize( JsonOut &json ) const
     json.member( "hp_max", hp_max );
     json.member( "damage_bandaged", damage_bandaged );
     json.member( "damage_disinfected", damage_disinfected );
+
+    json.member( "wetness", wetness );
+    json.member( "temp_cur", temp_cur );
+    json.member( "temp_conv", temp_conv );
+    json.member( "frostbite_timer", frostbite_timer );
+
     json.end_object();
 }
 
@@ -585,6 +596,11 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "hp_max", hp_max, true );
     jo.read( "damage_bandaged", damage_bandaged, true );
     jo.read( "damage_disinfected", damage_disinfected, true );
+
+    jo.read( "wetness", wetness, true );
+    jo.read( "temp_cur", temp_cur, true );
+    jo.read( "temp_conv", temp_conv, true );
+    jo.read( "frostbite_timer", frostbite_timer, true );
 }
 
 void stat_hp_mods::load( const JsonObject &jsobj )

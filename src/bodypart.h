@@ -216,7 +216,7 @@ class bodypart
         encumbrance_data encumb_data;
 
     public:
-        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ), drench_capacity( 0 ) {}
+        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ), drench_capacity( 1 ) {}
         bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
             drench_capacity( id->drench_max )  {}
 
@@ -246,6 +246,7 @@ class bodypart
         void set_damage_bandaged( int set );
         void set_damage_disinfected( int set );
         void set_wetness( int set );
+        void set_drench_capacity( int set );
         void set_temp_cur( int set );
         void set_temp_conv( int set );
         void set_frostbite_timer( int set );
