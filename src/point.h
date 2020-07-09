@@ -372,8 +372,8 @@ struct sphere {
  * Following functions return points in a spiral pattern starting at center_x/center_y until it hits the radius. Clockwise fashion.
  * Credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
  */
-std::vector<tripoint> closest_tripoints_first( const tripoint &center, int max_dist );
-std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_dist, int max_dist );
+std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist );
+std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist, int max_dist );
 
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );
