@@ -87,6 +87,8 @@ struct weather_requirements {
     bool acidic = false;
     weather_time_requirement_type time;
     std::vector<weather_type_id> required_weathers;
+    time_duration time_passed_min;
+    time_duration time_passed_max;
 };
 
 struct weather_field {

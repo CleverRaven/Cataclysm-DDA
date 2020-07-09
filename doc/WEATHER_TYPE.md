@@ -42,7 +42,8 @@ Each weather type is a type of weather that occurs, its effects and what causes 
 	`acidic`                     | does this require acidic precipitation                                |
 	`time`                       | Valid values are: day, night, and both.                               |
 	`required_weathers`          | a string array of possible weathers it is at this point in the loop. i.e. rain can only happen if the conditions for clouds light drizzle or drizzle are present |
-
+	`time_passed_min`              | Optional: The amount of time that has to have passed after the cataclysm.|
+	`time_passed_max`              | Optional: After this much time post cataclysm this weather stops.|
 ### Example
 
 ```json

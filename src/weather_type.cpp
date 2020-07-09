@@ -263,6 +263,11 @@ void weather_type::load( const JsonObject &jo, const std::string & )
              weather_requires.get_string_array( "required_weathers" ) ) {
             new_requires.required_weathers.push_back( weather_type_id( required_weather ) );
         }
+        optional( weather_requires, was_loaded, "time_passed_min", new_requires.time_passed_min,
+                  0_seconds );
+        optional( weather_requires, was_loaded, "time_passed_max", new_requires.time_passed_max,
+                  0_seconds );
+
         requirements = new_requires;
     }
 }

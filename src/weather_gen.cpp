@@ -183,6 +183,12 @@ weather_type_id weather_generator::get_weather_conditions( const w_point &w ) co
         weather_type_id type = weather_type_id( weather_type );
 
         const weather_requirements &requires = type->requirements;
+        if( ( calendar::turn < ( calendar::start_of_cataclysm + requires.time_passed_min ) ) ||
+            ( requires.time_passed_max != 0_seconds &&
+              ( calendar::turn > ( calendar::start_of_cataclysm + requires.time_passed_max ) ) ) ) {
+            continue;
+        }
+
         bool test_pressure =
             requires.pressure_max > w.pressure &&
             requires.pressure_min < w.pressure;
