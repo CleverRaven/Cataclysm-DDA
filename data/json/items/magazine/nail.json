@@ -3,7 +3,7 @@
     "id": "nailmag",	
     "looks_like": "stanag30",	
     "type": "MAGAZINE",	
-    "name": { "str": "nail rifle magazine" },	
+    "name": { "str": "coilgun magazine" },	
     "description": "An improvised magazine for use with a coilgun.  Little more than a metal box, spring and some duct tape it is awkward to reload and not especially reliable.",	
     "weight": "60 g",	
     "volume": "250 ml",	
