@@ -6602,7 +6602,7 @@ void vehicle::leak_fuel( vehicle_part &pt )
 
     map &here = get_map();
     // leak in random directions but prefer closest tiles and avoid walls or other obstacles
-    std::vector<tripoint> tiles = closest_tripoints_first( global_part_pos3( pt ), 1 );
+    std::vector<tripoint> tiles = closest_points_first( global_part_pos3( pt ), 1 );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
         return !here.passable( e );
     } ), tiles.end() );

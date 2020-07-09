@@ -752,7 +752,7 @@ void npc::place_on_map()
         return;
     }
 
-    for( const tripoint &p : closest_tripoints_first( pos(), SEEX + 1 ) ) {
+    for( const tripoint &p : closest_points_first( pos(), SEEX + 1 ) ) {
         if( g->is_empty( p ) ) {
             setpos( p );
             return;

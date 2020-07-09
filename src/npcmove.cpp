@@ -983,7 +983,7 @@ void npc::execute_action( npc_action action )
             // Find a nice spot to sleep
             int best_sleepy = sleep_spot( pos() );
             tripoint best_spot = pos();
-            for( const tripoint &p : closest_tripoints_first( pos(), 6 ) ) {
+            for( const tripoint &p : closest_points_first( pos(), 6 ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -2465,7 +2465,7 @@ void npc::avoid_friendly_fire()
     center.y = std::round( center.y / friend_count );
     center.z = std::round( center.z / friend_count );
 
-    std::vector<tripoint> candidates = closest_tripoints_first( pos(), 1 );
+    std::vector<tripoint> candidates = closest_points_first( pos(), 1 );
     candidates.erase( candidates.begin() );
     std::sort( candidates.begin(), candidates.end(),
     [&tar, &center]( const tripoint & l, const tripoint & r ) {
@@ -2675,7 +2675,7 @@ static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripo
 
     // We need to path to adjacent tile, not the exact one
     // Let's pick the closest one to us that is passable
-    std::vector<tripoint> candidates = closest_tripoints_first( p, 1 );
+    std::vector<tripoint> candidates = closest_points_first( p, 1 );
     std::sort( candidates.begin(), candidates.end(), [ closest_to ]( const tripoint & l,
     const tripoint & r ) {
         return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
@@ -2746,7 +2746,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
 void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
 {
     map &here = get_map();
-    for( const tripoint &p : closest_tripoints_first( pos(), 6 ) ) {
+    for( const tripoint &p : closest_points_first( pos(), 6 ) ) {
         if( here.sees_some_items( p, *this ) && sees( p ) ) {
             for( const item &it : here.i_at( p ) ) {
                 if( one_in( 100 ) && ( it.typeId() == object ) ) {
@@ -2850,7 +2850,7 @@ void npc::find_item()
         }
     };
 
-    for( const tripoint &p : closest_tripoints_first( pos(), range ) ) {
+    for( const tripoint &p : closest_points_first( pos(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
         if( is_player_ally() && g->check_zone( zone_type_no_npc_pickup, p ) ) {

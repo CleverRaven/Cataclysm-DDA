@@ -1724,6 +1724,7 @@
     "harvest": "mammal_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
+    "zombify_into": "mon_zombie_horse",
     "flags": [
       "SEES",
       "HEARS",
