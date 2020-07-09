@@ -478,7 +478,7 @@ static std::vector<tripoint> points_for_gas_cloud( const tripoint &center, int r
 {
     map &here = get_map();
     std::vector<tripoint> result;
-    for( const auto &p : closest_tripoints_first( center, radius ) ) {
+    for( const auto &p : closest_points_first( center, radius ) ) {
         if( here.impassable( p ) ) {
             continue;
         }

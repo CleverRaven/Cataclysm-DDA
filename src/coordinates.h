@@ -378,6 +378,28 @@ using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coord
 using coords::project_to;
 using coords::project_remain;
 
+template<typename Point, coords::origin Origin, coords::scale Scale>
+std::vector<coords::coord_point<Point, Origin, Scale>>
+        closest_points_first( const coords::coord_point<Point, Origin, Scale> &loc,
+                              int min_dist, int max_dist )
+{
+    std::vector<Point> raw_result = closest_points_first( loc.raw(), min_dist, max_dist );
+    std::vector<coords::coord_point<Point, Origin, Scale>> result;
+    result.reserve( raw_result.size() );
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const Point & p ) {
+        return coords::coord_point<Point, Origin, Scale>( p );
+    } );
+    return result;
+}
+template<typename Point, coords::origin Origin, coords::scale Scale>
+std::vector<coords::coord_point<Point, Origin, Scale>>
+        closest_points_first( const coords::coord_point<Point, Origin, Scale> &loc,
+                              int max_dist )
+{
+    return closest_points_first( loc, 0, max_dist );
+}
+
 /* find appropriate subdivided coordinates for absolute tile coordinate.
  * This is less obvious than one might think, for negative coordinates, so this
  * was created to give a definitive answer.
