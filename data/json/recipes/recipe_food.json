@@ -5780,7 +5780,7 @@
     "autolearn": true,
     "batch_time_factors": [ 83, 3 ],
     "tools": [ [ [ "food_processor", 20 ] ] ],
-    "components": [ [ [ "bone", 1 ] ] ]
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
   },
   {
     "result": "meal_bone_tainted",
