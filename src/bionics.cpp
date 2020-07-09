@@ -64,6 +64,7 @@
 #include "point.h"
 #include "projectile.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -601,6 +602,15 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         avatar_action::fire_ranged_bionic( g->u, item( bio.info().fake_item ), bio.info().power_activate );
     } else if( bio.info().has_flag( flag_BIO_WEAPON ) ) {
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
+            cata::optional<int> active_bio_weapon_index = active_bionic_weapon_index();
+            if( active_bio_weapon_index && deactivate_bionic( *active_bio_weapon_index, eff_only ) ) {
+                // restore state and try again
+                refund_power();
+                bio.powered = false;
+                // note: deep recursion is not possible, as `deactivate_bionic` won't return true second time
+                return activate_bionic( b, eff_only, close_bionics_ui );
+            }
+
             add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
             refund_power();
             bio.powered = false;
@@ -1128,15 +1138,64 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     return true;
 }
 
-bool Character::deactivate_bionic( int b, bool eff_only )
+cata::optional<int> Character::active_bionic_weapon_index() const
+{
+    if( weapon.is_null() ) {
+        return cata::nullopt;
+    }
+
+    for( int i = 0; i < static_cast<int>( my_bionics->size() ); i++ ) {
+        const bionic &bio = ( *my_bionics )[ i ];
+        if( bio.powered && bio.info().has_flag( flag_BIO_WEAPON ) &&
+            weapon.typeId() == bio.info().fake_item ) {
+            return i;
+        }
+    }
+
+    return cata::nullopt;
+}
+
+ret_val<bool> Character::can_deactivate_bionic( int b, bool eff_only ) const
 {
     bionic &bio = ( *my_bionics )[b];
 
     if( bio.incapacitated_time > 0_turns ) {
-        add_msg( m_info, _( "Your %s is shorting out and can't be deactivated." ),
-                 bio.info().name );
+        return ret_val<bool>::make_failure( _( "Your %s is shorting out and can't be deactivated." ),
+                                            bio.info().name );
+    }
+
+    if( !eff_only ) {
+        if( !bio.powered ) {
+            // It's already off!
+            return ret_val<bool>::make_failure();
+        }
+        if( !bio.info().has_flag( flag_BIO_TOGGLED ) ) {
+            // It's a fire-and-forget bionic, we can't turn it off but have to wait for
+            //it to run out of charge
+            return ret_val<bool>::make_failure( _( "You can't deactivate your %s manually!" ),
+                                                bio.info().name );
+        }
+        if( get_power_level() < bio.info().power_deactivate ) {
+            return ret_val<bool>::make_failure( _( "You don't have the power to deactivate your %s." ),
+                                                bio.info().name );
+        }
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+bool Character::deactivate_bionic( int b, bool eff_only )
+{
+    const auto can_deactivate = can_deactivate_bionic( b, eff_only );
+
+    if( !can_deactivate.success() ) {
+        if( !can_deactivate.str().empty() ) {
+            add_msg( m_info,  can_deactivate.str() );
+        }
         return false;
     }
+
+    bionic &bio = ( *my_bionics )[b];
 
     if( bio.info().is_remote_fueled ) {
         reset_remote_fuel();
@@ -1144,23 +1203,6 @@ bool Character::deactivate_bionic( int b, bool eff_only )
 
     // Just do the effect, no stat changing or messages
     if( !eff_only ) {
-        if( !bio.powered ) {
-            // It's already off!
-            return false;
-        }
-        if( !bio.info().has_flag( flag_BIO_TOGGLED ) ) {
-            // It's a fire-and-forget bionic, we can't turn it off but have to wait for
-            //it to run out of charge
-            add_msg_if_player( m_info, _( "You can't deactivate your %s manually!" ),
-                               bio.info().name );
-            return false;
-        }
-        if( get_power_level() < bio.info().power_deactivate ) {
-            add_msg( m_info, _( "You don't have the power to deactivate your %s." ),
-                     bio.info().name );
-            return false;
-        }
-
         //We can actually deactivate now, do deactivation-y things
         mod_power_level( -bio.info().power_deactivate );
         bio.powered = false;

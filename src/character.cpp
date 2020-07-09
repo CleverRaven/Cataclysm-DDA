@@ -3196,7 +3196,12 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 ret_val<bool> Character::can_unwield( const item &it ) const
 {
     if( it.has_flag( "NO_UNWIELD" ) ) {
-        return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+        cata::optional<int> wi;
+        // check if "it" is currently wielded fake bionic weapon that can be deactivated
+        if( !( is_wielding( it ) && ( wi = active_bionic_weapon_index() ) &&
+               can_deactivate_bionic( *wi ).success() ) ) {
+            return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+        }
     }
 
     return ret_val<bool>::make_success();
