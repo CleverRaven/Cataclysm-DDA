@@ -35,6 +35,7 @@
     "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
     "weight": "2041 g",
     "volume": "2750 ml",
+    "longest_side": "46 cm",
     "price": 75000,
     "price_postapoc": 5000,
     "to_hit": -2,
