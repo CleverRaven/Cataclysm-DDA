@@ -1072,6 +1072,12 @@ class Character : public Creature, public visitable<Character>
 
         /** Handles bionic effects over time of the entered bionic */
         void process_bionic( int b );
+        /** finds the index of the bionic that corresponds to the currently wielded fake item
+         *  i.e. bionic is `BIONIC_WEAPON` and weapon.typeId() == bio.info().fake_item */
+        cata::optional<int> active_bionic_weapon_index() const;
+        /** Checks if bionic can be deactivated (e.g. it's not incapacitaded and power level is sufficient)
+         *  returns either success or failure with log message */
+        ret_val<bool> can_deactivate_bionic( int b, bool eff_only = false ) const;
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         bool deactivate_bionic( int b, bool eff_only = false );

@@ -813,7 +813,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```MESSY``` Creates more mess when pulping
 - ```NO_CVD``` Item can never be used with a CVD machine
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
-- ```NO_UNWIELD``` Cannot unwield this item.
+- ```NO_UNWIELD``` Cannot unwield this item. Fake weapons and tools produced by bionics should have this flag. Such items support unwield as a special case.
 - ```POLEARM``` Item is clumsy up close and does 70% of normal damage against adjacent targets.  Should be paired with REACH_ATTACK.  Simple reach piercing weapons like spears should not get this flag.
 - ```REACH_ATTACK``` Allows to perform reach attack.
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)

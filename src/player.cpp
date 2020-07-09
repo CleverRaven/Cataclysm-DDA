@@ -2323,7 +2323,7 @@ ret_val<bool> player::can_wield( const item &it ) const
                    _( "You need at least one arm to even consider wielding something." ) );
     }
 
-    if( is_armed() && weapon.has_flag( "NO_UNWIELD" ) ) {
+    if( is_armed() && !can_unwield( weapon ).success() ) {
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );
     }
@@ -2352,6 +2352,12 @@ bool player::unwield()
 
     if( !can_unwield( weapon ).success() ) {
         return false;
+    }
+
+    // currently the only way to unwield NO_UNWIELD weapon is if it's a bionic that can be deactivated
+    if( weapon.has_flag( "NO_UNWIELD" ) ) {
+        cata::optional<int> wi = active_bionic_weapon_index();
+        return wi && deactivate_bionic( *wi );
     }
 
     const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
