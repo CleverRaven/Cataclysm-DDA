@@ -548,133 +548,151 @@ static void butcher_cbm_group( const std::string &group, const tripoint &pos,
     }
 }
 
-static void set_up_butchery( player_activity &act, player &u, butcher_type action )
-{
-    const int factor = u.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
+// TODO: Implement
+enum class butcherable_rating : int {
+    butcherable = 0,
+    no_tool,
+    no_tree_rope_rack,
+    no_table,
+    no_saw,
+    too_damaged,
+    already_dressed,
+    already_skinned,
+    already_quartered,
+    too_small,
+    needs_dressing,
+    warn_cannibalism,
+    info_tools
+};
 
-    const item &corpse_item = *act.targets.back();
+butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_type action )
+{
+    butchery_setup setup;
+    setup.can_do = butchery_possibility::yes;
+    setup.type = action;
+    const auto wont_do = [&setup]( const std::string & msg, butcherable_rating ) {
+        setup.problems.emplace_back( msg );
+        setup.can_do = butchery_possibility::never;
+    };
+    const auto not_this_one = [&setup]( const std::string & msg, butcherable_rating ) {
+        setup.problems.emplace_back( msg );
+        if( setup.can_do != butchery_possibility::never ) {
+            setup.can_do = butchery_possibility::not_this;
+        }
+    };
+    const auto info = [&setup]( const std::string & msg, butcherable_rating ) {
+        setup.info.emplace_back( msg );
+    };
+    const auto need_confirm = [&setup]( const std::string & msg, butcherable_rating ) {
+        setup.problems.emplace_back( msg );
+        if( setup.can_do == butchery_possibility::yes ) {
+            setup.can_do = butchery_possibility::need_confirmation;
+        }
+    };
+
+    const inventory &inv = u.crafting_inventory();
+    const int factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
+
     const mtype &corpse = *corpse_item.get_mtype();
 
-    if( action != DISSECT ) {
-        if( factor == INT_MIN ) {
-            u.add_msg_if_player( m_info,
-                                 _( "None of your cutting tools are suitable for butchering." ) );
-            act.set_to_null();
-            return;
-        } else if( factor < 0 && one_in( 3 ) ) {
-            u.add_msg_if_player( m_bad,
-                                 _( "You don't trust the quality of your tools, but carry on anyway." ) );
-        }
+    if( action != DISSECT && factor == INT_MIN ) {
+        wont_do( _( "None of your cutting tools are suitable for butchering." ),
+                 butcherable_rating::no_tool );
     }
 
     if( action == DISSECT ) {
         switch( factor ) {
             case INT_MIN:
-                u.add_msg_if_player( m_info, _( "None of your tools are sharp and precise enough to do that." ) );
-                act.set_to_null();
-                return;
+                wont_do( _( "None of your tools are sharp and precise enough to do that." ),
+                         butcherable_rating::no_tool );
+                break;
             case 1:
-                u.add_msg_if_player( m_info, _( "You could use a better tool, but this will do." ) );
+                info( _( "You could use a better tool, but this will do." ), butcherable_rating::info_tools );
                 break;
             case 2:
-                u.add_msg_if_player( m_info, _( "This tool is great, but you still would like a scalpel." ) );
+                info( _( "This tool is great, but you still would like a scalpel." ),
+                      butcherable_rating::info_tools );
                 break;
             case 3:
-                u.add_msg_if_player( m_info, _( "You dissect the corpse with a trusty scalpel." ) );
+                info( _( "You dissect the corpse with a trusty scalpel." ), butcherable_rating::info_tools );
                 break;
             case 5:
-                u.add_msg_if_player( m_info,
-                                     _( "You dissect the corpse with a sophisticated system of surgical grade scalpels." ) );
+                info( _( "You dissect the corpse with a sophisticated system of surgical grade scalpels." ),
+                      butcherable_rating::info_tools );
                 break;
         }
     }
 
     bool has_tree_nearby = false;
-    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
+    for( const tripoint &pt : g->m.points_in_radius( u.pos(), PICKUP_RANGE ) ) {
         if( g->m.has_flag( flag_TREE, pt ) ) {
             has_tree_nearby = true;
         }
     }
     bool b_rack_present = false;
-    for( const tripoint &pt : g->m.points_in_radius( u.pos(), 2 ) ) {
+    for( const tripoint &pt : g->m.points_in_radius( u.pos(), PICKUP_RANGE ) ) {
         if( g->m.has_flag_furn( flag_BUTCHER_EQ, pt ) ) {
             b_rack_present = true;
         }
     }
     // workshop butchery (full) prequisites
     if( action == BUTCHER_FULL ) {
-        const bool has_rope = u.has_amount( "rope_30", 1 ) || u.has_amount( "rope_makeshift_30", 1 ) ||
-                              u.has_amount( "hd_tow_cable", 1 ) ||
-                              u.has_amount( "vine_30", 1 ) || u.has_amount( "grapnel", 1 );
+        const bool has_rope = inv.has_amount( "rope_30", 1 ) || inv.has_amount( "rope_makeshift_30", 1 ) ||
+                              inv.has_amount( "hd_tow_cable", 1 ) ||
+                              inv.has_amount( "vine_30", 1 ) || inv.has_amount( "grapnel", 1 );
         const bool big_corpse = corpse.size >= MS_MEDIUM;
 
         if( big_corpse ) {
             if( has_rope && !has_tree_nearby && !b_rack_present ) {
-                u.add_msg_if_player( m_info,
-                                     _( "You need to suspend this corpse to butcher it.  While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
-                act.targets.pop_back();
-                return;
+                not_this_one(
+                    _( "You need to suspend this corpse to butcher it.  While you have a rope to lift the corpse, there is no tree nearby to hang it from." ),
+                    butcherable_rating::no_tree_rope_rack );
             }
             if( !has_rope && !b_rack_present ) {
-                u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
-                act.targets.pop_back();
-                return;
+                not_this_one(
+                    _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, or both a long rope in your inventory and a nearby tree to hang the corpse from." ),
+                    butcherable_rating::no_tree_rope_rack );
             }
-            if( !g->m.has_nearby_table( u.pos(), 2 ) ) {
-                u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ) );
-                act.targets.pop_back();
-                return;
+            if( !g->m.has_nearby_table( u.pos(), PICKUP_RANGE ) ) {
+                not_this_one(
+                    _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ),
+                    butcherable_rating::no_table );
             }
-            if( !( u.has_quality( qual_SAW_W ) || u.has_quality( qual_SAW_M ) ) ) {
-                u.add_msg_if_player( m_info,
-                                     _( "For a corpse this big you need a saw to perform a full butchery." ) );
-                act.targets.pop_back();
-                return;
+            if( !( inv.has_quality( qual_SAW_W ) || inv.has_quality( qual_SAW_M ) ) ) {
+                not_this_one( _( "For a corpse this big you need a saw to perform a full butchery." ),
+                              butcherable_rating::no_saw );
             }
         }
     }
 
     if( action == DISSECT && ( corpse_item.has_flag( flag_QUARTERED ) ||
                                corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
-        u.add_msg_if_player( m_info,
-                             _( "It would be futile to search for implants inside this badly damaged corpse." ) );
-        act.targets.pop_back();
-        return;
+        not_this_one( _( "It would be futile to search for implants inside this badly damaged corpse." ),
+                      butcherable_rating::too_damaged );
     }
 
     if( action == F_DRESS && ( corpse_item.has_flag( flag_FIELD_DRESS ) ||
                                corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
-        u.add_msg_if_player( m_info, _( "This corpse is already field dressed." ) );
-        act.targets.pop_back();
-        return;
+        not_this_one( _( "This corpse is already field dressed." ),
+                      butcherable_rating::already_dressed );
     }
 
     if( action == SKIN && corpse_item.has_flag( flag_SKINNED ) ) {
-        u.add_msg_if_player( m_info, _( "This corpse is already skinned." ) );
-        act.targets.pop_back();
-        return;
+        not_this_one( _( "This corpse is already skinned." ), butcherable_rating::already_skinned );
     }
 
     if( action == QUARTER ) {
         if( corpse.size == MS_TINY ) {
-            u.add_msg_if_player( m_bad, _( "This corpse is too small to quarter without damaging." ),
-                                 corpse.nname() );
-            act.targets.pop_back();
-            return;
+            not_this_one( _( "This corpse is too small to quarter without damaging." ),
+                          butcherable_rating::too_small );
         }
         if( corpse_item.has_flag( flag_QUARTERED ) ) {
-            u.add_msg_if_player( m_bad, _( "This is already quartered." ), corpse.nname() );
-            act.targets.pop_back();
-            return;
+            not_this_one( _( "This is already quartered." ), butcherable_rating::already_quartered );
         }
         if( !( corpse_item.has_flag( flag_FIELD_DRESS ) ||
                corpse_item.has_flag( flag_FIELD_DRESS_FAILED ) ) ) {
-            u.add_msg_if_player( m_bad, _( "You need to perform field dressing before quartering." ),
-                                 corpse.nname() );
-            act.targets.pop_back();
-            return;
+            not_this_one( _( "You need to perform field dressing before quartering." ),
+                          butcherable_rating::needs_dressing );
         }
     }
 
@@ -684,7 +702,39 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
     if( is_human && !( u.has_trait_flag( trait_flag_CANNIBAL ) ||
                        u.has_trait_flag( trait_flag_PSYCHOPATH ) ||
                        u.has_trait_flag( trait_flag_SAPIOVORE ) ) ) {
+        need_confirm( _( "Would you dare desecrate the mortal remains of a fellow human being?" ),
+                      butcherable_rating::warn_cannibalism );
+    }
 
+    setup.move_cost = butcher_time_to_cut( inv, corpse_item, action );
+
+    return setup;
+}
+
+static void set_up_butchery_activity( player_activity &act, player &u, const butchery_setup &setup )
+{
+    const auto print_reasons = [&u, &setup]() {
+        for( const std::string &prob : setup.problems ) {
+            u.add_msg_if_player( m_bad, prob );
+        }
+        if( setup.problems.empty() ) {
+            for( const std::string &info : setup.info ) {
+                u.add_msg_if_player( m_info, info );
+            }
+        }
+    };
+
+    if( setup.can_do == butchery_possibility::never ) {
+        act.set_to_null();
+        print_reasons();
+        return;
+    }
+    if( setup.can_do == butchery_possibility::not_this ) {
+        act.targets.pop_back();
+        print_reasons();
+        return;
+    }
+    if( setup.can_do == butchery_possibility::need_confirmation ) {
         if( u.is_player() ) {
             if( query_yn( _( "Would you dare desecrate the mortal remains of a fellow human being?" ) ) ) {
                 switch( rng( 1, 3 ) ) {
@@ -710,17 +760,17 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         }
     }
 
-    act.moves_left = butcher_time_to_cut( u, corpse_item, action );
-
+    print_reasons();
+    act.moves_left = setup.move_cost;
     // We have a valid target, so preform the full finish function
     // instead of just selecting the next valid target
     act.index = false;
 }
 
-int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher_type action )
+int butcher_time_to_cut( const inventory &inv, const item &corpse_item, const butcher_type action )
 {
     const mtype &corpse = *corpse_item.get_mtype();
-    const int factor = u.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
+    const int factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE : qual_BUTCHER );
 
     int time_to_cut = 0;
     switch( corpse.size ) {
@@ -763,19 +813,12 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             time_to_cut *= 2;
             break;
         case QUARTER:
-            time_to_cut /= 4;
-            if( time_to_cut < 1200 ) {
-                time_to_cut = 1200;
-            }
+            time_to_cut = std::max( 1000, time_to_cut / 4 );
             break;
         case DISMEMBER:
-            time_to_cut /= 10;
-            if( time_to_cut < 600 ) {
-                time_to_cut = 600;
-            }
+            time_to_cut = std::max( 400, time_to_cut / 10 );
             break;
         case DISSECT:
-            time_to_cut *= 6;
             break;
     }
 
@@ -1165,6 +1208,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     item_location target = act->targets.back();
+    const inventory &inv = p->crafting_inventory();
 
     // Corpses can disappear (rezzing!), so check for that
     if( !target || !target->is_corpse() ) {
@@ -1192,7 +1236,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     // index is a bool that determines if we are ready to start the next target
     if( act->index ) {
-        set_up_butchery( *act, *p, action );
+        const butchery_setup setup = consider_butchery( *target, *p, action );
+        set_up_butchery_activity( *act, *p, setup );
         return;
     }
 
@@ -1208,13 +1253,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     }
 
     int skill_level = p->get_skill_level( skill_survival );
-    int factor = p->max_quality( action == DISSECT ? qual_CUT_FINE :
-                                 qual_BUTCHER );
+    int factor = inv.max_quality( action == DISSECT ? qual_CUT_FINE :
+                                  qual_BUTCHER );
 
     // DISSECT has special case factor calculation and results.
     if( action == DISSECT ) {
         skill_level = p->get_skill_level( skill_firstaid );
-        skill_level += p->max_quality( qual_CUT_FINE );
+        skill_level += inv.max_quality( qual_CUT_FINE );
         skill_level += p->get_skill_level( skill_electronics ) / 2;
         add_msg( m_debug, _( "Skill: %s" ), skill_level );
     }
@@ -1224,7 +1269,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         ///\EFFECT_SURVIVAL randomly increases butcher rolls
         skill_shift += rng_float( 0, skill_level - 3 );
         ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
-        skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
+        skill_shift += rng_float( 0, p->get_dex() - 8 ) / 4.0;
 
         if( factor < 0 ) {
             skill_shift -= rng_float( 0, -factor / 5.0 );

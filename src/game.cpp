@@ -8063,28 +8063,39 @@ static void add_disassemblables( uilist &menu,
 // Butchery sub-menu and time calculation
 static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, int corpse = -1 )
 {
+    const inventory &inv = g->u.crafting_inventory();
+
+    const int factor = inv.max_quality( quality_id( "BUTCHER" ) );
+    const std::string msg_inv = factor > INT_MIN
+                                ? string_format( _( "Your best tool has <color_cyan>%d butchering</color>." ), factor )
+                                :  _( "You have no butchering tool." );
+
+    const int factor_diss = inv.max_quality( quality_id( "CUT_FINE" ) );
+    const std::string msg_inv_diss = factor_diss > INT_MIN
+                                     ? string_format( _( "Your best tool has <color_cyan>%d fine cutting</color>." ), factor_diss )
+                                     :  _( "You have no fine cutting tool." );
+
     auto cut_time = [&]( enum butcher_type bt ) {
         int time_to_cut = 0;
         if( corpse != -1 ) {
-            time_to_cut = butcher_time_to_cut( g->u, *corpses[corpse], bt );
+            time_to_cut = butcher_time_to_cut( inv, *corpses[corpse], bt );
         } else {
             for( const map_stack::iterator &it : corpses ) {
-                time_to_cut += butcher_time_to_cut( g->u, *it, bt );
+                time_to_cut += butcher_time_to_cut( inv, *it, bt );
             }
         }
         return to_string_clipped( time_duration::from_turns( time_to_cut / 100 ) );
     };
+    auto info_on_action = [&]( butcher_type type ) {
+        int corpse_index = corpse == -1 ? 0 : corpse;
+        butchery_setup setup = consider_butchery( *corpses[corpse_index], g->u, type );
+        std::string out;
+        for( const std::string &problem : setup.problems ) {
+            out += "\n" + colorize( problem, c_red );
+        }
+        return out;
+    };
     const bool enough_light = g->u.fine_detail_vision_mod() <= 4;
-
-    const int factor = g->u.max_quality( quality_id( "BUTCHER" ) );
-    const std::string msgFactor = factor > INT_MIN
-                                  ? string_format( _( "Your best tool has <color_cyan>%d butchering</color>." ), factor )
-                                  :  _( "You have no butchering tool." );
-
-    const int factorD = g->u.max_quality( quality_id( "CUT_FINE" ) );
-    const std::string msgFactorD = factorD > INT_MIN
-                                   ? string_format( _( "Your best tool has <color_cyan>%d fine cutting</color>." ), factorD )
-                                   :  _( "You have no fine cutting tool." );
 
     bool has_skin = false;
     bool has_organs = false;
@@ -8111,67 +8122,66 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
 
     smenu.addentry_col( BUTCHER, enough_light, 'B', _( "Quick butchery" ),
                         enough_light ? cut_time( BUTCHER ) : cannot_see,
-                        string_format( "%s  %s",
+                        string_format( "%s  %s%s",
                                        _( "This technique is used when you are in a hurry, "
                                           "but still want to harvest something from the corpse. "
                                           " Yields are lower as you don't try to be precise, "
                                           "but it's useful if you don't want to set up a workshop.  "
                                           "Prevents zombies from raising." ),
-                                       msgFactor ) );
+                                       msg_inv, info_on_action( BUTCHER ).c_str() ) );
     smenu.addentry_col( BUTCHER_FULL, enough_light, 'b', _( "Full butchery" ),
                         enough_light ? cut_time( BUTCHER_FULL ) : cannot_see,
-                        string_format( "%s  %s",
+                        string_format( "%s  %s%s",
                                        _( "This technique is used to properly butcher a corpse, "
                                           "and requires a rope & a tree or a butchering rack, "
                                           "a flat surface (for ex. a table, a leather tarp, etc.) "
                                           "and good tools.  Yields are plentiful and varied, "
                                           "but it is time consuming." ),
-                                       msgFactor ) );
+                                       msg_inv, info_on_action( BUTCHER_FULL ).c_str() ) );
     smenu.addentry_col( F_DRESS, enough_light &&
                         has_organs, 'f', _( "Field dress corpse" ),
                         enough_light ? ( has_organs ? cut_time( F_DRESS ) : colorize( _( "has no organs" ),
                                          c_red ) ) : cannot_see,
-                        string_format( "%s  %s",
+                        string_format( "%s  %s%s",
                                        _( "Technique that involves removing internal organs and "
                                           "viscera to protect the corpse from rotting from inside.  "
                                           "Yields internal organs.  Carcass will be lighter and will "
                                           "stay fresh longer.  Can be combined with other methods for "
                                           "better effects." ),
-                                       msgFactor ) );
+                                       msg_inv, info_on_action( F_DRESS ).c_str() ) );
     smenu.addentry_col( SKIN, enough_light &&
                         has_skin, 's', _( "Skin corpse" ),
                         enough_light ? ( has_skin ? cut_time( SKIN ) : colorize( _( "has no skin" ), c_red ) ) : cannot_see,
-                        string_format( "%s  %s",
+                        string_format( "%s  %s%s",
                                        _( "Skinning a corpse is an involved and careful process that "
                                           "usually takes some time.  You need skill and an appropriately "
                                           "sharp and precise knife to do a good job.  Some corpses are "
                                           "too small to yield a full-sized hide and will instead produce "
                                           "scraps that can be used in other ways." ),
-                                       msgFactor ) );
+                                       msg_inv, info_on_action( SKIN ).c_str() ) );
     smenu.addentry_col( QUARTER, enough_light, 'k', _( "Quarter corpse" ),
                         enough_light ? cut_time( QUARTER ) : cannot_see,
-                        string_format( "%s  %s",
+                        string_format( "%s  %s%s",
                                        _( "By quartering a previously field dressed corpse you will "
                                           "acquire four parts with reduced weight and volume.  It "
                                           "may help in transporting large game.  This action destroys "
                                           "skin, hide, pelt, etc., so don't use it if you want to "
                                           "harvest them later." ),
-                                       msgFactor ) );
+                                       msg_inv, info_on_action( QUARTER ).c_str() ) );
     smenu.addentry_col( DISMEMBER, true, 'm', _( "Dismember corpse" ), cut_time( DISMEMBER ),
-                        string_format( "%s  %s",
+                        string_format( "%s  %s%s",
                                        _( "If you're aiming to just destroy a body outright and don't "
                                           "care about harvesting it, dismembering it will hack it apart "
                                           "in a very short amount of time but yields little to no usable flesh." ),
-                                       msgFactor ) );
+                                       msg_inv, info_on_action( DISMEMBER ).c_str() ) );
     smenu.addentry_col( DISSECT, enough_light, 'd', _( "Dissect corpse" ),
                         enough_light ? cut_time( DISSECT ) : cannot_see,
-                        string_format( "%s  %s",
+                        string_format( "%s  %s%s",
                                        _( "By careful dissection of the corpse, you will examine it for "
                                           "possible bionic implants, or discrete organs and harvest them "
-                                          "if possible.  Requires scalpel-grade cutting tools, ruins "
-                                          "corpse, and consumes a lot of time.  Your medical knowledge "
-                                          "is most useful here." ),
-                                       msgFactorD ) );
+                                          "if possible.  Requires scalpel-grade cutting tools, and ruins "
+                                          "the corpse.  Your medical knowledge is most useful here." ),
+                                       msg_inv_diss, info_on_action( DISSECT ).c_str() ) );
     smenu.query();
     switch( smenu.ret ) {
         case BUTCHER:

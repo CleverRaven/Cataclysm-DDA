@@ -12,6 +12,7 @@
 #include "type_id.h"
 
 class Character;
+class inventory;
 class item;
 class player;
 class player_activity;
@@ -93,7 +94,23 @@ struct activity_reason_info {
     }
 };
 
-int butcher_time_to_cut( const player &u, const item &corpse_item, butcher_type action );
+enum class butchery_possibility : int {
+    yes = 0,
+    need_confirmation,
+    never,
+    not_this
+};
+
+struct butchery_setup {
+    std::vector<std::string> problems;
+    std::vector<std::string> info;
+    butchery_possibility can_do;
+    int move_cost;
+    butcher_type type;
+};
+
+butchery_setup consider_butchery( const item &corpse_item, player &u, butcher_type action );
+int butcher_time_to_cut( const inventory &inv, const item &corpse_item, butcher_type action );
 
 // activity_item_handling.cpp
 void activity_on_turn_drop();

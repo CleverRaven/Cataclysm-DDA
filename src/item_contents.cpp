@@ -228,7 +228,7 @@ units::mass item_contents::item_weight_modifier() const
 
 int item_contents::best_quality( const quality_id &id ) const
 {
-    int ret = 0;
+    int ret = INT_MIN;
     for( const item &it : items ) {
         ret = std::max( ret, it.get_quality( id ) );
     }
