@@ -1283,13 +1283,9 @@ void avatar_action::unload( avatar &you )
         return;
     }
 
-    item *it = loc.get_item();
-    if( loc.where() != item_location::type::character ) {
-        it = loc.obtain( you ).get_item();
-    }
-    if( you.unload( *it ) ) {
-        if( it->has_flag( "MAG_DESTROY" ) && it->ammo_remaining() == 0 ) {
-            you.remove_item( *it );
+    if( you.unload( *loc ) ) {
+        if( loc->has_flag( "MAG_DESTROY" ) && loc->ammo_remaining() == 0 ) {
+            loc.remove_item();
         }
     }
 }
