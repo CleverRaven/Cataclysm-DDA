@@ -567,6 +567,8 @@ std::string spell::duration_string() const
     if( has_flag( spell_flag::RANDOM_DURATION ) ) {
         return string_format( "%s - %s", moves_to_string( min_leveled_duration() ),
                               moves_to_string( type->max_duration ) );
+    } else if( has_flag( spell_flag::PERMANENT ) && ( is_max_level() || effect() == "summon" ) ) {
+        return _( "Permanent" );
     } else {
         return moves_to_string( duration() );
     }
@@ -1817,8 +1819,11 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     // todo: damage over time here, when it gets implemeted
 
-    print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, sp.duration() <= 0 ? "" :
-                        string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
+    // Show duration for spells that endure
+    if( sp.duration() > 0 || sp.has_flag( spell_flag::PERMANENT ) ) {
+        print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
+                            string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
+    }
 
     // helper function for printing tool and item component requirement lists
     const auto print_vec_string = [&]( const std::vector<std::string> &vec ) {

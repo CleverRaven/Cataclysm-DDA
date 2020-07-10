@@ -330,7 +330,42 @@ TEST_CASE( "spell duration", "[magic][spell][duration]" )
         CHECK( spell_duration_string( lava_id, 19 ) == "4 minutes and 10 seconds" );
         CHECK( spell_duration_string( lava_id, 20 ) == "4 minutes and 10 seconds" );
     }
+
     // TODO: Random duration
+}
+
+TEST_CASE( "permanent spells", "[magic][spell][permanent]" )
+{
+    spell_id box_id( "test_spell_box" );
+    spell_id mummy_id( "test_spell_tp_mummy" );
+    spell box_spell( box_id );
+    spell mummy_spell( mummy_id );
+    int max_level;
+
+    // Summoned items are only permanent at max level
+    REQUIRE( box_spell.has_flag( spell_flag::PERMANENT ) );
+    max_level = box_spell.get_max_level();
+    REQUIRE( max_level > 0 );
+    CHECK( spell_duration_string( box_id, 0 ) == "10 minutes" );
+    CHECK( spell_duration_string( box_id, 1 ) == "15 minutes" );
+    CHECK( spell_duration_string( box_id, 2 ) == "20 minutes" );
+    CHECK( spell_duration_string( box_id, 3 ) == "25 minutes" );
+    CHECK( spell_duration_string( box_id, 4 ) == "30 minutes" );
+    CHECK( spell_duration_string( box_id, 5 ) == "35 minutes" );
+    CHECK( spell_duration_string( box_id, 6 ) == "40 minutes" );
+    CHECK( spell_duration_string( box_id, 7 ) == "45 minutes" );
+    CHECK( spell_duration_string( box_id, 8 ) == "50 minutes" );
+    CHECK( spell_duration_string( box_id, 9 ) == "55 minutes" );
+    CHECK( spell_duration_string( box_id, max_level ) == "Permanent" );
+
+    // Summoned monsters can be permanent at any level
+    REQUIRE( mummy_spell.has_flag( spell_flag::PERMANENT ) );
+    max_level = mummy_spell.get_max_level();
+    REQUIRE( max_level > 0 );
+    CHECK( spell_duration_string( mummy_id, 0 ) == "Permanent" );
+    CHECK( spell_duration_string( mummy_id, 1 ) == "Permanent" );
+    CHECK( spell_duration_string( mummy_id, 2 ) == "Permanent" );
+    CHECK( spell_duration_string( mummy_id, max_level ) == "Permanent" );
 }
 
 // Spell range

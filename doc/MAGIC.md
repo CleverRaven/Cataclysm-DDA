@@ -137,7 +137,7 @@ Spells may have any number of flags, for example:
 | `RANDOM_DURATION` | picks random number between min+increment*level and max instead of normal behavior
 | `RANDOM_DAMAGE` | picks random number between min+increment*level and max instead of normal behavior
 | `RANDOM_AOE` | picks random number between min+increment*level and max instead of normal behavior
-| `PERMANENT` | items or creatures spawned with this spell do not disappear and die as normal
+| `PERMANENT` | items or creatures spawned with this spell do not disappear and die as normal.  Items can only be permanent at maximum spell level; creatures can be permanent at any spell level.
 | `IGNORE_WALLS` | spell's aoe goes through walls
 | `SWAP_POS` | a projectile spell swaps the positions of the caster and target
 | `HOSTILE_SUMMON` | summon spell always spawns a hostile monster
@@ -281,17 +281,17 @@ Spell types:
   } ;
   ```
   note: Uses both `ground` and `hostile` in `valid_targets` as well so it can be targeted in an area with no line of sight
-   
+
 
 3) Consecutively cast spells:
 ```
     {
     "id": "test_combo",                                        // id of the spell, used internally. not translated
     "type": "SPELL",
-    "name": "Combo Strikes",                                   // name of the spell that shows in game                              
+    "name": "Combo Strikes",                                   // name of the spell that shows in game
     "description": "Upon casting this spell, will also activate the spells specified on the 'extra_effects' in descending order.",
     "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_AOE" ],      // see "Spell Flags" in this document
-    "valid_targets": [ "hostile", "ground" ],                  // if a valid target is not included, you cannot cast the spell on that target. 
+    "valid_targets": [ "hostile", "ground" ],                  // if a valid target is not included, you cannot cast the spell on that target.
     "effect": "projectile_attack",                             // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "effect_str": "downed",                                    // varies, see table of implemented effects in this document
     "extra_effects": [ { "id": "test_atk1" }, { "id": "test_atk2" } ],               // this allows you to cast multiple spells with only one spell
