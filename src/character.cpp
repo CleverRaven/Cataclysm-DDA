@@ -169,6 +169,7 @@ static const efftype_id effect_onfire( "onfire" );
 static const efftype_id effect_pkill1( "pkill1" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_pkill3( "pkill3" );
+static const efftype_id effect_recently_coughed( "recently_coughed" );
 static const efftype_id effect_ridden( "ridden" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_monster_saddled( "monster_saddled" );
@@ -5162,7 +5163,7 @@ void Character::update_needs( int rate_multiplier )
                 sleep.set_duration( 1_turns );
                 mod_fatigue( -25 );
             } else {
-                if( has_effect( effect_disrupted_sleep ) ) {
+                if( has_effect( effect_disrupted_sleep ) || has_effect( effect_recently_coughed )) {
                     recovered *= .5;
                 }
                 mod_fatigue( -recovered );
