@@ -80,6 +80,7 @@
     "name": { "str": "Cloak of Morthylla the Lamia" },
     "description": "This cloak seems to absorb light except for the pinpricks of stars that move across its surface.",
     "price": 1500000,
+    "price_postapoc": 9999999,
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "color": "dark_gray",
