@@ -1819,9 +1819,9 @@ void overmap::generate_bridgeheads( const std::vector<point> &bridge_points )
         const bool is_bridge_south = is_ot_match( "bridge", oter_ground_south, ot_match_type::type ) || is_ot_match( "bridgehead_ground", oter_ground_south, ot_match_type::type );
         const bool is_bridge_east = is_ot_match( "bridge", oter_ground_east, ot_match_type::type ) || is_ot_match( "bridgehead_ground", oter_ground_east, ot_match_type::type );
         const bool is_bridge_west = is_ot_match( "bridge", oter_ground_west, ot_match_type::type ) || is_ot_match( "bridgehead_ground", oter_ground_west, ot_match_type::type );
-        const int adj_bridge_count = ( ( is_bridge_north ) ? 1 : 0 ) + ( ( is_bridge_south ) ? 1 : 0 ) + ( ( is_bridge_east ) ? 1 : 0 ) + ( ( is_bridge_west ) ? 1 : 0 );
+        const int adj_bridge_count = ( is_bridge_north ? 1 : 0 ) + ( is_bridge_south ? 1 : 0 ) + ( is_bridge_east ? 1 : 0 ) + ( is_bridge_west ? 1 : 0 );
 
-        if ( adj_bridge_count == 1 ) {
+        if( adj_bridge_count == 1 ) {
             std::string ramp_facing;
             if( is_bridge_north ) {
                 ramp_facing = "_south";
