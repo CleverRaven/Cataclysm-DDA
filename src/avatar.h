@@ -249,8 +249,8 @@ class avatar : public player
         // called once a day; adds a new daily_calories to the
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
-        void add_spent_calories( int cal );
-        void add_gained_calories( int gained );
+        void add_spent_calories( int cal ) override;
+        void add_gained_calories( int gained ) override;
         std::string total_daily_calories_string() const;
 
     private:
