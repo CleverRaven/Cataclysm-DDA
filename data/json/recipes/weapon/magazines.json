@@ -363,7 +363,7 @@
     "qualities": [ { "id": "HAMMER", "level": 2 } ],
     "components": [ [ [ "metal_tank_little", 1 ] ] ]
   },
-  {	
+  {
     "result": "nailmag",
     "type": "recipe",
     "category": "CC_WEAPON",
@@ -374,11 +374,6 @@
     "autolearn": true,
     "tools": [ [ [ "coilgun", -1 ] ], [ [ "nail", -1 ], [ "combatnail", -1 ] ] ],
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 1 } ],
-    "components": [	
-      [ [ "sheet_metal_small", 1 ] ],
-      [ [ "spring", 1 ] ],
-      [ [ "scrap", 1 ] ],
-      [ [ "duct_tape", 20 ] ]
-    ]	
+    "components": [ [ [ "sheet_metal_small", 1 ] ], [ [ "spring", 1 ] ], [ [ "scrap", 1 ] ], [ [ "duct_tape", 20 ] ] ]
   }
 ]
