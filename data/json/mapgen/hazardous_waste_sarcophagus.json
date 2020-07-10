@@ -70,6 +70,7 @@
         ",": "t_sidewalk",
         ":": "t_pavement",
         ";": "t_pavement_y",
+        "$": "t_sewage",
         "P": "t_sewage_pipe",
         "S": "t_sewage_pump",
         "G": "t_grate",
