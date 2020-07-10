@@ -265,7 +265,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
+    "drops": [ "string_36", "slamfire_shotgun_d", { "item": "shot_00", "quantity": 2, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -287,7 +287,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "drops": [ "string_36", "slamfire_shotgun_d", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -296,7 +296,7 @@
       "sound_type": "fire_gun",
       "sound_variant": "shotgun_d",
       "remove_trap": true,
-      "spawn_items": [ "shotgun_d", "string_6" ]
+      "spawn_items": [ "slamfire_shotgun_d", "string_6" ]
     }
   },
   {
@@ -310,7 +310,7 @@
     "avoidance": 5,
     "difficulty": 6,
     "action": "shotgun",
-    "drops": [ "string_36", "shotgun_s", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
+    "drops": [ "string_36", "slamfire_shotgun", { "item": "shot_00", "quantity": 1, "charges": 1 } ],
     "vehicle_data": {
       "chance": 70,
       "damage": 300,
@@ -319,7 +319,7 @@
       "sound_type": "fire_gun",
       "sound_variant": "shotgun_s",
       "remove_trap": true,
-      "spawn_items": [ "shotgun_s", "string_6" ]
+      "spawn_items": [ "four_winds_shotgun", "string_6" ]
     }
   },
   {
