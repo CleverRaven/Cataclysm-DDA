@@ -395,7 +395,7 @@ This section describes each json file and their contents. Each json has their ow
 | Identifier        | Description
 |---                |---
 | id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. If it's longer than 42 columns, you'll get an error and some characters will not be displayed, but if it's exactly 42 columns, everything will look fine at first but ASCII picture will be broken in pickup menu.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long. If it's longer than 42 columns, you'll get an error and some characters will not be displayed, but if it's exactly 42 columns, you won't get any errors and everything will look fine at first but ASCII picture will be broken in pickup menu.
 
 ```C++
   {
