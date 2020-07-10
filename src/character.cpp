@@ -5163,7 +5163,7 @@ void Character::update_needs( int rate_multiplier )
                 sleep.set_duration( 1_turns );
                 mod_fatigue( -25 );
             } else {
-                if( has_effect( effect_disrupted_sleep ) || has_effect( effect_recently_coughed )) {
+                if( has_effect( effect_disrupted_sleep ) || has_effect( effect_recently_coughed ) ) {
                     recovered *= .5;
                 }
                 mod_fatigue( -recovered );
