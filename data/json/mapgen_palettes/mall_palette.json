@@ -2,6 +2,7 @@
   {
     "type": "palette",
     "id": "mall_palette",
+    "//": "palette no longer used in any mapgen.",
     "furniture": {
       "?": "f_sofa",
       "!": "f_rack",
@@ -240,10 +241,10 @@
       "x": [ "t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic" ],
       "2": "t_wall_g",
       "5": "t_wall_wood",
-      "6": "t_carpet_red",
-      "7": "t_carpet_green",
-      "8": "t_carpet_purple",
-      "9": "t_carpet_yellow",
+      "6": "t_carpet_concrete_red",
+      "7": "t_carpet_concrete_green",
+      "8": "t_carpet_concrete_purple",
+      "9": "t_carpet_concrete_yellow",
       "?": "t_console_broken",
       "§": "t_water_pool_shallow_outdoors"
     },
