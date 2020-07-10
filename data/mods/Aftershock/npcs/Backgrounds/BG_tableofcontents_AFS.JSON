@@ -69,4 +69,6 @@
         "condition": { "npc_has_trait": "BGSS_CRIMINAL_EXPERIMENT" },
         "switch": true
       }
+    ]
+  }
 ]
