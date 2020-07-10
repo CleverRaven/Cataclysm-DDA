@@ -930,5 +930,81 @@
         { "item": "splinter", "count": [ 1, 20 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_crate_r",
+    "name": "riveted metal crate",
+    "looks_like": "f_metal_crate_c",
+    "description": "This huge box is made of a dull metal, riveted together.  There is no obvious opening mechanism, and the rivets don't match any of your tools.  The only way in would be to smash it.",
+    "//": "To-do: There should be an exodii riveting tool that can convert this to f_metal_crate_c",
+    "symbol": "X",
+    "color": "light_gray",
+    "move_cost_mod": 5,
+    "coverage": 80,
+    "required_str": 12,
+    "max_volume": "1000 L",
+    "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_crate_c",
+    "name": "sealed metal crate",
+    "looks_like": "t_crate_c",
+    "description": "This is a huge, tightly sealed storage crate made from welded and riveted sheet metal.  The sealing mechanism is too tight to open bare-handed and would need some kind of prying instrument to release.",
+    "symbol": "X",
+    "color": "light_gray",
+    "move_cost_mod": 5,
+    "coverage": 80,
+    "required_str": 12,
+    "max_volume": "1000 L",
+    "flags": [ "CONTAINER", "SEALED", "BLOCKSDOOR", "MOUNTABLE", "FLAT_SURF" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_crate_o",
+    "name": "open metal crate",
+    "looks_like": "f_metal_crate_c",
+    "description": "This large metal crate’s lid is unsealed, and hinges open easily to reveal a number of storage shelves inside.  Once open, the side panels also swing wider for easy access.",
+    "symbol": "X",
+    "color": "light_gray",
+    "move_cost_mod": 5,
+    "coverage": 80,
+    "required_str": 12,
+    "max_volume": "1000 L",
+    "flags": [ "CONTAINER", "PLACE_ITEM", "NO_SIGHT", "HIDE_PLACE", "BLOCKSDOOR", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 30,
+      "str_max": 150,
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "scrap", "count": [ 8, 12 ] },
+        { "item": "pipe", "count": [ 0, 3 ] },
+        { "item": "sheet_metal", "count": [ 0, 3 ] },
+        { "item": "sheet_metal_small", "count": [ 2, 10 ] }
+      ]
+    }
   }
 ]
