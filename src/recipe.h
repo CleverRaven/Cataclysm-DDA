@@ -38,6 +38,8 @@ class recipe
     private:
         itype_id result_ = itype_id::NULL_ID();
 
+        int time = 0; // in movement points (100 per turn)
+
     public:
         recipe();
 
@@ -56,7 +58,6 @@ class recipe
 
         translation description;
 
-        int time = 0; // in movement points (100 per turn)
         int difficulty = 0;
 
         /** Fetch combined requirement data (inline and via "using" syntax).
@@ -145,6 +146,9 @@ class recipe
         int batch_time( int batch, float multiplier, size_t assistants ) const;
         time_duration batch_duration( int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
+
+        time_duration time_to_craft() const;
+        int time_to_craft_moves() const;
 
         bool has_flag( const std::string &flag_name ) const;
 

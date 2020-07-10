@@ -278,7 +278,7 @@ player::player()
     }
 
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 player::~player() = default;
@@ -558,7 +558,7 @@ double player::recoil_vehicle() const
     // TODO: vary penalty dependent upon vehicle part on which player is boarded
 
     if( in_vehicle ) {
-        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+        if( const optional_vpart_position vp = get_map().veh_at( pos() ) ) {
             return static_cast<double>( std::abs( vp->vehicle().velocity ) ) * 3 / 100;
         }
     }
@@ -751,6 +751,7 @@ void player::pause()
     moves = 0;
     recoil = MAX_RECOIL;
 
+    map &here = get_map();
     // Train swimming if underwater
     if( !in_vehicle ) {
         if( underwater ) {
@@ -761,7 +762,7 @@ void player::pause()
                     bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" )
                 }
             }, true );
-        } else if( g->m.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
+        } else if( here.has_flag( TFLAG_DEEP_WATER, pos() ) ) {
             practice( skill_swimming, 1 );
             // Same as above, except no head/eyes/mouth
             drench( 100, { {
@@ -770,7 +771,7 @@ void player::pause()
                     bodypart_str_id( "hand_r" )
                 }
             }, true );
-        } else if( g->m.has_flag( "SWIMMABLE", pos() ) ) {
+        } else if( here.has_flag( "SWIMMABLE", pos() ) ) {
             drench( 40, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } },
             false );
         }
@@ -796,7 +797,7 @@ void player::pause()
         }
 
         // Don't drop on the ground when the ground is on fire
-        if( total_left > 1_minutes && !is_dangerous_fields( g->m.field_at( pos() ) ) ) {
+        if( total_left > 1_minutes && !is_dangerous_fields( here.field_at( pos() ) ) ) {
             add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
             add_msg_player_or_npc( m_warning,
                                    _( "You roll on the ground, trying to smother the fire!" ),
@@ -818,7 +819,7 @@ void player::pause()
     }
 
     if( in_vehicle && one_in( 8 ) ) {
-        VehicleList vehs = g->m.get_vehicles();
+        VehicleList vehs = here.get_vehicles();
         vehicle *veh = nullptr;
         for( auto &v : vehs ) {
             veh = v.v;
@@ -844,17 +845,16 @@ void player::search_surroundings()
     if( controlling_vehicle ) {
         return;
     }
+    map &here = get_map();
     // Search for traps in a larger area than before because this is the only
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
-    for( const tripoint &tp : g->m.points_in_radius( pos(), 5 ) ) {
-        const trap &tr = g->m.tr_at( tp );
+    for( const tripoint &tp : here.points_in_radius( pos(), 5 ) ) {
+        const trap &tr = here.tr_at( tp );
         if( tr.is_null() || tp == pos() ) {
             continue;
         }
-        if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) &&
-            ( tr.loadid == tr_beartrap_buried ||
-              tr.loadid == tr_landmine_buried || tr.loadid == tr_sinkhole ) ) {
+        if( has_active_bionic( bio_ground_sonar ) && !knows_trap( tp ) && tr.detected_by_ground_sonar() ) {
             const std::string direction = direction_name( direction_from( pos(), tp ) );
             add_msg_if_player( m_warning, _( "Your ground sonar detected a %1$s to the %2$s!" ),
                                tr.name(), direction );
@@ -863,13 +863,13 @@ void player::search_surroundings()
         if( !sees( tp ) ) {
             continue;
         }
-        if( tr.is_always_invisible() || tr.can_see( tp, *this ) ) {
+        if( tr.can_see( tp, *this ) ) {
             // Already seen, or can never be seen
             continue;
         }
         // Chance to detect traps we haven't yet seen.
         if( tr.detect_trap( tp, *this ) ) {
-            if( tr.get_visibility() > 0 ) {
+            if( !tr.is_trivial_to_spot() ) {
                 // Only bug player about traps that aren't trivial to spot.
                 const std::string direction = direction_name(
                                                   direction_from( pos(), tp ) );
@@ -929,7 +929,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
-    bool u_see = g->u.sees( *this );
+    bool u_see = get_player_character().sees( *this );
     if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
         if( is_player() ) {
             add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
@@ -1119,8 +1119,9 @@ float player::fall_damage_mod() const
     /** @EFFECT_DODGE decreases damage from falling */
     float dex_dodge = dex_cur / 2.0 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
-    const float average_leg_encumb = ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 2.0;
-    dex_dodge -= ( average_leg_encumb + encumb( bp_torso ) ) / 10;
+    const float average_leg_encumb = ( encumb( bodypart_id( "leg_l" ) ) + encumb(
+                                           bodypart_id( "leg_r" ) ) ) / 2.0;
+    dex_dodge -= ( average_leg_encumb + encumb( bodypart_id( "torso" ) ) ) / 10;
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on
@@ -1160,6 +1161,7 @@ int player::impact( const int force, const tripoint &p )
     const bool slam = p != pos();
     std::string target_name = "a swarm of bugs";
     Creature *critter = g->critter_at( p );
+    map &here = get_map();
     if( critter != this && critter != nullptr ) {
         target_name = critter->disp_name();
         // Slamming into creatures and NPCs
@@ -1168,7 +1170,7 @@ int player::impact( const int force, const tripoint &p )
         // TODO: Modify based on something?
         mod = 1.0f;
         effective_force = force;
-    } else if( const optional_vpart_position vp = g->m.veh_at( p ) ) {
+    } else if( const optional_vpart_position vp = here.veh_at( p ) ) {
         // Slamming into vehicles
         // TODO: Integrate it with vehicle collision function somehow
         target_name = vp->vehicle().disp_name();
@@ -1186,20 +1188,20 @@ int player::impact( const int force, const tripoint &p )
         }
     } else {
         // Slamming into terrain/furniture
-        target_name = g->m.disp_name( p );
-        int hard_ground = g->m.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
+        target_name = here.disp_name( p );
+        int hard_ground = here.has_flag( TFLAG_DIGGABLE, p ) ? 0 : 3;
         armor_eff = 0.25f; // Not much
         // Get cut by stuff
         // This isn't impalement on metal wreckage, more like flying through a closed window
-        cut = g->m.has_flag( TFLAG_SHARP, p ) ? 5 : 0;
+        cut = here.has_flag( TFLAG_SHARP, p ) ? 5 : 0;
         effective_force = force + hard_ground;
         mod = slam ? 1.0f : fall_damage_mod();
-        if( g->m.has_furn( p ) ) {
+        if( here.has_furn( p ) ) {
             // TODO: Make furniture matter
-        } else if( g->m.has_flag( TFLAG_SWIMMABLE, p ) ) {
+        } else if( here.has_flag( TFLAG_SWIMMABLE, p ) ) {
             const int swim_skill = get_skill_level( skill_swimming );
             effective_force /= 4.0f + 0.1f * swim_skill;
-            if( g->m.has_flag( TFLAG_DEEP_WATER, p ) ) {
+            if( here.has_flag( TFLAG_DEEP_WATER, p ) ) {
                 effective_force /= 1.5f;
                 mod /= 1.0f + ( 0.1f * swim_skill );
             }
@@ -1314,20 +1316,21 @@ void player::knock_back_to( const tripoint &to )
         return;
     }
 
+    map &here = get_map();
     // If we're still in the function at this point, we're actually moving a tile!
-    if( g->m.has_flag( "LIQUID", to ) && g->m.has_flag( TFLAG_DEEP_WATER, to ) ) {
+    if( here.has_flag( "LIQUID", to ) && here.has_flag( TFLAG_DEEP_WATER, to ) ) {
         if( !is_npc() ) {
-            avatar_action::swim( g->m, g->u, to );
+            avatar_action::swim( here, get_avatar(), to );
         }
         // TODO: NPCs can't swim!
-    } else if( g->m.impassable( to ) ) { // Wait, it's a wall
+    } else if( here.impassable( to ) ) { // Wait, it's a wall
 
         // It's some kind of wall.
         // TODO: who knocked us back? Maybe that creature should be the source of the damage?
         apply_damage( nullptr, bodypart_id( "torso" ), 3 );
         add_effect( effect_stunned, 2_turns );
         add_msg_player_or_npc( _( "You bounce off a %s!" ), _( "<npcname> bounces off a %s!" ),
-                               g->m.obstacle_name( to ) );
+                               here.obstacle_name( to ) );
 
     } else { // It's no wall
         setpos( to );
@@ -1831,7 +1834,7 @@ void player::process_items()
         w.encumbrance_update_ = false;
     }
     if( update_required ) {
-        reset_encumbrance();
+        calc_encumbrance();
     }
     if( has_active_bionic( bionic_id( "bio_ups" ) ) ) {
         ch_UPS += units::to_kilojoule( get_power_level() );
@@ -2036,13 +2039,14 @@ item::reload_option player::select_ammo( const item &base,
     std::transform( opts.begin(), opts.end(),
     std::back_inserter( where ), [this]( const item::reload_option & e ) {
         bool is_ammo_container = e.ammo->is_ammo_container();
+        Character &player_character = get_player_character();
         if( is_ammo_container || e.ammo->is_container() ) {
             if( is_ammo_container && is_worn( *e.ammo ) ) {
                 return e.ammo->type_name();
             }
-            return string_format( _( "%s, %s" ), e.ammo->type_name(), e.ammo.describe( &g->u ) );
+            return string_format( _( "%s, %s" ), e.ammo->type_name(), e.ammo.describe( &player_character ) );
         }
-        return e.ammo.describe( &g->u );
+        return e.ammo.describe( &player_character );
     } );
 
     // Pads elements to match longest member and return length
@@ -2790,7 +2794,7 @@ bool player::takeoff( item &it, std::list<item> *res )
     mod_moves( -250 );
 
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 
     return true;
 }
@@ -3429,10 +3433,11 @@ recipe_subset player::get_available_recipes( const inventory &crafting_inv,
 
 void player::try_to_sleep( const time_duration &dur )
 {
-    const optional_vpart_position vp = g->m.veh_at( pos() );
-    const trap &trap_at_pos = g->m.tr_at( pos() );
-    const ter_id ter_at_pos = g->m.ter( pos() );
-    const furn_id furn_at_pos = g->m.furn( pos() );
+    map &here = get_map();
+    const optional_vpart_position vp = here.veh_at( pos() );
+    const trap &trap_at_pos = here.tr_at( pos() );
+    const ter_id ter_at_pos = here.ter( pos() );
+    const furn_id furn_at_pos = here.furn( pos() );
     bool plantsleep = false;
     bool fungaloid_cosplay = false;
     bool websleep = false;
@@ -3457,7 +3462,7 @@ void player::try_to_sleep( const time_duration &dur )
         }
     } else if( has_trait( trait_M_SKIN3 ) ) {
         fungaloid_cosplay = true;
-        if( g->m.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
+        if( here.has_flag_ter_or_furn( "FUNGUS", pos() ) ) {
             add_msg_if_player( m_good,
                                _( "Our fibers meld with the ground beneath us.  The gills on our neck begin to seed the air with spores as our awareness fades." ) );
         }
@@ -3471,7 +3476,7 @@ void player::try_to_sleep( const time_duration &dur )
         webforce = true;
     }
     if( websleep || webforce ) {
-        int web = g->m.get_field_intensity( pos(), fd_web );
+        int web = here.get_field_intensity( pos(), fd_web );
         if( !webforce ) {
             // At this point, it's kinda weird, but surprisingly comfy...
             if( web >= 3 ) {
@@ -3481,7 +3486,7 @@ void player::try_to_sleep( const time_duration &dur )
             } else if( web > 0 ) {
                 add_msg_if_player( m_info,
                                    _( "You try to sleep, but the webs get in the way.  You brush them aside." ) );
-                g->m.remove_field( pos(), fd_web );
+                here.remove_field( pos(), fd_web );
             }
         } else {
             // Here, you're just not comfortable outside a nice thick web.
@@ -3504,7 +3509,7 @@ void player::try_to_sleep( const time_duration &dur )
             add_msg_if_player( m_good,
                                _( "You lay beneath the waves' embrace, gazing up through the water's surface…" ) );
             watersleep = true;
-        } else if( g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
+        } else if( here.has_flag_ter( "SWIMMABLE", pos() ) ) {
             add_msg_if_player( m_good, _( "You settle into the water and begin to drowse…" ) );
             watersleep = true;
         }
@@ -3580,7 +3585,7 @@ int player::sleep_spot( const tripoint &p ) const
         // Mousefolk can sleep just about anywhere.
         sleepy += 40;
     }
-    if( watersleep && g->m.has_flag_ter( "SWIMMABLE", pos() ) ) {
+    if( watersleep && get_map().has_flag_ter( "SWIMMABLE", pos() ) ) {
         sleepy += 10; //comfy water!
     }
 
@@ -3661,7 +3666,7 @@ float player::fine_detail_vision_mod( const tripoint &p ) const
 
     // Same calculation as above, but with a result 3 lower.
     float ambient_light = std::max( 1.0f,
-                                    LIGHT_AMBIENT_LIT - g->m.ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
+                                    LIGHT_AMBIENT_LIT - get_map().ambient_light_at( p == tripoint_zero ? pos() : p ) + 1.0f );
 
     return std::min( own_light, ambient_light );
 }
@@ -3934,7 +3939,7 @@ void player::store( item &container, item &put, bool penalties, int base_cost,
 {
     moves -= item_store_cost( put, container, penalties, base_cost );
     container.put_in( i_rem( &put ), pk_type );
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 nc_color encumb_color( int level )
@@ -3961,8 +3966,8 @@ float player::get_melee() const
 
 bool player::uncanny_dodge()
 {
-    bool is_u = this == &g->u;
-    bool seen = g->u.sees( *this );
+    bool is_u = is_avatar();;
+    bool seen = get_player_character().sees( *this );
     if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
         return false;
     }
@@ -3989,11 +3994,12 @@ bool player::uncanny_dodge()
 
 int player::climbing_cost( const tripoint &from, const tripoint &to ) const
 {
-    if( !g->m.valid_move( from, to, false, true ) ) {
+    map &here = get_map();
+    if( !here.valid_move( from, to, false, true ) ) {
         return 0;
     }
 
-    const int diff = g->m.climb_difficulty( from );
+    const int diff = here.climb_difficulty( from );
 
     if( diff > 5 ) {
         return 0;
@@ -4020,7 +4026,7 @@ void player::environmental_revert_effect()
     set_rad( 0 );
 
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 //message related stuff

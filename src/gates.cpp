@@ -218,7 +218,7 @@ void gates::open_gate( const tripoint &pos )
         }
     }
 
-    if( g->u.sees( pos ) ) {
+    if( get_player_character().sees( pos ) ) {
         if( open ) {
             add_msg( gate.open_message );
         } else if( close ) {
@@ -277,7 +277,7 @@ void doors::close_door( map &m, Character &who, const tripoint &closep )
         const int inside_closable = veh->next_part_to_close( vpart );
         const int openable = veh->next_part_to_open( vpart );
         if( closable >= 0 ) {
-            if( !veh->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+            if( !veh->handle_potential_theft( get_avatar() ) ) {
                 return;
             }
             veh->close( closable );

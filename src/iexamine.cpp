@@ -63,6 +63,7 @@
 #include "messages.h"
 #include "mission_companion.h"
 #include "monster.h"
+#include "morale_types.h"
 #include "mtype.h"
 #include "npc.h"
 #include "options.h"
@@ -157,6 +158,7 @@ static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_mechanics( "mechanics" );
 static const skill_id skill_survival( "survival" );
+static const skill_id skill_traps( "traps" );
 
 static const trait_id trait_AMORPHOUS( "AMORPHOUS" );
 static const trait_id trait_ARACHNID_ARMS_OK( "ARACHNID_ARMS_OK" );
@@ -897,7 +899,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
         } else if( here.ter( critter.pos() ) == ter_id( "t_elevator" ) ) {
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
             if( critter_omt == new_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( critter.pos(), 10 ) ) {
+                for( const tripoint &candidate : closest_points_first( critter.pos(), 10 ) ) {
                     if( here.ter( candidate ) != ter_id( "t_elevator" ) &&
                         here.passable( candidate ) &&
                         !g->critter_at( candidate ) ) {
@@ -920,7 +922,7 @@ void iexamine::elevator( player &p, const tripoint &examp )
             tripoint critter_omt = ms_to_omt_copy( here.getabs( critter.pos() ) );
 
             if( critter_omt == original_floor_omt ) {
-                for( const tripoint &candidate : closest_tripoints_first( p.pos(), 10 ) ) {
+                for( const tripoint &candidate : closest_points_first( p.pos(), 10 ) ) {
                     if( here.ter( candidate ) == ter_id( "t_elevator" ) &&
                         candidate != p.pos() &&
                         !g->critter_at( candidate ) ) {
@@ -1074,7 +1076,7 @@ void iexamine::rubble( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( here.veh_at( examp ) || !here.tr_at( examp ).is_null() ||
+    if( ( here.veh_at( examp ) || here.can_see_trap_at( examp, p ) ||
           g->critter_at( examp ) != nullptr ) &&
         !query_yn( _( "Clear up that %s?" ), here.furnname( examp ) ) ) {
         return;
@@ -1148,9 +1150,11 @@ void iexamine::bars( player &p, const tripoint &examp )
         return;
     }
     map &here = get_map();
-    if( ( ( p.encumb( bp_torso ) ) >= 10 ) && ( ( p.encumb( bp_head ) ) >= 10 ) &&
-        ( p.encumb( bp_foot_l ) >= 10 ||
-          p.encumb( bp_foot_r ) >= 10 ) ) { // Most likely places for rigid gear that would catch on the bars.
+    if( ( ( p.encumb( bodypart_id( "torso" ) ) ) >= 10 ) &&
+        ( ( p.encumb( bodypart_id( "head" ) ) ) >= 10 ) &&
+        ( p.encumb( bodypart_id( "foot_l" ) ) >= 10 ||
+          p.encumb( bodypart_id( "foot_r" ) ) >=
+          10 ) ) { // Most likely places for rigid gear that would catch on the bars.
         add_msg( m_info,
                  _( "Your amorphous body could slip though the %s, but your cumbersome gear can't." ),
                  here.tername( examp ) );
@@ -1998,7 +2002,7 @@ void iexamine::egg_sack_generic( player &p, const tripoint &examp,
     here.furn_set( examp, f_egg_sacke );
     int monster_count = 0;
     if( one_in( 2 ) ) {
-        for( const tripoint &nearby_pos : closest_tripoints_first( examp, 1 ) ) {
+        for( const tripoint &nearby_pos : closest_points_first( examp, 1 ) ) {
             if( !one_in( 3 ) ) {
                 continue;
             } else if( g->place_critter_at( montype, nearby_pos ) ) {
@@ -3562,7 +3566,7 @@ void iexamine::shrub_wildveggies( player &p, const tripoint &examp )
     // Ask if there's something possibly more interesting than this shrub here
     if( ( !here.i_at( examp ).empty() ||
           here.veh_at( examp ) ||
-          !here.tr_at( examp ).is_null() ||
+          here.can_see_trap_at( examp, p ) ||
           g->critter_at( examp ) != nullptr ) &&
         !query_yn( _( "Forage through %s?" ), here.tername( examp ) ) ) {
         none( p, examp );
@@ -3689,57 +3693,98 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     }
 }
 
-void iexamine::trap( player &p, const tripoint &examp )
+void trap::examine( const tripoint &examp ) const
 {
     map &here = get_map();
-    const auto &tr = here.tr_at( examp );
-    if( !p.is_player() || tr.is_null() ) {
+
+    // If the player can't see the trap, they can't interact with it.
+    if( !can_see( examp, g->u ) ) {
         return;
     }
-    const int possible = tr.get_difficulty();
-    bool seen = tr.can_see( examp, p );
-    if( tr.loadid == tr_unfinished_construction || here.partial_con_at( examp ) ) {
-        partial_con *pc = here.partial_con_at( examp );
-        if( pc ) {
-            if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
-                add_msg( m_info, _( "It is too dark to construct right now." ) );
-                return;
-            }
-            const construction &built = pc->id.obj();
-            if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
-                           built.description, pc->counter / 100000 ) ) {
-                if( query_yn( _( "Cancel construction?" ) ) ) {
-                    here.disarm_trap( examp );
-                    for( const item &it : pc->components ) {
-                        here.add_item_or_charges( g->u.pos(), it );
-                    }
-                    here.partial_con_remove( examp );
-                    return;
-                } else {
-                    return;
-                }
-            } else {
-                g->u.assign_activity( ACT_BUILD );
-                g->u.activity.placement = here.getabs( examp );
-                return;
-            }
-        } else {
+
+    if( g->u.is_mounted() ) {
+        add_msg( m_warning, _( "You cannot do that while mounted." ) );
+        return;
+    }
+
+    if( partial_con *const pc = here.partial_con_at( examp ) ) {
+        if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+            add_msg( m_info, _( "It is too dark to construct right now." ) );
             return;
         }
-    }
-    if( seen && possible >= 99 ) {
-        add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ),
-                 tr.name() );
+        const construction &built = pc->id.obj();
+        if( !query_yn( _( "Unfinished task: %s, %d%% complete here, continue construction?" ),
+                       built.description, pc->counter / 100000 ) ) {
+            if( query_yn( _( "Cancel construction?" ) ) ) {
+                on_disarmed( here, examp );
+                for( const item &it : pc->components ) {
+                    here.add_item_or_charges( g->u.pos(), it );
+                }
+                here.partial_con_remove( examp );
+            }
+        } else {
+            g->u.assign_activity( ACT_BUILD );
+            g->u.activity.placement = here.getabs( examp );
+        }
         return;
     }
-    // Some traps are not actual traps. Those should get a different query.
-    if( seen && possible == 0 &&
-        tr.get_avoidance() == 0 ) { // Separated so saying no doesn't trigger the other query.
-        if( query_yn( _( "There is a %s there.  Take down?" ), tr.name() ) ) {
-            here.disarm_trap( examp );
+    if( can_not_be_disarmed() ) {
+        add_msg( m_info, _( "That %s looks too dangerous to mess with.  Best leave it alone." ), name() );
+        return;
+    }
+
+    // Some traps are not actual traps. Those should get a different query, no skill checks, and the option to grab it right away.
+    if( easy_take_down() ) { // Separated so saying no doesn't trigger the other query.
+        if( !query_yn( _( "There is a %s there.  Take down?" ), name() ) ) {
+            return;
         }
-    } else if( seen && query_yn( _( "There is a %s there.  Disarm?" ), tr.name() ) ) {
-        here.disarm_trap( examp );
+        add_msg( _( "The %s is taken down." ), name() );
+        on_disarmed( here, examp );
+        return;
+    }
+
+    if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
+        const int tSkillLevel = g->u.get_skill_level( skill_traps );
+        int roll = rng( tSkillLevel, 4 * tSkillLevel );
+
+        ///\EFFECT_PER increases chance of disarming trap
+
+        ///\EFFECT_DEX increases chance of disarming trap
+
+        ///\EFFECT_TRAPS increases chance of disarming trap
+        while( ( rng( 5, 20 ) < g->u.per_cur || rng( 1, 20 ) < g->u.dex_cur ) && roll < 50 ) {
+            roll++;
+        }
+        if( roll >= difficulty ) {
+            add_msg( _( "You disarm the trap!" ) );
+            const int morale_buff = avoidance * 0.4 + difficulty + rng( 0, 4 );
+            g->u.rem_morale( MORALE_FAILURE );
+            g->u.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
+            on_disarmed( here, examp );
+            if( difficulty > 1.25 * tSkillLevel ) { // failure might have set off trap
+                g->u.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            }
+        } else if( roll >= difficulty * .8 ) {
+            add_msg( _( "You fail to disarm the trap." ) );
+            const int morale_debuff = -rng( 6, 18 );
+            g->u.rem_morale( MORALE_ACCOMPLISHMENT );
+            g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
+            if( difficulty > 1.25 * tSkillLevel ) {
+                g->u.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+            }
+        } else {
+            add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
+            const int morale_debuff = -rng( 12, 24 );
+            g->u.rem_morale( MORALE_ACCOMPLISHMENT );
+            g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
+            trigger( examp, g->u );
+            if( difficulty - roll <= 6 ) {
+                // Give xp for failing, but not if we failed terribly (in which
+                // case the trap may not be disarmable).
+                g->u.practice( skill_traps, 2 * difficulty );
+            }
+        }
+        return;
     }
 }
 
@@ -6024,7 +6069,6 @@ iexamine_function iexamine_function_from_string( const std::string &function_nam
             { "tree_maple_tapped", &iexamine::tree_maple_tapped },
             { "shrub_wildveggies", &iexamine::shrub_wildveggies },
             { "recycle_compactor", &iexamine::recycle_compactor },
-            { "trap", &iexamine::trap },
             { "water_source", &iexamine::water_source },
             { "clean_water_source", &iexamine::clean_water_source },
             { "reload_furniture", &iexamine::reload_furniture },

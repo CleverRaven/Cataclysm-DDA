@@ -68,7 +68,7 @@ TEST_CASE( "Character::get_hit_base", "[character][melee][hit][dex]" )
 {
     clear_map();
 
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     SECTION( "character get_hit_base increases by 1/4 for each point of DEX" ) {
@@ -96,7 +96,7 @@ TEST_CASE( "Character::get_dodge_base", "[character][melee][dodge][dex][skill]" 
 {
     clear_map();
 
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     // Character::get_dodge_base is simply DEXTERITY / 2 + DODGE_SKILL
@@ -188,7 +188,7 @@ TEST_CASE( "player::get_dodge", "[player][melee][dodge]" )
 {
     clear_map();
 
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     const float base_dodge = dummy.get_dodge_base();
@@ -222,7 +222,7 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
 {
     clear_map();
 
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     // Compare all effects against base dodge ability
@@ -281,7 +281,7 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
 {
     clear_map();
 
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     // Base dodge rate when not grabbed
@@ -354,7 +354,7 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
 
 TEST_CASE( "player::get_dodge stamina effects", "[player][melee][dodge][stamina]" )
 {
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_character( dummy );
 
     SECTION( "8/8/8/8, no skills, unencumbered" ) {

@@ -1713,6 +1713,7 @@
     "price": 12000,
     "price_postapoc": 1250,
     "material": [ "wood", "iron" ],
+    "ascii_picture": "lajatang",
     "techniques": [ "WBLOCK_1", "SPIN" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weight": "2500 g",

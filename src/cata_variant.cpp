@@ -18,7 +18,6 @@ std::string enum_to_string<cata_variant_type>( cata_variant_type type )
         case cata_variant_type::chrono_seconds: return "chrono_seconds";
         case cata_variant_type::debug_menu_index: return "debug_menu_index";
         case cata_variant_type::efftype_id: return "efftype_id";
-        case cata_variant_type::hp_part: return "hp_part";
         case cata_variant_type::int_: return "int";
         case cata_variant_type::itype_id: return "itype_id";
         case cata_variant_type::matype_id: return "matype_id";

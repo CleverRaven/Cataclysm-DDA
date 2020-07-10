@@ -336,6 +336,7 @@ bool overmap::obsolete_terrain( const std::string &ter )
  */
 void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion )
 {
+    std::vector<point> bridge_points;
     for( const auto &convert : needs_conversion ) {
         const tripoint pos = convert.first;
         const std::string old = convert.second;
@@ -350,14 +351,17 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         std::vector<convert_nearby> nearby;
         std::vector<std::pair<tripoint, std::string>> convert_unrelated_adjacent_tiles;
 
-        if( old == "rural_house" || old == "rural_house_north" ) {
-            ter_set( pos, oter_id( "rural_house1_north" ) );
-        } else if( old == "rural_house_south" ) {
-            ter_set( pos, oter_id( "rural_house1_south" ) );
-        } else if( old == "rural_house_east" ) {
-            ter_set( pos, oter_id( "rural_house1_east" ) );
-        } else if( old == "rural_house_west" ) {
-            ter_set( pos, oter_id( "rural_house1_west" ) );
+        if( old == "fema" || old == "fema_entrance" || old == "fema_1_3" ||
+            old == "fema_2_1" || old == "fema_2_2" || old == "fema_2_3" ||
+            old == "fema_3_1" || old == "fema_3_2" || old == "fema_3_3" ) {
+            ter_set( pos, oter_id( old + "_north" ) );
+        } else if( old.compare( 0, 6, "bridge" ) == 0 ) {
+            ter_set( pos, oter_id( old ) );
+            const oter_id oter_ground = ter( tripoint( pos.xy(), 0 ) );
+            if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) ) {
+                ter_set( pos + tripoint_above, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
+                bridge_points.emplace_back( pos.xy() );
+            }
         } else if( old.compare( 0, 10, "mass_grave" ) == 0 ) {
             ter_set( pos, oter_id( "field" ) );
         }
@@ -376,6 +380,8 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
             ter_set( pos + conv.first, oter_id( conv.second ) );
         }
     }
+
+    generate_bridgeheads( bridge_points );
 }
 
 void overmap::load_monster_groups( JsonIn &jsin )

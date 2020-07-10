@@ -1046,16 +1046,18 @@ monster_attitude monster::attitude( const Character *u ) const
         if( has_effect( effect_docile ) ) {
             return MATT_FPASSIVE;
         }
-        if( u->is_avatar() ) {
-            return MATT_FRIEND;
-        }
-        if( u->is_npc() ) {
-            // Zombies don't understand not attacking NPCs, but dogs and bots should.
-            if( u->get_attitude() != NPCATT_KILL && !type->in_species( species_ZOMBIE ) ) {
+        if( u != nullptr ) {
+            if( u->is_avatar() ) {
                 return MATT_FRIEND;
             }
-            if( u->is_hallucination() ) {
-                return MATT_IGNORE;
+            if( u->is_npc() ) {
+                // Zombies don't understand not attacking NPCs, but dogs and bots should.
+                if( u->get_attitude() != NPCATT_KILL && !type->in_species( species_ZOMBIE ) ) {
+                    return MATT_FRIEND;
+                }
+                if( u->is_hallucination() ) {
+                    return MATT_IGNORE;
+                }
             }
         }
     }

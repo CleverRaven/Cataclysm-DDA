@@ -228,6 +228,9 @@ bool monster::can_reach_to( const tripoint &p ) const
 {
     map &here = get_map();
     if( p.z > pos().z && z_is_valid( pos().z ) ) {
+        if( here.has_flag( TFLAG_RAMP_UP, tripoint( p.xy(), p.z - 1 ) ) ) {
+            return true;
+        }
         if( !here.has_flag( TFLAG_GOES_UP, pos() ) && !here.has_flag( TFLAG_NO_FLOOR, p ) ) {
             // can't go through the roof
             return false;
@@ -869,18 +872,27 @@ void monster::move()
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.
         const float distance_to_target = trig_dist( pos(), destination );
-        for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
-            tripoint candidate_abs = here.getabs( candidate );
+        for( tripoint &candidate : squares_closer_to( pos(), destination ) ) {
+            bool via_ramp = false;
+            if( here.has_flag( TFLAG_RAMP_UP, candidate ) ) {
+                via_ramp = true;
+                candidate.z += 1;
+            } else if( here.has_flag( TFLAG_RAMP_DOWN, candidate ) ) {
+                via_ramp = true;
+                candidate.z -= 1;
+            }
+            tripoint candidate_abs = get_map().getabs( candidate );
+
             if( candidate.z != posz() ) {
                 bool can_z_move = true;
-                if( !here.valid_move( pos(), candidate, false, true ) ) {
+                if( !here.valid_move( pos(), candidate, false, true, via_ramp ) ) {
                     // Can't phase through floor
                     can_z_move = false;
                 }
 
                 // If we're trying to go up but can't fly, check if we can climb. If we can't, then don't
                 // This prevents non-climb/fly enemies running up walls
-                if( candidate.z > posz() && !flies() ) {
+                if( candidate.z > posz() && !( via_ramp || flies() ) ) {
                     if( !can_climb() || !here.has_floor_or_support( candidate ) ) {
                         // Can't "jump" up a whole z-level
                         can_z_move = false;
@@ -1450,7 +1462,7 @@ bool monster::attack_at( const tripoint &p )
 static tripoint find_closest_stair( const tripoint &near_this, const ter_bitflags stair_type )
 {
     map &here = get_map();
-    for( const tripoint &candidate : closest_tripoints_first( near_this, 10 ) ) {
+    for( const tripoint &candidate : closest_points_first( near_this, 10 ) ) {
         if( here.has_flag( stair_type, candidate ) ) {
             return candidate;
         }
@@ -1815,7 +1827,13 @@ void monster::stumble()
     const bool avoid_water = has_flag( MF_NO_BREATHE ) && !swims() && !has_flag( MF_AQUATIC );
     for( const tripoint &dest : here.points_in_radius( pos(), 1 ) ) {
         if( dest != pos() ) {
-            valid_stumbles.push_back( dest );
+            if( here.has_flag( TFLAG_RAMP_DOWN, dest ) ) {
+                valid_stumbles.push_back( tripoint( dest.xy(), dest.z - 1 ) );
+            } else  if( here.has_flag( TFLAG_RAMP_UP, dest ) ) {
+                valid_stumbles.push_back( tripoint( dest.xy(), dest.z + 1 ) );
+            } else {
+                valid_stumbles.push_back( dest );
+            }
         }
     }
 

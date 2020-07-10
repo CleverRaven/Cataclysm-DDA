@@ -727,7 +727,7 @@ void Character::load( const JsonObject &data )
     on_stat_change( "pkill", pkill );
     on_stat_change( "perceived_pain", get_perceived_pain() );
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 
     assign( data, "power_level", power_level, false, 0_kJ );
     assign( data, "max_power_level", max_power_level, false, 0_kJ );
@@ -2542,6 +2542,14 @@ void vehicle_part::deserialize( JsonIn &jsin )
     data.read( "enabled", enabled );
     data.read( "flags", flags );
     data.read( "passenger_id", passenger_id );
+    if( data.has_int( "z_offset" ) ) {
+        int z_offset = data.get_int( "z_offset" );
+        if( std::abs( z_offset ) > 10 ) {
+            data.throw_error( "z_offset out of range", "z_offset" );
+        }
+        precalc[0].z = z_offset;
+        precalc[1].z = z_offset;
+    }
     JsonArray ja = data.get_array( "carry" );
     // count down from size - 1, then stop after unsigned long 0 - 1 becomes MAX_INT
     for( size_t index = ja.size() - 1; index < ja.size(); index-- ) {
@@ -2615,6 +2623,9 @@ void vehicle_part::serialize( JsonOut &json ) const
     }
     json.member( "passenger_id", passenger_id );
     json.member( "crew_id", crew_id );
+    if( precalc[0].z ) {
+        json.member( "z_offset", precalc[0].z );
+    }
     json.member( "items", items );
     if( target.first != tripoint_min ) {
         json.member( "target_first_x", target.first.x );
@@ -2633,20 +2644,20 @@ void vehicle_part::serialize( JsonOut &json ) const
 /*
  * label
  */
-static void deserialize( label &val, JsonIn &jsin )
+void label::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    data.read( "x", val.x );
-    data.read( "y", val.y );
-    data.read( "text", val.text );
+    data.read( "x", x );
+    data.read( "y", y );
+    data.read( "text", text );
 }
 
-static void serialize( const label &val, JsonOut &json )
+void label::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "x", val.x );
-    json.member( "y", val.y );
-    json.member( "text", val.text );
+    json.member( "x", x );
+    json.member( "y", y );
+    json.member( "text", text );
     json.end_object();
 }
 
@@ -3315,19 +3326,19 @@ void map_memory::load( const JsonObject &jsin )
     }
 }
 
-void deserialize( point &p, JsonIn &jsin )
+void point::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
-    p.x = jsin.get_int();
-    p.y = jsin.get_int();
+    x = jsin.get_int();
+    y = jsin.get_int();
     jsin.end_array();
 }
 
-void serialize( const point &p, JsonOut &jsout )
+void point::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
-    jsout.write( p.x );
-    jsout.write( p.y );
+    jsout.write( x );
+    jsout.write( y );
     jsout.end_array();
 }
 

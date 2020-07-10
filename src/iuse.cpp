@@ -1306,7 +1306,7 @@ static void spawn_spores( const player &p )
     int spores_spawned = 0;
     map &here = get_map();
     fungal_effects fe( *g, here );
-    for( const tripoint &dest : closest_tripoints_first( p.pos(), 4 ) ) {
+    for( const tripoint &dest : closest_points_first( p.pos(), 4 ) ) {
         if( here.impassable( dest ) ) {
             continue;
         }
@@ -2075,7 +2075,7 @@ int iuse::rm13armor_off( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( _( "Electro-reactive armor system:  ONLINE." ) );
         p->add_msg_if_player( _( "All systems nominal." ) );
         it->convert( itype_id( oname ) ).active = true;
-        p->reset_encumbrance();
+        p->calc_encumbrance();
         return it->type->charges_to_use();
     }
 }
@@ -2095,7 +2095,7 @@ int iuse::rm13armor_on( player *p, item *it, bool t, const tripoint & )
         p->add_msg_if_player( _( "Shutting down." ) );
         p->add_msg_if_player( _( "Your RM13 combat armor turns off." ) );
         it->convert( itype_id( oname ) ).active = false;
-        p->reset_encumbrance();
+        p->calc_encumbrance();
     }
     return it->type->charges_to_use();
 }
@@ -2815,7 +2815,7 @@ int iuse::dig( player *p, item *it, bool t, const tripoint & )
     map &here = get_map();
     const bool can_dig_here = here.has_flag( "DIGGABLE", dig_point ) &&
                               !here.has_furn( dig_point ) &&
-                              here.tr_at( dig_point ).is_null() &&
+                              !here.can_see_trap_at( dig_point, *p ) &&
                               ( here.ter( dig_point ) == t_grave_new || here.i_at( dig_point ).empty() ) &&
                               !here.veh_at( dig_point );
 
@@ -2917,7 +2917,8 @@ int iuse::dig_channel( player *p, item *it, bool t, const tripoint & )
     map &here = get_map();
     const bool can_dig_here = here.has_flag( flag_DIGGABLE, dig_point ) &&
                               !here.has_furn( dig_point ) &&
-                              here.tr_at( dig_point ).is_null() && here.i_at( dig_point ).empty() && !here.veh_at( dig_point ) &&
+                              !here.can_see_trap_at( dig_point, *p ) && here.i_at( dig_point ).empty() &&
+                              !here.veh_at( dig_point ) &&
                               ( here.has_flag( flag_CURRENT, north ) ||  here.has_flag( flag_CURRENT, south ) ||
                                 here.has_flag( flag_CURRENT, east ) ||  here.has_flag( flag_CURRENT, west ) );
 
@@ -4296,7 +4297,8 @@ static std::string get_music_description()
     return _( "a sweet guitar solo!" );
 }
 
-void iuse::play_music( player &p, const tripoint &source, const int volume, const int max_morale )
+void iuse::play_music( Character &p, const tripoint &source, const int volume,
+                       const int max_morale )
 {
     // TODO: what about other "player", e.g. when a NPC is listening or when the PC is listening,
     // the other characters around should be able to profit as well.
@@ -5595,7 +5597,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_FIRESTORM: {
                 p->add_msg_if_player( m_bad, _( "Fire rains down around you!" ) );
-                std::vector<tripoint> ps = closest_tripoints_first( p->pos(), 3 );
+                std::vector<tripoint> ps = closest_points_first( p->pos(), 3 );
                 for( auto p_it : ps ) {
                     if( !one_in( 3 ) ) {
                         here.add_field( p_it, fd_fire, 1 + rng( 0, 1 ) * rng( 0, 1 ), 3_minutes );
@@ -5844,7 +5846,7 @@ int iuse::towel( player *p, item *it, bool t, const tripoint & )
     return towel_common( p, it, t );
 }
 
-int iuse::towel_common( player *p, item *it, bool t )
+int iuse::towel_common( Character *p, item *it, bool t )
 {
     if( t ) {
         // Continuous usage, do nothing as not initiated by the player, this is for
@@ -7003,7 +7005,7 @@ static std::string colorized_trap_name_at( const tripoint &point )
 {
     const trap &trap = get_map().tr_at( point );
     std::string name;
-    if( !trap.is_null() && trap.get_visibility() <= 1 ) {
+    if( trap.can_see( point, get_player_character() ) ) {
         name = colorize( trap.name(), trap.color ) + _( " on " );
     }
     return name;
@@ -7623,9 +7625,8 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
         } else {
             photo_text += _( "It is day. " );
         }
-
-        const weather_datum w_data = weather_data( g->weather.weather );
-        photo_text += string_format( _( "The weather is %s." ), colorize( w_data.name, w_data.color ) );
+        photo_text += string_format( _( "The weather is %s." ), colorize( get_weather().weather_id->name,
+                                     get_weather().weather_id->color ) );
     }
 
     for( const auto &figure : description_figures_appearance ) {
@@ -8933,9 +8934,9 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 const recipe *meal = dishes[choice];
                 int mealtime;
                 if( it->get_var( "MULTI_COOK_UPGRADE" ) == "UPGRADE" ) {
-                    mealtime = meal->time;
+                    mealtime = meal->time_to_craft_moves();
                 } else {
-                    mealtime = meal->time * 2;
+                    mealtime = meal->time_to_craft_moves() * 2;
                 }
 
                 const int all_charges = charges_to_start + mealtime / ( it->type->tool->power_draw / 10000 );
@@ -9471,12 +9472,12 @@ int iuse::weather_tool( player *p, item *it, bool, const tripoint & )
         if( it->typeId() == itype_hygrometer ) {
             p->add_msg_if_player(
                 m_neutral, _( "The %1$s reads %2$s." ), it->tname(),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                                     g->is_sheltered( p->pos() ) ) ) );
         } else {
             p->add_msg_if_player(
                 m_neutral, _( "Relative Humidity: %s." ),
-                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                print_humidity( get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                                     g->is_sheltered( p->pos() ) ) ) );
         }
     }
@@ -9813,7 +9814,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
     ) {
         units::volume total_volume = 0_ml;
         for( const auto &p : locs ) {
-            total_volume += ( *p.first )->volume() * p.second /
+            total_volume += ( *p.first )->base_volume() * p.second /
                             ( ( *p.first )->count_by_charges() ? ( *p.first )->charges : 1 );
         }
         washing_requirements required = washing_requirements_for_volume( total_volume );
@@ -9851,7 +9852,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
             return 0;
         }
         item &i = *pair.first;
-        total_volume += i.volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
+        total_volume += i.base_volume() * pair.second / ( i.count_by_charges() ? i.charges : 1 );
     }
 
     washing_requirements required = washing_requirements_for_volume( total_volume );

@@ -55,7 +55,7 @@ static std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &
 
 static const skill_id skill_throw = skill_id( "throw" );
 
-static void reset_player( player &p, const throw_test_pstats &pstats, const tripoint &pos )
+static void reset_player( Character &p, const throw_test_pstats &pstats, const tripoint &pos )
 {
     p.reset();
     p.set_stamina( p.get_stamina_max() );
@@ -171,7 +171,7 @@ constexpr throw_test_pstats hi_skill_athlete_stats = { MAX_SKILL, 12, 12, 12 };
 
 TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 {
-    player &p = g->u;
+    avatar &p = get_avatar();
     clear_map();
 
     SECTION( "test_player_vs_zombie_rock_basestats" ) {
@@ -216,7 +216,7 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 
 TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
 {
-    player &p = g->u;
+    avatar &p = get_avatar();
     clear_map();
 
     // we already cover low stats in the sanity tests and we only cover a few
@@ -304,7 +304,7 @@ static void test_player_kills_monster(
 
 TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" )
 {
-    player &p = g->u;
+    avatar &p = get_avatar();
     clear_map();
 
     SECTION( "test_player_kills_zombie_with_rock_basestats" ) {
@@ -315,7 +315,7 @@ TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" 
 int throw_cost( const player &c, const item &to_throw );
 TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[balance]" )
 {
-    player &p = g->u;
+    player &p = get_avatar();
     clear_avatar();
 
     item thrown( "throwing_stick", calendar::turn, 10 );

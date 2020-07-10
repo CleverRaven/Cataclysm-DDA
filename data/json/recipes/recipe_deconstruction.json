@@ -3750,6 +3750,26 @@
     "components": [ [ [ "rag", 25 ] ], [ [ "element", 5 ] ], [ [ "cable", 5 ] ] ]
   },
   {
+    "result": "wearable_light",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "flashlight", 1 ] ], [ [ "rag", 2 ] ] ]
+  },
+  {
+    "result": "miner_hat",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [
+      [ [ "hat_hard", 1 ], [ "helmet_bike", 1 ] ],
+      [ [ "flashlight", 1 ] ],
+      [ [ "rag", 2 ], [ "leather", 2 ], [ "cordage", 1, "LIST" ], [ "duct_tape", 10 ], [ "medical_tape", 20 ] ]
+    ]
+  },
+  {
     "result": "adobe_pallet_done",
     "type": "uncraft",
     "skill_used": "fabrication",

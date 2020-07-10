@@ -2,7 +2,6 @@
   {
     "type": "snippet",
     "category": "flier",
-    "//": "Missing flier_ 27, 29, 30",
     "text": [
       {
         "id": "flier_1",
@@ -109,8 +108,20 @@
         "text": "This is an advertisement for Rivtech brand ammunition.  It shows a picture of an armored steel plate with a gaping hole blasted through the middle.  Sitting beside the plate is a block of brightly colored caseless ammunition.  The caption reads:  \"Rivtech 8x40mm caseless.  Nothing else comes close.\""
       },
       {
+        "id": "flier_27",
+        "text": "This is an advertisement for SUDS Laundromat.  It shows words surrounded by bubbles that appear to be floating upward.  It reads: \"Tergitol Tuesdays!  50% off on all washers and driers!\""
+      },
+      {
         "id": "flier_28",
         "text": "This is a propaganda poster showing the Northrop Dispatch's military variant.  It depicts the iconic dark green, arachnoid dispatch, standing before a fence and facing away from the camera as blurring machines rush forward from its back towards black silhouettes menacing on the horizon.  It reads: \"WE ARE HERE TO PROTECT YOU.\""
+      },
+      {
+        "id": "flier_29",
+        "text": "This is an advertisement for Iron Gym.  It shows pictures of people performing various exercises such as running, yoga and weight lifting.  It reads: \"I lift things up and put them down!\""
+      },
+      {
+        "id": "flier_30",
+        "text": "This is an advertisement for Space Time Inc.  It has pictures of astronauts floating around a spaceship with the Moon in the background.  It reads: \"Own your own piece of the Moon!  For only $29.99 a month, you can have prime real estate amongst the stars!\""
       },
       {
         "id": "flier_31",
