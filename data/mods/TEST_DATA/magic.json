@@ -75,6 +75,7 @@
     "effect": "recover_energy",
     "effect_str": "PAIN",
     "valid_targets": [ "self" ],
+    "flags": [ "PERMANENT" ],
     "min_damage": 1,
     "max_damage": 10,
     "damage_increment": 1,

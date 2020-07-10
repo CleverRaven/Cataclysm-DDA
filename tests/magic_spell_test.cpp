@@ -323,7 +323,18 @@ TEST_CASE( "spell duration", "[magic][spell][duration]" )
         CHECK( spell_duration_string( lava_id, 19 ) == "4 minutes and 10 seconds" );
         CHECK( spell_duration_string( lava_id, 20 ) == "4 minutes and 10 seconds" );
     }
+
     // TODO: Random duration
+}
+TEST_CASE( "permanent spell without duration", "[magic][spell][permanent]" )
+{
+    spell_id kiss_id( "test_spell_kiss" );
+    spell kiss_spell( kiss_id );
+
+    REQUIRE( kiss_spell.has_flag( spell_flag::PERMANENT ) );
+
+    CHECK( spell_duration_string( kiss_id, 0 ) == "Permanent" );
+    CHECK( spell_duration_string( kiss_id, 1 ) == "Permanent" );
 }
 
 // Spell range
