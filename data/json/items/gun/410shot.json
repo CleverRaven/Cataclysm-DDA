@@ -16,7 +16,7 @@
     "material": [ "steel", "plastic" ],
     "dispersion": 395,
     "durability": 7,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "ammo": [ "410shot" ],
     "flags": [ "NEVER_JAMS" ],
     "pocket_data": [

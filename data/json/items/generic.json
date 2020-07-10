@@ -3027,6 +3027,15 @@
   },
   {
     "type": "GENERIC",
+    "id": "broken_robofac_laserturret_mk1",
+    "symbol": ",",
+    "color": "green",
+    "name": { "str": "broken laser turret" },
+    "weight": "40 kg",
+    "copy-from": "broken_turret"
+  },
+  {
+    "type": "GENERIC",
     "id": "fire_brick",
     "symbol": ",",
     "color": "brown",

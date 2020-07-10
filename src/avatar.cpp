@@ -414,6 +414,12 @@ bool avatar::read( item &it, const bool continuous )
         }
         return false;
     }
+
+    if( it.get_use( "learn_spell" ) ) {
+        it.get_use( "learn_spell" )->call( *this, it, it.active, pos() );
+        return true;
+    }
+
     const int time_taken = time_to_read( it, *reader );
 
     add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );

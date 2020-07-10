@@ -3738,8 +3738,8 @@ ret_val<bool> saw_barrel_actor::can_use_on( const player &, const item &, const 
         return ret_val<bool>::make_failure( _( "It's not a gun." ) );
     }
 
-    if( target.type->gun->barrel_length <= 0_ml ) {
-        return ret_val<bool>::make_failure( _( "The barrel is too short." ) );
+    if( target.type->gun->barrel_volume <= 0_ml ) {
+        return ret_val<bool>::make_failure( _( "The barrel is too small." ) );
     }
 
     if( target.gunmod_find( itype_barrel_small ) ) {

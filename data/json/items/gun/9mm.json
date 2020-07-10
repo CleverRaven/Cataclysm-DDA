@@ -104,7 +104,7 @@
     "dispersion": 180,
     "durability": 10,
     "min_cycle_recoil": 450,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -338,7 +338,7 @@
     "dispersion": 180,
     "durability": 7,
     "min_cycle_recoil": 450,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "built_in_mods": [ "folding_stock" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -453,7 +453,7 @@
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
@@ -492,7 +492,7 @@
     "min_cycle_recoil": 380,
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
