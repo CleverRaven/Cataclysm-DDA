@@ -1454,7 +1454,7 @@
     "desc": [ "You have been grabbed by an attack.\nYou are being held in place, and dodging and blocking are very difficult." ],
     "rating": "bad",
     "max_duration": "2 s",
-    "max_intensity": 15,
+    "max_intensity": 2,
     "base_mods": { "speed_mod": [ -15 ] },
     "scaling_mods": { "speed_mod": [ -5 ] },
     "show_in_info": true

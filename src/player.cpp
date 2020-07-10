@@ -244,7 +244,7 @@ stat_mod player::get_pain_penalty() const
         ret.speed /= 2;
     }
 
-    ret.speed = std::min( ret.speed, 50 );
+    ret.speed = std::min( ret.speed, 30 );
     return ret;
 }
 
