@@ -161,7 +161,7 @@
         { "item": "cable", "count": [ 1, 8 ] },
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "circuit", "count": [ 0, 5 ] },
-        { "item": "escrap", "count": [ 2, 8 ] },
+        { "item": "e_scrap", "count": [ 2, 8 ] },
         { "item": "amplifier", "count": [ 0, 4 ] },
         { "item": "power_supply", "count": [ 0, 2 ] },
         { "item": "metal_tank_little", "count": [ 0, 6 ] }
