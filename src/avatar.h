@@ -250,7 +250,7 @@ class avatar : public player
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
         void add_spent_calories( int cal ) override;
-        void add_gained_calories( int gained ) override;
+        void add_gained_calories( int cal ) override;
         std::string total_daily_calories_string() const;
 
     private:
