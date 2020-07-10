@@ -1135,6 +1135,8 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "invcache" );
     inv.json_save_invcache( json );
+
+    json.member( "calorie_diary", calorie_diary );
 }
 
 void avatar::deserialize( JsonIn &jsin )
@@ -1283,6 +1285,8 @@ void avatar::load( const JsonObject &data )
         JsonIn *jip = data.get_raw( "invcache" );
         inv.json_load_invcache( *jip );
     }
+
+    data.read( "calorie_diary", calorie_diary );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
