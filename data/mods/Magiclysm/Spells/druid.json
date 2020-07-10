@@ -164,6 +164,27 @@
     "effect_str": "GROUP_STRAY_CATS"
   },
   {
+    "id": "summon_oats",
+    "type": "SPELL",
+    "name": { "str": "Bag of Oats" },
+    "description": "Blots of ink resembling paw prints are tracked across the page of this spell.  It seems the previous spellcaster was interrupted while writing.  You can make out a few words regarding toe beans and floofers, but the rest is garbled and may have unpredictable effects.",
+    "valid_targets": [ "self" ],
+    "min_damage": 5,
+    "max_damage": 50,
+    "damage_increment": 5.0,
+    "spell_class": "DRUID",
+    "base_casting_time": 250,
+    "energy_source": "MANA",
+    "max_level": 10,
+    "min_duration": 6000,
+    "max_duration": 60000,
+    "duration_increment": 1000,
+    "difficulty": 1,
+    "base_energy_cost": 265,
+    "effect": "spawn_item",
+    "effect_str": "oats"
+  },
+  {
     "id": "summon_bear",
     "type": "SPELL",
     "name": "Cause Bear",

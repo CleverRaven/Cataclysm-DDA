@@ -271,6 +271,19 @@
     "use_action": { "type": "learn_spell", "spells": [ "phase_door", "magus_escape", "magus_haste" ] }
   },
   {
+    "id": "summon_scroll_splotched",
+    "type": "BOOK",
+    "name": { "str": "Splotched Scroll" },
+    "//": "Druid spell",
+    "description": "This scroll has ink tracked across the incantations.  Some of the words are clearly legible, though you may need to improvise a little.",
+    "weight": "129 g",
+    "volume": "100 ml",
+    "material": [ "paper" ],
+    "symbol": "?",
+    "color": "light_gray",
+    "use_action": { "type": "learn_spell", "spells": [ "summon_oats" ] }
+  },
+  {
     "id": "summon_scroll_smudged",
     "type": "BOOK",
     "name": { "str": "Smudged Scroll" },
