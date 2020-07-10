@@ -87,6 +87,50 @@ static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 
+memorial_log_entry::memorial_log_entry( const std::string &preformatted_msg ) :
+    preformatted_( preformatted_msg )
+{}
+
+memorial_log_entry::memorial_log_entry( time_point time, const oter_type_str_id &oter_id,
+                                        const std::string &oter_name, const std::string &msg ) :
+    time_( time ), oter_id_( oter_id ), oter_name_( oter_name ), message_( msg )
+{}
+
+std::string memorial_log_entry::to_string() const
+{
+    if( preformatted_ ) {
+        return *preformatted_;
+    } else {
+        return "| " + ::to_string( time_ ) + " | " + oter_name_ + " | " + message_;
+    }
+}
+
+void memorial_log_entry::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    if( jo.read( "preformatted", preformatted_ ) ) {
+        return;
+    }
+    jo.read( "time", time_, true );
+    jo.read( "oter_id", oter_id_, true );
+    jo.read( "oter_name", oter_name_, true );
+    jo.read( "message", message_, true );
+}
+
+void memorial_log_entry::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+    if( preformatted_ ) {
+        jsout.member( "preformatted", preformatted_ );
+    } else {
+        jsout.member( "time", time_ );
+        jsout.member( "oter_id", oter_id_ );
+        jsout.member( "oter_name", oter_name_ );
+        jsout.member( "message", message_ );
+    }
+    jsout.end_object();
+}
+
 void memorial_logger::clear()
 {
     log.clear();
@@ -107,30 +151,45 @@ void memorial_logger::add( const std::string &male_msg,
     }
 
     const oter_id &cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
-    const std::string &location = cur_ter->get_name();
+    const oter_type_str_id cur_oter_type = cur_ter->get_type_id();
+    const std::string &oter_name = cur_ter->get_name();
 
-    std::string log_message = "| " + to_string( calendar::turn ) + " | " + location + " | " + msg;
-
-    log.push_back( log_message );
+    log.push_back( { calendar::turn, cur_oter_type, oter_name, msg } );
 }
 
 /**
- * Loads the data in a memorial file from the given ifstream. All the memorial
- * entry lines begin with a pipe (|).
- * @param fin The ifstream to read the memorial entries from.
+ * Loads the data in a memorial file from the given ifstream.
+ * In legacy format all the memorial entry lines begin with a pipe (|).
+ * (This legacy format stopped being used before 0.F release.)
+ * In new format the entries are stored as json.
+ * @param fin The stream to read the memorial entries from.
  */
 void memorial_logger::load( std::istream &fin )
 {
-    std::string entry;
     log.clear();
-    while( fin.peek() == '|' ) {
-        getline( fin, entry );
-        // strip all \r from end of string
-        while( *entry.rbegin() == '\r' ) {
-            entry.pop_back();
+    if( fin.peek() == '|' ) {
+        // Legacy plain text format
+        while( fin.peek() == '|' ) {
+            std::string entry;
+            getline( fin, entry );
+            // strip all \r from end of string
+            while( *entry.rbegin() == '\r' ) {
+                entry.pop_back();
+            }
+            log.emplace_back( entry );
         }
-        log.push_back( entry );
+    } else {
+        JsonIn jsin( fin );
+        if( !jsin.read( log ) ) {
+            debugmsg( "Error reading JSON memorial log" );
+        }
     }
+}
+
+void memorial_logger::save( std::ostream &os ) const
+{
+    JsonOut jsout( os );
+    jsout.write( log );
 }
 
 /**
@@ -144,7 +203,7 @@ std::string memorial_logger::dump() const
     std::string output;
 
     for( auto &elem : log ) {
-        output += elem;
+        output += elem.to_string();
         output += eol;
     }
 

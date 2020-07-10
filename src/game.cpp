@@ -3118,7 +3118,7 @@ bool game::save_player_data()
     }, _( "player map memory" ) );
     const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_LOG, [&](
     std::ostream & fout ) {
-        fout << memorial().dump();
+        memorial().save( fout );
     }, _( "player memorial" ) );
 #if defined(__ANDROID__)
     const bool saved_shortcuts = write_to_file( playerfile + SAVE_EXTENSION_SHORTCUTS, [&](
