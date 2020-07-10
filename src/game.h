@@ -88,7 +88,6 @@ enum safe_mode_type {
 };
 
 enum body_part : int;
-enum weather_type : int;
 enum action_id : int;
 
 struct special_game;
@@ -149,6 +148,10 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend map &get_map();
+        friend Character &get_player_character();
+        friend avatar &get_avatar();
+        friend weather_manager &get_weather();
     public:
         game();
         ~game();
@@ -554,7 +557,7 @@ class game
         Creature *is_hostile_very_close();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        point update_map( player &p );
+        point update_map( Character &p );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
@@ -741,9 +744,9 @@ class game
         bool npc_menu( npc &who );
 
         // Handle phasing through walls, returns true if it handled the move
-        bool phasing_move( const tripoint &dest );
+        bool phasing_move( const tripoint &dest, bool via_ramp = false );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest );
+        bool walk_move( const tripoint &dest, bool via_ramp = false );
         void on_move_effects();
     private:
         // Game-start procedures
@@ -964,9 +967,8 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
 
-    public:
-        /** Make map a reference here, to avoid map.h in game.h */
         map &m;
+    public:
         avatar &u;
         scent_map &scent;
         timed_event_manager &timed_events;

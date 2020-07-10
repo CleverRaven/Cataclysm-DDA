@@ -1874,6 +1874,35 @@
   },
   {
     "type": "vehicle_part",
+    "id": "smart_engine_controller",
+    "name": { "str": "smart engine controller" },
+    "symbol": "'",
+    "color": "light_gray",
+    "broken_symbol": "'",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "durability": 35,
+    "description": "Electronic module that automatically switches combustion and electric engines on and off minimizing fuel consumption and optimizing power output and battery charge rate.  Must be turned on to work.  Simplified ruleset: 1. When throttling, maximize acceleration.  2. Keep battery at 90%.  3. Minimize fuel consumption.",
+    "epower": -25,
+    "folded_volume": 1,
+    "item": "processor",
+    "requirements": {
+      "install": {
+        "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ],
+        "time": "5 m",
+        "qualities": [ { "id": "SCREW_FINE", "level": 1 } ]
+      },
+      "removal": {
+        "skills": [ [ "mechanics", 4 ], [ "electronics", 4 ] ],
+        "time": "5 m",
+        "qualities": [ { "id": "SCREW_FINE", "level": 1 } ]
+      }
+    },
+    "flags": [ "ON_CONTROLS", "FOLDABLE", "ENABLED_DRAINS_EPOWER", "SMART_ENGINE_CONTROLLER" ],
+    "breaks_into": "ig_vp_device"
+  },
+  {
+    "type": "vehicle_part",
     "id": "seatbelt_heavyduty",
     "name": { "str": "5-point harness" },
     "symbol": ",",

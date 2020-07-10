@@ -658,8 +658,7 @@ bool can_examine_at( const tripoint &p )
         return true;
     }
 
-    const trap &tr = here.tr_at( p );
-    return tr.can_see( p, g->u );
+    return here.can_see_trap_at( p, g->u );
 }
 
 static bool can_pickup_at( const tripoint &p )

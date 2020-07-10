@@ -1487,6 +1487,14 @@ void overmap::generate( const overmap *north, const overmap *east,
         requires_sub = generate_sub( z );
     } while( requires_sub && ( --z >= -OVERMAP_DEPTH ) );
 
+    // Always need at least one overlevel, but how many more
+    z = 1;
+    bool requires_over = false;
+    do {
+        requires_over = generate_over( z );
+    } while( requires_over && ( ++z <= OVERMAP_HEIGHT ) );
+
+
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
@@ -1760,6 +1768,77 @@ bool overmap::generate_sub( const int z )
     }
 
     return requires_sub;
+}
+
+bool overmap::generate_over( const int z )
+{
+    bool requires_over = false;
+    std::vector<point> bridge_points;
+
+    // These are so common that it's worth checking first as int.
+    const std::set<oter_id> skip_below = {
+        oter_id( "empty_rock" ), oter_id( "forest" ), oter_id( "field" ),
+        oter_id( "forest_thick" ), oter_id( "forest_water" )
+    };
+
+    if( z == 1 ) {
+        for( int i = 0; i < OMAPX; i++ ) {
+            for( int j = 0; j < OMAPY; j++ ) {
+                tripoint p( i, j, z );
+                const oter_id oter_below = ter( p + tripoint_below );
+                const oter_id oter_ground = ter( tripoint( p.xy(), 0 ) );
+
+                // implicitly skip skip_below oter_ids
+                if( skip_below.find( oter_below ) != skip_below.end() ) {
+                    continue;
+                }
+
+                if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) ) {
+                    ter_set( p, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
+                    bridge_points.emplace_back( i, j );
+                }
+            }
+        }
+    }
+
+    generate_bridgeheads( bridge_points );
+
+    return requires_over;
+}
+
+void overmap::generate_bridgeheads( const std::vector<point> &bridge_points )
+{
+    std::vector<std::pair<point, std::string>> bridgehead_points;
+    for( const point &bp : bridge_points ) {
+        //const oter_id oter_ground = ter( tripoint( bp, 0 ) );
+        const oter_id oter_ground_north = ter( tripoint( bp, 0 ) + tripoint_north );
+        const oter_id oter_ground_south = ter( tripoint( bp, 0 ) + tripoint_south );
+        const oter_id oter_ground_east = ter( tripoint( bp, 0 ) + tripoint_east );
+        const oter_id oter_ground_west = ter( tripoint( bp, 0 ) + tripoint_west );
+        const bool is_bridge_north = is_ot_match( "bridge", oter_ground_north, ot_match_type::type );
+        const bool is_bridge_south = is_ot_match( "bridge", oter_ground_south, ot_match_type::type );
+        const bool is_bridge_east = is_ot_match( "bridge", oter_ground_east, ot_match_type::type );
+        const bool is_bridge_west = is_ot_match( "bridge", oter_ground_west, ot_match_type::type );
+
+        if( is_bridge_north ^ is_bridge_south || is_bridge_east ^ is_bridge_west ) {
+            std::string ramp_facing;
+            if( is_bridge_north ) {
+                ramp_facing = "_south";
+            } else if( is_bridge_south ) {
+                ramp_facing = "_north";
+            } else if( is_bridge_east ) {
+                ramp_facing = "_west";
+            } else {
+                ramp_facing = "_east";
+            }
+            bridgehead_points.emplace_back( bp, ramp_facing );
+        }
+    }
+    for( const std::pair<point, std::string> &bhp : bridgehead_points ) {
+        tripoint p( bhp.first, 0 );
+        ter_set( p, oter_id( "bridgehead_ground" + bhp.second ) );
+        ter_set( p + tripoint_above, oter_id( "bridgehead_ramp" + bhp.second ) );
+    }
 }
 
 std::vector<point> overmap::find_terrain( const std::string &term, int zlevel )
@@ -2244,7 +2323,7 @@ void overmap::place_forest_trailheads()
 
     const auto trailhead_close_to_road = [&]( const tripoint & trailhead ) {
         bool close = false;
-        for( const tripoint &nearby_point : closest_tripoints_first(
+        for( const tripoint &nearby_point : closest_points_first(
                  trailhead,
                  settings.forest_trail.trailhead_road_distance
              ) ) {

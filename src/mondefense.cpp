@@ -126,7 +126,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     }
 
     // Don't splatter directly on the `m`, that doesn't work well
-    std::vector<tripoint> pts = closest_tripoints_first( source->pos(), 1 );
+    std::vector<tripoint> pts = closest_points_first( source->pos(), 1 );
     pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ), pts.end() );
 
     projectile prj;

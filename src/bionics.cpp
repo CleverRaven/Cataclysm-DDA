@@ -506,7 +506,7 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         if( is_armed() ) {
             stow_item( weapon );
         }
-        if( g->u.sees( pos() ) ) {
+        if( get_player_character().sees( pos() ) ) {
             add_msg( m_info, _( "%s activates their %s." ), disp_name(), bio.info().name );
         }
 
@@ -644,7 +644,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
         const w_point weatherPoint = *g->weather.weather_precise;
-        int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+        int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                            g->is_sheltered( g->u.pos() ) );
         // thirst units = 5 mL
         int water_available = std::lround( humidity * 3.0 / 100.0 );
@@ -1011,7 +1011,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         const w_point weatherPoint = *g->weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
-                               get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                               get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                        g->is_sheltered( g->u.pos() ) ) ) );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
@@ -1117,7 +1117,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_encumbrance();
+    calc_encumbrance();
     reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
@@ -1195,7 +1195,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_encumbrance();
+    calc_encumbrance();
     reset();
     if( !bio.id->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -1274,8 +1274,11 @@ bool Character::burn_fuel( int b, bool start )
             }
 
             if( !bio.has_flag( flag_SAFE_FUEL_OFF ) &&
-                get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency
-                > get_max_power_level() ) {
+                ( ( get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency >
+                    get_max_power_level() ) ||
+                  ( ( ( get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency ) >
+                      ( get_max_power_level() * bio.get_safe_fuel_thresh() ) )
+                  ) ) ) {
                 if( is_metabolism_powered ) {
                     add_msg_player_or_npc( m_info, _( "Your %s turns off to not waste calories." ),
                                            _( "<npcname>'s %s turns off to not waste calories." ),
@@ -1303,7 +1306,7 @@ bool Character::burn_fuel( int b, bool start )
                         mod_power_level( power_gain );
                     } else if( is_perpetual_fuel ) {
                         if( fuel == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
-                            const weather_type &wtype = current_weather( pos() );
+                            const weather_type_id &wtype = current_weather( pos() );
                             const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
                             const double intensity = tick_sunlight / default_daylight_level();
                             mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
@@ -1734,8 +1737,8 @@ void Character::process_bionic( int b )
         // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
-            const w_point weatherPoint = *g->weather.weather_precise;
-            int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+            const w_point weatherPoint = *get_weather().weather_precise;
+            int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                                g->is_sheltered( g->u.pos() ) );
             // in thirst units = 5 mL water
             int water_available = std::lround( humidity * 3.0 / 100.0 );
@@ -2701,7 +2704,7 @@ void Character::add_bionic( const bionic_id &b )
         }
     }
 
-    reset_encumbrance();
+    calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -2738,7 +2741,7 @@ void Character::remove_bionic( const bionic_id &b )
     }
 
     *my_bionics = new_my_bionics;
-    reset_encumbrance();
+    calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -2836,8 +2839,42 @@ void bionic::toggle_safe_fuel_mod()
     }
     if( !has_flag( flag_SAFE_FUEL_OFF ) ) {
         set_flag( flag_SAFE_FUEL_OFF );
+        set_safe_fuel_thresh( 2.0 );
     } else {
-        remove_flag( flag_SAFE_FUEL_OFF );
+        uilist tmenu;
+        tmenu.text = _( "Chose Safe Fuel Level Threshold" );
+        tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
+        if( get_auto_start_thresh() < 0.80 ) {
+            tmenu.addentry( 2, true, 't', _( "Above 80 %%" ) );
+        }
+        if( get_auto_start_thresh() < 0.55 ) {
+            tmenu.addentry( 3, true, 'f', _( "Above 55 %%" ) );
+        }
+        if( get_auto_start_thresh() < 0.30 ) {
+            tmenu.addentry( 4, true, 's', _( "Above 30 %%" ) );
+        }
+        tmenu.query();
+
+        switch( tmenu.ret ) {
+            case 1:
+                remove_flag( flag_SAFE_FUEL_OFF );
+                set_safe_fuel_thresh( 1.0 );
+                break;
+            case 2:
+                remove_flag( flag_SAFE_FUEL_OFF );
+                set_safe_fuel_thresh( 0.80 );
+                break;
+            case 3:
+                remove_flag( flag_SAFE_FUEL_OFF );
+                set_safe_fuel_thresh( 0.55 );
+                break;
+            case 4:
+                remove_flag( flag_SAFE_FUEL_OFF );
+                set_safe_fuel_thresh( 0.30 );
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -2850,9 +2887,15 @@ void bionic::toggle_auto_start_mod()
         uilist tmenu;
         tmenu.text = _( "Chose Start Power Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "No Power Left" ) );
-        tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
-        tmenu.addentry( 3, true, 'f', _( "Below 50 %%" ) );
-        tmenu.addentry( 4, true, 's', _( "Below 75 %%" ) );
+        if( get_safe_fuel_thresh() > 0.25 ) {
+            tmenu.addentry( 2, true, 't', _( "Below 25 %%" ) );
+        }
+        if( get_safe_fuel_thresh() > 0.50 ) {
+            tmenu.addentry( 3, true, 'f', _( "Below 50 %%" ) );
+        }
+        if( get_safe_fuel_thresh() > 0.75 ) {
+            tmenu.addentry( 4, true, 's', _( "Below 75 %%" ) );
+        }
         tmenu.query();
 
         switch( tmenu.ret ) {
@@ -2891,6 +2934,21 @@ bool bionic::is_auto_start_on() const
     return get_auto_start_thresh() > -1.0;
 }
 
+float bionic::get_safe_fuel_thresh() const
+{
+    return safe_fuel_threshold;
+}
+
+bool bionic::is_safe_fuel_on() const
+{
+    return get_safe_fuel_thresh() < 2.0;
+}
+
+void bionic::set_safe_fuel_thresh( float val )
+{
+    safe_fuel_threshold = val;
+}
+
 void bionic::serialize( JsonOut &json ) const
 {
     json.start_object();
@@ -2906,6 +2964,9 @@ void bionic::serialize( JsonOut &json ) const
     }
     if( is_auto_start_on() ) {
         json.member( "auto_start_threshold", auto_start_threshold );
+    }
+    if( is_safe_fuel_on() ) {
+        json.member( "safe_fuel_threshold", safe_fuel_threshold );
     }
 
     json.end_object();
@@ -2929,6 +2990,9 @@ void bionic::deserialize( JsonIn &jsin )
     }
     if( jo.has_float( "auto_start_threshold" ) ) {
         auto_start_threshold = jo.get_float( "auto_start_threshold" );
+    }
+    if( jo.has_float( "safe_fuel_threshold" ) ) {
+        safe_fuel_threshold = jo.get_float( "safe_fuel_threshold" );
     }
     if( jo.has_array( "bionic_tags" ) ) {
         for( const std::string line : jo.get_array( "bionic_tags" ) ) {

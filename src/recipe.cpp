@@ -40,6 +40,16 @@ time_duration recipe::batch_duration( int batch, float multiplier, size_t assist
     return time_duration::from_turns( batch_time( batch, multiplier, assistants ) / 100 );
 }
 
+time_duration recipe::time_to_craft() const
+{
+    return time_duration::from_seconds( time_to_craft_moves() / 100 );
+}
+
+int recipe::time_to_craft_moves() const
+{
+    return time;
+}
+
 int recipe::batch_time( int batch, float multiplier, size_t assistants ) const
 {
     // 1.0f is full speed

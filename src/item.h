@@ -463,6 +463,9 @@ class item : public visitable<item>
 
         // Returns the category of this item.
         const item_category &get_category() const;
+        // Returns the category of item inside this item. I.e. "can of meat" would be food, instead of container.
+        // If there are multiple items/stacks or none then it defaults to category of this item.
+        const item_category &get_category_of_contents() const;
 
         class reload_option
         {
@@ -738,9 +741,9 @@ class item : public visitable<item>
             return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
         }
         /**
-         * Puts the given item into this one, no checks are performed.
+         * Puts the given item into this one.
          */
-        void put_in( const item &payload, item_pocket::pocket_type pk_type );
+        ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
@@ -1094,7 +1097,7 @@ class item : public visitable<item>
          * Check whether the item has been marked (by calling mark_as_used_by_player)
          * as used by this specific player.
          */
-        bool already_used_by_player( const player &p ) const;
+        bool already_used_by_player( const Character &p ) const;
         /**
          * Marks the item as being used by this specific player, it remains unmarked
          * for other players. The player is identified by its id.

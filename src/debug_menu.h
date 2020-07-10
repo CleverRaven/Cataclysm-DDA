@@ -76,6 +76,7 @@ enum class debug_menu_index : int {
     LEVEL_SPELLS,
     TEST_MAP_EXTRA_DISTRIBUTION,
     NESTED_MAPGEN,
+    VEHICLE_BATTERY_CHARGE,
     last
 };
 

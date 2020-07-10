@@ -70,6 +70,7 @@ bool monexamine::pet_menu( monster &z )
         attach_bag,
         remove_bag,
         drop_all,
+        push_monster,
         give_items,
         mon_armor_add,
         mon_harness_remove,
@@ -98,6 +99,7 @@ bool monexamine::pet_menu( monster &z )
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
 
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
+    amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
     Character &player_character = get_player_character();
     if( z.has_effect( effect_has_bag ) ) {
@@ -220,6 +222,9 @@ bool monexamine::pet_menu( monster &z )
     switch( choice ) {
         case swap_pos:
             swap( z );
+            break;
+        case push_monster:
+            push( z );
             break;
         case rename:
             rename_pet( z );

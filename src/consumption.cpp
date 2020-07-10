@@ -1436,7 +1436,7 @@ bool Character::feed_furnace_with( item &it )
         return false;
     }
     if( it.is_favorite &&
-        !g->u.query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
+        !get_avatar().query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
         return false;
     }
 

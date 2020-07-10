@@ -496,6 +496,7 @@ TEST_CASE( "activity level reset, increase and decrease", "[biometrics][activity
 TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabolism]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     // Metabolic base rate uses PLAYER_HUNGER_RATE from game_balance.json, described as "base hunger
     // rate per 5 minutes". With no metabolism-affecting mutations, metabolism should be this value.
@@ -532,6 +533,7 @@ TEST_CASE( "mutations may affect character metabolic rate", "[biometrics][metabo
 TEST_CASE( "basal metabolic rate with various size and metabolism", "[biometrics][bmr]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     // Basal metabolic rate depends on size (height), bodyweight (BMI), and activity level
     // scaled by metabolic base rate. Assume default metabolic rate.

@@ -16,7 +16,7 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     , stacks( count )
     , volume( an_item->volume() * stacks )
     , weight( an_item->weight() * stacks )
-    , cat( &an_item->get_category() )
+    , cat( &an_item->get_category_of_contents() )
     , from_vehicle( from_vehicle )
 {
     items.push_back( an_item );
@@ -35,7 +35,7 @@ advanced_inv_listitem::advanced_inv_listitem( const std::vector<item *> &list, i
     stacks( list.size() ),
     volume( list.front()->volume() * stacks ),
     weight( list.front()->weight() * stacks ),
-    cat( &list.front()->get_category() ),
+    cat( &list.front()->get_category_of_contents() ),
     from_vehicle( from_vehicle )
 {
     assert( stacks >= 1 );

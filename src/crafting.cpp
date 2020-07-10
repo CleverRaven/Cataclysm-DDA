@@ -472,7 +472,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
 
     map &here = get_map();
     // get all potential containers within PICKUP_RANGE tiles including vehicles
-    for( const tripoint &loc : closest_tripoints_first( pos(), PICKUP_RANGE ) ) {
+    for( const tripoint &loc : closest_points_first( pos(), PICKUP_RANGE ) ) {
         // can not reach this -> can not access its contents
         if( pos() != loc && !here.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
             continue;
@@ -663,7 +663,7 @@ static item *set_item_inventory( player &p, item &newit )
 static item_location set_item_map( const tripoint &loc, item &newit )
 {
     // Includes loc
-    for( const tripoint &tile : closest_tripoints_first( loc, 2 ) ) {
+    for( const tripoint &tile : closest_points_first( loc, 2 ) ) {
         // Pass false to disallow overflow, null_item_reference indicates failure.
         item *it_on_map = &get_map().add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {
@@ -733,7 +733,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
 
     // In case we were wearing something just consumed
     if( !craft.components.empty() ) {
-        reset_encumbrance();
+        calc_encumbrance();
     }
 
     item_location craft_in_world;
@@ -1130,7 +1130,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     std::max( get_skill_level( making.skill_used ), 1 ) *
                     std::max( get_int(), 1 );
                 const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
-                if( x_in_y( making.time, time_to_learn ) ) {
+                if( x_in_y( making.time_to_craft_moves(), time_to_learn ) ) {
                     learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
                              making.result_name() );
@@ -1993,8 +1993,9 @@ bool player::disassemble( item_location target, bool interactive )
         return false;
     }
 
+    avatar &player_character = get_avatar();
     const auto &r = recipe_dictionary::get_uncraft( obj.typeId() );
-    if( !obj.is_owned_by( g->u, true ) ) {
+    if( !obj.is_owned_by( player_character, true ) ) {
         if( !query_yn( _( "Disassembling the %s may anger the people who own it, continue?" ),
                        obj.tname() ) ) {
             return false;
@@ -2002,15 +2003,15 @@ bool player::disassemble( item_location target, bool interactive )
             if( obj.get_owner() ) {
                 std::vector<npc *> witnesses;
                 for( npc &elem : g->all_npcs() ) {
-                    if( rl_dist( elem.pos(), g->u.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
-                        obj.is_owned_by( elem ) && elem.sees( g->u.pos() ) ) {
+                    if( rl_dist( elem.pos(), player_character.pos() ) < MAX_VIEW_DISTANCE && elem.get_faction() &&
+                        obj.is_owned_by( elem ) && elem.sees( player_character.pos() ) ) {
                         elem.say( "<witnessed_thievery>", 7 );
                         npc *npc_to_add = &elem;
                         witnesses.push_back( npc_to_add );
                     }
                 }
                 if( !witnesses.empty() ) {
-                    if( g->u.add_faction_warning( obj.get_owner() ) ) {
+                    if( player_character.add_faction_warning( obj.get_owner() ) ) {
                         for( npc *elem : witnesses ) {
                             elem->make_angry();
                         }
@@ -2055,12 +2056,12 @@ bool player::disassemble( item_location target, bool interactive )
 
     if( activity.id() != ACT_DISASSEMBLE ) {
         if( num_dis != 0 ) {
-            assign_activity( ACT_DISASSEMBLE, r.time * num_dis );
+            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves() * num_dis );
         } else {
-            assign_activity( ACT_DISASSEMBLE, r.time );
+            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves() );
         }
     } else if( activity.moves_left <= 0 ) {
-        activity.moves_left = r.time;
+        activity.moves_left = r.time_to_craft_moves();
     }
 
     // index is used as a bool that indicates if we want recursive uncraft.
@@ -2144,7 +2145,7 @@ void player::complete_disassemble()
         return;
     }
 
-    activity.moves_left = next_recipe.time;
+    activity.moves_left = next_recipe.time_to_craft_moves();
 }
 
 void player::complete_disassemble( item_location &target, const recipe &dis )
@@ -2276,7 +2277,7 @@ void player::complete_disassemble( item_location &target, const recipe &dis )
         item act_item = newit;
 
         if( act_item.has_temperature() ) {
-            act_item.set_item_temperature( temp_to_kelvin( g->weather.get_temperature( loc ) ) );
+            act_item.set_item_temperature( temp_to_kelvin( get_weather().get_temperature( loc ) ) );
         }
 
         // Refitted clothing disassembles into refitted components (when applicable)

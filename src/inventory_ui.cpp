@@ -1373,7 +1373,7 @@ void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
         map &here = get_map();
-        for( const tripoint &pos : closest_tripoints_first( u.pos(), radius ) ) {
+        for( const tripoint &pos : closest_points_first( u.pos(), radius ) ) {
             // can not reach this -> can not access its contents
             if( u.pos() != pos && !here.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
                 continue;
@@ -2384,7 +2384,7 @@ void inventory_drop_selector::deselect_contained_items()
                         if( !selected->is_item() ) {
                             continue;
                         }
-                        for( item_location selected_loc : selected->locations ) {
+                        for( const item_location &selected_loc : selected->locations ) {
                             if( selected_loc == loc_contained ) {
                                 set_chosen_count( *selected, 0 );
                             }
@@ -2434,6 +2434,7 @@ drop_locations inventory_drop_selector::execute()
 
             const auto selected( get_active_column().get_entries( filter_to_nonfavorite_and_nonworn ) );
             process_selected( count, selected );
+            deselect_contained_items();
         } else if( input.action == "RIGHT" ) {
             const auto selected( get_active_column().get_all_selected() );
 
