@@ -1139,7 +1139,7 @@
       "str_max": 40,
       "sound": "smash!",
       "sound_fail": "whump.",
-      "items": [ { "item": "grip_hook", "count": [ 1, 1 ] }, { "item": "rope_30", "count": [ 1, 1 ] } ]
+      "items": [ { "item": "grip_hook", "count": [ 4, 4 ] }, { "item": "rope_30", "count": [ 1, 1 ] } ]
     }
   }
 ]
