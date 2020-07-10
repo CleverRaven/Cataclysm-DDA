@@ -1126,7 +1126,7 @@
     "id": "f_rope_up",
     "name": "rope leading up",
     "looks_like": "t_rope_up",
-    "description": "A short, foldable ladder.  Can help you climb to a rooftop, or maybe slow something down.",
+    "description": "A rope. You could climb it up.",
     "symbol": "<",
     "color": "white",
     "move_cost_mod": 6,
