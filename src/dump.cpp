@@ -223,7 +223,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
                 dump( test_npcs[ "S1" ], gun );
 
-                if( gun.type->gun->barrel_length > 0_ml ) {
+                if( gun.type->gun->barrel_volume > 0_ml ) {
                     gun.put_in( item( "barrel_small" ), item_pocket::pocket_type::MOD );
                     dump( test_npcs[ "S1" ], gun );
                 }
