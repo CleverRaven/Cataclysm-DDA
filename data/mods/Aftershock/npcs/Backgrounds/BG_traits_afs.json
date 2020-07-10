@@ -1,9 +1,5 @@
 [
   {
-    "type": "mutation_type",
-    "id": "BACKGROUND_SURVIVAL_STORY"
-  },
-  {
     "type": "mutation",
     "id": "BGSS_RECENT_MUTATION_1",
     "name": { "str": "Survivor Story" },
