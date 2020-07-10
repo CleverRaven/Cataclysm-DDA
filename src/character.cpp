@@ -2878,10 +2878,6 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
         }
     }
 
-    // Items in inventory
-    //const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
-    //ret += i.weight_without( without );
-
     // Wielded item
     units::mass weaponweight = 0_gram;
     if( !without.count( &weapon ) ) {
@@ -2950,10 +2946,6 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
             }
         }
     }
-
-    // Items in inventory
-    //const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
-    //ret += i.volume_without( without );
 
     // Wielded item
     if( !without.count( &weapon ) ) {
