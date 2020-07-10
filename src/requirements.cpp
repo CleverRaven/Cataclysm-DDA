@@ -12,8 +12,8 @@
 #include <stack>
 #include <unordered_set>
 
-#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "game.h"
@@ -643,7 +643,7 @@ std::vector<std::string> requirement_data::get_folded_tools_list( int width, nc_
 bool requirement_data::can_make_with_inventory( const inventory &crafting_inv,
         const std::function<bool( const item & )> &filter, int batch, craft_flags flags ) const
 {
-    if( g->u.has_trait( trait_DEBUG_HS ) ) {
+    if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
 
@@ -705,7 +705,7 @@ bool quality_requirement::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &, int,
     craft_flags, const std::function<void( int )> & ) const
 {
-    if( g->u.has_trait( trait_DEBUG_HS ) ) {
+    if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
     return crafting_inv.has_quality( type, level, count );
@@ -724,7 +724,7 @@ bool tool_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
     craft_flags flags, const std::function<void( int )> &visitor ) const
 {
-    if( g->u.has_trait( trait_DEBUG_HS ) ) {
+    if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
     if( !by_charges() ) {
@@ -756,7 +756,7 @@ bool item_comp::has(
     const inventory &crafting_inv, const std::function<bool( const item & )> &filter, int batch,
     craft_flags, const std::function<void( int )> & ) const
 {
-    if( g->u.has_trait( trait_DEBUG_HS ) ) {
+    if( get_player_character().has_trait( trait_DEBUG_HS ) ) {
         return true;
     }
     const int cnt = std::abs( count ) * batch;

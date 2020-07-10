@@ -32,8 +32,8 @@ static void test_encumbrance_on(
     for( const item &i : clothing ) {
         p.worn.push_back( i );
     }
-    p.reset_encumbrance();
-    encumbrance_data enc = p.get_encumbrance()[ get_body_part_token( body_part ) ];
+    p.calc_encumbrance();
+    encumbrance_data enc = p.get_part_encumbrance_data( bodypart_id( body_part ) );
     CHECK( enc.encumbrance == expected_encumbrance );
 }
 
@@ -87,47 +87,47 @@ static constexpr int jacket_jean_e = 9;
 
 TEST_CASE( "regular_clothing_encumbrance", "[encumbrance]" )
 {
-    test_encumbrance( { "postman_shirt" }, "TORSO", postman_shirt_e );
-    test_encumbrance( { "longshirt" }, "TORSO", longshirt_e );
-    test_encumbrance( { "jacket_jean" }, "TORSO", jacket_jean_e );
+    test_encumbrance( { "postman_shirt" }, "torso", postman_shirt_e );
+    test_encumbrance( { "longshirt" }, "torso", longshirt_e );
+    test_encumbrance( { "jacket_jean" }, "torso", jacket_jean_e );
 }
 
 TEST_CASE( "separate_layer_encumbrance", "[encumbrance]" )
 {
-    test_encumbrance( { "longshirt", "jacket_jean" }, "TORSO", longshirt_e + jacket_jean_e );
+    test_encumbrance( { "longshirt", "jacket_jean" }, "torso", longshirt_e + jacket_jean_e );
 }
 
 TEST_CASE( "out_of_order_encumbrance", "[encumbrance]" )
 {
-    test_encumbrance( { "jacket_jean", "longshirt" }, "TORSO", longshirt_e * 2 + jacket_jean_e );
+    test_encumbrance( { "jacket_jean", "longshirt" }, "torso", longshirt_e * 2 + jacket_jean_e );
 }
 
 TEST_CASE( "same_layer_encumbrance", "[encumbrance]" )
 {
     // When stacking within a layer, encumbrance for additional items is
     // counted twice
-    test_encumbrance( { "longshirt", "longshirt" }, "TORSO", longshirt_e * 2 + longshirt_e );
+    test_encumbrance( { "longshirt", "longshirt" }, "torso", longshirt_e * 2 + longshirt_e );
     // ... with a minimum of 2
-    test_encumbrance( { "postman_shirt", "postman_shirt" }, "TORSO", postman_shirt_e * 2 + 2 );
+    test_encumbrance( { "postman_shirt", "postman_shirt" }, "torso", postman_shirt_e * 2 + 2 );
     // ... and a maximum of 10
-    test_encumbrance( { "jacket_jean", "jacket_jean" }, "TORSO", jacket_jean_e * 2 + 10 );
+    test_encumbrance( { "jacket_jean", "jacket_jean" }, "torso", jacket_jean_e * 2 + 10 );
 }
 
 TEST_CASE( "tiny_clothing", "[encumbrance]" )
 {
     item i( "longshirt" );
     i.set_flag( "UNDERSIZE" );
-    test_encumbrance_items( { i }, "TORSO", longshirt_e * 3 );
+    test_encumbrance_items( { i }, "torso", longshirt_e * 3 );
 }
 
 TEST_CASE( "tiny_character", "[encumbrance]" )
 {
     item i( "longshirt" );
     SECTION( "regular shirt" ) {
-        test_encumbrance_items( { i }, "TORSO", longshirt_e * 2, add_trait( "SMALL2" ) );
+        test_encumbrance_items( { i }, "torso", longshirt_e * 2, add_trait( "SMALL2" ) );
     }
     SECTION( "undersize shrt" ) {
         i.set_flag( "UNDERSIZE" );
-        test_encumbrance_items( { i }, "TORSO", longshirt_e, add_trait( "SMALL2" ) );
+        test_encumbrance_items( { i }, "torso", longshirt_e, add_trait( "SMALL2" ) );
     }
 }

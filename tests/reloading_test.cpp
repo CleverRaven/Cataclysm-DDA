@@ -20,7 +20,7 @@
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -41,7 +41,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 
 TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -74,7 +74,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
 
 TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -150,7 +150,7 @@ static void reload_a_revolver( player &dummy, item &gun, item &ammo )
 
 TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P

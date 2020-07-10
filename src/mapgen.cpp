@@ -5673,11 +5673,8 @@ void map::place_vending( const point &p, const std::string &type, bool reinforce
     }
 }
 
-character_id map::place_npc( const point &p, const string_id<npc_template> &type, bool force )
+character_id map::place_npc( const point &p, const string_id<npc_template> &type )
 {
-    if( !force && !get_option<bool>( "STATIC_NPC" ) ) {
-        return character_id(); //Do not generate an npc.
-    }
     shared_ptr_fast<npc> temp = make_shared_fast<npc>();
     temp->normalize();
     temp->load_npc_template( type );
@@ -6047,7 +6044,7 @@ void map::rotate( int turns, const bool setpos_safe )
             // to be between 0-11,0-11 and teleports NPCs when used inside of update_mapgen
             // calls
             const tripoint new_global_sq = sq - local_sq + new_pos;
-            np.setpos( g->m.getlocal( new_global_sq ) );
+            np.setpos( get_map().getlocal( new_global_sq ) );
         } else {
             // OK, this is ugly: we remove the NPC from the whole map
             // Then we place it back from scratch

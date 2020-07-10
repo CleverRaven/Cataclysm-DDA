@@ -3,9 +3,9 @@
 #include <cmath>
 #include <memory>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
+#include "character.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -14,7 +14,6 @@
 #include "game.h"
 #include "map.h"
 #include "messages.h"
-#include "player.h"
 #include "point.h"
 #include "rng.h"
 #include "translations.h"
@@ -30,8 +29,8 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
         debugmsg( "ERROR: Function teleport::teleport called with invalid arguments." );
         return false;
     }
-    player *const p = critter.as_player();
-    const bool c_is_u = p != nullptr && p == &g->u;
+    Character *const p = critter.as_character();
+    const bool c_is_u = p != nullptr && p->is_avatar();
     int tries = 0;
     tripoint origin = critter.pos();
     tripoint new_pos = origin;
@@ -67,7 +66,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
     }
     //handles telefragging other creatures
     if( Creature *const poor_soul = g->critter_at<Creature>( new_pos ) ) {
-        player *const poor_player = dynamic_cast<player *>( poor_soul );
+        Character *const poor_player = dynamic_cast<Character *>( poor_soul );
         if( safe ) {
             if( c_is_u ) {
                 add_msg( m_bad, _( "You cannot teleport safely." ) );
@@ -78,7 +77,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
             poor_player->add_msg_if_player( m_warning, _( "You feel disjointed." ) );
             return false;
         } else {
-            const bool poor_soul_is_u = ( poor_soul == &g->u );
+            const bool poor_soul_is_u = poor_soul->is_avatar();
             if( poor_soul_is_u ) {
                 add_msg( m_bad, _( "…" ) );
                 add_msg( m_bad, _( "You explode into thousands of fragments." ) );
@@ -90,7 +89,7 @@ bool teleport::teleport( Creature &critter, int min_distance, int max_distance, 
                                           poor_soul->disp_name() );
                 g->events().send<event_type::telefrags_creature>( p->getID(), poor_soul->get_name() );
             } else {
-                if( g->u.sees( *poor_soul ) ) {
+                if( get_player_character().sees( *poor_soul ) ) {
                     add_msg( m_good, _( "%1$s teleports into %2$s, killing them!" ),
                              critter.disp_name(), poor_soul->disp_name() );
                 }

@@ -994,7 +994,7 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
     const int min_dist = params.min_distance;
     const int max_dist = params.search_range ? params.search_range : OMAPX;
 
-    for( const tripoint &loc : closest_tripoints_first( origin, min_dist, max_dist ) ) {
+    for( const tripoint &loc : closest_points_first( origin, min_dist, max_dist ) ) {
         if( is_findable_location( loc, params ) ) {
             result.push_back( loc );
         }

@@ -711,8 +711,10 @@ basecamp_action_components::basecamp_action_components(
 bool basecamp_action_components::choose_components()
 {
     const auto filter = is_crafting_component;
+    avatar &player_character = get_avatar();
     const requirement_data *req =
-        making_.deduped_requirements().select_alternative( g->u, base_._inv, filter, batch_size_ );
+        making_.deduped_requirements().select_alternative( player_character, base_._inv, filter,
+                batch_size_ );
     if( !req ) {
         return false;
     }
@@ -722,8 +724,8 @@ bool basecamp_action_components::choose_components()
     }
     for( const auto &it : req->get_components() ) {
         comp_selection<item_comp> is =
-            g->u.select_item_component( it, batch_size_, base_._inv, true, filter,
-                                        !base_.by_radio );
+            player_character.select_item_component( it, batch_size_, base_._inv, true, filter,
+                    !base_.by_radio );
         if( is.use_from == usage_from::cancel ) {
             return false;
         }
@@ -732,8 +734,8 @@ bool basecamp_action_components::choose_components()
     // this may consume pseudo-resources from fake items
     for( const auto &it : req->get_tools() ) {
         comp_selection<tool_comp> ts =
-            g->u.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
-                                        !base_.by_radio );
+            player_character.select_tool_component( it, batch_size_, base_._inv, DEFAULT_HOTKEYS, true,
+                    !base_.by_radio );
         if( ts.use_from == usage_from::cancel ) {
             return false;
         }
@@ -751,13 +753,15 @@ void basecamp_action_components::consume_components()
         target_map = map_.get();
     }
     const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );
+    avatar &player_character = get_avatar();
     for( const comp_selection<item_comp> &sel : item_selections_ ) {
-        g->u.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
-                            basecamp::inv_range );
+        player_character.consume_items( *target_map, sel, batch_size_, is_crafting_component, origin,
+                                        basecamp::inv_range );
     }
     // this may consume pseudo-resources from fake items
     for( const comp_selection<tool_comp> &sel : tool_selections_ ) {
-        g->u.consume_tools( *target_map, sel, batch_size_, origin, basecamp::inv_range, &base_ );
+        player_character.consume_tools( *target_map, sel, batch_size_, origin, basecamp::inv_range,
+                                        &base_ );
     }
     // go back and consume the actual resources
     for( basecamp_resource &bcp_r : base_.resources ) {

@@ -248,15 +248,15 @@ loot_options::query_loot_result loot_options::query_loot()
 
 plot_options::query_seed_result plot_options::query_seed()
 {
-    player &p = g->u;
+    Character &player_character = get_player_character();
 
-    std::vector<item *> seed_inv = p.items_with( []( const item & itm ) {
+    std::vector<item *> seed_inv = player_character.items_with( []( const item & itm ) {
         return itm.is_seed();
     } );
     auto &mgr = zone_manager::get_manager();
     map &here = get_map();
     const std::unordered_set<tripoint> &zone_src_set = mgr.get_near( zone_type_id( "LOOT_SEEDS" ),
-            here.getabs( p.pos() ), 60 );
+            here.getabs( player_character.pos() ), 60 );
     for( const tripoint &elem : zone_src_set ) {
         tripoint elem_loc = here.getlocal( elem );
         for( item &it : here.i_at( elem_loc ) ) {
@@ -805,7 +805,7 @@ cata::optional<tripoint> zone_manager::get_nearest( const zone_type_id &type, co
 zone_type_id zone_manager::get_near_zone_type_for_item( const item &it,
         const tripoint &where, int range ) const
 {
-    const item_category &cat = it.get_category();
+    const item_category &cat = it.get_category_of_contents();
 
     if( has_near( zone_type_id( "LOOT_CUSTOM" ), where, range ) ) {
         if( !get_near( zone_type_id( "LOOT_CUSTOM" ), where, range, &it ).empty() ) {

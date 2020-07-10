@@ -81,7 +81,7 @@
     "longest_side": "60 cm",
     "price": 7500,
     "price_postapoc": 1500,
-    "bashing": 40,
+    "bashing": 45,
     "cutting": 5,
     "material": [ "steel" ],
     "symbol": ";",

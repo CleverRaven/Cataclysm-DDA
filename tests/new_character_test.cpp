@@ -147,7 +147,7 @@ TEST_CASE( "starting_items", "[slow]" )
                     g->u.worn.clear();
                     g->u.remove_weapon();
                     g->u.inv.clear();
-                    g->u.reset_encumbrance();
+                    g->u.calc_encumbrance();
                     g->u.male = i == 0;
 
                     g->u.add_profession_items();

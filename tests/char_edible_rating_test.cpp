@@ -71,6 +71,7 @@ TEST_CASE( "cannot eat dirty food", "[can_eat][edible_rating][dirty]" )
 TEST_CASE( "who can eat while underwater", "[can_eat][edible_rating][underwater]" )
 {
     avatar dummy;
+    dummy.set_body();
     item sushi( "sushi_fishroll" );
     item water( "water_clean" );
 
@@ -194,7 +195,7 @@ TEST_CASE( "when frozen food can be eaten", "[can_eat][edible_rating][frozen]" )
 TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedible][animal]" )
 {
     avatar dummy;
-
+    dummy.set_body();
     // Note: There are similar conditions for INEDIBLE food with FELINE or LUPINE flags, but
     // "birdfood" and "cattlefodder" are the only INEDIBLE items that exist in the game.
 
@@ -246,6 +247,7 @@ TEST_CASE( "who can eat inedible animal food", "[can_eat][edible_rating][inedibl
 TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     GIVEN( "character is an herbivore" ) {
         dummy.toggle_trait( trait_id( "HERBIVORE" ) );
@@ -272,6 +274,7 @@ TEST_CASE( "what herbivores can eat", "[can_eat][edible_rating][herbivore]" )
 TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     GIVEN( "character is a carnivore" ) {
         dummy.toggle_trait( trait_id( "CARNIVORE" ) );
@@ -320,6 +323,7 @@ TEST_CASE( "what carnivores can eat", "[can_eat][edible_rating][carnivore]" )
 TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating][mycus]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     GIVEN( "character is mycus-dependent" ) {
         dummy.toggle_trait( trait_id( "M_DEPENDENT" ) );
@@ -344,6 +348,7 @@ TEST_CASE( "what you can eat with a mycus dependency", "[can_eat][edible_rating]
 TEST_CASE( "what you can drink with a proboscis", "[can_eat][edible_rating][proboscis]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     GIVEN( "character has a proboscis" ) {
         dummy.toggle_trait( trait_id( "PROBOSCIS" ) );
@@ -413,6 +418,7 @@ TEST_CASE( "can eat with nausea", "[will_eat][edible_rating][nausea]" )
 TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
 {
     avatar dummy;
+    dummy.set_body();
     item fruit( "apple" );
     REQUIRE( fruit.has_flag( "ALLERGEN_FRUIT" ) );
 
@@ -430,6 +436,7 @@ TEST_CASE( "can eat with allergies", "[will_eat][edible_rating][allergy]" )
 TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     GIVEN( "food just barely rotten" ) {
         item toastem_rotten = item( "toastem" );
@@ -480,6 +487,7 @@ TEST_CASE( "who will eat rotten food", "[will_eat][edible_rating][rotten]" )
 TEST_CASE( "who will eat cooked human flesh", "[will_eat][edible_rating][cannibal]" )
 {
     avatar dummy;
+    dummy.set_body();
 
     GIVEN( "some cooked human flesh" ) {
         item flesh( "human_cooked" );
