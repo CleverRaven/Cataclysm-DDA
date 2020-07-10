@@ -6,6 +6,25 @@
     "responses": [
       { "text": "Forget I asked.", "topic": "TALK_FRIEND" },
       { "text": "Skip it, let's get going.", "topic": "TALK_DONE" },
+      {
+        "text": "Any hints about the world we now live in?",
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_hint" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_SHELTER_DENY_ADVICE" },
+        "failure": { "topic": "TALK_SHELTER_ADVICE", "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 } }
+      },
+      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "What do you mean, \"mostly\" willing to follow my lead?", "topic": "TALK_ALLY_TUTORIAL_MUTINY" },
       { "text": "What's that about giving instructions?", "topic": "TALK_ALLY_TUTORIAL_TALK" },
       { "text": "We can talk with radios?", "topic": "TALK_ALLY_TUTORIAL_RADIO" },

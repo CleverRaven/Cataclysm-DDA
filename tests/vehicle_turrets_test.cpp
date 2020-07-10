@@ -5,8 +5,8 @@
 #include <vector>
 
 #include "ammo.h"
-#include "avatar.h"
 #include "catch/catch.hpp"
+#include "character.h"
 #include "item.h"
 #include "item_location.h"
 #include "itype.h"
@@ -61,7 +61,7 @@ static const vpart_info *biggest_tank( const ammotype &ammo )
 TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 {
     map &here = get_map();
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     for( auto e : turret_types() ) {
         SECTION( e->name() ) {
             vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270, 0, 0 );

@@ -1145,12 +1145,25 @@ bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) con
 {
     for( auto &elem : *effects ) {
         for( const std::pair<const body_part, effect> &_it : elem.second ) {
-            if( bp == _it.first && _it.second.has_flag( flag ) ) {
+            if( ( bp == _it.first || bp == num_bp ) && _it.second.has_flag( flag ) ) {
                 return true;
             }
         }
     }
     return false;
+}
+
+std::vector<effect> Creature::get_effects_with_flag( const std::string &flag ) const
+{
+    std::vector<effect> effs;
+    for( auto &elem : *effects ) {
+        for( const std::pair<const body_part, effect> &_it : elem.second ) {
+            if( _it.second.has_flag( flag ) ) {
+                effs.push_back( _it.second );
+            }
+        }
+    }
+    return effs;
 }
 
 effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
@@ -1506,6 +1519,21 @@ int Creature::get_part_healed_total( const bodypart_id &id ) const
     return get_part( id ).get_healed_total();
 }
 
+int Creature::get_part_damage_disinfected( const bodypart_id &id ) const
+{
+    return get_part( id ).get_damage_disinfected();
+}
+
+int Creature::get_part_damage_bandaged( const bodypart_id &id ) const
+{
+    return get_part( id ).get_damage_bandaged();
+}
+
+encumbrance_data Creature::get_part_encumbrance_data( const bodypart_id &id ) const
+{
+    return get_part( id ).get_encumbrance_data();
+}
+
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
     get_part( id )->set_hp_cur( set );
@@ -1521,6 +1549,21 @@ void Creature::set_part_healed_total( const bodypart_id &id, int set )
     get_part( id )->set_healed_total( set );
 }
 
+void Creature::set_part_damage_disinfected( const bodypart_id &id, int set )
+{
+    get_part( id )->set_damage_disinfected( set );
+}
+
+void Creature::set_part_damage_bandaged( const bodypart_id &id, int set )
+{
+    get_part( id )->set_damage_bandaged( set );
+}
+
+void Creature::set_part_encumbrance_data( const bodypart_id &id, encumbrance_data set )
+{
+    get_part( id )->set_encumbrance_data( set );
+}
+
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_hp_cur( mod );
@@ -1534,6 +1577,16 @@ void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
 void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_healed_total( mod );
+}
+
+void Creature::mod_part_damage_disinfected( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_damage_disinfected( mod );
+}
+
+void Creature::mod_part_damage_bandaged( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_damage_bandaged( mod );
 }
 
 void Creature::set_all_parts_hp_cur( const int set )
@@ -1860,7 +1913,7 @@ void Creature::process_damage_over_time()
                 const int dmg_amount = DoT->amount;
                 if( dmg_amount < 0 ) {
                     heal_bp( bp.id(), -dmg_amount );
-                } else {
+                } else if( dmg_amount > 0 ) {
                     deal_damage( nullptr, bp.id(), damage_instance( DoT->type, dmg_amount ) );
                 }
             }

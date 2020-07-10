@@ -387,6 +387,9 @@ class overmap
                        const overmap *south, const overmap *west,
                        overmap_special_batch &enabled_specials );
         bool generate_sub( int z );
+        bool generate_over( int z );
+        // Check and put bridgeheads
+        void generate_bridgeheads( const std::vector<point> &bridge_points );
 
         const city &get_nearest_city( const tripoint &p ) const;
 

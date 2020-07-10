@@ -52,25 +52,6 @@ std::string enum_to_string<side>( side data )
     abort();
 }
 
-template<>
-std::string enum_to_string<hp_part>( hp_part data )
-{
-    switch( data ) {
-        // *INDENT-OFF*
-        case hp_part::hp_head: return "head";
-        case hp_part::hp_torso: return "torso";
-        case hp_part::hp_arm_l: return "arm_l";
-        case hp_part::hp_arm_r: return "arm_r";
-        case hp_part::hp_leg_l: return "leg_l";
-        case hp_part::hp_leg_r: return "leg_r";
-        // *INDENT-ON*
-        case hp_part::num_hp_parts:
-            break;
-    }
-    debugmsg( "Invalid hp_part" );
-    abort();
-}
-
 } // namespace io
 
 namespace
@@ -219,6 +200,8 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
 
     mandatory( jo, was_loaded, "base_hp", base_hp );
     optional( jo, was_loaded, "stat_hp_mods", hp_mods );
+
+    optional( jo, was_loaded, "is_limb", is_limb, false );
 
     mandatory( jo, was_loaded, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
@@ -425,6 +408,11 @@ int bodypart::get_damage_disinfected() const
     return damage_disinfected;
 }
 
+encumbrance_data bodypart::get_encumbrance_data() const
+{
+    return encumb_data;
+}
+
 void bodypart::set_hp_cur( int set )
 {
     hp_cur = set;
@@ -448,6 +436,11 @@ void bodypart::set_damage_bandaged( int set )
 void bodypart::set_damage_disinfected( int set )
 {
     damage_disinfected = set;
+}
+
+void bodypart::set_encumbrance_data( encumbrance_data set )
+{
+    encumb_data = set;
 }
 
 void bodypart::mod_hp_cur( int mod )

@@ -10,6 +10,7 @@
     "price": 3000,
     "price_postapoc": 3000,
     "material": [ "plastic" ],
+    "ascii_picture": "1st_aid",
     "symbol": "!",
     "color": "red",
     "use_action": [ "DISASSEMBLE" ],
@@ -173,7 +174,7 @@
     "copy-from": "bandages",
     "description": "Simple cloth bandages.  Better than nothing.",
     "price_postapoc": 100,
-    "flags": [ "NO_INGEST" ],
+    "flags": [ "NO_INGEST", "BLIND_EASY" ],
     "use_action": { "type": "heal", "bandages_power": 2, "bleed": 0.9, "move_cost": 300 }
   },
   {

@@ -32,7 +32,7 @@
       "t": "f_toilet",
       "u": "f_shower",
       "v": "f_oven",
-      "y": "f_treadmill"
+      "y": [ "f_treadmill", "f_treadmill_mechanical" ]
     },
     "terrain": {
       " ": "t_thconc_floor",

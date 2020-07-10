@@ -67,7 +67,7 @@
         "i": "f_locker",
         "j": "f_bench",
         "k": "f_locker",
-        "l": "f_treadmill",
+        "l": [ "f_treadmill", "f_treadmill_mechanical" ],
         "m": "f_shower",
         "n": "f_toilet",
         "p": "f_sink",

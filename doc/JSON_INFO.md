@@ -395,7 +395,7 @@ This section describes each json file and their contents. Each json has their ow
 | Identifier        | Description
 |---                |---
 | id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 42 columns long.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long.
 
 ```C++
   {
@@ -442,6 +442,7 @@ This section describes each json file and their contents. Each json has their ow
 | squeamish_penalty | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
 | stat_hp_mods      | (_optional_) Values modifiying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodifed value of the X stat and get_healthy() being the hidden health stat of the character.
 | bionic_slots      | (_optional_) How many bionic slots does this part have.
+| is_limb           | (_optional_) Is this bodypart a limb. (default: `false`)
 
 ```C++
   {
@@ -2079,7 +2080,7 @@ Guns can be defined like this:
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
-"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
+"barrel_volume": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
@@ -3450,6 +3451,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
       { "name": "shadow",  // name of this level of intensity
         "light_override": 3.7 } //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
      ],
+    "decrease_intensity_on_contact": true, // Decrease the field intensity by one each time a character walk on it.
     "bash": {
       "str_min": 1, // lower bracket of bashing damage required to bash
       "str_max": 3, // higher bracket

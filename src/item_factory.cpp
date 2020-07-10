@@ -963,7 +963,6 @@ void Item_factory::init()
     add_iuse( "TAZER2", &iuse::tazer2 );
     add_iuse( "TELEPORT", &iuse::teleport );
     add_iuse( "THORAZINE", &iuse::thorazine );
-    add_iuse( "THROWABLE_EXTINGUISHER_ACT", &iuse::throwable_extinguisher_act );
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
@@ -1246,8 +1245,8 @@ void Item_factory::check_definitions() const
                     }
                 }
             }
-            if( type->gun->barrel_length < 0_ml ) {
-                msg += "gun barrel length cannot be negative\n";
+            if( type->gun->barrel_volume < 0_ml ) {
+                msg += "gun barrel volume cannot be negative\n";
             }
 
             if( !type->gun->skill_used ) {
@@ -1714,7 +1713,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "reload", slot.reload_time, strict, 0 );
     assign( jo, "reload_noise", slot.reload_noise, strict );
     assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
-    assign( jo, "barrel_length", slot.barrel_length, strict, 0_ml );
+    assign( jo, "barrel_volume", slot.barrel_volume, strict, 0_ml );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );

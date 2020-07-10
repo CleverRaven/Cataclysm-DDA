@@ -118,6 +118,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         // Well that sure was easy
         return true;
     }
+    bool via_ramp = false;
+    if( m.has_flag( TFLAG_RAMP_UP, dest_loc ) ) {
+        dest_loc.z += 1;
+        via_ramp = true;
+    } else if( m.has_flag( TFLAG_RAMP_DOWN, dest_loc ) ) {
+        dest_loc.z -= 1;
+        via_ramp = true;
+    }
 
     if( m.has_flag( TFLAG_MINEABLE, dest_loc ) && g->mostseen == 0 &&
         get_option<bool>( "AUTO_FEATURES" ) && get_option<bool>( "AUTO_MINING" ) &&
@@ -210,11 +218,6 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 mons->facing = FacingDirection::LEFT;
             }
         }
-    }
-
-    if( d.z == 0 && ramp_move( you, m, dest_loc ) ) {
-        // TODO: Make it work nice with automove (if it doesn't do so already?)
-        return false;
     }
 
     if( you.has_effect( effect_amigara ) ) {
@@ -377,7 +380,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            avatar_action::swim( get_map(), g->u, dest_loc );
+            avatar_action::swim( get_map(), get_avatar(), dest_loc );
         }
 
         g->on_move_effects();
@@ -397,7 +400,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         }
         return true;
     }
-    if( g->walk_move( dest_loc ) ) {
+    if( g->walk_move( dest_loc, via_ramp ) ) {
         return true;
     }
     if( g->phasing_move( dest_loc ) ) {
@@ -689,7 +692,7 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
         const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
-            monster *mons = g->u.mounted_creature.get();
+            monster *mons = get_player_character().mounted_creature.get();
             if( !mons->type->mech_weapon.is_empty() ) {
                 is_mech_weapon = true;
             }
@@ -838,7 +841,7 @@ void avatar_action::fire_wielded_weapon( avatar &you )
     you.assign_activity( aim_activity_actor::use_wielded(), false );
 }
 
-void avatar_action::fire_ranged_mutation( avatar &you, const item &fake_gun )
+void avatar_action::fire_ranged_mutation( Character &you, const item &fake_gun )
 {
     you.assign_activity( aim_activity_actor::use_mutation( fake_gun ), false );
 }
@@ -960,7 +963,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
     if( you.is_mounted() ) {
-        monster *mons = g->u.mounted_creature.get();
+        monster *mons = get_player_character().mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),

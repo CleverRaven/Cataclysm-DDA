@@ -195,6 +195,11 @@ void advanced_inventory::init()
 
     src = ( save_state->active_left ) ? left : right;
     dest = ( save_state->active_left ) ? right : left;
+
+    //sanity check, badly initialized values may cause problem in move_all_items( see assert() )
+    if( panes[src].get_area() == AIM_ALL && panes[dest].get_area() == AIM_ALL ) {
+        panes[dest].set_area( AIM_INVENTORY );
+    }
 }
 
 void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool active )
@@ -839,24 +844,21 @@ bool advanced_inventory::move_all_items( bool nested_call )
         drop_locations dropped_favorite;
 
         if( spane.get_area() == AIM_INVENTORY ) {
-            for( size_t index = 0; index < g->u.inv.size(); ++index ) {
-                const std::list<item> &stack = g->u.inv.const_stack( index );
-                const item &it = stack.front();
-                item_location indexed_item( g->u, const_cast<item *>( &it ) );
-
-                if( !spane.is_filtered( it ) ) {
-                    int count;
-                    if( it.count_by_charges() )                         {
-                        count = it.charges;
-                    } else {
-                        count = stack.size();
+            //add all solid top level items
+            for( item &cloth :  g->u.worn ) {
+                for( item *it : cloth.contents.all_items_top() ) {
+                    if( !it->made_of_from_type( phase_id::SOLID ) ) {
+                        continue;
                     }
-                    if( it.is_favorite ) {
-                        dropped_favorite.emplace_back( indexed_item, count );
-                    } else {
-                        dropped.emplace_back( indexed_item, count );
+                    if( !spane.is_filtered( *it ) ) {
+                        if( it->is_favorite ) {
+                            dropped_favorite.emplace_back( item_location( item_location( g->u, &cloth ), it ), it->count() );
+                        } else {
+                            dropped.emplace_back( item_location( item_location( g->u, &cloth ), it ), it->count() );
+                        }
                     }
                 }
+
             }
         } else if( spane.get_area() == AIM_WORN ) {
             // do this in reverse, to account for vector item removal messing with future indices
@@ -1348,8 +1350,12 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         // "return to AIM".
         do_return_entry();
         assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
+        // `inventory_item_menu` may call functions that move items, so we should
+        // always recalculate during this period to ensure all item references are valid
+        always_recalc = true;
         ret = g->inventory_item_menu( loc, info_startx, info_width,
                                       src == advanced_inventory::side::left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
+        always_recalc = false;
         if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
             exit = true;
         } else {
@@ -1432,6 +1438,10 @@ void advanced_inventory::display()
         ui->mark_resize();
 
         ui->on_redraw( [&]( const ui_adaptor & ) {
+            if( always_recalc ) {
+                recalc = true;
+            }
+
             redraw_pane( advanced_inventory::side::left );
             redraw_pane( advanced_inventory::side::right );
             redraw_sidebar();

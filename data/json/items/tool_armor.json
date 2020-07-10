@@ -1878,10 +1878,11 @@
     "material_thickness": 2,
     "pocket_data": [
       {
-        "pocket_type": "CONTAINER",
+        "holster": true,
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
         "moves": 3,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       }
@@ -2871,7 +2872,7 @@
     "id": "solarpack",
     "type": "TOOL_ARMOR",
     "name": { "str": "solar backpack (folded)", "str_pl": "solar backpacks (folded)" },
-    "description": "Personal portable charging system consisting of an array of solar panels neatly folded in a form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system.",
+    "description": "Personal portable charging system consisting of an array of solar panels neatly folded in a form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system CBM.",
     "weight": "7500 g",
     "volume": "5 L",
     "price": 500000,
@@ -2893,7 +2894,7 @@
     "type": "TOOL_ARMOR",
     "repairs_like": "solarpack",
     "name": { "str": "solar backpack (unfolded)", "str_pl": "solar backpacks (unfolded)" },
-    "description": "Unfolded array of portable solar panels ready to push some power into an active cable charger system.",
+    "description": "Unfolded array of portable solar panels ready to push some power into an active cable charger system CBM.",
     "weight": "7500 g",
     "volume": "15 L",
     "price": 500000,

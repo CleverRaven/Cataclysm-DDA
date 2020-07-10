@@ -119,7 +119,7 @@
     "description": "The powdered remains of a will-o-wisps's physical form.  It seems to still possess an otherworldly glow.",
     "material": [ "powder" ],
     "weight": "5 g",
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "id": "glow_light",
@@ -165,7 +165,7 @@
     "description": "The great plates from behind a bulette's head have always been prized for use in shield and armor making.",
     "material": [ "arcane_skin" ],
     "weight": "30 kg",
-    "volume": 12
+    "volume": "3 L"
   },
   {
     "id": "bulette_pearl",
@@ -176,7 +176,7 @@
     "description": "As a bulette burrows through the earth its gills collect minute amounts of precious metals and gems which slowly aggregate into lustrous gemstones prized for their beauty and power.",
     "material": [ "stone" ],
     "weight": "120 g",
-    "volume": 1
+    "volume": "250 ml"
   },
   {
     "id": "dragon_essence",

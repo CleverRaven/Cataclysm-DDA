@@ -57,40 +57,8 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_function": [ "NORMAL" ],
-    "upgrades": { "half_life": 28, "into": "mon_dog_skeleton" },
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
-  },
-  {
-    "id": "mon_dog_skeleton",
-    "type": "MONSTER",
-    "name": { "str": "skeletal dog" },
-    "description": "This once-canine has shed all of its skin, revealing a carapace of fused bones and ribs.  Devoid entirely of flesh, this walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
-    "default_faction": "zombie",
-    "bodytype": "dog",
-    "species": [ "ZOMBIE" ],
-    "volume": "30000 ml",
-    "weight": "40750 g",
-    "hp": 12,
-    "speed": 100,
-    "material": [ "bone" ],
-    "symbol": "d",
-    "color": "white",
-    "aggression": 100,
-    "morale": 100,
-    "melee_skill": 4,
-    "melee_dice": 1,
-    "melee_dice_sides": 9,
-    "melee_cut": 6,
-    "dodge": 3,
-    "armor_cut": 15,
-    "armor_bullet": 12,
-    "armor_stab": 30,
-    "armor_acid": 3,
-    "vision_night": 3,
-    "harvest": "mr_bones",
-    "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
-    "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "NO_BREATHE", "HARDTOSHOOT", "REVIVES", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_dog_zombie_cop",
@@ -124,6 +92,7 @@
     "special_attacks": [ { "type": "bite", "cooldown": 5 } ],
     "death_drops": { "subtype": "collection", "groups": [ [ "dog_cop", 40 ] ], "//": "40% chance of an item from group dog_cop" },
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOMBIE_DOG_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -154,6 +123,7 @@
     "harvest": "zombie",
     "special_attacks": [ { "type": "bite", "cooldown": 2, "accuracy": 4, "no_infection_chance": 12 } ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 28, "into": "mon_dog_zombie_brute" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "PUSH_MON", "FILTHY" ]
   },
   {
@@ -185,6 +155,7 @@
     "anger_triggers": [ "PLAYER_CLOSE", "HURT" ],
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 28, "into_group": "GROUP_ZOLF_UPGRADE" },
     "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY" ]
   },
   {
@@ -379,6 +350,37 @@
       "REVIVES",
       "FILTHY"
     ]
+  },
+  {
+    "id": "mon_zombie_horse",
+    "type": "MONSTER",
+    "name": { "str": "zombie horse" },
+    "description": "From the looks of this zombie horse's ghastly features, with its protruding ribs, whitish skull, and empty eyes, the exposed part of the internal organs shows a seemingly lifeless color, and the black body fluid drips slowly.  The new strength makes the horse no longer dependent on its muscles, but it can still pursue the enemy quickly.",
+    "default_faction": "zombie",
+    "bodytype": "horse",
+    "categories": [ "WILDLIFE" ],
+    "species": [ "ZOMBIE" ],
+    "volume": "85200 ml",
+    "weight": "125 kg",
+    "hp": 70,
+    "speed": 215,
+    "material": [ "flesh" ],
+    "symbol": "V",
+    "color": "black",
+    "aggression": 100,
+    "morale": 100,
+    "melee_skill": 4,
+    "melee_dice": 3,
+    "melee_dice_sides": 6,
+    "melee_cut": 6,
+    "armor_bash": 5,
+    "armor_cut": 1,
+    "vision_day": 30,
+    "vision_night": 3,
+    "harvest": "zombie_leather",
+    "anger_triggers": [ "PLAYER_CLOSE", "PLAYER_WEAK" ],
+    "death_function": [ "NORMAL" ],
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "NO_BREATHE", "REVIVES", "BONES", "FAT" ]
   },
   {
     "id": "mon_ziger",

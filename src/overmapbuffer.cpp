@@ -7,10 +7,10 @@
 #include <list>
 #include <map>
 
-#include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "character_id.h"
 #include "color.h"
 #include "common_types.h"
@@ -482,7 +482,7 @@ void overmapbuffer::process_mongroups()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const auto radius = MAPSIZE * 2;
-    const auto center = g->u.global_sm_location();
+    const auto center = get_player_character().global_sm_location();
     for( auto &om : get_overmaps_near( center, radius ) ) {
         om->process_mongroups();
     }
@@ -492,7 +492,7 @@ void overmapbuffer::move_hordes()
 {
     // arbitrary radius to include nearby overmaps (aside from the current one)
     const auto radius = MAPSIZE * 2;
-    const auto center = g->u.global_sm_location();
+    const auto center = get_player_character().global_sm_location();
     for( auto &om : get_overmaps_near( center, radius ) ) {
         om->move_hordes();
     }
@@ -564,7 +564,7 @@ void overmapbuffer::set_scent( const tripoint &loc, int strength )
 
 void overmapbuffer::move_vehicle( vehicle *veh, const point &old_msp )
 {
-    const point new_msp = g->m.getabs( veh->global_pos3().xy() );
+    const point new_msp = get_map().getabs( veh->global_pos3().xy() );
     const point old_omt = ms_to_omt_copy( old_msp );
     const point new_omt = ms_to_omt_copy( new_msp );
     const overmap_with_local_coords old_om_loc = get_om_global( old_omt );
@@ -592,14 +592,14 @@ void overmapbuffer::remove_camp( const basecamp &camp )
 
 void overmapbuffer::remove_vehicle( const vehicle *veh )
 {
-    const point omt = ms_to_omt_copy( g->m.getabs( veh->global_pos3().xy() ) );
+    const point omt = ms_to_omt_copy( get_map().getabs( veh->global_pos3().xy() ) );
     const overmap_with_local_coords om_loc = get_om_global( omt );
     om_loc.om->vehicles.erase( veh->om_id );
 }
 
 void overmapbuffer::add_vehicle( vehicle *veh )
 {
-    const point abs_pos = g->m.getabs( veh->global_pos3().xy() );
+    const point abs_pos = get_map().getabs( veh->global_pos3().xy() );
     const point omt = ms_to_omt_copy( abs_pos );
     const overmap_with_local_coords om_loc = get_om_global( omt );
     int id = om_loc.om->vehicles.size() + 1;
@@ -994,7 +994,7 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint &origin,
     const int min_dist = params.min_distance;
     const int max_dist = params.search_range ? params.search_range : OMAPX;
 
-    for( const tripoint &loc : closest_tripoints_first( origin, min_dist, max_dist ) ) {
+    for( const tripoint &loc : closest_points_first( origin, min_dist, max_dist ) ) {
         if( is_findable_location( loc, params ) ) {
             result.push_back( loc );
         }
@@ -1073,11 +1073,11 @@ shared_ptr_fast<npc> overmapbuffer::remove_npc( const character_id &id )
 
 std::vector<shared_ptr_fast<npc>> overmapbuffer::get_npcs_near_player( int radius )
 {
-    tripoint plpos = g->u.global_omt_location();
+    tripoint plpos = get_player_character().global_omt_location();
     // get_npcs_near needs submap coordinates
     omt_to_sm( plpos.x, plpos.y );
     // INT_MIN is a (a bit ugly) way to inform get_npcs_near not to filter by z-level
-    const int zpos = g->m.has_zlevels() ? INT_MIN : plpos.z;
+    const int zpos = get_map().has_zlevels() ? INT_MIN : plpos.z;
     return get_npcs_near( tripoint( plpos.xy(), zpos ), radius );
 }
 
@@ -1179,7 +1179,7 @@ static radio_tower_reference create_radio_tower_reference( const overmap &om, ra
 
 radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 {
-    const auto center = g->u.global_sm_location();
+    const auto center = get_player_character().global_sm_location();
     for( auto &om : get_overmaps_near( center, RADIO_MAX_STRENGTH ) ) {
         for( auto &tower : om->radios ) {
             const auto rref = create_radio_tower_reference( *om, tower, center );
@@ -1194,7 +1194,7 @@ radio_tower_reference overmapbuffer::find_radio_station( const int frequency )
 std::vector<radio_tower_reference> overmapbuffer::find_all_radio_stations()
 {
     std::vector<radio_tower_reference> result;
-    const auto center = g->u.global_sm_location();
+    const auto center = get_player_character().global_sm_location();
     // perceived signal strength is distance (in submaps) - signal strength, so towers
     // further than RADIO_MAX_STRENGTH submaps away can never be received at all.
     const int radius = RADIO_MAX_STRENGTH;
@@ -1370,9 +1370,10 @@ void overmapbuffer::spawn_monster( const tripoint &p )
         assert( ms.x >= 0 && ms.x < SEEX );
         assert( ms.y >= 0 && ms.y < SEEX );
         ms += sm_to_ms_copy( p.xy() );
+        const map &here = get_map();
         // The monster position must be local to the main map when added to the game
-        const tripoint local = tripoint( g->m.getlocal( ms ), p.z );
-        assert( g->m.inbounds( local ) );
+        const tripoint local = tripoint( here.getlocal( ms ), p.z );
+        assert( here.inbounds( local ) );
         monster *const placed = g->place_critter_at( make_shared_fast<monster>( this_monster ),
                                 local );
         if( placed ) {
@@ -1385,7 +1386,7 @@ void overmapbuffer::spawn_monster( const tripoint &p )
 void overmapbuffer::despawn_monster( const monster &critter )
 {
     // Get absolute coordinates of the monster in map squares, translate to submap position
-    tripoint sm = ms_to_sm_copy( g->m.getabs( critter.pos() ) );
+    tripoint sm = ms_to_sm_copy( get_map().getabs( critter.pos() ) );
     // Get the overmap coordinates and get the overmap, sm is now local to that overmap
     const point omp = sm_to_om_remain( sm.x, sm.y );
     overmap &om = get( omp );

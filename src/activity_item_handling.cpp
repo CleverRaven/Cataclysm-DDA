@@ -1727,7 +1727,7 @@ static bool construction_activity( player &p, const zone_data * /*zone*/, const 
     pc.id = built_chosen.id;
     map &here = get_map();
     // Set the trap that has the examine function
-    if( here.tr_at( src_loc ).loadid == tr_null ) {
+    if( here.tr_at( src_loc ).is_null() ) {
         here.trap_set( src_loc, tr_unfinished_construction );
     }
     // Use up the components
@@ -3014,7 +3014,7 @@ int get_auto_consume_moves( player &p, const bool food )
 void try_fuel_fire( player_activity &act, player &p, const bool starting_fire )
 {
     const tripoint pos = p.pos();
-    std::vector<tripoint> adjacent = closest_tripoints_first( pos, PICKUP_RANGE );
+    std::vector<tripoint> adjacent = closest_points_first( pos, PICKUP_RANGE );
     adjacent.erase( adjacent.begin() );
 
     cata::optional<tripoint> best_fire = starting_fire ? act.placement : find_best_fire( adjacent,

@@ -251,7 +251,9 @@ bool item_pocket::stacks_with( const item_pocket &rhs ) const
 
 bool item_pocket::is_funnel_container( units::volume &bigger_than ) const
 {
-    static const std::vector<item> allowed_liquids{
+    // should not be static, since after reloading some members of the item objects,
+    // such as item types, may be invalidated.
+    const std::vector<item> allowed_liquids{
         item( "water", calendar::turn_zero, 1 ),
         item( "water_acid", calendar::turn_zero, 1 ),
         item( "water_acid_weak", calendar::turn_zero, 1 )
@@ -1127,7 +1129,7 @@ void item_pocket::on_pickup( Character &guy )
 
 void item_pocket::on_contents_changed()
 {
-    _sealed = false;
+    unseal();
     restack();
 }
 
