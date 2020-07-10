@@ -580,6 +580,13 @@ void handle_weather_effects( weather_type_id const w )
                 target_character.add_effect( current_effect.effect_id, current_effect.effect_duration );
             }
         }
+        if( current_effect.trait_id_to_add.is_valid() ) {
+            target_character.set_mutation( current_effect.trait_id_to_add );
+        }
+        if( current_effect.trait_id_to_remove.is_valid() ) {
+            target_character.unset_mutation( current_effect.trait_id_to_remove );
+        }
+
         if( current_effect.target_part.is_valid() ) {
             target_character.deal_damage( nullptr, current_effect.target_part, damage_instance( DT_BASH,
                                           current_effect.damage ) );

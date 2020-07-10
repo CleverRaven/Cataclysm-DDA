@@ -123,6 +123,14 @@ void weather_type::check() const
             debugmsg( "Effect type %s does not exist.", effect.effect_id.c_str() );
             abort();
         }
+        if( !effect.trait_id_to_add.is_empty() && !effect.trait_id_to_add.is_valid() ) {
+            debugmsg( "Trait %s does not exist.", effect.trait_id_to_add.c_str() );
+            abort();
+        }
+        if( !effect.trait_id_to_remove.is_empty() && !effect.trait_id_to_remove.is_valid() ) {
+            debugmsg( "Trait %s does not exist.", effect.trait_id_to_remove.c_str() );
+            abort();
+        }
         if( !effect.target_part.is_empty() && !effect.target_part.is_valid() ) {
             debugmsg( "Target part %s does not exist.", effect.target_part.c_str() );
             abort();
@@ -189,6 +197,8 @@ void weather_type::load( const JsonObject &jo, const std::string & )
         optional( weather_effect_jo, was_loaded, "healthy", effect.healthy, 0 );
         optional( weather_effect_jo, was_loaded, "effect_id", effect.effect_id );
         optional( weather_effect_jo, was_loaded, "effect_duration", effect.effect_duration );
+        optional( weather_effect_jo, was_loaded, "trait_id_to_add", effect.trait_id_to_add );
+        optional( weather_effect_jo, was_loaded, "trait_id_to_remove", effect.trait_id_to_remove );
         optional( weather_effect_jo, was_loaded, "target_part", effect.target_part );
         optional( weather_effect_jo, was_loaded, "damage", effect.damage, 0 );
         for( const JsonObject field_jo : weather_effect_jo.get_array( "fields" ) ) {

@@ -122,6 +122,8 @@ struct weather_effect {
     int healthy;
     efftype_id effect_id;
     time_duration effect_duration;
+    trait_id trait_id_to_add;
+    trait_id trait_id_to_remove;
     bodypart_str_id target_part;
     int damage;
     std::vector<spawn_type> spawns;
