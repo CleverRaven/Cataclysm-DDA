@@ -2573,7 +2573,7 @@
     "result": "coilgun",
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
-    "skill_used": "electronics",	
+    "skill_used": "electronics",
     "skills_required": [ [ "computer", 3 ], [ "fabrication", 3 ] ],
     "difficulty": 5,
     "time": "4 h",
@@ -2591,6 +2591,7 @@
       [ [ "amplifier", 1 ] ],
       [ [ "e_scrap", 30 ] ],
       [ [ "scrap", 10 ] ],
-      [ [ "cable", 100 ] ] ]
+      [ [ "cable", 100 ] ]
+    ]
   }
 ]
