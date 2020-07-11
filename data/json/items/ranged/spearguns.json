@@ -224,7 +224,7 @@
     "clip_size": 1,
     "reload": 600,
     "modes": [ [ "DEFAULT", "single", 1 ],
-    "flags": [ "RELOAD_EJECT", "SHEATH_SPEAR ],
+    "flags": [ "RELOAD_EJECT", "SHEATH_SPEAR", "FRAGILE_MELEE" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
   },
 ]
