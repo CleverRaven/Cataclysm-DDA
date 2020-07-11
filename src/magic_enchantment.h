@@ -20,6 +20,8 @@ class item;
 
 namespace enchant_vals
 {
+// the different types of values that can be modified by enchantments
+// either the item directly or the Character, whichever is more appropriate
 enum class mod : int {
     // effects for the Character
     STRENGTH,
@@ -111,79 +113,6 @@ class enchantment
             UNDERGROUND,
             UNDERWATER,
             NUM_CONDITION
-        };
-        // the different types of values that can be modified by enchantments
-        // either the item directly or the Character, whichever is more appropriate
-        enum mod {
-            // effects for the Character
-            STRENGTH,
-            DEXTERITY,
-            PERCEPTION,
-            INTELLIGENCE,
-            SPEED,
-            ATTACK_COST,
-            ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
-            MOVE_COST,
-            METABOLISM,
-            MAX_MANA,
-            REGEN_MANA,
-            BIONIC_POWER,
-            MAX_STAMINA,
-            REGEN_STAMINA,
-            MAX_HP,        // for all limbs! use with caution
-            REGEN_HP,
-            THIRST,        // cost or regen over time
-            FATIGUE,       // cost or regen over time
-            PAIN,          // cost or regen over time
-            BONUS_DODGE,
-            BONUS_BLOCK,
-            BONUS_DAMAGE,
-            ATTACK_NOISE,
-            SPELL_NOISE,
-            SHOUT_NOISE,
-            FOOTSTEP_NOISE,
-            SIGHT_RANGE,
-            CARRY_WEIGHT,
-            CARRY_VOLUME,
-            SOCIAL_LIE,
-            SOCIAL_PERSUADE,
-            SOCIAL_INTIMIDATE,
-            ARMOR_BASH,
-            ARMOR_CUT,
-            ARMOR_STAB,
-            ARMOR_BULLET,
-            ARMOR_HEAT,
-            ARMOR_COLD,
-            ARMOR_ELEC,
-            ARMOR_ACID,
-            ARMOR_BIO,
-            // effects for the item that has the enchantment
-            ITEM_DAMAGE_BASH,
-            ITEM_DAMAGE_CUT,
-            ITEM_DAMAGE_STAB,
-            ITEM_DAMAGE_BULLET,
-            ITEM_DAMAGE_HEAT,
-            ITEM_DAMAGE_COLD,
-            ITEM_DAMAGE_ELEC,
-            ITEM_DAMAGE_ACID,
-            ITEM_DAMAGE_BIO,
-            ITEM_DAMAGE_AP,      // armor piercing
-            ITEM_ARMOR_BASH,
-            ITEM_ARMOR_CUT,
-            ITEM_ARMOR_STAB,
-            ITEM_ARMOR_BULLET,
-            ITEM_ARMOR_HEAT,
-            ITEM_ARMOR_COLD,
-            ITEM_ARMOR_ELEC,
-            ITEM_ARMOR_ACID,
-            ITEM_ARMOR_BIO,
-            ITEM_WEIGHT,
-            ITEM_ENCUMBRANCE,
-            ITEM_VOLUME,
-            ITEM_COVERAGE,
-            ITEM_ATTACK_SPEED,
-            ITEM_WET_PROTECTION,
-            NUM_MOD
         };
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
