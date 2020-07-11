@@ -3,21 +3,22 @@
 #define CATA_SRC_SDLTILES_H
 
 #include <array>
+#include "point.h"
+
+namespace catacurses
+{
+class window;
+} // namespace catacurses
+
 #if defined(TILES)
 
 #include <string>
 #include <memory>
 
 #include "color_loader.h"
-#include "point.h"
 #include "sdl_wrappers.h"
 
 class cata_tiles;
-
-namespace catacurses
-{
-class window;
-} // namespace catacurses
 
 extern SDL_Texture_Ptr alt_rect_tex;
 extern bool alt_rect_tex_enabled;
