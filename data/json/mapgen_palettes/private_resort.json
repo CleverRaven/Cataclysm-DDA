@@ -189,6 +189,10 @@
     "type": "palette",
     "id": "p_resort_palette_basement",
     "furniture": {
+      "&": "f_console_broken",
+      "1": "f_generator_broken",
+      "2": "f_machinery_light",
+      "3": "f_machinery_heavy",
       "L": "f_locker",
       "S": "f_utility_shelf",
       "f": "f_glass_fridge",
@@ -223,10 +227,6 @@
     "type": "palette",
     "id": "p_resort_palette_roof",
     "furniture": {
-      "&": "f_console_broken",
-      "1": "f_generator_broken",
-      "2": "f_machinery_light",
-      "3": "f_machinery_heavy",
       "c": "f_air_conditioner",
       "f": "f_air_filter",
       "b": "f_cellphone_booster",
