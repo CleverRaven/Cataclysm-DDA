@@ -1479,6 +1479,25 @@ std::vector<matype_id> npc::styles_offered_to( const player &p ) const
     return p.martial_arts_data.get_unknown_styles( martial_arts_data );
 }
 
+std::vector<spell_id> npc::spells_offered_to( player &p )
+{
+    std::vector<spell_id> teachable;
+    for( const spell_id &sp : magic.spells() ) {
+        const spell &teacher_spell = magic.get_spell( sp );
+        if( p.magic.can_learn_spell( p, sp ) ) {
+            if( p.magic.knows_spell( sp ) ) {
+                const spell &student_spell = p.magic.get_spell( sp );
+                if( student_spell.is_max_level() ||
+                    student_spell.get_level() >= teacher_spell.get_level() ) {
+                    continue;
+                }
+            }
+            teachable.emplace_back( sp );
+        }
+    }
+    return teachable;
+}
+
 void npc::decide_needs()
 {
     double needrank[num_needs];
