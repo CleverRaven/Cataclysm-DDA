@@ -489,5 +489,20 @@
       ]
     ],
     "components": [ [ [ "pipe", 4 ] ], [ [ "nail", 2 ] ], [ [ "pipe_fittings", 2 ] ], [ [ "scrap", 3 ] ] ]
-  }
+  },
+  {
+    "type": "recipe",
+    "result": "powerhead",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "mechanics",
+    "difficulty": "1",
+    "skills_required": [ [ "gun", 1 ] ],
+    "time": "30 min",
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M", "level": 2 },
+    ],
+    "components": [ [ [ "slamfire_shotgun", 1 ] ], [ [ "wire", 1 ] ], [ [ "plank", 1 ] ],[ [ "duct_tape", 100 ] ] ]
+  },
 ]
