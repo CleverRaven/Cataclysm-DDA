@@ -1078,9 +1078,13 @@ void Item_factory::check_definitions() const
                 if( item_contents( type->pockets ).bigger_on_the_inside( volume ) ) {
                     msg += "is bigger on the inside.  consider using TARDIS flag.\n";
                 }
-                for( const pocket_data &data : type->pockets ) {
-                    msg += data.check_definition();
-                }
+            }
+        }
+
+        for( const pocket_data &data : type->pockets ) {
+            std::string pocket_error = data.check_definition();
+            if( !pocket_error.empty() ) {
+                msg += "problem with pocket: " + pocket_error;
             }
         }
 
