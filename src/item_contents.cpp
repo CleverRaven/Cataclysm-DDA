@@ -943,31 +943,11 @@ std::list<const item *> item_contents::all_items_top() const
 std::list<item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type )
 {
     return all_items_top_recursive( pk_type );
-
-    //std::list<item *> all_items_internal;
-    //for( item_pocket &pocket : contents ) {
-    //    if( pocket.is_type( pk_type ) ) {
-    //        std::list<item *> contained_items = pocket.all_items_ptr( pk_type );
-    //        all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-    //                                   contained_items.end() );
-    //    }
-    //}
-    //return all_items_internal;
 }
 
 std::list<const item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type ) const
 {
     return all_items_top_recursive( pk_type );
-
-    //std::list<const item *> all_items_internal;
-    //for( const item_pocket &pocket : contents ) {
-    //    if( pocket.is_type( pk_type ) ) {
-    //        std::list<const item *> contained_items = pocket.all_items_ptr( pk_type );
-    //        all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-    //                                   contained_items.end() );
-    //    }
-    //}
-    //return all_items_internal;
 }
 
 std::list<const item *> item_contents::all_items_ptr() const

@@ -243,10 +243,9 @@ class item_contents
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
 
         //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
-        std::list<const item *> item_contents::all_items_top_recursive( item_pocket::pocket_type pk_type )
-        const;
+        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
         //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
-        std::list<item *> item_contents::all_items_top_recursive( item_pocket::pocket_type pk_type );
+        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
 
         std::list<item_pocket> contents;
 
