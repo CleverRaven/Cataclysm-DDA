@@ -31,6 +31,8 @@ void rescale_tileset( int size );
 bool save_screenshot( const std::string &file_path );
 void toggle_fullscreen_window();
 
+#endif // TILES
+
 struct window_dimensions {
     point scaled_font_size;
     point window_pos_cell;
@@ -44,7 +46,5 @@ window_dimensions get_window_dimensions( const catacurses::window &win );
 window_dimensions get_window_dimensions( const point &pos, const point &size );
 // Text level, valid only for a point relative to the window, not a point in overall space.
 bool window_contains_point_relative( const catacurses::window &win, const point &p );
-
-#endif // TILES
 
 #endif // CATA_SRC_SDLTILES_H
