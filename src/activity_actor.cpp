@@ -1184,10 +1184,18 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     }
     //setting act to null clears these so back them up
     std::vector<int> temp_selections = consume_menu_selections;
-    act.set_to_null();
+    if( act.id() == activity_id( "ACT_CONSUME" ) ) {
+        act.set_to_null();
+    }
     if( !temp_selections.empty() ) {
-        player_character.assign_activity( ACT_EAT_MENU );
-        player_character.activity.values = temp_selections;
+        if( act.is_null() ) {
+            player_character.assign_activity( ACT_EAT_MENU );
+            player_character.activity.values = temp_selections;
+        } else {
+            player_activity eat_menu( ACT_EAT_MENU );
+            eat_menu.values = temp_selections;
+            player_character.backlog.push_back( eat_menu );
+        }
     }
 }
 
