@@ -189,23 +189,17 @@ units::volume stomach_contents::capacity( const Character &owner ) const
     //else if because they're mutually exclusive, that way we save a lot of uneccesary checks -ungen
     if( owner.has_trait( trait_SMALL_OK ) ) {
         max_mod *= 0.5;
-    }
-    else if( owner.has_trait( trait_SMALL2 ) ) {
+    } else if( owner.has_trait( trait_SMALL2 ) ) {
         max_mod *= 0.5;
-    }
-    else if( owner.has_trait( trait_SMALL ) ) {
+    } else if( owner.has_trait( trait_SMALL ) ) {
         max_mod *= 0.75;
-    }
-    else if( owner.has_trait( trait_LARGE ) ) {
+    } else if( owner.has_trait( trait_LARGE ) ) {
         max_mod *= 1.5;
-    }
-    else if( owner.has_trait( trait_LARGE_OK ) ) {
+    } else if( owner.has_trait( trait_LARGE_OK ) ) {
         max_mod *= 1.5;
-    }
-    else if( owner.has_trait( trait_HUGE ) ) {
+    } else if( owner.has_trait( trait_HUGE ) ) {
         max_mod *= 2;
-    }
-    else if( owner.has_trait( trait_HUGE_OK ) ) {
+    } else if( owner.has_trait( trait_HUGE_OK ) ) {
         max_mod *= 2;
     }
     //I thought this would be a lot harder to code, boy I was wrong -ungen
