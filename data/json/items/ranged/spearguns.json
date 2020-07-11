@@ -203,5 +203,28 @@
       [ "underbarrel mount", 1 ]
     ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 1 } } ]
-  }
+  },
+  {
+    "id": "powerhead",
+    "type": "GUN",
+    "name": { "str": "powerhead" },
+    "description": "A single-shot firearm mounted on a stick. Commonly used for spear fishing or for defense against sharks. This one has an activation pin the must be pulled to fire.",
+    "weight": "4000 g",
+    "volume": "4765 ml",
+    "longest_side": "165 cm",
+    "looks_like": "pipe",
+    "price": 8500,
+    "price_postapoc": 1000,
+    "bashing": 4,
+    "skill": "stabbing",
+    "material": [ "steel", "wood" ],
+    "ranged_damage": { "damage_type": "bullet", "amount": -8 },
+    "dispersion": 660,
+    "durability": 4,
+    "clip_size": 1,
+    "reload": 600,
+    "modes": [ [ "DEFAULT", "single", 1 ],
+    "flags": [ "RELOAD_EJECT", "SHEATH_SPEAR ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
+  },
 ]
