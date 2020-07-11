@@ -231,7 +231,8 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         nc_color color = weight_carried > weight_capacity ? c_red : c_light_green;
         mvwprintz( window, point( hrightcol, 4 ), color, "%.1f", weight_carried );
         wprintz( window, c_light_gray, "/%.1f %s  ", weight_capacity, weight_units() );
-        color = player_character.volume_carried().value() > player_character.volume_capacity().value() ? c_red : c_light_green;
+        color = player_character.volume_carried().value() > player_character.volume_capacity().value() ?
+                c_red : c_light_green;
         wprintz( window, color, volume_carried );
         wprintz( window, c_light_gray, "/%s %s", volume_capacity, volume_units_abbr() );
     } else {
@@ -854,7 +855,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
                     }
                     if( !spane.is_filtered( *it ) ) {
                         if( it->is_favorite ) {
-                            dropped_favorite.emplace_back( item_location( item_location( player_character, &cloth ), it ), it->count() );
+                            dropped_favorite.emplace_back( item_location( item_location( player_character, &cloth ), it ),
+                                                           it->count() );
                         } else {
                             dropped.emplace_back( item_location( item_location( player_character, &cloth ), it ), it->count() );
                         }
@@ -928,10 +930,10 @@ bool advanced_inventory::move_all_items( bool nested_call )
                 add_msg( m_info, _( "Skipping filled buckets to avoid spilling their contents." ) );
             }
             player_character.assign_activity( player_activity( pickup_activity_actor(
-                    target_items,
-                    quantities,
-                    cata::optional<tripoint>( player_character.pos() )
-                                                   ) ) );
+                                                  target_items,
+                                                  quantities,
+                                                  cata::optional<tripoint>( player_character.pos() )
+                                              ) ) );
 
         } else {
             // Vehicle and map destinations are handled the same.
@@ -985,11 +987,11 @@ bool advanced_inventory::move_all_items( bool nested_call )
             }
 
             player_character.assign_activity( player_activity( move_items_activity_actor(
-                    target_items,
-                    quantities,
-                    dpane.in_vehicle(),
-                    relative_destination
-                                                   ) ) );
+                                                  target_items,
+                                                  quantities,
+                                                  dpane.in_vehicle(),
+                                                  relative_destination
+                                              ) ) );
         }
 
     }
@@ -1159,18 +1161,21 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
 
         if( by_charges ) {
             if( from_vehicle ) {
-                player_character.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
-                                                    sitem->items.front() );
+                player_character.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh,
+                        squares[srcarea].vstor ),
+                        sitem->items.front() );
             } else {
-                player_character.activity.targets.emplace_back( map_cursor( squares[srcarea].pos ), sitem->items.front() );
+                player_character.activity.targets.emplace_back( map_cursor( squares[srcarea].pos ),
+                        sitem->items.front() );
             }
             player_character.activity.values.push_back( amount_to_move );
         } else {
             for( std::vector<item *>::iterator it = sitem->items.begin(); amount_to_move > 0 &&
                  it != sitem->items.end(); ++it ) {
                 if( from_vehicle ) {
-                    player_character.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
-                                                        *it );
+                    player_character.activity.targets.emplace_back( vehicle_cursor( *squares[srcarea].veh,
+                            squares[srcarea].vstor ),
+                            *it );
                 } else {
                     player_character.activity.targets.emplace_back( map_cursor( squares[srcarea].pos ), *it );
                 }
@@ -1206,20 +1211,20 @@ void advanced_inventory::start_activity( const aim_location destarea, const aim_
 
         if( destarea == AIM_INVENTORY ) {
             player_character.assign_activity( player_activity( pickup_activity_actor(
-                    target_items,
-                    quantities,
-                    from_vehicle ? cata::nullopt : cata::optional<tripoint>( player_character.pos() )
-                                                   ) ) );
+                                                  target_items,
+                                                  quantities,
+                                                  from_vehicle ? cata::nullopt : cata::optional<tripoint>( player_character.pos() )
+                                              ) ) );
         } else {
             // Stash the destination
             const tripoint relative_destination = squares[destarea].off;
 
             player_character.assign_activity( player_activity( move_items_activity_actor(
-                    target_items,
-                    quantities,
-                    to_vehicle,
-                    relative_destination
-                                                   ) ) );
+                                                  target_items,
+                                                  quantities,
+                                                  to_vehicle,
+                                                  relative_destination
+                                              ) ) );
         }
     }
 }
@@ -1306,7 +1311,8 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     player_character.activity.str_values.push_back( "force_ground" );
                 }
 
-                player_character.activity.targets.push_back( item_location( player_character, sitem->items.front() ) );
+                player_character.activity.targets.push_back( item_location( player_character,
+                        sitem->items.front() ) );
                 player_character.activity.values.push_back( amount_to_move );
 
                 // exit so that the activity can be carried out
