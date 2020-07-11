@@ -41,9 +41,7 @@
       {
         "pocket_type": "MAGAZINE",
         "holster": true,
-        "ammo_restriction": { "crystallized_mana": 20 },
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg"
+        "ammo_restriction": { "crystallized_mana": 20 }
       }
     ],
     "charges_per_use": 1
