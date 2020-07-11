@@ -1374,16 +1374,13 @@ units::volume pocket_data::max_contains_volume() const
         return t.ammo && ammo_restriction.count( t.ammo->type );
     } );
     // Figure out which has the greatest volume and calculate on that basis
-    std::map<ammotype, units::volume> max_ammo_volume_by_type{};
-    for( const auto *ammo_type : ammo_types ) {
-        units::volume &max_ammo_volume = max_ammo_volume_by_type[ammo_type->ammo->type];
-        int stack_size = ammo_type->stack_size ? ammo_type->stack_size : 1;
-        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume / stack_size );
-    }
     units::volume max_total_volume = 0_ml;
-    for( const std::pair<const ammotype, units::volume> &p : max_ammo_volume_by_type ) {
-        max_total_volume = std::max( max_total_volume,
-                                     p.second * ammo_restriction.at( p.first ) );
+    for( const auto *ammo_type : ammo_types ) {
+        int stack_size = ammo_type->stack_size ? ammo_type->stack_size : 1;
+        int max_count = ammo_restriction.at( ammo_type->ammo->type );
+        units::volume this_volume =
+            1_ml * divide_round_up( ammo_type->volume / 1_ml * max_count, stack_size );
+        max_total_volume = std::max( max_total_volume, this_volume );
     }
     return max_total_volume;
 }
