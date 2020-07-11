@@ -132,7 +132,6 @@
       "STUMBLES",
       "BASHES",
       "DESTROYS",
-      "BLEED",
       "NO_BREATHE",
       "REVIVES",
       "FILTHY",
@@ -170,20 +169,7 @@
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth.",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_zyrannosaurus_UPGRADE" },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "POISON",
-      "STUMBLES",
-      "BASHES",
-      "DESTROYS",
-      "BLEED",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM"
-    ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather_leather",
     "categories": [ "DINOSAUR", "CLASSIC" ]
@@ -310,20 +296,7 @@
     "hp": 115,
     "description": "This zombie is enormous, scaly, studded with bony spikes, and it moves with horrible speed.  Its colorful horns are worn and wet with filth and its bright scales and bone spikes have taken a beating.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zeratosaurus_UPGRADE" },
-    "flags": [
-      "SEES",
-      "SMELLS",
-      "HEARS",
-      "BASHES",
-      "BLEED",
-      "POISON",
-      "STUMBLES",
-      "NO_BREATHE",
-      "REVIVES",
-      "FILTHY",
-      "WARM",
-      "SWIMS"
-    ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "BASHES", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM", "SWIMS" ]
   },
   {
     "type": "MONSTER",
@@ -344,7 +317,7 @@
     "hp": 200,
     "description": "The shambling corpse of a large predatory bipedal dinosaur, with tiger-like stripes on its broad, scaled back.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zallosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "BLEED", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
+    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ]
   },
   {
     "type": "MONSTER",
@@ -378,7 +351,7 @@
     ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Both feet brandish a large sickle-like claw.",
     "upgrades": { "half_life": 14, "into_group": "GROUP_zeinonychus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "BLEED", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "KEENNOSE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_day": 30,
     "vision_night": 10,
     "harvest": "zed_dino_feather_leather",

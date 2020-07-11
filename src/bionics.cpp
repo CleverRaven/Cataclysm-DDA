@@ -1683,29 +1683,25 @@ void Character::process_bionic( int b )
                 const int hp_cur = part.second.get_hp_cur();
                 if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
                     damaged_hp_parts.push_back( part.first.id() );
-                    // only healed and non-hp parts will have a chance of bleeding removal
-                    bleeding_bp_parts.remove( part.first.id() );
+                }
+            }
+            for( const bodypart_id &i : bleeding_bp_parts ) {
+                // effectively reduces by 1 intensity level
+                if( get_stored_kcal() >= 15 ) {
+                    get_effect( effect_bleed, i->token ).mod_duration( -get_effect( effect_bleed,
+                            i->token ).get_int_dur_factor() );
+                    mod_stored_kcal( -15 );
+                } else {
+                    bleeding_bp_parts.clear();
+                    break;
                 }
             }
             if( calendar::once_every( 60_turns ) ) {
-                bool try_to_heal_bleeding = true;
                 if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
                     const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
                     heal( part_to_heal, 1 );
                     mod_stored_kcal( -5 );
-                    int hp_percent = static_cast<float>( get_part_hp_cur( part_to_heal ) ) / get_part_hp_max(
-                                         part_to_heal ) * 100;
-                    if( has_effect( effect_bleed, part_to_heal->token ) && rng( 0, 100 ) < hp_percent ) {
-                        remove_effect( effect_bleed, part_to_heal->token );
-                        try_to_heal_bleeding = false;
-                    }
                 }
-
-                // if no bleed was removed, try to remove it on some other part
-                if( try_to_heal_bleeding && !bleeding_bp_parts.empty() && rng( 0, 1 ) == 1 ) {
-                    remove_effect( effect_bleed,  bleeding_bp_parts.front()->token );
-                }
-
             }
             if( !damaged_hp_parts.empty() || !bleeding_bp_parts.empty() ) {
                 mod_power_level( -40_J );

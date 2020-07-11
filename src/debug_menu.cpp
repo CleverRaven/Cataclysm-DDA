@@ -144,6 +144,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_HORDES: return "DISPLAY_HORDES";
         case debug_menu::debug_menu_index::TEST_IT_GROUP: return "TEST_IT_GROUP";
         case debug_menu::debug_menu_index::DAMAGE_SELF: return "DAMAGE_SELF";
+        case debug_menu::debug_menu_index::BLEED_SELF: return "BLEED_SELF";
         case debug_menu::debug_menu_index::SHOW_SOUND: return "SHOW_SOUND";
         case debug_menu::debug_menu_index::DISPLAY_WEATHER: return "DISPLAY_WEATHER";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS: return "DISPLAY_SCENTS";
@@ -212,6 +213,7 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
         { uilist_entry( debug_menu_index::DAMAGE_SELF, true, 'd', _( "Damage self" ) ) },
+        { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
         { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
@@ -1543,6 +1545,46 @@ void debug()
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 u.apply_damage( nullptr, part, dbg_damage );
                 u.die( nullptr );
+            }
+        }
+        break;
+
+        // Add bleeding
+        case debug_menu_index::BLEED_SELF: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'q', _( "Torso" ) );
+            smenu.addentry( 1, true, 'w', _( "Head" ) );
+            smenu.addentry( 2, true, 'a', _( "Left arm" ) );
+            smenu.addentry( 3, true, 's', _( "Right arm" ) );
+            smenu.addentry( 4, true, 'z', _( "Left leg" ) );
+            smenu.addentry( 5, true, 'x', _( "Right leg" ) );
+            smenu.query();
+            bodypart_id part;
+            int intensity = 0;
+            switch( smenu.ret ) {
+                case 0:
+                    part = bodypart_id( "torso" );
+                    break;
+                case 1:
+                    part = bodypart_id( "head" );
+                    break;
+                case 2:
+                    part = bodypart_id( "arm_l" );
+                    break;
+                case 3:
+                    part = bodypart_id( "arm_r" );
+                    break;
+                case 4:
+                    part = bodypart_id( "leg_l" );
+                    break;
+                case 5:
+                    part = bodypart_id( "leg_r" );
+                    break;
+                default:
+                    break;
+            }
+            if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
+                u.make_bleed( part, 1_minutes * intensity );
             }
         }
         break;

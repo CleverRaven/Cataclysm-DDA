@@ -860,7 +860,7 @@ class Character : public Creature, public visitable<Character>
         bodypart_id body_window( const std::string &menu_header,
                                  bool show_all, bool precise,
                                  int normal_bonus, int head_bonus, int torso_bonus,
-                                 float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
+                                 int bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
@@ -2309,6 +2309,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_artifacts();
         void suffer_from_stimulants( int current_stim );
         void suffer_without_sleep( int sleep_deprivation );
+        void suffer_from_tourniquet();
         /**
          * Check whether the other creature is in range and can be seen by this creature.
          * @param critter Creature to check for visibility

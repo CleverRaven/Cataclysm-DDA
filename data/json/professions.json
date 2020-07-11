@@ -901,6 +901,7 @@
           "wristwatch",
           "water_clean",
           "bandages",
+          "adhesive_bandages",
           "aspirin",
           "1st_aid",
           "stethoscope"
@@ -997,6 +998,7 @@
         "coat_lab",
         "water_clean",
         "bandages",
+        "adhesive_bandages",
         "aspirin",
         "grahmcrackers",
         "stethoscope"
