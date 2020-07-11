@@ -785,8 +785,7 @@ std::string monster::extended_description() const
     describe_flags( _( "<bad>In fight it can %s.</bad>" ), {
         {m_flag::MF_GRABS, pgettext( "Grab as an action", "grab" )},
         {m_flag::MF_VENOM, pgettext( "Poison as an action", "poison" )},
-        {m_flag::MF_PARALYZE, pgettext( "Paralyze as an action", "paralyze" )},
-        {m_flag::MF_BLEED, _( "cause bleed" )}
+        {m_flag::MF_PARALYZE, pgettext( "Paralyze as an action", "paralyze" )}
     } );
 
     if( !type->has_flag( m_flag::MF_NOHEAD ) ) {
@@ -1510,16 +1509,6 @@ void monster::melee_attack( Creature &target, float accuracy )
     if( stab_cut > 0 && has_flag( MF_PARALYZE ) ) {
         target.add_msg_if_player( m_bad, _( "You feel venom enter your body!" ) );
         target.add_effect( effect_paralyzepoison, 10_minutes );
-    }
-
-    if( total_dealt > 6 && stab_cut > 0 && has_flag( MF_BLEED ) ) {
-        // Maybe should only be if DT_CUT > 6... Balance question
-        if( target.is_player() || target.is_npc() ) {
-            target.as_character()->make_bleed( dealt_dam.bp_hit, 6_minutes );
-        } else {
-            target.add_effect( effect_bleed, 6_minutes, dealt_dam.bp_hit->token );
-        }
-
     }
 }
 
@@ -2439,6 +2428,12 @@ void monster::process_one_effect( effect &it, bool is_new )
         effect_cache[FLEEING] = true;
     } else if( id == effect_no_sight || id == effect_blind ) {
         effect_cache[VISION_IMPAIRED] = true;
+    } else if( id == effect_bleed && x_in_y( it.get_intensity(), it.get_max_intensity() ) ) {
+        // monsters are simplified so they just take damage from bleeding
+        apply_damage( nullptr, bodypart_id( "torso" ), 1 );
+        // this is for balance only
+        it.mod_duration( -rng( 1_turns, it.get_int_dur_factor() / 2 ) );
+        bleed();
     }
 }
 

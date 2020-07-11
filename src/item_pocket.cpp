@@ -46,17 +46,48 @@ std::string pocket_data::check_definition() const
         type == item_pocket::pocket_type::MIGRATION ) {
         return "";
     }
+    if( max_contains_volume() == 0_ml ) {
+        return "has zero max volume\n";
+    }
     if( magazine_well > 0_ml && rigid ) {
         return "rigid overrides magazine_well\n";
     }
     if( magazine_well >= max_contains_volume() ) {
-        return "magazine well larger than pocket volume.  consider using rigid instead.\n";
+        return string_format(
+                   "magazine well (%s) larger than pocket volume (%s); "
+                   "consider using rigid instead.\n",
+                   quantity_to_string( magazine_well ),
+                   quantity_to_string( max_contains_volume() ) );
     }
     if( max_item_volume && *max_item_volume < min_item_volume ) {
         return "max_item_volume is greater than min_item_volume.  no item can fit.\n";
     }
     if( ( watertight || airtight ) && min_item_volume > 0_ml ) {
         return "watertight or gastight is incompatible with min_item_volume\n";
+    }
+    for( const itype_id &it : item_id_restriction ) {
+        if( !it.is_valid() ) {
+            return string_format( "item_id %s used in restriction invalid\n", it.str() );
+        }
+        if( it->phase == phase_id::LIQUID && !watertight ) {
+            return string_format( "restricted to liquid item %s but not watertight\n",
+                                  it->get_id().str() );
+        }
+        if( it->phase == phase_id::GAS && !airtight ) {
+            return string_format( "restricted to gas item %s but not airtight\n",
+                                  it->get_id().str() );
+        }
+    }
+    for( const std::pair<const ammotype, int> &ammo_res : ammo_restriction ) {
+        const itype_id &it = ammo_res.first->default_ammotype();
+        if( it->phase == phase_id::LIQUID && !watertight ) {
+            return string_format( "restricted to liquid item %s but not watertight\n",
+                                  it->get_id().str() );
+        }
+        if( it->phase == phase_id::GAS && !airtight ) {
+            return string_format( "restricted to gas item %s but not airtight\n",
+                                  it->get_id().str() );
+        }
     }
     return "";
 }
@@ -1374,16 +1405,13 @@ units::volume pocket_data::max_contains_volume() const
         return t.ammo && ammo_restriction.count( t.ammo->type );
     } );
     // Figure out which has the greatest volume and calculate on that basis
-    std::map<ammotype, units::volume> max_ammo_volume_by_type{};
-    for( const auto *ammo_type : ammo_types ) {
-        units::volume &max_ammo_volume = max_ammo_volume_by_type[ammo_type->ammo->type];
-        int stack_size = ammo_type->stack_size ? ammo_type->stack_size : 1;
-        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume / stack_size );
-    }
     units::volume max_total_volume = 0_ml;
-    for( const std::pair<const ammotype, units::volume> &p : max_ammo_volume_by_type ) {
-        max_total_volume = std::max( max_total_volume,
-                                     p.second * ammo_restriction.at( p.first ) );
+    for( const auto *ammo_type : ammo_types ) {
+        int stack_size = ammo_type->stack_size ? ammo_type->stack_size : 1;
+        int max_count = ammo_restriction.at( ammo_type->ammo->type );
+        units::volume this_volume =
+            1_ml * divide_round_up( ammo_type->volume / 1_ml * max_count, stack_size );
+        max_total_volume = std::max( max_total_volume, this_volume );
     }
     return max_total_volume;
 }

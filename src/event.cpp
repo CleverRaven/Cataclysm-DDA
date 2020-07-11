@@ -43,6 +43,9 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::destroys_triffid_grove: return "destroys_triffid_grove";
         case event_type::dies_from_asthma_attack: return "dies_from_asthma_attack";
         case event_type::dies_from_drug_overdose: return "dies_from_drug_overdose";
+        case event_type::dies_from_bleeding: return "dies_from_bleeding";
+        case event_type::dies_from_hypovolemia: return "dies_from_hypovolemia";
+        case event_type::dies_from_redcells_loss: return "dies_from_redcells_loss";
         case event_type::dies_of_infection: return "dies_of_infection";
         case event_type::dies_of_starvation: return "dies_of_starvation";
         case event_type::dies_of_thirst: return "dies_of_thirst";
@@ -107,7 +110,7 @@ DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character_item )
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 75,
+static_assert( static_cast<int>( event_type::num_event_types ) == 78,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );

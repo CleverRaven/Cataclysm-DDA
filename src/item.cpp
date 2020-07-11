@@ -108,6 +108,7 @@ static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_bleed( "bleed" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
@@ -251,6 +252,7 @@ static const std::string flag_SKINTIGHT( "SKINTIGHT" );
 static const std::string flag_SLOW_WIELD( "SLOW_WIELD" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 static const std::string flag_STR_DRAW( "STR_DRAW" );
 static const std::string flag_TOBACCO( "TOBACCO" );
 static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
@@ -4153,6 +4155,14 @@ void item::on_wear( Character &p )
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
+        } else if( has_flag( flag_TOURNIQUET ) ) {
+            set_side( side::LEFT );
+            if( ( covers( bodypart_id( "leg_l" ) ) && p.has_effect( effect_bleed, bp_leg_r ) &&
+                  !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "leg_r" ) ) ) ||
+                ( covers( bodypart_id( "arm_l" ) ) && p.has_effect( effect_bleed, bp_arm_r ) &&
+                  !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "arm_r" ) ) ) ) {
+                set_side( side::RIGHT );
+            }
         } else {
             // for sided items wear the item on the side which results in least encumbrance
             int lhs = 0;
@@ -4831,7 +4841,7 @@ units::mass item::weight( bool, bool integral ) const
 
     // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
     if( gunmod_find( itype_barrel_small ) ) {
-        const units::volume b = type->gun->barrel_length;
+        const units::volume b = type->gun->barrel_volume;
         const units::mass max_barrel_weight = units::from_gram( to_milliliter( b ) );
         const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() /
                                           type->volume.value() );
@@ -4963,7 +4973,7 @@ units::volume item::volume( bool integral ) const
         if( has_flag( flag_COLLAPSIBLE_STOCK ) ) {
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume",
-                                  ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
+                                  ( type->volume - type->gun->barrel_volume ) / units::legacy_volume_factor );
             if( tmpvol <= 3 ) {
                 // intentional NOP
             } else if( tmpvol <= 5 ) {
@@ -4982,7 +4992,7 @@ units::volume item::volume( bool integral ) const
         }
 
         if( gunmod_find( itype_barrel_small ) ) {
-            ret -= type->gun->barrel_length;
+            ret -= type->gun->barrel_volume;
         }
     }
 
@@ -7106,10 +7116,6 @@ int item::ammo_remaining() const
     }
 
     if( is_tool() ) {
-        // dirty hack for UPS, hopefully temporary
-        if( typeId() == itype_UPS_off || typeId() == itype_adv_UPS_off ) {
-            return charges;
-        }
 
         if( ammo_types().empty() ||
             !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {

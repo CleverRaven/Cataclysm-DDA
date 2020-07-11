@@ -21,7 +21,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 10 },
     "dispersion": 220,
     "durability": 9,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "5 rd.", 5 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 3 ],

@@ -190,6 +190,7 @@ static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
@@ -360,6 +361,7 @@ static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 static const std::string flag_SKINTIGHT( "SKINTIGHT" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 static const std::string flag_STURDY( "STURDY" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
@@ -3067,6 +3069,30 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             return ret_val<bool>::make_failure( is_player() ?
                                                 _( "You don't have any broken limbs this could help." )
                                                 : _( "%s doesn't have any broken limbs this could help." ), name );
+        }
+    }
+
+    if( it.has_flag( flag_TOURNIQUET ) ) {
+        bool need_tourniquet = false;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( !it.covers( bp ) ) {
+                continue;
+            }
+            effect e = get_effect( effect_bleed, bp->token );
+            if( !e.is_null() && e.get_intensity() > e.get_max_intensity() / 4 &&
+                !worn_with_flag( flag_TOURNIQUET, bp ) ) {
+                need_tourniquet = true;
+                break;
+            }
+        }
+        if( !need_tourniquet ) {
+            std::string msg;
+            if( is_player() ) {
+                msg = _( "You don't need a tourniquet to stop the bleeding." );
+            } else {
+                msg = string_format( _( "%s doesn't need a tourniquet to stop the bleeding." ), name );
+            }
+            return ret_val<bool>::make_failure( msg );
         }
     }
 
@@ -6039,7 +6065,7 @@ float Character::get_hit_base() const
 bodypart_id Character::body_window( const std::string &menu_header,
                                     bool show_all, bool precise,
                                     int normal_bonus, int head_bonus, int torso_bonus,
-                                    float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
+                                    int bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
     /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
@@ -6082,7 +6108,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
         const int current_hp = get_part_hp_cur( bp );
         // This will c_light_gray if the part does not have any effects cured by the item/effect
         // (e.g. it cures only bites, but the part does not have a bite effect)
-        const nc_color state_col = limb_color( bp, bleed > 0.0f, bite > 0.0f, infect > 0.0f );
+        const nc_color state_col = limb_color( bp, bleed > 0, bite > 0.0f, infect > 0.0f );
         const bool has_curable_effect = state_col != c_light_gray;
         // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );
@@ -6162,11 +6188,13 @@ bodypart_id Character::body_window( const std::string &menu_header,
         if( bleeding ) {
             desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, bp_token ).get_speed_name(),
                                              get_effect( effect_bleed, bp_token ).disp_short_desc() ), c_red ) + "\n";
-            if( bleed > 0.0f ) {
-                desc += colorize( string_format( _( "Chance to stop: %d %%" ),
-                                                 static_cast<int>( bleed * 100 ) ), c_light_green ) + "\n";
+            if( bleed > 0 ) {
+                int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp_token ) );
+                percent = std::min( percent, 100 );
+                desc += colorize( string_format( _( "Expected reduction of bleeding by: %d %%" ), percent ),
+                                  c_light_green ) + "\n";
             } else {
-                desc += colorize( _( "This will not stop the bleeding." ),
+                desc += colorize( _( "This will not affect the bleeding." ),
                                   c_yellow ) + "\n";
             }
         }
@@ -6262,7 +6290,8 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
     const body_part bp_token = bp->token;
     int color_bit = 0;
     nc_color i_color = c_light_gray;
-    if( bleed && has_effect( effect_bleed, bp_token ) ) {
+    const int intense = get_effect_int( effect_bleed, bp_token );
+    if( bleed && intense > 0 ) {
         color_bit += 1;
     }
     if( bite && has_effect( effect_bite, bp_token ) ) {
@@ -6273,7 +6302,13 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
     }
     switch( color_bit ) {
         case 1:
-            i_color = c_red;
+            if( intense < 11 ) {
+                i_color = c_light_red;
+            } else if( intense < 21 ) {
+                i_color = c_red;
+            } else {
+                i_color = c_red_red;
+            }
             break;
         case 10:
             i_color = c_blue;
@@ -6282,10 +6317,18 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
             i_color = c_green;
             break;
         case 11:
-            i_color = c_magenta;
+            if( intense < 21 ) {
+                i_color = c_magenta;
+            } else {
+                i_color = c_magenta_red;
+            }
             break;
         case 101:
-            i_color = c_yellow;
+            if( intense < 21 ) {
+                i_color = c_yellow;
+            } else {
+                i_color = c_yellow_red;
+            }
             break;
     }
 
@@ -8993,8 +9036,8 @@ void Character::blossoms()
 
 void Character::update_vitamins( const vitamin_id &vit )
 {
-    if( is_npc() ) {
-        return; // NPCs cannot develop vitamin diseases
+    if( is_npc() && vit->type() != vitamin_type::COUNTER ) {
+        return; // NPCs cannot develop vitamin diseases, bypass for special
     }
 
     efftype_id def = vit.obj().deficiency();

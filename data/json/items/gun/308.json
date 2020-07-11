@@ -22,7 +22,7 @@
     "durability": 8,
     "min_cycle_recoil": 2700,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -155,7 +155,7 @@
     "dispersion": 110,
     "durability": 8,
     "min_cycle_recoil": 2700,
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -305,7 +305,7 @@
     "durability": 9,
     "blackpowder_tolerance": 24,
     "clip_size": 3,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "flags": [ "RELOAD_ONE", "NEVER_JAMS" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "308": 3 } } ]
   },
@@ -353,7 +353,7 @@
     "dispersion": 85,
     "durability": 9,
     "min_cycle_recoil": 2700,
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "default_mods": [ "rifle_scope", "bipod" ],
     "clip_size": 5,
     "valid_mod_locations": [
