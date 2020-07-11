@@ -1,7 +1,7 @@
-#if defined(TILES)
-
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
+
+#if defined(TILES)
 
 #include <algorithm>
 #include <array>
