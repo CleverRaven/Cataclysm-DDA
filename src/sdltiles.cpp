@@ -4127,7 +4127,7 @@ bool window_contains_point_relative( const catacurses::window &win, const point 
 #if defined(CURSES)
     const int x = catacurses::getmaxx( win );
     const int y = catacurses::getmaxy( win );
-    const half_open_rectangle win_bounds( point( 0, 0 ), point( x, y );
+    const half_open_rectangle win_bounds( point( 0, 0 ), point( x, y ) );
 #endif
-                                          return win_bounds.contains( p );
+    return win_bounds.contains( p );
 }
