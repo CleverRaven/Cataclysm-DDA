@@ -281,7 +281,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "test_battery_disposable", "test_battery_rechargeable" ]
+        "item_restriction": [ "test_battery_disposable", "test_battery_rechargable" ]
       }
     ]
   },
