@@ -3728,6 +3728,60 @@ void rescale_tileset( int size )
     g->mark_main_ui_adaptor_resize();
 }
 
+static window_dimensions get_window_dimensions( const catacurses::window &win,
+        const point &pos, const point &size )
+{
+    window_dimensions dim;
+    if( use_tiles && g && win == g->w_terrain ) {
+        // tiles might have different dimensions than standard font
+        dim.scaled_font_size.x = tilecontext->get_tile_width();
+        dim.scaled_font_size.y = tilecontext->get_tile_height();
+    } else if( map_font && g && win == g->w_terrain ) {
+        // map font (if any) might differ from standard font
+        dim.scaled_font_size.x = map_font->fontwidth;
+        dim.scaled_font_size.y = map_font->fontheight;
+    } else if( overmap_font && g && win == g->w_overmap ) {
+        dim.scaled_font_size.x = overmap_font->fontwidth;
+        dim.scaled_font_size.y = overmap_font->fontheight;
+    } else {
+        dim.scaled_font_size.x = fontwidth;
+        dim.scaled_font_size.y = fontheight;
+    }
+
+    // multiplied by the user's specified scaling factor regardless of whether tiles are in use
+    dim.scaled_font_size *= get_scaling_factor();
+
+    if( win ) {
+        cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
+        dim.window_pos_cell = pwin->pos;
+        dim.window_size_cell.x = pwin->width;
+        dim.window_size_cell.y = pwin->height;
+    } else {
+        dim.window_pos_cell = pos;
+        dim.window_size_cell = size;
+    }
+
+    // the window position is *always* in standard font dimensions!
+    dim.window_pos_pixel = point( dim.window_pos_cell.x * fontwidth,
+                                  dim.window_pos_cell.y * fontheight );
+    // But the size of the window is in the font dimensions of the window.
+    dim.window_size_pixel.x = dim.window_size_cell.x * dim.scaled_font_size.x;
+    dim.window_size_pixel.y = dim.window_size_cell.y * dim.scaled_font_size.y;
+
+    return dim;
+}
+
+window_dimensions get_window_dimensions( const catacurses::window &win )
+{
+    return get_window_dimensions( win, point_zero, point_zero );
+}
+
+window_dimensions get_window_dimensions( const point &pos, const point &size )
+{
+    return get_window_dimensions( {}, pos, size );
+}
+
+
 cata::optional<tripoint> input_context::get_coordinates( const catacurses::window &capture_win_ )
 {
     if( !coordinate_input_received ) {
@@ -4063,63 +4117,17 @@ HWND getWindowHandle()
 
 #endif // TILES
 
-static window_dimensions get_window_dimensions( const catacurses::window &win,
-        const point &pos, const point &size )
-{
-    window_dimensions dim;
-    if( use_tiles && g && win == g->w_terrain ) {
-        // tiles might have different dimensions than standard font
-        dim.scaled_font_size.x = tilecontext->get_tile_width();
-        dim.scaled_font_size.y = tilecontext->get_tile_height();
-    } else if( map_font && g && win == g->w_terrain ) {
-        // map font (if any) might differ from standard font
-        dim.scaled_font_size.x = map_font->fontwidth;
-        dim.scaled_font_size.y = map_font->fontheight;
-    } else if( overmap_font && g && win == g->w_overmap ) {
-        dim.scaled_font_size.x = overmap_font->fontwidth;
-        dim.scaled_font_size.y = overmap_font->fontheight;
-    } else {
-        dim.scaled_font_size.x = fontwidth;
-        dim.scaled_font_size.y = fontheight;
-    }
-#if defined (TILES)
-    // multiplied by the user's specified scaling factor regardless of whether tiles are in use
-    dim.scaled_font_size *= get_scaling_factor();
-#endif
-    if( win ) {
-        cata_cursesport::WINDOW *const pwin = win.get<cata_cursesport::WINDOW>();
-        dim.window_pos_cell = pwin->pos;
-        dim.window_size_cell.x = pwin->width;
-        dim.window_size_cell.y = pwin->height;
-    } else {
-        dim.window_pos_cell = pos;
-        dim.window_size_cell = size;
-    }
-
-    // the window position is *always* in standard font dimensions!
-    dim.window_pos_pixel = point( dim.window_pos_cell.x * fontwidth,
-                                  dim.window_pos_cell.y * fontheight );
-    // But the size of the window is in the font dimensions of the window.
-    dim.window_size_pixel.x = dim.window_size_cell.x * dim.scaled_font_size.x;
-    dim.window_size_pixel.y = dim.window_size_cell.y * dim.scaled_font_size.y;
-
-    return dim;
-}
-
-window_dimensions get_window_dimensions( const catacurses::window &win )
-{
-    return get_window_dimensions( win, point_zero, point_zero );
-}
-
-window_dimensions get_window_dimensions( const point &pos, const point &size )
-{
-    return get_window_dimensions( {}, pos, size );
-}
-
 bool window_contains_point_relative( const catacurses::window &win, const point &p )
 {
+#if defined(TILES)
     const window_dimensions dim = get_window_dimensions( win );
     const point &win_size = dim.window_size_cell;
     const half_open_rectangle win_bounds( point( 0, 0 ), win_size );
-    return win_bounds.contains( p );
+#endif
+#if defined(CURSES)
+    const int x = catacurses::getmaxx( win );
+    const int y = catacurses::getmaxy( win );
+    const half_open_rectangle win_bounds( point( 0, 0 ), point( x, y );
+#endif
+                                          return win_bounds.contains( p );
 }
