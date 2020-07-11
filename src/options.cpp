@@ -1999,6 +1999,11 @@ void options_manager::add_options_debug()
          translate_marker( "If false, achievements and some Magiclysm functionality won't work, but performance will be better." ),
          true
        );
+
+    add( "ELECTRIC_GRID", "debug", translate_marker( "Electric grid testing" ),
+         translate_marker( "If true, enables completely unfinished electric grid system that only slows downs the game." ),
+         false
+       );
 }
 
 void options_manager::add_options_world_default()

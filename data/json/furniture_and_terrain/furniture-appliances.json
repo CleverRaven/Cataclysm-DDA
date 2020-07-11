@@ -573,12 +573,13 @@
     "type": "furniture",
     "id": "f_solar_unit",
     "name": "mounted solar panel",
-    "description": "A mounted solar panel.",
+    "description": "A mounted solar panel with an integrated medium storage battery.",
     "symbol": "#",
     "color": "yellow",
     "move_cost_mod": 2,
     "required_str": -1,
-    "flags": [ "TRANSPARENT", "BASHABLE" ],
+    "active": [ "solar", { "power": 50, "max_energy": 7000 } ],
+    "flags": [ "TRANSPARENT", "BASHABLE", "ELECTRIC_GRID" ],
     "deconstruct": {
       "items": [
         { "item": "scrap", "count": [ 4, 6 ] },
@@ -586,7 +587,8 @@
         { "item": "steel_chunk", "count": 3 },
         { "item": "pipe", "count": 4 },
         { "item": "2x4", "count": 4 },
-        { "item": "solar_panel", "count": 1 }
+        { "item": "solar_panel", "count": 1 },
+        { "item": "medium_storage_battery", "count": 1 }
       ]
     },
     "bash": {
@@ -596,13 +598,14 @@
       "sound_fail": "clang!",
       "items": [
         { "item": "solar_cell", "count": [ 1, 5 ] },
-        { "item": "scrap", "count": [ 3, 6 ] },
+        { "item": "scrap", "count": [ 5, 10 ] },
         { "item": "amplifier", "prob": 50 },
-        { "item": "cable", "charges": [ 10, 15 ] },
+        { "item": "cable", "charges": [ 11, 18 ] },
         { "item": "power_supply", "prob": 50 },
         { "item": "scrap", "count": [ 4, 6 ] },
         { "item": "plastic_chunk", "count": [ 1, 2 ] },
-        { "item": "steel_chunk", "count": 3 }
+        { "item": "steel_chunk", "count": 3 },
+        { "item": "small_storage_battery", "count": [ 5, 10 ] }
       ]
     }
   }

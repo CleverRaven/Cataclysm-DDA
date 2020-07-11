@@ -3701,6 +3701,14 @@ void submap::store( JsonOut &jsout ) const
     if( camp ) {
         jsout.member( "camp", *camp );
     }
+
+    jsout.member( "active_furniture" );
+    jsout.start_array();
+    for( auto &pr : active_furniture ) {
+        jsout.write( pr.first );
+        pr.second.serialize( jsout );
+    }
+    jsout.end_array();
 }
 
 void submap::load( JsonIn &jsin, const std::string &member_name, int version )
@@ -3970,6 +3978,13 @@ void submap::load( JsonIn &jsin, const std::string &member_name, int version )
     } else if( member_name == "camp" ) {
         camp = std::make_unique<basecamp>();
         jsin.read( *camp );
+    } else if( member_name == "active_furniture" ) {
+        jsin.start_array();
+        while( !jsin.end_array() ) {
+            point p;
+            jsin.read( p );
+            active_furniture[p].deserialize( jsin );
+        }
     } else {
         jsin.skip_value();
     }

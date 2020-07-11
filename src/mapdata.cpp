@@ -1305,6 +1305,11 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
     if( jo.has_float( "surgery_skill_multiplier" ) ) {
         surgery_skill_multiplier = cata::make_value<float>( jo.get_float( "surgery_skill_multiplier" ) );
     }
+
+    if( jo.has_member( "active" ) ) {
+        JsonIn &jsin = *jo.get_raw( "active" );
+        active.deserialize( jsin );
+    }
 }
 
 void map_data_common_t::check() const

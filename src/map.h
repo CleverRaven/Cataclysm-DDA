@@ -1315,6 +1315,8 @@ class map
          */
         void process_falling();
 
+        void process_ter_furn();
+
         bool is_cornerfloor( const tripoint &p ) const;
 
         // mapgen.cpp functions

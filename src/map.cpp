@@ -1334,6 +1334,13 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
     tripoint above( p.xy(), p.z + 1 );
     // Make sure that if we supported something and no longer do so, it falls down
     support_dirty( above );
+
+    if( old_t.active ) {
+        current_submap->active_furniture.erase( l );
+    }
+    if( new_t.active ) {
+        current_submap->active_furniture[l].reset( new_t.active->clone() );
+    }
 }
 
 bool map::can_move_furniture( const tripoint &pos, player *p )
@@ -2157,6 +2164,29 @@ void map::process_falling()
         support_cache_dirty.clear();
         for( const tripoint &p : last_cache ) {
             drop_everything( p );
+        }
+    }
+}
+
+void map::process_ter_furn()
+{
+    if( !get_option<bool>( "ELECTRIC_GRID" ) ) {
+        return;
+    }
+
+    // TODO: Un-slow
+    int smz_min = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    int smz_max = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    for( int smz = smz_min; smz <= smz_max; smz++ ) {
+        for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+            for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+                const tripoint gridp( smx, smy, smz );
+                const submap *sm = get_submap_at_grid( gridp );
+                for( auto &pr : sm->active_furniture ) {
+                    const tripoint local = sm_to_ms_copy( gridp ) + pr.first;
+                    pr.second->update( calendar::turn - 1_seconds, calendar::turn, *this, local );
+                }
+            }
         }
     }
 }
@@ -7101,6 +7131,11 @@ void map::actualize( const tripoint &grid )
 
             decay_cosmetic_fields( pnt, time_since_last_actualize );
         }
+    }
+
+    for( const auto &pr : tmpsub->active_furniture ) {
+        const tripoint pnt = sm_to_ms_copy( grid ) + pr.first;
+        pr.second->update( tmpsub->last_touched, calendar::turn, *this, pnt );
     }
 
     // the last time we touched the submap, is right now.

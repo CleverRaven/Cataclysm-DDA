@@ -9,8 +9,10 @@
 #include <string>
 #include <vector>
 
+#include "active_tile_data.h"
 #include "calendar.h"
 #include "color.h"
+#include "poly_serialized.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
@@ -373,6 +375,8 @@ struct furn_t : map_data_common_t {
     cata::value_ptr<plant_data> plant;
 
     cata::value_ptr<float> surgery_skill_multiplier;
+
+    cata::poly_serialized<active_tile_data> active;
 
     // May return NULL
     const itype *crafting_pseudo_item_type() const;
