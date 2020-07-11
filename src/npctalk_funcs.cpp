@@ -518,8 +518,10 @@ void talk_function::bionic_remove( npc &p )
     }
 
     //Makes the doctor awesome at installing but not perfect
-    if( player_character.can_uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false ) ) {
-        player_character.amount_of( bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
+    if( player_character.can_uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p,
+            false ) ) {
+        player_character.amount_of(
+            bionic_types[bionic_index] ); // ??? this does nothing, it just queries the count
         player_character.uninstall_bionic( bionic_id( bionic_types[bionic_index].str() ), p, false );
     }
 
@@ -922,7 +924,8 @@ void talk_function::start_training( npc &p )
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
         name = skill.str();
-    } else if( p.chatbin.style.is_valid() && !player_character.martial_arts_data.has_martialart( style ) ) {
+    } else if( p.chatbin.style.is_valid() &&
+               !player_character.martial_arts_data.has_martialart( style ) ) {
         cost = calc_ma_style_training_cost( p, style );
         time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
@@ -932,7 +935,8 @@ void talk_function::start_training( npc &p )
         const bool knows = player_character.magic.knows_spell( sp_id );
         cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(), temp_spell.get_level() );
         name = temp_spell.id().str();
-        expert_multiplier = knows ? temp_spell.get_level() - player_character.magic.get_spell( sp_id ).get_level() : 1;
+        expert_multiplier = knows ? temp_spell.get_level() - player_character.magic.get_spell(
+                                sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesn't know this spell, then the NPC will teach all of it
@@ -942,7 +946,8 @@ void talk_function::start_training( npc &p )
         if( knows ) {
             time = 1_hours;
         } else {
-            time = time_duration::from_seconds( clamp( player_character.magic.time_to_learn_spell( player_character, sp_id ) / 50, 7200,
+            time = time_duration::from_seconds( clamp( player_character.magic.time_to_learn_spell(
+                                                    player_character, sp_id ) / 50, 7200,
                                                 21600 ) );
         }
     } else {
