@@ -218,7 +218,7 @@
     "price_postapoc": 1000,
     "bashing": 4,
     "skill": "stabbing",
-"ammo": [ "shot" ],
+    "ammo": [ "shot" ],
     "material": [ "steel", "wood" ],
     "ranged_damage": { "damage_type": "bullet", "amount": -8 },
     "dispersion": 660,
