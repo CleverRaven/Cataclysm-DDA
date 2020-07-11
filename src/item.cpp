@@ -7106,10 +7106,6 @@ int item::ammo_remaining() const
     }
 
     if( is_tool() ) {
-        // dirty hack for UPS, hopefully temporary
-        if( typeId() == itype_UPS_off || typeId() == itype_adv_UPS_off ) {
-            return charges;
-        }
 
         if( ammo_types().empty() ||
             !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
