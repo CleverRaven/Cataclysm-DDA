@@ -2832,7 +2832,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     break;
                 }
                 case char_creation::BLOOD: {
-                    popup.title( _( "Enter blood type (omit Rh):" ) )
+                    popup.title( _( "Enter blood type (O, A, B or AB):" ) )
                     .text( io::enum_to_string( you.my_blood_type ) )
                     .only_digits( false );
                     std::string answer = popup.query_string();
@@ -2845,11 +2845,11 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     } else if( answer == "AB" || answer == "ab" ) {
                         you.my_blood_type = blood_type::blood_AB;
                     } else {
-                        popup_getkey( "%s", _( "Invalid blood type." ) );
+                        popup_getkey( "%s", _( "Invalid blood type. Possible values: O, A, B, AB" ) );
                         break;
                     }
                     string_input_popup popup2;
-                    popup2.title( _( "Enter Rh factor:" ) )
+                    popup2.title( _( "Enter Rh factor (+ or -):" ) )
                     .text( you.blood_rh_factor ? "+" : "-" )
                     .only_digits( false );
                     answer = popup2.query_string();
@@ -2858,7 +2858,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     } else if( answer == "-" || answer == "minus" || answer == "negative" ) {
                         you.blood_rh_factor = false;
                     } else {
-                        popup_getkey( "%s", _( "Invalid blood type." ) );
+                        popup_getkey( "%s", _( "Invalid Rh factor. Possible values: +, -" ) );
                         break;
                     }
                     break;
