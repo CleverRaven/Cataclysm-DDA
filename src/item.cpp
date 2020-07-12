@@ -2657,9 +2657,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                     };
                 };
                 struct body_part_display_info {
-                    translation translation;
+                    translation to_display;
                     armor_portion_type portion;
-                    bool to_display;
+                    bool active;
                 };
 
                 std::map<bodypart_str_id, body_part_display_info> to_display_data;
@@ -2685,9 +2685,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         bodypart_str_id opposite = bp->opposite_part;
                         if( opposite != bp && covers( bp ) && covers( opposite )
                             && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
-                            && to_display_data.at( opposite ).to_display ) {
-                            to_display_data.at( opposite ).translation = bp->name_as_heading_multiple;
-                            to_display_data.at( bp ).to_display = false;
+                            && to_display_data.at( opposite ).active ) {
+                            to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
+                            to_display_data.at( bp ).active = false;
                         }
                     }
                 }
@@ -2698,9 +2698,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                             continue;
                         }
                     }
-                    if( piece.second.to_display ) {
+                    if( piece.second.active ) {
                         info.push_back( iteminfo( "ARMOR",
-                                                  string_format( _( "%s:" ), piece.second.translation.translated() ) + space, "",
+                                                  string_format( _( "%s:" ), piece.second.to_display.translated() ) + space, "",
                                                   iteminfo::no_newline | iteminfo::lower_is_better,
                                                   piece.second.portion.encumber ) );
 

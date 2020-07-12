@@ -1292,10 +1292,10 @@
     "warmth": 70
   },
   {
-    "id": "test_new_copy_faux_fur_suit",
+    "id": "test_portion_faux_fur_pants_suit",
     "type": "ARMOR",
     "copy-from": "test_pants_fur",
-    "name": { "str_sp": "faux fur suit test thing" },
+    "name": { "str_sp": "faux fur pants suit test thing" },
     "description": "A TEST OBJECT SHOULD NOT BE IN GAME",
     "material": [ "faux_fur", "cotton" ],
     "armor_portion_data": [
