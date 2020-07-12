@@ -634,7 +634,7 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
                            float insulation, const temperature_flag flag )
 {
     bool processed = false;
-	float spoil_multiplier = 1;
+    float spoil_multiplier = 1;
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( _sealed ) {
             spoil_multiplier = 0;
