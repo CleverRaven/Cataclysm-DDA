@@ -2321,11 +2321,11 @@ std::vector<item_location> Character::nearby( const
 item_pocket *Character::best_pocket( const item &it, const item *avoid )
 {
     item_pocket *ret = nullptr;
-    if( &weapon != avoid ) {
+    if( &weapon != &it && &weapon != avoid ) {
         ret = weapon.best_pocket( it );
     }
     for( item &worn_it : worn ) {
-        if( &worn_it == avoid ) {
+        if( &worn_it == &it || &worn_it == avoid ) {
             continue;
         }
         item_pocket *internal_pocket = worn_it.best_pocket( it );
