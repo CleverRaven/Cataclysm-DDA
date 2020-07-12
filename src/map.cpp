@@ -2714,6 +2714,16 @@ bool map::has_nearby_chair( const tripoint &p, int radius )
     return false;
 }
 
+bool map::has_nearby_ter( const tripoint &p, const ter_id &type, int radius )
+{
+    for( const tripoint &pt : points_in_radius( p, radius ) ) {
+        if( ter( pt ) == type ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool map::mop_spills( const tripoint &p )
 {
     bool retval = false;
