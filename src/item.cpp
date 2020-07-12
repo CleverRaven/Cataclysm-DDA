@@ -2626,7 +2626,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
         } else if( has_flag( flag_VARSIZE ) && sizing_matters ) {
             format = _( " <bad>(poor fit)</bad>" );
         }
-
         if( sizing_matters ) {
             const sizing sizing_level = get_sizing( player_character );
             //If we have the wrong size, we do not fit so alert the player
