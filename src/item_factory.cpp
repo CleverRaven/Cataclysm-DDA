@@ -1089,17 +1089,17 @@ void Item_factory::check_definitions() const
             msg += "undefined category " + type->category_force.str() + "\n";
         }
 
-        cata::flat_set<bodypart_str_id> test_bps;
-
         if( type->armor ) {
+            cata::flat_set<bodypart_str_id> observed_bps;
             for( const armor_portion_data &portion : type->armor->data ) {
                 if( portion.covers.has_value() ) {
                     for( const body_part &bp : all_body_parts ) {
-                        if( portion.covers->test( convert_bp( bp ) ) &&
-                            test_bps.count( convert_bp( bp ) ) ) {
-                            msg += "multiple portions with same body_part defined\n";
+                        if( portion.covers->test( convert_bp( bp ) ) ) {
+                            if( observed_bps.count( convert_bp( bp ) ) ) {
+                                msg += "multiple portions with same body_part defined\n";
+                            }
+                            observed_bps.insert( convert_bp( bp ) );
                         }
-                        test_bps.insert( convert_bp( bp ) );
                     }
                 }
             }

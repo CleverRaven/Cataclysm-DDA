@@ -2646,10 +2646,6 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
         if( const islot_armor *t = find_armor_data() ) {
             if( !t->data.empty() ) {
-                struct translation_pair {
-                    translation to_display;
-                    translation multiple_name;
-                };
                 struct armor_portion_type {
                     int encumber;
                     int max_encumber;
@@ -2661,70 +2657,62 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                                && coverage == other.coverage;
                     };
                 };
-                struct bodypart_info_pair {
+                struct body_part_display_info {
+                    translation translation;
                     armor_portion_type portion;
-                    translation_pair translations;
+                    bool to_display;
                 };
 
-                std::map<bodypart_str_id, bodypart_info_pair> piece_data;
+                std::map<bodypart_str_id, body_part_display_info> to_display_data;
 
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
                         for( const bodypart_str_id &covering_id : piece.covers.value() ) {
                             if( covering_id != bodypart_str_id( "num_bp" ) ) {
-                                piece_data.insert( {
-                                    covering_id, { {
-                                            get_encumber( player_character, covering_id ),
-                                            get_encumber( player_character, covering_id, encumber_flags::assume_full ),
-                                            piece.coverage
-                                        }, {
-                                            covering_id.obj().name_as_heading,
-                                            covering_id.obj().name_as_heading_multiple
-                                        }
-                                    }
-                                } );
+                                to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
+                                        get_encumber( player_character, covering_id ),
+                                        get_encumber( player_character, covering_id, encumber_flags::assume_full ),
+                                        piece.coverage
+                                    }, true
+                                };
                             }
                         }
                     }
                 }
                 // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
                 if( !t->sided ) {
-                    // Cannot remove from a container we are iterating through so store what to remove then remove it afterwards
-                    std::vector<bodypart_str_id> to_remove;
                     for( const body_part &legacy_part : all_body_parts ) {
                         bodypart_str_id bp( convert_bp( legacy_part ) );
                         bodypart_str_id opposite = bp->opposite_part;
                         if( opposite != bp && covers( bp ) && covers( opposite )
-                            && piece_data.at( bp ).portion == piece_data.at( opposite ).portion ) {
-                            const bodypart_str_id mult_name = bodypart_str_id( bp->name_as_heading_multiple.translated() );
-                            piece_data[mult_name] = piece_data.at( bp );
-                            piece_data[mult_name].translations.to_display = piece_data[bp].translations.multiple_name;
-                            to_remove.push_back( bp );
+                            && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
+                            && to_display_data.at( opposite ).to_display ) {
+                            to_display_data.at( opposite ).translation = bp->name_as_heading_multiple;
+                            to_display_data.at( bp ).to_display = false;
                         }
                     }
-                    for( const bodypart_str_id &remove : to_remove ) {
-                        piece_data.erase( remove );
-                    }
                 }
-                for( auto &piece : piece_data ) {
+                for( auto &piece : to_display_data ) {
                     if( t->sided ) {
                         const bodypart_str_id &covering_id = piece.first;
                         if( !covers( covering_id.id() ) ) {
                             continue;
                         }
                     }
-                    info.push_back( iteminfo( "ARMOR",
-                                              string_format( _( "%s:" ), piece.second.translations.to_display.translated() ) + space, "",
-                                              iteminfo::no_newline | iteminfo::lower_is_better,
-                                              piece.second.portion.encumber ) ) ;
+                    if( piece.second.to_display ) {
+                        info.push_back( iteminfo( "ARMOR",
+                                                  string_format( _( "%s:" ), piece.second.translation.translated() ) + space, "",
+                                                  iteminfo::no_newline | iteminfo::lower_is_better,
+                                                  piece.second.portion.encumber ) );
 
-                    info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
-                                              iteminfo::no_newline | iteminfo::lower_is_better,
-                                              piece.second.portion.max_encumber ) ) ;
+                        info.push_back( iteminfo( "ARMOR", space + _( "When Full:" ) + space, "",
+                                                  iteminfo::no_newline | iteminfo::lower_is_better,
+                                                  piece.second.portion.max_encumber ) );
 
-                    info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
-                                              iteminfo::lower_is_better,
-                                              piece.second.portion.coverage ) );
+                        info.push_back( iteminfo( "ARMOR", space + _( "Coverage:" ) + space, "",
+                                                  iteminfo::lower_is_better,
+                                                  piece.second.portion.coverage ) );
+                    }
                 }
             }
         }
