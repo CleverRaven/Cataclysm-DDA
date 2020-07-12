@@ -127,6 +127,15 @@ void advanced_inventory::load_settings()
     aim_exit aim_code = static_cast<aim_exit>( save_state->exit_code );
     panes[left].load_settings( save_state->saved_area, squares, aim_code == aim_exit::re_entry );
     panes[right].load_settings( save_state->saved_area_right, squares, aim_code == aim_exit::re_entry );
+    // In-vehicle flags are set dynamically inside advanced_inventory_pane::load_settings,
+    // which means the flags may end up the same even if the areas are also the same. To
+    // avoid this, we use the saved in-vehicle flags instead.
+    if( panes[left].get_area() == panes[right].get_area() ) {
+        panes[left].set_area( squares[panes[left].get_area()], save_state->pane.in_vehicle );
+        // Use the negated in-vehicle flag of the left pane to ensure different
+        // in-vehicle flags.
+        panes[right].set_area( squares[panes[right].get_area()], !save_state->pane.in_vehicle );
+    }
     save_state->exit_code = aim_exit::none;
 }
 
