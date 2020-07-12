@@ -3186,22 +3186,34 @@ bool player::unload( item &it )
     } );
 
     if( target->is_magazine() ) {
-        player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
-        assign_activity( unload_mag_act );
-        activity.targets.emplace_back( item_location( *this, target ) );
-
         // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
-        for( const item *content : target->contents.all_items_top() ) {
-            mv += this->item_reload_cost( it, *content, content->charges ) / 2;
+        int qty = 0;
+        std::vector<item *> remove_contained;
+        for( item *contained : it.contents.all_items_top() ) {
+            mv += this->item_reload_cost( it, *contained, contained->charges ) / 2;
+            if( add_or_drop_with_msg( *contained, true ) ) {
+                qty += contained->charges;
+                remove_contained.push_back( contained );
+            }
         }
-        activity.moves_left += mv;
+        // remove the ammo leads in the belt
+        for( item *remove : remove_contained ) {
+            it.remove_item( *remove );
+        }
 
-        // I think this means if unload is not done on ammo-belt, it takes as long as it takes to reload a mag.
-        if( !it.is_ammo_belt() ) {
-            activity.moves_left += mv;
+        // remove the belt linkage
+        if( it.is_ammo_belt() ) {
+            if( it.type->magazine->linkage ) {
+                item link( *it.type->magazine->linkage, calendar::turn, qty );
+                add_or_drop_with_msg( link, true );
+            }
+            add_msg( _( "You disassemble your %s." ), it.tname() );
+        } else {
+            add_msg( _( "You unload your %s." ), it.tname() );
         }
-        activity.auto_resume = true;
+
+        mod_moves( -std::min( 200, mv ) );
 
         return true;
 

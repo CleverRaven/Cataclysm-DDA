@@ -655,13 +655,6 @@
     "suspendable": false
   },
   {
-    "id": "ACT_UNLOAD_MAG",
-    "type": "activity_type",
-    "verb": "unloading",
-    "suspendable": false,
-    "based_on": "speed"
-  },
-  {
     "id": "ACT_ROBOT_CONTROL",
     "type": "activity_type",
     "verb": "programming override",
