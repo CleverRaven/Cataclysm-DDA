@@ -2696,9 +2696,9 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         bodypart_str_id opposite = bp->opposite_part;
                         if( opposite != bp && covers( bp ) && covers( opposite )
                             && piece_data.at( bp ).portion == piece_data.at( opposite ).portion ) {
-                            const bodypart_str_id translated = bodypart_str_id( bp->name_as_heading_multiple.translated() );
-                            piece_data[translated] = piece_data.at( bp );
-                            piece_data[translated].translations.to_display = piece_data[bp].translations.multiple_name;
+                            const bodypart_str_id mult_name = bodypart_str_id( bp->name_as_heading_multiple.translated() );
+                            piece_data[mult_name] = piece_data.at( bp );
+                            piece_data[mult_name].translations.to_display = piece_data[bp].translations.multiple_name;
                             to_remove.push_back( bp );
                         }
                     }
