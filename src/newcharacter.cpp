@@ -2512,13 +2512,14 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         }
         wrefresh( w_guide );
 
-        //We draw this stuff every loop because this is user-editable
+        wclear( w_name );
         mvwprintz( w_name, point_zero,
                    current_selector == char_creation::NAME ? h_light_gray : c_light_gray, _( "Name:" ) );
         if( no_name_entered ) {
-            mvwprintz( w_name, point( namebar_pos, 0 ), h_light_gray, _( "_______NO NAME ENTERED!_______" ) );
+            mvwprintz( w_name, point( namebar_pos, 0 ), h_light_gray, _( "--- NO NAME ENTERED ---" ) );
+        } else if( you.name.empty() ) {
+            mvwprintz( w_name, point( namebar_pos, 0 ), c_light_gray, _( "--- RANDOM NAME ---" ) );
         } else {
-            mvwprintz( w_name, point( namebar_pos, 0 ), c_light_gray, "_______________________________" );
             mvwprintz( w_name, point( namebar_pos, 0 ), c_white, you.name );
         }
 
