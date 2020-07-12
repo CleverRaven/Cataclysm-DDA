@@ -1141,6 +1141,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         const auto ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             consume_menu_selections = std::vector<int>();
+            consume_menu_filter = std::string();
             return;
         } else {
             force = true;
@@ -1150,6 +1151,7 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
         const auto ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             consume_menu_selections = std::vector<int>();
+            consume_menu_filter = std::string();
             return;
         } else {
             force = true;
@@ -1184,16 +1186,19 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     }
     //setting act to null clears these so back them up
     std::vector<int> temp_selections = consume_menu_selections;
+    const std::string temp_filter = consume_menu_filter;
     if( act.id() == activity_id( "ACT_CONSUME" ) ) {
         act.set_to_null();
     }
-    if( !temp_selections.empty() ) {
+    if( !temp_selections.empty() || !temp_filter.empty() ) {
         if( act.is_null() ) {
             player_character.assign_activity( ACT_EAT_MENU );
             player_character.activity.values = temp_selections;
+            player_character.activity.str_values = { temp_filter };
         } else {
             player_activity eat_menu( ACT_EAT_MENU );
             eat_menu.values = temp_selections;
+            eat_menu.str_values = { temp_filter };
             player_character.backlog.push_back( eat_menu );
         }
     }
@@ -1206,6 +1211,7 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
     jsout.member( "consume_menu_selections", consume_menu_selections );
+    jsout.member( "consume_menu_filter", consume_menu_filter );
     jsout.member( "force", force );
 
     jsout.end_object();
@@ -1221,6 +1227,7 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
     data.read( "consume_menu_selections", actor.consume_menu_selections );
+    data.read( "consume_menu_filter", actor.consume_menu_filter );
     data.read( "force", actor.force );
 
     return actor.clone();
