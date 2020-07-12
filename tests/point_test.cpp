@@ -124,7 +124,7 @@ TEST_CASE( "closest_points_first_tripoint", "[point]" )
 
 TEST_CASE( "closest_points_first_point_abs_omt", "[point]" )
 {
-    const point_abs_omt center( point( 1, 3 ) );
+    const point_abs_omt center( 1, 3 );
 
     GIVEN( "min_dist > max_dist" ) {
         const std::vector<point_abs_omt> result = closest_points_first( center, 1, 0 );
