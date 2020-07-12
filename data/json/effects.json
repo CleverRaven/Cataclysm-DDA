@@ -1250,14 +1250,7 @@
       "vomit_chance": [ 2000 ],
       "stamina_min": [ -4 ]
     },
-    "scaling_mods": {
-      "speed_mod": [ 30 ],
-      "str_mod": [ 4 ],
-      "dex_mod": [ 4 ],
-      "int_mod": [ 1 ],
-      "per_mod": [ 5 ],
-      "stamina_min": [ 8 ]
-    }
+    "scaling_mods": { "speed_mod": [ 30 ], "str_mod": [ 4 ], "dex_mod": [ 4 ], "int_mod": [ 1 ], "per_mod": [ 5 ], "stamina_min": [ 8 ] }
   },
   {
     "type": "effect_type",
