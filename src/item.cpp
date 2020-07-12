@@ -8764,12 +8764,12 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
         }
 
         // Process the past of this item since the last time it was processed
-		time_duration time_delta = 1_hours;
-		
+        time_duration time_delta = 1_hours;
+
         while( now - time > 1_hours ) {
             time += time_delta;
 
-			// Get the environment temperature
+            // Get the environment temperature
             //Use weather if above ground, use map temp if below
             double env_temperature = 0;
             if( pos.z >= 0 ) {
