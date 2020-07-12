@@ -560,7 +560,7 @@ void mdeath::amigara( monster &z )
         add_msg( _( "Your obsession with the fault fades away…" ) );
     }
 
-    get_map().spawn_artifact( z.pos() );
+    get_map().spawn_artifact( z.pos(), relic_procgen_id( "netherum_tunnels" ) );
 }
 
 void mdeath::thing( monster &z )

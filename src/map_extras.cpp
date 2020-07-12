@@ -1781,7 +1781,8 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             artifact_natural_property prop =
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
             m.create_anomaly( portal_location, prop );
-            m.spawn_natural_artifact( p + tripoint( rng( -1, 1 ), rng( -1, 1 ), abs_sub.z ), prop );
+            m.spawn_artifact( p + tripoint( rng( -1, 1 ), rng( -1, 1 ), abs_sub.z ),
+                              relic_procgen_id( "alien_reality" ) );
             break;
         }
     }

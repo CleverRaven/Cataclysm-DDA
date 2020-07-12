@@ -4083,14 +4083,14 @@ std::vector<item *> map::spawn_items( const tripoint &p, const std::vector<item>
     return ret;
 }
 
-void map::spawn_artifact( const tripoint &p )
+void map::spawn_artifact( const tripoint &p, const relic_procgen_id &id )
 {
-    add_item_or_charges( p, item( new_artifact(), 0 ) );
-}
+    relic_procgen_data::generation_rules rules;
+    rules.max_attributes = 5;
+    rules.power_level = 1000;
+    rules.max_negative_power = -2000;
 
-void map::spawn_natural_artifact( const tripoint &p, artifact_natural_property prop )
-{
-    add_item_or_charges( p, item( new_natural_artifact( prop ), 0 ) );
+    add_item_or_charges( p, id->create_item( rules ) );
 }
 
 void map::spawn_item( const tripoint &p, const itype_id &type_id,
