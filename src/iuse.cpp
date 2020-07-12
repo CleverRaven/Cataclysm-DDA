@@ -6231,11 +6231,15 @@ int iuse::toolmod_attach( player *p, item *it, bool, const tripoint & )
             return false;
         }
 
+        // cannot mod non-tool, or a tool with existing mods, or a battery currently installed
+        if( !e.is_tool() || !e.toolmods().empty() || e.magazine_current() ) {
+            return false;
+        }
+
         // can only attach to unmodified tools that use compatible ammo
-        return e.is_tool() && e.toolmods().empty() && !e.magazine_current() &&
-               std::any_of( it->type->mod->acceptable_ammo.begin(),
+        return std::any_of( it->type->mod->acceptable_ammo.begin(),
         it->type->mod->acceptable_ammo.end(), [&]( const ammotype & at ) {
-            return e.ammo_types( false ).count( at );
+            return e.type->tool->ammo_id.count( at );
         } );
     };
 

@@ -1908,6 +1908,8 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
             slot.magazine_adaptor[ ammo ].insert( itype_id( line ) );
         }
     }
+
+    optional( jo, false, "pocket_mods", slot.add_pockets );
 }
 
 void Item_factory::load_toolmod( const JsonObject &jo, const std::string &src )
