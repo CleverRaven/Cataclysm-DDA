@@ -2833,35 +2833,28 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     break;
                 }
                 case char_creation::BLOOD: {
-                    popup.title( _( "Enter blood type (O, A, B or AB):" ) )
-                    .text( io::enum_to_string( you.my_blood_type ) )
-                    .only_digits( false );
-                    std::string answer = popup.query_string();
-                    if( answer == "O" || answer == "o" || answer == "0" ) {
-                        you.my_blood_type = blood_type::blood_O;
-                    } else if( answer == "A" || answer == "a" ) {
-                        you.my_blood_type = blood_type::blood_A;
-                    } else if( answer == "B" || answer == "b" ) {
-                        you.my_blood_type = blood_type::blood_B;
-                    } else if( answer == "AB" || answer == "ab" ) {
-                        you.my_blood_type = blood_type::blood_AB;
-                    } else {
-                        popup_getkey( "%s", _( "Invalid blood type. Possible values: O, A, B, AB" ) );
+                    uilist btype;
+                    btype.text = _( "Select blood type" );
+                    btype.addentry( static_cast<int>( blood_type::blood_O ), true, '1', "O" );
+                    btype.addentry( static_cast<int>( blood_type::blood_A ), true, '2', "A" );
+                    btype.addentry( static_cast<int>( blood_type::blood_B ), true, '3', "B" );
+                    btype.addentry( static_cast<int>( blood_type::blood_AB ), true, '4', "AB" );
+                    btype.query();
+                    if( btype.ret < 0 ) {
                         break;
                     }
-                    string_input_popup popup2;
-                    popup2.title( _( "Enter Rh factor (+ or -):" ) )
-                    .text( you.blood_rh_factor ? "+" : "-" )
-                    .only_digits( false );
-                    answer = popup2.query_string();
-                    if( answer == "+" || answer == "plus" || answer == "positive" ) {
-                        you.blood_rh_factor = true;
-                    } else if( answer == "-" || answer == "minus" || answer == "negative" ) {
-                        you.blood_rh_factor = false;
-                    } else {
-                        popup_getkey( "%s", _( "Invalid Rh factor. Possible values: +, -" ) );
+
+                    uilist bfac;
+                    bfac.text = _( "Select Rh factor" );
+                    bfac.addentry( 0, true, '-', _( "negative" ) );
+                    bfac.addentry( 1, true, '+', _( "positive" ) );
+                    bfac.query();
+                    if( bfac.ret < 0 ) {
                         break;
                     }
+
+                    you.my_blood_type = static_cast<blood_type>( btype.ret );
+                    you.blood_rh_factor = static_cast<bool>( bfac.ret );
                     break;
                 }
             }
