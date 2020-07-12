@@ -2737,7 +2737,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        you.set_base_age( clamp( popup.query_int(), 16, 55 ) );
+                        you.set_base_age( clamp( result, 16, 55 ) );
                     }
                     break;
                 }
@@ -2747,7 +2747,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        you.set_base_height( clamp( popup.query_int(), 145, 200 ) );
+                        you.set_base_height( clamp( result, 145, 200 ) );
                     }
                     break;
                 }
