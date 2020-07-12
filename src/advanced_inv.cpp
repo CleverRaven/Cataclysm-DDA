@@ -1321,9 +1321,16 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     player_character.activity.str_values.push_back( "force_ground" );
                 }
 
-                player_character.activity.targets.push_back( item_location( player_character,
-                        sitem->items.front() ) );
-                player_character.activity.values.push_back( amount_to_move );
+                int remaining_amount = amount_to_move;
+                for( auto it = sitem->items.begin();
+                     remaining_amount > 0 && it != sitem->items.end();
+                     ++it ) {
+                    player_character.activity.targets.emplace_back( player_character, *it );
+                    const int move_amount = ( *it )->count_by_charges() ?
+                                            std::min( remaining_amount, ( *it )->charges ) : 1;
+                    player_character.activity.values.emplace_back( move_amount );
+                    remaining_amount -= move_amount;
+                }
 
                 // exit so that the activity can be carried out
                 exit = true;
