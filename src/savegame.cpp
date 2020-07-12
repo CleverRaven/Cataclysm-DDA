@@ -358,7 +358,9 @@ void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &
         } else if( old.compare( 0, 6, "bridge" ) == 0 ) {
             ter_set( pos, oter_id( old ) );
             const oter_id oter_ground = ter( tripoint( pos.xy(), 0 ) );
-            if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) ) {
+            const oter_id oter_above = ter( pos + tripoint_above );
+            if( is_ot_match( "bridge", oter_ground, ot_match_type::type ) &&
+                !is_ot_match( "bridge_road", oter_above, ot_match_type::type ) ) {
                 ter_set( pos + tripoint_above, oter_id( "bridge_road" + oter_get_rotation_string( oter_ground ) ) );
                 bridge_points.emplace_back( pos.xy() );
             }
