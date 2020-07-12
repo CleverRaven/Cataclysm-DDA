@@ -2520,7 +2520,6 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         } else {
             mvwprintz( w_name, point( namebar_pos, 0 ), c_light_gray, "_______________________________" );
             mvwprintz( w_name, point( namebar_pos, 0 ), c_white, you.name );
-            wprintz( w_name, h_light_gray, "_" );
         }
 
         if( !MAP_SHARING::isSharing() ) { // no random names when sharing maps
