@@ -119,8 +119,6 @@ TEST_CASE( "Rate of temperature change" )
 
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
-		
-		CHECK( meat1.specific_energy == meat2.specific_energy ); //
 
         // 50 C
         CHECK( is_nearly( meat1.temperature, 323.15 * 100000 ) );
@@ -144,8 +142,6 @@ TEST_CASE( "Rate of temperature change" )
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
         meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 		
-		CHECK( meat1.specific_energy == meat2.specific_energy ); //
-		
         // 0C
         // not frozen
         CHECK( is_nearly( meat1.temperature, 27315000 ) );
@@ -167,10 +163,6 @@ TEST_CASE( "Rate of temperature change" )
         CHECK( meat1.item_tags.count( "FROZEN" ) );
         CHECK( meat2.item_tags.count( "FROZEN" ) );
         CHECK( is_nearly( meat1.specific_energy, meat2.specific_energy ) );
-		
-		CHECK( meat1.specific_energy == meat2.specific_energy );
-		CHECK( meat1.temperature == 3 );
-		CHECK( meat2.temperature == 3 );
 		
         calendar::turn = to_turn<int>( calendar::turn + 11_minutes );
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );

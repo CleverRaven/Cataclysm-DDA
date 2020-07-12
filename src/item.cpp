@@ -8764,11 +8764,12 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
         }
 
         // Process the past of this item since the last time it was processed
+		time_duration time_delta = 1_hours;
+		
         while( now - time > 1_hours ) {
-            // Get the environment temperature
-            time_duration time_delta = 1_hours;
             time += time_delta;
 
+			// Get the environment temperature
             //Use weather if above ground, use map temp if below
             double env_temperature = 0;
             if( pos.z >= 0 ) {
@@ -8824,7 +8825,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
     // and items that are held near the player
     if( now - time > smallest_interval ) {
         calc_temp( temp, insulation, now - time );
-        last_temp_check = time;
+        last_temp_check = now;
         if( process_rot ) {
             calc_rot( temp, spoil_modifier, now - time );
             return has_rotten_away() && carrier == nullptr;
