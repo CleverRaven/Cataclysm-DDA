@@ -264,9 +264,9 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
                 maxvolume = get_map().max_volume( s.pos );
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
-                                            convert_weight( s.weight ),
+                                            convert_weight( pane.in_vehicle() ? s.weight_veh : s.weight ),
                                             weight_units(),
-                                            format_volume( s.volume ),
+                                            format_volume( pane.in_vehicle() ? s.volume_veh : s.volume ),
                                             format_volume( maxvolume ),
                                             volume_units_abbr() );
         }
@@ -608,8 +608,8 @@ void advanced_inventory::recalc_pane( side p )
             if( s.can_store_in_vehicle() && !( same && there.in_vehicle() ) ) {
                 bool do_vehicle = there.get_area() == s.id ? !there.in_vehicle() : true;
                 pane.add_items_from_area( s, do_vehicle );
-                alls.volume += s.volume;
-                alls.weight += s.weight;
+                alls.volume += s.volume_veh;
+                alls.weight += s.weight_veh;
             }
 
             // Add map items
@@ -947,7 +947,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
         } else {
             // Vehicle and map destinations are handled the same.
             // Check first if the destination area still have enough room for moving all.
-            if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
+            const units::volume &src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
+            if( !is_processing() && src_volume > darea.free_volume( dpane.in_vehicle() ) &&
                 !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
                 return false;
             }
