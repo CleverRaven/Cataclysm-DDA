@@ -139,7 +139,6 @@ static const activity_id ACT_WASH( "ACT_WASH" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_antibiotic( "antibiotic" );
-static const efftype_id effect_antibiotic_visible( "antibiotic_visible" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_beartrap( "beartrap" );
@@ -199,7 +198,6 @@ static const efftype_id effect_smoke( "smoke" );
 static const efftype_id effect_spores( "spores" );
 static const efftype_id effect_stimpack( "stimpack" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
-static const efftype_id effect_strong_antibiotic_visible( "strong_antibiotic_visible" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tapeworm( "tapeworm" );
 static const efftype_id effect_teargas( "teargas" );
@@ -219,7 +217,6 @@ static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
 static const efftype_id effect_weak_antibiotic( "weak_antibiotic" );
-static const efftype_id effect_weak_antibiotic_visible( "weak_antibiotic_visible" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_weed_high( "weed_high" );
 
@@ -580,7 +577,6 @@ int iuse::antibiotic( player *p, item *it, bool, const tripoint & )
                               _( "Maybe just placebo effect, but you feel a little better as the dose settles in." ) );
     }
     p->add_effect( effect_antibiotic, 12_hours );
-    p->add_effect( effect_antibiotic_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -9571,7 +9567,6 @@ int iuse::weak_antibiotic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "The throbbing of the infection diminishes.  Slightly." ) );
     }
     p->add_effect( effect_weak_antibiotic, 12_hours );
-    p->add_effect( effect_weak_antibiotic_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -9582,7 +9577,6 @@ int iuse::strong_antibiotic( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_good, _( "You feel much better - almost entirely." ) );
     }
     p->add_effect( effect_strong_antibiotic, 12_hours );
-    p->add_effect( effect_strong_antibiotic_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 

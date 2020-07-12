@@ -1210,14 +1210,7 @@
       "per_mod": [ -1 ],
       "stamina_min": [ -2 ]
     },
-    "scaling_mods": {
-      "speed_mod": [ 20 ],
-      "str_mod": [ 1.5 ],
-      "dex_mod": [ 1.5 ],
-      "int_mod": [ -2 ],
-      "per_mod": [ 0.5 ],
-      "stamina_min": [ 4 ]
-    }
+    "scaling_mods": { "speed_mod": [ 30 ], "str_mod": [ 4 ], "dex_mod": [ 4 ], "int_mod": [ -7 ], "per_mod": [ 2 ], "stamina_min": [ 4 ] }
   },
   {
     "type": "effect_type",
@@ -1258,12 +1251,11 @@
       "stamina_min": [ -4 ]
     },
     "scaling_mods": {
-      "speed_mod": [ 15 ],
-      "str_mod": [ 1.5 ],
-      "dex_mod": [ 1 ],
-      "int_mod": [ 0.5 ],
-      "per_mod": [ 1 ],
-      "fatigue_min": [ 1 ],
+      "speed_mod": [ 30 ],
+      "str_mod": [ 4 ],
+      "dex_mod": [ 4 ],
+      "int_mod": [ 1 ],
+      "per_mod": [ 5 ],
       "stamina_min": [ 8 ]
     }
   },
@@ -1274,7 +1266,8 @@
     "desc": [ "You had a puff or two.", "You smoked too much." ],
     "max_intensity": 2,
     "int_dur_factor": "10 m",
-    "scaling_mods": { "vomit_chance": [ 500 ] }
+    "base_mods": { "per_mod": [ 1 ] },
+    "scaling_mods": { "str_mod": [ -1 ], "dex_mod": [ -1 ], "per_mod": [ -1 ], "vomit_chance": [ 500 ] }
   },
   {
     "type": "effect_type",
@@ -1292,7 +1285,6 @@
     "type": "effect_type",
     "id": "weed_high",
     "apply_message": "You feel lightheaded.",
-    "miss_messages": [ [ "That critter's jumping around like a jitterbug!  It needs to mellow out.", 1 ] ],
     "base_mods": { "per_mod": [ -1 ] }
   },
   {
@@ -1320,6 +1312,7 @@
     "int_dur_factor": "100 m",
     "miss_messages": [ [ "You feel woozy.", 1 ] ],
     "base_mods": {
+      "str_mod": [ 1 ],
       "vomit_chance": [ -43 ],
       "sleep_chance": [ -1003 ],
       "sleep_min": [ 15000 ],
@@ -1330,13 +1323,14 @@
       "pkill_tick": [ 45 ]
     },
     "scaling_mods": {
-      "per_mod": [ -0.5 ],
-      "dex_mod": [ -0.5 ],
-      "int_mod": [ -0.75 ],
+      "str_mod": [ -0.33 ],
+      "per_mod": [ -1 ],
+      "dex_mod": [ -1 ],
+      "int_mod": [ -1.42 ],
       "vomit_chance": [ 21 ],
-      "sleep_chance": [ 501 ],
       "pkill_max_val": [ 10 ],
-      "pkill_tick": [ -10 ]
+      "pkill_tick": [ -10 ],
+      "sleep_chance": [ 501 ]
     }
   },
   {
@@ -1647,19 +1641,6 @@
   },
   {
     "type": "effect_type",
-    "id": "bad_food_ennui",
-    "name": [ "Gross food", "Demoralizing food", "Depressing food" ],
-    "desc": [
-      "The food you eat is disgusting.",
-      "Eating nothing but disgusting rations is starting to get you down.",
-      "Sure, you survived, but what kind of survival is this, eating these disgusting rations day in and day out?"
-    ],
-    "max_intensity": 3,
-    "//": "No morale_mod is currently possible in effects, for some reason.  As soon as it's implemented, it goes here.",
-    "rating": "bad"
-  },
-  {
-    "type": "effect_type",
     "id": "cough_suppress"
   },
   {
@@ -1761,7 +1742,8 @@
   {
     "type": "effect_type",
     "id": "irradiated",
-    "//": "No name or desc. Hidden from player, encourages use of radiation detection equipment",
+    "name": [ "Irradiated" ],
+    "desc": [ "You suffer symptoms of a radiation sickness that weakens your body." ],
     "max_intensity": 2000,
     "int_dur_factor": "10 s",
     "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] }
@@ -1773,7 +1755,7 @@
     "desc": [ "You're very jittery and pumped up, probably from some stimulants." ],
     "max_intensity": 1000,
     "int_dur_factor": "1 s",
-    "scaling_mods": { "speed_mod": [ 0.08 ], "per_mod": [ 0.04 ] }
+    "scaling_mods": { "speed_mod": [ 0.33 ], "dex_mod": [ 0.1 ], "per_mod": [ 0.14 ] }
   },
   {
     "type": "effect_type",
@@ -1782,7 +1764,7 @@
     "desc": [ "You are under the influence of depressants, and in a bit of a daze." ],
     "max_intensity": 1000,
     "int_dur_factor": "1 s",
-    "scaling_mods": { "speed_mod": [ -0.1 ], "dex_mod": [ -0.05 ] },
+    "scaling_mods": { "speed_mod": [ -0.333 ], "dex_mod": [ -0.05 ], "per_mod": [ -0.05 ] },
     "miss_messages": [ [ "You feel woozy.", 1 ] ]
   },
   {
@@ -1798,39 +1780,27 @@
   },
   {
     "type": "effect_type",
-    "id": "weak_antibiotic_visible",
+    "id": "weak_antibiotic",
     "name": [ "Took weak antibiotic" ],
     "desc": [
-      "You consumed mild antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
+      "You consumed mild antibiotic some time ago to fight off infection.\nIt doesn't guarantee recovery, but slows down the progression of infection."
     ]
   },
   {
     "type": "effect_type",
-    "id": "antibiotic_visible",
+    "id": "antibiotic",
     "name": [ "Took antibiotic" ],
     "desc": [
-      "You consumed antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
+      "You consumed antibiotic some time ago to fight off infection.\nThe infection is stopped from progressing for the duration and you have a high chance of recovery."
     ]
   },
   {
     "type": "effect_type",
-    "id": "strong_antibiotic_visible",
+    "id": "strong_antibiotic",
     "name": [ "Took strong antibiotic" ],
     "desc": [
-      "You consumed prescription-grade antibiotic some time ago to fight off infection.\nIf you don't recover you may want to take another dose, but beware overdosage."
+      "You consumed prescription-grade antibiotic some time ago to fight off infection.\nThe progression of infection is reversed and you have a high chance of recovery."
     ]
-  },
-  {
-    "type": "effect_type",
-    "id": "weak_antibiotic"
-  },
-  {
-    "type": "effect_type",
-    "id": "antibiotic"
-  },
-  {
-    "type": "effect_type",
-    "id": "strong_antibiotic"
   },
   {
     "type": "effect_type",

@@ -1,0 +1,20 @@
+[
+  {
+    "type": "effect_type",
+    "id": "weak_antibiotic_visible"
+  },
+  {
+    "type": "effect_type",
+    "id": "antibiotic_visible"
+  },
+  {
+    "type": "effect_type",
+    "id": "strong_antibiotic_visible"
+  },
+  {
+    "type": "effect_type",
+    "id": "bad_food_ennui",
+    "max_intensity": 3,
+    "rating": "bad"
+  }
+]

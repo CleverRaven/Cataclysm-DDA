@@ -70,7 +70,6 @@ static const efftype_id effect_hot( "hot" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_mending( "mending" );
-static const efftype_id effect_meth( "meth" );
 static const efftype_id effect_motor_seizure( "motor_seizure" );
 static const efftype_id effect_nausea( "nausea" );
 static const efftype_id effect_narcosis( "narcosis" );
@@ -572,29 +571,6 @@ void player::hardcoded_effects( effect &it )
                 it.mult_duration( .25 );
             }
         }
-    } else if( id == effect_meth ) {
-        if( intense == 1 ) {
-            add_miss_reason( _( "The bees have started escaping your teeth." ), 2 );
-            if( one_in( 900 ) ) {
-                add_msg_if_player( m_bad, _( "You feel paranoid.  They're watching you." ) );
-                mod_pain( 1 );
-                mod_fatigue( dice( 1, 6 ) );
-            } else if( one_in( 3000 ) ) {
-                add_msg_if_player( m_bad,
-                                   _( "You feel like you need less teeth.  You pull one out, and it is rotten to the core." ) );
-                mod_pain( 1 );
-            } else if( one_in( 3000 ) ) {
-                add_msg_if_player( m_bad, _( "You notice a large abscess.  You pick at it." ) );
-                body_part itch = random_body_part( true );
-                add_effect( effect_formication, 60_minutes, itch );
-                mod_pain( 1 );
-            } else if( one_in( 3000 ) ) {
-                add_msg_if_player( m_bad,
-                                   _( "You feel so sick, like you've been poisoned, but you need more.  So much more." ) );
-                vomit();
-                mod_fatigue( dice( 1, 6 ) );
-            }
-        }
     } else if( id == effect_teleglow ) {
         // Default we get around 300 duration points per teleport (possibly more
         // depending on the source).
@@ -927,12 +903,10 @@ void player::hardcoded_effects( effect &it )
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 it.mod_duration( -1_turns ); //strong antibiotic reverses!
             } else if( has_effect( effect_antibiotic ) ) {
-                if( calendar::once_every( 8_turns ) ) {
-                    it.mod_duration( 1_turns ); //normal antibiotic slows down progression by a factor of 8
-                }
+                // Normal antibiotic prevents progression
             } else if( has_effect( effect_weak_antibiotic ) ) {
-                if( calendar::once_every( 2_turns ) ) {
-                    it.mod_duration( 1_turns ); //weak antibiotic slows down by half
+                if( calendar::once_every( 4_turns ) ) {
+                    it.mod_duration( 1_turns ); //weak antibiotic slows down to a quarter
                 }
             } else {
                 it.mod_duration( 1_turns );
@@ -980,11 +954,9 @@ void player::hardcoded_effects( effect &it )
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 it.mod_duration( -1_turns );
             } else if( has_effect( effect_antibiotic ) ) {
-                if( calendar::once_every( 8_turns ) ) {
-                    it.mod_duration( 1_turns );
-                }
+                // No progression
             } else if( has_effect( effect_weak_antibiotic ) ) {
-                if( calendar::once_every( 2_turns ) ) {
+                if( calendar::once_every( 4_turns ) ) {
                     it.mod_duration( 1_turns );
                 }
             } else {
