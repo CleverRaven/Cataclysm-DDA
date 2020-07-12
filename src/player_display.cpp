@@ -48,35 +48,37 @@ static int temperature_print_rescaling( int temp )
     return ( temp / 100.0 ) * 2 - 100;
 }
 
-static body_part other_part( body_part bp )
+static bodypart_id other_part( const bodypart_id &bp )
 {
-    return static_cast<body_part>( bp_aiOther[bp] );
+    return bp->opposite_part;
 }
 
-static bool should_combine_bps( const player &p, body_part l, body_part r,
+static bool should_combine_bps( const player &p, const bodypart_id &l, const bodypart_id &r,
                                 const item *selected_clothing )
 {
-    const auto enc_data = p.get_encumbrance();
+    const encumbrance_data enc_l = p.get_part_encumbrance_data( l );
+    const encumbrance_data enc_r = p.get_part_encumbrance_data( r );
+
     return l != r && // are different parts
            l == other_part( r ) && r == other_part( l ) && // are complementary parts
            // same encumberance & temperature
-           enc_data[l] == enc_data[r] &&
-           temperature_print_rescaling( p.temp_conv[l] ) == temperature_print_rescaling( p.temp_conv[r] ) &&
+           enc_l == enc_r &&
+           temperature_print_rescaling( p.temp_conv[l->token] ) == temperature_print_rescaling(
+               p.temp_conv[r->token] ) &&
            // selected_clothing covers both or neither parts
            ( !selected_clothing ||
-             ( selected_clothing->covers( convert_bp( l ).id() ) == selected_clothing->covers( convert_bp(
-                         r ).id() ) ) );
+             ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
 }
 
-static std::vector<std::pair<body_part, bool>> list_and_combine_bps( const player &p,
+static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const player &p,
         const item *selected_clothing )
 {
     // bool represents whether the part has been combined with its other half
-    std::vector<std::pair<body_part, bool>> bps;
-    for( auto bp : all_body_parts ) {
+    std::vector<std::pair<bodypart_id, bool>> bps;
+    for( const bodypart_id &bp : p.get_all_body_parts() ) {
         // assuming that a body part has at most one other half
         if( other_part( other_part( bp ) ) != bp ) {
-            debugmsg( "Bodypart %d has more than one other half!", bp );
+            debugmsg( "Bodypart %d has more than one other half!", bp.id().c_str() );
         }
         if( should_combine_bps( p, bp, other_part( bp ), selected_clothing ) ) {
             if( bp < other_part( bp ) ) {
@@ -94,7 +96,7 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
                                 const item *const selected_clothing ) const
 {
     // bool represents whether the part has been combined with its other half
-    const std::vector<std::pair<body_part, bool>> bps = list_and_combine_bps( *this,
+    const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( *this,
             selected_clothing );
 
     // width/height excluding title & scrollbar
@@ -109,7 +111,6 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
      *** for displaying triple digit encumbrance, due to new encumbrance system.    ***
      *** If the player wants to see the total without having to do them maths, the  ***
      *** armor layers ui shows everything they want :-) -Davek                      ***/
-    const auto enc_data = get_encumbrance();
     for( int i = 0; i < height; ++i ) {
         int thisline = firstline + i;
         if( thisline < 0 ) {
@@ -118,12 +119,11 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         if( static_cast<size_t>( thisline ) >= bps.size() ) {
             break;
         }
-        const body_part bp = bps[thisline].first;
+        const bodypart_id bp = bps[thisline].first;
         const bool combine = bps[thisline].second;
-        const encumbrance_data &e = enc_data[bp];
-        const bool highlighted = selected_clothing ? selected_clothing->covers( convert_bp(
-                                     bp ).id() ) : false;
-        std::string out = body_part_name_as_heading( convert_bp( bp ).id(), combine ? 2 : 1 );
+        const encumbrance_data &e = get_part_encumbrance_data( bp );
+        const bool highlighted = selected_clothing ? selected_clothing->covers( bp ) : false;
+        std::string out = body_part_name_as_heading( bp, combine ? 2 : 1 );
         if( utf8_width( out ) > 7 ) {
             out = utf8_truncate( out, 7 );
         }
@@ -142,8 +142,8 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         // take into account the new encumbrance system for layers
         mvwprintz( win, point( 12, 1 + i ), encumb_color( e.encumbrance ), "%-3d", e.layer_penalty );
         // print warmth, tethered to right hand side of the window
-        mvwprintz( win, point( width - 6, 1 + i ), bodytemp_color( bp ), "(% 3d)",
-                   temperature_print_rescaling( temp_conv[bp] ) );
+        mvwprintz( win, point( width - 6, 1 + i ), bodytemp_color( bp->token ), "(% 3d)",
+                   temperature_print_rescaling( temp_conv[bp->token] ) );
     }
 
     if( draw_scrollbar ) {
@@ -196,21 +196,22 @@ static std::string dodge_skill_text( double mod )
     return string_format( _( "Dodge skill: <color_white>%+.1f</color>\n" ), mod );
 }
 
-static int get_encumbrance( const player &p, body_part bp, bool combine )
+static int get_encumbrance( const player &p, const bodypart_id &bp, bool combine )
 {
     // Body parts that can't combine with anything shouldn't print double values on combine
     // This shouldn't happen, but handle this, just in case
-    const bool combines_with_other = static_cast<int>( bp_aiOther[bp] ) != bp;
+    const bool combines_with_other = bp->opposite_part != bp.id();
     return p.encumb( bp ) * ( ( combine && combines_with_other ) ? 2 : 1 );
 }
 
-static std::string get_encumbrance_description( const player &p, body_part bp, bool combine )
+static std::string get_encumbrance_description( const player &p, const bodypart_id bp,
+        bool combine )
 {
     std::string s;
 
     const int eff_encumbrance = get_encumbrance( p, bp, combine );
 
-    switch( bp ) {
+    switch( bp->token ) {
         case bp_torso: {
             const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
             s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
@@ -384,7 +385,8 @@ static void draw_stats_info( const catacurses::window &w_info,
                         _( "Strength affects your melee damage, the amount of weight you can carry, your total HP, "
                            "your resistance to many diseases, and the effectiveness of actions which require brute force." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Base HP: <color_white>%d</color>" ), you.hp_max[1] ) );
+                            string_format( _( "Base HP: <color_white>%d</color>" ),
+                                           you.get_part_hp_max( bodypart_id( "torso" ) ) ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Carry weight (%s): <color_white>%.1f</color>" ), weight_units(),
                                            convert_weight( you.weight_capacity() ) ) );
@@ -477,10 +479,10 @@ static void draw_encumbrance_tab( const catacurses::window &w_encumb,
 static void draw_encumbrance_info( const catacurses::window &w_info,
                                    const player &you, const unsigned int line )
 {
-    const std::vector<std::pair<body_part, bool>> bps = list_and_combine_bps( you, nullptr );
+    const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
 
     werase( w_info );
-    body_part bp = num_bp;
+    bodypart_id bp;
     bool combined_here = false;
     if( line < bps.size() ) {
         bp = bps[line].first;
@@ -984,7 +986,7 @@ static bool handle_player_display_action( player &you, unsigned int &line,
             line_end = 8;
             break;
         case player_display_tab::encumbrance: {
-            const std::vector<std::pair<body_part, bool>> bps = list_and_combine_bps( you, nullptr );
+            const std::vector<std::pair<bodypart_id, bool>> bps = list_and_combine_bps( you, nullptr );
             line_end = bps.size();
             break;
         }
@@ -1136,10 +1138,8 @@ void player::disp_info()
         effect_name_and_text.push_back( { starvation_name, starvation_text } );
     }
 
-    if( ( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather.weather == WEATHER_SUNNY ) ||
-        ( has_trait( trait_id( "TROGLO2" ) ) && g->is_in_sunlight( pos() ) &&
-          g->weather.weather != WEATHER_SUNNY ) ) {
+    if( has_trait( trait_id( "TROGLO" ) ) && g->is_in_sunlight( pos() ) &&
+        get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
         effect_name_and_text.push_back( { _( "In Sunlight" ),
                                           _( "The sunlight irritates you.\n"
                                              "Strength - 1;    Dexterity - 1;    Intelligence - 1;    Perception - 1" )

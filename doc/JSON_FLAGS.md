@@ -596,6 +596,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
+- ```WORKOUT_LEGS``` This furniture is for training your legs. Needed for checks like `is_limb_broken()`.
+- ```WORKOUT_ARMS``` This furniture is for training your arms. Needed for checks like `is_limb_broken()`.
 
 ### Examine Actions
 
@@ -629,7 +631,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```slot_machine``` Gamble.
 - ```toilet``` Either drink or get water out of the toilet.
-- ```trap``` Interact with a trap.
 - ```water_source``` Drink or get water from a water source.
 
 ### Fungal Conversions Only
@@ -911,7 +912,6 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```BIRDFOOD``` Becomes friendly / tamed with bird food.
-- ```BLEED``` Causes the player to bleed.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```CAN_DIG``` Can dig _and_ walk.
@@ -1114,6 +1114,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
+- ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
 
 
 ### Categories

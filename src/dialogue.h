@@ -332,7 +332,7 @@ struct dynamic_line_t {
 
     public:
         dynamic_line_t() = default;
-        dynamic_line_t( const std::string &line );
+        dynamic_line_t( const translation &line );
         dynamic_line_t( const JsonObject &jo );
         dynamic_line_t( const JsonArray &ja );
         static dynamic_line_t from_member( const JsonObject &jo, const std::string &member_name );

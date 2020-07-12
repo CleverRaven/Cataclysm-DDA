@@ -570,7 +570,7 @@
     "type": "COMESTIBLE",
     "id": "blood",
     "name": { "str_sp": "blood" },
-    "weight": "265 g",
+    "weight": "262 g",
     "color": "red",
     "container": "bag_iv",
     "comestible_type": "DRINK",

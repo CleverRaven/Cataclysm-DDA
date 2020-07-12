@@ -101,6 +101,16 @@ enum veh_coll_type : int {
     num_veh_coll_types
 };
 
+struct smart_controller_cache {
+    time_point created = calendar::turn;
+    time_point gas_engine_last_turned_on = calendar::start_of_cataclysm;
+    bool gas_engine_shutdown_forbidden;
+    int velocity;
+    int battery_percent;
+    int battery_net_charge_rate;
+    float load;
+};
+
 struct veh_collision {
     //int veh?
     int part  = 0;
@@ -365,7 +375,7 @@ struct vehicle_part {
 
         /** mount translated to face.dir [0] and turn_dir [1] */
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        std::array<point, 2> precalc = { { point( -1, -1 ), point( -1, -1 ) } };
+        std::array<tripoint, 2> precalc = { { tripoint( -1, -1, 0 ), tripoint( -1, -1, 0 ) } };
 
         /** current part health with range [0,durability] */
         int hp() const;
@@ -537,7 +547,7 @@ class turret_data
          * @param target coordinates that will be fired on.
          * @return the number of shots actually fired (may be zero).
          */
-        int fire( player &p, const tripoint &target );
+        int fire( Character &c, const tripoint &target );
 
         bool can_reload() const;
         bool can_unload() const;
@@ -571,6 +581,9 @@ struct label : public point {
     label( const point &p, std::string text ) : point( p ), text( std::move( text ) ) {}
 
     std::string text;
+
+    void deserialize( JsonIn &jsin );
+    void serialize( JsonOut &json ) const;
 };
 
 class RemovePartHandler;
@@ -758,9 +771,9 @@ class vehicle
         bool mod_hp( vehicle_part &pt, int qty, damage_type dt = DT_NULL );
 
         // check if given player controls this vehicle
-        bool player_in_control( const player &p ) const;
+        bool player_in_control( const Character &p ) const;
         // check if player controls this vehicle remotely
-        bool remote_controlled( const player &p ) const;
+        bool remote_controlled( const Character &p ) const;
 
         // init parts state for randomly generated vehicle
         void init_state( int init_veh_fuel, int init_veh_status );
@@ -1042,10 +1055,10 @@ class vehicle
         point coord_translate( const point &p ) const;
 
         // Translate mount coordinates "p" into tile coordinates "q" using given pivot direction and anchor
-        void coord_translate( int dir, const point &pivot, const point &p, point &q ) const;
+        void coord_translate( int dir, const point &pivot, const point &p, tripoint &q ) const;
         // Translate mount coordinates "p" into tile coordinates "q" using given tileray and anchor
         // should be faster than previous call for repeated translations
-        void coord_translate( tileray tdir, const point &pivot, const point &p, point &q ) const;
+        void coord_translate( tileray tdir, const point &pivot, const point &p, tripoint &q ) const;
 
         // Rotates mount coordinates "p" from old_dir to new_dir along pivot
         point rotate_mount( int old_dir, int new_dir, const point &pivot, const point &p ) const;
@@ -1146,6 +1159,8 @@ class vehicle
          */
         std::map<itype_id, int> fuel_usage() const;
 
+        // current fuel usage for specific engine
+        int engine_fuel_usage( int e ) const;
         /**
          * Get all vehicle lights (excluding any that are destroyed)
          * @param active if true return only lights which are enabled
@@ -1174,6 +1189,9 @@ class vehicle
         // Produce and consume electrical power, with excess power stored or
         // taken from batteries.
         void power_parts();
+
+        // Current and total battery power level as a pair
+        std::pair<int, int> battery_power_level() const;
 
         /**
          * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
@@ -1386,6 +1404,14 @@ class vehicle
         // thrust (1) or brake (-1) vehicle
         // @param z = z thrust for helicopters etc
         void thrust( int thd, int z = 0 );
+
+        /**
+         * if smart controller is enabled, turns on and off engines depending on load and battery level
+         * @param thrusting must be true when called from vehicle::thrust and vehicle is thrusting
+         * @param k_traction_cache cached value of vehicle::k_traction, if empty, will be computed
+         */
+        void smart_controller_handle_turn( bool thrusting = false,
+                                           cata::optional<float> k_traction_cache = cata::nullopt );
 
         //deceleration due to ground friction and air resistance
         int slowdown( int velocity ) const;
@@ -1635,10 +1661,16 @@ class vehicle
         bool is_part_on( int p ) const;
         //returns whether the engine uses specified fuel type
         bool is_engine_type( int e, const itype_id &ft ) const;
+        //returns whether the engine uses one of specific "combustion" fuel types (gas, diesel and diesel substitutes)
+        bool is_combustion_engine_type( int e ) const;
         //returns whether the alternator is operational
         bool is_alternator_on( int a ) const;
-        //mark engine as on or off
+        //turn engine as on or off (note: doesn't perform checks if engine can start)
         void toggle_specific_engine( int e, bool on );
+        // try to turn engine on or off
+        // (tries to start it and toggles it on if successful, shutdown is always a success)
+        // returns true if engine status was changed
+        bool start_engine( int e, bool turn_on );
         void toggle_specific_part( int p, bool on );
         //true if an engine exists with specified type
         //If enabled true, this engine must be enabled to return true
@@ -1692,7 +1724,7 @@ class vehicle
          * This should be called only when the vehicle has actually been moved, not when
          * the map is just shifted (in the later case simply set smx/smy directly).
          */
-        void set_submap_moved( const point &p );
+        void set_submap_moved( const tripoint &p );
         void use_autoclave( int p );
         void use_washing_machine( int p );
         void use_dishwasher( int p );
@@ -1744,7 +1776,11 @@ class vehicle
         void force_erase_part( int part_num );
         // Updates the internal precalculated mount offsets after the vehicle has been displaced
         // used in map::displace_vehicle()
-        void advance_precalc_mounts( const point &new_pos, int submap_z );
+        std::set<int> advance_precalc_mounts( const point &new_pos, const tripoint &src,
+                                              const tripoint &dp, int ramp_offset,
+                                              bool adjust_pos, std::set<int> parts_to_move );
+        // make sure the vehicle is supported across z-levels or on the same z-level
+        bool level_vehicle();
 
         std::vector<tripoint> omt_path; // route for overmap-scale auto-driving
         std::vector<int> alternators;      // List of alternator indices
@@ -1764,6 +1800,8 @@ class vehicle
         // List of parts that will not be on a vehicle very often, or which only one will be present
         std::vector<int> speciality;
         std::vector<int> floating;         // List of parts that provide buoyancy to boats
+        std::vector<int> batteries;        // List of batteries
+        std::vector<int> fuel_containers;  // List parts with non-null ammo_type
 
         // config values
         std::string name;   // vehicle name
@@ -1786,6 +1824,9 @@ class vehicle
         bool magic = false;
         // when does the magic vehicle disappear?
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
+        // cached values of the factors that determined last chosen engine state
+        cata::optional<smart_controller_cache> smart_controller_state = cata::nullopt;
+        bool has_enabled_smart_controller = false;
 
     private:
         mutable units::mass mass_cache;
@@ -1834,6 +1875,12 @@ class vehicle
         point pos;
         // vehicle current velocity, mph * 100
         int velocity = 0;
+        /**
+         * vehicle continuous moving average velocity
+         * see https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average
+         * alpha is 0.5:  avg_velocity = avg_velocity + 0.5(velocity - avg_velocity) = 0.5 avg_velocity + 0.5 velocity
+         */
+        int avg_velocity = 0;
         // velocity vehicle's cruise control trying to achieve
         int cruise_velocity = 0;
         // Only used for collisions, vehicle falls instantly

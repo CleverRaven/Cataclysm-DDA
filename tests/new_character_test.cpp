@@ -67,10 +67,9 @@ static avatar get_sanitized_player()
 {
     // You'd think that this hp stuff would be in the c'tor...
     avatar ret = avatar();
+    ret.set_body();
     ret.recalc_hp();
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        ret.hp_cur[i] = ret.hp_max[i];
-    }
+
     // Set these insanely high so can_eat doesn't return TOO_FULL
     ret.set_hunger( 10000 );
     ret.set_thirst( 10000 );
@@ -148,7 +147,7 @@ TEST_CASE( "starting_items", "[slow]" )
                     g->u.worn.clear();
                     g->u.remove_weapon();
                     g->u.inv.clear();
-                    g->u.reset_encumbrance();
+                    g->u.calc_encumbrance();
                     g->u.male = i == 0;
 
                     g->u.add_profession_items();

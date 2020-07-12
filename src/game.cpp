@@ -249,6 +249,8 @@ static const trait_id trait_PARKOUR( "PARKOUR" );
 static const trait_id trait_VINES2( "VINES2" );
 static const trait_id trait_VINES3( "VINES3" );
 static const trait_id trait_THICKSKIN( "THICKSKIN" );
+static const trait_id trait_NPC_STATIC_NPC( "NPC_STATIC_NPC" );
+static const trait_id trait_NPC_STARTING_NPC( "NPC_STARTING_NPC" );
 
 static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
 
@@ -574,7 +576,7 @@ void game::setup()
 
     load_world_modfiles( ui );
 
-    m = map( get_option<bool>( "ZLEVELS" ) );
+    m = map( true );
 
     next_npc_id = character_id( 1 );
     next_mission_id = 1;
@@ -587,7 +589,7 @@ void game::setup()
     calendar::set_eternal_season( ::get_option<bool>( "ETERNAL_SEASON" ) );
     calendar::set_season_length( ::get_option<int>( "SEASON_LENGTH" ) );
 
-    weather.weather = WEATHER_CLEAR; // Start with some nice weather...
+    weather.weather_id = WEATHER_CLEAR;
     // Weather shift in 30
     weather.nextweather = calendar::start_of_cataclysm + time_duration::from_hours(
                               get_option<int>( "INITIAL_TIME" ) ) + 30_minutes;
@@ -704,10 +706,8 @@ bool game::start_game()
     get_auto_notes_settings().clear();
     get_auto_notes_settings().default_initialize();
 
-    //Put some NPCs in there!
-    if( get_option<std::string>( "STARTING_NPC" ) == "always" ||
-        ( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
-          !g->scen->has_flag( "LONE_START" ) ) ) {
+    // spawn the starting NPC, assuming it's not disallowed by the scenario
+    if( !g->scen->has_flag( "LONE_START" ) ) {
         create_starting_npcs();
     }
     //Load NPCs. Set nearby npcs to active.
@@ -946,11 +946,6 @@ const kill_tracker &game::get_kill_tracker() const
 
 void game::create_starting_npcs()
 {
-    if( !get_option<bool>( "STATIC_NPC" ) ||
-        get_option<std::string>( "STARTING_NPC" ) == "never" ) {
-        return; //Do not generate a starting npc.
-    }
-
     //We don't want more than one starting npc per starting location
     const int radius = 1;
     if( !overmap_buffer.get_npcs_near_player( radius ).empty() ) {
@@ -1573,8 +1568,7 @@ bool game::do_turn()
     }
 
     if( get_levz() >= 0 && !u.is_underwater() ) {
-        do_rain( weather.weather );
-        weather::effect( weather.weather )();
+        handle_weather_effects( weather.weather_id );
     }
 
     const bool player_is_sleeping = u.has_effect( effect_sleep );
@@ -1810,7 +1804,7 @@ int get_heat_radiation( const tripoint &location, bool direct )
         int ffire = maptile_field_intensity( mt, fd_fire );
         if( ffire > 0 ) {
             heat_intensity = ffire;
-        } else if( here.tr_at( dest ).loadid == tr_lava ) {
+        } else if( here.tr_at( dest ) == tr_lava ) {
             heat_intensity = 3;
         }
         if( heat_intensity == 0 ) {
@@ -1843,8 +1837,7 @@ int get_convection_temperature( const tripoint &location )
     int temp_mod = 0;
     map &here = get_map();
     // Directly on lava tiles
-    int lava_mod = here.tr_at( location ).loadid == tr_lava ?
-                   fd_fire.obj().get_convection_temperature_mod() : 0;
+    int lava_mod = here.tr_at( location ) == tr_lava ? fd_fire->get_convection_temperature_mod() : 0;
     // Modifier from fields
     for( auto fd : here.field_at( location ) ) {
         // Nullify lava modifier when there is open fire
@@ -2104,6 +2097,9 @@ static hint_rating rate_action_use( const avatar &you, const item &it )
             return hint_rating::good;
         }
     } else if( it.is_food() || it.is_medication() || it.is_book() || it.is_armor() ) {
+        if( it.is_medication() && !you.can_use_heal_item( it ) ) {
+            return hint_rating::cant;
+        }
         // The rating is subjective, could be argued as hint_rating::cant or hint_rating::good as well
         return hint_rating::iffy;
     } else if( it.type->has_use() ) {
@@ -2577,6 +2573,7 @@ input_context get_default_mode_input_context()
     ctxt.register_action( "autoattack" );
     ctxt.register_action( "ignore_enemy" );
     ctxt.register_action( "whitelist_enemy" );
+    ctxt.register_action( "workout" );
     ctxt.register_action( "save" );
     ctxt.register_action( "quicksave" );
 #if !defined(RELEASE)
@@ -3323,7 +3320,8 @@ void game::disp_NPCs()
 {
     const tripoint ppos = u.global_omt_location();
     const tripoint &lpos = u.pos();
-    std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( 100 );
+    const int scan_range = 120;
+    std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( scan_range );
     std::sort( npcs.begin(), npcs.end(), npc_dist_to_player() );
 
     catacurses::window w;
@@ -3343,13 +3341,22 @@ void game::disp_NPCs()
         mvwprintz( w, point( 0, 1 ), c_white, _( "Your local position: %d, %d, %d" ), lpos.x, lpos.y,
                    lpos.z );
         size_t i;
+        int static_npc_count = 0;
+        for( i = 0; i < npcs.size(); i++ ) {
+            if(
+                npcs[i]->has_trait( trait_NPC_STARTING_NPC ) || npcs[i]->has_trait( trait_NPC_STATIC_NPC ) ) {
+                static_npc_count++;
+            }
+        }
+        mvwprintz( w, point( 0, 2 ), c_white, _( "Total NPCs within %d OMTs: %d.  %d are static NPCs." ),
+                   scan_range, npcs.size(), static_npc_count );
         for( i = 0; i < 20 && i < npcs.size(); i++ ) {
             const tripoint apos = npcs[i]->global_omt_location();
-            mvwprintz( w, point( 0, i + 3 ), c_white, "%s: %d, %d, %d", npcs[i]->name,
+            mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %d, %d, %d", npcs[i]->name,
                        apos.x, apos.y, apos.z );
         }
         for( const monster &m : all_monsters() ) {
-            mvwprintz( w, point( 0, i + 3 ), c_white, "%s: %d, %d, %d", m.name(),
+            mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %d, %d, %d", m.name(),
                        m.posx(), m.posy(), m.posz() );
             ++i;
         }
@@ -3978,7 +3985,7 @@ float game::natural_light_level( const int zlev ) const
         ret = default_daylight_level();
     }
 
-    ret += weather::light_modifier( weather.weather );
+    ret += get_weather().weather_id->light_modifier;
 
     // Artifact light level changes here. Even though some of these only have an effect
     // aboveground it is cheaper performance wise to simply iterate through the entire
@@ -5235,8 +5242,8 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    return ( m.is_outside( p ) && light_level( p.z ) >= 40 &&
-             ( weather.weather == WEATHER_CLEAR || weather.weather == WEATHER_SUNNY ) );
+    return ( m.is_outside( p ) && light_level( p.z ) >= 40 && !is_night( calendar::turn ) &&
+             get_weather().weather_id->sun_intensity >= sun_intensity_type::normal );
 }
 
 bool game::is_sheltered( const tripoint &p )
@@ -5252,6 +5259,11 @@ bool game::revive_corpse( const tripoint &p, item &it )
 {
     if( !it.is_corpse() ) {
         debugmsg( "Tried to revive a non-corpse." );
+        return false;
+    }
+    // If this is not here, the game may attempt to spawn a monster before the map exists,
+    // leading to it querying for furniture, and crashing.
+    if( g->new_game ) {
         return false;
     }
     shared_ptr_fast<monster> newmon_ptr = make_shared_fast<monster>
@@ -5899,11 +5911,8 @@ void game::examine( const tripoint &examp )
         none = false;
     }
 
-    if( !m.tr_at( examp ).is_null() && !u.is_mounted() ) {
-        iexamine::trap( u, examp );
-    } else if( !m.tr_at( examp ).is_null() && u.is_mounted() ) {
-        add_msg( m_warning, _( "You cannot do that while mounted." ) );
-    }
+    // trap::iexamine will handle the invisible traps.
+    m.tr_at( examp ).examine( examp );
 
     // In case of teleport trap or somesuch
     if( player_pos != u.pos() ) {
@@ -6286,7 +6295,7 @@ void game::print_trap_info( const tripoint &lp, const catacurses::window &w_look
     if( tr.can_see( lp, u ) ) {
         partial_con *pc = m.partial_con_at( lp );
         std::string tr_name;
-        if( pc && tr.loadid == tr_unfinished_construction ) {
+        if( pc && tr == tr_unfinished_construction ) {
             const construction &built = pc->id.obj();
             tr_name = string_format( _( "Unfinished task: %s, %d%% complete" ), built.description,
                                      pc->counter / 100000 );
@@ -6484,7 +6493,7 @@ void game::zones_manager()
             ui.position( point_zero, point_zero );
             return;
         }
-        offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) == "left" ?
+        offsetX = get_option<std::string>( "SIDEBAR_POSITION" ) != "left" ?
                   TERMX - width : 0;
         const int w_zone_height = TERMY - zone_ui_height;
         max_rows = w_zone_height - 2;
@@ -7216,7 +7225,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    for( auto &points_p_it : closest_tripoints_first( u.pos(), iRadius ) ) {
+    for( auto &points_p_it : closest_points_first( u.pos(), iRadius ) ) {
         if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
             u.sees( points_p_it ) &&
             m.sees_some_items( points_p_it, u ) ) {
@@ -8369,8 +8378,8 @@ static void add_disassemblables( uilist &menu,
             const auto &msg = string_format( pgettext( "butchery menu", "%s (%d)" ),
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
-                               to_string_clipped( time_duration::from_turns( recipe_dictionary::get_uncraft(
-                                       it.typeId() ).time / 100 ) ) );
+                               to_string_clipped( recipe_dictionary::get_uncraft(
+                                       it.typeId() ).time_to_craft() ) );
             hotkey = -1;
         }
     }
@@ -8672,7 +8681,7 @@ void game::butcher()
             int time_to_disassemble = 0;
             int time_to_disassemble_all = 0;
             for( const auto &stack : disassembly_stacks ) {
-                const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time;
+                const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves();
                 time_to_disassemble += time;
                 time_to_disassemble_all += time * stack.second;
             }
@@ -8964,6 +8973,10 @@ void game::wield( item_location loc )
         debugmsg( "ERROR: tried to wield null item" );
         return;
     }
+    if( &u.weapon != &*loc && u.weapon.has_item( *loc ) ) {
+        add_msg( m_info, _( "You need to put the bag away before trying to wield something from it." ) );
+        return;
+    }
     if( u.is_armed() ) {
         const bool is_unwielding = u.is_wielding( *loc );
         const auto ret = u.can_unwield( *loc );
@@ -8982,14 +8995,6 @@ void game::wield( item_location loc )
             }
             return;
         }
-    }
-    if( !loc ) {
-        /**
-          * If we lost the location here, that means the thing we're
-          * trying to wield was inside a wielded item.
-          */
-        add_msg( m_info, "You need to put the bag away before trying to wield something from it." );
-        return;
     }
 
     const auto ret = u.can_wield( *loc );
@@ -9214,8 +9219,7 @@ bool game::prompt_dangerous_tile( const tripoint &dest_loc ) const
         !query_yn( _( "Really step into %s?" ), enumerate_as_string( harmful_stuff ) ) ) {
         return false;
     }
-    if( !harmful_stuff.empty() && u.is_mounted() &&
-        m.tr_at( dest_loc ).loadid == tr_ledge ) {
+    if( !harmful_stuff.empty() && u.is_mounted() && m.tr_at( dest_loc ) == tr_ledge ) {
         add_msg( m_warning, _( "Your %s refuses to move over that ledge!" ),
                  u.mounted_creature->get_name() );
         return false;
@@ -9240,7 +9244,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
                                true ) );
         // HACK: Hack for now, later ledge should stop being a trap
         // Note: in non-z-level mode, ledges obey different rules and so should be handled as regular traps
-        if( tr.loadid == tr_ledge && m.has_zlevels() ) {
+        if( tr == tr_ledge && m.has_zlevels() ) {
             if( !boardable ) {
                 harmful_stuff.emplace_back( tr.name() );
             }
@@ -9272,7 +9276,7 @@ std::vector<std::string> game::get_dangerous_tile( const tripoint &dest_loc ) co
     return harmful_stuff;
 }
 
-bool game::walk_move( const tripoint &dest_loc )
+bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 {
     if( m.has_flag_ter( TFLAG_SMALL_PASSAGE, dest_loc ) ) {
         if( u.get_size() > creature_size::medium ) {
@@ -9415,7 +9419,8 @@ bool game::walk_move( const tripoint &dest_loc )
         multiplier *= 3;
     }
 
-    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier ) * multiplier;
+    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier,
+                                           via_ramp ) * multiplier;
     if( grabbed_move( dest_loc - u.pos() ) ) {
         return true;
     } else if( mcost == 0 ) {
@@ -9963,14 +9968,14 @@ void game::place_player_overmap( const tripoint &om_dest )
     place_player( player_pos );
 }
 
-bool game::phasing_move( const tripoint &dest_loc )
+bool game::phasing_move( const tripoint &dest_loc, const bool via_ramp )
 {
     if( !u.has_active_bionic( bionic_id( "bio_probability_travel" ) ) ||
         u.get_power_level() < 250_kJ ) {
         return false;
     }
 
-    if( dest_loc.z != u.posz() ) {
+    if( dest_loc.z != u.posz() && !via_ramp ) {
         // No vertical phasing yet
         return false;
     }
@@ -10063,6 +10068,10 @@ bool game::grabbed_furn_move( const tripoint &dp )
                              !m.veh_at( fdest ) &&
                              ( !has_floor || m.tr_at( fdest ).is_null() )
                          );
+    // @TODO: it should be possible to move over invisible traps. This should probably
+    // trigger the trap.
+    // The current check (no move if trap) allows a player to detect invisible traps by
+    // attempting to move stuff onto it.
 
     const furn_t furntype = m.furn( fpos ).obj();
     const int src_items = m.i_at( fpos ).size();
@@ -10385,7 +10394,7 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
 
     // Fall down to the ground - always on the last reached tile
     if( !m.has_flag( "SWIMMABLE", c->pos() ) ) {
-        const trap_id trap_under_creature = m.tr_at( c->pos() ).loadid;
+        const trap &trap_under_creature = m.tr_at( c->pos() );
         // Didn't smash into a wall or a floor so only take the fall damage
         if( thru && trap_under_creature == tr_ledge ) {
             m.creature_on_trap( *c, false );
@@ -10787,7 +10796,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
-        std::vector<tripoint> candidates = closest_tripoints_first( u.pos(), 1 );
+        std::vector<tripoint> candidates = closest_points_first( u.pos(), 1 );
         candidates.erase( std::remove_if( candidates.begin(), candidates.end(),
         [this]( const tripoint & c ) {
             return !is_empty( c );
@@ -10796,6 +10805,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
         for( const auto &np : npcs_to_bring ) {
             const auto found = std::find_if( candidates.begin(), candidates.end(),
             [this, np]( const tripoint & c ) {
+                // @TODO NPC should appear on top of invisible traps (and trigger them),
+                // instead of magically choosing tiles without dangerous traps.
                 return !np->is_dangerous_fields( m.field_at( c ) ) && m.tr_at( c ).is_benign();
             } );
             if( found != candidates.end() ) {
@@ -11111,7 +11122,7 @@ void game::vertical_notes( int z_before, int z_after )
     }
 }
 
-point game::update_map( player &p )
+point game::update_map( Character &p )
 {
     point p2( p.posx(), p.posy() );
     return update_map( p2.x, p2.y );
@@ -11514,20 +11525,31 @@ void game::perhaps_add_random_npc()
         return;
     }
     // Create a new NPC?
-    // Only allow NPCs on 0 z-level, otherwise they can bug out due to lack of spots
-    if( !get_option<bool>( "RANDOM_NPC" ) || ( !m.has_zlevels() && get_levz() != 0 ) ) {
+
+    double spawn_time = get_option<float>( "NPC_SPAWNTIME" );
+    if( spawn_time == 0.0 ) {
         return;
     }
 
-    float density = get_option<float>( "NPC_DENSITY" );
-    static constexpr int density_search_radius = 60;
-    const float npc_num = overmap_buffer.get_npcs_near_player( density_search_radius ).size();
-    if( npc_num > 0.0 ) {
-        // 100%, 80%, 64%, 52%, 41%, 33%...
-        density *= std::pow( 0.8f, npc_num );
+    // spawn algorithm is a chance per hour, but the config is specified in average days
+    // actual chance per hour is (100 / 24 ) / days
+    static constexpr double days_to_rate_factor = 100.0 / 24;
+    double spawn_rate = days_to_rate_factor / spawn_time;
+    static constexpr int radius_spawn_range = 90;
+    std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( radius_spawn_range );
+    size_t npc_num = npcs.size();
+    for( auto &npc : npcs ) {
+        if( npc->has_trait( trait_NPC_STATIC_NPC ) || npc->has_trait( trait_NPC_STARTING_NPC ) ) {
+            npc_num--;
+        }
     }
 
-    if( !x_in_y( density, 100 ) ) {
+    if( npc_num > 0 ) {
+        // 100%, 80%, 64%, 52%, 41%, 33%...
+        spawn_rate *= std::pow( 0.8f, npc_num );
+    }
+
+    if( !x_in_y( spawn_rate, 100 ) ) {
         return;
     }
     bool spawn_allowed = false;
@@ -11537,7 +11559,6 @@ void game::perhaps_add_random_npc()
         if( counter >= 10 ) {
             return;
         }
-        static constexpr int radius_spawn_range = 120;
         const tripoint u_omt = u.global_omt_location();
         spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
                                      rng( -radius_spawn_range, radius_spawn_range ) );
@@ -11559,6 +11580,7 @@ void game::perhaps_add_random_npc()
                             faction_id( "no_faction" ) );
     tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
     // adds the npc to the correct overmap.
+    // Only spawn random NPCs on z-level 0
     tripoint submap_spawn = omt_to_sm_copy( spawn_point );
     tmp->spawn_at_sm( tripoint( submap_spawn.xy(), 0 ) );
     overmap_buffer.insert_npc( tmp );
@@ -11820,7 +11842,7 @@ void game::process_artifact( item &it, player &p )
                     case ARTC_PORTAL:
                         for( const tripoint &dest : m.points_in_radius( p.pos(), 1 ) ) {
                             m.remove_field( dest, fd_fatigue );
-                            if( m.tr_at( dest ).loadid == tr_portal ) {
+                            if( m.tr_at( dest ) == tr_portal ) {
                                 add_msg( m_good, _( "The portal collapses!" ) );
                                 m.remove_trap( dest );
                                 it.charges++;

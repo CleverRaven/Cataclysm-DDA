@@ -14,7 +14,7 @@
 
 map_selector::map_selector( const tripoint &pos, int radius, bool accessible )
 {
-    for( const tripoint &e : closest_tripoints_first( pos, radius ) ) {
+    for( const tripoint &e : closest_points_first( pos, radius ) ) {
         if( !accessible || get_map().clear_path( pos, e, radius, 1, 100 ) ) {
             data.emplace_back( e );
         }

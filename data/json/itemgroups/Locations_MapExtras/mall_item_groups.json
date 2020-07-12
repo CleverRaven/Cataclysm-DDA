@@ -68,8 +68,9 @@
     "id": "vitamin_shop",
     "type": "item_group",
     "items": [
-      [ "bandages", 25 ],
-      [ "1st_aid", 20 ],
+      [ "adhesive_bandages", 25 ],
+      [ "1st_aid", 15 ],
+      [ "ifak", 15 ],
       [ "vitamins", 75 ],
       [ "calcium_tablet", 75 ],
       [ "aspirin", 45 ],

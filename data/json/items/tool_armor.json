@@ -34,6 +34,60 @@
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
   {
+    "id": "tourniquet_upper",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (arm)", "str_pl": "tourniquets (arm)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "weight": "300 g",
+    "volume": "300 ml",
+    "price": 20000,
+    "price_postapoc": 50,
+    "material": [ "wood", "leather" ],
+    "symbol": "{",
+    "looks_like": "armguard_hard",
+    "color": "red",
+    "covers": [ "ARM_EITHER" ],
+    "coverage": 10,
+    "encumbrance": 70,
+    "warmth": 0,
+    "material_thickness": 1,
+    "use_action": { "target": "tourniquet_upper_XL", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET" ]
+  },
+  {
+    "id": "tourniquet_upper_XL",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (arm XL)", "str_pl": "tourniquets (arm XL)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "copy-from": "tourniquet_upper",
+    "looks_like": "tourniquet_upper",
+    "covers": [ "ARM_EITHER" ],
+    "use_action": { "target": "tourniquet_lower", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
+  },
+  {
+    "id": "tourniquet_lower",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (leg)", "str_pl": "tourniquets (leg)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "copy-from": "tourniquet_upper",
+    "looks_like": "tourniquet_upper",
+    "covers": [ "LEG_EITHER" ],
+    "use_action": { "target": "tourniquet_lower_XL", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET" ]
+  },
+  {
+    "id": "tourniquet_lower_XL",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (leg)", "str_pl": "tourniquets (leg)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "copy-from": "tourniquet_upper",
+    "looks_like": "tourniquet_upper",
+    "covers": [ "LEG_EITHER" ],
+    "use_action": { "target": "tourniquet_upper", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
+  },
+  {
     "id": "blindfold",
     "type": "ARMOR",
     "name": { "str": "blindfold" },
@@ -171,6 +225,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -322,6 +377,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell", "light_minus_disposable_cell" ]
@@ -427,6 +483,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -486,6 +543,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -545,6 +603,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -604,6 +663,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -685,6 +745,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -744,6 +805,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -876,7 +938,7 @@
     "weight": "6820 g",
     "volume": "9 L",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 5000 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "plutonium": 5000 } } ],
     "ammo": "plutonium",
     "charges_per_use": 5,
     "use_action": [ "RM13ARMOR_OFF" ],
@@ -931,7 +993,7 @@
     "material": [ "ceramic", "kevlar" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 1000 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "plutonium": 1000 } } ],
     "ammo": "plutonium",
     "initial_charges": 1000,
     "use_action": {
@@ -982,7 +1044,7 @@
     "material": [ "carbide" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 2500 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "plutonium": 2500 } } ],
     "ammo": "plutonium",
     "initial_charges": 1000,
     "use_action": {
@@ -1062,7 +1124,7 @@
     "weight": "720 g",
     "volume": "500 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rebreather_filter": 60 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
     "ammo": "rebreather_filter",
     "initial_charges": 60,
     "charges_per_use": 1,
@@ -1110,7 +1172,7 @@
     "weight": "960 g",
     "volume": "1250 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rebreather_filter": 60 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
     "ammo": "rebreather_filter",
     "initial_charges": 60,
     "charges_per_use": 1,
@@ -1165,7 +1227,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 7,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_s": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_s": 100 } } ],
     "ammo": "gasfilter_s",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ]
@@ -1192,7 +1254,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ]
@@ -1218,7 +1280,7 @@
     "material_thickness": 2,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 16,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1246,7 +1308,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1274,7 +1336,7 @@
     "material_thickness": 3,
     "environmental_protection": 1,
     "environmental_protection_with_filter": 15,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1296,7 +1358,7 @@
     "weight": "1260 g",
     "volume": "1500 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1320,7 +1382,7 @@
     "price": 24000,
     "price_postapoc": 2000,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1348,10 +1410,9 @@
     "price": 24000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
-    "charges_per_use": 1,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "cotton" ],
     "symbol": "[",
@@ -1377,7 +1438,7 @@
     "price": 24000,
     "price_postapoc": 1750,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1405,7 +1466,7 @@
     "price": 24000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1433,7 +1494,7 @@
     "price": 24000,
     "price_postapoc": 1750,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1461,7 +1522,7 @@
     "price": 24000,
     "price_postapoc": 1500,
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "gasfilter_m": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
@@ -1513,6 +1574,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -1577,6 +1639,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -1620,7 +1683,7 @@
     "flags": [ "OVERSIZE" ],
     "weight": "364 g",
     "volume": "750 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ampoule": 2 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "ampoule": 2 } } ],
     "charges_per_use": 1,
     "use_action": [ "JET_INJECTOR" ],
     "material_thickness": 3
@@ -1639,7 +1702,7 @@
     "flags": [ "OVERSIZE" ],
     "weight": "212 g",
     "volume": "750 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "stimpack_ammo": 5 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "stimpack_ammo": 5 } } ],
     "ammo": "stimpack_ammo",
     "initial_charges": 5,
     "charges_per_use": 1,
@@ -1661,7 +1724,7 @@
     "weight": "982 g",
     "volume": "1500 ml",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rebreather_filter": 120 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 120 } } ],
     "ammo": "rebreather_filter",
     "charges_per_use": 1,
     "use_action": {
@@ -1709,7 +1772,7 @@
     "weight": "1302 g",
     "volume": "2 L",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "rebreather_filter": 120 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 120 } } ],
     "ammo": "rebreather_filter",
     "charges_per_use": 1,
     "use_action": {
@@ -1843,6 +1906,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "light_minus_battery_cell", "light_minus_atomic_battery_cell" ]
@@ -1868,10 +1932,11 @@
     "material_thickness": 2,
     "pocket_data": [
       {
-        "pocket_type": "CONTAINER",
+        "holster": true,
         "min_item_volume": "250 ml",
         "max_contains_volume": "1 L",
-        "max_contains_weight": "1 kg",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
         "moves": 3,
         "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
       }
@@ -2425,6 +2490,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
@@ -2781,6 +2847,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [
@@ -2859,7 +2926,7 @@
     "id": "solarpack",
     "type": "TOOL_ARMOR",
     "name": { "str": "solar backpack (folded)", "str_pl": "solar backpacks (folded)" },
-    "description": "Personal portable charging system consisting of an array of solar panels neatly folded in a form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system.",
+    "description": "Personal portable charging system consisting of an array of solar panels neatly folded in a form of a large backpack.  It can be worn as one, and has an integrated cable to plug it into a cable charger system CBM.",
     "weight": "7500 g",
     "volume": "5 L",
     "price": 500000,
@@ -2881,7 +2948,7 @@
     "type": "TOOL_ARMOR",
     "repairs_like": "solarpack",
     "name": { "str": "solar backpack (unfolded)", "str_pl": "solar backpacks (unfolded)" },
-    "description": "Unfolded array of portable solar panels ready to push some power into an active cable charger system.",
+    "description": "Unfolded array of portable solar panels ready to push some power into an active cable charger system CBM.",
     "weight": "7500 g",
     "volume": "15 L",
     "price": 500000,
@@ -2969,7 +3036,9 @@
     "color": "light_gray",
     "initial_charges": 60,
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nitrox": 60 } } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
+    ],
     "covers": [ "TORSO" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
     "environmental_protection": 1,
@@ -2997,7 +3066,9 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nitrox": 60 } } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 60 } }
+    ],
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "TORSO", "MOUTH" ],
@@ -3026,7 +3097,9 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nitrox": 20 } } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
+    ],
     "max_charges": 20,
     "covers": [ "TORSO" ],
     "flags": [ "WATER_FRIENDLY", "BELTED", "ONLY_ONE", "STURDY", "NO_UNLOAD" ],
@@ -3055,7 +3128,9 @@
     "symbol": ";",
     "color": "light_gray",
     "ammo": "nitrox",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nitrox": 20 } } ],
+    "pocket_data": [
+      { "pocket_type": "MAGAZINE", "airtight": true, "rigid": true, "watertight": true, "ammo_restriction": { "nitrox": 20 } }
+    ],
     "charges_per_use": 1,
     "turns_per_charge": 60,
     "covers": [ "TORSO", "MOUTH" ],
@@ -3101,6 +3176,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
@@ -3155,6 +3231,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]

@@ -70,6 +70,13 @@ const itype &string_id<itype>::obj() const
     return result ? *result : dummy;
 }
 
+/** @relates string_id */
+template<>
+bool string_id<itype>::is_valid() const
+{
+    return item_controller->has_template( *this );
+}
+
 static item_category_id calc_category( const itype &obj );
 static void set_allergy_flags( itype &item_template );
 static void hflesh_to_flesh( itype &item_template );
@@ -963,7 +970,6 @@ void Item_factory::init()
     add_iuse( "TAZER2", &iuse::tazer2 );
     add_iuse( "TELEPORT", &iuse::teleport );
     add_iuse( "THORAZINE", &iuse::thorazine );
-    add_iuse( "THROWABLE_EXTINGUISHER_ACT", &iuse::throwable_extinguisher_act );
     add_iuse( "TOWEL", &iuse::towel );
     add_iuse( "TRIMMER_OFF", &iuse::trimmer_off );
     add_iuse( "TRIMMER_ON", &iuse::trimmer_on );
@@ -1072,9 +1078,13 @@ void Item_factory::check_definitions() const
                 if( item_contents( type->pockets ).bigger_on_the_inside( volume ) ) {
                     msg += "is bigger on the inside.  consider using TARDIS flag.\n";
                 }
-                for( const pocket_data &data : type->pockets ) {
-                    msg += data.check_definition();
-                }
+            }
+        }
+
+        for( const pocket_data &data : type->pockets ) {
+            std::string pocket_error = data.check_definition();
+            if( !pocket_error.empty() ) {
+                msg += "problem with pocket: " + pocket_error;
             }
         }
 
@@ -1246,8 +1256,8 @@ void Item_factory::check_definitions() const
                     }
                 }
             }
-            if( type->gun->barrel_length < 0_ml ) {
-                msg += "gun barrel length cannot be negative\n";
+            if( type->gun->barrel_volume < 0_ml ) {
+                msg += "gun barrel volume cannot be negative\n";
             }
 
             if( !type->gun->skill_used ) {
@@ -1714,7 +1724,7 @@ void Item_factory::load( islot_gun &slot, const JsonObject &jo, const std::strin
     assign( jo, "reload", slot.reload_time, strict, 0 );
     assign( jo, "reload_noise", slot.reload_noise, strict );
     assign( jo, "reload_noise_volume", slot.reload_noise_volume, strict, 0 );
-    assign( jo, "barrel_length", slot.barrel_length, strict, 0_ml );
+    assign( jo, "barrel_volume", slot.barrel_volume, strict, 0_ml );
     assign( jo, "built_in_mods", slot.built_in_mods, strict );
     assign( jo, "default_mods", slot.default_mods, strict );
     assign( jo, "ups_charges", slot.ups_charges, strict, 0 );

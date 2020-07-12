@@ -395,7 +395,7 @@ This section describes each json file and their contents. Each json has their ow
 | Identifier        | Description
 |---                |---
 | id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 42 columns long.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long.
 
 ```C++
   {
@@ -424,22 +424,25 @@ This section describes each json file and their contents. Each json has their ow
 
 | Identifier        | Description
 |---                |---
-| id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| name              | In-game name displayed.
-| accusative        | Accusative form for this bodypart.
-| heading           | How it's displayed in headings.
-| heading_multiple  | Plural form of heading.
-| hp_bar_ui_text    | How it's displayed next to the hp bar in the panel.
-| main_part         | What is the main part this one is attached to. (If this is a main part it's attached to itself)
-| opposite_part     | What is the opposite part ot this one in case of a pair.
-| hit_size          | Size of the body part when doing an unweighted selection.
-| hit_size_relative | Hit sizes for attackers who are smaller, equal in size, and bigger.
-| hit_difficulty    | How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
-| stylish_bonus     | Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
-| hot_morale_mod    | Mood effect of being too hot on this part. (default: `0`)
-| cold_morale_mod   | Mood effect of being too cold on this part. (default: `0`)
-| squeamish_penalty | Mood effect of wearing filthy clothing on this part. (default: `0`)
-| bionic_slots      | How many bionic slots does this part have.
+| id                | (_mandatory_) Unique ID. Must be one continuous word, use underscores if necessary.
+| name              | (_mandatory_) In-game name displayed.
+| accusative        | (_mandatory_) Accusative form for this bodypart.
+| heading           | (_mandatory_) How it's displayed in headings.
+| heading_multiple  | (_mandatory_) Plural form of heading.
+| hp_bar_ui_text    | (_mandatory_) How it's displayed next to the hp bar in the panel.
+| main_part         | (_mandatory_) What is the main part this one is attached to. (If this is a main part it's attached to itself)
+| base_hp           | (_mandatory_) The amount of hp this part has before any modification.
+| opposite_part     | (_mandatory_) What is the opposite part ot this one in case of a pair.
+| hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
+| hit_size_relative | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
+| hit_difficulty    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
+| stylish_bonus     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
+| hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
+| cold_morale_mod   | (_optional_) Mood effect of being too cold on this part. (default: `0`)
+| squeamish_penalty | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
+| stat_hp_mods      | (_optional_) Values modifiying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodifed value of the X stat and get_healthy() being the hidden health stat of the character.
+| bionic_slots      | (_optional_) How many bionic slots does this part have.
+| is_limb           | (_optional_) Is this bodypart a limb. (default: `false`)
 
 ```C++
   {
@@ -462,6 +465,8 @@ This section describes each json file and their contents. Each json has their ow
     "hot_morale_mod": 2,
     "cold_morale_mod": 2,
     "squeamish_penalty": 6,
+    "base_hp": 60,
+    "stat_hp_mods": { "int_mod": 4.0, "dex_mod": 1.0, "str_mod": 1.0, "per_mod": 1.0, "health_mod": 1.0 },
     "bionic_slots": 80
   }
 ```
@@ -2075,7 +2080,7 @@ Guns can be defined like this:
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
-"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
+"barrel_volume": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
@@ -2571,7 +2576,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "limb_power" : 10,      // How much hp to restore when healing limbs? Mandatory value
     "head_power" : 7,       // How much hp to restore when healing head? If unset, defaults to 0.8 * limb_power.
     "torso_power" : 15,     // How much hp to restore when healing torso? If unset, defaults to 1.5 * limb_power.
-    "bleed" : 0.4,          // Chance to remove bleed effect.
+    "bleed" : 4,            // How many bleed effect intensity levels can be reduced by it. Base value.
     "bite" : 0.95,          // Chance to remove bite effect.
     "infect" : 0.1,         // Chance to remove infected effect.
     "move_cost" : 250,      // Cost in moves to use the item.
@@ -3446,6 +3451,7 @@ Setting of sprite sheets. Same as `tiles-new` field in `tile_config`. Sprite fil
       { "name": "shadow",  // name of this level of intensity
         "light_override": 3.7 } //light level on the tile occupied by this field will be set at 3.7 not matter the ambient light.
      ],
+    "decrease_intensity_on_contact": true, // Decrease the field intensity by one each time a character walk on it.
     "bash": {
       "str_min": 1, // lower bracket of bashing damage required to bash
       "str_max": 3, // higher bracket

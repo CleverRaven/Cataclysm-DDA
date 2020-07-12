@@ -52,25 +52,6 @@ std::string enum_to_string<side>( side data )
     abort();
 }
 
-template<>
-std::string enum_to_string<hp_part>( hp_part data )
-{
-    switch( data ) {
-        // *INDENT-OFF*
-        case hp_part::hp_head: return "head";
-        case hp_part::hp_torso: return "torso";
-        case hp_part::hp_arm_l: return "arm_l";
-        case hp_part::hp_arm_r: return "arm_r";
-        case hp_part::hp_leg_l: return "leg_l";
-        case hp_part::hp_leg_r: return "leg_r";
-        // *INDENT-ON*
-        case hp_part::num_hp_parts:
-            break;
-    }
-    debugmsg( "Invalid hp_part" );
-    abort();
-}
-
 } // namespace io
 
 namespace
@@ -216,6 +197,11 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "hit_size", hit_size );
     mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
     mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
+
+    mandatory( jo, was_loaded, "base_hp", base_hp );
+    optional( jo, was_loaded, "stat_hp_mods", hp_mods );
+
+    optional( jo, was_loaded, "is_limb", is_limb, false );
 
     mandatory( jo, was_loaded, "legacy_id", legacy_id );
     token = legacy_id_to_enum( legacy_id );
@@ -380,4 +366,141 @@ void body_part_set::fill( const std::vector<bodypart_id> &bps )
     for( const bodypart_id &bp : bps ) {
         parts.insert( bp.id() );
     }
+}
+
+bodypart_id bodypart::get_id() const
+{
+    return id;
+}
+
+void bodypart::set_hp_to_max()
+{
+    hp_cur = hp_max;
+}
+
+bool bodypart::is_at_max_hp() const
+{
+    return hp_cur == hp_max;
+}
+
+int bodypart::get_hp_cur() const
+{
+    return hp_cur;
+}
+
+int bodypart::get_hp_max() const
+{
+    return hp_max;
+}
+
+int bodypart::get_healed_total() const
+{
+    return healed_total;
+}
+
+int bodypart::get_damage_bandaged() const
+{
+    return damage_bandaged;
+}
+
+int bodypart::get_damage_disinfected() const
+{
+    return damage_disinfected;
+}
+
+encumbrance_data bodypart::get_encumbrance_data() const
+{
+    return encumb_data;
+}
+
+void bodypart::set_hp_cur( int set )
+{
+    hp_cur = set;
+}
+
+void bodypart::set_hp_max( int set )
+{
+    hp_max = set;
+}
+
+void bodypart::set_healed_total( int set )
+{
+    healed_total = set;
+}
+
+void bodypart::set_damage_bandaged( int set )
+{
+    damage_bandaged = set;
+}
+
+void bodypart::set_damage_disinfected( int set )
+{
+    damage_disinfected = set;
+}
+
+void bodypart::set_encumbrance_data( encumbrance_data set )
+{
+    encumb_data = set;
+}
+
+void bodypart::mod_hp_cur( int mod )
+{
+    hp_cur += mod;
+}
+
+void bodypart::mod_hp_max( int mod )
+{
+    hp_max += mod;
+}
+
+void bodypart::mod_healed_total( int mod )
+{
+    healed_total += mod;
+}
+
+void bodypart::mod_damage_bandaged( int mod )
+{
+    damage_bandaged += mod;
+}
+
+void bodypart::mod_damage_disinfected( int mod )
+{
+    damage_disinfected += mod;
+}
+
+void bodypart::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "id", id );
+    json.member( "hp_cur", hp_cur );
+    json.member( "hp_max", hp_max );
+    json.member( "damage_bandaged", damage_bandaged );
+    json.member( "damage_disinfected", damage_disinfected );
+    json.end_object();
+}
+
+void bodypart::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    jo.read( "id", id, true );
+    jo.read( "hp_cur", hp_cur, true );
+    jo.read( "hp_max", hp_max, true );
+    jo.read( "damage_bandaged", damage_bandaged, true );
+    jo.read( "damage_disinfected", damage_disinfected, true );
+}
+
+void stat_hp_mods::load( const JsonObject &jsobj )
+{
+    optional( jsobj, was_loaded, "str_mod", str_mod, 3.0f );
+    optional( jsobj, was_loaded, "dex_mod", dex_mod, 0.0f );
+    optional( jsobj, was_loaded, "int_mod", int_mod, 0.0f );
+    optional( jsobj, was_loaded, "per_mod", str_mod, 0.0f );
+
+    optional( jsobj, was_loaded, "health_mod", health_mod, 0.0f );
+}
+
+void stat_hp_mods::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
 }

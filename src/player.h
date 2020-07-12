@@ -674,8 +674,6 @@ class player : public Character
 
         // ---------------VALUES-----------------
         tripoint view_offset;
-        // Is currently in control of a vehicle
-        bool controlling_vehicle;
         // Relative direction of a grab, add to posx, posy to get the coordinates of the grabbed thing.
         tripoint grab_point;
         int volume;

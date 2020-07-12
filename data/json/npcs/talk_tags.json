@@ -150,40 +150,6 @@
   },
   {
     "type": "snippet",
-    "category": "<noticedbooze>",
-    "//": "Used when chit-chatting while the avatar has a beer",
-    "text": [
-      "Yeah sure, can't help but notice you got beer with you!  Let's crack a cold one and chat, <name_g>, how goes it?",
-      "Oh definitely, how about one of those beers I see on you?  What's up anyway?",
-      "Yeah you share those beers I see you hoarding and then we chat all you like!  Only joking, what's up <name_g>?",
-      "Hey <name_g>, I bet a chat would be all the sweeter with a nice, cold beer in hand.  How's it going?",
-      "While we chat, what say you we open a beer and just… pretend the world isn't ending, just for a while?",
-      "Pass me one and let's talk about the good ol' days, <name_g>."
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "<neutralchitchat>",
-    "//": "General chit chat messages",
-    "text": [
-      "Hey, sure thing, <name_g>, I need a break anyway, how are you?",
-      "Yeah OK, <name_g>, how's it going?",
-      "Sure, let's shoot the shit!  You OK?",
-      "Why not?  How you doing?",
-      "I'm OK with that, what's up?",
-      "I can spare a few minutes, how's things?",
-      "Sure thing <name_g>, you good?",
-      "Alright, you got something to get off your chest?",
-      "Always ready for a good chat!  But why, you OK?",
-      "OK <name_g>, we should get to know each other, how are you coping?",
-      "Definitely, I'm game.  How you holding up?",
-      "Good idea <name_g>.  Let's forget the world for a while.  How you doin'?",
-      "Ah, what the heck.  How's life been treating you?",
-      "Sure.  So, how about that weather ey?"
-    ]
-  },
-  {
-    "type": "snippet",
     "category": "<swear!>",
     "//": "Swears and curses used to emphasize unpleasant events",
     "text": [
@@ -1179,6 +1145,16 @@
       "How did you make it through the initial chaos?",
       "Tell me how you survived the initial wave of the Cataclysm.",
       "Was it rough surviving thus far?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<CWH_intro_question>",
+    "//": "avatar response to an NPC that opens up their theories about what the cataclysm was.",
+    "text": [
+      "How do you think we ended up here?  What even happened?",
+      "What's going on?  Like, big picture, what the hell happened?",
+      "Have you heard anything about how the apocalypse came about?"
     ]
   },
   {

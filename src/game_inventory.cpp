@@ -468,7 +468,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             }, _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return to_string_clipped( time_duration::from_turns( get_recipe( loc ).time / 100 ) );
+                return to_string_clipped( get_recipe( loc ).time_to_craft() );
             }, _( "TIME" ) );
         }
 
@@ -1297,7 +1297,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         item &it = *holstered_item.first;
         bool success = false;
         if( !it.count_by_charges() || it.count() == holstered_item.second ) {
-            if( holster->can_contain( it ) ) {
+            if( holster->contents.can_contain( it ).success() ) {
                 holster->put_in( it, item_pocket::pocket_type::CONTAINER );
                 holstered_item.first.remove_item();
                 success = true;

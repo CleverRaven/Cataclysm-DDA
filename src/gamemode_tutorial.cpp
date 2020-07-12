@@ -121,9 +121,7 @@ bool tutorial_game::init()
     g->u.int_cur = g->u.int_max;
     g->u.dex_cur = g->u.dex_max;
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        g->u.hp_cur[i] = g->u.hp_max[i];
-    }
+    g->u.set_all_parts_hp_to_max();
 
     const oter_id rock( "rock" );
     //~ default name for the tutorial

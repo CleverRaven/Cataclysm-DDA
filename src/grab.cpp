@@ -27,7 +27,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
     vehicle *grabbed_vehicle = &grabbed_vehicle_vp->vehicle();
     if( !grabbed_vehicle ||
-        !grabbed_vehicle->handle_potential_theft( dynamic_cast<player &>( g->u ) ) ) {
+        !grabbed_vehicle->handle_potential_theft( get_avatar() ) ) {
         return false;
     }
     const int grabbed_part = grabbed_vehicle_vp->part_index();
@@ -185,7 +185,10 @@ bool game::grabbed_veh_move( const tripoint &dp )
 
     m.displace_vehicle( *grabbed_vehicle, final_dp_veh );
 
-    if( !grabbed_vehicle ) {
+    if( grabbed_vehicle ) {
+        m.level_vehicle( *grabbed_vehicle );
+        grabbed_vehicle->check_falling_or_floating();
+    } else {
         debugmsg( "Grabbed vehicle disappeared" );
         return false;
     }

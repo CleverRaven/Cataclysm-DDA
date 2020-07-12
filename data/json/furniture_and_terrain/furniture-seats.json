@@ -233,5 +233,39 @@
         { "item": "rag", "count": [ 5, 10 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_metal_bench",
+    "name": "metal bench",
+    "description": "A bench made of scrap metal.  Not the most comfortable furniture you've ever seen.",
+    "symbol": "h",
+    "color": "light_gray",
+    "move_cost_mod": 1,
+    "coverage": 30,
+    "required_str": 7,
+    "comfort": 1,
+    "floor_bedding_warmth": -2000,
+    "bonus_fire_warmth_feet": 1000,
+    "flags": [ "TRANSPARENT", "MOUNTABLE", "SHORT", "CAN_SIT" ],
+    "bash": {
+      "str_min": 15,
+      "str_max": 200,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "sheet_metal", "count": [ 0, 1 ] },
+        { "item": "pipe", "count": [ 0, 4 ] }
+      ]
+    },
+    "deconstruct": {
+      "items": [
+        { "item": "pipe_fittings", "count": 1 },
+        { "item": "scrap", "count": 3 },
+        { "item": "sheet_metal", "count": 1 },
+        { "item": "pipe", "count": 4 }
+      ]
+    }
   }
 ]

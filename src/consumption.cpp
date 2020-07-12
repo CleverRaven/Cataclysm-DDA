@@ -1341,6 +1341,9 @@ bool Character::consume_effects( item &food )
     double ratio = 1.0f;
     if( units::to_gram( food_weight ) != 0 ) {
         ratio = std::max( static_cast<double>( food_nutrients.kcal ) / units::to_gram( food_weight ), 1.0 );
+        if( ratio > 3.0f ) {
+            ratio = std::sqrt( 3 * ratio );
+        }
     }
 
     food_summary ingested{
@@ -1348,7 +1351,8 @@ bool Character::consume_effects( item &food )
         food_vol * ratio,
         food_nutrients
     };
-    add_msg( m_debug, "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calculated: %d / %d",
+    add_msg( m_debug,
+             "Effective volume: %d (solid) %d (liquid)\n multiplier: %g calories: %d, weight: %d",
              units::to_milliliter( ingested.solids ), units::to_milliliter( ingested.water ), ratio,
              food_nutrients.kcal, units::to_gram( food_weight ) );
     // Maybe move tapeworm to digestion
@@ -1432,7 +1436,7 @@ bool Character::feed_furnace_with( item &it )
         return false;
     }
     if( it.is_favorite &&
-        !g->u.query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
+        !get_avatar().query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
         return false;
     }
 

@@ -4,7 +4,6 @@
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "calendar.h"
-#include "game.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "item.h"
@@ -15,13 +14,13 @@
 static void reset_time()
 {
     calendar::turn = calendar::start_of_cataclysm;
-    player &p = g->u;
-    p.set_stored_kcal( p.get_healthy_kcal() );
-    p.set_hunger( 0 );
+    Character &player_character = get_player_character();
+    player_character.set_stored_kcal( player_character.get_healthy_kcal() );
+    player_character.set_hunger( 0 );
     clear_avatar();
 }
 
-static void pass_time( player &p, time_duration amt )
+static void pass_time( Character &p, time_duration amt )
 {
     for( auto turns = 1_turns; turns < amt; turns += 1_turns ) {
         calendar::turn += 1_turns;
@@ -29,13 +28,13 @@ static void pass_time( player &p, time_duration amt )
     }
 }
 
-static void clear_stomach( player &p )
+static void clear_stomach( Character &p )
 {
     p.stomach.empty();
     p.guts.empty();
 }
 
-static void set_all_vitamins( int target, player &p )
+static void set_all_vitamins( int target, Character &p )
 {
     p.vitamin_set( vitamin_id( "vitA" ), target );
     p.vitamin_set( vitamin_id( "vitB" ), target );
@@ -46,7 +45,7 @@ static void set_all_vitamins( int target, player &p )
 
 // time (in minutes) it takes for the player to feel hungry
 // passes time on the calendar
-static time_duration time_until_hungry( player &p )
+static time_duration time_until_hungry( Character &p )
 {
     unsigned int thirty_minutes = 0;
     do {
@@ -58,7 +57,7 @@ static time_duration time_until_hungry( player &p )
     return thirty_minutes * 30_minutes;
 }
 
-static void print_stomach_contents( player &p, const bool print )
+static void print_stomach_contents( Character &p, const bool print )
 {
     if( !print ) {
         return;
@@ -87,7 +86,7 @@ static void eat_all_nutrients( player &p )
 // player does not thirst or tire or require vitamins
 TEST_CASE( "starve_test", "[starve][slow]" )
 {
-    player &dummy = g->u;
+    Character &dummy = get_player_character();
     reset_time();
     clear_stomach( dummy );
 
@@ -125,7 +124,7 @@ TEST_CASE( "starve_test", "[starve][slow]" )
 // player does not thirst or tire or require vitamins
 TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
 {
-    player &dummy = g->u;
+    Character &dummy = get_player_character();
     reset_time();
     clear_stomach( dummy );
     while( !( dummy.has_trait( trait_id( "HUNGER3" ) ) ) ) {
@@ -164,7 +163,7 @@ TEST_CASE( "all_nutrition_starve_test", "[starve][slow]" )
 {
     // change this bool when editing the test
     const bool print_tests = false;
-    player &dummy = g->u;
+    avatar &dummy = get_avatar();
     reset_time();
     clear_stomach( dummy );
     eat_all_nutrients( dummy );
@@ -205,7 +204,7 @@ TEST_CASE( "tape_worm_halves_nutrients" )
 {
     const efftype_id effect_tapeworm( "tapeworm" );
     const bool print_tests = false;
-    player &dummy = g->u;
+    avatar &dummy = get_avatar();
     reset_time();
     clear_stomach( dummy );
     eat_all_nutrients( dummy );
@@ -225,7 +224,7 @@ TEST_CASE( "hunger" )
 {
     // change this bool when editing the test
     const bool print_tests = false;
-    player &dummy = g->u;
+    avatar &dummy = get_avatar();
     reset_time();
     clear_stomach( dummy );
     dummy.initialize_stomach_contents();
@@ -268,8 +267,8 @@ TEST_CASE( "hunger" )
     if( print_tests ) {
         printf( "%d minutes til hunger sets in\n", hunger_time );
     }
-    CHECK( hunger_time <= 435 );
-    CHECK( hunger_time >= 405 );
+    CHECK( hunger_time <= 285 );
+    CHECK( hunger_time >= 255 );
     if( print_tests ) {
         print_stomach_contents( dummy, print_tests );
         printf( "eat 16 veggy\n" );

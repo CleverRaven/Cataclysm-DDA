@@ -81,6 +81,7 @@ class advanced_inventory
         int colstart = 0;
 
         bool recalc = false;
+        bool always_recalc = false;
         /**
          * Which panels is active (item moved from there).
          */

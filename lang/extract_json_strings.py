@@ -167,7 +167,8 @@ automatically_convertible = {
     "vehicle_part",
     "vitamin",
     "WHEEL",
-    "help"
+    "help",
+    "weather_type"
 }
 
 # for these objects a plural form is needed
@@ -589,7 +590,7 @@ def extract_dynamic_line_optional(line, member, outfile):
     if member in line:
         extract_dynamic_line(line[member], outfile)
 
-dynamic_line_string_keys = {
+dynamic_line_string_keys = [
 # from `simple_string_conds` in `condition.h`
     "u_male", "u_female", "npc_male", "npc_female",
     "has_no_assigned_mission", "has_assigned_mission", "has_many_assigned_missions",
@@ -603,7 +604,7 @@ dynamic_line_string_keys = {
     "has_pickup_list", "is_by_radio", "has_reason",
 # yes/no strings for complex conditions, 'and' list
     "yes", "no", "and"
-}
+]
 
 def extract_dynamic_line(line, outfile):
     if type(line) == list:

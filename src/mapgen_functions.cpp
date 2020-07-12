@@ -103,7 +103,6 @@ building_gen_pointer get_mapgen_cfunction( const std::string &ident )
             { "road_tee",         &mapgen_road },
             { "road_four_way",    &mapgen_road },
             { "field",            &mapgen_field },
-            { "bridge",           &mapgen_bridge },
             { "highway",          &mapgen_highway },
             { "railroad_straight", &mapgen_railroad },
             { "railroad_curved",   &mapgen_railroad },
@@ -1354,45 +1353,6 @@ void mapgen_sewer_four_way( mapgendata &dat )
         }
     }
     m->place_items( "sewer", 28, point_zero, point( SEEX * 2 - 1, SEEY * 2 - 1 ), true, dat.when() );
-}
-
-///////////////////
-void mapgen_bridge( mapgendata &dat )
-{
-    map *const m = &dat.m;
-    const auto is_river = [&]( const om_direction::type dir ) {
-        return dat.t_nesw[static_cast<int>( om_direction::add( dir,
-                                            dat.terrain_type()->get_dir() ) )]->is_river();
-    };
-
-    const bool river_west = is_river( om_direction::type::west );
-    const bool river_east = is_river( om_direction::type::east );
-
-    for( int i = 0; i < SEEX * 2; i++ ) {
-        for( int j = 0; j < SEEY * 2; j++ ) {
-            if( i < 2 ) {
-                m->ter_set( point( i, j ), river_west ? t_water_moving_dp : grass_or_dirt() );
-            } else if( i >= SEEX * 2 - 2 ) {
-                m->ter_set( point( i, j ), river_east ? t_water_moving_dp : grass_or_dirt() );
-            } else if( i == 2 || i == SEEX * 2 - 3 ) {
-                m->ter_set( point( i, j ), t_guardrail_bg_dp );
-            } else if( i == 3 || i == SEEX * 2 - 4 ) {
-                m->ter_set( point( i, j ), t_sidewalk_bg_dp );
-            } else {
-                if( ( i == SEEX - 1 || i == SEEX ) && j % 4 != 0 ) {
-                    m->ter_set( point( i, j ), t_pavement_y_bg_dp );
-                } else {
-                    m->ter_set( point( i, j ), t_pavement_bg_dp );
-                }
-            }
-        }
-    }
-
-    // spawn regular road out of fuel vehicles
-    VehicleSpawn::apply( vspawn_id( "default_bridge" ), *m, "bridge" );
-
-    m->rotate( static_cast<int>( dat.terrain_type()->get_dir() ) );
-    m->place_items( "road", 5, point_zero, point( SEEX * 2 - 1, SEEX * 2 - 1 ), false, dat.when() );
 }
 
 void mapgen_highway( mapgendata &dat )

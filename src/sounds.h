@@ -6,6 +6,7 @@
 #include <utility>
 #include <vector>
 
+class Character;
 class Creature;
 class JsonObject;
 class item;
@@ -157,7 +158,7 @@ bool has_variant_sound( const std::string &id, const std::string &variant );
 void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );
-void do_player_death_hurt( const player &target, bool death );
+void do_player_death_hurt( const Character &target, bool death );
 void do_fatigue();
 // @param obst should be string id of obstacle terrain or vehicle part
 void do_obstacle( const std::string &obst = "" );

@@ -122,6 +122,7 @@
     "blackpowder_tolerance": 48,
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -218,7 +219,7 @@
     "loudness": 25,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": "750 ml",
+    "barrel_volume": "750 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],
@@ -231,7 +232,7 @@
     ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "flags": [ "RELOAD_EJECT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 1 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 1 } } ]
   },
   {
     "id": "smg_45",
@@ -257,7 +258,7 @@
     "min_cycle_recoil": 456,
     "modes": [ [ "DEFAULT", "burst", 5 ] ],
     "loudness": 25,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -305,7 +306,7 @@
     "blackpowder_tolerance": 60,
     "loudness": 25,
     "clip_size": 5,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "45": 5 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "45": 5 } } ]
   },
   {
     "id": "tommygun",
@@ -331,7 +332,7 @@
     "durability": 7,
     "min_cycle_recoil": 540,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 3 ],
       [ "barrel", 1 ],
@@ -371,6 +372,7 @@
     "built_in_mods": [ "match_trigger" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -412,6 +414,7 @@
     "durability": 9,
     "pocket_data": [
       {
+        "magazine_well": "240 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -441,6 +444,7 @@
     "durability": 7,
     "pocket_data": [
       {
+        "magazine_well": "353 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",

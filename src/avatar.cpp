@@ -414,6 +414,12 @@ bool avatar::read( item &it, const bool continuous )
         }
         return false;
     }
+
+    if( it.get_use( "learn_spell" ) ) {
+        it.get_use( "learn_spell" )->call( *this, it, it.active, pos() );
+        return true;
+    }
+
     const int time_taken = time_to_read( it, *reader );
 
     add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
@@ -428,6 +434,7 @@ bool avatar::read( item &it, const bool continuous )
             add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
         assign_activity( act );
+        g->events().send<event_type::reads_book>( getID(), it.typeId() );
         return true;
     }
 
@@ -439,6 +446,7 @@ bool avatar::read( item &it, const bool continuous )
         } else {
             add_msg( m_info, get_hint() );
         }
+        g->events().send<event_type::reads_book>( getID(), it.typeId() );
         mod_moves( -100 );
         return false;
     }
@@ -671,7 +679,7 @@ bool avatar::read( item &it, const bool continuous )
         elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
-
+    g->events().send<event_type::reads_book>( getID(), it.typeId() );
     return true;
 }
 
@@ -1268,7 +1276,8 @@ void avatar::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
+                     ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) / 20.0f - encumb(
+                         bodypart_id( "torso" ) ) / 10.0f );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
