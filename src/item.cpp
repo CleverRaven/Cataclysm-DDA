@@ -5468,7 +5468,7 @@ void item::calc_rot( int temp, const float spoil_modifier,
     // conditions by applying starting variation bonus/penalty of +/- 20% of base shelf-life
     // positive = food was produced some time before calendar::start and/or bad storage
     // negative = food was stored in good conditions before calendar::start
-    if( calendar::turn - time_delta <= calendar::start_of_cataclysm ) {
+    if( last_temp_check <= calendar::start_of_cataclysm ) {
         time_duration spoil_variation = get_shelf_life() * 0.2f;
         rot += rng( -spoil_variation, spoil_variation );
     }
@@ -8698,8 +8698,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
 
     // if player debug menu'd the time backward it breaks stuff, just reset the
     // last_temp_check in this case
-    // if spoil_modifier is 0 then similarly it will not rot
-    if( now - last_temp_check < 0_turns || spoil_modifier == 0.0f ) {
+    if( now - last_temp_check < 0_turns ) {
         reset_temp_check();
         return false;
     }
