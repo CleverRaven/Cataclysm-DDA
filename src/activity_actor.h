@@ -515,6 +515,7 @@ class consume_activity_actor : public activity_actor
         item_location consume_location;
         item consume_item;
         std::vector<int> consume_menu_selections;
+        std::string consume_menu_filter;
         bool force = false;
         /**
          * @pre @p other is a consume_activity_actor
@@ -526,8 +527,10 @@ class consume_activity_actor : public activity_actor
         }
     public:
         consume_activity_actor( const item_location &consume_location,
-                                std::vector<int> consume_menu_selections ) :
-            consume_location( consume_location ), consume_menu_selections( consume_menu_selections ) {}
+                                std::vector<int> consume_menu_selections,
+                                const std::string &consume_menu_filter ) :
+            consume_location( consume_location ), consume_menu_selections( consume_menu_selections ),
+            consume_menu_filter( consume_menu_filter ) {}
 
         consume_activity_actor( const item_location &consume_location ) :
             consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
