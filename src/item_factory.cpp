@@ -1096,7 +1096,7 @@ void Item_factory::check_definitions() const
                 if( portion.covers.has_value() ) {
                     for( const body_part &bp : all_body_parts ) {
                         if( portion.covers->test( convert_bp( bp ) ) &&
-                            test_bps.find( convert_bp( bp ) ) != test_bps.end() ) {
+                            test_bps.count( convert_bp( bp ) ) ) {
                             msg += "multiple portions with same body_part defined\n";
                         }
                         test_bps[convert_bp( bp )] = true;
