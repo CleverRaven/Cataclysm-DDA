@@ -438,7 +438,8 @@ std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions(
 std::vector<std::pair<std::string, std::string>> dig_options::get_descriptions() const
 {
     auto options = std::vector<std::pair<std::string, std::string>>();
-    options.emplace_back( std::make_pair( _( "Dig terrain: " ), get_channel() ? _( "channel" ) : _( "pit" ) ) );
+    options.emplace_back( std::make_pair( _( "Dig terrain: " ),
+                                          get_channel() ? _( "channel" ) : _( "pit" ) ) );
     return options;
 }
 

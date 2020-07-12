@@ -156,7 +156,7 @@ class dig_options : public zone_options
             successful,
             changed,
         };
-        
+
         query_dig_result query_dig();
 
     public:
