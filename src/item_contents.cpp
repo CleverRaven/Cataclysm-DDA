@@ -67,7 +67,7 @@ void pocket_favorite_callback::refresh( uilist *menu )
         selected_pocket->general_info( info, menu->selected + 1, true );
         starty += fold_and_print( menu->window, point( startx, starty ), width,
                                   c_light_gray, format_item_info( info, {} ) ) + 1;
-		
+
         info.clear();
         selected_pocket->favorite_info( info );
         starty += fold_and_print( menu->window, point( startx, starty ), width,
