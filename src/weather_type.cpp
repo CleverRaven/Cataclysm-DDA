@@ -177,7 +177,10 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "tiles_animation", tiles_animation, "" );
     optional( jo, was_loaded, "sound_category", sound_category, weather_sound_category::silent );
     mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
-
+    optional( jo, was_loaded, "duration_min", duration_min, 5_minutes );
+    optional( jo, was_loaded, "duration_max", duration_max, 5_minutes );
+    optional( jo, was_loaded, "time_between_min", time_between_min, 0_seconds );
+    optional( jo, was_loaded, "time_between_max", time_between_max, 0_seconds );
     for( const JsonObject weather_effect_jo : jo.get_array( "effects" ) ) {
 
         weather_effect effect;
@@ -267,7 +270,7 @@ void weather_type::load( const JsonObject &jo, const std::string & )
                   0_seconds );
         optional( weather_requires, was_loaded, "time_passed_max", new_requires.time_passed_max,
                   0_seconds );
-
+        optional( weather_requires, was_loaded, "one_in_chance", new_requires.one_in_chance, 0 );
         requirements = new_requires;
     }
 }

@@ -1156,8 +1156,7 @@ void game::unserialize_master( std::istream &fin )
             } else if( name == "seed" ) {
                 jsin.read( seed );
             } else if( name == "weather" ) {
-                JsonObject w = jsin.get_object();
-                w.read( "lightning", weather.lightning_active );
+                weather_manager::unserialize_all( jsin );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1175,6 +1174,14 @@ void mission::serialize_all( JsonOut &json )
         e->serialize( json );
     }
     json.end_array();
+}
+
+void weather_manager::unserialize_all( JsonIn &jsin )
+{
+    JsonObject w = jsin.get_object();
+    w.read( "lightning", get_weather().lightning_active );
+    w.read( "weather_id", get_weather().weather_id );
+    w.read( "next_weather", get_weather().nextweather );
 }
 
 void game::serialize_master( std::ostream &fout )
@@ -1196,6 +1203,8 @@ void game::serialize_master( std::ostream &fout )
         json.member( "weather" );
         json.start_object();
         json.member( "lightning", weather.lightning_active );
+        json.member( "weather_id", weather.weather_id );
+        json.member( "next_weather", weather.nextweather );
         json.end_object();
 
         json.end_object();

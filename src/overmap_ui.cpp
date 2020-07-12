@@ -210,7 +210,8 @@ static weather_type_id get_weather_at_point( const tripoint &pos )
     if( iter == weather_cache.end() ) {
         const tripoint abs_ms_pos = sm_to_ms_copy( omt_to_sm_copy( pos ) );
         const auto &wgen = overmap_buffer.get_settings( pos ).weather;
-        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
+        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed(),
+                             g->weather.next_instance_allowed );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     return iter->second;
