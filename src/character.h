@@ -1777,9 +1777,9 @@ class Character : public Creature, public visitable<Character>
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
         // add spent calories to calorie diary (if avatar)
-        virtual void add_spent_calories( int cal ) {};
+        virtual void add_spent_calories( int /* cal */ ) {};
         // add gained calories to calorie diary (if avatar)
-        virtual void add_gained_calories( int gained ) {};
+        virtual void add_gained_calories( int /* gained */ ) {};
         // Reset age and height to defaults for consistent test results
         void reset_chargen_attributes();
         // age in years, determined at character creation
