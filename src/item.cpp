@@ -8741,7 +8741,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
 
     time_point time = last_temp_check;
     item_internal::scoped_goes_bad_cache _cache( this );
-    const bool process_rot = goes_bad();
+    const bool process_rot = goes_bad() && spoil_modifier != 0;
 
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
