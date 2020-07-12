@@ -1089,7 +1089,7 @@ void Item_factory::check_definitions() const
             msg += "undefined category " + type->category_force.str() + "\n";
         }
 
-        std::map<bodypart_str_id, bool> test_bps;
+        cata::flat_set<bodypart_str_id> test_bps;
 
         if( type->armor ) {
             for( const armor_portion_data &portion : type->armor->data ) {
