@@ -8766,7 +8766,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
         // Process the past of this item since the last time it was processed
         while( now - time > 1_hours ) {
             // Get the environment temperature
-            time_duration time_delta = std::min( 1_hours, now - 1_hours - time );
+            time_duration time_delta = 1_hours;
             time += time_delta;
 
             //Use weather if above ground, use map temp if below
