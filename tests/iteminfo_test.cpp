@@ -653,6 +653,14 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         REQUIRE( longshirt.get_coverage( bodypart_id( "torso" ) ) == 90 );
         REQUIRE( longshirt.get_coverage( bodypart_id( "arm_l" ) ) == 90 );
         REQUIRE( longshirt.get_coverage( bodypart_id( "arm_r" ) ) == 90 );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "leg_l" ) ) == 0 );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "leg_r" ) ) == 0 );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "hand_l" ) ) == 0 );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "hand_r" ) ) == 0 );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "head" ) ) == 0 );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "mouth" ) ) == 0 );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "foot_l" ) ) == 0 );
+        REQUIRE( longshirt.get_coverage( bodypart_id( "foot_r" ) ) == 0 );
 
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
                "--\n"
