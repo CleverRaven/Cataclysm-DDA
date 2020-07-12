@@ -9906,7 +9906,9 @@ void item::legacy_fast_forward_time()
 
     rot *= 6;
 
-    last_temp_check = calendar::turn;
+    const time_duration tmp_temp = ( last_temp_check - calendar::turn_zero ) * 6;
+
+    last_temp_check = calendar::turn_zero + tmp_temp;
 }
 
 time_point item::birthday() const
