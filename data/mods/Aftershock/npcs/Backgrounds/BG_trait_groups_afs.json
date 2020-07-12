@@ -24,12 +24,12 @@
     "id": "BG_revival_story_FRANKENSTEIN",
     "subtype": "distribution",
     "traits": [
-      { "trait": "BGRS_Confused_1" },
+      { "trait": "BGRS_AFTERLIFE_1" },
       { "trait": "BGRS_MIGO_1" },
       { "trait": "BGRS_MIGO_2" },
       { "trait": "BGRS_MIGO_3" },
-      { "trait": "BGRS_Religious_1" },
-      { "trait": "BGRS_Religious_2" },
+      { "trait": "BGRS_SCHIZO_1" },
+      { "trait": "BGRS_SCHIZO_2" },
       { "trait": "BGRS_Dreamer" },
       { "trait": "BGRS_Bonesinger_1" }
     ]

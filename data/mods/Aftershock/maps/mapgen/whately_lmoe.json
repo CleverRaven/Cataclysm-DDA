@@ -263,6 +263,7 @@
       "+": "t_door_metal_c",
       ".": "t_rock_floor",
       ">": "t_stairs_down",
+      "<": "t_stairs_up",
       ")": "t_slope_up",
       "(": "t_slope_down",
       "T": [ "t_region_tree_fruit", "t_region_tree_nut" ],
