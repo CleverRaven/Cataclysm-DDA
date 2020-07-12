@@ -970,15 +970,15 @@ void character_edit_menu()
                               .only_digits( false )
                               .query_string();
             efftype_id effect( text );
-            int intensity;
-            int seconds;
-            query_int( intensity, "What intensity?" );
-            query_int( seconds, "How many seconds?", 600 );
+            int intensity = 0;
+            int seconds = 0;
+            query_int( intensity, _( "What intensity?" ) );
+            query_int( seconds, _( "How many seconds?" ), 600 );
 
             if( effect.is_valid() ) {
                 p.add_effect( effect, time_duration::from_seconds( seconds ), num_bp, false, intensity );
             } else {
-                get_player_character().add_msg_if_player( _( "Invalid effect" ) );
+                add_msg( _( "Invalid effect" ) );
             }
             break;
         }
