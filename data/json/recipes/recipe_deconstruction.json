@@ -2368,7 +2368,7 @@
     "result": "knife_bread",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1] , [ "scrap", 5 ] ] ]
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
@@ -2382,37 +2382,35 @@
     "result": "knife_butcher",
     "time": "10 m",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
-    "components": [
-	[ [ "steel_lump", 1 ] , ["steel_chunk", 4] , ["scrap", 20 ] ],
-	[ [ "leather", 1 ] , ["fur", 1] ] ]
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "knife_carving",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1] , [ "scrap", 5 ] ] ]
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "knife_chef",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1] , [ "scrap", 5 ] ] ]
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "knife_folding",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "plastic_chunk", 1] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
   },
   {
     "type": "uncraft",
     "result": "knife_meat_cleaver",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 2] , [ "scrap", 10 ] ] ]
+    "components": [ [ [ "steel_chunk", 2 ], [ "scrap", 10 ] ] ]
   },
   {
     "type": "uncraft",
@@ -2433,7 +2431,7 @@
     "result": "knife_vegetable_cleaver",
     "time": "1 m 30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "steel_chunk", 1] , [ "scrap", 5 ] ] ]
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "result": "laptop",
