@@ -2987,15 +2987,6 @@ bool player::unload( item_location &loc )
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
 
-        if( target->ammo_current() == itype_plut_cell ) {
-            if( qty / PLUTONIUM_CHARGES > 0 ) {
-                add_msg( _( "You recover %i unused plutonium." ), qty / PLUTONIUM_CHARGES );
-            } else {
-                add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
-                return false;
-            }
-        }
-
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );
         if( target->is_filthy() ) {

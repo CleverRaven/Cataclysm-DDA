@@ -3,7 +3,7 @@
     "id": "adv_UPS_off",
     "type": "TOOL",
     "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel batteries rather than regular batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "weight": "453 g",
     "volume": "2 L",
     "price": 560000,
@@ -13,8 +13,16 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_green",
-    "ammo": [ "plutonium" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 2500 } } ],
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_atomic_battery_cell" ]
+      }
+    ],
     "flags": [ "IS_UPS" ]
   },
   {
