@@ -3400,12 +3400,16 @@ void map::bash_vehicle( const tripoint &p, bash_params &params )
 
 void map::bash_field( const tripoint &p, bash_params &params )
 {
+    std::vector<field_type_id> to_remove;
     for( const std::pair<const field_type_id, field_entry> &fd : field_at( p ) ) {
         if( fd.first->bash_info.str_min > -1 ) {
             params.did_bash = true;
             params.bashed_solid = true; // To prevent bashing furniture/vehicles
-            remove_field( p, fd.first );
+            to_remove.push_back( fd.first );
         }
+    }
+    for( field_type_id fd : to_remove ) {
+        remove_field( p, fd );
     }
 }
 
@@ -3705,14 +3709,19 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     dam = std::max( 0.0f, dam );
 
     // Check fields?
-    for( const std::pair<const field_type_id, field_entry> &fd : field_at( p ) ) {
-        if( fd.first->bash_info.str_min > 0 ) {
-            if( inc ) {
-                add_field( p, fd_fire, fd.second.get_field_intensity() - 1 );
-            } else if( dam > 5 + fd.second.get_field_intensity() * 5 &&
-                       one_in( 5 - fd.second.get_field_intensity() ) ) {
-                dam -= rng( 1, 2 + fd.second.get_field_intensity() * 2 );
-                remove_field( p, fd.first );
+    field &fields_there = field_at( p );
+    if( fields_there.field_count() > 0 ) {
+        // Need to make a copy since 'remove_field' modifies the value
+        field fields_copy = fields_there;
+        for( const std::pair<const field_type_id, field_entry> &fd : fields_copy ) {
+            if( fd.first->bash_info.str_min > 0 ) {
+                if( inc ) {
+                    add_field( p, fd_fire, fd.second.get_field_intensity() - 1 );
+                } else if( dam > 5 + fd.second.get_field_intensity() * 5 &&
+                           one_in( 5 - fd.second.get_field_intensity() ) ) {
+                    dam -= rng( 1, 2 + fd.second.get_field_intensity() * 2 );
+                    remove_field( p, fd.first );
+                }
             }
         }
     }
