@@ -1337,7 +1337,15 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
             }
         }
     } else {
-        if( destarea == AIM_INVENTORY && !player_character.can_stash( *sitem->items.front() ) ) {
+        bool can_stash = false;
+        if( sitem->items.front()->count_by_charges() ) {
+            item dummy = *sitem->items.front();
+            dummy.charges = amount_to_move;
+            can_stash = player_character.can_stash( dummy );
+        } else {
+            can_stash = player_character.can_stash( *sitem->items.front() );
+        }
+        if( destarea == AIM_INVENTORY && !can_stash ) {
             popup( _( "You have no space for %s" ), sitem->items.front()->tname() );
             return false;
         }
