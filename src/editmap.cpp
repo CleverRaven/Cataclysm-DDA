@@ -463,7 +463,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
-    for( const tripoint &p : tripoint_range( start, end ) ) {
+    for( const tripoint &p : tripoint_range<tripoint>( start, end ) ) {
         int sym = game_map ? '%' : ' ';
         if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
             if( game_map ) {

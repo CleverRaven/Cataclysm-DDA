@@ -5041,7 +5041,7 @@ static bool can_place_monster( const monster &mon, const tripoint &p )
 }
 
 static cata::optional<tripoint> choose_where_to_place_monster( const monster &mon,
-        const tripoint_range &range )
+        const tripoint_range<tripoint> &range )
 {
     return random_point( range, [&]( const tripoint & p ) {
         return can_place_monster( mon, p );
@@ -5089,7 +5089,7 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
     return critter_tracker->add( mon ) ? mon.get() : nullptr;
 }
 
-monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
+monster *game::place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range )
 {
     // TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
@@ -5099,7 +5099,7 @@ monster *game::place_critter_within( const mtype_id &id, const tripoint_range &r
 }
 
 monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
-                                     const tripoint_range &range )
+                                     const tripoint_range<tripoint> &range )
 {
     const cata::optional<tripoint> where = choose_where_to_place_monster( *mon, range );
     if( !where ) {

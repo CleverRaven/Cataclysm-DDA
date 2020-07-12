@@ -971,7 +971,7 @@ int place_npc_iuse::use( player &p, item &, bool, const tripoint & ) const
     map &here = get_map();
     cata::optional<tripoint> target_pos;
     if( place_randomly ) {
-        const tripoint_range target_range = points_in_radius( p.pos(), 1 );
+        const tripoint_range<tripoint> target_range = points_in_radius( p.pos(), 1 );
         target_pos = random_point( target_range, [&here]( const tripoint & t ) {
             return !here.passable( t );
         } );

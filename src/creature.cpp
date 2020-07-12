@@ -316,7 +316,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
                               const int area )
 {
-    for( const tripoint &tmp : tripoint_range( pos - tripoint( area, area, 0 ),
+    for( const tripoint &tmp : tripoint_range<tripoint>( pos - tripoint( area, area, 0 ),
             pos + tripoint( area - 1, area - 1, 0 ) ) ) {
         if( veh_area.count( tmp ) > 0 ) {
             return true;

@@ -1308,7 +1308,8 @@ void computer_session::failure_alarm()
 void computer_session::failure_manhacks()
 {
     int num_robots = rng( 4, 8 );
-    const tripoint_range range = get_map().points_in_radius( get_player_character().pos(), 3 );
+    const tripoint_range<tripoint> range =
+        get_map().points_in_radius( get_player_character().pos(), 3 );
     for( int i = 0; i < num_robots; i++ ) {
         if( g->place_critter_within( mon_manhack, range ) ) {
             add_msg( m_warning, _( "Manhacks drop from compartments in the ceiling." ) );
@@ -1319,7 +1320,8 @@ void computer_session::failure_manhacks()
 void computer_session::failure_secubots()
 {
     int num_robots = 1;
-    const tripoint_range range = get_map().points_in_radius( get_player_character().pos(), 3 );
+    const tripoint_range<tripoint> range =
+        get_map().points_in_radius( get_player_character().pos(), 3 );
     for( int i = 0; i < num_robots; i++ ) {
         if( g->place_critter_within( mon_secubot, range ) ) {
             add_msg( m_warning, _( "Secubots emerge from compartments in the floor." ) );
