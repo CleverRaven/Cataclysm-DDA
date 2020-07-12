@@ -2707,7 +2707,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         maxp.y = std::max( maxp.y, elem.center.y + elem.radius );
     }
 
-    const tripoint_range range( minp, maxp );
+    const tripoint_range<tripoint> range( minp, maxp );
 
     std::vector<tripoint> escape_points;
 

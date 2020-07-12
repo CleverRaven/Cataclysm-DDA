@@ -134,7 +134,7 @@ static std::array<std::pair<nc_color, std::string>, npm_width *npm_height> get_o
     std::array<std::pair<nc_color, std::string>, npm_width *npm_height> map_around;
     int index = 0;
     const point shift( npm_width / 2, npm_height / 2 );
-    for( const tripoint &dest : tripoint_range( current - shift, current + shift ) ) {
+    for( const tripoint &dest : tripoint_range<tripoint>( current - shift, current + shift ) ) {
         nc_color ter_color = c_black;
         std::string ter_sym = " ";
         const bool see = has_debug_vision || overmap_buffer.seen( dest );

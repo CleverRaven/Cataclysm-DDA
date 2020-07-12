@@ -2996,7 +2996,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
         tripoint sm_tri = here.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
         tripoint centre_sub = sm_tri + point( SEEX, SEEY );
         if( !here.passable( centre_sub ) ) {
-            tripoint_range candidates = here.points_in_radius( centre_sub, 2 );
+            tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint &elem : candidates ) {
                 if( here.passable( elem ) ) {
                     centre_sub = elem;

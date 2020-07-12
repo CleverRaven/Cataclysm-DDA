@@ -58,6 +58,7 @@ class optional_vpart_position;
 class player;
 class relic_procgen_data;
 class submap;
+template<typename Tripoint>
 class tripoint_range;
 class vehicle;
 class zone_data;
@@ -1801,16 +1802,18 @@ class map
             return submaps_with_active_items;
         }
         // Clips the area to map bounds
-        tripoint_range points_in_rectangle( const tripoint &from, const tripoint &to ) const;
-        tripoint_range points_in_radius( const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
+        tripoint_range<tripoint> points_in_rectangle(
+            const tripoint &from, const tripoint &to ) const;
+        tripoint_range<tripoint> points_in_radius(
+            const tripoint &center, size_t radius, size_t radiusz = 0 ) const;
         /**
          * Yields a range of all points that are contained in the map and have the z-level of
          * this map (@ref abs_sub).
          */
-        tripoint_range points_on_zlevel() const;
+        tripoint_range<tripoint> points_on_zlevel() const;
         /// Same as above, but uses the specific z-level. If the given z-level is invalid, it
         /// returns an empty range.
-        tripoint_range points_on_zlevel( int z ) const;
+        tripoint_range<tripoint> points_on_zlevel( int z ) const;
 
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius ) const;
         std::list<item_location> get_active_items_in_radius( const tripoint &center, int radius,
