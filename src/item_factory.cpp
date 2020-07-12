@@ -1089,6 +1089,22 @@ void Item_factory::check_definitions() const
             msg += "undefined category " + type->category_force.str() + "\n";
         }
 
+        std::map<bodypart_str_id, bool> test_bps;
+
+        if( type->armor ) {
+            for( const armor_portion_data &portion : type->armor->data ) {
+                if( portion.covers.has_value() ) {
+                    for( const body_part &bp : all_body_parts ) {
+                        if( portion.covers->test( convert_bp( bp ) ) &&
+                            test_bps.find( convert_bp( bp ) ) != test_bps.end() ) {
+                            msg += "multiple portions with same body_part defined\n";
+                        }
+                        test_bps[convert_bp( bp )] = true;
+                    }
+                }
+            }
+        }
+
         if( type->weight < 0_gram ) {
             msg += "negative weight\n";
         }
