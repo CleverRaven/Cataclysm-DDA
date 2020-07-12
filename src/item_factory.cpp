@@ -1099,7 +1099,7 @@ void Item_factory::check_definitions() const
                             test_bps.count( convert_bp( bp ) ) ) {
                             msg += "multiple portions with same body_part defined\n";
                         }
-                        test_bps[convert_bp( bp )] = true;
+                        test_bps.insert( convert_bp( bp ) );
                     }
                 }
             }
