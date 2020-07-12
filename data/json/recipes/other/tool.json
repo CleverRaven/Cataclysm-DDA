@@ -217,6 +217,7 @@
     "skill_used": "fabrication",
     "difficulty": 2,
     "time": "1 h",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
