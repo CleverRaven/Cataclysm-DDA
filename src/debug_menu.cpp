@@ -1408,7 +1408,7 @@ void debug()
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 here.create_anomaly( *center, prop );
-                here.spawn_natural_artifact( *center, prop );
+                here.spawn_artifact( *center, relic_procgen_id( "alien_reality" ) );
             }
             break;
 
