@@ -253,6 +253,17 @@ washing_requirements washing_requirements_for_volume( const units::volume & );
 
 using use_function_pointer = int ( * )( player *, item *, bool, const tripoint & );
 
+// Helper for digging and effects
+struct digging_moves_and_byproducts {
+    int moves;
+    int spawn_count;
+    std::string byproducts_item_group;
+    ter_id result_terrain;
+};
+// Determines variables for digging terrain
+digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it, bool deep,
+        bool channel );
+
 class iuse_actor
 {
     protected:

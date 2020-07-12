@@ -2673,14 +2673,7 @@ int iuse::makemound( player *p, item *it, bool t, const tripoint & )
     }
 }
 
-struct digging_moves_and_byproducts {
-    int moves;
-    int spawn_count;
-    std::string byproducts_item_group;
-    ter_id result_terrain;
-};
-
-static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it, bool deep,
+digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, item *it, bool deep,
         bool channel )
 {
     // When we dig, we're generally digging out either a deep or shallow pit.
@@ -2768,7 +2761,7 @@ static digging_moves_and_byproducts dig_pit_moves_and_byproducts( player *p, ite
     std::string byproducts_item_group = "digging_soil_loam_50L"; // default soil
 
     tripoint dig_point = p->pos();
-    ter_str_id dig_what = g->m.ter( dig_point ).id();
+    ter_str_id dig_what = get_map().ter( dig_point ).id();
     if( dig_what == ter_CLAY ) {
         material_density_kg_m3 = 1760;
         byproducts_item_group = "digging_clay_50L";

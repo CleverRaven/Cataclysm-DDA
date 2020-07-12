@@ -145,6 +145,41 @@ class plot_options : public zone_options, public mark_option
         void deserialize( const JsonObject &jo_zone ) override;
 };
 
+
+class dig_options : public zone_options
+{
+    private:
+        bool channel;
+
+        enum query_dig_result {
+            canceled,
+            successful,
+            changed,
+        };
+        
+        query_dig_result query_dig();
+
+    public:
+
+        bool get_channel() const {
+            return channel;
+        }
+
+        bool has_options() const override {
+            return true;
+        }
+
+        bool query_at_creation() override;
+        bool query() override;
+
+        std::string get_zone_name_suggestion() const override;
+
+        std::vector<std::pair<std::string, std::string>> get_descriptions() const override;
+
+        void serialize( JsonOut &json ) const override;
+        void deserialize( const JsonObject &jo_zone ) override;
+};
+
 class blueprint_options : public zone_options, public mark_option
 {
     private:

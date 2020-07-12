@@ -83,6 +83,7 @@ static const activity_id ACT_MULTIPLE_CONSTRUCTION( "ACT_MULTIPLE_CONSTRUCTION" 
 static const activity_id ACT_MULTIPLE_FARM( "ACT_MULTIPLE_FARM" );
 static const activity_id ACT_MULTIPLE_FISH( "ACT_MULTIPLE_FISH" );
 static const activity_id ACT_MULTIPLE_MINE( "ACT_MULTIPLE_MINE" );
+static const activity_id ACT_MULTIPLE_DIG( "ACT_MULTIPLE_DIG" );
 static const activity_id ACT_PICKAXE( "ACT_PICKAXE" );
 static const activity_id ACT_TIDY_UP( "ACT_TIDY_UP" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
@@ -112,6 +113,7 @@ static const zone_type_id zone_type_FISHING_SPOT( "FISHING_SPOT" );
 static const zone_type_id zone_type_LOOT_CORPSE( "LOOT_CORPSE" );
 static const zone_type_id zone_type_LOOT_IGNORE( "LOOT_IGNORE" );
 static const zone_type_id zone_type_MINING( "MINING" );
+static const zone_type_id zone_type_DIGGING( "DIGGING" );
 static const zone_type_id zone_type_LOOT_UNSORTED( "LOOT_UNSORTED" );
 static const zone_type_id zone_type_LOOT_WOOD( "LOOT_WOOD" );
 static const zone_type_id zone_type_VEHICLE_DECONSTRUCT( "VEHICLE_DECONSTRUCT" );
@@ -127,7 +129,10 @@ static const quality_id qual_SAW_W( "SAW_W" );
 static const quality_id qual_WELD( "WELD" );
 
 static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
+static const std::string flag_CURRENT( "CURRENT" );
 static const std::string flag_DIG_TOOL( "DIG_TOOL" );
+static const std::string flag_DIGGABLE( "DIGGABLE" );
+static const std::string flag_DIGGABLE_CAN_DEEPEN( "DIGGABLE_CAN_DEEPEN" );
 static const std::string flag_FISHABLE( "FISHABLE" );
 static const std::string flag_FISH_GOOD( "FISH_GOOD" );
 static const std::string flag_FISH_POOR( "FISH_POOR" );
@@ -825,11 +830,18 @@ static void move_item( player &p, item &it, const int quantity, const tripoint &
     }
 }
 
-std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest )
+std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest, bool direct )
 {
-    auto passable_tiles = std::unordered_set<tripoint>();
     map &here = get_map();
 
+    if( direct ) {
+        auto route = here.route( p.pos(), dest, p.get_pathfinding_settings(), p.get_path_avoid() );
+        if( !route.empty() ) {
+            return route;
+        }
+    }
+
+    auto passable_tiles = std::unordered_set<tripoint>();
     for( const tripoint &tp : here.points_in_radius( dest, 1 ) ) {
         if( tp != p.pos() && here.passable( tp ) ) {
             passable_tiles.emplace( tp );
@@ -1009,7 +1021,8 @@ static bool are_requirements_nearby( const std::vector<tripoint> &loot_spots,
                id == ACT_VEHICLE_REPAIR ||
                id == ACT_MULTIPLE_CHOP_TREES ||
                id == ACT_MULTIPLE_FISH ||
-               id == ACT_MULTIPLE_MINE;
+               id == ACT_MULTIPLE_MINE ||
+               id == ACT_MULTIPLE_DIG;
     };
     const bool check_weight = check_weight_if( activity_to_restore ) || ( !p.backlog.empty() &&
                               check_weight_if( p.backlog.front().id() ) );
@@ -1237,6 +1250,45 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             return activity_reason_info::ok( do_activity_reason::NEEDS_MINING );
         }
     }
+    if( act == ACT_MULTIPLE_DIG ) {
+        zones = mgr.get_zones( zone_type_DIGGING, here.getabs( src_loc ) );
+        for( const zone_data &zone : zones ) {
+            const bool can_dig_here = here.has_flag( flag_DIGGABLE, src_loc );
+            const bool can_dig_deep = here.has_flag( flag_DIGGABLE_CAN_DEEPEN, src_loc );
+            const bool can_dig_channel = here.has_flag( flag_CURRENT, src_loc + point_north ) ||
+                                         here.has_flag( flag_CURRENT, src_loc + point_south ) ||
+                                         here.has_flag( flag_CURRENT, src_loc + point_west ) ||
+                                         here.has_flag( flag_CURRENT, src_loc + point_east );
+
+            if( !can_dig_here ) {
+                return activity_reason_info::fail( do_activity_reason::NO_ZONE );
+            }
+            if( here.has_items( src_loc ) || here.has_furn( src_loc ) ||
+                here.can_see_trap_at( src_loc, p ) || here.veh_at( src_loc ) ) {
+                return activity_reason_info::fail( do_activity_reason::BLOCKING_TILE );
+            }
+            const dig_options &options = dynamic_cast<const dig_options &>( zone.get_options() );
+            const bool channel = options.get_channel();
+            if( channel ) {
+                if( can_dig_channel && !p.has_quality( qual_DIG, 1 ) ) {
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_DIGGING_CHANNEL );
+                } else if( can_dig_channel ) {
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_DIGGING_CHANNEL );
+                }
+            } else {
+                if( can_dig_deep && !p.has_quality( qual_DIG, 2 ) ) {
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_DIGGING_DEEP );
+                } else if( can_dig_deep ) {
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_DIGGING_DEEP );
+                }
+                if( !p.has_quality( qual_DIG, 1 ) ) {
+                    return activity_reason_info::fail( do_activity_reason::NEEDS_DIGGING );
+                } else {
+                    return activity_reason_info::ok( do_activity_reason::NEEDS_DIGGING );
+                }
+            }
+        }
+    }
     if( act == ACT_MULTIPLE_FISH ) {
         if( !here.has_flag( flag_FISHABLE, src_loc ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
@@ -1450,7 +1502,8 @@ static std::vector<std::tuple<tripoint, itype_id, int>> requirements_map( player
                              p.backlog.front().id() == ACT_VEHICLE_DECONSTRUCTION ||
                              p.backlog.front().id() == ACT_VEHICLE_REPAIR ||
                              p.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                             p.backlog.front().id() == ACT_MULTIPLE_MINE;
+                             p.backlog.front().id() == ACT_MULTIPLE_MINE ||
+                             p.backlog.front().id() == ACT_MULTIPLE_DIG;
     // where it is, what it is, how much of it, and how much in total is required of that item.
     std::vector<std::tuple<tripoint, itype_id, int>> final_map;
     std::vector<tripoint> loot_spots;
@@ -1851,7 +1904,8 @@ static bool fetch_activity( player &p, const tripoint &src_loc,
                                                    p.backlog.front().id() == ACT_MULTIPLE_BUTCHER ||
                                                    p.backlog.front().id() == ACT_MULTIPLE_CHOP_TREES ||
                                                    p.backlog.front().id() == ACT_MULTIPLE_FISH ||
-                                                   p.backlog.front().id() == ACT_MULTIPLE_MINE ) ) {
+                                                   p.backlog.front().id() == ACT_MULTIPLE_MINE ||
+                                                   p.backlog.front().id() == ACT_MULTIPLE_DIG ) ) {
                     if( it.volume() > volume_allowed || it.weight() > weight_allowed ) {
                         continue;
                     }
@@ -2309,6 +2363,9 @@ static zone_type_id get_zone_for_act( const tripoint &src_loc, const zone_manage
     if( act_id == ACT_MULTIPLE_MINE ) {
         ret = zone_type_MINING;
     }
+    if( act_id == ACT_MULTIPLE_DIG ) {
+        ret = zone_type_DIGGING;
+    }
     if( src_loc != tripoint_zero && act_id == ACT_FETCH_REQUIRED ) {
         const zone_data *zd = mgr.get_zone_at( get_map().getabs( src_loc ) );
         if( zd ) {
@@ -2460,6 +2517,7 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                                      act_id == ACT_VEHICLE_REPAIR ||
                                      act_id == ACT_MULTIPLE_FISH ||
                                      act_id == ACT_MULTIPLE_MINE ||
+                                     act_id == ACT_MULTIPLE_DIG ||
                                      ( act_id == ACT_MULTIPLE_CONSTRUCTION &&
                                        !here.partial_con_at( src_loc ) );
     // some activities require the target tile to be part of a zone.
@@ -2494,7 +2552,11 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                reason == do_activity_reason::NEEDS_VEH_DECONST ||
                reason == do_activity_reason::NEEDS_VEH_REPAIR ||
                reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
-               reason == do_activity_reason::NEEDS_FISHING || reason == do_activity_reason::NEEDS_MINING ) {
+               reason == do_activity_reason::NEEDS_FISHING ||
+               reason == do_activity_reason::NEEDS_MINING ||
+               reason == do_activity_reason::NEEDS_DIGGING ||
+               reason == do_activity_reason::NEEDS_DIGGING_CHANNEL ||
+               reason == do_activity_reason::NEEDS_DIGGING_DEEP ) {
         // we can do it, but we need to fetch some stuff first
         // before we set the task to fetch components - is it even worth it? are the components anywhere?
         requirement_id what_we_need;
@@ -2548,12 +2610,19 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                    reason == do_activity_reason::NEEDS_BUTCHERING ||
                    reason == do_activity_reason::NEEDS_BIG_BUTCHERING ||
                    reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
-                   reason == do_activity_reason::NEEDS_FISHING ) {
+                   reason == do_activity_reason::NEEDS_FISHING ||
+                   reason == do_activity_reason::NEEDS_DIGGING ||
+                   reason == do_activity_reason::NEEDS_DIGGING_CHANNEL ||
+                   reason == do_activity_reason::NEEDS_DIGGING_DEEP ) {
             std::vector<std::vector<item_comp>> requirement_comp_vector;
             std::vector<std::vector<quality_requirement>> quality_comp_vector;
             std::vector<std::vector<tool_comp>> tool_comp_vector;
-            if( reason == do_activity_reason::NEEDS_TILLING ) {
+            if( reason == do_activity_reason::NEEDS_TILLING ||
+                reason == do_activity_reason::NEEDS_DIGGING ||
+                reason == do_activity_reason::NEEDS_DIGGING_CHANNEL ) {
                 quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_DIG, 1, 1 ) } );
+            } else if( reason == do_activity_reason::NEEDS_DIGGING_DEEP ) {
+                quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_DIG, 1, 2 ) } );
             } else if( reason == do_activity_reason::NEEDS_CHOPPING ||
                        reason == do_activity_reason::NEEDS_TREE_CHOPPING ) {
                 quality_comp_vector.push_back( std::vector<quality_requirement> { quality_requirement( qual_AXE, 1, 1 ) } );
@@ -2588,7 +2657,10 @@ static requirement_check_result generic_multi_activity_check_requirement( player
                            reason == do_activity_reason::NEEDS_TREE_CHOPPING ||
                            reason == do_activity_reason::NEEDS_VEH_DECONST ||
                            reason == do_activity_reason::NEEDS_VEH_REPAIR ||
-                           reason == do_activity_reason::NEEDS_MINING;
+                           reason == do_activity_reason::NEEDS_MINING ||
+                           reason == do_activity_reason::NEEDS_DIGGING ||
+                           reason == do_activity_reason::NEEDS_DIGGING_CHANNEL ||
+                           reason == do_activity_reason::NEEDS_DIGGING_DEEP;
         // is it even worth fetching anything if there isn't enough nearby?
         if( !are_requirements_nearby( tool_pickup ? loot_zone_spots : combined_spots, what_we_need, p,
                                       act_id, tool_pickup, src_loc ) ) {
@@ -2736,6 +2808,36 @@ static bool generic_multi_activity_do( player &p, const activity_id &act_id,
         if( mine_activity( p, src_loc ) ) {
             return false;
         }
+    } else if( reason == do_activity_reason::NEEDS_DIGGING ||
+               reason == do_activity_reason::NEEDS_DIGGING_DEEP ||
+               reason == do_activity_reason::NEEDS_DIGGING_CHANNEL ) {
+        if( reason == do_activity_reason::NEEDS_DIGGING_DEEP &&
+            here.has_flag( flag_DIGGABLE_CAN_DEEPEN, src_loc ) && !p.has_quality( qual_DIG, 2 ) ) {
+            return false;
+        }
+        if( ( reason == do_activity_reason::NEEDS_DIGGING ||
+              reason == do_activity_reason::NEEDS_DIGGING_CHANNEL ) &&
+            here.has_flag( flag_DIGGABLE, src_loc ) && !p.has_quality( qual_DIG, 1 ) ) {
+            return false;
+        }
+        if( here.has_furn( src_loc ) ) {
+            return false;
+        }
+        digging_moves_and_byproducts moves_and_byproducts = dig_pit_moves_and_byproducts(
+                    &p,
+                    p.best_quality_item( qual_DIG ),
+                    reason == do_activity_reason::NEEDS_DIGGING_DEEP ? true : false,
+                    reason == do_activity_reason::NEEDS_DIGGING_CHANNEL ? true : false );
+        p.assign_activity( player_activity( dig_activity_actor(
+                                                moves_and_byproducts.moves,
+                                                src_loc,
+                                                moves_and_byproducts.result_terrain.id().str(),
+                                                src_loc,
+                                                moves_and_byproducts.spawn_count,
+                                                moves_and_byproducts.byproducts_item_group
+                                            ) ) );
+        p.backlog.push_front( act_id );
+        p.activity.placement = src_loc;
     } else if( reason == do_activity_reason::NEEDS_VEH_DECONST ) {
         if( vehicle_activity( p, src_loc, p.activity_vehicle_part_index, 'o' ) ) {
             p.backlog.push_front( act_id );
@@ -2767,6 +2869,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
     std::unordered_set<tripoint> src_set = generic_multi_activity_locations( p, activity_to_restore );
     // now we have our final set of points
     std::vector<tripoint> src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+    bool direct = activity_to_restore == ACT_MULTIPLE_DIG ? true : false;
     // now loop through the work-spot tiles and judge whether its worth traveling to it yet
     // or if we need to fetch something first.
     for( const tripoint &src : src_sorted ) {
@@ -2780,7 +2883,7 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
                 g->reload_npcs();
                 return false;
             }
-            const std::vector<tripoint> route = route_adjacent( p, src_loc );
+            const std::vector<tripoint> route = route_adjacent( p, src_loc, direct );
             if( route.empty() ) {
                 // can't get there, can't do anything, skip it
                 continue;
@@ -2800,8 +2903,8 @@ bool generic_multi_activity_handler( player_activity &act, player &p, bool check
             return true;
         }
 
-        if( square_dist( p.pos(), src_loc ) > 1 ) {
-            std::vector<tripoint> route = route_adjacent( p, src_loc );
+        if( square_dist( p.pos(), src_loc ) > ( direct ? 0 : 1 ) ) {
+            std::vector<tripoint> route = route_adjacent( p, src_loc, direct );
 
             // check if we found path to source / adjacent tile
             if( route.empty() ) {

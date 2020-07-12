@@ -405,8 +405,6 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     }
 
     act.set_to_null();
-
-    here.maybe_trigger_trap( location, who, true );
 }
 
 void dig_activity_actor::serialize( JsonOut &jsout ) const

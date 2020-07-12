@@ -78,7 +78,7 @@ zone_manager::zone_manager()
                    zone_type( translate_marker( "Fishing Spot" ),
                               translate_marker( "Designate an area to fish from." ) ) );
     types.emplace( zone_type_id( "MINING" ),
-                   zone_type( translate_marker( "Mine Terrain" ),
+                   zone_type( translate_marker( "Terrain: Mine" ),
                               translate_marker( "Designate an area to mine." ) ) );
     types.emplace( zone_type_id( "VEHICLE_DECONSTRUCT" ),
                    zone_type( translate_marker( "Vehicle Deconstruct Zone" ),
@@ -101,7 +101,9 @@ zone_manager::zone_manager()
     types.emplace( zone_type_id( "AUTO_DRINK" ),
                    zone_type( translate_marker( "Auto Drink" ),
                               translate_marker( "Items in this zone will be automatically consumed during a long activity if you get thirsty." ) ) );
-
+    types.emplace( zone_type_id( "DIGGING" ),
+                   zone_type( translate_marker( "Terrain: Dig" ),
+                              translate_marker( "Designate an area to dig." ) ) );
 }
 
 std::string zone_type::name() const
@@ -156,6 +158,8 @@ shared_ptr_fast<zone_options> zone_options::create( const zone_type_id &type )
         return make_shared_fast<blueprint_options>();
     } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
         return make_shared_fast<loot_options>();
+    } else if( type == zone_type_id( "DIGGING" ) ) {
+        return make_shared_fast<dig_options>();
     }
 
     return make_shared_fast<zone_options>();
@@ -169,6 +173,8 @@ bool zone_options::is_valid( const zone_type_id &type, const zone_options &optio
         return dynamic_cast<const blueprint_options *>( &options ) != nullptr;
     } else if( type == zone_type_id( "LOOT_CUSTOM" ) ) {
         return dynamic_cast<const loot_options *>( &options ) != nullptr;
+    } else if( type == zone_type_id( "DIGGING" ) ) {
+        return dynamic_cast<const dig_options *>( &options ) != nullptr;
     }
 
     // ensure options is not derived class for the rest of zone types
@@ -243,6 +249,13 @@ loot_options::query_loot_result loot_options::query_loot()
     .identifier( "item_filter" )
     .max_length( 256 )
     .edit( mark );
+    return changed;
+}
+
+dig_options::query_dig_result dig_options::query_dig()
+{
+    channel = false;
+    channel = query_yn( _( "Dig water channel? No = dig pit." ) );
     return changed;
 }
 
@@ -350,6 +363,11 @@ bool plot_options::query_at_creation()
     return query_seed() != canceled;
 }
 
+bool dig_options::query_at_creation()
+{
+    return query_dig() != canceled;
+}
+
 bool blueprint_options::query()
 {
     return query_con() == changed;
@@ -358,6 +376,11 @@ bool blueprint_options::query()
 bool plot_options::query()
 {
     return query_seed() == changed;
+}
+
+bool dig_options::query()
+{
+    return query_dig() == changed;
 }
 
 std::string blueprint_options::get_zone_name_suggestion() const
@@ -384,6 +407,14 @@ std::string plot_options::get_zone_name_suggestion() const
     return _( "No seed" );
 }
 
+std::string dig_options::get_zone_name_suggestion() const
+{
+    if( get_channel() ) {
+        return _( "Dig water channel" );
+    }
+    return _( "Dig pit" );
+}
+
 std::vector<std::pair<std::string, std::string>> blueprint_options::get_descriptions() const
 {
     std::vector<std::pair<std::string, std::string>> options =
@@ -401,6 +432,13 @@ std::vector<std::pair<std::string, std::string>> plot_options::get_descriptions(
         std::make_pair( _( "Plant seed: " ),
                         !seed.is_empty() ? item::nname( itype_id( seed ) ) : _( "No seed" ) ) );
 
+    return options;
+}
+
+std::vector<std::pair<std::string, std::string>> dig_options::get_descriptions() const
+{
+    auto options = std::vector<std::pair<std::string, std::string>>();
+    options.emplace_back( std::make_pair( _( "Dig terrain: " ), get_channel() ? _( "channel" ) : _( "pit" ) ) );
     return options;
 }
 
@@ -433,6 +471,17 @@ void plot_options::deserialize( const JsonObject &jo_zone )
 {
     jo_zone.read( "mark", mark );
     jo_zone.read( "seed", seed );
+}
+
+
+void dig_options::serialize( JsonOut &json ) const
+{
+    json.member( "channel", channel );
+}
+
+void dig_options::deserialize( const JsonObject &jo_zone )
+{
+    jo_zone.read( "channel", channel );
 }
 
 cata::optional<std::string> zone_manager::query_name( const std::string &default_name ) const

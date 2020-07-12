@@ -19,7 +19,7 @@ struct tripoint;
 
 std::vector<tripoint> get_sorted_tiles_by_distance( const tripoint &abspos,
         const std::unordered_set<tripoint> &tiles );
-std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest );
+std::vector<tripoint> route_adjacent( const player &p, const tripoint &dest, bool direct = false );
 
 enum class requirement_check_result : int {
     SKIP_LOCATION = 0,
@@ -62,6 +62,9 @@ enum class do_activity_reason : int {
     NEEDS_VEH_REPAIR,       // There is a vehicle part there that can be repaired, given the right tools.
     WOULD_PREVENT_VEH_FLYING, // Attempting to perform this activity on a vehicle would prevent it from flying
     NEEDS_MINING,           // This spot can be mined, if the right tool is present.
+    NEEDS_DIGGING,           // This spot can be digged, if the right tool is present.
+    NEEDS_DIGGING_DEEP,     // This spot can be digged deep, if the right tool is present.
+    NEEDS_DIGGING_CHANNEL,  // This spot can be digged to water channel, if the right tool is present.
     NEEDS_FISHING           // This spot can be fished, if the right tool is present.
 };
 
@@ -149,6 +152,7 @@ void multiple_farm_do_turn( player_activity *act, player *p );
 void multiple_fish_do_turn( player_activity *act, player *p );
 void multiple_construction_do_turn( player_activity *act, player *p );
 void multiple_mine_do_turn( player_activity *act, player *p );
+void multiple_dig_do_turn( player_activity *act, player *p );
 void multiple_butcher_do_turn( player_activity *act, player *p );
 void vehicle_deconstruction_do_turn( player_activity *act, player *p );
 void vehicle_repair_do_turn( player_activity *act, player *p );
