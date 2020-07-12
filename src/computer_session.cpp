@@ -162,7 +162,12 @@ void computer_session::use()
         computer_menu.fselected = sel;
 
         for( size_t i = 0; i < options_size; i++ ) {
-            computer_menu.addentry( i, true, MENU_AUTOASSIGN, comp.options[i].name );
+            bool activatable = can_activate( comp.options[i].action );
+            std::string action_name = comp.options[i].name;
+            if( !activatable ) {
+                action_name = string_format( _( "%s (UNAVAILABLE)" ), action_name );
+            }
+            computer_menu.addentry( i, activatable, MENU_AUTOASSIGN, action_name );
         }
 
         ui_manager::redraw();
@@ -308,6 +313,51 @@ computer_session::computer_action_functions = {
     { COMPACT_UNLOCK, &computer_session::action_unlock },
     { COMPACT_UNLOCK_DISARM, &computer_session::action_unlock_disarm },
 };
+
+bool computer_session::can_activate( computer_action action )
+{
+    switch( action ) {
+        case COMPACT_LOCK:
+            return get_map().has_nearby_ter( get_player_character().pos(), t_door_metal_c, 8 );
+            break;
+
+        case COMPACT_RELEASE:
+        case COMPACT_RELEASE_DISARM:
+            return get_map().has_nearby_ter( get_player_character().pos(), t_reinforced_glass, 25 );
+            break;
+
+        case COMPACT_RELEASE_BIONICS:
+            return get_map().has_nearby_ter( get_player_character().pos(), t_reinforced_glass, 3 );
+            break;
+
+        case COMPACT_TERMINATE: {
+            map &here = get_map();
+            for( const tripoint &p : here.points_on_zlevel() ) {
+                monster *const mon = g->critter_at<monster>( p );
+                if( !mon ) {
+                    continue;
+                }
+                if( ( here.ter( p + tripoint_north ) == t_reinforced_glass &&
+                      here.ter( p + tripoint_south ) == t_concrete_wall ) ||
+                    ( here.ter( p + tripoint_south ) == t_reinforced_glass &&
+                      here.ter( p + tripoint_north ) == t_concrete_wall ) ) {
+                    return true;
+                }
+            }
+            return false;
+            break;
+        }
+
+        case COMPACT_UNLOCK:
+        case COMPACT_UNLOCK_DISARM:
+            return get_map().has_nearby_ter( get_player_character().pos(), t_door_metal_locked, 8 );
+            break;
+
+        default:
+            return true;
+            break;
+    }
+}
 
 void computer_session::activate_function( computer_action action )
 {
