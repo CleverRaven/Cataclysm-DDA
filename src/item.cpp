@@ -5685,13 +5685,10 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         relative_encumbrance = contents.relative_encumbrance();
     }
 
-    for( const armor_portion_data &data : t->data ) {
-        if( data.covers.has_value() ) {
-            if( data.covers->test( bodypart.id() ) ) {
-                encumber = data.encumber;
-                encumber += std::ceil( relative_encumbrance * ( data.max_encumber - data.encumber ) );
-            }
-        }
+    if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
+        encumber = portion_data->encumber;
+        encumber += std::ceil( relative_encumbrance * ( portion_data->max_encumber -
+                               portion_data->encumber ) );
     }
 
     // Fit checked before changes, fitting shouldn't reduce penalties from patching.
@@ -5756,8 +5753,13 @@ int item::get_avg_coverage() const
     int avg_ctr = 0;
     for( const armor_portion_data &entry : t->data ) {
         if( entry.covers.has_value() ) {
-            avg_coverage += entry.coverage;
-            ++avg_ctr;
+            for( const bodypart_str_id &limb : entry.covers.value() ) {
+                int coverage = get_coverage( limb );
+                if( coverage ) {
+                    avg_coverage += coverage;
+                    ++avg_ctr;
+                }
+            }
         }
     }
     if( avg_coverage == 0 ) {
