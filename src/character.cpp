@@ -2874,43 +2874,53 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     units::mass ret = 0_gram;
     for( auto &i : worn ) {
         if( !without.count( &i ) ) {
+            for( auto j : i.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+                if( j->count_by_charges() ) {
+                    ret -= get_selected_stack_weight( j, without );
+                } else if( without.count( j ) ) {
+                    ret -= j->weight();
+                }
+            }
             ret += i.weight();
         }
     }
 
-    // Items in inventory
-    const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
-    ret += i.weight_without( without );
-
     // Wielded item
     units::mass weaponweight = 0_gram;
-    auto weapon_it = without.find( &weapon );
-    if( weapon_it == without.end() ) {
-        weaponweight = weapon.weight();
-    } else {
-        int subtract_count = ( *weapon_it ).second;
-        if( weapon.count_by_charges() ) {
-            item copy = weapon;
-            copy.charges -= subtract_count;
-            if( copy.charges < 0 ) {
-                debugmsg( "Trying to remove more charges than the wielded item has" );
-                copy.charges = 0;
+    if( !without.count( &weapon ) ) {
+        weaponweight += weapon.weight();
+        for( auto i : weapon.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+            if( i->count_by_charges() ) {
+                weaponweight -= get_selected_stack_weight( i, without );
+            } else if( without.count( i ) ) {
+                weaponweight -= i->weight();
             }
-            weaponweight = copy.weight();
-        } else if( subtract_count > 1 ) {
-            debugmsg( "Trying to remove more than one wielded item" );
         }
+    } else if( weapon.count_by_charges() ) {
+        weaponweight += weapon.weight() - get_selected_stack_weight( &weapon, without );
     }
+
     // Exclude wielded item if using lifting tool
-    if( weaponweight + ret > weight_capacity() ) {
-        if( g->new_game || best_nearby_lifting_assist() < weaponweight ) {
-            ret += weaponweight;
-        }
-    } else {
+    if( ( weaponweight + ret <= weight_capacity() ) || ( g->new_game ||
+            best_nearby_lifting_assist() < weaponweight ) ) {
         ret += weaponweight;
     }
 
     return ret;
+}
+
+units::mass Character::get_selected_stack_weight( const item *i,
+        const std::map<const item *, int> &without ) const
+{
+    auto stack = without.find( i );
+    if( stack != without.end() ) {
+        int selected = stack->second;
+        item copy = *i;
+        copy.charges = selected;
+        return copy.weight();
+    }
+
+    return 0_gram;
 }
 
 units::volume Character::volume_carried_with_tweaks( const
@@ -2926,8 +2936,50 @@ units::volume Character::volume_carried_with_tweaks( const
 
 units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
-    const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
-    return tweaks.without_items ? i.volume_without( *tweaks.without_items ) : i.volume();
+    const std::map<const item *, int> empty;
+    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+            empty;
+
+    // Worn items
+    units::volume ret = 0_ml;
+    for( auto &i : worn ) {
+        if( !without.count( &i ) ) {
+            for( auto j : i.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                if( j->count_by_charges() ) {
+                    ret += j->volume() - get_selected_stack_volume( j, without );
+                } else if( !without.count( j ) ) {
+                    ret += j->volume();
+                }
+            }
+        }
+    }
+
+    // Wielded item
+    if( !without.count( &weapon ) ) {
+        for( auto i : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            if( i->count_by_charges() ) {
+                ret += i->volume() - get_selected_stack_volume( i, without );
+            } else if( !without.count( i ) ) {
+                ret += i->volume();
+            }
+        }
+    }
+
+    return ret;
+}
+
+units::volume Character::get_selected_stack_volume( const item *i,
+        const std::map<const item *, int> &without ) const
+{
+    auto stack = without.find( i );
+    if( stack != without.end() ) {
+        int selected = stack->second;
+        item copy = *i;
+        copy.charges = selected;
+        return copy.volume();
+    }
+
+    return 0_ml;
 }
 
 units::mass Character::weight_capacity() const
@@ -9285,6 +9337,38 @@ units::volume Character::volume_capacity() const
     for( const item &w : worn ) {
         volume_capacity += w.contents.total_container_capacity();
     }
+    return volume_capacity;
+}
+
+units::volume Character::volume_capacity_with_tweaks( const
+        std::vector<std::pair<item_location, int>>
+        &locations ) const
+{
+    std::map<const item *, int> dropping;
+    for( const std::pair<item_location, int> &location_pair : locations ) {
+        dropping.emplace( location_pair.first.get_item(), location_pair.second );
+    }
+    return volume_capacity_with_tweaks( { dropping } );
+}
+
+units::volume Character::volume_capacity_with_tweaks( const item_tweaks &tweaks ) const
+{
+    const std::map<const item *, int> empty;
+    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+            empty;
+
+    units::volume volume_capacity = 0_ml;
+
+    if( !without.count( &weapon ) ) {
+        volume_capacity += weapon.contents.total_container_capacity();
+    }
+
+    for( auto &i : worn ) {
+        if( !without.count( &i ) ) {
+            volume_capacity += i.contents.total_container_capacity();
+        }
+    }
+
     return volume_capacity;
 }
 
