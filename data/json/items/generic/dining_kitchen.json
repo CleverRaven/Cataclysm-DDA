@@ -283,7 +283,7 @@
     "symbol": "U",
     "description": "A tall drinking glass.",
     "copy-from": "base_glass_dish",
-    "volume": "600 ml",
+    "volume": "620 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -324,7 +324,7 @@
     "symbol": "u",
     "description": "A glass bowl for soup or dessert.",
     "copy-from": "base_glass_dish",
-    "volume": "525 ml",
+    "volume": "620 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
