@@ -395,7 +395,7 @@ This section describes each json file and their contents. Each json has their ow
 | Identifier        | Description
 |---                |---
 | id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 42 columns long.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long.
 
 ```C++
   {
@@ -2080,7 +2080,7 @@ Guns can be defined like this:
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
-"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
+"barrel_volume": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
@@ -2576,7 +2576,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "limb_power" : 10,      // How much hp to restore when healing limbs? Mandatory value
     "head_power" : 7,       // How much hp to restore when healing head? If unset, defaults to 0.8 * limb_power.
     "torso_power" : 15,     // How much hp to restore when healing torso? If unset, defaults to 1.5 * limb_power.
-    "bleed" : 0.4,          // Chance to remove bleed effect.
+    "bleed" : 4,            // How many bleed effect intensity levels can be reduced by it. Base value.
     "bite" : 0.95,          // Chance to remove bite effect.
     "infect" : 0.1,         // Chance to remove infected effect.
     "move_cost" : 250,      // Cost in moves to use the item.

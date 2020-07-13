@@ -119,5 +119,53 @@
         { "item": "motor", "prob": 30 }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_ground_cable",
+    "name": "ground cable",
+    "description": "A bunch of loose cables snake along the floor.",
+    "symbol": "}",
+    "color": "white",
+    "move_cost_mod": 1,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT", "NOCOLLIDE" ],
+    "bash": {
+      "str_min": 10,
+      "str_max": 100,
+      "sound": "shred!",
+      "sound_fail": "thud!",
+      "items": [ { "item": "scrap_copper", "count": [ 1, 4 ] }, { "item": "cable", "count": [ 1, 4 ] } ]
+    },
+    "deconstruct": { "items": [ { "item": "cable", "count": 4 } ] }
+  },
+  {
+    "type": "furniture",
+    "id": "f_capacitor",
+    "name": "capacitor bank",
+    "description": "A bank of heavy metal cylinders connected by large wires.",
+    "symbol": "=",
+    "color": "light_blue",
+    "move_cost_mod": 4,
+    "coverage": 40,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "MOUNTABLE" ],
+    "bash": {
+      "str_min": 25,
+      "str_max": 200,
+      "explosive": 15,
+      "sound": "metal screeching!",
+      "sound_fail": "crash!",
+      "items": [
+        { "item": "scrap", "count": [ 1, 4 ] },
+        { "item": "cable", "count": [ 1, 8 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "circuit", "count": [ 0, 5 ] },
+        { "item": "e_scrap", "count": [ 2, 8 ] },
+        { "item": "amplifier", "count": [ 0, 4 ] },
+        { "item": "power_supply", "count": [ 0, 2 ] },
+        { "item": "metal_tank_little", "count": [ 0, 6 ] }
+      ]
+    }
   }
 ]

@@ -894,8 +894,8 @@ class heal_actor : public iuse_actor
         float disinfectant_power = 0;
         /** Extra intensity levels gained per skill level when healing limbs. */
         float disinfectant_scaling = 0;
-        /** Chance to remove bleed effect. */
-        float bleed = 0;
+        /** How many levels of bleeding effect intensity can it remove (dressing efficiency). */
+        int bleed = 0;
         /** Chance to remove bite effect. */
         float bite = 0;
         /** Chance to remove infected effect. */
@@ -928,6 +928,8 @@ class heal_actor : public iuse_actor
         int get_bandaged_level( const Character &healer ) const;
         /** How many intensity levels will be applied using this actor by `healer`. */
         int get_disinfected_level( const Character &healer ) const;
+        /** How many intensity levels of bleeding will be reduced using this actor by `healer`. */
+        int get_stopbleed_level( const Character &healer ) const;
         /** Does the actual healing. Used by both long and short actions. Returns charges used. */
         int finish_using( player &healer, player &patient, item &it, bodypart_id healed ) const;
 

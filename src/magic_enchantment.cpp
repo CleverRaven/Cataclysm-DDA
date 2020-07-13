@@ -17,23 +17,6 @@
 #include "string_id.h"
 #include "units.h"
 
-template <typename E> struct enum_traits;
-
-template<>
-struct enum_traits<enchantment::has> {
-    static constexpr enchantment::has last = enchantment::has::NUM_HAS;
-};
-
-template<>
-struct enum_traits<enchantment::condition> {
-    static constexpr enchantment::condition last = enchantment::condition::NUM_CONDITION;
-};
-
-template<>
-struct enum_traits<enchant_vals::mod> {
-    static constexpr enchant_vals::mod last = enchant_vals::mod::NUM_MOD;
-};
-
 namespace io
 {
     // *INDENT-OFF*
@@ -366,6 +349,31 @@ void enchantment::force_add( const enchantment &rhs )
     }
 }
 
+void enchantment::set_has( enchantment::has value )
+{
+    active_conditions.first = value;
+}
+
+void enchantment::add_value_add( enchant_vals::mod value, int add_value )
+{
+    values_add[value] = add_value;
+}
+
+void enchantment::add_value_mult( enchant_vals::mod value, float mult_value )
+{
+    values_multiply[value] = mult_value;
+}
+
+void enchantment::add_hit_me( const fake_spell &sp )
+{
+    hit_me_effect.push_back( sp );
+}
+
+void enchantment::add_hit_you( const fake_spell &sp )
+{
+    hit_you_effect.push_back( sp );
+}
+
 int enchantment::get_value_add( const enchant_vals::mod value ) const
 {
     const auto found = values_add.find( value );
@@ -382,6 +390,13 @@ double enchantment::get_value_multiply( const enchant_vals::mod value ) const
         return 0;
     }
     return found->second;
+}
+
+double enchantment::modify_value( const enchant_vals::mod mod_val, double value ) const
+{
+    value += get_value_add( mod_val );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
 }
 
 int enchantment::mult_bonus( enchant_vals::mod value_type, int base_value ) const

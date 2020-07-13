@@ -108,6 +108,7 @@ static const efftype_id effect_cig( "cig" );
 static const efftype_id effect_shakes( "shakes" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_weed_high( "weed_high" );
+static const efftype_id effect_bleed( "bleed" );
 
 static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
@@ -251,6 +252,7 @@ static const std::string flag_SKINTIGHT( "SKINTIGHT" );
 static const std::string flag_SLOW_WIELD( "SLOW_WIELD" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 static const std::string flag_STR_DRAW( "STR_DRAW" );
 static const std::string flag_TOBACCO( "TOBACCO" );
 static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
@@ -878,6 +880,36 @@ item item::in_container( const itype_id &cont, int qty ) const
     return *this;
 }
 
+void item::update_modified_pockets()
+{
+    cata::optional<const pocket_data *> mag_or_mag_well;
+    std::vector<const pocket_data *> container_pockets;
+
+    for( const pocket_data &pocket : type->pockets ) {
+        if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
+            container_pockets.push_back( &pocket );
+        } else if( pocket.type == item_pocket::pocket_type::MAGAZINE ||
+                   pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+            mag_or_mag_well = &pocket;
+        }
+    }
+
+    for( const item *mod : mods() ) {
+        if( mod->type->mod ) {
+            for( const pocket_data &pocket : mod->type->mod->add_pockets ) {
+                if( pocket.type == item_pocket::pocket_type::CONTAINER ) {
+                    container_pockets.push_back( &pocket );
+                } else if( pocket.type == item_pocket::pocket_type::MAGAZINE ||
+                           pocket.type == item_pocket::pocket_type::MAGAZINE_WELL ) {
+                    mag_or_mag_well = &pocket;
+                }
+            }
+        }
+    }
+
+    contents.update_modified_pockets( mag_or_mag_well, container_pockets );
+}
+
 int item::charges_per_volume( const units::volume &vol ) const
 {
     if( count_by_charges() ) {
@@ -1030,6 +1062,9 @@ bool item::merge_charges( const item &rhs )
 ret_val<bool> item::put_in( const item &payload, item_pocket::pocket_type pk_type )
 {
     ret_val<bool> result = contents.insert_item( payload, pk_type );
+    if( pk_type == item_pocket::pocket_type::MOD ) {
+        update_modified_pockets();
+    }
     on_contents_changed();
     return result;
 }
@@ -4148,6 +4183,14 @@ void item::on_wear( Character &p )
                   !p.worn_with_flag( flag_SPLINT, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
+        } else if( has_flag( flag_TOURNIQUET ) ) {
+            set_side( side::LEFT );
+            if( ( covers( bodypart_id( "leg_l" ) ) && p.has_effect( effect_bleed, bp_leg_r ) &&
+                  !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "leg_r" ) ) ) ||
+                ( covers( bodypart_id( "arm_l" ) ) && p.has_effect( effect_bleed, bp_arm_r ) &&
+                  !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "arm_r" ) ) ) ) {
+                set_side( side::RIGHT );
+            }
         } else {
             // for sided items wear the item on the side which results in least encumbrance
             int lhs = 0;
@@ -4826,7 +4869,7 @@ units::mass item::weight( bool, bool integral ) const
 
     // reduce weight for sawn-off weapons capped to the apportioned weight of the barrel
     if( gunmod_find( itype_barrel_small ) ) {
-        const units::volume b = type->gun->barrel_length;
+        const units::volume b = type->gun->barrel_volume;
         const units::mass max_barrel_weight = units::from_gram( to_milliliter( b ) );
         const units::mass barrel_weight = units::from_gram( b.value() * type->weight.value() /
                                           type->volume.value() );
@@ -4958,7 +5001,7 @@ units::volume item::volume( bool integral ) const
         if( has_flag( flag_COLLAPSIBLE_STOCK ) ) {
             // consider only the base size of the gun (without mods)
             int tmpvol = get_var( "volume",
-                                  ( type->volume - type->gun->barrel_length ) / units::legacy_volume_factor );
+                                  ( type->volume - type->gun->barrel_volume ) / units::legacy_volume_factor );
             if( tmpvol <= 3 ) {
                 // intentional NOP
             } else if( tmpvol <= 5 ) {
@@ -4977,7 +5020,7 @@ units::volume item::volume( bool integral ) const
         }
 
         if( gunmod_find( itype_barrel_small ) ) {
-            ret -= type->gun->barrel_length;
+            ret -= type->gun->barrel_volume;
         }
     }
 
@@ -7097,10 +7140,6 @@ int item::ammo_remaining() const
     }
 
     if( is_tool() ) {
-        // dirty hack for UPS, hopefully temporary
-        if( typeId() == itype_UPS_off || typeId() == itype_adv_UPS_off ) {
-            return charges;
-        }
 
         if( ammo_types().empty() ||
             !contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE ) ) {
@@ -7368,23 +7407,8 @@ itype_id item::magazine_default( bool conversion ) const
     return itype_id::NULL_ID();
 }
 
-std::set<itype_id> item::magazine_compatible( bool conversion ) const
+std::set<itype_id> item::magazine_compatible( bool /* conversion */ ) const
 {
-    std::set<itype_id> mags = {};
-    // mods that define magazine_adaptor may override the items usual magazines
-    const std::vector<const item *> &mods = is_gun() ? gunmods() : toolmods();
-    for( const item *m : mods ) {
-        if( !m->type->mod->magazine_adaptor.empty() ) {
-            for( const ammotype &atype : ammo_types( conversion ) ) {
-                if( m->type->mod->magazine_adaptor.count( atype ) ) {
-                    std::set<itype_id> magazines_for_atype = m->type->mod->magazine_adaptor.find( atype )->second;
-                    mags.insert( magazines_for_atype.begin(), magazines_for_atype.end() );
-                }
-            }
-            return mags;
-        }
-    }
-
     return contents.magazine_compatible();
 }
 
@@ -7406,6 +7430,11 @@ std::vector<item *> item::gunmods()
 std::vector<const item *> item::gunmods() const
 {
     return contents.gunmods();
+}
+
+std::vector<const item *> item::mods() const
+{
+    return contents.mods();
 }
 
 item *item::gunmod_find( const itype_id &mod )
@@ -9065,6 +9094,11 @@ void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
     if( carrier && carrier->is_avatar() ) {
         g->process_artifact( *this, *carrier );
     }
+}
+
+void item::overwrite_relic( const relic &nrelic )
+{
+    this->relic_data = cata::make_value<relic>( nrelic );
 }
 
 void item::process_relic( Character *carrier )

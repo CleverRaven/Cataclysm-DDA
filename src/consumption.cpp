@@ -538,11 +538,15 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
 
 int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 {
-    auto it = vitamin_levels.find( vit );
-    if( it == vitamin_levels.end() ) {
+    if( !vit.is_valid() ) {
+        debugmsg( "Vitamin with id %s does not exist, and cannot be modified", vit.str() );
         return 0;
     }
-    const auto &v = it->first.obj();
+    // What's going on here? Emplace returns either an iterator to the inserted
+    // item or, if it already exists, an iterator to the (unchanged) extant item
+    // (Okay, technically it returns a pair<iterator, bool>, the iterator is what we want)
+    auto it = vitamin_levels.emplace( vit, 0 ).first;
+    const vitamin &v = *it->first;
 
     if( qty > 0 ) {
         // Accumulations can never occur from food sources

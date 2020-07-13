@@ -472,7 +472,7 @@ std::vector<const item *> player::get_eligible_containers_for_crafting() const
 
     map &here = get_map();
     // get all potential containers within PICKUP_RANGE tiles including vehicles
-    for( const tripoint &loc : closest_tripoints_first( pos(), PICKUP_RANGE ) ) {
+    for( const tripoint &loc : closest_points_first( pos(), PICKUP_RANGE ) ) {
         // can not reach this -> can not access its contents
         if( pos() != loc && !here.clear_path( pos(), loc, PICKUP_RANGE, 1, 100 ) ) {
             continue;
@@ -663,7 +663,7 @@ static item *set_item_inventory( player &p, item &newit )
 static item_location set_item_map( const tripoint &loc, item &newit )
 {
     // Includes loc
-    for( const tripoint &tile : closest_tripoints_first( loc, 2 ) ) {
+    for( const tripoint &tile : closest_points_first( loc, 2 ) ) {
         // Pass false to disallow overflow, null_item_reference indicates failure.
         item *it_on_map = &get_map().add_item_or_charges( tile, newit, false );
         if( it_on_map != &null_item_reference() ) {
@@ -786,8 +786,9 @@ void player::start_craft( craft_command &command, const tripoint &loc )
             uilist amenu;
             amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
                                         craft.display_name() );
-            amenu.addentry( WIELD_CRAFT, !weapon.has_flag( flag_NO_UNWIELD ), '1',
-                            _( "Dispose of your wielded %s and start working." ), weapon.tname() );
+
+            amenu.addentry( WIELD_CRAFT, can_unwield( weapon ).success(),
+                            '1', _( "Dispose of your wielded %s and start working." ), weapon.tname() );
             amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
             const bool can_stash = can_pickVolume( craft ) &&
                                    can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
@@ -801,7 +802,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                     if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
                         craft_in_world = *it_loc;
                     } else {
-                        // This almost certianly shouldn't happen
+                        // This almost certainly shouldn't happen
                         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
                     }
                     break;

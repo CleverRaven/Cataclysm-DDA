@@ -797,7 +797,7 @@ static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
     const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
     const int max_followers = rng( 3, 12 );
     const int rad = 3;
-    const tripoint_range spawnzone = m.points_in_radius( leader_pos, rad );
+    const tripoint_range<tripoint> spawnzone = m.points_in_radius( leader_pos, rad );
 
     m.place_npc( leader_pos.xy(), string_id<npc_template>( "marloss_voice" ) );
     for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
@@ -1051,7 +1051,8 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
 {
     // All points except the borders are valid--we need the 1 square buffer so that we can do a 1 unit radius
     // around our chosen portal point without clipping against the edge of the map.
-    const tripoint_range points = m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
+    const tripoint_range<tripoint> points =
+        m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
 
     // Get a random point in our collection that does not have a trap and does not have the NO_FLOOR flag.
     const cata::optional<tripoint> portal_pos = random_point( points, [&]( const tripoint & p ) {
@@ -1781,7 +1782,8 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             artifact_natural_property prop =
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
             m.create_anomaly( portal_location, prop );
-            m.spawn_natural_artifact( p + tripoint( rng( -1, 1 ), rng( -1, 1 ), abs_sub.z ), prop );
+            m.spawn_artifact( p + tripoint( rng( -1, 1 ), rng( -1, 1 ), abs_sub.z ),
+                              relic_procgen_id( "alien_reality" ) );
             break;
         }
     }

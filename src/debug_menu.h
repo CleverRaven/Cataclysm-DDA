@@ -44,6 +44,7 @@ enum class debug_menu_index : int {
     DISPLAY_HORDES,
     TEST_IT_GROUP,
     DAMAGE_SELF,
+    BLEED_SELF,
     SHOW_SOUND,
     DISPLAY_WEATHER,
     DISPLAY_SCENTS,

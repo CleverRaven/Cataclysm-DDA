@@ -21,7 +21,7 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 600,
-    "barrel_length": "1000 ml",
+    "barrel_volume": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "grip", 1 ],

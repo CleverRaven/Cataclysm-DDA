@@ -413,6 +413,7 @@
       [ "prussian_blue", 5 ],
       [ "autoclave", 5 ],
       [ "bandages", 50 ],
+      [ "adhesive_bandages", 20 ],
       [ "cotton_ball", 50 ],
       [ "scalpel", 48 ],
       [ "syringe", 8 ],

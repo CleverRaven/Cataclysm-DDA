@@ -190,6 +190,7 @@ static const itype_id itype_UPS_off( "UPS_off" );
 
 static const skill_id skill_archery( "archery" );
 static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_pistol( "pistol" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_shotgun( "shotgun" );
@@ -360,6 +361,7 @@ static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 static const std::string flag_SKINTIGHT( "SKINTIGHT" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SPLINT( "SPLINT" );
+static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 static const std::string flag_STURDY( "STURDY" );
 static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
@@ -1759,6 +1761,11 @@ void Character::recalc_hp()
                        get_fat_to_hp() );
 }
 
+int Character::get_part_hp_max( const bodypart_id &id ) const
+{
+    return enchantment_cache.modify_value( enchant_vals::mod::MAX_HP, Creature::get_part_hp_max( id ) );
+}
+
 // This must be called when any of the following change:
 // - effects
 // - bionics
@@ -2867,43 +2874,53 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     units::mass ret = 0_gram;
     for( auto &i : worn ) {
         if( !without.count( &i ) ) {
+            for( auto j : i.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+                if( j->count_by_charges() ) {
+                    ret -= get_selected_stack_weight( j, without );
+                } else if( without.count( j ) ) {
+                    ret -= j->weight();
+                }
+            }
             ret += i.weight();
         }
     }
 
-    // Items in inventory
-    const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
-    ret += i.weight_without( without );
-
     // Wielded item
     units::mass weaponweight = 0_gram;
-    auto weapon_it = without.find( &weapon );
-    if( weapon_it == without.end() ) {
-        weaponweight = weapon.weight();
-    } else {
-        int subtract_count = ( *weapon_it ).second;
-        if( weapon.count_by_charges() ) {
-            item copy = weapon;
-            copy.charges -= subtract_count;
-            if( copy.charges < 0 ) {
-                debugmsg( "Trying to remove more charges than the wielded item has" );
-                copy.charges = 0;
+    if( !without.count( &weapon ) ) {
+        weaponweight += weapon.weight();
+        for( auto i : weapon.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+            if( i->count_by_charges() ) {
+                weaponweight -= get_selected_stack_weight( i, without );
+            } else if( without.count( i ) ) {
+                weaponweight -= i->weight();
             }
-            weaponweight = copy.weight();
-        } else if( subtract_count > 1 ) {
-            debugmsg( "Trying to remove more than one wielded item" );
         }
+    } else if( weapon.count_by_charges() ) {
+        weaponweight += weapon.weight() - get_selected_stack_weight( &weapon, without );
     }
+
     // Exclude wielded item if using lifting tool
-    if( weaponweight + ret > weight_capacity() ) {
-        if( g->new_game || best_nearby_lifting_assist() < weaponweight ) {
-            ret += weaponweight;
-        }
-    } else {
+    if( ( weaponweight + ret <= weight_capacity() ) || ( g->new_game ||
+            best_nearby_lifting_assist() < weaponweight ) ) {
         ret += weaponweight;
     }
 
     return ret;
+}
+
+units::mass Character::get_selected_stack_weight( const item *i,
+        const std::map<const item *, int> &without ) const
+{
+    auto stack = without.find( i );
+    if( stack != without.end() ) {
+        int selected = stack->second;
+        item copy = *i;
+        copy.charges = selected;
+        return copy.weight();
+    }
+
+    return 0_gram;
 }
 
 units::volume Character::volume_carried_with_tweaks( const
@@ -2919,8 +2936,50 @@ units::volume Character::volume_carried_with_tweaks( const
 
 units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks ) const
 {
-    const inventory &i = tweaks.replace_inv ? tweaks.replace_inv->get() : inv;
-    return tweaks.without_items ? i.volume_without( *tweaks.without_items ) : i.volume();
+    const std::map<const item *, int> empty;
+    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+            empty;
+
+    // Worn items
+    units::volume ret = 0_ml;
+    for( auto &i : worn ) {
+        if( !without.count( &i ) ) {
+            for( auto j : i.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+                if( j->count_by_charges() ) {
+                    ret += j->volume() - get_selected_stack_volume( j, without );
+                } else if( !without.count( j ) ) {
+                    ret += j->volume();
+                }
+            }
+        }
+    }
+
+    // Wielded item
+    if( !without.count( &weapon ) ) {
+        for( auto i : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+            if( i->count_by_charges() ) {
+                ret += i->volume() - get_selected_stack_volume( i, without );
+            } else if( !without.count( i ) ) {
+                ret += i->volume();
+            }
+        }
+    }
+
+    return ret;
+}
+
+units::volume Character::get_selected_stack_volume( const item *i,
+        const std::map<const item *, int> &without ) const
+{
+    auto stack = without.find( i );
+    if( stack != without.end() ) {
+        int selected = stack->second;
+        item copy = *i;
+        copy.charges = selected;
+        return copy.volume();
+    }
+
+    return 0_ml;
 }
 
 units::mass Character::weight_capacity() const
@@ -3070,6 +3129,30 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         }
     }
 
+    if( it.has_flag( flag_TOURNIQUET ) ) {
+        bool need_tourniquet = false;
+        for( const bodypart_id &bp : get_all_body_parts() ) {
+            if( !it.covers( bp ) ) {
+                continue;
+            }
+            effect e = get_effect( effect_bleed, bp->token );
+            if( !e.is_null() && e.get_intensity() > e.get_max_intensity() / 4 &&
+                !worn_with_flag( flag_TOURNIQUET, bp ) ) {
+                need_tourniquet = true;
+                break;
+            }
+        }
+        if( !need_tourniquet ) {
+            std::string msg;
+            if( is_player() ) {
+                msg = _( "You don't need a tourniquet to stop the bleeding." );
+            } else {
+                msg = string_format( _( "%s doesn't need a tourniquet to stop the bleeding." ), name );
+            }
+            return ret_val<bool>::make_failure( msg );
+        }
+    }
+
     if( it.has_flag( flag_RESTRICT_HANDS ) && !has_two_arms() ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You don't have enough arms to wear that." )
                                               : string_format( _( "%s doesn't have enough arms to wear that." ), name ) ) );
@@ -3170,7 +3253,12 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 ret_val<bool> Character::can_unwield( const item &it ) const
 {
     if( it.has_flag( "NO_UNWIELD" ) ) {
-        return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+        cata::optional<int> wi;
+        // check if "it" is currently wielded fake bionic weapon that can be deactivated
+        if( !( is_wielding( it ) && ( wi = active_bionic_weapon_index() ) &&
+               can_deactivate_bionic( *wi ).success() ) ) {
+            return ret_val<bool>::make_failure( _( "You cannot unwield your %s." ), it.tname() );
+        }
     }
 
     return ret_val<bool>::make_success();
@@ -4256,6 +4344,11 @@ int Character::get_stored_kcal() const
 
 void Character::mod_stored_kcal( int nkcal )
 {
+    if( nkcal > 0 ) {
+        add_gained_calories( nkcal );
+    } else {
+        add_spent_calories( -nkcal );
+    }
     set_stored_kcal( stored_calories + nkcal );
 }
 
@@ -4697,6 +4790,10 @@ void Character::update_body( const time_point &from, const time_point &to )
                 vitamin_mod( v.first, qty );
             }
         }
+    }
+
+    if( is_avatar() && ticks_between( from, to, 24_hours ) > 0 ) {
+        as_avatar()->advance_daily_calories();
     }
 
     do_skill_rust();
@@ -6039,7 +6136,7 @@ float Character::get_hit_base() const
 bodypart_id Character::body_window( const std::string &menu_header,
                                     bool show_all, bool precise,
                                     int normal_bonus, int head_bonus, int torso_bonus,
-                                    float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
+                                    int bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const
 {
     /* This struct establishes some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
@@ -6082,7 +6179,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
         const int current_hp = get_part_hp_cur( bp );
         // This will c_light_gray if the part does not have any effects cured by the item/effect
         // (e.g. it cures only bites, but the part does not have a bite effect)
-        const nc_color state_col = limb_color( bp, bleed > 0.0f, bite > 0.0f, infect > 0.0f );
+        const nc_color state_col = limb_color( bp, bleed > 0, bite > 0.0f, infect > 0.0f );
         const bool has_curable_effect = state_col != c_light_gray;
         // The same as in the main UI sidebar. Independent of the capability of the healing item/effect!
         const nc_color all_state_col = limb_color( bp, true, true, true );
@@ -6162,11 +6259,13 @@ bodypart_id Character::body_window( const std::string &menu_header,
         if( bleeding ) {
             desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, bp_token ).get_speed_name(),
                                              get_effect( effect_bleed, bp_token ).disp_short_desc() ), c_red ) + "\n";
-            if( bleed > 0.0f ) {
-                desc += colorize( string_format( _( "Chance to stop: %d %%" ),
-                                                 static_cast<int>( bleed * 100 ) ), c_light_green ) + "\n";
+            if( bleed > 0 ) {
+                int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp_token ) );
+                percent = std::min( percent, 100 );
+                desc += colorize( string_format( _( "Expected reduction of bleeding by: %d %%" ), percent ),
+                                  c_light_green ) + "\n";
             } else {
-                desc += colorize( _( "This will not stop the bleeding." ),
+                desc += colorize( _( "This will not affect the bleeding." ),
                                   c_yellow ) + "\n";
             }
         }
@@ -6262,7 +6361,8 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
     const body_part bp_token = bp->token;
     int color_bit = 0;
     nc_color i_color = c_light_gray;
-    if( bleed && has_effect( effect_bleed, bp_token ) ) {
+    const int intense = get_effect_int( effect_bleed, bp_token );
+    if( bleed && intense > 0 ) {
         color_bit += 1;
     }
     if( bite && has_effect( effect_bite, bp_token ) ) {
@@ -6273,7 +6373,13 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
     }
     switch( color_bit ) {
         case 1:
-            i_color = c_red;
+            if( intense < 11 ) {
+                i_color = c_light_red;
+            } else if( intense < 21 ) {
+                i_color = c_red;
+            } else {
+                i_color = c_red_red;
+            }
             break;
         case 10:
             i_color = c_blue;
@@ -6282,10 +6388,18 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
             i_color = c_green;
             break;
         case 11:
-            i_color = c_magenta;
+            if( intense < 21 ) {
+                i_color = c_magenta;
+            } else {
+                i_color = c_magenta_red;
+            }
             break;
         case 101:
-            i_color = c_yellow;
+            if( intense < 21 ) {
+                i_color = c_yellow;
+            } else {
+                i_color = c_yellow_red;
+            }
             break;
     }
 
@@ -7026,7 +7140,7 @@ float Character::healing_rate( float at_rest_quality ) const
         final_rate *= 1.0f + primary_hp_mod;
     }
 
-    return final_rate;
+    return enchantment_cache.modify_value( enchant_vals::mod::REGEN_HP, final_rate );
 }
 
 float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
@@ -8993,8 +9107,8 @@ void Character::blossoms()
 
 void Character::update_vitamins( const vitamin_id &vit )
 {
-    if( is_npc() ) {
-        return; // NPCs cannot develop vitamin diseases
+    if( is_npc() && vit->type() != vitamin_type::COUNTER ) {
+        return; // NPCs cannot develop vitamin diseases, bypass for special
     }
 
     efftype_id def = vit.obj().deficiency();
@@ -9223,6 +9337,38 @@ units::volume Character::volume_capacity() const
     for( const item &w : worn ) {
         volume_capacity += w.contents.total_container_capacity();
     }
+    return volume_capacity;
+}
+
+units::volume Character::volume_capacity_with_tweaks( const
+        std::vector<std::pair<item_location, int>>
+        &locations ) const
+{
+    std::map<const item *, int> dropping;
+    for( const std::pair<item_location, int> &location_pair : locations ) {
+        dropping.emplace( location_pair.first.get_item(), location_pair.second );
+    }
+    return volume_capacity_with_tweaks( { dropping } );
+}
+
+units::volume Character::volume_capacity_with_tweaks( const item_tweaks &tweaks ) const
+{
+    const std::map<const item *, int> empty;
+    const std::map<const item *, int> &without = tweaks.without_items ? tweaks.without_items->get() :
+            empty;
+
+    units::volume volume_capacity = 0_ml;
+
+    if( !without.count( &weapon ) ) {
+        volume_capacity += weapon.contents.total_container_capacity();
+    }
+
+    for( auto &i : worn ) {
+        if( !without.count( &i ) ) {
+            volume_capacity += i.contents.total_container_capacity();
+        }
+    }
+
     return volume_capacity;
 }
 

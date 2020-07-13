@@ -168,7 +168,7 @@
       { "item": "mre_chickenpesto_box", "prob": 45 },
       { "item": "mre_southwestbeef_box", "prob": 45 },
       { "item": "mre_hotdog_box", "prob": 45 },
-      { "item": "1st_aid", "prob": 35 },
+      { "item": "ifak", "prob": 35 },
       { "item": "saline", "prob": 10 },
       { "item": "con_milk", "prob": 10 },
       { "item": "sports_drink", "prob": 40 },

@@ -197,14 +197,12 @@ void item_contents::deserialize( JsonIn &jsin )
 
 void item_pocket::serialize( JsonOut &json ) const
 {
-    if( !contents.empty() ) {
-        json.start_object();
-        json.member( "pocket_type", data->type );
-        json.member( "contents", contents );
-        json.member( "_sealed", _sealed );
-        json.member( "favorite_settings", this->settings );
-        json.end_object();
-    }
+    json.start_object();
+    json.member( "pocket_type", data->type );
+    json.member( "contents", contents );
+    json.member( "_sealed", _sealed );
+    json.member( "favorite_settings", this->settings );
+    json.end_object();
 }
 
 void item_pocket::deserialize( JsonIn &jsin )
@@ -513,9 +511,10 @@ void Character::load( const JsonObject &data )
 
     JsonObject vits = data.get_object( "vitamin_levels" );
     for( const std::pair<const vitamin_id, vitamin> &v : vitamin::all() ) {
-        int lvl = vits.get_int( v.first.str(), 0 );
-        lvl = std::max( std::min( lvl, v.first.obj().max() ), v.first.obj().min() );
-        vitamin_levels[v.first] = lvl;
+        if( vits.has_member( v.first.str() ) ) {
+            int lvl = vits.get_int( v.first.str() );
+            vitamin_levels[v.first] = clamp( lvl, v.first->min(), v.first->max() );
+        }
     }
     data.read( "consumption_history", consumption_history );
     data.read( "activity", activity );
@@ -1135,6 +1134,8 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "invcache" );
     inv.json_save_invcache( json );
+
+    json.member( "calorie_diary", calorie_diary );
 }
 
 void avatar::deserialize( JsonIn &jsin )
@@ -1283,6 +1284,8 @@ void avatar::load( const JsonObject &data )
         JsonIn *jip = data.get_raw( "invcache" );
         inv.json_load_invcache( *jip );
     }
+
+    data.read( "calorie_diary", calorie_diary );
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2432,6 +2435,8 @@ void item::deserialize( JsonIn &jsin )
     } else {
         item_contents read_contents;
         data.read( "contents", read_contents );
+        contents.read_mods( read_contents );
+        update_modified_pockets();
         contents.combine( read_contents );
 
         if( data.has_object( "contents" ) && data.get_object( "contents" ).has_array( "items" ) ) {
@@ -2643,20 +2648,20 @@ void vehicle_part::serialize( JsonOut &json ) const
 /*
  * label
  */
-static void deserialize( label &val, JsonIn &jsin )
+void label::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
-    data.read( "x", val.x );
-    data.read( "y", val.y );
-    data.read( "text", val.text );
+    data.read( "x", x );
+    data.read( "y", y );
+    data.read( "text", text );
 }
 
-static void serialize( const label &val, JsonOut &json )
+void label::serialize( JsonOut &json ) const
 {
     json.start_object();
-    json.member( "x", val.x );
-    json.member( "y", val.y );
-    json.member( "text", val.text );
+    json.member( "x", x );
+    json.member( "y", y );
+    json.member( "text", text );
     json.end_object();
 }
 
@@ -3325,19 +3330,19 @@ void map_memory::load( const JsonObject &jsin )
     }
 }
 
-void deserialize( point &p, JsonIn &jsin )
+void point::deserialize( JsonIn &jsin )
 {
     jsin.start_array();
-    p.x = jsin.get_int();
-    p.y = jsin.get_int();
+    x = jsin.get_int();
+    y = jsin.get_int();
     jsin.end_array();
 }
 
-void serialize( const point &p, JsonOut &jsout )
+void point::serialize( JsonOut &jsout ) const
 {
     jsout.start_array();
-    jsout.write( p.x );
-    jsout.write( p.y );
+    jsout.write( x );
+    jsout.write( y );
     jsout.end_array();
 }
 

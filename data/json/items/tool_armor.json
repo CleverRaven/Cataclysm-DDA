@@ -34,6 +34,60 @@
     "flags": [ "OVERSIZE", "WATER_FRIENDLY", "OUTER", "SPLINT" ]
   },
   {
+    "id": "tourniquet_upper",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (arm)", "str_pl": "tourniquets (arm)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "weight": "300 g",
+    "volume": "300 ml",
+    "price": 20000,
+    "price_postapoc": 50,
+    "material": [ "wood", "leather" ],
+    "symbol": "{",
+    "looks_like": "armguard_hard",
+    "color": "red",
+    "covers": [ "ARM_EITHER" ],
+    "coverage": 10,
+    "encumbrance": 70,
+    "warmth": 0,
+    "material_thickness": 1,
+    "use_action": { "target": "tourniquet_upper_XL", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET" ]
+  },
+  {
+    "id": "tourniquet_upper_XL",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (arm XL)", "str_pl": "tourniquets (arm XL)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "copy-from": "tourniquet_upper",
+    "looks_like": "tourniquet_upper",
+    "covers": [ "ARM_EITHER" ],
+    "use_action": { "target": "tourniquet_lower", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
+  },
+  {
+    "id": "tourniquet_lower",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (leg)", "str_pl": "tourniquets (leg)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "copy-from": "tourniquet_upper",
+    "looks_like": "tourniquet_upper",
+    "covers": [ "LEG_EITHER" ],
+    "use_action": { "target": "tourniquet_lower_XL", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET" ]
+  },
+  {
+    "id": "tourniquet_lower_XL",
+    "type": "ARMOR",
+    "name": { "str": "tourniquet (leg)", "str_pl": "tourniquets (leg)" },
+    "description": "First aid device used to apply pressure to a limb or extremity in order to limit blood flow.  Should be employed only to manage heavy bleedings, because prolonged use will harm the limb.  It can be adjusted in size to fit different limbs.",
+    "copy-from": "tourniquet_upper",
+    "looks_like": "tourniquet_upper",
+    "covers": [ "LEG_EITHER" ],
+    "use_action": { "target": "tourniquet_upper", "msg": "You adjust the tourniquet.", "menu_text": "Adjust", "type": "transform" },
+    "flags": [ "WATER_FRIENDLY", "OUTER", "TOURNIQUET", "OVERSIZE" ]
+  },
+  {
     "id": "blindfold",
     "type": "ARMOR",
     "name": { "str": "blindfold" },
@@ -365,8 +419,17 @@
     "covers": [ "TORSO", "HEAD", "ARMS", "LEGS" ],
     "coverage": 65,
     "encumbrance": 10,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 1000 } } ],
-    "ammo": "plutonium",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "light_atomic_battery_cell" ]
+      }
+    ],
+    "ammo": "battery",
     "initial_charges": 500,
     "charges_per_use": 25,
     "warmth": 10,
@@ -876,7 +939,7 @@
     "symbol": "[",
     "color": "dark_gray",
     "name": { "str": "RM13 combat armor" },
-    "description": "Internally powered by a maximum of ten plutonium fuel cells, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  Use it to turn it on.",
+    "description": "Internally powered by plutonium fuel batteries, exclusively, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  Use it to turn it on.",
     "flags": [ "VARSIZE", "STURDY", "WATERPROOF", "RAINPROOF", "WATCH", "ALARMCLOCK", "SWIM_GOGGLES", "SUN_GLASSES", "RAD_RESIST" ],
     "price": 50000000,
     "price_postapoc": 10000,
@@ -884,8 +947,17 @@
     "weight": "6820 g",
     "volume": "9 L",
     "to_hit": -3,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "plutonium": 5000 } } ],
-    "ammo": "plutonium",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_atomic_battery_cell" ]
+      }
+    ],
+    "ammo": "battery",
     "charges_per_use": 5,
     "use_action": [ "RM13ARMOR_OFF" ],
     "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
@@ -901,7 +973,7 @@
     "repairs_like": "rm13_armor",
     "type": "TOOL_ARMOR",
     "name": { "str": "RM13 combat armor (on)", "str_pl": "RM13 combat armors (on)" },
-    "description": "Internally powered by a maximum of ten plutonium fuel cells, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  It is turned on, and continually draining power.  Use it to turn it off.",
+    "description": "Internally powered by plutonium fuel batteries, exclusively, this full-body suit of sleek black military armor represents the pinnacle of Rivtech's non-rigid powered armor technology.  It is turned on, and continually draining power.  Use it to turn it off.",
     "flags": [
       "VARSIZE",
       "STURDY",
@@ -939,8 +1011,17 @@
     "material": [ "ceramic", "kevlar" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "plutonium": 1000 } } ],
-    "ammo": "plutonium",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "medium_atomic_battery_cell" ]
+      }
+    ],
+    "ammo": "battery",
     "initial_charges": 1000,
     "use_action": {
       "type": "transform",
@@ -990,8 +1071,17 @@
     "material": [ "carbide" ],
     "weight": "1250 g",
     "volume": "4500 ml",
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "plutonium": 2500 } } ],
-    "ammo": "plutonium",
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "rigid": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_atomic_battery_cell" ]
+      }
+    ],
+    "ammo": "battery",
     "initial_charges": 1000,
     "use_action": {
       "type": "transform",

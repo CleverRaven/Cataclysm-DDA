@@ -977,14 +977,8 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
         std::vector<skill_id> trainable = p->skills_offered_to( g->u );
         std::vector<matype_id> styles = p->styles_offered_to( g->u );
-        const std::vector<spell_id> spells = p->magic.spells();
-        std::vector<spell_id> teachable_spells;
-        for( const spell_id &sp : spells ) {
-            if( g->u.magic.can_learn_spell( g->u, sp ) ) {
-                teachable_spells.emplace_back( sp );
-            }
-        }
-        if( trainable.empty() && styles.empty() && teachable_spells.empty() ) {
+        std::vector<spell_id> teachable = p->spells_offered_to( g->u );
+        if( trainable.empty() && styles.empty() && teachable.empty() ) {
             return _( "Sorry, but it doesn't seem I have anything to teach you." );
         } else {
             return _( "Here's what I can teach you…" );
@@ -1008,27 +1002,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
         }
         return response;
     } else if( topic == "TALK_DESCRIBE_MISSION" ) {
-        switch( p->mission ) {
-            case NPC_MISSION_SHELTER:
-                return string_format( _( "I'm holing up here for safety.  Long term, %s" ),
-                                      p->myclass.obj().get_job_description() );
-            case NPC_MISSION_SHOPKEEP:
-                return _( "I run the shop here." );
-            case NPC_MISSION_GUARD:
-            case NPC_MISSION_GUARD_ALLY:
-            case NPC_MISSION_GUARD_PATROL:
-                return string_format( _( "Currently, I'm guarding this location.  Overall, %s" ),
-                                      p->myclass.obj().get_job_description() );
-            case NPC_MISSION_ACTIVITY:
-                return string_format( _( "Right now, I'm <current_activity>.  In general, %s" ),
-                                      p->myclass.obj().get_job_description() );
-            case NPC_MISSION_TRAVELLING:
-            case NPC_MISSION_NULL:
-                return p->myclass.obj().get_job_description();
-            default:
-                return string_format( "ERROR: Someone forgot to code an npc_mission text for "
-                                      "mission: %d.", static_cast<int>( p->mission ) );
-        } // switch (p->mission)
+        return p->describe_mission();
     } else if( topic == "TALK_SHOUT" ) {
         alpha->shout();
         if( alpha->is_deaf() ) {
@@ -1276,13 +1250,13 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 if( !styleid.is_valid() ) {
                     const spell_id &sp_id = spell_id( backlog.name );
                     if( p->magic.knows_spell( sp_id ) ) {
-                        add_response( string_format( _( "Yes, let's resume training %s" ), sp_id->name ),
-                                      "TALK_TRAIN_START", sp_id );
+                        add_response( string_format( _( "Yes, let's resume training %s" ),
+                                                     sp_id->name ), "TALK_TRAIN_START", sp_id );
                     }
                 } else {
                     const martialart &style = styleid.obj();
-                    add_response( string_format( _( "Yes, let's resume training %s" ), style.name ), "TALK_TRAIN_START",
-                                  style );
+                    add_response( string_format( _( "Yes, let's resume training %s" ),
+                                                 style.name ), "TALK_TRAIN_START", style );
                 }
             } else {
                 add_response( string_format( _( "Yes, let's resume training %s" ), skillt->name() ),
@@ -1291,25 +1265,12 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
         std::vector<matype_id> styles = p->styles_offered_to( g->u );
         std::vector<skill_id> trainable = p->skills_offered_to( g->u );
-        const std::vector<spell_id> spells = p->magic.spells();
-        std::vector<spell_id> teachable_spells;
-        for( const spell_id &sp : spells ) {
-            const spell &temp_spell = p->magic.get_spell( sp );
-            if( g->u.magic.can_learn_spell( g->u, sp ) ) {
-                if( g->u.magic.knows_spell( sp ) ) {
-                    const spell &player_spell = g->u.magic.get_spell( sp );
-                    if( player_spell.is_max_level() || player_spell.get_level() >= temp_spell.get_level() ) {
-                        continue;
-                    }
-                }
-                teachable_spells.emplace_back( sp );
-            }
-        }
-        if( trainable.empty() && styles.empty() && teachable_spells.empty() ) {
+        std::vector<spell_id> teachable = p->spells_offered_to( g->u );
+        if( trainable.empty() && styles.empty() && teachable.empty() ) {
             add_response_none( _( "Oh, okay." ) );
             return;
         }
-        for( const spell_id &sp : teachable_spells ) {
+        for( const spell_id &sp : teachable ) {
             const spell &temp_spell = p->magic.get_spell( sp );
             const bool knows = g->u.magic.knows_spell( sp );
             const int cost = p->calc_spell_training_cost( knows, temp_spell.get_difficulty(),
@@ -1319,8 +1280,8 @@ void dialogue::gen_responses( const talk_topic &the_topic )
                 text = string_format( _( "%s: 1 hour lesson (cost %s)" ), temp_spell.name(),
                                       format_money( cost ) );
             } else {
-                text = string_format( _( "%s: teaching spell knowledge (cost %s)" ), temp_spell.name(),
-                                      format_money( cost ) );
+                text = string_format( _( "%s: teaching spell knowledge (cost %s)" ),
+                                      temp_spell.name(), format_money( cost ) );
             }
             add_response( text, "TALK_TRAIN_START", sp );
         }

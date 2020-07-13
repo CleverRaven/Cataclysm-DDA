@@ -88,6 +88,7 @@
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_bite( "bite" );
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bloodworms( "bloodworms" );
 static const efftype_id effect_boomered( "boomered" );
@@ -191,6 +192,7 @@ static const trait_id trait_WEB_WEAVER( "WEB_WEAVER" );
 static const std::string flag_SPLINT( "SPLINT" );
 
 static const skill_id skill_dodge( "dodge" );
+static const skill_id skill_firstaid( "firstaid" );
 static const skill_id skill_gun( "gun" );
 static const skill_id skill_swimming( "swimming" );
 
@@ -808,7 +810,39 @@ void player::pause()
                                    _( "<npcname> attempts to put out the fire on them!" ) );
         }
     }
+    // put pressure on bleeding wound, prioritizing most severe bleeding
+    if( !is_armed() && has_effect( effect_bleed ) ) {
+        int most = 0;
+        bodypart_id bp_id;
+        for( const body_part bp : all_body_parts ) {
+            if( most <= get_effect_int( effect_bleed, bp ) ) {
+                most = get_effect_int( effect_bleed, bp );
+                bp_id = convert_bp( bp );
+            }
+        }
+        effect &e = get_effect( effect_bleed, bp_id->token );
+        time_duration penalty = 1_turns * ( encumb( bodypart_id( "hand_r" ) ) + encumb(
+                                                bodypart_id( "hand_l" ) ) );
+        time_duration benefit = 5_turns + 10_turns * get_skill_level( skill_firstaid );
 
+        if( is_limb_broken( bodypart_id( "arm_l" ) ) || is_limb_broken( bodypart_id( "arm_r" ) ) ) {
+            add_msg_player_or_npc( m_warning,
+                                   _( "Your broken limb significantly hampers your efforts to puting pressure on the bleeding wound!" ),
+                                   _( "<npcname>'s broken limb significantly hampers efforts of putting pressure on the bleeding wound!" ) );
+            e.mod_duration( -1_turns );
+        } else if( benefit <= penalty ) {
+            add_msg_player_or_npc( m_warning,
+                                   _( "Your hands are too encumbred to effectivly put pressure on the bleeding wound!" ),
+                                   _( "<npcname>'s hands are too encumbred to effectivly put pressure on the bleeding wound!" ) );
+            e.mod_duration( -1_turns );
+        } else {
+            e.mod_duration( - ( benefit - penalty ) );
+            add_msg_player_or_npc( m_warning,
+                                   _( "You attempt to put pressure on the bleeding wound!" ),
+                                   _( "<npcname> attempts to put pressure on the bleeding wound!" ) );
+            practice( skill_firstaid, 1 );
+        }
+    }
     // on-pause effects for martial arts
     martial_arts_data.ma_onpause_effects( *this );
 
@@ -2323,7 +2357,7 @@ ret_val<bool> player::can_wield( const item &it ) const
                    _( "You need at least one arm to even consider wielding something." ) );
     }
 
-    if( is_armed() && weapon.has_flag( "NO_UNWIELD" ) ) {
+    if( is_armed() && !can_unwield( weapon ).success() ) {
         return ret_val<bool>::make_failure( _( "The %s is preventing you from wielding the %s." ),
                                             weapname(), it.tname() );
     }
@@ -2352,6 +2386,12 @@ bool player::unwield()
 
     if( !can_unwield( weapon ).success() ) {
         return false;
+    }
+
+    // currently the only way to unwield NO_UNWIELD weapon is if it's a bionic that can be deactivated
+    if( weapon.has_flag( "NO_UNWIELD" ) ) {
+        cata::optional<int> wi = active_bionic_weapon_index();
+        return wi && deactivate_bionic( *wi );
     }
 
     const std::string query = string_format( _( "Stop wielding %s?" ), weapon.tname() );
@@ -2952,15 +2992,6 @@ bool player::unload( item_location &loc )
 
     } else if( target->ammo_remaining() ) {
         int qty = target->ammo_remaining();
-
-        if( target->ammo_current() == itype_plut_cell ) {
-            if( qty / PLUTONIUM_CHARGES > 0 ) {
-                add_msg( _( "You recover %i unused plutonium." ), qty / PLUTONIUM_CHARGES );
-            } else {
-                add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
-                return false;
-            }
-        }
 
         // Construct a new ammo item and try to drop it
         item ammo( target->ammo_current(), calendar::turn, qty );

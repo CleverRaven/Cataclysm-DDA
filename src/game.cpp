@@ -5041,7 +5041,7 @@ static bool can_place_monster( const monster &mon, const tripoint &p )
 }
 
 static cata::optional<tripoint> choose_where_to_place_monster( const monster &mon,
-        const tripoint_range &range )
+        const tripoint_range<tripoint> &range )
 {
     return random_point( range, [&]( const tripoint & p ) {
         return can_place_monster( mon, p );
@@ -5089,7 +5089,7 @@ monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
     return critter_tracker->add( mon ) ? mon.get() : nullptr;
 }
 
-monster *game::place_critter_within( const mtype_id &id, const tripoint_range &range )
+monster *game::place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range )
 {
     // TODO: change this into an assert, it must never happen.
     if( id.is_null() ) {
@@ -5099,7 +5099,7 @@ monster *game::place_critter_within( const mtype_id &id, const tripoint_range &r
 }
 
 monster *game::place_critter_within( const shared_ptr_fast<monster> &mon,
-                                     const tripoint_range &range )
+                                     const tripoint_range<tripoint> &range )
 {
     const cata::optional<tripoint> where = choose_where_to_place_monster( *mon, range );
     if( !where ) {
@@ -7225,7 +7225,7 @@ std::vector<map_item_stack> game::find_nearby_items( int iRadius )
         return ret;
     }
 
-    for( auto &points_p_it : closest_tripoints_first( u.pos(), iRadius ) ) {
+    for( auto &points_p_it : closest_points_first( u.pos(), iRadius ) ) {
         if( points_p_it.y >= u.posy() - iRadius && points_p_it.y <= u.posy() + iRadius &&
             u.sees( points_p_it ) &&
             m.sees_some_items( points_p_it, u ) ) {
@@ -10796,7 +10796,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
     }
     if( !npcs_to_bring.empty() ) {
         // Would look nicer randomly scrambled
-        std::vector<tripoint> candidates = closest_tripoints_first( u.pos(), 1 );
+        std::vector<tripoint> candidates = closest_points_first( u.pos(), 1 );
         candidates.erase( std::remove_if( candidates.begin(), candidates.end(),
         [this]( const tripoint & c ) {
             return !is_empty( c );
