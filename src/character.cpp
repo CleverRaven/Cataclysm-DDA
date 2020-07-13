@@ -2565,7 +2565,7 @@ void Character::i_rem_keep_contents( const int idx )
     i_rem( idx ).spill_contents( pos() );
 }
 
-bool Character::i_add_or_drop( item &it, int qty )
+bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
 {
     bool retval = true;
     bool drop = it.made_of( phase_id::LIQUID );
@@ -2577,7 +2577,7 @@ bool Character::i_add_or_drop( item &it, int qty )
         if( drop ) {
             retval &= !here.add_item_or_charges( pos(), it ).is_null();
         } else if( add ) {
-            i_add( it );
+            i_add( it, true, avoid );
         }
     }
 
@@ -7770,7 +7770,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
         can_stash( *obj ), '1',
         item_handling_cost( *obj ),
         [this, bucket, &obj] {
-            if( bucket && !obj->contents.spill_open_pockets( *this ) )
+            if( bucket && !obj->contents.spill_open_pockets( *this, obj.get_item() ) )
             {
                 return false;
             }
