@@ -7364,9 +7364,10 @@ int Character::get_bmr() const
     Values are for males, and average!
     */
     const int equation_constant = 5;
-    return std::ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>
-                      ( bodyweight() / 100.0 ) +
-                      ( 6.25 * height() ) - ( 5 * age() ) + equation_constant ) );
+    const double base_bmr_calc = metabolic_rate_base() * activity_level * ( units::to_gram<int>
+                                 ( bodyweight() / 100.0 ) +
+                                 ( 6.25 * height() ) - ( 5 * age() ) + equation_constant );
+    return std::ceil( enchantment_cache.modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
 }
 
 void Character::increase_activity_level( float new_level )
