@@ -122,6 +122,381 @@ struct arg_handler {
 
 void printHelpMessage( const arg_handler *first_pass_arguments, size_t num_first_pass_arguments,
                        const arg_handler *second_pass_arguments, size_t num_second_pass_arguments );
+
+struct cli_opts {
+    int seed = time( nullptr );
+    bool verifyexit = false;
+    bool check_mods = false;
+    std::string dump;
+    dump_mode dmode = dump_mode::TSV;
+    std::vector<std::string> opts;
+    std::string world; /** if set try to load first save in this world on startup */
+};
+
+cli_opts parse_commandline( int argc, char **argv )
+{
+    cli_opts result;
+
+    const char *section_default = nullptr;
+    const char *section_map_sharing = "Map sharing";
+    const char *section_user_directory = "User directories";
+    const std::array<arg_handler, 12> first_pass_arguments = {{
+            {
+                "--seed", "<string of letters and or numbers>",
+                "Sets the random number generator's seed value",
+                section_default,
+                [&result]( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    const unsigned char *hash_input = reinterpret_cast<const unsigned char *>( params[0] );
+                    result.seed = djb2_hash( hash_input );
+                    return 1;
+                }
+            },
+            {
+                "--jsonverify", nullptr,
+                "Checks the CDDA json files",
+                section_default,
+                [&result]( int, const char ** ) -> int {
+                    result.verifyexit = true;
+                    return 0;
+                }
+            },
+            {
+                "--check-mods", "[mods…]",
+                "Checks the json files belonging to CDDA mods",
+                section_default,
+                [&result]( int n, const char *params[] ) -> int {
+                    result.check_mods = true;
+                    test_mode = true;
+                    for( int i = 0; i < n; ++i )
+                    {
+                        result.opts.emplace_back( params[ i ] );
+                    }
+                    return 0;
+                }
+            },
+            {
+                "--dump-stats", "<what> [mode = TSV] [opts…]",
+                "Dumps item stats",
+                section_default,
+                [&result]( int n, const char *params[] ) -> int {
+                    if( n < 1 )
+                    {
+                        return -1;
+                    }
+                    test_mode = true;
+                    result.dump = params[ 0 ];
+                    for( int i = 2; i < n; ++i )
+                    {
+                        result.opts.emplace_back( params[ i ] );
+                    }
+                    if( n >= 2 )
+                    {
+                        if( !strcmp( params[ 1 ], "TSV" ) ) {
+                            result.dmode = dump_mode::TSV;
+                            return 0;
+                        } else if( !strcmp( params[ 1 ], "HTML" ) ) {
+                            result.dmode = dump_mode::HTML;
+                            return 0;
+                        } else {
+                            return -1;
+                        }
+                    }
+                    return 0;
+                }
+            },
+            {
+                "--world", "<name>",
+                "Load world",
+                section_default,
+                [&result]( int n, const char *params[] ) -> int {
+                    if( n < 1 )
+                    {
+                        return -1;
+                    }
+                    result.world = params[0];
+                    return 1;
+                }
+            },
+            {
+                "--basepath", "<path>",
+                "Base path for all game data subdirectories",
+                section_default,
+                []( int num_args, const char **params )
+                {
+                    if( num_args < 1 ) {
+                        return -1;
+                    }
+                    PATH_INFO::init_base_path( params[0] );
+                    PATH_INFO::set_standard_filenames();
+                    return 1;
+                }
+            },
+            {
+                "--shared", nullptr,
+                "Activates the map-sharing mode",
+                section_map_sharing,
+                []( int, const char ** ) -> int {
+                    MAP_SHARING::setSharing( true );
+                    MAP_SHARING::setCompetitive( true );
+                    MAP_SHARING::setWorldmenu( false );
+                    return 0;
+                }
+            },
+            {
+                "--username", "<name>",
+                "Instructs map-sharing code to use this name for your character.",
+                section_map_sharing,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    MAP_SHARING::setUsername( params[0] );
+                    return 1;
+                }
+            },
+            {
+                "--addadmin", "<username>",
+                "Instructs map-sharing code to use this name for your character and give you "
+                "access to the cheat functions.",
+                section_map_sharing,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    MAP_SHARING::addAdmin( params[0] );
+                    return 1;
+                }
+            },
+            {
+                "--adddebugger", "<username>",
+                "Informs map-sharing code that you're running inside a debugger",
+                section_map_sharing,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    MAP_SHARING::addDebugger( params[0] );
+                    return 1;
+                }
+            },
+            {
+                "--competitive", nullptr,
+                "Instructs map-sharing code to disable access to the in-game cheat functions",
+                section_map_sharing,
+                []( int, const char ** ) -> int {
+                    MAP_SHARING::setCompetitive( true );
+                    return 0;
+                }
+            },
+            {
+                "--userdir", "<path>",
+                // NOLINTNEXTLINE(cata-text-style): the dot is not a period
+                "Base path for user-overrides to files from the ./data directory and named below",
+                section_user_directory,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    PATH_INFO::init_user_dir( params[0] );
+                    PATH_INFO::set_standard_filenames();
+                    return 1;
+                }
+            }
+        }
+    };
+
+    // The following arguments are dependent on one or more of the previous flags and are run
+    // in a second pass.
+    const std::array<arg_handler, 9> second_pass_arguments = {{
+            {
+                "--worldmenu", nullptr,
+                "Enables the world menu in the map-sharing code",
+                section_map_sharing,
+                []( int, const char ** ) -> int {
+                    MAP_SHARING::setWorldmenu( true );
+                    return true;
+                }
+            },
+            {
+                "--datadir", "<directory name>",
+                "Sub directory from which game data is loaded",
+                nullptr,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    PATH_INFO::set_datadir( params[0] );
+                    return 1;
+                }
+            },
+            {
+                "--savedir", "<directory name>",
+                "Subdirectory for game saves",
+                section_user_directory,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    PATH_INFO::set_savedir( params[0] );
+                    return 1;
+                }
+            },
+            {
+                "--configdir", "<directory name>",
+                "Subdirectory for game configuration",
+                section_user_directory,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    PATH_INFO::set_config_dir( params[0] );
+                    return 1;
+                }
+            },
+            {
+                "--memorialdir", "<directory name>",
+                "Subdirectory for memorials",
+                section_user_directory,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    PATH_INFO::set_memorialdir( params[0] );
+                    return 1;
+                }
+            },
+            {
+                "--optionfile", "<filename>",
+                "Name of the options file within the configdir",
+                section_user_directory,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    PATH_INFO::set_options( params[0] );
+                    return 1;
+                }
+            },
+            {
+                "--keymapfile", "<filename>",
+                "Name of the keymap file within the configdir",
+                section_user_directory,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    PATH_INFO::set_keymap( params[0] );
+                    return 1;
+                }
+            },
+            {
+                "--autopickupfile", "<filename>",
+                "Name of the autopickup options file within the configdir",
+                nullptr,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    PATH_INFO::set_autopickup( params[0] );
+                    return 1;
+                }
+            },
+            {
+                "--motdfile", "<filename>",
+                "Name of the message of the day file within the motd directory",
+                nullptr,
+                []( int num_args, const char **params ) -> int {
+                    if( num_args < 1 )
+                    {
+                        return -1;
+                    }
+                    PATH_INFO::set_motd( params[0] );
+                    return 1;
+                }
+            },
+        }
+    };
+
+    // Process CLI arguments.
+    const size_t num_first_pass_arguments =
+        sizeof( first_pass_arguments ) / sizeof( first_pass_arguments[0] );
+    const size_t num_second_pass_arguments =
+        sizeof( second_pass_arguments ) / sizeof( second_pass_arguments[0] );
+    int saved_argc = --argc; // skip program name
+    const char **saved_argv = const_cast<const char **>( ++argv );
+    while( argc ) {
+        if( !strcmp( argv[0], "--help" ) ) {
+            printHelpMessage( first_pass_arguments.data(), num_first_pass_arguments,
+                              second_pass_arguments.data(), num_second_pass_arguments );
+            std::exit( 0 );
+        } else {
+            bool arg_handled = false;
+            for( size_t i = 0; i < num_first_pass_arguments; ++i ) {
+                auto &arg_handler = first_pass_arguments[i];
+                if( !strcmp( argv[0], arg_handler.flag ) ) {
+                    argc--;
+                    argv++;
+                    int args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
+                    if( args_consumed < 0 ) {
+                        printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
+                        exit( 1 );
+                    }
+                    argc -= args_consumed;
+                    argv += args_consumed;
+                    arg_handled = true;
+                    break;
+                }
+            }
+            // Skip other options.
+            if( !arg_handled ) {
+                --argc;
+                ++argv;
+            }
+        }
+    }
+    while( saved_argc ) {
+        bool arg_handled = false;
+        for( size_t i = 0; i < num_second_pass_arguments; ++i ) {
+            auto &arg_handler = second_pass_arguments[i];
+            if( !strcmp( saved_argv[0], arg_handler.flag ) ) {
+                --saved_argc;
+                ++saved_argv;
+                int args_consumed = arg_handler.handler( saved_argc, saved_argv );
+                if( args_consumed < 0 ) {
+                    printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
+                    exit( 1 );
+                }
+                saved_argc -= args_consumed;
+                saved_argv += args_consumed;
+                arg_handled = true;
+                break;
+            }
+        }
+        // Ignore unknown options.
+        if( !arg_handled ) {
+            --saved_argc;
+            ++saved_argv;
+        }
+    }
+
+    return result;
+}
+
 }  // namespace
 
 #if defined(USE_WINMAIN)
@@ -137,13 +512,6 @@ int main( int argc, char *argv[] )
 {
 #endif
     init_crash_handlers();
-    int seed = time( nullptr );
-    bool verifyexit = false;
-    bool check_mods = false;
-    std::string dump;
-    dump_mode dmode = dump_mode::TSV;
-    std::vector<std::string> opts;
-    std::string world; /** if set try to load first save in this world on startup */
 
 #if defined(__ANDROID__)
     // Start the standard output logging redirector
@@ -180,364 +548,8 @@ int main( int argc, char *argv[] )
     PATH_INFO::set_standard_filenames();
 
     MAP_SHARING::setDefaults();
-    {
-        const char *section_default = nullptr;
-        const char *section_map_sharing = "Map sharing";
-        const char *section_user_directory = "User directories";
-        const std::array<arg_handler, 12> first_pass_arguments = {{
-                {
-                    "--seed", "<string of letters and or numbers>",
-                    "Sets the random number generator's seed value",
-                    section_default,
-                    [&seed]( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        const unsigned char *hash_input = reinterpret_cast<const unsigned char *>( params[0] );
-                        seed = djb2_hash( hash_input );
-                        return 1;
-                    }
-                },
-                {
-                    "--jsonverify", nullptr,
-                    "Checks the CDDA json files",
-                    section_default,
-                    [&verifyexit]( int, const char ** ) -> int {
-                        verifyexit = true;
-                        return 0;
-                    }
-                },
-                {
-                    "--check-mods", "[mods…]",
-                    "Checks the json files belonging to CDDA mods",
-                    section_default,
-                    [&check_mods, &opts]( int n, const char *params[] ) -> int {
-                        check_mods = true;
-                        test_mode = true;
-                        for( int i = 0; i < n; ++i )
-                        {
-                            opts.emplace_back( params[ i ] );
-                        }
-                        return 0;
-                    }
-                },
-                {
-                    "--dump-stats", "<what> [mode = TSV] [opts…]",
-                    "Dumps item stats",
-                    section_default,
-                    [&dump, &dmode, &opts]( int n, const char *params[] ) -> int {
-                        if( n < 1 )
-                        {
-                            return -1;
-                        }
-                        test_mode = true;
-                        dump = params[ 0 ];
-                        for( int i = 2; i < n; ++i )
-                        {
-                            opts.emplace_back( params[ i ] );
-                        }
-                        if( n >= 2 )
-                        {
-                            if( !strcmp( params[ 1 ], "TSV" ) ) {
-                                dmode = dump_mode::TSV;
-                                return 0;
-                            } else if( !strcmp( params[ 1 ], "HTML" ) ) {
-                                dmode = dump_mode::HTML;
-                                return 0;
-                            } else {
-                                return -1;
-                            }
-                        }
-                        return 0;
-                    }
-                },
-                {
-                    "--world", "<name>",
-                    "Load world",
-                    section_default,
-                    [&world]( int n, const char *params[] ) -> int {
-                        if( n < 1 )
-                        {
-                            return -1;
-                        }
-                        world = params[0];
-                        return 1;
-                    }
-                },
-                {
-                    "--basepath", "<path>",
-                    "Base path for all game data subdirectories",
-                    section_default,
-                    []( int num_args, const char **params )
-                    {
-                        if( num_args < 1 ) {
-                            return -1;
-                        }
-                        PATH_INFO::init_base_path( params[0] );
-                        PATH_INFO::set_standard_filenames();
-                        return 1;
-                    }
-                },
-                {
-                    "--shared", nullptr,
-                    "Activates the map-sharing mode",
-                    section_map_sharing,
-                    []( int, const char ** ) -> int {
-                        MAP_SHARING::setSharing( true );
-                        MAP_SHARING::setCompetitive( true );
-                        MAP_SHARING::setWorldmenu( false );
-                        return 0;
-                    }
-                },
-                {
-                    "--username", "<name>",
-                    "Instructs map-sharing code to use this name for your character.",
-                    section_map_sharing,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        MAP_SHARING::setUsername( params[0] );
-                        return 1;
-                    }
-                },
-                {
-                    "--addadmin", "<username>",
-                    "Instructs map-sharing code to use this name for your character and give you "
-                    "access to the cheat functions.",
-                    section_map_sharing,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        MAP_SHARING::addAdmin( params[0] );
-                        return 1;
-                    }
-                },
-                {
-                    "--adddebugger", "<username>",
-                    "Informs map-sharing code that you're running inside a debugger",
-                    section_map_sharing,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        MAP_SHARING::addDebugger( params[0] );
-                        return 1;
-                    }
-                },
-                {
-                    "--competitive", nullptr,
-                    "Instructs map-sharing code to disable access to the in-game cheat functions",
-                    section_map_sharing,
-                    []( int, const char ** ) -> int {
-                        MAP_SHARING::setCompetitive( true );
-                        return 0;
-                    }
-                },
-                {
-                    "--userdir", "<path>",
-                    // NOLINTNEXTLINE(cata-text-style): the dot is not a period
-                    "Base path for user-overrides to files from the ./data directory and named below",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        PATH_INFO::init_user_dir( params[0] );
-                        PATH_INFO::set_standard_filenames();
-                        return 1;
-                    }
-                }
-            }
-        };
 
-        // The following arguments are dependent on one or more of the previous flags and are run
-        // in a second pass.
-        const std::array<arg_handler, 9> second_pass_arguments = {{
-                {
-                    "--worldmenu", nullptr,
-                    "Enables the world menu in the map-sharing code",
-                    section_map_sharing,
-                    []( int, const char ** ) -> int {
-                        MAP_SHARING::setWorldmenu( true );
-                        return true;
-                    }
-                },
-                {
-                    "--datadir", "<directory name>",
-                    "Sub directory from which game data is loaded",
-                    nullptr,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        PATH_INFO::set_datadir( params[0] );
-                        return 1;
-                    }
-                },
-                {
-                    "--savedir", "<directory name>",
-                    "Subdirectory for game saves",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        PATH_INFO::set_savedir( params[0] );
-                        return 1;
-                    }
-                },
-                {
-                    "--configdir", "<directory name>",
-                    "Subdirectory for game configuration",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        PATH_INFO::set_config_dir( params[0] );
-                        return 1;
-                    }
-                },
-                {
-                    "--memorialdir", "<directory name>",
-                    "Subdirectory for memorials",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        PATH_INFO::set_memorialdir( params[0] );
-                        return 1;
-                    }
-                },
-                {
-                    "--optionfile", "<filename>",
-                    "Name of the options file within the configdir",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        PATH_INFO::set_options( params[0] );
-                        return 1;
-                    }
-                },
-                {
-                    "--keymapfile", "<filename>",
-                    "Name of the keymap file within the configdir",
-                    section_user_directory,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        PATH_INFO::set_keymap( params[0] );
-                        return 1;
-                    }
-                },
-                {
-                    "--autopickupfile", "<filename>",
-                    "Name of the autopickup options file within the configdir",
-                    nullptr,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        PATH_INFO::set_autopickup( params[0] );
-                        return 1;
-                    }
-                },
-                {
-                    "--motdfile", "<filename>",
-                    "Name of the message of the day file within the motd directory",
-                    nullptr,
-                    []( int num_args, const char **params ) -> int {
-                        if( num_args < 1 )
-                        {
-                            return -1;
-                        }
-                        PATH_INFO::set_motd( params[0] );
-                        return 1;
-                    }
-                },
-            }
-        };
-
-        // Process CLI arguments.
-        const size_t num_first_pass_arguments =
-            sizeof( first_pass_arguments ) / sizeof( first_pass_arguments[0] );
-        const size_t num_second_pass_arguments =
-            sizeof( second_pass_arguments ) / sizeof( second_pass_arguments[0] );
-        int saved_argc = --argc; // skip program name
-        const char **saved_argv = const_cast<const char **>( ++argv );
-        while( argc ) {
-            if( !strcmp( argv[0], "--help" ) ) {
-                printHelpMessage( first_pass_arguments.data(), num_first_pass_arguments,
-                                  second_pass_arguments.data(), num_second_pass_arguments );
-                return 0;
-            } else {
-                bool arg_handled = false;
-                for( size_t i = 0; i < num_first_pass_arguments; ++i ) {
-                    auto &arg_handler = first_pass_arguments[i];
-                    if( !strcmp( argv[0], arg_handler.flag ) ) {
-                        argc--;
-                        argv++;
-                        int args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
-                        if( args_consumed < 0 ) {
-                            printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
-                            exit( 1 );
-                        }
-                        argc -= args_consumed;
-                        argv += args_consumed;
-                        arg_handled = true;
-                        break;
-                    }
-                }
-                // Skip other options.
-                if( !arg_handled ) {
-                    --argc;
-                    ++argv;
-                }
-            }
-        }
-        while( saved_argc ) {
-            bool arg_handled = false;
-            for( size_t i = 0; i < num_second_pass_arguments; ++i ) {
-                auto &arg_handler = second_pass_arguments[i];
-                if( !strcmp( saved_argv[0], arg_handler.flag ) ) {
-                    --saved_argc;
-                    ++saved_argv;
-                    int args_consumed = arg_handler.handler( saved_argc, saved_argv );
-                    if( args_consumed < 0 ) {
-                        printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
-                        exit( 1 );
-                    }
-                    saved_argc -= args_consumed;
-                    saved_argv += args_consumed;
-                    arg_handled = true;
-                    break;
-                }
-            }
-            // Ignore unknown options.
-            if( !arg_handled ) {
-                --saved_argc;
-                ++saved_argv;
-            }
-        }
-    }
+    cli_opts cli = parse_commandline( argc, argv );
 
     if( !dir_exist( PATH_INFO::datadir() ) ) {
         printf( "Fatal: Can't find data directory \"%s\"\nPlease ensure the current working directory is correct or specify data directory with --datadir.  Perhaps you meant to start \"cataclysm-launcher\"?\n",
@@ -619,24 +631,24 @@ int main( int argc, char *argv[] )
 
     set_language();
 
-    rng_set_engine_seed( seed );
+    rng_set_engine_seed( cli.seed );
 
     g = std::make_unique<game>();
     // First load and initialize everything that does not
     // depend on the mods.
     try {
         g->load_static_data();
-        if( verifyexit ) {
+        if( cli.verifyexit ) {
             exit_handler( 0 );
         }
-        if( !dump.empty() ) {
+        if( !cli.dump.empty() ) {
             init_colors();
-            exit( g->dump_stats( dump, dmode, opts ) ? 0 : 1 );
+            exit( g->dump_stats( cli.dump, cli.dmode, cli.opts ) ? 0 : 1 );
         }
-        if( check_mods ) {
+        if( cli.check_mods ) {
             init_colors();
             loading_ui ui( false );
-            const std::vector<mod_id> mods( opts.begin(), opts.end() );
+            const std::vector<mod_id> mods( cli.opts.begin(), cli.opts.end() );
             exit( g->check_mod_data( mods, ui ) && !debug_has_error_been_observed() ? 0 : 1 );
         }
     } catch( const std::exception &err ) {
@@ -680,11 +692,11 @@ int main( int argc, char *argv[] )
 #endif
 
     while( true ) {
-        if( !world.empty() ) {
-            if( !g->load( world ) ) {
+        if( !cli.world.empty() ) {
+            if( !g->load( cli.world ) ) {
                 break;
             }
-            world.clear(); // ensure quit returns to opening screen
+            cli.world.clear(); // ensure quit returns to opening screen
 
         } else {
             main_menu menu;
