@@ -49,7 +49,6 @@ enum class mod : int {
     BONUS_BLOCK,
     BONUS_DAMAGE,
     ATTACK_NOISE,
-    SPELL_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
     SIGHT_RANGE,
