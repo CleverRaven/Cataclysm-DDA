@@ -101,10 +101,25 @@ int start_logger( const char *app_name )
 
 #endif //__ANDROID__
 
-void exit_handler( int s );
-
 namespace
 {
+
+void exit_handler( int s )
+{
+    const int old_timeout = inp_mngr.get_timeout();
+    inp_mngr.reset_timeout();
+    if( s != 2 || query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
+        deinitDebug();
+
+        int exit_status = 0;
+        g.reset();
+
+        catacurses::endwin();
+
+        exit( exit_status );
+    }
+    inp_mngr.set_timeout( old_timeout );
+}
 
 struct arg_handler {
     //! Handler function to be invoked when this argument is encountered. The handler will be
@@ -120,8 +135,50 @@ struct arg_handler {
     handler_method handler;  //!< The callback to be invoked when this argument is encountered.
 };
 
-void printHelpMessage( const arg_handler *first_pass_arguments, size_t num_first_pass_arguments,
-                       const arg_handler *second_pass_arguments, size_t num_second_pass_arguments );
+void printHelpMessage( const arg_handler *first_pass_arguments,
+                       size_t num_first_pass_arguments,
+                       const arg_handler *second_pass_arguments,
+                       size_t num_second_pass_arguments )
+{
+
+    // Group all arguments by help_group.
+    std::multimap<std::string, const arg_handler *> help_map;
+    for( size_t i = 0; i < num_first_pass_arguments; ++i ) {
+        std::string help_group;
+        if( first_pass_arguments[i].help_group ) {
+            help_group = first_pass_arguments[i].help_group;
+        }
+        help_map.insert( std::make_pair( help_group, &first_pass_arguments[i] ) );
+    }
+    for( size_t i = 0; i < num_second_pass_arguments; ++i ) {
+        std::string help_group;
+        if( second_pass_arguments[i].help_group ) {
+            help_group = second_pass_arguments[i].help_group;
+        }
+        help_map.insert( std::make_pair( help_group, &second_pass_arguments[i] ) );
+    }
+
+    printf( "Command line parameters:\n" );
+    std::string current_help_group;
+    auto it = help_map.begin();
+    auto it_end = help_map.end();
+    for( ; it != it_end; ++it ) {
+        if( it->first != current_help_group ) {
+            current_help_group = it->first;
+            printf( "\n%s\n", current_help_group.c_str() );
+        }
+
+        const arg_handler *handler = it->second;
+        printf( "%s", handler->flag );
+        if( handler->param_documentation ) {
+            printf( " %s", handler->param_documentation );
+        }
+        printf( "\n" );
+        if( handler->documentation ) {
+            printf( "    %s\n", handler->documentation );
+        }
+    }
+}
 
 struct cli_opts {
     int seed = time( nullptr );
@@ -711,69 +768,4 @@ int main( int argc, char *argv[] )
 
     exit_handler( -999 );
     return 0;
-}
-
-namespace
-{
-void printHelpMessage( const arg_handler *first_pass_arguments,
-                       size_t num_first_pass_arguments,
-                       const arg_handler *second_pass_arguments,
-                       size_t num_second_pass_arguments )
-{
-
-    // Group all arguments by help_group.
-    std::multimap<std::string, const arg_handler *> help_map;
-    for( size_t i = 0; i < num_first_pass_arguments; ++i ) {
-        std::string help_group;
-        if( first_pass_arguments[i].help_group ) {
-            help_group = first_pass_arguments[i].help_group;
-        }
-        help_map.insert( std::make_pair( help_group, &first_pass_arguments[i] ) );
-    }
-    for( size_t i = 0; i < num_second_pass_arguments; ++i ) {
-        std::string help_group;
-        if( second_pass_arguments[i].help_group ) {
-            help_group = second_pass_arguments[i].help_group;
-        }
-        help_map.insert( std::make_pair( help_group, &second_pass_arguments[i] ) );
-    }
-
-    printf( "Command line parameters:\n" );
-    std::string current_help_group;
-    auto it = help_map.begin();
-    auto it_end = help_map.end();
-    for( ; it != it_end; ++it ) {
-        if( it->first != current_help_group ) {
-            current_help_group = it->first;
-            printf( "\n%s\n", current_help_group.c_str() );
-        }
-
-        const arg_handler *handler = it->second;
-        printf( "%s", handler->flag );
-        if( handler->param_documentation ) {
-            printf( " %s", handler->param_documentation );
-        }
-        printf( "\n" );
-        if( handler->documentation ) {
-            printf( "    %s\n", handler->documentation );
-        }
-    }
-}
-}  // namespace
-
-void exit_handler( int s )
-{
-    const int old_timeout = inp_mngr.get_timeout();
-    inp_mngr.reset_timeout();
-    if( s != 2 || query_yn( _( "Really Quit?  All unsaved changes will be lost." ) ) ) {
-        deinitDebug();
-
-        int exit_status = 0;
-        g.reset();
-
-        catacurses::endwin();
-
-        exit( exit_status );
-    }
-    inp_mngr.set_timeout( old_timeout );
 }
