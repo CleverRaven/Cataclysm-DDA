@@ -1322,12 +1322,13 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                 }
 
                 int remaining_amount = amount_to_move;
-                for( auto it = sitem->items.begin();
-                     remaining_amount > 0 && it != sitem->items.end();
-                     ++it ) {
-                    player_character.activity.targets.emplace_back( player_character, *it );
-                    const int move_amount = ( *it )->count_by_charges() ?
-                                            std::min( remaining_amount, ( *it )->charges ) : 1;
+                for( item *itm : sitem->items ) {
+                    if( remaining_amount <= 0 ) {
+                        break;
+                    }
+                    player_character.activity.targets.emplace_back( player_character, itm );
+                    const int move_amount = itm->count_by_charges() ?
+                                            std::min( remaining_amount, it->charges ) : 1;
                     player_character.activity.values.emplace_back( move_amount );
                     remaining_amount -= move_amount;
                 }
