@@ -137,7 +137,7 @@ class enchantment
         int get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
         // the standard way of modifying a value, adds then multiplies.
-        double modify_value( const enchant_vals::mod mod_val, double value ) const;
+        double modify_value( enchant_vals::mod mod_val, double value ) const;
 
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
