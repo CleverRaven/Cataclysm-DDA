@@ -2287,21 +2287,6 @@
   },
   {
     "type": "profession",
-    "ident": "senior",
-    "name": "Senior Citizen",
-    "description": "You haven't seen this much blood since the war.  The whole world's gone crazy!  They ate your grandkids!  But dagnabbit, you'll make them all pay for what they've done.",
-    "points": 0,
-    "items": {
-      "both": {
-        "items": [ "tobacco", "pipe_tobacco", "socks", "dress_shoes", "knit_scarf" ],
-        "entries": [ { "group": "charged_ref_lighter" }, { "item": "cane", "custom-flags": [ "auto_wield" ] } ]
-      },
-      "male": [ "briefs", "dress_shirt", "pants_checkered", "pocketwatch" ],
-      "female": [ "panties", "bra", "dress", "fanny", "gold_watch" ]
-    }
-  },
-  {
-    "type": "profession",
     "ident": "cosplay",
     "name": "Otaku",
     "description": "After many late nights with friends watching anime and eating snacks, you decided to make the trip to the premier anime convention in the Northeast.  Now zombies are eating everyone, and even worse, the convention is cancelled!  At least you were ready in case your costume tore.",
