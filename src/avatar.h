@@ -300,6 +300,8 @@ class avatar : public player
 };
 
 avatar &get_avatar();
+std::unique_ptr<talker> get_talker_for( avatar &me );
+std::unique_ptr<talker> get_talker_for( avatar *me );
 
 struct points_left {
     int stat_points;
