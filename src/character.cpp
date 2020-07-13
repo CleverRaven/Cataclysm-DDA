@@ -7586,6 +7586,7 @@ int Character::get_stamina_max() const
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
     int maxStamina = get_option< int >( player_max_stamina );
     maxStamina *= Character::mutation_value( max_stamina_modifier );
+    maxStamina = enchantment_cache.modify_value( enchant_vals::mod::MAX_STAMINA, maxStamina );
     return maxStamina;
 }
 
