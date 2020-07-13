@@ -29,6 +29,7 @@
 #include "point.h"
 #include "string_id.h"
 #include "stringmaker.h"
+#include "talker.h"
 #include "type_id.h"
 
 static const efftype_id effect_gave_quest_item( "gave_quest_item" );
@@ -51,6 +52,7 @@ static npc &create_test_talker()
     for( const trait_id &tr : model_npc->get_mutations() ) {
         model_npc->unset_mutation( tr );
     }
+    model_npc->name = "Beta NPC";
     model_npc->set_hunger( 0 );
     model_npc->set_thirst( 0 );
     model_npc->set_fatigue( 0 );
@@ -93,7 +95,8 @@ static npc &prep_test( dialogue &d )
 {
     clear_avatar();
     clear_vehicles();
-    player &player_character = get_avatar();
+    avatar &player_character = get_avatar();
+    player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
 
     const tripoint test_origin( 15, 15, 0 );
@@ -101,12 +104,12 @@ static npc &prep_test( dialogue &d )
 
     g->faction_manager_ptr->create_if_needed();
 
-    npc &talker_npc = create_test_talker();
+    npc &beta = create_test_talker();
 
-    d.alpha = &player_character;
-    d.beta = &talker_npc;
+    d.alpha = get_talker_for( player_character );
+    d.beta = get_talker_for( beta );
 
-    return talker_npc;
+    return beta;
 }
 
 TEST_CASE( "npc_talk_start", "[npc_talk]" )
@@ -884,16 +887,16 @@ TEST_CASE( "npc_talk_vars_time", "[npc_talk]" )
 TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
 {
     dialogue d;
-    npc &talker_npc = prep_test( d );
+    npc &beta = prep_test( d );
     player &player_character = get_avatar();
 
     player_character.clear_bionics();
-    talker_npc.clear_bionics();
+    beta.clear_bionics();
     d.add_topic( "TALK_TEST_BIONICS" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     player_character.add_bionic( bionic_id( "bio_ads" ) );
-    talker_npc.add_bionic( bionic_id( "bio_power_storage" ) );
+    beta.add_bionic( bionic_id( "bio_power_storage" ) );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_has_bionics bio_ads test response." );
