@@ -4327,7 +4327,7 @@
     "time": "1 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "2x4", 10 ] ], [ [ "rope_6", 1 ] ] ],
+    "components": [ [ [ "2x4", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4339,7 +4339,19 @@
     "time": "1 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "stick", 10 ] ], [ [ "rope_6", 1 ] ] ],
+    "components": [ [ [ "stick", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_branch_long",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "stick_long", 5 ] ], [ [ "rope_any_short", 2, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
