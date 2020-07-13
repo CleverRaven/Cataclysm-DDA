@@ -64,7 +64,7 @@ static std::string item_info_str( const item &it, const std::vector<iteminfo_par
     //CAPTURE( i.has_flag( "FIT" ) );
     //CAPTURE( i.has_flag( "VARSIZE" ) );
     //CAPTURE( i.get_clothing_mod_val( clothing_mod_type_encumbrance ) );
-    //CAPTURE( i.get_sizing( g->u, true ) );
+    //CAPTURE( i.get_sizing( get_avatar(), true ) );
 
     std::vector<iteminfo> info_v;
     const iteminfo_query query_v( part_flags );
@@ -187,7 +187,7 @@ TEST_CASE( "item owner", "[iteminfo][owner]" )
 
     SECTION( "item owned by player" ) {
         item my_rock( "test_rock" );
-        my_rock.set_owner( g->u );
+        my_rock.set_owner( get_player_character() );
         REQUIRE_FALSE( my_rock.get_owner().is_null() );
         CHECK( item_info_str( my_rock, { iteminfo_parts::BASE_OWNER } ) == "Owner: Your Followers\n" );
     }
@@ -440,9 +440,10 @@ TEST_CASE( "item rigidity", "[iteminfo][rigidity]" )
 TEST_CASE( "weapon attack ratings and moves", "[iteminfo][weapon]" )
 {
     clear_avatar();
+    Character &player_character = get_player_character();
     // new DPS calculations depend on the avatar's stats, so make sure they're consistent
-    REQUIRE( g->u.get_str() == 8 );
-    REQUIRE( g->u.get_dex() == 8 );
+    REQUIRE( player_character.get_str() == 8 );
+    REQUIRE( player_character.get_dex() == 8 );
 
     item rag( "test_rag" );
     item rock( "test_rock" );
@@ -645,7 +646,7 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "--\n"
                "Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n" );
 
-        REQUIRE( longshirt.get_encumber( g->u ) == 3 );
+        REQUIRE( longshirt.get_encumber( get_player_character() ) == 3 );
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
                "--\n"
                "<color_c_white>Encumbrance</color>:"
@@ -860,8 +861,9 @@ TEST_CASE( "book info", "[iteminfo][book]" )
     }
 
     WHEN( "book has been identified" ) {
-        g->u.do_read( cmdline );
-        g->u.do_read( dragon );
+        avatar &player_character = get_avatar();
+        player_character.do_read( cmdline );
+        player_character.do_read( dragon );
 
         THEN( "some basic book info is shown" ) {
             CHECK( item_info_str( cmdline, summary ) ==
@@ -1358,9 +1360,10 @@ TEST_CASE( "food freshness and lifetime", "[iteminfo][food]" )
 {
     clear_avatar();
 
+    Character &player_character = get_player_character();
     // Ensure test character has no skill estimating spoilage
-    g->u.empty_skills();
-    REQUIRE_FALSE( g->u.can_estimate_rot() );
+    player_character.empty_skills();
+    REQUIRE_FALSE( player_character.can_estimate_rot() );
 
     item nuts( "test_pine_nuts" );
     REQUIRE( nuts.goes_bad() );
@@ -1446,12 +1449,13 @@ TEST_CASE( "basic food info", "[iteminfo][food]" )
 TEST_CASE( "food character is allergic to", "[iteminfo][food][allergy]" )
 {
     clear_avatar();
+    Character &player_character = get_player_character();
 
     std::vector<iteminfo_parts> allergen = { iteminfo_parts::FOOD_ALLERGEN };
 
     GIVEN( "character allergic to fruit" ) {
-        g->u.toggle_trait( trait_id( "ANTIFRUIT" ) );
-        REQUIRE( g->u.has_trait( trait_id( "ANTIFRUIT" ) ) );
+        player_character.toggle_trait( trait_id( "ANTIFRUIT" ) );
+        REQUIRE( player_character.has_trait( trait_id( "ANTIFRUIT" ) ) );
 
         THEN( "fruit indicates an allergic reaction" ) {
             item apple( "test_apple" );
@@ -1494,11 +1498,12 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
     std::vector<iteminfo_parts> poison = { iteminfo_parts::FOOD_POISON };
     std::vector<iteminfo_parts> hallu = { iteminfo_parts::FOOD_HALLUCINOGENIC };
 
+    Character &player_character = get_player_character();
     // Seeing hidden poison or hallucinogen depends on character survival skill
     // At low level, no info is shown
     GIVEN( "survival 2" ) {
-        g->u.set_skill_level( skill_id( "survival" ), 2 );
-        REQUIRE( g->u.get_skill_level( skill_id( "survival" ) ) == 2 );
+        player_character.set_skill_level( skill_id( "survival" ), 2 );
+        REQUIRE( player_character.get_skill_level( skill_id( "survival" ) ) == 2 );
 
         THEN( "cannot see hidden poison or hallucinogen" ) {
             CHECK( item_info_str( almond, poison ).empty() );
@@ -1508,8 +1513,8 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
 
     // Hidden poison is visible at survival level 3
     GIVEN( "survival 3" ) {
-        g->u.set_skill_level( skill_id( "survival" ), 3 );
-        REQUIRE( g->u.get_skill_level( skill_id( "survival" ) ) == 3 );
+        player_character.set_skill_level( skill_id( "survival" ), 3 );
+        REQUIRE( player_character.get_skill_level( skill_id( "survival" ) ) == 3 );
 
         THEN( "can see hidden poison" ) {
             CHECK( item_info_str( almond, poison ) ==
@@ -1525,8 +1530,8 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
 
     // Hidden hallucinogen is not visible until survival level 5
     GIVEN( "survival 4" ) {
-        g->u.set_skill_level( skill_id( "survival" ), 4 );
-        REQUIRE( g->u.get_skill_level( skill_id( "survival" ) ) == 4 );
+        player_character.set_skill_level( skill_id( "survival" ), 4 );
+        REQUIRE( player_character.get_skill_level( skill_id( "survival" ) ) == 4 );
 
         THEN( "still cannot see hidden hallucinogen" ) {
             CHECK( item_info_str( nutmeg, hallu ).empty() );
@@ -1534,8 +1539,8 @@ TEST_CASE( "food with hidden poison or hallucinogen", "[iteminfo][food][poison][
     }
 
     GIVEN( "survival 5" ) {
-        g->u.set_skill_level( skill_id( "survival" ), 5 );
-        REQUIRE( g->u.get_skill_level( skill_id( "survival" ) ) == 5 );
+        player_character.set_skill_level( skill_id( "survival" ), 5 );
+        REQUIRE( player_character.get_skill_level( skill_id( "survival" ) ) == 5 );
 
         THEN( "can see hidden hallucinogen" ) {
             CHECK( item_info_str( nutmeg, hallu ) ==
@@ -1556,6 +1561,7 @@ TEST_CASE( "food that is made of human flesh", "[iteminfo][food][cannibal]" )
     // TODO: Test food that is_tainted(): "This food is *tainted* and will poison you"
 
     clear_avatar();
+    Character &player_character = get_player_character();
 
     std::vector<iteminfo_parts> cannibal = { iteminfo_parts::FOOD_CANNIBALISM };
 
@@ -1563,7 +1569,7 @@ TEST_CASE( "food that is made of human flesh", "[iteminfo][food][cannibal]" )
     REQUIRE( thumb.has_flag( "CANNIBALISM" ) );
 
     GIVEN( "character is not a cannibal" ) {
-        REQUIRE_FALSE( g->u.has_trait( trait_id( "CANNIBAL" ) ) );
+        REQUIRE_FALSE( player_character.has_trait( trait_id( "CANNIBAL" ) ) );
         THEN( "human flesh is indicated as bad" ) {
             // red highlight
             CHECK( item_info_str( thumb, cannibal ) ==
@@ -1573,8 +1579,8 @@ TEST_CASE( "food that is made of human flesh", "[iteminfo][food][cannibal]" )
     }
 
     GIVEN( "character is a cannibal" ) {
-        g->u.toggle_trait( trait_id( "CANNIBAL" ) );
-        REQUIRE( g->u.has_trait( trait_id( "CANNIBAL" ) ) );
+        player_character.toggle_trait( trait_id( "CANNIBAL" ) );
+        REQUIRE( player_character.has_trait( trait_id( "CANNIBAL" ) ) );
 
         THEN( "human flesh is indicated as good" ) {
             // green highlight
@@ -1948,19 +1954,20 @@ TEST_CASE( "item description flags", "[iteminfo][flags]" )
 TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][recipes]" )
 {
     clear_avatar();
+    avatar &player_character = get_avatar();
 
     const recipe *purtab = &recipe_id( "pur_tablets" ).obj();
-    recipe_subset &known_recipes = const_cast<recipe_subset &>( g->u.get_learned_recipes() );
+    recipe_subset &known_recipes = const_cast<recipe_subset &>( player_character.get_learned_recipes() );
     known_recipes.clear();
 
     // FIXME: Factor out of final_info
     std::vector<iteminfo_parts> crafting = { iteminfo_parts::DESCRIPTION_APPLICABLE_RECIPES };
 
     GIVEN( "character has a potassium iodide tablet and no skill" ) {
-        g->u.worn.push_back( item( "backpack" ) );
-        item &iodine = g->u.i_add( item( "iodine" ) );
-        g->u.empty_skills();
-        REQUIRE( !g->u.knows_recipe( purtab ) );
+        player_character.worn.push_back( item( "backpack" ) );
+        item &iodine = player_character.i_add( item( "iodine" ) );
+        player_character.empty_skills();
+        REQUIRE( !player_character.knows_recipe( purtab ) );
 
         THEN( "nothing is craftable from it" ) {
             CHECK( item_info_str( iodine, crafting ) ==
@@ -1968,8 +1975,8 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
         }
 
         WHEN( "they acquire the needed skills" ) {
-            g->u.set_skill_level( purtab->skill_used, purtab->difficulty );
-            REQUIRE( g->u.get_skill_level( purtab->skill_used ) == purtab->difficulty );
+            player_character.set_skill_level( purtab->skill_used, purtab->difficulty );
+            REQUIRE( player_character.get_skill_level( purtab->skill_used ) == purtab->difficulty );
 
             THEN( "still nothing is craftable from it" ) {
                 CHECK( item_info_str( iodine, crafting ) ==
@@ -1977,8 +1984,8 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
             }
 
             WHEN( "they have no book, but have the recipe memorized" ) {
-                g->u.learn_recipe( purtab );
-                REQUIRE( g->u.knows_recipe( purtab ) );
+                player_character.learn_recipe( purtab );
+                REQUIRE( player_character.knows_recipe( purtab ) );
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
                     CHECK( item_info_str( iodine, crafting ) ==
@@ -1989,11 +1996,11 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
             }
 
             WHEN( "they have the recipe in a book, but not memorized" ) {
-                item &textbook = g->u.i_add( item( "textbook_chemistry" ) );
-                g->u.do_read( textbook );
-                REQUIRE( g->u.has_identified( itype_id( "textbook_chemistry" ) ) );
+                item &textbook = player_character.i_add( item( "textbook_chemistry" ) );
+                player_character.do_read( textbook );
+                REQUIRE( player_character.has_identified( itype_id( "textbook_chemistry" ) ) );
                 // update the crafting inventory cache
-                g->u.moves++;
+                player_character.moves++;
 
                 THEN( "they can use potassium iodide tablets to craft it" ) {
                     CHECK( item_info_str( iodine, crafting ) ==
@@ -2221,14 +2228,15 @@ TEST_CASE( "weight_to_info", "[iteminfo][weight]" )
 TEST_CASE( "final info", "[iteminfo][final]" )
 {
     clear_avatar();
+    Character &player_character = get_player_character();
 
     SECTION( "material allergy" ) {
         item socks( "test_socks" );
         REQUIRE( socks.made_of( material_id( "wool" ) ) );
 
         WHEN( "avatar has a wool allergy" ) {
-            g->u.toggle_trait( trait_id( "WOOLALLERGY" ) );
-            REQUIRE( g->u.has_trait( trait_id( "WOOLALLERGY" ) ) );
+            player_character.toggle_trait( trait_id( "WOOLALLERGY" ) );
+            REQUIRE( player_character.has_trait( trait_id( "WOOLALLERGY" ) ) );
 
             CHECK( item_info_str( socks, { iteminfo_parts::DESCRIPTION_ALLERGEN } ) ==
                    "--\n"
