@@ -1328,7 +1328,7 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     }
                     player_character.activity.targets.emplace_back( player_character, itm );
                     const int move_amount = itm->count_by_charges() ?
-                                            std::min( remaining_amount, it->charges ) : 1;
+                                            std::min( remaining_amount, itm->charges ) : 1;
                     player_character.activity.values.emplace_back( move_amount );
                     remaining_amount -= move_amount;
                 }
