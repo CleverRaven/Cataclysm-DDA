@@ -131,6 +131,7 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = object_type::NONE;
+    calorie_diary.push_front( daily_calories{} );
 }
 
 void avatar::toggle_map_memory()
@@ -1636,6 +1637,34 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
+}
+
+void avatar::advance_daily_calories()
+{
+    calorie_diary.push_front( daily_calories{} );
+    if( calorie_diary.size() > 30 ) {
+        calorie_diary.pop_back();
+    }
+}
+
+void avatar::add_spent_calories( int cal )
+{
+    calorie_diary.front().spent += cal;
+}
+
+void avatar::add_gained_calories( int cal )
+{
+    calorie_diary.front().gained += cal;
+}
+
+std::string avatar::total_daily_calories_string() const
+{
+    std::string ret = "      gained     spent      total\n";
+    int num_day = 1;
+    for( const daily_calories &day : calorie_diary ) {
+        ret += string_format( "%2d   %6d    %6d     %6d\n", num_day++, day.gained, day.spent, day.total() );
+    }
+    return ret;
 }
 
 points_left::points_left()

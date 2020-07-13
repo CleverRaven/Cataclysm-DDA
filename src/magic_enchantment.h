@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "calendar.h"
+#include "enum_traits.h"
 #include "json.h"
 #include "magic.h"
 #include "optional.h"
@@ -20,6 +21,8 @@ class item;
 
 namespace enchant_vals
 {
+// the different types of values that can be modified by enchantments
+// either the item directly or the Character, whichever is more appropriate
 enum class mod : int {
     // effects for the Character
     STRENGTH,
@@ -112,79 +115,6 @@ class enchantment
             UNDERWATER,
             NUM_CONDITION
         };
-        // the different types of values that can be modified by enchantments
-        // either the item directly or the Character, whichever is more appropriate
-        enum mod {
-            // effects for the Character
-            STRENGTH,
-            DEXTERITY,
-            PERCEPTION,
-            INTELLIGENCE,
-            SPEED,
-            ATTACK_COST,
-            ATTACK_SPEED, // affects attack speed of item even if it's not the one you're wielding
-            MOVE_COST,
-            METABOLISM,
-            MAX_MANA,
-            REGEN_MANA,
-            BIONIC_POWER,
-            MAX_STAMINA,
-            REGEN_STAMINA,
-            MAX_HP,        // for all limbs! use with caution
-            REGEN_HP,
-            THIRST,        // cost or regen over time
-            FATIGUE,       // cost or regen over time
-            PAIN,          // cost or regen over time
-            BONUS_DODGE,
-            BONUS_BLOCK,
-            BONUS_DAMAGE,
-            ATTACK_NOISE,
-            SPELL_NOISE,
-            SHOUT_NOISE,
-            FOOTSTEP_NOISE,
-            SIGHT_RANGE,
-            CARRY_WEIGHT,
-            CARRY_VOLUME,
-            SOCIAL_LIE,
-            SOCIAL_PERSUADE,
-            SOCIAL_INTIMIDATE,
-            ARMOR_BASH,
-            ARMOR_CUT,
-            ARMOR_STAB,
-            ARMOR_BULLET,
-            ARMOR_HEAT,
-            ARMOR_COLD,
-            ARMOR_ELEC,
-            ARMOR_ACID,
-            ARMOR_BIO,
-            // effects for the item that has the enchantment
-            ITEM_DAMAGE_BASH,
-            ITEM_DAMAGE_CUT,
-            ITEM_DAMAGE_STAB,
-            ITEM_DAMAGE_BULLET,
-            ITEM_DAMAGE_HEAT,
-            ITEM_DAMAGE_COLD,
-            ITEM_DAMAGE_ELEC,
-            ITEM_DAMAGE_ACID,
-            ITEM_DAMAGE_BIO,
-            ITEM_DAMAGE_AP,      // armor piercing
-            ITEM_ARMOR_BASH,
-            ITEM_ARMOR_CUT,
-            ITEM_ARMOR_STAB,
-            ITEM_ARMOR_BULLET,
-            ITEM_ARMOR_HEAT,
-            ITEM_ARMOR_COLD,
-            ITEM_ARMOR_ELEC,
-            ITEM_ARMOR_ACID,
-            ITEM_ARMOR_BIO,
-            ITEM_WEIGHT,
-            ITEM_ENCUMBRANCE,
-            ITEM_VOLUME,
-            ITEM_COVERAGE,
-            ITEM_ATTACK_SPEED,
-            ITEM_WET_PROTECTION,
-            NUM_MOD
-        };
 
         static void load_enchantment( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string &src = "" );
@@ -196,8 +126,18 @@ class enchantment
         // adds two enchantments together and ignores their conditions
         void force_add( const enchantment &rhs );
 
+        void set_has( has value );
+
+        void add_value_add( enchant_vals::mod value, int add_value );
+        void add_value_mult( enchant_vals::mod value, float mult_value );
+
+        void add_hit_me( const fake_spell &sp );
+        void add_hit_you( const fake_spell &sp );
+
         int get_value_add( enchant_vals::mod value ) const;
         double get_value_multiply( enchant_vals::mod value ) const;
+        // the standard way of modifying a value, adds then multiplies.
+        double modify_value( enchant_vals::mod mod_val, double value ) const;
 
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
@@ -248,6 +188,23 @@ class enchantment
         // performs cooldown and distance checks before casting enchantment spells
         void cast_enchantment_spell( Character &caster, const Creature *target,
                                      const fake_spell &sp ) const;
+};
+
+template <typename E> struct enum_traits;
+
+template<>
+struct enum_traits<enchantment::has> {
+    static constexpr enchantment::has last = enchantment::has::NUM_HAS;
+};
+
+template<>
+struct enum_traits<enchantment::condition> {
+    static constexpr enchantment::condition last = enchantment::condition::NUM_CONDITION;
+};
+
+template<>
+struct enum_traits<enchant_vals::mod> {
+    static constexpr enchant_vals::mod last = enchant_vals::mod::NUM_MOD;
 };
 
 #endif // CATA_SRC_MAGIC_ENCHANTMENT_H

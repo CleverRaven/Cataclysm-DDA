@@ -43,13 +43,11 @@ TEST_CASE( "coordinate_operations", "[coords]" )
     SECTION( "construct_from_values" ) {
         tripoint p = GENERATE( take( num_trials, random_tripoints() ) );
         {
-            //NOLINTNEXTLINE(cata-use-point-apis)
             point_abs_ms cp( p.x, p.y );
             CHECK( cp.x() == p.x );
             CHECK( cp.y() == p.y );
         }
         {
-            //NOLINTNEXTLINE(cata-use-point-apis)
             tripoint_abs_ms cp( p.x, p.y, p.z );
             CHECK( cp.x() == p.x );
             CHECK( cp.y() == p.y );

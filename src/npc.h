@@ -853,6 +853,7 @@ class npc : public player
         int print_info( const catacurses::window &w, int line, int vLines, int column ) const override;
         std::string opinion_text() const;
         int faction_display( const catacurses::window &fac_w, int width ) const;
+        std::string describe_mission() const;
 
         // Interaction with the player
         void form_opinion( const player &u );
@@ -882,6 +883,11 @@ class npc : public player
          * Martial art styles that we known, but the player p doesn't.
          */
         std::vector<matype_id> styles_offered_to( const player &p ) const;
+        /**
+         * Spells that the NPC knows but that the player p doesn't.
+        * not const because get_spell isn't const and both this and p call it
+               */
+        std::vector<spell_id> spells_offered_to( player &p );
         // State checks
         // We want to kill/mug/etc the player
         bool is_enemy() const;

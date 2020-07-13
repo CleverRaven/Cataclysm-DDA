@@ -1275,6 +1275,11 @@ bool item_pocket::airtight() const
     return data->airtight;
 }
 
+const pocket_data *item_pocket::get_pocket_data() const
+{
+    return data;
+}
+
 void item_pocket::add( const item &it, item **ret )
 {
     contents.push_back( it );

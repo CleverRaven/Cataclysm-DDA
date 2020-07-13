@@ -1293,7 +1293,7 @@ void inventory_selector::add_contained_items( item_location &container, inventor
     for( item *it : container->contents.all_items_top() ) {
         item_location child( container, it );
         add_contained_items( child, column );
-        add_item( column, std::move( child ) );
+        add_entry( column, std::vector<item_location>( 1, child ) );
     }
 }
 
@@ -2539,5 +2539,5 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.weight_carried_with_tweaks( dropping ),
                u.weight_capacity(),
                u.volume_carried_with_tweaks( dropping ),
-               u.volume_capacity() );
+               u.volume_capacity_with_tweaks( dropping ) );
 }

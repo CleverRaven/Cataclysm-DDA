@@ -1273,6 +1273,7 @@ void debug()
             std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
                 return a.second != b.second ? a.second > b.second : a.first < b.first;
             } );
+            popup( u.total_daily_calories_string() );
             for( auto &m_flag_stat : sorted ) {
                 mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
                                        m_flag_stat.second );
@@ -1408,7 +1409,7 @@ void debug()
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 here.create_anomaly( *center, prop );
-                here.spawn_natural_artifact( *center, prop );
+                here.spawn_artifact( *center, relic_procgen_id( "alien_reality" ) );
             }
             break;
 

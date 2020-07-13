@@ -622,6 +622,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
+        int get_part_hp_max( const bodypart_id &id ) const;
         /** Modifies the player's sight values
          *  Must be called when any of the following change:
          *  This must be called when any of the following change:
@@ -1072,6 +1073,12 @@ class Character : public Creature, public visitable<Character>
 
         /** Handles bionic effects over time of the entered bionic */
         void process_bionic( int b );
+        /** finds the index of the bionic that corresponds to the currently wielded fake item
+         *  i.e. bionic is `BIONIC_WEAPON` and weapon.typeId() == bio.info().fake_item */
+        cata::optional<int> active_bionic_weapon_index() const;
+        /** Checks if bionic can be deactivated (e.g. it's not incapacitaded and power level is sufficient)
+         *  returns either success or failure with log message */
+        ret_val<bool> can_deactivate_bionic( int b, bool eff_only = false ) const;
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         bool deactivate_bionic( int b, bool eff_only = false );
@@ -1428,12 +1435,18 @@ class Character : public Creature, public visitable<Character>
         units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::mass weight_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                                                 &locations ) const;
+        units::mass get_selected_stack_weight( const item *i,
+                                               const std::map<const item *, int> &without ) const;
         units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
-                &locations )
-        const;
+                &locations ) const;
+        units::volume get_selected_stack_volume( const item *i,
+                const std::map<const item *, int> &without ) const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
+        units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
+        units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
+                &locations ) const;
         units::volume free_space() const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
@@ -1776,6 +1789,10 @@ class Character : public Creature, public visitable<Character>
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
+        // add spent calories to calorie diary (if avatar)
+        virtual void add_spent_calories( int /* cal */ ) {};
+        // add gained calories to calorie diary (if avatar)
+        virtual void add_gained_calories( int /* gained */ ) {};
         // Reset age and height to defaults for consistent test results
         void reset_chargen_attributes();
         // age in years, determined at character creation

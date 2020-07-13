@@ -786,8 +786,9 @@ void player::start_craft( craft_command &command, const tripoint &loc )
             uilist amenu;
             amenu.text = string_format( pgettext( "in progress craft", "What to do with the %s?" ),
                                         craft.display_name() );
-            amenu.addentry( WIELD_CRAFT, !weapon.has_flag( flag_NO_UNWIELD ), '1',
-                            _( "Dispose of your wielded %s and start working." ), weapon.tname() );
+
+            amenu.addentry( WIELD_CRAFT, can_unwield( weapon ).success(),
+                            '1', _( "Dispose of your wielded %s and start working." ), weapon.tname() );
             amenu.addentry( DROP_CRAFT, true, '2', _( "Put it down and start working." ) );
             const bool can_stash = can_pickVolume( craft ) &&
                                    can_pickWeight( craft, !get_option<bool>( "DANGEROUS_PICKUPS" ) );
@@ -801,7 +802,7 @@ void player::start_craft( craft_command &command, const tripoint &loc )
                     if( cata::optional<item_location> it_loc = wield_craft( *this, craft ) ) {
                         craft_in_world = *it_loc;
                     } else {
-                        // This almost certianly shouldn't happen
+                        // This almost certainly shouldn't happen
                         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, {craft} );
                     }
                     break;
