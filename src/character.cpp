@@ -3013,6 +3013,8 @@ units::mass Character::weight_capacity() const
         ret += 22500_gram;
     }
 
+    ret = enchantment_cache.modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
+
     if( ret < 0_gram ) {
         ret = 0_gram;
     }

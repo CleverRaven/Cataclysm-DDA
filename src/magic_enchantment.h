@@ -139,6 +139,7 @@ class enchantment
         // the standard way of modifying a value, adds then multiplies.
         double modify_value( enchant_vals::mod mod_val, double value ) const;
         units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
+        units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
 
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
