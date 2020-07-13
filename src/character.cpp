@@ -1806,6 +1806,8 @@ void Character::recalc_sight_limits()
         sight_max = 10;
     }
 
+    sight_max = enchantment_cache.modify_value( enchant_vals::mod::SIGHT_RANGE, sight_max );
+
     // Debug-only NV, by vache's request
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
