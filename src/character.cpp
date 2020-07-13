@@ -4780,12 +4780,12 @@ void Character::update_body( const time_point &from, const time_point &to )
 
     for( const auto &v : vitamin::all() ) {
         const time_duration rate = vitamin_rate( v.first );
-        
+
         // No blood volume regeneration if body lacks fluids
-        if( v.first == vitamin_blood && has_effect( effect_hypovolemia ) && get_thirst() > 240  ) {
+        if( v.first == vitamin_blood && has_effect( effect_hypovolemia ) && get_thirst() > 240 ) {
             continue;
         }
-        
+
         if( rate > 0_turns ) {
             int qty = ticks_between( from, to, rate );
             if( qty > 0 ) {
