@@ -2044,12 +2044,12 @@ units::energy Character::get_power_level() const
 
 units::energy Character::get_max_power_level() const
 {
-    return max_power_level;
+    return enchantment_cache.modify_value( enchant_vals::mod::BIONIC_POWER, max_power_level );
 }
 
 void Character::set_power_level( const units::energy &npower )
 {
-    power_level = std::min( npower, max_power_level );
+    power_level = std::min( npower, get_max_power_level() );
 }
 
 void Character::set_max_power_level( const units::energy &npower_max )
@@ -2061,15 +2061,15 @@ void Character::mod_power_level( const units::energy &npower )
 {
     // units::energy is an int, so avoid overflow by converting it to a int64_t, then adding them
     // If the result is greater than the max power level, set power to max
-    int64_t power = static_cast<int64_t>( units::to_millijoule( power_level ) ) +
+    int64_t power = static_cast<int64_t>( units::to_millijoule( get_power_level() ) ) +
                     static_cast<int64_t>( units::to_millijoule( npower ) );
     units::energy new_power;
-    if( power > units::to_millijoule( max_power_level ) ) {
-        new_power = max_power_level;
+    if( power > units::to_millijoule( get_max_power_level() ) ) {
+        new_power = get_max_power_level();
     } else {
-        new_power = power_level + npower;
+        new_power = get_power_level() + npower;
     }
-    power_level = clamp( new_power, 0_kJ, max_power_level );
+    set_power_level( clamp( new_power, 0_kJ, get_max_power_level() ) );
 }
 
 void Character::mod_max_power_level( const units::energy &npower_max )
@@ -2079,22 +2079,22 @@ void Character::mod_max_power_level( const units::energy &npower_max )
 
 bool Character::is_max_power() const
 {
-    return power_level >= max_power_level;
+    return get_power_level() >= get_max_power_level();
 }
 
 bool Character::has_power() const
 {
-    return power_level > 0_kJ;
+    return get_power_level() > 0_kJ;
 }
 
 bool Character::has_max_power() const
 {
-    return max_power_level > 0_kJ;
+    return get_max_power_level() > 0_kJ;
 }
 
 bool Character::enough_power_for( const bionic_id &bid ) const
 {
-    return power_level >= bid->power_activate;
+    return get_power_level() >= bid->power_activate;
 }
 
 std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) const

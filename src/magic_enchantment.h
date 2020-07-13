@@ -14,6 +14,7 @@
 #include "magic.h"
 #include "optional.h"
 #include "type_id.h"
+#include "units.h"
 
 class Character;
 class Creature;
@@ -138,6 +139,7 @@ class enchantment
         double get_value_multiply( enchant_vals::mod value ) const;
         // the standard way of modifying a value, adds then multiplies.
         double modify_value( enchant_vals::mod mod_val, double value ) const;
+        units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
 
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;
