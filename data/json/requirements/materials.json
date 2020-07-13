@@ -123,7 +123,7 @@
     "id": "rope_any_short",
     "type": "requirement",
     "//": "Materials used for lashing, when any rope or wire is sensible, per 216 g/180 cm of rope.",
-    "components": [ [ [ "rope_natural_short", 1 ], [ "wire", 1 ] ] ]
+    "components": [ [ [ "rope_6", 1 ], [ "vine_6", 1 ], [ "rope_makeshift_6", 1 ], [ "wire", 1 ] ] ]
   },
   {
     "id": "rope_superior",
