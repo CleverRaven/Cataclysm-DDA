@@ -1293,7 +1293,7 @@ void inventory_selector::add_contained_items( item_location &container, inventor
     for( item *it : container->contents.all_items_top() ) {
         item_location child( container, it );
         add_contained_items( child, column );
-        add_item( column, std::move( child ) );
+        add_entry( column, std::vector<item_location>( 1, child ) );
     }
 }
 
