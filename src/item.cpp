@@ -8763,14 +8763,14 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
             local_mod += 5; // body heat increases inventory temperature
         }
 
-        // Process the past of this item since the last time it was processed
+        // Process the past of this item in 1h chunks until there is less than 1h left.
         time_duration time_delta = 1_hours;
 
         while( now - time > 1_hours ) {
             time += time_delta;
 
             // Get the environment temperature
-            //Use weather if above ground, use map temp if below
+            // Use weather if above ground, use map temp if below
             double env_temperature = 0;
             if( pos.z >= 0 ) {
                 double weather_temperature = wgen.get_weather_temperature( pos, time, seed );
