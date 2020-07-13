@@ -29,6 +29,7 @@ class JsonOut;
 class mission;
 class monster;
 class npc;
+class talker;
 
 namespace debug_menu
 {
@@ -138,6 +139,10 @@ class avatar : public player
          * Check @ref mission::has_failed to see which case it is.
          */
         void on_mission_finished( mission &cur_mission );
+
+        // Dialogue and bartering--see npctalk.cpp
+        void talk_to( std::unique_ptr<talker> talk_with, bool text_only = false,
+                      bool radio_contact = false );
 
         /**
          * Helper function for player::read.

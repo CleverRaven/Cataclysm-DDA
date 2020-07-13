@@ -13,6 +13,7 @@
 
 #include "active_item_cache.h"
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -68,6 +69,8 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+
+class talker;
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
@@ -1235,7 +1238,7 @@ void npc::execute_action( npc_action action )
 
         break;
         case npc_talk_to_player:
-            talk_to_u();
+            g->u.talk_to( get_talker_for( this ) );
             moves = 0;
             break;
 

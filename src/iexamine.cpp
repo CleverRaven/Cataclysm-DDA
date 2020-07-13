@@ -82,6 +82,7 @@
 #include "string_formatter.h"
 #include "string_id.h"
 #include "string_input_popup.h"
+#include "talker.h"
 #include "timed_event.h"
 #include "translations.h"
 #include "trap.h"
@@ -1057,7 +1058,8 @@ void iexamine::intercom( player &p, const tripoint &examp )
     if( intercom_npcs.empty() ) {
         p.add_msg_if_player( m_info, _( "No one responds." ) );
     } else {
-        intercom_npcs.front()->talk_to_u( false, false );
+        // TODO: This needs to be converted a talker_console or something
+        g->u.talk_to( get_talker_for( *intercom_npcs.front() ), false, false );
     }
 }
 
