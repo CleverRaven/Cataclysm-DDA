@@ -573,7 +573,7 @@ void item_pocket::casings_handle( const std::function<bool( item & )> &func )
     }
 }
 
-void item_pocket::handle_liquid_or_spill( Character &guy )
+void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->made_of( phase_id::LIQUID ) ) {
@@ -583,7 +583,7 @@ void item_pocket::handle_liquid_or_spill( Character &guy )
         } else {
             item i_copy( *iter );
             iter = contents.erase( iter );
-            guy.i_add_or_drop( i_copy );
+            guy.i_add_or_drop( i_copy, 1, avoid );
         }
     }
 }
