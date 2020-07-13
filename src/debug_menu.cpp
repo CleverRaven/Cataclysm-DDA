@@ -1273,6 +1273,7 @@ void debug()
             std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
                 return a.second != b.second ? a.second > b.second : a.first < b.first;
             } );
+            popup( u.total_daily_calories_string() );
             for( auto &m_flag_stat : sorted ) {
                 mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
                                        m_flag_stat.second );

@@ -4287,6 +4287,11 @@ int Character::get_stored_kcal() const
 
 void Character::mod_stored_kcal( int nkcal )
 {
+    if( nkcal > 0 ) {
+        add_gained_calories( nkcal );
+    } else {
+        add_spent_calories( -nkcal );
+    }
     set_stored_kcal( stored_calories + nkcal );
 }
 
@@ -4728,6 +4733,10 @@ void Character::update_body( const time_point &from, const time_point &to )
                 vitamin_mod( v.first, qty );
             }
         }
+    }
+
+    if( is_avatar() && ticks_between( from, to, 24_hours ) > 0 ) {
+        as_avatar()->advance_daily_calories();
     }
 
     do_skill_rust();
