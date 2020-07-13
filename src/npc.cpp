@@ -1479,6 +1479,25 @@ std::vector<matype_id> npc::styles_offered_to( const player &p ) const
     return p.martial_arts_data.get_unknown_styles( martial_arts_data );
 }
 
+std::vector<spell_id> npc::spells_offered_to( player &p )
+{
+    std::vector<spell_id> teachable;
+    for( const spell_id &sp : magic.spells() ) {
+        const spell &teacher_spell = magic.get_spell( sp );
+        if( p.magic.can_learn_spell( p, sp ) ) {
+            if( p.magic.knows_spell( sp ) ) {
+                const spell &student_spell = p.magic.get_spell( sp );
+                if( student_spell.is_max_level() ||
+                    student_spell.get_level() >= teacher_spell.get_level() ) {
+                    continue;
+                }
+            }
+            teachable.emplace_back( sp );
+        }
+    }
+    return teachable;
+}
+
 void npc::decide_needs()
 {
     double needrank[num_needs];
@@ -3344,4 +3363,29 @@ void npc_follower_rules::clear_overrides()
 int npc::get_thirst() const
 {
     return Character::get_thirst() - units::to_milliliter<int>( stomach.get_water() ) / 5;
+}
+
+std::string npc::describe_mission() const
+{
+    switch( mission ) {
+        case NPC_MISSION_SHELTER:
+            return string_format( _( "I'm holing up here for safety.  Long term, %s" ),
+                                  myclass.obj().get_job_description() );
+        case NPC_MISSION_SHOPKEEP:
+            return _( "I run the shop here." );
+        case NPC_MISSION_GUARD:
+        case NPC_MISSION_GUARD_ALLY:
+        case NPC_MISSION_GUARD_PATROL:
+            return string_format( _( "Currently, I'm guarding this location.  Overall, %s" ),
+                                  myclass.obj().get_job_description() );
+        case NPC_MISSION_ACTIVITY:
+            return string_format( _( "Right now, I'm <current_activity>.  In general, %s" ),
+                                  myclass.obj().get_job_description() );
+        case NPC_MISSION_TRAVELLING:
+        case NPC_MISSION_NULL:
+            return myclass.obj().get_job_description();
+        default:
+            return string_format( "ERROR: Someone forgot to code an npc_mission text for "
+                                  "mission: %d.", static_cast<int>( mission ) );
+    } // switch (mission)
 }
