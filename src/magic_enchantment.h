@@ -54,7 +54,6 @@ enum class mod : int {
     FOOTSTEP_NOISE,
     SIGHT_RANGE,
     CARRY_WEIGHT,
-    CARRY_VOLUME,
     SOCIAL_LIE,
     SOCIAL_PERSUADE,
     SOCIAL_INTIMIDATE,
