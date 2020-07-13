@@ -622,6 +622,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
+        int get_part_hp_max( const bodypart_id &id ) const;
         /** Modifies the player's sight values
          *  Must be called when any of the following change:
          *  This must be called when any of the following change:
