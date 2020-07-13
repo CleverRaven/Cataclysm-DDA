@@ -278,7 +278,7 @@ static void draw_connectors( const catacurses::window &win, const point &start,
     for( const std::pair<const string_id<body_part_type>, size_t> &elem : bio_id->occupied_bodyparts ) {
         auto pos = bp_to_pos.find( elem.first );
         if( pos != bp_to_pos.end() ) {
-            pos_and_num.emplace_back( pos->second + LIST_START_Y, elem.second );
+            pos_and_num.emplace_back( static_cast<int>( pos->second ) + LIST_START_Y, elem.second );
         }
     }
     if( pos_and_num.empty() || !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {

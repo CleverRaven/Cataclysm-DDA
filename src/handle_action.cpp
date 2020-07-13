@@ -1372,7 +1372,8 @@ static void open_movement_mode_menu()
 
     for( size_t i = 0; i < modes.size(); ++i ) {
         const move_mode_id &curr = modes[i];
-        as_m.entries.emplace_back( i, u.can_switch_to( curr ), curr->letter(), curr->name() );
+        as_m.entries.emplace_back( static_cast<int>( i ), u.can_switch_to( curr ), curr->letter(),
+                                   curr->name() );
     }
     as_m.entries.emplace_back( cycle, u.can_switch_to( u.current_movement_mode()->cycle() ), '"',
                                _( "Cycle move mode" ) );
