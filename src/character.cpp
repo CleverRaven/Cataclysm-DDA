@@ -5161,6 +5161,8 @@ needs_rates Character::calc_needs_rates() const
         rates.thirst *= 0.25f;
     }
 
+    rates.thirst = enchantment_cache.modify_value( enchant_vals::mod::THIRST, rates.thirst );
+
     return rates;
 }
 

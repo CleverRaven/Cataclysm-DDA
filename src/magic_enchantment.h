@@ -42,7 +42,7 @@ enum class mod : int {
     REGEN_STAMINA,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
-    THIRST,        // cost or regen over time
+    THIRST,        // thirst rate
     FATIGUE,       // cost or regen over time
     PAIN,          // cost or regen over time
     BONUS_DODGE,
