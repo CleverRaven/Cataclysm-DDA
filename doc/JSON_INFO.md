@@ -43,6 +43,8 @@ Use the `Home` key to return to the top.
       - [`cbms`](#-cbms-)
       - [`traits`](#-traits-)
     + [Recipes](#recipes)
+      - [Recipe components](#recipe-components)
+      - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
     + [Constructions](#constructions)
     + [Scent Types](#scent_types)
     + [Scores, Achievements, and Conducts](#scores-achievements-and-conducts)
@@ -288,6 +290,7 @@ See below for specifics on the various items
 
 ## `data/json/requirements/`
 
+
 Standard components and tools for crafting
 
 | Filename                     | Description
@@ -299,6 +302,42 @@ Standard components and tools for crafting
 | toolsets.json                | sets of tools commonly used together
 | uncraft.json                 | common results of taking stuff apart
 | vehicle.json                 | tools to work on vehicles
+
+Recipe requirements are JSON objects with `"type": "requirement"`.  They allow re-using common
+groups of recipe ingredients, or alternative ingredients.  For example, the `bread_sandwich`
+requirement includes several alternative breads you could make a sandwich with:
+
+```json
+{
+  "id": "bread_sandwich",
+  "type": "requirement",
+  "//": "Bread appropriate for sandwiches.",
+  "components": [
+    [
+      [ "flatbread", 1 ],
+      [ "bread", 1 ],
+      [ "cornbread", 1 ],
+      [ "wastebread", 1 ],
+      [ "sourdough_bread", 1 ],
+      [ "biscuit", 1 ],
+      [ "brioche", 1 ]
+    ]
+  ]
+}
+```
+
+This lets you simplify the "components" of sandwich recipes that could work with any of those breads, ex.
+
+```json
+{
+  "type": "recipe",
+  "result": "sandwich_honey",
+  "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ] ],
+  "//": "..."
+}
+```
+
+See the [Recipe components](#recipe-components) section for how to use the "components" syntax.
 
 
 ## `data/json/vehicles/`
@@ -985,7 +1024,7 @@ player will start with this as a nearby vehicle.
 
 A list of flags. TODO: document those flags here.
 
-- ```NO_BONUS_ITEMS``` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession
+- `NO_BONUS_ITEMS` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession
 
 Mods can modify this via `add:flags` and `remove:flags`.
 
@@ -1006,6 +1045,8 @@ A list of trait/mutation ids that are applied to the character.
 Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Recipes
+
+Crafting recipes are defined as a JSON object with the following fields:
 
 ```C++
 "result": "javelin",         // ID of resulting item
@@ -1055,24 +1096,116 @@ Mods can modify this via `add:traits` and `remove:traits`.
 [
     [ "fire", -1 ]           // Charges consumed when tool is used, -1 means no charges are consumed
 ]],
-"components": [              // Equivalent tools or components are surrounded by a single set of brackets
-[
-  [ "spear_wood", 1 ],       // Number of charges/items required
-  [ "pointy_stick", 1 ]
-],
-[
-  [ "rag", 1 ],
-  [ "leather", 1 ],
-  [ "fur", 1 ]
-],
-[
-  [ "plant_fibre", 20, false ], // Optional flag for recoverability, default is true.
-  [ "sinew", 20, false ],
-  [ "thread", 20, false ],
-  [ "duct_tape", 20 ]  // Certain items are flagged as unrecoverable at the item definition level.
-]
+"components": [              // Items (or item alternatives) required to craft this recipe
+  [
+    [ "item_a", 5 ]          // First ingredient: need 5 of item_a
+  ],
+  [
+    [ "item_b", 2 ],         // Also need 2 of item_b...
+    [ "item_c", 4 ]          // OR 4 of item_c (but do not need both)
+  ],
+  [
+    // ... any number of other component ingredients (see below)
+  ]
 ]
 ```
+
+#### Recipe components
+
+A recipe's "components" lists all the required items or ingredients needed to craft the finished
+item from the recipe.  Each ingredient is given as an integer quantity of a specific item id or
+requirement id, or as a list of several equivalent item/requirement quantities.
+
+The syntax of an ingredient in its simplest form is an item id and quantity.  Continuing the
+"javelin" recipe, let's require a single "spear_wood" item:
+
+```json
+"components": [
+  [ [ "spear_wood", 1 ] ]
+]
+```
+
+A single component may also have substitutions; for instance, to allow crafting from one
+"spear_wood" *or* one "pointy_stick":
+
+```json
+"components": [
+  [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ]
+]
+```
+
+Notice that the first example with *only* "spear_wood" was simply the degenerate case - a list of
+alternatives with only 1 alternative - which is why it was doubly nested in `[ [ ... ] ]`.
+
+The javelin would be better with some kind of leather or cloth grip.  To require 2 rags, 1 leather,
+or 1 fur *in addition to* the wood spear or pointy stick:
+
+```json
+"components": [
+  [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
+  [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ]
+]
+```
+
+And to bind the grip onto the javelin, some sinew or thread should be required, which can have the
+"NO_RECOVER" keyword to indicate they cannot be recovered if the item is deconstructed:
+
+```json
+"components": [
+  [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
+  [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ],
+  [ [ "sinew", 20, "NO_RECOVER" ], [ "thread", 20, "NO_RECOVER" ] ]
+]
+```
+
+*Note*: Related to "NO_RECOVER", some items such as "superglue" and "duct_tape" have an
+"UNRECOVERABLE" flag on the item itself, indicating they can never be reclaimed when disassembling.
+See [JSON_FLAGS.md](JSON_FLAGS.md) for how to use this and other item flags.
+
+To avoid repeating commonly used sets of ingredient items, instead of an individual item id,
+provide the id of a "requirement" type, along with a quantity, and the "LIST" keyword.
+Typically these are defined within [`data/json/requirements`](#datajsonrequirements).
+
+For example if these "grip_patch" and "grip_wrap" requirements were defined:
+
+```json
+[
+  {
+    "id": "grip_patch",
+    "type": "requirement",
+    "components": [ [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ] ]
+  },
+  {
+    "id": "grip_wrap",
+    "type": "requirement",
+    "components": [ [ [ "sinew", 20, "NO_RECOVER" ], [ "thread", 20, "NO_RECOVER" ] ] ]
+  }
+]
+```
+
+Then javelin recipe components could use 1 grip and 1 wrap, for example:
+
+```json
+"result": "javelin",
+"components": [
+  [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
+  [ [ "grip_patch", 1, "LIST" ] ],
+  [ [ "grip_wrap", 1, "LIST" ] ]
+]
+```
+
+And other recipes needing two such grips could simply require 2 of each:
+
+```json
+"result": "big_staff",
+"components": [
+  [ [ "stick_long", 1 ] ],
+  [ [ "grip_patch", 2, "LIST" ] ],
+  [ [ "grip_wrap", 2, "LIST" ] ]
+]
+```
+
+
 
 #### Overlapping recipe component requirements
 
@@ -1539,7 +1672,7 @@ it is present to help catch errors.
       "trigger_type": "TIME", // What variable is tracked by this trigger
       "threshold_low": 20, // Is True if the value is above threshold_low
       "threshold_high": 2, // Is True if the value is below threshold_high
-      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates 
+      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
       "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
     }
   ]
@@ -1559,7 +1692,7 @@ it is present to help catch errors.
 ### Traps
 
 ```C++
-    "type": "trap",  
+    "type": "trap",
     "id": "tr_beartrap",  // Unique ID
     "name": "bear trap",  // In-game name displayed
     "color": "blue",
@@ -1568,7 +1701,7 @@ it is present to help catch errors.
     "avoidance": 7,  // 0 to ??, affects avoidance
     "difficulty": 3,  // 0 to ??, difficulty of assembly & disassembly
     "trap_radius": 1,  // 0 to ??, trap radius
-    "action": "blade",  
+    "action": "blade",
     "map_regen": "microlab_shifting_hall",  // a valid overmap id, for map_regen action traps
     "benign": true,
     "always_invisible": true,
@@ -1978,7 +2111,7 @@ When adding a new book, please use this color key:
 A few exceptions to this color key may apply, for example for books that don’t are what they seem to be.
 Never use `yellow` and `red`, those colors are reserved for sounds and infrared vision.
 
-####CBMs
+#### CBMs
 
 CBMs can be defined like this:
 
