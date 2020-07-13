@@ -49,6 +49,7 @@ class mission;
 class monfaction;
 class monster;
 class npc_class;
+class talker;
 class vehicle;
 struct bionic_data;
 struct mission_type;
@@ -1439,5 +1440,6 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();
-
+std::unique_ptr<talker> get_talker_for( npc &guy );
+std::unique_ptr<talker> get_talker_for( npc *guy );
 #endif // CATA_SRC_NPC_H

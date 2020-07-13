@@ -63,6 +63,8 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "talker.h"
+#include "talker_npc.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "trait_group.h"
@@ -3388,4 +3390,13 @@ std::string npc::describe_mission() const
             return string_format( "ERROR: Someone forgot to code an npc_mission text for "
                                   "mission: %d.", static_cast<int>( mission ) );
     } // switch (mission)
+}
+
+std::unique_ptr<talker> get_talker_for( npc &guy )
+{
+    return std::make_unique<talker_npc>( &guy );
+}
+std::unique_ptr<talker> get_talker_for( npc *guy )
+{
+    return std::make_unique<talker_npc>( guy );
 }

@@ -763,5 +763,4 @@ class player : public Character
         /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
         mutable decltype( _skills ) valid_autolearn_skills;
 };
-
 #endif // CATA_SRC_PLAYER_H

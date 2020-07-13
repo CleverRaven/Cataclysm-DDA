@@ -62,6 +62,8 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "talker.h"
+#include "talker_avatar.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -1665,6 +1667,15 @@ std::string avatar::total_daily_calories_string() const
         ret += string_format( "%2d   %6d    %6d     %6d\n", num_day++, day.gained, day.spent, day.total() );
     }
     return ret;
+}
+
+std::unique_ptr<talker> get_talker_for( avatar &me )
+{
+    return std::make_unique<talker_avatar>( &me );
+}
+std::unique_ptr<talker> get_talker_for( avatar *me )
+{
+    return std::make_unique<talker_avatar>( me );
 }
 
 points_left::points_left()
