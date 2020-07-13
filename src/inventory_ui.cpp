@@ -1290,6 +1290,10 @@ void inventory_selector::add_contained_items( item_location &container )
 
 void inventory_selector::add_contained_items( item_location &container, inventory_column &column )
 {
+    if( container->has_flag( "NO_UNLOAD" ) ) {
+        return;
+    }
+
     for( item *it : container->contents.all_items_top() ) {
         item_location child( container, it );
         add_contained_items( child, column );
