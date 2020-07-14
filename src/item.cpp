@@ -10112,7 +10112,7 @@ units::volume item::check_for_free_space( const item *it ) const
                 }
             }
         } else {
-            if( container->contents.contents_are_rigid() ) {
+            if( container->contents.all_pockets_rigid() ) {
                 volume += container->volume();
             }
         }

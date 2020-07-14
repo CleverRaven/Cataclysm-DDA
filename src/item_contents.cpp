@@ -1306,19 +1306,6 @@ bool item_contents::all_pockets_rigid() const
     return true;
 }
 
-bool item_contents::contents_are_rigid() const
-{
-    for( const item_pocket &pocket : contents ) {
-        if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            continue;
-        }
-        if( !pocket.rigid() ) {
-            return false;
-        }
-    }
-    return false;
-}
-
 units::volume item_contents::item_size_modifier() const
 {
     units::volume total_vol = 0_ml;

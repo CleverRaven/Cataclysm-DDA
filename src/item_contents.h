@@ -130,9 +130,6 @@ class item_contents
         /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
 
-        // True if every pocket is rigid. False if not or we have no pockets
-        bool contents_are_rigid() const;
-
         /** returns the best quality of the id that's contained in the item in CONTAINER pockets */
         int best_quality( const quality_id &id ) const;
 
