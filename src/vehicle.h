@@ -116,6 +116,7 @@ struct smart_controller_config {
     int battery_hi = 90;
 
     void deserialize( const JsonObject &data );
+    void serialize( JsonOut &json ) const;
 };
 
 struct veh_collision {

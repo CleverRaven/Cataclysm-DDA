@@ -2672,6 +2672,14 @@ void smart_controller_config::deserialize( const JsonObject &data )
     data.read( "bat_hi", battery_hi );
 }
 
+void smart_controller_config::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "bat_lo", battery_lo );
+    json.member( "bat_hi", battery_hi );
+    json.end_object();
+}
+
 /*
  * Load vehicle from a json blob that might just exceed player in size.
  */
@@ -2915,10 +2923,7 @@ void vehicle::serialize( JsonOut &json ) const
 
     if( smart_controller_cfg ) {
         json.member( "smart_controller" );
-        json.start_object();
-        json.member( "bat_lo", smart_controller_cfg -> battery_lo );
-        json.member( "bat_hi", smart_controller_cfg -> battery_hi );
-        json.end_object();
+        smart_controller_cfg -> serialize( json );
     }
 
     json.end_object();
