@@ -777,6 +777,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knapping", "required": true } ],
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [

@@ -1550,6 +1550,12 @@ class Character : public Creature, public visitable<Character>
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
 
+        // --------------- Proficiency Stuff ----------------
+        // (bit short at the moment)
+        bool has_proficiency( const proficiency_id &prof ) const;
+        void add_proficiency( const proficiency_id &prof );
+        const std::set<proficiency_id> &proficiencies() const;
+
         // --------------- Other Stuff ---------------
 
         /** return the calendar::turn the character expired */
@@ -2277,6 +2283,8 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Values ---------------
         pimpl<SkillLevelMap> _skills;
+
+        std::set<proficiency_id> _proficiencies;
 
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
