@@ -329,7 +329,7 @@ void aim_activity_actor::unload_RAS_weapon()
 
         // Note: this code works only for avatar
         item_location loc = item_location( you, gun.target );
-        you.unload( loc );
+        you.unload( loc, true );
 
         // Give back time for unloading as essentially nothing has been done.
         if( first_turn ) {
