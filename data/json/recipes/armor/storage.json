@@ -924,5 +924,16 @@
     "autolearn": true,
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "leather", 37 ], [ "tanned_pelt", 10 ] ], [ [ "cordage", 1, "LIST" ] ] ]
+  },
+  {
+    "result": "wallet_duct_tape",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "8 m",
+    "autolearn": true,
+    "components": [ [ [ "duct_tape", 10 ] ] ]
   }
 ]
