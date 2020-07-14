@@ -697,6 +697,10 @@ class map
          */
         bool has_nearby_chair( const tripoint &p, int radius = 1 );
         /**
+         * Checks whether a specific terrain is nearby.
+        */
+        bool has_nearby_ter( const tripoint &p, const ter_id &type, int radius = 1 );
+        /**
          * Check if creature can see some items at p. Includes:
          * - check for items at this location (has_items(p))
          * - check for SEALED flag (sealed furniture/terrain makes
