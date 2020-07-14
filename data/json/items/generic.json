@@ -331,6 +331,7 @@
     "price": 0,
     "material": [ "chitin" ],
     "flags": [ "NO_SALVAGE" ],
+    "milling": { "into": "meal_chitin_piece", "conversion_rate": 4 },
     "weight": "89 g",
     "volume": "300 ml",
     "bashing": 1

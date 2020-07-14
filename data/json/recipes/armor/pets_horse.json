@@ -77,6 +77,8 @@
         [ "wax", 6 ],
         [ "tallow", 24 ],
         [ "mutant_tallow", 24 ],
+        [ "human_tallow", 24 ],
+        [ "demihuman_tallow", 24 ],
         [ "tallow_tainted", 24 ],
         [ "vinegar", 30 ],
         [ "pine_bough", 60 ]
