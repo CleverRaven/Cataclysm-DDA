@@ -1,7 +1,6 @@
 #include "pickup.h"
 
 #include <algorithm>
-#include <climits>
 #include <cstddef>
 #include <functional>
 #include <list>
@@ -11,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_actor.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "cata_utility.h"

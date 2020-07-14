@@ -1,12 +1,17 @@
 #include "player_activity.h"
 
 #include <algorithm>
+#include <array>
 #include <memory>
+#include <utility>
 
 #include "activity_handlers.h"
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
+#include "color.h"
+#include "compatibility.h"
 #include "construction.h"
 #include "crafting.h"
 #include "game.h"
@@ -14,14 +19,13 @@
 #include "itype.h"
 #include "map.h"
 #include "player.h"
+#include "recipe.h"
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
-#include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
-#include "units.h"
 #include "value_ptr.h"
 
 static const activity_id ACT_FIRSTAID( "ACT_FIRSTAID" );

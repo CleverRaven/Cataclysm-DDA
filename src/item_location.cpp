@@ -1,6 +1,9 @@
 #include "item_location.h"
 
+#include <stddef.h>
 #include <iosfwd>
+#include <iterator>
+#include <list>
 #include <vector>
 
 #include "avatar.h"
@@ -11,6 +14,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "item.h"
+#include "item_contents.h"
 #include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
@@ -22,6 +26,7 @@
 #include "player.h"
 #include "point.h"
 #include "safe_reference.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -59,10 +64,10 @@ static item *retrieve_index( const T &sel, int idx )
 class item_location::impl
 {
     public:
+        class item_in_container;
         class item_on_map;
         class item_on_person;
         class item_on_vehicle;
-        class item_in_container;
         class nowhere;
 
         impl() = default;

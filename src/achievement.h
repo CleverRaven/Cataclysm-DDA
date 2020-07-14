@@ -1,23 +1,33 @@
 #ifndef CATA_SRC_ACHIEVEMENT_H
 #define CATA_SRC_ACHIEVEMENT_H
 
-#include <list>
-#include <string>
+#include <array>
+#include <functional>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
+#include "calendar.h"
+#include "cata_variant.h"
 #include "event_bus.h"
 #include "optional.h"
 #include "string_id.h"
 #include "translations.h"
 
+class JsonIn;
 class JsonObject;
-struct achievement_requirement;
+class JsonOut;
 class achievements_tracker;
 class requirement_watcher;
 class stats_tracker;
+namespace cata
+{
+class event;
+}  // namespace cata
+struct achievement_requirement;
+template <typename E> struct enum_traits;
 
 enum class achievement_comparison {
     less_equal,

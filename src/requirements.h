@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_REQUIREMENTS_H
 #define CATA_SRC_REQUIREMENTS_H
 
-#include <algorithm>
 #include <functional>
 #include <list>
 #include <map>

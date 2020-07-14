@@ -6,9 +6,10 @@
 #include <string>
 #include <unordered_set>
 
-#include "dialogue.h"
 #include "json.h"
-#include "mission.h"
+
+struct dialogue;
+struct mission_goal_condition_context;
 
 namespace dialogue_data
 {

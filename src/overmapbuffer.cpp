@@ -22,6 +22,7 @@
 #include "int_id.h"
 #include "line.h"
 #include "map.h"
+#include "memory_fast.h"
 #include "mongroup.h"
 #include "monster.h"
 #include "npc.h"

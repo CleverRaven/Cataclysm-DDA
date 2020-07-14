@@ -1,8 +1,9 @@
-#include <string>
+#include <memory>
 
 #include "behavior.h"
 #include "game.h"
 #include "map.h"
+#include "mapdata.h"
 #include "monster.h"
 #include "monster_oracle.h"
 

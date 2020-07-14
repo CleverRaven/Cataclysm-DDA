@@ -1,10 +1,8 @@
 #include "teleport.h"
 
-#include <cmath>
 #include <memory>
 
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "creature.h"
 #include "debug.h"

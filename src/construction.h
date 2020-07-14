@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CONSTRUCTION_H
 #define CATA_SRC_CONSTRUCTION_H
 
-#include <algorithm>
 #include <functional>
 #include <list>
 #include <map>
@@ -18,6 +17,7 @@
 class inventory;
 class player;
 struct construction;
+struct point;
 
 namespace catacurses
 {

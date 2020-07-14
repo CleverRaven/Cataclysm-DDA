@@ -3,7 +3,6 @@
 #define CATA_SRC_IUSE_SOFTWARE_LIGHTSON_H
 
 #include <vector>
-#include <utility>
 
 #include "cursesdef.h"
 #include "point.h"

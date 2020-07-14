@@ -1,19 +1,24 @@
+#include <functional>
+#include <map>
 #include <memory>
+#include <string>
 
 #include "achievement.h"
 #include "avatar.h"
+#include "calendar.h"
 #include "cata_variant.h"
 #include "catch/catch.hpp"
+#include "character.h"
 #include "character_id.h"
 #include "event.h"
 #include "event_bus.h"
 #include "event_statistics.h"
 #include "game.h"
+#include "game_constants.h"
+#include "options_helpers.h"
 #include "stats_tracker.h"
 #include "string_id.h"
-#include "stringmaker.h"
 #include "type_id.h"
-#include "options_helpers.h"
 
 TEST_CASE( "stats_tracker_count_events", "[stats]" )
 {

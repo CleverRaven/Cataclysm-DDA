@@ -25,6 +25,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "memory_fast.h"
 #include "output.h"
 #include "player.h"
 #include "string_formatter.h"

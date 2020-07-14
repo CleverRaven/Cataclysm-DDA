@@ -3,6 +3,7 @@
 #define CATA_SRC_REGIONAL_SETTINGS_H
 
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>

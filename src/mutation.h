@@ -3,6 +3,7 @@
 #define CATA_SRC_MUTATION_H
 
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -14,17 +15,16 @@
 #include "character.h"
 #include "damage.h"
 #include "hash_utils.h"
-#include "memory_fast.h"
 #include "optional.h"
 #include "point.h"
 #include "translations.h"
 #include "type_id.h"
+#include "value_ptr.h"
 
 class JsonObject;
 class Trait_group;
 class item;
 class nc_color;
-class player;
 struct dream;
 template <typename E> struct enum_traits;
 template <typename T> class string_id;

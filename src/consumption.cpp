@@ -26,6 +26,7 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "options.h"
+#include "pldata.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"

@@ -1,7 +1,10 @@
 #include "scores_ui.h"
 
+#include <algorithm>
 #include <cassert>
+#include <iterator>
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 

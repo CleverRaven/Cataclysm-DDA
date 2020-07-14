@@ -2,14 +2,11 @@
 
 #include <algorithm>
 #include <array>
-#include <bitset>
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
-#include <limits>
 #include <map>
 #include <memory>
-#include <ostream>
 #include <string>
 #include <unordered_map>
 
@@ -22,13 +19,12 @@
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character_martial_arts.h"
+#include "clzones.h"
 #include "craft_command.h"
-#include "cursesdef.h"
+#include "damage.h"
 #include "debug.h"
 #include "effect.h"
 #include "enums.h"
-#include "event.h"
-#include "event_bus.h"
 #include "faction.h"
 #include "fault.h"
 #include "field_type.h"
@@ -44,13 +40,10 @@
 #include "itype.h"
 #include "lightmap.h"
 #include "line.h"
-#include "magic.h"
-#include "magic_enchantment.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
-#include "math_defines.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale.h"
@@ -62,6 +55,8 @@
 #include "overmap_types.h"
 #include "overmapbuffer.h"
 #include "pickup.h"
+#include "player_activity.h"
+#include "pldata.h"
 #include "profession.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"

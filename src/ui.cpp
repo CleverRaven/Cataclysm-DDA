@@ -18,7 +18,6 @@
 #include "output.h"
 #include "player.h"
 #include "string_input_popup.h"
-#include "translations.h"
 #include "ui_manager.h"
 
 #if defined(__ANDROID__)

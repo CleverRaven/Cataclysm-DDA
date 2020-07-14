@@ -20,7 +20,6 @@
 #include "item.h"
 #include "json.h"
 #include "line.h"
-#include "memory_fast.h"
 #include "npc.h"
 #include "optional.h"
 #include "output.h"

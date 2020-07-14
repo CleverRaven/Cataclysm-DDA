@@ -12,7 +12,6 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "json.h"
-#include "player.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "translations.h"

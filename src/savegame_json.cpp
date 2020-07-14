@@ -73,7 +73,6 @@
 #include "map_memory.h"
 #include "mapdata.h"
 #include "mattack_common.h"
-#include "memory_fast.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"

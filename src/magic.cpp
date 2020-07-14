@@ -38,7 +38,6 @@
 #include "mtype.h"
 #include "mutation.h"
 #include "output.h"
-#include "character.h"
 #include "pldata.h"
 #include "point.h"
 #include "rng.h"

@@ -1,11 +1,12 @@
 #include <array>
 #include <list>
 #include <memory>
+#include <string>
 
 #include "behavior.h"
-#include "character_oracle.h"
 #include "bodypart.h"
 #include "character.h"
+#include "character_oracle.h"
 #include "inventory.h"
 #include "item.h"
 #include "itype.h"

@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <iterator>
 #include <map>
 #include <memory>
 #include <string>

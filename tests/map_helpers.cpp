@@ -17,8 +17,6 @@
 #include "point.h"
 #include "type_id.h"
 
-class vehicle;
-
 // Remove all vehicles from the map
 void clear_vehicles()
 {

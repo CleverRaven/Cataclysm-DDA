@@ -28,7 +28,6 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "mattack_common.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monfaction.h"
 #include "monster_oracle.h"

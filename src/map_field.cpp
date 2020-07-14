@@ -12,6 +12,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "basecamp.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"

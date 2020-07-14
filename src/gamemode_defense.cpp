@@ -8,6 +8,7 @@
 
 #include "action.h"
 #include "avatar.h"
+#include "basecamp.h"
 #include "color.h"
 #include "construction.h"
 #include "coordinate_conversions.h"

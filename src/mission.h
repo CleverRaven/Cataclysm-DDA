@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_MISSION_H
 #define CATA_SRC_MISSION_H
 
-#include <algorithm>
 #include <functional>
 #include <map>
 #include <string>
@@ -14,6 +13,7 @@
 #include "character_id.h"
 #include "enums.h"
 #include "game_constants.h"
+#include "mtype.h"
 #include "npc_favor.h"
 #include "omdata.h"
 #include "optional.h"

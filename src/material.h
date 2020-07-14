@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_MATERIAL_H
 #define CATA_SRC_MATERIAL_H
 
-#include <algorithm>
 #include <cstddef>
 #include <map>
 #include <set>

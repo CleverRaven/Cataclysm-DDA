@@ -2,13 +2,13 @@
 #ifndef CATA_SRC_ACTIVITY_ACTOR_H
 #define CATA_SRC_ACTIVITY_ACTOR_H
 
-#include <algorithm>
 #include <memory>
 #include <unordered_map>
 #include <vector>
 
 #include "clone_ptr.h"
 #include "item_location.h"
+#include "optional.h"
 #include "point.h"
 #include "type_id.h"
 

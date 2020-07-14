@@ -2,12 +2,12 @@
 #ifndef CATA_SRC_VEHICLE_GROUP_H
 #define CATA_SRC_VEHICLE_GROUP_H
 
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <vector>
 
 #include "mapgen.h"
-#include "memory_fast.h"
 #include "optional.h"
 #include "rng.h"
 #include "string_id.h"

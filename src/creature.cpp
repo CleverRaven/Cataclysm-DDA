@@ -36,7 +36,6 @@
 #include "optional.h"
 #include "output.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"

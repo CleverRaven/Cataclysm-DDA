@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_START_LOCATION_H
 #define CATA_SRC_START_LOCATION_H
 
-#include <algorithm>
 #include <cstddef>
 #include <set>
 #include <string>

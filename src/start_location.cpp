@@ -5,6 +5,7 @@
 #include <memory>
 
 #include "avatar.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "coordinate_conversions.h"
 #include "debug.h"

@@ -35,7 +35,6 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapbuffer.h"
-#include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"

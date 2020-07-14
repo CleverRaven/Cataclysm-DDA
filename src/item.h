@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_ITEM_H
 #define CATA_SRC_ITEM_H
 
-#include <algorithm>
 #include <climits>
 #include <cstdint>
 #include <functional>
@@ -43,6 +42,7 @@ class gunmod_location;
 class item;
 class iteminfo_query;
 class material_type;
+class monster;
 class nc_color;
 class player;
 class recipe;

@@ -3,6 +3,7 @@
 #define CATA_SRC_AVATAR_H
 
 #include <cstddef>
+#include <memory>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -13,15 +14,14 @@
 #include "item.h"
 #include "magic_teleporter_list.h"
 #include "map_memory.h"
-#include "memory_fast.h"
 #include "player.h"
+#include "pldata.h"
 #include "point.h"
-
-class faction;
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class faction;
 class mission;
 class monster;
 class npc;

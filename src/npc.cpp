@@ -60,7 +60,6 @@
 #include "rng.h"
 #include "skill.h"
 #include "sounds.h"
-#include "stomach.h"
 #include "string_formatter.h"
 #include "text_snippets.h"
 #include "tileray.h"

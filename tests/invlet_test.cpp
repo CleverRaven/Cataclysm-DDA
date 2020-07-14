@@ -6,8 +6,8 @@
 #include <string>
 #include <unordered_map>
 #include <utility>
-#include <vector>
 
+#include "activity_actor.h"
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "game.h"

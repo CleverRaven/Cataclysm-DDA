@@ -2,19 +2,16 @@
 #ifndef CATA_SRC_SCENARIO_H
 #define CATA_SRC_SCENARIO_H
 
-#include <algorithm>
 #include <set>
 #include <string>
 #include <vector>
 
-#include "pldata.h"
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
 class JsonObject;
 class profession;
-
 template<typename T>
 class generic_factory;
 

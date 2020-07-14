@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_ORACLE_H
 #define CATA_SRC_CHARACTER_ORACLE_H
 
+#include "behavior.h"
 #include "behavior_oracle.h"
 
 class Character;

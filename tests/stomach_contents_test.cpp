@@ -1,16 +1,19 @@
 #include <cstdio>
 #include <memory>
+#include <string>
+#include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "calendar.h"
+#include "catch/catch.hpp"
 #include "game.h"
+#include "item.h"
 #include "player.h"
 #include "player_helpers.h"
-#include "item.h"
 #include "stomach.h"
-#include "units.h"
+#include "string_formatter.h"
 #include "type_id.h"
+#include "units.h"
 
 static void reset_time()
 {

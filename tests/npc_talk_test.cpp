@@ -4,7 +4,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "basecamp.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
 #include "character.h"
@@ -21,6 +20,7 @@
 #include "map_helpers.h"
 #include "mission.h"
 #include "npc.h"
+#include "npc_favor.h"
 #include "npctalk.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
@@ -28,7 +28,6 @@
 #include "player_helpers.h"
 #include "point.h"
 #include "string_id.h"
-#include "stringmaker.h"
 #include "type_id.h"
 
 static const efftype_id effect_gave_quest_item( "gave_quest_item" );

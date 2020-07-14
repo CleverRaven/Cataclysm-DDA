@@ -1,16 +1,19 @@
+#include <algorithm>
 #include <memory>
+#include <set>
 #include <string>
+#include <utility>
 #include <vector>
 
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
-#include "debug.h"
-#include "options.h"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"
+#include "options.h"
+#include "recipe.h"
 #include "recipe_dictionary.h"
 #include "skill.h"
 #include "type_id.h"

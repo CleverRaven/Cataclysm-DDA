@@ -35,6 +35,7 @@
 #include "map.h"
 #include "map_selector.h"
 #include "messages.h"
+#include "optional.h"
 #include "options.h"
 #include "output.h"
 #include "panels.h"

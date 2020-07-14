@@ -11,6 +11,7 @@
 #include <limits>
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -18,6 +19,7 @@
 #include <utility>
 #include <vector>
 
+#include "action.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -25,6 +27,7 @@
 #include "character_martial_arts.h"
 #include "color.h"
 #include "creature.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
@@ -57,6 +60,7 @@ class SkillLevel;
 class SkillLevelMap;
 class bionic_collection;
 class faction;
+class ma_technique;
 class player;
 class player_morale;
 class vehicle;
@@ -69,6 +73,7 @@ struct mutation_branch;
 struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
+struct trap;
 template <typename E> struct enum_traits;
 
 using drop_location = std::pair<item_location, int>;

@@ -9,6 +9,7 @@
 #include <iterator>
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -30,7 +31,6 @@
 #include "item_location.h"
 #include "line.h"
 #include "lru_cache.h"
-#include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player.h"

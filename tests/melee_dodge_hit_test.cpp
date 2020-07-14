@@ -1,11 +1,19 @@
-#include "avatar.h"
-#include "game.h"
-#include "monster.h"
-#include "type_id.h"
+#include <list>
+#include <memory>
+#include <string>
 
+#include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
-#include "player_helpers.h"
+#include "creature.h"
+#include "game.h"
+#include "item.h"
 #include "map_helpers.h"
+#include "monster.h"
+#include "mtype.h"
+#include "player_helpers.h"
+#include "point.h"
+#include "type_id.h"
 
 // The test cases below cover polymorphic functions related to melee hit and dodge rates
 // for the Character, player, and monster classes, including:

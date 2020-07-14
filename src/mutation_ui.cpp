@@ -6,7 +6,6 @@
 #include <unordered_map>
 
 #include "enums.h"
-#include "game.h"
 #include "input.h"
 #include "inventory.h"
 #include "mutation.h"
@@ -16,6 +15,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "value_ptr.h"
 
 // '!' and '=' are uses as default bindings in the menu
 const invlet_wrapper

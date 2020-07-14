@@ -5,7 +5,6 @@
 #include "calendar.h"
 #include "catch/catch.hpp"
 #include "character.h"
-#include "flat_set.h"
 #include "item.h"
 #include "itype.h"
 #include "ret_val.h"

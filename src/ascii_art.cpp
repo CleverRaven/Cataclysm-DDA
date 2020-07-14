@@ -1,7 +1,13 @@
 #include "ascii_art.h"
 
+#include <set>
+
 #include "assign.h"
+#include "catacharset.h"
+#include "debug.h"
 #include "generic_factory.h"
+#include "output.h"
+#include "string_id.h"
 
 static const int ascii_art_width = 42;
 

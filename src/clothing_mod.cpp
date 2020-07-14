@@ -1,5 +1,6 @@
 #include "clothing_mod.h"
 
+#include <algorithm>
 #include <cmath>
 #include <map>
 #include <set>

@@ -14,7 +14,6 @@
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"

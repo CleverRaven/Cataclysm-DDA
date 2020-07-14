@@ -1,17 +1,18 @@
+#include <algorithm>
 #include <cstdlib>
-#include <utility>
+#include <memory>
 
 #include "avatar.h"
-#include "calendar.h"
-#include "creature.h"
+#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "melee.h"
-#include "player.h"
+#include "monster.h"
+#include "player_helpers.h"
+#include "ret_val.h"
 #include "type_id.h"
 
-#include "catch/catch.hpp"
-#include "player_helpers.h"
+struct itype;
 
 // Run a large number of trials of a player attacking a monster with a given weapon,
 // and return the average damage done per second.

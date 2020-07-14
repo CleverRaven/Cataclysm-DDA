@@ -11,7 +11,6 @@
 #include <memory>
 #include <set>
 #include <string>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -24,7 +23,6 @@
 #include "colony.h"
 #include "color.h"
 #include "craft_command.h"
-#include "crafting.h"
 #include "crafting_gui.h"
 #include "debug.h"
 #include "enums.h"
@@ -44,7 +42,6 @@
 #include "iuse.h"
 #include "line.h"
 #include "map.h"
-#include "map_iterator.h"
 #include "map_selector.h"
 #include "mapdata.h"
 #include "messages.h"
@@ -74,7 +71,6 @@
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "vpart_position.h"
-#include "weather.h"
 
 static const activity_id ACT_CRAFT( "ACT_CRAFT" );
 static const activity_id ACT_DISASSEMBLE( "ACT_DISASSEMBLE" );

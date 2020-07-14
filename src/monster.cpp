@@ -1,7 +1,7 @@
 #include "monster.h"
 
 #include <algorithm>
-#include <cmath>
+#include <limits>
 #include <memory>
 #include <tuple>
 #include <unordered_map>

@@ -1,40 +1,41 @@
 #include "vehicle.h" // IWYU pragma: associated
 
+#include <assert.h>
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <set>
 #include <memory>
 #include <ostream>
+#include <set>
 
 #include "avatar.h"
+#include "bodypart.h"
+#include "creature.h"
 #include "debug.h"
+#include "enums.h"
 #include "explosion.h"
 #include "game.h"
+#include "int_id.h"
 #include "item.h"
 #include "itype.h"
 #include "map.h"
-#include "mapdata.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "material.h"
+#include "math_defines.h"
 #include "messages.h"
+#include "monster.h"
+#include "optional.h"
 #include "options.h"
+#include "player.h"
+#include "rng.h"
 #include "sounds.h"
+#include "string_id.h"
 #include "translations.h"
 #include "trap.h"
 #include "veh_type.h"
-#include "bodypart.h"
-#include "creature.h"
-#include "math_defines.h"
-#include "optional.h"
-#include "player.h"
-#include "rng.h"
 #include "vpart_position.h"
-#include "string_id.h"
-#include "enums.h"
-#include "int_id.h"
-#include "monster.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 

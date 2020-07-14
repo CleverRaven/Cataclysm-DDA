@@ -32,6 +32,7 @@
 #include "type_id.h"
 #include "weather.h"
 
+class Character;
 class Creature_tracker;
 class item;
 class spell_events;
@@ -119,9 +120,8 @@ class loading_ui;
 class overmap;
 class scent_map;
 class timed_event_manager;
-struct visibility_variables;
-
 class ui_adaptor;
+struct visibility_variables;
 
 using item_filter = std::function<bool ( const item & )>;
 

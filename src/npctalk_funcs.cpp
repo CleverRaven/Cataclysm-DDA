@@ -29,7 +29,6 @@
 #include "line.h"
 #include "magic.h"
 #include "map.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "mission.h"
 #include "monster.h"

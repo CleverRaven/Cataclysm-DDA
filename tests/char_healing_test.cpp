@@ -1,12 +1,14 @@
 #include <string>
 
 #include "avatar.h"
-#include "effect.h"
+#include "bodypart.h"
+#include "calendar.h"
+#include "catch/catch.hpp"
+#include "character.h"
+#include "int_id.h"
 #include "options.h"
 #include "player.h"
 #include "type_id.h"
-
-#include "catch/catch.hpp"
 
 // Tests for Character healing, including:
 //

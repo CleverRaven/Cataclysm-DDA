@@ -1,10 +1,20 @@
 #include "achievement.h"
 
-#include "avatar.h"
+#include <assert.h>
+#include <stdlib.h>
+#include <set>
+#include <tuple>
+#include <utility>
+
+#include "color.h"
+#include "debug.h"
 #include "enums.h"
+#include "event.h"
 #include "event_statistics.h"
 #include "generic_factory.h"
+#include "json.h"
 #include "stats_tracker.h"
+#include "string_formatter.h"
 
 // Some details about how achievements work
 // ========================================

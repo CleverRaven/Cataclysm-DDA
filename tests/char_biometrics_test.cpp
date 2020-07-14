@@ -3,12 +3,10 @@
 #include "avatar.h"
 #include "catch/catch.hpp"
 #include "creature.h"
-#include "game_constants.h"
 #include "options.h"
 #include "player.h"
 #include "player_helpers.h"
 #include "type_id.h"
-#include "units.h"
 
 // Clear player traits and give them a single trait by name
 static void set_single_trait( player &dummy, std::string trait_name )

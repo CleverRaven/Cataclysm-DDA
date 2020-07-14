@@ -16,6 +16,10 @@
 
 #include <memory>
 
+#include "SDL.h"
+#include "SDL_image.h"
+#include "SDL_ttf.h"
+
 struct point;
 
 struct SDL_Renderer_deleter {

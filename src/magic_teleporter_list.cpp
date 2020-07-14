@@ -1,5 +1,6 @@
 #include "magic_teleporter_list.h"
 
+#include <stddef.h>
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -11,6 +12,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "coordinate_conversions.h"
+#include "cursesdef.h"
 #include "enums.h"
 #include "game.h"
 #include "json.h"

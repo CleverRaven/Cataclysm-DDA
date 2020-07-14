@@ -1,15 +1,21 @@
 #include "mutation.h"
 
+#include <math.h>
 #include <algorithm>
 #include <cstdlib>
+#include <iterator>
 #include <memory>
+#include <numeric>
 #include <unordered_set>
 
 #include "avatar_action.h"
+#include "basecamp.h"
 #include "bionics.h"
 #include "character.h"
+#include "color.h"
 #include "creature.h"
 #include "debug.h"
+#include "effect.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -21,6 +27,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
+#include "math_defines.h"
 #include "memorial_logger.h"
 #include "monster.h"
 #include "omdata.h"
@@ -32,6 +39,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "weighted_list.h"
 
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
 

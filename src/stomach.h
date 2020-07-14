@@ -6,9 +6,7 @@
 
 #include "calendar.h"
 #include "type_id.h"
-#include "units.h"
 
-class Character;
 class JsonIn;
 class JsonOut;
 struct needs_rates;

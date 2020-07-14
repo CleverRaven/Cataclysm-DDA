@@ -77,6 +77,7 @@
 #include "init.h"
 #include "input.h"
 #include "int_id.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
@@ -157,7 +158,6 @@
 #include "worldfactory.h"
 
 class computer;
-class inventory;
 
 #if defined(TILES)
 #include "cata_tiles.h"

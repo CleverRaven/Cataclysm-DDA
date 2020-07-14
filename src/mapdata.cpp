@@ -17,6 +17,7 @@
 #include "harvest.h"
 #include "iexamine.h"
 #include "int_id.h"
+#include "item.h"
 #include "item_group.h"
 #include "json.h"
 #include "output.h"

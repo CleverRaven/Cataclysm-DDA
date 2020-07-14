@@ -5,7 +5,6 @@
 
 #include "bodypart.h"
 #include "catch/catch.hpp"
-#include "debug.h"
 #include "string_formatter.h"
 #include "type_id.h"
 

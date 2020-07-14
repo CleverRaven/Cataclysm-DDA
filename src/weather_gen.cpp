@@ -1,7 +1,6 @@
 #include "weather_gen.h"
 
 #include <algorithm>
-#include <chrono>
 #include <cmath>
 #include <ostream>
 #include <random>

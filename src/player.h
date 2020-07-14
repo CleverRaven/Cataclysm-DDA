@@ -6,6 +6,7 @@
 #include <functional>
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -21,17 +22,13 @@
 #include "craft_command.h"
 #include "creature.h"
 #include "cursesdef.h"
-#include "damage.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
 #include "item_location.h"
-#include "memory_fast.h"
 #include "monster.h"
 #include "optional.h"
 #include "pimpl.h"
-#include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "ret_val.h"
 #include "string_id.h"
@@ -44,7 +41,7 @@ class inventory;
 class map;
 class npc;
 class recipe;
-struct pathfinding_settings;
+struct damage_unit;
 struct requirement_data;
 
 enum class recipe_filter_flags : int;
@@ -69,7 +66,6 @@ struct trap;
 
 nc_color encumb_color( int level );
 enum game_message_type : int;
-class ma_technique;
 class vehicle;
 struct item_comp;
 struct tool_comp;

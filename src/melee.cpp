@@ -11,7 +11,6 @@
 #include <memory>
 #include <set>
 #include <string>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -38,7 +37,6 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monattack.h"
 #include "monster.h"

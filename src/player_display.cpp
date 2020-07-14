@@ -19,6 +19,7 @@
 #include "mutation.h"
 #include "options.h"
 #include "output.h"
+#include "pldata.h"
 #include "profession.h"
 #include "skill.h"
 #include "string_formatter.h"

@@ -11,6 +11,7 @@
 #include "game.h"
 #include "generic_factory.h"
 #include "gun_mode.h"
+#include "int_id.h"
 #include "item.h"
 #include "json.h"
 #include "line.h"

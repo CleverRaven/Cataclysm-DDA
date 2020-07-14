@@ -17,6 +17,7 @@
 #include "coordinate_conversions.h"
 #include "creature_tracker.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "faction.h"
 #include "hash_utils.h"
 #include "int_id.h"

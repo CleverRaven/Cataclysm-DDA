@@ -1,19 +1,19 @@
 #include "player.h" // IWYU pragma: associated
 
 #include <array>
-#include <cmath>
 #include <cstdlib>
 #include <memory>
 
 #include "activity_handlers.h"
 #include "avatar.h"
+#include "damage.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
-#include "fungal_effects.h"
 #include "game.h"
+#include "int_id.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -21,13 +21,14 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "player_activity.h"
+#include "pldata.h"
 #include "rng.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
 #include "teleport.h"
 #include "translations.h"
-#include "units.h"
 #include "weather.h"
 
 #if defined(TILES)

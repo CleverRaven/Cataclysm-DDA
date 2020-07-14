@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <sstream>
+#include <type_traits>
 #include <utility>
 
 #include "avatar.h"

@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 #define CATA_SRC_CHARACTER_MARTIAL_ARTS_H
 
-#include <algorithm>
 #include <string>
 #include <vector>
 

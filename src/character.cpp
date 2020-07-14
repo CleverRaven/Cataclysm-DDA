@@ -8,6 +8,7 @@
 #include <iterator>
 #include <memory>
 #include <numeric>
+#include <ostream>
 #include <type_traits>
 
 #include "action.h"
@@ -17,7 +18,9 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "clzones.h"
 #include "colony.h"
+#include "compatibility.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
 #include "debug.h"
@@ -25,7 +28,6 @@
 #include "effect.h"
 #include "event.h"
 #include "event_bus.h"
-#include "faction.h"
 #include "field.h"
 #include "field_type.h"
 #include "fire.h"
@@ -45,6 +47,7 @@
 #include "map_selector.h"
 #include "mapdata.h"
 #include "material.h"
+#include "math_defines.h"
 #include "memorial_logger.h"
 #include "messages.h"
 #include "mission.h"

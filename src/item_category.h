@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_ITEM_CATEGORY_H
 #define CATA_SRC_ITEM_CATEGORY_H
 
-#include <algorithm>
 #include <string>
 #include <vector>
 

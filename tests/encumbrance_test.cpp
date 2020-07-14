@@ -6,16 +6,15 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
-#include "game.h"
-#include "npc.h"
-#include "player.h"
 #include "bodypart.h"
+#include "catch/catch.hpp"
 #include "character.h"
+#include "game.h"
 #include "item.h"
 #include "material.h"
+#include "npc.h"
+#include "player.h"
 #include "type_id.h"
-#include "debug.h"
 
 static void test_encumbrance_on(
     player &p,

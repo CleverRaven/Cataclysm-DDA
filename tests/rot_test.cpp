@@ -1,14 +1,14 @@
-#include <cstdlib>
 #include <memory>
 
 #include "calendar.h"
 #include "catch/catch.hpp"
-#include "map.h"
+#include "enums.h"
 #include "game.h"
 #include "item.h"
+#include "map.h"
+#include "map_helpers.h"
 #include "point.h"
 #include "weather.h"
-#include "map_helpers.h"
 
 static void set_map_temperature( int new_temperature )
 {

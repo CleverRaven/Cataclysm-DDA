@@ -1,7 +1,7 @@
 #include "mtype.h"
 
 #include <algorithm>
-#include <cmath>
+#include <unordered_map>
 
 #include "behavior_strategy.h"
 #include "creature.h"
@@ -10,6 +10,7 @@
 #include "itype.h"
 #include "mondeath.h"
 #include "monstergenerator.h"
+#include "string_id.h"
 #include "translations.h"
 
 static const species_id MOLLUSK( "MOLLUSK" );

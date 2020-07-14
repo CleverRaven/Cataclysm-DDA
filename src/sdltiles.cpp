@@ -19,6 +19,7 @@
 #include <set>
 #include <stdexcept>
 #include <type_traits>
+#include <unordered_map>
 #include <vector>
 #if defined(_MSC_VER) && defined(USE_VCPKG)
 #   include <SDL2/SDL_image.h>

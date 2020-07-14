@@ -2,16 +2,14 @@
 #ifndef CATA_SRC_PANELS_H
 #define CATA_SRC_PANELS_H
 
-#include <cstddef>
 #include <functional>
 #include <map>
 #include <string>
 #include <vector>
 
-class avatar;
 class JsonIn;
 class JsonOut;
-
+class avatar;
 struct point;
 struct tripoint;
 

@@ -9,6 +9,7 @@
 #include <memory>
 #include <stdexcept>
 #include <type_traits>
+#include <unordered_set>
 
 #include "addiction.h"
 #include "ammo.h"
@@ -36,7 +37,6 @@
 #include "material.h"
 #include "optional.h"
 #include "options.h"
-#include "output.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "relic.h"

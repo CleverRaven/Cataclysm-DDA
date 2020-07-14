@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_MAP_ITEM_STACK_H
 #define CATA_SRC_MAP_ITEM_STACK_H
 
-#include <algorithm>
 #include <string>
 #include <vector>
 

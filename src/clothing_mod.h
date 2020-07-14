@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_CLOTHING_MOD_H
 #define CATA_SRC_CLOTHING_MOD_H
 
-#include <algorithm>
 #include <array>
 #include <cstddef>
 #include <string>

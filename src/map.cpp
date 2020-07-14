@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cassert>
 #include <climits>
-#include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <limits>
@@ -87,6 +86,7 @@
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"

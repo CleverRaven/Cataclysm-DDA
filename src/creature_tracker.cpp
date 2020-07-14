@@ -10,6 +10,7 @@
 #include "mongroup.h"
 #include "monster.h"
 #include "mtype.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "type_id.h"
 

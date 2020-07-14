@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <bitset>
-#include <climits>
 #include <cstddef>
 #include <functional>
 #include <map>

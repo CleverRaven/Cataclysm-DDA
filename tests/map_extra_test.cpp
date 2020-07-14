@@ -1,9 +1,20 @@
 ﻿#include <algorithm>
+#include <array>
+#include <string>
+#include <utility>
+#include <vector>
 
-#include "coordinate_conversions.h"
 #include "catch/catch.hpp"
-#include "overmapbuffer.h"
+#include "coordinate_conversions.h"
+#include "enums.h"
+#include "map.h"
 #include "map_extras.h"
+#include "omdata.h"
+#include "overmap.h"
+#include "overmapbuffer.h"
+#include "point.h"
+#include "string_id.h"
+#include "type_id.h"
 
 TEST_CASE( "mx_minefield real spawn", "[map_extra][overmap]" )
 {

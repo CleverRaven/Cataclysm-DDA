@@ -2,6 +2,7 @@
 
 #include <array>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
 #include <iosfwd>
 #include <iterator>
@@ -13,14 +14,13 @@
 #include "action.h"
 #include "avatar.h"
 #include "behavior.h"
-#include "behavior_oracle.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "character.h"
-#include "character_oracle.h"
 #include "character_martial_arts.h"
+#include "character_oracle.h"
 #include "color.h"
 #include "compatibility.h"
 #include "cursesdef.h"

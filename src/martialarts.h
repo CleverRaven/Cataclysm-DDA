@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_MARTIALARTS_H
 #define CATA_SRC_MARTIALARTS_H
 
-#include <algorithm>
 #include <cstddef>
 #include <set>
 #include <string>

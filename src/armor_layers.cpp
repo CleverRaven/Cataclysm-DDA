@@ -20,6 +20,7 @@
 #include "item.h"
 #include "line.h"
 #include "output.h"
+#include "player_activity.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"

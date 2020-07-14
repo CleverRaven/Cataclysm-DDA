@@ -21,6 +21,7 @@
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
+#include "stomach.h"
 #include "string_id.h"
 #include "type_id.h"
 

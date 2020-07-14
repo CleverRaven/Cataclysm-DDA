@@ -4,6 +4,7 @@
 #include <clocale>
 #include <cstdlib>
 #include <functional>
+#include <locale>
 
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that

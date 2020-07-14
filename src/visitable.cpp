@@ -10,7 +10,6 @@
 
 #include "active_item_cache.h"
 #include "bionics.h"
-#include "mutation.h"
 #include "character.h"
 #include "colony.h"
 #include "debug.h"
@@ -20,9 +19,9 @@
 #include "item_contents.h"
 #include "map.h"
 #include "map_selector.h"
-#include "memory_fast.h"
 #include "monster.h"
 #include "mtype.h"
+#include "mutation.h"
 #include "pimpl.h"
 #include "player.h"
 #include "point.h"

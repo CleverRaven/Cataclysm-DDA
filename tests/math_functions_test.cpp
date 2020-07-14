@@ -1,9 +1,8 @@
-#include <cstddef>
 #include <cmath>
-#include <random>
+#include <cstddef>
 
-#include "catch/catch.hpp"
 #include "cata_utility.h"
+#include "catch/catch.hpp"
 #include "rng.h"
 
 TEST_CASE( "fast_floor", "[math]" )

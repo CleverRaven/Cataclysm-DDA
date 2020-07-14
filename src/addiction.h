@@ -7,7 +7,6 @@
 #include "pldata.h"
 #include "type_id.h"
 
-class addiction;
 class Character;
 
 // Minimum intensity before effects are seen

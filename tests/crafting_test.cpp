@@ -12,6 +12,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catch/catch.hpp"
+#include "crafting.h"
 #include "game.h"
 #include "item.h"
 #include "itype.h"

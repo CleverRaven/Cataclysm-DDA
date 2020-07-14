@@ -7,11 +7,13 @@
 #include <stdexcept>
 #include <vector>
 
+#include "assign.h"
 #include "bodypart.h"
 #include "color.h"
 #include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
+#include "memory_fast.h"
 #include "string_formatter.h"
 #include "string_id.h"
 #include "trait_group.h"

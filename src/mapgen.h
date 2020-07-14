@@ -9,7 +9,6 @@
 #include <utility>
 #include <vector>
 
-#include "memory_fast.h"
 #include "point.h"
 #include "regional_settings.h"
 #include "type_id.h"

@@ -36,7 +36,6 @@
 #include "units.h"
 
 struct scent_block;
-template <typename T> class safe_reference;
 template <typename T> class string_id;
 
 namespace catacurses
@@ -63,7 +62,6 @@ class zone_data;
 struct fragment_cloud;
 struct maptile;
 struct partial_con;
-struct rl_vec2d;
 struct trap;
 
 enum class special_item_type : int;

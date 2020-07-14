@@ -2,7 +2,6 @@
 #ifndef CATA_SRC_PROFESSION_H
 #define CATA_SRC_PROFESSION_H
 
-#include <algorithm>
 #include <list>
 #include <map>
 #include <set>

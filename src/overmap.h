@@ -10,6 +10,8 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
+#include <memory>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -18,9 +20,7 @@
 #include "basecamp.h"
 #include "enums.h"
 #include "game_constants.h"
-#include "memory_fast.h"
 #include "mongroup.h"
-#include "monster.h"
 #include "omdata.h"
 #include "optional.h"
 #include "overmap_types.h" // IWYU pragma: keep
@@ -35,6 +35,7 @@ class JsonObject;
 class JsonOut;
 class character_id;
 class map_extra;
+class monster;
 class npc;
 class overmap_connection;
 template <typename E> struct enum_traits;

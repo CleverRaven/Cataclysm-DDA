@@ -1,5 +1,6 @@
 #include "options.h"
 
+#include <locale.h>
 #include <cfloat>
 #include <climits>
 #include <iterator>
@@ -17,6 +18,7 @@
 #include "game_constants.h"
 #include "input.h"
 #include "json.h"
+#include "line.h"
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"

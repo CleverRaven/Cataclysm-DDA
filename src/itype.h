@@ -3,8 +3,10 @@
 #define CATA_SRC_ITYPE_H
 
 #include <array>
+#include <iosfwd>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -17,6 +19,7 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "iuse.h" // use_function
+#include "json.h"
 #include "optional.h"
 #include "pldata.h" // add_type
 #include "relic.h"
@@ -29,6 +32,10 @@
 class Item_factory;
 class item;
 class player;
+namespace std
+{
+template <typename _Tp> struct hash;
+}  // namespace std
 struct tripoint;
 template <typename E> struct enum_traits;
 

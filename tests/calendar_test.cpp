@@ -1,6 +1,6 @@
 #include "calendar.h"
+
 #include "catch/catch.hpp"
-#include "options_helpers.h"
 
 TEST_CASE( "moon_phases_take_28_days", "[calendar]" )
 {

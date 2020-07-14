@@ -1,9 +1,11 @@
 #include "magic_enchantment.h"
 
+#include <algorithm>
 #include <cstdlib>
 #include <memory>
 #include <set>
 
+#include "bodypart.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"

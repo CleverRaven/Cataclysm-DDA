@@ -35,7 +35,6 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "math_defines.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"

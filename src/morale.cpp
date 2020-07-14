@@ -4,7 +4,6 @@
 #include <array>
 #include <cmath>
 #include <cstdlib>
-#include <memory>
 #include <numeric>
 #include <set>
 #include <utility>
@@ -23,6 +22,7 @@
 #include "options.h"
 #include "output.h"
 #include "point.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
 

@@ -1,10 +1,12 @@
 #include <algorithm>
-#include <sstream>
 #include <map>
+#include <sstream>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
 #include "mutation.h"
 #include "npc.h"

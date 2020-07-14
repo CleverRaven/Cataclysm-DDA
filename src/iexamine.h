@@ -7,15 +7,14 @@
 #include <tuple>
 #include <vector>
 
-#include "itype.h"
 #include "calendar.h"
+#include "itype.h"
 #include "optional.h"
 #include "ret_val.h"
 #include "type_id.h"
 
 class item;
 class player;
-class vpart_reference;
 struct tripoint;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;

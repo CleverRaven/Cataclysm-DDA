@@ -1,6 +1,7 @@
 #include "iexamine.h"
 
 #include <algorithm>
+#include <array>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -11,8 +12,8 @@
 #include <type_traits>
 #include <utility>
 
-#include "ammo.h"
 #include "activity_actor.h"
+#include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -88,8 +89,6 @@
 #include "uistate.h"
 #include "units.h"
 #include "value_ptr.h"
-#include "vehicle.h"
-#include "vehicle_selector.h"
 #include "vpart_position.h"
 #include "weather.h"
 

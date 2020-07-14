@@ -25,6 +25,7 @@
 #include "options.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "point.h"
 #include "regional_settings.h"
 #include "rng.h"
 #include "sounds.h"

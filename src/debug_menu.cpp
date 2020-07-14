@@ -85,12 +85,12 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
-#include "units.h"
 #include "veh_type.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weighted_list.h"
 
 static const efftype_id effect_asthma( "asthma" );
 

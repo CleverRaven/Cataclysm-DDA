@@ -14,6 +14,7 @@
 #include <set>
 #include <sstream>
 #include <tuple>
+#include <unordered_set>
 
 #include "advanced_inv.h"
 #include "ammo.h"
@@ -27,6 +28,7 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "clothing_mod.h"
+#include "clzones.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "craft_command.h"
@@ -60,6 +62,7 @@
 #include "martialarts.h"
 #include "material.h"
 #include "messages.h"
+#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"

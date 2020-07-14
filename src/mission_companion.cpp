@@ -41,6 +41,7 @@
 #include "mapbuffer.h"
 #include "mapdata.h"
 #include "material.h"
+#include "memory_fast.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"

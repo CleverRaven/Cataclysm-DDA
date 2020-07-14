@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 
+#include "activity_actor.h"
 #include "avatar.h"
 #include "character.h"
 #include "colony.h"

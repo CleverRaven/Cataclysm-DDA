@@ -1,13 +1,13 @@
-#include "item.h"
-#include "itype.h"
-#include "recipe.h"
-#include "recipe_dictionary.h"
-
-#include <algorithm>
-#include <cstddef>
-#include <memory>
+#include <map>
+#include <set>
+#include <string>
+#include <utility>
 
 #include "catch/catch.hpp"
+#include "item.h"
+#include "recipe.h"
+#include "recipe_dictionary.h"
+#include "type_id.h"
 
 TEST_CASE( "No book grant a recipe at skill levels above autolearn", "[recipe]" )
 {

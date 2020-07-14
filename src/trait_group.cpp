@@ -9,7 +9,6 @@
 #include "compatibility.h"
 #include "debug.h"
 #include "json.h"
-#include "memory_fast.h"
 #include "mutation.h"
 #include "rng.h"
 #include "string_formatter.h"

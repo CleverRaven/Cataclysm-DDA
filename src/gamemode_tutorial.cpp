@@ -22,7 +22,6 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "pldata.h"
 #include "point.h"
 #include "profession.h"
