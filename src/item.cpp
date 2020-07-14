@@ -589,7 +589,9 @@ units::energy item::set_energy( const units::energy &qty )
 item &item::ammo_set( const itype_id &ammo, int qty )
 {
     if( !ammo->ammo ) {
-        debugmsg( "can't set ammo %s in %s as it is not an ammo", ammo.c_str(), type_name() );
+        if( !has_flag( flag_USES_BIONIC_POWER ) ) {
+            debugmsg( "can't set ammo %s in %s as it is not an ammo", ammo.c_str(), type_name() );
+        }
         return *this;
     }
     const ammotype &ammo_type = ammo->ammo->type;
@@ -7363,6 +7365,8 @@ int item::ammo_capacity( const ammotype &ammo ) const
     const item *mag = magazine_current();
     if( mag ) {
         return mag->ammo_capacity( ammo );
+    } else if( has_flag( flag_USES_BIONIC_POWER ) ) {
+        return units::to_kilojoule( get_player_character().get_max_power_level() );
     }
 
     return contents.ammo_capacity( ammo );

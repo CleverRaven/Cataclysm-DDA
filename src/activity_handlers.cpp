@@ -288,6 +288,7 @@ static const std::string flag_SKINNED( "SKINNED" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 static const std::string flag_TREE( "TREE" );
+static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 
 using namespace activity_handlers;
 
@@ -2689,15 +2690,23 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                                            repair_item_actor::action_description( action_type ),
                                            fix.tname() );
         ammotype current_ammo;
-        if( used_tool->ammo_current().is_null() ) {
-            current_ammo = item_controller->find_template( used_tool->ammo_default() )->ammo->type;
+        std::string ammo_name;
+        if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {
+            ammo_name = _( "bionic power" );
+
         } else {
-            current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
+            if( used_tool->ammo_current().is_null() ) {
+                current_ammo = item_controller->find_template( used_tool->ammo_default() )->ammo->type;
+            } else {
+                current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
+            }
+
+            ammo_name = item::nname( used_tool->ammo_current() );
         }
 
         title += string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
                                 used_tool->ammo_remaining(), used_tool->ammo_capacity( current_ammo ),
-                                item::nname( used_tool->ammo_current() ),
+                                ammo_name,
                                 used_tool->ammo_required() );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
                                 actor->used_skill.obj().name(), level );
