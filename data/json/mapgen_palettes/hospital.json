@@ -33,9 +33,9 @@
       "`": "t_thconc_floor",
       "+": "t_door_c",
       "!": "t_door_locked_interior",
-      "*": "t_centrifuge",
-      "6": "t_console",
-      "7": "t_console",
+      "*": "t_floor",
+      "6": "t_floor",
+      "7": "t_floor",
       "S": "t_floor",
       "2": "t_floor",
       "8": "t_floor",
@@ -44,6 +44,9 @@
       "?": "t_floor"
     },
     "furniture": {
+      "*": "f_centrifuge",
+      "6": "f_console",
+      "7": "f_console",
       "b": "f_bench",
       "c": "f_chair",
       "B": "f_bed",

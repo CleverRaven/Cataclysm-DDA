@@ -853,6 +853,7 @@ class npc : public player
         int print_info( const catacurses::window &w, int line, int vLines, int column ) const override;
         std::string opinion_text() const;
         int faction_display( const catacurses::window &fac_w, int width ) const;
+        std::string describe_mission() const;
 
         // Interaction with the player
         void form_opinion( const player &u );
@@ -882,23 +883,28 @@ class npc : public player
          * Martial art styles that we known, but the player p doesn't.
          */
         std::vector<matype_id> styles_offered_to( const player &p ) const;
+        /**
+         * Spells that the NPC knows but that the player p doesn't.
+        * not const because get_spell isn't const and both this and p call it
+               */
+        std::vector<spell_id> spells_offered_to( player &p );
         // State checks
         // We want to kill/mug/etc the player
         bool is_enemy() const;
         // Traveling w/ player (whether as a friend or a slave)
         bool is_following() const;
-        bool is_obeying( const player &p ) const;
+        bool is_obeying( const Character &p ) const;
 
         bool is_hallucination() const override; // true if the NPC isn't actually real
 
         // Ally of or traveling with p
-        bool is_friendly( const player &p ) const;
+        bool is_friendly( const Character &p ) const;
         // Leading the player
         bool is_leader() const;
         // Leading, following, or waiting for the player
         bool is_walking_with() const;
         // In the same faction
-        bool is_ally( const player &p ) const;
+        bool is_ally( const Character &p ) const;
         // Is an ally of the player
         bool is_player_ally() const;
         // Isn't moving
@@ -1185,8 +1191,8 @@ class npc : public player
         void heal_player( player &patient );
         void heal_self();
         void pretend_heal( player &patient, item used ); // healing action of hallucinations
-        void mug_player( player &mark );
-        void look_for_player( const player &sought );
+        void mug_player( Character &mark );
+        void look_for_player( const Character &sought );
         // Do we have an idea of where u are?
         bool saw_player_recently() const;
         /** Returns true if food was consumed, false otherwise. */
@@ -1243,7 +1249,7 @@ class npc : public player
          */
         void setpos( const tripoint &pos ) override;
         void travel_overmap( const tripoint &pos );
-        npc_attitude get_attitude() const;
+        npc_attitude get_attitude() const override;
         void set_attitude( npc_attitude new_attitude );
         void set_mission( npc_mission new_mission );
         bool has_activity() const;

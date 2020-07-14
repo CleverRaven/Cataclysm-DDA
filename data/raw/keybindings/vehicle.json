@@ -224,6 +224,13 @@
     "bindings": [ { "input_method": "keyboard", "key": "K" } ]
   },
   {
+    "id": "TOGGLE_SMART_ENGINE_CONTROLLER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle smart engine controller",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" } ]
+  },
+  {
     "id": "TURRET_FIRE_MODE",
     "type": "keybinding",
     "category": "VEHICLE",

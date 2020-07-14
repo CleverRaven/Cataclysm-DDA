@@ -2499,5 +2499,10 @@
     "type": "recipe",
     "result": "bone_plate",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "slam_shotgun",
+    "obsolete": true
   }
 ]

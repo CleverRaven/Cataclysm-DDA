@@ -1144,7 +1144,14 @@
         "S": "t_thconc_floor",
         "I": "t_thconc_floor"
       },
-      "furniture": { "%": "f_counter", "*": "f_crate_c", "!": "f_beaded_door", "p": "f_desk", "]": "f_ergometer", "0": "f_exercise" },
+      "furniture": {
+        "%": "f_counter",
+        "*": "f_crate_c",
+        "!": "f_beaded_door",
+        "p": "f_desk",
+        "]": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "0": "f_exercise"
+      },
       "items": {
         "K": { "item": "pottery", "chance": 30, "repeat": [ 2, 4 ] },
         "J": { "item": "office", "chance": 20 },
@@ -1220,8 +1227,8 @@
         "I": "t_thconc_floor"
       },
       "furniture": {
-        "*": "f_treadmill",
-        "]": "f_ergometer",
+        "*": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "]": [ "f_ergometer", "f_ergometer_mechanical" ],
         "!": "f_exercise",
         "&": "f_counter",
         "%": "f_shower",

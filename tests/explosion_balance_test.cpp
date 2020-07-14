@@ -48,7 +48,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         // Spawn some monsters in a circle.
         tripoint origin( 30, 30, 0 );
         int num_subjects_this_time = 0;
-        for( const tripoint &monster_position : closest_tripoints_first( origin, range ) ) {
+        for( const tripoint &monster_position : closest_points_first( origin, range ) ) {
             if( rl_dist( monster_position, origin ) != range ) {
                 continue;
             }

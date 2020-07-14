@@ -80,7 +80,7 @@
     "id": "infantry_medical_gear",
     "subtype": "collection",
     "entries": [
-      { "item": "1st_aid", "prob": 90 },
+      { "item": "ifak", "prob": 90 },
       { "item": "quikclot", "prob": 60 },
       { "collection": [ { "item": "morphine" }, { "item": "syringe" } ], "prob": 30 }
     ]
@@ -118,7 +118,8 @@
       { "item": "water_clean", "prob": 90 },
       { "item": "knuckle_brass", "prob": 15 },
       { "item": "battery_ups", "prob": 10 },
-      { "item": "bandages", "prob": 50 },
+      { "item": "bandages", "prob": 30 },
+      { "item": "adhesive_bandages", "prob": 20 },
       { "item": "cotton_ball", "prob": 20 },
       { "item": "iodine", "prob": 5 },
       { "item": "prussian_blue", "prob": 5 },
@@ -296,6 +297,7 @@
       { "item": "radio", "prob": 10, "charges-min": 10, "charges-max": 95 },
       { "item": "boots_combat", "prob": 50 },
       { "item": "bandages", "prob": 10, "charges-min": 1, "charges-max": 3 },
+      { "item": "adhesive_bandages", "prob": 10, "charges-min": 1, "charges-max": 6 },
       { "item": "cig", "prob": 60, "charges-min": 1, "charges-max": 20 },
       { "item": "knife_combat", "prob": 30 },
       { "item": "pockknife", "prob": 30 },
@@ -453,7 +455,7 @@
       { "item": "neccowafers", "prob": 30 },
       { "item": "can_beans", "prob": 40 },
       { "item": "pork_beans", "prob": 40 },
-      { "item": "1st_aid", "prob": 35 },
+      { "item": "ifak", "prob": 35 },
       { "item": "saline", "prob": 10 },
       { "item": "con_milk", "prob": 10 },
       { "item": "milk_UHT", "prob": 25 },

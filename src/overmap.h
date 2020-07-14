@@ -40,6 +40,7 @@ class overmap_connection;
 
 namespace pf
 {
+template<typename Point>
 struct path;
 } // namespace pf
 
@@ -387,6 +388,9 @@ class overmap
                        const overmap *south, const overmap *west,
                        overmap_special_batch &enabled_specials );
         bool generate_sub( int z );
+        bool generate_over( int z );
+        // Check and put bridgeheads
+        void generate_bridgeheads( const std::vector<point> &bridge_points );
 
         const city &get_nearest_city( const tripoint &p ) const;
 
@@ -429,13 +433,15 @@ class overmap
         void build_mine( const tripoint &origin, int s );
 
         // Connection laying
-        pf::path lay_out_connection( const overmap_connection &connection, const point &source,
-                                     const point &dest, int z, bool must_be_unexplored ) const;
-        pf::path lay_out_street( const overmap_connection &connection, const point &source,
-                                 om_direction::type dir, size_t len ) const;
+        pf::path<point> lay_out_connection(
+            const overmap_connection &connection, const point &source,
+            const point &dest, int z, bool must_be_unexplored ) const;
+        pf::path<point> lay_out_street( const overmap_connection &connection, const point &source,
+                                        om_direction::type dir, size_t len ) const;
 
-        void build_connection( const overmap_connection &connection, const pf::path &path, int z,
-                               const om_direction::type &initial_dir = om_direction::type::invalid );
+        void build_connection(
+            const overmap_connection &connection, const pf::path<point> &path, int z,
+            const om_direction::type &initial_dir = om_direction::type::invalid );
         void build_connection( const point &source, const point &dest, int z,
                                const overmap_connection &connection, bool must_be_unexplored,
                                const om_direction::type &initial_dir = om_direction::type::invalid );

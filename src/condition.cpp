@@ -50,7 +50,7 @@ static const efftype_id effect_currently_busy( "currently_busy" );
 std::string get_talk_varname( const JsonObject &jo, const std::string &member, bool check_value )
 {
     if( !jo.has_string( "type" ) || !jo.has_string( "context" ) ||
-        ( check_value && !jo.has_string( "value" ) ) ) {
+        ( check_value && !( jo.has_string( "value" ) || jo.has_member( "time" ) ) ) ) {
         jo.throw_error( "invalid " + member + " condition in " + jo.str() );
     }
     const std::string &var_basename = jo.get_string( member );
@@ -176,7 +176,7 @@ void conditional_t<T>::set_u_has_mission( const JsonObject &jo )
 {
     const std::string &mission = jo.get_string( "u_has_mission" );
     condition = [mission]( const T & ) {
-        for( auto miss_it : g->u.get_active_missions() ) {
+        for( auto miss_it : get_avatar().get_active_missions() ) {
             if( miss_it->mission_id() == mission_type_id( mission ) ) {
                 return true;
             }
@@ -405,11 +405,15 @@ template<class T>
 void conditional_t<T>::set_has_var( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member, false );
-    const std::string &value = jo.get_string( "value" );
-    condition = [var_name, value, is_npc]( const T & d ) {
+    const std::string &value = jo.has_member( "value" ) ? jo.get_string( "value" ) : std::string();
+    const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
+    condition = [var_name, value, time_check, is_npc]( const T & d ) {
         player *actor = d.alpha;
         if( is_npc ) {
             actor = dynamic_cast<player *>( d.beta );
+        }
+        if( time_check ) {
+            return !actor->get_value( var_name ).empty();
         }
         return actor->get_value( var_name ) == value;
     };
@@ -451,6 +455,53 @@ void conditional_t<T>::set_compare_var( const JsonObject &jo, const std::string 
 
         } else if( op == ">" ) {
             return stored_value > value;
+        }
+
+        return false;
+    };
+}
+
+template<class T>
+void conditional_t<T>::set_compare_time_since_var( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    const std::string var_name = get_talk_varname( jo, member, false );
+    const std::string &op = jo.get_string( "op" );
+    const int value = to_turns<int>( read_from_json_string<time_duration>( *jo.get_raw( "time" ),
+                                     time_duration::units ) );
+    condition = [var_name, op, value, is_npc]( const T & d ) {
+        player *actor = d.alpha;
+        if( is_npc ) {
+            actor = dynamic_cast<player *>( d.beta );
+        }
+
+        int stored_value = 0;
+        const std::string &var = actor->get_value( var_name );
+        if( var.empty() ) {
+            return false;
+        } else {
+            stored_value = std::stoi( var );
+        }
+        stored_value += value;
+        int now = to_turn<int>( calendar::turn );
+
+        if( op == "==" ) {
+            return stored_value == now;
+
+        } else if( op == "!=" ) {
+            return stored_value != now;
+
+        } else if( op == "<=" ) {
+            return now <= stored_value;
+
+        } else if( op == ">=" ) {
+            return now >= stored_value;
+
+        } else if( op == "<" ) {
+            return now < stored_value;
+
+        } else if( op == ">" ) {
+            return now > stored_value;
         }
 
         return false;
@@ -715,7 +766,7 @@ template<class T>
 void conditional_t<T>::set_npc_friend()
 {
     condition = []( const T & d ) {
-        return d.beta->is_friendly( g->u );
+        return d.beta->is_friendly( get_player_character() );
     };
 }
 
@@ -828,7 +879,7 @@ template<class T>
 void conditional_t<T>::set_u_has_camp()
 {
     condition = []( const T & ) {
-        return !g->u.camps.empty();
+        return !get_player_character().camps.empty();
     };
 }
 
@@ -1041,6 +1092,10 @@ conditional_t<T>::conditional_t( const JsonObject &jo )
         set_compare_var( jo, "u_compare_var" );
     } else if( jo.has_string( "npc_compare_var" ) ) {
         set_compare_var( jo, "npc_compare_var", is_npc );
+    } else if( jo.has_string( "u_compare_time_since_var" ) ) {
+        set_compare_time_since_var( jo, "u_compare_time_since_var" );
+    } else if( jo.has_string( "npc_compare_time_since_var" ) ) {
+        set_compare_time_since_var( jo, "npc_compare_time_since_var", is_npc );
     } else if( jo.has_string( "npc_role_nearby" ) ) {
         set_npc_role_nearby( jo );
     } else if( jo.has_int( "npc_allies" ) ) {

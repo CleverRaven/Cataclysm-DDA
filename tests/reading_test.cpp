@@ -48,6 +48,7 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
 
     GIVEN( "a fun book" ) {
@@ -250,6 +251,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
     std::vector<std::string> reasons;
     std::vector<std::string> expect_reasons;

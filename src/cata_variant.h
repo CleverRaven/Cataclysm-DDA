@@ -24,7 +24,6 @@ template <typename E> struct enum_traits;
 
 enum body_part : int;
 enum class mutagen_technique : int;
-enum hp_part : int;
 
 namespace debug_menu
 {
@@ -45,7 +44,6 @@ enum class cata_variant_type : int {
     chrono_seconds,
     debug_menu_index,
     efftype_id,
-    hp_part,
     int_,
     itype_id,
     matype_id,
@@ -167,7 +165,7 @@ struct convert_enum {
 };
 
 // These are the specializations of convert for each value type.
-static_assert( static_cast<int>( cata_variant_type::num_types ) == 30,
+static_assert( static_cast<int>( cata_variant_type::num_types ) == 29,
                "This assert is a reminder to add conversion support for any new types to the "
                "below specializations" );
 
@@ -229,9 +227,6 @@ struct convert<cata_variant_type::move_mode_id> : convert_string_id<move_mode_id
 
 template<>
 struct convert<cata_variant_type::efftype_id> : convert_string_id<efftype_id> {};
-
-template<>
-struct convert<cata_variant_type::hp_part> : convert_enum<hp_part> {};
 
 template<>
 struct convert<cata_variant_type::int_> {

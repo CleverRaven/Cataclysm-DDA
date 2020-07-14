@@ -1,0 +1,17 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_knapping",
+    "name": { "str": "Knapping" }
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_blacksmithing",
+    "name": { "str": "Blacksmithing" }
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_helicopter_pilot",
+    "name": { "str": "Helicopter Piloting" }
+  }
+]

@@ -88,7 +88,6 @@ enum safe_mode_type {
 };
 
 enum body_part : int;
-enum weather_type : int;
 enum action_id : int;
 
 struct special_game;
@@ -106,6 +105,7 @@ class player;
 class save_t;
 class scenario;
 class stats_tracker;
+template<typename Tripoint>
 class tripoint_range;
 class vehicle;
 struct WORLD;
@@ -149,6 +149,10 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend map &get_map();
+        friend Character &get_player_character();
+        friend avatar &get_avatar();
+        friend weather_manager &get_weather();
     public:
         game();
         ~game();
@@ -335,9 +339,9 @@ class game
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
         monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
                                        int radius );
-        monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
+        monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
-                                       const tripoint_range &range );
+                                       const tripoint_range<tripoint> &range );
         /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
@@ -352,6 +356,11 @@ class game
         void clear_zombies();
         /** Spawns a hallucination at a determined position. */
         bool spawn_hallucination( const tripoint &p );
+        /** Spawns a hallucination at a determined position of a given monster. */
+        bool spawn_hallucination( const tripoint &p, const mtype_id &mt );
+        /** Finds somewhere to spawn a monster. */
+        bool find_nearby_spawn_point( const Character &target, const mtype_id &mt, int min_radius,
+                                      int max_radius, tripoint &point );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
 
@@ -554,7 +563,7 @@ class game
         Creature *is_hostile_very_close();
         // Handles shifting coordinates transparently when moving between submaps.
         // Helper to make calling with a player pointer less verbose.
-        point update_map( player &p );
+        point update_map( Character &p );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
 
@@ -741,9 +750,9 @@ class game
         bool npc_menu( npc &who );
 
         // Handle phasing through walls, returns true if it handled the move
-        bool phasing_move( const tripoint &dest );
+        bool phasing_move( const tripoint &dest, bool via_ramp = false );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest );
+        bool walk_move( const tripoint &dest, bool via_ramp = false );
         void on_move_effects();
     private:
         // Game-start procedures
@@ -964,9 +973,8 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
 
-    public:
-        /** Make map a reference here, to avoid map.h in game.h */
         map &m;
+    public:
         avatar &u;
         scent_map &scent;
         timed_event_manager &timed_events;

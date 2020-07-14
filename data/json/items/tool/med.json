@@ -158,6 +158,7 @@
     "price_postapoc": 10,
     "to_hit": -3,
     "material": [ "plastic" ],
+    "ascii_picture": "thermometer",
     "symbol": ";",
     "color": "red",
     "use_action": [ "WEATHER_TOOL" ],
@@ -208,7 +209,7 @@
         "watertight": true,
         "rigid": true,
         "max_contains_volume": "250 ml",
-        "max_contains_weight": "50 g"
+        "max_contains_weight": "262 g"
       }
     ]
   },

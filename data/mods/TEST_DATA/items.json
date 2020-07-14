@@ -33,7 +33,7 @@
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
-    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
+    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -96,6 +96,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
+        "max_item_length": "60 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -104,6 +105,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
+        "max_item_length": "60 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -112,6 +114,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
+        "max_item_length": "60 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -120,6 +123,7 @@
       {
         "holster": true,
         "min_item_volume": "50 ml",
+        "max_item_length": "60 cm",
         "max_contains_volume": "1500 ml",
         "max_contains_weight": "1000 g",
         "moves": 50,
@@ -277,7 +281,7 @@
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
-        "item_restriction": [ "test_battery_disposable", "test_battery_rechargeable" ]
+        "item_restriction": [ "test_battery_disposable", "test_battery_rechargable" ]
       }
     ]
   },

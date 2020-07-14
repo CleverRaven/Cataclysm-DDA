@@ -468,7 +468,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             }, _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return to_string_clipped( time_duration::from_turns( get_recipe( loc ).time / 100 ) );
+                return to_string_clipped( get_recipe( loc ).time_to_craft( get_player_character() ) );
             }, _( "TIME" ) );
         }
 
@@ -1306,7 +1306,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
             item item_copy( it );
             item_copy.charges = holstered_item.second;
             if( holster->can_contain( item_copy ) ) {
-                holster->put_in( it, item_pocket::pocket_type::CONTAINER );
+                holster->put_in( item_copy, item_pocket::pocket_type::CONTAINER );
                 it.charges -= holstered_item.second;
                 success = true;
             }

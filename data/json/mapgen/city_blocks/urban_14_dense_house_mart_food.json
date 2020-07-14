@@ -53,7 +53,12 @@
         ">": "t_stairs_down",
         "-": "t_thconc_floor"
       },
-      "furniture": { "!": "f_counter", "]": "f_treadmill", ")": "f_exercise", "}": "f_ergometer" },
+      "furniture": {
+        "!": "f_counter",
+        "]": [ "f_treadmill", "f_treadmill_mechanical" ],
+        ")": "f_exercise",
+        "}": [ "f_ergometer", "f_ergometer_mechanical" ]
+      },
       "vendingmachines": { "[": { "item_group": "vending_drink" }, "(": { "item_group": "vending_food" } },
       "set": [
         { "point": "trap", "id": "tr_rollmat", "x": [ 9, 11 ], "y": 11 },

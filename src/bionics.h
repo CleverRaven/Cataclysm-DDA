@@ -181,6 +181,9 @@ struct bionic {
         float get_auto_start_thresh() const;
         bool is_auto_start_on() const;
 
+        void set_safe_fuel_thresh( float val );
+        float get_safe_fuel_thresh() const;
+        bool is_safe_fuel_on() const;
         bool activate_spell( Character &caster );
 
         void serialize( JsonOut &json ) const;
@@ -189,6 +192,7 @@ struct bionic {
         // generic bionic specific flags
         cata::flat_set<std::string> bionic_tags;
         float auto_start_threshold = -1.0;
+        float safe_fuel_threshold = -1.0;
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not

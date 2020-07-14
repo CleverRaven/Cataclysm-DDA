@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <vector>
 
+#include "activity_type.h"
 #include "clone_ptr.h"
 #include "item_location.h"
 #include "item.h"
@@ -514,6 +515,7 @@ class consume_activity_actor : public activity_actor
         item_location consume_location;
         item consume_item;
         std::vector<int> consume_menu_selections;
+        std::string consume_menu_filter;
         bool force = false;
         /**
          * @pre @p other is a consume_activity_actor
@@ -525,8 +527,10 @@ class consume_activity_actor : public activity_actor
         }
     public:
         consume_activity_actor( const item_location &consume_location,
-                                std::vector<int> consume_menu_selections ) :
-            consume_location( consume_location ), consume_menu_selections( consume_menu_selections ) {}
+                                std::vector<int> consume_menu_selections,
+                                const std::string &consume_menu_filter ) :
+            consume_location( consume_location ), consume_menu_selections( consume_menu_selections ),
+            consume_menu_filter( consume_menu_filter ) {}
 
         consume_activity_actor( const item_location &consume_location ) :
             consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
@@ -575,6 +579,46 @@ class try_sleep_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<try_sleep_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class workout_activity_actor : public activity_actor
+{
+    private:
+        bool disable_query = false; // disables query, continue as long as possible
+        bool rest_mode = false; // work or rest during training session
+        time_duration duration;
+        tripoint location;
+        time_point stop_time; // can resume if time apart is not above
+        activity_id act_id = activity_id( "ACT_WORKOUT_LIGHT" ); // variable activities
+        int intensity_modifier = 1;
+        int elapsed = 0;
+
+    public:
+        workout_activity_actor( const tripoint &loc ) : location( loc ) {}
+
+        // can assume different sub-activities
+        activity_id get_type() const override {
+            return act_id;
+        }
+
+        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
+            const workout_activity_actor &w_actor = static_cast<const workout_activity_actor &>( other );
+            return ( location == w_actor.location && calendar::turn - stop_time <= 10_minutes );
+        }
+
+        void start( player_activity &act, Character &who ) override;
+        void do_turn( player_activity &act, Character &who ) override;
+        void finish( player_activity &act, Character &who ) override;
+        void canceled( player_activity &/*act*/, Character &/*who*/ ) override;
+
+        bool query_keep_training( player_activity &act, Character &who );
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<workout_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;
