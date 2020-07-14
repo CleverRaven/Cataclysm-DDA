@@ -48,6 +48,7 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
+static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
@@ -1318,6 +1319,73 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
+void unload_mag_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = moves_total;
+    act.moves_total = moves_total;
+}
+
+void unload_mag_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    unload( who, target );
+}
+
+void unload_mag_activity_actor::unload( Character &who, item_location &target )
+{
+    int qty = 0;
+    item &it = *target.get_item();
+
+    std::vector<item *> remove_contained;
+    for( item *contained : it.contents.all_items_top() ) {
+        if( who.as_player()->add_or_drop_with_msg( *contained, true ) ) {
+            qty += contained->charges;
+            remove_contained.push_back( contained );
+        }
+    }
+    // remove the ammo leads in the belt
+    for( item *remove : remove_contained ) {
+        it.remove_item( *remove );
+    }
+
+    // remove the belt linkage
+    if( it.is_ammo_belt() ) {
+        if( it.type->magazine->linkage ) {
+            item link( *it.type->magazine->linkage, calendar::turn, qty );
+            who.as_player()->add_or_drop_with_msg( link, true );
+        }
+        who.add_msg_if_player( _( "You disassemble your %s." ), it.tname() );
+    } else {
+        who.add_msg_if_player( _( "You unload your %s." ), it.tname() );
+    }
+
+    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
+        target.remove_item();
+    }
+}
+
+void unload_mag_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "target", target );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> unload_mag_activity_actor::deserialize( JsonIn &jsin )
+{
+    unload_mag_activity_actor actor = unload_mag_activity_actor( 0, item_location::nowhere );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "target", actor.target );
+
+    return actor.clone();
+}
+
 void workout_activity_actor::start( player_activity &act, Character &who )
 {
     if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
@@ -1573,6 +1641,7 @@ deserialize_functions = {
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
+    { activity_id( "ACT_UNLOAD_MAG" ), &unload_mag_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },

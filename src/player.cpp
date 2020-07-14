@@ -2960,23 +2960,17 @@ bool player::unload( item_location &loc )
     } );
 
     if( target->is_magazine() ) {
-        player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
-        assign_activity( unload_mag_act );
-        activity.targets.emplace_back( item_location( loc, target ) );
-
-        // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
         int mv = 0;
         for( const item *content : target->contents.all_items_top() ) {
-            mv += this->item_reload_cost( it, *content, content->charges ) / 2;
+            // We use the same cost for both reloading and unloading
+            mv += this->item_reload_cost( it, *content, content->charges );
         }
-        activity.moves_left += mv;
-
-        // I think this means if unload is not done on ammo-belt, it takes as long as it takes to reload a mag.
-        if( !it.is_ammo_belt() ) {
-            activity.moves_left += mv;
+        if( it.is_ammo_belt() ) {
+            // Disassembling ammo belts is easier than assembling them
+            mv /= 2;
         }
-        activity.auto_resume = true;
 
+        assign_activity( player_activity( unload_mag_activity_actor( mv, item_location( loc, target ) ) ) );
         return true;
 
     } else if( target->magazine_current() ) {
