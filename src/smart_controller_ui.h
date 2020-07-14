@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATACLYSMDDA_SMART_CONTROLLER_UI_H
-#define CATACLYSMDDA_SMART_CONTROLLER_UI_H
+#ifndef CATA_SRC_SMART_CONTROLLER_UI_H
+#define CATA_SRC_SMART_CONTROLLER_UI_H
 
 #include "cursesdef.h"
 #include "input.h"
@@ -52,4 +52,4 @@ class smart_controller_ui
         void refresh();
 };
 
-#endif //CATACLYSMDDA_SMART_CONTROLLER_UI_H
+#endif // CATA_SRC_SMART_CONTROLLER_UI_H
