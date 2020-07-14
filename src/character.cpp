@@ -148,6 +148,7 @@ static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
 static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
 static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
+static const efftype_id effect_hypovolemia( "hypovolemia" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_jetinjector( "jetinjector" );
@@ -371,6 +372,8 @@ static const std::string flag_USE_UPS( "USE_UPS" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
+static const vitamin_id vitamin_blood( "blood" );
 
 namespace io
 {
@@ -4778,6 +4781,12 @@ void Character::update_body( const time_point &from, const time_point &to )
 
     for( const auto &v : vitamin::all() ) {
         const time_duration rate = vitamin_rate( v.first );
+
+        // No blood volume regeneration if body lacks fluids
+        if( v.first == vitamin_blood && has_effect( effect_hypovolemia ) && get_thirst() > 240 ) {
+            continue;
+        }
+
         if( rate > 0_turns ) {
             int qty = ticks_between( from, to, rate );
             if( qty > 0 ) {

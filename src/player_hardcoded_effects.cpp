@@ -905,7 +905,7 @@ void player::hardcoded_effects( effect &it )
     } else if( id == effect_hypovolemia ) {
         // hypovolemia and dehydration are closely related so it will pull water
         // from your system to replenish blood quantity
-        if( calendar::once_every( -vitamin_rate( vitamin_blood ) ) ) {
+        if( calendar::once_every( -vitamin_rate( vitamin_blood ) ) && one_in( 5 ) && get_thirst() <= 240 ) {
             mod_thirst( rng( 0, intense ) );
         }
         // bleed out lambda
