@@ -3136,7 +3136,7 @@
     "category": "container",
     "name": { "str": "duct tape wallet" },
     "looks_like": "bag_plastic",
-    "description": "A small, flat case that can be used to carry such small personal items as paper currency, cash cards, identification documents, and other paper or laminated cards. This wallet is made entirely out of duct tape.",
+    "description": "A small, flat case that can be used to carry such small personal items as paper currency, cash cards, identification documents, and other paper or laminated cards.  This wallet is made entirely out of duct tape.",
     "weight": "60 g",
     "volume": "100 ml",
     "price": 1,
