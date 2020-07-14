@@ -19,20 +19,14 @@
     "type": "region_overlay",
     "regions": [ "all" ],
     "map_extras": {
-      "forest": { "chance": 20, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0, "mx_spider": 0 } },
-      "forest_thick": {
-        "chance": 20,
-        "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0, "mx_shia": 0, "mx_spider": 0, "mx_jabberwock": 0 }
-      },
-      "forest_water": { "chance": 20, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0, "mx_spider": 0 } },
-      "field": { "chance": 90, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0 } },
-      "road": { "chance": 75, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0 } },
-      "build": {
-        "chance": 90,
-        "extras": { "mx_house_spider": 0, "mx_house_wasp": 0, "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0 }
-      },
+      "forest": { "chance": 20, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_spider": 0 } },
+      "forest_thick": { "chance": 20, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_shia": 0, "mx_spider": 0, "mx_jabberwock": 0 } },
+      "forest_water": { "chance": 20, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_spider": 0 } },
+      "field": { "chance": 90, "extras": { "mx_portal": 0, "mx_portal_in": 0 } },
+      "road": { "chance": 75, "extras": { "mx_portal": 0, "mx_portal_in": 0 } },
+      "build": { "chance": 90, "extras": { "mx_house_spider": 0, "mx_house_wasp": 0, "mx_portal": 0, "mx_portal_in": 0 } },
       "marloss": { "chance": 0, "extras": { "mx_marloss_pilgrimage": 0 } },
-      "subway": { "chance": 75, "extras": { "mx_portal": 0, "mx_portal_in": 0, "mx_anomaly": 0 } }
+      "subway": { "chance": 75, "extras": { "mx_portal": 0, "mx_portal_in": 0 } }
     }
   }
 ]

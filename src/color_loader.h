@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COLOR_LOADER_H
-#define COLOR_LOADER_H
+#ifndef CATA_SRC_COLOR_LOADER_H
+#define CATA_SRC_COLOR_LOADER_H
 
 #include <array>
 #include <fstream>
@@ -83,4 +83,4 @@ class color_loader
         }
 };
 
-#endif
+#endif // CATA_SRC_COLOR_LOADER_H

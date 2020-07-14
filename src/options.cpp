@@ -1,10 +1,14 @@
 #include "options.h"
 
+#include <cfloat>
 #include <climits>
-#include <type_traits>
+#include <iterator>
+#include <stdexcept>
 
+#include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
 #include "cursesdef.h"
 #include "cursesport.h"
 #include "debug.h"
@@ -16,14 +20,16 @@
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
+#include "popup.h"
 #include "sdlsound.h"
 #include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
+#include "ui_manager.h"
 #include "worldfactory.h"
-#include "color.h"
 
 #if defined(TILES)
 #include "cata_tiles.h"
@@ -35,13 +41,12 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <exception>
 #include <locale>
 #include <memory>
 #include <sstream>
 #include <string>
-#include <exception>
 
-bool trigdist;
 bool use_tiles;
 bool log_from_top;
 int message_ttl;
@@ -63,8 +68,8 @@ options_manager::options_manager() :
     general_page_( "general", to_translation( "General" ) ),
     interface_page_( "interface", to_translation( "Interface" ) ),
     graphics_page_( "graphics", to_translation( "Graphics" ) ),
-    debug_page_( "debug", to_translation( "Debug" ) ),
     world_default_page_( "world_default", to_translation( "World Defaults" ) ),
+    debug_page_( "debug", to_translation( "Debug" ) ),
     android_page_( "android", to_translation( "Android" ) )
 {
     pages_.emplace_back( general_page_ );
@@ -72,12 +77,10 @@ options_manager::options_manager() :
     pages_.emplace_back( graphics_page_ );
     // when sharing maps only admin is allowed to change these.
     if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
+        pages_.emplace_back( world_default_page_ );
         pages_.emplace_back( debug_page_ );
     }
-    // when sharing maps only admin is allowed to change these.
-    if( !MAP_SHARING::isCompetitive() || MAP_SHARING::isAdmin() ) {
-        pages_.emplace_back( world_default_page_ );
-    }
+
 #if defined(__ANDROID__)
     pages_.emplace_back( android_page_ );
 #endif
@@ -198,8 +201,8 @@ void options_manager::add_external( const std::string &sNameIn, const std::strin
             thisOpt.iSet = 0;
             break;
         case cOpt::CVT_FLOAT:
-            thisOpt.fMin = INT_MIN;
-            thisOpt.fMax = INT_MAX;
+            thisOpt.fMin = FLT_MIN;
+            thisOpt.fMax = FLT_MAX;
             thisOpt.fDefault = 0;
             thisOpt.fSet = 0;
             thisOpt.fStep = 1;
@@ -836,7 +839,7 @@ void options_manager::cOpt::setValue( int iSetIn )
 }
 
 //set value
-void options_manager::cOpt::setValue( std::string sSetIn )
+void options_manager::cOpt::setValue( const std::string &sSetIn )
 {
     if( sType == "string_select" ) {
         if( getItemPos( sSetIn ) != -1 ) {
@@ -960,7 +963,7 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     // Load from user directory
     std::vector<options_manager::id_and_option> user_tilesets = load_tilesets_from(
                 PATH_INFO::user_gfx() );
-    for( options_manager::id_and_option id : user_tilesets ) {
+    for( const options_manager::id_and_option &id : user_tilesets ) {
         if( std::find( result.begin(), result.end(), id ) == result.end() ) {
             result.emplace_back( id );
         }
@@ -1010,6 +1013,57 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
     return result;
 }
 
+std::unordered_set<std::string> options_manager::get_langs_with_translation_files()
+{
+    std::vector<std::string> lang_dirs = get_directories_with( PATH_INFO::lang_file(),
+                                         PATH_INFO::langdir(), true );
+    const std::string start_str = "mo/";
+    const std::size_t start_len = start_str.length();
+    const std::string end_str = "/LC_MESSAGES";
+    std::for_each( lang_dirs.begin(), lang_dirs.end(), [&]( std::string & dir ) {
+        const std::size_t start = dir.find( start_str ) + start_len;
+        const std::size_t len = dir.rfind( end_str ) - start;
+        dir = dir.substr( start, len );
+    } );
+    return std::unordered_set<std::string>( lang_dirs.begin(), lang_dirs.end() );
+}
+
+std::vector<options_manager::id_and_option> options_manager::get_lang_options()
+{
+    std::vector<id_and_option> lang_options = {
+        { "", translate_marker( "System language" ) },
+        // Note: language names are in their own language and are *not* translated at all.
+        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
+        // http://en.wikipedia.org/wiki/List_of_language_names
+        { "en", no_translation( R"(English)" ) },
+        { "de", no_translation( R"(Deutsch)" ) },
+        { "es_AR", no_translation( R"(Español (Argentina))" ) },
+        { "es_ES", no_translation( R"(Español (España))" ) },
+        { "fr", no_translation( R"(Français)" ) },
+        { "hu", no_translation( R"(Magyar)" ) },
+        { "ja", no_translation( R"(日本語)" ) },
+        { "ko", no_translation( R"(한국어)" ) },
+        { "pl", no_translation( R"(Polski)" ) },
+        { "pt_BR", no_translation( R"(Português (Brasil))" )},
+        { "ru", no_translation( R"(Русский)" ) },
+        { "zh_CN", no_translation( R"(中文 (天朝))" ) },
+        { "zh_TW", no_translation( R"(中文 (台灣))" ) },
+    };
+
+    std::unordered_set<std::string> lang_list = get_langs_with_translation_files();
+
+    std::vector<id_and_option> options;
+
+    lang_list.insert( "" ); // for System language option
+    lang_list.insert( "en" ); // for English option
+
+    std::copy_if( lang_options.begin(), lang_options.end(), std::back_inserter( options ),
+    [&lang_list]( const options_manager::id_and_option & pair ) {
+        return lang_list.count( pair.first );
+    } );
+    return options;
+}
+
 #if defined(__ANDROID__)
 bool android_get_default_setting( const char *settings_name, bool default_value )
 {
@@ -1056,8 +1110,8 @@ void options_manager::init()
     add_options_general();
     add_options_interface();
     add_options_graphics();
-    add_options_debug();
     add_options_world_default();
+    add_options_debug();
     add_options_android();
 
     for( Page &p : pages_ ) {
@@ -1128,7 +1182,7 @@ void options_manager::add_options_general()
 
     add( "AUTO_PULP_BUTCHER", "general", translate_marker( "Auto pulp or butcher" ),
          translate_marker( "Action to perform when 'Auto pulp or butcher' is enabled.  Pulp: Pulp corpses you stand on.  - Pulp Adjacent: Also pulp corpses adjacent from you.  - Butcher: Butcher corpses you stand on." ),
-    { { "off", to_translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "butcher", translate_marker( "Butcher" ) } },
+    { { "off", to_translation( "options", "Disabled" ) }, { "pulp", translate_marker( "Pulp" ) }, { "pulp_zombie_only", translate_marker( "Pulp Zombies Only" ) }, { "pulp_adjacent", translate_marker( "Pulp Adjacent" ) }, { "pulp_adjacent_zombie_only", translate_marker( "Pulp Adjacent Zombie Only" ) }, { "butcher", translate_marker( "Butcher" ) } },
     "off"
        );
 
@@ -1305,26 +1359,8 @@ void options_manager::add_options_interface()
         interface_page_.items_.emplace_back();
     };
 
-    // TODO: scan for languages like we do for tilesets.
     add( "USE_LANG", "interface", translate_marker( "Language" ),
-    translate_marker( "Switch Language." ), {
-        { "", translate_marker( "System language" ) },
-        // Note: language names are in their own language and are *not* translated at all.
-        // Note: Somewhere in Github PR was better link to msdn.microsoft.com with language names.
-        // http://en.wikipedia.org/wiki/List_of_language_names
-        { "en", no_translation( R"(English)" ) },
-        { "de", no_translation( R"(Deutsch)" ) },
-        { "es_AR", no_translation( R"(Español (Argentina))" ) },
-        { "es_ES", no_translation( R"(Español (España))" ) },
-        { "fr", no_translation( R"(Français)" ) },
-        { "hu", no_translation( R"(Magyar)" ) },
-        { "ja", no_translation( R"(日本語)" ) },
-        { "ko", no_translation( R"(한국어)" ) },
-        { "pl", no_translation( R"(Polski)" ) },
-        { "ru", no_translation( R"(Русский)" ) },
-        { "zh_CN", no_translation( R"(中文 (天朝))" ) },
-        { "zh_TW", no_translation( R"(中文 (台灣))" ) },
-    }, "" );
+         translate_marker( "Switch Language." ), options_manager::get_lang_options(), "" );
 
     add_empty_line();
 
@@ -1350,6 +1386,10 @@ void options_manager::add_options_interface()
     { { "c", translate_marker( "Cup" ) }, { "l", translate_marker( "Liter" ) }, { "qt", translate_marker( "Quart" ) } },
     "l"
        );
+    add( "DISTANCE_UNITS", "interface", translate_marker( "Distance units" ),
+         translate_marker( "Metric or Imperial" ),
+    { { "metric", translate_marker( "Metric" ) }, { "imperial", translate_marker( "Imperial" ) } },
+    "imperial" );
 
     add( "24_HOUR", "interface", translate_marker( "Time format" ),
          translate_marker( "12h: AM/PM, e.g. 7:31 AM - Military: 24h Military, e.g. 0731 - 24h: Normal 24h, e.g. 7:31" ),
@@ -1507,6 +1547,12 @@ void options_manager::add_options_interface()
          false
        );
 
+    add( "LOOKAROUND_POSITION", "interface", translate_marker( "Look around position" ),
+         translate_marker( "Switch between look around panel being left or right." ),
+    { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) } },
+    "right"
+       );
+
     add( "PICKUP_POSITION", "interface", translate_marker( "Pickup position" ),
          translate_marker( "Switch between pickup panel being left, right, or overlapping the sidebar." ),
     { { "left", translate_marker( "Left" ) }, { "right", translate_marker( "Right" ) }, { "overlapping", translate_marker( "Overlapping" ) } },
@@ -1660,12 +1706,12 @@ void options_manager::add_options_graphics()
     add_empty_line();
 
     add( "TERMINAL_X", "graphics", translate_marker( "Terminal width" ),
-         translate_marker( "Set the size of the terminal along the X axis.  Requires restart." ),
+         translate_marker( "Set the size of the terminal along the X axis." ),
          80, 960, 80, COPT_POSIX_CURSES_HIDE
        );
 
     add( "TERMINAL_Y", "graphics", translate_marker( "Terminal height" ),
-         translate_marker( "Set the size of the terminal along the Y axis.  Requires restart." ),
+         translate_marker( "Set the size of the terminal along the Y axis." ),
          24, 270, 24, COPT_POSIX_CURSES_HIDE
        );
 
@@ -1748,12 +1794,61 @@ void options_manager::add_options_graphics()
 
     add_empty_line();
 
-    add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map drawing mode" ),
-    translate_marker( "Specified the mode in which the memory map is drawn.  Requires restart." ), {
+    add( "MEMORY_MAP_MODE", "graphics", translate_marker( "Memory map overlay preset" ),
+    translate_marker( "Specified the overlay in which the memory map is drawn.  Requires restart.  For custom overlay define gamma and RGB values for dark and light colors." ), {
         { "color_pixel_darken", translate_marker( "Darkened" ) },
-        { "color_pixel_sepia", translate_marker( "Sepia" ) }
-    }, "color_pixel_sepia", COPT_CURSES_HIDE
+        { "color_pixel_sepia_light", translate_marker( "Sepia" ) },
+        { "color_pixel_sepia_dark", translate_marker( "Sepia Dark" ) },
+        { "color_pixel_blue_dark", translate_marker( "Blue Dark" ) },
+        { "color_pixel_custom", translate_marker( "Custom" ) },
+    }, "color_pixel_sepia_light", COPT_CURSES_HIDE
        );
+
+    add( "MEMORY_RGB_DARK_RED", "graphics", translate_marker( "Custom dark color RGB overlay - RED" ),
+         translate_marker( "Specify RGB value for color RED for dark color overlay." ),
+         0, 255, 39, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_DARK_RED" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_RGB_DARK_GREEN", "graphics",
+         translate_marker( "Custom dark color RGB overlay - GREEN" ),
+         translate_marker( "Specify RGB value for color GREEN for dark color overlay." ),
+         0, 255, 23, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_DARK_GREEN" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_RGB_DARK_BLUE", "graphics", translate_marker( "Custom dark color RGB overlay - BLUE" ),
+         translate_marker( "Specify RGB value for color BLUE for dark color overlay." ),
+         0, 255, 19, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_DARK_BLUE" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_RGB_BRIGHT_RED", "graphics",
+         translate_marker( "Custom bright color RGB overlay - RED" ),
+         translate_marker( "Specify RGB value for color RED for bright color overlay." ),
+         0, 255, 241, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_BRIGHT_RED" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_RGB_BRIGHT_GREEN", "graphics",
+         translate_marker( "Custom bright color RGB overlay - GREEN" ),
+         translate_marker( "Specify RGB value for color GREEN for bright color overlay." ),
+         0, 255, 220, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_BRIGHT_GREEN" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_RGB_BRIGHT_BLUE", "graphics",
+         translate_marker( "Custom bright color RGB overlay - BLUE" ),
+         translate_marker( "Specify RGB value for color BLUE for bright color overlay." ),
+         0, 255, 163, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_RGB_BRIGHT_BLUE" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
+
+    add( "MEMORY_GAMMA", "graphics", translate_marker( "Custom gamma for overlay" ),
+         translate_marker( "Specify gamma value for overlay." ),
+         1.0f, 3.0f, 1.6f, 0.1f, COPT_CURSES_HIDE );
+
+    get_option( "MEMORY_GAMMA" ).setPrerequisite( "MEMORY_MAP_MODE", "color_pixel_custom" );
 
     add_empty_line();
 
@@ -1855,6 +1950,12 @@ void options_manager::add_options_graphics()
        );
 #endif
 
+#if defined(SDL_HINT_RENDER_BATCHING)
+    add( "RENDER_BATCHING", "graphics", translate_marker( "Allow render batching" ),
+         translate_marker( "Use render batching for 2D render API to make it more efficient.  Requires restart." ),
+         true, COPT_CURSES_HIDE
+       );
+#endif
     add( "FRAMEBUFFER_ACCEL", "graphics", translate_marker( "Software framebuffer acceleration" ),
          translate_marker( "Use hardware acceleration for the framebuffer when using software rendering.  Requires restart." ),
          false, COPT_CURSES_HIDE
@@ -1892,6 +1993,143 @@ void options_manager::add_options_graphics()
     "1", COPT_CURSES_HIDE );
 #endif
 
+}
+
+void options_manager::add_options_world_default()
+{
+    const auto add_empty_line = [&]() {
+        world_default_page_.items_.emplace_back();
+    };
+
+    add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
+         translate_marker( "Controls what migrations are applied for legacy worlds" ),
+         1, core_version, core_version, COPT_ALWAYS_HIDE
+       );
+
+    add_empty_line();
+
+    add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
+    translate_marker( "Handling of game world when last character dies." ), {
+        { "reset", translate_marker( "Reset" ) }, { "delete", translate_marker( "Delete" ) },
+        { "query", translate_marker( "Query" ) }, { "keep", translate_marker( "Keep" ) }
+    }, "reset"
+       );
+
+    add_empty_line();
+
+    add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
+         translate_marker( "A number determining how large cities are.  0 disables cities, roads and any scenario requiring a city start." ),
+         0, 16, 8
+       );
+
+    add( "CITY_SPACING", "world_default", translate_marker( "City spacing" ),
+         translate_marker( "A number determining how far apart cities are.  Warning, small numbers lead to very slow mapgen." ),
+         0, 8, 4
+       );
+
+    add( "SPAWN_DENSITY", "world_default", translate_marker( "Spawn rate scaling factor" ),
+         translate_marker( "A scaling factor that determines density of monster spawns." ),
+         0.0, 50.0, 1.0, 0.1
+       );
+
+    add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
+         translate_marker( "A scaling factor that determines how often creatures spawn from rotting material." ),
+         0.0, 10.0, 1.0, 0.01, COPT_NO_HIDE
+       );
+
+    add( "ITEM_SPAWNRATE", "world_default", translate_marker( "Item spawn scaling factor" ),
+         translate_marker( "A scaling factor that determines density of item spawns." ),
+         0.01, 10.0, 1.0, 0.01
+       );
+
+    add( "NPC_SPAWNTIME", "world_default", translate_marker( "Random NPC spawn time" ),
+         translate_marker( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  Set to 0 days to disable random NPCs." ),
+         0.0, 100.0, 4.0, 0.01
+       );
+
+    add( "MONSTER_UPGRADE_FACTOR", "world_default",
+         translate_marker( "Monster evolution scaling factor" ),
+         translate_marker( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
+         0.0, 100, 4.0, 0.01
+       );
+
+    add_empty_line();
+
+    add( "MONSTER_SPEED", "world_default", translate_marker( "Monster speed" ),
+         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
+         1, 1000, 100, COPT_NO_HIDE, "%i%%"
+       );
+
+    add( "MONSTER_RESILIENCE", "world_default", translate_marker( "Monster resilience" ),
+         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
+         1, 1000, 100, COPT_NO_HIDE, "%i%%"
+       );
+
+    add_empty_line();
+
+    add( "DEFAULT_REGION", "world_default", translate_marker( "Default region type" ),
+         translate_marker( "( WIP feature ) Determines terrain, shops, plants, and more." ),
+    { { "default", "default" } }, "default"
+       );
+
+    add_empty_line();
+
+    add( "INITIAL_TIME", "world_default", translate_marker( "Initial time" ),
+         translate_marker( "Initial starting time of day on character generation." ),
+         0, 23, 8
+       );
+
+    add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
+         translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Day -1 randomizes the start date.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
+         -1, 999, 60
+       );
+
+    add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
+         translate_marker( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
+         0, 9999, 0
+       );
+
+    add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
+         translate_marker( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
+         14, 127, 91
+       );
+
+    add( "CONSTRUCTION_SCALING", "world_default", translate_marker( "Construction scaling" ),
+         translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
+         0, 1000, 100
+       );
+
+    add( "ETERNAL_SEASON", "world_default", translate_marker( "Eternal season" ),
+         translate_marker( "Keep the initial season for ever." ),
+         false
+       );
+
+    add_empty_line();
+
+    add( "WANDER_SPAWNS", "world_default", translate_marker( "Wander spawns" ),
+         translate_marker( "Emulation of zombie hordes.  Zombie spawn points wander around cities and may go to noise.  Must reset world directory after changing for it to take effect." ),
+         false
+       );
+
+    add( "BLACK_ROAD", "world_default", translate_marker( "Surrounded start" ),
+         translate_marker( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
+         false
+       );
+
+    add_empty_line();
+
+    add( "RAD_MUTATION", "world_default", translate_marker( "Mutations by radiation" ),
+         translate_marker( "If true, radiation causes the player to mutate." ),
+         true
+       );
+
+    add_empty_line();
+
+    add( "CHARACTER_POINT_POOLS", "world_default", translate_marker( "Character point pools" ),
+         translate_marker( "Allowed point pools for character generation." ),
+    { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
+    "any"
+       );
 }
 
 void options_manager::add_options_debug()
@@ -1967,177 +2205,6 @@ void options_manager::add_options_debug()
     add( "ENCODING_CONV", "debug", translate_marker( "Experimental path name encoding conversion" ),
          translate_marker( "If true, file path names are going to be transcoded from system encoding to UTF-8 when reading and will be transcoded back when writing.  Mainly for CJK Windows users." ),
          true
-       );
-}
-
-void options_manager::add_options_world_default()
-{
-    const auto add_empty_line = [&]() {
-        world_default_page_.items_.emplace_back();
-    };
-
-    add( "CORE_VERSION", "world_default", translate_marker( "Core version data" ),
-         translate_marker( "Controls what migrations are applied for legacy worlds" ),
-         1, core_version, core_version, COPT_ALWAYS_HIDE
-       );
-
-    add_empty_line();
-
-    add( "WORLD_END", "world_default", translate_marker( "World end handling" ),
-    translate_marker( "Handling of game world when last character dies." ), {
-        { "reset", translate_marker( "Reset" ) }, { "delete", translate_marker( "Delete" ) },
-        { "query", translate_marker( "Query" ) }, { "keep", translate_marker( "Keep" ) }
-    }, "reset"
-       );
-
-    add_empty_line();
-
-    add( "CITY_SIZE", "world_default", translate_marker( "Size of cities" ),
-         translate_marker( "A number determining how large cities are.  0 disables cities, roads and any scenario requiring a city start." ),
-         0, 16, 8
-       );
-
-    add( "CITY_SPACING", "world_default", translate_marker( "City spacing" ),
-         translate_marker( "A number determining how far apart cities are.  Warning, small numbers lead to very slow mapgen." ),
-         0, 8, 4
-       );
-
-    add( "SPAWN_DENSITY", "world_default", translate_marker( "Spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines density of monster spawns." ),
-         0.0, 50.0, 1.0, 0.1
-       );
-
-    add( "CARRION_SPAWNRATE", "world_default", translate_marker( "Carrion spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines how often creatures spawn from rotting material." ),
-         0, 1000, 100, COPT_NO_HIDE, "%i%%"
-       );
-
-    add( "ITEM_SPAWNRATE", "world_default", translate_marker( "Item spawn scaling factor" ),
-         translate_marker( "A scaling factor that determines density of item spawns." ),
-         0.01, 10.0, 1.0, 0.01
-       );
-
-    add( "NPC_DENSITY", "world_default", translate_marker( "NPC spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines density of dynamic NPC spawns." ),
-         0.0, 100.0, 0.1, 0.01
-       );
-
-    add( "MONSTER_UPGRADE_FACTOR", "world_default",
-         translate_marker( "Monster evolution scaling factor" ),
-         translate_marker( "A scaling factor that determines the time between monster upgrades.  A higher number means slower evolution.  Set to 0.00 to turn off monster upgrades." ),
-         0.0, 100, 4.0, 0.01
-       );
-
-    add_empty_line();
-
-    add( "MONSTER_SPEED", "world_default", translate_marker( "Monster speed" ),
-         translate_marker( "Determines the movement rate of monsters.  A higher value increases monster speed and a lower reduces it.  Requires world reset." ),
-         1, 1000, 100, COPT_NO_HIDE, "%i%%"
-       );
-
-    add( "MONSTER_RESILIENCE", "world_default", translate_marker( "Monster resilience" ),
-         translate_marker( "Determines how much damage monsters can take.  A higher value makes monsters more resilient and a lower makes them more flimsy.  Requires world reset." ),
-         1, 1000, 100, COPT_NO_HIDE, "%i%%"
-       );
-
-    add_empty_line();
-
-    add( "DEFAULT_REGION", "world_default", translate_marker( "Default region type" ),
-         translate_marker( "( WIP feature ) Determines terrain, shops, plants, and more." ),
-    { { "default", "default" } }, "default"
-       );
-
-    add_empty_line();
-
-    add( "INITIAL_TIME", "world_default", translate_marker( "Initial time" ),
-         translate_marker( "Initial starting time of day on character generation." ),
-         0, 23, 8
-       );
-
-    add( "INITIAL_DAY", "world_default", translate_marker( "Initial day" ),
-         translate_marker( "How many days into the year the cataclysm occurred.  Day 0 is Spring 1.  Can be overridden by scenarios.  This does not advance food rot or monster evolution." ),
-         0, 999, 60
-       );
-
-    add( "SPAWN_DELAY", "world_default", translate_marker( "Spawn delay" ),
-         translate_marker( "How many days after the cataclysm the player spawns.  Day 0 is the day of the cataclysm.  Can be overridden by scenarios.  Increasing this will cause food rot and monster evolution to advance." ),
-         0, 9999, 0
-       );
-
-    add( "SEASON_LENGTH", "world_default", translate_marker( "Season length" ),
-         translate_marker( "Season length, in days.  Warning: Very little other than the duration of seasons scales with this value, so adjusting it may cause nonsensical results." ),
-         14, 127, 91
-       );
-
-    add( "CONSTRUCTION_SCALING", "world_default", translate_marker( "Construction scaling" ),
-         translate_marker( "Sets the time of construction in percents.  '50' is two times faster than default, '200' is two times longer.  '0' automatically scales construction time to match the world's season length." ),
-         0, 1000, 100
-       );
-
-    add( "ETERNAL_SEASON", "world_default", translate_marker( "Eternal season" ),
-         translate_marker( "Keep the initial season for ever." ),
-         false
-       );
-
-    add_empty_line();
-
-    add( "WANDER_SPAWNS", "world_default", translate_marker( "Wander spawns" ),
-         translate_marker( "Emulation of zombie hordes.  Zombie spawn points wander around cities and may go to noise.  Must reset world directory after changing for it to take effect." ),
-         false
-       );
-
-    add( "BLACK_ROAD", "world_default", translate_marker( "Surrounded start" ),
-         translate_marker( "If true, spawn zombies at shelters.  Makes the starting game a lot harder." ),
-         false
-       );
-
-    add_empty_line();
-
-    add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
-         translate_marker( "If true, static NPCs will spawn at pre-defined locations.  Requires world reset." ),
-         true
-       );
-
-    add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
-         translate_marker( "Determines whether starting NPCs should spawn, and if they do, how exactly." ),
-    { { "never", translate_marker( "Never" ) }, { "always", translate_marker( "Always" ) }, { "scenario", translate_marker( "Scenario-based" ) } },
-    "scenario"
-       );
-
-    get_option( "STARTING_NPC" ).setPrerequisite( "STATIC_NPC" );
-
-    add( "RANDOM_NPC", "world_default", translate_marker( "Random NPCs" ),
-         translate_marker( "If true, the game will randomly spawn NPCs during gameplay." ),
-         false
-       );
-
-    add_empty_line();
-
-    add( "RAD_MUTATION", "world_default", translate_marker( "Mutations by radiation" ),
-         translate_marker( "If true, radiation causes the player to mutate." ),
-         true
-       );
-
-    add_empty_line();
-
-    add( "ZLEVELS", "world_default", translate_marker( "Experimental z-levels" ),
-         translate_marker( "If true, experimental z-level maps will be enabled.  Turn this off if you experience excessive slowdown." ),
-         true
-       );
-
-    add_empty_line();
-
-    add( "ALIGN_STAIRS", "world_default", translate_marker( "Align up and down stairs" ),
-         translate_marker( "If true, downstairs will be placed directly above upstairs, even if this results in uglier maps." ),
-         false
-       );
-
-    add_empty_line();
-
-    add( "CHARACTER_POINT_POOLS", "world_default", translate_marker( "Character point pools" ),
-         translate_marker( "Allowed point pools for character generation." ),
-    { { "any", translate_marker( "Any" ) }, { "multi_pool", translate_marker( "Multi-pool only" ) }, { "no_freeform", translate_marker( "No freeform" ) } },
-    "any"
        );
 }
 
@@ -2407,17 +2474,13 @@ static void refresh_tiles( bool used_tiles_changed, bool pixel_minimap_height_ch
             tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
             //g->init_ui is called when zoom is changed
             g->reset_zoom();
-            if( ingame ) {
-                g->refresh_all();
-            }
             tilecontext->do_tile_loading_report();
         } catch( const std::exception &err ) {
             popup( _( "Loading the tileset failed: %s" ), err.what() );
             use_tiles = false;
         }
     } else if( ingame && g->pixel_minimap_option && pixel_minimap_height_changed ) {
-        g->init_ui();
-        g->refresh_all();
+        g->mark_main_ui_adaptor_resize();
     }
 }
 #else
@@ -2437,9 +2500,11 @@ static void draw_borders_external(
     mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( w, point( getmaxx( w ) - 1, horizontal_level ), BORDER_COLOR, LINE_XOXX ); // -|
     for( auto &mapLine : mapLines ) {
-        mvwputch( w, point( mapLine.first + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        if( mapLine.second ) {
+            mvwputch( w, point( mapLine.first + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
+        }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
 static void draw_borders_internal( const catacurses::window &w, std::map<int, bool> &mapLines )
@@ -2453,10 +2518,11 @@ static void draw_borders_internal( const catacurses::window &w, std::map<int, bo
             mvwputch( w, point( i, 0 ), BORDER_COLOR, LINE_OXOX );
         }
     }
-    wrefresh( w );
+    wnoutrefresh( w );
 }
 
-std::string options_manager::show( bool ingame, const bool world_options_only )
+std::string options_manager::show( bool ingame, const bool world_options_only,
+                                   const std::function<bool()> &on_quit )
 {
     const int iWorldOptPage = std::find_if( pages_.begin(), pages_.end(), [&]( const Page & p ) {
         return &p == &world_default_page_;
@@ -2474,37 +2540,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         ingame = false;
     }
 
-    const int iWorldOffset = world_options_only ? 2 : 0;
-    const int iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
-    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
-    const int iTooltipHeight = 4;
-    const int iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
-
     std::map<int, bool> mapLines;
-    std::map<int, bool> mapLinesOriginal;
     mapLines[4] = true;
     mapLines[60] = true;
 
-    catacurses::window w_options_border  = catacurses::newwin( TERMY, iMinScreenWidth,
-                                           point( iOffsetX, 0 ) );
-    catacurses::window w_options_tooltip = catacurses::newwin( iTooltipHeight, iMinScreenWidth - 2,
-                                           point( 1 + iOffsetX, 1 + iWorldOffset ) );
-    catacurses::window w_options_header  = catacurses::newwin( 1, iMinScreenWidth - 2,
-                                           point( 1 + iOffsetX, 1 + iTooltipHeight + iWorldOffset ) );
-    catacurses::window w_options         = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
-                                           point( 1 + iOffsetX, iTooltipHeight + 2 + iWorldOffset ) );
-
-    if( world_options_only ) {
-        worldfactory::draw_worldgen_tabs( w_options_border, 1 );
-    }
-
-    mapLinesOriginal = mapLines;
-    draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
-                           world_options_only );
-    draw_borders_internal( w_options_header, mapLines );
-
     int iCurrentPage = world_options_only ? iWorldOptPage : 0;
-    int iLastPage = 0;
     int iCurrentLine = 0;
     int iStartPos = 0;
 
@@ -2516,7 +2556,62 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    while( true ) {
+    const int iWorldOffset = world_options_only ? 2 : 0;
+    int iMinScreenWidth = 0;
+    const int iTooltipHeight = 4;
+    int iContentHeight = 0;
+
+    catacurses::window w_options_border;
+    catacurses::window w_options_tooltip;
+    catacurses::window w_options_header;
+    catacurses::window w_options;
+
+    const auto init_windows = [&]( ui_adaptor & ui ) {
+        if( OPTIONS.find( "TERMINAL_X" ) != OPTIONS.end() ) {
+            if( OPTIONS_OLD.find( "TERMINAL_X" ) != OPTIONS_OLD.end() ) {
+                OPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
+            }
+            if( WOPTIONS_OLD.find( "TERMINAL_X" ) != WOPTIONS_OLD.end() ) {
+                WOPTIONS_OLD["TERMINAL_X"] = OPTIONS["TERMINAL_X"];
+            }
+        }
+        if( OPTIONS.find( "TERMINAL_Y" ) != OPTIONS.end() ) {
+            if( OPTIONS_OLD.find( "TERMINAL_Y" ) != OPTIONS_OLD.end() ) {
+                OPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
+            }
+            if( WOPTIONS_OLD.find( "TERMINAL_Y" ) != WOPTIONS_OLD.end() ) {
+                WOPTIONS_OLD["TERMINAL_Y"] = OPTIONS["TERMINAL_Y"];
+            }
+        }
+
+        iMinScreenWidth = std::max( FULL_SCREEN_WIDTH, TERMX / 2 );
+        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - iMinScreenWidth ) / 2 : 0;
+        iContentHeight = TERMY - 3 - iTooltipHeight - iWorldOffset;
+
+        w_options_border  = catacurses::newwin( TERMY, iMinScreenWidth,
+                                                point( iOffsetX, 0 ) );
+        w_options_tooltip = catacurses::newwin( iTooltipHeight, iMinScreenWidth - 2,
+                                                point( 1 + iOffsetX, 1 + iWorldOffset ) );
+        w_options_header  = catacurses::newwin( 1, iMinScreenWidth - 2,
+                                                point( 1 + iOffsetX, 1 + iTooltipHeight + iWorldOffset ) );
+        w_options         = catacurses::newwin( iContentHeight, iMinScreenWidth - 2,
+                                                point( 1 + iOffsetX, iTooltipHeight + 2 + iWorldOffset ) );
+
+        ui.position_from_window( w_options_border );
+    };
+
+    ui_adaptor ui;
+    ui.on_screen_resize( init_windows );
+    init_windows( ui );
+    ui.on_redraw( [&]( const ui_adaptor & ) {
+        if( world_options_only ) {
+            worldfactory::draw_worldgen_tabs( w_options_border, 1 );
+        }
+
+        draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLines,
+                               world_options_only );
+        draw_borders_internal( w_options_header, mapLines );
+
         Page &page = pages_[iCurrentPage];
         auto &page_items = page.items_;
 
@@ -2580,7 +2675,8 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             if( hasPrerequisite && !hasPrerequisiteFulfilled ) {
                 cLineColor = c_light_gray;
 
-            } else if( current_opt.getValue() == "false" ) {
+            } else if( current_opt.getValue() == "false" || current_opt.getValue() == "disabled" ||
+                       current_opt.getValue() == "off" ) {
                 cLineColor = c_light_red;
             }
 
@@ -2592,7 +2688,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
         draw_scrollbar( w_options_border, iCurrentLine, iContentHeight,
                         page_items.size(), point( 0, iTooltipHeight + 2 + iWorldOffset ), BORDER_COLOR );
-        wrefresh( w_options_border );
+        wnoutrefresh( w_options_border );
 
         //Draw Tabs
         if( !world_options_only ) {
@@ -2611,7 +2707,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             }
         }
 
-        wrefresh( w_options_header );
+        wnoutrefresh( w_options_header );
 
         const std::string &opt_name = *page_items[iCurrentLine];
         cOpt &current_opt = cOPTIONS[opt_name];
@@ -2655,22 +2751,32 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                             current_opt.getDefaultText() );
         }
 
-        if( iCurrentPage != iLastPage ) {
-            iLastPage = iCurrentPage;
-            if( ingame && iCurrentPage == iWorldOptPage ) {
-                mvwprintz( w_options_tooltip, point( 3, 3 ), c_light_red, "%s", _( "Note: " ) );
-                wprintz( w_options_tooltip, c_white, "%s",
-                         _( "Some of these options may produce unexpected results if changed." ) );
-            }
+        if( ingame && iCurrentPage == iWorldOptPage ) {
+            mvwprintz( w_options_tooltip, point( 3, 3 ), c_light_red, "%s", _( "Note: " ) );
+            wprintz( w_options_tooltip, c_white, "%s",
+                     _( "Some of these options may produce unexpected results if changed." ) );
         }
-        wrefresh( w_options_tooltip );
+        wnoutrefresh( w_options_tooltip );
 
-        wrefresh( w_options );
+        wnoutrefresh( w_options );
+    } );
+
+    while( true ) {
+        ui_manager::redraw();
+
+        Page &page = pages_[iCurrentPage];
+        auto &page_items = page.items_;
+
+        auto &cOPTIONS = ( ingame || world_options_only ) && iCurrentPage == iWorldOptPage ?
+                         ACTIVE_WORLD_OPTIONS : OPTIONS;
+
+        const std::string &opt_name = *page_items[iCurrentLine];
+        cOpt &current_opt = cOPTIONS[opt_name];
 
         const std::string action = ctxt.handle_input();
 
-        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" || action == "QUIT" ) ) {
-            catacurses::refresh();
+        if( world_options_only && ( action == "NEXT_TAB" || action == "PREV_TAB" ||
+                                    ( action == "QUIT" && ( !on_quit || on_quit() ) ) ) ) {
             return action;
         }
 
@@ -2753,9 +2859,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
                     }
                 }
             }
-        } else if( action == "HELP_KEYBINDINGS" ) {
-            draw_borders_external( w_options_border, iTooltipHeight + 1 + iWorldOffset, mapLinesOriginal,
-                                   world_options_only );
         } else if( action == "QUIT" ) {
             break;
         }
@@ -2803,7 +2906,11 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
 
     if( options_changed ) {
         if( query_yn( _( "Save changes?" ) ) ) {
-            popup_status( _( "Please wait…" ), _( "Applying option changes…" ) );
+            static_popup popup;
+            popup.message( "%s", _( "Please wait…\nApplying option changes…" ) );
+            ui_manager::redraw();
+            refresh_display();
+
             save();
             if( ingame && world_options_changed ) {
                 world_generator->active_world->WORLD_OPTIONS = ACTIVE_WORLD_OPTIONS;
@@ -2821,9 +2928,6 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
             }
         }
     }
-
-    catacurses::clear();
-    catacurses::refresh();
 
     if( lang_changed ) {
         update_global_locale();
@@ -2843,7 +2947,7 @@ std::string options_manager::show( bool ingame, const bool world_options_only )
         get_option( "TERMINAL_Y" ).setValue( std::max( FULL_SCREEN_HEIGHT * scaling_factor, TERMY ) );
         save();
 
-        handle_resize( projected_window_width(), projected_window_height() );
+        resize_term( ::get_option<int>( "TERMINAL_X" ), ::get_option<int>( "TERMINAL_Y" ) );
     }
 #else
     ( void ) terminal_size_changed;
@@ -2998,24 +3102,26 @@ bool options_manager::has_option( const std::string &name ) const
 
 options_manager::cOpt &options_manager::get_option( const std::string &name )
 {
-    if( options.count( name ) == 0 ) {
+    std::unordered_map<std::string, cOpt>::iterator opt = options.find( name );
+    if( opt == options.end() ) {
         debugmsg( "requested non-existing option %s", name );
     }
     if( !world_options.has_value() ) {
         // Global options contains the default for new worlds, which is good enough here.
-        return options[name];
+        return opt->second;
     }
-    auto &wopts = *world_options.value();
-    if( wopts.count( name ) == 0 ) {
-        auto &opt = options[name];
-        if( opt.getPage() != "world_default" ) {
+    std::unordered_map<std::string, cOpt>::iterator wopt = ( *world_options )->find( name );
+    if( wopt == ( *world_options )->end() ) {
+        if( opt->second.getPage() != "world_default" ) {
             // Requested a non-world option, deliver it.
-            return opt;
+            return opt->second;
         }
         // May be a new option and an old world - import default from global options.
-        wopts[name] = opt;
+        cOpt &new_world_option = ( **world_options )[name];
+        new_world_option = opt->second;
+        return new_world_option;
     }
-    return wopts[name];
+    return wopt->second;
 }
 
 options_manager::options_container options_manager::get_world_defaults() const
@@ -3060,6 +3166,8 @@ void options_manager::update_global_locale()
             std::locale::global( std::locale( "ko_KR.UTF-8" ) );
         } else if( lang == "pl" ) {
             std::locale::global( std::locale( "pl_PL.UTF-8" ) );
+        } else if( lang == "pt_BR" ) {
+            std::locale::global( std::locale( "pt_BR.UTF-8" ) );
         } else if( lang == "ru" ) {
             std::locale::global( std::locale( "ru_RU.UTF-8" ) );
         } else if( lang == "zh_CN" ) {
@@ -3067,7 +3175,10 @@ void options_manager::update_global_locale()
         } else if( lang == "zh_TW" ) {
             std::locale::global( std::locale( "zh_TW.UTF-8" ) );
         }
-    } catch( std::runtime_error &e ) {
+    } catch( std::runtime_error & ) {
         std::locale::global( std::locale() );
     }
+
+    DebugLog( D_INFO, DC_ALL ) << "[options] C locale set to " << setlocale( LC_ALL, nullptr );
+    DebugLog( D_INFO, DC_ALL ) << "[options] C++ locale set to " << std::locale().name();
 }

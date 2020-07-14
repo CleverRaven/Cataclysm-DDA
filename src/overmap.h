@@ -1,44 +1,46 @@
 #pragma once
-#ifndef OVERMAP_H
-#define OVERMAP_H
+#ifndef CATA_SRC_OVERMAP_H
+#define CATA_SRC_OVERMAP_H
 
-#include <cstdlib>
 #include <algorithm>
 #include <array>
 #include <climits>
+#include <cstdlib>
 #include <functional>
 #include <iosfwd>
+#include <iterator>
 #include <map>
-#include <memory>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <iterator>
 #include <utility>
+#include <vector>
 
 #include "basecamp.h"
-#include "game_constants.h"
-#include "omdata.h"
-#include "overmap_types.h" // IWYU pragma: keep
-#include "regional_settings.h"
 #include "enums.h"
+#include "game_constants.h"
+#include "memory_fast.h"
 #include "mongroup.h"
+#include "monster.h"
+#include "omdata.h"
 #include "optional.h"
-#include "type_id.h"
+#include "overmap_types.h" // IWYU pragma: keep
 #include "point.h"
+#include "regional_settings.h"
 #include "rng.h"
 #include "string_id.h"
+#include "type_id.h"
 
+class JsonIn;
+class JsonObject;
+class JsonOut;
+class character_id;
+class map_extra;
 class npc;
 class overmap_connection;
-class JsonIn;
-class JsonOut;
-class monster;
-class JsonObject;
-class map_extra;
 
 namespace pf
 {
+template<typename Point>
 struct path;
 } // namespace pf
 
@@ -73,15 +75,15 @@ struct om_vehicle {
     std::string name;
 };
 
-enum radio_type {
+enum class radio_type : int {
     MESSAGE_BROADCAST,
     WEATHER_RADIO
 };
 
-extern std::map<enum radio_type, std::string> radio_type_names;
+extern std::map<radio_type, std::string> radio_type_names;
 
-#define RADIO_MIN_STRENGTH 80
-#define RADIO_MAX_STRENGTH 200
+static constexpr int RADIO_MIN_STRENGTH = 80;
+static constexpr int RADIO_MAX_STRENGTH = 200;
 
 struct radio_tower {
     // local (to the containing overmap) submap coordinates
@@ -91,7 +93,7 @@ struct radio_tower {
     std::string message;
     int frequency;
     radio_tower( const point &p, int S = -1, const std::string &M = "",
-                 radio_type T = MESSAGE_BROADCAST ) :
+                 radio_type T = radio_type::MESSAGE_BROADCAST ) :
         pos( p ), strength( S ), type( T ), message( M ) {
         frequency = rng( 0, INT_MAX );
     }
@@ -155,40 +157,40 @@ class overmap_special_batch
 };
 
 static const std::map<std::string, oter_flags> oter_flags_map = {
-    { "KNOWN_DOWN", known_down },
-    { "KNOWN_UP", known_up },
-    { "RIVER", river_tile },
-    { "SIDEWALK", has_sidewalk },
-    { "NO_ROTATE", no_rotate },
-    { "LINEAR", line_drawing },
-    { "SUBWAY", subway_connection },
-    { "LAKE", lake },
-    { "LAKE_SHORE", lake_shore },
-    { "GENERIC_LOOT", generic_loot },
-    { "RISK_HIGH", risk_high },
-    { "RISK_LOW", risk_low },
-    { "SOURCE_AMMO", source_ammo },
-    { "SOURCE_ANIMALS", source_animals },
-    { "SOURCE_BOOKS", source_books },
-    { "SOURCE_CHEMISTRY", source_chemistry },
-    { "SOURCE_CLOTHING", source_clothing },
-    { "SOURCE_CONSTRUCTION", source_construction },
-    { "SOURCE_COOKING", source_cooking },
-    { "SOURCE_DRINK", source_drink },
-    { "SOURCE_ELECTRONICS", source_electronics },
-    { "SOURCE_FABRICATION", source_fabrication },
-    { "SOURCE_FARMING", source_farming },
-    { "SOURCE_FOOD", source_food },
-    { "SOURCE_FORAGE", source_forage },
-    { "SOURCE_FUEL", source_fuel },
-    { "SOURCE_GUN", source_gun },
-    { "SOURCE_LUXURY", source_luxury },
-    { "SOURCE_MEDICINE", source_medicine },
-    { "SOURCE_PEOPLE", source_people },
-    { "SOURCE_SAFETY", source_safety },
-    { "SOURCE_TAILORING", source_tailoring },
-    { "SOURCE_VEHICLES", source_vehicles },
-    { "SOURCE_WEAPON", source_weapon }
+    { "KNOWN_DOWN", oter_flags::known_down },
+    { "KNOWN_UP", oter_flags::known_up },
+    { "RIVER", oter_flags::river_tile },
+    { "SIDEWALK", oter_flags::has_sidewalk },
+    { "NO_ROTATE", oter_flags::no_rotate },
+    { "LINEAR", oter_flags::line_drawing },
+    { "SUBWAY", oter_flags::subway_connection },
+    { "LAKE", oter_flags::lake },
+    { "LAKE_SHORE", oter_flags::lake_shore },
+    { "GENERIC_LOOT", oter_flags::generic_loot },
+    { "RISK_HIGH", oter_flags::risk_high },
+    { "RISK_LOW", oter_flags::risk_low },
+    { "SOURCE_AMMO", oter_flags::source_ammo },
+    { "SOURCE_ANIMALS", oter_flags::source_animals },
+    { "SOURCE_BOOKS", oter_flags::source_books },
+    { "SOURCE_CHEMISTRY", oter_flags::source_chemistry },
+    { "SOURCE_CLOTHING", oter_flags::source_clothing },
+    { "SOURCE_CONSTRUCTION", oter_flags::source_construction },
+    { "SOURCE_COOKING", oter_flags::source_cooking },
+    { "SOURCE_DRINK", oter_flags::source_drink },
+    { "SOURCE_ELECTRONICS", oter_flags::source_electronics },
+    { "SOURCE_FABRICATION", oter_flags::source_fabrication },
+    { "SOURCE_FARMING", oter_flags::source_farming },
+    { "SOURCE_FOOD", oter_flags::source_food },
+    { "SOURCE_FORAGE", oter_flags::source_forage },
+    { "SOURCE_FUEL", oter_flags::source_fuel },
+    { "SOURCE_GUN", oter_flags::source_gun },
+    { "SOURCE_LUXURY", oter_flags::source_luxury },
+    { "SOURCE_MEDICINE", oter_flags::source_medicine },
+    { "SOURCE_PEOPLE", oter_flags::source_people },
+    { "SOURCE_SAFETY", oter_flags::source_safety },
+    { "SOURCE_TAILORING", oter_flags::source_tailoring },
+    { "SOURCE_VEHICLES", oter_flags::source_vehicles },
+    { "SOURCE_WEAPON", oter_flags::source_weapon }
 };
 
 class overmap
@@ -218,7 +220,11 @@ class overmap
          * chosen place on the overmap with the specific overmap terrain.
          * Returns @ref invalid_tripoint if no suitable place has been found.
          */
-        tripoint find_random_omt( const std::string &omt_base_type ) const;
+        tripoint find_random_omt( const std::pair<std::string, ot_match_type> &target ) const;
+        tripoint find_random_omt( const std::string &omt_base_type,
+                                  ot_match_type match_type = ot_match_type::type ) const {
+            return find_random_omt( std::make_pair( omt_base_type, match_type ) );
+        }
         /**
          * Return a vector containing the absolute coordinates of
          * every matching terrain on the current z level of the current overmap.
@@ -319,7 +325,7 @@ class overmap
         std::map<string_id<overmap_connection>, std::vector<tripoint>> connections_out;
         cata::optional<basecamp *> find_camp( const point &p );
         /// Adds the npc to the contained list of npcs ( @ref npcs ).
-        void insert_npc( shared_ptr_fast<npc> who );
+        void insert_npc( const shared_ptr_fast<npc> &who );
         /// Removes the npc and returns it ( or returns nullptr if not found ).
         shared_ptr_fast<npc> erase_npc( const character_id &id );
 
@@ -382,6 +388,9 @@ class overmap
                        const overmap *south, const overmap *west,
                        overmap_special_batch &enabled_specials );
         bool generate_sub( int z );
+        bool generate_over( int z );
+        // Check and put bridgeheads
+        void generate_bridgeheads( const std::vector<point> &bridge_points );
 
         const city &get_nearest_city( const tripoint &p ) const;
 
@@ -424,13 +433,15 @@ class overmap
         void build_mine( const tripoint &origin, int s );
 
         // Connection laying
-        pf::path lay_out_connection( const overmap_connection &connection, const point &source,
-                                     const point &dest, int z, bool must_be_unexplored ) const;
-        pf::path lay_out_street( const overmap_connection &connection, const point &source,
-                                 om_direction::type dir, size_t len ) const;
+        pf::path<point> lay_out_connection(
+            const overmap_connection &connection, const point &source,
+            const point &dest, int z, bool must_be_unexplored ) const;
+        pf::path<point> lay_out_street( const overmap_connection &connection, const point &source,
+                                        om_direction::type dir, size_t len ) const;
 
-        void build_connection( const overmap_connection &connection, const pf::path &path, int z,
-                               const om_direction::type &initial_dir = om_direction::type::invalid );
+        void build_connection(
+            const overmap_connection &connection, const pf::path<point> &path, int z,
+            const om_direction::type &initial_dir = om_direction::type::invalid );
         void build_connection( const point &source, const point &dest, int z,
                                const overmap_connection &connection, bool must_be_unexplored,
                                const om_direction::type &initial_dir = om_direction::type::invalid );
@@ -515,7 +526,7 @@ std::string oter_no_dir( const oter_id &oter );
 
 /**
 * Return 0, 1, 2, 3 respectively if the suffix is _north, _west, _south, _east
-* Return 0 if theres' no suffix
+* Return 0 if there's no suffix
 */
 int oter_get_rotation( const oter_id &oter );
 
@@ -523,4 +534,4 @@ int oter_get_rotation( const oter_id &oter );
 * Return the directional suffix or "" if there isn't one.
 */
 std::string oter_get_rotation_string( const oter_id &oter );
-#endif
+#endif // CATA_SRC_OVERMAP_H

@@ -2,7 +2,7 @@
   {
     "id": "afs_holo_field",
     "type": "SPELL",
-    "name": "Holographic Field",
+    "name": { "str": "Holographic Field" },
     "description": "Creates several short-lived holograms around you.",
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT" ],
@@ -19,7 +19,7 @@
   {
     "id": "afs_holo_decoy",
     "type": "SPELL",
-    "name": "Holographic Decoy",
+    "name": { "str": "Holographic Decoy" },
     "description": "Creates a short-lived hologram.",
     "valid_targets": [ "ground" ],
     "flags": [ "SILENT" ],
@@ -38,7 +38,7 @@
   {
     "id": "afs_holo_flare",
     "type": "SPELL",
-    "name": "Holographic Flash",
+    "name": { "str": "Holographic Flash" },
     "description": "Causes an existing hologram to explode into burning light, harming and stunning enemies close to it.",
     "effect": "target_attack",
     "valid_targets": [ "hostile", "ally" ],
@@ -57,7 +57,7 @@
   {
     "id": "afs_holo_flare_explosion",
     "type": "SPELL",
-    "name": "Holographic Flash Explosion",
+    "name": { "str": "Holographic Flash Explosion" },
     "description": "Causes an existing hologram to explode into burning light, harming and stunning enemies close to it.",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "effect": "target_attack",
@@ -78,7 +78,7 @@
   {
     "id": "afs_holo_transposition",
     "type": "SPELL",
-    "name": "Holographic Transposition",
+    "name": { "str": "Holographic Transposition" },
     "description": "Allows you to swap places with a previously existing holographic image of yourself.  If the universe itself can't tell you apart, who could?",
     "valid_targets": [ "hostile", "ally" ],
     "targeted_monster_ids": [ "mon_hologram" ],

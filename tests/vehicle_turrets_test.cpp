@@ -4,21 +4,20 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
-#include "catch/catch.hpp"
 #include "ammo.h"
-#include "game.h"
-#include "itype.h"
-#include "map.h"
-#include "veh_type.h"
-#include "vehicle.h"
+#include "catch/catch.hpp"
+#include "character.h"
 #include "item.h"
 #include "item_location.h"
-#include "optional.h"
-#include "string_id.h"
-#include "units.h"
-#include "type_id.h"
+#include "itype.h"
+#include "map.h"
 #include "point.h"
+#include "string_id.h"
+#include "type_id.h"
+#include "units.h"
+#include "value_ptr.h"
+#include "veh_type.h"
+#include "vehicle.h"
 
 static std::vector<const vpart_info *> turret_types()
 {
@@ -61,9 +60,11 @@ static const vpart_info *biggest_tank( const ammotype &ammo )
 
 TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 {
+    map &here = get_map();
+    Character &player_character = get_player_character();
     for( auto e : turret_types() ) {
         SECTION( e->name() ) {
-            vehicle *veh = g->m.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270, 0, 0 );
+            vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270, 0, 0 );
             REQUIRE( veh );
 
             const int idx = veh->install_part( point_zero, e->get_id(), true );
@@ -72,7 +73,8 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
             REQUIRE( veh->install_part( point_zero, vpart_id( "storage_battery" ), true ) >= 0 );
             veh->charge_battery( 10000 );
 
-            auto ammo = ammotype( veh->turret_query( veh->parts[idx] ).base()->ammo_default() );
+            auto ammo =
+                ammotype( veh->turret_query( veh->part( idx ) ).base()->ammo_default().str() );
 
             if( veh->part_flag( idx, "USE_TANKS" ) ) {
                 auto *tank = biggest_tank( ammo );
@@ -81,22 +83,22 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 
                 auto tank_idx = veh->install_part( point_zero, tank->get_id(), true );
                 REQUIRE( tank_idx >= 0 );
-                REQUIRE( veh->parts[ tank_idx ].ammo_set( ammo->default_ammotype() ) );
+                REQUIRE( veh->part( tank_idx ).ammo_set( ammo->default_ammotype() ) );
 
             } else if( ammo ) {
-                veh->parts[ idx].ammo_set( ammo->default_ammotype() );
+                veh->part( idx ).ammo_set( ammo->default_ammotype() );
             }
 
-            auto qry = veh->turret_query( veh->parts[ idx ] );
+            auto qry = veh->turret_query( veh->part( idx ) );
             REQUIRE( qry );
 
             REQUIRE( qry.query() == turret_data::status::ready );
             REQUIRE( qry.range() > 0 );
 
-            g->u.setpos( veh->global_part_pos3( idx ) );
-            REQUIRE( qry.fire( g->u, g->u.pos() + point( qry.range(), 0 ) ) > 0 );
+            player_character.setpos( veh->global_part_pos3( idx ) );
+            REQUIRE( qry.fire( player_character, player_character.pos() + point( qry.range(), 0 ) ) > 0 );
 
-            g->m.destroy_vehicle( veh );
+            here.destroy_vehicle( veh );
         }
     }
 }

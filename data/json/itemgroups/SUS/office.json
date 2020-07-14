@@ -8,6 +8,7 @@
     "entries": [
       { "item": "eink_tablet_pc", "prob": 20 },
       { "item": "laptop", "prob": 60 },
+      { "item": "battery_charger", "prob": 80 },
       { "item": "usb_drive", "prob": 20 },
       { "item": "mobile_memory_card_used", "count": [ 1, 4 ], "prob": 15 },
       { "item": "mobile_memory_card_encrypted", "count": [ 1, 2 ], "prob": 15 },

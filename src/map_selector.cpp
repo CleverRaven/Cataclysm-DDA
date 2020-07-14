@@ -1,31 +1,33 @@
 #include "map_selector.h"
 
-#include <vector>
+#include <algorithm>
 #include <functional>
 #include <memory>
+#include <vector>
 
 #include "game.h"
+#include "game_constants.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "optional.h"
 #include "rng.h"
-#include "game_constants.h"
 
 map_selector::map_selector( const tripoint &pos, int radius, bool accessible )
 {
-    for( const tripoint &e : closest_tripoints_first( pos, radius ) ) {
-        if( !accessible || g->m.clear_path( pos, e, radius, 1, 100 ) ) {
+    for( const tripoint &e : closest_points_first( pos, radius ) ) {
+        if( !accessible || get_map().clear_path( pos, e, radius, 1, 100 ) ) {
             data.emplace_back( e );
         }
     }
 }
 
-tripoint_range points_in_range( const map &m )
+tripoint_range<tripoint> points_in_range( const map &m )
 {
     const int z = m.get_abs_sub().z;
     const bool hasz = m.has_zlevels();
-    return tripoint_range( tripoint( 0, 0, hasz ? -OVERMAP_DEPTH : z ),
-                           tripoint( SEEX * m.getmapsize() - 1, SEEY * m.getmapsize() - 1, hasz ? OVERMAP_HEIGHT : z ) );
+    return tripoint_range<tripoint>(
+               tripoint( 0, 0, hasz ? -OVERMAP_DEPTH : z ),
+               tripoint( SEEX * m.getmapsize() - 1, SEEY * m.getmapsize() - 1, hasz ? OVERMAP_HEIGHT : z ) );
 }
 
 cata::optional<tripoint> random_point( const map &m,
@@ -34,7 +36,7 @@ cata::optional<tripoint> random_point( const map &m,
     return random_point( points_in_range( m ), predicate );
 }
 
-cata::optional<tripoint> random_point( const tripoint_range &range,
+cata::optional<tripoint> random_point( const tripoint_range<tripoint> &range,
                                        const std::function<bool( const tripoint & )> &predicate )
 {
     // Optimist approach: just assume there are plenty of suitable places and a randomly
@@ -57,4 +59,11 @@ cata::optional<tripoint> random_point( const tripoint_range &range,
         return {};
     }
     return random_entry( suitable );
+}
+
+map_cursor::map_cursor( const tripoint &pos ) : pos_( g ? get_map().getabs( pos ) : pos ) { }
+
+map_cursor::operator tripoint() const
+{
+    return g ? get_map().getlocal( pos_ ) : pos_;
 }

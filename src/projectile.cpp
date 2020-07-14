@@ -1,19 +1,20 @@
 #include "projectile.h"
 
+#include <algorithm>
 #include <memory>
 #include <utility>
+#include <vector>
 
 #include "ammo_effect.h"
 #include "explosion.h"
-#include "field.h"
-#include "game.h"
 #include "item.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "rng.h"
+#include "string_id.h"
 
 projectile::projectile() :
-    speed( 0 ), range( 0 ), drop( nullptr ), custom_explosion( nullptr )
+    speed( 0 ), range( 0 ), critical_multiplier( 2.0 ), drop( nullptr ), custom_explosion( nullptr )
 { }
 
 projectile::~projectile() = default;
@@ -31,6 +32,7 @@ projectile &projectile::operator=( const projectile &other )
     speed = other.speed;
     range = other.range;
     proj_effects = other.proj_effects;
+    critical_multiplier = other.critical_multiplier;
     set_drop( other.get_drop() );
     set_custom_explosion( other.get_custom_explosion() );
 
@@ -92,14 +94,15 @@ void projectile::unset_custom_explosion()
 
 void apply_ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
+    map &here = get_map();
     for( const ammo_effect &ae : ammo_effects::get_all() ) {
         if( effects.count( ae.id.str() ) > 0 ) {
-            for( auto &pt : g->m.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
+            for( auto &pt : here.points_in_radius( p, ae.aoe_radius, ae.aoe_radius_z ) ) {
                 if( x_in_y( ae.aoe_chance, 100 ) ) {
-                    const bool check_sees = !ae.aoe_check_sees || g->m.sees( p, pt, ae.aoe_check_sees_radius );
-                    const bool check_passable = !ae.aoe_check_passable || g->m.passable( pt );
+                    const bool check_sees = !ae.aoe_check_sees || here.sees( p, pt, ae.aoe_check_sees_radius );
+                    const bool check_passable = !ae.aoe_check_passable || here.passable( pt );
                     if( check_sees && check_passable ) {
-                        g->m.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
+                        here.add_field( pt, ae.aoe_field_type, rng( ae.aoe_intensity_min, ae.aoe_intensity_max ) );
                     }
                 }
             }

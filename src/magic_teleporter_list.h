@@ -1,6 +1,6 @@
 #pragma once
-#ifndef TELEPORTER_LIST_H
-#define TELEPORTER_LIST_H
+#ifndef CATA_SRC_MAGIC_TELEPORTER_LIST_H
+#define CATA_SRC_MAGIC_TELEPORTER_LIST_H
 
 #include <map>
 #include <set>
@@ -9,7 +9,7 @@
 #include "optional.h"
 #include "point.h"
 
-class avatar;
+class Character;
 class JsonIn;
 class JsonOut;
 
@@ -23,7 +23,7 @@ class teleporter_list
         cata::optional<tripoint> choose_teleport_location();
         // returns true if a teleport is successful
         // does not do any loading or unloading
-        bool place_avatar_overmap( avatar &you, const tripoint &omt_pt ) const;
+        bool place_avatar_overmap( Character &you, const tripoint &omt_pt ) const;
     public:
         bool knows_translocator( const tripoint &omt_pos ) const;
         // adds teleporter to known_teleporters and does any other activation necessary
@@ -38,4 +38,4 @@ class teleporter_list
         void deserialize( JsonIn &jsin );
 };
 
-#endif // !TELEPORTER_LIST_H
+#endif // CATA_SRC_MAGIC_TELEPORTER_LIST_H

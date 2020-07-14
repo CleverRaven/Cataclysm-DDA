@@ -2,11 +2,9 @@
 
 import json
 import argparse
-import os
 import copy
 import math
-import string
-from operator import itemgetter, attrgetter
+from operator import itemgetter
 
 
 STRIDE_X = 3

@@ -3,18 +3,19 @@
     "id": "ppkmag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
-    "name": "Walther PPK magazine",
+    "name": { "str": "Walther PPK magazine" },
     "description": "A standard 8-round steel box magazine for the Walther PPK.",
     "weight": "80 g",
     "volume": "250 ml",
     "price": 2600,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "32",
+    "ammo_type": [ "32" ],
     "capacity": 8,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 8 } } ]
   },
   {
     "id": "sigp230mag",
@@ -25,13 +26,14 @@
     "weight": "70 g",
     "volume": "250 ml",
     "price": 1900,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "32",
+    "ammo_type": [ "32" ],
     "capacity": 8,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 8 } } ]
   },
   {
     "id": "skorpion61mag",
@@ -42,13 +44,14 @@
     "weight": "120 g",
     "volume": "250 ml",
     "price": 2300,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "32",
+    "ammo_type": [ "32" ],
     "capacity": 20,
-    "reliability": 8,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 20 } } ]
   },
   {
     "id": "kp32mag",
@@ -57,14 +60,15 @@
     "name": { "str": "Kel-Tec P32 magazine" },
     "description": "A standard 7-round steel box magazine for the Kel-Tec P32.",
     "weight": "65 g",
-    "volume": "47ml",
+    "volume": "41ml",
     "price": 2600,
-    "material": "steel",
+    "price_postapoc": 100,
+    "material": [ "steel" ],
     "symbol": "#",
     "color": "light_gray",
-    "ammo_type": "32",
+    "ammo_type": [ "32" ],
     "capacity": 7,
-    "reliability": 9,
-    "flags": [ "MAG_COMPACT" ]
+    "flags": [ "MAG_COMPACT" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "32": 7 } } ]
   }
 ]

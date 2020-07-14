@@ -1,34 +1,13 @@
 #include <cstddef>
 #include <string>
 #include <unordered_map>
-#include <vector>
-#include <array>
-#include <list>
-#include <map>
-#include <memory>
-#include <type_traits>
 #include <utility>
+#include <vector>
 
 #include "debug.h"
-// for legacy classdata loaders
-#include "item.h"
-#include "calendar.h"
-#include "itype.h"
-#include "json.h"
-#include "mongroup.h"
 #include "npc.h"
-#include "options.h"
-#include "overmap.h"
 #include "player_activity.h"
-#include "cata_utility.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "monster.h"
-#include "regional_settings.h"
-#include "rng.h"
 #include "type_id.h"
-#include "flat_set.h"
-#include "point.h"
 
 namespace std
 {
@@ -218,7 +197,7 @@ void player_activity::deserialize_legacy_type( int legacy_type, activity_id &des
         activity_id( "ACT_BURROW" ),
         activity_id( "ACT_PULP" ),
         activity_id( "ACT_VIBE" ),
-        activity_id( "ACT_MAKE_ZLAVE" ),
+        activity_id::NULL_ID(), // ACT_MAKE_ZLAVE is deprecated
         activity_id( "ACT_DROP" ),
         activity_id( "ACT_STASH" ),
         activity_id( "ACT_PICKUP" ),

@@ -1,38 +1,48 @@
 #include "map_helpers.h"
 
+#include <cassert>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
-#include "game.h"
-#include "map.h"
-#include "mapdata.h"
-#include "monster.h"
-#include "npc.h"
+#include "character.h"
 #include "field.h"
+#include "game.h"
 #include "game_constants.h"
-#include "pimpl.h"
-#include "type_id.h"
+#include "map.h"
+#include "map_iterator.h"
+#include "mapdata.h"
+#include "npc.h"
 #include "point.h"
+#include "type_id.h"
+
+class vehicle;
+
+// Remove all vehicles from the map
+void clear_vehicles()
+{
+    map &here = get_map();
+    for( wrapped_vehicle &veh : here.get_vehicles() ) {
+        here.destroy_vehicle( veh.v );
+    }
+}
 
 void wipe_map_terrain()
 {
-    const int mapsize = g->m.getmapsize() * SEEX;
+    map &here = get_map();
+    const int mapsize = here.getmapsize() * SEEX;
     for( int z = 0; z <= OVERMAP_HEIGHT; ++z ) {
         ter_id terrain = z == 0 ? t_grass : t_open_air;
         for( int x = 0; x < mapsize; ++x ) {
             for( int y = 0; y < mapsize; ++y ) {
-                g->m.set( { x, y, z}, terrain, f_null );
+                here.set( { x, y, z}, terrain, f_null );
             }
         }
     }
-    for( wrapped_vehicle &veh : g->m.get_vehicles() ) {
-        g->m.destroy_vehicle( veh.v );
-    }
-    g->m.invalidate_map_cache( 0 );
-    g->m.build_map_cache( 0, true );
+    clear_vehicles();
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
 }
 
 void clear_creatures()
@@ -53,17 +63,29 @@ void clear_npcs()
 
 void clear_fields( const int zlevel )
 {
-    const int mapsize = g->m.getmapsize() * SEEX;
+    map &here = get_map();
+    const int mapsize = here.getmapsize() * SEEX;
     for( int x = 0; x < mapsize; ++x ) {
         for( int y = 0; y < mapsize; ++y ) {
             const tripoint p( x, y, zlevel );
             std::vector<field_type_id> fields;
-            for( auto &pr : g->m.field_at( p ) ) {
+            for( auto &pr : here.field_at( p ) ) {
                 fields.push_back( pr.second.get_field_type() );
             }
             for( field_type_id f : fields ) {
-                g->m.remove_field( p, f );
+                here.remove_field( p, f );
             }
+        }
+    }
+}
+
+void clear_items( const int zlevel )
+{
+    map &here = get_map();
+    const int mapsize = here.getmapsize() * SEEX;
+    for( int x = 0; x < mapsize; ++x ) {
+        for( int y = 0; y < mapsize; ++y ) {
+            here.i_clear( { x, y, zlevel } );
         }
     }
 }
@@ -78,14 +100,17 @@ void clear_map()
     wipe_map_terrain();
     clear_npcs();
     clear_creatures();
-    g->m.clear_traps();
+    get_map().clear_traps();
+    for( int z = -2; z <= 0; ++z ) {
+        clear_items( z );
+    }
 }
 
 void clear_map_and_put_player_underground()
 {
     clear_map();
     // Make sure the player doesn't block the path of the monster being tested.
-    g->u.setpos( { 0, 0, -2 } );
+    get_player_character().setpos( { 0, 0, -2 } );
 }
 
 monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
@@ -95,3 +120,19 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint &st
     return *added;
 }
 
+// Build a map of size MAPSIZE_X x MAPSIZE_Y around tripoint_zero with a given
+// terrain, and no furniture, traps, or items.
+void build_test_map( const ter_id &terrain )
+{
+    map &here = get_map();
+    for( const tripoint &p : here.points_in_rectangle( tripoint_zero,
+            tripoint( MAPSIZE * SEEX, MAPSIZE * SEEY, 0 ) ) ) {
+        here.furn_set( p, furn_id( "f_null" ) );
+        here.ter_set( p, terrain );
+        here.trap_set( p, trap_id( "tr_null" ) );
+        here.i_clear( p );
+    }
+
+    here.invalidate_map_cache( 0 );
+    here.build_map_cache( 0, true );
+}

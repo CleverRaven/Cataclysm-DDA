@@ -1,7 +1,8 @@
 #pragma once
-#ifndef INPUT_H
-#define INPUT_H
+#ifndef CATA_SRC_INPUT_H
+#define CATA_SRC_INPUT_H
 
+#include <algorithm>
 #include <cstddef>
 #include <functional>
 #include <map>
@@ -9,11 +10,12 @@
 #include <vector>
 
 #if defined(__ANDROID__)
-#include <list>
 #include <algorithm>
+#include <list>
 #endif
 
 #include "point.h"
+#include "translations.h"
 
 enum action_id : int;
 
@@ -74,12 +76,12 @@ std::string get_input_string_from_file( const std::string &fname = "input.txt" )
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
 
-enum input_event_t {
-    CATA_INPUT_ERROR,
-    CATA_INPUT_TIMEOUT,
-    CATA_INPUT_KEYBOARD,
-    CATA_INPUT_GAMEPAD,
-    CATA_INPUT_MOUSE
+enum class input_event_t : int  {
+    error,
+    timeout,
+    keyboard,
+    gamepad,
+    mouse
 };
 
 /**
@@ -113,14 +115,14 @@ struct input_event {
     int shortcut_last_used_action_counter;
 #endif
 
-    input_event() {
-        type = CATA_INPUT_ERROR;
+    input_event() : edit_refresh( false ) {
+        type = input_event_t::error;
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
 #endif
     }
     input_event( int s, input_event_t t )
-        : type( t ) {
+        : type( t ), edit_refresh( false ) {
         sequence.push_back( s );
 #if defined(__ANDROID__)
         shortcut_last_used_action_counter = 0;
@@ -178,7 +180,7 @@ struct input_event {
 struct action_attributes {
     action_attributes() : is_user_created( false ) {}
     bool is_user_created;
-    std::string name;
+    translation name;
     std::vector<input_event> input_events;
 };
 
@@ -300,7 +302,6 @@ class input_manager
         using t_actions = std::map<std::string, action_attributes>;
         using t_action_contexts = std::map<std::string, t_actions>;
         t_action_contexts action_contexts;
-        using t_string_string_map = std::map<std::string, std::string>;
 
         using t_key_to_name_map = std::map<int, std::string>;
         t_key_to_name_map keycode_to_keyname;
@@ -358,10 +359,10 @@ class input_manager
          * @param action_id The action ID of the action.
          *
          * @return If the action ID exists in the default context, the name of
-         *         that action's name is returned. Otherwise, the action_id is
+         *         that action's name is returned. Otherwise, no_translation( action_id ) is
          *         returned.
          */
-        std::string get_default_action_name( const std::string &action_id ) const;
+        translation get_default_action_name( const std::string &action_id ) const;
 };
 
 // Singleton for our input manager.
@@ -386,7 +387,7 @@ class input_context
 #endif
 
         input_context() : registered_any_input( false ), category( "default" ),
-            handling_coordinate_input( false ) {
+            coordinate_input_received( false ), handling_coordinate_input( false ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
@@ -395,7 +396,7 @@ class input_context
         // TODO: consider making the curses WINDOW an argument to the constructor, so that mouse input
         // outside that window can be ignored
         input_context( const std::string &category ) : registered_any_input( false ),
-            category( category ), handling_coordinate_input( false ) {
+            category( category ), coordinate_input_received( false ), handling_coordinate_input( false ) {
 #if defined(__ANDROID__)
             input_context_stack.push_back( this );
             allow_text_entry = false;
@@ -513,7 +514,7 @@ class input_context
          * @param name Name of the action, displayed to the user. If empty use the
          * name reported by the input_manager.
          */
-        void register_action( const std::string &action_descriptor, const std::string &name );
+        void register_action( const std::string &action_descriptor, const translation &name );
 
         /**
          * Get the set of available single character keyboard keys that do not
@@ -633,6 +634,8 @@ class input_context
          */
         input_event get_raw_input();
 
+        std::pair<point, bool> get_coordinates_text( const catacurses::window &capture_win ) const;
+
         /**
          * Get the human-readable name for an action.
          */
@@ -674,7 +677,7 @@ class input_context
          * Sets input polling timeout as appropriate for the current interface system.
          * Use this method to set timeouts when using input_context, rather than calling
          * the old timeout() method or using input_manager::(re)set_timeout, as using
-         * this method will cause CATA_INPUT_TIMEOUT events to be generated correctly,
+         * this method will cause input_event_t::timeout events to be generated correctly,
          * and will reset timeout correctly when a new input context is entered.
          */
         void set_timeout( int val );
@@ -701,7 +704,7 @@ class input_context
          * name. This map stores those overrides. The key is the action ID and the
          * value is the user-visible name.
          */
-        input_manager::t_string_string_map action_name_overrides;
+        std::map<std::string, translation> action_name_overrides;
 
         /**
          * Returns whether action uses the specified input
@@ -729,6 +732,10 @@ class input_context
          */
         std::vector<std::string> filter_strings_by_phrase( const std::vector<std::string> &strings,
                 const std::string &phrase ) const;
+    public:
+        std::vector<std::string> get_registered_actions_copy() const {
+            return registered_actions;
+        }
 };
 
 /**
@@ -741,4 +748,4 @@ bool gamepad_available();
 // rotate a delta direction clockwise
 void rotate_direction_cw( int &dx, int &dy );
 
-#endif
+#endif // CATA_SRC_INPUT_H

@@ -1,29 +1,32 @@
 #include <memory>
+#include <vector>
 
 #include "avatar.h"
 #include "catch/catch.hpp"
+#include "enums.h"
 #include "game.h"
+#include "game_constants.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "enums.h"
-#include "game_constants.h"
-#include "type_id.h"
 #include "point.h"
+#include "type_id.h"
 
 TEST_CASE( "destroy_grabbed_furniture" )
 {
     clear_map();
+    avatar &player_character = get_avatar();
     GIVEN( "Furniture grabbed by the player" ) {
         const tripoint test_origin( 60, 60, 0 );
-        g->u.setpos( test_origin );
+        map &here = get_map();
+        player_character.setpos( test_origin );
         const tripoint grab_point = test_origin + tripoint_east;
-        g->m.furn_set( grab_point, furn_id( "f_chair" ) );
-        g->u.grab( OBJECT_FURNITURE, grab_point );
+        here.furn_set( grab_point, furn_id( "f_chair" ) );
+        player_character.grab( object_type::FURNITURE, grab_point );
         WHEN( "The furniture grabbed by the player is destroyed" ) {
-            g->m.destroy( grab_point );
+            here.destroy( grab_point );
             THEN( "The player's grab is released" ) {
-                CHECK( g->u.get_grab_type() == OBJECT_NONE );
-                CHECK( g->u.grab_point == tripoint_zero );
+                CHECK( player_character.get_grab_type() == object_type::NONE );
+                CHECK( player_character.grab_point == tripoint_zero );
             }
         }
     }
@@ -85,5 +88,5 @@ TEST_CASE( "place_player_can_safely_move_multiple_submaps" )
     // map::shift if the resulting shift exceeded a single submap, leading to a
     // broken active item cache.
     g->place_player( tripoint_zero );
-    CHECK( g->m.check_submap_active_item_consistency().empty() );
+    CHECK( get_map().check_submap_active_item_consistency().empty() );
 }

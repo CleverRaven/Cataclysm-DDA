@@ -26,9 +26,9 @@
     "volume": "500 ml",
     "price": 9000,
     "to_hit": -1,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "%",
     "color": "light_gray",
-    "use_action": "DOLLCHAT"
+    "use_action": [ "DOLLCHAT" ]
   }
 ]

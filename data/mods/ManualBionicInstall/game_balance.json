@@ -1,8 +1,0 @@
-[
-  {
-    "type": "EXTERNAL_OPTION",
-    "name": "MANUAL_BIONIC_INSTALLATION",
-    "stype": "bool",
-    "value": true
-  }
-]

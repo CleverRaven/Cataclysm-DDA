@@ -1,17 +1,20 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cstdlib>
 #include <set>
 
 #include "assign.h"
 #include "calendar.h"
 #include "condition.h"
+#include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
 #include "init.h"
 #include "item.h"
-#include "rng.h"
-#include "debug.h"
 #include "json.h"
+#include "npc.h"
+#include "rng.h"
 
 enum legacy_mission_type_id {
     MISSION_NULL,
@@ -342,7 +345,7 @@ void mission_type::finalize()
 void mission_type::check_consistency()
 {
     for( const auto &m : get_all() ) {
-        if( !m.item_id.empty() && !item::type_is_defined( m.item_id ) ) {
+        if( !m.item_id.is_empty() && !item::type_is_defined( m.item_id ) ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }
     }

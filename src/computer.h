@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COMPUTER_H
-#define COMPUTER_H
+#ifndef CATA_SRC_COMPUTER_H
+#define CATA_SRC_COMPUTER_H
 
 #include <string>
 #include <vector>
@@ -148,4 +148,4 @@ class computer
         void remove_option( computer_action action );
 };
 
-#endif
+#endif // CATA_SRC_COMPUTER_H

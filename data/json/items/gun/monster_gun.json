@@ -18,7 +18,7 @@
       "RELOAD_AND_SHOOT"
     ],
     "skill": "pistol",
-    "ammo": "barb",
+    "ammo": [ "barb" ],
     "clip_size": 1,
     "weight": "540 g",
     "volume": "750ml",
@@ -28,7 +28,8 @@
     "loudness": 2,
     "range": 12,
     "dispersion": 100,
-    "durability": 8
+    "durability": 8,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "barb": 1 } } ]
   },
   {
     "id": "emp_frond",
@@ -58,6 +59,35 @@
     "reload_noise_volume": 2,
     "loudness": 2,
     "range": 12,
+    "dispersion": 150,
+    "durability": 8
+  },
+  {
+    "id": "feral_human_thrown_rock",
+    "type": "GUN",
+    "symbol": "%",
+    "color": "red",
+    "name": { "str": "hurled rubble" },
+    "description": "Stone at the ready to crush that which isn't part of the blob.",
+    "material": [ "stone" ],
+    "flags": [
+      "PRIMITIVE_RANGED_WEAPON",
+      "NEVER_JAMS",
+      "NONCONDUCTIVE",
+      "NO_REPAIR",
+      "WATERPROOF_GUN",
+      "NO_SALVAGE",
+      "NO_UNLOAD",
+      "NO_AMMO"
+    ],
+    "skill": "throw",
+    "ranged_damage": { "damage_type": "bash", "amount": 1 },
+    "weight": "540 g",
+    "volume": "750ml",
+    "bashing": 2,
+    "to_hit": 1,
+    "loudness": 2,
+    "range": 6,
     "dispersion": 150,
     "durability": 8
   }

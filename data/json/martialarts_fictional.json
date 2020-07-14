@@ -2,7 +2,7 @@
   {
     "type": "martial_art",
     "id": "style_biojutsu",
-    "name": "Bionic Combatives",
+    "name": { "str": "Bionic Combatives" },
     "description": "A modern combat style for the post-modern human.  Nicknamed \"Biojutsu\", Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
     "initiate": [
       "BEGINNING BIONIC COMBATIVES PROGRAM. INITIATING COMBAT PROTOCOLS.",
@@ -18,7 +18,7 @@
         "unarmed_allowed": true,
         "melee_allowed": true,
         "bonus_blocks": 2,
-        "flat_bonuses": [ [ "hit", 1.0 ] ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 1.0 } ]
       }
     ],
     "onkill_buffs": [
@@ -31,7 +31,12 @@
         "skill_requirements": [ { "name": "melee", "level": 4 } ],
         "buff_duration": 3,
         "max_stacks": 3,
-        "flat_bonuses": [ [ "damage", "bash", 2.0 ], [ "damage", "cut", 2.0 ], [ "damage", "stab", 2.0 ], [ "hit", 1.0 ] ]
+        "flat_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 2.0 },
+          { "stat": "damage", "type": "cut", "scale": 2.0 },
+          { "stat": "damage", "type": "stab", "scale": 2.0 },
+          { "stat": "hit", "scale": 1.0 }
+        ]
       }
     ],
     "techniques": [
@@ -48,7 +53,7 @@
   {
     "type": "martial_art",
     "id": "style_centipede",
-    "name": "Centipede Kung Fu",
+    "name": { "str": "Centipede Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Zhang Yiaotian.  Centipede Style uses an onslaught of rapid strikes.  Each attack you land increases your attack speed.  Critical hits increase your damage further.",
     "initiate": [ "You ready yourself to attack as fast as possible.", "%s assumes a centipede-like stance." ],
     "learn_difficulty": 10,
@@ -63,7 +68,7 @@
         "unarmed_allowed": true,
         "buff_duration": 3,
         "max_stacks": 4,
-        "flat_bonuses": [ [ "movecost", -4.0 ] ]
+        "flat_bonuses": [ { "stat": "movecost", "scale": -4.0 } ]
       }
     ],
     "oncrit_buffs": [
@@ -74,7 +79,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 2,
-        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
       }
     ],
     "techniques": [ "tec_centipede_rapid", "tec_centipede_break", "tec_centipede_bite", "tec_centipede_disarm" ]
@@ -82,7 +87,7 @@
   {
     "type": "martial_art",
     "id": "style_lizard",
-    "name": "Lizard Kung Fu",
+    "name": { "str": "Lizard Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Meng Tianxia.  Lizard Style focuses on using walls to your advantage.  Standing near a wall provides a large bonus to Dodge skill and moving near a wall gives a large bonus to accuracy.  Stronger techniques are enabled when near a wall.",
     "initiate": [ "You ready yourself to attack from any angle.", "%s assumes a lizard-like stance." ],
     "learn_difficulty": 10,
@@ -94,7 +99,7 @@
         "description": "By briefly scaling, leaping, or pushing off a nearby wall, you can avoid the worst of your opponents attacks.\n\n+3.0 Dodge skill when near a wall.\nEnables \"Lizard Tail\" and \"Lizard Wall Counter\" techniques when near a wall.",
         "unarmed_allowed": true,
         "wall_adjacent": true,
-        "flat_bonuses": [ [ "dodge", 3.0 ] ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 3.0 } ]
       }
     ],
     "onhit_buffs": [
@@ -105,7 +110,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "unarmed_allowed": true,
         "buff_duration": 4,
-        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
       }
     ],
     "onmove_buffs": [
@@ -116,7 +121,7 @@
         "unarmed_allowed": true,
         "wall_adjacent": true,
         "buff_duration": 3,
-        "flat_bonuses": [ [ "hit", 3.0 ] ]
+        "flat_bonuses": [ { "stat": "hit", "scale": 3.0 } ]
       }
     ],
     "techniques": [ "tec_lizard_strike", "tec_lizard_break", "tec_lizard_wallcounter", "tec_lizard_counter", "tec_lizard_tail" ]
@@ -124,7 +129,7 @@
   {
     "type": "martial_art",
     "id": "style_scorpion",
-    "name": "Scorpion Kung Fu",
+    "name": { "str": "Scorpion Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Gao Ji.  Scorpion Style is a mysterious art which uses pincer-like hands and a stinger kick.  Moving enables a stunning pincer attack.  Critical hits do massive damage and knock your opponent back along with anyone your opponent comes in contact with.",
     "initiate": [ "You prepare to capture and sting your foes.", "%s assumes a scorpion-like stance." ],
     "learn_difficulty": 10,
@@ -135,7 +140,7 @@
         "name": "Scorpion's Venom",
         "description": "Your venom is a constant threat that nothing can escape from.\n\n+2 bashing damage.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
       }
     ],
     "onattack_buffs": [
@@ -158,7 +163,11 @@
         "unarmed_allowed": true,
         "buff_duration": 2,
         "max_stacks": 2,
-        "mult_bonuses": [ [ "damage", "bash", 1.1 ], [ "damage", "cut", 1.1 ], [ "damage", "stab", 1.1 ] ]
+        "mult_bonuses": [
+          { "stat": "damage", "type": "bash", "scale": 1.1 },
+          { "stat": "damage", "type": "cut", "scale": 1.1 },
+          { "stat": "damage", "type": "stab", "scale": 1.1 }
+        ]
       }
     ],
     "techniques": [ "tec_scorpion_roundhouse", "tec_scorpion_precise", "tec_scorpion_brutal" ]
@@ -166,7 +175,7 @@
   {
     "type": "martial_art",
     "id": "style_toad",
-    "name": "Toad Kung Fu",
+    "name": { "str": "Toad Kung Fu" },
     "description": "One of the Five Deadly Venoms, used by Liang Shen.  Masters of Toad Style can focus themselves to protect against all attacks.  You have powerful armor against physical attacks, though you will lose focus when you move.  You can meditate by pausing, giving yourself more armor for a short time.",
     "initiate": [ "You pause for a moment and focus on your invincible body.", "%s assumes a toad-like stance." ],
     "learn_difficulty": 10,
@@ -178,7 +187,11 @@
         "description": "Your body is as strong as iron but only if you don't move.\n\n+6 bash, cut, and stab armor.",
         "//": "FWIW, this is twice the amount of armor provided by bionic plating.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ [ "armor", "bash", 6.0 ], [ "armor", "cut", 6.0 ], [ "armor", "stab", 6.0 ] ]
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 6.0 },
+          { "stat": "armor", "type": "cut", "scale": 6.0 },
+          { "stat": "armor", "type": "stab", "scale": 6.0 }
+        ]
       }
     ],
     "onmove_buffs": [
@@ -189,7 +202,11 @@
         "unarmed_allowed": true,
         "buff_duration": 6,
         "max_stacks": 6,
-        "flat_bonuses": [ [ "armor", "bash", -1.0 ], [ "armor", "cut", -1.0 ], [ "armor", "stab", -1.0 ] ]
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": -1.0 },
+          { "stat": "armor", "type": "cut", "scale": -1.0 },
+          { "stat": "armor", "type": "stab", "scale": -1.0 }
+        ]
       }
     ],
     "onpause_buffs": [
@@ -200,7 +217,11 @@
         "skill_requirements": [ { "name": "unarmed", "level": 5 } ],
         "unarmed_allowed": true,
         "buff_duration": 2,
-        "flat_bonuses": [ [ "armor", "bash", 3.0 ], [ "armor", "cut", 3.0 ], [ "armor", "stab", 3.0 ] ]
+        "flat_bonuses": [
+          { "stat": "armor", "type": "bash", "scale": 3.0 },
+          { "stat": "armor", "type": "cut", "scale": 3.0 },
+          { "stat": "armor", "type": "stab", "scale": 3.0 }
+        ]
       }
     ],
     "ongethit_buffs": [
@@ -211,7 +232,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 2 } ],
         "unarmed_allowed": true,
         "buff_duration": 5,
-        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
       }
     ],
     "techniques": [ "tec_toad_counter", "tec_toad_critcounter", "tec_toad_grab" ]
@@ -219,7 +240,7 @@
   {
     "type": "martial_art",
     "id": "style_venom_snake",
-    "name": "Viper Kung Fu",
+    "name": { "str": "Viper Kung Fu" },
     "description": "A legacy of the Five Deadly Venoms, use by Qi Dong.  Viper Style (originally called Snake Style) has a unique three-part combo, which initiates on a dodge, then follows up with a stunning Viper Bite and then finishes with the legendary Viper Strike.",
     "initiate": [ "You prepare to strike your foes' weaknesses.", "%s assumes a viper-like stance." ],
     "learn_difficulty": 10,
@@ -230,7 +251,7 @@
         "name": "Viper's Patience",
         "description": "Every snake waits for the perfect moment to strike.  Turn your opponents' mistakes into your opportunity to strike!\n\n+1.0 Dodge skill.",
         "unarmed_allowed": true,
-        "flat_bonuses": [ [ "dodge", 1.0 ] ]
+        "flat_bonuses": [ { "stat": "dodge", "scale": 1.0 } ]
       }
     ],
     "ondodge_buffs": [
@@ -249,7 +270,7 @@
         "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
         "unarmed_allowed": true,
         "buff_duration": 3,
-        "flat_bonuses": [ [ "damage", "bash", 2.0 ] ]
+        "flat_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
       }
     ],
     "techniques": [
@@ -263,7 +284,7 @@
   {
     "type": "mutation",
     "id": "MARTIAL_ARTS4",
-    "name": "Venom Mob Protege",
+    "name": { "str": "Venom Mob Protege" },
     "points": 2,
     "description": "You are a pupil of the Venom Clan.  You start with one of the five deadly venoms: Centipede, Viper, Scorpion, Lizard, or Toad.",
     "starting_trait": false,
@@ -280,7 +301,7 @@
     "unarmed_allowed": true,
     "block_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
   },
   {
     "type": "technique",
@@ -299,7 +320,7 @@
     "name": "Measured Strike (melee)",
     "messages": [ "You make an efficient strike against %s", "<npcname> makes an efficient strike against %s" ],
     "melee_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
   },
   {
     "type": "technique",
@@ -309,7 +330,7 @@
     "unarmed_allowed": true,
     "unarmed_weapons_allowed": false,
     "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.8 ] ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.8 } ]
   },
   {
     "type": "technique",
@@ -319,7 +340,11 @@
     "skill_requirements": [ { "name": "melee", "level": 3 } ],
     "melee_allowed": true,
     "crit_tec": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.5 ], [ "damage", "cut", 1.5 ], [ "damage", "stab", 1.5 ] ],
+    "mult_bonuses": [
+      { "stat": "damage", "type": "bash", "scale": 1.5 },
+      { "stat": "damage", "type": "cut", "scale": 1.5 },
+      { "stat": "damage", "type": "stab", "scale": 1.5 }
+    ],
     "stun_dur": 1
   },
   {
@@ -353,7 +378,7 @@
     "skill_requirements": [ { "name": "unarmed", "level": 1 } ],
     "unarmed_allowed": true,
     "crit_ok": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
   },
   {
     "type": "technique",
@@ -365,7 +390,7 @@
     "wall_adjacent": true,
     "crit_tec": true,
     "stun_dur": 1,
-    "mult_bonuses": [ [ "damage", "bash", 1.5 ] ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.5 } ]
   },
   {
     "type": "technique",
@@ -391,7 +416,7 @@
     "weighting": 2,
     "knockback_dist": 1,
     "knockback_spread": 1,
-    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 2.0 ] ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
   },
   {
     "type": "technique",
@@ -402,7 +427,7 @@
     "unarmed_allowed": true,
     "dodge_counter": true,
     "crit_ok": true,
-    "mult_bonuses": [ [ "movecost", 0.0 ] ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 } ]
   },
   {
     "type": "technique",
@@ -421,7 +446,12 @@
     "name": "Viper Fist",
     "messages": [ "You quickly chop %s", "<npcname> quickly chops %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ]
   },
   {
     "type": "technique",
@@ -433,7 +463,7 @@
     "req_buffs": [ "buff_venom_snake_ondodge1" ],
     "crit_tec": true,
     "stun_dur": 2,
-    "mult_bonuses": [ [ "damage", "bash", 1.33 ] ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.33 } ]
   },
   {
     "type": "technique",
@@ -445,7 +475,7 @@
     "stunned_target": true,
     "weighting": 2,
     "crit_ok": true,
-    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ]
   },
   {
     "type": "technique",
@@ -464,7 +494,7 @@
     "name": "Roundhouse Kick",
     "messages": [ "You roundhouse kick %s", "<npcname> roundhouse kicks %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "damage", "bash", 1.2 ] ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.2 } ]
   },
   {
     "type": "technique",
@@ -476,7 +506,7 @@
     "stun_dur": 2,
     "knockback_dist": 3,
     "powerful_knockback": true,
-    "mult_bonuses": [ [ "damage", "bash", 2.0 ] ],
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 2.0 } ],
     "messages": [ "Your Stinger Kick sends %s flying", "<npcname>'s Stinger Kick sends %s flying" ]
   },
   {
@@ -488,7 +518,7 @@
     "unarmed_allowed": true,
     "req_buffs": [ "buff_scorpion_onmove" ],
     "stun_dur": 1,
-    "mult_bonuses": [ [ "damage", "bash", 1.25 ] ]
+    "mult_bonuses": [ { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
     "type": "technique",
@@ -499,7 +529,7 @@
     "unarmed_allowed": true,
     "block_counter": true,
     "down_dur": 1,
-    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 1.25 ] ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 }, { "stat": "damage", "type": "bash", "scale": 1.25 } ]
   },
   {
     "type": "technique",
@@ -511,7 +541,7 @@
     "block_counter": true,
     "crit_tec": true,
     "down_dur": 1,
-    "mult_bonuses": [ [ "movecost", 0.0 ], [ "damage", "bash", 2.0 ] ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.0 }, { "stat": "damage", "type": "bash", "scale": 2.0 } ]
   },
   {
     "type": "technique",
@@ -522,7 +552,7 @@
     "unarmed_allowed": true,
     "crit_ok": true,
     "down_dur": 1,
-    "mult_bonuses": [ [ "movecost", 0.5 ] ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ]
   },
   {
     "type": "technique",
@@ -540,7 +570,12 @@
     "name": "Centipede Strike",
     "messages": [ "You swiftly hit %s", "<npcname> swiftly hits %s" ],
     "unarmed_allowed": true,
-    "mult_bonuses": [ [ "movecost", 0.5 ], [ "damage", "bash", 0.66 ], [ "damage", "cut", 0.66 ], [ "damage", "stab", 0.66 ] ]
+    "mult_bonuses": [
+      { "stat": "movecost", "scale": 0.5 },
+      { "stat": "damage", "type": "bash", "scale": 0.66 },
+      { "stat": "damage", "type": "cut", "scale": 0.66 },
+      { "stat": "damage", "type": "stab", "scale": 0.66 }
+    ]
   },
   {
     "type": "technique",
@@ -551,7 +586,7 @@
     "unarmed_allowed": true,
     "crit_tec": true,
     "down_dur": 1,
-    "mult_bonuses": [ [ "movecost", 0.5 ] ]
+    "mult_bonuses": [ { "stat": "movecost", "scale": 0.5 } ]
   },
   {
     "type": "technique",

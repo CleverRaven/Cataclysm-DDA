@@ -111,7 +111,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "shelter_nest_vandalized",
+    "nested_mapgen_id": "shelter_nest_vandal",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -264,7 +264,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "shelter_1_nest_vandalized",
+    "nested_mapgen_id": "shelter_1_nest_vandal",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [
@@ -422,7 +422,7 @@
   {
     "type": "mapgen",
     "method": "json",
-    "nested_mapgen_id": "shelter_2_nest_vandalized",
+    "nested_mapgen_id": "shelter_2_nest_vandal",
     "object": {
       "mapgensize": [ 24, 24 ],
       "rows": [

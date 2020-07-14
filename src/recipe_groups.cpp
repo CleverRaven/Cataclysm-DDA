@@ -1,15 +1,16 @@
 #include "recipe_groups.h"
 
-#include <string>
-#include <vector>
 #include <set>
+#include <string>
 #include <utility>
+#include <vector>
 
+#include "debug.h"
 #include "generic_factory.h"
 #include "json.h"
-#include "debug.h"
 #include "overmap.h"
 #include "string_id.h"
+#include "translations.h"
 #include "type_id.h"
 
 // recipe_groups namespace
@@ -26,14 +27,13 @@ struct recipe_group_data {
     std::string building_type = "NONE";
     std::map<recipe_id, translation> recipes;
     std::map<recipe_id, std::set<std::string>> om_terrains;
-    bool was_loaded;
+    bool was_loaded = false;
 
     void load( const JsonObject &jo, const std::string &src );
     void check() const;
 };
 
-generic_factory<recipe_group_data> recipe_groups_data( "recipe group type", "name",
-        "other_handles" );
+generic_factory<recipe_group_data> recipe_groups_data( "recipe group type" );
 
 } // namespace
 

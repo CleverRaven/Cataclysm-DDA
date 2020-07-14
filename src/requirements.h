@@ -1,41 +1,40 @@
 #pragma once
-#ifndef REQUIREMENTS_H
-#define REQUIREMENTS_H
+#ifndef CATA_SRC_REQUIREMENTS_H
+#define CATA_SRC_REQUIREMENTS_H
 
+#include <algorithm>
 #include <functional>
 #include <list>
 #include <map>
-#include <vector>
 #include <string>
+#include <tuple>
 #include <utility>
+#include <vector>
 
 #include "crafting.h"
-#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
-class nc_color;
-class JsonValue;
-class JsonObject;
 class JsonArray;
 class JsonIn;
+class JsonObject;
 class JsonOut;
+class JsonValue;
 class inventory;
 class item;
+class nc_color;
+class player;
 
-// Denotes the id of an item type
-using itype_id = std::string;
-
-enum available_status {
+enum class available_status : int {
     a_true = +1, // yes, it's available
     a_false = -1, // no, it's not available
     a_insufficent = 0, // nearly, but not enough for tool+component
 };
 
-enum component_type : int {
-    COMPONENT_ITEM,
-    COMPONENT_TOOL,
-    COMPONENT_QUALITY,
+enum class component_type : int {
+    ITEM,
+    TOOL,
+    QUALITY,
 };
 
 struct quality {
@@ -52,11 +51,11 @@ struct quality {
 };
 
 struct component {
-    itype_id type = "null";
+    itype_id type = itype_id::NULL_ID();
     int count = 0;
     // -1 means the player doesn't have the item, 1 means they do,
     // 0 means they have item but not enough for both tool and component
-    mutable available_status available = a_false;
+    mutable available_status available = available_status::a_false;
     bool recoverable = true;
     // If true, it's not actually a component but a requirement (list of components)
     bool requirement = false;
@@ -91,13 +90,13 @@ struct tool_comp : public component {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, craft_flags = craft_flags::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     bool by_charges() const;
     component_type get_component_type() const {
-        return COMPONENT_TOOL;
+        return component_type::TOOL;
     }
 };
 
@@ -109,12 +108,12 @@ struct item_comp : public component {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int batch = 1, craft_flags = craft_flags::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int batch = 1 ) const;
     component_type get_component_type() const {
-        return COMPONENT_ITEM;
+        return component_type::ITEM;
     }
 };
 
@@ -122,7 +121,7 @@ struct quality_requirement {
     quality_id type = quality_id( "UNKNOWN" );
     int count = 1;
     int level = 1;
-    mutable available_status available = a_false;
+    mutable available_status available = available_status::a_false;
     bool requirement = false; // Currently unused, but here for consistency and templates
 
     // needs explicit specification due to the mutable member. update this when you add new
@@ -148,17 +147,18 @@ struct quality_requirement {
     void dump( JsonOut &jsout ) const;
     bool has( const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
               int = 0, craft_flags = craft_flags::none,
-              std::function<void( int )> visitor = std::function<void( int )>() ) const;
+              const std::function<void( int )> &visitor = std::function<void( int )>() ) const;
     std::string to_string( int batch = 1, int avail = 0 ) const;
+    std::string to_colored_string() const;
     void check_consistency( const std::string &display_name ) const;
     nc_color get_color( bool has_one, const inventory &crafting_inv,
                         const std::function<bool( const item & )> &filter, int = 0 ) const;
     component_type get_component_type() const {
-        return COMPONENT_QUALITY;
+        return component_type::QUALITY;
     }
 };
 
-enum class requirement_display_flags {
+enum class requirement_display_flags : int {
     none = 0,
     no_unavailable = 1,
 };
@@ -318,7 +318,7 @@ struct requirement_data {
         /** @param filter see @ref can_make_with_inventory */
         std::vector<std::string> get_folded_components_list( int width, nc_color col,
                 const inventory &crafting_inv, const std::function<bool( const item & )> &filter,
-                int batch = 1, std::string hilite = "",
+                int batch = 1, const std::string &hilite = "",
                 requirement_display_flags = requirement_display_flags::none ) const;
 
         std::vector<std::string> get_folded_tools_list( int width, nc_color col,
@@ -455,4 +455,4 @@ class deduped_requirement_data
         std::vector<requirement_data> alternatives_;
 };
 
-#endif
+#endif // CATA_SRC_REQUIREMENTS_H

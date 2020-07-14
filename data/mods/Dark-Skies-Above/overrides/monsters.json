@@ -1,0 +1,56 @@
+[
+  {
+    "id": "mon_c4_hack",
+    "copy-from": "mon_c4_hack",
+    "type": "MONSTER",
+    "name": { "str": "C-4 hack" },
+    "extend": { "categories": [ "ALIEN" ] },
+    "description": "An automated kamikaze drone, this small flying robot appears to have some C-4 inside."
+  },
+  {
+    "id": "mon_flashbang_hack",
+    "copy-from": "mon_flashbang_hack",
+    "type": "MONSTER",
+    "name": { "str": "flashbang hack" },
+    "extend": { "categories": [ "ALIEN" ] },
+    "description": "An automated kamikaze drone, this small flying robot appears to have a flashbang inside."
+  },
+  {
+    "id": "mon_gasbomb_hack",
+    "copy-from": "mon_gasbomb_hack",
+    "type": "MONSTER",
+    "name": { "str": "tear gas hack" },
+    "extend": { "categories": [ "ALIEN" ] },
+    "description": "An automated kamikaze drone, this small flying robot appears to have a tear gas canister inside."
+  },
+  {
+    "id": "mon_grenade_hack",
+    "copy-from": "mon_grenade_hack",
+    "type": "MONSTER",
+    "name": { "str": "grenade hack" },
+    "extend": { "categories": [ "ALIEN" ] },
+    "description": "An automated kamikaze drone, this small flying robot appears to have a grenade inside."
+  },
+  {
+    "id": "mon_manhack",
+    "copy-from": "mon_manhack",
+    "type": "MONSTER",
+    "name": { "str": "manhack" },
+    "extend": { "categories": [ "ALIEN" ] },
+    "description": "An automated anti-personnel drone, a small flying robot surrounded by whirring blades."
+  },
+  {
+    "id": "mon_rattlesnake_giant",
+    "copy-from": "mon_rattlesnake_giant",
+    "type": "MONSTER",
+    "name": "giant rattlesnake",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  },
+  {
+    "id": "mon_nakedmolerat_giant",
+    "copy-from": "mon_nakedmolerat_giant",
+    "type": "MONSTER",
+    "name": "gigantic naked mole-rat",
+    "delete": { "categories": [ "WILDLIFE" ] }
+  }
+]

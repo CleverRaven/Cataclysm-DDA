@@ -200,7 +200,7 @@
     "max_duration": 2,
     "duration_increment": 1,
     "difficulty": 0,
-    "max_level": 1,
+    "max_level": 0,
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",
     "flags": [ "PERMANENT", "NO_LEGS", "CONCENTRATE" ]
@@ -271,7 +271,8 @@
     "base_energy_cost": 1000,
     "energy_source": "MANA",
     "flags": [ "VERBAL", "SOMATIC", "LOUD" ],
-    "extra_effects": [ { "id": "lava_bomb_shrapnel" }, { "id": "lava_bomb_heat" }, { "id": "lava_bomb_ter" } ]
+    "extra_effects": [ { "id": "lava_bomb_shrapnel" }, { "id": "lava_bomb_heat" }, { "id": "lava_bomb_ter" } ],
+    "spell_class": "EARTHSHAPER"
   },
   {
     "id": "clairvoyance",

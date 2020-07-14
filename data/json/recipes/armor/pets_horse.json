@@ -47,7 +47,7 @@
     "time": "210 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 190 ] ],
-    "components": [ [ [ "kevlar_plate", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 24 ] ] ]
+    "components": [ [ [ "sheet_kevlar_layered", 56 ] ], [ [ "rag", 42 ] ], [ [ "leather", 24 ], [ "tanned_hide", 24 ] ] ]
   },
   {
     "result": "leather_armor_horse",
@@ -115,8 +115,8 @@
     "id_suffix": "from_scratch",
     "category": "CC_ANIMALS",
     "subcategory": "CSC_ANIMALS_EQUINE ARMOR",
-    "skill_used": "cooking",
-    "difficulty": 3,
+    "skill_used": "chemistry",
+    "difficulty": 4,
     "skills_required": [ "tailor", 6 ],
     "time": "525 m",
     "book_learn": [

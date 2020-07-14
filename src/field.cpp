@@ -4,8 +4,7 @@
 #include <utility>
 
 #include "calendar.h"
-#include "debug.h"
-#include "effect.h"
+#include "int_id.h"
 
 int field_entry::move_cost() const
 {
@@ -72,6 +71,11 @@ float field_entry::light_emitted() const
     return type.obj().get_light_emitted( intensity - 1 );
 }
 
+float field_entry::local_light_override() const
+{
+    return type.obj().get_local_light_override( intensity - 1 );
+}
+
 float field_entry::translucency() const
 {
     return type.obj().get_translucency( intensity - 1 );
@@ -124,6 +128,11 @@ int field_entry::set_field_intensity( int new_intensity )
     is_alive = new_intensity > 0;
     return intensity = std::max( std::min( new_intensity, get_max_field_intensity() ), 1 );
 
+}
+
+void field_entry::mod_field_intensity( int mod )
+{
+    set_field_intensity( get_field_intensity() + mod );
 }
 
 time_duration field_entry::get_field_age() const

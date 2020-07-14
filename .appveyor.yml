@@ -1,26 +1,15 @@
 version: '{branch}.{build}'
-os: Windows
-clone_folder: C:\Projects\Cataclysm-DDA
+image: Visual Studio 2019
+configuration: Release
+platform: x64
 shallow_clone: true
-pull_requests:
-    do_not_increment_build_number: false
-environment:
-    matrix:
-        - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
-          PROJECT: /msvc-full-features/Cataclysm-vcpkg-static.sln
-          COMPILER: msvc2017
-          TOOLCHAIN: msvc15
-          PLATFORM: x64
-          CONFIGURATION: Release
-          APPVEYOR_SAVE_CACHE_ON_ERROR: true
-matrix:
-    fast_finish: false
-cache:
-  - 'c:\tools\vcpkg\installed'
+clone_folder: C:\Projects\Cataclysm-DDA
 install:
-    # Install dependency packages
-    - cmd: vcpkg --triplet %PLATFORM%-windows-static install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext
+  - cmd: vcpkg --triplet x64-windows-static install sdl2 sdl2-image sdl2-mixer sdl2-ttf gettext
+cache: c:\tools\vcpkg\installed\
 build:
-  parallel: true
   project: /msvc-full-features/Cataclysm-vcpkg-static.sln
+  parallel: true
   verbosity: minimal
+test_script:
+  - cmd: Cataclysm-test-vcpkg-static-Release-x64.exe --rng-seed time

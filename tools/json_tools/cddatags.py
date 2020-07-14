@@ -26,7 +26,7 @@ If you already have a tags file with some data in, this will only replace tags
 in json files, not e.g. cpp files, so it should be safe to use after running
 e.g. ctags.""")
 
-    args = parser.parse_args(args)
+    parser.parse_args(args)
 
     definitions = []
 

@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_godco_cook",
-    "name": "cook",
+    "name": { "str": "cook" },
     "job_description": "I cook for my community.",
     "common": false,
     "bonus_str": { "rng": [ -1, 2 ] },
@@ -193,7 +193,7 @@
   {
     "id": "MISSION_GODCO_COOK_FOOD_1",
     "type": "mission_definition",
-    "name": "Picky Meals",
+    "name": { "str": "Picky Meals" },
     "description": "Find 100 salt.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,
@@ -218,7 +218,7 @@
   {
     "id": "MISSION_GODCO_COOK_FOOD_2",
     "type": "mission_definition",
-    "name": "Pickled Meals",
+    "name": { "str": "Pickled Meals" },
     "description": "Find 5 glass jars.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
@@ -243,7 +243,7 @@
   {
     "id": "MISSION_GODCO_COOK_FOOD_3",
     "type": "mission_definition",
-    "name": "Prickled Meals",
+    "name": { "str": "Prickled Meals" },
     "description": "Find a butcher knife.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 1,

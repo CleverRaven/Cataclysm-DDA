@@ -2,7 +2,7 @@
   {
     "id": "rebar_plate",
     "type": "vehicle_part",
-    "name": "rebar reinforcement",
+    "name": { "str": "rebar reinforcement" },
     "item": "rebar_plate",
     "location": "armor",
     "symbol": "X",
@@ -10,7 +10,7 @@
     "color": "dark_gray",
     "broken_color": "light_gray",
     "durability": 150,
-    "folded_volume": 4,
+    "folded_volume": "1 L",
     "description": "Improvised armor plate.  Will partially protect other components on the same frame from damage.",
     "breaks_into": [ { "item": "rebar", "count": [ 1, 2 ] }, { "item": "scrap", "count": [ 4, 8 ] } ],
     "requirements": {
@@ -24,7 +24,7 @@
   {
     "id": "spring_plate",
     "type": "vehicle_part",
-    "name": "shock absorber",
+    "name": { "str": "shock absorber" },
     "item": "spring_plate",
     "location": "armor",
     "symbol": "X",

@@ -264,9 +264,14 @@
     "replace": "reloaded_rifle_huge_AP"
   },
   {
-    "id": [ "36navy", "44army" ],
+    "id": [ "36navy", "44army", "flintlock_ammo" ],
     "type": "MIGRATION",
-    "replace": "flintlock_ammo"
+    "replace": "black_powder_ball"
+  },
+  {
+    "id": [ "flintlock_shot" ],
+    "type": "MIGRATION",
+    "replace": "black_powder_shot"
   },
   {
     "id": [ "40x46mm_m1006" ],

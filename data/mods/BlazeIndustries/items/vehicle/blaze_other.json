@@ -1,0 +1,18 @@
+[
+  {
+    "type": "GENERIC",
+    "id": "vehicle_shelving",
+    "name": { "str": "vehicle shelving" },
+    "description": "Several heavy frames retrofitted to be installed together which are outfitted with tie-downs and attachment points gallore for carrying an extended amount of cargo.",
+    "weight": "350000 g",
+    "to_hit": -4,
+    "color": "cyan",
+    "symbol": "]",
+    "material": [ "steel", "plastic" ],
+    "volume": "200 L",
+    "bashing": 2,
+    "category": "veh_parts",
+    "price": 80000,
+    "price_postapoc": 1000
+  }
+]

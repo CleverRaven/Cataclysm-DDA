@@ -1,12 +1,12 @@
 #pragma once
-#ifndef BONUSES_H
-#define BONUSES_H
+#ifndef CATA_SRC_BONUSES_H
+#define CATA_SRC_BONUSES_H
 
 #include <map>
 #include <vector>
 #include <string>
 
-enum damage_type : int;
+#include "damage.h"
 
 class Character;
 class JsonObject;
@@ -21,17 +21,19 @@ enum scaling_stat : int {
     NUM_STATS
 };
 
-enum affected_stat : int {
-    AFFECTED_NULL = 0,
-    AFFECTED_HIT,
-    AFFECTED_DODGE,
-    AFFECTED_BLOCK,
-    AFFECTED_SPEED,
-    AFFECTED_MOVE_COST,
-    AFFECTED_DAMAGE,
-    AFFECTED_ARMOR,
-    AFFECTED_ARMOR_PENETRATION,
-    AFFECTED_TARGET_ARMOR_MULTIPLIER,
+enum class affected_stat : int {
+    NONE = 0,
+    HIT,
+    CRITICAL_HIT_CHANCE,
+    DODGE,
+    BLOCK,
+    BLOCK_EFFECTIVENESS,
+    SPEED,
+    MOVE_COST,
+    DAMAGE,
+    ARMOR,
+    ARMOR_PENETRATION,
+    TARGET_ARMOR_MULTIPLIER,
     NUM_AFFECTED
 };
 
@@ -52,8 +54,8 @@ struct affected_type {
         }
 
     private:
-        affected_stat stat;
-        damage_type type;
+        affected_stat stat = affected_stat::NONE;
+        damage_type type = damage_type::DT_NULL;
 };
 
 // This is the bonus we are indexing
@@ -63,7 +65,7 @@ struct effect_scaling {
 
     float get( const Character &u ) const;
 
-    void load( JsonArray &jarr );
+    effect_scaling( const JsonObject &obj );
 };
 
 class bonus_container
@@ -71,7 +73,6 @@ class bonus_container
     public:
         bonus_container();
         void load( const JsonObject &jo );
-        void load( JsonArray &jarr, bool mult );
 
         float get_flat( const Character &u, affected_stat stat, damage_type dt ) const;
         float get_flat( const Character &u, affected_stat stat ) const;
@@ -82,10 +83,12 @@ class bonus_container
         std::string get_description() const;
 
     private:
+        void load( const JsonArray &jarr, bool mult );
+
         using bonus_map = std::map<affected_type, std::vector<effect_scaling>>;
         /** All kinds of bonuses by types to damage, hit etc. */
         bonus_map bonuses_flat;
         bonus_map bonuses_mult;
 };
 
-#endif
+#endif // CATA_SRC_BONUSES_H

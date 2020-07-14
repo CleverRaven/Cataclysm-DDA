@@ -1,20 +1,20 @@
 #pragma once
-#ifndef SOUNDS_H
-#define SOUNDS_H
+#ifndef CATA_SRC_SOUNDS_H
+#define CATA_SRC_SOUNDS_H
 
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
-#include "enum_traits.h"
-
+class Character;
+class Creature;
+class JsonObject;
+class item;
 class monster;
 class player;
-class Creature;
-class item;
-class JsonObject;
 class translation;
 struct tripoint;
+template <typename E> struct enum_traits;
 
 namespace sounds
 {
@@ -158,10 +158,10 @@ bool has_variant_sound( const std::string &id, const std::string &variant );
 void stop_sound_effect_fade( channel channel, int duration );
 void stop_sound_effect_timed( channel channel, int time );
 int set_channel_volume( channel channel, int volume );
-void do_player_death_hurt( const player &target, bool death );
+void do_player_death_hurt( const Character &target, bool death );
 void do_fatigue();
 // @param obst should be string id of obstacle terrain or vehicle part
 void do_obstacle( const std::string &obst = "" );
 } // namespace sfx
 
-#endif
+#endif // CATA_SRC_SOUNDS_H

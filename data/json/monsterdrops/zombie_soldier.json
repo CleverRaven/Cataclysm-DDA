@@ -14,11 +14,11 @@
       },
       {
         "distribution": [
-          { "group": "military_standard_assault_rifles", "prob": 75 },
-          { "group": "military_standard_lmgs", "prob": 10 },
-          { "group": "military_standard_sniper_rifles", "prob": 10 },
-          { "group": "military_standard_shotguns", "prob": 5 }
-        ]
+          { "group": "military_standard_assault_rifles", "contents-item": "shoulder_strap", "prob": 75 },
+          { "group": "military_standard_lmgs", "contents-item": "shoulder_strap", "prob": 10 },
+          { "group": "military_standard_shotguns", "contents-item": "shoulder_strap", "prob": 5 }
+        ],
+        "prob": 10
       },
       { "group": "infantry_common_gear" },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },
@@ -50,10 +50,10 @@
       {
         "distribution": [
           { "group": "military_standard_assault_rifles", "contents-group": "sopmod", "prob": 75 },
-          { "group": "military_standard_lmgs", "prob": 10 },
-          { "group": "military_standard_sniper_rifles", "prob": 10 },
-          { "group": "military_standard_shotguns", "prob": 5 }
-        ]
+          { "group": "military_standard_lmgs", "contents-item": "shoulder_strap", "prob": 10 },
+          { "group": "military_standard_shotguns", "contents-item": "shoulder_strap", "prob": 5 }
+        ],
+        "prob": 10
       },
       { "group": "infantry_common_gear" },
       { "group": "military_standard_grenades", "count": [ 1, 3 ], "prob": 20 },

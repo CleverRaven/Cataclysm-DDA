@@ -1,11 +1,15 @@
 #include "vitamin.h"
 
+#include <algorithm>
+#include <cstdlib>
 #include <map>
 #include <memory>
 
 #include "calendar.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "json.h"
+#include "string_id.h"
 #include "units.h"
 
 static std::map<vitamin_id, vitamin> vitamins_all;
@@ -65,10 +69,6 @@ void vitamin::load_vitamin( const JsonObject &jo )
         jo.throw_error( "vitamin must have a vitamin type", "vit_type" );
     }
     vit.type_ = jo.get_enum_value<vitamin_type>( "vit_type" );
-
-    if( vit.rate_ < 0_turns ) {
-        jo.throw_error( "vitamin consumption rate cannot be negative", "rate" );
-    }
 
     for( JsonArray e : jo.get_array( "disease" ) ) {
         vit.disease_.emplace_back( e.get_int( 0 ), e.get_int( 1 ) );

@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_BEGGAR_4",
-    "name": "Beggar",
+    "name": { "str": "Beggar" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "All the beggars have been camping inside the evac shelter because they're too weak and unskilled to make it on their own.",
@@ -37,7 +37,6 @@
       { "trait": "MYOPIC" },
       { "trait": "HYPEROPIC" },
       { "trait": "JITTERY" },
-      { "trait": "TRIGGERHAPPY" },
       { "trait": "SMELLY" },
       { "trait": "PROJUNK" },
       { "trait": "BADBACK" },

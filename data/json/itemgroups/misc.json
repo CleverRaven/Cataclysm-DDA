@@ -133,7 +133,7 @@
       { "item": "lighter", "charges": 100 },
       { "item": "pockknife" },
       { "item": "multitool" },
-      { "item": "1st_aid" },
+      { "item": "ifak" },
       { "item": "rollmat" },
       { "item": "sleeping_bag_roll" },
       { "item": "ear_plugs" },
@@ -141,6 +141,24 @@
       { "item": "mre_macaronimarinara_box" },
       { "item": "mre_meatball_box" },
       { "item": "water_clean", "count": 2, "charges": 2, "container-item": "bottle_plastic" }
+    ]
+  },
+  {
+    "id": "premium_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Items generated from a premium survival kit",
+    "items": [
+      { "item": "knife_folding" },
+      { "item": "flint_steel" },
+      { "item": "whistle_multitool" },
+      { "item": "bottle_folding" },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "picklocks" },
+      { "item": "lifestraw" },
+      { "item": "pocket_survival" },
+      { "item": "solarpack" },
+      { "item": "handflare", "count": 4 }
     ]
   },
   {

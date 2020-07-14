@@ -1,6 +1,11 @@
 #include "item_category.h"
 
+#include <set>
+
 #include "generic_factory.h"
+#include "item.h"
+#include "json.h"
+#include "string_id.h"
 
 namespace
 {
@@ -30,6 +35,11 @@ void zone_priority_data::load( JsonObject &jo )
     mandatory( jo, was_loaded, "id", id );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "filthy", filthy, false );
+}
+
+const std::vector<item_category> &item_category::get_all()
+{
+    return item_category_factory.get_all();
 }
 
 void item_category::load_item_cat( const JsonObject &jo, const std::string &src )

@@ -1,0 +1,51 @@
+[
+  {
+    "id": "carver_off",
+    "copy-from": "carver_off",
+    "type": "TOOL",
+    "name": { "str": "electric carver (off)", "str_pl": "electric carvers (off)" },
+    "description": "An electric meat carver powered by batteries.  Two serrated blades that vibrate together to slice just about anything from turkey to ham… even your enemies!"
+  },
+  {
+    "id": "noise_emitter",
+    "copy-from": "noise_emitter",
+    "type": "TOOL",
+    "name": { "str": "noise emitter (off)", "str_pl": "noise emitters (off)" },
+    "description": "This device was constructed by 'enhancing' a speaker ripped off from some electronic device with some amplifier circuits.  It has now no other use beside emitting loud crackling static noise, that could distract an enemy."
+  },
+  {
+    "id": "noise_emitter_on",
+    "copy-from": "noise_emitter_on",
+    "type": "TOOL",
+    "name": { "str": "noise emitter (on)", "str_pl": "noise emitters (on)" },
+    "description": "This device has been turned on and is emitting horrible crackles, pops and other static sounds.  Quick, get away from it before it draws enemies to you!"
+  },
+  {
+    "id": "e_handcuffs",
+    "copy-from": "e_handcuffs",
+    "type": "TOOL",
+    "name": { "str_sp": "electronic handcuffs" },
+    "description": "A pair of electronic handcuffs, used by automated New Order units to detain captives.  Their continuous siren clearly identifies the wearer as a person of interet and alerts nearby 'safety teams' to their presence.  Wait for their arrival, don't try to escape or to remove the cuffs - they will administer an electric shock.\nHowever, since capture is out of the question, you're probably in for a painful time, unless you get creative…"
+  },
+  {
+    "id": "trimmer_off",
+    "copy-from": "trimmer_off",
+    "type": "TOOL",
+    "name": { "str": "hedge trimmer (off)", "str_pl": "hedge trimmers (off)" },
+    "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  A long line of sharp-edged teeth extends from the engine; turning the trimmer on will make them rapidly vibrate.  The poor man's chainsaw as far as your enemies are concerned."
+  },
+  {
+    "id": "trimmer_on",
+    "copy-from": "trimmer_on",
+    "type": "TOOL",
+    "name": { "str": "hedge trimmer (on)", "str_pl": "hedge trimmers (on)" },
+    "description": "A cordless, double-sided, gasoline-powered hedge trimmer.  It is currently on, ready to do some alien topiary; use this item to turn it off."
+  },
+  {
+    "id": "circsaw_off",
+    "copy-from": "circsaw_off",
+    "type": "TOOL",
+    "name": { "str": "circular saw (off)", "str_pl": "circular saws (off)" },
+    "description": "A lightweight handheld cordless circular saw.  Spins a circular blade fast enough to cut wood, aliens, or in an emergency, pizza.  The blade, while effective in combat, is hard to hit with due to its small size."
+  }
+]

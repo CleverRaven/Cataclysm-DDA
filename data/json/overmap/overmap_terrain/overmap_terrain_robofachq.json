@@ -1,446 +1,77 @@
 [
   {
     "type": "overmap_terrain",
-    "id": "robofachq_roof_a0",
+    "id": [ "robofachq_roof_a0", "robofachq_roof_a3" ],
     "name": "open air",
     "sym": ".",
     "color": "blue"
   },
   {
     "type": "overmap_terrain",
-    "id": "robofachq_roof_a1",
+    "id": [
+      "robofachq_roof_a1",
+      "robofachq_roof_a2",
+      "robofachq_surface_entrance",
+      "robofachq_surface_car_entrance",
+      "robofachq_surface_a3",
+      "robofachq_surface_b0",
+      "robofachq_surface_b1",
+      "robofachq_surface_b2",
+      "robofachq_surface_b3",
+      "robofachq_exe_a0",
+      "robofachq_exe_a1",
+      "robofachq_exe_a2",
+      "robofachq_exe_a3",
+      "robofachq_exe_b0",
+      "robofachq_exe_b1",
+      "robofachq_exe_b2",
+      "robofachq_exe_b3",
+      "robofachq_hab_a0",
+      "robofachq_hab_a1",
+      "robofachq_hab_a2",
+      "robofachq_hab_a3",
+      "robofachq_hab_b0",
+      "robofachq_hab_b1",
+      "robofachq_hab_b2",
+      "robofachq_hab_b3",
+      "robofachq_sub_a0",
+      "robofachq_sub_a1",
+      "robofachq_sub_a2",
+      "robofachq_sub_a3",
+      "robofachq_res_a0",
+      "robofachq_res_a1",
+      "robofachq_res_a2",
+      "robofachq_res_a3",
+      "robofachq_res_b0",
+      "robofachq_res_b1",
+      "robofachq_res_b2",
+      "robofachq_res_b3",
+      "robofachq_ai_a0",
+      "robofachq_ai_a1",
+      "robofachq_ai_a2",
+      "robofachq_ai_a3",
+      "robofachq_ai_b0",
+      "robofachq_ai_b1",
+      "robofachq_ai_b2",
+      "robofachq_ai_b3",
+      "robofachq_aiutl_a0",
+      "robofachq_aiutl_a1",
+      "robofachq_aiutl_a2",
+      "robofachq_aiutl_a3",
+      "robofachq_aiutl_b0",
+      "robofachq_aiutl_b1",
+      "robofachq_aiutl_b2",
+      "robofachq_aiutl_b3"
+    ],
     "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_roof_a2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_roof_a3",
-    "name": "open air",
-    "sym": ".",
-    "color": "blue"
   },
   {
     "type": "overmap_terrain",
     "id": "robofachq_surface_parking",
     "name": "hub 01 parking space",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_surface_entrance",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_surface_car_entrance",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_surface_a3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_surface_b0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_surface_b1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_surface_b2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_surface_b3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_exe_a0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_exe_a1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_exe_a2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_exe_a3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_exe_b0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_exe_b1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_exe_b2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_exe_b3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_hab_a0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_hab_a1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_hab_a2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_hab_a3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_hab_b0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_hab_b1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_hab_b2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_hab_b3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_sub_a0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_sub_a1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_sub_a2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_sub_a3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_res_a0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_res_a1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_res_a2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_res_a3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_res_b0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_res_b1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_res_b2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_res_b3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_ai_a0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_ai_a1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_ai_a2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_ai_a3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_ai_b0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_ai_b1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_ai_b2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_ai_b3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_aiutl_a0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_aiutl_a1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_aiutl_a2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_aiutl_a3",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_aiutl_b0",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_aiutl_b1",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_aiutl_b2",
-    "name": "hub 01",
-    "sym": "0",
-    "color": "light_blue",
-    "see_cost": 5
-  },
-  {
-    "type": "overmap_terrain",
-    "id": "robofachq_aiutl_b3",
-    "name": "hub 01",
     "sym": "0",
     "color": "light_blue",
     "see_cost": 5

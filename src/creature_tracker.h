@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CREATURE_TRACKER_H
-#define CREATURE_TRACKER_H
+#ifndef CATA_SRC_CREATURE_TRACKER_H
+#define CATA_SRC_CREATURE_TRACKER_H
 
 #include <cstddef>
 #include <memory>
@@ -20,7 +20,7 @@ class Creature_tracker
 {
     private:
 
-        void add_to_faction_map( shared_ptr_fast<monster> critter );
+        void add_to_faction_map( const shared_ptr_fast<monster> &critter );
 
         class weak_ptr_comparator
         {
@@ -64,7 +64,7 @@ class Creature_tracker
          * @return Whether the operation was successful. It may fail if there is already
          * another monster at the location of the new monster.
          */
-        bool add( shared_ptr_fast<monster> critter );
+        bool add( const shared_ptr_fast<monster> &critter );
         size_t size() const;
         /** Updates the position of the given monster to the given point. Returns whether the operation
          *  was successful. */
@@ -98,4 +98,4 @@ class Creature_tracker
         void remove_from_location_map( const monster &critter );
 };
 
-#endif
+#endif // CATA_SRC_CREATURE_TRACKER_H

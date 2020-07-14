@@ -68,7 +68,9 @@
       [ "spell_scroll_crystallize_mana", 50 ],
       [ "spell_scroll_earthshaper_stoneskin", 30 ],
       [ "spell_scroll_earthshaper_pillar", 35 ],
-      [ "spell_scroll_biomancer_coagulant_weave", 30 ]
+      [ "spell_scroll_biomancer_coagulant_weave", 30 ],
+      [ "spell_scroll_repelling_arc", 30 ],
+      [ "spell_scroll_knock", 35 ]
     ]
   },
   {
@@ -81,9 +83,11 @@
       [ "spell_scroll_recover_stamina", 25 ],
       [ "spell_scroll_recover_bionic_power", 25 ],
       [ "spell_scroll_summon_decayed_pouncer", 35 ],
+      [ "spell_scroll_summon_floating_disk", 25 ],
       [ "spell_scroll_vicious_tentacle", 40 ],
       [ "spell_scroll_bio_bonespear", 20 ],
       [ "spell_scroll_megablast", 10 ],
+      [ "spell_scroll_baleful_polymorph", 20 ],
       [ "spell_scroll_eshaper_shardstorm", 50 ],
       [ "spell_scroll_fireball", 50 ],
       [ "spell_scroll_cone_cold", 50 ],
@@ -103,7 +107,8 @@
       [ "spell_scroll_holographic_transposition", 15 ],
       [ "spell_scroll_dark_sight", 30 ],
       [ "spell_scroll_druidic_regrowth", 20 ],
-      [ "spell_scroll_stormshaper_ionization", 40 ]
+      [ "spell_scroll_stormshaper_ionization", 40 ],
+      [ "spell_scroll_improved_knock", 35 ]
     ]
   },
   {
@@ -115,7 +120,8 @@
       [ "spell_scroll_invisibility", 10 ],
       [ "spell_scroll_obfuscated_body", 10 ],
       [ "spell_scroll_lava_bomb", 5 ],
-      [ "spell_scroll_druidic_healing", 20 ]
+      [ "spell_scroll_druidic_healing", 20 ],
+      [ "bio_sneeze_beam", 50 ]
     ]
   },
   {
@@ -148,6 +154,7 @@
     "id": "spellbook_tier_3",
     "type": "item_group",
     "items": [
+      [ "animist_shadows", 5 ],
       [ "magus_spellbook", 15 ],
       [ "magus_spellbook_move", 30 ],
       [ "translocate_spellbook", 20 ],
@@ -159,8 +166,8 @@
     "id": "spellbook_loot_0",
     "type": "item_group",
     "//": "the difference between tiers and loot are that loot should be easy to",
-    "//": "drop into an itemgroup or mapgen without having multiple entries for higher tier spellbooks.",
-    "//": "and loot tiers will not always have the lower tier spellbook tiers.",
+    "//2": "drop into an itemgroup or mapgen without having multiple entries for higher tier spellbooks.",
+    "//3": "and loot tiers will not always have the lower tier spellbook tiers.",
     "items": [
       { "group": "spellbook_tier_0", "prob": 60 },
       { "group": "spellbook_tier_1", "prob": 30 },

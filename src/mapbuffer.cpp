@@ -13,12 +13,15 @@
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
+#include "game_constants.h"
 #include "json.h"
 #include "map.h"
 #include "output.h"
+#include "popup.h"
+#include "string_formatter.h"
 #include "submap.h"
 #include "translations.h"
-#include "game_constants.h"
+#include "ui_manager.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -62,11 +65,6 @@ bool mapbuffer::add_submap( const tripoint &p, submap *sm )
     return true;
 }
 
-bool mapbuffer::add_submap( int x, int y, int z, submap *sm )
-{
-    return add_submap( tripoint( x, y, z ), sm );
-}
-
 bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
 {
     const bool result = add_submap( p, sm.get() );
@@ -74,11 +72,6 @@ bool mapbuffer::add_submap( const tripoint &p, std::unique_ptr<submap> &sm )
         sm.release();
     }
     return result;
-}
-
-bool mapbuffer::add_submap( int x, int y, int z, std::unique_ptr<submap> &sm )
-{
-    return add_submap( tripoint( x, y, z ), sm );
 }
 
 void mapbuffer::remove_submap( tripoint addr )
@@ -90,11 +83,6 @@ void mapbuffer::remove_submap( tripoint addr )
     }
     delete m_target->second;
     submaps.erase( m_target );
-}
-
-submap *mapbuffer::lookup_submap( int x, int y, int z )
-{
-    return lookup_submap( tripoint( x, y, z ) );
 }
 
 submap *mapbuffer::lookup_submap( const tripoint &p )
@@ -121,8 +109,11 @@ void mapbuffer::save( bool delete_after_save )
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();
 
-    const tripoint map_origin = sm_to_omt_copy( g->m.get_abs_sub() );
-    const bool map_has_zlevels = g != nullptr && g->m.has_zlevels();
+    map &here = get_map();
+    const tripoint map_origin = sm_to_omt_copy( here.get_abs_sub() );
+    const bool map_has_zlevels = g != nullptr && here.has_zlevels();
+
+    static_popup popup;
 
     // A set of already-saved submaps, in global overmap coordinates.
     std::set<tripoint> saved_submaps;
@@ -130,8 +121,10 @@ void mapbuffer::save( bool delete_after_save )
     int next_report = 0;
     for( auto &elem : submaps ) {
         if( num_total_submaps > 100 && num_saved_submaps >= next_report ) {
-            popup_nowait( _( "Please wait as the map saves [%d/%d]" ),
-                          num_saved_submaps, num_total_submaps );
+            popup.message( _( "Please wait as the map saves [%d/%d]" ),
+                           num_saved_submaps, num_total_submaps );
+            ui_manager::redraw();
+            refresh_display();
             next_report += std::max( 100, num_total_submaps / 20 );
         }
 
@@ -291,11 +284,9 @@ void mapbuffer::deserialize( JsonIn &jsin )
                 version = jsin.get_int();
             } else if( submap_member_name == "coordinates" ) {
                 jsin.start_array();
-                int locx = jsin.get_int();
-                int locy = jsin.get_int();
-                int locz = jsin.get_int();
+                tripoint loc{ jsin.get_int(), jsin.get_int(), jsin.get_int() };
                 jsin.end_array();
-                submap_coordinates = tripoint( locx, locy, locz );
+                submap_coordinates = loc;
             } else {
                 sm->load( jsin, submap_member_name, version );
             }

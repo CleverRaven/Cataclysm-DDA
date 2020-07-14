@@ -76,12 +76,43 @@
     "id": "fd_web",
     "type": "field_type",
     "legacy_enum_id": 5,
-    "intensity_levels": [ { "name": "cobwebs", "sym": "}" }, { "name": "webs" }, { "name": "thick webs", "transparent": false } ],
+    "intensity_levels": [
+      {
+        "name": "cobwebs",
+        "sym": "}",
+        "effects": [
+          { "effect_id": "webbed", "intensity": 1, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      },
+      {
+        "name": "webs",
+        "effects": [
+          { "effect_id": "webbed", "intensity": 2, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      },
+      {
+        "name": "thick webs",
+        "transparent": false,
+        "effects": [
+          { "effect_id": "webbed", "intensity": 3, "min_duration": "1 m", "immune_in_vehicle": true, "is_environmental": false }
+        ]
+      }
+    ],
     "description_affix": "covered_in",
     "immunity_data": { "traits": [ "WEB_WALKER" ] },
+    "immune_mtypes": [ "mon_spider_web", "mon_spider_web_s" ],
+    "decrease_intensity_on_contact": true,
     "priority": 2,
     "phase": "solid",
     "display_items": false,
+    "bash": {
+      "str_min": 1,
+      "str_max": 3,
+      "sound_vol": 2,
+      "sound_fail_vol": 2,
+      "sound": "hsh!",
+      "msg_success": "You brush aside some webs."
+    },
     "display_field": true
   },
   {
@@ -219,7 +250,7 @@
         "translucency": 0.7,
         "convection_temperature_mod": 300
       },
-      { "name": "fire", "color": "light_red", "light_emitted": 60, "translucency": 0.4 },
+      { "name": { "ctxt": "noun", "str": "fire" }, "color": "light_red", "light_emitted": 60, "translucency": 0.4 },
       { "name": "raging fire", "color": "red", "light_emitted": 160, "translucency": 0.1 }
     ],
     "description_affix": "on",
@@ -230,6 +261,93 @@
     "phase": "plasma",
     "display_items": false,
     "display_field": true
+  },
+  {
+    "id": "fd_extinguisher",
+    "type": "field_type",
+    "intensity_levels": [
+      {
+        "name": "extinguisher mist",
+        "sym": "%",
+        "color": "white",
+        "dangerous": true,
+        "translucency": 0.1,
+        "convection_temperature_mod": -10,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the extinguisher mist",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "extinguisher cloud",
+        "color": "white",
+        "convection_temperature_mod": -20,
+        "translucency": 0.4,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 2,
+            "min_duration": "2 minutes",
+            "max_duration": "2 minutes",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the extinguisher cloud",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "thick extinguisher cloud",
+        "color": "white",
+        "convection_temperature_mod": -30,
+        "translucency": 0.7,
+        "effects": [
+          {
+            "effect_id": "poison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied outside of vehicles, so it could apply harsher effect",
+            "immune_outside_vehicle": true,
+            "message": "You feel sick from inhaling the thick extinguisher cloud",
+            "message_type": "bad"
+          },
+          {
+            "effect_id": "badpoison",
+            "body_part": "MOUTH",
+            "intensity": 5,
+            "min_duration": "3 minutes",
+            "max_duration": "3 minutes",
+            "//": "won't be applied inside of vehicles, so it could apply lesser effect",
+            "immune_inside_vehicle": true,
+            "message": "You feel sick from inhaling the thick extinguisher cloud",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "description_affix": "on",
+    "decay_amount_factor": 3,
+    "priority": 4,
+    "half_life": "10 seconds",
+    "phase": "gas",
+    "display_items": false,
+    "display_field": true,
+    "looks_like": "fd_fog",
+    "gas_absorption_factor": 15,
+    "has_fume": true,
+    "percent_spread": 90,
+    "dirty_transparency_cache": true,
+    "immunity_data": { "body_part_env_resistance": [ [ "MOUTH", 15 ] ] }
   },
   {
     "id": "fd_rubble",
@@ -511,10 +629,17 @@
     "looks_like": "fd_fire"
   },
   {
+    "id": "fd_shadow",
+    "type": "field_type",
+    "intensity_levels": [ { "name": "shadow", "light_override": 3.7 } ],
+    "half_life": "10 seconds",
+    "percent_spread": 50
+  },
+  {
     "id": "fd_flame_burst",
     "type": "field_type",
     "legacy_enum_id": 18,
-    "intensity_levels": [ { "name": "fire", "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 } ],
+    "intensity_levels": [ { "name": { "ctxt": "noun", "str": "fire" }, "sym": "5", "color": "red", "dangerous": true, "light_emitted": 20 } ],
     "description_affix": "on",
     "has_fire": true,
     "priority": 4,
@@ -627,7 +752,7 @@
     "type": "field_type",
     "legacy_enum_id": 25,
     "intensity_levels": [
-      { "name": "faint glimmer", "color": "blue", "sym": "9", "light_emitted": 4 },
+      { "name": "faint glimmer", "color": "blue", "sym": "9" },
       { "name": "beam of light", "color": "light_blue" },
       { "name": "intense beam of light", "color": "white" }
     ],

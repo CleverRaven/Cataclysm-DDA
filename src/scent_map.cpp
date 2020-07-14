@@ -1,17 +1,19 @@
 #include "scent_map.h"
 
-#include <cstdlib>
-#include <cassert>
 #include <algorithm>
+#include <cassert>
+#include <cstdlib>
 
 #include "assign.h"
 #include "calendar.h"
 #include "color.h"
+#include "cursesdef.h"
+#include "debug.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "map.h"
 #include "output.h"
-#include "cursesdef.h"
+#include "string_id.h"
 
 static constexpr int SCENT_RADIUS = 40;
 
@@ -67,22 +69,21 @@ void scent_map::decay()
 void scent_map::draw( const catacurses::window &win, const int div, const tripoint &center ) const
 {
     assert( div != 0 );
-    const int maxx = getmaxx( win );
-    const int maxy = getmaxy( win );
-    for( int x = 0; x < maxx; ++x ) {
-        for( int y = 0; y < maxy; ++y ) {
-            const int sn = get( center + point( -maxx / 2 + x, -maxy / 2 + y ) ) / div;
+    const point max( getmaxx( win ), getmaxy( win ) );
+    for( int x = 0; x < max.x; ++x ) {
+        for( int y = 0; y < max.y; ++y ) {
+            const int sn = get( center + point( -max.x / 2 + x, -max.y / 2 + y ) ) / div;
             mvwprintz( win, point( x, y ), sev( sn / 10 ), "%d", sn % 10 );
         }
     }
 }
 
-void scent_map::shift( const int sm_shift_x, const int sm_shift_y )
+void scent_map::shift( const point &sm_shift )
 {
     scent_array<int> new_scent;
     for( size_t x = 0; x < MAPSIZE_X; ++x ) {
         for( size_t y = 0; y < MAPSIZE_Y; ++y ) {
-            const point p( x + sm_shift_x, y + sm_shift_y );
+            const point p = point( x, y ) + sm_shift;
             new_scent[x][y] = inbounds( p ) ? grscent[ p.x ][ p.y ] : 0;
         }
     }
@@ -97,14 +98,14 @@ int scent_map::get( const tripoint &p ) const
     return 0;
 }
 
-void scent_map::set( const tripoint &p, int value, scenttype_id type )
+void scent_map::set( const tripoint &p, int value, const scenttype_id &type )
 {
     if( inbounds( p ) ) {
         set_unsafe( p, value, type );
     }
 }
 
-void scent_map::set_unsafe( const tripoint &p, int value, scenttype_id type )
+void scent_map::set_unsafe( const tripoint &p, int value, const scenttype_id &type )
 {
     grscent[p.x][p.y] = value;
     if( !type.is_empty() ) {
@@ -133,17 +134,22 @@ bool scent_map::inbounds( const tripoint &p ) const
     const int levz = gm.get_levz();
     const bool scent_map_z_level_inbounds = ( p.z == levz ) ||
                                             ( std::abs( p.z - levz ) == SCENT_MAP_Z_REACH &&
-                                                    gm.m.valid_move( p, tripoint( p.xy(), levz ), false, true ) );
+                                                    get_map().valid_move( p, tripoint( p.xy(), levz ), false, true ) );
     if( !scent_map_z_level_inbounds ) {
         return false;
     }
-    static constexpr point scent_map_boundary_min( point_zero );
+    return inbounds( p.xy() );
+}
+
+bool scent_map::inbounds( const point &p ) const
+{
+    static constexpr point scent_map_boundary_min{};
     static constexpr point scent_map_boundary_max( MAPSIZE_X, MAPSIZE_Y );
 
-    static constexpr rectangle scent_map_boundaries(
-        scent_map_boundary_min, scent_map_boundary_max );
+    static constexpr half_open_rectangle scent_map_boundaries( scent_map_boundary_min,
+            scent_map_boundary_max );
 
-    return scent_map_boundaries.contains_half_open( p.xy() );
+    return scent_map_boundaries.contains( p );
 }
 
 void scent_map::update( const tripoint &center, map &m )
@@ -166,7 +172,7 @@ void scent_map::update( const tripoint &center, map &m )
     scent_array<int> squares_used_y;
 
     // these are for caching flag lookups
-    scent_array<bool> blocks_scent; // currently only TFLAG_WALL blocks scent
+    scent_array<bool> blocks_scent; // currently only TFLAG_NO_SCENT blocks scent
     scent_array<bool> reduces_scent;
 
     // for loop constants
@@ -227,7 +233,7 @@ void scent_map::update( const tripoint &center, map &m )
                 }
                 // take the old scent and subtract what diffuses out
                 int temp_scent = scent_here * ( 10 * 1000 - squares_used * this_diffusivity );
-                // neighboring walls and reduce_scent squares absorb some scent
+                // neighboring REDUCE_SCENT squares absorb some scent
                 temp_scent -= scent_here * this_diffusivity * ( 90 - squares_used ) / 5;
                 // we've already summed neighboring scent values in the y direction in the previous
                 // loop. Now we do it for the x direction, multiply by diffusion, and this is what
@@ -239,7 +245,7 @@ void scent_map::update( const tripoint &center, map &m )
                                              + sum_3_scent_y[y][x + 1] )
                     ) / ( 1000 * 10 );
             } else {
-                // this cell blocks scent
+                // this cell blocks scent via NO_SCENT (in json)
                 scent_here = 0;
             }
         }
@@ -289,4 +295,9 @@ void scent_type::check_scent_consistency()
             }
         }
     }
+}
+
+void scent_type::reset()
+{
+    scent_factory.reset();
 }

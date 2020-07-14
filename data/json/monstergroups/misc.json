@@ -47,7 +47,8 @@
       { "monster": "mon_zombie_pig", "freq": 10, "cost_multiplier": 25, "starts": 2160, "pack_size": [ 1, 5 ] },
       { "monster": "mon_giant_cockroach", "freq": 10, "cost_multiplier": 1, "pack_size": [ 1, 5 ] },
       { "monster": "mon_pregnant_giant_cockroach", "freq": 1, "cost_multiplier": 3 },
-      { "monster": "mon_giant_cockroach_nymph", "freq": 5, "cost_multiplier": 1 }
+      { "monster": "mon_giant_cockroach_nymph", "freq": 5, "cost_multiplier": 1 },
+      { "monster": "mon_tiger", "freq": 1, "cost_multiplier": 30 }
     ]
   },
   {
@@ -59,12 +60,21 @@
     "monsters": [
       { "monster": "mon_bat", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_bobcat", "freq": 10, "cost_multiplier": 1 },
-      { "monster": "mon_cat", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_chicken", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_chipmunk", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_crow", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_deer", "freq": 10, "cost_multiplier": 1 },
       { "monster": "mon_duck", "freq": 10, "cost_multiplier": 1 },
+      { "monster": "mon_cat", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_cat_tabby", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_cat_longhair", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_cat_siamese", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_cat_persian", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_cat_calico", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_cat_maine_coon", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_cat_devon_rex", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_cat_sphynx", "freq": 1, "cost_multiplier": 1 },
+      { "monster": "mon_cat_chonker", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_dog", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_dog_bull", "freq": 1, "cost_multiplier": 1 },
       { "monster": "mon_dog_auscattle", "freq": 1, "cost_multiplier": 1 },
@@ -162,7 +172,8 @@
       { "monster": "mon_dog_zombie_rot", "freq": 15, "cost_multiplier": 3 },
       { "monster": "mon_squirrel", "freq": 1, "cost_multiplier": 0 },
       { "monster": "mon_cat", "freq": 10, "cost_multiplier": 0 },
-      { "monster": "mon_dog", "freq": 10, "cost_multiplier": 0 }
+      { "monster": "mon_dog", "freq": 10, "cost_multiplier": 0 },
+      { "monster": "mon_tiger", "freq": 1, "cost_multiplier": 30 }
     ]
   }
 ]

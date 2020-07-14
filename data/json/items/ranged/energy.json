@@ -14,14 +14,14 @@
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING" ],
     "ups_charges": 100,
     "skill": "rifle",
-    "ammo": "plasma",
+    "ammo": [ "plasma" ],
     "weight": "10500 g",
     "volume": "4L",
+    "price_postapoc": 10000,
     "bashing": 12,
     "to_hit": -2,
     "range": 25,
-    "ranged_damage": 22,
-    "pierce": 60,
+    "ranged_damage": { "damage_type": "stab", "amount": 22, "armor_penetration": 60 },
     "dispersion": 90,
     "durability": 6,
     "clip_size": 25,
@@ -35,7 +35,8 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 25 } } ]
   },
   {
     "id": "plasma_rifle",
@@ -47,17 +48,18 @@
     "name": { "str": "Boeing XM-P plasma rifle" },
     "description": "Boeing developed the focused plasma weaponry together with DARPA.  It heats solid hydrogen to create plasma and envelops it with polymers to reduce blooming.  While powerful, it suffers from short range.  Powered by UPS.",
     "price": 1750000,
-    "material": "steel",
+    "material": [ "steel" ],
     "flags": [ "NEVER_JAMS", "NON-FOULING" ],
     "ups_charges": 5,
     "ammo_effects": [ "PLASMA", "EXPLOSIVE_SMALL", "FLAME" ],
     "skill": "rifle",
-    "ammo": "plasma",
+    "ammo": [ "plasma" ],
     "weight": "4535 g",
     "volume": "3750 ml",
+    "price_postapoc": 8000,
     "bashing": 12,
     "to_hit": -1,
-    "ranged_damage": 5,
+    "ranged_damage": { "damage_type": "stab", "amount": 5 },
     "dispersion": 60,
     "durability": 8,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 3 ] ],
@@ -73,6 +75,7 @@
       [ "sling", 1 ],
       [ "stock", 1 ],
       [ "underbarrel", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plasma": 25 } } ]
   }
 ]

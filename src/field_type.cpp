@@ -1,11 +1,15 @@
 #include "field_type.h"
 
+#include <cstdlib>
+
 #include "bodypart.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "generic_factory.h"
-#include "json.h"
 #include "int_id.h"
+#include "json.h"
+#include "string_id.h"
 
 namespace io
 {
@@ -160,6 +164,8 @@ void field_type::load( const JsonObject &jo, const std::string & )
                   fallback_intensity_level.monster_spawn_group );
         optional( jao, was_loaded, "light_emitted", intensity_level.light_emitted,
                   fallback_intensity_level.light_emitted );
+        optional( jao, was_loaded, "light_override", intensity_level.local_light_override,
+                  fallback_intensity_level.local_light_override );
         optional( jao, was_loaded, "translucency", intensity_level.translucency,
                   fallback_intensity_level.translucency );
         optional( jao, was_loaded, "convection_temperature_mod", intensity_level.convection_temperature_mod,
@@ -237,13 +243,16 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "description_affix", desc_affix, description_affix_reader,
               description_affix::DESCRIPTION_AFFIX_IN );
     if( jo.has_member( "phase" ) ) {
-        phase = jo.get_enum_value<phase_id>( "phase", PNULL );
+        phase = jo.get_enum_value<phase_id>( "phase", phase_id::PNULL );
     }
     optional( jo, was_loaded, "accelerated_decay", accelerated_decay, false );
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );
     optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
 
+    optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
+
+    bash_info.load( jo, "bash", map_bash_info::field );
     if( was_loaded && jo.has_member( "copy-from" ) && looks_like.empty() ) {
         looks_like = jo.get_string( "copy-from" );
     }
@@ -309,6 +318,7 @@ const std::vector<field_type> &field_types::get_all()
 field_type_id fd_null,
               fd_blood,
               fd_bile,
+              fd_extinguisher,
               fd_gibs_flesh,
               fd_gibs_veggy,
               fd_web,
@@ -366,6 +376,7 @@ void field_types::set_field_type_ids()
     fd_null = field_type_id( "fd_null" );
     fd_blood = field_type_id( "fd_blood" );
     fd_bile = field_type_id( "fd_bile" );
+    fd_extinguisher = field_type_id( "fd_extinguisher" );
     fd_gibs_flesh = field_type_id( "fd_gibs_flesh" );
     fd_gibs_veggy = field_type_id( "fd_gibs_veggy" );
     fd_web = field_type_id( "fd_web" );

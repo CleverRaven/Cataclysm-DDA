@@ -47,6 +47,7 @@
     "armor_bash": 1,
     "armor_cut": 8,
     "armor_stab": 8,
+    "armor_bullet": 8,
     "armor_acid": 3,
     "armor_fire": 80,
     "vision_day": 5,
@@ -83,12 +84,13 @@
     "armor_bash": 5,
     "armor_cut": 45,
     "armor_stab": 60,
+    "armor_bullet": 60,
     "armor_acid": 10,
     "armor_fire": 80,
     "vision_day": 6,
     "vision_night": 12,
     "harvest": "demon_spider",
-    "special_attacks": [ { "type": "spell", "spell_id": "burning_hands", "spell_level": 4, "cooldown": 20 } ],
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "burning_hands", "min_level": 4 }, "cooldown": 20 } ],
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON" ]
@@ -110,6 +112,6 @@
     "vision_night": 18,
     "harvest": "demon_spider_queen",
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PUSH_MON", "STUN_IMMUNE" ],
-    "special_attacks": [ { "type": "spell", "spell_id": "mon_summon_demon_spiderlings", "cooldown": 14 } ]
+    "special_attacks": [ { "type": "spell", "spell_data": { "id": "mon_summon_demon_spiderlings" }, "cooldown": 14 } ]
   }
 ]

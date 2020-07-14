@@ -1,34 +1,41 @@
 #pragma once
-#ifndef AVATAR_H
-#define AVATAR_H
+#ifndef CATA_SRC_AVATAR_H
+#define CATA_SRC_AVATAR_H
 
 #include <cstddef>
-#include <iosfwd>
 #include <string>
 #include <unordered_set>
 #include <vector>
 
-#include "enums.h"
-#include "player.h"
-#include "magic_teleporter_list.h"
 #include "calendar.h"
+#include "character.h"
+#include "enums.h"
 #include "item.h"
+#include "magic_teleporter_list.h"
 #include "map_memory.h"
-#include "pldata.h"
+#include "memory_fast.h"
+#include "player.h"
 #include "point.h"
+
+class faction;
+
+class advanced_inv_listitem;
+class advanced_inv_area;
+class advanced_inventory_pane;
 
 class JsonIn;
 class JsonObject;
 class JsonOut;
 class mission;
-class npc;
 class monster;
+class npc;
+
 namespace debug_menu
 {
 class mission_debug;
 }  // namespace debug_menu
-struct points_left;
 struct mtype;
+struct points_left;
 
 // Monster visible in different directions (safe mode & compass)
 struct monster_visible_info {
@@ -60,6 +67,7 @@ class avatar : public player
 
         // newcharacter.cpp
         bool create( character_type type, const std::string &tempname = "" );
+        void add_profession_items();
         void randomize( bool random_scenario, points_left &points, bool play_now = false );
         bool load_template( const std::string &template_name, points_left &points );
         void save_template( const std::string &name, const points_left &points );
@@ -88,6 +96,9 @@ class avatar : public player
         /** Returns the amount of tiles survivor can remember. */
         size_t max_memorized_tiles() const;
         void clear_memorized_tile( const tripoint &pos );
+
+        nc_color basic_symbol_color() const override;
+        int print_info( const catacurses::window &w, int vStart, int vLines, int column ) const override;
 
         /** Provides the window and detailed morale data */
         void disp_morale();
@@ -151,9 +162,7 @@ class avatar : public player
         /** Completes book reading action. **/
         void do_read( item &book );
         /** Note that we've read a book at least once. **/
-        bool has_identified( const std::string &item_id ) const override;
-
-        hint_rating rate_action_read( const item &it ) const;
+        bool has_identified( const itype_id &item_id ) const override;
 
         void wake_up();
         // Grab furniture / vehicle
@@ -176,7 +185,7 @@ class avatar : public player
         int get_int_base() const override;
         int get_per_base() const override;
 
-        void upgrade_stat_prompt( const Character::stat &stat_name );
+        void upgrade_stat_prompt( const character_stat &stat_name );
         // how many points are available to upgrade via STK
         int free_upgrade_points() const;
         // how much "kill xp" you have
@@ -186,7 +195,7 @@ class avatar : public player
         // Set in npc::talk_to_you for use in further NPC interactions
         bool dialogue_by_radio = false;
 
-        void set_movement_mode( character_movemode mode ) override;
+        void set_movement_mode( const move_mode_id &mode ) override;
 
         // Cycles to the next move mode.
         void cycle_move_mode();
@@ -197,7 +206,13 @@ class avatar : public player
         // Toggles crouching on/off.
         void toggle_crouch_mode();
 
+        bool wield( item_location target );
         bool wield( item &target ) override;
+        bool wield( item &target, int obtain_cost );
+
+        /** gets the inventory from the avatar that is interactible via advanced inventory management */
+        std::vector<advanced_inv_listitem> get_AIM_inventory( const advanced_inventory_pane &pane,
+                advanced_inv_area &square );
 
         using Character::invoke_item;
         bool invoke_item( item *, const tripoint &pt ) override;
@@ -208,6 +223,35 @@ class avatar : public player
         monster_visible_info &get_mon_visible() {
             return mon_visible;
         }
+
+        struct daily_calories {
+            int spent;
+            int gained;
+            int total() const {
+                return gained - spent;
+            }
+
+            void serialize( JsonOut &json ) const {
+                json.start_object();
+
+                json.member( "spent", spent );
+                json.member( "gained", gained );
+
+                json.end_object();
+            };
+            void deserialize( JsonIn &jsin ) {
+                JsonObject data = jsin.get_object();
+
+                data.read( "spent", spent );
+                data.read( "gained", gained );
+            };
+        };
+        // called once a day; adds a new daily_calories to the
+        // front of the list and pops off the back if there are more than 30
+        void advance_daily_calories();
+        void add_spent_calories( int cal ) override;
+        void add_gained_calories( int cal ) override;
+        std::string total_daily_calories_string() const;
 
     private:
         map_memory player_map_memory;
@@ -234,9 +278,14 @@ class avatar : public player
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+        /**
+         * The amont of calories spent and gained per day for the last 30 days.
+         * the back is popped off and a new one added to the front at midnight each day
+         */
+        std::list<daily_calories> calorie_diary;
 
         // Items the player has identified.
-        std::unordered_set<std::string> items_identified;
+        std::unordered_set<itype_id> items_identified;
 
         object_type grab_type;
 
@@ -249,6 +298,8 @@ class avatar : public player
 
         monster_visible_info mon_visible;
 };
+
+avatar &get_avatar();
 
 struct points_left {
     int stat_points;
@@ -274,4 +325,4 @@ struct points_left {
     std::string to_string();
 };
 
-#endif
+#endif // CATA_SRC_AVATAR_H

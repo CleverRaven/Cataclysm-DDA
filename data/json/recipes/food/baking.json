@@ -1,0 +1,27 @@
+[
+  {
+    "type": "recipe",
+    "result": "pumpkin_muffins",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_BREAD",
+    "skill_used": "cooking",
+    "difficulty": 3,
+    "charges": 24,
+    "time": "30 m",
+    "batch_time_factors": [ 50, 4 ],
+    "book_learn": [ [ "family_cookbook", 3 ], [ "baking_book", 2 ], [ "cookbook", 3 ] ],
+    "qualities": [ { "id": "COOK", "level": 3 } ],
+    "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
+    "components": [
+      [ [ "flour", 4 ] ],
+      [ [ "yeast", 2 ] ],
+      [ [ "apple_cider", 2 ], [ "apple", 2 ] ],
+      [ [ "pumpkin", 2 ] ],
+      [ [ "sugar", 4 ] ],
+      [ [ "powder_eggs", 2 ], [ "eggs_bird", 2, "LIST" ], [ "egg_reptile", 2 ] ],
+      [ [ "any_butter_or_oil", 2, "LIST" ] ],
+      [ [ "salt", 2 ] ],
+      [ [ "cinnamon", 2 ] ]
+    ]
+  }
+]

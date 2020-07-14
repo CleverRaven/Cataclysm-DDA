@@ -2,13 +2,14 @@
 cmake_minimum_required(VERSION 3.1.4)
 
 SET(MAIN_CPP ${CMAKE_SOURCE_DIR}/src/main.cpp)
+SET(MESSAGES_CPP ${CMAKE_SOURCE_DIR}/src/messages.cpp)
 SET(RESOURCE_RC ${CMAKE_SOURCE_DIR}/src/resource.rc)
 
 FILE(GLOB CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/*.cpp
 )
 
-LIST(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP})
+LIST(REMOVE_ITEM CATACLYSM_DDA_SOURCES ${MAIN_CPP} ${MESSAGES_CPP})
 
 FILE(GLOB CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/*.h
@@ -33,58 +34,60 @@ ADD_CUSTOM_COMMAND (
 
 # Build tiles version if requested
 IF(TILES)
-    add_library(libcataclysm-tiles STATIC
+    add_library(cataclysm-tiles-common OBJECT
       ${CATACLYSM_DDA_SOURCES}
       ${CATACLYSM_DDA_HEADERS}
     )
-    target_include_directories(libcataclysm-tiles INTERFACE ${CMAKE_SOURCE_DIR}/src)
+    target_include_directories(cataclysm-tiles-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
     IF(WIN32)
       ADD_DEFINITIONS(-DUSE_WINMAIN)
       ADD_EXECUTABLE(cataclysm-tiles WIN32
         ${MAIN_CPP}
+        ${MESSAGES_CPP}
         ${RESOURCE_RC}
       )
     ELSE(WIN32)
       ADD_EXECUTABLE(cataclysm-tiles
         ${MAIN_CPP}
+        ${MESSAGES_CPP}
       )
     ENDIF(WIN32)
 
-    ADD_DEPENDENCIES(libcataclysm-tiles get_version)
+    ADD_DEPENDENCIES(cataclysm-tiles-common get_version)
 
-    target_link_libraries(cataclysm-tiles libcataclysm-tiles)
-    target_compile_definitions(libcataclysm-tiles PUBLIC TILES )
+    target_link_libraries(cataclysm-tiles cataclysm-tiles-common)
+    target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
 
     IF (LOCALIZE)
-      target_include_directories(libcataclysm-tiles PUBLIC
+      target_include_directories(cataclysm-tiles-common PUBLIC
         ${LIBINTL_INCLUDE_DIR}
         ${ICONV_INCLUDE_DIR}
       )
-      target_link_libraries(libcataclysm-tiles
+      target_link_libraries(cataclysm-tiles-common
         ${LIBINTL_LIBRARIES}
         ${ICONV_LIBRARIES}
       )
     ENDIF (LOCALIZE)
 
     IF(CMAKE_USE_PTHREADS_INIT)
-      target_compile_options(libcataclysm-tiles PUBLIC "-pthread")
+      target_compile_options(cataclysm-tiles-common PUBLIC "-pthread")
     ENDIF(CMAKE_USE_PTHREADS_INIT)
 
     IF(CMAKE_THREAD_LIBS_INIT)
-      target_link_libraries(libcataclysm-tiles ${CMAKE_THREAD_LIBS_INIT})
+      target_link_libraries(cataclysm-tiles-common ${CMAKE_THREAD_LIBS_INIT})
     ENDIF(CMAKE_THREAD_LIBS_INIT)
 
     IF (NOT DYNAMIC_LINKING)
       # SDL, SDL_Image, SDL_ttf deps are required for static build
-      target_include_directories(libcataclysm-tiles PUBLIC
+      target_include_directories(cataclysm-tiles-common PUBLIC
         ${FREETYPE_INCLUDE_DIRS}
         ${PNG_INCLUDE_DIRS}
         ${JPEG_INCLUDE_DIR}
         ${ZLIB_INCLUDE_DIRS}
         ${BZIP2_INCLUDE_DIR}
       )
-      target_link_libraries(libcataclysm-tiles
+      target_link_libraries(cataclysm-tiles-common
         ${FREETYPE_LIBRARIES}
         ${PNG_LIBRARIES}
         ${JPEG_LIBRARIES}
@@ -92,39 +95,39 @@ IF(TILES)
         ${BZIP2_LIBRARIES}
       )
     ENDIF (NOT DYNAMIC_LINKING)
-    target_include_directories(libcataclysm-tiles PUBLIC
+    target_include_directories(cataclysm-tiles-common PUBLIC
       ${SDL2_INCLUDE_DIR}
       ${SDL2_IMAGE_INCLUDE_DIRS}
       ${SDL2_TTF_INCLUDE_DIRS}
     )
-    target_link_libraries(libcataclysm-tiles
+    target_link_libraries(cataclysm-tiles-common
       ${SDL2_LIBRARY}
       ${SDL2_IMAGE_LIBRARIES}
       ${SDL2_TTF_LIBRARIES}
     )
 
     IF(SOUND)
-      target_compile_definitions(libcataclysm-tiles PUBLIC SDL_SOUND )
-      target_include_directories(libcataclysm-tiles PUBLIC ${OGGVORBIS_INCLUDE_DIR})
-      target_link_libraries(libcataclysm-tiles ${OGG_LIBRARY})
-      target_link_libraries(libcataclysm-tiles ${VORBIS_LIBRARY})
-      target_link_libraries(libcataclysm-tiles ${VORBISFILE_LIBRARY})
-      target_include_directories(libcataclysm-tiles PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
-      target_link_libraries(libcataclysm-tiles ${SDL2_MIXER_LIBRARIES})
+      target_compile_definitions(cataclysm-tiles-common PUBLIC SDL_SOUND )
+      target_include_directories(cataclysm-tiles-common PUBLIC ${OGGVORBIS_INCLUDE_DIR})
+      target_link_libraries(cataclysm-tiles-common ${OGG_LIBRARY})
+      target_link_libraries(cataclysm-tiles-common ${VORBIS_LIBRARY})
+      target_link_libraries(cataclysm-tiles-common ${VORBISFILE_LIBRARY})
+      target_include_directories(cataclysm-tiles-common PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
+      target_link_libraries(cataclysm-tiles-common ${SDL2_MIXER_LIBRARIES})
     ENDIF(SOUND)
 
     IF(WIN32)
       # Global settings for Windows targets (at end)
-      target_link_libraries(libcataclysm-tiles gdi32.lib)
-      target_link_libraries(libcataclysm-tiles winmm.lib)
-      target_link_libraries(libcataclysm-tiles imm32.lib)
-      target_link_libraries(libcataclysm-tiles ole32.lib)
-      target_link_libraries(libcataclysm-tiles oleaut32.lib)
-      target_link_libraries(libcataclysm-tiles version.lib)
+      target_link_libraries(cataclysm-tiles-common gdi32.lib)
+      target_link_libraries(cataclysm-tiles-common winmm.lib)
+      target_link_libraries(cataclysm-tiles-common imm32.lib)
+      target_link_libraries(cataclysm-tiles-common ole32.lib)
+      target_link_libraries(cataclysm-tiles-common oleaut32.lib)
+      target_link_libraries(cataclysm-tiles-common version.lib)
       IF (BACKTRACE)
-        target_link_libraries(libcataclysm-tiles dbghelp.lib)
+        target_link_libraries(cataclysm-tiles-common dbghelp.lib)
         IF(LIBBACKTRACE)
-          target_link_libraries(libcataclysm-tiles backtrace)
+          target_link_libraries(cataclysm-tiles-common backtrace)
         ENDIF(LIBBACKTRACE)
       ENDIF(BACKTRACE)
     ENDIF(WIN32)
@@ -136,60 +139,62 @@ ENDIF(TILES)
 
 # Build curses version if requested
 IF(CURSES)
-    add_library(libcataclysm STATIC
+    add_library(cataclysm-common OBJECT
       ${CATACLYSM_DDA_SOURCES}
       ${CATACLYSM_DDA_HEADERS}
     )
-    target_include_directories(libcataclysm INTERFACE ${CMAKE_SOURCE_DIR}/src)
+    target_include_directories(cataclysm-common INTERFACE ${CMAKE_SOURCE_DIR}/src)
 
     IF(WIN32)
       ADD_EXECUTABLE(cataclysm
         ${MAIN_CPP}
+        ${MESSAGES_CPP}
         ${RESOURCE_RC}
       )
     ELSE(WIN32)
       ADD_EXECUTABLE(cataclysm
         ${MAIN_CPP}
+        ${MESSAGES_CPP}
       )
     ENDIF(WIN32)
 
-    ADD_DEPENDENCIES(libcataclysm get_version)
-    target_link_libraries(cataclysm libcataclysm)
+    ADD_DEPENDENCIES(cataclysm-common get_version)
+    target_link_libraries(cataclysm cataclysm-common)
 
     IF (LOCALIZE)
-      target_include_directories(libcataclysm PUBLIC
+      target_include_directories(cataclysm-common PUBLIC
         ${LIBINTL_INCLUDE_DIR}
         ${ICONV_INCLUDE_DIR}
       )
-      target_link_libraries(libcataclysm
+      target_link_libraries(cataclysm-common
         ${LIBINTL_LIBRARIES}
         ${ICONV_LIBRARIES}
       )
     ENDIF (LOCALIZE)
 
-    target_include_directories(libcataclysm PUBLIC ${CURSES_INCLUDE_DIR})
-    target_link_libraries(libcataclysm ${CURSES_LIBRARIES})
+    target_include_directories(cataclysm-common PUBLIC ${CURSES_INCLUDE_DIR})
+    target_link_libraries(cataclysm-common ${CURSES_LIBRARIES})
 
     IF(CMAKE_USE_PTHREADS_INIT)
-      target_compile_options(libcataclysm PUBLIC "-pthread")
+      target_compile_options(cataclysm-common PUBLIC "-pthread")
     ENDIF(CMAKE_USE_PTHREADS_INIT)
 
     IF(CMAKE_THREAD_LIBS_INIT)
-      target_link_libraries(libcataclysm ${CMAKE_THREAD_LIBS_INIT})
+      target_link_libraries(cataclysm-common ${CMAKE_THREAD_LIBS_INIT})
     ENDIF(CMAKE_THREAD_LIBS_INIT)
 
     IF(WIN32)
       # Global settings for Windows targets (at end)
-      target_link_libraries(libcataclysm gdi32.lib)
-      target_link_libraries(libcataclysm winmm.lib)
-      target_link_libraries(libcataclysm imm32.lib)
-      target_link_libraries(libcataclysm ole32.lib)
-      target_link_libraries(libcataclysm oleaut32.lib)
-      target_link_libraries(libcataclysm version.lib)
+      target_link_libraries(cataclysm-common gdi32.lib)
+      target_link_libraries(cataclysm-common winmm.lib)
+      target_link_libraries(cataclysm-common imm32.lib)
+      target_link_libraries(cataclysm-common ole32.lib)
+      target_link_libraries(cataclysm-common oleaut32.lib)
+      target_link_libraries(cataclysm-common version.lib)
       IF (BACKTRACE)
-        target_link_libraries(libcataclysm dbghelp.lib)
+        target_link_libraries(cataclysm-common dbghelp.lib)
         IF(LIBBACKTRACE)
-          target_link_libraries(libcataclysm backtrace)
+          target_link_libraries(cataclysm-common backtrace)
         ENDIF(LIBBACKTRACE)
       ENDIF(BACKTRACE)
     ENDIF(WIN32)

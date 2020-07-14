@@ -1,7 +1,0 @@
-[
-  {
-    "type": "item_group",
-    "id": "paintball_items",
-    "items": [ [ "glowball", 45 ] ]
-  }
-]

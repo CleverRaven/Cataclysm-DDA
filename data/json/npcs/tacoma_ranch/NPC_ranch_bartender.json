@@ -71,7 +71,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_1",
     "type": "mission_definition",
-    "name": "Make 2 Stills",
+    "name": { "str": "Make 2 Stills" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -100,7 +100,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_2",
     "type": "mission_definition",
-    "name": "Find 20 Yeast",
+    "name": { "str": "Find 20 Yeast" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -130,7 +130,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_3",
     "type": "mission_definition",
-    "name": "Find 10 Sugar Beet Seeds",
+    "name": { "str": "Find 10 Sugar Beet Seeds" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -160,7 +160,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_4",
     "type": "mission_definition",
-    "name": "Find 12 Metal Tanks",
+    "name": { "str": "Find 12 Metal Tanks" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,
@@ -190,7 +190,7 @@
   {
     "id": "MISSION_RANCH_BARTENDER_5",
     "type": "mission_definition",
-    "name": "Find 2 200-Liter Drums",
+    "name": { "str": "Find 2 200-Liter Drums" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 50000,

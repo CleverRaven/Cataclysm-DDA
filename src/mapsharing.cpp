@@ -1,19 +1,19 @@
 #include "mapsharing.h"
 
-#include "cata_utility.h"
-#include "filesystem.h"
-#include "platform_win.h"
-
 #include <cstdlib>
+#include <fstream>
 #include <stdexcept>
 
+#include "cata_utility.h"
+#include "filesystem.h"
+
 #if defined(__linux__)
-#include <sys/file.h>
-#include <sys/stat.h>
-#include <fcntl.h>
 #include <unistd.h>
-#include <cstdio>
 #endif // __linux__
+
+#if defined(_WIN32)
+#include "platform_win.h"
+#endif
 
 bool MAP_SHARING::sharing;
 bool MAP_SHARING::competitive;
@@ -134,13 +134,15 @@ void ofstream_wrapper::close()
         return;
     }
 
-    if( file_stream.fail() ) {
+    file_stream.flush();
+    bool failed = file_stream.fail();
+    file_stream.close();
+    if( failed ) {
         // Remove the incomplete or otherwise faulty file (if possible).
         // Failures from it are ignored as we can't really do anything about them.
         remove_file( temp_path );
         throw std::runtime_error( "writing to file failed" );
     }
-    file_stream.close();
     if( !rename_file( temp_path, path ) ) {
         // Leave the temp path, so the user can move it if possible.
         throw std::runtime_error( "moving temporary file \"" + temp_path + "\" failed" );

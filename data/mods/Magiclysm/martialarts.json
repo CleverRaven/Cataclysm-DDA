@@ -3,7 +3,7 @@
     "id": "style_aikido",
     "copy-from": "style_aikido",
     "type": "martial_art",
-    "name": "Aikido",
+    "name": { "str": "Aikido" },
     "extend": {
       "weapons": [
         "cestus_plus_one",
@@ -58,6 +58,8 @@
         "cudgel_plus_two",
         "rapier_plus_one",
         "rapier_plus_two",
+        "estoc_plus_one",
+        "estoc_plus_two",
         "cavalry_sabre_plus_one",
         "cavalry_sabre_plus_two",
         "broadsword_plus_one",

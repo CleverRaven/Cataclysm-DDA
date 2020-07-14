@@ -1,23 +1,22 @@
 #pragma once
-#ifndef MOD_MANAGER_H
-#define MOD_MANAGER_H
+#ifndef CATA_SRC_MOD_MANAGER_H
+#define CATA_SRC_MOD_MANAGER_H
 
 #include <cstddef>
 #include <map>
 #include <set>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "pimpl.h"
-#include "string_id.h"
 #include "type_id.h"
 
 struct WORLD;
 
 using WORLDPTR = WORLD *;
-class dependency_tree;
 class JsonObject;
+class dependency_tree;
 class mod_manager;
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
@@ -183,4 +182,4 @@ class mod_ui
         bool can_shift_down( size_t selection, const std::vector<mod_id> &active_list );
 };
 
-#endif
+#endif // CATA_SRC_MOD_MANAGER_H

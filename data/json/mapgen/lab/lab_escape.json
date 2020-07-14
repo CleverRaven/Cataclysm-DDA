@@ -42,7 +42,7 @@
         "l": {
           "item": [
             { "item": "bottle_plastic", "amount": [ 1, 2 ] },
-            { "item": "can_food_unsealed", "amount": [ 1, 2 ] },
+            { "item": "can_food", "amount": [ 1, 2 ] },
             { "item": "steel_chunk", "amount": 1 }
           ]
         }

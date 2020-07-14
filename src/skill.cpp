@@ -1,18 +1,20 @@
 #include "skill.h"
 
-#include <cstddef>
 #include <algorithm>
-#include <iterator>
 #include <array>
+#include <cstddef>
+#include <iterator>
 #include <memory>
 #include <utility>
 
+#include "cata_utility.h"
 #include "debug.h"
 #include "item.h"
 #include "json.h"
 #include "options.h"
 #include "recipe.h"
 #include "rng.h"
+#include "string_id.h"
 #include "translations.h"
 
 // TODO: a map, for Barry's sake make this a map.
@@ -148,7 +150,7 @@ void SkillDisplayType::load( const JsonObject &jsobj )
     skillTypes.push_back( sk );
 }
 
-const SkillDisplayType &SkillDisplayType::get_skill_type( skill_displayType_id id )
+const SkillDisplayType &SkillDisplayType::get_skill_type( const skill_displayType_id &id )
 {
     for( auto &i : skillTypes ) {
         if( i._ident == id ) {
@@ -185,12 +187,14 @@ skill_id Skill::random_skill()
 // used for the pacifist trait
 bool Skill::is_combat_skill() const
 {
-    return _tags.count( "combat_skill" ) > 0;
+    static const std::string combat_skill( "combat_skill" );
+    return _tags.count( combat_skill ) > 0;
 }
 
 bool Skill::is_contextual_skill() const
 {
-    return _tags.count( "contextual_skill" ) > 0;
+    static const std::string contextual_skill( "contextual_skill" );
+    return _tags.count( contextual_skill ) > 0;
 }
 
 void SkillLevel::train( int amount, bool skip_scaling )

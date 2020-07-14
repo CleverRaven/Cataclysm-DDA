@@ -119,6 +119,20 @@
     "bindings": [ { "input_method": "keyboard", "key": "r" } ]
   },
   {
+    "id": "TOGGLE_SPACE_HEATER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle space heater",
+    "bindings": [ { "input_method": "keyboard", "key": "s" } ]
+  },
+  {
+    "id": "TOGGLE_COOLER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle cooler",
+    "bindings": [ { "input_method": "keyboard", "key": "C" } ]
+  },
+  {
     "id": "TOGGLE_HEADLIGHT",
     "type": "keybinding",
     "category": "VEHICLE",
@@ -208,6 +222,13 @@
     "category": "VEHICLE",
     "name": "Toggle tracking",
     "bindings": [ { "input_method": "keyboard", "key": "K" } ]
+  },
+  {
+    "id": "TOGGLE_SMART_ENGINE_CONTROLLER",
+    "type": "keybinding",
+    "category": "VEHICLE",
+    "name": "Toggle smart engine controller",
+    "bindings": [ { "input_method": "keyboard", "key": "Y" } ]
   },
   {
     "id": "TURRET_FIRE_MODE",

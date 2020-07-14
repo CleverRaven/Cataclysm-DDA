@@ -8,7 +8,14 @@
       [ "necro_basic", 30 ],
       [ "techno_basic", 30 ],
       [ "book_mythological", 10 ],
-      [ "cooking_poison", 15 ]
+      [ "cooking_poison", 15 ],
+      [ "metal_legends", 5 ]
     ]
+  },
+  {
+    "id": "magic_recipe_advanced",
+    "type": "item_group",
+    "//": "Higher tier recipes, where most school-related recipes require their rune or rune weapon.",
+    "items": [ [ "magic_armormaking", 30 ] ]
   }
 ]

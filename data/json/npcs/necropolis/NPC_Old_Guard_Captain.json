@@ -66,7 +66,7 @@
   {
     "id": "MISSION_OLD_GUARD_NEC_1",
     "type": "mission_definition",
-    "name": "Locate Commo Team",
+    "name": { "str": "Locate Commo Team" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 250000,
@@ -88,7 +88,7 @@
   {
     "id": "MISSION_OLD_GUARD_NEC_2",
     "type": "mission_definition",
-    "name": "Cull Nightmares",
+    "name": { "str": "Cull Nightmares" },
     "goal": "MGOAL_KILL_MONSTER_TYPE",
     "difficulty": 5,
     "value": 250000,

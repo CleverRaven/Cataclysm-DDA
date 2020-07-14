@@ -1,11 +1,11 @@
 #pragma once
-#ifndef WCWIDTH_H
-#define WCWIDTH_H
+#ifndef CATA_SRC_WCWIDTH_H
+#define CATA_SRC_WCWIDTH_H
 
-#include <cinttypes>
+#include <cstdint>
 
 /* Get character width in columns.  See wcwidth.cpp for details.
  */
 int mk_wcwidth( uint32_t ucs );
 
-#endif
+#endif // CATA_SRC_WCWIDTH_H

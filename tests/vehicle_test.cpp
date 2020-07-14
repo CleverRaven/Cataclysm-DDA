@@ -3,44 +3,50 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "game.h"
+#include "damage.h"
+#include "enums.h"
+#include "item.h"
 #include "map.h"
 #include "map_helpers.h"
-#include "vehicle.h"
-#include "enums.h"
-#include "type_id.h"
+#include "optional.h"
 #include "point.h"
+#include "type_id.h"
+#include "vehicle.h"
 
 TEST_CASE( "detaching_vehicle_unboards_passengers" )
 {
     clear_map();
     const tripoint test_origin( 60, 60, 0 );
     const tripoint vehicle_origin = test_origin;
-    vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
-    g->m.board_vehicle( test_origin, &g->u );
-    REQUIRE( g->u.in_vehicle );
-    g->m.detach_vehicle( veh_ptr );
-    REQUIRE( !g->u.in_vehicle );
+    map &here = get_map();
+    Character &player_character = get_player_character();
+    vehicle *veh_ptr = here.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
+    here.board_vehicle( test_origin, &player_character );
+    REQUIRE( player_character.in_vehicle );
+    here.detach_vehicle( veh_ptr );
+    REQUIRE( !player_character.in_vehicle );
 }
 
 TEST_CASE( "destroy_grabbed_vehicle_section" )
 {
     GIVEN( "A vehicle grabbed by the player" ) {
+        map &here = get_map();
         const tripoint test_origin( 60, 60, 0 );
-        g->place_player( test_origin );
+        avatar &player_character = get_avatar();
+        player_character.setpos( test_origin );
         const tripoint vehicle_origin = test_origin + tripoint_south_east;
-        vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
+        vehicle *veh_ptr = here.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, -90, 0, 0 );
         REQUIRE( veh_ptr != nullptr );
         tripoint grab_point = test_origin + tripoint_east;
-        g->u.grab( OBJECT_VEHICLE, grab_point );
-        REQUIRE( g->u.get_grab_type() != OBJECT_NONE );
-        REQUIRE( g->u.grab_point == grab_point );
+        player_character.grab( object_type::VEHICLE, grab_point );
+        REQUIRE( player_character.get_grab_type() != object_type::NONE );
+        REQUIRE( player_character.grab_point == grab_point );
         WHEN( "The vehicle section grabbed by the player is destroyed" ) {
-            g->m.destroy( grab_point );
+            here.destroy( grab_point );
             REQUIRE( veh_ptr->get_parts_at( grab_point, "", part_status_flag::available ).empty() );
             THEN( "The player's grab is released" ) {
-                CHECK( g->u.get_grab_type() == OBJECT_NONE );
-                CHECK( g->u.grab_point == tripoint_zero );
+                CHECK( player_character.get_grab_type() == object_type::NONE );
+                CHECK( player_character.grab_point == tripoint_zero );
             }
         }
     }
@@ -51,7 +57,7 @@ TEST_CASE( "add_item_to_broken_vehicle_part" )
     clear_map();
     const tripoint test_origin( 60, 60, 0 );
     const tripoint vehicle_origin = test_origin;
-    vehicle *veh_ptr = g->m.add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0, 0, 0 );
+    vehicle *veh_ptr = get_map().add_vehicle( vproto_id( "bicycle" ), vehicle_origin, 0, 0, 0 );
     REQUIRE( veh_ptr != nullptr );
 
     const tripoint pos = vehicle_origin + tripoint_west;

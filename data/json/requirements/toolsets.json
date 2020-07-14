@@ -18,7 +18,7 @@
         [ "ceramic_cup", -1 ],
         [ "teapot", -1 ],
         [ "clay_teapot", -1 ],
-        [ "can_food_unsealed", -1 ]
+        [ "can_food", -1 ]
       ],
       [ [ "fire", -1 ], [ "hotplate", 2 ], [ "toolset", 2 ] ]
     ]
@@ -105,9 +105,16 @@
         [ "boltcutters", -1 ],
         [ "toolset", -1 ],
         [ "toolbox", -1 ],
-        [ "survivor_belt", -1 ]
+        [ "survivor_belt", -1 ],
+        [ "toolbox_workshop", -1 ]
       ]
     ]
+  },
+  {
+    "id": "mining_standard",
+    "type": "requirement",
+    "//": "mining",
+    "tools": [ [ [ "pickaxe", -1 ], [ "jackhammer", 10 ], [ "elec_jackhammer", 3500 ] ] ]
   },
   {
     "id": "bronzesmithing_tools",

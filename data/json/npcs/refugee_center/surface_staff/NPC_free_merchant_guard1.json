@@ -110,7 +110,7 @@
   {
     "id": "MISSION_EVAC_SMOKER_GET_CIGARETTES",
     "type": "mission_definition",
-    "name": "Smokes, let's go.",
+    "name": { "str": "Smokes, let's go." },
     "description": "Make a friend at the refugee center by handing over around five packs - 100 cigarettes.",
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,

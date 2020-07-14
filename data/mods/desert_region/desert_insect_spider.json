@@ -2,7 +2,7 @@
   {
     "id": "mon_scorpion_giant",
     "type": "MONSTER",
-    "name": "giant scorpion",
+    "name": { "str": "giant scorpion" },
     "description": "A menacing arachnid with a second set of pedipalps, clacking rabidly as an engorged stinger looms over its body.",
     "default_faction": "scorpion",
     "bodytype": "insect",

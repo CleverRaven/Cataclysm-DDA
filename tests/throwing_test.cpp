@@ -1,27 +1,29 @@
-#include <ostream>
-#include <vector>
 #include <algorithm>
 #include <list>
 #include <memory>
+#include <ostream>
 #include <string>
+#include <vector>
 
 #include "avatar.h"
+#include "calendar.h"
 #include "catch/catch.hpp"
+#include "damage.h"
 #include "game.h"
+#include "game_constants.h"
+#include "inventory.h"
 #include "item.h"
 #include "line.h"
 #include "map_helpers.h"
+#include "material.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
+#include "player_helpers.h"
+#include "point.h"
 #include "projectile.h"
 #include "test_statistics.h"
-#include "damage.h"
-#include "game_constants.h"
-#include "inventory.h"
-#include "material.h"
 #include "type_id.h"
-#include "point.h"
 
 TEST_CASE( "throwing distance test", "[throwing], [balance]" )
 {
@@ -53,7 +55,7 @@ static std::ostream &operator<<( std::ostream &stream, const throw_test_pstats &
 
 static const skill_id skill_throw = skill_id( "throw" );
 
-static void reset_player( player &p, const throw_test_pstats &pstats, const tripoint &pos )
+static void reset_player( Character &p, const throw_test_pstats &pstats, const tripoint &pos )
 {
     p.reset();
     p.set_stamina( p.get_stamina_max() );
@@ -169,7 +171,7 @@ constexpr throw_test_pstats hi_skill_athlete_stats = { MAX_SKILL, 12, 12, 12 };
 
 TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 {
-    player &p = g->u;
+    avatar &p = get_avatar();
     clear_map();
 
     SECTION( "test_player_vs_zombie_rock_basestats" ) {
@@ -192,8 +194,8 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
     }
 
     SECTION( "test_player_vs_zombie_rock_athlete" ) {
-        test_throwing_player_versus( p, "mon_zombie", "rock", 1, hi_skill_athlete_stats, { 1.00, 0.10 }, { 25.96, 8 } );
-        test_throwing_player_versus( p, "mon_zombie", "rock", 5, hi_skill_athlete_stats, { 1.00, 0.10 }, { 21.59, 6 } );
+        test_throwing_player_versus( p, "mon_zombie", "rock", 1, hi_skill_athlete_stats, { 1.00, 0.10 }, { 16.5, 8 } );
+        test_throwing_player_versus( p, "mon_zombie", "rock", 5, hi_skill_athlete_stats, { 1.00, 0.10 }, { 16.5, 6 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 10, hi_skill_athlete_stats, { 1.00, 0.10 }, { 16.27, 6 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 15, hi_skill_athlete_stats, { 0.97, 0.10 }, { 12.83, 4 } );
         test_throwing_player_versus( p, "mon_zombie", "rock", 20, hi_skill_athlete_stats, { 0.82, 0.10 }, { 9.10, 4 } );
@@ -202,9 +204,9 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
     }
 
     SECTION( "test_player_vs_zombie_javelin_iron_athlete" ) {
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 1, hi_skill_athlete_stats, { 1.00, 0.10 }, { 55.48, 8 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 5, hi_skill_athlete_stats, { 1.00, 0.10 }, { 44.81, 8 } );
-        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 10, hi_skill_athlete_stats, { 1.00, 0.10 }, { 35.16, 8 } );
+        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 1, hi_skill_athlete_stats, { 1.00, 0.10 }, { 34.00, 8 } );
+        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 5, hi_skill_athlete_stats, { 1.00, 0.10 }, { 34.00, 8 } );
+        test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 10, hi_skill_athlete_stats, { 1.00, 0.10 }, { 34.16, 8 } );
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 15, hi_skill_athlete_stats, { 0.97, 0.10 }, { 25.21, 6 } );
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 20, hi_skill_athlete_stats, { 0.82, 0.10 }, { 18.90, 5 } );
         test_throwing_player_versus( p, "mon_zombie", "javelin_iron", 25, hi_skill_athlete_stats, { 0.63, 0.10 }, { 13.59, 5 } );
@@ -214,7 +216,7 @@ TEST_CASE( "basic_throwing_sanity_tests", "[throwing],[balance]" )
 
 TEST_CASE( "throwing_skill_impact_test", "[throwing],[balance]" )
 {
-    player &p = g->u;
+    avatar &p = get_avatar();
     clear_map();
 
     // we already cover low stats in the sanity tests and we only cover a few
@@ -302,10 +304,31 @@ static void test_player_kills_monster(
 
 TEST_CASE( "player_kills_zombie_before_reach", "[throwing],[balance][scenario]" )
 {
-    player &p = g->u;
+    avatar &p = get_avatar();
     clear_map();
 
     SECTION( "test_player_kills_zombie_with_rock_basestats" ) {
         test_player_kills_monster( p, "mon_zombie", "rock", 15, 1, lo_skill_base_stats, 500 );
+    }
+}
+
+int throw_cost( const player &c, const item &to_throw );
+TEST_CASE( "time_to_throw_independent_of_number_of_projectiles", "[throwing],[balance]" )
+{
+    player &p = get_avatar();
+    clear_avatar();
+
+    item thrown( "throwing_stick", calendar::turn, 10 );
+    REQUIRE( thrown.charges > 1 );
+    p.wield( thrown );
+    int initial_moves = -1;
+    while( thrown.charges > 0 ) {
+        const int cost = throw_cost( p, thrown );
+        if( initial_moves < 0 ) {
+            initial_moves = cost;
+        } else {
+            CHECK( initial_moves == cost );
+        }
+        thrown.charges--;
     }
 }

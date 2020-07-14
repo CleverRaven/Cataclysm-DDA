@@ -22,7 +22,7 @@
 #include <system_error>
 
 //instead of INVALID_HANDLE_VALUE _beginthreadex returns 0
-#define _STD_THREAD_INVALID_HANDLE 0
+#define _STD_THREAD_INVALID_HANDLE nullptr
 namespace std
 {
 
@@ -63,7 +63,7 @@ class thread
         explicit thread( Function &&f, Args &&... args ) {
             using Call = decltype( std::bind( f, args... ) );
             Call *call = new Call( std::bind( f, args... ) );
-            mHandle = reinterpret_cast<HANDLE>( _beginthreadex( NULL, 0, threadfunc<Call>,
+            mHandle = reinterpret_cast<HANDLE>( _beginthreadex( nullptr, 0, threadfunc<Call>,
                                                 static_cast<LPVOID>( call ), 0,
                                                 reinterpret_cast<unsigned *>( & ( mThreadId.mId ) ) ) );
         }

@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MONEXAMINE_H
-#define MONEXAMINE_H
+#ifndef CATA_SRC_MONEXAMINE_H
+#define CATA_SRC_MONEXAMINE_H
 
 class monster;
 
@@ -24,6 +24,7 @@ void remove_harness( monster &z );
 void play_with( monster &z );
 void kill_zslave( monster &z );
 void tie_or_untie( monster &z );
+void shear_animal( monster &z );
 void mount_pet( monster &z );
 void attach_or_remove_saddle( monster &z );
 /*
@@ -33,4 +34,4 @@ void attach_or_remove_saddle( monster &z );
 */
 void milk_source( monster &source_mon );
 } // namespace monexamine
-#endif
+#endif // CATA_SRC_MONEXAMINE_H

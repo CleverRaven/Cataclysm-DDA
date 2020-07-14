@@ -1,11 +1,12 @@
 #pragma once
-#ifndef SOFTWARE_LIGHTSON_H
-#define SOFTWARE_LIGHTSON_H
+#ifndef CATA_SRC_IUSE_SOFTWARE_LIGHTSON_H
+#define CATA_SRC_IUSE_SOFTWARE_LIGHTSON_H
 
 #include <vector>
 #include <utility>
 
 #include "cursesdef.h"
+#include "point.h"
 
 class lightson_game
 {
@@ -13,11 +14,11 @@ class lightson_game
         catacurses::window w_border;
         catacurses::window w;
         // rows, columns
-        std::pair< int, int > level_size;
-        std::vector< bool > level;
-        std::vector< std::pair< int, int > > change_coords;
+        point level_size;
+        std::vector<bool> level;
+        std::vector<point> change_coords;
         // row, column
-        std::pair< int, int > position;
+        point position;
         bool win;
 
         void new_level();
@@ -26,10 +27,14 @@ class lightson_game
         void draw_level();
         bool check_win();
         void toggle_lights();
+        void toggle_lights_at( const point &pt );
+        bool get_value_at( const point &pt );
+        void set_value_at( const point &pt, bool value );
+        void toggle_value_at( const point &pt );
 
     public:
         int start_game();
         lightson_game() = default;
 };
 
-#endif
+#endif // CATA_SRC_IUSE_SOFTWARE_LIGHTSON_H

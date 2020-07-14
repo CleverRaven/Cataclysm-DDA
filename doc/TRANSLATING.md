@@ -2,6 +2,7 @@
 
 * [Translators](#translators)
   * [Getting Started](#getting-Started)
+  * [Glossary](#glossary)
   * [Grammatical gender](#grammatical-gender)
   * [Tips](#tips)
 * [Developers](#developers)
@@ -22,7 +23,6 @@ Some of the currently supported languages are:
 * Chinese (Simplified)
 * Chinese (Traditional)
 * Dutch
-* Esperanto
 * French
 * German
 * Italian (Italy)
@@ -87,6 +87,22 @@ Click on the "Save" button when you are satisfied with your translation.
 ![Web editor](img/translating-editor.png)
 
 See [Transifex's documentation][3] for more information.
+
+### Glossary
+
+This glossary is intended to help explain some CDDA-specific terms and their
+etymology in order to help translations.
+
+* **Exodii**: The Exodii are a bunch of humans from another dimension.  When
+  the Blob invaded their world, they managed to acquire enough technology to
+  open portals of their own, and now they portal to worlds that have been
+  attacked by the Blob and try to rescue survivors.  Exodii is a horrible
+  mangling of "Exodus" - the word literally means leaving or going out and has
+  connotations of forced emigration and refugees.  The Exodii are the people of
+  an Exodus.  While Exodus is a Latin word and "ii" to indicate a plural is a
+  Latin thing, but this isn't actually the [correct Latin
+  plural](https://www.latin-is-simple.com/en/vocabulary/noun/9294/) for this
+  word.
 
 ### Grammatical gender
 
@@ -256,8 +272,15 @@ JSON using the appropriate JSON functions. The JSON syntax is as follows:
 "name": { "ctxt": "foo", "str": "bar", "str_pl": "baz" }
 ```
 
-In the above code, `"ctxt"` and `"str_pl"` are both optional. Additionally,
-`"str_pl"` will only be read if the translation object is constructed using
+or
+
+```JSON
+"name": { "ctxt": "foo", "str_sp": "foo" }
+```
+
+In the above code, `"ctxt"` and `"str_pl"` are both optional, whereas `"str_sp"`
+is equivalent to specifying `"str"` and `"str_pl"` with the same string. Additionally,
+`"str_pl"` and `"str_sp"` will only be read if the translation object is constructed using
 `plural_tag` or `pl_translation()`, or converted using `make_plural()`. Here's
 an example:
 
@@ -265,6 +288,9 @@ an example:
 translation name{ translation::plural_tag() };
 jsobj.read( "name", name );
 ```
+
+If neither "str_pl" nor "str_sp" is specified, the plural form defaults to the
+singular form + "s".
 
 You can also add comments for translators by writing it like below (the order
 of the entries does not matter):
@@ -325,6 +351,8 @@ issues reported by the `translation` class.
 | Monster names (plural supported) and descriptions
 | Snippets
 | Bodypart names
+| Keybinding action names
+| Field level names
 
 ### Recommendations
 

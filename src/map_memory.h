@@ -1,6 +1,6 @@
 #pragma once
-#ifndef MAP_MEMORY_H
-#define MAP_MEMORY_H
+#ifndef CATA_SRC_MAP_MEMORY_H
+#define CATA_SRC_MAP_MEMORY_H
 
 #include <string>
 
@@ -39,4 +39,4 @@ class map_memory
         lru_cache<tripoint, int> symbol_cache;
 };
 
-#endif
+#endif // CATA_SRC_MAP_MEMORY_H

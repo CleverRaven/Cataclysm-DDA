@@ -7,7 +7,7 @@
       "type": "dialogue",
       "context": "old_magus",
       "value": "yes",
-      "no": "Huh? *mumble mumble* … Who are you?",
+      "no": "Huh?  *mumble mumble* … Who are you?",
       "yes": "Oh, you again."
     },
     "responses": [
@@ -18,7 +18,18 @@
       },
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "Let's trade items.", "topic": "TALK_OLD_MAGUS", "effect": "start_trade" },
-      { "text": "Can I do anything for you?", "topic": "TALK_MISSION_OFFER" },
+      {
+        "text": "Can I do anything for you?",
+        "topic": "TALK_MISSION_OFFER",
+        "condition": {
+          "and": [
+            { "not": "has_assigned_mission" },
+            {
+              "not": { "npc_has_var": "npc_magus_book_done", "type": "dialogue", "context": "old_magus", "value": "yes" }
+            }
+          ]
+        }
+      },
       { "text": "About the mission…", "topic": "TALK_MISSION_INQUIRE", "condition": "has_assigned_mission" },
       {
         "text": "About one of those missions…",
@@ -41,7 +52,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_OLD_MAGUS_LEAVE",
-    "dynamic_line": "And leave my tower and all my research? I think not.",
+    "dynamic_line": "And leave my tower and all my research?  I think not.",
     "responses": [
       { "text": "Wanna get outta here?", "topic": "TALK_SUGGEST_FOLLOW" },
       { "text": "What can you sell me?", "topic": "TALK_OLD_MAGUS", "effect": "start_trade" },

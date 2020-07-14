@@ -1,0 +1,117 @@
+[
+  {
+    "type": "snippet",
+    "category": "dks_general_graffiti_snippets",
+    "//": "This graffiti is generally assumed to come from before the Cataclysm",
+    "text": [
+      { "id": "dks_general_graffiti_1", "text": "<full_name> is the biggest slut in <city>, and I'm damn proud of it!" },
+      { "id": "dks_general_graffiti_2", "text": "There is a beautifully drawn graffiti tag on the wall here." },
+      { "id": "dks_general_graffiti_3", "text": "<given_name> is a heteronormative bully!" },
+      { "id": "dks_general_graffiti_4", "text": "<given_name> + <given_name>" },
+      { "id": "dks_general_graffiti_5", "text": "Hell in <city>" },
+      { "id": "dks_general_graffiti_6", "text": "were all gonna die" },
+      { "id": "dks_general_graffiti_7", "text": "MOM" },
+      { "id": "dks_general_graffiti_8", "text": "FUCK YOU" },
+      { "id": "dks_general_graffiti_9", "text": "This is a cartoon rendition of an alien." },
+      { "id": "dks_general_graffiti_10", "text": "This is a crudely spraypainted tag adorned with skulls." },
+      {
+        "id": "dks_general_graffiti_11",
+        "text": "I have a secure and loving relationship with your mom and you're going to need to come to terms with that.\n\nDo you want to talk about it?  You know where to find me.  Love you sweety."
+      },
+      { "id": "dks_general_graffiti_12", "text": "<given_name> you fuckin gave me ADES you SHIT." },
+      { "id": "dks_general_graffiti_13", "text": "I <3 <full_name>." },
+      { "id": "dks_general_graffiti_14", "text": "<given_name> fucked <full_name>." },
+      {
+        "id": "dks_general_graffiti_15",
+        "text": "This is a spraypainted drawing of an angel with wings made of vines."
+      },
+      { "id": "dks_general_graffiti_16", "text": "Mr. <family_name> is a vampire!" },
+      { "id": "dks_general_graffiti_17", "text": "Their hiding the truth" },
+      { "id": "dks_general_graffiti_18", "text": "FOLLOW THE CHEMTRAILS" },
+      {
+        "id": "dks_general_graffiti_19",
+        "text": "This is a curious drawing of a roll of toilet paper dissolving into a rainbow."
+      },
+      { "id": "dks_general_graffiti_20", "text": "This is a cartoon rendition of a zombie." },
+      { "id": "dks_general_graffiti_21", "text": "<given_name>" },
+      { "id": "dks_general_graffiti_22", "text": "don't drink the water" },
+      {
+        "id": "dks_general_graffiti_23",
+        "text": "And they walked upon His Earth, and there was a RECKONING, and only the worthy survived"
+      },
+      { "id": "dks_general_graffiti_24", "text": "This is a drawing of a zombie with a bullethole in its head." },
+      { "id": "dks_general_graffiti_25", "text": "This is a surprisingly artistic drawing of a penis." },
+      { "id": "dks_general_graffiti_26", "text": "This is a simple spraypainted graphic of a forest made of bones." },
+      { "id": "dks_general_graffiti_27", "text": "This is a drawing of an alien with a bullethole in its head." },
+      { "id": "dks_general_graffiti_28", "text": "we can never go back" },
+      { "id": "dks_general_graffiti_29", "text": "dont by meth from <given_name>" },
+      { "id": "dks_general_graffiti_30", "text": "<full_name> you owe me fifty bucks" },
+      { "id": "dks_general_graffiti_31", "text": "Im gonna kill u <given_name>" },
+      { "id": "dks_general_graffiti_32", "text": "eyes to the skies" },
+      {
+        "id": "dks_general_graffiti_33",
+        "text": "This is a spraypainting of an anatomically unlikely woman wearing very little."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "dks_shelter_graffiti_snippets",
+    "text": [
+      { "id": "dks_shelter_graffiti_1", "text": "BIGGEST WASTE OF TAX MONEY FUCK YOU GOVERMINT" },
+      { "id": "dks_shelter_graffiti_2", "text": "Dont eat the proten bars" },
+      { "id": "dks_shelter_graffiti_3", "text": "FEMA: FUCKIN EAT MY ASSHOLE" },
+      {
+        "id": "dks_shelter_graffiti_4",
+        "text": "This is a simple drawing of a skinny figure wearing an emergency evac jacket and a gas mask.  Scrawled beneath, it says \"thanks for the outfit\"."
+      },
+      { "id": "dks_shelter_graffiti_5", "text": "Abandon hope, all ye who enter here." },
+      { "id": "dks_shelter_graffiti_6", "text": "NO ONE IS COMING FOR US" },
+      { "id": "dks_shelter_graffiti_7", "text": "THAT'S NO RESCUE BUS" },
+      { "id": "dks_shelter_graffiti_8", "text": "THEY LET US DOWN" },
+      { "id": "dks_shelter_graffiti_9", "text": "Don't dead open inside" },
+      { "id": "dks_shelter_graffiti_10", "text": "SANCTUARY" },
+      { "id": "dks_shelter_graffiti_11", "text": "<given_name>'s cosplay supply all welcome" },
+      { "id": "dks_shelter_graffiti_12", "text": "LAST STOP" },
+      { "id": "dks_shelter_graffiti_13", "text": "They aren't coming to help, they're coming to clean up" },
+      {
+        "id": "dks_shelter_graffiti_14",
+        "text": "This is a far-too-detailed drawing the inside of an alien craft, in all its biomechanical horror."
+      },
+      {
+        "id": "dks_shelter_graffiti_15",
+        "text": "This is a quick rendition in permanent marker of an alien craft with war machines spilling out of it.  Underneath, it reads \"What did we do to deserve this?\""
+      },
+      { "id": "dks_shelter_graffiti_16", "text": "RIP humanity" },
+      { "id": "dks_shelter_graffiti_17", "text": "NEW GODS" },
+      { "id": "dks_shelter_graffiti_18", "text": "WE'RE ALL FINE HERE HOW R U" },
+      {
+        "id": "dks_shelter_graffiti_19",
+        "text": "<given_name> I couldn't wait any longer, went to cabin.  Meet me there.  Love <given_name>."
+      },
+      { "id": "dks_shelter_graffiti_20", "text": "<given_name> I am still looking for you." },
+      { "id": "dks_shelter_graffiti_21", "text": "<full_name> was here and still alive" },
+      { "id": "dks_shelter_graffiti_22", "text": "Blue 52" },
+      { "id": "dks_shelter_graffiti_23", "text": "<given_name> I no I said Id wait for u but I gotta run, find me" },
+      {
+        "id": "dks_shelter_graffiti_24",
+        "text": "In memoriam:\n<full_name>\n<full_name>\n<full_name>\n<full_name>\n<full_name>\nI would not be alive without all of you.  I will not forget."
+      },
+      {
+        "id": "dks_shelter_graffiti_25",
+        "text": "\"keep moving their looking for us\" is written here in a hasty scrawl."
+      },
+      { "id": "dks_shelter_graffiti_26", "text": "EARTH WASN'T THE FIRST" },
+      { "id": "dks_shelter_graffiti_27", "text": "stay out of <city>" },
+      { "id": "dks_shelter_graffiti_28", "text": "<city> has fallen" },
+      { "id": "dks_shelter_graffiti_29", "text": "NO ONE LEFT HERE MOVE ON" },
+      { "id": "dks_shelter_graffiti_30", "text": "deth trap" },
+      { "id": "dks_shelter_graffiti_31", "text": "seven hour war" },
+      { "id": "dks_shelter_graffiti_32", "text": "ARMY WORKING WITH THEM" },
+      { "id": "dks_shelter_graffiti_33", "text": "FUCK CHINA" },
+      { "id": "dks_shelter_graffiti_34", "text": "gray dawn" },
+      { "id": "dks_shelter_graffiti_35", "text": "Remember <given_name>" },
+      { "id": "dks_shelter_graffiti_36", "text": "they can't read english communicate below:" }
+    ]
+  }
+]

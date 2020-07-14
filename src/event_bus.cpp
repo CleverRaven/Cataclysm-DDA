@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include "debug.h"
+
 event_subscriber::~event_subscriber()
 {
     if( subscribed_to ) {

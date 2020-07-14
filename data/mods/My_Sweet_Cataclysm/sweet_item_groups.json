@@ -19,13 +19,14 @@
   {
     "type": "item_group",
     "id": "MRE",
-    "items": [
-      [ "cookies", 300 ],
-      [ "grahmcrackers", 200 ],
-      [ "marshmallow", 100 ],
-      [ "smores", 60 ],
-      [ "gum", 150 ],
-      [ "caff_gum", 250 ]
+    "subtype": "distribution",
+    "entries": [
+      { "item": "cookies", "prob": 300 },
+      { "item": "grahmcrackers", "prob": 200 },
+      { "item": "marshmallow", "prob": 100 },
+      { "item": "smores", "prob": 60 },
+      { "item": "gum", "prob": 150 },
+      { "item": "caff_gum", "prob": 250 }
     ]
   },
   {

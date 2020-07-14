@@ -1,27 +1,25 @@
 #pragma once
-#ifndef EFFECT_H
-#define EFFECT_H
+#ifndef CATA_SRC_EFFECT_H
+#define CATA_SRC_EFFECT_H
 
-#include <cstddef>
-#include <unordered_map>
-#include <tuple>
-#include <vector>
-#include <string>
-#include <utility>
 #include <set>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "string_id.h"
-#include "translations.h"
 #include "hash_utils.h"
+#include "translations.h"
 #include "type_id.h"
 
 class player;
 
 enum game_message_type : int;
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
 
 /** Handles the large variety of weed messages. */
@@ -39,7 +37,7 @@ class effect_type
         friend void load_effect_type( const JsonObject &jo );
         friend class effect;
     public:
-        effect_type();
+        effect_type() = default;
 
         efftype_id id;
 
@@ -83,16 +81,16 @@ class effect_type
         static void register_ma_buff_effect( const effect_type &eff );
 
     protected:
-        int max_intensity;
-        int max_effective_intensity;
-        time_duration max_duration;
+        int max_intensity = 0;
+        int max_effective_intensity = 0;
+        time_duration max_duration = 0_turns;
 
-        int dur_add_perc;
-        int int_add_val;
+        int dur_add_perc = 0;
+        int int_add_val = 0;
 
-        int int_decay_step;
-        int int_decay_tick;
-        time_duration int_dur_factor;
+        int int_decay_step = 0;
+        int int_decay_tick = 0 ;
+        time_duration int_dur_factor = 0_turns;
 
         std::set<std::string> flags;
 
@@ -126,7 +124,7 @@ class effect_type
 
         std::vector<std::pair<std::string, game_message_type>> decay_msgs;
 
-        effect_rating rating;
+        effect_rating rating = effect_rating::e_neutral;
 
         std::string apply_message;
         std::string apply_memorial_log;
@@ -135,8 +133,7 @@ class effect_type
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
-        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash
-        > mod_data;
+        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash > mod_data;
 };
 
 class effect
@@ -234,22 +231,22 @@ class effect
         std::vector<efftype_id> get_blocks_effects() const;
 
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
-        int get_mod( std::string arg, bool reduced = false ) const;
+        int get_mod( const std::string &arg, bool reduced = false ) const;
         /** Returns the average return of get_mod for a modifier type. Used in effect description displays. */
-        int get_avg_mod( std::string arg, bool reduced = false ) const;
+        int get_avg_mod( const std::string &arg, bool reduced = false ) const;
         /** Returns the amount of a modifier type applied when a new effect is first added. */
-        int get_amount( std::string arg, bool reduced = false ) const;
+        int get_amount( const std::string &arg, bool reduced = false ) const;
         /** Returns the minimum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_min_val( std::string arg, bool reduced = false ) const;
+        int get_min_val( const std::string &arg, bool reduced = false ) const;
         /** Returns the maximum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_max_val( std::string arg, bool reduced = false ) const;
+        int get_max_val( const std::string &arg, bool reduced = false ) const;
         /** Returns true if the given modifier type's trigger chance is affected by size mutations. */
         bool get_sizing( const std::string &arg ) const;
         /** Returns the approximate percentage chance of a modifier type activating on any given tick, used for descriptions. */
-        double get_percentage( std::string arg, int val, bool reduced = false ) const;
+        double get_percentage( const std::string &arg, int val, bool reduced = false ) const;
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct
          *  multiplier on the overall chance of a modifier type activating. */
-        bool activated( const time_point &when, std::string arg, int val,
+        bool activated( const time_point &when, const std::string &arg, int val,
                         bool reduced = false, double mod = 1 ) const;
 
         /** Check if the effect has the specified flag */
@@ -298,6 +295,7 @@ void reset_effect_types();
 
 std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );
+std::string texitify_bandage_power( int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON
@@ -306,4 +304,4 @@ class effects_map : public
 {
 };
 
-#endif
+#endif // CATA_SRC_EFFECT_H

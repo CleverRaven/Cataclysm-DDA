@@ -1,18 +1,20 @@
 #include "trait_group.h"
 
-#include <cstddef>
 #include <algorithm>
 #include <cassert>
+#include <cstddef>
 #include <map>
 #include <utility>
 
+#include "compatibility.h"
 #include "debug.h"
 #include "json.h"
+#include "memory_fast.h"
+#include "mutation.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "translations.h"
 #include "ui.h"
-#include "compatibility.h"
-#include "mutation.h"
 
 using namespace trait_group;
 

@@ -2,13 +2,12 @@
   {
     "id": "backpack",
     "type": "ARMOR",
-    "name": "backpack",
+    "name": { "str": "backpack" },
     "description": "A small backpack.  Good storage for a little encumbrance.",
     "weight": "633 g",
     "volume": "2 L",
     "price": 3900,
-    "price_postapoc": 16000,
-    "rigid": false,
+    "price_postapoc": 500,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -16,8 +15,16 @@
     "covers": [ "TORSO" ],
     "coverage": 30,
     "encumbrance": 2,
-    "max_encumbrance": 15,
-    "storage": "15 L",
+    "max_encumbrance": 25,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "40 cm",
+        "moves": 300
+      }
+    ],
     "warmth": 6,
     "material_thickness": 2,
     "flags": [ "BELTED" ]
@@ -25,13 +32,12 @@
   {
     "id": "backpack_hiking",
     "type": "ARMOR",
-    "name": "hiking backpack",
+    "name": { "str": "hiking backpack" },
     "description": "A large sized hiking backpack with plenty of storage space.",
     "weight": "2291 g",
-    "volume": "14 L",
+    "volume": "14700 ml",
     "price": 10000,
-    "price_postapoc": 19000,
-    "rigid": false,
+    "price_postapoc": 1000,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -40,41 +46,89 @@
     "coverage": 50,
     "encumbrance": 10,
     "max_encumbrance": 40,
-    "storage": "55 L",
     "warmth": 10,
     "material_thickness": 2,
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath blade",
-      "holster_msg": "You sheath your %s",
-      "min_volume": "250ml",
-      "max_volume": "2500ml",
-      "multi": 2,
-      "draw_cost": 3,
-      "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
-    },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "60 cm",
+        "magazine_well": "12 L",
+        "moves": 450
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "8 kg",
+        "max_item_length": "35 cm",
+        "magazine_well": "1 L",
+        "moves": 450
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "500 ml",
+        "moves": 450
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "500 ml",
+        "moves": 450
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "70 cm",
+        "moves": 3,
+        "flag_restriction": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
+      }
+    ],
+    "use_action": { "type": "holster", "holster_prompt": "Sheath blade", "holster_msg": "You sheath your %s" },
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
   },
   {
     "id": "backpack_giant",
     "repairs_like": "bigback",
     "type": "ARMOR",
-    "name": "giant novelty backpack",
+    "name": { "str": "giant novelty backpack" },
     "description": "A huge fabric backpack made mostly as a joke before the Cataclysm.  Now, it's still rather silly, but it can store a lot of stuff.",
     "weight": "1200 g",
-    "volume": "8750 ml",
+    "volume": "9186 ml",
     "price": 4500,
-    "price_postapoc": 10500,
-    "rigid": false,
+    "price_postapoc": 750,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
     "covers": [ "TORSO", "LEGS" ],
     "coverage": 75,
-    "encumbrance": 10,
-    "max_encumbrance": 40,
-    "storage": "45 L",
+    "encumbrance": 20,
+    "max_encumbrance": 60,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "80 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "96 cm",
+        "magazine_well": "8750 ml",
+        "moves": 300
+      }
+    ],
     "warmth": 5,
     "material_thickness": 2,
     "flags": [ "BELTED" ]
@@ -82,13 +136,12 @@
   {
     "id": "backpack_leather",
     "type": "ARMOR",
-    "name": "leather backpack",
+    "name": { "str": "leather backpack" },
     "description": "A small leather backpack.  Good storage for a little encumbrance.",
     "weight": "818 g",
     "volume": "2 L",
     "price": 11900,
-    "price_postapoc": 26800,
-    "rigid": false,
+    "price_postapoc": 500,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -96,8 +149,16 @@
     "covers": [ "TORSO" ],
     "coverage": 30,
     "encumbrance": 4,
-    "max_encumbrance": 17,
-    "storage": "15 L",
+    "max_encumbrance": 26,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "40 cm",
+        "moves": 300
+      }
+    ],
     "warmth": 9,
     "material_thickness": 3,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -105,13 +166,12 @@
   {
     "id": "backpack_tactical_large",
     "type": "ARMOR",
-    "name": "large tactical backpack",
+    "name": { "str": "large tactical backpack" },
     "description": "A large tactical multi-compartment backpack that has great lower back support.",
     "weight": "2291 g",
     "volume": "15 L",
     "price": 9000,
-    "price_postapoc": 19000,
-    "rigid": false,
+    "price_postapoc": 1250,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -120,7 +180,40 @@
     "coverage": 50,
     "encumbrance": 10,
     "max_encumbrance": 55,
-    "storage": "65 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "55 L",
+        "max_contains_weight": "70 kg",
+        "max_item_length": "70 cm",
+        "magazine_well": "10 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "40 cm",
+        "magazine_well": "1 L",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "800 ml",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "800 ml",
+        "moves": 120
+      }
+    ],
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
@@ -128,11 +221,12 @@
   {
     "id": "basket_laundry",
     "type": "ARMOR",
-    "name": "laundry basket",
+    "name": { "str": "laundry basket" },
     "description": "A plastic basket meant for storing and hauling clothing.",
     "weight": "680 g",
-    "volume": "25 L",
+    "volume": "52500 ml",
     "price": 75,
+    "price_postapoc": 10,
     "to_hit": -2,
     "bashing": 1,
     "material": [ "plastic" ],
@@ -142,20 +236,28 @@
     "covers": [ "ARMS", "HANDS" ],
     "coverage": 5,
     "encumbrance": 50,
-    "storage": "25 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "50 L",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "80 cm",
+        "moves": 300
+      }
+    ],
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "RESTRICT_HANDS", "NO_SALVAGE" ]
   },
   {
     "id": "bigback",
     "type": "ARMOR",
-    "name": "high-volume rucksack",
+    "name": { "str": "high-volume rucksack" },
     "description": "Also known as a \"bigpack\", this rucksack is prized by pack rats but may lead to a bad back.",
     "weight": "3539 g",
     "volume": "21 L",
     "price": 20000,
-    "price_postapoc": 40000,
-    "rigid": false,
+    "price_postapoc": 2500,
     "material": [ "leather" ],
     "symbol": "[",
     "looks_like": "rucksack",
@@ -164,7 +266,40 @@
     "coverage": 50,
     "encumbrance": 16,
     "max_encumbrance": 65,
-    "storage": "80 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "70 L",
+        "max_contains_weight": "70 kg",
+        "max_item_length": "75 cm",
+        "magazine_well": "10 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "40 cm",
+        "magazine_well": "1 L",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "800 ml",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "800 ml",
+        "moves": 120
+      }
+    ],
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF", "ONLY_ONE", "OVERSIZE" ]
@@ -172,11 +307,12 @@
   {
     "id": "bindle",
     "type": "ARMOR",
-    "name": "bindle",
+    "name": { "str": "bindle" },
     "description": "You're ready for a trip down some train tracks.  Also known as a hobo stick.",
     "weight": "980 g",
     "volume": "3 L",
     "price": 80,
+    "price_postapoc": 10,
     "to_hit": -2,
     "bashing": 4,
     "material": [ "cotton", "wood" ],
@@ -185,15 +321,16 @@
     "color": "light_gray",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 4,
-    "encumbrance": 40,
-    "storage": "5 L",
+    "encumbrance": 30,
+    "max_encumbrance": 35,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "15 kg", "moves": 300 } ],
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "boxpack",
     "type": "ARMOR",
-    "name": "box backpack",
+    "name": { "str": "box backpack" },
     "description": "A makeshift backpack comprised of a wooden box and a pair of ropes.",
     "weight": "8000 g",
     "to_hit": -5,
@@ -201,11 +338,21 @@
     "symbol": "]",
     "looks_like": "jerrypack",
     "material": [ "wood", "cotton" ],
-    "volume": "15 L",
-    "storage": "15 L",
+    "volume": "15750 ml",
+    "price_postapoc": 50,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "60 kg",
+        "max_item_length": "50 cm",
+        "moves": 300
+      }
+    ],
     "covers": [ "TORSO" ],
     "coverage": 40,
-    "encumbrance": 30,
+    "encumbrance": 20,
     "warmth": 5,
     "bashing": 16,
     "cutting": 4,
@@ -216,11 +363,12 @@
     "id": "briefcase",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "briefcase",
+    "name": { "str": "briefcase" },
     "description": "Useful for carrying money, documents, or smuggled goods.",
     "weight": "1700 g",
-    "volume": "15 L",
+    "volume": "15750 ml",
     "price": 24000,
+    "price_postapoc": 50,
     "to_hit": -2,
     "bashing": 5,
     "material": [ "plastic" ],
@@ -230,7 +378,16 @@
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 10,
     "encumbrance": 30,
-    "storage": "15 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "50 cm",
+        "moves": 200
+      }
+    ],
     "material_thickness": 2,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -238,11 +395,12 @@
     "id": "case_violin",
     "repairs_like": "bigback",
     "type": "ARMOR",
-    "name": "violin case",
+    "name": { "str": "violin case" },
     "description": "Useful to carry your precious musical instrument around protected from any harm.",
     "weight": "2800 g",
-    "volume": "5 L",
+    "volume": "10500 ml",
     "price": 24000,
+    "price_postapoc": 50,
     "to_hit": -4,
     "bashing": 8,
     "material": [ "plastic", "steel", "leather" ],
@@ -251,8 +409,17 @@
     "color": "dark_gray",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 10,
-    "encumbrance": 50,
-    "storage": "3500 ml",
+    "encumbrance": 30,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "20 kg",
+        "max_item_length": "50 cm",
+        "moves": 200
+      }
+    ],
     "material_thickness": 5,
     "flags": [ "FANCY", "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -260,24 +427,32 @@
     "id": "daypack",
     "repairs_like": "backpack",
     "type": "ARMOR",
-    "name": "daypack",
+    "name": { "str": "daypack" },
     "description": "An ultralight nylon backpack intended for one-day hiking trips.  Waterproof, slim, and spacious.",
     "symbol": "[",
     "looks_like": "backpack",
     "color": "red",
     "weight": "411 g",
-    "volume": "2 L",
+    "volume": "2100 ml",
     "//": "REI Co-op 22-liter daypack costs $54.95, so ballpark to $55",
     "price": 5500,
-    "price_postapoc": 10000,
-    "rigid": false,
+    "price_postapoc": 500,
     "material": [ "cotton", "plastic" ],
     "covers": [ "TORSO" ],
     "coverage": 50,
     "material_thickness": 1,
     "encumbrance": 2,
     "max_encumbrance": 18,
-    "storage": "24 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "24 L",
+        "max_contains_weight": "32 kg",
+        "max_item_length": "60 cm",
+        "magazine_well": "2 L",
+        "moves": 300
+      }
+    ],
     "warmth": 5,
     "flags": [ "BELTED", "OVERSIZE", "STURDY" ]
   },
@@ -285,13 +460,12 @@
     "id": "dive_bag",
     "repairs_like": "backpack",
     "type": "ARMOR",
-    "name": "dive bag",
+    "name": { "str": "dive bag" },
     "description": "A lightweight mesh backpack, commonly worn by swimmers and divers.",
     "weight": "512 g",
     "volume": "1500 ml",
     "price": 10900,
-    "price_postapoc": 19000,
-    "rigid": false,
+    "price_postapoc": 500,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -299,21 +473,28 @@
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 2,
-    "max_encumbrance": 12,
-    "storage": "12 L",
+    "max_encumbrance": 30,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "30 L",
+        "max_contains_weight": "24 kg",
+        "max_item_length": "70 cm",
+        "moves": 300
+      }
+    ],
     "material_thickness": 1,
     "flags": [ "WATER_FRIENDLY", "BELTED" ]
   },
   {
     "id": "duffelbag",
     "type": "ARMOR",
-    "name": "duffel bag",
+    "name": { "str": "duffel bag" },
     "description": "A huge duffel bag.  Provides plenty of storage, but is severely encumbering.",
     "weight": "933 g",
     "volume": "6 L",
     "price": 12000,
-    "price_postapoc": 23000,
-    "rigid": false,
+    "price_postapoc": 500,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "rucksack",
@@ -322,7 +503,16 @@
     "coverage": 50,
     "encumbrance": 5,
     "max_encumbrance": 35,
-    "storage": "35 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "35 L",
+        "max_contains_weight": "50 kg",
+        "max_item_length": "55 cm",
+        "magazine_well": "5 L",
+        "moves": 300
+      }
+    ],
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -333,18 +523,29 @@
     "name": { "str": "tactical dump pouch", "str_pl": "tactical dump pouches" },
     "description": "An expandable pouch secured with straps.  Provides a bit of extra storage with minimal encumbrance.",
     "weight": "288 g",
-    "volume": "500 ml",
+    "volume": "525 ml",
     "price": 4500,
+    "price_postapoc": 250,
     "to_hit": 2,
     "bashing": 1,
-    "material": [ "kevlar", "plastic" ],
+    "material": [ "nylon", "plastic" ],
     "symbol": "[",
     "looks_like": "holster",
     "color": "dark_gray",
     "covers": [ "TORSO" ],
     "coverage": 10,
-    "encumbrance": 3,
-    "storage": "2 L",
+    "encumbrance": 1,
+    "max_encumbrance": 3,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "4 kg",
+        "max_item_length": "20 cm",
+        "magazine_well": "500 ml",
+        "moves": 80
+      }
+    ],
     "material_thickness": 1,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
@@ -352,10 +553,10 @@
     "id": "fanny",
     "repairs_like": "backpack",
     "type": "ARMOR",
-    "name": "fanny pack",
+    "name": { "str": "fanny pack" },
     "description": "Provides a bit of extra storage, with minimal encumbrance.",
     "weight": "272 g",
-    "volume": "250 ml",
+    "volume": "1050 ml",
     "price": 3500,
     "to_hit": 2,
     "bashing": 1,
@@ -365,8 +566,18 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 10,
-    "encumbrance": 2,
-    "storage": "1500 ml",
+    "encumbrance": 1,
+    "max_encumbrance": 3,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "1 L",
+        "moves": 80
+      }
+    ],
     "material_thickness": 1,
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
@@ -374,33 +585,41 @@
     "id": "golf_bag",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "golf bag",
-    "description": "A tall canvas and plastic bag with fold-out legs used for golfing.  It even has straps to be worn on the back.",
+    "name": { "str": "golf bag" },
+    "description": "A tall canvas and plastic bag with fold-out legs used for golfing.  It even has straps to be worn on the back and a slot for an umbrella.",
     "weight": "1900 g",
-    "volume": "15 L",
+    "volume": "45 L",
     "price": 800,
-    "price_postapoc": 1900,
-    "rigid": false,
+    "price_postapoc": 750,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "quiver_large",
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 35,
-    "encumbrance": 2,
-    "max_encumbrance": 15,
-    "storage": "18 L",
+    "encumbrance": 30,
+    "max_encumbrance": 35,
+    "//": "The main section of the golf bag actually assumes things will stick out of it, but specifically contains them, so some extra wiggle room was added.",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "40 L",
+        "max_contains_weight": "200 kg",
+        "moves": 300,
+        "rigid": true,
+        "max_item_length": "150 cm"
+      },
+      { "max_contains_volume": "90 ml", "max_contains_weight": "750 g", "max_item_length": "10 cm", "moves": 200 },
+      { "max_contains_volume": "90 ml", "max_contains_weight": "750 g", "max_item_length": "10 cm", "moves": 200 },
+      { "max_contains_volume": "1350 ml", "max_contains_weight": "4 kg", "max_item_length": "25 cm", "moves": 300 },
+      { "max_contains_volume": "675 ml", "max_contains_weight": "2 kg", "max_item_length": "20 cm", "moves": 300 },
+      { "max_contains_volume": "675 ml", "max_contains_weight": "2 kg", "max_item_length": "20 cm", "moves": 300 },
+      { "max_contains_volume": "500 ml", "max_contains_weight": "300 g", "max_item_length": "15 cm", "moves": 100 }
+    ],
     "warmth": 5,
     "material_thickness": 3,
     "flags": [ "BELTED", "OVERSIZE" ],
-    "use_action": {
-      "type": "holster",
-      "holster_prompt": "Sheath golf club",
-      "holster_msg": "You awkwardly sheath your %s",
-      "max_volume": "1 L",
-      "draw_cost": 40,
-      "flags": [ "SHEATH_GOLF" ]
-    }
+    "use_action": { "type": "holster", "holster_prompt": "Sheath golf club", "holster_msg": "You awkwardly sheath your %s" }
   },
   {
     "id": "hide_bag",
@@ -416,10 +635,19 @@
     "armor_data": {
       "covers": [ "ARM_EITHER", "HAND_EITHER" ],
       "coverage": 5,
-      "encumbrance": 100,
-      "storage": "15 L",
+      "encumbrance": 10,
+      "max_encumbrance": 100,
       "material_thickness": 1
     },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "50 cm",
+        "moves": 300
+      }
+    ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
@@ -432,14 +660,24 @@
     "symbol": "[",
     "looks_like": "hide_bag",
     "color": "pink",
+    "price_postapoc": 10,
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
       "covers": [ "ARM_EITHER", "HAND_EITHER" ],
       "coverage": 5,
-      "encumbrance": 100,
-      "storage": "15 L",
+      "encumbrance": 10,
+      "max_encumbrance": 100,
       "material_thickness": 1
     },
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "50 cm",
+        "moves": 300
+      }
+    ],
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
@@ -448,21 +686,33 @@
     "type": "ARMOR",
     "copy-from": "briefcase",
     "looks_like": "briefcase",
+    "weight": "1500 g",
+    "volume": "15232 ml",
+    "longest_side": "544 mm",
     "name": { "str": "H&K operational briefcase (empty)", "str_pl": "H&K operational briefcases (empty)" },
     "description": "This is a plain, hard-sided black briefcase with a trigger in the handle and a concealed hole in the side.  Squeezing the trigger would currently do nothing, as it is empty.  Don't forget to put a suitable MP5 back inside before you try to pay any ransom fees with lead.",
-    "storage": "14500 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "14 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "50 cm",
+        "moves": 300
+      }
+    ],
     "price": 2000,
-    "weight": "950 g"
+    "price_postapoc": 1250
   },
   {
     "id": "jerrypack",
     "type": "ARMOR",
-    "name": "jerrypack",
+    "name": { "str": "jerrypack" },
     "description": "A jerrycan modified to be worn in a similar manner to a backpack.",
     "weight": "1763 g",
-    "volume": "10 L",
+    "volume": "10500 ml",
     "price": 1450,
-    "price_postapoc": 3600,
+    "price_postapoc": 250,
     "to_hit": -1,
     "material": [ "plastic", "cotton" ],
     "symbol": "[",
@@ -473,7 +723,15 @@
     "encumbrance": 30,
     "warmth": 5,
     "material_thickness": 2,
-    "container_data": { "contains": "10 L", "seals": true, "watertight": true },
+    "pocket_data": [
+      {
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "10 kg",
+        "max_item_volume": "65 ml",
+        "watertight": true,
+        "rigid": true
+      }
+    ],
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
   },
   {
@@ -484,6 +742,7 @@
     "weight": "610 g",
     "volume": "500 ml",
     "price": 1000,
+    "price_postapoc": 150,
     "to_hit": 1,
     "bashing": 1,
     "material": [ "leather" ],
@@ -492,8 +751,17 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "coverage": 15,
-    "encumbrance": 3,
-    "storage": "1500 ml",
+    "encumbrance": 1,
+    "max_encumbrance": 3,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1500 ml",
+        "max_contains_weight": "5 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      }
+    ],
     "material_thickness": 1,
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -503,28 +771,46 @@
     "name": { "str": "pair of drop leg pouches", "str_pl": "pairs of drop leg pouches" },
     "description": "A set of pouches that can be worn on the thighs using buckled straps.  This variety is favored by the military.",
     "weight": "205 g",
-    "volume": "500 ml",
+    "volume": "1050 ml",
     "price": 3000,
+    "price_postapoc": 250,
     "material": [ "cotton" ],
     "symbol": "[",
     "color": "dark_gray",
     "covers": [ "LEGS" ],
     "coverage": 20,
-    "encumbrance": 5,
-    "storage": "2 L",
+    "encumbrance": 2,
+    "max_encumbrance": 5,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "500 ml",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "500 ml",
+        "moves": 200
+      }
+    ],
     "material_thickness": 2,
     "flags": [ "VARSIZE", "WATER_FRIENDLY", "BELTED" ]
   },
   {
     "id": "makeshift_knapsack",
     "type": "ARMOR",
-    "name": "makeshift knapsack",
+    "name": { "str": "makeshift knapsack" },
     "description": "A pair of pants with the bottom ends tied with string, and then passed through the belt loops so the knapsack can be carried on the back.",
     "weight": "560 g",
     "volume": "2 L",
     "price": 1000,
-    "price_postapoc": 1000,
-    "rigid": false,
+    "price_postapoc": 10,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "ragpouch",
@@ -533,7 +819,15 @@
     "coverage": 30,
     "encumbrance": 2,
     "max_encumbrance": 9,
-    "storage": "5 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "70 cm",
+        "moves": 300
+      }
+    ],
     "warmth": 5,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -541,13 +835,12 @@
   {
     "id": "makeshift_sling",
     "type": "ARMOR",
-    "name": "makeshift sling",
+    "name": { "str": "makeshift sling" },
     "description": "A large sheet tied into a crude, over-the-shoulder sling.",
     "weight": "771 g",
     "volume": "5 L",
     "price": 100,
-    "price_postapoc": 100,
-    "rigid": false,
+    "price_postapoc": 10,
     "to_hit": -2,
     "material": [ "cotton" ],
     "symbol": "[",
@@ -557,7 +850,16 @@
     "coverage": 40,
     "encumbrance": 4,
     "max_encumbrance": 15,
-    "storage": "10 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "15 kg",
+        "max_item_length": "50 cm",
+        "magazine_well": "2 L",
+        "moves": 300
+      }
+    ],
     "warmth": 10,
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "WATER_FRIENDLY" ]
@@ -566,14 +868,13 @@
     "id": "mbag",
     "repairs_like": "backpack",
     "type": "ARMOR",
-    "name": "messenger bag",
+    "name": { "str": "messenger bag" },
     "//": "KA101's ran about $90 but is ballistic nylon.  Bit tougher than the DDA model.",
     "description": "Light and easy to wear, but doesn't offer much storage.",
-    "weight": "760 g",
-    "volume": "1 L",
+    "weight": "690 g",
+    "volume": "2625 ml",
     "price": 7900,
-    "price_postapoc": 16900,
-    "rigid": false,
+    "price_postapoc": 250,
     "to_hit": 1,
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
@@ -582,9 +883,18 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 30,
-    "encumbrance": 1,
-    "max_encumbrance": 6,
-    "storage": "6 L",
+    "encumbrance": 8,
+    "max_encumbrance": 12,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "15 L",
+        "max_contains_weight": "18 kg",
+        "max_item_length": "50 cm",
+        "magazine_well": "2500 ml",
+        "moves": 150
+      }
+    ],
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
@@ -592,22 +902,54 @@
     "id": "molle_pack",
     "repairs_like": "bigback",
     "type": "ARMOR",
-    "name": "MOLLE pack",
+    "name": { "str": "MOLLE pack" },
     "description": "The Modular Lightweight Load-carrying Equipment is an advanced military backpack.  Covered with pockets and straps, it strikes a fine balance between storage space and encumbrance.",
-    "weight": "966 g",
-    "volume": "2500 ml",
+    "weight": "1300 g",
+    "volume": "5000 ml",
     "price": 6700,
-    "price_postapoc": 11900,
-    "rigid": false,
-    "material": [ "cotton", "kevlar" ],
+    "price_postapoc": 1500,
+    "material": [ "cotton", "nylon" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 35,
-    "encumbrance": 2,
-    "max_encumbrance": 9,
-    "storage": "12 L",
+    "encumbrance": 5,
+    "max_encumbrance": 20,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "35 kg",
+        "max_item_length": "50 cm",
+        "magazine_well": "3 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "750 ml",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "500 ml",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "25 cm",
+        "magazine_well": "500 ml",
+        "moves": 120
+      }
+    ],
     "warmth": 10,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -615,42 +957,53 @@
   {
     "id": "petpack",
     "type": "ARMOR",
-    "name": "petpack",
+    "name": { "str": "petpack" },
     "description": "Before the Cataclysm this would allow your four-legged friend to see the world, now it's used to shield them from the world.",
-    "weight": "1316 g",
-    "volume": "10 L",
+    "weight": "900 g",
+    "volume": "36750 ml",
     "price": 7900,
-    "price_postapoc": 7900,
+    "price_postapoc": 250,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "blue",
     "covers": [ "TORSO" ],
     "coverage": 40,
-    "encumbrance": 10,
-    "storage": "4 L",
+    "encumbrance": 35,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "35 L",
+        "max_contains_weight": "16 kg",
+        "max_item_length": "45 cm",
+        "moves": 300
+      }
+    ],
     "warmth": 8,
     "material_thickness": 2,
-    "properties": [ [ "monster_size_capacity", "SMALL" ] ],
+    "properties": [ [ "creature_size_capacity", "SMALL" ] ],
     "use_action": "CAPTURE_MONSTER_ACT",
     "flags": [ "BELTED", "WATERPROOF" ]
   },
   {
     "id": "plastic_shopping_bag",
     "type": "ARMOR",
-    "name": "plastic shopping bag",
+    "name": { "str": "plastic shopping bag" },
     "description": "A bag used to carry groceries home.",
     "weight": "2 g",
-    "volume": "250 ml",
+    "volume": "30 ml",
     "price": 1,
+    "price_postapoc": 10,
     "to_hit": -2,
-    "material": "plastic",
+    "material": [ "plastic" ],
     "symbol": "[",
     "color": "white",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 4,
-    "encumbrance": 60,
-    "storage": "5 L",
+    "encumbrance": 1,
+    "max_encumbrance": 60,
+    "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "3 kg", "moves": 150 } ],
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -658,13 +1011,12 @@
     "id": "purse",
     "repairs_like": "backpack",
     "type": "ARMOR",
-    "name": "purse",
+    "name": { "str": "purse" },
     "description": "A bit cumbersome to wear, but provides some storage.",
     "weight": "297 g",
     "volume": "1 L",
     "price": 7500,
-    "price_postapoc": 5000,
-    "rigid": false,
+    "price_postapoc": 100,
     "to_hit": 2,
     "bashing": 2,
     "material": [ "leather" ],
@@ -675,7 +1027,15 @@
     "coverage": 10,
     "encumbrance": 2,
     "max_encumbrance": 7,
-    "storage": "5 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "30 cm",
+        "moves": 150
+      }
+    ],
     "material_thickness": 2,
     "flags": [ "FANCY", "BELTED", "WATER_FRIENDLY" ]
   },
@@ -687,6 +1047,7 @@
     "weight": "560 g",
     "volume": "500 ml",
     "price": 1000,
+    "price_postapoc": 100,
     "to_hit": 1,
     "bashing": 1,
     "material": [ "cotton" ],
@@ -694,8 +1055,17 @@
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 15,
-    "encumbrance": 10,
-    "storage": "2250 ml",
+    "encumbrance": 5,
+    "max_encumbrance": 10,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "2250 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "30 cm",
+        "moves": 200
+      }
+    ],
     "material_thickness": 1,
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -703,22 +1073,54 @@
     "id": "rucksack",
     "repairs_like": "bigback",
     "type": "ARMOR",
-    "name": "military rucksack",
+    "name": { "str": "military rucksack" },
     "description": "A huge military rucksack, provides a lot of storage.",
     "weight": "1140 g",
-    "volume": "4 L",
+    "volume": "11 L",
     "price": 9200,
-    "price_postapoc": 15900,
-    "rigid": false,
+    "price_postapoc": 1250,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
     "covers": [ "TORSO" ],
     "coverage": 40,
-    "encumbrance": 2,
-    "max_encumbrance": 20,
-    "storage": "22 L",
+    "encumbrance": 10,
+    "max_encumbrance": 50,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "40 L",
+        "max_contains_weight": "60 kg",
+        "max_item_length": "55 cm",
+        "magazine_well": "8 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "35 cm",
+        "magazine_well": "1 L",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "800 ml",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "30 cm",
+        "magazine_well": "800 ml",
+        "moves": 120
+      }
+    ],
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -726,13 +1128,12 @@
   {
     "id": "runner_bag",
     "type": "ARMOR",
-    "name": "runner pack",
+    "name": { "str": "runner pack" },
     "description": "The obvious choice for outdoor athletes, this ergonomic backpack is light and easy to wear, ensuring comfort when carrying heavy and bulky items.",
-    "weight": "840 g",
+    "weight": "300 g",
     "volume": "1500 ml",
     "price": 24000,
-    "price_postapoc": 36000,
-    "rigid": false,
+    "price_postapoc": 500,
     "to_hit": 1,
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
@@ -743,7 +1144,16 @@
     "coverage": 20,
     "encumbrance": 1,
     "max_encumbrance": 6,
-    "storage": "7 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "7 L",
+        "max_contains_weight": "14 kg",
+        "max_item_length": "40 cm",
+        "magazine_well": "1 L",
+        "moves": 250
+      }
+    ],
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -752,14 +1162,13 @@
     "id": "slingpack",
     "repairs_like": "backpack",
     "type": "ARMOR",
-    "name": "sling pack",
+    "name": { "str": "sling pack" },
     "//": "Depends on if you're getting a cheap school version or something more like a range bag.",
     "description": "A simple single-sling backpack.  Easier to access than a normal backpack, but can't comfortably hold as much.",
     "weight": "566 g",
-    "volume": "1500 ml",
+    "volume": "2100 ml",
     "price": 2900,
-    "price_postapoc": 5900,
-    "rigid": false,
+    "price_postapoc": 750,
     "bashing": 1,
     "material": [ "cotton", "plastic" ],
     "symbol": "[",
@@ -769,7 +1178,16 @@
     "coverage": 30,
     "encumbrance": 2,
     "max_encumbrance": 9,
-    "storage": "8 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "8 L",
+        "max_contains_weight": "16 kg",
+        "max_item_length": "40 cm",
+        "magazine_well": "2 L",
+        "moves": 200
+      }
+    ],
     "warmth": 2,
     "material_thickness": 1,
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
@@ -777,20 +1195,30 @@
   {
     "id": "straw_basket",
     "type": "ARMOR",
-    "name": "straw basket",
+    "name": { "str": "straw basket" },
     "description": "Hand made straw basket.  Carry it with you for extra storage.",
     "weight": "100 g",
-    "volume": "2500 ml",
+    "volume": "10500 ml",
     "price": 200,
+    "price_postapoc": 50,
     "to_hit": -1,
-    "material": "paper",
+    "material": [ "paper" ],
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 4,
     "encumbrance": 30,
-    "storage": "2250 ml",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "10 L",
+        "max_contains_weight": "3 kg",
+        "max_item_length": "40 cm",
+        "moves": 300
+      }
+    ],
     "material_thickness": 2,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -798,20 +1226,30 @@
     "id": "suitcase_l",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "suitcase",
+    "name": { "str": "suitcase" },
     "//": "You drag it along with you, so it taking a hit is Rare.",
     "description": "A huge wheeled suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is neither fast nor comfortable.",
     "weight": "5000 g",
-    "volume": "25 L",
+    "volume": "115500 ml",
     "price": 21000,
+    "price_postapoc": 500,
     "material": [ "plastic" ],
     "symbol": "[",
     "looks_like": "suitcase_m",
     "color": "red",
     "covers": [ "ARM_EITHER", "HAND_EITHER", "LEG_EITHER" ],
     "coverage": 5,
-    "encumbrance": 100,
-    "storage": "20 L",
+    "encumbrance": 70,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "110 L",
+        "max_contains_weight": "80 kg",
+        "max_item_length": "90 cm",
+        "moves": 300
+      }
+    ],
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
@@ -819,32 +1257,41 @@
     "id": "suitcase_m",
     "repairs_like": "backpack_hiking",
     "type": "ARMOR",
-    "name": "suitcase",
-    "description": "A mid-sized suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is not exactly comfortable.",
-    "weight": "900 g",
-    "volume": "2500 ml",
+    "name": { "str": "suitcase" },
+    "description": "A mid-sized wheeled suitcase used mainly for transporting clothes and other possessions during trips, provides a decent amount of storage but hauling it around is not exactly comfortable.",
+    "weight": "3000 g",
+    "volume": "47250 ml",
     "price": 21000,
+    "price_postapoc": 250,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "briefcase",
     "color": "blue",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "ARM_EITHER", "HAND_EITHER", "LEG_EITHER" ],
     "coverage": 5,
-    "encumbrance": 100,
-    "storage": "10 L",
+    "encumbrance": 50,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_volume": "45 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "70 cm",
+        "moves": 250
+      }
+    ],
     "material_thickness": 3,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "survivor_duffel_bag",
     "type": "ARMOR",
-    "name": "survivor duffel bag",
+    "name": { "str": "survivor duffel bag" },
     "description": "A custom-built heavy duffel bag.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "1000 g",
-    "volume": "7500 ml",
+    "volume": "7875 ml",
     "price": 24000,
-    "price_postapoc": 24000,
-    "rigid": false,
+    "price_postapoc": 3250,
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "rucksack",
@@ -852,21 +1299,92 @@
     "covers": [ "TORSO" ],
     "coverage": 40,
     "encumbrance": 8,
-    "max_encumbrance": 28,
-    "storage": "38 L",
+    "max_encumbrance": 30,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "38 L",
+        "max_contains_weight": "60 kg",
+        "max_item_length": "60 cm",
+        "magazine_well": "7500 ml",
+        "moves": 300
+      }
+    ],
+    "warmth": 10,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
   },
   {
     "id": "survivor_pack",
     "type": "ARMOR",
-    "name": "survivor backpack",
+    "name": { "str": "survivor backpack" },
     "description": "A custom-built backpack.  Durable and carefully crafted to hold as much stuff as possible.",
     "weight": "600 g",
-    "volume": "2500 ml",
+    "volume": "5250 ml",
     "price": 24000,
-    "price_postapoc": 24000,
-    "rigid": false,
+    "price_postapoc": 2250,
+    "material": [ "leather", "cotton" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "brown",
+    "covers": [ "TORSO" ],
+    "coverage": 30,
+    "encumbrance": 3,
+    "max_encumbrance": 24,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "30 L",
+        "max_contains_weight": "32 kg",
+        "max_item_length": "50 cm",
+        "magazine_well": "5 L",
+        "moves": 300
+      }
+    ],
+    "warmth": 6,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
+  },
+  {
+    "id": "survivor_rucksack",
+    "type": "ARMOR",
+    "name": { "str": "survivor rucksack" },
+    "description": "A custom-built heavy backpack.  Durable and carefully crafted to hold as much stuff as possible.",
+    "weight": "800 g",
+    "volume": "10 L",
+    "price": 24000,
+    "price_postapoc": 3000,
+    "material": [ "leather", "cotton" ],
+    "symbol": "[",
+    "looks_like": "rucksack",
+    "color": "dark_gray",
+    "covers": [ "TORSO" ],
+    "coverage": 40,
+    "encumbrance": 3,
+    "max_encumbrance": 28,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "35 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "55 cm",
+        "magazine_well": "6 L",
+        "moves": 300
+      }
+    ],
+    "warmth": 8,
+    "material_thickness": 2,
+    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
+  },
+  {
+    "id": "survivor_runner_pack",
+    "type": "ARMOR",
+    "name": { "str": "survivor runner pack" },
+    "description": "A custom-built lightweight runner pack.  Durable and carefully crafted to hold as much stuff as possible.",
+    "weight": "440 g",
+    "volume": "4200 ml",
+    "price": 24000,
+    "price_postapoc": 2500,
     "material": [ "leather", "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -875,84 +1393,59 @@
     "coverage": 30,
     "encumbrance": 3,
     "max_encumbrance": 12,
-    "storage": "16 L",
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
-  },
-  {
-    "id": "survivor_rucksack",
-    "type": "ARMOR",
-    "name": "survivor rucksack",
-    "description": "A custom-built heavy backpack.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "800 g",
-    "volume": "5 L",
-    "price": 24000,
-    "price_postapoc": 24000,
-    "rigid": false,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "rucksack",
-    "color": "dark_gray",
-    "covers": [ "TORSO" ],
-    "coverage": 40,
-    "encumbrance": 3,
-    "max_encumbrance": 18,
-    "storage": "25 L",
-    "material_thickness": 2,
-    "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
-  },
-  {
-    "id": "survivor_runner_pack",
-    "type": "ARMOR",
-    "name": "survivor runner pack",
-    "description": "A custom-built lightweight runner pack.  Durable and carefully crafted to hold as much stuff as possible.",
-    "weight": "440 g",
-    "volume": "1750 ml",
-    "price": 24000,
-    "price_postapoc": 24000,
-    "rigid": false,
-    "material": [ "leather", "cotton" ],
-    "symbol": "[",
-    "looks_like": "backpack",
-    "color": "brown",
-    "covers": [ "TORSO" ],
-    "coverage": 30,
-    "encumbrance": 1,
-    "max_encumbrance": 6,
-    "storage": "8 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "16 kg",
+        "max_item_length": "40 cm",
+        "magazine_well": "4 L",
+        "moves": 250
+      }
+    ],
+    "warmth": 2,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
   },
   {
     "id": "swag_bag",
     "type": "ARMOR",
-    "name": "swag bag",
+    "name": { "str": "swag bag" },
     "description": "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
     "weight": "415 g",
     "volume": "1 L",
     "price": 0,
+    "price_postapoc": 50,
     "to_hit": -5,
-    "material": "cotton",
+    "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "duffelbag",
     "color": "brown",
     "covers": [ "ARM_EITHER", "HAND_EITHER" ],
     "coverage": 5,
-    "encumbrance": 100,
-    "storage": "15 L",
+    "encumbrance": 4,
+    "max_encumbrance": 100,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "30 kg",
+        "max_item_length": "60 cm",
+        "moves": 300
+      }
+    ],
     "material_thickness": 1,
     "flags": [ "OVERSIZE", "BELTED", "RESTRICT_HANDS", "WATER_FRIENDLY" ]
   },
   {
     "id": "travelpack",
     "type": "ARMOR",
-    "name": "travelpack",
+    "name": { "str": "travelpack" },
     "description": "A hiking pack used for short trips.",
     "weight": "636 g",
-    "volume": "3 L",
+    "volume": "5 L",
     "price": 7000,
-    "price_postapoc": 19000,
-    "rigid": false,
+    "price_postapoc": 1500,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "backpack",
@@ -961,7 +1454,40 @@
     "coverage": 40,
     "encumbrance": 3,
     "max_encumbrance": 25,
-    "storage": "30 L",
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "25 L",
+        "max_contains_weight": "40 kg",
+        "max_item_length": "50 cm",
+        "magazine_well": "4 L",
+        "moves": 300
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "4 L",
+        "max_contains_weight": "10 kg",
+        "max_item_length": "35 cm",
+        "magazine_well": "500 ml",
+        "moves": 200
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "magazine_well": "200 ml",
+        "moves": 120
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "1 L",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "magazine_well": "200 ml",
+        "moves": 120
+      }
+    ],
     "warmth": 8,
     "material_thickness": 2,
     "flags": [ "BELTED", "WATERPROOF" ]
@@ -970,21 +1496,81 @@
     "id": "vest",
     "repairs_like": "trenchcoat",
     "type": "ARMOR",
-    "name": "utility vest",
+    "name": { "str": "utility vest" },
     "description": "A light vest covered in pockets and straps for storage.",
     "weight": "516 g",
     "volume": "1 L",
     "price": 3900,
+    "price_postapoc": 500,
     "material": [ "cotton" ],
     "symbol": "[",
     "looks_like": "tank_top",
     "color": "light_gray",
     "covers": [ "TORSO" ],
     "coverage": 60,
-    "encumbrance": 5,
-    "storage": "3 L",
+    "encumbrance": 2,
+    "max_encumbrance": 5,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "750 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "20 cm",
+        "moves": 80
+      }
+    ],
     "warmth": 5,
     "material_thickness": 2,
-    "flags": [ "VARSIZE", "WAIST" ]
+    "flags": [ "VARSIZE" ]
+  },
+  {
+    "id": "debug_backpack",
+    "type": "ARMOR",
+    "name": { "str": "debug pocket universe" },
+    "description": "A pocket universe.  Can store approximately 384 * 10^6 bugs.",
+    "weight": "1 g",
+    "volume": "1 L",
+    "price": 0,
+    "price_postapoc": 0,
+    "material": [ "cotton" ],
+    "symbol": "[",
+    "looks_like": "backpack",
+    "color": "yellow",
+    "encumbrance": 0,
+    "max_encumbrance": 0,
+    "pocket_data": [
+      {
+        "rigid": true,
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "100000 L",
+        "max_contains_weight": "100000 kg",
+        "moves": 1,
+        "max_item_length": "1 km"
+      }
+    ],
+    "warmth": 0,
+    "material_thickness": 0,
+    "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS" ]
   }
 ]

@@ -2,7 +2,7 @@
   {
     "id": "mon_gilamon",
     "type": "MONSTER",
-    "name": "Gila monster",
+    "name": { "str": "Gila monster" },
     "description": "A reptile with aposematic coloration of black and orange that is renowned for an extremely painful venom when it bites.",
     "default_faction": "small_animal",
     "bodytype": "lizard",

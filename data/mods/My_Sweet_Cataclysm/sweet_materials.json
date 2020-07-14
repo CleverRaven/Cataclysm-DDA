@@ -10,6 +10,7 @@
     "edible": true,
     "bash_resist": 0,
     "cut_resist": 0,
+    "bullet_resist": 0,
     "acid_resist": 1,
     "fire_resist": 1,
     "elec_resist": 1,

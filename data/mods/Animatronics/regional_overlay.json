@@ -1,8 +1,0 @@
-[
-  {
-    "type": "region_overlay",
-    "regions": [ "all" ],
-    "//": "A list of regions to which this overlay should be applied",
-    "city": { "parks": { "//": "weighted list for park overmap terrains", "bankruptpizzeria": 200 } }
-  }
-]

@@ -1,35 +1,46 @@
 #include "martialarts.h"
 
 #include <algorithm>
+#include <cstdlib>
 #include <map>
-#include <string>
-#include <array>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <utility>
 
+#include "character.h"
+#include "character_martial_arts.h"
+#include "color.h"
+#include "cursesdef.h"
 #include "damage.h"
 #include "debug.h"
 #include "effect.h"
-#include "game.h"
-#include "map.h"
+#include "enums.h"
 #include "generic_factory.h"
 #include "input.h"
+#include "item.h"
 #include "itype.h"
 #include "json.h"
+#include "map.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player.h"
+#include "pldata.h"
+#include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
-#include "color.h"
-#include "cursesdef.h"
-#include "item.h"
-#include "pimpl.h"
-#include "pldata.h"
-#include "enums.h"
-#include "optional.h"
-#include "cata_string_consts.h"
+#include "ui_manager.h"
+#include "value_ptr.h"
+
+static const skill_id skill_unarmed( "unarmed" );
+
+static const bionic_id bio_armor_arms( "bio_armor_arms" );
+static const bionic_id bio_armor_legs( "bio_armor_legs" );
+static const bionic_id bio_cqb( "bio_cqb" );
+
+static const std::string flag_UNARMED_WEAPON( "UNARMED_WEAPON" );
 
 namespace
 {
@@ -46,7 +57,7 @@ matype_id martial_art_learned_from( const itype &type )
 
     if( !type.book || type.book->martial_art.is_null() ) {
         debugmsg( "Item '%s' which claims to teach a martial art is missing martial_art",
-                  type.get_id() );
+                  type.get_id().str() );
         return {};
     }
 
@@ -399,7 +410,7 @@ void finialize_martial_arts()
     }
 }
 
-std::string martialart_difficulty( matype_id mstyle )
+std::string martialart_difficulty( const matype_id &mstyle )
 {
     std::string diff;
     if( mstyle->learn_difficulty <= 2 ) {
@@ -456,7 +467,7 @@ bool ma_requirements::is_valid_character( const Character &u ) const
         return false;
     }
 
-    if( wall_adjacent && !g->m.is_wall_adjacent( u.pos() ) ) {
+    if( wall_adjacent && !get_map().is_wall_adjacent( u.pos() ) ) {
         return false;
     }
 
@@ -632,31 +643,39 @@ void ma_buff::apply_character( Character &u ) const
 
 int ma_buff::hit_bonus( const Character &u ) const
 {
-    return bonuses.get_flat( u, AFFECTED_HIT );
+    return bonuses.get_flat( u, affected_stat::HIT );
+}
+int ma_buff::critical_hit_chance_bonus( const Character &u ) const
+{
+    return bonuses.get_flat( u, affected_stat::CRITICAL_HIT_CHANCE );
 }
 int ma_buff::dodge_bonus( const Character &u ) const
 {
-    return bonuses.get_flat( u, AFFECTED_DODGE );
+    return bonuses.get_flat( u, affected_stat::DODGE );
 }
 int ma_buff::block_bonus( const Character &u ) const
 {
-    return bonuses.get_flat( u, AFFECTED_BLOCK );
+    return bonuses.get_flat( u, affected_stat::BLOCK );
+}
+int ma_buff::block_effectiveness_bonus( const Character &u ) const
+{
+    return bonuses.get_flat( u, affected_stat::BLOCK_EFFECTIVENESS );
 }
 int ma_buff::speed_bonus( const Character &u ) const
 {
-    return bonuses.get_flat( u, AFFECTED_SPEED );
+    return bonuses.get_flat( u, affected_stat::SPEED );
 }
 int ma_buff::armor_bonus( const Character &guy, damage_type dt ) const
 {
-    return bonuses.get_flat( guy, AFFECTED_ARMOR, dt );
+    return bonuses.get_flat( guy, affected_stat::ARMOR, dt );
 }
 float ma_buff::damage_bonus( const Character &u, damage_type dt ) const
 {
-    return bonuses.get_flat( u, AFFECTED_DAMAGE, dt );
+    return bonuses.get_flat( u, affected_stat::DAMAGE, dt );
 }
 float ma_buff::damage_mult( const Character &u, damage_type dt ) const
 {
-    return bonuses.get_mult( u, AFFECTED_DAMAGE, dt );
+    return bonuses.get_mult( u, affected_stat::DAMAGE, dt );
 }
 bool ma_buff::is_throw_immune() const
 {
@@ -924,7 +943,7 @@ bool player::can_grab_break( const item &weap ) const
     return tec.is_valid_character( *this );
 }
 
-bool player::can_miss_recovery( const item &weap ) const
+bool Character::can_miss_recovery( const item &weap ) const
 {
     if( !martial_arts_data.has_miss_recovery_tec( weap ) ) {
         return false;
@@ -962,7 +981,8 @@ bool character_martial_arts::can_arm_block( const Character &owner ) const
                             skill_unarmed );
 
     // Success conditions.
-    if( !owner.is_limb_broken( hp_arm_l ) || !owner.is_limb_broken( hp_arm_r ) ) {
+    if( !owner.is_limb_broken( bodypart_id( "arm_l" ) ) ||
+        !owner.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
         if( unarmed_skill >= ma.arm_block ) {
             return true;
         } else if( ma.arm_block_with_bio_armor_arms && owner.has_bionic( bio_armor_arms ) ) {
@@ -1065,6 +1085,14 @@ float Character::mabuff_tohit_bonus() const
     } );
     return ret;
 }
+float Character::mabuff_critical_hit_chance_bonus() const
+{
+    float ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
+        ret += d.get_intensity() * b.critical_hit_chance_bonus( *this );
+    } );
+    return ret;
+}
 float Character::mabuff_dodge_bonus() const
 {
     float ret = 0;
@@ -1078,6 +1106,14 @@ int Character::mabuff_block_bonus() const
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         ret += d.get_intensity() * b.block_bonus( *this );
+    } );
+    return ret;
+}
+int Character::mabuff_block_effectiveness_bonus( ) const
+{
+    int ret = 0;
+    accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
+        ret += d.get_intensity() * b.block_effectiveness_bonus( *this );
     } );
     return ret;
 }
@@ -1119,7 +1155,7 @@ int Character::mabuff_attack_cost_penalty() const
 {
     int ret = 0;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
-        ret += d.get_intensity() * b.bonuses.get_flat( *this, AFFECTED_MOVE_COST );
+        ret += d.get_intensity() * b.bonuses.get_flat( *this, affected_stat::MOVE_COST );
     } );
     return ret;
 }
@@ -1129,7 +1165,8 @@ float Character::mabuff_attack_cost_mult() const
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         // This is correct, so that a 20% buff (1.2) plus a 20% buff (1.2)
         // becomes 1.4 instead of 2.4 (which would be a 240% buff)
-        ret *= d.get_intensity() * ( b.bonuses.get_mult( *this, AFFECTED_MOVE_COST ) - 1 ) + 1;
+        ret *= d.get_intensity() * ( b.bonuses.get_mult( *this,
+                                     affected_stat::MOVE_COST ) - 1 ) + 1;
     } );
     return ret;
 }
@@ -1140,7 +1177,7 @@ bool Character::is_throw_immune() const
         return b.is_throw_immune();
     } );
 }
-bool player::is_quiet() const
+bool Character::is_quiet() const
 {
     return search_ma_buff_effect( *effects, []( const ma_buff & b, const effect & ) {
         return b.is_quiet();
@@ -1215,27 +1252,27 @@ void character_martial_arts::martialart_use_message( const Character &owner ) co
 
 float ma_technique::damage_bonus( const Character &u, damage_type type ) const
 {
-    return bonuses.get_flat( u, AFFECTED_DAMAGE, type );
+    return bonuses.get_flat( u, affected_stat::DAMAGE, type );
 }
 
 float ma_technique::damage_multiplier( const Character &u, damage_type type ) const
 {
-    return bonuses.get_mult( u, AFFECTED_DAMAGE, type );
+    return bonuses.get_mult( u, affected_stat::DAMAGE, type );
 }
 
 float ma_technique::move_cost_multiplier( const Character &u ) const
 {
-    return bonuses.get_mult( u, AFFECTED_MOVE_COST );
+    return bonuses.get_mult( u, affected_stat::MOVE_COST );
 }
 
 float ma_technique::move_cost_penalty( const Character &u ) const
 {
-    return bonuses.get_flat( u, AFFECTED_MOVE_COST );
+    return bonuses.get_flat( u, affected_stat::MOVE_COST );
 }
 
 float ma_technique::armor_penetration( const Character &u, damage_type type ) const
 {
-    return bonuses.get_flat( u, AFFECTED_ARMOR_PENETRATION, type );
+    return bonuses.get_flat( u, affected_stat::ARMOR_PENETRATION, type );
 }
 
 std::string ma_technique::get_description() const
@@ -1271,7 +1308,7 @@ std::string ma_technique::get_description() const
                                ( 100 * ( weighting - 1 ) ) ) + "\n";
     } else if( weighting < -1 ) {
         dump += string_format( _( "* <info>Lower chance</info> to activate: <stat>1/%s</stat>" ),
-                               abs( weighting ) ) + "\n";
+                               std::abs( weighting ) ) + "\n";
     }
 
     if( crit_ok ) {
@@ -1366,7 +1403,7 @@ std::string ma_technique::get_description() const
 }
 
 bool ma_style_callback::key( const input_context &ctxt, const input_event &event, int entnum,
-                             uilist *menu )
+                             uilist * )
 {
     const std::string &action = ctxt.input_to_action( event );
     if( action != "SHOW_DESCRIPTION" ) {
@@ -1448,28 +1485,63 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
         }
 
         if( !ma.weapons.empty() ) {
+            std::vector<std::string> weapons;
+            std::transform( ma.weapons.begin(), ma.weapons.end(),
+                            std::back_inserter( weapons ), []( const itype_id & wid )-> std::string { return item::nname( wid ); } );
+            // Sorting alphabetically makes it easier to find a specific weapon
+            std::sort( weapons.begin(), weapons.end(), localized_compare );
+            // This removes duplicate names (e.g. a real weapon and a replica sharing the same name) from the weapon list.
+            auto last = std::unique( weapons.begin(), weapons.end() );
+            weapons.erase( last, weapons.end() );
+
             buffer += ngettext( "<bold>Weapon:</bold>", "<bold>Weapons:</bold>",
-                                ma.weapons.size() ) + std::string( " " );
-            buffer += enumerate_as_string( ma.weapons.begin(), ma.weapons.end(), []( const std::string & wid ) {
-                return item::nname( wid );
-            } );
+                                weapons.size() ) + std::string( " " );
+            buffer += enumerate_as_string( weapons );
         }
 
-        catacurses::window w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                               point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
-                                      TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+        catacurses::window w;
 
-        std::string text = replace_colors( buffer );
-        int width = FULL_SCREEN_WIDTH - 4;
-        int height = FULL_SCREEN_HEIGHT - 2;
-        const auto vFolded = foldstring( text, width );
-        int iLines = vFolded.size();
+        const std::string text = replace_colors( buffer );
+        int width = 0;
+        int height = 0;
+        int iLines = 0;
         int selected = 0;
+
+        ui_adaptor ui;
+        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
+            w = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
+                                    point( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                           TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 ) );
+
+            width = FULL_SCREEN_WIDTH - 4;
+            height = FULL_SCREEN_HEIGHT - 2;
+
+            const auto vFolded = foldstring( text, width );
+            iLines = vFolded.size();
+
+            if( iLines < height ) {
+                selected = 0;
+            } else if( selected >= iLines - height ) {
+                selected = iLines - height;
+            }
+
+            ui.position_from_window( w );
+        } );
+        ui.mark_resize();
 
         input_context ict;
         ict.register_action( "UP" );
         ict.register_action( "DOWN" );
         ict.register_action( "QUIT" );
+        ict.register_action( "HELP_KEYBINDINGS" );
+
+        ui.on_redraw( [&]( const ui_adaptor & ) {
+            werase( w );
+            fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
+            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
+            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
+            wnoutrefresh( w );
+        } );
 
         do {
             if( selected < 0 ) {
@@ -1480,12 +1552,7 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 selected = iLines - height;
             }
 
-            werase( w );
-            fold_and_print_from( w, point( 2, 1 ), width, selected, c_light_gray, text );
-            draw_border( w, BORDER_COLOR, string_format( _( " Style: %s " ), ma.name ) );
-            draw_scrollbar( w, selected, height, iLines, point_south, BORDER_COLOR, true );
-            wrefresh( w );
-            catacurses::refresh();
+            ui_manager::redraw();
 
             std::string action = ict.handle_input();
 
@@ -1497,8 +1564,6 @@ bool ma_style_callback::key( const input_context &ctxt, const input_event &event
                 selected--;
             }
         } while( true );
-
-        menu->redraw();
     }
     return true;
 }
