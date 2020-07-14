@@ -101,21 +101,19 @@ void addict_effect( Character &u, addiction &add )
             if( x_in_y( in, to_turns<int>( 2_hours ) ) ) {
                 u.mod_healthy_mod( -1, -in * 10 );
             }
-            if( one_in( 20 ) && rng( 0, 20 ) < in ) {
+            if( x_in_y( in, to_turns<int>( 2_minutes ) * 20 ) ) {
                 const std::string msg_1 = add.type == add_type::ALCOHOL ?
                                           _( "You could use a drink." ) :
                                           _( "You could use some diazepam." );
                 u.add_msg_if_player( m_warning, msg_1 );
                 u.add_morale( morale_type, -35, -10 * in );
-            } else if( rng( 8, 300 ) < in ) {
+            } else if( calendar::once_every( 1_minutes ) && rng( 8, 300 ) < in ) {
                 const std::string msg_2 = add.type == add_type::ALCOHOL ?
                                           _( "Your hands start shaking… you need a drink bad!" ) :
                                           _( "You're shaking… you need some diazepam!" );
                 u.add_msg_if_player( m_bad, msg_2 );
                 u.add_morale( morale_type, -35, -10 * in );
                 u.add_effect( effect_shakes, 5_minutes );
-            } else if( !u.has_effect( effect_hallu ) && rng( 10, 1600 ) < in ) {
-                u.add_effect( effect_hallu, 6_hours );
             }
             break;
         }

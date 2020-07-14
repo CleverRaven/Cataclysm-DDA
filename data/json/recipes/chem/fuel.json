@@ -6,11 +6,12 @@
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_FUEL",
     "skill_used": "cooking",
-    "difficulty": 5,
+    "difficulty": 4,
     "time": "30 m",
-    "book_learn": [ [ "textbook_chemistry" ], [ "brewing_cookbook", 4 ] ],
+    "autolearn": true,
+    "book_learn": [ [ "textbook_chemistry", 3 ], [ "brewing_cookbook", 3 ] ],
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 30, "LIST" ] ], [ [ "thermometer", -1 ] ] ],
+    "tools": [ [ [ "surface_heat", 30, "LIST" ] ] ],
     "components": [
       [
         [ "hard_liquor", 14, "LIST" ],
@@ -30,9 +31,9 @@
     "skill_used": "cooking",
     "difficulty": 3,
     "time": "30 m",
-    "book_learn": [ [ "textbook_chemistry" ], [ "brewing_cookbook" ] ],
+    "autolearn": true,
     "qualities": [ { "id": "BOIL", "level": 2 }, { "id": "DISTILL", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 60, "LIST" ] ] ],
+    "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [
         [ "hard_liquor", 14, "LIST" ],
