@@ -1306,7 +1306,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
             item item_copy( it );
             item_copy.charges = holstered_item.second;
             if( holster->can_contain( item_copy ) ) {
-                holster->put_in( it, item_pocket::pocket_type::CONTAINER );
+                holster->put_in( item_copy, item_pocket::pocket_type::CONTAINER );
                 it.charges -= holstered_item.second;
                 success = true;
             }
