@@ -4892,7 +4892,7 @@ int iuse::mind_splicer( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
-void iuse::cut_log_into_planks( player &p )
+void iuse::cut_log_into_planks( Character &p )
 {
     if( p.is_mounted() ) {
         p.add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
@@ -5711,7 +5711,7 @@ int iuse::spray_can( player *p, item *it, bool, const tripoint & )
     return handle_ground_graffiti( *p, it, _( "Spray what?" ), dest_.value() );
 }
 
-int iuse::handle_ground_graffiti( player &p, item *it, const std::string &prefix,
+int iuse::handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
                                   const tripoint &where )
 {
     map &here = get_map();

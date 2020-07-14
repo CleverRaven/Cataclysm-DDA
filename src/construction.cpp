@@ -163,8 +163,9 @@ static bool has_pre_terrain( const construction &con, const tripoint &p )
 
 static bool has_pre_terrain( const construction &con )
 {
-    for( const tripoint &p : get_map().points_in_radius( g->u.pos(), 1 ) ) {
-        if( p != g->u.pos() && has_pre_terrain( con, p ) ) {
+    tripoint avatar_pos = get_player_character().pos();
+    for( const tripoint &p : get_map().points_in_radius( avatar_pos, 1 ) ) {
+        if( p != avatar_pos && has_pre_terrain( con, p ) ) {
             return true;
         }
     }
@@ -207,9 +208,11 @@ static void load_available_constructions( std::vector<std::string> &available,
         debugmsg( "load_available_constructions called before finalization" );
         return;
     }
+    avatar &player_character = get_avatar();
     for( auto &it : constructions ) {
         if( it.on_display && ( !hide_unconstructable ||
-                               ( can_construct( it ) && player_can_build( g->u, g->u.crafting_inventory(), it ) ) ) ) {
+                               ( can_construct( it ) &&
+                                 player_can_build( player_character, player_character.crafting_inventory(), it ) ) ) ) {
             bool already_have_it = false;
             for( auto &avail_it : available ) {
                 if( avail_it == it.description ) {
@@ -244,12 +247,13 @@ static void draw_grid( const catacurses::window &w, const int list_width )
 static nc_color construction_color( const std::string &con_name, bool highlight )
 {
     nc_color col = c_dark_gray;
-    if( g->u.has_trait( trait_DEBUG_HS ) ) {
+    Character &player_character = get_player_character();
+    if( player_character.has_trait( trait_DEBUG_HS ) ) {
         col = c_white;
     } else if( can_construct( con_name ) ) {
         construction *con_first = nullptr;
         std::vector<construction *> cons = constructions_by_desc( con_name );
-        const inventory &total_inv = g->u.crafting_inventory();
+        const inventory &total_inv = player_character.crafting_inventory();
         for( auto &con : cons ) {
             if( con->requirements->can_make_with_inventory( total_inv, is_crafting_component ) ) {
                 con_first = con;
@@ -259,7 +263,7 @@ static nc_color construction_color( const std::string &con_name, bool highlight 
         if( con_first != nullptr ) {
             col = c_white;
             for( const auto &pr : con_first->required_skills ) {
-                int s_lvl = g->u.get_skill_level( pr.first );
+                int s_lvl = player_character.get_skill_level( pr.first );
                 if( s_lvl < pr.second ) {
                     col = c_red;
                 } else if( s_lvl < pr.second * 1.25 ) {
@@ -329,7 +333,8 @@ construction_id construction_menu( const bool blueprint )
     std::vector<int> construct_buffer_breakpoints;
     int total_project_breakpoints = 0;
     int current_construct_breakpoint = 0;
-    const inventory &total_inv = g->u.crafting_inventory();
+    avatar &player_character = get_avatar();
+    const inventory &total_inv = player_character.crafting_inventory();
 
     input_context ctxt( "CONSTRUCTION" );
     ctxt.register_action( "UP", to_translation( "Move cursor up" ) );
@@ -447,9 +452,9 @@ construction_id construction_menu( const bool blueprint )
                 } else {
                     std::string current_line = _( "Required skills: " ) + enumerate_as_string(
                                                    current_con->required_skills.begin(), current_con->required_skills.end(),
-                    []( const std::pair<skill_id, int> &skill ) {
+                    [&player_character]( const std::pair<skill_id, int> &skill ) {
                         nc_color col;
-                        int s_lvl = g->u.get_skill_level( skill.first );
+                        int s_lvl = player_character.get_skill_level( skill.first );
                         if( s_lvl < skill.second ) {
                             col = c_red;
                         } else if( s_lvl < skill.second * 1.25 ) {
@@ -771,8 +776,8 @@ construction_id construction_menu( const bool blueprint )
                 continue;
             }
             if( !blueprint ) {
-                if( player_can_build( g->u, total_inv, constructs[select] ) ) {
-                    if( !player_can_see_to_build( g->u, constructs[select] ) ) {
+                if( player_can_build( player_character, total_inv, constructs[select] ) ) {
+                    if( !player_can_see_to_build( player_character, constructs[select] ) ) {
                         add_msg( m_info, _( "It is too dark to construct right now." ) );
                     } else {
                         ui.reset();
@@ -881,8 +886,9 @@ bool can_construct( const construction &con, const tripoint &p )
 
 bool can_construct( const construction &con )
 {
-    for( const tripoint &p : get_map().points_in_radius( g->u.pos(), 1 ) ) {
-        if( p != g->u.pos() && can_construct( con, p ) ) {
+    tripoint avatar_pos = get_player_character().pos();
+    for( const tripoint &p : get_map().points_in_radius( avatar_pos, 1 ) ) {
+        if( p != avatar_pos && can_construct( con, p ) ) {
             return true;
         }
     }
@@ -891,14 +897,16 @@ bool can_construct( const construction &con )
 
 void place_construction( const std::string &desc )
 {
-    const inventory &total_inv = g->u.crafting_inventory();
+    avatar &player_character = get_avatar();
+    const inventory &total_inv = player_character.crafting_inventory();
 
     std::vector<construction *> cons = constructions_by_desc( desc );
     std::map<tripoint, const construction *> valid;
     map &here = get_map();
-    for( const tripoint &p : here.points_in_radius( g->u.pos(), 1 ) ) {
+    for( const tripoint &p : here.points_in_radius( player_character.pos(), 1 ) ) {
         for( const auto *con : cons ) {
-            if( p != g->u.pos() && can_construct( *con, p ) && player_can_build( g->u, total_inv, *con ) ) {
+            if( p != player_character.pos() && can_construct( *con, p ) &&
+                player_can_build( player_character, total_inv, *con ) ) {
                 valid[ p ] = con;
             }
         }
@@ -907,8 +915,8 @@ void place_construction( const std::string &desc )
     shared_ptr_fast<game::draw_callback_t> draw_valid = make_shared_fast<game::draw_callback_t>( [&]() {
         map &here = get_map();
         for( auto &elem : valid ) {
-            here.drawsq( g->w_terrain, g->u, elem.first, true, false,
-                         g->u.pos() + g->u.view_offset );
+            here.drawsq( g->w_terrain, player_character, elem.first, true, false,
+                         player_character.pos() + player_character.view_offset );
         }
     } );
     g->add_draw_callback( draw_valid );
@@ -946,16 +954,16 @@ void place_construction( const std::string &desc )
     }
     // Use up the components
     for( const auto &it : con.requirements->get_components() ) {
-        std::list<item> tmp = g->u.consume_items( it, 1, is_crafting_component );
+        std::list<item> tmp = player_character.consume_items( it, 1, is_crafting_component );
         used.splice( used.end(), tmp );
     }
     pc.components = used;
     here.partial_con_set( pnt, pc );
     for( const auto &it : con.requirements->get_tools() ) {
-        g->u.consume_tools( it );
+        player_character.consume_tools( it );
     }
-    g->u.assign_activity( ACT_BUILD );
-    g->u.activity.placement = here.getabs( pnt );
+    player_character.assign_activity( ACT_BUILD );
+    player_character.activity.placement = here.getabs( pnt );
 }
 
 void complete_construction( player *p )
@@ -992,7 +1000,7 @@ void complete_construction( player *p )
     // Friendly NPCs gain exp from assisting or watching...
     // TODO: NPCs watching other NPCs do stuff and learning from it
     if( p->is_player() ) {
-        for( auto &elem : g->u.get_crafting_helpers() ) {
+        for( auto &elem : get_avatar().get_crafting_helpers() ) {
             if( elem->meets_skill_requirements( built ) ) {
                 add_msg( m_info, _( "%s assists you with the work…" ), elem->name );
             } else {
@@ -1145,21 +1153,23 @@ bool construct::check_ramp_low( const tripoint &p )
 void construct::done_trunk_plank( const tripoint &/*p*/ )
 {
     int num_logs = rng( 2, 3 );
+    Character &player_character = get_player_character();
     for( int i = 0; i < num_logs; ++i ) {
-        iuse::cut_log_into_planks( g->u );
+        iuse::cut_log_into_planks( player_character );
     }
 }
 
 void construct::done_grave( const tripoint &p )
 {
+    Character &player_character = get_player_character();
     map &here = get_map();
     map_stack its = here.i_at( p );
     for( item it : its ) {
         if( it.is_corpse() ) {
             if( it.get_corpse_name().empty() ) {
                 if( it.get_mtype()->has_flag( MF_HUMAN ) ) {
-                    if( g->u.has_trait( trait_SPIRITUAL ) ) {
-                        g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                    if( player_character.has_trait( trait_SPIRITUAL ) ) {
+                        player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
                         add_msg( m_good,
                                  _( "You feel relieved after providing last rites for this human being, whose name is lost in the Cataclysm." ) );
                     } else {
@@ -1167,8 +1177,8 @@ void construct::done_grave( const tripoint &p )
                     }
                 }
             } else {
-                if( g->u.has_trait( trait_SPIRITUAL ) ) {
-                    g->u.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
+                if( player_character.has_trait( trait_SPIRITUAL ) ) {
+                    player_character.add_morale( MORALE_FUNERAL, 50, 75, 1_days, 1_hours );
                     add_msg( m_good,
                              _( "You feel sadness, but also relief after providing last rites for %s, whose name you will keep in your memory." ),
                              it.get_corpse_name() );
@@ -1179,11 +1189,12 @@ void construct::done_grave( const tripoint &p )
                 }
             }
             g->events().send<event_type::buries_corpse>(
-                g->u.getID(), it.get_mtype()->id, it.get_corpse_name() );
+                player_character.getID(), it.get_mtype()->id, it.get_corpse_name() );
         }
     }
-    if( g->u.has_quality( qual_CUT ) ) {
-        iuse::handle_ground_graffiti( g->u, nullptr, _( "Inscribe something on the grave?" ), p );
+    if( player_character.has_quality( qual_CUT ) ) {
+        iuse::handle_ground_graffiti( player_character, nullptr, _( "Inscribe something on the grave?" ),
+                                      p );
     } else {
         add_msg( m_neutral,
                  _( "Unfortunately you don't have anything sharp to place an inscription on the grave." ) );
@@ -1232,7 +1243,7 @@ void construct::done_vehicle( const tripoint &p )
         return;
     }
     veh->name = name;
-    veh->install_part( point_zero, vpart_from_item( g->u.lastconsumed ) );
+    veh->install_part( point_zero, vpart_from_item( get_avatar().lastconsumed ) );
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
@@ -1291,14 +1302,15 @@ void construct::done_deconstruct( const tripoint &p )
             }
             done_deconstruct( top );
         }
+        avatar &player_character = get_avatar();
         if( t.id.id() == t_console_broken )  {
-            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
-                g->u.practice( skill_electronics, 20, 4 );
+            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
+                player_character.practice( skill_electronics, 20, 4 );
             }
         }
         if( t.id.id() == t_console )  {
-            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
-                g->u.practice( skill_electronics, 40, 8 );
+            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
+                player_character.practice( skill_electronics, 40, 8 );
             }
         }
         here.ter_set( p, t.deconstruct.ter_set );
@@ -1312,9 +1324,10 @@ static void unroll_digging( const int numer_of_2x4s )
     // refund components!
     item rope( "rope_30" );
     map &here = get_map();
-    here.add_item_or_charges( g->u.pos(), rope );
+    tripoint avatar_pos = get_player_character().pos();
+    here.add_item_or_charges( avatar_pos, rope );
     // presuming 2x4 to conserve lumber.
-    here.spawn_item( g->u.pos(), itype_2x4, numer_of_2x4s );
+    here.spawn_item( avatar_pos, itype_2x4, numer_of_2x4s );
 }
 
 void construct::done_digormine_stair( const tripoint &p, bool dig )
@@ -1326,13 +1339,15 @@ void construct::done_digormine_stair( const tripoint &p, bool dig )
     tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z - 1 ), false );
     const tripoint local_tmp = tmpmap.getlocal( abs_pos );
 
-    bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
+    Character &player_character = get_player_character();
+    bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
+                    player_character.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 10 : 0;
     int mine_penalty = dig ? 0 : 10;
-    g->u.mod_stored_nutr( 5 + mine_penalty + no_mut_penalty );
-    g->u.mod_thirst( 5 + mine_penalty + no_mut_penalty );
-    g->u.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
+    player_character.mod_stored_nutr( 5 + mine_penalty + no_mut_penalty );
+    player_character.mod_thirst( 5 + mine_penalty + no_mut_penalty );
+    player_character.mod_fatigue( 10 + mine_penalty + no_mut_penalty );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
         if( !( query_yn( _( "The rock feels much warmer than normal.  Proceed?" ) ) ) ) {
@@ -1396,12 +1411,14 @@ void construct::done_mine_upstair( const tripoint &p )
         return;
     }
 
-    bool dig_muts = g->u.has_trait( trait_PAINRESIST_TROGLO ) || g->u.has_trait( trait_STOCKY_TROGLO );
+    Character &player_character = get_player_character();
+    bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
+                    player_character.has_trait( trait_STOCKY_TROGLO );
 
     int no_mut_penalty = dig_muts ? 15 : 0;
-    g->u.mod_stored_nutr( 20 + no_mut_penalty );
-    g->u.mod_thirst( 20 + no_mut_penalty );
-    g->u.mod_fatigue( 25 + no_mut_penalty );
+    player_character.mod_stored_nutr( 20 + no_mut_penalty );
+    player_character.mod_thirst( 20 + no_mut_penalty );
+    player_character.mod_fatigue( 25 + no_mut_penalty );
 
     add_msg( _( "You drill out a passage, heading for the surface." ) );
     here.ter_set( p.xy(), t_stairs_up ); // There's the bottom half
@@ -1419,13 +1436,13 @@ void construct::done_wood_stairs( const tripoint &p )
 void construct::done_window_curtains( const tripoint & )
 {
     map &here = get_map();
+    tripoint avatar_pos = get_player_character().pos();
     // copied from iexamine::curtains
-    here.spawn_item( g->u.pos(), itype_nail, 1, 4 );
-    here.spawn_item( g->u.pos(), itype_sheet, 2 );
-    here.spawn_item( g->u.pos(), itype_stick );
-    here.spawn_item( g->u.pos(), itype_string_36 );
-    g->u.add_msg_if_player(
-        _( "After boarding up the window the curtains and curtain rod are left." ) );
+    here.spawn_item( avatar_pos, itype_nail, 1, 4 );
+    here.spawn_item( avatar_pos, itype_sheet, 2 );
+    here.spawn_item( avatar_pos, itype_stick );
+    here.spawn_item( avatar_pos, itype_string_36 );
+    add_msg( _( "After boarding up the window the curtains and curtain rod are left." ) );
 }
 
 void construct::done_extract_maybe_revert_to_dirt( const tripoint &p )
@@ -1692,7 +1709,7 @@ int construction::adjusted_time() const
     int final_time = time;
     int assistants = 0;
 
-    for( auto &elem : g->u.get_crafting_helpers() ) {
+    for( auto &elem : get_avatar().get_crafting_helpers() ) {
         if( elem->meets_skill_requirements( *this ) ) {
             assistants++;
         }
