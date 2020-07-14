@@ -825,8 +825,6 @@ class game
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
-        bool unload( item_location &loc ); // Unload a gun/tool  'U'
-
         unsigned int get_seed() const;
 
         /** If invoked, NPCs will be reloaded before next turn. */

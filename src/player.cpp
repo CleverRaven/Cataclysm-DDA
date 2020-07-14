@@ -3144,7 +3144,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     }
 
     item_location loc = item_location( *this, &mod );
-    if( mod.ammo_remaining() && !g->unload( loc ) ) {
+    if( mod.ammo_remaining() && !unload( loc ) ) {
         return false;
     }
 

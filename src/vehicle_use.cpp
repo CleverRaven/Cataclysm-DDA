@@ -2148,7 +2148,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case UNLOAD_TURRET: {
             item_location loc = turret.base();
-            g->unload( loc );
+            player_character.unload( loc );
             return;
         }
         case RELOAD_TURRET: {
