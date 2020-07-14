@@ -592,6 +592,33 @@
   },
   {
     "type": "furniture",
+    "id": "f_reactor_meltdown",
+    "name": "radioactive slag",
+    "description": "A pile of melted slag from a destroyed nuclear reactor.  What are you doing looking at this?  Get the hell out of here, you nutcase!",
+    "looks_like": "f_wreckage",
+    "symbol": "#",
+    "color": "light_green",
+    "move_cost_mod": 6,
+    "max_volume": "750 L",
+    "required_str": -1,
+    "emissions": [ "emit_rad_cloud" ],
+    "flags": [
+      "TRANSPARENT",
+      "UNSTABLE",
+      "ROUGH",
+      "SHARP",
+      "PLACE_ITEM",
+      "MOUNTABLE",
+      "CONTAINER",
+      "SEALED",
+      "ALLOW_FIELD_EFFECT",
+      "SHORT",
+      "RUBBLE",
+      "EMITTER"
+    ]
+  },
+  {
+    "type": "furniture",
     "id": "f_ash",
     "name": "pile of ash",
     "symbol": "#",

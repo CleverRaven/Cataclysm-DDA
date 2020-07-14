@@ -3,7 +3,7 @@
     "type": "palette",
     "id": "junkyard_palette",
     "terrain": {
-      ".": [ [ "t_pavement", 22 ], "t_region_groundcover_urban" ],
+      ".": [ [ "t_pavement", 22 ], "t_region_groundcover" ],
       "g": "t_region_groundcover_urban",
       "_": [ [ "t_region_groundcover_barren", 5 ], "t_region_groundcover_urban" ],
       "|": "t_fence_barbed",
@@ -26,10 +26,10 @@
       "d": "t_door_metal_locked",
       "m": "t_metal_floor",
       "9": "t_wall_wood",
-      "x": "t_console_broken",
       "4": "t_gutter_downspout"
     },
     "furniture": {
+      "x": "f_console_broken",
       "#": "f_straw_bed",
       "N": "f_ladder",
       "B": "f_bench",

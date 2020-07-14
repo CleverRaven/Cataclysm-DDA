@@ -4032,14 +4032,14 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
     map &here = get_map();
     for( const tripoint &tmp : here.points_in_radius( center, SEEX * 2 ) ) {
 
-        auto checkingTerr = here.ter( tmp );
+        auto check_for_fuel_tank = here.furn( tmp );
 
         if( fuel_type == "gasoline" ) {
-            if( checkingTerr != ter_str_id( "t_gas_tank" ) ) {
+            if( check_for_fuel_tank != furn_str_id( "f_gas_tank" ) ) {
                 continue;
             }
         } else if( fuel_type == "diesel" ) {
-            if( checkingTerr != ter_str_id( "t_diesel_tank" ) ) {
+            if( check_for_fuel_tank != furn_str_id( "f_diesel_tank" ) ) {
                 continue;
             }
         }
