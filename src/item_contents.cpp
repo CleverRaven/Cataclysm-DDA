@@ -260,6 +260,17 @@ size_t item_contents::size() const
     return contents.size();
 }
 
+void item_contents::read_mods( const item_contents &read_input )
+{
+    for( const item_pocket &pocket : read_input.contents ) {
+        if( pocket.saved_type() == item_pocket::pocket_type::MOD ) {
+            for( const item *it : pocket.all_items_top() ) {
+                insert_item( *it, item_pocket::pocket_type::MOD );
+            }
+        }
+    }
+}
+
 void item_contents::combine( const item_contents &read_input )
 {
     std::vector<item> uninserted_items;
@@ -267,21 +278,27 @@ void item_contents::combine( const item_contents &read_input )
 
     for( const item_pocket &pocket : read_input.contents ) {
         if( pocket_index < contents.size() ) {
+            if( pocket.saved_type() == item_pocket::pocket_type::MOD ) {
+                // this is already handled in item_contents::read_mods
+                ++pocket_index;
+                continue;
+            } else if( pocket.saved_type() == item_pocket::pocket_type::MIGRATION ||
+                       pocket.saved_type() == item_pocket::pocket_type::CORPSE ) {
+                for( const item *it : pocket.all_items_top() ) {
+                    insert_item( *it, pocket.saved_type() );
+                }
+                ++pocket_index;
+                continue;
+            }
             auto current_pocket_iter = contents.begin();
             std::advance( current_pocket_iter, pocket_index );
 
             for( const item *it : pocket.all_items_top() ) {
-                if( it->is_gunmod() || it->is_toolmod() ) {
-                    if( !insert_item( *it, item_pocket::pocket_type::MOD ).success() ) {
-                        uninserted_items.push_back( *it );
-                    }
-                } else {
-                    const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
-                    if( !inserted.success() ) {
-                        uninserted_items.push_back( *it );
-                        debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
-                                  inserted.str() );
-                    }
+                const ret_val<item_pocket::contain_code> inserted = current_pocket_iter->insert_item( *it );
+                if( !inserted.success() ) {
+                    uninserted_items.push_back( *it );
+                    debugmsg( "error: tried to put an item into a pocket that can't fit into it while loading.  err: %s",
+                              inserted.str() );
                 }
             }
 
@@ -400,14 +417,14 @@ ret_val<bool> item_contents::insert_item( const item &it, item_pocket::pocket_ty
 
     ret_val<item_pocket *> pocket = find_pocket_for( it, pk_type );
     if( pocket.value() == nullptr ) {
-        return ret_val<bool>::make_failure( "No pocket found: " + pocket.str() );
+        return ret_val<bool>::make_failure( "Found no suitable pocket for item" );
     }
 
     ret_val<item_pocket::contain_code> pocket_contain_code = pocket.value()->insert_item( it );
     if( pocket_contain_code.success() ) {
         return ret_val<bool>::make_success();
     }
-    return ret_val<bool>::make_failure( "No success" );
+    return ret_val<bool>::make_failure( "Failed to insert into pocket" );
 }
 
 void item_contents::force_insert_item( const item &it, item_pocket::pocket_type pk_type )
@@ -942,37 +959,62 @@ std::list<const item *> item_contents::all_items_top() const
 
 std::list<item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type )
 {
-    std::list<item *> all_items_internal;
-    for( item_pocket &pocket : contents ) {
-        if( pocket.is_type( pk_type ) ) {
-            std::list<item *> contained_items = pocket.all_items_ptr( pk_type );
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
-        }
-    }
-    return all_items_internal;
+    return all_items_top_recursive( pk_type );
 }
 
 std::list<const item *> item_contents::all_items_ptr( item_pocket::pocket_type pk_type ) const
 {
-    std::list<const item *> all_items_internal;
-    for( const item_pocket &pocket : contents ) {
-        if( pocket.is_type( pk_type ) ) {
-            std::list<const item *> contained_items = pocket.all_items_ptr( pk_type );
-            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
-                                       contained_items.end() );
-        }
-    }
-    return all_items_internal;
+    return all_items_top_recursive( pk_type );
 }
 
 std::list<const item *> item_contents::all_items_ptr() const
 {
     std::list<const item *> all_items_internal;
     for( int i = item_pocket::pocket_type::CONTAINER; i < item_pocket::pocket_type::LAST; i++ ) {
-        std::list<const item *> inserted{ all_items_ptr( static_cast<item_pocket::pocket_type>( i ) ) };
+        std::list<const item *> inserted{ all_items_top_recursive( static_cast<item_pocket::pocket_type>( i ) ) };
         all_items_internal.insert( all_items_internal.end(), inserted.begin(), inserted.end() );
     }
+    return all_items_internal;
+}
+
+std::list<const item *> item_contents::all_items_top_recursive( item_pocket::pocket_type pk_type )
+const
+{
+    std::list<const item *> all_items_internal;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( pk_type ) ) {
+            std::list<const item *> contained_items = pocket.all_items_top();
+            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
+                                       contained_items.end() );
+            std::list<const item *> recursion_items;
+            for( const item *it : contained_items ) {
+                recursion_items = it->contents.all_items_top_recursive( pk_type );
+                all_items_internal.insert( all_items_internal.end(), recursion_items.begin(),
+                                           recursion_items.end() );
+            }
+        }
+    }
+
+    return all_items_internal;
+}
+
+std::list<item *> item_contents::all_items_top_recursive( item_pocket::pocket_type pk_type )
+{
+    std::list< item *> all_items_internal;
+    for( item_pocket &pocket : contents ) {
+        if( pocket.is_type( pk_type ) ) {
+            std::list< item *> contained_items = pocket.all_items_top();
+            all_items_internal.insert( all_items_internal.end(), contained_items.begin(),
+                                       contained_items.end() );
+            std::list< item *> recursion_items;
+            for( item *it : contained_items ) {
+                recursion_items = it->contents.all_items_top_recursive( pk_type );
+                all_items_internal.insert( all_items_internal.end(), recursion_items.begin(),
+                                           recursion_items.end() );
+            }
+        }
+    }
+
     return all_items_internal;
 }
 
@@ -1016,6 +1058,83 @@ std::vector<const item *> item_contents::gunmods() const
         }
     }
     return mods;
+}
+
+std::vector<const item *> item_contents::mods() const
+{
+    std::vector<const item *> mods;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MOD ) ) {
+            for( const item *it : pocket.all_items_top() ) {
+                mods.insert( mods.end(), it );
+            }
+        }
+    }
+    return mods;
+}
+
+void item_contents::update_modified_pockets(
+    const cata::optional<const pocket_data *> &mag_or_mag_well,
+    std::vector<const pocket_data *> container_pockets )
+{
+    for( auto pocket_iter = contents.begin(); pocket_iter != contents.end(); ) {
+        item_pocket &pocket = *pocket_iter;
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+
+            const pocket_data *current = pocket.get_pocket_data();
+            bool found = false;
+            // this loop is to make sure the pockets on the current item are already here from @container_pockets,
+            // so we don't need to clear them (saving the favorite data)
+            for( auto container_pocket = container_pockets.begin(); container_pocket != container_pockets.end();
+               ) {
+                // comparing pointers because each pocket is uniquely defined in json as its own.
+                if( *container_pocket == current ) {
+                    container_pocket = container_pockets.erase( container_pocket );
+                    found = true;
+                    // there will not be more than one pocket with the same pocket_data pointer, so exit early
+                    break;
+                } else {
+                    ++container_pocket;
+                }
+            }
+
+            if( !found ) {
+                if( !pocket.empty() ) {
+                    // in case the debugmsg wasn't clear, this should never happen
+                    debugmsg( "Oops!  deleted some items when updating pockets that were added via toolmods" );
+                }
+                pocket_iter = contents.erase( pocket_iter );
+            } else {
+                ++pocket_iter;
+            }
+
+        } else if( pocket.is_type( item_pocket::pocket_type::MAGAZINE ) ||
+                   pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            if( mag_or_mag_well ) {
+                if( pocket.get_pocket_data() != *mag_or_mag_well ) {
+                    if( !pocket.empty() ) {
+                        // in case the debugmsg wasn't clear, this should never happen
+                        debugmsg( "Oops!  deleted some items when updating pockets that were added via toolmods" );
+                    }
+                    contents.push_back( item_pocket( *mag_or_mag_well ) );
+                    pocket_iter = contents.erase( pocket_iter );
+                } else {
+                    ++pocket_iter;
+                }
+            } else {
+                // no mag or mag well, so it needs to be erased
+                pocket_iter = contents.erase( pocket_iter );
+            }
+        } else {
+            ++pocket_iter;
+        }
+    }
+
+    // we've deleted all of the superfluous copies already, so time to add the new pockets
+    for( const pocket_data *container_pocket : container_pockets ) {
+        contents.push_back( item_pocket( container_pocket ) );
+    }
+
 }
 
 std::set<itype_id> item_contents::magazine_compatible() const

@@ -144,6 +144,9 @@ using start_location_id = string_id<start_location>;
 class move_mode;
 using move_mode_id = string_id<move_mode>;
 
+class proficiency;
+using proficiency_id = string_id<proficiency>;
+
 struct ter_t;
 using ter_id = int_id<ter_t>;
 using ter_str_id = string_id<ter_t>;

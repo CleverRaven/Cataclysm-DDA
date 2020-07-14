@@ -85,7 +85,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": -2 },
     "dispersion": 550,
     "durability": 6,
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -244,7 +244,7 @@
     "price_postapoc": 2250,
     "to_hit": -1,
     "bashing": 13,
-    "barrel_length": "186 ml",
+    "barrel_volume": "186 ml",
     "material": [ "steel", "aluminum", "plastic" ],
     "dispersion": 325,
     "ranged_damage": { "damage_type": "bullet", "amount": 4 },
@@ -265,7 +265,7 @@
     "price": 53800,
     "price_postapoc": 2250,
     "bashing": 12,
-    "barrel_length": "28 ml",
+    "barrel_volume": "28 ml",
     "dispersion": 375,
     "ranged_damage": { "damage_type": "bullet", "amount": 1 }
   },
@@ -281,7 +281,7 @@
     "looks_like": "mossberg_500",
     "default_mods": [ "sights_mount", "underbarrel_mount" ],
     "price": 70000,
-    "barrel_length": "0 ml",
+    "barrel_volume": "0 ml",
     "clip_size": 9,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 9 } } ]
   },
@@ -330,7 +330,7 @@
     "clip_size": 2,
     "modes": [ [ "DEFAULT", "single", 1 ], [ "DOUBLE", "double", 2 ] ],
     "relative": { "weight": "500 g", "volume": "250 ml", "price": 5000 },
-    "barrel_length": "72 ml",
+    "barrel_volume": "72 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
@@ -364,7 +364,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 200,
-    "barrel_length": "36 ml",
+    "barrel_volume": "36 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
@@ -398,7 +398,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 6 },
     "durability": 8,
     "clip_size": 5,
-    "barrel_length": "229 ml",
+    "barrel_volume": "229 ml",
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 5 } } ]
   },
   {
@@ -419,7 +419,7 @@
     "clip_size": 4,
     "price": 53800,
     "price_postapoc": 2250,
-    "barrel_length": "0 ml",
+    "barrel_volume": "0 ml",
     "built_in_mods": [ "breacher_grip" ],
     "valid_mod_locations": [
       [ "accessories", 4 ],
@@ -450,7 +450,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "dispersion": 345,
     "clip_size": 7,
-    "barrel_length": "20 ml",
+    "barrel_volume": "20 ml",
     "price": 33800,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 7 } } ]
   },
@@ -473,7 +473,7 @@
     "ranged_damage": { "damage_type": "bullet", "amount": 6 },
     "durability": 8,
     "clip_size": 10,
-    "barrel_length": "299 ml",
+    "barrel_volume": "299 ml",
     "built_in_mods": [ "match_trigger" ],
     "default_mods": [ "recoil_stock" ],
     "valid_mod_locations": [
@@ -510,7 +510,7 @@
     "durability": 6,
     "clip_size": 6,
     "reload": 200,
-    "barrel_length": "36 ml",
+    "barrel_volume": "36 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
@@ -541,7 +541,7 @@
     "material": [ "steel", "plastic" ],
     "dispersion": 395,
     "durability": 7,
-    "barrel_length": "81 ml",
+    "barrel_volume": "81 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "sling", 1 ],
@@ -576,7 +576,7 @@
     "volume": "2946 ml",
     "price": 39900,
     "price_postapoc": 2000,
-    "barrel_length": "234 ml",
+    "barrel_volume": "234 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -610,7 +610,7 @@
     "dispersion": 210,
     "durability": 9,
     "clip_size": 1,
-    "barrel_length": "117 ml",
+    "barrel_volume": "117 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],
@@ -646,7 +646,7 @@
     "durability": 6,
     "clip_size": 12,
     "reload": 220,
-    "barrel_length": "36 ml",
+    "barrel_volume": "36 ml",
     "default_mods": [ "grip" ],
     "built_in_mods": [ "wire_stock" ],
     "modes": [ [ "DEFAULT", "single", 1 ], [ "AUTO", "3 rd.", 3 ] ],
@@ -755,7 +755,7 @@
     "material": [ "steel", "plastic" ],
     "dispersion": 510,
     "durability": 6,
-    "barrel_length": "54 ml",
+    "barrel_volume": "54 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "mechanism", 4 ],
@@ -852,10 +852,10 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 6 } } ]
   },
   {
-    "id": "four_winds_shotgun",
+    "id": "slamfire_shotgun",
     "copy-from": "shotgun_base",
     "type": "GUN",
-    "name": { "str": "four winds shotgun" },
+    "name": { "str": "slam-fire pipe shotgun" },
     "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
     "weight": "3629 g",
     "volume": "2264 ml",
@@ -874,5 +874,19 @@
     "valid_mod_locations": [ [ "sling", 1 ], [ "sights mount", 1 ], [ "underbarrel mount", 1 ] ],
     "flags": [ "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 1 } } ]
+  },
+  {
+    "id": "slamfire_shotgun_d",
+    "copy-from": "slamfire_shotgun",
+    "type": "GUN",
+    "name": { "str": "double slam-fire pipe shotgun" },
+    "description": "A crude shotgun, composed of four thick steel pipes, two end caps and two nails.  The lack of sights make this weapon only useful at point-blank range.",
+    "weight": "7260 g",
+    "volume": "4530 ml",
+    "clip_size": 2,
+    "reload": 900,
+    "modes": [ [ "DEFAULT", "double", 2 ] ],
+    "//": "no provision for separate triggers",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "shot": 2 } } ]
   }
 ]

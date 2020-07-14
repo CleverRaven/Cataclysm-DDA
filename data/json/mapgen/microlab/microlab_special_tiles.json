@@ -151,7 +151,7 @@
         "  c c|c   |  |    |cc   "
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "A": "t_plut_generator" },
+      "furniture": { "A": "f_compact_ASRG_containment" },
       "item": { "u": { "item": "corpse" }, "k": { "item": "corpse" }, "T": { "item": "corpse" } },
       "monster": {
         "T": { "monster": "mon_leech_blossom" },

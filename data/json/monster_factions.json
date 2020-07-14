@@ -56,6 +56,12 @@
   },
   {
     "type": "MONSTER_FACTION",
+    "name": "robofac",
+    "neutral": [ "cop_bot", "defense_bot", "utility_bot", "animal" ],
+    "hate": [ "zombie", "fungus", "cult", "triffid", "nether" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
     "name": "bot",
     "neutral": [ "cop_bot", "defense_bot", "utility_bot", "small_animal" ]
   },

@@ -12,7 +12,7 @@ vehicle_selector::vehicle_selector( const tripoint &pos, int radius, bool access
                                     bool visibility_only )
 {
     map &here = get_map();
-    for( const tripoint &e : closest_tripoints_first( pos, radius ) ) {
+    for( const tripoint &e : closest_points_first( pos, radius ) ) {
         if( !accessible ||
             ( visibility_only ? here.sees( pos, e, radius ) : here.clear_path( pos, e, radius, 1, 100 ) ) ) {
             if( const optional_vpart_position vp = here.veh_at( e ) ) {
@@ -26,7 +26,7 @@ vehicle_selector::vehicle_selector( const tripoint &pos, int radius, bool access
                                     const vehicle &ignore )
 {
     map &here = get_map();
-    for( const tripoint &e : closest_tripoints_first( pos, radius ) ) {
+    for( const tripoint &e : closest_points_first( pos, radius ) ) {
         if( !accessible || here.clear_path( pos, e, radius, 1, 100 ) ) {
             if( const optional_vpart_position vp = here.veh_at( e ) ) {
                 if( &vp->vehicle() != &ignore ) {

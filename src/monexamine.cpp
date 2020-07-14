@@ -363,11 +363,8 @@ void monexamine::insert_battery( monster &z )
         return;
     }
     item *bat_item = bat_inv[index - 1];
-    int item_pos = player_character.get_item_position( bat_item );
-    if( item_pos != INT_MIN ) {
-        z.battery_item = cata::make_value<item>( *bat_item );
-        player_character.i_rem( item_pos );
-    }
+    z.battery_item = cata::make_value<item>( *bat_item );
+    player_character.i_rem( bat_item );
 }
 
 bool monexamine::mech_hack( monster &z )
@@ -739,12 +736,9 @@ void monexamine::tie_or_untie( monster &z )
             return;
         }
         item *rope_item = rope_inv[index - 1];
-        int item_pos = player_character.get_item_position( rope_item );
-        if( item_pos != INT_MIN ) {
-            z.tied_item = cata::make_value<item>( *rope_item );
-            player_character.i_rem( item_pos );
-            z.add_effect( effect_tied, 1_turns, num_bp, true );
-        }
+        z.tied_item = cata::make_value<item>( *rope_item );
+        player_character.i_rem( rope_item );
+        z.add_effect( effect_tied, 1_turns, num_bp, true );
     }
 }
 

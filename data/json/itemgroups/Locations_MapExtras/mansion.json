@@ -690,7 +690,7 @@
     "id": "bath_linens",
     "type": "item_group",
     "subtype": "distribution",
-    "items": [ [ "sheet", 40 ], [ "towel", 30 ], [ "rag", 20 ], [ "bandages", 10 ] ]
+    "items": [ [ "sheet", 40 ], [ "towel", 30 ], [ "rag", 20 ], [ "bandages", 5 ], [ "adhesive_bandages", 5 ] ]
   },
   {
     "id": "creepy",
@@ -1024,7 +1024,8 @@
       [ "towel", 20 ],
       [ "protein_shake", 8 ],
       [ "coke", 3 ],
-      [ "bandages", 10 ],
+      [ "bandages", 5 ],
+      [ "adhesive_bandages", 5 ],
       [ "heatpack", 10 ],
       [ "gum", 12 ],
       [ "yoghurt", 12 ],
@@ -1103,7 +1104,8 @@
       [ "hoodie", 50 ],
       [ "shorts", 60 ],
       [ "longshirt", 60 ],
-      [ "bandages", 10 ],
+      [ "bandages", 5 ],
+      [ "adhesive_bandages", 5 ],
       [ "heatpack", 10 ],
       [ "gum", 12 ],
       [ "soap", 10 ],

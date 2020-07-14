@@ -117,8 +117,22 @@
   },
   {
     "type": "construction",
+    "id": "constr_sdoor_frame",
+    "description": "Build Makeshift Door",
+    "//": "Step 1: door frame",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 1 ] ],
+    "time": "60 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 12 ] ], [ [ "nail", 24 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_door_frame"
+  },
+  {
+    "type": "construction",
     "id": "constr_door_makeshift",
     "description": "Build Makeshift Door",
+    "//": "Step 2: Makeshift Door",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "30 m",
@@ -2147,8 +2161,22 @@
   },
   {
     "type": "construction",
+    "id": "constr_mbdoor_frame",
+    "description": "Build Bar Door",
+    "//": "step 1: door frame",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 6 ] ],
+    "time": "90 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_M", "level": 1 } ] ],
+    "components": [ [ [ "spike", 8 ] ], [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "t_mdoor_frame"
+  },
+  {
+    "type": "construction",
     "id": "constr_door_bar",
     "description": "Build Bar Door",
+    "//": "step 2: Bar Door",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 6 ] ],
     "time": "180 m",
@@ -3196,6 +3224,91 @@
     ],
     "pre_special": "check_empty",
     "post_terrain": "t_junk_floor"
+  },
+  {
+    "type": "construction",
+    "id": "constr_scrap_bridge_1",
+    "description": "Build Scrap Metal Bridge Using Bolts",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "180 m",
+    "qualities": [
+      [ { "id": "SAW_M", "level": 1 } ],
+      [ { "id": "HAMMER", "level": 1 } ],
+      [ { "id": "WRENCH", "level": 2 } ],
+      [ { "id": "DRILL", "level": 1 } ]
+    ],
+    "components": [
+      [ [ "wire", 16 ], [ "spike", 16 ], [ "nail", 32 ] ],
+      [ [ "sheet_metal_small", 10 ], [ "scrap", 10 ] ],
+      [ [ "sheet_metal", 2 ], [ "steel_plate", 2 ], [ "frame", 2 ], [ "hdframe", 1 ], [ "xlframe", 4 ] ],
+      [ [ "rebar", 2 ], [ "pipe", 4 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_scrap_bridge"
+  },
+  {
+    "type": "construction",
+    "id": "constr_scrap_bridge_2",
+    "description": "Build Scrap Metal Bridge Using Welder",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 4 ] ],
+    "time": "120 m",
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ] ],
+    "using": [ [ "welding_standard", 2 ] ],
+    "components": [
+      [ [ "wire", 2 ] ],
+      [ [ "sheet_metal_small", 10 ], [ "scrap", 10 ] ],
+      [ [ "sheet_metal", 2 ], [ "steel_plate", 2 ], [ "frame", 2 ], [ "hdframe", 1 ], [ "xlframe", 4 ] ],
+      [ [ "rebar", 2 ], [ "pipe", 4 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_scrap_bridge"
+  },
+  {
+    "type": "construction",
+    "id": "constr_metal_bench",
+    "description": "Build Scrap Metal Bench",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "90 m",
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ], [ { "id": "DRILL", "level": 1 } ] ],
+    "components": [
+      [ [ "pipe_fittings", 1 ], [ "steel_chunk", 2 ] ],
+      [ [ "sheet_metal_small", 3 ], [ "scrap", 3 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "pipe", 1 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_metal_bench"
+  },
+  {
+    "type": "construction",
+    "id": "constr_metal_table",
+    "description": "Build Scrap Metal Table",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ] ],
+    "time": "90 m",
+    "qualities": [ [ { "id": "SAW_M", "level": 1 } ], [ { "id": "WRENCH", "level": 2 } ], [ { "id": "DRILL", "level": 1 } ] ],
+    "components": [
+      [ [ "pipe_fittings", 2 ], [ "steel_chunk", 3 ] ],
+      [ [ "sheet_metal_small", 4 ], [ "scrap", 4 ] ],
+      [ [ "sheet_metal", 1 ] ],
+      [ [ "pipe", 1 ] ]
+    ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_metal_table"
+  },
+  {
+    "type": "construction",
+    "id": "constr_ground_cable",
+    "description": "Lay down decorative ground cable",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 0 ] ],
+    "time": "1 m",
+    "components": [ [ [ "cable", 4 ] ] ],
+    "pre_special": "check_empty",
+    "post_terrain": "f_ground_cable"
   },
   {
     "type": "construction",

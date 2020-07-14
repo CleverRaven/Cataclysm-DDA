@@ -148,6 +148,7 @@ automatically_convertible = {
     "MONSTER",
     "morale_type",
     "npc",
+    "proficiency",
     "npc_class",
     "overmap_land_use_code",
     "overmap_terrain",

@@ -17,6 +17,7 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "item_contents.h"
+#include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
@@ -391,6 +392,13 @@ struct islot_mod {
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
 
+    /**
+     * Pockets the mod will add to the item.
+     * Any MAGAZINE_WELL or MAGAZINE type pockets will be overwritten,
+     * and CONTAINER pockets will be added.
+     */
+    std::vector<pocket_data> add_pockets;
+
     /** Proportional adjustment of parent item ammo capacity */
     float capacity_multiplier = 1.0;
 };
@@ -514,7 +522,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
-    units::volume barrel_length = 0_ml;
+    units::volume barrel_volume = 0_ml;
     /**
      * Effects that are applied to the ammo when fired.
      */

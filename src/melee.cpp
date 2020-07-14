@@ -543,6 +543,16 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
             perform_technique( technique, t, d, move_cost );
         }
 
+        //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
+        if( has_active_bionic( bio_cqb ) && !martial_arts_data.knows_selected_style() ) {
+            /** @EFFECT_INT slightly increases chance to learn techniques when using CQB bionic */
+            // Enhanced Memory Banks bionic doubles chance to learn martial art
+            const int bionic_boost = has_active_bionic( bionic_id( bio_memory ) ) ? 2 : 1;
+            if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
+                martial_arts_data.learn_current_style_CQB( is_player() );
+            }
+        }
+
         // Proceed with melee attack.
         if( !t.is_dead_state() ) {
             // Handles speed penalties to monster & us, etc
@@ -1566,16 +1576,6 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         // Extra attacks are free of charge (otherwise AoE attacks would SUCK)
         moves = temp_moves;
         set_stamina( temp_stamina );
-    }
-
-    //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
-    if( has_active_bionic( bio_cqb ) && !martial_arts_data.knows_selected_style() ) {
-        /** @EFFECT_INT slightly increases chance to learn techniques when using CQB bionic */
-        // Enhanced Memory Banks bionic doubles chance to learn martial art
-        const int bionic_boost = has_active_bionic( bionic_id( bio_memory ) ) ? 2 : 1;
-        if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
-            martial_arts_data.learn_current_style_CQB( is_player() );
-        }
     }
 }
 

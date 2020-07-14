@@ -4,7 +4,7 @@
     "type": "MONSTER",
     "name": { "str": "feral human" },
     "description": "Pupils dilated and what remains to be seen of the iris and sclera are bloodshot.  It still breathes but the zombies treat it like one of them.",
-    "default_faction": "mon_chud",
+    "default_faction": "zombie",
     "looks_like": "chud",
     "bodytype": "human",
     "species": [ "HUMAN" ],
@@ -42,8 +42,9 @@
     ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zombie",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "CAN_OPEN_DOORS", "PATH_AVOID_DANGER_2" ]
   },
   {
     "id": "mon_feral_human_crowbar",

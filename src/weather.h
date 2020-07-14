@@ -63,19 +63,6 @@ struct weather_printable {
     char cGlyph;
 };
 
-/**
- * Environmental effects and ramifications of weather.
- * Visibility range changes are done elsewhere.
- */
-namespace weather_effect
-{
-void thunder( int intensity );
-void lightning( int intensity );
-void light_acid( int intensity );
-void acid( int intensity );
-void wet_player( int amount );
-} // namespace weather_effect
-
 struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
@@ -151,6 +138,9 @@ void glare( weather_type_id w );
  */
 int incident_sunlight( weather_type_id wtype,
                        const time_point &t = calendar::turn );
+
+void weather_sound( translation sound_message, std::string sound_effect );
+void wet( Character &target, int amount );
 
 class weather_manager
 {
