@@ -132,6 +132,7 @@ struct arg_handler {
     const char *param_documentation;  //!< Human readable description of this arguments parameter.
     const char *documentation;  //!< Human readable documentation for this argument.
     const char *help_group; //!< Section of the help message in which to include this argument.
+    int num_args; //!< How many further arguments are expected for this parameter (usually 0 or 1).
     handler_method handler;  //!< The callback to be invoked when this argument is encountered.
 };
 
@@ -185,6 +186,11 @@ void process_args( const char **argv, int argc, const ArgHandlerContainer &arg_h
             if( !strcmp( argv[0], handler.flag ) ) {
                 argc--;
                 argv++;
+                if( argc < handler.num_args ) {
+                    printf( "Missing expected argument to command line parameter %s\n",
+                            handler.flag );
+                    std::exit( 1 );
+                }
                 int args_consumed = handler.handler( argc, argv );
                 if( args_consumed < 0 ) {
                     printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
@@ -226,11 +232,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--seed", "<string of letters and or numbers>",
                 "Sets the random number generator's seed value",
                 section_default,
-                [&result]( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                [&result]( int, const char **params ) -> int {
                     const unsigned char *hash_input = reinterpret_cast<const unsigned char *>( params[0] );
                     result.seed = djb2_hash( hash_input );
                     return 1;
@@ -240,16 +243,18 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--jsonverify", nullptr,
                 "Checks the CDDA json files",
                 section_default,
+                0,
                 [&result]( int, const char ** ) -> int {
                     result.verifyexit = true;
                     return 0;
                 }
             },
             {
-                "--check-mods", "[mods…]",
-                "Checks the json files belonging to CDDA mods",
+                "--check-mods", "[mod…]",
+                "Checks the json files belonging to given CDDA mod",
                 section_default,
-                [&result]( int n, const char *params[] ) -> int {
+                1,
+                [&result]( int n, const char **params ) -> int {
                     result.check_mods = true;
                     test_mode = true;
                     for( int i = 0; i < n; ++i )
@@ -263,11 +268,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--dump-stats", "<what> [mode = TSV] [opts…]",
                 "Dumps item stats",
                 section_default,
-                [&result]( int n, const char *params[] ) -> int {
-                    if( n < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                [&result]( int n, const char **params ) -> int {
                     test_mode = true;
                     result.dump = params[ 0 ];
                     for( int i = 2; i < n; ++i )
@@ -293,11 +295,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--world", "<name>",
                 "Load world",
                 section_default,
-                [&result]( int n, const char *params[] ) -> int {
-                    if( n < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                [&result]( int, const char **params ) -> int {
                     result.world = params[0];
                     return 1;
                 }
@@ -306,11 +305,9 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--basepath", "<path>",
                 "Base path for all game data subdirectories",
                 section_default,
-                []( int num_args, const char **params )
+                1,
+                []( int, const char **params )
                 {
-                    if( num_args < 1 ) {
-                        return -1;
-                    }
                     PATH_INFO::init_base_path( params[0] );
                     PATH_INFO::set_standard_filenames();
                     return 1;
@@ -320,6 +317,7 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--shared", nullptr,
                 "Activates the map-sharing mode",
                 section_map_sharing,
+                0,
                 []( int, const char ** ) -> int {
                     MAP_SHARING::setSharing( true );
                     MAP_SHARING::setCompetitive( true );
@@ -331,11 +329,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--username", "<name>",
                 "Instructs map-sharing code to use this name for your character.",
                 section_map_sharing,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     MAP_SHARING::setUsername( params[0] );
                     return 1;
                 }
@@ -345,11 +340,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "Instructs map-sharing code to use this name for your character and give you "
                 "access to the cheat functions.",
                 section_map_sharing,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     MAP_SHARING::addAdmin( params[0] );
                     return 1;
                 }
@@ -358,11 +350,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--adddebugger", "<username>",
                 "Informs map-sharing code that you're running inside a debugger",
                 section_map_sharing,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     MAP_SHARING::addDebugger( params[0] );
                     return 1;
                 }
@@ -371,6 +360,7 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--competitive", nullptr,
                 "Instructs map-sharing code to disable access to the in-game cheat functions",
                 section_map_sharing,
+                0,
                 []( int, const char ** ) -> int {
                     MAP_SHARING::setCompetitive( true );
                     return 0;
@@ -381,11 +371,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 // NOLINTNEXTLINE(cata-text-style): the dot is not a period
                 "Base path for user-overrides to files from the ./data directory and named below",
                 section_user_directory,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     PATH_INFO::init_user_dir( params[0] );
                     PATH_INFO::set_standard_filenames();
                     return 1;
@@ -401,6 +388,7 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--worldmenu", nullptr,
                 "Enables the world menu in the map-sharing code",
                 section_map_sharing,
+                0,
                 []( int, const char ** ) -> int {
                     MAP_SHARING::setWorldmenu( true );
                     return true;
@@ -410,11 +398,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--datadir", "<directory name>",
                 "Sub directory from which game data is loaded",
                 nullptr,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     PATH_INFO::set_datadir( params[0] );
                     return 1;
                 }
@@ -423,11 +408,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--savedir", "<directory name>",
                 "Subdirectory for game saves",
                 section_user_directory,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     PATH_INFO::set_savedir( params[0] );
                     return 1;
                 }
@@ -436,11 +418,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--configdir", "<directory name>",
                 "Subdirectory for game configuration",
                 section_user_directory,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     PATH_INFO::set_config_dir( params[0] );
                     return 1;
                 }
@@ -449,11 +428,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--memorialdir", "<directory name>",
                 "Subdirectory for memorials",
                 section_user_directory,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     PATH_INFO::set_memorialdir( params[0] );
                     return 1;
                 }
@@ -462,11 +438,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--optionfile", "<filename>",
                 "Name of the options file within the configdir",
                 section_user_directory,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     PATH_INFO::set_options( params[0] );
                     return 1;
                 }
@@ -475,11 +448,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--keymapfile", "<filename>",
                 "Name of the keymap file within the configdir",
                 section_user_directory,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     PATH_INFO::set_keymap( params[0] );
                     return 1;
                 }
@@ -488,11 +458,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--autopickupfile", "<filename>",
                 "Name of the autopickup options file within the configdir",
                 nullptr,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     PATH_INFO::set_autopickup( params[0] );
                     return 1;
                 }
@@ -501,11 +468,8 @@ cli_opts parse_commandline( int argc, const char **argv )
                 "--motdfile", "<filename>",
                 "Name of the message of the day file within the motd directory",
                 nullptr,
-                []( int num_args, const char **params ) -> int {
-                    if( num_args < 1 )
-                    {
-                        return -1;
-                    }
+                1,
+                []( int, const char **params ) -> int {
                     PATH_INFO::set_motd( params[0] );
                     return 1;
                 }
