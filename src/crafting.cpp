@@ -377,14 +377,14 @@ int player::available_assistant_count( const recipe &rec ) const
 int player::base_time_to_craft( const recipe &rec, int batch_size ) const
 {
     const size_t assistants = available_assistant_count( rec );
-    return rec.batch_time( batch_size, 1.0f, assistants );
+    return rec.batch_time( *this, batch_size, 1.0f, assistants );
 }
 
 int player::expected_time_to_craft( const recipe &rec, int batch_size, bool in_progress ) const
 {
     const size_t assistants = available_assistant_count( rec );
     float modifier = crafting_speed_multiplier( rec, in_progress );
-    return rec.batch_time( batch_size, modifier, assistants );
+    return rec.batch_time( *this, batch_size, modifier, assistants );
 }
 
 bool player::check_eligible_containers_for_crafting( const recipe &rec, int batch_size ) const
@@ -506,6 +506,10 @@ bool player::can_make( const recipe *r, int batch_size )
         return false;
     }
 
+    if( !r->character_has_required_proficiencies( *this ) ) {
+        return false;
+    }
+
     return r->deduped_requirements().can_make_with_inventory(
                crafting_inv, r->get_component_filter(), batch_size );
 }
@@ -513,6 +517,10 @@ bool player::can_make( const recipe *r, int batch_size )
 bool player::can_start_craft( const recipe *rec, recipe_filter_flags flags, int batch_size )
 {
     if( !rec ) {
+        return false;
+    }
+
+    if( !rec->character_has_required_proficiencies( *this ) ) {
         return false;
     }
 
@@ -958,7 +966,14 @@ double player::crafting_success_roll( const recipe &making ) const
         return 2;
     }
 
-    return skill_roll / diff_roll;
+    float prof_multiplier = 1.0f;
+    for( const recipe_proficiency &recip : making.proficiencies ) {
+        if( !recip.required && !has_proficiency( recip.id ) ) {
+            prof_multiplier *= recip.fail_multiplier;
+        }
+    }
+
+    return ( skill_roll / diff_roll ) * prof_multiplier;
 }
 
 int item::get_next_failure_point() const
@@ -1131,7 +1146,7 @@ void player::complete_craft( item &craft, const tripoint &loc )
                     std::max( get_skill_level( making.skill_used ), 1 ) *
                     std::max( get_int(), 1 );
                 const double time_to_learn = 1000 * 8 * std::pow( difficulty, 4 ) / learning_speed;
-                if( x_in_y( making.time_to_craft_moves(), time_to_learn ) ) {
+                if( x_in_y( making.time_to_craft_moves( *this ),  time_to_learn ) ) {
                     learn_recipe( &making );
                     add_msg( m_good, _( "You memorized the recipe for %s!" ),
                              making.result_name() );
@@ -1263,6 +1278,10 @@ bool player::can_continue_craft( item &craft )
     const recipe &rec = craft.get_making();
 
     const requirement_data continue_reqs = craft.get_continue_reqs();
+
+    if( !rec.character_has_required_proficiencies( *this ) ) {
+        return false;
+    }
 
     // Avoid building an inventory from the map if we don't have to, as it is expensive
     if( !continue_reqs.is_empty() ) {
@@ -2057,12 +2076,12 @@ bool player::disassemble( item_location target, bool interactive )
 
     if( activity.id() != ACT_DISASSEMBLE ) {
         if( num_dis != 0 ) {
-            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves() * num_dis );
+            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this ) * num_dis );
         } else {
-            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves() );
+            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this ) );
         }
     } else if( activity.moves_left <= 0 ) {
-        activity.moves_left = r.time_to_craft_moves();
+        activity.moves_left = r.time_to_craft_moves( *this );
     }
 
     // index is used as a bool that indicates if we want recursive uncraft.
@@ -2146,7 +2165,7 @@ void player::complete_disassemble()
         return;
     }
 
-    activity.moves_left = next_recipe.time_to_craft_moves();
+    activity.moves_left = next_recipe.time_to_craft_moves( *this );
 }
 
 void player::complete_disassemble( item_location &target, const recipe &dis )

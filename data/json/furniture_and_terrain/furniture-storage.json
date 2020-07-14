@@ -880,6 +880,100 @@
   },
   {
     "type": "furniture",
+    "id": "f_gas_tank",
+    "name": "fuel tank",
+    "description": "A tank filled with gasoline.",
+    "looks_like": "f_standing_tank",
+    "symbol": "Q",
+    "color": "brown_red",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 100,
+      "explosive": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_gas_tank_smashed"
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_gas_tank_smashed",
+    "name": "broken fuel tank",
+    "description": "A broken tank which was filled with gasoline.",
+    "looks_like": "f_wreckage",
+    "symbol": "Q",
+    "color": "light_red",
+    "move_cost_mod": 6,
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 100,
+      "explosive": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_diesel_tank",
+    "name": "fuel tank",
+    "description": "A tank filled with diesel.",
+    "looks_like": "f_standing_tank",
+    "symbol": "Q",
+    "color": "brown_green",
+    "move_cost_mod": -1,
+    "coverage": 70,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "FLAMMABLE", "NOITEM", "SEALED", "CONTAINER", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 100,
+      "explosive": 20,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "furn_set": "f_diesel_tank_smashed"
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_diesel_tank_smashed",
+    "name": "broken fuel tank",
+    "description": "A broken tank which was filled with diesel.",
+    "looks_like": "f_wreckage",
+    "symbol": "Q",
+    "color": "light_green",
+    "move_cost_mod": 6,
+    "coverage": 30,
+    "required_str": -1,
+    "flags": [ "TRANSPARENT", "NOITEM", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 40,
+      "str_max": 100,
+      "explosive": 40,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "items": [
+        { "item": "steel_lump", "count": [ 1, 4 ] },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "sheet_metal", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 3, 7 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_dumpster",
     "name": "dumpster",
     "description": "A large metal dumpster that will likely not be getting picked up by the city's waste management any time soon.  Despite the unpleasant nature of climbing inside, it could make for a viable hiding spot.",

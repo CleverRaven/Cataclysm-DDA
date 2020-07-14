@@ -32,24 +32,24 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_dirt", [ "t_grass", 3 ] ],
+        " ": "t_region_groundcover_urban",
         ".": "t_floor",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
         "e": "t_door_c",
         "g": "t_dirt",
-        "j": "t_console_broken",
         "m": "t_dirt",
         "<": "t_stairs_up",
         "4": "t_gutter_downspout",
-        "o": "t_shrub"
+        "o": "t_region_shrub"
       },
       "furniture": {
         "f": "f_table",
         "g": "f_dumpster",
         "h": "f_counter",
         "i": "f_fridge",
+        "j": "f_console_broken",
         "k": "f_rack",
         "l": "f_trashcan",
         "m": "f_trashcan",
@@ -236,18 +236,18 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_dirt", [ "t_grass", 3 ] ],
+        " ": "t_region_groundcover",
         ".": "t_floor",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
         "e": "t_door_c",
-        "g": "t_dirt",
+        "g": "t_region_groundcover_barren",
         "<": "t_stairs_up",
-        "4": "t_gutter_downspout",
-        "j": "t_console_broken"
+        "4": "t_gutter_downspout"
       },
       "furniture": {
+        "j": "f_console_broken",
         "c": "f_chair",
         "f": "f_table",
         "g": "f_dumpster",
@@ -436,19 +436,19 @@
         "                        "
       ],
       "terrain": {
-        " ": [ "t_dirt", [ "t_grass", 3 ] ],
+        " ": "t_region_groundcover",
         ".": "t_floor",
         "a": "t_wall_w",
         "b": "t_sidewalk",
         "d": "t_wall_glass",
         "e": "t_door_c",
-        "g": "t_dirt",
-        "j": "t_console_broken",
+        "g": "t_region_groundcover_barren",
         "o": "t_door_o",
         "<": "t_ladder_up",
         "4": "t_gutter_downspout"
       },
       "furniture": {
+        "j": "f_console_broken",
         "c": "f_chair",
         "f": "f_table",
         "g": "f_dumpster",

@@ -56,6 +56,8 @@
       "ȝ": "f_dryer",
       "Ʃ": "f_entertainment_center",
       "y": [ "f_indoor_plant", "f_indoor_plant_y" ],
+      "x": [ "f_machinery_light", "f_machinery_heavy", "f_machinery_old", "f_machinery_electronic" ],
+      "?": "f_console_broken",
       "z": [ [ "f_cardboard_box", 5 ], "f_crate_c" ]
     },
     "terrain": {
@@ -88,14 +90,12 @@
       "+": "t_laminated_door_glass_c",
       "=": [ "t_door_c", "t_door_locked" ],
       "p": "t_column",
-      "x": [ "t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic" ],
       "2": "t_wall_g",
       "5": "t_wall_wood",
       "6": "t_carpet_concrete_red",
       "7": "t_carpet_concrete_green",
       "8": "t_carpet_concrete_purple",
       "9": "t_carpet_concrete_yellow",
-      "?": "t_console_broken",
       "§": "t_water_pool_shallow_outdoors"
     },
     "toilets": { "t": {  } }

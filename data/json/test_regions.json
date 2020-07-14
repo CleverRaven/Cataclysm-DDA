@@ -200,8 +200,6 @@
             ",": "t_pavement_y",
             "_": "t_pavement",
             "r": "t_floor",
-            "6": "t_console",
-            "x": "t_console_broken",
             "^": "t_floor",
             ".": "t_floor",
             "-": "t_wall",
@@ -221,6 +219,8 @@
             "s": "t_sidewalk"
           },
           "furniture": {
+            "6": "f_console",
+            "x": "f_console_broken",
             "d": "f_dumpster",
             "O": "f_oven",
             "r": "f_rack",

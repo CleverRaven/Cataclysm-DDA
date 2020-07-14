@@ -10,6 +10,7 @@
     "coverage": 60,
     "required_str": 10,
     "flags": [ "TRANSPARENT", "FLAMMABLE", "ORGANIC", "MOUNTABLE", "SHORT", "FLAT_SURF" ],
+    "//connects_to": "COUNTER",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 4 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 10 ] } ]
     },
@@ -34,6 +35,7 @@
     "coverage": 55,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "FLAMMABLE_ASH", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "FLAT_SURF" ],
+    "//connects_to": "COUNTER",
     "deconstruct": {
       "items": [ { "item": "2x4", "count": 3 }, { "item": "wood_panel", "count": 1 }, { "item": "nail", "charges": [ 6, 8 ] } ]
     },

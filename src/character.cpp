@@ -63,6 +63,7 @@
 #include "overmapbuffer.h"
 #include "pathfinding.h"
 #include "player.h"
+#include "proficiency.h"
 #include "ret_val.h"
 #include "rng.h"
 #include "scent_map.h"
@@ -147,6 +148,7 @@ static const efftype_id effect_hunger_near_starving( "hunger_near_starving" );
 static const efftype_id effect_hunger_satisfied( "hunger_satisfied" );
 static const efftype_id effect_hunger_starving( "hunger_starving" );
 static const efftype_id effect_hunger_very_hungry( "hunger_very_hungry" );
+static const efftype_id effect_hypovolemia( "hypovolemia" );
 static const efftype_id effect_in_pit( "in_pit" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_jetinjector( "jetinjector" );
@@ -370,6 +372,8 @@ static const std::string flag_USE_UPS( "USE_UPS" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
+static const vitamin_id vitamin_blood( "blood" );
 
 namespace io
 {
@@ -1806,6 +1810,8 @@ void Character::recalc_sight_limits()
         sight_max = 10;
     }
 
+    sight_max = enchantment_cache.modify_value( enchant_vals::mod::SIGHT_RANGE, sight_max );
+
     // Debug-only NV, by vache's request
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
@@ -2044,12 +2050,12 @@ units::energy Character::get_power_level() const
 
 units::energy Character::get_max_power_level() const
 {
-    return max_power_level;
+    return enchantment_cache.modify_value( enchant_vals::mod::BIONIC_POWER, max_power_level );
 }
 
 void Character::set_power_level( const units::energy &npower )
 {
-    power_level = std::min( npower, max_power_level );
+    power_level = std::min( npower, get_max_power_level() );
 }
 
 void Character::set_max_power_level( const units::energy &npower_max )
@@ -2061,15 +2067,15 @@ void Character::mod_power_level( const units::energy &npower )
 {
     // units::energy is an int, so avoid overflow by converting it to a int64_t, then adding them
     // If the result is greater than the max power level, set power to max
-    int64_t power = static_cast<int64_t>( units::to_millijoule( power_level ) ) +
+    int64_t power = static_cast<int64_t>( units::to_millijoule( get_power_level() ) ) +
                     static_cast<int64_t>( units::to_millijoule( npower ) );
     units::energy new_power;
-    if( power > units::to_millijoule( max_power_level ) ) {
-        new_power = max_power_level;
+    if( power > units::to_millijoule( get_max_power_level() ) ) {
+        new_power = get_max_power_level();
     } else {
-        new_power = power_level + npower;
+        new_power = get_power_level() + npower;
     }
-    power_level = clamp( new_power, 0_kJ, max_power_level );
+    set_power_level( clamp( new_power, 0_kJ, get_max_power_level() ) );
 }
 
 void Character::mod_max_power_level( const units::energy &npower_max )
@@ -2079,22 +2085,22 @@ void Character::mod_max_power_level( const units::energy &npower_max )
 
 bool Character::is_max_power() const
 {
-    return power_level >= max_power_level;
+    return get_power_level() >= get_max_power_level();
 }
 
 bool Character::has_power() const
 {
-    return power_level > 0_kJ;
+    return get_power_level() > 0_kJ;
 }
 
 bool Character::has_max_power() const
 {
-    return max_power_level > 0_kJ;
+    return get_max_power_level() > 0_kJ;
 }
 
 bool Character::enough_power_for( const bionic_id &bid ) const
 {
-    return power_level >= bid->power_activate;
+    return get_power_level() >= bid->power_activate;
 }
 
 std::vector<itype_id> Character::get_fuel_available( const bionic_id &bio ) const
@@ -2326,11 +2332,11 @@ std::vector<item_location> Character::nearby( const
 item_pocket *Character::best_pocket( const item &it, const item *avoid )
 {
     item_pocket *ret = nullptr;
-    if( &weapon != avoid ) {
+    if( &weapon != &it && &weapon != avoid ) {
         ret = weapon.best_pocket( it );
     }
     for( item &worn_it : worn ) {
-        if( &worn_it == avoid ) {
+        if( &worn_it == &it || &worn_it == avoid ) {
             continue;
         }
         item_pocket *internal_pocket = worn_it.best_pocket( it );
@@ -3012,6 +3018,8 @@ units::mass Character::weight_capacity() const
     if( has_artifact_with( AEP_CARRY_MORE ) ) {
         ret += 22500_gram;
     }
+
+    ret = enchantment_cache.modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
 
     if( ret < 0_gram ) {
         ret = 0_gram;
@@ -4777,6 +4785,12 @@ void Character::update_body( const time_point &from, const time_point &to )
 
     for( const auto &v : vitamin::all() ) {
         const time_duration rate = vitamin_rate( v.first );
+
+        // No blood volume regeneration if body lacks fluids
+        if( v.first == vitamin_blood && has_effect( effect_hypovolemia ) && get_thirst() > 240 ) {
+            continue;
+        }
+
         if( rate > 0_turns ) {
             int qty = ticks_between( from, to, rate );
             if( qty > 0 ) {
@@ -5156,6 +5170,9 @@ needs_rates Character::calc_needs_rates() const
         rates.hunger *= 0.25f;
         rates.thirst *= 0.25f;
     }
+
+    rates.fatigue = enchantment_cache.modify_value( enchant_vals::mod::FATIGUE, rates.fatigue );
+    rates.thirst = enchantment_cache.modify_value( enchant_vals::mod::THIRST, rates.thirst );
 
     return rates;
 }
@@ -7364,9 +7381,10 @@ int Character::get_bmr() const
     Values are for males, and average!
     */
     const int equation_constant = 5;
-    return std::ceil( metabolic_rate_base() * activity_level * ( units::to_gram<int>
-                      ( bodyweight() / 100.0 ) +
-                      ( 6.25 * height() ) - ( 5 * age() ) + equation_constant ) );
+    const double base_bmr_calc = metabolic_rate_base() * activity_level * ( units::to_gram<int>
+                                 ( bodyweight() / 100.0 ) +
+                                 ( 6.25 * height() ) - ( 5 * age() ) + equation_constant );
+    return std::ceil( enchantment_cache.modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
 }
 
 void Character::increase_activity_level( float new_level )
@@ -7585,6 +7603,7 @@ int Character::get_stamina_max() const
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
     int maxStamina = get_option< int >( player_max_stamina );
     maxStamina *= Character::mutation_value( max_stamina_modifier );
+    maxStamina = enchantment_cache.modify_value( enchant_vals::mod::MAX_STAMINA, maxStamina );
     return maxStamina;
 }
 
@@ -7661,6 +7680,8 @@ void Character::update_stamina( int turns )
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         base_regen_rate - ( encumb( bodypart_id( "mouth" ) ) / 5.0f ) );
+    stamina_recovery = enchantment_cache.modify_value( enchant_vals::mod::REGEN_STAMINA,
+                       stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
     // TODO: Tiredness slowing recovery
 
@@ -8074,6 +8095,8 @@ int Character::get_shout_volume() const
     if( noise <= base ) {
         noise = std::max( minimum_noise, noise );
     }
+
+    noise = enchantment_cache.modify_value( enchant_vals::mod::SHOUT_NOISE, noise );
 
     // Screaming underwater is not good for oxygen and harder to do overall
     if( underwater ) {
@@ -11025,8 +11048,23 @@ int Character::intimidation() const
     if( has_effect( effect_drunk ) ) {
         ret -= 4;
     }
-
+    ret = enchantment_cache.modify_value( enchant_vals::mod::SOCIAL_INTIMIDATE, ret );
     return ret;
+}
+
+bool Character::has_proficiency( const proficiency_id &prof ) const
+{
+    return _proficiencies.count( prof );
+}
+
+void Character::add_proficiency( const proficiency_id &prof )
+{
+    _proficiencies.insert( prof );
+}
+
+const std::set<proficiency_id> &Character::proficiencies() const
+{
+    return _proficiencies;
 }
 
 bool Character::defer_move( const tripoint &next )

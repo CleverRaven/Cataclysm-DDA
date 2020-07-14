@@ -31,6 +31,16 @@ inline constexpr recipe_filter_flags operator&( recipe_filter_flags l, recipe_fi
                static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
 }
 
+struct recipe_proficiency {
+    proficiency_id id;
+    bool required = false;
+    float time_multiplier = 1.0f;
+    float fail_multiplier = 2.5f;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
+
 class recipe
 {
         friend class recipe_dictionary;
@@ -107,6 +117,7 @@ class recipe
 
         skill_id skill_used;
         std::map<skill_id, int> required_skills;
+        std::vector<recipe_proficiency> proficiencies;
 
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
@@ -125,6 +136,14 @@ class recipe
         // menu which includes the primary skill.
         std::string required_skills_string( const Character *, bool include_primary_skill,
                                             bool print_skill_level ) const;
+        // Format the proficiencies string.
+        std::string required_proficiencies_string( const Character &c ) const;
+        // Required proficiencies
+        std::set<proficiency_id> required_proficiencies() const;
+        //
+        bool character_has_required_proficiencies( const Character &c ) const;
+        // Helpful proficiencies
+        std::set<proficiency_id> assist_proficiencies() const;
 
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string() const;
@@ -143,12 +162,12 @@ class recipe
 
         bool has_byproducts() const;
 
-        int batch_time( int batch, float multiplier, size_t assistants ) const;
-        time_duration batch_duration( int batch = 1, float multiplier = 1.0,
+        int batch_time( const Character &guy, int batch, float multiplier, size_t assistants ) const;
+        time_duration batch_duration( const Character &guy, int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
 
-        time_duration time_to_craft() const;
-        int time_to_craft_moves() const;
+        time_duration time_to_craft( const Character &guy ) const;
+        int time_to_craft_moves( const Character &guy ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 

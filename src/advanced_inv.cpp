@@ -127,6 +127,15 @@ void advanced_inventory::load_settings()
     aim_exit aim_code = static_cast<aim_exit>( save_state->exit_code );
     panes[left].load_settings( save_state->saved_area, squares, aim_code == aim_exit::re_entry );
     panes[right].load_settings( save_state->saved_area_right, squares, aim_code == aim_exit::re_entry );
+    // In-vehicle flags are set dynamically inside advanced_inventory_pane::load_settings,
+    // which means the flags may end up the same even if the areas are also the same. To
+    // avoid this, we use the saved in-vehicle flags instead.
+    if( panes[left].get_area() == panes[right].get_area() ) {
+        panes[left].set_area( squares[panes[left].get_area()], save_state->pane.in_vehicle );
+        // Use the negated in-vehicle flag of the left pane to ensure different
+        // in-vehicle flags.
+        panes[right].set_area( squares[panes[right].get_area()], !save_state->pane.in_vehicle );
+    }
     save_state->exit_code = aim_exit::none;
 }
 
@@ -255,9 +264,9 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
                 maxvolume = get_map().max_volume( s.pos );
             }
             formatted_head = string_format( "%3.1f %s  %s/%s %s",
-                                            convert_weight( s.weight ),
+                                            convert_weight( pane.in_vehicle() ? s.weight_veh : s.weight ),
                                             weight_units(),
-                                            format_volume( s.volume ),
+                                            format_volume( pane.in_vehicle() ? s.volume_veh : s.volume ),
                                             format_volume( maxvolume ),
                                             volume_units_abbr() );
         }
@@ -599,8 +608,8 @@ void advanced_inventory::recalc_pane( side p )
             if( s.can_store_in_vehicle() && !( same && there.in_vehicle() ) ) {
                 bool do_vehicle = there.get_area() == s.id ? !there.in_vehicle() : true;
                 pane.add_items_from_area( s, do_vehicle );
-                alls.volume += s.volume;
-                alls.weight += s.weight;
+                alls.volume += s.volume_veh;
+                alls.weight += s.weight_veh;
             }
 
             // Add map items
@@ -938,7 +947,8 @@ bool advanced_inventory::move_all_items( bool nested_call )
         } else {
             // Vehicle and map destinations are handled the same.
             // Check first if the destination area still have enough room for moving all.
-            if( !is_processing() && sarea.volume > darea.free_volume( dpane.in_vehicle() ) &&
+            const units::volume &src_volume = spane.in_vehicle() ? sarea.volume_veh : sarea.volume;
+            if( !is_processing() && src_volume > darea.free_volume( dpane.in_vehicle() ) &&
                 !query_yn( _( "There isn't enough room, do you really want to move all?" ) ) ) {
                 return false;
             }
@@ -1311,16 +1321,32 @@ bool advanced_inventory::action_move_item( advanced_inv_listitem *sitem,
                     player_character.activity.str_values.push_back( "force_ground" );
                 }
 
-                player_character.activity.targets.push_back( item_location( player_character,
-                        sitem->items.front() ) );
-                player_character.activity.values.push_back( amount_to_move );
+                int remaining_amount = amount_to_move;
+                for( item *itm : sitem->items ) {
+                    if( remaining_amount <= 0 ) {
+                        break;
+                    }
+                    player_character.activity.targets.emplace_back( player_character, itm );
+                    const int move_amount = itm->count_by_charges() ?
+                                            std::min( remaining_amount, itm->charges ) : 1;
+                    player_character.activity.values.emplace_back( move_amount );
+                    remaining_amount -= move_amount;
+                }
 
                 // exit so that the activity can be carried out
                 exit = true;
             }
         }
     } else {
-        if( destarea == AIM_INVENTORY && !player_character.can_stash( *sitem->items.front() ) ) {
+        bool can_stash = false;
+        if( sitem->items.front()->count_by_charges() ) {
+            item dummy = *sitem->items.front();
+            dummy.charges = amount_to_move;
+            can_stash = player_character.can_stash( dummy );
+        } else {
+            can_stash = player_character.can_stash( *sitem->items.front() );
+        }
+        if( destarea == AIM_INVENTORY && !can_stash ) {
             popup( _( "You have no space for %s" ), sitem->items.front()->tname() );
             return false;
         }

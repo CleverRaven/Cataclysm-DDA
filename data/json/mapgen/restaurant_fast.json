@@ -39,9 +39,9 @@
         { "line": "trap", "id": "tr_beartrap", "x": 14, "x2": 16, "y": 13, "y2": 13, "chance": 10 }
       ],
       "terrain": {
-        " ": "t_grass",
-        "d": "t_dirt",
-        "#": "t_shrub",
+        " ": "t_region_groundcover_urban",
+        "d": "t_region_groundcover_barren",
+        "#": "t_region_shrub",
         "%": "t_wall_glass",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
@@ -61,11 +61,11 @@
         "s": "t_sidewalk",
         "t": "t_door_c",
         "w": "t_linoleum_white",
-        "x": "t_console_broken",
         "4": "t_gutter_downspout",
         "|": "t_wall_w"
       },
       "furniture": {
+        "x": "f_console_broken",
         "H": "f_chair",
         "O": "f_woodstove",
         "S": "f_sink",
@@ -193,8 +193,8 @@
         "           !!!!!!       "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_dirt", "t_shrub" ],
-        "#": "t_shrub",
+        " ": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
+        "#": "t_region_shrub_decorative",
         "%": "t_wall_glass",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
@@ -218,11 +218,11 @@
         "D": "t_door_locked",
         "t": "t_door_c",
         "w": "t_linoleum_white",
-        "x": "t_console_broken",
         "4": "t_gutter_downspout",
         "|": "t_wall_w"
       },
       "furniture": {
+        "x": "f_console_broken",
         "H": "f_chair",
         "F": "f_arcade_machine",
         "S": "f_sink",

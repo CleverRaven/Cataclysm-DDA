@@ -3118,7 +3118,7 @@ bool game::save_player_data()
     }, _( "player map memory" ) );
     const bool saved_log = write_to_file( playerfile + SAVE_EXTENSION_LOG, [&](
     std::ostream & fout ) {
-        fout << memorial().dump();
+        memorial().save( fout );
     }, _( "player memorial" ) );
 #if defined(__ANDROID__)
     const bool saved_shortcuts = write_to_file( playerfile + SAVE_EXTENSION_SHORTCUTS, [&](
@@ -3257,11 +3257,15 @@ void game::write_memorial_file( std::string sLastWords )
     std::strftime( buffer, suffix_len, "%Y-%m-%d-%H-%M-%S", std::localtime( &t ) );
     memorial_file_path << buffer;
 
-    memorial_file_path << ".txt";
+    const std::string text_path_string = memorial_file_path.str() + ".txt";
+    const std::string json_path_string = memorial_file_path.str() + ".json";
 
-    const std::string path_string = memorial_file_path.str();
-    write_to_file( memorial_file_path.str(), [&]( std::ostream & fout ) {
-        memorial().write( fout, sLastWords );
+    write_to_file( text_path_string, [&]( std::ostream & fout ) {
+        memorial().write_text_memorial( fout, sLastWords );
+    }, _( "player memorial" ) );
+
+    write_to_file( json_path_string, [&]( std::ostream & fout ) {
+        memorial().write_json_memorial( fout );
     }, _( "player memorial" ) );
 }
 
@@ -5129,6 +5133,25 @@ void game::clear_zombies()
     critter_tracker->clear();
 }
 
+bool game::find_nearby_spawn_point( const Character &target, const mtype_id &mt, int min_radius,
+                                    int max_radius, tripoint &point )
+{
+    tripoint target_point;
+    //find a legal outdoor place to spawn based on the specified radius,
+    //we just try a bunch of random points and use the first one that works, it none do then no spawn
+    for( int attempts = 0; attempts < 15; attempts++ ) {
+        target_point = target.pos() + tripoint( rng( -max_radius, max_radius ),
+                                                rng( -max_radius, max_radius ), 0 );
+        if( can_place_monster( mt->id, target_point ) &&
+            get_map().is_outside( target_point ) &&
+            rl_dist( target_point, get_player_character().pos() ) > min_radius ) {
+            point = target_point;
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * Attempts to spawn a hallucination at given location.
  * Returns false if the hallucination couldn't be spawned for whatever reason, such as
@@ -5151,7 +5174,16 @@ bool game::spawn_hallucination( const tripoint &p )
         }
     }
 
-    const mtype_id &mt = MonsterGenerator::generator().get_valid_hallucination();
+    return spawn_hallucination( p, MonsterGenerator::generator().get_valid_hallucination() );
+}
+/**
+ * Attempts to spawn a hallucination at given location.
+ * Returns false if the hallucination couldn't be spawned for whatever reason, such as
+ * a monster already in the target square.
+ * @return Whether or not a hallucination was successfully spawned.
+ */
+bool game::spawn_hallucination( const tripoint &p, const mtype_id &mt )
+{
     const shared_ptr_fast<monster> phantasm = make_shared_fast<monster>( mt );
     phantasm->hallucination = true;
     phantasm->spawn( p );
@@ -8379,7 +8411,7 @@ static void add_disassemblables( uilist &menu,
                                              it.tname(), stack.second );
             menu.addentry_col( menu_index++, true, hotkey, msg,
                                to_string_clipped( recipe_dictionary::get_uncraft(
-                                       it.typeId() ).time_to_craft() ) );
+                                       it.typeId() ).time_to_craft( get_player_character() ) ) );
             hotkey = -1;
         }
     }
@@ -8681,7 +8713,8 @@ void game::butcher()
             int time_to_disassemble = 0;
             int time_to_disassemble_all = 0;
             for( const auto &stack : disassembly_stacks ) {
-                const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves();
+                const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves(
+                                     get_player_character() );
                 time_to_disassemble += time;
                 time_to_disassemble_all += time * stack.second;
             }
