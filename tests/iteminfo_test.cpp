@@ -1957,7 +1957,8 @@ TEST_CASE( "show available recipes with item as an ingredient", "[iteminfo][reci
     avatar &player_character = get_avatar();
 
     const recipe *purtab = &recipe_id( "pur_tablets" ).obj();
-    recipe_subset &known_recipes = const_cast<recipe_subset &>( player_character.get_learned_recipes() );
+    recipe_subset &known_recipes = const_cast<recipe_subset &>
+                                   ( player_character.get_learned_recipes() );
     known_recipes.clear();
 
     // FIXME: Factor out of final_info
@@ -2330,4 +2331,3 @@ TEST_CASE( "item debug info", "[iteminfo][debug][!mayfail][.]" )
                "Freeze point: <color_c_yellow>32</color>\n" );
     }
 }
-
