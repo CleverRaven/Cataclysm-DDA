@@ -24,7 +24,6 @@ smart_controller_settings::smart_controller_settings( bool &enabled, int &batter
 smart_controller_ui::smart_controller_ui( smart_controller_settings initial_settings ) :
     win( init_window() ), input_ctx( "SMART_ENGINE_CONTROLLER" ), settings( initial_settings )
 {
-
     input_ctx.register_directions();
     input_ctx.register_action( "QUIT" );
     input_ctx.register_action( "CONFIRM" );
@@ -36,10 +35,10 @@ void smart_controller_ui::refresh()
     werase( win );
     draw_border( win );
 
-    const auto gray = c_light_gray;
-    const auto white = c_white;
-    //    const auto green = c_green;
-    const auto lgreen = c_light_green;
+    const nc_color gray = c_light_gray;
+    const nc_color white = c_white;
+    const nc_color lgreen = c_light_green;
+    const nc_color red = c_red;
 
     // header
     const std::string title =  _( "Smart Engine Controller ® Interface" );
@@ -67,18 +66,17 @@ void smart_controller_ui::refresh()
     // print selected % numbers
     std::string battery_low_text = string_format( "%d%%", settings.battery_lo );
     mvwprintz( win, point( LEFT_MARGIN + lo_slider_x - battery_low_text.length() + 1, y + 2 ),
-               selection == 1 && slider == 0 ? hilite( white ) : c_red, battery_low_text );
+               selection == 1 && slider == 0 ? hilite( white ) : red, battery_low_text );
     mvwprintz( win, point( LEFT_MARGIN + hi_slider_x, y + 2 ),
                selection == 1 && slider == 1 ? hilite( white ) : lgreen, "%d%%", settings.battery_hi );
     // draw slider horizontal line
     for( int i = 0; i < SLIDER_W; ++i ) {
-        //        nc_color col = i < lo_slider_x ? c_light_red : (i < hi_slider_x ? c_yellow : green);
         nc_color col = selection == 1 ? white : gray;
         mvwprintz( win, point( LEFT_MARGIN + i, y + 1 ), col, "-" );
     }
     // print LO and HI on the slider line
     std::string lo_text = _( "LO" );
-    mvwprintz( win, point( LEFT_MARGIN + ( lo_slider_x - lo_text.length() ) / 2, y + 1 ), c_red,
+    mvwprintz( win, point( LEFT_MARGIN + ( lo_slider_x - lo_text.length() ) / 2, y + 1 ), red,
                lo_text );
     std::string hi_text = _( "HI" );
     int hi_text_l = hi_text.length();
@@ -86,7 +84,7 @@ void smart_controller_ui::refresh()
                            hi_text_l ) / 2, 1 ), y + 1 ), lgreen, hi_text );
     // print bars on the slider
     mvwprintz( win, point( LEFT_MARGIN + lo_slider_x, y + 1 ), selection == 1 &&
-               slider == 0 ? hilite( white ) : c_red, "|" );
+               slider == 0 ? hilite( white ) : red, "|" );
     mvwprintz( win, point( LEFT_MARGIN + hi_slider_x, y + 1 ), selection == 1 &&
                slider == 1 ? hilite( white ) : lgreen, "|" );
 
@@ -120,7 +118,6 @@ void smart_controller_ui::refresh()
 
 void smart_controller_ui::control()
 {
-
     ui_adaptor ui;
     ui.on_screen_resize( [this]( ui_adaptor & ui ) {
         win = init_window();
@@ -174,5 +171,4 @@ void smart_controller_ui::control()
         }
 
     } while( action != "QUIT" );
-
 }
