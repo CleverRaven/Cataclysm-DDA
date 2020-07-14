@@ -150,8 +150,7 @@ void smart_controller_ui::control()
                         SNIPPET.random_from_category( "smart_engine_controller_manual" ).value_or( translation() );
 
                     scrollable_text( [&] {
-                        win = init_window();
-                        ui.position_from_window( win );
+                        //note: ui.on_screen_resize will be called first and reinit `win`
                         return win;
                     }, _( "Smart Engine Controller ® User Manual" ), manual.translated() );
 
