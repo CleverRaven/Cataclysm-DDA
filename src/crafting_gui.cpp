@@ -26,6 +26,7 @@
 #include "json.h"
 #include "output.h"
 #include "point.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -249,11 +250,13 @@ const recipe *select_crafting_recipe( int &batch_size )
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = simple_req.can_make_with_inventory(
                                        inv, all_items_filter, batch_size, craft_flags::start_only );
+            proficiency_maluses = r->proficiency_maluses( get_player_character() );
         }
         bool can_craft;
         bool can_craft_non_rotten;
         bool apparently_craftable;
         bool has_proficiencies;
+        float proficiency_maluses;
 
         nc_color selected_color() const {
             return can_craft ? can_craft_non_rotten ? h_white : h_brown : h_dark_gray;
@@ -534,6 +537,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 w_data, point( xpos, ypos ), pane, col,
                                 _( "<color_red>Cannot be crafted because the same item is needed "
                                    "for multiple components</color>" ) );
+                }
+                float maluses = available[line].proficiency_maluses;
+                if( maluses != 1.0 ) {
+                    std::string msg = string_format( _( "<color_yellow>This recipe will take %g%% more time "
+                                                        "because you lack some of the proficiencies used." ), maluses * 100 );
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, msg );
                 }
                 if( !can_craft_this && !available[line].has_proficiencies ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,

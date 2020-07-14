@@ -595,6 +595,17 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
     return ret;
 }
 
+float recipe::proficiency_maluses( const Character &guy ) const
+{
+    float malus = 1.0f;
+    for( const recipe_proficiency &prof : proficiencies ) {
+        if( !guy.has_proficiency( prof.id ) ) {
+            malus *= prof.time_multiplier;
+        }
+    }
+    return malus;
+}
+
 // Format a std::pair<skill_id, int> for the crafting menu.
 // skill colored green (or yellow if beyond characters skill)
 // optionally with the skill level (player / difficulty)

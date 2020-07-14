@@ -144,6 +144,8 @@ class recipe
         bool character_has_required_proficiencies( const Character &c ) const;
         // Helpful proficiencies
         std::set<proficiency_id> assist_proficiencies() const;
+        // The time malus due to proficiencies lacking
+        float proficiency_maluses( const Character &guy ) const;
 
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string() const;
