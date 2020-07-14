@@ -18,7 +18,7 @@ TEST_CASE( "No book grant a recipe at skill levels above autolearn", "[recipe]" 
             rec->autolearn_requirements.count( rec->skill_used ) < 1 ) {
             continue;
         }
-        for( const std::pair<std::string, int> &p : rec->booksets ) {
+        for( const auto &p : rec->booksets ) {
             const std::string recipe_ident = rec->ident().str();
             const std::string item_type = rec->result();
             const std::string item_name = item::nname( rec->result() );

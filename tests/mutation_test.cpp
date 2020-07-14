@@ -132,7 +132,7 @@ TEST_CASE( "Having all pre-threshold mutations gives a sensible threshold breach
 static float sum_without_category( const std::map<trait_id, float> &chances, std::string cat )
 {
     float sum = 0.0f;
-    for( const std::pair<trait_id, float> &c : chances ) {
+    for( const auto &c : chances ) {
         const auto &mut_categories = c.first->category;
         if( std::find( mut_categories.begin(), mut_categories.end(), cat ) == mut_categories.end() ) {
             sum += c.second;

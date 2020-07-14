@@ -874,7 +874,7 @@ void Character::mutate()
             std::map<trait_id, float> chances = mutation_chances();
 
             weighted_float_list<trait_id> mutation_picker;
-            for( const std::pair<trait_id, float> &p : chances ) {
+            for( const auto &p : chances ) {
                 mutation_picker.add( p.first, p.second );
             }
 
