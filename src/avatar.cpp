@@ -1586,11 +1586,15 @@ bool avatar::wield( item &target, const int obtain_cost )
 bool avatar::invoke_item( item *used, const tripoint &pt )
 {
     const std::map<std::string, use_function> &use_methods = used->type->use_methods;
+    const int num_methods = use_methods.size();
 
-    if( use_methods.empty() ) {
+    const bool has_relic = used->is_relic();
+    if( use_methods.empty() && !has_relic ) {
         return false;
-    } else if( use_methods.size() == 1 ) {
+    } else if( num_methods == 1 && !has_relic ) {
         return invoke_item( used, use_methods.begin()->first, pt );
+    } else if( num_methods == 0 && has_relic ) {
+        return used->use_relic( *this, pt );
     }
 
     uilist umenu;
@@ -1603,6 +1607,10 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
         umenu.addentry_desc( MENU_AUTOASSIGN, res.success(), MENU_AUTOASSIGN, e.second.get_name(),
                              res.str() );
     }
+    if( has_relic ) {
+        umenu.addentry_desc( MENU_AUTOASSIGN, true, MENU_AUTOASSIGN, _( "Use relic" ),
+                             _( "Activate this relic." ) );
+    }
 
     umenu.desc_enabled = std::any_of( umenu.entries.begin(),
     umenu.entries.end(), []( const uilist_entry & elem ) {
@@ -1612,7 +1620,11 @@ bool avatar::invoke_item( item *used, const tripoint &pt )
     umenu.query();
 
     int choice = umenu.ret;
-    if( choice < 0 || choice >= static_cast<int>( use_methods.size() ) ) {
+    // Use the relic
+    if( choice == num_methods ) {
+        return used->use_relic( *this, pt );
+    }
+    if( choice < 0 || choice >= num_methods ) {
         return false;
     }
 
