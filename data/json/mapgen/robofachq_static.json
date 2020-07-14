@@ -179,11 +179,10 @@
         "E": "t_elevator_control",
         "Y": "t_thconc_floor_olight",
         "#": "t_rock",
-        "6": "t_console",
         "R": "t_railing",
         "W": "t_water_dispenser"
       },
-      "furniture": { ":": "f_server", "K": "f_counter", "H": "f_armchair", "L": "f_locker", "f": "f_filing_cabinet" },
+      "furniture": { "6": "f_console", ":": "f_server", "K": "f_counter", "H": "f_armchair", "L": "f_locker", "f": "f_filing_cabinet" },
       "item": { "A": { "item": "american_flag" } },
       "items": {
         "F": { "item": "fridge", "chance": 80 },
@@ -284,11 +283,11 @@
         "E": "t_elevator_control",
         "Y": "t_thconc_floor_olight",
         "#": "t_rock",
-        "6": "t_console",
         "R": "t_railing",
         "W": "t_water_dispenser"
       },
       "furniture": {
+        "6": "f_console",
         "K": "f_counter",
         "M": "f_counter",
         "S": "f_table",
@@ -401,14 +400,11 @@
         "E": "t_elevator_control",
         "Y": "t_thconc_floor_olight",
         "#": "t_rock",
-        "6": "t_console",
         "R": "t_railing",
-        "9": "t_conveyor",
-        "7": "t_machinery_light",
-        "8": "t_machinery_heavy",
-        "&": "t_machinery_electronic"
+        "9": "t_conveyor"
       },
       "furniture": {
+        "6": "f_console",
         "K": "f_counter",
         "S": "f_table",
         "A": "f_canvas_wall",
@@ -417,7 +413,10 @@
         "M": "f_server",
         "E": [ "f_ergometer", "f_ergometer_mechanical" ],
         "T": [ "f_treadmill", "f_treadmill_mechanical" ],
-        "X": "f_exercise"
+        "X": "f_exercise",
+        "7": "f_machinery_light",
+        "8": "f_machinery_heavy",
+        "&": "f_machinery_electronic"
       },
       "items": {
         "S": [
@@ -537,15 +536,8 @@
         "################################################################################################"
       ],
       "palettes": [ "robofachq" ],
-      "terrain": {
-        "-": "t_wall_metal",
-        "e": "t_elevator",
-        "E": "t_elevator_control",
-        "Y": "t_thconc_floor_olight",
-        "#": "t_rock",
-        "6": "t_console"
-      },
-      "furniture": { ":": "f_server", "K": "f_counter" },
+      "terrain": { "-": "t_wall_metal", "e": "t_elevator", "E": "t_elevator_control", "Y": "t_thconc_floor_olight", "#": "t_rock" },
+      "furniture": { "6": "f_console", ":": "f_server", "K": "f_counter" },
       "items": { "r": [ { "item": "electronics", "chance": 75, "repeat": [ 1, 5 ] } ] }
     }
   },
@@ -615,9 +607,9 @@
         "w": "t_water_pool_shallow",
         "E": "t_elevator_control",
         "Y": "t_thconc_floor_olight",
-        "#": "t_rock",
-        "6": "t_console"
+        "#": "t_rock"
       },
+      "furniture": { "6": "f_console" },
       "items": {
         "B": [
           { "item": "magazines", "chance": 75, "repeat": [ 1, 5 ] },

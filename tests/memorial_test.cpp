@@ -50,7 +50,7 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
     }
 }
 
-TEST_CASE( "memorials" )
+TEST_CASE( "memorials", "[memorial]" )
 {
     memorial_logger &m = g->memorial();
     m.clear();
@@ -283,4 +283,50 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::uses_debug_menu>(
         m, b, "Used the debug menu (WISH).", debug_menu::debug_menu_index::WISH );
+}
+
+TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
+{
+    // Verify that the old format can be transformed into the new format
+    const std::string input =
+        "| Year 1, Spring, day 0 0800.00 | prison | Hubert 'Daffy' Mullin began their journey into the Cataclysm.\n"
+        "| Year 1, Spring, day 0 0800.05 | prison | Gained the mutation 'Debug Invincibility'.\n";
+    const std::string json_value =
+        R"([{"preformatted":"| Year 1, Spring, day 0 0800.00 | prison | Hubert 'Daffy' Mullin began their journey into the Cataclysm."},{"preformatted":"| Year 1, Spring, day 0 0800.05 | prison | Gained the mutation 'Debug Invincibility'."}])";
+
+    memorial_logger logger;
+    {
+        std::istringstream is( input );
+        logger.load( is );
+        std::ostringstream os;
+        logger.save( os );
+        CHECK( os.str() == json_value );
+    }
+
+    // Then verify that the new format is unchanged
+    {
+        std::istringstream is( json_value );
+        logger.load( is );
+        std::ostringstream os;
+        logger.save( os );
+        CHECK( os.str() == json_value );
+    }
+
+    // Finally, verify that dump matches legacy input
+    CHECK( logger.dump() == input );
+}
+
+TEST_CASE( "memorial_log_dumping", "[memorial]" )
+{
+    // An example log file with one legacy and one "modern" entry
+    const std::string json_value =
+        R"([{"preformatted":"| Year 1, Spring, day 0 0800.00 | refugee center | Apolonia Trout began their journey into the Cataclysm."},{"time":15614,"oter_id":"cabin_isherwood","oter_name":"forest","message":"Used the debug menu (ENABLE_ACHIEVEMENTS)."}])";
+    const std::string expected_output =
+        "| Year 1, Spring, day 0 0800.00 | refugee center | Apolonia Trout began their journey into the Cataclysm.\n"
+        "| Year 1, Spring, day 1 4:20:14 AM | forest | Used the debug menu (ENABLE_ACHIEVEMENTS).\n";
+
+    memorial_logger logger;
+    std::istringstream is( json_value );
+    logger.load( is );
+    CHECK( logger.dump() == expected_output );
 }

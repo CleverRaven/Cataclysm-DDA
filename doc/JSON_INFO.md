@@ -886,6 +886,17 @@ Example:
 ]
 ```
 
+#### `proficiencies`
+
+(optional, array of proficiency ids)
+
+List of starting proficiency ids.
+
+Example:
+```json
+"proficiencies": [ "prof_knapping" ]
+```
+
 Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:skills" and "remove:skills", removing requires only the skill id. Example:
 ```C++
 {
@@ -1022,6 +1033,14 @@ Mods can modify this via `add:traits` and `remove:traits`.
     [ "survival", 1 ],
     [ "fabrication", 2 ]
 ],
+"proficiencies" : [ // The proficiencies related to this recipe
+    {
+      "proficiency": "prof_knapping", // The id of a proficiency
+      "required": false, // Whether or not you must have the proficiency to craft it. Incompatible with `time_multiplier`
+      "time_multiplier": 2.0 // The multiplier on time taken to craft this recipe if you do not have this proficiency
+      "fail_multiplier": 2.5 // The multiplier on failure chance when crafting without this proficiency. Defaults to 2.5. Multiple proficiencies will multiply this value. (if all have the default, it's fail_multiplier ^ n, where n is the number of proficiencies that are lacked)
+    }
+]
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",

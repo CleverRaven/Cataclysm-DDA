@@ -1559,8 +1559,7 @@ class jmapgen_computer : public jmapgen_piece
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             const point r( x.get(), y.get() );
-            dat.m.ter_set( r, t_console );
-            dat.m.furn_set( r, f_null );
+            dat.m.furn_set( r, furn_str_id( "f_console" ) );
             computer *cpu = dat.m.add_computer( tripoint( r, dat.m.get_abs_sub().z ), name.translated(),
                                                 security );
             for( const auto &opt : options ) {
@@ -4373,7 +4372,7 @@ void map::draw_lab( mapgendata &dat )
                     line( this, t_reinforced_glass, point( SEEX - 2, SEEY - 1 ), point( SEEX - 2, SEEY ) );
                     line( this, t_reinforced_glass, point( SEEX + 1, SEEY - 1 ), point( SEEX + 1, SEEY ) );
                     spawn_item( point( SEEX - 4, SEEY - 3 ), "id_science" );
-                    ter_set( point( SEEX - 3, SEEY - 3 ), t_console );
+                    furn_set( point( SEEX - 3, SEEY - 3 ), furn_str_id( "f_console" ) );
                     tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z ),
                                             _( "Bionic access" ), 3 );
                     tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
@@ -5136,7 +5135,7 @@ void map::draw_mine( mapgendata &dat )
                         break;
                 }
 
-                ter_set( point( SEEX, SEEY ), t_console );
+                furn_set( point( SEEX, SEEY ), furn_str_id( "f_console" ) );
                 tmpcomp = add_computer( tripoint( SEEX,  SEEY, abs_sub.z ), _( "NEPowerOS" ), 0 );
                 tmpcomp->add_option( _( "Read Logs" ), COMPACT_AMIGARA_LOG, 0 );
                 tmpcomp->add_option( _( "Initiate Tremors" ), COMPACT_AMIGARA_START, 4 );
@@ -5988,7 +5987,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )
 {
     // TODO: Turn this off?
-    ter_set( p, t_console );
+    furn_set( p, furn_str_id( "f_console" ) );
     point l;
     submap *const place_on_submap = get_submap_at( p, l );
     place_on_submap->set_computer( l, computer( name, security ) );
@@ -6372,7 +6371,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
                                 calendar::start_of_cataclysm );
 
-                m->ter_set( point( biox, bioy + 2 ), t_console );
+                m->furn_set( point( biox, bioy + 2 ), furn_str_id( "f_console" ) );
                 computer *tmpcomp = m->add_computer( tripoint( biox,  bioy + 2, z ), _( "Bionic access" ), 2 );
                 tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6391,7 +6390,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
                                 calendar::start_of_cataclysm );
 
-                m->ter_set( point( biox, bioy - 2 ), t_console );
+                m->furn_set( point( biox, bioy - 2 ), furn_str_id( "f_console" ) );
                 computer *tmpcomp2 = m->add_computer( tripoint( biox,  bioy - 2, z ), _( "Bionic access" ), 2 );
                 tmpcomp2->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp2->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6411,7 +6410,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
                                 calendar::start_of_cataclysm );
 
-                m->ter_set( point( biox + 2, bioy ), t_console );
+                m->furn_set( point( biox + 2, bioy ), furn_str_id( "f_console" ) );
                 computer *tmpcomp = m->add_computer( tripoint( biox + 2,  bioy, z ), _( "Bionic access" ), 2 );
                 tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6429,7 +6428,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false, 0 );
 
-                m->ter_set( point( biox - 2, bioy ), t_console );
+                m->furn_set( point( biox - 2, bioy ), furn_str_id( "f_console" ) );
                 computer *tmpcomp2 = m->add_computer( tripoint( biox - 2,  bioy, z ), _( "Bionic access" ), 2 );
                 tmpcomp2->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp2->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6577,7 +6576,7 @@ void build_mine_room( room_type type, const point &p1, const point &p2, mapgenda
     // Main build switch!
     switch( type ) {
         case room_mine_shaft: {
-            m->ter_set( p1 + point_south_east, t_console );
+            m->furn_set( p1 + point_south_east, furn_str_id( "f_console" ) );
             line( m, t_wall, point( p2.x - 2, p1.y + 2 ), point( p2.x - 1, p1.y + 2 ) );
             m->ter_set( point( p2.x - 2, p1.y + 1 ), t_elevator );
             m->ter_set( point( p2.x - 1, p1.y + 1 ), t_elevator_control_off );

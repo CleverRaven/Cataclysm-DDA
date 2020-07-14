@@ -256,6 +256,7 @@ class inventory_column
         /**
          * Can this column be activated?
          * @return Whether the column contains selectable entries.
+         * Note: independent from 'allows_selecting'
          */
         virtual bool activatable() const;
         /** Is this column visible? */
@@ -265,9 +266,10 @@ class inventory_column
         /**
          * Does this column allow selecting?
          * "Cosmetic" columns (list of selected items) can explicitly prohibit selecting.
+         * Note: independent from 'activatable'
          */
         virtual bool allows_selecting() const {
-            return activatable();
+            return true;
         }
 
         size_t page_index() const {

@@ -1208,7 +1208,7 @@
     "to_hit": -5,
     "bashing": 2,
     "material": [ "aluminum", "steel", "plastic" ],
-    "looks_like": "t_centrifuge",
+    "looks_like": "f_centrifuge",
     "symbol": "n",
     "color": "white",
     "ammo": [ "battery" ],

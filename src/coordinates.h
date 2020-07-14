@@ -298,12 +298,22 @@ inline coord_point<Point, Origin, ResultScale> project_to(
     return project_to_impl<scale_up, scale_down, ResultScale>()( src );
 }
 
-template<typename Point, origin Origin, scale CoarseScale, scale FineScale>
-struct quotient_remainder {
+template<origin Origin, scale CoarseScale, scale FineScale>
+struct quotient_remainder_helper {
     constexpr static origin RemainderOrigin = origin_from_scale( CoarseScale );
-    using quotient_type = coord_point<Point, Origin, CoarseScale>;
+    using quotient_type = coord_point<point, Origin, CoarseScale>;
+    using quotient_type_tripoint = coord_point<tripoint, Origin, CoarseScale>;
+    using remainder_type = coord_point<point, RemainderOrigin, FineScale>;
+    using remainder_type_tripoint = coord_point<tripoint, RemainderOrigin, FineScale>;
+};
+
+template<origin Origin, scale CoarseScale, scale FineScale>
+struct quotient_remainder_point {
+    using helper = quotient_remainder_helper<Origin, CoarseScale, FineScale>;
+    using quotient_type = typename helper::quotient_type;
+    using remainder_type = typename helper::remainder_type;
+
     quotient_type quotient;
-    using remainder_type = coord_point<Point, RemainderOrigin, FineScale>;
     remainder_type remainder;
 
     // For assigning to std::tie( q, r );
@@ -312,19 +322,92 @@ struct quotient_remainder {
     }
 };
 
-template<scale ResultScale, typename Point, origin Origin, scale SourceScale>
-inline quotient_remainder<Point, Origin, ResultScale, SourceScale> project_remain(
-    const coord_point<Point, Origin, SourceScale> &src )
+template<origin Origin, scale CoarseScale, scale FineScale>
+struct quotient_remainder_tripoint {
+    using helper = quotient_remainder_helper<Origin, CoarseScale, FineScale>;
+    using quotient_type = typename helper::quotient_type;
+    using quotient_type_tripoint = typename helper::quotient_type_tripoint;
+    using remainder_type = typename helper::remainder_type;
+    using remainder_type_tripoint = typename helper::remainder_type_tripoint;
+
+    // Annoyingly, for the conversion operators below to work correctly, we
+    // need to have point and tripoint version of both quotient and remainder
+    // ready here, so that we can take references to any of them.
+    // Luckily the entire lifetime of this struct should be pretty short, so
+    // the compiler can do its magic to remove the overhead of initializing the
+    // ones that don't actually get used.
+    quotient_type quotient;
+    remainder_type remainder;
+    quotient_type_tripoint quotient_tripoint;
+    remainder_type_tripoint remainder_tripoint;
+
+    // For assigning to std::tie( q, r );
+    // Exactly one of the two resulting types should be a tripoint, so that the
+    // z-coordinate doesn't get duplicated.
+    operator std::tuple<quotient_type_tripoint &, remainder_type &>() {
+        return std::tie( quotient_tripoint, remainder );
+    }
+    operator std::tuple<quotient_type &, remainder_type_tripoint &>() {
+        return std::tie( quotient, remainder_tripoint );
+    }
+};
+
+// project_remain returns a helper struct, intended to be used with std::tie
+// to pull out the two components of the result.
+// For exmaple, when splitting a point:
+//  point_abs_sm val;
+//  point_abs_om quotient;
+//  point_om_sm remainder;
+//  std::tie( quotient, remainder ) = project_remain<coords::om>( val );
+// If passing a tripoint to project_remain, you must choose exactly one of the
+// quotient or remainder to get the z coordinate.  Both of these should work:
+//  tripoint_abs_sm val;
+//  tripoint_abs_om quotient;
+//  point_om_sm remainder;
+//  std::tie( quotient, remainder ) = project_remain<coords::om>( val );
+//
+//  point_abs_om quotient;
+//  tripoint_om_sm remainder;
+//  std::tie( quotient, remainder ) = project_remain<coords::om>( val );
+template<scale ResultScale, origin Origin, scale SourceScale>
+inline quotient_remainder_point<Origin, ResultScale, SourceScale> project_remain(
+    const coord_point<point, Origin, SourceScale> &src )
 {
     constexpr int ScaleDown = map_squares_per( ResultScale ) / map_squares_per( SourceScale );
     static_assert( ScaleDown > 0, "You can only project to coarser coordinate systems" );
     constexpr static origin RemainderOrigin = origin_from_scale( ResultScale );
-    coord_point<Point, Origin, ResultScale> quotient(
+    coord_point<point, Origin, ResultScale> quotient(
         divide_xy_round_to_minus_infinity( src.raw(), ScaleDown ) );
-    coord_point<Point, RemainderOrigin, SourceScale> remainder(
+    coord_point<point, RemainderOrigin, SourceScale> remainder(
         src.raw() - quotient.raw() * ScaleDown );
 
     return { quotient, remainder };
+}
+
+template<scale ResultScale, origin Origin, scale SourceScale>
+inline quotient_remainder_tripoint<Origin, ResultScale, SourceScale> project_remain(
+    const coord_point<tripoint, Origin, SourceScale> &src )
+{
+    quotient_remainder_point<Origin, ResultScale, SourceScale> point_result =
+        project_remain<ResultScale>( src.xy() );
+    return { point_result.quotient, point_result.remainder,
+        { point_result.quotient, src.z() }, { point_result.remainder, src.z() } };
+}
+
+template<typename PointL, typename PointR, origin CoarseOrigin, scale CoarseScale,
+         origin FineOrigin, scale FineScale>
+inline auto project_combine(
+    const coord_point<PointL, CoarseOrigin, CoarseScale> &coarse,
+    const coord_point<PointR, FineOrigin, FineScale> &fine )
+{
+    static_assert( origin_from_scale( CoarseScale ) == FineOrigin,
+                   "given point types are not compatible for combination" );
+    static_assert( PointL::dimension != 3 || PointR::dimension != 3,
+                   "two tripoints should not be combined; it's unclear how to handle z" );
+    using PointResult = decltype( PointL() + PointR() );
+    const coord_point<PointL, CoarseOrigin, FineScale> refined_coarse =
+        project_to<FineScale>( coarse );
+    return coord_point<PointResult, CoarseOrigin, FineScale>( refined_coarse.raw() + fine.raw() );
 }
 
 } // namespace coords
@@ -370,6 +453,7 @@ using tripoint_abs_ms = coords::coord_point<tripoint, coords::origin::abs, coord
 using tripoint_sm_ms = coords::coord_point<tripoint, coords::origin::submap, coords::ms>;
 using tripoint_omt_ms = coords::coord_point<tripoint, coords::origin::overmap_terrain, coords::ms>;
 using tripoint_abs_sm = coords::coord_point<tripoint, coords::origin::abs, coords::sm>;
+using tripoint_om_sm = coords::coord_point<tripoint, coords::origin::overmap, coords::sm>;
 using tripoint_abs_omt = coords::coord_point<tripoint, coords::origin::abs, coords::omt>;
 using tripoint_abs_seg = coords::coord_point<tripoint, coords::origin::abs, coords::seg>;
 using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coords::om>;
@@ -377,6 +461,7 @@ using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coord
 
 using coords::project_to;
 using coords::project_remain;
+using coords::project_combine;
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
 std::vector<coords::coord_point<Point, Origin, Scale>>

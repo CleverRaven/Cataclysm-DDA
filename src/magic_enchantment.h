@@ -14,6 +14,7 @@
 #include "magic.h"
 #include "optional.h"
 #include "type_id.h"
+#include "units.h"
 
 class Character;
 class Creature;
@@ -41,19 +42,17 @@ enum class mod : int {
     REGEN_STAMINA,
     MAX_HP,        // for all limbs! use with caution
     REGEN_HP,
-    THIRST,        // cost or regen over time
-    FATIGUE,       // cost or regen over time
+    THIRST,        // thirst rate
+    FATIGUE,       // fatigue rate
     PAIN,          // cost or regen over time
     BONUS_DODGE,
     BONUS_BLOCK,
     BONUS_DAMAGE,
     ATTACK_NOISE,
-    SPELL_NOISE,
     SHOUT_NOISE,
     FOOTSTEP_NOISE,
     SIGHT_RANGE,
     CARRY_WEIGHT,
-    CARRY_VOLUME,
     SOCIAL_LIE,
     SOCIAL_PERSUADE,
     SOCIAL_INTIMIDATE,
@@ -138,6 +137,8 @@ class enchantment
         double get_value_multiply( enchant_vals::mod value ) const;
         // the standard way of modifying a value, adds then multiplies.
         double modify_value( enchant_vals::mod mod_val, double value ) const;
+        units::energy modify_value( enchant_vals::mod mod_val, units::energy value ) const;
+        units::mass modify_value( enchant_vals::mod mod_val, units::mass value ) const;
 
         // this enchantment has a valid condition and is in the right location
         bool is_active( const Character &guy, const item &parent ) const;

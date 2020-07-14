@@ -73,12 +73,10 @@ namespace io
             case enchant_vals::mod::BONUS_BLOCK: return "BONUS_BLOCK";
             case enchant_vals::mod::BONUS_DODGE: return "BONUS_DODGE";
             case enchant_vals::mod::ATTACK_NOISE: return "ATTACK_NOISE";
-            case enchant_vals::mod::SPELL_NOISE: return "SPELL_NOISE";
             case enchant_vals::mod::SHOUT_NOISE: return "SHOUT_NOISE";
             case enchant_vals::mod::FOOTSTEP_NOISE: return "FOOTSTEP_NOISE";
             case enchant_vals::mod::SIGHT_RANGE: return "SIGHT_RANGE";
             case enchant_vals::mod::CARRY_WEIGHT: return "CARRY_WEIGHT";
-            case enchant_vals::mod::CARRY_VOLUME: return "CARRY_VOLUME";
             case enchant_vals::mod::SOCIAL_LIE: return "SOCIAL_LIE";
             case enchant_vals::mod::SOCIAL_PERSUADE: return "SOCIAL_PERSUADE";
             case enchant_vals::mod::SOCIAL_INTIMIDATE: return "SOCIAL_INTIMIDATE";
@@ -395,6 +393,22 @@ double enchantment::get_value_multiply( const enchant_vals::mod value ) const
 double enchantment::modify_value( const enchant_vals::mod mod_val, double value ) const
 {
     value += get_value_add( mod_val );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+units::energy enchantment::modify_value( const enchant_vals::mod mod_val,
+        units::energy value ) const
+{
+    value += units::from_millijoule<int>( get_value_add( mod_val ) );
+    value *= 1.0 + get_value_multiply( mod_val );
+    return value;
+}
+
+units::mass enchantment::modify_value( const enchant_vals::mod mod_val,
+                                       units::mass value ) const
+{
+    value += units::from_gram<int>( get_value_add( mod_val ) );
     value *= 1.0 + get_value_multiply( mod_val );
     return value;
 }

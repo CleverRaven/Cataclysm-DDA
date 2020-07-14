@@ -10,7 +10,7 @@
       "^": "t_glass_roof",
       "1": "t_metal_railing",
       "%": "t_grate",
-      ",": "t_grass",
+      ",": "t_region_groundcover_urban",
       "-": "t_concrete_wall",
       "|": "t_concrete_wall",
       "+": "t_door_glass_c",
@@ -23,10 +23,10 @@
       "W": "t_sidewalk",
       "<": "t_stairs_up",
       ">": "t_stairs_down",
-      "6": "t_console_broken",
       "Y": "t_switchgear_s"
     },
     "furniture": {
+      "6": "f_console_broken",
       "a": "f_armchair",
       "A": "f_sofa",
       "b": "f_bookcase",
@@ -1989,7 +1989,7 @@
       ],
       "rotation": 1,
       "palettes": [ "megastore" ],
-      "terrain": { "%": "t_machinery_heavy" }
+      "furniture": { "%": "f_machinery_heavy" }
     }
   },
   {

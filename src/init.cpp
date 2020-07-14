@@ -69,6 +69,7 @@
 #include "overmap_connection.h"
 #include "overmap_location.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "regional_settings.h"
@@ -215,6 +216,7 @@ void DynamicDataLoader::initialize()
     add( "bionic", &bionic_data::load_bionic );
     add( "profession", &profession::load_profession );
     add( "profession_item_substitutions", &profession::load_item_substitutions );
+    add( "proficiency", &proficiency::load_proficiencies );
     add( "skill", &Skill::load_skill );
     add( "skill_display_type", &SkillDisplayType::load );
     add( "dream", &dream::load );
@@ -524,6 +526,7 @@ void DynamicDataLoader::unload_data()
     overmap_specials::reset();
     overmap_terrains::reset();
     profession::reset();
+    proficiency::reset();
     quality::reset();
     reset_monster_adjustment();
     recipe_dictionary::reset();

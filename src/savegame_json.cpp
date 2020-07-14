@@ -557,6 +557,11 @@ void Character::load( const JsonObject &data )
     body_wetness.fill( 0 );
     data.read( "body_wetness", body_wetness );
 
+    // Remove check after 0.F
+    if( savegame_loading_version >= 30 ) {
+        data.read( "proficiencies", _proficiencies );
+    }
+
     //energy
     data.read( "stim", stim );
     data.read( "stamina", stamina );
@@ -570,6 +575,10 @@ void Character::load( const JsonObject &data )
         const auto &tid = *it;
         if( tid.is_valid() ) {
             ++it;
+            // Remove after 0.F
+        } else if( tid == trait_id( "PROF_HELI_PILOT" ) ) {
+            it = my_traits.erase( it );
+            add_proficiency( proficiency_id( "prof_helicopter_pilot" ) );
         } else {
             debugmsg( "character %s has invalid trait %s, it will be ignored", name, tid.c_str() );
             my_traits.erase( it++ );
@@ -601,6 +610,10 @@ void Character::load( const JsonObject &data )
             on_mutation_gain( mid );
             cached_mutations.push_back( &mid.obj() );
             ++it;
+            // Remove after 0.F
+        } else if( mid == trait_id( "PROF_HELI_PILOT" ) ) {
+            it = my_mutations.erase( it );
+            add_proficiency( proficiency_id( "prof_helicopter_pilot" ) );
         } else {
             debugmsg( "character %s has invalid mutation %s, it will be ignored", name, mid.c_str() );
             it = my_mutations.erase( it );
@@ -868,6 +881,8 @@ void Character::store( JsonOut &json ) const
         json.member( pair.first.str(), pair.second );
     }
     json.end_object();
+
+    json.member( "proficiencies", _proficiencies );
 
     // npc; unimplemented
     if( power_level < 1_J ) {

@@ -415,7 +415,7 @@ void game::chat()
 
     if( g->u.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
             g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
-        g->u.add_msg_if_player( m_warning, _( "You can't speak without your face!" ) );
+        add_msg( m_warning, _( "You can't speak without your face!" ) );
         return;
     }
     std::vector<vehicle *> animal_vehicles;

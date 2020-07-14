@@ -221,6 +221,7 @@ void profession::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "addictions", _starting_addictions, addiction_reader {} );
     // TODO: use string_id<bionic_type> or so
     optional( jo, was_loaded, "CBMs", _starting_CBMs, auto_flags_reader<bionic_id> {} );
+    optional( jo, was_loaded, "proficiencies", _starting_proficiencies );
     // TODO: use string_id<mutation_branch> or so
     optional( jo, was_loaded, "traits", _starting_traits, auto_flags_reader<trait_id> {} );
     optional( jo, was_loaded, "forbidden_traits", _forbidden_traits, auto_flags_reader<trait_id> {} );
@@ -296,6 +297,12 @@ void profession::check_definition() const
     for( const auto &a : _starting_CBMs ) {
         if( !a.is_valid() ) {
             debugmsg( "bionic %s for profession %s does not exist", a.c_str(), id.c_str() );
+        }
+    }
+
+    for( const proficiency_id &pid : _starting_proficiencies ) {
+        if( !pid.is_valid() ) {
+            debugmsg( "proficiency %s for profession %s does not exist", pid.str(), id.str() );
         }
     }
 
@@ -460,6 +467,11 @@ std::vector<addiction> profession::addictions() const
 std::vector<bionic_id> profession::CBMs() const
 {
     return _starting_CBMs;
+}
+
+std::vector<proficiency_id> profession::proficiencies() const
+{
+    return _starting_proficiencies;
 }
 
 std::vector<trait_id> profession::get_locked_traits() const
