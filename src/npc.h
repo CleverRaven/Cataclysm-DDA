@@ -961,7 +961,7 @@ class npc : public player
         bool has_painkiller();
         bool took_painkiller() const;
         void use_painkiller();
-        void activate_item( int item_index );
+        void activate_item( item &it );
         bool has_identified( const itype_id & ) const override {
             return true;
         }

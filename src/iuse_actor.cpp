@@ -2894,7 +2894,7 @@ static bool damage_item( player &pl, item_location &fix )
     if( destroyed ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
         if( fix.where() == item_location::type::character ) {
-            pl.i_rem_keep_contents( pl.get_item_position( fix.get_item() ) );
+            pl.i_rem_keep_contents( fix.get_item() );
         } else {
             for( const item *it : fix->contents.all_items_top() ) {
                 put_into_vehicle_or_drop( pl, item_drop_reason::deliberate, { *it }, fix.position() );
@@ -4386,7 +4386,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                              mod.tname( 1, false ), startdurability, resultdurability );
         if( destroyed ) {
             p.add_msg_if_player( m_bad, _( "You destroy it!" ) );
-            p.i_rem_keep_contents( p.get_item_position( &mod ) );
+            p.i_rem_keep_contents( &mod );
         }
         return thread_needed / 2;
     } else if( rn <= 10 ) {
