@@ -95,7 +95,8 @@
     "traits": [
       { "group": "trait_mutant_npc_common" },
       { "group": "trait_group_migo" },
-      { "distribution": [ { "group": "trait_group_migo_nonthres" }, { "group": "trait_group_migo_postthres" } ] }
+      { "distribution": [ { "group": "trait_group_migo_nonthres" }, { "group": "trait_group_migo_postthres" } ] },
+      [ "BGSS_Whately" ]
     ]
   }
 ]
