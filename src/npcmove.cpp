@@ -3197,8 +3197,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
         }
         weight_dropped += slice[index]->front().weight();
         volume_dropped += slice[index]->front().volume();
-        //item dropped = i_rem( index );
-        item dropped = item();
+        item dropped = i_rem( &i_at( index ) );
         num_items_dropped++;
         if( num_items_dropped == 1 ) {
             item_name += dropped.tname();
