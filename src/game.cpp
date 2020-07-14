@@ -278,7 +278,7 @@ static void achievement_attained( const achievement *a, bool achievements_enable
 {
     if( achievements_enabled ) {
         add_msg( m_good, _( "You completed the achievement \"%s\"." ),
-                                a->name() );
+                 a->name() );
     }
     g->events().send<event_type::player_gets_achievement>( a->id, achievements_enabled );
 }
@@ -3530,7 +3530,7 @@ static shared_ptr_fast<game::draw_callback_t> create_zone_callback(
             avatar &player_character = get_avatar();
             const point offset2( player_character.view_offset.xy() +
                                  point( player_character.posx() - getmaxx( g->w_terrain ) / 2,
-                                 player_character.posy() - getmaxy( g->w_terrain ) / 2 ) );
+                                        player_character.posy() - getmaxy( g->w_terrain ) / 2 ) );
 
             tripoint offset;
 #if defined(TILES)
@@ -3947,7 +3947,8 @@ void game::draw_minimap()
     }
 
     Character &player_character = get_player_character();
-    const int sight_points = player_character.overmap_sight_range( g->light_level( player_character.posz() ) );
+    const int sight_points = player_character.overmap_sight_range( g->light_level(
+                                 player_character.posz() ) );
     for( int i = -3; i <= 3; i++ ) {
         for( int j = -3; j <= 3; j++ ) {
             if( i > -3 && i < 3 && j > -3 && j < 3 ) {
@@ -10750,7 +10751,7 @@ void game::vertical_move( int movez, bool force, bool peeking )
             if( ladder && !critter.climbs() ) {
                 continue;
             }
-	    Creature *target = critter.attack_target();
+            Creature *target = critter.attack_target();
             if( ( target && target->is_avatar() ) || ( !critter.has_effect( effect_ridden ) &&
                     critter.has_effect( effect_pet ) && critter.friendly == -1 &&
                     !critter.has_effect( effect_tied ) ) ) {
