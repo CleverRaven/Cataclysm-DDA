@@ -681,41 +681,42 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "--\n"
                "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n" );
 
-        REQUIRE( longshirt.get_avg_encumber( g->u ) == 3 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "torso" ) ) == 3 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "arm_l" ) ) == 3 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "arm_r" ) ) == 3 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "leg_l" ) ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "leg_r" ) ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "hand_l" ) ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "hand_r" ) ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "head" ) ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "mouth" ) ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "foot_l" ) ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "foot_r" ) ) == 0 );
+        REQUIRE( longshirt.get_avg_encumber( get_player_character() ) == 3 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "torso" ) ) == 3 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "arm_l" ) ) == 3 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "arm_r" ) ) == 3 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "leg_l" ) ) == 0 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "leg_r" ) ) == 0 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "hand_l" ) ) == 0 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "hand_r" ) ) == 0 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "head" ) ) == 0 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "mouth" ) ) == 0 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "foot_l" ) ) == 0 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "foot_r" ) ) == 0 );
 
-        REQUIRE( longshirt.get_avg_encumber( g->u, item::encumber_flags::assume_full ) == 3 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "torso" ),
+        REQUIRE( longshirt.get_avg_encumber( get_player_character(),
+                                             item::encumber_flags::assume_full ) == 3 );
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "torso" ),
                                          item::encumber_flags::assume_full ) == 3 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "arm_l" ),
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "arm_l" ),
                                          item::encumber_flags::assume_full ) == 3 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "arm_r" ),
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "arm_r" ),
                                          item::encumber_flags::assume_full ) == 3 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "leg_l" ),
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "leg_l" ),
                                          item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "leg_r" ),
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "leg_r" ),
                                          item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "hand_l" ),
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "hand_l" ),
                                          item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "hand_r" ),
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "hand_r" ),
                                          item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "head" ),
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "head" ),
                                          item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "mouth" ),
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "mouth" ),
                                          item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "foot_l" ),
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "foot_l" ),
                                          item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( longshirt.get_encumber( g->u, bodypart_id( "foot_r" ),
+        REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "foot_r" ),
                                          item::encumber_flags::assume_full ) == 0 );
 
 
@@ -745,45 +746,46 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         REQUIRE( swat_armor.get_coverage( bodypart_id( "hand_r" ) ) == 0 );
         REQUIRE( swat_armor.get_coverage( bodypart_id( "hand_l" ) ) == 0 );
 
-        REQUIRE( swat_armor.get_avg_encumber( g->u ) == 12 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "torso" ) ) == 12 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "leg_l" ) ) == 12 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "leg_r" ) ) == 12 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "arm_l" ) ) == 12 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "arm_r" ) ) == 12 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "head" ) ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "foot_l" ) ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "foot_r" ) ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "eyes" ) ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "mouth" ) ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "hand_l" ) ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "hand_r" ) ) == 0 );
+        REQUIRE( swat_armor.get_avg_encumber( get_player_character() ) == 12 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "torso" ) ) == 12 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "leg_l" ) ) == 12 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "leg_r" ) ) == 12 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "arm_l" ) ) == 12 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "arm_r" ) ) == 12 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "head" ) ) == 0 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "foot_l" ) ) == 0 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "foot_r" ) ) == 0 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "eyes" ) ) == 0 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "mouth" ) ) == 0 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "hand_l" ) ) == 0 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "hand_r" ) ) == 0 );
 
 
-        REQUIRE( swat_armor.get_avg_encumber( g->u, item::encumber_flags::assume_full ) == 25 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "torso" ),
+        REQUIRE( swat_armor.get_avg_encumber( get_player_character(),
+                                              item::encumber_flags::assume_full ) == 25 );
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "torso" ),
                                           item::encumber_flags::assume_full ) == 25 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "leg_l" ),
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "leg_l" ),
                                           item::encumber_flags::assume_full ) == 25 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "leg_r" ),
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "leg_r" ),
                                           item::encumber_flags::assume_full ) == 25 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "arm_l" ),
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "arm_l" ),
                                           item::encumber_flags::assume_full ) == 25 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "arm_r" ),
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "arm_r" ),
                                           item::encumber_flags::assume_full ) == 25 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "foot_l" ),
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "foot_l" ),
                                           item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "foot_r" ),
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "foot_r" ),
                                           item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "head" ),
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "head" ),
                                           item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "eyes" ),
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "eyes" ),
                                           item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "mouth" ),
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "mouth" ),
                                           item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "hand_l" ),
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "hand_l" ),
                                           item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( swat_armor.get_encumber( g->u, bodypart_id( "hand_r" ),
+        REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "hand_r" ),
                                           item::encumber_flags::assume_full ) == 0 );
 
         // Test copy-from
@@ -802,41 +804,42 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "hand_l" ) ) == 0 );
         REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "hand_r" ) ) == 0 );
 
-        REQUIRE( faux_fur_pants.get_avg_encumber( g->u ) == 16 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "leg_l" ) ) == 16 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "leg_r" ) ) == 16 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "arm_l" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "arm_r" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "foot_r" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "foot_l" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "head" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "eyes" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "mouth" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "hand_l" ) ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "hand_r" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_avg_encumber( get_player_character() ) == 16 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "leg_l" ) ) == 16 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "leg_r" ) ) == 16 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "arm_l" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "arm_r" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "foot_r" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "foot_l" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "head" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "eyes" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "mouth" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "hand_l" ) ) == 0 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "hand_r" ) ) == 0 );
 
-        REQUIRE( faux_fur_pants.get_avg_encumber( g->u, item::encumber_flags::assume_full ) == 20 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "leg_l" ),
+        REQUIRE( faux_fur_pants.get_avg_encumber( get_player_character(),
+                 item::encumber_flags::assume_full ) == 20 );
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "leg_l" ),
                                               item::encumber_flags::assume_full ) == 20 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "leg_r" ),
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "leg_r" ),
                                               item::encumber_flags::assume_full ) == 20 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "arm_l" ),
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "arm_l" ),
                                               item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "arm_r" ),
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "arm_r" ),
                                               item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "foot_r" ),
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "foot_r" ),
                                               item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "foot_l" ),
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "foot_l" ),
                                               item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "head" ),
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "head" ),
                                               item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "eyes" ),
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "eyes" ),
                                               item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "mouth" ),
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "mouth" ),
                                               item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "hand_l" ),
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "hand_l" ),
                                               item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_pants.get_encumber( g->u, bodypart_id( "hand_r" ),
+        REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "hand_r" ),
                                               item::encumber_flags::assume_full ) == 0 );
 
         REQUIRE( faux_fur_pants.get_warmth() == 70 );
@@ -857,44 +860,45 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "foot_l" ) ) == 0 );
         REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "foot_r" ) ) == 0 );
 
-        REQUIRE( faux_fur_suit.get_avg_encumber( g->u ) == 7 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "torso" ) ) == 10 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "leg_l" ) ) == 5 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "leg_r" ) ) == 10 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "arm_l" ) ) == 5 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "arm_r" ) ) == 10 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "head" ) ) == 5 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "eyes" ) ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "mouth" ) ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "foot_l" ) ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "foot_r" ) ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "hand_r" ) ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "hand_r" ) ) == 0 );
+        REQUIRE( faux_fur_suit.get_avg_encumber( get_player_character() ) == 7 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "torso" ) ) == 10 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "leg_l" ) ) == 5 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "leg_r" ) ) == 10 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "arm_l" ) ) == 5 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "arm_r" ) ) == 10 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "head" ) ) == 5 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "eyes" ) ) == 0 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "mouth" ) ) == 0 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "foot_l" ) ) == 0 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "foot_r" ) ) == 0 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "hand_r" ) ) == 0 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "hand_r" ) ) == 0 );
 
-        REQUIRE( faux_fur_suit.get_avg_encumber( g->u, item::encumber_flags::assume_full ) == 17 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "torso" ),
+        REQUIRE( faux_fur_suit.get_avg_encumber( get_player_character(),
+                 item::encumber_flags::assume_full ) == 17 );
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "torso" ),
                                              item::encumber_flags::assume_full ) == 25 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "leg_l" ),
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "leg_l" ),
                                              item::encumber_flags::assume_full ) == 9 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "leg_r" ),
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "leg_r" ),
                                              item::encumber_flags::assume_full ) == 25 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "arm_l" ),
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "arm_l" ),
                                              item::encumber_flags::assume_full ) == 9 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "arm_r" ),
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "arm_r" ),
                                              item::encumber_flags::assume_full ) == 25 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "head" ),
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "head" ),
                                              item::encumber_flags::assume_full ) == 9 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "eyes" ),
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "eyes" ),
                                              item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "mouth" ),
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "mouth" ),
                                              item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "hand_l" ),
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "hand_l" ),
                                              item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "hand_r" ),
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "hand_r" ),
                                              item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "foot_l" ),
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "foot_l" ),
                                              item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_suit.get_encumber( g->u, bodypart_id( "foot_r" ),
+        REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "foot_r" ),
                                              item::encumber_flags::assume_full ) == 0 );
         REQUIRE( faux_fur_suit.get_warmth() == 5 );
     }
