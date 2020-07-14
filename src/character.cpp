@@ -3067,25 +3067,51 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
     units::volume ret = 0_ml;
     for( auto &i : worn ) {
         if( !without.count( &i ) ) {
-            for( auto j : i.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                if( j->count_by_charges() ) {
-                    ret += j->volume() - get_selected_stack_volume( j, without );
-                } else if( !without.count( j ) ) {
-                    ret += j->volume();
-                }
-            }
+            ret += get_contents_volume_with_tweaks( &i.contents, without );
         }
     }
 
     // Wielded item
     if( !without.count( &weapon ) ) {
-        for( auto i : weapon.contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            if( i->count_by_charges() ) {
-                ret += i->volume() - get_selected_stack_volume( i, without );
-            } else if( !without.count( i ) ) {
-                ret += i->volume();
-            }
+        ret += get_contents_volume_with_tweaks( &weapon.contents, without );
+    }
+
+    return ret;
+}
+
+units::volume Character::get_contents_volume_with_tweaks( const item_contents *contents,
+        const std::map<const item *, int> &without ) const
+{
+    units::volume ret = 0_ml;
+
+    for( auto i : contents->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        if( i->count_by_charges() ) {
+            ret += i->volume() - get_selected_stack_volume( i, without );
+        } else if( !without.count( i ) ) {
+            ret += i->volume();
+            ret -= get_nested_content_volume_recursive( &i->contents, without );
         }
+    }
+
+    return ret;
+}
+
+units::volume Character::get_nested_content_volume_recursive( const item_contents *contents,
+        const std::map<const item *, int> &without ) const
+{
+    units::volume ret = 0_ml;
+
+    for( auto i : contents->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        if( i->count_by_charges() ) {
+            ret += get_selected_stack_volume( i, without );
+        } else if( without.count( i ) ) {
+            ret += i->volume();
+        } else {
+            ret += get_nested_content_volume_recursive( &i->contents, without );
+        }
+    }
+    if( contents->all_pockets_rigid() ) {
+        ret += contents->remaining_container_capacity();
     }
 
     return ret;

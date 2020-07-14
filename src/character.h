@@ -1452,6 +1452,10 @@ class Character : public Creature, public visitable<Character>
         units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
+        units::volume get_contents_volume_with_tweaks( const item_contents *contents,
+                const std::map<const item *, int> &without ) const;
+        units::volume get_nested_content_volume_recursive( const item_contents *contents,
+                const std::map<const item *, int> &without ) const;
         units::volume get_selected_stack_volume( const item *i,
                 const std::map<const item *, int> &without ) const;
         units::mass weight_capacity() const override;
