@@ -674,10 +674,10 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
 
         // Coverage and warmth are displayed together on a single line
-        std::vector<iteminfo_parts> cov_warm = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
+        std::vector<iteminfo_parts> cov_warm_shirt = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( longshirt.get_avg_coverage() == 90 );
         REQUIRE( longshirt.get_warmth() == 5 );
-        CHECK( item_info_str( longshirt, cov_warm )
+        CHECK( item_info_str( longshirt, cov_warm_shirt )
                ==
                "--\n"
                "Average Coverage: <color_c_yellow>90</color>%  Warmth: <color_c_yellow>5</color>\n" );
@@ -733,7 +733,26 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
 
         item swat_armor( "test_swat_armor" );
         REQUIRE( swat_armor.get_covered_body_parts().any() );
+
+        CHECK( item_info_str( swat_armor, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
+               "--\n"
+               "<color_c_white>Covers</color>:"
+               " The <color_c_cyan>torso</color>."
+               " The <color_c_cyan>arms</color>."
+               " The <color_c_cyan>legs</color>. \n" );
+
+        CHECK( item_info_str( swat_armor, { iteminfo_parts::ARMOR_LAYER } ) ==
+               "--\n"
+               "Layer: <color_c_light_blue>Normal</color>. \n" );
+
+        std::vector<iteminfo_parts> cov_warm_swat = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( swat_armor.get_avg_coverage() == 95 );
+        REQUIRE( swat_armor.get_warmth() == 35 );
+        CHECK( item_info_str( swat_armor, cov_warm_swat )
+               ==
+               "--\n"
+               "Average Coverage: <color_c_yellow>95</color>%  Warmth: <color_c_yellow>35</color>\n" );
+
         REQUIRE( swat_armor.get_coverage( bodypart_id( "torso" ) ) == 95 );
         REQUIRE( swat_armor.get_coverage( bodypart_id( "leg_l" ) ) == 95 );
         REQUIRE( swat_armor.get_coverage( bodypart_id( "leg_r" ) ) == 95 );
@@ -789,9 +808,40 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "hand_r" ),
                                           item::encumber_flags::assume_full ) == 0 );
 
+        CHECK( item_info_str( swat_armor, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
+               "--\n"
+               "<color_c_white>Encumbrance</color>:\n"
+               "Arms:  <color_c_yellow>12</color>  "
+               "When Full:  <color_c_yellow>25</color>  "
+               "Coverage:  <color_c_yellow>95</color>\n"
+               "Legs:  <color_c_yellow>12</color>  "
+               "When Full:  <color_c_yellow>25</color>  "
+               "Coverage:  <color_c_yellow>95</color>\n"
+               "Torso:  <color_c_yellow>12</color>  "
+               "When Full:  <color_c_yellow>25</color>  "
+               "Coverage:  <color_c_yellow>95</color>\n" );
+
         // Test copy-from
         item faux_fur_pants( "test_pants_faux_fur" );
         REQUIRE( faux_fur_pants.get_covered_body_parts().any() );
+
+        CHECK( item_info_str( faux_fur_pants, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
+               "--\n"
+               "<color_c_white>Covers</color>:"
+               " The <color_c_cyan>legs</color>. \n" );
+
+        CHECK( item_info_str( faux_fur_pants, { iteminfo_parts::ARMOR_LAYER } ) ==
+               "--\n"
+               "Layer: <color_c_light_blue>Normal</color>. \n" );
+
+        std::vector<iteminfo_parts> cov_warm_pants = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
+        REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
+        REQUIRE( faux_fur_pants.get_warmth() == 70 );
+        CHECK( item_info_str( faux_fur_pants, cov_warm_pants )
+               ==
+               "--\n"
+               "Average Coverage: <color_c_yellow>95</color>%  Warmth: <color_c_yellow>70</color>\n" );
+
         REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
         REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "leg_l" ) ) == 95 );
         REQUIRE( faux_fur_pants.get_coverage( bodypart_id( "leg_r" ) ) == 95 );
@@ -843,10 +893,29 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         REQUIRE( faux_fur_pants.get_encumber( get_player_character(), bodypart_id( "hand_r" ),
                                               item::encumber_flags::assume_full ) == 0 );
 
-        REQUIRE( faux_fur_pants.get_warmth() == 70 );
-
         item faux_fur_suit( "test_portion_faux_fur_pants_suit" );
         REQUIRE( faux_fur_suit.get_covered_body_parts().any() );
+
+        CHECK( item_info_str( faux_fur_suit, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
+               "--\n"
+               "<color_c_white>Covers</color>:"
+               " The <color_c_cyan>head</color>."
+               " The <color_c_cyan>torso</color>."
+               " The <color_c_cyan>arms</color>."
+               " The <color_c_cyan>legs</color>. \n" );
+
+        CHECK( item_info_str( faux_fur_suit, { iteminfo_parts::ARMOR_LAYER } ) ==
+               "--\n"
+               "Layer: <color_c_light_blue>Normal</color>. \n" );
+
+        std::vector<iteminfo_parts> cov_warm_suit = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
+        REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
+        REQUIRE( faux_fur_suit.get_warmth() == 5 );
+        CHECK( item_info_str( faux_fur_suit, cov_warm_suit )
+               ==
+               "--\n"
+               "Average Coverage: <color_c_yellow>75</color>%  Warmth: <color_c_yellow>5</color>\n" );
+
         REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
         REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "torso" ) ) == 100 );
         REQUIRE( faux_fur_suit.get_coverage( bodypart_id( "leg_l" ) ) == 50 );
@@ -901,7 +970,28 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                                              item::encumber_flags::assume_full ) == 0 );
         REQUIRE( faux_fur_suit.get_encumber( get_player_character(), bodypart_id( "foot_r" ),
                                              item::encumber_flags::assume_full ) == 0 );
-        REQUIRE( faux_fur_suit.get_warmth() == 5 );
+
+        CHECK( item_info_str( faux_fur_suit, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
+               "--\n"
+               "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
+               "L. Arm:  <color_c_yellow>5</color>  "
+               "When Full:  <color_c_yellow>9</color>  "
+               "Coverage:  <color_c_yellow>50</color>\n"
+               "R. Arm:  <color_c_yellow>10</color>  "
+               "When Full:  <color_c_yellow>25</color>  "
+               "Coverage:  <color_c_yellow>100</color>\n"
+               "Head:  <color_c_yellow>5</color>  "
+               "When Full:  <color_c_yellow>9</color>  "
+               "Coverage:  <color_c_yellow>50</color>\n"
+               "L. Leg:  <color_c_yellow>5</color>  "
+               "When Full:  <color_c_yellow>9</color>  "
+               "Coverage:  <color_c_yellow>50</color>\n"
+               "R. Leg:  <color_c_yellow>10</color>  "
+               "When Full:  <color_c_yellow>25</color>  "
+               "Coverage:  <color_c_yellow>100</color>\n"
+               "Torso:  <color_c_yellow>10</color>  "
+               "When Full:  <color_c_yellow>25</color>  "
+               "Coverage:  <color_c_yellow>100</color>\n" );
     }
 
     SECTION( "armor with no coverage omits irrelevant info" ) {
