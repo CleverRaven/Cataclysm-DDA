@@ -1823,29 +1823,20 @@ void player::process_items()
     // Active item processing done, now we're recharging.
     item *cloak = nullptr;
     item *power_armor = nullptr;
-    std::vector<item *> active_worn_items;
-    bool weapon_active = weapon.has_flag( "USE_UPS" ) &&
-                         weapon.charges < weapon.type->maximum_charges();
-    std::vector<size_t> active_held_items;
     int ch_UPS = 0;
-    for( size_t index = 0; index < inv.size(); index++ ) {
-        item &it = inv.find_item( index );
-        itype_id identifier = it.type->get_id();
+    const auto inv_is_ups = items_with( []( const item & itm ) {
+        return itm.has_flag( "IS_UPS" );
+    } );
+    for( auto &it : inv_is_ups ) {
+        itype_id identifier = it->type->get_id();
         if( identifier == itype_UPS_off ) {
-            ch_UPS += it.ammo_remaining();
+            ch_UPS += it->ammo_remaining();
         } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += it.ammo_remaining() / 0.6;
-        }
-        if( it.has_flag( "USE_UPS" ) && it.charges < it.type->maximum_charges() ) {
-            active_held_items.push_back( index );
+            ch_UPS += it->ammo_remaining() / 0.6;
         }
     }
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
-        if( w.has_flag( "USE_UPS" ) &&
-            w.charges < w.type->maximum_charges() ) {
-            active_worn_items.push_back( &w );
-        }
         if( w.active ) {
             if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
                 cloak = &w;
@@ -1912,24 +1903,16 @@ void player::process_items()
 
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
-    for( size_t index : active_held_items ) {
-        if( ch_UPS_used >= ch_UPS ) {
-            break;
-        }
-        item &it = inv.find_item( index );
-        ch_UPS_used++;
-        it.charges++;
-    }
-    if( weapon_active && ch_UPS_used < ch_UPS ) {
-        ch_UPS_used++;
-        weapon.charges++;
-    }
-    for( item *worn_item : active_worn_items ) {
-        if( ch_UPS_used >= ch_UPS ) {
+    const auto inv_use_ups = items_with( []( const item & itm ) {
+        return itm.has_flag( "USE_UPS" );
+    } );
+    for( auto &it : inv_use_ups ) {
+        if( ch_UPS_used >= ch_UPS ||
+            it->ammo_remaining() >= it->ammo_capacity( ammotype( "battery" ) ) ) {
             break;
         }
         ch_UPS_used++;
-        worn_item->charges++;
+        it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
     }
     if( ch_UPS_used > 0 ) {
         use_charges( itype_UPS, ch_UPS_used );
