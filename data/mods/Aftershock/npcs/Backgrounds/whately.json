@@ -33,9 +33,6 @@
     "id": "BGSS_Whately_STORY4",
     "type": "talk_topic",
     "dynamic_line": "All the earth was flame in a holocaust of ecstasy and freedom.",
-    "responses": [
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]
