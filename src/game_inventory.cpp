@@ -120,7 +120,7 @@ static item_location_filter convert_filter( const item_filter &filter )
     };
 }
 
-static item_location inv_internal( player &u, const inventory_selector_preset &preset,
+static item_location inv_internal( Character &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message,
                                    const std::string &hint = std::string() )
@@ -426,7 +426,7 @@ item_location game_menus::inv::container_for( avatar &you, const item &liquid, i
 class pickup_inventory_preset : public inventory_selector_preset
 {
     public:
-        pickup_inventory_preset( const player &p ) : p( p ) {}
+        pickup_inventory_preset( const Character &p ) : p( p ) {}
 
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
@@ -443,13 +443,13 @@ class pickup_inventory_preset : public inventory_selector_preset
         }
 
     private:
-        const player &p;
+        const Character &p;
 };
 
 class disassemble_inventory_preset : public pickup_inventory_preset
 {
     public:
-        disassemble_inventory_preset( const player &p, const inventory &inv ) :
+        disassemble_inventory_preset( const Character &p, const inventory &inv ) :
             pickup_inventory_preset( p ), p( p ), inv( inv ) {
 
             check_components = true;
@@ -490,11 +490,11 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
     private:
-        const player &p;
+        const Character &p;
         const inventory &inv;
 };
 
-item_location game_menus::inv::disassemble( player &p )
+item_location game_menus::inv::disassemble( Character &p )
 {
     return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
                          _( "Disassemble item" ), 1,

@@ -14,7 +14,7 @@ class JsonIn;
 class JsonOut;
 class inventory;
 class item;
-class player;
+class Character;
 template<typename T> struct enum_traits;
 
 /**
@@ -66,7 +66,7 @@ class craft_command
     public:
         /** Instantiates an empty craft_command, which can't be executed. */
         craft_command() = default;
-        craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter,
+        craft_command( const recipe *to_make, int batch_size, bool is_long, Character *crafter,
                        const tripoint &loc = tripoint_zero ) :
             rec( to_make ), batch_size( batch_size ), longcraft( is_long ), crafter( crafter ), loc( loc ) {}
 
@@ -101,7 +101,7 @@ class craft_command
         */
         bool longcraft = false;
         // This is mainly here for maintainability reasons.
-        player *crafter;
+        Character *crafter;
 
         recipe_filter_flags flags = recipe_filter_flags::none;
 

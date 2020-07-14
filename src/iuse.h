@@ -241,7 +241,7 @@ int handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
 
 } // namespace iuse
 
-void remove_radio_mod( item &it, player &p );
+void remove_radio_mod( item &it, Character &p );
 
 // Helper for clothes washing
 struct washing_requirements {
