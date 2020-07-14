@@ -295,7 +295,7 @@ int weather_generator::get_water_temperature() const
     return water_temperature;
 }
 
-void weather_generator::test_weather( unsigned seed ) const
+void weather_generator::test_weather( unsigned seed = 1000 ) const
 {
     // Outputs a Cata year's worth of weather data to a CSV file.
     // Usage:
