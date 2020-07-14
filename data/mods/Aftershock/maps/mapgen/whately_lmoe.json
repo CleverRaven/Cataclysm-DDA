@@ -4,9 +4,8 @@
     "method": "json",
     "om_terrain": [ "whately_lmoe" ],
     "//": "Above ground",
-    "weight": 100,
-    "//2": "ask curstwist how to appropriately remove weight based on quest generated mapgen.",
     "object": {
+      "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirt",
       "rows": [
         "       S     S         S",
@@ -42,8 +41,8 @@
     "method": "json",
     "om_terrain": [ "whately_lmoe_roof" ],
     "//": "Above ground",
-    "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_dirt",
       "rows": [
         "vvvvvvvvvvvvvvvvvvvvvvvv",
@@ -79,8 +78,8 @@
     "method": "json",
     "om_terrain": [ "whately_lmoe_under_first_floor" ],
     "//": "Residence of Cyrus Whately and his clan",
-    "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_metal_floor",
       "rows": [
         "########################",
@@ -118,8 +117,8 @@
     "//": "Whately clan dwellings.",
     "//2": "This is a commercially built 4-bed LMOE shelter based on IRL plans.",
     "//3": "There are extensive secret rooms which might contain a lot of treasure in the non-looted version.",
-    "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_carpet_metal",
       "rows": [
         "##|||||#################",
