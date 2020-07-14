@@ -70,6 +70,7 @@ bool monexamine::pet_menu( monster &z )
         attach_bag,
         remove_bag,
         drop_all,
+        push_monster,
         give_items,
         mon_armor_add,
         mon_harness_remove,
@@ -98,6 +99,7 @@ bool monexamine::pet_menu( monster &z )
     amenu.text = string_format( _( "What to do with your %s?" ), pet_name );
 
     amenu.addentry( swap_pos, true, 's', _( "Swap positions" ) );
+    amenu.addentry( push_monster, true, 'p', _( "Push %s" ), pet_name );
     amenu.addentry( rename, true, 'e', _( "Rename" ) );
     Character &player_character = get_player_character();
     if( z.has_effect( effect_has_bag ) ) {
@@ -220,6 +222,9 @@ bool monexamine::pet_menu( monster &z )
     switch( choice ) {
         case swap_pos:
             swap( z );
+            break;
+        case push_monster:
+            push( z );
             break;
         case rename:
             rename_pet( z );
@@ -358,11 +363,8 @@ void monexamine::insert_battery( monster &z )
         return;
     }
     item *bat_item = bat_inv[index - 1];
-    int item_pos = player_character.get_item_position( bat_item );
-    if( item_pos != INT_MIN ) {
-        z.battery_item = cata::make_value<item>( *bat_item );
-        player_character.i_rem( item_pos );
-    }
+    z.battery_item = cata::make_value<item>( *bat_item );
+    player_character.i_rem( bat_item );
 }
 
 bool monexamine::mech_hack( monster &z )
@@ -734,12 +736,9 @@ void monexamine::tie_or_untie( monster &z )
             return;
         }
         item *rope_item = rope_inv[index - 1];
-        int item_pos = player_character.get_item_position( rope_item );
-        if( item_pos != INT_MIN ) {
-            z.tied_item = cata::make_value<item>( *rope_item );
-            player_character.i_rem( item_pos );
-            z.add_effect( effect_tied, 1_turns, num_bp, true );
-        }
+        z.tied_item = cata::make_value<item>( *rope_item );
+        player_character.i_rem( rope_item );
+        z.add_effect( effect_tied, 1_turns, num_bp, true );
     }
 }
 

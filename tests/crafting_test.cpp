@@ -550,7 +550,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
 {
     GIVEN( "a recipe and all the required tools and materials to craft it" ) {
         recipe_id test_recipe( "crude_picklock" );
-        int expected_time_taken = test_recipe->batch_time( 1, 1, 0 );
+        int expected_time_taken = test_recipe->batch_time( get_player_character(), 1, 1, 0 );
         int expected_turns_taken = divide_round_up( expected_time_taken, 100 );
 
         std::vector<item> tools;

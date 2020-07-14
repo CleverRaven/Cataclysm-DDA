@@ -105,10 +105,13 @@
         "#": "t_wall_b",
         "*": "t_thconc_floor",
         "S": "t_thconc_floor",
-        "+": "t_door_c",
-        "x": [ "t_machinery_light", "t_machinery_heavy", "t_machinery_old", "t_machinery_electronic" ]
+        "x": "t_thconc_floor",
+        "+": "t_door_c"
       },
-      "furniture": { "S": "f_filing_cabinet" },
+      "furniture": {
+        "S": "f_filing_cabinet",
+        "x": [ "f_machinery_light", "f_machinery_heavy", "f_machinery_old", "f_machinery_electronic" ]
+      },
       "items": { "t": { "item": "office_paper", "chance": 25, "repeat": [ 2, 4 ] } },
       "place_nested": [
         {

@@ -395,7 +395,7 @@ This section describes each json file and their contents. Each json has their ow
 | Identifier        | Description
 |---                |---
 | id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 42 columns long.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long.
 
 ```C++
   {
@@ -442,6 +442,7 @@ This section describes each json file and their contents. Each json has their ow
 | squeamish_penalty | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
 | stat_hp_mods      | (_optional_) Values modifiying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodifed value of the X stat and get_healthy() being the hidden health stat of the character.
 | bionic_slots      | (_optional_) How many bionic slots does this part have.
+| is_limb           | (_optional_) Is this bodypart a limb. (default: `false`)
 
 ```C++
   {
@@ -885,6 +886,17 @@ Example:
 ]
 ```
 
+#### `proficiencies`
+
+(optional, array of proficiency ids)
+
+List of starting proficiency ids.
+
+Example:
+```json
+"proficiencies": [ "prof_knapping" ]
+```
+
 Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:skills" and "remove:skills", removing requires only the skill id. Example:
 ```C++
 {
@@ -1021,6 +1033,14 @@ Mods can modify this via `add:traits` and `remove:traits`.
     [ "survival", 1 ],
     [ "fabrication", 2 ]
 ],
+"proficiencies" : [ // The proficiencies related to this recipe
+    {
+      "proficiency": "prof_knapping", // The id of a proficiency
+      "required": false, // Whether or not you must have the proficiency to craft it. Incompatible with `time_multiplier`
+      "time_multiplier": 2.0 // The multiplier on time taken to craft this recipe if you do not have this proficiency
+      "fail_multiplier": 2.5 // The multiplier on failure chance when crafting without this proficiency. Defaults to 2.5. Multiple proficiencies will multiply this value. (if all have the default, it's fail_multiplier ^ n, where n is the number of proficiencies that are lacked)
+    }
+]
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
@@ -2079,7 +2099,7 @@ Guns can be defined like this:
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
-"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
+"barrel_volume": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
@@ -2575,7 +2595,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "limb_power" : 10,      // How much hp to restore when healing limbs? Mandatory value
     "head_power" : 7,       // How much hp to restore when healing head? If unset, defaults to 0.8 * limb_power.
     "torso_power" : 15,     // How much hp to restore when healing torso? If unset, defaults to 1.5 * limb_power.
-    "bleed" : 0.4,          // Chance to remove bleed effect.
+    "bleed" : 4,            // How many bleed effect intensity levels can be reduced by it. Base value.
     "bite" : 0.95,          // Chance to remove bite effect.
     "infect" : 0.1,         // Chance to remove infected effect.
     "move_cost" : 250,      // Cost in moves to use the item.

@@ -16,6 +16,7 @@
       "7": "f_indoor_plant",
       "8": "f_indoor_plant_y",
       "9": "f_indoor_plant_y",
+      "&": "f_console_broken",
       "?": "f_fireplace",
       "@": "f_statue",
       "A": "f_armchair",
@@ -65,7 +66,6 @@
     },
     "terrain": {
       "%": "t_door_locked_interior",
-      "&": "t_console_broken",
       "!": "t_region_groundcover_urban",
       ")": "t_carpet_concrete_red",
       "+": "t_door_c",
@@ -117,14 +117,8 @@
   {
     "type": "palette",
     "id": "mansion_palette_basement",
-    "terrain": {
-      "#": "t_rock",
-      "*": "t_machinery_old",
-      "?": "t_generator_broken",
-      "X": "t_brick_wall",
-      "]": "t_sewage_pipe",
-      "p": "t_sewage_pump"
-    }
+    "terrain": { "#": "t_rock", "X": "t_brick_wall", "]": "t_sewage_pipe", "p": "t_sewage_pump" },
+    "furniture": { "*": "f_machinery_old", "?": "f_generator_broken" }
   },
   {
     "type": "palette",

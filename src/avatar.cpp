@@ -131,6 +131,7 @@ avatar::avatar()
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = object_type::NONE;
+    calorie_diary.push_front( daily_calories{} );
 }
 
 void avatar::toggle_map_memory()
@@ -414,6 +415,12 @@ bool avatar::read( item &it, const bool continuous )
         }
         return false;
     }
+
+    if( it.get_use( "learn_spell" ) ) {
+        it.get_use( "learn_spell" )->call( *this, it, it.active, pos() );
+        return true;
+    }
+
     const int time_taken = time_to_read( it, *reader );
 
     add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
@@ -1270,7 +1277,8 @@ void avatar::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
+                     ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) / 20.0f - encumb(
+                         bodypart_id( "torso" ) ) / 10.0f );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
@@ -1629,6 +1637,34 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
+}
+
+void avatar::advance_daily_calories()
+{
+    calorie_diary.push_front( daily_calories{} );
+    if( calorie_diary.size() > 30 ) {
+        calorie_diary.pop_back();
+    }
+}
+
+void avatar::add_spent_calories( int cal )
+{
+    calorie_diary.front().spent += cal;
+}
+
+void avatar::add_gained_calories( int cal )
+{
+    calorie_diary.front().gained += cal;
+}
+
+std::string avatar::total_daily_calories_string() const
+{
+    std::string ret = "      gained     spent      total\n";
+    int num_day = 1;
+    for( const daily_calories &day : calorie_diary ) {
+        ret += string_format( "%2d   %6d    %6d     %6d\n", num_day++, day.gained, day.spent, day.total() );
+    }
+    return ret;
 }
 
 points_left::points_left()

@@ -195,7 +195,7 @@
       "sloc_cemetery"
     ],
     "professions": [ "svictim", "tweaker" ],
-    "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START" ]
+    "flags": [ "FIRE_START", "INFECTED", "BAD_DAY", "CHALLENGE", "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",

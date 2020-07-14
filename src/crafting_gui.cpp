@@ -241,8 +241,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
             auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
             const deduped_requirement_data &req = r->deduped_requirements();
+            has_proficiencies = r->character_has_required_proficiencies( get_player_character() );
             can_craft = req.can_make_with_inventory(
-                            inv, all_items_filter, batch_size, craft_flags::start_only );
+                            inv, all_items_filter, batch_size, craft_flags::start_only ) && has_proficiencies;
             can_craft_non_rotten = req.can_make_with_inventory(
                                        inv, no_rotten_filter, batch_size, craft_flags::start_only );
             const requirement_data &simple_req = r->simple_requirements();
@@ -252,6 +253,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         bool can_craft;
         bool can_craft_non_rotten;
         bool apparently_craftable;
+        bool has_proficiencies;
 
         nc_color selected_color() const {
             return can_craft ? can_craft_non_rotten ? h_white : h_brown : h_dark_gray;
@@ -496,6 +498,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                                         _( "Other skills: %s" ),
                                         current[line]->required_skills_string( &g->u, false, false ) );
 
+                ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Required: %s" ),
+                                        current[line]->required_proficiencies_string( get_player_character() ) );
+
                 const int expected_turns = g->u.expected_time_to_craft( *current[line],
                                            count ) / to_moves<int>( 1_turns );
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
@@ -512,22 +517,28 @@ const recipe *select_crafting_recipe( int &batch_size )
                                    current[line]->has_flag( flag_BLIND_EASY ) ? _( "Easy" ) :
                                    current[line]->has_flag( flag_BLIND_HARD ) ? _( "Hard" ) :
                                    _( "Impossible" ) ) );
-                if( available[line].can_craft && !available[line].can_craft_non_rotten ) {
+                const bool can_craft_this = available[line].can_craft;
+                if( can_craft_this && !available[line].can_craft_non_rotten ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                             _( "<color_red>Will use rotten ingredients</color>" ) );
                 }
                 const bool too_complex = current[line]->deduped_requirements().is_too_complex();
-                if( available[line].can_craft && too_complex ) {
+                if( can_craft_this && too_complex ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                             _( "Due to the complex overlapping requirements, this "
                                                "recipe <color_yellow>may appear to be craftable "
                                                "when it is not</color>." ) );
                 }
-                if( !available[line].can_craft && available[line].apparently_craftable ) {
+                if( !can_craft_this && available[line].apparently_craftable && available[line].has_proficiencies ) {
                     ypos += fold_and_print(
                                 w_data, point( xpos, ypos ), pane, col,
                                 _( "<color_red>Cannot be crafted because the same item is needed "
                                    "for multiple components</color>" ) );
+                }
+                if( !can_craft_this && !available[line].has_proficiencies ) {
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
+                                            _( "<color_red>Cannot be crafted because you lack"
+                                               " the required proficiencies.</color>" ) );
                 }
                 ypos += print_items( *current[line], w_data, point( xpos, ypos ), col, batch ? line + 1 : 1 );
             }

@@ -65,8 +65,10 @@ void advanced_inv_area::init()
     vstor = -1;
     // must update in main function
     volume = 0_ml;
+    volume_veh = 0_ml;
     // must update in main function
     weight = 0_gram;
+    weight_veh = 0_gram;
     map &here = get_map();
     switch( id ) {
         case AIM_INVENTORY:

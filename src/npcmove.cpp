@@ -107,6 +107,7 @@ static const efftype_id effect_catch_up( "catch_up" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_hallu( "hallu" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_hypovolemia( "hypovolemia" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
@@ -196,8 +197,6 @@ std::string npc_action_name( npc_action action );
 void print_action( const char *prepend, npc_action action );
 
 bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b );
-
-hp_part most_damaged_hp_part( const Character &c );
 
 bool compare_sound_alert( const dangerous_sound &sound_a, const dangerous_sound &sound_b )
 {
@@ -985,7 +984,7 @@ void npc::execute_action( npc_action action )
             // Find a nice spot to sleep
             int best_sleepy = sleep_spot( pos() );
             tripoint best_spot = pos();
-            for( const tripoint &p : closest_tripoints_first( pos(), 6 ) ) {
+            for( const tripoint &p : closest_points_first( pos(), 6 ) ) {
                 if( !could_move_onto( p ) || !g->is_empty( p ) ) {
                     continue;
                 }
@@ -2467,7 +2466,7 @@ void npc::avoid_friendly_fire()
     center.y = std::round( center.y / friend_count );
     center.z = std::round( center.z / friend_count );
 
-    std::vector<tripoint> candidates = closest_tripoints_first( pos(), 1 );
+    std::vector<tripoint> candidates = closest_points_first( pos(), 1 );
     candidates.erase( candidates.begin() );
     std::sort( candidates.begin(), candidates.end(),
     [&tar, &center]( const tripoint & l, const tripoint & r ) {
@@ -2677,7 +2676,7 @@ static cata::optional<tripoint> nearest_passable( const tripoint &p, const tripo
 
     // We need to path to adjacent tile, not the exact one
     // Let's pick the closest one to us that is passable
-    std::vector<tripoint> candidates = closest_tripoints_first( p, 1 );
+    std::vector<tripoint> candidates = closest_points_first( p, 1 );
     std::sort( candidates.begin(), candidates.end(), [ closest_to ]( const tripoint & l,
     const tripoint & r ) {
         return rl_dist( closest_to, l ) < rl_dist( closest_to, r );
@@ -2708,7 +2707,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
         maxp.y = std::max( maxp.y, elem.center.y + elem.radius );
     }
 
-    const tripoint_range range( minp, maxp );
+    const tripoint_range<tripoint> range( minp, maxp );
 
     std::vector<tripoint> escape_points;
 
@@ -2748,7 +2747,7 @@ void npc::move_away_from( const std::vector<sphere> &spheres, bool no_bashing )
 void npc::see_item_say_smth( const itype_id &object, const std::string &smth )
 {
     map &here = get_map();
-    for( const tripoint &p : closest_tripoints_first( pos(), 6 ) ) {
+    for( const tripoint &p : closest_points_first( pos(), 6 ) ) {
         if( here.sees_some_items( p, *this ) && sees( p ) ) {
             for( const item &it : here.i_at( p ) ) {
                 if( one_in( 100 ) && ( it.typeId() == object ) ) {
@@ -2852,7 +2851,7 @@ void npc::find_item()
         }
     };
 
-    for( const tripoint &p : closest_tripoints_first( pos(), range ) ) {
+    for( const tripoint &p : closest_points_first( pos(), range ) ) {
         // TODO: Make this sight check not overdraw nearby tiles
         // TODO: Optimize that zone check
         if( is_player_ally() && g->check_zone( zone_type_no_npc_pickup, p ) ) {
@@ -4455,6 +4454,7 @@ bool npc::complain()
     static const std::string fatigue_string = "fatigue";
     static const std::string bite_string = "bite";
     static const std::string bleed_string = "bleed";
+    static const std::string hypovolemia_string = "hypovolemia";
     static const std::string radiation_string = "radiation";
     static const std::string hunger_string = "hunger";
     static const std::string thirst_string = "thirst";
@@ -4524,8 +4524,23 @@ bool npc::complain()
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
         const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bleed ) );
-        std::string speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
-        if( complain_about( bleed_string, 5_minutes, speech ) ) {
+        std::string speech;
+        time_duration often;
+        if( get_effect( effect_bleed, bp->token ).get_intensity() < 10 ) {
+            speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
+            often = 5_minutes;
+        } else {
+            speech = string_format( _( "My %s is bleeding badly!" ), body_part_name( bp ) );
+            often = 1_minutes;
+        }
+        if( complain_about( bleed_string, often, speech ) ) {
+            return true;
+        }
+    }
+
+    if( has_effect( effect_hypovolemia ) ) {
+        std::string speech = _( "I've lost lot of blood." );
+        if( complain_about( hypovolemia_string, 10_minutes, speech ) ) {
             return true;
         }
     }

@@ -54,6 +54,7 @@
     "type": "faction",
     "id": "robofac",
     "name": "Hub 01",
+    "mon_faction": "robofac",
     "likes_u": -200,
     "respects_u": 0,
     "known_by_u": false,

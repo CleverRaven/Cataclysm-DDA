@@ -56,7 +56,7 @@
     "volume": "500 ml",
     "price": 1500,
     "price_postapoc": 250,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 30 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 30 }, "watertight": true, "rigid": true } ],
     "initial_charges": 30,
     "max_charges": 30,
     "charges_per_use": 1,
@@ -253,8 +253,8 @@
     "category": "tools",
     "name": { "str": "grappling hook" },
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.  Can be used in place of a long rope for butchering, in a pinch.",
-    "weight": "760 g",
-    "volume": "750 ml",
+    "weight": "1980 g",
+    "volume": "2500 ml",
     "price_postapoc": 500,
     "to_hit": -2,
     "bashing": 12,
@@ -264,7 +264,8 @@
     "color": "light_gray",
     "techniques": [ "SPIN", "WRAP" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_rope_up" }
   },
   {
     "type": "TOOL",
@@ -808,6 +809,7 @@
     "bashing": 6,
     "cutting": 4,
     "material": [ "plastic", "aluminum" ],
+    "ascii_picture": "umbrella",
     "symbol": "/",
     "color": "magenta",
     "techniques": [ "WBLOCK_1" ],

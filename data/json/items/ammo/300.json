@@ -5,7 +5,7 @@
     "name": { "str": ".300 Winchester Magnum" },
     "description": ".300 Winchester Magnum rounds with 220gr JHP bullets.  The 300WM round is an extremely powerful and accurate rifle round introduced in 1963.  It has proven popular with hunters and snipers, although it is not as common as .308 or .30-06.",
     "weight": "28 g",
-    "volume": "250 ml",
+    "volume": "169 ml",
     "price": 220,
     "price_postapoc": 400,
     "flags": [ "IRREPLACEABLE_CONSUMABLE" ],
