@@ -135,40 +135,36 @@ struct arg_handler {
     handler_method handler;  //!< The callback to be invoked when this argument is encountered.
 };
 
-void printHelpMessage( const arg_handler *first_pass_arguments,
-                       size_t num_first_pass_arguments,
-                       const arg_handler *second_pass_arguments,
-                       size_t num_second_pass_arguments )
+template<typename FirstPassArgs, typename SecondPassArgs>
+void printHelpMessage( const FirstPassArgs &first_pass_arguments,
+                       const SecondPassArgs &second_pass_arguments )
 {
-
     // Group all arguments by help_group.
     std::multimap<std::string, const arg_handler *> help_map;
-    for( size_t i = 0; i < num_first_pass_arguments; ++i ) {
+    for( const arg_handler &handler : first_pass_arguments ) {
         std::string help_group;
-        if( first_pass_arguments[i].help_group ) {
-            help_group = first_pass_arguments[i].help_group;
+        if( handler.help_group ) {
+            help_group = handler.help_group;
         }
-        help_map.insert( std::make_pair( help_group, &first_pass_arguments[i] ) );
+        help_map.emplace( help_group, &handler );
     }
-    for( size_t i = 0; i < num_second_pass_arguments; ++i ) {
+    for( const arg_handler &handler : second_pass_arguments ) {
         std::string help_group;
-        if( second_pass_arguments[i].help_group ) {
-            help_group = second_pass_arguments[i].help_group;
+        if( handler.help_group ) {
+            help_group = handler.help_group;
         }
-        help_map.insert( std::make_pair( help_group, &second_pass_arguments[i] ) );
+        help_map.emplace( help_group, &handler );
     }
 
     printf( "Command line parameters:\n" );
     std::string current_help_group;
-    auto it = help_map.begin();
-    auto it_end = help_map.end();
-    for( ; it != it_end; ++it ) {
-        if( it->first != current_help_group ) {
-            current_help_group = it->first;
+    for( std::pair<const std::string, const arg_handler *> &help_entry : help_map ) {
+        if( help_entry.first != current_help_group ) {
+            current_help_group = help_entry.first;
             printf( "\n%s\n", current_help_group.c_str() );
         }
 
-        const arg_handler *handler = it->second;
+        const arg_handler *handler = help_entry.second;
         printf( "%s", handler->flag );
         if( handler->param_documentation ) {
             printf( " %s", handler->param_documentation );
@@ -176,6 +172,34 @@ void printHelpMessage( const arg_handler *first_pass_arguments,
         printf( "\n" );
         if( handler->documentation ) {
             printf( "    %s\n", handler->documentation );
+        }
+    }
+}
+
+template<typename ArgHandlerContainer>
+void process_args( const char **argv, int argc, const ArgHandlerContainer &arg_handlers )
+{
+    while( argc ) {
+        bool arg_handled = false;
+        for( const arg_handler &handler : arg_handlers ) {
+            if( !strcmp( argv[0], handler.flag ) ) {
+                argc--;
+                argv++;
+                int args_consumed = handler.handler( argc, argv );
+                if( args_consumed < 0 ) {
+                    printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
+                    std::exit( 1 );
+                }
+                argc -= args_consumed;
+                argv += args_consumed;
+                arg_handled = true;
+                break;
+            }
+        }
+        // Skip other options.
+        if( !arg_handled ) {
+            --argc;
+            ++argv;
         }
     }
 }
@@ -190,7 +214,7 @@ struct cli_opts {
     std::string world; /** if set try to load first save in this world on startup */
 };
 
-cli_opts parse_commandline( int argc, char **argv )
+cli_opts parse_commandline( int argc, const char **argv )
 {
     cli_opts result;
 
@@ -489,67 +513,17 @@ cli_opts parse_commandline( int argc, char **argv )
         }
     };
 
-    // Process CLI arguments.
-    const size_t num_first_pass_arguments =
-        sizeof( first_pass_arguments ) / sizeof( first_pass_arguments[0] );
-    const size_t num_second_pass_arguments =
-        sizeof( second_pass_arguments ) / sizeof( second_pass_arguments[0] );
-    int saved_argc = --argc; // skip program name
-    const char **saved_argv = const_cast<const char **>( ++argv );
-    while( argc ) {
-        if( !strcmp( argv[0], "--help" ) ) {
-            printHelpMessage( first_pass_arguments.data(), num_first_pass_arguments,
-                              second_pass_arguments.data(), num_second_pass_arguments );
-            std::exit( 0 );
-        } else {
-            bool arg_handled = false;
-            for( size_t i = 0; i < num_first_pass_arguments; ++i ) {
-                auto &arg_handler = first_pass_arguments[i];
-                if( !strcmp( argv[0], arg_handler.flag ) ) {
-                    argc--;
-                    argv++;
-                    int args_consumed = arg_handler.handler( argc, const_cast<const char **>( argv ) );
-                    if( args_consumed < 0 ) {
-                        printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
-                        exit( 1 );
-                    }
-                    argc -= args_consumed;
-                    argv += args_consumed;
-                    arg_handled = true;
-                    break;
-                }
-            }
-            // Skip other options.
-            if( !arg_handled ) {
-                --argc;
-                ++argv;
-            }
-        }
+    if( std::count( argv, argv + argc, std::string( "--help" ) ) ) {
+        printHelpMessage( first_pass_arguments, second_pass_arguments );
+        std::exit( 0 );
     }
-    while( saved_argc ) {
-        bool arg_handled = false;
-        for( size_t i = 0; i < num_second_pass_arguments; ++i ) {
-            auto &arg_handler = second_pass_arguments[i];
-            if( !strcmp( saved_argv[0], arg_handler.flag ) ) {
-                --saved_argc;
-                ++saved_argv;
-                int args_consumed = arg_handler.handler( saved_argc, saved_argv );
-                if( args_consumed < 0 ) {
-                    printf( "Failed parsing parameter '%s'\n", *( argv - 1 ) );
-                    exit( 1 );
-                }
-                saved_argc -= args_consumed;
-                saved_argv += args_consumed;
-                arg_handled = true;
-                break;
-            }
-        }
-        // Ignore unknown options.
-        if( !arg_handled ) {
-            --saved_argc;
-            ++saved_argv;
-        }
-    }
+
+    // skip program name
+    --argc;
+    ++argv;
+
+    process_args( argv, argc, first_pass_arguments );
+    process_args( argv, argc, second_pass_arguments );
 
     return result;
 }
@@ -565,7 +539,7 @@ int APIENTRY WinMain( HINSTANCE /* hInstance */, HINSTANCE /* hPrevInstance */,
 #elif defined(__ANDROID__)
 extern "C" int SDL_main( int argc, char **argv ) {
 #else
-int main( int argc, char *argv[] )
+int main( int argc, const char *argv[] )
 {
 #endif
     init_crash_handlers();
