@@ -10,14 +10,14 @@
       "faction_owner": [
         { "id": "forge_lords", "x": [ 0, 23 ], "y": [ 0, 23 ] },
         { "id": "forge_lords", "x": [ 24, 47 ], "y": [ 0, 23 ] },
+        { "id": "forge_lords", "x": [ 48, 71 ], "y": [ 0, 23 ] },
+        { "id": "forge_lords", "x": [ 72, 94 ], "y": [ 0, 23 ] },
+        { "id": "forge_lords", "x": [ 96, 117 ], "y": [ 0, 23 ] },
         { "id": "forge_lords", "x": [ 0, 23 ], "y": [ 24, 47 ] },
         { "id": "forge_lords", "x": [ 24, 47 ], "y": [ 24, 47 ] },
-        { "id": "forge_lords", "x": [ 0, 23 ], "y": [ 48, 71 ] },
-        { "id": "forge_lords", "x": [ 24, 47 ], "y": [ 48, 71 ] },
-        { "id": "forge_lords", "x": [ 0, 23 ], "y": [ 72, 94 ] },
-        { "id": "forge_lords", "x": [ 24, 47 ], "y": [ 72, 94 ] },
-        { "id": "forge_lords", "x": [ 0, 23 ], "y": [ 95, 117 ] },
-        { "id": "forge_lords", "x": [ 24, 47 ], "y": [ 95, 117 ] }
+        { "id": "forge_lords", "x": [ 48, 71 ], "y": [ 24, 47 ] },
+        { "id": "forge_lords", "x": [ 72, 94 ], "y": [ 24, 47 ] },
+        { "id": "forge_lords", "x": [ 96, 117 ], "y": [ 24, 47 ] }
       ],
       "fill_ter": "t_dirt",
       "rows": [
