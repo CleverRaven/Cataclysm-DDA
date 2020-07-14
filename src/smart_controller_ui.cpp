@@ -75,9 +75,11 @@ void smart_controller_ui::refresh()
         mvwprintz( win, point( LEFT_MARGIN + i, y + 1 ), col, "-" );
     }
     // print LO and HI on the slider line
+    //~ abbreviation for the "LOW" battery zone displayed on the Smart Controller UI slider. Keep it short (2-3 chars)
     std::string lo_text = _( "LO" );
     mvwprintz( win, point( LEFT_MARGIN + ( lo_slider_x - lo_text.length() ) / 2, y + 1 ), red,
                lo_text );
+    //~ abbreviation for the "HIGH" battery zone displayed on the Smart Controller UI slider. Keep it short (2-3 chars)
     std::string hi_text = _( "HI" );
     int hi_text_l = hi_text.length();
     mvwprintz( win, point( LEFT_MARGIN + hi_slider_x + std::max( ( SLIDER_W - hi_slider_x -
