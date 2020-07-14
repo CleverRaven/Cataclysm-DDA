@@ -1679,42 +1679,5 @@
     "symbol": ")",
     "color": "green",
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "100 ml", "max_contains_weight": "200 g" } ]
-  },
-  {
-    "id": "wallet",
-    "type": "GENERIC",
-    "category": "container",
-    "name": { "str": "wallet" },
-    "looks_like": "bag_plastic",
-    "description": "A small, flat case that can be used to carry such small personal items as paper currency, cash cards, identification documents, and other paper or laminated cards.",
-    "weight": "100 g",
-    "volume": "250 ml",
-    "price": 0,
-    "price_postapoc": 10,
-    "material": [ "plastic" ],
-    "pocket_data": [
-      {
-        "pocket_type": "CONTAINER",
-        "rigid": true,
-        "max_contains_weight": "600 g",
-        "max_contains_volume": "500 ml",
-        "spoil_multiplier": 0.0,
-        "moves": 400,
-        "item_restriction": [
-          "cash_card",
-          "gasdiscount_silver",
-          "gasdiscount_gold",
-          "gasdiscount_platinum",
-          "id_science",
-          "id_military",
-          "id_industrial",
-          "fp_loyalty_card",
-          "robofac_test_data"
-        ]
-      }
-    ],
-    "symbol": ")",
-    "color": "dark_gray",
-    "flags": [ "TARDIS" ]
   }
 ]
