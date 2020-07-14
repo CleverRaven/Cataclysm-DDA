@@ -169,14 +169,21 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
     int battery_level_percent = max_battery_level == 0 ? 0 : cur_battery_level * 100 /
                                 max_battery_level;
 
+    // get settings or defaults
+    smart_controller_config cfg = smart_controller_cfg.value_or( smart_controller_config() );
+
+    // ensure sane values
+    cfg.battery_hi = clamp( cfg.battery_hi, 0, 100 );
+    cfg.battery_lo = clamp( cfg.battery_lo, 0, cfg.battery_hi );
+
     // when battery > 90%, discharge is allowed
     // otherwise trying to charge battery to 90% within 30 minutes
-    bool discharge_forbidden_soft = battery_level_percent <= 90;
-    bool discharge_forbidden_hard = battery_level_percent <= 25;
+    bool discharge_forbidden_soft = battery_level_percent <= cfg.battery_hi;
+    bool discharge_forbidden_hard = battery_level_percent <= cfg.battery_lo;
     int target_charging_rate = ( max_battery_level == 0 || !discharge_forbidden_soft ) ? 0 :
-                               ( 9 * max_battery_level - 10 * cur_battery_level ) / ( 6 * 3 );
-    //                         ( max_battery_level * 0.9 - cur_battery_level )  * (1000 / (60 * 30))   // originally
-    //                                              ^ 90%                   bat to W ^         ^ 30 minutes
+                               ( max_battery_level * cfg.battery_hi / 100 - cur_battery_level ) * 10 / ( 6 * 3 );
+    //      ( max_battery_level * battery_hi / 100 - cur_battery_level )  * (1000 / (60 * 30))   // originally
+    //                                ^ battery_hi%                  bat to W ^         ^ 30 minutes
 
     int accel_demand = cruise_on
                        ? // using avg_velocity reduces unnecessary oscillations when traction is low

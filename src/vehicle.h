@@ -111,6 +111,13 @@ struct smart_controller_cache {
     float load;
 };
 
+struct smart_controller_config {
+    int battery_lo = 25;
+    int battery_hi = 90;
+
+    void deserialize( const JsonObject &data );
+};
+
 struct veh_collision {
     //int veh?
     int part  = 0;
@@ -1826,6 +1833,8 @@ class vehicle
         cata::optional<time_duration> summon_time_limit = cata::nullopt;
         // cached values of the factors that determined last chosen engine state
         cata::optional<smart_controller_cache> smart_controller_state = cata::nullopt;
+        // SC config. optional, as majority of vehicles don't have SC installed
+        cata::optional<smart_controller_config> smart_controller_cfg = cata::nullopt;
         bool has_enabled_smart_controller = false;
 
     private:
