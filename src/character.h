@@ -227,46 +227,6 @@ enum class rechargeable_cbm : int {
     other
 };
 
-struct layer_details {
-
-    std::vector<int> pieces;
-    int max = 0;
-    int total = 0;
-
-    void reset();
-    int layer( int encumbrance );
-
-    bool operator ==( const layer_details &rhs ) const {
-        return max == rhs.max &&
-               total == rhs.total &&
-               pieces == rhs.pieces;
-    }
-};
-
-struct encumbrance_data {
-    int encumbrance = 0;
-    int armor_encumbrance = 0;
-    int layer_penalty = 0;
-
-    std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
-    layer_penalty_details;
-
-    void layer( const layer_level level, const int encumbrance ) {
-        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance );
-    }
-
-    void reset() {
-        *this = encumbrance_data();
-    }
-
-    bool operator ==( const encumbrance_data &rhs ) const {
-        return encumbrance == rhs.encumbrance &&
-               armor_encumbrance == rhs.armor_encumbrance &&
-               layer_penalty == rhs.layer_penalty &&
-               layer_penalty_details == rhs.layer_penalty_details;
-    }
-};
-
 struct aim_type {
     std::string name;
     std::string action;
@@ -586,19 +546,11 @@ class Character : public Creature, public visitable<Character>
         /** Handles stat and bonus reset. */
         void reset() override;
 
-        /** Recalculates encumbrance cache. */
-        void reset_encumbrance();
         /** Returns ENC provided by armor, etc. */
-        int encumb( body_part bp ) const;
+        int encumb( const bodypart_id &bp ) const;
 
         /** Returns body weight plus weight of inventory and worn/wielded items */
         units::mass get_weight() const override;
-        /** Get encumbrance for all body parts. */
-        std::array<encumbrance_data, num_bp> get_encumbrance() const;
-        /** Get encumbrance for all body parts as if `new_item` was also worn. */
-        std::array<encumbrance_data, num_bp> get_encumbrance( const item &new_item ) const;
-        /** Get encumbrance penalty per layer & body part */
-        int extraEncumbrance( layer_level level, int bp ) const;
 
         /** Returns true if the character is wearing power armor */
         bool is_wearing_power_armor( bool *hasHelmet = nullptr ) const;
@@ -670,6 +622,7 @@ class Character : public Creature, public visitable<Character>
 
         /** Recalculates HP after a change to max strength */
         void recalc_hp();
+        int get_part_hp_max( const bodypart_id &id ) const;
         /** Modifies the player's sight values
          *  Must be called when any of the following change:
          *  This must be called when any of the following change:
@@ -908,7 +861,7 @@ class Character : public Creature, public visitable<Character>
         bodypart_id body_window( const std::string &menu_header,
                                  bool show_all, bool precise,
                                  int normal_bonus, int head_bonus, int torso_bonus,
-                                 float bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
+                                 int bleed, float bite, float infect, float bandage_power, float disinfectant_power ) const;
 
         // Returns color which this limb would have in healing menus
         nc_color limb_color( const bodypart_id &bp, bool bleed, bool bite, bool infect ) const;
@@ -976,13 +929,8 @@ class Character : public Creature, public visitable<Character>
         /** Applies stat mods to character. */
         void apply_mods( const trait_id &mut, bool add_remove );
 
-        /** Recalculate encumbrance for all body parts. */
-        std::array<encumbrance_data, num_bp> calc_encumbrance() const;
-        /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
-        std::array<encumbrance_data, num_bp> calc_encumbrance( const item &new_item ) const;
-
         /** Applies encumbrance from mutations and bionics only */
-        void mut_cbm_encumb( std::array<encumbrance_data, num_bp> &vals ) const;
+        void mut_cbm_encumb( std::map<bodypart_id, encumbrance_data> &vals ) const;
 
         /** Return the position in the worn list where new_item would be
          * put by default */
@@ -991,12 +939,16 @@ class Character : public Creature, public visitable<Character>
         /** Applies encumbrance from items only
          * If new_item is not null, then calculate under the asumption that it
          * is added to existing work items. */
-        void item_encumb( std::array<encumbrance_data, num_bp> &vals,
-                          const item &new_item ) const;
+        void item_encumb( std::map<bodypart_id, encumbrance_data> &vals, const item &new_item ) const;
 
         std::array<std::array<int, NUM_WATER_TOLERANCE>, num_bp> mut_drench;
 
     public:
+        /** Recalculate encumbrance for all body parts. */
+        void calc_encumbrance();
+        /** Recalculate encumbrance for all body parts as if `new_item` was also worn. */
+        void calc_encumbrance( const item &new_item );
+
         // recalculates enchantment cache by iterating through all held, worn, and wielded items
         void recalculate_enchantment_cache();
         // gets add and mult value from enchantment cache
@@ -1121,6 +1073,12 @@ class Character : public Creature, public visitable<Character>
 
         /** Handles bionic effects over time of the entered bionic */
         void process_bionic( int b );
+        /** finds the index of the bionic that corresponds to the currently wielded fake item
+         *  i.e. bionic is `BIONIC_WEAPON` and weapon.typeId() == bio.info().fake_item */
+        cata::optional<int> active_bionic_weapon_index() const;
+        /** Checks if bionic can be deactivated (e.g. it's not incapacitaded and power level is sufficient)
+         *  returns either success or failure with log message */
+        ret_val<bool> can_deactivate_bionic( int b, bool eff_only = false ) const;
         /** Handles bionic deactivation effects of the entered bionic, returns if anything
          *  deactivated */
         bool deactivate_bionic( int b, bool eff_only = false );
@@ -1477,12 +1435,18 @@ class Character : public Creature, public visitable<Character>
         units::mass weight_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::mass weight_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                                                 &locations ) const;
+        units::mass get_selected_stack_weight( const item *i,
+                                               const std::map<const item *, int> &without ) const;
         units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
-                &locations )
-        const;
+                &locations ) const;
+        units::volume get_selected_stack_volume( const item *i,
+                const std::map<const item *, int> &without ) const;
         units::mass weight_capacity() const override;
         units::volume volume_capacity() const;
+        units::volume volume_capacity_with_tweaks( const item_tweaks &tweaks ) const;
+        units::volume volume_capacity_with_tweaks( const std::vector<std::pair<item_location, int>>
+                &locations ) const;
         units::volume free_space() const;
 
         bool can_pickVolume( const item &it, bool safe = false ) const;
@@ -1585,6 +1549,12 @@ class Character : public Creature, public visitable<Character>
         int talk_skill() const;
         /** Returns a value used when attempting to intimidate NPC's */
         int intimidation() const;
+
+        // --------------- Proficiency Stuff ----------------
+        // (bit short at the moment)
+        bool has_proficiency( const proficiency_id &prof ) const;
+        void add_proficiency( const proficiency_id &prof );
+        const std::set<proficiency_id> &proficiencies() const;
 
         // --------------- Other Stuff ---------------
 
@@ -1825,6 +1795,10 @@ class Character : public Creature, public visitable<Character>
         float get_bmi() const;
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
+        // add spent calories to calorie diary (if avatar)
+        virtual void add_spent_calories( int /* cal */ ) {};
+        // add gained calories to calorie diary (if avatar)
+        virtual void add_gained_calories( int /* gained */ ) {};
         // Reset age and height to defaults for consistent test results
         void reset_chargen_attributes();
         // age in years, determined at character creation
@@ -2283,8 +2257,6 @@ class Character : public Creature, public visitable<Character>
 
         trap_map known_traps;
         mutable std::map<std::string, double> cached_info;
-        mutable std::array<encumbrance_data, num_bp> encumbrance_cache;
-        mutable bool encumbrance_cache_dirty = true;
         bool bio_soporific_powered_at_last_sleep_check = false;
         /** last time we checked for sleep */
         time_point last_sleep_check = calendar::turn_zero;
@@ -2311,6 +2283,8 @@ class Character : public Creature, public visitable<Character>
 
         // --------------- Values ---------------
         pimpl<SkillLevelMap> _skills;
+
+        std::set<proficiency_id> _proficiencies;
 
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
@@ -2360,6 +2334,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_from_artifacts();
         void suffer_from_stimulants( int current_stim );
         void suffer_without_sleep( int sleep_deprivation );
+        void suffer_from_tourniquet();
         /**
          * Check whether the other creature is in range and can be seen by this creature.
          * @param critter Creature to check for visibility

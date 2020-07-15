@@ -13,7 +13,7 @@
       "range": -6,
       "ranged_damage": { "damage_type": "bullet", "amount": -3 },
       "dispersion": 60,
-      "barrel_length": "-500 ml"
+      "barrel_volume": "-500 ml"
     }
   },
   {
@@ -61,7 +61,7 @@
     "dispersion": 90,
     "durability": 10,
     "clip_size": 5,
-    "barrel_length": "1000 ml",
+    "barrel_volume": "1000 ml",
     "valid_mod_locations": [
       [ "accessories", 4 ],
       [ "barrel", 1 ],

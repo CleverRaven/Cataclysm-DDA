@@ -117,7 +117,7 @@ static void add_boardable( const map &m, const tripoint &p, std::vector<tripoint
     vec.push_back( p );
 }
 
-static void board_up( map &m, const tripoint_range &range )
+static void board_up( map &m, const tripoint_range<tripoint> &range )
 {
     std::vector<tripoint> furnitures1;
     std::vector<tripoint> furnitures2;

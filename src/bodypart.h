@@ -8,6 +8,7 @@
 #include <initializer_list>
 #include <string>
 
+#include "enums.h"
 #include "flat_set.h"
 #include "int_id.h"
 #include "string_id.h"
@@ -151,6 +152,46 @@ struct body_part_type {
         int bionic_slots_ = 0;
 };
 
+struct layer_details {
+
+    std::vector<int> pieces;
+    int max = 0;
+    int total = 0;
+
+    void reset();
+    int layer( int encumbrance );
+
+    bool operator ==( const layer_details &rhs ) const {
+        return max == rhs.max &&
+               total == rhs.total &&
+               pieces == rhs.pieces;
+    }
+};
+
+struct encumbrance_data {
+    int encumbrance = 0;
+    int armor_encumbrance = 0;
+    int layer_penalty = 0;
+
+    std::array<layer_details, static_cast<size_t>( layer_level::NUM_LAYER_LEVELS )>
+    layer_penalty_details;
+
+    void layer( const layer_level level, const int encumbrance ) {
+        layer_penalty += layer_penalty_details[static_cast<size_t>( level )].layer( encumbrance );
+    }
+
+    void reset() {
+        *this = encumbrance_data();
+    }
+
+    bool operator ==( const encumbrance_data &rhs ) const {
+        return encumbrance == rhs.encumbrance &&
+               armor_encumbrance == rhs.armor_encumbrance &&
+               layer_penalty == rhs.layer_penalty &&
+               layer_penalty_details == rhs.layer_penalty_details;
+    }
+};
+
 class bodypart
 {
     private:
@@ -162,6 +203,8 @@ class bodypart
         int healed_total = 0;
         int damage_bandaged = 0;
         int damage_disinfected = 0;
+
+        encumbrance_data encumb_data;
 
     public:
         bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
@@ -178,11 +221,15 @@ class bodypart
         int get_damage_bandaged() const;
         int get_damage_disinfected() const;
 
+        encumbrance_data get_encumbrance_data() const;
+
         void set_hp_cur( int set );
         void set_hp_max( int set );
         void set_healed_total( int set );
         void set_damage_bandaged( int set );
         void set_damage_disinfected( int set );
+
+        void set_encumbrance_data( encumbrance_data set );
 
         void mod_hp_cur( int mod );
         void mod_hp_max( int mod );

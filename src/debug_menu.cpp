@@ -89,6 +89,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "vehicle.h"
 #include "veh_type.h"
 #include "vitamin.h"
 #include "vpart_position.h"
@@ -101,8 +102,6 @@ static const efftype_id effect_flu( "flu" );
 static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
-
-class vehicle;
 
 extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
         nested_mapgen;
@@ -145,6 +144,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_HORDES: return "DISPLAY_HORDES";
         case debug_menu::debug_menu_index::TEST_IT_GROUP: return "TEST_IT_GROUP";
         case debug_menu::debug_menu_index::DAMAGE_SELF: return "DAMAGE_SELF";
+        case debug_menu::debug_menu_index::BLEED_SELF: return "BLEED_SELF";
         case debug_menu::debug_menu_index::SHOW_SOUND: return "SHOW_SOUND";
         case debug_menu::debug_menu_index::DISPLAY_WEATHER: return "DISPLAY_WEATHER";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS: return "DISPLAY_SCENTS";
@@ -177,6 +177,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::LEVEL_SPELLS: return "LEVEL_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
+        case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -212,6 +213,7 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
         { uilist_entry( debug_menu_index::DAMAGE_SELF, true, 'd', _( "Damage self" ) ) },
+        { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
         { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
@@ -275,6 +277,15 @@ static int game_uilist()
     return uilist( _( "Game…" ), uilist_initializer );
 }
 
+static int vehicle_uilist()
+{
+    std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change [b]attery charge" ) ) },
+    };
+
+    return uilist( _( "Vehicle…" ), uilist_initializer );
+}
+
 static int teleport_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
@@ -336,6 +347,7 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
             { uilist_entry( 6, true, 'g', _( "Game…" ) ) },
             { uilist_entry( 2, true, 's', _( "Spawning…" ) ) },
             { uilist_entry( 3, true, 'p', _( "Player…" ) ) },
+            { uilist_entry( 7, true, 'v', _( "Vehicle…" ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
             { uilist_entry( 5, true, 'm', _( "Map…" ) ) },
         };
@@ -374,6 +386,9 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
                 break;
             case 6:
                 action = game_uilist();
+                break;
+            case 7:
+                action = vehicle_uilist();
                 break;
 
             default:
@@ -1258,6 +1273,7 @@ void debug()
             std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
                 return a.second != b.second ? a.second > b.second : a.first < b.first;
             } );
+            popup( u.total_daily_calories_string() );
             for( auto &m_flag_stat : sorted ) {
                 mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
                                        m_flag_stat.second );
@@ -1267,15 +1283,13 @@ void debug()
             popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
-            s += _( "Current turn: %d.\n%s\n" );
+            s += _( "Current turn: %d.\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
             popup_top(
                 s.c_str(),
                 u.posx(), g->u.posy(), g->get_levx(), g->get_levy(),
                 overmap_buffer.ter( g->u.global_omt_location() )->get_name(),
                 to_turns<int>( calendar::turn - calendar::turn_zero ),
-                get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
-                _( "NPCs are NOT going to spawn." ),
                 g->num_creatures() );
             for( const npc &guy : g->all_npcs() ) {
                 tripoint t = guy.global_sm_location();
@@ -1341,11 +1355,20 @@ void debug()
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
                     // Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
-                    // TODO: Allow picking this when add_vehicle has 3d argument
                     tripoint dest = u.pos();
-                    vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, 0 );
-                    if( veh != nullptr ) {
-                        here.board_vehicle( dest, &u );
+                    uilist veh_cond_menu;
+                    veh_cond_menu.text = _( "Vehicle condition" );
+                    veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
+                    veh_cond_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
+                    veh_cond_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Disabled (tires or engine)" ) );
+                    veh_cond_menu.query();
+
+                    if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
+                        // TODO: Allow picking this when add_vehicle has 3d argument
+                        vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, veh_cond_menu.ret - 1 );
+                        if( veh != nullptr ) {
+                            here.board_vehicle( dest, &u );
+                        }
                     }
                 }
             }
@@ -1386,7 +1409,7 @@ void debug()
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 here.create_anomaly( *center, prop );
-                here.spawn_natural_artifact( *center, prop );
+                here.spawn_artifact( *center, relic_procgen_id( "alien_reality" ) );
             }
             break;
 
@@ -1403,15 +1426,16 @@ void debug()
             weather_menu.text = _( "Select new weather pattern:" );
             weather_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
-            for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
-                weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
-                                       weather::name( static_cast<weather_type>( weather_id ) ) );
+            for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
+                weather_menu.addentry( i, true, MENU_AUTOASSIGN,
+                                       weather_types::get_all()[i].name );
             }
 
             weather_menu.query();
 
-            if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
-                weather_type selected_weather = static_cast<weather_type>( weather_menu.ret );
+            if( weather_menu.ret >= 0 &&
+                static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
+                const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
                 g->weather.weather_override = selected_weather;
                 g->weather.set_nextweather( calendar::turn );
             }
@@ -1522,6 +1546,46 @@ void debug()
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
                 u.apply_damage( nullptr, part, dbg_damage );
                 u.die( nullptr );
+            }
+        }
+        break;
+
+        // Add bleeding
+        case debug_menu_index::BLEED_SELF: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'q', _( "Torso" ) );
+            smenu.addentry( 1, true, 'w', _( "Head" ) );
+            smenu.addentry( 2, true, 'a', _( "Left arm" ) );
+            smenu.addentry( 3, true, 's', _( "Right arm" ) );
+            smenu.addentry( 4, true, 'z', _( "Left leg" ) );
+            smenu.addentry( 5, true, 'x', _( "Right leg" ) );
+            smenu.query();
+            bodypart_id part;
+            int intensity = 0;
+            switch( smenu.ret ) {
+                case 0:
+                    part = bodypart_id( "torso" );
+                    break;
+                case 1:
+                    part = bodypart_id( "head" );
+                    break;
+                case 2:
+                    part = bodypart_id( "arm_l" );
+                    break;
+                case 3:
+                    part = bodypart_id( "arm_r" );
+                    break;
+                case 4:
+                    part = bodypart_id( "leg_l" );
+                    break;
+                case 5:
+                    part = bodypart_id( "leg_r" );
+                    break;
+                default:
+                    break;
+            }
+            if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
+                u.make_bleed( part, 1_minutes * intensity );
             }
         }
         break;
@@ -1873,6 +1937,32 @@ void debug()
         case debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
             break;
+
+        case debug_menu_index::VEHICLE_BATTERY_CHARGE: {
+
+            optional_vpart_position v_part_pos = here.veh_at( u.pos() );
+            if( !v_part_pos ) {
+                add_msg( m_bad, _( "There's no vehicle there." ) );
+                break;
+            }
+
+            int amount = 0;
+            string_input_popup popup;
+            popup
+            .title( _( "By how much?  (in kJ, negative to discharge)" ) )
+            .width( 30 )
+            .edit( amount );
+            if( !popup.canceled() ) {
+                vehicle &veh = v_part_pos->vehicle();
+                if( amount >= 0 ) {
+                    veh.charge_battery( amount, false );
+                } else {
+                    veh.discharge_battery( -amount, false );
+                }
+            }
+            break;
+        }
+
         case debug_menu_index::last:
             return;
     }

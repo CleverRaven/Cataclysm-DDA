@@ -176,12 +176,10 @@
         { "point": "bash", "x": [ 48, 74 ], "y": [ 24, 47 ], "repeat": [ 50, 100 ] }
       ],
       "palettes": [ "collapsed_tower" ],
-      "furniture": { "R": "f_rack" },
+      "furniture": { "C": "f_machinery_electronic", "x": "f_machinery_heavy", "R": "f_rack" },
       "terrain": {
         "|": "t_concrete_wall_flesh",
         " ": "t_thconc_floor_flesh",
-        "C": "t_machinery_electronic",
-        "x": "t_machinery_heavy",
         "?": "t_nanofab",
         "r": "t_metal_floor",
         "/": "t_nanofab_body",

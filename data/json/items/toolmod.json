@@ -28,6 +28,14 @@
     "description": "A battery compartment mod that allows using vehicle batteries and small storage batteries in regular tools.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "small_storage_battery", "battery_car", "battery_motorbike" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg"
+      }
+    ],
     "magazine_adaptor": [ [ "battery", [ "small_storage_battery", "battery_car", "battery_motorbike" ] ] ]
   },
   {
@@ -39,6 +47,22 @@
     "description": "A battery compartment mod that allows the use of light batteries in tools that otherwise could not.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [
+          "light_minus_battery_cell",
+          "light_minus_atomic_battery_cell",
+          "light_minus_disposable_cell",
+          "light_battery_cell",
+          "light_plus_battery_cell",
+          "light_atomic_battery_cell",
+          "light_disposable_cell"
+        ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg"
+      }
+    ],
     "magazine_adaptor": [
       [
         "battery",
@@ -63,6 +87,14 @@
     "description": "A battery compartment mod that allows the use of medium batteries in tools that otherwise could not.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg"
+      }
+    ],
     "magazine_adaptor": [
       [
         "battery",
@@ -79,6 +111,14 @@
     "description": "A battery compartment mod that allows the use of heavy batteries in tools that otherwise could not.",
     "color": "light_green",
     "acceptable_ammo": [ "battery" ],
+    "pocket_mods": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ],
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg"
+      }
+    ],
     "magazine_adaptor": [
       [ "battery", [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ] ]
     ]

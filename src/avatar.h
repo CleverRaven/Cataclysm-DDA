@@ -224,6 +224,35 @@ class avatar : public player
             return mon_visible;
         }
 
+        struct daily_calories {
+            int spent;
+            int gained;
+            int total() const {
+                return gained - spent;
+            }
+
+            void serialize( JsonOut &json ) const {
+                json.start_object();
+
+                json.member( "spent", spent );
+                json.member( "gained", gained );
+
+                json.end_object();
+            };
+            void deserialize( JsonIn &jsin ) {
+                JsonObject data = jsin.get_object();
+
+                data.read( "spent", spent );
+                data.read( "gained", gained );
+            };
+        };
+        // called once a day; adds a new daily_calories to the
+        // front of the list and pops off the back if there are more than 30
+        void advance_daily_calories();
+        void add_spent_calories( int cal ) override;
+        void add_gained_calories( int cal ) override;
+        std::string total_daily_calories_string() const;
+
     private:
         map_memory player_map_memory;
         bool show_map_memory;
@@ -249,6 +278,11 @@ class avatar : public player
          * The currently active mission, or null if no mission is currently in progress.
          */
         mission *active_mission;
+        /**
+         * The amont of calories spent and gained per day for the last 30 days.
+         * the back is popped off and a new one added to the front at midnight each day
+         */
+        std::list<daily_calories> calorie_diary;
 
         // Items the player has identified.
         std::unordered_set<itype_id> items_identified;

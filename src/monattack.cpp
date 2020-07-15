@@ -2155,15 +2155,6 @@ bool mattack::impale( monster *z )
                                        z->name() );
 
         target->on_hit( z, bodypart_id( "torso" ),  z->type->melee_skill );
-        if( one_in( 60 / ( dam + 20 ) ) ) {
-            if( target->is_player() || target->is_npc() ) {
-                target->as_character()->make_bleed( bodypart_id( "torso" ), rng( 75_turns, 125_turns ), true );
-            } else {
-                target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
-            }
-
-        }
-
         if( rng( 0, 200 + dam ) > 100 ) {
             target->add_effect( effect_downed, 3_turns );
         }
@@ -2371,7 +2362,7 @@ bool mattack::formblob( monster *z )
     }
 
     bool didit = false;
-    std::vector<tripoint> pts = closest_tripoints_first( z->pos(), 1 );
+    std::vector<tripoint> pts = closest_points_first( z->pos(), 1 );
     // Don't check own tile
     pts.erase( pts.begin() );
     for( const tripoint &dest : pts ) {
@@ -2457,7 +2448,7 @@ bool mattack::callblobs( monster *z )
     // and keep the rest near the brain blob for protection.
     tripoint enemy = get_player_character().pos();
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
+    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( species_BLOB ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
@@ -2490,7 +2481,7 @@ bool mattack::jackson( monster *z )
 {
     // Jackson draws nearby zombies into the dance.
     std::list<monster *> allies;
-    std::vector<tripoint> nearby_points = closest_tripoints_first( z->pos(), 3 );
+    std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
         if( candidate.type->in_species( species_ZOMBIE ) && candidate.type->id != mon_zombie_jackson ) {
             // Just give the allies consistent assignments.
@@ -4545,9 +4536,9 @@ bool mattack::longswipe( monster *z )
                                        _( "The %1$s slashes at <npcname>'s neck, cutting their throat for %2$d damage!" ),
                                        z->name(), dam );
         if( target->is_player() || target->is_npc() ) {
-            target->as_character()->make_bleed( bodypart_id( "head" ), 10_minutes );
+            target->as_character()->make_bleed( bodypart_id( "head" ), 15_minutes );
         } else {
-            target->add_effect( effect_bleed, 10_minutes, bp_head );
+            target->add_effect( effect_bleed, 15_minutes, bp_head );
         }
 
     } else {
@@ -4698,7 +4689,8 @@ bool mattack::slimespring( monster *z )
             }
             if( player_character.has_effect( effect_bleed ) ) {
                 if( one_in( 2 ) ) {
-                    player_character.remove_effect( effect_bleed );
+                    effect &e = player_character.get_effect( effect_bleed );
+                    e.mod_duration( -e.get_int_dur_factor() * rng( 1, 5 ) );
                     add_msg( m_good, _( "The slime seals up your leaks!" ) );
                 } else {
                     add_msg( _( "The slime flows over you, but your fluids are still leaking." ) );
@@ -5374,7 +5366,7 @@ bool mattack::bio_op_impale( monster *z )
         // Handle mons earlier - less to check for
         target->deal_damage( z, bodypart_id( "torso" ), damage_instance( DT_STAB, dam ) );
         if( do_bleed ) {
-            target->add_effect( effect_bleed, rng( 75_turns, 125_turns ), bp_torso, true );
+            target->add_effect( effect_bleed, rng( 3_minutes, 10_minutes ), bp_torso, true );
         }
         if( seen ) {
             add_msg( _( "The %1$s impales %2$s!" ), z->name(), target->disp_name() );

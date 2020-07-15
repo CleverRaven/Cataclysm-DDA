@@ -148,6 +148,7 @@ automatically_convertible = {
     "MONSTER",
     "morale_type",
     "npc",
+    "proficiency",
     "npc_class",
     "overmap_land_use_code",
     "overmap_terrain",
@@ -167,7 +168,8 @@ automatically_convertible = {
     "vehicle_part",
     "vitamin",
     "WHEEL",
-    "help"
+    "help",
+    "weather_type"
 }
 
 # for these objects a plural form is needed

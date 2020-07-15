@@ -6,7 +6,7 @@
 #include <memory>
 #include <set>
 
-#include "avatar.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
@@ -579,7 +579,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( g->u.pos() ) ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

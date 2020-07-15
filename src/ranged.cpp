@@ -680,7 +680,8 @@ bool player::handle_gun_damage( item &it )
 void npc::pretend_fire( npc *source, int shots, item &gun )
 {
     int curshot = 0;
-    if( g->u.sees( *source ) && one_in( 50 ) ) {
+    Character &player_character = get_player_character();
+    if( player_character.sees( *source ) && one_in( 50 ) ) {
         add_msg( m_info, _( "%s shoots something." ), source->disp_name() );
     }
     while( curshot != shots ) {
@@ -692,7 +693,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
         item *weapon = &gun;
         const auto data = weapon->gun_noise( shots > 1 );
 
-        if( g->u.sees( *source ) ) {
+        if( player_character.sees( *source ) ) {
             add_msg( m_warning, _( "You hear %s." ), data.sound );
         }
         curshot++;
@@ -730,10 +731,11 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         debugmsg( "Attempted to fire zero or negative shots using %s", gun.tname() );
     }
 
+    map &here = get_map();
     // usage of any attached bipod is dependent upon terrain
-    bool bipod = g->m.has_flag_ter_or_furn( "MOUNTABLE", pos() );
+    bool bipod = here.has_flag_ter_or_furn( "MOUNTABLE", pos() );
     if( !bipod ) {
-        if( const optional_vpart_position vp = g->m.veh_at( pos() ) ) {
+        if( const optional_vpart_position vp = here.veh_at( pos() ) ) {
             bipod = vp->vehicle().has_part( pos(), "MOUNTABLE" );
         }
     }
@@ -765,7 +767,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
         dispersion.add_range( recoil_total() );
 
         // If this is a vehicle mounted turret, which vehicle is it mounted on?
-        const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( g->m.veh_at(
+        const vehicle *in_veh = has_effect( effect_on_roof ) ? veh_pointer_or_null( here.veh_at(
                                     pos() ) ) : nullptr;
 
         auto shot = projectile_attack( make_gun_projectile( gun ), pos(), aim, dispersion, this, in_veh );
@@ -861,8 +863,8 @@ int throw_cost( const player &c, const item &to_throw )
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
     ///\EFFECT_DEX increases throwing speed
     const int dexbonus = c.get_dex();
-    const int encumbrance_penalty = c.encumb( bp_torso ) +
-                                    ( c.encumb( bp_hand_l ) + c.encumb( bp_hand_r ) ) / 2;
+    const int encumbrance_penalty = c.encumb( bodypart_id( "torso" ) ) +
+                                    ( c.encumb( bodypart_id( "hand_l" ) ) + c.encumb( bodypart_id( "hand_r" ) ) ) / 2;
     const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
@@ -883,7 +885,8 @@ int Character::throw_dispersion_per_dodge( bool add_encumbrance ) const
     // +100 at 8, +80 at 12, +66.6 at 16, +57 at 20, +50 at 24
     // Each 10 encumbrance on either hand is like -1 dex (can bring penalty to +400 per dodge)
     // Maybe TODO: Only use one hand
-    const int encumbrance = add_encumbrance ? encumb( bp_hand_l ) + encumb( bp_hand_r ) : 0;
+    const int encumbrance = add_encumbrance ? encumb( bodypart_id( "hand_l" ) ) + encumb(
+                                bodypart_id( "hand_r" ) ) : 0;
     ///\EFFECT_DEX increases throwing accuracy against targets with good dodge stat
     float effective_dex = 2 + get_dex() / 4.0f - ( encumbrance ) / 40.0f;
     return static_cast<int>( 100.0f / std::max( 1.0f, effective_dex ) );
@@ -925,7 +928,7 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
     }
     // 1 perception per 1 eye encumbrance
     ///\EFFECT_PER decreases throwing accuracy penalty from eye encumbrance
-    dispersion += std::max( 0, ( encumb( bp_eyes ) - get_per() ) * 10 );
+    dispersion += std::max( 0, ( encumb( bodypart_id( "eyes" ) ) - get_per() ) * 10 );
 
     // If throwing blind, we're assuming they mechanically can't achieve the
     // accuracy of a normal throw.
@@ -1537,16 +1540,17 @@ int time_to_attack( const Character &p, const itype &firing )
 
 static void cycle_action( item &weap, const tripoint &pos )
 {
+    map &here = get_map();
     // eject casings and linkages in random direction avoiding walls using player position as fallback
-    std::vector<tripoint> tiles = closest_tripoints_first( pos, 1 );
+    std::vector<tripoint> tiles = closest_points_first( pos, 1 );
     tiles.erase( tiles.begin() );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&]( const tripoint & e ) {
-        return !g->m.passable( e );
+        return !here.passable( e );
     } ), tiles.end() );
     tripoint eject = tiles.empty() ? pos : random_entry( tiles );
 
     // for turrets try and drop casings or linkages directly to any CARGO part on the same tile
-    const optional_vpart_position vp = g->m.veh_at( pos );
+    const optional_vpart_position vp = here.veh_at( pos );
     std::vector<vehicle_part *> cargo;
     if( vp && weap.has_flag( "VEHICLE" ) ) {
         cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
@@ -1558,7 +1562,7 @@ static void cycle_action( item &weap, const tripoint &pos )
             weap.put_in( item( casing ).set_flag( "CASING" ), item_pocket::pocket_type::CONTAINER );
         } else {
             if( cargo.empty() ) {
-                g->m.add_item_or_charges( eject, item( casing ) );
+                here.add_item_or_charges( eject, item( casing ) );
             } else {
                 vp->vehicle().add_item( *cargo.front(), item( casing ) );
             }
@@ -1576,7 +1580,7 @@ static void cycle_action( item &weap, const tripoint &pos )
             linkage.set_flag( "CASING" );
             weap.put_in( linkage, item_pocket::pocket_type::CONTAINER );
         } else if( cargo.empty() ) {
-            g->m.add_item_or_charges( eject, linkage );
+            here.add_item_or_charges( eject, linkage );
         } else {
             vp->vehicle().add_item( *cargo.front(), linkage );
         }
@@ -1670,7 +1674,7 @@ item::sound_data item::gun_noise( const bool burst ) const
 
 static bool is_driving( const player &p )
 {
-    const optional_vpart_position vp = g->m.veh_at( p.pos() );
+    const optional_vpart_position vp = get_map().veh_at( p.pos() );
     return vp && vp->vehicle().is_moving() && vp->vehicle().player_in_control( p );
 }
 
@@ -1703,7 +1707,8 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
-    dispersion.add_range( ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5.0 );
+    dispersion.add_range( ( encumb( bodypart_id( "arm_l" ) ) + encumb( bodypart_id( "arm_r" ) ) ) /
+                          5.0 );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)
@@ -1794,7 +1799,8 @@ double player::gun_value( const item &weap, int ammo ) const
     int move_cost = time_to_attack( *this, *weap.type );
     if( gun.clip != 0 && gun.clip < 10 ) {
         // TODO: RELOAD_ONE should get a penalty here
-        int reload_cost = gun.reload_time + encumb( bp_hand_l ) + encumb( bp_hand_r );
+        int reload_cost = gun.reload_time + encumb( bodypart_id( "hand_l" ) ) + encumb(
+                              bodypart_id( "hand_r" ) );
         reload_cost /= gun.clip;
         move_cost += reload_cost;
     }
@@ -1876,8 +1882,9 @@ target_handler::trajectory target_ui::run()
         sight_dispersion = you->effective_dispersion( relevant->sight_dispersion() );
     }
 
+    map &here = get_map();
     // Load settings
-    allow_zlevel_shift = g->m.has_zlevels() && get_option<bool>( "FOV_3D" );
+    allow_zlevel_shift = here.has_zlevels() && get_option<bool>( "FOV_3D" );
     snap_to_target = get_option<bool>( "SNAP_TO_TARGET" );
     if( mode == TargetMode::Turrets ) {
         // Due to how cluttered the display would become, disable it by default
@@ -1885,10 +1892,11 @@ target_handler::trajectory target_ui::run()
         draw_turret_lines = vturrets->size() == 1;
     }
 
-    on_out_of_scope cleanup( []() {
-        g->m.invalidate_map_cache( g->u.pos().z + g->u.view_offset.z );
+    avatar &player_character = get_avatar();
+    on_out_of_scope cleanup( [&here, &player_character]() {
+        here.invalidate_map_cache( player_character.pos().z + player_character.view_offset.z );
     } );
-    restore_on_out_of_scope<tripoint> view_offset_prev( g->u.view_offset );
+    restore_on_out_of_scope<tripoint> view_offset_prev( player_character.view_offset );
 
     shared_ptr_fast<game::draw_callback_t> target_ui_cb = make_shared_fast<game::draw_callback_t>(
     [&]() {
@@ -2228,13 +2236,14 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
     // Make sure new position is valid or find a closest valid position
     std::vector<tripoint> new_traj;
     tripoint valid_pos = new_pos;
+    map &here = get_map();
     if( new_pos != src ) {
         // On Z axis, make sure we do not exceed map boundaries
         valid_pos.z = clamp( valid_pos.z, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
         // Or current view range
         valid_pos.z = clamp( valid_pos.z - src.z, -fov_3d_z_range, fov_3d_z_range ) + src.z;
 
-        new_traj = g->m.find_clear_path( src, valid_pos );
+        new_traj = here.find_clear_path( src, valid_pos );
         if( range == 1 ) {
             // We should always be able to hit adjacent squares
             if( square_dist( src, valid_pos ) > 1 ) {
@@ -2280,7 +2289,7 @@ bool target_ui::set_cursor_pos( const tripoint &new_pos )
         traj = new_traj;
     } else {
         dst = valid_pos;
-        traj = g->m.find_clear_path( src, dst );
+        traj = here.find_clear_path( src, dst );
     }
 
     if( snap_to_target ) {
@@ -2363,13 +2372,14 @@ void target_ui::update_target_list()
 
 bool target_ui::choose_initial_target( bool reentered, tripoint &new_dst )
 {
+    map &here = get_map();
     // Determine if we had a target and it is still visible
     if( !you->last_target.expired() ) {
         Creature *cr = you->last_target.lock().get();
         if( pl_can_target( cr ) ) {
             // There it is!
             new_dst = cr->pos();
-            you->last_target_pos = g->m.getabs( new_dst );
+            you->last_target_pos = here.getabs( new_dst );
             return true;
         }
     }
@@ -2378,7 +2388,7 @@ bool target_ui::choose_initial_target( bool reentered, tripoint &new_dst )
     // and still can aim at that tile.
     cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
     if( you->last_target_pos ) {
-        tripoint local = g->m.getlocal( *you->last_target_pos );
+        tripoint local = here.getlocal( *you->last_target_pos );
         if( dist_fn( local ) > range ) {
             // No luck
             you->last_target_pos = cata::nullopt;
@@ -2400,10 +2410,10 @@ bool target_ui::choose_initial_target( bool reentered, tripoint &new_dst )
     // Try to find at least something
     if( targets.empty() ) {
         // The closest practice target
-        const std::vector<tripoint> nearby = closest_tripoints_first( src, range );
+        const std::vector<tripoint> nearby = closest_points_first( src, range );
         const auto target_spot = std::find_if( nearby.begin(), nearby.end(),
-        [this]( const tripoint & pt ) {
-            return g->m.tr_at( pt ).id == tr_practice_target && this->you->sees( pt );
+        [this, &here]( const tripoint & pt ) {
+            return here.tr_at( pt ).id == tr_practice_target && this->you->sees( pt );
         } );
 
         if( target_spot != nearby.end() ) {
@@ -2455,7 +2465,7 @@ bool target_ui::pl_can_target( const Creature *cr )
 
 void target_ui::set_last_target()
 {
-    you->last_target_pos = g->m.getabs( dst );
+    you->last_target_pos = get_map().getabs( dst );
     if( dst_critter ) {
         you->last_target = g->shared_from( *dst_critter );
     } else {
@@ -2520,7 +2530,7 @@ void target_ui::set_view_offset( const tripoint &new_offset )
     if( changed_z ) {
         // We need to do a bunch of cache updates since we're
         // looking at a different z-level.
-        g->m.invalidate_map_cache( new_.z );
+        get_map().invalidate_map_cache( new_.z );
     }
 }
 
@@ -2550,7 +2560,7 @@ void target_ui::recalc_aim_turning_penalty()
     if( lt_ptr ) {
         curr_recoil_pos = lt_ptr->pos();
     } else if( you->last_target_pos ) {
-        curr_recoil_pos = g->m.getlocal( *you->last_target_pos );
+        curr_recoil_pos = get_map().getlocal( *you->last_target_pos );
     } else {
         curr_recoil_pos = src;
     }
@@ -2731,7 +2741,7 @@ void target_ui::draw_terrain_overlay()
                 g->draw_highlight( tile );
             } else {
 #endif
-                g->m.drawsq( g->w_terrain, *you, tile, true, true, center );
+                get_map().drawsq( g->w_terrain, *you, tile, true, true, center );
 #ifdef TILES
             }
 #endif

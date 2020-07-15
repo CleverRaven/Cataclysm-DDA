@@ -620,11 +620,16 @@ class Creature
         int get_part_damage_disinfected( const bodypart_id &id ) const;
         int get_part_damage_bandaged( const bodypart_id &id ) const;
 
+        encumbrance_data get_part_encumbrance_data( const bodypart_id &id )const;
+
         void set_part_hp_cur( const bodypart_id &id, int set );
         void set_part_hp_max( const bodypart_id &id, int set );
         void set_part_healed_total( const bodypart_id &id, int set );
         void set_part_damage_disinfected( const bodypart_id &id, int set );
         void set_part_damage_bandaged( const bodypart_id &id, int set );
+
+        void set_part_encumbrance_data( const bodypart_id &id, encumbrance_data set );
+
         void mod_part_hp_cur( const bodypart_id &id, int mod );
         void mod_part_hp_max( const bodypart_id &id, int mod );
         void mod_part_healed_total( const bodypart_id &id, int mod );

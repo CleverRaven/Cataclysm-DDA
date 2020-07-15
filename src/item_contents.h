@@ -83,6 +83,11 @@ class item_contents
         std::vector<item *> gunmods();
         /** gets all gunmods in the item */
         std::vector<const item *> gunmods() const;
+
+        std::vector<const item *> mods() const;
+
+        void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
+                                      std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
         // this only checks MAGAZINE_WELL
         std::set<itype_id> magazine_compatible() const;
@@ -228,6 +233,8 @@ class item_contents
 
         void info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
+        // reads the items in the MOD pocket first
+        void read_mods( const item_contents &read_input );
         void combine( const item_contents &read_input );
 
         void serialize( JsonOut &json ) const;
@@ -241,6 +248,11 @@ class item_contents
 
         ret_val<const item_pocket *> find_pocket_for( const item &it,
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
+
+        //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
+        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
+        //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
+        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
 
         std::list<item_pocket> contents;
 

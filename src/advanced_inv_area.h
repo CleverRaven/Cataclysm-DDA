@@ -68,7 +68,9 @@ class advanced_inv_area
         std::string flags;
         // total volume and weight of items currently there
         units::volume volume;
+        units::volume volume_veh;
         units::mass weight;
+        units::mass weight_veh;
         // maximal count / volume of items there.
         int max_size = 0;
         // appears as part of the legend at the top right

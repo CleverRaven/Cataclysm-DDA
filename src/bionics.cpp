@@ -64,6 +64,7 @@
 #include "point.h"
 #include "projectile.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "string_formatter.h"
@@ -601,6 +602,15 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         avatar_action::fire_ranged_bionic( g->u, item( bio.info().fake_item ), bio.info().power_activate );
     } else if( bio.info().has_flag( flag_BIO_WEAPON ) ) {
         if( weapon.has_flag( flag_NO_UNWIELD ) ) {
+            cata::optional<int> active_bio_weapon_index = active_bionic_weapon_index();
+            if( active_bio_weapon_index && deactivate_bionic( *active_bio_weapon_index, eff_only ) ) {
+                // restore state and try again
+                refund_power();
+                bio.powered = false;
+                // note: deep recursion is not possible, as `deactivate_bionic` won't return true second time
+                return activate_bionic( b, eff_only, close_bionics_ui );
+            }
+
             add_msg_if_player( m_info, _( "Deactivate your %s first!" ), weapon.tname() );
             refund_power();
             bio.powered = false;
@@ -644,7 +654,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     } else if( bio.id == bio_evap ) {
         add_msg_activate();
         const w_point weatherPoint = *g->weather.weather_precise;
-        int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+        int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                            g->is_sheltered( g->u.pos() ) );
         // thirst units = 5 mL
         int water_available = std::lround( humidity * 3.0 / 100.0 );
@@ -1011,7 +1021,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         const w_point weatherPoint = *g->weather.weather_precise;
         add_msg_if_player( m_info, _( "Relative Humidity: %s." ),
                            print_humidity(
-                               get_local_humidity( weatherPoint.humidity, g->weather.weather,
+                               get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                        g->is_sheltered( g->u.pos() ) ) ) );
         add_msg_if_player( m_info, _( "Pressure: %s." ),
                            print_pressure( static_cast<int>( weatherPoint.pressure ) ) );
@@ -1117,7 +1127,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_encumbrance();
+    calc_encumbrance();
     reset();
 
     // Also reset crafting inventory cache if this bionic spawned a fake item
@@ -1128,15 +1138,64 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
     return true;
 }
 
-bool Character::deactivate_bionic( int b, bool eff_only )
+cata::optional<int> Character::active_bionic_weapon_index() const
+{
+    if( weapon.is_null() ) {
+        return cata::nullopt;
+    }
+
+    for( int i = 0; i < static_cast<int>( my_bionics->size() ); i++ ) {
+        const bionic &bio = ( *my_bionics )[ i ];
+        if( bio.powered && bio.info().has_flag( flag_BIO_WEAPON ) &&
+            weapon.typeId() == bio.info().fake_item ) {
+            return i;
+        }
+    }
+
+    return cata::nullopt;
+}
+
+ret_val<bool> Character::can_deactivate_bionic( int b, bool eff_only ) const
 {
     bionic &bio = ( *my_bionics )[b];
 
     if( bio.incapacitated_time > 0_turns ) {
-        add_msg( m_info, _( "Your %s is shorting out and can't be deactivated." ),
-                 bio.info().name );
+        return ret_val<bool>::make_failure( _( "Your %s is shorting out and can't be deactivated." ),
+                                            bio.info().name );
+    }
+
+    if( !eff_only ) {
+        if( !bio.powered ) {
+            // It's already off!
+            return ret_val<bool>::make_failure();
+        }
+        if( !bio.info().has_flag( flag_BIO_TOGGLED ) ) {
+            // It's a fire-and-forget bionic, we can't turn it off but have to wait for
+            //it to run out of charge
+            return ret_val<bool>::make_failure( _( "You can't deactivate your %s manually!" ),
+                                                bio.info().name );
+        }
+        if( get_power_level() < bio.info().power_deactivate ) {
+            return ret_val<bool>::make_failure( _( "You don't have the power to deactivate your %s." ),
+                                                bio.info().name );
+        }
+    }
+
+    return ret_val<bool>::make_success();
+}
+
+bool Character::deactivate_bionic( int b, bool eff_only )
+{
+    const auto can_deactivate = can_deactivate_bionic( b, eff_only );
+
+    if( !can_deactivate.success() ) {
+        if( !can_deactivate.str().empty() ) {
+            add_msg( m_info,  can_deactivate.str() );
+        }
         return false;
     }
+
+    bionic &bio = ( *my_bionics )[b];
 
     if( bio.info().is_remote_fueled ) {
         reset_remote_fuel();
@@ -1144,23 +1203,6 @@ bool Character::deactivate_bionic( int b, bool eff_only )
 
     // Just do the effect, no stat changing or messages
     if( !eff_only ) {
-        if( !bio.powered ) {
-            // It's already off!
-            return false;
-        }
-        if( !bio.info().has_flag( flag_BIO_TOGGLED ) ) {
-            // It's a fire-and-forget bionic, we can't turn it off but have to wait for
-            //it to run out of charge
-            add_msg_if_player( m_info, _( "You can't deactivate your %s manually!" ),
-                               bio.info().name );
-            return false;
-        }
-        if( get_power_level() < bio.info().power_deactivate ) {
-            add_msg( m_info, _( "You don't have the power to deactivate your %s." ),
-                     bio.info().name );
-            return false;
-        }
-
         //We can actually deactivate now, do deactivation-y things
         mod_power_level( -bio.info().power_deactivate );
         bio.powered = false;
@@ -1195,7 +1237,7 @@ bool Character::deactivate_bionic( int b, bool eff_only )
     }
 
     // Recalculate stats (strength, mods from pain etc.) that could have been affected
-    reset_encumbrance();
+    calc_encumbrance();
     reset();
     if( !bio.id->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -1306,7 +1348,7 @@ bool Character::burn_fuel( int b, bool start )
                         mod_power_level( power_gain );
                     } else if( is_perpetual_fuel ) {
                         if( fuel == fuel_type_sun_light && g->is_in_sunlight( pos() ) ) {
-                            const weather_type &wtype = current_weather( pos() );
+                            const weather_type_id &wtype = current_weather( pos() );
                             const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
                             const double intensity = tick_sunlight / default_daylight_level();
                             mod_power_level( units::from_kilojoule( fuel_energy ) * intensity * effective_efficiency );
@@ -1683,29 +1725,25 @@ void Character::process_bionic( int b )
                 const int hp_cur = part.second.get_hp_cur();
                 if( hp_cur > 0 && hp_cur < part.second.get_hp_max() ) {
                     damaged_hp_parts.push_back( part.first.id() );
-                    // only healed and non-hp parts will have a chance of bleeding removal
-                    bleeding_bp_parts.remove( part.first.id() );
+                }
+            }
+            for( const bodypart_id &i : bleeding_bp_parts ) {
+                // effectively reduces by 1 intensity level
+                if( get_stored_kcal() >= 15 ) {
+                    get_effect( effect_bleed, i->token ).mod_duration( -get_effect( effect_bleed,
+                            i->token ).get_int_dur_factor() );
+                    mod_stored_kcal( -15 );
+                } else {
+                    bleeding_bp_parts.clear();
+                    break;
                 }
             }
             if( calendar::once_every( 60_turns ) ) {
-                bool try_to_heal_bleeding = true;
                 if( get_stored_kcal() >= 5 && !damaged_hp_parts.empty() ) {
                     const bodypart_id part_to_heal = damaged_hp_parts[ rng( 0, damaged_hp_parts.size() - 1 ) ];
                     heal( part_to_heal, 1 );
                     mod_stored_kcal( -5 );
-                    int hp_percent = static_cast<float>( get_part_hp_cur( part_to_heal ) ) / get_part_hp_max(
-                                         part_to_heal ) * 100;
-                    if( has_effect( effect_bleed, part_to_heal->token ) && rng( 0, 100 ) < hp_percent ) {
-                        remove_effect( effect_bleed, part_to_heal->token );
-                        try_to_heal_bleeding = false;
-                    }
                 }
-
-                // if no bleed was removed, try to remove it on some other part
-                if( try_to_heal_bleeding && !bleeding_bp_parts.empty() && rng( 0, 1 ) == 1 ) {
-                    remove_effect( effect_bleed,  bleeding_bp_parts.front()->token );
-                }
-
             }
             if( !damaged_hp_parts.empty() || !bleeding_bp_parts.empty() ) {
                 mod_power_level( -40_J );
@@ -1737,8 +1775,8 @@ void Character::process_bionic( int b )
         // Aero-Evaporator provides water at 60 watts with 2 L / kWh efficiency
         // which is 10 mL per 5 minutes.  Humidity can modify the amount gained.
         if( calendar::once_every( 5_minutes ) ) {
-            const w_point weatherPoint = *g->weather.weather_precise;
-            int humidity = get_local_humidity( weatherPoint.humidity, g->weather.weather,
+            const w_point weatherPoint = *get_weather().weather_precise;
+            int humidity = get_local_humidity( weatherPoint.humidity, get_weather().weather_id,
                                                g->is_sheltered( g->u.pos() ) );
             // in thirst units = 5 mL water
             int water_available = std::lround( humidity * 3.0 / 100.0 );
@@ -2704,7 +2742,7 @@ void Character::add_bionic( const bionic_id &b )
         }
     }
 
-    reset_encumbrance();
+    calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();
@@ -2741,7 +2779,7 @@ void Character::remove_bionic( const bionic_id &b )
     }
 
     *my_bionics = new_my_bionics;
-    reset_encumbrance();
+    calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
         recalculate_enchantment_cache();

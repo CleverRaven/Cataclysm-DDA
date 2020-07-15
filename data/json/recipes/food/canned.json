@@ -15,11 +15,7 @@
     "result_mult": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "water", 11 ], [ "water_clean", 11 ] ],
-      [ [ "jar_glass", 1 ] ],
-      [ [ "offal", 2 ], [ "liver", 5 ], [ "sweetbread", 5 ], [ "kidney", 5 ] ]
-    ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat_offal", 2, "LIST" ] ] ]
   },
   {
     "result": "offal_canned",
@@ -43,7 +39,7 @@
       [ [ "canister_empty", 1 ], [ "can_food", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "offal", 1 ], [ "liver", 3 ], [ "sweetbread", 3 ], [ "kidney", 3 ] ]
+      [ [ "meat_offal", 1, "LIST" ] ]
     ]
   },
   {
@@ -64,7 +60,7 @@
     "components": [
       [ [ "water", 1 ], [ "water_clean", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "offal", 2 ], [ "liver", 5 ], [ "sweetbread", 5 ], [ "kidney", 5 ] ],
+      [ [ "meat_offal", 2, "LIST" ] ],
       [ [ "vinegar", 1 ] ]
     ]
   },
@@ -86,7 +82,7 @@
     "components": [
       [ [ "water", 11 ], [ "water_clean", 11 ] ],
       [ [ "jar_glass", 1 ] ],
-      [ [ "meat", 1 ], [ "fish", 1 ] ],
+      [ [ "meat_red_raw", 1, "LIST" ], [ "fish", 1 ] ],
       [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ]
     ]
   },
@@ -113,7 +109,7 @@
       [ [ "can_medium", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "meat", 1 ], [ "fish", 1 ] ],
+      [ [ "meat_red_raw", 1, "LIST" ], [ "fish", 1 ] ],
       [ [ "veggy", 1 ], [ "veggy_wild", 1 ] ]
     ]
   },
@@ -136,7 +132,7 @@
     "components": [
       [ [ "water", 16 ], [ "water_clean", 16 ] ],
       [ [ "jar_3l_glass", 1 ] ],
-      [ [ "meat", 6 ], [ "fish", 6 ] ],
+      [ [ "meat_red_raw", 6, "LIST" ], [ "fish", 6 ] ],
       [ [ "veggy", 6 ], [ "veggy_wild", 6 ] ]
     ]
   },
@@ -156,7 +152,7 @@
     "result_mult": 2,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat", 4 ], [ "fish", 4 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "meat_red_raw", 4, "LIST" ], [ "fish", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -181,7 +177,7 @@
       [ [ "canister_empty", 1 ], [ "can_food", 1 ] ],
       [ [ "scrap", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
-      [ [ "meat", 2 ], [ "fish", 2 ] ]
+      [ [ "meat_red_raw", 2, "LIST" ], [ "fish", 2 ] ]
     ]
   },
   {
@@ -200,7 +196,11 @@
     "batch_time_factors": [ 83, 5 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "meat", 24 ], [ "fish", 24 ] ] ]
+    "components": [
+      [ [ "water", 16 ], [ "water_clean", 16 ] ],
+      [ [ "jar_3l_glass", 1 ] ],
+      [ [ "meat_red_raw", 24, "LIST" ], [ "fish", 24 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -938,11 +938,7 @@
     "container": "jar_3l_glass_sealed",
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 200, "LIST" ] ], [ [ "pot_canning", -1 ] ] ],
-    "components": [
-      [ [ "water", 16 ], [ "water_clean", 16 ] ],
-      [ [ "jar_3l_glass", 1 ] ],
-      [ [ "offal", 12 ], [ "liver", 30 ], [ "sweetbread", 30 ], [ "kidney", 30 ] ]
-    ]
+    "components": [ [ [ "water", 16 ], [ "water_clean", 16 ] ], [ [ "jar_3l_glass", 1 ] ], [ [ "meat_offal", 12, "LIST" ] ] ]
   },
   {
     "type": "recipe",

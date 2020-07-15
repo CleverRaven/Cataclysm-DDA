@@ -35,6 +35,7 @@
 #include "enums.h"
 #include "int_id.h"
 #include "monster.h"
+#include "vpart_range.h"
 
 #define dbg(x) DebugLog((x),D_MAP) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -116,6 +117,263 @@ int vehicle::slowdown( int at_velocity ) const
     return std::max( 1, slowdown );
 }
 
+void vehicle:: smart_controller_handle_turn( bool thrusting,
+        cata::optional<float> k_traction_cache )
+{
+
+    if( !engine_on || !has_enabled_smart_controller ) {
+        smart_controller_state = cata::nullopt;
+        return;
+    }
+
+    if( smart_controller_state && smart_controller_state->created == calendar::turn ) {
+        return;
+    }
+
+    // controlled engines
+    // note: contains indices of of elements in `engines` array, not the part ids
+    std::vector<int> c_engines;
+    for( int i = 0; i < static_cast<int>( engines.size() ); ++i ) {
+        if( ( is_engine_type( i, fuel_type_battery ) || is_combustion_engine_type( i ) ) &&
+            ( ( parts[ engines[ i ] ].is_available() && engine_fuel_left( i ) > 0 ) ||
+              is_part_on( engines[ i ] ) ) ) {
+            c_engines.push_back( i );
+        }
+    }
+
+    bool rotorcraft = is_flying && is_rotorcraft();
+
+    if( rotorcraft || c_engines.size() <= 1 || c_engines.size() > 5 ) { // bail and shut down
+        for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
+            vp.part().enabled = false;
+        }
+
+        if( player_in_control( g->u ) ) {
+            if( rotorcraft ) {
+                add_msg( _( "Smart controller does not support flying vehicles." ) );
+            } else if( c_engines.size() <= 1 ) {
+                add_msg( _( "Smart controller detects only a single controllable engine." ) );
+                add_msg( _( "Smart controller is designed to control more than one engine." ) );
+            } else {
+                add_msg( _( "Smart controller does not support more than five engines." ) );
+            }
+            add_msg( m_bad, _( "Smart controller is shutting down." ) );
+        }
+        has_enabled_smart_controller = false;
+        smart_controller_state = cata::nullopt;
+        return;
+    }
+
+    int cur_battery_level, max_battery_level;
+    std::tie( cur_battery_level, max_battery_level ) = battery_power_level();
+    int battery_level_percent = max_battery_level == 0 ? 0 : cur_battery_level * 100 /
+                                max_battery_level;
+
+    // when battery > 90%, discharge is allowed
+    // otherwise trying to charge battery to 90% within 30 minutes
+    bool discharge_forbidden_soft = battery_level_percent <= 90;
+    bool discharge_forbidden_hard = battery_level_percent <= 25;
+    int target_charging_rate = ( max_battery_level == 0 || !discharge_forbidden_soft ) ? 0 :
+                               ( 9 * max_battery_level - 10 * cur_battery_level ) / ( 6 * 3 );
+    //                         ( max_battery_level * 0.9 - cur_battery_level )  * (1000 / (60 * 30))   // originally
+    //                                              ^ 90%                   bat to W ^         ^ 30 minutes
+
+    int accel_demand = cruise_on
+                       ? // using avg_velocity reduces unnecessary oscillations when traction is low
+                       std::max( std::abs( cruise_velocity - velocity ), std::abs( cruise_velocity - avg_velocity ) ) :
+                       ( thrusting ? 1000 : 0 );
+    if( velocity != 0 && accel_demand == 0 ) {
+        accel_demand = 1;    // to prevent zero fuel usage
+    }
+
+    int velocity_demand = std::max( std::abs( this->velocity ), std::abs( cruise_velocity ) );
+
+    // for stationary vehicles all velocity and acceleration calculations are skipped
+    bool is_stationary = avg_velocity == 0 && velocity_demand == 0 && accel_demand == 0;
+
+    bool gas_engine_shutdown_forbidden = smart_controller_state &&
+                                         ( calendar::turn - smart_controller_state->gas_engine_last_turned_on ) <
+                                         15_seconds;
+
+
+    smart_controller_cache cur_state;
+
+    float traction = is_stationary ? 1.0f :
+                     ( k_traction_cache ? *k_traction_cache : k_traction( get_map().vehicle_wheel_traction( *this ) ) );
+
+    int prev_mask = 0;
+    // opt_ prefix denotes values for currently found "optimal" engine configuration
+    int opt_net_echarge_rate = net_battery_charge_rate_w();
+    // total engine fuel energy usage (J)
+    int opt_fuel_usage = 0;
+
+    int opt_accel = is_stationary ? 1 : current_acceleration() * traction;
+    int opt_safe_vel = is_stationary ? 1 : safe_ground_velocity( true );
+    float cur_load_approx = static_cast<float>( std::min( accel_demand,
+                            opt_accel ) )  / std::max( opt_accel, 1 );
+    float cur_load_alternator = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
+
+    for( size_t i = 0; i < c_engines.size(); ++i ) {
+        if( is_engine_on( c_engines[i] ) ) {
+            prev_mask |= 1 << i;
+            bool is_electric = is_engine_type( c_engines[i], fuel_type_battery );
+            int fu = engine_fuel_usage( c_engines[i] ) * ( cur_load_approx + ( is_electric ? 0 :
+                     cur_load_alternator ) );
+            opt_fuel_usage += fu;
+            if( is_electric ) {
+                opt_net_echarge_rate -= fu;
+            }
+        }
+    }
+    cur_state.created = calendar::turn;
+    cur_state.battery_percent = battery_level_percent;
+    cur_state.battery_net_charge_rate = opt_net_echarge_rate;
+    cur_state.velocity = avg_velocity;
+    cur_state.load = cur_load_approx + cur_load_alternator;
+    if( smart_controller_state ) {
+        cur_state.gas_engine_last_turned_on = smart_controller_state->gas_engine_last_turned_on;
+    }
+    cur_state.gas_engine_shutdown_forbidden = gas_engine_shutdown_forbidden;
+
+    int opt_mask = prev_mask; // save current engine state, because it will be temporarily modified
+
+    // if vehicle state has not change, skip actual optimization
+    if( smart_controller_state &&
+        std::abs( smart_controller_state->velocity - cur_state.velocity ) < 100 &&
+        std::abs( smart_controller_state->battery_percent - cur_state.battery_percent ) <= 2 &&
+        std::abs( smart_controller_state->load - cur_state.load ) < 0.1 && // load diff < 10%
+        smart_controller_state->battery_net_charge_rate == cur_state.battery_net_charge_rate &&
+        // reevaluate cache if when cache was created, gas engine shutdown was forbidden, but now it's not
+        !( smart_controller_state->gas_engine_shutdown_forbidden && !gas_engine_shutdown_forbidden )
+      ) {
+        smart_controller_state->created = calendar::turn;
+        return;
+    }
+
+    // trying all combinations of engine state (max 31 iterations for 5 engines)
+    for( int mask = 1; mask < static_cast<int>( 1 << c_engines.size() ); ++mask ) {
+        if( mask == prev_mask ) {
+            continue;
+        }
+
+        bool gas_engine_to_shut_down = false;
+        for( size_t i = 0; i < c_engines.size(); ++i ) {
+            bool old_state = ( prev_mask & ( 1 << i ) ) != 0;
+            bool new_state = ( mask & ( 1 << i ) ) != 0;
+            // switching enabled flag temporarily to perform calculations below
+            toggle_specific_engine( c_engines[i], new_state );
+
+            if( old_state && !new_state && !is_engine_type( c_engines[i], fuel_type_battery ) ) {
+                gas_engine_to_shut_down = true;
+            }
+        }
+
+        if( gas_engine_to_shut_down && gas_engine_shutdown_forbidden ) {
+            continue; // skip checking this state
+        }
+
+        int safe_vel =  is_stationary ? 1 : safe_ground_velocity( true );
+        int accel = is_stationary ? 1 : current_acceleration() * traction;
+        int fuel_usage = 0;
+        int net_echarge_rate = net_battery_charge_rate_w();
+        float load_approx = static_cast<float>( std::min( accel_demand, accel ) ) / std::max( accel, 1 );
+        update_alternator_load();
+        float load_approx_alternator  = std::min( 0.01f, static_cast<float>( alternator_load ) / 1000 );
+
+        for( int e : c_engines ) {
+            bool is_electric = is_engine_type( e, fuel_type_battery );
+            int fu = engine_fuel_usage( e ) * ( load_approx + ( is_electric ? 0 : load_approx_alternator ) );
+            fuel_usage += fu;
+            if( is_electric ) {
+                net_echarge_rate -= fu;
+            }
+        }
+
+        if( std::forward_as_tuple(
+                !discharge_forbidden_hard || ( net_echarge_rate > 0 ),
+                accel >= accel_demand,
+                opt_accel < accel_demand ? accel : 0, // opt_accel usage here is intentional
+                safe_vel >= velocity_demand,
+                opt_safe_vel < velocity_demand ? -safe_vel : 0, //opt_safe_vel usage here is intentional
+                !discharge_forbidden_soft || ( net_echarge_rate > target_charging_rate ),
+                -fuel_usage,
+                net_echarge_rate
+            ) >= std::forward_as_tuple(
+                !discharge_forbidden_hard || ( opt_net_echarge_rate > 0 ),
+                opt_accel >= accel_demand,
+                opt_accel < accel_demand ? opt_accel : 0,
+                opt_safe_vel >= velocity_demand,
+                opt_safe_vel < velocity_demand ? -opt_safe_vel : 0,
+                !discharge_forbidden_soft || ( opt_net_echarge_rate > target_charging_rate ),
+                -opt_fuel_usage,
+                opt_net_echarge_rate
+            ) ) {
+            opt_mask = mask;
+            opt_fuel_usage = fuel_usage;
+            opt_net_echarge_rate = net_echarge_rate;
+            opt_accel = accel;
+            opt_safe_vel = safe_vel;
+
+            cur_state.battery_net_charge_rate = net_echarge_rate;
+            cur_state.load = load_approx + load_approx_alternator;
+            // other `cur_state` fields do not change for different engine state combinations
+        }
+    }
+
+    for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
+        toggle_specific_engine( c_engines[i], static_cast<bool>( prev_mask & ( 1 << i ) ) );
+    }
+
+    if( opt_mask != prev_mask ) { // we found new configuration
+        bool failed_to_start = false;
+        bool turned_on_gas_engine = false;
+        for( size_t i = 0; i < c_engines.size(); ++i ) {
+            // ..0.. < ..1..  was off, new state on
+            if( ( prev_mask & ( 1 << i ) ) < ( opt_mask & ( 1 << i ) ) ) {
+                if( !start_engine( c_engines[i], true ) ) {
+                    failed_to_start = true;
+                }
+                turned_on_gas_engine |= !is_engine_type( c_engines[i], fuel_type_battery );
+            }
+        }
+        if( failed_to_start ) {
+            this->smart_controller_state = cata::nullopt;
+
+            for( size_t i = 0; i < c_engines.size(); ++i ) { // return to prev state
+                toggle_specific_engine( c_engines[i], static_cast<bool>( prev_mask & ( 1 << i ) ) );
+            }
+            for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
+                vp.part().enabled = false;
+            }
+            if( player_in_control( g->u ) ) {
+                add_msg( m_bad, _( "Smart controller failed to start an engine." ) );
+                add_msg( m_bad, _( "Smart controller is shutting down." ) );
+            }
+            has_enabled_smart_controller = false;
+
+        } else {  //successfully changed engines state
+            for( size_t i = 0; i < c_engines.size(); ++i ) {
+                // was on, needs to be off
+                if( ( prev_mask & ( 1 << i ) ) > ( opt_mask & ( 1 << i ) ) ) {
+                    start_engine( c_engines[i], false );
+                }
+            }
+            if( turned_on_gas_engine ) {
+                cur_state.gas_engine_last_turned_on = calendar::turn;
+            }
+            smart_controller_state = cur_state;
+
+            if( player_in_control( g->u ) ) {
+                add_msg( m_debug, _( "Smart controller optimizes engine state." ) );
+            }
+        }
+    } else {
+        // as the optimization was performed (even without state change), cache needs to be updated as well
+        smart_controller_state = cur_state;
+    }
+    update_alternator_load();
+}
+
 void vehicle::thrust( int thd, int z )
 {
     //if vehicle is stopped, set target direction to forward.
@@ -151,6 +409,11 @@ void vehicle::thrust( int thd, int z )
 
     // TODO: Pass this as an argument to avoid recalculating
     float traction = k_traction( get_map().vehicle_wheel_traction( *this ) );
+
+    if( thrusting ) {
+        smart_controller_handle_turn( true, traction );
+    }
+
     int accel = current_acceleration() * traction;
     if( accel < 200 && velocity > 0 && is_towing() ) {
         if( pl_ctrl ) {

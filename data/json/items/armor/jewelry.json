@@ -1344,7 +1344,8 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "deputy badge" },
-    "description": "A tarnished silver star gives an air of authority to the wearer."
+    "description": "A tarnished silver star gives an air of authority to the wearer.",
+    "ascii_picture": "badge_deputy"
   },
   {
     "id": "badge_detective",

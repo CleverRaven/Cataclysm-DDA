@@ -45,6 +45,7 @@
 #include "pldata.h"
 #include "popup.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "rng.h"
@@ -590,6 +591,10 @@ bool avatar::create( character_type type, const std::string &tempname )
     }
     // Adjust current energy level to maximum
     set_power_level( get_max_power_level() );
+
+    for( const proficiency_id &pri : prof->proficiencies() ) {
+        add_proficiency( pri );
+    }
 
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
@@ -1553,6 +1558,17 @@ tab_direction set_profession( avatar &u, points_left &points,
                     }
                 }
             }
+            // Proficiencies
+            const std::string newline = "\n";
+            std::vector<proficiency_id> prof_proficiencies = sorted_profs[cur_id]->proficiencies();
+            buffer += colorize( _( "Profession proficiencies:" ), c_light_blue ) + newline;
+            if( prof_proficiencies.empty() ) {
+                buffer += pgettext( "Profession has no proficiencies", "None" ) + newline;
+            } else {
+                for( const proficiency_id &prof : prof_proficiencies ) {
+                    buffer += prof->name() + newline;
+                }
+            }
             // Profession pet
             if( !sorted_profs[cur_id]->pets().empty() ) {
                 buffer += colorize( _( "Pets:" ), c_light_blue ) + "\n";
@@ -2187,8 +2203,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
                 wprintz( w_flags, c_light_gray, _( "Fungal infected player" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
-            if( get_option<std::string>( "STARTING_NPC" ) == "scenario" &&
-                sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
+            if( sorted_scens[cur_id]->has_flag( "LONE_START" ) ) {
                 wprintz( w_flags, c_light_gray, _( "No starting NPC" ) );
                 wprintz( w_flags, c_light_gray, ( "\n" ) );
             }
@@ -2559,15 +2574,15 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
         }
         wnoutrefresh( w_guide );
 
-        //We draw this stuff every loop because this is user-editable
+        wclear( w_name );
         mvwprintz( w_name, point_zero,
                    current_selector == char_creation::NAME ? h_light_gray : c_light_gray, _( "Name:" ) );
         if( no_name_entered ) {
-            mvwprintz( w_name, point( namebar_pos, 0 ), h_light_gray, _( "_______NO NAME ENTERED!_______" ) );
+            mvwprintz( w_name, point( namebar_pos, 0 ), h_light_gray, _( "--- NO NAME ENTERED ---" ) );
+        } else if( you.name.empty() ) {
+            mvwprintz( w_name, point( namebar_pos, 0 ), c_light_gray, _( "--- RANDOM NAME ---" ) );
         } else {
-            mvwprintz( w_name, point( namebar_pos, 0 ), c_light_gray, "_______________________________" );
             mvwprintz( w_name, point( namebar_pos, 0 ), c_white, you.name );
-            wprintz( w_name, h_light_gray, "_" );
         }
 
         if( !MAP_SHARING::isSharing() ) { // no random names when sharing maps
@@ -2819,7 +2834,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        you.set_base_age( clamp( popup.query_int(), 16, 55 ) );
+                        you.set_base_age( clamp( result, 16, 55 ) );
                     }
                     break;
                 }
@@ -2829,40 +2844,33 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
                     .only_digits( true );
                     const int result = popup.query_int();
                     if( result != 0 ) {
-                        you.set_base_height( clamp( popup.query_int(), 145, 200 ) );
+                        you.set_base_height( clamp( result, 145, 200 ) );
                     }
                     break;
                 }
                 case char_creation::BLOOD: {
-                    popup.title( _( "Enter blood type (omit Rh):" ) )
-                    .text( io::enum_to_string( you.my_blood_type ) )
-                    .only_digits( false );
-                    std::string answer = popup.query_string();
-                    if( answer == "O" || answer == "o" || answer == "0" ) {
-                        you.my_blood_type = blood_type::blood_O;
-                    } else if( answer == "A" || answer == "a" ) {
-                        you.my_blood_type = blood_type::blood_A;
-                    } else if( answer == "B" || answer == "b" ) {
-                        you.my_blood_type = blood_type::blood_B;
-                    } else if( answer == "AB" || answer == "ab" ) {
-                        you.my_blood_type = blood_type::blood_AB;
-                    } else {
-                        popup_getkey( "%s", _( "Invalid blood type." ) );
+                    uilist btype;
+                    btype.text = _( "Select blood type" );
+                    btype.addentry( static_cast<int>( blood_type::blood_O ), true, '1', "O" );
+                    btype.addentry( static_cast<int>( blood_type::blood_A ), true, '2', "A" );
+                    btype.addentry( static_cast<int>( blood_type::blood_B ), true, '3', "B" );
+                    btype.addentry( static_cast<int>( blood_type::blood_AB ), true, '4', "AB" );
+                    btype.query();
+                    if( btype.ret < 0 ) {
                         break;
                     }
-                    string_input_popup popup2;
-                    popup2.title( _( "Enter Rh factor:" ) )
-                    .text( you.blood_rh_factor ? "+" : "-" )
-                    .only_digits( false );
-                    answer = popup2.query_string();
-                    if( answer == "+" || answer == "plus" || answer == "positive" ) {
-                        you.blood_rh_factor = true;
-                    } else if( answer == "-" || answer == "minus" || answer == "negative" ) {
-                        you.blood_rh_factor = false;
-                    } else {
-                        popup_getkey( "%s", _( "Invalid blood type." ) );
+
+                    uilist bfac;
+                    bfac.text = _( "Select Rh factor" );
+                    bfac.addentry( 0, true, '-', _( "negative" ) );
+                    bfac.addentry( 1, true, '+', _( "positive" ) );
+                    bfac.query();
+                    if( bfac.ret < 0 ) {
                         break;
                     }
+
+                    you.my_blood_type = static_cast<blood_type>( btype.ret );
+                    you.blood_rh_factor = static_cast<bool>( bfac.ret );
                     break;
                 }
             }
@@ -2915,8 +2923,8 @@ void Character::add_traits()
 
 void Character::add_traits( points_left &points )
 {
-    // TODO: get rid of using g->u here, use `this` instead
-    for( const trait_id &tr : g->u.prof->get_locked_traits() ) {
+    // TODO: get rid of using get_avatar() here, use `this` instead
+    for( const trait_id &tr : get_avatar().prof->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
         } else {

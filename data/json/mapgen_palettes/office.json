@@ -23,7 +23,6 @@
       "C": "t_linoleum_white",
       "y": "t_linoleum_white",
       " ": "t_region_groundcover_urban",
-      "x": "t_console_broken",
       ",": "t_pavement_y",
       "_": "t_pavement",
       "%": [ [ "t_region_shrub_decorative", 16 ], [ "t_region_groundcover_forest", 5 ] ],
@@ -46,9 +45,7 @@
       "2": "t_gutter_east",
       "3": "t_gutter_south",
       "4": "t_gutter_west",
-      "5": "t_gutter_drop",
-      "X": "t_generator_broken",
-      "N": "t_machinery_heavy"
+      "5": "t_gutter_drop"
     },
     "furniture": {
       "?": "f_sofa",
@@ -72,6 +69,9 @@
       "a": "f_trashcan",
       "F": "f_filing_cabinet",
       "Q": "f_safe_l",
+      "x": "f_console_broken",
+      "X": "f_generator_broken",
+      "N": "f_machinery_heavy",
       "y": "f_locker",
       "B": "f_bulletin",
       "6": "f_cellphone_booster",
