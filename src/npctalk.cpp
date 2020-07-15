@@ -1972,6 +1972,13 @@ void talk_effect_fun_t::set_u_learn_recipe( const std::string &learned_recipe_id
     };
 }
 
+void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
+{
+    function = [chat_topic]( const dialogue & d ) {
+        d.beta->set_first_topic( chat_topic );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
@@ -2179,6 +2186,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_string( "u_learn_recipe" ) ) {
         const std::string recipe_id = jo.get_string( "u_learn_recipe" );
         subeffect_fun.set_u_learn_recipe( recipe_id );
+    } else if( jo.has_string( "npc_first_topic" ) ) {
+        const std::string chat_topic = jo.get_string( "npc_first_topic" );
+        subeffect_fun.set_npc_first_topic( chat_topic );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
