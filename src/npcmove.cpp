@@ -3525,9 +3525,9 @@ bool npc::alt_attack()
     };
 
     check_alt_item( weapon );
-    for( auto &sl : inv.slice() ) {
+    for( auto &it : items_with( []( const item & ) { return true; } ) ) {
         // TODO: Cached values - an itype slot maybe?
-        check_alt_item( sl->front() );
+        check_alt_item( *it );
     }
 
     if( used == nullptr ) {
