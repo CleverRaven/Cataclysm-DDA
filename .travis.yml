@@ -25,6 +25,7 @@ os: linux
 
 branches:
   only:
+  - testing
   - upload
 
 # Overall strategy for what sorts of builds to include:
