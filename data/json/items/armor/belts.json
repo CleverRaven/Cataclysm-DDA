@@ -19,8 +19,8 @@
     "pocket_data": [
       {
         "max_contains_volume": "2 L",
-        "max_contains_weight": "4 kg",
-        "max_item_length": "70 cm",
+        "max_contains_weight": "6 kg",
+        "max_item_length": "90 cm",
         "moves": 50,
         "flag_restriction": [ "BELT_CLIP" ],
         "holster": true

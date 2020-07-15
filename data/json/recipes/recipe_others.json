@@ -274,7 +274,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ] ] ]
+    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ], [ "endochitin", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -290,7 +290,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "chitin_piece", 1 ] ] ]
+    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ], [ "endochitin", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -452,7 +452,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "20 m",
+    "time": "5 m",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -491,6 +491,7 @@
     "difficulty": 2,
     "time": "25 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -776,6 +777,7 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knapping", "required": true } ],
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [
@@ -1582,7 +1584,7 @@
     "decomp_learn": 2,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
+    "components": [ [ [ "slamfire_shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -3106,12 +3108,12 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "30 m",
+    "difficulty": 1,
+    "autolearn": true,
+    "time": "2 m",
     "reversible": true,
     "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "rope_superior", 1, "LIST" ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "rope_superior", 1, "LIST" ] ], [ [ "grip_hook", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -3656,7 +3658,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
-      [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ]
+      [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ], [ "raw_demihumanleather", 1 ] ]
     ]
   },
   {
@@ -4326,7 +4328,7 @@
     "time": "1 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "2x4", 10 ] ], [ [ "rope_6", 1 ] ] ],
+    "components": [ [ [ "2x4", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4338,7 +4340,19 @@
     "time": "1 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "stick", 10 ] ], [ [ "rope_6", 1 ] ] ],
+    "components": [ [ [ "stick", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_branch_long",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "stick_long", 5 ] ], [ [ "rope_any_short", 2, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4609,5 +4623,33 @@
     "autolearn": true,
     "tools": [ [ [ "tongs", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "sheet_metal", -1 ] ], [ [ "forge", 75 ] ] ],
     "components": [ [ [ "plastic_chunk", 200 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "funnel_separation",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 7,
+    "time": "1 h",
+    "book_learn": [ [ "glassblowing_book", 5 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "tongs", -1 ] ], [ [ "pipe", -1 ] ], [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ], [ [ "forge", 75 ] ] ],
+    "components": [
+      [ [ "glass_shard", 3 ], [ "pipe_glass", 1 ], [ "flask_glass", 3 ], [ "test_tube", 6 ], [ "marble", 75 ] ],
+      [ [ "stopcock", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "stopcock",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_OTHER",
+    "skill_used": "fabrication",
+    "difficulty": 4,
+    "time": "30 m",
+    "autolearn": true,
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [ [ [ "plastic_chunk", 1 ] ] ]
   }
 ]

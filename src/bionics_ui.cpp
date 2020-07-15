@@ -194,7 +194,10 @@ static std::string build_bionic_poweronly_string( const bionic &bio )
     }
     if( !bio.has_flag( flag_SAFE_FUEL_OFF ) && ( !bio.info().fuel_opts.empty() ||
             bio.info().is_remote_fueled ) ) {
-        properties.push_back( _( "(fuel saving ON)" ) );
+        //properties.push_back( _( "(fuel saving ON)" ) );
+        const std::string label = string_format( _( "(fuel saving ON > %d %%)" ),
+                                  static_cast<int>( bio.get_safe_fuel_thresh() * 100 ) );
+        properties.push_back( label );
     }
     if( bio.is_auto_start_on() && ( !bio.info().fuel_opts.empty() || bio.info().is_remote_fueled ) ) {
         const std::string label = string_format( _( "(auto start < %d %%)" ),
@@ -275,7 +278,7 @@ static void draw_connectors( const catacurses::window &win, const point &start,
     for( const std::pair<const string_id<body_part_type>, size_t> &elem : bio_id->occupied_bodyparts ) {
         auto pos = bp_to_pos.find( elem.first );
         if( pos != bp_to_pos.end() ) {
-            pos_and_num.emplace_back( pos->second + LIST_START_Y, elem.second );
+            pos_and_num.emplace_back( static_cast<int>( pos->second ) + LIST_START_Y, elem.second );
         }
     }
     if( pos_and_num.empty() || !get_option < bool >( "CBM_SLOTS_ENABLED" ) ) {

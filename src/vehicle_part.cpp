@@ -6,7 +6,7 @@
 #include <memory>
 #include <set>
 
-#include "avatar.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
@@ -233,7 +233,6 @@ int vehicle_part::ammo_remaining() const
     if( is_tank() ) {
         return base.contents.empty() ? 0 : base.contents.legacy_front().charges;
     }
-
     if( is_fuel_store( false ) || is_turret() ) {
         return base.ammo_remaining();
     }
@@ -580,7 +579,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( g->u.pos() ) ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

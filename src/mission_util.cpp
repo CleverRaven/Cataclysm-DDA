@@ -26,6 +26,7 @@
 #include "overmapbuffer.h"
 #include "point.h"
 #include "rng.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -520,12 +521,13 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
     talk_effects.load_effect( jo );
     phase_func = [ funcs, talk_effects ]( mission * miss ) {
         ::dialogue d;
-        d.beta = g->find_npc( miss->get_npc_id() );
+        npc *beta = g->find_npc( miss->get_npc_id() );
         standard_npc default_npc( "Default" );
-        if( d.beta == nullptr ) {
-            d.beta = &default_npc;
+        if( beta == nullptr ) {
+            beta = &default_npc;
         }
-        d.alpha = &g->u;
+        d.alpha = get_talker_for( g->u );
+        d.beta = get_talker_for( beta );
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }

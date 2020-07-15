@@ -20,9 +20,9 @@ inline constexpr craft_flags operator&( craft_flags l, craft_flags r )
 
 // removes any (removable) ammo from the item and stores it in the
 // players inventory.
-void remove_ammo( item &dis_item, player &p );
+void remove_ammo( item &dis_item, Character &p );
 // same as above but for each item in the list
-void remove_ammo( std::list<item> &dis_items, player &p );
+void remove_ammo( std::list<item> &dis_items, Character &p );
 
 void drop_or_handle( const item &newit, Character &p );
 #endif // CATA_SRC_CRAFTING_H

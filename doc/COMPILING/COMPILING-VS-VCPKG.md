@@ -29,7 +29,7 @@ cd vcpkg
 .\vcpkg integrate install
 ```
 
-4. Install (or upgrade) neccessary packages with following command line:
+4. (Optionally) Install (or upgrade) necessary packages with following command line:
 
 #### install 64 bit dependencies:
 
@@ -61,7 +61,7 @@ git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 cd Cataclysm-DDA
 ```
 
-2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`, select configuration (`Release` or `Debug`) and platform (`x64` or `x86`) and build it.
+2. Open the provided solution (`msvc-full-features\Cataclysm-vcpkg-static.sln`) in `Visual Studio`, select configuration (`Release` or `Debug`) and platform (`x64` or `x86`) and build it. All necessary dependencies will be built and cached for future use by vcpkg automatically.
 
 **Note**: This will compile release version with Sound, Tiles and Localization support (language files won't be automatically compiled).
 

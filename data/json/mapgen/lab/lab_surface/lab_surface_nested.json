@@ -1161,7 +1161,7 @@
         "A": "t_strconc_floor",
         "c": "t_strconc_floor",
         "C": "t_strconc_floor",
-        "m": "t_machinery_heavy",
+        "m": "t_strconc_floor",
         "P": "t_sewage_pipe",
         "t": "t_strconc_floor",
         "S": "t_strconc_floor",
@@ -1171,6 +1171,7 @@
       "furniture": {
         "A": "f_air_filter",
         "C": "f_air_compressor",
+        "m": "f_machinery_heavy",
         "t": "f_standing_tank",
         "S": "f_standing_tank",
         "U": "f_utility_shelf",
@@ -1224,7 +1225,7 @@
         "D": "t_strconc_floor",
         "F": "t_strconc_floor",
         "L": "t_strconc_floor",
-        "m": "t_machinery_heavy",
+        "m": "t_strconc_floor",
         "R": "t_strconc_floor",
         "T": "t_strconc_floor",
         "u": "t_strconc_floor",
@@ -1237,6 +1238,7 @@
         "D": "f_drill_press",
         "F": "f_home_furnace",
         "L": "f_heavy_lathe",
+        "m": "f_machinery_heavy",
         "R": "f_router",
         "T": "f_tablesaw",
         "u": "f_utility_shelf",
@@ -1873,19 +1875,34 @@
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "surface_sub_hall_clutter",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "X" ], "terrain": { "X": "t_strconc_floor" }, "furniture": { "X": "f_IV_pole" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": [ "f_IV_pole", "f_desk", "f_counter" ] }
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "surface_sub_hall_clutter",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "X" ], "terrain": { "X": "t_strconc_floor" }, "furniture": { "X": "f_autoclave" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": [ "f_autoclave", "f_console_broken", "f_centrifuge" ] }
+    }
   },
   {
     "type": "mapgen",
     "method": "json",
     "nested_mapgen_id": "surface_sub_hall_clutter",
-    "object": { "mapgensize": [ 1, 1 ], "rows": [ "X" ], "terrain": { "X": "t_machinery_old" } }
+    "object": {
+      "mapgensize": [ 1, 1 ],
+      "rows": [ "X" ],
+      "terrain": { "X": "t_strconc_floor" },
+      "furniture": { "X": [ "f_machinery_old", "f_machinery_light", "f_machinery_electronic" ] }
+    }
   },
   {
     "type": "mapgen",

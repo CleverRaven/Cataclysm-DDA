@@ -80,6 +80,7 @@ TEST_CASE( "dining with table and chair", "[food][modify_morale][table][chair]" 
     clear_map();
     map &here = get_map();
     avatar dummy;
+    dummy.set_body();
     const tripoint avatar_pos( 60, 60, 0 );
     dummy.setpos( avatar_pos );
     dummy.worn.push_back( item( "backpack" ) );
@@ -269,6 +270,7 @@ TEST_CASE( "drugs", "[food][modify_morale][drug]" )
 TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
 
     item &human = dummy.i_add( item( "bone_human" ) );
@@ -344,6 +346,7 @@ TEST_CASE( "cannibalism", "[food][modify_morale][cannibal]" )
 TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
 
     GIVEN( "some sweet junk food" ) {
@@ -397,6 +400,7 @@ TEST_CASE( "sweet junk food", "[food][modify_morale][junk][sweet]" )
 TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
 
     item &caff_gum = dummy.i_add( item( "caff_gum" ) );
@@ -462,6 +466,7 @@ TEST_CASE( "junk food that is not ingested", "[modify_morale][junk][no_ingest]" 
 TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
     int penalty = -75;
 
@@ -548,6 +553,7 @@ TEST_CASE( "food allergies and intolerances", "[food][modify_morale][allergy]" )
 TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
 
     GIVEN( "character is a saprophage, preferring rotted food" ) {
@@ -584,6 +590,7 @@ TEST_CASE( "saprophage character", "[food][modify_morale][saprophage]" )
 TEST_CASE( "ursine honey", "[food][modify_morale][ursine][honey]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
 
     item &honeycomb = dummy.i_add( item( "honeycomb" ) );

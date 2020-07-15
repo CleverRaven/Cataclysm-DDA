@@ -141,17 +141,17 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     g->load_core_data( ui );
     g->load_world_modfiles( ui );
 
-    g->u = avatar();
-    g->u.create( character_type::NOW );
+    get_avatar() = avatar();
+    get_avatar().create( character_type::NOW );
 
-    g->m = map( get_option<bool>( "ZLEVELS" ) );
+    get_map() = map();
 
     overmap_special_batch empty_specials( point_zero );
     overmap_buffer.create_custom_overmap( point_zero, empty_specials );
 
-    g->m.load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
+    get_map().load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
 
-    g->weather.update_weather();
+    get_weather().update_weather();
 }
 
 // Checks if any of the flags are in container, removes them all

@@ -9,6 +9,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
+#include "character.h"
 #include "color.h"
 #include "coordinate_conversions.h"
 #include "enums.h"
@@ -70,7 +71,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint &omt_
     return cata::nullopt;
 }
 
-bool teleporter_list::place_avatar_overmap( avatar &you, const tripoint &omt_pt ) const
+bool teleporter_list::place_avatar_overmap( Character &you, const tripoint &omt_pt ) const
 {
     tinymap omt_dest( 2, true );
     tripoint sm_dest = omt_to_sm_copy( omt_pt );
@@ -101,9 +102,9 @@ void teleporter_list::translocate( const std::set<tripoint> &targets )
 
     bool valid_targets = false;
     for( const tripoint &pt : targets ) {
-        avatar *you = g->critter_at<avatar>( pt );
+        Character *you = g->critter_at<Character>( pt );
 
-        if( you ) {
+        if( you && you->is_avatar() ) {
             valid_targets = true;
             if( !place_avatar_overmap( *you, *omt_dest ) ) {
                 add_msg( _( "Failed to teleport.  Teleporter obstructed or destroyed." ) );
@@ -169,11 +170,13 @@ class teleporter_callback : public uilist_callback
                 mvwputch( menu->window, point( start_x, i ), c_magenta, LINE_XOXO );
             }
             if( entnum >= 0 && static_cast<size_t>( entnum ) < index_pairs.size() ) {
-                overmap_ui::draw_overmap_chunk( menu->window, g->u, index_pairs[entnum], point( start_x + 1, 1 ),
+                avatar &player_character = get_avatar();
+                overmap_ui::draw_overmap_chunk( menu->window, player_character, index_pairs[entnum],
+                                                point( start_x + 1, 1 ),
                                                 29, 21 );
                 mvwprintz( menu->window, point( start_x + 2, 1 ), c_white,
                            string_format( _( "Distance: %d (%d, %d)" ),
-                                          rl_dist( ms_to_omt_copy( g->m.getabs( g->u.pos() ) ), index_pairs[entnum] ),
+                                          rl_dist( ms_to_omt_copy( get_map().getabs( player_character.pos() ) ), index_pairs[entnum] ),
                                           index_pairs[entnum].x, index_pairs[entnum].y ) );
             }
             wnoutrefresh( menu->window );

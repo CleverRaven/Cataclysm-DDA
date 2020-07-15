@@ -1310,6 +1310,7 @@
         "moves": 300
       }
     ],
+    "warmth": 10,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
   },
@@ -1340,6 +1341,7 @@
         "moves": 300
       }
     ],
+    "warmth": 6,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
   },
@@ -1370,6 +1372,7 @@
         "moves": 300
       }
     ],
+    "warmth": 8,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED", "OVERSIZE" ]
   },
@@ -1400,6 +1403,7 @@
         "moves": 250
       }
     ],
+    "warmth": 2,
     "material_thickness": 2,
     "flags": [ "WATER_FRIENDLY", "STURDY", "BELTED" ]
   },

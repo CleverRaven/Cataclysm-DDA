@@ -89,6 +89,7 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "vehicle.h"
 #include "veh_type.h"
 #include "vitamin.h"
 #include "vpart_position.h"
@@ -101,8 +102,6 @@ static const efftype_id effect_flu( "flu" );
 static const mtype_id mon_generator( "mon_generator" );
 
 static const trait_id trait_ASTHMA( "ASTHMA" );
-
-class vehicle;
 
 extern std::map<std::string, weighted_int_list<std::shared_ptr<mapgen_function_json_nested>> >
         nested_mapgen;
@@ -145,6 +144,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::DISPLAY_HORDES: return "DISPLAY_HORDES";
         case debug_menu::debug_menu_index::TEST_IT_GROUP: return "TEST_IT_GROUP";
         case debug_menu::debug_menu_index::DAMAGE_SELF: return "DAMAGE_SELF";
+        case debug_menu::debug_menu_index::BLEED_SELF: return "BLEED_SELF";
         case debug_menu::debug_menu_index::SHOW_SOUND: return "SHOW_SOUND";
         case debug_menu::debug_menu_index::DISPLAY_WEATHER: return "DISPLAY_WEATHER";
         case debug_menu::debug_menu_index::DISPLAY_SCENTS: return "DISPLAY_SCENTS";
@@ -177,6 +177,7 @@ std::string enum_to_string<debug_menu::debug_menu_index>( debug_menu::debug_menu
         case debug_menu::debug_menu_index::LEVEL_SPELLS: return "LEVEL_SPELLS";
         case debug_menu::debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION: return "TEST_MAP_EXTRA_DISTRIBUTION";
         case debug_menu::debug_menu_index::NESTED_MAPGEN: return "NESTED_MAPGEN";
+        case debug_menu::debug_menu_index::VEHICLE_BATTERY_CHARGE: return "VEHICLE_BATTERY_CHARGE";
         // *INDENT-ON*
         case debug_menu::debug_menu_index::last:
             break;
@@ -212,6 +213,7 @@ static int player_uilist()
         { uilist_entry( debug_menu_index::UNLOCK_RECIPES, true, 'r', _( "Unlock all recipes" ) ) },
         { uilist_entry( debug_menu_index::EDIT_PLAYER, true, 'p', _( "Edit player/NPC" ) ) },
         { uilist_entry( debug_menu_index::DAMAGE_SELF, true, 'd', _( "Damage self" ) ) },
+        { uilist_entry( debug_menu_index::BLEED_SELF, true, 'b', _( "Bleed self" ) ) },
         { uilist_entry( debug_menu_index::SET_AUTOMOVE, true, 'a', _( "Set automove route" ) ) },
     };
     if( !spell_type::get_all().empty() ) {
@@ -275,6 +277,15 @@ static int game_uilist()
     return uilist( _( "Game…" ), uilist_initializer );
 }
 
+static int vehicle_uilist()
+{
+    std::vector<uilist_entry> uilist_initializer = {
+        { uilist_entry( debug_menu_index::VEHICLE_BATTERY_CHARGE, true, 'b', _( "Change [b]attery charge" ) ) },
+    };
+
+    return uilist( _( "Vehicle…" ), uilist_initializer );
+}
+
 static int teleport_uilist()
 {
     const std::vector<uilist_entry> uilist_initializer = {
@@ -336,6 +347,7 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
             { uilist_entry( 6, true, 'g', _( "Game…" ) ) },
             { uilist_entry( 2, true, 's', _( "Spawning…" ) ) },
             { uilist_entry( 3, true, 'p', _( "Player…" ) ) },
+            { uilist_entry( 7, true, 'v', _( "Vehicle…" ) ) },
             { uilist_entry( 4, true, 't', _( "Teleport…" ) ) },
             { uilist_entry( 5, true, 'm', _( "Map…" ) ) },
         };
@@ -375,6 +387,9 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
             case 6:
                 action = game_uilist();
                 break;
+            case 7:
+                action = vehicle_uilist();
+                break;
 
             default:
                 return cata::nullopt;
@@ -390,11 +405,12 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
 void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
-    if( !where || *where == g->u.pos() ) {
+    Character &player_character = get_player_character();
+    if( !where || *where == player_character.pos() ) {
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( g->u.pos() );
+    const tripoint new_pos( player_character.pos() );
     add_msg( _( "You teleport to point (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
@@ -415,12 +431,13 @@ void teleport_overmap()
         return;
     }
 
+    Character &player_character = get_player_character();
     const tripoint offset( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
-    const tripoint where( g->u.global_omt_location() + offset );
+    const tripoint where( player_character.global_omt_location() + offset );
 
     g->place_player_overmap( where );
 
-    const tripoint new_pos( omt_to_om_copy( g->u.global_omt_location() ) );
+    const tripoint new_pos( omt_to_om_copy( player_character.global_omt_location() ) );
     add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
@@ -465,8 +482,9 @@ void character_edit_menu()
     std::vector< tripoint > locations;
     uilist charmenu;
     int charnum = 0;
+    avatar &player_character = get_avatar();
     charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, "%s", _( "You" ) );
-    locations.emplace_back( g->u.pos() );
+    locations.emplace_back( player_character.pos() );
     for( const npc &guy : g->all_npcs() ) {
         charmenu.addentry( charnum++, true, MENU_AUTOASSIGN, guy.name );
         locations.emplace_back( guy.pos() );
@@ -482,7 +500,7 @@ void character_edit_menu()
     const size_t index = charmenu.ret;
     // The NPC is also required for "Add mission", so has to be in this scope
     npc *np = g->critter_at<npc>( locations[index], false );
-    player &p = np ? static_cast<player &>( *np ) : static_cast<player &>( g->u );
+    player &p = np ? *np->as_player() : *player_character.as_player();
     uilist nmenu;
 
     if( np != nullptr ) {
@@ -608,7 +626,7 @@ void character_edit_menu()
             p.remove_weapon();
             break;
         case D_ITEM_WORN: {
-            item_location loc = game_menus::inv::titled_menu( g->u, _( "Make target equip" ) );
+            item_location loc = game_menus::inv::titled_menu( player_character, _( "Make target equip" ) );
             if( !loc ) {
                 break;
             }
@@ -900,7 +918,7 @@ void character_edit_menu()
                     if( p.is_mounted() ) {
                         p.mounted_creature->setpos( *newpos );
                     }
-                    g->update_map( g->u );
+                    g->update_map( player_character );
                 }
             }
         }
@@ -1040,20 +1058,21 @@ void mission_debug::edit_player()
     uilist mmenu;
     mmenu.text = _( "Select mission to edit" );
 
+    avatar &player_character = get_avatar();
     add_header( mmenu, _( "Active missions:" ) );
-    for( mission *m : g->u.active_missions ) {
+    for( mission *m : player_character.active_missions ) {
         mmenu.addentry( all_missions.size(), true, MENU_AUTOASSIGN, "%s", m->type->id.c_str() );
         all_missions.emplace_back( m );
     }
 
     add_header( mmenu, _( "Completed missions:" ) );
-    for( mission *m : g->u.completed_missions ) {
+    for( mission *m : player_character.completed_missions ) {
         mmenu.addentry( all_missions.size(), true, MENU_AUTOASSIGN, "%s", m->type->id.c_str() );
         all_missions.emplace_back( m );
     }
 
     add_header( mmenu, _( "Failed missions:" ) );
-    for( mission *m : g->u.failed_missions ) {
+    for( mission *m : player_character.failed_missions ) {
         mmenu.addentry( all_missions.size(), true, MENU_AUTOASSIGN, "%s", m->type->id.c_str() );
         all_missions.emplace_back( m );
     }
@@ -1076,18 +1095,19 @@ static bool remove_from_vec( std::vector<mission *> &vec, mission *m )
 
 void mission_debug::remove_mission( mission &m )
 {
-    if( remove_from_vec( g->u.active_missions, &m ) ) {
+    avatar &player_character = get_avatar();
+    if( remove_from_vec( player_character.active_missions, &m ) ) {
         add_msg( _( "Removing from active_missions" ) );
     }
-    if( remove_from_vec( g->u.completed_missions, &m ) ) {
+    if( remove_from_vec( player_character.completed_missions, &m ) ) {
         add_msg( _( "Removing from completed_missions" ) );
     }
-    if( remove_from_vec( g->u.failed_missions, &m ) ) {
+    if( remove_from_vec( player_character.failed_missions, &m ) ) {
         add_msg( _( "Removing from failed_missions" ) );
     }
 
-    if( g->u.active_mission == &m ) {
-        g->u.active_mission = nullptr;
+    if( player_character.active_mission == &m ) {
+        player_character.active_mission = nullptr;
         add_msg( _( "Unsetting active mission" ) );
     }
 
@@ -1198,11 +1218,11 @@ void debug()
 
     g->events().send<event_type::uses_debug_menu>( *action );
 
-    avatar &u = g->u;
+    avatar &player_character = get_avatar();
     map &here = get_map();
     switch( *action ) {
         case debug_menu_index::WISH:
-            debug_menu::wishitem( &u );
+            debug_menu::wishitem( &player_character );
             break;
 
         case debug_menu_index::SHORT_TELEPORT:
@@ -1230,9 +1250,10 @@ void debug()
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, u.pos() + point( -4, -4 ) );
+            temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, player_character.pos() + point( -4,
+                                    -4 ) );
             overmap_buffer.insert_npc( temp );
-            temp->form_opinion( u );
+            temp->form_opinion( player_character );
             temp->mission = NPC_MISSION_NULL;
             temp->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC, temp->global_omt_location(),
                                    temp->getID() ) );
@@ -1258,6 +1279,7 @@ void debug()
             std::sort( sorted.begin(), sorted.end(), []( std::pair<m_flag, int> a, std::pair<m_flag, int> b ) {
                 return a.second != b.second ? a.second > b.second : a.first < b.first;
             } );
+            popup( player_character.total_daily_calories_string() );
             for( auto &m_flag_stat : sorted ) {
                 mfus += string_format( "%s;%d\n", io::enum_to_string<m_flag>( m_flag_stat.first ),
                                        m_flag_stat.second );
@@ -1267,15 +1289,13 @@ void debug()
             popup_top( "Monster flag usage statistics were dumped to debug.log and cleared." );
 
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
-            s += _( "Current turn: %d.\n%s\n" );
+            s += _( "Current turn: %d.\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
             popup_top(
                 s.c_str(),
-                u.posx(), g->u.posy(), g->get_levx(), g->get_levy(),
-                overmap_buffer.ter( g->u.global_omt_location() )->get_name(),
+                player_character.posx(), player_character.posy(), g->get_levx(), g->get_levy(),
+                overmap_buffer.ter( player_character.global_omt_location() )->get_name(),
                 to_turns<int>( calendar::turn - calendar::turn_zero ),
-                get_option<bool>( "RANDOM_NPC" ) ? _( "NPCs are going to spawn." ) :
-                _( "NPCs are NOT going to spawn." ),
                 g->num_creatures() );
             for( const npc &guy : g->all_npcs() ) {
                 tripoint t = guy.global_sm_location();
@@ -1283,21 +1303,24 @@ void debug()
                          t.y, guy.posx(), guy.posy() );
             }
 
-            add_msg( m_info, _( "(you: %d:%d)" ), u.posx(), u.posy() );
+            add_msg( m_info, _( "(you: %d:%d)" ), player_character.posx(), player_character.posy() );
             std::string stom =
                 _( "Stomach Contents: %d ml / %d ml kCal: %d, Water: %d ml" );
-            add_msg( m_info, stom.c_str(), units::to_milliliter( u.stomach.contains() ),
-                     units::to_milliliter( u.stomach.capacity( u ) ), u.stomach.get_calories(),
-                     units::to_milliliter( u.stomach.get_water() ), u.get_hunger() );
+            add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.stomach.contains() ),
+                     units::to_milliliter( player_character.stomach.capacity( player_character ) ),
+                     player_character.stomach.get_calories(),
+                     units::to_milliliter( player_character.stomach.get_water() ), player_character.get_hunger() );
             stom = _( "Guts Contents: %d ml / %d ml kCal: %d, Water: %d ml\nHunger: %d, Thirst: %d, kCal: %d / %d" );
-            add_msg( m_info, stom.c_str(), units::to_milliliter( u.guts.contains() ),
-                     units::to_milliliter( u.guts.capacity( u ) ), u.guts.get_calories(),
-                     units::to_milliliter( u.guts.get_water() ), u.get_hunger(), u.get_thirst(), u.get_stored_kcal(),
-                     u.get_healthy_kcal() );
-            add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), u.get_bmi(), u.get_bmr() );
-            add_msg( m_info, _( "Player activity level: %s" ), u.activity_level_str() );
+            add_msg( m_info, stom.c_str(), units::to_milliliter( player_character.guts.contains() ),
+                     units::to_milliliter( player_character.guts.capacity( player_character ) ),
+                     player_character.guts.get_calories(), units::to_milliliter( player_character.guts.get_water() ),
+                     player_character.get_hunger(), player_character.get_thirst(), player_character.get_stored_kcal(),
+                     player_character.get_healthy_kcal() );
+            add_msg( m_info, _( "Body Mass Index: %.0f\nBasal Metabolic Rate: %i" ), player_character.get_bmi(),
+                     player_character.get_bmr() );
+            add_msg( m_info, _( "Player activity level: %s" ), player_character.activity_level_str() );
             if( get_option<bool>( "STATS_THROUGH_KILLS" ) ) {
-                add_msg( m_info, _( "Kill xp: %d" ), u.kill_xp() );
+                add_msg( m_info, _( "Kill xp: %d" ), player_character.kill_xp() );
             }
             g->invalidate_main_ui_adaptor();
             g->disp_NPCs();
@@ -1311,11 +1334,11 @@ void debug()
             break;
 
         case debug_menu_index::MUTATE:
-            debug_menu::wishmutate( &u );
+            debug_menu::wishmutate( &player_character );
             break;
 
         case debug_menu_index::SPAWN_VEHICLE:
-            if( here.veh_at( u.pos() ) ) {
+            if( here.veh_at( player_character.pos() ) ) {
                 dbg( D_ERROR ) << "game:load: There's already vehicle here";
                 debugmsg( "There's already vehicle here" );
             } else {
@@ -1341,18 +1364,27 @@ void debug()
                 if( veh_menu.ret >= 0 && veh_menu.ret < static_cast<int>( veh_strings.size() ) ) {
                     // Didn't cancel
                     const vproto_id &selected_opt = veh_strings[veh_menu.ret].second;
-                    // TODO: Allow picking this when add_vehicle has 3d argument
-                    tripoint dest = u.pos();
-                    vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, 0 );
-                    if( veh != nullptr ) {
-                        here.board_vehicle( dest, &u );
+                    tripoint dest = player_character.pos();
+                    uilist veh_cond_menu;
+                    veh_cond_menu.text = _( "Vehicle condition" );
+                    veh_cond_menu.addentry( 0, true, MENU_AUTOASSIGN, _( "Light damage" ) );
+                    veh_cond_menu.addentry( 1, true, MENU_AUTOASSIGN, _( "Undamaged" ) );
+                    veh_cond_menu.addentry( 2, true, MENU_AUTOASSIGN, _( "Disabled (tires or engine)" ) );
+                    veh_cond_menu.query();
+
+                    if( veh_cond_menu.ret >= 0 && veh_cond_menu.ret < 3 ) {
+                        // TODO: Allow picking this when add_vehicle has 3d argument
+                        vehicle *veh = here.add_vehicle( selected_opt, dest, -90, 100, veh_cond_menu.ret - 1 );
+                        if( veh != nullptr ) {
+                            here.board_vehicle( dest, &player_character );
+                        }
                     }
                 }
             }
             break;
 
         case debug_menu_index::CHANGE_SKILLS: {
-            debug_menu::wishskill( &u );
+            debug_menu::wishskill( &player_character );
         }
         break;
 
@@ -1361,7 +1393,7 @@ void debug()
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto &style : all_martialart_types() ) {
                 if( style != matype_id( "style_none" ) ) {
-                    u.martial_arts_data.add_martialart( style );
+                    player_character.martial_arts_data.add_martialart( style );
                 }
             }
             add_msg( m_good, _( "You now know a lot more than just 10 styles of kung fu." ) );
@@ -1371,7 +1403,7 @@ void debug()
             add_msg( m_info, _( "Recipe debug." ) );
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( const auto &e : recipe_dict ) {
-                u.learn_recipe( &e.second );
+                player_character.learn_recipe( &e.second );
             }
             add_msg( m_good, _( "You know how to craft that now." ) );
         }
@@ -1386,12 +1418,12 @@ void debug()
                 artifact_natural_property prop = static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1,
                                                  ARTPROP_MAX - 1 ) );
                 here.create_anomaly( *center, prop );
-                here.spawn_natural_artifact( *center, prop );
+                here.spawn_artifact( *center, relic_procgen_id( "alien_reality" ) );
             }
             break;
 
         case debug_menu_index::SPAWN_CLAIRVOYANCE:
-            u.i_add( item( architects_cube(), calendar::turn ) );
+            player_character.i_add( item( architects_cube(), calendar::turn ) );
             break;
 
         case debug_menu_index::MAP_EDITOR:
@@ -1403,15 +1435,16 @@ void debug()
             weather_menu.text = _( "Select new weather pattern:" );
             weather_menu.addentry( 0, true, MENU_AUTOASSIGN, g->weather.weather_override == WEATHER_NULL ?
                                    _( "Keep normal weather patterns" ) : _( "Disable weather forcing" ) );
-            for( int weather_id = 1; weather_id < NUM_WEATHER_TYPES; weather_id++ ) {
-                weather_menu.addentry( weather_id, true, MENU_AUTOASSIGN,
-                                       weather::name( static_cast<weather_type>( weather_id ) ) );
+            for( size_t i = 0; i < weather_types::get_all().size(); i++ ) {
+                weather_menu.addentry( i, true, MENU_AUTOASSIGN,
+                                       weather_types::get_all()[i].name );
             }
 
             weather_menu.query();
 
-            if( weather_menu.ret >= 0 && weather_menu.ret < NUM_WEATHER_TYPES ) {
-                weather_type selected_weather = static_cast<weather_type>( weather_menu.ret );
+            if( weather_menu.ret >= 0 &&
+                static_cast<size_t>( weather_menu.ret ) < weather_types::get_all().size() ) {
+                const weather_type_id selected_weather = weather_types::get_all()[weather_menu.ret].id;
                 g->weather.weather_override = selected_weather;
                 g->weather.set_nextweather( calendar::turn );
             }
@@ -1481,12 +1514,12 @@ void debug()
 
         // Damage Self
         case debug_menu_index::DAMAGE_SELF: {
-            const int torso_hp = u.get_part_hp_cur( bodypart_id( "torso" ) );
-            const int head_hp = u.get_part_hp_cur( bodypart_id( "head" ) );
-            const int arm_l_hp = u.get_part_hp_cur( bodypart_id( "arm_l" ) );
-            const int arm_r_hp = u.get_part_hp_cur( bodypart_id( "arm_r" ) );
-            const int leg_l_hp = u.get_part_hp_cur( bodypart_id( "leg_l" ) );
-            const int leg_r_hp = u.get_part_hp_cur( bodypart_id( "leg_r" ) );
+            const int torso_hp = player_character.get_part_hp_cur( bodypart_id( "torso" ) );
+            const int head_hp = player_character.get_part_hp_cur( bodypart_id( "head" ) );
+            const int arm_l_hp = player_character.get_part_hp_cur( bodypart_id( "arm_l" ) );
+            const int arm_r_hp = player_character.get_part_hp_cur( bodypart_id( "arm_r" ) );
+            const int leg_l_hp = player_character.get_part_hp_cur( bodypart_id( "leg_l" ) );
+            const int leg_r_hp = player_character.get_part_hp_cur( bodypart_id( "leg_r" ) );
             uilist smenu;
             smenu.addentry( 0, true, 'q', "%s: %d", _( "Torso" ), torso_hp );
             smenu.addentry( 1, true, 'w', "%s: %d", _( "Head" ), head_hp );
@@ -1520,8 +1553,48 @@ void debug()
                     break;
             }
             if( query_int( dbg_damage, _( "Damage self for how much?  hp: %s" ), part.id().c_str() ) ) {
-                u.apply_damage( nullptr, part, dbg_damage );
-                u.die( nullptr );
+                player_character.apply_damage( nullptr, part, dbg_damage );
+                player_character.die( nullptr );
+            }
+        }
+        break;
+
+        // Add bleeding
+        case debug_menu_index::BLEED_SELF: {
+            uilist smenu;
+            smenu.addentry( 0, true, 'q', _( "Torso" ) );
+            smenu.addentry( 1, true, 'w', _( "Head" ) );
+            smenu.addentry( 2, true, 'a', _( "Left arm" ) );
+            smenu.addentry( 3, true, 's', _( "Right arm" ) );
+            smenu.addentry( 4, true, 'z', _( "Left leg" ) );
+            smenu.addentry( 5, true, 'x', _( "Right leg" ) );
+            smenu.query();
+            bodypart_id part;
+            int intensity = 0;
+            switch( smenu.ret ) {
+                case 0:
+                    part = bodypart_id( "torso" );
+                    break;
+                case 1:
+                    part = bodypart_id( "head" );
+                    break;
+                case 2:
+                    part = bodypart_id( "arm_l" );
+                    break;
+                case 3:
+                    part = bodypart_id( "arm_r" );
+                    break;
+                case 4:
+                    part = bodypart_id( "leg_l" );
+                    break;
+                case 5:
+                    part = bodypart_id( "leg_r" );
+                    break;
+                default:
+                    break;
+            }
+            if( query_int( intensity, _( "Add bleeding duration in minutes, equal to intensity:" ) ) ) {
+                player_character.make_bleed( part, 1_minutes * intensity );
             }
         }
         break;
@@ -1532,7 +1605,7 @@ void debug()
 
             shared_ptr_fast<game::draw_callback_t> sound_cb = make_shared_fast<game::draw_callback_t>( [&]() {
                 const point offset {
-                    u.view_offset.xy() + point( POSX - u.posx(), POSY - u.posy() )
+                    player_character.view_offset.xy() + point( POSX - player_character.posx(), POSY - player_character.posy() )
                 };
                 for( const auto &sound : sounds_to_draw.first ) {
                     mvwputch( g->w_terrain, offset + sound.xy(), c_yellow, '?' );
@@ -1644,20 +1717,21 @@ void debug()
         break;
         case debug_menu_index::SET_AUTOMOVE: {
             const cata::optional<tripoint> dest = g->look_around();
-            if( !dest || *dest == u.pos() ) {
+            if( !dest || *dest == player_character.pos() ) {
                 break;
             }
 
-            auto rt = here.route( u.pos(), *dest, u.get_pathfinding_settings(), u.get_path_avoid() );
+            auto rt = here.route( player_character.pos(), *dest, player_character.get_pathfinding_settings(),
+                                  player_character.get_path_avoid() );
             if( !rt.empty() ) {
-                u.set_destination( rt );
+                player_character.set_destination( rt );
             } else {
                 popup( "Couldn't find path" );
             }
         }
         break;
         case debug_menu_index::SHOW_MUT_CAT:
-            for( const auto &elem : u.mutation_category_level ) {
+            for( const auto &elem : player_character.mutation_category_level ) {
                 add_msg( "%s: %d", elem.first.c_str(), elem.second );
             }
             break;
@@ -1736,7 +1810,7 @@ void debug()
                           << std::endl;
                 count++;
             }
-            std::cout << "Player faction is " << g->u.get_faction()->id.str() << std::endl;
+            std::cout << "Player faction is " << player_character.get_faction()->id.str() << std::endl;
             break;
         }
         case debug_menu_index::PRINT_NPC_MAGIC: {
@@ -1763,7 +1837,7 @@ void debug()
         case debug_menu_index::QUIT_NOSAVE:
             if( query_yn(
                     _( "Quit without saving?  This may cause issues such as duplicated or missing items and vehicles!" ) ) ) {
-                u.moves = 0;
+                player_character.moves = 0;
                 g->uquit = QUIT_NOSAVED;
             }
             break;
@@ -1784,7 +1858,8 @@ void debug()
             std::time_t time = std::time( nullptr );
             std::stringstream date_buffer;
             date_buffer << std::put_time( std::gmtime( &time ), "%F_%H-%M-%S_%z" );
-            const auto tmp_file_name = string_format( "[%s]_%s.png", g->u.get_name(), date_buffer.str() );
+            const auto tmp_file_name = string_format( "[%s]_%s.png", player_character.get_name(),
+                                       date_buffer.str() );
 
             std::string file_name = ensure_valid_file_name( tmp_file_name );
             auto current_file_path = map_directory.str() + file_name;
@@ -1823,14 +1898,14 @@ void debug()
                 add_msg( m_bad, _( "There are no spells to learn.  You must install a mod that adds some." ) );
             } else {
                 for( const spell_type &learn : spell_type::get_all() ) {
-                    g->u.magic.learn_spell( &learn, g->u, true );
+                    player_character.magic.learn_spell( &learn, player_character, true );
                 }
                 add_msg( m_good,
                          _( "You have become an Archwizardpriest!  What will you do with your newfound power?" ) );
             }
             break;
         case debug_menu_index::LEVEL_SPELLS: {
-            std::vector<spell *> spells = g->u.magic.get_spells();
+            std::vector<spell *> spells = player_character.magic.get_spells();
             if( spells.empty() ) {
                 add_msg( m_bad, _( "Try learning some spells first." ) );
                 return;
@@ -1873,6 +1948,32 @@ void debug()
         case debug_menu_index::TEST_MAP_EXTRA_DISTRIBUTION:
             MapExtras::debug_spawn_test();
             break;
+
+        case debug_menu_index::VEHICLE_BATTERY_CHARGE: {
+
+            optional_vpart_position v_part_pos = here.veh_at( player_character.pos() );
+            if( !v_part_pos ) {
+                add_msg( m_bad, _( "There's no vehicle there." ) );
+                break;
+            }
+
+            int amount = 0;
+            string_input_popup popup;
+            popup
+            .title( _( "By how much?  (in kJ, negative to discharge)" ) )
+            .width( 30 )
+            .edit( amount );
+            if( !popup.canceled() ) {
+                vehicle &veh = v_part_pos->vehicle();
+                if( amount >= 0 ) {
+                    veh.charge_battery( amount, false );
+                } else {
+                    veh.discharge_battery( -amount, false );
+                }
+            }
+            break;
+        }
+
         case debug_menu_index::last:
             return;
     }

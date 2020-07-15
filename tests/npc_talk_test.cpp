@@ -29,6 +29,7 @@
 #include "point.h"
 #include "string_id.h"
 #include "stringmaker.h"
+#include "talker.h"
 #include "type_id.h"
 
 static const efftype_id effect_gave_quest_item( "gave_quest_item" );
@@ -42,7 +43,7 @@ static const trait_id trait_PROF_SWAT( "PROF_SWAT" );
 static npc &create_test_talker()
 {
     const string_id<npc_template> test_talker( "test_talker" );
-    const character_id model_id = get_map().place_npc( point( 25, 25 ), test_talker, true );
+    const character_id model_id = get_map().place_npc( point( 25, 25 ), test_talker );
     g->load_npcs();
 
     npc *model_npc = g->find_npc( model_id );
@@ -51,6 +52,7 @@ static npc &create_test_talker()
     for( const trait_id &tr : model_npc->get_mutations() ) {
         model_npc->unset_mutation( tr );
     }
+    model_npc->name = "Beta NPC";
     model_npc->set_hunger( 0 );
     model_npc->set_thirst( 0 );
     model_npc->set_fatigue( 0 );
@@ -85,7 +87,7 @@ static std::string gen_dynamic_line( dialogue &d )
 
 static void change_om_type( const std::string &new_type )
 {
-    const tripoint omt_pos = ms_to_omt_copy( get_map().getabs( get_avatar().pos() ) );
+    const tripoint omt_pos = ms_to_omt_copy( get_map().getabs( get_player_character().pos() ) );
     overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 
@@ -94,6 +96,7 @@ static npc &prep_test( dialogue &d )
     clear_avatar();
     clear_vehicles();
     avatar &player_character = get_avatar();
+    player_character.name = "Alpha Avatar";
     REQUIRE_FALSE( player_character.in_vehicle );
 
     const tripoint test_origin( 15, 15, 0 );
@@ -101,12 +104,12 @@ static npc &prep_test( dialogue &d )
 
     g->faction_manager_ptr->create_if_needed();
 
-    npc &talker_npc = create_test_talker();
+    npc &beta = create_test_talker();
 
-    d.alpha = &player_character;
-    d.beta = &talker_npc;
+    d.alpha = get_talker_for( player_character );
+    d.beta = get_talker_for( beta );
 
-    return talker_npc;
+    return beta;
 }
 
 TEST_CASE( "npc_talk_start", "[npc_talk]" )
@@ -134,7 +137,7 @@ TEST_CASE( "npc_talk_stats", "[npc_talk]" )
     dialogue d;
     prep_test( d );
 
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
     player_character.str_cur = 8;
     player_character.dex_cur = 8;
     player_character.int_cur = 8;
@@ -170,7 +173,7 @@ TEST_CASE( "npc_talk_skills", "[npc_talk]" )
 
     const skill_id skill( "driving" );
 
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
     player_character.set_skill_level( skill, 8 );
 
     d.add_topic( "TALK_TEST_SIMPLE_SKILLS" );
@@ -193,7 +196,7 @@ TEST_CASE( "npc_talk_wearing_and_trait", "[npc_talk]" )
     dialogue d;
     npc &talker_npc = prep_test( d );
 
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
     for( const trait_id &tr : player_character.get_mutations() ) {
         player_character.unset_mutation( tr );
     }
@@ -238,7 +241,7 @@ TEST_CASE( "npc_talk_effect", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_EFFECT" );
     gen_response_lines( d, 1 );
@@ -259,7 +262,7 @@ TEST_CASE( "npc_talk_service", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_SERVICE" );
     player_character.cash = 0;
@@ -466,7 +469,7 @@ TEST_CASE( "npc_talk_switch", "[npc_talk]" )
 {
     dialogue d;
     prep_test( d );
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_SWITCH" );
     player_character.cash = 1000;
@@ -496,7 +499,7 @@ TEST_CASE( "npc_talk_or", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_OR" );
     player_character.cash = 0;
@@ -513,7 +516,7 @@ TEST_CASE( "npc_talk_and", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     player_character.toggle_trait( trait_id( "ELFA_EARS" ) );
     d.add_topic( "TALK_TEST_AND" );
@@ -530,7 +533,7 @@ TEST_CASE( "npc_talk_nested", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     d.add_topic( "TALK_TEST_NESTED" );
     talker_npc.add_effect( effect_currently_busy, 9999_turns );
@@ -547,7 +550,7 @@ TEST_CASE( "npc_talk_nested", "[npc_talk]" )
 TEST_CASE( "npc_talk_conditionals", "[npc_talk]" )
 {
     dialogue d;
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
     prep_test( d );
     player_character.cash = 800;
 
@@ -577,7 +580,7 @@ TEST_CASE( "npc_talk_items", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     player_character.remove_items_with( []( const item & it ) {
         return it.get_category().get_id() == item_category_id( "books" ) ||
@@ -856,19 +859,44 @@ TEST_CASE( "npc_talk_adjust_vars", "[npc_talk]" )
     CHECK( d.responses[10].text == "This is a npc_compare_var test response for < 0." );
 }
 
+TEST_CASE( "npc_talk_vars_time", "[npc_talk]" )
+{
+    dialogue d;
+    prep_test( d );
+
+    time_point start_turn = calendar::turn;
+    calendar::turn = calendar::turn + time_duration( 1_hours );
+    d.add_topic( "TALK_TEST_VARS_TIME" );
+    gen_response_lines( d, 3 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a u_add_var time test response." );
+    CHECK( d.responses[2].text == "This is a npc_add_var time test response." );
+    talk_effect_t &effects = d.responses[1].success;
+    effects.apply( d );
+    gen_response_lines( d, 1 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    time_point then = calendar::turn;
+    calendar::turn = calendar::turn + time_duration( 4_days );
+    REQUIRE( then < calendar::turn );
+    gen_response_lines( d, 2 );
+    CHECK( d.responses[0].text == "This is a basic test response." );
+    CHECK( d.responses[1].text == "This is a u_compare_var time test response for > 3_days." );
+    calendar::turn = start_turn;
+}
+
 TEST_CASE( "npc_talk_bionics", "[npc_talk]" )
 {
     dialogue d;
-    npc &talker_npc = prep_test( d );
-    avatar &player_character = get_avatar();
+    npc &beta = prep_test( d );
+    player &player_character = get_avatar();
 
     player_character.clear_bionics();
-    talker_npc.clear_bionics();
+    beta.clear_bionics();
     d.add_topic( "TALK_TEST_BIONICS" );
     gen_response_lines( d, 1 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     player_character.add_bionic( bionic_id( "bio_ads" ) );
-    talker_npc.add_bionic( bionic_id( "bio_power_storage" ) );
+    beta.add_bionic( bionic_id( "bio_power_storage" ) );
     gen_response_lines( d, 3 );
     CHECK( d.responses[0].text == "This is a basic test response." );
     CHECK( d.responses[1].text == "This is a u_has_bionics bio_ads test response." );
@@ -879,7 +907,7 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
 {
     dialogue d;
     npc &talker_npc = prep_test( d );
-    avatar &player_character = get_avatar();
+    player &player_character = get_avatar();
 
     // speaker effects just use are owed because I don't want to do anything complicated
     player_character.cash = 1000;

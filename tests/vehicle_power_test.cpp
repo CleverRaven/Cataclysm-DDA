@@ -2,10 +2,10 @@
 #include <memory>
 #include <vector>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
+#include "character.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "point.h"
@@ -17,9 +17,10 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_plut_cell( "plut_cell" );
 static const efftype_id effect_blind( "blind" );
 
+// TODO: Move this into player_helpers to avoid character include.
 static void reset_player()
 {
-    avatar &player_character = get_avatar();
+    Character &player_character = get_player_character();
     // Move player somewhere safe
     REQUIRE( !player_character.in_vehicle );
     player_character.setpos( tripoint_zero );
@@ -71,7 +72,7 @@ TEST_CASE( "vehicle power with reactor and solar panels", "[vehicle][power]" )
             calendar::turn = calendar::turn_zero + calendar::season_length() + 1_days;
             const time_point start_time = sunrise( calendar::turn ) + 3_hours;
             veh_ptr->update_time( start_time );
-            get_weather().weather_override = WEATHER_SUNNY;
+            get_weather().weather_override = weather_type_id( "sunny" );
 
             AND_GIVEN( "the battery has no charge" ) {
                 veh_ptr->discharge_battery( veh_ptr->fuel_left( fuel_type_battery ) );

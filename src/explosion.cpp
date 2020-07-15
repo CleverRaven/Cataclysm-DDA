@@ -14,7 +14,6 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -44,7 +43,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
-#include "player.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
@@ -275,7 +273,7 @@ static void do_blast( const tripoint &p, const float power,
         explosion_colors[pt] = col;
     }
 
-    draw_custom_explosion( g->u.pos(), explosion_colors );
+    draw_custom_explosion( get_player_character().pos(), explosion_colors );
 
     for( const tripoint &pt : closed ) {
         const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
@@ -315,7 +313,7 @@ static void do_blast( const tripoint &p, const float power,
 
         add_msg( m_debug, "Blast hits %s with force %.1f", critter->disp_name(), force );
 
-        player *pl = dynamic_cast<player *>( critter );
+        Character *pl = critter->as_character();
         if( pl == nullptr ) {
             // TODO: player's fault?
             const double dmg = std::max( force - critter->get_armor_bash( bodypart_id( "torso" ) ) / 2.0, 0.0 );
@@ -387,7 +385,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
     // TODO: Calculate range based on max effective range for projectiles.
     // Basically bisect between 0 and map diameter using shrapnel_calc().
     // Need to update shadowcasting to support limiting range without adjusting initial distance.
-    const tripoint_range area = here.points_on_zlevel( src.z );
+    const tripoint_range<tripoint> area = here.points_on_zlevel( src.z );
 
     here.build_obstacle_cache( area.min(), area.max() + tripoint_south_east, obstacle_cache );
 
@@ -402,6 +400,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                  update_fragment_cloud, accumulate_fragment_cloud>
                  ( visited_cache, obstacle_cache, src.xy(), 0, initial_cloud );
 
+    Character &player_character = get_player_character();
     // Now visited_caches are populated with density and velocity of fragments.
     for( const tripoint &target : area ) {
         fragment_cloud &cloud = visited_cache[target.x][target.y];
@@ -444,7 +443,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
                 }
             }
             int total_hits = damaging_hits + non_damaging_hits;
-            if( total_hits > 0 && g->u.sees( *critter ) ) {
+            if( total_hits > 0 && player_character.sees( *critter ) ) {
                 // Building a phrase to summarize the fragment effects.
                 // Target, Number of impacts, total amount of damage, proportion of deflected fragments.
                 std::map<int, std::string> impact_count_descriptions = {
@@ -554,28 +553,31 @@ void explosion( const tripoint &p, const explosion_data &ex )
 void flashbang( const tripoint &p, bool player_immune )
 {
     draw_explosion( p, 8, c_white );
-    int dist = rl_dist( g->u.pos(), p );
+    Character &player_character = get_player_character();
+    int dist = rl_dist( player_character.pos(), p );
     map &here = get_map();
     if( dist <= 8 && !player_immune ) {
-        if( !g->u.has_bionic( bio_ears ) && !g->u.is_wearing( itype_rm13_armor_on ) ) {
-            g->u.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
+        if( !player_character.has_bionic( bio_ears ) &&
+            !player_character.is_wearing( itype_rm13_armor_on ) ) {
+            player_character.add_effect( effect_deaf, time_duration::from_turns( 40 - dist * 4 ) );
         }
-        if( here.sees( g->u.pos(), p, 8 ) ) {
+        if( here.sees( player_character.pos(), p, 8 ) ) {
             int flash_mod = 0;
-            if( g->u.has_trait( trait_PER_SLIME ) ) {
+            if( player_character.has_trait( trait_PER_SLIME ) ) {
                 if( one_in( 2 ) ) {
                     flash_mod = 3; // Yay, you weren't looking!
                 }
-            } else if( g->u.has_trait( trait_PER_SLIME_OK ) ) {
+            } else if( player_character.has_trait( trait_PER_SLIME_OK ) ) {
                 flash_mod = 8; // Just retract those and extrude fresh eyes
-            } else if( g->u.has_bionic( bio_sunglasses ) ||
-                       g->u.is_wearing( itype_rm13_armor_on ) ) {
+            } else if( player_character.has_bionic( bio_sunglasses ) ||
+                       player_character.is_wearing( itype_rm13_armor_on ) ) {
                 flash_mod = 6;
-            } else if( g->u.worn_with_flag( flag_BLIND ) || g->u.worn_with_flag( flag_FLASH_PROTECTION ) ) {
+            } else if( player_character.worn_with_flag( flag_BLIND ) ||
+                       player_character.worn_with_flag( flag_FLASH_PROTECTION ) ) {
                 flash_mod = 3; // Not really proper flash protection, but better than nothing
             }
-            g->u.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
-                                 time_duration::from_turns( 10 - dist ) );
+            player_character.add_env_effect( effect_blind, bp_eyes, ( 12 - flash_mod - dist ) / 2,
+                                             time_duration::from_turns( 10 - dist ) );
         }
     }
     for( monster &critter : g->all_monsters() ) {
@@ -617,7 +619,7 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
             g->knockback( p, critter.pos(), force, stun, dam_mult );
         }
     }
-    // TODO: combine the two loops and the case for g->u using all_creatures()
+    // TODO: combine the two loops and the case for avatar using all_creatures()
     for( npc &guy : g->all_npcs() ) {
         if( guy.posz() != p.z ) {
             continue;
@@ -627,11 +629,13 @@ void shockwave( const tripoint &p, int radius, int force, int stun, int dam_mult
             g->knockback( p, guy.pos(), force, stun, dam_mult );
         }
     }
-    if( rl_dist( g->u.pos(), p ) <= radius && !ignore_player &&
-        ( !g->u.has_trait( trait_LEG_TENT_BRACE ) || g->u.footwear_factor() == 1 ||
-          ( g->u.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
+    Character &player_character = get_player_character();
+    if( rl_dist( player_character.pos(), p ) <= radius && !ignore_player &&
+        ( !player_character.has_trait( trait_LEG_TENT_BRACE ) ||
+          player_character.footwear_factor() == 1 ||
+          ( player_character.footwear_factor() == .5 && one_in( 2 ) ) ) ) {
         add_msg( m_bad, _( "You're caught in the shockwave!" ) );
-        g->knockback( p, g->u.pos(), force, stun, dam_mult );
+        g->knockback( p, player_character.pos(), force, stun, dam_mult );
     }
 }
 
@@ -651,13 +655,14 @@ void emp_blast( const tripoint &p )
 {
     // TODO: Implement z part
     point p2( p.xy() );
-    const bool sight = g->u.sees( p );
+    Character &player_character = get_player_character();
+    const bool sight = player_character.sees( p );
     map &here = get_map();
     if( here.has_flag( "CONSOLE", p2 ) ) {
         if( sight ) {
             add_msg( _( "The %s is rendered non-functional!" ), here.tername( p2 ) );
         }
-        here.ter_set( p2, t_console_broken );
+        here.furn_set( p2, furn_str_id( "f_machinery_electronic" ) );
         return;
     }
     // TODO: More terrain effects.
@@ -744,21 +749,21 @@ void emp_blast( const tripoint &p )
             add_msg( _( "The %s is unaffected by the EMP blast." ), critter.name() );
         }
     }
-    if( g->u.posx() == p2.x && g->u.posy() == p2.y ) {
-        if( g->u.get_power_level() > 0_kJ ) {
+    if( player_character.posx() == p2.x && player_character.posy() == p2.y ) {
+        if( player_character.get_power_level() > 0_kJ ) {
             add_msg( m_bad, _( "The EMP blast drains your power." ) );
-            int max_drain = ( g->u.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
-                                  g->u.get_power_level() ) );
-            g->u.mod_power_level( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
+            int max_drain = ( player_character.get_power_level() > 1000_kJ ? 1000 : units::to_kilojoule(
+                                  player_character.get_power_level() ) );
+            player_character.mod_power_level( units::from_kilojoule( -rng( 1 + max_drain / 3, max_drain ) ) );
         }
         // TODO: More effects?
         //e-handcuffs effects
-        if( g->u.weapon.typeId() == itype_e_handcuffs && g->u.weapon.charges > 0 ) {
-            g->u.weapon.item_tags.erase( "NO_UNWIELD" );
-            g->u.weapon.charges = 0;
-            g->u.weapon.active = false;
+        if( player_character.weapon.typeId() == itype_e_handcuffs && player_character.weapon.charges > 0 ) {
+            player_character.weapon.item_tags.erase( "NO_UNWIELD" );
+            player_character.weapon.charges = 0;
+            player_character.weapon.active = false;
             add_msg( m_good, _( "The %s on your wrists spark briefly, then release your hands!" ),
-                     g->u.weapon.tname() );
+                     player_character.weapon.tname() );
         }
     }
     // Drain any items of their battery charge
@@ -772,12 +777,14 @@ void emp_blast( const tripoint &p )
 
 void resonance_cascade( const tripoint &p )
 {
-    const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p, g->u.pos() ) );
+    Character &player_character = get_player_character();
+    const time_duration maxglow = time_duration::from_turns( 100 - 5 * trig_dist( p,
+                                  player_character.pos() ) );
     MonsterGroupResult spawn_details;
     if( maxglow > 0_turns ) {
         const time_duration minglow = std::max( 0_turns, time_duration::from_turns( 60 - 5 * trig_dist( p,
-                                                g->u.pos() ) ) );
-        g->u.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
+                                                player_character.pos() ) ) );
+        player_character.add_effect( effect_teleglow, rng( minglow, maxglow ) * 100 );
     }
     int startx = ( p.x < 8 ? 0 : p.x - 8 ), endx = ( p.x + 8 >= SEEX * 3 ? SEEX * 3 - 1 : p.x + 8 );
     int starty = ( p.y < 8 ? 0 : p.y - 8 ), endy = ( p.y + 8 >= SEEY * 3 ? SEEY * 3 - 1 : p.y + 8 );

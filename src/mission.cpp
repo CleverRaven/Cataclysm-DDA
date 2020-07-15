@@ -448,8 +448,8 @@ bool mission::is_complete( const character_id &_npc_id ) const
             }
 
             mission_goal_condition_context cc;
-            cc.alpha = &u;
-            cc.beta = n;
+            cc.alpha = get_talker_for( g->u );
+            cc.beta = get_talker_for( *n );
 
             for( auto &mission : n->chatbin.missions_assigned ) {
                 if( mission->get_assigned_player_id() == g->u.getID() ) {

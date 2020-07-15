@@ -70,7 +70,7 @@ TEST_CASE( "weather realism" )
             int hour = to_hours<int>( time_past_new_year( i ) );
             hourly_precip[hour] +=
                 precip_mm_per_hour(
-                    weather::precip( wgen.get_weather_conditions( w ) ) )
+                    wgen.get_weather_conditions( w )->precip )
                 / 60;
         }
 
