@@ -373,13 +373,14 @@ void iexamine::gaspump( player &p, const tripoint &examp )
 void iexamine::translocator( player &, const tripoint &examp )
 {
     const tripoint omt_loc = ms_to_omt_copy( get_map().getabs( examp ) );
-    const bool activated = g->u.translocators.knows_translocator( examp );
+    avatar &player_character = get_avatar();
+    const bool activated = player_character.translocators.knows_translocator( examp );
     if( !activated ) {
-        g->u.translocators.activate_teleporter( omt_loc, examp );
+        player_character.translocators.activate_teleporter( omt_loc, examp );
         add_msg( m_info, _( "Translocator gate active." ) );
     } else {
         if( query_yn( _( "Do you want to deactivate this active Translocator?" ) ) ) {
-            g->u.translocators.deactivate_teleporter( omt_loc, examp );
+            player_character.translocators.deactivate_teleporter( omt_loc, examp );
         }
     }
 }
@@ -1126,7 +1127,9 @@ void iexamine::chainfence( player &p, const tripoint &examp )
             return;
         }
         p.moves += climb * 10;
-        sfx::play_variant_sound( "plmove", "clear_obstacle", sfx::get_heard_volume( g->u.pos() ) );
+        Character &player_character = get_player_character();
+        sfx::play_variant_sound( "plmove", "clear_obstacle",
+                                 sfx::get_heard_volume( player_character.pos() ) );
     }
     if( p.in_vehicle ) {
         here.unboard_vehicle( p.pos() );
@@ -2120,7 +2123,7 @@ void iexamine::plant_seed( player &p, const tripoint &examp, const itype_id &see
 void iexamine::dirtmound( player &p, const tripoint &examp )
 {
 
-    if( !warm_enough_to_plant( g->u.pos() ) ) {
+    if( !warm_enough_to_plant( get_player_character().pos() ) ) {
         add_msg( m_info, _( "It is too cold to plant anything now." ) );
         return;
     }
@@ -3195,8 +3198,9 @@ void iexamine::keg( player &p, const tripoint &examp )
         drink.set_relative_rot( drink_rot[ drink_index ] );
         drink.charges = 0;
         bool keg_full = false;
+        Character &player_character = get_player_character();
         for( int i = 0; i < charges_held && !keg_full; i++ ) {
-            g->u.use_charges( drink.typeId(), 1 );
+            player_character.use_charges( drink.typeId(), 1 );
             drink.charges++;
             keg_full = drink.volume() >= keg_cap;
         }
@@ -3515,8 +3519,9 @@ void iexamine::tree_maple_tapped( player &p, const tripoint &examp )
         }
 
         case REMOVE_CONTAINER: {
-            g->u.assign_activity( player_activity( pickup_activity_actor(
-            { item_location( map_cursor( examp ), container ) }, { 0 }, g->u.pos() ) ) );
+            Character &player_character = get_player_character();
+            player_character.assign_activity( player_activity( pickup_activity_actor(
+            { item_location( map_cursor( examp ), container ) }, { 0 }, player_character.pos() ) ) );
             return;
         }
 
@@ -3695,20 +3700,22 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
 
 void trap::examine( const tripoint &examp ) const
 {
+    avatar &player_character = get_avatar();
     map &here = get_map();
 
     // If the player can't see the trap, they can't interact with it.
-    if( !can_see( examp, g->u ) ) {
+    if( !can_see( examp, player_character ) ) {
         return;
     }
 
-    if( g->u.is_mounted() ) {
+    if( player_character.is_mounted() ) {
         add_msg( m_warning, _( "You cannot do that while mounted." ) );
         return;
     }
 
     if( partial_con *const pc = here.partial_con_at( examp ) ) {
-        if( g->u.fine_detail_vision_mod() > 4 && !g->u.has_trait( trait_DEBUG_HS ) ) {
+        if( player_character.fine_detail_vision_mod() > 4 &&
+            !player_character.has_trait( trait_DEBUG_HS ) ) {
             add_msg( m_info, _( "It is too dark to construct right now." ) );
             return;
         }
@@ -3718,13 +3725,13 @@ void trap::examine( const tripoint &examp ) const
             if( query_yn( _( "Cancel construction?" ) ) ) {
                 on_disarmed( here, examp );
                 for( const item &it : pc->components ) {
-                    here.add_item_or_charges( g->u.pos(), it );
+                    here.add_item_or_charges( player_character.pos(), it );
                 }
                 here.partial_con_remove( examp );
             }
         } else {
-            g->u.assign_activity( ACT_BUILD );
-            g->u.activity.placement = here.getabs( examp );
+            player_character.assign_activity( ACT_BUILD );
+            player_character.activity.placement = here.getabs( examp );
         }
         return;
     }
@@ -3744,7 +3751,7 @@ void trap::examine( const tripoint &examp ) const
     }
 
     if( query_yn( _( "There is a %s there.  Disarm?" ), name() ) ) {
-        const int tSkillLevel = g->u.get_skill_level( skill_traps );
+        const int tSkillLevel = player_character.get_skill_level( skill_traps );
         int roll = rng( tSkillLevel, 4 * tSkillLevel );
 
         ///\EFFECT_PER increases chance of disarming trap
@@ -3752,36 +3759,37 @@ void trap::examine( const tripoint &examp ) const
         ///\EFFECT_DEX increases chance of disarming trap
 
         ///\EFFECT_TRAPS increases chance of disarming trap
-        while( ( rng( 5, 20 ) < g->u.per_cur || rng( 1, 20 ) < g->u.dex_cur ) && roll < 50 ) {
+        while( ( rng( 5, 20 ) < player_character.per_cur ||
+                 rng( 1, 20 ) < player_character.dex_cur ) && roll < 50 ) {
             roll++;
         }
         if( roll >= difficulty ) {
             add_msg( _( "You disarm the trap!" ) );
             const int morale_buff = avoidance * 0.4 + difficulty + rng( 0, 4 );
-            g->u.rem_morale( MORALE_FAILURE );
-            g->u.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
+            player_character.rem_morale( MORALE_FAILURE );
+            player_character.add_morale( MORALE_ACCOMPLISHMENT, morale_buff, 40 );
             on_disarmed( here, examp );
             if( difficulty > 1.25 * tSkillLevel ) { // failure might have set off trap
-                g->u.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+                player_character.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
             }
         } else if( roll >= difficulty * .8 ) {
             add_msg( _( "You fail to disarm the trap." ) );
             const int morale_debuff = -rng( 6, 18 );
-            g->u.rem_morale( MORALE_ACCOMPLISHMENT );
-            g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
+            player_character.rem_morale( MORALE_ACCOMPLISHMENT );
+            player_character.add_morale( MORALE_FAILURE, morale_debuff, -40 );
             if( difficulty > 1.25 * tSkillLevel ) {
-                g->u.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
+                player_character.practice( skill_traps, 1.5 * ( difficulty - tSkillLevel ) );
             }
         } else {
             add_msg( m_bad, _( "You fail to disarm the trap, and you set it off!" ) );
             const int morale_debuff = -rng( 12, 24 );
-            g->u.rem_morale( MORALE_ACCOMPLISHMENT );
-            g->u.add_morale( MORALE_FAILURE, morale_debuff, -40 );
-            trigger( examp, g->u );
+            player_character.rem_morale( MORALE_ACCOMPLISHMENT );
+            player_character.add_morale( MORALE_FAILURE, morale_debuff, -40 );
+            trigger( examp, player_character );
             if( difficulty - roll <= 6 ) {
                 // Give xp for failing, but not if we failed terribly (in which
                 // case the trap may not be disarmable).
-                g->u.practice( skill_traps, 2 * difficulty );
+                player_character.practice( skill_traps, 2 * difficulty );
             }
         }
         return;
@@ -3846,11 +3854,12 @@ void iexamine::reload_furniture( player &p, const tripoint &examp )
     if( amount_in_furn > 0 ) {
         if( p.query_yn( _( "The %1$s contains %2$d %3$s.  Unload?" ), f.name(), amount_in_furn,
                         ammo->nname( amount_in_furn ) ) ) {
+            Character &player_character = get_player_character();
             map_stack items = here.i_at( examp );
             for( auto &itm : items ) {
                 if( itm.type == ammo ) {
-                    g->u.assign_activity( player_activity( pickup_activity_actor(
-                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, g->u.pos() ) ) );
+                    player_character.assign_activity( player_activity( pickup_activity_actor(
+                    { item_location( map_cursor( examp ), &itm ) }, { 0 }, player_character.pos() ) ) );
                     return;
                 }
             }
@@ -4100,7 +4109,7 @@ static int findBestGasDiscount( player &p )
 
 static std::string str_to_illiterate_str( std::string s )
 {
-    if( !g->u.has_trait( trait_ILLITERATE ) ) {
+    if( !get_player_character().has_trait( trait_ILLITERATE ) ) {
         return s;
     } else {
         for( auto &i : s ) {
@@ -4598,12 +4607,13 @@ static player &best_installer( player &p, player &null_player, int difficulty )
         return rhs.first < lhs.first;
     } );
     int player_cos = bionic_success_chance( true, -1, difficulty, p );
+    avatar &player_character = get_avatar();
     for( size_t i = 0; i < g->allies().size() ; i ++ ) {
         if( ally_chances[ i ].first > player_cos ) {
             const npc *e = g->allies()[ ally_chances[ i ].second ];
             player &ally = *g->critter_by_id<player>( e->getID() );
             if( e->has_effect( effect_sleep ) ) {
-                if( !g->u.query_yn(
+                if( !player_character.query_yn(
                         //~ %1$s is the name of the ally
                         _( "<color_white>%1$s is asleep, but has a <color_green>%2$d<color_white> chance of success compared to your <color_red>%3$d<color_white> chance of success.  Continue with a higher risk of failure?</color>" ),
                         ally.disp_name(), ally_chances[i].first, player_cos ) ) {
@@ -4795,6 +4805,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 return;
             }
 
+            Character &player_character = get_player_character();
             for( const bionic &bio : installed_bionics ) {
                 if( bio.id != bio_power_storage ||
                     bio.id != bio_power_storage_mkII ) {
@@ -4806,14 +4817,14 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         // TODO: refactor this whole bit. adding items to the inventory will
                         // cause major issues when inv gets removed. this is a shim for now
                         // in order to reduce lines of change for nested containers.
-                        g->u.inv.push_back( bionic_to_uninstall );
+                        player_character.inv.push_back( bionic_to_uninstall );
                     }
                 }
             }
 
             const item_location bionic = game_menus::inv::uninstall_bionic( p, patient );
             if( !bionic ) {
-                g->u.remove_items_with( []( const item & it ) {// remove cbm items from inventory
+                player_character.remove_items_with( []( const item & it ) {// remove cbm items from inventory
                     return it.has_flag( flag_IN_CBM );
                 } );
                 return;
@@ -4822,7 +4833,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             const itype *itemtype = it->type;
             const bionic_id &bid = itemtype->bionic->id;
 
-            g->u.remove_items_with( []( const item & it ) {// remove cbm items from inventory
+            player_character.remove_items_with( []( const item & it ) {// remove cbm items from inventory
                 return it.has_flag( flag_IN_CBM );
             } );
 
@@ -5329,8 +5340,9 @@ static void smoker_load_food( player &p, const tripoint &examp,
     comps.clear();
     comps.push_back( item_comp( what->typeId(), amount ) );
 
+    Character &player_character = get_player_character();
     // select from where to get the items from and place them
-    inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
+    inv.form_from_map( player_character.pos(), PICKUP_RANGE, &player_character );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
@@ -5437,8 +5449,9 @@ static void mill_load_food( player &p, const tripoint &examp,
     comps.clear();
     comps.push_back( item_comp( what->typeId(), amount ) );
 
+    Character &player_character = get_player_character();
     // select from where to get the items from and place them
-    inv.form_from_map( g->u.pos(), PICKUP_RANGE, &g->u );
+    inv.form_from_map( player_character.pos(), PICKUP_RANGE, &player_character );
     inv.remove_items_with( []( const item & it ) {
         return it.rotten();
     } );
@@ -5460,7 +5473,7 @@ void iexamine::on_smoke_out( const tripoint &examp, const time_point &start_time
     map &here = get_map();
     if( here.furn( examp ) == furn_str_id( "f_smoking_rack_active" ) ||
         here.furn( examp ) == furn_str_id( "f_metal_smoking_rack_active" ) ) {
-        smoker_finalize( g->u, examp, start_time );
+        smoker_finalize( get_avatar(), examp, start_time );
     }
 }
 

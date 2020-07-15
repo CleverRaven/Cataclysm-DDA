@@ -148,7 +148,8 @@ int calc_skill_training_cost( const npc &p, const skill_id &skill )
         return 0;
     }
 
-    return 1000 * ( 1 + g->u.get_skill_level( skill ) ) * ( 1 + g->u.get_skill_level( skill ) );
+    int skill_level = get_player_character().get_skill_level( skill );
+    return 1000 * ( 1 + skill_level ) * ( 1 + skill_level );
 }
 
 // TODO: all styles cost the same and take the same time to train,
@@ -256,7 +257,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
         return;
     }
     npc *guy = npc_list.front();
-
+    Character &player_character = get_player_character();
     bool done = false;
     uilist nmenu;
 
@@ -282,7 +283,7 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
         nmenu.reset();
         nmenu.text = _( "Issue what temporary order?" );
         nmenu.desc_enabled = true;
-        parse_tags( output_string, g->u, *guy );
+        parse_tags( output_string, player_character, *guy );
         nmenu.footer_text = output_string;
         nmenu.addentry( NPC_CHAT_DONE, true, 'd', _( "Done issuing orders" ) );
         nmenu.addentry( NPC_CHAT_FORBID_ENGAGE, true, 'f',
@@ -340,9 +341,10 @@ static void npc_temp_orders_menu( const std::vector<npc *> &npc_list )
 
 static void tell_veh_stop_following()
 {
+    Character &player_character = get_player_character();
     for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( player_character ) ) {
             v->is_following = false;
             v->engine_on = false;
         }
@@ -351,9 +353,10 @@ static void tell_veh_stop_following()
 
 static void assign_veh_to_follow()
 {
+    Character &player_character = get_player_character();
     for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
+        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( player_character ) ) {
             v->activate_animal_follow();
         }
     }
@@ -361,12 +364,13 @@ static void assign_veh_to_follow()
 
 static void tell_magic_veh_to_follow()
 {
+    Character &player_character = get_player_character();
     for( wrapped_vehicle &veh : get_map().get_vehicles() ) {
         vehicle *v = veh.v;
         if( v->magic ) {
             for( const vpart_reference &vp : v->get_all_parts() ) {
                 const vpart_info &vpi = vp.info();
-                if( vpi.has_flag( "MAGIC_FOLLOW" ) && v->is_owned_by( g->u ) ) {
+                if( vpi.has_flag( "MAGIC_FOLLOW" ) && v->is_owned_by( player_character ) ) {
                     v->activate_magical_follow();
                     break;
                 }
@@ -394,7 +398,8 @@ static void tell_magic_veh_stop_following()
 
 void game::chat()
 {
-    int volume = g->u.get_shout_volume();
+    Character &player_character = get_player_character();
+    int volume = player_character.get_shout_volume();
 
     const std::vector<npc *> available = get_npcs_if( [&]( const npc & guy ) {
         // TODO: Get rid of the z-level check when z-level vision gets "better"
@@ -413,8 +418,9 @@ void game::chat()
     } );
     const int guard_count = guards.size();
 
-    if( g->u.has_trait( trait_PROF_FOODP ) && !( g->u.is_wearing( itype_id( "foodperson_mask" ) ) ||
-            g->u.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
+    if( player_character.has_trait( trait_PROF_FOODP ) &&
+        !( player_character.is_wearing( itype_id( "foodperson_mask" ) ) ||
+           player_character.is_wearing( itype_id( "foodperson_mask_on" ) ) ) ) {
         add_msg( m_warning, _( "You can't speak without your face!" ) );
         return;
     }
@@ -424,7 +430,8 @@ void game::chat()
     std::vector<vehicle *> magic_following_vehicles;
     for( auto &veh : get_map().get_vehicles() ) {
         auto &v = veh.v;
-        if( v->has_engine_type( fuel_type_animal, false ) && v->is_owned_by( g->u ) ) {
+        if( v->has_engine_type( fuel_type_animal, false ) &&
+            v->is_owned_by( player_character ) ) {
             animal_vehicles.push_back( v );
             if( v->is_following ) {
                 following_vehicles.push_back( v );
@@ -635,7 +642,8 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
              disp_name(), description, static_cast<int>( spriority ), heard_volume,
              s_abs_pos.x, s_abs_pos.y, my_abs_pos.x, my_abs_pos.y );
 
-    bool player_ally = g->u.pos() == spos && is_player_ally();
+    Character &player_character = get_player_character();
+    bool player_ally = player_character.pos() == spos && is_player_ally();
     player *const sound_source = g->critter_at<player>( spos );
     bool npc_ally = sound_source && sound_source->is_npc() && is_ally( *sound_source );
 
@@ -661,7 +669,7 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
     }
     // discount if sound source is player, or seen by player,
     // and listener is friendly and sound source is combat or alert only.
-    if( spriority < sounds::sound_t::alarm && g->u.sees( spos ) ) {
+    if( spriority < sounds::sound_t::alarm && player_character.sees( spos ) ) {
         if( is_player_ally() ) {
             add_msg( m_debug, "NPC %s ignored low priority noise that player can see", name );
             return;
