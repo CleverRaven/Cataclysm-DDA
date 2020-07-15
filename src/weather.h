@@ -41,7 +41,6 @@ static constexpr int BODYTEMP_SCORCHING = 9500;
 #include <utility>
 
 class item;
-class time_point;
 struct trap;
 struct rl_vec2d;
 
@@ -162,8 +161,7 @@ class weather_manager
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type_id weather_override;
-        std::map<weather_type_id, time_point> next_instance_allowed =
-            std::map<weather_type_id, time_point>();
+        std::map<weather_type_id, time_point> next_instance_allowed;
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );
         // The time at which weather will shift next.
