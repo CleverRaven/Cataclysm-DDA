@@ -10,6 +10,8 @@
 #include "point.h"
 #include "debug.h"
 
+enum class direction : unsigned;
+
 namespace coords
 {
 
@@ -462,6 +464,63 @@ using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coord
 using coords::project_to;
 using coords::project_remain;
 using coords::project_combine;
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int square_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                        const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return square_dist( loc1.raw(), loc2.raw() );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int trig_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                      const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return trig_dist( loc1.raw(), loc2.raw() );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int rl_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                    const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return rl_dist( loc1.raw(), loc2.raw() );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int manhattan_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                           const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return manhattan_dist( loc1.raw(), loc2.raw() );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+direction direction_from( const coords::coord_point<Point, Origin, Scale> &loc1,
+                          const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return direction_from( loc1.raw(), loc2.raw() );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+std::vector<coords::coord_point<Point, Origin, Scale>>
+        line_to( const coords::coord_point<Point, Origin, Scale> &loc1,
+                 const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw() );
+    std::vector<coords::coord_point<Point, Origin, Scale>> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const Point & p ) {
+        return coords::coord_point<Point, Origin, Scale>( p );
+    } );
+    return result;
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+coords::coord_point<Point, Origin, Scale>
+midpoint( const coords::coord_point<Point, Origin, Scale> &loc1,
+          const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return coords::coord_point<Point, Origin, Scale>( ( loc1.raw() + loc2.raw() ) / 2 );
+}
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
 std::vector<coords::coord_point<Point, Origin, Scale>>
