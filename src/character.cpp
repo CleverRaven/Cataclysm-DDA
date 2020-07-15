@@ -1082,12 +1082,13 @@ void Character::mount_creature( monster &z )
     mounted_creature = mons;
     mons->mounted_player = this;
     if( is_avatar() ) {
-        if( g->u.is_hauling() ) {
-            g->u.stop_hauling();
+        avatar &player_character = get_avatar();
+        if( player_character.is_hauling() ) {
+            player_character.stop_hauling();
         }
-        if( g->u.get_grab_type() != object_type::NONE ) {
+        if( player_character.get_grab_type() != object_type::NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( object_type::NONE );
+            player_character.grab( object_type::NONE );
         }
         g->place_player( pnt );
     } else {
@@ -1255,15 +1256,17 @@ void Character::forced_dismount()
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
     if( is_avatar() ) {
-        if( g->u.get_grab_type() != object_type::NONE ) {
+        avatar &player_character = get_avatar();
+        if( player_character.get_grab_type() != object_type::NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( object_type::NONE );
+            player_character.grab( object_type::NONE );
         }
         set_movement_mode( move_mode_id( "walk" ) );
-        if( g->u.is_auto_moving() || g->u.has_destination() || g->u.has_destination_activity() ) {
-            g->u.clear_destination();
+        if( player_character.is_auto_moving() || player_character.has_destination() ||
+            player_character.has_destination_activity() ) {
+            player_character.clear_destination();
         }
-        g->update_map( g->u );
+        g->update_map( player_character );
     }
     if( activity ) {
         cancel_activity();
@@ -1288,9 +1291,10 @@ void Character::dismount()
         if( critter->has_flag( MF_RIDEABLE_MECH ) && !critter->type->mech_weapon.is_empty() ) {
             remove_item( weapon );
         }
-        if( is_avatar() && g->u.get_grab_type() != object_type::NONE ) {
+        avatar &player_character = get_avatar();
+        if( is_avatar() && player_character.get_grab_type() != object_type::NONE ) {
             add_msg( m_warning, _( "You let go of the grabbed object." ) );
-            g->u.grab( object_type::NONE );
+            player_character.grab( object_type::NONE );
         }
         critter->remove_effect( effect_ridden );
         critter->add_effect( effect_controlled, 5_turns );
@@ -2364,8 +2368,7 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
     }
 
     const bool was_deaf = is_deaf();
-    const bool supertinymouse = g->u.has_trait( trait_SMALL2 ) ||
-                                g->u.has_trait( trait_SMALL_OK );
+    const bool supertinymouse = has_trait( trait_SMALL2 ) || has_trait( trait_SMALL_OK );
     last_item = to_wear.typeId();
 
     std::list<item>::iterator position = position_to_wear_new_item( to_wear );
@@ -2400,7 +2403,7 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
                                _( "This %s is too small to wear comfortably!  Maybe it could be refitted." ),
                                to_wear.tname() );
         }
-    } else if( is_npc() && g->u.sees( *this ) ) {
+    } else if( is_npc() && get_player_character().sees( *this ) ) {
         add_msg_if_npc( _( "<npcname> puts on their %s." ), to_wear.tname() );
     }
 
@@ -8700,7 +8703,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
             }
 
             if( destroy ) {
-                if( g->u.sees( *this ) ) {
+                if( get_player_character().sees( *this ) ) {
                     SCT.add( point( posx(), posy() ), direction::NORTH, remove_color_tags( pre_damage_name ),
                              m_neutral, _( "destroyed" ), m_info );
                 }
@@ -9006,7 +9009,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     int dam = dealt_dams.total_damage();
 
     // TODO: Pre or post blit hit tile onto "this"'s location here
-    if( dam > 0 && g->u.sees( pos() ) ) {
+    if( dam > 0 && get_player_character().sees( pos() ) ) {
         g->draw_hit_player( *this, dam );
 
         if( is_player() && source ) {
@@ -9042,11 +9045,12 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         }
     }
 
+    Character &player_character = get_player_character();
     //Acid blood effects.
-    bool u_see = g->u.sees( *this );
+    bool u_see = player_character.sees( *this );
     int cut_dam = dealt_dams.type_damage( DT_CUT );
     if( source && has_trait( trait_ACIDBLOOD ) && !one_in( 3 ) &&
-        ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( g->u.pos(), source->pos() ) <= 1 ) ) {
+        ( dam >= 4 || cut_dam > 0 ) && ( rl_dist( player_character.pos(), source->pos() ) <= 1 ) ) {
         if( is_player() ) {
             add_msg( m_good, _( "Your acidic blood splashes %s in mid-attack!" ),
                      source->disp_name() );
