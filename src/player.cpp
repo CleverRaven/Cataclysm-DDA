@@ -2874,7 +2874,7 @@ bool player::add_or_drop_with_msg( item &it, const bool /*unloading*/, const ite
     return true;
 }
 
-bool player::unload( item_location &loc )
+bool player::unload( item_location &loc, bool bypass_activity )
 {
     item &it = *loc;
     // Unload a container consuming moves per item successfully removed
@@ -2960,23 +2960,21 @@ bool player::unload( item_location &loc )
     } );
 
     if( target->is_magazine() ) {
-        player_activity unload_mag_act( activity_id( "ACT_UNLOAD_MAG" ) );
-        assign_activity( unload_mag_act );
-        activity.targets.emplace_back( item_location( loc, target ) );
-
-        // Calculate the time to remove the contained ammo (consuming half as much time as required to load the magazine)
-        int mv = 0;
-        for( const item *content : target->contents.all_items_top() ) {
-            mv += this->item_reload_cost( it, *content, content->charges ) / 2;
+        item_location targloc = item_location( loc, target );
+        if( bypass_activity ) {
+            unload_mag_activity_actor::unload( *this, targloc );
+        } else {
+            int mv = 0;
+            for( const item *content : target->contents.all_items_top() ) {
+                // We use the same cost for both reloading and unloading
+                mv += this->item_reload_cost( it, *content, content->charges );
+            }
+            if( it.is_ammo_belt() ) {
+                // Disassembling ammo belts is easier than assembling them
+                mv /= 2;
+            }
+            assign_activity( player_activity( unload_mag_activity_actor( mv, targloc ) ) );
         }
-        activity.moves_left += mv;
-
-        // I think this means if unload is not done on ammo-belt, it takes as long as it takes to reload a mag.
-        if( !it.is_ammo_belt() ) {
-            activity.moves_left += mv;
-        }
-        activity.auto_resume = true;
-
         return true;
 
     } else if( target->magazine_current() ) {
@@ -3144,7 +3142,7 @@ bool player::gunmod_remove( item &gun, item &mod )
     }
 
     item_location loc = item_location( *this, &mod );
-    if( mod.ammo_remaining() && !g->unload( loc ) ) {
+    if( mod.ammo_remaining() && !unload( loc, true ) ) {
         return false;
     }
 

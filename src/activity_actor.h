@@ -585,6 +585,38 @@ class try_sleep_activity_actor : public activity_actor
         static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
 };
 
+class unload_mag_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        item_location target;
+    public:
+        unload_mag_activity_actor( int moves_total, const item_location &target ) :
+            moves_total( moves_total ), target( target ) {}
+        activity_id get_type() const override {
+            return activity_id( "ACT_UNLOAD_MAG" );
+        }
+
+        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
+            const unload_mag_activity_actor &act = static_cast<const unload_mag_activity_actor &>( other );
+            return target == act.target;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        /** Unloads the magazine instantly. Can be called without an activity. May destroy the item. */
+        static void unload( Character &who, item_location &target );
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<unload_mag_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
 class workout_activity_actor : public activity_actor
 {
     private:

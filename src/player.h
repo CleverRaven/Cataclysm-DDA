@@ -412,7 +412,11 @@ class player : public Character
           */
         bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr );
 
-        bool unload( item_location &loc );
+        /**
+         * Unload item.
+         * @param bypass_activity If item requires an activity for its unloading, unload item immediately instead.
+         */
+        bool unload( item_location &loc, bool bypass_activity = false );
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.

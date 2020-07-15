@@ -235,7 +235,6 @@ void fill_pit_finish( player_activity *act, player *p );
 void play_with_pet_finish( player_activity *act, player *p );
 void shaving_finish( player_activity *act, player *p );
 void haircut_finish( player_activity *act, player *p );
-void unload_mag_finish( player_activity *act, player *p );
 void robot_control_finish( player_activity *act, player *p );
 void mind_splicer_finish( player_activity *act, player *p );
 void spellcasting_finish( player_activity *act, player *p );
