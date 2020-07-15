@@ -1279,7 +1279,7 @@ void avatar::load( const JsonObject &data )
         // In 0.C there was no player_id member of mission, so it'll be the default -1.
         // When the member was introduced, no steps were taken to ensure compatibility with 0.C, so
         // missions will be buggy for saves between experimental commits bd2088c033 and dd83800.
-        // see npc_chatbin::check_missions and npc::talk_to_u
+        // see dialogue_chatbin::check_missions and npc::talk_to_u
         for( mission *miss : active_missions ) {
             miss->set_player_id_legacy_0c( getID() );
         }
@@ -1407,7 +1407,7 @@ void npc_follower_rules::deserialize( JsonIn &jsin )
     data.read( "pickup_whitelist", *pickup_whitelist );
 }
 
-void npc_chatbin::serialize( JsonOut &json ) const
+void dialogue_chatbin::serialize( JsonOut &json ) const
 {
     json.start_object();
     json.member( "first_topic", first_topic );
@@ -1421,7 +1421,7 @@ void npc_chatbin::serialize( JsonOut &json ) const
     json.end_object();
 }
 
-void npc_chatbin::deserialize( JsonIn &jsin )
+void dialogue_chatbin::deserialize( JsonIn &jsin )
 {
     JsonObject data = jsin.get_object();
 

@@ -318,19 +318,7 @@ std::string talker_npc::spell_training_text( talker &student, const spell_id &sp
 void talker_npc::store_chosen_training( const skill_id &c_skill, const matype_id &c_style,
                                         const spell_id &c_spell )
 {
-    if( c_skill ) {
-        me_npc->chatbin.skill = c_skill;
-        me_npc->chatbin.style = matype_id::NULL_ID();
-        me_npc->chatbin.dialogue_spell = spell_id();
-    } else if( c_style ) {
-        me_npc->chatbin.style = c_style;
-        me_npc->chatbin.skill = skill_id::NULL_ID();
-        me_npc->chatbin.dialogue_spell = spell_id();
-    } else if( c_spell != spell_id() ) {
-        me_npc->chatbin.style = matype_id::NULL_ID();
-        me_npc->chatbin.skill = skill_id::NULL_ID();
-        me_npc->chatbin.dialogue_spell = c_spell;
-    }
+    me_npc->chatbin.store_chosen_training( c_skill, c_style, c_spell );
 }
 
 int talker_npc::debt() const
