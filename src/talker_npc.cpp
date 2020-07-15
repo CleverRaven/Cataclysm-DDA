@@ -1,4 +1,5 @@
 #include "avatar.h"
+#include "dialogue_chatbin.h"
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"

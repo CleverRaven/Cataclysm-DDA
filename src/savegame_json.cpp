@@ -50,6 +50,7 @@
 #include "creature_tracker.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "effect.h"
 #include "enum_conversions.h"
 #include "event.h"

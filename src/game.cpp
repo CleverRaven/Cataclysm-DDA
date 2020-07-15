@@ -58,6 +58,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
+#include "dialogue_chatbin.h"
 #include "editmap.h"
 #include "enums.h"
 #include "event.h"

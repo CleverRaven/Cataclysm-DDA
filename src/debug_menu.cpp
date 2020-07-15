@@ -37,6 +37,7 @@
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "faction.h"

@@ -28,6 +28,7 @@
 #include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
@@ -714,17 +715,6 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             }
         }
     }
-}
-
-void npc_chatbin::check_missions()
-{
-    // TODO: or simply fail them? Some missions might only need to be reported.
-    auto &ma = missions_assigned;
-    const auto last = std::remove_if( ma.begin(), ma.end(), []( class mission const * m ) {
-        return !m->is_assigned();
-    } );
-    std::copy( last, ma.end(), std::back_inserter( missions ) );
-    ma.erase( last, ma.end() );
 }
 
 void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool radio_contact )
