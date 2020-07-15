@@ -2718,7 +2718,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
                 if( !t->sided ) {
                     for( const body_part &legacy_part : all_body_parts ) {
-                        bodypart_str_id bp( convert_bp( legacy_part ) );
+                        const bodypart_str_id &bp( convert_bp( legacy_part ) );
                         bodypart_str_id opposite = bp->opposite_part;
                         if( opposite != bp && covers( bp ) && covers( opposite )
                             && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
