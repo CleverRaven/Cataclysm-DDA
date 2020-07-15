@@ -90,7 +90,9 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
 std::vector<item_pricing> npc_trading::init_selling( npc &np )
 {
     std::vector<item_pricing> result;
-    const auto inv_all = np.items_with( []( const item & ) { return true; } );
+    const auto inv_all = np.items_with( []( const item & ) {
+        return true;
+    } );
     for( auto &i : inv_all ) {
         item &it = *i;
 

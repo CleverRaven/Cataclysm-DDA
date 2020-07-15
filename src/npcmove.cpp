@@ -3525,7 +3525,10 @@ bool npc::alt_attack()
     };
 
     check_alt_item( weapon );
-    for( auto &it : items_with( []( const item & ) { return true; } ) ) {
+    const auto inv_all = items_with( []( const item & ) {
+        return true;
+    } );
+    for( auto &it : inv_all ) {
         // TODO: Cached values - an itype slot maybe?
         check_alt_item( *it );
     }
@@ -3669,10 +3672,10 @@ void npc::heal_self()
         item *treatment = nullptr;
         std::string iusage = "INHALER";
 
-        const auto filter_use = [this]( const std::string &filter ) -> std::vector<item *> {
-            const auto inv_filtered = items_with( [&filter]( const item & itm ) {
-                return ( itm.type->get_use( filter ) != nullptr ) &&
-                       ( itm.ammo_sufficient() );
+        const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
+            const auto inv_filtered = items_with( [&filter]( const item & itm )
+            {
+                return ( itm.type->get_use( filter ) != nullptr ) && ( itm.ammo_sufficient() );
             } );
             return inv_filtered;
         };
@@ -3688,7 +3691,7 @@ void npc::heal_self()
             }
         }
         if( treatment != nullptr ) {
-            treatment->get_use(iusage)->call(*this, *treatment, treatment->active, pos() );
+            treatment->get_use( iusage )->call( *this, *treatment, treatment->active, pos() );
             treatment->ammo_consume( treatment->ammo_required(), pos() );
             return;
         }
@@ -3858,7 +3861,7 @@ bool npc::consume_food_from_camp()
 bool npc::consume_food()
 {
     float best_weight = 0.0f;
-    item* best_food = nullptr;
+    item *best_food = nullptr;
     bool consumed = false;
     int want_hunger = std::max( 0, get_hunger() );
     int want_quench = std::max( 0, get_thirst() );
@@ -3874,7 +3877,7 @@ bool npc::consume_food()
             set_thirst( 0 );
         }
     } else {
-        for ( const auto &food_item : inv_food ) {
+        for( const auto &food_item : inv_food ) {
             float cur_weight = rate_food( *food_item, want_hunger, want_quench );
             // Note: will_eat is expensive, avoid calling it if possible
             if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
@@ -3885,7 +3888,7 @@ bool npc::consume_food()
 
         // consume doesn't return a meaningful answer, we need to compare moves
         // TODO: Make player::consume return false if it fails to consume
-        if ( best_food != nullptr ) {
+        if( best_food != nullptr ) {
             const time_duration &consume_time = get_consume_time( *best_food );
             consumed = consume( item_location( *this, best_food ) );
             if( consumed ) {
@@ -3896,7 +3899,7 @@ bool npc::consume_food()
         }
 
     }
-    
+
     return consumed;
 }
 
@@ -3943,9 +3946,9 @@ void npc::mug_player( Character &mark )
     }
     double best_value = minimum_item_value() * value_mod;
     item *to_steal = nullptr;
-    const auto inv_valuables = items_with( [this](const item & itm) {
+    const auto inv_valuables = items_with( [this]( const item & itm ) {
         return value( itm ) > 0;
-    });
+    } );
     for( auto &it : inv_valuables ) {
         item &front_stack = *it; // is this safe?
         if( value( front_stack ) >= best_value &&
