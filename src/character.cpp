@@ -2550,7 +2550,7 @@ item Character::i_rem( const item *it )
     return tmp.front();
 }
 
-void Character::i_rem_keep_contents( const item *it )
+void Character::i_rem_keep_contents( const item *const it )
 {
     i_rem( it ).spill_contents( pos() );
 }
