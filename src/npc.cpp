@@ -1522,13 +1522,12 @@ void npc::decide_needs()
     needrank[need_weapon] = weapon_value( weapon );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
-    invslice slice = inv.slice();
-    for( auto &i : slice ) {
-        item inventory_item = i->front();
-        if( const item *food = inventory_item.get_food() ) {
-            needrank[ need_food ] += nutrition_for( *food ) / 4.0;
-            needrank[ need_drink ] += food->get_comestible()->quench / 4.0;
-        }
+    const auto inv_food = items_with( []( const item & itm ) {
+        return itm.is_food();
+    } );
+    for( auto &food : inv_food ) {
+        needrank[ need_food ] += nutrition_for( *food ) / 4.0;
+        needrank[ need_drink ] += food->get_comestible()->quench / 4.0;
     }
     needs.clear();
     size_t j;

@@ -3848,41 +3848,45 @@ bool npc::consume_food_from_camp()
 bool npc::consume_food()
 {
     float best_weight = 0.0f;
-    int index = -1;
+    item* best_food = nullptr;
+    bool consumed = false;
     int want_hunger = std::max( 0, get_hunger() );
     int want_quench = std::max( 0, get_thirst() );
-    invslice slice = inv.slice();
-    for( size_t i = 0; i < slice.size(); i++ ) {
-        const item &it = slice[i]->front();
-        if( const item *food_item = it.get_food() ) {
-            float cur_weight = rate_food( *food_item, want_hunger, want_quench );
-            // Note: will_eat is expensive, avoid calling it if possible
-            if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
-                best_weight = cur_weight;
-                index = i;
-            }
-        }
-    }
 
-    if( index == -1 ) {
+    const auto inv_food = items_with( []( const item & itm ) {
+        return itm.is_food();
+    } );
+
+    if( inv_food.empty() ) {
         if( !is_player_ally() ) {
             // TODO: Remove this and let player "exploit" hungry NPCs
             set_hunger( 0 );
             set_thirst( 0 );
         }
-        return false;
-    }
+    } else {
+        for ( const auto &food_item : inv_food ) {
+            float cur_weight = rate_food( *food_item, want_hunger, want_quench );
+            // Note: will_eat is expensive, avoid calling it if possible
+            if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
+                best_weight = cur_weight;
+                best_food = food_item;
+            }
+        }
 
-    // consume doesn't return a meaningful answer, we need to compare moves
-    // TODO: Make player::consume return false if it fails to consume
-    item_location loc = item_location( *this, &i_at( index ) );
-    const time_duration &consume_time = get_consume_time( *loc );
-    moves -= to_moves<int>( consume_time );
-    bool consumed = consume( loc );
-    if( !consumed ) {
-        debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
-    }
+        // consume doesn't return a meaningful answer, we need to compare moves
+        // TODO: Make player::consume return false if it fails to consume
+        if ( best_food != nullptr ) {
+            const time_duration &consume_time = get_consume_time( *best_food );
+            consumed = consume( item_location( *this, best_food ) );
+            if( consumed ) {
+                moves -= to_moves<int>( consume_time );
+            } else {
+                debugmsg( "%s failed to consume %s", name, best_food->tname() );
+            }
+        }
 
+    }
+    
     return consumed;
 }
 
