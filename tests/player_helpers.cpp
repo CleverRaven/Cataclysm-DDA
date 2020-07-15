@@ -26,7 +26,7 @@
 
 int get_remaining_charges( const std::string &tool_id )
 {
-    const inventory crafting_inv = g->u.crafting_inventory();
+    const inventory crafting_inv = get_player_character().crafting_inventory();
     std::vector<const item *> items =
     crafting_inv.items_with( [tool_id]( const item & i ) {
         return i.typeId() == itype_id( tool_id );
@@ -40,7 +40,7 @@ int get_remaining_charges( const std::string &tool_id )
 
 bool player_has_item_of_type( const std::string &type )
 {
-    std::vector<item *> matching_items = g->u.inv.items_with(
+    std::vector<item *> matching_items = get_player_character().inv.items_with(
     [&]( const item & i ) {
         return i.type->get_id() == itype_id( type );
     } );
@@ -50,11 +50,12 @@ bool player_has_item_of_type( const std::string &type )
 
 void clear_character( player &dummy, bool debug_storage )
 {
+    dummy.set_body();
     dummy.normalize(); // In particular this clears martial arts style
 
     // delete all worn items.
     dummy.worn.clear();
-    dummy.reset_encumbrance();
+    dummy.calc_encumbrance();
     dummy.inv.clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
@@ -102,7 +103,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.reset_bonuses();
     dummy.set_speed_base( 100 );
     dummy.set_speed_bonus( 0 );
-    dummy.hp_cur.fill( dummy.get_hp_max() );
+    dummy.set_all_parts_hp_to_max();
 
     dummy.cash = 0;
 
@@ -112,7 +113,7 @@ void clear_character( player &dummy, bool debug_storage )
 
 void clear_avatar()
 {
-    clear_character( g->u );
+    clear_character( get_avatar() );
 }
 
 void process_activity( player &dummy )
@@ -128,7 +129,7 @@ void process_activity( player &dummy )
 npc &spawn_npc( const point &p, const std::string &npc_class )
 {
     const string_id<npc_template> test_guy( npc_class );
-    const character_id model_id = g->m.place_npc( p, test_guy, true );
+    const character_id model_id = get_map().place_npc( p, test_guy );
     g->load_npcs();
 
     npc *guy = g->find_npc( model_id );

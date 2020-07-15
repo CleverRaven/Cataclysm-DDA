@@ -2,6 +2,7 @@
 
 * [Translators](#translators)
   * [Getting Started](#getting-Started)
+  * [Glossary](#glossary)
   * [Grammatical gender](#grammatical-gender)
   * [Tips](#tips)
 * [Developers](#developers)
@@ -86,6 +87,22 @@ Click on the "Save" button when you are satisfied with your translation.
 ![Web editor](img/translating-editor.png)
 
 See [Transifex's documentation][3] for more information.
+
+### Glossary
+
+This glossary is intended to help explain some CDDA-specific terms and their
+etymology in order to help translations.
+
+* **Exodii**: The Exodii are a bunch of humans from another dimension.  When
+  the Blob invaded their world, they managed to acquire enough technology to
+  open portals of their own, and now they portal to worlds that have been
+  attacked by the Blob and try to rescue survivors.  Exodii is a horrible
+  mangling of "Exodus" - the word literally means leaving or going out and has
+  connotations of forced emigration and refugees.  The Exodii are the people of
+  an Exodus.  While Exodus is a Latin word and "ii" to indicate a plural is a
+  Latin thing, but this isn't actually the [correct Latin
+  plural](https://www.latin-is-simple.com/en/vocabulary/noun/9294/) for this
+  word.
 
 ### Grammatical gender
 

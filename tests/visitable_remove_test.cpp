@@ -4,11 +4,9 @@
 #include <string>
 #include <vector>
 
-#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
@@ -16,7 +14,7 @@
 #include "map.h"
 #include "map_selector.h"
 #include "optional.h"
-#include "player.h"
+#include "character.h"
 #include "point.h"
 #include "rng.h"
 #include "type_id.h"
@@ -46,25 +44,26 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     REQUIRE( item( container_id ).is_container() );
     REQUIRE( item( worn_id ).is_container() );
 
-    player &p = g->u;
+    Character &p = get_player_character();
     p.worn.clear();
     p.worn.push_back( item( "backpack" ) );
     p.inv.clear();
     p.remove_weapon();
     p.wear_item( item( "backpack" ) ); // so we don't drop anything
+    map &here = get_map();
 
     // check if all tiles within radius are loaded within current submap and passable
-    const auto suitable = []( const tripoint & pos, const int radius ) {
-        std::vector<tripoint> tiles = closest_tripoints_first( pos, radius );
-        return std::all_of( tiles.begin(), tiles.end(), []( const tripoint & e ) {
-            if( !g->m.inbounds( e ) ) {
+    const auto suitable = [&here]( const tripoint & pos, const int radius ) {
+        std::vector<tripoint> tiles = closest_points_first( pos, radius );
+        return std::all_of( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
+            if( !here.inbounds( e ) ) {
                 return false;
             }
-            if( const optional_vpart_position vp = g->m.veh_at( e ) ) {
-                g->m.destroy_vehicle( &vp->vehicle() );
+            if( const optional_vpart_position vp = here.veh_at( e ) ) {
+                here.destroy_vehicle( &vp->vehicle() );
             }
-            g->m.i_clear( e );
-            return g->m.passable( e );
+            here.i_clear( e );
+            return here.passable( e );
         } );
     };
 
@@ -73,7 +72,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     // move player randomly until we find a suitable position
     while( !suitable( p.pos(), 1 ) ) {
         CHECK( !p.in_vehicle );
-        p.setpos( random_entry( closest_tripoints_first( p.pos(), 1 ) ) );
+        p.setpos( random_entry( closest_points_first( p.pos(), 1 ) ) );
     }
 
     item temp_liquid( liquid_id );
@@ -296,7 +295,7 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     }
 
     GIVEN( "A player surrounded by several bottles of water" ) {
-        std::vector<tripoint> tiles = closest_tripoints_first( p.pos(), 1 );
+        std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
 
         int our = 0; // bottles placed on player tile
@@ -306,11 +305,11 @@ TEST_CASE( "visitable_remove", "[visitable]" )
             if( i == 0 || tiles.empty() ) {
                 // always place at least one bottle on player tile
                 our++;
-                g->m.add_item( p.pos(), obj );
+                here.add_item( p.pos(), obj );
             } else {
                 // randomly place bottles on adjacent tiles
                 adj++;
-                g->m.add_item( random_entry( tiles ), obj );
+                here.add_item( random_entry( tiles ), obj );
             }
         }
         REQUIRE( our + adj == count );
@@ -413,16 +412,16 @@ TEST_CASE( "visitable_remove", "[visitable]" )
     }
 
     GIVEN( "An adjacent vehicle contains several bottles of water" ) {
-        std::vector<tripoint> tiles = closest_tripoints_first( p.pos(), 1 );
+        std::vector<tripoint> tiles = closest_points_first( p.pos(), 1 );
         tiles.erase( tiles.begin() ); // player tile
         tripoint veh = random_entry( tiles );
-        REQUIRE( g->m.add_vehicle( vproto_id( "shopping_cart" ), veh, 0, 0, 0 ) );
+        REQUIRE( here.add_vehicle( vproto_id( "shopping_cart" ), veh, 0, 0, 0 ) );
 
-        REQUIRE( std::count_if( tiles.begin(), tiles.end(), []( const tripoint & e ) {
-            return static_cast<bool>( g->m.veh_at( e ) );
+        REQUIRE( std::count_if( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
+            return static_cast<bool>( here.veh_at( e ) );
         } ) == 1 );
 
-        const cata::optional<vpart_reference> vp = g->m.veh_at( veh ).part_with_feature( "CARGO", true );
+        const cata::optional<vpart_reference> vp = here.veh_at( veh ).part_with_feature( "CARGO", true );
         REQUIRE( vp );
         vehicle *const v = &vp->vehicle();
         const int part = vp->part_index();

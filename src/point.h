@@ -33,6 +33,8 @@ class JsonOut;
 
 // NOLINTNEXTLINE(cata-xy)
 struct point {
+    static constexpr int dimension = 2;
+
     int x = 0;
     int y = 0;
     constexpr point() = default;
@@ -104,6 +106,9 @@ struct point {
 
     std::string to_string() const;
 
+    void serialize( JsonOut &jsout ) const;
+    void deserialize( JsonIn &jsin );
+
     friend inline constexpr bool operator<( const point &a, const point &b ) {
         return a.x < b.x || ( a.x == b.x && a.y < b.y );
     }
@@ -120,11 +125,29 @@ struct point {
 #endif
 };
 
-void serialize( const point &p, JsonOut &jsout );
-void deserialize( point &p, JsonIn &jsin );
+inline int divide_round_to_minus_infinity( int n, int d )
+{
+    if( n >= 0 ) {
+        return n / d;
+    }
+    return ( n - d + 1 ) / d;
+}
+
+inline point multiply_xy( const point &p, int f )
+{
+    return point( p.x * f, p.y * f );
+}
+
+inline point divide_xy_round_to_minus_infinity( const point &p, int d )
+{
+    return point( divide_round_to_minus_infinity( p.x, d ),
+                  divide_round_to_minus_infinity( p.y, d ) );
+}
 
 // NOLINTNEXTLINE(cata-xy)
 struct tripoint {
+    static constexpr int dimension = 3;
+
     int x = 0;
     int y = 0;
     int z = 0;
@@ -227,6 +250,18 @@ struct tripoint {
         return false;
     }
 };
+
+inline tripoint multiply_xy( const tripoint &p, int f )
+{
+    return tripoint( p.x * f, p.y * f, p.z );
+}
+
+inline tripoint divide_xy_round_to_minus_infinity( const tripoint &p, int d )
+{
+    return tripoint( divide_round_to_minus_infinity( p.x, d ),
+                     divide_round_to_minus_infinity( p.y, d ),
+                     p.z );
+}
 
 struct rectangle {
     point p_min;
@@ -337,8 +372,8 @@ struct sphere {
  * Following functions return points in a spiral pattern starting at center_x/center_y until it hits the radius. Clockwise fashion.
  * Credit to Tom J Nowell; http://stackoverflow.com/a/1555236/1269969
  */
-std::vector<tripoint> closest_tripoints_first( const tripoint &center, int max_dist );
-std::vector<tripoint> closest_tripoints_first( const tripoint &center, int min_dist, int max_dist );
+std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist );
+std::vector<tripoint> closest_points_first( const tripoint &center, int min_dist, int max_dist );
 
 std::vector<point> closest_points_first( const point &center, int max_dist );
 std::vector<point> closest_points_first( const point &center, int min_dist, int max_dist );

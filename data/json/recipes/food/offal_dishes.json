@@ -20,7 +20,7 @@
     "result": "lung_cooked",
     "qualities": [ { "id": "COOK", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 7, "LIST" ] ] ],
-    "components": [ [ [ "lung", 1 ] ] ]
+    "components": [ [ [ "meat_lung", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -129,7 +129,7 @@
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 3 } ],
     "tools": [ [ [ "surface_heat", 100, "LIST" ] ] ],
     "components": [
-      [ [ "small_stomach_boiled", 2 ], [ "stomach_boiled", 1 ] ],
+      [ [ "meat_stomach_boiled", 1, "LIST" ] ],
       [ [ "water", 4 ], [ "water_clean", 4 ] ],
       [
         [ "veggy_any", 2, "LIST" ],
@@ -182,7 +182,7 @@
     "tools": [ [ [ "surface_heat", 75, "LIST" ] ], [ [ "rock_quern", -1 ], [ "clay_quern", -1 ], [ "food_processor", 20 ] ] ],
     "components": [
       [ [ "liver", 8 ] ],
-      [ [ "edible_fat", 2, "LIST" ], [ "lard", 2 ], [ "mutant_lard", 2 ] ],
+      [ [ "edible_fat", 2, "LIST" ], [ "edible_lard", 2, "LIST" ] ],
       [ [ "powder_eggs", 10 ], [ "eggs_bird", 2, "LIST" ] ],
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
       [ [ "flour", 2 ] ],
@@ -231,7 +231,7 @@
       [ [ "salt", 1 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "mustard", 1 ] ],
-      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ], [ "irradiated_tomato", 1 ] ]
     ]
   },
   {
@@ -307,7 +307,7 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
-      [ [ "lung", 4 ] ],
+      [ [ "meat_lung", 4, "LIST" ] ],
       [ [ "flour", 4 ] ],
       [ [ "onion", 1 ], [ "irradiated_onion", 1 ] ],
       [ [ "cooking_oil", 1 ], [ "cooking_oil2", 1 ] ],
@@ -315,7 +315,7 @@
       [ [ "pepper", 6 ] ],
       [ [ "worthy_wine", 3, "LIST" ] ],
       [ [ "garlic_clove", 1 ] ],
-      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ], [ "irradiated_tomato", 1 ] ]
     ]
   },
   {
@@ -332,17 +332,17 @@
     "qualities": [ { "id": "COOK", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
-      [ [ "lung", 4 ] ],
+      [ [ "meat_lung", 4, "LIST" ] ],
       [ [ "kidney", 4 ] ],
       [ [ "brain", 4 ] ],
       [ [ "onion", 3 ], [ "irradiated_onion", 3 ] ],
       [ [ "any_butter", 4, "LIST" ] ],
       [ [ "salt", 6 ] ],
       [ [ "mustard", 3 ] ],
-      [ [ "sugar_standard", 3, "LIST" ] ],
+      [ [ "sugar_standard", 3, "LIST" ], [ "artificial_sweetener", 42 ] ],
       [ [ "worthy_wine", 3, "LIST" ] ],
       [ [ "batter", 4, "LIST" ] ],
-      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ] ]
+      [ [ "sauce_pesto", 1 ], [ "sauce_red", 1 ], [ "tomato", 1 ], [ "irradiated_tomato", 1 ] ]
     ]
   },
   {
@@ -385,7 +385,12 @@
     "book_learn": [ [ "offalcooking", 3 ] ],
     "qualities": [ { "id": "COOK", "level": 2 }, { "id": "CUT_FINE", "level": 1 } ],
     "tools": [ [ [ "funnel", -1 ] ] ],
-    "components": [ [ [ "stomach", 2 ], [ "stomach_large", 1 ] ], [ [ "salt", 20 ] ], [ [ "water", 2 ] ], [ [ "bag_plastic", 1 ] ] ]
+    "components": [
+      [ [ "meat_stomach", 1, "LIST" ] ],
+      [ [ "salt", 20 ] ],
+      [ [ "water", 2 ], [ "water_clean", 2 ] ],
+      [ [ "bag_plastic", 1 ] ]
+    ]
   },
   {
     "type": "recipe",

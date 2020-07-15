@@ -18,6 +18,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -103,7 +104,7 @@
     "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
     "max_charges": 100,
     "charges_per_use": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 100 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "butane": 100 }, "watertight": true } ],
     "use_action": { "type": "firestarter", "moves": 50 },
     "flags": [ "FIRESTARTER", "NO_UNLOAD" ]
   },
@@ -138,7 +139,7 @@
     "initial_charges": 20,
     "max_charges": 20,
     "charges_per_use": 1,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "match": 20 } } ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "holster": true, "ammo_restriction": { "match": 20 } } ],
     "use_action": { "type": "firestarter", "moves": 40, "moves_slow": 1000 },
     "flags": [ "FIRESTARTER", "NO_RELOAD", "NO_UNLOAD" ]
   },

@@ -896,11 +896,6 @@
   },
   {
     "type": "item_action",
-    "id": "THROWABLE_EXTINGUISHER_ACT",
-    "name": { "str": "Extinguish a fire" }
-  },
-  {
-    "type": "item_action",
     "id": "TOWEL",
     "name": { "str": "Dry/clean yourself" }
   },

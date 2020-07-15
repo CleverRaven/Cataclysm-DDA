@@ -111,7 +111,8 @@
       "need_fire": 1,
       "menu_text": "Light",
       "type": "transform"
-    }
+    },
+    "flags": [ "BURNOUT" ]
   },
   {
     "id": "candle_lit",
@@ -134,7 +135,7 @@
       { "type": "firestarter", "moves": 100 },
       { "target": "candle", "msg": "The candle winks out.", "menu_text": "Extinguish", "type": "transform" }
     ],
-    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER" ]
+    "flags": [ "LIGHT_8", "WATER_EXTINGUISH", "TRADER_AVOID", "WIND_EXTINGUISH", "FIRESTARTER", "BURNOUT" ]
   },
   {
     "id": "electric_lantern",
@@ -164,6 +165,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -197,8 +199,8 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ";",
     "color": "blue",
-    "weight": "400 g",
-    "volume": "500 ml",
+    "weight": "200 g",
+    "volume": "200 ml",
     "price": 500,
     "price_postapoc": 100,
     "charges_per_use": 1,
@@ -255,6 +257,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "gasoline" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "gasoline": 500 } } ],
     "initial_charges": 500,
     "max_charges": 500,
     "charges_per_use": 1,
@@ -475,6 +478,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -505,6 +509,7 @@
     "symbol": ";",
     "color": "yellow",
     "ammo": [ "lamp_oil" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "watertight": true, "ammo_restriction": { "lamp_oil": 750 } } ],
     "initial_charges": 750,
     "max_charges": 750,
     "charges_per_use": 1,
@@ -597,6 +602,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -643,6 +649,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -684,8 +691,8 @@
     "symbol": "/",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "initial_charges": 25,
-    "max_charges": 25,
+    "initial_charges": 20,
+    "max_charges": 20,
     "charges_per_use": 1,
     "use_action": {
       "target": "torch_lit",
@@ -694,7 +701,8 @@
       "need_fire": 1,
       "menu_text": "Light torch",
       "type": "transform"
-    }
+    },
+    "flags": [ "BURNOUT" ]
   },
   {
     "id": "torch_lit",
@@ -710,9 +718,9 @@
     "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
-    "initial_charges": 75,
-    "max_charges": 75,
-    "turns_per_charge": 40,
+    "initial_charges": 20,
+    "max_charges": 20,
+    "turns_per_charge": 60,
     "revert_to": "torch_done",
     "use_action": [
       { "type": "firestarter", "moves": 30 },
@@ -725,6 +733,6 @@
       }
     ],
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH" ]
+    "flags": [ "FIRE", "LIGHT_310", "CHARGEDIM", "FLAMING", "TRADER_AVOID", "WATER_EXTINGUISH", "BURNOUT" ]
   }
 ]

@@ -56,6 +56,7 @@
     "volume": "500 ml",
     "price": 1500,
     "price_postapoc": 250,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "butane": 30 }, "watertight": true, "rigid": true } ],
     "initial_charges": 30,
     "max_charges": 30,
     "charges_per_use": 1,
@@ -112,6 +113,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -148,6 +150,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -250,8 +253,8 @@
     "category": "tools",
     "name": { "str": "grappling hook" },
     "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.  Can be used in place of a long rope for butchering, in a pinch.",
-    "weight": "760 g",
-    "volume": "750 ml",
+    "weight": "1980 g",
+    "volume": "2500 ml",
     "price_postapoc": 500,
     "to_hit": -2,
     "bashing": 12,
@@ -261,7 +264,8 @@
     "color": "light_gray",
     "techniques": [ "SPIN", "WRAP" ],
     "qualities": [ [ "COOK", 1 ] ],
-    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ]
+    "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
+    "use_action": { "type": "deploy_furn", "furn_type": "f_rope_up" }
   },
   {
     "type": "TOOL",
@@ -387,6 +391,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "2 L",
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
@@ -612,6 +617,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "rigid": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]
@@ -781,7 +787,7 @@
     "name": { "str": "Whistle of Tindalos", "str_pl": "Whistles of Tindalos" },
     "description": "Who is this Tindalos guy?",
     "weight": "22 g",
-    "volume": 0,
+    "volume": "1 ml",
     "price": 10000,
     "price_postapoc": 1000,
     "material": [ "superalloy" ],
@@ -803,6 +809,7 @@
     "bashing": 6,
     "cutting": 4,
     "material": [ "plastic", "aluminum" ],
+    "ascii_picture": "umbrella",
     "symbol": "/",
     "color": "magenta",
     "techniques": [ "WBLOCK_1" ],
@@ -832,7 +839,7 @@
     "name": { "str": "sandbox kit" },
     "description": "A plastic bucket holding a small spade and rake, perfect to build sand castles!",
     "weight": "250 g",
-    "volume": "1 L",
+    "volume": "1050 ml",
     "price": 300,
     "price_postapoc": 3,
     "material": [ "plastic" ],

@@ -6,6 +6,25 @@
     "responses": [
       { "text": "Forget I asked.", "topic": "TALK_FRIEND" },
       { "text": "Skip it, let's get going.", "topic": "TALK_DONE" },
+      {
+        "text": "Any hints about the world we now live in?",
+        "trial": {
+          "type": "CONDITION",
+          "condition": {
+            "or": [
+              { "npc_need": "thirst", "amount": 80 },
+              { "npc_need": "hunger", "amount": 160 },
+              { "npc_need": "fatigue", "level": "TIRED" },
+              { "npc_has_effect": "asked_to_hint" },
+              "u_driving",
+              "npc_driving"
+            ]
+          }
+        },
+        "success": { "topic": "TALK_SHELTER_DENY_ADVICE" },
+        "failure": { "topic": "TALK_SHELTER_ADVICE", "effect": { "npc_add_effect": "asked_to_hint", "duration": 300 } }
+      },
+      { "text": "Let's talk about faction camps.", "topic": "TALK_CAMP_GENERAL" },
       { "text": "What do you mean, \"mostly\" willing to follow my lead?", "topic": "TALK_ALLY_TUTORIAL_MUTINY" },
       { "text": "What's that about giving instructions?", "topic": "TALK_ALLY_TUTORIAL_TALK" },
       { "text": "We can talk with radios?", "topic": "TALK_ALLY_TUTORIAL_RADIO" },
@@ -110,7 +129,7 @@
   {
     "id": "TALK_ALLY_TUTORIAL_ACTIVITIES",
     "type": "talk_topic",
-    "dynamic_line": "I can help with some tasks if you show me where to work.\n  Use the zone manager (keybind 'Y') to set up sorting zones for your loot, or to draw blueprints for a building, or to define where  you want to plant some crops, or where you'd like some trees cut down, or where you want a vehicle dismantled or repaired, or a good fishing spot.  Then talk to me about my current activity and tell me to sort stuff, or build stuff, or cut down trees, or repair or dismantle a vehicle,  or do farmwork, or catch some fish, and I'll go off and do my best to get what you want done.\n  If I need tools, you should leave them in a loot zone near where you want me to work - axes for logging, shovels and seeds and fertilizer for farming, wrenches and hacksaws or a toolbox to take apart a vehicle.  I promise to put stuff back in an unsorted loot zone when I'm finished.\n  I can pretty much sort out our stuff without needing tools, but keep the piles of unsorted and sorted stuff kind of close together because I don't want to walk back and forth carrying junk too much.",
+    "dynamic_line": "I can help with some tasks if you show me where to work.\n  Use the zone manager (keybind 'Y') to set up sorting zones for your loot, or to draw blueprints for a building, or to define where you want to plant some crops, or where you'd like some trees cut down, or where you want a vehicle dismantled or repaired, or a good fishing spot.  Then talk to me about my current activity and tell me to sort stuff, or build stuff, or cut down trees, or repair or dismantle a vehicle, or do farmwork, or catch some fish, and I'll go off and do my best to get what you want done.\n  If I need tools, you should leave them in a loot zone near where you want me to work - axes for logging, shovels and seeds and fertilizer for farming, wrenches and hacksaws or a toolbox to take apart a vehicle.  I promise to put stuff back in an unsorted loot zone when I'm finished.\n  I can pretty much sort out our stuff without needing tools, but keep the piles of unsorted and sorted stuff kind of close together because I don't want to walk back and forth carrying junk too much.",
     "responses": [
       { "text": "Good to know.  Can you perform first aid?", "topic": "TALK_ALLY_TUTORIAL_MEDIC" },
       { "text": "What about carrying stuff in general?", "topic": "TALK_ALLY_TUTORIAL_MULE" },

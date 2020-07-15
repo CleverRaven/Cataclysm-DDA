@@ -13,7 +13,7 @@
     "to_hit": -2,
     "bashing": 6,
     "material": [ "steel" ],
-    "use_action": { "type": "weigh_self", "max_weight": 150000 },
+    "use_action": { "type": "weigh_self", "max_weight": "150 kg" },
     "flags": [ "ALLOWS_REMOTE_USE" ]
   },
   {
@@ -52,6 +52,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -89,7 +90,7 @@
     "material": [ "cotton" ],
     "symbol": ",",
     "color": "white",
-    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 0.5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
+    "use_action": [ { "type": "heal", "move_cost": 200, "used_up_item": "rag_bloody", "bleed": 5, "limb_power": 0 }, "WASH_HARD_ITEMS" ],
     "flags": [ "NO_SALVAGE" ]
   },
   {
@@ -119,6 +120,7 @@
     "symbol": ";",
     "color": "white",
     "ammo": [ "soap" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "initial_charges": 5,
     "max_charges": 10,
     "charges_per_use": 1,
@@ -170,6 +172,7 @@
     "symbol": ";",
     "color": "brown",
     "ammo": [ "soap" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "soap": 10 } } ],
     "max_charges": 10,
     "charges_per_use": 1,
     "use_action": [ "SHAVEKIT" ]
@@ -179,8 +182,9 @@
     "type": "TOOL",
     "name": { "str": "washboard" },
     "description": "This is a wooden washboard.  You can use it to wash filthy clothing if it's supplied with cleansing agent.",
-    "weight": "90 g",
-    "volume": "250 ml",
+    "weight": "786 g",
+    "volume": "1966 ml",
+    "longest_side": "40 cm",
     "price": 1000,
     "price_postapoc": 50,
     "to_hit": -1,
@@ -195,8 +199,9 @@
     "type": "TOOL",
     "name": { "str": "washing kit" },
     "description": "A combination kit of a washboard and a scrubbing tool.  Everything you need to clean items after the apocalypse.",
-    "weight": "100 g",
-    "volume": "275 ml",
+    "weight": "866 g",
+    "volume": "2246 ml",
+    "longest_side": "40 cm",
     "price": 0,
     "price_postapoc": 50,
     "material": [ "wood", "plastic" ],

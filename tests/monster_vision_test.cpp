@@ -23,8 +23,7 @@ static const time_point midday = calendar::turn_zero + 12_hours;
 
 TEST_CASE( "monsters shouldn't see through floors", "[vision]" )
 {
-    override_option opt( "ZLEVELS", "true" );
-    override_option opt2( "FOV_3D", "true" );
+    override_option opt( "FOV_3D", "true" );
     bool old_fov_3d = fov_3d;
     fov_3d = true;
     calendar::turn = midday;

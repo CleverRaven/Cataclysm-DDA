@@ -30,7 +30,6 @@ class player;
 struct iteminfo;
 struct tripoint;
 
-enum hp_part : int;
 enum body_part : int;
 class JsonObject;
 class item_location;
@@ -328,6 +327,8 @@ class place_monster_iuse : public iuse_actor
         std::string hostile_msg;
         /** Skills used to make the monster not hostile when activated. **/
         std::set<skill_id> skills;
+        /** The monster will be spawned in as a pet. False by default. Can be empty. */
+        bool is_pet = false;
 
         place_monster_iuse() : iuse_actor( "place_monster" ) { }
         ~place_monster_iuse() override = default;
@@ -893,8 +894,8 @@ class heal_actor : public iuse_actor
         float disinfectant_power = 0;
         /** Extra intensity levels gained per skill level when healing limbs. */
         float disinfectant_scaling = 0;
-        /** Chance to remove bleed effect. */
-        float bleed = 0;
+        /** How many levels of bleeding effect intensity can it remove (dressing efficiency). */
+        int bleed = 0;
         /** Chance to remove bite effect. */
         float bite = 0;
         /** Chance to remove infected effect. */
@@ -922,15 +923,17 @@ class heal_actor : public iuse_actor
         std::set<std::string> used_up_item_flags;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
-        int get_heal_value( const player &healer, hp_part healed ) const;
+        int get_heal_value( const Character &healer, bodypart_id healed ) const;
         /** How many intensity levels will be applied using this actor by `healer`. */
-        int get_bandaged_level( const player &healer ) const;
+        int get_bandaged_level( const Character &healer ) const;
         /** How many intensity levels will be applied using this actor by `healer`. */
-        int get_disinfected_level( const player &healer ) const;
+        int get_disinfected_level( const Character &healer ) const;
+        /** How many intensity levels of bleeding will be reduced using this actor by `healer`. */
+        int get_stopbleed_level( const Character &healer ) const;
         /** Does the actual healing. Used by both long and short actions. Returns charges used. */
-        int finish_using( player &healer, player &patient, item &it, hp_part healed ) const;
+        int finish_using( player &healer, player &patient, item &it, bodypart_id healed ) const;
 
-        hp_part use_healing_item( player &healer, player &patient, item &it, bool force ) const;
+        bodypart_id use_healing_item( player &healer, player &patient, item &it, bool force ) const;
 
         heal_actor( const std::string &type = "heal" ) : iuse_actor( type ) {}
 

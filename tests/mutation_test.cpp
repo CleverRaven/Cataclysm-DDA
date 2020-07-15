@@ -18,6 +18,7 @@ std::string get_mutations_as_string( const player &p );
 static void give_all_mutations( player &p, const mutation_category_trait &category,
                                 const bool include_postthresh )
 {
+    p.set_body();
     const std::vector<trait_id> category_mutations = mutations_category[category.id];
 
     // Add the threshold mutation first

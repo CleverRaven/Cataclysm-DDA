@@ -296,6 +296,8 @@ std::string action_ident( action_id act )
             return "ignore_enemy";
         case ACTION_WHITELIST_ENEMY:
             return "whitelist_enemy";
+        case ACTION_WORKOUT:
+            return "workout";
         case ACTION_SAVE:
             return "save";
         case ACTION_QUICKSAVE:
@@ -656,8 +658,7 @@ bool can_examine_at( const tripoint &p )
         return true;
     }
 
-    const trap &tr = here.tr_at( p );
-    return tr.can_see( p, g->u );
+    return here.can_see_trap_at( p, g->u );
 }
 
 static bool can_pickup_at( const tripoint &p )
@@ -928,6 +929,7 @@ action_id handle_action_menu()
         } else if( category == _( "Misc" ) ) {
             REGISTER_ACTION( ACTION_WAIT );
             REGISTER_ACTION( ACTION_SLEEP );
+            REGISTER_ACTION( ACTION_WORKOUT );
             REGISTER_ACTION( ACTION_BIONICS );
             REGISTER_ACTION( ACTION_MUTATIONS );
             REGISTER_ACTION( ACTION_CONTROL_VEHICLE );

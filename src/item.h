@@ -232,6 +232,14 @@ class item : public visitable<item>
         item &activate();
 
         /**
+         * Invoke use function on a thrown item that had "ACT_ON_RANGED_HIT" flag.
+         * The function is called on the spot where the item landed.
+         * @param pos position
+         * @return true if the item was destroyed (exploded)
+         */
+        bool activate_thrown( const tripoint &pos );
+
+        /**
          * Add or remove energy from a battery.
          * If adding the specified energy quantity would go over the battery's capacity fill
          * the battery and ignore the remainder.
@@ -455,6 +463,9 @@ class item : public visitable<item>
 
         // Returns the category of this item.
         const item_category &get_category() const;
+        // Returns the category of item inside this item. I.e. "can of meat" would be food, instead of container.
+        // If there are multiple items/stacks or none then it defaults to category of this item.
+        const item_category &get_category_of_contents() const;
 
         class reload_option
         {
@@ -684,6 +695,13 @@ class item : public visitable<item>
         /** Whether this is container. Note that container does not necessarily means it's
          * suitable for liquids. */
         bool is_container() const;
+
+        /**
+         * Updates the pockets of this item to be correct based on the mods that are installed.
+         * Pockets which are modified that contain an item will be spilled
+         * NOTE: This assumes that there is always one and only one pocket where ammo goes (mag or mag well)
+         */
+        void update_modified_pockets();
         // for pocket update stuff, which pocket is @contained in?
         // returns a nullptr if the item is not contaiend, and prints a debug message
         item_pocket *contained_where( const item &contained );
@@ -730,9 +748,9 @@ class item : public visitable<item>
             return contents.has_pocket_type( item_pocket::pocket_type::CONTAINER );
         }
         /**
-         * Puts the given item into this one, no checks are performed.
+         * Puts the given item into this one.
          */
-        void put_in( const item &payload, item_pocket::pocket_type pk_type );
+        ret_val<bool> put_in( const item &payload, item_pocket::pocket_type pk_type );
 
         /**
          * Returns this item into its default container. If it does not have a default container,
@@ -1086,7 +1104,7 @@ class item : public visitable<item>
          * Check whether the item has been marked (by calling mark_as_used_by_player)
          * as used by this specific player.
          */
-        bool already_used_by_player( const player &p ) const;
+        bool already_used_by_player( const Character &p ) const;
         /**
          * Marks the item as being used by this specific player, it remains unmarked
          * for other players. The player is identified by its id.
@@ -1111,7 +1129,7 @@ class item : public visitable<item>
          * should than delete the item wherever it was stored.
          * Returns false if the item is not destroyed.
          */
-        bool process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        bool process( player *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         /**
@@ -1140,6 +1158,8 @@ class item : public visitable<item>
          */
         void process_artifact( player *carrier, const tripoint &pos );
         void process_relic( Character *carrier );
+
+        void overwrite_relic( const relic &nrelic );
 
         bool destroyed_at_zero_charges() const;
         // Most of the is_whatever() functions call the same function in our itype
@@ -1749,19 +1769,17 @@ class item : public visitable<item>
         const itype *ammo_data() const;
         /** Specific ammo type, returns "null" if item is neither ammo nor loaded with any */
         itype_id ammo_current() const;
-        /** Set of ammo types (@ref ammunition_type) used by item
-         *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return empty set if item does not use a specific ammo type (and is consequently not reloadable) */
-        std::set<ammotype> ammo_types( bool conversion = true ) const;
-
         /** Ammo type of an ammo item
          *  @return ammotype of ammo item or a null id if the item is not ammo */
         ammotype ammo_type() const;
 
-        /** Get default ammo used by item or a null id if item does not have a default ammo type
+        /** Ammo types (@ref ammunition_type) the item magazine pocket can contain.
          *  @param conversion whether to include the effect of any flags or mods which convert the type
-         *  @return itype_id::NULL_ID() if item does not use a specific ammo type
-         *  (and is consequently not reloadable) */
+         *  @return empty set if item does not have a magazine for a specific ammo type */
+        std::set<ammotype> ammo_types( bool conversion = true ) const;
+        /** Default ammo for the the item magazine pocket, if item has ammo_types().
+         *  @param conversion whether to include the effect of any flags or mods which convert the type
+         *  @return itype_id::NULL_ID() if item does have a magazine for a specific ammo type */
         itype_id ammo_default( bool conversion = true ) const;
 
         /** Get default ammo for the first ammotype common to an item and its current magazine or "NULL" if none exists
@@ -1806,6 +1824,8 @@ class item : public visitable<item>
         /** Returns all gunmods currently attached to this item (always empty if item not a gun) */
         std::vector<item *> gunmods();
         std::vector<const item *> gunmods() const;
+
+        std::vector<const item *> mods() const;
 
         /** Get first attached gunmod matching type or nullptr if no such mod or item is not a gun */
         item *gunmod_find( const itype_id &mod );
@@ -2110,7 +2130,7 @@ class item : public visitable<item>
         bool use_amount_internal( const itype_id &it, int &quantity, std::list<item> &used,
                                   const std::function<bool( const item & )> &filter = return_true<item> );
         const use_function *get_use_internal( const std::string &use_name ) const;
-        bool process_internal( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        bool process_internal( player *carrier, const tripoint &pos, float insulation = 1,
                                temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
         /**
          * Calculate the thermal energy and temperature change of the item

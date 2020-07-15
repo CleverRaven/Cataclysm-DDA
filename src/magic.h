@@ -41,6 +41,8 @@ enum class spell_flag : int {
     SWAP_POS, // a projectile spell swaps the positions of the caster and target
     HOSTILE_SUMMON, // summon spell always spawns a hostile monster
     HOSTILE_50, // summoned monster spawns friendly 50% of the time
+    POLYMORPH_GROUP, // polymorph spell chooses a monster from a group
+    FRIENDLY_POLY, // polymorph spell makes the monster friendly
     SILENT, // spell makes no noise at target
     LOUD, // spell makes extra noise at target
     VERBAL, // spell makes noise at caster location, mouth encumbrance affects fail %
@@ -56,8 +58,10 @@ enum class spell_flag : int {
     MUTATE_TRAIT, // overrides the mutate spell_effect to use a specific trait_id instead of a category
     WONDER, // instead of casting each of the extra_spells, it picks N of them and casts them (where N is std::min( damage(), number_of_spells ))
     PAIN_NORESIST, // pain altering spells can't be resisted (like with the deadened trait)
+    NO_FAIL, // this spell cannot fail when you cast it
     WITH_CONTAINER, // items spawned with container
     SPAWN_GROUP, // spawn or summon from an item or monster group, instead of individual item/monster ID
+    IGNITE_FLAMMABLE, // if spell effect area has any thing flamable, a fire will be produced
     LAST
 };
 
@@ -354,7 +358,7 @@ class spell
         float spell_fail( const Character &guy ) const;
         std::string colorized_fail_percent( const Character &guy ) const;
         // how long does it take to cast the spell
-        int casting_time( const Character &guy ) const;
+        int casting_time( const Character &guy, bool ignore_encumb = false ) const;
 
         // can the Character cast this spell?
         bool can_cast( const Character &guy ) const;
@@ -516,6 +520,8 @@ void teleport_random( const spell &sp, Creature &caster, const tripoint & );
 void pain_split( const spell &, Creature &, const tripoint & );
 void target_attack( const spell &sp, Creature &caster,
                     const tripoint &epicenter );
+void targeted_polymorph( const spell &sp, Creature &caster, const tripoint &target );
+
 void projectile_attack( const spell &sp, Creature &caster,
                         const tripoint &target );
 void cone_attack( const spell &sp, Creature &caster,

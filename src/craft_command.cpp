@@ -127,6 +127,9 @@ void craft_command::execute( const tripoint &new_loc )
                                   "Start crafting anyway?" ), rec->result_name() ) ) {
                     return;
                 }
+            } else if( !rec->character_has_required_proficiencies( *crafter ) ) {
+                popup( _( "You don't have the required proficiencies to craft this!" ) );
+                return;
             } else {
                 debugmsg( "Tried to start craft without sufficient charges" );
                 return;

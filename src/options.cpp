@@ -2042,9 +2042,9 @@ void options_manager::add_options_world_default()
          0.01, 10.0, 1.0, 0.01
        );
 
-    add( "NPC_DENSITY", "world_default", translate_marker( "NPC spawn rate scaling factor" ),
-         translate_marker( "A scaling factor that determines density of dynamic NPC spawns." ),
-         0.0, 100.0, 0.1, 0.01
+    add( "NPC_SPAWNTIME", "world_default", translate_marker( "Random NPC spawn time" ),
+         translate_marker( "Baseline average number of days between random NPC spawns.  Average duration goes up with the number of NPCs already spawned.  Set to 0 days to disable random NPCs." ),
+         0.0, 100.0, 4.0, 0.01
        );
 
     add( "MONSTER_UPGRADE_FACTOR", "world_default",
@@ -2118,35 +2118,8 @@ void options_manager::add_options_world_default()
 
     add_empty_line();
 
-    add( "STATIC_NPC", "world_default", translate_marker( "Static NPCs" ),
-         translate_marker( "If true, static NPCs will spawn at pre-defined locations.  Requires world reset." ),
-         true
-       );
-
-    add( "STARTING_NPC", "world_default", translate_marker( "Starting NPCs spawn" ),
-         translate_marker( "Determines whether starting NPCs should spawn, and if they do, how exactly." ),
-    { { "never", translate_marker( "Never" ) }, { "always", translate_marker( "Always" ) }, { "scenario", translate_marker( "Scenario-based" ) } },
-    "scenario"
-       );
-
-    get_option( "STARTING_NPC" ).setPrerequisite( "STATIC_NPC" );
-
-    add( "RANDOM_NPC", "world_default", translate_marker( "Random NPCs" ),
-         translate_marker( "If true, the game will randomly spawn NPCs during gameplay." ),
-         false
-       );
-
-    add_empty_line();
-
     add( "RAD_MUTATION", "world_default", translate_marker( "Mutations by radiation" ),
          translate_marker( "If true, radiation causes the player to mutate." ),
-         true
-       );
-
-    add_empty_line();
-
-    add( "ZLEVELS", "world_default", translate_marker( "Z-levels" ),
-         translate_marker( "If true, enables several features related to vertical movement, such as hauling items up stairs, climbing downspouts, and flying aircraft.  May cause problems if toggled mid-game." ),
          true
        );
 

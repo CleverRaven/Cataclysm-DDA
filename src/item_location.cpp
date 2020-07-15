@@ -3,7 +3,6 @@
 #include <iosfwd>
 #include <vector>
 
-#include "avatar.h"
 #include "character.h"
 #include "character_id.h"
 #include "color.h"
@@ -19,7 +18,6 @@
 #include "map.h"
 #include "map_selector.h"
 #include "optional.h"
-#include "player.h"
 #include "point.h"
 #include "safe_reference.h"
 #include "translations.h"
@@ -186,7 +184,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            std::string res = g->m.name( cur );
+            std::string res = get_map().name( cur );
             if( ch ) {
                 res += std::string( " " ) += direction_suffix( ch->pos(), cur );
             }
@@ -217,7 +215,7 @@ class item_location::impl::item_on_map : public item_location::impl
                 obj = *target();
             }
 
-            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
+            int mv = ch.item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur );
 
             // TODO: handle unpacking costs
@@ -444,8 +442,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 obj = *target();
             }
 
-            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true,
-                     VEHICLE_HANDLING_PENALTY );
+            int mv = ch.item_handling_cost( obj, true, VEHICLE_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
             // TODO: handle unpacking costs
@@ -658,7 +655,7 @@ void item_location::deserialize( JsonIn &js )
         } else {
             // This is for migrating saves before npc item locations were supported and all
             // character item locations were assumed to be on g->u
-            who_id = g->u.getID();
+            who_id = get_player_character().getID();
         }
         ptr.reset( new impl::item_on_person( who_id, idx ) );
 
@@ -666,7 +663,7 @@ void item_location::deserialize( JsonIn &js )
         ptr.reset( new impl::item_on_map( pos, idx ) );
 
     } else if( type == "vehicle" ) {
-        vehicle *const veh = veh_pointer_or_null( g->m.veh_at( pos ) );
+        vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
         int part = obj.get_int( "part" );
         if( veh && part >= 0 && part < veh->part_count() ) {
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );

@@ -2,8 +2,8 @@
 #include <memory>
 #include <string>
 
-#include "avatar.h"
 #include "catch/catch.hpp"
+#include "character.h"
 #include "item.h"
 #include "map_helpers.h"
 #include "rng.h"
@@ -68,7 +68,7 @@ TEST_CASE( "item_location_doesnt_return_stale_map_item", "[item][item_location]"
 
 TEST_CASE( "item_in_container", "[item][item_location]" )
 {
-    avatar &dummy = get_avatar();
+    Character &dummy = get_player_character();
     clear_avatar();
     item &backpack = dummy.i_add( item( "backpack" ) );
     item jeans( "jeans" );
@@ -77,7 +77,7 @@ TEST_CASE( "item_in_container", "[item][item_location]" )
 
     backpack.put_in( jeans, item_pocket::pocket_type::CONTAINER );
 
-    item_location backpack_loc( dummy, & **dummy.wear( backpack ) );
+    item_location backpack_loc( dummy, & **dummy.wear_item( backpack ) );
 
     REQUIRE( dummy.has_item( *backpack_loc ) );
 

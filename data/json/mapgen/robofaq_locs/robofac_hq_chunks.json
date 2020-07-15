@@ -25,7 +25,7 @@
       ],
       "terrain": {
         ".": "t_dirt",
-        "r": "t_carpet_yellow",
+        "r": "t_carpet_concrete_yellow",
         "M": "t_pavement",
         "#": "t_dirt",
         "x": "t_dirt",

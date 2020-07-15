@@ -17,7 +17,7 @@
     "capacity": 71,
     "reload_time": 190,
     "flags": [ "MAG_BULKY" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762x25": 71 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762x25": 71 } } ]
   },
   {
     "id": "ppshmag",
@@ -35,7 +35,7 @@
     "ammo_type": [ "762x25" ],
     "capacity": 35,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762x25": 35 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762x25": 35 } } ]
   },
   {
     "id": "tokarevmag",
@@ -53,6 +53,6 @@
     "ammo_type": [ "762x25" ],
     "capacity": 8,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "762x25": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "762x25": 8 } } ]
   }
 ]

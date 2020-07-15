@@ -265,7 +265,7 @@
     "description": "A femur or other bone, about 20 cm long, which has been broken at one end and sharpened into a cutting tool.  Its jagged edge is wicked but fragile.",
     "symbol": "/",
     "color": "white",
-    "weight": 169,
+    "weight": "169 g",
     "//": "literally 75% of a bone.",
     "volume": "188 ml",
     "longest_side": "20 cm",
@@ -344,8 +344,8 @@
     "longest_side": "50 cm",
     "symbol": "/",
     "color": "green",
-    "weight": 522,
-    "volume": 1,
+    "weight": "522 g",
+    "volume": "250 ml",
     "price": 2300,
     "price_postapoc": 1800,
     "to_hit": 1,
@@ -1113,7 +1113,7 @@
     "looks_like": "fencing_foil",
     "name": { "str": "sharpened foil" },
     "description": "This once mostly harmless fencing foil has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now somewhat more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -25, "cutting": 2 }
+    "relative": { "weight": "-25 g", "cutting": 2 }
   },
   {
     "id": "fencing_epee_sharpened",
@@ -1122,7 +1122,7 @@
     "looks_like": "fencing_epee",
     "name": { "str": "sharpened épée" },
     "description": "This once mostly harmless fencing épée has had its electrical plunger assembly removed and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -35, "cutting": 5 }
+    "relative": { "weight": "-35 g", "cutting": 5 }
   },
   {
     "id": "fencing_sabre_sharpened",
@@ -1131,7 +1131,7 @@
     "looks_like": "fencing_sabre",
     "name": { "str": "sharpened saber" },
     "description": "This once mostly harmless fencing saber has had its rounded tip snapped off and has been crudely sharpened to a point.  Though it still lacks a cutting edge, it is now considerably more lethal, yet still familiar to the practiced fencer.",
-    "relative": { "weight": -10, "cutting": 5 }
+    "relative": { "weight": "-10 g", "cutting": 5 }
   },
   {
     "id": "shock_foil",
@@ -1148,6 +1148,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1171,6 +1172,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1194,6 +1196,7 @@
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
+        "rigid": true,
         "holster": true,
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
@@ -1408,7 +1411,7 @@
     "longest_side": "90 cm",
     "bashing": 17,
     "cutting": 8,
-    "to_hit": 2,
+    "to_hit": 1,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ]
   },
@@ -1657,6 +1660,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "500 ml",
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "heavy_battery_cell", "heavy_plus_battery_cell", "heavy_atomic_battery_cell", "heavy_disposable_cell" ]
@@ -1709,6 +1713,7 @@
     "price": 12000,
     "price_postapoc": 1250,
     "material": [ "wood", "iron" ],
+    "ascii_picture": "lajatang",
     "techniques": [ "WBLOCK_1", "SPIN" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weight": "2500 g",
@@ -1782,6 +1787,7 @@
       {
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
+        "magazine_well": "200 ml",
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "medium_battery_cell", "medium_plus_battery_cell", "medium_atomic_battery_cell", "medium_disposable_cell" ]

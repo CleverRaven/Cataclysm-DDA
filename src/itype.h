@@ -17,6 +17,7 @@
 #include "explosion.h"
 #include "game_constants.h"
 #include "item_contents.h"
+#include "item_pocket.h"
 #include "iuse.h" // use_function
 #include "optional.h"
 #include "pldata.h" // add_type
@@ -200,6 +201,11 @@ struct islot_brewable {
 
     /** How long for this brew to ferment. */
     time_duration time = 0_turns;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_armor {
@@ -278,10 +284,6 @@ struct islot_pet_armor {
      * Environmental protection of a gas mask with installed filter.
      */
     int env_resist_w_filter = 0;
-    /**
-     * How much storage this items provides when worn.
-     */
-    units::volume storage = 0_ml;
     /**
      * The maximum volume a pet can be and wear this armor
      */
@@ -385,6 +387,13 @@ struct islot_mod {
     /** If non-empty replaces the compatible magazines for the parent item */
     std::map< ammotype, std::set<itype_id> > magazine_adaptor;
 
+    /**
+     * Pockets the mod will add to the item.
+     * Any MAGAZINE_WELL or MAGAZINE type pockets will be overwritten,
+     * and CONTAINER pockets will be added.
+     */
+    std::vector<pocket_data> add_pockets;
+
     /** Proportional adjustment of parent item ammo capacity */
     float capacity_multiplier = 1.0;
 };
@@ -418,6 +427,11 @@ struct islot_engine {
     public:
         /** for combustion engines the displacement (cc) */
         int displacement = 0;
+
+        bool was_loaded = false;
+
+        void load( const JsonObject &jo );
+        void deserialize( JsonIn &jsin );
 };
 
 struct islot_wheel {
@@ -427,6 +441,11 @@ struct islot_wheel {
 
         /** width of wheel (inches) */
         int width = 0;
+
+        bool was_loaded = false;
+
+        void load( const JsonObject &jo );
+        void deserialize( JsonIn &jsin );
 };
 
 struct fuel_explosion {
@@ -498,7 +517,7 @@ struct islot_gun : common_ranged_data {
     /**
      * Length of gun barrel, if positive allows sawing down of the barrel
      */
-    units::volume barrel_length = 0_ml;
+    units::volume barrel_volume = 0_ml;
     /**
      * Effects that are applied to the ammo when fired.
      */
@@ -648,6 +667,11 @@ struct islot_magazine {
 struct islot_battery {
     /** Maximum energy the battery can store */
     units::energy max_capacity;
+
+    bool was_loaded = false;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 struct islot_ammo : common_ranged_data {
@@ -809,6 +833,11 @@ class islot_milling
     public:
         itype_id into_;
         double conversion_rate_;
+
+        bool was_loaded = false;
+
+        void load( const JsonObject &jo );
+        void deserialize( JsonIn &jsin );
 };
 
 struct itype {
@@ -907,7 +936,7 @@ struct itype {
 
         /** Weight of item ( or each stack member ) */
         units::mass weight = 0_gram;
-        /** Weight difference with the part it replaces for mods */
+        /** Weight difference with the part it replaces for mods (defaults to weight) */
         units::mass integral_weight = -1_gram;
 
         /**
