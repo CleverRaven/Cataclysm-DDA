@@ -2042,6 +2042,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     item &ammo = *act->targets[ 1 ];
     std::string reloadable_name = reloadable.tname();
     std::string ammo_name = ammo.tname();
+    // cache check results because reloading deletes the ammo item
     const bool ammo_is_filthy = ammo.is_filthy();
     const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
     const int qty = act->index;
