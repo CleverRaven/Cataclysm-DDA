@@ -819,3 +819,8 @@ bool talker_npc::enslave_mind()
     talk_function::follow( *me_npc );
     return not_following;
 }
+
+void talker_npc::set_first_topic( const std::string &chat_topic )
+{
+    me_npc->chatbin.first_topic = chat_topic;
+}

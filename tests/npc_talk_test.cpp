@@ -969,3 +969,18 @@ TEST_CASE( "npc_talk_effects", "[npc_talk]" )
     effects.apply( d );
     CHECK( talker_npc.myclass == npc_class_id( "NC_NONE" ) );
 }
+
+TEST_CASE( "npc_change_topic", "[npc_talk]" )
+{
+    dialogue d;
+    npc &talker_npc = prep_test( d );
+
+    const std::string original_chat = talker_npc.chatbin.first_topic;
+    REQUIRE( original_chat != "TALK_TEST_SET_TOPIC" );
+    d.add_topic( "TALK_TEST_SET_TOPIC" );
+    gen_response_lines( d, 2 );
+    talk_effect_t &effects = d.responses[1].success;
+    effects.apply( d );
+    CHECK( talker_npc.chatbin.first_topic != original_chat );
+    CHECK( talker_npc.chatbin.first_topic == "TALK_TEST_SET_TOPIC" );
+}
