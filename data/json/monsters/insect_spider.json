@@ -78,6 +78,7 @@
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "death_function": [ "NORMAL" ],
+    "upgrades": { "age_grow": 10, "into": "mon_worm" },
     "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
   },
   {
@@ -104,6 +105,7 @@
     "armor_bash": 2,
     "harvest": "mutant_meatslug",
     "death_function": [ "WORM" ],
+    "upgrades": { "half_life": 14, "into": "mon_graboid" },
     "flags": [ "DIGS", "HEARS", "GOODHEARING" ]
   },
   {
@@ -535,6 +537,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "age_grow": 40, "into": "mon_spider_cellar_giant" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_FIRE" ]
   },
   {
@@ -663,6 +666,7 @@
     "vision_night": 5,
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
+    "upgrades": { "age_grow": 40, "into": "mon_spider_web" },
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
@@ -729,6 +733,7 @@
     "harvest": "arachnid",
     "anger_triggers": [ "PLAYER_WEAK", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "age_grow": 40, "into": "mon_spider_widow_giant" },
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
@@ -795,6 +800,7 @@
     "harvest": "arachnid_wasp",
     "anger_triggers": [ "HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK", "STALK" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 14, "into": "mon_dermatik" },
     "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
   {
