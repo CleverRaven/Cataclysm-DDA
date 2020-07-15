@@ -3250,7 +3250,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
 
     if( it.covers( bodypart_id( "head" ) ) && !it.has_flag( flag_SEMITANGIBLE ) &&
         ( it.has_flag( flag_SKINTIGHT ) || it.has_flag( flag_HELMET_COMPAT ) ) &&
-        ( head_cloth_encumbrance() + it.get_encumber( *this ) > 40 ) ) {
+        ( head_cloth_encumbrance() + it.get_encumber( *this, bodypart_id( "head" ) ) > 40 ) ) {
         return ret_val<bool>::make_failure( ( is_player() ? _( "You can't wear that much on your head!" )
                                               : string_format( _( "%s can't wear that much on their head!" ), name ) ) );
     }
@@ -3786,29 +3786,29 @@ bool Character::change_side( item_location &loc, bool interactive )
 static void layer_item( std::map<bodypart_id, encumbrance_data> &vals, const item &it,
                         std::map<bodypart_id, layer_level> &highest_layer_so_far, bool power_armor, const Character &c )
 {
-    const layer_level item_layer = it.get_layer();
-    int encumber_val = it.get_encumber( c );
-    // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
-    int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
-
-    /*
-     * Setting layering_encumbrance to 0 at this point makes the item cease to exist
-     * for the purposes of the layer penalty system. (normally an item has a minimum
-     * layering_encumbrance of 2 )
-     */
-    if( it.has_flag( "SEMITANGIBLE" ) ) {
-        encumber_val = 0;
-        layering_encumbrance = 0;
-    }
-
-    const int armorenc = !power_armor || !it.is_power_armor() ?
-                         encumber_val : std::max( 0, encumber_val - 40 );
-
     body_part_set covered_parts = it.get_covered_body_parts();
     for( const bodypart_id &bp : c.get_all_body_parts() ) {
         if( !covered_parts.test( bp.id() ) ) {
             continue;
         }
+
+        const auto item_layer = it.get_layer();
+        int encumber_val = it.get_encumber( c, bp.id() );
+        int layering_encumbrance = clamp( encumber_val, 2, 10 );
+
+        /*
+         * Setting layering_encumbrance to 0 at this point makes the item cease to exist
+         * for the purposes of the layer penalty system. (normally an item has a minimum
+         * layering_encumbrance of 2 )
+         */
+        if( it.has_flag( "SEMITANGIBLE" ) ) {
+            encumber_val = 0;
+            layering_encumbrance = 0;
+        }
+
+        const int armorenc = !power_armor || !it.is_power_armor() ?
+                             encumber_val : std::max( 0, encumber_val - 40 );
+
         highest_layer_so_far[bp] = std::max( highest_layer_so_far[bp], item_layer );
 
         // Apply layering penalty to this layer, as well as any layer worn
@@ -3926,7 +3926,7 @@ int Character::get_wind_resistance( const bodypart_id &bp ) const
                 penalty = 1; // 99% effective
             }
 
-            coverage = std::max( 0, i.get_coverage() - penalty );
+            coverage = std::max( 0, i.get_coverage( bp ) - penalty );
             totalExposed *= ( 1.0 - coverage / 100.0 ); // Coverage is between 0 and 1?
         }
     }
@@ -6725,7 +6725,7 @@ float Character::active_light() const
                 if( i.covers( elem.first.id() ) && !i.has_flag( flag_ALLOWS_NATURAL_ATTACKS ) &&
                     !i.has_flag( flag_SEMITANGIBLE ) &&
                     !i.has_flag( flag_PERSONAL ) && !i.has_flag( flag_AURA ) ) {
-                    coverage += i.get_coverage();
+                    coverage += i.get_coverage( elem.first.id() );
                 }
             }
             curr_lum += elem.second * ( 1 - ( coverage / 100.0f ) );
@@ -8010,7 +8010,7 @@ int Character::item_wear_cost( const item &it ) const
             break;
     }
 
-    mv *= std::max( it.get_encumber( *this ) / 10.0, 1.0 );
+    mv *= std::max( it.get_avg_encumber( *this ) / 10.0, 1.0 );
 
     return mv;
 }
@@ -8582,7 +8582,7 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
             }
 
             if( !destroy ) {
-                destroy = armor_absorb( elem, armor );
+                destroy = armor_absorb( elem, armor, bp );
             }
 
             if( destroy ) {
@@ -8628,9 +8628,9 @@ void Character::absorb_hit( const bodypart_id &bp, damage_instance &dam )
     }
 }
 
-bool Character::armor_absorb( damage_unit &du, item &armor )
+bool Character::armor_absorb( damage_unit &du, item &armor, const bodypart_id &bp )
 {
-    if( rng( 1, 100 ) > armor.get_coverage() ) {
+    if( rng( 1, 100 ) > armor.get_coverage( bp ) ) {
         return false;
     }
 
@@ -8913,7 +8913,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
     int sum_cover = 0;
     for( const item &i : worn ) {
         if( i.covers( bp ) && i.is_filthy() ) {
-            sum_cover += i.get_coverage();
+            sum_cover += i.get_coverage( bp );
         }
     }
 
@@ -9246,7 +9246,7 @@ int Character::head_cloth_encumbrance() const
         const item *worn_item = &i;
         if( i.covers( bodypart_id( "head" ) ) && !i.has_flag( flag_SEMITANGIBLE ) &&
             ( worn_item->has_flag( flag_HELMET_COMPAT ) || worn_item->has_flag( flag_SKINTIGHT ) ) ) {
-            ret += worn_item->get_encumber( *this );
+            ret += worn_item->get_encumber( *this, bodypart_id( "head" ) );
         }
     }
     return ret;

@@ -833,10 +833,7 @@ itype_id new_artifact()
         def.melee[DT_BASH] = info.melee_bash;
         def.melee[DT_CUT] = info.melee_cut;
         def.m_to_hit = info.melee_hit;
-        def.armor->covers = info.covers;
-        def.armor->encumber = info.encumb;
-        def.armor->max_encumber = info.max_encumb;
-        def.armor->coverage = info.coverage;
+        def.armor->data.push_back( { info.encumb, info.max_encumb, info.coverage, info.covers } );
         def.armor->thickness = info.thickness;
         def.armor->env_resist = info.env_resist;
         def.armor->warmth = info.warmth;
@@ -861,13 +858,7 @@ itype_id new_artifact()
                     def.weight = 1_gram;
                 }
 
-                def.armor->encumber += modinfo.encumb;
-
-                if( modinfo.coverage > 0 || def.armor->coverage > std::abs( modinfo.coverage ) ) {
-                    def.armor->coverage += modinfo.coverage;
-                } else {
-                    def.armor->coverage = 0;
-                }
+                def.armor->data.push_back( { modinfo.encumb, modinfo.max_encumb, modinfo.coverage, modinfo.covers } );
 
                 if( modinfo.thickness > 0 || def.armor->thickness > std::abs( modinfo.thickness ) ) {
                     def.armor->thickness += modinfo.thickness;
@@ -1278,11 +1269,12 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     m_to_hit = jo.get_int( "m_to_hit" );
     item_tags = jo.get_tags( "item_flags" );
 
-    jo.read( "covers", armor->covers );
-    armor->encumber = jo.get_int( "encumber" );
     // Old saves don't have max_encumber, so set it to base encumbrance value
-    armor->max_encumber = jo.get_int( "max_encumber", armor->encumber );
-    armor->coverage = jo.get_int( "coverage" );
+    armor->data.push_back( { jo.get_int( "encumber" ), jo.get_int( "max_encumber", jo.get_int( "encumber" ) ), jo.get_int( "coverage" ), {} } );
+
+    // A horrible solution to the required change here, but it works for now
+    jo.read( "covers", armor->data[0].covers );
+
     armor->thickness = jo.get_int( "material_thickness" );
     armor->env_resist = jo.get_int( "env_resist" );
     armor->warmth = jo.get_int( "warmth" );
@@ -1417,10 +1409,13 @@ void it_artifact_armor::serialize( JsonOut &json ) const
     json.member( "techniques", techniques );
 
     // armor data
-    json.member( "covers", armor->covers );
-    json.member( "encumber", armor->encumber );
-    json.member( "max_encumber", armor->max_encumber );
-    json.member( "coverage", armor->coverage );
+    armor_portion_data tempData;
+    json.member( "encumber", tempData.encumber );
+    json.member( "max_encumber", tempData.max_encumber );
+    json.member( "coverage", tempData.coverage );
+    json.member( "covers", tempData.covers );
+    armor->data.push_back( tempData );
+
     json.member( "material_thickness", armor->thickness );
     json.member( "env_resist", armor->env_resist );
     json.member( "warmth", armor->warmth );

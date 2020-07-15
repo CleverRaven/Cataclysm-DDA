@@ -12052,7 +12052,7 @@ bool check_art_charge_req( item &it )
                                          bp == bodypart_id( "hand_l" ) ) ) ) {
                     reqsmet = true;
                     for( const item &i : p.worn ) {
-                        if( i.covers( bp ) && ( &it != &i ) && i.get_coverage() > 50 ) {
+                        if( i.covers( bp ) && ( &it != &i ) && i.get_coverage( bp ) > 50 ) {
                             reqsmet = false;
                             break; //This one's no good, check the next body part
                         }

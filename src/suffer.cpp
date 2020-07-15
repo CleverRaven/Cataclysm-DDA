@@ -831,7 +831,7 @@ void Character::suffer_from_albinism()
                 continue;
             }
             //percent of "not covered skin"
-            float p = 1.0 - i.get_coverage() / 100.0;
+            float p = 1.0 - i.get_coverage( bp ) / 100.0;
             open_percent[bp->token] = open_percent[bp->token] * p;
         }
     }

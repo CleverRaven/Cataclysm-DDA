@@ -784,10 +784,9 @@ static void smash()
             int glove_coverage = 0;
             for( const item &i : u.worn ) {
                 if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) ) {
-                    int temp_coverage = i.get_coverage();
-                    if( glove_coverage < temp_coverage ) {
-                        glove_coverage = temp_coverage;
-                    }
+                    int l_coverage = i.get_coverage( bodypart_id( "hand_l" ) );
+                    int r_coverage = i.get_coverage( bodypart_id( "hand_r" ) );
+                    glove_coverage = std::max( l_coverage, r_coverage );
                 }
             }
 

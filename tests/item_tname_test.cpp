@@ -386,7 +386,7 @@ TEST_CASE( "weapon fouling", "[item][tname][fouling][dirt]" )
 
         // Ensure the player and gun are normal size to prevent "too big" or "too small" suffix in tname
         g->u.clear_mutations();
-        REQUIRE( gun.get_sizing( g-> u, true ) == item::sizing::human_sized_human_char );
+        REQUIRE( gun.get_sizing( g-> u ) == item::sizing::ignore );
         REQUIRE_FALSE( gun.has_flag( "OVERSIZE" ) );
         REQUIRE_FALSE( gun.has_flag( "UNDERSIZE" ) );
 
