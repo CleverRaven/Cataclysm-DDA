@@ -2042,6 +2042,8 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     item &ammo = *act->targets[ 1 ];
     std::string reloadable_name = reloadable.tname();
     std::string ammo_name = ammo.tname();
+    const bool ammo_is_filthy = ammo.is_filthy();
+    const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
     const int qty = act->index;
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
@@ -2049,7 +2051,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
         return;
     }
 
-    if( ammo.is_filthy() ) {
+    if( ammo_is_filthy ) {
         reloadable.set_flag( "FILTHY" );
     }
 
@@ -2062,7 +2064,7 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     if( reloadable.is_gun() ) {
         p->recoil = MAX_RECOIL;
 
-        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo.has_flag( flag_SPEEDLOADER ) ) {
+        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
                 add_msg( m_neutral, _( "You insert one %2$s into the %1$s." ), reloadable_name, ammo_name );
             }
