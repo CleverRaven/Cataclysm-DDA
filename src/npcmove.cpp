@@ -3668,23 +3668,25 @@ void npc::heal_self()
 {
     if( has_effect( effect_asthma ) ) {
         item *treatment = nullptr;
-        std::string iusage;
+        std::string iusage = "INHALER";
 
-        const auto inv_inhalers = items_with( []( const item & itm ) {
-            return ( itm.type->get_use( "INHALER" ) != nullptr ) &&
-                   ( itm.ammo_sufficient() );
-        } );
-
-        if( !inv_inhalers.empty() ) {
-            treatment = inv_inhalers.front();
-            iusage = "INHALER";
-        } else {
-            const auto inv_oxybottles = items_with( []( const item & itm ) {
-                return ( itm.type->get_use( "OXYGEN_BOTTLE" ) != nullptr ) &&
+        const auto filter_use = [this]( const std::string &filter ) -> std::vector<item *> {
+            const auto inv_filtered = items_with( [&filter]( const item & itm ) {
+                return ( itm.type->get_use( filter ) != nullptr ) &&
                        ( itm.ammo_sufficient() );
             } );
-            treatment = inv_oxybottles.front();
+            return inv_filtered;
+        };
+
+        const auto inv_inhalers = filter_use( iusage );
+        if( !inv_inhalers.empty() ) {
+            treatment = inv_inhalers.front();
+        } else {
             iusage = "OXYGEN_BOTTLE";
+            const auto inv_oxybottles = filter_use( iusage );
+            if( !inv_oxybottles.empty() ) {
+                treatment = inv_oxybottles.front();
+            }
         }
         if( treatment != nullptr ) {
             treatment->get_use(iusage)->call(*this, *treatment, treatment->active, pos() );
