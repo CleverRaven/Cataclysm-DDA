@@ -32,10 +32,6 @@
 class Item_factory;
 class item;
 class player;
-namespace std
-{
-template <typename _Tp> struct hash;
-}  // namespace std
 struct tripoint;
 template <typename E> struct enum_traits;
 
