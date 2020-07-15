@@ -544,7 +544,7 @@ int main( int argc, const char *argv[] )
 
     MAP_SHARING::setDefaults();
 
-    cli_opts cli = parse_commandline( argc, argv );
+    cli_opts cli = parse_commandline( argc, const_cast<const char **>( argv ) );
 
     if( !dir_exist( PATH_INFO::datadir() ) ) {
         printf( "Fatal: Can't find data directory \"%s\"\nPlease ensure the current working directory is correct or specify data directory with --datadir.  Perhaps you meant to start \"cataclysm-launcher\"?\n",
