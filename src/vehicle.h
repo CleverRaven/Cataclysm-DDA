@@ -115,7 +115,7 @@ struct smart_controller_config {
     int battery_lo = 25;
     int battery_hi = 90;
 
-    void deserialize( const JsonObject &data );
+    void deserialize( JsonIn &jsin );
     void serialize( JsonOut &json ) const;
 };
 
