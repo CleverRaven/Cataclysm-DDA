@@ -24,6 +24,7 @@
 #include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "dispersion.h"
 #include "effect.h"
 #include "enums.h"
