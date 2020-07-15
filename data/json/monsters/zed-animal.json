@@ -447,7 +447,22 @@
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FILTHY", "PUSH_MON", "ATTACKMON" ]
+    "special_attacks": [ [ "SMASH", 10 ] ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "SMELLS",
+      "STUMBLES",
+      "WARM",
+      "BASHES",
+      "POISON",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "PUSH_MON",
+      "PUSH_VEH",
+      "ATTACKMON"
+    ]
   },
   {
     "id": "mon_zeer",
