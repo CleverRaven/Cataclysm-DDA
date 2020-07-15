@@ -7797,7 +7797,7 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
             }
 
             moves -= item_handling_cost( *obj );
-            this->i_add( *obj );
+            this->i_add( *obj, true, &*obj );
             obj.remove_item();
             return true;
         }
