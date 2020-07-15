@@ -1449,8 +1449,8 @@ class vehicle
         /**
          * can the helicopter descend/ascend here?
          */
-        bool check_heli_descend( player &p );
-        bool check_heli_ascend( player &p );
+        bool check_heli_descend( Character &p );
+        bool check_heli_ascend( Character &p );
         bool check_is_heli_landed();
         /**
          * Player is driving the vehicle
