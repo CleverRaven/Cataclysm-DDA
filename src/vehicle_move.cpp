@@ -1281,7 +1281,7 @@ bool vehicle::check_is_heli_landed()
     return false;
 }
 
-bool vehicle::check_heli_descend( player &p )
+bool vehicle::check_heli_descend( Character &p )
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
@@ -1316,7 +1316,7 @@ bool vehicle::check_heli_descend( player &p )
 
 }
 
-bool vehicle::check_heli_ascend( player &p )
+bool vehicle::check_heli_ascend( Character &p )
 {
     if( !is_rotorcraft() ) {
         debugmsg( "A vehicle is somehow flying without being an aircraft" );
