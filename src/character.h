@@ -1348,20 +1348,12 @@ class Character : public Creature, public visitable<Character>
         /**
          * Remove a specific item from player possession. The item is compared
          * by pointer. Contents of the item are removed as well.
-         * @param pos The item position of the item to be removed. The item *must*
-         * exists, use @ref has_item to check this.
-         * @return A copy of the removed item.
-         */
-        item i_rem( int pos );
-        /**
-         * Remove a specific item from player possession. The item is compared
-         * by pointer. Contents of the item are removed as well.
          * @param it A pointer to the item to be removed. The item *must* exists
          * in the players possession (one can use @ref has_item to check for this).
          * @return A copy of the removed item.
          */
         item i_rem( const item *it );
-        void i_rem_keep_contents( int idx );
+        void i_rem_keep_contents( const item *it );
         /** Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
          *  An optional qty can be provided (and will perform better than separate calls). */
         bool i_add_or_drop( item &it, int qty = 1 );

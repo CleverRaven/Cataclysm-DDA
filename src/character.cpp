@@ -2668,22 +2668,6 @@ int Character::get_item_position( const item *it ) const
     return inv.position_by_item( it );
 }
 
-item Character::i_rem( int pos )
-{
-    item tmp;
-    if( pos == -1 ) {
-        return remove_weapon();
-    } else if( pos < -1 && pos > worn_position_to_index( worn.size() ) ) {
-        auto iter = worn.begin();
-        std::advance( iter, worn_position_to_index( pos ) );
-        tmp = *iter;
-        tmp.on_takeoff( *this );
-        worn.erase( iter );
-        return tmp;
-    }
-    return inv.remove_item( pos );
-}
-
 item Character::i_rem( const item *it )
 {
     auto tmp = remove_items_with( [&it]( const item & i ) {
@@ -2696,9 +2680,9 @@ item Character::i_rem( const item *it )
     return tmp.front();
 }
 
-void Character::i_rem_keep_contents( const int idx )
+void Character::i_rem_keep_contents( const item *const it )
 {
-    i_rem( idx ).spill_contents( pos() );
+    i_rem( it ).spill_contents( pos() );
 }
 
 bool Character::i_add_or_drop( item &it, int qty )

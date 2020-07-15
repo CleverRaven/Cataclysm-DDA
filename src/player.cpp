@@ -1913,22 +1913,6 @@ void player::process_items()
     }
 }
 
-item player::reduce_charges( int position, int quantity )
-{
-    item &it = i_at( position );
-    if( it.is_null() ) {
-        debugmsg( "invalid item position %d for reduce_charges", position );
-        return item();
-    }
-    if( it.charges <= quantity ) {
-        return i_rem( position );
-    }
-    it.mod_charges( -quantity );
-    item tmp( it );
-    tmp.charges = quantity;
-    return tmp;
-}
-
 item player::reduce_charges( item *it, int quantity )
 {
     if( !has_item( *it ) ) {

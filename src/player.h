@@ -481,20 +481,13 @@ class player : public Character
 
         void process_items();
         /**
-         * Remove charges from a specific item (given by its item position).
+         * Remove charges from a specific item.
          * The item must exist and it must be counted by charges.
-         * @param position Item position of the item.
+         * @param it A pointer to the item, it *must* exist.
          * @param quantity The number of charges to remove, must not be larger than
          * the current charges of the item.
          * @return An item that contains the removed charges, it's effectively a
          * copy of the item with the proper charges.
-         */
-        item reduce_charges( int position, int quantity );
-        /**
-         * Remove charges from a specific item (given by a pointer to it).
-         * Otherwise identical to @ref reduce_charges(int,int)
-         * @param it A pointer to the item, it *must* exist.
-         * @param quantity How many charges to remove
          */
         item reduce_charges( item *it, int quantity );
 
