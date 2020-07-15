@@ -41,6 +41,7 @@ static constexpr int BODYTEMP_SCORCHING = 9500;
 #include <utility>
 
 class item;
+class time_point;
 struct trap;
 struct rl_vec2d;
 
