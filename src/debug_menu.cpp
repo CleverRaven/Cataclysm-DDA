@@ -1026,7 +1026,7 @@ void mission_debug::edit( player &who )
 
 void mission_debug::edit_npc( npc &who )
 {
-    npc_chatbin &bin = who.chatbin;
+    dialogue_chatbin &bin = who.chatbin;
     std::vector<mission *> all_missions;
 
     uilist mmenu;

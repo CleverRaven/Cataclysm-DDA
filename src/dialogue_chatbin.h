@@ -11,7 +11,7 @@ class JsonIn;
 class JsonOut;
 class mission;
 
-struct npc_chatbin {
+struct dialogue_chatbin {
     /**
      * Add a new mission to the available missions (@ref missions). For compatibility it silently
      * ignores null pointers passed to it.
@@ -23,12 +23,12 @@ struct npc_chatbin {
      */
     void check_missions();
     /**
-     * Missions that the NPC can give out. All missions in this vector should be unassigned,
+     * Missions that the talker can give out. All missions in this vector should be unassigned,
      * when given out, they should be moved to @ref missions_assigned.
      */
     std::vector<mission *> missions;
     /**
-     * Mission that have been assigned by this NPC to a player character.
+     * Mission that have been assigned by this dialogue to a player character.
      */
     std::vector<mission *> missions_assigned;
     /**
@@ -37,21 +37,25 @@ struct npc_chatbin {
      */
     mission *mission_selected = nullptr;
     /**
-     * The skill this NPC offers to train.
+     * The skill this dialogue offers to train.
      */
     skill_id skill = skill_id::NULL_ID();
     /**
-     * The martial art style this NPC offers to train.
+     * The martial art style this dialogue offers to train.
      */
     matype_id style;
     /**
-     * The spell this NPC offers to train
+     * The spell this dialogue offers to train
      */
     spell_id dialogue_spell;
+    void store_chosen_training( const skill_id &c_skill, const matype_id &c_style,
+                                const spell_id &c_spell );
+    void clear_training();
     std::string first_topic = "TALK_NONE";
 
-    npc_chatbin() = default;
+    dialogue_chatbin() = default;
 
+    void clear_all();
     void serialize( JsonOut &json ) const;
     void deserialize( JsonIn &jsin );
 };

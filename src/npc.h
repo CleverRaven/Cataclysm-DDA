@@ -794,7 +794,7 @@ class npc : public player
          */
         void place_on_map();
         /**
-         * See @ref npc_chatbin::add_new_mission
+         * See @ref dialogue_chatbin::add_new_mission
          */
         void add_new_mission( mission *miss );
         skill_id best_skill() const;
@@ -1297,7 +1297,7 @@ class npc : public player
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
-        npc_chatbin chatbin;
+        dialogue_chatbin chatbin;
         int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;
         bool marked_for_death = false; // If true, we die as soon as we respawn!
