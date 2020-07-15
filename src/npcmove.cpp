@@ -3667,19 +3667,28 @@ void npc:: pretend_heal( player &patient, item used )
 void npc::heal_self()
 {
     if( has_effect( effect_asthma ) ) {
-        item &treatment = null_item_reference();
-        std::string iusage = "OXYGEN_BOTTLE";
-        if( has_charges( itype_inhaler, 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( itype_inhaler ) );
+        item *treatment = nullptr;
+        std::string iusage;
+
+        const auto inv_inhalers = items_with( []( const item & itm ) {
+            return ( itm.type->get_use( "INHALER" ) != nullptr ) &&
+                   ( itm.ammo_sufficient() );
+        } );
+
+        if( !inv_inhalers.empty() ) {
+            treatment = inv_inhalers.front();
             iusage = "INHALER";
-        } else if( has_charges( itype_oxygen_tank, 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( itype_oxygen_tank ) );
-        } else if( has_charges( itype_smoxygen_tank, 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( itype_smoxygen_tank ) );
+        } else {
+            const auto inv_oxybottles = items_with( []( const item & itm ) {
+                return ( itm.type->get_use( "OXYGEN_BOTTLE" ) != nullptr ) &&
+                       ( itm.ammo_sufficient() );
+            } );
+            treatment = inv_oxybottles.front();
+            iusage = "OXYGEN_BOTTLE";
         }
-        if( !treatment.is_null() ) {
-            treatment.type->invoke( *this, treatment, pos(), iusage );
-            consume_charges( treatment, 1 );
+        if( treatment != nullptr ) {
+            treatment->get_use(iusage)->call(*this, *treatment, treatment->active, pos() );
+            treatment->ammo_consume( treatment->ammo_required(), pos() );
             return;
         }
     }
