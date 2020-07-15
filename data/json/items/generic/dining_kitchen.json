@@ -650,7 +650,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "can_opener",
-    "name": { "str": "can opener", "str_pl": "can openers" },
+    "name": { "str": "can opener" },
     "description": "It's not hard to open cans without this, but it's way messier.",
     "looks_like": "hand_crank_charger",
     "copy-from": "base_utensil"
