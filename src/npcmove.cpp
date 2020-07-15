@@ -3943,9 +3943,11 @@ void npc::mug_player( Character &mark )
     }
     double best_value = minimum_item_value() * value_mod;
     item *to_steal = nullptr;
-    invslice slice = mark.inv.slice();
-    for( std::list<item> *stack : slice ) {
-        item &front_stack = stack->front();
+    const auto inv_valuables = items_with( [this](const item & itm) {
+        return value( itm ) > 0;
+    });
+    for( auto &it : inv_valuables ) {
+        item &front_stack = *it; // is this safe?
         if( value( front_stack ) >= best_value &&
             can_pickVolume( front_stack, true ) &&
             can_pickWeight( front_stack, true ) ) {
