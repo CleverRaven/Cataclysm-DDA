@@ -580,5 +580,4 @@ class player : public Character
         std::map<faction_id, std::pair<int, time_point>> warning_record;
 
 };
-
 #endif // CATA_SRC_PLAYER_H

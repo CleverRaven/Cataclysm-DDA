@@ -49,6 +49,7 @@ class mission;
 class monfaction;
 class monster;
 class npc_class;
+class talker;
 class vehicle;
 struct bionic_data;
 struct mission_type;
@@ -885,8 +886,8 @@ class npc : public player
         std::vector<matype_id> styles_offered_to( const player &p ) const;
         /**
          * Spells that the NPC knows but that the player p doesn't.
-        * not const because get_spell isn't const and both this and p call it
-               */
+         * not const because get_spell isn't const and both this and p call it
+         */
         std::vector<spell_id> spells_offered_to( player &p );
         // State checks
         // We want to kill/mug/etc the player
@@ -931,8 +932,6 @@ class npc : public player
         // How closely do we follow the player?
         int follow_distance() const;
 
-        // Dialogue and bartering--see npctalk.cpp
-        void talk_to_u( bool text_only = false, bool radio_contact = false );
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
         // Use and assessment of items
@@ -1439,5 +1438,6 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();
-
+std::unique_ptr<talker> get_talker_for( npc &guy );
+std::unique_ptr<talker> get_talker_for( npc *guy );
 #endif // CATA_SRC_NPC_H

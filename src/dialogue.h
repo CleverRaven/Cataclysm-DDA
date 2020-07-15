@@ -12,12 +12,12 @@
 #include "dialogue_win.h"
 #include "json.h"
 #include "npc.h"
-#include "player.h"
 #include "translations.h"
 #include "type_id.h"
 
 class martialart;
 class mission;
+class talker;
 struct dialogue;
 
 enum talk_trial_type : unsigned char {
@@ -219,15 +219,13 @@ struct talk_response {
 
 struct dialogue {
         /**
-         * The player character that speaks (always g->u).
-         * TODO: make it a reference, not a pointer.
+         * The talker that speaks (almost certainly representing the avatar, ie get_avatar() )
          */
-        player *alpha = nullptr;
+        std::unique_ptr<talker> alpha;
         /**
-         * The NPC we talk to. Never null.
-         * TODO: make it a reference, not a pointer.
+         * The talker responded to alpha, usually a talker_npc.
          */
-        npc *beta = nullptr;
+        std::unique_ptr<talker> beta;
         /**
          * If true, we are done talking and the dialog ends.
          */
@@ -240,6 +238,9 @@ struct dialogue {
         talk_topic opt( dialogue_window &d_win, const std::string &npc_name, const talk_topic &topic );
 
         dialogue() = default;
+        talker *actor( const bool is_beta ) const {
+            return ( is_beta ? beta : alpha ).get();
+        }
 
         mutable itype_id cur_item;
         mutable std::string reason;

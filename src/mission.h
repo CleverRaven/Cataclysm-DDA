@@ -20,6 +20,7 @@
 #include "overmap.h"
 #include "point.h"
 #include "string_id.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 
@@ -31,7 +32,6 @@ class JsonOut;
 class avatar;
 class item;
 class mission;
-class npc;
 class overmapbuffer;
 class player;
 template<typename T> struct enum_traits;
@@ -187,11 +187,14 @@ bool load_funcs( const JsonObject &jo, std::vector<std::function<void( mission *
 
 struct mission_goal_condition_context {
     mission_goal_condition_context() = default;
-    player *alpha = nullptr;
-    npc *beta = nullptr;
+    std::unique_ptr<talker> alpha;
+    std::unique_ptr<talker> beta;
     std::vector<mission *> missions_assigned;
     mutable std::string reason;
     bool by_radio = false;
+    talker *actor( const bool is_beta ) const {
+        return ( is_beta ? beta : alpha ).get();
+    }
 };
 
 struct mission_type {
