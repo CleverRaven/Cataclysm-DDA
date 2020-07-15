@@ -739,11 +739,11 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "<color_c_white>Covers</color>:"
                " The <color_c_cyan>torso</color>."
                " The <color_c_cyan>arms</color>."
-               " The <color_c_cyan>legs</color>. \n" );
+               " The <color_c_cyan>legs</color>.\n" );
 
         CHECK( item_info_str( swat_armor, { iteminfo_parts::ARMOR_LAYER } ) ==
                "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" );
+               "Layer: <color_c_light_blue>Normal</color>.\n" );
 
         std::vector<iteminfo_parts> cov_warm_swat = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( swat_armor.get_avg_coverage() == 95 );
@@ -828,11 +828,11 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( faux_fur_pants, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
                "--\n"
                "<color_c_white>Covers</color>:"
-               " The <color_c_cyan>legs</color>. \n" );
+               " The <color_c_cyan>legs</color>.\n" );
 
         CHECK( item_info_str( faux_fur_pants, { iteminfo_parts::ARMOR_LAYER } ) ==
                "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" );
+               "Layer: <color_c_light_blue>Normal</color>.\n" );
 
         std::vector<iteminfo_parts> cov_warm_pants = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
@@ -902,11 +902,11 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                " The <color_c_cyan>head</color>."
                " The <color_c_cyan>torso</color>."
                " The <color_c_cyan>arms</color>."
-               " The <color_c_cyan>legs</color>. \n" );
+               " The <color_c_cyan>legs</color>.\n" );
 
         CHECK( item_info_str( faux_fur_suit, { iteminfo_parts::ARMOR_LAYER } ) ==
                "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" );
+               "Layer: <color_c_light_blue>Normal</color>.\n" );
 
         std::vector<iteminfo_parts> cov_warm_suit = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
