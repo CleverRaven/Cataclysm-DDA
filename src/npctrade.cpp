@@ -90,14 +90,14 @@ void npc_trading::transfer_items( std::vector<item_pricing> &stuff, player &give
 std::vector<item_pricing> npc_trading::init_selling( npc &np )
 {
     std::vector<item_pricing> result;
-    invslice slice = np.inv.slice();
-    for( auto &i : slice ) {
-        item &it = i->front();
+    const auto inv_all = np.items_with( []( const item & ) { return true; } );
+    for( auto &i : inv_all ) {
+        item &it = *i;
 
         const int price = it.price( true );
         int val = np.value( it );
         if( np.wants_to_sell( it, val, price ) ) {
-            result.emplace_back( np, i->front(), val, static_cast<int>( i->size() ) );
+            result.emplace_back( np, it, val, static_cast<int>( it.count() ) );
         }
     }
 
