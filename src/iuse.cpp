@@ -8653,6 +8653,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
             add_msg( m_bad, _( "The autoclave ran out of battery and stopped before completing its cycle." ) );
             it->active = false;
             it->erase_var( "CYCLETIME" );
+            it->unset_flag( "NO_UNLOAD" );
             return 0;
         }
 
@@ -8661,12 +8662,11 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
         if( Cycle_time <= 0 ) {
             it->active = false;
             it->erase_var( "CYCLETIME" );
-            it->visit_items( []( item * bio ) {
-                if( bio->is_bionic() && !bio->has_flag( "NO_PACKED" ) ) {
-                    bio->unset_flag( "NO_STERILE" );
-                }
-                return VisitResponse::NEXT;
+            it->unset_flag( "NO_UNLOAD" );
+            item *cbm = it->contents.get_item_with( []( const item & it ) {
+                return it.is_bionic() && !it.has_flag( "NO_PACKED" );
             } );
+            cbm->unset_flag( "NO_STERILE" );
         } else {
             it->set_var( "CYCLETIME", Cycle_time );
         }
@@ -8729,6 +8729,7 @@ int iuse::autoclave( player *p, item *it, bool t, const tripoint &pos )
 
             it->activate();
             it->set_var( "CYCLETIME", to_seconds<int>( 90_minutes ) ); // one cycle
+            it->set_flag( "NO_UNLOAD" );
             return it->type->charges_to_use();
         }
     } else {
