@@ -8744,18 +8744,6 @@ bool item::has_rotten_away() const
     }
 }
 
-bool item::has_rotten_away( const tripoint &pnt, float spoil_multiplier, temperature_flag flag )
-{
-    if( goes_bad() ) {
-        process_temperature_rot( 1, pnt, nullptr, flag, spoil_multiplier );
-        return has_rotten_away();
-    } else {
-        contents.remove_rotten( pnt );
-
-        return false;
-    }
-}
-
 bool item_ptr_compare_by_charges( const item *left, const item *right )
 {
     if( left->contents.empty() ) {

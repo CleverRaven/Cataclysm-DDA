@@ -208,7 +208,6 @@ class item_contents
         bool has_any_with( const std::function<bool( const item & )> &filter,
                            item_pocket::pocket_type pk_type ) const;
 
-        void remove_rotten( const tripoint &pnt );
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed

@@ -1223,16 +1223,6 @@ units::volume item_contents::total_contained_volume() const
     return total_vol;
 }
 
-void item_contents::remove_rotten( const tripoint &pnt )
-{
-    for( item_pocket &pocket : contents ) {
-        // no reason to check mods, they won't rot
-        if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
-            pocket.remove_rotten( pnt );
-        }
-    }
-}
-
 void item_contents::remove_internal( const std::function<bool( item & )> &filter,
                                      int &count, std::list<item> &res )
 {

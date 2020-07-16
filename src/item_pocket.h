@@ -219,7 +219,6 @@ class item_pocket
         item *get_item_with( const std::function<bool( const item & )> &filter );
         void remove_items_if( const std::function<bool( item & )> &filter );
         void has_rotten_away();
-        void remove_rotten( const tripoint &pnt );
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed

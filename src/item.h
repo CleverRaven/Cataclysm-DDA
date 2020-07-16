@@ -787,15 +787,6 @@ class item : public visitable<item>
          * @param mod How many charges should be removed.
          */
         void mod_charges( int mod );
-        /**
-         * Whether the item has to be removed as it has rotten away completely. May change the item as it calls process_temperature_rot()
-         * @param pnt The *absolute* position of the item in the world (see @ref map::getabs),
-         * @param spoil_multiplier the multiplier for spoilage rate, based on what this item is inside of.
-         * used for rot calculation.
-         * @return true if the item has rotten away and should be removed, false otherwise.
-         */
-        bool has_rotten_away( const tripoint &pnt, float spoil_multiplier = 1.0f,
-                              temperature_flag flag = temperature_flag::NORMAL );
 
         /**
          * Accumulate rot of the item since last rot calculation.
