@@ -190,6 +190,6 @@
       "success_lie": "Thanks for trying…  I guess.",
       "failure": "I can't be Dr Frankenstein unless you get me these."
     },
-    "end": { "effect": [ { "u_buy_item": "inactive_frankenstein" "count": 1 } ] }
+    "end": { "effect": [ { "u_buy_item": "inactive_frankenstein", "count": 1 } ] }
   }
 ]
