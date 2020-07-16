@@ -21,6 +21,7 @@
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "dialogue_chatbin.h"
 #include "enums.h"
 #include "faction.h"
 #include "game_constants.h"
@@ -739,51 +740,6 @@ enum talk_topic_enum {
 // Function for conversion of legacy topics, defined in savegame_legacy.cpp
 std::string convert_talk_topic( talk_topic_enum old_value );
 
-struct npc_chatbin {
-    /**
-     * Add a new mission to the available missions (@ref missions). For compatibility it silently
-     * ignores null pointers passed to it.
-     */
-    void add_new_mission( mission *miss );
-    /**
-     * Check that assigned missions are still assigned if not move them back to the
-     * unassigned vector. This is called directly before talking.
-     */
-    void check_missions();
-    /**
-     * Missions that the NPC can give out. All missions in this vector should be unassigned,
-     * when given out, they should be moved to @ref missions_assigned.
-     */
-    std::vector<mission *> missions;
-    /**
-     * Mission that have been assigned by this NPC to a player character.
-     */
-    std::vector<mission *> missions_assigned;
-    /**
-     * The mission (if any) that we talk about right now. Can be null. Should be one of the
-     * missions in @ref missions or @ref missions_assigned.
-     */
-    mission *mission_selected = nullptr;
-    /**
-     * The skill this NPC offers to train.
-     */
-    skill_id skill = skill_id::NULL_ID();
-    /**
-     * The martial art style this NPC offers to train.
-     */
-    matype_id style;
-    /**
-     * The spell this NPC offers to train
-     */
-    spell_id dialogue_spell;
-    std::string first_topic = "TALK_NONE";
-
-    npc_chatbin() = default;
-
-    void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
-};
-
 class npc_template;
 
 class npc : public player
@@ -838,7 +794,7 @@ class npc : public player
          */
         void place_on_map();
         /**
-         * See @ref npc_chatbin::add_new_mission
+         * See @ref dialogue_chatbin::add_new_mission
          */
         void add_new_mission( mission *miss );
         skill_id best_skill() const;
@@ -1341,7 +1297,7 @@ class npc : public player
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
-        npc_chatbin chatbin;
+        dialogue_chatbin chatbin;
         int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;
         bool marked_for_death = false; // If true, we die as soon as we respawn!

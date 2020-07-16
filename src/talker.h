@@ -298,5 +298,6 @@ class talker
         }
         virtual void add_opinion( int /*trust*/, int /*fear*/, int /*value*/, int /*anger*/,
                                   int /*debt*/ ) {}
+        virtual void set_first_topic( const std::string & ) {}
 };
 #endif // CATA_SRC_TALKER_H

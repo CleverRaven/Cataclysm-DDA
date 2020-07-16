@@ -17,6 +17,7 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"

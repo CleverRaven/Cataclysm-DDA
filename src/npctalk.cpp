@@ -28,6 +28,7 @@
 #include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "enums.h"
 #include "faction.h"
 #include "faction_camp.h"
@@ -714,17 +715,6 @@ void npc::handle_sound( const sounds::sound_t spriority, const std::string &desc
             }
         }
     }
-}
-
-void npc_chatbin::check_missions()
-{
-    // TODO: or simply fail them? Some missions might only need to be reported.
-    auto &ma = missions_assigned;
-    const auto last = std::remove_if( ma.begin(), ma.end(), []( class mission const * m ) {
-        return !m->is_assigned();
-    } );
-    std::copy( last, ma.end(), std::back_inserter( missions ) );
-    ma.erase( last, ma.end() );
 }
 
 void avatar::talk_to( std::unique_ptr<talker> talk_with, bool text_only, bool radio_contact )
@@ -1982,6 +1972,13 @@ void talk_effect_fun_t::set_u_learn_recipe( const std::string &learned_recipe_id
     };
 }
 
+void talk_effect_fun_t::set_npc_first_topic( const std::string &chat_topic )
+{
+    function = [chat_topic]( const dialogue & d ) {
+        d.beta->set_first_topic( chat_topic );
+    };
+}
+
 void talk_effect_t::set_effect_consequence( const talk_effect_fun_t &fun, dialogue_consequence con )
 {
     effects.push_back( fun );
@@ -2189,6 +2186,9 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_string( "u_learn_recipe" ) ) {
         const std::string recipe_id = jo.get_string( "u_learn_recipe" );
         subeffect_fun.set_u_learn_recipe( recipe_id );
+    } else if( jo.has_string( "npc_first_topic" ) ) {
+        const std::string chat_topic = jo.get_string( "npc_first_topic" );
+        subeffect_fun.set_npc_first_topic( chat_topic );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }

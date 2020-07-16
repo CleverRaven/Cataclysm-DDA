@@ -21,6 +21,7 @@
 #include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -2754,14 +2755,6 @@ void npc::on_load()
     if( has_trait( trait_HALLUCINATION ) ) {
         hallucination = true;
     }
-}
-
-void npc_chatbin::add_new_mission( mission *miss )
-{
-    if( miss == nullptr ) {
-        return;
-    }
-    missions.push_back( miss );
 }
 
 constexpr tripoint npc::no_goal_point;
