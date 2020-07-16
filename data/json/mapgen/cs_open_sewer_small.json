@@ -42,7 +42,7 @@
       [ "folding_poncho", 40 ],
       [ "radio", 40 ],
       [ "well_pump", 10 ],
-      [ "toolbox", 5 ],
+      { "group": "tools_toolbox", "prob": 5 },
       [ "wrench", 15 ],
       [ "bag_canvas", 40 ],
       [ "jumper_cable", 40 ],

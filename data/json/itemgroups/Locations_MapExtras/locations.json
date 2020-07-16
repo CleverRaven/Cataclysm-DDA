@@ -394,7 +394,7 @@
       { "group": "ammo_pocket_batteries", "prob": 50 },
       [ "flashlight", 40 ],
       [ "boots_rubber", 20 ],
-      [ "toolbox", 5 ],
+      { "group": "tools_toolbox", "prob": 5 },
       [ "apron_leather", 10 ]
     ]
   },
@@ -904,7 +904,7 @@
       [ "foodperson_mask", 1 ],
       [ "55gal_drum", 10 ],
       [ "30gal_drum", 15 ],
-      [ "toolbox", 1 ],
+      { "group": "tools_toolbox", "prob": 1 },
       [ "recipe_elfa", 2 ]
     ]
   },
@@ -922,7 +922,7 @@
       { "item": "55gal_drum", "prob": 10 },
       { "item": "30gal_drum", "prob": 15 },
       { "item": "grapnel", "prob": 1 },
-      { "item": "toolbox", "prob": 1 },
+      { "group": "tools_toolbox", "prob": 1 },
       { "item": "apron_leather", "prob": 5 }
     ]
   },
@@ -1183,7 +1183,7 @@
       [ "boots_rubber", 20 ],
       [ "sm_extinguisher", 10 ],
       [ "grapnel", 1 ],
-      [ "toolbox", 5 ],
+      { "group": "tools_toolbox", "prob": 5 },
       [ "apron_leather", 10 ],
       [ "bio_meteorologist", 10 ],
       [ "chem_aluminium_sulphate", 20 ],
@@ -1199,7 +1199,7 @@
       [ "pickaxe", 2 ],
       [ "bucket", 20 ],
       [ "rock", 40 ],
-      [ "toolbox", 5 ],
+      { "group": "tools_toolbox", "prob": 5 },
       [ "coal_lump", 20 ],
       [ "material_shrd_limestone", 40 ],
       [ "material_niter", 5 ],
@@ -1261,7 +1261,7 @@
       [ "miner_hat", 40 ],
       [ "bucket", 10 ],
       [ "grapnel", 1 ],
-      [ "toolbox", 1 ],
+      { "group": "tools_toolbox", "prob": 1 },
       [ "apron_leather", 10 ],
       [ "tool_anfo_charge", 1 ],
       [ "remotevehcontrol", 10 ]
@@ -1612,7 +1612,7 @@
       [ "antiparasitic", 5 ],
       [ "diazepam", 5 ],
       [ "misc_repairkit", 5 ],
-      [ "toolbox", 2 ],
+      { "group": "tools_toolbox", "prob": 2 },
       [ "apron_leather", 10 ],
       [ "bio_meteorologist", 3 ],
       [ "thermometer", 3 ],

@@ -39,6 +39,37 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "3006": 1 } } ]
   },
   {
+    "id": "toolbox",
+    "type": "TOOL",
+    "name": { "str": "toolbox", "str_pl": "toolboxes" },
+    "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities.",
+    "weight": "3522 g",
+    "volume": "2500 ml",
+    "price": 12999,
+    "price_postapoc": 3000,
+    "to_hit": -2,
+    "bashing": 8,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "red",
+    "qualities": [
+      [ "CUT", 1 ],
+      [ "HAMMER", 3 ],
+      [ "SAW_M", 2 ],
+      [ "SAW_W", 2 ],
+      [ "AXE", 1 ],
+      [ "WRENCH", 2 ],
+      [ "SCREW", 1 ],
+      [ "PRY", 1 ],
+      [ "HAMMER_FINE", 1 ],
+      [ "SAW_M_FINE", 1 ],
+      [ "WRENCH_FINE", 1 ],
+      [ "SCREW_FINE", 1 ],
+      [ "BUTCHER", 11 ]
+    ],
+    "use_action": [ "HAMMER", "CROWBAR" ]
+  },
+  {
     "id": "combination_gun_shotgun_pipe",
     "type": "GUNMOD",
     "name": { "str": "pipe combination gun shotgun" },

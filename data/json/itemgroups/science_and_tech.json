@@ -114,7 +114,7 @@
       [ "holo_cloak", 1 ],
       [ "antiparasitic", 2 ],
       [ "survnote", 1 ],
-      [ "toolbox", 1 ],
+      { "group": "tools_toolbox", "prob": 1 },
       [ "diazepam", 1 ],
       [ "magnifying_glass", 1 ],
       [ "material_quicklime", 10 ],

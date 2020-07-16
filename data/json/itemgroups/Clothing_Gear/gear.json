@@ -138,7 +138,7 @@
       [ "throw_extinguisher", 10 ],
       [ "grapnel", 5 ],
       [ "wearable_light", 5 ],
-      [ "toolbox", 1 ],
+      { "group": "tools_toolbox", "prob": 1 },
       [ "smoxygen_tank", 35 ],
       [ "watercannon", 10 ],
       [ "l-stick", 1 ],
