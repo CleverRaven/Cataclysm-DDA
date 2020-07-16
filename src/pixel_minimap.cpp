@@ -14,7 +14,6 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "color.h"
@@ -101,7 +100,7 @@ SDL_Color get_critter_color( Creature *critter, int flicker, int mixture )
 
     if( const monster *m = dynamic_cast<monster *>( critter ) ) {
         //faction status (attacking or tracking) determines if red highlights get applied to creature
-        const monster_attitude matt = m->attitude( &get_avatar() );
+        const monster_attitude matt = m->attitude( &get_player_character() );
 
         if( MATT_ATTACK == matt || MATT_FOLLOW == matt ) {
             const SDL_Color red_pixel = SDL_Color{ 0xFF, 0x0, 0x0, 0xFF };
@@ -296,7 +295,7 @@ void pixel_minimap::update_cache_at( const tripoint &sm_pos )
 {
     const map &here = get_map();
     const level_cache &access_cache = here.access_cache( sm_pos.z );
-    const bool nv_goggle = get_avatar().get_vision_modes()[NV_GOGGLES];
+    const bool nv_goggle = get_player_character().get_vision_modes()[NV_GOGGLES];
 
     submap_cache &cache_item = get_cache_at( here.get_abs_sub() + sm_pos );
     const tripoint ms_pos = sm_to_ms_copy( sm_pos );
@@ -514,7 +513,7 @@ void pixel_minimap::render_critters( const tripoint &center )
 
             const auto critter = g->critter_at( p, true );
 
-            if( critter == nullptr || !get_avatar().sees( *critter ) ) {
+            if( critter == nullptr || !get_player_character().sees( *critter ) ) {
                 continue;
             }
 

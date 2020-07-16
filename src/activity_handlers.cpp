@@ -187,7 +187,6 @@ static const activity_id ACT_TOOLMOD_ADD( "ACT_TOOLMOD_ADD" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 static const activity_id ACT_TREE_COMMUNION( "ACT_TREE_COMMUNION" );
-static const activity_id ACT_UNLOAD_MAG( "ACT_UNLOAD_MAG" );
 static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const activity_id ACT_VEHICLE_DECONSTRUCTION( "ACT_VEHICLE_DECONSTRUCTION" );
 static const activity_id ACT_VEHICLE_REPAIR( "ACT_VEHICLE_REPAIR" );
@@ -276,7 +275,6 @@ static const std::string flag_GIBBED( "GIBBED" );
 static const std::string flag_HIDDEN_HALLU( "HIDDEN_HALLU" );
 static const std::string flag_HIDDEN_ITEM( "HIDDEN_ITEM" );
 static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
-static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_MESSY( "MESSY" );
 static const std::string flag_PLANTABLE( "PLANTABLE" );
 static const std::string flag_PULPED( "PULPED" );
@@ -288,6 +286,7 @@ static const std::string flag_SKINNED( "SKINNED" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
 static const std::string flag_TREE( "TREE" );
+static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 
 using namespace activity_handlers;
 
@@ -416,7 +415,6 @@ activity_handlers::finish_functions = {
     { ACT_PLAY_WITH_PET, play_with_pet_finish },
     { ACT_SHAVE, shaving_finish },
     { ACT_HAIRCUT, haircut_finish },
-    { ACT_UNLOAD_MAG, unload_mag_finish },
     { ACT_ROBOT_CONTROL, robot_control_finish },
     { ACT_MIND_SPLICER, mind_splicer_finish },
     { ACT_SPELLCASTING, spellcasting_finish },
@@ -1718,7 +1716,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 
     // TODO: Store the patient somehow, retrieve here
     player &patient = *p;
-    const hp_part healed = static_cast<hp_part>( act->values[0] );
+    const bodypart_id healed = bodypart_id( act->str_values[0] );
     const int charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
     p->consume_charges( it, charges_consumed );
 
@@ -1771,7 +1769,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
             debugmsg( "Invalid season" );
     }
 
-    here.ter_set( here.getlocal( act->placement ), next_ter );
+    const tripoint bush_pos = here.getlocal( act->placement );
+    here.ter_set( bush_pos, next_ter );
 
     // Survival gives a bigger boost, and Perception is leveled a bit.
     // Both survival and perception affect time to forage
@@ -1809,6 +1808,8 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
     iexamine::practice_survival_while_foraging( p );
 
     act->set_to_null();
+
+    here.maybe_trigger_trap( bush_pos, *p, true );
 }
 
 void activity_handlers::generic_game_do_turn( player_activity * /*act*/, player *p )
@@ -2038,35 +2039,35 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
     }
 
     item &reloadable = *act->targets[ 0 ];
-    item &ammo = *act->targets[1];
+    item &ammo = *act->targets[ 1 ];
+    std::string reloadable_name = reloadable.tname();
     std::string ammo_name = ammo.tname();
-    const int qty = act->index;
-    const bool is_speedloader = ammo.has_flag( flag_SPEEDLOADER );
+    // cache check results because reloading deletes the ammo item
     const bool ammo_is_filthy = ammo.is_filthy();
+    const bool ammo_uses_speedloader = ammo.has_flag( flag_SPEEDLOADER );
+    const int qty = act->index;
 
     if( !reloadable.reload( *p, std::move( act->targets[ 1 ] ), qty ) ) {
-        add_msg( m_info, _( "Can't reload the %s." ), reloadable.tname() );
+        add_msg( m_info, _( "Can't reload the %s." ), reloadable_name );
         return;
     }
-
-    std::string msg = _( "You reload the %s." );
 
     if( ammo_is_filthy ) {
         reloadable.set_flag( "FILTHY" );
     }
 
     if( reloadable.get_var( "dirt", 0 ) > 7800 ) {
-        msg =
-            _( "You manage to loosen some debris and make your %s somewhat operational." );
+        add_msg( m_neutral, _( "You manage to loosen some debris and make your %s somewhat operational." ),
+                 reloadable_name );
         reloadable.set_var( "dirt", ( reloadable.get_var( "dirt", 0 ) - rng( 790, 2750 ) ) );
     }
 
     if( reloadable.is_gun() ) {
         p->recoil = MAX_RECOIL;
 
-        if( reloadable.has_flag( flag_RELOAD_ONE ) && !is_speedloader ) {
+        if( reloadable.has_flag( flag_RELOAD_ONE ) && !ammo_uses_speedloader ) {
             for( int i = 0; i != qty; ++i ) {
-                msg = _( "You insert one %2$s into the %1$s." );
+                add_msg( m_neutral, _( "You insert one %2$s into the %1$s." ), reloadable_name, ammo_name );
             }
         }
         if( reloadable.type->gun->reload_noise_volume > 0 ) {
@@ -2076,9 +2077,10 @@ void activity_handlers::reload_finish( player_activity *act, player *p )
                                    sounds::sound_t::activity, reloadable.type->gun->reload_noise );
         }
     } else if( reloadable.is_watertight_container() ) {
-        msg = _( "You refill the %s." );
+        add_msg( m_neutral, _( "You refill the %s." ), reloadable_name );
+    } else {
+        add_msg( m_neutral, _( "You reload the %1$s with %2$s." ), reloadable_name, ammo_name );
     }
-    add_msg( m_neutral, msg, reloadable.tname(), ammo_name );
 }
 
 void activity_handlers::start_fire_finish( player_activity *act, player *p )
@@ -2284,7 +2286,7 @@ void activity_handlers::vibe_do_turn( player_activity *act, player *p )
     //Deduct 1 battery charge for every minute in use, or vibrator is much less effective
     item &vibrator_item = *act->targets.front();
 
-    if( p->encumb( bp_mouth ) >= 30 ) {
+    if( p->encumb( bodypart_id( "mouth" ) ) >= 30 ) {
         act->moves_left = 0;
         add_msg( m_bad, _( "You have trouble breathing, and stop." ) );
     }
@@ -2546,7 +2548,10 @@ struct weldrig_hack {
 
     item &get_item() {
         if( veh != nullptr && part >= 0 ) {
-            pseudo.charges = veh->drain( itype_battery, 1000 - pseudo.charges );
+            item pseudo_magazine( pseudo.magazine_default() );
+            pseudo.put_in( pseudo_magazine, item_pocket::pocket_type::MAGAZINE_WELL );
+            pseudo.ammo_set( itype_battery,  veh->drain( itype_battery,
+                             pseudo.ammo_capacity( ammotype( "battery" ) ) ) );
             return pseudo;
         }
 
@@ -2560,8 +2565,7 @@ struct weldrig_hack {
             return;
         }
 
-        veh->charge_battery( pseudo.charges );
-        pseudo.charges = 0;
+        veh->charge_battery( pseudo.ammo_remaining() );
     }
 
     ~weldrig_hack() {
@@ -2670,7 +2674,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     const item &fix = *act->targets[1];
-
     if( repeat == repeat_type::INIT ) {
         const int level = p->get_skill_level( actor->used_skill );
         repair_item_actor::repair_type action_type = actor->default_action( fix, level );
@@ -2687,15 +2690,23 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
                                            repair_item_actor::action_description( action_type ),
                                            fix.tname() );
         ammotype current_ammo;
-        if( used_tool->ammo_current().is_null() ) {
-            current_ammo = item_controller->find_template( used_tool->ammo_default() )->ammo->type;
+        std::string ammo_name;
+        if( used_tool->has_flag( flag_USES_BIONIC_POWER ) ) {
+            ammo_name = _( "bionic power" );
+
         } else {
-            current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
+            if( used_tool->ammo_current().is_null() ) {
+                current_ammo = item_controller->find_template( used_tool->ammo_default() )->ammo->type;
+            } else {
+                current_ammo = item_controller->find_template( used_tool->ammo_current() )->ammo->type;
+            }
+
+            ammo_name = item::nname( used_tool->ammo_current() );
         }
 
         title += string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
                                 used_tool->ammo_remaining(), used_tool->ammo_capacity( current_ammo ),
-                                item::nname( used_tool->ammo_current() ),
+                                ammo_name,
                                 used_tool->ammo_required() );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
                                 actor->used_skill.obj().name(), level );
@@ -2726,7 +2737,6 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             }
         } while( repeat == repeat_type::INIT );
     }
-
     // Otherwise keep retrying
     act->moves_left = actor->move_cost;
 }
@@ -2900,6 +2910,8 @@ void activity_handlers::clear_rubble_finish( player_activity *act, player *p )
     here.furn_set( pos, f_null );
 
     act->set_to_null();
+
+    here.maybe_trigger_trap( pos, *p, true );
 }
 
 void activity_handlers::meditate_finish( player_activity *act, player *p )
@@ -2993,7 +3005,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
         tripoint sm_tri = here.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
         tripoint centre_sub = sm_tri + point( SEEX, SEEY );
         if( !here.passable( centre_sub ) ) {
-            tripoint_range candidates = here.points_in_radius( centre_sub, 2 );
+            tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
             for( const tripoint &elem : candidates ) {
                 if( here.passable( elem ) ) {
                     centre_sub = elem;
@@ -3663,9 +3675,9 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
 
     // Base moves for batch size with no speed modifier or assistants
     // Must ensure >= 1 so we don't divide by 0;
-    const double base_total_moves = std::max( 1, rec.batch_time( craft->charges, 1.0f, 0 ) );
+    const double base_total_moves = std::max( 1, rec.batch_time( *p, craft->charges, 1.0f, 0 ) );
     // Current expected total moves, includes crafting speed modifiers and assistants
-    const double cur_total_moves = std::max( 1, rec.batch_time( craft->charges, crafting_speed,
+    const double cur_total_moves = std::max( 1, rec.batch_time( *p, craft->charges, crafting_speed,
                                    assistants ) );
     // Delta progress in moves adjusted for current crafting speed
     const double delta_progress = p->get_moves() * base_total_moves / cur_total_moves;
@@ -4092,41 +4104,6 @@ void activity_handlers::haircut_finish( player_activity *act, player *p )
 {
     p->add_msg_if_player( _( "You give your hair a trim." ) );
     p->add_morale( MORALE_HAIRCUT, 3, 3, 480_minutes, 3_minutes );
-    act->set_to_null();
-}
-
-void activity_handlers::unload_mag_finish( player_activity *act, player *p )
-{
-    int qty = 0;
-    item &it = *act->targets[ 0 ];
-
-    std::vector<item *> remove_contained;
-    for( item *contained : it.contents.all_items_top() ) {
-        if( p->add_or_drop_with_msg( *contained, true ) ) {
-            qty += contained->charges;
-            remove_contained.push_back( contained );
-        }
-    }
-    // remove the ammo leads in the belt
-    for( item *remove : remove_contained ) {
-        it.remove_item( *remove );
-    }
-
-    // remove the belt linkage
-    if( it.is_ammo_belt() ) {
-        if( it.type->magazine->linkage ) {
-            item link( *it.type->magazine->linkage, calendar::turn, qty );
-            p->add_or_drop_with_msg( link, true );
-        }
-        add_msg( _( "You disassemble your %s." ), it.tname() );
-    } else {
-        add_msg( _( "You unload your %s." ), it.tname() );
-    }
-
-    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
-        act->targets[ 0 ].remove_item();
-    }
-
     act->set_to_null();
 }
 

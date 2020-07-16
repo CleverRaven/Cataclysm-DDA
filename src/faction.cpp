@@ -30,6 +30,7 @@
 #include "point.h"
 #include "skill.h"
 #include "string_formatter.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
@@ -899,7 +900,7 @@ void faction_manager::display() const
                 popup( _( "%s returns from their mission" ), guy->disp_name() );
             } else {
                 if( tab == tab_mode::TAB_FOLLOWERS && guy && ( interactable || radio_interactable ) ) {
-                    guy->talk_to_u( false, radio_interactable );
+                    g->u.talk_to( get_talker_for( *guy ), false, radio_interactable );
                 } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
                     camp->query_new_name();
                 }

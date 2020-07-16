@@ -1411,7 +1411,7 @@
     "longest_side": "90 cm",
     "bashing": 17,
     "cutting": 8,
-    "to_hit": 2,
+    "to_hit": 1,
     "category": "weapons",
     "qualities": [ [ "CUT", 1 ], [ "BUTCHER", 9 ] ]
   },
@@ -1713,6 +1713,7 @@
     "price": 12000,
     "price_postapoc": 1250,
     "material": [ "wood", "iron" ],
+    "ascii_picture": "lajatang",
     "techniques": [ "WBLOCK_1", "SPIN" ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ],
     "weight": "2500 g",

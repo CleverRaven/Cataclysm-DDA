@@ -8,8 +8,8 @@
 #include <set>
 #include <utility>
 
-#include "avatar.h"
 #include "bodypart.h"
+#include "character.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "damage.h"
 #include "flat_set.h"
@@ -106,13 +106,14 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         header = {
             "Name", "Encumber (fit)", "Warmth", "Weight", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
         };
-        auto dump = [&rows]( const item & obj ) {
+        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
+        auto dump = [&rows, &bp]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( to_string( obj.get_encumber( g->u ) ) );
+            r.push_back( to_string( obj.get_encumber( get_player_character(), convert_bp( bp ).id() ) ) );
             r.push_back( to_string( obj.get_warmth() ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.get_coverage() ) );
+            r.push_back( to_string( obj.get_coverage( convert_bp( bp ).id() ) ) );
             r.push_back( to_string( obj.bash_resist() ) );
             r.push_back( to_string( obj.cut_resist() ) );
             r.push_back( to_string( obj.bullet_resist() ) );
@@ -120,8 +121,6 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             r.push_back( to_string( obj.fire_resist() ) );
             rows.push_back( r );
         };
-
-        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
 
         for( const itype *e : item_controller->all() ) {
             if( e->armor ) {
@@ -161,7 +160,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         for( const itype *e : item_controller->all() ) {
             item food( e, calendar::turn, item::solitary_tag {} );
 
-            if( food.is_food() && g->u.can_eat( food ).success() ) {
+            if( food.is_food() && get_player_character().can_eat( food ).success() ) {
                 dump( food );
             }
         }
@@ -223,7 +222,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
 
                 dump( test_npcs[ "S1" ], gun );
 
-                if( gun.type->gun->barrel_length > 0_ml ) {
+                if( gun.type->gun->barrel_volume > 0_ml ) {
                     gun.put_in( item( "barrel_small" ), item_pocket::pocket_type::MOD );
                     dump( test_npcs[ "S1" ], gun );
                 }

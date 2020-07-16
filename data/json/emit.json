@@ -338,5 +338,20 @@
     "field": "fd_extinguisher",
     "intensity": 1,
     "qty": 10
+  },
+  {
+    "id": "emit_rad_leak",
+    "type": "emit",
+    "field": "fd_nuke_gas",
+    "intensity": 1,
+    "qty": 1
+  },
+  {
+    "id": "emit_rad_cloud",
+    "//": "Negative, negative, it's a large reactor leak, very dangerous",
+    "type": "emit",
+    "field": "fd_nuke_gas",
+    "intensity": 3,
+    "qty": 100
   }
 ]

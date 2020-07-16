@@ -14,18 +14,19 @@
 TEST_CASE( "destroy_grabbed_furniture" )
 {
     clear_map();
+    avatar &player_character = get_avatar();
     GIVEN( "Furniture grabbed by the player" ) {
         const tripoint test_origin( 60, 60, 0 );
         map &here = get_map();
-        g->u.setpos( test_origin );
+        player_character.setpos( test_origin );
         const tripoint grab_point = test_origin + tripoint_east;
         here.furn_set( grab_point, furn_id( "f_chair" ) );
-        g->u.grab( object_type::FURNITURE, grab_point );
+        player_character.grab( object_type::FURNITURE, grab_point );
         WHEN( "The furniture grabbed by the player is destroyed" ) {
             here.destroy( grab_point );
             THEN( "The player's grab is released" ) {
-                CHECK( g->u.get_grab_type() == object_type::NONE );
-                CHECK( g->u.grab_point == tripoint_zero );
+                CHECK( player_character.get_grab_type() == object_type::NONE );
+                CHECK( player_character.grab_point == tripoint_zero );
             }
         }
     }

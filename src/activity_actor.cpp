@@ -21,6 +21,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "morale_types.h"
 #include "npc.h"
 #include "options.h"
 #include "output.h"
@@ -47,6 +48,7 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
+static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
@@ -89,7 +91,7 @@ std::string enum_to_string<WS>( WS data )
 
 aim_activity_actor::aim_activity_actor()
 {
-    initial_view_offset = g->u.view_offset;
+    initial_view_offset = get_avatar().view_offset;
 }
 
 aim_activity_actor aim_activity_actor::use_wielded()
@@ -135,7 +137,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
         aborted = true;
         return;
     }
-    avatar &you = g->u;
+    avatar &you = get_avatar();
 
     item *weapon = get_weapon();
     if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
@@ -240,10 +242,12 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 item *aim_activity_actor::get_weapon()
 {
     switch( weapon_source ) {
-        case WeaponSource::Wielded:
+        case WeaponSource::Wielded: {
+            Character &player_character = get_player_character();
             // Check for lost gun (e.g. yanked by zombie technician)
             // TODO: check that this is the same gun that was used to start aiming
-            return g->u.weapon.is_null() ? nullptr : &g->u.weapon;
+            return player_character.weapon.is_null() ? nullptr : &player_character.weapon;
+        }
         case WeaponSource::Bionic:
         case WeaponSource::Mutation:
             // TODO: check if the player lost relevant bionic/mutation
@@ -256,10 +260,11 @@ item *aim_activity_actor::get_weapon()
 
 void aim_activity_actor::restore_view()
 {
-    bool changed_z = g->u.view_offset.z != initial_view_offset.z;
-    g->u.view_offset = initial_view_offset;
+    avatar &player_character = get_avatar();
+    bool changed_z = player_character.view_offset.z != initial_view_offset.z;
+    player_character.view_offset = initial_view_offset;
     if( changed_z ) {
-        get_map().invalidate_map_cache( g->u.view_offset.z );
+        get_map().invalidate_map_cache( player_character.view_offset.z );
         g->invalidate_main_ui_adaptor();
     }
 }
@@ -267,7 +272,7 @@ void aim_activity_actor::restore_view()
 bool aim_activity_actor::load_RAS_weapon()
 {
     // TODO: use activity for fetching ammo and loading weapon
-    player &you = g->u;
+    player &you = get_avatar();
     item *weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
     const auto ammo_location_is_valid = [&]() -> bool {
@@ -312,7 +317,7 @@ bool aim_activity_actor::load_RAS_weapon()
 void aim_activity_actor::unload_RAS_weapon()
 {
     // Unload reload-and-shoot weapons to avoid leaving bows pre-loaded with arrows
-    avatar &you = g->u;
+    avatar &you = get_avatar();
     item *weapon = get_weapon();
     if( !weapon ) {
         return;
@@ -324,7 +329,7 @@ void aim_activity_actor::unload_RAS_weapon()
 
         // Note: this code works only for avatar
         item_location loc = item_location( you, gun.target );
-        g->unload( loc );
+        you.unload( loc, true );
 
         // Give back time for unloading as essentially nothing has been done.
         if( first_turn ) {
@@ -389,7 +394,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                           calendar::turn ) );
     }
 
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    const int helpersize = get_avatar().get_num_crafting_helpers( 3 );
     who.mod_stored_nutr( 5 - helpersize );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -401,6 +406,8 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     }
 
     act.set_to_null();
+
+    here.maybe_trigger_trap( location, who, true );
 }
 
 void dig_activity_actor::serialize( JsonOut &jsout ) const
@@ -459,7 +466,7 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                           calendar::turn ) );
     }
 
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    const int helpersize = get_avatar().get_num_crafting_helpers( 3 );
     who.mod_stored_nutr( 5 - helpersize );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -467,6 +474,8 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                            here.ter( location ).obj().name() );
 
     act.set_to_null();
+
+    here.maybe_trigger_trap( location, who, true );
 }
 
 void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
@@ -1128,19 +1137,22 @@ std::unique_ptr<activity_actor> open_gate_activity_actor::deserialize( JsonIn &j
 void consume_activity_actor::start( player_activity &act, Character &guy )
 {
     int moves;
+    Character &player_character = get_player_character();
     if( consume_location ) {
-        const auto ret = g->u.will_eat( *consume_location, true );
+        const auto ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
             consume_menu_selections = std::vector<int>();
+            consume_menu_filter = std::string();
             return;
         } else {
             force = true;
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
     } else if( !consume_item.is_null() ) {
-        const auto ret = g->u.will_eat( consume_item, true );
+        const auto ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
             consume_menu_selections = std::vector<int>();
+            consume_menu_filter = std::string();
             return;
         } else {
             force = true;
@@ -1162,22 +1174,34 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     // too late; we've already consumed).
     act.interruptable = false;
 
+    avatar &player_character = get_avatar();
     if( consume_location ) {
-        g->u.consume( consume_location, force );
+        player_character.consume( consume_location, force );
     } else if( !consume_item.is_null() ) {
-        g->u.consume( consume_item, force );
+        player_character.consume( consume_item, force );
     } else {
         debugmsg( "Item location/name to be consumed should not be null." );
     }
-    if( g->u.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-        g->u.set_value( "THIEF_MODE", "THIEF_ASK" );
+    if( player_character.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+        player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
     }
     //setting act to null clears these so back them up
     std::vector<int> temp_selections = consume_menu_selections;
-    act.set_to_null();
-    if( !temp_selections.empty() ) {
-        g->u.assign_activity( ACT_EAT_MENU );
-        g->u.activity.values = temp_selections;
+    const std::string temp_filter = consume_menu_filter;
+    if( act.id() == activity_id( "ACT_CONSUME" ) ) {
+        act.set_to_null();
+    }
+    if( !temp_selections.empty() || !temp_filter.empty() ) {
+        if( act.is_null() ) {
+            player_character.assign_activity( ACT_EAT_MENU );
+            player_character.activity.values = temp_selections;
+            player_character.activity.str_values = { temp_filter };
+        } else {
+            player_activity eat_menu( ACT_EAT_MENU );
+            eat_menu.values = temp_selections;
+            eat_menu.str_values = { temp_filter };
+            player_character.backlog.push_back( eat_menu );
+        }
     }
 }
 
@@ -1188,6 +1212,7 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
     jsout.member( "consume_menu_selections", consume_menu_selections );
+    jsout.member( "consume_menu_filter", consume_menu_filter );
     jsout.member( "force", force );
 
     jsout.end_object();
@@ -1203,6 +1228,7 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
     data.read( "consume_menu_selections", actor.consume_menu_selections );
+    data.read( "consume_menu_filter", actor.consume_menu_filter );
     data.read( "force", actor.force );
 
     return actor.clone();
@@ -1293,6 +1319,310 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
     return actor.clone();
 }
 
+void unload_mag_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = moves_total;
+    act.moves_total = moves_total;
+}
+
+void unload_mag_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    unload( who, target );
+}
+
+void unload_mag_activity_actor::unload( Character &who, item_location &target )
+{
+    int qty = 0;
+    item &it = *target.get_item();
+
+    std::vector<item *> remove_contained;
+    for( item *contained : it.contents.all_items_top() ) {
+        if( who.as_player()->add_or_drop_with_msg( *contained, true ) ) {
+            qty += contained->charges;
+            remove_contained.push_back( contained );
+        }
+    }
+    // remove the ammo leads in the belt
+    for( item *remove : remove_contained ) {
+        it.remove_item( *remove );
+    }
+
+    // remove the belt linkage
+    if( it.is_ammo_belt() ) {
+        if( it.type->magazine->linkage ) {
+            item link( *it.type->magazine->linkage, calendar::turn, qty );
+            who.as_player()->add_or_drop_with_msg( link, true );
+        }
+        who.add_msg_if_player( _( "You disassemble your %s." ), it.tname() );
+    } else {
+        who.add_msg_if_player( _( "You unload your %s." ), it.tname() );
+    }
+
+    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
+        target.remove_item();
+    }
+}
+
+void unload_mag_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "target", target );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> unload_mag_activity_actor::deserialize( JsonIn &jsin )
+{
+    unload_mag_activity_actor actor = unload_mag_activity_actor( 0, item_location::nowhere );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "target", actor.target );
+
+    return actor.clone();
+}
+
+void workout_activity_actor::start( player_activity &act, Character &who )
+{
+    if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+        who.add_msg_if_player( _( "You are too tired to exercise." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    if( who.get_thirst() > 240 ) {
+        who.add_msg_if_player( _( "You are too dehydrated to exercise." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    if( who.is_armed() ) {
+        who.add_msg_if_player( _( "Empty your hands first." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    map &here = get_map();
+    // free training requires all limbs intact, but specialized workout machines
+    // train upper or lower parts of body only and may permit workout with
+    // broken limbs as long as they are not involved by the machine
+    bool hand_equipment = here.has_flag_furn( "WORKOUT_ARMS", location );
+    bool leg_equipment = here.has_flag_furn( "WORKOUT_LEGS", location );
+    static const bodypart_id arm_l = bodypart_id( "arm_l" );
+    static const bodypart_id arm_r = bodypart_id( "arm_r" );
+    static const bodypart_id leg_l = bodypart_id( "leg_l" );
+    static const bodypart_id leg_r = bodypart_id( "leg_r" );
+    if( hand_equipment && ( ( who.is_limb_broken( arm_l ) ) ||
+                            who.is_limb_broken( arm_r ) ) ) {
+        who.add_msg_if_player( _( "You cannot train here with a broken arm." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    if( leg_equipment && ( ( who.is_limb_broken( leg_l ) ) ||
+                           who.is_limb_broken( leg_r ) ) ) {
+        who.add_msg_if_player( _( "You cannot train here with a broken leg." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    if( !hand_equipment && !leg_equipment &&
+        ( who.is_limb_broken( arm_l ) ||
+          who.is_limb_broken( arm_r ) ||
+          who.is_limb_broken( leg_l ) ||
+          who.is_limb_broken( leg_r ) ) ) {
+        who.add_msg_if_player( _( "You cannot train freely with a broken limb." ) );
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    uilist workout_query;
+    workout_query.desc_enabled = true;
+    workout_query.text =
+        _( "Physical effort determines workout efficiency, but also rate of exhaustion." );
+    workout_query.title = _( "Choose training intensity:" );
+    workout_query.addentry_desc( 1, true, 'l', _( "Light" ),
+                                 _( "Light excercise comparable in intensity to walking, but more focused and methodical." ) );
+    workout_query.addentry_desc( 2, true, 'm', _( "Moderate" ),
+                                 _( "Moderate excercise without excessive exertion, but with enough effort to break a sweat." ) );
+    workout_query.addentry_desc( 3, true, 'a', _( "Active" ),
+                                 _( "Active excercise with full involvement.  Strenuous, but in a controlled manner." ) );
+    workout_query.addentry_desc( 4, true, 'h', _( "High" ),
+                                 _( "High intensity excercise with maximum effort and full power.  Exhausting in the long run." ) );
+    workout_query.query();
+    switch( workout_query.ret ) {
+        case UILIST_CANCEL:
+            act.set_to_null();
+            act_id = activity_id::NULL_ID();
+            return;
+        case 4:
+            act_id = activity_id( "ACT_WORKOUT_HARD" );
+            intensity_modifier = 4;
+            break;
+        case 3:
+            act_id = activity_id( "ACT_WORKOUT_ACTIVE" );
+            intensity_modifier = 3;
+            break;
+        case 2:
+            act_id = activity_id( "ACT_WORKOUT_MODERATE" );
+            intensity_modifier = 2;
+            break;
+        case 1:
+        default:
+            act_id = activity_id( "ACT_WORKOUT_LIGHT" );
+            intensity_modifier = 1;
+            break;
+    }
+    int length;
+    query_int( length, _( "Train for how long (minutes): " ) );
+    if( length > 0 ) {
+        duration = length * 1_minutes;
+    } else {
+        act_id = activity_id::NULL_ID();
+        act.set_to_null();
+        return;
+    }
+    act.moves_total = to_moves<int>( duration );
+    act.moves_left = act.moves_total;
+    if( who.male ) {
+        sfx::play_activity_sound( "plmove", "fatigue_m_med", sfx::get_heard_volume( location ) );
+    } else {
+        sfx::play_activity_sound( "plmove", "fatigue_f_med", sfx::get_heard_volume( location ) );
+    }
+    who.add_msg_if_player( _( "You start your workout session." ) );
+}
+
+void workout_activity_actor::do_turn( player_activity &act, Character &who )
+{
+    if( who.get_fatigue() > fatigue_levels::DEAD_TIRED ) {
+        who.add_msg_if_player( _( "You are exhausted so you finish your workout early." ) );
+        act.set_to_null();
+        return;
+    }
+    if( who.get_thirst() > 240 ) {
+        who.add_msg_if_player( _( "You are dehydrated so you finish your workout early." ) );
+        act.set_to_null();
+        return;
+    }
+    if( !rest_mode && who.get_stamina() > who.get_stamina_max() / 3 ) {
+        who.mod_stamina( -25 - intensity_modifier );
+        if( one_in( 180 / intensity_modifier ) ) {
+            who.mod_fatigue( 1 );
+            who.mod_thirst( 1 );
+        }
+        if( calendar::once_every( 16_minutes / intensity_modifier ) ) {
+            //~ heavy breathing when excercising
+            std::string huff = _( "yourself huffing and puffing!" );
+            sounds::sound( location + tripoint_east, 2 * intensity_modifier, sounds::sound_t::speech, huff,
+                           true );
+        }
+        // morale bonus kicks in gradually after 5 minutes of exercise
+        if( calendar::once_every( 2_minutes ) &&
+            ( ( elapsed + act.moves_total - act.moves_left ) / 100 * 1_turns ) > 5_minutes ) {
+            who.add_morale( MORALE_FEELING_GOOD, intensity_modifier, 20, 6_hours, 30_minutes );
+        }
+        if( calendar::once_every( 2_minutes ) ) {
+            who.add_msg_if_player( m_debug, who.activity_level_str() );
+            who.add_msg_if_player( m_debug, act.id().c_str() );
+        }
+    } else if( !rest_mode ) {
+        rest_mode = true;
+        who.add_msg_if_player( _( "You catch your breath for few moments." ) );
+    } else if( who.get_stamina() >= who.get_stamina_max() ) {
+        rest_mode = false;
+        who.add_msg_if_player( _( "You get back to your training." ) );
+    }
+}
+
+void workout_activity_actor::finish( player_activity &act, Character &who )
+{
+    if( !query_keep_training( act, who ) ) {
+        act.set_to_null();
+        who.add_msg_if_player( _( "You finish your workout session." ) );
+    }
+}
+
+void workout_activity_actor::canceled( player_activity &/*act*/, Character &/*who*/ )
+{
+    stop_time = calendar::turn;
+}
+
+bool workout_activity_actor::query_keep_training( player_activity &act, Character &who )
+{
+    if( disable_query || !who.is_avatar() ) {
+        elapsed += act.moves_total - act.moves_left;
+        act.moves_total = to_moves<int>( 60_minutes );
+        act.moves_left = act.moves_total;
+        return true;
+    }
+    int length;
+    uilist workout_query;
+    workout_query.text = _( "You have finished your training cycle, keep training?" );
+    workout_query.addentry( 1, true, 'S', _( "Stop training." ) );
+    workout_query.addentry( 2, true, 'c', _( "Continue training." ) );
+    workout_query.addentry( 3, true, 'C', _( "Continue training and don't ask again." ) );
+    workout_query.query();
+    switch( workout_query.ret ) {
+        case UILIST_CANCEL:
+        case 1:
+            act_id = activity_id::NULL_ID();
+            act.set_to_null();
+            return false;
+        case 3:
+            disable_query = true;
+            elapsed += act.moves_total - act.moves_left;
+            act.moves_total = to_moves<int>( 60_minutes );
+            act.moves_left = act.moves_total;
+            return true;
+        case 2:
+        default:
+            query_int( length, _( "Train for how long (minutes): " ) );
+            elapsed += act.moves_total - act.moves_left;
+            act.moves_total = to_moves<int>( length * 1_minutes );
+            act.moves_left = act.moves_total;
+            return true;
+            break;
+    }
+}
+
+void workout_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "disable_query", disable_query );
+    jsout.member( "act_id", act_id );
+    jsout.member( "duration", duration );
+    jsout.member( "location", location );
+    jsout.member( "stop_time", stop_time );
+    jsout.member( "elapsed", elapsed );
+    jsout.member( "intensity_modifier", intensity_modifier );
+    jsout.member( "rest_mode", rest_mode );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> workout_activity_actor::deserialize( JsonIn &jsin )
+{
+    workout_activity_actor actor = workout_activity_actor( tripoint_zero );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "disable_query", actor.disable_query );
+    data.read( "act_id", actor.act_id );
+    data.read( "duration", actor.duration );
+    data.read( "location", actor.location );
+    data.read( "stop_time", actor.stop_time );
+    data.read( "elapsed", actor.elapsed );
+    data.read( "intensity_modifier", actor.intensity_modifier );
+    data.read( "rest_mode", actor.rest_mode );
+
+    return actor.clone();
+}
+
 namespace activity_actors
 {
 
@@ -1311,6 +1641,11 @@ deserialize_functions = {
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
+    { activity_id( "ACT_UNLOAD_MAG" ), &unload_mag_activity_actor::deserialize },
+    { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
+    { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
+    { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },
+    { activity_id( "ACT_WORKOUT_LIGHT" ), &workout_activity_actor::deserialize },
 };
 } // namespace activity_actors
 

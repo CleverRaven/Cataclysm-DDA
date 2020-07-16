@@ -39,7 +39,7 @@
     "type": "GENERIC",
     "id": "microphone_xlr_generic",
     "name": { "str": "XLR microphone" },
-    "description": "A typical microphone used to record or amplify voice.  Comes with a clip.  Has a 3-pin XLR connector on the bottom in order to connect to am amp.",
+    "description": "A typical microphone used to record or amplify voice.  Comes with a clip.  Has a 3-pin XLR connector on the bottom in order to connect to an amp.",
     "symbol": "i",
     "color": "dark_gray",
     "volume": "550 ml",

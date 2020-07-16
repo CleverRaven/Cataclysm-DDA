@@ -120,7 +120,7 @@ static item_location_filter convert_filter( const item_filter &filter )
     };
 }
 
-static item_location inv_internal( player &u, const inventory_selector_preset &preset,
+static item_location inv_internal( Character &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message,
                                    const std::string &hint = std::string() )
@@ -292,12 +292,12 @@ class armor_inventory_preset: public inventory_selector_preset
         armor_inventory_preset( player &pl, const std::string &color_in ) :
             p( pl ), color( color_in ) {
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->get_encumber( p ) );
-            }, _( "ENCUMBRANCE" ) );
+                return get_number_string( loc->get_avg_encumber( p ) );
+            }, _( "AVG ENCUMBRANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return string_format( "<%s>%d%%</color>", color, loc->get_coverage() );
-            }, _( "COVERAGE" ) );
+                return string_format( "<%s>%d%%</color>", color, loc->get_avg_coverage() );
+            }, _( "AVG COVERAGE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->get_warmth() );
@@ -426,7 +426,7 @@ item_location game_menus::inv::container_for( avatar &you, const item &liquid, i
 class pickup_inventory_preset : public inventory_selector_preset
 {
     public:
-        pickup_inventory_preset( const player &p ) : p( p ) {}
+        pickup_inventory_preset( const Character &p ) : p( p ) {}
 
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
@@ -443,13 +443,13 @@ class pickup_inventory_preset : public inventory_selector_preset
         }
 
     private:
-        const player &p;
+        const Character &p;
 };
 
 class disassemble_inventory_preset : public pickup_inventory_preset
 {
     public:
-        disassemble_inventory_preset( const player &p, const inventory &inv ) :
+        disassemble_inventory_preset( const Character &p, const inventory &inv ) :
             pickup_inventory_preset( p ), p( p ), inv( inv ) {
 
             check_components = true;
@@ -468,7 +468,7 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             }, _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return to_string_clipped( time_duration::from_turns( get_recipe( loc ).time / 100 ) );
+                return to_string_clipped( get_recipe( loc ).time_to_craft( get_player_character() ) );
             }, _( "TIME" ) );
         }
 
@@ -490,11 +490,11 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
     private:
-        const player &p;
+        const Character &p;
         const inventory &inv;
 };
 
-item_location game_menus::inv::disassemble( player &p )
+item_location game_menus::inv::disassemble( Character &p )
 {
     return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
                          _( "Disassemble item" ), 1,
@@ -1306,7 +1306,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
             item item_copy( it );
             item_copy.charges = holstered_item.second;
             if( holster->can_contain( item_copy ) ) {
-                holster->put_in( it, item_pocket::pocket_type::CONTAINER );
+                holster->put_in( item_copy, item_pocket::pocket_type::CONTAINER );
                 it.charges -= holstered_item.second;
                 success = true;
             }

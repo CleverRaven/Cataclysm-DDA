@@ -35,7 +35,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u, true );
+                const item::sizing sizing_level = i.get_sizing( g->u );
                 CHECK( sizing_level == item::sizing::small_sized_human_char );
             }
 
@@ -71,7 +71,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u, true );
+                const item::sizing sizing_level = i.get_sizing( g->u );
                 CHECK( sizing_level == item::sizing::small_sized_big_char );
             }
 
@@ -107,7 +107,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u, true );
+                const item::sizing sizing_level = i.get_sizing( g->u );
                 CHECK( sizing_level == item::sizing::small_sized_small_char );
             }
 

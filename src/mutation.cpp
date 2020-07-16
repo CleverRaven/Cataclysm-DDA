@@ -151,7 +151,7 @@ void Character::set_mutation( const trait_id &trait )
     cached_mutations.push_back( &trait.obj() );
     mutation_effect( trait );
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 void Character::unset_mutation( const trait_id &trait_ )
@@ -170,7 +170,7 @@ void Character::unset_mutation( const trait_id &trait_ )
     my_mutations.erase( iter );
     mutation_loss_effect( trait );
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 void Character::switch_mutations( const trait_id &switched, const trait_id &target,
@@ -402,7 +402,7 @@ void Character::mutation_effect( const trait_id &mut )
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            g->m.add_item_or_charges( pos(), armor );
+            get_map().add_item_or_charges( pos(), armor );
         }
         return true;
     } );
@@ -608,7 +608,7 @@ void Character::activate_mutation( const trait_id &mut )
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        g->m.add_field( pos(), fd_web, 1 );
+        get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
@@ -668,8 +668,9 @@ void Character::activate_mutation( const trait_id &mut )
         }
         // Check for adjacent trees.
         bool adjacent_tree = false;
-        for( const tripoint &p2 : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->m.has_flag( "TREE", p2 ) ) {
+        map &here = get_map();
+        for( const tripoint &p2 : here.points_in_radius( pos(), 1 ) ) {
+            if( here.has_flag( "TREE", p2 ) ) {
                 adjacent_tree = true;
             }
         }
@@ -718,7 +719,7 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
-        avatar_action::fire_ranged_mutation( g->u, item( mdata.ranged_mutation ) );
+        avatar_action::fire_ranged_mutation( *this, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }
@@ -1431,7 +1432,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
         if( guy.has_trait( trait_M_SPORES ) || guy.has_trait( trait_M_FERTILE ) ||
             guy.has_trait( trait_M_BLOSSOMS ) || guy.has_trait( trait_M_BLOOM ) ) {
             guy.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
-            g->m.ter_set( guy.pos(), t_fungus );
+            get_map().ter_set( guy.pos(), t_fungus );
             if( guy.is_avatar() ) {
                 g->memorial().add(
                     pgettext( "memorial_male", "Destroyed a harmful invader." ),

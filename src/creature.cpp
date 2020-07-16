@@ -48,6 +48,7 @@
 
 static const anatomy_id anatomy_human_anatomy( "human_anatomy" );
 
+static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
@@ -315,7 +316,7 @@ bool Creature::sees( const tripoint &t, bool is_avatar, int range_mod ) const
 static bool overlaps_vehicle( const std::set<tripoint> &veh_area, const tripoint &pos,
                               const int area )
 {
-    for( const tripoint &tmp : tripoint_range( pos - tripoint( area, area, 0 ),
+    for( const tripoint &tmp : tripoint_range<tripoint>( pos - tripoint( area, area, 0 ),
             pos + tripoint( area - 1, area - 1, 0 ) ) ) {
         if( veh_area.count( tmp ) > 0 ) {
             return true;
@@ -901,6 +902,16 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
             // Acid damage and acid burns are more painful
             div = 3.0f;
             break;
+
+        case DT_CUT:
+        case DT_STAB:
+        case DT_BULLET:
+            // these are bleed inducing damage types
+            if( is_avatar() || is_npc() ) {
+                as_character()->make_bleed( bp, 1_minutes * rng( 1, adjusted_damage ) );
+            } else {
+                add_effect( effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp->token );
+            }
 
         default:
             break;
@@ -1519,6 +1530,21 @@ int Creature::get_part_healed_total( const bodypart_id &id ) const
     return get_part( id ).get_healed_total();
 }
 
+int Creature::get_part_damage_disinfected( const bodypart_id &id ) const
+{
+    return get_part( id ).get_damage_disinfected();
+}
+
+int Creature::get_part_damage_bandaged( const bodypart_id &id ) const
+{
+    return get_part( id ).get_damage_bandaged();
+}
+
+encumbrance_data Creature::get_part_encumbrance_data( const bodypart_id &id ) const
+{
+    return get_part( id ).get_encumbrance_data();
+}
+
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
     get_part( id )->set_hp_cur( set );
@@ -1534,6 +1560,21 @@ void Creature::set_part_healed_total( const bodypart_id &id, int set )
     get_part( id )->set_healed_total( set );
 }
 
+void Creature::set_part_damage_disinfected( const bodypart_id &id, int set )
+{
+    get_part( id )->set_damage_disinfected( set );
+}
+
+void Creature::set_part_damage_bandaged( const bodypart_id &id, int set )
+{
+    get_part( id )->set_damage_bandaged( set );
+}
+
+void Creature::set_part_encumbrance_data( const bodypart_id &id, encumbrance_data set )
+{
+    get_part( id )->set_encumbrance_data( set );
+}
+
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_hp_cur( mod );
@@ -1547,6 +1588,16 @@ void Creature::mod_part_hp_max( const bodypart_id &id, int mod )
 void Creature::mod_part_healed_total( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_healed_total( mod );
+}
+
+void Creature::mod_part_damage_disinfected( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_damage_disinfected( mod );
+}
+
+void Creature::mod_part_damage_bandaged( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_damage_bandaged( mod );
 }
 
 void Creature::set_all_parts_hp_cur( const int set )
@@ -1873,7 +1924,7 @@ void Creature::process_damage_over_time()
                 const int dmg_amount = DoT->amount;
                 if( dmg_amount < 0 ) {
                     heal_bp( bp.id(), -dmg_amount );
-                } else {
+                } else if( dmg_amount > 0 ) {
                     deal_damage( nullptr, bp.id(), damage_instance( DoT->type, dmg_amount ) );
                 }
             }

@@ -22,11 +22,18 @@
       "D": "t_door_metal_locked",
       "g": "t_reinforced_glass",
       "s": "t_reinforced_glass_shutter",
-      "x": "t_console_broken",
       ">": "t_slope_down",
       "<": "t_slope_up"
     },
-    "furniture": { "a": "f_seat_airplane", "c": "f_counter", "f": "f_fridge", "l": "f_locker", "S": "f_sink", "*": "f_wreckage" },
+    "furniture": {
+      "a": "f_seat_airplane",
+      "c": "f_counter",
+      "f": "f_fridge",
+      "l": "f_locker",
+      "S": "f_sink",
+      "x": "f_console_broken",
+      "*": "f_wreckage"
+    },
     "toilets": { "T": {  } }
   }
 ]

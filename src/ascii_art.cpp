@@ -3,7 +3,7 @@
 #include "assign.h"
 #include "generic_factory.h"
 
-static const int ascii_art_width = 42;
+static const int ascii_art_width = 41;
 
 namespace
 {
