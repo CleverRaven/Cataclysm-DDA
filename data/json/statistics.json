@@ -1580,5 +1580,33 @@
     "stat_type": "count",
     "event_transformation": "avatar_reads_book",
     "description": { "str_sp": "read a book" }
+  },
+  {
+    "id": "avatar_becomes_millionaire",
+    "type": "event_transformation",
+    "event_type": "becomes_millionaire",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_becomes_millionaire",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_becomes_millionaire",
+    "description": { "str_sp": "deposited $1,000,000 in a bank account" }
+  },
+  {
+    "id": "avatar_fills_cashcard",
+    "type": "event_transformation",
+    "event_type": "fills_cashcard",
+    "value_constraints": { "character": { "equals_statistic": "avatar_id" } },
+    "drop_fields": [ "character" ]
+  },
+  {
+    "id": "num_fills_cashcard",
+    "type": "event_statistic",
+    "stat_type": "count",
+    "event_transformation": "avatar_fills_cashcard",
+    "description": { "str_sp": "deposited $2,000,000 on a single cash card" }
   }
 ]

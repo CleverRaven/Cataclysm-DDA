@@ -16,6 +16,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::avatar_moves: return "avatar_moves";
         case event_type::awakes_dark_wyrms: return "awakes_dark_wyrms";
         case event_type::becomes_wanted: return "becomes_wanted";
+        case event_type::becomes_millionaire: return "becomes_millionaire";
         case event_type::broken_bone: return "broken_bone";
         case event_type::broken_bone_mends: return "broken_bone_mends";
         case event_type::buries_corpse: return "buries_corpse";
@@ -57,6 +58,7 @@ std::string enum_to_string<event_type>( event_type data )
         case event_type::fails_to_install_cbm: return "fails_to_install_cbm";
         case event_type::fails_to_remove_cbm: return "fails_to_remove_cbm";
         case event_type::falls_asleep_from_exhaustion: return "falls_asleep_from_exhaustion";
+        case event_type::fills_cashcard: return "fills_cashcard";
         case event_type::fuel_tank_explodes: return "fuel_tank_explodes";
         case event_type::gains_addiction: return "gains_addiction";
         case event_type::gains_mutation: return "gains_mutation";
@@ -110,7 +112,7 @@ DEFINE_EVENT_HELPER_FIELDS( event_spec_empty )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character )
 DEFINE_EVENT_HELPER_FIELDS( event_spec_character_item )
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 78,
+static_assert( static_cast<int>( event_type::num_event_types ) == 80,
                "This static_assert is a reminder to add a definition below when you add a new "
                "event_type.  If your event_spec specialization inherits from another struct for "
                "its fields definition then you probably don't need a definition here." );

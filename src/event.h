@@ -31,6 +31,7 @@ enum class event_type : int {
     avatar_moves,
     awakes_dark_wyrms,
     becomes_wanted,
+    becomes_millionaire,
     broken_bone,
     broken_bone_mends,
     buries_corpse,
@@ -72,6 +73,7 @@ enum class event_type : int {
     fails_to_install_cbm,
     fails_to_remove_cbm,
     falls_asleep_from_exhaustion,
+    fills_cashcard,
     fuel_tank_explodes,
     gains_addiction,
     gains_mutation,
@@ -161,7 +163,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 78,
+static_assert( static_cast<int>( event_type::num_event_types ) == 80,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -215,6 +217,9 @@ struct event_spec<event_type::awakes_dark_wyrms> : event_spec_empty {};
 
 template<>
 struct event_spec<event_type::becomes_wanted> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::becomes_millionaire> : event_spec_character {};
 
 template<>
 struct event_spec<event_type::broken_bone> {
@@ -448,6 +453,9 @@ struct event_spec<event_type::fails_to_remove_cbm> {
 
 template<>
 struct event_spec<event_type::falls_asleep_from_exhaustion> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::fills_cashcard> : event_spec_character {};
 
 template<>
 struct event_spec<event_type::fuel_tank_explodes> {

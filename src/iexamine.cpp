@@ -557,6 +557,9 @@ class atm_menu
 
             add_msg( m_info, "amount: %d", amount );
             u.use_charges( itype_cash_card, amount );
+            if( u.cash < 100000000 && ( u.cash + amount ) >= 100000000 ) {
+                g->events().send<event_type::becomes_millionaire>( u.getID() );
+            }
             u.cash += amount;
             u.moves -= to_turns<int>( 10_seconds );
             finish_interaction();
@@ -602,6 +605,9 @@ class atm_menu
                 int to_insert = std::min( max_cap, remaining );
                 // insert whatever there's room for + the old balance.
                 cc->ammo_set( cc->ammo_default(), to_insert + cc->ammo_remaining() );
+                if( cc->ammo_remaining() == cc->ammo_capacity( money ) ) {
+                    g->events().send<event_type::fills_cashcard>( u.getID() );
+                }
                 inserted += to_insert;
                 remaining -= to_insert;
             }
@@ -621,6 +627,7 @@ class atm_menu
         //!Move the money from all the cash cards in inventory to a single card.
         bool do_transfer_all_money() {
             item *dst;
+            ammotype money( "money" );
             std::vector<item *> cash_cards_on_hand = u.items_with( []( const item & i ) {
                 return i.typeId() == itype_cash_card;
             } );
@@ -652,6 +659,9 @@ class atm_menu
                 }
                 // should we check for max capacity here?
                 dst->ammo_set( dst->ammo_default(), i->ammo_remaining() + dst->ammo_remaining() );
+                if( dst->ammo_remaining() == dst->ammo_capacity( money ) ) {
+                    g->events().send<event_type::fills_cashcard>( u.getID() );
+                }
                 i->ammo_set( i->ammo_default(), 0 );
                 u.moves -= 10;
             }

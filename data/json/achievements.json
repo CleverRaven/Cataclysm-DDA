@@ -721,5 +721,19 @@
     "description": "You all know who I am.  I'm the cook.  Say my name.",
     "requirements": [ { "event_statistic": "num_gains_chemistry_level_10", "is": ">=", "target": 1 } ],
     "hidden_by": [ "achievement_lvl_7_chemistry" ]
+  },
+  {
+    "id": "achievement_millionaire",
+    "type": "achievement",
+    "name": "Croesus",
+    "description": "A gentleman of leisure is the best kind of gentleman.",
+    "requirements": [ { "event_statistic": "num_becomes_millionaire", "is": ">=", "target": 1 } ]
+  },
+  {
+    "id": "achievement_pocket_money",
+    "type": "achievement",
+    "name": "Allowance",
+    "description": "Just enough to buy a bubble gum.",
+    "requirements": [ { "event_statistic": "num_fills_cashcard", "is": ">=", "target": 1 } ]
   }
 ]
