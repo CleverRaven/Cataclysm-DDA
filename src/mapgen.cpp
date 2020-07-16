@@ -1178,7 +1178,7 @@ class jmapgen_loot : public jmapgen_piece
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm );
+                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm, true );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }
@@ -1908,7 +1908,8 @@ void jmapgen_objects::load_objects<jmapgen_loot>( const JsonArray &parray )
         }
 
         auto loot = make_shared_fast<jmapgen_loot>( jsi );
-        auto rate = get_option<float>( "ITEM_SPAWNRATE" );
+        // rates < 1 are handled in item_group
+        auto rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
@@ -5725,8 +5726,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
         return res;
     }
 
-    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-    int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
+    int spawn_count = roll_remainder( chance / 100.0f );
     for( int i = 0; i < spawn_count; i++ ) {
         // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
@@ -5765,7 +5765,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
 std::vector<item *> map::put_items_from_loc( const items_location &loc, const tripoint &p,
         const time_point &turn )
 {
-    const auto items = item_group::items_from( loc, turn );
+    const auto items = item_group::items_from( loc, turn, true );
     return spawn_items( p, items );
 }
 

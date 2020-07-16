@@ -13,6 +13,7 @@
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "options.h"
 #include "rng.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -24,10 +25,11 @@ static const std::string flag_NON_FOULING( "NON-FOULING" );
 static const std::string flag_PRIMITIVE_RANGED_WEAPON( "PRIMITIVE_RANGED_WEAPON" );
 static const std::string flag_VARSIZE( "VARSIZE" );
 
-Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday ) const
+Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday,
+        const bool use_spawn_rate ) const
 {
     RecursionList rec;
-    return create( birthday, rec );
+    return create( birthday, rec, use_spawn_rate );
 }
 
 item Item_spawn_data::create_single( const time_point &birthday ) const
@@ -85,7 +87,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
 }
 
 Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthday,
-        RecursionList &rec ) const
+        RecursionList &rec, const bool use_spawn_rate ) const
 {
     ItemList result;
     int cnt = 1;
@@ -96,6 +98,12 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     }
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
+            if( use_spawn_rate ) {
+                const int spawn_rate = get_option<float>( "ITEM_SPAWNRATE" ) * 100.0f;
+                if( rng( 0, 99 ) >= spawn_rate ) {
+                    continue;
+                }
+            }
             const auto itm = create_single( birthday, rec );
             if( !itm.is_null() ) {
                 result.push_back( itm );
@@ -111,7 +119,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
                 debugmsg( "unknown item spawn list %s", id.c_str() );
                 return result;
             }
-            ItemList tmplist = isd->create( birthday, rec );
+            ItemList tmplist = isd->create( birthday, rec, use_spawn_rate );
             rec.erase( rec.end() - 1 );
             if( modifier ) {
                 for( auto &elem : tmplist ) {
@@ -383,7 +391,7 @@ void Item_modifier::modify( item &new_item ) const
     }
 
     if( contents != nullptr ) {
-        Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday() );
+        Item_spawn_data::ItemList contentitems = contents->create( new_item.birthday(), false );
         for( const item &it : contentitems ) {
             new_item.put_in( it, item_pocket::pocket_type::CONTAINER );
         }
@@ -490,7 +498,8 @@ void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
     items.push_back( std::move( ptr ) );
 }
 
-Item_spawn_data::ItemList Item_group::create( const time_point &birthday, RecursionList &rec ) const
+Item_spawn_data::ItemList Item_group::create( const time_point &birthday, RecursionList &rec,
+        const bool use_spawn_rate ) const
 {
     ItemList result;
     if( type == G_COLLECTION ) {
@@ -498,7 +507,7 @@ Item_spawn_data::ItemList Item_group::create( const time_point &birthday, Recurs
             if( rng( 0, 99 ) >= ( elem )->probability ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec );
+            ItemList tmp = ( elem )->create( birthday, rec, use_spawn_rate );
             result.insert( result.end(), tmp.begin(), tmp.end() );
         }
     } else if( type == G_DISTRIBUTION ) {
@@ -508,7 +517,7 @@ Item_spawn_data::ItemList Item_group::create( const time_point &birthday, Recurs
             if( p >= 0 ) {
                 continue;
             }
-            ItemList tmp = ( elem )->create( birthday, rec );
+            ItemList tmp = ( elem )->create( birthday, rec, use_spawn_rate );
             result.insert( result.end(), tmp.begin(), tmp.end() );
             break;
         }
@@ -587,13 +596,19 @@ std::set<const itype *> Item_group::every_item() const
     return result;
 }
 
-item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
+item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday,
+        const bool use_spawn_rate )
 {
     const auto group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return ItemList();
     }
-    return group->create( birthday );
+    return group->create( birthday, use_spawn_rate );
+}
+
+item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
+{
+    return items_from( group_id, birthday, false );
 }
 
 item_group::ItemList item_group::items_from( const Group_tag &group_id )

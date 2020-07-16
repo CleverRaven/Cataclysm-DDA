@@ -46,6 +46,12 @@ using ItemList = std::vector<item>;
  * @param group_id The identifier of the item group. You may check its validity
  * with @ref group_is_defined.
  * @param birthday The birthday (@ref item::bday) of the items created by this function.
+ * @param use_spawn_rate Whether to use spawn rate in rng calculations.
+ */
+ItemList items_from( const Group_tag &group_id, const time_point &birthday,
+                     const bool use_spawn_rate );
+/**
+ * Same as above but with implicit use_spawn_rate as false.
  */
 ItemList items_from( const Group_tag &group_id, const time_point &birthday );
 /**
@@ -113,10 +119,12 @@ class Item_spawn_data
          * Create a list of items. The create list might be empty.
          * No item of it will be the null item.
          * @param[in] birthday All items have that value as birthday.
-         * @param[out] rec Recursion list, output goes here
+         * @param[out] rec Recursion list, output goes here.
+         * @param[in] use_spawn_rate Whether to use spawn rate in rng calculations.
          */
-        virtual ItemList create( const time_point &birthday, RecursionList &rec ) const = 0;
-        ItemList create( const time_point &birthday ) const;
+        virtual ItemList create( const time_point &birthday, RecursionList &rec,
+                                 const bool use_spawn_rate ) const = 0;
+        ItemList create( const time_point &birthday, const bool use_spawn_rate ) const;
         /**
          * The same as create, but create a single item only.
          * The returned item might be a null item!
@@ -233,7 +241,8 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 
-        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec,
+                         const bool use_spawn_rate ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
         bool remove_item( const itype_id &itemid ) override;
@@ -279,7 +288,8 @@ class Item_group : public Item_spawn_data
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        ItemList create( const time_point &birthday, RecursionList &rec ) const override;
+        ItemList create( const time_point &birthday, RecursionList &rec,
+                         const bool use_spawn_rate ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
         bool remove_item( const itype_id &itemid ) override;
