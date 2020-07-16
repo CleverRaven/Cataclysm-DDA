@@ -1500,8 +1500,22 @@ bool Character::fuel_bionic_with( item &it )
 
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
-    const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
-    const std::string str_loaded  = get_value( it.typeId().str() );
+    const bool is_magazine = !!it.type->magazine;
+    std::string item_name = it.tname();
+    itype_id item_type = it.typeId();
+    int loadable;
+    if( is_magazine ) {
+        const item ammo = item( it.ammo_current() );
+        item_name = ammo.tname();
+        item_type = ammo.typeId();
+        loadable = std::min( it.ammo_remaining(), get_fuel_capacity( item_type ) );
+        it.ammo_set( item_type, it.ammo_remaining() - loadable );
+    } else {
+        loadable = std::min( it.charges, get_fuel_capacity( item_type ) );
+        it.charges -= loadable;
+    }
+
+    const std::string str_loaded  = get_value( item_type.str() );
     int loaded = 0;
     if( !str_loaded.empty() ) {
         loaded = std::stoi( str_loaded );
@@ -1509,19 +1523,19 @@ bool Character::fuel_bionic_with( item &it )
 
     const std::string new_charge = std::to_string( loadable + loaded );
 
-    it.charges -= loadable;
     // Type and amount of fuel
-    set_value( it.typeId().str(), new_charge );
-    update_fuel_storage( it.typeId() );
+    set_value( item_type.str(), new_charge );
+    update_fuel_storage( item_type );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
                            ngettext( "You load %1$i charge of %2$s in your %3$s.",
                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
                            ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
-                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, it.tname(), bio->name );
+                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, item_name, bio->name );
     mod_moves( -250 );
-    return true;
+    // Return false for magazines because only their ammo is consumed
+    return !is_magazine;
 }
 
 rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
