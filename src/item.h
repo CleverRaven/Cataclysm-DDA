@@ -153,6 +153,7 @@ struct iteminfo {
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
                   flags Flags = no_flags, double Value = -999 );
+        iteminfo( const std::string &Type, const std::string &Name, flags Flags );
         iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
 
