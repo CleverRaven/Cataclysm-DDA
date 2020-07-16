@@ -5381,8 +5381,11 @@ void vehicle::place_spawn_items()
                 }
 
                 std::vector<item> created;
+                const int spawn_rate = get_option<float>( "ITEM_SPAWNRATE" ) * 100.0f;
                 for( const itype_id &e : spawn.item_ids ) {
-                    created.emplace_back( item( e ).in_its_container() );
+                    if( rng( 1, 100 ) <= spawn_rate ) {
+                        created.emplace_back( item( e ).in_its_container() );
+                    }
                 }
                 for( const std::string &e : spawn.item_groups ) {
                     item_group::ItemList group_items = item_group::items_from( e, calendar::start_of_cataclysm, true );
