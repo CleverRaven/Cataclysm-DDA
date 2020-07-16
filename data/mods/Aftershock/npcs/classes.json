@@ -45,7 +45,7 @@
   {
     "type": "npc",
     "id": "millyficent_whately",
-    "name_unique": "Millyficen Whately",
+    "name_unique": "Millyficent Whately",
     "name_suffix": "Xenobiologist, madwoman",
     "class": "afs_xenobiologist_madwoman",
     "attitude": 0,
@@ -97,6 +97,43 @@
       { "group": "trait_group_migo" },
       { "distribution": [ { "group": "trait_group_migo_nonthres" }, { "group": "trait_group_migo_postthres" } ] },
       [ "BGSS_Whately", 100 ]
+    ]
+  },
+  {
+    "type": "npc",
+    "id": "cyrus_whately",
+    "name_unique": "Cyrus Whately",
+    "name_suffix": "Patriarch, doomseer",
+    "class": "afs_whately_patriarch",
+    "attitude": 0,
+    "mission": 7,
+    "chat": "TALK_CYRUS_1",
+    "mission_offered": "MISSION_FRANKENSTEIN_1",
+    "faction": "whately_family",
+    "gender": "male"
+  },
+  {
+    "type": "npc_class",
+    "id": "afs_whately_patriarch",
+    "name": "Aspiring Frankenstein",
+    "job_description": "Friend to outsiders…",
+    "common": false,
+    "traits": [
+      [ "SKIN_LIGHT", 100 ],
+      [ "MIGO_HEAT_RESIST", 100 ],
+      [ "ALIEN_INT", 100 ],
+      [ "THRESH_YUGGOTH", 100 ],
+      [ "OTHERWORLDLY_GRACE", 100 ],
+      [ "MIGO_BREATHE", 100 ]
+    ],
+    "bonus_dex": { "rng": [ -1, 0 ] },
+    "bonus_int": { "rng": [ 2, 5 ] },
+    "skills": [
+      { "skill": "ALL", "level": { "mul": [ { "one_in": 3 }, { "sum": [ { "dice": [ 2, 2 ] }, { "constant": -4 } ] } ] } },
+      { "skill": "computer", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "electronics", "bonus": { "rng": [ 1, 5 ] } },
+      { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
+      { "skill": "chemistry", "bonus": { "rng": [ 6, 8 ] } }
     ]
   }
 ]
