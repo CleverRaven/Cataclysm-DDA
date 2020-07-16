@@ -238,7 +238,7 @@
     "color": "green",
     "armor_portion_data": [
       { "covers": [ "head" ], "coverage": 90, "encumbrance": 10 },
-      { "covers": [ "mouth", "eyes" ], "coverage": 90, "encumbrance": 0 }
+      { "covers": [ "mouth", "eyes" ], "coverage": 90, "encumbrance": 5 }
     ],
     "warmth": 20,
     "material_thickness": 4,
@@ -278,10 +278,6 @@
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
     "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
-    "armor_portion_data": [
-      { "covers": [ "head" ], "coverage": 90, "encumbrance": 15 },
-      { "covers": [ "mouth", "eyes" ], "coverage": 90, "encumbrance": 0 }
-    ],
     "relative": { "bashing": 1, "material_thickness": 1 }
   },
   {
@@ -444,7 +440,7 @@
     "color": "light_gray",
     "armor_portion_data": [
       { "covers": [ "head" ], "coverage": 98, "encumbrance": 20 },
-      { "covers": [ "eyes" ], "coverage": 98, "encumbrance": 0 },
+      { "covers": [ "eyes" ], "coverage": 98, "encumbrance": 5 },
       { "covers": [ "mouth" ], "coverage": 98, "encumbrance": 10 }
     ],
     "warmth": 20,
