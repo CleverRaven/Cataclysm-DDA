@@ -277,7 +277,11 @@
     "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the entire head; acid-resistant and very durable.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 90, "encumbrance": 15 },
+      { "covers": [ "mouth", "eyes" ], "coverage": 90, "encumbrance": 0 }
+    ],
     "relative": { "bashing": 1, "material_thickness": 1 }
   },
   {
