@@ -29,7 +29,8 @@ Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday,
         const bool use_spawn_rate ) const
 {
     RecursionList rec;
-    return create( birthday, use_spawn_rate ? get_option<float>( "ITEM_SPAWNRATE" ) : 100, rec );
+    return create( birthday, use_spawn_rate ? get_option<float>( "ITEM_SPAWNRATE" ) * 100.0f : 100,
+                   rec );
 }
 
 item Item_spawn_data::create_single( const time_point &birthday ) const
@@ -606,7 +607,7 @@ item_group::ItemList item_group::items_from( const Group_tag &group_id, const ti
 
 item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
 {
-    return items_from( group_id, birthday, true );
+    return items_from( group_id, birthday, false );
 }
 
 item_group::ItemList item_group::items_from( const Group_tag &group_id )
