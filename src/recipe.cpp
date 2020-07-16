@@ -52,7 +52,6 @@ static bool helpers_have_proficiencies( const Character &guy, const proficiency_
         }
     }
     return false;
-
 }
 
 time_duration recipe::time_to_craft( const Character &guy ) const
@@ -626,8 +625,8 @@ float recipe::proficiency_maluses( const Character &guy ) const
 {
     float malus = 1.0f;
     for( const recipe_proficiency &prof : proficiencies ) {
-        if( !guy.has_proficiency( prof.id ) ||
-            helpers_have_proficiencies( guy, prof.id ) ) {
+        if( !guy.has_proficiency( prof.id ) &&
+            !helpers_have_proficiencies( guy, prof.id ) ) {
             malus *= prof.time_multiplier;
         }
     }
