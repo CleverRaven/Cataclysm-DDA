@@ -3378,7 +3378,6 @@ bool npc::wield_better_weapon()
     // TODO: Allow wielding weaker weapons against weaker targets
     bool can_use_gun = ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) );
     bool use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
-    invslice slice = inv.slice();
 
     // Check if there's something better to wield
     item *best = &weapon;
@@ -3529,9 +3528,12 @@ bool npc::alt_attack()
     };
 
     check_alt_item( weapon );
-    for( auto &sl : inv.slice() ) {
+    const auto inv_all = items_with( []( const item & ) {
+        return true;
+    } );
+    for( auto &it : inv_all ) {
         // TODO: Cached values - an itype slot maybe?
-        check_alt_item( sl->front() );
+        check_alt_item( *it );
     }
 
     if( used == nullptr ) {
@@ -3670,19 +3672,30 @@ void npc:: pretend_heal( player &patient, item used )
 void npc::heal_self()
 {
     if( has_effect( effect_asthma ) ) {
-        item &treatment = null_item_reference();
-        std::string iusage = "OXYGEN_BOTTLE";
-        if( has_charges( itype_inhaler, 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( itype_inhaler ) );
-            iusage = "INHALER";
-        } else if( has_charges( itype_oxygen_tank, 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( itype_oxygen_tank ) );
-        } else if( has_charges( itype_smoxygen_tank, 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( itype_smoxygen_tank ) );
+        item *treatment = nullptr;
+        std::string iusage = "INHALER";
+
+        const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
+            const auto inv_filtered = items_with( [&filter]( const item & itm )
+            {
+                return ( itm.type->get_use( filter ) != nullptr ) && ( itm.ammo_sufficient() );
+            } );
+            return inv_filtered;
+        };
+
+        const auto inv_inhalers = filter_use( iusage );
+        if( !inv_inhalers.empty() ) {
+            treatment = inv_inhalers.front();
+        } else {
+            iusage = "OXYGEN_BOTTLE";
+            const auto inv_oxybottles = filter_use( iusage );
+            if( !inv_oxybottles.empty() ) {
+                treatment = inv_oxybottles.front();
+            }
         }
-        if( !treatment.is_null() ) {
-            treatment.type->invoke( *this, treatment, pos(), iusage );
-            consume_charges( treatment, 1 );
+        if( treatment != nullptr ) {
+            treatment->get_use( iusage )->call( *this, *treatment, treatment->active, pos() );
+            treatment->ammo_consume( treatment->ammo_required(), pos() );
             return;
         }
     }
@@ -3851,39 +3864,43 @@ bool npc::consume_food_from_camp()
 bool npc::consume_food()
 {
     float best_weight = 0.0f;
-    int index = -1;
+    item *best_food = nullptr;
+    bool consumed = false;
     int want_hunger = std::max( 0, get_hunger() );
     int want_quench = std::max( 0, get_thirst() );
-    invslice slice = inv.slice();
-    for( size_t i = 0; i < slice.size(); i++ ) {
-        const item &it = slice[i]->front();
-        if( const item *food_item = it.get_food() ) {
-            float cur_weight = rate_food( *food_item, want_hunger, want_quench );
-            // Note: will_eat is expensive, avoid calling it if possible
-            if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
-                best_weight = cur_weight;
-                index = i;
-            }
-        }
-    }
 
-    if( index == -1 ) {
+    const auto inv_food = items_with( []( const item & itm ) {
+        return itm.is_food();
+    } );
+
+    if( inv_food.empty() ) {
         if( !is_player_ally() ) {
             // TODO: Remove this and let player "exploit" hungry NPCs
             set_hunger( 0 );
             set_thirst( 0 );
         }
-        return false;
-    }
+    } else {
+        for( const auto &food_item : inv_food ) {
+            float cur_weight = rate_food( *food_item, want_hunger, want_quench );
+            // Note: will_eat is expensive, avoid calling it if possible
+            if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
+                best_weight = cur_weight;
+                best_food = food_item;
+            }
+        }
 
-    // consume doesn't return a meaningful answer, we need to compare moves
-    // TODO: Make player::consume return false if it fails to consume
-    item_location loc = item_location( *this, &i_at( index ) );
-    const time_duration &consume_time = get_consume_time( *loc );
-    moves -= to_moves<int>( consume_time );
-    bool consumed = consume( loc );
-    if( !consumed ) {
-        debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
+        // consume doesn't return a meaningful answer, we need to compare moves
+        // TODO: Make player::consume return false if it fails to consume
+        if( best_food != nullptr ) {
+            const time_duration &consume_time = get_consume_time( *best_food );
+            consumed = consume( item_location( *this, best_food ) );
+            if( consumed ) {
+                moves -= to_moves<int>( consume_time );
+            } else {
+                debugmsg( "%s failed to consume %s", name, best_food->tname() );
+            }
+        }
+
     }
 
     return consumed;
@@ -3932,9 +3949,11 @@ void npc::mug_player( Character &mark )
     }
     double best_value = minimum_item_value() * value_mod;
     item *to_steal = nullptr;
-    invslice slice = mark.inv.slice();
-    for( std::list<item> *stack : slice ) {
-        item &front_stack = stack->front();
+    const auto inv_valuables = items_with( [this]( const item & itm ) {
+        return value( itm ) > 0;
+    } );
+    for( auto &it : inv_valuables ) {
+        item &front_stack = *it; // is this safe?
         if( value( front_stack ) >= best_value &&
             can_pickVolume( front_stack, true ) &&
             can_pickWeight( front_stack, true ) ) {
