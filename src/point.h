@@ -184,6 +184,9 @@ struct tripoint {
         z *= rhs;
         return *this;
     }
+    constexpr tripoint operator/( const int rhs ) const {
+        return tripoint( x / rhs, y / rhs, z / rhs );
+    }
     /*** some point operators and functions ***/
     constexpr tripoint operator+( const point &rhs ) const {
         return tripoint( x + rhs.x, y + rhs.y, z );
