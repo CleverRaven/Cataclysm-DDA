@@ -462,7 +462,6 @@
         "A": { "item": "wheel_wood", "chance": 100 },
         "C": { "item": "bucket", "chance": 100 },
         "j": { "item": "jerrycan", "chance": 100 },
-        "e": { "item": "toolbox", "chance": 100 },
         "h": { "item": "2x4", "chance": 100, "repeat": 2 },
         "o": { "item": "straw_pile", "chance": 100, "repeat": [ 5, 10 ] },
         "q": { "item": "pitchfork", "chance": 100 },
@@ -470,6 +469,7 @@
         "W": { "item": "box_medium", "chance": 100 }
       },
       "items": {
+        "e": { "item": "tools_toolbox", "chance": 100 },
         "m": { "item": "SUS_junk_drawer", "chance": 100 },
         ")": { "item": "SUS_bathroom_sink", "chance": 70, "repeat": 2 },
         "_": [ { "item": "SUS_toilet", "chance": 90 }, { "item": "SUS_bathroom_cabinet", "chance": 90 } ],

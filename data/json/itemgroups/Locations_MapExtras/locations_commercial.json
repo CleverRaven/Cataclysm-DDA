@@ -1053,7 +1053,7 @@
       { "item": "manual_fabrication", "prob": 20 },
       { "item": "duct_tape", "prob": 70 },
       { "item": "misc_repairkit", "prob": 15 },
-      { "item": "toolbox", "prob": 2 }
+      { "group": "tools_toolbox", "prob": 2 }
     ]
   },
   {
@@ -1109,7 +1109,7 @@
           { "item": "screwdriver_set", "prob": 20 },
           { "item": "duct_tape", "prob": 50 },
           { "item": "misc_repairkit", "prob": 25 },
-          { "item": "toolbox", "prob": 2 }
+          { "group": "tools_toolbox", "prob": 2 }
         ]
       }
     ]

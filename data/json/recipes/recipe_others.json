@@ -3320,7 +3320,7 @@
   },
   {
     "type": "recipe",
-    "result": "toolbox",
+    "result": "toolbox_empty",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -3329,17 +3329,7 @@
     "time": "4 m",
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "sheet_metal_small", 5 ] ],
-      [ [ "nail", 11 ] ],
-      [ [ "wire", 1 ] ],
-      [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
-      [ [ "screwdriver_set", 1 ] ],
-      [ [ "hacksaw", 1 ] ],
-      [ [ "wrench", 1 ] ],
-      [ [ "saw", 1 ] ],
-      [ [ "hammer", 1 ] ]
-    ]
+    "components": [ [ [ "sheet_metal_small", 5 ] ], [ [ "nail", 11 ] ], [ [ "wire", 1 ] ] ]
   },
   {
     "type": "recipe",
