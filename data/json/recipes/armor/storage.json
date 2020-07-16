@@ -932,8 +932,21 @@
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "8 m",
+    "time": "10 m",
     "autolearn": true,
     "components": [ [ [ "duct_tape", 10 ] ] ]
+  },
+  {
+    "result": "wallet_leather",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "difficulty": 2,
+    "skills_required": [ "survival", 1 ],
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "SEW", "level": 1 } ],
+    "components": [ [ [ "leather", 6 ], [ "tanned_hide", 1 ], [ "tanned_pelt", 1 ] ], [ [ "filament", 10, "LIST" ] ] ]
   }
 ]

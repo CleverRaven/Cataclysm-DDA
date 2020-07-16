@@ -3130,13 +3130,16 @@
     "color": "white",
     "flags": [ "NO_REPAIR" ]
   },
+
+
+
   {
-    "id": "wallet_duct_tape",
+    "id": "wallet",
     "type": "GENERIC",
     "category": "container",
-    "name": { "str": "duct tape wallet" },
+    "name": { "str": "wallet" },
     "looks_like": "bag_plastic",
-    "description": "A small, flat case that can be used to carry such small personal items as paper currency, cash cards, identification documents, and other paper or laminated cards.  This wallet is made entirely out of duct tape.",
+    "description": "A small, flat case used to carry items such as currency, identification documents, and laminated cards.",
     "weight": "60 g",
     "volume": "100 ml",
     "price": 1,
@@ -3165,5 +3168,79 @@
     "symbol": ")",
     "color": "dark_gray",
     "flags": [ "TARDIS" ]
+  },
+  {
+    "id": "wallet_duct_tape",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "duct tape wallet" },
+    "description": "This wallet is made entirely out of duct tape.",
+    "material": [ "plastic" ]
+  },
+  {
+    "id": "wallet_leather",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "leather wallet" },
+    "description": "This wallet is made from leather.",
+    "material": [ "leather" ]
+  },
+  {
+    "id": "wallet_large",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "large wallet" },
+    "description": "A flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
+    "material": [ "leather" ]
+  },
+  {
+    "id": "wallet_stylish",
+    "type": "GENERIC",
+    "copy-from": "wallet",
+    "name": { "str": "stylish wallet" },
+    "description": "A stylish flat case used to carry items such as currency, identification documents, laminated cards, and other small items.",
+    "material": [ "leather" ],
+    "extend": { "flags": [ "FANCY" ] }
+  },
+  {
+    "id": "wallet_travel",
+    "type": "TOOL_ARMOR",
+    "category": "clothing",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": { "str": "travel wallet"},
+    "description": "A flat case with neck strap used to carry items such as currency, identification documents, laminated cards, and other small items.",
+    "price": 15000,
+    "price_postapoc": 250,
+    "material": [ "plastic", "leather" ],
+    "flags": [ "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS", "TARDIS" ],
+    "weight": "708 g",
+    "volume": "500 ml",
+    "bashing": 1,
+    "to_hit": -1,
+    "covers": [ "TORSO" ],
+    "encumbrance": 2,
+    "coverage": 10,
+    "material_thickness": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "max_contains_weight": "600 g",
+        "max_contains_volume": "500 ml",
+        "moves": 400,
+        "item_restriction": [
+          "cash_card",
+          "gasdiscount_silver",
+          "gasdiscount_gold",
+          "gasdiscount_platinum",
+          "id_science",
+          "id_military",
+          "id_industrial",
+          "fp_loyalty_card",
+          "robofac_test_data"
+        ]
+      }
+    ]
   }
 ]
