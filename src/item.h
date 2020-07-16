@@ -804,7 +804,7 @@ class item : public visitable<item>
          * @param time Time point to which rot is calculated
          * @param temp Temperature at which the rot is calculated
          */
-        void calc_rot( time_point time, int temp, float spoil_modifier );
+        void calc_rot( int temp, float spoil_modifier, const time_duration &time_delta );
 
         /**
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
@@ -826,16 +826,16 @@ class item : public visitable<item>
         bool process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
                                       temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
 
-        /** Set the item to HOT */
+        /** Set the item to HOT and resets last_temp_check */
         void heat_up();
 
-        /** Set the item to COLD */
+        /** Set the item to COLD and resets last_temp_check*/
         void cold_up();
 
-        /** Sets the item temperature and item energy from new temperature (K)*/
+        /** Sets the item temperature and item energy from new temperature (K) and resets last_temp_check */
         void set_item_temperature( float new_temperature );
 
-        /** Sets the item to new temperature and energy based new specific energy (J/g)*/
+        /** Sets the item to new temperature and energy based new specific energy (J/g) and resets last_temp_check*/
         void set_item_specific_energy( float specific_energy );
 
         /** reset the last_temp_check used when crafting new items and the like */
@@ -1220,7 +1220,7 @@ class item : public visitable<item>
         item *get_food();
         const item *get_food() const;
 
-        void set_last_rot_check( const time_point &pt );
+        void set_last_temp_check( const time_point &pt );
 
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
@@ -2153,9 +2153,9 @@ class item : public visitable<item>
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
          * @param insulation Amount of insulation item has
-         * @param time time point which the item is processed to
+         * @param time_delta time duration from previous temperature calculation
          */
-        void calc_temp( int temp, float insulation, const time_point &time );
+        void calc_temp( int temp, float insulation, const time_duration &time_delta );
 
         /**
          * Get the thermal energy of the item in Joules.
@@ -2268,8 +2268,6 @@ class item : public visitable<item>
          * the item is rotten.
          */
         time_duration rot = 0_turns;
-        /** Time when the rot calculation was last performed. */
-        time_point last_rot_check = calendar::turn_zero;
         /** the last time the temperature was updated for this item */
         time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
