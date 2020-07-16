@@ -8469,19 +8469,14 @@ void Character::recalculate_enchantment_cache()
     // start by resetting the cache to all inventory items
     enchantment_cache = inv.get_active_enchantment_cache( *this );
 
-    for( const enchantment &ench : weapon.get_enchantments() ) {
-        if( ench.is_active( *this, weapon ) ) {
-            enchantment_cache.force_add( ench );
-        }
-    }
-
-    for( const item &worn_it : worn ) {
-        for( const enchantment &ench : worn_it.get_enchantments() ) {
-            if( ench.is_active( *this, worn_it ) ) {
+    visit_items( [&]( const item * it ) {
+        for( const enchantment &ench : it->get_enchantments() ) {
+            if( ench.is_active( *this, *it ) ) {
                 enchantment_cache.force_add( ench );
             }
         }
-    }
+        return VisitResponse::NEXT;
+    } );
 
     // get from traits/ mutations
     for( const std::pair<const trait_id, trait_data> &mut_map : my_mutations ) {
