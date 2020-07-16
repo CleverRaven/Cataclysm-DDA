@@ -548,13 +548,14 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
-            append_cell( []( const item_location & loc ) {
-                time_duration time = g->u.get_consume_time( *loc );
+            Character &player_character = get_player_character();
+            append_cell( [&player_character]( const item_location & loc ) {
+                time_duration time = player_character.get_consume_time( *loc );
                 return string_format( _( "%s" ), to_string( time ) );
             }, _( "CONSUME TIME" ) );
 
-            append_cell( [this]( const item_location & loc ) {
-                if( g->u.can_estimate_rot() ) {
+            append_cell( [this, &player_character]( const item_location & loc ) {
+                if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
                         return get_freshness( loc );
                     }
@@ -563,8 +564,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "FRESHNESS" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
-                if( g->u.can_estimate_rot() ) {
+            append_cell( [ this, &player_character ]( const item_location & loc ) {
+                if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
                         if( !loc->rotten() ) {
                             return get_time_left_rounded( loc );
@@ -574,7 +575,6 @@ class comestible_inventory_preset : public inventory_selector_preset
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
-
             append_cell( [&p]( const item_location & loc ) {
                 std::string cbm_name;
 
@@ -744,8 +744,9 @@ static std::string get_consume_needs_hint( player &p )
 
 item_location game_menus::inv::consume( player &p )
 {
-    if( !g->u.has_activity( ACT_EAT_MENU ) ) {
-        g->u.assign_activity( ACT_EAT_MENU );
+    Character &player_character = get_player_character();
+    if( !player_character.has_activity( ACT_EAT_MENU ) ) {
+        player_character.assign_activity( ACT_EAT_MENU );
     }
 
     return inv_internal( p, comestible_inventory_preset( p ),
@@ -771,8 +772,9 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
 
 item_location game_menus::inv::consume_food( player &p )
 {
-    if( !g->u.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
-        g->u.assign_activity( ACT_CONSUME_FOOD_MENU );
+    Character &player_character = get_player_character();
+    if( !player_character.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
+        player_character.assign_activity( ACT_CONSUME_FOOD_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
@@ -786,8 +788,9 @@ item_location game_menus::inv::consume_food( player &p )
 
 item_location game_menus::inv::consume_drink( player &p )
 {
-    if( !g->u.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
-        g->u.assign_activity( ACT_CONSUME_DRINK_MENU );
+    Character &player_character = get_player_character();
+    if( !player_character.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
+        player_character.assign_activity( ACT_CONSUME_DRINK_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
@@ -801,8 +804,9 @@ item_location game_menus::inv::consume_drink( player &p )
 
 item_location game_menus::inv::consume_meds( player &p )
 {
-    if( !g->u.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
-        g->u.assign_activity( ACT_CONSUME_MEDS_MENU );
+    Character &player_character = get_player_character();
+    if( !player_character.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
+        player_character.assign_activity( ACT_CONSUME_MEDS_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
@@ -1742,7 +1746,7 @@ class bionic_install_preset: public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 chance_of_failure = 100 - bionic_success_chance( true, -1, difficulty, installer );
@@ -1832,7 +1836,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 chance_of_failure = 100 - bionic_success_chance( true, 20, difficulty, installer );
@@ -1913,7 +1917,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 chance_of_failure = 100 - bionic_success_chance( true, -1, difficulty, installer );

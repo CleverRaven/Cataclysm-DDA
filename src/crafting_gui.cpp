@@ -11,14 +11,13 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character.h"
 #include "color.h"
 #include "crafting.h"
 #include "cursesdef.h"
-#include "game.h"
 #include "input.h"
 #include "item.h"
 #include "item_contents.h"
@@ -237,7 +236,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
     struct availability {
         availability( const recipe *r, int batch_size = 1 ) {
-            const inventory &inv = g->u.crafting_inventory();
+            const inventory &inv = get_player_character().crafting_inventory();
             auto all_items_filter = r->get_component_filter( recipe_filter_flags::none );
             auto no_rotten_filter = r->get_component_filter( recipe_filter_flags::no_rotten );
             const deduped_requirement_data &req = r->deduped_requirements();
@@ -300,11 +299,12 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "RELATED_RECIPES" );
     ctxt.register_action( "HIDE_SHOW_RECIPE" );
 
-    const inventory &crafting_inv = g->u.crafting_inventory();
-    const std::vector<npc *> helpers = g->u.get_crafting_helpers();
+    Character &player_character = get_player_character();
+    const inventory &crafting_inv = player_character.crafting_inventory();
+    const std::vector<npc *> helpers = player_character.get_crafting_helpers();
     std::string filterstring;
 
-    const auto &available_recipes = g->u.get_available_recipes( crafting_inv, &helpers );
+    const auto &available_recipes = player_character.get_available_recipes( crafting_inv, &helpers );
     std::map<const recipe *, availability> availability_cache;
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
@@ -453,9 +453,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             component_print_buffer.insert( component_print_buffer.end(), tools.begin(), tools.end() );
             component_print_buffer.insert( component_print_buffer.end(), comps.begin(), comps.end() );
 
-            if( !g->u.knows_recipe( current[line] ) ) {
+            if( !player_character.knows_recipe( current[line] ) ) {
                 component_print_buffer.push_back( _( "Recipe not memorized yet" ) );
-                auto books_with_recipe = g->u.get_books_for_recipe( crafting_inv, current[line] );
+                auto books_with_recipe = player_character.get_books_for_recipe( crafting_inv, current[line] );
                 std::string enumerated_books =
                     enumerate_as_string( books_with_recipe.begin(), books_with_recipe.end(),
                 []( const itype_id & type_id ) {
@@ -492,16 +492,16 @@ const recipe *select_crafting_recipe( int &batch_size )
                 print_colored_text(
                     w_data, point( xpos, ypos++ ), col, col,
                     string_format( _( "Primary skill: %s" ),
-                                   current[line]->primary_skill_string( &g->u, false ) ) );
+                                   current[line]->primary_skill_string( &player_character, false ) ) );
 
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                         _( "Other skills: %s" ),
-                                        current[line]->required_skills_string( &g->u, false, false ) );
+                                        current[line]->required_skills_string( &player_character, false, false ) );
 
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, _( "Proficiencies Required: %s" ),
                                         current[line]->required_proficiencies_string( get_player_character() ) );
 
-                const int expected_turns = g->u.expected_time_to_craft( *current[line],
+                const int expected_turns = player_character.expected_time_to_craft( *current[line],
                                            count ) / to_moves<int>( 1_turns );
                 ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                         _( "Time to complete: <color_cyan>%s</color>" ),
@@ -663,7 +663,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     break;
 
                                 case 'm': {
-                                    auto &learned = g->u.get_learned_recipes();
+                                    auto &learned = player_character.get_learned_recipes();
                                     recipe_subset temp_subset;
                                     if( query_is_yes( qry_filter_str ) ) {
                                         temp_subset = available_recipes.intersection( learned );
@@ -783,7 +783,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if( action == "CONFIRM" ) {
             if( available.empty() || !available[line].can_craft ) {
                 popup( _( "You can't do that!  Press [<color_yellow>ESC</color>]!" ) );
-            } else if( !g->u.check_eligible_containers_for_crafting( *current[line],
+            } else if( !player_character.check_eligible_containers_for_crafting( *current[line],
                        ( batch ) ? line + 1 : 1 ) ) {
                 // popup is already inside check
             } else {
@@ -958,7 +958,8 @@ std::string peek_related_recipe( const recipe *current, const recipe_subset &ava
     item tmp = current->create_result();
     // use this item
     const itype_id tid = tmp.typeId();
-    const std::set<const recipe *> &known_recipes = g->u.get_learned_recipes().of_component( tid );
+    const std::set<const recipe *> &known_recipes =
+        get_player_character().get_learned_recipes().of_component( tid );
     for( const auto &b : known_recipes ) {
         if( available.contains( b ) ) {
             related_results.push_back( { b->result(), b->result_name() } );
@@ -1071,15 +1072,16 @@ static void draw_hidden_amount( const catacurses::window &w, int amount, int num
 // Anchors top-right
 static void draw_can_craft_indicator( const catacurses::window &w, const recipe &rec )
 {
+    Character &player_character = get_player_character();
     // Draw text
-    if( g->u.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
+    if( player_character.lighting_craft_speed_multiplier( rec ) <= 0.0f ) {
         right_print( w, 0, 1, i_red, _( "too dark to craft" ) );
-    } else if( g->u.crafting_speed_multiplier( rec ) <= 0.0f ) {
+    } else if( player_character.crafting_speed_multiplier( rec ) <= 0.0f ) {
         // Technically not always only too sad, but must be too sad
         right_print( w, 0, 1, i_red, _( "too sad to craft" ) );
-    } else if( g->u.crafting_speed_multiplier( rec ) < 1.0f ) {
+    } else if( player_character.crafting_speed_multiplier( rec ) < 1.0f ) {
         right_print( w, 0, 1, i_yellow, string_format( _( "crafting is slow %d%%" ),
-                     static_cast<int>( g->u.crafting_speed_multiplier( rec ) * 100 ) ) );
+                     static_cast<int>( player_character.crafting_speed_multiplier( rec ) * 100 ) ) );
     } else {
         right_print( w, 0, 1, i_green, _( "craftable" ) );
     }

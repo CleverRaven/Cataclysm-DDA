@@ -507,7 +507,7 @@ class item : public visitable<item>
          * @param ammo Location of ammo to be reloaded
          * @param qty caps reloading to this (or fewer) units
          */
-        bool reload( player &u, item_location ammo, int qty );
+        bool reload( Character &u, item_location ammo, int qty );
 
         template<typename Archive>
         void io( Archive & );
