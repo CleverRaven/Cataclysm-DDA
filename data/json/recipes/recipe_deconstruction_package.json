@@ -14,7 +14,7 @@
       [ [ "spork", 1 ] ],
       [ [ "bag_plastic", 1 ] ]
     ],
-    "flags": [ "BLIND_EASY" ]
+    "flags": [ "BLIND_EASY", "FULL_MAGAZINE" ]
   },
   {
     "result": "mre_dessert",
