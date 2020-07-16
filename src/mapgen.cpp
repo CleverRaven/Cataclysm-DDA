@@ -1178,8 +1178,7 @@ class jmapgen_loot : public jmapgen_piece
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             if( rng( 0, 99 ) < chance ) {
                 const Item_spawn_data *const isd = &result_group;
-                const int spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
-                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm, spawn_rate );
+                const std::vector<item> spawn = isd->create( calendar::start_of_cataclysm, true );
                 dat.m.spawn_items( tripoint( rng( x.val, x.valmax ), rng( y.val, y.valmax ),
                                              dat.m.get_abs_sub().z ), spawn );
             }
@@ -5766,8 +5765,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
 std::vector<item *> map::put_items_from_loc( const items_location &loc, const tripoint &p,
         const time_point &turn )
 {
-    const int spawn_rate = get_option<float>( "ITEM_SPAWNRATE" ) * 100.0f;
-    const auto items = item_group::items_from( loc, turn, spawn_rate );
+    const auto items = item_group::items_from( loc, turn, true );
     return spawn_items( p, items );
 }
 
