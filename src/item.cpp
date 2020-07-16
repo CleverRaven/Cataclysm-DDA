@@ -2241,7 +2241,7 @@ void item::gun_info( const item *mod, std::vector<iteminfo> &info, const iteminf
     if( parts->test( iteminfo_parts::GUN_RELOAD_TIME ) ) {
         info.emplace_back( "GUN", _( "Reload time: " ),
                            has_flag( flag_RELOAD_ONE ) ? _( "<num> moves per round" ) :
-                           _( "<num> moves " ),
+                           _( "<num> moves" ),
                            iteminfo::lower_is_better,  mod->get_reload_time() );
     }
 
@@ -2563,83 +2563,83 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
 
     if( parts->test( iteminfo_parts::ARMOR_BODYPARTS ) ) {
         insert_separation_line( info );
-        std::string coverage = _( "<bold>Covers</bold>: " );
+        std::string coverage = _( "<bold>Covers</bold>:" );
         if( covers( bodypart_id( "head" ) ) ) {
-            coverage += _( "The <info>head</info>. " );
+            coverage += _( " The <info>head</info>." );
         }
         if( covers( bodypart_id( "eyes" ) ) ) {
-            coverage += _( "The <info>eyes</info>. " );
+            coverage += _( " The <info>eyes</info>." );
         }
         if( covers( bodypart_id( "mouth" ) ) ) {
-            coverage += _( "The <info>mouth</info>. " );
+            coverage += _( " The <info>mouth</info>." );
         }
         if( covers( bodypart_id( "torso" ) ) ) {
-            coverage += _( "The <info>torso</info>. " );
+            coverage += _( " The <info>torso</info>." );
         }
 
         if( is_sided() && ( covers( bodypart_id( "arm_l" ) ) || covers( bodypart_id( "arm_r" ) ) ) ) {
-            coverage += _( "Either <info>arm</info>. " );
+            coverage += _( " Either <info>arm</info>." );
         } else if( covers( bodypart_id( "arm_l" ) ) && covers( bodypart_id( "arm_r" ) ) ) {
-            coverage += _( "The <info>arms</info>. " );
+            coverage += _( " The <info>arms</info>." );
         } else if( covers( bodypart_id( "arm_l" ) ) ) {
-            coverage += _( "The <info>left arm</info>. " );
+            coverage += _( " The <info>left arm</info>." );
         } else if( covers( bodypart_id( "arm_r" ) ) ) {
-            coverage += _( "The <info>right arm</info>. " );
+            coverage += _( " The <info>right arm</info>." );
         }
 
         if( is_sided() && ( covers( bodypart_id( "hand_l" ) ) || covers( bodypart_id( "hand_r" ) ) ) ) {
-            coverage += _( "Either <info>hand</info>. " );
+            coverage += _( " Either <info>hand</info>." );
         } else if( covers( bodypart_id( "hand_l" ) ) && covers( bodypart_id( "hand_r" ) ) ) {
-            coverage += _( "The <info>hands</info>. " );
+            coverage += _( " The <info>hands</info>." );
         } else if( covers( bodypart_id( "hand_l" ) ) ) {
-            coverage += _( "The <info>left hand</info>. " );
+            coverage += _( " The <info>left hand</info>." );
         } else if( covers( bodypart_id( "hand_r" ) ) ) {
-            coverage += _( "The <info>right hand</info>. " );
+            coverage += _( " The <info>right hand</info>." );
         }
 
         if( is_sided() && ( covers( bodypart_id( "leg_l" ) ) || covers( bodypart_id( "leg_r" ) ) ) ) {
-            coverage += _( "Either <info>leg</info>. " );
+            coverage += _( " Either <info>leg</info>." );
         } else if( covers( bodypart_id( "leg_l" ) ) && covers( bodypart_id( "leg_r" ) ) ) {
-            coverage += _( "The <info>legs</info>. " );
+            coverage += _( " The <info>legs</info>." );
         } else if( covers( bodypart_id( "leg_l" ) ) ) {
-            coverage += _( "The <info>left leg</info>. " );
+            coverage += _( " The <info>left leg</info>." );
         } else if( covers( bodypart_id( "leg_r" ) ) ) {
-            coverage += _( "The <info>right leg</info>. " );
+            coverage += _( " The <info>right leg</info>." );
         }
 
         if( is_sided() && ( covers( bodypart_id( "foot_l" ) ) || covers( bodypart_id( "foot_r" ) ) ) ) {
-            coverage += _( "Either <info>foot</info>. " );
+            coverage += _( " Either <info>foot</info>." );
         } else if( covers( bodypart_id( "foot_l" ) ) && covers( bodypart_id( "foot_r" ) ) ) {
-            coverage += _( "The <info>feet</info>. " );
+            coverage += _( " The <info>feet</info>." );
         } else if( covers( bodypart_id( "foot_l" ) ) ) {
-            coverage += _( "The <info>left foot</info>. " );
+            coverage += _( " The <info>left foot</info>." );
         } else if( covers( bodypart_id( "foot_r" ) ) ) {
-            coverage += _( "The <info>right foot</info>. " );
+            coverage += _( " The <info>right foot</info>." );
         }
 
         if( !covers_anything ) {
-            coverage += _( "<info>Nothing</info>." );
+            coverage += _( " <info>Nothing</info>." );
         }
 
         info.push_back( iteminfo( "ARMOR", coverage ) );
     }
 
     if( parts->test( iteminfo_parts::ARMOR_LAYER ) && covers_anything ) {
-        std::string layering = _( "Layer: " );
+        std::string layering = _( "Layer:" );
         if( has_flag( flag_PERSONAL ) ) {
-            layering += _( "<stat>Personal aura</stat>. " );
+            layering += _( " <stat>Personal aura</stat>." );
         } else if( has_flag( flag_SKINTIGHT ) ) {
-            layering += _( "<stat>Close to skin</stat>. " );
+            layering += _( " <stat>Close to skin</stat>." );
         } else if( has_flag( flag_BELTED ) ) {
-            layering += _( "<stat>Strapped</stat>. " );
+            layering += _( " <stat>Strapped</stat>." );
         } else if( has_flag( flag_OUTER ) ) {
-            layering += _( "<stat>Outer</stat>. " );
+            layering += _( " <stat>Outer</stat>." );
         } else if( has_flag( flag_WAIST ) ) {
-            layering += _( "<stat>Waist</stat>. " );
+            layering += _( " <stat>Waist</stat>." );
         } else if( has_flag( flag_AURA ) ) {
-            layering += _( "<stat>Outer aura</stat>. " );
+            layering += _( " <stat>Outer aura</stat>." );
         } else {
-            layering += _( "<stat>Normal</stat>. " );
+            layering += _( " <stat>Normal</stat>." );
         }
 
         info.push_back( iteminfo( "ARMOR", layering ) );
@@ -3396,58 +3396,59 @@ void item::bionic_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     insert_separation_line( info );
 
     if( !bid->encumbrance.empty() ) {
-        info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>: " ),
+        info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Encumbrance</bold>:" ),
                                   iteminfo::no_newline ) );
         for( const std::pair<const bodypart_str_id, int> &element : bid->encumbrance ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first.id(), 1 ),
-                                      " <num> ", iteminfo::no_newline, element.second ) );
+            info.push_back(
+                iteminfo( "CBM", " " + body_part_name_as_heading( element.first.id(), 1 ),
+                          " <num>", iteminfo::no_newline, element.second ) );
         }
     }
 
     if( !bid->env_protec.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION",
-                                  _( "<bold>Environmental Protection</bold>: " ),
+                                  _( "<bold>Environmental Protection</bold>:" ),
                                   iteminfo::no_newline ) );
         for( const std::pair< const bodypart_str_id, size_t > &element : bid->env_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
-                                      " <num> ", iteminfo::no_newline, element.second ) );
+            info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
+                                      " <num>", iteminfo::no_newline, element.second ) );
         }
     }
 
     if( !bid->bash_protec.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION",
-                                  _( "<bold>Bash Protection</bold>: " ),
+                                  _( "<bold>Bash Protection</bold>:" ),
                                   iteminfo::no_newline ) );
         for( const std::pair< const bodypart_str_id, size_t > &element : bid->bash_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
-                                      " <num> ", iteminfo::no_newline, element.second ) );
+            info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
+                                      " <num>", iteminfo::no_newline, element.second ) );
         }
     }
 
     if( !bid->cut_protec.empty() ) {
         info.push_back( iteminfo( "DESCRIPTION",
-                                  _( "<bold>Cut Protection</bold>: " ),
+                                  _( "<bold>Cut Protection</bold>:" ),
                                   iteminfo::no_newline ) );
         for( const std::pair< const bodypart_str_id, size_t > &element : bid->cut_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
-                                      " <num> ", iteminfo::no_newline, element.second ) );
+            info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
+                                      " <num>", iteminfo::no_newline, element.second ) );
         }
     }
 
     if( !bid->bullet_protec.empty() ) {
-        info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>: " ),
+        info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Ballistic Protection</bold>:" ),
                                   iteminfo::no_newline ) );
         for( const std::pair<const bodypart_str_id, size_t > &element : bid->bullet_protec ) {
-            info.push_back( iteminfo( "CBM", body_part_name_as_heading( element.first, 1 ),
-                                      " <num> ", iteminfo::no_newline, element.second ) );
+            info.push_back( iteminfo( "CBM", " " + body_part_name_as_heading( element.first, 1 ),
+                                      " <num>", iteminfo::no_newline, element.second ) );
         }
     }
 
     if( !bid->stat_bonus.empty() ) {
-        info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus</bold>: " ),
+        info.push_back( iteminfo( "DESCRIPTION", _( "<bold>Stat Bonus</bold>:" ),
                                   iteminfo::no_newline ) );
         for( const auto &element : bid->stat_bonus ) {
-            info.push_back( iteminfo( "CBM", get_stat_name( element.first ), " <num> ",
+            info.push_back( iteminfo( "CBM", " " + get_stat_name( element.first ), " <num>",
                                       iteminfo::no_newline, element.second ) );
         }
     }
@@ -8666,6 +8667,11 @@ iteminfo::iteminfo( const std::string &Type, const std::string &Name, const std:
     bNewLine = !( Flags & no_newline );
     bLowerIsBetter = static_cast<bool>( Flags & lower_is_better );
     bDrawName = !( Flags & no_name );
+}
+
+iteminfo::iteminfo( const std::string &Type, const std::string &Name, flags Flags )
+    : iteminfo( Type, Name, "", Flags )
+{
 }
 
 iteminfo::iteminfo( const std::string &Type, const std::string &Name, double Value )

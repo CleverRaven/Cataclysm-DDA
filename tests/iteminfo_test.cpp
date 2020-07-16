@@ -667,11 +667,11 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "--\n"
                "<color_c_white>Covers</color>:"
                " The <color_c_cyan>torso</color>."
-               " The <color_c_cyan>arms</color>. \n" ); // NOLINT(cata-text-style)
+               " The <color_c_cyan>arms</color>.\n" );
 
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_LAYER } ) ==
                "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" ); // NOLINT(cata-text-style)
+               "Layer: <color_c_light_blue>Normal</color>.\n" );
 
         // Coverage and warmth are displayed together on a single line
         std::vector<iteminfo_parts> cov_warm_shirt = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
@@ -739,11 +739,11 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                "<color_c_white>Covers</color>:"
                " The <color_c_cyan>torso</color>."
                " The <color_c_cyan>arms</color>."
-               " The <color_c_cyan>legs</color>. \n" );
+               " The <color_c_cyan>legs</color>.\n" );
 
         CHECK( item_info_str( swat_armor, { iteminfo_parts::ARMOR_LAYER } ) ==
                "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" );
+               "Layer: <color_c_light_blue>Normal</color>.\n" );
 
         std::vector<iteminfo_parts> cov_warm_swat = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( swat_armor.get_avg_coverage() == 95 );
@@ -828,11 +828,11 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         CHECK( item_info_str( faux_fur_pants, { iteminfo_parts::ARMOR_BODYPARTS } ) ==
                "--\n"
                "<color_c_white>Covers</color>:"
-               " The <color_c_cyan>legs</color>. \n" );
+               " The <color_c_cyan>legs</color>.\n" );
 
         CHECK( item_info_str( faux_fur_pants, { iteminfo_parts::ARMOR_LAYER } ) ==
                "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" );
+               "Layer: <color_c_light_blue>Normal</color>.\n" );
 
         std::vector<iteminfo_parts> cov_warm_pants = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( faux_fur_pants.get_avg_coverage() == 95 );
@@ -902,11 +902,11 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
                " The <color_c_cyan>head</color>."
                " The <color_c_cyan>torso</color>."
                " The <color_c_cyan>arms</color>."
-               " The <color_c_cyan>legs</color>. \n" );
+               " The <color_c_cyan>legs</color>.\n" );
 
         CHECK( item_info_str( faux_fur_suit, { iteminfo_parts::ARMOR_LAYER } ) ==
                "--\n"
-               "Layer: <color_c_light_blue>Normal</color>. \n" );
+               "Layer: <color_c_light_blue>Normal</color>.\n" );
 
         std::vector<iteminfo_parts> cov_warm_suit = { iteminfo_parts::ARMOR_COVERAGE, iteminfo_parts::ARMOR_WARMTH };
         REQUIRE( faux_fur_suit.get_avg_coverage() == 75 );
@@ -1439,7 +1439,7 @@ TEST_CASE( "gun or other ranged weapon attributes", "[iteminfo][weapon][gun]" )
     SECTION( "time to reload weapon" ) {
         CHECK( item_info_str( compbow, { iteminfo_parts::GUN_RELOAD_TIME } ) ==
                "--\n"
-               "Reload time: <color_c_yellow>110</color> moves \n" ); // NOLINT(cata-text-style)
+               "Reload time: <color_c_yellow>110</color> moves\n" );
     }
 
     SECTION( "weapon firing modes" ) {
@@ -2171,13 +2171,13 @@ TEST_CASE( "bionic info", "[iteminfo][bionic]" )
     // NOTE: Funky trailing space
     CHECK( item_info_str( nostril, {} ) ==
            "--\n"
-           "<color_c_white>Encumbrance</color>: \n" // NOLINT(cata-text-style)
-           "Mouth <color_c_yellow>10</color> " );
+           "<color_c_white>Encumbrance</color>: "
+           "Mouth <color_c_yellow>10</color>" );
 
     CHECK( item_info_str( purifier, {} ) ==
            "--\n"
-           "<color_c_white>Environmental Protection</color>: \n" // NOLINT(cata-text-style)
-           "Mouth <color_c_yellow>7</color> " );
+           "<color_c_white>Environmental Protection</color>: "
+           "Mouth <color_c_yellow>7</color>" );
 }
 
 // Functions:
