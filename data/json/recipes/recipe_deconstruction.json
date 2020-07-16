@@ -3,8 +3,8 @@
     "result": "bead_bracelet",
     "type": "uncraft",
     "time": "30 s",
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "splinter", 1 ] ] ]
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "wooden_bead", 10 ] ] ]
   },
   {
     "result": "bead_ear",
@@ -17,8 +17,15 @@
     "result": "bead_necklace",
     "type": "uncraft",
     "time": "30 s",
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "wooden_bead", 30 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "bottle_opener",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "splinter", 1 ] ] ]
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "bracelet_friendship",
@@ -30,7 +37,7 @@
   {
     "result": "shears",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "1 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "plastic_chunk", 1 ] ] ]
   },
@@ -47,6 +54,27 @@
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "can_opener",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "carving_fork",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "colander_steel",
+    "type": "uncraft",
+    "time": "1 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 6 ] ] ]
   },
   {
     "result": "copper_hairpin",
@@ -70,11 +98,27 @@
     "components": [ [ [ "copper", 4 ] ] ]
   },
   {
+    "result": "copper_pan",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap_copper", 10 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
     "result": "copper_ring",
     "type": "uncraft",
     "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "copper", 3 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "corkscrew",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "cufflinks",
@@ -293,6 +337,13 @@
     "time": "60 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "silver_small", 2 ] ], [ [ "diamond", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "ladle",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ] ]
   },
   {
     "result": "leather_collar",
@@ -1399,6 +1450,15 @@
     "components": [ [ [ "processor", 4 ] ], [ [ "power_supply", 1 ] ], [ [ "e_scrap", 6 ] ], [ [ "solder_wire", 1 ] ] ]
   },
   {
+    "result": "iron_pot",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 10 ], [ "steel_chunk", 1 ] ] ]
+  },
+  {
     "result": "pathfinding_module",
     "type": "uncraft",
     "skill_used": "electronics",
@@ -1684,6 +1744,13 @@
     "components": [ [ [ "scrap", 1 ] ], [ [ "small_lcd_screen", 1 ] ], [ [ "RAM", 1 ] ], [ [ "processor", 1 ] ], [ [ "lens_small", 1 ] ] ]
   },
   {
+    "result": "splatter_guard",
+    "type": "uncraft",
+    "time": "1 m 30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 7 ] ] ]
+  },
+  {
     "result": "ceramic_bowl",
     "type": "uncraft",
     "time": "1 m",
@@ -1691,6 +1758,12 @@
   },
   {
     "result": "ceramic_cup",
+    "type": "uncraft",
+    "time": "1 m",
+    "components": [ [ [ "ceramic_shard", 1 ] ] ]
+  },
+  {
+    "result": "ceramic_mug",
     "type": "uncraft",
     "time": "1 m",
     "components": [ [ [ "ceramic_shard", 1 ] ] ]
@@ -1956,7 +2029,7 @@
   {
     "result": "foon",
     "type": "uncraft",
-    "time": "1 m 30 s",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -1970,32 +2043,32 @@
   {
     "result": "fork",
     "type": "uncraft",
-    "time": "1 m 30 s",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "glass",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 s",
     "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "result": "glass_bowl",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 s",
     "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "result": "glass_plate",
     "type": "uncraft",
-    "time": "30 s",
+    "time": "1 s",
     "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
     "result": "glass_sheet",
     "type": "uncraft",
-    "time": "2 m",
+    "time": "1 s",
     "components": [ [ [ "glass_shard", 182 ] ] ]
   },
   {
@@ -2274,6 +2347,15 @@
     "components": [ [ [ "e_scrap", 2 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap", 2 ] ] ]
   },
   {
+    "result": "kettle",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m 30 s",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 3 ] ] ]
+  },
+  {
     "result": "kiln_done",
     "type": "uncraft",
     "skill_used": "fabrication",
@@ -2282,11 +2364,74 @@
     "components": [ [ [ "charcoal", 200 ] ], [ [ "char_kiln", 1 ] ] ]
   },
   {
+    "type": "uncraft",
+    "result": "knife_bread",
+    "time": "1 m 30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "knife_butter",
+    "time": "2 m",
+    "components": [ [ [ "spike", 1 ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "type": "uncraft",
+    "result": "knife_butcher",
+    "time": "10 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "steel_lump", 1 ], [ "steel_chunk", 4 ], [ "scrap", 20 ] ], [ [ "leather", 1 ], [ "fur", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "knife_carving",
+    "time": "1 m 30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "knife_chef",
+    "time": "1 m 30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "knife_folding",
+    "time": "1 m 30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "plastic_chunk", 1 ] ], [ [ "scrap", 4 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "knife_meat_cleaver",
+    "time": "1 m 30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 2 ], [ "scrap", 10 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "knife_paring",
+    "time": "1 m 30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 2 ] ] ]
+  },
+  {
     "result": "knife_steak",
     "type": "uncraft",
     "time": "2 m",
     "components": [ [ [ "spike", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "type": "uncraft",
+    "result": "knife_vegetable_cleaver",
+    "time": "1 m 30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 1 ], [ "scrap", 5 ] ] ]
   },
   {
     "result": "laptop",
@@ -2366,7 +2511,7 @@
     "result": "makeshift_crowbar",
     "type": "uncraft",
     "skill_used": "mechanics",
-    "time": "5 m",
+    "time": "1 m 30 s",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 3 ] ], [ [ "steel_chunk", 1 ] ] ]
   },
@@ -2400,6 +2545,13 @@
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [ [ [ "element", 3 ] ], [ [ "amplifier", 1 ] ], [ [ "scrap", 6 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "cable", 8 ] ] ]
+  },
+  {
+    "result": "mess_tray",
+    "type": "uncraft",
+    "time": "1 m 30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 5 ] ] ]
   },
   {
     "result": "microwave",
@@ -2557,6 +2709,27 @@
     "components": [ [ [ "scrap", 1 ] ], [ [ "plastic_chunk", 1 ] ], [ [ "metal_tank_little", 1 ] ] ]
   },
   {
+    "type": "uncraft",
+    "result": "peeler",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 1 ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "pot_makeshift_copper",
+    "time": "5 m",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "copper_scrap_equivalent", 16, "LIST" ] ] ]
+  },
+  {
+    "type": "uncraft",
+    "result": "potato_masher",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ] ]
+  },
+  {
     "result": "pillow",
     "type": "uncraft",
     "time": "1 m",
@@ -2593,7 +2766,7 @@
     "type": "uncraft",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "7 m 30 s",
+    "time": "5 m",
     "qualities": [ { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap_copper", 5 ] ], [ [ "scrap", 1 ] ] ]
   },
@@ -2704,6 +2877,13 @@
     "time": "30 s",
     "components": [ [ [ "paper", 10 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "type": "uncraft",
+    "result": "garlic_press",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ] ]
   },
   {
     "result": "gold_ring",
@@ -2836,6 +3016,21 @@
     "using": [ [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "motor_tiny", 3 ] ], [ [ "processor", 3 ] ], [ [ "RAM", 2 ] ], [ [ "plastic_chunk", 2 ] ] ]
+  },
+  {
+    "result": "sewing_kit",
+    "type": "uncraft",
+    "time": "30 s",
+    "components": [ [ [ "scrap", 2 ] ], [ [ "plastic_chunk", 1 ] ] ]
+  },
+  {
+    "result": "steel_pan",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 m 30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 3 ], [ "scrap", 15 ] ] ]
   },
   {
     "result": "scythe",
@@ -3089,14 +3284,14 @@
   {
     "result": "spoon",
     "type": "uncraft",
-    "time": "1 m 30 s",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
   {
     "result": "spork",
     "type": "uncraft",
-    "time": "1 m 30 s",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -3113,6 +3308,15 @@
     "time": "1 m",
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [ [ [ "stick", 2 ] ] ]
+  },
+  {
+    "result": "stock_pot",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "sheet_metal_small", 8 ], [ "steel_chunk", 1 ] ] ]
   },
   {
     "result": "straw_basket",
@@ -3279,6 +3483,19 @@
     "flags": [ "BLIND_EASY" ]
   },
   {
+    "type": "uncraft",
+    "result": "whisk",
+    "time": "30 s",
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "wine_glass",
+    "type": "uncraft",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 2 ] ] ]
+  },
+  {
     "result": "peanut",
     "type": "uncraft",
     "skill_used": "survival",
@@ -3376,7 +3593,7 @@
   {
     "result": "wire",
     "type": "uncraft",
-    "time": "1 m 30 s",
+    "time": "30 s",
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "scrap", 1 ] ] ]
   },
@@ -3600,6 +3817,24 @@
     "time": "6 s",
     "components": [ [ [ "cardboard", 2 ] ], [ [ "plastic_chunk", 2 ] ] ],
     "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "pan",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "2 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "steel_chunk", 1 ] ], [ [ "sheet_metal_small", 9 ] ], [ [ "scrap", 3 ] ] ]
+  },
+  {
+    "result": "pot",
+    "type": "uncraft",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "4 m",
+    "qualities": [ { "id": "SAW_M", "level": 1 } ],
+    "components": [ [ [ "scrap", 20 ] ] ]
   },
   {
     "result": "pot_canning",
