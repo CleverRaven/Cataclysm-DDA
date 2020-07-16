@@ -365,7 +365,7 @@ body_part_set body_part_set::intersect_set( const body_part_set &rhs )
         }
     }
     clear();
-    unify_set(temp);
+    unify_set( temp );
     return *this;
 }
 
@@ -382,7 +382,7 @@ body_part_set body_part_set::substract_set( const body_part_set &rhs )
 body_part_set body_part_set::make_intersection( const body_part_set &rhs ) const
 {
     body_part_set new_intersection;
-    new_intersection.unify_set(*this);
+    new_intersection.unify_set( *this );
     return new_intersection.intersect_set( rhs );
 }
 
