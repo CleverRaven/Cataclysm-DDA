@@ -1757,7 +1757,11 @@ class bionic_install_preset: public inventory_selector_preset
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 duration * weight;
-            return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            int count = 0;
+            if( !req_anesth.get_tools().empty() && !req_anesth.get_tools().front().empty() ) {
+                count = req_anesth.get_tools().front().front().count;
+            }
+            return string_format( _( "%i mL" ), count );
         }
 };
 
@@ -1928,7 +1932,11 @@ class bionic_uninstall_preset : public inventory_selector_preset
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 duration * weight;
-            return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            int count = 0;
+            if( !req_anesth.get_tools().empty() && !req_anesth.get_tools().front().empty() ) {
+                count = req_anesth.get_tools().front().front().count;
+            }
+            return string_format( _( "%i mL" ), count );
         }
 };
 
