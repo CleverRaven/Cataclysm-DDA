@@ -629,8 +629,18 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             if( !res.success() && cbm == rechargeable_cbm::none ) {
                 return res.str();
-            } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
-                return string_format( _( "No space to store more %s" ), it.tname() );
+            } else if( cbm == rechargeable_cbm::other ) {
+                std::string item_name = it.tname();
+                itype_id item_type = it.typeId();
+                if( it.type->magazine ) {
+                    const item ammo = item( it.ammo_current() );
+                    item_name = ammo.tname();
+                    item_type = ammo.typeId();
+                }
+
+                if( p.get_fuel_capacity( item_type ) <= 0 ) {
+                    return string_format( _( "No space to store more %s" ), item_name );
+                }
             }
 
             return inventory_selector_preset::get_denial( loc );

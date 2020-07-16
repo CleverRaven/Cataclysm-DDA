@@ -1579,8 +1579,16 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
         }
         case rechargeable_cbm::other:
             const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-            const int to_consume = std::min( it.charges, bid->fuel_capacity );
-            const int to_charge = static_cast<int>( it.fuel_energy() * to_consume * bid->fuel_efficiency );
+            int to_consume;
+            int to_charge;
+            if( it.type->magazine ) {
+                item ammo = item( it.ammo_current() );
+                to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
+                to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
+            } else {
+                to_consume = std::min( it.charges, bid->fuel_capacity );
+                to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
+            }
             return to_charge;
     }
 
