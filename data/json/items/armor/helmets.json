@@ -343,8 +343,8 @@
     "color": "dark_gray",
     "armor_portion_data": [
       { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
-      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 0 },
-      { "covers": [ "mouth" ], "coverage": 90, "encumbrance": 0 }
+      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "coverage": 95, "encumbrance": 10 }
     ],
     "warmth": 25,
     "material_thickness": 4,

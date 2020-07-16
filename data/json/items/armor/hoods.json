@@ -4,7 +4,7 @@
     "repairs_like": "balclava",
     "type": "ARMOR",
     "name": { "str": "beekeeping hood" },
-    "description": "A beekeeping hood.  Keeps the bees out, but lets fresh air in.  Rather cumbersome to wear, as it is rather bulky and hinders vision.",
+    "description": "A beekeeping hood.  Keeps the bees out, but lets fresh air in.",
     "weight": "260 g",
     "volume": "1500 ml",
     "price": 4500,
@@ -14,8 +14,8 @@
     "looks_like": "cowboy_hat",
     "color": "white",
     "armor_portion_data": [
-      { "covers": [ "head", "eyes" ], "coverage": 100, "encumbrance": 20 },
-      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 5 }
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 20 },
+      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
     ],
     "warmth": 10,
     "material_thickness": 1,
