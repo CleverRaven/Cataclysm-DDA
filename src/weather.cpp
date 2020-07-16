@@ -692,7 +692,7 @@ std::string weather_forecast( const point &abs_sm_pos )
                                  1_hours;
     for( int d = 0; d < 6; d++ ) {
         weather_type_id forecast = WEATHER_NULL;
-        const auto wgen = g->weather.get_cur_weather_gen();
+        const auto wgen = get_weather().get_cur_weather_gen();
         for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
             forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
@@ -1013,7 +1013,7 @@ rl_vec2d convert_wind_to_coord( const int angle )
 bool warm_enough_to_plant( const tripoint &pos )
 {
     // semi-appropriate temperature for most plants
-    return g->weather.get_temperature( pos ) >= 50;
+    return get_weather().get_temperature( pos ) >= 50;
 }
 
 weather_manager::weather_manager()

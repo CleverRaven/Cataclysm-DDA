@@ -153,6 +153,8 @@ class game
         friend Character &get_player_character();
         friend avatar &get_avatar();
         friend weather_manager &get_weather();
+        friend const scenario *get_scenario();
+        friend void set_scenario( const scenario *new_scenario );
     public:
         game();
         ~game();

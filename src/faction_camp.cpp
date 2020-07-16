@@ -473,6 +473,7 @@ bool survive_random_encounter( npc &comp, std::string &situation, int favor, int
 static bool update_time_left( std::string &entry, const comp_list &npc_list )
 {
     bool avail = false;
+    Character &player_character = get_player_character();
     for( auto &comp : npc_list ) {
         if( comp->companion_mission_time_ret < calendar:: turn ) {
             entry = entry +  _( " [DONE]\n" );
@@ -481,7 +482,7 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
             entry = entry + " [" +
                     to_string( comp->companion_mission_time_ret - calendar::turn ) +
                     _( " left]\n" );
-            avail = g->u.has_trait( trait_DEBUG_HS );
+            avail = player_character.has_trait( trait_DEBUG_HS );
         }
     }
     entry = entry + _( "\n\nDo you wish to bring your allies back into your party?" );
@@ -641,7 +642,7 @@ void talk_function::basecamp_mission( npc &p )
         return;
     }
     basecamp *bcp = *temp_camp;
-    bcp->set_by_radio( g->u.dialogue_by_radio );
+    bcp->set_by_radio( get_avatar().dialogue_by_radio );
     if( bcp->get_dumping_spot() == tripoint_zero ) {
         map &here = get_map();
         auto &mgr = zone_manager::get_manager();
@@ -1990,7 +1991,7 @@ void basecamp::start_setup_hide_site()
                                       omt_pos, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = g->u.inv;
+        inventory tgt_inv = get_player_character().inv;
         std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
@@ -2033,7 +2034,7 @@ void basecamp::start_relay_hide_site()
                                       omt_pos, true );
     if( forest != tripoint( -999, -999, -999 ) ) {
         int dist = rl_dist( forest.xy(), omt_pos.xy() );
-        inventory tgt_inv = g->u.inv;
+        inventory tgt_inv = get_player_character().inv;
         std::vector<item *> pos_inv = tgt_inv.items_with( []( const item & itm ) {
             return !itm.can_revive();
         } );
@@ -2302,6 +2303,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
     bool done_planting = false;
+    Character &player_character = get_player_character();
     map &here = get_map();
     for( const tripoint &pos : farm_map.points_in_rectangle( mapmin, mapmax ) ) {
         if( done_planting ) {
@@ -2358,7 +2360,7 @@ static std::pair<size_t, std::string> farm_action( const tripoint &omt_tgt, farm
                             int seed_cnt = std::max( 1, rng( plant_cnt / 4, plant_cnt / 2 ) );
                             for( auto &i : iexamine::get_harvest_items( *seed->type, plant_cnt,
                                     seed_cnt, true ) ) {
-                                here.add_item_or_charges( g->u.pos(), i );
+                                here.add_item_or_charges( player_character.pos(), i );
                             }
                             farm_map.i_clear( pos );
                             farm_map.furn_set( pos, f_null );
@@ -2867,9 +2869,11 @@ void basecamp::recruit_return( const std::string &task, int score )
     }
     // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
-    recruit->spawn_at_precise( { g->get_levx(), g->get_levy() }, g->u.pos() + point( -4, -4 ) );
+    avatar &player_character = get_avatar();
+    recruit->spawn_at_precise( { g->get_levx(), g->get_levy() },
+                               player_character.pos() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );
-    recruit->form_opinion( g->u );
+    recruit->form_opinion( player_character );
     recruit->mission = NPC_MISSION_NULL;
     recruit->add_new_mission( mission::reserve_random( ORIGIN_ANY_NPC,
                               recruit->global_omt_location(),
@@ -2980,11 +2984,12 @@ bool basecamp::farm_return( const std::string &task, const tripoint &omt_tgt, fa
 
     farm_action( omt_tgt, op, comp );
 
+    Character &player_character = get_player_character();
     //Give any seeds the NPC didn't use back to you.
     for( size_t i = 0; i < comp->companion_mission_inv.size(); i++ ) {
         for( const auto &it : comp->companion_mission_inv.const_stack( i ) ) {
             if( it.charges > 0 ) {
-                g->u.i_add( it );
+                player_character.i_add( it );
             }
         }
     }
@@ -3445,9 +3450,10 @@ bool om_set_hide_site( npc &comp, const tripoint &omt_tgt,
         comp.companion_mission_inv.add_item( *i );
         target_bay.i_rem( point( 11, 10 ), i );
     }
+    Character &player_character = get_player_character();
     for( auto i : itms ) {
         target_bay.add_item_or_charges( point( 11, 10 ), *i );
-        g->u.use_amount( i->typeId(), 1 );
+        player_character.use_amount( i->typeId(), 1 );
     }
     target_bay.save();
 
@@ -3583,7 +3589,7 @@ bool basecamp::validate_sort_points()
         mgr.cache_vzones();
     }
     tripoint src_loc = here.getlocal( bb_pos ) + point_north;
-    const tripoint abspos = here.getabs( g->u.pos() );
+    const tripoint abspos = here.getabs( get_player_character().pos() );
     if( !mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ||
         !mgr.has_near( zone_type_CAMP_FOOD, abspos, 60 ) ) {
         if( query_yn( _( "You do not have sufficient sort zones.  Do you want to add them?" ) ) ) {
@@ -3716,7 +3722,7 @@ int basecamp::recruit_evaluation( int &sbase, int &sexpansions, int &sfaction, i
     }
     //More machine than man
     //Bionics count > 10, respect > 75
-    if( g->u.get_bionics().size() > 10 && camp_discipline() > 75 ) {
+    if( get_player_character().get_bionics().size() > 10 && camp_discipline() > 75 ) {
         sbonus += 10;
     }
     //Survival of the fittest
@@ -3849,7 +3855,7 @@ std::string camp_car_description( vehicle *car )
 // food supply
 int camp_food_supply( int change, bool return_days )
 {
-    faction *yours = g->u.get_faction();
+    faction *yours = get_player_character().get_faction();
     yours->food_supply += change;
     if( yours->food_supply < 0 ) {
         yours->likes_u += yours->food_supply / 1250;
@@ -3986,14 +3992,14 @@ bool basecamp::distribute_food()
 // morale
 int camp_discipline( int change )
 {
-    faction *yours = g->u.get_faction();
+    faction *yours = get_player_character().get_faction();
     yours->respects_u += change;
     return yours->respects_u;
 }
 
 int camp_morale( int change )
 {
-    faction *yours = g->u.get_faction();
+    faction *yours = get_player_character().get_faction();
     yours->likes_u += change;
     return yours->likes_u;
 }
@@ -4013,7 +4019,8 @@ void basecamp::place_results( const item &result )
         if( here.check_vehicle_zones( g->get_levz() ) ) {
             mgr.cache_vzones();
         }
-        const auto abspos = here.getabs( g->u.pos() );
+        Character &player_character = get_player_character();
+        const auto abspos = here.getabs( player_character.pos() );
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos ) ) {
             const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
             const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
@@ -4026,8 +4033,8 @@ void basecamp::place_results( const item &result )
             }
             //or dump them at players feet
         } else {
-            here.add_item_or_charges( g->u.pos(), result, true );
-            apply_camp_ownership( g->u.pos(), 0 );
+            here.add_item_or_charges( player_character.pos(), result, true );
+            apply_camp_ownership( player_character.pos(), 0 );
         }
     }
 }
@@ -4039,7 +4046,7 @@ void apply_camp_ownership( const tripoint &camp_pos, int radius )
             camp_pos + point( radius, radius ) ) ) {
         map_stack items = here.i_at( p.xy() );
         for( item &elem : items ) {
-            elem.set_owner( g->u );
+            elem.set_owner( get_player_character() );
         }
     }
 }

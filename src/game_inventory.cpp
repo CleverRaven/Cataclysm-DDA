@@ -401,7 +401,7 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
                          title, radius, none_message );
 }
 
-item_location game_menus::inv::container_for( avatar &you, const item &liquid, int radius )
+item_location game_menus::inv::container_for( Character &you, const item &liquid, int radius )
 {
     const auto filter = [ &liquid ]( const item_location & location ) {
         if( location.where() == item_location::type::character ) {
