@@ -180,13 +180,14 @@ TEST_CASE( "weapon attack ratings and moves", "[item][iteminfo][weapon]" )
             item( "pointy_stick" ), q,
             "--\n"
             "<color_c_white>Melee damage</color>: Bash: <color_c_yellow>5</color>"
-            "  Pierce: <color_c_yellow>9</color>"
-            "  To-hit bonus: <color_c_yellow>-1</color>\n"
+            "  Pierce: <color_c_yellow>11</color>"
+            "  To-hit bonus: <color_c_yellow>+0</color>\n"
             "Moves per attack: <color_c_yellow>100</color>\n"
             "Typical damage per second:\n"
-            "Best: <color_c_yellow>6.87</color>"
-            "  Vs. Agile: <color_c_yellow>3.20</color>"
-            "  Vs. Armored: <color_c_yellow>0.12</color>\n" );
+            "Best: <color_c_yellow>9.21</color>"
+            "  Vs. Agile: <color_c_yellow>4.77</color>"
+            "  Vs. Armored: <color_c_yellow>0.17</color>\n"
+        );
     }
 
     SECTION( "melee and ranged damaged" ) {

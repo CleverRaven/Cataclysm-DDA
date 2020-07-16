@@ -757,6 +757,12 @@ std::string monster::extended_description() const
         ss += std::string( _( "It has a head." ) ) + "\n";
     }
 
+    ss += "--\n";
+    ss += std::string( _( "In melee, you can expect to:" ) ) + "\n";
+    ss += string_format( _( "Deal average damage per second: <stat>%.1f</stat>" ),
+                         g->u.weapon.effective_dps( g->u, *this ) );
+    ss += "\n";
+
     return replace_colors( ss );
 }
 

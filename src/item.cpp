@@ -1270,7 +1270,7 @@ static const double hits_by_accuracy[41] = {
     9993, 9997, 9998, 9999, 10000 // 16 to 20
 };
 
-double item::effective_dps( const player &guy, monster &mon ) const
+double item::effective_dps( const player &guy, const monster &mon ) const
 {
     const float mon_dodge = mon.get_dodge();
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
@@ -1305,7 +1305,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
     // sum average damage past armor and return the number of moves required to achieve
     // that damage
     const auto calc_effective_damage = [ &, moves_per_attack]( const double num_strikes,
-    const bool crit, const player & guy, monster & mon ) {
+    const bool crit, const player & guy, const monster & mon ) {
         monster temp_mon = mon;
         double subtotal_damage = 0;
         damage_instance base_damage;

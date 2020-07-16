@@ -564,7 +564,7 @@ class item : public visitable<item>
         * Calculate the item's effective damage per second past armor when wielded by a
          * character against a monster.
          */
-        double effective_dps( const player &guy, monster &mon ) const;
+        double effective_dps( const player &guy, const monster &mon ) const;
         /**
          * calculate effective dps against a stock set of monsters.  by default, assume g->u
          * is wielding
