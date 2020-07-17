@@ -5306,7 +5306,7 @@ needs_rates Character::calc_needs_rates() const
 
     if( has_trait( trait_TRANSPIRATION ) ) {
         // Transpiration, the act of moving nutrients with evaporating water, can take a very heavy toll on your thirst when it's really hot.
-        rates.thirst *= ( ( g->weather.get_temperature( pos() ) - 32.5f ) / 40.0f );
+        rates.thirst *= ( ( get_weather().get_temperature( pos() ) - 32.5f ) / 40.0f );
     }
 
     if( is_npc() ) {
@@ -5680,7 +5680,7 @@ void Character::update_bodytemp()
 
     const int lying_warmth = use_floor_warmth ? floor_warmth( pos() ) : 0;
     const int water_temperature =
-        100 * temp_to_celsius( g->weather.get_cur_weather_gen().get_water_temperature() );
+        100 * temp_to_celsius( get_weather().get_cur_weather_gen().get_water_temperature() );
 
     // Correction of body temperature due to traits and mutations
     // Lower heat is applied always
@@ -10436,7 +10436,7 @@ int Character::heartrate_bpm() const
         average_heartbeat *= 1.1;
     }
     //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
-    const int player_local_temp = g->weather.get_temperature( pos() );
+    const int player_local_temp = get_weather().get_temperature( pos() );
     float temperature_modifier = 0;
     if( has_trait( trait_COLDBLOOD ) ) {
         temperature_modifier = 0.002;

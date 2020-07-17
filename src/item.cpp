@@ -8892,7 +8892,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
         return false;
     }
 
-    int temp = g->weather.get_temperature( pos );
+    int temp = get_weather().get_temperature( pos );
 
     switch( flag ) {
         case temperature_flag::NORMAL:
@@ -8928,7 +8928,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
-        const weather_generator &wgen = g->weather.get_cur_weather_gen();
+        const weather_generator &wgen = get_weather().get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
         int local_mod = g->new_game ? 0 : get_map().get_temperature( pos );
 

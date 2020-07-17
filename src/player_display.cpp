@@ -874,7 +874,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const auto player_local_temp = g->weather.get_temperature( you.pos() );
+        const auto player_local_temp = get_weather().get_temperature( you.pos() );
         if( you.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
             pen_color = c_green;
             pen_sign = "+";

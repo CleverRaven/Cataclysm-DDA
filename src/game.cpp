@@ -12604,3 +12604,12 @@ event_bus &get_event_bus()
 {
     return g->events();
 }
+
+const scenario *get_scenario()
+{
+    return g->scen;
+}
+void set_scenario( const scenario *new_scenario )
+{
+    g->scen = new_scenario;
+}
