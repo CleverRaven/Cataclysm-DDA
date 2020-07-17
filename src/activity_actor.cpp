@@ -343,7 +343,7 @@ void dig_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void dig_activity_actor::do_turn( player_activity &, Character & who)
+void dig_activity_actor::do_turn( player_activity &, Character &who )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
     if( calendar::once_every( 1_minutes ) ) {
@@ -445,7 +445,7 @@ void dig_channel_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void dig_channel_activity_actor::do_turn( player_activity &, Character & who)
+void dig_channel_activity_actor::do_turn( player_activity &, Character &who )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
     if( calendar::once_every( 1_minutes ) ) {
