@@ -3083,11 +3083,14 @@ std::list<item> npc_pickup_from_stack( npc &who, T &items )
 {
     std::list<item> picked_up;
 
-    for( auto iter = items.begin(); iter != items.end(); ) {
+    auto iter = items.begin();
+    while( iter != items.end() ) {
         const item &it = *iter;
         if( ::good_for_pickup( it, who ) ) {
             picked_up.push_back( it );
             iter = items.erase( iter );
+        } else {
+            ++iter;
         }
     }
 
