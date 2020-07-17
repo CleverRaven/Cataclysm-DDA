@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_SDL_RECT_H
-#define CATA_SRC_SDL_RECT_H
+#ifndef CATA_SRC_SDL_GEOMETRY_H
+#define CATA_SRC_SDL_GEOMETRY_H
 
 #if defined(TILES)
 #include "memory.h"
@@ -55,4 +55,4 @@ class ColorModulatedGeometryRenderer: public DefaultGeometryRenderer
 
 #endif // TILES
 
-#endif // CATA_SRC_SDL_RECT_H
+#endif // CATA_SRC_SDL_GEOMETRY_H

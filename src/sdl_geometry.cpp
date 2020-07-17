@@ -32,7 +32,6 @@ void DefaultGeometryRenderer::rect( const SDL_Renderer_Ptr &renderer, const SDL_
 }
 
 ColorModulatedGeometryRenderer::ColorModulatedGeometryRenderer( const SDL_Renderer_Ptr &renderer )
-    : DefaultGeometryRenderer()
 {
 #if SDL_BYTEORDER == SDL_BIG_ENDIAN
     static const Uint32 rmask = 0xff000000;
