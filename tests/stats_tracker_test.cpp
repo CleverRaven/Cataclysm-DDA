@@ -2,10 +2,10 @@
 #include <sstream>
 
 #include "achievement.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "cata_variant.h"
 #include "catch/catch.hpp"
+#include "character.h"
 #include "character_id.h"
 #include "event.h"
 #include "event_bus.h"
@@ -28,7 +28,7 @@ TEST_CASE( "stats_tracker_count_events", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const character_id u_id = g->u.getID();
+    const character_id u_id = get_player_character().getID();
     const mtype_id mon1( "mon_zombie" );
     const mtype_id mon2( "mon_zombie_brute" );
     const cata::event kill1 = cata::event::make<event_type::character_kills_monster>( u_id, mon1 );
@@ -54,7 +54,7 @@ TEST_CASE( "stats_tracker_total_events", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const character_id u_id = g->u.getID();
+    const character_id u_id = get_player_character().getID();
     character_id other_id = u_id;
     ++other_id;
     const cata::event::data_type damage_to_any{};
@@ -139,7 +139,7 @@ TEST_CASE( "stats_tracker_event_time_bounds", "[stats]" )
     event_bus b;
     b.subscribe( &s );
 
-    const character_id u_id = g->u.getID();
+    const character_id u_id = get_player_character().getID();
     constexpr event_type ctd = event_type::character_takes_damage;
 
     const time_point start = calendar::turn;
@@ -265,8 +265,8 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
         CHECK( score_swam_underwater->value( s ).get<int>() == 1 );
     }
 
+    const character_id u_id = get_player_character().getID();
     SECTION( "kills" ) {
-        const character_id u_id = g->u.getID();
         character_id other_id = u_id;
         ++other_id;
         const mtype_id mon_zombie( "mon_zombie" );
@@ -301,7 +301,6 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
     }
 
     SECTION( "damage" ) {
-        const character_id u_id = g->u.getID();
         const cata::event avatar_2_damage =
             cata::event::make<event_type::character_takes_damage>( u_id, 2 );
         const string_id<score> damage_taken( "score_damage_taken" );
@@ -313,7 +312,6 @@ TEST_CASE( "stats_tracker_with_event_statistics", "[stats]" )
     }
 
     SECTION( "first_last_events" ) {
-        const character_id u_id = g->u.getID();
         const oter_id field( "field" );
         const itype_id crowbar( "crowbar" );
         const itype_id pipe( "pipe" );
@@ -468,8 +466,8 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
         CHECK( swam_underwater_watcher.value == cata_variant( 1 ) );
     }
 
+    const character_id u_id = get_player_character().getID();
     SECTION( "kills" ) {
-        const character_id u_id = g->u.getID();
         character_id other_id = u_id;
         ++other_id;
         const mtype_id mon_zombie( "mon_zombie" );
@@ -502,7 +500,6 @@ TEST_CASE( "stats_tracker_watchers", "[stats]" )
     }
 
     SECTION( "damage" ) {
-        const character_id u_id = g->u.getID();
         const cata::event avatar_2_damage =
             cata::event::make<event_type::character_takes_damage>( u_id, 2 );
         const string_id<event_statistic> damage_taken( "avatar_damage_taken" );
@@ -534,7 +531,7 @@ TEST_CASE( "achievments_tracker", "[stats]" )
     } );
     b.subscribe( &a );
 
-    const character_id u_id = g->u.getID();
+    const character_id u_id = get_player_character().getID();
 
     SECTION( "time" ) {
         calendar::turn = calendar::start_of_game;
@@ -875,7 +872,7 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
     test_subscriber sub;
     g->events().subscribe( &sub );
 
-    const character_id u_id = g->u.getID();
+    const character_id u_id = get_player_character().getID();
     send_game_start( g->events(), u_id );
 
     const mtype_id mon_zombie( "mon_zombie" );
