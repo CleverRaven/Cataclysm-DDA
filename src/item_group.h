@@ -49,7 +49,7 @@ using ItemList = std::vector<item>;
  * @param use_spawn_rate Whether to use spawn rate in rng calculations.
  */
 ItemList items_from( const Group_tag &group_id, const time_point &birthday,
-                     const bool use_spawn_rate = false );
+                     bool use_spawn_rate = false );
 /**
  * Same as above but with implicit birthday at turn 0.
  */
@@ -119,9 +119,9 @@ class Item_spawn_data
          * numbers above 1 do nothing. Only used to decrease spawns.
          * @param[out] rec Recursion list, output goes here.
          */
-        virtual ItemList create( const time_point &birthday, const float spawn_rate,
+        virtual ItemList create( const time_point &birthday, float spawn_rate,
                                  RecursionList &rec ) const = 0;
-        ItemList create( const time_point &birthday, const bool use_spawn_rate ) const;
+        ItemList create( const time_point &birthday, bool use_spawn_rate ) const;
         /**
          * The same as create, but create a single item only.
          * The returned item might be a null item!
@@ -238,7 +238,7 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 
-        ItemList create( const time_point &birthday, const float spawn_rate,
+        ItemList create( const time_point &birthday, float spawn_rate,
                          RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
@@ -285,7 +285,7 @@ class Item_group : public Item_spawn_data
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        ItemList create( const time_point &birthday, const float spawn_rate,
+        ItemList create( const time_point &birthday, float spawn_rate,
                          RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
