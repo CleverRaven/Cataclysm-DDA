@@ -1260,19 +1260,20 @@ void construct::done_deconstruct( const tripoint &p )
             add_msg( m_info, _( "That %s can not be disassembled!" ), f.name() );
             return;
         }
+        Character &player_character = get_player_character();
         if( f.id.id() == furn_str_id( "f_console_broken" ) )  {
-            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
-                g->u.practice( skill_electronics, 20, 4 );
+            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
+                player_character.practice( skill_electronics, 20, 4 );
             }
         }
         if( f.id.id() == furn_str_id( "f_console" ) )  {
-            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
-                g->u.practice( skill_electronics, 40, 8 );
+            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
+                player_character.practice( skill_electronics, 40, 8 );
             }
         }
         if( f.id.id() == furn_str_id( "f_machinery_electronic" ) )  {
-            if( g->u.get_skill_level( skill_electronics ) >= 1 ) {
-                g->u.practice( skill_electronics, 40, 8 );
+            if( player_character.get_skill_level( skill_electronics ) >= 1 ) {
+                player_character.practice( skill_electronics, 40, 8 );
             }
         }
         if( f.deconstruct.furn_set.str().empty() ) {

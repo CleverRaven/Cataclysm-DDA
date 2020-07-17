@@ -155,7 +155,7 @@ void mission::on_creature_death( Creature &poor_dead_dude )
     npc *p = dynamic_cast<npc *>( &poor_dead_dude );
     if( p == nullptr ) {
         // Must be the player
-        for( auto &miss : g->u.get_active_missions() ) {
+        for( auto &miss : get_avatar().get_active_missions() ) {
             // mission is free and can be reused
             miss->player_id = character_id();
         }
@@ -238,8 +238,9 @@ void mission::assign( avatar &u )
 void mission::fail()
 {
     status = mission_status::failure;
-    if( g->u.getID() == player_id ) {
-        g->u.on_mission_finished( *this );
+    avatar &player_character = get_avatar();
+    if( player_character.getID() == player_id ) {
+        player_character.on_mission_finished( *this );
     }
 
     type->fail( this );
@@ -277,20 +278,20 @@ void mission::step_complete( const int _step )
 
 void mission::wrap_up()
 {
-    auto &u = g->u;
-    if( u.getID() != player_id ) {
+    avatar &player_character = get_avatar();
+    if( player_character.getID() != player_id ) {
         // This is called from npctalk.cpp, the npc should only offer the option to wrap up mission
         // that have been assigned to the current player.
         debugmsg( "mission::wrap_up called, player %d was assigned, but current player is %d",
-                  player_id.get_value(), u.getID().get_value() );
+                  player_id.get_value(), player_character.getID().get_value() );
     }
 
     status = mission_status::success;
-    u.on_mission_finished( *this );
+    player_character.on_mission_finished( *this );
     std::vector<item_comp> comps;
     switch( type->goal ) {
         case MGOAL_FIND_ITEM_GROUP: {
-            inventory tmp_inv = u.crafting_inventory();
+            inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
             Group_tag grp_type = type->group_id;
@@ -309,16 +310,16 @@ void mission::wrap_up()
 
             }
 
-            u.consume_items( comps );
+            player_character.consume_items( comps );
 
             if( remove_container ) {
                 std::vector<item_comp> container_comp = std::vector<item_comp>();
                 if( !empty_container.is_null() ) {
                     container_comp.push_back( item_comp( empty_container, type->item_count ) );
-                    u.consume_items( container_comp );
+                    player_character.consume_items( container_comp );
                 } else {
                     container_comp.push_back( item_comp( container, type->item_count ) );
-                    u.consume_items( container_comp );
+                    player_character.consume_items( container_comp );
                 }
             }
         }
@@ -326,10 +327,10 @@ void mission::wrap_up()
 
         case MGOAL_FIND_ITEM:
             comps.push_back( item_comp( type->item_id, item_count ) );
-            u.consume_items( comps );
+            player_character.consume_items( comps );
             break;
         case MGOAL_FIND_ANY_ITEM:
-            u.remove_mission_items( uid );
+            player_character.remove_mission_items( uid );
             break;
         default:
             //Suppress warnings
@@ -345,20 +346,20 @@ bool mission::is_complete( const character_id &_npc_id ) const
         return true;
     }
 
-    auto &u = g->u;
+    avatar &player_character = get_avatar();
     switch( type->goal ) {
         case MGOAL_GO_TO: {
-            const tripoint cur_pos = g->u.global_omt_location();
+            const tripoint cur_pos = player_character.global_omt_location();
             return ( rl_dist( cur_pos, target ) <= 1 );
         }
 
         case MGOAL_GO_TO_TYPE: {
-            const auto cur_ter = overmap_buffer.ter( g->u.global_omt_location() );
+            const auto cur_ter = overmap_buffer.ter( player_character.global_omt_location() );
             return is_ot_match( type->target_id.str(), cur_ter, ot_match_type::type );
         }
 
         case MGOAL_FIND_ITEM_GROUP: {
-            inventory tmp_inv = u.crafting_inventory();
+            inventory tmp_inv = player_character.crafting_inventory();
             std::vector<item *> items = std::vector<item *>();
             tmp_inv.dump( items );
             Group_tag grp_type = type->group_id;
@@ -386,7 +387,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
             if( npc_id.is_valid() && npc_id != _npc_id ) {
                 return false;
             }
-            const inventory &tmp_inv = u.crafting_inventory();
+            const inventory &tmp_inv = player_character.crafting_inventory();
             // TODO: check for count_by_charges and use appropriate player::has_* function
             if( !tmp_inv.has_amount( type->item_id, item_count ) ) {
                 return tmp_inv.has_amount( type->item_id, 1 ) && tmp_inv.has_charges( type->item_id, item_count );
@@ -395,7 +396,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
         return true;
 
         case MGOAL_FIND_ANY_ITEM:
-            return u.has_mission_item( uid ) && ( !npc_id.is_valid() || npc_id == _npc_id );
+            return player_character.has_mission_item( uid ) && ( !npc_id.is_valid() || npc_id == _npc_id );
 
         case MGOAL_FIND_MONSTER:
             if( npc_id.is_valid() && npc_id != _npc_id ) {
@@ -448,11 +449,11 @@ bool mission::is_complete( const character_id &_npc_id ) const
             }
 
             mission_goal_condition_context cc;
-            cc.alpha = get_talker_for( g->u );
+            cc.alpha = get_talker_for( player_character );
             cc.beta = get_talker_for( *n );
 
             for( auto &mission : n->chatbin.missions_assigned ) {
-                if( mission->get_assigned_player_id() == g->u.getID() ) {
+                if( mission->get_assigned_player_id() == player_character.getID() ) {
                     cc.missions_assigned.push_back( mission );
                 }
             }
