@@ -49,11 +49,7 @@ using ItemList = std::vector<item>;
  * @param use_spawn_rate Whether to use spawn rate in rng calculations.
  */
 ItemList items_from( const Group_tag &group_id, const time_point &birthday,
-                     const bool use_spawn_rate );
-/**
- * Same as above but with implicit use_spawn_rate as false.
- */
-ItemList items_from( const Group_tag &group_id, const time_point &birthday );
+                     const bool use_spawn_rate = false );
 /**
  * Same as above but with implicit birthday at turn 0.
  */

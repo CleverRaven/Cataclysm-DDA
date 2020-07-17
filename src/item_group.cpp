@@ -604,11 +604,6 @@ item_group::ItemList item_group::items_from( const Group_tag &group_id, const ti
     return group->create( birthday, use_spawn_rate );
 }
 
-item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
-{
-    return items_from( group_id, birthday, false );
-}
-
 item_group::ItemList item_group::items_from( const Group_tag &group_id )
 {
     return items_from( group_id, 0 );

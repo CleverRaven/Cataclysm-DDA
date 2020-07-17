@@ -1909,7 +1909,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( const JsonArray &parray )
 
         auto loot = make_shared_fast<jmapgen_loot>( jsi );
         // spawn rates < 1 are handled in item_group
-        auto rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f );
+        const float rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f );
 
         if( where.repeat.valmax != 1 ) {
             // if loot can repeat scale according to rate
