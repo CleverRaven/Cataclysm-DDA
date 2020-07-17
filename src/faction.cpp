@@ -464,7 +464,8 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
 {
     int y = 2;
     const nc_color col = c_white;
-    const tripoint player_abspos = g->u.global_omt_location();
+    Character &player_character = get_player_character();
+    const tripoint player_abspos = player_character.global_omt_location();
     tripoint camp_pos = camp_omt_pos();
     std::string direction = direction_name( direction_from( player_abspos, camp_pos ) );
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to rename this camp" ) );
@@ -472,7 +473,7 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
         mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Direction: to the " ) + direction );
     }
     mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d)" ), camp_pos.x, camp_pos.y );
-    faction *yours = g->u.get_faction();
+    faction *yours = player_character.get_faction();
     std::string food_text = string_format( _( "Food Supply: %s %d calories" ),
                                            yours->food_supply_text(), yours->food_supply );
     nc_color food_col = yours->food_supply_color();
@@ -497,7 +498,8 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     int retval = 0;
     int y = 2;
     const nc_color col = c_white;
-    const tripoint player_abspos = g->u.global_omt_location();
+    Character &player_character = get_player_character();
+    const tripoint player_abspos = player_character.global_omt_location();
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to talk to this follower " ) );
@@ -546,15 +548,15 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     }
     std::string can_see;
     nc_color see_color;
-    bool u_has_radio = g->u.has_item_with_flag( "TWO_WAY_RADIO", true );
+    bool u_has_radio = player_character.has_item_with_flag( "TWO_WAY_RADIO", true );
     bool guy_has_radio = has_item_with_flag( "TWO_WAY_RADIO", true );
     // is the NPC even in the same area as the player?
     if( rl_dist( player_abspos, global_omt_location() ) > 3 ||
-        ( rl_dist( g->u.pos(), pos() ) > SEEX * 2 || !g->u.sees( pos() ) ) ) {
+        ( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) ) {
         if( u_has_radio && guy_has_radio ) {
             // TODO: better range calculation than just elevation.
             int max_range = 200;
-            max_range *= ( 1 + ( g->u.pos().z * 0.1 ) );
+            max_range *= ( 1 + ( player_character.pos().z * 0.1 ) );
             max_range *= ( 1 + ( pos().z * 0.1 ) );
             if( is_stationed ) {
                 // if camp that NPC is at, has a radio tower
@@ -564,15 +566,16 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
             }
             // if camp that player is at, has a radio tower
             cata::optional<basecamp *> player_camp =
-                overmap_buffer.find_camp( g->u.global_omt_location().xy() );
+                overmap_buffer.find_camp( player_character.global_omt_location().xy() );
             if( const cata::optional<basecamp *> player_camp = overmap_buffer.find_camp(
-                        g->u.global_omt_location().xy() ) ) {
+                        player_character.global_omt_location().xy() ) ) {
                 if( ( *player_camp )->has_provides( "radio_tower" ) ) {
                     max_range *= 5;
                 }
             }
-            if( ( ( g->u.pos().z >= 0 && pos().z >= 0 ) || ( g->u.pos().z == pos().z ) ) &&
-                square_dist( g->u.global_sm_location(), global_sm_location() ) <= max_range ) {
+            if( ( ( player_character.pos().z >= 0 && pos().z >= 0 ) ||
+                  ( player_character.pos().z == pos().z ) ) &&
+                square_dist( player_character.global_sm_location(), global_sm_location() ) <= max_range ) {
                 retval = 2;
                 can_see = _( "Within radio range" );
                 see_color = c_light_green;
@@ -815,6 +818,7 @@ void faction_manager::display() const
         wnoutrefresh( w_missions );
     } );
 
+    avatar &player_character = get_avatar();
     while( true ) {
         // create a list of NPCs, visible and the ones on overmapbuffer
         followers.clear();
@@ -839,7 +843,7 @@ void faction_manager::display() const
         camp = nullptr;
         // create a list of faction camps
         camps.clear();
-        for( auto elem : g->u.camps ) {
+        for( auto elem : player_character.camps ) {
             cata::optional<basecamp *> p = overmap_buffer.find_camp( elem.xy() );
             if( !p ) {
                 continue;
@@ -900,7 +904,7 @@ void faction_manager::display() const
                 popup( _( "%s returns from their mission" ), guy->disp_name() );
             } else {
                 if( tab == tab_mode::TAB_FOLLOWERS && guy && ( interactable || radio_interactable ) ) {
-                    g->u.talk_to( get_talker_for( *guy ), false, radio_interactable );
+                    player_character.talk_to( get_talker_for( *guy ), false, radio_interactable );
                 } else if( tab == tab_mode::TAB_MYFACTION && camp ) {
                     camp->query_new_name();
                 }
