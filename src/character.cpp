@@ -400,12 +400,6 @@ std::string enum_to_string<blood_type>( blood_type data )
 
 } // namespace io
 
-Character &get_player_character()
-{
-    return g->u;
-}
-
-
 // *INDENT-OFF*
 Character::Character() :
 

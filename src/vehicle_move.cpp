@@ -143,12 +143,13 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
 
     bool rotorcraft = is_flying && is_rotorcraft();
 
+    Character &player_character = get_player_character();
     if( rotorcraft || c_engines.size() <= 1 || c_engines.size() > 5 ) { // bail and shut down
         for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
             vp.part().enabled = false;
         }
 
-        if( player_in_control( g->u ) ) {
+        if( player_in_control( player_character ) ) {
             if( rotorcraft ) {
                 add_msg( _( "Smart controller does not support flying vehicles." ) );
             } else if( c_engines.size() <= 1 ) {
@@ -345,7 +346,7 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
             for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) ) {
                 vp.part().enabled = false;
             }
-            if( player_in_control( g->u ) ) {
+            if( player_in_control( player_character ) ) {
                 add_msg( m_bad, _( "Smart controller failed to start an engine." ) );
                 add_msg( m_bad, _( "Smart controller is shutting down." ) );
             }
@@ -363,7 +364,7 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
             }
             smart_controller_state = cur_state;
 
-            if( player_in_control( g->u ) ) {
+            if( player_in_control( player_character ) ) {
                 add_msg( m_debug, _( "Smart controller optimizes engine state." ) );
             }
         }

@@ -251,12 +251,13 @@ void trading_window::setup_win( ui_adaptor &ui )
 // 'cost' is the cost of a service the NPC may be rendering, if any.
 void trading_window::setup_trade( int cost, npc &np )
 {
+    avatar &player_character = get_avatar();
     // Populate the list of what the NPC is willing to buy, and the prices they pay
     // Note that the NPC's barter skill is factored into these prices.
     // TODO: Recalc item values every time a new item is selected
     // Trading is not linear - starving NPC may pay $100 for 3 jerky, but not $100000 for 300 jerky
-    theirs = npc_trading::init_buying( g->u, np, true );
-    yours = npc_trading::init_buying( np, g->u, false );
+    theirs = npc_trading::init_buying( player_character, np, true );
+    yours = npc_trading::init_buying( np, player_character, false );
 
     if( np.will_exchange_items_freely() ) {
         your_balance = 0;
@@ -335,13 +336,14 @@ void trading_window::update_win( npc &np, const std::string &deal )
 
     mvwprintz( w_them, point( 2, 0 ), trade_color, np.name );
     mvwprintz( w_you,  point( 2, 0 ), trade_color, _( "You" ) );
+    avatar &player_character = get_avatar();
     // Draw lists of items, starting from offset
     for( size_t whose = 0; whose <= 1; whose++ ) {
         const bool they = whose == 0;
         const std::vector<item_pricing> &list = they ? theirs : yours;
         const size_t &offset = they ? them_off : you_off;
-        const player &person = they ? static_cast<player &>( np ) :
-                               static_cast<player &>( g->u );
+        const player &person = they ? static_cast<player &>( np ) : static_cast<player &>
+                               ( player_character );
         catacurses::window &w_whose = they ? w_them : w_you;
         int win_w = getmaxx( w_whose );
         // Borders
@@ -355,7 +357,7 @@ void trading_window::update_win( npc &np, const std::string &deal )
             std::string itname = it->display_name();
 
             if( np.will_exchange_items_freely() && ip.loc.where() != item_location::type::character ) {
-                itname = itname + " (" + ip.loc.describe( &g->u ) + ")";
+                itname = itname + " (" + ip.loc.describe( &player_character ) + ")";
                 color = c_light_blue;
             }
 
@@ -681,8 +683,9 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
 
         std::list<item_location *> from_map;
 
-        npc_trading::transfer_items( trade_win.yours, g->u, np, from_map, false );
-        npc_trading::transfer_items( trade_win.theirs, np, g->u, from_map, true );
+        avatar &player_character = get_avatar();
+        npc_trading::transfer_items( trade_win.yours, player_character, np, from_map, false );
+        npc_trading::transfer_items( trade_win.theirs, np, player_character, from_map, true );
 
         for( item_location *loc_ptr : from_map ) {
             if( !loc_ptr ) {
@@ -707,7 +710,7 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
         // NPCs will remember debts, to the limit that they'll extend credit or previous debts
         if( !np.will_exchange_items_freely() ) {
             trade_win.update_npc_owed( np );
-            g->u.practice( skill_barter, practice / 10000 );
+            player_character.practice( skill_barter, practice / 10000 );
         }
     }
     return traded;
