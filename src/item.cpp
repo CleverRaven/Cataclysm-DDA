@@ -7543,28 +7543,9 @@ bool item::magazine_integral() const
     return contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE );
 }
 
-itype_id item::magazine_default( bool conversion ) const
+itype_id item::magazine_default( bool /* conversion */ ) const
 {
-    if( !magazine_compatible( conversion ).empty() ) {
-        if( conversion ) {
-            for( const item *m : is_gun() ? gunmods() : toolmods() ) {
-                if( !m->type->mod->magazine_adaptor.empty() ) {
-                    auto mags = m->type->mod->magazine_adaptor.find( ammotype( *ammo_types( conversion ).begin() ) );
-                    if( mags != m->type->mod->magazine_adaptor.end() ) {
-                        return *( mags->second.begin() );
-                    }
-                }
-            }
-        }
-        if( !ammo_types( conversion ).empty() ) {
-            auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
-            if( mag != type->magazine_default.end() ) {
-                return mag->second;
-            }
-        }
-        return *magazine_compatible( conversion ).begin();
-    }
-    return itype_id::NULL_ID();
+    return contents.magazine_default();
 }
 
 std::set<itype_id> item::magazine_compatible( bool /* conversion */ ) const
