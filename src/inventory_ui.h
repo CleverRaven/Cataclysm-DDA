@@ -124,8 +124,6 @@ class inventory_entry
         nc_color get_invlet_color() const;
         void update_cache();
 
-        inclusive_rectangle drawn_rect;
-
     private:
         const item_category *custom_category = nullptr;
         bool enabled = true;
@@ -293,7 +291,8 @@ class inventory_column
 
         inventory_entry *find_by_invlet( int invlet ) const;
 
-        void draw( const catacurses::window &win, const point & );
+        void draw( const catacurses::window &win, const point &p,
+                   std::vector< std::pair<inclusive_rectangle, inventory_entry *>> &rect_entry_map );
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
@@ -580,6 +579,8 @@ class inventory_selector
             return columns;
         }
         std::vector<inventory_column *> get_visible_columns() const;
+
+        std::vector< std::pair<inclusive_rectangle, inventory_entry *>> rect_entry_map;
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
