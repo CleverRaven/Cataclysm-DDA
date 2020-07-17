@@ -1529,7 +1529,7 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
         return;
     }
     // Send in a few wyrms to start things off.
-    g->events().send<event_type::awakes_dark_wyrms>();
+    get_event_bus().send<event_type::awakes_dark_wyrms>();
     int num_wyrms = rng( 1, 4 );
     for( int i = 0; i < num_wyrms; i++ ) {
         if( monster *const mon = g->place_critter_around( mon_dark_wyrm, p.pos(), 2 ) ) {

@@ -637,7 +637,7 @@ void character_edit_menu()
                 p.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
                 p.weapon = to_wear;
-                g->events().send<event_type::character_wields_item>( p.getID(), p.weapon.typeId() );
+                get_event_bus().send<event_type::character_wields_item>( p.getID(), p.weapon.typeId() );
             }
         }
         break;
@@ -1217,7 +1217,7 @@ void debug()
         return;
     }
 
-    g->events().send<event_type::uses_debug_menu>( *action );
+    get_event_bus().send<event_type::uses_debug_menu>( *action );
 
     avatar &player_character = get_avatar();
     map &here = get_map();
