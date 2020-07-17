@@ -28,7 +28,9 @@
     "description": "A sudden power failure woke you from the cryosleep sarcophagus in which you had entombed yourself lifetimes ago.  It seems the emergency reanimation procedure has damaged your memory, and now, bearing almost no knowledge of your past life, you must find a way to survive in a ruined and alien world.",
     "points": 2,
     "traits": [ "AFS_CRYOADAPTATION" ],
-    "items": { "both": [ "jumpsuit", "boots_winter", "under_armor", "under_armor_shorts", "gloves_wool" ] }
+    "items": {
+      "both": { "entries": [ { "item": "afs_cryopod_bodyglove", "ammo-item": "medium_atomic_battery_cell", "charges": 5000 } ] }
+    }
   },
   {
     "type": "profession",
