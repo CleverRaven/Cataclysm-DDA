@@ -1137,9 +1137,9 @@ void npc::stow_item( item &it )
 
 bool npc::wield( item &it )
 {
-    // FIXME: dumb hack to exit early if we're trying to wield the current weapon
+    // sanity check: exit early if we're trying to wield the current weapon
     // needed for ranged_balance_test
-    if( &weapon == &it ) {
+    if( is_wielding( it ) ) {
         return true;
     }
 
