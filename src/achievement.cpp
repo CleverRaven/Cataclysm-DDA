@@ -128,7 +128,7 @@ static nc_color color_from_completion( bool is_conduct, achievement_completion c
 {
     switch( comp ) {
         case achievement_completion::pending:
-            return is_conduct ? c_light_green : ( is_title ? c_yellow_yellow : c_light_cyan );
+            return is_conduct ? c_light_green : ( is_title ? c_yellow_magenta : c_light_cyan );
         case achievement_completion::completed:
             return c_light_green;
         case achievement_completion::failed:
