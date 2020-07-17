@@ -1819,6 +1819,8 @@ class Character : public Creature, public visitable<Character>
         virtual void add_spent_calories( int /* cal */ ) {};
         // add gained calories to calorie diary (if avatar)
         virtual void add_gained_calories( int /* gained */ ) {};
+        // log the activity level in the calorie diary (if avatar)
+        virtual void log_activity_level( float /*level*/ ) {};
         // Reset age and height to defaults for consistent test results
         void reset_chargen_attributes();
         // age in years, determined at character creation

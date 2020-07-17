@@ -1654,12 +1654,61 @@ void avatar::add_gained_calories( int cal )
     calorie_diary.front().gained += cal;
 }
 
+void avatar::log_activity_level( float level )
+{
+    calorie_diary.front().activity_levels[level]++;
+}
+
+static const std::map<float, std::string> activity_levels_str = {
+    { NO_EXERCISE, "NO_EXERCISE" },
+    { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
+    { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
+    { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
+    { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
+};
+void avatar::daily_calories::save_activity( JsonOut &json ) const
+{
+    json.member( "activity" );
+    json.start_object();
+    for( const std::pair<const float, int> &level : activity_levels ) {
+        json.member( activity_levels_str.at( level.first ), level.second );
+    }
+    json.end_object();
+}
+
+void avatar::daily_calories::read_activity( JsonObject &data )
+{
+    JsonObject jo = data.get_object( "activity" );
+    for( const std::pair<const float, std::string> &member : activity_levels_str ) {
+        int times;
+        jo.read( member.second, times );
+        activity_levels.at( member.first ) = times;
+    }
+}
+
 std::string avatar::total_daily_calories_string() const
 {
-    std::string ret = "      gained     spent      total\n";
+    std::string ret =
+        " E: Extra exercise\n A: Active exercise\n"
+        " M: Moderate exercise\n L: Light exercise\n"
+        " N: No exercise\n"
+        " Each number refers to 5 minutes\n"
+        "     gained     spent      total\n";
     int num_day = 1;
     for( const daily_calories &day : calorie_diary ) {
-        ret += string_format( "%2d   %6d    %6d     %6d\n", num_day++, day.gained, day.spent, day.total() );
+        // Each row is 32 columns long - for the first row, it's
+        // 5 for the day and the offset from it,
+        // 18 for the numbers, and 9 for the spacing between them
+        // For the second, 4 offset + 5 labels + 8 spacing leaves 15 for the levels
+        std::string activity_str = string_format( "%3dE  %3dA  %3dM  %3dL  %3dN",
+                                   day.activity_levels.at( EXTRA_EXERCISE ), day.activity_levels.at( ACTIVE_EXERCISE ),
+                                   day.activity_levels.at( MODERATE_EXERCISE ), day.activity_levels.at( LIGHT_EXERCISE ),
+                                   day.activity_levels.at( NO_EXERCISE ) );
+        std::string act_stats = string_format( " %1s  %s", colorize( ">", c_light_gray ),
+                                               colorize( activity_str, c_yellow ) );
+        std::string calorie_stats = string_format( "%2d   %6d    %6d     %6d", num_day++, day.gained,
+                                    day.spent, day.total() );
+        ret += string_format( "%s\n%s\n", calorie_stats, act_stats );
     }
     return ret;
 }
