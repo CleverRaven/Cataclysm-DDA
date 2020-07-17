@@ -99,7 +99,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 5,
     "value": 0,
-    "item": "self healing polymers",
+    "item": "afs_biomaterial_4",
     "count": 4,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FRANKENSTEIN_2",
@@ -164,7 +164,7 @@
       "success_lie": "Lies and the lying liars who tell them.",
       "failure": "You are keeping me from my experiments.  Would you like to become one?"
     },
-    "end": { "effect": [ { "u_buy_item": "iv_mutagen_migo", "container": "flask_glass", "count": 1 } ] }
+    "end": { "effect": [ { "u_buy_item": "iv_mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
   },
   {
     "id": "MISSION_FRANKENSTEIN_4",
@@ -178,7 +178,6 @@
     "item": "living_brain_jar",
     "count": 2,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "followup": "MISSION_FIND_CYRUS",
     "dialogue": {
       "describe": "I need some brains, but brains that are still living.  We've got our own brain blasters, but I won't risk them in experiments.",
       "offer": "If this works I may be able to give some of these poor souls bodies again.",
