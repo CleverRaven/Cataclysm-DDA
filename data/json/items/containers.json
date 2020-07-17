@@ -900,7 +900,7 @@
     "looks_like": "flask_glass",
     "description": "A 10ml laboratory cylindrical test tube, with a rubber stopper.",
     "weight": "36 g",
-    "volume": "92 ml",
+    "volume": "13 ml",
     "longest_side": "100 mm",
     "price": 300,
     "price_postapoc": 10,
