@@ -260,7 +260,7 @@
     "longest_side": "276 mm",
     "price": 0,
     "price_postapoc": 10,
-    "to_hit": 1,Fglass
+    "to_hit": 1,
     "bashing": 2,
     "material": [ "glass" ],
     "ascii_picture": "glass_bottle",
