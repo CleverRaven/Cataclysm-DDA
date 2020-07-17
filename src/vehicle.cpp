@@ -5367,21 +5367,24 @@ void vehicle::place_spawn_items()
         }
     }
 
+    const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
     for( const auto &spawn : type.obj().item_spawns ) {
-        if( rng( 1, 100 ) <= spawn.chance ) {
-            int part = part_with_feature( spawn.pos, "CARGO", false );
-            if( part < 0 ) {
-                debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name );
 
-            } else {
+        int part = part_with_feature( spawn.pos, "CARGO", false );
+        if( part < 0 ) {
+            debugmsg( "No CARGO parts at (%d, %d) of %s!", spawn.pos.x, spawn.pos.y, name );
+        } else {
+
+            bool broken = parts[ part ].is_broken();
+
+            std::vector<item> created;
+            const int spawn_count = roll_remainder( spawn.chance * std::max( spawn_rate, 1.0f ) / 100.0f );
+            for( int i = 0; i < spawn_count; ++i ) {
                 // if vehicle part is broken only 50% of items spawn and they will be variably damaged
-                bool broken = parts[ part ].is_broken();
                 if( broken && one_in( 2 ) ) {
                     continue;
                 }
 
-                std::vector<item> created;
-                const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
                 for( const itype_id &e : spawn.item_ids ) {
                     if( rng_float( 0, 1 ) < spawn_rate ) {
                         created.emplace_back( item( e ).in_its_container() );
@@ -5389,35 +5392,32 @@ void vehicle::place_spawn_items()
                 }
                 for( const std::string &e : spawn.item_groups ) {
                     item_group::ItemList group_items = item_group::items_from( e, calendar::start_of_cataclysm, true );
-                    for( const auto &spawn_item : group_items ) {
-                        created.emplace_back( spawn_item );
-                    }
+                    created.insert( created.end(), group_items.begin(), group_items.end() );
                 }
+            }
+            for( item &e : created ) {
+                if( e.is_null() ) {
+                    continue;
+                }
+                if( broken && e.mod_damage( rng( 1, e.max_damage() ) ) ) {
+                    continue; // we destroyed the item
+                }
+                if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
+                    bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0;
+                    bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() &&
+                                      !e.magazine_current();
 
-                for( item &e : created ) {
-                    if( e.is_null() ) {
-                        continue;
-                    }
-                    if( broken && e.mod_damage( rng( 1, e.max_damage() ) ) ) {
-                        continue; // we destroyed the item
-                    }
-                    if( e.is_tool() || e.is_gun() || e.is_magazine() ) {
-                        bool spawn_ammo = rng( 0, 99 ) < spawn.with_ammo && e.ammo_remaining() == 0;
-                        bool spawn_mag  = rng( 0, 99 ) < spawn.with_magazine && !e.magazine_integral() &&
-                                          !e.magazine_current();
-
-                        if( spawn_mag ) {
-                            item mag( e.magazine_default(), e.birthday() );
-                            if( spawn_ammo ) {
-                                mag.ammo_set( mag.ammo_default() );
-                            }
-                            e.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
-                        } else if( spawn_ammo && e.is_magazine() ) {
-                            e.ammo_set( e.ammo_default() );
+                    if( spawn_mag ) {
+                        item mag( e.magazine_default(), e.birthday() );
+                        if( spawn_ammo ) {
+                            mag.ammo_set( mag.ammo_default() );
                         }
+                        e.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
+                    } else if( spawn_ammo && e.is_magazine() ) {
+                        e.ammo_set( e.ammo_default() );
                     }
-                    add_item( part, e );
                 }
+                add_item( part, e );
             }
         }
     }
