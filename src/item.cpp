@@ -8744,18 +8744,6 @@ bool item::has_rotten_away() const
     }
 }
 
-bool item::has_rotten_away( const tripoint &pnt, float spoil_multiplier, temperature_flag flag )
-{
-    if( goes_bad() ) {
-        process_temperature_rot( 1, pnt, nullptr, flag, spoil_multiplier );
-        return has_rotten_away();
-    } else {
-        contents.remove_rotten( pnt );
-
-        return false;
-    }
-}
-
 bool item_ptr_compare_by_charges( const item *left, const item *right )
 {
     if( left->contents.empty() ) {
@@ -8994,11 +8982,8 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
             }
 
             // Calculate item temperature from environment temperature
-            // If the time was more than 2 d ago just set the item to environment temperature
-            if( now - time > 2_days ) {
-                // This value shouldn't be there anymore after the loop is done so we don't bother with the set_item_temperature()
-                temperature = static_cast<int>( 100000 * temp_to_kelvin( env_temperature ) );
-            } else {
+            // If the time was more than 2 d ago we do not care about item temperature.
+            if( now - time < 2_days ) {
                 calc_temp( env_temperature, insulation, time_delta );
             }
             last_temp_check = time;
