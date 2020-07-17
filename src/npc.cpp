@@ -2771,49 +2771,7 @@ float npc::speed_rating() const
 
 bool npc::dispose_item( item_location &&obj, const std::string & )
 {
-    using dispose_option = struct {
-        int moves;
-        std::function<void()> action;
-    };
-
-    std::vector<dispose_option> opts;
-
-    for( auto &e : worn ) {
-        if( e.can_holster( *obj ) ) {
-            const holster_actor *ptr = dynamic_cast<const holster_actor *>
-                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
-            opts.emplace_back( dispose_option {
-                item_store_cost( *obj, e, false, obj.obtain_cost( *this ) ),
-                [this, ptr, &e, &obj]{ ptr->store( *this, e, *obj ); }
-            } );
-        }
-    }
-
-    if( volume_carried() + obj->volume() <= volume_capacity() ) {
-        opts.emplace_back( dispose_option {
-            item_handling_cost( *obj ),
-            [this, &obj] {
-                moves -= item_handling_cost( *obj );
-                inv.add_item_keep_invlet( *obj );
-                obj.remove_item();
-                inv.unsort();
-            }
-        } );
-    }
-
-    if( opts.empty() ) {
-        // Drop it
-        get_map().add_item_or_charges( pos(), *obj );
-        obj.remove_item();
-        return true;
-    }
-
-    const auto mn = std::min_element( opts.begin(), opts.end(),
-    []( const dispose_option & lop, const dispose_option & rop ) {
-        return lop.moves < rop.moves;
-    } );
-
-    mn->action();
+    stow_item( *obj.get_item() );
     return true;
 }
 
