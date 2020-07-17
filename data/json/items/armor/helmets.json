@@ -166,9 +166,7 @@
     "looks_like": "hat_hard",
     "color": "blue",
     "armor_portion_data": [
-      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
-      { "covers": [ "mouth" ], "coverage": 25, "encumbrance": 0 }
-      { "covers": [ "eyes" ], "coverage": 50, "encumbrance": 0 }
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 }
     ],
     "warmth": 15,
     "material_thickness": 3,
