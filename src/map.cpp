@@ -16,7 +16,6 @@
 #include "active_item_cache.h"
 #include "ammo.h"
 #include "ammo_effect.h"
-#include "artifact.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bodypart.h"
@@ -3824,8 +3823,7 @@ bool map::open_door( const tripoint &p, const bool inside, const bool check_only
                            "open_door", ter.id.str() );
             ter_set( p, ter.open );
 
-            if( ( player_character.has_trait( trait_id( "SCHIZOPHRENIC" ) ) ||
-                  player_character.has_artifact_with( AEP_SCHIZO ) ) &&
+            if( player_character.has_trait( trait_id( "SCHIZOPHRENIC" ) ) &&
                 one_in( 50 ) && !ter.has_flag( "TRANSPARENT" ) ) {
                 tripoint mp = p + -2 * player_character.pos().xy() + tripoint( 2 * p.x, 2 * p.y, p.z );
                 g->spawn_hallucination( mp );

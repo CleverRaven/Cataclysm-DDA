@@ -1143,7 +1143,6 @@ class item : public visitable<item>
          * @param carrier The character carrying the artifact, can be null.
          * @param pos The location of the artifact (should be the player location if carried).
          */
-        void process_artifact( player *carrier, const tripoint &pos );
         void process_relic( Character *carrier );
 
         void overwrite_relic( const relic &nrelic );
@@ -1175,7 +1174,6 @@ class item : public visitable<item>
         bool is_deployable() const;
         bool is_tool() const;
         bool is_transformable() const;
-        bool is_artifact() const;
         bool is_relic() const;
         bool is_bucket_nonempty() const;
 
@@ -1256,19 +1254,6 @@ class item : public visitable<item>
          * Is this item flexible enough to be worn on body parts like antlers?
          */
         bool is_soft() const;
-
-        /**
-         * Does the item provide the artifact effect when it is wielded?
-         */
-        bool has_effect_when_wielded( art_effect_passive effect ) const;
-        /**
-         * Does the item provide the artifact effect when it is worn?
-         */
-        bool has_effect_when_worn( art_effect_passive effect ) const;
-        /**
-         * Does the item provide the artifact effect when it is carried?
-         */
-        bool has_effect_when_carried( art_effect_passive effect ) const;
 
         /**
          * Set the snippet text (description) of this specific item, using the snippet library.

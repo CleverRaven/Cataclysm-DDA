@@ -221,12 +221,6 @@ int craft( player *, item *, bool, const tripoint & );
 
 int disassemble( player *, item *, bool, const tripoint & );
 
-// ARTIFACTS
-/* This function is used when an artifact is activated.
-   It examines the item's artifact-specific properties.
-   See artifact.h for a list.                        */
-int artifact( player *, item *, bool, const tripoint & );
-
 // Helper functions for other iuse functions
 void cut_log_into_planks( Character & );
 void play_music( Character &p, const tripoint &source, int volume, int max_morale );

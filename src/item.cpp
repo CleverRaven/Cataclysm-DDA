@@ -1809,7 +1809,7 @@ void item::food_info( const item *food_item, std::vector<iteminfo> &info,
     }
     if( food_item->corpse != nullptr && parts->test( iteminfo_parts::FOOD_SMELL ) &&
         ( debug || ( g != nullptr && ( player_character.has_trait( trait_CARNIVORE ) ||
-                                       player_character.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) ) ) ) ) {
+                                       player_character.has_trait_flag( "SUPER_CLAIRVOYANCE" ) ) ) ) ) {
         info.push_back( iteminfo( "FOOD", _( "Smells like: " ) + food_item->corpse->nname() ) );
     }
 
@@ -4291,10 +4291,6 @@ void item::on_wear( Character &p )
         }
     }
 
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_worn );
-    }
     // if game is loaded - don't want ownership assigned during char creation
     if( get_player_character().getID().is_valid() ) {
         handle_pickup_ownership( p );
@@ -4313,11 +4309,6 @@ void item::on_takeoff( Character &p )
 
 void item::on_wield( player &p, int mv )
 {
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_wielded );
-    }
-
     // weapons with bayonet/bipod or other generic "unhandiness"
     if( has_flag( flag_SLOW_WIELD ) && !is_gunmod() ) {
         float d = 32.0; // arbitrary linear scaling factor
@@ -4416,10 +4407,6 @@ void item::on_pickup( Character &p )
     // Fake characters are used to determine pickup weight and volume
     if( p.is_fake() ) {
         return;
-    }
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_carried );
     }
     // if game is loaded - don't want ownership assigned during char creation
     if( get_player_character().getID().is_valid() ) {
@@ -6874,11 +6861,6 @@ bool item::is_transformable() const
     return type->use_methods.find( "transform" ) != type->use_methods.end();
 }
 
-bool item::is_artifact() const
-{
-    return !!type->artifact;
-}
-
 bool item::is_relic() const
 {
     return !!relic_data;
@@ -8835,7 +8817,7 @@ bool item::needs_processing() const
     bool need_process = false;
     visit_items( [&need_process]( const item * it ) {
         if( it->active || it->has_flag( flag_RADIO_ACTIVATION ) || it->has_flag( flag_ETHEREAL_ITEM ) ||
-            it->is_artifact() || it->is_food() ) {
+            it->is_food() ) {
             need_process = true;
             return VisitResponse::ABORT;
         }
@@ -9220,20 +9202,6 @@ void item::cold_up()
 void item::reset_temp_check()
 {
     last_temp_check = calendar::turn;
-}
-
-void item::process_artifact( player *carrier, const tripoint & /*pos*/ )
-{
-    if( !is_artifact() ) {
-        return;
-    }
-    // Artifacts are currently only useful for the player character, the messages
-    // don't consider npcs. Also they are not processed when laying on the ground.
-    // TODO: change game::process_artifact to work with npcs,
-    // TODO: consider moving game::process_artifact here.
-    if( carrier && carrier->is_avatar() ) {
-        g->process_artifact( *this, *carrier );
-    }
 }
 
 void item::overwrite_relic( const relic &nrelic )
@@ -9792,41 +9760,6 @@ void item::mod_charges( int mod )
     } else {
         charges += mod;
     }
-}
-
-bool item::has_effect_when_wielded( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ew = type->artifact->effects_wielded;
-    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
-}
-
-bool item::has_effect_when_worn( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ew = type->artifact->effects_worn;
-    return std::find( ew.begin(), ew.end(), effect ) != ew.end();
-}
-
-bool item::has_effect_when_carried( art_effect_passive effect ) const
-{
-    if( !type->artifact ) {
-        return false;
-    }
-    const std::vector<art_effect_passive> &ec = type->artifact->effects_carried;
-    if( std::find( ec.begin(), ec.end(), effect ) != ec.end() ) {
-        return true;
-    }
-    for( const item *i : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-        if( i->has_effect_when_carried( effect ) ) {
-            return true;
-        }
-    }
-    return false;
 }
 
 bool item::is_seed() const

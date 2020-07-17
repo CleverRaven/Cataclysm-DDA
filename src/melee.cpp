@@ -600,10 +600,6 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
                 melee_train( *this, 5, 10, *cur_weapon );
             }
 
-            if( dam >= 5 && has_artifact_with( AEP_SAP_LIFE ) ) {
-                healall( rng( dam / 10, dam / 5 ) );
-            }
-
             // Treat monster as seen if we see it before or after the attack
             if( seen || player_character.sees( t ) ) {
                 std::string message = melee_message( technique, *this, dealt_dam );

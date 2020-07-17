@@ -315,8 +315,6 @@ class player : public Character
 
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
-        /** Returns list of artifacts in player inventory. **/
-        std::list<item *> get_artifact_items();
 
         /** Siphons fuel (if available) from the specified vehicle into container or
          * similar via @ref game::handle_liquid. May start a player activity.

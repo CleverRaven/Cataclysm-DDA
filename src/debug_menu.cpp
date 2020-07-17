@@ -24,7 +24,6 @@
 
 #include "achievement.h"
 #include "action.h"
-#include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -51,6 +50,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "itype.h"
 #include "magic.h"
 #include "map.h"
 #include "map_extras.h"

@@ -12,7 +12,6 @@
 
 #include "addiction.h"
 #include "ammo.h"
-#include "artifact.h"
 #include "assign.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -821,7 +820,6 @@ void Item_factory::init()
     add_iuse( "ANTIFUNGAL", &iuse::antifungal );
     add_iuse( "ANTIPARASITIC", &iuse::antiparasitic );
     add_iuse( "ARROW_FLAMABLE", &iuse::arrow_flammable );
-    add_iuse( "ARTIFACT", &iuse::artifact );
     add_iuse( "AUTOCLAVE", &iuse::autoclave );
     add_iuse( "BELL", &iuse::bell );
     add_iuse( "BLECH", &iuse::blech );
@@ -1558,24 +1556,6 @@ bool Item_factory::load_definition( const JsonObject &jo, const std::string &src
 
     deferred.emplace_back( jo.str(), src );
     return false;
-}
-
-void Item_factory::load( islot_artifact &slot, const JsonObject &jo, const std::string & )
-{
-    slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
-    slot.charge_req  = jo.get_enum_value( "charge_req",  ACR_NULL );
-    // No dreams unless specified for artifacts embedded in items.
-    // If specifying dreams, message should be set too,
-    // since the array with the defaults isn't accessible from here.
-    slot.dream_freq_unmet = jo.get_int( "dream_freq_unmet", 0 );
-    slot.dream_freq_met   = jo.get_int( "dream_freq_met",   0 );
-    // TODO: Make sure it doesn't cause problems if this is empty
-    slot.dream_msg_unmet  = jo.get_string_array( "dream_unmet" );
-    slot.dream_msg_met    = jo.get_string_array( "dream_met" );
-    load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
-    load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
-    load_optional_enum_array( slot.effects_carried, jo, "effects_carried" );
-    load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
 }
 
 void islot_milling::load( const JsonObject &jo )
@@ -2814,7 +2794,6 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     load_slot_optional( def.bionic, jo, "bionic_data", src );
     assign( jo, "ammo_data", def.ammo, src == "dda" );
     assign( jo, "seed_data", def.seed, src == "dda" );
-    load_slot_optional( def.artifact, jo, "artifact_data", src );
     assign( jo, "brewable", def.brewable, src == "dda" );
     load_slot_optional( def.fuel, jo, "fuel", src );
     load_slot_optional( def.relic_data, jo, "relic_data", src );
@@ -3341,9 +3320,6 @@ std::string enum_to_string<phase_id>( phase_id data )
 
 item_category_id calc_category( const itype &obj )
 {
-    if( obj.artifact ) {
-        return item_category_id( "artifacts" );
-    }
     if( obj.gun && !obj.gunmod ) {
         return item_category_id( "guns" );
     }
@@ -3492,17 +3468,6 @@ std::vector<const itype *> Item_factory::find( const std::function<bool( const i
     } );
 
     return res;
-}
-
-itype_id Item_factory::create_artifact_id() const
-{
-    itype_id id;
-    int i = m_runtimes.size();
-    do {
-        id = itype_id( string_format( "artifact_%d", i ) );
-        ++i;
-    } while( has_template( id ) );
-    return id;
 }
 
 std::list<itype_id> Item_factory::subtype_replacement( const itype_id &base ) const

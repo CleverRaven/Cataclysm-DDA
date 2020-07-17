@@ -122,59 +122,6 @@ enum class special_game_type : int {
     NUM_SPECIAL_GAME_TYPES
 };
 
-enum art_effect_passive : int {
-    AEP_NULL = 0,
-    // Good
-    AEP_STR_UP, // Strength + 4
-    AEP_DEX_UP, // Dexterity + 4
-    AEP_PER_UP, // Perception + 4
-    AEP_INT_UP, // Intelligence + 4
-    AEP_ALL_UP, // All stats + 2
-    AEP_SPEED_UP, // +20 speed
-    AEP_PBLUE, // Reduces radiation
-    AEP_SNAKES, // Summons friendly snakes when you're hit
-    AEP_INVISIBLE, // Makes you invisible
-    AEP_CLAIRVOYANCE, // See through walls
-    AEP_SUPER_CLAIRVOYANCE, // See through walls to a great distance
-    AEP_STEALTH, // Your steps are quieted
-    AEP_EXTINGUISH, // May extinguish nearby flames
-    AEP_GLOW, // Four-tile light source
-    AEP_PSYSHIELD, // Protection from fear paralyze attack
-    AEP_RESIST_ELECTRICITY, // Protection from electricity
-    AEP_CARRY_MORE, // Increases carrying capacity by 200
-    AEP_SAP_LIFE, // Killing non-zombie monsters may heal you
-    AEP_FUN, // Slight passive morale
-    // Splits good from bad
-    AEP_SPLIT,
-    // Bad
-    AEP_HUNGER, // Increases hunger
-    AEP_THIRST, // Increases thirst
-    AEP_SMOKE, // Emits smoke occasionally
-    AEP_EVIL, // Addiction to the power
-    AEP_SCHIZO, // Mimicks schizophrenia
-    AEP_RADIOACTIVE, // Increases your radiation
-    AEP_MUTAGENIC, // Mutates you slowly
-    AEP_ATTENTION, // Draws netherworld attention slowly
-    AEP_STR_DOWN, // Strength - 3
-    AEP_DEX_DOWN, // Dex - 3
-    AEP_PER_DOWN, // Per - 3
-    AEP_INT_DOWN, // Int - 3
-    AEP_ALL_DOWN, // All stats - 2
-    AEP_SPEED_DOWN, // -20 speed
-    AEP_FORCE_TELEPORT, // Occasionally force a teleport
-    AEP_MOVEMENT_NOISE, // Makes noise when you move
-    AEP_BAD_WEATHER, // More likely to experience bad weather
-    AEP_SICK, // Decreases health over time
-    AEP_CLAIRVOYANCE_PLUS, // See through walls to a larger distance; not bad effect, placement to preserve old saves.
-
-    NUM_AEPS
-};
-
-template<>
-struct enum_traits<art_effect_passive> {
-    static constexpr art_effect_passive last = art_effect_passive::NUM_AEPS;
-};
-
 enum artifact_natural_property {
     ARTPROP_NULL,
     ARTPROP_WRIGGLING, //

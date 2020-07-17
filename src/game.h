@@ -40,7 +40,6 @@ class spell_events;
 static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
 static const std::string SAVE_MASTER( "master.gsav" );
-static const std::string SAVE_ARTIFACTS( "artifacts.gsav" );
 static const std::string SAVE_EXTENSION( ".sav" );
 static const std::string SAVE_EXTENSION_MAP_MEMORY( ".mm" );
 static const std::string SAVE_EXTENSION_LOG( ".log" );
@@ -565,10 +564,6 @@ class game
         point update_map( Character &p );
         point update_map( int &x, int &y );
         void update_overmap_seen(); // Update which overmap tiles we can see
-
-        void process_artifact( item &it, player &p );
-        void add_artifact_messages( const std::vector<art_effect_passive> &effects );
-        void add_artifact_dreams( );
 
         void peek();
         void peek( const tripoint &p );
