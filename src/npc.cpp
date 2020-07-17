@@ -1112,41 +1112,26 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
 void npc::stow_item( item &it )
 {
     bool avatar_sees = get_player_character().sees( pos() );
-    if( wear_item( weapon, false ) ) {
+    if( wear_item( it, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
         if( avatar_sees ) {
-            add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), weapon.tname() );
+            add_msg_if_npc( m_info, _( "<npcname> wears the %s." ), it.tname() );
         }
-        remove_weapon();
+        remove_item( it );
         moves -= 15;
         // Weapon cannot be worn or wearing was not successful. Store it in inventory if possible,
         // otherwise drop it.
-        return;
-    }
-    for( auto &e : worn ) {
-        if( e.can_holster( it ) ) {
-            if( avatar_sees ) {
-                //~ %1$s: weapon name, %2$s: holster name
-                add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ),
-                                weapon.tname(), e.tname() );
-            }
-            const holster_actor *ptr = dynamic_cast<const holster_actor *>
-                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
-            ptr->store( *this, e, it );
-            return;
-        }
-    }
-    if( volume_carried() + weapon.volume() <= volume_capacity() ) {
+    } else if( can_stash( it ) ) {
+        item &ret = i_add( remove_item( it ), true, nullptr, true, false );
         if( avatar_sees ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname() );
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), ret.tname() );
         }
-        i_add( remove_weapon() );
         moves -= 15;
     } else { // No room for weapon, so we drop it
         if( avatar_sees ) {
-            add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname() );
+            add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), it.tname() );
         }
-        get_map().add_item_or_charges( pos(), remove_weapon() );
+        get_map().add_item_or_charges( pos(), remove_item( it ) );
     }
 }
 
