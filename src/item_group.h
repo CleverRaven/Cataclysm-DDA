@@ -119,11 +119,11 @@ class Item_spawn_data
          * Create a list of items. The create list might be empty.
          * No item of it will be the null item.
          * @param[in] birthday All items have that value as birthday.
-         * @param[in] spawn_rate How often the items will spawn. 100 is default,
-         * numbers above 100 do nothing. Only used to decrease spawns.
+         * @param[in] spawn_rate How often the items will spawn. 1 is default,
+         * numbers above 1 do nothing. Only used to decrease spawns.
          * @param[out] rec Recursion list, output goes here.
          */
-        virtual ItemList create( const time_point &birthday, const int spawn_rate,
+        virtual ItemList create( const time_point &birthday, const float spawn_rate,
                                  RecursionList &rec ) const = 0;
         ItemList create( const time_point &birthday, const bool use_spawn_rate ) const;
         /**
@@ -242,7 +242,7 @@ class Single_item_creator : public Item_spawn_data
 
         void inherit_ammo_mag_chances( int ammo, int mag );
 
-        ItemList create( const time_point &birthday, const int spawn_rate,
+        ItemList create( const time_point &birthday, const float spawn_rate,
                          RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;
@@ -289,7 +289,7 @@ class Item_group : public Item_spawn_data
          */
         void add_entry( std::unique_ptr<Item_spawn_data> ptr );
 
-        ItemList create( const time_point &birthday, const int spawn_rate,
+        ItemList create( const time_point &birthday, const float spawn_rate,
                          RecursionList &rec ) const override;
         item create_single( const time_point &birthday, RecursionList &rec ) const override;
         void check_consistency( const std::string &context ) const override;

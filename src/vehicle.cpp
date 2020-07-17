@@ -5381,9 +5381,9 @@ void vehicle::place_spawn_items()
                 }
 
                 std::vector<item> created;
-                const int spawn_rate = get_option<float>( "ITEM_SPAWNRATE" ) * 100.0f;
+                const float spawn_rate = get_option<float>( "ITEM_SPAWNRATE" );
                 for( const itype_id &e : spawn.item_ids ) {
-                    if( rng( 1, 100 ) <= spawn_rate ) {
+                    if( rng_float( 0, 1 ) < spawn_rate ) {
                         created.emplace_back( item( e ).in_its_container() );
                     }
                 }

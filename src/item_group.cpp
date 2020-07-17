@@ -29,8 +29,7 @@ Item_spawn_data::ItemList Item_spawn_data::create( const time_point &birthday,
         const bool use_spawn_rate ) const
 {
     RecursionList rec;
-    return create( birthday, use_spawn_rate ? get_option<float>( "ITEM_SPAWNRATE" ) * 100.0f : 100,
-                   rec );
+    return create( birthday, use_spawn_rate ? get_option<float>( "ITEM_SPAWNRATE" ) : 1.0f, rec );
 }
 
 item Item_spawn_data::create_single( const time_point &birthday ) const
@@ -88,7 +87,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
 }
 
 Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthday,
-        const int spawn_rate, RecursionList &rec ) const
+        const float spawn_rate, RecursionList &rec ) const
 {
     ItemList result;
     int cnt = 1;
@@ -100,7 +99,7 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
     for( ; cnt > 0; cnt-- ) {
         if( type == S_ITEM ) {
             const auto itm = create_single( birthday, rec );
-            if( !itm.has_flag( "MISSION_ITEM" ) && rng( 0, 99 ) >= spawn_rate ) {
+            if( !itm.has_flag( "MISSION_ITEM" ) && rng_float( 0, 1 ) > spawn_rate ) {
                 continue;
             }
             if( !itm.is_null() ) {
@@ -496,7 +495,7 @@ void Item_group::add_entry( std::unique_ptr<Item_spawn_data> ptr )
     items.push_back( std::move( ptr ) );
 }
 
-Item_spawn_data::ItemList Item_group::create( const time_point &birthday, const int spawn_rate,
+Item_spawn_data::ItemList Item_group::create( const time_point &birthday, const float spawn_rate,
         RecursionList &rec ) const
 {
     ItemList result;
