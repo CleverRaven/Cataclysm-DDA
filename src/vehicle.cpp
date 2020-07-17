@@ -6511,7 +6511,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
 
     int explosion_chance = type == DT_HEAT ? data.explosion_chance_hot : data.explosion_chance_cold;
     if( one_in( explosion_chance ) ) {
-        g->events().send<event_type::fuel_tank_explodes>( name );
+        get_event_bus().send<event_type::fuel_tank_explodes>( name );
         const int pow = 120 * ( 1 - std::exp( data.explosion_factor / -5000 *
                                               ( parts[p].ammo_remaining() * data.fuel_size_factor ) ) );
         //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );

@@ -149,6 +149,7 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend event_bus &get_event_bus();
         friend map &get_map();
         friend Character &get_player_character();
         friend avatar &get_avatar();
@@ -974,12 +975,12 @@ class game
         pimpl<spell_events> spell_events_ptr;
 
         map &m;
+        event_bus &events();
     public:
         avatar &u;
         scent_map &scent;
         timed_event_manager &timed_events;
 
-        event_bus &events();
         stats_tracker &stats();
         achievements_tracker &achievements();
         memorial_logger &memorial();

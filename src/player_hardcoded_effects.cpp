@@ -535,7 +535,7 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
-            g->events().send<event_type::dermatik_eggs_hatch>( getID() );
+            get_event_bus().send<event_type::dermatik_eggs_hatch>( getID() );
             remove_effect( effect_formication, bp->token );
             moves -= 600;
             triggered = true;
@@ -668,7 +668,7 @@ void player::hardcoded_effects( effect &it )
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
                 }
                 teleport::teleport( *this );
-                g->events().send<event_type::teleglow_teleports>( getID() );
+                get_event_bus().send<event_type::teleglow_teleports>( getID() );
                 if( one_in( 10 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
@@ -778,7 +778,7 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 0_turns );
         } else if( dur > 2_hours ) {
             add_msg_if_player( m_bad, _( "Your asthma overcomes you.\nYou asphyxiate." ) );
-            g->events().send<event_type::dies_from_asthma_attack>( getID() );
+            get_event_bus().send<event_type::dies_from_asthma_attack>( getID() );
             hurtall( 500, nullptr );
         } else if( dur > 70_minutes ) {
             if( one_in( 120 ) ) {
@@ -899,7 +899,7 @@ void player::hardcoded_effects( effect &it )
                 add_msg_if_player(
                     _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
             }
-            g->events().send<event_type::dies_from_drug_overdose>( getID(), id );
+            get_event_bus().send<event_type::dies_from_drug_overdose>( getID(), id );
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         }
     } else if( id == effect_hypovolemia ) {
@@ -915,13 +915,13 @@ void player::hardcoded_effects( effect &it )
                 add_msg_player_or_npc( m_bad,
                                        _( "You bleed to death!" ),
                                        _( "<npcname> bleeds to death!" ) );
-                g->events().send<event_type::dies_from_bleeding>( getID() );
+                get_event_bus().send<event_type::dies_from_bleeding>( getID() );
             } else
             {
                 add_msg_player_or_npc( m_bad,
                                        _( "Your heart can't keep up the pace and fails!" ),
                                        _( "<npcname> has a sudden heart attack!" ) );
-                g->events().send<event_type::dies_from_hypovolemia>( getID() );
+                get_event_bus().send<event_type::dies_from_hypovolemia>( getID() );
             }
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         };
@@ -1021,7 +1021,7 @@ void player::hardcoded_effects( effect &it )
             add_msg_player_or_npc( m_bad,
                                    _( "You cannot breathe and your body gives out!" ),
                                    _( "<npcname> gasps for air and dies!" ) );
-            g->events().send<event_type::dies_from_redcells_loss>( getID() );
+            get_event_bus().send<event_type::dies_from_redcells_loss>( getID() );
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         }
         if( one_in( 900 / intense ) && !in_sleep_state() ) {
@@ -1249,7 +1249,7 @@ void player::hardcoded_effects( effect &it )
             // Death happens
             if( dur > 1_days ) {
                 add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
-                g->events().send<event_type::dies_of_infection>( getID() );
+                get_event_bus().send<event_type::dies_of_infection>( getID() );
                 hurtall( 500, nullptr );
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 it.mod_duration( -1_turns );

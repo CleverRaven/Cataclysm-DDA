@@ -450,7 +450,7 @@ void computer_session::action_sample()
 
 void computer_session::action_release()
 {
-    g->events().send<event_type::releases_subspace_specimens>();
+    get_event_bus().send<event_type::releases_subspace_specimens>();
     Character &player_character = get_player_character();
     sounds::sound( player_character.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
@@ -478,7 +478,7 @@ void computer_session::action_release_bionics()
 
 void computer_session::action_terminate()
 {
-    g->events().send<event_type::terminates_subspace_specimens>();
+    get_event_bus().send<event_type::terminates_subspace_specimens>();
     Character &player_character = get_player_character();
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
@@ -498,7 +498,7 @@ void computer_session::action_terminate()
 
 void computer_session::action_portal()
 {
-    g->events().send<event_type::opens_portal>();
+    get_event_bus().send<event_type::opens_portal>();
     map &here = get_map();
     for( const tripoint &tmp : here.points_on_zlevel() ) {
         int numtowers = 0;
@@ -522,7 +522,7 @@ void computer_session::action_cascade()
     if( !query_bool( _( "WARNING: Resonance cascade carries severe risk!  Continue?" ) ) ) {
         return;
     }
-    g->events().send<event_type::causes_resonance_cascade>();
+    get_event_bus().send<event_type::causes_resonance_cascade>();
     tripoint player_pos = get_player_character().pos();
     map &here = get_map();
     std::vector<tripoint> cascade_points;
@@ -630,7 +630,7 @@ void computer_session::action_miss_disarm()
 {
     // TODO: stop the nuke from creating radioactive clouds.
     if( query_yn( _( "Disarm missile." ) ) ) {
-        g->events().send<event_type::disarms_nuke>();
+        get_event_bus().send<event_type::disarms_nuke>();
         add_msg( m_info, _( "Nuclear missile disarmed!" ) );
         //disable missile.
         comp.options.clear();
@@ -993,7 +993,7 @@ void computer_session::action_srcf_seal_order()
 
 void computer_session::action_srcf_seal()
 {
-    g->events().send<event_type::seals_hazardous_material_sarcophagus>();
+    get_event_bus().send<event_type::seals_hazardous_material_sarcophagus>();
     print_line( _( "Charges Detonated" ) );
     print_line( _( "Backup Generator Power Failing" ) );
     print_line( _( "Evacuate Immediately" ) );
@@ -1345,7 +1345,7 @@ void computer_session::failure_shutdown()
 void computer_session::failure_alarm()
 {
     Character &player_character = get_player_character();
-    g->events().send<event_type::triggers_alarm>( player_character.getID() );
+    get_event_bus().send<event_type::triggers_alarm>( player_character.getID() );
     sounds::sound( player_character.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
                    "alarm" );

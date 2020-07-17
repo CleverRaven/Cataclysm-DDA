@@ -781,7 +781,7 @@ void talk_function::hostile( npc &p )
         add_msg( _( "%s turns hostile!" ), p.name );
     }
 
-    g->events().send<event_type::npc_becomes_hostile>( p.getID(), p.name );
+    get_event_bus().send<event_type::npc_becomes_hostile>( p.getID(), p.name );
     p.set_attitude( NPCATT_KILL );
 }
 

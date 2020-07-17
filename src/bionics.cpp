@@ -2264,7 +2264,7 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
 {
     map &here = get_map();
     if( success > 0 ) {
-        g->events().send<event_type::removes_cbm>( getID(), bid );
+        get_event_bus().send<event_type::removes_cbm>( getID(), bid );
 
         // until bionics can be flagged as non-removable
         add_msg_player_or_npc( m_neutral, _( "Your parts are jiggled back into their familiar places." ),
@@ -2285,7 +2285,7 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
         cbm.faults.emplace( fault_bionic_salvaged );
         here.add_item( pos(), cbm );
     } else {
-        g->events().send<event_type::fails_to_remove_cbm>( getID(), bid );
+        get_event_bus().send<event_type::fails_to_remove_cbm>( getID(), bid );
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
                                static_cast<float>( pl_skill ) - static_cast<float>( pl_skill ) / static_cast<float>
@@ -2510,7 +2510,7 @@ void Character::perform_install( const bionic_id &bid, const bionic_id &upbid, i
                                  const std::vector<trait_id> &trait_to_rem, const tripoint &patient_pos )
 {
     if( success > 0 ) {
-        g->events().send<event_type::installs_cbm>( getID(), bid );
+        get_event_bus().send<event_type::installs_cbm>( getID(), bid );
         if( upbid != bionic_id( "" ) ) {
             remove_bionic( upbid );
             //~ %1$s - name of the bionic to be upgraded (inferior), %2$s - name of the upgraded bionic (superior).
@@ -2532,7 +2532,7 @@ void Character::perform_install( const bionic_id &bid, const bionic_id &upbid, i
         }
 
     } else {
-        g->events().send<event_type::fails_to_install_cbm>( getID(), bid );
+        get_event_bus().send<event_type::fails_to_install_cbm>( getID(), bid );
 
         // for chance_of_success calculation, shift skill down to a float between ~0.4 - 30
         float adjusted_skill = static_cast<float>( pl_skill ) - std::min( static_cast<float>( 40 ),
@@ -2611,7 +2611,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                 } else {
                     const bionic_id &id = random_entry( valid );
                     add_bionic( id );
-                    g->events().send<event_type::installs_faulty_cbm>( getID(), id );
+                    get_event_bus().send<event_type::installs_faulty_cbm>( getID(), id );
                 }
 
                 break;

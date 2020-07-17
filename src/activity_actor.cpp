@@ -384,7 +384,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
-        g->events().send<event_type::exhumes_grave>( who.getID() );
+        get_event_bus().send<event_type::exhumes_grave>( who.getID() );
     }
 
     here.ter_set( location, ter_id( result_terrain ) );
@@ -620,7 +620,7 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
         case hack_result::FAIL:
             // currently all things that can be hacked have equivalent alarm failure states.
             // this may not always be the case with new hackable things.
-            g->events().send<event_type::triggers_alarm>( who.getID() );
+            get_event_bus().send<event_type::triggers_alarm>( who.getID() );
             sounds::sound( who.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
             if( examp.z > 0 && !g->timed_events.queued( timed_event_type::WANTED ) ) {

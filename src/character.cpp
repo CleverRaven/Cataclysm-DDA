@@ -2119,7 +2119,7 @@ void Character::practice( const skill_id &id, int amount, int cap, bool suppress
         int newLevel = get_skill_level( id );
         std::string skill_name = skill.name();
         if( newLevel > oldLevel ) {
-            g->events().send<event_type::gains_skill_level>( getID(), id, newLevel );
+            get_event_bus().send<event_type::gains_skill_level>( getID(), id, newLevel );
         }
         if( is_player() && newLevel > oldLevel ) {
             add_msg( m_good, _( "Your skill in %s has increased to %d!" ), skill_name, newLevel );
@@ -2368,7 +2368,7 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
     std::list<item>::iterator position = position_to_wear_new_item( to_wear );
     std::list<item>::iterator new_item_it = worn.insert( position, to_wear );
 
-    g->events().send<event_type::character_wears_item>( getID(), last_item );
+    get_event_bus().send<event_type::character_wears_item>( getID(), last_item );
 
     if( interactive ) {
         add_msg_player_or_npc(
@@ -2784,7 +2784,7 @@ item Character::remove_weapon()
 {
     item tmp = weapon;
     weapon = item();
-    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     cached_info.erase( "weapon_value" );
     return tmp;
 }
@@ -5321,13 +5321,13 @@ void Character::check_needs_extremes()
         add_msg_player_or_npc( m_bad,
                                _( "You have a sudden heart attack!" ),
                                _( "<npcname> has a sudden heart attack!" ) );
-        g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
+        get_event_bus().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
         set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( get_stim() < -200 || get_painkiller() > 240 ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your breathing stops completely." ),
                                _( "<npcname>'s breathing stops completely." ) );
-        g->events().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
+        get_event_bus().send<event_type::dies_from_drug_overdose>( getID(), efftype_id() );
         set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( has_effect( effect_jetinjector ) && get_effect_dur( effect_jetinjector ) > 40_minutes ) {
         if( !( has_trait( trait_NOPAIN ) ) ) {
@@ -5338,19 +5338,19 @@ void Character::check_needs_extremes()
             add_msg_player_or_npc( _( "Your heart spasms and stops." ),
                                    _( "<npcname>'s heart spasms and stops." ) );
         }
-        g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_jetinjector );
+        get_event_bus().send<event_type::dies_from_drug_overdose>( getID(), effect_jetinjector );
         set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( get_effect_dur( effect_adrenaline ) > 50_minutes ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your heart spasms and stops." ),
                                _( "<npcname>'s heart spasms and stops." ) );
-        g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_adrenaline );
+        get_event_bus().send<event_type::dies_from_drug_overdose>( getID(), effect_adrenaline );
         set_part_hp_cur( bodypart_id( "torso" ), 0 );
     } else if( get_effect_int( effect_drunk ) > 4 ) {
         add_msg_player_or_npc( m_bad,
                                _( "Your breathing slows down to a stop." ),
                                _( "<npcname>'s breathing slows down to a stop." ) );
-        g->events().send<event_type::dies_from_drug_overdose>( getID(), effect_drunk );
+        get_event_bus().send<event_type::dies_from_drug_overdose>( getID(), effect_drunk );
         set_part_hp_cur( bodypart_id( "torso" ), 0 );
     }
 
@@ -5358,7 +5358,7 @@ void Character::check_needs_extremes()
     if( is_player() ) {
         if( get_stored_kcal() <= 0 ) {
             add_msg_if_player( m_bad, _( "You have starved to death." ) );
-            g->events().send<event_type::dies_of_starvation>( getID() );
+            get_event_bus().send<event_type::dies_of_starvation>( getID() );
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         } else {
             if( calendar::once_every( 12_hours ) ) {
@@ -5398,7 +5398,7 @@ void Character::check_needs_extremes()
             guts.get_water() == 0_ml ) ) {
         if( get_thirst() >= 1200 ) {
             add_msg_if_player( m_bad, _( "You have died of dehydration." ) );
-            g->events().send<event_type::dies_of_thirst>( getID() );
+            get_event_bus().send<event_type::dies_of_thirst>( getID() );
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         } else if( get_thirst() >= 1000 && calendar::once_every( 30_minutes ) ) {
             add_msg_if_player( m_warning, _( "Even your eyes feel dry…" ) );
@@ -5413,7 +5413,7 @@ void Character::check_needs_extremes()
     if( get_fatigue() >= fatigue_levels::EXHAUSTED + 25 && !in_sleep_state() ) {
         if( get_fatigue() >= fatigue_levels::MASSIVE_FATIGUE ) {
             add_msg_if_player( m_bad, _( "Survivor sleep now." ) );
-            g->events().send<event_type::falls_asleep_from_exhaustion>( getID() );
+            get_event_bus().send<event_type::falls_asleep_from_exhaustion>( getID() );
             mod_fatigue( -10 );
             fall_asleep();
         } else if( get_fatigue() >= 800 && calendar::once_every( 30_minutes ) ) {
@@ -8186,7 +8186,7 @@ void Character::wake_up()
     // effects) with a duration of 0 turns.
 
     if( has_effect( effect_sleep ) ) {
-        g->events().send<event_type::character_wakes_up>( getID() );
+        get_event_bus().send<event_type::character_wakes_up>( getID() );
         get_effect( effect_sleep ).set_duration( 0_turns );
     }
     remove_effect( effect_slept_through_alarm );
@@ -8309,7 +8309,7 @@ void Character::shout( std::string msg, bool order )
 
 void Character::vomit()
 {
-    g->events().send<event_type::throws_up>( getID() );
+    get_event_bus().send<event_type::throws_up>( getID() );
 
     if( stomach.contains() != 0_ml ) {
         stomach.empty();
@@ -8984,7 +8984,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
     const int dam_to_bodypart = std::min( dam, get_part_hp_cur( hurt ) );
 
     mod_part_hp_cur( hurt, - dam_to_bodypart );
-    g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+    get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( !weapon.is_null() && !as_player()->can_wield( weapon ).success() &&
         can_unwield( weapon ).success() ) {
@@ -9201,7 +9201,7 @@ void Character::heal( const bodypart_id &healed, int dam )
     if( !is_limb_broken( healed ) ) {
         int effective_heal = std::min( dam, get_part_hp_max( healed ) - get_part_hp_cur( healed ) );
         mod_part_hp_cur( healed, effective_heal );
-        g->events().send<event_type::character_heals_damage>( getID(), effective_heal );
+        get_event_bus().send<event_type::character_heals_damage>( getID(), effective_heal );
     }
 }
 
@@ -9223,7 +9223,7 @@ void Character::hurtall( int dam, Creature *source, bool disturb /*= true*/ )
         // Don't use apply_damage here or it will annoy the player with 6 queries
         const int dam_to_bodypart = std::min( dam, get_part_hp_cur( bp ) );
         mod_part_hp_cur( bp, - dam_to_bodypart );
-        g->events().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
+        get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
     }
 
     // Low pain: damage is spread all over the body, so not as painful as 6 hits in one part

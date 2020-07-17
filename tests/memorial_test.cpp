@@ -56,7 +56,7 @@ TEST_CASE( "memorials", "[memorial]" )
     m.clear();
     clear_avatar();
 
-    event_bus &b = g->events();
+    event_bus &b = get_event_bus();
 
     avatar &player_character = get_avatar();
     player_character.male = false;

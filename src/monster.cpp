@@ -2198,7 +2198,7 @@ void monster::die( Creature *nkiller )
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt( *this );
         }
-        g->events().send<event_type::character_kills_monster>( ch->getID(), type->id );
+        get_event_bus().send<event_type::character_kills_monster>( ch->getID(), type->id );
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
             if( one_in( 4 ) ) {
                 const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );

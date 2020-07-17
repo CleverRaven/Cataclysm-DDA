@@ -851,7 +851,7 @@ TEST_CASE( "stats_tracker_in_game", "[stats]" )
 {
     g->stats().clear();
     cata::event e = cata::event::make<event_type::awakes_dark_wyrms>();
-    g->events().send( e );
+    get_event_bus().send( e );
     CHECK( g->stats().get_events( e.type() ).count( e.data() ) == 1 );
 }
 
@@ -870,15 +870,15 @@ TEST_CASE( "achievements_tracker_in_game", "[stats]" )
 {
     g->achievements().clear();
     test_subscriber sub;
-    g->events().subscribe( &sub );
+    get_event_bus().subscribe( &sub );
 
     const character_id u_id = get_player_character().getID();
-    send_game_start( g->events(), u_id );
+    send_game_start( get_event_bus(), u_id );
 
     const mtype_id mon_zombie( "mon_zombie" );
     const cata::event avatar_zombie_kill =
         cata::event::make<event_type::character_kills_monster>( u_id, mon_zombie );
-    g->events().send( avatar_zombie_kill );
+    get_event_bus().send( avatar_zombie_kill );
 
     achievement_id c_pacifist( "conduct_zero_kills" );
     achievement_id a_kill_zombie( "achievement_kill_zombie" );

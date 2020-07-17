@@ -2192,7 +2192,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
                      skill_name, new_skill_level );
-            g->events().send<event_type::gains_skill_level>( p->getID(), sk, new_skill_level );
+            get_event_bus().send<event_type::gains_skill_level>( p->getID(), sk, new_skill_level );
         } else {
             add_msg( m_good, _( "You get some training in %s." ), skill_name );
         }
@@ -2204,7 +2204,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     if( ma_id.is_valid() ) {
         const martialart &mastyle = ma_id.obj();
         // Trained martial arts,
-        g->events().send<event_type::learns_martial_art>( p->getID(), ma_id );
+        get_event_bus().send<event_type::learns_martial_art>( p->getID(), ma_id );
         p->martial_arts_data.learn_style( mastyle.id, p->is_avatar() );
     } else if( !magic_train( act, p ) ) {
         debugmsg( "train_finish without a valid skill or style or spell name" );
@@ -3948,7 +3948,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
-    g->events().send<event_type::cuts_tree>( p->getID() );
+    get_event_bus().send<event_type::cuts_tree>( p->getID() );
     act->set_to_null();
     resume_for_multi_activities( *p );
 }
@@ -4511,7 +4511,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                                       spell_being_cast.xp() );
             }
             if( spell_being_cast.get_level() != old_level ) {
-                g->events().send<event_type::player_levels_spell>( p->getID(),
+                get_event_bus().send<event_type::player_levels_spell>( p->getID(),
                         spell_being_cast.id(), spell_being_cast.get_level() );
             }
         }

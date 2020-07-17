@@ -2677,7 +2677,7 @@ player::wear( item &to_wear, bool interactive )
     }
 
     if( was_weapon ) {
-        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+        get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     }
 
     return result;
@@ -3574,7 +3574,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
 
     weapon.on_wield( *this, mv );
 
-    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     return true;
 }

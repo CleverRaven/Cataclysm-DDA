@@ -841,7 +841,7 @@ void npc::starting_weapon( const npc_class_id &type )
         }
     }
 
-    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     weapon.set_owner( get_faction()->id );
 }
@@ -957,7 +957,7 @@ void npc::finish_read( item &book )
         skill_level.readBook( min_ex, max_ex, reading->level );
         const std::string skill_name = skill.obj().name();
         if( skill_level != originalSkillLevel ) {
-            g->events().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
+            get_event_bus().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
             if( display_messages ) {
                 add_msg( m_good, _( "%s increases their %s level." ), disp_name(), skill_name );
                 // NPC reads until they gain a level, then stop.
@@ -1157,7 +1157,7 @@ bool npc::wield( item &it )
 
     if( it.is_null() ) {
         weapon = item();
-        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+        get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
     }
 
@@ -1168,7 +1168,7 @@ bool npc::wield( item &it )
         weapon = it;
     }
 
-    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     if( get_player_character().sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
@@ -2521,7 +2521,7 @@ void npc::die( Creature *nkiller )
     }
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
-        g->events().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
+        get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
     }
 
     if( killer == &player_character && ( !guaranteed_hostile() || hit_by_player ) ) {
