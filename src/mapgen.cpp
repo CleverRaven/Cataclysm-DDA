@@ -1908,7 +1908,7 @@ void jmapgen_objects::load_objects<jmapgen_loot>( const JsonArray &parray )
         }
 
         auto loot = make_shared_fast<jmapgen_loot>( jsi );
-        // rates < 1 are handled in item_group
+        // spawn rates < 1 are handled in item_group
         auto rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f );
 
         if( where.repeat.valmax != 1 ) {
@@ -5726,7 +5726,9 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
         return res;
     }
 
-    int spawn_count = roll_remainder( chance / 100.0f );
+    // spawn rates < 1 are handled in item_group
+    const float spawn_rate = std::max( get_option<float>( "ITEM_SPAWNRATE" ), 1.0f ) ;
+    const int spawn_count = roll_remainder( chance * spawn_rate / 100.0f );
     for( int i = 0; i < spawn_count; i++ ) {
         // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
