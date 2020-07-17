@@ -1240,6 +1240,7 @@ void main_menu::world_tab()
     } );
     ui.position_from_window( w_open );
 
+    avatar &player_character = get_avatar();
     while( sel1 == 3 && ( layer == 2 || layer == 3 || layer == 4 ) ) {
         ui_manager::redraw();
         if( layer == 4 ) {  //Character to Template
