@@ -194,6 +194,24 @@ const std::vector<bionic_id> weapon_cbms = { {
 
 const int avoidance_vehicles_radius = 5;
 
+bool good_for_pickup( const item &it, npc &who )
+{
+    bool good = false;
+
+    const bool whitelisting = who.has_item_whitelist();
+    auto weight_allowed = who.weight_capacity() - who.weight_carried();
+    auto min_value = who.minimum_item_value();
+
+    if( ( !it.made_of_from_type( phase_id::LIQUID ) ) &&
+        ( ( !whitelisting && who.value( it ) > min_value ) || who.item_whitelisted( it ) ) &&
+        ( it.weight() <= weight_allowed ) &&
+        ( who.can_stash( it ) || who.weapon_value( it ) > who.weapon_value( who.weapon ) ) ) {
+        good = true;
+    }
+
+    return good;
+}
+
 } // namespace
 
 std::string npc_action_name( npc_action action );
@@ -2819,19 +2837,13 @@ void npc::find_item()
 
     const item *wanted = nullptr;
 
-    const bool whitelisting = has_item_whitelist();
-
     if( volume_allowed <= 0_ml || weight_allowed <= 0_gram ) {
         return;
     }
 
     const auto consider_item =
-        [&wanted, &best_value, whitelisting, volume_allowed, weight_allowed, this]
+        [&wanted, &best_value, this]
     ( const item & it, const tripoint & p ) {
-        if( it.made_of_from_type( phase_id::LIQUID ) ) {
-            // Don't even consider liquids.
-            return;
-        }
         std::vector<npc *> followers;
         for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
@@ -2849,19 +2861,10 @@ void npc::find_item()
                 return;
             }
         }
-        if( whitelisting && !item_whitelisted( it ) ) {
-            return;
-        }
-
-        // When using a whitelist, skip the value check
-        // TODO: Whitelist hierarchy?
-        int itval = whitelisting ? 1000 : value( it );
-
-        if( itval > best_value &&
-            ( it.volume() <= volume_allowed && it.weight() <= weight_allowed ) ) {
+        if( ::good_for_pickup( it, *this ) ) {
             wanted_item_pos = p;
             wanted = &( it );
-            best_value = itval;
+            best_value = has_item_whitelist() ? 1000 : value( it );
         }
     };
 
@@ -2869,9 +2872,10 @@ void npc::find_item()
     // Harvest item doesn't exist, so we'll be checking by its name
     std::string wanted_name;
     const auto consider_terrain =
-    [ this, whitelisting, volume_allowed, &wanted, &wanted_name, &here ]( const tripoint & p ) {
+    [ this, volume_allowed, &wanted, &wanted_name, &here ]( const tripoint & p ) {
         // We only want to pick plants when there are no items to pick
-        if( !whitelisting || wanted != nullptr || !wanted_name.empty() || volume_allowed < 250_ml ) {
+        if( !has_item_whitelist() || wanted != nullptr || !wanted_name.empty() ||
+            volume_allowed < 250_ml ) {
             return;
         }
 
@@ -3077,46 +3081,14 @@ void npc::pick_up_item()
 template <typename T>
 std::list<item> npc_pickup_from_stack( npc &who, T &items )
 {
-    const bool whitelisting = who.has_item_whitelist();
-    auto volume_allowed = who.volume_capacity() - who.volume_carried();
-    auto weight_allowed = who.weight_capacity() - who.weight_carried();
-    auto min_value = whitelisting ? 0 : who.minimum_item_value();
     std::list<item> picked_up;
 
     for( auto iter = items.begin(); iter != items.end(); ) {
         const item &it = *iter;
-        if( it.made_of_from_type( phase_id::LIQUID ) ) {
-            iter++;
-            continue;
+        if( ::good_for_pickup( it, who ) ) {
+            picked_up.push_back( it );
+            iter = items.erase( iter );
         }
-
-        if( whitelisting && !who.item_whitelisted( it ) ) {
-            iter++;
-            continue;
-        }
-
-        auto volume = it.volume();
-        if( volume > volume_allowed ) {
-            iter++;
-            continue;
-        }
-
-        auto weight = it.weight();
-        if( weight > weight_allowed ) {
-            iter++;
-            continue;
-        }
-
-        int itval = whitelisting ? 1000 : who.value( it );
-        if( itval < min_value ) {
-            iter++;
-            continue;
-        }
-
-        volume_allowed -= volume;
-        weight_allowed -= weight;
-        picked_up.push_back( it );
-        iter = items.erase( iter );
     }
 
     return picked_up;
