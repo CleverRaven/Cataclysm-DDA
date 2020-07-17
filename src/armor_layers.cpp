@@ -8,12 +8,11 @@
 #include <string>
 #include <vector>
 
-#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
+#include "character.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
@@ -535,10 +534,11 @@ void player::sort_armor()
     ctxt.register_action( "USAGE_HELP" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    auto do_return_entry = []() {
-        g->u.assign_activity( ACT_ARMOR_LAYERS, 0 );
-        g->u.activity.auto_resume = true;
-        g->u.activity.moves_left = INT_MAX;
+    Character &player_character = get_player_character();
+    auto do_return_entry = [&player_character]() {
+        player_character.assign_activity( ACT_ARMOR_LAYERS, 0 );
+        player_character.activity.auto_resume = true;
+        player_character.activity.moves_left = INT_MAX;
     };
 
     int leftListSize = 0;
@@ -711,17 +711,17 @@ void player::sort_armor()
     while( !exit ) {
         if( is_player() ) {
             // Totally hoisted this from advanced_inv
-            if( g->u.moves < 0 ) {
+            if( player_character.moves < 0 ) {
                 do_return_entry();
                 return;
             }
         } else {
             // Player is sorting NPC's armor here
-            if( rl_dist( g->u.pos(), pos() ) > 1 ) {
+            if( rl_dist( player_character.pos(), pos() ) > 1 ) {
                 add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name );
                 return;
             }
-            if( attitude_to( g->u ) != Creature::Attitude::FRIENDLY ) {
+            if( attitude_to( player_character ) != Creature::Attitude::FRIENDLY ) {
                 add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name );
                 return;
             }
@@ -802,9 +802,9 @@ void player::sort_armor()
             }
         } else if( action == "CHANGE_SIDE" ) {
             if( leftListIndex < leftListSize && tmp_worn[leftListIndex]->is_sided() ) {
-                if( g->u.query_yn( _( "Swap side for %s?" ),
-                                   colorize( tmp_worn[leftListIndex]->tname(),
-                                             tmp_worn[leftListIndex]->color_in_inventory() ) ) ) {
+                if( player_character.query_yn( _( "Swap side for %s?" ),
+                                               colorize( tmp_worn[leftListIndex]->tname(),
+                                                       tmp_worn[leftListIndex]->color_in_inventory() ) ) ) {
                     change_side( *tmp_worn[leftListIndex] );
                 }
             }
@@ -867,16 +867,16 @@ void player::sort_armor()
         } else if( action == "REMOVE_ARMOR" ) {
             // query (for now)
             if( leftListIndex < leftListSize ) {
-                if( g->u.query_yn( _( "Remove selected armor?" ) ) ) {
+                if( player_character.query_yn( _( "Remove selected armor?" ) ) ) {
                     do_return_entry();
                     // remove the item, asking to drop it if necessary
                     takeoff( *tmp_worn[leftListIndex] );
-                    if( !g->u.has_activity( ACT_ARMOR_LAYERS ) ) {
+                    if( !player_character.has_activity( ACT_ARMOR_LAYERS ) ) {
                         // An activity has been created to take off the item;
                         // we must surrender control until it is done.
                         return;
                     }
-                    g->u.cancel_activity();
+                    player_character.cancel_activity();
                     selected = -1;
                 }
             }

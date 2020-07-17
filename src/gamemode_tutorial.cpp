@@ -112,7 +112,7 @@ bool tutorial_game::init()
     calendar::turn = calendar::turn_zero + 12_hours;
     tutorials_seen.clear();
     g->scent.reset();
-    g->weather.temperature = 65;
+    get_weather().temperature = 65;
     // We use a Z-factor of 10 so that we don't plop down tutorial rooms in the
     // middle of the "real" game world
     avatar &player_character = get_avatar();

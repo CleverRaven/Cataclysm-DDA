@@ -503,7 +503,7 @@ void game::chat()
             if( npcselect < 0 ) {
                 return;
             }
-            g->u.talk_to( get_talker_for( *available[npcselect] ) );
+            get_avatar().talk_to( get_talker_for( *available[npcselect] ) );
             break;
         }
         case NPC_CHAT_YELL:
@@ -805,12 +805,13 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
                    _( "&You are deaf and can't talk.  When you don't respond, %s becomes angry!" ),
                    beta->disp_name() );
     }
+    avatar &player_character = get_avatar();
     if( topic == "TALK_SEDATED" ) {
         return string_format( _( "%1$s is sedated and can't be moved or woken up until the "
                                  "medication or sedation wears off.\nYou estimate it will wear "
                                  "off in %2$s." ),
                               beta->disp_name(),
-                              to_string_approx( g->u.estimate_effect_dur( skill_id( "firstaid" ),
+                              to_string_approx( player_character.estimate_effect_dur( skill_id( "firstaid" ),
                                                 effect_narcosis, 15_minutes, 6,
                                                 *beta->get_npc() ) ) );
     }
@@ -854,7 +855,7 @@ std::string dialogue::dynamic_line( const talk_topic &the_topic ) const
     if( topic == "TALK_NONE" || topic == "TALK_DONE" ) {
         return _( "Bye." );
     } else if( topic == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == ACT_TRAIN ) {
+        if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN ) {
             return _( "Shall we resume?" );
         } else if( beta->skills_offered_to( *alpha ).empty() &&
                    beta->styles_offered_to( *alpha ).empty() &&
@@ -1007,6 +1008,7 @@ void dialogue::gen_responses( const talk_topic &the_topic )
         }
     }
 
+    Character &player_character = get_player_character();
     if( the_topic.id == "TALK_MISSION_LIST" ) {
         if( beta->available_missions().size() == 1 ) {
             add_response( _( "Tell me about it." ), "TALK_MISSION_OFFER",
@@ -1025,9 +1027,9 @@ void dialogue::gen_responses( const talk_topic &the_topic )
             }
         }
     } else if( the_topic.id == "TALK_TRAIN" ) {
-        if( !g->u.backlog.empty() && g->u.backlog.front().id() == ACT_TRAIN &&
-            g->u.backlog.front().index == beta->getID().get_value() ) {
-            player_activity &backlog = g->u.backlog.front();
+        if( !player_character.backlog.empty() && player_character.backlog.front().id() == ACT_TRAIN &&
+            player_character.backlog.front().index == beta->getID().get_value() ) {
+            player_activity &backlog = player_character.backlog.front();
             const skill_id skillt( backlog.name );
             // TODO: This is potentially dangerous. A skill and a martial art
             // could have the same ident!
@@ -1967,7 +1969,7 @@ void talk_effect_fun_t::set_u_learn_recipe( const std::string &learned_recipe_id
 {
     function = [learned_recipe_id]( const dialogue & ) {
         const recipe &r = recipe_id( learned_recipe_id ).obj();
-        g->u.learn_recipe( &r );
+        get_player_character().learn_recipe( &r );
         popup( _( "You learn how to craft %s." ), r.result_name() );
     };
 }

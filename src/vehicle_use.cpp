@@ -866,7 +866,7 @@ double vehicle::engine_cold_factor( const int e ) const
         return 0.0;
     }
 
-    int eff_temp = g->weather.get_temperature( get_player_character().pos() );
+    int eff_temp = get_weather().get_temperature( get_player_character().pos() );
     if( !parts[ engines[ e ] ].faults().count( fault_engine_glow_plug ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }

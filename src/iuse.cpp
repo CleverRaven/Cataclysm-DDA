@@ -8770,7 +8770,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 meal.heat_up();
             } else {
                 meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
-                                           g->weather.get_temperature( pos ) ) ) );
+                                           get_weather().get_temperature( pos ) ) ) );
             }
 
             it->active = false;

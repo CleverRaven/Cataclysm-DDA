@@ -12600,7 +12600,31 @@ void game_ui::init_ui()
     g->init_ui( true );
 }
 
+Character &get_player_character()
+{
+    return g->u;
+}
+
+avatar &get_avatar()
+{
+    return g->u;
+}
+
+map &get_map()
+{
+    return g->m;
+}
+
 event_bus &get_event_bus()
 {
     return g->events();
+}
+
+const scenario *get_scenario()
+{
+    return g->scen;
+}
+void set_scenario( const scenario *new_scenario )
+{
+    g->scen = new_scenario;
 }

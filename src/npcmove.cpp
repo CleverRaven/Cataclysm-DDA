@@ -1239,7 +1239,7 @@ void npc::execute_action( npc_action action )
 
         break;
         case npc_talk_to_player:
-            g->u.talk_to( get_talker_for( this ) );
+            get_avatar().talk_to( get_talker_for( this ) );
             moves = 0;
             break;
 

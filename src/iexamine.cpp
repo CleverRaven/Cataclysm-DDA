@@ -1060,7 +1060,7 @@ void iexamine::intercom( player &p, const tripoint &examp )
         p.add_msg_if_player( m_info, _( "No one responds." ) );
     } else {
         // TODO: This needs to be converted a talker_console or something
-        g->u.talk_to( get_talker_for( *intercom_npcs.front() ), false, false );
+        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false, false );
     }
 }
 
@@ -1719,7 +1719,7 @@ static void handle_harvest( player &p, const std::string &itemid, bool force_dro
 {
     item harvest = item( itemid );
     if( harvest.has_temperature() ) {
-        harvest.set_item_temperature( temp_to_kelvin( g->weather.get_temperature( p.pos() ) ) );
+        harvest.set_item_temperature( temp_to_kelvin( get_weather().get_temperature( p.pos() ) ) );
     }
     if( !force_drop && p.can_pickVolume( harvest, true ) &&
         p.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
