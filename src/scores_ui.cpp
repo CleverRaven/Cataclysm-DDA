@@ -47,9 +47,10 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
         return std::make_tuple( comp, ach->name().translated(), ach );
     } );
     std::sort( sortable_achievements.begin(), sortable_achievements.end(), localized_compare );
+    char ch = string_from_int( LINE_OXOX ).at( 0 );
     for( const sortable_achievement &ach : sortable_achievements ) {
         os += achievements.ui_text_for( std::get<const achievement *>( ach ) );
-        os += colorize( std::string( width, '-' ), c_magenta );
+        os += colorize( std::string( width, ch ), c_magenta );
     }
     if( valid_achievements.empty() ) {
         os += string_format( _( "This game has no valid %s.\n" ), thing_name );
