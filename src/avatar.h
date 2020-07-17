@@ -230,17 +230,19 @@ class avatar : public player
         }
 
         struct daily_calories {
-            int spent;
-            int gained;
+            int spent = 0;
+            int gained = 0;
             int total() const {
                 return gained - spent;
             }
+            std::map<float, int> activity_levels;
 
             void serialize( JsonOut &json ) const {
                 json.start_object();
 
                 json.member( "spent", spent );
                 json.member( "gained", gained );
+                save_activity( json );
 
                 json.end_object();
             };
@@ -249,13 +251,29 @@ class avatar : public player
 
                 data.read( "spent", spent );
                 data.read( "gained", gained );
+                if( data.has_member( "activity" ) ) {
+                    read_activity( data );
+                }
             };
+
+            daily_calories() {
+                activity_levels.emplace( NO_EXERCISE, 0 );
+                activity_levels.emplace( LIGHT_EXERCISE, 0 );
+                activity_levels.emplace( MODERATE_EXERCISE, 0 );
+                activity_levels.emplace( ACTIVE_EXERCISE, 0 );
+                activity_levels.emplace( EXTRA_EXERCISE, 0 );
+            }
+
+            void save_activity( JsonOut &json ) const;
+            void read_activity( JsonObject &data );
+
         };
         // called once a day; adds a new daily_calories to the
         // front of the list and pops off the back if there are more than 30
         void advance_daily_calories();
         void add_spent_calories( int cal ) override;
         void add_gained_calories( int cal ) override;
+        void log_activity_level( float level ) override;
         std::string total_daily_calories_string() const;
 
     private:
