@@ -348,9 +348,9 @@ std::string get_body_part_id( body_part bp )
 
 body_part_set body_part_set::unify_set( const body_part_set &rhs )
 {
-    for( const  bodypart_str_id &i : rhs.parts ) {
-        if( parts.count( i ) == 0 ) {
-            parts.insert( i );
+    for( const  bodypart_str_id &i : rhs ) {
+        if( !test( i ) ) {
+            set( i );
         }
     }
     return *this;
@@ -358,28 +358,31 @@ body_part_set body_part_set::unify_set( const body_part_set &rhs )
 
 body_part_set body_part_set::intersect_set( const body_part_set &rhs )
 {
-    for( const  bodypart_str_id &j : parts ) {
-        if( rhs.parts.count( j ) == 0 ) {
-            parts.erase( j );
+    body_part_set temp;
+    for( const  bodypart_str_id &j : rhs ) {
+        if( test( j ) ) {
+            temp.set( j );
         }
     }
+    clear();
+    unify_set( temp );
     return *this;
 }
 
 body_part_set body_part_set::substract_set( const body_part_set &rhs )
 {
-    for( const  bodypart_str_id &j : rhs.parts ) {
-        if( parts.count( j ) > 0 ) {
-            parts.erase( j );
+    for( const  bodypart_str_id &j : rhs ) {
+        if( test( j ) ) {
+            reset( j );
         }
     }
     return *this;
 }
 
-body_part_set body_part_set::make_intersection( const body_part_set &rhs )
+body_part_set body_part_set::make_intersection( const body_part_set &rhs ) const
 {
     body_part_set new_intersection;
-    new_intersection.parts = parts;
+    new_intersection.unify_set( *this );
     return new_intersection.intersect_set( rhs );
 }
 

@@ -259,7 +259,7 @@ class body_part_set
         body_part_set unify_set( const body_part_set &rhs );
         body_part_set intersect_set( const body_part_set &rhs );
 
-        body_part_set make_intersection( const body_part_set &rhs );
+        body_part_set make_intersection( const body_part_set &rhs ) const;
         body_part_set substract_set( const body_part_set &rhs );
 
         void fill( const std::vector<bodypart_id> &bps );
@@ -289,6 +289,10 @@ class body_part_set
 
         cata::flat_set<bodypart_str_id>::iterator end() const {
             return parts.end();
+        }
+
+        void clear() {
+            parts.clear();
         }
 
         template<typename Stream>
