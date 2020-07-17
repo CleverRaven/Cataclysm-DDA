@@ -550,7 +550,7 @@ static void WinDestroy()
 }
 
 /// Converts a color from colorscheme to SDL_Color.
-inline const SDL_Color& color_as_sdl( const unsigned char color )
+inline const SDL_Color &color_as_sdl( const unsigned char color )
 {
     return windowsPalette[color];
 }
@@ -860,68 +860,88 @@ void Font::draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) 
     switch( line_id ) {
         // box bottom/top side (horizontal line)
         case LINE_OXOX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, color );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
+                                       color );
             break;
         // box left/right side (vertical line)
         case LINE_XOXO_C:
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
+                                     color );
             break;
         // box top left
         case LINE_OXXO_C:
-            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.x + fontwidth,
-                         1,
-                         color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.y + fontheight,
-                         2,
-                         color );
+            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                       draw.x + fontwidth,
+                                       1,
+                                       color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                     draw.y + fontheight,
+                                     2,
+                                     color );
             break;
         // box top right
         case LINE_OOXX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + ( fontwidth / 2 ), 1, color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.y + fontheight,
-                         2,
-                         color );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ),
+                                       draw.x + ( fontwidth / 2 ), 1, color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                     draw.y + fontheight,
+                                     2,
+                                     color );
             break;
         // box bottom right
         case LINE_XOOX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + ( fontwidth / 2 ), 1, color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + ( fontheight / 2 ) + 1, 2, color );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ),
+                                       draw.x + ( fontwidth / 2 ), 1, color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ),
+                                     draw.y + ( fontheight / 2 ) + 1, 2, color );
             break;
         // box bottom left
         case LINE_XXOO_C:
-            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.x + fontwidth,
-                         1,
-                         color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + ( fontheight / 2 ) + 1, 2, color );
+            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                       draw.x + fontwidth,
+                                       1,
+                                       color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ),
+                                     draw.y + ( fontheight / 2 ) + 1, 2, color );
             break;
         // box bottom north T (left, right, up)
         case LINE_XXOX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + ( fontheight / 2 ), 2, color );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
+                                       color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ),
+                                     draw.y + ( fontheight / 2 ), 2, color );
             break;
         // box bottom east T (up, right, down)
         case LINE_XXXO_C:
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, color );
-            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.x + fontwidth,
-                         1,
-                         color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
+                                     color );
+            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                       draw.x + fontwidth,
+                                       1,
+                                       color );
             break;
         // box bottom south T (left, right, down)
         case LINE_OXXX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.y + fontheight,
-                         2,
-                         color );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
+                                       color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                     draw.y + fontheight,
+                                     2,
+                                     color );
             break;
         // box X (left down up right)
         case LINE_XXXX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, color );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
+                                       color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
+                                     color );
             break;
         // box bottom east T (left, down, up)
         case LINE_XOXX_C:
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, color );
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + ( fontwidth / 2 ), 1, color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
+                                     color );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ),
+                                       draw.x + ( fontwidth / 2 ), 1, color );
             break;
         default:
             break;
@@ -1027,7 +1047,7 @@ void clear_window_area( const catacurses::window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
     geometry->rect( renderer, point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-                 win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
+                    win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
 }
 
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
@@ -1062,7 +1082,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             SetRenderDrawBlendMode( renderer, color_blocks.first ); // set the new blend mode
             for( const auto &e : color_blocks.second ) {
                 geometry->rect( renderer, e.first, tilecontext->get_tile_width(),
-                                      tilecontext->get_tile_height(), e.second );
+                                tilecontext->get_tile_height(), e.second );
             }
             SetRenderDrawBlendMode( renderer, blend_mode ); // set the old blend mode
         }
@@ -1137,16 +1157,17 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         //Gap between terrain and lower window edge
         if( partial_height > 0 ) {
             geometry->rect( renderer, point( win->pos.x * map_font->fontwidth,
-                                ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight ),
-                         TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, color_as_sdl( catacurses::black ) );
+                                             ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight ),
+                            TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height,
+                            color_as_sdl( catacurses::black ) );
         }
         //Gap between terrain and sidebar
         if( partial_width > 0 ) {
             geometry->rect( renderer, point( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth,
-                                win->pos.y * map_font->fontheight ),
-                         partial_width,
-                         TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height,
-                         color_as_sdl( catacurses::black ) );
+                                             win->pos.y * map_font->fontheight ),
+                            partial_width,
+                            TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height,
+                            color_as_sdl( catacurses::black ) );
         }
         // Special font for the terrain window
         update = map_font->draw_window( w );
