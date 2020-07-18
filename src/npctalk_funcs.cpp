@@ -920,24 +920,26 @@ void talk_function::start_training( npc &p )
     const matype_id &style = p.chatbin.style;
     const spell_id &sp_id = p.chatbin.dialogue_spell;
     int expert_multiplier = 1;
-    Character &player_character = get_player_character();
-    if( skill.is_valid() && player_character.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
+    Character &you = get_player_character();
+    if( skill != skill_id() &&
+        you.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
         name = skill.str();
-    } else if( p.chatbin.style.is_valid() &&
-               !player_character.martial_arts_data.has_martialart( style ) ) {
+    } else if( p.chatbin.style != matype_id() &&
+               !you.martial_arts_data.has_martialart( style ) ) {
         cost = calc_ma_style_training_cost( p, style );
         time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
         // already checked if can learn this spell in npctalk.cpp
-    } else if( p.chatbin.dialogue_spell.is_valid() ) {
+    } else if( p.chatbin.dialogue_spell != spell_id() ) {
         const spell &temp_spell = p.magic.get_spell( sp_id );
-        const bool knows = player_character.magic.knows_spell( sp_id );
-        cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(), temp_spell.get_level() );
+        const bool knows = you.magic.knows_spell( sp_id );
+        cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(),
+                                           temp_spell.get_level() );
         name = temp_spell.id().str();
-        expert_multiplier = knows ? temp_spell.get_level() - player_character.magic.get_spell(
-                                sp_id ).get_level() : 1;
+        expert_multiplier = knows ? temp_spell.get_level() -
+                            you.magic.get_spell( sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesn't know this spell, then the NPC will teach all of it
@@ -947,9 +949,8 @@ void talk_function::start_training( npc &p )
         if( knows ) {
             time = 1_hours;
         } else {
-            time = time_duration::from_seconds( clamp( player_character.magic.time_to_learn_spell(
-                                                    player_character, sp_id ) / 50, 7200,
-                                                21600 ) );
+            const int time_int = you.magic.time_to_learn_spell( you, sp_id ) / 50;
+            time = time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
         }
     } else {
         debugmsg( "start_training with no valid skill or style set" );
@@ -957,8 +958,8 @@ void talk_function::start_training( npc &p )
     }
 
     mission *miss = p.chatbin.mission_selected;
-    if( miss != nullptr && miss->get_assigned_player_id() == player_character.getID() &&
-        miss->is_complete( player_character.getID() ) ) {
+    if( miss != nullptr && miss->get_assigned_player_id() == you.getID() &&
+        miss->is_complete( you.getID() ) ) {
         clear_mission( p );
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
@@ -966,7 +967,7 @@ void talk_function::start_training( npc &p )
     player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
                                            p.getID().get_value(), 0, name );
     act.values.push_back( expert_multiplier );
-    player_character.assign_activity( act );
+    you.assign_activity( act );
 
     p.add_effect( effect_asked_to_train, 6_hours );
 }
