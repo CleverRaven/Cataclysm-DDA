@@ -344,13 +344,14 @@ void dig_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void dig_activity_actor::do_turn( player_activity &, Character & )
+void dig_activity_actor::do_turn( player_activity &, Character &who )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( location, 10, sounds::sound_t::activity, _( "hsh!" ) );
     }
+    get_map().maybe_trigger_trap( location, who, true );
 }
 
 void dig_activity_actor::finish( player_activity &act, Character &who )
@@ -406,8 +407,6 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     }
 
     act.set_to_null();
-
-    here.maybe_trigger_trap( location, who, true );
 }
 
 void dig_activity_actor::serialize( JsonOut &jsout ) const
@@ -447,13 +446,14 @@ void dig_channel_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void dig_channel_activity_actor::do_turn( player_activity &, Character & )
+void dig_channel_activity_actor::do_turn( player_activity &, Character &who )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( location, 10, sounds::sound_t::activity, _( "hsh!" ) );
     }
+    get_map().maybe_trigger_trap( location, who, true );
 }
 
 void dig_channel_activity_actor::finish( player_activity &act, Character &who )
@@ -474,8 +474,6 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                            here.ter( location ).obj().name() );
 
     act.set_to_null();
-
-    here.maybe_trigger_trap( location, who, true );
 }
 
 void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
