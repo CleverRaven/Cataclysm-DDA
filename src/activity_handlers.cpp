@@ -4379,14 +4379,14 @@ static void blood_magic( player *p, int cost )
     std::vector<uilist_entry> uile;
     std::vector<bodypart_id> parts;
     int i = 0;
-    for( const std::pair<const bodypart_str_id, bodypart> &part : p->get_body() ) {
-        const int hp_cur = part.second.get_hp_cur();
-        uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( part.first.id() ) );
+    for( const bodypart_id &bp : p->get_all_body_parts( true ) ) {
+        const int hp_cur = p->get_part_hp_cur( bp );
+        uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( bp ) );
 
-        const std::pair<std::string, nc_color> &hp = get_hp_bar( hp_cur, part.second.get_hp_max() );
+        const std::pair<std::string, nc_color> &hp = get_hp_bar( hp_cur, p->get_part_hp_max( bp ) );
         entry.ctxt = colorize( hp.first, hp.second );
         uile.emplace_back( entry );
-        parts.push_back( part.first.id() );
+        parts.push_back( bp );
         i++;
     }
     int action = -1;
