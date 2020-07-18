@@ -1787,7 +1787,7 @@
     "warmth": 15,
     "environmental_protection": 10,
     "armor_portion_data": [
-      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 10 },
+      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 5 },
       { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 30 }
     ],
     "material_thickness": 2
@@ -1803,11 +1803,7 @@
     "turns_per_charge": 30,
     "revert_to": "mask_h20survivor",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "mask_h20survivor" },
-    "environmental_protection": 16,
-    "armor_portion_data": [
-      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 30 }
-    ]
+    "environmental_protection": 16
   },
   {
     "id": "mask_h20survivorxl",
@@ -1854,11 +1850,7 @@
     "turns_per_charge": 30,
     "revert_to": "mask_h20survivorxl",
     "use_action": { "type": "transform", "menu_text": "Turn off", "msg": "Your %s deactivates.", "target": "mask_h20survivorxl" },
-    "environmental_protection": 16,
-    "armor_portion_data": [
-      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 20 }
-    ]
+    "environmental_protection": 16
   },
   {
     "type": "TOOL",
