@@ -176,10 +176,6 @@ SDL_Color curses_color_to_SDL( const nc_color &color );
 ///@returns Always a valid pointer.
 SDL_Surface_Ptr create_surface_32( int w, int h );
 
-// SDL_RenderFillRect replacement handler
-void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect, Uint32 r, Uint32 g,
-                       Uint32 b );
-
 SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer );
 
 /** Linearly interpolate intermediate colors between two given colors.

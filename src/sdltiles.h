@@ -19,8 +19,6 @@ namespace catacurses
 class window;
 } // namespace catacurses
 
-extern SDL_Texture_Ptr alt_rect_tex;
-extern bool alt_rect_tex_enabled;
 extern std::unique_ptr<cata_tiles> tilecontext;
 extern std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
 
