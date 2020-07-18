@@ -1839,7 +1839,7 @@
     "environmental_protection": 10,
     "armor_portion_data": [
       { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 10 },
-      { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 20 }
+      { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 30 }
     ],
     "material_thickness": 2
   },
