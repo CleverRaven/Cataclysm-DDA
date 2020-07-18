@@ -94,8 +94,8 @@ void timed_event::actualize()
             }
             // They just keep coming!
             if( !one_in( 25 ) ) {
-                g->timed_events.add( timed_event_type::SPAWN_WYRMS,
-                                     calendar::turn + rng( 1_minutes, 3_minutes ) );
+                get_timed_events().add( timed_event_type::SPAWN_WYRMS,
+                                        calendar::turn + rng( 1_minutes, 3_minutes ) );
             }
         }
         break;
@@ -224,8 +224,8 @@ void timed_event::actualize()
             for( const tripoint &p : here.points_on_zlevel() ) {
                 here.ter_set( p, flood_buf[p.x][p.y] );
             }
-            g->timed_events.add( timed_event_type::TEMPLE_FLOOD,
-                                 calendar::turn + rng( 2_turns, 3_turns ) );
+            get_timed_events().add( timed_event_type::TEMPLE_FLOOD,
+                                    calendar::turn + rng( 2_turns, 3_turns ) );
         }
         break;
 

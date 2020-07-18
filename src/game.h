@@ -158,6 +158,7 @@ class game
         friend void set_scenario( const scenario *new_scenario );
         friend stats_tracker &get_stats();
         friend scent_map &get_scent();
+        friend timed_event_manager &get_timed_events();
     public:
         game();
         ~game();
@@ -982,8 +983,8 @@ class game
 
         event_bus &events();
         stats_tracker &stats();
-    public:
         timed_event_manager &timed_events;
+    public:
 
         achievements_tracker &achievements();
         memorial_logger &memorial();

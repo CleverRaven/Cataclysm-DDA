@@ -12638,3 +12638,8 @@ stats_tracker &get_stats()
 {
     return g->stats();
 }
+
+timed_event_manager &get_timed_events()
+{
+    return g->timed_events;
+}

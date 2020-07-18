@@ -845,7 +845,7 @@ void spell_effect::timed_event( const spell &sp, Creature &caster, const tripoin
     }
 
     sp.make_sound( caster.pos() );
-    g->timed_events.add( spell_event, calendar::turn + sp.duration_turns() );
+    get_timed_events().add( spell_event, calendar::turn + sp.duration_turns() );
 }
 
 static bool is_summon_friendly( const spell &sp )
