@@ -413,8 +413,8 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //Lifetime stats
     file << _( "Lifetime Stats and Scores" ) << eol;
 
-    for( const score *scr : g->stats().valid_scores() ) {
-        file << indent << scr->description( g->stats() ) << eol;
+    for( const score *scr : get_stats().valid_scores() ) {
+        file << indent << scr->description( get_stats() ) << eol;
     }
     file << eol;
 
@@ -430,11 +430,11 @@ void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
     jsout.member( "memorial_version", 0 );
     jsout.member( "log", log );
     jsout.member( "achievements", g->achievements() );
-    jsout.member( "stats", g->stats() );
+    jsout.member( "stats", get_stats() );
 
     std::map<string_id<score>, cata_variant> scores;
-    for( const score *scr : g->stats().valid_scores() ) {
-        scores.emplace( scr->id, scr->value( g->stats() ) );
+    for( const score *scr : get_stats().valid_scores() ) {
+        scores.emplace( scr->id, scr->value( get_stats() ) );
     }
     jsout.member( "scores", scores );
 

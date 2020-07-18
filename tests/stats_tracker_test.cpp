@@ -849,10 +849,10 @@ TEST_CASE( "achievments_tracker", "[stats]" )
 
 TEST_CASE( "stats_tracker_in_game", "[stats]" )
 {
-    g->stats().clear();
+    get_stats().clear();
     cata::event e = cata::event::make<event_type::awakes_dark_wyrms>();
     get_event_bus().send( e );
-    CHECK( g->stats().get_events( e.type() ).count( e.data() ) == 1 );
+    CHECK( get_stats().get_events( e.type() ).count( e.data() ) == 1 );
 }
 
 struct test_subscriber : public event_subscriber {

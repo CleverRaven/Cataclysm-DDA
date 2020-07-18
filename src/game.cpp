@@ -12628,3 +12628,8 @@ void set_scenario( const scenario *new_scenario )
 {
     g->scen = new_scenario;
 }
+
+stats_tracker &get_stats()
+{
+    return g->stats();
+}

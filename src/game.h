@@ -156,6 +156,7 @@ class game
         friend weather_manager &get_weather();
         friend const scenario *get_scenario();
         friend void set_scenario( const scenario *new_scenario );
+        friend stats_tracker &get_stats();
     public:
         game();
         ~game();
@@ -974,6 +975,7 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
 
+        stats_tracker &stats();
         map &m;
         event_bus &events();
     public:
@@ -981,7 +983,6 @@ class game
         scent_map &scent;
         timed_event_manager &timed_events;
 
-        stats_tracker &stats();
         achievements_tracker &achievements();
         memorial_logger &memorial();
         spell_events &spell_events_subscriber();
