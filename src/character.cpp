@@ -9285,7 +9285,7 @@ void Character::update_type_of_scent( bool init )
     }
 
     if( !init && new_scent != get_type_of_scent() ) {
-        g->scent.reset();
+        get_scent().reset();
     }
     set_type_of_scent( new_scent );
 }
@@ -9296,7 +9296,7 @@ void Character::update_type_of_scent( const trait_id &mut, bool gain )
     if( mut_scent ) {
         if( gain && mut_scent.value() != get_type_of_scent() ) {
             set_type_of_scent( mut_scent.value() );
-            g->scent.reset();
+            get_scent().reset();
         } else {
             update_type_of_scent();
         }

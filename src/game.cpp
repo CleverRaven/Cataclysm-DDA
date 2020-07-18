@@ -12629,6 +12629,11 @@ void set_scenario( const scenario *new_scenario )
     g->scen = new_scenario;
 }
 
+scent_map &get_scent()
+{
+    return g->scent;
+}
+
 stats_tracker &get_stats()
 {
     return g->stats();

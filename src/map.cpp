@@ -2588,7 +2588,7 @@ void map::decay_fields_and_scent( const time_duration &amount )
     // TODO: Make this happen on all z-levels
 
     // Decay scent separately, so that later we can use field count to skip empty submaps
-    g->scent.decay();
+    get_scent().decay();
 
     // Coordinate code copied from lightmap calculations
     // TODO: Z

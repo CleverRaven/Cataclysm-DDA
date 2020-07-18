@@ -157,6 +157,7 @@ class game
         friend const scenario *get_scenario();
         friend void set_scenario( const scenario *new_scenario );
         friend stats_tracker &get_stats();
+        friend scent_map &get_scent();
     public:
         game();
         ~game();
@@ -977,11 +978,11 @@ class game
 
         map &m;
         avatar &u;
+        scent_map &scent;
 
         event_bus &events();
         stats_tracker &stats();
     public:
-        scent_map &scent;
         timed_event_manager &timed_events;
 
         achievements_tracker &achievements();
