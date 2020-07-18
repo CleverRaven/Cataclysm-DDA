@@ -195,17 +195,14 @@ jobs:
           # Luckily the Trusty install Just Works on Xenial
           sources: [*apt_sources, llvm-toolchain-trusty-4.0]
 
-    # Clang 5.0 (still on Trusty, because I could find no readily available
-    # source on Xenial at time of writing)
     - env: CLANG=clang++-5.0 CXXFLAGS=-Wno-error=unused-command-line-argument
       name: "Clang 5 Make build with Curses"
       if: type != pull_request
-      dist: trusty
       compiler: clang
       addons: &clang50
         apt:
           packages: ["clang-5.0"]
-          sources: [*apt_sources, llvm-toolchain-trusty-5.0]
+          sources: [*apt_sources, llvm-toolchain-xenial-5.0]
 
     - env: CLANG=clang++-6.0 CXXFLAGS=-Wno-error=unused-command-line-argument CMAKE=1 RELEASE=1
       name: "Clang 6 CMake build with Curses"
