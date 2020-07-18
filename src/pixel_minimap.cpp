@@ -196,7 +196,8 @@ struct pixel_minimap::submap_cache {
     }
 };
 
-pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry ) :
+pixel_minimap::pixel_minimap( const SDL_Renderer_Ptr &renderer,
+                              const GeometryRenderer_Ptr &geometry ) :
     renderer( renderer ),
     geometry( geometry ),
     type( pixel_minimap_type::ortho ),
