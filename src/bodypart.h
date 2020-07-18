@@ -13,7 +13,6 @@
 #include "int_id.h"
 #include "string_id.h"
 #include "translations.h"
-#include "weather.h"
 
 class JsonObject;
 class JsonIn;
@@ -205,8 +204,8 @@ class bodypart
 
         int drench_capacity;
         int wetness = 0;
-        int temp_cur = BODYTEMP_NORM;
-        int temp_conv = BODYTEMP_NORM;
+        int temp_cur = 5000; // BODYTEMP_NORM = 5000
+        int temp_conv = 5000;
         int frostbite_timer = 0;
 
         int healed_total = 0;

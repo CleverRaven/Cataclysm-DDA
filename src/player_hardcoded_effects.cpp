@@ -974,10 +974,10 @@ void player::hardcoded_effects( effect &it )
                         break;
                     case 4:
                         warning = _( "You are sweating profusely, but you feel cold." );
-                        temp_conv[bp_hand_l] -= 1000 * intense;
-                        temp_conv[bp_hand_r] -= 1000 * intense;
-                        temp_conv[bp_foot_l] -= 1000 * intense;
-                        temp_conv[bp_foot_r] -= 1000 * intense;
+                        mod_part_temp_conv( bodypart_id( "hand_l" ), - 1000 * intense );
+                        mod_part_temp_conv( bodypart_id( "hand_r" ), -1000 * intense );
+                        mod_part_temp_conv( bodypart_id( "foot_l" ), -1000 * intense );
+                        mod_part_temp_conv( bodypart_id( "foot_r" ), -1000 * intense );
                         break;
                     case 5:
                         warning = _( "You huff and puff.  Your breath is rapid and shallow." );
@@ -1030,13 +1030,13 @@ void player::hardcoded_effects( effect &it )
             switch( dice( 1, 9 ) ) {
                 case 1:
                     add_msg_if_player( m_bad, _( "Your hands feel unusually cold." ) );
-                    temp_conv[bp_hand_l] -= 2000;
-                    temp_conv[bp_hand_r] -= 2000;
+                    mod_part_temp_conv( bodypart_id( "hand_l" ), -2000 );
+                    mod_part_temp_conv( bodypart_id( "hand_r" ), -2000 );
                     break;
                 case 2:
                     add_msg_if_player( m_bad, _( "Your feet feel unusualy cold." ) );
-                    temp_conv[bp_foot_l] -= 2000;
-                    temp_conv[bp_foot_r] -= 2000;
+                    mod_part_temp_conv( bodypart_id( "foot_l" ), -2000 );
+                    mod_part_temp_conv( bodypart_id( "foot_r" ), -2000 );
                     break;
                 case 3:
                     add_msg_if_player( m_bad, _( "Your skin looks very pale." ) );
