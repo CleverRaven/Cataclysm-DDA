@@ -644,7 +644,7 @@
     "id": "AFS_CRYOADAPTATION",
     "name": { "str": "Cryoadaptation" },
     "description": "An experimental cryosleep procedure has permanently altered your body, allowing you to better tolerate cold temperatures.",
-    "bodytemp_modifiers": [ 50, 100 ],
+    "bodytemp_modifiers": [ -850, 850 ],
     "points": 0,
     "valid": false,
     "purifiable": false,
