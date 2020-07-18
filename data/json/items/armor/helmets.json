@@ -165,9 +165,9 @@
     "symbol": "[",
     "looks_like": "hat_hard",
     "color": "blue",
-    "armor_portion_data": [
-      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 }
-    ],
+    "covers": [ "HEAD" ],
+    "coverage": 95,
+    "encumbrance": 20,
     "warmth": 15,
     "material_thickness": 3,
     "environmental_protection": 1,
