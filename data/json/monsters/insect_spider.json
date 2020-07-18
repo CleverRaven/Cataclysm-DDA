@@ -117,6 +117,17 @@
     "looks_like": "mon_worm",
     "upgrades": { "half_life": 14, "into": "mon_worm" }
   },
+    {
+    "id": "mon_large_cockroach",
+    "type": "MONSTER",
+    "name": { "str": "huge cockroach" },
+    "description": "A mutant cockroach the size of a small dog.",
+    "copy-from": "mon_giant_cockroach",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_giant_cockroach" }
+  },
   {
     "id": "mon_skittering_plague",
     "type": "MONSTER",
@@ -227,7 +238,7 @@
     "id": "mon_giant_cockroach",
     "type": "MONSTER",
     "name": { "str": "giant cockroach", "str_pl": "giant cockroaches" },
-    "description": "A mutant cockroach the size of a small dog.",
+    "description": "A mutant cockroach the size of a dog.",
     "default_faction": "roach",
     "bodytype": "insect",
     "species": [ "INSECT" ],
@@ -325,6 +336,17 @@
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
+      {
+    "id": "mon_bee_small",
+    "type": "MONSTER",
+    "name": { "str": "huge bee" },
+    "description": "A mutant bee the size of a small dog.",
+    "copy-from": "mon_bee",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_bee" }
+  },
   {
     "id": "mon_bee",
     "type": "MONSTER",
@@ -358,6 +380,17 @@
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
+        {
+    "id": "mon_centipede_small",
+    "type": "MONSTER",
+    "name": { "str": "huge centipede" },
+    "description": "A brightly colored, many-legged mutant centipede the size of a dog.",
+    "copy-from": "mon_centipede_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_centipede_giant" }
+  },
   {
     "id": "mon_centipede_giant",
     "type": "MONSTER",
@@ -390,11 +423,22 @@
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "PATH_AVOID_FIRE" ]
   },
+          {
+    "id": "mon_dragonfly_small",
+    "type": "MONSTER",
+    "name": { "str": "huge dragonfly" },
+    "description": "A brightly colored, winged mutant dragonfly the size of a cat with sharp fangs.",
+    "copy-from": "mon_dragonfly_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_dragonfly_giant" }
+  },
   {
     "id": "mon_dragonfly_giant",
     "type": "MONSTER",
     "name": { "str": "giant dragonfly", "str_pl": "giant dragonflies" },
-    "description": "A ferocious mutant dragonfly as big as a cat, darting through the air with a cluster of fangs for a mouth.",
+    "description": "A ferocious mutant dragonfly as big as a dog, darting through the air with a cluster of fangs for a mouth.",
     "default_faction": "dragonfly",
     "bodytype": "flying insect",
     "species": [ "INSECT" ],
