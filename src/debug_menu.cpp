@@ -1424,7 +1424,7 @@ void debug()
             break;
 
         case debug_menu_index::SPAWN_CLAIRVOYANCE:
-            player_character.i_add( item( architects_cube(), calendar::turn ) );
+            player_character.i_add( item( "architect_cube", calendar::turn ) );
             break;
 
         case debug_menu_index::MAP_EDITOR:
