@@ -22,7 +22,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
     const itype_id bad_ammo( "9mm" ); // any type of incompatible ammo
     const itype_id mag_id( "stanag30" ); // must be set to default magazine
     const itype_id bad_mag( "glockmag" ); // any incompatible magazine
-    const int mag_cap = 10; // amount of bullets that fit into default magazine
+    const int mag_cap = 30; // amount of bullets that fit into default magazine
 
     CHECK( ammo_id != alt_ammo );
     CHECK( ammo_id != bad_ammo );
