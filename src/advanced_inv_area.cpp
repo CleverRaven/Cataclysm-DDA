@@ -114,6 +114,13 @@ void advanced_inv_area::init()
             desc[0] = _( "All 9 squares" );
             canputitemsloc = true;
             break;
+        case AIM_ABOVE:
+        case AIM_BELOW:
+            if( !g->m.has_zlevels() || !g->m.valid_move( g->u.pos(), pos ) ) {
+                canputitemsloc = false;
+                break;
+            }
+        // Intentional fallthrough
         case AIM_SOUTHWEST:
         case AIM_SOUTH:
         case AIM_SOUTHEAST:
@@ -385,6 +392,10 @@ static tripoint aim_vector( aim_location id )
             return tripoint_north;
         case AIM_NORTHEAST:
             return tripoint_north_east;
+        case AIM_ABOVE:
+            return tripoint_above;
+        case AIM_BELOW:
+            return tripoint_below;
         default:
             return tripoint_zero;
     }
@@ -408,16 +419,6 @@ void advanced_inv_area::set_container_position()
         veh = nullptr;
         vstor = -1;
     }
-}
-
-aim_location advanced_inv_area::offset_to_location() const
-{
-    static aim_location loc_array[3][3] = {
-        {AIM_NORTHWEST,     AIM_NORTH,      AIM_NORTHEAST},
-        {AIM_WEST,          AIM_CENTER,     AIM_EAST},
-        {AIM_SOUTHWEST,     AIM_SOUTH,      AIM_SOUTHEAST}
-    };
-    return loc_array[off.y + 1][off.x + 1];
 }
 
 template <typename T>

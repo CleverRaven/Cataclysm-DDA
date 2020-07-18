@@ -21,6 +21,8 @@ enum aim_location : char {
     AIM_NORTHWEST,
     AIM_NORTH,
     AIM_NORTHEAST,
+    AIM_ABOVE,
+    AIM_BELOW,
     AIM_DRAGGED,
     AIM_ALL,
     AIM_CONTAINER,
@@ -100,7 +102,6 @@ class advanced_inv_area
         void set_container( const advanced_inv_listitem *advitem );
         bool is_container_valid( const item *it ) const;
         void set_container_position();
-        aim_location offset_to_location() const;
         bool can_store_in_vehicle() const {
             // disallow for non-valid vehicle locations
             if( id > AIM_DRAGGED || id < AIM_SOUTHWEST ) {

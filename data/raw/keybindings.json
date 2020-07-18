@@ -2447,14 +2447,14 @@
     "id": "PAGE_DOWN",
     "category": "ADVANCED_INVENTORY",
     "name": "Page down",
-    "bindings": [ { "input_method": "keyboard", "key": "NPAGE" }, { "input_method": "keyboard", "key": ">" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "NPAGE" } ]
   },
   {
     "type": "keybinding",
     "id": "PAGE_UP",
     "category": "ADVANCED_INVENTORY",
     "name": "Page up",
-    "bindings": [ { "input_method": "keyboard", "key": "PPAGE" }, { "input_method": "keyboard", "key": "<" } ]
+    "bindings": [ { "input_method": "keyboard", "key": "PPAGE" } ]
   },
   {
     "type": "keybinding",
@@ -2646,6 +2646,20 @@
     "category": "ADVANCED_INVENTORY",
     "name": "Select items @ South-East",
     "bindings": [ { "input_method": "keyboard", "key": "3" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_UP",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Select items from above",
+    "bindings": [ { "input_method": "keyboard", "key": "<" } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "ITEMS_DOWN",
+    "category": "ADVANCED_INVENTORY",
+    "name": "Select items from below",
+    "bindings": [ { "input_method": "keyboard", "key": ">" } ]
   },
   {
     "type": "keybinding",
