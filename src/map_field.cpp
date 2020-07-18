@@ -1718,10 +1718,6 @@ void map::creature_in_field( Creature &critter )
         const field_type_id cur_field_id = cur_field_entry.get_field_type();
 
         for( const auto &fe : cur_field_entry.field_effects() ) {
-            // the field is decreased even if you are in a vehicle
-            if( cur_field_id->decrease_intensity_on_contact ) {
-                cur_field_entry.mod_field_intensity( -1 );
-            }
             if( in_vehicle && fe.immune_in_vehicle ) {
                 continue;
             }
@@ -1754,6 +1750,9 @@ void map::creature_in_field( Creature &critter )
             }
             if( effect_added ) {
                 critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
+            }
+            if( cur_field_id->decrease_intensity_on_contact ) {
+                cur_field_entry.mod_field_intensity( -1 );
             }
         }
     }
