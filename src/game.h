@@ -160,6 +160,7 @@ class game
         friend stats_tracker &get_stats();
         friend scent_map &get_scent();
         friend timed_event_manager &get_timed_events();
+        friend memorial_logger &get_memorial();
     public:
         game();
         ~game();
@@ -986,9 +987,9 @@ class game
         stats_tracker &stats();
         timed_event_manager &timed_events;
         achievements_tracker &achievements();
+        memorial_logger &memorial();
     public:
 
-        memorial_logger &memorial();
         spell_events &spell_events_subscriber();
 
         pimpl<Creature_tracker> critter_tracker;

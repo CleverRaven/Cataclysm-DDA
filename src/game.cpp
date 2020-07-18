@@ -12625,6 +12625,11 @@ event_bus &get_event_bus()
     return g->events();
 }
 
+memorial_logger &get_memorial()
+{
+    return g->memorial();
+}
+
 const scenario *get_scenario()
 {
     return g->scen;

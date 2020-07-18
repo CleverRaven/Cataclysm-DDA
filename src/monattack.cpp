@@ -2018,7 +2018,7 @@ bool mattack::fungus_fortify( monster *z )
                 player_character.set_mutation( trait_THRESH_MARLOSS );
                 here.ter_set( player_character.pos(),
                               t_marloss ); // We only show you the door.  You walk through it on your own.
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male", "Was shown to the Marloss Gateway." ),
                     pgettext( "memorial_female", "Was shown to the Marloss Gateway." ) );
                 add_msg( m_good,
