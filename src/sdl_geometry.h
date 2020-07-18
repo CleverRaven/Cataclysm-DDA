@@ -3,7 +3,7 @@
 #define CATA_SRC_SDL_GEOMETRY_H
 
 #if defined(TILES)
-#include "memory.h"
+#include <memory>
 
 #include "sdl_wrappers.h"
 #include "point.h"
