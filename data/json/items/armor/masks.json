@@ -12,7 +12,9 @@
     "symbol": "[",
     "looks_like": "hat_cotton",
     "color": "dark_gray",
-    "armor_portion_data": [ { "covers": [ "head", "mouth" ], "coverage": 95, "encumbrance": 5 } ],
+    "covers": [ "HEAD", "MOUTH" ],
+    "coverage": 95,
+    "encumbrance": 5,
     "warmth": 30,
     "material_thickness": 2,
     "flags": [ "VARSIZE", "SKINTIGHT" ]
