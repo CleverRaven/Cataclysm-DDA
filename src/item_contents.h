@@ -91,6 +91,8 @@ class item_contents
         // all magazines compatible with any pockets.
         // this only checks MAGAZINE_WELL
         std::set<itype_id> magazine_compatible() const;
+        // returns the default magazine; assumes only one MAGAZINE_WELL. returns NULL_ID if not a magazine well or no compatible magazines.
+        itype_id magazine_default() const;
         /**
          * This function is to aid migration to using nested containers.
          * The call sites of this function need to be updated to search the

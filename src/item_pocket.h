@@ -172,6 +172,8 @@ class item_pocket
         std::vector<const item *> gunmods() const;
         cata::flat_set<itype_id> item_type_restrictions() const;
         item *magazine_current();
+        // returns the default magazine if MAGAZINE_WELL, otherwise NULL_ID
+        itype_id magazine_default() const;
         // returns amount of ammo consumed
         int ammo_consume( int qty );
         // returns all allowable ammotypes
@@ -361,6 +363,8 @@ class pocket_data
         // items stored are restricted to these item ids.
         // this takes precedence over the other two restrictions
         cata::flat_set<itype_id> item_id_restriction;
+        // the first in the json array for item_id_restriction when loaded
+        itype_id default_magazine = itype_id::NULL_ID();
         // container's size and encumbrance does not change based on contents.
         bool rigid = false;
 

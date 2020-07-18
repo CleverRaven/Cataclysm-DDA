@@ -99,7 +99,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                 // FIXME: Required to fix #40948
                 itype_id mag_default = flashlight.magazine_default( false );
                 CHECK_FALSE( mag_default.is_null() );
-                CHECK( mag_default.str() == "medium_atomic_battery_cell" );
+                CHECK( mag_default.str() == "medium_battery_cell" );
             }
 
             THEN( "light batteries no longer fit" ) {
@@ -233,8 +233,7 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
         SECTION( "has a default magazine" ) {
             itype_id mag_default = flashlight.magazine_default( false );
             CHECK_FALSE( mag_default.is_null() );
-            // FIXME: Required to fix #40800
-            CHECK( mag_default.str() == "light_atomic_battery_cell" );
+            CHECK( mag_default.str() == "light_disposable_cell" );
         }
 
         SECTION( "can use battery ammo" ) {

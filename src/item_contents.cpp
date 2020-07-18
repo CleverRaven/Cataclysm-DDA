@@ -1150,6 +1150,16 @@ std::set<itype_id> item_contents::magazine_compatible() const
     return ret;
 }
 
+itype_id item_contents::magazine_default() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            return pocket.magazine_default();
+        }
+    }
+    return itype_id::NULL_ID();
+}
+
 units::mass item_contents::total_container_weight_capacity() const
 {
     units::mass total_weight = 0_gram;
