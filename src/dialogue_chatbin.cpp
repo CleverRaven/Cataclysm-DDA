@@ -23,10 +23,13 @@ void dialogue_chatbin::check_missions()
 void dialogue_chatbin::store_chosen_training( const skill_id &c_skill, const matype_id &c_style,
         const spell_id &c_spell )
 {
+    if( c_skill == skill_id() && c_style == matype_id() && c_spell == spell_id() ) {
+        return;
+    }
     clear_training();
-    if( c_skill ) {
+    if( c_skill != skill_id() ) {
         skill = c_skill;
-    } else if( c_style ) {
+    } else if( c_style != matype_id() ) {
         style = c_style;
     } else if( c_spell != spell_id() ) {
         dialogue_spell = c_spell;
@@ -35,8 +38,8 @@ void dialogue_chatbin::store_chosen_training( const skill_id &c_skill, const mat
 
 void dialogue_chatbin::clear_training()
 {
-    style = matype_id::NULL_ID();
-    skill = skill_id::NULL_ID();
+    style = matype_id();
+    skill = skill_id();
     dialogue_spell = spell_id();
 }
 
