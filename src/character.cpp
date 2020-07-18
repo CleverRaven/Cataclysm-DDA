@@ -8985,9 +8985,11 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
 
     mod_pain( dam / 2 );
 
-    const int dam_to_bodypart = std::min( dam, get_part_hp_cur( hurt->main_part ) );
+    const bodypart_id &part_to_damage = hurt->main_part;
 
-    mod_part_hp_cur( hurt->main_part, - dam_to_bodypart );
+    const int dam_to_bodypart = std::min( dam, get_part_hp_cur( part_to_damage ) );
+
+    mod_part_hp_cur( part_to_damage, - dam_to_bodypart );
     get_event_bus().send<event_type::character_takes_damage>( getID(), dam_to_bodypart );
 
     if( !weapon.is_null() && !as_player()->can_wield( weapon ).success() &&
@@ -8997,9 +8999,9 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
         i_rem( &weapon );
     }
-    if( has_effect( effect_mending, hurt->main_part->token ) && ( source == nullptr ||
+    if( has_effect( effect_mending, part_to_damage->token ) && ( source == nullptr ||
             !source->is_hallucination() ) ) {
-        effect &e = get_effect( effect_mending, hurt->main_part->token );
+        effect &e = get_effect( effect_mending, part_to_damage->token );
         float remove_mend = dam / 20.0f;
         e.mod_duration( -e.get_max_duration() * remove_mend );
     }
@@ -9011,11 +9013,11 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
     if( !bypass_med ) {
         // remove healing effects if damaged
         int remove_med = roll_remainder( dam / 5.0f );
-        if( remove_med > 0 && has_effect( effect_bandaged, hurt->main_part->token ) ) {
-            remove_med -= reduce_healing_effect( effect_bandaged, remove_med, hurt->main_part );
+        if( remove_med > 0 && has_effect( effect_bandaged, part_to_damage->token ) ) {
+            remove_med -= reduce_healing_effect( effect_bandaged, remove_med, part_to_damage );
         }
-        if( remove_med > 0 && has_effect( effect_disinfected, hurt->main_part->token ) ) {
-            reduce_healing_effect( effect_disinfected, remove_med, hurt->main_part );
+        if( remove_med > 0 && has_effect( effect_disinfected, part_to_damage->token ) ) {
+            reduce_healing_effect( effect_disinfected, remove_med, part_to_damage );
         }
     }
 }
