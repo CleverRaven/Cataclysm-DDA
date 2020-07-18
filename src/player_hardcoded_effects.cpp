@@ -1250,7 +1250,7 @@ void player::hardcoded_effects( effect &it )
             if( dur > 1_days ) {
                 add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
                 get_event_bus().send<event_type::dies_of_infection>( getID() );
-                hurtall( 500, nullptr );
+                set_all_parts_hp_cur( 0 );
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 it.mod_duration( -1_turns );
             } else if( has_effect( effect_antibiotic ) ) {
