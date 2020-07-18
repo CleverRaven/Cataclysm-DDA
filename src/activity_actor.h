@@ -516,14 +516,14 @@ class consume_activity_actor : public activity_actor
         item consume_item;
         std::vector<int> consume_menu_selections;
         std::string consume_menu_filter;
-        bool force = false;
+        bool canceled = false;
         /**
          * @pre @p other is a consume_activity_actor
          */
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
             const consume_activity_actor &c_actor = static_cast<const consume_activity_actor &>( other );
             return ( consume_location == c_actor.consume_location &&
-                     force == c_actor.force && &consume_item == &c_actor.consume_item );
+                     canceled == c_actor.canceled && &consume_item == &c_actor.consume_item );
         }
     public:
         consume_activity_actor( const item_location &consume_location,
