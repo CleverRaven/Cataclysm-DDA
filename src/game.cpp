@@ -709,14 +709,14 @@ bool game::start_game()
     get_auto_notes_settings().default_initialize();
 
     // spawn the starting NPC, assuming it's not disallowed by the scenario
-    if( !g->scen->has_flag( "LONE_START" ) ) {
+    if( !get_scenario()->has_flag( "LONE_START" ) ) {
         create_starting_npcs();
     }
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
     // Spawn the monsters
     const bool spawn_near =
-        get_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag( "SUR_START" );
+        get_option<bool>( "BLACK_ROAD" ) || get_scenario()->has_flag( "SUR_START" );
     // Surrounded start ones
     if( spawn_near ) {
         start_loc.surround_with_monsters( omtstart, mongroup_id( "GROUP_ZOMBIE" ), 70 );

@@ -982,6 +982,7 @@ class game
         map &m;
         avatar &u;
         scent_map &scent;
+        const scenario *scen = nullptr;
 
         event_bus &events();
         stats_tracker &stats();
@@ -1000,7 +1001,6 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game = false;
 
-        const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz = 0;
 
