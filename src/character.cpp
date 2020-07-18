@@ -8887,7 +8887,7 @@ void Character::did_hit( Creature &target )
 
 ret_val<bool> Character::can_wield( const item &it ) const
 {
-     if( has_effect( effect_incorporeal ) ) {
+    if( has_effect( effect_incorporeal ) ) {
         return ret_val<bool>::make_failure( _( "You can't wield anything while incorporeal." ) );
     }
     if( it.made_of_from_type( phase_id::LIQUID ) ) {
