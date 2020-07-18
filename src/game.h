@@ -975,11 +975,12 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
 
-        stats_tracker &stats();
         map &m;
-        event_bus &events();
-    public:
         avatar &u;
+
+        event_bus &events();
+        stats_tracker &stats();
+    public:
         scent_map &scent;
         timed_event_manager &timed_events;
 

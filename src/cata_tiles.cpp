@@ -2801,7 +2801,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                 result = draw_from_id_string( chosen_id, ent_category, ent_subcategory, p, subtile, rot_facing,
                                               ll, false, height_3d );
                 sees_player = m->sees( player_character );
-                attitude = m->attitude_to( g-> u );
+                attitude = m->attitude_to( player_character );
             }
         }
         const player *pl = dynamic_cast<const player *>( &critter );
@@ -2811,8 +2811,8 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
             if( pl->is_player() ) {
                 is_player = true;
             } else {
-                sees_player = pl->sees( g-> u );
-                attitude = pl->attitude_to( g-> u );
+                sees_player = pl->sees( player_character );
+                attitude = pl->attitude_to( player_character );
             }
         }
     } else {
