@@ -550,7 +550,7 @@
     "id": "mon_spider_cellar_small",
     "type": "MONSTER",
     "name": { "str": "huge cellar spider" },
-    "description": "A mutant brown spider the size of a small dog with long thin legs and prominent fangs.",
+    "description": "A mutant brown spider the size of a small dog with long thin legs, big eyes, and oversized fangs.",
     "copy-from": "mon_spider_cellar_giant",
     "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
     "volume": "15 L",
@@ -627,6 +627,17 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "CLIMBS", "HARDTOSHOOT", "PATH_AVOID_FIRE" ]
   },
   {
+    "id": "mon_spider_jumping_small",
+    "type": "MONSTER",
+    "name": { "str": "huge jumping spider" },
+    "description": "A mutant spider the size of a small dog with big forelegs, big eyes, and oversized fangs.",
+    "copy-from": "mon_spider_jumping_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_jumping_giant" }
+  },
+  {
     "id": "mon_spider_jumping_giant",
     "type": "MONSTER",
     "name": { "str": "giant jumping spider" },
@@ -660,10 +671,21 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CLIMBS", "PATH_AVOID_DANGER_1" ]
   },
   {
+    "id": "mon_spider_trapdoor_small",
+    "type": "MONSTER",
+    "name": { "str": "huge trapdoor spider" },
+    "description": "A dark brown mutant spider the size of a dog with a bulbous thorax, big eyes, and oversized fangs.",
+    "copy-from": "mon_spider_trapdoor_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_trapdoor_giant" }
+  },
+  {
     "id": "mon_spider_trapdoor_giant",
     "type": "MONSTER",
     "name": { "str": "giant trapdoor spider" },
-    "description": "A gigantic spider with a bulbous thorax.  It digs a deep underground burrow that serves as a pit to trap unwary prey.",
+    "description": "A gigantic dark brown spider with a bulbous thorax.  It digs a deep underground burrow that serves as a pit to trap unwary prey.",
     "default_faction": "spider_trapdoor",
     "bodytype": "spider",
     "species": [ "SPIDER" ],
@@ -692,10 +714,21 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "GRABS", "CAN_DIG", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
+    "id": "mon_spider_web_small",
+    "type": "MONSTER",
+    "name": { "str": "huge web spinning spider" },
+    "description": "A light gray mutant spider the size of a dog with a long legs, big eyes, and oversized fangs.",
+    "copy-from": "mon_spider_web",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_web" }
+  },
+  {
     "id": "mon_spider_web",
     "type": "MONSTER",
     "name": { "str": "giant web spider" },
-    "description": "A giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
+    "description": "A light gray giant mutated grass spider, it waits for prey to become ensnared in the vast webs that it weaves between the trees.",
     "default_faction": "spider_web",
     "bodytype": "spider",
     "species": [ "SPIDER" ],
@@ -756,10 +789,21 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "WEBWALK", "STUMBLES", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
+    "id": "mon_spider_widow_small",
+    "type": "MONSTER",
+    "name": { "str": "huge black widow spider" },
+    "description": "A black mutant spider the size of a cat with a long legs, big eyes, and oversized fangs.  There is a red hourglass shape on its thorax.",
+    "copy-from": "mon_spider_widow_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_widow_giant" }
+  },
+  {
     "id": "mon_spider_widow_giant",
     "type": "MONSTER",
     "name": { "str": "giant black widow" },
-    "description": "A giant mutated black widow spider.  A highly venomous nightmare come to life.",
+    "description": "A giant mutated black widow spider.  There is a red hourglass shape on its thorax.  A highly venomous nightmare come to life.",
     "default_faction": "spider_widow",
     "bodytype": "spider",
     "species": [ "SPIDER" ],
@@ -823,6 +867,17 @@
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "WEBWALK", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
   {
+    "id": "mon_spider_wolf_small",
+    "type": "MONSTER",
+    "name": { "str": "huge wolf spider" },
+    "description": "A shaggy brown mutant spider the size of a dog with a long legs, two especially big eyes, and oversized fangs.",
+    "copy-from": "mon_spider_wolf_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_wolf_giant" }
+  },
+  {
     "id": "mon_spider_wolf_giant",
     "type": "MONSTER",
     "name": { "str": "giant wolf spider" },
@@ -854,6 +909,17 @@
     "anger_triggers": [ "STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+  },
+  {
+    "id": "mon_wasp_small",
+    "type": "MONSTER",
+    "name": { "str": "huge wasp" },
+    "description": "A black and yellow mutant yellowjacket wasp the size of a dog with a long, evil-looking stinger.",
+    "copy-from": "mon_wasp",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_wasp" }
   },
   {
     "id": "mon_wasp",
@@ -949,6 +1015,17 @@
     "flags": [ "HEARS", "SMELLS", "POISON", "CAN_DIG", "LARVA" ]
   },
   {
+    "id": "mon_ant_small",
+    "type": "MONSTER",
+    "name": { "str": "huge ant" },
+    "description": "A mutant red ant the size of a dog covered in chitinous plates.  It possesses a pair of wriggling antennae and vicious-looking mandibles.",
+    "copy-from": "mon_ant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_ant" }
+  },
+  {
     "id": "mon_ant",
     "type": "MONSTER",
     "name": { "str": "giant ant" },
@@ -980,6 +1057,17 @@
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 30 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
+  },
+  {
+    "id": "mon_ant_acid_small",
+    "type": "MONSTER",
+    "name": { "str": "huge acidic ant" },
+    "description": "A brown mutated ant with a swollen abdomen, that ends with a small orifice at the tip.  Glistening liquid drips out periodically.",
+    "copy-from": "mon_ant_acid",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "30 L",
+    "weight": "40 kg",
+    "upgrades": { "half_life": 14, "into": "mon_ant_acid" }
   },
   {
     "id": "mon_ant_acid",
@@ -1196,10 +1284,21 @@
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE", "PATH_AVOID_FALL" ]
   },
   {
+    "id": "mon_locust_small",
+    "type": "MONSTER",
+    "name": { "str": "huge locust" },
+    "description": "A yellow and brown mutated locust the size of a cat with big eyes and long powerful legs.",
+    "copy-from": "mon_locust",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_locust" }
+  },
+  {
     "id": "mon_locust",
     "type": "MONSTER",
     "name": { "str": "giant locust" },
-    "description": "An overgrown locust.  You don't think it'll eat you but it could cause massive damage to nearby plants.",
+    "description": "A yellow and brown mutated locust the size of a dog with big eyes and long powerful legs.  You don't think it'll eat you but it could cause massive damage to nearby plants.",
     "default_faction": "locust",
     "bodytype": "flying insect",
     "species": [ "INSECT" ],
