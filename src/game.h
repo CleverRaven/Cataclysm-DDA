@@ -149,6 +149,7 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
         friend Character &get_player_character();
@@ -984,9 +985,9 @@ class game
         event_bus &events();
         stats_tracker &stats();
         timed_event_manager &timed_events;
+        achievements_tracker &achievements();
     public:
 
-        achievements_tracker &achievements();
         memorial_logger &memorial();
         spell_events &spell_events_subscriber();
 

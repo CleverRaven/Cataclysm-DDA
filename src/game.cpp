@@ -12600,6 +12600,11 @@ void game_ui::init_ui()
     g->init_ui( true );
 }
 
+achievements_tracker &get_achievements()
+{
+    return g->achievements();
+}
+
 Character &get_player_character()
 {
     return g->u;

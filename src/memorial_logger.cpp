@@ -429,7 +429,7 @@ void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
     jsout.start_object();
     jsout.member( "memorial_version", 0 );
     jsout.member( "log", log );
-    jsout.member( "achievements", g->achievements() );
+    jsout.member( "achievements", get_achievements() );
     jsout.member( "stats", get_stats() );
 
     std::map<string_id<score>, cata_variant> scores;
