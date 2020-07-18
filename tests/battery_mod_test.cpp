@@ -233,7 +233,6 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
         SECTION( "has a default magazine" ) {
             itype_id mag_default = flashlight.magazine_default( false );
             CHECK_FALSE( mag_default.is_null() );
-            // FIXME: Required to fix #40800
             CHECK( mag_default.str() == "light_disposable_cell" );
         }
 
