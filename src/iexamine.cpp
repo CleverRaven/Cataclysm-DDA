@@ -4046,11 +4046,13 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
         auto check_for_fuel_tank = here.furn( tmp );
 
         if( fuel_type == "gasoline" ) {
-            if( check_for_fuel_tank != furn_str_id( "f_gas_tank" ) ) {
+            if( check_for_fuel_tank != furn_str_id( "f_gas_tank" ) &&
+                here.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
                 continue;
             }
         } else if( fuel_type == "diesel" ) {
-            if( check_for_fuel_tank != furn_str_id( "f_diesel_tank" ) ) {
+            if( check_for_fuel_tank != furn_str_id( "f_diesel_tank" ) &&
+                here.ter( tmp ) != ter_str_id( "t_diesel_tank" ) ) {
                 continue;
             }
         }
