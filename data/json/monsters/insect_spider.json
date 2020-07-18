@@ -117,7 +117,7 @@
     "looks_like": "mon_worm",
     "upgrades": { "half_life": 14, "into": "mon_worm" }
   },
-    {
+  {
     "id": "mon_large_cockroach",
     "type": "MONSTER",
     "name": { "str": "huge cockroach" },
@@ -336,7 +336,7 @@
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
     "flags": [ "SEES", "HEARS", "SMELLS", "CLIMBS", "PATH_AVOID_FIRE" ]
   },
-      {
+  {
     "id": "mon_bee_small",
     "type": "MONSTER",
     "name": { "str": "huge bee" },
@@ -380,7 +380,7 @@
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "VENOM", "FLIES", "STUMBLES", "SWARMS", "GROUP_MORALE", "CANPLAY", "PATH_AVOID_FIRE" ]
   },
-        {
+  {
     "id": "mon_centipede_small",
     "type": "MONSTER",
     "name": { "str": "huge centipede" },
@@ -423,7 +423,7 @@
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "VENOM", "PATH_AVOID_FIRE" ]
   },
-          {
+  {
     "id": "mon_dragonfly_small",
     "type": "MONSTER",
     "name": { "str": "huge dragonfly" },
@@ -467,10 +467,21 @@
     "flags": [ "SEES", "SMELLS", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
   },
   {
+    "id": "mon_fly_small",
+    "type": "MONSTER",
+    "name": { "str": "huge fly" },
+    "description": "A mutant housefly the size of a small dog.  Its buzzing is high-pitched and somehow sad.",
+    "copy-from": "mon_fly",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_fly" }
+  },
+  {
     "id": "mon_fly",
     "type": "MONSTER",
     "name": { "str": "giant fly", "str_pl": "giant flies" },
-    "description": "A tremendous housefly the size of a small dog, predictably accompanied by a loud, incessant buzzing sound.",
+    "description": "A tremendous housefly the size of a dog, predictably accompanied by a loud, incessant buzzing sound.",
     "default_faction": "small_animal",
     "bodytype": "flying insect",
     "species": [ "INSECT" ],
@@ -494,6 +505,17 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "FLIES", "STUMBLES", "HIT_AND_RUN", "CANPLAY", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_mosquito_small",
+    "type": "MONSTER",
+    "name": { "str": "huge mosquito" },
+    "description": "A mutant mosquito the size of a small dog, buzzing and fluttering erratically.",
+    "copy-from": "mon_mosquito_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_mosquito_giant" }
   },
   {
     "id": "mon_mosquito_giant",
@@ -523,6 +545,17 @@
     "harvest": "arachnid",
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "STUMBLES", "VENOM", "FLIES", "HIT_AND_RUN", "PATH_AVOID_FIRE" ]
+  },
+  {
+    "id": "mon_spider_cellar_small",
+    "type": "MONSTER",
+    "name": { "str": "huge cellar spider" },
+    "description": "A mutant brown spider the size of a small dog with long thin legs and prominent fangs.",
+    "copy-from": "mon_spider_cellar_giant",
+    "proportional": { "hp": 0.5, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "15 L",
+    "weight": "20 kg",
+    "upgrades": { "half_life": 14, "into": "mon_spider_cellar_giant" }
   },
   {
     "id": "mon_spider_cellar_giant",
