@@ -465,6 +465,7 @@
       { "item": "mboots_haste", "prob": 10 },
       { "item": "mboots_sevenleague", "prob": 10 },
       { "item": "mboots_escape", "prob": 10 },
+      { "item": "mboots_freerunner", "prob": 10 },
       { "item": "mboots_grounding", "prob": 10 }
     ]
   },
