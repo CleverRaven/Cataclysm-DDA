@@ -65,12 +65,16 @@ void pocket_favorite_callback::refresh( uilist *menu )
                                 colorize( whitelist ? _( "whitelist" ) : _( "blacklist" ), c_light_blue ) ) );
 
         selected_pocket->general_info( info, menu->selected + 1, true );
-        selected_pocket->contents_info( info, menu->selected + 1, true );
         starty += fold_and_print( menu->window, point( startx, starty ), width,
-                                  c_light_gray, format_item_info( info, {} ) ) + 2;
+                                  c_light_gray, format_item_info( info, {} ) ) + 1;
 
         info.clear();
         selected_pocket->favorite_info( info );
+        starty += fold_and_print( menu->window, point( startx, starty ), width,
+                                  c_light_gray, format_item_info( info, {} ) ) + 1;
+
+        info.clear();
+        selected_pocket->contents_info( info, menu->selected + 1, true );
         fold_and_print( menu->window, point( startx, starty ), width,
                         c_light_gray, format_item_info( info, {} ) );
     }
