@@ -608,6 +608,12 @@ const inventory_entry &inventory_column::get_selected() const
     return entries[selected_index];
 }
 
+inventory_entry &inventory_column::get_selected()
+{
+    return const_cast<inventory_entry &>( const_cast<const inventory_column *>
+                                          ( this )->get_selected() );
+}
+
 std::vector<inventory_entry *> inventory_column::get_all_selected() const
 {
     const auto filter_to_selected = [&]( const inventory_entry & entry ) {
@@ -632,49 +638,11 @@ std::vector<inventory_entry *> inventory_column::get_entries(
     return res;
 }
 
-void inventory_column::set_stack_favorite( const item_location &location, bool favorite )
+void inventory_column::set_stack_favorite( std::vector<item_location> &locations,
+        const bool favorite )
 {
-    const item *selected_item = location.get_item();
-    std::list<item *> to_favorite;
-    map &here = get_map();
-    Character &player_character = get_player_character();
-
-    if( location.where() == item_location::type::character ) {
-        int position = player_character.get_item_position( selected_item );
-
-        if( position < 0 ) {
-            // worn/wielded
-            player_character.i_at( position ).set_favorite( !selected_item->is_favorite );
-        } else {
-            // in inventory
-            player_character.inv.set_stack_favorite( position, !selected_item->is_favorite );
-        }
-    } else if( location.where() == item_location::type::map ) {
-        map_stack items = here.i_at( location.position() );
-
-        for( auto &item : items ) {
-            if( item.stacks_with( *selected_item ) ) {
-                to_favorite.push_back( &item );
-            }
-        }
-        for( auto &item : to_favorite ) {
-            item->set_favorite( favorite );
-        }
-    } else if( location.where() == item_location::type::vehicle ) {
-        const cata::optional<vpart_reference> vp = here.veh_at(
-                    location.position() ).part_with_feature( "CARGO", true );
-        assert( vp );
-
-        auto items = vp->vehicle().get_items( vp->part_index() );
-
-        for( auto &item : items ) {
-            if( item.stacks_with( *selected_item ) ) {
-                to_favorite.push_back( &item );
-            }
-        }
-        for( auto *item : to_favorite ) {
-            item->set_favorite( favorite );
-        }
+    for( item_location &loc : locations ) {
+        loc->set_favorite( favorite );
     }
 }
 
@@ -697,8 +665,8 @@ void inventory_column::on_input( const inventory_input &input )
     } else if( input.action == "END" ) {
         select( entries.size() - 1, scroll_direction::BACKWARD );
     } else if( input.action == "TOGGLE_FAVORITE" ) {
-        const item_location &loc = get_selected().any_item();
-        set_stack_favorite( loc, !loc->is_favorite );
+        inventory_entry &selected = get_selected();
+        set_stack_favorite( selected.locations, !selected.any_item()->is_favorite );
     }
 }
 

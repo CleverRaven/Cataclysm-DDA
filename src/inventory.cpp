@@ -1127,13 +1127,6 @@ void inventory::update_invlet( item &newit, bool assign_invlet )
     }
 }
 
-void inventory::set_stack_favorite( const int position, const bool favorite )
-{
-    for( auto &e : *std::next( items.begin(), position ) ) {
-        e.set_favorite( favorite );
-    }
-}
-
 invlets_bitset inventory::allocated_invlets() const
 {
     invlets_bitset invlets;
