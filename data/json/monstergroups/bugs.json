@@ -54,7 +54,7 @@
     "name": "GROUP_WASP",
     "type": "monstergroup",
     "default": "mon_wasp_small",
-    "monsters": [ { "monster": "mon_wasp", "freq": 100, "cost_multiplier": 1, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] } ]
+    "monsters": [ { "monster": "mon_wasp_small", "freq": 100, "cost_multiplier": 1, "conditions": [ "SPRING", "SUMMER", "AUTUMN" ] } ]
   },
   {
     "name": "WASP_UPGRADE",
