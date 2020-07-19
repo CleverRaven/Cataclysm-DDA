@@ -163,12 +163,10 @@ enum class requirement_display_flags : int {
     no_unavailable = 1,
 };
 
-inline constexpr requirement_display_flags operator&( requirement_display_flags l,
-        requirement_display_flags r )
-{
-    return static_cast<requirement_display_flags>(
-               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
-}
+template<>
+struct enum_traits<requirement_display_flags> {
+    static constexpr bool is_flag_enum = true;
+};
 
 /**
  * The *_vector members represent list of alternatives requirements:
