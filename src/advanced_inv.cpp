@@ -851,6 +851,19 @@ bool advanced_inventory::move_all_items( bool nested_call )
 
     map &here = get_map();
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
+        if( dpane.get_area() == AIM_INVENTORY ) {
+            popup( _( "You try to put you bags into themselves, but physics won't let you." ) );
+            return false;
+        } else if( dpane.get_area() == AIM_WORN ) {
+            // TODO: implement this
+            popup( _( "Putting on everything from you inventory would be tricky." ) );
+            return false;
+        } else if( dpane.get_area() == AIM_CONTAINER ) {
+            // TODO: implement this
+            popup( _( "Putting everything into the container would be tricky." ) );
+            return false;
+        }
+
         drop_locations dropped;
         // keep a list of favorites separated, only drop non-fav first if they exist
         drop_locations dropped_favorite;
@@ -896,7 +909,24 @@ bool advanced_inventory::move_all_items( bool nested_call )
             dropped = dropped_favorite;
         }
 
-        player_character.drop( dropped, player_character.pos() + darea.off );
+        // make sure advanced inventory is reopened after activity completion.
+        do_return_entry();
+
+        player_character.assign_activity( ACT_DROP );
+        player_character.activity.placement = darea.off;
+
+        // in case there is vehicle cargo space at dest but the player wants to drop to ground
+        if( !dpane.in_vehicle() ) {
+            player_character.activity.str_values.push_back( "force_ground" );
+        }
+
+        for( const std::pair<item_location, int> &it : dropped ) {
+            player_character.activity.targets.emplace_back( it.first );
+            player_character.activity.values.emplace_back( it.second );
+        }
+
+        // exit so that the activity can be carried out
+        exit = true;
     } else {
         if( dpane.get_area() == AIM_INVENTORY || dpane.get_area() == AIM_WORN ) {
             player_character.activity.coords.push_back( player_character.pos() );
