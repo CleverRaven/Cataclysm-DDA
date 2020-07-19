@@ -62,33 +62,6 @@ static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
 
-template<>
-struct enum_traits<aim_activity_actor::WeaponSource> {
-    static constexpr aim_activity_actor::WeaponSource last =
-        aim_activity_actor::WeaponSource::NumWeaponSources;
-};
-
-namespace io
-{
-using WS = aim_activity_actor::WeaponSource;
-
-template<>
-std::string enum_to_string<WS>( WS data )
-{
-    switch( data ) {
-            // *INDENT-OFF*
-        case WS::Wielded: return "Wielded";
-        case WS::Bionic: return "Bionic";
-        case WS::Mutation: return "Mutation";
-            // *INDENT-ON*
-        case WS::NumWeaponSources:
-            break;
-    }
-    debugmsg( "Invalid weapon source" );
-    abort();
-}
-} // namespace io
-
 aim_activity_actor::aim_activity_actor()
 {
     initial_view_offset = get_avatar().view_offset;
@@ -103,17 +76,15 @@ aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
         const units::energy &cost_per_shot )
 {
     aim_activity_actor act = aim_activity_actor();
-    act.weapon_source = WeaponSource::Bionic;
     act.bp_cost_per_shot = cost_per_shot;
-    act.fake_weapon = make_shared_fast<item>( fake_gun );
+    act.fake_weapon = fake_gun;
     return act;
 }
 
 aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
 {
     aim_activity_actor act = aim_activity_actor();
-    act.weapon_source = WeaponSource::Mutation;
-    act.fake_weapon = make_shared_fast<item>( fake_gun );
+    act.fake_weapon = fake_gun;
     return act;
 }
 
@@ -127,14 +98,10 @@ void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void aim_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( aborted || finished ) {
-        // A shortcut that allows terminating this activity by setting 'aborted' or 'finished'
-        act.moves_left = 0;
-        return;
-    }
     if( !who.is_avatar() ) {
         debugmsg( "ACT_AIM not implemented for NPCs" );
         aborted = true;
+        act.moves_left = 0;
         return;
     }
     avatar &you = get_avatar();
@@ -142,6 +109,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     item *weapon = get_weapon();
     if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
         aborted = true;
+        act.moves_left = 0;
         return;
     }
 
@@ -149,6 +117,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
         if( !load_RAS_weapon() ) {
             aborted = true;
+            act.moves_left = 0;
             return;
         }
     }
@@ -157,10 +126,12 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
     g->reenter_fullscreen();
 
-    if( !aborted ) {
+    if( aborted ) {
+        act.moves_left = 0;
+    } else {
         if( !trajectory.empty() ) {
-            finished = true;
             fin_trajectory = trajectory;
+            act.moves_left = 0;
         }
         // If aborting on the first turn, keep 'first_turn' as 'true'.
         // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
@@ -173,6 +144,10 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
     restore_view();
+    item *weapon = get_weapon();
+    if( !weapon ) {
+        return;
+    }
     if( aborted ) {
         unload_RAS_weapon();
         if( reload_requested ) {
@@ -184,7 +159,6 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     }
 
     // Fire!
-    item *weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
     int shots_fired = static_cast<player *>( &who )->fire_gun( fin_trajectory.back(), gun.qty, *gun );
 
@@ -204,10 +178,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "weapon_source", weapon_source );
-    if( weapon_source == WeaponSource::Bionic || weapon_source == WeaponSource::Mutation ) {
-        jsout.member( "fake_weapon", *fake_weapon );
-    }
+    jsout.member( "fake_weapon", fake_weapon );
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
     jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
@@ -224,11 +195,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     JsonObject data = jsin.get_object();
 
-    data.read( "weapon_source", actor.weapon_source );
-    if( actor.weapon_source == WeaponSource::Bionic || actor.weapon_source == WeaponSource::Mutation ) {
-        actor.fake_weapon = make_shared_fast<item>();
-        data.read( "fake_weapon", *actor.fake_weapon );
-    }
+    data.read( "fake_weapon", actor.fake_weapon );
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
     data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
@@ -241,20 +208,14 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
 item *aim_activity_actor::get_weapon()
 {
-    switch( weapon_source ) {
-        case WeaponSource::Wielded: {
-            Character &player_character = get_player_character();
-            // Check for lost gun (e.g. yanked by zombie technician)
-            // TODO: check that this is the same gun that was used to start aiming
-            return player_character.weapon.is_null() ? nullptr : &player_character.weapon;
-        }
-        case WeaponSource::Bionic:
-        case WeaponSource::Mutation:
-            // TODO: check if the player lost relevant bionic/mutation
-            return fake_weapon.get();
-        default:
-            debugmsg( "Invalid weapon source value" );
-            return nullptr;
+    if( fake_weapon.has_value() ) {
+        // TODO: check if the player lost relevant bionic/mutation
+        return &fake_weapon.value();
+    } else {
+        // Check for lost gun (e.g. yanked by zombie technician)
+        // TODO: check that this is the same gun that was used to start aiming
+        item *weapon = &get_player_character().weapon;
+        return weapon->is_null() ? nullptr : weapon;
     }
 }
 
