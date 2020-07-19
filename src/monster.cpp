@@ -1488,7 +1488,7 @@ void monster::melee_attack( Creature &target, float accuracy )
     // Add any on damage effects
     for( const auto &eff : type->atk_effs ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const body_part affected_bp = eff.affect_hit_bp ? dealt_dam.bp_hit->token : eff.bp;
+            const bodypart_id affected_bp = eff.affect_hit_bp ? dealt_dam.bp_hit : convert_bp( eff.bp ).id();
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
@@ -1783,11 +1783,11 @@ bool monster::move_effects( bool )
     return true;
 }
 
-void monster::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part/*bp*/,
+void monster::add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id/*bp*/,
                           bool permanent, int intensity, bool force, bool deferred )
 {
     // Effects are not applied to specific monster body part
-    Creature::add_effect( eff_id, dur, num_bp, permanent, intensity, force, deferred );
+    Creature::add_effect( eff_id, dur, bodypart_id( "num_bp" ), permanent, intensity, force, deferred );
 }
 
 std::string monster::get_effect_status() const

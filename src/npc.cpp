@@ -2476,7 +2476,7 @@ void npc::reboot()
     ai_cache.searched_tiles.clear();
     activity = player_activity();
     clear_destination();
-    add_effect( effect_npc_suspend, 24_hours, num_bp, true, 1 );
+    add_effect( effect_npc_suspend, 24_hours, bodypart_id( "num_bp" ), true, 1 );
 }
 
 void npc::die( Creature *nkiller )
@@ -2748,7 +2748,7 @@ void npc::on_load()
     map &here = get_map();
     // for spawned npcs
     if( here.has_flag( "UNSTABLE", pos() ) ) {
-        add_effect( effect_bouldering, 1_turns, num_bp, true );
+        add_effect( effect_bouldering, 1_turns, bodypart_id( "num_bp" ), true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
@@ -3184,7 +3184,7 @@ void npc::set_attitude( npc_attitude new_attitude )
         new_attitude = NPCATT_FLEE_TEMP;
     }
     if( new_attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
-        add_effect( effect_npc_flee_player, 24_hours, num_bp );
+        add_effect( effect_npc_flee_player, 24_hours, bodypart_id( "num_bp" ) );
     }
 
     add_msg( m_debug, "%s changes attitude from %s to %s",

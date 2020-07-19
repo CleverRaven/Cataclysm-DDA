@@ -573,7 +573,7 @@ void handle_weather_effects( weather_type_id const w )
         if( current_effect.effect_id.is_valid() ) {
             if( current_effect.target_part.is_valid() ) {
                 player_character.add_effect( current_effect.effect_id, current_effect.effect_duration,
-                                             current_effect.target_part->token );
+                                             current_effect.target_part );
             } else {
                 player_character.add_effect( current_effect.effect_id, current_effect.effect_duration );
             }

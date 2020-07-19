@@ -138,7 +138,7 @@ bool talker_character::has_effect( const efftype_id &effect_id ) const
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
                                    bool permanent )
 {
-    me_chr->add_effect( new_effect, dur, num_bp, permanent );
+    me_chr->add_effect( new_effect, dur, bodypart_id( "num_bp" ), permanent );
 }
 
 void talker_character::remove_effect( const efftype_id &old_effect )

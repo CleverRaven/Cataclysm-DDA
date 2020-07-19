@@ -721,7 +721,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( z ) {
             const item &drop_item = proj.get_drop();
             if( !drop_item.is_null() ) {
-                z->add_effect( effect_tied, 1_turns, num_bp, true );
+                z->add_effect( effect_tied, 1_turns, bodypart_id( "num_bp" ), true );
                 z->tied_item = cata::make_value<item>( drop_item );
             } else {
                 add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
@@ -736,15 +736,15 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     if( proj.proj_effects.count( "INCENDIARY" ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit->token );
+            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
-            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit->token );
+            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
         }
     } else if( proj.proj_effects.count( "IGNITE" ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, 6_turns, bp_hit->token );
+            add_effect( effect_onfire, 6_turns, bp_hit );
         } else if( made_of_any( cmat_flesh ) ) {
-            add_effect( effect_onfire, 10_turns, bp_hit->token );
+            add_effect( effect_onfire, 10_turns, bp_hit );
         }
     }
 
@@ -903,7 +903,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp->token );
+                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp );
             }
             break;
 
@@ -924,7 +924,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
             if( is_avatar() || is_npc() ) {
                 as_character()->make_bleed( bp, 1_minutes * rng( 1, adjusted_damage ) );
             } else {
-                add_effect( effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp->token );
+                add_effect( effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp );
             }
 
         default:
@@ -967,12 +967,12 @@ void Creature::set_fake( const bool fake_value )
 
 void Creature::add_effect( const effect &eff, bool force, bool deferred )
 {
-    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp()->token, eff.is_permanent(),
+    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(),
                 eff.get_intensity(),
                 force, deferred );
 }
 
-void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
+void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
                            bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
@@ -995,7 +995,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
 
     // Mutate to a main (HP'd) body_part if necessary.
     if( type.get_main_parts() ) {
-        bp = mutate_to_main_part( bp );
+        bp = bp->main_part;
     }
 
     bool found = false;
@@ -1003,7 +1003,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
     auto matching_map = effects->find( eff_id );
     if( matching_map != effects->end() ) {
         auto &bodyparts = matching_map->second;
-        auto found_effect = bodyparts.find( bp );
+        auto found_effect = bodyparts.find( bp->token );
         if( found_effect != bodyparts.end() ) {
             found = true;
             effect &e = found_effect->second;
@@ -1037,7 +1037,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
                 e.set_intensity( e.get_max_intensity() );
             }
             if( e.get_intensity() != prev_int ) {
-                on_effect_int_change( eff_id, e.get_intensity(), bp );
+                on_effect_int_change( eff_id, e.get_intensity(), bp->token );
             }
         }
     }
@@ -1058,7 +1058,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         }
 
         // Now we can make the new effect for application
-        effect e( &type, dur, convert_bp( bp ).id(), permanent, intensity, calendar::turn );
+        effect e( &type, dur, bp, permanent, intensity, calendar::turn );
         // Bound to max duration
         if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
             e.set_duration( e.get_max_duration() );
@@ -1076,14 +1076,14 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         } else if( e.get_intensity() > e.get_max_intensity() ) {
             e.set_intensity( e.get_max_intensity() );
         }
-        ( *effects )[eff_id][bp] = e;
+        ( *effects )[eff_id][bp->token] = e;
         if( Character *ch = as_character() ) {
             get_event_bus().send<event_type::character_gains_effect>( ch->getID(), eff_id );
             if( is_player() && !type.get_apply_message().empty() ) {
                 add_msg( type.gain_game_message_type(), _( type.get_apply_message() ) );
             }
         }
-        on_effect_int_change( eff_id, e.get_intensity(), bp );
+        on_effect_int_change( eff_id, e.get_intensity(), bp->token );
         // Perform any effect addition effects.
         // only when not deferred
         if( !deferred ) {
@@ -1101,7 +1101,7 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
     if( dice( strength, 3 ) > dice( get_env_resist( convert_bp( vector ).id() ), 3 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
-        add_effect( eff_id, dur, bp, permanent, intensity, true );
+        add_effect( eff_id, dur, convert_bp( bp ).id(), permanent, intensity, true );
         return true;
     } else {
         return false;

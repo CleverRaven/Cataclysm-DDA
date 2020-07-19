@@ -469,7 +469,8 @@ class Creature : public location
         void add_effect( const effect &eff, bool force = false, bool deferred = false );
         /** Adds or modifies an effect. If intensity is given it will set the effect intensity
             to the given value, or as close as max_intensity values permit. */
-        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp = num_bp,
+        virtual void add_effect( const efftype_id &eff_id, const time_duration &dur,
+                                 bodypart_id bp = bodypart_id( "num_bp" ),
                                  bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
         bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
