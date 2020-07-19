@@ -5709,7 +5709,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
         if( !cached_relative_encumbrance ) {
             cached_relative_encumbrance = contents.relative_encumbrance();
         }
-	relative_encumbrance = *cached_relative_encumbrance;
+        relative_encumbrance = *cached_relative_encumbrance;
     }
 
     if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
