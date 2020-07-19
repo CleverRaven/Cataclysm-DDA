@@ -150,10 +150,10 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_id( "num_bp" ) ),
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id( "num_bp" ) ),
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
         }
-        effect( const effect_type *peff_type, const time_duration &dur, bodypart_id part,
+        effect( const effect_type *peff_type, const time_duration &dur, bodypart_str_id part,
                 bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
             permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
@@ -202,7 +202,7 @@ class effect
         /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
         bodypart_id get_bp() const;
         /** Sets the targeted body_part of an effect. */
-        void set_bp( bodypart_id part );
+        void set_bp( bodypart_str_id part );
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
         bool is_permanent() const;
@@ -294,7 +294,7 @@ class effect
     protected:
         const effect_type *eff_type;
         time_duration duration;
-        bodypart_id bp;
+        bodypart_str_id bp;
         bool permanent;
         int intensity;
         time_point start_time;

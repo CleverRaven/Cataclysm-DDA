@@ -541,8 +541,8 @@ std::string effect::disp_name() const
             }
         }
     }
-    if( bp != bodypart_id( "num_bp" ) ) {
-        ret += string_format( " (%s)", body_part_name( bp ) );
+    if( bp != bodypart_str_id( "num_bp" ) ) {
+        ret += string_format( " (%s)", body_part_name( bp.id() ) );
     }
 
     return ret;
@@ -700,7 +700,7 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret += string_format( _( tmp_str ), body_part_name( bp ) );
+        ret += string_format( _( tmp_str ), body_part_name( bp.id() ) );
     } else {
         if( !tmp_str.empty() ) {
             ret += _( tmp_str );
@@ -742,7 +742,7 @@ void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &
     // Decay duration if not permanent
     if( duration <= 0_turns ) {
         rem_ids.push_back( get_id() );
-        rem_bps.push_back( bp );
+        rem_bps.push_back( bp.id() );
     } else if( !is_permanent() ) {
         mod_duration( -1_turns, player );
     }
@@ -793,9 +793,9 @@ time_point effect::get_start_time() const
 
 bodypart_id effect::get_bp() const
 {
-    return bp;
+    return bp.id();
 }
-void effect::set_bp( bodypart_id part )
+void effect::set_bp( bodypart_str_id part )
 {
     bp = part;
 }
@@ -1364,7 +1364,7 @@ void effect::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "eff_type", eff_type != nullptr ? eff_type->id.str() : "" );
     json.member( "duration", duration );
-    json.member( "bp", bp.id().c_str() );
+    json.member( "bp", bp.c_str() );
     json.member( "permanent", permanent );
     json.member( "intensity", intensity );
     json.member( "start_turn", start_time );
@@ -1376,11 +1376,7 @@ void effect::deserialize( JsonIn &jsin )
     const efftype_id id( jo.get_string( "eff_type" ) );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-
-    bodypart_str_id bp_str;
-    jo.read( "bp", bp_str );
-    bp = bp_str.id();
-
+    jo.read( "bp", bp );
     permanent = jo.get_bool( "permanent" );
     intensity = jo.get_int( "intensity" );
     start_time = calendar::turn_zero;
