@@ -496,7 +496,7 @@
     "category": "CC_WEAPON",
     "subcategory": "CSC_WEAPON_RANGED",
     "skill_used": "mechanics",
-    "difficulty": "1",
+    "difficulty": 1,
     "skills_required": [ [ "gun", 1 ] ],
     "time": "30m",
     "autolearn": true,
