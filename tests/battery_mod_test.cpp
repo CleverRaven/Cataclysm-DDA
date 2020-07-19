@@ -92,7 +92,7 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                 CHECK( mag_compats.count( itype_id( "medium_plus_battery_cell" ) ) == 1 );
                 CHECK( mag_compats.count( itype_id( "medium_atomic_battery_cell" ) ) == 1 );
                 CHECK( mag_compats.count( itype_id( "medium_disposable_cell" ) ) == 1 );
-                CHECK( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) == 1 );
+                CHECK( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
             }
 
             THEN( "medium battery is now the default" ) {
