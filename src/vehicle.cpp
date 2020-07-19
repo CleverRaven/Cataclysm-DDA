@@ -88,7 +88,6 @@ static const activity_id ACT_VEHICLE( "ACT_VEHICLE" );
 static const bionic_id bio_jointservo( "bio_jointservo" );
 
 static const efftype_id effect_harnessed( "harnessed" );
-static const efftype_id effect_winded( "winded" );
 
 static const std::string flag_PERPETUAL( "PERPETUAL" );
 
@@ -4468,7 +4467,7 @@ void vehicle::consume_fuel( int load, const int t_seconds, bool skip_electric )
             fuel_remainder[ ft ] = -amnt_precise_j;
         }
     }
-    if( load > 0 && fuel_left( fuel_type_muscle ) > 0 && g->u.has_effect( effect_winded ) ) {
+    if( load > 0 && fuel_left( fuel_type_muscle ) > 0 ) {
         cruise_velocity = 0;
         if( velocity == 0 ) {
             stop();

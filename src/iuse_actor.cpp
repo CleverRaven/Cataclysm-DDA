@@ -2249,8 +2249,6 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
         return 0;
     }
 
-    // Stop playing a wind instrument when winded or even eventually become winded while playing it?
-    // It's impossible to distinguish instruments for now anyways.
     if( p.has_effect( effect_sleep ) || p.has_effect( effect_stunned ) ||
         p.has_effect( effect_asthma ) ) {
         p.add_msg_player_or_npc( m_bad,

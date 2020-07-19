@@ -163,7 +163,6 @@ static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_webbed( "webbed" );
-static const efftype_id effect_winded( "winded" );
 
 static const skill_id skill_dodge( "dodge" );
 static const skill_id skill_swimming( "swimming" );
@@ -1305,7 +1304,7 @@ bool Character::is_limb_broken( hp_part limb ) const
 
 bool Character::can_run()
 {
-    return get_stamina() > 0 && !has_effect( effect_winded ) && get_working_leg_count() >= 2;
+    return ( get_stamina() > get_stamina_max() * 0.1f ) && get_working_leg_count() >= 2;
 }
 
 bool Character::move_effects( bool attacking )
@@ -6957,9 +6956,6 @@ void Character::mod_stamina( int mod )
         return;
     }
     stamina += mod;
-    if( stamina < 0 ) {
-        add_effect( effect_winded, 10_turns );
-    }
     stamina = clamp( stamina, 0, get_stamina_max() );
 }
 
@@ -7020,9 +7016,7 @@ void Character::update_stamina( int turns )
     const int current_stim = get_stim();
     float stamina_recovery = 0.0f;
     // Recover some stamina every turn.
-    // Mutated stamina works even when winded
-    float stamina_multiplier = ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
-                               mutation_value( stamina_regen_modifier );
+    float stamina_multiplier = 1.0f + mutation_value( stamina_regen_modifier );
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         base_regen_rate - ( encumb( bp_mouth ) / 5.0f ) );

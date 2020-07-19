@@ -16,5 +16,9 @@
     "id": "bad_food_ennui",
     "max_intensity": 3,
     "rating": "bad"
+  },
+  {
+    "type": "effect_type",
+    "id": "winded"
   }
 ]

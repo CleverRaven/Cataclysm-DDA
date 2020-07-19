@@ -216,17 +216,6 @@ TEST_CASE( "player::get_dodge", "[player][melee][dodge]" )
         dummy.process_turn();
         REQUIRE( dummy.dodges_left > 0 );
     }
-
-    SECTION( "speed below 100 linearly decreases dodge" ) {
-        dummy.set_speed_base( 90 );
-        CHECK( dummy.get_dodge() == Approx( 0.9 * base_dodge ) );
-        dummy.set_speed_base( 75 );
-        CHECK( dummy.get_dodge() == Approx( 0.75 * base_dodge ) );
-        dummy.set_speed_base( 50 );
-        CHECK( dummy.get_dodge() == Approx( 0.5 * base_dodge ) );
-        dummy.set_speed_base( 25 );
-        CHECK( dummy.get_dodge() == Approx( 0.25 * base_dodge ) );
-    }
 }
 
 TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
@@ -249,7 +238,6 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
         CHECK( dodge_with_effect( dummy, "lying_down" ) == 0.0f );
         CHECK( dodge_with_effect( dummy, "npc_suspend" ) == 0.0f );
         CHECK( dodge_with_effect( dummy, "narcosis" ) == 0.0f );
-        CHECK( dodge_with_effect( dummy, "winded" ) == 0.0f );
     }
 
     SECTION( "trapped: 1/2 dodge" ) {
@@ -322,23 +310,23 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
 
     // When grabbed, dodge skill reduces for each additional grab
 
-    SECTION( "1 grab: 1/2 dodge" ) {
+    SECTION( "1 grab: 75% dodge" ) {
         zed1->add_effect( efftype_id( "grabbing" ), 1_minutes );
         REQUIRE( zed1->has_effect( efftype_id( "grabbing" ) ) );
 
-        CHECK( dummy.get_dodge() == base_dodge / 2 );
+        CHECK( dummy.get_dodge() == base_dodge * 0.75f );
     }
 
-    SECTION( "2 grabs: 1/3 dodge" ) {
+    SECTION( "2 grabs: 50% dodge" ) {
         zed1->add_effect( efftype_id( "grabbing" ), 1_minutes );
         zed2->add_effect( efftype_id( "grabbing" ), 1_minutes );
         REQUIRE( zed1->has_effect( efftype_id( "grabbing" ) ) );
         REQUIRE( zed2->has_effect( efftype_id( "grabbing" ) ) );
 
-        CHECK( dummy.get_dodge() == base_dodge / 3 );
+        CHECK( dummy.get_dodge() == base_dodge * 0.5f );
     }
 
-    SECTION( "3 grabs: 1/4 dodge" ) {
+    SECTION( "3 grabs: 25% dodge" ) {
         zed1->add_effect( efftype_id( "grabbing" ), 1_minutes );
         zed2->add_effect( efftype_id( "grabbing" ), 1_minutes );
         zed3->add_effect( efftype_id( "grabbing" ), 1_minutes );
@@ -346,10 +334,10 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
         REQUIRE( zed2->has_effect( efftype_id( "grabbing" ) ) );
         REQUIRE( zed3->has_effect( efftype_id( "grabbing" ) ) );
 
-        CHECK( dummy.get_dodge() == base_dodge / 4 );
+        CHECK( dummy.get_dodge() == base_dodge * 0.25f );
     }
 
-    SECTION( "4 grabs: 1/5 dodge" ) {
+    SECTION( "4 grabs: 0% dodge" ) {
         zed1->add_effect( efftype_id( "grabbing" ), 1_minutes );
         zed2->add_effect( efftype_id( "grabbing" ), 1_minutes );
         zed3->add_effect( efftype_id( "grabbing" ), 1_minutes );
@@ -359,7 +347,6 @@ TEST_CASE( "player::get_dodge while grabbed", "[player][melee][dodge][grab]" )
         REQUIRE( zed3->has_effect( efftype_id( "grabbing" ) ) );
         REQUIRE( zed4->has_effect( efftype_id( "grabbing" ) ) );
 
-        CHECK( dummy.get_dodge() == base_dodge / 5 );
+        CHECK( dummy.get_dodge() == 0.0f );
     }
 }
-

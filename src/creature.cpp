@@ -512,34 +512,6 @@ void Creature::deal_melee_hit( Creature *source, int hit_spread, bool critical_h
     body_part bp_token = bp_hit->token;
     block_hit( source, bp_token, d );
 
-    // Bashing critical
-    if( critical_hit && !is_immune_effect( effect_stunned ) ) {
-        if( d.type_damage( DT_BASH ) * hit_spread > get_hp_max() ) {
-            add_effect( effect_stunned, 1_turns ); // 1 turn is enough
-        }
-    }
-
-    // Stabbing effects
-    int stab_moves = rng( d.type_damage( DT_STAB ) / 2,
-                          d.type_damage( DT_STAB ) * 1.5 );
-    if( critical_hit ) {
-        stab_moves *= 1.5;
-    }
-    if( stab_moves >= 150 && !is_immune_effect( effect_downed ) ) {
-        if( is_player() ) {
-            source->add_msg_if_npc( m_bad, _( "<npcname> forces you to the ground!" ) );
-        } else {
-            source->add_msg_player_or_npc( m_good, _( "You force %s to the ground!" ),
-                                           _( "<npcname> forces %s to the ground!" ),
-                                           disp_name() );
-        }
-
-        add_effect( effect_downed, 1_turns );
-        mod_moves( -stab_moves / 2 );
-    } else {
-        mod_moves( -stab_moves );
-    }
-
     on_hit( source, bp_hit ); // trigger on-gethit events
     dealt_dam = deal_damage( source, bp_hit, d );
     dealt_dam.bp_hit = bp_token;

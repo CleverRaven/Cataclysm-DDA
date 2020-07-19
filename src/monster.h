@@ -380,6 +380,7 @@ class monster : public Creature
         // Something hit us (possibly null source)
         void on_hit( Creature *source, bodypart_id bp_hit,
                      float difficulty = INT_MIN, dealt_projectile_attack const *proj = nullptr ) override;
+        void on_damage_of_type( int amt, damage_type dt, body_part bp ) override;
 
         /** Resets a given special to its monster type cooldown value */
         void reset_special( const std::string &special_name );

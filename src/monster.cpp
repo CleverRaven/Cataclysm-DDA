@@ -187,6 +187,32 @@ static const std::map<monster_attitude, std::pair<std::string, color_id>> attitu
     {monster_attitude::MATT_NULL, {translate_marker( "BUG: Behavior unnamed." ), def_h_red}},
 };
 
+// Returns all the players around pos who don't have grabbing monsters adjacent to them
+static std::vector<player *> find_targets_to_ungrab( const tripoint &pos )
+{
+    std::vector<player *> result;
+    for( auto &player_pos : g->m.points_in_radius( pos, 1, 0 ) ) {
+        player *p = g->critter_at<player>( player_pos );
+        if( !p || !p->has_effect( effect_grabbed ) ) {
+            continue;
+        }
+        bool grabbed = false;
+        for( auto &mon_pos : g->m.points_in_radius( player_pos, 1, 0 ) ) {
+            const monster *const mon = g->critter_at<monster>( mon_pos );
+            if( mon && mon->has_effect( effect_grabbing ) ) {
+                grabbed = true;
+                break;
+            }
+        }
+        if( !grabbed ) {
+            result.push_back( p );
+
+        }
+    }
+
+    return result;
+}
+
 monster::monster()
 {
     position.x = 20;
@@ -2210,24 +2236,10 @@ void monster::die( Creature *nkiller )
     }
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
-        for( auto &player_pos : g->m.points_in_radius( pos(), 1, 0 ) ) {
-            player *p = g->critter_at<player>( player_pos );
-            if( !p || !p->has_effect( effect_grabbed ) ) {
-                continue;
-            }
-            bool grabbed = false;
-            for( auto &mon_pos : g->m.points_in_radius( player_pos, 1, 0 ) ) {
-                const monster *const mon = g->critter_at<monster>( mon_pos );
-                if( mon && mon->has_effect( effect_grabbing ) ) {
-                    grabbed = true;
-                    break;
-                }
-            }
-            if( !grabbed ) {
-                p->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
-                                          _( "The last enemy holding <npcname> collapses!" ) );
-                p->remove_effect( effect_grabbed );
-            }
+        for( player *p : find_targets_to_ungrab( pos() ) ) {
+            p->add_msg_player_or_npc( m_good, _( "The last enemy holding you collapses!" ),
+                                      _( "The last enemy holding <npcname> collapses!" ) );
+            p->remove_effect( effect_grabbed );
         }
     }
     if( !is_hallucination() ) {
@@ -2812,6 +2824,21 @@ void monster::on_hit( Creature *source, bodypart_id,
 
     check_dead_state();
     // TODO: Faction relations
+}
+
+void monster::on_damage_of_type( int amt, damage_type dt, body_part )
+{
+    int full_hp = get_hp_max();
+    if( has_effect( effect_grabbing ) && ( dt == DT_BASH || dt == DT_CUT || dt == DT_STAB ) &&
+        x_in_y( amt * 10, full_hp ) ) {
+        remove_effect( effect_grabbing );
+        for( player *p : find_targets_to_ungrab( pos() ) ) {
+            p->add_msg_player_or_npc( m_good, _( "The %s flinches, letting you go!" ),
+                                      _( "The %s flinches, letting <npcname> go!" ),
+                                      disp_name().c_str() );
+            p->remove_effect( effect_grabbed );
+        }
+    }
 }
 
 int monster::get_hp_max( hp_part ) const

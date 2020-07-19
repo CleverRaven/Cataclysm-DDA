@@ -221,7 +221,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tetanus( "tetanus" );
 static const efftype_id effect_tied( "tied" );
-static const efftype_id effect_winded( "winded" );
 
 static const bionic_id bio_remote( "bio_remote" );
 
@@ -9931,9 +9930,6 @@ void game::on_move_effects()
     if( u.movement_mode_is( CMM_RUN ) ) {
         if( !u.can_run() ) {
             u.toggle_run_mode();
-        }
-        if( u.get_stamina() < u.get_stamina_max() / 5 && one_in( u.get_stamina() ) ) {
-            u.add_effect( effect_winded, 10_turns );
         }
     }
 

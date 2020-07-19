@@ -53,11 +53,9 @@
     "name": "Spinning Strike",
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "skill_requirements": [ { "name": "melee", "level": 4 } ],
-    "crit_tec": true,
     "messages": [ "You swing through %s and everyone nearby", "<npcname> swings through %s and everyone nearby" ],
     "aoe": "spin",
-    "description": "Attack adjacent enemies, crit only, min 4 melee"
+    "description": "Attack adjacent enemies"
   },
   {
     "type": "technique",
@@ -65,23 +63,19 @@
     "name": "Wide Strike",
     "unarmed_allowed": true,
     "melee_allowed": true,
-    "skill_requirements": [ { "name": "melee", "level": 3 } ],
-    "crit_tec": true,
     "weighting": 2,
     "messages": [ "You swing in a wide arc through %s", "<npcname> swings in a wide arc through %s" ],
     "aoe": "wide",
-    "description": "Attack in a wide arc, crit only, min 3 melee"
+    "description": "Attack in a wide arc, hitting multiple targets"
   },
   {
     "type": "technique",
     "id": "IMPALE",
     "name": "Impaling Strike",
     "melee_allowed": true,
-    "skill_requirements": [ { "name": "melee", "level": 4 } ],
-    "crit_tec": true,
     "messages": [ "You pierce straight through %s", "<npcname> pierces through %s" ],
     "aoe": "impale",
-    "description": "Attack target and another one behind it, crit only, min 4 melee"
+    "description": "Attack target and another one behind it"
   },
   {
     "type": "technique",

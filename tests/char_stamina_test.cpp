@@ -13,8 +13,6 @@
 #include "type_id.h"
 #include "units.h"
 
-static const efftype_id effect_winded( "winded" );
-
 // These test cases cover stamina-related functions in the `Character` class, including:
 //
 // - stamina_move_cost_modifier
@@ -38,20 +36,12 @@ static const efftype_id effect_winded( "winded" );
 
 // See also `clear_character` in `tests/player_helpers.cpp`
 
-// Remove "winded" effect from the player (but do not change stamina)
-static void catch_breath( player &dummy )
-{
-    dummy.remove_effect( effect_winded );
-    REQUIRE_FALSE( dummy.has_effect( effect_winded ) );
-}
-
 // Return `stamina_move_cost_modifier` in the given move_mode with [0.0 .. 1.0] stamina remaining
 static float move_cost_mod( player &dummy, character_movemode move_mode,
                             float stamina_proportion = 1.0 )
 {
     // Reset and be able to run
     clear_character( dummy );
-    catch_breath( dummy );
     REQUIRE( dummy.can_run() );
 
     // Walk, run, or crouch
@@ -72,7 +62,6 @@ static int actual_burn_rate( player &dummy, character_movemode move_mode )
 {
     // Ensure we can run if necessary (aaaa zombies!)
     dummy.set_stamina( dummy.get_stamina_max() );
-    catch_breath( dummy );
     REQUIRE( dummy.can_run() );
 
     // Walk, run, or crouch
@@ -177,9 +166,7 @@ TEST_CASE( "modify character stamina", "[stamina][modify]" )
 {
     player &dummy = g->u;
     clear_character( dummy );
-    catch_breath( dummy );
     REQUIRE_FALSE( dummy.is_npc() );
-    REQUIRE_FALSE( dummy.has_effect( effect_winded ) );
 
     GIVEN( "character has less than full stamina" ) {
         int lost_stamina = dummy.get_stamina_max() / 2;
@@ -215,10 +202,6 @@ TEST_CASE( "modify character stamina", "[stamina][modify]" )
 
             THEN( "stamina is above zero" ) {
                 CHECK( dummy.get_stamina() > 0 );
-
-                AND_THEN( "they do not become winded" ) {
-                    REQUIRE_FALSE( dummy.has_effect( effect_winded ) );
-                }
             }
         }
 
@@ -227,10 +210,6 @@ TEST_CASE( "modify character stamina", "[stamina][modify]" )
 
             THEN( "stamina is at zero" ) {
                 CHECK( dummy.get_stamina() == 0 );
-
-                AND_THEN( "they do not become winded" ) {
-                    REQUIRE_FALSE( dummy.has_effect( effect_winded ) );
-                }
             }
         }
 
@@ -239,10 +218,6 @@ TEST_CASE( "modify character stamina", "[stamina][modify]" )
 
             THEN( "stamina is at zero" ) {
                 CHECK( dummy.get_stamina() == 0 );
-
-                AND_THEN( "they become winded" ) {
-                    REQUIRE( dummy.has_effect( effect_winded ) );
-                }
             }
         }
     }
@@ -357,26 +332,17 @@ TEST_CASE( "burning stamina when overburdened may cause pain", "[stamina][burn][
 TEST_CASE( "stamina regeneration rate", "[stamina][update][regen]" )
 {
     player &dummy = g->u;
-    clear_character( dummy );
+    clear_character( dummy, false );
     int turn_moves = to_moves<int>( 1_turns );
 
     const float normal_regen_rate = get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" );
     REQUIRE( normal_regen_rate > 0 );
 
-    GIVEN( "character is not winded" ) {
-        catch_breath( dummy );
+    GIVEN( "character is not affected by any traits" ) {
+        REQUIRE( dummy.get_mutations().empty() );
 
         THEN( "they regain stamina at the normal rate per turn" ) {
             CHECK( actual_regen_rate( dummy, turn_moves ) == normal_regen_rate * turn_moves );
-        }
-    }
-
-    GIVEN( "character is winded" ) {
-        dummy.add_effect( effect_winded, 10_turns );
-        REQUIRE( dummy.has_effect( effect_winded ) );
-
-        THEN( "they regain stamina at only 10%% the normal rate per turn" ) {
-            CHECK( actual_regen_rate( dummy, turn_moves ) == 0.1 * normal_regen_rate * turn_moves );
         }
     }
 }
@@ -385,7 +351,6 @@ TEST_CASE( "stamina regen in different movement modes", "[stamina][update][regen
 {
     player &dummy = g->u;
     clear_character( dummy );
-    catch_breath( dummy );
 
     int turn_moves = to_moves<int>( 1_turns );
 
@@ -418,29 +383,41 @@ TEST_CASE( "stamina regen with mouth encumbrance", "[stamina][update][regen][enc
 {
     player &dummy = g->u;
     clear_character( dummy );
-    catch_breath( dummy );
 
     int turn_moves = to_moves<int>( 1_turns );
 
     const float normal_regen_rate = get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" );
     REQUIRE( normal_regen_rate > 0 );
 
-    GIVEN( "character has mouth encumbrance" ) {
+    GIVEN( "character has 10 mouth encumbrance" ) {
         dummy.wear_item( item( "scarf_fur" ) );
         REQUIRE( dummy.encumb( bp_mouth ) == 10 );
 
-        THEN( "stamina regen is reduced" ) {
+        THEN( "stamina regen is reduced by 10%" ) {
             CHECK( actual_regen_rate( dummy, turn_moves ) == ( normal_regen_rate - 2 ) * turn_moves );
+        }
+    }
 
-            WHEN( "they have even more mouth encumbrance" ) {
-                // Layering two scarves triples the encumbrance
-                dummy.wear_item( item( "scarf_fur" ) );
-                REQUIRE( dummy.encumb( bp_mouth ) == 30 );
+    GIVEN( "character has 30 mouth encumbrance" ) {
+        // Layering two scarves triples the encumbrance
+        dummy.wear_item( item( "scarf_fur" ) );
+        dummy.wear_item( item( "scarf_fur" ) );
+        REQUIRE( dummy.encumb( bp_mouth ) == 30 );
 
-                THEN( "stamina regen is reduced further" ) {
-                    CHECK( actual_regen_rate( dummy, turn_moves ) == ( normal_regen_rate - 6 ) * turn_moves );
-                }
-            }
+        THEN( "stamina regen is reduced by 30%" ) {
+            CHECK( actual_regen_rate( dummy, turn_moves ) == ( normal_regen_rate - 6 ) * turn_moves );
+        }
+    }
+
+    GIVEN( "character has 100+ mouth encumbrance" ) {
+        dummy.wear_item( item( "mask_gas" ) );
+        dummy.wear_item( item( "mask_gas" ) );
+        dummy.wear_item( item( "scarf_fur" ) );
+        dummy.wear_item( item( "scarf_fur" ) );
+        REQUIRE( dummy.encumb( bp_mouth ) >= 100 );
+
+        THEN( "stamina regen is above 0" ) {
+            CHECK( actual_regen_rate( dummy, turn_moves ) > 0 );
         }
     }
 }

@@ -781,8 +781,7 @@ float player::get_dodge_base() const
 float player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
-    if( in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+    if( in_sleep_state() || has_effect( effect_narcosis ) ) {
         return 0.0f;
     }
 
@@ -801,9 +800,7 @@ float player::get_dodge() const
                 zed_number++;
             }
         }
-        if( zed_number > 0 ) {
-            ret /= zed_number + 1;
-        }
+        ret *= 1.0f - ( 0.25f * zed_number );
     }
 
     if( worn_with_flag( "ROLLER_INLINE" ) ||
@@ -819,12 +816,6 @@ float player::get_dodge() const
     // Each dodge after the first subtracts equivalent of 2 points of dodge skill
     if( dodges_left <= 0 ) {
         ret += dodges_left * 2 - 2;
-    }
-
-    // Speed below 100 linearly decreases dodge effectiveness
-    int speed_stat = get_speed();
-    if( speed_stat < 100 ) {
-        ret *= speed_stat / 100.0f;
     }
 
     return std::max( 0.0f, ret );
@@ -1534,9 +1525,8 @@ item &Character::best_shield()
 bool Character::block_hit( Creature *source, body_part &bp_hit, damage_instance &dam )
 {
 
-    // Shouldn't block if player is asleep or winded
-    if( blocks_left < 1 || in_sleep_state() || has_effect( effect_narcosis ) ||
-        has_effect( efftype_id( "winded" ) ) ) {
+    // Shouldn't block if player is asleep
+    if( blocks_left < 1 || in_sleep_state() || has_effect( effect_narcosis ) ) {
         return false;
     }
     blocks_left--;

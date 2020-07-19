@@ -102,7 +102,6 @@ static const efftype_id effect_took_antiasthmatic( "took_antiasthmatic" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_valium( "valium" );
 static const efftype_id effect_visuals( "visuals" );
-static const efftype_id effect_winded( "winded" );
 
 static const trait_id trait_ADDICTIVE( "ADDICTIVE" );
 static const trait_id trait_ALBINO( "ALBINO" );
@@ -1279,12 +1278,6 @@ void Character::suffer_from_stimulants( const int current_stim )
             }
         }
     }
-    if( current_stim > 170 ) {
-        if( !has_effect( effect_winded ) && calendar::once_every( 10_minutes ) ) {
-            add_msg( m_bad, _( "You feel short of breath." ) );
-            add_effect( effect_winded, 10_minutes + 1_turns );
-        }
-    }
     if( current_stim > 110 ) {
         if( !has_effect( effect_shakes ) && calendar::once_every( 10_minutes ) ) {
             add_msg( _( "You shake uncontrollably." ) );
@@ -1306,12 +1299,6 @@ void Character::suffer_from_stimulants( const int current_stim )
             add_effect( effect_downed, dur );
             add_effect( effect_blind, dur );
             fall_asleep( dur );
-        }
-    }
-    if( current_stim < -120 || get_painkiller() > 160 ) {
-        if( !has_effect( effect_winded ) && calendar::once_every( 10_minutes ) ) {
-            add_msg( m_bad, _( "Your breathing slows down." ) );
-            add_effect( effect_winded, 10_minutes + 1_turns );
         }
     }
     if( current_stim < -85 || get_painkiller() > 145 ) {
