@@ -7877,7 +7877,7 @@ bool Character::invoke_item( item *used, const std::string &method, const tripoi
         return true;
     } else if( used->is_comestible() ) {
         const bool ret = consume_effects( *used );
-        used->charges -= charges_used;
+        consume_charges( *used, charges_used );
         return ret;
     }
 
