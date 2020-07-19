@@ -208,6 +208,7 @@
     "id": "powerhead",
     "type": "GUN",
     "name": { "str": "powerhead" },
+    "symbol": "(",
     "description": "A single-shot firearm mounted on a stick.  Commonly used for spear fishing or for defense against sharks.  This one has an activation pin the must be pulled to fire.",
     "weight": "4000 g",
     "volume": "4765 ml",
