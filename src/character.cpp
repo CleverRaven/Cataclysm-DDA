@@ -4892,7 +4892,7 @@ void Character::regen( int rate_multiplier )
             mod_part_damage_bandaged( bp, -healing_apply );
             if( get_part_damage_bandaged( bp ) <= 0 ) {
                 set_part_damage_bandaged( bp, 0 );
-                remove_effect( effect_bandaged, bp->token );
+                remove_effect( effect_bandaged, bp );
                 add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
@@ -4900,7 +4900,7 @@ void Character::regen( int rate_multiplier )
             mod_part_damage_disinfected( bp, -healing_apply );
             if( get_part_damage_disinfected( bp ) <= 0 ) {
                 set_part_damage_disinfected( bp, 0 );
-                remove_effect( effect_disinfected, bp->token );
+                remove_effect( effect_disinfected, bp );
                 add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
             }
         }
@@ -4908,12 +4908,12 @@ void Character::regen( int rate_multiplier )
         // remove effects if the limb was healed by other way
         if( has_effect( effect_bandaged, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
             set_part_damage_bandaged( bp, 0 );
-            remove_effect( effect_bandaged, bp->token );
+            remove_effect( effect_bandaged, bp );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
         if( has_effect( effect_disinfected, bp->token ) && ( get_part( bp )->is_at_max_hp() ) ) {
             set_part_damage_disinfected( bp, 0 );
-            remove_effect( effect_disinfected, bp->token );
+            remove_effect( effect_disinfected, bp );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
         }
     }
@@ -6151,7 +6151,7 @@ void Character::update_bodytemp()
             // Frostbite, no recovery possible
             if( frostbite_timer >= 3600 ) {
                 add_effect( effect_frostbite, 1_turns, bp, true, 2 );
-                remove_effect( effect_frostbite_recovery, bp->token );
+                remove_effect( effect_frostbite_recovery, bp );
                 // Else frostnip, add recovery if we were frostbitten
             } else if( frostbite_timer >= 1800 ) {
                 if( intense == 2 ) {

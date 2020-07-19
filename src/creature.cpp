@@ -1117,9 +1117,9 @@ void Creature::clear_effects()
     }
     effects->clear();
 }
-bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
+bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
 {
-    if( !has_effect( eff_id, bp ) ) {
+    if( !has_effect( eff_id, bp->token ) ) {
         //Effect doesn't exist, so do nothing
         return false;
     }
@@ -1135,14 +1135,14 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
     }
 
     // num_bp means remove all of a given effect id
-    if( bp == num_bp ) {
+    if( bp == bodypart_id( "num_bp" ) ) {
         for( auto &it : ( *effects )[eff_id] ) {
             on_effect_int_change( eff_id, 0, it.first );
         }
         effects->erase( eff_id );
     } else {
-        ( *effects )[eff_id].erase( bp );
-        on_effect_int_change( eff_id, 0, bp );
+        ( *effects )[eff_id].erase( bp->token );
+        on_effect_int_change( eff_id, 0, bp->token );
         // If there are no more effects of a given type remove the type map
         if( ( *effects )[eff_id].empty() ) {
             effects->erase( eff_id );
@@ -1255,7 +1255,7 @@ void Creature::process_effects()
 
     // Actually remove effects. This should be the last thing done in process_effects().
     for( size_t i = 0; i < rem_ids.size(); ++i ) {
-        remove_effect( rem_ids[i], rem_bps[i]->token );
+        remove_effect( rem_ids[i], rem_bps[i] );
     }
 }
 

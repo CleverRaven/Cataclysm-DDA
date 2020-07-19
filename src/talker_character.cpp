@@ -143,7 +143,7 @@ void talker_character::add_effect( const efftype_id &new_effect, const time_dura
 
 void talker_character::remove_effect( const efftype_id &old_effect )
 {
-    me_chr->remove_effect( old_effect, num_bp );
+    me_chr->remove_effect( old_effect, bodypart_id( "num_bp" ) );
 }
 
 std::string talker_character:: get_value( const std::string &var_name ) const

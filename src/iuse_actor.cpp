@@ -3235,7 +3235,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
     }
     if( patient.has_effect( effect_bite, healed->token ) ) {
         if( x_in_y( bite, 1.0f ) ) {
-            patient.remove_effect( effect_bite, healed->token );
+            patient.remove_effect( effect_bite, healed );
             heal_msg( m_good, _( "You clean the wound." ), _( "The wound is cleaned." ) );
         } else {
             heal_msg( m_warning, _( "Your wound still aches." ), _( "The wound still looks bad." ) );
@@ -3246,7 +3246,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
     if( patient.has_effect( effect_infected, healed->token ) ) {
         if( x_in_y( infect, 1.0f ) ) {
             const time_duration infected_dur = patient.get_effect_dur( effect_infected, healed->token );
-            patient.remove_effect( effect_infected, healed->token );
+            patient.remove_effect( effect_infected, healed );
             patient.add_effect( effect_recover, infected_dur );
             heal_msg( m_good, _( "You disinfect the wound." ), _( "The wound is disinfected." ) );
         } else {

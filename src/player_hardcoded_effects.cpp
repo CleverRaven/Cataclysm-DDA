@@ -556,7 +556,7 @@ void player::hardcoded_effects( effect &it )
                 }
             }
             get_event_bus().send<event_type::dermatik_eggs_hatch>( getID() );
-            remove_effect( effect_formication, bp->token );
+            remove_effect( effect_formication, bp );
             moves -= 600;
             triggered = true;
         }

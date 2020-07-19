@@ -1213,7 +1213,7 @@ void avatar::reset_stats()
         } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {
-            remove_effect( type, num_bp );
+            remove_effect( type, bodypart_id( "num_bp" ) );
         }
     };
     // Painkiller

@@ -565,13 +565,13 @@ void talk_function::give_aid( npc &p )
     for( const bodypart_id &bp : player_character.get_all_body_parts( true ) ) {
         player_character.heal( bp, 5 * rng( 2, 5 ) );
         if( player_character.has_effect( effect_bite, bp->token ) ) {
-            player_character.remove_effect( effect_bite, bp->token );
+            player_character.remove_effect( effect_bite, bp );
         }
         if( player_character.has_effect( effect_bleed, bp->token ) ) {
-            player_character.remove_effect( effect_bleed, bp->token );
+            player_character.remove_effect( effect_bleed, bp );
         }
         if( player_character.has_effect( effect_infected, bp->token ) ) {
-            player_character.remove_effect( effect_infected, bp->token );
+            player_character.remove_effect( effect_infected, bp );
         }
     }
     const int moves = to_moves<int>( 100_minutes );
@@ -588,13 +588,13 @@ void talk_function::give_all_aid( npc &p )
             for( const bodypart_id &bp : guy.get_all_body_parts( true ) ) {
                 guy.heal( bp, 5 * rng( 2, 5 ) );
                 if( guy.has_effect( effect_bite, bp->token ) ) {
-                    guy.remove_effect( effect_bite, bp->token );
+                    guy.remove_effect( effect_bite, bp );
                 }
                 if( guy.has_effect( effect_bleed, bp->token ) ) {
-                    guy.remove_effect( effect_bleed, bp->token );
+                    guy.remove_effect( effect_bleed, bp );
                 }
                 if( guy.has_effect( effect_infected, bp->token ) ) {
-                    guy.remove_effect( effect_infected, bp->token );
+                    guy.remove_effect( effect_infected, bp );
                 }
             }
         }
