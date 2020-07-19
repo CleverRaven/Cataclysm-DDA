@@ -501,6 +501,6 @@
     "time": "30m",
     "autolearn": true,
     "qualities": [ { "id": "SAW_M", "level": 2 } ],
-    "components": [ [ [ "slamfire_shotgun", 1 ] ], [ [ "wire", 1 ] ], [ [ "plank", 1 ] ], [ [ "duct_tape", 100 ] ] ]
+    "components": [ [ [ "slamfire_shotgun", 1 ] ], [ [ "wire", 1 ] ], [ [ "stick_long", 1 ] ], [ [ "duct_tape", 100 ] ] ]
   }
 ]
