@@ -967,7 +967,8 @@ void Creature::set_fake( const bool fake_value )
 
 void Creature::add_effect( const effect &eff, bool force, bool deferred )
 {
-    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(), eff.get_intensity(),
+    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp()->token, eff.is_permanent(),
+                eff.get_intensity(),
                 force, deferred );
 }
 
@@ -1057,7 +1058,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         }
 
         // Now we can make the new effect for application
-        effect e( &type, dur, bp, permanent, intensity, calendar::turn );
+        effect e( &type, dur, convert_bp( bp ).id(), permanent, intensity, calendar::turn );
         // Bound to max duration
         if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
             e.set_duration( e.get_max_duration() );
@@ -1111,7 +1112,7 @@ void Creature::clear_effects()
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
-            on_effect_int_change( e.get_id(), 0, e.get_bp() );
+            on_effect_int_change( e.get_id(), 0, e.get_bp()->token );
         }
     }
     effects->clear();
@@ -1231,7 +1232,7 @@ void Creature::process_effects()
     // monster specific removals these will need to be moved down to that level and then
     // passed in to this function.
     std::vector<efftype_id> rem_ids;
-    std::vector<body_part> rem_bps;
+    std::vector<bodypart_id> rem_bps;
 
     // Decay/removal of effects
     for( auto &elem : *effects ) {
@@ -1239,7 +1240,7 @@ void Creature::process_effects()
             // Add any effects that others remove to the removal list
             for( const auto &removed_effect : _it.second.get_removes_effects() ) {
                 rem_ids.push_back( removed_effect );
-                rem_bps.push_back( num_bp );
+                rem_bps.push_back( bodypart_id( "num_bp" ) );
             }
             effect &e = _it.second;
             const int prev_int = e.get_intensity();
@@ -1247,14 +1248,14 @@ void Creature::process_effects()
             e.decay( rem_ids, rem_bps, calendar::turn, is_player() );
 
             if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
-                on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
+                on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp()->token );
             }
         }
     }
 
     // Actually remove effects. This should be the last thing done in process_effects().
     for( size_t i = 0; i < rem_ids.size(); ++i ) {
-        remove_effect( rem_ids[i], rem_bps[i] );
+        remove_effect( rem_ids[i], rem_bps[i]->token );
     }
 }
 
