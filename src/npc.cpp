@@ -1581,9 +1581,14 @@ bool npc::wants_to_sell( const item &it ) const
     return wants_to_sell( it, value( it, market_price ), market_price );
 }
 
-bool npc::wants_to_sell( const item &/*it*/, int at_price, int market_price ) const
+bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
 {
     if( mission == NPC_MISSION_SHOPKEEP ) {
+        // keep items that we either never want to trade, or don't want to trade while in use
+        if( it.has_flag( "TRADER_KEEP" ) ||
+            ( it.has_flag( "TRADER_KEEP_EQUIPPED" ) && ( is_worn( it ) || is_wielding( it ) ) ) ) {
+            return false;
+        }
         return true;
     }
 
