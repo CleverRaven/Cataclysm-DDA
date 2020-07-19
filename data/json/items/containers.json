@@ -928,7 +928,7 @@
     "looks_like": "flask_glass",
     "description": "A 250ml laboratory beaker.  Basically a cup with delusions of grandeur.",
     "weight": "150 g",
-    "volume": "141 ml",
+    "volume": "251 ml",
     "longest_side": "72 mm",
     "price": 500,
     "price_postapoc": 10,
