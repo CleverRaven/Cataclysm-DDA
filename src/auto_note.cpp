@@ -7,13 +7,13 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "json.h"
 #include "map_extras.h"
 #include "options.h"
 #include "output.h"
+#include "path_info.h"
 #include "point.h"
 #include "translations.h"
 #include "ui_manager.h"
@@ -22,7 +22,7 @@ namespace auto_notes
 {
 std::string auto_note_settings::build_save_path() const
 {
-    return g->get_player_base_save_path() + ".ano.json";
+    return PATH_INFO::player_base_save_path() + ".ano.json";
 }
 
 void auto_note_settings::clear()
@@ -32,7 +32,7 @@ void auto_note_settings::clear()
 
 bool auto_note_settings::save()
 {
-    if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
+    if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
         return true;
     }
 

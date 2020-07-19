@@ -29,6 +29,7 @@
 #include "overmap.h"
 #include "overmap_connection.h"
 #include "overmap_types.h"
+#include "path_info.h"
 #include "rng.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
@@ -61,12 +62,12 @@ int camp_reference::get_distance_from_bounds() const
 
 std::string overmapbuffer::terrain_filename( const point &p )
 {
-    return string_format( "%s/o.%d.%d", g->get_world_base_save_path(), p.x, p.y );
+    return string_format( "%s/o.%d.%d", PATH_INFO::world_base_save_path(), p.x, p.y );
 }
 
 std::string overmapbuffer::player_filename( const point &p )
 {
-    return string_format( "%s.seen.%d.%d", g->get_player_base_save_path(), p.x, p.y );
+    return string_format( "%s.seen.%d.%d", PATH_INFO::player_base_save_path(), p.x, p.y );
 }
 
 overmap &overmapbuffer::get( const point &p )

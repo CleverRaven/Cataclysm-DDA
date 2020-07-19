@@ -72,6 +72,7 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "path_info.h"
 #include "pimpl.h"
 #include "player.h"
 #include "pldata.h"
@@ -1851,7 +1852,7 @@ void debug()
 #if defined(TILES)
             // check that the current '<world>/screenshots' directory exists
             std::stringstream map_directory;
-            map_directory << g->get_world_base_save_path() << "/screenshots/";
+            map_directory << PATH_INFO::world_base_save_path() << "/screenshots/";
             assure_dir_exist( map_directory.str() );
 
             // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png
