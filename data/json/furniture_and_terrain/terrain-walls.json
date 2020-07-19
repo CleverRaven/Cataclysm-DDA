@@ -436,7 +436,7 @@
     "name": "bulkhead",
     "description": "An industrially fabricated thick sheet carefully positioned, this wall is capable of resisting extreme elements as well as hostile forces.",
     "symbol": "LINE_OXOX",
-    "color": "cyan",
+    "color": "light_gray",
     "move_cost": 0,
     "coverage": 100,
     "looks_like": "t_wall_metal",

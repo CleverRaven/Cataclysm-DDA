@@ -167,7 +167,7 @@
     "subtype": "collection",
     "entries": [
       {
-        "distribution": [ { "item": "c_fishspear", "prob": 50, "repeat": [ 2, 6 ] }, { "item": "m_fishspear", "prob": 50, "repeat": [ 2, 6 ] } ],
+        "distribution": [ { "item": "c_fishspear", "prob": 50 }, { "item": "m_fishspear", "prob": 50 } ],
         "prob": 65
       },
       { "group": "swimmer_head", "prob": 100 },
