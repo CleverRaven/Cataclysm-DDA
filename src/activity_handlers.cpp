@@ -3436,7 +3436,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     // Makes sure NPC is still under anesthesia
     if( p->has_effect( effect_narcosis ) ) {
         const time_duration remaining_time = p->get_effect_dur( effect_narcosis );
-        if( remaining_time <= time_left ) {
+        if( remaining_time < time_left ) {
             const time_duration top_off_time = time_left - remaining_time;
             p->add_effect( effect_narcosis, top_off_time );
             p->add_effect( effect_sleep, top_off_time );

@@ -757,7 +757,7 @@ void Character::suffer_in_sunlight()
     if( has_trait( trait_SUNBURN ) && one_in( 10 ) ) {
         if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
             add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
-            if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+            if( has_effect( effect_sleep ) ) {
                 wake_up();
             }
             mod_pain( 1 );
@@ -871,7 +871,7 @@ void Character::suffer_from_albinism()
         add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s." ), bp_name );
 
         //apply effects
-        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+        if( has_effect( effect_sleep ) ) {
             wake_up();
         }
         if( one_turn_in( 1_minutes ) ) {
