@@ -135,5 +135,29 @@
       { "skill": "firstaid", "bonus": { "rng": [ 1, 4 ] } },
       { "skill": "chemistry", "bonus": { "rng": [ 6, 8 ] } }
     ]
+  },
+  {
+    "type": "npc",
+    "id": "wilhemina_whately",
+    "name_unique": "Wilhemina Whately",
+    "name_suffix": "Shopkeeper",
+    "class": "whately_cousin",
+    "attitude": 0,
+    "mission": 3,
+    "//": "Do I need a chat here?",
+    "faction": "whately_family",
+    "gender": "female"
+  },
+  {
+    "type": "npc",
+    "id": "nicodemus_whately",
+    "name_unique": "Nicodemus Whately",
+    "name_suffix": "Whately, Hatchetman",
+    "class": "whately_cousin",
+    "attitude": 0,
+    "mission": 3,
+    "//": "Set chat and missions here later",
+    "faction": "whately_family",
+    "gender": "male"
   }
 ]

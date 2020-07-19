@@ -107,8 +107,9 @@
         "########################",
         "########################"
       ],
-      "palettes": [ "whately_bunker", "whately_empty_bunker_items" ]
-    }
+      "palettes": [ "whately_bunker", "whately_empty_bunker_items" ],
+      "place_npcs": [ { "class": "cyrus_whately", "x": 11, "y": 10 }, { "class": "wilhemina_whately", "x": 7, "y": 16 }, { "class": "whately_cousin", "x": 19, "y": 8 }  ]
+    },
   },
   {
     "type": "mapgen",
@@ -151,7 +152,8 @@
         { "chunks": [ "lmoe3_storage_11x11" ], "x": 13, "y": 6 },
         { "chunks": [ "lmoe3_tankroom_11x11" ], "x": 1, "y": 18 },
         { "chunks": [ "lmoe3_crafting_11x11" ], "x": 13, "y": 18 }
-      ]
+      ],
+      "place_npcs": [ { "class": "nicodemus_whately", "x": 9, "y": 7 }, { "class": "whately_cousin", "x": 5, "y": 14 }  ]
     }
   },
   {
