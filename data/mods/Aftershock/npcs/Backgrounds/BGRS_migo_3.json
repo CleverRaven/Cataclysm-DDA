@@ -23,9 +23,6 @@
     "id": "BGRS_MIGO_2_STORY3",
     "type": "talk_topic",
     "dynamic_line": "One day they opened a portal trying to find an earthlike planet and suddenly portals were opening all over the lab and these fast and dangerous aliens overwhelmed the lab.  The killed most of the staff and took the rest prisoner.",
-    "responses": [
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]
