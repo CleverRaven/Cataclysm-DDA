@@ -638,11 +638,11 @@ TEST_CASE( "achievments_tracker", "[stats]" )
         send_game_start( b, u_id );
 
         CHECK( a.ui_text_for( &*a_kill_zombie ) ==
-               "<color_c_yellow>One down, billions to go…</color>\n"
+               "<color_c_white>One down, billions to go…</color>\n"
                "  <color_c_yellow>0/1 zombie killed</color>\n" );
         if( time_since_game_start < 1_minutes ) {
             CHECK( a.ui_text_for( &*a_kill_in_first_minute ) ==
-                   "<color_c_yellow>Rude awakening</color>\n"
+                   "<color_c_white>Rude awakening</color>\n"
                    "  <color_c_light_green>Within 1 minute of start of game (30 seconds remaining)</color>\n"
                    "  <color_c_yellow>0/1 monster killed</color>\n" );
         } else {
