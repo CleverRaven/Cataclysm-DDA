@@ -473,9 +473,9 @@ class Creature : public location
                                  bodypart_id bp = bodypart_id( "num_bp" ),
                                  bool permanent = false, int intensity = 0, bool force = false, bool deferred = false );
         /** Gives chance to save via environmental resist, returns false if resistance was successful. */
-        bool add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
+        bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur,
-                             body_part bp = num_bp, bool permanent = false, int intensity = 1,
+                             const bodypart_id &bp = bodypart_id( "num_bp" ), bool permanent = false, int intensity = 1,
                              bool force = false );
         /** Removes a listed effect. bp = num_bp means to remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was

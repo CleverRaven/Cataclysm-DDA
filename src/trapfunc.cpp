@@ -672,8 +672,8 @@ bool trapfunc::goo( const tripoint &p, Creature *c, item * )
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {
-        n->add_env_effect( effect_slimed, bp_foot_l, 6, 2_minutes );
-        n->add_env_effect( effect_slimed, bp_foot_r, 6, 2_minutes );
+        n->add_env_effect( effect_slimed, bodypart_id( "foot_l" ), 6, 2_minutes );
+        n->add_env_effect( effect_slimed, bodypart_id( "foot_r" ), 6, 2_minutes );
         if( one_in( 3 ) ) {
             n->add_msg_if_player( m_bad, _( "The acidic goo eats away at your feet." ) );
             n->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, 5 ) );

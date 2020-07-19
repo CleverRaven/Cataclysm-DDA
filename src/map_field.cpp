@@ -131,8 +131,9 @@ int map::burn_body_part( player &u, field_entry &cur, body_part bp, const int sc
         total_damage += ddi.total_damage();
     }
     // Represents acid seeping in rather than being splashed on
-    u.add_env_effect( effect_corroding, bp, 2 + intensity, time_duration::from_turns( rng( 2,
-                      1 + intensity ) ), bp, false, 0 );
+    u.add_env_effect( effect_corroding, convert_bp( bp ).id(), 2 + intensity,
+                      time_duration::from_turns( rng( 2,
+                              1 + intensity ) ), convert_bp( bp ).id(), false, 0 );
     return total_damage;
 }
 
@@ -1537,16 +1538,18 @@ void map::player_in_field( player &u )
         if( ft == fd_tear_gas ) {
             // Tear gas will both give you teargas disease and/or blind you.
             if( ( cur.get_field_intensity() > 1 || !one_in( 3 ) ) && ( !inside || one_in( 3 ) ) ) {
-                u.add_env_effect( effect_teargas, bp_mouth, 5, 20_seconds );
+                u.add_env_effect( effect_teargas, bodypart_id( "mouth" ), 5, 20_seconds );
             }
             if( cur.get_field_intensity() > 1 && ( !inside || one_in( 3 ) ) ) {
-                u.add_env_effect( effect_blind, bp_eyes, cur.get_field_intensity() * 2, 10_seconds );
+                u.add_env_effect( effect_blind, bodypart_id( "eyes" ), cur.get_field_intensity() * 2, 10_seconds );
             }
         }
         if( ft == fd_fungal_haze ) {
             if( !u.has_trait( trait_M_IMMUNE ) && ( !inside || one_in( 4 ) ) ) {
-                u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
-                u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
+                u.add_env_effect( effect_fungus, bodypart_id( "mouth" ), 4, 10_minutes, bodypart_id( "num_bp" ),
+                                  true );
+                u.add_env_effect( effect_fungus, bodypart_id( "eyes" ), 4, 10_minutes, bodypart_id( "num_bp" ),
+                                  true );
             }
         }
 
@@ -1632,7 +1635,7 @@ void map::player_in_field( player &u )
                     // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
                     // AND clothing on affected body part has low environmental protection value
                     if( ( u.get_armor_cut( bp ) <= 1 || ( sum_cover < 100 && x_in_y( 100 - sum_cover, 100 ) ) ) &&
-                        u.add_env_effect( effect_stung, bp->token, intensity, 9_minutes ) ) {
+                        u.add_env_effect( effect_stung, bp, intensity, 9_minutes ) ) {
                         u.add_msg_if_player( m_bad, _( "The bees sting you in %s!" ),
                                              body_part_name_accusative( bp ) );
                     }
@@ -1662,11 +1665,11 @@ void map::player_in_field( player &u )
                 if( !( u.worn_with_flag( flag_GAS_PROOF ) && u.get_env_resist( bodypart_id( "mouth" ) ) >= 15 &&
                        u.get_env_resist( bodypart_id( "eyes" ) ) >= 15 ) ) {
                     const int intensity = cur.get_field_intensity();
-                    bool inhaled = u.add_env_effect( effect_poison, bp_mouth, 5, intensity * 1_minutes );
+                    bool inhaled = u.add_env_effect( effect_poison, bodypart_id( "mouth" ), 5, intensity * 1_minutes );
                     if( u.has_trait( trait_THRESH_MYCUS ) || u.has_trait( trait_THRESH_MARLOSS ) ||
                         ( ft == fd_insecticidal_gas && ( u.get_highest_category() == "INSECT" ||
                                                          u.get_highest_category() == "SPIDER" ) ) ) {
-                        inhaled |= u.add_env_effect( effect_badpoison, bp_mouth, 5, intensity * 1_minutes );
+                        inhaled |= u.add_env_effect( effect_badpoison, bodypart_id( "mouth" ), 5, intensity * 1_minutes );
                         u.hurtall( rng( intensity, intensity * 2 ), nullptr );
                         u.add_msg_if_player( m_bad, _( "The %s burns your skin." ), cur.name() );
                     }
@@ -1737,7 +1740,8 @@ void map::creature_in_field( Creature &critter )
             }
             bool effect_added = false;
             if( fe.is_environmental ) {
-                effect_added = critter.add_env_effect( fe.id, fe.bp, fe.intensity, fe.get_duration() );
+                effect_added = critter.add_env_effect( fe.id, convert_bp( fe.bp ).id(), fe.intensity,
+                                                       fe.get_duration() );
             } else {
                 effect_added = true;
                 critter.add_effect( field_fx );
