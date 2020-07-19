@@ -4,6 +4,43 @@
 
 #include <type_traits>
 
+// enum_traits is a template you can specialize for your enum types.  It serves
+// two purposes:
+// * Picking out the special "last" enumerator if you have one.  This is used
+//   by various generic code to iterate over all the enumerators.  Most notably
+//   it enables io::string_to_enum and thereby string-based json serialization.
+// * Specifying that your enum is a flag enum, and therefore that you want
+//   bitwise operators to work for it.  This saves everyone from implemetning
+//   those operators independently.
+//
+// Usage examples:
+//
+// For a 'regular' enum
+//
+// enum ordinal {
+//   first,
+//   second,
+//   third,
+//   last
+// };
+//
+// template<>
+// struct enum_traits<ordinal> {
+//   static constexpr ordinal last = ordinal::last;
+// };
+//
+// For a flag enum
+//
+// enum my_flags {
+//   option_one = 1 << 0,
+//   option_two = 1 << 1,
+// };
+//
+// template<>
+// struct enum_traits<ordinal> {
+//   static constexpr bool is_flag_enum = true;
+// };
+
 template<typename E>
 struct enum_traits;
 
