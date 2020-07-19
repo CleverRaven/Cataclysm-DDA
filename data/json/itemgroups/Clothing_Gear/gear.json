@@ -166,10 +166,7 @@
     "//": "This group is for an area storing diving equipment.  SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
     "subtype": "collection",
     "entries": [
-      {
-        "distribution": [ { "item": "c_fishspear", "prob": 50 }, { "item": "m_fishspear", "prob": 50 } ],
-        "prob": 65
-      },
+      { "distribution": [ { "item": "c_fishspear", "prob": 50 }, { "item": "m_fishspear", "prob": 50 } ], "prob": 65 },
       { "group": "swimmer_head", "prob": 100 },
       { "group": "swimmer_torso", "prob": 100 },
       { "group": "swimmer_pants", "prob": 100 },
