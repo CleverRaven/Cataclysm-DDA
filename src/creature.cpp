@@ -1119,7 +1119,7 @@ void Creature::clear_effects()
 }
 bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
 {
-    if( !has_effect( eff_id, bp->token ) ) {
+    if( !has_effect( eff_id, bp ) ) {
         //Effect doesn't exist, so do nothing
         return false;
     }
@@ -1150,15 +1150,15 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
     }
     return true;
 }
-bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
+bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
 {
     // num_bp means anything targeted or not
-    if( bp == num_bp ) {
+    if( bp == bodypart_id( "num_bp" ) ) {
         return effects->find( eff_id ) != effects->end();
     } else {
         auto got_outer = effects->find( eff_id );
         if( got_outer != effects->end() ) {
-            auto got_inner = got_outer->second.find( bp );
+            auto got_inner = got_outer->second.find( bp->token );
             if( got_inner != got_outer->second.end() ) {
                 return true;
             }

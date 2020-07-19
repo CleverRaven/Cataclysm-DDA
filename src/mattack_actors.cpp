@@ -362,9 +362,9 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
     melee_actor::on_damage( z, target, dealt );
     if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
         const bodypart_id &hit = dealt.bp_hit;
-        if( target.has_effect( effect_bite, hit->token ) ) {
+        if( target.has_effect( effect_bite, hit ) ) {
             target.add_effect( effect_bite, 40_minutes, hit, true );
-        } else if( target.has_effect( effect_infected, hit->token ) ) {
+        } else if( target.has_effect( effect_infected, hit ) ) {
             target.add_effect( effect_infected, 25_minutes, hit, true );
         } else {
             target.add_effect( effect_bite, 1_turns, hit, true );

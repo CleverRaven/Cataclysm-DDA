@@ -4198,7 +4198,6 @@ bool mattack::stretch_bite( monster *z )
     }
 
     const bodypart_id hit = target->get_random_body_part();
-    const body_part hit_token = hit->token;
     // More damage due to the speed of the moving head
     int dam = rng( 5, 15 );
     dam = target->deal_damage( z, hit, damage_instance( DT_STAB, dam ) ).total_damage();
@@ -4214,9 +4213,9 @@ bool mattack::stretch_bite( monster *z )
                                        body_part_name_accusative( hit ) );
 
         if( one_in( 16 - dam ) ) {
-            if( target->has_effect( effect_bite, hit_token ) ) {
+            if( target->has_effect( effect_bite, hit ) ) {
                 target->add_effect( effect_bite, 40_minutes, hit, true );
-            } else if( target->has_effect( effect_infected, hit_token ) ) {
+            } else if( target->has_effect( effect_infected, hit ) ) {
                 target->add_effect( effect_infected, 25_minutes, hit, true );
             } else {
                 target->add_effect( effect_bite, 1_turns, hit, true );

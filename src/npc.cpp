@@ -1060,7 +1060,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
     // TODO: Drop splints when healed
     if( it.has_flag( "SPLINT" ) ) {
         for( const bodypart_id &bp : get_all_body_parts( true ) ) {
-            if( is_limb_broken( bp ) && !has_effect( effect_mending, bp->token ) &&
+            if( is_limb_broken( bp ) && !has_effect( effect_mending, bp ) &&
                 it.covers( bp ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return !!wear_item( it, false );
