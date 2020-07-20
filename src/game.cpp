@@ -12605,6 +12605,11 @@ Character &get_player_character()
     return g->u;
 }
 
+location &get_player_location()
+{
+    return g->u;
+}
+
 avatar &get_avatar()
 {
     return g->u;
