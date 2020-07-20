@@ -93,7 +93,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_WHATELY_past",
+    "id": "TALK_WHATELY_ask_past",
     "dynamic_line": "I was born part of the family.  We've never been accepted here but our wealth and talents have kept us alive through the centuries.",
     "responses": [ { "text": "Let's talk about something else.", "topic": "TALK_WHATELY_1" } ]
   },

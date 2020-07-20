@@ -235,7 +235,7 @@
         {
           "om_terrain": "mortuary_2story",
           "place_nested": [ { "chunks": [ [ "whately_bioturret_update", 15 ], [ "null", 35 ] ], "x": [ 19, 23 ], "y": [ 15, 22 ] } ]
-        },
+        }
       ]
     }
   }

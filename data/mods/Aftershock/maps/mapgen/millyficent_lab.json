@@ -5,6 +5,7 @@
     "om_terrain": [ "mortuary_2story" ],
     "weight": 100,
     "object": {
+      "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         "..,,,,,...uuuu...,,,,,..",
@@ -95,6 +96,7 @@
     "om_terrain": [ "mortuary_basement" ],
     "weight": 200,
     "object": {
+      "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
       "rows": [
@@ -200,6 +202,7 @@
     "method": "json",
     "om_terrain": [ "mortuary_2story_second" ],
     "object": {
+      "faction_owner": [ { "id": "whately_family", "x": [ 0, 23 ], "y": [ 0, 23 ] } ],
       "fill_ter": "t_floor",
       "rows": [
         "________________________",
@@ -281,6 +284,16 @@
         "U": "f_utility_shelf",
         "v": "f_ventilator",
         "Z": "f_bed"
+      },
+      "items": {
+        "U": [
+          { "item": "cleaning", "chance": 30 },
+          { "item": "supplies_reagents_lab", "chance": 10 },
+          { "item": "home_hw", "chance": 50 },
+          { "item": "supplies_electronics", "chance": 50 }
+        ],
+        "B": [ { "item": "exotic_books", "chance": 70 } ],
+        "T": [ { "item": "SUS_office_filing_cabinet", "chance": 70 } ]
       },
       "place_npcs": [ { "class": "millyficent_whately", "x": 17, "y": 14 } ]
     }
