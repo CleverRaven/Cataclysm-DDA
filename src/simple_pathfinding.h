@@ -43,11 +43,12 @@ struct path {
  * integer estimation (smaller - better) for the current node or a negative value
  * if the node is unsuitable.
  */
-template<class BinaryPredicate>
+template<class Offsets, class BinaryPredicate>
 path find_path( const point &source,
                 const point &dest,
                 const int max_x,
                 const int max_y,
+                Offsets offsets,
                 BinaryPredicate estimator )
 {
     const auto inbounds = [ max_x, max_y ]( const point & p ) {
@@ -103,7 +104,7 @@ path find_path( const point &source,
                 const int n = map_index( p );
                 const int dir = dirs[n];
                 res.nodes.emplace_back( p, dir );
-                p += four_adjacent_offsets[dir];
+                p += offsets[dir];
             }
 
             res.nodes.emplace_back( p, -1 );
@@ -111,8 +112,8 @@ path find_path( const point &source,
             return res;
         }
 
-        for( int dir = 0; dir < 4; dir++ ) {
-            const point p = mn.pos + four_adjacent_offsets[dir];
+        for( size_t dir = 0; dir < offsets.size(); dir++ ) {
+            const point p = mn.pos + offsets[dir];
             const int n = map_index( p );
             // don't allow:
             // * out of bounds
@@ -129,7 +130,8 @@ path find_path( const point &source,
             }
             // record direction to shortest path
             if( open[n] == 0 || open[n] > cn.priority ) {
-                dirs[n] = ( dir + 2 ) % 4;
+                // Note: Only works if the offsets are CW/CCW!
+                dirs[n] = ( dir + offsets.size() / 2 ) % offsets.size();
 
                 if( open[n] != 0 ) {
                     while( nodes[i].top().pos != p ) {
@@ -154,6 +156,26 @@ path find_path( const point &source,
     }
 
     return res;
+}
+
+template<class BinaryPredicate>
+path find_path_4dir( const point &source,
+                     const point &dest,
+                     const int max_x,
+                     const int max_y,
+                     BinaryPredicate estimator )
+{
+    return find_path( source, dest, max_x, max_y, four_adjacent_offsets, estimator );
+}
+
+template<class BinaryPredicate>
+path find_path_8dir( const point &source,
+                     const point &dest,
+                     const int max_x,
+                     const int max_y,
+                     BinaryPredicate estimator )
+{
+    return find_path( source, dest, max_x, max_y, eight_adjacent_offsets, estimator );
 }
 
 inline path straight_path( const point &source,

@@ -734,32 +734,34 @@ std::vector<tripoint> overmapbuffer::get_npc_path( const tripoint &src, const tr
             return pf::rejected;
         } else if( is_ot_match( "open_air", oter, ot_match_type::type ) ) {
             if( ptype.only_air ) {
-                travel_cost += 1;
+                travel_cost += 5;
             } else {
                 return pf::rejected;
             }
-        } else if( is_ot_match( "forest", oter, ot_match_type::type ) ) {
-            travel_cost = 10;
-        } else if( is_ot_match( "forest_water", oter, ot_match_type::type ) ) {
-            travel_cost = 15;
         } else if( is_ot_match( "road", oter, ot_match_type::type ) ||
                    is_ot_match( "bridge", oter, ot_match_type::type ) ||
                    is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) {
-            travel_cost = 1;
+            travel_cost = 4;
         } else if( is_river_or_lake( oter ) ) {
             if( ptype.amphibious || ptype.only_water ) {
-                travel_cost = 1;
+                travel_cost = 5;
             } else {
                 return pf::rejected;
             }
         }
         res += travel_cost;
-        res += manhattan_dist( finish, cur.pos );
+        res += rl_dist( finish, cur.pos );
 
         return res;
     };
-    pf::path route = pf::find_path( start, finish, 2 * OX,
+    pf::path route;
+    if( ptype.only_road ) {
+        route = pf::find_path_4dir( start, finish, 2 * OX,
                                     2 * OY, estimate );
+    } else {
+        route = pf::find_path_8dir( start, finish, 2 * OX,
+                                    2 * OY, estimate );
+    }
     for( auto node : route.nodes ) {
         tripoint convert_result = base + tripoint( node.pos, 0 );
         convert_result.z = base.z;
@@ -820,8 +822,8 @@ bool overmapbuffer::reveal_route( const tripoint &source, const tripoint &dest, 
         return res;
     };
 
-    const auto path = pf::find_path( start, finish, 2 * OX,
-                                     2 * OY, estimate );
+    const auto path = pf::find_path_4dir( start, finish, 2 * OX,
+                                          2 * OY, estimate );
 
     for( const auto &node : path.nodes ) {
         reveal( base + node.pos, radius );

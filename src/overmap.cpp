@@ -3491,7 +3491,7 @@ pf::path overmap::lay_out_connection( const overmap_connection &connection, cons
         return existency_mult * dist + subtype->basic_cost;
     };
 
-    return pf::find_path( source, dest, OMAPX, OMAPY, estimate );
+    return pf::find_path_4dir( source, dest, OMAPX, OMAPY, estimate );
 }
 
 pf::path overmap::lay_out_street( const overmap_connection &connection, const point &source,
