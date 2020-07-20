@@ -1323,7 +1323,9 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
 
             if( holster.parents_can_contain_recursive( &item_copy ) ) {
                 success = holster->put_in( item_copy, item_pocket::pocket_type::CONTAINER ).success();
-                it.charges -= holstered_item.second;
+                if( success ) {
+                    it.charges -= holstered_item.second;
+                }
             }
         }
 
