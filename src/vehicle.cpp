@@ -991,7 +991,7 @@ void vehicle::do_autodrive()
         side.y = SEEY;
     }
     // get the shared border mid-point of the next path omt
-    tripoint_abs_ms global_a = project_to<coords::scale::map_square>( veh_omt_pos );
+    tripoint_abs_ms global_a = project_to<coords::ms>( veh_omt_pos );
     // TODO: fix point types
     tripoint autodrive_temp_target = ( global_a.raw() + tripoint( side,
                                        sm_pos.z ) - here.getabs( vehpos ) ) + vehpos;

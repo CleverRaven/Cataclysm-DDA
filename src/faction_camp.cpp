@@ -2053,7 +2053,7 @@ void basecamp::start_relay_hide_site()
         }
         //Check items in improvised shelters at hide site
         tinymap target_bay;
-        target_bay.load( project_to<coords::scale::submap>( forest ), false );
+        target_bay.load( project_to<coords::sm>( forest ), false );
         std::vector<item *> hide_inv;
         for( item &i : target_bay.i_at( point( 11, 10 ) ) ) {
             hide_inv.push_back( &i );
@@ -2305,10 +2305,10 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
     //farm_json is what the area should look like according to jsons
     tinymap farm_json;
     // TODO: fix point types
-    farm_json.generate( project_to<coords::scale::submap>( omt_tgt ).raw(), calendar::turn );
+    farm_json.generate( project_to<coords::sm>( omt_tgt ).raw(), calendar::turn );
     //farm_map is what the area actually looks like
     tinymap farm_map;
-    farm_map.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    farm_map.load( project_to<coords::sm>( omt_tgt ), false );
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     bool done_planting = false;
@@ -3193,7 +3193,7 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
 {
     const ter_t &ter_tgt = t.obj();
     tinymap target_bay;
-    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
@@ -3237,7 +3237,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
                       bool force_cut_trunk )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
@@ -3283,7 +3283,7 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
                             bool take )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     units::mass harvested_m = 0_gram;
     units::volume harvested_v = 0_ml;
     units::mass total_m = 0_gram;
@@ -3457,7 +3457,7 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
                        const std::vector<item *> &itms_rem )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     target_bay.ter_set( point( 11, 10 ), t_improvised_shelter );
     for( auto i : itms_rem ) {
         comp.companion_mission_inv.add_item( *i );
@@ -4023,7 +4023,7 @@ void basecamp::place_results( const item &result )
 {
     if( by_radio ) {
         tinymap target_bay;
-        target_bay.load( project_to<coords::scale::submap>( omt_pos ), false );
+        target_bay.load( project_to<coords::sm>( omt_pos ), false );
         const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
         target_bay.add_item_or_charges( new_spot, result, true );
         apply_camp_ownership( new_spot, 10 );

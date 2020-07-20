@@ -296,7 +296,7 @@ void defense_game::init_map()
 
     // For this mode assume we always want overmap zero.
     tripoint_abs_omt abs_defloc_pos = project_combine( point_abs_om(), defloc_pos );
-    g->load_map( project_to<coords::scale::submap>( abs_defloc_pos ) );
+    g->load_map( project_to<coords::sm>( abs_defloc_pos ) );
     Character &player_character = get_player_character();
     player_character.setx( SEEX );
     player_character.sety( SEEY );
