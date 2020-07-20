@@ -2522,10 +2522,41 @@ void item::deserialize( JsonIn &jsin )
             }
         }
     }
+
+    // Remove after 0.F: artifact migration code
+    if( typeId().str().substr( 0, 9 ) == "artifact_" ) {
+        static const relic_procgen_id proc_cult( "cult" );
+        relic_procgen_data::generation_rules rules;
+        rules.max_attributes = 5;
+        rules.max_negative_power = -1000;
+        rules.power_level = 2000;
+
+        item_contents temp_migrate( contents );
+
+        *this = proc_cult->create_item( rules );
+
+        if( !temp_migrate.empty() ) {
+            for( const item *it : temp_migrate.all_items_top() ) {
+                contents.insert_item( *it, item_pocket::pocket_type::MIGRATION );
+            }
+        }
+    }
 }
 
 void item::serialize( JsonOut &json ) const
 {
+    // Remove after 0.F: artifact migration code
+    if( typeId().str().substr( 0, 9 ) == "artifact_" ) {
+        static const relic_procgen_id proc_cult( "cult" );
+        relic_procgen_data::generation_rules rules;
+        rules.max_attributes = 5;
+        rules.max_negative_power = -1000;
+        rules.power_level = 2000;
+
+        proc_cult->create_item( rules ).serialize( json );
+        return;
+    }
+
     io::JsonObjectOutputArchive archive( json );
     const_cast<item *>( this )->io( archive );
     if( !contents.empty_real() ) {

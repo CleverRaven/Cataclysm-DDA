@@ -767,8 +767,6 @@ class game
         void reset_npc_dispositions();
         void serialize_master( std::ostream &fout );
         // returns false if saving failed for whatever reason
-        bool save_artifacts();
-        // returns false if saving failed for whatever reason
         bool save_maps();
 #if defined(__ANDROID__)
         void save_shortcuts( std::ostream &fout );
