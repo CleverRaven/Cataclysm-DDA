@@ -109,8 +109,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
-    "upgrades": { "half_life": 15, "into": "mon_zyrannosaurus_truck" },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zyrannosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -594,7 +593,7 @@
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_truck",
     "name": { "str": "tyruckusaurus rex" },
@@ -604,16 +603,29 @@
     "color": "dark_gray_red",
     "luminance": 20,
     "proportional": { "hp": 1.5, "speed": 0.8 },
-    "relative": {
-      "armor_bash": 30,
-      "armor_cut": 37
-    },
+    "relative": { "armor_bash": 30, "armor_cut": 37 },
     "extend": { "flags": [ "DRIPS_GASOLINE" ] },
     "special_attacks": [ [ "GRAB", 30 ], [ "FLAMETHROWER", 30 ] ],
     "upgrades": {  },
     "death_drops": [
-        { "item": "wheel", "count": 4 }, { "group": "supplies_spares_vehicle", "count": 10}, { "group": "supplies_mechanics", "count": 10}, { "group": "supplies_metal", "count": 10} 
+      { "item": "wheel", "count": 4 },
+      { "group": "supplies_spares_vehicle", "count": 10 },
+      { "group": "supplies_mechanics", "count": 10 },
+      { "group": "supplies_metal", "count": 10 }
     ],
-      "death_function": [ "FIREBALL" ]
+    "death_function": [ "FIREBALL" ]
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zyrannosaurus_hulk",
+    "name": { "str": "goliath rex" },
+    "copy-from": "mon_zyrannosaurus_brute",
+    "description": "A hideously swollen zombified tyrannosaurus body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
+    "diff": 5,
+    "weight": "55000 kg",
+    "color": "white_magenta",
+    "proportional": { "hp": 4, "speed": 1.25 },
+    "relative": { "melee_dice": 1, "melee_cut": -4, "armor_bash": 4, "armor_cut": 6, "armor_bullet": 5 },
+    "special_attacks": [ [ "SMASH", 20 ] ]
   }
 ]
