@@ -4433,6 +4433,7 @@ void item::on_pickup( Character &p )
 void item::on_contents_changed()
 {
     contents.update_open_pockets();
+    cached_relative_encumbrance.reset();
     encumbrance_update_ = true;
 }
 
@@ -5702,11 +5703,13 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     int encumber = 0;
-
+    float relative_encumbrance = 1.0;
     // Additional encumbrance from non-rigid pockets
-    float relative_encumbrance = 1;
     if( !( flags & encumber_flags::assume_full ) ) {
-        relative_encumbrance = contents.relative_encumbrance();
+        if( !cached_relative_encumbrance ) {
+            cached_relative_encumbrance = contents.relative_encumbrance();
+        }
+        relative_encumbrance = *cached_relative_encumbrance;
     }
 
     if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
@@ -6957,9 +6960,10 @@ bool item::can_contain_partial( const item &it ) const
     return can_contain( i_copy );
 }
 
-item_pocket *item::best_pocket( const item &it )
+std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent )
 {
-    return contents.best_pocket( it, false );
+    item_location nested_location( parent, this );
+    return contents.best_pocket( it, nested_location, false );
 }
 
 bool item::spill_contents( Character &c )
@@ -8480,7 +8484,8 @@ int item::fill_with( const itype &contained, const int amount )
         contained_item.charges = 1;
     }
 
-    item_pocket *pocket = best_pocket( contained_item );
+    item_location loc;
+    item_pocket *pocket = best_pocket( contained_item, loc ).second;
     if( pocket == nullptr ) {
         debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
                   contained_item.typeId().str(), typeId().str() );
@@ -8494,7 +8499,7 @@ int item::fill_with( const itype &contained, const int amount )
         }
         num_contained++;
         if( !pocket->can_contain( contained_item ).success() ) {
-            pocket = best_pocket( contained_item );
+            pocket = best_pocket( contained_item, loc ).second;
         }
     }
     return num_contained;

@@ -966,7 +966,7 @@ bool Character::is_on_ground() const
 
 bool Character::can_stash( const item &it )
 {
-    return best_pocket( it, nullptr ) != nullptr;
+    return best_pocket( it, nullptr ).second != nullptr;
 }
 
 void Character::cancel_stashed_activity()
@@ -2439,25 +2439,22 @@ std::vector<item_location> Character::nearby( const
     return res;
 }
 
-item_pocket *Character::best_pocket( const item &it, const item *avoid )
+std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, const item *avoid )
 {
-    item_pocket *ret = nullptr;
+    item_location weapon_loc( *this, &weapon );
+    std::pair<item_location, item_pocket *> ret = std::make_pair( item_location(), nullptr );
     if( &weapon != &it && &weapon != avoid ) {
-        ret = weapon.best_pocket( it );
+        ret = weapon.best_pocket( it, weapon_loc );
     }
     for( item &worn_it : worn ) {
         if( &worn_it == &it || &worn_it == avoid ) {
             continue;
         }
-        item_pocket *internal_pocket = worn_it.best_pocket( it );
-        if( internal_pocket != nullptr ) {
-            if( ret == nullptr ) {
-                ret = internal_pocket;
-            } else {
-                if( ret->better_pocket( *internal_pocket, it ) ) {
-                    ret = internal_pocket;
-                }
-            }
+        item_location loc( *this, &worn_it );
+        std::pair<item_location, item_pocket *> internal_pocket = worn_it.best_pocket( it, loc );
+        if( internal_pocket.second != nullptr &&
+            ( ret.second == nullptr || ret.second->better_pocket( *internal_pocket.second, it ) ) ) {
+            ret = internal_pocket;
         }
     }
     return ret;
@@ -2478,17 +2475,20 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
             break;
         }
     }
-    item_pocket *pocket = best_pocket( it, avoid );
+    std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid );
     item *ret = nullptr;
-    if( pocket == nullptr ) {
+    if( pocket.second == nullptr ) {
         if( has_weapon() ) {
             if( avoid != nullptr && is_wielding( *avoid ) ) {
                 return nullptr;
             }
-            item_pocket *weapon_pocket = weapon.best_pocket( it );
-            if( weapon_pocket != nullptr ) {
-                weapon_pocket->add( it );
-                ret = &weapon_pocket->back();
+            item_location weapon_location( *this, &weapon );
+            std::pair<item_location, item_pocket *> weapon_pocket = weapon.best_pocket( it, weapon_location );
+            if( weapon_pocket.second != nullptr ) {
+                weapon_pocket.second->add( it );
+                ret = &weapon_pocket.second->back();
+                weapon_pocket.first.on_contents_changed();
+                weapon_pocket.second->on_contents_changed();
                 return ret;
             } else {
                 return nullptr;
@@ -2502,7 +2502,10 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
         }
     } else {
         // this will set ret to either it, or to stack where it was placed
-        pocket->add( it, &ret );
+        pocket.second->add( it, &ret );
+        pocket.first.on_contents_changed();
+        pocket.second->on_contents_changed();
+        ret = &pocket.second->back();
     }
 
     if( keep_invlet ) {
