@@ -103,7 +103,7 @@
   {
     "id": "trash",
     "type": "item_group",
-    "items": [ [ "summon_scroll_smudged", 5 ] ]
+    "items": [ [ "summon_scroll_smudged", 5 ], [ "spell_scroll_tornskin", 5 ] ]
   },
   {
     "type": "item_group",
@@ -937,6 +937,7 @@
         "distribution": [
           { "item": "spell_scroll_druid_woodshaft", "prob": 30 },
           { "item": "summon_scroll_smudged", "prob": 2 },
+          { "item": "spell_scroll_tornskin", "prob": 2 },
           { "item": "spell_scroll_summon_cats", "prob": 50 }
         ],
         "prob": 45
