@@ -33,7 +33,7 @@
     "id": "mon_blob_brain",
     "type": "MONSTER",
     "name": { "str": "brain slime" },
-    "description": "A gigantic black blob of viscous goo, oozing across the ground like a glob of living oil.  Other blobs seem to swarm around it.",
+    "description": "A gigantic black blob of viscous goo, oozing across the ground like a glob of living oil.  Other slimes seem to swarm around it.",
     "default_faction": "slime",
     "bodytype": "blob",
     "species": [ "NETHER", "SLIME" ],
