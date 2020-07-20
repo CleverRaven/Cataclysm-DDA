@@ -62,6 +62,8 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "talker.h"
+#include "talker_avatar.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -120,11 +122,6 @@ static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 
 class JsonIn;
 class JsonOut;
-
-avatar &get_avatar()
-{
-    return g->u;
-}
 
 avatar::avatar()
 {
@@ -435,7 +432,7 @@ bool avatar::read( item &it, const bool continuous )
             add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
         assign_activity( act );
-        g->events().send<event_type::reads_book>( getID(), it.typeId() );
+        get_event_bus().send<event_type::reads_book>( getID(), it.typeId() );
         return true;
     }
 
@@ -447,7 +444,7 @@ bool avatar::read( item &it, const bool continuous )
         } else {
             add_msg( m_info, get_hint() );
         }
-        g->events().send<event_type::reads_book>( getID(), it.typeId() );
+        get_event_bus().send<event_type::reads_book>( getID(), it.typeId() );
         mod_moves( -100 );
         return false;
     }
@@ -680,7 +677,7 @@ bool avatar::read( item &it, const bool continuous )
         elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
-    g->events().send<event_type::reads_book>( getID(), it.typeId() );
+    get_event_bus().send<event_type::reads_book>( getID(), it.typeId() );
     return true;
 }
 
@@ -834,7 +831,7 @@ void avatar::do_read( item &book )
             std::string skill_name = skill.obj().name();
 
             if( skill_level != originalSkillLevel ) {
-                g->events().send<event_type::gains_skill_level>(
+                get_event_bus().send<event_type::gains_skill_level>(
                     learner->getID(), skill, skill_level.level() );
                 if( learner->is_player() ) {
                     add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name(),
@@ -1578,7 +1575,7 @@ bool avatar::wield( item &target, const int obtain_cost )
 
     weapon.on_wield( *this, mv );
 
-    g->events().send<event_type::character_wields_item>( getID(), last_item );
+    get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 
     inv.update_invlet( weapon );
     inv.update_cache_with_item( weapon );
@@ -1665,6 +1662,15 @@ std::string avatar::total_daily_calories_string() const
         ret += string_format( "%2d   %6d    %6d     %6d\n", num_day++, day.gained, day.spent, day.total() );
     }
     return ret;
+}
+
+std::unique_ptr<talker> get_talker_for( avatar &me )
+{
+    return std::make_unique<talker_avatar>( &me );
+}
+std::unique_ptr<talker> get_talker_for( avatar *me )
+{
+    return std::make_unique<talker_avatar>( me );
 }
 
 points_left::points_left()

@@ -39,7 +39,8 @@
       ],
       "palettes": [ "microlab" ],
       "items": { "d": { "item": "cop_armory", "chance": 5 }, "l": { "item": "decontamination_room", "chance": 70 } },
-      "terrain": { "-": "t_wall_metal", "`": "t_hole", "#": "t_rock", "G": "t_card_science", "g": "t_bridge", "A": "t_plut_generator" }
+      "terrain": { "-": "t_wall_metal", "`": "t_hole", "#": "t_rock", "G": "t_card_science", "g": "t_bridge", "A": "t_bridge" },
+      "furniture": { "A": "f_compact_ASRG" }
     }
   },
   {
@@ -78,7 +79,8 @@
         { "square": "radiation", "amount": 10000, "x": 9, "y": 5, "x2": 14, "y2": 8 }
       ],
       "palettes": [ "microlab" ],
-      "terrain": { "-": "t_wall_metal", "#": "t_rock", "g": "t_bridge", "A": "t_plut_generator", "w": "t_water_pool" }
+      "terrain": { "-": "t_wall_metal", "#": "t_rock", "g": "t_bridge", "A": "t_bridge", "w": "t_water_pool" },
+      "furniture": { "A": "f_compact_ASRG" }
     }
   }
 ]

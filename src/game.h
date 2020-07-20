@@ -149,10 +149,14 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend event_bus &get_event_bus();
         friend map &get_map();
         friend Character &get_player_character();
         friend avatar &get_avatar();
         friend weather_manager &get_weather();
+        friend const scenario *get_scenario();
+        friend void set_scenario( const scenario *new_scenario );
+        friend stats_tracker &get_stats();
     public:
         game();
         ~game();
@@ -175,16 +179,6 @@ class game
 
         /** Loads core data and mods from the active world. May throw. */
         void load_world_modfiles( loading_ui &ui );
-        /**
-         * Base path for saving player data. Just add a suffix (unique for
-         * the thing you want to save) and use the resulting path.
-         * Example: `save_ui_data(get_player_base_save_path()+".ui")`
-         */
-        std::string get_player_base_save_path() const;
-        /**
-         * Base path for saving world data. This yields a path to a folder.
-         */
-        std::string get_world_base_save_path() const;
         /**
          *  Load content packs
          *  @param msg string to display whilst loading prompt
@@ -823,8 +817,6 @@ class game
         point place_player( const tripoint &dest );
         void place_player_overmap( const tripoint &om_dest );
 
-        bool unload( item_location &loc ); // Unload a gun/tool  'U'
-
         unsigned int get_seed() const;
 
         /** If invoked, NPCs will be reloaded before next turn. */
@@ -972,13 +964,14 @@ class game
         pimpl<spell_events> spell_events_ptr;
 
         map &m;
-    public:
         avatar &u;
-        scent_map &scent;
-        timed_event_manager &timed_events;
 
         event_bus &events();
         stats_tracker &stats();
+    public:
+        scent_map &scent;
+        timed_event_manager &timed_events;
+
         achievements_tracker &achievements();
         memorial_logger &memorial();
         spell_events &spell_events_subscriber();

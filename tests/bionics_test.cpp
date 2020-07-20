@@ -109,11 +109,17 @@ TEST_CASE( "bionics", "[bionics] [item]" )
             test_consumable_charges( dummy, it, true, true );
         }
 
+        static const std::list<std::string> ammo_when_full = {
+            "light_battery_cell", // MAGAZINE, NO_UNLOAD
+        };
+        for( auto it : ammo_when_full ) {
+            test_consumable_ammo( dummy, it, false, true );
+        }
+
         static const std::list<std::string> never = {
             "flashlight",  // !is_magazine()
             "laser_rifle", // NO_UNLOAD, uses ups_charges
-            "UPS_off",     // NO_UNLOAD, !is_magazine()
-            "battery_car"  // NO_UNLOAD, is_magazine()
+            "UPS_off"     // NO_UNLOAD, !is_magazine()
         };
         for( auto it : never ) {
             test_consumable_ammo( dummy, it, false, false );

@@ -144,7 +144,7 @@
     "coverage": 40,
     "required_str": -1,
     "flags": [ "TRANSPARENT", "EASY_DECONSTRUCT" ],
-    "deconstruct": { "items": [ { "item": "alien_pod_resin", "charges": [ 2, 6 ] } ] },
+    "deconstruct": { "items": [ { "item": "alien_pod_resin", "count": [ 6, 8 ] } ] },
     "bash": { "str_min": 25, "str_max": 60, "sound": "splorch!", "sound_fail": "whump." }
   },
   {

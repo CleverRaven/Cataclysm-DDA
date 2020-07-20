@@ -540,18 +540,18 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
     return std::make_pair( morale_color, morale_int );
 }
 
-static std::pair<int, int> temp_delta( const avatar &u )
+static std::pair<bodypart_id, bodypart_id> temp_delta( const avatar &u )
 {
-    int current_bp_extreme = 0;
-    int conv_bp_extreme = 0;
-    for( int i = 0; i < num_bp; i++ ) {
-        if( std::abs( u.temp_cur[i] - BODYTEMP_NORM ) >
-            std::abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
-            current_bp_extreme = i;
+    bodypart_id current_bp_extreme( "torso" );
+    bodypart_id conv_bp_extreme( "torso" );
+    for( const bodypart_id &bp : u.get_all_body_parts() ) {
+        if( std::abs( u.get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
+            std::abs( u.get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
+            current_bp_extreme = bp;
         }
-        if( std::abs( u.temp_conv[i] - BODYTEMP_NORM ) >
-            std::abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
-            conv_bp_extreme = i;
+        if( std::abs( u.get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
+            std::abs( u.get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
+            conv_bp_extreme = bp;
         }
     }
     return std::make_pair( current_bp_extreme, conv_bp_extreme );
@@ -578,10 +578,10 @@ static int define_temp_level( const int lvl )
 static std::string temp_delta_string( const avatar &u )
 {
     std::string temp_message;
-    std::pair<int, int> temp_pair = temp_delta( u );
+    std::pair<bodypart_id, bodypart_id> temp_pair = temp_delta( u );
     // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
-    const int conv_zone = define_temp_level( u.temp_conv[temp_pair.second] );
+    const int cur_zone = define_temp_level( u.get_part_temp_cur( temp_pair.first ) );
+    const int conv_zone = define_temp_level( u.get_part_temp_conv( temp_pair.second ) );
 
     // delta will be positive if temp_cur is rising
     const int delta = conv_zone - cur_zone;
@@ -608,10 +608,10 @@ static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
 {
     std::string temp_message;
     nc_color temp_color = c_white;
-    std::pair<int, int> temp_pair = temp_delta( u );
+    std::pair<bodypart_id, bodypart_id> temp_pair = temp_delta( u );
     // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
-    const int conv_zone = define_temp_level( u.temp_conv[temp_pair.second] );
+    const int cur_zone = define_temp_level( u.get_part_temp_cur( temp_pair.first ) );
+    const int conv_zone = define_temp_level( u.get_part_temp_conv( temp_pair.second ) );
 
     // delta will be positive if temp_cur is rising
     const int delta = conv_zone - cur_zone;
@@ -645,30 +645,30 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
-    int current_bp_extreme = temp_delta( u ).first;
+    const bodypart_id &current_bp_extreme = temp_delta( u ).first;
 
     // printCur the hottest/coldest bodypart
     std::string temp_string;
     nc_color temp_color = c_yellow;
-    if( u.temp_cur[current_bp_extreme] > BODYTEMP_SCORCHING ) {
+    if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_SCORCHING ) {
         temp_color = c_red;
         temp_string = _( "Scorching!" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_HOT ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_VERY_HOT ) {
         temp_color = c_light_red;
         temp_string = _( "Very hot!" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_HOT ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_HOT ) {
         temp_color = c_yellow;
         temp_string = _( "Warm" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_COLD ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_COLD ) {
         temp_color = c_green;
         temp_string = _( "Comfortable" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_COLD ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_VERY_COLD ) {
         temp_color = c_light_blue;
         temp_string = _( "Chilly" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_FREEZING ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_FREEZING ) {
         temp_color = c_cyan;
         temp_string = _( "Very cold!" );
-    } else if( u.temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) <= BODYTEMP_FREEZING ) {
         temp_color = c_blue;
         temp_string = _( "Freezing!" );
     }

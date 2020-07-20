@@ -441,7 +441,8 @@ static void eff_fun_hot( player &u, effect &it )
     }
     // Hothead effects are a special snowflake
     if( bp == bp_head && intense >= 2 ) {
-        if( one_in( std::max( 25, std::min( 89500, 90000 - u.temp_cur[bp_head] ) ) ) ) {
+        if( one_in( std::max( 25, std::min( 89500,
+                                            90000 - u.get_part_temp_cur( bodypart_id( "head" ) ) ) ) ) ) {
             u.vomit();
         }
         if( !u.has_effect( effect_sleep ) && one_in( 2400 ) ) {
@@ -535,7 +536,7 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
-            g->events().send<event_type::dermatik_eggs_hatch>( getID() );
+            get_event_bus().send<event_type::dermatik_eggs_hatch>( getID() );
             remove_effect( effect_formication, bp->token );
             moves -= 600;
             triggered = true;
@@ -668,7 +669,7 @@ void player::hardcoded_effects( effect &it )
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
                 }
                 teleport::teleport( *this );
-                g->events().send<event_type::teleglow_teleports>( getID() );
+                get_event_bus().send<event_type::teleglow_teleports>( getID() );
                 if( one_in( 10 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
@@ -778,7 +779,7 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 0_turns );
         } else if( dur > 2_hours ) {
             add_msg_if_player( m_bad, _( "Your asthma overcomes you.\nYou asphyxiate." ) );
-            g->events().send<event_type::dies_from_asthma_attack>( getID() );
+            get_event_bus().send<event_type::dies_from_asthma_attack>( getID() );
             hurtall( 500, nullptr );
         } else if( dur > 70_minutes ) {
             if( one_in( 120 ) ) {
@@ -899,7 +900,7 @@ void player::hardcoded_effects( effect &it )
                 add_msg_if_player(
                     _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
             }
-            g->events().send<event_type::dies_from_drug_overdose>( getID(), id );
+            get_event_bus().send<event_type::dies_from_drug_overdose>( getID(), id );
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         }
     } else if( id == effect_hypovolemia ) {
@@ -915,13 +916,13 @@ void player::hardcoded_effects( effect &it )
                 add_msg_player_or_npc( m_bad,
                                        _( "You bleed to death!" ),
                                        _( "<npcname> bleeds to death!" ) );
-                g->events().send<event_type::dies_from_bleeding>( getID() );
+                get_event_bus().send<event_type::dies_from_bleeding>( getID() );
             } else
             {
                 add_msg_player_or_npc( m_bad,
                                        _( "Your heart can't keep up the pace and fails!" ),
                                        _( "<npcname> has a sudden heart attack!" ) );
-                g->events().send<event_type::dies_from_hypovolemia>( getID() );
+                get_event_bus().send<event_type::dies_from_hypovolemia>( getID() );
             }
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         };
@@ -973,10 +974,10 @@ void player::hardcoded_effects( effect &it )
                         break;
                     case 4:
                         warning = _( "You are sweating profusely, but you feel cold." );
-                        temp_conv[bp_hand_l] -= 1000 * intense;
-                        temp_conv[bp_hand_r] -= 1000 * intense;
-                        temp_conv[bp_foot_l] -= 1000 * intense;
-                        temp_conv[bp_foot_r] -= 1000 * intense;
+                        mod_part_temp_conv( bodypart_id( "hand_l" ), - 1000 * intense );
+                        mod_part_temp_conv( bodypart_id( "hand_r" ), -1000 * intense );
+                        mod_part_temp_conv( bodypart_id( "foot_l" ), -1000 * intense );
+                        mod_part_temp_conv( bodypart_id( "foot_r" ), -1000 * intense );
                         break;
                     case 5:
                         warning = _( "You huff and puff.  Your breath is rapid and shallow." );
@@ -1021,7 +1022,7 @@ void player::hardcoded_effects( effect &it )
             add_msg_player_or_npc( m_bad,
                                    _( "You cannot breathe and your body gives out!" ),
                                    _( "<npcname> gasps for air and dies!" ) );
-            g->events().send<event_type::dies_from_redcells_loss>( getID() );
+            get_event_bus().send<event_type::dies_from_redcells_loss>( getID() );
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         }
         if( one_in( 900 / intense ) && !in_sleep_state() ) {
@@ -1029,13 +1030,13 @@ void player::hardcoded_effects( effect &it )
             switch( dice( 1, 9 ) ) {
                 case 1:
                     add_msg_if_player( m_bad, _( "Your hands feel unusually cold." ) );
-                    temp_conv[bp_hand_l] -= 2000;
-                    temp_conv[bp_hand_r] -= 2000;
+                    mod_part_temp_conv( bodypart_id( "hand_l" ), -2000 );
+                    mod_part_temp_conv( bodypart_id( "hand_r" ), -2000 );
                     break;
                 case 2:
                     add_msg_if_player( m_bad, _( "Your feet feel unusualy cold." ) );
-                    temp_conv[bp_foot_l] -= 2000;
-                    temp_conv[bp_foot_r] -= 2000;
+                    mod_part_temp_conv( bodypart_id( "foot_l" ), -2000 );
+                    mod_part_temp_conv( bodypart_id( "foot_r" ), -2000 );
                     break;
                 case 3:
                     add_msg_if_player( m_bad, _( "Your skin looks very pale." ) );
@@ -1249,8 +1250,8 @@ void player::hardcoded_effects( effect &it )
             // Death happens
             if( dur > 1_days ) {
                 add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
-                g->events().send<event_type::dies_of_infection>( getID() );
-                hurtall( 500, nullptr );
+                get_event_bus().send<event_type::dies_of_infection>( getID() );
+                set_all_parts_hp_cur( 0 );
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 it.mod_duration( -1_turns );
             } else if( has_effect( effect_antibiotic ) ) {
@@ -1424,25 +1425,26 @@ void player::hardcoded_effects( effect &it )
         if( !woke_up && !has_effect( effect_narcosis ) ) {
             // Cold or heat may wake you up.
             // Player will sleep through cold or heat if fatigued enough
-            for( const body_part bp : all_body_parts ) {
-                if( temp_cur[bp] < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
+            for( const bodypart_id &bp : get_all_body_parts() ) {
+                const int curr_temp = get_part_temp_cur( bp );
+                if( curr_temp < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
                     if( one_in( 30000 ) ) {
                         add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
                     }
-                    if( temp_cur[bp] < BODYTEMP_FREEZING - get_fatigue() / 2 ||
-                        one_in( temp_cur[bp] * 6 + 30000 ) ) {
+                    if( curr_temp < BODYTEMP_FREEZING - get_fatigue() / 2 ||
+                        one_in( curr_temp * 6 + 30000 ) ) {
                         add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );
                         woke_up = true;
                         break;
                     }
-                } else if( temp_cur[bp] > BODYTEMP_VERY_HOT + get_fatigue() / 2 ) {
+                } else if( curr_temp > BODYTEMP_VERY_HOT + get_fatigue() / 2 ) {
                     if( one_in( 30000 ) ) {
                         add_msg_if_player( _( "You toss and turn in the heat." ) );
                     }
-                    if( temp_cur[bp] > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
-                        one_in( 90000 - temp_cur[bp] ) ) {
+                    if( curr_temp > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
+                        one_in( 90000 - curr_temp ) ) {
                         add_msg_if_player( m_bad, _( "It's too hot to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );

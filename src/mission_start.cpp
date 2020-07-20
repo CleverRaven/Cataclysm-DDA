@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include "avatar.h"
+#include "character.h"
 #include "computer.h"
 #include "debug.h"
 #include "game.h"
@@ -57,7 +57,7 @@ void mission_start::place_dog( mission *miss )
         debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
-    g->u.i_add( item( "dog_whistle", 0 ) );
+    get_player_character().i_add( item( "dog_whistle", 0 ) );
     add_msg( _( "%s gave you a dog whistle." ), dev->name );
 
     miss->target = house;
@@ -192,7 +192,7 @@ void mission_start::place_npc_software( mission *miss )
         debugmsg( "Couldn't find NPC!  %d", miss->npc_id.get_value() );
         return;
     }
-    g->u.i_add( item( "usb_drive", 0 ) );
+    get_player_character().i_add( item( "usb_drive", 0 ) );
     add_msg( _( "%s gave you a USB drive." ), dev->name );
 
     std::string type = "house";
@@ -300,7 +300,7 @@ void mission_start::place_deposit_box( mission *miss )
 
 void mission_start::find_safety( mission *miss )
 {
-    const tripoint place = g->u.global_omt_location();
+    const tripoint place = get_player_character().global_omt_location();
     for( int radius = 0; radius <= 20; radius++ ) {
         for( int dist = 0 - radius; dist <= radius; dist++ ) {
             int offset = rng( 0, 3 ); // Randomizes the direction we check first
@@ -611,8 +611,9 @@ void mission_start::reveal_refugee_center( mission *miss )
         return;
     }
 
-    const tripoint source_road = overmap_buffer.find_closest( g->u.global_omt_location(), "road",
-                                 3, false );
+    const tripoint source_road = overmap_buffer.find_closest(
+                                     get_player_character().global_omt_location(), "road",
+                                     3, false );
     const tripoint dest_road = overmap_buffer.find_closest( *target_pos, "road", 3, false );
 
     if( overmap_buffer.reveal_route( source_road, dest_road, 1, true ) ) {
@@ -649,8 +650,9 @@ void static create_lab_consoles( mission *miss, const tripoint &place, const std
 
 void mission_start::create_lab_console( mission *miss )
 {
+    Character &player_character = get_player_character();
     // Pick a lab that has spaces on z = -1: e.g., in hidden labs.
-    tripoint loc = g->u.global_omt_location();
+    tripoint loc = player_character.global_omt_location();
     loc.z = -1;
     const tripoint place = overmap_buffer.find_closest( loc, "lab", 0, false );
 
@@ -659,13 +661,14 @@ void mission_start::create_lab_console( mission *miss )
 
     // Target the lab entrance.
     const tripoint target = mission_util::target_closest_lab_entrance( place, 2, miss );
-    mission_util::reveal_road( g->u.global_omt_location(), target, overmap_buffer );
+    mission_util::reveal_road( player_character.global_omt_location(), target, overmap_buffer );
 }
 
 void mission_start::create_hidden_lab_console( mission *miss )
 {
+    Character &player_character = get_player_character();
     // Pick a hidden lab entrance.
-    tripoint loc = g->u.global_omt_location();
+    tripoint loc = player_character.global_omt_location();
     loc.z = -1;
     tripoint place = mission_util::target_om_ter_random( "basement_hidden_lab_stairs", -1, miss, false,
                      0, loc );
@@ -676,13 +679,14 @@ void mission_start::create_hidden_lab_console( mission *miss )
 
     // Target the lab entrance.
     const tripoint target = mission_util::target_closest_lab_entrance( place, 2, miss );
-    mission_util::reveal_road( g->u.global_omt_location(), target, overmap_buffer );
+    mission_util::reveal_road( player_character.global_omt_location(), target, overmap_buffer );
 }
 
 void mission_start::create_ice_lab_console( mission *miss )
 {
+    Character &player_character = get_player_character();
     // Pick an ice lab with spaces on z = -4.
-    tripoint loc = g->u.global_omt_location();
+    tripoint loc = player_character.global_omt_location();
     loc.z = -4;
     const tripoint place = overmap_buffer.find_closest( loc, "ice_lab", 0, false );
 
@@ -691,13 +695,14 @@ void mission_start::create_ice_lab_console( mission *miss )
 
     // Target the lab entrance.
     const tripoint target = mission_util::target_closest_lab_entrance( place, 2, miss );
-    mission_util::reveal_road( g->u.global_omt_location(), target, overmap_buffer );
+    mission_util::reveal_road( player_character.global_omt_location(), target, overmap_buffer );
 }
 
 void mission_start::reveal_lab_train_depot( mission *miss )
 {
+    Character &player_character = get_player_character();
     // Find and prepare lab location.
-    tripoint loc = g->u.global_omt_location();
+    tripoint loc = player_character.global_omt_location();
     loc.z = -4;  // tunnels are at z = -4
     const tripoint place = overmap_buffer.find_closest( loc, "lab_train_depot", 0, false );
 
@@ -725,5 +730,5 @@ void mission_start::reveal_lab_train_depot( mission *miss )
 
     // Target the lab entrance.
     const tripoint target = mission_util::target_closest_lab_entrance( place, 2, miss );
-    mission_util::reveal_road( g->u.global_omt_location(), target, overmap_buffer );
+    mission_util::reveal_road( player_character.global_omt_location(), target, overmap_buffer );
 }

@@ -47,6 +47,7 @@ class nc_color;
 class player;
 class recipe;
 class relic;
+struct armor_portion_data;
 struct islot_comestible;
 struct itype;
 struct mtype;
@@ -152,24 +153,19 @@ struct iteminfo {
          */
         iteminfo( const std::string &Type, const std::string &Name, const std::string &Fmt = "",
                   flags Flags = no_flags, double Value = -999 );
+        iteminfo( const std::string &Type, const std::string &Name, flags Flags );
         iteminfo( const std::string &Type, const std::string &Name, double Value );
+};
+
+template<>
+struct enum_traits<iteminfo::flags> {
+    static constexpr bool is_flag_enum = true;
 };
 
 iteminfo vol_to_info( const std::string &type, const std::string &left,
                       const units::volume &vol, int decimal_places = 2 );
 iteminfo weight_to_info( const std::string &type, const std::string &left,
                          const units::mass &weight, int decimal_places = 2 );
-
-inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
-{
-    using I = std::underlying_type<iteminfo::flags>::type;
-    return static_cast<iteminfo::flags>( static_cast<I>( l ) | r );
-}
-
-inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
-{
-    return l = l | r;
-}
 
 inline bool is_crafting_component( const item &component );
 
@@ -505,7 +501,7 @@ class item : public visitable<item>
          * @param ammo Location of ammo to be reloaded
          * @param qty caps reloading to this (or fewer) units
          */
-        bool reload( player &u, item_location ammo, int qty );
+        bool reload( Character &u, item_location ammo, int qty );
 
         template<typename Archive>
         void io( Archive & );
@@ -785,15 +781,6 @@ class item : public visitable<item>
          * @param mod How many charges should be removed.
          */
         void mod_charges( int mod );
-        /**
-         * Whether the item has to be removed as it has rotten away completely. May change the item as it calls process_temperature_rot()
-         * @param pnt The *absolute* position of the item in the world (see @ref map::getabs),
-         * @param spoil_multiplier the multiplier for spoilage rate, based on what this item is inside of.
-         * used for rot calculation.
-         * @return true if the item has rotten away and should be removed, false otherwise.
-         */
-        bool has_rotten_away( const tripoint &pnt, float spoil_multiplier = 1.0f,
-                              temperature_flag flag = temperature_flag::NORMAL );
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -802,7 +789,7 @@ class item : public visitable<item>
          * @param time Time point to which rot is calculated
          * @param temp Temperature at which the rot is calculated
          */
-        void calc_rot( time_point time, int temp, float spoil_modifier );
+        void calc_rot( int temp, float spoil_modifier, const time_duration &time_delta );
 
         /**
          * This is part of a workaround so that items don't rot away to nothing if the smoking rack
@@ -824,16 +811,16 @@ class item : public visitable<item>
         bool process_temperature_rot( float insulation, const tripoint &pos, player *carrier,
                                       temperature_flag flag = temperature_flag::NORMAL, float spoil_modifier = 1.0f );
 
-        /** Set the item to HOT */
+        /** Set the item to HOT and resets last_temp_check */
         void heat_up();
 
-        /** Set the item to COLD */
+        /** Set the item to COLD and resets last_temp_check*/
         void cold_up();
 
-        /** Sets the item temperature and item energy from new temperature (K)*/
+        /** Sets the item temperature and item energy from new temperature (K) and resets last_temp_check */
         void set_item_temperature( float new_temperature );
 
-        /** Sets the item to new temperature and energy based new specific energy (J/g)*/
+        /** Sets the item to new temperature and energy based new specific energy (J/g) and resets last_temp_check*/
         void set_item_specific_energy( float specific_energy );
 
         /** reset the last_temp_check used when crafting new items and the like */
@@ -1218,7 +1205,7 @@ class item : public visitable<item>
         item *get_food();
         const item *get_food() const;
 
-        void set_last_rot_check( const time_point &pt );
+        void set_last_temp_check( const time_point &pt );
 
         /** What faults can potentially occur with this item? */
         std::set<fault_id> faults_potential() const;
@@ -1581,24 +1568,39 @@ class item : public visitable<item>
          * Returns clothing layer for item.
          */
         layer_level get_layer() const;
-        /**
-         * Returns the relative coverage that this item has when worn.
-         * Values range from 0 (not covering anything, or no armor at all) to
-         * 100 (covering the whole body part). Items that cover more are more likely to absorb
-         * damage from attacks.
+
+        /*
+         * Returns the average coverage of each piece of data this item
          */
-        int get_coverage() const;
+        int get_avg_coverage() const;
+        /**
+         * Returns the highest coverage that any piece of data that this item has that covers the bodypart.
+         * Values range from 0 (not covering anything) to 100 (covering the whole body part).
+         * Items that cover more are more likely to absorb damage from attacks.
+         */
+        int get_coverage( const bodypart_id &bodypart ) const;
 
         enum class encumber_flags : int {
             none = 0,
             assume_full = 1,
         };
+
+        cata::optional<armor_portion_data> portion_for_bodypart( const bodypart_id &bodypart ) const;
+
+        /**
+         * Returns the average encumbrance value that this item across all portions
+         * Returns 0 if this is can not be worn at all.
+         */
+        int get_avg_encumber( const Character &, encumber_flags = encumber_flags::none ) const;
+
         /**
          * Returns the encumbrance value that this item has when worn by given
          * player.
          * Returns 0 if this is can not be worn at all.
          */
-        int get_encumber( const Character &, encumber_flags = encumber_flags::none ) const;
+        int get_encumber( const Character &, const bodypart_id &bodypart,
+                          encumber_flags = encumber_flags::none ) const;
+
         /**
          * Returns the weight capacity modifier (@ref islot_armor::weight_capacity_modifier) that this item provides when worn.
          * For non-armor it returns 1. The modifier is multiplied with the weight capacity of the character that wears the item.
@@ -1680,7 +1682,7 @@ class item : public visitable<item>
         /**
          * Enumerates recipes available from this book and the skill level required to use them.
          */
-        std::vector<std::pair<const recipe *, int>> get_available_recipes( const player &u ) const;
+        std::vector<std::pair<const recipe *, int>> get_available_recipes( const Character &u ) const;
         /*@}*/
 
         /**
@@ -2080,7 +2082,7 @@ class item : public visitable<item>
          * Causes a debugmsg if called on non-craft.
          * @param crafter the crafting player
          */
-        void set_next_failure_point( const player &crafter );
+        void set_next_failure_point( const Character &crafter );
 
         /**
          * Handle failure during crafting.
@@ -2088,7 +2090,7 @@ class item : public visitable<item>
          * @param crafter the crafting player.
          * @return whether the craft being worked on should be entirely destroyed
          */
-        bool handle_craft_failure( player &crafter );
+        bool handle_craft_failure( Character &crafter );
 
         /**
          * Returns requirement data representing what is needed to resume work on an in progress craft.
@@ -2136,9 +2138,9 @@ class item : public visitable<item>
          * Calculate the thermal energy and temperature change of the item
          * @param temp Temperature of surroundings
          * @param insulation Amount of insulation item has
-         * @param time time point which the item is processed to
+         * @param time_delta time duration from previous temperature calculation
          */
-        void calc_temp( int temp, float insulation, const time_point &time );
+        void calc_temp( int temp, float insulation, const time_duration &time_delta );
 
         /**
          * Get the thermal energy of the item in Joules.
@@ -2162,10 +2164,10 @@ class item : public visitable<item>
             small_sized_small_char,
             human_sized_small_char,
             big_sized_small_char,
-            not_wearable
+            ignore
         };
 
-        sizing get_sizing( const Character &, bool ) const;
+        sizing get_sizing( const Character & ) const;
 
     protected:
         // Sub-functions of @ref process, they handle the processing for different
@@ -2251,8 +2253,6 @@ class item : public visitable<item>
          * the item is rotten.
          */
         time_duration rot = 0_turns;
-        /** Time when the rot calculation was last performed. */
-        time_point last_rot_check = calendar::turn_zero;
         /** the last time the temperature was updated for this item */
         time_point last_temp_check = calendar::turn_zero;
         /// The time the item was created.
@@ -2282,17 +2282,10 @@ class item : public visitable<item>
         void update_clothing_mod_val();
 };
 
-inline item::encumber_flags operator&( item::encumber_flags l, item::encumber_flags r )
-{
-    using I = std::underlying_type_t<item::encumber_flags>;
-    return static_cast<item::encumber_flags>( static_cast<I>( l ) & static_cast<I>( r ) );
-}
-
-inline bool operator!( item::encumber_flags f )
-{
-    using I = std::underlying_type_t<item::encumber_flags>;
-    return !static_cast<I>( f );
-}
+template<>
+struct enum_traits<item::encumber_flags> {
+    static constexpr bool is_flag_enum = true;
+};
 
 bool item_compare_by_charges( const item &left, const item &right );
 bool item_ptr_compare_by_charges( const item *left, const item *right );

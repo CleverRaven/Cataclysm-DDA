@@ -58,6 +58,7 @@
 #include "damage.h"
 #include "debug.h"
 #include "dependency_tree.h"
+#include "dialogue_chatbin.h"
 #include "editmap.h"
 #include "enums.h"
 #include "event.h"
@@ -141,6 +142,7 @@
 #include "string_id.h"
 #include "string_input_popup.h"
 #include "submap.h"
+#include "talker.h"
 #include "tileray.h"
 #include "timed_event.h"
 #include "translations.h"
@@ -280,7 +282,7 @@ static void achievement_attained( const achievement *a, bool achievements_enable
         add_msg( m_good, _( "You completed the achievement \"%s\"." ),
                  a->name() );
     }
-    g->events().send<event_type::player_gets_achievement>( a->id, achievements_enabled );
+    get_event_bus().send<event_type::player_gets_achievement>( a->id, achievements_enabled );
 }
 
 static void achievement_failed( const achievement *a, bool achievements_enabled )
@@ -291,7 +293,7 @@ static void achievement_failed( const achievement *a, bool achievements_enabled 
     if( achievements_enabled ) {
         add_msg( m_bad, _( "You lost the conduct \"%s\"." ), a->name() );
     }
-    g->events().send<event_type::player_fails_conduct>( a->id, achievements_enabled );
+    get_event_bus().send<event_type::player_fails_conduct>( a->id, achievements_enabled );
 }
 
 // This is the main game set-up process.
@@ -811,13 +813,13 @@ bool game::start_game()
         mission->assign( u );
     }
 
-    g->events().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
+    get_event_bus().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
             u.custom_profession, getVersionString() );
     time_played_at_last_load = std::chrono::seconds( 0 );
     time_of_last_load = std::chrono::steady_clock::now();
     tripoint abs_omt = u.global_omt_location();
     const oter_id &cur_ter = overmap_buffer.ter( abs_omt );
-    g->events().send<event_type::avatar_enters_omt>( abs_omt, cur_ter );
+    get_event_bus().send<event_type::avatar_enters_omt>( abs_omt, cur_ter );
     return true;
 }
 
@@ -2305,7 +2307,7 @@ int game::inventory_item_menu( item_location locThisItem,
                     handle_contents_changed( locThisItem );
                     break;
                 case 'U':
-                    unload( locThisItem );
+                    u.unload( locThisItem );
                     handle_contents_changed( locThisItem );
                     break;
                 case 'r':
@@ -2805,7 +2807,7 @@ void game::death_screen()
 
 void game::move_save_to_graveyard()
 {
-    const std::string &save_dir      = get_world_base_save_path();
+    const std::string &save_dir      = PATH_INFO::world_base_save_path();
     const std::string &graveyard_dir = PATH_INFO::graveyarddir();
     const std::string &prefix        = base64_encode( u.name ) + ".";
 
@@ -2839,7 +2841,7 @@ void game::move_save_to_graveyard()
 void game::load_master()
 {
     using namespace std::placeholders;
-    const auto datafile = get_world_base_save_path() + "/" + SAVE_MASTER;
+    const auto datafile = PATH_INFO::world_base_save_path() + "/" + SAVE_MASTER;
     read_from_file_optional( datafile, std::bind( &game::unserialize_master, this, _1 ) );
 }
 
@@ -2877,7 +2879,7 @@ bool game::load( const save_t &name )
 
     using namespace std::placeholders;
 
-    const std::string worldpath = get_world_base_save_path() + "/";
+    const std::string worldpath = PATH_INFO::world_base_save_path() + "/";
     const std::string playerpath = worldpath + name.base_path();
 
     // Now load up the master game data; factions (and more?)
@@ -2920,7 +2922,8 @@ bool game::load( const save_t &name )
     get_auto_notes_settings().load();   // Load character auto notes settings
     get_safemode().load_character(); // Load character safemode rules
     zone_manager::get_manager().load_zones(); // Load character world zones
-    read_from_file_optional( get_world_base_save_path() + "/uistate.json", []( std::istream & stream ) {
+    read_from_file_optional( PATH_INFO::world_base_save_path() + "/uistate.json", [](
+    std::istream & stream ) {
         JsonIn jsin( stream );
         uistate.deserialize( jsin );
     } );
@@ -2992,7 +2995,7 @@ void game::load_world_modfiles( loading_ui &ui )
         mods.insert( mods.begin(), mod_id( "dda" ) );
     }
 
-    load_artifacts( get_world_base_save_path() + "/" + SAVE_ARTIFACTS );
+    load_artifacts( PATH_INFO::world_base_save_path() + "/" + SAVE_ARTIFACTS );
     // this code does not care about mod dependencies,
     // it assumes that those dependencies are static and
     // are resolved during the creation of the world.
@@ -3001,7 +3004,7 @@ void game::load_world_modfiles( loading_ui &ui )
     load_packs( _( "Loading files" ), mods, ui );
 
     // Load additional mods from that world-specific folder
-    load_data_from_dir( get_world_base_save_path() + "/mods", "custom", ui );
+    load_data_from_dir( PATH_INFO::world_base_save_path() + "/mods", "custom", ui );
 
     DynamicDataLoader::get_instance().finalize_loaded_data( ui );
 }
@@ -3057,10 +3060,8 @@ void game::reset_npc_dispositions()
             continue;
         }
         npc *npc_to_add = npc_to_get.get();
-        npc_to_add->chatbin.missions.clear();
-        npc_to_add->chatbin.missions_assigned.clear();
+        npc_to_add->chatbin.clear_all();
         npc_to_add->mission = NPC_MISSION_NULL;
-        npc_to_add->chatbin.mission_selected = nullptr;
         npc_to_add->set_attitude( NPCATT_NULL );
         npc_to_add->op_of_u.anger = 0;
         npc_to_add->op_of_u.fear = 0;
@@ -3079,7 +3080,7 @@ void game::reset_npc_dispositions()
 //Saves all factions and missions and npcs.
 bool game::save_factions_missions_npcs()
 {
-    std::string masterfile = get_world_base_save_path() + "/" + SAVE_MASTER;
+    std::string masterfile = PATH_INFO::world_base_save_path() + "/" + SAVE_MASTER;
     return write_to_file( masterfile, [&]( std::ostream & fout ) {
         serialize_master( fout );
     }, _( "factions data" ) );
@@ -3100,7 +3101,7 @@ bool game::save_maps()
 
 bool game::save_player_data()
 {
-    const std::string playerfile = get_player_base_save_path();
+    const std::string playerfile = PATH_INFO::player_base_save_path();
 
     const bool saved_data = write_to_file( playerfile + SAVE_EXTENSION, [&]( std::ostream & fout ) {
         serialize( fout );
@@ -3167,7 +3168,7 @@ bool game::save()
             !get_auto_pickup().save_character() ||
             !get_auto_notes_settings().save() ||
             !get_safemode().save_character() ||
-        !write_to_file( get_world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
+        !write_to_file( PATH_INFO::world_base_save_path() + "/uistate.json", [&]( std::ostream & fout ) {
         JsonOut jsout( fout );
             uistate.serialize( jsout );
         }, _( "uistate data" ) ) ) {
@@ -5699,7 +5700,7 @@ bool game::npc_menu( npc &who )
 
     const int choice = amenu.ret;
     if( choice == talk ) {
-        who.talk_to_u();
+        u.talk_to( get_talker_for( who ) );
     } else if( choice == swap_pos ) {
         if( !prompt_dangerous_tile( who.pos() ) ) {
             return true;
@@ -8995,11 +8996,6 @@ void game::reload_weapon( bool try_everything )
     reload_item();
 }
 
-bool game::unload( item_location &loc )
-{
-    return u.unload( loc );
-}
-
 void game::wield( item_location loc )
 {
     if( !loc ) {
@@ -12043,7 +12039,7 @@ bool check_art_charge_req( item &it )
                                          bp == bodypart_id( "hand_l" ) ) ) ) {
                     reqsmet = true;
                     for( const item &i : p.worn ) {
-                        if( i.covers( bp ) && ( &it != &i ) && i.get_coverage() > 50 ) {
+                        if( i.covers( bp ) && ( &it != &i ) && i.get_coverage( bp ) > 50 ) {
                             reqsmet = false;
                             break; //This one's no good, check the next body part
                         }
@@ -12061,10 +12057,7 @@ bool check_art_charge_req( item &it )
             reqsmet = ( ( here.get_radiation( p.pos() ) > 0 ) || ( p.get_rad() > 0 ) );
             break;
         case( ACR_WET ):
-            reqsmet = std::any_of( p.body_wetness.begin(), p.body_wetness.end(),
-            []( const int w ) {
-                return w != 0;
-            } );
+            reqsmet = p.has_atleast_one_wet_part();
             if( !reqsmet && sum_conditions( calendar::turn - 1_turns, calendar::turn, p.pos() ).rain_amount > 0
                 && !( p.in_vehicle && here.veh_at( p.pos() )->is_inside() ) ) {
                 reqsmet = true;
@@ -12491,12 +12484,12 @@ Creature *game::get_creature_if( const std::function<bool( const Creature & )> &
     return nullptr;
 }
 
-std::string game::get_player_base_save_path() const
+std::string PATH_INFO::player_base_save_path()
 {
-    return get_world_base_save_path() + "/" + base64_encode( u.name );
+    return PATH_INFO::world_base_save_path() + "/" + base64_encode( get_player_character().name );
 }
 
-std::string game::get_world_base_save_path() const
+std::string PATH_INFO::world_base_save_path()
 {
     if( world_generator->active_world == nullptr ) {
         return PATH_INFO::savedir();
@@ -12529,12 +12522,14 @@ bool game::slip_down( bool check_for_traps )
     // Climbing is difficult with wet hands and feet.
     float wet_penalty = 1.0f;
 
-    if( u.body_wetness[bp_foot_l] > 0 || u.body_wetness[bp_foot_r] > 0 ) {
+    if( u.get_part_wetness( bodypart_id( "foot_l" ) ) > 0 ||
+        u.get_part_wetness( bodypart_id( "foot_r" ) ) > 0 ) {
         wet_penalty += .5;
         add_msg( m_info, _( "Your wet feet make it harder to climb." ) );
     }
 
-    if( u.body_wetness[bp_hand_l] > 0 || u.body_wetness[bp_hand_r] > 0 ) {
+    if( u.get_part_wetness( bodypart_id( "hand_l" ) ) > 0 ||
+        u.get_part_wetness( bodypart_id( "hand_r" ) ) > 0 ) {
         wet_penalty += .5;
         add_msg( m_info, _( "Your wet hands make it harder to climb." ) );
     }
@@ -12579,14 +12574,14 @@ void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
     if( u.is_mounted() ) {
         mount_type = u.mounted_creature->type->id;
     }
-    g->events().send<event_type::avatar_moves>( mount_type, m.ter( new_pos ).id(),
+    get_event_bus().send<event_type::avatar_moves>( mount_type, m.ter( new_pos ).id(),
             u.current_movement_mode(), u.is_underwater(), new_pos.z );
 
     const tripoint old_abs_omt = ms_to_omt_copy( old_abs_pos );
     const tripoint new_abs_omt = ms_to_omt_copy( new_abs_pos );
     if( old_abs_omt != new_abs_omt ) {
         const oter_id &cur_ter = overmap_buffer.ter( new_abs_omt );
-        g->events().send<event_type::avatar_enters_omt>( new_abs_omt, cur_ter );
+        get_event_bus().send<event_type::avatar_enters_omt>( new_abs_omt, cur_ter );
     }
 }
 } // namespace cata_event_dispatch
@@ -12596,7 +12591,36 @@ void game_ui::init_ui()
     g->init_ui( true );
 }
 
+Character &get_player_character()
+{
+    return g->u;
+}
+
+avatar &get_avatar()
+{
+    return g->u;
+}
+
+map &get_map()
+{
+    return g->m;
+}
+
 event_bus &get_event_bus()
 {
     return g->events();
+}
+
+const scenario *get_scenario()
+{
+    return g->scen;
+}
+void set_scenario( const scenario *new_scenario )
+{
+    g->scen = new_scenario;
+}
+
+stats_tracker &get_stats()
+{
+    return g->stats();
 }

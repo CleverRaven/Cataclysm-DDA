@@ -117,8 +117,14 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
             parts.set( bodypart_str_id( "foot_l" ) );
             parts.set( bodypart_str_id( "foot_r" ) );
         } else {
-            parts.set( convert_bp( get_body_part_token( val ) ) );
+            // Convert from legacy enum to new and apply coverage
+            if( !is_legacy_bodypart_id( val ) ) {
+                parts.set( bodypart_str_id( val ) );
+            } else {
+                parts.set( convert_bp( get_body_part_token( val ) ) );
+            }
         }
+
         sided |= val == "ARM_EITHER" || val == "HAND_EITHER" ||
                  val == "LEG_EITHER" || val == "FOOT_EITHER";
     };
@@ -517,14 +523,16 @@ void Item_factory::finalize_post( itype &obj )
     if( obj.armor ) {
         // Setting max_encumber must be in finalize_post because it relies on
         // stack_size being set for all ammo, which happens in finalize_pre.
-        if( obj.armor->max_encumber < 0 ) {
-            units::volume total_nonrigid_volume = 0_ml;
-            for( const pocket_data &pocket : obj.pockets ) {
-                if( !pocket.rigid ) {
-                    total_nonrigid_volume += pocket.max_contains_volume();
+        for( armor_portion_data &data : obj.armor->data ) {
+            if( data.max_encumber == -1 ) {
+                units::volume total_nonrigid_volume = 0_ml;
+                for( const pocket_data &pocket : obj.pockets ) {
+                    if( !pocket.rigid ) {
+                        total_nonrigid_volume += pocket.max_contains_volume();
+                    }
                 }
+                data.max_encumber = data.encumber + total_nonrigid_volume / 250_ml;
             }
-            obj.armor->max_encumber = obj.armor->encumber + total_nonrigid_volume / 250_ml;
         }
     }
 
@@ -1090,6 +1098,22 @@ void Item_factory::check_definitions() const
 
         if( !type->category_force.is_valid() ) {
             msg += "undefined category " + type->category_force.str() + "\n";
+        }
+
+        if( type->armor ) {
+            cata::flat_set<bodypart_str_id> observed_bps;
+            for( const armor_portion_data &portion : type->armor->data ) {
+                if( portion.covers.has_value() ) {
+                    for( const body_part &bp : all_body_parts ) {
+                        if( portion.covers->test( convert_bp( bp ) ) ) {
+                            if( observed_bps.count( convert_bp( bp ) ) ) {
+                                msg += "multiple portions with same body_part defined\n";
+                            }
+                            observed_bps.insert( convert_bp( bp ) );
+                        }
+                    }
+                }
+            }
         }
 
         if( type->weight < 0_gram ) {
@@ -1790,13 +1814,147 @@ void Item_factory::load_pet_armor( const JsonObject &jo, const std::string &src 
     }
 }
 
+namespace io
+{
+template<>
+std::string enum_to_string<layer_level>( layer_level data )
+{
+    switch( data ) {
+        case layer_level::PERSONAL:
+            return "Personal";
+        case layer_level::UNDERWEAR:
+            return "Underwear";
+        case layer_level::REGULAR:
+            return "Regular";
+        case layer_level::WAIST:
+            return "Waist";
+        case layer_level::OUTER:
+            return "Outer";
+        case layer_level::BELTED:
+            return "Belted";
+        case layer_level::AURA:
+            return "Aura";
+        case layer_level::NUM_LAYER_LEVELS:
+            break;
+    }
+    debugmsg( "Invalid layer_level" );
+    abort();
+}
+} // namespace io
+
 void islot_armor::load( const JsonObject &jo )
 {
-    optional( jo, was_loaded, "encumbrance", encumber, 0 );
-    // Default max_encumbrance will be set to a reasonable value in
-    // finalize_post
-    optional( jo, was_loaded, "max_encumbrance", max_encumber, -1 );
-    optional( jo, was_loaded, "coverage", coverage, 0 );
+    if( jo.has_array( "armor_portion_data" ) ) {
+        bool dont_add_first = false;
+        if( !data.empty() ) { // Uses copy-from
+            dont_add_first = true;
+            const JsonObject &obj = *jo.get_array( "armor_portion_data" ).begin();
+            armor_portion_data tempData;
+
+            if( obj.has_array( "encumbrance" ) ) {
+                tempData.encumber = obj.get_array( "encumbrance" ).get_int( 0 );
+                tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
+            } else if( obj.has_int( "encumbrance" ) ) {
+                tempData.encumber = obj.get_int( "encumbrance" );
+                tempData.max_encumber = -1;
+            }
+            if( obj.has_int( "coverage" ) ) {
+                tempData.coverage = obj.get_int( "coverage" );
+            }
+            if( tempData.encumber != data[0].encumber ) {
+                data[0].encumber = tempData.encumber;
+            }
+            if( tempData.max_encumber != data[0].max_encumber ) {
+                data[0].max_encumber = tempData.max_encumber;
+            }
+            if( tempData.coverage != data[0].coverage ) {
+                data[0].coverage = tempData.coverage;
+            }
+            body_part_set temp_cover_data;
+            assign_coverage_from_json( obj, "covers", temp_cover_data, sided );
+            if( temp_cover_data.any() ) {
+                data[0].covers = temp_cover_data;
+            }
+        }
+
+        for( const JsonObject &obj : jo.get_array( "armor_portion_data" ) ) {
+            // If this item used copy-from, data[0] is already set, so skip adding first data
+            if( dont_add_first ) {
+                obj.allow_omitted_members();
+                dont_add_first = false;
+                continue;
+            }
+            armor_portion_data tempData;
+            body_part_set temp_cover_data;
+            assign_coverage_from_json( obj, "covers", temp_cover_data, sided );
+            tempData.covers = temp_cover_data;
+
+            if( obj.has_array( "encumbrance" ) ) {
+                tempData.encumber = obj.get_array( "encumbrance" ).get_int( 0 );
+                tempData.max_encumber = obj.get_array( "encumbrance" ).get_int( 1 );
+            } else if( obj.has_int( "encumbrance" ) ) {
+                tempData.encumber = obj.get_int( "encumbrance" );
+                tempData.max_encumber = -1;
+            }
+            if( obj.has_int( "coverage" ) ) {
+                tempData.coverage = obj.get_int( "coverage" );
+            }
+            data.push_back( tempData );
+
+            // TODO: Not currently supported, we still use flags for this
+            //if( obj.has_string( "layer" ) ) {
+            //    for( auto &piece : data ) {
+            //        layer_level layer;
+            //        obj.read( "layer", layer );
+            //    }
+            //} else {
+            //    for( armor_portion_data &piece : data ) {
+            //        piece.layer = layer_level::REGULAR;
+            //    }
+            //}
+        }
+    } else {
+        if( data.empty() ) { // Loading item does not have copy-from
+            data.emplace_back();
+            optional( jo, was_loaded, "encumbrance", data[0].encumber, 0 );
+            // Default max_encumbrance will be set to a reasonable value in finalize_post
+            optional( jo, was_loaded, "max_encumbrance", data[0].max_encumber, -1 );
+            optional( jo, was_loaded, "coverage", data[0].coverage, 0 );
+            body_part_set temp_cover_data;
+            assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
+            data[0].covers = temp_cover_data;
+        } else { // This item has copy-from and already has taken data from parent
+            armor_portion_data child_data;
+            if( jo.has_int( "encumbrance" ) ) {
+                child_data.encumber = jo.get_int( "encumbrance" );
+                child_data.max_encumber = -1;
+            }
+            if( jo.has_int( "max_encumbrance" ) ) {
+                child_data.max_encumber = jo.get_int( "max_encumbrance" );
+            } else {
+                child_data.max_encumber = -1;
+            }
+            if( jo.has_int( "coverage" ) ) {
+                child_data.coverage = jo.get_int( "coverage" );
+            }
+            // If child item contains data, use that data, otherwise use parents data
+            if( child_data.encumber != data[0].encumber && child_data.encumber != 0 ) {
+                data[0].encumber = child_data.encumber;
+            }
+            if( child_data.max_encumber != data[0].max_encumber && child_data.max_encumber != -1 ) {
+                data[0].max_encumber = child_data.max_encumber;
+            }
+            if( child_data.coverage != data[0].coverage && child_data.coverage != 0 ) {
+                data[0].coverage = child_data.coverage;
+            }
+            body_part_set temp_cover_data;
+            assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
+            if( temp_cover_data.any() ) {
+                data[0].covers = temp_cover_data;
+            }
+        }
+    }
+
     optional( jo, was_loaded, "material_thickness", thickness, 0 );
     optional( jo, was_loaded, "environmental_protection", env_resist, 0 );
     optional( jo, was_loaded, "environmental_protection_with_filter", env_resist_w_filter, 0 );
@@ -1806,7 +1964,6 @@ void islot_armor::load( const JsonObject &jo )
     optional( jo, was_loaded, "weight_capacity_bonus", weight_capacity_bonus, mass_reader{}, 0_gram );
     optional( jo, was_loaded, "power_armor", power_armor, false );
     optional( jo, was_loaded, "valid_mods", valid_mods );
-    assign_coverage_from_json( jo, "covers", covers, sided );
 }
 
 void islot_armor::deserialize( JsonIn &jsin )

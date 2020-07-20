@@ -97,6 +97,11 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "pocket_type", type, item_pocket::pocket_type::CONTAINER );
     optional( jo, was_loaded, "ammo_restriction", ammo_restriction );
     optional( jo, was_loaded, "item_restriction", item_id_restriction );
+    if( !item_id_restriction.empty() ) {
+        std::vector<itype_id> item_restriction;
+        mandatory( jo, was_loaded, "item_restriction", item_restriction );
+        default_magazine = item_restriction.front();
+    }
     // ammo_restriction is a type of override, making the mandatory members not mandatory and superfluous
     // putting it in an if statement like this should allow for report_unvisited_member to work here
     if( ammo_restriction.empty() ) {
@@ -506,6 +511,14 @@ item *item_pocket::magazine_current()
     return iter != contents.end() ? &*iter : nullptr;
 }
 
+itype_id item_pocket::magazine_default() const
+{
+    if( is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+        return data->default_magazine;
+    }
+    return itype_id::NULL_ID();
+}
+
 int item_pocket::ammo_consume( int qty )
 {
     int need = qty;
@@ -665,13 +678,12 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
                            float insulation, const temperature_flag flag )
 {
     bool processed = false;
+    float spoil_multiplier = 1;
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( _sealed ) {
-            // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
-            // is not changed, the item is still fresh.
-            it->set_last_rot_check( calendar::turn );
+            spoil_multiplier = 0;
         }
-        if( it->process( carrier, pos, type.insulation_factor * insulation, flag ) ) {
+        if( it->process( carrier, pos, type.insulation_factor * insulation, flag, spoil_multiplier ) ) {
             it = contents.erase( it );
             processed = true;
         } else {
@@ -1202,28 +1214,6 @@ void item_pocket::remove_items_if( const std::function<bool( item & )> &filter )
 {
     contents.remove_if( filter );
     on_contents_changed();
-}
-
-void item_pocket::has_rotten_away()
-{
-    for( auto it = contents.begin(); it != contents.end(); ) {
-        if( it->has_rotten_away() ) {
-            it = contents.erase( it );
-        } else {
-            ++it;
-        }
-    }
-}
-
-void item_pocket::remove_rotten( const tripoint &pnt )
-{
-    for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->has_rotten_away( pnt, spoil_multiplier() ) ) {
-            iter = contents.erase( iter );
-        } else {
-            ++iter;
-        }
-    }
 }
 
 void item_pocket::process( player *carrier, const tripoint &pos, float insulation,

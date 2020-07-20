@@ -879,9 +879,6 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             if( i.bDrawName ) {
                 buffer += i.sName;
             }
-            // Always end with a linebreak for sType == "DESCRIPTION"
-            buffer += "\n";
-            bIsNewLine = true;
         } else {
             if( i.bDrawName ) {
                 buffer += i.sName;
@@ -927,11 +924,11 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                 buffer += colorize( i.sValue, thisColor );
             }
             buffer += sPost;
+        }
 
-            // Set bIsNewLine in case the next line should always start in a new line
-            if( ( bIsNewLine = i.bNewLine ) ) {
-                buffer += "\n";
-            }
+        // Set bIsNewLine in case the next line should always start in a new line
+        if( ( bIsNewLine = i.bNewLine ) ) {
+            buffer += "\n";
         }
     }
 

@@ -335,7 +335,7 @@ void inventory::push_back( item newit )
 extern void remove_stale_inventory_quick_shortcuts();
 #endif
 
-void inventory::restack( player &p )
+void inventory::restack( Character &p )
 {
     // tasks that the old restack seemed to do:
     // 1. reassign inventory letters

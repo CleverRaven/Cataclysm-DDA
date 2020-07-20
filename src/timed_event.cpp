@@ -61,7 +61,7 @@ void timed_event::actualize()
             if( rl_dist( u_pos, map_point ) <= 4 ) {
                 const mtype_id &robot_type = one_in( 2 ) ? mon_copbot : mon_riotbot;
 
-                g->events().send<event_type::becomes_wanted>( player_character.getID() );
+                get_event_bus().send<event_type::becomes_wanted>( player_character.getID() );
                 point rob( u_pos.x > map_point.x ? 0 - SEEX * 2 : SEEX * 4,
                            u_pos.y > map_point.y ? 0 - SEEY * 2 : SEEY * 4 );
                 g->place_critter_at( robot_type, tripoint( rob, player_character.posz() ) );
@@ -101,7 +101,7 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::AMIGARA: {
-            g->events().send<event_type::angers_amigara_horrors>();
+            get_event_bus().send<event_type::angers_amigara_horrors>();
             int num_horrors = rng( 3, 5 );
             cata::optional<tripoint> fault_point;
             bool horizontal = false;
@@ -140,7 +140,7 @@ void timed_event::actualize()
         break;
 
         case timed_event_type::ROOTS_DIE:
-            g->events().send<event_type::destroys_triffid_grove>();
+            get_event_bus().send<event_type::destroys_triffid_grove>();
             for( const tripoint &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == t_root_wall && one_in( 3 ) ) {
                     here.ter_set( p, t_underbrush );
@@ -149,7 +149,7 @@ void timed_event::actualize()
             break;
 
         case timed_event_type::TEMPLE_OPEN: {
-            g->events().send<event_type::opens_temple>();
+            get_event_bus().send<event_type::opens_temple>();
             bool saw_grate = false;
             for( const tripoint &p : here.points_on_zlevel() ) {
                 if( here.ter( p ) == t_grate ) {

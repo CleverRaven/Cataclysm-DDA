@@ -13,6 +13,7 @@
 
 #include "active_item_cache.h"
 #include "activity_handlers.h"
+#include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
 #include "bodypart.h"
@@ -23,6 +24,7 @@
 #include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "dispersion.h"
 #include "effect.h"
 #include "enums.h"
@@ -68,6 +70,8 @@
 #include "visitable.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+
+class talker;
 
 static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 static const activity_id ACT_PULP( "ACT_PULP" );
@@ -1235,7 +1239,7 @@ void npc::execute_action( npc_action action )
 
         break;
         case npc_talk_to_player:
-            talk_to_u();
+            get_avatar().talk_to( get_talker_for( this ) );
             moves = 0;
             break;
 
@@ -1671,7 +1675,7 @@ bool npc::recharge_cbm()
         } else {
             const std::function<bool( const item & )> fuel_filter = [bid]( const item & it ) {
                 for( const itype_id &fid : bid->fuel_opts ) {
-                    return it.typeId() == fid;
+                    return ( it.typeId() == fid ) || ( it.is_magazine() && it.ammo_current() == fid );
                 }
                 return false;
             };
@@ -3197,7 +3201,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
         }
         weight_dropped += slice[index]->front().weight();
         volume_dropped += slice[index]->front().volume();
-        item dropped = i_rem( index );
+        item dropped = i_rem( &i_at( index ) );
         num_items_dropped++;
         if( num_items_dropped == 1 ) {
             item_name += dropped.tname();
@@ -3375,7 +3379,6 @@ bool npc::wield_better_weapon()
     // TODO: Allow wielding weaker weapons against weaker targets
     bool can_use_gun = ( !is_player_ally() || rules.has_flag( ally_rule::use_guns ) );
     bool use_silent = ( is_player_ally() && rules.has_flag( ally_rule::use_silent ) );
-    invslice slice = inv.slice();
 
     // Check if there's something better to wield
     item *best = &weapon;
@@ -3454,7 +3457,7 @@ bool npc::scan_new_items()
     // TODO: Armor?
 }
 
-static void npc_throw( npc &np, item &it, int index, const tripoint &pos )
+static void npc_throw( npc &np, item &it, const tripoint &pos )
 {
     if( get_player_character().sees( np ) ) {
         add_msg( _( "%1$s throws a %2$s." ), np.name, it.tname() );
@@ -3470,7 +3473,7 @@ static void npc_throw( npc &np, item &it, int index, const tripoint &pos )
     }
     // Throw a single charge of a stacking object.
     if( stack_size == -1 || stack_size == 1 ) {
-        np.i_rem( index );
+        np.i_rem( &it );
     } else {
         it.charges = stack_size - 1;
     }
@@ -3526,24 +3529,21 @@ bool npc::alt_attack()
     };
 
     check_alt_item( weapon );
-    for( auto &sl : inv.slice() ) {
+    const auto inv_all = items_with( []( const item & ) {
+        return true;
+    } );
+    for( auto &it : inv_all ) {
         // TODO: Cached values - an itype slot maybe?
-        check_alt_item( sl->front() );
+        check_alt_item( *it );
     }
 
     if( used == nullptr ) {
         return false;
     }
 
-    int weapon_index = get_item_position( used );
-    if( weapon_index == INT_MIN ) {
-        debugmsg( "npc::alt_attack() couldn't find expected item %s", used->tname() );
-        return false;
-    }
-
     // Are we going to throw this item?
     if( !used->active && used->has_flag( "NPC_ACTIVATE" ) ) {
-        activate_item( weapon_index );
+        activate_item( *used );
         // Note: intentional lack of return here
         // We want to ignore player-centric rules to avoid carrying live explosives
         // TODO: Non-grenades
@@ -3553,7 +3553,7 @@ bool npc::alt_attack()
     int conf = confident_throw_range( *used, critter );
     const bool wont_hit = wont_hit_friend( tar, *used, true );
     if( dist <= conf && wont_hit ) {
-        npc_throw( *this, *used, weapon_index, tar );
+        npc_throw( *this, *used, tar );
         return true;
     }
 
@@ -3610,14 +3610,13 @@ bool npc::alt_attack()
      * should be equal to the original location of our target, and risking friendly
      * fire is better than holding on to a live grenade / whatever.
      */
-    npc_throw( *this, *used, weapon_index, tar );
+    npc_throw( *this, *used, tar );
     return true;
 }
 
-void npc::activate_item( int item_index )
+void npc::activate_item( item &it )
 {
     const int oldmoves = moves;
-    item &it = i_at( item_index );
     if( it.is_tool() || it.is_food() ) {
         it.type->invoke( *this, it, pos() );
     }
@@ -3674,19 +3673,30 @@ void npc:: pretend_heal( player &patient, item used )
 void npc::heal_self()
 {
     if( has_effect( effect_asthma ) ) {
-        item &treatment = null_item_reference();
-        std::string iusage = "OXYGEN_BOTTLE";
-        if( has_charges( itype_inhaler, 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( itype_inhaler ) );
-            iusage = "INHALER";
-        } else if( has_charges( itype_oxygen_tank, 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( itype_oxygen_tank ) );
-        } else if( has_charges( itype_smoxygen_tank, 1 ) ) {
-            treatment = inv.find_item( inv.position_by_type( itype_smoxygen_tank ) );
+        item *treatment = nullptr;
+        std::string iusage = "INHALER";
+
+        const auto filter_use = [this]( const std::string & filter ) -> std::vector<item *> {
+            const auto inv_filtered = items_with( [&filter]( const item & itm )
+            {
+                return ( itm.type->get_use( filter ) != nullptr ) && ( itm.ammo_sufficient() );
+            } );
+            return inv_filtered;
+        };
+
+        const auto inv_inhalers = filter_use( iusage );
+        if( !inv_inhalers.empty() ) {
+            treatment = inv_inhalers.front();
+        } else {
+            iusage = "OXYGEN_BOTTLE";
+            const auto inv_oxybottles = filter_use( iusage );
+            if( !inv_oxybottles.empty() ) {
+                treatment = inv_oxybottles.front();
+            }
         }
-        if( !treatment.is_null() ) {
-            treatment.type->invoke( *this, treatment, pos(), iusage );
-            consume_charges( treatment, 1 );
+        if( treatment != nullptr ) {
+            treatment->get_use( iusage )->call( *this, *treatment, treatment->active, pos() );
+            treatment->ammo_consume( treatment->ammo_required(), pos() );
             return;
         }
     }
@@ -3855,39 +3865,43 @@ bool npc::consume_food_from_camp()
 bool npc::consume_food()
 {
     float best_weight = 0.0f;
-    int index = -1;
+    item *best_food = nullptr;
+    bool consumed = false;
     int want_hunger = std::max( 0, get_hunger() );
     int want_quench = std::max( 0, get_thirst() );
-    invslice slice = inv.slice();
-    for( size_t i = 0; i < slice.size(); i++ ) {
-        const item &it = slice[i]->front();
-        if( const item *food_item = it.get_food() ) {
-            float cur_weight = rate_food( *food_item, want_hunger, want_quench );
-            // Note: will_eat is expensive, avoid calling it if possible
-            if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
-                best_weight = cur_weight;
-                index = i;
-            }
-        }
-    }
 
-    if( index == -1 ) {
+    const auto inv_food = items_with( []( const item & itm ) {
+        return itm.is_food();
+    } );
+
+    if( inv_food.empty() ) {
         if( !is_player_ally() ) {
             // TODO: Remove this and let player "exploit" hungry NPCs
             set_hunger( 0 );
             set_thirst( 0 );
         }
-        return false;
-    }
+    } else {
+        for( const auto &food_item : inv_food ) {
+            float cur_weight = rate_food( *food_item, want_hunger, want_quench );
+            // Note: will_eat is expensive, avoid calling it if possible
+            if( cur_weight > best_weight && will_eat( *food_item ).success() ) {
+                best_weight = cur_weight;
+                best_food = food_item;
+            }
+        }
 
-    // consume doesn't return a meaningful answer, we need to compare moves
-    // TODO: Make player::consume return false if it fails to consume
-    item_location loc = item_location( *this, &i_at( index ) );
-    const time_duration &consume_time = get_consume_time( *loc );
-    moves -= to_moves<int>( consume_time );
-    bool consumed = consume( loc );
-    if( !consumed ) {
-        debugmsg( "%s failed to consume %s", name, i_at( index ).tname() );
+        // consume doesn't return a meaningful answer, we need to compare moves
+        // TODO: Make player::consume return false if it fails to consume
+        if( best_food != nullptr ) {
+            const time_duration &consume_time = get_consume_time( *best_food );
+            consumed = consume( item_location( *this, best_food ) );
+            if( consumed ) {
+                moves -= to_moves<int>( consume_time );
+            } else {
+                debugmsg( "%s failed to consume %s", name, best_food->tname() );
+            }
+        }
+
     }
 
     return consumed;
@@ -3936,9 +3950,11 @@ void npc::mug_player( Character &mark )
     }
     double best_value = minimum_item_value() * value_mod;
     item *to_steal = nullptr;
-    invslice slice = mark.inv.slice();
-    for( std::list<item> *stack : slice ) {
-        item &front_stack = stack->front();
+    const auto inv_valuables = items_with( [this]( const item & itm ) {
+        return value( itm ) > 0;
+    } );
+    for( auto &it : inv_valuables ) {
+        item &front_stack = *it; // is this safe?
         if( value( front_stack ) >= best_value &&
             can_pickVolume( front_stack, true ) &&
             can_pickWeight( front_stack, true ) ) {

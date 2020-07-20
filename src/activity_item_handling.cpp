@@ -660,9 +660,10 @@ static int move_cost_inv( const item &it, const tripoint &src, const tripoint &d
     // typical flat ground move cost
     const int mc_per_tile = 100;
 
+    Character &player_character = get_player_character();
     // only free inventory capacity
-    const int inventory_capacity = units::to_milliliter( g->u.volume_capacity() -
-                                   g->u.volume_carried() );
+    const int inventory_capacity = units::to_milliliter( player_character.volume_capacity() -
+                                   player_character.volume_carried() );
 
     const int item_volume = units::to_milliliter( it.volume() );
 
@@ -681,7 +682,7 @@ static int move_cost_cart( const item &it, const tripoint &src, const tripoint &
     const int MAX_COST = 500;
 
     // cost to move item into the cart
-    const int pickup_cost = Pickup::cost_to_move_item( g->u, it );
+    const int pickup_cost = Pickup::cost_to_move_item( get_player_character(), it );
 
     // cost to move item out of the cart
     const int drop_cost = pickup_cost;
@@ -704,8 +705,9 @@ static int move_cost_cart( const item &it, const tripoint &src, const tripoint &
 
 static int move_cost( const item &it, const tripoint &src, const tripoint &dest )
 {
-    if( g->u.get_grab_type() == object_type::VEHICLE ) {
-        tripoint cart_position = g->u.pos() + g->u.grab_point;
+    avatar &player_character = get_avatar();
+    if( player_character.get_grab_type() == object_type::VEHICLE ) {
+        tripoint cart_position = player_character.pos() + player_character.grab_point;
 
         if( const cata::optional<vpart_reference> vp = get_map().veh_at(
                     cart_position ).part_with_feature( "CARGO", false ) ) {
@@ -1099,6 +1101,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
     p.invalidate_crafting_inventory();
     zone_manager &mgr = zone_manager::get_manager();
     std::vector<zone_data> zones;
+    Character &player_character = get_player_character();
     map &here = get_map();
     if( act == ACT_VEHICLE_DECONSTRUCTION ||
         act == ACT_VEHICLE_REPAIR ) {
@@ -1108,7 +1111,7 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         // if the vehicle is moving or player is controlling it.
-        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( g->u ) ) {
+        if( std::abs( veh->velocity ) > 100 || veh->player_in_control( player_character ) ) {
             return activity_reason_info::fail( do_activity_reason::NO_ZONE );
         }
         for( const npc &guy : g->all_npcs() ) {
@@ -1122,8 +1125,9 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
             }
             // If their position or intended position or player position/intended position
             // then discount, don't need to move each other out of the way.
-            if( here.getlocal( g->u.activity.placement ) == src_loc ||
-                guy_work_spot == src_loc || guy.pos() == src_loc || ( p.is_npc() && g->u.pos() == src_loc ) ) {
+            if( here.getlocal( player_character.activity.placement ) == src_loc ||
+                guy_work_spot == src_loc || guy.pos() == src_loc ||
+                ( p.is_npc() && player_character.pos() == src_loc ) ) {
                 return activity_reason_info::fail( do_activity_reason::ALREADY_WORKING );
             }
             if( guy_work_spot != tripoint_zero ) {
@@ -1133,8 +1137,8 @@ static activity_reason_info can_do_activity_there( const activity_id &act, playe
                     already_working_indexes.push_back( guy.activity_vehicle_part_index );
                 }
             }
-            if( g->u.activity_vehicle_part_index != -1 ) {
-                already_working_indexes.push_back( g->u.activity_vehicle_part_index );
+            if( player_character.activity_vehicle_part_index != -1 ) {
+                already_working_indexes.push_back( player_character.activity_vehicle_part_index );
             }
         }
         if( act == ACT_VEHICLE_DECONSTRUCTION ) {

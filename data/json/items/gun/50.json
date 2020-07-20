@@ -9,6 +9,7 @@
     "description": "A large, shoulder-fired, .50 caliber anti-materiel rifle.  Its large size, recoil, and noise is offset by its damage and range.",
     "weight": "12602 g",
     "volume": "3500 ml",
+    "longest_side": "122 cm",
     "price": 1483300,
     "price_postapoc": 12000,
     "to_hit": -1,

@@ -208,29 +208,31 @@ struct islot_brewable {
     void deserialize( JsonIn &jsin );
 };
 
+struct armor_portion_data {
+
+    // How much this piece encumbers the player.
+    int encumber = 0;
+
+    // When storage is full, how much it encumbers the player.
+    int max_encumber = 0;
+
+    // Percentage of the body part that this item covers.
+    // This determines how likely it is to hit the item instead of the player.
+    int coverage = 0;
+
+    // Where does this cover if any
+    cata::optional<body_part_set> covers;
+
+    // What layer does it cover if any
+    // TODO: Not currently supported, we still use flags for this
+    //cata::optional<layer_level> layer;
+};
+
 struct islot_armor {
     /**
-     * Bitfield of enum body_part
-     * TODO: document me.
-     */
-    body_part_set covers;
-    /**
-     * Whether this item can be worn on either side of the body
-     */
-    bool sided = false;
-    /**
-     * How much this item encumbers the player.
-     */
-    int encumber = 0;
-    /**
-    * When storage is full, how much it encumbers the player.
+    * Whether this item can be worn on either side of the body
     */
-    int max_encumber = 0;
-    /**
-     * Percentage of the body part area that this item covers.
-     * This determines how likely it is to hit the item instead of the player.
-     */
-    int coverage = 0;
+    bool sided = false;
     /**
      * TODO: document me.
      */
@@ -264,6 +266,9 @@ struct islot_armor {
      * Restricted clothing mods must be listed here by id to be compatible.
      */
     std::vector<std::string> valid_mods;
+
+    // Layer, encumbrance and coverage information.
+    std::vector<armor_portion_data> data;
 
     bool was_loaded = false;
 

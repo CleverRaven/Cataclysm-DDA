@@ -3438,11 +3438,18 @@
         [ "plastic_straw", 3 ],
         [ "plastic_knife", 2 ],
         [ "plastic_spoon", 2 ],
+        [ "plastic_spoon_kids", 4 ],
         [ "plastic_fork", 2 ],
+        [ "plastic_plate", 4 ],
         [ "plastic_six_dice", 11 ],
         [ "bag_zipper", 25 ],
         [ "cup_plastic", 25 ],
-        [ "bag_plastic", 10 ]
+        [ "bag_plastic", 10 ],
+        [ "tumbler_plastic", 4 ],
+        [ "bowl_plastic", 4 ],
+        [ "plastic_bowl_kids", 8 ],
+        [ "sippy_cup", 4 ],
+        [ "gasket_plastic", 1 ]
       ]
     ]
   },
