@@ -1473,6 +1473,13 @@ void Creature::set_body()
     }
 }
 
+void Creature::init_parts_drench_capacity()
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        elem.second.set_drench_capacity( elem.first->drench_max );
+    }
+}
+
 void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max, int dex_max,
                                   int per_max,  int int_max, int healthy_mod,  int fat_to_max_hp )
 {
@@ -1547,6 +1554,36 @@ encumbrance_data Creature::get_part_encumbrance_data( const bodypart_id &id ) co
     return get_part( id ).get_encumbrance_data();
 }
 
+int Creature::get_part_drench_capacity( const bodypart_id &id ) const
+{
+    return get_part( id ).get_drench_capacity();
+}
+
+int Creature::get_part_wetness( const bodypart_id &id ) const
+{
+    return get_part( id ).get_wetness();
+}
+
+int Creature::get_part_temp_cur( const bodypart_id &id ) const
+{
+    return get_part( id ).get_temp_cur();
+}
+
+int Creature::get_part_temp_conv( const bodypart_id &id ) const
+{
+    return get_part( id ).get_temp_conv();;
+}
+
+int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
+{
+    return get_part( id ).get_frotbite_timer();
+}
+
+float Creature::get_part_wetness_percentage( const bodypart_id &id ) const
+{
+    return get_part( id ).get_wetness_percentage();
+}
+
 void Creature::set_part_hp_cur( const bodypart_id &id, int set )
 {
     get_part( id )->set_hp_cur( set );
@@ -1577,6 +1614,26 @@ void Creature::set_part_encumbrance_data( const bodypart_id &id, encumbrance_dat
     get_part( id )->set_encumbrance_data( set );
 }
 
+void Creature::set_part_wetness( const bodypart_id &id, int set )
+{
+    get_part( id )->set_wetness( set );
+}
+
+void Creature::set_part_temp_cur( const bodypart_id &id, int set )
+{
+    get_part( id )->set_temp_cur( set );
+}
+
+void Creature::set_part_temp_conv( const bodypart_id &id, int set )
+{
+    get_part( id )->set_temp_conv( set );
+}
+
+void Creature::set_part_frostbite_timer( const bodypart_id &id, int set )
+{
+    get_part( id )->set_frostbite_timer( set );
+}
+
 void Creature::mod_part_hp_cur( const bodypart_id &id, int mod )
 {
     get_part( id )->mod_hp_cur( mod );
@@ -1602,6 +1659,47 @@ void Creature::mod_part_damage_bandaged( const bodypart_id &id, int mod )
     get_part( id )->mod_damage_bandaged( mod );
 }
 
+void Creature::mod_part_wetness( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_wetness( mod );
+}
+
+void Creature::mod_part_temp_cur( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_temp_cur( mod );
+}
+
+void Creature::mod_part_temp_conv( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_temp_conv( mod );
+}
+
+void Creature::mod_part_frostbite_timer( const bodypart_id &id, int mod )
+{
+    get_part( id )->mod_frostbite_timer( mod );
+}
+
+void Creature::set_all_parts_temp_cur( int set )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        elem.second.set_temp_cur( set );
+    }
+}
+
+void Creature::set_all_parts_temp_conv( int set )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        elem.second.set_temp_conv( set );
+    }
+}
+
+void Creature::set_all_parts_wetness( int set )
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        elem.second.set_wetness( set );
+    }
+}
+
 void Creature::set_all_parts_hp_cur( const int set )
 {
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
@@ -1614,6 +1712,16 @@ void Creature::set_all_parts_hp_to_max()
     for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         elem.second.set_hp_to_max();
     }
+}
+
+bool Creature::has_atleast_one_wet_part()
+{
+    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+        if( elem.second.get_wetness() > 0 ) {
+            return true;
+        }
+    }
+    return false;
 }
 
 

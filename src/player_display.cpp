@@ -50,11 +50,6 @@ static int temperature_print_rescaling( int temp )
     return ( temp / 100.0 ) * 2 - 100;
 }
 
-static bodypart_id other_part( const bodypart_id &bp )
-{
-    return bp->opposite_part;
-}
-
 static bool should_combine_bps( const player &p, const bodypart_id &l, const bodypart_id &r,
                                 const item *selected_clothing )
 {
@@ -62,14 +57,14 @@ static bool should_combine_bps( const player &p, const bodypart_id &l, const bod
     const encumbrance_data enc_r = p.get_part_encumbrance_data( r );
 
     return l != r && // are different parts
-           l == other_part( r ) && r == other_part( l ) && // are complementary parts
+           l ==  r->opposite_part && r == l->opposite_part && // are complementary parts
            // same encumberance & temperature
            enc_l == enc_r &&
-           temperature_print_rescaling( p.temp_conv[l->token] ) == temperature_print_rescaling(
-               p.temp_conv[r->token] ) &&
+           temperature_print_rescaling( p.get_part_temp_conv( l ) ) == temperature_print_rescaling(
+               p.get_part_temp_conv( r ) ) &&
            // selected_clothing covers both or neither parts
-           ( !selected_clothing ||
-             ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
+           ( !selected_clothing || ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
+
 }
 
 static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const player &p,
@@ -79,12 +74,13 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const pla
     std::vector<std::pair<bodypart_id, bool>> bps;
     for( const bodypart_id &bp : p.get_all_body_parts() ) {
         // assuming that a body part has at most one other half
-        if( other_part( other_part( bp ) ) != bp ) {
+        if( bp->opposite_part->opposite_part != bp.id() ) {
             debugmsg( "Bodypart %d has more than one other half!", bp.id().c_str() );
         }
-        if( should_combine_bps( p, bp, other_part( bp ), selected_clothing ) ) {
-            if( bp < other_part( bp ) ) {
-                // only add the earlier one
+        if( should_combine_bps( p, bp, bp->opposite_part.id(), selected_clothing ) ) {
+            if( std::find( bps.begin(), bps.end(), std::pair<bodypart_id, bool>( bp->opposite_part.id(),
+                           true ) ) == bps.end() ) {
+                // only add one
                 bps.emplace_back( bp, true );
             }
         } else {
@@ -121,9 +117,11 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         if( static_cast<size_t>( thisline ) >= bps.size() ) {
             break;
         }
-        const bodypart_id bp = bps[thisline].first;
+
+        const bodypart_id &bp = bps[thisline].first;
         const bool combine = bps[thisline].second;
         const encumbrance_data &e = get_part_encumbrance_data( bp );
+
         const bool highlighted = selected_clothing ? selected_clothing->covers( bp ) : false;
         std::string out = body_part_name_as_heading( bp, combine ? 2 : 1 );
         if( utf8_width( out ) > 7 ) {
@@ -144,8 +142,8 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         // take into account the new encumbrance system for layers
         mvwprintz( win, point( 12, 1 + i ), encumb_color( e.encumbrance ), "%-3d", e.layer_penalty );
         // print warmth, tethered to right hand side of the window
-        mvwprintz( win, point( width - 6, 1 + i ), bodytemp_color( bp->token ), "(% 3d)",
-                   temperature_print_rescaling( temp_conv[bp->token] ) );
+        mvwprintz( win, point( width - 6, 1 + i ), bodytemp_color( bp ), "(% 3d)",
+                   temperature_print_rescaling( get_part_temp_conv( bp ) ) );
     }
 
     if( draw_scrollbar ) {
