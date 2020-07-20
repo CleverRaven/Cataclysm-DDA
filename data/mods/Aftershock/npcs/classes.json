@@ -144,7 +144,7 @@
     "class": "whately_cousin",
     "attitude": 0,
     "mission": 3,
-    "//": "Do I need a chat here?",
+    "chat": "TALK_WHATELY_GENERIC1",
     "faction": "whately_family",
     "gender": "female"
   },
@@ -156,7 +156,7 @@
     "class": "whately_cousin",
     "attitude": 0,
     "mission": 3,
-    "//": "Set chat and missions here later",
+    "chat": "TALK_WHATELY_GENERIC1",
     "faction": "whately_family",
     "gender": "male"
   }

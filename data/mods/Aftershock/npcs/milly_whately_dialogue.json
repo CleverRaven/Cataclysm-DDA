@@ -196,7 +196,7 @@
     "type": "mission_definition",
     "name": "Find my great uncle Cyrus Whately",
     "description": "Cyrus and his family were poorly liked even for Whately's before the end of the world.  They went so far off grid that they may not even know anything has changed.  I need to know he's alive and where his research has taken him.",
-    "goal": "MGOAL_GO_TO",
+    "goal": "MGOAL_TALK_TO_NPC",
     "difficulty": 2,
     "value": 150000,
     "origins": [ "ORIGIN_SECONDARY" ],
@@ -221,7 +221,8 @@
         "must_see": false,
         "random": true,
         "search_range": 180
-      }
+      },
+      "update_mapgen": { "place_npcs": [ { "class": "cyrus_whately", "z": -1, "x": 11, "y": 10, "target": true } ] }
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
@@ -229,8 +230,12 @@
       "update_mapgen": [
         {
           "om_terrain": "mortuary_2story",
-          "place_nested": [ { "chunks": [ [ "whately_cousin", 5 ], [ "null", 35 ] ], "x": [ 16, 19 ], "y": [ 15, 22 ] } ]
-        }
+          "place_nested": [ { "chunks": [ [ "whately_cousin", 15 ], [ "null", 35 ] ], "x": [ 16, 19 ], "y": [ 15, 22 ] } ]
+        },
+        {
+          "om_terrain": "mortuary_2story",
+          "place_nested": [ { "chunks": [ [ "whately_bioturret_update", 15 ], [ "null", 35 ] ], "x": [ 19, 23 ], "y": [ 15, 22 ] } ]
+        },
       ]
     }
   }
