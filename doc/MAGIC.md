@@ -297,6 +297,7 @@ Spell types:
     "max_damage": 14,                                        // maximum  damage the spell can achieve
     "min_aoe": 2,                                            // area of effect
     "max_aoe": 4,
+    "aoe_increment": 0.2,                               // how much wider the area of effect gets per spell level
     "min_range": 10,                                         // range of the spell
     "max_range": 10,
     "base_casting_time": 750,                                // this is the casting time (in moves)
