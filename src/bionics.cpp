@@ -202,7 +202,6 @@ static const std::string flag_NO_STERILE( "NO_STERILE" );
 static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_PERPETUAL( "PERPETUAL" );
 static const std::string flag_PERSONAL( "PERSONAL" );
-static const std::string flag_SAFE_FUEL_OFF( "SAFE_FUEL_OFF" );
 static const std::string flag_SEALED( "SEALED" );
 static const std::string flag_SEMITANGIBLE( "SEMITANGIBLE" );
 
@@ -1318,7 +1317,7 @@ bool Character::burn_fuel( int b, bool start )
                 current_fuel_stock = std::stoi( get_value( fuel.str() ) );
             }
 
-            if( !bio.has_flag( flag_SAFE_FUEL_OFF ) &&
+            if( bio.get_safe_fuel_thresh() > 0 &&
                 ( ( get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency >
                     get_max_power_level() ) ||
                   ( ( ( get_power_level() + units::from_kilojoule( fuel_energy ) * effective_efficiency ) >
@@ -2879,13 +2878,7 @@ bool bionic::is_this_fuel_powered( const itype_id &this_fuel ) const
 
 void bionic::toggle_safe_fuel_mod()
 {
-    if( info().fuel_opts.empty() && !info().is_remote_fueled ) {
-        return;
-    }
-    if( !has_flag( flag_SAFE_FUEL_OFF ) ) {
-        set_flag( flag_SAFE_FUEL_OFF );
-        set_safe_fuel_thresh( 2.0 );
-    } else {
+    if( !info().fuel_opts.empty() || info().is_remote_fueled ) {
         uilist tmenu;
         tmenu.text = _( "Chose Safe Fuel Level Threshold" );
         tmenu.addentry( 1, true, 'o', _( "Full Power" ) );
@@ -2898,25 +2891,24 @@ void bionic::toggle_safe_fuel_mod()
         if( get_auto_start_thresh() < 0.30 ) {
             tmenu.addentry( 4, true, 's', _( "Above 30 %%" ) );
         }
+        tmenu.addentry( 5, true, 'd', _( "Disabled" ) );
         tmenu.query();
 
         switch( tmenu.ret ) {
             case 1:
-                remove_flag( flag_SAFE_FUEL_OFF );
-                set_safe_fuel_thresh( 1.0 );
+                set_safe_fuel_thresh( 1.0f );
                 break;
             case 2:
-                remove_flag( flag_SAFE_FUEL_OFF );
-                set_safe_fuel_thresh( 0.80 );
+                set_safe_fuel_thresh( 0.80f );
                 break;
             case 3:
-                remove_flag( flag_SAFE_FUEL_OFF );
-                set_safe_fuel_thresh( 0.55 );
+                set_safe_fuel_thresh( 0.55f );
                 break;
             case 4:
-                remove_flag( flag_SAFE_FUEL_OFF );
-                set_safe_fuel_thresh( 0.30 );
+                set_safe_fuel_thresh( 0.30f );
                 break;
+            case 5:
+                set_safe_fuel_thresh( -1.0f );
             default:
                 break;
         }

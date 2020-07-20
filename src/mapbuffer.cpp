@@ -17,6 +17,7 @@
 #include "json.h"
 #include "map.h"
 #include "output.h"
+#include "path_info.h"
 #include "popup.h"
 #include "string_formatter.h"
 #include "submap.h"
@@ -33,7 +34,7 @@ static std::string find_quad_path( const std::string &dirname, const tripoint &o
 static std::string find_dirname( const tripoint &om_addr )
 {
     const tripoint segment_addr = omt_to_seg_copy( om_addr );
-    return string_format( "%s/maps/%d.%d.%d", g->get_world_base_save_path(), segment_addr.x,
+    return string_format( "%s/maps/%d.%d.%d", PATH_INFO::world_base_save_path(), segment_addr.x,
                           segment_addr.y, segment_addr.z );
 }
 
@@ -104,7 +105,7 @@ submap *mapbuffer::lookup_submap( const tripoint &p )
 
 void mapbuffer::save( bool delete_after_save )
 {
-    assure_dir_exist( g->get_world_base_save_path() + "/maps" );
+    assure_dir_exist( PATH_INFO::world_base_save_path() + "/maps" );
 
     int num_saved_submaps = 0;
     int num_total_submaps = submaps.size();

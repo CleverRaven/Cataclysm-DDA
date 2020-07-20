@@ -293,7 +293,7 @@ void player::normalize()
 
     recalc_hp();
 
-    temp_conv.fill( BODYTEMP_NORM );
+    set_all_parts_temp_conv( BODYTEMP_NORM );
     set_stamina( get_stamina_max() );
 }
 
@@ -1752,21 +1752,22 @@ void player::update_body_wetness( const w_point &weather )
     // To make drying uniform, make just one roll and reuse it
     const int drying_roll = rng( 1, 80 );
 
-    for( const body_part bp : all_body_parts ) {
-        if( body_wetness[bp] == 0 ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( get_part_wetness( bp ) == 0 ) {
             continue;
         }
         // This is to normalize drying times
-        int drying_chance = drench_capacity[bp];
+        int drying_chance = get_part_drench_capacity( bp );
+        const int temp_conv = get_part_temp_conv( bp );
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
-        if( temp_conv[bp] >= BODYTEMP_SCORCHING ) {
+        if( temp_conv >= BODYTEMP_SCORCHING ) {
             drying_chance *= 2;
-        } else if( temp_conv[bp] >= BODYTEMP_VERY_HOT ) {
+        } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
             drying_chance = drying_chance * 3 / 2;
-        } else if( temp_conv[bp] >= BODYTEMP_HOT ) {
+        } else if( temp_conv >= BODYTEMP_HOT ) {
             drying_chance = drying_chance * 4 / 3;
-        } else if( temp_conv[bp] > BODYTEMP_COLD ) {
+        } else if( temp_conv > BODYTEMP_COLD ) {
             // Comfortable, doesn't need any changes
         } else {
             // Evaporation doesn't change that much at lower temp
@@ -1779,9 +1780,9 @@ void player::update_body_wetness( const w_point &weather )
 
         // TODO: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
-            body_wetness[bp] -= 1;
-            if( body_wetness[bp] < 0 ) {
-                body_wetness[bp] = 0;
+            mod_part_wetness( bp, 1 );
+            if( get_part_wetness( bp ) < 0 ) {
+                set_part_wetness( bp, 0 );
             }
         }
     }
