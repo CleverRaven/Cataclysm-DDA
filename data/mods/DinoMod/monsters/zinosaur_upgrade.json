@@ -109,6 +109,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
+    "upgrades": {  },
     "upgrades": { "half_life": 15, "into": "mon_zyrannosaurus_truck" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
