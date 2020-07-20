@@ -108,10 +108,7 @@
         "########################"
       ],
       "palettes": [ "whately_bunker", "whately_empty_bunker_items" ],
-      "place_npcs": [
-        { "class": "wilhemina_whately", "x": 7, "y": 16 },
-        { "class": "whately_cousin", "x": 19, "y": 8 }
-      ]
+      "place_npcs": [ { "class": "wilhemina_whately", "x": 7, "y": 16 }, { "class": "whately_cousin", "x": 19, "y": 8 } ]
     }
   },
   {
