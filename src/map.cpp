@@ -2588,7 +2588,7 @@ void map::decay_fields_and_scent( const time_duration &amount )
     // TODO: Make this happen on all z-levels
 
     // Decay scent separately, so that later we can use field count to skip empty submaps
-    g->scent.decay();
+    get_scent().decay();
 
     // Coordinate code copied from lightmap calculations
     // TODO: Z
@@ -3095,7 +3095,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     // TODO: what if silent is true?
-    if( has_flag( "ALARMED", p ) && !g->timed_events.queued( timed_event_type::WANTED ) ) {
+    if( has_flag( "ALARMED", p ) && !get_timed_events().queued( timed_event_type::WANTED ) ) {
         sounds::sound( p, 40, sounds::sound_t::alarm, _( "an alarm go off!" ),
                        false, "environment", "alarm" );
         Character &player_character = get_player_character();
@@ -3103,8 +3103,8 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         if( rl_dist( player_character.pos(), p ) <= 3 ) {
             get_event_bus().send<event_type::triggers_alarm>( player_character.getID() );
             const point abs = ms_to_sm_copy( getabs( p.xy() ) );
-            g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                 tripoint( abs, p.z ) );
+            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
+                                    tripoint( abs, p.z ) );
         }
     }
 
@@ -3517,11 +3517,11 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     float dam = initial_damage;
     const auto &ammo_effects = proj.proj_effects;
 
-    if( has_flag( "ALARMED", p ) && !g->timed_events.queued( timed_event_type::WANTED ) ) {
+    if( has_flag( "ALARMED", p ) && !get_timed_events().queued( timed_event_type::WANTED ) ) {
         sounds::sound( p, 30, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
         const tripoint abs = ms_to_sm_copy( getabs( p ) );
-        g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0, abs );
+        get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0, abs );
     }
 
     const bool inc = ammo_effects.count( "INCENDIARY" );

@@ -977,7 +977,7 @@ bool main_menu::new_character_tab()
     } // end while
 
     if( start ) {
-        add_msg( g->scen->description( player_character.male ) );
+        add_msg( get_scenario()->description( player_character.male ) );
 
         world_generator->last_world_name = world_generator->active_world->world_name;
         world_generator->last_character_name = player_character.name;

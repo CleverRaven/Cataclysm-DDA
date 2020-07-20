@@ -1160,8 +1160,8 @@ void avatar::store( JsonOut &json ) const
     if( prof != nullptr ) {
         json.member( "profession", prof->ident() );
     }
-    if( g->scen != nullptr ) {
-        json.member( "scenario", g->scen->ident() );
+    if( get_scenario() != nullptr ) {
+        json.member( "scenario", get_scenario()->ident() );
     }
     // someday, npcs may drive
     json.member( "controlling_vehicle", controlling_vehicle );
@@ -1264,10 +1264,10 @@ void avatar::load( const JsonObject &data )
     drench_mut_calc();
     std::string scen_ident = "(null)";
     if( data.read( "scenario", scen_ident ) && string_id<scenario>( scen_ident ).is_valid() ) {
-        g->scen = &string_id<scenario>( scen_ident ).obj();
+        set_scenario( &string_id<scenario>( scen_ident ).obj() );
 
-        if( !g->scen->allowed_start( start_location ) ) {
-            start_location = g->scen->random_start_location();
+        if( !get_scenario()->allowed_start( start_location ) ) {
+            start_location = get_scenario()->random_start_location();
         }
     } else {
         const scenario *generic_scenario = scenario::generic();
@@ -1276,7 +1276,7 @@ void avatar::load( const JsonObject &data )
             debugmsg( "Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
                       scen_ident.c_str(), generic_scenario->ident().c_str() );
         }
-        g->scen = generic_scenario;
+        set_scenario( generic_scenario );
     }
 
     data.read( "learned_recipes", *learned_recipes );

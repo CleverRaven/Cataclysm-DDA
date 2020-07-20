@@ -1197,7 +1197,7 @@ void debug()
     cata::optional<debug_menu_index> action = debug_menu_uilist( debug_menu_has_hotkey );
 
     // For the "cheaty" options, disable achievements when used
-    achievements_tracker &achievements = g->achievements();
+    achievements_tracker &achievements = get_achievements();
     static const std::unordered_set<debug_menu_index> non_cheaty_options = {
         debug_menu_index::SAVE_SCREENSHOT,
         debug_menu_index::GAME_REPORT,

@@ -10,7 +10,6 @@
 #include "debug_menu.h"
 #include "event.h"
 #include "filesystem.h"
-#include "game.h"
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "output.h"
@@ -53,7 +52,7 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
 
 TEST_CASE( "memorials", "[memorial]" )
 {
-    memorial_logger &m = g->memorial();
+    memorial_logger &m = get_memorial();
     m.clear();
     clear_avatar();
 

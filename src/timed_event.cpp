@@ -73,7 +73,7 @@ void timed_event::actualize()
             if( g->get_levz() >= 0 ) {
                 return;
             }
-            g->memorial().add(
+            get_memorial().add(
                 pgettext( "memorial_male", "Drew the attention of more dark wyrms!" ),
                 pgettext( "memorial_female", "Drew the attention of more dark wyrms!" ) );
             int num_wyrms = rng( 1, 4 );
@@ -94,8 +94,8 @@ void timed_event::actualize()
             }
             // They just keep coming!
             if( !one_in( 25 ) ) {
-                g->timed_events.add( timed_event_type::SPAWN_WYRMS,
-                                     calendar::turn + rng( 1_minutes, 3_minutes ) );
+                get_timed_events().add( timed_event_type::SPAWN_WYRMS,
+                                        calendar::turn + rng( 1_minutes, 3_minutes ) );
             }
         }
         break;
@@ -208,13 +208,13 @@ void timed_event::actualize()
                     player_character.pos() ) ) {
                 if( flood_buf[player_character.posx()][player_character.posy()] == t_water_sh ) {
                     add_msg( m_warning, _( "Water quickly floods up to your knees." ) );
-                    g->memorial().add(
+                    get_memorial().add(
                         pgettext( "memorial_male", "Water level reached knees." ),
                         pgettext( "memorial_female", "Water level reached knees." ) );
                 } else {
                     // Must be deep water!
                     add_msg( m_warning, _( "Water fills nearly to the ceiling!" ) );
-                    g->memorial().add(
+                    get_memorial().add(
                         pgettext( "memorial_male", "Water level reached the ceiling." ),
                         pgettext( "memorial_female", "Water level reached the ceiling." ) );
                     avatar_action::swim( here, player_character, player_character.pos() );
@@ -224,8 +224,8 @@ void timed_event::actualize()
             for( const tripoint &p : here.points_on_zlevel() ) {
                 here.ter_set( p, flood_buf[p.x][p.y] );
             }
-            g->timed_events.add( timed_event_type::TEMPLE_FLOOD,
-                                 calendar::turn + rng( 2_turns, 3_turns ) );
+            get_timed_events().add( timed_event_type::TEMPLE_FLOOD,
+                                    calendar::turn + rng( 2_turns, 3_turns ) );
         }
         break;
 

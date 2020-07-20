@@ -1402,7 +1402,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         p.add_msg_if_player( m_bad,
                              _( "You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out…" ) );
         if( p.is_avatar() ) {
-            g->memorial().add(
+            get_memorial().add(
                 pgettext( "memorial_male", "Suffered Marloss Rejection." ),
                 pgettext( "memorial_female", "Suffered Marloss Rejection." ) );
         }
@@ -2610,9 +2610,9 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             get_event_bus().send<event_type::triggers_alarm>( p->getID() );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( !g->timed_events.queued( timed_event_type::WANTED ) ) {
-                g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                     p->global_sm_location() );
+            if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
+                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
+                                        p->global_sm_location() );
             }
         }
     } else {
@@ -5554,7 +5554,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_LIGHT:
                 p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
-                g->timed_events.add( timed_event_type::ARTIFACT_LIGHT, calendar::turn + 3_minutes );
+                get_timed_events().add( timed_event_type::ARTIFACT_LIGHT, calendar::turn + 3_minutes );
                 break;
 
             case AEA_GROWTH: {
@@ -5633,7 +5633,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_DIM:
                 p->add_msg_if_player( _( "The sky starts to dim." ) );
-                g->timed_events.add( timed_event_type::DIM, calendar::turn + 5_minutes );
+                get_timed_events().add( timed_event_type::DIM, calendar::turn + 5_minutes );
                 break;
 
             case AEA_FLASH:

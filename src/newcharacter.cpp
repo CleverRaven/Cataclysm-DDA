@@ -24,7 +24,6 @@
 #include "character_martial_arts.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "game.h"
 #include "game_constants.h"
 #include "ime.h"
 #include "input.h"
@@ -199,13 +198,13 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
                 scenarios.emplace_back( &scen );
             }
         }
-        g->scen = random_entry( scenarios );
+        set_scenario( random_entry( scenarios ) );
     } else if( !cities_enabled ) {
         static const string_id<scenario> wilderness_only_scenario( "wilderness" );
-        g->scen = &wilderness_only_scenario.obj();
+        set_scenario( &wilderness_only_scenario.obj() );
     }
 
-    prof = g->scen->weighted_random_profession();
+    prof = get_scenario()->weighted_random_profession();
     random_start_location = true;
 
     str_max = rng( 6, HIGH_STAT - 2 );
@@ -213,7 +212,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
     int_max = rng( 6, HIGH_STAT - 2 );
     per_max = rng( 6, HIGH_STAT - 2 );
     points.stat_points = points.stat_points - str_max - dex_max - int_max - per_max;
-    points.skill_points = points.skill_points - prof->point_cost() - g->scen->point_cost();
+    points.skill_points = points.skill_points - prof->point_cost() - get_scenario()->point_cost();
     // The default for each stat is 8, and that default does not cost any points.
     // Values below give points back, values above require points. The line above has removed
     // to many points, therefore they are added back.
@@ -408,7 +407,7 @@ bool avatar::create( character_type type, const std::string &tempname )
     weapon = item();
 
     prof = profession::generic();
-    g->scen = scenario::generic();
+    set_scenario( scenario::generic() );
 
     const bool interactive = type != character_type::NOW &&
                              type != character_type::FULL_RANDOM;
@@ -570,8 +569,8 @@ bool avatar::create( character_type type, const std::string &tempname )
         starting_pets.push_back( elem );
     }
 
-    if( g->scen->vehicle() != vproto_id::NULL_ID() ) {
-        starting_vehicle = g->scen->vehicle();
+    if( get_scenario()->vehicle() != vproto_id::NULL_ID() ) {
+        starting_vehicle = get_scenario()->vehicle();
     } else {
         starting_vehicle = prof->vehicle();
     }
@@ -1022,7 +1021,7 @@ tab_direction set_traits( avatar &u, points_left &points )
             continue;
         }
 
-        const std::set<trait_id> scentraits = g->scen->get_locked_traits();
+        const std::set<trait_id> scentraits = get_scenario()->get_locked_traits();
         const bool is_scentrait = std::find( scentraits.begin(), scentraits.end(),
                                              traits_iter.id ) != scentraits.end();
 
@@ -1032,7 +1031,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                                              traits_iter.id ) != proftraits.end();
 
         // We show all starting traits, even if we can't pick them, to keep the interface consistent.
-        if( traits_iter.startingtrait || g->scen->traitquery( traits_iter.id ) || is_proftrait ) {
+        if( traits_iter.startingtrait || get_scenario()->traitquery( traits_iter.id ) || is_proftrait ) {
             if( traits_iter.points > 0 ) {
                 vStartingTraits[0].push_back( traits_iter.id );
 
@@ -1191,7 +1190,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                             cLine = hi_on;
                         }
                     } else {
-                        if( u.has_conflicting_trait( cur_trait ) || g->scen->is_forbidden_trait( cur_trait ) ) {
+                        if( u.has_conflicting_trait( cur_trait ) || get_scenario()->is_forbidden_trait( cur_trait ) ) {
                             cLine = c_dark_gray;
 
                         } else if( u.has_trait( cur_trait ) ) {
@@ -1201,7 +1200,8 @@ tab_direction set_traits( avatar &u, points_left &points )
                 } else if( u.has_trait( cur_trait ) ) {
                     cLine = col_on_pas;
 
-                } else if( u.has_conflicting_trait( cur_trait ) || g->scen->is_forbidden_trait( cur_trait ) ) {
+                } else if( u.has_conflicting_trait( cur_trait ) ||
+                           get_scenario()->is_forbidden_trait( cur_trait ) ) {
                     cLine = c_light_gray;
                 }
 
@@ -1255,10 +1255,10 @@ tab_direction set_traits( avatar &u, points_left &points )
 
                 inc_type = -1;
 
-                if( g->scen->is_locked_trait( cur_trait ) ) {
+                if( get_scenario()->is_locked_trait( cur_trait ) ) {
                     inc_type = 0;
                     popup( _( "Your scenario of %s prevents you from removing this trait." ),
-                           g->scen->gender_appropriate_name( u.male ) );
+                           get_scenario()->gender_appropriate_name( u.male ) );
                 } else if( u.prof->is_locked_trait( cur_trait ) ) {
                     inc_type = 0;
                     popup( _( "Your profession of %s prevents you from removing this trait." ),
@@ -1266,7 +1266,7 @@ tab_direction set_traits( avatar &u, points_left &points )
                 }
             } else if( u.has_conflicting_trait( cur_trait ) ) {
                 popup( _( "You already picked a conflicting trait!" ) );
-            } else if( g->scen->is_forbidden_trait( cur_trait ) ) {
+            } else if( get_scenario()->is_forbidden_trait( cur_trait ) ) {
                 popup( _( "The scenario you picked prevents you from taking this trait!" ) );
             } else if( u.prof->is_forbidden_trait( cur_trait ) ) {
                 popup( _( "Your profession of %s prevents you from taking this trait." ),
@@ -1621,7 +1621,7 @@ tab_direction set_profession( avatar &u, points_left &points,
 
     do {
         if( recalc_profs ) {
-            sorted_profs = g->scen->permitted_professions();
+            sorted_profs = get_scenario()->permitted_professions();
             const auto new_end = std::remove_if( sorted_profs.begin(),
             sorted_profs.end(), [&]( const string_id<profession> &arg ) {
                 return !lcmatch( arg->gender_appropriate_name( u.male ), filterstring );
@@ -2038,8 +2038,8 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
         werase( w_description );
         if( cur_id_is_valid ) {
-            int netPointCost = sorted_scens[cur_id]->point_cost() - g->scen->point_cost();
-            bool can_pick = sorted_scens[cur_id]->can_pick( *g->scen, points.skill_points_left() );
+            int netPointCost = sorted_scens[cur_id]->point_cost() - get_scenario()->point_cost();
+            bool can_pick = sorted_scens[cur_id]->can_pick( *get_scenario(), points.skill_points_left() );
             const std::string clear_line( getmaxx( w_description ), ' ' );
 
             // Clear the bottom of the screen and header.
@@ -2094,7 +2094,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
             mvwprintz( w, point( 2, 5 + i - iStartPos ), c_light_gray,
                        "                                             " );
             nc_color col;
-            if( g->scen != sorted_scens[i] ) {
+            if( get_scenario() != sorted_scens[i] ) {
                 if( cur_id_is_valid && sorted_scens[i] == sorted_scens[cur_id] &&
                     sorted_scens[i]->has_flag( "CITY_START" ) && !scenario_sorter.cities_enabled ) {
                     col = h_dark_gray;
@@ -2246,7 +2246,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
             std::stable_sort( sorted_scens.begin(), sorted_scens.end(), scenario_sorter );
 
             // If city size is 0 but the current scenario requires cities reset the scenario
-            if( !scenario_sorter.cities_enabled && g->scen->has_flag( "CITY_START" ) ) {
+            if( !scenario_sorter.cities_enabled && get_scenario()->has_flag( "CITY_START" ) ) {
                 reset_scenario( u, sorted_scens[0] );
                 points.init_from_options();
                 points.skill_points -= sorted_scens[cur_id]->point_cost();
@@ -2254,7 +2254,7 @@ tab_direction set_scenario( avatar &u, points_left &points,
 
             // Select the current scenario, if possible.
             for( int i = 0; i < scens_length; ++i ) {
-                if( sorted_scens[i]->ident() == g->scen->ident() ) {
+                if( sorted_scens[i]->ident() == get_scenario()->ident() ) {
                     cur_id = i;
                     break;
                 }
@@ -2413,12 +2413,12 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     const std::string random_start_location_text = string_format( ngettext(
                 "<color_red>* Random location *</color> (<color_white>%d</color> variant)",
                 "<color_red>* Random location *</color> (<color_white>%d</color> variants)",
-                g->scen->start_location_targets_count() ), g->scen->start_location_targets_count() );
+                get_scenario()->start_location_targets_count() ), get_scenario()->start_location_targets_count() );
     uilist_entry entry_random_start_location( RANDOM_START_LOC_ENTRY, true, -1,
             random_start_location_text );
     select_location.entries.emplace_back( entry_random_start_location );
     for( const auto &loc : start_locations::get_all() ) {
-        if( g->scen->allowed_start( loc.id ) ) {
+        if( get_scenario()->allowed_start( loc.id ) ) {
             uilist_entry entry( loc.id.get_cid().to_i(), true, -1, string_format(
                                     ngettext( "%s (<color_white>%d</color> variant)",
                                               "%s (<color_white>%d</color> variants)",
@@ -2627,7 +2627,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         werase( w_vehicle );
         mvwprintz( w_vehicle, point_zero, c_light_gray, _( "Starting Vehicle: " ) );
-        const vproto_id scen_veh = g->scen->vehicle();
+        const vproto_id scen_veh = get_scenario()->vehicle();
         const vproto_id prof_veh = you.prof->vehicle();
         if( scen_veh ) {
             wprintz( w_vehicle, c_light_green, scen_veh->name );
@@ -2638,7 +2638,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
 
         werase( w_scenario );
         mvwprintz( w_scenario, point_zero, COL_HEADER, _( "Scenario: " ) );
-        wprintz( w_scenario, c_light_gray, g->scen->gender_appropriate_name( you.male ) );
+        wprintz( w_scenario, c_light_gray, get_scenario()->gender_appropriate_name( you.male ) );
         wnoutrefresh( w_scenario );
 
         werase( w_profession );
@@ -2945,7 +2945,7 @@ void Character::add_traits( points_left &points )
             points.trait_points += tr->points;
         }
     }
-    for( const trait_id &tr : g->scen->get_locked_traits() ) {
+    for( const trait_id &tr : get_scenario()->get_locked_traits() ) {
         if( !has_trait( tr ) ) {
             toggle_trait( tr );
         }
@@ -2957,7 +2957,7 @@ trait_id Character::random_good_trait()
     std::vector<trait_id> vTraitsGood;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.points >= 0 && g->scen->traitquery( traits_iter.id ) ) {
+        if( traits_iter.points >= 0 && get_scenario()->traitquery( traits_iter.id ) ) {
             vTraitsGood.push_back( traits_iter.id );
         }
     }
@@ -2970,7 +2970,7 @@ trait_id Character::random_bad_trait()
     std::vector<trait_id> vTraitsBad;
 
     for( auto &traits_iter : mutation_branch::get_all() ) {
-        if( traits_iter.points < 0 && g->scen->traitquery( traits_iter.id ) ) {
+        if( traits_iter.points < 0 && get_scenario()->traitquery( traits_iter.id ) ) {
             vTraitsBad.push_back( traits_iter.id );
         }
     }
@@ -3072,7 +3072,7 @@ bool avatar::load_template( const std::string &template_name, points_left &point
             random_start_location = jobj.get_bool( "random_start_location", true );
             const std::string jobj_start_location = jobj.get_string( "start_location", "" );
 
-            // g->scen->allowed_start( loc.ident() ) is checked once scenario loads in avatar::load()
+            // get_scenario()->allowed_start( loc.ident() ) is checked once scenario loads in avatar::load()
             for( const auto &loc : start_locations::get_all() ) {
                 if( loc.id.str() == jobj_start_location ) {
                     random_start_location = false;
@@ -3111,7 +3111,7 @@ void reset_scenario( avatar &u, const scenario *scen )
     u.dex_max = 8;
     u.int_max = 8;
     u.per_max = 8;
-    g->scen = scen;
+    set_scenario( scen );
     u.prof = &default_prof.obj();
     for( auto &t : u.get_mutations() ) {
         if( t.obj().hp_modifier != 0 ) {

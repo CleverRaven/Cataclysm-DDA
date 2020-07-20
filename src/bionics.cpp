@@ -2600,7 +2600,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                         set_max_power_level( units::from_kilojoule( rng( 0,
                                              units::to_kilojoule( get_max_power_level() ) - 25 ) ) );
                         if( is_player() ) {
-                            g->memorial().add(
+                            get_memorial().add(
                                 pgettext( "memorial_male", "Lost %d units of power capacity." ),
                                 pgettext( "memorial_female", "Lost %d units of power capacity." ),
                                 units::to_kilojoule( old_power - get_max_power_level() ) );

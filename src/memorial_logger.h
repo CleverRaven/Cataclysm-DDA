@@ -75,4 +75,6 @@ class memorial_logger : public event_subscriber
         std::vector<memorial_log_entry> log;
 };
 
+memorial_logger &get_memorial();
+
 #endif // CATA_SRC_MEMORIAL_LOGGER_H

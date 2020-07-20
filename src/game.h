@@ -149,6 +149,7 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend achievements_tracker &get_achievements();
         friend event_bus &get_event_bus();
         friend map &get_map();
         friend Character &get_player_character();
@@ -157,6 +158,9 @@ class game
         friend const scenario *get_scenario();
         friend void set_scenario( const scenario *new_scenario );
         friend stats_tracker &get_stats();
+        friend scent_map &get_scent();
+        friend timed_event_manager &get_timed_events();
+        friend memorial_logger &get_memorial();
     public:
         game();
         ~game();
@@ -967,15 +971,16 @@ class game
 
         map &m;
         avatar &u;
+        scent_map &scent;
+        const scenario *scen = nullptr;
 
         event_bus &events();
         stats_tracker &stats();
-    public:
-        scent_map &scent;
         timed_event_manager &timed_events;
-
         achievements_tracker &achievements();
         memorial_logger &memorial();
+    public:
+
         spell_events &spell_events_subscriber();
 
         pimpl<Creature_tracker> critter_tracker;
@@ -986,7 +991,6 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game = false;
 
-        const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz = 0;
 

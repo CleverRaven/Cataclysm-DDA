@@ -1223,7 +1223,7 @@ void Character::forced_dismount()
             add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
             deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
             if( is_avatar() ) {
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male", "Fell off a mount." ),
                     pgettext( "memorial_female", "Fell off a mount." ) );
             }
@@ -8553,7 +8553,7 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
 static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 {
     if( who.is_avatar() ) {
-        g->memorial().add(
+        get_memorial().add(
             //~ %s is armor name
             pgettext( "memorial_male", "Worn %s was completely destroyed." ),
             pgettext( "memorial_female", "Worn %s was completely destroyed." ),
@@ -9273,7 +9273,7 @@ void Character::update_type_of_scent( bool init )
     }
 
     if( !init && new_scent != get_type_of_scent() ) {
-        g->scent.reset();
+        get_scent().reset();
     }
     set_type_of_scent( new_scent );
 }
@@ -9284,7 +9284,7 @@ void Character::update_type_of_scent( const trait_id &mut, bool gain )
     if( mut_scent ) {
         if( gain && mut_scent.value() != get_type_of_scent() ) {
             set_type_of_scent( mut_scent.value() );
-            g->scent.reset();
+            get_scent().reset();
         } else {
             update_type_of_scent();
         }
@@ -9884,8 +9884,8 @@ void Character::fall_asleep()
     if( has_active_mutation( trait_HIBERNATE ) &&
         get_kcal_percent() > 0.8f ) {
         if( is_avatar() ) {
-            g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
-                               pgettext( "memorial_female", "Entered hibernation." ) );
+            get_memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
+                                pgettext( "memorial_female", "Entered hibernation." ) );
         }
         // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.
         fall_asleep( 10_days );

@@ -709,14 +709,14 @@ bool game::start_game()
     get_auto_notes_settings().default_initialize();
 
     // spawn the starting NPC, assuming it's not disallowed by the scenario
-    if( !g->scen->has_flag( "LONE_START" ) ) {
+    if( !get_scenario()->has_flag( "LONE_START" ) ) {
         create_starting_npcs();
     }
     //Load NPCs. Set nearby npcs to active.
     load_npcs();
     // Spawn the monsters
     const bool spawn_near =
-        get_option<bool>( "BLACK_ROAD" ) || g->scen->has_flag( "SUR_START" );
+        get_option<bool>( "BLACK_ROAD" ) || get_scenario()->has_flag( "SUR_START" );
     // Surrounded start ones
     if( spawn_near ) {
         start_loc.surround_with_monsters( omtstart, mongroup_id( "GROUP_ZOMBIE" ), 70 );
@@ -12600,6 +12600,11 @@ void game_ui::init_ui()
     g->init_ui( true );
 }
 
+achievements_tracker &get_achievements()
+{
+    return g->achievements();
+}
+
 Character &get_player_character()
 {
     return g->u;
@@ -12620,6 +12625,11 @@ event_bus &get_event_bus()
     return g->events();
 }
 
+memorial_logger &get_memorial()
+{
+    return g->memorial();
+}
+
 const scenario *get_scenario()
 {
     return g->scen;
@@ -12629,7 +12639,17 @@ void set_scenario( const scenario *new_scenario )
     g->scen = new_scenario;
 }
 
+scent_map &get_scent()
+{
+    return g->scent;
+}
+
 stats_tracker &get_stats()
 {
     return g->stats();
+}
+
+timed_event_manager &get_timed_events()
+{
+    return g->timed_events;
 }
