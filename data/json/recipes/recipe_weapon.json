@@ -1496,6 +1496,7 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "4 h",
+    "reversible": true,
     "autolearn": true,
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -2567,5 +2568,31 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "leather", 30 ], [ "rope_superior_short", 2, "LIST" ] ], [ [ "scrap", 9 ], [ "razor_blade", 9 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "coilgun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "skills_required": [ [ "computer", 3 ], [ "fabrication", 3 ] ],
+    "difficulty": 5,
+    "time": "4 h",
+    "reversible": true,
+    "book_learn": [ [ "advanced_electronics", 5 ], [ "textbook_electronics", 5 ], [ "textbook_anarch", 6 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 10 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "laptop", -1 ] ] ],
+    "components": [
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "e_scrap", 30 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "cable", 100 ] ]
+    ]
   }
 ]

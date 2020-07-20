@@ -21,6 +21,7 @@
 #include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -63,6 +64,8 @@
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "talker.h"
+#include "talker_npc.h"
 #include "text_snippets.h"
 #include "tileray.h"
 #include "trait_group.h"
@@ -141,9 +144,9 @@ npc::npc()
     position.z = 500;
     last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
-    wanted_item_pos = no_goal_point;
-    guard_pos = no_goal_point;
-    goal = no_goal_point;
+    wanted_item_pos = tripoint_min;
+    guard_pos = tripoint_min;
+    goal = tripoint_abs_omt( tripoint_min );
     fetching_item = false;
     has_new_items = true;
     worst_item_value = 0;
@@ -679,10 +682,11 @@ void npc::set_known_to_u( bool known )
 void npc::setpos( const tripoint &pos )
 {
     position = pos;
-    const point pos_om_old = sm_to_om_copy( submap_coords );
+    const point_abs_om pos_om_old( sm_to_om_copy( submap_coords ) );
     submap_coords.x = g->get_levx() + pos.x / SEEX;
     submap_coords.y = g->get_levy() + pos.y / SEEY;
-    const point pos_om_new = sm_to_om_copy( submap_coords );
+    // TODO: fix point types
+    const point_abs_om pos_om_new( sm_to_om_copy( submap_coords ) );
     if( !is_fake() && pos_om_old != pos_om_new ) {
         overmap &om_old = overmap_buffer.get( pos_om_old );
         overmap &om_new = overmap_buffer.get( pos_om_new );
@@ -698,9 +702,10 @@ void npc::setpos( const tripoint &pos )
 
 void npc::travel_overmap( const tripoint &pos )
 {
-    const point pos_om_old = sm_to_om_copy( submap_coords );
+    // TODO: fix point types
+    const point_abs_om pos_om_old( sm_to_om_copy( submap_coords ) );
     spawn_at_sm( pos );
-    const point pos_om_new = sm_to_om_copy( submap_coords );
+    const point_abs_om pos_om_new( sm_to_om_copy( submap_coords ) );
     if( global_omt_location() == goal ) {
         reach_omt_destination();
     }
@@ -838,7 +843,7 @@ void npc::starting_weapon( const npc_class_id &type )
         }
     }
 
-    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     weapon.set_owner( get_faction()->id );
 }
@@ -954,7 +959,7 @@ void npc::finish_read( item &book )
         skill_level.readBook( min_ex, max_ex, reading->level );
         const std::string skill_name = skill.obj().name();
         if( skill_level != originalSkillLevel ) {
-            g->events().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
+            get_event_bus().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
             if( display_messages ) {
                 add_msg( m_good, _( "%s increases their %s level." ), disp_name(), skill_name );
                 // NPC reads until they gain a level, then stop.
@@ -1154,26 +1159,8 @@ bool npc::wield( item &it )
 
     if( it.is_null() ) {
         weapon = item();
-        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+        get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
-    }
-
-    // check if the item is in a holster
-    int position = inv.position_by_item( &it );
-    if( position != INT_MIN ) {
-        item &maybe_holster = inv.find_item( position );
-        assert( !maybe_holster.is_null() );
-        if( &maybe_holster != &it && maybe_holster.is_holster() ) {
-            assert( !maybe_holster.contents.empty() );
-            const size_t old_size = maybe_holster.contents.num_item_stacks();
-            invoke_item( &maybe_holster );
-            // TODO: change invoke_item to somehow report this change
-            // HACK: test whether wielding the item from the holster has been done.
-            // (Wielding may be prevented by various reasons: see player::wield_contained)
-            if( old_size != maybe_holster.contents.num_item_stacks() ) {
-                return true;
-            }
-        }
     }
 
     moves -= 15;
@@ -1183,7 +1170,7 @@ bool npc::wield( item &it )
         weapon = it;
     }
 
-    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     if( get_player_character().sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
@@ -1479,6 +1466,25 @@ std::vector<matype_id> npc::styles_offered_to( const player &p ) const
     return p.martial_arts_data.get_unknown_styles( martial_arts_data );
 }
 
+std::vector<spell_id> npc::spells_offered_to( player &p )
+{
+    std::vector<spell_id> teachable;
+    for( const spell_id &sp : magic.spells() ) {
+        const spell &teacher_spell = magic.get_spell( sp );
+        if( p.magic.can_learn_spell( p, sp ) ) {
+            if( p.magic.knows_spell( sp ) ) {
+                const spell &student_spell = p.magic.get_spell( sp );
+                if( student_spell.is_max_level() ||
+                    student_spell.get_level() >= teacher_spell.get_level() ) {
+                    continue;
+                }
+            }
+            teachable.emplace_back( sp );
+        }
+    }
+    return teachable;
+}
+
 void npc::decide_needs()
 {
     double needrank[num_needs];
@@ -1492,7 +1498,10 @@ void npc::decide_needs()
                               charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
-            needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+            const ammotype ammo_type = weapon.ammo_type();
+            if( ammo_type != ammotype::NULL_ID() ) {
+                needrank[need_ammo] = get_ammo( ammo_type ).size();
+            }
         }
         needrank[need_ammo] *= 5;
     }
@@ -1503,13 +1512,12 @@ void npc::decide_needs()
     needrank[need_weapon] = weapon_value( weapon );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
-    invslice slice = inv.slice();
-    for( auto &i : slice ) {
-        item inventory_item = i->front();
-        if( const item *food = inventory_item.get_food() ) {
-            needrank[ need_food ] += nutrition_for( *food ) / 4.0;
-            needrank[ need_drink ] += food->get_comestible()->quench / 4.0;
-        }
+    const auto inv_food = items_with( []( const item & itm ) {
+        return itm.is_food();
+    } );
+    for( auto &food : inv_food ) {
+        needrank[ need_food ] += nutrition_for( *food ) / 4.0;
+        needrank[ need_drink ] += food->get_comestible()->quench / 4.0;
     }
     needs.clear();
     size_t j;
@@ -1575,9 +1583,14 @@ bool npc::wants_to_sell( const item &it ) const
     return wants_to_sell( it, value( it, market_price ), market_price );
 }
 
-bool npc::wants_to_sell( const item &/*it*/, int at_price, int market_price ) const
+bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
 {
     if( mission == NPC_MISSION_SHOPKEEP ) {
+        // keep items that we either never want to trade, or don't want to trade while in use
+        if( it.has_flag( "TRADER_KEEP" ) ||
+            ( it.has_flag( "TRADER_KEEP_EQUIPPED" ) && ( is_worn( it ) || is_wielding( it ) ) ) ) {
+            return false;
+        }
         return true;
     }
 
@@ -2033,10 +2046,11 @@ bool npc::is_leader() const
 
 bool npc::within_boundaries_of_camp() const
 {
-    const point p( global_omt_location().xy() );
-    for( int x2 = p.x - 3; x2 < p.x + 3; x2++ ) {
-        for( int y2 = p.y - 3; y2 < p.y + 3; y2++ ) {
-            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( point( x2, y2 ) );
+    const point_abs_omt p( global_omt_location().xy() );
+    for( int x2 = -3; x2 < 3; x2++ ) {
+        for( int y2 = -3; y2 < 3; y2++ ) {
+            const point_abs_omt nearby = p + point( x2, y2 );
+            cata::optional<basecamp *> bcp = overmap_buffer.find_camp( nearby );
             if( bcp ) {
                 return true;
             }
@@ -2437,8 +2451,8 @@ void npc::reboot()
     path.clear();
     last_player_seen_pos = cata::nullopt;
     last_seen_player_turn = 999;
-    wanted_item_pos = no_goal_point;
-    guard_pos = no_goal_point;
+    wanted_item_pos = tripoint_min;
+    guard_pos = tripoint_min;
     goal = no_goal_point;
     fetching_item = false;
     has_new_items = true;
@@ -2518,7 +2532,7 @@ void npc::die( Creature *nkiller )
     }
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
-        g->events().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
+        get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
     }
 
     if( killer == &player_character && ( !guaranteed_hostile() || hit_by_player ) ) {
@@ -2754,15 +2768,7 @@ void npc::on_load()
     }
 }
 
-void npc_chatbin::add_new_mission( mission *miss )
-{
-    if( miss == nullptr ) {
-        return;
-    }
-    missions.push_back( miss );
-}
-
-constexpr tripoint npc::no_goal_point;
+constexpr tripoint_abs_omt npc::no_goal_point;
 
 bool npc::query_yn( const std::string &/*msg*/ ) const
 {
@@ -3044,7 +3050,7 @@ std::string npc::get_epilogue() const
 
 void npc::set_companion_mission( npc &p, const std::string &mission_id )
 {
-    const tripoint omt_pos = p.global_omt_location();
+    const tripoint_abs_omt omt_pos = p.global_omt_location();
     set_companion_mission( omt_pos, p.companion_mission_role_id, mission_id );
 }
 
@@ -3080,7 +3086,7 @@ std::pair<std::string, nc_color> npc::hp_description() const
     }
     return std::make_pair( damage_info, col );
 }
-void npc::set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                                  const std::string &mission_id )
 {
     comp_mission.position = omt_pos;
@@ -3088,8 +3094,8 @@ void npc::set_companion_mission( const tripoint &omt_pos, const std::string &rol
     comp_mission.role_id = role_id;
 }
 
-void npc::set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
-                                 const std::string &mission_id, const tripoint &destination )
+void npc::set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
+                                 const std::string &mission_id, const tripoint_abs_omt &destination )
 {
     comp_mission.position = omt_pos;
     comp_mission.mission_id = mission_id;
@@ -3099,7 +3105,7 @@ void npc::set_companion_mission( const tripoint &omt_pos, const std::string &rol
 
 void npc::reset_companion_mission()
 {
-    comp_mission.position = tripoint( -999, -999, -999 );
+    comp_mission.position = tripoint_abs_omt( -999, -999, -999 );
     comp_mission.mission_id.clear();
     comp_mission.role_id.clear();
     if( comp_mission.destination ) {
@@ -3107,7 +3113,7 @@ void npc::reset_companion_mission()
     }
 }
 
-cata::optional<tripoint> npc::get_mission_destination() const
+cata::optional<tripoint_abs_omt> npc::get_mission_destination() const
 {
     if( comp_mission.destination ) {
         return comp_mission.destination;
@@ -3344,4 +3350,38 @@ void npc_follower_rules::clear_overrides()
 int npc::get_thirst() const
 {
     return Character::get_thirst() - units::to_milliliter<int>( stomach.get_water() ) / 5;
+}
+
+std::string npc::describe_mission() const
+{
+    switch( mission ) {
+        case NPC_MISSION_SHELTER:
+            return string_format( _( "I'm holing up here for safety.  Long term, %s" ),
+                                  myclass.obj().get_job_description() );
+        case NPC_MISSION_SHOPKEEP:
+            return _( "I run the shop here." );
+        case NPC_MISSION_GUARD:
+        case NPC_MISSION_GUARD_ALLY:
+        case NPC_MISSION_GUARD_PATROL:
+            return string_format( _( "Currently, I'm guarding this location.  Overall, %s" ),
+                                  myclass.obj().get_job_description() );
+        case NPC_MISSION_ACTIVITY:
+            return string_format( _( "Right now, I'm <current_activity>.  In general, %s" ),
+                                  myclass.obj().get_job_description() );
+        case NPC_MISSION_TRAVELLING:
+        case NPC_MISSION_NULL:
+            return myclass.obj().get_job_description();
+        default:
+            return string_format( "ERROR: Someone forgot to code an npc_mission text for "
+                                  "mission: %d.", static_cast<int>( mission ) );
+    } // switch (mission)
+}
+
+std::unique_ptr<talker> get_talker_for( npc &guy )
+{
+    return std::make_unique<talker_npc>( &guy );
+}
+std::unique_ptr<talker> get_talker_for( npc *guy )
+{
+    return std::make_unique<talker_npc>( guy );
 }

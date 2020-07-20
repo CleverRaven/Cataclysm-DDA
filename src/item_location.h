@@ -81,6 +81,9 @@ class item_location
          *  @warning all further operations using this class are invalid */
         void remove_item();
 
+        /** Handles updates to the item location, mostly for caching. */
+        void on_contents_changed();
+
         /** Gets the selected item or nullptr */
         item *get_item();
         const item *get_item() const;

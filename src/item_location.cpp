@@ -78,6 +78,7 @@ class item_location::impl
         virtual item_location obtain( Character &, int ) = 0;
         virtual int obtain_cost( const Character &, int ) const = 0;
         virtual void remove_item() = 0;
+        virtual void on_contents_changed() = 0;
         virtual void serialize( JsonOut &js ) const = 0;
         virtual item *unpack( int ) const = 0;
 
@@ -143,6 +144,10 @@ class item_location::impl::nowhere : public item_location::impl
             debugmsg( "invalid use of nowhere item_location" );
         }
 
+        void on_contents_changed() override {
+            debugmsg( "invalid use of nowhere item_location" );
+        }
+
         item *unpack( int ) const override {
             return nullptr;
         }
@@ -194,6 +199,7 @@ class item_location::impl::item_on_map : public item_location::impl
         item_location obtain( Character &ch, int qty ) override {
             ch.moves -= obtain_cost( ch, qty );
 
+            on_contents_changed();
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
@@ -224,7 +230,12 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         void remove_item() override {
+            on_contents_changed();
             cur.remove_item( *what );
+        }
+
+        void on_contents_changed() override {
+            target()->on_contents_changed();
         }
 };
 
@@ -312,6 +323,7 @@ class item_location::impl::item_on_person : public item_location::impl
         item_location obtain( Character &ch, int qty ) override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
+            on_contents_changed();
             if( &ch.i_at( ch.get_item_position( target() ) ) == target() ) {
                 // item already in target characters inventory at base of stack
                 return item_location( ch, target() );
@@ -359,7 +371,12 @@ class item_location::impl::item_on_person : public item_location::impl
             if( !ensure_who_unpacked() ) {
                 return;
             }
+            on_contents_changed();
             who->remove_item( *what );
+        }
+
+        void on_contents_changed() override {
+            target()->on_contents_changed();
         }
 
         bool valid() const override {
@@ -421,6 +438,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         item_location obtain( Character &ch, int qty ) override {
             ch.moves -= obtain_cost( ch, qty );
 
+            on_contents_changed();
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
@@ -451,12 +469,17 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         void remove_item() override {
+            on_contents_changed();
             item &base = cur.veh.part( cur.part ).base;
             if( &base == target() ) {
                 cur.veh.remove_part( cur.part ); // vehicle_part::base
             } else {
                 cur.remove_item( *target() ); // item within CARGO
             }
+        }
+
+        void on_contents_changed() override {
+            target()->on_contents_changed();
             cur.veh.invalidate_mass();
         }
 };
@@ -527,12 +550,19 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         void remove_item() override {
+            on_contents_changed();
             container->remove_item( *target() );
+        }
+
+        void on_contents_changed() override {
+            target()->on_contents_changed();
+            container->on_contents_changed();
         }
 
         item_location obtain( Character &ch, int qty ) override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
+            on_contents_changed();
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
@@ -732,6 +762,15 @@ void item_location::remove_item()
     }
     ptr->remove_item();
     ptr.reset( new impl::nowhere() );
+}
+
+void item_location::on_contents_changed()
+{
+    if( !ptr->valid() ) {
+        debugmsg( "item location does not point to valid item" );
+        return;
+    }
+    ptr->on_contents_changed();
 }
 
 item *item_location::get_item()

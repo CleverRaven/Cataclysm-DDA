@@ -575,7 +575,7 @@ size_t inventory_column::page_of( const inventory_entry &entry ) const
 }
 bool inventory_column::has_available_choices() const
 {
-    if( !allows_selecting() ) {
+    if( !allows_selecting() || !activatable() ) {
         return false;
     }
     for( size_t i = 0; i < entries.size(); ++i ) {
@@ -913,7 +913,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
     if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
         res += 2;
     }
-    if( allows_selecting() && multiselect ) {
+    if( allows_selecting() && activatable() && multiselect ) {
         res += 2;
     }
     return res;
@@ -1051,7 +1051,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p )
                 mvwputch( win, point( xx, yy ), color, entry.any_item()->symbol() );
                 xx += 2;
             }
-            if( allows_selecting() && multiselect ) {
+            if( allows_selecting() && activatable() && multiselect ) {
                 if( entry.chosen_count == 0 ) {
                     mvwputch( win, point( xx, yy ), c_dark_gray, '-' );
                 } else if( entry.chosen_count >= entry.get_available_count() ) {
@@ -1290,10 +1290,14 @@ void inventory_selector::add_contained_items( item_location &container )
 
 void inventory_selector::add_contained_items( item_location &container, inventory_column &column )
 {
+    if( container->has_flag( "NO_UNLOAD" ) ) {
+        return;
+    }
+
     for( item *it : container->contents.all_items_top() ) {
         item_location child( container, it );
         add_contained_items( child, column );
-        add_item( column, std::move( child ) );
+        add_entry( column, std::vector<item_location>( 1, child ) );
     }
 }
 
@@ -2539,5 +2543,5 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.weight_carried_with_tweaks( dropping ),
                u.weight_capacity(),
                u.volume_carried_with_tweaks( dropping ),
-               u.volume_capacity() );
+               u.volume_capacity_with_tweaks( dropping ) );
 }

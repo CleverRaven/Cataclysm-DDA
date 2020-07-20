@@ -936,23 +936,29 @@ bool avatar_action::eat_here( avatar &you )
 void avatar_action::eat( avatar &you )
 {
     item_location loc = game_menus::inv::consume( you );
-    avatar_action::eat( you, loc, you.activity.values );
+    std::string filter;
+    if( !you.activity.str_values.empty() ) {
+        filter = you.activity.str_values.back();
+    }
+    avatar_action::eat( you, loc, you.activity.values, filter );
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc )
 {
-    avatar_action::eat( you, loc, std::vector<int>() );
+    avatar_action::eat( you, loc, std::vector<int>(), std::string() );
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc,
-                         std::vector<int> consume_menu_selections )
+                         std::vector<int> consume_menu_selections,
+                         const std::string &consume_menu_filter )
 {
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-    you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections ) ) );
+    you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
+                                          consume_menu_filter ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
@@ -1052,7 +1058,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         you.weapon.mod_charges( -1 );
         thrown.charges = 1;
     } else {
-        you.i_rem( -1 );
+        you.remove_weapon();
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();

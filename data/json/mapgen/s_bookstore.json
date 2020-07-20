@@ -33,13 +33,10 @@
         "************************"
       ],
       "terrain": {
-        "#": "t_floor",
-        "%": "t_console_broken",
-        "*": [ [ "t_grass", 5 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ] ],
-        "^": [ "t_tree_walnut", "t_tree_chestnut", "t_tree_beech", "t_tree", "t_tree_hazelnut" ],
+        "*": "t_region_groundcover_urban",
+        "^": "t_region_tree_nut",
         "+": "t_door_c",
         "-": "t_wall_w",
-        ".": "t_floor",
         ":": "t_door_glass_c",
         "O": "t_window",
         "|": "t_wall_w",
@@ -48,6 +45,7 @@
         "~": "t_sidewalk"
       },
       "furniture": {
+        "%": "f_console_broken",
         "#": "f_counter",
         "T": "f_table",
         "]": "f_rack",
@@ -253,8 +251,7 @@
       ],
       "terrain": {
         "#": "t_floor",
-        "%": "t_console_broken",
-        "*": [ [ "t_grass", 5 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ] ],
+        "*": "t_region_groundcover_urban",
         "+": "t_door_c",
         "-": "t_wall_w",
         ".": "t_floor",
@@ -262,11 +259,12 @@
         "=": "t_wall_glass",
         ">": "t_stairs_up",
         "O": "t_window",
-        "q": "t_grass",
+        "q": "t_region_groundcover_urban",
         "|": "t_wall_w",
         "~": "t_sidewalk"
       },
       "furniture": {
+        "%": "f_console_broken",
         "#": "f_counter",
         "T": "f_table",
         "[": "f_rack",
@@ -459,21 +457,21 @@
         "************************"
       ],
       "terrain": {
-        "%": "t_console_broken",
-        "*": [ [ "t_grass", 5 ], [ "t_dirt", 2 ], [ "t_grass_long", 4 ] ],
+        "*": "t_region_groundcover_urban",
         "+": [ "t_door_c", "t_door_locked" ],
         "-": "t_wall_w",
         ".": "t_floor",
         "O": "t_window",
         "S": "t_sidewalk",
-        "^": [ "t_tree_walnut", "t_tree_chestnut", "t_tree_beech", "t_tree", "t_tree_hazelnut" ],
-        "o": "t_dirt",
-        "q": "t_dirt",
+        "^": "t_region_tree_nut",
+        "o": "t_region_groundcover_barren",
+        "q": "t_region_groundcover_barren",
         "|": "t_wall_w",
         "4": "t_gutter_downspout",
         "~": "t_sidewalk"
       },
       "furniture": {
+        "%": "f_console_broken",
         "#": "f_counter",
         "S": "f_statue",
         "T": "f_table",

@@ -3,6 +3,7 @@
 #define CATA_SRC_WEATHER_H
 
 #include "color.h"
+#include "coordinates.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "point.h"
@@ -63,19 +64,6 @@ struct weather_printable {
     char cGlyph;
 };
 
-/**
- * Environmental effects and ramifications of weather.
- * Visibility range changes are done elsewhere.
- */
-namespace weather_effect
-{
-void thunder( int intensity );
-void lightning( int intensity );
-void light_acid( int intensity );
-void acid( int intensity );
-void wet_player( int amount );
-} // namespace weather_effect
-
 struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
@@ -88,7 +76,7 @@ std::string get_shortdirstring( int angle );
 
 std::string get_dirstring( int angle );
 
-std::string weather_forecast( const point &abs_sm_pos );
+std::string weather_forecast( const point_abs_sm &abs_sm_pos );
 
 // Returns input value (in Fahrenheit) converted to whatever temperature scale set in options.
 //
@@ -136,8 +124,12 @@ int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?
+ *
+ * The first overload is in map-square coords, the second for larger scale
+ * queries.
  */
 bool warm_enough_to_plant( const tripoint &pos );
+bool warm_enough_to_plant( const tripoint_abs_omt &pos );
 
 bool is_wind_blocker( const tripoint &location );
 
@@ -151,6 +143,9 @@ void glare( weather_type_id w );
  */
 int incident_sunlight( weather_type_id wtype,
                        const time_point &t = calendar::turn );
+
+void weather_sound( translation sound_message, std::string sound_effect );
+void wet( Character &target, int amount );
 
 class weather_manager
 {
@@ -179,6 +174,8 @@ class weather_manager
         std::unordered_map< tripoint, int > temperature_cache;
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
+        // Returns outdoor or indoor temperature of given location
+        int get_temperature( const tripoint_abs_omt &location );
         void clear_temp_cache();
 };
 

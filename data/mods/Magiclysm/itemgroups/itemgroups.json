@@ -188,7 +188,7 @@
       },
       { "item": "bone_human", "prob": 60, "count-min": 1, "count-max": 5 },
       [ "cauldron_orichalcum", 10 ],
-      [ "toolbox", 10 ]
+      { "group": "tools_toolbox", "prob": 10 }
     ]
   },
   {
@@ -223,7 +223,7 @@
       { "group": "tools_common", "prob": 60 },
       { "group": "paint", "prob": 20 },
       { "group": "supplies_fuel", "prob": 35 },
-      [ "toolbox", 10 ],
+      { "group": "tools_toolbox", "prob": 10 },
       [ "mop", 100 ],
       [ "broom", 100 ],
       [ "battery_car", 35 ]

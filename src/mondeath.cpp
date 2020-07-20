@@ -361,7 +361,7 @@ void mdeath::triffid_heart( monster &z )
     if( get_player_character().sees( z ) ) {
         add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     }
-    g->timed_events.add( timed_event_type::ROOTS_DIE, calendar::turn + 10_minutes );
+    get_timed_events().add( timed_event_type::ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus( monster &z )
@@ -560,7 +560,7 @@ void mdeath::amigara( monster &z )
         add_msg( _( "Your obsession with the fault fades away…" ) );
     }
 
-    get_map().spawn_artifact( z.pos() );
+    get_map().spawn_artifact( z.pos(), relic_procgen_id( "netherum_tunnels" ) );
 }
 
 void mdeath::thing( monster &z )

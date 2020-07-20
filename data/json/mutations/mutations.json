@@ -6377,17 +6377,6 @@
   },
   {
     "type": "mutation",
-    "id": "PROF_HELI_PILOT",
-    "name": "Helicopter Pilot",
-    "points": 0,
-    "description": "You are a trained helicopter pilot.  This makes you one of the few living people who can operate a helicopter after the Cataclysm.",
-    "valid": false,
-    "purifiable": false,
-    "profession": true,
-    "cancels": [ "WAYFARER" ]
-  },
-  {
-    "type": "mutation",
     "id": "PROF_SWAT",
     "name": { "str": "SWAT Officer" },
     "points": 0,
@@ -6658,6 +6647,16 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_CLAIRVOYANCE",
+    "name": { "str": "Debug Clairvoyance" },
+    "points": 99,
+    "valid": false,
+    "description": "You can clearly see that this is for dev purposes only.",
+    "flags": [ "SUPER_CLAIRVOYANCE" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_CLOAK",
     "name": { "str": "Debug Invisibility" },
     "points": 99,
@@ -6839,8 +6838,7 @@
     "points": -8,
     "description": "Whether from personal choice or childhood trauma, traveling with vehicles is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
-    "valid": false,
-    "cancels": [ "PROF_HELI_PILOT" ]
+    "valid": false
   },
   {
     "type": "mutation",

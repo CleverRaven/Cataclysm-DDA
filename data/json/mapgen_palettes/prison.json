@@ -40,7 +40,6 @@
       "s": "t_sidewalk",
       "t": "t_floor",
       "w": "t_window",
-      "x": "t_console_broken",
       "y": "t_floor",
       "z": "t_floor",
       "|": "t_concrete_wall"
@@ -64,6 +63,7 @@
       "o": "f_bookcase",
       "r": "f_rack",
       "t": "f_table",
+      "x": "f_console_broken",
       "z": "f_rack"
     },
     "toilets": { "T": {  } },

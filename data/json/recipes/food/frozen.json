@@ -144,7 +144,7 @@
     "components": [
       [ [ "icecream", 1 ], [ "icecream_artificial", 1 ] ],
       [ [ "chocolate", 1 ], [ "candy", 1 ], [ "candy2", 1 ], [ "candy3", 1 ], [ "maple_candy", 1 ], [ "syrup", 1 ] ],
-      [ [ "sugar", 5 ] ]
+      [ [ "sugar", 5 ], [ "artificial_sweetener", 5 ] ]
     ]
   },
   {

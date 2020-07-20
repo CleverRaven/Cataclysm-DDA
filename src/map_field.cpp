@@ -255,7 +255,9 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk )
 {
     map &here = get_map();
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
+    // TODO: fix point types
+    const oter_id &cur_om_ter =
+        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( p ) ) ) );
     const bool sheltered = g->is_sheltered( p );
     const int winddirection = g->weather.winddirection;
     const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
@@ -388,7 +390,7 @@ If you need to insert a new field behavior per unit time add a case statement in
 bool map::process_fields_in_submap( submap *const current_submap,
                                     const tripoint &submap )
 {
-    scent_block sblk( submap, g->scent );
+    scent_block sblk( submap, get_scent() );
 
     // This should be true only when the field changes transparency
     // More correctly: not just when the field is opaque, but when it changes state
@@ -398,6 +400,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
     // Just to avoid typing that long string for a temp value.
     field_entry *tmpfld = nullptr;
 
+    Character &player_character = get_player_character();
     map &here = get_map();
     tripoint thep;
     thep.z = submap.z;
@@ -663,25 +666,25 @@ bool map::process_fields_in_submap( submap *const current_submap,
                             if( !valid.empty() ) {
                                 tripoint newp = random_entry( valid );
                                 add_item_or_charges( newp, tmp );
-                                if( g->u.pos() == newp ) {
+                                if( player_character.pos() == newp ) {
                                     add_msg( m_bad, _( "A %s hits you!" ), tmp.tname() );
-                                    const bodypart_id hit = g->u.get_random_body_part();
-                                    g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
-                                    g->u.check_dead_state();
+                                    const bodypart_id hit = player_character.get_random_body_part();
+                                    player_character.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
+                                    player_character.check_dead_state();
                                 }
 
                                 if( npc *const p = g->critter_at<npc>( newp ) ) {
                                     // TODO: combine with player character code above
-                                    const bodypart_id hit = g->u.get_random_body_part();
+                                    const bodypart_id hit = player_character.get_random_body_part();
                                     p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
-                                    if( g->u.sees( newp ) ) {
+                                    if( player_character.sees( newp ) ) {
                                         add_msg( _( "A %1$s hits %2$s!" ), tmp.tname(), p->name );
                                     }
                                     p->check_dead_state();
                                 } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
                                     mon->apply_damage( nullptr, bodypart_id( "torso" ),
                                                        6 - mon->get_armor_bash( bodypart_id( "torso" ) ) );
-                                    if( g->u.sees( newp ) ) {
+                                    if( player_character.sees( newp ) ) {
                                         add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                     }
                                     mon->check_dead_state();
@@ -781,12 +784,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         cur.set_field_intensity( 0 );
                     } else {
                         // Bees chase the player if in range, wander randomly otherwise.
-                        if( !g->u.is_underwater() &&
-                            rl_dist( p, g->u.pos() ) < 10 &&
-                            clear_path( p, g->u.pos(), 10, 1, 100 ) ) {
+                        if( !player_character.is_underwater() &&
+                            rl_dist( p, player_character.pos() ) < 10 &&
+                            clear_path( p, player_character.pos(), 10, 1, 100 ) ) {
 
                             std::vector<point> candidate_positions =
-                                squares_in_direction( p.xy(), point( g->u.posx(), g->u.posy() ) );
+                                squares_in_direction( p.xy(), player_character.pos().xy() );
                             for( const point &candidate_position : candidate_positions ) {
                                 field &target_field = get_field( tripoint( candidate_position, p.z ) );
                                 // Only shift if there are no bees already there.
@@ -880,7 +883,8 @@ bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p,
     field_entry *tmpfld = nullptr;
     cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
     // Entire objects for ter/frn for flags
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
+    const oter_id &cur_om_ter = overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs(
+                                    p ) ) ) );
     bool sheltered = g->is_sheltered( p );
     int winddirection = g->weather.winddirection;
     int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
@@ -1631,7 +1635,7 @@ void map::player_in_field( player &u )
                     int sum_cover = 0;
                     for( const item &i : u.worn ) {
                         if( i.covers( bp ) ) {
-                            sum_cover += i.get_coverage();
+                            sum_cover += i.get_coverage( bp );
                         }
                     }
                     // Get stung if [clothing on a body part isn't thick enough (like t-shirt) OR clothing covers less than 100% of body part]
@@ -1717,10 +1721,6 @@ void map::creature_in_field( Creature &critter )
         const field_type_id cur_field_id = cur_field_entry.get_field_type();
 
         for( const auto &fe : cur_field_entry.field_effects() ) {
-            // the field is decreased even if you are in a vehicle
-            if( cur_field_id->decrease_intensity_on_contact ) {
-                cur_field_entry.mod_field_intensity( -1 );
-            }
             if( in_vehicle && fe.immune_in_vehicle ) {
                 continue;
             }
@@ -1753,6 +1753,9 @@ void map::creature_in_field( Creature &critter )
             }
             if( effect_added ) {
                 critter.add_msg_player_or_npc( fe.env_message_type, fe.get_message(), fe.get_message_npc() );
+            }
+            if( cur_field_id->decrease_intensity_on_contact ) {
+                cur_field_entry.mod_field_intensity( -1 );
             }
         }
     }

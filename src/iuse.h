@@ -228,7 +228,7 @@ int disassemble( player *, item *, bool, const tripoint & );
 int artifact( player *, item *, bool, const tripoint & );
 
 // Helper functions for other iuse functions
-void cut_log_into_planks( player & );
+void cut_log_into_planks( Character & );
 void play_music( Character &p, const tripoint &source, int volume, int max_morale );
 int towel_common( Character *, item *, bool );
 
@@ -236,12 +236,12 @@ int towel_common( Character *, item *, bool );
 bool robotcontrol_can_target( player *, const monster & );
 
 // Helper for handling pesky wannabe-artists
-int handle_ground_graffiti( player &p, item *it, const std::string &prefix,
+int handle_ground_graffiti( Character &p, item *it, const std::string &prefix,
                             const tripoint &where );
 
 } // namespace iuse
 
-void remove_radio_mod( item &it, player &p );
+void remove_radio_mod( item &it, Character &p );
 
 // Helper for clothes washing
 struct washing_requirements {

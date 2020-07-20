@@ -24,7 +24,7 @@
       [ "hand_drill", 20 ],
       [ "nailgun", 100 ],
       [ "chisel", 10 ],
-      [ "toolbox", 12 ],
+      { "group": "tools_toolbox", "prob": 12 },
       [ "toolbox_workshop", 3 ],
       [ "sandpaper", 100 ]
     ]
@@ -40,7 +40,7 @@
       [ "elec_jackhammer", 40 ],
       [ "metal_smoother", 90 ],
       [ "jackhammer", 40 ],
-      [ "toolbox", 20 ],
+      { "group": "tools_toolbox", "prob": 20 },
       [ "toolbox_workshop", 5 ],
       [ "recharge_station", 10 ],
       [ "angle_grinder", 30 ]
@@ -75,6 +75,21 @@
       [ "sandpaper", 80 ],
       [ "rake", 15 ],
       [ "rake_plastic", 25 ]
+    ]
+  },
+  {
+    "id": "tools_toolbox",
+    "type": "item_group",
+    "//": "A typical toolbox filled with tools.",
+    "subtype": "collection",
+    "container-item": "toolbox_empty",
+    "items": [
+      [ "hammer", 80 ],
+      [ "screwdriver_set", 65 ],
+      [ "wrench", 75 ],
+      [ "funnel", 50 ],
+      [ "metal_file", 40 ],
+      [ "sandpaper", 65 ]
     ]
   },
   {
@@ -229,7 +244,7 @@
       { "group": "tools_common", "prob": 100 },
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_tailor", "prob": 50 },
-      [ "toolbox", 4 ],
+      { "group": "tools_toolbox", "prob": 4 },
       [ "toolbox_workshop", 1 ]
     ]
   },
@@ -459,7 +474,7 @@
       [ "light_battery_cell", 10 ],
       [ "goggles_welding", 20 ],
       [ "sm_extinguisher", 10 ],
-      [ "toolbox", 5 ],
+      { "group": "tools_toolbox", "prob": 5 },
       [ "tool_belt", 10 ],
       [ "clamp", 10 ],
       [ "wrench", 10 ]

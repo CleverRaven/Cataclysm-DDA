@@ -127,10 +127,14 @@ struct point {
 
 inline int divide_round_to_minus_infinity( int n, int d )
 {
+    // The NOLINT comments here are to suppress a clang-tidy warning that seems
+    // to be a clang-tidy bug.  I'd like to get rid of them if the bug is ever
+    // fixed.  The warning comes via a project_remain call in
+    // mission_companion.cpp.
     if( n >= 0 ) {
-        return n / d;
+        return n / d; // NOLINT(clang-analyzer-core.DivideZero)
     }
-    return ( n - d + 1 ) / d;
+    return ( n - d + 1 ) / d; // NOLINT(clang-analyzer-core.DivideZero)
 }
 
 inline point multiply_xy( const point &p, int f )
@@ -183,6 +187,9 @@ struct tripoint {
         y *= rhs;
         z *= rhs;
         return *this;
+    }
+    constexpr tripoint operator/( const int rhs ) const {
+        return tripoint( x / rhs, y / rhs, z / rhs );
     }
     /*** some point operators and functions ***/
     constexpr tripoint operator+( const point &rhs ) const {

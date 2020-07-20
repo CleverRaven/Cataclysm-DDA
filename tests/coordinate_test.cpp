@@ -12,7 +12,7 @@ static_assert( tripoint::dimension == 3, "" );
 static_assert( point_abs_omt::dimension == 2, "" );
 static_assert( tripoint_abs_omt::dimension == 3, "" );
 
-TEST_CASE( "coordinate_strings", "[coords]" )
+TEST_CASE( "coordinate_strings", "[point][coords]" )
 {
     CHECK( point_abs_omt( point( 3, 4 ) ).to_string() == "(3,4)" );
 
@@ -23,7 +23,7 @@ TEST_CASE( "coordinate_strings", "[coords]" )
     }
 }
 
-TEST_CASE( "coordinate_operations", "[coords]" )
+TEST_CASE( "coordinate_operations", "[point][coords]" )
 {
     SECTION( "construct_from_raw_point" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
@@ -43,13 +43,11 @@ TEST_CASE( "coordinate_operations", "[coords]" )
     SECTION( "construct_from_values" ) {
         tripoint p = GENERATE( take( num_trials, random_tripoints() ) );
         {
-            //NOLINTNEXTLINE(cata-use-point-apis)
             point_abs_ms cp( p.x, p.y );
             CHECK( cp.x() == p.x );
             CHECK( cp.y() == p.y );
         }
         {
-            //NOLINTNEXTLINE(cata-use-point-apis)
             tripoint_abs_ms cp( p.x, p.y, p.z );
             CHECK( cp.x() == p.x );
             CHECK( cp.y() == p.y );
@@ -141,7 +139,7 @@ TEST_CASE( "coordinate_operations", "[coords]" )
     }
 }
 
-TEST_CASE( "coordinate_comparison", "[coords]" )
+TEST_CASE( "coordinate_comparison", "[point][coords]" )
 {
     SECTION( "compare_points" ) {
         point p0 = GENERATE( take( num_trials, random_points() ) );
@@ -172,7 +170,7 @@ TEST_CASE( "coordinate_comparison", "[coords]" )
     }
 }
 
-TEST_CASE( "coordinate_hash", "[coords]" )
+TEST_CASE( "coordinate_hash", "[point][coords]" )
 {
     SECTION( "point_hash" ) {
         point p = GENERATE( take( num_trials, random_points() ) );
@@ -187,7 +185,7 @@ TEST_CASE( "coordinate_hash", "[coords]" )
     }
 }
 
-TEST_CASE( "coordinate_conversion_consistency", "[coords]" )
+TEST_CASE( "coordinate_conversion_consistency", "[point][coords]" )
 {
     // Verifies that the new coord_point-based conversions yield the same
     // results as the legacy conversion functions.
@@ -314,4 +312,71 @@ TEST_CASE( "coordinate_conversion_consistency", "[coords]" )
         tripoint old_conversion = omt_to_seg_copy( p );
         CHECK( old_conversion == new_conversion.raw() );
     }
+}
+
+TEST_CASE( "combine_is_opposite_of_remain", "[point][coords]" )
+{
+    SECTION( "point_point" ) {
+        point p = GENERATE( take( num_trials, random_points() ) );
+        CAPTURE( p );
+        point_abs_sm orig( p );
+        point_abs_om quotient;
+        point_om_sm remainder;
+        std::tie( quotient, remainder ) = project_remain<coords::om>( orig );
+        point_abs_sm recombined = project_combine( quotient, remainder );
+        CHECK( recombined == orig );
+    }
+    SECTION( "tripoint_point" ) {
+        tripoint p = GENERATE( take( num_trials, random_tripoints() ) );
+        CAPTURE( p );
+        tripoint_abs_sm orig( p );
+        tripoint_abs_om quotient;
+        point_om_sm remainder;
+        std::tie( quotient, remainder ) = project_remain<coords::om>( orig );
+        tripoint_abs_sm recombined = project_combine( quotient, remainder );
+        CHECK( recombined == orig );
+    }
+    SECTION( "point_tripoint" ) {
+        tripoint p = GENERATE( take( num_trials, random_tripoints() ) );
+        CAPTURE( p );
+        tripoint_abs_sm orig( p );
+        point_abs_om quotient;
+        tripoint_om_sm remainder;
+        std::tie( quotient, remainder ) = project_remain<coords::om>( orig );
+        tripoint_abs_sm recombined = project_combine( quotient, remainder );
+        CHECK( recombined == orig );
+    }
+}
+
+TEST_CASE( "coord_point_distances", "[point][coords]" )
+{
+    point_abs_omt p0;
+    point_abs_omt p1( 10, 10 );
+    tripoint_abs_omt t0;
+    tripoint_abs_omt t1( 10, 10, 10 );
+
+    SECTION( "square" ) {
+        CHECK( square_dist( p0, p1 ) == 10 );
+        CHECK( square_dist( t0, t1 ) == 10 );
+    }
+
+    SECTION( "trig" ) {
+        CHECK( trig_dist( p0, p1 ) == 14 ); // int(10*sqrt(2))
+        CHECK( trig_dist( t0, t1 ) == 17 ); // int(10*sqrt(3))
+    }
+
+    SECTION( "manhattan" ) {
+        CHECK( manhattan_dist( p0, p1 ) == 20 );
+    }
+}
+
+TEST_CASE( "coord_point_midpoint", "[point][coords]" )
+{
+    point_abs_omt p0( 2, 2 );
+    point_abs_omt p1( 8, 17 );
+    tripoint_abs_omt t0( 2, 2, 2 );
+    tripoint_abs_omt t1( 8, 17, 5 );
+
+    CHECK( midpoint( p0, p1 ) == point_abs_omt( 5, 9 ) );
+    CHECK( midpoint( t0, t1 ) == tripoint_abs_omt( 5, 9, 3 ) );
 }

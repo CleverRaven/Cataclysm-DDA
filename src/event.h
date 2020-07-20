@@ -58,6 +58,9 @@ enum class event_type : int {
     destroys_triffid_grove,
     dies_from_asthma_attack,
     dies_from_drug_overdose,
+    dies_from_bleeding,
+    dies_from_hypovolemia,
+    dies_from_redcells_loss,
     dies_of_infection,
     dies_of_starvation,
     dies_of_thirst,
@@ -158,7 +161,7 @@ struct event_spec_character_item {
     };
 };
 
-static_assert( static_cast<int>( event_type::num_event_types ) == 75,
+static_assert( static_cast<int>( event_type::num_event_types ) == 78,
                "This static_assert is to remind you to add a specialization for your new "
                "event_type below" );
 
@@ -384,6 +387,15 @@ struct event_spec<event_type::dies_from_drug_overdose> {
         }
     };
 };
+
+template<>
+struct event_spec<event_type::dies_from_bleeding> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::dies_from_hypovolemia> : event_spec_character {};
+
+template<>
+struct event_spec<event_type::dies_from_redcells_loss> : event_spec_character {};
 
 template<>
 struct event_spec<event_type::dies_of_infection> : event_spec_character {};

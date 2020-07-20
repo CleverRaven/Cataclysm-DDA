@@ -52,8 +52,6 @@ struct requirement_data;
 enum class recipe_filter_flags : int;
 struct itype;
 
-static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
-
 class recipe_subset;
 
 enum action_id : int;
@@ -373,13 +371,6 @@ class player : public Character
          */
         ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
 
-        /**
-         * Check player capable of wielding an item.
-         * @param it Thing to be wielded
-         */
-        ret_val<bool> can_wield( const item &it ) const;
-
-        bool unwield();
 
         /**
          * Attempt to mend an item (fix any current faults)
@@ -412,7 +403,11 @@ class player : public Character
           */
         bool add_or_drop_with_msg( item &it, bool unloading = false, const item *avoid = nullptr );
 
-        bool unload( item_location &loc );
+        /**
+         * Unload item.
+         * @param bypass_activity If item requires an activity for its unloading, unload item immediately instead.
+         */
+        bool unload( item_location &loc, bool bypass_activity = false );
 
         /**
          * Try to wield a contained item consuming moves proportional to weapon skill and volume.
@@ -458,8 +453,6 @@ class player : public Character
         void toolmod_add( item_location tool, item_location mod );
 
         bool fun_to_read( const item &book ) const;
-        /** Note that we've read a book at least once. **/
-        virtual bool has_identified( const itype_id &item_id ) const = 0;
 
         /** Handles sleep attempts by the player, starts ACT_TRY_SLEEP activity */
         void try_to_sleep( const time_duration &dur );
@@ -474,13 +467,6 @@ class player : public Character
         bool bio_soporific_powered_at_last_sleep_check;
 
     public:
-        /** Returns a value from 1.0 to 5.0 that acts as a multiplier
-         * for the time taken to perform tasks that require detail vision,
-         * above 4.0 means these activities cannot be performed.
-         * takes pos as a parameter so that remote spots can be judged
-         * if they will potentially have enough light when player gets there */
-        float fine_detail_vision_mod( const tripoint &p = tripoint_zero ) const;
-
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );
@@ -490,32 +476,18 @@ class player : public Character
         int kcal_speed_penalty() const;
         /** Returns the penalty to speed from thirst */
         static int thirst_speed_penalty( int thirst );
-        /** This handles giving xp for a skill */
-        void practice( const skill_id &id, int amount, int cap = 99, bool suppress_warning = false );
-        /** This handles warning the player that there current activity will not give them xp */
-        void handle_skill_warning( const skill_id &id, bool force_warning = false );
 
         void on_worn_item_transform( const item &old_it, const item &new_it );
 
-        /** Get the formatted name of the currently wielded item (if any) with current gun mode (if gun) */
-        std::string weapname() const;
-
         void process_items();
         /**
-         * Remove charges from a specific item (given by its item position).
+         * Remove charges from a specific item.
          * The item must exist and it must be counted by charges.
-         * @param position Item position of the item.
+         * @param it A pointer to the item, it *must* exist.
          * @param quantity The number of charges to remove, must not be larger than
          * the current charges of the item.
          * @return An item that contains the removed charges, it's effectively a
          * copy of the item with the proper charges.
-         */
-        item reduce_charges( int position, int quantity );
-        /**
-         * Remove charges from a specific item (given by a pointer to it).
-         * Otherwise identical to @ref reduce_charges(int,int)
-         * @param it A pointer to the item, it *must* exist.
-         * @param quantity How many charges to remove
          */
         item reduce_charges( item *it, int quantity );
 
@@ -531,146 +503,6 @@ class player : public Character
          */
         bool has_gun_for_ammo( const ammotype &at ) const;
         bool has_magazine_for_ammo( const ammotype &at ) const;
-
-        // Checks crafting inventory for books providing the requested recipe.
-        // Then checks nearby NPCs who could provide it too.
-        // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
-        int has_recipe( const recipe *r, const inventory &crafting_inv,
-                        const std::vector<npc *> &helpers ) const;
-        bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( const recipe *rec );
-        int exceeds_recipe_requirements( const recipe &rec ) const;
-        bool has_recipe_requirements( const recipe &rec ) const;
-        bool can_decomp_learn( const recipe &rec ) const;
-
-        bool studied_all_recipes( const itype &book ) const;
-
-        /** Returns all known recipes. */
-        const recipe_subset &get_learned_recipes() const;
-        /** Returns all recipes that are known from the books (either in inventory or nearby). */
-        recipe_subset get_recipes_from_books( const inventory &crafting_inv ) const;
-        /**
-          * Returns all available recipes (from books and npc companions)
-          * @param crafting_inv Current available items to craft
-          * @param helpers List of NPCs that could help with crafting.
-          */
-        recipe_subset get_available_recipes( const inventory &crafting_inv,
-                                             const std::vector<npc *> *helpers = nullptr ) const;
-        /**
-          * Returns the set of book types in crafting_inv that provide the
-          * given recipe.
-          * @param crafting_inv Current available items that may contain readable books
-          * @param r Recipe to search for in the available books
-          */
-        std::set<itype_id> get_books_for_recipe( const inventory &crafting_inv,
-                const recipe *r ) const;
-
-        // crafting.cpp
-        float morale_crafting_speed_multiplier( const recipe &rec ) const;
-        float lighting_craft_speed_multiplier( const recipe &rec ) const;
-        float crafting_speed_multiplier( const recipe &rec, bool in_progress = false ) const;
-        /** For use with in progress crafts */
-        float crafting_speed_multiplier( const item &craft, const tripoint &loc ) const;
-        int available_assistant_count( const recipe &rec ) const;
-        /**
-         * Time to craft not including speed multiplier
-         */
-        int base_time_to_craft( const recipe &rec, int batch_size = 1 ) const;
-        /**
-         * Expected time to craft a recipe, with assumption that multipliers stay constant.
-         */
-        int expected_time_to_craft( const recipe &rec, int batch_size = 1, bool in_progress = false ) const;
-        std::vector<const item *> get_eligible_containers_for_crafting() const;
-        bool check_eligible_containers_for_crafting( const recipe &rec, int batch_size = 1 ) const;
-        bool can_make( const recipe *r, int batch_size = 1 );  // have components?
-        /**
-         * Returns true if the player can start crafting the recipe with the given batch size
-         * The player is not required to have enough tool charges to finish crafting, only to
-         * complete the first step (total / 20 + total % 20 charges)
-         */
-        bool can_start_craft( const recipe *rec, recipe_filter_flags, int batch_size = 1 );
-        bool making_would_work( const recipe_id &id_to_make, int batch_size );
-
-        /**
-         * Start various types of crafts
-         * @param loc the location of the workbench. tripoint_zero indicates crafting from inventory.
-         */
-        void craft( const tripoint &loc = tripoint_zero );
-        void recraft( const tripoint &loc = tripoint_zero );
-        void long_craft( const tripoint &loc = tripoint_zero );
-        void make_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
-        void make_all_craft( const recipe_id &id, int batch_size, const tripoint &loc = tripoint_zero );
-        /** consume components and create an active, in progress craft containing them */
-        void start_craft( craft_command &command, const tripoint &loc );
-        /**
-         * Calculate a value representing the success of the player at crafting the given recipe,
-         * taking player skill, recipe difficulty, npc helpers, and player mutations into account.
-         * @param making the recipe for which to calculate
-         * @return a value >= 0.0 with >= 1.0 representing unequivocal success
-         */
-        double crafting_success_roll( const recipe &making ) const;
-        void complete_craft( item &craft, const tripoint &loc = tripoint_zero );
-        /**
-         * Check if the player meets the requirements to continue the in progress craft and if
-         * unable to continue print messages explaining the reason.
-         * If the craft is missing components due to messing up, prompt to consume new ones to
-         * allow the craft to be continued.
-         * @param craft the currently in progress craft
-         * @return if the craft can be continued
-         */
-        bool can_continue_craft( item &craft );
-        /** Returns nearby NPCs ready and willing to help with crafting. */
-        std::vector<npc *> get_crafting_helpers() const;
-        int get_num_crafting_helpers( int max ) const;
-        /**
-         * Handle skill gain for player and followers during crafting
-         * @param craft the currently in progress craft
-         * @param multiplier what factor to multiply the base skill gain by.  This is used to apply
-         * multiple steps of incremental skill gain simultaneously if needed.
-         */
-        void craft_skill_gain( const item &craft, const int &multiplier );
-        /**
-         * Check if the player can disassemble an item using the current crafting inventory
-         * @param obj Object to check for disassembly
-         * @param inv current crafting inventory
-         */
-        ret_val<bool> can_disassemble( const item &obj, const inventory &inv ) const;
-
-        bool disassemble();
-        bool disassemble( item_location target, bool interactive = true );
-        void disassemble_all( bool one_pass ); // Disassemble all items on the tile
-        void complete_disassemble();
-        void complete_disassemble( item_location &target, const recipe &dis );
-
-        const requirement_data *select_requirements(
-            const std::vector<const requirement_data *> &, int batch, const inventory &,
-            const std::function<bool( const item & )> &filter ) const;
-        comp_selection<item_comp>
-        select_item_component( const std::vector<item_comp> &components,
-                               int batch, inventory &map_inv, bool can_cancel = false,
-                               const std::function<bool( const item & )> &filter = return_true<item>, bool player_inv = true );
-        std::list<item> consume_items( const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true<item> );
-        std::list<item> consume_items( map &m, const comp_selection<item_comp> &is, int batch,
-                                       const std::function<bool( const item & )> &filter = return_true<item>,
-                                       const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE );
-        std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1,
-                                       const std::function<bool( const item & )> &filter = return_true<item> );
-        comp_selection<tool_comp>
-        select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
-                               const std::string &hotkeys = DEFAULT_HOTKEYS,
-                               bool can_cancel = false, bool player_inv = true,
-        std::function<int( int )> charges_required_modifier = []( int i ) {
-            return i;
-        } );
-        /** Consume tools for the next multiplier * 5% progress of the craft */
-        bool craft_consume_tools( item &craft, int mulitplier, bool start_craft );
-        void consume_tools( const comp_selection<tool_comp> &tool, int batch );
-        void consume_tools( map &m, const comp_selection<tool_comp> &tool, int batch,
-                            const tripoint &origin = tripoint_zero, int radius = PICKUP_RANGE,
-                            basecamp *bcp = nullptr );
-        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
-                            const std::string &hotkeys = DEFAULT_HOTKEYS );
 
         // ---------------VALUES-----------------
         tripoint view_offset;
@@ -693,14 +525,6 @@ class player : public Character
         bool manual_examine = false;
         vproto_id starting_vehicle;
         std::vector<mtype_id> starting_pets;
-
-        void make_craft_with_command( const recipe_id &id_to_make, int batch_size, bool is_long = false,
-                                      const tripoint &loc = tripoint_zero );
-        pimpl<craft_command> last_craft;
-
-        recipe_id lastrecipe;
-        int last_batch;
-        itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
         std::set<character_id> follower_ids;
         void mod_stat( const std::string &stat, float modifier ) override;
@@ -740,8 +564,6 @@ class player : public Character
          */
         void disarm( npc &target );
 
-        std::set<tripoint> camps;
-
     protected:
 
         void store( JsonOut &json ) const;
@@ -755,13 +577,5 @@ class player : public Character
         /** warnings from a faction about bad behavior */
         std::map<faction_id, std::pair<int, time_point>> warning_record;
 
-    protected:
-
-        /** Subset of learned recipes. Needs to be mutable for lazy initialization. */
-        mutable pimpl<recipe_subset> learned_recipes;
-
-        /** Stamp of skills. @ref learned_recipes are valid only with this set of skills. */
-        mutable decltype( _skills ) valid_autolearn_skills;
 };
-
 #endif // CATA_SRC_PLAYER_H

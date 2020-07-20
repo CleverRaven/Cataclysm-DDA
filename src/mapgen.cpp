@@ -129,7 +129,8 @@ void map::generate( const tripoint &p, const time_point &when )
         }
     }
     // x, and y are submap coordinates, convert to overmap terrain coordinates
-    tripoint abs_omt = sm_to_omt_copy( p );
+    // TODO: fix point types
+    tripoint_abs_omt abs_omt( sm_to_omt_copy( p ) );
     oter_id terrain_type = overmap_buffer.ter( abs_omt );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
@@ -935,7 +936,8 @@ class jmapgen_sign : public jmapgen_piece
 
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
-                const city *c = overmap_buffer.closest_city( abs_sub ).city;
+                // TODO: fix point types
+                const city *c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) ).city;
                 if( c != nullptr ) {
                     cityname = c->name;
                 }
@@ -986,7 +988,8 @@ class jmapgen_graffiti : public jmapgen_piece
 
                 std::string cityname = "illegible city name";
                 tripoint abs_sub = dat.m.get_abs_sub();
-                const city *c = overmap_buffer.closest_city( abs_sub ).city;
+                // TODO: fix point types
+                const city *c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) ).city;
                 if( c != nullptr ) {
                     cityname = c->name;
                 }
@@ -1559,8 +1562,7 @@ class jmapgen_computer : public jmapgen_piece
         }
         void apply( mapgendata &dat, const jmapgen_int &x, const jmapgen_int &y ) const override {
             const point r( x.get(), y.get() );
-            dat.m.ter_set( r, t_console );
-            dat.m.furn_set( r, f_null );
+            dat.m.furn_set( r, furn_str_id( "f_console" ) );
             computer *cpu = dat.m.add_computer( tripoint( r, dat.m.get_abs_sub().z ), name.translated(),
                                                 security );
             for( const auto &opt : options ) {
@@ -4373,7 +4375,7 @@ void map::draw_lab( mapgendata &dat )
                     line( this, t_reinforced_glass, point( SEEX - 2, SEEY - 1 ), point( SEEX - 2, SEEY ) );
                     line( this, t_reinforced_glass, point( SEEX + 1, SEEY - 1 ), point( SEEX + 1, SEEY ) );
                     spawn_item( point( SEEX - 4, SEEY - 3 ), "id_science" );
-                    ter_set( point( SEEX - 3, SEEY - 3 ), t_console );
+                    furn_set( point( SEEX - 3, SEEY - 3 ), furn_str_id( "f_console" ) );
                     tmpcomp = add_computer( tripoint( SEEX - 3,  SEEY - 3, abs_sub.z ),
                                             _( "Bionic access" ), 3 );
                     tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
@@ -4682,8 +4684,10 @@ void map::draw_temple( mapgendata &dat )
         square( this, t_rock_floor, point( SEEX - 1, 1 ), point( SEEX + 2, 4 ) );
         square( this, t_rock_floor, point( SEEX, 5 ), point( SEEX + 1, SOUTH_EDGE ) );
         line( this, t_stairs_up, point( SEEX, SOUTH_EDGE ), point( SEEX + 1, SOUTH_EDGE ) );
-        spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z ) );
-        spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z ) );
+        spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z ),
+                        relic_procgen_id( "cult" ) );
+        spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( 2, 3 ), abs_sub.z ),
+                        relic_procgen_id( "cult" ) );
         return;
 
     }
@@ -5088,7 +5092,8 @@ void map::draw_mine( mapgendata &dat )
                                  calendar::start_of_cataclysm );
                 }
                 place_spawns( GROUP_DOG_THING, 1, point( SEEX, SEEX ), point( SEEX + 1, SEEX + 1 ), 1, true, true );
-                spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ) );
+                spawn_artifact( tripoint( rng( SEEX, SEEX + 1 ), rng( SEEY, SEEY + 1 ), abs_sub.z ),
+                                relic_procgen_id( "netherum_tunnels" ) );
             }
             break;
 
@@ -5133,7 +5138,7 @@ void map::draw_mine( mapgendata &dat )
                         break;
                 }
 
-                ter_set( point( SEEX, SEEY ), t_console );
+                furn_set( point( SEEX, SEEY ), furn_str_id( "f_console" ) );
                 tmpcomp = add_computer( tripoint( SEEX,  SEEY, abs_sub.z ), _( "NEPowerOS" ), 0 );
                 tmpcomp->add_option( _( "Read Logs" ), COMPACT_AMIGARA_LOG, 0 );
                 tmpcomp->add_option( _( "Initiate Tremors" ), COMPACT_AMIGARA_START, 4 );
@@ -5593,7 +5598,8 @@ void map::place_spawns( const mongroup_id &group, const int chance,
                         const bool individual, const bool friendly, const std::string &name, const int mission_id )
 {
     if( !group.is_valid() ) {
-        const tripoint omt = sm_to_omt_copy( get_abs_sub() );
+        // TODO: fix point types
+        const tripoint_abs_omt omt( sm_to_omt_copy( get_abs_sub() ) );
         const oter_id &oid = overmap_buffer.ter( omt );
         debugmsg( "place_spawns: invalid mongroup '%s', om_terrain = '%s' (%s)", group.c_str(),
                   oid.id().c_str(), oid->get_mapgen_id().c_str() );
@@ -5716,7 +5722,8 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
         return res;
     }
     if( !item_group::group_is_defined( loc ) ) {
-        const tripoint omt = sm_to_omt_copy( get_abs_sub() );
+        // TODO: fix point types
+        const tripoint_abs_omt omt( sm_to_omt_copy( get_abs_sub() ) );
         const oter_id &oid = overmap_buffer.ter( omt );
         debugmsg( "place_items: invalid item group '%s', om_terrain = '%s' (%s)",
                   loc.c_str(), oid.id().c_str(), oid->get_mapgen_id().c_str() );
@@ -5985,7 +5992,7 @@ std::unique_ptr<vehicle> map::add_vehicle_to_map(
 computer *map::add_computer( const tripoint &p, const std::string &name, int security )
 {
     // TODO: Turn this off?
-    ter_set( p, t_console );
+    furn_set( p, furn_str_id( "f_console" ) );
     point l;
     submap *const place_on_submap = get_submap_at( p, l );
     place_on_submap->set_computer( l, computer( name, security ) );
@@ -6013,8 +6020,9 @@ void map::rotate( int turns, const bool setpos_safe )
     // TODO: This radius can be smaller - how small?
     const int radius = HALF_MAPSIZE + 3;
     // uses submap coordinates
-    const std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near( abs_sub,
-                                         radius );
+    // TODO: fix point types
+    const std::vector<shared_ptr_fast<npc>> npcs =
+            overmap_buffer.get_npcs_near( tripoint_abs_sm( abs_sub ), radius );
     for( const shared_ptr_fast<npc> &i : npcs ) {
         npc &np = *i;
         const tripoint sq = np.global_square_location();
@@ -6369,7 +6377,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
                                 calendar::start_of_cataclysm );
 
-                m->ter_set( point( biox, bioy + 2 ), t_console );
+                m->furn_set( point( biox, bioy + 2 ), furn_str_id( "f_console" ) );
                 computer *tmpcomp = m->add_computer( tripoint( biox,  bioy + 2, z ), _( "Bionic access" ), 2 );
                 tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6388,7 +6396,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
                                 calendar::start_of_cataclysm );
 
-                m->ter_set( point( biox, bioy - 2 ), t_console );
+                m->furn_set( point( biox, bioy - 2 ), furn_str_id( "f_console" ) );
                 computer *tmpcomp2 = m->add_computer( tripoint( biox,  bioy - 2, z ), _( "Bionic access" ), 2 );
                 tmpcomp2->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp2->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6408,7 +6416,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false,
                                 calendar::start_of_cataclysm );
 
-                m->ter_set( point( biox + 2, bioy ), t_console );
+                m->furn_set( point( biox + 2, bioy ), furn_str_id( "f_console" ) );
                 computer *tmpcomp = m->add_computer( tripoint( biox + 2,  bioy, z ), _( "Bionic access" ), 2 );
                 tmpcomp->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6426,7 +6434,7 @@ void science_room( map *m, const point &p1, const point &p2, int z, int rotate )
                                             mapf::furn_bind( "c", f_counter ) );
                 m->place_items( "bionics_common", 70, point( biox, bioy ), point( biox, bioy ), false, 0 );
 
-                m->ter_set( point( biox - 2, bioy ), t_console );
+                m->furn_set( point( biox - 2, bioy ), furn_str_id( "f_console" ) );
                 computer *tmpcomp2 = m->add_computer( tripoint( biox - 2,  bioy, z ), _( "Bionic access" ), 2 );
                 tmpcomp2->add_option( _( "Manifest" ), COMPACT_LIST_BIONICS, 0 );
                 tmpcomp2->add_option( _( "Open Chambers" ), COMPACT_RELEASE_BIONICS, 3 );
@@ -6574,7 +6582,7 @@ void build_mine_room( room_type type, const point &p1, const point &p2, mapgenda
     // Main build switch!
     switch( type ) {
         case room_mine_shaft: {
-            m->ter_set( p1 + point_south_east, t_console );
+            m->furn_set( p1 + point_south_east, furn_str_id( "f_console" ) );
             line( m, t_wall, point( p2.x - 2, p1.y + 2 ), point( p2.x - 1, p1.y + 2 ) );
             m->ter_set( point( p2.x - 2, p1.y + 1 ), t_elevator );
             m->ter_set( point( p2.x - 1, p1.y + 1 ), t_elevator_control_off );
@@ -6913,7 +6921,7 @@ bool update_mapgen_function_json::setup_internal( const JsonObject &/*jo*/ )
     return true;
 }
 
-bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const point &offset,
+bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, const point &offset,
         mission *miss, bool verify ) const
 {
     if( omt_pos == overmap::invalid_tripoint ) {
@@ -6921,7 +6929,8 @@ bool update_mapgen_function_json::update_map( const tripoint &omt_pos, const poi
         return false;
     }
     tinymap update_tmap;
-    const tripoint sm_pos = omt_to_sm_copy( omt_pos );
+    // TODO: fix point types
+    const tripoint sm_pos = project_to<coords::scale::submap>( omt_pos ).raw();
     update_tmap.load( sm_pos, true );
 
     mapgendata md( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );
@@ -6978,7 +6987,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
 {
     if( jo.has_string( "mapgen_update_id" ) ) {
         const std::string mapgen_update_id = jo.get_string( "mapgen_update_id" );
-        const auto update_function = [mapgen_update_id]( const tripoint & omt_pos,
+        const auto update_function = [mapgen_update_id]( const tripoint_abs_omt & omt_pos,
         mission * miss ) {
             run_mapgen_update_func( mapgen_update_id, omt_pos, miss, false );
         };
@@ -6988,11 +6997,11 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
     update_mapgen_function_json json_data( "" );
     mapgen_defer::defer = defer;
     if( !json_data.setup_update( jo ) ) {
-        const auto null_function = []( const tripoint &, mission * ) {
+        const auto null_function = []( const tripoint_abs_omt &, mission * ) {
         };
         return null_function;
     }
-    const auto update_function = [json_data]( const tripoint & omt_pos, mission * miss ) {
+    const auto update_function = [json_data]( const tripoint_abs_omt & omt_pos, mission * miss ) {
         json_data.update_map( omt_pos, point_zero, miss );
     };
     defer = mapgen_defer::defer;
@@ -7000,7 +7009,7 @@ mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer )
     return update_function;
 }
 
-bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,
+bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint_abs_omt &omt_pos,
                              mission *miss, bool cancel_on_collision )
 {
     const auto update_function = update_mapgen.find( update_mapgen_id );

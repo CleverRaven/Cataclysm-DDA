@@ -866,7 +866,7 @@ double vehicle::engine_cold_factor( const int e ) const
         return 0.0;
     }
 
-    int eff_temp = g->weather.get_temperature( get_player_character().pos() );
+    int eff_temp = get_weather().get_temperature( get_player_character().pos() );
     if( !parts[ engines[ e ] ].faults().count( fault_engine_glow_plug ) ) {
         eff_temp = std::min( eff_temp, 20 );
     }
@@ -1878,6 +1878,7 @@ void vehicle::use_bike_rack( int part )
     }
     if( success ) {
         get_map().invalidate_map_cache( g->get_levz() );
+        get_map().reset_vehicle_cache( g->get_levz() );
     }
 }
 
@@ -2148,7 +2149,7 @@ void vehicle::interact_with( const tripoint &pos, int interact_part )
         }
         case UNLOAD_TURRET: {
             item_location loc = turret.base();
-            g->unload( loc );
+            player_character.unload( loc );
             return;
         }
         case RELOAD_TURRET: {

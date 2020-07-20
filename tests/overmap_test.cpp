@@ -16,7 +16,7 @@
 
 TEST_CASE( "set_and_get_overmap_scents" )
 {
-    std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_zero );
+    std::unique_ptr<overmap> test_overmap = std::make_unique<overmap>( point_abs_om() );
 
     // By default there are no scents set.
     for( int x = 0; x < 180; ++x ) {
@@ -36,7 +36,7 @@ TEST_CASE( "set_and_get_overmap_scents" )
 TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
 {
     int overmaps_to_construct = 10;
-    for( const point &candidate_addr : closest_points_first( point_zero, 10 ) ) {
+    for( const point_abs_om &candidate_addr : closest_points_first( point_abs_om(), 10 ) ) {
         // Skip populated overmaps.
         if( overmap_buffer.has( candidate_addr ) ) {
             continue;
@@ -57,7 +57,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
 
 TEST_CASE( "default_overmap_generation_has_non_mandatory_specials_at_origin", "[slow]" )
 {
-    const point origin{};
+    const point_abs_om origin{};
 
     overmap_special mandatory;
     overmap_special optional;

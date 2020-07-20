@@ -132,6 +132,8 @@ struct body_part_type {
 
         bool is_limb = false;
 
+        int drench_max;
+
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
@@ -200,6 +202,12 @@ class bodypart
         int hp_cur;
         int hp_max;
 
+        int drench_capacity;
+        int wetness = 0;
+        int temp_cur = 5000; // BODYTEMP_NORM = 5000
+        int temp_conv = 5000;
+        int frostbite_timer = 0;
+
         int healed_total = 0;
         int damage_bandaged = 0;
         int damage_disinfected = 0;
@@ -207,19 +215,27 @@ class bodypart
         encumbrance_data encumb_data;
 
     public:
-        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
-        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp )  {}
+        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ), drench_capacity( 1 ) {}
+        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
+            drench_capacity( id->drench_max )  {}
 
         bodypart_id get_id() const;
 
         void set_hp_to_max();
         bool is_at_max_hp() const;
 
+        float get_wetness_percentage() const;
+
         int get_hp_cur() const;
         int get_hp_max() const;
         int get_healed_total() const;
         int get_damage_bandaged() const;
         int get_damage_disinfected() const;
+        int get_drench_capacity() const;
+        int get_wetness() const;
+        int get_frotbite_timer() const;
+        int get_temp_cur() const;
+        int get_temp_conv() const;
 
         encumbrance_data get_encumbrance_data() const;
 
@@ -228,6 +244,11 @@ class bodypart
         void set_healed_total( int set );
         void set_damage_bandaged( int set );
         void set_damage_disinfected( int set );
+        void set_wetness( int set );
+        void set_drench_capacity( int set );
+        void set_temp_cur( int set );
+        void set_temp_conv( int set );
+        void set_frostbite_timer( int set );
 
         void set_encumbrance_data( encumbrance_data set );
 
@@ -236,6 +257,10 @@ class bodypart
         void mod_healed_total( int mod );
         void mod_damage_bandaged( int mod );
         void mod_damage_disinfected( int mod );
+        void mod_wetness( int mod );
+        void mod_temp_cur( int mod );
+        void mod_temp_conv( int mod );
+        void mod_frostbite_timer( int mod );
 
         void serialize( JsonOut &json ) const;
         void deserialize( JsonIn &jsin );
@@ -259,7 +284,7 @@ class body_part_set
         body_part_set unify_set( const body_part_set &rhs );
         body_part_set intersect_set( const body_part_set &rhs );
 
-        body_part_set make_intersection( const body_part_set &rhs );
+        body_part_set make_intersection( const body_part_set &rhs ) const;
         body_part_set substract_set( const body_part_set &rhs );
 
         void fill( const std::vector<bodypart_id> &bps );
@@ -283,6 +308,18 @@ class body_part_set
             return parts.size();
         }
 
+        cata::flat_set<bodypart_str_id>::iterator begin() const {
+            return parts.begin();
+        }
+
+        cata::flat_set<bodypart_str_id>::iterator end() const {
+            return parts.end();
+        }
+
+        void clear() {
+            parts.clear();
+        }
+
         template<typename Stream>
         void serialize( Stream &s ) const {
             s.write( parts );
@@ -292,6 +329,9 @@ class body_part_set
             s.read( parts );
         }
 };
+
+// Returns if passed string is legacy bodypart (i.e "TORSO", not "torso")
+bool is_legacy_bodypart_id( const std::string &id );
 
 /** Returns the new id for old token */
 const bodypart_str_id &convert_bp( body_part bp );

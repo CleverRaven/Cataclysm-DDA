@@ -129,7 +129,7 @@ static void test_throwing_player_versus(
             }
         }
         g->remove_zombie( mon );
-        p.i_rem( -1 );
+        p.remove_weapon();
         // only need to check dmg_thresh_met because it can only be true if
         // hit_thresh_met first
     } while( !dmg_thresh_met && data.hits.n() < max_throws );
@@ -279,7 +279,7 @@ static void test_player_kills_monster(
             while( p.get_moves() > 0 ) {
                 p.wield( it );
                 p.throw_item( mon.pos(), it );
-                p.i_rem( -1 );
+                p.remove_weapon();
                 ++num_items;
             }
             mon_is_dead = mon.is_dead();

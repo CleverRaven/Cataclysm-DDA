@@ -356,5 +356,20 @@
     "color": "light_blue",
     "see_cost": 2,
     "mondensity": 2
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "sealab_small_surface",
+      "sealab_small_-1",
+      "sealab_small_-2",
+      "sealab_small_-3",
+      "sealab_small_-4",
+      "sealab_small_-5"
+    ],
+    "name": "freshwater research station",
+    "sym": "~",
+    "color": "yellow",
+    "see_cost": 1
   }
 ]
