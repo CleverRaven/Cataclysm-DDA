@@ -1,0 +1,20 @@
+[
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_weapons_melee_axe",
+    "entries": [ { "item": "fire_axe", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_weapons_melee_pipe",
+    "entries": [ { "item": "pipe", "prob": 20 } ]
+  },
+  {
+    "type": "item_group",
+    "subtype": "collection",
+    "id": "feral_weapons_melee_crowbar",
+    "entries": [ { "item": "crowbar", "prob": 20 } ]
+  }
+]
