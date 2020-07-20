@@ -265,14 +265,10 @@
     "id": "tornskin_pain",
     "name": [ "Sharp Thorns" ],
     "desc": [ "Thorns are whirling around you, regularly causing cuts into you." ],
-	"apply_message": "Thorns in the wind begin slicing into you!",
+    "apply_message": "Thorns in the wind begin slicing into you!",
     "remove_message": "The thorns fall to the ground.",
     "rating": "bad",
     "max_duration": "12 s",
-    "base_mods": {
-      "pain_min": [ 1 ],
-      "pain_chance": [ 6 ],
-	  "speed_mod": [ -1 ]
-    }
+    "base_mods": { "pain_min": [ 1 ], "pain_chance": [ 6 ], "speed_mod": [ -1 ] }
   }
 ]
