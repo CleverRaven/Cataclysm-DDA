@@ -232,55 +232,40 @@ You can add a "spell" member to professions or an NPC class definition like so:
 
 NOTE: This makes it possible to learn spells that conflict with a class. It also does not give the prompt to gain the class. Be judicious upon adding this to a profession!
 
-
-#### Monsters
-
-You can assign a spell as a special attack for a monster.
-
-```json
-{ "type": "spell", "spell_id": "burning_hands", "spell_level": 10, "cooldown": 10 }
-```
-
-* spell_id: the id for the spell being cast.
-* spell_level: the level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
-* cooldown: how often the monster can cast this spell
-
-### Monster spells examples
+### Spell examples
 
 Below you can see the proper examples of monster spells - most common types and even some advanced ones:
 
-```
 Spell types:
 
 1) Summon:
+```
     {
     "type": "SPELL",
     "id": "test_summon",                                       // id of the spell, used internally. not translated
     "name": "Summon",                                          // name of the spell that shows in game
     "description": "Summons the creature specified in 'effect_str'",
-    "flags": [ "SILENT", "HOSTILE_SUMMON", "RANDOM_TARGET" ],  // see "Spell Flags" in this document
+    "flags": [ "SILENT", "HOSTILE_SUMMON" ],  // see "Spell Flags" in this document
     "valid_targets": [ "ground" ],                             // if a valid target is not included, you cannot cast the spell on that target.
-	
-	"note": " `RANDOM_TARGET` flag+ `ground` in `valid_targets` allows spawning the summoned creature in absolutely any random point on the surface.This is also done to prevent AOE explosion effect, thus hampering the performance of the game",
-	
-    "min_damage": 1,                                           // minimum damage (or "starting" damage)
-    "max_damage": 1,                                           // maximum damage the spell can achieve
-    "min_range": 3,                                            // range of the spell
-    "max_range": 3,
+    "min_damage": 1,                                           // minimum number of creatures summoned (or "starting" number of creatures summoned)
+    "max_damage": 1,                                           // maximum number of creatures summoned the spell can achieve
+    "min_aoe": 3,                                            // area of effect of the spell, in this case the area the summons can appear in
+    "max_aoe": 3,
     "effect": "summon",                                        // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "effect_str": "mon_test_monster",                          // varies, see table of implemented effects in this document
     "min_duration": 6250,                                      // duration of spell effect (if the spell has a special effect)
     "max_duration": 6250
-  } ;
+  }
+  ```
 2) Typical attack:
+```
     {
     "id": "test_attack",                                     // id of the spell, used internally. not translated
     "type": "SPELL",
     "name": "Ranged Strike",                                 // name of the spell that shows in game
     "description": "Deals damage to the target with 100% accuracy. Will always apply the status effect specified in 'effect_str'.",
     "valid_targets": [ "ground", "hostile" ],                // if a valid target is not included, you cannot cast the spell on that target.
-    "note": "Uses both `ground` and `hostile` in `valid_targets` as well for better efficiency",
-    "effect": "projectile_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
+     "effect": "projectile_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "effect_str": "stunned",                                 // varies, see table of implemented effects in this document
     "min_damage": 10,                                        // minimum damage (or "starting" damage)
     "max_damage": 20,                                        // maximum damage the spell can achieve 
@@ -291,20 +276,22 @@ Spell types:
     "max_duration": 300,
     "damage_type": "stab"                                    // type of damage
   } ;
+  ```
+  note: Uses both `ground` and `hostile` in `valid_targets` as well so it can be targeted in an area with no line of sight
+   
+
 3) Consecutively cast spells:
+```
     {
     "id": "test_combo",                                        // id of the spell, used internally. not translated
     "type": "SPELL",
     "name": "Combo Strikes",                                   // name of the spell that shows in game                              
     "description": "Upon casting this spell, will also activate the spells specified on the 'extra_effects' in descending order.",
-    "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_AOE" ],      // Notice, `WONDER` flag is not here, also, see "Spell Flags" in this document     
+    "flags": [ "SILENT", "RANDOM_DAMAGE", "RANDOM_AOE" ],      // see "Spell Flags" in this document
     "valid_targets": [ "hostile", "ground" ],                  // if a valid target is not included, you cannot cast the spell on that target. 
     "effect": "projectile_attack",                             // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "effect_str": "downed",                                    // varies, see table of implemented effects in this document
     "extra_effects": [ { "id": "test_atk1" }, { "id": "test_atk2" } ],               // this allows you to cast multiple spells with only one spell
-	
-	"note": "If you put two or more spells in `extra_effects` WITHOUT `WONDER` flag, it will simply cast all the spells consecutively - first spell in `extra_effects`, second in `extra_effects`, third in `extra_effects` and etc",
-	
     "min_damage": 7,                                         // minimum damage (or "starting" damage)
     "max_damage": 14,                                        // maximum  damage the spell can achieve
     "min_aoe": 2,                                            // area of effect
@@ -316,16 +303,17 @@ Spell types:
     "max_duration": 325,
     "damage_type": "stab"                                    // type of damage
   } ;
+  ```
+  note: If you put two or more spells in `extra_effects`, it will simply cast all the spells consecutively - first spell in `extra_effects`, second in `extra_effects`, third in `extra_effects` and etc. if you wish to pick one randomly, use the `WONDER` flag. Additionally, the extra spells will be cast at a level up to the level of the parent spell being cast, unless additional data is added to the fake_spell.
+
 4) Randomly cast spells:
+```
   {
     "id": "test_starter_spell",                              // id of the spell, used internally. not translated
     "type": "SPELL",
     "name": "Starter",                                       // name of the spell that shows in game
     "description": "Upon casting this spell, randomly selects one spell specified in'extra_effects' to cast. This spell's damage counts how many times it will randomly select from the list",
     "flags": [ "SILENT", "WONDER", "RANDOM_DAMAGE" ],        // see "Spell Flags" in this document
-	
-	"note": " `WONDER` flag does wonders here (hehehe, a pun), it works as a dice emulator IF AND ONLY IF there are more than 1 spells specified in `extra_effects` - it basically picks one out of these spells (IT CANNOT FAIL, it will ALWAYS pick ONE RANDDOM spell if there are multiple spells specified in `extra_effects`), the amount of `rolls` of this dice are specified via `min_damage` and `max_damage` with the help of `RANDOM_DAMAGE` flag of course - in this example, this spell will be repeated MINIMUM 3 times and MAXIMUM 5 times thus it will ALWAYS be cast 3-5 times",
-	
     "valid_targets": [ "hostile" ],                          // if a valid target is not included, you cannot cast the spell on that target.
     "effect": "projectile_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "extra_effects": [                                       // this allows you to cast multiple spells with only one spell
@@ -340,8 +328,12 @@ Spell types:
     "max_damage": 5,                                         // maximum damage the spell can achieve
     "min_range": 10,                                         // range of the spell
     "max_range": 10
-  } ;
-5) Repeatedly cast same spell:
+  }
+  ```
+  note: `WONDER` flag does wonders here, it works as a dice emulator. It picks one out of these spells (It cannot fail, it will always pick a minimum of one random spell), the amount of `rolls` of this dice are specified via `min_damage` and `max_damage` with the help of `RANDOM_DAMAGE` flag of course - in this example, this spell will be repeated minimum 3 times and maximum 5 times thus it will always be cast 3-5 times. There must be a minimum of one spell in `extra_effects` for wonder to work properly.
+
+5) Repeatedly cast the same spell:
+```
 	{
     "type": "SPELL",
     "id": "test_attack_repeat",                         // id of the spell, used internally. not translated
@@ -349,9 +341,6 @@ Spell types:
     "description": "Upon casting this spell it will repeat the spell specified in `extra_effects` - the amount of repetitions is the interval `min_damage`-`max_damage` ",
     "extra_effects": [ { "id": "test_attack" } ],       // this allows you to cast multiple spells with only one spell
     "flags": [ "SILENT", "WONDER", "RANDOM_DAMAGE" ],   // see "Spell Flags" in this document
-	
-	"note": "Notice how we have `WONDER`, `RANDOM_DAMAGE` combo again - we have `min_damage` set to 5, `max_damage` set to 7 so that means that the `dice` will `roll` 5-7 times, BUT THIS TIME we have ONLY ONE SPELL in `extra_effects`, considering that `WONDER` has 100% chance of picking a spell if there is only 1 spell in `extra_effets`, it will SIMPLY REPEAT CASTING THE SPELL 5-7 times, oh and `valid_targets` is [ `hostile` ], though it's just something to note",
-	
     "valid_targets": [ "hostile" ],                     // if a valid target is not included, you cannot cast the spell on that target.
     "effect": "target_attack",                          // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "effect_str": "target_message",                     // varies, see table of implemented effects in this document
@@ -361,116 +350,43 @@ Spell types:
     "max_range": 10,
     "min_duration": 1,                                  // duration of spell effect (if the spell has a special effect)
     "max_duration": 1
-  } ;
-6) Nested spells with proper notice about casted spell's result:
-    {
-    "id": "test_note",                                   // id of the spell, used internally. not translated
-    "type": "SPELL",
-    "name": "Note",                                      // name of the spell that shows in game
-    "description": "This spell applies a harmless status effect to notify the player about the spell that the user has casted.",
-    "flags": [ "SILENT" ],                               // see "Spell Flags" in this document
-    "valid_targets": [ "hostile" ],                      // if a valid target is not included, you cannot cast the spell on that target.
-    "effect": "target_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
-    "extra_effects": [ { "id": "test_atk1" } ],          // this allows you to cast multiple spells with only one spell
-    "effect_str": "eff_test_note",
-    
-    "note": "You need to make a new status effect with `apply_message` which describes the casted spell to the player, then insert it to the `effect_str` of the spell",
-    
-    "min_aoe": 69,                                       // area of effect
-    "max_aoe": 69,
-    "min_duration": 1,                                   // duration of spell effect (if the spell has a special effect)
-    "max_duration": 1
-  } ;
-7) "hit_self" use in spells:
+  }
+  ```
+  note: Notice how we have `WONDER`, `RANDOM_DAMAGE` combo again - we have `min_damage` set to 5, `max_damage` set to 7. so that means that the `dice` will `roll` 5-7 times, but this time we have only one spell in `extra_effects`. observe that `WONDER` has a 100% chance of picking a spell if there is only 1 spell in `extra_effets`, thus it will repeat the same spell 5-7 times.
+
+6) A spell that casts a note on a target and an effect on itself:
+```
 	{
     "id": "test_attack_note",                            // id of the spell, used internally. not translated
     "type": "SPELL",
     "name": "a note",                                    // name of the spell that shows in game
-    "description": "This spell applies a harmless status effect to notify the player about the spell that the user has casted.",
+    "description": "This spell applies a harmless status effect to notify the player about the spell that the user has cast.",
     "flags": [ "SILENT" ],                               // see "Spell Flags" in this document
     "valid_targets": [ "hostile" ],                      // if a valid target is not included, you cannot cast the spell on that target.
     "effect": "target_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "extra_effects": [ { "id": "sacrifice_spell", "hit_self": true }, { "id": "test_attack" } ],     // this allows you to cast multiple spells with only one spell
     "effect_str": "eff_test_note",                       // varies, see table of implemented effects in this document
-	
-	"note": "Look at the code above - here we have to use one spell on the monster itself and the other on hostile target aka player or hostile faction monsters, in order to make the monster cast some spell on itself - you must specify the `id` of whatever spell you're using and write near it in the same brackets `hit_self`: true, the second spell will affect only the hostile to monster target aka the player or hostile faction monster
-	NOTE: This is used ONLY if we are dealing with 2 or more spells which separately affect monster itself and the hostile to monster being - IF AND ONLY IF you want the monster to use spell on ITSELF ONLY, you don't need to use `hit_self` but only specify `valid_targets` : [ `self` ], if you want the monster to affect hostile creature then it's `valid_targets` : [ `hostile` ] ",
-	
-    "min_aoe": 69,                                       // area of effect (currently not implemented)
-    "max_aoe": 69,
-    "min_duration": 1,                                   // duration of spell effect (if the spell has a special effect)
-    "max_duration": 1
-  } ;
-8) Monster transformation upon death spell:
-	{
-    "type": "SPELL",
-    "id": "test_summon",                                     // id of the spell, used internally. not translated
-    "name": "Summon",                                        // name of the spell that shows in game
-    "description": "Summons the creature specified in 'effect_str' ",
-    "flags": [ "SILENT", "PERMANENT", "HOSTILE_SUMMON" ],    // see "Spell Flags" in this document
-    "valid_targets": [ "ground" ],                           // if a valid target is not included, you cannot cast the spell on that target.
-    "min_damage": 1,                                         // minimum damage (or "starting" damage)
-    "max_damage": 1,                                         // maximum damage the spell can achieve
-    "effect": "summon",                                      // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
-    "effect_str": "mon_test_monster",                        // varies, see table of implemented effects in this document
-	
-	"note": "Provides foundation for the new monster upon the death of the old one"
-	
-  },
-  {
-    "type": "SPELL",
-    "id": "test_upon_death_summon",                     // id of the spell, used internally. not translated
-    "name": "a spell",                                  // name of the spell that shows in game
-    "description": "Summons a new monster on the place of old monster, instantly killing the old monster sort of doing an instant evolution type of a spell",
-    "extra_effects": [ { "id": "sacrifice_spell", "hit_self": true }, { "id": "test_summon", "hit_self": true } ], // this allows you to cast multiple spells with only one spell
-    "flags": [ "SILENT" ],                              // see "Spell Flags" in this document
-    "valid_targets": [ "ally", "hostile", "ground" ],   // if a valid target is not included, you cannot cast the spell on that target.
-	
-	"note": "This spell is very interesting - the trick is that we use two spells - one - `sacrifice_spell`+`hit_self` (as explained in 7) ) will kill the old monster, after that due to consecutive nature of this type of spell casting (as explained in 3) ) and thanks to the combination of summon spell above+`hit_self` (first spell in 8), `test_summon` ), it will successfully first kill the original monster and spawn the new one on it's place",
-	
-    "effect": "target_attack",                          // effects are coded in C++. A list is provided in this document of possible effects that have been coded
-    "min_range": 1,                                     // range of the spell
-    "max_range": 1
-  } ;
-9) Targeting in more peculiar cases like 2 spells - one of which is a buff for monster and other is targeting against hostile to monster creatures:
-	{
-    "type": "SPELL",
-    "id": "mon_test_monster_speed_buff",                      // id of the spell, used internally. not translated
-    "name": "Monster speed buff",                             // name of the spell that shows in game
-    "description": "Increases the movement speed of a certain monster",
-    "flags": [ "SILENT" ],                                    // see "Spell Flags" in this document
-    "valid_targets": [ "ground", "ally" ],                    // if a valid target is not included, you cannot cast the spell on that target.
-    "effect": "target_attack",                                // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
-    "effect_str": "mon_test_buff",                            // varies, see table of implemented effects in this document
-	"note": "The foundation for the buff of the monster - this one increases it's movement speed",
-    "min_duration": 1500,                                     // duration of spell effect (if the spell has a special effect)                               
-    "max_duration": 1500
-  },
-  {
-    "type": "SPELL",
-    "id": "mon_test_monster_speed_buff_target",                                 // id of the spell, used internally. not translated
-    "name": "a spell",                                                          // name of the spell that shows in game
-    "description": "Applies speed buff to the monster and makes sure that the monster targets all the hostile creatures properly after that",
-    "extra_effects": [                                                          // this allows you to cast multiple spells with only one spell
-      {                            
-        "id": "mon_test_monster_speed_buff",                                    // id of the spell, used internally. not translated                                 
-        "hit_self": true,
-        "note": " `hit_self`, so it forces the monster to cast the spell with 0 range value to itself, receiving (de)buff, damage or healing spell effect."
-      }
-    ],
-    "flags": [ "SILENT" ],                                                      // see "Spell Flags" in this document
-    "valid_targets": [ "ground", "hostile" ],                                   // if a valid target is not included, you cannot cast the spell on that target.
-	
-	"note":  "Once again we're using 'hit_self' here just like in 7) for trivial and obvious reasons (we don't want to use for some reason 'valid_targets': [ 'self' ] in the first spell), now for targeting `valid_targets`: [ `ground`, `hostile` ] is the MOST IMPORTANT LINE here - because the first spell does not specify WHO the monster is buffing up against, but the second spell (`mon_test_monster_speed_buff_target`) clearly specifies with it's `valid_targets` line WHO the monster is going to chase",
-    
-    "effect": "target_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
-    "effect_str": "target_message",                      // varies, see table of implemented effects in this document
-    "min_range": 69,                                     // range of the spell                     
-    "max_range": 69,
+	  "min_aoe": 6,                                       // area of effect (currently not implemented)
+    "max_aoe": 6,
     "min_duration": 1,                                   // duration of spell effect (if the spell has a special effect)
     "max_duration": 1
   }
+  ```
+  note: Here we have to use one spell on the caster itself and the other on the hostile target. in order to make the caster cast a spell on itself - you must specify the `id` of whatever spell you're using and write near it in the same brackets `hit_self`: true, the second spell will be cast on the target
+	This is necessary only if we need an effect that is cast on a target and a second effect that is cast on the caster.
+
+
+#### Monsters
+
+You can assign a spell as a special attack for a monster.
+
+```json
+{ "type": "spell", "spell_id": "burning_hands", "spell_level": 10, "cooldown": 10 }
 ```
+
+* spell_id: the id for the spell being cast.
+* spell_level: the level at which the spell is cast. Spells cast by monsters do not gain levels like player spells.
+* cooldown: how often the monster can cast this spell
 
 ### Enchantments
 | Identifier                  | Description
