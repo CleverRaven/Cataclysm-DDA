@@ -329,6 +329,7 @@ Spell types:
     ],
     "min_damage": 3,                                         // minimum damage (or "starting" damage)
     "max_damage": 5,                                         // maximum damage the spell can achieve
+    "damage_increment": 0.2                            // damage increase per spell level
     "min_range": 10,                                         // range of the spell
     "max_range": 10
   }
