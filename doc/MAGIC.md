@@ -275,6 +275,7 @@ Spell types:
     "base_casting_time": 500,                                // this is the casting time (in moves)
     "min_duration": 200,                                     // duration of spell effect (if the spell has a special effect)
     "max_duration": 300,
+    "duration_increment": 10,                              // How much longer the spell lasts per spell level
     "damage_type": "stab"                                    // type of damage
   } ;
   ```
