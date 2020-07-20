@@ -8,6 +8,7 @@
 #include "bionics.h"
 #include "catacharset.h"
 #include "compatibility.h"
+#include "enums.h"
 #include "flat_set.h"
 #include "game.h"
 #include "input.h"
@@ -18,6 +19,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "uistate.h"
 #include "units.h"
 
 static const std::string flag_PERPETUAL( "PERPETUAL" );
@@ -38,20 +40,15 @@ enum bionic_menu_mode {
     REASSIGNING
 };
 
-enum class bionic_sort_mode {
-    POWER,
-    NAME,
-};
-bionic_sort_mode _bionic_sort_mode = bionic_sort_mode::POWER;
-
-std::string sort_mode_str( bionic_sort_mode mode )
+std::string sort_mode_str( bionic_ui_sort_mode mode )
 {
     std::string ret;
     switch( mode ) {
-        case bionic_sort_mode::POWER:
+        case bionic_ui_sort_mode::NONE:
+        case bionic_ui_sort_mode::POWER:
             ret = _( "Power Usage" );
             break;
-        case bionic_sort_mode::NAME:
+        case bionic_ui_sort_mode::NAME:
             ret = _( "Name" );
             break;
     }
@@ -75,8 +72,9 @@ struct bionic_sort_less {
         const bionic_data &lbd = lhs->info();
         const bionic_data &rbd = rhs->info();
 
-        switch( _bionic_sort_mode ) {
-            case bionic_sort_mode::POWER: {
+        switch( uistate.bionic_sort_mode ) {
+            case bionic_ui_sort_mode::NONE:
+            case bionic_ui_sort_mode::POWER: {
                 units::energy lbd_sort_power = bionic_sort_power( lbd );
                 units::energy rbd_sort_power = bionic_sort_power( rbd );
                 if( lbd_sort_power != rbd_sort_power ) {
@@ -85,7 +83,7 @@ struct bionic_sort_less {
                 }
             }
             /* fallthrough */
-            case bionic_sort_mode::NAME:
+            case bionic_ui_sort_mode::NAME:
                 less = localized_compare( lbd.name.translated(), rbd.name.translated() );
                 break;
         }
@@ -107,22 +105,22 @@ sorted_bionics filtered_bionics( bionic_collection &all_bionics,
     return filtered_entries;
 }
 
-bionic_sort_mode pick_sort_mode()
+bionic_ui_sort_mode pick_sort_mode()
 {
     uilist tmenu;
     tmenu.text = _( "Sort bionics by:" );
-    tmenu.addentry( 1, true, 'p', sort_mode_str( bionic_sort_mode::POWER ) );
-    tmenu.addentry( 2, true, 'n', sort_mode_str( bionic_sort_mode::NAME ) );
+    tmenu.addentry( 1, true, 'p', sort_mode_str( bionic_ui_sort_mode::POWER ) );
+    tmenu.addentry( 2, true, 'n', sort_mode_str( bionic_ui_sort_mode::NAME ) );
 
-    bionic_sort_mode ret = bionic_sort_mode::POWER;
+    bionic_ui_sort_mode ret = bionic_ui_sort_mode::POWER;
 
     tmenu.query();
     switch( tmenu.ret ) {
         case 1:
-            ret = bionic_sort_mode::POWER;
+            ret = bionic_ui_sort_mode::POWER;
             break;
         case 2:
-            ret = bionic_sort_mode::NAME;
+            ret = bionic_ui_sort_mode::NAME;
             break;
     }
 
@@ -130,6 +128,26 @@ bionic_sort_mode pick_sort_mode()
 }
 
 } // namespace
+
+namespace io
+{
+template<>
+std::string io::enum_to_string<bionic_ui_sort_mode>( bionic_ui_sort_mode mode )
+{
+    std::string ret;
+    switch( mode ) {
+        case bionic_ui_sort_mode::NONE:
+        case bionic_ui_sort_mode::POWER:
+            ret = "power";
+            break;
+        case bionic_ui_sort_mode::NAME:
+            ret = "name";
+            break;
+    }
+
+    return ret;
+}
+} // namespace io
 
 bionic *player::bionic_by_invlet( const int ch )
 {
@@ -239,7 +257,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                   ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
                                   ctxt.get_desc( "TOGGLE_AUTO_START" ) );
     desc_append += string_format( _( " [<color_yellow>%s</color>] Sort: %s" ), ctxt.get_desc( "SORT" ),
-                                  sort_mode_str( _bionic_sort_mode ) );
+                                  sort_mode_str( uistate.bionic_sort_mode ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.  Select a bionic to reassign or press [<color_yellow>SPACE</color>] to cancel." );
@@ -809,7 +827,7 @@ void player::power_bionics()
                 }
             }
         } else if( action == "SORT" ) {
-            _bionic_sort_mode = pick_sort_mode();
+            uistate.bionic_sort_mode = pick_sort_mode();
             // FIXME: is there a better way to resort?
             active = filtered_bionics( *my_bionics, TAB_ACTIVE );
             passive = filtered_bionics( *my_bionics, TAB_PASSIVE );

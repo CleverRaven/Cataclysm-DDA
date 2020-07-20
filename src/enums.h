@@ -49,6 +49,17 @@ static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
     return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
 }
 
+enum class bionic_ui_sort_mode : int {
+    POWER = 0,
+    NAME  = 1,
+    NONE  = 2
+};
+
+template<>
+struct enum_traits<bionic_ui_sort_mode> {
+    static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::NONE;
+};
+
 enum class holiday : int {
     none = 0,
     new_year,
