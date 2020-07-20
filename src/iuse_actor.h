@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "color.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "enums.h"
 #include "explosion.h"
@@ -449,8 +450,9 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
-        void reveal_targets( const tripoint &center, const std::pair<std::string, ot_match_type> &target,
-                             int reveal_distance ) const;
+        void reveal_targets(
+            const tripoint_abs_omt &center, const std::pair<std::string, ot_match_type> &target,
+            int reveal_distance ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 

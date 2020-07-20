@@ -138,10 +138,11 @@ bool leap_actor::call( monster &z ) const
     }
 
     z.moves -= move_cost;
+    Character &player_character = get_player_character();
     const tripoint chosen = random_entry( options );
-    bool seen = g->u.sees( z ); // We can see them jump...
+    bool seen = player_character.sees( z ); // We can see them jump...
     z.setpos( chosen );
-    seen |= g->u.sees( z ); // ... or we can see them land
+    seen |= player_character.sees( z ); // ... or we can see them land
     if( seen ) {
         add_msg( _( "The %s leaps!" ), z.name() );
     }
@@ -198,7 +199,7 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         target_name = target_monster->disp_name();
     }
 
-    if( g->u.sees( target ) ) {
+    if( get_player_character().sees( target ) ) {
         add_msg( spell_data.message(), mon.disp_name(), spell_data.name(), target_name );
     }
 
@@ -328,7 +329,8 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
                                  sfx::get_heard_angle( z.pos() ) );
         sfx::do_player_death_hurt( dynamic_cast<player &>( target ), false );
     }
-    auto msg_type = target.attitude_to( g->u ) == Creature::Attitude::FRIENDLY ? m_bad : m_neutral;
+    auto msg_type = target.attitude_to( get_player_character() ) == Creature::Attitude::FRIENDLY ?
+                    m_bad : m_neutral;
     const bodypart_id &bp = dealt.bp_hit ;
     target.add_msg_player_or_npc( msg_type, hit_dmg_u, hit_dmg_npc, z.name(),
                                   body_part_name_accusative( bp ) );
@@ -464,7 +466,7 @@ bool gun_actor::call( monster &z ) const
         int hostiles; // hostiles which cannot be engaged without risking friendly fire
         target = z.auto_find_hostile_target( max_range, hostiles );
         if( !target ) {
-            if( hostiles > 0 && g->u.sees( z ) ) {
+            if( hostiles > 0 && get_player_character().sees( z ) ) {
                 add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
                                               "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
                                               hostiles ),
@@ -493,7 +495,7 @@ bool gun_actor::call( monster &z ) const
 void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
-        if( one_in( 3 ) && g->u.sees( z ) ) {
+        if( one_in( 3 ) && get_player_character().sees( z ) ) {
             add_msg( _( failure_msg ), z.name() );
         }
         return;
@@ -567,7 +569,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     tmp.weapon = gun;
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
-    if( g->u.sees( z ) ) {
+    if( get_player_character().sees( z ) ) {
         add_msg( m_warning, _( description ), z.name(), tmp.weapon.tname() );
     }
 

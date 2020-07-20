@@ -12,7 +12,6 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "game.h"
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
@@ -718,9 +717,9 @@ bool player_settings::save( const bool bCharacter )
     auto savefile = PATH_INFO::autopickup();
 
     if( bCharacter ) {
-        savefile = g->get_player_base_save_path() + ".apu.json";
+        savefile = PATH_INFO::player_base_save_path() + ".apu.json";
 
-        const std::string player_save = g->get_player_base_save_path() + ".sav";
+        const std::string player_save = PATH_INFO::player_base_save_path() + ".sav";
         //Character not saved yet.
         if( !file_exist( player_save ) ) {
             return true;
@@ -747,7 +746,7 @@ void player_settings::load( const bool bCharacter )
 {
     std::string sFile = PATH_INFO::autopickup();
     if( bCharacter ) {
-        sFile = g->get_player_base_save_path() + ".apu.json";
+        sFile = PATH_INFO::player_base_save_path() + ".apu.json";
     }
 
     if( !read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
@@ -806,7 +805,7 @@ bool player_settings::load_legacy( const bool bCharacter )
     std::string sFile = PATH_INFO::legacy_autopickup2();
 
     if( bCharacter ) {
-        sFile = g->get_player_base_save_path() + ".apu.txt";
+        sFile = PATH_INFO::player_base_save_path() + ".apu.txt";
     }
 
     invalidate();

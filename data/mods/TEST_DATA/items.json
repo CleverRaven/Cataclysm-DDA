@@ -1219,5 +1219,89 @@
     "price": 0,
     "price_postapoc": 0,
     "fun": -20
+  },
+  {
+    "id": "test_swat_armor",
+    "repairs_like": "survivor_suit",
+    "type": "ARMOR",
+    "category": "armor",
+    "name": { "str": "SWAT armor" },
+    "//": "This is well within the pricing structure I found for ballistic vest, shins, and LBE.  LEO gear ain't cheap.",
+    "description": "A suit of black bulletproof armor with lots of pockets.  The word SWAT is emblazoned across the back.",
+    "weight": "7800 g",
+    "volume": "13 L",
+    "price": 285000,
+    "price_postapoc": 2000,
+    "to_hit": -3,
+    "bashing": 6,
+    "material": [ "kevlar_layered", "cotton" ],
+    "symbol": "[",
+    "looks_like": "touring_suit",
+    "color": "dark_gray",
+    "armor_portion_data": [ { "covers": [ "torso", "LEGS", "ARMS" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "3 kg", "moves": 120 }
+    ],
+    "warmth": 35,
+    "material_thickness": 11,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 4,
+    "flags": [ "POCKETS", "STURDY" ]
+  },
+  {
+    "id": "test_pants_fur",
+    "type": "ARMOR",
+    "name": { "str_sp": "fur pants" },
+    "description": "A hefty pair of fur-lined pants.",
+    "weight": "920 g",
+    "volume": "4 L",
+    "price": 20000,
+    "price_postapoc": 100,
+    "to_hit": 1,
+    "material": [ "cotton", "fur" ],
+    "symbol": "[",
+    "looks_like": "pants",
+    "color": "brown",
+    "covers": [ "LEGS" ],
+    "coverage": 95,
+    "encumbrance": 16,
+    "max_encumbrance": 20,
+    "pocket_data": [
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 100 }
+    ],
+    "warmth": 80,
+    "material_thickness": 3,
+    "valid_mods": [ "steel_padded" ],
+    "environmental_protection": 3,
+    "flags": [ "VARSIZE", "POCKETS" ]
+  },
+  {
+    "id": "test_pants_faux_fur",
+    "type": "ARMOR",
+    "copy-from": "test_pants_fur",
+    "name": { "str_sp": "faux fur pants" },
+    "description": "A pair of long cotton pants lined with warm imitation fur.",
+    "material": [ "faux_fur", "cotton" ],
+    "covers": [ "LEGS" ],
+    "warmth": 70
+  },
+  {
+    "id": "test_portion_faux_fur_pants_suit",
+    "type": "ARMOR",
+    "copy-from": "test_pants_fur",
+    "name": { "str_sp": "faux fur pants suit test thing" },
+    "description": "A TEST OBJECT SHOULD NOT BE IN GAME",
+    "material": [ "faux_fur", "cotton" ],
+    "armor_portion_data": [
+      { "covers": [ "torso", "leg_r", "arm_r" ], "coverage": 100, "encumbrance": [ 10, 25 ] },
+      { "covers": [ "arm_l", "leg_l", "head" ], "coverage": 50, "encumbrance": 5 }
+    ],
+    "warmth": 5
   }
 ]

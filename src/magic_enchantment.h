@@ -163,7 +163,12 @@ class enchantment
         void cast_hit_you( Character &caster, const Creature &target ) const;
         // casts all the hit_me_effects on self or a target depending on the enchantment definition
         void cast_hit_me( Character &caster, const Creature *target ) const;
+
+        std::set<trait_id> get_mutations() const {
+            return mutations;
+        }
     private:
+        std::set<trait_id> mutations;
         cata::optional<emit_id> emitter;
         std::map<efftype_id, int> ench_effects;
         // values that add to the base value

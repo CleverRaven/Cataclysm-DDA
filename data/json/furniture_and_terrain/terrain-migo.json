@@ -9,7 +9,7 @@
     "move_cost": 0,
     "coverage": 100,
     "roof": "t_resin_roof",
-    "flags": [ "NOITEM", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
+    "flags": [ "NOITEM", "PERMEABLE", "SUPPORTS_ROOF", "WALL", "NO_SCENT", "AUTO_WALL_SYMBOL", "BLOCK_WIND" ],
     "bash": {
       "str_min": 250,
       "str_max": 700,
@@ -65,6 +65,7 @@
     "description": "This nearly opaque, plastic-like floor is smooth and flat.  The material is hard, warm to the touch, and slightly damp.",
     "symbol": "~",
     "color": "light_gray",
+    "looks_like": "t_floor_resin",
     "move_cost": 1,
     "flags": [ "TRANSPARENT", "COLLAPSES", "FLAT", "ROAD", "NONFLAMMABLE" ],
     "bash": {
@@ -84,6 +85,7 @@
     "symbol": "~",
     "color": "dark_gray",
     "move_cost": 2,
+    "looks_like": "t_floor_resin",
     "flags": [ "TRANSPARENT", "FLAT", "NONFLAMMABLE" ],
     "bash": {
       "str_min": 250,

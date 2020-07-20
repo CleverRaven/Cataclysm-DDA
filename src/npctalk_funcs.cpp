@@ -17,6 +17,7 @@
 #include "character_id.h"
 #include "character_martial_arts.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
@@ -301,7 +302,7 @@ void talk_function::goto_location( npc &p )
     uilist selection_menu;
     selection_menu.text = _( "Select a destination" );
     std::vector<basecamp *> camps;
-    tripoint destination;
+    tripoint_abs_omt destination;
     Character &player_character = get_player_character();
     for( auto elem : player_character.camps ) {
         if( elem == p.global_omt_location() ) {
@@ -316,8 +317,8 @@ void talk_function::goto_location( npc &p )
     }
     for( auto iter : camps ) {
         //~ %1$s: camp name, %2$d and %3$d: coordinates
-        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at (%2$d, %3$d)" ),
-                                 iter->camp_name(), iter->camp_omt_pos().x, iter->camp_omt_pos().y );
+        selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at %2$s" ),
+                                 iter->camp_name(), iter->camp_omt_pos().to_string() );
     }
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "My current location" ) );
     selection_menu.addentry( i, true, MENU_AUTOASSIGN, _( "Cancel" ) );
@@ -336,7 +337,7 @@ void talk_function::goto_location( npc &p )
     }
     p.goal = destination;
     p.omt_path = overmap_buffer.get_npc_path( p.global_omt_location(), p.goal );
-    if( destination == tripoint_zero || destination == overmap::invalid_tripoint ||
+    if( destination == tripoint_abs_omt() || destination == overmap::invalid_tripoint ||
         p.omt_path.empty() ) {
         p.goal = npc::no_goal_point;
         p.omt_path.clear();
@@ -345,7 +346,7 @@ void talk_function::goto_location( npc &p )
     }
     p.set_mission( NPC_MISSION_TRAVELLING );
     p.chatbin.first_topic = "TALK_FRIEND_GUARD";
-    p.guard_pos = npc::no_goal_point;
+    p.guard_pos = tripoint_min;
     p.set_attitude( NPCATT_NULL );
 }
 
@@ -409,7 +410,7 @@ void talk_function::stop_guard( npc &p )
     }
     p.chatbin.first_topic = "TALK_FRIEND";
     p.goal = npc::no_goal_point;
-    p.guard_pos = npc::no_goal_point;
+    p.guard_pos = tripoint_min;
     if( p.assigned_camp ) {
         if( cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *p.assigned_camp ).xy() ) ) {
             ( *bcp )->remove_assignee( p.getID() );
@@ -681,23 +682,24 @@ void talk_function::morale_chat_activity( npc &p )
 
 void talk_function::buy_10_logs( npc &p )
 {
-    std::vector<tripoint> places = overmap_buffer.find_all(
-                                       get_player_character().global_omt_location(), "ranch_camp_67", 1, false );
+    std::vector<tripoint_abs_omt> places =
+        overmap_buffer.find_all( get_player_character().global_omt_location(), "ranch_camp_67", 1,
+                                 false );
     if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }
     const auto &cur_om = g->get_cur_om();
-    std::vector<tripoint> places_om;
-    for( auto &i : places ) {
+    std::vector<tripoint_abs_omt> places_om;
+    for( const tripoint_abs_omt &i : places ) {
         if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
 
-    const tripoint site = random_entry( places_om );
+    const tripoint_abs_omt site = random_entry( places_om );
     tinymap bay;
-    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.load( project_to<coords::scale::submap>( site ), false );
     bay.spawn_item( point( 7, 15 ), "log", 10 );
     bay.save();
 
@@ -707,23 +709,24 @@ void talk_function::buy_10_logs( npc &p )
 
 void talk_function::buy_100_logs( npc &p )
 {
-    std::vector<tripoint> places = overmap_buffer.find_all(
-                                       get_player_character().global_omt_location(), "ranch_camp_67", 1, false );
+    std::vector<tripoint_abs_omt> places =
+        overmap_buffer.find_all( get_player_character().global_omt_location(), "ranch_camp_67", 1,
+                                 false );
     if( places.empty() ) {
         debugmsg( "Couldn't find %s", "ranch_camp_67" );
         return;
     }
     const auto &cur_om = g->get_cur_om();
-    std::vector<tripoint> places_om;
+    std::vector<tripoint_abs_omt> places_om;
     for( auto &i : places ) {
         if( &cur_om == overmap_buffer.get_existing_om_global( i ).om ) {
             places_om.push_back( i );
         }
     }
 
-    const tripoint site = random_entry( places_om );
+    const tripoint_abs_omt site = random_entry( places_om );
     tinymap bay;
-    bay.load( tripoint( site.x * 2, site.y * 2, site.z ), false );
+    bay.load( project_to<coords::scale::submap>( site ), false );
     bay.spawn_item( point( 7, 15 ), "log", 100 );
     bay.save();
 
@@ -780,7 +783,7 @@ void talk_function::hostile( npc &p )
         add_msg( _( "%s turns hostile!" ), p.name );
     }
 
-    g->events().send<event_type::npc_becomes_hostile>( p.getID(), p.name );
+    get_event_bus().send<event_type::npc_becomes_hostile>( p.getID(), p.name );
     p.set_attitude( NPCATT_KILL );
 }
 
@@ -919,24 +922,26 @@ void talk_function::start_training( npc &p )
     const matype_id &style = p.chatbin.style;
     const spell_id &sp_id = p.chatbin.dialogue_spell;
     int expert_multiplier = 1;
-    Character &player_character = get_player_character();
-    if( skill.is_valid() && player_character.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
+    Character &you = get_player_character();
+    if( skill != skill_id() &&
+        you.get_skill_level( skill ) < p.get_skill_level( skill ) ) {
         cost = calc_skill_training_cost( p, skill );
         time = calc_skill_training_time( p, skill );
         name = skill.str();
-    } else if( p.chatbin.style.is_valid() &&
-               !player_character.martial_arts_data.has_martialart( style ) ) {
+    } else if( p.chatbin.style != matype_id() &&
+               !you.martial_arts_data.has_martialart( style ) ) {
         cost = calc_ma_style_training_cost( p, style );
         time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();
         // already checked if can learn this spell in npctalk.cpp
-    } else if( p.chatbin.dialogue_spell.is_valid() ) {
+    } else if( p.chatbin.dialogue_spell != spell_id() ) {
         const spell &temp_spell = p.magic.get_spell( sp_id );
-        const bool knows = player_character.magic.knows_spell( sp_id );
-        cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(), temp_spell.get_level() );
+        const bool knows = you.magic.knows_spell( sp_id );
+        cost = p.calc_spell_training_cost( knows, temp_spell.get_difficulty(),
+                                           temp_spell.get_level() );
         name = temp_spell.id().str();
-        expert_multiplier = knows ? temp_spell.get_level() - player_character.magic.get_spell(
-                                sp_id ).get_level() : 1;
+        expert_multiplier = knows ? temp_spell.get_level() -
+                            you.magic.get_spell( sp_id ).get_level() : 1;
         // quicker to learn with instruction as opposed to books.
         // if this is a known spell, then there is a set time to gain some exp.
         // if player doesn't know this spell, then the NPC will teach all of it
@@ -946,9 +951,8 @@ void talk_function::start_training( npc &p )
         if( knows ) {
             time = 1_hours;
         } else {
-            time = time_duration::from_seconds( clamp( player_character.magic.time_to_learn_spell(
-                                                    player_character, sp_id ) / 50, 7200,
-                                                21600 ) );
+            const int time_int = you.magic.time_to_learn_spell( you, sp_id ) / 50;
+            time = time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
         }
     } else {
         debugmsg( "start_training with no valid skill or style set" );
@@ -956,8 +960,8 @@ void talk_function::start_training( npc &p )
     }
 
     mission *miss = p.chatbin.mission_selected;
-    if( miss != nullptr && miss->get_assigned_player_id() == player_character.getID() &&
-        miss->is_complete( player_character.getID() ) ) {
+    if( miss != nullptr && miss->get_assigned_player_id() == you.getID() &&
+        miss->is_complete( you.getID() ) ) {
         clear_mission( p );
     } else if( !npc_trading::pay_npc( p, cost ) ) {
         return;
@@ -965,7 +969,7 @@ void talk_function::start_training( npc &p )
     player_activity act = player_activity( ACT_TRAIN, to_moves<int>( time ),
                                            p.getID().get_value(), 0, name );
     act.values.push_back( expert_multiplier );
-    player_character.assign_activity( act );
+    you.assign_activity( act );
 
     p.add_effect( effect_asked_to_train, 6_hours );
 }

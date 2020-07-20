@@ -450,7 +450,7 @@ void computer_session::action_sample()
 
 void computer_session::action_release()
 {
-    g->events().send<event_type::releases_subspace_specimens>();
+    get_event_bus().send<event_type::releases_subspace_specimens>();
     Character &player_character = get_player_character();
     sounds::sound( player_character.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
@@ -478,7 +478,7 @@ void computer_session::action_release_bionics()
 
 void computer_session::action_terminate()
 {
-    g->events().send<event_type::terminates_subspace_specimens>();
+    get_event_bus().send<event_type::terminates_subspace_specimens>();
     Character &player_character = get_player_character();
     map &here = get_map();
     for( const tripoint &p : here.points_on_zlevel() ) {
@@ -498,7 +498,7 @@ void computer_session::action_terminate()
 
 void computer_session::action_portal()
 {
-    g->events().send<event_type::opens_portal>();
+    get_event_bus().send<event_type::opens_portal>();
     map &here = get_map();
     for( const tripoint &tmp : here.points_on_zlevel() ) {
         int numtowers = 0;
@@ -522,7 +522,7 @@ void computer_session::action_cascade()
     if( !query_bool( _( "WARNING: Resonance cascade carries severe risk!  Continue?" ) ) ) {
         return;
     }
-    g->events().send<event_type::causes_resonance_cascade>();
+    get_event_bus().send<event_type::causes_resonance_cascade>();
     tripoint player_pos = get_player_character().pos();
     map &here = get_map();
     std::vector<tripoint> cascade_points;
@@ -580,7 +580,7 @@ void computer_session::action_maps()
 {
     Character &player_character = get_player_character();
     player_character.moves -= 30;
-    const tripoint center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.global_omt_location();
     overmap_buffer.reveal( center.xy(), 40, 0 );
     query_any(
         _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key…" ) );
@@ -592,7 +592,7 @@ void computer_session::action_map_sewer()
 {
     Character &player_character = get_player_character();
     player_character.moves -= 30;
-    const tripoint center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
@@ -611,7 +611,7 @@ void computer_session::action_map_subway()
 {
     Character &player_character = get_player_character();
     player_character.moves -= 30;
-    const tripoint center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
@@ -630,7 +630,7 @@ void computer_session::action_miss_disarm()
 {
     // TODO: stop the nuke from creating radioactive clouds.
     if( query_yn( _( "Disarm missile." ) ) ) {
-        g->events().send<event_type::disarms_nuke>();
+        get_event_bus().send<event_type::disarms_nuke>();
         add_msg( m_info, _( "Nuclear missile disarmed!" ) );
         //disable missile.
         comp.options.clear();
@@ -743,7 +743,7 @@ void computer_session::action_amigara_log()
 
 void computer_session::action_amigara_start()
 {
-    g->timed_events.add( timed_event_type::AMIGARA, calendar::turn + 1_minutes );
+    get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 1_minutes );
     Character &player_character = get_player_character();
     if( !player_character.has_artifact_with( AEP_PSYSHIELD ) ) {
         player_character.add_effect( effect_amigara, 2_minutes );
@@ -993,7 +993,7 @@ void computer_session::action_srcf_seal_order()
 
 void computer_session::action_srcf_seal()
 {
-    g->events().send<event_type::seals_hazardous_material_sarcophagus>();
+    get_event_bus().send<event_type::seals_hazardous_material_sarcophagus>();
     print_line( _( "Charges Detonated" ) );
     print_line( _( "Backup Generator Power Failing" ) );
     print_line( _( "Evacuate Immediately" ) );
@@ -1345,13 +1345,13 @@ void computer_session::failure_shutdown()
 void computer_session::failure_alarm()
 {
     Character &player_character = get_player_character();
-    g->events().send<event_type::triggers_alarm>( player_character.getID() );
+    get_event_bus().send<event_type::triggers_alarm>( player_character.getID() );
     sounds::sound( player_character.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
                    "alarm" );
-    if( g->get_levz() > 0 && !g->timed_events.queued( timed_event_type::WANTED ) ) {
-        g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                             player_character.global_sm_location() );
+    if( g->get_levz() > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
+        get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
+                                player_character.global_sm_location() );
     }
 }
 
@@ -1436,7 +1436,7 @@ void computer_session::failure_pump_leak()
 
 void computer_session::failure_amigara()
 {
-    g->timed_events.add( timed_event_type::AMIGARA, calendar::turn + 30_seconds );
+    get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 30_seconds );
     get_player_character().add_effect( effect_amigara, 2_minutes );
     explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
                                   10,
@@ -1503,7 +1503,7 @@ void computer_session::action_emerg_ref_center()
     print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT…" ) );
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
-    tripoint mission_target;
+    tripoint_abs_omt mission_target;
     avatar &player_character = get_avatar();
     // Check completed missions too, so people can't repeatedly get the mission.
     const std::vector<mission *> completed_missions = player_character.get_completed_missions();
@@ -1534,8 +1534,10 @@ void computer_session::action_emerg_ref_center()
                    "4PM AT 555-0164.\n"
                    "\n"
                    "IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n"
-                   "TO WRITE US A LETTER PLEASE SEND IT TO…\n" ), rl_dist( player_character.pos(), mission_target ),
-                direction_name_short( direction_from( player_character.pos(), mission_target ) ) );
+                   "TO WRITE US A LETTER PLEASE SEND IT TO…\n" ),
+                rl_dist( player_character.global_omt_location(), mission_target ),
+                direction_name_short(
+                    direction_from( player_character.global_omt_location(), mission_target ) ) );
 
     query_any( _( "Press any key to continue…" ) );
     reset_terminal();

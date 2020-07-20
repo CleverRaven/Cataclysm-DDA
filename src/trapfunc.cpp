@@ -1255,7 +1255,7 @@ bool trapfunc::temple_flood( const tripoint &p, Creature *c, item * )
                 }
             }
         }
-        g->timed_events.add( timed_event_type::TEMPLE_FLOOD, calendar::turn + 3_turns );
+        get_timed_events().add( timed_event_type::TEMPLE_FLOOD, calendar::turn + 3_turns );
         return true;
     }
     return false;
@@ -1398,7 +1398,7 @@ bool trapfunc::map_regen( const tripoint &p, Creature *c, item * )
         if( n ) {
             map &here = get_map();
             n->add_msg_if_player( m_warning, _( "Your surroundings shift!" ) );
-            const tripoint &omt_pos = n->global_omt_location();
+            tripoint_abs_omt omt_pos = n->global_omt_location();
             const std::string &regen_mapgen = here.tr_at( p ).map_regen_target();
             here.remove_trap( p );
             if( !run_mapgen_update_func( regen_mapgen, omt_pos, nullptr, false ) ) {

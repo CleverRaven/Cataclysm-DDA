@@ -65,6 +65,7 @@
       "8": "f_counter",
       "9": "f_shower",
       "@": "f_bed",
+      "₸": "f_deckchair",
       "Ø": "f_pinball_machine",
       "Æ": "f_arcade_machine",
       "ʭ": "f_ladder"
@@ -166,7 +167,7 @@
         { "item": "bed", "chance": 30, "repeat": [ 1, 2 ] }
       ],
       "R": { "item": "homebooks", "chance": 30, "repeat": [ 1, 4 ] },
-      "S": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 20 } ],
+      "S": [ { "item": "SUS_bathroom_sink", "chance": 80 }, { "item": "SUS_bathroom_medicine", "chance": 60 } ],
       "U": [
         { "item": "home_hw", "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "cleaning", "chance": 40, "repeat": [ 1, 2 ] },
@@ -184,7 +185,7 @@
       "8": [
         { "item": "SUS_hair_drawer", "chance": 30 },
         { "item": "SUS_bathroom_cabinet", "chance": 30 },
-        { "item": "SUS_bathroom_medicine", "chance": 30 },
+        { "item": "SUS_bathroom_medicine", "chance": 40 },
         { "item": "harddrugs", "chance": 2 }
       ],
       "9": { "item": "shower", "chance": 30, "repeat": [ 1, 2 ] },

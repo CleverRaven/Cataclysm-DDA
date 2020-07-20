@@ -7,6 +7,7 @@
 #include <vector>
 #include <string>
 
+#include "coordinates.h"
 #include "optional.h"
 #include "color.h"
 #include "cursesdef.h"
@@ -63,8 +64,8 @@ class editmap
         void edit_mapgen();
         void cleartmpmap( tinymap &tmpmap );
         void mapgen_preview( const real_coords &tc, uilist &gmenu );
-        vehicle *mapgen_veh_query( const tripoint &omt_tgt );
-        bool mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target );
+        vehicle *mapgen_veh_query( const tripoint_abs_omt &omt_tgt );
+        bool mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target );
         void mapgen_retarget();
         int select_shape( shapetype shape, int mode = -1 );
 

@@ -1171,7 +1171,7 @@ void reveal_map_actor::load( const JsonObject &obj )
     }
 }
 
-void reveal_map_actor::reveal_targets( const tripoint &center,
+void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
                                        const std::pair<std::string, ot_match_type> &target,
                                        int reveal_distance ) const
 {
@@ -1195,11 +1195,11 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
-    const tripoint &center = it.get_var( "reveal_map_center_omt",
-                                         p.global_omt_location() );
+    const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
+                                   p.global_omt_location().raw() ) );
     for( auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            reveal_targets( tripoint( center.xy(), z ), omt, 0 );
+            reveal_targets( tripoint_abs_omt( center.xy(), z ), omt, 0 );
         }
     }
     if( !message.empty() ) {
@@ -2765,7 +2765,7 @@ bool repair_item_actor::can_repair_target( player &pl, const item &fix,
         return true;
     }
 
-    const bool resizing_matters = fix.get_encumber( pl ) != 0;
+    const bool resizing_matters = fix.get_sizing( pl ) != item::sizing::ignore;
     const bool small = pl.has_trait( trait_SMALL2 ) || pl.has_trait( trait_SMALL_OK );
     const bool can_resize = small != fix.has_flag( "UNDERSIZE" );
     if( can_be_refitted && resizing_matters && can_resize ) {
@@ -2861,7 +2861,7 @@ repair_item_actor::repair_type repair_item_actor::default_action( const item &fi
 
     const bool is_undersized = fix.has_flag( flag_UNDERSIZE );
     const bool is_oversized = fix.has_flag( flag_OVERSIZE );
-    const bool resizing_matters = fix.get_encumber( player_character ) != 0;
+    const bool resizing_matters = fix.get_sizing( player_character ) != item::sizing::ignore;
 
     const bool too_big_while_smol = smol && !is_undersized && !is_oversized;
     if( too_big_while_smol && can_be_refitted && resizing_matters ) {
@@ -2894,7 +2894,7 @@ static bool damage_item( player &pl, item_location &fix )
     if( destroyed ) {
         pl.add_msg_if_player( m_bad, _( "You destroy it!" ) );
         if( fix.where() == item_location::type::character ) {
-            pl.i_rem_keep_contents( pl.get_item_position( fix.get_item() ) );
+            pl.i_rem_keep_contents( fix.get_item() );
         } else {
             for( const item *it : fix->contents.all_items_top() ) {
                 put_into_vehicle_or_drop( pl, item_drop_reason::deliberate, { *it }, fix.position() );
@@ -3519,7 +3519,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "HEAL", _( "Effect on bleeding: " ), texitify_bandage_power( bleed ) );
         if( g != nullptr ) {
             dump.emplace_back( "HEAL", _( "Actual effect on bleeding: " ),
-                               texitify_healing_power( get_stopbleed_level( g->u ) ) );
+                               texitify_healing_power( get_stopbleed_level( get_player_character() ) ) );
         }
     }
     if( bite > 0.0f || infect > 0.0f ) {
@@ -4336,8 +4336,8 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
         desc += format_desc_string( _( "Acid" ), mod.acid_resist(), temp_item.acid_resist(), true );
         desc += format_desc_string( _( "Fire" ), mod.fire_resist(), temp_item.fire_resist(), true );
         desc += format_desc_string( _( "Warmth" ), mod.get_warmth(), temp_item.get_warmth(), true );
-        desc += format_desc_string( _( "Encumbrance" ), mod.get_encumber( p ), temp_item.get_encumber( p ),
-                                    false );
+        desc += format_desc_string( _( "Encumbrance" ), mod.get_avg_encumber( p ),
+                                    temp_item.get_avg_encumber( p ), false );
 
         tmenu.addentry_desc( index++, enab, MENU_AUTOASSIGN, prompt, desc );
     }
@@ -4386,7 +4386,7 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
                              mod.tname( 1, false ), startdurability, resultdurability );
         if( destroyed ) {
             p.add_msg_if_player( m_bad, _( "You destroy it!" ) );
-            p.i_rem_keep_contents( p.get_item_position( &mod ) );
+            p.i_rem_keep_contents( &mod );
         }
         return thread_needed / 2;
     } else if( rn <= 10 ) {
