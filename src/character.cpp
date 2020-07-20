@@ -6067,7 +6067,7 @@ void Character::update_bodytemp()
         // constant shivering will prevent the player from falling asleep.
         // Otherwise, if any other body part is BODYTEMP_VERY_COLD, or 31C
         // AND you have frostbite, then that also prevents you from sleeping
-        if( in_sleep_state() ) {
+        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             if( bp == bodypart_id( "torso" ) && temp_after <= BODYTEMP_COLD ) {
                 add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
                 wake_up();
@@ -8158,6 +8158,11 @@ void Character::cough( bool harmful, int loudness )
 
 void Character::wake_up()
 {
+    //Can't wake up if under anesthesia
+    if( has_effect( effect_narcosis ) ) {
+        return;
+    }
+
     // Do not remove effect_sleep or effect_alarm_clock now otherwise it invalidates an effect
     // iterator in player::process_effects().
     // We just set it for later removal (also happening in player::process_effects(), so no side
@@ -9227,7 +9232,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 
     if( disturb ) {
-        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+        if( has_effect( effect_sleep ) ) {
             wake_up();
         }
         if( !is_npc() && !has_effect( effect_narcosis ) ) {
