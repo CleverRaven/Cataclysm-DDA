@@ -855,6 +855,19 @@
     ]
   },
   {
+    "type": "talk_topic",
+    "id": "TALK_TEST_SET_TOPIC",
+    "dynamic_line": "This is a test conversation that shouldn't appear in the game.",
+    "responses": [
+      { "text": "This is a basic test response.", "topic": "TALK_DONE" },
+      {
+        "text": "This is an npc_first_topic test response.",
+        "topic": "TALK_DONE",
+        "effect": { "npc_first_topic": "TALK_TEST_SET_TOPIC" }
+      }
+    ]
+  },
+  {
     "type": "npc",
     "id": "test_talker",
     "//": "NPC in unit tests",

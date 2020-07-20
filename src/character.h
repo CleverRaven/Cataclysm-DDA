@@ -1452,6 +1452,10 @@ class Character : public Creature, public visitable<Character>
         units::volume volume_carried_with_tweaks( const item_tweaks &tweaks ) const;
         units::volume volume_carried_with_tweaks( const std::vector<std::pair<item_location, int>>
                 &locations ) const;
+        units::volume get_contents_volume_with_tweaks( const item_contents *contents,
+                const std::map<const item *, int> &without ) const;
+        units::volume get_nested_content_volume_recursive( const item_contents *contents,
+                const std::map<const item *, int> &without ) const;
         units::volume get_selected_stack_volume( const item *i,
                 const std::map<const item *, int> &without ) const;
         units::mass weight_capacity() const override;
@@ -2353,7 +2357,7 @@ class Character : public Creature, public visitable<Character>
         bool knows_trap( const tripoint &pos ) const;
         void add_known_trap( const tripoint &pos, const trap &t );
         /** Define color for displaying the body temperature */
-        nc_color bodytemp_color( int bp ) const;
+        nc_color bodytemp_color( const bodypart_id &bp ) const;
 
         // see Creature::sees
         bool sees( const tripoint &t, bool is_player = false, int range_mod = 0 ) const override;
@@ -2565,11 +2569,6 @@ class Character : public Creature, public visitable<Character>
         std::unordered_map<point, time_duration> overmap_time;
 
     public:
-        // TODO: make these private
-        std::array<int, num_bp> temp_cur, frostbite_timer, temp_conv;
-        std::array<int, num_bp> body_wetness;
-        std::array<int, num_bp> drench_capacity;
-
         time_point next_climate_control_check;
         bool last_climate_control_ret;
 };

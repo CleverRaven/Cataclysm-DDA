@@ -111,9 +111,9 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.setpos( spot );
 }
 
-void clear_avatar()
+void clear_avatar( bool debug_storage )
 {
-    clear_character( get_avatar() );
+    clear_character( get_avatar(), debug_storage );
 }
 
 void process_activity( player &dummy )

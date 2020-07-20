@@ -21,6 +21,7 @@
 #include "coordinate_conversions.h"
 #include "damage.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -840,7 +841,7 @@ void npc::starting_weapon( const npc_class_id &type )
         }
     }
 
-    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     weapon.set_owner( get_faction()->id );
 }
@@ -956,7 +957,7 @@ void npc::finish_read( item &book )
         skill_level.readBook( min_ex, max_ex, reading->level );
         const std::string skill_name = skill.obj().name();
         if( skill_level != originalSkillLevel ) {
-            g->events().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
+            get_event_bus().send<event_type::gains_skill_level>( getID(), skill, skill_level.level() );
             if( display_messages ) {
                 add_msg( m_good, _( "%s increases their %s level." ), disp_name(), skill_name );
                 // NPC reads until they gain a level, then stop.
@@ -1156,26 +1157,8 @@ bool npc::wield( item &it )
 
     if( it.is_null() ) {
         weapon = item();
-        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+        get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
         return true;
-    }
-
-    // check if the item is in a holster
-    int position = inv.position_by_item( &it );
-    if( position != INT_MIN ) {
-        item &maybe_holster = inv.find_item( position );
-        assert( !maybe_holster.is_null() );
-        if( &maybe_holster != &it && maybe_holster.is_holster() ) {
-            assert( !maybe_holster.contents.empty() );
-            const size_t old_size = maybe_holster.contents.num_item_stacks();
-            invoke_item( &maybe_holster );
-            // TODO: change invoke_item to somehow report this change
-            // HACK: test whether wielding the item from the holster has been done.
-            // (Wielding may be prevented by various reasons: see player::wield_contained)
-            if( old_size != maybe_holster.contents.num_item_stacks() ) {
-                return true;
-            }
-        }
     }
 
     moves -= 15;
@@ -1185,7 +1168,7 @@ bool npc::wield( item &it )
         weapon = it;
     }
 
-    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     if( get_player_character().sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
@@ -1513,7 +1496,10 @@ void npc::decide_needs()
                               charges_of( itype_UPS_off, ups_drain );
             needrank[need_ammo] = static_cast<double>( ups_charges ) / ups_drain;
         } else {
-            needrank[need_ammo] = get_ammo( ammotype( *weapon.type->gun->ammo.begin() ) ).size();
+            const ammotype ammo_type = weapon.ammo_type();
+            if( ammo_type != ammotype::NULL_ID() ) {
+                needrank[need_ammo] = get_ammo( ammo_type ).size();
+            }
         }
         needrank[need_ammo] *= 5;
     }
@@ -1524,13 +1510,12 @@ void npc::decide_needs()
     needrank[need_weapon] = weapon_value( weapon );
     needrank[need_food] = 15 - get_hunger();
     needrank[need_drink] = 15 - get_thirst();
-    invslice slice = inv.slice();
-    for( auto &i : slice ) {
-        item inventory_item = i->front();
-        if( const item *food = inventory_item.get_food() ) {
-            needrank[ need_food ] += nutrition_for( *food ) / 4.0;
-            needrank[ need_drink ] += food->get_comestible()->quench / 4.0;
-        }
+    const auto inv_food = items_with( []( const item & itm ) {
+        return itm.is_food();
+    } );
+    for( auto &food : inv_food ) {
+        needrank[ need_food ] += nutrition_for( *food ) / 4.0;
+        needrank[ need_drink ] += food->get_comestible()->quench / 4.0;
     }
     needs.clear();
     size_t j;
@@ -1596,9 +1581,14 @@ bool npc::wants_to_sell( const item &it ) const
     return wants_to_sell( it, value( it, market_price ), market_price );
 }
 
-bool npc::wants_to_sell( const item &/*it*/, int at_price, int market_price ) const
+bool npc::wants_to_sell( const item &it, int at_price, int market_price ) const
 {
     if( mission == NPC_MISSION_SHOPKEEP ) {
+        // keep items that we either never want to trade, or don't want to trade while in use
+        if( it.has_flag( "TRADER_KEEP" ) ||
+            ( it.has_flag( "TRADER_KEEP_EQUIPPED" ) && ( is_worn( it ) || is_wielding( it ) ) ) ) {
+            return false;
+        }
         return true;
     }
 
@@ -2539,7 +2529,7 @@ void npc::die( Creature *nkiller )
     }
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
-        g->events().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
+        get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
     }
 
     if( killer == &player_character && ( !guaranteed_hostile() || hit_by_player ) ) {
@@ -2773,14 +2763,6 @@ void npc::on_load()
     if( has_trait( trait_HALLUCINATION ) ) {
         hallucination = true;
     }
-}
-
-void npc_chatbin::add_new_mission( mission *miss )
-{
-    if( miss == nullptr ) {
-        return;
-    }
-    missions.push_back( miss );
 }
 
 constexpr tripoint npc::no_goal_point;

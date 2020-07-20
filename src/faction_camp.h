@@ -22,10 +22,11 @@ enum class farm_ops : int {
     plant = 2,
     harvest = 4
 };
-inline bool operator&( const farm_ops &rhs, const farm_ops &lhs )
-{
-    return static_cast<int>( rhs ) & static_cast<int>( lhs );
-}
+
+template<>
+struct enum_traits<farm_ops> {
+    static constexpr bool is_flag_enum = true;
+};
 
 std::string get_mission_action_string( const std::string &input_mission );
 

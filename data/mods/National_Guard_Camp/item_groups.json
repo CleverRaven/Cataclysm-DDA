@@ -27,7 +27,7 @@
       [ "sm_extinguisher", 10 ],
       [ "flashlight", 20 ],
       [ "hat_hard", 50 ],
-      [ "toolbox", 5 ],
+      { "group": "tools_toolbox", "prob": 5 },
       [ "textbook_chemistry", 20 ],
       [ "iodine", 20 ],
       [ "prussian_blue", 20 ],
@@ -49,7 +49,7 @@
       { "item": "water", "prob": 20, "container-item": "55gal_drum", "charges-min": 350, "charges-max": 800 },
       { "item": "plut_cell", "prob": 30, "container-item": "30gal_drum", "charges-min": 5, "charges-max": 25 },
       { "item": "plut_cell", "prob": 10, "charges-min": 1, "charges-max": 5 },
-      [ "toolbox", 5 ]
+      { "group": "tools_toolbox", "prob": 5 }
     ]
   },
   {
@@ -143,7 +143,7 @@
       [ "jar_glass", 30 ],
       [ "adv_chemistry", 25 ],
       [ "radio", 10 ],
-      [ "toolbox", 10 ],
+      { "group": "tools_toolbox", "prob": 10 },
       [ "textbook_chemistry", 20 ],
       [ "gunpowder", 40 ],
       [ "incendiary", 10 ],

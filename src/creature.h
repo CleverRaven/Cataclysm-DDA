@@ -607,6 +607,7 @@ class Creature
 
         std::map<bodypart_str_id, bodypart> get_body() const;
         void set_body();
+        void init_parts_drench_capacity();
         void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
                                 int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
                                 int fat_to_max_hp = 0 );
@@ -619,6 +620,13 @@ class Creature
         int get_part_healed_total( const bodypart_id &id ) const;
         int get_part_damage_disinfected( const bodypart_id &id ) const;
         int get_part_damage_bandaged( const bodypart_id &id ) const;
+        int get_part_drench_capacity( const bodypart_id &id ) const;
+        int get_part_wetness( const bodypart_id &id ) const;
+        int get_part_temp_cur( const bodypart_id &id ) const;
+        int get_part_temp_conv( const bodypart_id &id ) const;
+        int get_part_frostbite_timer( const bodypart_id &id )const;
+
+        float get_part_wetness_percentage( const bodypart_id &id ) const;
 
         encumbrance_data get_part_encumbrance_data( const bodypart_id &id )const;
 
@@ -630,15 +638,28 @@ class Creature
 
         void set_part_encumbrance_data( const bodypart_id &id, encumbrance_data set );
 
+        void set_part_wetness( const bodypart_id &id, int set );
+        void set_part_temp_cur( const bodypart_id &id, int set );
+        void set_part_temp_conv( const bodypart_id &id, int set );
+        void set_part_frostbite_timer( const bodypart_id &id, int set );
+
         void mod_part_hp_cur( const bodypart_id &id, int mod );
         void mod_part_hp_max( const bodypart_id &id, int mod );
         void mod_part_healed_total( const bodypart_id &id, int mod );
         void mod_part_damage_disinfected( const bodypart_id &id, int mod );
         void mod_part_damage_bandaged( const bodypart_id &id, int mod );
+        void mod_part_wetness( const bodypart_id &id, int mod );
+        void mod_part_temp_cur( const bodypart_id &id, int mod );
+        void mod_part_temp_conv( const bodypart_id &id, int mod );
+        void mod_part_frostbite_timer( const bodypart_id &id, int mod );
 
-
+        void set_all_parts_temp_cur( int set );
+        void set_all_parts_temp_conv( int set );
+        void set_all_parts_wetness( int set );
         void set_all_parts_hp_cur( int set );
         void set_all_parts_hp_to_max();
+
+        bool has_atleast_one_wet_part();
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;

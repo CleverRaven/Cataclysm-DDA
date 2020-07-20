@@ -99,6 +99,7 @@ ignorable = {
     "palette",
     "region_overlay",
     "region_settings",
+    "relic_procgen_data",
     "requirement",
     "rotatable_symbol",
     "SCENARIO_BLACKLIST",

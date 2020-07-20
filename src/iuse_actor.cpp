@@ -3519,7 +3519,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "HEAL", _( "Effect on bleeding: " ), texitify_bandage_power( bleed ) );
         if( g != nullptr ) {
             dump.emplace_back( "HEAL", _( "Actual effect on bleeding: " ),
-                               texitify_healing_power( get_stopbleed_level( g->u ) ) );
+                               texitify_healing_power( get_stopbleed_level( get_player_character() ) ) );
         }
     }
     if( bite > 0.0f || infect > 0.0f ) {

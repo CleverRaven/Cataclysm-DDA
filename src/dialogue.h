@@ -124,6 +124,7 @@ struct talk_effect_fun_t {
         void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
                                 const translation &name );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
+        void set_npc_first_topic( const std::string &chat_topic );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {
@@ -203,8 +204,8 @@ struct talk_response {
      * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
      */
     mission *mission_selected = nullptr;
-    skill_id skill = skill_id::NULL_ID();
-    matype_id style = matype_id::NULL_ID();
+    skill_id skill = skill_id();
+    matype_id style = matype_id();
     spell_id dialogue_spell = spell_id();
 
     talk_effect_t success;

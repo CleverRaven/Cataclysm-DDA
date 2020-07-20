@@ -1060,7 +1060,7 @@ void iexamine::intercom( player &p, const tripoint &examp )
         p.add_msg_if_player( m_info, _( "No one responds." ) );
     } else {
         // TODO: This needs to be converted a talker_console or something
-        g->u.talk_to( get_talker_for( *intercom_npcs.front() ), false, false );
+        get_avatar().talk_to( get_talker_for( *intercom_npcs.front() ), false, false );
     }
 }
 
@@ -1529,7 +1529,7 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
         return;
     }
     // Send in a few wyrms to start things off.
-    g->events().send<event_type::awakes_dark_wyrms>();
+    get_event_bus().send<event_type::awakes_dark_wyrms>();
     int num_wyrms = rng( 1, 4 );
     for( int i = 0; i < num_wyrms; i++ ) {
         if( monster *const mon = g->place_critter_around( mon_dark_wyrm, p.pos(), 2 ) ) {
@@ -1719,7 +1719,7 @@ static void handle_harvest( player &p, const std::string &itemid, bool force_dro
 {
     item harvest = item( itemid );
     if( harvest.has_temperature() ) {
-        harvest.set_item_temperature( temp_to_kelvin( g->weather.get_temperature( p.pos() ) ) );
+        harvest.set_item_temperature( temp_to_kelvin( get_weather().get_temperature( p.pos() ) ) );
     }
     if( !force_drop && p.can_pickVolume( harvest, true ) &&
         p.can_pickWeight( harvest, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
@@ -4046,11 +4046,13 @@ cata::optional<tripoint> iexamine::getNearFilledGasTank( const tripoint &center,
         auto check_for_fuel_tank = here.furn( tmp );
 
         if( fuel_type == "gasoline" ) {
-            if( check_for_fuel_tank != furn_str_id( "f_gas_tank" ) ) {
+            if( check_for_fuel_tank != furn_str_id( "f_gas_tank" ) &&
+                here.ter( tmp ) != ter_str_id( "t_gas_tank" ) ) {
                 continue;
             }
         } else if( fuel_type == "diesel" ) {
-            if( check_for_fuel_tank != furn_str_id( "f_diesel_tank" ) ) {
+            if( check_for_fuel_tank != furn_str_id( "f_diesel_tank" ) &&
+                here.ter( tmp ) != ter_str_id( "t_diesel_tank" ) ) {
                 continue;
             }
         }

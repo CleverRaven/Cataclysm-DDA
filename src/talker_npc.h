@@ -99,6 +99,7 @@ class talker_npc : public talker_character
         std::string opinion_text() const override;
         void add_opinion( int trust, int fear, int value, int anger, int debt ) override;
         bool enslave_mind() override;
+        void set_first_topic( const std::string &chat_topic ) override;
 
     protected:
         npc *me_npc;

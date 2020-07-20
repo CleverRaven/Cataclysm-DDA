@@ -213,4 +213,6 @@ class stats_tracker : public event_subscriber
         std::unordered_set<string_id<score>> initial_scores;
 };
 
+stats_tracker &get_stats();
+
 #endif // CATA_SRC_STATS_TRACKER_H

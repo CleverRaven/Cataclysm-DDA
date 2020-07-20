@@ -26,6 +26,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "output.h"
+#include "path_info.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -1156,7 +1157,7 @@ void zone_data::deserialize( JsonIn &jsin )
 
 bool zone_manager::save_zones()
 {
-    std::string savefile = g->get_player_base_save_path() + ".zones.json";
+    std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
 
     added_vzones.clear();
     changed_vzones.clear();
@@ -1169,7 +1170,7 @@ bool zone_manager::save_zones()
 
 void zone_manager::load_zones()
 {
-    std::string savefile = g->get_player_base_save_path() + ".zones.json";
+    std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
 
     read_from_file_optional( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );

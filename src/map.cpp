@@ -123,11 +123,6 @@ static cata::colony<item> nulitems;          // Returned when &i_at() is asked f
 static field              nulfield;          // Returned when &field_at() is asked for an OOB value
 static level_cache        nullcache;         // Dummy cache for z-levels outside bounds
 
-map &get_map()
-{
-    return g->m;
-}
-
 // Map stack methods.
 map_stack::iterator map_stack::erase( map_stack::const_iterator it )
 {
@@ -3106,7 +3101,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
         Character &player_character = get_player_character();
         // Blame nearby player
         if( rl_dist( player_character.pos(), p ) <= 3 ) {
-            g->events().send<event_type::triggers_alarm>( player_character.getID() );
+            get_event_bus().send<event_type::triggers_alarm>( player_character.getID() );
             const point abs = ms_to_sm_copy( getabs( p.xy() ) );
             g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
                                  tripoint( abs, p.z ) );

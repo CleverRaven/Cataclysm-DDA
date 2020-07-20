@@ -260,7 +260,7 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
 {
     p = tripoint_zero;
     if( action == "CENTER" ) {
-        p = g->u.pos() - target;
+        p = get_player_character().pos() - target;
     } else if( action == "LEFT_WIDE" ) {
         p.x = -tmax.x / 2;
     } else if( action == "DOWN_WIDE" ) {
@@ -337,8 +337,9 @@ shared_ptr_fast<ui_adaptor> editmap::create_or_get_ui_adaptor()
 
 cata::optional<tripoint> editmap::edit()
 {
-    restore_on_out_of_scope<tripoint> view_offset_prev( g->u.view_offset );
-    target = g->u.pos() + g->u.view_offset;
+    avatar &player_character = get_avatar();
+    restore_on_out_of_scope<tripoint> view_offset_prev( player_character.view_offset );
+    target = player_character.pos() + player_character.view_offset;
     input_context ctxt( "EDITMAP" );
     ctxt.set_iso( true );
     ctxt.register_directions();
@@ -463,6 +464,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
     if( refresh_mplans ) {
         hilights["mplan"].points.clear();
     }
+    avatar &player_character = get_avatar();
     for( const tripoint &p : tripoint_range<tripoint>( start, end ) ) {
         int sym = game_map ? '%' : ' ';
         if( p.x >= 0 && p.x < msize && p.y >= 0 && p.y < msize ) {
@@ -471,7 +473,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                 if( critter != nullptr ) {
                     critter->draw( w, center.xy(), false );
                 } else {
-                    m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
+                    m->drawsq( w, player_character, p, false, draw_itm, center, false, true );
                 }
                 if( refresh_mplans ) {
                     monster *mon = dynamic_cast<monster *>( critter );
@@ -482,7 +484,7 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
                     }
                 }
             } else {
-                m->drawsq( w, g->u, p, false, draw_itm, center, false, true );
+                m->drawsq( w, player_character, p, false, draw_itm, center, false, true );
             }
         } else {
             mvwputch( w, p.xy() - start.xy(), c_dark_gray, sym );
@@ -495,7 +497,8 @@ void editmap::uber_draw_ter( const catacurses::window &w, map *m )
 
 void editmap::do_ui_invalidation()
 {
-    g->u.view_offset = target - g->u.pos();
+    avatar &player_character = get_avatar();
+    player_character.view_offset = target - player_character.pos();
     g->invalidate_main_ui_adaptor();
     create_or_get_ui_adaptor()->invalidate_ui();
 }
@@ -504,6 +507,7 @@ void editmap::draw_main_ui_overlay()
 {
     const Creature *critter = g->critter_at( target );
 
+    avatar &player_character = get_avatar();
     map &here = get_map();
 #if !defined( TILES )
     if( uberdraw ) {
@@ -515,7 +519,7 @@ void editmap::draw_main_ui_overlay()
     if( critter != nullptr ) {
         critter->draw( g->w_terrain, target, true );
     } else {
-        here.drawsq( g->w_terrain, g->u, target, true, true, target );
+        here.drawsq( g->w_terrain, player_character, target, true, true, target );
     }
 #ifdef TILES
     // give some visual indication of different cursor moving modes
@@ -625,7 +629,7 @@ void editmap::draw_main_ui_overlay()
                     g->draw_trap_override( map_p, tmpmap.tr_at( tmp_p ).loadid );
                     g->draw_field_override( map_p, tmpmap.field_at( tmp_p ).displayed_field_type() );
                     const maptile &tile = tmpmap.maptile_at( tmp_p );
-                    if( tmpmap.sees_some_items( tmp_p, g->u.pos() - origin_p ) ) {
+                    if( tmpmap.sees_some_items( tmp_p, player_character.pos() - origin_p ) ) {
                         const item &itm = tile.get_uppermost_item();
                         const mtype *const mon = itm.get_mtype();
                         g->draw_item_override( map_p, itm.typeId(), mon ? mon->id : mtype_id::NULL_ID(),
@@ -681,7 +685,7 @@ void editmap::draw_main_ui_overlay()
             tmpmap.reset_vehicle_cache( target.z );
             const tripoint center( SEEX - 1, SEEY - 1, target.z );
             for( const tripoint &p : tmpmap.points_on_zlevel() ) {
-                tmpmap.drawsq( g->w_terrain, g->u, p, false, true, center, false, true );
+                tmpmap.drawsq( g->w_terrain, player_character, p, false, true, center, false, true );
             }
 #ifdef TILES
         }
@@ -731,12 +735,13 @@ void editmap::update_view_with_help( const std::string &txt, const std::string &
     }
     const auto &map_cache = here.get_cache( target.z );
 
-    const std::string u_see_msg = g->u.sees( target ) ? _( "yes" ) : _( "no" );
+    Character &player_character = get_player_character();
+    const std::string u_see_msg = player_character.sees( target ) ? _( "yes" ) : _( "no" );
     mvwprintw( w_info, point( 1, off++ ), _( "dist: %d u_see: %s veh: %s scent: %d" ),
-               rl_dist( g->u.pos(), target ), u_see_msg, veh_msg, g->scent.get( target ) );
+               rl_dist( player_character.pos(), target ), u_see_msg, veh_msg, g->scent.get( target ) );
     mvwprintw( w_info, point( 1, off++ ), _( "sight_range: %d, daylight_sight_range: %d," ),
-               g->u.sight_range( g->light_level( g->u.posz() ) ),
-               g->u.sight_range( current_daylight_level( calendar::turn ) ) );
+               player_character.sight_range( g->light_level( player_character.posz() ) ),
+               player_character.sight_range( current_daylight_level( calendar::turn ) ) );
     mvwprintw( w_info, point( 1, off++ ), _( "transparency: %.5f, visibility: %.5f," ),
                map_cache.transparency_cache[target.x][target.y],
                map_cache.seen_cache[target.x][target.y] );

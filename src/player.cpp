@@ -293,7 +293,7 @@ void player::normalize()
 
     recalc_hp();
 
-    temp_conv.fill( BODYTEMP_NORM );
+    set_all_parts_temp_conv( BODYTEMP_NORM );
     set_stamina( get_stamina_max() );
 }
 
@@ -515,7 +515,7 @@ void player::recalc_speed_bonus()
         }
         const float temperature_speed_modifier = mutation_value( "temperature_speed_modifier" );
         if( temperature_speed_modifier != 0 ) {
-            const auto player_local_temp = g->weather.get_temperature( pos() );
+            const auto player_local_temp = get_weather().get_temperature( pos() );
             if( has_trait( trait_COLDBLOOD4 ) || player_local_temp < 65 ) {
                 mod_speed_bonus( ( player_local_temp - 65 ) * temperature_speed_modifier );
             }
@@ -1752,21 +1752,22 @@ void player::update_body_wetness( const w_point &weather )
     // To make drying uniform, make just one roll and reuse it
     const int drying_roll = rng( 1, 80 );
 
-    for( const body_part bp : all_body_parts ) {
-        if( body_wetness[bp] == 0 ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( get_part_wetness( bp ) == 0 ) {
             continue;
         }
         // This is to normalize drying times
-        int drying_chance = drench_capacity[bp];
+        int drying_chance = get_part_drench_capacity( bp );
+        const int temp_conv = get_part_temp_conv( bp );
         // Body temperature affects duration of wetness
         // Note: Using temp_conv rather than temp_cur, to better approximate environment
-        if( temp_conv[bp] >= BODYTEMP_SCORCHING ) {
+        if( temp_conv >= BODYTEMP_SCORCHING ) {
             drying_chance *= 2;
-        } else if( temp_conv[bp] >= BODYTEMP_VERY_HOT ) {
+        } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
             drying_chance = drying_chance * 3 / 2;
-        } else if( temp_conv[bp] >= BODYTEMP_HOT ) {
+        } else if( temp_conv >= BODYTEMP_HOT ) {
             drying_chance = drying_chance * 4 / 3;
-        } else if( temp_conv[bp] > BODYTEMP_COLD ) {
+        } else if( temp_conv > BODYTEMP_COLD ) {
             // Comfortable, doesn't need any changes
         } else {
             // Evaporation doesn't change that much at lower temp
@@ -1779,9 +1780,9 @@ void player::update_body_wetness( const w_point &weather )
 
         // TODO: Make evaporation reduce body heat
         if( drying_chance >= drying_roll ) {
-            body_wetness[bp] -= 1;
-            if( body_wetness[bp] < 0 ) {
-                body_wetness[bp] = 0;
+            mod_part_wetness( bp, 1 );
+            if( get_part_wetness( bp ) < 0 ) {
+                set_part_wetness( bp, 0 );
             }
         }
     }
@@ -2677,7 +2678,7 @@ player::wear( item &to_wear, bool interactive )
     }
 
     if( was_weapon ) {
-        g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+        get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
     }
 
     return result;
@@ -2757,7 +2758,7 @@ bool player::add_or_drop_with_msg( item &it, const bool /*unloading*/, const ite
     } else if( !this->can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) ) {
         put_into_vehicle_or_drop( *this, item_drop_reason::too_heavy, { it } );
     } else {
-        const bool allow_wield = !weapon.has_item( it );
+        const bool allow_wield = !weapon.has_item( it ) && weapon.magazine_current() != &it;
         const int prev_charges = it.charges;
         auto &ni = this->i_add( it, true, avoid, /*allow_drop=*/false, /*allow_wield=*/allow_wield );
         if( ni.is_null() ) {
@@ -3574,7 +3575,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
 
     weapon.on_wield( *this, mv );
 
-    g->events().send<event_type::character_wields_item>( getID(), weapon.typeId() );
+    get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
     return true;
 }

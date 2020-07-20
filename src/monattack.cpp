@@ -2247,7 +2247,7 @@ bool mattack::dermatik( monster *z )
                                body_part_name_accusative( targeted ) );
     if( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
         foe->add_effect( effect_dermatik, 1_turns, targeted->token, true );
-        g->events().send<event_type::dermatik_eggs_injected>( foe->getID() );
+        get_event_bus().send<event_type::dermatik_eggs_injected>( foe->getID() );
     }
 
     return true;

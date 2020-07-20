@@ -37,6 +37,7 @@
 #include "coordinate_conversions.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "enums.h"
 #include "faction.h"
@@ -71,6 +72,7 @@
 #include "overmap.h"
 #include "overmap_ui.h"
 #include "overmapbuffer.h"
+#include "path_info.h"
 #include "pimpl.h"
 #include "player.h"
 #include "pldata.h"
@@ -636,7 +638,7 @@ void character_edit_menu()
                 p.worn.push_back( to_wear );
             } else if( !to_wear.is_null() ) {
                 p.weapon = to_wear;
-                g->events().send<event_type::character_wields_item>( p.getID(), p.weapon.typeId() );
+                get_event_bus().send<event_type::character_wields_item>( p.getID(), p.weapon.typeId() );
             }
         }
         break;
@@ -1025,7 +1027,7 @@ void mission_debug::edit( player &who )
 
 void mission_debug::edit_npc( npc &who )
 {
-    npc_chatbin &bin = who.chatbin;
+    dialogue_chatbin &bin = who.chatbin;
     std::vector<mission *> all_missions;
 
     uilist mmenu;
@@ -1216,7 +1218,7 @@ void debug()
         return;
     }
 
-    g->events().send<event_type::uses_debug_menu>( *action );
+    get_event_bus().send<event_type::uses_debug_menu>( *action );
 
     avatar &player_character = get_avatar();
     map &here = get_map();
@@ -1423,7 +1425,7 @@ void debug()
             break;
 
         case debug_menu_index::SPAWN_CLAIRVOYANCE:
-            player_character.i_add( item( architects_cube(), calendar::turn ) );
+            player_character.i_add( item( "architect_cube", calendar::turn ) );
             break;
 
         case debug_menu_index::MAP_EDITOR:
@@ -1842,7 +1844,7 @@ void debug()
             }
             break;
         case debug_menu_index::TEST_WEATHER: {
-            g->weather.get_cur_weather_gen().test_weather( g->get_seed() );
+            get_weather().get_cur_weather_gen().test_weather( g->get_seed() );
         }
         break;
 
@@ -1850,7 +1852,7 @@ void debug()
 #if defined(TILES)
             // check that the current '<world>/screenshots' directory exists
             std::stringstream map_directory;
-            map_directory << g->get_world_base_save_path() << "/screenshots/";
+            map_directory << PATH_INFO::world_base_save_path() << "/screenshots/";
             assure_dir_exist( map_directory.str() );
 
             // build file name: <map_dir>/screenshots/[<character_name>]_<date>.png

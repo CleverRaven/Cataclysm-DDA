@@ -814,7 +814,7 @@ void conditional_t<T>::set_u_know_recipe( const JsonObject &jo, const std::strin
     condition = [known_recipe_id]( const T & ) {
         const recipe &rep = recipe_id( known_recipe_id ).obj();
         // should be a talker function but recipes aren't in Character:: yet
-        return g->u.knows_recipe( &rep );
+        return get_player_character().knows_recipe( &rep );
     };
 }
 
