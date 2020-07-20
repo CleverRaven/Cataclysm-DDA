@@ -36,7 +36,7 @@ $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
-	cd .. && tests/$(TEST_TARGET) -d yes --rng-seed time
+	cd .. && tests/$(TEST_TARGET) --min-duration 0.2 --rng-seed time
 
 clean:
 	rm -rf *obj *objwin
