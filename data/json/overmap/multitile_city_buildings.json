@@ -123,6 +123,20 @@
   },
   {
     "type": "city_building",
+    "id": "urban_9_house_garage_loft",
+    "overmaps": [
+      { "point": [ 0, 0, 0 ], "overmap": "urban_9_1_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "urban_9_2_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_9_3_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "urban_9_4_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "urban_9_5_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "urban_9_6_north" }
+    ],
+    "locations": [ "land" ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "city_building",
     "id": "urban_13_dense_house_apt_house",
     "overmaps": [
       { "point": [ 0, 0, -1 ], "overmap": "urban_13_1_south" },
