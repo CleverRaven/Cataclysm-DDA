@@ -9984,7 +9984,7 @@ std::string Character::is_snuggling() const
 int Character::warmth( const bodypart_id &bp ) const
 {
     int ret = 0;
-    int warmth = 0;
+    double warmth = 0.0;
 
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
@@ -9994,7 +9994,7 @@ int Character::warmth( const bodypart_id &bp ) const
             if( !i.made_of( material_id( "wool" ) ) ) {
                 warmth *= 1.0 - 0.66 * get_part_wetness_percentage( bp );
             }
-            ret += warmth;
+            ret += std::round( warmth );
         }
     }
     ret += get_effect_int( effect_heating_bionic, bp->token );
