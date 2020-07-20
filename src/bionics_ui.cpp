@@ -42,17 +42,14 @@ enum bionic_menu_mode {
 
 std::string sort_mode_str( bionic_ui_sort_mode mode )
 {
-    std::string ret;
     switch( mode ) {
         case bionic_ui_sort_mode::NONE:
         case bionic_ui_sort_mode::POWER:
-            ret = _( "Power Usage" );
-            break;
+            return _( "Power Usage" );
         case bionic_ui_sort_mode::NAME:
-            ret = _( "Name" );
-            break;
+            return _( "Name" );
     }
-    return ret;
+    return "error";
 }
 
 bool is_power_cbm( const bionic_data &data )
@@ -68,7 +65,6 @@ units::energy bionic_sort_power( const bionic_data &lbd )
 
 struct bionic_sort_less {
     bool operator()( const bionic *lhs, const bionic *rhs ) const {
-        bool less = false;
         const bionic_data &lbd = lhs->info();
         const bionic_data &rbd = rhs->info();
 
@@ -78,16 +74,14 @@ struct bionic_sort_less {
                 units::energy lbd_sort_power = bionic_sort_power( lbd );
                 units::energy rbd_sort_power = bionic_sort_power( rbd );
                 if( lbd_sort_power != rbd_sort_power ) {
-                    less = lbd_sort_power < rbd_sort_power;
-                    break;
+                    return lbd_sort_power < rbd_sort_power;
                 }
             }
             /* fallthrough */
             case bionic_ui_sort_mode::NAME:
-                less = localized_compare( lbd.name.translated(), rbd.name.translated() );
-                break;
+                return localized_compare( lbd.name.translated(), rbd.name.translated() );
         }
-        return less;
+        return false;
     }
 };
 
@@ -112,19 +106,15 @@ bionic_ui_sort_mode pick_sort_mode()
     tmenu.addentry( 1, true, 'p', sort_mode_str( bionic_ui_sort_mode::POWER ) );
     tmenu.addentry( 2, true, 'n', sort_mode_str( bionic_ui_sort_mode::NAME ) );
 
-    bionic_ui_sort_mode ret = bionic_ui_sort_mode::POWER;
-
     tmenu.query();
     switch( tmenu.ret ) {
         case 1:
-            ret = bionic_ui_sort_mode::POWER;
-            break;
+            return bionic_ui_sort_mode::POWER;
         case 2:
-            ret = bionic_ui_sort_mode::NAME;
-            break;
+            return bionic_ui_sort_mode::NAME;
     }
 
-    return ret;
+    return bionic_ui_sort_mode::POWER;
 }
 
 } // namespace
@@ -132,20 +122,17 @@ bionic_ui_sort_mode pick_sort_mode()
 namespace io
 {
 template<>
-std::string io::enum_to_string<bionic_ui_sort_mode>( bionic_ui_sort_mode mode )
+std::string enum_to_string<bionic_ui_sort_mode>( bionic_ui_sort_mode mode )
 {
-    std::string ret;
     switch( mode ) {
         case bionic_ui_sort_mode::NONE:
         case bionic_ui_sort_mode::POWER:
-            ret = "power";
-            break;
+            return "power";
         case bionic_ui_sort_mode::NAME:
-            ret = "name";
-            break;
+            return "name";
     }
 
-    return ret;
+    return "error";
 }
 } // namespace io
 
@@ -831,7 +818,6 @@ void player::power_bionics()
             // FIXME: is there a better way to resort?
             active = filtered_bionics( *my_bionics, TAB_ACTIVE );
             passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
-            g->invalidate_main_ui_adaptor();
         } else if( action == "CONFIRM" || action == "ANY_INPUT" ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
             if( action == "CONFIRM" && !current_bionic_list->empty() ) {
