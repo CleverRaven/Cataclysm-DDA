@@ -4275,7 +4275,7 @@
           "granola",
           "granola",
           "granola"
-          ],
+        ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],
@@ -4292,20 +4292,11 @@
     "vehicle": "superbike",
     "items": {
       "both": {
-        "items": [
-          "helmet_motor",
-          "touring_suit",
-          "tshirt",
-          "jeans",
-          "socks",
-          "boots",
-          "gloves_leather",
-          "wristwatch"
-          ],
+        "items": [ "helmet_motor", "touring_suit", "tshirt", "jeans", "socks", "boots", "gloves_leather", "wristwatch" ],
         "entries": [ { "group": "charged_cell_phone" } ]
       },
       "male": [ "boxer_shorts" ],
       "female": [ "sports_bra", "boy_shorts" ]
     }
   }
-  ]
+]
