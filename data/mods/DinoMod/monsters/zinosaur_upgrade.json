@@ -109,7 +109,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "upgrades": { "half_life": 15, "into": "mon_zyrannosaurus_truck" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
@@ -592,5 +592,27 @@
     "extend": { "flags": [ "HARDTOSHOOT" ] },
     "harvest": "mr_bones",
     "categories": [ "DINOSAUR" ]
+  },
+    {
+    "type": "MONSTER",
+    "id": "mon_zyrannosaurus_truck",
+    "name": { "str": "tyruckusaurus rex" },
+    "copy-from": "mon_zyrannosaurus_brute",
+    "description": "Massive piles of ragged, stinking flesh lifting enormous teeth and what looks like a fully loaded long haul truck with mounted flamethrowers and robotic arms.",
+    "diff": 10,
+    "color": "dark_gray_red",
+    "luminance": 20,
+    "proportional": { "hp": 1.5, "speed": 0.8 },
+    "relative": {
+      "armor_bash": 30,
+      "armor_cut": 37
+    },
+    "extend": { "flags": [ "DRIPS_GASOLINE" ] },
+    "special_attacks": [ [ "GRAB", 30 ], [ "FLAMETHROWER", 30 ] ],
+    "upgrades": {  },
+    "death_drops": [
+        { "item": "wheel", "count": 4 }, { "group": "supplies_spares_vehicle", "count": 10}, { "group": "supplies_mechanics", "count": 10}, { "group": "supplies_metal", "count": 10} 
+    ],
+      "death_function": [ "FIREBALL" ]
   }
 ]
