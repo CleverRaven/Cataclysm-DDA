@@ -75,10 +75,19 @@ constexpr origin origin_from_scale( scale s )
     }
 }
 
-// A generic coordinate-type-safe point.
-// Point should be the underlying representation type (either point or
-// tripoint).
-// Scale and Origin define the coordinate system for the point.
+/**
+ * A generic coordinate-type-safe point.
+ *
+ * Generally you wouldn't use this class directly, but via the typedefs below
+ * (point_abs_ms, etc.).
+ *
+ * Point should be the underlying representation type (either point or
+ * tripoint).
+ *
+ * Origin and Scale define the coordinate system for the point.
+ *
+ * For more details see doc/POINTS_COORDINATES.md.
+ */
 template<typename Point, origin Origin, scale Scale>
 class coord_point
 {
@@ -438,6 +447,8 @@ struct hash<coords::coord_point<Point, Origin, Scale>> {
  * For example:
  * point_omt_ms is the position of a map square within an overmap terrain.
  * tripoint_rel_sm is a relative tripoint submap offset.
+ *
+ * For more details see doc/POINTS_COORDINATES.md.
  */
 /*@{*/
 using point_rel_ms = coords::coord_point<point, coords::origin::relative, coords::ms>;
