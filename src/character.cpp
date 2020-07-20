@@ -178,7 +178,7 @@ static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_winded( "winded" );
 
-const field_type_str_id fd_clairvoyant( "fd_clairvoyant" );
+static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_apparatus( "apparatus" );
@@ -11132,7 +11132,7 @@ bool Character::sees( const Creature &critter ) const
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
         return true;
     }
-    if( fd_clairvoyant.is_valid() && get_map().get_field( critter.pos(), fd_clairvoyant ) ) {
+    if( field_fd_clairvoyant.is_valid() && get_map().get_field( critter.pos(), field_fd_clairvoyant ) ) {
         return true;
     }
     return Creature::sees( critter );
