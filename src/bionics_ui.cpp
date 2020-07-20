@@ -38,13 +38,13 @@ enum bionic_menu_mode {
     REASSIGNING
 };
 
-enum bionic_sort_mode {
+enum class bionic_sort_mode {
     POWER,
     NAME,
 };
 bionic_sort_mode _bionic_sort_mode = bionic_sort_mode::POWER;
 
-auto sort_mode_str( bionic_sort_mode mode ) -> std::string
+std::string sort_mode_str( bionic_sort_mode mode )
 {
     std::string ret;
     switch( mode ) {
@@ -58,19 +58,19 @@ auto sort_mode_str( bionic_sort_mode mode ) -> std::string
     return ret;
 }
 
-auto is_power_cbm( const bionic_data &data ) -> bool
+bool is_power_cbm( const bionic_data &data )
 {
     return !data.fuel_opts.empty() || data.is_remote_fueled;
 }
 
-auto bionic_sort_power( const bionic_data &lbd ) -> units::energy
+units::energy bionic_sort_power( const bionic_data &lbd )
 {
     return is_power_cbm( lbd ) ? units::energy( -1_kJ * lbd.fuel_efficiency ) :
            lbd.power_activate + lbd.power_over_time;
 }
 
 struct bionic_sort_less {
-    auto operator()( const bionic *lhs, const bionic *rhs ) const -> bool {
+    bool operator()( const bionic *lhs, const bionic *rhs ) const {
         bool less = false;
         const bionic_data &lbd = lhs->info();
         const bionic_data &rbd = rhs->info();
@@ -86,7 +86,7 @@ struct bionic_sort_less {
             }
             /* fallthrough */
             case bionic_sort_mode::NAME:
-                less = lbd.name.translated() < rbd.name.translated();
+                less = localized_compare( lbd.name.translated(), rbd.name.translated() );
                 break;
         }
         return less;
@@ -95,8 +95,8 @@ struct bionic_sort_less {
 
 using sorted_bionics = cata::flat_set<bionic *, bionic_sort_less>;
 
-auto filtered_bionics( bionic_collection &all_bionics,
-                       bionic_tab_mode mode ) -> sorted_bionics
+sorted_bionics filtered_bionics( bionic_collection &all_bionics,
+                                 bionic_tab_mode mode )
 {
     sorted_bionics filtered_entries;
     for( auto &elem : all_bionics ) {
@@ -107,7 +107,7 @@ auto filtered_bionics( bionic_collection &all_bionics,
     return filtered_entries;
 }
 
-auto pick_sort_mode() -> bionic_sort_mode
+bionic_sort_mode pick_sort_mode()
 {
     uilist tmenu;
     tmenu.text = _( "Sort bionics by:" );
@@ -239,7 +239,7 @@ static void draw_bionics_titlebar( const catacurses::window &window, player *p,
                                   ctxt.get_desc( "REASSIGN" ), ctxt.get_desc( "NEXT_TAB" ), ctxt.get_desc( "TOGGLE_SAFE_FUEL" ),
                                   ctxt.get_desc( "TOGGLE_AUTO_START" ) );
     desc_append += string_format( _( " [<color_yellow>%s</color>] Sort: %s" ), ctxt.get_desc( "SORT" ),
-                                  ::sort_mode_str( ::_bionic_sort_mode ) );
+                                  sort_mode_str( _bionic_sort_mode ) );
     std::string desc;
     if( mode == REASSIGNING ) {
         desc = _( "Reassigning.  Select a bionic to reassign or press [<color_yellow>SPACE</color>] to cancel." );
@@ -508,8 +508,8 @@ static nc_color get_bionic_text_color( const bionic &bio, const bool isHighlight
 
 void player::power_bionics()
 {
-    ::sorted_bionics passive = ::filtered_bionics( *my_bionics, TAB_PASSIVE );
-    ::sorted_bionics active = ::filtered_bionics( *my_bionics, TAB_ACTIVE );
+    sorted_bionics passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
+    sorted_bionics active = filtered_bionics( *my_bionics, TAB_ACTIVE );
     bionic *bio_last = nullptr;
     bionic_tab_mode tab_mode = TAB_ACTIVE;
 
@@ -606,7 +606,7 @@ void player::power_bionics()
             return;
         }
 
-        ::sorted_bionics *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
+        sorted_bionics *current_bionic_list = ( tab_mode == TAB_ACTIVE ? &active : &passive );
 
         werase( wBio );
         draw_border( wBio, BORDER_COLOR, _( " BIONICS " ) );
@@ -809,10 +809,10 @@ void player::power_bionics()
                 }
             }
         } else if( action == "SORT" ) {
-            ::_bionic_sort_mode = ::pick_sort_mode();
+            _bionic_sort_mode = pick_sort_mode();
             // FIXME: is there a better way to resort?
-            active = ::filtered_bionics( *my_bionics, TAB_ACTIVE );
-            passive = ::filtered_bionics( *my_bionics, TAB_PASSIVE );
+            active = filtered_bionics( *my_bionics, TAB_ACTIVE );
+            passive = filtered_bionics( *my_bionics, TAB_PASSIVE );
             g->invalidate_main_ui_adaptor();
         } else if( action == "CONFIRM" || action == "ANY_INPUT" ) {
             auto &bio_list = tab_mode == TAB_ACTIVE ? active : passive;
