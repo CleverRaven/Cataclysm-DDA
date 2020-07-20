@@ -428,6 +428,8 @@ void npc::assess_danger()
     if( is_player_ally() && rules.engagement == combat_engagement::FREE_FIRE ) {
         def_radius = std::max( 6, max_range );
     }
+    const bool must_retreat = rules.has_flag( ally_rule::follow_close ) &&
+                              !too_close( pos(), player_character.pos(), def_radius );
     // find our Character friends and enemies
     std::vector<weak_ptr_fast<Creature>> hostile_guys;
     for( const npc &guy : g->all_npcs() ) {
@@ -469,6 +471,9 @@ void npc::assess_danger()
             if( critter_threat > ( 8.0f + personality.bravery + rng( 0, 5 ) ) ) {
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
+        }
+        if( must_retreat ) {
+            continue;
         }
         // ignore targets behind glass even if we can see them
         if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
@@ -526,6 +531,9 @@ void npc::assess_danger()
 
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
+        if( must_retreat ) {
+            return 0.0f;
+        }
         // ignore targets behind glass even if we can see them
         if( !clear_shot_reach( pos(), foe.pos(), false ) ) {
             return 0.0f;
@@ -857,7 +865,8 @@ void npc::move()
         }
     }
     if( action == npc_undecided ) {
-        // an interrupted activity can cause this situation. stops allied NPCs zooming off like random NPCs
+        // an interrupted activity can cause this situation. stops allied NPCs zooming off
+        // like random NPCs
         if( attitude == NPCATT_ACTIVITY && !activity ) {
             revert_after_activity();
             if( is_ally( player_character ) ) {
