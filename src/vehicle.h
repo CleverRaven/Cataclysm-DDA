@@ -83,14 +83,11 @@ enum class part_status_flag : int {
     available = 1 << 1,
     enabled = 1 << 2
 };
-part_status_flag inline operator|( const part_status_flag &rhs, const part_status_flag &lhs )
-{
-    return static_cast<part_status_flag>( static_cast<int>( lhs ) | static_cast<int>( rhs ) );
-}
-int inline operator&( const part_status_flag &rhs, const part_status_flag &lhs )
-{
-    return static_cast<int>( lhs ) & static_cast<int>( rhs );
-}
+
+template<>
+struct enum_traits<part_status_flag> {
+    static constexpr bool is_flag_enum = true;
+};
 
 enum veh_coll_type : int {
     veh_coll_nothing,  // 0 - nothing,

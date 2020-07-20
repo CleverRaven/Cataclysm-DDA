@@ -157,21 +157,15 @@ struct iteminfo {
         iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
 
+template<>
+struct enum_traits<iteminfo::flags> {
+    static constexpr bool is_flag_enum = true;
+};
+
 iteminfo vol_to_info( const std::string &type, const std::string &left,
                       const units::volume &vol, int decimal_places = 2 );
 iteminfo weight_to_info( const std::string &type, const std::string &left,
                          const units::mass &weight, int decimal_places = 2 );
-
-inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
-{
-    using I = std::underlying_type<iteminfo::flags>::type;
-    return static_cast<iteminfo::flags>( static_cast<I>( l ) | r );
-}
-
-inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
-{
-    return l = l | r;
-}
 
 inline bool is_crafting_component( const item &component );
 
@@ -2288,17 +2282,10 @@ class item : public visitable<item>
         void update_clothing_mod_val();
 };
 
-inline item::encumber_flags operator&( item::encumber_flags l, item::encumber_flags r )
-{
-    using I = std::underlying_type_t<item::encumber_flags>;
-    return static_cast<item::encumber_flags>( static_cast<I>( l ) & static_cast<I>( r ) );
-}
-
-inline bool operator!( item::encumber_flags f )
-{
-    using I = std::underlying_type_t<item::encumber_flags>;
-    return !static_cast<I>( f );
-}
+template<>
+struct enum_traits<item::encumber_flags> {
+    static constexpr bool is_flag_enum = true;
+};
 
 bool item_compare_by_charges( const item &left, const item &right );
 bool item_ptr_compare_by_charges( const item *left, const item *right );
