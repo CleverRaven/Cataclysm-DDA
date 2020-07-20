@@ -11132,7 +11132,8 @@ bool Character::sees( const Creature &critter ) const
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
         return true;
     }
-    if( field_fd_clairvoyant.is_valid() && get_map().get_field( critter.pos(), field_fd_clairvoyant ) ) {
+    if( field_fd_clairvoyant.is_valid() &&
+        get_map().get_field( critter.pos(), field_fd_clairvoyant ) ) {
         return true;
     }
     return Creature::sees( critter );
