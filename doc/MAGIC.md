@@ -268,7 +268,8 @@ Spell types:
      "effect": "projectile_attack",                           // effects are coded in C++. A list is provided in this document of possible effects that have been coded.
     "effect_str": "stunned",                                 // varies, see table of implemented effects in this document
     "min_damage": 10,                                        // minimum damage (or "starting" damage)
-    "max_damage": 20,                                        // maximum damage the spell can achieve 
+    "max_damage": 20,                                        // maximum damage the spell can achieve
+    "damage_increment": 1.0,                              // How much damage increases per spell level increase
     "min_range": 4,                                          // range of the spell
     "max_range": 4,
     "base_casting_time": 500,                                // this is the casting time (in moves)
