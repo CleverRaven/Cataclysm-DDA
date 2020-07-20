@@ -348,6 +348,7 @@ Spell types:
     "effect_str": "target_message",                     // varies, see table of implemented effects in this document
     "min_damage": 5,                                    // minimum (starting damage)
     "max_damage": 7,                                    // maximum damage the spell can achieve
+    "damage_increment": 0.2                        // damage increase per spell level
     "min_range": 10,                                    // range of the spell
     "max_range": 10,
     "min_duration": 1,                                  // duration of spell effect (if the spell has a special effect)
