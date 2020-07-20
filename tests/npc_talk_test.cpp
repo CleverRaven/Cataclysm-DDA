@@ -87,7 +87,9 @@ static std::string gen_dynamic_line( dialogue &d )
 
 static void change_om_type( const std::string &new_type )
 {
-    const tripoint omt_pos = ms_to_omt_copy( get_map().getabs( get_player_character().pos() ) );
+    // TODO: fix point types
+    const tripoint_abs_omt omt_pos( ms_to_omt_copy( get_map().getabs(
+                                        get_player_character().pos() ) ) );
     overmap_buffer.ter_set( omt_pos, oter_id( new_type ) );
 }
 

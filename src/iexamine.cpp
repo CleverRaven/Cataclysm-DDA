@@ -373,9 +373,10 @@ void iexamine::gaspump( player &p, const tripoint &examp )
 
 void iexamine::translocator( player &, const tripoint &examp )
 {
-    const tripoint omt_loc = ms_to_omt_copy( get_map().getabs( examp ) );
+    // TODO: fix point types
+    const tripoint_abs_omt omt_loc( ms_to_omt_copy( get_map().getabs( examp ) ) );
     avatar &player_character = get_avatar();
-    const bool activated = player_character.translocators.knows_translocator( examp );
+    const bool activated = player_character.translocators.knows_translocator( omt_loc );
     if( !activated ) {
         player_character.translocators.activate_teleporter( omt_loc, examp );
         add_msg( m_info, _( "Translocator gate active." ) );
@@ -1487,7 +1488,8 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
     g->validate_camps();
     map &here = get_map();
-    point omt = ms_to_omt_copy( here.getabs( examp.xy() ) );
+    // TODO: fix point types
+    point_abs_omt omt( ms_to_omt_copy( here.getabs( examp.xy() ) ) );
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;

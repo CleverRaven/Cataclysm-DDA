@@ -21,6 +21,7 @@
 #include "colony.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "disease.h"
 #include "effect.h"
@@ -754,19 +755,21 @@ int Character::unimpaired_range() const
     return std::min( sight_max, 60 );
 }
 
-bool Character::overmap_los( const tripoint &omt, int sight_points )
+bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points )
 {
-    const tripoint ompos = global_omt_location();
-    if( omt.x < ompos.x - sight_points || omt.x > ompos.x + sight_points ||
-        omt.y < ompos.y - sight_points || omt.y > ompos.y + sight_points ) {
+    const tripoint_abs_omt ompos = global_omt_location();
+    const point_rel_omt offset = omt.xy() - ompos.xy();
+    if( offset.x() < -sight_points || offset.x() > sight_points ||
+        offset.y() < -sight_points || offset.y() > sight_points ) {
         // Outside maximum sight range
         return false;
     }
 
-    const std::vector<tripoint> line = line_to( ompos, omt, 0, 0 );
+    // TODO: fix point types
+    const std::vector<tripoint> line = line_to( ompos.raw(), omt.raw(), 0, 0 );
     for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
         const tripoint &pt = line[i];
-        const oter_id &ter = overmap_buffer.ter( pt );
+        const oter_id &ter = overmap_buffer.ter( tripoint_abs_omt( pt ) );
         sight_points -= static_cast<int>( ter->get_see_cost() );
         if( sight_points < 0 ) {
             return false;
@@ -6782,9 +6785,10 @@ tripoint Character::global_sm_location() const
     return ms_to_sm_copy( global_square_location() );
 }
 
-tripoint Character::global_omt_location() const
+tripoint_abs_omt Character::global_omt_location() const
 {
-    return ms_to_omt_copy( global_square_location() );
+    // TODO: fix point types
+    return tripoint_abs_omt( ms_to_omt_copy( global_square_location() ) );
 }
 
 bool Character::is_blind() const
@@ -9640,11 +9644,11 @@ void Character::apply_persistent_morale()
     }
     // Nomads get a morale penalty if they stay near the same overmap tiles too long.
     if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) {
-        const tripoint ompos = global_omt_location();
+        const tripoint_abs_omt ompos = global_omt_location();
         float total_time = 0;
         // Check how long we've stayed in any overmap tile within 5 of us.
         const int max_dist = 5;
-        for( const tripoint &pos : points_in_radius( ompos, max_dist ) ) {
+        for( const tripoint_abs_omt &pos : points_in_radius( ompos, max_dist ) ) {
             const float dist = rl_dist( ompos, pos );
             if( dist > max_dist ) {
                 continue;
@@ -10823,10 +10827,10 @@ void Character::place_corpse()
     here.add_item_or_charges( pos(), body );
 }
 
-void Character::place_corpse( const tripoint &om_target )
+void Character::place_corpse( const tripoint_abs_omt &om_target )
 {
     tinymap bay;
-    bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
+    bay.load( project_to<coords::scale::submap>( om_target ), false );
     point fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map

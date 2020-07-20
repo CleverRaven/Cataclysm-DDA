@@ -3,6 +3,7 @@
 #define CATA_SRC_WEATHER_H
 
 #include "color.h"
+#include "coordinates.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "point.h"
@@ -75,7 +76,7 @@ std::string get_shortdirstring( int angle );
 
 std::string get_dirstring( int angle );
 
-std::string weather_forecast( const point &abs_sm_pos );
+std::string weather_forecast( const point_abs_sm &abs_sm_pos );
 
 // Returns input value (in Fahrenheit) converted to whatever temperature scale set in options.
 //
@@ -123,8 +124,12 @@ int get_hourly_rotpoints_at_temp( int temp );
 
 /**
  * Is it warm enough to plant seeds?
+ *
+ * The first overload is in map-square coords, the second for larger scale
+ * queries.
  */
 bool warm_enough_to_plant( const tripoint &pos );
+bool warm_enough_to_plant( const tripoint_abs_omt &pos );
 
 bool is_wind_blocker( const tripoint &location );
 
@@ -169,6 +174,8 @@ class weather_manager
         std::unordered_map< tripoint, int > temperature_cache;
         // Returns outdoor or indoor temperature of given location (in absolute (@ref map::getabs))
         int get_temperature( const tripoint &location );
+        // Returns outdoor or indoor temperature of given location
+        int get_temperature( const tripoint_abs_omt &location );
         void clear_temp_cache();
 };
 

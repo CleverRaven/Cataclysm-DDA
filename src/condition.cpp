@@ -321,7 +321,7 @@ void conditional_t<T>::set_at_om_location( const JsonObject &jo, const std::stri
 {
     const std::string &location = jo.get_string( member );
     condition = [location, is_npc]( const T & d ) {
-        const tripoint omt_pos = d.actor( is_npc )->global_omt_location();
+        const tripoint_abs_omt omt_pos = d.actor( is_npc )->global_omt_location();
         const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
 
         if( location == "FACTION_CAMP_ANY" ) {

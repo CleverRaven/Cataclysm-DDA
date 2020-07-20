@@ -634,6 +634,12 @@ special_game_type game::gametype() const
 
 void game::load_map( const tripoint &pos_sm )
 {
+    // TODO: fix point types
+    m.load( pos_sm, true );
+}
+
+void game::load_map( const tripoint_abs_sm &pos_sm )
+{
     m.load( pos_sm, true );
 }
 
@@ -665,7 +671,7 @@ bool game::start_game()
 
     const start_location &start_loc = u.random_start_location ? scen->random_start_location().obj() :
                                       u.start_location.obj();
-    const tripoint omtstart = start_loc.find_player_initial_location();
+    const tripoint_abs_omt omtstart = start_loc.find_player_initial_location();
     if( omtstart == overmap::invalid_tripoint ) {
         return false;
     }
@@ -677,7 +683,8 @@ bool game::start_game()
         start_loc.add_map_extra( omtstart, scen->get_map_extra() );
     }
 
-    tripoint lev = omt_to_sm_copy( omtstart );
+    // TODO: fix point types
+    tripoint lev = project_to<coords::scale::submap>( omtstart ).raw();
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= HALF_MAPSIZE;
     lev.y -= HALF_MAPSIZE;
@@ -817,14 +824,15 @@ bool game::start_game()
             u.custom_profession, getVersionString() );
     time_played_at_last_load = std::chrono::seconds( 0 );
     time_of_last_load = std::chrono::steady_clock::now();
-    tripoint abs_omt = u.global_omt_location();
+    tripoint_abs_omt abs_omt = u.global_omt_location();
     const oter_id &cur_ter = overmap_buffer.ter( abs_omt );
-    get_event_bus().send<event_type::avatar_enters_omt>( abs_omt, cur_ter );
+    get_event_bus().send<event_type::avatar_enters_omt>( abs_omt.raw(), cur_ter );
     return true;
 }
 
-vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
-                                     int max_distance, const std::vector<std::string> &omt_search_types )
+vehicle *game::place_vehicle_nearby(
+    const vproto_id &id, const point_abs_omt &origin, int min_distance,
+    int max_distance, const std::vector<std::string> &omt_search_types )
 {
     std::vector<std::string> search_types = omt_search_types;
     if( search_types.empty() ) {
@@ -848,12 +856,12 @@ vehicle *game::place_vehicle_nearby( const vproto_id &id, const point &origin, i
         find_params.min_distance = min_distance;
         find_params.search_range = max_distance;
         // if player spawns underground, park their car on the surface.
-        const tripoint omt_origin( origin, 0 );
-        for( const tripoint &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
+        const tripoint_abs_omt omt_origin( origin, 0 );
+        for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
             // try place vehicle there.
             tinymap target_map;
-            target_map.load( omt_to_sm_copy( goal ), false );
-            const tripoint tinymap_center( SEEX, SEEY, goal.z );
+            target_map.load( project_to<coords::scale::submap>( goal ), false );
+            const tripoint tinymap_center( SEEX, SEEY, goal.z() );
             static const std::vector<int> angles = {0, 90, 180, 270};
             vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ), rng( 50, 80 ),
                                                    0, false );
@@ -1946,7 +1954,7 @@ void game::validate_camps()
     if( camp.is_valid() ) {
         overmap_buffer.add_camp( camp );
         m.remove_submap_camp( u.pos() );
-    } else if( camp.camp_omt_pos() != tripoint_zero ) {
+    } else if( camp.camp_omt_pos() != tripoint_abs_omt() ) {
         std::string camp_name = _( "Faction Camp" );
         camp.set_name( camp_name );
         overmap_buffer.add_camp( camp );
@@ -3302,13 +3310,13 @@ void game::display_faction_epilogues()
 }
 
 struct npc_dist_to_player {
-    const tripoint ppos{};
+    const tripoint_abs_omt ppos{};
     npc_dist_to_player() : ppos( get_player_character().global_omt_location() ) { }
     // Operator overload required to leverage sort API.
     bool operator()( const shared_ptr_fast<npc> &a,
                      const shared_ptr_fast<npc> &b ) const {
-        const tripoint apos = a->global_omt_location();
-        const tripoint bpos = b->global_omt_location();
+        const tripoint_abs_omt apos = a->global_omt_location();
+        const tripoint_abs_omt bpos = b->global_omt_location();
         return square_dist( ppos.xy(), apos.xy() ) <
                square_dist( ppos.xy(), bpos.xy() );
     }
@@ -3316,7 +3324,7 @@ struct npc_dist_to_player {
 
 void game::disp_NPCs()
 {
-    const tripoint ppos = u.global_omt_location();
+    const tripoint_abs_omt ppos = u.global_omt_location();
     const tripoint &lpos = u.pos();
     const int scan_range = 120;
     std::vector<shared_ptr_fast<npc>> npcs = overmap_buffer.get_npcs_near_player( scan_range );
@@ -3333,11 +3341,9 @@ void game::disp_NPCs()
     ui.mark_resize();
     ui.on_redraw( [&]( const ui_adaptor & ) {
         werase( w );
-        mvwprintz( w, point_zero, c_white, _( "Your overmap position: %d, %d, %d" ), ppos.x, ppos.y,
-                   ppos.z );
+        mvwprintz( w, point_zero, c_white, _( "Your overmap position: %s" ), ppos.to_string() );
         // NOLINTNEXTLINE(cata-use-named-point-constants)
-        mvwprintz( w, point( 0, 1 ), c_white, _( "Your local position: %d, %d, %d" ), lpos.x, lpos.y,
-                   lpos.z );
+        mvwprintz( w, point( 0, 1 ), c_white, _( "Your local position: %s" ), lpos.to_string() );
         size_t i;
         int static_npc_count = 0;
         for( i = 0; i < npcs.size(); i++ ) {
@@ -3349,9 +3355,9 @@ void game::disp_NPCs()
         mvwprintz( w, point( 0, 2 ), c_white, _( "Total NPCs within %d OMTs: %d.  %d are static NPCs." ),
                    scan_range, npcs.size(), static_npc_count );
         for( i = 0; i < 20 && i < npcs.size(); i++ ) {
-            const tripoint apos = npcs[i]->global_omt_location();
-            mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %d, %d, %d", npcs[i]->name,
-                       apos.x, apos.y, apos.z );
+            const tripoint_abs_omt apos = npcs[i]->global_omt_location();
+            mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %s", npcs[i]->name,
+                       apos.to_string() );
         }
         for( const monster &m : all_monsters() ) {
             mvwprintz( w, point( 0, i + 4 ), c_white, "%s: %d, %d, %d", m.name(),
@@ -3761,16 +3767,16 @@ void game::draw_minimap()
     werase( w_minimap );
     draw_border( w_minimap );
 
-    const tripoint curs = u.global_omt_location();
-    const point curs2( curs.xy() );
-    const tripoint targ = u.get_active_mission_target();
+    const tripoint_abs_omt curs = u.global_omt_location();
+    const point_abs_omt curs2( curs.xy() );
+    const tripoint_abs_omt targ = u.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
 
     for( int i = -2; i <= 2; i++ ) {
         for( int j = -2; j <= 2; j++ ) {
-            const point om( curs2 + point( i, j ) );
+            const point_abs_omt om( curs2 + point( i, j ) );
             nc_color ter_color;
-            tripoint omp( om, get_levz() );
+            tripoint_abs_omt omp( om, get_levz() );
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
             const bool vehicle_here = overmap_buffer.has_vehicle( omp );
@@ -3896,11 +3902,11 @@ void game::draw_minimap()
 
     // Print arrow to mission if we have one!
     if( !drew_mission ) {
-        double slope = ( curs2.x != targ.x ) ? static_cast<double>( targ.y - curs2.y ) / static_cast<double>
-                       ( targ.x - curs2.x ) : 4;
+        double slope = curs2.x() != targ.x() ?
+                       static_cast<double>( targ.y() - curs2.y() ) / ( targ.x() - curs2.x() ) : 4;
 
-        if( curs2.x == targ.x || std::fabs( slope ) > 3.5 ) { // Vertical slope
-            if( targ.y > curs2.y ) {
+        if( curs2.x() == targ.x() || std::fabs( slope ) > 3.5 ) { // Vertical slope
+            if( targ.y() > curs2.y() ) {
                 mvwputch( w_minimap, point( 3, 6 ), c_red, "*" );
             } else {
                 mvwputch( w_minimap, point( 3, 0 ), c_red, "*" );
@@ -3909,8 +3915,9 @@ void game::draw_minimap()
             int arrowx = -1;
             int arrowy = -1;
             if( std::fabs( slope ) >= 1. ) { // y diff is bigger!
-                arrowy = ( targ.y > curs2.y ? 6 : 0 );
-                arrowx = static_cast<int>( 3 + 3 * ( targ.y > curs2.y ? slope : ( 0 - slope ) ) );
+                arrowy = targ.y() > curs2.y() ? 6 : 0;
+                arrowx =
+                    static_cast<int>( 3 + 3 * ( targ.y() > curs2.y() ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
                     arrowx = 0;
                 }
@@ -3918,8 +3925,8 @@ void game::draw_minimap()
                     arrowx = 6;
                 }
             } else {
-                arrowx = ( targ.x > curs2.x ? 6 : 0 );
-                arrowy = static_cast<int>( 3 + 3 * ( targ.x > curs2.x ? slope : ( 0 - slope ) ) );
+                arrowx = targ.x() > curs2.x() ? 6 : 0;
+                arrowy = static_cast<int>( 3 + 3 * ( targ.x() > curs2.x() ? slope : -slope ) );
                 if( arrowy < 0 ) {
                     arrowy = 0;
                 }
@@ -3928,9 +3935,9 @@ void game::draw_minimap()
                 }
             }
             char glyph = '*';
-            if( targ.z > u.posz() ) {
+            if( targ.z() > u.posz() ) {
                 glyph = '^';
-            } else if( targ.z < u.posz() ) {
+            } else if( targ.z() < u.posz() ) {
                 glyph = 'v';
             }
 
@@ -3946,15 +3953,10 @@ void game::draw_minimap()
             if( i > -3 && i < 3 && j > -3 && j < 3 ) {
                 continue; // only do hordes on the border, skip inner map
             }
-            const int omx = curs2.x + i;
-            const int omy = curs2.y + j;
-            tripoint omp( omx, omy, get_levz() );
+            const tripoint_abs_omt omp( curs2 + point( i, j ), get_levz() );
             if( overmap_buffer.get_horde_size( omp ) >= HORDE_VISIBILITY_SIZE ) {
-                const tripoint cur_pos {
-                    omx, omy, get_levz()
-                };
                 if( overmap_buffer.seen( omp )
-                    && player_character.overmap_los( cur_pos, sight_points ) ) {
+                    && player_character.overmap_los( omp, sight_points ) ) {
                     mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
                               overmap_buffer.get_horde_size( omp ) > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
@@ -4657,7 +4659,9 @@ void game::overmap_npc_move()
                 if( elem->omt_path.back() == elem->global_omt_location() ) {
                     elem->omt_path.pop_back();
                 }
-                elem->travel_overmap( omt_to_sm_copy( elem->omt_path.back() ) );
+                // TODO: fix point types
+                elem->travel_overmap(
+                    project_to<coords::scale::submap>( elem->omt_path.back() ).raw() );
             }
             reload_npcs();
         }
@@ -6864,8 +6868,9 @@ void game::zones_manager()
 
             } else if( action == "SHOW_ZONE_ON_MAP" ) {
                 //show zone position on overmap;
-                tripoint player_overmap_position = ms_to_omt_copy( m.getabs( u.pos() ) );
-                tripoint zone_overmap = ms_to_omt_copy( zones[active_index].get().get_center_point() );
+                tripoint_abs_omt player_overmap_position = u.global_omt_location();
+                // TODO: fix point types
+                tripoint_abs_omt zone_overmap( ms_to_omt_copy( zones[active_index].get().get_center_point() ) );
 
                 ui::omap::display_zones( player_overmap_position, zone_overmap, active_index );
             } else if( action == "ENABLE_ZONE" ) {
@@ -6926,7 +6931,9 @@ void game::pre_print_all_tile_info( const tripoint &lp, const catacurses::window
                                     const visibility_variables &cache )
 {
     // get global area info according to look_around caret position
-    const oter_id &cur_ter_m = overmap_buffer.ter( ms_to_omt_copy( m.getabs( lp ) ) );
+    // TODO: fix point types
+    const oter_id &cur_ter_m = overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( m.getabs(
+                                   lp ) ) ) );
     // we only need the area name and then pass it to print_all_tile_info() function below
     const std::string area_name = cur_ter_m->get_name();
     print_all_tile_info( lp, w_info, area_name, 1, first_line, last_line, cache );
@@ -9960,7 +9967,7 @@ point game::place_player( const tripoint &dest_loc )
     return submap_shift;
 }
 
-void game::place_player_overmap( const tripoint &om_dest )
+void game::place_player_overmap( const tripoint_abs_omt &om_dest )
 {
     // if player is teleporting around, they don't bring their horse with them
     if( u.is_mounted() ) {
@@ -9985,10 +9992,11 @@ void game::place_player_overmap( const tripoint &om_dest )
     m.access_cache( get_levz() ).map_memory_seen_cache.reset();
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
-    const tripoint map_om_pos( tripoint( 2 * om_dest.x, 2 * om_dest.y,
-                                         om_dest.z ) + point( -HALF_MAPSIZE, -HALF_MAPSIZE ) );
-    const tripoint player_pos( u.pos().xy(), map_om_pos.z );
-    load_map( map_om_pos );
+    // TODO: fix point types
+    const tripoint map_sm_pos(
+        project_to<coords::scale::submap>( om_dest ).raw() + point( -HALF_MAPSIZE, -HALF_MAPSIZE ) );
+    const tripoint player_pos( u.pos().xy(), map_sm_pos.z );
+    load_map( map_sm_pos );
     load_npcs();
     m.spawn_monsters( true ); // Static monsters
     update_overmap_seen();
@@ -11127,9 +11135,9 @@ void game::vertical_notes( int z_before, int z_after )
     // Figure out where we know there are up/down connectors
     // Fill in all the tiles we know about (e.g. subway stations)
     static const int REVEAL_RADIUS = 40;
-    for( const tripoint &p : points_in_radius( u.global_omt_location(), REVEAL_RADIUS ) ) {
-        const tripoint cursp_before( p.xy(), z_before );
-        const tripoint cursp_after( p.xy(), z_after );
+    for( const tripoint_abs_omt &p : points_in_radius( u.global_omt_location(), REVEAL_RADIUS ) ) {
+        const tripoint_abs_omt cursp_before( p.xy(), z_before );
+        const tripoint_abs_omt cursp_after( p.xy(), z_after );
 
         if( !overmap_buffer.seen( cursp_before ) ) {
             continue;
@@ -11253,26 +11261,27 @@ point game::update_map( int &x, int &y )
 
 void game::update_overmap_seen()
 {
-    const tripoint ompos = u.global_omt_location();
+    const tripoint_abs_omt ompos = u.global_omt_location();
     const int dist = u.overmap_sight_range( light_level( u.posz() ) );
     const int dist_squared = dist * dist;
     // We can always see where we're standing
     overmap_buffer.set_seen( ompos, true );
-    for( const tripoint &p : points_in_radius( ompos, dist ) ) {
-        const point delta = p.xy() - ompos.xy();
-        const int h_squared = delta.x * delta.x + delta.y * delta.y;
+    for( const tripoint_abs_omt &p : points_in_radius( ompos, dist ) ) {
+        const point_rel_omt delta = p.xy() - ompos.xy();
+        const int h_squared = delta.x() * delta.x() + delta.y() * delta.y();
         if( trigdist && h_squared > dist_squared ) {
             continue;
         }
-        if( delta == point_zero ) {
+        if( delta == point_rel_omt() ) {
             // 1. This case is already handled outside of the loop
             // 2. Calculating multiplier would cause division by zero
             continue;
         }
         // If circular distances are enabled, scale overmap distances by the diagonality of the sight line.
-        const float multiplier = trigdist ? std::sqrt( h_squared ) / std::max( std::abs( delta.x ),
-                                 std::abs( delta.y ) ) : 1;
-        const std::vector<tripoint> line = line_to( ompos, p, 0 );
+        point abs_delta = delta.raw().abs();
+        int max_delta = std::max( abs_delta.x, abs_delta.y );
+        const float multiplier = trigdist ? std::sqrt( h_squared ) / max_delta : 1;
+        const std::vector<tripoint_abs_omt> line = line_to( ompos, p );
         float sight_points = dist;
         for( auto it = line.begin();
              it != line.end() && sight_points >= 0; ++it ) {
@@ -11280,11 +11289,11 @@ void game::update_overmap_seen()
             sight_points -= static_cast<int>( ter->get_see_cost() ) * multiplier;
         }
         if( sight_points >= 0 ) {
-            tripoint seen( p );
+            tripoint_abs_omt seen( p );
             do {
                 overmap_buffer.set_seen( seen, true );
-                --seen.z;
-            } while( seen.z >= 0 );
+                --seen.z();
+            } while( seen.z() >= 0 );
         }
     }
 }
@@ -11583,16 +11592,16 @@ void game::perhaps_add_random_npc()
         return;
     }
     bool spawn_allowed = false;
-    tripoint spawn_point;
+    tripoint_abs_omt spawn_point;
     int counter = 0;
     while( !spawn_allowed ) {
         if( counter >= 10 ) {
             return;
         }
-        const tripoint u_omt = u.global_omt_location();
+        const tripoint_abs_omt u_omt = u.global_omt_location();
         spawn_point = u_omt + point( rng( -radius_spawn_range, radius_spawn_range ),
                                      rng( -radius_spawn_range, radius_spawn_range ) );
-        spawn_point.z = 0;
+        spawn_point.z() = 0;
         const oter_id oter = overmap_buffer.ter( spawn_point );
         // shouldn't spawn on lakes or rivers.
         if( !is_river_or_lake( oter ) ) {
@@ -11611,7 +11620,8 @@ void game::perhaps_add_random_npc()
     tmp->set_fac( new_solo_fac ? new_solo_fac->id : faction_id( "no_faction" ) );
     // adds the npc to the correct overmap.
     // Only spawn random NPCs on z-level 0
-    tripoint submap_spawn = omt_to_sm_copy( spawn_point );
+    // TODO: fix point types
+    tripoint submap_spawn = omt_to_sm_copy( spawn_point.raw() );
     tmp->spawn_at_sm( tripoint( submap_spawn.xy(), 0 ) );
     overmap_buffer.insert_npc( tmp );
     tmp->form_opinion( u );
@@ -12370,7 +12380,8 @@ overmap &game::get_cur_om() const
     // The player is located in the middle submap of the map.
     const tripoint sm = m.get_abs_sub() + tripoint( HALF_MAPSIZE, HALF_MAPSIZE, 0 );
     const tripoint pos_om = sm_to_om_copy( sm );
-    return overmap_buffer.get( pos_om.xy() );
+    // TODO: fix point types
+    return overmap_buffer.get( point_abs_om( pos_om.xy() ) );
 }
 
 std::vector<npc *> game::allies()
@@ -12577,11 +12588,12 @@ void avatar_moves( const tripoint &old_abs_pos, const avatar &u, const map &m )
     get_event_bus().send<event_type::avatar_moves>( mount_type, m.ter( new_pos ).id(),
             u.current_movement_mode(), u.is_underwater(), new_pos.z );
 
-    const tripoint old_abs_omt = ms_to_omt_copy( old_abs_pos );
-    const tripoint new_abs_omt = ms_to_omt_copy( new_abs_pos );
+    // TODO: fix point types
+    const tripoint_abs_omt old_abs_omt( ms_to_omt_copy( old_abs_pos ) );
+    const tripoint_abs_omt new_abs_omt( ms_to_omt_copy( new_abs_pos ) );
     if( old_abs_omt != new_abs_omt ) {
         const oter_id &cur_ter = overmap_buffer.ter( new_abs_omt );
-        get_event_bus().send<event_type::avatar_enters_omt>( new_abs_omt, cur_ter );
+        get_event_bus().send<event_type::avatar_enters_omt>( new_abs_omt.raw(), cur_ter );
     }
 }
 } // namespace cata_event_dispatch

@@ -197,9 +197,9 @@ enum npc_mission : int {
 
 struct npc_companion_mission {
     std::string mission_id;
-    tripoint position;
+    tripoint_abs_omt position;
     std::string role_id;
-    cata::optional<tripoint> destination;
+    cata::optional<tripoint_abs_omt> destination;
 };
 
 std::string npc_class_name( const npc_class_id & );
@@ -1222,7 +1222,7 @@ class npc : public player
         std::string idz;
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
-        cata::optional<tripoint> assigned_camp = cata::nullopt;
+        cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
 
     private:
         npc_attitude attitude; // What we want to do to the player
@@ -1264,14 +1264,14 @@ class npc : public player
         int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
-        tripoint chair_pos = no_goal_point; // This is the spot the NPC wants to move to to sit and relax.
-        cata::optional<tripoint> base_location; // our faction base location in OMT coords.
+        tripoint chair_pos = tripoint_min; // This is the spot the NPC wants to move to to sit and relax.
+        cata::optional<tripoint_abs_omt> base_location; // our faction base location in OMT coords.
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.
          */
-        tripoint goal;
-        tripoint wander_pos = no_goal_point;
+        tripoint_abs_omt goal;
+        tripoint wander_pos = tripoint_min;
         int wander_time = 0;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
@@ -1287,8 +1287,8 @@ class npc : public player
 
         // Personality & other defining characteristics
         std::string companion_mission_role_id; //Set mission source or squad leader for a patrol
-        std::vector<tripoint>
-        companion_mission_points; //Mission leader use to determine item sorting, patrols use for points
+        //Mission leader use to determine item sorting, patrols use for points
+        std::vector<tripoint_abs_omt> companion_mission_points;
         time_point companion_mission_time; //When you left for ongoing/repeating missions
         time_point
         companion_mission_time_ret; //When you are expected to return for calculated/variable mission returns
@@ -1306,7 +1306,7 @@ class npc : public player
         std::vector<npc_need> needs;
         cata::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
-        static constexpr tripoint no_goal_point = tripoint_min;
+        static constexpr tripoint_abs_omt no_goal_point{ tripoint_min };
         job_data job;
         time_point last_updated;
         /**
@@ -1328,13 +1328,14 @@ class npc : public player
 
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &mission_id );
-        void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+        void set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                                     const std::string &mission_id );
-        void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
-                                    const std::string &mission_id, const tripoint &destination );
+        void set_companion_mission(
+            const tripoint_abs_omt &omt_pos, const std::string &role_id,
+            const std::string &mission_id, const tripoint_abs_omt &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
-        cata::optional<tripoint> get_mission_destination() const;
+        cata::optional<tripoint_abs_omt> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;

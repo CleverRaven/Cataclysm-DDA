@@ -255,7 +255,9 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk )
 {
     map &here = get_map();
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
+    // TODO: fix point types
+    const oter_id &cur_om_ter =
+        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( p ) ) ) );
     const bool sheltered = g->is_sheltered( p );
     const int winddirection = g->weather.winddirection;
     const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
@@ -881,7 +883,8 @@ bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p,
     field_entry *tmpfld = nullptr;
     cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
     // Entire objects for ter/frn for flags
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
+    const oter_id &cur_om_ter = overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs(
+                                    p ) ) ) );
     bool sheltered = g->is_sheltered( p );
     int winddirection = g->weather.winddirection;
     int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,

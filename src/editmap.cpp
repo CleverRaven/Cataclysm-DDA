@@ -1776,8 +1776,8 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     hilights["mapgentgt"].points[target + point( 1 + SEEX, -SEEY )] = 1;
 
     // Coordinates of the overmap terrain that should be generated.
-    const point omt_pos2 = ms_to_omt_copy( tc.abs_pos );
-    const tripoint omt_pos( omt_pos2, target.z );
+    const point_abs_omt omt_pos2 = tc.abs_omt();
+    const tripoint_abs_omt omt_pos( omt_pos2, target.z );
     const oter_id &omt_ref = overmap_buffer.ter( omt_pos );
     // Copy to store the original value, to restore it upon canceling
     const oter_id orig_oters = omt_ref;
@@ -1785,7 +1785,9 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     tinymap tmpmap;
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
-    tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
+    // TODO: fix point types
+    tmpmap.generate( tripoint( project_to<coords::scale::submap>( omt_pos.xy() ).raw(), target.z ),
+                     calendar::turn );
 
     gmenu.border_color = c_light_gray;
     gmenu.hilight_color = c_black_white;
@@ -1828,7 +1830,10 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             lastsel = gmenu.selected;
             overmap_buffer.ter_set( omt_pos, oter_id( gmenu.selected ) );
             cleartmpmap( tmpmap );
-            tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
+            // TODO: fix point types
+            tmpmap.generate(
+                tripoint( project_to<coords::scale::submap>( omt_pos.xy() ).raw(), target.z ),
+                calendar::turn );
         }
 
         if( showpreview ) {
@@ -1852,7 +1857,10 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
         if( gpmenu.ret == 0 ) {
             cleartmpmap( tmpmap );
-            tmpmap.generate( tripoint( omt_pos.x * 2, omt_pos.y * 2, target.z ), calendar::turn );
+            // TODO: fix point types
+            tmpmap.generate(
+                tripoint( project_to<coords::scale::submap>( omt_pos.xy() ).raw(), target.z ),
+                calendar::turn );
         } else if( gpmenu.ret == 1 ) {
             tmpmap.rotate( 1 );
         } else if( gpmenu.ret == 2 ) {
@@ -1925,10 +1933,10 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     cleartmpmap( tmpmap );
 }
 
-vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
+vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
 {
     tinymap target_bay;
-    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
+    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
 
     std::vector<vehicle *> possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
@@ -1959,20 +1967,20 @@ vehicle *editmap::mapgen_veh_query( const tripoint &omt_tgt )
     return nullptr;
 }
 
-bool editmap::mapgen_veh_destroy( const tripoint &omt_tgt, vehicle *car_target )
+bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_target )
 {
     map &here = get_map();
     tinymap target_bay;
-    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
+    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
             for( auto &z : destsm->vehicles ) {
                 if( z.get() == car_target ) {
                     std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( z.get() );
-                    here.clear_vehicle_cache( omt_tgt.z );
-                    here.reset_vehicle_cache( omt_tgt.z );
-                    here.clear_vehicle_list( omt_tgt.z );
+                    here.clear_vehicle_cache( omt_tgt.z() );
+                    here.reset_vehicle_cache( omt_tgt.z() );
+                    here.clear_vehicle_list( omt_tgt.z() );
                     //Rebuild vehicle_list?
                     return true;
                 }

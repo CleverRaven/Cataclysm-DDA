@@ -129,11 +129,13 @@ bool tutorial_game::init()
     player_character.name = _( "John Smith" );
     player_character.prof = profession::generic();
     // overmap terrain coordinates
-    const tripoint lp( 50, 50, 0 );
-    auto &starting_om = overmap_buffer.get( point_zero );
+    const tripoint_om_omt lp( 50, 50, 0 );
+    // Assume overmap zero
+    const tripoint_abs_omt lp_abs = project_combine( point_abs_om(), lp );
+    auto &starting_om = overmap_buffer.get( point_abs_om() );
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
-            tripoint p( i, j, 0 );
+            tripoint_om_omt p( i, j, 0 );
             starting_om.ter_set( p + tripoint_below, rock );
             // Start with the overmap revealed
             starting_om.seen( p ) = true;
@@ -149,7 +151,7 @@ bool tutorial_game::init()
     player_character.inv.add_item( lighter, true, false );
     player_character.set_skill_level( skill_gun, 5 );
     player_character.set_skill_level( skill_melee, 5 );
-    g->load_map( omt_to_sm_copy( lp ) );
+    g->load_map( project_to<coords::scale::submap>( lp_abs ) );
     player_character.setx( 2 );
     player_character.sety( 4 );
 

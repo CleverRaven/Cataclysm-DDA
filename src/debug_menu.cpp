@@ -35,6 +35,7 @@
 #include "color.h"
 #include "compatibility.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -418,12 +419,12 @@ void teleport_short()
 
 void teleport_long()
 {
-    const tripoint where( ui::omap::choose_point() );
+    const tripoint_abs_omt where( ui::omap::choose_point() );
     if( where == overmap::invalid_tripoint ) {
         return;
     }
     g->place_player_overmap( where );
-    add_msg( _( "You teleport to submap (%d,%d,%d)." ), where.x, where.y, where.z );
+    add_msg( _( "You teleport to submap (%s)." ), where.to_string() );
 }
 
 void teleport_overmap()
@@ -435,12 +436,13 @@ void teleport_overmap()
 
     Character &player_character = get_player_character();
     const tripoint offset( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
-    const tripoint where( player_character.global_omt_location() + offset );
+    const tripoint_abs_omt where = player_character.global_omt_location() + offset;
 
     g->place_player_overmap( where );
 
-    const tripoint new_pos( omt_to_om_copy( player_character.global_omt_location() ) );
-    add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
+    const tripoint_abs_om new_pos =
+        project_to<coords::scale::overmap>( player_character.global_omt_location() );
+    add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
 void spawn_nested_mapgen()
@@ -460,13 +462,14 @@ void spawn_nested_mapgen()
         }
 
         map &here = get_map();
-        const tripoint abs_ms = here.getabs( *where );
-        const tripoint abs_omt = ms_to_omt_copy( abs_ms );
-        const tripoint abs_sub = ms_to_sm_copy( abs_ms );
+        const tripoint_abs_ms abs_ms( here.getabs( *where ) );
+        const tripoint_abs_omt abs_omt = project_to<coords::scale::overmap_terrain>( abs_ms );
+        const tripoint_abs_sm abs_sub = project_to<coords::scale::submap>( abs_ms );
 
         map target_map;
         target_map.load( abs_sub, true );
-        const tripoint local_ms = target_map.getlocal( abs_ms );
+        // TODO: fix point types
+        const tripoint local_ms = target_map.getlocal( abs_ms.raw() );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgen[nest_str[nest_choice]].pick();
         if( ptr == nullptr ) {
@@ -515,9 +518,9 @@ void character_edit_menu()
              << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
-            data << string_format( _( "Destination: %d:%d:%d (%s)" ),
-                                   np->goal.x, np->goal.y, np->goal.z,
-                                   overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
+            data << string_format(
+                     _( "Destination: %s %s" ), np->goal.to_string(),
+                     overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
         } else {
             data << _( "No destination." ) << std::endl;
         }
@@ -1000,7 +1003,7 @@ std::string mission_debug::describe( const mission &m )
     data << _( " Status:" ) << mission_status_string( m.status );
     data << _( " ID:" ) << m.uid;
     data << _( " NPC ID:" ) << m.npc_id;
-    data << _( " Target:" ) << m.target.x << "," << m.target.y << "," << m.target.z;
+    data << _( " Target:" ) << m.target.to_string();
     data << _( "Player ID:" ) << m.player_id;
 
     return data.str();
@@ -1783,12 +1786,13 @@ void debug()
             mx_menu.query();
             int mx_choice = mx_menu.ret;
             if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                const tripoint where_omt( ui::omap::choose_point() );
+                const tripoint_abs_omt where_omt( ui::omap::choose_point() );
                 if( where_omt != overmap::invalid_tripoint ) {
-                    tripoint where_sm = omt_to_sm_copy( where_omt );
+                    tripoint_abs_sm where_sm = project_to<coords::scale::submap>( where_omt );
                     tinymap mx_map;
-                    mx_map.load( where_sm, false );
-                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
+                    // TODO: fix point types
+                    mx_map.load( where_sm.raw(), false );
+                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm.raw() );
                     g->load_npcs();
                     here.invalidate_map_cache( g->get_levz() );
                 }

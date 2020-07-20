@@ -7,6 +7,7 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "field_type.h"
@@ -195,16 +196,16 @@ void start_location::prepare_map( tinymap &m ) const
     }
 }
 
-tripoint start_location::find_player_initial_location() const
+tripoint_abs_omt start_location::find_player_initial_location() const
 {
     // Spiral out from the world origin scanning for a compatible starting location,
     // creating overmaps as necessary.
     const int radius = 3;
-    for( const point &omp : closest_points_first( point_zero, radius ) ) {
+    for( const point_abs_om &omp : closest_points_first( point_abs_om(), radius ) ) {
         overmap &omap = overmap_buffer.get( omp );
-        const tripoint omtstart = omap.find_random_omt( random_target() );
-        if( omtstart != overmap::invalid_tripoint ) {
-            return omtstart + point( omp.x * OMAPX, omp.y * OMAPY );
+        const tripoint_om_omt omtstart = omap.find_random_omt( random_target() );
+        if( omtstart.raw() != tripoint_min ) {
+            return project_combine( omp, omtstart );
         }
     }
     // Should never happen, if it does we messed up.
@@ -212,12 +213,13 @@ tripoint start_location::find_player_initial_location() const
     return overmap::invalid_tripoint;
 }
 
-void start_location::prepare_map( const tripoint &omtstart ) const
+void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
 {
     // Now prepare the initial map (change terrain etc.)
-    const point player_location = omt_to_sm_copy( omtstart.xy() );
+    const tripoint_abs_sm player_location = project_to<coords::scale::submap>( omtstart );
     tinymap player_start;
-    player_start.load( tripoint( player_location, omtstart.z ), false );
+    // TODO: fix point types
+    player_start.load( player_location.raw(), false );
     prepare_map( player_start );
     player_start.save();
 }
@@ -350,9 +352,10 @@ void start_location::place_player( player &u ) const
     }
 }
 
-void start_location::burn( const tripoint &omtstart, const size_t count, const int rad ) const
+void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
+                           const int rad ) const
 {
-    const tripoint player_location = omt_to_sm_copy( omtstart );
+    const tripoint_abs_sm player_location = project_to<coords::scale::submap>( omtstart );
     tinymap m;
     m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
@@ -376,13 +379,15 @@ void start_location::burn( const tripoint &omtstart, const size_t count, const i
     m.save();
 }
 
-void start_location::add_map_extra( const tripoint &omtstart, const std::string &map_extra ) const
+void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
+                                    const std::string &map_extra ) const
 {
-    const tripoint player_location = omt_to_sm_copy( omtstart );
+    const tripoint_abs_sm player_location = project_to<coords::scale::submap>( omtstart );
     tinymap m;
     m.load( player_location, false );
 
-    MapExtras::apply_function( map_extra, m, player_location );
+    // TODO: fix point types
+    MapExtras::apply_function( map_extra, m, player_location.raw() );
 
     m.save();
 }
@@ -417,9 +422,10 @@ void start_location::handle_heli_crash( player &u ) const
     }
 }
 
-static void add_monsters( const tripoint &omtstart, const mongroup_id &type, float expected_points )
+static void add_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &type,
+                          float expected_points )
 {
-    const tripoint spawn_location = omt_to_sm_copy( omtstart );
+    const tripoint_abs_sm spawn_location = project_to<coords::scale::submap>( omtstart );
     tinymap m;
     m.load( spawn_location, false );
     // map::place_spawns internally multiplies density by rng(10, 50)
@@ -428,10 +434,10 @@ static void add_monsters( const tripoint &omtstart, const mongroup_id &type, flo
     m.save();
 }
 
-void start_location::surround_with_monsters( const tripoint &omtstart, const mongroup_id &type,
-        float expected_points ) const
+void start_location::surround_with_monsters(
+    const tripoint_abs_omt &omtstart, const mongroup_id &type, float expected_points ) const
 {
-    for( const tripoint &p : points_in_radius( omtstart, 1 ) ) {
+    for( const tripoint_abs_omt &p : points_in_radius( omtstart, 1 ) ) {
         if( p != omtstart ) {
             add_monsters( p, type, roll_remainder( expected_points / 8.0f ) );
         }

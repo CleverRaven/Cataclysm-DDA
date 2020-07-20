@@ -14,6 +14,7 @@
 #include "character.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
@@ -189,7 +190,8 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
         weather_type_id wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
         data.wind_amount += get_local_windpower( g->weather.windspeed,
-                            overmap_buffer.ter( ms_to_omt_copy( location ) ),
+                            // TODO: fix point types
+                            overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( location ) ) ),
                             location,
                             g->weather.winddirection, false ) * to_turns<int>( tick_size );
     }
@@ -656,11 +658,11 @@ static std::string print_time_just_hour( const time_point &p )
 /**
  * Generate textual weather forecast for the specified radio tower.
  */
-std::string weather_forecast( const point &abs_sm_pos )
+std::string weather_forecast( const point_abs_sm &abs_sm_pos )
 {
     std::string weather_report;
     // Local conditions
-    const auto cref = overmap_buffer.closest_city( tripoint( abs_sm_pos, 0 ) );
+    const auto cref = overmap_buffer.closest_city( tripoint_abs_sm( abs_sm_pos, 0 ) );
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report += string_format(
@@ -687,7 +689,9 @@ std::string weather_forecast( const point &abs_sm_pos )
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     double high = -100.0;
     double low = 100.0;
-    const tripoint abs_ms_pos = tripoint( sm_to_ms_copy( abs_sm_pos ), 0 );
+    // TODO: fix point types
+    const tripoint abs_ms_pos =
+        tripoint( project_to<coords::scale::map_square>( abs_sm_pos ).raw(), 0 );
     // TODO: wind direction and speed
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
                                  1_hours;
@@ -1017,6 +1021,11 @@ bool warm_enough_to_plant( const tripoint &pos )
     return get_weather().get_temperature( pos ) >= 50;
 }
 
+bool warm_enough_to_plant( const tripoint_abs_omt &pos )
+{
+    return g->weather.get_temperature( pos ) >= 50;
+}
+
 weather_manager::weather_manager()
 {
     lightning_active = false;
@@ -1102,6 +1111,11 @@ int weather_manager::get_temperature( const tripoint &location )
 
     temperature_cache.emplace( std::make_pair( location, temp ) );
     return temp;
+}
+
+int weather_manager::get_temperature( const tripoint_abs_omt &location )
+{
+    return location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
 }
 
 void weather_manager::clear_temp_cache()
