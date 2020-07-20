@@ -827,6 +827,12 @@ void npc::move()
         }
     }
 
+    // check if in vehicle before doing any other follow activities
+    if( action == npc_undecided && is_walking_with() && player_character.in_vehicle &&
+        !in_vehicle ) {
+        action = npc_follow_embarked;
+    }
+
     if( action == npc_undecided && is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
         rl_dist( pos(), player_character.pos() ) > follow_distance() ) {
         action = npc_follow_player;
