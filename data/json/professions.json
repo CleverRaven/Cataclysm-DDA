@@ -4222,7 +4222,7 @@
           "wristwatch",
           "thermometer",
           "bandages",
-          "1st_aid",
+          "ifak",
           "scalpel",
           "syringe",
           "morphine",
@@ -4251,5 +4251,60 @@
     "points": -3,
     "items": { "both": [ "shorts", "heroin", "syringe" ], "male": [ "briefs" ], "female": [ "bra", "panties" ] },
     "addictions": [ { "intensity": 40, "type": "opiate" } ]
-  }
+  },
+  {
+    "type": "profession",
+    "ident": "relief_volunteer",
+    "name": "Relief Volunteer",
+    "description": "You were a member of a non-profit organization dedicated to helping out where help was needed.  When the riots happened, you were eager to lend a hand.  But you had to cut your plans short when everyone was less interested in handouts, and more interested in eating you.
+    "points": 1,
+    "skills": [ { "level": 2, "name": "firstaid" }, { "level": 1, "name": "speech" } ],
+    "items": {
+      "both": {
+        "items": [
+          "technician_shirt_gray",
+          "jeans",
+          "socks",
+          "sneakers",
+          "mbag",
+          "adhesive_bandages",
+          "bandages",
+          "water_clean",
+          "water_clean",
+          "water_clean",
+          "granola",
+          "granola",
+          "granola"
+          ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "bra", "panties" ]
+    }
+  },
+  {
+    "type": "profession",
+    "ident": "super_biker",
+    "name": { "male": "Speed King", "female": "Speed Queen" },
+    "description": "You used to rule the roads before they were filled with wrecks, undead, and unspeakable horrors.  At least there's no speed limits in the apocalypse! 
+    "points": 5,
+    "skills": [ { "level": 6, "name": "driving" } ],
+    "vehicle": "superbike",
+    "items": {
+      "both": {
+        "items": [
+          "helmet_motor",
+          "touring_suit",
+          "tshirt",
+          "jeans",
+          "socks",
+          "boots",
+          "gloves_leather",
+          "wristwatch"
+          ],
+        "entries": [ { "group": "charged_cell_phone" } ]
+      },
+      "male": [ "boxer_shorts" ],
+      "female": [ "sports_bra", "boy_shorts" ]
+    }
 ]
