@@ -1334,11 +1334,13 @@ static void unroll_digging( const int numer_of_2x4s )
 void construct::done_digormine_stair( const tripoint &p, bool dig )
 {
     map &here = get_map();
-    const tripoint abs_pos = here.getabs( p );
-    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
+    // TODO: fix point types
+    const tripoint_abs_ms abs_pos( here.getabs( p ) );
+    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z - 1 ), false );
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+    tmpmap.load( pos_sm + tripoint_below, false );
+    // TODO: fix point types
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos.raw() );
 
     Character &player_character = get_player_character();
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
@@ -1391,11 +1393,13 @@ void construct::done_mine_downstair( const tripoint &p )
 void construct::done_mine_upstair( const tripoint &p )
 {
     map &here = get_map();
-    const tripoint abs_pos = here.getabs( p );
-    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
+    // TODO: fix point types
+    const tripoint_abs_ms abs_pos( here.getabs( p ) );
+    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z + 1 ), false );
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+    tmpmap.load( pos_sm + tripoint_above, false );
+    // TODO: fix point types
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos.raw() );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
         here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem

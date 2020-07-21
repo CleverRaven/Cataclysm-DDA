@@ -652,7 +652,6 @@ class game
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
          */
-        void load_map( const tripoint &pos_sm );
         void load_map( const tripoint_abs_sm &pos_sm );
         /**
          * The overmap which contains the center submap of the reality bubble.
