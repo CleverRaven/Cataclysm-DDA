@@ -990,6 +990,8 @@
       [ "string_6", 50 ],
       [ "stick", 50 ],
       [ "rock", 50 ],
+      [ "rock_flaking", 5 ],
+      [ "rock_large", 5 ],
       [ "plastic_shopping_bag", 40 ],
       [ "sinew", 40 ],
       [ "rag", 40 ],

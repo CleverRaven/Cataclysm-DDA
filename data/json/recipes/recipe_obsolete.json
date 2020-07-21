@@ -1,11 +1,6 @@
 [
   {
     "type": "recipe",
-    "result": "spear_stone",
-    "obsolete": true
-  },
-  {
-    "type": "recipe",
     "result": "cooked_burrito",
     "obsolete": true
   },
