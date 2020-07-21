@@ -41,7 +41,7 @@
       [ "metal_smoother", 90 ],
       [ "jackhammer", 40 ],
       { "group": "tools_toolbox", "prob": 20 },
-      { "group": "tools_workshop","prob":  5 },
+      { "group": "tools_workshop", "prob": 5 },
       [ "recharge_station", 10 ],
       [ "angle_grinder", 30 ]
     ]
