@@ -793,9 +793,9 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 {
     "name"         : "cult",
     "base_faction" : "zombie",
-    "by_mood"      : ["blob"],
+    "by_mood"      : ["slime"],
     "neutral"      : ["nether"],
-    "friendly"     : ["blob"],
+    "friendly"     : ["slime"],
     "hate"         : ["fungus"]
 }
 ```
