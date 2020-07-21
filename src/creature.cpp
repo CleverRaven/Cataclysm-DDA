@@ -1473,13 +1473,6 @@ void Creature::set_body()
     }
 }
 
-void Creature::init_parts_drench_capacity()
-{
-    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
-        elem.second.set_drench_capacity( elem.first->drench_max );
-    }
-}
-
 void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max, int dex_max,
                                   int per_max,  int int_max, int healthy_mod,  int fat_to_max_hp )
 {

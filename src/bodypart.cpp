@@ -413,7 +413,7 @@ bool bodypart::is_at_max_hp() const
 
 float bodypart::get_wetness_percentage() const
 {
-    return static_cast<float>( wetness ) / drench_capacity;
+    return static_cast<float>( wetness ) / id->drench_max;
 }
 
 int bodypart::get_hp_cur() const
@@ -448,7 +448,7 @@ encumbrance_data bodypart::get_encumbrance_data() const
 
 int bodypart::get_drench_capacity() const
 {
-    return drench_capacity;
+    return id->drench_max;
 }
 
 int bodypart::get_wetness() const
@@ -504,11 +504,6 @@ void bodypart::set_encumbrance_data( encumbrance_data set )
 void bodypart::set_wetness( int set )
 {
     wetness = set;
-}
-
-void bodypart::set_drench_capacity( int set )
-{
-    drench_capacity = set;
 }
 
 void bodypart::set_temp_cur( int set )
@@ -602,7 +597,6 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "temp_conv", temp_conv, true );
     jo.read( "frostbite_timer", frostbite_timer, true );
 
-    set_drench_capacity( id->drench_max );
 }
 
 void stat_hp_mods::load( const JsonObject &jsobj )

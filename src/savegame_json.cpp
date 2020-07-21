@@ -680,7 +680,6 @@ void Character::load( const JsonObject &data )
     if( data.has_array( "body_wetness" ) ) {
         set_anatomy( anatomy_id( "human_anatomy" ) );
         set_body();
-        init_parts_drench_capacity();
         std::array<int, 12> body_wetness;
         body_wetness.fill( 0 );
         data.read( "body_wetness", body_wetness );
