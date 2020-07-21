@@ -1816,7 +1816,6 @@ void player::process_items()
     }
 
     // Active item processing done, now we're recharging.
-    item *power_armor = nullptr;
     int ch_UPS = 0;
     const auto inv_is_ups = items_with( []( const item & itm ) {
         return itm.has_flag( "IS_UPS" );
