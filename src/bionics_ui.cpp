@@ -45,7 +45,7 @@ std::string sort_mode_str( bionic_ui_sort_mode mode )
     switch( mode ) {
         case bionic_ui_sort_mode::NONE:
         case bionic_ui_sort_mode::POWER:
-            return _( "Power Usage" );
+            return _( "Power usage" );
         case bionic_ui_sort_mode::NAME:
             return _( "Name" );
     }
