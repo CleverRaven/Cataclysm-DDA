@@ -77,8 +77,7 @@
       "NO_REPAIR",
       "WATERPROOF_GUN",
       "NO_SALVAGE",
-      "NO_UNLOAD",
-      "NO_AMMO"
+      "NO_UNLOAD"
     ],
     "skill": "throw",
     "ranged_damage": { "damage_type": "bash", "amount": 1 },
