@@ -4318,8 +4318,11 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
     return it->type->charges_to_use();
 }
 
-int iuse::portable_game( player *p, item *it, bool, const tripoint & )
+int iuse::portable_game( player *p, item *it, bool t, const tripoint & )
 {
+    if( t ) {
+        return 0;
+    }
     if( p->is_npc() ) {
         // Long action
         return 0;
@@ -9675,8 +9678,12 @@ int iuse::coin_flip( player *p, item *it, bool, const tripoint & )
     return 0;
 }
 
-int iuse::play_game( player *p, item *it, bool, const tripoint & )
+int iuse::play_game( player *p, item *it, bool t, const tripoint & )
 {
+    if( t ) {
+        return 0;
+    }
+
     if( query_yn( _( "Play a game with the %s?" ), it->tname() ) ) {
         p->add_msg_if_player( _( "You start playing." ) );
         p->assign_activity( ACT_GENERIC_GAME, to_moves<int>( 1_hours ), -1,
