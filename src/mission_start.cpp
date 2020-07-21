@@ -65,7 +65,7 @@ void mission_start::place_dog( mission *miss )
     overmap_buffer.reveal( house, 6 );
 
     tinymap doghouse;
-    doghouse.load( project_to<coords::scale::submap>( house ), false );
+    doghouse.load( project_to<coords::sm>( house ), false );
     doghouse.add_spawn( mon_dog, 1, { SEEX, SEEY, house.z() }, true, -1, miss->uid );
     doghouse.save();
 }
@@ -78,7 +78,7 @@ void mission_start::place_zombie_mom( mission *miss )
     overmap_buffer.reveal( house, 6 );
 
     tinymap zomhouse;
-    zomhouse.load( project_to<coords::scale::submap>( house ), false );
+    zomhouse.load( project_to<coords::sm>( house ), false );
     zomhouse.add_spawn( mon_zombie, 1, { SEEX, SEEY, house.z() }, false, -1, miss->uid,
                         Name::get( nameFlags::IsFemaleName | nameFlags::IsGivenName ) );
     zomhouse.save();
@@ -108,7 +108,7 @@ void mission_start::kill_horde_master( mission *miss )
     miss->target = site;
     overmap_buffer.reveal( site, 6 );
     tinymap tile;
-    tile.load( project_to<coords::scale::submap>( site ), false );
+    tile.load( project_to<coords::sm>( site ), false );
     tile.add_spawn( mon_zombie_master, 1, { SEEX, SEEY, site.z() }, false, -1, miss->uid,
                     _( "Demonic Soul" ) );
     tile.add_spawn( mon_zombie_brute, 3, { SEEX, SEEY, site.z() } );
@@ -218,7 +218,7 @@ void mission_start::place_npc_software( mission *miss )
     overmap_buffer.reveal( place, 6 );
 
     tinymap compmap;
-    compmap.load( project_to<coords::scale::submap>( place ), false );
+    compmap.load( project_to<coords::sm>( place ), false );
     tripoint comppoint;
 
     oter_id oter = overmap_buffer.ter( place );
@@ -241,7 +241,7 @@ void mission_start::place_priest_diary( mission *miss )
     miss->target = place;
     overmap_buffer.reveal( place, 2 );
     tinymap compmap;
-    compmap.load( project_to<coords::scale::submap>( place ), false );
+    compmap.load( project_to<coords::sm>( place ), false );
 
     std::vector<tripoint> valid;
     for( const tripoint &p : compmap.points_on_zlevel() ) {
@@ -280,7 +280,7 @@ void mission_start::place_deposit_box( mission *miss )
     overmap_buffer.reveal( site, 2 );
 
     tinymap compmap;
-    compmap.load( project_to<coords::scale::submap>( site ), false );
+    compmap.load( project_to<coords::sm>( site ), false );
     std::vector<tripoint> valid;
     for( const tripoint &p : compmap.points_on_zlevel() ) {
         if( compmap.ter( p ) == t_floor ) {
@@ -356,7 +356,7 @@ void mission_start::ranch_nurse_1( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_furn( f_rack, point( 16, 9 ), point( 17, 9 ) );
     bay.spawn_item( point( 16, 9 ), "bandages", rng( 1, 3 ) );
     bay.spawn_item( point( 17, 9 ), "aspirin", rng( 1, 2 ) );
@@ -369,7 +369,7 @@ void mission_start::ranch_nurse_2( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_59", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_furn( f_counter, point( 3, 7 ), point( 5, 7 ) );
     bay.draw_square_furn( f_rack, point( 8, 4 ), point( 8, 5 ) );
     bay.spawn_item( point( 8, 4 ), "manual_first_aid" );
@@ -382,14 +382,14 @@ void mission_start::ranch_nurse_3( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_ter( t_dirt, point( 2, 16 ), point( 9, 23 ) );
     bay.draw_square_ter( t_dirt, point( 13, 16 ), point( 20, 23 ) );
     bay.draw_square_ter( t_dirt, point( 10, 17 ), point( 12, 23 ) );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_ter( t_dirt, point( 2, 0 ), point( 20, 2 ) );
     bay.draw_square_ter( t_dirt, point( 10, 3 ), point( 12, 4 ) );
     bay.save();
@@ -401,7 +401,7 @@ void mission_start::ranch_nurse_4( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_ter( t_wall_half, point( 2, 16 ), point( 9, 23 ) );
     bay.draw_square_ter( t_dirt, point( 3, 17 ), point( 8, 22 ) );
     bay.draw_square_ter( t_wall_half, point( 13, 16 ), point( 20, 23 ) );
@@ -413,7 +413,7 @@ void mission_start::ranch_nurse_4( mission *miss )
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_ter( t_wall_half, point( 4, 0 ), point( 18, 2 ) );
     bay.draw_square_ter( t_wall_half, point( 10, 3 ), point( 12, 4 ) );
     bay.draw_square_ter( t_dirt, point( 5, 0 ), point( 8, 2 ) );
@@ -430,7 +430,7 @@ void mission_start::ranch_nurse_5( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.translate( t_wall_half, t_wall_wood );
     bay.ter_set( point( 2, 21 ), t_window_frame );
     bay.ter_set( point( 2, 18 ), t_window_frame );
@@ -440,7 +440,7 @@ void mission_start::ranch_nurse_5( mission *miss )
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.translate( t_wall_half, t_wall_wood );
     bay.draw_square_ter( t_dirt, point( 10, 0 ), point( 12, 4 ) );
     bay.save();
@@ -452,7 +452,7 @@ void mission_start::ranch_nurse_6( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.translate( t_window_frame, t_window_boarded_noglass );
     bay.translate( t_door_frame, t_door_c );
     bay.draw_square_ter( t_dirtfloor, point( 3, 17 ), point( 8, 22 ) );
@@ -461,7 +461,7 @@ void mission_start::ranch_nurse_6( mission *miss )
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.translate( t_door_frame, t_door_c );
     bay.draw_square_ter( t_dirtfloor, point( 5, 0 ), point( 8, 2 ) );
     bay.draw_square_ter( t_dirtfloor, point( 10, 0 ), point( 12, 4 ) );
@@ -475,12 +475,12 @@ void mission_start::ranch_nurse_7( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.translate( t_dirtfloor, t_floor );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.translate( t_dirtfloor, t_floor );
     bay.draw_square_ter( t_floor, point( 10, 5 ), point( 12, 5 ) );
     bay.draw_square_furn( f_rack, point( 17, 0 ), point( 17, 2 ) );
@@ -493,7 +493,7 @@ void mission_start::ranch_nurse_8( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_furn( f_makeshift_bed, point( 4, 21 ), point( 4, 22 ) );
     bay.draw_square_furn( f_makeshift_bed, point( 7, 21 ), point( 7, 22 ) );
     bay.draw_square_furn( f_makeshift_bed, point( 15, 21 ), point( 15, 22 ) );
@@ -505,7 +505,7 @@ void mission_start::ranch_nurse_8( mission *miss )
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_59", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.translate( t_dirtfloor, t_floor );
     bay.place_items( "cleaning", 75, point( 17, 0 ), point( 17, 2 ), true,
                      calendar::start_of_cataclysm );
@@ -520,7 +520,7 @@ void mission_start::ranch_nurse_9( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_50", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.furn_set( point( 3, 22 ), f_dresser );
     bay.furn_set( point( 8, 22 ), f_dresser );
     bay.furn_set( point( 14, 22 ), f_dresser );
@@ -540,14 +540,14 @@ void mission_start::ranch_scavenger_1( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_ter( t_chainfence, point( 15, 13 ), point( 15, 22 ) );
     bay.draw_square_ter( t_chainfence, point( 16, 13 ), point( 23, 13 ) );
     bay.draw_square_ter( t_chainfence, point( 16, 22 ), point( 23, 22 ) );
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.place_items( "mechanics", 65, point( 9, 13 ), point( 10, 16 ), true, 0 );
     bay.draw_square_ter( t_chainfence, point( 0, 22 ), point( 7, 22 ) );
     bay.draw_square_ter( t_dirt, point( 2, 22 ), point( 3, 22 ) );
@@ -560,7 +560,7 @@ void mission_start::ranch_scavenger_2( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.add_vehicle( vproto_id( "car_chassis" ), point( 20, 15 ), 0 );
     bay.draw_square_ter( t_wall_half, point( 18, 19 ), point( 21, 22 ) );
     bay.draw_square_ter( t_dirt, point( 19, 20 ), point( 20, 21 ) );
@@ -568,7 +568,7 @@ void mission_start::ranch_scavenger_2( mission *miss )
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.place_items( "mischw", 65, point( 12, 13 ), point( 13, 16 ), true,
                      calendar::start_of_cataclysm );
     bay.draw_square_ter( t_chaingate_l, point( 2, 22 ), point( 3, 22 ) );
@@ -581,7 +581,7 @@ void mission_start::ranch_scavenger_3( mission *miss )
     tripoint_abs_omt site = mission_util::target_om_ter_random(
                                 "ranch_camp_48", 1, miss, false, RANCH_SIZE );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.translate( t_door_frame, t_door_locked );
     bay.translate( t_wall_half, t_wall_wood );
     bay.draw_square_ter( t_dirtfloor, point( 19, 20 ), point( 20, 21 ) );
@@ -594,7 +594,7 @@ void mission_start::ranch_scavenger_3( mission *miss )
     bay.save();
 
     site = mission_util::target_om_ter_random( "ranch_camp_49", 1, miss, false, RANCH_SIZE );
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.place_items( "mischw", 65, point( 2, 10 ), point( 4, 10 ), true, calendar::start_of_cataclysm );
     bay.place_items( "mischw", 65, point( 2, 13 ), point( 4, 13 ), true, calendar::start_of_cataclysm );
     bay.furn_set( point( 1, 15 ), f_fridge );
@@ -646,7 +646,7 @@ void static create_lab_consoles(
                                         otype, -1, miss, false, 4, place );
 
         tinymap compmap;
-        compmap.load( project_to<coords::scale::submap>( om_place ), false );
+        compmap.load( project_to<coords::sm>( om_place ), false );
 
         tripoint comppoint = find_potential_computer_point( compmap );
 
@@ -720,7 +720,7 @@ void mission_start::reveal_lab_train_depot( mission *miss )
     const tripoint_abs_omt place = overmap_buffer.find_closest( loc, "lab_train_depot", 0, false );
 
     tinymap compmap;
-    compmap.load( project_to<coords::scale::submap>( place ), false );
+    compmap.load( project_to<coords::sm>( place ), false );
     cata::optional<tripoint> comppoint;
 
     for( const tripoint &point : compmap.points_on_zlevel() ) {

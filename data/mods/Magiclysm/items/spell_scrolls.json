@@ -915,7 +915,7 @@
     "copy-from": "spell_scroll",
     "id": "spell_scroll_tornskin",
     "name": { "str": "Sappy Scroll" },
-    "description": "This scroll is covered in sap and rose thorns. You can still make out some of the writings, but it probably won't work the same.",
+    "description": "This scroll is covered in sap and rose thorns.  You can still make out some of the writings, but it probably won't work the same.",
     "use_action": { "type": "learn_spell", "spells": [ "druid_tornskin" ] }
   }
 ]

@@ -61,7 +61,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_o
     // this is the top left hand square of the global absolute coordinate
     // of the overmap terrain we want to try to teleport to.
     // an OMT is SEEX * SEEY in size
-    const tripoint_abs_sm sm_pt = project_to<coords::scale::submap>( omt_pt );
+    const tripoint_abs_sm sm_pt = project_to<coords::sm>( omt_pt );
     tinymap checker;
     // TODO: fix point types
     checker.load( sm_pt.raw(), true );
@@ -76,7 +76,7 @@ static cata::optional<tripoint> find_valid_teleporters_omt( const tripoint_abs_o
 bool teleporter_list::place_avatar_overmap( Character &you, const tripoint_abs_omt &omt_pt ) const
 {
     tinymap omt_dest( 2, true );
-    tripoint_abs_sm sm_dest = project_to<coords::scale::submap>( omt_pt );
+    tripoint_abs_sm sm_dest = project_to<coords::sm>( omt_pt );
     // TODO: fix point types
     omt_dest.load( sm_dest.raw(), true );
     cata::optional<tripoint> global_dest = find_valid_teleporters_omt( omt_pt );

@@ -619,7 +619,7 @@ struct real_coords {
     }
 
     point_abs_omt abs_omt() const {
-        return project_to<coords::scale::overmap_terrain>( point_abs_sm( abs_sub ) );
+        return project_to<coords::omt>( point_abs_sm( abs_sub ) );
     }
 
     // helper functions to return abs_pos of submap/overmap tile/overmap's start

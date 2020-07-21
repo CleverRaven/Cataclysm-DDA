@@ -1,5 +1,27 @@
 [
   {
+    "type": "recipe",
+    "result": "billet_bone",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "billet_wood",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ] ]
+  },
+  {
     "result": "g_shovel",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -40,6 +62,32 @@
     "components": [ [ [ "2x4", 4 ], [ "stick", 4 ] ], [ [ "cordage_short", 4, "LIST" ] ] ]
   },
   {
+    "type": "recipe",
+    "result": "punch_bone",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 1,
+    "time": "1 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [
+      [ [ "bone_sturdy", 1, "LIST" ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "punch_nail",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "time": "5 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "nail", 1 ] ] ]
+  },
+  {
     "result": "shed_stick",
     "type": "recipe",
     "category": "CC_OTHER",
@@ -64,6 +112,35 @@
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 2 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "stone_chisel",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 4,
+    "time": "2 h",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "components": [
+      [ [ "rock", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "material_sand", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "stone_chopper",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "difficulty": 3,
+    "time": "20 m",
+    "autolearn": true,
+    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "components": [ [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ] ] ]
   },
   {
     "result": "knife_paring",
@@ -435,13 +512,17 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "survival", 1 ], [ "cooking", 2 ] ],
-    "difficulty": 1,
-    "time": "6 m",
+    "skills_required": [ [ "survival", 2 ] ],
+    "difficulty": 4,
+    "time": "2 h",
     "autolearn": true,
     "book_learn": [ [ "atomic_survival", 0 ], [ "textbook_survival", 0 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "rock", 3 ], [ "ceramic_shard", 3 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 } ],
+    "components": [
+      [ [ "rock", 2 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "material_sand", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -477,13 +558,12 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
-    "skills_required": [ "fabrication", 1 ],
-    "difficulty": 3,
-    "time": 54000,
-    "reversible": true,
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 4,
+    "time": "54 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "HAMMER_SOFT", "level": 1 } ],
+    "components": [ [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ] ] ]
   },
   {
     "type": "recipe",

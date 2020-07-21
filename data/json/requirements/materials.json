@@ -12,6 +12,12 @@
     "components": [ [ [ "lead", 1 ] ] ]
   },
   {
+    "id": "bone_sturdy",
+    "type": "requirement",
+    "//": "Any kind of bones, human or not.  Tainted bones are too brittle and won't work for this purpose.",
+    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "bone_demihuman", 1 ] ] ]
+  },
+  {
     "id": "copper_scrap_equivalent",
     "type": "requirement",
     "//": "Material used for equivalence between one unit of scrap copper and corresponding amount of elemental copper.",

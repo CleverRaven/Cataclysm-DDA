@@ -601,6 +601,8 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "temp_cur", temp_cur, true );
     jo.read( "temp_conv", temp_conv, true );
     jo.read( "frostbite_timer", frostbite_timer, true );
+
+    set_drench_capacity( id->drench_max );
 }
 
 void stat_hp_mods::load( const JsonObject &jsobj )
