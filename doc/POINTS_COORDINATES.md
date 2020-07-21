@@ -1,5 +1,14 @@
 # Points, tripoints, and coordinate systems
 
+## Axes
+
+The game is three-dimensional, with the axes oriented as follows:
+* The **x-axis** goes from left to right across the display (in non-isometric
+  views).
+* The **y-axis** goes from top to bottom of the display.
+* The **z-axis** is vertical, with negative z pointing underground and positive
+  z pointing to the sky.
+
 ## Coordinate systems
 
 CDDA uses a variety of coordinate systems for different purposes.  These differ
@@ -9,14 +18,14 @@ The most precise coordinates are **map square** (ms) coordinates.  These refer t
 the tiles you see normally when playing the game.
 
 Two origins for map square coordinates are common:
-* **Absolute** coordinates, which are a global system for the whole game,
-  relative to a fixed origin.
+* **Absolute** coordinates, sometimes called global, which are a global system
+  for the whole game, relative to a fixed origin.
 * **Local** coordinates, which are relative to the corner of the current "reality
   bubble", or `map` roughly centered on the avatar.  In local map square
   coordinates, `x` and `y` values will both fall in the range [0,120).
 
-The next scale is **submap** (sm) coordinates.  One submap is 24x24
-(`SEEX`x`SEEY`) maps squares.  Submaps are the scale at which chunks of the map
+The next scale is **submap** (sm) coordinates.  One submap is 12x12
+(`SEEX`x`SEEY`) map squares.  Submaps are the scale at which chunks of the map
 are loaded or saved as they enter or leave the reality bubble.
 
 Next comes **overmap terrain** (omt) coordinates.  One overmap terrain is 2x2
@@ -44,7 +53,29 @@ coordinates are consistent across all contexts.  They lie in the range
 
 ## Vehicle coordinates
 
-TODO.
+Each vehicle has its own origin point, which will be at a particular part of
+the vehicle (e.g. it might be at the driver's seat).  The origin can move if
+the vehicle is damaged and all the vehicle parts at that location are
+destroyed.
+
+Vehicles use two systems of coordinates relative to their origin:
+
+* **mount** coordinates provide a location for vehicle parts that does not
+  change as the vehicle moves.  It is the map square of that part, relative to
+  the vehicle origin, when the vehicle is facing due east.
+
+* **map square** is the map square, relative to the origin, but accounting for
+  the vehicle's current facing.
+
+Vehicle facing is implemented via a combination of rotations (by quarter turns)
+and shearing to interpolate between quarter turns.  The logic to convert
+between vehicle mount and map square coordinates is complicated and handled by
+the `vehicle::coord_translate()` and `vehicle::mount_to_tripoint()` families of
+functions.
+
+Currently, vehicle mount coordinates do not have a z-level component, but
+vehicle map square coordinates do. The z coordinate is relative to the vehicle
+origin.
 
 ## Point types
 
@@ -64,12 +95,14 @@ type name are *dimension*`_`*origin*`_`*scale*.
   * `sm` means relative to a corner of a submap.
   * `omt` means relative to a corner of an overmap terrain.
   * `om` means relative to a corner of an overmap.
+  * `veh` means relative to a vehicle origin.
 * **scale** means the scale as discussed above.
   * `ms` for map square.
   * `sm` for submap.
   * `omt` for overmap terrain.
   * `seg` for segment.
   * `om` for overmap.
+  * `mnt` for vehicle mount coordinates (only relevant for the `veh` origin).
 
 ## Raw point types
 
@@ -81,6 +114,9 @@ At time of writing we are still in the process of transitioning the codebase
 away from using these raw point types everywhere, so you are likely to see
 legacy code using them in places where the more type-safe points might seem
 appropriate.
+
+New code should prefer to use the types which include their coordinate system
+where feasible.
 
 ## Converting between point types
 
@@ -97,13 +133,15 @@ assert( pos_omt == get_avatar()->global_omt_location().xy() );
 
 The same function `project_to` can be used for scaling up or down.  When
 converting to a coarser coordinate system precision is of course lost.  If you
-care about the remainder then you can instead use `project_remain`.
+care about the remainder then you must instead use `project_remain`.
 
 `project_remain` allows you to convert to a coarser coordinate system and also
 capture the remainder relative to that coarser point.  It returns a helper
-struct intended to be used with `std::tie` to capture the two parts of the
-result.  For example, suppose you want to know which overmap the avatar is in,
-and which overmap terrain they are in within that overmap.
+struct intended to be used with
+[`std::tie`](https://en.cppreference.com/w/cpp/utility/tuple/tie) to capture
+the two parts of the result.  For example, suppose you want to know which
+overmap the avatar is in, and which overmap terrain they are in within that
+overmap.
 
 ```c++
 point_abs_omt abs_pos = get_avatar()->global_omt_location().xy();
@@ -153,13 +191,13 @@ TODO: write some examples once this is implemented.
 
 ## Point operations
 
-The standard arithmetic operations you might expect should be available for all
-the various point types.  We try to limit them to prevent bugs.  For example,
-most point types cannot be multiplied by a constant, but ones with the `rel`
-origin can (it makes sense to say "half as far in the same direction").
+We provide standard arithmetic operations as overloaded operators, but limit
+them to prevent bugs.  For example, most point types cannot be multiplied by a
+constant, but ones with the `rel` origin can (it makes sense to say "half as
+far in the same direction").
 
 Similarly, you can't generally add two points together, but you can when one of
-them has the `rel` origin.
+them has the `rel` origin, or if one of them is a raw point type.
 
 For computing distances a variety of functions are available, depending on your
 requirements: `square_dist`, `trig_dist`, `rl_dist`, `manhattan_dist`.  Other
