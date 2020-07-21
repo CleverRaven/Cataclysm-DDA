@@ -1902,12 +1902,15 @@ void player::process_items()
         return itm.has_flag( "USE_UPS" );
     } );
     for( auto &it : inv_use_ups ) {
-        if( ch_UPS_used >= ch_UPS ||
-            it->ammo_remaining() >= it->ammo_capacity( ammotype( "battery" ) ) ) {
-            break;
+        if( ch_UPS_used >= ch_UPS || it->ammo_required() > ch_UPS - ch_UPS_used ) {
+            add_msg_if_player( m_warning, _( "Your %s deactivates." ), it->tname() );
+            it->deactivate();
+        } else if( it->ammo_capacity( ammotype( "battery" ) ) == 0 ) {
+            ch_UPS_used += it->ammo_required();
+        } else if( it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
+            ch_UPS_used++;
+            it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
         }
-        ch_UPS_used++;
-        it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
     }
     if( ch_UPS_used > 0 ) {
         use_charges( itype_UPS, ch_UPS_used );
