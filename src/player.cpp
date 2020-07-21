@@ -1816,7 +1816,6 @@ void player::process_items()
     }
 
     // Active item processing done, now we're recharging.
-    item *cloak = nullptr;
     item *power_armor = nullptr;
     int ch_UPS = 0;
     const auto inv_is_ups = items_with( []( const item & itm ) {
@@ -1833,9 +1832,6 @@ void player::process_items()
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
         if( w.active ) {
-            if( cloak == nullptr && w.has_flag( "ACTIVE_CLOAKING" ) ) {
-                cloak = &w;
-            }
             // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
             if( power_armor == nullptr && w.is_power_armor() ) {
                 power_armor = &w;
@@ -1860,24 +1856,6 @@ void player::process_items()
         ch_UPS += units::to_kilojoule( get_power_level() );
     }
     int ch_UPS_used = 0;
-    if( cloak != nullptr ) {
-        if( ch_UPS >= 20 ) {
-            use_charges( itype_UPS, 20 );
-            ch_UPS -= 20;
-            if( ch_UPS < 200 && one_in( 3 ) ) {
-                add_msg_if_player( m_warning, _( "Your cloaking flickers for a moment!" ) );
-            }
-        } else if( ch_UPS > 0 ) {
-            use_charges( itype_UPS, ch_UPS );
-            return;
-        } else {
-            add_msg_if_player( m_bad,
-                               _( "Your cloaking flickers and becomes opaque." ) );
-            // Bypass the "you deactivate the ..." message
-            cloak->active = false;
-            return;
-        }
-    }
 
     // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
     if( power_armor != nullptr ) {
@@ -1902,10 +1880,10 @@ void player::process_items()
         return itm.has_flag( "USE_UPS" );
     } );
     for( auto &it : inv_use_ups ) {
-        if( ch_UPS_used >= ch_UPS || it->ammo_required() > ch_UPS - ch_UPS_used ) {
-            add_msg_if_player( m_warning, _( "Your %s deactivates." ), it->tname() );
+        if( ch_UPS_used >= ch_UPS || ( it->active && it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
             it->deactivate();
-        } else if( it->ammo_capacity( ammotype( "battery" ) ) == 0 ) {
+            // this is for UPS-modded items which don't have a battery well
+        } else if( it->active && it->ammo_capacity( ammotype( "battery" ) ) == 0 ) {
             ch_UPS_used += it->ammo_required();
         } else if( it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
             ch_UPS_used++;
