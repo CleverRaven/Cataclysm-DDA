@@ -2051,7 +2051,7 @@
     "result": "glass",
     "type": "uncraft",
     "time": "1 s",
-    "components": [ [ [ "glass_shard", 4 ] ] ]
+    "components": [ [ [ "glass_shard", 3 ] ] ]
   },
   {
     "result": "glass_bowl",
@@ -2064,6 +2064,54 @@
     "type": "uncraft",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 4 ] ] ]
+  },
+  {
+    "result": "jar_3l_glass",
+    "type": "uncraft",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 10 ] ] ]
+  },
+  {
+    "result": "bottle_glass",
+    "type": "uncraft",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 3 ] ] ]
+  },
+  {
+    "result": "flask_glass",
+    "type": "uncraft",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 2 ] ] ]
+  },
+  {
+    "result": "jar_glass",
+    "type": "uncraft",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 4 ] ] ]
+  },
+  {
+    "result": "beaker",
+    "type": "uncraft",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 2 ] ] ]
+  },
+  {
+    "result": "gradcylinder",
+    "type": "uncraft",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 2 ] ] ]
+  },
+  {
+    "result": "fish_bowl",
+    "type": "uncraft",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 7 ] ] ]
+  },
+  {
+    "result": "mirror",
+    "type": "uncraft",
+    "time": "1 s",
+    "components": [ [ [ "glass_shard", 3 ] ] ]
   },
   {
     "result": "glass_sheet",

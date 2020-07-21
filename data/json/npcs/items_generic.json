@@ -1096,7 +1096,7 @@
       [ "tomato", 3 ],
       [ "tongs", 2 ],
       [ "tool_belt", 8 ],
-      [ "toolbox", 4 ],
+      { "group": "tools_toolbox", "prob": 4 },
       [ "touristmap", 6 ],
       [ "towel", 4 ],
       [ "tramadol", 4 ],

@@ -705,7 +705,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
                                              _( "You try to look away, but this gruesome image will stay on your mind for some time." ) );
                         break;
                 }
-                g->u.add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
+                get_player_character().add_morale( MORALE_BUTCHER, -50, 0, 2_days, 3_hours );
             } else {
                 u.add_msg_if_player( m_good, _( "It needs a coffin, not a knife." ) );
                 act.targets.pop_back();
@@ -788,7 +788,7 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
     if( corpse_item.has_flag( flag_QUARTERED ) ) {
         time_to_cut /= 4;
     }
-    time_to_cut = time_to_cut * ( 1 - ( g->u.get_num_crafting_helpers( 3 ) / 10 ) );
+    time_to_cut = time_to_cut * ( 1 - ( get_player_character().get_num_crafting_helpers( 3 ) / 10 ) );
     return time_to_cut;
 }
 
@@ -1591,7 +1591,7 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
         liquid.charges = std::min( charges_per_second, liquid.charges );
         const int original_charges = liquid.charges;
         if( liquid.has_temperature() && liquid.specific_energy < 0 ) {
-            liquid.set_item_temperature( std::max( temp_to_kelvin( g->weather.get_temperature( p->pos() ) ),
+            liquid.set_item_temperature( std::max( temp_to_kelvin( get_weather().get_temperature( p->pos() ) ),
                                                    277.15 ) );
         }
 
@@ -1887,7 +1887,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
     // Invalidate the activity early to prevent a query from mod_pain()
     act->set_to_null();
     if( p->is_avatar() ) {
-        const int helpersize = g->u.get_num_crafting_helpers( 3 );
+        const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
         if( here.is_bashable( pos ) && here.has_flag( flag_SUPPORTS_ROOF, pos ) &&
             here.ter( pos ) != t_tree ) {
             // Tunneling through solid rock is hungry, sweaty, tiring, backbreaking work
@@ -2158,7 +2158,7 @@ static bool magic_train( player_activity *act, player *p )
     }
     const spell_id &sp_id = spell_id( act->name );
     if( sp_id.is_valid() ) {
-        const bool knows = g->u.magic.knows_spell( sp_id );
+        const bool knows = get_player_character().magic.knows_spell( sp_id );
         if( knows ) {
             spell &studying = p->magic.get_spell( sp_id );
             const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
@@ -2192,7 +2192,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         if( old_skill_level != new_skill_level ) {
             add_msg( m_good, _( "You finish training %s to level %d." ),
                      skill_name, new_skill_level );
-            g->events().send<event_type::gains_skill_level>( p->getID(), sk, new_skill_level );
+            get_event_bus().send<event_type::gains_skill_level>( p->getID(), sk, new_skill_level );
         } else {
             add_msg( m_good, _( "You get some training in %s." ), skill_name );
         }
@@ -2204,7 +2204,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
     if( ma_id.is_valid() ) {
         const martialart &mastyle = ma_id.obj();
         // Trained martial arts,
-        g->events().send<event_type::learns_martial_art>( p->getID(), ma_id );
+        get_event_bus().send<event_type::learns_martial_art>( p->getID(), ma_id );
         p->martial_arts_data.learn_style( mastyle.id, p->is_avatar() );
     } else if( !magic_train( act, p ) ) {
         debugmsg( "train_finish without a valid skill or style or spell name" );
@@ -2321,7 +2321,7 @@ void activity_handlers::start_engines_finish( player_activity *act, player *p )
     vehicle *veh = g->remoteveh();
     map &here = get_map();
     if( !veh ) {
-        const tripoint pos = act->placement + g->u.pos();
+        const tripoint pos = act->placement + get_player_character().pos();
         veh = veh_pointer_or_null( here.veh_at( pos ) );
         if( !veh ) {
             return;
@@ -2929,22 +2929,25 @@ void activity_handlers::wear_do_turn( player_activity *act, player *p )
 // This activity opens the menu (it's not meant to queue consumption of items)
 void activity_handlers::eat_menu_do_turn( player_activity *, player * )
 {
-    avatar_action::eat( g->u );
+    avatar_action::eat( get_avatar() );
 }
 
 void activity_handlers::consume_food_menu_do_turn( player_activity *, player * )
 {
-    avatar_action::eat( g->u, game_menus::inv::consume_food( g->u ) );
+    avatar &player_character = get_avatar();
+    avatar_action::eat( player_character, game_menus::inv::consume_food( player_character ) );
 }
 
 void activity_handlers::consume_drink_menu_do_turn( player_activity *, player * )
 {
-    avatar_action::eat( g->u, game_menus::inv::consume_drink( g->u ) );
+    avatar &player_character = get_avatar();
+    avatar_action::eat( player_character, game_menus::inv::consume_drink( player_character ) );
 }
 
 void activity_handlers::consume_meds_menu_do_turn( player_activity *, player * )
 {
-    avatar_action::eat( g->u, game_menus::inv::consume_meds( g->u ) );
+    avatar &player_character = get_avatar();
+    avatar_action::eat( player_character, game_menus::inv::consume_meds( player_character ) );
 }
 
 void activity_handlers::move_loot_do_turn( player_activity *act, player *p )
@@ -2967,11 +2970,12 @@ void activity_handlers::drive_do_turn( player_activity *act, player *p )
         p->cancel_activity();
         return;
     }
+    Character &player_character = get_player_character();
     if( p->in_vehicle && p->controlling_vehicle && player_veh->is_autodriving &&
-        !g->u.omt_path.empty() && !player_veh->omt_path.empty() ) {
+        !player_character.omt_path.empty() && !player_veh->omt_path.empty() ) {
         player_veh->do_autodrive();
-        if( g->u.global_omt_location() == g->u.omt_path.back() ) {
-            g->u.omt_path.pop_back();
+        if( player_character.global_omt_location() == player_character.omt_path.back() ) {
+            player_character.omt_path.pop_back();
         }
         p->moves = 0;
     } else {
@@ -3002,7 +3006,9 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             return;
         }
         map &here = get_map();
-        tripoint sm_tri = here.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
+        // TODO: fix point types
+        tripoint sm_tri = here.getlocal(
+                              project_to<coords::scale::map_square>( p->omt_path.back() ).raw() );
         tripoint centre_sub = sm_tri + point( SEEX, SEEY );
         if( !here.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
@@ -3308,8 +3314,10 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     };
     const bionic_id bid( act->str_values[cbm_id] );
     const bool autodoc = act->str_values[is_autodoc] == "true";
-    const bool u_see = g->u.sees( p->pos() ) && ( !g->u.has_effect( effect_narcosis ) ||
-                       g->u.has_bionic( bio_painkiller ) || g->u.has_trait( trait_NOPAIN ) );
+    Character &player_character = get_player_character();
+    const bool u_see = player_character.sees( p->pos() ) &&
+                       ( !player_character.has_effect( effect_narcosis ) ||
+                         player_character.has_bionic( bio_painkiller ) || player_character.has_trait( trait_NOPAIN ) );
 
     const int difficulty = act->values.front();
 
@@ -3430,7 +3438,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     // Makes sure NPC is still under anesthesia
     if( p->has_effect( effect_narcosis ) ) {
         const time_duration remaining_time = p->get_effect_dur( effect_narcosis );
-        if( remaining_time <= time_left ) {
+        if( remaining_time < time_left ) {
             const time_duration top_off_time = time_left - remaining_time;
             p->add_effect( effect_narcosis, top_off_time );
             p->add_effect( effect_sleep, top_off_time );
@@ -3942,7 +3950,7 @@ void activity_handlers::chop_tree_finish( player_activity *act, player *p )
     // sound of falling tree
     sfx::play_variant_sound( "misc", "timber",
                              sfx::get_heard_volume( here.getlocal( act->placement ) ) );
-    g->events().send<event_type::cuts_tree>( p->getID() );
+    get_event_bus().send<event_type::cuts_tree>( p->getID() );
     act->set_to_null();
     resume_for_multi_activities( *p );
 }
@@ -4038,7 +4046,7 @@ void activity_handlers::jackhammer_finish( player_activity *act, player *p )
     here.destroy( pos, true );
 
     if( p->is_avatar() ) {
-        const int helpersize = g->u.get_num_crafting_helpers( 3 );
+        const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
         p->mod_stored_nutr( 5 - helpersize );
         p->mod_thirst( 5 - helpersize );
         p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -4076,7 +4084,7 @@ void activity_handlers::fill_pit_finish( player_activity *act, player *p )
     } else {
         here.ter_set( pos, t_dirt );
     }
-    const int helpersize = g->u.get_num_crafting_helpers( 3 );
+    const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
     p->mod_stored_nutr( 5 - helpersize );
     p->mod_thirst( 5 - helpersize );
     p->mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -4330,16 +4338,16 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
         return;
     }
     // Breadth-first search forest tiles until one reveals new overmap tiles.
-    std::queue<tripoint> q;
-    std::unordered_set<tripoint> seen;
-    tripoint loc = p->global_omt_location();
+    std::queue<tripoint_abs_omt> q;
+    std::unordered_set<tripoint_abs_omt> seen;
+    tripoint_abs_omt loc = p->global_omt_location();
     q.push( loc );
     seen.insert( loc );
     const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
         return ter.obj().is_wooded() || ter.obj().get_name() == "field";
     };
     while( !q.empty() ) {
-        tripoint tpt = q.front();
+        tripoint_abs_omt tpt = q.front();
         if( overmap_buffer.reveal( tpt, 3, filter ) ) {
             if( p->has_trait( trait_SPIRITUAL ) ) {
                 p->add_morale( MORALE_TREE_COMMUNION, 2, 30, 8_hours, 6_hours );
@@ -4352,7 +4360,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             }
             return;
         }
-        for( const tripoint &neighbor : points_in_radius( tpt, 1 ) ) {
+        for( const tripoint_abs_omt &neighbor : points_in_radius( tpt, 1 ) ) {
             if( seen.find( neighbor ) != seen.end() ) {
                 continue;
             }
@@ -4373,14 +4381,14 @@ static void blood_magic( player *p, int cost )
     std::vector<uilist_entry> uile;
     std::vector<bodypart_id> parts;
     int i = 0;
-    for( const std::pair<const bodypart_str_id, bodypart> &part : p->get_body() ) {
-        const int hp_cur = part.second.get_hp_cur();
-        uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( part.first.id() ) );
+    for( const bodypart_id &bp : p->get_all_body_parts( true ) ) {
+        const int hp_cur = p->get_part_hp_cur( bp );
+        uilist_entry entry( i, hp_cur > cost, i + 49, body_part_hp_bar_ui_text( bp ) );
 
-        const std::pair<std::string, nc_color> &hp = get_hp_bar( hp_cur, part.second.get_hp_max() );
+        const std::pair<std::string, nc_color> &hp = get_hp_bar( hp_cur, p->get_part_hp_max( bp ) );
         entry.ctxt = colorize( hp.first, hp.second );
         uile.emplace_back( entry );
-        parts.push_back( part.first.id() );
+        parts.push_back( bp );
         i++;
     }
     int action = -1;
@@ -4505,7 +4513,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
                                       spell_being_cast.xp() );
             }
             if( spell_being_cast.get_level() != old_level ) {
-                g->events().send<event_type::player_levels_spell>( p->getID(),
+                get_event_bus().send<event_type::player_levels_spell>( p->getID(),
                         spell_being_cast.id(), spell_being_cast.get_level() );
             }
         }

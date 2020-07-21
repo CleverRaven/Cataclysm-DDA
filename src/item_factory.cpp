@@ -3229,6 +3229,9 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &gr
             }
         }
     }
+    if( jsobj.has_string( "container-item" ) ) {
+        ig->set_container_item( itype_id( jsobj.get_string( "container-item" ) ) );
+    }
 }
 
 void Item_factory::set_use_methods_from_json( const JsonObject &jo, const std::string &member,

@@ -15,7 +15,6 @@
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "game.h"
 #include "input.h"
 #include "json.h"
 #include "monstergenerator.h"
@@ -763,8 +762,8 @@ bool safemode::save( const bool is_character_in )
     auto file = PATH_INFO::safemode();
 
     if( is_character ) {
-        file = g->get_player_base_save_path() + ".sfm.json";
-        if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
+        if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
             return true; //Character not saved yet.
         }
     }
@@ -796,7 +795,7 @@ void safemode::load( const bool is_character_in )
     std::ifstream fin;
     std::string file = PATH_INFO::safemode();
     if( is_character ) {
-        file = g->get_player_base_save_path() + ".sfm.json";
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
     }
 
     fin.open( file.c_str(), std::ifstream::in | std::ifstream::binary );

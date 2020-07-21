@@ -361,7 +361,7 @@ void mdeath::triffid_heart( monster &z )
     if( get_player_character().sees( z ) ) {
         add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     }
-    g->timed_events.add( timed_event_type::ROOTS_DIE, calendar::turn + 10_minutes );
+    get_timed_events().add( timed_event_type::ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus( monster &z )

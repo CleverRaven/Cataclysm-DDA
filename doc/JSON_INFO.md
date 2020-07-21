@@ -475,6 +475,7 @@ This section describes each json file and their contents. Each json has their ow
 | hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
 | hit_size_relative | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
 | hit_difficulty    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
+| drench_capacity   | (_mandatory_) How wet this part can get before being 100% drenched.
 | stylish_bonus     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
 | hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | cold_morale_mod   | (_optional_) Mood effect of being too cold on this part. (default: `0`)
@@ -505,6 +506,7 @@ This section describes each json file and their contents. Each json has their ow
     "cold_morale_mod": 2,
     "squeamish_penalty": 6,
     "base_hp": 60,
+    "drench_capacity": 40,
     "stat_hp_mods": { "int_mod": 4.0, "dex_mod": 1.0, "str_mod": 1.0, "per_mod": 1.0, "health_mod": 1.0 },
     "bionic_slots": 80
   }

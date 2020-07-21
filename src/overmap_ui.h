@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_OVERMAP_UI_H
 #define CATA_SRC_OVERMAP_UI_H
 
+#include "coordinates.h"
 #include "point.h"
 
 namespace catacurses
@@ -40,7 +41,8 @@ void display_scents();
 /**
  * Display overmap like with @ref display() and display the given zone.
  */
-void display_zones( const tripoint &center, const tripoint &select, int iZoneIndex );
+void display_zones( const tripoint_abs_omt &center, const tripoint_abs_omt &select,
+                    int iZoneIndex );
 /**
  * Display overmap like with @ref display() and enable the overmap editor.
  */
@@ -52,20 +54,20 @@ void display_editor();
  * @returns The absolute coordinates of the chosen point or
  * invalid_point if canceled with Escape (or similar key).
  */
-tripoint choose_point();
+tripoint_abs_omt choose_point();
 
 /**
  * Same as above but start at z-level z instead of players
  * current z-level, x and y are taken from the players position.
  */
-tripoint choose_point( int z );
+tripoint_abs_omt choose_point( int z );
 /**
  * Interactive point choosing; used as the map screen.
  * The map is initially centered on the @ref origin.
  * @returns The absolute coordinates of the chosen point or
  * invalid_point if canceled with Escape (or similar key).
  */
-tripoint choose_point( const tripoint &origin );
+tripoint_abs_omt choose_point( const tripoint_abs_omt &origin );
 
 } // namespace omap
 
@@ -86,13 +88,14 @@ struct draw_data_t {
     // draw scent traces.
     bool debug_scent = false;
     // draw zone location.
-    tripoint select = tripoint( -1, -1, -1 );
+    tripoint_abs_omt select = tripoint_abs_omt( -1, -1, -1 );
     int iZoneIndex = -1;
 };
 
-void draw( const catacurses::window &w, const catacurses::window &wbar, const tripoint &center,
-           const tripoint &orig, bool blink, bool show_explored, bool fast_scroll, input_context *inp_ctxt,
-           const draw_data_t &data );
-void create_note( const tripoint &curs );
+void draw(
+    const catacurses::window &w, const catacurses::window &wbar, const tripoint_abs_omt &center,
+    const tripoint_abs_omt &orig, bool blink, bool show_explored, bool fast_scroll,
+    input_context *inp_ctxt, const draw_data_t &data );
+void create_note( const tripoint_abs_omt &curs );
 } // namespace overmap_ui
 #endif // CATA_SRC_OVERMAP_UI_H

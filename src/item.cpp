@@ -4433,6 +4433,7 @@ void item::on_pickup( Character &p )
 void item::on_contents_changed()
 {
     contents.update_open_pockets();
+    cached_relative_encumbrance.reset();
     encumbrance_update_ = true;
 }
 
@@ -4818,8 +4819,12 @@ std::string item::display_name( unsigned int quantity ) const
 
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
-        const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
-                        player_character.global_omt_location() ) ) ).city;
+        // TODO: fix point types
+        tripoint map_pos_omt =
+            get_var( "reveal_map_center_omt", player_character.global_omt_location().raw() );
+        tripoint_abs_sm map_pos =
+            project_to<coords::scale::submap>( tripoint_abs_omt( map_pos_omt ) );
+        const city *c = overmap_buffer.closest_city( map_pos ).city;
         if( c != nullptr ) {
             name = string_format( "%s %s", c->name, name );
         }
@@ -5702,11 +5707,13 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     int encumber = 0;
-
+    float relative_encumbrance = 1.0;
     // Additional encumbrance from non-rigid pockets
-    float relative_encumbrance = 1;
     if( !( flags & encumber_flags::assume_full ) ) {
-        relative_encumbrance = contents.relative_encumbrance();
+        if( !cached_relative_encumbrance ) {
+            cached_relative_encumbrance = contents.relative_encumbrance();
+        }
+        relative_encumbrance = *cached_relative_encumbrance;
     }
 
     if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
@@ -6957,9 +6964,10 @@ bool item::can_contain_partial( const item &it ) const
     return can_contain( i_copy );
 }
 
-item_pocket *item::best_pocket( const item &it )
+std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent )
 {
-    return contents.best_pocket( it, false );
+    item_location nested_location( parent, this );
+    return contents.best_pocket( it, nested_location, false );
 }
 
 bool item::spill_contents( Character &c )
@@ -7543,28 +7551,9 @@ bool item::magazine_integral() const
     return contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE );
 }
 
-itype_id item::magazine_default( bool conversion ) const
+itype_id item::magazine_default( bool /* conversion */ ) const
 {
-    if( !magazine_compatible( conversion ).empty() ) {
-        if( conversion ) {
-            for( const item *m : is_gun() ? gunmods() : toolmods() ) {
-                if( !m->type->mod->magazine_adaptor.empty() ) {
-                    auto mags = m->type->mod->magazine_adaptor.find( ammotype( *ammo_types( conversion ).begin() ) );
-                    if( mags != m->type->mod->magazine_adaptor.end() ) {
-                        return *( mags->second.begin() );
-                    }
-                }
-            }
-        }
-        if( !ammo_types( conversion ).empty() ) {
-            auto mag = type->magazine_default.find( ammotype( *ammo_types( conversion ).begin() ) );
-            if( mag != type->magazine_default.end() ) {
-                return mag->second;
-            }
-        }
-        return *magazine_compatible( conversion ).begin();
-    }
-    return itype_id::NULL_ID();
+    return contents.magazine_default();
 }
 
 std::set<itype_id> item::magazine_compatible( bool /* conversion */ ) const
@@ -7938,7 +7927,7 @@ void item::casings_handle( const std::function<bool( item & )> &func )
     contents.casings_handle( func );
 }
 
-bool item::reload( player &u, item_location ammo, int qty )
+bool item::reload( Character &u, item_location ammo, int qty )
 {
     if( qty <= 0 ) {
         debugmsg( "Tried to reload zero or less charges" );
@@ -8499,7 +8488,8 @@ int item::fill_with( const itype &contained, const int amount )
         contained_item.charges = 1;
     }
 
-    item_pocket *pocket = best_pocket( contained_item );
+    item_location loc;
+    item_pocket *pocket = best_pocket( contained_item, loc ).second;
     if( pocket == nullptr ) {
         debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
                   contained_item.typeId().str(), typeId().str() );
@@ -8513,7 +8503,7 @@ int item::fill_with( const itype &contained, const int amount )
         }
         num_contained++;
         if( !pocket->can_contain( contained_item ).success() ) {
-            pocket = best_pocket( contained_item );
+            pocket = best_pocket( contained_item, loc ).second;
         }
     }
     return num_contained;
@@ -8744,18 +8734,6 @@ bool item::has_rotten_away() const
     }
 }
 
-bool item::has_rotten_away( const tripoint &pnt, float spoil_multiplier, temperature_flag flag )
-{
-    if( goes_bad() ) {
-        process_temperature_rot( 1, pnt, nullptr, flag, spoil_multiplier );
-        return has_rotten_away();
-    } else {
-        contents.remove_rotten( pnt );
-
-        return false;
-    }
-}
-
 bool item_ptr_compare_by_charges( const item *left, const item *right )
 {
     if( left->contents.empty() ) {
@@ -8904,7 +8882,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
         return false;
     }
 
-    int temp = g->weather.get_temperature( pos );
+    int temp = get_weather().get_temperature( pos );
 
     switch( flag ) {
         case temperature_flag::NORMAL:
@@ -8940,7 +8918,7 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
     if( now - time > 1_hours ) {
         // This code is for items that were left out of reality bubble for long time
 
-        const weather_generator &wgen = g->weather.get_cur_weather_gen();
+        const weather_generator &wgen = get_weather().get_cur_weather_gen();
         const unsigned int seed = g->get_seed();
         int local_mod = g->new_game ? 0 : get_map().get_temperature( pos );
 
@@ -8994,11 +8972,8 @@ bool item::process_temperature_rot( float insulation, const tripoint &pos,
             }
 
             // Calculate item temperature from environment temperature
-            // If the time was more than 2 d ago just set the item to environment temperature
-            if( now - time > 2_days ) {
-                // This value shouldn't be there anymore after the loop is done so we don't bother with the set_item_temperature()
-                temperature = static_cast<int>( 100000 * temp_to_kelvin( env_temperature ) );
-            } else {
+            // If the time was more than 2 d ago we do not care about item temperature.
+            if( now - time < 2_days ) {
                 calc_temp( env_temperature, insulation, time_delta );
             }
             last_temp_check = time;

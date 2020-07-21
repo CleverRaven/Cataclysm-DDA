@@ -170,6 +170,15 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zyrannosaurus_BRUTE",
+    "default": "mon_zyrannosaurus_hulk",
+    "monsters": [
+      { "monster": "mon_zyrannosaurus_hulk", "freq": 100, "cost_multiplier": 10 },
+      { "monster": "mon_zyrannosaurus_truck", "freq": 70, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ZOMBIE",
     "default": "mon_zombie",
     "monsters": [

@@ -715,6 +715,7 @@
     "material": [ "steel" ],
     "weight": "908 g",
     "volume": "1500 ml",
+    "longest_side": "80 cm",
     "bashing": 12,
     "to_hit": -1,
     "qualities": [ [ "HAMMER", 1 ] ]

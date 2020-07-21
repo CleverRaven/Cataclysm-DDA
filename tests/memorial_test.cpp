@@ -9,7 +9,7 @@
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"
-#include "game.h"
+#include "filesystem.h"
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "output.h"
@@ -52,11 +52,11 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
 
 TEST_CASE( "memorials", "[memorial]" )
 {
-    memorial_logger &m = g->memorial();
+    memorial_logger &m = get_memorial();
     m.clear();
     clear_avatar();
 
-    event_bus &b = g->events();
+    event_bus &b = get_event_bus();
 
     avatar &player_character = get_avatar();
     player_character.male = false;
@@ -287,10 +287,14 @@ TEST_CASE( "memorials", "[memorial]" )
 
 TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
 {
+    std::string eol = cata_files::eol();
+
     // Verify that the old format can be transformed into the new format
     const std::string input =
-        "| Year 1, Spring, day 0 0800.00 | prison | Hubert 'Daffy' Mullin began their journey into the Cataclysm.\n"
-        "| Year 1, Spring, day 0 0800.05 | prison | Gained the mutation 'Debug Invincibility'.\n";
+        "| Year 1, Spring, day 0 0800.00 | prison | "
+        "Hubert 'Daffy' Mullin began their journey into the Cataclysm." + eol +
+        "| Year 1, Spring, day 0 0800.05 | prison | Gained the mutation 'Debug Invincibility'." +
+        eol;
     const std::string json_value =
         R"([{"preformatted":"| Year 1, Spring, day 0 0800.00 | prison | Hubert 'Daffy' Mullin began their journey into the Cataclysm."},{"preformatted":"| Year 1, Spring, day 0 0800.05 | prison | Gained the mutation 'Debug Invincibility'."}])";
 
@@ -318,12 +322,16 @@ TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
 
 TEST_CASE( "memorial_log_dumping", "[memorial]" )
 {
+    std::string eol = cata_files::eol();
+
     // An example log file with one legacy and one "modern" entry
     const std::string json_value =
         R"([{"preformatted":"| Year 1, Spring, day 0 0800.00 | refugee center | Apolonia Trout began their journey into the Cataclysm."},{"time":15614,"oter_id":"cabin_isherwood","oter_name":"forest","message":"Used the debug menu (ENABLE_ACHIEVEMENTS)."}])";
     const std::string expected_output =
-        "| Year 1, Spring, day 0 0800.00 | refugee center | Apolonia Trout began their journey into the Cataclysm.\n"
-        "| Year 1, Spring, day 1 4:20:14 AM | forest | Used the debug menu (ENABLE_ACHIEVEMENTS).\n";
+        "| Year 1, Spring, day 0 0800.00 | refugee center | "
+        "Apolonia Trout began their journey into the Cataclysm." + eol +
+        "| Year 1, Spring, day 1 4:20:14 AM | forest | Used the debug menu (ENABLE_ACHIEVEMENTS)."
+        + eol;
 
     memorial_logger logger;
     std::istringstream is( json_value );

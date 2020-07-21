@@ -1166,7 +1166,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
 
-        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
+        get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing );
         mutation_replaced = true;
     }
@@ -1185,7 +1185,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
-        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
+        get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing2 );
         mutation_replaced = true;
     }
@@ -1207,7 +1207,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "Your innate %1$s trait turns into %2$s!" ),
                                _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
                                cancel_mdata.name(), mdata.name() );
-        g->events().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
+        get_event_bus().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
         unset_mutation( i );
         mutation_replaced = true;
     }
@@ -1226,7 +1226,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "You gain a mutation called %s!" ),
                                _( "<npcname> gains a mutation called %s!" ),
                                mdata.name() );
-        g->events().send<event_type::gains_mutation>( getID(), mdata.id );
+        get_event_bus().send<event_type::gains_mutation>( getID(), mdata.id );
     }
 
     set_mutation( mut );
@@ -1434,7 +1434,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
             guy.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
             get_map().ter_set( guy.pos(), t_fungus );
             if( guy.is_avatar() ) {
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male", "Destroyed a harmful invader." ),
                     pgettext( "memorial_female", "Destroyed a harmful invader." ) );
             }
@@ -1465,7 +1465,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
                                    _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
             guy.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
             if( guy.is_avatar() ) {
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male",
                               "Burned out a particularly nasty fungal infestation." ),
                     pgettext( "memorial_female",
@@ -1476,7 +1476,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
                                    _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
                                    it.tname() );
             if( guy.is_avatar() ) {
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
                     pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
             }
@@ -1491,7 +1491,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
 mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
                                        const mutagen_technique technique )
 {
-    g->events().send<event_type::administers_mutagen>( guy.getID(), technique );
+    get_event_bus().send<event_type::administers_mutagen>( guy.getID(), technique );
     mutagen_rejection status = try_reject_mutagen( guy, it, strong );
     if( status == mutagen_rejection::rejected ) {
         return mutagen_attempt( false, 0 );
@@ -1541,7 +1541,7 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
             guy.add_msg_if_player( m_good,
                                    _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
             guy.set_mutation( mutation_thresh );
-            g->events().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
+            get_event_bus().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.

@@ -2018,7 +2018,7 @@ bool mattack::fungus_fortify( monster *z )
                 player_character.set_mutation( trait_THRESH_MARLOSS );
                 here.ter_set( player_character.pos(),
                               t_marloss ); // We only show you the door.  You walk through it on your own.
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male", "Was shown to the Marloss Gateway." ),
                     pgettext( "memorial_female", "Was shown to the Marloss Gateway." ) );
                 add_msg( m_good,
@@ -2247,7 +2247,7 @@ bool mattack::dermatik( monster *z )
                                body_part_name_accusative( targeted ) );
     if( !foe->has_trait( trait_PARAIMMUNE ) || !foe->has_trait( trait_ACIDBLOOD ) ) {
         foe->add_effect( effect_dermatik, 1_turns, targeted->token, true );
-        g->events().send<event_type::dermatik_eggs_injected>( foe->getID() );
+        get_event_bus().send<event_type::dermatik_eggs_injected>( foe->getID() );
     }
 
     return true;
@@ -3327,8 +3327,9 @@ bool mattack::photograph( monster *z )
     }
     const SpeechBubble &speech = get_speech( z->type->id.str() );
     sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
-    g->timed_events.add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
-                         player_character.global_sm_location() );
+    get_timed_events().add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ),
+                            0,
+                            player_character.global_sm_location() );
 
     return true;
 }

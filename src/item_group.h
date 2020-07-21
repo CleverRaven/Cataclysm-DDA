@@ -135,11 +135,16 @@ class Item_spawn_data
         virtual bool remove_item( const itype_id &itemid ) = 0;
         virtual bool replace_item( const itype_id &itemid, const itype_id &replacementid ) = 0;
         virtual bool has_item( const itype_id &itemid ) const = 0;
+        void set_container_item( const itype_id &container );
 
         virtual std::set<const itype *> every_item() const = 0;
 
         /** probability, used by the parent object. */
         int probability;
+        /**
+         * The group spawns contained in this item
+         */
+        cata::optional<itype_id> container_item;
 };
 /**
  * Creates a single item, but can change various aspects

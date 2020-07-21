@@ -157,21 +157,15 @@ struct iteminfo {
         iteminfo( const std::string &Type, const std::string &Name, double Value );
 };
 
+template<>
+struct enum_traits<iteminfo::flags> {
+    static constexpr bool is_flag_enum = true;
+};
+
 iteminfo vol_to_info( const std::string &type, const std::string &left,
                       const units::volume &vol, int decimal_places = 2 );
 iteminfo weight_to_info( const std::string &type, const std::string &left,
                          const units::mass &weight, int decimal_places = 2 );
-
-inline iteminfo::flags operator|( iteminfo::flags l, iteminfo::flags r )
-{
-    using I = std::underlying_type<iteminfo::flags>::type;
-    return static_cast<iteminfo::flags>( static_cast<I>( l ) | r );
-}
-
-inline iteminfo::flags &operator|=( iteminfo::flags &l, iteminfo::flags r )
-{
-    return l = l | r;
-}
 
 inline bool is_crafting_component( const item &component );
 
@@ -507,7 +501,7 @@ class item : public visitable<item>
          * @param ammo Location of ammo to be reloaded
          * @param qty caps reloading to this (or fewer) units
          */
-        bool reload( player &u, item_location ammo, int qty );
+        bool reload( Character &u, item_location ammo, int qty );
 
         template<typename Archive>
         void io( Archive & );
@@ -787,15 +781,6 @@ class item : public visitable<item>
          * @param mod How many charges should be removed.
          */
         void mod_charges( int mod );
-        /**
-         * Whether the item has to be removed as it has rotten away completely. May change the item as it calls process_temperature_rot()
-         * @param pnt The *absolute* position of the item in the world (see @ref map::getabs),
-         * @param spoil_multiplier the multiplier for spoilage rate, based on what this item is inside of.
-         * used for rot calculation.
-         * @return true if the item has rotten away and should be removed, false otherwise.
-         */
-        bool has_rotten_away( const tripoint &pnt, float spoil_multiplier = 1.0f,
-                              temperature_flag flag = temperature_flag::NORMAL );
 
         /**
          * Accumulate rot of the item since last rot calculation.
@@ -1245,7 +1230,7 @@ class item : public visitable<item>
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
-        item_pocket *best_pocket( const item &it );
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent );
 
         /**
          * Is it ever possible to reload this item?
@@ -2285,6 +2270,7 @@ class item : public visitable<item>
         mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
         light_emission light = nolight;
+        mutable cata::optional<float> cached_relative_encumbrance;
 
     public:
         char invlet = 0;      // Inventory letter
@@ -2297,17 +2283,10 @@ class item : public visitable<item>
         void update_clothing_mod_val();
 };
 
-inline item::encumber_flags operator&( item::encumber_flags l, item::encumber_flags r )
-{
-    using I = std::underlying_type_t<item::encumber_flags>;
-    return static_cast<item::encumber_flags>( static_cast<I>( l ) & static_cast<I>( r ) );
-}
-
-inline bool operator!( item::encumber_flags f )
-{
-    using I = std::underlying_type_t<item::encumber_flags>;
-    return !static_cast<I>( f );
-}
+template<>
+struct enum_traits<item::encumber_flags> {
+    static constexpr bool is_flag_enum = true;
+};
 
 bool item_compare_by_charges( const item &left, const item &right );
 bool item_ptr_compare_by_charges( const item *left, const item *right );

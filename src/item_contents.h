@@ -39,10 +39,11 @@ class item_contents
         item_contents( const std::vector<pocket_data> &pockets );
 
         /**
-          * returns a pointer to the best pocket that can contain the item @it
+          * returns an item_location and pointer to the best pocket that can contain the item @it
           * only checks CONTAINER pocket type
           */
-        item_pocket *best_pocket( const item &it, bool nested );
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
+                bool nested );
         ret_val<bool> can_contain_rigid( const item &it ) const;
         ret_val<bool> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
@@ -91,6 +92,8 @@ class item_contents
         // all magazines compatible with any pockets.
         // this only checks MAGAZINE_WELL
         std::set<itype_id> magazine_compatible() const;
+        // returns the default magazine; assumes only one MAGAZINE_WELL. returns NULL_ID if not a magazine well or no compatible magazines.
+        itype_id magazine_default() const;
         /**
          * This function is to aid migration to using nested containers.
          * The call sites of this function need to be updated to search the
@@ -208,7 +211,6 @@ class item_contents
         bool has_any_with( const std::function<bool( const item & )> &filter,
                            item_pocket::pocket_type pk_type ) const;
 
-        void remove_rotten( const tripoint &pnt );
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed

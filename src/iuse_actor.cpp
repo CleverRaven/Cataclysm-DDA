@@ -1171,7 +1171,7 @@ void reveal_map_actor::load( const JsonObject &obj )
     }
 }
 
-void reveal_map_actor::reveal_targets( const tripoint &center,
+void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
                                        const std::pair<std::string, ot_match_type> &target,
                                        int reveal_distance ) const
 {
@@ -1195,11 +1195,11 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
-    const tripoint &center = it.get_var( "reveal_map_center_omt",
-                                         p.global_omt_location() );
+    const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
+                                   p.global_omt_location().raw() ) );
     for( auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            reveal_targets( tripoint( center.xy(), z ), omt, 0 );
+            reveal_targets( tripoint_abs_omt( center.xy(), z ), omt, 0 );
         }
     }
     if( !message.empty() ) {
@@ -3519,7 +3519,7 @@ void heal_actor::info( const item &, std::vector<iteminfo> &dump ) const
         dump.emplace_back( "HEAL", _( "Effect on bleeding: " ), texitify_bandage_power( bleed ) );
         if( g != nullptr ) {
             dump.emplace_back( "HEAL", _( "Actual effect on bleeding: " ),
-                               texitify_healing_power( get_stopbleed_level( g->u ) ) );
+                               texitify_healing_power( get_stopbleed_level( get_player_character() ) ) );
         }
     }
     if( bite > 0.0f || infect > 0.0f ) {

@@ -25,11 +25,10 @@ enum class recipe_filter_flags : int {
     no_rotten = 1,
 };
 
-inline constexpr recipe_filter_flags operator&( recipe_filter_flags l, recipe_filter_flags r )
-{
-    return static_cast<recipe_filter_flags>(
-               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
-}
+template<>
+struct enum_traits<recipe_filter_flags> {
+    static constexpr bool is_flag_enum = true;
+};
 
 struct recipe_proficiency {
     proficiency_id id;

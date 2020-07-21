@@ -39,7 +39,7 @@ class talker_character: public talker
         int posy() const override;
         int posz() const override;
         tripoint pos() const override;
-        tripoint global_omt_location() const override;
+        tripoint_abs_omt global_omt_location() const override;
 
         // stats, skills, traits, bionics, and magic
         int str_cur() const override;

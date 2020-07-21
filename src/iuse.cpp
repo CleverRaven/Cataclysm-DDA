@@ -470,7 +470,7 @@ int iuse::sewage( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    g->events().send<event_type::eats_sewage>();
+    get_event_bus().send<event_type::eats_sewage>();
     p->vomit();
     if( one_in( 4 ) ) {
         p->mutate();
@@ -1402,7 +1402,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         p.add_msg_if_player( m_bad,
                              _( "You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out…" ) );
         if( p.is_avatar() ) {
-            g->memorial().add(
+            get_memorial().add(
                 pgettext( "memorial_male", "Suffered Marloss Rejection." ),
                 pgettext( "memorial_female", "Suffered Marloss Rejection." ) );
         }
@@ -1430,7 +1430,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
 
         p.set_mutation( trait_THRESH_MARLOSS );
         get_map().ter_set( p.pos(), t_marloss );
-        g->events().send<event_type::crosses_marloss_threshold>( p.getID() );
+        get_event_bus().send<event_type::crosses_marloss_threshold>( p.getID() );
         p.add_msg_if_player( m_good,
                              _( "You wake up in a marloss bush.  Almost *cradled* in it, actually, as though it grew there for you." ) );
         p.add_msg_if_player( m_good,
@@ -1476,7 +1476,7 @@ int iuse::marloss( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    g->events().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
+    get_event_bus().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS );
     return it->type->charges_to_use();
@@ -1493,7 +1493,7 @@ int iuse::marloss_seed( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    g->events().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
+    get_event_bus().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS_BLUE );
     return it->type->charges_to_use();
@@ -1505,7 +1505,7 @@ int iuse::marloss_gel( player *p, item *it, bool, const tripoint & )
         return 0;
     }
 
-    g->events().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
+    get_event_bus().send<event_type::consumes_marloss_item>( p->getID(), it->typeId() );
 
     marloss_common( *p, *it, trait_MARLOSS_YELLOW );
     return it->type->charges_to_use();
@@ -1518,7 +1518,7 @@ int iuse::mycus( player *p, item *it, bool t, const tripoint &pos )
     }
     // Welcome our guide.  Welcome.  To. The Mycus.
     if( p->has_trait( trait_THRESH_MARLOSS ) ) {
-        g->events().send<event_type::crosses_mycus_threshold>( p->getID() );
+        get_event_bus().send<event_type::crosses_mycus_threshold>( p->getID() );
         p->add_msg_if_player( m_neutral,
                               _( "It tastes amazing, and you finish it quickly." ) );
         p->add_msg_if_player( m_good, _( "You feel better all over." ) );
@@ -1829,7 +1829,9 @@ static bool good_fishing_spot( tripoint pos, player *p )
     std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
     map &here = get_map();
     // isolated little body of water with no definite fish population
-    const oter_id &cur_omt = overmap_buffer.ter( ms_to_omt_copy( here.getabs( pos ) ) );
+    // TODO: fix point types
+    const oter_id &cur_omt =
+        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( "CURRENT", pos ) &&
         om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
@@ -2258,9 +2260,9 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     // Report direction.
-    const auto player_pos = p->global_sm_location();
-    direction angle = direction_from( player_pos.xy(),
-                                      tref.abs_sm_pos );
+    // TODO: fix point types
+    const tripoint_abs_sm player_pos( p->global_sm_location() );
+    direction angle = direction_from( player_pos.xy(), tref.abs_sm_pos );
     add_msg( _( "The signal seems strongest to the %s." ), direction_name( angle ) );
     return it->type->charges_to_use();
 }
@@ -2607,12 +2609,12 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             here.spawn_item( pnt, itype_manhole_cover );
         }
         if( type == t_door_locked_alarm ) {
-            g->events().send<event_type::triggers_alarm>( p->getID() );
+            get_event_bus().send<event_type::triggers_alarm>( p->getID() );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( !g->timed_events.queued( timed_event_type::WANTED ) ) {
-                g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                     p->global_sm_location() );
+            if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
+                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
+                                        p->global_sm_location() );
             }
         }
     } else {
@@ -4041,7 +4043,7 @@ int iuse::mininuke( player *p, item *it, bool, const tripoint & )
     }
     p->add_msg_if_player( _( "You set the timer to %s." ),
                           to_string( time_duration::from_turns( time ) ) );
-    g->events().send<event_type::activates_mininuke>( p->getID() );
+    get_event_bus().send<event_type::activates_mininuke>( p->getID() );
     it->convert( itype_mininuke_act );
     it->charges = time;
     it->active = true;
@@ -5381,7 +5383,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                   it->tname() );
         return 0;
     }
-    g->events().send<event_type::activates_artifact>( p->getID(), it->tname( 1, false ) );
+    get_event_bus().send<event_type::activates_artifact>( p->getID(), it->tname( 1, false ) );
 
     const auto &art = it->type->artifact;
     size_t num_used = rng( 1, art->effects_activated.size() );
@@ -5443,9 +5445,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 break;
 
             case AEA_MAP: {
-                const tripoint center = p->global_omt_location();
-                const bool new_map = overmap_buffer.reveal(
-                                         center.xy(), 20, center.z );
+                const tripoint_abs_omt center = p->global_omt_location();
+                const bool new_map = overmap_buffer.reveal( center.xy(), 20, center.z() );
                 if( new_map ) {
                     p->add_msg_if_player( m_warning, _( "You have a vision of the surrounding area…" ) );
                     p->moves -= to_moves<int>( 1_seconds );
@@ -5554,7 +5555,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_LIGHT:
                 p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
-                g->timed_events.add( timed_event_type::ARTIFACT_LIGHT, calendar::turn + 3_minutes );
+                get_timed_events().add( timed_event_type::ARTIFACT_LIGHT, calendar::turn + 3_minutes );
                 break;
 
             case AEA_GROWTH: {
@@ -5633,7 +5634,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_DIM:
                 p->add_msg_if_player( _( "The sky starts to dim." ) );
-                g->timed_events.add( timed_event_type::DIM, calendar::turn + 5_minutes );
+                get_timed_events().add( timed_event_type::DIM, calendar::turn + 5_minutes );
                 break;
 
             case AEA_FLASH:
@@ -5880,7 +5881,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
         // dry off from being wet
     } else if( std::abs( p->has_morale( MORALE_WET ) ) ) {
         p->rem_morale( MORALE_WET );
-        p->body_wetness.fill( 0 );
+        p->set_all_parts_wetness( 0 );
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),
                               name );
 
@@ -7601,7 +7602,9 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                                               obj_list );
     }
 
-    const oter_id &cur_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( aim_point ) ) );
+    // TODO: fix point types
+    const oter_id &cur_ter =
+        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( aim_point ) ) ) );
     std::string overmap_desc = string_format( _( "In the background you can see a %s" ),
                                colorize( cur_ter->get_name(), cur_ter->get_color() ) );
     if( outside_tiles_num == total_tiles_num ) {
@@ -8770,7 +8773,7 @@ int iuse::multicooker( player *p, item *it, bool t, const tripoint &pos )
                 meal.heat_up();
             } else {
                 meal.set_item_temperature( temp_to_kelvin( std::max( temperatures::cold,
-                                           g->weather.get_temperature( pos ) ) ) );
+                                           get_weather().get_temperature( pos ) ) ) );
             }
 
             it->active = false;

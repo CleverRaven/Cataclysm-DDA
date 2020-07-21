@@ -1100,5 +1100,56 @@
         { "item": "sheet_metal_small", "count": [ 2, 10 ] }
       ]
     }
+  },
+  {
+    "type": "furniture",
+    "id": "f_chest",
+    "description": "A sealed wooden storage container.  Lacking any labels, it could hold just about anything inside.  It has a simple metal latch.",
+    "name": "wooden chest",
+    "symbol": "X",
+    "color": "white",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": 12,
+    "looks_like": "f_crate_c",
+    "flags": [ "TRANSPARENT", "CONTAINER", "FLAMMABLE", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "deconstruct": {
+      "items": [ { "item": "wood_panel", "count": 5 }, { "item": "hinge", "count": 2 }, { "item": "nail", "charges": [ 6, 10 ] } ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "wham!",
+      "items": [ { "item": "2x4", "count": [ 1, 5 ] }, { "item": "hinge", "count": 2 }, { "item": "nail", "charges": [ 2, 10 ] } ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_foot_locker",
+    "name": "metal foot locker",
+    "description": "An metal stoarge box, capable of holding any number of things.  The lid has has a small lock.",
+    "symbol": "O",
+    "color": "white",
+    "move_cost_mod": -1,
+    "coverage": 60,
+    "required_str": 10,
+    "looks_like": "f_crate_c",
+    "flags": [ "TRANSPARENT", "CONTAINER", "PLACE_ITEM", "ORGANIC", "MOUNTABLE", "SHORT" ],
+    "deconstruct": {
+      "items": [ { "item": "sheet_metal_small", "count": 6 }, { "item": "lock", "count": 1 }, { "item": "hinge", "charges": 2 } ]
+    },
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "wham!",
+      "items": [
+        { "item": "sheet_metal_small", "count": [ 2, 4 ] },
+        { "item": "lock", "count": [ 0, 1 ] },
+        { "item": "scrap", "count": [ 2, 6 ] },
+        { "item": "hinge", "charges": 2 }
+      ]
+    }
   }
 ]

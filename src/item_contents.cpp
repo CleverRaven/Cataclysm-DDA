@@ -65,12 +65,16 @@ void pocket_favorite_callback::refresh( uilist *menu )
                                 colorize( whitelist ? _( "whitelist" ) : _( "blacklist" ), c_light_blue ) ) );
 
         selected_pocket->general_info( info, menu->selected + 1, true );
-        selected_pocket->contents_info( info, menu->selected + 1, true );
         starty += fold_and_print( menu->window, point( startx, starty ), width,
-                                  c_light_gray, format_item_info( info, {} ) ) + 2;
+                                  c_light_gray, format_item_info( info, {} ) ) + 1;
 
         info.clear();
         selected_pocket->favorite_info( info );
+        starty += fold_and_print( menu->window, point( startx, starty ), width,
+                                  c_light_gray, format_item_info( info, {} ) ) + 1;
+
+        info.clear();
+        selected_pocket->contents_info( info, menu->selected + 1, true );
         fold_and_print( menu->window, point( startx, starty ), width,
                         c_light_gray, format_item_info( info, {} ) );
     }
@@ -447,12 +451,14 @@ void item_contents::fill_with( const item &contained )
     }
 }
 
-item_pocket *item_contents::best_pocket( const item &it, bool nested )
+std::pair<item_location, item_pocket *> item_contents::best_pocket( const item &it,
+        item_location &parent, bool nested )
 {
     if( !can_contain( it ).success() ) {
-        return nullptr;
+        return { item_location(), nullptr };
     }
-    item_pocket *ret = nullptr;
+    std::pair<item_location, item_pocket *> ret;
+    ret.second = nullptr;
     for( item_pocket &pocket : contents ) {
         if( !pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
             // best pocket is for picking stuff up.
@@ -467,15 +473,14 @@ item_pocket *item_contents::best_pocket( const item &it, bool nested )
             // that needs to be something a player explicitly does
             continue;
         }
-        if( ret == nullptr ) {
-            if( pocket.can_contain( it ).success() ) {
-                ret = &pocket;
-            }
-        } else if( pocket.can_contain( it ).success() && ret->better_pocket( pocket, it ) ) {
-            ret = &pocket;
+        if( ( ret.second == nullptr && pocket.can_contain( it ).success() ) ||
+            ( pocket.can_contain( it ).success() && ret.second->better_pocket( pocket, it ) ) ) {
+            ret.first = parent;
+            ret.second = &pocket;
             for( item *contained : all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-                item_pocket *internal_pocket = contained->contents.best_pocket( it, nested );
-                if( internal_pocket != nullptr && ret->better_pocket( pocket, it ) ) {
+                std::pair<item_location, item_pocket *> internal_pocket =
+                    contained->contents.best_pocket( it, parent, true );
+                if( internal_pocket.second != nullptr && ret.second->better_pocket( pocket, it ) ) {
                     ret = internal_pocket;
                 }
             }
@@ -1150,6 +1155,16 @@ std::set<itype_id> item_contents::magazine_compatible() const
     return ret;
 }
 
+itype_id item_contents::magazine_default() const
+{
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+            return pocket.magazine_default();
+        }
+    }
+    return itype_id::NULL_ID();
+}
+
 units::mass item_contents::total_container_weight_capacity() const
 {
     units::mass total_weight = 0_gram;
@@ -1221,16 +1236,6 @@ units::volume item_contents::total_contained_volume() const
         }
     }
     return total_vol;
-}
-
-void item_contents::remove_rotten( const tripoint &pnt )
-{
-    for( item_pocket &pocket : contents ) {
-        // no reason to check mods, they won't rot
-        if( !pocket.is_type( item_pocket::pocket_type::MOD ) ) {
-            pocket.remove_rotten( pnt );
-        }
-    }
 }
 
 void item_contents::remove_internal( const std::function<bool( item & )> &filter,

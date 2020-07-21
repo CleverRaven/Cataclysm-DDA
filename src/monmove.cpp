@@ -1148,19 +1148,19 @@ tripoint monster::scent_move()
     Character &player_character = get_player_character();
     const bool fleeing = is_fleeing( player_character );
     if( fleeing ) {
-        bestsmell = g->scent.get( pos() );
+        bestsmell = get_scent().get( pos() );
     }
 
     tripoint next( -1, -1, posz() );
-    if( ( !fleeing && g->scent.get( pos() ) > smell_threshold ) ||
+    if( ( !fleeing && get_scent().get( pos() ) > smell_threshold ) ||
         ( fleeing && bestsmell == 0 ) ) {
         return next;
     }
     const bool can_bash = bash_skill() > 0;
     map &here = get_map();
     for( const auto &dest : here.points_in_radius( pos(), 1, SCENT_MAP_Z_REACH ) ) {
-        int smell = g->scent.get( dest );
-        const scenttype_id &type_scent = g->scent.get_type( dest );
+        int smell = get_scent().get( dest );
+        const scenttype_id &type_scent = get_scent().get_type( dest );
 
         bool right_scent = false;
         // is the monster tracking this scent
@@ -1960,8 +1960,8 @@ bool monster::will_reach( const point &p )
         return false;
     }
 
-    if( has_flag( MF_SMELLS ) && g->scent.get( pos() ) > 0 &&
-        g->scent.get( { p, posz() } ) > g->scent.get( pos() ) ) {
+    if( has_flag( MF_SMELLS ) && get_scent().get( pos() ) > 0 &&
+        get_scent().get( { p, posz() } ) > get_scent().get( pos() ) ) {
         return true;
     }
 

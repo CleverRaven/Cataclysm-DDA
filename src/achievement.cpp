@@ -124,11 +124,11 @@ std::string enum_to_string<requirement_visibility>( requirement_visibility data 
 
 } // namespace io
 
-static nc_color color_from_completion( bool is_conduct, achievement_completion comp )
+static nc_color color_from_completion( bool is_conduct, achievement_completion comp, bool is_title )
 {
     switch( comp ) {
         case achievement_completion::pending:
-            return is_conduct ? c_light_green : c_yellow;
+            return is_conduct ? c_light_green : ( is_title ? c_white : c_light_cyan );
         case achievement_completion::completed:
             return c_light_green;
         case achievement_completion::failed:
@@ -325,7 +325,7 @@ std::string achievement::time_bound::ui_text( bool is_conduct ) const
     time_point now = calendar::turn;
     achievement_completion comp = completed();
 
-    nc_color c = color_from_completion( is_conduct, comp );
+    nc_color c = color_from_completion( is_conduct, comp, false );
 
     auto translate_epoch = []( epoch e ) {
         switch( e ) {
@@ -570,8 +570,9 @@ std::string enum_to_string<achievement_completion>( achievement_completion data 
 std::string achievement_state::ui_text( const achievement *ach ) const
 {
     // First: the achievement name and description
-    nc_color c = color_from_completion( ach->is_conduct(), completion );
-    std::string result = colorize( ach->name(), c ) + "\n";
+    nc_color c = color_from_completion( ach->is_conduct(), completion, false );
+    nc_color c_title = color_from_completion( ach->is_conduct(), completion, true );
+    std::string result = colorize( ach->name(), c_title ) + "\n";
     if( !ach->description().empty() ) {
         result += "  " + colorize( ach->description(), c ) + "\n";
     }
@@ -696,8 +697,12 @@ std::string achievement_tracker::ui_text() const
 
     // First: the achievement name and description
     nc_color c = color_from_completion( achievement_->is_conduct(),
-                                        achievement_completion::pending );
-    std::string result = colorize( achievement_->name(), c ) + "\n";
+                                        achievement_completion::pending,
+                                        false );
+    nc_color c_title = color_from_completion( achievement_->is_conduct(),
+                       achievement_completion::pending,
+                       true );
+    std::string result = colorize( achievement_->name(), c_title ) + "\n";
     if( !achievement_->description().empty() ) {
         result += "  " + colorize( achievement_->description(), c ) + "\n";
     }
