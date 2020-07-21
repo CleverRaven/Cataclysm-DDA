@@ -2121,7 +2121,9 @@ void monster::load( const JsonObject &data )
 
     data.read( "ammo", ammo );
 
-    faction = mfaction_str_id( data.get_string( "faction", "" ) );
+    // TODO: Remove blob migration after 0.F
+    const std::string faction_string = data.get_string( "faction", "" );
+    faction = mfaction_str_id( faction_string == "blob" ? "slime" : faction_string );
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
