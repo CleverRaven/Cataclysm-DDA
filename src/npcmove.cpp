@@ -4262,7 +4262,7 @@ void npc::go_to_omt_destination()
     }
     // TODO: fix point types
     tripoint sm_tri =
-        here.getlocal( project_to<coords::scale::map_square>( omt_path.back() ).raw() );
+        here.getlocal( project_to<coords::ms>( omt_path.back() ).raw() );
     tripoint centre_sub = sm_tri + point( SEEX, SEEY );
     if( !here.passable( centre_sub ) ) {
         auto candidates = here.points_in_radius( centre_sub, 2 );

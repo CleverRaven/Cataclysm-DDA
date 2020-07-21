@@ -1738,7 +1738,7 @@ bool overmap::generate_sub( const int z )
 
     for( auto &i : cities ) {
         tripoint_om_omt omt_pos( i.pos, z );
-        tripoint_om_sm sm_pos = project_to<coords::scale::submap>( omt_pos );
+        tripoint_om_sm sm_pos = project_to<coords::sm>( omt_pos );
         // Sewers and city subways are present at z == -1 and z == -2. Don't spawn CHUD on other z-levels.
         if( ( z == -1 || z == -2 ) && one_in( 3 ) ) {
             add_mon_group( mongroup( GROUP_CHUD,
@@ -1767,7 +1767,7 @@ bool overmap::generate_sub( const int z )
         mongroup_id ant_group( ter( p_loc + tripoint_above ) == "anthill" ?
                                "GROUP_ANT" : "GROUP_ANT_ACID" );
         add_mon_group(
-            mongroup( ant_group, tripoint_om_sm( project_to<coords::scale::submap>( i.pos ), z ),
+            mongroup( ant_group, tripoint_om_sm( project_to<coords::sm>( i.pos ), z ),
                       ( i.size * 3 ) / 2, rng( 6000, 8000 ) ) );
         build_anthill( p_loc, i.size );
     }
@@ -1946,7 +1946,7 @@ void mongroup::wander( const overmap &om )
         // Find a nearby city to return to..
         for( const city &check_city : om.cities ) {
             // Check if this is the nearest city so far.
-            int distance = rl_dist( project_to<coords::scale::submap>( check_city.pos ),
+            int distance = rl_dist( project_to<coords::sm>( check_city.pos ),
                                     pos.xy() );
             if( !target_city || distance < target_distance ) {
                 target_distance = distance;
@@ -1993,7 +1993,7 @@ void overmap::move_hordes()
         }
 
         // Decrease movement chance according to the terrain we're currently on.
-        const oter_id &walked_into = ter( project_to<coords::scale::overmap_terrain>( mg.pos ) );
+        const oter_id &walked_into = ter( project_to<coords::omt>( mg.pos ) );
         int movement_chance = 1;
         if( walked_into == ot_forest || walked_into == ot_forest_water ) {
             movement_chance = 3;
@@ -4047,7 +4047,7 @@ void overmap::place_special(
         const overmap_special_spawns &spawns = special.spawns;
         const int pop = rng( spawns.population.min, spawns.population.max );
         const int rad = rng( spawns.radius.min, spawns.radius.max );
-        add_mon_group( mongroup( spawns.group, project_to<coords::scale::submap>( p ), rad, pop ) );
+        add_mon_group( mongroup( spawns.group, project_to<coords::sm>( p ), rad, pop ) );
     }
 }
 
@@ -4274,7 +4274,7 @@ void overmap::place_mongroups()
         if( get_option<bool>( "WANDER_SPAWNS" ) ) {
             if( !one_in( 16 ) || elem.size > 5 ) {
                 mongroup m( GROUP_ZOMBIE,
-                            tripoint_om_sm( project_to<coords::scale::submap>( elem.pos ), 0 ),
+                            tripoint_om_sm( project_to<coords::sm>( elem.pos ), 0 ),
                             static_cast<int>( elem.size * 2.5 ),
                             elem.size * 80 );
                 //                m.set_target( zg.back().posx, zg.back().posy );
@@ -4334,7 +4334,7 @@ void overmap::place_mongroups()
 
 point_abs_omt overmap::global_base_point() const
 {
-    return project_to<coords::scale::overmap_terrain>( loc );
+    return project_to<coords::omt>( loc );
 }
 
 void overmap::place_radios()
@@ -4346,7 +4346,7 @@ void overmap::place_radios()
     for( int i = 0; i < OMAPX; i++ ) {
         for( int j = 0; j < OMAPY; j++ ) {
             tripoint_om_omt pos_omt( i, j, 0 );
-            point_om_sm pos_sm = project_to<coords::scale::submap>( pos_omt.xy() );
+            point_om_sm pos_sm = project_to<coords::sm>( pos_omt.xy() );
 
             if( ter( pos_omt ) == "radio_tower" ) {
                 int choice = rng( 0, 2 );
@@ -4526,7 +4526,7 @@ bool overmap::is_omt_generated( const tripoint_om_omt &loc ) const
     // Location is local to this overmap, but we need global submap coordinates
     // for the mapbuffer lookup.
     tripoint_abs_sm global_sm_loc =
-        project_to<coords::scale::submap>( project_combine( pos(), loc ) );
+        project_to<coords::sm>( project_combine( pos(), loc ) );
 
     // TODO: fix point types
     const bool is_generated = MAPBUFFER.lookup_submap( global_sm_loc.raw() ) != nullptr;

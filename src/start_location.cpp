@@ -216,7 +216,7 @@ tripoint_abs_omt start_location::find_player_initial_location() const
 void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
 {
     // Now prepare the initial map (change terrain etc.)
-    const tripoint_abs_sm player_location = project_to<coords::scale::submap>( omtstart );
+    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap player_start;
     // TODO: fix point types
     player_start.load( player_location.raw(), false );
@@ -355,7 +355,7 @@ void start_location::place_player( player &u ) const
 void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
                            const int rad ) const
 {
-    const tripoint_abs_sm player_location = project_to<coords::scale::submap>( omtstart );
+    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
     m.load( player_location, false );
     m.build_outside_cache( m.get_abs_sub().z );
@@ -382,7 +382,7 @@ void start_location::burn( const tripoint_abs_omt &omtstart, const size_t count,
 void start_location::add_map_extra( const tripoint_abs_omt &omtstart,
                                     const std::string &map_extra ) const
 {
-    const tripoint_abs_sm player_location = project_to<coords::scale::submap>( omtstart );
+    const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap m;
     m.load( player_location, false );
 
@@ -425,7 +425,7 @@ void start_location::handle_heli_crash( player &u ) const
 static void add_monsters( const tripoint_abs_omt &omtstart, const mongroup_id &type,
                           float expected_points )
 {
-    const tripoint_abs_sm spawn_location = project_to<coords::scale::submap>( omtstart );
+    const tripoint_abs_sm spawn_location = project_to<coords::sm>( omtstart );
     tinymap m;
     m.load( spawn_location, false );
     // map::place_spawns internally multiplies density by rng(10, 50)

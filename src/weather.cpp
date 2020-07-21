@@ -691,7 +691,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     double low = 100.0;
     // TODO: fix point types
     const tripoint abs_ms_pos =
-        tripoint( project_to<coords::scale::map_square>( abs_sm_pos ).raw(), 0 );
+        tripoint( project_to<coords::ms>( abs_sm_pos ).raw(), 0 );
     // TODO: wind direction and speed
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
                                  1_hours;

@@ -666,7 +666,7 @@ void basecamp::form_crafting_inventory()
 {
     if( by_radio ) {
         tinymap target_map;
-        target_map.load( project_to<coords::scale::submap>( omt_pos ), false );
+        target_map.load( project_to<coords::sm>( omt_pos ), false );
         form_crafting_inventory( target_map );
     } else {
         form_crafting_inventory( get_map() );
@@ -751,7 +751,7 @@ void basecamp_action_components::consume_components()
     if( base_.by_radio ) {
         map_ = std::make_unique<tinymap>();
         // TODO: fix point types
-        map_->load( project_to<coords::scale::submap>( base_.camp_omt_pos() ).raw(), false );
+        map_->load( project_to<coords::sm>( base_.camp_omt_pos() ).raw(), false );
         target_map = map_.get();
     }
     const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );

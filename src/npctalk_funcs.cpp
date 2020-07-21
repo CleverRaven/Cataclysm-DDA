@@ -699,7 +699,7 @@ void talk_function::buy_10_logs( npc &p )
 
     const tripoint_abs_omt site = random_entry( places_om );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.spawn_item( point( 7, 15 ), "log", 10 );
     bay.save();
 
@@ -726,7 +726,7 @@ void talk_function::buy_100_logs( npc &p )
 
     const tripoint_abs_omt site = random_entry( places_om );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.spawn_item( point( 7, 15 ), "log", 100 );
     bay.save();
 

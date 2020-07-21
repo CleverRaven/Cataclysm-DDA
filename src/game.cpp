@@ -684,7 +684,7 @@ bool game::start_game()
     }
 
     // TODO: fix point types
-    tripoint lev = project_to<coords::scale::submap>( omtstart ).raw();
+    tripoint lev = project_to<coords::sm>( omtstart ).raw();
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
     lev.x -= HALF_MAPSIZE;
     lev.y -= HALF_MAPSIZE;
@@ -860,7 +860,7 @@ vehicle *game::place_vehicle_nearby(
         for( const tripoint_abs_omt &goal : overmap_buffer.find_all( omt_origin, find_params ) ) {
             // try place vehicle there.
             tinymap target_map;
-            target_map.load( project_to<coords::scale::submap>( goal ), false );
+            target_map.load( project_to<coords::sm>( goal ), false );
             const tripoint tinymap_center( SEEX, SEEY, goal.z() );
             static const std::vector<int> angles = {0, 90, 180, 270};
             vehicle *veh = target_map.add_vehicle( id, tinymap_center, random_entry( angles ), rng( 50, 80 ),
@@ -4659,7 +4659,7 @@ void game::overmap_npc_move()
                 }
                 // TODO: fix point types
                 elem->travel_overmap(
-                    project_to<coords::scale::submap>( elem->omt_path.back() ).raw() );
+                    project_to<coords::sm>( elem->omt_path.back() ).raw() );
             }
             reload_npcs();
         }
@@ -9992,7 +9992,7 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest )
     // player will be centered in the middle of the map.
     // TODO: fix point types
     const tripoint map_sm_pos(
-        project_to<coords::scale::submap>( om_dest ).raw() + point( -HALF_MAPSIZE, -HALF_MAPSIZE ) );
+        project_to<coords::sm>( om_dest ).raw() + point( -HALF_MAPSIZE, -HALF_MAPSIZE ) );
     const tripoint player_pos( u.pos().xy(), map_sm_pos.z );
     load_map( map_sm_pos );
     load_npcs();

@@ -4823,7 +4823,7 @@ std::string item::display_name( unsigned int quantity ) const
         tripoint map_pos_omt =
             get_var( "reveal_map_center_omt", player_character.global_omt_location().raw() );
         tripoint_abs_sm map_pos =
-            project_to<coords::scale::submap>( tripoint_abs_omt( map_pos_omt ) );
+            project_to<coords::sm>( tripoint_abs_omt( map_pos_omt ) );
         const city *c = overmap_buffer.closest_city( map_pos ).city;
         if( c != nullptr ) {
             name = string_format( "%s %s", c->name, name );
