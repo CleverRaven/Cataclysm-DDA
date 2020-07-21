@@ -376,6 +376,22 @@ void npc::assess_danger()
         max_range = *confident_range_cache;
     }
     Character &player_character = get_player_character();
+    const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
+                                   rules.engagement == combat_engagement::NONE;
+    const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
+    const bool must_retreat = rules.has_flag( ally_rule::follow_close ) &&
+                              !too_close( pos(), player_character.pos(), follow_distance() );
+
+    if( is_player_ally() ) {
+        if( rules.engagement == combat_engagement::FREE_FIRE ) {
+            def_radius = std::max( 6, max_range );
+        } else if( self_defense_only ) {
+            def_radius = max_range;
+        } else if( no_fighting ) {
+            def_radius = 1;
+        }
+    }
+
     const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & c,
     int dist, int scaled_dist ) {
         // If we're forbidden to attack, no need to check engagement rules
@@ -425,9 +441,7 @@ void npc::assess_danger()
             }
         }
     }
-    if( is_player_ally() && rules.engagement == combat_engagement::FREE_FIRE ) {
-        def_radius = std::max( 6, max_range );
-    }
+
     // find our Character friends and enemies
     std::vector<weak_ptr_fast<Creature>> hostile_guys;
     for( const npc &guy : g->all_npcs() ) {
@@ -470,6 +484,9 @@ void npc::assess_danger()
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
         }
+        if( must_retreat || no_fighting ) {
+            continue;
+        }
         // ignore targets behind glass even if we can see them
         if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
             continue;
@@ -481,10 +498,10 @@ void npc::assess_danger()
                                          NPC_DANGER_VERY_LOW );
         ai_cache.total_danger += critter_danger / scaled_distance;
 
-        // don't ignore monsters that are too close or too close to an ally
+        // don't ignore monsters that are too close or too close to an ally if we can move
         bool is_too_close = dist <= def_radius;
         for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
-            if( is_too_close ) {
+            if( is_too_close || self_defense_only ) {
                 break;
             }
             // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
@@ -526,12 +543,18 @@ void npc::assess_danger()
 
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
+        if( must_retreat || no_fighting ) {
+            return 0.0f;
+        }
         // ignore targets behind glass even if we can see them
         if( !clear_shot_reach( pos(), foe.pos(), false ) ) {
             return 0.0f;
         }
         bool is_too_close = dist <= def_radius;
         for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
+            if( self_defense_only ) {
+                break;
+            }
             is_too_close |= too_close( foe.pos(), guy.lock()->pos(), def_radius );
             if( is_too_close ) {
                 break;
@@ -819,6 +842,12 @@ void npc::move()
         }
     }
 
+    // check if in vehicle before doing any other follow activities
+    if( action == npc_undecided && is_walking_with() && player_character.in_vehicle &&
+        !in_vehicle ) {
+        action = npc_follow_embarked;
+    }
+
     if( action == npc_undecided && is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
         rl_dist( pos(), player_character.pos() ) > follow_distance() ) {
         action = npc_follow_player;
@@ -857,7 +886,8 @@ void npc::move()
         }
     }
     if( action == npc_undecided ) {
-        // an interrupted activity can cause this situation. stops allied NPCs zooming off like random NPCs
+        // an interrupted activity can cause this situation. stops allied NPCs zooming off
+        // like random NPCs
         if( attitude == NPCATT_ACTIVITY && !activity ) {
             revert_after_activity();
             if( is_ally( player_character ) ) {
