@@ -44,6 +44,7 @@ std::string sort_mode_str( bionic_ui_sort_mode mode )
 {
     switch( mode ) {
         case bionic_ui_sort_mode::NONE:
+            return _( "Manual" );
         case bionic_ui_sort_mode::POWER:
             return _( "Power usage" );
         case bionic_ui_sort_mode::NAME:
@@ -70,6 +71,7 @@ struct bionic_sort_less {
 
         switch( uistate.bionic_sort_mode ) {
             case bionic_ui_sort_mode::NONE:
+                return lhs->invlet < rhs->invlet;
             case bionic_ui_sort_mode::POWER: {
                 units::energy lbd_sort_power = bionic_sort_power( lbd );
                 units::energy rbd_sort_power = bionic_sort_power( rbd );
@@ -105,6 +107,7 @@ bionic_ui_sort_mode pick_sort_mode()
     tmenu.text = _( "Sort bionics by:" );
     tmenu.addentry( 1, true, 'p', sort_mode_str( bionic_ui_sort_mode::POWER ) );
     tmenu.addentry( 2, true, 'n', sort_mode_str( bionic_ui_sort_mode::NAME ) );
+    tmenu.addentry( 3, true, 'i', sort_mode_str( bionic_ui_sort_mode::NONE ) );
 
     tmenu.query();
     switch( tmenu.ret ) {
@@ -112,9 +115,11 @@ bionic_ui_sort_mode pick_sort_mode()
             return bionic_ui_sort_mode::POWER;
         case 2:
             return bionic_ui_sort_mode::NAME;
+        case 3:
+            return bionic_ui_sort_mode::NONE;
     }
 
-    return bionic_ui_sort_mode::POWER;
+    return bionic_ui_sort_mode::NONE;
 }
 
 } // namespace
@@ -126,6 +131,7 @@ std::string enum_to_string<bionic_ui_sort_mode>( bionic_ui_sort_mode mode )
 {
     switch( mode ) {
         case bionic_ui_sort_mode::NONE:
+            return "invlet";
         case bionic_ui_sort_mode::POWER:
             return "power";
         case bionic_ui_sort_mode::NAME:
