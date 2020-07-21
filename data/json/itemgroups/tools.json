@@ -268,7 +268,7 @@
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_tailor", "prob": 50 },
       { "group": "tools_toolbox", "prob": 4 },
-      { "group": "tools_workshop", "prob": 1 },
+      { "group": "tools_workshop", "prob": 1 }
     ]
   },
   {
