@@ -153,6 +153,8 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "urban_29_3",
+      "urban_29_4",
       "urban_1_1",
       "urban_1_2",
       "urban_1_3",
@@ -179,6 +181,12 @@
   {
     "type": "overmap_terrain",
     "id": [
+      "urban_29_5",
+      "urban_29_6",
+      "urban_29_7",
+      "urban_29_8",
+      "urban_29_9",
+      "urban_29_10",
       "urban_2_3",
       "urban_2_4",
       "urban_2_5",
@@ -412,7 +420,9 @@
       "urban_6_1_basement",
       "urban_6_2_basement",
       "urban_7_1_basement",
-      "urban_7_2_basement"
+      "urban_7_2_basement",
+      "urban_29_1",
+      "urban_29_2"
     ],
     "copy-from": "generic_city_house_basement"
   },
