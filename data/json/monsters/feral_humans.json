@@ -40,7 +40,7 @@
         "description": "They throw a loose brick at you!"
       }
     ],
-    "death_drops": {"default_zombie_clothes", "feral_weapons_melee_pipe"},
+    "death_drops": {"feral_humans_death_drops_pipe",},
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zombie",
     "anger_triggers": [ "FRIEND_DIED", "FRIEND_ATTACKED", "HURT" ],
@@ -66,7 +66,7 @@
         "description": "They throw a loose brick at you!"
       }
     ],
-        "death_drops": "default_zombie_clothes", "feral_weapons_melee_crowbar"
+        "death_drops": "feral_humans_death_drops_crowbar",
   },
   {
     "id": "mon_feral_human_axe",
@@ -74,6 +74,6 @@
     "copy-from": "mon_feral_human_pipe",
     "melee_dice": 3,
     "melee_dice_sides": 8,
-        "death_drops": "default_zombie_clothes", "feral_weapons_melee_axe"
+        "death_drops": "feral_humans_death_drops_axe"
   }
 ]
