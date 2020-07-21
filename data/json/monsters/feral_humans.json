@@ -37,7 +37,7 @@
         "fake_per": 6,
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
-        "description": "They throw a loose brick at you!"
+        "description": "The feral human throws a rock!"
       }
     ],
     "death_drops": "feral_humans_death_drops_pipe",
@@ -63,7 +63,7 @@
         "fake_per": 6,
         "require_targeting_player": false,
         "ranges": [ [ 2, 5, "DEFAULT" ] ],
-        "description": "They throw a loose brick at you!"
+        "description": "The feral human throws a rock!"
       }
     ],
     "death_drops": "feral_humans_death_drops_crowbar"
