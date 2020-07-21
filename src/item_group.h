@@ -10,6 +10,7 @@
 
 #include "optional.h"
 #include "item.h"
+#include "relic.h"
 
 struct itype;
 
@@ -145,6 +146,18 @@ class Item_spawn_data
          * The group spawns contained in this item
          */
         cata::optional<itype_id> container_item;
+
+        struct relic_generator {
+            relic_procgen_data::generation_rules rules;
+            relic_procgen_id id;
+
+            relic generate_relic( const itype_id &it_id ) const;
+
+            bool was_loaded = false;
+            void load( const JsonObject &jo );
+        };
+
+        cata::value_ptr<relic_generator> artifact;
 };
 /**
  * Creates a single item, but can change various aspects
