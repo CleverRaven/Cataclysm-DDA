@@ -121,15 +121,15 @@
     "material_thickness": 1,
     "pocket_data": [
       {
-        "holster": true,
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "600 g",
-        "max_item_length": "70 cm",
-        "moves": 60,
-        "flag_restriction": [ "BELT_CLIP" ]
+        "pocket_type": "CONTAINER",
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "1 kg",
+        "max_item_length": "20 cm",
+        "moves": 150
       }
     ],
-    "use_action": { "type": "holster", "holster_prompt": "Stick what into your belt", "holster_msg": "You tuck your %s into your %s" },
+    "use_action": { "type": "holster" },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
