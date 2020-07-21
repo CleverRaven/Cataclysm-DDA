@@ -169,7 +169,9 @@
       "urban_6_1",
       "urban_6_2",
       "urban_7_1",
-      "urban_7_2"
+      "urban_7_2",
+      "urban_9_1",
+      "urban_9_2"
     ],
     "copy-from": "generic_city_house",
     "see_cost": 10
@@ -200,7 +202,11 @@
       "urban_7_3",
       "urban_7_4",
       "urban_7_5",
-      "urban_7_6"
+      "urban_7_6",
+      "urban_9_3",
+      "urban_9_4",
+      "urban_9_5",
+      "urban_9_6"
     ],
     "copy-from": "generic_city_house_no_sidewalk",
     "see_cost": 10

@@ -50,66 +50,6 @@
     "flags": [ "SIDEWALK" ]
   },
   {
-    "id": "urban_9_1",
-    "type": "overmap_terrain",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green",
-    "see_cost": 10,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "urban_9_2",
-    "type": "overmap_terrain",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green",
-    "see_cost": 10,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "urban_9_3",
-    "type": "overmap_terrain",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green",
-    "see_cost": 10,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "urban_9_4",
-    "type": "overmap_terrain",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green",
-    "see_cost": 10,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "urban_9_5",
-    "type": "overmap_terrain",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green",
-    "see_cost": 10,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "urban_9_6",
-    "type": "overmap_terrain",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green",
-    "see_cost": 10,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
     "id": "urban_10_1",
     "type": "overmap_terrain",
     "name": "house",
