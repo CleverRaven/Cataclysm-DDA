@@ -2904,8 +2904,6 @@ bool game::load( const save_t &name )
         u.deserialize_map_memory( jsin );
     } );
 
-    weather.nextweather = calendar::turn;
-
     read_from_file_optional( worldpath + name.base_path() + SAVE_EXTENSION_LOG,
                              std::bind( &memorial_logger::load, &memorial(), _1 ) );
 

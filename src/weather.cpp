@@ -167,7 +167,7 @@ weather_type_id current_weather( const tripoint &location, const time_point &t )
     if( g->weather.weather_override != WEATHER_NULL ) {
         return g->weather.weather_override;
     }
-    return wgen.get_weather_conditions( location, t, g->get_seed() );
+    return wgen.get_weather_conditions( location, t, g->get_seed(), g->weather.next_instance_allowed );
 }
 
 ////// Funnels.
@@ -700,7 +700,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
         const auto wgen = get_weather().get_cur_weather_gen();
         for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
-            forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
+            forecast = std::max( forecast, wgen.get_weather_conditions( w, g->weather.next_instance_allowed ) );
             high = std::max( high, w.temperature );
             low = std::min( low, w.temperature );
         }
@@ -1054,7 +1054,7 @@ void weather_manager::update_weather()
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
         weather_id = weather_override == WEATHER_NULL ?
-                     weather_gen.get_weather_conditions( w )
+                     weather_gen.get_weather_conditions( w, next_instance_allowed )
                      : weather_override;
         if( !player_character.has_artifact_with( AEP_BAD_WEATHER ) ) {
             weather_override = WEATHER_NULL;
@@ -1062,9 +1062,9 @@ void weather_manager::update_weather()
         sfx::do_ambient();
         temperature = w.temperature;
         lightning_active = false;
-        // Check weather every few turns, instead of every turn.
-        // TODO: predict when the weather changes and use that time.
-        nextweather = calendar::turn + 5_minutes;
+        next_instance_allowed[weather_id] = calendar::turn + rng( weather_id->time_between_min,
+                                            weather_id->time_between_max );
+        nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
         if( weather_id != old_weather && weather_id->dangerous &&
             g->get_levz() >= 0 && get_map().is_outside( player_character.pos() )
             && !player_character.has_activity( ACT_WAIT_WEATHER ) ) {

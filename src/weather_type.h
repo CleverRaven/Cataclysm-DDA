@@ -87,6 +87,9 @@ struct weather_requirements {
     bool acidic = false;
     weather_time_requirement_type time;
     std::vector<weather_type_id> required_weathers;
+    time_duration time_passed_min;
+    time_duration time_passed_max;
+    int one_in_chance;
 };
 
 struct weather_field {
@@ -153,7 +156,10 @@ struct weather_type {
         weather_sound_category sound_category; //!< if playing sound effects what to use
         sun_intensity_type sun_intensity; //!< strength of the sun
         weather_requirements requirements; //!< when this weather should happen
-
+        time_duration duration_min;
+        time_duration duration_max;
+        time_duration time_between_min;
+        time_duration time_between_max;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;
