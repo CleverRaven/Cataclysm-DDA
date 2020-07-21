@@ -262,8 +262,7 @@
               "t_pit": 1,
               "t_pit_shallow": 1
             }
-          },
-          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_water_sh": 1 } }
+          }
         },
         "clear_terrain_furniture": false,
         "terrain_furniture": {  }
@@ -293,8 +292,7 @@
               "t_pit": 1,
               "t_pit_shallow": 1
             }
-          },
-          "water": { "sequence": 3, "chance": 512, "clear_types": false, "types": { "t_water_sh": 1 } }
+          }
         },
         "clear_terrain_furniture": false,
         "terrain_furniture": {  }
@@ -410,7 +408,6 @@
           "mx_portal_in": 3,
           "mx_grass": 10,
           "mx_fallen_shed": 20,
-          "mx_shia": 1,
           "mx_spider": 200,
           "mx_jabberwock": 1,
           "mx_grove": 500,

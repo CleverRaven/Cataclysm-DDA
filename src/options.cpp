@@ -1254,7 +1254,7 @@ void options_manager::add_options_general()
 
     add( "AUTO_NOTES", "general", translate_marker( "Auto notes" ),
          translate_marker( "If true, automatically sets notes" ),
-         false
+         true
        );
 
     add( "AUTO_NOTES_STAIRS", "general", translate_marker( "Auto notes (stairs)" ),
@@ -1266,7 +1266,7 @@ void options_manager::add_options_general()
 
     add( "AUTO_NOTES_MAP_EXTRAS", "general", translate_marker( "Auto notes (map extras)" ),
          translate_marker( "If true, automatically sets notes on places that contain various map extras" ),
-         false
+         true
        );
 
     get_option( "AUTO_NOTES_MAP_EXTRAS" ).setPrerequisite( "AUTO_NOTES" );

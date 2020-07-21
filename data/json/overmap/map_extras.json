@@ -255,7 +255,9 @@
     "type": "map_extra",
     "name": "Derelict shed",
     "description": "A collapsed shed.",
-    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" }
+    "generator": { "generator_method": "update_mapgen", "generator_id": "mx_fallen_shed_map" },
+    "color": "brown",
+    "autonote": true
   },
   {
     "id": "mx_clay_deposit",
@@ -293,9 +295,7 @@
     "name": "Burned Ground",
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_burned_ground" },
-    "sym": ".",
-    "color": "yellow",
-    "autonote": true
+    "sym": "."
   },
   {
     "id": "mx_point_burned_ground",
@@ -303,9 +303,7 @@
     "name": "Burned Ground (Point)",
     "description": "Burned ground is here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_point_burned_ground" },
-    "sym": ".",
-    "color": "yellow",
-    "autonote": true
+    "sym": "."
   },
   {
     "id": "mx_marloss_pilgrimage",
@@ -323,9 +321,7 @@
     "name": "Casings",
     "description": "Several spent casings are here.",
     "generator": { "generator_method": "map_extra_function", "generator_id": "mx_casings" },
-    "sym": "C",
-    "color": "yellow",
-    "autonote": true
+    "sym": "C"
   },
   {
     "id": "mx_looters",
