@@ -364,11 +364,12 @@ std::map<std::string, miss_data> miss_info = {{
  * @param estimate if true, non-destructive count of the furniture
  * @param bring_back force the destruction of the furniture and bring back the drop items
  */
-int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100,
+int om_harvest_furn( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance = 100,
                      bool estimate = false, bool bring_back = true );
 // om_harvest_furn helper function that counts the furniture instances
-int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100 );
-int om_harvest_furn_break( npc &comp, const tripoint &omt_tgt, const furn_id &f,
+int om_harvest_furn_est( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
+                         int chance = 100 );
+int om_harvest_furn_break( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
                            int chance = 100 );
 /// Exact same as om_harvest_furn but functions on terrain
 int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t, int chance = 100,
@@ -3137,24 +3138,26 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
     }
 }
 
-int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance )
+int om_harvest_furn_est( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance )
 {
     return om_harvest_furn( comp, omt_tgt, f, chance, true, false );
 }
-int om_harvest_furn_break( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance )
+int om_harvest_furn_break( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
+                           int chance )
 {
     return om_harvest_furn( comp, omt_tgt, f, chance, false, false );
 }
-int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance,
+int om_harvest_furn( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance,
                      bool estimate, bool bring_back )
 {
     const furn_t &furn_tgt = f.obj();
     tinymap target_bay;
-    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     int harvested = 0;
     int total = 0;
-    tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
+    // TODO: fix point types
+    tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
+    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.furn( p ) == f && x_in_y( chance, 100 ) ) {
             total++;

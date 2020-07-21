@@ -6407,25 +6407,20 @@ void map::save()
     }
 }
 
-void map::load( const tripoint &w, const bool update_vehicle )
+void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
 {
     for( auto &traps : traplocs ) {
         traps.clear();
     }
     field_furn_locs.clear();
     submaps_with_active_items.clear();
-    set_abs_sub( w );
+    // TODO: fix point types
+    set_abs_sub( w.raw() );
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             loadn( point( gridx, gridy ), update_vehicle );
         }
     }
-}
-
-void map::load( const tripoint_abs_sm &w, const bool update_vehicle )
-{
-    // TODO: fix point types
-    load( w.raw(), update_vehicle );
 }
 
 void map::shift_traps( const tripoint &shift )

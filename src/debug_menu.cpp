@@ -1790,8 +1790,7 @@ void debug()
                 if( where_omt != overmap::invalid_tripoint ) {
                     tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
-                    // TODO: fix point types
-                    mx_map.load( where_sm.raw(), false );
+                    mx_map.load( where_sm, false );
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm.raw() );
                     g->load_npcs();
                     here.invalidate_map_cache( g->get_levz() );

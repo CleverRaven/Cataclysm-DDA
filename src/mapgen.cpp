@@ -6929,8 +6929,7 @@ bool update_mapgen_function_json::update_map( const tripoint_abs_omt &omt_pos, c
         return false;
     }
     tinymap update_tmap;
-    // TODO: fix point types
-    const tripoint sm_pos = project_to<coords::sm>( omt_pos ).raw();
+    const tripoint_abs_sm sm_pos = project_to<coords::sm>( omt_pos );
     update_tmap.load( sm_pos, true );
 
     mapgendata md( omt_pos, update_tmap, 0.0f, calendar::start_of_cataclysm, miss );

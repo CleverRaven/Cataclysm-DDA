@@ -750,8 +750,7 @@ void basecamp_action_components::consume_components()
     map *target_map = &get_map();
     if( base_.by_radio ) {
         map_ = std::make_unique<tinymap>();
-        // TODO: fix point types
-        map_->load( project_to<coords::sm>( base_.camp_omt_pos() ).raw(), false );
+        map_->load( project_to<coords::sm>( base_.camp_omt_pos() ), false );
         target_map = map_.get();
     }
     const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );

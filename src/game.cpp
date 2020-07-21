@@ -632,12 +632,6 @@ special_game_type game::gametype() const
     return gamemode ? gamemode->id() : special_game_type::NONE;
 }
 
-void game::load_map( const tripoint &pos_sm )
-{
-    // TODO: fix point types
-    m.load( pos_sm, true );
-}
-
 void game::load_map( const tripoint_abs_sm &pos_sm )
 {
     m.load( pos_sm, true );
@@ -683,11 +677,9 @@ bool game::start_game()
         start_loc.add_map_extra( omtstart, scen->get_map_extra() );
     }
 
-    // TODO: fix point types
-    tripoint lev = project_to<coords::sm>( omtstart ).raw();
+    tripoint_abs_sm lev = project_to<coords::sm>( omtstart );
     // The player is centered in the map, but lev[xyz] refers to the top left point of the map
-    lev.x -= HALF_MAPSIZE;
-    lev.y -= HALF_MAPSIZE;
+    lev -= point( HALF_MAPSIZE, HALF_MAPSIZE );
     load_map( lev );
 
     m.invalidate_map_cache( get_levz() );
@@ -9990,10 +9982,9 @@ void game::place_player_overmap( const tripoint_abs_omt &om_dest )
     m.access_cache( get_levz() ).map_memory_seen_cache.reset();
     // offset because load_map expects the coordinates of the top left corner, but the
     // player will be centered in the middle of the map.
-    // TODO: fix point types
-    const tripoint map_sm_pos(
-        project_to<coords::sm>( om_dest ).raw() + point( -HALF_MAPSIZE, -HALF_MAPSIZE ) );
-    const tripoint player_pos( u.pos().xy(), map_sm_pos.z );
+    const tripoint_abs_sm map_sm_pos =
+        project_to<coords::sm>( om_dest ) - point( HALF_MAPSIZE, HALF_MAPSIZE );
+    const tripoint player_pos( u.pos().xy(), map_sm_pos.z() );
     load_map( map_sm_pos );
     load_npcs();
     m.spawn_monsters( true ); // Static monsters
@@ -10674,7 +10665,8 @@ void game::vertical_move( int movez, bool force, bool peeking )
     if( m.has_zlevels() ) {
         // We no longer need to shift the map here! What joy
     } else {
-        maybetmp.load( tripoint( get_levx(), get_levy(), z_after ), false );
+        // TODO: fix point types
+        maybetmp.load( tripoint_abs_sm( get_levx(), get_levy(), z_after ), false );
     }
 
     // Find the corresponding staircase
@@ -11103,7 +11095,8 @@ void game::vertical_shift( const int z_after )
         m.access_cache( z_before ).map_memory_seen_cache.reset();
         m.set_transparency_cache_dirty( z_before );
         m.set_outside_cache_dirty( z_before );
-        m.load( tripoint( get_levx(), get_levy(), z_after ), true );
+        // TODO: fix point types
+        m.load( tripoint_abs_sm( get_levx(), get_levy(), z_after ), true );
         shift_monsters( tripoint( 0, 0, z_after - z_before ) );
         reload_npcs();
     } else {
