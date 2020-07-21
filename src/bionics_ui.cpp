@@ -43,12 +43,15 @@ enum bionic_menu_mode {
 std::string sort_mode_str( bionic_ui_sort_mode mode )
 {
     switch( mode ) {
+        case bionic_ui_sort_mode::nsort:
         case bionic_ui_sort_mode::NONE:
-            return _( "Manual" );
+            return _( "None" );
         case bionic_ui_sort_mode::POWER:
             return _( "Power usage" );
         case bionic_ui_sort_mode::NAME:
             return _( "Name" );
+        case bionic_ui_sort_mode::INVLET:
+            return _( "Manual (shortcut)" );
     }
     return "error";
 }
@@ -70,7 +73,11 @@ struct bionic_sort_less {
         const bionic_data &rbd = rhs->info();
 
         switch( uistate.bionic_sort_mode ) {
+            case bionic_ui_sort_mode::nsort:
             case bionic_ui_sort_mode::NONE:
+                //use installation order
+                return true;
+            case bionic_ui_sort_mode::INVLET:
                 return lhs->invlet < rhs->invlet;
             case bionic_ui_sort_mode::POWER: {
                 units::energy lbd_sort_power = bionic_sort_power( lbd );
@@ -107,7 +114,8 @@ bionic_ui_sort_mode pick_sort_mode()
     tmenu.text = _( "Sort bionics by:" );
     tmenu.addentry( 1, true, 'p', sort_mode_str( bionic_ui_sort_mode::POWER ) );
     tmenu.addentry( 2, true, 'n', sort_mode_str( bionic_ui_sort_mode::NAME ) );
-    tmenu.addentry( 3, true, 'i', sort_mode_str( bionic_ui_sort_mode::NONE ) );
+    tmenu.addentry( 3, true, 'i', sort_mode_str( bionic_ui_sort_mode::INVLET ) );
+    tmenu.addentry( 4, true, 'o', sort_mode_str( bionic_ui_sort_mode::NONE ) );
 
     tmenu.query();
     switch( tmenu.ret ) {
@@ -116,6 +124,8 @@ bionic_ui_sort_mode pick_sort_mode()
         case 2:
             return bionic_ui_sort_mode::NAME;
         case 3:
+            return bionic_ui_sort_mode::INVLET;
+        case 4:
             return bionic_ui_sort_mode::NONE;
     }
 
@@ -130,12 +140,15 @@ template<>
 std::string enum_to_string<bionic_ui_sort_mode>( bionic_ui_sort_mode mode )
 {
     switch( mode ) {
+        case bionic_ui_sort_mode::nsort:
         case bionic_ui_sort_mode::NONE:
-            return "invlet";
+            return "none";
         case bionic_ui_sort_mode::POWER:
             return "power";
         case bionic_ui_sort_mode::NAME:
             return "name";
+        case bionic_ui_sort_mode::INVLET:
+            return "invlet";
     }
 
     return "error";

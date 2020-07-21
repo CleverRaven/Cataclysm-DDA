@@ -50,14 +50,16 @@ static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
 }
 
 enum class bionic_ui_sort_mode : int {
-    POWER = 0,
-    NAME  = 1,
-    NONE  = 2
+    NONE   = 0,
+    POWER  = 1,
+    NAME   = 2,
+    INVLET = 3,
+    nsort  = 4,
 };
 
 template<>
 struct enum_traits<bionic_ui_sort_mode> {
-    static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::NONE;
+    static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::nsort;
 };
 
 enum class holiday : int {
