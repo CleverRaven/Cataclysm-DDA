@@ -1831,19 +1831,6 @@ void player::process_items()
     }
     bool update_required = get_check_encumbrance();
     for( item &w : worn ) {
-        if( w.active ) {
-            // Only the main power armor item can be active, the other ones (hauling frame, helmet) aren't.
-            if( power_armor == nullptr && w.is_power_armor() ) {
-                power_armor = &w;
-            }
-        }
-        // Necessary for UPS in Aftershock - check worn items for charge
-        const itype_id &identifier = w.typeId();
-        if( identifier == itype_UPS_off ) {
-            ch_UPS += w.ammo_remaining();
-        } else if( identifier == itype_adv_UPS_off ) {
-            ch_UPS += w.ammo_remaining() / 0.6;
-        }
         if( !update_required && w.encumbrance_update_ ) {
             update_required = true;
         }
@@ -1857,30 +1844,17 @@ void player::process_items()
     }
     int ch_UPS_used = 0;
 
-    // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
-    if( power_armor != nullptr ) {
-        const int power_cost = 4;
-        bool bio_powered = can_interface_armor() && has_power();
-        // Bionic power costs are handled elsewhere.
-        if( !bio_powered ) {
-            if( ch_UPS >= power_cost ) {
-                use_charges( itype_UPS, power_cost );
-                ch_UPS -= power_cost;
-            } else {
-                // Deactivate armor here, bypassing the usual deactivation message.
-                add_msg_if_player( m_warning, _( "Your power armor disengages." ) );
-                power_armor->active = false;
-            }
-        }
-    }
-
     // Load all items that use the UPS to their minimal functional charge,
     // The tool is not really useful if its charges are below charges_to_use
     const auto inv_use_ups = items_with( []( const item & itm ) {
         return itm.has_flag( "USE_UPS" );
     } );
     for( auto &it : inv_use_ups ) {
-        if( ch_UPS_used >= ch_UPS || ( it->active && it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
+        // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
+        if( it->is_power_armor() && can_interface_armor() && has_power() ) {
+            // Bionic power costs are handled elsewhere
+            continue;
+        } else if( ch_UPS_used >= ch_UPS || ( it->active && it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
             it->deactivate();
             // this is for UPS-modded items which don't have a battery well
         } else if( it->active && it->ammo_capacity( ammotype( "battery" ) ) == 0 ) {
