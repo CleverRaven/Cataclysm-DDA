@@ -7,5 +7,13 @@
       "professions": [ "afs_affluent_executive", "afs_wraitheon_executive", "afs_vatgrown_bodyguard" ]
     },
     "ident": "heli_crash"
+  },
+  {
+    "copy-from": "lab_staff",
+    "name": "Challenge - Anomalous Materials",
+    "type": "scenario",
+    "allowed_locs": [  "sloc_lab_finale",  "sloc_ice_lab_finale" ],
+    "professions": [ "afs_planar_frontiersman" ],
+    "ident": "labFreeman"
   }
 ]
