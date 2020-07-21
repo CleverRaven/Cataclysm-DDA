@@ -12,7 +12,7 @@
     "copy-from": "lab_staff",
     "name": "Challenge - Anomalous Materials",
     "type": "scenario",
-    "allowed_locs": [  "sloc_lab_finale",  "sloc_ice_lab_finale" ],
+    "allowed_locs": [ "sloc_lab_finale", "sloc_ice_lab_finale" ],
     "professions": [ "afs_planar_frontiersman" ],
     "ident": "labFreeman"
   }
