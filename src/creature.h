@@ -200,7 +200,7 @@ enum class FacingDirection : int {
 class Creature : public location
 {
     public:
-        virtual ~Creature();
+        ~Creature() override;
 
         static const std::map<std::string, creature_size> size_map;
 
