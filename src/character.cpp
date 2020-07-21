@@ -5047,7 +5047,14 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     const bool just_ate = stomach.time_since_ate() < 15_minutes;
     // i ate a meal recently enough that i shouldn't need another meal
     const bool recently_ate = stomach.time_since_ate() < 3_hours;
+    // Hunger effect should intensify whenever stomach contents decreases, last eaten time increases, or calorie deficit intensifies.
     if( calorie_deficit ) {
+        //              just_ate    recently_ate
+        //              <15 min     <3 hrs      >=3 hrs
+        // >= cap       engorged    engorged    engorged
+        // > 3/4 cap    full        full        full
+        // > 1/2 cap    satisfied   v. hungry   famished/(near)starving
+        // <= 1/2 cap   hungry      v. hungry   famished/(near)starving
         if( contains >= cap ) {
             hunger_effect = effect_hunger_engorged;
         } else if( contains > cap * 3 / 4 ) {
@@ -5066,20 +5073,25 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             hunger_effect = effect_hunger_famished;
         }
     } else {
+        //              just_ate    recently_ate
+        //              <15 min     <3 hrs      >=3 hrs
+        // >= 5/6 cap   engorged    engorged    engorged
+        // > 11/20 cap  full        full        full
+        // >= 3/8 cap   satisfied   satisfied   blank
+        // > 0          blank       blank       blank
+        // 0            blank       blank       (v.) hungry
         if( contains >= cap * 5 / 6 ) {
             hunger_effect = effect_hunger_engorged;
         } else if( contains > cap * 11 / 20 ) {
             hunger_effect = effect_hunger_full;
         } else if( recently_ate && contains >= cap * 3 / 8 ) {
             hunger_effect = effect_hunger_satisfied;
-        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
+        } else if( recently_ate || contains > 0_ml ) {
             hunger_effect = effect_hunger_blank;
+        } else if( get_bmi() > character_weight_category::overweight ) {
+            hunger_effect = effect_hunger_hungry;
         } else {
-            if( get_bmi() > character_weight_category::overweight ) {
-                hunger_effect = effect_hunger_hungry;
-            } else {
-                hunger_effect = effect_hunger_very_hungry;
-            }
+            hunger_effect = effect_hunger_very_hungry;
         }
     }
     if( !has_effect( hunger_effect ) ) {
