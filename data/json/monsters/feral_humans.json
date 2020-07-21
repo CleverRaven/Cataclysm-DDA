@@ -66,7 +66,7 @@
         "description": "They throw a loose brick at you!"
       }
     ],
-        "death_drops": "feral_humans_death_drops_crowbar"
+    "death_drops": "feral_humans_death_drops_crowbar"
   },
   {
     "id": "mon_feral_human_axe",
@@ -74,6 +74,6 @@
     "copy-from": "mon_feral_human_pipe",
     "melee_dice": 3,
     "melee_dice_sides": 8,
-        "death_drops": "feral_humans_death_drops_axe"
+    "death_drops": "feral_humans_death_drops_axe"
   }
 ]
