@@ -71,8 +71,16 @@ TEST_CASE( "antifungal", "[iuse][antifungal]" )
             THEN( "one dose is depleted" ) {
                 CHECK( antifungal.charges == charges_before - 1 );
 
-                AND_THEN( "it cures the fungal infection" ) {
-                    CHECK_FALSE( dummy.has_effect( efftype_id( "fungus" ) ) );
+                AND_THEN( "it applies the antifungal effect" ) {
+                    CHECK( dummy.has_effect( efftype_id( "antifungal" ) ) );
+                }
+                AND_WHEN( "time passes" ) {
+                    const time_duration fungal_clock = dummy.get_effect_dur( efftype_id( "fungus" ) );
+                    REQUIRE( fungal_clock == 1_hours );
+                    dummy.process_effects();
+                    THEN( "duration of fungal infection shortens" ) {
+                        CHECK( fungal_clock > dummy.get_effect_dur( efftype_id( "fungus" ) ) );
+                    }
                 }
             }
         }
