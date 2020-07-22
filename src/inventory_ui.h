@@ -618,6 +618,8 @@ class inventory_selector
             get_active_column().select( position.second, scroll_direction::BACKWARD );
         }
 
+        bool select_one_of( const std::vector<item_location> &locations );
+
         std::pair<size_t, size_t> get_selection_position() {
             std::pair<size_t, size_t> position;
             position.first = active_column_index;

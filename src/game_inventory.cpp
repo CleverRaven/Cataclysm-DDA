@@ -131,26 +131,13 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
     inv_s.set_hint( hint );
     inv_s.set_display_stats( false );
 
-    std::pair<size_t, size_t> init_pair;
-    bool init_selection = false;
-    std::string init_filter;
-    bool has_init_filter = false;
-
     const std::vector<activity_id> consuming {
         ACT_EAT_MENU,
         ACT_CONSUME_FOOD_MENU,
         ACT_CONSUME_DRINK_MENU,
         ACT_CONSUME_MEDS_MENU };
 
-    if( u.has_activity( consuming ) && u.activity.values.size() >= 2 ) {
-        init_pair.first = u.activity.values[0];
-        init_pair.second = u.activity.values[1];
-        init_selection = true;
-    }
-    if( u.has_activity( consuming ) && !u.activity.str_values.empty() ) {
-        init_filter = u.activity.str_values[0];
-        has_init_filter = true;
-    }
+    bool init = true;
 
     do {
         u.inv.restack( u );
@@ -159,15 +146,20 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         inv_s.add_character_items( u );
         inv_s.add_nearby_items( radius );
 
-        if( has_init_filter ) {
-            inv_s.set_filter( init_filter );
-            has_init_filter = false;
+        if( init && u.has_activity( consuming ) ) {
+            if( !u.activity.str_values.empty() ) {
+                inv_s.set_filter( u.activity.str_values[0] );
+            }
+            // Set position after filter to keep cursor at the right position
+            bool position_set = false;
+            if( !u.activity.targets.empty() ) {
+                position_set = inv_s.select_one_of( u.activity.targets );
+            }
+            if( !position_set && u.activity.values.size() >= 2 ) {
+                inv_s.select_position( std::make_pair( u.activity.values[0], u.activity.values[1] ) );
+            }
         }
-        // Set position after filter to keep cursor at the right position
-        if( init_selection ) {
-            inv_s.select_position( init_pair );
-            init_selection = false;
-        }
+        init = false;
 
         if( inv_s.empty() ) {
             const std::string msg = none_message.empty()
@@ -181,11 +173,12 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 
         if( u.has_activity( consuming ) ) {
             u.activity.values.clear();
-            init_pair = inv_s.get_selection_position();
+            const auto init_pair = inv_s.get_selection_position();
             u.activity.values.push_back( init_pair.first );
             u.activity.values.push_back( init_pair.second );
             u.activity.str_values.clear();
             u.activity.str_values.emplace_back( inv_s.get_filter() );
+            u.activity.targets = inv_s.get_selected().locations;
         }
 
         return location;

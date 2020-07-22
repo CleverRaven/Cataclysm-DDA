@@ -1396,6 +1396,17 @@ bool inventory_selector::select( const item_location &loc )
     return res;
 }
 
+bool inventory_selector::select_one_of( const std::vector<item_location> &locations )
+{
+    prepare_layout();
+    for( const item_location &loc : locations ) {
+        if( select( loc ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 inventory_entry *inventory_selector::find_entry_by_invlet( int invlet ) const
 {
     for( const auto elem : columns ) {
