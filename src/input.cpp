@@ -1334,8 +1334,8 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
     const point win_min( getbegx( capture_win ),
                          getbegy( capture_win ) );
-    const rectangle win_bounds( win_min, win_min + view_size );
-    if( !win_bounds.contains_half_open( coordinate ) ) {
+    const half_open_rectangle win_bounds( win_min, win_min + view_size );
+    if( !win_bounds.contains( coordinate ) ) {
         return cata::nullopt;
     }
 
@@ -1368,13 +1368,13 @@ std::pair<point, bool> input_context::get_coordinates_text( const catacurses::wi
     const point &win_size = dim.window_size_pixel;
     const point win_max = win_min + win_size;
 
-    const rectangle win_bounds( win_min, win_max );
+    const half_open_rectangle win_bounds( win_min, win_max );
 
     const point screen_pos = coordinate - win_min;
     const point selected( divide_round_down( screen_pos.x, fw ),
                           divide_round_down( screen_pos.y, fh ) );
 
-    if( !win_bounds.contains_half_open( coordinate ) ) {
+    if( !win_bounds.contains( coordinate ) ) {
         return std::make_pair( selected, false );
     }
 

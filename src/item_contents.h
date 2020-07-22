@@ -39,13 +39,16 @@ class item_contents
         item_contents( const std::vector<pocket_data> &pockets );
 
         /**
-          * returns a pointer to the best pocket that can contain the item @it
+          * returns an item_location and pointer to the best pocket that can contain the item @it
           * only checks CONTAINER pocket type
           */
-        item_pocket *best_pocket( const item &it, bool nested );
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
+                bool nested );
         ret_val<bool> can_contain_rigid( const item &it ) const;
         ret_val<bool> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
+        // does not ignore mods
+        bool empty_real() const;
         bool empty() const;
         // ignores all pockets except CONTAINER pockets to check if this contents is empty.
         bool empty_container() const;
@@ -60,6 +63,9 @@ class item_contents
         std::list<item *> all_items_top( item_pocket::pocket_type pk_type );
         /** returns a list of pointers to all top-level items */
         std::list<const item *> all_items_top( item_pocket::pocket_type pk_type ) const;
+
+        // returns a list of pointers to all top level items that pass is_standard_type
+        std::list<const item *> all_standard_items_top() const;
 
         /** returns a list of pointers to all top-level items that are not mods */
         std::list<item *> all_items_top();
@@ -78,9 +84,16 @@ class item_contents
         std::vector<item *> gunmods();
         /** gets all gunmods in the item */
         std::vector<const item *> gunmods() const;
+
+        std::vector<const item *> mods() const;
+
+        void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
+                                      std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
         // this only checks MAGAZINE_WELL
         std::set<itype_id> magazine_compatible() const;
+        // returns the default magazine; assumes only one MAGAZINE_WELL. returns NULL_ID if not a magazine well or no compatible magazines.
+        itype_id magazine_default() const;
         /**
          * This function is to aid migration to using nested containers.
          * The call sites of this function need to be updated to search the
@@ -100,8 +113,16 @@ class item_contents
           * does not guarantee that an item of that size can be inserted.
           */
         units::volume total_container_capacity() const;
+
+        // Gets the total volume of every is_standard_type container
+        units::volume total_standard_capacity() const;
+
         units::volume remaining_container_capacity() const;
         units::volume total_contained_volume() const;
+
+        // gets all pockets contained in this item
+        ret_val<std::vector<item_pocket>> get_all_contained_pockets() const;
+
         // gets the number of charges of liquid that can fit into the rest of the space
         int remaining_capacity_for_liquid( const item &liquid ) const;
 
@@ -109,8 +130,11 @@ class item_contents
          * between 0 and 1 indicating the position between minimum and maximum
          * contribution it's currently making.  Otherwise, return 0 */
         float relative_encumbrance() const;
-        /** True iff every pocket is rigid */
+        /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
+
+        // True if every pocket is rigid. False if not or we have no pockets
+        bool contents_are_rigid() const;
 
         /** returns the best quality of the id that's contained in the item in CONTAINER pockets */
         int best_quality( const quality_id &id ) const;
@@ -133,6 +157,11 @@ class item_contents
          * plus whole stacks of items that are
          */
         size_t num_item_stacks() const;
+
+        /**
+         * Open a menu for the player to set pocket favorite settings for the pockets in this item_contents
+         */
+        void favorite_settings_menu( const std::string &item_name );
 
         item_pocket *contained_where( const item &contained );
         void on_pickup( Character &guy );
@@ -182,12 +211,11 @@ class item_contents
         bool has_any_with( const std::function<bool( const item & )> &filter,
                            item_pocket::pocket_type pk_type ) const;
 
-        void remove_rotten( const tripoint &pnt );
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        void process( player *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
         void migrate_item( item &obj, const std::set<itype_id> &migrations );
@@ -207,6 +235,8 @@ class item_contents
 
         void info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
+        // reads the items in the MOD pocket first
+        void read_mods( const item_contents &read_input );
         void combine( const item_contents &read_input );
 
         void serialize( JsonOut &json ) const;
@@ -221,7 +251,15 @@ class item_contents
         ret_val<const item_pocket *> find_pocket_for( const item &it,
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
 
+        //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
+        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
+        //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
+        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
+
         std::list<item_pocket> contents;
+
+        struct item_contents_helper;
+        friend struct item_contents_helper;
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

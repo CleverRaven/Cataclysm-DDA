@@ -21,6 +21,7 @@
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
+#include "vpart_range.h"
 
 static const vpart_id vpart_battery_car( "battery_car" );
 static const vpart_id vpart_headlight( "headlight" );
@@ -47,7 +48,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         // Spawn some monsters in a circle.
         tripoint origin( 30, 30, 0 );
         int num_subjects_this_time = 0;
-        for( const tripoint &monster_position : closest_tripoints_first( origin, range ) ) {
+        for( const tripoint &monster_position : closest_points_first( origin, range ) ) {
             if( rl_dist( monster_position, origin ) != range ) {
                 continue;
             }
@@ -58,7 +59,7 @@ static void check_lethality( const std::string &explosive_id, const int range, f
         // Set off an explosion
         item grenade( explosive_id );
         grenade.charges = 0;
-        grenade.type->invoke( g->u, grenade, origin );
+        grenade.type->invoke( get_avatar(), grenade, origin );
         // see how many monsters survive
         std::vector<Creature *> survivors = g->get_creatures_if( []( const Creature & critter ) {
             return critter.is_monster();
@@ -96,9 +97,9 @@ static void check_lethality( const std::string &explosive_id, const int range, f
 static std::vector<int> get_part_hp( vehicle *veh )
 {
     std::vector<int> part_hp;
-    part_hp.reserve( veh->parts.size() );
-    for( vehicle_part &part : veh->parts ) {
-        part_hp.push_back( part.hp() );
+    part_hp.reserve( veh->part_count() );
+    for( const vpart_reference &vpr : veh->get_all_parts() ) {
+        part_hp.push_back( vpr.part().hp() );
     }
     return part_hp;
 }
@@ -110,10 +111,10 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     clear_map_and_put_player_underground();
     tripoint origin( 30, 30, 0 );
 
-    vehicle *target_vehicle = g->m.add_vehicle( vproto_id( vehicle_id ), origin, 0, -1, 0 );
+    vehicle *target_vehicle = get_map().add_vehicle( vproto_id( vehicle_id ), origin, 0, -1, 0 );
     std::vector<int> before_hp = get_part_hp( target_vehicle );
 
-    while( g->m.veh_at( origin ) ) {
+    while( get_map().veh_at( origin ) ) {
         origin.x++;
     }
     origin.x += range;
@@ -121,7 +122,7 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     // Set off an explosion
     item grenade( explosive_id );
     grenade.charges = 0;
-    grenade.type->invoke( g->u, grenade, origin );
+    grenade.type->invoke( get_avatar(), grenade, origin );
 
     std::vector<int> after_hp = get_part_hp( target_vehicle );
 
@@ -129,12 +130,12 @@ static void check_vehicle_damage( const std::string &explosive_id, const std::st
     REQUIRE( before_hp.size() == after_hp.size() );
     for( size_t i = 0; i < before_hp.size(); ++i ) {
         CAPTURE( i );
-        INFO( target_vehicle->parts[ i ].name() );
-        if( target_vehicle->parts[ i ].info().get_id() == vpart_battery_car ||
-            target_vehicle->parts[ i ].info().get_id() == vpart_headlight ||
-            target_vehicle->parts[ i ].info().get_id() == vpart_windshield ) {
+        INFO( target_vehicle->part( i ).name() );
+        if( target_vehicle->part( i ).info().get_id() == vpart_battery_car ||
+            target_vehicle->part( i ).info().get_id() == vpart_headlight ||
+            target_vehicle->part( i ).info().get_id() == vpart_windshield ) {
             CHECK( before_hp[ i ] >= after_hp[ i ] );
-        } else if( !( target_vehicle->parts[ i ].info().get_id() == vpart_vehicle_clock ) ) {
+        } else if( !( target_vehicle->part( i ).info().get_id() == vpart_vehicle_clock ) ) {
             CHECK( before_hp[ i ] == after_hp[ i ] );
         }
     }

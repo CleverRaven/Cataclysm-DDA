@@ -3,7 +3,8 @@
     "type": "item_group",
     "id": "sports",
     "items": [
-      [ "bandages", 50 ],
+      [ "bandages", 25 ],
+      [ "adhesive_bandages", 25 ],
       [ "cotton_ball", 50 ],
       [ "aspirin", 85 ],
       [ "bat", 60 ],

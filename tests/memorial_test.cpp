@@ -7,8 +7,9 @@
 #include "bodypart.h"
 #include "catch/catch.hpp"
 #include "character_id.h"
+#include "debug_menu.h"
 #include "event.h"
-#include "game.h"
+#include "filesystem.h"
 #include "memorial_logger.h"
 #include "mutation.h"
 #include "output.h"
@@ -49,16 +50,18 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
     }
 }
 
-TEST_CASE( "memorials" )
+TEST_CASE( "memorials", "[memorial]" )
 {
-    memorial_logger &m = g->memorial();
+    memorial_logger &m = get_memorial();
     m.clear();
     clear_avatar();
 
-    event_bus &b = g->events();
+    event_bus &b = get_event_bus();
 
-    character_id ch = g->u.getID();
-    std::string u_name = g->u.name;
+    avatar &player_character = get_avatar();
+    player_character.male = false;
+    character_id ch = player_character.getID();
+    std::string u_name = player_character.name;
     character_id ch2 = character_id( ch.get_value() + 1 );
     mutagen_technique mutagen = mutagen_technique::injected_purifier;
     mtype_id mon( "mon_zombie_kevlar_2" );
@@ -85,6 +88,13 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::becomes_wanted>(
         m, b, "Became wanted by the police!", ch );
+
+    // To insure we don't trigger losing the Structural Integrity conduct during the test,
+    // Break the subject's leg first.
+    b.send<event_type::broken_bone>( ch, bp_leg_l );
+
+    check_memorial<event_type::broken_bone>(
+        m, b, "Broke her right arm.", ch, bp_arm_r );
 
     check_memorial<event_type::broken_bone_mends>(
         m, b, "Broken right arm began to mend.", ch, bp_arm_r );
@@ -138,6 +148,15 @@ TEST_CASE( "memorials" )
     check_memorial<event_type::dies_from_drug_overdose>(
         m, b, "Died of a drug overdose.", ch, eff );
 
+    check_memorial<event_type::dies_from_bleeding>(
+        m, b, "Bled to death.", ch );
+
+    check_memorial<event_type::dies_from_hypovolemia>(
+        m, b, "Died of hypovolemic shock.", ch );
+
+    check_memorial<event_type::dies_from_redcells_loss>(
+        m, b, "Died from loss of red blood cells.", ch );
+
     check_memorial<event_type::dies_of_infection>(
         m, b, "Succumbed to the infection.", ch );
 
@@ -184,11 +203,15 @@ TEST_CASE( "memorials" )
         m, b, "Reached skill level 8 in driving.", ch, skill_id( "driving" ), 8 );
 
     check_memorial<event_type::game_over>(
-        m, b, u_name + " was killed.\nLast words: last_words", false, "last_words" );
+        m, b, u_name + " was killed.\nLast words: last_words", false, "last_words",
+        std::chrono::seconds( 100 ) );
 
     check_memorial<event_type::game_start>(
-        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, g->u.male,
-        g->u.prof->ident(), g->u.custom_profession, "VERSION_STRING" );
+        m, b, u_name + " began their journey into the Cataclysm.", ch, u_name, player_character.male,
+        player_character.prof->ident(), player_character.custom_profession, "VERSION_STRING" );
+
+    // Invokes achievement, so send another to clear the log for the test
+    b.send<event_type::installs_cbm>( ch, cbm );
 
     check_memorial<event_type::installs_cbm>(
         m, b, "Installed bionic: Alarm System.", ch, cbm );
@@ -257,4 +280,61 @@ TEST_CASE( "memorials" )
 
     check_memorial<event_type::triggers_alarm>(
         m, b, "Set off an alarm.", ch );
+
+    check_memorial<event_type::uses_debug_menu>(
+        m, b, "Used the debug menu (WISH).", debug_menu::debug_menu_index::WISH );
+}
+
+TEST_CASE( "convert_legacy_memorial_log", "[memorial]" )
+{
+    std::string eol = cata_files::eol();
+
+    // Verify that the old format can be transformed into the new format
+    const std::string input =
+        "| Year 1, Spring, day 0 0800.00 | prison | "
+        "Hubert 'Daffy' Mullin began their journey into the Cataclysm." + eol +
+        "| Year 1, Spring, day 0 0800.05 | prison | Gained the mutation 'Debug Invincibility'." +
+        eol;
+    const std::string json_value =
+        R"([{"preformatted":"| Year 1, Spring, day 0 0800.00 | prison | Hubert 'Daffy' Mullin began their journey into the Cataclysm."},{"preformatted":"| Year 1, Spring, day 0 0800.05 | prison | Gained the mutation 'Debug Invincibility'."}])";
+
+    memorial_logger logger;
+    {
+        std::istringstream is( input );
+        logger.load( is );
+        std::ostringstream os;
+        logger.save( os );
+        CHECK( os.str() == json_value );
+    }
+
+    // Then verify that the new format is unchanged
+    {
+        std::istringstream is( json_value );
+        logger.load( is );
+        std::ostringstream os;
+        logger.save( os );
+        CHECK( os.str() == json_value );
+    }
+
+    // Finally, verify that dump matches legacy input
+    CHECK( logger.dump() == input );
+}
+
+TEST_CASE( "memorial_log_dumping", "[memorial]" )
+{
+    std::string eol = cata_files::eol();
+
+    // An example log file with one legacy and one "modern" entry
+    const std::string json_value =
+        R"([{"preformatted":"| Year 1, Spring, day 0 0800.00 | refugee center | Apolonia Trout began their journey into the Cataclysm."},{"time":15614,"oter_id":"cabin_isherwood","oter_name":"forest","message":"Used the debug menu (ENABLE_ACHIEVEMENTS)."}])";
+    const std::string expected_output =
+        "| Year 1, Spring, day 0 0800.00 | refugee center | "
+        "Apolonia Trout began their journey into the Cataclysm." + eol +
+        "| Year 1, Spring, day 1 4:20:14 AM | forest | Used the debug menu (ENABLE_ACHIEVEMENTS)."
+        + eol;
+
+    memorial_logger logger;
+    std::istringstream is( json_value );
+    logger.load( is );
+    CHECK( logger.dump() == expected_output );
 }

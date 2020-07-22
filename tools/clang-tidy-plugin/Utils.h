@@ -43,6 +43,18 @@ inline StringRef getText( const ast_matchers::MatchFinder::MatchResult &Result, 
     return getText( Result, Node->getSourceRange() );
 }
 
+template<typename T, typename U>
+static const T *getParent( const ast_matchers::MatchFinder::MatchResult &Result, const U *Node )
+{
+    for( const ast_type_traits::DynTypedNode &parent : Result.Context->getParents( *Node ) ) {
+        if( const T *Candidate = parent.get<T>() ) {
+            return Candidate;
+        }
+    }
+
+    return nullptr;
+}
+
 template<typename T>
 static const FunctionDecl *getContainingFunction(
     const ast_matchers::MatchFinder::MatchResult &Result, const T *Node )
@@ -81,6 +93,14 @@ inline auto isPointType()
 {
     using namespace clang::ast_matchers;
     return cxxRecordDecl( anyOf( hasName( "point" ), hasName( "tripoint" ) ) );
+}
+
+inline auto isPointOrCoordPointType()
+{
+    using namespace clang::ast_matchers;
+    return cxxRecordDecl(
+               anyOf( hasName( "point" ), hasName( "tripoint" ), hasName( "coord_point" ) )
+           );
 }
 
 inline auto isPointConstructor()
@@ -174,6 +194,10 @@ class NameConvention
 
         bool operator!() const {
             return !valid;
+        }
+
+        const std::string &getRoot() const {
+            return root;
         }
     private:
         std::string root;

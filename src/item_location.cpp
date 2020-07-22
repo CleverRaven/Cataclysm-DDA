@@ -3,7 +3,6 @@
 #include <iosfwd>
 #include <vector>
 
-#include "avatar.h"
 #include "character.h"
 #include "character_id.h"
 #include "color.h"
@@ -19,7 +18,6 @@
 #include "map.h"
 #include "map_selector.h"
 #include "optional.h"
-#include "player.h"
 #include "point.h"
 #include "safe_reference.h"
 #include "translations.h"
@@ -80,6 +78,7 @@ class item_location::impl
         virtual item_location obtain( Character &, int ) = 0;
         virtual int obtain_cost( const Character &, int ) const = 0;
         virtual void remove_item() = 0;
+        virtual void on_contents_changed() = 0;
         virtual void serialize( JsonOut &js ) const = 0;
         virtual item *unpack( int ) const = 0;
 
@@ -106,7 +105,7 @@ class item_location::impl
         }
         mutable safe_reference<item> what;
         mutable int idx = -1;
-        mutable bool needs_unpacking;
+        mutable bool needs_unpacking = false;
 
     public:
         //Flag that controls whether functions like obtain() should stack the obtained item
@@ -142,6 +141,10 @@ class item_location::impl::nowhere : public item_location::impl
         }
 
         void remove_item() override {
+            debugmsg( "invalid use of nowhere item_location" );
+        }
+
+        void on_contents_changed() override {
             debugmsg( "invalid use of nowhere item_location" );
         }
 
@@ -186,7 +189,7 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         std::string describe( const Character *ch ) const override {
-            std::string res = g->m.name( cur );
+            std::string res = get_map().name( cur );
             if( ch ) {
                 res += std::string( " " ) += direction_suffix( ch->pos(), cur );
             }
@@ -196,6 +199,7 @@ class item_location::impl::item_on_map : public item_location::impl
         item_location obtain( Character &ch, int qty ) override {
             ch.moves -= obtain_cost( ch, qty );
 
+            on_contents_changed();
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
@@ -217,7 +221,7 @@ class item_location::impl::item_on_map : public item_location::impl
                 obj = *target();
             }
 
-            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
+            int mv = ch.item_handling_cost( obj, true, MAP_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur );
 
             // TODO: handle unpacking costs
@@ -226,7 +230,12 @@ class item_location::impl::item_on_map : public item_location::impl
         }
 
         void remove_item() override {
+            on_contents_changed();
             cur.remove_item( *what );
+        }
+
+        void on_contents_changed() override {
+            target()->on_contents_changed();
         }
 };
 
@@ -314,6 +323,7 @@ class item_location::impl::item_on_person : public item_location::impl
         item_location obtain( Character &ch, int qty ) override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
+            on_contents_changed();
             if( &ch.i_at( ch.get_item_position( target() ) ) == target() ) {
                 // item already in target characters inventory at base of stack
                 return item_location( ch, target() );
@@ -361,7 +371,12 @@ class item_location::impl::item_on_person : public item_location::impl
             if( !ensure_who_unpacked() ) {
                 return;
             }
+            on_contents_changed();
             who->remove_item( *what );
+        }
+
+        void on_contents_changed() override {
+            target()->on_contents_changed();
         }
 
         bool valid() const override {
@@ -385,14 +400,14 @@ class item_location::impl::item_on_vehicle : public item_location::impl
             js.member( "type", "vehicle" );
             js.member( "pos", position() );
             js.member( "part", cur.part );
-            if( target() != &cur.veh.parts[ cur.part ].base ) {
+            if( target() != &cur.veh.part( cur.part ).base ) {
                 js.member( "idx", find_index( cur, target() ) );
             }
             js.end_object();
         }
 
         item *unpack( int idx ) const override {
-            return idx >= 0 ? retrieve_index( cur, idx ) : &cur.veh.parts[ cur.part ].base;
+            return idx >= 0 ? retrieve_index( cur, idx ) : &cur.veh.part( cur.part ).base;
         }
 
         type where() const override {
@@ -423,6 +438,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         item_location obtain( Character &ch, int qty ) override {
             ch.moves -= obtain_cost( ch, qty );
 
+            on_contents_changed();
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
@@ -444,8 +460,7 @@ class item_location::impl::item_on_vehicle : public item_location::impl
                 obj = *target();
             }
 
-            int mv = dynamic_cast<const player *>( &ch )->item_handling_cost( obj, true,
-                     VEHICLE_HANDLING_PENALTY );
+            int mv = ch.item_handling_cost( obj, true, VEHICLE_HANDLING_PENALTY );
             mv += 100 * rl_dist( ch.pos(), cur.veh.global_part_pos3( cur.part ) );
 
             // TODO: handle unpacking costs
@@ -454,12 +469,17 @@ class item_location::impl::item_on_vehicle : public item_location::impl
         }
 
         void remove_item() override {
-            item &base = cur.veh.parts[ cur.part ].base;
+            on_contents_changed();
+            item &base = cur.veh.part( cur.part ).base;
             if( &base == target() ) {
                 cur.veh.remove_part( cur.part ); // vehicle_part::base
             } else {
                 cur.remove_item( *target() ); // item within CARGO
             }
+        }
+
+        void on_contents_changed() override {
+            target()->on_contents_changed();
             cur.veh.invalidate_mass();
         }
 };
@@ -530,12 +550,19 @@ class item_location::impl::item_in_container : public item_location::impl
         }
 
         void remove_item() override {
+            on_contents_changed();
             container->remove_item( *target() );
+        }
+
+        void on_contents_changed() override {
+            target()->on_contents_changed();
+            container->on_contents_changed();
         }
 
         item_location obtain( Character &ch, int qty ) override {
             ch.mod_moves( -obtain_cost( ch, qty ) );
 
+            on_contents_changed();
             item obj = target()->split( qty );
             if( !obj.is_null() ) {
                 return item_location( ch, &ch.i_add( obj, should_stack ) );
@@ -658,7 +685,7 @@ void item_location::deserialize( JsonIn &js )
         } else {
             // This is for migrating saves before npc item locations were supported and all
             // character item locations were assumed to be on g->u
-            who_id = g->u.getID();
+            who_id = get_player_character().getID();
         }
         ptr.reset( new impl::item_on_person( who_id, idx ) );
 
@@ -666,9 +693,9 @@ void item_location::deserialize( JsonIn &js )
         ptr.reset( new impl::item_on_map( pos, idx ) );
 
     } else if( type == "vehicle" ) {
-        vehicle *const veh = veh_pointer_or_null( g->m.veh_at( pos ) );
+        vehicle *const veh = veh_pointer_or_null( get_map().veh_at( pos ) );
         int part = obj.get_int( "part" );
-        if( veh && part >= 0 && part < static_cast<int>( veh->parts.size() ) ) {
+        if( veh && part >= 0 && part < veh->part_count() ) {
             ptr.reset( new impl::item_on_vehicle( vehicle_cursor( *veh, part ), idx ) );
         }
     } else if( type == "in_container" ) {
@@ -735,6 +762,15 @@ void item_location::remove_item()
     }
     ptr->remove_item();
     ptr.reset( new impl::nowhere() );
+}
+
+void item_location::on_contents_changed()
+{
+    if( !ptr->valid() ) {
+        debugmsg( "item location does not point to valid item" );
+        return;
+    }
+    ptr->on_contents_changed();
 }
 
 item *item_location::get_item()

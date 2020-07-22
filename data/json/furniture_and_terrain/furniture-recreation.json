@@ -4,12 +4,13 @@
     "id": "f_exercise",
     "name": "exercise machine",
     "symbol": "T",
-    "description": "A heavy set of weightlifting equipment for strength training, with a pair of heavy weights affixed to opposite ends of a sturdy pipe.  The weights are huge, and using them without a spotter would be a good way to seriously injure yourself.",
+    "description": "A heavy set of weightlifting equipment for strength training, with a pair of heavy weights affixed to opposite ends of a sturdy pipe.  You can adjust the set by hand-picking the weights you wish to use.",
     "color": "dark_gray",
     "move_cost_mod": 1,
     "coverage": 35,
     "required_str": 8,
-    "flags": [ "TRANSPARENT", "MINEABLE" ],
+    "flags": [ "TRANSPARENT", "MINEABLE", "WORKOUT_ARMS" ],
+    "examine_action": "workout",
     "deconstruct": {
       "items": [
         { "item": "pipe", "count": 1 },
@@ -252,6 +253,47 @@
   },
   {
     "type": "furniture",
+    "id": "f_ergometer_mechanical",
+    "name": "mechanical ergometer",
+    "description": "An exercise machine with a set of handles and plates meant to emulate rowing a boat.  This an older model with mechanical resistance adjustments, but it works without power.",
+    "symbol": "5",
+    "color": "dark_gray",
+    "move_cost_mod": 2,
+    "required_str": 8,
+    "looks_like": "f_ergometer",
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_ARMS", "WORKOUT_LEGS" ],
+    "deconstruct": {
+      "items": [
+        { "item": "foot_crank", "count": [ 1, 1 ] },
+        { "item": "plastic_chunk", "count": [ 8, 10 ] },
+        { "item": "scrap", "count": [ 2, 4 ] },
+        { "item": "chain", "count": 1 },
+        { "item": "pipe", "count": [ 4, 5 ] },
+        { "item": "saddle", "count": [ 1, 1 ] },
+        { "item": "wheel_small", "count": [ 1, 1 ] },
+        { "item": "nail", "charges": [ 6, 8 ] }
+      ]
+    },
+    "examine_action": "workout",
+    "bash": {
+      "str_min": 6,
+      "str_max": 25,
+      "sound": "smash!",
+      "sound_fail": "thump!",
+      "items": [
+        { "item": "foot_crank", "prob": 50 },
+        { "item": "plastic_chunk", "count": [ 4, 6 ] },
+        { "item": "scrap", "count": [ 0, 2 ] },
+        { "item": "chain", "prob": 50 },
+        { "item": "pipe", "count": [ 0, 4 ] },
+        { "item": "saddle", "prob": 50 },
+        { "item": "wheel_small", "prob": 50 },
+        { "item": "nail", "charges": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
     "id": "f_treadmill",
     "name": "treadmill",
     "description": "A motorized conveyor belt with a control panel for running in place.  Without power, it's an immense challenge to move the belt.  Regardless, you're probably getting enough cardio on your own.",
@@ -267,6 +309,7 @@
         { "item": "pipe", "count": [ 4, 3 ] },
         { "item": "small_lcd_screen", "count": 1 },
         { "item": "RAM", "count": 1 },
+        { "item": "motor_tiny", "count": 1 },
         { "item": "nail", "charges": [ 6, 8 ] }
       ]
     },
@@ -281,6 +324,40 @@
         { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "small_lcd_screen", "prob": 50 },
         { "item": "RAM", "count": [ 0, 1 ] },
+        { "item": "motor_tiny", "count": [ 0, 1 ] },
+        { "item": "nail", "charges": [ 2, 6 ] }
+      ]
+    }
+  },
+  {
+    "type": "furniture",
+    "id": "f_treadmill_mechanical",
+    "name": "gravity treadmill",
+    "description": "A gravity driven conveyor belt with a mechanical control panel for running in place.  Conveyor belt is positioned in a steep, but adjustable incline, so it slides back under your weight.",
+    "symbol": "L",
+    "color": "dark_gray",
+    "move_cost_mod": 1,
+    "required_str": 12,
+    "looks_like": "f_treadmill",
+    "flags": [ "BLOCKSDOOR", "TRANSPARENT", "MOUNTABLE", "WORKOUT_LEGS" ],
+    "deconstruct": {
+      "items": [
+        { "item": "plastic_chunk", "count": [ 10, 14 ] },
+        { "item": "scrap", "count": [ 2, 10 ] },
+        { "item": "pipe", "count": [ 4, 6 ] },
+        { "item": "nail", "charges": [ 6, 8 ] }
+      ]
+    },
+    "examine_action": "workout",
+    "bash": {
+      "str_min": 12,
+      "str_max": 40,
+      "sound": "smash!",
+      "sound_fail": "thump!",
+      "items": [
+        { "item": "plastic_chunk", "count": [ 4, 10 ] },
+        { "item": "scrap", "count": [ 0, 5 ] },
+        { "item": "pipe", "count": [ 0, 4 ] },
         { "item": "nail", "charges": [ 2, 6 ] }
       ]
     }
@@ -297,7 +374,8 @@
     "move_cost_mod": -1,
     "coverage": 65,
     "required_str": 10,
-    "flags": [ "BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC" ],
+    "flags": [ "BASHABLE", "BLOCKSDOOR", "PLACE_ITEM", "ORGANIC", "WORKOUT_ARMS" ],
+    "examine_action": "workout",
     "bash": {
       "str_min": 15,
       "str_max": 20,

@@ -179,15 +179,6 @@ struct value_constraint {
 
     void deserialize( JsonIn &jsin ) {
         JsonObject jo = jsin.get_object();
-        int equals_int;
-        if( jo.read( "equals", equals_int, false ) ) {
-            equals_ = cata_variant::make<cata_variant_type::int_>( equals_int );
-        }
-
-        bool equals_bool;
-        if( jo.read( "equals", equals_bool, false ) ) {
-            equals_ = cata_variant::make<cata_variant_type::bool_>( equals_bool );
-        }
 
         cata_variant equals_variant;
         if( jo.read( "equals", equals_variant, false ) ) {
@@ -921,7 +912,7 @@ struct event_statistic_unique_value : event_statistic::impl {
         }
 
         const event_statistic_unique_value *stat;
-        int count;
+        int count = 0;
         cata_variant value;
     };
 
@@ -1013,7 +1004,7 @@ struct event_statistic_first_value : event_statistic::impl {
         }
 
         const event_statistic_first_value *stat;
-        int count;
+        int count = 0;
         cata_variant value;
     };
 

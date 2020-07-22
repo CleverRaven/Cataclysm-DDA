@@ -28,6 +28,7 @@
 #include "loading_ui.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
+#include "messages.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -139,10 +140,6 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     int iLine = 0;
     const int iOffsetX = ( window_width - FULL_SCREEN_WIDTH ) / 2;
 
-    const nc_color cColor1 = c_light_cyan;
-    const nc_color cColor2 = c_light_blue;
-    const nc_color cColor3 = c_light_blue;
-
     switch( current_holiday ) {
         case holiday::new_year:
             break;
@@ -164,44 +161,18 @@ void main_menu::print_menu( const catacurses::window &w_open, int iSel, const po
     }
 
     if( mmenu_title.size() > 1 ) {
-        for( size_t i = 0; i < mmenu_title.size(); ++i ) {
-            switch( current_holiday ) {
-                case holiday::halloween: {
-                    static const std::string marker = "█";
-                    const utf8_wrapper text( mmenu_title[i] );
-                    for( size_t j = 0; j < text.size(); j++ ) {
-                        std::string temp = text.substr_display( j, 1 ).str();
-                        if( temp != " " ) {
-                            mvwprintz( w_open, point( iOffsetX + j, iLine ),
-                                       ( temp != marker ) ? c_red : ( i < 9 ? cColor1 : cColor2 ),
-                                       "%s", ( temp == marker ) ? "▓" : temp );
-                        }
-                    }
-                    iLine++;
-                }
-                break;
-                case holiday::thanksgiving:
-                case holiday::new_year:
-                case holiday::easter:
-                case holiday::christmas: {
-                    nc_color cur_color = c_white;
-                    nc_color base_color = c_white;
-                    print_colored_text( w_open, point( iOffsetX, iLine++ ), cur_color, base_color, mmenu_title[i] );
-                }
-                break;
-                case holiday::none:
-                case holiday::num_holiday:
-                default:
-                    mvwprintz( w_open, point( iOffsetX, iLine++ ), i < 6 ? cColor1 : cColor2, "%s", mmenu_title[i] );
-                    break;
-            }
+        for( const std::string &i_title : mmenu_title ) {
+            nc_color cur_color = c_white;
+            nc_color base_color = c_white;
+            print_colored_text( w_open, point( iOffsetX, iLine++ ), cur_color, base_color, i_title );
         }
     } else {
-        center_print( w_open, iLine++, cColor1, mmenu_title[0] );
+        center_print( w_open, iLine++, c_light_cyan, mmenu_title[0] );
     }
 
     iLine++;
-    center_print( w_open, iLine, cColor3, string_format( _( "Version: %s" ), getVersionString() ) );
+    center_print( w_open, iLine, c_light_blue, string_format( _( "Version: %s" ),
+                  getVersionString() ) );
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
@@ -532,7 +503,8 @@ bool main_menu::opening_screen()
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
 
-    g->u = avatar();
+    avatar &player_character = get_avatar();
+    player_character = avatar();
 
     int sel_line = 0;
 
@@ -557,8 +529,8 @@ bool main_menu::opening_screen()
             if( sel1 == 4 ) { // Special game
                 std::vector<std::string> special_names;
                 int xlen = 0;
-                for( int i = 1; i < NUM_SPECIAL_GAMES; i++ ) {
-                    std::string spec_name = special_game_name( static_cast<special_game_id>( i ) );
+                for( int i = 1; i < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ); i++ ) {
+                    std::string spec_name = special_game_name( static_cast<special_game_type>( i ) );
                     special_names.push_back( spec_name );
                     xlen += utf8_width( shortcut_text( c_white, spec_name ), true ) + 2;
                 }
@@ -688,11 +660,11 @@ bool main_menu::opening_screen()
                     if( sel2 > 0 ) {
                         sel2--;
                     } else {
-                        sel2 = NUM_SPECIAL_GAMES - 2;
+                        sel2 = static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 2;
                     }
                     on_move();
                 } else if( action == "RIGHT" || action == "NEXT_TAB" ) {
-                    if( sel2 < NUM_SPECIAL_GAMES - 2 ) {
+                    if( sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 2 ) {
                         sel2++;
                     } else {
                         sel2 = 0;
@@ -702,15 +674,15 @@ bool main_menu::opening_screen()
                     layer = 1;
                 }
                 if( action == "UP" || action == "CONFIRM" ) {
-                    if( sel2 >= 0 && sel2 < NUM_SPECIAL_GAMES - 1 ) {
-                        on_out_of_scope cleanup( []() {
+                    if( sel2 >= 0 && sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1 ) {
+                        on_out_of_scope cleanup( [&player_character]() {
                             g->gamemode.reset();
-                            g->u = avatar();
+                            player_character = avatar();
                             world_generator->set_active_world( nullptr );
                         } );
-                        g->gamemode = get_special_game( static_cast<special_game_id>( sel2 + 1 ) );
+                        g->gamemode = get_special_game( static_cast<special_game_type>( sel2 + 1 ) );
                         // check world
-                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_id>( sel2 + 1 ) );
+                        WORLDPTR world = world_generator->make_new_world( static_cast<special_game_type>( sel2 + 1 ) );
                         if( world == nullptr ) {
                             continue;
                         }
@@ -841,6 +813,7 @@ bool main_menu::new_character_tab()
         ui.position_from_window( w_open );
     } );
     ui.position_from_window( w_open );
+    avatar &player_character = get_avatar();
 
     bool start = false;
     while( !start && sel1 == 1 && ( layer == 2 || layer == 3 ) ) {
@@ -882,8 +855,8 @@ bool main_menu::new_character_tab()
             }
             if( action == "UP" || action == "CONFIRM" ) {
                 if( sel2 == 0 || sel2 == 2 || sel2 == 3 || sel2 == 4 ) {
-                    on_out_of_scope cleanup( []() {
-                        g->u = avatar();
+                    on_out_of_scope cleanup( [&player_character]() {
+                        player_character = avatar();
                         world_generator->set_active_world( nullptr );
                     } );
                     g->gamemode = nullptr;
@@ -916,7 +889,7 @@ bool main_menu::new_character_tab()
                             play_type = character_type::FULL_RANDOM;
                             break;
                     }
-                    if( !g->u.create( play_type ) ) {
+                    if( !player_character.create( play_type ) ) {
                         load_char_templates();
                         MAPBUFFER.reset();
                         overmap_buffer.clear();
@@ -972,8 +945,8 @@ bool main_menu::new_character_tab()
                     }
                 }
             } else if( action == "RIGHT" || action == "NEXT_TAB" || action == "CONFIRM" ) {
-                on_out_of_scope cleanup( []() {
-                    g->u = avatar();
+                on_out_of_scope cleanup( [&player_character]() {
+                    player_character = avatar();
                     world_generator->set_active_world( nullptr );
                 } );
                 g->gamemode = nullptr;
@@ -988,7 +961,7 @@ bool main_menu::new_character_tab()
                     debugmsg( "Error: %s", err.what() );
                     continue;
                 }
-                if( !g->u.create( character_type::TEMPLATE, templates[sel3] ) ) {
+                if( !player_character.create( character_type::TEMPLATE, templates[sel3] ) ) {
                     load_char_templates();
                     MAPBUFFER.reset();
                     overmap_buffer.clear();
@@ -1004,10 +977,10 @@ bool main_menu::new_character_tab()
     } // end while
 
     if( start ) {
-        g->u.add_msg_if_player( g->scen->description( g->u.male ) );
+        add_msg( get_scenario()->description( player_character.male ) );
 
         world_generator->last_world_name = world_generator->active_world->world_name;
-        world_generator->last_character_name = g->u.name;
+        world_generator->last_character_name = player_character.name;
         world_generator->save_last_world_info();
     }
     return start;
@@ -1045,14 +1018,13 @@ bool main_menu::load_character_tab( bool transfer )
 
     ui_adaptor ui;
     ui.on_redraw( [&]( const ui_adaptor & ) {
-        const int offset_x = transfer ? 25 : 15;
-        const int offset_y = transfer ? -1 : 0;
+        const point offset( transfer ? 25 : 15, transfer ? -1 : 0 );
 
         print_menu( w_open, transfer ? 3 : 2, menu_offset );
 
         if( layer == 2 && sel1 == 2 ) {
             if( all_worldnames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 ),
+                mvwprintz( w_open, menu_offset + point( offset.x + extra_w / 2, -2 ),
                            c_red, "%s", _( "No Worlds found!" ) );
             } else {
                 for( int i = 0; i < static_cast<int>( all_worldnames.size() ); ++i ) {
@@ -1067,7 +1039,7 @@ bool main_menu::load_character_tab( bool transfer )
                         color1 = c_white;
                         color2 = h_white;
                     }
-                    mvwprintz( w_open, point( offset_x + menu_offset.x + extra_w / 2, line + offset_y ),
+                    mvwprintz( w_open, offset + point( extra_w / 2 + menu_offset.x, line ),
                                ( sel2 == i ? color2 : color1 ), "%s (%d)",
                                world_name, savegames_count );
                 }
@@ -1078,18 +1050,18 @@ bool main_menu::load_character_tab( bool transfer )
 
             const std::string &wn = all_worldnames[sel2];
 
-            mvwprintz( w_open, menu_offset + point( offset_x + extra_w / 2, -2 - sel2 + offset_y ), h_white,
+            mvwprintz( w_open, menu_offset + offset + point( extra_w / 2, -2 - sel2 ), h_white,
                        "%s", wn );
 
             if( savegames.empty() ) {
-                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset_y ),
+                mvwprintz( w_open, menu_offset + point( 40 + extra_w / 2, -2 - sel2 + offset.y ),
                            c_red, "%s", _( "No save games found!" ) );
             } else {
                 int line = menu_offset.y - 2;
 
                 for( const auto &savename : savegames ) {
                     const bool selected = sel3 + line == menu_offset.y - 2;
-                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset_y ),
+                    mvwprintz( w_open, point( 40 + menu_offset.x + extra_w / 2, line-- + offset.y ),
                                selected ? h_white : c_white,
                                "%s", savename.player_name() );
                 }
@@ -1102,6 +1074,7 @@ bool main_menu::load_character_tab( bool transfer )
         ui.position_from_window( w_open );
     } );
     ui.position_from_window( w_open );
+    avatar &player_character = get_avatar();
 
     while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
         ui_manager::redraw();
@@ -1168,8 +1141,8 @@ bool main_menu::load_character_tab( bool transfer )
             }
             if( action == "RIGHT" || action == "NEXT_TAB" || action == "CONFIRM" ) {
                 if( sel3 >= 0 && sel3 < static_cast<int>( savegames.size() ) ) {
-                    on_out_of_scope cleanup( []() {
-                        g->u = avatar();
+                    on_out_of_scope cleanup( [&player_character]() {
+                        player_character = avatar();
                         world_generator->set_active_world( nullptr );
                     } );
 
@@ -1267,6 +1240,7 @@ void main_menu::world_tab()
     } );
     ui.position_from_window( w_open );
 
+    avatar &player_character = get_avatar();
     while( sel1 == 3 && ( layer == 2 || layer == 3 || layer == 4 ) ) {
         ui_manager::redraw();
         if( layer == 4 ) {  //Character to Template
@@ -1277,11 +1251,11 @@ void main_menu::world_tab()
                 points.skill_points = 0;
                 points.limit = points_left::TRANSFER;
 
-                g->u.setID( character_id(), true );
-                g->u.reset_all_misions();
-                g->u.save_template( g->u.name, points );
+                player_character.setID( character_id(), true );
+                player_character.reset_all_misions();
+                player_character.save_template( player_character.name, points );
 
-                g->u = avatar();
+                player_character = avatar();
                 MAPBUFFER.reset();
                 overmap_buffer.clear();
 

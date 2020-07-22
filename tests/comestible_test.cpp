@@ -4,9 +4,8 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
+#include "character.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
@@ -153,9 +152,11 @@ TEST_CASE( "recipe_permutations", "[recipe]" )
             CHECK( mystats.calories.avg() <= upper_bound );
             if( mystats.calories.min() < 0 || lower_bound > mystats.calories.avg() ||
                 mystats.calories.avg() > upper_bound ) {
-                printf( "\n\nRecipeID: %s, Lower Bound: %f, Average: %f, Upper Bound: %f\n\n",
-                        recipe_pair.first.c_str(), lower_bound, mystats.calories.avg(),
-                        upper_bound );
+                printf( "\n\nRecipeID: %s, default is %d Calories,\nCurrent recipe range: %d-%d, Average %.0f"
+                        "\nAverage recipe Calories must fall within this range, derived from default Calories: %.0f-%.0f\n\n",
+                        recipe_pair.first.c_str(), default_calories,
+                        mystats.calories.min(), mystats.calories.max(), mystats.calories.avg(),
+                        lower_bound, upper_bound );
             }
         }
     }
@@ -168,7 +169,7 @@ TEST_CASE( "cooked_veggies_get_correct_calorie_prediction", "[recipe]" )
     const item veggy_wild_cooked( "veggy_wild_cooked" );
     const recipe_id veggy_wild_cooked_recipe( "veggy_wild_cooked" );
 
-    const avatar &u = g->u;
+    const Character &u = get_player_character();
 
     nutrients default_nutrition = u.compute_effective_nutrients( veggy_wild_cooked );
     std::pair<nutrients, nutrients> predicted_nutrition =

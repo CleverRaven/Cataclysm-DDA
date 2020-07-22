@@ -409,7 +409,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
             if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
                 int num_spawned = 0;
-                for( const tripoint &destination : closest_tripoints_first( *spawn, cb.group ) ) {
+                for( const tripoint &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );
                     if( !mon ) {
                         continue;
@@ -594,16 +594,24 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                     if( granted.count_by_charges() ) {
                         if( amount > 0 ) {
                             granted.charges = amount;
-                            p->i_add( granted );
+                            if( p->can_stash( granted ) ) {
+                                p->i_add( granted );
+                            } else {
+                                get_map().add_item_or_charges( p->pos(), granted );
+                            }
                         }
                     } else {
                         for( int i = 0; i < amount; i++ ) {
-                            p->i_add( granted );
+                            if( p->can_stash( granted ) ) {
+                                p->i_add( granted );
+                            } else {
+                                get_map().add_item_or_charges( p->pos(), granted );
+                            }
                         }
                     }
                     p->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {
-                    g->m.add_item_or_charges( pos, granted );
+                    get_map().add_item_or_charges( pos, granted );
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {

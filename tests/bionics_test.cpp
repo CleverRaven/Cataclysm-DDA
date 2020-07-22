@@ -7,7 +7,6 @@
 #include "bionics.h"
 #include "calendar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "item.h"
 #include "pimpl.h"
 #include "player.h"
@@ -62,7 +61,7 @@ static void test_consumable_ammo( player &p, std::string &itemname, bool when_em
 
 TEST_CASE( "bionics", "[bionics] [item]" )
 {
-    avatar &dummy = g->u;
+    avatar &dummy = get_avatar();
     clear_avatar();
 
     // one section failing shouldn't affect the rest
@@ -110,11 +109,17 @@ TEST_CASE( "bionics", "[bionics] [item]" )
             test_consumable_charges( dummy, it, true, true );
         }
 
+        static const std::list<std::string> ammo_when_full = {
+            "light_battery_cell", // MAGAZINE, NO_UNLOAD
+        };
+        for( auto it : ammo_when_full ) {
+            test_consumable_ammo( dummy, it, false, true );
+        }
+
         static const std::list<std::string> never = {
             "flashlight",  // !is_magazine()
             "laser_rifle", // NO_UNLOAD, uses ups_charges
-            "UPS_off",     // NO_UNLOAD, !is_magazine()
-            "battery_car"  // NO_UNLOAD, is_magazine()
+            "UPS_off"     // NO_UNLOAD, !is_magazine()
         };
         for( auto it : never ) {
             test_consumable_ammo( dummy, it, false, false );

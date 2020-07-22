@@ -23,7 +23,7 @@
       "need_charges_msg": "The energy saber is out of charge.",
       "active": true
     },
-    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD" ],
+    "flags": [ "USE_UPS", "NO_UNLOAD", "NO_RELOAD", "BELT_CLIP" ],
     "pocket_data": [
       {
         "pocket_type": "MAGAZINE_WELL",
@@ -204,7 +204,7 @@
     "name": { "str_sp": "Tankbot Main Gun" },
     "description": "The 120mm cannon from a tankbot.  If you have this, you'd best be debugging!",
     "price": 99999999,
-    "material": "steel",
+    "material": [ "steel" ],
     "skill": "launcher",
     "ammo": [ "120mm" ],
     "weight": "2500 g",

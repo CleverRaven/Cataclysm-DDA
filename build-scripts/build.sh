@@ -8,8 +8,8 @@ num_jobs=3
 
 function run_tests
 {
-    # The grep suppresses lines that begin with "0.0## s:", which are timing lines for tests with a very short duration.
-    $WINE "$@" -d yes --use-colour yes --rng-seed time $EXTRA_TEST_OPTS | grep -Ev "^0\.0[0-9]{2} s:"
+    # --min-duration shows timing lines for tests with a duration of at least that many seconds.
+    $WINE "$@" --min-duration 0.2 --use-colour yes --rng-seed time $EXTRA_TEST_OPTS
 }
 
 # We might need binaries installed via pip, so ensure that our personal bin dir is on the PATH
@@ -124,7 +124,6 @@ then
         else
             remaining_cpp_files="$all_cpp_files"
         fi
-        set -x
 
         function analyze_files_in_random_order
         {
@@ -142,6 +141,7 @@ then
 
         echo "Analyzing remaining files"
         analyze_files_in_random_order "$remaining_cpp_files"
+        set -x
     else
         # Regular build
         make -j$num_jobs

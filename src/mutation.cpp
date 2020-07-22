@@ -151,7 +151,7 @@ void Character::set_mutation( const trait_id &trait )
     cached_mutations.push_back( &trait.obj() );
     mutation_effect( trait );
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 void Character::unset_mutation( const trait_id &trait_ )
@@ -170,18 +170,112 @@ void Character::unset_mutation( const trait_id &trait_ )
     my_mutations.erase( iter );
     mutation_loss_effect( trait );
     recalc_sight_limits();
-    reset_encumbrance();
+    calc_encumbrance();
 }
 
 void Character::switch_mutations( const trait_id &switched, const trait_id &target,
                                   bool start_powered )
 {
     unset_mutation( switched );
-    mutation_loss_effect( switched );
 
     set_mutation( target );
     my_mutations[target].powered = start_powered;
-    mutation_effect( target );
+}
+
+bool Character::can_power_mutation( const trait_id &mut )
+{
+    bool hunger = mut->hunger && get_kcal_percent() < 0.5f;
+    bool thirst = mut->thirst && get_thirst() >= 260;
+    bool fatigue = mut->fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED;
+
+    return !hunger && !fatigue && !thirst;
+}
+
+void Character::mutation_reflex_trigger( const trait_id &mut )
+{
+    if( mut->triger_list.empty() || !can_power_mutation( mut ) ) {
+        return;
+    }
+
+    bool activate = false;
+
+    std::pair<translation, game_message_type> msg_on;
+    std::pair<translation, game_message_type> msg_off;
+
+    for( const std::vector<reflex_activation_data> &vect_rdata : mut->triger_list ) {
+        activate = false;
+        // OR conditions: if any trigger is true then this condition is true
+        for( const reflex_activation_data &rdata : vect_rdata ) {
+            if( rdata.is_trigger_true( *this ) ) {
+                activate = true;
+                msg_on = rdata.msg_on;
+                break;
+            }
+            msg_off = rdata.msg_off;
+        }
+        // AND conditions: if any OR condition is false then this is false
+        if( !activate ) {
+            break;
+        }
+    }
+
+    if( activate && !has_active_mutation( mut ) ) {
+        activate_mutation( mut );
+        if( !msg_on.first.empty() ) {
+            add_msg_if_player( msg_on.second, msg_on.first );
+        }
+    } else if( !activate && has_active_mutation( mut ) ) {
+        deactivate_mutation( mut );
+        if( !msg_off.first.empty() ) {
+            add_msg_if_player( msg_off.second, msg_off.first );
+        }
+    }
+}
+
+bool reflex_activation_data::is_trigger_true( const Character &guy ) const
+{
+    bool activate = false;
+
+    int var = 0;
+    switch( trigger ) {
+        case PAIN:
+            var = guy.get_pain();
+            break;
+        case HUNGER:
+            var = guy.get_hunger();
+            break;
+        case THRIST:
+            var = guy.get_thirst();
+            break;
+        case MOOD:
+            var = guy.get_morale_level();
+            break;
+        case STAMINA:
+            var = guy.get_stamina();
+            break;
+        case MOON:
+            var = static_cast<int>( get_moon_phase( calendar::turn ) );
+            break;
+        case TIME:
+            var = to_hours<int>( time_past_midnight( calendar::turn ) );
+            break;
+        default:
+            debugmsg( "Invalid trigger" );
+            return false;
+    }
+
+    if( threshold_low < threshold_high ) {
+        if( var < threshold_high &&
+            var > threshold_low ) {
+            activate = true;
+        }
+    } else {
+        if( var < threshold_high ||
+            var > threshold_low ) {
+            activate = true;
+        }
+    }
+    return activate;
 }
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
@@ -308,7 +402,7 @@ void Character::mutation_effect( const trait_id &mut )
                                    _( "Your %s is pushed off!" ),
                                    _( "<npcname>'s %s is pushed off!" ),
                                    armor.tname() );
-            g->m.add_item_or_charges( pos(), armor );
+            get_map().add_item_or_charges( pos(), armor );
         }
         return true;
     } );
@@ -474,9 +568,7 @@ void Character::activate_mutation( const trait_id &mut )
     int cost = mdata.cost;
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
-    if( ( mdata.hunger && get_kcal_percent() < 0.5f ) || ( mdata.thirst &&
-            get_thirst() >= 260 ) ||
-        ( mdata.fatigue && get_fatigue() >= fatigue_levels::EXHAUSTED ) ) {
+    if( !can_power_mutation( mut ) ) {
         // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg_if_player( m_warning, _( "You feel like using your %s would kill you!" ),
                            mdata.name() );
@@ -501,9 +593,6 @@ void Character::activate_mutation( const trait_id &mut )
             mod_fatigue( cost );
         }
         tdata.powered = true;
-
-        // Handle stat changes from activation
-        apply_mods( mut, true );
         recalc_sight_limits();
     }
 
@@ -511,11 +600,15 @@ void Character::activate_mutation( const trait_id &mut )
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( - trans->moves );
         switch_mutations( mut, trans->target, trans->active );
+
+        if( !mdata.transform->msg_transform.empty() ) {
+            add_msg_if_player( m_neutral, mdata.transform->msg_transform );
+        }
         return;
     }
 
     if( mut == trait_WEB_WEAVER ) {
-        g->m.add_field( pos(), fd_web, 1 );
+        get_map().add_field( pos(), fd_web, 1 );
         add_msg_if_player( _( "You start spinning web with your spinnerets!" ) );
     } else if( mut == trait_BURROW ) {
         tdata.powered = false;
@@ -575,8 +668,9 @@ void Character::activate_mutation( const trait_id &mut )
         }
         // Check for adjacent trees.
         bool adjacent_tree = false;
-        for( const tripoint &p2 : g->m.points_in_radius( pos(), 1 ) ) {
-            if( g->m.has_flag( "TREE", p2 ) ) {
+        map &here = get_map();
+        for( const tripoint &p2 : here.points_in_radius( pos(), 1 ) ) {
+            if( here.has_flag( "TREE", p2 ) ) {
                 adjacent_tree = true;
             }
         }
@@ -625,7 +719,7 @@ void Character::activate_mutation( const trait_id &mut )
         return;
     } else if( !mdata.ranged_mutation.is_empty() ) {
         add_msg_if_player( mdata.ranged_mutation_message() );
-        avatar_action::fire_ranged_mutation( g->u, item( mdata.ranged_mutation ) );
+        avatar_action::fire_ranged_mutation( *this, item( mdata.ranged_mutation ) );
         tdata.powered = false;
         return;
     }
@@ -643,6 +737,10 @@ void Character::deactivate_mutation( const trait_id &mut )
         const cata::value_ptr<mut_transform> trans = mdata.transform;
         mod_moves( -trans->moves );
         switch_mutations( mut, trans->target, trans->active );
+    }
+
+    if( mdata.transform && !mdata.transform->msg_transform.empty() ) {
+        add_msg_if_player( m_neutral, mdata.transform->msg_transform );
     }
 }
 
@@ -1068,7 +1166,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
 
-        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
+        get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing );
         mutation_replaced = true;
     }
@@ -1087,7 +1185,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "Your %1$s mutation turns into %2$s!" ),
                                _( "<npcname>'s %1$s mutation turns into %2$s!" ),
                                replace_mdata.name(), mdata.name() );
-        g->events().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
+        get_event_bus().send<event_type::evolves_mutation>( getID(), replace_mdata.id, mdata.id );
         unset_mutation( replacing2 );
         mutation_replaced = true;
     }
@@ -1109,7 +1207,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "Your innate %1$s trait turns into %2$s!" ),
                                _( "<npcname>'s innate %1$s trait turns into %2$s!" ),
                                cancel_mdata.name(), mdata.name() );
-        g->events().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
+        get_event_bus().send<event_type::evolves_mutation>( getID(), cancel_mdata.id, mdata.id );
         unset_mutation( i );
         mutation_replaced = true;
     }
@@ -1128,7 +1226,7 @@ bool Character::mutate_towards( const trait_id &mut )
                                _( "You gain a mutation called %s!" ),
                                _( "<npcname> gains a mutation called %s!" ),
                                mdata.name() );
-        g->events().send<event_type::gains_mutation>( getID(), mdata.id );
+        get_event_bus().send<event_type::gains_mutation>( getID(), mdata.id );
     }
 
     set_mutation( mut );
@@ -1334,9 +1432,9 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
         if( guy.has_trait( trait_M_SPORES ) || guy.has_trait( trait_M_FERTILE ) ||
             guy.has_trait( trait_M_BLOSSOMS ) || guy.has_trait( trait_M_BLOOM ) ) {
             guy.add_msg_if_player( m_good, _( "We decontaminate it with spores." ) );
-            g->m.ter_set( guy.pos(), t_fungus );
+            get_map().ter_set( guy.pos(), t_fungus );
             if( guy.is_avatar() ) {
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male", "Destroyed a harmful invader." ),
                     pgettext( "memorial_female", "Destroyed a harmful invader." ) );
             }
@@ -1367,7 +1465,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
                                    _( "It was probably that marloss -- how did you know to call it \"marloss\" anyway?" ) );
             guy.add_msg_if_player( m_warning, _( "Best to stay clear of that alien crap in future." ) );
             if( guy.is_avatar() ) {
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male",
                               "Burned out a particularly nasty fungal infestation." ),
                     pgettext( "memorial_female",
@@ -1378,7 +1476,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
                                    _( "That was some toxic %s!  Let's stick with Marloss next time, that's safe." ),
                                    it.tname() );
             if( guy.is_avatar() ) {
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male", "Suffered a toxic marloss/mutagen reaction." ),
                     pgettext( "memorial_female", "Suffered a toxic marloss/mutagen reaction." ) );
             }
@@ -1393,7 +1491,7 @@ static mutagen_rejection try_reject_mutagen( Character &guy, const item &it, boo
 mutagen_attempt mutagen_common_checks( Character &guy, const item &it, bool strong,
                                        const mutagen_technique technique )
 {
-    g->events().send<event_type::administers_mutagen>( guy.getID(), technique );
+    get_event_bus().send<event_type::administers_mutagen>( guy.getID(), technique );
     mutagen_rejection status = try_reject_mutagen( guy, it, strong );
     if( status == mutagen_rejection::rejected ) {
         return mutagen_attempt( false, 0 );
@@ -1443,7 +1541,7 @@ void test_crossing_threshold( Character &guy, const mutation_category_trait &m_c
             guy.add_msg_if_player( m_good,
                                    _( "Something strains mightily for a moment… and then… you're… FREE!" ) );
             guy.set_mutation( mutation_thresh );
-            g->events().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
+            get_event_bus().send<event_type::crosses_mutation_threshold>( guy.getID(), m_category.id );
             // Manually removing Carnivore, since it tends to creep in
             // This is because carnivore is a prerequisite for the
             // predator-style post-threshold mutations.

@@ -163,7 +163,7 @@
       "context": "recruit",
       "value": "yes",
       "yes": "I do.  I don't know what you did to convince them to move out, but our supply chain and I both thank you.  I hope it wasn't too unseemly.",
-      "no": "Even once we got things sorted out, there weren't enough beds for everyone, and definitely not enough supplies. These are harsh times.  We're doing what we can for those folks… at least they've got shelter."
+      "no": "Even once we got things sorted out, there weren't enough beds for everyone, and definitely not enough supplies.  These are harsh times.  We're doing what we can for those folks… at least they've got shelter."
     }
   },
   {
@@ -175,7 +175,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_FREE_MERCHANT_STOCKS_SEALED1wrong",
-    "dynamic_line": "We didn't have great organization when we first arrived. A few of the earliest arrivals set up a triage and sorting system, with the sick and infirm getting set aside to wait. It's cruel, but we could see there was only space for so many, and we didn't know what was causing people to turn into zombies at the time, so we were trying to quarantine out infection.  A couple folks died in there, and it escalated.  One of the first people here, Jacob, had taken charge of the whole thing.  When the triage area had to be evacuated he stayed behind to make sure everyone who could get out got out.  It was a hell of a loss.",
+    "dynamic_line": "We didn't have great organization when we first arrived.  A few of the earliest arrivals set up a triage and sorting system, with the sick and infirm getting set aside to wait.  It's cruel, but we could see there was only space for so many, and we didn't know what was causing people to turn into zombies at the time, so we were trying to quarantine out infection.  A couple folks died in there, and it escalated.  One of the first people here, Jacob, had taken charge of the whole thing.  When the triage area had to be evacuated he stayed behind to make sure everyone who could get out got out.  It was a hell of a loss.",
     "speaker_effect": [
       { "effect": { "u_add_var": "told_about_FM_evacuation", "type": "general", "context": "conversation", "value": "yes" } }
     ],

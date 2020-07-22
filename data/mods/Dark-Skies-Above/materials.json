@@ -91,7 +91,7 @@
     "elec_resist": 1,
     "chip_resist": 2,
     "dmg_adj": [ "lightly damaged", "damaged", "very damaged", "thoroughly damaged" ],
-    "bash_dmg_verb": "pupled",
+    "bash_dmg_verb": "pulped",
     "cut_dmg_verb": "cut",
     "burn_data": [
       { "fuel": 1, "smoke": 2, "burn": 1, "volume_per_turn": "750 ml" },

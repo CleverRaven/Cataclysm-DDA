@@ -48,5 +48,21 @@
     "type": "GUN",
     "name": { "str": "bionic shotgun" },
     "ammo": [ "ammo_shot" ]
+  },
+  {
+    "id": "slamfire_shotgun",
+    "copy-from": "slamfire_shotgun",
+    "type": "GUN",
+    "name": { "str": "slam-fire pipe shotgun" },
+    "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
+    "ammo": [ "ammo_shot" ]
+  },
+  {
+    "id": "slamfire_shotgun_d",
+    "copy-from": "slamfire_shotgun_d",
+    "type": "GUN",
+    "name": { "str": "double slam-fire pipe shotgun" },
+    "description": "A crude shotgun, composed of two thick steel pipes, an end cap and a nail.  The lack of sights make this weapon only useful at point-blank range.",
+    "ammo": [ "ammo_shot" ]
   }
 ]

@@ -13,7 +13,6 @@
 #include <vector>
 
 #include "addiction.h"
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
@@ -166,6 +165,7 @@ static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
 static const std::string flag_RAD_RESIST( "RAD_RESIST" );
 static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
+static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 
 static float addiction_scaling( float at_min, float at_max, float add_lvl )
 {
@@ -179,20 +179,19 @@ static float addiction_scaling( float at_min, float at_max, float add_lvl )
 
 void Character::suffer_water_damage( const mutation_branch &mdata )
 {
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        const float wetness_percentage = static_cast<float>( body_wetness[bp->token] ) /
-                                         drench_capacity[bp->token];
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        const float wetness_percentage = elem.second.get_wetness_percentage();
         const int dmg = mdata.weakness_to_water * wetness_percentage;
         if( dmg > 0 ) {
-            apply_damage( nullptr,  bp, dmg );
+            apply_damage( nullptr, elem.first, dmg );
             add_msg_player_or_npc( m_bad, _( "Your %s is damaged by the water." ),
                                    _( "<npcname>'s %s is damaged by the water." ),
-                                   body_part_name( bp ) );
-        } else if( dmg < 0 && hp_cur[bp_to_hp( bp->token )] != hp_max[bp_to_hp( bp->token )] ) {
-            heal( bp->token, std::abs( dmg ) );
+                                   body_part_name( elem.first ) );
+        } else if( dmg < 0 && elem.second.is_at_max_hp() ) {
+            heal( elem.first, std::abs( dmg ) );
             add_msg_player_or_npc( m_good, _( "Your %s is healed by the water." ),
                                    _( "<npcname>'s %s is healed by the water." ),
-                                   body_part_name( bp ) );
+                                   body_part_name( elem.first ) );
         }
     }
 }
@@ -262,7 +261,7 @@ void Character::suffer_while_underwater()
             apply_damage( nullptr, bodypart_id( "torso" ), rng( 1, 4 ) );
         }
     }
-    if( has_trait( trait_FRESHWATEROSMOSIS ) && !g->m.has_flag_ter( "SALT_WATER", pos() ) &&
+    if( has_trait( trait_FRESHWATEROSMOSIS ) && !get_map().has_flag_ter( "SALT_WATER", pos() ) &&
         get_thirst() > -60 ) {
         mod_thirst( -1 );
     }
@@ -407,19 +406,19 @@ void Character::suffer_from_chemimbalance()
     if( one_turn_in( 6_hours ) ) {
         if( one_in( 3 ) ) {
             add_msg_if_player( m_bad, _( "You suddenly feel very cold." ) );
-            temp_cur.fill( BODYTEMP_VERY_COLD );
+            set_all_parts_temp_cur( BODYTEMP_VERY_COLD );
         } else {
             add_msg_if_player( m_bad, _( "You suddenly feel cold." ) );
-            temp_cur.fill( BODYTEMP_COLD );
+            set_all_parts_temp_cur( BODYTEMP_COLD );
         }
     }
     if( one_turn_in( 6_hours ) ) {
         if( one_in( 3 ) ) {
             add_msg_if_player( m_bad, _( "You suddenly feel very hot." ) );
-            temp_cur.fill( BODYTEMP_VERY_HOT );
+            set_all_parts_temp_cur( BODYTEMP_VERY_HOT );
         } else {
             add_msg_if_player( m_bad, _( "You suddenly feel hot." ) );
-            temp_cur.fill( BODYTEMP_HOT );
+            set_all_parts_temp_cur( BODYTEMP_HOT );
         }
     }
 }
@@ -630,9 +629,11 @@ void Character::suffer_from_asthma( const int current_stim )
     add_msg_player_or_npc( m_bad, _( "You have an asthma attack!" ),
                            "<npcname> starts wheezing and coughing." );
 
+    map &here = get_map();
     if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
         inventory map_inv;
-        map_inv.form_from_map( g->u.pos(), 2, &g->u );
+        Character &player_character = get_player_character();
+        map_inv.form_from_map( player_character.pos(), 2, &player_character );
         // check if an inhaler is somewhere near
         bool nearby_use = auto_use || oxygenator || map_inv.has_charges( itype_inhaler, 1 ) ||
                           map_inv.has_charges( itype_oxygen_tank, 1 ) ||
@@ -653,10 +654,10 @@ void Character::suffer_from_asthma( const int current_stim )
         } else if( nearby_use ) {
             // create new variable to resolve a reference issue
             int amount = 1;
-            if( !g->m.use_charges( g->u.pos(), 2, itype_inhaler, amount ).empty() ) {
+            if( !here.use_charges( player_character.pos(), 2, itype_inhaler, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You use your inhaler and go back to sleep." ) );
-            } else if( !g->m.use_charges( g->u.pos(), 2, itype_oxygen_tank, amount ).empty() ||
-                       !g->m.use_charges( g->u.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
+            } else if( !here.use_charges( player_character.pos(), 2, itype_oxygen_tank, amount ).empty() ||
+                       !here.use_charges( player_character.pos(), 2, itype_smoxygen_tank, amount ).empty() ) {
                 add_msg_if_player( m_info, _( "You take a deep breath from your oxygen tank "
                                               "and go back to sleep." ) );
             }
@@ -718,10 +719,10 @@ void Character::suffer_in_sunlight()
     const bool leafier = has_trait( trait_LEAVES2 ) || has_trait( trait_LEAVES3 );
     const bool leafiest = has_trait( trait_LEAVES3 );
     int sunlight_nutrition = 0;
-    if( leafy && g->m.is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
-        const float weather_factor = ( g->weather.weather == WEATHER_CLEAR ||
-                                       g->weather.weather == WEATHER_SUNNY ) ? 1.0 : 0.5;
-        const int player_local_temp = g->weather.get_temperature( pos() );
+    if( leafy && get_map().is_outside( pos() ) && ( g->light_level( pos().z ) >= 40 ) ) {
+        const float weather_factor = ( get_weather().weather_id->sun_intensity >=
+                                       sun_intensity_type::normal ) ? 1.0 : 0.5;
+        const int player_local_temp = get_weather().get_temperature( pos() );
         int flux = ( player_local_temp - 65 ) / 2;
         if( !has_hat ) {
             sunlight_nutrition += ( 100 + flux ) * weather_factor;
@@ -755,7 +756,7 @@ void Character::suffer_in_sunlight()
     if( has_trait( trait_SUNBURN ) && one_in( 10 ) ) {
         if( !( weapon.has_flag( "RAIN_PROTECT" ) ) ) {
             add_msg_if_player( m_bad, _( "The sunlight burns your skin!" ) );
-            if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+            if( has_effect( effect_sleep ) ) {
                 wake_up();
             }
             mod_pain( 1 );
@@ -764,7 +765,7 @@ void Character::suffer_in_sunlight()
     }
 
     if( ( has_trait( trait_TROGLO ) || has_trait( trait_TROGLO2 ) ) &&
-        g->weather.weather == WEATHER_SUNNY ) {
+        get_weather().weather_id->sun_intensity >= sun_intensity_type::high ) {
         mod_str_bonus( -1 );
         mod_dex_bonus( -1 );
         add_miss_reason( _( "The sunlight distracts you." ), 1 );
@@ -829,7 +830,7 @@ void Character::suffer_from_albinism()
                 continue;
             }
             //percent of "not covered skin"
-            float p = 1.0 - i.get_coverage() / 100.0;
+            float p = 1.0 - i.get_coverage( bp ) / 100.0;
             open_percent[bp->token] = open_percent[bp->token] * p;
         }
     }
@@ -869,7 +870,7 @@ void Character::suffer_from_albinism()
         add_msg_if_player( m_bad, _( "The sunlight is really irritating your %s." ), bp_name );
 
         //apply effects
-        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+        if( has_effect( effect_sleep ) ) {
             wake_up();
         }
         if( one_turn_in( 1_minutes ) ) {
@@ -882,9 +883,10 @@ void Character::suffer_from_albinism()
 
 void Character::suffer_from_other_mutations()
 {
+    map &here = get_map();
     if( has_trait( trait_SHARKTEETH ) && one_turn_in( 24_hours ) ) {
         add_msg_if_player( m_neutral, _( "You shed a tooth!" ) );
-        g->m.spawn_item( pos(), "bone", 1 );
+        here.spawn_item( pos(), "bone", 1 );
     }
 
     if( has_active_mutation( trait_WINGS_INSECT ) ) {
@@ -896,7 +898,7 @@ void Character::suffer_from_other_mutations()
     bool wearing_shoes = is_wearing_shoes( side::LEFT ) || is_wearing_shoes( side::RIGHT );
     int root_vitamins = 0;
     int root_water = 0;
-    if( has_trait( trait_ROOTS3 ) && g->m.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
+    if( has_trait( trait_ROOTS3 ) && here.has_flag( flag_PLOWABLE, pos() ) && !wearing_shoes ) {
         root_vitamins += 1;
         if( get_thirst() <= -2000 ) {
             root_water += 51;
@@ -917,8 +919,8 @@ void Character::suffer_from_other_mutations()
     }
 
     if( has_trait( trait_SORES ) ) {
-        for( const body_part bp : all_body_parts ) {
-            if( bp == bp_head ) {
+        for( const bodypart_id bp : get_all_body_parts() ) {
+            if( bp == bodypart_id( "head" ) ) {
                 continue;
             }
             int sores_pain = 5 + 0.4 * std::abs( encumb( bp ) );
@@ -930,7 +932,7 @@ void Character::suffer_from_other_mutations()
     //Web Weavers...weave web
     if( has_active_mutation( trait_WEB_WEAVER ) && !in_vehicle ) {
         // this adds intensity to if its not already there.
-        g->m.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), fd_web, 1 );
 
     }
 
@@ -955,7 +957,7 @@ void Character::suffer_from_other_mutations()
 
     if( has_trait( trait_WEB_SPINNER ) && !in_vehicle && one_in( 3 ) ) {
         // this adds intensity to if its not already there.
-        g->m.add_field( pos(), fd_web, 1 );
+        here.add_field( pos(), fd_web, 1 );
     }
 
     bool should_mutate = has_trait( trait_UNSTABLE ) && !has_trait( trait_CHAOTIC_BAD ) &&
@@ -990,9 +992,10 @@ void Character::suffer_from_other_mutations()
 
 void Character::suffer_from_radiation()
 {
+    map &here = get_map();
     // checking for radioactive items in inventory
     const int item_radiation = leak_level( "RADIOACTIVE" );
-    const int map_radiation = g->m.get_radiation( pos() );
+    const int map_radiation = here.get_radiation( pos() );
     float rads = map_radiation / 100.0f + item_radiation / 10.0f;
 
     int rad_mut = 0;
@@ -1025,8 +1028,8 @@ void Character::suffer_from_radiation()
             // If you can't, irradiate the player instead
             tripoint rad_point = pos() + point( rng( -3, 3 ), rng( -3, 3 ) );
             // TODO: Radioactive vehicles?
-            if( g->m.get_radiation( rad_point ) < rad_mut ) {
-                g->m.adjust_radiation( rad_point, 1 );
+            if( here.get_radiation( rad_point ) < rad_mut ) {
+                here.adjust_radiation( rad_point, 1 );
             } else {
                 rads += rad_mut;
             }
@@ -1186,7 +1189,7 @@ void Character::suffer_from_bad_bionics()
         add_msg_if_player( m_bad, _( "You suffer a burning acidic discharge!" ) );
         hurtall( 1, nullptr );
         sfx::play_variant_sound( "bionics", "acid_discharge", 100 );
-        sfx::do_player_death_hurt( g->u, false );
+        sfx::do_player_death_hurt( get_player_character(), false );
     }
     if( has_bionic( bio_drain ) && get_power_level() > 24_kJ && one_turn_in( 1_hours ) ) {
         add_msg_if_player( m_bad, _( "Your batteries discharge slightly." ) );
@@ -1259,9 +1262,9 @@ void Character::suffer_from_artifacts()
     }
 
     if( has_artifact_with( AEP_BAD_WEATHER ) && calendar::once_every( 1_minutes ) &&
-        g->weather.weather != WEATHER_SNOWSTORM ) {
-        g->weather.weather_override = WEATHER_SNOWSTORM;
-        g->weather.set_nextweather( calendar::turn );
+        get_weather().weather_id->precip < precip_class::heavy ) {
+        get_weather().weather_override = get_bad_weather();
+        get_weather().set_nextweather( calendar::turn );
     }
 
     if( has_artifact_with( AEP_MUTAGENIC ) && one_turn_in( 48_hours ) ) {
@@ -1421,6 +1424,18 @@ void Character::suffer_without_sleep( const int sleep_deprivation )
     }
 }
 
+void Character::suffer_from_tourniquet()
+{
+    for( const bodypart_id &bp : get_all_body_parts( true ) ) {
+        if( worn_with_flag( flag_TOURNIQUET, bp ) && one_turn_in( 30_seconds ) ) {
+            mod_pain( 1 );
+            apply_damage( nullptr, bp, 1, true );
+            add_msg_player_or_npc( m_bad, _( "Your tourniquet hurts you." ),
+                                   _( "<npcname> is hurting from the tourniquet." ) );
+        }
+    }
+}
+
 void Character::suffer_from_pain()
 {
 }
@@ -1429,10 +1444,10 @@ void Character::suffer()
 {
     const int current_stim = get_stim();
     // TODO: Remove this section and encapsulate hp_cur
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        body_part bp = hp_to_bp( static_cast<hp_part>( i ) );
-        if( hp_cur[i] <= 0 ) {
-            add_effect( effect_disabled, 1_turns, bp, true );
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : get_body() ) {
+        if( elem.second.get_hp_cur() <= 0 ) {
+            add_effect( effect_disabled, 1_turns, elem.first->token, true );
+            get_event_bus().send<event_type::broken_bone>( getID(), elem.first->token );
         }
     }
 
@@ -1482,6 +1497,7 @@ void Character::suffer()
     }
 
     suffer_without_sleep( sleep_deprivation );
+    suffer_from_tourniquet();
     suffer_from_pain();
 }
 
@@ -1560,8 +1576,8 @@ void Character::mend( int rate_multiplier )
 {
     // Wearing splints can slowly mend a broken limb back to 1 hp.
     bool any_broken = false;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        if( is_limb_broken( static_cast<hp_part>( i ) ) ) {
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( is_limb_broken( bp ) ) {
             any_broken = true;
             break;
         }
@@ -1628,33 +1644,32 @@ void Character::mend( int rate_multiplier )
         return;
     }
 
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const bool broken = is_limb_broken( static_cast<hp_part>( i ) );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        const bool broken = is_limb_broken( bp );
         if( !broken ) {
             continue;
         }
 
-        const bodypart_id &part = convert_bp( hp_to_bp( static_cast<hp_part>( i ) ) ).id();
-        if( needs_splint && !worn_with_flag( "SPLINT",  part ) ) {
+        if( needs_splint && !worn_with_flag( "SPLINT",  bp ) ) {
             continue;
         }
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
-        auto &eff = get_effect( effect_mending, part->token );
+        auto &eff = get_effect( effect_mending, bp->token );
         if( eff.is_null() ) {
-            add_effect( effect_mending, dur_inc, part->token, true );
+            add_effect( effect_mending, dur_inc, bp->token, true );
             continue;
         }
 
         eff.set_duration( eff.get_duration() + dur_inc );
 
         if( eff.get_duration() >= eff.get_max_duration() ) {
-            hp_cur[i] = 1;
-            remove_effect( effect_mending, part->token );
-            g->events().send<event_type::broken_bone_mends>( getID(), part->token );
+            set_part_hp_cur( bp, 1 );
+            remove_effect( effect_mending, bp->token );
+            get_event_bus().send<event_type::broken_bone_mends>( getID(), bp->token );
             //~ %s is bodypart
             add_msg_if_player( m_good, _( "Your %s has started to mend!" ),
-                               body_part_name( part ) );
+                               body_part_name( bp ) );
         }
     }
 }
@@ -1725,7 +1740,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         // Different body parts have different size, they can only store so much water
         int bp_wetness_max = 0;
         if( flags.test( bp.id() ) ) {
-            bp_wetness_max = drench_capacity[bp->token];
+            bp_wetness_max = get_part_drench_capacity( bp );
         }
 
         if( bp_wetness_max == 0 ) {
@@ -1736,12 +1751,13 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
         int wetness_increment = ignore_waterproof ? 100 : 2;
         // Respect maximums
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
-        if( body_wetness[bp->token] < wetness_max ) {
-            body_wetness[bp->token] = std::min( wetness_max, body_wetness[bp->token] + wetness_increment );
+        const int curr_wetness = get_part_wetness( bp );
+        if( curr_wetness < wetness_max ) {
+            set_part_wetness( bp, std::min( wetness_max, curr_wetness + wetness_increment ) );
         }
     }
-
-    if( body_wetness[bp_torso] >= drench_capacity[bp_torso] / 2.0 &&
+    const int torso_wetness = get_part_wetness( bodypart_id( "torso" ) );
+    if( torso_wetness >= torso_wetness / 2.0 &&
         has_effect( effect_masked_scent ) &&
         get_value( "waterproof_scent" ).empty() ) {
         add_msg_if_player( m_info, _( "The water wash away the scent." ) );
@@ -1762,10 +1778,7 @@ void Character::apply_wetness_morale( int temperature )
 {
     // First, a quick check if we have any wetness to calculate morale from
     // Faster than checking all worn items for friendliness
-    if( !std::any_of( body_wetness.begin(), body_wetness.end(),
-    []( const int w ) {
-    return w != 0;
-} ) ) {
+    if( !has_atleast_one_wet_part() ) {
         return;
     }
 
@@ -1777,7 +1790,7 @@ void Character::apply_wetness_morale( int temperature )
     const auto wet_friendliness = exclusive_flag_coverage( "WATER_FRIENDLY" );
     for( const bodypart_id &bp : get_all_body_parts() ) {
         // Sum of body wetness can go up to 103
-        const int part_drench = body_wetness[bp->token];
+        const int part_drench = get_part_wetness( bp );
         if( part_drench == 0 ) {
             continue;
         }
@@ -1809,7 +1822,7 @@ void Character::apply_wetness_morale( int temperature )
 
         // Clamp to [COLD,HOT] and cast to double
         const double part_temperature =
-            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, temp_cur[bp->token] ) );
+            std::min( BODYTEMP_HOT, std::max( BODYTEMP_COLD, get_part_temp_cur( bp ) ) );
         // 0.0 at COLD, 1.0 at HOT
         const double part_mod = ( part_temperature - BODYTEMP_COLD ) /
                                 ( BODYTEMP_HOT - BODYTEMP_COLD );
@@ -1887,7 +1900,7 @@ void Character::add_addiction( add_type type, int strength )
         const std::string &type_name = addiction_type_name( type );
         add_msg( m_debug, "%s got addicted to %s", disp_name(), type_name );
         addictions.emplace_back( type, 1 );
-        g->events().send<event_type::gains_addiction>( getID(), type );
+        get_event_bus().send<event_type::gains_addiction>( getID(), type );
     }
 }
 
@@ -1908,7 +1921,7 @@ void Character::rem_addiction( add_type type )
 
     if( iter != addictions.end() ) {
         addictions.erase( iter );
-        g->events().send<event_type::loses_addiction>( getID(), type );
+        get_event_bus().send<event_type::loses_addiction>( getID(), type );
     }
 }
 

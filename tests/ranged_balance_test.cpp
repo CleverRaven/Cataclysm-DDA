@@ -258,7 +258,7 @@ static void assert_encumbrance( npc &shooter, int encumbrance )
 {
     for( const bodypart_id &bp : shooter.get_all_body_parts() ) {
         INFO( "Body Part: " << body_part_name( bp ) );
-        REQUIRE( shooter.encumb( bp->token ) == encumbrance );
+        REQUIRE( shooter.encumb( bp ) == encumbrance );
     }
 }
 
@@ -268,6 +268,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
+    shooter.set_body();
     shooter.worn.push_back( item( "backpack" ) );
     equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
     assert_encumbrance( shooter, 10 );
@@ -308,6 +309,7 @@ TEST_CASE( "competent_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 5, 10, 10, 10, 10 );
+    shooter.set_body();
     equip_shooter( shooter, { "cloak_wool", "footrags_wool", "gloves_wraps_fur", "glasses_safety", "balclava" } );
     assert_encumbrance( shooter, 5 );
 
@@ -347,6 +349,7 @@ TEST_CASE( "expert_shooter_accuracy", "[ranged] [balance]" )
 {
     clear_map();
     standard_npc shooter( "Shooter", shooter_pos, {}, 10, 20, 20, 20, 20 );
+    shooter.set_body();
     equip_shooter( shooter, { } );
     assert_encumbrance( shooter, 0 );
 

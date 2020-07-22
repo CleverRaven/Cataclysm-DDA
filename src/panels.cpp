@@ -209,19 +209,18 @@ std::string window_panel::get_name() const
 }
 
 void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const avatar &you,
-                                     const tripoint &global_omt, const point &start_input,
+                                     const tripoint_abs_omt &global_omt, const point &start_input,
                                      const int width, const int height )
 {
-    const int cursx = global_omt.x;
-    const int cursy = global_omt.y;
-    const tripoint targ = you.get_active_mission_target();
+    const point_abs_omt curs = global_omt.xy();
+    const tripoint_abs_omt targ = you.get_active_mission_target();
     bool drew_mission = targ == overmap::invalid_tripoint;
     const int start_y = start_input.y + ( height / 2 ) - 2;
     const int start_x = start_input.x + ( width / 2 ) - 2;
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
-            const tripoint omp( cursx + i, cursy + j, g->get_levz() );
+            const tripoint_abs_omt omp( curs + point( i, j ), g->get_levz() );
             nc_color ter_color;
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
@@ -348,11 +347,11 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 
     // Print arrow to mission if we have one!
     if( !drew_mission ) {
-        double slope = ( cursx != targ.x ) ? static_cast<double>( targ.y - cursy ) / static_cast<double>
-                       ( targ.x - cursx ) : 4;
+        double slope = curs.x() != targ.x() ?
+                       static_cast<double>( targ.y() - curs.y() ) / ( targ.x() - curs.x() ) : 4;
 
-        if( cursx == targ.x || std::fabs( slope ) > 3.5 ) {  // Vertical slope
-            if( targ.y > cursy ) {
+        if( curs.x() == targ.x() || std::fabs( slope ) > 3.5 ) {  // Vertical slope
+            if( targ.y() > curs.y() ) {
                 mvwputch( w_minimap, point( 3 + start_x, 6 + start_y ), c_red, '*' );
             } else {
                 mvwputch( w_minimap, point( 3 + start_x, 0 + start_y ), c_red, '*' );
@@ -361,8 +360,8 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             int arrowx = -1;
             int arrowy = -1;
             if( std::fabs( slope ) >= 1. ) {  // y diff is bigger!
-                arrowy = ( targ.y > cursy ? 6 : 0 );
-                arrowx = static_cast<int>( 3 + 3 * ( targ.y > cursy ? slope : ( 0 - slope ) ) );
+                arrowy = ( targ.y() > curs.y() ? 6 : 0 );
+                arrowx = static_cast<int>( 3 + 3 * ( targ.y() > curs.y() ? slope : ( 0 - slope ) ) );
                 if( arrowx < 0 ) {
                     arrowx = 0;
                 }
@@ -370,8 +369,8 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                     arrowx = 6;
                 }
             } else {
-                arrowx = ( targ.x > cursx ? 6 : 0 );
-                arrowy = static_cast<int>( 3 + 3 * ( targ.x > cursx ? slope : ( 0 - slope ) ) );
+                arrowx = ( targ.x() > curs.x() ? 6 : 0 );
+                arrowy = static_cast<int>( 3 + 3 * ( targ.x() > curs.x() ? slope : ( 0 - slope ) ) );
                 if( arrowy < 0 ) {
                     arrowy = 0;
                 }
@@ -380,27 +379,28 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
                 }
             }
             char glyph = '*';
-            if( targ.z > you.posz() ) {
+            if( targ.z() > you.posz() ) {
                 glyph = '^';
-            } else if( targ.z < you.posz() ) {
+            } else if( targ.z() < you.posz() ) {
                 glyph = 'v';
             }
 
             mvwputch( w_minimap, point( arrowx + start_x, arrowy + start_y ), c_red, glyph );
         }
     }
-
-    const int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
+    avatar &player_character = get_avatar();
+    const int sight_points = player_character.overmap_sight_range( g->light_level(
+                                 player_character.posz() ) );
     for( int i = -3; i <= 3; i++ ) {
         for( int j = -3; j <= 3; j++ ) {
             if( i > -3 && i < 3 && j > -3 && j < 3 ) {
                 continue; // only do hordes on the border, skip inner map
             }
-            const tripoint omp( cursx + i, cursy + j, g->get_levz() );
+            const tripoint_abs_omt omp( curs + point( i, j ), g->get_levz() );
             int horde_size = overmap_buffer.get_horde_size( omp );
             if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                 if( overmap_buffer.seen( omp )
-                    && g->u.overmap_los( omp, sight_points ) ) {
+                    && player_character.overmap_los( omp, sight_points ) ) {
                     mvwputch( w_minimap, point( i + 3, j + 3 ), c_green,
                               horde_size > HORDE_VISIBILITY_SIZE * 2 ? 'Z' : 'z' );
                 }
@@ -411,7 +411,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
 
 static void draw_minimap( const avatar &u, const catacurses::window &w_minimap )
 {
-    const tripoint curs = u.global_omt_location();
+    const tripoint_abs_omt curs = u.global_omt_location();
     overmap_ui::draw_overmap_chunk( w_minimap, u, curs, point_zero, 5, 5 );
 }
 
@@ -436,7 +436,7 @@ static std::string get_temp( const avatar &u )
     std::string temp;
     if( u.has_item_with_flag( "THERMOMETER" ) ||
         u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        temp = print_temperature( get_weather().get_temperature( u.pos() ) );
     }
     if( temp.empty() ) {
         return "-";
@@ -540,18 +540,18 @@ static std::pair<nc_color, int> morale_stat( const avatar &u )
     return std::make_pair( morale_color, morale_int );
 }
 
-static std::pair<int, int> temp_delta( const avatar &u )
+static std::pair<bodypart_id, bodypart_id> temp_delta( const avatar &u )
 {
-    int current_bp_extreme = 0;
-    int conv_bp_extreme = 0;
-    for( int i = 0; i < num_bp; i++ ) {
-        if( std::abs( u.temp_cur[i] - BODYTEMP_NORM ) >
-            std::abs( u.temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
-            current_bp_extreme = i;
+    bodypart_id current_bp_extreme( "torso" );
+    bodypart_id conv_bp_extreme( "torso" );
+    for( const bodypart_id &bp : u.get_all_body_parts() ) {
+        if( std::abs( u.get_part_temp_cur( bp ) - BODYTEMP_NORM ) >
+            std::abs( u.get_part_temp_cur( current_bp_extreme ) - BODYTEMP_NORM ) ) {
+            current_bp_extreme = bp;
         }
-        if( std::abs( u.temp_conv[i] - BODYTEMP_NORM ) >
-            std::abs( u.temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
-            conv_bp_extreme = i;
+        if( std::abs( u.get_part_temp_conv( bp ) - BODYTEMP_NORM ) >
+            std::abs( u.get_part_temp_conv( conv_bp_extreme ) - BODYTEMP_NORM ) ) {
+            conv_bp_extreme = bp;
         }
     }
     return std::make_pair( current_bp_extreme, conv_bp_extreme );
@@ -578,10 +578,10 @@ static int define_temp_level( const int lvl )
 static std::string temp_delta_string( const avatar &u )
 {
     std::string temp_message;
-    std::pair<int, int> temp_pair = temp_delta( u );
+    std::pair<bodypart_id, bodypart_id> temp_pair = temp_delta( u );
     // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
-    const int conv_zone = define_temp_level( u.temp_conv[temp_pair.second] );
+    const int cur_zone = define_temp_level( u.get_part_temp_cur( temp_pair.first ) );
+    const int conv_zone = define_temp_level( u.get_part_temp_conv( temp_pair.second ) );
 
     // delta will be positive if temp_cur is rising
     const int delta = conv_zone - cur_zone;
@@ -608,10 +608,10 @@ static std::pair<nc_color, std::string> temp_delta_arrows( const avatar &u )
 {
     std::string temp_message;
     nc_color temp_color = c_white;
-    std::pair<int, int> temp_pair = temp_delta( u );
+    std::pair<bodypart_id, bodypart_id> temp_pair = temp_delta( u );
     // Assign zones for comparisons
-    const int cur_zone = define_temp_level( u.temp_cur[temp_pair.first] );
-    const int conv_zone = define_temp_level( u.temp_conv[temp_pair.second] );
+    const int cur_zone = define_temp_level( u.get_part_temp_cur( temp_pair.first ) );
+    const int conv_zone = define_temp_level( u.get_part_temp_conv( temp_pair.second ) );
 
     // delta will be positive if temp_cur is rising
     const int delta = conv_zone - cur_zone;
@@ -645,30 +645,30 @@ static std::pair<nc_color, std::string> temp_stat( const avatar &u )
 {
     /// Find hottest/coldest bodypart
     // Calculate the most extreme body temperatures
-    int current_bp_extreme = temp_delta( u ).first;
+    const bodypart_id &current_bp_extreme = temp_delta( u ).first;
 
     // printCur the hottest/coldest bodypart
     std::string temp_string;
     nc_color temp_color = c_yellow;
-    if( u.temp_cur[current_bp_extreme] > BODYTEMP_SCORCHING ) {
+    if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_SCORCHING ) {
         temp_color = c_red;
         temp_string = _( "Scorching!" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_HOT ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_VERY_HOT ) {
         temp_color = c_light_red;
         temp_string = _( "Very hot!" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_HOT ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_HOT ) {
         temp_color = c_yellow;
         temp_string = _( "Warm" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_COLD ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_COLD ) {
         temp_color = c_green;
         temp_string = _( "Comfortable" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_VERY_COLD ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_VERY_COLD ) {
         temp_color = c_light_blue;
         temp_string = _( "Chilly" );
-    } else if( u.temp_cur[current_bp_extreme] > BODYTEMP_FREEZING ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) > BODYTEMP_FREEZING ) {
         temp_color = c_cyan;
         temp_string = _( "Very cold!" );
-    } else if( u.temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
+    } else if( u.get_part_temp_cur( current_bp_extreme ) <= BODYTEMP_FREEZING ) {
         temp_color = c_blue;
         temp_string = _( "Freezing!" );
     }
@@ -863,7 +863,7 @@ static int get_int_digits( const int &digits )
 // panels code
 // ===============================
 
-static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_index )
+static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_id bp )
 {
     const bool no_feeling = u.has_trait( trait_NOPAIN );
     const bool is_self_aware = u.has_trait( trait_SELFAWARE ) && !no_feeling;
@@ -873,16 +873,15 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
             wprintz( w, color, sym );
         }
     };
-    if( u.is_limb_broken( static_cast<hp_part>( limb_index ) ) && ( limb_index >= hp_arm_l &&
-            limb_index <= hp_leg_r ) ) {
+
+    if( u.is_limb_broken( bp ) && bp->is_limb ) {
         //Limb is broken
         std::string limb = "~~%~~";
         nc_color color = c_light_red;
 
-        const auto bp = avatar::hp_to_bp( static_cast<hp_part>( limb_index ) );
-        if( u.worn_with_flag( "SPLINT", convert_bp( bp ).id() ) ) {
+        if( u.worn_with_flag( "SPLINT",  bp ) ) {
             static const efftype_id effect_mending( "mending" );
-            const auto &eff = u.get_effect( effect_mending, bp );
+            const auto &eff = u.get_effect( effect_mending, bp->token );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {
@@ -902,12 +901,14 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
         return;
     }
 
-    std::pair<std::string, nc_color> hp = get_hp_bar( u.hp_cur[limb_index], u.hp_max[limb_index] );
+    const int hp_cur = u.get_part_hp_cur( bp );
+    const int hp_max = u.get_part_hp_max( bp );
+    std::pair<std::string, nc_color> hp = get_hp_bar( hp_cur, hp_max );
 
     if( is_self_aware || u.has_effect( effect_got_checked ) ) {
-        wprintz( w, hp.second, "%3d  ", u.hp_cur[limb_index] );
+        wprintz( w, hp.second, "%3d  ", hp_cur );
     } else if( no_feeling ) {
-        if( u.hp_cur[limb_index] < u.hp_max[limb_index] / 2 ) {
+        if( hp_cur < hp_max / 2 ) {
             hp = std::make_pair( string_format( " %s", _( "Bad" ) ), c_red );
         } else {
             hp = std::make_pair( string_format( " %s", _( "Good" ) ), c_green );
@@ -923,27 +924,24 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, int limb_i
 
 static void draw_limb2( avatar &u, const catacurses::window &w )
 {
-    static std::array<bodypart_id, 6> part = { {
-            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
-        }
-    };
-
     werase( w );
-    // print limb health
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i] );
+    // print bodypart health
+    int i = 0;
+    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+        const std::string str = body_part_hp_bar_ui_text( bp );
         if( i % 2 == 0 ) {
             wmove( w, point( 0, i / 2 ) );
         } else {
             wmove( w, point( 11, i / 2 ) );
         }
-        wprintz( w, u.limb_color( part[i], true, true, true ), str );
+        wprintz( w, u.limb_color( bp, true, true, true ), str );
         if( i % 2 == 0 ) {
             wmove( w, point( 5, i / 2 ) );
         } else {
             wmove( w, point( 16, i / 2 ) );
         }
-        draw_limb_health( u, w, i );
+        draw_limb_health( u, w, bp );
+        i++;
     }
 
     // print mood
@@ -1124,7 +1122,8 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
 {
     werase( w );
     int ny2 = 0;
-    for( int i = 0; i < num_hp_parts; i++ ) {
+    int i = 0;
+    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
         int ny;
         int nx;
         if( i < 3 ) {
@@ -1135,16 +1134,14 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
             nx = 26;
         }
         wmove( w, point( nx, ny ) );
-        draw_limb_health( u, w, i );
+        draw_limb_health( u, w, bp );
+        i++;
     }
 
     // display limbs status
-    static std::array<bodypart_id, 6> part = { {
-            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
-        }
-    };
     ny2 = 0;
-    for( size_t i = 0; i < part.size(); i++ ) {
+    i = 0;
+    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
         int ny;
         int nx;
         if( i < 3 ) {
@@ -1155,34 +1152,29 @@ static void draw_limb_narrow( avatar &u, const catacurses::window &w )
             nx = 19;
         }
 
-        std::string str = body_part_hp_bar_ui_text( part[i] );
+        std::string str = body_part_hp_bar_ui_text( bp );
         wmove( w, point( nx, ny ) );
         str = left_justify( str, 5 );
-        wprintz( w, u.limb_color( part[i], true, true, true ), str + ":" );
+        wprintz( w, u.limb_color( bp, true, true, true ), str + ":" );
+        i++;
     }
     wnoutrefresh( w );
 }
 
 static void draw_limb_wide( avatar &u, const catacurses::window &w )
 {
-    const std::vector<std::pair<bodypart_id, int>> parts = {
-        {bodypart_id( "arm_l" ), 2},
-        {bodypart_id( "head" ), 0},
-        {bodypart_id( "arm_r" ), 3},
-        {bodypart_id( "leg_l" ), 4},
-        {bodypart_id( "torso" ), 1},
-        {bodypart_id( "leg_r" ), 5}
-    };
     werase( w );
-    for( int i = 0; i < num_hp_parts; i++ ) {
+    int i = 0;
+    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
         int offset = i * 15;
         int ny = offset / 45;
         int nx = offset % 45;
         std::string str = string_format( " %s: ",
-                                         left_justify( body_part_hp_bar_ui_text( parts[i].first ), 5 ) );
-        nc_color part_color = u.limb_color( parts[i].first, true, true, true );
+                                         left_justify( body_part_hp_bar_ui_text( bp ), 5 ) );
+        nc_color part_color = u.limb_color( bp, true, true, true );
         print_colored_text( w, point( nx, ny ), part_color, c_white, str );
-        draw_limb_health( u, w, parts[i].second );
+        draw_limb_health( u, w, bp );
+        i++;
     }
     wnoutrefresh( w );
 }
@@ -1334,11 +1326,11 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     } else {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  :" ) );
-        const weather_datum wdata = weather_data( g->weather.weather );
-        wprintz( w, wdata.color, " %s", wdata.name );
+        wprintz( w, get_weather().weather_id->color, " %s", get_weather().weather_id->name );
     }
     // display lighting
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point( 1, 2 ), c_light_gray, "%s ", _( "Light:" ) );
     wprintz( w, ll.second, ll.first );
 
@@ -1359,7 +1351,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     }
     if( minimap ) {
         const int offset = getmaxx( w ) - 6;
-        const tripoint curs = u.global_omt_location();
+        const tripoint_abs_omt curs = u.global_omt_location();
         overmap_ui::draw_overmap_chunk( w, u, curs, point( offset, -1 ), 5, 5 );
     }
     wnoutrefresh( w );
@@ -1402,12 +1394,11 @@ static void draw_moon_wide( const avatar &u, const catacurses::window &w )
 static void draw_weapon_labels( const avatar &u, const catacurses::window &w )
 {
     werase( w );
-    nc_color color = c_light_gray;
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Wield:" ) );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Style:" ) );
-    print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
     wnoutrefresh( w );
 }
@@ -1491,8 +1482,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
 
     draw_minimap( u, w );
     // wielded item
-    nc_color color = c_light_gray;
-    print_colored_text( w, point( 8, 0 ), color, c_light_gray, u.weapname( getmaxx( w ) - 8 ) );
+    trim_and_print( w, point( 8, 0 ), getmaxx( w ) - 8, c_light_gray, u.weapname() );
     // style
     mvwprintz( w, point( 8, 1 ), c_light_gray, "%s", u.martial_arts_data.selected_style_name( u ) );
     // location
@@ -1502,11 +1492,11 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, point( 8, 3 ), c_light_gray, _( "Underground" ) );
     } else {
-        const weather_datum wdata = weather_data( g->weather.weather );
-        mvwprintz( w, point( 8, 3 ), wdata.color, wdata.name );
+        mvwprintz( w, point( 8, 3 ), get_weather().weather_id->color, get_weather().weather_id->name );
     }
     // display lighting
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point( 8, 4 ), ll.second, ll.first );
     // wind
     const oter_id &cur_om_ter = overmap_buffer.ter( u.global_omt_location() );
@@ -1549,14 +1539,9 @@ static void draw_wind_padding( avatar &u, const catacurses::window &w )
 
 static void draw_health_classic( avatar &u, const catacurses::window &w )
 {
-    static std::array<bodypart_id, 6> part = { {
-            bodypart_id( "head" ), bodypart_id( "torso" ), bodypart_id( "arm_l" ), bodypart_id( "arm_r" ), bodypart_id( "leg_l" ), bodypart_id( "leg_r" )
-        }
-    };
-
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
 
     werase( w );
@@ -1565,12 +1550,14 @@ static void draw_health_classic( avatar &u, const catacurses::window &w )
     draw_rectangle( w, c_light_gray, point_zero, point( 6, 6 ) );
 
     // print limb health
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const std::string str = body_part_hp_bar_ui_text( part[i] );
+    int i = 0;
+    for( const bodypart_id &bp : u.get_all_body_parts( true ) ) {
+        const std::string str = body_part_hp_bar_ui_text( bp );
         wmove( w, point( 8, i ) );
-        wprintz( w, u.limb_color( part[i], true, true, true ), str );
+        wprintz( w, u.limb_color( bp, true, true, true ), str );
         wmove( w, point( 14, i ) );
-        draw_limb_health( u, w, i );
+        draw_limb_health( u, w, bp );
+        i++;
     }
 
     // needs
@@ -1761,7 +1748,7 @@ static void draw_veh_compact( const avatar &u, const catacurses::window &w )
     // vehicle display
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_zero );
@@ -1793,7 +1780,7 @@ static void draw_veh_padding( const avatar &u, const catacurses::window &w )
     // vehicle display
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && u.in_vehicle ) {
-        veh = veh_pointer_or_null( g->m.veh_at( u.pos() ) );
+        veh = veh_pointer_or_null( get_map().veh_at( u.pos() ) );
     }
     if( veh ) {
         veh->print_fuel_indicators( w, point_east );
@@ -1848,9 +1835,8 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
     if( g->get_levz() < 0 ) {
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
-        const weather_datum wdata = weather_data( g->weather.weather );
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
-        mvwprintz( w, point( 10, 0 ), wdata.color, wdata.name );
+        mvwprintz( w, point( 10, 0 ), get_weather().weather_id->color, get_weather().weather_id->name );
     }
     mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Moon :" ) );
     nc_color clr = c_white;
@@ -1863,7 +1849,8 @@ static void draw_lighting_classic( const avatar &u, const catacurses::window &w 
 {
     werase( w );
 
-    const auto ll = get_light_level( g->u.fine_detail_vision_mod() );
+    const std::pair<std::string, nc_color> ll = get_light_level(
+                get_avatar().fine_detail_vision_mod() );
     mvwprintz( w, point_zero, c_light_gray, _( "Lighting:" ) );
     mvwprintz( w, point( 10, 0 ), ll.second, ll.first );
 
@@ -1882,8 +1869,7 @@ static void draw_weapon_classic( const avatar &u, const catacurses::window &w )
     werase( w );
 
     mvwprintz( w, point_zero, c_light_gray, _( "Weapon  :" ) );
-    nc_color color = c_light_gray;
-    print_colored_text( w, point( 10, 0 ), color, color, u.weapname( getmaxx( w ) - 24 ) );
+    trim_and_print( w, point( 10, 0 ), getmaxx( w ) - 24, c_light_gray, u.weapname() );
 
     // Print in sidebar currently used martial style.
     const std::string style = u.martial_arts_data.selected_style_name( u );
@@ -1917,7 +1903,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     }
 
     if( u.has_item_with_flag( "THERMOMETER" ) || u.has_bionic( bionic_id( "bio_meteorologist" ) ) ) {
-        std::string temp = print_temperature( g->weather.get_temperature( u.pos() ) );
+        std::string temp = print_temperature( get_weather().get_temperature( u.pos() ) );
         mvwprintz( w, point( 31, 0 ), c_light_gray, _( "Temp : " ) + temp );
     }
 
@@ -1980,7 +1966,7 @@ static void draw_mana_wide( const player &u, const catacurses::window &w )
 
 static bool spell_panel()
 {
-    return g->u.magic.knows_spell();
+    return get_avatar().magic.knows_spell();
 }
 
 bool default_render()

@@ -5,7 +5,6 @@
 
 #include "avatar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "map.h"
 #include "map_helpers.h"
 #include "player.h"
@@ -42,7 +41,8 @@ static void wield_check_from_inv( avatar &guy, const itype_id &item_name, const 
 static void wield_check_from_ground( avatar &guy, const itype_id &item_name,
                                      const int expected_moves )
 {
-    item &spawned_item = g->m.add_item_or_charges( guy.pos(), item( item_name, calendar::turn, 1 ) );
+    item &spawned_item = get_map().add_item_or_charges( guy.pos(), item( item_name, calendar::turn,
+                         1 ) );
     item_location item_loc( map_cursor( guy.pos() ), &spawned_item );
     CHECK( item_loc.obtain_cost( guy ) == Approx( expected_moves ).epsilon( 0.1f ) );
 }
@@ -59,6 +59,7 @@ TEST_CASE( "Wield time test", "[wield]" )
         item knife( "knife_hunting" );
 
         avatar guy;
+        guy.set_body();
         guy.worn.push_back( backpack );
         item_location backpack_loc( guy, &guy.worn.back() );
         backpack_loc->put_in( plastic_bag, item_pocket::pocket_type::CONTAINER );
@@ -86,8 +87,6 @@ TEST_CASE( "Wield time test", "[wield]" )
         avatar guy;
         clear_character( guy );
 
-        wield_check_from_inv( guy, itype_id( "halberd" ), 612 );
-        clear_character( guy );
         wield_check_from_inv( guy, itype_id( "aspirin" ), 375 );
         clear_character( guy );
         wield_check_from_inv( guy, itype_id( "knife_combat" ), 412 );

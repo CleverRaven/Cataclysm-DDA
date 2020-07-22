@@ -81,6 +81,9 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         // TODO: change the spawn lists to contain proper references to containers
         tmp = tmp.in_its_container( qty );
     }
+    if( container_item ) {
+        tmp = tmp.in_container( *container_item, tmp.charges );
+    }
     return tmp;
 }
 
@@ -120,6 +123,13 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
             }
             result.insert( result.end(), tmplist.begin(), tmplist.end() );
         }
+    }
+    if( container_item ) {
+        item ctr( *container_item, birthday );
+        for( const item &it : result ) {
+            ctr.put_in( it, item_pocket::pocket_type::CONTAINER );
+        }
+        result = ItemList{ ctr };
     }
     return result;
 }
@@ -378,6 +388,7 @@ void Item_modifier::modify( item &new_item ) const
 
     if( !cont.is_null() ) {
         cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
+        cont.seal();
         new_item = cont;
     }
 
@@ -386,6 +397,7 @@ void Item_modifier::modify( item &new_item ) const
         for( const item &it : contentitems ) {
             new_item.put_in( it, item_pocket::pocket_type::CONTAINER );
         }
+        new_item.seal();
     }
 
     for( auto &flag : custom_flags ) {
@@ -544,6 +556,11 @@ void Item_group::check_consistency( const std::string &context ) const
     }
 }
 
+void Item_spawn_data::set_container_item( const itype_id &container )
+{
+    container_item = container;
+}
+
 bool Item_group::remove_item( const itype_id &itemid )
 {
     for( prop_list::iterator a = items.begin(); a != items.end(); ) {
@@ -591,7 +608,15 @@ item_group::ItemList item_group::items_from( const Group_tag &group_id, const ti
     if( group == nullptr ) {
         return ItemList();
     }
-    return group->create( birthday );
+    ItemList created = group->create( birthday );
+    if( group->container_item ) {
+        item ctr( *group->container_item, birthday );
+        for( const item &it : created ) {
+            ctr.put_in( it, item_pocket::pocket_type::CONTAINER );
+        }
+        created = ItemList{ ctr };
+    }
+    return created;
 }
 
 item_group::ItemList item_group::items_from( const Group_tag &group_id )

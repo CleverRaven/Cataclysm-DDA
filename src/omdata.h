@@ -14,6 +14,7 @@
 #include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
+#include "coordinates.h"
 #include "enum_bitset.h"
 #include "int_id.h"
 #include "point.h"
@@ -371,7 +372,7 @@ bool operator!=( const oter_id &lhs, const char *rhs );
 // OMSPEC_FREQ determines the length of the side of the square in which each
 // overmap special will be placed.  At OMSPEC_FREQ 6, the overmap is divided
 // into 900 squares; lots of space for interesting stuff!
-#define OMSPEC_FREQ 15
+static constexpr int OMSPEC_FREQ = 15;
 
 struct overmap_special_spawns : public overmap_spawns {
     numeric_interval<int> radius;
@@ -439,7 +440,7 @@ class overmap_special
         /** @returns true if this special requires a city */
         bool requires_city() const;
         /** @returns whether the special at specified tripoint can belong to the specified city. */
-        bool can_belong_to_city( const tripoint &p, const city &cit ) const;
+        bool can_belong_to_city( const tripoint_om_omt &p, const city &cit ) const;
 
         overmap_special_id id;
         std::list<overmap_special_terrain> terrains;
@@ -499,7 +500,7 @@ void reset();
 
 const std::vector<overmap_special> &get_all();
 
-overmap_special_batch get_default_batch( const point &origin );
+overmap_special_batch get_default_batch( const point_abs_om &origin );
 /**
  * Generates a simple special from a building id.
  */

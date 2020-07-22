@@ -6,7 +6,7 @@
     "name": { "str": "short cordage piece" },
     "description": "A 6-inch (or about 15 cm) long piece of natural cordage.  Useful for some purposes, but not as strong or flexible as proper string.",
     "proportional": { "price": 0.5 },
-    "material": "dry_plant"
+    "material": [ "dry_plant" ]
   },
   {
     "id": "cordage_36",
@@ -15,7 +15,7 @@
     "name": { "str": "long cordage piece" },
     "description": "A 3-foot (or about 90 cm) long piece of natural cordage.  Useful for some purposes, but not as strong or flexible as proper string.",
     "proportional": { "price": 0.5 },
-    "material": "dry_plant"
+    "material": [ "dry_plant" ]
   },
   {
     "id": "string_6",
@@ -65,7 +65,7 @@
     "type": "GENERIC",
     "name": { "str": "short vine" },
     "description": "A sturdy 6-foot (or about 180 cm) long vine.  Too small to be of much use.",
-    "material": "dry_plant",
+    "material": [ "dry_plant" ],
     "color": "light_green",
     "proportional": { "price": 0.9 }
   },
@@ -75,7 +75,7 @@
     "type": "GENERIC",
     "name": { "str": "long vine" },
     "description": "A sturdy 30-foot (or about 9 m) long vine.  Could easily be used as a rope.  Strong enough to suspend a large corpse for butchering.",
-    "material": "dry_plant",
+    "material": [ "dry_plant" ],
     "color": "light_green",
     "proportional": { "price": 0.9 }
   },
@@ -101,7 +101,7 @@
     "category": "spare_parts",
     "name": "fibrous stalk",
     "symbol": "=",
-    "material": "dry_plant",
+    "material": [ "dry_plant" ],
     "description": "A rather green stick.  Very fibrous.",
     "fun": -100,
     "healthy": -20,

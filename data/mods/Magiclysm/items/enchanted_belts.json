@@ -47,32 +47,88 @@
     "type": "TOOL_ARMOR",
     "copy-from": "mbelt_leather",
     "id": "mbelt_pockets_lesser",
-    "name": { "str": "Lesser Girdle of Pockets", "str_pl": "Lesser Girdles of Pockets" },
-    "description": "A wide girdle that fits around your waist, coverd in numerous small pouches that hold a lot more than they should, and the weight of their contents is greatly reduced.",
+    "name": { "str": "lesser dimensional toolbelt" },
+    "description": "A sturdy workman's belt that fits around your waist, covered in easy to access pouches.  Like all dimensional spaces, they hold more than they should with a fair weight reduction.",
     "coverage": 10,
     "encumbrance": 4,
-    "weight_capacity_bonus": "5 kg",
+    "max_encumbrance": 10,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "3 L", "max_contains_weight": "9 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "moves": 90,
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "moves": 90,
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "moves": 90,
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "3 L",
+        "max_contains_weight": "9 kg",
+        "moves": 90,
+        "weight_multiplier": 0.5,
+        "volume_multiplier": 0.35
+      }
     ]
   },
   {
     "type": "TOOL_ARMOR",
     "copy-from": "mbelt_leather",
     "id": "mbelt_pockets_greater",
-    "name": { "str": "Greater Girdle of Pockets", "str_pl": "Greater Girdles of Pockets" },
-    "description": "A wide girdle that fits around your waist, coverd in numerous small pouches that hold a lot more than they should, and the weight of their contents is greatly reduced.",
+    "name": { "str": "greater dimensional toolbelt" },
+    "description": "A heavy duty workman's belt that fits around your waist, covered in easy to access pouches.  Like all dimensional spaces, they hold far more than they should with a substantial weight reduction.",
     "coverage": 10,
     "encumbrance": 6,
-    "weight_capacity_bonus": "10 kg",
+    "max_encumbrance": 8,
     "pocket_data": [
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 },
-      { "pocket_type": "CONTAINER", "max_contains_volume": "5 L", "max_contains_weight": "12 kg", "moves": 80 }
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "moves": 80,
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "moves": 80,
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "moves": 80,
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
+      },
+      {
+        "pocket_type": "CONTAINER",
+        "max_contains_volume": "5 L",
+        "max_contains_weight": "12 kg",
+        "moves": 80,
+        "weight_multiplier": 0.3,
+        "volume_multiplier": 0.2
+      }
     ]
   },
   {

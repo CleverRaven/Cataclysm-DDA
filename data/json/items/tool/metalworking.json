@@ -27,7 +27,7 @@
     "price_postapoc": 750,
     "to_hit": -5,
     "bashing": 20,
-    "material": "bronze",
+    "material": [ "bronze" ],
     "symbol": ";",
     "color": "yellow",
     "qualities": [ [ "ANVIL", 2 ] ],
@@ -47,7 +47,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "red",
-    "use_action": "BOLTCUTTERS",
+    "use_action": [ "BOLTCUTTERS" ],
     "flags": [ "BELT_CLIP" ]
   },
   {
@@ -61,13 +61,21 @@
     "price_postapoc": 3000,
     "to_hit": -2,
     "bashing": 9,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "ammo": [ "charcoal" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 500 } } ],
     "sub": "forge",
     "max_charges": 500,
     "flags": [ "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "rock_forge_pseudo",
+    "type": "TOOL",
+    "name": { "str": "Rock Forge" },
+    "copy-from": "char_forge",
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "charcoal": 40000 } } ]
   },
   {
     "id": "char_kiln",
@@ -81,7 +89,7 @@
     "price_postapoc": 1000,
     "to_hit": -2,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -98,7 +106,7 @@
     "to_hit": -1,
     "bashing": 4,
     "cutting": 2,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "CHISEL", 3 ] ],
@@ -115,7 +123,7 @@
     "price_postapoc": 750,
     "to_hit": -2,
     "bashing": 10,
-    "material": "ceramic",
+    "material": [ "ceramic" ],
     "symbol": ";",
     "color": "dark_gray",
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -131,7 +139,7 @@
     "price_postapoc": 250,
     "to_hit": -2,
     "bashing": 10,
-    "material": "clay",
+    "material": [ "clay" ],
     "symbol": ";",
     "color": "brown",
     "qualities": [ [ "COOK", 1 ], [ "CHEM", 1 ], [ "BOIL", 2 ], [ "CONTAIN", 1 ] ]
@@ -173,7 +181,7 @@
     "price": 100,
     "price_postapoc": 500,
     "to_hit": -2,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "brown"
   },
@@ -251,7 +259,7 @@
     "price_postapoc": 250,
     "to_hit": 1,
     "bashing": 10,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "flags": [ "DURABLE_MELEE" ]
@@ -266,11 +274,25 @@
     "price": 1600,
     "price_postapoc": 10,
     "bashing": 3,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
     "qualities": [ [ "COOK", 1 ] ],
-    "use_action": "HEAT_FOOD",
+    "use_action": [ "HEAT_FOOD" ],
     "flags": [ "BELT_CLIP", "ALLOWS_REMOTE_USE" ]
+  },
+  {
+    "id": "sandpaper",
+    "type": "TOOL",
+    "name": { "str": "sandpaper", "str_pl": "sheets of sandpaper" },
+    "description": "A sheet of rough paper.  It is commonly used in metalworking and carpentry.",
+    "weight": "10 g",
+    "volume": "500 ml",
+    "price": 1600,
+    "price_postapoc": 10,
+    "material": "paper",
+    "symbol": "`",
+    "color": "brown",
+    "qualities": [ [ "FILE", 1 ] ]
   }
 ]

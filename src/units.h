@@ -10,6 +10,7 @@
 #include <limits>
 #include <map>
 #include <ostream>
+#include <sstream>
 #include <string>
 #include <type_traits>
 #include <utility>
@@ -580,6 +581,14 @@ template<typename value_type, typename tag_type>
 inline std::ostream &operator<<( std::ostream &o, const quantity<value_type, tag_type> &v )
 {
     return o << v.value() << tag_type{};
+}
+
+template<typename value_type, typename tag_type>
+inline std::string quantity_to_string( const quantity<value_type, tag_type> &v )
+{
+    std::ostringstream os;
+    os << v;
+    return os.str();
 }
 
 inline std::string display( const units::energy v )

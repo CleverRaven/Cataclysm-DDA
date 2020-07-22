@@ -20,7 +20,7 @@
 
 TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -41,7 +41,7 @@ TEST_CASE( "reload_gun_with_integral_magazine", "[reload],[gun]" )
 
 TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -74,7 +74,7 @@ TEST_CASE( "reload_gun_with_integral_magazine_using_speedloader", "[reload],[gun
 
 TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P
@@ -103,7 +103,7 @@ TEST_CASE( "reload_gun_with_swappable_magazine", "[reload],[gun]" )
     REQUIRE( glock.magazine_current() != nullptr );
     // We're expecting the magazine to end up in the inventory.
     item_location glock_loc( dummy, &glock );
-    REQUIRE( g->unload( glock_loc ) );
+    REQUIRE( dummy.unload( glock_loc ) );
     const std::vector<item *> glock_mags = dummy.items_with( []( const item & it ) {
         return it.typeId() == itype_id( "glockmag" );
     } );
@@ -150,7 +150,7 @@ static void reload_a_revolver( player &dummy, item &gun, item &ammo )
 
 TEST_CASE( "automatic_reloading_action", "[reload],[gun]" )
 {
-    player &dummy = g->u;
+    player &dummy = get_avatar();
 
     clear_avatar();
     // Make sure the player doesn't drop anything :P

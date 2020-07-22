@@ -110,11 +110,13 @@
     "symbol": ";",
     "color": "light_gray",
     "description": "A thin and flat knife made for throwing.  Its ineffective cutting edge and odd shape makes it unsuitable for use as a tool.",
-    "material": "steel",
+    "material": [ "steel" ],
     "volume": "100 ml",
     "weight": "460 g",
+    "to_hit": -2,
     "bashing": 1,
     "cutting": 10,
+    "flags": [ "STAB" ],
     "thrown_damage": [ { "damage_type": "stab", "amount": 14 } ]
   },
   {
@@ -128,7 +130,7 @@
     "price": 200,
     "price_postapoc": 50,
     "bashing": 5,
-    "material": "wood",
+    "material": [ "wood" ],
     "symbol": ";",
     "color": "brown",
     "ammo_type": "thrown",

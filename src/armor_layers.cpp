@@ -8,12 +8,11 @@
 #include <string>
 #include <vector>
 
-#include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h" // used for utf8_width()
+#include "character.h"
 #include "debug.h"
 #include "enums.h"
-#include "game.h"
 #include "game_inventory.h"
 #include "input.h"
 #include "inventory.h"
@@ -48,7 +47,7 @@ namespace
 {
 std::string clothing_layer( const item &worn_item );
 std::vector<std::string> clothing_properties(
-    const item &worn_item, int width, const Character & );
+    const item &worn_item, int width, const Character &, const bodypart_id &bp );
 std::vector<std::string> clothing_protection( const item &worn_item, int width );
 std::vector<std::string> clothing_flags_description( const item &worn_item );
 
@@ -169,7 +168,8 @@ void draw_mid_pane( const catacurses::window &w_sort_middle,
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     size_t i = fold_and_print( w_sort_middle, point( 1, 0 ), win_width - 1, c_white,
                                worn_item_it->type_name( 1 ) ) - 1;
-    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3, c );
+    std::vector<std::string> props = clothing_properties( *worn_item_it, win_width - 3, c,
+                                     bodypart_id( tabindex ) );
     nc_color color = c_light_gray;
     for( std::string &iter : props ) {
         print_colored_text( w_sort_middle, point( 2, ++i ), color, c_light_gray, iter );
@@ -289,7 +289,7 @@ std::string clothing_layer( const item &worn_item )
 }
 
 std::vector<std::string> clothing_properties(
-    const item &worn_item, const int width, const Character &c )
+    const item &worn_item, const int width, const Character &c, const bodypart_id &bp )
 {
     std::vector<std::string> props;
     props.reserve( 5 );
@@ -297,9 +297,9 @@ std::vector<std::string> clothing_properties(
     const std::string space = "  ";
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
     props.push_back( name_and_value( space + _( "Coverage:" ),
-                                     string_format( "%3d", worn_item.get_coverage() ), width ) );
+                                     string_format( "%3d", worn_item.get_coverage( bp ) ), width ) );
     props.push_back( name_and_value( space + _( "Encumbrance:" ),
-                                     string_format( "%3d", worn_item.get_encumber( c ) ),
+                                     string_format( "%3d", worn_item.get_encumber( c, bp ) ),
                                      width ) );
     props.push_back( name_and_value( space + _( "Warmth:" ),
                                      string_format( "%3d", worn_item.get_warmth() ), width ) );
@@ -398,7 +398,7 @@ static std::vector<layering_item_info> items_cover_bp( const Character &c, int b
     for( auto elem_it = c.worn.begin(); elem_it != c.worn.end(); ++elem_it ) {
         if( elem_it->covers( convert_bp( static_cast<body_part>( bp ) ).id() ) ) {
             s.push_back( { get_item_penalties( elem_it, c, bp ),
-                           elem_it->get_encumber( c ),
+                           elem_it->get_encumber( c, convert_bp( static_cast<body_part>( bp ) ).id() ),
                            elem_it->tname()
                          } );
         }
@@ -459,8 +459,7 @@ void player::sort_armor()
 
     int win_h = 0;
     int win_w = 0;
-    int win_x = 0;
-    int win_y = 0;
+    point win;
 
     int cont_h   = 0;
     int left_w   = 0;
@@ -500,22 +499,22 @@ void player::sort_armor()
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         win_h = std::min( TERMY, std::max( { FULL_SCREEN_HEIGHT, req_right_h, req_mid_h } ) );
         win_w = FULL_SCREEN_WIDTH + ( TERMX - FULL_SCREEN_WIDTH ) * 3 / 4;
-        win_x = TERMX / 2 - win_w / 2;
-        win_y = TERMY / 2 - win_h / 2;
+        win.x = TERMX / 2 - win_w / 2;
+        win.y = TERMY / 2 - win_h / 2;
         cont_h = win_h - 4;
         left_w = ( win_w - 4 ) / 3;
         right_w = left_w;
         middle_w = ( win_w - 4 ) - left_w - right_w;
         leftListLines = rightListLines = cont_h - 2;
-        w_sort_armor = catacurses::newwin( win_h, win_w, point( win_x, win_y ) );
-        w_sort_cat = catacurses::newwin( 1, win_w - 4, point( win_x + 2, win_y + 1 ) );
-        w_sort_left = catacurses::newwin( cont_h, left_w, point( win_x + 1, win_y + 3 ) );
+        w_sort_armor = catacurses::newwin( win_h, win_w, win );
+        w_sort_cat = catacurses::newwin( 1, win_w - 4, win + point( 2, 1 ) );
+        w_sort_left = catacurses::newwin( cont_h, left_w, win + point( 1, 3 ) );
         w_sort_middle = catacurses::newwin( cont_h - num_bp - 1, middle_w,
-                                            point( win_x + left_w + 2, win_y + 3 ) );
+                                            win + point( 2 + left_w, 3 ) );
         w_sort_right = catacurses::newwin( cont_h, right_w,
-                                           point( win_x + left_w + middle_w + 3, win_y + 3 ) );
+                                           win + point( 3 + left_w + middle_w, 3 ) );
         w_encumb = catacurses::newwin( num_bp + 1, middle_w,
-                                       point( win_x + left_w + 2, win_y + 3 + cont_h - num_bp - 1 ) );
+                                       win + point( 2 + left_w, -1 + 3 + cont_h - num_bp ) );
         ui.position_from_window( w_sort_armor );
     } );
     ui.mark_resize();
@@ -535,10 +534,11 @@ void player::sort_armor()
     ctxt.register_action( "USAGE_HELP" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
 
-    auto do_return_entry = []() {
-        g->u.assign_activity( ACT_ARMOR_LAYERS, 0 );
-        g->u.activity.auto_resume = true;
-        g->u.activity.moves_left = INT_MAX;
+    Character &player_character = get_player_character();
+    auto do_return_entry = [&player_character]() {
+        player_character.assign_activity( ACT_ARMOR_LAYERS, 0 );
+        player_character.activity.auto_resume = true;
+        player_character.activity.moves_left = INT_MAX;
     };
 
     int leftListSize = 0;
@@ -711,17 +711,17 @@ void player::sort_armor()
     while( !exit ) {
         if( is_player() ) {
             // Totally hoisted this from advanced_inv
-            if( g->u.moves < 0 ) {
+            if( player_character.moves < 0 ) {
                 do_return_entry();
                 return;
             }
         } else {
             // Player is sorting NPC's armor here
-            if( rl_dist( g->u.pos(), pos() ) > 1 ) {
+            if( rl_dist( player_character.pos(), pos() ) > 1 ) {
                 add_msg_if_npc( m_bad, _( "%s is too far to sort armor." ), name );
                 return;
             }
-            if( attitude_to( g->u ) != Creature::A_FRIENDLY ) {
+            if( attitude_to( player_character ) != Creature::Attitude::FRIENDLY ) {
                 add_msg_if_npc( m_bad, _( "%s is not friendly!" ), name );
                 return;
             }
@@ -743,7 +743,7 @@ void player::sort_armor()
                 }
                 worn.splice( to, worn, tmp_worn[selected] );
                 selected = leftListIndex;
-                reset_encumbrance();
+                calc_encumbrance();
             }
         };
 
@@ -802,9 +802,9 @@ void player::sort_armor()
             }
         } else if( action == "CHANGE_SIDE" ) {
             if( leftListIndex < leftListSize && tmp_worn[leftListIndex]->is_sided() ) {
-                if( g->u.query_yn( _( "Swap side for %s?" ),
-                                   colorize( tmp_worn[leftListIndex]->tname(),
-                                             tmp_worn[leftListIndex]->color_in_inventory() ) ) ) {
+                if( player_character.query_yn( _( "Swap side for %s?" ),
+                                               colorize( tmp_worn[leftListIndex]->tname(),
+                                                       tmp_worn[leftListIndex]->color_in_inventory() ) ) ) {
                     change_side( *tmp_worn[leftListIndex] );
                 }
             }
@@ -818,7 +818,7 @@ void player::sort_armor()
             }
                             );
             std::copy( worn_copy.begin(), worn_copy.end(), worn.begin() );
-            reset_encumbrance();
+            calc_encumbrance();
         } else if( action == "EQUIP_ARMOR" ) {
             // filter inventory for all items that are armor/clothing
             item_location loc = game_menus::inv::wear( *this );
@@ -867,16 +867,16 @@ void player::sort_armor()
         } else if( action == "REMOVE_ARMOR" ) {
             // query (for now)
             if( leftListIndex < leftListSize ) {
-                if( g->u.query_yn( _( "Remove selected armor?" ) ) ) {
+                if( player_character.query_yn( _( "Remove selected armor?" ) ) ) {
                     do_return_entry();
                     // remove the item, asking to drop it if necessary
                     takeoff( *tmp_worn[leftListIndex] );
-                    if( !g->u.has_activity( ACT_ARMOR_LAYERS ) ) {
+                    if( !player_character.has_activity( ACT_ARMOR_LAYERS ) ) {
                         // An activity has been created to take off the item;
                         // we must surrender control until it is done.
                         return;
                     }
-                    g->u.cancel_activity();
+                    player_character.cancel_activity();
                     selected = -1;
                 }
             }

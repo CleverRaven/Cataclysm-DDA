@@ -3110,5 +3110,30 @@
       "ter_set": "t_window_frame",
       "items": [ { "item": "glass_shard", "count": [ 68, 100 ] } ]
     }
+  },
+  {
+    "type": "terrain",
+    "id": "t_porthole",
+    "name": "porthole",
+    "description": "A thick round window surrounded with a strong metal frame, the window is sealed closed.",
+    "looks_like": "t_laminated_glass",
+    "symbol": "o",
+    "color": "light_gray",
+    "move_cost": 0,
+    "roof": "t_metal_flat_roof",
+    "flags": [ "TRANSPARENT", "NOITEM", "CONNECT_TO_WALL", "THIN_OBSTACLE", "BLOCK_WIND", "REDUCE_SCENT" ],
+    "bash": {
+      "str_min": 50,
+      "str_max": 75,
+      "sound": "metal screeching!",
+      "sound_fail": "clang!",
+      "ter_set": "t_metal_floor",
+      "items": [
+        { "item": "steel_lump", "prob": 55 },
+        { "item": "steel_chunk", "count": [ 1, 4 ] },
+        { "item": "scrap", "count": [ 1, 5 ] },
+        { "item": "glass_shard", "count": [ 20, 50 ] }
+      ]
+    }
   }
 ]

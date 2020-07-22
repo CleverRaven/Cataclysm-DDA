@@ -1,14 +1,16 @@
-{
-  "type": "snippet",
-  "category": "hint",
-  "text": [
-    "I've seen some big dinosaurs out there.  I know that should be scary, but all I felt was hungry.",
-    "I think those little dinosaurs are kind of cute, like a cat kind of.  Do you think they eat cat food?",
-    "Dinosaurs are a bow hunter's best friend.  Feathers forever!",
-    "A buddy of mine wandered close to the swamps and was eaten by a T-Rex, a big lizard.  I'd be careful unless you have a gun and plenty of ammo.",
-    "I hear the zombies have been in the swamps.  Bad news if they bite a dinosaur before it bites them.",
-    "I know there aren't alligators in the sewer, but I heard there was some kind of big lizard down there.  Probably not a good idea to check.",
-    "Some of those big dinosaurs seem halfway all right.  I bet if you fed them something nice and gave them a pet you could ride them like a pony.  Or maybe they'd eat you instead.",
-    "One time I found a strange egg out in the woods.  It was probably a dinosaur, but I cooked it and it was pretty good!"
-  ]
-}
+[
+  {
+    "type": "snippet",
+    "category": "hint",
+    "text": [
+      "I've seen some big dinosaurs out there.  I know that should be scary, but all I felt was hungry.",
+      "I think those little dinosaurs are kind of cute, like a cat kind of.  Do you think they eat cat food?",
+      "Dinosaurs are a bow hunter's best friend.  Feathers forever!",
+      "A buddy of mine wandered close to the swamps and was eaten by a T-Rex, a big lizard.  I'd be careful unless you have a gun and plenty of ammo.",
+      "I hear the zombies have been in the swamps.  Bad news if they bite a dinosaur before it bites them.",
+      "I know there aren't alligators in the sewer, but I heard there was some kind of big lizard down there.  Probably not a good idea to check.",
+      "Some of those big dinosaurs seem halfway all right.  I bet if you fed them something nice and gave them a pet you could ride them like a pony.  Or maybe they'd eat you instead.",
+      "One time I found a strange egg out in the woods.  It was probably a dinosaur, but I cooked it and it was pretty good!"
+    ]
+  }
+]

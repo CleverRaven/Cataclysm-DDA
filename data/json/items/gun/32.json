@@ -37,6 +37,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -55,12 +56,12 @@
     "description": "The Skorpion Vz. 61 is a Czechoslovak submachine gun from the 1950s, chambered in .32 ACP.",
     "weight": "1300 g",
     "volume": "788 ml",
-    "longest_side": "1116 mm",
+    "longest_side": "298 mm",
     "price": 150000,
     "price_postapoc": 2500,
     "to_hit": -2,
     "bashing": 9,
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "(",
     "color": "dark_gray",
     "ammo": [ "32" ],
@@ -133,6 +134,7 @@
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
     "pocket_data": [
       {
+        "magazine_well": "250 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
@@ -163,6 +165,7 @@
     "min_cycle_recoil": 135,
     "pocket_data": [
       {
+        "magazine_well": "41 ml",
         "pocket_type": "MAGAZINE_WELL",
         "holster": true,
         "max_contains_volume": "20 L",
