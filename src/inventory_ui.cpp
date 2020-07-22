@@ -230,16 +230,7 @@ inventory_selector_preset::inventory_selector_preset()
 bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
-    Character &player_character = get_player_character();
-    // Place items with an assigned inventory letter first, since the player cared enough to assign them
-    const bool left_fav  = player_character.inv.assigned_invlet.count( lhs.any_item()->invlet );
-    const bool right_fav = player_character.inv.assigned_invlet.count( rhs.any_item()->invlet );
-    if( left_fav == right_fav ) {
-        return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
-    } else if( left_fav ) {
-        return true;
-    }
-    return false;
+    return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
 }
 
 nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) const
@@ -817,6 +808,19 @@ void inventory_column::prepare_paging( const std::string &filter )
                 std::sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
                     if( lhs.is_selectable() != rhs.is_selectable() ) {
                         return lhs.is_selectable(); // Disabled items always go last
+                    }
+                    Character &player_character = get_player_character();
+                    // Place favorite items and items with an assigned inventory letter first,
+                    // since the player cared enough to assign them
+                    const bool left_has_invlet = player_character.inv.assigned_invlet.count( lhs.any_item()->invlet );
+                    const bool right_has_invlet = player_character.inv.assigned_invlet.count( rhs.any_item()->invlet );
+                    if( left_has_invlet != right_has_invlet ) {
+                        return left_has_invlet;
+                    }
+                    const bool left_fav = lhs.any_item()->is_favorite;
+                    const bool right_fav = rhs.any_item()->is_favorite;
+                    if( left_fav != right_fav ) {
+                        return left_fav;
                     }
                     return preset.sort_compare( lhs, rhs );
                 } );
