@@ -1492,7 +1492,7 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
         int new_cur = std::ceil( static_cast<float>( part.second.get_hp_cur() ) * max_hp_ratio );
 
         part.second.set_hp_max( std::max( new_max, 1 ) );
-        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 1 ) );
+        part.second.set_hp_cur( std::max( std::min( new_cur, new_max ), 0 ) );
     }
 }
 
