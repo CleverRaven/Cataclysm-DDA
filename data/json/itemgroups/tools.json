@@ -25,7 +25,7 @@
       [ "nailgun", 100 ],
       [ "chisel", 10 ],
       { "group": "tools_toolbox", "prob": 12 },
-      [ "toolbox_workshop", 3 ],
+      { "group": "tools_workshop", "prob": 3 },
       [ "sandpaper", 100 ]
     ]
   },
@@ -41,7 +41,7 @@
       [ "metal_smoother", 90 ],
       [ "jackhammer", 40 ],
       { "group": "tools_toolbox", "prob": 20 },
-      [ "toolbox_workshop", 5 ],
+      { "group": "tools_workshop", "prob": 5 },
       [ "recharge_station", 10 ],
       [ "angle_grinder", 30 ]
     ]
@@ -90,6 +90,29 @@
       [ "funnel", 50 ],
       [ "metal_file", 40 ],
       [ "sandpaper", 65 ]
+    ]
+  },
+  {
+    "id": "tools_workshop",
+    "type": "item_group",
+    "//": "A typical toolbox filled with tools.",
+    "subtype": "collection",
+    "container-item": "toolbox_empty",
+    "items": [
+      [ "hammer", 80 ],
+      [ "screwdriver_set", 65 ],
+      [ "wrench", 75 ],
+      [ "funnel", 50 ],
+      [ "metal_file", 40 ],
+      [ "sandpaper", 65 ],
+      [ "hacksaw", 30 ],
+      [ "saw", 65 ],
+      [ "pin_reamer", 18 ],
+      [ "clamp", 30 ],
+      [ "boxcutter", 20 ],
+      [ "nailgun", 15 ],
+      [ "circsaw_off", 25 ],
+      [ "cordless_drill", 45 ]
     ]
   },
   {
@@ -245,7 +268,7 @@
       { "group": "tools_lighting", "prob": 50 },
       { "group": "tools_tailor", "prob": 50 },
       { "group": "tools_toolbox", "prob": 4 },
-      [ "toolbox_workshop", 1 ]
+      { "group": "tools_workshop", "prob": 1 }
     ]
   },
   {
