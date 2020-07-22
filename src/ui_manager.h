@@ -4,6 +4,7 @@
 
 #include <functional>
 
+#include "box_rectangle.h"
 #include "point.h"
 
 namespace catacurses

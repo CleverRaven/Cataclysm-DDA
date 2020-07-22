@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 
+#include "box_rectangle.h"
 #include "catch/catch.hpp"
 #include "coordinates.h"
 #include "point.h"

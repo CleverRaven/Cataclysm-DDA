@@ -2,6 +2,7 @@
 #ifndef CATA_TESTS_STRINGMAKER_H
 #define CATA_TESTS_STRINGMAKER_H
 
+#include "box_rectangle.h"
 #include "catch/catch.hpp"
 #include "cata_variant.h"
 #include "dialogue.h"

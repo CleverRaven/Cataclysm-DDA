@@ -11,6 +11,7 @@
 #include <array>
 #include <string>
 
+#include "box_rectangle.h"
 #include "catacharset.h"
 #include "color.h"
 #include "common_types.h"
