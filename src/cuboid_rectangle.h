@@ -1,5 +1,5 @@
-#ifndef CATA_SRC_BOX_RECTANGLE_H
-#define CATA_SRC_BOX_RECTANGLE_H
+#ifndef CATA_SRC_CUBOID_RECTANGLE_H
+#define CATA_SRC_CUBOID_RECTANGLE_H
 
 #include "point.h"
 
@@ -7,7 +7,8 @@ struct rectangle {
     point p_min;
     point p_max;
     constexpr rectangle() = default;
-    constexpr rectangle( const point &P_MIN, const point &P_MAX ) : p_min( P_MIN ), p_max( P_MAX ) {}
+    constexpr rectangle( const point &P_MIN, const point &P_MAX ) :
+        p_min( P_MIN ), p_max( P_MAX ) {}
 };
 
 struct half_open_rectangle : rectangle {
@@ -36,13 +37,14 @@ struct inclusive_rectangle : rectangle {
 point clamp( const point &p, const half_open_rectangle &r );
 point clamp( const point &p, const inclusive_rectangle &r );
 
-struct box {
+struct cuboid {
     tripoint p_min;
     tripoint p_max;
-    constexpr box() = default;
-    constexpr box( const tripoint &P_MIN, const tripoint &P_MAX ) : p_min( P_MIN ), p_max( P_MAX )
+    constexpr cuboid() = default;
+    constexpr cuboid( const tripoint &P_MIN, const tripoint &P_MAX ) :
+        p_min( P_MIN ), p_max( P_MAX )
     {}
-    explicit constexpr box( const rectangle &R, int Z1, int Z2 ) :
+    explicit constexpr cuboid( const rectangle &R, int Z1, int Z2 ) :
         p_min( tripoint( R.p_min, Z1 ) ), p_max( tripoint( R.p_max, Z2 ) ) {}
 
     void shrink( const tripoint &amount ) {
@@ -51,8 +53,8 @@ struct box {
     }
 };
 
-struct half_open_box : box {
-    using box::box;
+struct half_open_cuboid : cuboid {
+    using cuboid::cuboid;
 
     constexpr bool contains( const tripoint &p ) const {
         return p.x >= p_min.x && p.x < p_max.x &&
@@ -61,8 +63,8 @@ struct half_open_box : box {
     }
 };
 
-struct inclusive_box : box {
-    using box::box;
+struct inclusive_cuboid : cuboid {
+    using cuboid::cuboid;
 
     constexpr bool contains( const tripoint &p ) const {
         return p.x >= p_min.x && p.x <= p_max.x &&
@@ -71,9 +73,7 @@ struct inclusive_box : box {
     }
 };
 
-// Need to use 'struct box' to disambiguate from the ncurses function 'box'
-// (relevant only for when this header is included by ncurses_def.cpp).
-static constexpr struct box box_zero( tripoint_zero, tripoint_zero );
+static constexpr cuboid cuboid_zero( tripoint_zero, tripoint_zero );
 static constexpr rectangle rectangle_zero( point_zero, point_zero );
 
-#endif // CATA_SRC_BOX_RECTANGLE_H
+#endif // CATA_SRC_CUBOID_RECTANGLE_H

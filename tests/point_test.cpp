@@ -1,9 +1,9 @@
 #include <string>
 #include <vector>
 
-#include "box_rectangle.h"
 #include "catch/catch.hpp"
 #include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "point.h"
 
 TEST_CASE( "rectangle_containment", "[point]" )
@@ -25,9 +25,9 @@ TEST_CASE( "rectangle_containment", "[point]" )
     CHECK( !r2.contains( point( 0, 3 ) ) );
 }
 
-TEST_CASE( "box_shrinks", "[point]" )
+TEST_CASE( "cuboid_shrinks", "[point]" )
 {
-    half_open_box b( tripoint_zero, tripoint( 3, 3, 3 ) );
+    half_open_cuboid b( tripoint_zero, tripoint( 3, 3, 3 ) );
     CAPTURE( b );
     CHECK( b.contains( tripoint( 1, 0, 0 ) ) ); // NOLINT(cata-use-named-point-constants)
     CHECK( b.contains( tripoint( 2, 1, 2 ) ) );

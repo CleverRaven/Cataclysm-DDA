@@ -5,9 +5,9 @@
 #include <cstdlib>
 
 #include "assign.h"
-#include "box_rectangle.h"
 #include "calendar.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "game.h"

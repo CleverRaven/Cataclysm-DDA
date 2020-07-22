@@ -1,4 +1,4 @@
-#include "box_rectangle.h"
+#include "cuboid_rectangle.h"
 
 #include "cata_utility.h"
 
