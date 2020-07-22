@@ -6845,7 +6845,7 @@ bool Character::is_immune_effect( const efftype_id &eff ) const
 bool Character::is_immune_damage( const damage_type dt ) const
 {
     switch( dt ) {
-        case DT_NULL:
+        case DT_NONE:
             return true;
         case DT_TRUE:
             return false;
@@ -7770,7 +7770,7 @@ int Character::get_armor_type( damage_type dt, bodypart_id bp ) const
             ret += mutation_armor( bp, dt );
             return ret;
         }
-        case DT_NULL:
+        case DT_NONE:
         case NUM_DT:
             // Let it error below
             break;

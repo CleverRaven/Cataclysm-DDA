@@ -1401,7 +1401,7 @@ bool character_martial_arts::has_technique( const Character &guy, const matec_id
 
 static damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt )
 {
-    static damage_unit nullunit( DT_NULL, 0, 0, 0, 0 );
+    static damage_unit nullunit( DT_NONE, 0, 0, 0, 0 );
     for( auto &du : di ) {
         if( du.type == dt && du.amount > 0 ) {
             return du;
