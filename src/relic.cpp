@@ -125,7 +125,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
     for( const JsonObject &jo_inner : jo.get_array( "type_weights" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
-        relic_procgen_data::type val;
+        relic_procgen_data::type val = relic_procgen_data::type::last;
         mandatory( jo_inner, was_loaded, "value", val );
 
         type_weights.add( val, weight );
