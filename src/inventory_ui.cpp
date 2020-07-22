@@ -862,7 +862,8 @@ void inventory_column::prepare_paging( const std::string &filter )
         entries_unfiltered = entries;
     }
     // Select the uppermost possible entry
-    select( selected_index, selected_index ? scroll_direction::BACKWARD : scroll_direction::FORWARD );
+    const size_t ind = selected_index >= entries.size() ? 0 : selected_index;
+    select( ind, ind ? scroll_direction::BACKWARD : scroll_direction::FORWARD );
 }
 
 void inventory_column::clear()
@@ -1441,6 +1442,9 @@ inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate 
 // once screen width becomes enough for the columns.
 void inventory_selector::rearrange_columns( size_t client_width )
 {
+    const inventory_entry &prev_entry = get_selected();
+    const item_location prev_selection = prev_entry.is_item() ?
+                                         prev_entry.any_item() : item_location::nowhere;
     while( is_overflown( client_width ) ) {
         if( !own_gear_column.empty() ) {
             own_gear_column.move_entries_to( own_inv_column );
@@ -1449,6 +1453,9 @@ void inventory_selector::rearrange_columns( size_t client_width )
         } else {
             break;  // There's nothing we can do about it.
         }
+    }
+    if( prev_selection ) {
+        select( prev_selection );
     }
 }
 
