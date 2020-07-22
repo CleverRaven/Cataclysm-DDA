@@ -545,7 +545,7 @@
         "pocket_type": "CONTAINER",
         "min_item_volume": "2 ml",
         "rigid": true,
-        "max_contains_volume": "2990 ml",
+        "max_contains_volume": "42 L",
         "max_contains_weight": "18 kg",
         "magazine_well": "2 L",
         "moves": 600
@@ -564,7 +564,6 @@
     "description": "A very large cardboard box, the sort children would have loved to hide in, when there were still children.",
     "weight": "1250 g",
     "volume": "501 L",
-    "//": "Volume is much lower than the actual volume of a box this size because presumably if it's in your pack, it isn't empty and full of air; and if it's in your hands, it's irrelevant what the volume is.",
     "price": 0,
     "price_postapoc": 10,
     "material": [ "cardboard" ],
