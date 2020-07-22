@@ -179,11 +179,6 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
 
         item_location location = inv_s.execute();
 
-        if( inv_s.keep_open ) {
-            inv_s.keep_open = false;
-            continue;
-        }
-
         if( u.has_activity( consuming ) ) {
             u.activity.values.clear();
             init_pair = inv_s.get_selection_position();
@@ -220,12 +215,7 @@ void game_menus::inv::common( avatar &you )
         const item_location &location = inv_s.execute();
 
         if( location == item_location::nowhere ) {
-            if( inv_s.keep_open ) {
-                inv_s.keep_open = false;
-                continue;
-            } else {
-                break;
-            }
+            break;
         }
 
         res = g->inventory_item_menu( location );
@@ -253,12 +243,7 @@ void game_menus::inv::common( item_location &loc, avatar &you )
         const item_location &location = inv_s.execute();
 
         if( location == item_location::nowhere ) {
-            if( inv_s.keep_open ) {
-                inv_s.keep_open = false;
-                continue;
-            } else {
-                break;
-            }
+            break;
         }
 
         res = g->inventory_item_menu( location );
@@ -1663,11 +1648,6 @@ static item_location autodoc_internal( player &u, player &patient,
 
         item_location location = inv_s.execute();
 
-        if( inv_s.keep_open ) {
-            inv_s.keep_open = false;
-            continue;
-        }
-
         return location;
 
     } while( true );
@@ -2020,11 +2000,6 @@ static item_location autoclave_internal( player &u,
         }
 
         item_location location = inv_s.execute();
-
-        if( inv_s.keep_open ) {
-            inv_s.keep_open = false;
-            continue;
-        }
 
         return location;
 

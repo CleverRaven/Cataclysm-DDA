@@ -518,8 +518,6 @@ class inventory_selector
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
 
-        bool keep_open = false;
-
     protected:
         Character &u;
         const inventory_selector_preset &preset;

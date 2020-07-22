@@ -648,25 +648,31 @@ void inventory_column::set_stack_favorite( std::vector<item_location> &locations
 
 void inventory_column::on_input( const inventory_input &input )
 {
-    if( empty() || !active ) {
-        return; // ignore
+
+    if( !empty() && active ) {
+        if( input.action == "DOWN" ) {
+            move_selection( scroll_direction::FORWARD );
+        } else if( input.action == "UP" ) {
+            move_selection( scroll_direction::BACKWARD );
+        } else if( input.action == "NEXT_TAB" ) {
+            move_selection_page( scroll_direction::FORWARD );
+        } else if( input.action == "PREV_TAB" ) {
+            move_selection_page( scroll_direction::BACKWARD );
+        } else if( input.action == "HOME" ) {
+            select( 0, scroll_direction::FORWARD );
+        } else if( input.action == "END" ) {
+            select( entries.size() - 1, scroll_direction::BACKWARD );
+        } else if( input.action == "TOGGLE_FAVORITE" ) {
+            inventory_entry &selected = get_selected();
+            set_stack_favorite( selected.locations, !selected.any_item()->is_favorite );
+        }
     }
 
-    if( input.action == "DOWN" ) {
-        move_selection( scroll_direction::FORWARD );
-    } else if( input.action == "UP" ) {
-        move_selection( scroll_direction::BACKWARD );
-    } else if( input.action == "NEXT_TAB" ) {
-        move_selection_page( scroll_direction::FORWARD );
-    } else if( input.action == "PREV_TAB" ) {
-        move_selection_page( scroll_direction::BACKWARD );
-    } else if( input.action == "HOME" ) {
-        select( 0, scroll_direction::FORWARD );
-    } else if( input.action == "END" ) {
-        select( entries.size() - 1, scroll_direction::BACKWARD );
-    } else if( input.action == "TOGGLE_FAVORITE" ) {
-        inventory_entry &selected = get_selected();
-        set_stack_favorite( selected.locations, !selected.any_item()->is_favorite );
+    if( input.action == "TOGGLE_FAVORITE" ) {
+        // Favoriting items in one column may change item names in another column
+        // if that column contains an item that contains the favorited item. So
+        // we invalidate every column on TOGGLE_FAVORITE action.
+        paging_is_valid = false;
     }
 }
 
@@ -1894,7 +1900,11 @@ void inventory_selector::on_input( const inventory_input &input )
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
         if( input.action == "TOGGLE_FAVORITE" ) {
-            keep_open = true;
+            // Favoriting items changes item name length which may require resizing
+            shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+            if( current_ui ) {
+                current_ui->mark_resize();
+            }
         }
     }
 }
@@ -2095,10 +2105,6 @@ item_location inventory_pick_selector::execute()
             set_filter();
         } else {
             on_input( input );
-        }
-
-        if( input.action == "TOGGLE_FAVORITE" ) {
-            return item_location();
         }
     }
 }
