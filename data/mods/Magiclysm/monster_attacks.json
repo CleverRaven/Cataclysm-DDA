@@ -33,7 +33,7 @@
     "name": { "str": "Hellfire Belch" },
     "description": "Spits supernatural napalm from your mouth.",
     "valid_targets": [ "hostile", "ally", "ground" ],
-    "damage_type": "fire",
+    "damage_type": "heat",
     "max_level": 30,
     "min_damage": 6,
     "max_damage": 180,

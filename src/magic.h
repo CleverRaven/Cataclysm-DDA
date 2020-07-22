@@ -264,7 +264,7 @@ class spell_type
         // what energy do you use to cast this spell
         magic_energy_type energy_source = magic_energy_type::none;
 
-        damage_type dmg_type = damage_type::DT_NULL;
+        damage_type dmg_type = damage_type::DT_NONE;
 
         // list of valid targets to be affected by the area of effect.
         enum_bitset<spell_target> effect_targets;

@@ -254,7 +254,7 @@
     "min_damage": 15,
     "max_damage": 60,
     "damage_increment": 2.5,
-    "damage_type": "fire",
+    "damage_type": "heat",
     "min_range": 10,
     "max_range": 25,
     "range_increment": 1.0

@@ -5187,7 +5187,7 @@ int item::attack_time() const
 
 int item::damage_melee( damage_type dt ) const
 {
-    assert( dt >= DT_NULL && dt < NUM_DT );
+    assert( dt >= DT_NONE && dt < NUM_DT );
     if( is_null() ) {
         return 0;
     }
@@ -5234,7 +5234,7 @@ damage_instance item::base_damage_melee() const
 {
     // TODO: Caching
     damage_instance ret;
-    for( size_t i = DT_NULL + 1; i < NUM_DT; i++ ) {
+    for( size_t i = DT_NONE + 1; i < NUM_DT; i++ ) {
         damage_type dt = static_cast<damage_type>( i );
         int dam = damage_melee( dt );
         if( dam > 0 ) {
@@ -6240,7 +6240,7 @@ bool item::mod_damage( int qty, damage_type dt )
 
 bool item::mod_damage( const int qty )
 {
-    return mod_damage( qty, DT_NULL );
+    return mod_damage( qty, DT_NONE );
 }
 
 bool item::inc_damage( const damage_type dt )
@@ -6250,7 +6250,7 @@ bool item::inc_damage( const damage_type dt )
 
 bool item::inc_damage()
 {
-    return inc_damage( DT_NULL );
+    return inc_damage( DT_NONE );
 }
 
 nc_color item::damage_color() const
@@ -6364,7 +6364,7 @@ void item::mitigate_damage( damage_unit &du ) const
 int item::damage_resist( damage_type dt, bool to_self ) const
 {
     switch( dt ) {
-        case DT_NULL:
+        case DT_NONE:
         case NUM_DT:
             return 0;
         case DT_TRUE:
@@ -6703,7 +6703,7 @@ bool item::is_ammo_container() const
 
 bool item::is_melee() const
 {
-    for( int idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
+    for( int idx = DT_NONE + 1; idx != NUM_DT; ++idx ) {
         if( is_melee( static_cast<damage_type>( idx ) ) ) {
             return true;
         }
@@ -7215,7 +7215,7 @@ skill_id item::melee_skill() const
     int hi = 0;
     skill_id res = skill_id::NULL_ID();
 
-    for( int idx = DT_NULL + 1; idx != NUM_DT; ++idx ) {
+    for( int idx = DT_NONE + 1; idx != NUM_DT; ++idx ) {
         const int val = damage_melee( static_cast<damage_type>( idx ) );
         const skill_id &sk  = skill_by_dt( static_cast<damage_type>( idx ) );
         if( val > hi && sk ) {

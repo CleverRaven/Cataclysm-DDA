@@ -17,6 +17,6 @@
     "spell_class": "NONE",
     "flags": [ "SILENT", "NO_LEGS", "NO_HANDS", "RANDOM_DAMAGE", "RANDOM_DURATION", "RANDOM_TARGET" ],
     "energy_source": "NONE",
-    "damage_type": "bio"
+    "damage_type": "biological"
   }
 ]

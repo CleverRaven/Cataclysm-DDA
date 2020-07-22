@@ -785,12 +785,12 @@ static void check_assigned_dmg( const JsonObject &err, const std::string &name,
     for( const damage_unit &out_dmg : out.damage_units ) {
         auto lo_iter = std::find_if( lo_inst.damage_units.begin(),
         lo_inst.damage_units.end(), [&out_dmg]( const damage_unit & du ) {
-            return du.type == out_dmg.type || du.type == DT_NULL;
+            return du.type == out_dmg.type || du.type == DT_NONE;
         } );
 
         auto hi_iter = std::find_if( hi_inst.damage_units.begin(),
         hi_inst.damage_units.end(), [&out_dmg]( const damage_unit & du ) {
-            return du.type == out_dmg.type || du.type == DT_NULL;
+            return du.type == out_dmg.type || du.type == DT_NONE;
         } );
 
         if( lo_iter == lo_inst.damage_units.end() ) {
@@ -821,8 +821,8 @@ static void check_assigned_dmg( const JsonObject &err, const std::string &name,
 
 inline bool assign( const JsonObject &jo, const std::string &name, damage_instance &val,
                     bool strict = false,
-                    const damage_instance &lo = damage_instance( DT_NULL, 0.0f, 0.0f, 0.0f, 0.0f ),
-                    const damage_instance &hi = damage_instance( DT_NULL, float_max, float_max, float_max,
+                    const damage_instance &lo = damage_instance( DT_NONE, 0.0f, 0.0f, 0.0f, 0.0f ),
+                    const damage_instance &hi = damage_instance( DT_NONE, float_max, float_max, float_max,
                             float_max ) )
 {
     // What we'll eventually be returning for the damage instance
