@@ -123,16 +123,16 @@ def tile_convert(otile, main_id, new_tile_number):
                     print("  offsetting " + str(ntile[g][0]))
                     converted_tile_ids[(ntile[g][0], 0)] = True
                     # offset this flat tile
+                    tile_png = "tile-{:0>6d}.png".format(otile[g][0])
                     command = (
-                        'convert -background transparent ' + new_tileset_name + '/tiles/tile-' + "{:0>6d}".format(otile[g][0]) + '.png' +
+                        'convert -background transparent ' + new_tiles_dir + '/' + tile_png +
                         (' -fill transparent -draw "color 0,0 floodfill"' if args.floodfill else '') +
                         ' -extent ' + str(nwidth) + 'x' + str(nheight) +
                         '-' + str(int((nwidth - owidth) / 2)) + '-' + str(int((nheight - oheight) - flat_sprite_offset)) + ' ' +
-                        '+repage ' +
-                        new_tileset_name + '/tiles/to_merge/tile-' + '{:0>6d}'.format(otile[g][0]) + '.png')
+                        '+repage ' + new_tiles_dir + '/to_merge/' + tile_png)
                     print(command)
                     if os.system(command):
-                        raise
+                        raise RuntimeError("Failed to offset %s" % tile_png)
         else:
             ntile[g] = otile[g]
             # iso-ize each existing rotation of this tile
