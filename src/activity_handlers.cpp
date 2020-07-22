@@ -2412,11 +2412,11 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     map &here = get_map();
     const tripoint &pos = act->placement;
     const ter_id ter = here.ter( pos );
-
+    const furn_id furn = here.furn( pos );
     // fast players might still have some charges left to be consumed
     act->targets.front()->ammo_consume( act->values[0], p->pos() );
 
-    if( here.furn( pos ) == f_rack ) {
+    if( furn == f_rack ) {
         here.furn_set( pos, f_null );
         here.spawn_item( p->pos(), itype_steel_chunk, rng( 2, 6 ) );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
@@ -2456,6 +2456,9 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     } else if( ter == t_window_bars ) {
         here.ter_set( pos, t_window_empty );
         here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+    } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
+               furn == f_gun_safe_el ) {
+        here.furn_set( pos, f_safe_o );
     }
 }
 
