@@ -400,8 +400,8 @@ static consumption_result try_consume( npc &p, item &it, std::string &reason )
             reason = _( "Thanks, I used it." );
         }
 
-        to_eat.charges -= amount_used;
         p.consume_effects( to_eat );
+        to_eat.charges -= amount_used;
         p.moves -= 250;
     } else {
         debugmsg( "Unknown comestible type of item: %s\n", to_eat.tname() );
@@ -452,11 +452,10 @@ std::string talker_npc::give_item_to( const bool to_use )
         // Eating first, to avoid evaluating bread as a weapon
         const consumption_result consume_res = try_consume( *me_npc, given, reason );
         if( consume_res != REFUSED ) {
+            player_character.moves -= 100;
             if( consume_res == CONSUMED_ALL ) {
                 player_character.i_rem( &given );
-            }
-            player_character.moves -= 100;
-            if( given.is_container() ) {
+            } else if( given.is_container() ) {
                 given.on_contents_changed();
             }
         }// wield it if its a weapon
