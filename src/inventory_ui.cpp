@@ -804,23 +804,25 @@ void inventory_column::prepare_paging( const std::string &filter )
         return !entry.is_item() || !filter_fn( entry );
     } );
     entries.erase( new_end, entries.end() );
-    // Then sort them with respect to categories
-    auto from = entries.begin();
-    while( from != entries.end() ) {
-        auto to = std::next( from );
-        while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
-            to->update_cache();
-            std::advance( to, 1 );
+    // Then sort them with respect to categories (sort only once each UI session)
+    if( entries_unfiltered.empty() ) {
+        auto from = entries.begin();
+        while( from != entries.end() ) {
+            auto to = std::next( from );
+            while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
+                to->update_cache();
+                std::advance( to, 1 );
+            }
+            if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
+                std::sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
+                    if( lhs.is_selectable() != rhs.is_selectable() ) {
+                        return lhs.is_selectable(); // Disabled items always go last
+                    }
+                    return preset.sort_compare( lhs, rhs );
+                } );
+            }
+            from = to;
         }
-        if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
-            std::sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
-                if( lhs.is_selectable() != rhs.is_selectable() ) {
-                    return lhs.is_selectable(); // Disabled items always go last
-                }
-                return preset.sort_compare( lhs, rhs );
-            } );
-        }
-        from = to;
     }
     // Recover categories
     const item_category *current_category = nullptr;
