@@ -2764,12 +2764,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
     "moves": 50 // how many move points the action takes.
 },
-"use_action": {
-    "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional json code to work
-    "activate_msg": "You activate your foo.", // Message when the player activates the item.
-    "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
-    "out_of_power_msg": "Your foo runs out of power and deactivates itself." // Message when the UPS runs out of power and the item is deactivated automatically.
-}
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
