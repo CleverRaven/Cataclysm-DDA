@@ -413,7 +413,7 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
         }
     }
     if( !bodypart_effected ) {
-        critter->add_effect( spell_effect, dur_td, bodypart_id("num_bp"));
+        critter->add_effect( spell_effect, dur_td );
     }
 }
 

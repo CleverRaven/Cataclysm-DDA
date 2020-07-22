@@ -772,7 +772,7 @@ bool trapfunc::pit( const tripoint &p, Creature *c, item * )
     }
     const float eff = pit_effectiveness( p );
     c->add_msg_player_or_npc( m_bad, _( "You fall in a pit!" ), _( "<npcname> falls in a pit!" ) );
-    c->add_effect( effect_in_pit, 1_turns, bodypart_id( "num_bp" ), true );
+    c->add_effect( effect_in_pit, 1_turns, true );
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     if( n != nullptr ) {
@@ -819,7 +819,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     }
     c->add_msg_player_or_npc( m_bad, _( "You fall in a spiked pit!" ),
                               _( "<npcname> falls in a spiked pit!" ) );
-    c->add_effect( effect_in_pit, 1_turns, bodypart_id( "num_bp" ), true );
+    c->add_effect( effect_in_pit, 1_turns, true );
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     Character &player_character = get_player_character();
@@ -904,7 +904,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     }
     c->add_msg_player_or_npc( m_bad, _( "You fall in a pit filled with glass shards!" ),
                               _( "<npcname> falls in pit filled with glass shards!" ) );
-    c->add_effect( effect_in_pit, 1_turns, bodypart_id( "num_bp" ), true );
+    c->add_effect( effect_in_pit, 1_turns, true );
     monster *z = dynamic_cast<monster *>( c );
     player *n = dynamic_cast<player *>( c );
     Character &player_character = get_player_character();

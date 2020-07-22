@@ -1713,12 +1713,6 @@ bool Character::can_switch_to( const move_mode_id &mode ) const
     return mode->type() != move_mode_type::RUNNING || can_run();
 }
 
-void Character::add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
-                            bool permanent, int intensity, bool force, bool deferred )
-{
-    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force, deferred );
-}
-
 void Character::expose_to_disease( const diseasetype_id &dis_type )
 {
     const cata::optional<int> &healt_thresh = dis_type->health_threshold;

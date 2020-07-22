@@ -527,9 +527,7 @@ bool mattack::shriek_stun( monster *z )
             continue;
         }
         if( one_in( dist / 2 ) && !( target->is_immune_effect( effect_deaf ) ) ) {
-            target->add_effect( effect_dazed, rng( 1_minutes, 2_minutes ), bodypart_id( "num_bp" ), false,
-                                rng( 1,
-                                     ( 15 - dist ) / 3 ) );
+            target->add_effect( effect_dazed, rng( 1_minutes, 2_minutes ), false, rng( 1, ( 15 - dist ) / 3 ) );
         }
 
     }
@@ -1931,7 +1929,7 @@ bool mattack::fungus_bristle( monster *z )
                                    body_part_name_accusative( hit ) );
 
         if( one_in( 15 - dam ) ) {
-            target->add_effect( effect_fungus, 20_minutes, bodypart_id( "num_bp" ), true );
+            target->add_effect( effect_fungus, 20_minutes, true );
             target->add_msg_if_player( m_warning,
                                        _( "You feel thousands of live spores pumping into you…" ) );
         }

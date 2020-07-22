@@ -1546,10 +1546,8 @@ void map::player_in_field( player &u )
         }
         if( ft == fd_fungal_haze ) {
             if( !u.has_trait( trait_M_IMMUNE ) && ( !inside || one_in( 4 ) ) ) {
-                u.add_env_effect( effect_fungus, bodypart_id( "mouth" ), 4, 10_minutes, bodypart_id( "num_bp" ),
-                                  true );
-                u.add_env_effect( effect_fungus, bodypart_id( "eyes" ), 4, 10_minutes, bodypart_id( "num_bp" ),
-                                  true );
+                u.add_env_effect( effect_fungus, bodypart_id( "mouth" ), 4, 10_minutes, true );
+                u.add_env_effect( effect_fungus, bodypart_id( "eyes" ), 4, 10_minutes, true );
             }
         }
 

@@ -1091,6 +1091,11 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         }
     }
 }
+void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, bool permanent,
+                           int intensity, bool force, bool deferred )
+{
+    add_effect( eff_id, dur, bodypart_id( "num_bp" ), permanent, intensity, force, deferred );
+}
 bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
 {
@@ -1106,6 +1111,11 @@ bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vect
     } else {
         return false;
     }
+}
+bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
+                               const time_duration &dur, bool permanent, int intensity, bool force )
+{
+    return add_env_effect( eff_id, vector, strength, dur, bodypart_id( "num_bp" ), intensity, force );
 }
 void Creature::clear_effects()
 {
@@ -1150,6 +1160,10 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
     }
     return true;
 }
+bool Creature::remove_effect( const efftype_id &eff_id )
+{
+    return remove_effect( eff_id );
+}
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
 {
     // num_bp means anything targeted or not
@@ -1165,6 +1179,11 @@ bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) con
         }
         return false;
     }
+}
+
+bool Creature::has_effect( const efftype_id &eff_id ) const
+{
+    return has_effect( eff_id, bodypart_id( "num_bp" ) );
 }
 
 bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
