@@ -17,6 +17,7 @@ class proficiency
         bool was_loaded = false;
 
         translation _name;
+        translation _description;
 
     public:
         static void load_proficiencies( const JsonObject &jo, const std::string &src );
@@ -24,6 +25,7 @@ class proficiency
         void load( const JsonObject &jo, const std::string &src );
 
         std::string name() const;
+        std::string description() const;
 };
 
 #endif // CATA_SRC_PROFICIENCY_H

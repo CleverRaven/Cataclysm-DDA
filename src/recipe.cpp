@@ -17,6 +17,7 @@
 #include "itype.h"
 #include "json.h"
 #include "mapgen_functions.h"
+#include "npc.h"
 #include "optional.h"
 #include "output.h"
 #include "player.h"
@@ -42,6 +43,17 @@ time_duration recipe::batch_duration( const Character &guy, int batch, float mul
     return time_duration::from_turns( batch_time( guy, batch, multiplier, assistants ) / 100 );
 }
 
+static bool helpers_have_proficiencies( const Character &guy, const proficiency_id &prof )
+{
+    std::vector<npc *> helpers = guy.get_crafting_helpers();
+    for( npc *helper : helpers ) {
+        if( helper->has_proficiency( prof ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 time_duration recipe::time_to_craft( const Character &guy ) const
 {
     return time_duration::from_seconds( time_to_craft_moves( guy ) / 100 );
@@ -52,7 +64,8 @@ int recipe::time_to_craft_moves( const Character &guy ) const
     int ret = time;
     for( const recipe_proficiency &prof : proficiencies ) {
         if( !prof.required ) {
-            if( !guy.has_proficiency( prof.id ) ) {
+            if( !guy.has_proficiency( prof.id ) &&
+                !helpers_have_proficiencies( guy, prof.id ) ) {
                 ret *= prof.time_multiplier;
             }
         }
@@ -548,13 +561,26 @@ std::string recipe::required_proficiencies_string( const Character &c ) const
     }
     std::string required = enumerate_as_string( required_profs.begin(),
     required_profs.end(), [&]( const proficiency_id & id ) {
-        const nc_color color = c.has_proficiency( id ) ? c_green : c_red;
+        nc_color color;
+        if( c.has_proficiency( id ) ) {
+            color = c_green;
+        } else if( helpers_have_proficiencies( c, id ) ) {
+            color = c_yellow;
+        } else {
+            color = c_red;
+        }
         return colorize( id->name(), color );
     } );
 
     std::string used = enumerate_as_string( used_profs.begin(),
     used_profs.end(), [&]( const std::pair<proficiency_id, float> &pair ) {
-        const std::string color = c.has_proficiency( pair.first ) ? "white" : "yellow";
+        std::string color;
+        if( c.has_proficiency( pair.first ) ||
+            helpers_have_proficiencies( c, pair.first ) ) {
+            color = "white";
+        } else {
+            color = "yellow";
+        }
         return string_format( "<color_cyan>%s</color> <color_%s>%gx</color>", pair.first->name(), color,
                               pair.second );
     } );
@@ -577,7 +603,7 @@ std::set<proficiency_id> recipe::required_proficiencies() const
 bool recipe::character_has_required_proficiencies( const Character &c ) const
 {
     for( const proficiency_id &id : required_proficiencies() ) {
-        if( !c.has_proficiency( id ) ) {
+        if( !c.has_proficiency( id ) && !helpers_have_proficiencies( c, id ) ) {
             return false;
         }
     }
@@ -593,6 +619,18 @@ std::set<proficiency_id> recipe::assist_proficiencies() const
         }
     }
     return ret;
+}
+
+float recipe::proficiency_maluses( const Character &guy ) const
+{
+    float malus = 1.0f;
+    for( const recipe_proficiency &prof : proficiencies ) {
+        if( !guy.has_proficiency( prof.id ) &&
+            !helpers_have_proficiencies( guy, prof.id ) ) {
+            malus *= prof.time_multiplier;
+        }
+    }
+    return malus;
 }
 
 // Format a std::pair<skill_id, int> for the crafting menu.
