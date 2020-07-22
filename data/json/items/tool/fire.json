@@ -101,7 +101,6 @@
     "material": [ "plastic", "aluminum" ],
     "symbol": ",",
     "color": "blue",
-    "rand_charges": [ 1, 10, 12, 15, 16, 22, 44, 50, 67, 75, 82, 100 ],
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 1,
