@@ -120,14 +120,14 @@
     "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
     "size": 60000,
     "pocket_data": [
-    {
-      "pocket_type": "CONTAINER",
-      "rigid": true,
-      "watertight": true,
-      "max_contains_volume": "60 L",
-      "max_contains_weight": "400 kg"
-    }
-  ],
+      {
+        "pocket_type": "CONTAINER",
+        "rigid": true,
+        "watertight": true,
+        "max_contains_volume": "60 L",
+        "max_contains_weight": "400 kg"
+      }
+    ],
     "damage_modifier": 80,
     "epower": -40,
     "breaks_into": [
