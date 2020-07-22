@@ -6,7 +6,7 @@
     "qualities": [
       { "id": "SURFACE", "level": 3 },
       { "id": "ROPE", "level": 2 },
-      { "id": "BUTCHERY_RACK", "level": 2 },
+      { "id": "SUSPENDING", "level": 2 },
       { "id": "CUT", "level": 1 },
       { "id": "SAW_W", "level": 1 }
     ]
