@@ -3,7 +3,7 @@
     "type": "item_group",
     "subtype": "collection",
     "id": "feral_humans_death_drops_axe",
-    "entries": [ { "item": "fire_axe", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_zombie_clothes", "prob": 100 } ]
+    "entries": [ { "item": "fire_ax", "prob": 100, "damage": [ 2, 4 ] }, { "group": "default_zombie_clothes", "prob": 100 } ]
   },
   {
     "type": "item_group",
