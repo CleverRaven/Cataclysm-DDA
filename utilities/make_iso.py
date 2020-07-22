@@ -47,7 +47,7 @@ def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
 # convert one old tile definition to one new tile definition
 # recursive for additional-tiles
 def tile_convert(otile, main_id, new_tile_number):
-    print('tile_convert ' + main_id + ' ' + str(new_tile_number))
+    print("tile_convert %s %s" % (main_id, new_tile_number))
     ntile = dict()
     ntile['id'] = otile['id']
     ntile['ntn'] = int(new_tile_number)
@@ -136,8 +136,14 @@ def tile_convert(otile, main_id, new_tile_number):
         else:
             ntile[g] = otile[g]
             # iso-ize each existing rotation of this tile
-            for tile_num in ntile[g]:
-                iso_ize(tile_num)
+            for tile in ntile[g]:
+                # if tile_num is a dict with "weight" and "sprite", take the "sprite" number
+                if type(tile) == dict and "sprite" in tile:
+                    iso_ize(tile["sprite"])
+                elif type(tile) == int:
+                    iso_ize(tile)
+                else:
+                    raise RuntimeError("Unexpected sprite number: %s" % tile)
 
     if 'additional_tiles' in otile:
         nta = ntile['additional_tiles'] = list()
@@ -154,8 +160,14 @@ def tile_convert(otile, main_id, new_tile_number):
 
 #TODO: bail out if old tileset directory doesn't exist
 
-old_tileset_name = args.tileset
+# FIXME: Rename to _dir, use relative path starting with 'gfx'?
+old_tileset_name = os.path.abspath(args.tileset)
 new_tileset_name = old_tileset_name + "_iso"
+new_tiles_dir = os.path.join(new_tileset_name, 'tiles')
+print("New tiles will be output to %s" % new_tiles_dir)
+
+# Ensure empty tiles output directory
+os.system('rm -rf ' + new_tiles_dir)
 
 try:
     os.mkdir(new_tileset_name)
@@ -163,14 +175,14 @@ except:
     pass
 
 try:
-    os.mkdir(new_tileset_name + '/tiles')
+    os.mkdir(os.path.join(new_tileset_name, 'tiles'))
 except:
     pass
 
 os.system('rm -rf ' + new_tileset_name + '/tiles/*')
 
 try:
-    os.mkdir(new_tileset_name + '/tiles/to_merge')
+    os.mkdir(os.path.join(new_tiles_dir, 'to_merge'))
 except:
     pass
 
@@ -206,33 +218,36 @@ new_tiles = list()
 
 print('processing tiles-new')
 for otn in otc['tiles-new']:
+    filename = os.path.join(old_tileset_name, otn['file'])
+    print(filename)
+    base_filename = os.path.basename(filename)
     # need to add support for fallback tiles
-    if os.path.basename(otn['file']).find('fallback') > -1:
+    if 'fallback' in base_filename:
         continue
     converted_tile_ids = dict()
     if first_filename == '':
-        first_filename = os.path.basename(otn['file'])  # remember this for tileset.txt
+        first_filename = base_filename # remember this for tileset.txt
     ntc['tiles-new'].append(dict())
     ntn = ntc['tiles-new'][-1]
-    ntn['file'] = 'gfx/' + new_tileset_name + '/' + os.path.basename(otn['file'])
+    ntn['file'] = os.path.join(new_tileset_name, base_filename)
     ntn['tiles'] = list()
 
-    print(' splitting ../' + otn['file'])
     # split tile image sheet into individual tile images
-    command = 'convert -crop ' + str(oheight) + 'x' + str(owidth) + ' ../' + otn['file'] + ' +repage ' + new_tileset_name + '/tiles/tile-%06d.png'
+    command = 'convert -crop ' + str(oheight) + 'x' + str(owidth) + ' ' + filename + ' +repage ' + new_tiles_dir + '/tile-%06d.png'
+
     print(command)
     if os.system(command):
-        raise
-    os.system('cp ' + new_tileset_name + '/tiles/tile-*.png ' + new_tileset_name + '/tiles/to_merge')
+        raise RuntimeError("Failed to split %s into tile images" % filename)
+
+    os.system('cp ' + new_tiles_dir + '/tile-*.png ' + new_tiles_dir + '/to_merge')
 
     # path joining version for other paths
-    TILEDIR = new_tileset_name + '/tiles'
-    tile_count = len([name for name in os.listdir(TILEDIR) if os.path.isfile(os.path.join(TILEDIR, name))])
+    tile_count = len([name for name in os.listdir(new_tiles_dir) if os.path.isfile(os.path.join(new_tiles_dir, name))])
     new_tile_number = tile_count
 
     for otile in otn['tiles']:
-        print(' handling ' + otile['id'])
-        tile = tile_convert(otile, otile['id'], new_tile_number)
+        print(" Handling '%s'" % otile['id'])
+        tile = tile_convert(otile,otile['id'],new_tile_number)
         new_tile_number = tile['ntn']
         del tile['ntn']
         ntn['tiles'].append(tile)
@@ -240,10 +255,10 @@ for otn in otc['tiles-new']:
     print('Merging tiles to single image')
     command = (
         'montage -background transparent "' + new_tileset_name + '/tiles/to_merge/tile-*.png" -tile 16x -geometry +0+0 ' +
-        new_tileset_name + '/' + os.path.basename(otn['file']))
+        new_tileset_name + '/' + base_filename)
     print(command)
     if os.system(command):
-        raise
+        raise RuntimeError("Failed to merge tiles into %s" % new_tileset_name)
 
 with open(new_tileset_name + '/tile_config.json', 'w') as new_tile_config_json_file:
     json.dump(ntc, new_tile_config_json_file, sort_keys=True, indent=2, separators=(',', ': '))
