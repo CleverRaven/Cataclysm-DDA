@@ -118,7 +118,7 @@
     "broken_color": "red",
     "durability": 150,
     "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
-    "size": 60000,
+    "size": 600500,
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
