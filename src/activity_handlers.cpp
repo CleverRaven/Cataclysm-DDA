@@ -632,11 +632,11 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
             u.crafting_inventory( u.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
         std::string popup_output = _( "You can't butcher this, you are missing some tools.\n" );
 
-        for( const std::string str : butchery_requirement->get_folded_components_list(
+        for( const std::string &str : butchery_requirement->get_folded_components_list(
                  45, c_light_gray, u.crafting_inventory( u.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
             popup_output += str + '\n';
         }
-        for( const std::string str : butchery_requirement->get_folded_tools_list(
+        for( const std::string &str : butchery_requirement->get_folded_tools_list(
                  45, c_light_gray, u.crafting_inventory( u.pos(), PICKUP_RANGE ) ) ) {
             popup_output += str + '\n';
         }
