@@ -1821,7 +1821,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
 
     // Includes moving from/to inventory and around on the map.
     if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
-        popup( _( "You can't pick up a liquid." ) );
+        popup( _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
         return false;
     }
 
