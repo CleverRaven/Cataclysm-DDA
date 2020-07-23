@@ -1803,6 +1803,9 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
         return false;
     }
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
 
     const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {
         int ret = charges;
