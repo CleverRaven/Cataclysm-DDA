@@ -111,8 +111,13 @@ class inventory_entry
         }
 
         const item_location &any_item() const {
-            assert( !locations.empty() );
-            return locations.front();
+            if( locations.empty() ) {
+                debugmsg( "inventory_entry::any_item called on a non-item entry.  "
+                          "Test inventory_entry::is_item before calling this function." );
+                return item_location::nowhere;
+            } else {
+                return locations.front();
+            }
         }
 
         size_t get_stack_size() const {
