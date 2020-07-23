@@ -54,13 +54,16 @@ static bool helpers_have_proficiencies( const Character &guy, const proficiency_
     return false;
 }
 
-time_duration recipe::time_to_craft( const Character &guy ) const
+time_duration recipe::time_to_craft( const Character &guy, recipe_time_flag flags ) const
 {
-    return time_duration::from_seconds( time_to_craft_moves( guy ) / 100 );
+    return time_duration::from_seconds( time_to_craft_moves( guy, flags ) / 100 );
 }
 
-int recipe::time_to_craft_moves( const Character &guy ) const
+int recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) const
 {
+    if( flags == recipe_time_flag::none ) {
+        return time;
+    }
     int ret = time;
     for( const recipe_proficiency &prof : proficiencies ) {
         if( !prof.required ) {

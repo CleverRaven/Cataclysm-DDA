@@ -25,6 +25,16 @@ enum class recipe_filter_flags : int {
     no_rotten = 1,
 };
 
+enum class recipe_time_flag : int {
+    none = 0,
+    ignore_proficiencies = 1,
+};
+
+template<>
+struct enum_traits<recipe_time_flag> {
+    static constexpr bool is_flag_enum = true;
+};
+
 template<>
 struct enum_traits<recipe_filter_flags> {
     static constexpr bool is_flag_enum = true;
@@ -167,8 +177,10 @@ class recipe
         time_duration batch_duration( const Character &guy, int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
 
-        time_duration time_to_craft( const Character &guy ) const;
-        int time_to_craft_moves( const Character &guy ) const;
+        time_duration time_to_craft( const Character &guy,
+                                     recipe_time_flag flags = recipe_time_flag::none ) const;
+        int time_to_craft_moves( const Character &guy,
+                                 recipe_time_flag flags = recipe_time_flag::none ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 
