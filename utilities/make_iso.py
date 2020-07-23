@@ -148,7 +148,7 @@ def tile_convert(otile, main_id, new_tile_number):
     if 'additional_tiles' in otile:
         nta = ntile['additional_tiles'] = list()
         for otile in otile['additional_tiles']:
-            print(' handling additional_tile ' + otile['id'])
+            print(" handling additional_tile '%s'" % otile['id'])
             tile = tile_convert(otile, main_id, ntile['ntn'])
             ntile['ntn'] = tile['ntn']
             del tile['ntn']
@@ -246,7 +246,7 @@ for otn in otc['tiles-new']:
     new_tile_number = tile_count
 
     for otile in otn['tiles']:
-        print(" Handling '%s'" % otile['id'])
+        print(" handling '%s'" % otile['id'])
         tile = tile_convert(otile,otile['id'],new_tile_number)
         new_tile_number = tile['ntn']
         del tile['ntn']
