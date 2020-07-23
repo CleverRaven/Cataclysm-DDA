@@ -222,7 +222,9 @@
       { "item": "chem_chromium_oxide", "prob": 10, "charges-min": 100 },
       { "item": "chem_zinc_powder", "prob": 10, "charges-min": 100 },
       { "item": "chem_manganese_dioxide", "prob": 5, "charges-min": 100 },
-      [ "denat_alcohol", 10 ]
+      [ "denat_alcohol", 10 ],
+      { "item": "chem_sodium_benzoate", "prob": 16, "charges-min": 100 }
+    ]
     ]
   },
   {
