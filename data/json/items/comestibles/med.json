@@ -1944,5 +1944,26 @@
     "healthy": -10,
     "flags": [ "NPC_SAFE", "IRREPLACEABLE_CONSUMABLE" ],
     "use_action": { "type": "STRONG_ANTIBIOTIC" }
+  },
+  {
+    "id": "cocaine_hcl",
+    "type": "COMESTIBLE",
+    "comestible_type": "MED",
+    "name": { "str_sp": "cocaine HCL" },
+    "description": "A powdered salt that provides both vascular restriction and anesthetic properties.",
+    "weight": "5 g",
+    "volume": "250 ml",
+    "price": 550,
+    "price_postapoc": 3000,
+    "charges": 6,
+    "stack_size": 60,
+    "symbol": "u",
+    "color": "light_gray",
+    "material": [ "powder" ],
+    "container": "bottle_plastic_small",
+    "addiction_potential": 20,
+    "addiction_type": "cocaine",
+    "flags": [ "NO_INGEST" ],
+    "use_action": [ { "type": "heal", "bleed": 20, "move_cost": 100 }, { "COKE" }, { "id": "pkill1", "duration": 720 } ]
   }
 ]
