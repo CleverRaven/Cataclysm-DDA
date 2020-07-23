@@ -7,6 +7,7 @@
 #include "assign.h"
 #include "calendar.h"
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "generic_factory.h"

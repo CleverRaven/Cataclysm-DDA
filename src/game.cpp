@@ -4078,7 +4078,7 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
     const tripoint fishing_boundary_min( fish_pos + point( -distance, -distance ) );
     const tripoint fishing_boundary_max( fish_pos + point( distance, distance ) );
 
-    const inclusive_box fishing_boundaries( fishing_boundary_min, fishing_boundary_max );
+    const inclusive_cuboid fishing_boundaries( fishing_boundary_min, fishing_boundary_max );
 
     const auto get_fishable_terrain = [&]( tripoint starting_point,
     std::unordered_set<tripoint> &fishable_terrain ) {
