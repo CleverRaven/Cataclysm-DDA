@@ -852,11 +852,11 @@ bool advanced_inventory::move_all_items( bool nested_call )
     map &here = get_map();
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         if( dpane.get_area() == AIM_INVENTORY ) {
-            popup( _( "You try to put you bags into themselves, but physics won't let you." ) );
+            popup( _( "You try to put your bags into themselves, but physics won't let you." ) );
             return false;
         } else if( dpane.get_area() == AIM_WORN ) {
             // TODO: implement this
-            popup( _( "Putting on everything from you inventory would be tricky." ) );
+            popup( _( "Putting on everything from your inventory would be tricky." ) );
             return false;
         } else if( dpane.get_area() == AIM_CONTAINER ) {
             // TODO: implement this
