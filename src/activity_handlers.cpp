@@ -456,7 +456,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_thirst( 10 );
         p->mod_fatigue( 15 );
         p->mod_pain( 3 * rng( 1, 3 ) );
-    } else if( here.move_cost( pos ) == 2 && g->get_levz() == 0 &&
+    } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
                here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_stored_nutr( 5 );
@@ -1901,7 +1901,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
                 p->mod_fatigue( 30 - ( helpersize  * 3 ) );
             }
             p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-        } else if( here.move_cost( pos ) == 2 && g->get_levz() == 0 &&
+        } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
                    here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
             //Breaking up concrete on the surface? not nearly as bad
             p->mod_stored_nutr( 5 - ( helpersize ) );
@@ -2240,7 +2240,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                       act->values.size() );
         } else {
             if( vp ) {
-                here.invalidate_map_cache( g->get_levz() );
+                here.invalidate_map_cache( here.get_abs_sub().z );
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *p ) ) {

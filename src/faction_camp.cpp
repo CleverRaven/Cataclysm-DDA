@@ -364,11 +364,12 @@ std::map<std::string, miss_data> miss_info = {{
  * @param estimate if true, non-destructive count of the furniture
  * @param bring_back force the destruction of the furniture and bring back the drop items
  */
-int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100,
+int om_harvest_furn( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance = 100,
                      bool estimate = false, bool bring_back = true );
 // om_harvest_furn helper function that counts the furniture instances
-int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100 );
-int om_harvest_furn_break( npc &comp, const tripoint &omt_tgt, const furn_id &f,
+int om_harvest_furn_est( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
+                         int chance = 100 );
+int om_harvest_furn_break( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
                            int chance = 100 );
 /// Exact same as om_harvest_furn but functions on terrain
 int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t, int chance = 100,
@@ -653,7 +654,7 @@ void talk_function::basecamp_mission( npc &p )
     if( bcp->get_dumping_spot() == tripoint_zero ) {
         map &here = get_map();
         auto &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( g->get_levz() ) ) {
+        if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
             mgr.cache_vzones();
         }
         tripoint src_loc;
@@ -2879,7 +2880,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
     avatar &player_character = get_avatar();
-    recruit->spawn_at_precise( { g->get_levx(), g->get_levy() },
+    recruit->spawn_at_precise( get_map().get_abs_sub().xy(),
                                player_character.pos() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );
     recruit->form_opinion( player_character );
@@ -3137,24 +3138,26 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
     }
 }
 
-int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance )
+int om_harvest_furn_est( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance )
 {
     return om_harvest_furn( comp, omt_tgt, f, chance, true, false );
 }
-int om_harvest_furn_break( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance )
+int om_harvest_furn_break( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
+                           int chance )
 {
     return om_harvest_furn( comp, omt_tgt, f, chance, false, false );
 }
-int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance,
+int om_harvest_furn( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance,
                      bool estimate, bool bring_back )
 {
     const furn_t &furn_tgt = f.obj();
     tinymap target_bay;
-    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     int harvested = 0;
     int total = 0;
-    tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
+    // TODO: fix point types
+    tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
+    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.furn( p ) == f && x_in_y( chance, 100 ) ) {
             total++;
@@ -3598,7 +3601,7 @@ bool basecamp::validate_sort_points()
 {
     auto &mgr = zone_manager::get_manager();
     map &here = get_map();
-    if( here.check_vehicle_zones( g->get_levz() ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
         mgr.cache_vzones();
     }
     tripoint src_loc = here.getlocal( bb_pos ) + point_north;
@@ -3904,7 +3907,7 @@ bool basecamp::distribute_food()
 
     map &here = get_map();
     auto &mgr = zone_manager::get_manager();
-    if( here.check_vehicle_zones( g->get_levz() ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
         mgr.cache_vzones();
     }
     const tripoint &abspos = get_dumping_spot();
@@ -4031,7 +4034,7 @@ void basecamp::place_results( const item &result )
     } else {
         map &here = get_map();
         auto &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( g->get_levz() ) ) {
+        if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
             mgr.cache_vzones();
         }
         Character &player_character = get_player_character();

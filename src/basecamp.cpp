@@ -609,7 +609,8 @@ void basecamp::form_crafting_inventory( map &target_map )
     const tripoint &dump_spot = get_dumping_spot();
     const tripoint &origin = target_map.getlocal( dump_spot );
     auto &mgr = zone_manager::get_manager();
-    if( get_map().check_vehicle_zones( g->get_levz() ) ) {
+    map &here = get_map();
+    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
         mgr.cache_vzones();
     }
     if( mgr.has_near( zone_type_CAMP_STORAGE, dump_spot, 60 ) ) {
@@ -750,8 +751,7 @@ void basecamp_action_components::consume_components()
     map *target_map = &get_map();
     if( base_.by_radio ) {
         map_ = std::make_unique<tinymap>();
-        // TODO: fix point types
-        map_->load( project_to<coords::sm>( base_.camp_omt_pos() ).raw(), false );
+        map_->load( project_to<coords::sm>( base_.camp_omt_pos() ), false );
         target_map = map_.get();
     }
     const tripoint &origin = target_map->getlocal( base_.get_dumping_spot() );

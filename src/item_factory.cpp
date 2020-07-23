@@ -3133,6 +3133,12 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
         return;
     }
 
+    if( obj.has_member( "artifact" ) ) {
+        Item_spawn_data::relic_generator gen;
+        sptr->artifact = cata::make_value<Item_spawn_data::relic_generator>();
+        sptr->artifact->load( obj.get_object( "artifact" ) );
+    }
+
     Item_modifier modifier;
     bool use_modifier = false;
     use_modifier |= load_min_max( modifier.damage, obj, "damage" );

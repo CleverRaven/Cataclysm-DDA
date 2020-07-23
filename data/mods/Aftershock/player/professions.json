@@ -65,16 +65,12 @@
     "points": 4,
     "items": {
       "both": {
-        "items": [
-          "phase_immersion_suit",
-          "dimensional_anchor",
-          "socks",
-          "afs_calorie_pill",
-          "crowbar",
-          "afs_atomic_smartphone",
-          "undershirt"
-        ],
-        "entries": [ { "item": "afs_sundew", "container-item": "camelbak" } ]
+        "items": [ "socks", "afs_calorie_pill", "crowbar", "afs_atomic_smartphone", "undershirt", "dump_pouch" ],
+        "entries": [
+          { "item": "water_clean", "container-item": "camelbak" },
+          { "item": "phase_immersion_suit", "ammo-item": "heavy_atomic_battery_cell", "charges": 10000 },
+          { "item": "dimensional_anchor", "ammo-item": "medium_atomic_battery_cell", "charges": 5000 }
+        ]
       },
       "male": [ "briefs" ],
       "female": [ "boy_shorts" ]

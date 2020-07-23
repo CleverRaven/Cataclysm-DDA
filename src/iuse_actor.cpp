@@ -1187,7 +1187,7 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( it.already_used_by_player( p ) ) {
         p.add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
         return 0;
-    } else if( g->get_levz() < 0 ) {
+    } else if( get_map().get_abs_sub().z < 0 ) {
         p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                              it.tname() );
         return 0;

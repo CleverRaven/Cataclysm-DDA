@@ -59,15 +59,10 @@ static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
  * @{
  */
 
-weather_manager &get_weather()
-{
-    return g->weather;
-}
-
 static bool is_creature_outside( const Creature &target )
 {
-    return get_map().is_outside( point( target.posx(),
-                                        target.posy() ) ) && g->get_levz() >= 0;
+    map &here = get_map();
+    return here.is_outside( point( target.posx(), target.posy() ) ) && here.get_abs_sub().z >= 0;
 }
 
 weather_type_id get_bad_weather()
@@ -433,13 +428,14 @@ void wet( Character &target, int amount )
 void weather_sound( translation sound_message, std::string sound_effect )
 {
     Character &player_character = get_player_character();
+    map &here = get_map();
     if( !player_character.has_effect( effect_sleep ) && !player_character.is_deaf() ) {
-        if( g->get_levz() >= 0 ) {
+        if( here.get_abs_sub().z >= 0 ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
                 sfx::play_variant_sound( "environment", sound_effect, 80, rng( 0, 359 ) );
             }
-        } else if( one_in( std::max( roll_remainder( 2.0f * g->get_levz() /
+        } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
                                      player_character.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
@@ -464,6 +460,7 @@ double precip_mm_per_hour( precip_class const p )
 void handle_weather_effects( weather_type_id const w )
 {
     //Possible TODO, make npc/monsters affected
+    map &here = get_map();
     Character &player_character = get_player_character();
     if( w->rains && w->precip != precip_class::none ) {
         fill_water_collectors( precip_mm_per_hour( w->precip ),
@@ -480,7 +477,7 @@ void handle_weather_effects( weather_type_id const w )
             decay_time = 45_turns;
             wetness = 60;
         }
-        get_map().decay_fields_and_scent( decay_time );
+        here.decay_fields_and_scent( decay_time );
         wet( player_character, wetness );
     }
     glare( w );
@@ -498,7 +495,7 @@ void handle_weather_effects( weather_type_id const w )
         if( !one_in( current_effect.one_in_chance ) ) {
             continue;
         }
-        if( current_effect.lightning && g->get_levz() >= 0 ) {
+        if( current_effect.lightning && here.get_abs_sub().z >= 0 ) {
             g->weather.lightning_active = true;
         }
         if( current_effect.rain_proof ) {
@@ -1065,8 +1062,9 @@ void weather_manager::update_weather()
         next_instance_allowed[weather_id] = calendar::turn + rng( weather_id->time_between_min,
                                             weather_id->time_between_max );
         nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
+        map &here = get_map();
         if( weather_id != old_weather && weather_id->dangerous &&
-            g->get_levz() >= 0 && get_map().is_outside( player_character.pos() )
+            here.get_abs_sub().z >= 0 && here.is_outside( player_character.pos() )
             && !player_character.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), weather_id->name ) );
@@ -1079,7 +1077,7 @@ void weather_manager::update_weather()
         if( weather_id->sight_penalty !=
             old_weather->sight_penalty ) {
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
-                get_map().set_transparency_cache_dirty( i );
+                here.set_transparency_cache_dirty( i );
             }
         }
     }

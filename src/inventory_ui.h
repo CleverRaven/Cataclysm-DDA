@@ -232,7 +232,10 @@ class inventory_holster_preset : public inventory_selector_preset
 
         /** Does this entry satisfy the basic preset conditions? */
         bool is_shown( const item_location &contained ) const override {
-            return holster->contents.can_contain( *contained ).success() && !holster->has_item( *contained );
+            item item_copy( *contained );
+            item_copy.charges = 1;
+            return holster->contents.can_contain( item_copy ).success() && !holster->has_item( *contained ) &&
+                   holster.parents_can_contain_recursive( &item_copy );
         }
     private:
         // this is the item that we are putting something into

@@ -642,17 +642,9 @@ class game
         bool take_screenshot( const std::string &file_path ) const;
 
         /**
-         * The top left corner of the reality bubble (in submaps coordinates). This is the same
-         * as @ref map::abs_sub of the @ref m map.
-         */
-        int get_levx() const;
-        int get_levy() const;
-        int get_levz() const;
-        /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
          */
-        void load_map( const tripoint &pos_sm );
         void load_map( const tripoint_abs_sm &pos_sm );
         /**
          * The overmap which contains the center submap of the reality bubble.

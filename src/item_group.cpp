@@ -9,10 +9,12 @@
 #include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "relic.h"
 #include "rng.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -34,6 +36,17 @@ item Item_spawn_data::create_single( const time_point &birthday ) const
 {
     RecursionList rec;
     return create_single( birthday, rec );
+}
+
+void Item_spawn_data::relic_generator::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "rules", rules );
+    mandatory( jo, was_loaded, "procgen_id", id );
+}
+
+relic Item_spawn_data::relic_generator::generate_relic( const itype_id &it_id ) const
+{
+    return id->generate( rules, it_id );
 }
 
 Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability )
@@ -81,6 +94,9 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         // TODO: change the spawn lists to contain proper references to containers
         tmp = tmp.in_its_container( qty );
     }
+    if( artifact ) {
+        tmp.overwrite_relic( artifact->generate_relic( tmp.typeId() ) );
+    }
     if( container_item ) {
         tmp = tmp.in_container( *container_item, tmp.charges );
     }
@@ -122,6 +138,11 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
                 }
             }
             result.insert( result.end(), tmplist.begin(), tmplist.end() );
+        }
+    }
+    if( artifact ) {
+        for( item &it : result ) {
+            it.overwrite_relic( artifact->generate_relic( it.typeId() ) );
         }
     }
     if( container_item ) {

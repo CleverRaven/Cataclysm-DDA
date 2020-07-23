@@ -314,11 +314,12 @@ static player_display_tab prev_tab( const player_display_tab tab )
     }
 }
 
-static std::vector<std::string> sorted_proficiencies( const Character &guy )
+static std::vector<std::pair<proficiency_id, std::string>> sorted_proficiencies(
+            const Character &guy )
 {
-    std::vector<std::string> ret;
+    std::vector<std::pair<proficiency_id, std::string>> ret;
     for( const proficiency_id &id : guy.proficiencies() ) {
-        ret.emplace_back( id->name() );
+        ret.emplace_back( id, id->name() );
     }
     std::sort( ret.begin(), ret.end(), localized_compare );
     return ret;
@@ -328,10 +329,10 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
                                     const Character &guy, const player_display_tab curtab )
 {
     werase( win );
-    const bool focused = curtab == player_display_tab::proficiencies;
+    const std::vector<std::pair<proficiency_id, std::string>> &profs = sorted_proficiencies( guy );
+    bool focused = curtab == player_display_tab::proficiencies;
     const nc_color title_color = focused ? h_light_gray : c_light_gray;
     center_print( win, 0, title_color, _( title_PROFICIENCIES ) );
-    const std::vector<std::string> &profs = sorted_proficiencies( guy );
     const int height = getmaxy( win ) - 1;
     const int width = getmaxx( win ) - 1;
     bool draw_scrollbar = profs.size() > static_cast<size_t>( height );
@@ -341,7 +342,8 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         if( y > height ) {
             break;
         }
-        y += fold_and_print( win, point( 1, y ), width, c_white, profs[i] );
+        const nc_color col = focused && i == line ? hilite( c_white ) : c_white;
+        y += fold_and_print( win, point( 1, y ), width, col, profs[i].second );
     }
 
     if( draw_scrollbar ) {
@@ -356,6 +358,19 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
     }
 
     wnoutrefresh( win );
+}
+
+static void draw_proficiencies_info( const catacurses::window &w_info, const unsigned line,
+                                     const Character &guy )
+{
+    werase( w_info );
+    const std::vector<std::pair<proficiency_id, std::string>> &profs = sorted_proficiencies( guy );
+    if( line < profs.size() ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), getmaxx( w_info ) - 1,
+                        c_white, profs[line].first->description() );
+    }
+    wnoutrefresh( w_info );
 }
 
 static void draw_stats_tab( const catacurses::window &w_stats,
@@ -952,8 +967,7 @@ static void draw_info_window( const catacurses::window &w_info, const player &yo
             draw_effects_info( w_info, line, effect_name_and_text );
             break;
         case player_display_tab::proficiencies:
-            werase( w_info );
-            wnoutrefresh( w_info );
+            draw_proficiencies_info( w_info, line, you );
             break;
         case player_display_tab::num_tabs:
             abort();

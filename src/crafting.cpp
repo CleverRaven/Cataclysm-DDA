@@ -2078,12 +2078,14 @@ bool Character::disassemble( item_location target, bool interactive )
 
     if( activity.id() != ACT_DISASSEMBLE ) {
         if( num_dis != 0 ) {
-            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this ) * num_dis );
+            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this,
+                             recipe_time_flag::ignore_proficiencies ) * num_dis );
         } else {
-            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this ) );
+            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this,
+                             recipe_time_flag::ignore_proficiencies ) );
         }
     } else if( activity.moves_left <= 0 ) {
-        activity.moves_left = r.time_to_craft_moves( *this );
+        activity.moves_left = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
     }
 
     // index is used as a bool that indicates if we want recursive uncraft.
@@ -2167,7 +2169,8 @@ void Character::complete_disassemble()
         return;
     }
 
-    activity.moves_left = next_recipe.time_to_craft_moves( *this );
+    activity.moves_left = next_recipe.time_to_craft_moves( *this,
+                          recipe_time_flag::ignore_proficiencies );
 }
 
 void Character::complete_disassemble( item_location &target, const recipe &dis )

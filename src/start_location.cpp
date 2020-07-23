@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "field_type.h"
-#include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "int_id.h"
@@ -218,8 +217,7 @@ void start_location::prepare_map( const tripoint_abs_omt &omtstart ) const
     // Now prepare the initial map (change terrain etc.)
     const tripoint_abs_sm player_location = project_to<coords::sm>( omtstart );
     tinymap player_start;
-    // TODO: fix point types
-    player_start.load( player_location.raw(), false );
+    player_start.load( player_location, false );
     prepare_map( player_start );
     player_start.save();
 }
@@ -295,7 +293,7 @@ void start_location::place_player( player &u ) const
     // Start us off somewhere in the center of the map
     u.setx( HALF_MAPSIZE_X );
     u.sety( HALF_MAPSIZE_Y );
-    u.setz( g->get_levz() );
+    u.setz( here.get_abs_sub().z );
     here.invalidate_map_cache( here.get_abs_sub().z );
     here.build_map_cache( here.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;

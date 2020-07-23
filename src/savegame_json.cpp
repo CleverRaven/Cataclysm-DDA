@@ -455,7 +455,7 @@ void Character::load( const JsonObject &data )
     }
     data.read( "posy", position.y );
     if( !data.read( "posz", position.z ) && g != nullptr ) {
-        position.z = g->get_levz();
+        position.z = get_map().get_abs_sub().z;
     }
     // stats
     data.read( "str_cur", str_cur );
@@ -680,7 +680,6 @@ void Character::load( const JsonObject &data )
     if( data.has_array( "body_wetness" ) ) {
         set_anatomy( anatomy_id( "human_anatomy" ) );
         set_body();
-        init_parts_drench_capacity();
         std::array<int, 12> body_wetness;
         body_wetness.fill( 0 );
         data.read( "body_wetness", body_wetness );
@@ -1996,7 +1995,7 @@ void monster::load( const JsonObject &data )
     data.read( "posx", position.x );
     data.read( "posy", position.y );
     if( !data.read( "posz", position.z ) ) {
-        position.z = g->get_levz();
+        position.z = get_map().get_abs_sub().z;
     }
 
     data.read( "wandf", wandf );
@@ -2121,7 +2120,9 @@ void monster::load( const JsonObject &data )
 
     data.read( "ammo", ammo );
 
-    faction = mfaction_str_id( data.get_string( "faction", "" ) );
+    // TODO: Remove blob migration after 0.F
+    const std::string faction_string = data.get_string( "faction", "" );
+    faction = mfaction_str_id( faction_string == "blob" ? "slime" : faction_string );
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }

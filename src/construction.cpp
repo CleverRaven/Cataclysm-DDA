@@ -1118,13 +1118,13 @@ bool construct::check_empty_up_OK( const tripoint &p )
 bool construct::check_up_OK( const tripoint & )
 {
     // You're not going above +OVERMAP_HEIGHT.
-    return ( g->get_levz() < OVERMAP_HEIGHT );
+    return ( get_map().get_abs_sub().z < OVERMAP_HEIGHT );
 }
 
 bool construct::check_down_OK( const tripoint & )
 {
     // You're not going below -OVERMAP_DEPTH.
-    return ( g->get_levz() > -OVERMAP_DEPTH );
+    return ( get_map().get_abs_sub().z > -OVERMAP_DEPTH );
 }
 
 bool construct::check_no_trap( const tripoint &p )
@@ -1334,11 +1334,13 @@ static void unroll_digging( const int numer_of_2x4s )
 void construct::done_digormine_stair( const tripoint &p, bool dig )
 {
     map &here = get_map();
-    const tripoint abs_pos = here.getabs( p );
-    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
+    // TODO: fix point types
+    const tripoint_abs_ms abs_pos( here.getabs( p ) );
+    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z - 1 ), false );
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+    tmpmap.load( pos_sm + tripoint_below, false );
+    // TODO: fix point types
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos.raw() );
 
     Character &player_character = get_player_character();
     bool dig_muts = player_character.has_trait( trait_PAINRESIST_TROGLO ) ||
@@ -1391,11 +1393,13 @@ void construct::done_mine_downstair( const tripoint &p )
 void construct::done_mine_upstair( const tripoint &p )
 {
     map &here = get_map();
-    const tripoint abs_pos = here.getabs( p );
-    const tripoint pos_sm = ms_to_sm_copy( abs_pos );
+    // TODO: fix point types
+    const tripoint_abs_ms abs_pos( here.getabs( p ) );
+    const tripoint_abs_sm pos_sm = project_to<coords::sm>( abs_pos );
     tinymap tmpmap;
-    tmpmap.load( tripoint( pos_sm.xy(), pos_sm.z + 1 ), false );
-    const tripoint local_tmp = tmpmap.getlocal( abs_pos );
+    tmpmap.load( pos_sm + tripoint_above, false );
+    // TODO: fix point types
+    const tripoint local_tmp = tmpmap.getlocal( abs_pos.raw() );
 
     if( tmpmap.ter( local_tmp ) == t_lava ) {
         here.ter_set( p.xy(), t_rock_floor ); // You dug a bit before discovering the problem

@@ -478,7 +478,7 @@ void spawn_nested_mapgen()
         ( *ptr )->nest( md, local_ms.xy() );
         target_map.save();
         g->load_npcs();
-        here.invalidate_map_cache( g->get_levz() );
+        here.invalidate_map_cache( here.get_abs_sub().z );
     }
 }
 
@@ -1225,6 +1225,7 @@ void debug()
 
     avatar &player_character = get_avatar();
     map &here = get_map();
+    tripoint abs_sub = here.get_abs_sub();
     switch( *action ) {
         case debug_menu_index::WISH:
             debug_menu::wishitem( &player_character );
@@ -1255,8 +1256,7 @@ void debug()
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, player_character.pos() + point( -4,
-                                    -4 ) );
+            temp->spawn_at_precise( abs_sub.xy(), player_character.pos() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
             temp->form_opinion( player_character );
             temp->mission = NPC_MISSION_NULL;
@@ -1298,7 +1298,7 @@ void debug()
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
             popup_top(
                 s.c_str(),
-                player_character.posx(), player_character.posy(), g->get_levx(), g->get_levy(),
+                player_character.posx(), player_character.posy(), abs_sub.x, abs_sub.y,
                 overmap_buffer.ter( player_character.global_omt_location() )->get_name(),
                 to_turns<int>( calendar::turn - calendar::turn_zero ),
                 g->num_creatures() );
@@ -1790,11 +1790,10 @@ void debug()
                 if( where_omt != overmap::invalid_tripoint ) {
                     tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
-                    // TODO: fix point types
-                    mx_map.load( where_sm.raw(), false );
+                    mx_map.load( where_sm, false );
                     MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm.raw() );
                     g->load_npcs();
-                    here.invalidate_map_cache( g->get_levz() );
+                    here.invalidate_map_cache( here.get_abs_sub().z );
                 }
             }
             break;
@@ -1984,7 +1983,7 @@ void debug()
         case debug_menu_index::last:
             return;
     }
-    here.invalidate_map_cache( g->get_levz() );
+    here.invalidate_map_cache( here.get_abs_sub().z );
 }
 
 } // namespace debug_menu
