@@ -13,15 +13,24 @@ jobs:
     strategy:
       matrix:
         include:
+          - compiler: g++-9
+            tiles: 0
+            cmake: 0
           - compiler: g++-8
             tiles: 1
             cmake: 1
+            sanitize: address
+          - compiler: clang++-9
+            tiles: 1
+            cmake: 1
+            sanitize: address,undefined
     runs-on: ubuntu-latest
     env:
         CMAKE: ${{ matrix.cmake }}
         COMPILER: ${{ matrix.compiler }}
         TILES: ${{ matrix.tiles }}
         SOUND: ${{ matrix.tiles }}
+        SANITIZE: ${{ matrix.sanitize }}
     steps:
     - name: checkout repository
       uses: actions/checkout@v1
