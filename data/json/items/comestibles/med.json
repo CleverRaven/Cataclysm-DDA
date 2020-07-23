@@ -107,7 +107,7 @@
     "use_action": {
       "type": "consume_drug",
       "activation_message": "You inject yourself with the injector.",
-      "effects": [ { "id": "pkill2", "duration": 480 }, { "id": "cough_suppress", "duration": 1000 } ]
+      "effects": [ { "id": "pkill2", "duration": 480 } ]
     },
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ]
   },
