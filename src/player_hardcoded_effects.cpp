@@ -48,6 +48,7 @@ static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_anemia( "anemia" );
+static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bite( "bite" );
@@ -137,6 +138,21 @@ static void eff_fun_spores( player &u, effect &it )
         u.add_effect( effect_fungus, 1_turns, num_bp, true );
     }
 }
+static void eff_fun_antifungal( player &u, effect &it )
+{
+    // antifungal drugs are deadly poison for marloss people
+    if( u.has_trait( trait_THRESH_MYCUS ) && one_in( 30 ) ) {
+        if( one_in( 10 ) ) {
+            u.add_msg_player_or_npc( m_bad, _( "Something burns you from the inside." ),
+                        _( "<npcname> shivers from pain." ) );
+        }
+        u.mod_pain( 1 );
+        // not using u.get_random_body_part() as it is weighted & not fully random
+        std::vector<bodypart_id> bparts = u.get_all_body_parts( true );
+        bodypart_id random_bpart = bparts[ rng( 0, bparts.size() - 1 ) ];
+        u.apply_damage( nullptr, random_bpart, 1 );
+    }
+}
 static void eff_fun_fungus( player &u, effect &it )
 {
     const int intense = it.get_intensity();
@@ -149,15 +165,6 @@ static void eff_fun_fungus( player &u, effect &it )
         it.mod_duration( -5_turns );
     } else {
         it.mod_duration( 1_turns );
-    }
-
-    // antifungal drugs are deadly poison for marloss people
-    if( u.has_trait( trait_M_IMMUNE ) && one_in( 600 ) ) {
-        u.add_msg_player_or_npc( m_bad, _( "Something burns you from inside." ),
-                                 _( "<npcname> shivers from pain." ) );
-        u.mod_pain( 1 );
-        u.apply_damage( nullptr, convert_bp( random_body_part( true ) ), 1 );
-        return;
     }
 
     switch( intense ) {
@@ -496,6 +503,7 @@ void player::hardcoded_effects( effect &it )
             { effect_onfire, eff_fun_onfire },
             { effect_spores, eff_fun_spores },
             { effect_fungus, eff_fun_fungus },
+            { effect_antifungal, eff_fun_antifungal },
             { effect_rat, eff_fun_rat },
             { effect_bleed, eff_fun_bleed },
             { effect_hallu, eff_fun_hallu },
