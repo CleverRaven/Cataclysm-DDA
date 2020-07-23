@@ -1532,5 +1532,26 @@
     "explode_in_fire": true,
     "explosion": { "power": 20, "shrapnel": 0 },
     "flags": [ "NO_DROP", "IRREMOVABLE" ]
+  },
+  {
+    "type": "COMESTIBLE",
+    "id": "chem_sodium_benzoate",
+    "category": "chems",
+    "price": 10,
+    "price_postapoc": 5,
+    "name": { "str_sp": "sodium benzoate" },
+    "symbol": ";",
+    "quench": -15,
+    "healthy": -20,
+    "fun": -6,
+    "color": "white",
+    "container": "bottle_glass",
+    "flags": [ "EDIBLE_FROZEN" ],
+    "charges": 50,
+    "description": "This food and medicine preservative is also used in whistling fireworks and for schizophrenia.  It is produced from lye and benzoic acid.",
+    "material": [ "powder" ],
+    "volume": "100 ml",
+    "//": "Bulk density is around 0.5 g/mL (because it's a powder, the actual density of 1.12 g/mL is not useful)",
+    "weight": "1 g"
   }
 ]
