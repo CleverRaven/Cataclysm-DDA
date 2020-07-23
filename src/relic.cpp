@@ -141,6 +141,19 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
     }
 }
 
+void relic_procgen_data::generation_rules::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "power_level", power_level );
+    mandatory( jo, was_loaded, "max_attributes", max_attributes );
+    optional( jo, was_loaded, "max_negative_power", max_negative_power, 0 );
+}
+
+void relic_procgen_data::generation_rules::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    load( jo );
+}
+
 void relic_procgen_data::deserialize( JsonIn &jsin )
 {
     JsonObject jobj = jsin.get_object();
