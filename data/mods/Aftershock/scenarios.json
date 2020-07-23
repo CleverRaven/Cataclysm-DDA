@@ -15,6 +15,14 @@
     "ident": "heli_crash"
   },
   {
+    "copy-from": "lab_staff",
+    "name": "Challenge - Anomalous Materials",
+    "type": "scenario",
+    "allowed_locs": [ "sloc_lab_finale", "sloc_ice_lab_finale" ],
+    "professions": [ "afs_planar_frontiersman" ],
+    "ident": "labFreeman"
+  },
+  {
     "copy-from": "lab_chal",
     "type": "scenario",
     "extend": { "professions": [ "afs_vatgrown_bodyguard", "afs_cryosleep_survivor", "afs_holo_fighter", "afs_mastadon_swat" ] },
