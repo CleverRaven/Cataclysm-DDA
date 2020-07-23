@@ -139,7 +139,6 @@ static void eff_fun_spores( player &u, effect &it )
 }
 static void eff_fun_fungus( player &u, effect &it )
 {
-    const time_duration dur = it.get_duration();
     const int intense = it.get_intensity();
     const bool resists = u.resists_effect( it );
     const int bonus = u.get_healthy() / 10 + ( resists ? 100 : 0 );
