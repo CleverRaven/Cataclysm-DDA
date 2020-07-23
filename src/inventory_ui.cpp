@@ -1273,10 +1273,6 @@ void inventory_selector::add_items( inventory_column &target_column,
         std::transform( elem.begin(), elem.end(), std::back_inserter( locations ), locator );
         item_location const &loc = locations.front();
 
-        if( loc == item_location::nowhere ) {
-            return;
-        }
-
         if( custom_category == nullptr ) {
             nat_category = &loc->get_category();
         } else if( nat_category == nullptr && preset.is_shown( loc ) ) {
@@ -1305,10 +1301,10 @@ void inventory_selector::add_contained_items( item_location &container, inventor
     }
 }
 
-void inventory_selector::add_character_items( Character &character, bool skip_filled_buckets )
+void inventory_selector::add_character_items( Character &character )
 {
-    character.visit_items( [ this, &character, skip_filled_buckets ]( item * it ) {
-        if( it == &character.weapon && !( skip_filled_buckets && it->is_bucket_nonempty() ) ) {
+    character.visit_items( [ this, &character ]( item * it ) {
+        if( it == &character.weapon ) {
             add_item( own_gear_column, item_location( character, it ),
                       &item_category_id( "WEAPON_HELD" ).obj() );
         } else if( character.is_worn( *it ) ) {
@@ -1333,7 +1329,7 @@ void inventory_selector::add_character_items( Character &character, bool skip_fi
     toggle_categorize_contained();
 }
 
-void inventory_selector::add_map_items( const tripoint &target, bool skip_filled_buckets )
+void inventory_selector::add_map_items( const tripoint &target )
 {
     map &here = get_map();
     if( here.accessible_items( target ) ) {
@@ -1341,10 +1337,7 @@ void inventory_selector::add_map_items( const tripoint &target, bool skip_filled
         const std::string name = to_upper_case( here.name( target ) );
         const item_category map_cat( name, no_translation( name ), 100 );
 
-        add_items( map_column, [ &target, skip_filled_buckets ]( item * it ) {
-            if( skip_filled_buckets && it->is_bucket_nonempty() ) {
-                return item_location::nowhere;
-            }
+        add_items( map_column, [ &target ]( item * it ) {
             return item_location( target, it );
         }, restack_items( items.begin(), items.end(), preset.get_checking_components() ), &map_cat );
 
@@ -1355,7 +1348,7 @@ void inventory_selector::add_map_items( const tripoint &target, bool skip_filled
     }
 }
 
-void inventory_selector::add_vehicle_items( const tripoint &target, bool skip_filled_buckets )
+void inventory_selector::add_vehicle_items( const tripoint &target )
 {
     const cata::optional<vpart_reference> vp =
         get_map().veh_at( target ).part_with_feature( "CARGO", true );
@@ -1370,10 +1363,7 @@ void inventory_selector::add_vehicle_items( const tripoint &target, bool skip_fi
 
     const auto check_components = this->preset.get_checking_components();
 
-    add_items( map_column, [ veh, part, skip_filled_buckets ]( item * it ) {
-        if( skip_filled_buckets && it->is_bucket_nonempty() ) {
-            return item_location::nowhere;
-        }
+    add_items( map_column, [ veh, part ]( item * it ) {
         return item_location( vehicle_cursor( *veh, part ), it );
     }, restack_items( items.begin(), items.end(), check_components ), &vehicle_cat );
 
