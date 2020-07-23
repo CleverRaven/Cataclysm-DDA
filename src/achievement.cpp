@@ -1,6 +1,5 @@
 #include "achievement.h"
 
-#include "avatar.h"
 #include "enums.h"
 #include "event_statistics.h"
 #include "generic_factory.h"

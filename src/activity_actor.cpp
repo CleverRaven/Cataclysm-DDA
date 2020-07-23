@@ -356,7 +356,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                           calendar::turn ) );
     }
 
-    const int helpersize = get_avatar().get_num_crafting_helpers( 3 );
+    const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
     who.mod_stored_nutr( 5 - helpersize );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
@@ -427,7 +427,7 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                           calendar::turn ) );
     }
 
-    const int helpersize = get_avatar().get_num_crafting_helpers( 3 );
+    const int helpersize = get_player_character().get_num_crafting_helpers( 3 );
     who.mod_stored_nutr( 5 - helpersize );
     who.mod_thirst( 5 - helpersize );
     who.mod_fatigue( 10 - ( helpersize * 2 ) );
