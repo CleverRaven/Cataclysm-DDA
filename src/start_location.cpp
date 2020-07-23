@@ -11,7 +11,6 @@
 #include "debug.h"
 #include "enum_conversions.h"
 #include "field_type.h"
-#include "game.h"
 #include "game_constants.h"
 #include "generic_factory.h"
 #include "int_id.h"
@@ -294,7 +293,7 @@ void start_location::place_player( player &u ) const
     // Start us off somewhere in the center of the map
     u.setx( HALF_MAPSIZE_X );
     u.sety( HALF_MAPSIZE_Y );
-    u.setz( g->get_levz() );
+    u.setz( here.get_abs_sub().z );
     here.invalidate_map_cache( here.get_abs_sub().z );
     here.build_map_cache( here.get_abs_sub().z );
     const bool must_be_inside = flags().count( "ALLOW_OUTSIDE" ) == 0;

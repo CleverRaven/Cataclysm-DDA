@@ -149,8 +149,9 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
     overmap_special_batch empty_specials( point_abs_om{} );
     overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
 
+    map &here = get_map();
     // TODO: fix point types
-    get_map().load( tripoint_abs_sm( g->get_levx(), g->get_levy(), g->get_levz() ), false );
+    here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
 
     get_weather().update_weather();
 }

@@ -217,10 +217,11 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
     bool drew_mission = targ == overmap::invalid_tripoint;
     const int start_y = start_input.y + ( height / 2 ) - 2;
     const int start_x = start_input.x + ( width / 2 ) - 2;
+    map &here = get_map();
 
     for( int i = -( width / 2 ); i <= width - ( width / 2 ) - 1; i++ ) {
         for( int j = -( height / 2 ); j <= height - ( height / 2 ) - 1; j++ ) {
-            const tripoint_abs_omt omp( curs + point( i, j ), g->get_levz() );
+            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z );
             nc_color ter_color;
             std::string ter_sym;
             const bool seen = overmap_buffer.seen( omp );
@@ -396,7 +397,7 @@ void overmap_ui::draw_overmap_chunk( const catacurses::window &w_minimap, const 
             if( i > -3 && i < 3 && j > -3 && j < 3 ) {
                 continue; // only do hordes on the border, skip inner map
             }
-            const tripoint_abs_omt omp( curs + point( i, j ), g->get_levz() );
+            const tripoint_abs_omt omp( curs + point( i, j ), here.get_abs_sub().z );
             int horde_size = overmap_buffer.get_horde_size( omp );
             if( horde_size >= HORDE_VISIBILITY_SIZE ) {
                 if( overmap_buffer.seen( omp )
@@ -1078,7 +1079,7 @@ static void draw_time( const avatar &u, const catacurses::window &w )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 11, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( g->get_levz() >= 0 ) {
+    } else if( get_map().get_abs_sub().z >= 0 ) {
         wmove( w, point( 11, 0 ) );
         draw_time_graphic( w );
     } else {
@@ -1319,8 +1320,9 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     // NOLINTNEXTLINE(cata-use-named-point-constants)
     mvwprintz( w, point( 1, 0 ), c_light_gray, _( "Place: " ) );
     wprintz( w, c_white, utf8_truncate( cur_ter->get_name(), getmaxx( w ) - 13 ) );
+    map &here = get_map();
     // display weather
-    if( g->get_levz() < 0 ) {
+    if( here.get_abs_sub().z < 0 ) {
         // NOLINTNEXTLINE(cata-use-named-point-constants)
         mvwprintz( w, point( 1, 1 ), c_light_gray, _( "Sky  : Underground" ) );
     } else {
@@ -1343,7 +1345,7 @@ static void draw_loc_labels( const avatar &u, const catacurses::window &w, bool 
     if( u.has_watch() ) {
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ),
                    to_string_time_of_day( calendar::turn ) );
-    } else if( g->get_levz() >= 0 ) {
+    } else if( here.get_abs_sub().z >= 0 ) {
         mvwprintz( w, point( 1, 4 ), c_light_gray, _( "Time : %s" ), time_approx() );
     } else {
         // NOLINTNEXTLINE(cata-text-style): the question mark does not end a sentence
@@ -1489,7 +1491,7 @@ static void draw_env_compact( avatar &u, const catacurses::window &w )
     mvwprintz( w, point( 8, 2 ), c_white, utf8_truncate( overmap_buffer.ter(
                    u.global_omt_location() )->get_name(), getmaxx( w ) - 8 ) );
     // weather
-    if( g->get_levz() < 0 ) {
+    if( get_map().get_abs_sub().z < 0 ) {
         mvwprintz( w, point( 8, 3 ), c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point( 8, 3 ), get_weather().weather_id->color, get_weather().weather_id->name );
@@ -1832,7 +1834,7 @@ static void draw_weather_classic( avatar &, const catacurses::window &w )
 {
     werase( w );
 
-    if( g->get_levz() < 0 ) {
+    if( get_map().get_abs_sub().z < 0 ) {
         mvwprintz( w, point_zero, c_light_gray, _( "Underground" ) );
     } else {
         mvwprintz( w, point_zero, c_light_gray, _( "Weather :" ) );
@@ -1894,7 +1896,7 @@ static void draw_time_classic( const avatar &u, const catacurses::window &w )
     // display time
     if( u.has_watch() ) {
         mvwprintz( w, point( 15, 0 ), c_light_gray, to_string_time_of_day( calendar::turn ) );
-    } else if( g->get_levz() >= 0 ) {
+    } else if( get_map().get_abs_sub().z >= 0 ) {
         wmove( w, point( 15, 0 ) );
         draw_time_graphic( w );
     } else {

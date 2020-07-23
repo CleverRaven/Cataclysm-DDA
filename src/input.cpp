@@ -22,6 +22,7 @@
 #include "help.h"
 #include "ime.h"
 #include "json.h"
+#include "map.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -1345,7 +1346,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     }
 
     const point p = view_offset - ( view_size / 2 - coordinate );
-    return tripoint( p, g->get_levz() );
+    return tripoint( p, get_map().get_abs_sub().z );
 }
 #endif
 
