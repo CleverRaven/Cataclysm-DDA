@@ -1312,18 +1312,21 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
         item &it = *holstered_item.first;
         bool success = false;
         if( !it.count_by_charges() || it.count() == holstered_item.second ) {
-            if( holster->contents.can_contain( it ).success() ) {
-                holster->put_in( it, item_pocket::pocket_type::CONTAINER );
-                holstered_item.first.remove_item();
-                success = true;
+            if( holster.parents_can_contain_recursive( &it ) ) {
+                success = holster->put_in( it, item_pocket::pocket_type::CONTAINER ).success();
+                if( success ) {
+                    holstered_item.first.remove_item();
+                }
             }
         } else {
             item item_copy( it );
             item_copy.charges = holstered_item.second;
-            if( holster->can_contain( item_copy ) ) {
-                holster->put_in( item_copy, item_pocket::pocket_type::CONTAINER );
-                it.charges -= holstered_item.second;
-                success = true;
+
+            if( holster.parents_can_contain_recursive( &item_copy ) ) {
+                success = holster->put_in( item_copy, item_pocket::pocket_type::CONTAINER ).success();
+                if( success ) {
+                    it.charges -= holstered_item.second;
+                }
             }
         }
 
