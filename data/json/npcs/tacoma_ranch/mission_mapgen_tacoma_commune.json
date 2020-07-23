@@ -815,15 +815,8 @@
         "W.......rW  ",
         "WWW....WWW  "
       ],
-      "terrain": {
-        "r": "t_dirtfloor",
-        "W": "t_wall_log",
-        ".": "t_dirtfloor",
-        "c": "t_conveyor",
-        "m": "t_machinery_old",
-        "M": "t_machinery_heavy"
-      },
-      "furniture": { "r": "f_rack" },
+      "terrain": { "r": "t_dirtfloor", "W": "t_wall_log", ".": "t_dirtfloor", "m": "t_dirtfloor", "M": "t_dirtfloor", "c": "t_conveyor" },
+      "furniture": { "m": "f_machinery_old", "M": "f_machinery_heavy", "r": "f_rack" },
       "place_item": [
         { "item": "log", "x": 3, "y": 0 },
         { "item": "log", "x": 3, "y": 1 },

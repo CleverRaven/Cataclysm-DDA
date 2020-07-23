@@ -316,7 +316,7 @@ float Character::hit_roll() const
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 1.0f - encumb( bp_torso ) / 100.0f );
+    hit *= std::max( 0.25f, 1.0f - encumb( bodypart_id( "torso" ) ) / 100.0f );
 
     return melee::melee_hit_range( hit );
 }
@@ -339,7 +339,7 @@ std::string Character::get_miss_reason()
     // in one turn
     add_miss_reason(
         _( "Your torso encumbrance throws you off-balance." ),
-        roll_remainder( encumb( bp_torso ) / 10.0 ) );
+        roll_remainder( encumb( bodypart_id( "torso" ) ) / 10.0 ) );
     const int farsightedness = 2 * ( has_trait( trait_HYPEROPIC ) &&
                                      !worn_with_flag( "FIX_FARSIGHT" ) &&
                                      !has_effect( effect_contacts ) );
@@ -541,6 +541,16 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         // Handles effects as well; not done in melee_affect_*
         if( technique.id != tec_none ) {
             perform_technique( technique, t, d, move_cost );
+        }
+
+        //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
+        if( has_active_bionic( bio_cqb ) && !martial_arts_data.knows_selected_style() ) {
+            /** @EFFECT_INT slightly increases chance to learn techniques when using CQB bionic */
+            // Enhanced Memory Banks bionic doubles chance to learn martial art
+            const int bionic_boost = has_active_bionic( bionic_id( bio_memory ) ) ? 2 : 1;
+            if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
+                martial_arts_data.learn_current_style_CQB( is_player() );
+            }
         }
 
         // Proceed with melee attack.
@@ -1567,16 +1577,6 @@ void Character::perform_technique( const ma_technique &technique, Creature &t, d
         moves = temp_moves;
         set_stamina( temp_stamina );
     }
-
-    //player has a very small chance, based on their intelligence, to learn a style whilst using the CQB bionic
-    if( has_active_bionic( bio_cqb ) && !martial_arts_data.knows_selected_style() ) {
-        /** @EFFECT_INT slightly increases chance to learn techniques when using CQB bionic */
-        // Enhanced Memory Banks bionic doubles chance to learn martial art
-        const int bionic_boost = has_active_bionic( bionic_id( bio_memory ) ) ? 2 : 1;
-        if( one_in( ( 1400 - ( get_int() * 50 ) ) / bionic_boost ) ) {
-            martial_arts_data.learn_current_style_CQB( is_player() );
-        }
-    }
 }
 
 static int blocking_ability( const item &shield )
@@ -2260,8 +2260,8 @@ int Character::attack_speed( const item &weap ) const
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur / 2;
-    const int encumbrance_penalty = encumb( bp_torso ) +
-                                    ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
+    const int encumbrance_penalty = encumb( bodypart_id( "torso" ) ) +
+                                    ( encumb( bodypart_id( "hand_l" ) ) + encumb( bodypart_id( "hand_r" ) ) ) / 2;
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );

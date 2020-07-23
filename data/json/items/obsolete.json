@@ -2220,47 +2220,6 @@
     "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "metal_rail": 1 } } ]
   },
   {
-    "id": "coilgun",
-    "copy-from": "gun_base",
-    "looks_like": "ar15",
-    "type": "GUN",
-    "name": { "str": "coilgun" },
-    "//": "Hard to make, plentiful and cheap ammo, and silent - people will want this thing.",
-    "description": "A homemade gun, using electromagnets to accelerate a ferromagnetic projectile to high velocity.  Powered by UPS.",
-    "weight": "3341 g",
-    "volume": "2750 ml",
-    "price": 75000,
-    "price_postapoc": 5000,
-    "to_hit": -2,
-    "bashing": 10,
-    "material": [ "copper", "steel" ],
-    "ammo": [ "nail" ],
-    "skill": "rifle",
-    "range": 12,
-    "ranged_damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 20 },
-    "dispersion": 180,
-    "durability": 5,
-    "ups_charges": 5,
-    "valid_mod_locations": [
-      [ "accessories", 4 ],
-      [ "grip", 1 ],
-      [ "sights", 1 ],
-      [ "sling", 1 ],
-      [ "stock", 1 ],
-      [ "rail mount", 1 ],
-      [ "underbarrel mount", 1 ]
-    ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "nailmag" ]
-      }
-    ]
-  },
-  {
     "id": "nailrifle",
     "copy-from": "nailgun",
     "looks_like": "ar15",
@@ -2293,24 +2252,6 @@
         "item_restriction": [ "nailmag" ]
       }
     ]
-  },
-  {
-    "id": "nailmag",
-    "looks_like": "stanag30",
-    "type": "MAGAZINE",
-    "name": { "str": "nail rifle magazine" },
-    "description": "An improvised magazine for use with a nail rifle.  Little more than a tin can, spring and some duct tape it is awkward to reload and not especially reliable.",
-    "weight": "60 g",
-    "volume": "250 ml",
-    "price": 1920,
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "nail" ],
-    "capacity": 50,
-    "reload_time": 300,
-    "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "nail": 50 } } ]
   },
   {
     "id": "recipe_mininuke_launch",
@@ -2691,7 +2632,7 @@
     "skill": "rifle",
     "dispersion": 150,
     "durability": 7,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ], [ "AUTO", "auto", 4 ] ],
     "valid_mod_locations": [
       [ "accessories", 4 ],

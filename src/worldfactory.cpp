@@ -652,7 +652,10 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
         mSortCategory[0] = sLastCategoryName;
 
         for( size_t i = 0; i < mods.size(); ++i ) {
-            const std::string category_name = _( mods[i]->category.second );
+            std::string category_name = _( "MISSING MODS" );
+            if( mods[i].is_valid() ) {
+                category_name = mods[i]->obsolete ? _( "OBSOLETE MODS" ) : _( mods[i]->category.second );
+            }
             if( sLastCategoryName != category_name ) {
                 sLastCategoryName = category_name;
                 mSortCategory[ i + iCatSortNum++ ] = sLastCategoryName;
@@ -702,8 +705,21 @@ void worldfactory::draw_mod_list( const catacurses::window &w, int &start, size_
                         }
                     }
 
-                    const MOD_INFORMATION &mod = **iter;
-                    trim_and_print( w, point( 4, iNum - start ), wwidth, c_white, mod.name() );
+                    const mod_id &mod_entry_id = *iter;
+                    std::string mod_entry_name = string_format( _( " [%s]" ), mod_entry_id.str() );
+                    nc_color mod_entry_color = c_white;
+                    if( mod_entry_id.is_valid() ) {
+                        const MOD_INFORMATION &mod = *mod_entry_id;
+                        mod_entry_name = mod.name() + mod_entry_name;
+                        if( mod.obsolete ) {
+                            mod_entry_color = c_dark_gray;
+                        }
+                    } else {
+                        mod_entry_color = c_light_red;
+                        mod_entry_name = _( "N/A" ) + mod_entry_name;
+
+                    }
+                    trim_and_print( w, point( 4, iNum - start ), wwidth, mod_entry_color, mod_entry_name );
 
                     if( w_shift ) {
                         // get shift information for the active item

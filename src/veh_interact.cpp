@@ -3206,7 +3206,7 @@ void veh_interact::complete_vehicle( player &p )
                 // part_removal_cleanup calls refresh, so parts_at_relative is valid
                 veh->part_removal_cleanup();
                 if( veh->parts_at_relative( mount, true ).empty() ) {
-                    g->m.clear_vehicle_point_from_cache( veh, part_pos );
+                    get_map().clear_vehicle_point_from_cache( veh, part_pos );
                 }
             }
             // This will be part of an NPC "job" where they need to clean up the acitivty items afterwards

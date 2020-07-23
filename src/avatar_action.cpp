@@ -380,7 +380,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
                 add_msg( m_info, _( "%s to dive underwater." ),
                          press_x( ACTION_MOVE_DOWN ) );
             }
-            avatar_action::swim( get_map(), g->u, dest_loc );
+            avatar_action::swim( get_map(), get_avatar(), dest_loc );
         }
 
         g->on_move_effects();
@@ -692,7 +692,7 @@ static bool gunmode_checks_weapon( avatar &you, const map &m, std::vector<std::s
         const int adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
         bool is_mech_weapon = false;
         if( you.is_mounted() ) {
-            monster *mons = g->u.mounted_creature.get();
+            monster *mons = get_player_character().mounted_creature.get();
             if( !mons->type->mech_weapon.is_empty() ) {
                 is_mech_weapon = true;
             }
@@ -936,23 +936,29 @@ bool avatar_action::eat_here( avatar &you )
 void avatar_action::eat( avatar &you )
 {
     item_location loc = game_menus::inv::consume( you );
-    avatar_action::eat( you, loc, you.activity.values );
+    std::string filter;
+    if( !you.activity.str_values.empty() ) {
+        filter = you.activity.str_values.back();
+    }
+    avatar_action::eat( you, loc, you.activity.values, filter );
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc )
 {
-    avatar_action::eat( you, loc, std::vector<int>() );
+    avatar_action::eat( you, loc, std::vector<int>(), std::string() );
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc,
-                         std::vector<int> consume_menu_selections )
+                         std::vector<int> consume_menu_selections,
+                         const std::string &consume_menu_filter )
 {
     if( !loc ) {
         you.cancel_activity();
         add_msg( _( "Never mind." ) );
         return;
     }
-    you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections ) ) );
+    you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
+                                          consume_menu_filter ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,
@@ -963,7 +969,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         return;
     }
     if( you.is_mounted() ) {
-        monster *mons = g->u.mounted_creature.get();
+        monster *mons = get_player_character().mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
@@ -1052,7 +1058,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         you.weapon.mod_charges( -1 );
         thrown.charges = 1;
     } else {
-        you.i_rem( -1 );
+        you.remove_weapon();
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();

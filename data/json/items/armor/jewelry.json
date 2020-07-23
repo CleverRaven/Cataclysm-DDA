@@ -35,8 +35,8 @@
     "name": { "str": "beaded necklace" },
     "description": "A simple necklace made of string and wooden beads.  You can wear it if you like, but it won't provide any effects.  Also doubles as a set of prayer beads, if you're so inclined.",
     "looks_like": "silver_necklace",
-    "weight": "15 g",
-    "volume": "10 ml",
+    "weight": "36 g",
+    "volume": "30 ml",
     "price": 100,
     "price_postapoc": 10,
     "material": [ "wood" ],
@@ -1344,7 +1344,8 @@
     "copy-from": "badge_abstract",
     "type": "ARMOR",
     "name": { "str": "deputy badge" },
-    "description": "A tarnished silver star gives an air of authority to the wearer."
+    "description": "A tarnished silver star gives an air of authority to the wearer.",
+    "ascii_picture": "badge_deputy"
   },
   {
     "id": "badge_detective",

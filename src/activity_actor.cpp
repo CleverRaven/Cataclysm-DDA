@@ -48,6 +48,7 @@ static const skill_id skill_mechanics( "mechanics" );
 
 static const trait_id trait_ILLITERATE( "ILLITERATE" );
 
+static const std::string flag_MAG_DESTROY( "MAG_DESTROY" );
 static const std::string flag_PERFECT_LOCKPICK( "PERFECT_LOCKPICK" );
 static const std::string flag_RELOAD_AND_SHOOT( "RELOAD_AND_SHOOT" );
 
@@ -60,33 +61,6 @@ static const mtype_id mon_zombie_crawler( "mon_zombie_crawler" );
 static const quality_id qual_LOCKPICK( "LOCKPICK" );
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
-
-template<>
-struct enum_traits<aim_activity_actor::WeaponSource> {
-    static constexpr aim_activity_actor::WeaponSource last =
-        aim_activity_actor::WeaponSource::NumWeaponSources;
-};
-
-namespace io
-{
-using WS = aim_activity_actor::WeaponSource;
-
-template<>
-std::string enum_to_string<WS>( WS data )
-{
-    switch( data ) {
-            // *INDENT-OFF*
-        case WS::Wielded: return "Wielded";
-        case WS::Bionic: return "Bionic";
-        case WS::Mutation: return "Mutation";
-            // *INDENT-ON*
-        case WS::NumWeaponSources:
-            break;
-    }
-    debugmsg( "Invalid weapon source" );
-    abort();
-}
-} // namespace io
 
 aim_activity_actor::aim_activity_actor()
 {
@@ -102,17 +76,15 @@ aim_activity_actor aim_activity_actor::use_bionic( const item &fake_gun,
         const units::energy &cost_per_shot )
 {
     aim_activity_actor act = aim_activity_actor();
-    act.weapon_source = WeaponSource::Bionic;
     act.bp_cost_per_shot = cost_per_shot;
-    act.fake_weapon = make_shared_fast<item>( fake_gun );
+    act.fake_weapon = fake_gun;
     return act;
 }
 
 aim_activity_actor aim_activity_actor::use_mutation( const item &fake_gun )
 {
     aim_activity_actor act = aim_activity_actor();
-    act.weapon_source = WeaponSource::Mutation;
-    act.fake_weapon = make_shared_fast<item>( fake_gun );
+    act.fake_weapon = fake_gun;
     return act;
 }
 
@@ -126,14 +98,10 @@ void aim_activity_actor::start( player_activity &act, Character &/*who*/ )
 
 void aim_activity_actor::do_turn( player_activity &act, Character &who )
 {
-    if( aborted || finished ) {
-        // A shortcut that allows terminating this activity by setting 'aborted' or 'finished'
-        act.moves_left = 0;
-        return;
-    }
     if( !who.is_avatar() ) {
         debugmsg( "ACT_AIM not implemented for NPCs" );
         aborted = true;
+        act.moves_left = 0;
         return;
     }
     avatar &you = get_avatar();
@@ -141,6 +109,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     item *weapon = get_weapon();
     if( !weapon || !avatar_action::can_fire_weapon( you, get_map(), *weapon ) ) {
         aborted = true;
+        act.moves_left = 0;
         return;
     }
 
@@ -148,6 +117,7 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     if( first_turn && gun->has_flag( flag_RELOAD_AND_SHOOT ) && !gun->ammo_remaining() ) {
         if( !load_RAS_weapon() ) {
             aborted = true;
+            act.moves_left = 0;
             return;
         }
     }
@@ -156,10 +126,12 @@ void aim_activity_actor::do_turn( player_activity &act, Character &who )
     target_handler::trajectory trajectory = target_handler::mode_fire( you, *this );
     g->reenter_fullscreen();
 
-    if( !aborted ) {
+    if( aborted ) {
+        act.moves_left = 0;
+    } else {
         if( !trajectory.empty() ) {
-            finished = true;
             fin_trajectory = trajectory;
+            act.moves_left = 0;
         }
         // If aborting on the first turn, keep 'first_turn' as 'true'.
         // This allows refunding moves spent on unloading RELOAD_AND_SHOOT weapons
@@ -172,6 +144,10 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
 {
     act.set_to_null();
     restore_view();
+    item *weapon = get_weapon();
+    if( !weapon ) {
+        return;
+    }
     if( aborted ) {
         unload_RAS_weapon();
         if( reload_requested ) {
@@ -183,7 +159,6 @@ void aim_activity_actor::finish( player_activity &act, Character &who )
     }
 
     // Fire!
-    item *weapon = get_weapon();
     gun_mode gun = weapon->gun_current_mode();
     int shots_fired = static_cast<player *>( &who )->fire_gun( fin_trajectory.back(), gun.qty, *gun );
 
@@ -203,10 +178,7 @@ void aim_activity_actor::serialize( JsonOut &jsout ) const
 {
     jsout.start_object();
 
-    jsout.member( "weapon_source", weapon_source );
-    if( weapon_source == WeaponSource::Bionic || weapon_source == WeaponSource::Mutation ) {
-        jsout.member( "fake_weapon", *fake_weapon );
-    }
+    jsout.member( "fake_weapon", fake_weapon );
     jsout.member( "bp_cost_per_shot", bp_cost_per_shot );
     jsout.member( "first_turn", first_turn );
     jsout.member( "action", action );
@@ -223,11 +195,7 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
     JsonObject data = jsin.get_object();
 
-    data.read( "weapon_source", actor.weapon_source );
-    if( actor.weapon_source == WeaponSource::Bionic || actor.weapon_source == WeaponSource::Mutation ) {
-        actor.fake_weapon = make_shared_fast<item>();
-        data.read( "fake_weapon", *actor.fake_weapon );
-    }
+    data.read( "fake_weapon", actor.fake_weapon );
     data.read( "bp_cost_per_shot", actor.bp_cost_per_shot );
     data.read( "first_turn", actor.first_turn );
     data.read( "action", actor.action );
@@ -240,20 +208,14 @@ std::unique_ptr<activity_actor> aim_activity_actor::deserialize( JsonIn &jsin )
 
 item *aim_activity_actor::get_weapon()
 {
-    switch( weapon_source ) {
-        case WeaponSource::Wielded: {
-            Character &player_character = get_player_character();
-            // Check for lost gun (e.g. yanked by zombie technician)
-            // TODO: check that this is the same gun that was used to start aiming
-            return player_character.weapon.is_null() ? nullptr : &player_character.weapon;
-        }
-        case WeaponSource::Bionic:
-        case WeaponSource::Mutation:
-            // TODO: check if the player lost relevant bionic/mutation
-            return fake_weapon.get();
-        default:
-            debugmsg( "Invalid weapon source value" );
-            return nullptr;
+    if( fake_weapon.has_value() ) {
+        // TODO: check if the player lost relevant bionic/mutation
+        return &fake_weapon.value();
+    } else {
+        // Check for lost gun (e.g. yanked by zombie technician)
+        // TODO: check that this is the same gun that was used to start aiming
+        item *weapon = &get_player_character().weapon;
+        return weapon->is_null() ? nullptr : weapon;
     }
 }
 
@@ -328,7 +290,7 @@ void aim_activity_actor::unload_RAS_weapon()
 
         // Note: this code works only for avatar
         item_location loc = item_location( you, gun.target );
-        g->unload( loc );
+        you.unload( loc, true );
 
         // Give back time for unloading as essentially nothing has been done.
         if( first_turn ) {
@@ -343,13 +305,14 @@ void dig_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void dig_activity_actor::do_turn( player_activity &, Character & )
+void dig_activity_actor::do_turn( player_activity &, Character &who )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( location, 10, sounds::sound_t::activity, _( "hsh!" ) );
     }
+    get_map().maybe_trigger_trap( location, who, true );
 }
 
 void dig_activity_actor::finish( player_activity &act, Character &who )
@@ -383,7 +346,7 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
                 it->set_damage( rng( 1, it->max_damage() - 1 ) );
             }
         }
-        g->events().send<event_type::exhumes_grave>( who.getID() );
+        get_event_bus().send<event_type::exhumes_grave>( who.getID() );
     }
 
     here.ter_set( location, ter_id( result_terrain ) );
@@ -405,8 +368,6 @@ void dig_activity_actor::finish( player_activity &act, Character &who )
     }
 
     act.set_to_null();
-
-    here.maybe_trigger_trap( location, who, true );
 }
 
 void dig_activity_actor::serialize( JsonOut &jsout ) const
@@ -446,13 +407,14 @@ void dig_channel_activity_actor::start( player_activity &act, Character & )
     act.moves_left = moves_total;
 }
 
-void dig_channel_activity_actor::do_turn( player_activity &, Character & )
+void dig_channel_activity_actor::do_turn( player_activity &, Character &who )
 {
     sfx::play_activity_sound( "tool", "shovel", sfx::get_heard_volume( location ) );
     if( calendar::once_every( 1_minutes ) ) {
         //~ Sound of a shovel digging a pit at work!
         sounds::sound( location, 10, sounds::sound_t::activity, _( "hsh!" ) );
     }
+    get_map().maybe_trigger_trap( location, who, true );
 }
 
 void dig_channel_activity_actor::finish( player_activity &act, Character &who )
@@ -473,8 +435,6 @@ void dig_channel_activity_actor::finish( player_activity &act, Character &who )
                            here.ter( location ).obj().name() );
 
     act.set_to_null();
-
-    here.maybe_trigger_trap( location, who, true );
 }
 
 void dig_channel_activity_actor::serialize( JsonOut &jsout ) const
@@ -619,12 +579,12 @@ void hacking_activity_actor::finish( player_activity &act, Character &who )
         case hack_result::FAIL:
             // currently all things that can be hacked have equivalent alarm failure states.
             // this may not always be the case with new hackable things.
-            g->events().send<event_type::triggers_alarm>( who.getID() );
+            get_event_bus().send<event_type::triggers_alarm>( who.getID() );
             sounds::sound( who.pos(), 60, sounds::sound_t::music, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( examp.z > 0 && !g->timed_events.queued( timed_event_type::WANTED ) ) {
-                g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                     who.global_sm_location() );
+            if( examp.z > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
+                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
+                                        who.global_sm_location() );
             }
             break;
         case hack_result::NOTHING:
@@ -996,9 +956,9 @@ void lockpick_activity_actor::finish( player_activity &act, Character &who )
     if( !perfect && ter_type == t_door_locked_alarm && ( lock_roll + dice( 1, 30 ) ) > pick_roll ) {
         sounds::sound( who.pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                        "alarm" );
-        if( !g->timed_events.queued( timed_event_type::WANTED ) ) {
-            g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                 who.global_sm_location() );
+        if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
+            get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
+                                    who.global_sm_location() );
         }
     }
 
@@ -1140,23 +1100,24 @@ void consume_activity_actor::start( player_activity &act, Character &guy )
     if( consume_location ) {
         const auto ret = player_character.will_eat( *consume_location, true );
         if( !ret.success() ) {
+            canceled = true;
             consume_menu_selections = std::vector<int>();
+            consume_menu_filter = std::string();
             return;
-        } else {
-            force = true;
         }
         moves = to_moves<int>( guy.get_consume_time( *consume_location ) );
     } else if( !consume_item.is_null() ) {
         const auto ret = player_character.will_eat( consume_item, true );
         if( !ret.success() ) {
+            canceled = true;
             consume_menu_selections = std::vector<int>();
+            consume_menu_filter = std::string();
             return;
-        } else {
-            force = true;
         }
         moves = to_moves<int>( guy.get_consume_time( consume_item ) );
     } else {
         debugmsg( "Item/location to be consumed should not be null." );
+        canceled = true;
         return;
     }
 
@@ -1172,22 +1133,35 @@ void consume_activity_actor::finish( player_activity &act, Character & )
     act.interruptable = false;
 
     avatar &player_character = get_avatar();
-    if( consume_location ) {
-        player_character.consume( consume_location, force );
-    } else if( !consume_item.is_null() ) {
-        player_character.consume( consume_item, force );
-    } else {
-        debugmsg( "Item location/name to be consumed should not be null." );
-    }
-    if( player_character.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
-        player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
+    if( !canceled ) {
+        if( consume_location ) {
+            player_character.consume( consume_location, /*force=*/true );
+        } else if( !consume_item.is_null() ) {
+            player_character.consume( consume_item, /*force=*/true );
+        } else {
+            debugmsg( "Item location/name to be consumed should not be null." );
+        }
+        if( player_character.get_value( "THIEF_MODE_KEEP" ) != "YES" ) {
+            player_character.set_value( "THIEF_MODE", "THIEF_ASK" );
+        }
     }
     //setting act to null clears these so back them up
     std::vector<int> temp_selections = consume_menu_selections;
-    act.set_to_null();
-    if( !temp_selections.empty() ) {
-        player_character.assign_activity( ACT_EAT_MENU );
-        player_character.activity.values = temp_selections;
+    const std::string temp_filter = consume_menu_filter;
+    if( act.id() == activity_id( "ACT_CONSUME" ) ) {
+        act.set_to_null();
+    }
+    if( !temp_selections.empty() || !temp_filter.empty() ) {
+        if( act.is_null() ) {
+            player_character.assign_activity( ACT_EAT_MENU );
+            player_character.activity.values = temp_selections;
+            player_character.activity.str_values = { temp_filter };
+        } else {
+            player_activity eat_menu( ACT_EAT_MENU );
+            eat_menu.values = temp_selections;
+            eat_menu.str_values = { temp_filter };
+            player_character.backlog.push_back( eat_menu );
+        }
     }
 }
 
@@ -1198,7 +1172,8 @@ void consume_activity_actor::serialize( JsonOut &jsout ) const
     jsout.member( "consume_location", consume_location );
     jsout.member( "consume_item", consume_item );
     jsout.member( "consume_menu_selections", consume_menu_selections );
-    jsout.member( "force", force );
+    jsout.member( "consume_menu_filter", consume_menu_filter );
+    jsout.member( "canceled", canceled );
 
     jsout.end_object();
 }
@@ -1213,7 +1188,8 @@ std::unique_ptr<activity_actor> consume_activity_actor::deserialize( JsonIn &jsi
     data.read( "consume_location", actor.consume_location );
     data.read( "consume_item", actor.consume_item );
     data.read( "consume_menu_selections", actor.consume_menu_selections );
-    data.read( "force", actor.force );
+    data.read( "consume_menu_filter", actor.consume_menu_filter );
+    data.read( "canceled", actor.canceled );
 
     return actor.clone();
 }
@@ -1299,6 +1275,73 @@ std::unique_ptr<activity_actor> try_sleep_activity_actor::deserialize( JsonIn &j
 
     data.read( "disable_query", actor.disable_query );
     data.read( "duration", actor.duration );
+
+    return actor.clone();
+}
+
+void unload_mag_activity_actor::start( player_activity &act, Character & )
+{
+    act.moves_left = moves_total;
+    act.moves_total = moves_total;
+}
+
+void unload_mag_activity_actor::finish( player_activity &act, Character &who )
+{
+    act.set_to_null();
+    unload( who, target );
+}
+
+void unload_mag_activity_actor::unload( Character &who, item_location &target )
+{
+    int qty = 0;
+    item &it = *target.get_item();
+
+    std::vector<item *> remove_contained;
+    for( item *contained : it.contents.all_items_top() ) {
+        if( who.as_player()->add_or_drop_with_msg( *contained, true ) ) {
+            qty += contained->charges;
+            remove_contained.push_back( contained );
+        }
+    }
+    // remove the ammo leads in the belt
+    for( item *remove : remove_contained ) {
+        it.remove_item( *remove );
+    }
+
+    // remove the belt linkage
+    if( it.is_ammo_belt() ) {
+        if( it.type->magazine->linkage ) {
+            item link( *it.type->magazine->linkage, calendar::turn, qty );
+            who.as_player()->add_or_drop_with_msg( link, true );
+        }
+        who.add_msg_if_player( _( "You disassemble your %s." ), it.tname() );
+    } else {
+        who.add_msg_if_player( _( "You unload your %s." ), it.tname() );
+    }
+
+    if( it.has_flag( flag_MAG_DESTROY ) && it.ammo_remaining() == 0 ) {
+        target.remove_item();
+    }
+}
+
+void unload_mag_activity_actor::serialize( JsonOut &jsout ) const
+{
+    jsout.start_object();
+
+    jsout.member( "moves_total", moves_total );
+    jsout.member( "target", target );
+
+    jsout.end_object();
+}
+
+std::unique_ptr<activity_actor> unload_mag_activity_actor::deserialize( JsonIn &jsin )
+{
+    unload_mag_activity_actor actor = unload_mag_activity_actor( 0, item_location::nowhere );
+
+    JsonObject data = jsin.get_object();
+
+    data.read( "moves_total", actor.moves_total );
+    data.read( "target", actor.target );
 
     return actor.clone();
 }
@@ -1558,6 +1601,7 @@ deserialize_functions = {
     { activity_id( "ACT_OPEN_GATE" ), &open_gate_activity_actor::deserialize },
     { activity_id( "ACT_PICKUP" ), &pickup_activity_actor::deserialize },
     { activity_id( "ACT_TRY_SLEEP" ), &try_sleep_activity_actor::deserialize },
+    { activity_id( "ACT_UNLOAD_MAG" ), &unload_mag_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_HARD" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_ACTIVE" ), &workout_activity_actor::deserialize },
     { activity_id( "ACT_WORKOUT_MODERATE" ), &workout_activity_actor::deserialize },

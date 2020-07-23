@@ -33,7 +33,7 @@
         "..............'U<U''U''."
       ],
       "terrain": {
-        ".": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+        ".": "t_region_groundcover",
         " ": "t_floor",
         "'": "t_pavement",
         "U": "t_pavement",
@@ -45,11 +45,11 @@
         "-": "t_wall_y",
         "~": "t_window_alarm",
         "%": "t_reinforced_glass",
-        "?": "t_console_broken",
         "4": "t_gutter_downspout",
         "<": "t_ladder_up"
       },
       "furniture": {
+        "?": "f_console_broken",
         "U": [ "f_dumpster", "f_recycle_bin" ],
         "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
         "X": "f_safe_l",

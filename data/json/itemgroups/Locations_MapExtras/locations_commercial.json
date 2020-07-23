@@ -1053,7 +1053,7 @@
       { "item": "manual_fabrication", "prob": 20 },
       { "item": "duct_tape", "prob": 70 },
       { "item": "misc_repairkit", "prob": 15 },
-      { "item": "toolbox", "prob": 2 }
+      { "group": "tools_toolbox", "prob": 2 }
     ]
   },
   {
@@ -1109,7 +1109,7 @@
           { "item": "screwdriver_set", "prob": 20 },
           { "item": "duct_tape", "prob": 50 },
           { "item": "misc_repairkit", "prob": 25 },
-          { "item": "toolbox", "prob": 2 }
+          { "group": "tools_toolbox", "prob": 2 }
         ]
       }
     ]
@@ -1711,7 +1711,8 @@
     "//": "for veterinarian",
     "type": "item_group",
     "items": [
-      [ "bandages", 50 ],
+      [ "bandages", 30 ],
+      [ "adhesive_bandages", 30 ],
       [ "1st_aid", 10 ],
       [ "saline", 20 ],
       [ "vitamins", 15 ],
@@ -1825,7 +1826,7 @@
       [ "shorts", 30 ],
       [ "coke", 3 ],
       [ "longshirt", 30 ],
-      [ "bandages", 10 ],
+      [ "adhesive_bandages", 10 ],
       [ "heatpack", 10 ],
       [ "gum", 12 ],
       [ "soap", 10 ],

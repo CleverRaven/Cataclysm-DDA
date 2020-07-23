@@ -98,7 +98,7 @@
     "//": "220 days gestation period, the mother and cubs remain together for 16-17 months.",
     "baby_flags": [ "SPRING" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BLEED", "BASHES", "ATTACKMON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BASHES", "ATTACKMON" ]
   },
   {
     "id": "mon_beaver",
@@ -194,7 +194,7 @@
     "upgrades": { "age_grow": 38, "into": "mon_boar_wild" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_boar_wild",
@@ -232,7 +232,7 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_bobcat",
@@ -563,18 +563,7 @@
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zougar",
     "harvest": "mammal_fur",
-    "flags": [
-      "SEES",
-      "HEARS",
-      "GOODHEARING",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "WARM",
-      "HIT_AND_RUN",
-      "KEENNOSE",
-      "BLEED"
-    ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
   },
   {
     "id": "mon_tiger",
@@ -660,6 +649,7 @@
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_drops": { "subtype": "collection", "groups": [ [ "cow", 25 ] ], "//": "25% chance of an item from group cow" },
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zow",
     "harvest": "mammal_large_leather",
     "reproduction": { "baby_monster": "mon_cow_calf", "baby_count": 1, "baby_timer": 343 },
     "baby_flags": [ "SPRING", "SUMMER", "AUTUMN" ],
@@ -708,7 +698,7 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "harvest": "mammal_fur",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
   },
   {
     "id": "mon_coyote_wolf",
@@ -740,7 +730,7 @@
     "fear_triggers": [ "SOUND" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_deer_fawn",
@@ -802,6 +792,7 @@
     "path_settings": { "max_dist": 10 },
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
+    "zombify_into": "mon_zeer",
     "reproduction": { "baby_monster": "mon_deer_fawn", "baby_count": 1, "baby_timer": 330 },
     "//": " 201 days gestation period. The fawn will stay with its mother for approximately one year, suckling for three to four months.",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 12 },
@@ -1609,7 +1600,7 @@
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
   },
   {
     "id": "mon_fox_red",
@@ -1635,12 +1626,12 @@
     "melee_cut": 2,
     "dodge": 6,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
+    "harvest": "mammal_small_fur",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
   },
   {
     "id": "mon_groundhog",
@@ -1664,7 +1655,7 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 4,
-    "harvest": "mammal_tiny",
+    "harvest": "mammal_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM" ]
@@ -1724,6 +1715,7 @@
     "harvest": "mammal_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 2 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
+    "zombify_into": "mon_zombie_horse",
     "flags": [
       "SEES",
       "HEARS",
@@ -1785,12 +1777,12 @@
     "melee_dice_sides": 4,
     "melee_cut": 2,
     "dodge": 6,
-    "harvest": "mammal_tiny",
+    "harvest": "mammal_small_fur",
     "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED" ],
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "HIT_AND_RUN", "KEENNOSE" ]
   },
   {
     "id": "mon_moose",
@@ -1828,7 +1820,7 @@
     "harvest": "mammal_large_leather",
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 8 },
     "special_attacks": [ [ "EAT_CROP", 60 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "BLEED", "ATTACKMON" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "ATTACKMON" ]
   },
   {
     "id": "mon_muskrat",
@@ -1853,7 +1845,7 @@
     "melee_dice_sides": 6,
     "melee_cut": 2,
     "dodge": 2,
-    "harvest": "mammal_tiny",
+    "harvest": "mammal_small_fur",
     "fear_triggers": [ "SOUND", "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
     "flags": [ "SEES", "SMELLS", "HEARS", "WARM", "SWIMS", "ANIMAL", "PATH_AVOID_DANGER_1" ]
@@ -1894,7 +1886,7 @@
     "death_function": [ "NORMAL" ],
     "regenerates": 10,
     "regen_morale": true,
-    "flags": [ "ATTACKMON", "BLEED", "BORES", "CAN_DIG", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "WARM" ],
+    "flags": [ "ATTACKMON", "BORES", "CAN_DIG", "HEARS", "KEENNOSE", "PATH_AVOID_DANGER_1", "SMELLS", "WARM" ],
     "//": "Reinsert GOODHEARING when z-level tunneling is possible."
   },
   {
@@ -1920,11 +1912,11 @@
     "melee_cut": 1,
     "dodge": 2,
     "vision_night": 5,
-    "harvest": "mammal_tiny",
+    "harvest": "mammal_small_fur",
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_otter",
@@ -1985,18 +1977,7 @@
     "upgrades": { "age_grow": 38, "into": "mon_pig" },
     "biosignature": { "biosig_item": "feces_manure", "biosig_timer": 7 },
     "special_attacks": [ [ "EAT_FOOD", 40 ] ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "ANIMAL",
-      "PATH_AVOID_DANGER_1",
-      "CATTLEFODDER",
-      "PET_WONT_FOLLOW",
-      "WARM",
-      "KEENNOSE",
-      "BLEED"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "CATTLEFODDER", "PET_WONT_FOLLOW", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_pig",
@@ -2033,7 +2014,7 @@
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zombie_pig",
     "special_attacks": [ [ "EAT_FOOD", 20 ] ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "PET_MOUNTABLE", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_rabbit",
@@ -2084,11 +2065,11 @@
     "melee_dice_sides": 4,
     "melee_cut": 1,
     "dodge": 3,
-    "harvest": "mammal_tiny",
+    "harvest": "mammal_small_fur",
     "vision_night": 5,
     "anger_triggers": [ "FRIEND_ATTACKED", "HURT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "CLIMBS", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   },
   {
     "id": "mon_rat_king",
@@ -2334,6 +2315,6 @@
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
     "zombify_into": "mon_zolf",
-    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE", "BLEED" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "ANIMAL", "PATH_AVOID_DANGER_1", "WARM", "KEENNOSE" ]
   }
 ]

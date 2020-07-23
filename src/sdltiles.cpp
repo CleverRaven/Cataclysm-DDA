@@ -45,6 +45,7 @@
 #include "hash_utils.h"
 #include "input.h"
 #include "json.h"
+#include "map.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -3886,7 +3887,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
         p = view_offset + selected - dim.window_size_cell / 2;
     }
 
-    return tripoint( p, g->get_levz() );
+    return tripoint( p, get_map().get_abs_sub().z );
 }
 
 int get_terminal_width()

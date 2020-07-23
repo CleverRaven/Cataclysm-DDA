@@ -2,6 +2,7 @@
 #ifndef CATA_TESTS_STRINGMAKER_H
 #define CATA_TESTS_STRINGMAKER_H
 
+#include "cuboid_rectangle.h"
 #include "catch/catch.hpp"
 #include "cata_variant.h"
 #include "dialogue.h"
@@ -27,6 +28,13 @@ struct StringMaker<item> {
 };
 
 template<>
+struct StringMaker<point> {
+    static std::string convert( const point &p ) {
+        return string_format( "point( %d, %d )", p.x, p.y );
+    }
+};
+
+template<>
 struct StringMaker<rectangle> {
     static std::string convert( const rectangle &r ) {
         return string_format( "[%s-%s]", r.p_min.to_string(), r.p_max.to_string() );
@@ -34,8 +42,8 @@ struct StringMaker<rectangle> {
 };
 
 template<>
-struct StringMaker<box> {
-    static std::string convert( const box &b ) {
+struct StringMaker<cuboid> {
+    static std::string convert( const cuboid &b ) {
         return string_format( "[%s-%s]", b.p_min.to_string(), b.p_max.to_string() );
     }
 };

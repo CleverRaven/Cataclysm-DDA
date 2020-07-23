@@ -593,20 +593,21 @@ int hotkey_for_action( action_id action, const bool restrict_to_printable )
 
 bool can_butcher_at( const tripoint &p )
 {
+    Character &player_character = get_player_character();
     // TODO: unify this with game::butcher
-    const int factor = g->u.max_quality( qual_BUTCHER );
-    const int factorD = g->u.max_quality( qual_CUT_FINE );
+    const int factor = player_character.max_quality( qual_BUTCHER );
+    const int factorD = player_character.max_quality( qual_CUT_FINE );
     map_stack items = get_map().i_at( p );
     bool has_item = false;
     bool has_corpse = false;
 
-    const inventory &crafting_inv = g->u.crafting_inventory();
+    const inventory &crafting_inv = player_character.crafting_inventory();
     for( item &items_it : items ) {
         if( items_it.is_corpse() ) {
             if( factor != INT_MIN  || factorD != INT_MIN ) {
                 has_corpse = true;
             }
-        } else if( g->u.can_disassemble( items_it, crafting_inv ).success() ) {
+        } else if( player_character.can_disassemble( items_it, crafting_inv ).success() ) {
             has_item = true;
         }
     }
@@ -615,13 +616,15 @@ bool can_butcher_at( const tripoint &p )
 
 bool can_move_vertical_at( const tripoint &p, int movez )
 {
+    Character &player_character = get_player_character();
     map &here = get_map();
     // TODO: unify this with game::move_vertical
     if( here.has_flag( flag_SWIMMABLE, p ) && here.has_flag( TFLAG_DEEP_WATER, p ) ) {
         if( movez == -1 ) {
-            return !g->u.is_underwater() && !g->u.worn_with_flag( flag_FLOTATION );
+            return !player_character.is_underwater() && !player_character.worn_with_flag( flag_FLOTATION );
         } else {
-            return g->u.swim_speed() < 500 || g->u.is_wearing( itype_id( "swim_fins" ) );
+            return player_character.swim_speed() < 500 ||
+                   player_character.is_wearing( itype_id( "swim_fins" ) );
         }
     }
 
@@ -654,11 +657,11 @@ bool can_examine_at( const tripoint &p )
     }
 
     Creature *c = g->critter_at( p );
-    if( c != nullptr && p != g->u.pos() ) {
+    if( c != nullptr && !c->is_avatar() ) {
         return true;
     }
 
-    return here.can_see_trap_at( p, g->u );
+    return here.can_see_trap_at( p, get_player_character() );
 }
 
 static bool can_pickup_at( const tripoint &p )
@@ -676,15 +679,16 @@ static bool can_pickup_at( const tripoint &p )
 bool can_interact_at( action_id action, const tripoint &p )
 {
     map &here = get_map();
+    tripoint player_pos = get_player_character().pos();
     switch( action ) {
         case ACTION_OPEN:
-            return here.open_door( p, !here.is_outside( g->u.pos() ), true );
+            return here.open_door( p, !here.is_outside( player_pos ), true );
         case ACTION_CLOSE: {
             const optional_vpart_position vp = here.veh_at( p );
             return ( vp &&
                      vp->vehicle().next_part_to_close( vp->part_index(),
-                             veh_pointer_or_null( here.veh_at( g->u.pos() ) ) != &vp->vehicle() ) >= 0 ) ||
-                   here.close_door( p, !here.is_outside( g->u.pos() ), true );
+                             veh_pointer_or_null( here.veh_at( player_pos ) ) != &vp->vehicle() ) >= 0 ) ||
+                   here.close_door( p, !here.is_outside( player_pos ), true );
         }
         case ACTION_BUTCHER:
             return can_butcher_at( p );
@@ -719,38 +723,39 @@ action_id handle_action_menu()
     // Weight >= 200: Special action only available right now
     std::map<action_id, int> action_weightings;
 
+    Character &player_character = get_player_character();
     // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-    if( !g->u.get_hostile_creatures( 60 ).empty() ) {
+    if( !player_character.get_hostile_creatures( 60 ).empty() ) {
         // Only prioritize movement options if we're not driving.
-        if( !g->u.controlling_vehicle ) {
+        if( !player_character.controlling_vehicle ) {
             action_weightings[ACTION_CYCLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( flag_REACH_ATTACK ) ) {
+        if( player_character.weapon.is_gun() || player_character.weapon.has_flag( flag_REACH_ATTACK ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if( g->u.is_running() ) {
+    if( player_character.is_running() ) {
         action_weightings[ACTION_TOGGLE_RUN] = 300;
     }
     // If we're already crouching, make it simple to toggle crouching to off.
-    if( g->u.is_crouching() ) {
+    if( player_character.is_crouching() ) {
         action_weightings[ACTION_TOGGLE_CROUCH] = 300;
     }
 
     map &here = get_map();
     // Check if we're on a vehicle, if so, vehicle controls should be top.
-    if( here.veh_at( g->u.pos() ) ) {
+    if( here.veh_at( player_character.pos() ) ) {
         // Make it 300 to prioritize it before examining the vehicle.
         action_weightings[ACTION_CONTROL_VEHICLE] = 300;
     }
 
     // Check if we can perform one of our actions on nearby terrain. If so,
     // display that action at the top of the list.
-    for( const tripoint &pos : here.points_in_radius( g->u.pos(), 1 ) ) {
-        if( pos != g->u.pos() ) {
+    for( const tripoint &pos : here.points_in_radius( player_character.pos(), 1 ) ) {
+        if( pos != player_character.pos() ) {
             // Check for actions that work on nearby tiles
             if( can_interact_at( ACTION_OPEN, pos ) ) {
                 action_weightings[ACTION_OPEN] = 200;
@@ -1040,11 +1045,12 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
         ui_manager::redraw();
         action = ctxt.handle_input();
         if( const cata::optional<tripoint> vec = ctxt.get_direction( action ) ) {
+            FacingDirection &facing = get_player_character().facing;
             // Make player's sprite face left/right if interacting with something to the left or right
             if( vec->x > 0 ) {
-                g->u.facing = FacingDirection::RIGHT;
+                facing = FacingDirection::RIGHT;
             } else if( vec->x < 0 ) {
-                g->u.facing = FacingDirection::LEFT;
+                facing = FacingDirection::LEFT;
             }
             return vec;
         } else if( action == "pause" ) {
@@ -1063,7 +1069,7 @@ cata::optional<tripoint> choose_direction( const std::string &message, const boo
 cata::optional<tripoint> choose_adjacent( const std::string &message, const bool allow_vertical )
 {
     const cata::optional<tripoint> dir = choose_direction( message, allow_vertical );
-    return dir ? *dir + g->u.pos() : dir;
+    return dir ? *dir + get_player_character().pos() : dir;
 }
 
 cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
@@ -1080,9 +1086,10 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
         const bool allow_vertical )
 {
     std::vector<tripoint> valid;
+    avatar &player_character = get_avatar();
     map &here = get_map();
     if( allowed ) {
-        for( const tripoint &pos : here.points_in_radius( g->u.pos(), 1 ) ) {
+        for( const tripoint &pos : here.points_in_radius( player_character.pos(), 1 ) ) {
             if( allowed( pos ) ) {
                 valid.emplace_back( pos );
             }
@@ -1101,8 +1108,8 @@ cata::optional<tripoint> choose_adjacent_highlight( const std::string &message,
     if( !valid.empty() ) {
         hilite_cb = make_shared_fast<game::draw_callback_t>( [&]() {
             for( const tripoint &pos : valid ) {
-                here.drawsq( g->w_terrain, g->u, pos,
-                             true, true, g->u.pos() + g->u.view_offset );
+                here.drawsq( g->w_terrain, player_character, pos,
+                             true, true, player_character.pos() + player_character.view_offset );
             }
         } );
         g->add_draw_callback( hilite_cb );

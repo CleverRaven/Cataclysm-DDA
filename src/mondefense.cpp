@@ -56,8 +56,9 @@ void mdefense::zapback( monster &m, Creature *const source,
     if( const player *const foe = dynamic_cast<player *>( source ) ) {
         // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
         for( const item &i : foe->worn ) {
-            if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) &&
-                !i.conductive() && i.get_coverage() >= 95 ) {
+            if( !i.conductive()
+                && ( ( i.get_coverage( bodypart_id( "hand_l" ) ) >= 95 ) ||
+                     i.get_coverage( bodypart_id( "hand_r" ) ) >= 95 ) ) {
                 return;
             }
         }
@@ -126,7 +127,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     }
 
     // Don't splatter directly on the `m`, that doesn't work well
-    std::vector<tripoint> pts = closest_tripoints_first( source->pos(), 1 );
+    std::vector<tripoint> pts = closest_points_first( source->pos(), 1 );
     pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ), pts.end() );
 
     projectile prj;

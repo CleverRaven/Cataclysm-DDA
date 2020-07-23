@@ -4,6 +4,7 @@
     "type": "item_group",
     "items": [
       [ "summon_scroll_smudged", 10 ],
+      [ "spell_scroll_tornskin", 10 ],
       [ "spell_scroll_smite", 40 ],
       [ "spell_scroll_summon_zombie", 25 ],
       [ "spell_scroll_light_healing", 50 ],

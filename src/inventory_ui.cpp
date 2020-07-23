@@ -574,7 +574,7 @@ size_t inventory_column::page_of( const inventory_entry &entry ) const
 }
 bool inventory_column::has_available_choices() const
 {
-    if( !allows_selecting() ) {
+    if( !allows_selecting() || !activatable() ) {
         return false;
     }
     for( size_t i = 0; i < entries.size(); ++i ) {
@@ -912,7 +912,7 @@ size_t inventory_column::get_entry_indent( const inventory_entry &entry ) const
     if( get_option<bool>( "ITEM_SYMBOLS" ) ) {
         res += 2;
     }
-    if( allows_selecting() && multiselect ) {
+    if( allows_selecting() && activatable() && multiselect ) {
         res += 2;
     }
     return res;
@@ -1050,7 +1050,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p )
                 mvwputch( win, point( xx, yy ), color, entry.any_item()->symbol() );
                 xx += 2;
             }
-            if( allows_selecting() && multiselect ) {
+            if( allows_selecting() && activatable() && multiselect ) {
                 if( entry.chosen_count == 0 ) {
                     mvwputch( win, point( xx, yy ), c_dark_gray, '-' );
                 } else if( entry.chosen_count >= entry.get_available_count() ) {
@@ -1289,10 +1289,14 @@ void inventory_selector::add_contained_items( item_location &container )
 
 void inventory_selector::add_contained_items( item_location &container, inventory_column &column )
 {
+    if( container->has_flag( "NO_UNLOAD" ) ) {
+        return;
+    }
+
     for( item *it : container->contents.all_items_top() ) {
         item_location child( container, it );
         add_contained_items( child, column );
-        add_item( column, std::move( child ) );
+        add_entry( column, std::vector<item_location>( 1, child ) );
     }
 }
 
@@ -1372,7 +1376,7 @@ void inventory_selector::add_nearby_items( int radius )
 {
     if( radius >= 0 ) {
         map &here = get_map();
-        for( const tripoint &pos : closest_tripoints_first( u.pos(), radius ) ) {
+        for( const tripoint &pos : closest_points_first( u.pos(), radius ) ) {
             // can not reach this -> can not access its contents
             if( u.pos() != pos && !here.clear_path( u.pos(), pos, rl_dist( u.pos(), pos ), 1, 100 ) ) {
                 continue;
@@ -2381,7 +2385,7 @@ void inventory_drop_selector::deselect_contained_items()
                         if( !selected->is_item() ) {
                             continue;
                         }
-                        for( item_location selected_loc : selected->locations ) {
+                        for( const item_location &selected_loc : selected->locations ) {
                             if( selected_loc == loc_contained ) {
                                 set_chosen_count( *selected, 0 );
                             }
@@ -2536,5 +2540,5 @@ inventory_selector::stats inventory_drop_selector::get_raw_stats() const
                u.weight_carried_with_tweaks( dropping ),
                u.weight_capacity(),
                u.volume_carried_with_tweaks( dropping ),
-               u.volume_capacity() );
+               u.volume_capacity_with_tweaks( dropping ) );
 }

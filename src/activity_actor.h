@@ -11,7 +11,6 @@
 #include "clone_ptr.h"
 #include "item_location.h"
 #include "item.h"
-#include "memory_fast.h"
 #include "point.h"
 #include "type_id.h"
 #include "units.h"
@@ -109,17 +108,12 @@ class activity_actor
 
 class aim_activity_actor : public activity_actor
 {
-    public:
-        enum class WeaponSource : int {
-            Wielded,
-            Bionic,
-            Mutation,
-            NumWeaponSources
-        };
-
-        WeaponSource weapon_source = WeaponSource::Wielded;
-        shared_ptr_fast<item> fake_weapon = nullptr;
+    private:
+        cata::optional<item> fake_weapon;
         units::energy bp_cost_per_shot = 0_J;
+        std::vector<tripoint> fin_trajectory;
+
+    public:
         bool first_turn = true;
         std::string action = "";
         bool snap_to_target = false;
@@ -127,14 +121,11 @@ class aim_activity_actor : public activity_actor
         tripoint initial_view_offset;
         /** Target UI requested to abort aiming */
         bool aborted = false;
-        /** Target UI requested to fire */
-        bool finished = false;
         /**
          * Target UI requested to abort aiming and reload weapon
          * Implies aborted = true
          */
         bool reload_requested = false;
-        std::vector<tripoint> fin_trajectory;
 
         aim_activity_actor();
 
@@ -515,19 +506,22 @@ class consume_activity_actor : public activity_actor
         item_location consume_location;
         item consume_item;
         std::vector<int> consume_menu_selections;
-        bool force = false;
+        std::string consume_menu_filter;
+        bool canceled = false;
         /**
          * @pre @p other is a consume_activity_actor
          */
         bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
             const consume_activity_actor &c_actor = static_cast<const consume_activity_actor &>( other );
             return ( consume_location == c_actor.consume_location &&
-                     force == c_actor.force && &consume_item == &c_actor.consume_item );
+                     canceled == c_actor.canceled && &consume_item == &c_actor.consume_item );
         }
     public:
         consume_activity_actor( const item_location &consume_location,
-                                std::vector<int> consume_menu_selections ) :
-            consume_location( consume_location ), consume_menu_selections( consume_menu_selections ) {}
+                                std::vector<int> consume_menu_selections,
+                                const std::string &consume_menu_filter ) :
+            consume_location( consume_location ), consume_menu_selections( consume_menu_selections ),
+            consume_menu_filter( consume_menu_filter ) {}
 
         consume_activity_actor( const item_location &consume_location ) :
             consume_location( consume_location ), consume_menu_selections( std::vector<int>() ) {}
@@ -576,6 +570,38 @@ class try_sleep_activity_actor : public activity_actor
 
         std::unique_ptr<activity_actor> clone() const override {
             return std::make_unique<try_sleep_activity_actor>( *this );
+        }
+
+        void serialize( JsonOut &jsout ) const override;
+        static std::unique_ptr<activity_actor> deserialize( JsonIn &jsin );
+};
+
+class unload_mag_activity_actor : public activity_actor
+{
+    private:
+        int moves_total;
+        item_location target;
+    public:
+        unload_mag_activity_actor( int moves_total, const item_location &target ) :
+            moves_total( moves_total ), target( target ) {}
+        activity_id get_type() const override {
+            return activity_id( "ACT_UNLOAD_MAG" );
+        }
+
+        bool can_resume_with_internal( const activity_actor &other, const Character & ) const override {
+            const unload_mag_activity_actor &act = static_cast<const unload_mag_activity_actor &>( other );
+            return target == act.target;
+        }
+
+        void start( player_activity &act, Character & ) override;
+        void do_turn( player_activity &, Character & ) override {}
+        void finish( player_activity &act, Character &who ) override;
+
+        /** Unloads the magazine instantly. Can be called without an activity. May destroy the item. */
+        static void unload( Character &who, item_location &target );
+
+        std::unique_ptr<activity_actor> clone() const override {
+            return std::make_unique<unload_mag_activity_actor>( *this );
         }
 
         void serialize( JsonOut &jsout ) const override;

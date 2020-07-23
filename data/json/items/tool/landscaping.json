@@ -59,19 +59,18 @@
   {
     "id": "primitive_shovel",
     "type": "TOOL",
-    "name": { "str": "stone shovel" },
-    "description": "This is a flattened stone affixed to a stick.  It works passably well as a shovel but really can't compare to a real shovel.",
+    "name": { "str": "wooden shovel" },
+    "description": "This is a crude shovel with shovelhead made from wood, historically used as an alternative to metal shovels when metal was too expensive.  It works passably well, but really can't compare to a metal shovel.",
     "weight": "1581 g",
     "volume": "4 L",
-    "longest_side": "90 cm",
-    "price": 0,
-    "price_postapoc": 0,
+    "longest_side": "120 cm",
+    "price": 100,
     "bashing": 15,
     "cutting": 1,
-    "material": [ "stone", "wood" ],
+    "material": [ "wood" ],
     "symbol": "/",
     "color": "brown",
-    "qualities": [ [ "DIG", 2 ], [ "COOK", 1 ], [ "BUTCHER", -96 ] ]
+    "qualities": [ [ "DIG", 2 ] ]
   },
   {
     "id": "rake",

@@ -295,25 +295,26 @@ static void prep_craft( const recipe_id &rid, const std::vector<item> &tools,
     clear_map();
 
     const tripoint test_origin( 60, 60, 0 );
-    g->u.setpos( test_origin );
+    Character &player_character = get_player_character();
+    player_character.setpos( test_origin );
     const item backpack( "backpack" );
-    g->u.worn.push_back( backpack );
-    g->u.worn.push_back( backpack );
+    player_character.worn.push_back( backpack );
+    player_character.worn.push_back( backpack );
     for( const item &gear : tools ) {
-        g->u.i_add( gear );
+        player_character.i_add( gear );
     }
 
     const recipe &r = rid.obj();
 
     // Ensure adequate skill for all "required" skills
     for( const std::pair<const skill_id, int> &skl : r.required_skills ) {
-        g->u.set_skill_level( skl.first, skl.second );
+        player_character.set_skill_level( skl.first, skl.second );
     }
     // and just in case "used" skill difficulty is higher, set that too
-    g->u.set_skill_level( r.skill_used, std::max( r.difficulty,
-                          g->u.get_skill_level( r.skill_used ) ) );
-    g->u.moves--;
-    const inventory &crafting_inv = g->u.crafting_inventory();
+    player_character.set_skill_level( r.skill_used, std::max( r.difficulty,
+                                      player_character.get_skill_level( r.skill_used ) ) );
+    player_character.moves--;
+    const inventory &crafting_inv = player_character.crafting_inventory();
     bool can_craft = r.deduped_requirements().can_make_with_inventory(
                          crafting_inv, r.get_component_filter() );
     REQUIRE( can_craft == expect_craftable );
@@ -326,7 +327,7 @@ static void set_time( const time_point &time )
 {
     calendar::turn = time;
     g->reset_light_level();
-    int z = g->u.posz();
+    int z = get_player_character().posz();
     map &here = get_map();
     here.update_visibility_cache( z );
     here.invalidate_map_cache( z );
@@ -340,27 +341,29 @@ static int actually_test_craft( const recipe_id &rid, const std::vector<item> &t
 {
     prep_craft( rid, tools, true );
     set_time( midday ); // Ensure light for crafting
+    avatar &player_character = get_avatar();
     const recipe &rec = rid.obj();
-    REQUIRE( g->u.morale_crafting_speed_multiplier( rec ) == 1.0 );
-    REQUIRE( g->u.lighting_craft_speed_multiplier( rec ) == 1.0 );
-    REQUIRE( !g->u.activity );
+    REQUIRE( player_character.morale_crafting_speed_multiplier( rec ) == 1.0 );
+    REQUIRE( player_character.lighting_craft_speed_multiplier( rec ) == 1.0 );
+    REQUIRE( !player_character.activity );
 
     // This really shouldn't be needed, but for some reason the tests fail for mingw builds without it
-    g->u.learn_recipe( &rec );
-    REQUIRE( g->u.has_recipe( &rec, g->u.crafting_inventory(), g->u.get_crafting_helpers() ) != -1 );
-    g->u.remove_weapon();
-    REQUIRE( !g->u.is_armed() );
-    g->u.make_craft( rid, 1 );
-    REQUIRE( g->u.activity );
-    REQUIRE( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
+    player_character.learn_recipe( &rec );
+    REQUIRE( player_character.has_recipe( &rec, player_character.crafting_inventory(),
+                                          player_character.get_crafting_helpers() ) != -1 );
+    player_character.remove_weapon();
+    REQUIRE( !player_character.is_armed() );
+    player_character.make_craft( rid, 1 );
+    REQUIRE( player_character.activity );
+    REQUIRE( player_character.activity.id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
-    while( g->u.activity.id() == activity_id( "ACT_CRAFT" ) ) {
+    while( player_character.activity.id() == activity_id( "ACT_CRAFT" ) ) {
         if( turns >= interrupt_after_turns ) {
             set_time( midnight ); // Kill light to interrupt crafting
         }
         ++turns;
-        g->u.moves = 100;
-        g->u.activity.do_turn( g->u );
+        player_character.moves = 100;
+        player_character.activity.do_turn( player_character );
     }
     return turns;
 }
@@ -502,22 +505,23 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
 // Resume the first in progress craft found in the player's inventory
 static int resume_craft()
 {
-    std::vector<item *> crafts = g->u.items_with( []( const item & itm ) {
+    avatar &player_character = get_avatar();
+    std::vector<item *> crafts = player_character.items_with( []( const item & itm ) {
         return itm.is_craft();
     } );
     REQUIRE( crafts.size() == 1 );
     item *craft = crafts.front();
     set_time( midday ); // Ensure light for crafting
-    REQUIRE( g->u.crafting_speed_multiplier( *craft, tripoint_zero ) == 1.0 );
-    REQUIRE( !g->u.activity );
-    g->u.use( g->u.get_item_position( craft ) );
-    REQUIRE( g->u.activity );
-    REQUIRE( g->u.activity.id() == activity_id( "ACT_CRAFT" ) );
+    REQUIRE( player_character.crafting_speed_multiplier( *craft, tripoint_zero ) == 1.0 );
+    REQUIRE( !player_character.activity );
+    player_character.use( player_character.get_item_position( craft ) );
+    REQUIRE( player_character.activity );
+    REQUIRE( player_character.activity.id() == activity_id( "ACT_CRAFT" ) );
     int turns = 0;
-    while( g->u.activity.id() == activity_id( "ACT_CRAFT" ) ) {
+    while( player_character.activity.id() == activity_id( "ACT_CRAFT" ) ) {
         ++turns;
-        g->u.moves = 100;
-        g->u.activity.do_turn( g->u );
+        player_character.moves = 100;
+        player_character.activity.do_turn( player_character );
     }
     return turns;
 }
@@ -527,21 +531,22 @@ static void verify_inventory( const std::vector<std::string> &has,
 {
     std::ostringstream os;
     os << "Inventory:\n";
-    for( const item *i : g->u.inv_dump() ) {
+    Character &player_character = get_player_character();
+    for( const item *i : player_character.inv_dump() ) {
         os << "  " << i->typeId().str() << " (" << i->charges << ")\n";
     }
-    os << "Wielded:\n" << g->u.weapon.tname() << "\n";
+    os << "Wielded:\n" << player_character.weapon.tname() << "\n";
     INFO( os.str() );
     for( const std::string &i : has ) {
         INFO( "expecting " << i );
         const bool has_item =
-            player_has_item_of_type( i ) || g->u.weapon.type->get_id() == itype_id( i );
+            player_has_item_of_type( i ) || player_character.weapon.type->get_id() == itype_id( i );
         REQUIRE( has_item );
     }
     for( const std::string &i : hasnt ) {
         INFO( "not expecting " << i );
         const bool hasnt_item =
-            !player_has_item_of_type( i ) && !( g->u.weapon.type->get_id() == itype_id( i ) );
+            !player_has_item_of_type( i ) && !( player_character.weapon.type->get_id() == itype_id( i ) );
         REQUIRE( hasnt_item );
     }
 }
@@ -550,7 +555,7 @@ TEST_CASE( "total crafting time with or without interruption", "[crafting][time]
 {
     GIVEN( "a recipe and all the required tools and materials to craft it" ) {
         recipe_id test_recipe( "crude_picklock" );
-        int expected_time_taken = test_recipe->batch_time( 1, 1, 0 );
+        int expected_time_taken = test_recipe->batch_time( get_player_character(), 1, 1, 0 );
         int expected_turns_taken = divide_round_up( expected_time_taken, 100 );
 
         std::vector<item> tools;

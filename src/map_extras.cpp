@@ -16,6 +16,7 @@
 #include "character_id.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "enum_conversions.h"
 #include "enums.h"
@@ -619,7 +620,8 @@ static bool mx_collegekids( map &m, const tripoint & )
 
 static bool mx_roadblock( map &m, const tripoint &abs_sub )
 {
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    // TODO: fix point types
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
@@ -797,7 +799,7 @@ static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
     const tripoint leader_pos( rng( 4, 19 ), rng( 4, 19 ), abs_sub.z );
     const int max_followers = rng( 3, 12 );
     const int rad = 3;
-    const tripoint_range spawnzone = m.points_in_radius( leader_pos, rad );
+    const tripoint_range<tripoint> spawnzone = m.points_in_radius( leader_pos, rad );
 
     m.place_npc( leader_pos.xy(), string_id<npc_template>( "marloss_voice" ) );
     for( int spawned = 0 ; spawned <= max_followers ; spawned++ ) {
@@ -813,7 +815,7 @@ static bool mx_marloss_pilgrimage( map &m, const tripoint &abs_sub )
 
 static bool mx_bandits_block( map &m, const tripoint &abs_sub )
 {
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
@@ -1051,7 +1053,8 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
 {
     // All points except the borders are valid--we need the 1 square buffer so that we can do a 1 unit radius
     // around our chosen portal point without clipping against the edge of the map.
-    const tripoint_range points = m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
+    const tripoint_range<tripoint> points =
+        m.points_in_rectangle( { 1, 1, abs_sub.z }, { SEEX * 2 - 2, SEEY * 2 - 2, abs_sub.z } );
 
     // Get a random point in our collection that does not have a trap and does not have the NO_FLOOR flag.
     const cata::optional<tripoint> portal_pos = random_point( points, [&]( const tripoint & p ) {
@@ -1100,7 +1103,7 @@ static bool mx_portal( map &m, const tripoint &abs_sub )
 
 static bool mx_minefield( map &, const tripoint &abs_sub )
 {
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &center = overmap_buffer.ter( abs_omt );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
@@ -1130,7 +1133,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
 
     tinymap m;
     if( bridge_at_north && bridgehead_at_center && road_at_south ) {
-        m.load( omt_to_sm_copy( abs_omt + point_south ), false );
+        m.load( project_to<coords::sm>( abs_omt + point_south ), false );
 
         //Sandbag block at the left edge
         line_furn( &m, f_sandbag_half, point( 3, 4 ), point( 3, 7 ) );
@@ -1230,7 +1233,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_south && bridgehead_at_center && road_at_north ) {
-        m.load( omt_to_sm_copy( abs_omt + point_north ), false );
+        m.load( project_to<coords::sm>( abs_omt + point_north ), false );
         //Two horizontal lines of sandbags
         line_furn( &m, f_sandbag_half, point( 5, 15 ), point( 10, 15 ) );
         line_furn( &m, f_sandbag_half, point( 13, 15 ), point( 18, 15 ) );
@@ -1332,7 +1335,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_west && bridgehead_at_center && road_at_east ) {
-        m.load( omt_to_sm_copy( abs_omt + point_east ), false );
+        m.load( project_to<coords::sm>( abs_omt + point_east ), false );
         //Draw walls of first tent
         square_furn( &m, f_canvas_wall, point( 0, 3 ), point( 4, 13 ) );
 
@@ -1479,7 +1482,7 @@ static bool mx_minefield( map &, const tripoint &abs_sub )
     }
 
     if( bridge_at_east && bridgehead_at_center && road_at_west ) {
-        m.load( omt_to_sm_copy( abs_omt + point_west ), false );
+        m.load( project_to<coords::sm>( abs_omt + point_west ), false );
         //Spawn military cargo truck blocking the entry
         m.add_vehicle( vproto_id( "military_cargo_truck" ), point( 15, 11 ), 270, 70, 1 );
 
@@ -1781,7 +1784,8 @@ static bool mx_portal_in( map &m, const tripoint &abs_sub )
             artifact_natural_property prop =
                 static_cast<artifact_natural_property>( rng( ARTPROP_NULL + 1, ARTPROP_MAX - 1 ) );
             m.create_anomaly( portal_location, prop );
-            m.spawn_natural_artifact( p + tripoint( rng( -1, 1 ), rng( -1, 1 ), abs_sub.z ), prop );
+            m.spawn_artifact( p + tripoint( rng( -1, 1 ), rng( -1, 1 ), abs_sub.z ),
+                              relic_procgen_id( "alien_reality" ) );
             break;
         }
     }
@@ -2290,7 +2294,7 @@ static bool mx_roadworks( map &m, const tripoint &abs_sub )
     // equipment in a box
     // (curved roads & intersections excluded, perhaps TODO)
 
-    const tripoint abs_omt = sm_to_omt_copy( abs_sub );
+    const tripoint_abs_omt abs_omt( sm_to_omt_copy( abs_sub ) );
     const oter_id &north = overmap_buffer.ter( abs_omt + point_north );
     const oter_id &south = overmap_buffer.ter( abs_omt + point_south );
     const oter_id &west = overmap_buffer.ter( abs_omt + point_west );
@@ -2994,21 +2998,23 @@ static bool mx_grave( map &m, const tripoint &abs_sub )
 static bool mx_city_trap( map &/*m*/, const tripoint &abs_sub )
 {
     //First, find a city
-    const city_reference c = overmap_buffer.closest_city( abs_sub );
-    const tripoint city_center_omt = sm_to_omt_copy( c.abs_sm_pos );
+    // TODO: fix point types
+    const city_reference c = overmap_buffer.closest_city( tripoint_abs_sm( abs_sub ) );
+    const tripoint_abs_omt city_center_omt =
+        project_to<coords::omt>( c.abs_sm_pos );
 
     //Then fill vector with all roads inside the city radius
-    std::vector<tripoint> valid_omt;
-    for( const tripoint &p : points_in_radius( city_center_omt, c.city->size ) ) {
+    std::vector<tripoint_abs_omt> valid_omt;
+    for( const tripoint_abs_omt &p : points_in_radius( city_center_omt, c.city->size ) ) {
         if( overmap_buffer.check_ot( "road", ot_match_type::prefix, p ) ) {
             valid_omt.push_back( p );
         }
     }
 
-    const tripoint road_omt = random_entry( valid_omt, city_center_omt );
+    const tripoint_abs_omt road_omt = random_entry( valid_omt, city_center_omt );
 
     tinymap compmap;
-    compmap.load( tripoint( road_omt.x * 2, road_omt.y * 2, road_omt.z ), false );
+    compmap.load( project_to<coords::sm>( road_omt ), false );
 
     const tripoint trap_center = { SEEX + rng( -5, 5 ), SEEY + rng( -5, 5 ), abs_sub.z };
     bool empty_3x3_square = false;
@@ -3102,12 +3108,14 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
             break;
         }
         case map_extra_method::mapgen: {
-            mapgendata dat( sm_to_omt_copy( abs_sub ), m, 0.0f, calendar::turn, nullptr );
+            mapgendata dat( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), m, 0.0f, calendar::turn,
+                            nullptr );
             applied_successfully = run_mapgen_func( extra.generator_id, dat );
             break;
         }
         case map_extra_method::update_mapgen: {
-            mapgendata dat( sm_to_omt_copy( abs_sub ), m, 0.0f, calendar::start_of_cataclysm, nullptr );
+            mapgendata dat( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), m, 0.0f,
+                            calendar::start_of_cataclysm, nullptr );
             applied_successfully = run_mapgen_update_func( extra.generator_id, dat );
             break;
         }
@@ -3120,7 +3128,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
         return;
     }
 
-    overmap_buffer.add_extra( sm_to_omt_copy( abs_sub ), id );
+    // TODO: fix point types
+    overmap_buffer.add_extra( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), id );
 
     auto_notes::auto_note_settings &autoNoteSettings = get_auto_notes_settings();
 
@@ -3137,7 +3146,8 @@ void apply_function( const string_id<map_extra> &id, map &m, const tripoint &abs
                                get_note_string_from_color( extra.color ),
                                extra.name(),
                                extra.description() );
-            overmap_buffer.add_note( sm_to_omt_copy( abs_sub ), mx_note );
+            // TODO: fix point types
+            overmap_buffer.add_note( tripoint_abs_omt( sm_to_omt_copy( abs_sub ) ), mx_note );
         }
     }
 }

@@ -701,7 +701,8 @@
     "type": "mutation",
     "id": "CANNIBAL",
     "name": { "str": "Cannibal" },
-    "points": 1,
+    "points": 3,
+    "//": "Feral humans vastly increase the cannibal meat supply, therefore this trait needs to increase in cost.",
     "description": "For your whole life you've been forbidden from indulging in your peculiar tastes.  Now the world's ended, and you'll be damned if anyone is going to tell you that you can't eat people.",
     "starting_trait": true,
     "valid": false,
@@ -6376,17 +6377,6 @@
   },
   {
     "type": "mutation",
-    "id": "PROF_HELI_PILOT",
-    "name": "Helicopter Pilot",
-    "points": 0,
-    "description": "You are a trained helicopter pilot.  This makes you one of the few living people who can operate a helicopter after the Cataclysm.",
-    "valid": false,
-    "purifiable": false,
-    "profession": true,
-    "cancels": [ "WAYFARER" ]
-  },
-  {
-    "type": "mutation",
     "id": "PROF_SWAT",
     "name": { "str": "SWAT Officer" },
     "points": 0,
@@ -6657,6 +6647,16 @@
   },
   {
     "type": "mutation",
+    "id": "DEBUG_CLAIRVOYANCE",
+    "name": { "str": "Debug Clairvoyance" },
+    "points": 99,
+    "valid": false,
+    "description": "You can clearly see that this is for dev purposes only.",
+    "flags": [ "SUPER_CLAIRVOYANCE" ],
+    "debug": true
+  },
+  {
+    "type": "mutation",
     "id": "DEBUG_CLOAK",
     "name": { "str": "Debug Invisibility" },
     "points": 99,
@@ -6838,8 +6838,7 @@
     "points": -8,
     "description": "Whether from personal choice or childhood trauma, traveling with vehicles is off-limits to you, even if your life depended on it.",
     "starting_trait": true,
-    "valid": false,
-    "cancels": [ "PROF_HELI_PILOT" ]
+    "valid": false
   },
   {
     "type": "mutation",

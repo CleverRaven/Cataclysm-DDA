@@ -27,6 +27,7 @@
 #include "loading_ui.h"
 #include "mapbuffer.h"
 #include "mapsharing.h"
+#include "messages.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -501,7 +502,8 @@ bool main_menu::opening_screen()
     ctxt.register_action( "ANY_INPUT" );
     bool start = false;
 
-    g->u = avatar();
+    avatar &player_character = get_avatar();
+    player_character = avatar();
 
     int sel_line = 0;
 
@@ -663,9 +665,9 @@ bool main_menu::opening_screen()
                 }
                 if( action == "UP" || action == "CONFIRM" ) {
                     if( sel2 >= 0 && sel2 < static_cast<int>( special_game_type::NUM_SPECIAL_GAME_TYPES ) - 1 ) {
-                        on_out_of_scope cleanup( []() {
+                        on_out_of_scope cleanup( [&player_character]() {
                             g->gamemode.reset();
-                            g->u = avatar();
+                            player_character = avatar();
                             world_generator->set_active_world( nullptr );
                         } );
                         g->gamemode = get_special_game( static_cast<special_game_type>( sel2 + 1 ) );
@@ -801,6 +803,7 @@ bool main_menu::new_character_tab()
         ui.position_from_window( w_open );
     } );
     ui.position_from_window( w_open );
+    avatar &player_character = get_avatar();
 
     bool start = false;
     while( !start && sel1 == 1 && ( layer == 2 || layer == 3 ) ) {
@@ -842,8 +845,8 @@ bool main_menu::new_character_tab()
             }
             if( action == "UP" || action == "CONFIRM" ) {
                 if( sel2 == 0 || sel2 == 2 || sel2 == 3 || sel2 == 4 ) {
-                    on_out_of_scope cleanup( []() {
-                        g->u = avatar();
+                    on_out_of_scope cleanup( [&player_character]() {
+                        player_character = avatar();
                         world_generator->set_active_world( nullptr );
                     } );
                     g->gamemode = nullptr;
@@ -876,7 +879,7 @@ bool main_menu::new_character_tab()
                             play_type = character_type::FULL_RANDOM;
                             break;
                     }
-                    if( !g->u.create( play_type ) ) {
+                    if( !player_character.create( play_type ) ) {
                         load_char_templates();
                         MAPBUFFER.reset();
                         overmap_buffer.clear();
@@ -932,8 +935,8 @@ bool main_menu::new_character_tab()
                     }
                 }
             } else if( action == "RIGHT" || action == "NEXT_TAB" || action == "CONFIRM" ) {
-                on_out_of_scope cleanup( []() {
-                    g->u = avatar();
+                on_out_of_scope cleanup( [&player_character]() {
+                    player_character = avatar();
                     world_generator->set_active_world( nullptr );
                 } );
                 g->gamemode = nullptr;
@@ -948,7 +951,7 @@ bool main_menu::new_character_tab()
                     debugmsg( "Error: %s", err.what() );
                     continue;
                 }
-                if( !g->u.create( character_type::TEMPLATE, templates[sel3] ) ) {
+                if( !player_character.create( character_type::TEMPLATE, templates[sel3] ) ) {
                     load_char_templates();
                     MAPBUFFER.reset();
                     overmap_buffer.clear();
@@ -964,10 +967,10 @@ bool main_menu::new_character_tab()
     } // end while
 
     if( start ) {
-        g->u.add_msg_if_player( g->scen->description( g->u.male ) );
+        add_msg( get_scenario()->description( player_character.male ) );
 
         world_generator->last_world_name = world_generator->active_world->world_name;
-        world_generator->last_character_name = g->u.name;
+        world_generator->last_character_name = player_character.name;
         world_generator->save_last_world_info();
     }
     return start;
@@ -1061,6 +1064,7 @@ bool main_menu::load_character_tab( bool transfer )
         ui.position_from_window( w_open );
     } );
     ui.position_from_window( w_open );
+    avatar &player_character = get_avatar();
 
     while( !start && sel1 == 2 && ( layer == 2 || layer == 3 ) ) {
         ui_manager::redraw();
@@ -1127,8 +1131,8 @@ bool main_menu::load_character_tab( bool transfer )
             }
             if( action == "RIGHT" || action == "NEXT_TAB" || action == "CONFIRM" ) {
                 if( sel3 >= 0 && sel3 < static_cast<int>( savegames.size() ) ) {
-                    on_out_of_scope cleanup( []() {
-                        g->u = avatar();
+                    on_out_of_scope cleanup( [&player_character]() {
+                        player_character = avatar();
                         world_generator->set_active_world( nullptr );
                     } );
 
@@ -1226,6 +1230,7 @@ void main_menu::world_tab()
     } );
     ui.position_from_window( w_open );
 
+    avatar &player_character = get_avatar();
     while( sel1 == 3 && ( layer == 2 || layer == 3 || layer == 4 ) ) {
         ui_manager::redraw();
         if( layer == 4 ) {  //Character to Template
@@ -1236,11 +1241,11 @@ void main_menu::world_tab()
                 points.skill_points = 0;
                 points.limit = points_left::TRANSFER;
 
-                g->u.setID( character_id(), true );
-                g->u.reset_all_misions();
-                g->u.save_template( g->u.name, points );
+                player_character.setID( character_id(), true );
+                player_character.reset_all_misions();
+                player_character.save_template( player_character.name, points );
 
-                g->u = avatar();
+                player_character = avatar();
                 MAPBUFFER.reset();
                 overmap_buffer.clear();
 

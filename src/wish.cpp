@@ -409,7 +409,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
             if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
                 int num_spawned = 0;
-                for( const tripoint &destination : closest_tripoints_first( *spawn, cb.group ) ) {
+                for( const tripoint &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );
                     if( !mon ) {
                         continue;

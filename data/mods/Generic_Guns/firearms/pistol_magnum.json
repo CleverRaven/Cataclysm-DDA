@@ -44,7 +44,7 @@
     "durability": 6,
     "blackpowder_tolerance": 60,
     "loudness": 25,
-    "barrel_length": "250 ml",
+    "barrel_volume": "250 ml",
     "valid_mod_locations": [
       [ "accessories", 2 ],
       [ "muzzle", 1 ],

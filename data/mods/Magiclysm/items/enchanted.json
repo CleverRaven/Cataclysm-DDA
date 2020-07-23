@@ -72,5 +72,24 @@
         }
       ]
     }
+  },
+  {
+    "id": "cloak_morthylla",
+    "type": "ARMOR",
+    "copy-from": "cloak_wool",
+    "name": { "str": "Cloak of Morthylla the Lamia" },
+    "description": "This cloak seems to absorb light except for the pinpricks of stars that move across its surface.",
+    "price": 1500000,
+    "price_postapoc": 360000,
+    "material": [ "black_dragon_hide" ],
+    "symbol": "[",
+    "color": "dark_gray",
+    "covers": [ "TORSO", "HEAD", "ARMS", "LEGS" ],
+    "coverage": 85,
+    "encumbrance": 4,
+    "warmth": 30,
+    "material_thickness": 3,
+    "flags": [ "HOOD", "OUTER", "NO_REPAIR", "SUPER_FANCY", "STURDY" ],
+    "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 1 } ] } ] }
   }
 ]

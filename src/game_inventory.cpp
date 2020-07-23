@@ -120,7 +120,7 @@ static item_location_filter convert_filter( const item_filter &filter )
     };
 }
 
-static item_location inv_internal( player &u, const inventory_selector_preset &preset,
+static item_location inv_internal( Character &u, const inventory_selector_preset &preset,
                                    const std::string &title, int radius,
                                    const std::string &none_message,
                                    const std::string &hint = std::string() )
@@ -292,12 +292,12 @@ class armor_inventory_preset: public inventory_selector_preset
         armor_inventory_preset( player &pl, const std::string &color_in ) :
             p( pl ), color( color_in ) {
             append_cell( [ this ]( const item_location & loc ) {
-                return get_number_string( loc->get_encumber( p ) );
-            }, _( "ENCUMBRANCE" ) );
+                return get_number_string( loc->get_avg_encumber( p ) );
+            }, _( "AVG ENCUMBRANCE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return string_format( "<%s>%d%%</color>", color, loc->get_coverage() );
-            }, _( "COVERAGE" ) );
+                return string_format( "<%s>%d%%</color>", color, loc->get_avg_coverage() );
+            }, _( "AVG COVERAGE" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
                 return get_number_string( loc->get_warmth() );
@@ -401,7 +401,7 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
                          title, radius, none_message );
 }
 
-item_location game_menus::inv::container_for( avatar &you, const item &liquid, int radius )
+item_location game_menus::inv::container_for( Character &you, const item &liquid, int radius )
 {
     const auto filter = [ &liquid ]( const item_location & location ) {
         if( location.where() == item_location::type::character ) {
@@ -426,7 +426,7 @@ item_location game_menus::inv::container_for( avatar &you, const item &liquid, i
 class pickup_inventory_preset : public inventory_selector_preset
 {
     public:
-        pickup_inventory_preset( const player &p ) : p( p ) {}
+        pickup_inventory_preset( const Character &p ) : p( p ) {}
 
         std::string get_denial( const item_location &loc ) const override {
             if( !p.has_item( *loc ) ) {
@@ -443,13 +443,13 @@ class pickup_inventory_preset : public inventory_selector_preset
         }
 
     private:
-        const player &p;
+        const Character &p;
 };
 
 class disassemble_inventory_preset : public pickup_inventory_preset
 {
     public:
-        disassemble_inventory_preset( const player &p, const inventory &inv ) :
+        disassemble_inventory_preset( const Character &p, const inventory &inv ) :
             pickup_inventory_preset( p ), p( p ), inv( inv ) {
 
             check_components = true;
@@ -468,7 +468,8 @@ class disassemble_inventory_preset : public pickup_inventory_preset
             }, _( "YIELD" ) );
 
             append_cell( [ this ]( const item_location & loc ) {
-                return to_string_clipped( get_recipe( loc ).time_to_craft() );
+                return to_string_clipped( get_recipe( loc ).time_to_craft( get_player_character(),
+                                          recipe_time_flag::ignore_proficiencies ) );
             }, _( "TIME" ) );
         }
 
@@ -490,11 +491,11 @@ class disassemble_inventory_preset : public pickup_inventory_preset
         }
 
     private:
-        const player &p;
+        const Character &p;
         const inventory &inv;
 };
 
-item_location game_menus::inv::disassemble( player &p )
+item_location game_menus::inv::disassemble( Character &p )
 {
     return inv_internal( p, disassemble_inventory_preset( p, p.crafting_inventory() ),
                          _( "Disassemble item" ), 1,
@@ -548,13 +549,14 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return string_format( _( "%.2f%s" ), converted_volume, volume_units_abbr() );
             }, _( "VOLUME" ) );
 
-            append_cell( []( const item_location & loc ) {
-                time_duration time = g->u.get_consume_time( *loc );
+            Character &player_character = get_player_character();
+            append_cell( [&player_character]( const item_location & loc ) {
+                time_duration time = player_character.get_consume_time( *loc );
                 return string_format( _( "%s" ), to_string( time ) );
             }, _( "CONSUME TIME" ) );
 
-            append_cell( [this]( const item_location & loc ) {
-                if( g->u.can_estimate_rot() ) {
+            append_cell( [this, &player_character]( const item_location & loc ) {
+                if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
                         return get_freshness( loc );
                     }
@@ -563,8 +565,8 @@ class comestible_inventory_preset : public inventory_selector_preset
                 return std::string();
             }, _( "FRESHNESS" ) );
 
-            append_cell( [ this ]( const item_location & loc ) {
-                if( g->u.can_estimate_rot() ) {
+            append_cell( [ this, &player_character ]( const item_location & loc ) {
+                if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
                         if( !loc->rotten() ) {
                             return get_time_left_rounded( loc );
@@ -574,7 +576,6 @@ class comestible_inventory_preset : public inventory_selector_preset
                 }
                 return std::string();
             }, _( "SPOILS IN" ) );
-
             append_cell( [&p]( const item_location & loc ) {
                 std::string cbm_name;
 
@@ -629,8 +630,18 @@ class comestible_inventory_preset : public inventory_selector_preset
 
             if( !res.success() && cbm == rechargeable_cbm::none ) {
                 return res.str();
-            } else if( cbm == rechargeable_cbm::other && ( p.get_fuel_capacity( it.typeId() ) <= 0 ) ) {
-                return string_format( _( "No space to store more %s" ), it.tname() );
+            } else if( cbm == rechargeable_cbm::other ) {
+                std::string item_name = it.tname();
+                itype_id item_type = it.typeId();
+                if( it.type->magazine ) {
+                    const item ammo = item( it.ammo_current() );
+                    item_name = ammo.tname();
+                    item_type = ammo.typeId();
+                }
+
+                if( p.get_fuel_capacity( item_type ) <= 0 ) {
+                    return string_format( _( "No space to store more %s" ), item_name );
+                }
             }
 
             return inventory_selector_preset::get_denial( loc );
@@ -744,8 +755,9 @@ static std::string get_consume_needs_hint( player &p )
 
 item_location game_menus::inv::consume( player &p )
 {
-    if( !g->u.has_activity( ACT_EAT_MENU ) ) {
-        g->u.assign_activity( ACT_EAT_MENU );
+    Character &player_character = get_player_character();
+    if( !player_character.has_activity( ACT_EAT_MENU ) ) {
+        player_character.assign_activity( ACT_EAT_MENU );
     }
 
     return inv_internal( p, comestible_inventory_preset( p ),
@@ -771,8 +783,9 @@ class comestible_filtered_inventory_preset : public comestible_inventory_preset
 
 item_location game_menus::inv::consume_food( player &p )
 {
-    if( !g->u.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
-        g->u.assign_activity( ACT_CONSUME_FOOD_MENU );
+    Character &player_character = get_player_character();
+    if( !player_character.has_activity( ACT_CONSUME_FOOD_MENU ) ) {
+        player_character.assign_activity( ACT_CONSUME_FOOD_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
@@ -786,8 +799,9 @@ item_location game_menus::inv::consume_food( player &p )
 
 item_location game_menus::inv::consume_drink( player &p )
 {
-    if( !g->u.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
-        g->u.assign_activity( ACT_CONSUME_DRINK_MENU );
+    Character &player_character = get_player_character();
+    if( !player_character.has_activity( ACT_CONSUME_DRINK_MENU ) ) {
+        player_character.assign_activity( ACT_CONSUME_DRINK_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
@@ -801,8 +815,9 @@ item_location game_menus::inv::consume_drink( player &p )
 
 item_location game_menus::inv::consume_meds( player &p )
 {
-    if( !g->u.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
-        g->u.assign_activity( ACT_CONSUME_MEDS_MENU );
+    Character &player_character = get_player_character();
+    if( !player_character.has_activity( ACT_CONSUME_MEDS_MENU ) ) {
+        player_character.assign_activity( ACT_CONSUME_MEDS_MENU );
     }
 
     return inv_internal( p, comestible_filtered_inventory_preset( p, []( const item & it ) {
@@ -1306,7 +1321,7 @@ void game_menus::inv::insert_items( avatar &you, item_location &holster )
             item item_copy( it );
             item_copy.charges = holstered_item.second;
             if( holster->can_contain( item_copy ) ) {
-                holster->put_in( it, item_pocket::pocket_type::CONTAINER );
+                holster->put_in( item_copy, item_pocket::pocket_type::CONTAINER );
                 it.charges -= holstered_item.second;
                 success = true;
             }
@@ -1742,7 +1757,7 @@ class bionic_install_preset: public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 chance_of_failure = 100 - bionic_success_chance( true, -1, difficulty, installer );
@@ -1757,7 +1772,11 @@ class bionic_install_preset: public inventory_selector_preset
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 duration * weight;
-            return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            int count = 0;
+            if( !req_anesth.get_tools().empty() && !req_anesth.get_tools().front().empty() ) {
+                count = req_anesth.get_tools().front().front().count;
+            }
+            return string_format( _( "%i mL" ), count );
         }
 };
 
@@ -1832,7 +1851,7 @@ class bionic_install_surgeon_preset : public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 chance_of_failure = 100 - bionic_success_chance( true, 20, difficulty, installer );
@@ -1913,7 +1932,7 @@ class bionic_uninstall_preset : public inventory_selector_preset
             int chance_of_failure = 100;
             player &installer = p;
 
-            if( g->u.has_trait( trait_DEBUG_BIONICS ) ) {
+            if( get_player_character().has_trait( trait_DEBUG_BIONICS ) ) {
                 chance_of_failure = 0;
             } else {
                 chance_of_failure = 100 - bionic_success_chance( true, -1, difficulty, installer );
@@ -1928,7 +1947,11 @@ class bionic_uninstall_preset : public inventory_selector_preset
             const int duration = loc.get_item()->type->bionic->difficulty * 2;
             const requirement_data req_anesth = *requirement_id( "anesthetic" ) *
                                                 duration * weight;
-            return string_format( _( "%i mL" ), req_anesth.get_tools().front().front().count );
+            int count = 0;
+            if( !req_anesth.get_tools().empty() && !req_anesth.get_tools().front().empty() ) {
+                count = req_anesth.get_tools().front().front().count;
+            }
+            return string_format( _( "%i mL" ), count );
         }
 };
 

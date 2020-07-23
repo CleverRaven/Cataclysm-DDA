@@ -7,6 +7,7 @@
 #include <string>
 #include <utility>
 
+#include "coordinates.h"
 #include "type_id.h"
 
 class map;
@@ -15,7 +16,7 @@ class mission;
 struct point;
 struct tripoint;
 
-using mapgen_update_func = std::function<void( const tripoint &map_pos3, mission *miss )>;
+using mapgen_update_func = std::function<void( const tripoint_abs_omt &map_pos3, mission *miss )>;
 class JsonObject;
 
 /**
@@ -81,7 +82,7 @@ void mtrap_set( map *m, const point &, trap_id type );
 void madd_field( map *m, const point &, field_type_id type, int intensity );
 
 mapgen_update_func add_mapgen_update_func( const JsonObject &jo, bool &defer );
-bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint &omt_pos,
+bool run_mapgen_update_func( const std::string &update_mapgen_id, const tripoint_abs_omt &omt_pos,
                              mission *miss = nullptr, bool cancel_on_collision = true );
 bool run_mapgen_update_func( const std::string &update_mapgen_id, mapgendata &dat,
                              bool cancel_on_collision = true );

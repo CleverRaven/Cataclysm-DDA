@@ -78,6 +78,7 @@ static const itype_id fuel_type_battery( "battery" );
 static const itype_id fuel_type_muscle( "muscle" );
 static const itype_id fuel_type_plutonium_cell( "plut_cell" );
 static const itype_id fuel_type_wind( "wind" );
+static const itype_id fuel_type_mana( "mana" );
 
 static const fault_id fault_engine_belt_drive( "fault_engine_belt_drive" );
 static const fault_id fault_engine_filter_air( "fault_engine_filter_air" );
@@ -98,11 +99,10 @@ static const itype_id itype_water_clean( "water_clean" );
 static const itype_id itype_water_purifier( "water_purifier" );
 
 static const std::string flag_PERPETUAL( "PERPETUAL" );
+static const std::string flag_E_COMBUSTION( "E_COMBUSTION" );
 
 static bool is_sm_tile_outside( const tripoint &real_global_pos );
 static bool is_sm_tile_over_water( const tripoint &real_global_pos );
-
-static const itype_id fuel_type_mana( "mana" );
 
 // 1 kJ per battery charge
 const int bat_energy_j = 1000;
@@ -270,10 +270,11 @@ bool vehicle::player_in_control( const Character &p ) const
 
     const optional_vpart_position vp = get_map().veh_at( p.pos() );
     if( vp && &vp->vehicle() == this &&
+        p.controlling_vehicle &&
         ( ( part_with_feature( vp->part_index(), "CONTROL_ANIMAL", true ) >= 0 &&
             has_engine_type( fuel_type_animal, false ) && has_harnessed_animal() ) ||
-          ( part_with_feature( vp->part_index(), VPFLAG_CONTROLS, false ) >= 0 ) ) &&
-        p.controlling_vehicle ) {
+          ( part_with_feature( vp->part_index(), VPFLAG_CONTROLS, false ) >= 0 ) )
+      ) {
         return true;
     }
 
@@ -955,7 +956,8 @@ void vehicle::do_autodrive()
     Character &player_character = get_player_character();
     map &here = get_map();
     tripoint vehpos = global_pos3();
-    tripoint veh_omt_pos = ms_to_omt_copy( here.getabs( vehpos ) );
+    // TODO: fix point types
+    tripoint_abs_omt veh_omt_pos( ms_to_omt_copy( here.getabs( vehpos ) ) );
     // we're at or close to the waypoint, pop it out and look for the next one.
     if( ( is_autodriving && !player_character.omt_path.empty() && !omt_path.empty() ) &&
         veh_omt_pos == omt_path.back() ) {
@@ -967,31 +969,31 @@ void vehicle::do_autodrive()
         return;
     }
 
-    point omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
-    if( omt_diff.x > 3 || omt_diff.x < -3 || omt_diff.y > 3 || omt_diff.y < -3 ) {
+    point_rel_omt omt_diff = omt_path.back().xy() - veh_omt_pos.xy();
+    if( omt_diff.x() > 3 || omt_diff.x() < -3 || omt_diff.y() > 3 || omt_diff.y() < -3 ) {
         // we've gone walkabout somehow, call off the whole thing
         stop_autodriving();
         return;
     }
     point side;
-    if( omt_diff.x > 0 ) {
+    if( omt_diff.x() > 0 ) {
         side.x = 2 * SEEX - 1;
-    } else if( omt_diff.x < 0 ) {
+    } else if( omt_diff.x() < 0 ) {
         side.x = 0;
     } else {
         side.x = SEEX;
     }
-    if( omt_diff.y > 0 ) {
+    if( omt_diff.y() > 0 ) {
         side.y = 2 * SEEY - 1;
-    } else if( omt_diff.y < 0 ) {
+    } else if( omt_diff.y() < 0 ) {
         side.y = 0;
     } else {
         side.y = SEEY;
     }
     // get the shared border mid-point of the next path omt
-    tripoint global_a = tripoint( veh_omt_pos.x * ( 2 * SEEX ), veh_omt_pos.y * ( 2 * SEEY ),
-                                  veh_omt_pos.z );
-    tripoint autodrive_temp_target = ( global_a + tripoint( side,
+    tripoint_abs_ms global_a = project_to<coords::ms>( veh_omt_pos );
+    // TODO: fix point types
+    tripoint autodrive_temp_target = ( global_a.raw() + tripoint( side,
                                        sm_pos.z ) - here.getabs( vehpos ) ) + vehpos;
     autodrive_local_target = here.getabs( autodrive_temp_target );
     drive_to_local_target( autodrive_local_target, false );
@@ -1148,6 +1150,11 @@ bool vehicle::is_engine_type( const int e, const itype_id  &ft ) const
            parts[engines[e]].ammo_current() == ft;
 }
 
+bool vehicle::is_combustion_engine_type( const int e ) const
+{
+    return parts[engines[e]].info().has_flag( flag_E_COMBUSTION );
+}
+
 bool vehicle::is_perpetual_type( const int e ) const
 {
     const itype_id  &ft = part_info( engines[e] ).fuel_type;
@@ -1174,8 +1181,9 @@ bool vehicle::is_alternator_on( const int a ) const
     return std::any_of( engines.begin(), engines.end(), [this, &alt]( int idx ) {
         auto &eng = parts [ idx ];
         //fuel_left checks that the engine can produce power to be absorbed
-        return eng.is_available() && eng.enabled && fuel_left( eng.fuel_current() ) &&
-               eng.mount == alt.mount && !eng.faults().count( fault_engine_belt_drive );
+        return eng.mount == alt.mount && eng.is_available() && eng.enabled &&
+               fuel_left( eng.fuel_current() ) &&
+               !eng.faults().count( fault_engine_belt_drive );
     } );
 }
 
@@ -3179,7 +3187,8 @@ void vehicle::set_submap_moved( const tripoint &p )
     if( !tracking_on ) {
         return;
     }
-    overmap_buffer.move_vehicle( this, old_msp );
+    // TODO: fix point types
+    overmap_buffer.move_vehicle( this, point_abs_ms( old_msp ) );
 }
 
 units::mass vehicle::total_mass() const
@@ -3237,15 +3246,18 @@ point vehicle::pivot_displacement() const
 
 int vehicle::fuel_left( const itype_id &ftype, bool recurse ) const
 {
-    int fl = std::accumulate( parts.begin(), parts.end(), 0, [&ftype]( const int &lhs,
-    const vehicle_part & rhs ) {
-        // don't count frozen liquid
-        if( rhs.is_tank() && !rhs.base.contents.empty() &&
-            rhs.base.contents.legacy_front().made_of( phase_id::SOLID ) ) {
-            return lhs;
+    int fl = 0;
+
+    for( const int i : fuel_containers ) {
+        const vehicle_part &part = parts[i];
+        if( part.ammo_current() != ftype ||
+            // don't count frozen liquid
+            ( !part.base.contents.empty() && part.is_tank() &&
+              part.base.contents.legacy_front().made_of( phase_id::SOLID ) ) ) {
+            continue;
         }
-        return lhs + ( rhs.ammo_current() == ftype ? rhs.ammo_remaining() : 0 );
-    } );
+        fl += part.ammo_remaining();
+    }
 
     if( recurse && ftype == fuel_type_battery ) {
         auto fuel_counting_visitor = [&]( vehicle const * veh, int amount, int ) {
@@ -3722,8 +3734,8 @@ bool vehicle::do_environmental_effects()
          * - The weather is any effect that would cause the player to be wet. */
         if( vp.part().blood > 0 && here.is_outside( vp.pos() ) ) {
             needed = true;
-            weather_manager &weather = get_weather();
-            if( weather.weather >= WEATHER_LIGHT_DRIZZLE && weather.weather <= WEATHER_ACID_RAIN ) {
+            if( get_weather().weather_id->rains &&
+                get_weather().weather_id->precip != precip_class::very_light ) {
                 vp.part().blood--;
             }
         }
@@ -4452,6 +4464,32 @@ float vehicle::handling_difficulty() const
     return velocity * diff_mod / vehicles::vmiph_per_tile;
 }
 
+
+int vehicle::engine_fuel_usage( int e ) const
+{
+    if( !is_engine_on( e ) ) {
+        return 0;
+    }
+
+    static const itype_id null_fuel_type( "null" );
+    const itype_id &cur_fuel = parts[engines[e]].fuel_current();
+    if( cur_fuel  == null_fuel_type ) {
+        return 0;
+    }
+
+    if( is_perpetual_type( e ) ) {
+        return 0;
+    }
+    const auto &info = part_info( engines[ e ] );
+
+    int usage = info.energy_consumption;
+    if( parts[ engines[ e ] ].faults().count( fault_engine_filter_air ) ) {
+        usage *= 2;
+    }
+
+    return usage;
+}
+
 std::map<itype_id, int> vehicle::fuel_usage() const
 {
     std::map<itype_id, int> ret;
@@ -4463,7 +4501,6 @@ std::map<itype_id, int> vehicle::fuel_usage() const
         }
 
         const size_t e = engines[ i ];
-        const auto &info = part_info( e );
         static const itype_id null_fuel_type( "null" );
         const itype_id &cur_fuel = parts[ e ].fuel_current();
         if( cur_fuel  == null_fuel_type ) {
@@ -4471,12 +4508,7 @@ std::map<itype_id, int> vehicle::fuel_usage() const
         }
 
         if( !is_perpetual_type( i ) ) {
-            int usage = info.energy_consumption;
-            if( parts[ e ].faults().count( fault_engine_filter_air ) ) {
-                usage *= 2;
-            }
-
-            ret[ cur_fuel ] += usage;
+            ret[cur_fuel] += engine_fuel_usage( i );
         }
     }
 
@@ -4592,6 +4624,43 @@ int vehicle::total_accessory_epower_w() const
     return epower;
 }
 
+std::pair<int, int> vehicle::battery_power_level() const
+{
+    int total_epower_capacity = 0;
+    int remaining_epower = 0;
+
+    for( const int bi : batteries ) {
+        const vehicle_part &b = parts[bi];
+        if( b.is_available() ) {
+            remaining_epower += b.ammo_remaining();
+            total_epower_capacity += b.ammo_capacity( ammotype( "battery" ) );
+        }
+    }
+
+    return std::make_pair( remaining_epower, total_epower_capacity );
+}
+
+bool vehicle::start_engine( int e, bool turn_on )
+{
+    if( parts[engines[e]].enabled == turn_on ) {
+        return false;
+    }
+    bool res = false;
+    if( turn_on ) {
+        toggle_specific_engine( e, true );
+        // prevent starting of the faulty engines
+        if( ! start_engine( e ) ) {
+            toggle_specific_engine( e, false );
+        } else {
+            res = true;
+        }
+    } else {
+        toggle_specific_engine( e, false );
+        res = true;
+    }
+    return res;
+}
+
 int vehicle::total_alternator_epower_w() const
 {
     int epower = 0;
@@ -4641,7 +4710,7 @@ int vehicle::total_solar_epower_w() const
     }
     // Weather doesn't change much across the area of the vehicle, so just
     // sample it once.
-    weather_type wtype = current_weather( global_pos3() );
+    weather_type_id wtype = current_weather( global_pos3() );
     const float tick_sunlight = incident_sunlight( wtype, calendar::turn );
     double intensity = tick_sunlight / default_daylight_level();
     return epower_w * intensity;
@@ -4650,7 +4719,9 @@ int vehicle::total_solar_epower_w() const
 int vehicle::total_wind_epower_w() const
 {
     map &here = get_map();
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( global_pos3() ) ) );
+    // TODO: fix point types
+    const oter_id &cur_om_ter =
+        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( global_pos3() ) ) ) );
     weather_manager &weather = get_weather();
     const w_point weatherPoint = *weather.weather_precise;
     int epower_w = 0;
@@ -4740,8 +4811,9 @@ void vehicle::power_parts()
     int epower = engine_epower + total_accessory_epower_w() + total_alternator_epower_w();
 
     int delta_energy_bat = power_to_energy_bat( epower, 1_turns );
-    int storage_deficit_bat = std::max( 0, fuel_capacity( fuel_type_battery ) -
-                                        fuel_left( fuel_type_battery ) - delta_energy_bat );
+    int battery_left, battery_capacity;
+    std::tie( battery_left, battery_capacity ) = battery_power_level();
+    int storage_deficit_bat = std::max( 0, battery_capacity - battery_left - delta_energy_bat );
     Character &player_character = get_player_character();
     // Reactors trigger only on demand. If we'd otherwise run out of power, see
     // if we can spin up the reactors.
@@ -5022,6 +5094,8 @@ void vehicle::do_engine_damage( size_t e, int strain )
 
 void vehicle::idle( bool on_map )
 {
+    avg_velocity = ( velocity + avg_velocity ) / 2;
+
     power_parts();
     Character &player_character = get_player_character();
     if( engine_on && total_power_w() > 0 ) {
@@ -5058,6 +5132,8 @@ void vehicle::idle( bool on_map )
             vp.part().enabled = false;
         }
     }
+
+    smart_controller_handle_turn();
 
     if( !on_map ) {
         return;
@@ -5489,6 +5565,9 @@ void vehicle::refresh()
     steering.clear();
     speciality.clear();
     floating.clear();
+    batteries.clear();
+    fuel_containers.clear();
+
     alternator_load = 0;
     extra_drag = 0;
     all_wheels_on_one_axis = true;
@@ -5511,6 +5590,9 @@ void vehicle::refresh()
     int railwheel_ymin = INT_MAX;
     int railwheel_xmax = INT_MIN;
     int railwheel_ymax = INT_MIN;
+
+    has_enabled_smart_controller = false;
+    smart_controller_state = cata::nullopt;
 
     bool refresh_done = false;
 
@@ -5558,6 +5640,12 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_ROTOR ) || vpi.has_flag( VPFLAG_ROTOR_SIMPLE ) ) {
             rotors.push_back( p );
         }
+        if( vp.part().is_battery() ) {
+            batteries.push_back( p );
+        }
+        if( vp.part().is_fuel_store( false ) ) {
+            fuel_containers.push_back( p );
+        }
         if( vpi.has_flag( "WIND_TURBINE" ) ) {
             wind_turbines.push_back( p );
         }
@@ -5578,6 +5666,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
+        }
+        if( vpi.has_flag( "SMART_ENGINE_CONTROLLER" ) && vp.part().enabled ) {
+            has_enabled_smart_controller = true;
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) && vpi.has_flag( VPFLAG_RAIL ) ) {
             rail_wheelcache.push_back( p );
@@ -6424,7 +6515,7 @@ bool vehicle::explode_fuel( int p, damage_type type )
 
     int explosion_chance = type == DT_HEAT ? data.explosion_chance_hot : data.explosion_chance_cold;
     if( one_in( explosion_chance ) ) {
-        g->events().send<event_type::fuel_tank_explodes>( name );
+        get_event_bus().send<event_type::fuel_tank_explodes>( name );
         const int pow = 120 * ( 1 - std::exp( data.explosion_factor / -5000 *
                                               ( parts[p].ammo_remaining() * data.fuel_size_factor ) ) );
         //debugmsg( "damage check dmg=%d pow=%d amount=%d", dmg, pow, parts[p].amount );
@@ -6515,7 +6606,7 @@ void vehicle::leak_fuel( vehicle_part &pt )
 
     map &here = get_map();
     // leak in random directions but prefer closest tiles and avoid walls or other obstacles
-    std::vector<tripoint> tiles = closest_tripoints_first( global_part_pos3( pt ), 1 );
+    std::vector<tripoint> tiles = closest_points_first( global_part_pos3( pt ), 1 );
     tiles.erase( std::remove_if( tiles.begin(), tiles.end(), [&here]( const tripoint & e ) {
         return !here.passable( e );
     } ), tiles.end() );

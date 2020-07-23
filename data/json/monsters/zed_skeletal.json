@@ -32,7 +32,7 @@
     "upgrades": { "half_life": 15, "into": "mon_skeleton_brute" },
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "//": "Skelly brute gaps the evolution between normal and the juggernaut.",
@@ -71,7 +71,7 @@
     "upgrades": { "half_life": 12, "into": "mon_skeleton_hulk" },
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "HARDTOSHOOT", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_skeleton_electric",
@@ -107,7 +107,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 }, [ "SHOCKSTORM", 25 ] ],
     "death_drops": "default_zombie_clothes",
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "BLEED", "ELECTRIC", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
+    "flags": [ "SEES", "HEARS", "ELECTRIC", "REVIVES", "NO_BREATHE", "POISON", "FILTHY" ]
   },
   {
     "id": "mon_skeleton_hulk",
@@ -153,7 +153,6 @@
       "WARM",
       "BASHES",
       "DESTROYS",
-      "BLEED",
       "POISON",
       "ATTACKMON",
       "NO_BREATHE",

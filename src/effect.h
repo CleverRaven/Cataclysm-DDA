@@ -139,7 +139,7 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( nullptr ), duration( 0_turns ), bp( num_bp ),
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( body_part::num_bp ),
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
         }
         effect( const effect_type *peff_type, const time_duration &dur, body_part part,
@@ -295,6 +295,7 @@ void reset_effect_types();
 
 std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );
+std::string texitify_bandage_power( int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON

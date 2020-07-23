@@ -274,7 +274,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "rock_quern", -1 ], [ "clay_quern", -1 ] ] ],
-    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ] ] ]
+    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ], [ "endochitin", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -290,7 +290,7 @@
     "batch_time_factors": [ 83, 3 ],
     "flags": [ "BLIND_EASY" ],
     "tools": [ [ [ "mortar_pestle", -1 ] ] ],
-    "components": [ [ [ "chitin_piece", 1 ] ] ]
+    "components": [ [ [ "chitin_piece", 1 ], [ "acidchitin_piece", 1 ], [ "endochitin", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -452,7 +452,7 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
     "difficulty": 1,
-    "time": "20 m",
+    "time": "5 m",
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
@@ -491,6 +491,7 @@
     "difficulty": 2,
     "time": "25 m",
     "autolearn": true,
+    "reversible": true,
     "using": [ [ "soldering_standard", 10 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 } ],
     "components": [
@@ -646,10 +647,18 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
-    "time": "5 m",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 4,
+    "time": "3 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "rock", 1 ] ], [ [ "filament", 100, "LIST" ], [ "cordage_short", 2, "LIST" ] ] ]
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "CHISEL_WOOD", "level": 1 } ],
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "rock", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "material_sand", 1 ] ],
+      [ [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -709,12 +718,19 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
-    "time": "1 h",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 5,
+    "time": "30 m",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "HAMMER_SOFT", "level": 1 },
+      { "id": "PUNCH", "level": 1 },
+      { "id": "CUT", "level": 1 }
+    ],
     "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ],
-      [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ] ],
       [ [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ]
     ]
   },
@@ -735,17 +751,17 @@
     "result": "primitive_shovel",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
-    "skill_used": "survival",
-    "skills_required": [ "fabrication", 2 ],
+    "skill_used": "fabrication",
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [
-      [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ] ]
-    ]
+    "qualities": [
+      { "id": "HAMMER", "level": 2 },
+      { "id": "SAW_W", "level": 2 },
+      { "id": "CUT", "level": 1 },
+      { "id": "CHISEL_WOOD", "level": 1 }
+    ],
+    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "2x4", 1 ] ], [ [ "nail", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -773,15 +789,18 @@
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "survival",
     "skills_required": [ "fabrication", 2 ],
-    "difficulty": 3,
-    "time": "1 h",
+    "difficulty": 5,
+    "time": "2 h",
     "autolearn": true,
+    "proficiencies": [ { "proficiency": "prof_knapping", "required": true } ],
     "book_learn": [ [ "mag_survival", 1 ], [ "atomic_survival", 1 ], [ "textbook_carpentry", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "ANVIL", "level": 1 }, { "id": "CHISEL_WOOD", "level": 1 } ],
+    "tools": [ [ [ "fire", -1 ] ] ],
     "components": [
       [ [ "stick", 1 ], [ "2x4", 1 ] ],
-      [ [ "rock", 1 ], [ "ceramic_shard", 1 ], [ "sharp_rock", 1 ] ],
-      [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ]
+      [ [ "rock", 1 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "material_sand", 1 ] ]
     ]
   },
   {
@@ -1582,7 +1601,7 @@
     "decomp_learn": 2,
     "autolearn": true,
     "using": [ [ "cordage", 1 ] ],
-    "components": [ [ [ "shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
+    "components": [ [ [ "slamfire_shotgun_d", 1 ] ], [ [ "shot_00", 2 ], [ "shot_slug", 2 ], [ "shot_flechette", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -2033,13 +2052,23 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "skills_required": [ [ "survival", 1 ] ],
-    "difficulty": 2,
-    "time": "5 m",
+    "skills_required": [ [ "survival", 4 ] ],
+    "difficulty": 6,
+    "time": "3 h",
     "autolearn": true,
     "book_learn": [ [ "atomic_survival", 1 ], [ "textbook_survival", 1 ], [ "cookbook", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 2 } ],
-    "components": [ [ [ "stick", 2 ], [ "2x4", 1 ] ], [ [ "rock", 6 ], [ "ceramic_shard", 6 ] ] ]
+    "qualities": [
+      { "id": "HAMMER", "level": 1 },
+      { "id": "ANVIL", "level": 1 },
+      { "id": "CHISEL_WOOD", "level": 1 },
+      { "id": "DRILL_ROCK", "level": 1 }
+    ],
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "rock_large", 2 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ], [ "water_sewage", 1 ], [ "salt_water", 1 ], [ "saline", 5 ] ],
+      [ [ "material_sand", 1 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -3106,12 +3135,12 @@
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
-    "difficulty": 3,
-    "time": "30 m",
+    "difficulty": 1,
+    "autolearn": true,
+    "time": "2 m",
     "reversible": true,
     "book_learn": [ [ "mag_survival", 4 ], [ "atomic_survival", 3 ], [ "textbook_survival", 2 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "rope_superior", 1, "LIST" ] ], [ [ "scrap", 4 ] ] ]
+    "components": [ [ [ "rope_superior", 1, "LIST" ] ], [ [ "grip_hook", 4 ] ] ]
   },
   {
     "type": "recipe",
@@ -3318,7 +3347,7 @@
   },
   {
     "type": "recipe",
-    "result": "toolbox",
+    "result": "toolbox_empty",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_TOOLS",
     "skill_used": "fabrication",
@@ -3327,17 +3356,7 @@
     "time": "4 m",
     "reversible": true,
     "autolearn": true,
-    "components": [
-      [ [ "sheet_metal_small", 5 ] ],
-      [ [ "nail", 11 ] ],
-      [ [ "wire", 1 ] ],
-      [ [ "pockknife", 1 ], [ "primitive_knife", 1 ], [ "copper_knife", 1 ] ],
-      [ [ "screwdriver_set", 1 ] ],
-      [ [ "hacksaw", 1 ] ],
-      [ [ "wrench", 1 ] ],
-      [ [ "saw", 1 ] ],
-      [ [ "hammer", 1 ] ]
-    ]
+    "components": [ [ [ "sheet_metal_small", 5 ] ], [ [ "nail", 11 ] ], [ [ "wire", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3436,11 +3455,18 @@
         [ "plastic_straw", 3 ],
         [ "plastic_knife", 2 ],
         [ "plastic_spoon", 2 ],
+        [ "plastic_spoon_kids", 4 ],
         [ "plastic_fork", 2 ],
+        [ "plastic_plate", 4 ],
         [ "plastic_six_dice", 11 ],
         [ "bag_zipper", 25 ],
         [ "cup_plastic", 25 ],
-        [ "bag_plastic", 10 ]
+        [ "bag_plastic", 10 ],
+        [ "tumbler_plastic", 4 ],
+        [ "bowl_plastic", 4 ],
+        [ "plastic_bowl_kids", 8 ],
+        [ "sippy_cup", 4 ],
+        [ "gasket_plastic", 1 ]
       ]
     ]
   },
@@ -3656,7 +3682,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "salt_water", 1 ], [ "saline", 2 ], [ "salt", 2 ] ],
-      [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ] ]
+      [ [ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ], [ "raw_demihumanleather", 1 ] ]
     ]
   },
   {
@@ -4326,7 +4352,7 @@
     "time": "1 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "2x4", 10 ] ], [ [ "rope_6", 1 ] ] ],
+    "components": [ [ [ "2x4", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {
@@ -4338,7 +4364,19 @@
     "time": "1 m",
     "autolearn": true,
     "reversible": true,
-    "components": [ [ [ "stick", 10 ] ], [ [ "rope_6", 1 ] ] ],
+    "components": [ [ [ "stick", 10 ] ], [ [ "rope_any_short", 1, "LIST" ] ] ],
+    "flags": [ "BLIND_EASY" ]
+  },
+  {
+    "result": "bundle_branch_long",
+    "type": "recipe",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "fabrication",
+    "time": "1 m",
+    "autolearn": true,
+    "reversible": true,
+    "components": [ [ [ "stick_long", 5 ] ], [ [ "rope_any_short", 2, "LIST" ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

@@ -19,6 +19,7 @@
 #include "action.h"
 #include "calendar.h"
 #include "character_id.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
 #include "enums.h"
@@ -88,7 +89,6 @@ enum safe_mode_type {
 };
 
 enum body_part : int;
-enum weather_type : int;
 enum action_id : int;
 
 struct special_game;
@@ -106,6 +106,7 @@ class player;
 class save_t;
 class scenario;
 class stats_tracker;
+template<typename Tripoint>
 class tripoint_range;
 class vehicle;
 struct WORLD;
@@ -149,6 +150,18 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class main_menu;
+        friend achievements_tracker &get_achievements();
+        friend event_bus &get_event_bus();
+        friend map &get_map();
+        friend Character &get_player_character();
+        friend avatar &get_avatar();
+        friend weather_manager &get_weather();
+        friend const scenario *get_scenario();
+        friend void set_scenario( const scenario *new_scenario );
+        friend stats_tracker &get_stats();
+        friend scent_map &get_scent();
+        friend timed_event_manager &get_timed_events();
+        friend memorial_logger &get_memorial();
     public:
         game();
         ~game();
@@ -171,16 +184,6 @@ class game
 
         /** Loads core data and mods from the active world. May throw. */
         void load_world_modfiles( loading_ui &ui );
-        /**
-         * Base path for saving player data. Just add a suffix (unique for
-         * the thing you want to save) and use the resulting path.
-         * Example: `save_ui_data(get_player_base_save_path()+".ui")`
-         */
-        std::string get_player_base_save_path() const;
-        /**
-         * Base path for saving world data. This yields a path to a folder.
-         */
-        std::string get_world_base_save_path() const;
         /**
          *  Load content packs
          *  @param msg string to display whilst loading prompt
@@ -335,9 +338,9 @@ class game
         monster *place_critter_around( const mtype_id &id, const tripoint &center, int radius );
         monster *place_critter_around( const shared_ptr_fast<monster> &mon, const tripoint &center,
                                        int radius );
-        monster *place_critter_within( const mtype_id &id, const tripoint_range &range );
+        monster *place_critter_within( const mtype_id &id, const tripoint_range<tripoint> &range );
         monster *place_critter_within( const shared_ptr_fast<monster> &mon,
-                                       const tripoint_range &range );
+                                       const tripoint_range<tripoint> &range );
         /** @} */
         /**
          * Returns the approximate number of creatures in the reality bubble.
@@ -352,6 +355,11 @@ class game
         void clear_zombies();
         /** Spawns a hallucination at a determined position. */
         bool spawn_hallucination( const tripoint &p );
+        /** Spawns a hallucination at a determined position of a given monster. */
+        bool spawn_hallucination( const tripoint &p, const mtype_id &mt );
+        /** Finds somewhere to spawn a monster. */
+        bool find_nearby_spawn_point( const Character &target, const mtype_id &mt, int min_radius,
+                                      int max_radius, tripoint &point );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
 
@@ -634,17 +642,10 @@ class game
         bool take_screenshot( const std::string &file_path ) const;
 
         /**
-         * The top left corner of the reality bubble (in submaps coordinates). This is the same
-         * as @ref map::abs_sub of the @ref m map.
-         */
-        int get_levx() const;
-        int get_levy() const;
-        int get_levz() const;
-        /**
          * Load the main map at given location, see @ref map::load, in global, absolute submap
          * coordinates.
          */
-        void load_map( const tripoint &pos_sm );
+        void load_map( const tripoint_abs_sm &pos_sm );
         /**
          * The overmap which contains the center submap of the reality bubble.
          */
@@ -760,8 +761,6 @@ class game
         void reset_npc_dispositions();
         void serialize_master( std::ostream &fout );
         // returns false if saving failed for whatever reason
-        bool save_artifacts();
-        // returns false if saving failed for whatever reason
         bool save_maps();
 #if defined(__ANDROID__)
         void save_shortcuts( std::ostream &fout );
@@ -770,8 +769,9 @@ class game
         void init_autosave();     // Initializes autosave parameters
         void create_starting_npcs(); // Creates NPCs that start near you
         // create vehicle nearby, for example; for a profession vehicle.
-        vehicle *place_vehicle_nearby( const vproto_id &id, const point &origin, int min_distance,
-                                       int max_distance, const std::vector<std::string> &omt_search_types = {} );
+        vehicle *place_vehicle_nearby(
+            const vproto_id &id, const point_abs_omt &origin, int min_distance,
+            int max_distance, const std::vector<std::string> &omt_search_types = {} );
         // V Menu Functions and helpers:
         void list_items_monsters(); // Called when you invoke the `V`-menu
 
@@ -814,9 +814,7 @@ class game
         void reload_weapon( bool try_everything = true ); // Reload a wielded gun/tool  'r'
         // Places the player at the specified point; hurts feet, lists items etc.
         point place_player( const tripoint &dest );
-        void place_player_overmap( const tripoint &om_dest );
-
-        bool unload( item_location &loc ); // Unload a gun/tool  'U'
+        void place_player_overmap( const tripoint_abs_omt &om_dest );
 
         unsigned int get_seed() const;
 
@@ -964,17 +962,18 @@ class game
         pimpl<memorial_logger> memorial_logger_ptr;
         pimpl<spell_events> spell_events_ptr;
 
-    public:
-        /** Make map a reference here, to avoid map.h in game.h */
         map &m;
         avatar &u;
         scent_map &scent;
-        timed_event_manager &timed_events;
+        const scenario *scen = nullptr;
 
         event_bus &events();
         stats_tracker &stats();
+        timed_event_manager &timed_events;
         achievements_tracker &achievements();
         memorial_logger &memorial();
+    public:
+
         spell_events &spell_events_subscriber();
 
         pimpl<Creature_tracker> critter_tracker;
@@ -985,7 +984,6 @@ class game
         /** True if the game has just started or loaded, else false. */
         bool new_game = false;
 
-        const scenario *scen;
         std::vector<monster> coming_to_stairs;
         int monstairz = 0;
 

@@ -46,17 +46,48 @@ std::string pocket_data::check_definition() const
         type == item_pocket::pocket_type::MIGRATION ) {
         return "";
     }
+    if( max_contains_volume() == 0_ml ) {
+        return "has zero max volume\n";
+    }
     if( magazine_well > 0_ml && rigid ) {
         return "rigid overrides magazine_well\n";
     }
     if( magazine_well >= max_contains_volume() ) {
-        return "magazine well larger than pocket volume.  consider using rigid instead.\n";
+        return string_format(
+                   "magazine well (%s) larger than pocket volume (%s); "
+                   "consider using rigid instead.\n",
+                   quantity_to_string( magazine_well ),
+                   quantity_to_string( max_contains_volume() ) );
     }
     if( max_item_volume && *max_item_volume < min_item_volume ) {
         return "max_item_volume is greater than min_item_volume.  no item can fit.\n";
     }
     if( ( watertight || airtight ) && min_item_volume > 0_ml ) {
         return "watertight or gastight is incompatible with min_item_volume\n";
+    }
+    for( const itype_id &it : item_id_restriction ) {
+        if( !it.is_valid() ) {
+            return string_format( "item_id %s used in restriction invalid\n", it.str() );
+        }
+        if( it->phase == phase_id::LIQUID && !watertight ) {
+            return string_format( "restricted to liquid item %s but not watertight\n",
+                                  it->get_id().str() );
+        }
+        if( it->phase == phase_id::GAS && !airtight ) {
+            return string_format( "restricted to gas item %s but not airtight\n",
+                                  it->get_id().str() );
+        }
+    }
+    for( const std::pair<const ammotype, int> &ammo_res : ammo_restriction ) {
+        const itype_id &it = ammo_res.first->default_ammotype();
+        if( it->phase == phase_id::LIQUID && !watertight ) {
+            return string_format( "restricted to liquid item %s but not watertight\n",
+                                  it->get_id().str() );
+        }
+        if( it->phase == phase_id::GAS && !airtight ) {
+            return string_format( "restricted to gas item %s but not airtight\n",
+                                  it->get_id().str() );
+        }
     }
     return "";
 }
@@ -66,6 +97,11 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "pocket_type", type, item_pocket::pocket_type::CONTAINER );
     optional( jo, was_loaded, "ammo_restriction", ammo_restriction );
     optional( jo, was_loaded, "item_restriction", item_id_restriction );
+    if( !item_id_restriction.empty() ) {
+        std::vector<itype_id> item_restriction;
+        mandatory( jo, was_loaded, "item_restriction", item_restriction );
+        default_magazine = item_restriction.front();
+    }
     // ammo_restriction is a type of override, making the mandatory members not mandatory and superfluous
     // putting it in an if statement like this should allow for report_unvisited_member to work here
     if( ammo_restriction.empty() ) {
@@ -475,6 +511,14 @@ item *item_pocket::magazine_current()
     return iter != contents.end() ? &*iter : nullptr;
 }
 
+itype_id item_pocket::magazine_default() const
+{
+    if( is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+        return data->default_magazine;
+    }
+    return itype_id::NULL_ID();
+}
+
 int item_pocket::ammo_consume( int qty )
 {
     int need = qty;
@@ -634,13 +678,12 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
                            float insulation, const temperature_flag flag )
 {
     bool processed = false;
+    float spoil_multiplier = 1;
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( _sealed ) {
-            // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
-            // is not changed, the item is still fresh.
-            it->set_last_rot_check( calendar::turn );
+            spoil_multiplier = 0;
         }
-        if( it->process( carrier, pos, type.insulation_factor * insulation, flag ) ) {
+        if( it->process( carrier, pos, type.insulation_factor * insulation, flag, spoil_multiplier ) ) {
             it = contents.erase( it );
             processed = true;
         } else {
@@ -1173,28 +1216,6 @@ void item_pocket::remove_items_if( const std::function<bool( item & )> &filter )
     on_contents_changed();
 }
 
-void item_pocket::has_rotten_away()
-{
-    for( auto it = contents.begin(); it != contents.end(); ) {
-        if( it->has_rotten_away() ) {
-            it = contents.erase( it );
-        } else {
-            ++it;
-        }
-    }
-}
-
-void item_pocket::remove_rotten( const tripoint &pnt )
-{
-    for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->has_rotten_away( pnt, spoil_multiplier() ) ) {
-            iter = contents.erase( iter );
-        } else {
-            ++iter;
-        }
-    }
-}
-
 void item_pocket::process( player *carrier, const tripoint &pos, float insulation,
                            temperature_flag flag, float spoil_multiplier_parent )
 {
@@ -1242,6 +1263,11 @@ bool item_pocket::is_standard_type() const
 bool item_pocket::airtight() const
 {
     return data->airtight;
+}
+
+const pocket_data *item_pocket::get_pocket_data() const
+{
+    return data;
 }
 
 void item_pocket::add( const item &it, item **ret )
@@ -1374,16 +1400,13 @@ units::volume pocket_data::max_contains_volume() const
         return t.ammo && ammo_restriction.count( t.ammo->type );
     } );
     // Figure out which has the greatest volume and calculate on that basis
-    std::map<ammotype, units::volume> max_ammo_volume_by_type{};
-    for( const auto *ammo_type : ammo_types ) {
-        units::volume &max_ammo_volume = max_ammo_volume_by_type[ammo_type->ammo->type];
-        int stack_size = ammo_type->stack_size ? ammo_type->stack_size : 1;
-        max_ammo_volume = std::max( max_ammo_volume, ammo_type->volume / stack_size );
-    }
     units::volume max_total_volume = 0_ml;
-    for( const std::pair<const ammotype, units::volume> &p : max_ammo_volume_by_type ) {
-        max_total_volume = std::max( max_total_volume,
-                                     p.second * ammo_restriction.at( p.first ) );
+    for( const auto *ammo_type : ammo_types ) {
+        int stack_size = ammo_type->stack_size ? ammo_type->stack_size : 1;
+        int max_count = ammo_restriction.at( ammo_type->ammo->type );
+        units::volume this_volume =
+            1_ml * divide_round_up( ammo_type->volume / 1_ml * max_count, stack_size );
+        max_total_volume = std::max( max_total_volume, this_volume );
     }
     return max_total_volume;
 }

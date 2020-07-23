@@ -1630,7 +1630,7 @@
     "id": "TOGGLE_SAFE_FUEL",
     "category": "BIONICS",
     "name": "Toggle safe fuel mod",
-    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
+    "bindings": [ { "input_method": "keyboard_char", "key": "S" }, { "input_method": "keyboard_code", "key": "s", "mod": [ "shift" ] } ]
   },
   {
     "type": "keybinding",
@@ -1638,6 +1638,13 @@
     "category": "BIONICS",
     "name": "Toggle auto start mod",
     "bindings": [ { "input_method": "keyboard_char", "key": "A" }, { "input_method": "keyboard_code", "key": "a", "mod": [ "shift" ] } ]
+  },
+  {
+    "type": "keybinding",
+    "id": "SORT",
+    "category": "BIONICS",
+    "name": "Sort bionics list",
+    "bindings": [ { "input_method": "keyboard_any", "key": "s" } ]
   },
   {
     "type": "keybinding",

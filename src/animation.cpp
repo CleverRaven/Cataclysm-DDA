@@ -84,7 +84,7 @@ class bullet_animation : public basic_animation
 
 bool is_point_visible( const tripoint &p, int margin = 0 )
 {
-    return g->is_in_viewport( p, margin ) && g->u.sees( p );
+    return g->is_in_viewport( p, margin ) && get_player_character().sees( p );
 }
 
 bool is_radius_visible( const tripoint &center, int radius )
@@ -119,7 +119,7 @@ void draw_explosion_curses( game &g, const tripoint &center, const int r,
         return;
     }
     // TODO: Make it look different from above/below
-    const tripoint p = relative_view_pos( g.u, center );
+    const tripoint p = relative_view_pos( get_avatar(), center );
 
     explosion_animation anim;
 
@@ -171,8 +171,9 @@ constexpr explosion_neighbors operator ^ ( explosion_neighbors lhs, explosion_ne
 void draw_custom_explosion_curses( game &g,
                                    const std::list< std::map<tripoint, explosion_tile> > &layers )
 {
+    avatar &player_character = get_avatar();
     // calculate screen offset relative to player + view offset position
-    const tripoint center = g.u.pos() + g.u.view_offset;
+    const tripoint center = player_character.pos() + player_character.view_offset;
     const tripoint topleft( center.x - getmaxx( g.w_terrain ) / 2,
                             center.y - getmaxy( g.w_terrain ) / 2, 0 );
 
@@ -303,20 +304,21 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
 
     // Start by getting rid of everything except current z-level
     std::map<tripoint, explosion_tile> neighbors;
+    avatar &player_character = get_avatar();
 #if defined(TILES)
     if( !use_tiles ) {
         for( const auto &pr : all_area ) {
-            const tripoint relative_point = relative_view_pos( g->u, pr.first );
+            const tripoint relative_point = relative_view_pos( player_character, pr.first );
             if( relative_point.z == 0 ) {
                 neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second };
             }
         }
     } else {
         // In tiles mode, the coordinates have to be absolute
-        const tripoint view_center = relative_view_pos( g->u, g->u.pos() );
+        const tripoint view_center = relative_view_pos( player_character, player_character.pos() );
         for( const auto &pr : all_area ) {
             // Relative point is only used for z level check
-            const tripoint relative_point = relative_view_pos( g->u, pr.first );
+            const tripoint relative_point = relative_view_pos( player_character, pr.first );
             if( relative_point.z == view_center.z ) {
                 neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second };
             }
@@ -324,7 +326,7 @@ void explosion_handler::draw_custom_explosion( const tripoint &,
     }
 #else
     for( const auto &pr : all_area ) {
-        const tripoint relative_point = relative_view_pos( g->u, pr.first );
+        const tripoint relative_point = relative_view_pos( player_character, pr.first );
         if( relative_point.z == 0 ) {
             neighbors[pr.first] = explosion_tile{ N_NO_NEIGHBORS, pr.second };
         }
@@ -439,7 +441,8 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
         return;
     }
 
-    const tripoint vp = g->u.pos() + g->u.view_offset;
+    avatar &player_character = get_avatar();
+    const tripoint vp = player_character.pos() + player_character.view_offset;
 
     if( vp.z != t.z ) {
         return;
@@ -447,7 +450,7 @@ void draw_bullet_curses( map &m, const tripoint &t, const char bullet, const tri
 
     shared_ptr_fast<game::draw_callback_t> bullet_cb = make_shared_fast<game::draw_callback_t>( [&]() {
         if( p != nullptr && p->z == vp.z ) {
-            m.drawsq( g->w_terrain, g->u, *p, false, true, vp );
+            m.drawsq( g->w_terrain, player_character, *p, false, true, vp );
         }
         mvwputch( g->w_terrain, t.xy() - vp.xy() + point( POSX, POSY ), c_red, bullet );
     } );
@@ -563,11 +566,11 @@ void game::draw_hit_mon( const tripoint &p, const monster &m, const bool dead )
 
 namespace
 {
-void draw_hit_player_curses( const game &g, const Character &p, const int dam )
+void draw_hit_player_curses( const game &/* g */, const Character &p, const int dam )
 {
     nc_color const col = !dam ? yellow_background( p.symbol_color() ) : red_background(
                              p.symbol_color() );
-    hit_animation( g.u, p.pos(), col, p.symbol() );
+    hit_animation( get_avatar(), p.pos(), col, p.symbol() );
 }
 } //namespace
 
@@ -612,13 +615,14 @@ namespace
 void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoint> &ret,
                        bool noreveal )
 {
+    avatar &player_character = get_avatar();
     for( const tripoint &p : ret ) {
         const auto critter = g.critter_at( p, true );
 
         // NPCs and monsters get drawn with inverted colors
-        if( critter && g.u.sees( *critter ) ) {
+        if( critter && player_character.sees( *critter ) ) {
             critter->draw( g.w_terrain, center, true );
-        } else if( noreveal && !g.u.sees( p ) ) {
+        } else if( noreveal && !player_character.sees( p ) ) {
             // Draw a meaningless symbol. Avoids revealing tile, but keeps feedback
             const char sym = '?';
             const nc_color col = c_dark_gray;
@@ -628,7 +632,7 @@ void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoi
             mvwputch( w, point( k, j ), col, sym );
         } else {
             // This function reveals tile at p and writes it to the player's memory
-            g.m.drawsq( g.w_terrain, g.u, p, true, true, center );
+            get_map().drawsq( g.w_terrain, player_character, p, true, true, center );
         }
     }
 }
@@ -665,12 +669,14 @@ namespace
 {
 void draw_line_curses( game &g, const std::vector<tripoint> &points )
 {
+    avatar &player_character = get_avatar();
+    map &here = get_map();
     for( const tripoint &p : points ) {
-        g.m.drawsq( g.w_terrain, g.u, p, true, true );
+        here.drawsq( g.w_terrain, player_character, p, true, true );
     }
 
     const tripoint p = points.empty() ? tripoint {POSX, POSY, 0} :
-                       relative_view_pos( g.u, points.back() );
+                       relative_view_pos( player_character, points.back() );
     mvwputch( g.w_terrain, p.xy(), c_white, 'X' );
 }
 } //namespace
@@ -733,36 +739,7 @@ void game::draw_weather( const weather_printable &w )
         return;
     }
 
-    static const std::string weather_acid_drop {"weather_acid_drop"};
-    static const std::string weather_rain_drop {"weather_rain_drop"};
-    static const std::string weather_snowflake {"weather_snowflake"};
-
-    std::string weather_name;
-    switch( w.wtype ) {
-        // Acid weathers; uses acid droplet tile, fallthrough intended
-        case WEATHER_ACID_DRIZZLE:
-        case WEATHER_ACID_RAIN:
-            weather_name = weather_acid_drop;
-            break;
-        // Normal rainy weathers; uses normal raindrop tile, fallthrough intended
-        case WEATHER_LIGHT_DRIZZLE:
-        case WEATHER_DRIZZLE:
-        case WEATHER_RAINY:
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-            weather_name = weather_rain_drop;
-            break;
-        // Snowy weathers; uses snowflake tile, fallthrough intended
-        case WEATHER_FLURRIES:
-        case WEATHER_SNOW:
-        case WEATHER_SNOWSTORM:
-            weather_name = weather_snowflake;
-            break;
-        default:
-            break;
-    }
-
-    tilecontext->init_draw_weather( w, std::move( weather_name ) );
+    tilecontext->init_draw_weather( w, w.wtype->tiles_animation );
 }
 #else
 void game::draw_weather( const weather_printable &w )
@@ -775,7 +752,8 @@ namespace
 {
 void draw_sct_curses( const game &g )
 {
-    const tripoint off = relative_view_pos( g.u, tripoint_zero );
+    avatar &player_character = get_avatar();
+    const tripoint off = relative_view_pos( player_character, tripoint_zero );
 
     for( const auto &text : SCT.vSCT ) {
         const int dy = off.y + text.getPosY();

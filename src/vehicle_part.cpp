@@ -6,7 +6,7 @@
 #include <memory>
 #include <set>
 
-#include "avatar.h"
+#include "character.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
@@ -388,6 +388,11 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
         if( e_heater ) {
             flag = temperature_flag::HEATER;
         }
+        if( enabled && info().has_flag( VPFLAG_FRIDGE ) ) {
+            flag = temperature_flag::FRIDGE;
+        } else if( enabled && info().has_flag( VPFLAG_FREEZER ) ) {
+            flag = temperature_flag::FREEZER;
+        }
         base.process( nullptr, pos, 1, flag );
     }
 }
@@ -579,7 +584,7 @@ bool vehicle::can_enable( const vehicle_part &pt, bool alert ) const
         return false;
     }
 
-    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( g->u.pos() ) ) {
+    if( pt.info().has_flag( "PLANTER" ) && !warm_enough_to_plant( get_player_character().pos() ) ) {
         if( alert ) {
             add_msg( m_bad, _( "It is too cold to plant anything now." ) );
         }

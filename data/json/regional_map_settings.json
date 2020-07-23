@@ -664,6 +664,8 @@
         "urban_4_house_basement": 50,
         "urban_5_house": 50,
         "urban_6_house": 50,
+        "urban_7_house_garden": 50,
+        "urban_9_house_garage_loft": 50,
         "emptyresidentiallot": 20,
         "house_vacant": 20,
         "house_vacant2": 20,
@@ -716,6 +718,7 @@
         "s_apt_2": 50,
         "urban_13_dense_house_apt_house": 300,
         "urban_14_dense_house_mart_food": 200,
+        "urban_29_dense_row": 200,
         "town_hall": 150,
         "craft_shop": 200,
         "craft_shop_1": 200,
@@ -918,7 +921,22 @@
       "base_acid": 0.0,
       "base_wind": 3.4,
       "base_wind_distrib_peaks": 80,
-      "base_wind_season_variation": 50
+      "base_wind_season_variation": 50,
+      "weather_types": [
+        "clear",
+        "sunny",
+        "cloudy",
+        "light_drizzle",
+        "drizzle",
+        "rain",
+        "thunder",
+        "lightning",
+        "acid_drizzle",
+        "acid_rain",
+        "flurries",
+        "snowing",
+        "snowstorm"
+      ]
     },
     "overmap_feature_flag_settings": { "clear_blacklist": false, "blacklist": [  ], "clear_whitelist": false, "whitelist": [  ] }
   }

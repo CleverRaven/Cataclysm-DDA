@@ -335,7 +335,7 @@ void inventory::push_back( item newit )
 extern void remove_stale_inventory_quick_shortcuts();
 #endif
 
-void inventory::restack( player &p )
+void inventory::restack( Character &p )
 {
     // tasks that the old restack seemed to do:
     // 1. reassign inventory letters
@@ -436,7 +436,7 @@ void inventory::form_from_map( map &m, const tripoint &origin, int range, const 
         m.reachable_flood_steps( reachable_pts, origin, range, 1, 100 );
     } else {
         // Fill reachable points with points_in_radius
-        tripoint_range in_radius = m.points_in_radius( origin, range );
+        tripoint_range<tripoint> in_radius = m.points_in_radius( origin, range );
         for( const tripoint &p : in_radius ) {
             reachable_pts.emplace_back( p );
         }

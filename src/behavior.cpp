@@ -36,7 +36,7 @@ behavior_return node_t::tick( const oracle_t *subject ) const
 {
     if( children.empty() ) {
         status_t result = status_t::running;
-        for( std::pair< predicate_type, std::string > predicate_pair : conditions ) {
+        for( const std::pair< predicate_type, std::string > &predicate_pair : conditions ) {
             result = predicate_pair.first( subject, predicate_pair.second );
             if( result != status_t::running ) {
                 break;
@@ -46,7 +46,7 @@ behavior_return node_t::tick( const oracle_t *subject ) const
     } else {
         assert( strategy != nullptr );
         status_t result = status_t::running;
-        for( std::pair< predicate_type, std::string > predicate_pair : conditions ) {
+        for( const std::pair< predicate_type, std::string > &predicate_pair : conditions ) {
             result = predicate_pair.first( subject, predicate_pair.second );
             if( result != status_t::running ) {
                 break;

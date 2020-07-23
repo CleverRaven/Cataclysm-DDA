@@ -3,7 +3,7 @@
     "id": "adv_UPS_off",
     "type": "TOOL",
     "name": { "str": "advanced UPS", "str_pl": "advanced UPS's" },
-    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
+    "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel batteries rather than regular batteries.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "weight": "453 g",
     "volume": "2 L",
     "price": 560000,
@@ -13,8 +13,16 @@
     "material": [ "aluminum", "plastic" ],
     "symbol": ";",
     "color": "light_green",
-    "ammo": [ "plutonium" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "plutonium": 2500 } } ],
+    "ammo": [ "battery" ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "heavy_atomic_battery_cell" ]
+      }
+    ],
     "flags": [ "IS_UPS" ]
   },
   {
@@ -147,6 +155,7 @@
     "description": "This is an antenna designed to pick up signals better when pointed at the source.  You could use this with a radio to receive faint signals.",
     "weight": "454 g",
     "volume": "500 ml",
+    "longest_side": "60 cm",
     "price": 800,
     "price_postapoc": 250,
     "to_hit": 1,
@@ -181,6 +190,7 @@
     "description": "A tablet PC using an efficient color e-ink display.  Before the Cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
     "weight": "250 g",
     "volume": "250 ml",
+    "longest_side": "25 cm",
     "price": 20000,
     "price_postapoc": 100,
     "to_hit": -1,
@@ -223,6 +233,7 @@
     "to_hit": 1,
     "bashing": 5,
     "material": [ "plastic", "aluminum" ],
+    "ascii_picture": "electrohack",
     "symbol": ",",
     "color": "green",
     "ammo": [ "battery" ],
@@ -336,6 +347,7 @@
     "material": [ "plastic", "aluminum" ],
     "weight": "2721 g",
     "volume": "2500 ml",
+    "longest_side": "40 cm",
     "price": 75000,
     "price_postapoc": 250,
     "bashing": 6,
@@ -592,6 +604,7 @@
     "description": "This battery-devouring device is just the thing to knead the tension out and help you relax.  Use it to take a break and unwind.",
     "weight": "453 g",
     "volume": "500 ml",
+    "longest_side": "25 cm",
     "price": 5500,
     "price_postapoc": 100,
     "material": [ "aluminum", "plastic" ],
