@@ -45,6 +45,7 @@
 #include "hash_utils.h"
 #include "input.h"
 #include "json.h"
+#include "map.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
