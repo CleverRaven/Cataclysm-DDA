@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_SRC_OFSTRTEAM_WRAPPER_H
-#define CATA_SRC_OFSTRTEAM_WRAPPER_H
+#ifndef CATA_SRC_OFSTREAM_WRAPPER_H
+#define CATA_SRC_OFSTREAM_WRAPPER_H
 
 #include <fstream>
 
@@ -42,4 +42,4 @@ class ofstream_wrapper
         void close();
 };
 
-#endif // CATA_SRC_OFSTRTEAM_WRAPPER_H
+#endif // CATA_SRC_OFSTREAM_WRAPPER_H
