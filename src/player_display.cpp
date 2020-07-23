@@ -329,10 +329,10 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
                                     const Character &guy, const player_display_tab curtab )
 {
     werase( win );
-    const bool focused = curtab == player_display_tab::proficiencies;
+    const std::vector<std::pair<proficiency_id, std::string>> &profs = sorted_proficiencies( guy );
+    bool focused = curtab == player_display_tab::proficiencies;
     const nc_color title_color = focused ? h_light_gray : c_light_gray;
     center_print( win, 0, title_color, _( title_PROFICIENCIES ) );
-    const std::vector<std::pair<proficiency_id, std::string>> &profs = sorted_proficiencies( guy );
     const int height = getmaxy( win ) - 1;
     const int width = getmaxx( win ) - 1;
     bool draw_scrollbar = profs.size() > static_cast<size_t>( height );
@@ -342,7 +342,8 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         if( y > height ) {
             break;
         }
-        y += fold_and_print( win, point( 1, y ), width, c_white, profs[i].second );
+        const nc_color col = focused && i == line ? hilite( c_white ) : c_white;
+        y += fold_and_print( win, point( 1, y ), width, col, profs[i].second );
     }
 
     if( draw_scrollbar ) {
@@ -363,9 +364,12 @@ static void draw_proficiencies_info( const catacurses::window &w_info, const uns
                                      const Character &guy )
 {
     werase( w_info );
-    // NOLINTNEXTLINE(cata-use-named-point-constants)
-    fold_and_print( w_info, point( 1, 0 ), getmaxx( w_info ) - 1,
-                    c_white, sorted_proficiencies( guy )[line].first->description() );
+    const std::vector<std::pair<proficiency_id, std::string>> &profs = sorted_proficiencies( guy );
+    if( line < profs.size() ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), getmaxx( w_info ) - 1,
+                        c_white, profs[line].first->description() );
+    }
     wnoutrefresh( w_info );
 }
 
