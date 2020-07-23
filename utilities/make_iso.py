@@ -23,24 +23,28 @@ parser.add_argument('-f', dest='floodfill', action='store_true')
 
 args = parser.parse_args()
 
+# Indexed by (tile_num, initial_rotation) tuple, True if iso-converted
+converted_tile_ids = dict()
 
 def iso_ize(tile_num, new_tile_num=-1, initial_rotation=0, override=False):
     if override or (tile_num, initial_rotation) not in converted_tile_ids:
         print("  iso-izing " + str(tile_num))
         if new_tile_num == -1:
             new_tile_num = tile_num
-        converted_tile_ids[(tile_num, initial_rotation)] = True
+        tile_png = "tile-{:0>6d}.png".format(tile_num)
         command = (
-            'convert -background transparent ' + new_tileset_name + '/tiles/tile-' + "{:0>6d}".format(tile_num) + '.png ' +
-            '-rotate ' + str(initial_rotation) + ' ' +
+            'convert -background transparent ' + new_tileset_name + '/tiles/' + tile_png +
+            ' -rotate ' + str(initial_rotation) + ' ' +
             '-rotate -45 +repage -resize 100%x50% ' +
-            '-crop ' + str(nwidth) + 'x' + str(int(nwidth / 2)) + '+2+1 ' +  # TODO: get correct offsets
+            '-crop ' + str(nwidth) + 'x' + str(int(nwidth / 2)) + '+2+1 ' + #TODO: get correct offsets
             '+repage -extent ' + str(nwidth) + 'x' + str(nheight) + '+0-' + str(nheight - int(nwidth / 2)) + ' ' +
-            new_tileset_name + '/tiles/to_merge/tile-' + "{:0>6d}".format(new_tile_num) + '.png')
+            new_tileset_name + '/tiles/to_merge/' + tile_png)
         print(command)
         if os.system(command):
-            raise
-        return True
+            raise RuntimeError("iso-ization failed for %s" % tile_png)
+        else:
+            converted_tile_ids[(tile_num,initial_rotation)] = True
+            return True
     return False
 
 
@@ -132,7 +136,8 @@ def tile_convert(otile, main_id, new_tile_number):
                         '+repage ' + new_tiles_dir + '/to_merge/' + tile_png)
                     print(command)
                     if os.system(command):
-                        raise RuntimeError("Failed to offset %s" % tile_png)
+                        print("! Failed to offset %s, continuing" % tile_png)
+                        #raise RuntimeError("Failed to offset %s" % tile_png)
         else:
             ntile[g] = otile[g]
             # iso-ize each existing rotation of this tile
@@ -224,7 +229,6 @@ for otn in otc['tiles-new']:
     # need to add support for fallback tiles
     if 'fallback' in base_filename:
         continue
-    converted_tile_ids = dict()
     if first_filename == '':
         first_filename = base_filename # remember this for tileset.txt
     ntc['tiles-new'].append(dict())
