@@ -2459,6 +2459,10 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
                furn == f_gun_safe_el ) {
         here.furn_set( pos, f_safe_o );
+        // 50% of starting a fire.
+        if( here.flammable_items_at( pos ) && rng( 1, 100 ) < 50 ) {
+            here.add_field( pos, fd_fire, 1, 10_minutes );
+        }
     }
 }
 
