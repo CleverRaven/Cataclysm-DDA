@@ -98,7 +98,7 @@ To find out if a types supports copy-from, you need to know if it has implemente
 
 Contributors are encouraged to not overuse copy-from, as it can decrease the human readability of the JSON.  Chained inheritance is especially likely to become unweildy, essentially recreating the level of redundancy we'd like to eliminate. 
 
-In general, there are two situations where copy-from should be used in the core game
+In general, there are two situations where copy-from should be used in the core game:
 
 - Two things are nearly identical variants of each other.
 - A group of entities always (not almost always, always) shares some set of properties, then one or two levels of abstracts can set up a very shallow and narrow hierarchy.
