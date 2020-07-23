@@ -28,6 +28,8 @@
 #include "ui_manager.h"
 #include "wcwidth.h"
 
+template class color_loader<RGBQUAD>;
+
 //***********************************
 //Globals                           *
 //***********************************
