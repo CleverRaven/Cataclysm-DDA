@@ -1560,7 +1560,7 @@
     "charges": 50,
     "batch_time_factors": [ 80, 1 ],
     "book_learn": [ [ "textbook_extraction", 4 ] ],
-    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "CHEM", "level": 2 }, ],
+    "qualities": [ { "id": "CONTAIN", "level": 1 }, { "id": "CONCENTRATE", "level": 1 }, { "id": "CHEM", "level": 2 } ],
     "tools": [ [ [ "syringe", -1 ] ], [ [ "surface_heat", 1, "LIST" ] ] ],
     "components": [ [ [ "chem_sodium_benzoate", 9 ] ], [ [ "cocaine", 1 ] ], [ [ "bottle_plastic_small", 1 ] ], [ [ "water", 1, "LIST" ] ] ]
   }
