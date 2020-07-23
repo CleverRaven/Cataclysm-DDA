@@ -2420,7 +2420,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     for( const auto &loc : start_locations::get_all() ) {
         if( get_scenario()->allowed_start( loc.id ) ) {
             uilist_entry entry( loc.id.get_cid().to_i(), true, -1, string_format(
-                                    ngettext( "%s",
+                                    ngettext( "%s ",
                                               "%s (<color_white>%d</color> variants)",
                                               loc.targets_count() ), loc.name(), loc.targets_count() ) );
 
