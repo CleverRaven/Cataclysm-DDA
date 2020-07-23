@@ -151,7 +151,7 @@ bool tutorial_game::init()
     player_character.inv.add_item( lighter, true, false );
     player_character.set_skill_level( skill_gun, 5 );
     player_character.set_skill_level( skill_melee, 5 );
-    g->load_map( project_to<coords::scale::submap>( lp_abs ) );
+    g->load_map( project_to<coords::sm>( lp_abs ) );
     player_character.setx( 2 );
     player_character.sety( 4 );
 

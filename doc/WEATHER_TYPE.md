@@ -23,9 +23,13 @@ Each weather type is a type of weather that occurs, its effects and what causes 
 | `sound_category`               | Optional, if playing sound effects what to use. Valid values are: silent, drizzle, rainy, thunder, flurries,
     snowstorm and snow. |
 | `sun_intensity`                | Strength of the sun. Valid values are: none, light, normal, and high  |
+| `duration_min`                 | Optional, the lower bound on the amount of time this weather can last. Defaults to 5 minutes. Unless time_between_min and time_between_max are set the weather can happen again as soon as it ends. |
+| `duration_max`                 | Optional, the upper bound on the amount of time this weather can last. Defaults to 5 minutes. Unless time_between_min and time_between_max are set the weather can happen again soon as it ends. |
+| `time_between_min`             | Optional, the lower bounds of the amount of time that will be guranteed to pass before this weather happens again. Defaults to 0. |
+| `time_between_max`             | Optional, the upper bounds of the amount of time that will be guranteed to pass before this weather happens again. Defaults to 0. |
 | `weather_animation`            | Optional, Information controlling weather animations.  Members: factor, color and glyph |
 | `effects`                      | Array for the effects the weather has. Descibed in detail below
-| `requirements`                  | Optional, is what determines what weather it is.  All members are optional.  
+| `requirements`                 | Optional, is what determines what weather it is.  All members are optional. 
 	When checking what weather it is it loops through the entries in order and uses the last one to succeed. |
 	
 	`pressure_min`
@@ -42,7 +46,10 @@ Each weather type is a type of weather that occurs, its effects and what causes 
 	`acidic`                     | does this require acidic precipitation                                |
 	`time`                       | Valid values are: day, night, and both.                               |
 	`required_weathers`          | a string array of possible weathers it is at this point in the loop. i.e. rain can only happen if the conditions for clouds light drizzle or drizzle are present |
-
+	`time_passed_min`            | Optional: Until this much time post cataclysm this weather won't happen.|
+	`time_passed_max`            | Optional: After this much time post cataclysm this weather stops.|
+	`one_in_chance`              | Optional: This has a 1 in this value chance of happening.  This will usually be called every 5 minutes|
+	
 ### Example
 
 ```json

@@ -165,8 +165,8 @@ void game::unserialize( std::istream &fin )
     int tmpturn = 0;
     int tmpcalstart = 0;
     int tmprun = 0;
-    tripoint lev;
-    point com;
+    tripoint_om_sm lev;
+    point_abs_om com;
     JsonIn jsin( fin );
     try {
         JsonObject data = jsin.get_object();
@@ -183,11 +183,11 @@ void game::unserialize( std::istream &fin )
         data.read( "auto_travel_mode", auto_travel_mode );
         data.read( "run_mode", tmprun );
         data.read( "mostseen", mostseen );
-        data.read( "levx", lev.x );
-        data.read( "levy", lev.y );
-        data.read( "levz", lev.z );
-        data.read( "om_x", com.x );
-        data.read( "om_y", com.y );
+        data.read( "levx", lev.x() );
+        data.read( "levy", lev.y() );
+        data.read( "levz", lev.z() );
+        data.read( "om_x", com.x() );
+        data.read( "om_y", com.y() );
 
         calendar::turn = tmpturn;
         calendar::start_of_cataclysm = tmpcalstart;
@@ -196,7 +196,7 @@ void game::unserialize( std::istream &fin )
             calendar::start_of_game = calendar::start_of_cataclysm;
         }
 
-        load_map( lev + point( com.x * OMAPX * 2, com.y * OMAPY * 2 ) );
+        load_map( project_combine( com, lev ) );
 
         safe_mode = static_cast<safe_mode_type>( tmprun );
         if( get_option<bool>( "SAFEMODE" ) && safe_mode == SAFE_MODE_OFF ) {
@@ -1159,8 +1159,7 @@ void game::unserialize_master( std::istream &fin )
             } else if( name == "seed" ) {
                 jsin.read( seed );
             } else if( name == "weather" ) {
-                JsonObject w = jsin.get_object();
-                w.read( "lightning", weather.lightning_active );
+                weather_manager::unserialize_all( jsin );
             } else {
                 // silently ignore anything else
                 jsin.skip_value();
@@ -1178,6 +1177,14 @@ void mission::serialize_all( JsonOut &json )
         e->serialize( json );
     }
     json.end_array();
+}
+
+void weather_manager::unserialize_all( JsonIn &jsin )
+{
+    JsonObject w = jsin.get_object();
+    w.read( "lightning", get_weather().lightning_active );
+    w.read( "weather_id", get_weather().weather_id );
+    w.read( "next_weather", get_weather().nextweather );
 }
 
 void game::serialize_master( std::ostream &fout )
@@ -1199,6 +1206,8 @@ void game::serialize_master( std::ostream &fout )
         json.member( "weather" );
         json.start_object();
         json.member( "lightning", weather.lightning_active );
+        json.member( "weather_id", weather.weather_id );
+        json.member( "next_weather", weather.nextweather );
         json.end_object();
 
         json.end_object();

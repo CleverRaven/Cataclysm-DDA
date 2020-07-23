@@ -725,6 +725,22 @@ bool item_location::has_parent() const
     return false;
 }
 
+bool item_location::parents_can_contain_recursive( item *it ) const
+{
+    if( !has_parent() ) {
+        return true;
+    }
+
+    item_location parent = parent_item();
+    item_pocket *pocket = parent->contents.contained_where( *get_item() );
+
+    if( pocket->can_contain( *it ).success() ) {
+        return parent.parents_can_contain_recursive( it );
+    }
+
+    return false;
+}
+
 item_location::type item_location::where() const
 {
     return ptr->where();

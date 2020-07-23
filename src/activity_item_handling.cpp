@@ -1965,7 +1965,7 @@ void activity_on_turn_move_loot( player_activity &act, player &p )
     map &here = get_map();
     const auto abspos = here.getabs( p.pos() );
     auto &mgr = zone_manager::get_manager();
-    if( here.check_vehicle_zones( g->get_levz() ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
         mgr.cache_vzones();
     }
 

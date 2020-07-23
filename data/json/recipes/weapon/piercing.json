@@ -118,6 +118,28 @@
     ]
   },
   {
+    "type": "recipe",
+    "result": "spear_stone",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_PIERCING",
+    "skill_used": "survival",
+    "skills_required": [ "fabrication", 2 ],
+    "difficulty": 6,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [
+      { "id": "PUNCH", "level": 1 },
+      { "id": "CHISEL_WOOD", "level": 1 },
+      { "id": "HAMMER_SOFT", "level": 1 },
+      { "id": "HAMMER", "level": 1 }
+    ],
+    "components": [
+      [ [ "stick_long", 1 ] ],
+      [ [ "rock_flaking", 1 ], [ "sharp_rock", 1 ] ],
+      [ [ "cordage_short", 1, "LIST" ], [ "filament", 50, "LIST" ] ]
+    ]
+  },
+  {
     "result": "spear_pipe",
     "type": "recipe",
     "category": "CC_WEAPON",

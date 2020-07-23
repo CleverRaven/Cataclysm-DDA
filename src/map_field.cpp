@@ -778,7 +778,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         curfield.find_field( fd_plasma ) ||
                         curfield.find_field( fd_laser ) ||
                         curfield.find_field( fd_dazzling ) ||
-                        curfield.find_field( fd_electricity ) ||
                         curfield.find_field( fd_incendiary ) ) {
                         // Kill them at the end of processing.
                         cur.set_field_intensity( 0 );
@@ -1693,10 +1692,10 @@ void map::creature_in_field( Creature &critter )
 {
     bool in_vehicle = false;
     bool inside_vehicle = false;
-    player *u = critter.as_player();
     if( critter.is_monster() ) {
         monster_in_field( *static_cast<monster *>( &critter ) );
     } else {
+        player *u = critter.as_player();
         if( u ) {
             in_vehicle = u->in_vehicle;
             // If we are in a vehicle figure out if we are inside (reduces effects usually)

@@ -166,6 +166,7 @@ class weather_manager
         cata::optional<int> wind_direction_override;
         cata::optional<int> windspeed_override;
         weather_type_id weather_override;
+        std::map<weather_type_id, time_point> next_instance_allowed;
         // not only sets nextweather, but updates weather as well
         void set_nextweather( time_point t );
         // The time at which weather will shift next.
@@ -177,6 +178,9 @@ class weather_manager
         // Returns outdoor or indoor temperature of given location
         int get_temperature( const tripoint_abs_omt &location );
         void clear_temp_cache();
+        void on_load();
+        static void serialize_all( JsonOut &json );
+        static void unserialize_all( JsonIn &jsin );
 };
 
 weather_manager &get_weather();

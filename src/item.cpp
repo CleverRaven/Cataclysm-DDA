@@ -4823,7 +4823,7 @@ std::string item::display_name( unsigned int quantity ) const
         tripoint map_pos_omt =
             get_var( "reveal_map_center_omt", player_character.global_omt_location().raw() );
         tripoint_abs_sm map_pos =
-            project_to<coords::scale::submap>( tripoint_abs_omt( map_pos_omt ) );
+            project_to<coords::sm>( tripoint_abs_omt( map_pos_omt ) );
         const city *c = overmap_buffer.closest_city( map_pos ).city;
         if( c != nullptr ) {
             name = string_format( "%s %s", c->name, name );
@@ -9547,7 +9547,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     }
 
     map &here = get_map();
-    if( !here.veh_at( *source ) || ( source->z != g->get_levz() && !here.has_zlevels() ) ) {
+    if( !here.veh_at( *source ) || ( source->z != here.get_abs_sub().z && !here.has_zlevels() ) ) {
         if( carrier->has_item( *this ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }

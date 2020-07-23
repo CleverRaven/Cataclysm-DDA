@@ -1,0 +1,40 @@
+[
+  {
+    "type": "AMMO",
+    "id": "rock_flaking",
+    "symbol": "*",
+    "color": "light_gray",
+    "name": { "str": "flaking rock" },
+    "description": "A rock the size of a baseball, which chips in a semi-predictable way if stuck, leaving a sharp edge.  Makes a decent melee weapon, and is also good for throwing at enemies.",
+    "category": "spare_parts",
+    "material": [ "stone" ],
+    "ammo_type": "rock",
+    "flags": [ "TRADER_AVOID" ],
+    "weight": "657 g",
+    "volume": "250 ml",
+    "longest_side": "8 cm",
+    "bashing": 7,
+    "damage": { "damage_type": "stab", "amount": 7 },
+    "range": 10,
+    "dispersion": 14,
+    "loudness": 0,
+    "to_hit": -1,
+    "effects": [ "NEVER_MISFIRES", "NON-FOULING", "RECOVER_60" ]
+  },
+  {
+    "type": "GENERIC",
+    "id": "rock_large",
+    "symbol": ";",
+    "color": "brown",
+    "name": { "str": "large rock" },
+    "description": "A heavy and large rock, big enough to be used as a primitive anvil, or shaped into larger stone items.",
+    "category": "spare_parts",
+    "material": "stone",
+    "weight": "15768 g",
+    "volume": "6 L",
+    "longest_side": "30 cm",
+    "bashing": 28,
+    "to_hit": -2,
+    "qualities": [ [ "ANVIL", 1 ] ]
+  }
+]

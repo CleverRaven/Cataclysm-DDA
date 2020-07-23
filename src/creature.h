@@ -607,7 +607,6 @@ class Creature
 
         std::map<bodypart_str_id, bodypart> get_body() const;
         void set_body();
-        void init_parts_drench_capacity();
         void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
                                 int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
                                 int fat_to_max_hp = 0 );

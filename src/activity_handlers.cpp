@@ -456,7 +456,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_thirst( 10 );
         p->mod_fatigue( 15 );
         p->mod_pain( 3 * rng( 1, 3 ) );
-    } else if( here.move_cost( pos ) == 2 && g->get_levz() == 0 &&
+    } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
                here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_stored_nutr( 5 );
@@ -1901,7 +1901,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
                 p->mod_fatigue( 30 - ( helpersize  * 3 ) );
             }
             p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-        } else if( here.move_cost( pos ) == 2 && g->get_levz() == 0 &&
+        } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
                    here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
             //Breaking up concrete on the surface? not nearly as bad
             p->mod_stored_nutr( 5 - ( helpersize ) );
@@ -2240,7 +2240,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                       act->values.size() );
         } else {
             if( vp ) {
-                here.invalidate_map_cache( g->get_levz() );
+                here.invalidate_map_cache( here.get_abs_sub().z );
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *p ) ) {
@@ -3008,7 +3008,7 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
         map &here = get_map();
         // TODO: fix point types
         tripoint sm_tri = here.getlocal(
-                              project_to<coords::scale::map_square>( p->omt_path.back() ).raw() );
+                              project_to<coords::ms>( p->omt_path.back() ).raw() );
         tripoint centre_sub = sm_tri + point( SEEX, SEEY );
         if( !here.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
@@ -3184,7 +3184,7 @@ void activity_handlers::read_finish( player_activity *act, player *p )
         npc *guy = dynamic_cast<npc *>( p );
         guy->finish_read( * act->targets.front().get_item() );
     } else {
-        if( avatar *u = dynamic_cast<avatar *>( p ) ) {
+        if( avatar *u = p->as_avatar() ) {
             u->do_read( *act->targets.front().get_item() );
         } else {
             act->set_to_null();

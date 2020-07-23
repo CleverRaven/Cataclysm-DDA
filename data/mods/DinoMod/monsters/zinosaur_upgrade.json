@@ -2,7 +2,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zallimimus_brute",
-    "name": { "str": "Gruesome Gallimimus" },
+    "name": { "str_sp": "Gruesome Gallimimus" },
     "copy-from": "mon_zallimimus",
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -94,7 +94,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_brute",
-    "name": { "str": "Rage Rex" },
+    "name": { "str_sp": "Rage Rex" },
     "copy-from": "mon_zyrannosaurus",
     "looks_like": "mon_zyrannosaurus",
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth.  Its entire body bulges with distended muscles and swollen, festering wounds.",
@@ -327,7 +327,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zarasaurolophus_brute",
-    "name": { "str": "Parasaur Punch" },
+    "name": { "str": "Parasaur Punch", "str_pl": "Parasaur Punches" },
     "copy-from": "mon_zarasaurolophus",
     "description": "A huge mottled dinosaur with a blunt head crest, dead and walking, eyes vacant and swollen.  Its entire body bulges with distended muscles and swollen, festering wounds.",
     "diff": 2,
@@ -423,7 +423,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_shady",
-    "name": { "str": "Shady Z-Rex" },
+    "name": { "str_sp": "Shady Z-Rex" },
     "copy-from": "mon_zyrannosaurus",
     "looks_like": "mon_zyrannosaurus",
     "color": "light_gray",
@@ -501,7 +501,7 @@
   {
     "type": "MONSTER",
     "id": "mon_salbertosaurus",
-    "name": { "str": "Skeletal Albertosaurus" },
+    "name": { "str_sp": "Skeletal Albertosaurus" },
     "copy-from": "mon_zalbertosaurus",
     "looks_like": "mon_zyrannosaurus",
     "color": "white",
@@ -553,7 +553,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sallosaurus",
-    "name": { "str": "Skeletal allosaurus" },
+    "name": { "str_sp": "Skeletal allosaurus" },
     "copy-from": "mon_zallosaurus",
     "color": "white",
     "material": [ "bone" ],
@@ -578,7 +578,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sutahraptor",
-    "name": { "str": "Utah Bones" },
+    "name": { "str_sp": "Utah Bones" },
     "copy-from": "mon_zutahraptor",
     "color": "white",
     "material": [ "bone" ],
@@ -603,7 +603,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_truck",
-    "name": { "str": "Tyruckusaurus Rex" },
+    "name": { "str_sp": "Tyruckusaurus Rex" },
     "copy-from": "mon_zyrannosaurus_brute",
     "looks_like": "mon_zyrannosaurus",
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth and what looks like a fully loaded long haul truck with mounted flamethrowers and robotic arms.",
@@ -626,7 +626,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zyrannosaurus_hulk",
-    "name": { "str": "Goliath Rex" },
+    "name": { "str_sp": "Goliath Rex" },
     "copy-from": "mon_zyrannosaurus_brute",
     "looks_like": "mon_zyrannosaurus",
     "description": "A hideously swollen zombified tyrannosaurus body towering into the sky.  Its massive body bulges with distended muscles and swollen, festering wounds.",
