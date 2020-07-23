@@ -14,15 +14,18 @@ jobs:
       matrix:
         include:
           - compiler: g++-9
-            tiles: 0
             cmake: 0
-          - compiler: g++-8
-            tiles: 1
+            tiles: 0
+          - compiler: g++-7
             cmake: 1
+            tiles: 1
+          - compiler: g++-8
+            cmake: 0
+            tiles: 1
             sanitize: address
           - compiler: clang++-9
+            cmake: 0
             tiles: 1
-            cmake: 1
             sanitize: address,undefined
     runs-on: ubuntu-latest
     env:
