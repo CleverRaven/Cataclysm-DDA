@@ -1,0 +1,46 @@
+name: General build matrix
+
+on:
+  push:
+    branches:
+    - master
+  pull_request:
+    branches:
+    - master
+
+jobs:
+  varied_builds:
+    strategy:
+      matrix:
+        include:
+          - compiler: g++-8
+            tiles: 1
+            cmake: 1
+    runs-on: ubuntu-latest
+    env:
+        CMAKE: ${{ matrix.cmake }}
+        COMPILER: ${{ matrix.compiler }}
+        TILES: ${{ matrix.tiles }}
+        SOUND: ${{ matrix.tiles }}
+    steps:
+    - name: checkout repository
+      uses: actions/checkout@v1
+      with:
+        fetch-depth: 10
+    - name: install dependencies
+      run: |
+          #sudo apt-add-repository "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-8 main"
+          sudo apt-get update
+          sudo apt-get install libncursesw5-dev clang-8 libclang-8-dev llvm-8-dev llvm-8-tools \
+            libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev libsdl2-mixer-dev libpulse-dev ccache \
+            gettext
+    - name: prepare
+      run: bash ./build-scripts/requirements.sh
+    - name: build and test
+      run: bash ./build-scripts/build.sh
+    - name: upload artifacts if failed
+      uses: actions/upload-artifact@v1
+      if: failure()
+      with:
+        name: cata_test
+        path: tests/cata_test
