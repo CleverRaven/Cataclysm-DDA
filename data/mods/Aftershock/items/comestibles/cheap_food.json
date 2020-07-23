@@ -69,7 +69,7 @@
   {
     "id": "afs_h2o",
     "type": "COMESTIBLE",
-    "name": "H₂O™",
+    "name": { "str_sp": "H₂O™" },
     "copy-from": "water_clean",
     "container": "can_drink",
     "description": "When Thistle Industries successfully trademarked the chemical formula of water, you thought the world had gone irreparably insane, but things have only gotten worse since."
@@ -77,7 +77,7 @@
   {
     "id": "afs_food_cube",
     "type": "COMESTIBLE",
-    "name": "food cubes",
+    "name": { "str_sp": "food cubes" },
     "symbol": "f",
     "container": "bag_plastic",
     "copy-from": "protein_bar_evac",
@@ -93,7 +93,7 @@
   {
     "id": "afs_food_to_go",
     "type": "COMESTIBLE",
-    "name": "Foodplace's Food-to-go™",
+    "name": { "str_sp": "Foodplace's Food-to-go™" },
     "container": "bag_plastic",
     "symbol": "f",
     "copy-from": "protein_bar_evac",
@@ -108,7 +108,7 @@
   {
     "id": "afs_loop_fruit",
     "type": "COMESTIBLE",
-    "name": "loop 'fruit'",
+    "name": { "str": "loop 'fruit'", "str_pl": "loop 'fruits'" },
     "container": "bag_plastic",
     "copy-from": "protein_bar_evac",
     "color": "white",
@@ -122,7 +122,7 @@
   {
     "id": "afs_cee_wafers",
     "type": "COMESTIBLE",
-    "name": "cee wafers",
+    "name": { "str_sp": "cee wafers" },
     "container": "can_food",
     "copy-from": "protein_bar_evac",
     "color": "white",
@@ -154,7 +154,7 @@
   {
     "id": "afs_soup_27",
     "type": "COMESTIBLE",
-    "name": "soup, flavor 27",
+    "name": { "str_sp": "soup, flavor 27" },
     "copy-from": "soup_cullenskink",
     "container": "can_food",
     "color": "red",
@@ -169,7 +169,7 @@
   {
     "id": "afs_caffex",
     "type": "COMESTIBLE",
-    "name": "caffex",
+    "name": { "str_sp": "caffex" },
     "copy-from": "coffee",
     "container": "can_drink",
     "calories": 150,

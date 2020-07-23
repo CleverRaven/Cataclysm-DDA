@@ -77,7 +77,7 @@
     "id": "cloak_morthylla",
     "type": "ARMOR",
     "copy-from": "cloak_wool",
-    "name": { "str": "Cloak of Morthylla the Lamia" },
+    "name": { "str": "Cloak of Morthylla the Lamia", "str_pl": "Cloaks of Morthylla the Lamia" },
     "description": "This cloak seems to absorb light except for the pinpricks of stars that move across its surface.",
     "price": 1500000,
     "price_postapoc": 360000,
