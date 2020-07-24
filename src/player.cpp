@@ -765,7 +765,7 @@ void player::pause()
                 }
             }, true );
         } else if( here.has_flag( "SWIMMABLE", pos() ) ) {
-            drench( 40, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } },
+            drench( 80, { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } },
             false );
         }
     }

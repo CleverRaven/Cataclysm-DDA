@@ -1747,7 +1747,7 @@ void Character::drench( int saturation, const body_part_set &flags, bool ignore_
             continue;
         }
         // Different sources will only make the bodypart wet to a limit
-        int source_wet_max = saturation * bp_wetness_max * 2 / 100;
+        int source_wet_max = saturation * bp_wetness_max / 100;
         int wetness_increment = ignore_waterproof ? 100 : 2;
         // Respect maximums
         const int wetness_max = std::min( source_wet_max, bp_wetness_max );
