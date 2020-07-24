@@ -10,7 +10,6 @@
 #include "event.h"
 #include "event_bus.h"
 #include "event_statistics.h"
-#include "game.h"
 #include "optional.h"
 #include "stats_tracker.h"
 #include "string_id.h"
@@ -868,7 +867,7 @@ struct test_subscriber : public event_subscriber {
 
 TEST_CASE( "achievements_tracker_in_game", "[stats]" )
 {
-    g->achievements().clear();
+    get_achievements().clear();
     test_subscriber sub;
     get_event_bus().subscribe( &sub );
 

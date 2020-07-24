@@ -4,6 +4,7 @@
 
 #include <functional>
 
+#include "cuboid_rectangle.h"
 #include "point.h"
 
 namespace catacurses

@@ -4433,6 +4433,7 @@ void item::on_pickup( Character &p )
 void item::on_contents_changed()
 {
     contents.update_open_pockets();
+    cached_relative_encumbrance.reset();
     encumbrance_update_ = true;
 }
 
@@ -4818,8 +4819,12 @@ std::string item::display_name( unsigned int quantity ) const
 
     // HACK: This is a hack to prevent possible crashing when displaying maps as items during character creation
     if( is_map() && calendar::turn != calendar::turn_zero ) {
-        const city *c = overmap_buffer.closest_city( omt_to_sm_copy( get_var( "reveal_map_center_omt",
-                        player_character.global_omt_location() ) ) ).city;
+        // TODO: fix point types
+        tripoint map_pos_omt =
+            get_var( "reveal_map_center_omt", player_character.global_omt_location().raw() );
+        tripoint_abs_sm map_pos =
+            project_to<coords::sm>( tripoint_abs_omt( map_pos_omt ) );
+        const city *c = overmap_buffer.closest_city( map_pos ).city;
         if( c != nullptr ) {
             name = string_format( "%s %s", c->name, name );
         }
@@ -5702,11 +5707,13 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     int encumber = 0;
-
+    float relative_encumbrance = 1.0;
     // Additional encumbrance from non-rigid pockets
-    float relative_encumbrance = 1;
     if( !( flags & encumber_flags::assume_full ) ) {
-        relative_encumbrance = contents.relative_encumbrance();
+        if( !cached_relative_encumbrance ) {
+            cached_relative_encumbrance = contents.relative_encumbrance();
+        }
+        relative_encumbrance = *cached_relative_encumbrance;
     }
 
     if( cata::optional<armor_portion_data> portion_data = portion_for_bodypart( bodypart ) ) {
@@ -6957,9 +6964,10 @@ bool item::can_contain_partial( const item &it ) const
     return can_contain( i_copy );
 }
 
-item_pocket *item::best_pocket( const item &it )
+std::pair<item_location, item_pocket *> item::best_pocket( const item &it, item_location &parent )
 {
-    return contents.best_pocket( it, false );
+    item_location nested_location( parent, this );
+    return contents.best_pocket( it, nested_location, false );
 }
 
 bool item::spill_contents( Character &c )
@@ -8480,7 +8488,8 @@ int item::fill_with( const itype &contained, const int amount )
         contained_item.charges = 1;
     }
 
-    item_pocket *pocket = best_pocket( contained_item );
+    item_location loc;
+    item_pocket *pocket = best_pocket( contained_item, loc ).second;
     if( pocket == nullptr ) {
         debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
                   contained_item.typeId().str(), typeId().str() );
@@ -8494,7 +8503,7 @@ int item::fill_with( const itype &contained, const int amount )
         }
         num_contained++;
         if( !pocket->can_contain( contained_item ).success() ) {
-            pocket = best_pocket( contained_item );
+            pocket = best_pocket( contained_item, loc ).second;
         }
     }
     return num_contained;
@@ -9538,7 +9547,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     }
 
     map &here = get_map();
-    if( !here.veh_at( *source ) || ( source->z != g->get_levz() && !here.has_zlevels() ) ) {
+    if( !here.veh_at( *source ) || ( source->z != here.get_abs_sub().z && !here.has_zlevels() ) ) {
         if( carrier->has_item( *this ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }

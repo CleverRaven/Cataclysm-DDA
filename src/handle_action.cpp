@@ -298,7 +298,7 @@ input_context game::get_player_input( std::string &action )
                     const direction oCurDir = iter->getDirecton();
                     const int width = utf8_width( iter->getText() );
                     for( int i = 0; i < width; ++i ) {
-                        tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_levz() );
+                        tripoint tmp( iter->getPosX() + i, iter->getPosY(), get_map().get_abs_sub().z );
                         const Creature *critter = critter_at( tmp, true );
 
                         if( critter != nullptr && u.sees( *critter ) ) {
@@ -906,7 +906,7 @@ static void wait()
         }
     }
 
-    if( g->get_levz() >= 0 || has_watch ) {
+    if( here.get_abs_sub().z >= 0 || has_watch ) {
         const time_point last_midnight = calendar::turn - time_past_midnight( calendar::turn );
         const auto diurnal_time_before = []( const time_point & p ) {
             // Either the given time is in the future (e.g. waiting for sunset while it's early morning),

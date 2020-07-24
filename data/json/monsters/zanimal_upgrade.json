@@ -77,7 +77,7 @@
     "id": "mon_dog_skeleton_brute",
     "type": "MONSTER",
     "copy-from": "mon_dog_skeleton",
-    "name": { "str": "boneplate wolf" },
+    "name": { "str": "boneplate wolf", "str_pl": "boneplate wolves" },
     "description": "This is a four legged creature covered in fused bony plates, shaped somewhat like a dog or wolf.  Joints and cracks around its body ooze with black goo.",
     "volume": "46 L",
     "weight": "60 kg",
@@ -96,7 +96,7 @@
   {
     "id": "mon_wolf_skeleton",
     "type": "MONSTER",
-    "name": { "str": "skeletal wolf" },
+    "name": { "str": "skeletal wolf", "str_pl": "skeletal wolves" },
     "description": "This once-canine has shed all of its skin, revealing a carapace of fused bones and ribs.  Devoid entirely of flesh, this walking suit of bone seems to be controlled by a net of veins and sinews which pulse with glistening black goo.",
     "looks_like": "mon_dog_skeleton",
     "default_faction": "zombie",

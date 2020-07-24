@@ -21,6 +21,7 @@
 #include "colony.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "disease.h"
 #include "effect.h"
@@ -177,6 +178,8 @@ static const efftype_id effect_took_prozac( "took_prozac" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_webbed( "webbed" );
 static const efftype_id effect_winded( "winded" );
+
+static const field_type_str_id field_fd_clairvoyant( "fd_clairvoyant" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
 static const itype_id itype_apparatus( "apparatus" );
@@ -752,19 +755,21 @@ int Character::unimpaired_range() const
     return std::min( sight_max, 60 );
 }
 
-bool Character::overmap_los( const tripoint &omt, int sight_points )
+bool Character::overmap_los( const tripoint_abs_omt &omt, int sight_points )
 {
-    const tripoint ompos = global_omt_location();
-    if( omt.x < ompos.x - sight_points || omt.x > ompos.x + sight_points ||
-        omt.y < ompos.y - sight_points || omt.y > ompos.y + sight_points ) {
+    const tripoint_abs_omt ompos = global_omt_location();
+    const point_rel_omt offset = omt.xy() - ompos.xy();
+    if( offset.x() < -sight_points || offset.x() > sight_points ||
+        offset.y() < -sight_points || offset.y() > sight_points ) {
         // Outside maximum sight range
         return false;
     }
 
-    const std::vector<tripoint> line = line_to( ompos, omt, 0, 0 );
+    // TODO: fix point types
+    const std::vector<tripoint> line = line_to( ompos.raw(), omt.raw(), 0, 0 );
     for( size_t i = 0; i < line.size() && sight_points >= 0; i++ ) {
         const tripoint &pt = line[i];
-        const oter_id &ter = overmap_buffer.ter( pt );
+        const oter_id &ter = overmap_buffer.ter( tripoint_abs_omt( pt ) );
         sight_points -= static_cast<int>( ter->get_see_cost() );
         if( sight_points < 0 ) {
             return false;
@@ -964,7 +969,7 @@ bool Character::is_on_ground() const
 
 bool Character::can_stash( const item &it )
 {
-    return best_pocket( it, nullptr ) != nullptr;
+    return best_pocket( it, nullptr ).second != nullptr;
 }
 
 void Character::cancel_stashed_activity()
@@ -1221,7 +1226,7 @@ void Character::forced_dismount()
             add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
             deal_damage( nullptr, hit, damage_instance( DT_BASH, damage ) );
             if( is_avatar() ) {
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male", "Fell off a mount." ),
                     pgettext( "memorial_female", "Fell off a mount." ) );
             }
@@ -2437,25 +2442,22 @@ std::vector<item_location> Character::nearby( const
     return res;
 }
 
-item_pocket *Character::best_pocket( const item &it, const item *avoid )
+std::pair<item_location, item_pocket *> Character::best_pocket( const item &it, const item *avoid )
 {
-    item_pocket *ret = nullptr;
+    item_location weapon_loc( *this, &weapon );
+    std::pair<item_location, item_pocket *> ret = std::make_pair( item_location(), nullptr );
     if( &weapon != &it && &weapon != avoid ) {
-        ret = weapon.best_pocket( it );
+        ret = weapon.best_pocket( it, weapon_loc );
     }
     for( item &worn_it : worn ) {
         if( &worn_it == &it || &worn_it == avoid ) {
             continue;
         }
-        item_pocket *internal_pocket = worn_it.best_pocket( it );
-        if( internal_pocket != nullptr ) {
-            if( ret == nullptr ) {
-                ret = internal_pocket;
-            } else {
-                if( ret->better_pocket( *internal_pocket, it ) ) {
-                    ret = internal_pocket;
-                }
-            }
+        item_location loc( *this, &worn_it );
+        std::pair<item_location, item_pocket *> internal_pocket = worn_it.best_pocket( it, loc );
+        if( internal_pocket.second != nullptr &&
+            ( ret.second == nullptr || ret.second->better_pocket( *internal_pocket.second, it ) ) ) {
+            ret = internal_pocket;
         }
     }
     return ret;
@@ -2476,17 +2478,20 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
             break;
         }
     }
-    item_pocket *pocket = best_pocket( it, avoid );
+    std::pair<item_location, item_pocket *> pocket = best_pocket( it, avoid );
     item *ret = nullptr;
-    if( pocket == nullptr ) {
+    if( pocket.second == nullptr ) {
         if( has_weapon() ) {
             if( avoid != nullptr && is_wielding( *avoid ) ) {
                 return nullptr;
             }
-            item_pocket *weapon_pocket = weapon.best_pocket( it );
-            if( weapon_pocket != nullptr ) {
-                weapon_pocket->add( it );
-                ret = &weapon_pocket->back();
+            item_location weapon_location( *this, &weapon );
+            std::pair<item_location, item_pocket *> weapon_pocket = weapon.best_pocket( it, weapon_location );
+            if( weapon_pocket.second != nullptr ) {
+                weapon_pocket.second->add( it );
+                ret = &weapon_pocket.second->back();
+                weapon_pocket.first.on_contents_changed();
+                weapon_pocket.second->on_contents_changed();
                 return ret;
             } else {
                 return nullptr;
@@ -2500,7 +2505,10 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
         }
     } else {
         // this will set ret to either it, or to stack where it was placed
-        pocket->add( it, &ret );
+        pocket.second->add( it, &ret );
+        pocket.first.on_contents_changed();
+        pocket.second->on_contents_changed();
+        ret = &pocket.second->back();
     }
 
     if( keep_invlet ) {
@@ -4971,6 +4979,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         // Apply nutrients, unless this is an NPC and NO_NPC_FOOD is enabled.
         if( !is_npc() || !get_option<bool>( "NO_NPC_FOOD" ) ) {
             mod_stored_kcal( digested_to_body.nutr.kcal );
+            log_activity_level( activity_level );
             vitamins_mod( digested_to_body.nutr.vitamins, false );
         }
         if( !foodless && rates.hunger > 0.0f ) {
@@ -5038,7 +5047,14 @@ void Character::update_stomach( const time_point &from, const time_point &to )
     const bool just_ate = stomach.time_since_ate() < 15_minutes;
     // i ate a meal recently enough that i shouldn't need another meal
     const bool recently_ate = stomach.time_since_ate() < 3_hours;
+    // Hunger effect should intensify whenever stomach contents decreases, last eaten time increases, or calorie deficit intensifies.
     if( calorie_deficit ) {
+        //              just_ate    recently_ate
+        //              <15 min     <3 hrs      >=3 hrs
+        // >= cap       engorged    engorged    engorged
+        // > 3/4 cap    full        full        full
+        // > 1/2 cap    satisfied   v. hungry   famished/(near)starving
+        // <= 1/2 cap   hungry      v. hungry   famished/(near)starving
         if( contains >= cap ) {
             hunger_effect = effect_hunger_engorged;
         } else if( contains > cap * 3 / 4 ) {
@@ -5057,20 +5073,25 @@ void Character::update_stomach( const time_point &from, const time_point &to )
             hunger_effect = effect_hunger_famished;
         }
     } else {
+        //              just_ate    recently_ate
+        //              <15 min     <3 hrs      >=3 hrs
+        // >= 5/6 cap   engorged    engorged    engorged
+        // > 11/20 cap  full        full        full
+        // >= 3/8 cap   satisfied   satisfied   blank
+        // > 0          blank       blank       blank
+        // 0            blank       blank       (v.) hungry
         if( contains >= cap * 5 / 6 ) {
             hunger_effect = effect_hunger_engorged;
         } else if( contains > cap * 11 / 20 ) {
             hunger_effect = effect_hunger_full;
         } else if( recently_ate && contains >= cap * 3 / 8 ) {
             hunger_effect = effect_hunger_satisfied;
-        } else if( !just_ate && ( recently_ate || contains > 0_ml ) ) {
+        } else if( recently_ate || contains > 0_ml ) {
             hunger_effect = effect_hunger_blank;
+        } else if( get_bmi() > character_weight_category::overweight ) {
+            hunger_effect = effect_hunger_hungry;
         } else {
-            if( get_bmi() > character_weight_category::overweight ) {
-                hunger_effect = effect_hunger_hungry;
-            } else {
-                hunger_effect = effect_hunger_very_hungry;
-            }
+            hunger_effect = effect_hunger_very_hungry;
         }
     }
     if( !has_effect( hunger_effect ) ) {
@@ -6067,7 +6088,7 @@ void Character::update_bodytemp()
         // constant shivering will prevent the player from falling asleep.
         // Otherwise, if any other body part is BODYTEMP_VERY_COLD, or 31C
         // AND you have frostbite, then that also prevents you from sleeping
-        if( in_sleep_state() ) {
+        if( in_sleep_state() && !has_effect( effect_narcosis ) ) {
             if( bp == bodypart_id( "torso" ) && temp_after <= BODYTEMP_COLD ) {
                 add_msg( m_warning, _( "Your shivering prevents you from sleeping." ) );
                 wake_up();
@@ -6776,9 +6797,10 @@ tripoint Character::global_sm_location() const
     return ms_to_sm_copy( global_square_location() );
 }
 
-tripoint Character::global_omt_location() const
+tripoint_abs_omt Character::global_omt_location() const
 {
-    return ms_to_omt_copy( global_square_location() );
+    // TODO: fix point types
+    return tripoint_abs_omt( ms_to_omt_copy( global_square_location() ) );
 }
 
 bool Character::is_blind() const
@@ -8158,6 +8180,11 @@ void Character::cough( bool harmful, int loudness )
 
 void Character::wake_up()
 {
+    //Can't wake up if under anesthesia
+    if( has_effect( effect_narcosis ) ) {
+        return;
+    }
+
     // Do not remove effect_sleep or effect_alarm_clock now otherwise it invalidates an effect
     // iterator in player::process_effects().
     // We just set it for later removal (also happening in player::process_effects(), so no side
@@ -8546,7 +8573,7 @@ void Character::passive_absorb_hit( const bodypart_id &bp, damage_unit &du ) con
 static void destroyed_armor_msg( Character &who, const std::string &pre_damage_name )
 {
     if( who.is_avatar() ) {
-        g->memorial().add(
+        get_memorial().add(
             //~ %s is armor name
             pgettext( "memorial_male", "Worn %s was completely destroyed." ),
             pgettext( "memorial_female", "Worn %s was completely destroyed." ),
@@ -9227,7 +9254,7 @@ void Character::on_hurt( Creature *source, bool disturb /*= true*/ )
     }
 
     if( disturb ) {
-        if( has_effect( effect_sleep ) && !has_effect( effect_narcosis ) ) {
+        if( has_effect( effect_sleep ) ) {
             wake_up();
         }
         if( !is_npc() && !has_effect( effect_narcosis ) ) {
@@ -9266,7 +9293,7 @@ void Character::update_type_of_scent( bool init )
     }
 
     if( !init && new_scent != get_type_of_scent() ) {
-        g->scent.reset();
+        get_scent().reset();
     }
     set_type_of_scent( new_scent );
 }
@@ -9277,7 +9304,7 @@ void Character::update_type_of_scent( const trait_id &mut, bool gain )
     if( mut_scent ) {
         if( gain && mut_scent.value() != get_type_of_scent() ) {
             set_type_of_scent( mut_scent.value() );
-            g->scent.reset();
+            get_scent().reset();
         } else {
             update_type_of_scent();
         }
@@ -9629,11 +9656,11 @@ void Character::apply_persistent_morale()
     }
     // Nomads get a morale penalty if they stay near the same overmap tiles too long.
     if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) {
-        const tripoint ompos = global_omt_location();
+        const tripoint_abs_omt ompos = global_omt_location();
         float total_time = 0;
         // Check how long we've stayed in any overmap tile within 5 of us.
         const int max_dist = 5;
-        for( const tripoint &pos : points_in_radius( ompos, max_dist ) ) {
+        for( const tripoint_abs_omt &pos : points_in_radius( ompos, max_dist ) ) {
             const float dist = rl_dist( ompos, pos );
             if( dist > max_dist ) {
                 continue;
@@ -9877,8 +9904,8 @@ void Character::fall_asleep()
     if( has_active_mutation( trait_HIBERNATE ) &&
         get_kcal_percent() > 0.8f ) {
         if( is_avatar() ) {
-            g->memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
-                               pgettext( "memorial_female", "Entered hibernation." ) );
+            get_memorial().add( pgettext( "memorial_male", "Entered hibernation." ),
+                                pgettext( "memorial_female", "Entered hibernation." ) );
         }
         // some days worth of round-the-clock Snooze.  Cata seasons default to 91 days.
         fall_asleep( 10_days );
@@ -9969,7 +9996,7 @@ std::string Character::is_snuggling() const
 int Character::warmth( const bodypart_id &bp ) const
 {
     int ret = 0;
-    int warmth = 0;
+    double warmth = 0.0;
 
     for( const item &i : worn ) {
         if( i.covers( bp ) ) {
@@ -9979,7 +10006,7 @@ int Character::warmth( const bodypart_id &bp ) const
             if( !i.made_of( material_id( "wool" ) ) ) {
                 warmth *= 1.0 - 0.66 * get_part_wetness_percentage( bp );
             }
-            ret += warmth;
+            ret += std::round( warmth );
         }
     }
     ret += get_effect_int( effect_heating_bionic, bp->token );
@@ -10812,10 +10839,10 @@ void Character::place_corpse()
     here.add_item_or_charges( pos(), body );
 }
 
-void Character::place_corpse( const tripoint &om_target )
+void Character::place_corpse( const tripoint_abs_omt &om_target )
 {
     tinymap bay;
-    bay.load( tripoint( om_target.x * 2, om_target.y * 2, om_target.z ), false );
+    bay.load( project_to<coords::sm>( om_target ), false );
     point fin( rng( 1, SEEX * 2 - 2 ), rng( 1, SEEX * 2 - 2 ) );
     // This makes no sense at all. It may find a random tile without furniture, but
     // if the first try to find one fails, it will go through all tiles of the map
@@ -11111,7 +11138,10 @@ bool Character::sees( const Creature &critter ) const
     if( dist <= 3 && has_active_mutation( trait_ANTENNAE ) ) {
         return true;
     }
-
+    if( field_fd_clairvoyant.is_valid() &&
+        get_map().get_field( critter.pos(), field_fd_clairvoyant ) ) {
+        return true;
+    }
     return Creature::sees( critter );
 }
 

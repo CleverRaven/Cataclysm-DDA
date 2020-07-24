@@ -1230,7 +1230,7 @@ class item : public visitable<item>
         bool can_contain( const itype &tp ) const;
         bool can_contain_partial( const item &it ) const;
         /*@}*/
-        item_pocket *best_pocket( const item &it );
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent );
 
         /**
          * Is it ever possible to reload this item?
@@ -2270,6 +2270,7 @@ class item : public visitable<item>
         mutable faction_id old_owner = faction_id::NULL_ID();
         int damage_ = 0;
         light_emission light = nolight;
+        mutable cata::optional<float> cached_relative_encumbrance;
 
     public:
         char invlet = 0;      // Inventory letter

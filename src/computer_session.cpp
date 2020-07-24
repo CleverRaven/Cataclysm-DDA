@@ -536,9 +536,10 @@ void computer_session::action_cascade()
 
 void computer_session::action_research()
 {
+    map &here = get_map();
     // TODO: seed should probably be a member of the computer, or better: of the computer action.
     // It is here to ensure one computer reporting the same text on each invocation.
-    const int seed = g->get_levx() + g->get_levy() + g->get_levz() + comp.alerts;
+    const int seed = std::hash<tripoint> {}( here.get_abs_sub() ) + comp.alerts;
     cata::optional<translation> log = SNIPPET.random_from_category( "lab_notes", seed );
     if( !log.has_value() ) {
         log = to_translation( "No data found." );
@@ -580,7 +581,7 @@ void computer_session::action_maps()
 {
     Character &player_character = get_player_character();
     player_character.moves -= 30;
-    const tripoint center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.global_omt_location();
     overmap_buffer.reveal( center.xy(), 40, 0 );
     query_any(
         _( "Surface map data downloaded.  Local anomalous-access error logged.  Press any key…" ) );
@@ -592,7 +593,7 @@ void computer_session::action_map_sewer()
 {
     Character &player_character = get_player_character();
     player_character.moves -= 30;
-    const tripoint center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
@@ -611,7 +612,7 @@ void computer_session::action_map_subway()
 {
     Character &player_character = get_player_character();
     player_character.moves -= 30;
-    const tripoint center = player_character.global_omt_location();
+    const tripoint_abs_omt center = player_character.global_omt_location();
     for( int i = -60; i <= 60; i++ ) {
         for( int j = -60; j <= 60; j++ ) {
             point offset( i, j );
@@ -692,7 +693,8 @@ void computer_session::action_amigara_log()
     Character &player_character = get_player_character();
     player_character.moves -= 30;
     reset_terminal();
-    print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
+    point abs_sub = get_map().get_abs_sub().xy();
+    print_line( _( "NEPower Mine(%d:%d) Log" ), abs_sub.x, abs_sub.y );
     print_text( "%s", SNIPPET.random_from_category( "amigara1" ).value_or( translation() ) );
 
     if( !query_bool( _( "Continue reading?" ) ) ) {
@@ -700,7 +702,7 @@ void computer_session::action_amigara_log()
     }
     player_character.moves -= 30;
     reset_terminal();
-    print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
+    print_line( _( "NEPower Mine(%d:%d) Log" ), abs_sub.x, abs_sub.y );
     print_text( "%s", SNIPPET.random_from_category( "amigara2" ).value_or( translation() ) );
 
     if( !query_bool( _( "Continue reading?" ) ) ) {
@@ -708,7 +710,7 @@ void computer_session::action_amigara_log()
     }
     player_character.moves -= 30;
     reset_terminal();
-    print_line( _( "NEPower Mine(%d:%d) Log" ), g->get_levx(), g->get_levy() );
+    print_line( _( "NEPower Mine(%d:%d) Log" ), abs_sub.x, abs_sub.y );
     print_text( "%s", SNIPPET.random_from_category( "amigara3" ).value_or( translation() ) );
 
     if( !query_bool( _( "Continue reading?" ) ) ) {
@@ -729,9 +731,10 @@ void computer_session::action_amigara_log()
     }
     player_character.moves -= 30;
     reset_terminal();
+    tripoint abs_loc = get_map().get_abs_sub();
     print_line( _( "SITE %d%d%d\n"
                    "PERTINENT FOREMAN LOGS WILL BE PREPENDED TO NOTES" ),
-                g->get_levx(), g->get_levy(), std::abs( g->get_levz() ) );
+                abs_loc.x, abs_loc.y, std::abs( abs_loc.z ) );
     print_text( "%s", SNIPPET.random_from_category( "amigara4" ).value_or( translation() ) );
     print_gibberish_line();
     print_gibberish_line();
@@ -743,7 +746,7 @@ void computer_session::action_amigara_log()
 
 void computer_session::action_amigara_start()
 {
-    g->timed_events.add( timed_event_type::AMIGARA, calendar::turn + 1_minutes );
+    get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 1_minutes );
     Character &player_character = get_player_character();
     if( !player_character.has_artifact_with( AEP_PSYSHIELD ) ) {
         player_character.add_effect( effect_amigara, 2_minutes );
@@ -1349,9 +1352,9 @@ void computer_session::failure_alarm()
     sounds::sound( player_character.pos(), 60, sounds::sound_t::alarm, _( "an alarm sound!" ), false,
                    "environment",
                    "alarm" );
-    if( g->get_levz() > 0 && !g->timed_events.queued( timed_event_type::WANTED ) ) {
-        g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                             player_character.global_sm_location() );
+    if( get_map().get_abs_sub().z > 0 && !get_timed_events().queued( timed_event_type::WANTED ) ) {
+        get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
+                                player_character.global_sm_location() );
     }
 }
 
@@ -1436,14 +1439,13 @@ void computer_session::failure_pump_leak()
 
 void computer_session::failure_amigara()
 {
-    g->timed_events.add( timed_event_type::AMIGARA, calendar::turn + 30_seconds );
+    get_timed_events().add( timed_event_type::AMIGARA, calendar::turn + 30_seconds );
     get_player_character().add_effect( effect_amigara, 2_minutes );
-    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
-                                  10,
-                                  0.7, false, 10 );
-    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ), g->get_levz() ),
-                                  10,
-                                  0.7, false, 10 );
+    map &here = get_map();
+    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ),
+                                            here.get_abs_sub().z ), 10, 0.7, false, 10 );
+    explosion_handler::explosion( tripoint( rng( 0, MAPSIZE_X ), rng( 0, MAPSIZE_Y ),
+                                            here.get_abs_sub().z ), 10, 0.7, false, 10 );
     comp.remove_option( COMPACT_AMIGARA_START );
 }
 
@@ -1503,7 +1505,7 @@ void computer_session::action_emerg_ref_center()
     print_line( _( "SEARCHING FOR NEAREST REFUGEE CENTER, PLEASE WAIT…" ) );
 
     const mission_type_id &mission_type = mission_type_id( "MISSION_REACH_REFUGEE_CENTER" );
-    tripoint mission_target;
+    tripoint_abs_omt mission_target;
     avatar &player_character = get_avatar();
     // Check completed missions too, so people can't repeatedly get the mission.
     const std::vector<mission *> completed_missions = player_character.get_completed_missions();
@@ -1534,8 +1536,10 @@ void computer_session::action_emerg_ref_center()
                    "4PM AT 555-0164.\n"
                    "\n"
                    "IF YOU WOULD LIKE TO SPEAK WITH SOMEONE IN PERSON OR WOULD LIKE\n"
-                   "TO WRITE US A LETTER PLEASE SEND IT TO…\n" ), rl_dist( player_character.pos(), mission_target ),
-                direction_name_short( direction_from( player_character.pos(), mission_target ) ) );
+                   "TO WRITE US A LETTER PLEASE SEND IT TO…\n" ),
+                rl_dist( player_character.global_omt_location(), mission_target ),
+                direction_name_short(
+                    direction_from( player_character.global_omt_location(), mission_target ) ) );
 
     query_any( _( "Press any key to continue…" ) );
     reset_terminal();

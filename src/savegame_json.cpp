@@ -455,7 +455,7 @@ void Character::load( const JsonObject &data )
     }
     data.read( "posy", position.y );
     if( !data.read( "posz", position.z ) && g != nullptr ) {
-        position.z = g->get_levz();
+        position.z = get_map().get_abs_sub().z;
     }
     // stats
     data.read( "str_cur", str_cur );
@@ -680,7 +680,6 @@ void Character::load( const JsonObject &data )
     if( data.has_array( "body_wetness" ) ) {
         set_anatomy( anatomy_id( "human_anatomy" ) );
         set_body();
-        init_parts_drench_capacity();
         std::array<int, 12> body_wetness;
         body_wetness.fill( 0 );
         data.read( "body_wetness", body_wetness );
@@ -823,7 +822,7 @@ void Character::load( const JsonObject &data )
     JsonArray overmap_time_array = data.get_array( "overmap_time" );
     overmap_time.clear();
     while( overmap_time_array.has_more() ) {
-        point pt;
+        point_abs_omt pt;
         overmap_time_array.read_next( pt );
         time_duration tdr = 0_turns;
         overmap_time_array.read_next( tdr );
@@ -956,7 +955,7 @@ void Character::store( JsonOut &json ) const
     if( !overmap_time.empty() ) {
         json.member( "overmap_time" );
         json.start_array();
-        for( const std::pair<const point, time_duration> &pr : overmap_time ) {
+        for( const std::pair<const point_abs_omt, time_duration> &pr : overmap_time ) {
             json.write( pr.first );
             json.write( pr.second );
         }
@@ -1047,7 +1046,7 @@ void player::store( JsonOut &json ) const
 
     json.member( "camps" );
     json.start_array();
-    for( const tripoint &bcpt : camps ) {
+    for( const tripoint_abs_omt &bcpt : camps ) {
         json.start_object();
         json.member( "pos", bcpt );
         json.end_object();
@@ -1134,7 +1133,7 @@ void player::load( const JsonObject &data )
     data.read( "destination_point", destination_point );
     camps.clear();
     for( JsonObject bcdata : data.get_array( "camps" ) ) {
-        tripoint bcpt;
+        tripoint_abs_omt bcpt;
         bcdata.read( "pos", bcpt );
         camps.insert( bcpt );
     }
@@ -1160,8 +1159,8 @@ void avatar::store( JsonOut &json ) const
     if( prof != nullptr ) {
         json.member( "profession", prof->ident() );
     }
-    if( g->scen != nullptr ) {
-        json.member( "scenario", g->scen->ident() );
+    if( get_scenario() != nullptr ) {
+        json.member( "scenario", get_scenario()->ident() );
     }
     // someday, npcs may drive
     json.member( "controlling_vehicle", controlling_vehicle );
@@ -1264,10 +1263,10 @@ void avatar::load( const JsonObject &data )
     drench_mut_calc();
     std::string scen_ident = "(null)";
     if( data.read( "scenario", scen_ident ) && string_id<scenario>( scen_ident ).is_valid() ) {
-        g->scen = &string_id<scenario>( scen_ident ).obj();
+        set_scenario( &string_id<scenario>( scen_ident ).obj() );
 
-        if( !g->scen->allowed_start( start_location ) ) {
-            start_location = g->scen->random_start_location();
+        if( !get_scenario()->allowed_start( start_location ) ) {
+            start_location = get_scenario()->random_start_location();
         }
     } else {
         const scenario *generic_scenario = scenario::generic();
@@ -1276,7 +1275,7 @@ void avatar::load( const JsonObject &data )
             debugmsg( "Tried to use non-existent scenario '%s'. Setting to generic '%s'.",
                       scen_ident.c_str(), generic_scenario->ident().c_str() );
         }
-        g->scen = generic_scenario;
+        set_scenario( generic_scenario );
     }
 
     data.read( "learned_recipes", *learned_recipes );
@@ -1625,7 +1624,7 @@ void npc::load( const JsonObject &data )
     std::string facID;
     std::string comp_miss_id;
     std::string comp_miss_role;
-    tripoint comp_miss_pt;
+    tripoint_abs_omt comp_miss_pt;
     std::string classid;
     std::string companion_mission_role;
     time_point companion_mission_t = 0;
@@ -1679,9 +1678,9 @@ void npc::load( const JsonObject &data )
         data.read( "last_player_seen_pos", last_player_seen_pos );
     }
 
-    data.read( "goalx", goal.x );
-    data.read( "goaly", goal.y );
-    data.read( "goalz", goal.z );
+    data.read( "goalx", goal.x() );
+    data.read( "goaly", goal.y() );
+    data.read( "goalz", goal.z() );
 
     data.read( "guardx", guard_pos.x );
     data.read( "guardy", guard_pos.y );
@@ -1780,7 +1779,7 @@ void npc::load( const JsonObject &data )
         companion_mission_role_id = companion_mission_role;
     }
 
-    std::vector<tripoint> companion_mission_pts;
+    std::vector<tripoint_abs_omt> companion_mission_pts;
     data.read( "companion_mission_points", companion_mission_pts );
     if( !companion_mission_pts.empty() ) {
         for( auto pt : companion_mission_pts ) {
@@ -1861,9 +1860,9 @@ void npc::store( JsonOut &json ) const
 
     json.member( "last_player_seen_pos", last_player_seen_pos );
 
-    json.member( "goalx", goal.x );
-    json.member( "goaly", goal.y );
-    json.member( "goalz", goal.z );
+    json.member( "goalx", goal.x() );
+    json.member( "goaly", goal.y() );
+    json.member( "goalz", goal.z() );
 
     json.member( "guardx", guard_pos.x );
     json.member( "guardy", guard_pos.y );
@@ -1996,7 +1995,7 @@ void monster::load( const JsonObject &data )
     data.read( "posx", position.x );
     data.read( "posy", position.y );
     if( !data.read( "posz", position.z ) ) {
-        position.z = g->get_levz();
+        position.z = get_map().get_abs_sub().z;
     }
 
     data.read( "wandf", wandf );
@@ -2121,7 +2120,9 @@ void monster::load( const JsonObject &data )
 
     data.read( "ammo", ammo );
 
-    faction = mfaction_str_id( data.get_string( "faction", "" ) );
+    // TODO: Remove blob migration after 0.F
+    const std::string faction_string = data.get_string( "faction", "" );
+    faction = mfaction_str_id( faction_string == "blob" ? "slime" : faction_string );
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
@@ -2522,10 +2523,41 @@ void item::deserialize( JsonIn &jsin )
             }
         }
     }
+
+    // Remove after 0.F: artifact migration code
+    if( typeId().str().substr( 0, 9 ) == "artifact_" ) {
+        static const relic_procgen_id proc_cult( "cult" );
+        relic_procgen_data::generation_rules rules;
+        rules.max_attributes = 5;
+        rules.max_negative_power = -1000;
+        rules.power_level = 2000;
+
+        item_contents temp_migrate( contents );
+
+        *this = proc_cult->create_item( rules );
+
+        if( !temp_migrate.empty() ) {
+            for( const item *it : temp_migrate.all_items_top() ) {
+                contents.insert_item( *it, item_pocket::pocket_type::MIGRATION );
+            }
+        }
+    }
 }
 
 void item::serialize( JsonOut &json ) const
 {
+    // Remove after 0.F: artifact migration code
+    if( typeId().str().substr( 0, 9 ) == "artifact_" ) {
+        static const relic_procgen_id proc_cult( "cult" );
+        relic_procgen_data::generation_rules rules;
+        rules.max_attributes = 5;
+        rules.max_negative_power = -1000;
+        rules.power_level = 2000;
+
+        proc_cult->create_item( rules ).serialize( json );
+        return;
+    }
+
     io::JsonObjectOutputArchive archive( json );
     const_cast<item *>( this )->io( archive );
     if( !contents.empty_real() ) {
@@ -3011,12 +3043,12 @@ void mission::deserialize( JsonIn &jsin )
     jo.read( "uid", uid );
     JsonArray ja = jo.get_array( "target" );
     if( ja.size() == 3 ) {
-        target.x = ja.get_int( 0 );
-        target.y = ja.get_int( 1 );
-        target.z = ja.get_int( 2 );
+        target.x() = ja.get_int( 0 );
+        target.y() = ja.get_int( 1 );
+        target.z() = ja.get_int( 2 );
     } else if( ja.size() == 2 ) {
-        target.x = ja.get_int( 0 );
-        target.y = ja.get_int( 1 );
+        target.x() = ja.get_int( 0 );
+        target.y() = ja.get_int( 1 );
     }
 
     if( jo.has_int( "follow_up" ) ) {
@@ -3072,9 +3104,9 @@ void mission::serialize( JsonOut &json ) const
 
     json.member( "target" );
     json.start_array();
-    json.write( target.x );
-    json.write( target.y );
-    json.write( target.z );
+    json.write( target.x() );
+    json.write( target.y() );
+    json.write( target.z() );
     json.end_array();
 
     json.member( "item_id", item_id );
@@ -3533,7 +3565,7 @@ static void deserialize( quality_requirement &value, JsonIn &jsin )
 // basecamp
 void basecamp::serialize( JsonOut &json ) const
 {
-    if( omt_pos != tripoint_zero ) {
+    if( omt_pos != tripoint_abs_omt() ) {
         json.start_object();
         json.member( "name", name );
         json.member( "pos", omt_pos );
@@ -3625,7 +3657,7 @@ void basecamp::deserialize( JsonIn &jsin )
         }
     }
     for( JsonObject edata : data.get_array( "fortifications" ) ) {
-        tripoint restore_pos;
+        tripoint_abs_omt restore_pos;
         edata.read( "pos", restore_pos );
         fortifications.push_back( restore_pos );
     }

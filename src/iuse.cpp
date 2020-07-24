@@ -213,6 +213,7 @@ static const efftype_id effect_took_prozac_bad( "took_prozac_bad" );
 static const efftype_id effect_took_prozac_visible( "took_prozac_visible" );
 static const efftype_id effect_took_thorazine( "took_thorazine" );
 static const efftype_id effect_took_thorazine_bad( "took_thorazine_bad" );
+static const efftype_id effect_took_thorazine_visible( "took_thorazine_visible" );
 static const efftype_id effect_took_xanax( "took_xanax" );
 static const efftype_id effect_took_xanax_visible( "took_xanax_visible" );
 static const efftype_id effect_valium( "valium" );
@@ -999,7 +1000,7 @@ int iuse::thorazine( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( m_warning, _( "You feel a bit wobbly." ) );
     }
-    p->add_effect( effect_took_prozac_visible, rng( 9_hours, 15_hours ) );
+    p->add_effect( effect_took_thorazine_visible, rng( 9_hours, 15_hours ) );
     return it->type->charges_to_use();
 }
 
@@ -1402,7 +1403,7 @@ static void marloss_common( player &p, item &it, const trait_id &current_color )
         p.add_msg_if_player( m_bad,
                              _( "You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out…" ) );
         if( p.is_avatar() ) {
-            g->memorial().add(
+            get_memorial().add(
                 pgettext( "memorial_male", "Suffered Marloss Rejection." ),
                 pgettext( "memorial_female", "Suffered Marloss Rejection." ) );
         }
@@ -1829,7 +1830,9 @@ static bool good_fishing_spot( tripoint pos, player *p )
     std::vector<monster *> fishables = g->get_fishable_monsters( fishable_locations );
     map &here = get_map();
     // isolated little body of water with no definite fish population
-    const oter_id &cur_omt = overmap_buffer.ter( ms_to_omt_copy( here.getabs( pos ) ) );
+    // TODO: fix point types
+    const oter_id &cur_omt =
+        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( pos ) ) ) );
     std::string om_id = cur_omt.id().c_str();
     if( fishables.empty() && !here.has_flag( "CURRENT", pos ) &&
         om_id.find( "river_" ) == std::string::npos && !cur_omt->is_lake() && !cur_omt->is_lake_shore() ) {
@@ -2258,9 +2261,9 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
         return 0;
     }
     // Report direction.
-    const auto player_pos = p->global_sm_location();
-    direction angle = direction_from( player_pos.xy(),
-                                      tref.abs_sm_pos );
+    // TODO: fix point types
+    const tripoint_abs_sm player_pos( p->global_sm_location() );
+    direction angle = direction_from( player_pos.xy(), tref.abs_sm_pos );
     add_msg( _( "The signal seems strongest to the %s." ), direction_name( angle ) );
     return it->type->charges_to_use();
 }
@@ -2610,9 +2613,9 @@ int iuse::crowbar( player *p, item *it, bool, const tripoint &pos )
             get_event_bus().send<event_type::triggers_alarm>( p->getID() );
             sounds::sound( p->pos(), 40, sounds::sound_t::alarm, _( "an alarm sound!" ), true, "environment",
                            "alarm" );
-            if( !g->timed_events.queued( timed_event_type::WANTED ) ) {
-                g->timed_events.add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
-                                     p->global_sm_location() );
+            if( !get_timed_events().queued( timed_event_type::WANTED ) ) {
+                get_timed_events().add( timed_event_type::WANTED, calendar::turn + 30_minutes, 0,
+                                        p->global_sm_location() );
             }
         }
     } else {
@@ -5443,9 +5446,8 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                 break;
 
             case AEA_MAP: {
-                const tripoint center = p->global_omt_location();
-                const bool new_map = overmap_buffer.reveal(
-                                         center.xy(), 20, center.z );
+                const tripoint_abs_omt center = p->global_omt_location();
+                const bool new_map = overmap_buffer.reveal( center.xy(), 20, center.z() );
                 if( new_map ) {
                     p->add_msg_if_player( m_warning, _( "You have a vision of the surrounding area…" ) );
                     p->moves -= to_moves<int>( 1_seconds );
@@ -5554,7 +5556,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_LIGHT:
                 p->add_msg_if_player( _( "The %s glows brightly!" ), it->tname() );
-                g->timed_events.add( timed_event_type::ARTIFACT_LIGHT, calendar::turn + 3_minutes );
+                get_timed_events().add( timed_event_type::ARTIFACT_LIGHT, calendar::turn + 3_minutes );
                 break;
 
             case AEA_GROWTH: {
@@ -5633,7 +5635,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
 
             case AEA_DIM:
                 p->add_msg_if_player( _( "The sky starts to dim." ) );
-                g->timed_events.add( timed_event_type::DIM, calendar::turn + 5_minutes );
+                get_timed_events().add( timed_event_type::DIM, calendar::turn + 5_minutes );
                 break;
 
             case AEA_FLASH:
@@ -7601,7 +7603,9 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
                                               obj_list );
     }
 
-    const oter_id &cur_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( aim_point ) ) );
+    // TODO: fix point types
+    const oter_id &cur_ter =
+        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( aim_point ) ) ) );
     std::string overmap_desc = string_format( _( "In the background you can see a %s" ),
                                colorize( cur_ter->get_name(), cur_ter->get_color() ) );
     if( outside_tiles_num == total_tiles_num ) {
@@ -7619,7 +7623,7 @@ static extended_photo_def photo_def_for_camera_point( const tripoint &aim_point,
     }
     photo_text += "\n" + overmap_desc + ".";
 
-    if( g->get_levz() >= 0 && need_store_weather ) {
+    if( get_map().get_abs_sub().z >= 0 && need_store_weather ) {
         photo_text += "\n\n";
         if( is_dawn( calendar::turn ) ) {
             photo_text += _( "It is <color_yellow>sunrise</color>. " );
@@ -9096,7 +9100,7 @@ int iuse::tow_attach( player *p, item *it, bool, const tripoint & )
             const tripoint &abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", g->get_levz() );
+            it->set_var( "source_z", here.get_abs_sub().z );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
@@ -9272,7 +9276,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             const auto abspos = here.getabs( posp );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", g->get_levz() );
+            it->set_var( "source_z", here.get_abs_sub().z );
             set_cable_active( p, it, "pay_out_cable" );
         }
     } else {
@@ -9382,7 +9386,7 @@ int iuse::cable_attach( player *p, item *it, bool, const tripoint & )
             const auto abspos = here.getabs( vpos );
             it->set_var( "source_x", abspos.x );
             it->set_var( "source_y", abspos.y );
-            it->set_var( "source_z", g->get_levz() );
+            it->set_var( "source_z", here.get_abs_sub().z );
             set_cable_active( p, it, "cable_charger_link" );
             p->add_msg_if_player( m_good, _( "You are now plugged to the vehicle." ) );
             return 0;

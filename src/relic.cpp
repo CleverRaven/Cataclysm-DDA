@@ -125,7 +125,7 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
     for( const JsonObject &jo_inner : jo.get_array( "type_weights" ) ) {
         int weight = 0;
         mandatory( jo_inner, was_loaded, "weight", weight );
-        relic_procgen_data::type val;
+        relic_procgen_data::type val = relic_procgen_data::type::last;
         mandatory( jo_inner, was_loaded, "value", val );
 
         type_weights.add( val, weight );
@@ -139,6 +139,19 @@ void relic_procgen_data::load( const JsonObject &jo, const std::string & )
 
         item_weights.add( it, weight );
     }
+}
+
+void relic_procgen_data::generation_rules::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "power_level", power_level );
+    mandatory( jo, was_loaded, "max_attributes", max_attributes );
+    optional( jo, was_loaded, "max_negative_power", max_negative_power, 0 );
+}
+
+void relic_procgen_data::generation_rules::deserialize( JsonIn &jsin )
+{
+    JsonObject jo = jsin.get_object();
+    load( jo );
 }
 
 void relic_procgen_data::deserialize( JsonIn &jsin )

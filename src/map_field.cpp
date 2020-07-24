@@ -255,7 +255,9 @@ void map::spread_gas( field_entry &cur, const tripoint &p, int percent_spread,
                       const time_duration &outdoor_age_speedup, scent_block &sblk )
 {
     map &here = get_map();
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
+    // TODO: fix point types
+    const oter_id &cur_om_ter =
+        overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs( p ) ) ) );
     const bool sheltered = g->is_sheltered( p );
     const int winddirection = g->weather.winddirection;
     const int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
@@ -388,7 +390,7 @@ If you need to insert a new field behavior per unit time add a case statement in
 bool map::process_fields_in_submap( submap *const current_submap,
                                     const tripoint &submap )
 {
-    scent_block sblk( submap, g->scent );
+    scent_block sblk( submap, get_scent() );
 
     // This should be true only when the field changes transparency
     // More correctly: not just when the field is opaque, but when it changes state
@@ -776,7 +778,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         curfield.find_field( fd_plasma ) ||
                         curfield.find_field( fd_laser ) ||
                         curfield.find_field( fd_dazzling ) ||
-                        curfield.find_field( fd_electricity ) ||
                         curfield.find_field( fd_incendiary ) ) {
                         // Kill them at the end of processing.
                         cur.set_field_intensity( 0 );
@@ -881,7 +882,8 @@ bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p,
     field_entry *tmpfld = nullptr;
     cur.set_field_age( std::max( -24_hours, cur.get_field_age() ) );
     // Entire objects for ter/frn for flags
-    const oter_id &cur_om_ter = overmap_buffer.ter( ms_to_omt_copy( here.getabs( p ) ) );
+    const oter_id &cur_om_ter = overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( here.getabs(
+                                    p ) ) ) );
     bool sheltered = g->is_sheltered( p );
     int winddirection = g->weather.winddirection;
     int windpower = get_local_windpower( g->weather.windspeed, cur_om_ter, p, winddirection,
@@ -1690,10 +1692,10 @@ void map::creature_in_field( Creature &critter )
 {
     bool in_vehicle = false;
     bool inside_vehicle = false;
-    player *u = critter.as_player();
     if( critter.is_monster() ) {
         monster_in_field( *static_cast<monster *>( &critter ) );
     } else {
+        player *u = critter.as_player();
         if( u ) {
             in_vehicle = u->in_vehicle;
             // If we are in a vehicle figure out if we are inside (reduces effects usually)

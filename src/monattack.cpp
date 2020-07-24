@@ -147,7 +147,7 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const species_id species_BLOB( "BLOB" );
+static const species_id species_SLIME( "SLIME" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
@@ -2018,7 +2018,7 @@ bool mattack::fungus_fortify( monster *z )
                 player_character.set_mutation( trait_THRESH_MARLOSS );
                 here.ter_set( player_character.pos(),
                               t_marloss ); // We only show you the door.  You walk through it on your own.
-                g->memorial().add(
+                get_memorial().add(
                     pgettext( "memorial_male", "Was shown to the Marloss Gateway." ),
                     pgettext( "memorial_female", "Was shown to the Marloss Gateway." ) );
                 add_msg( m_good,
@@ -2392,7 +2392,7 @@ bool mattack::formblob( monster *z )
 
         monster &othermon = *( dynamic_cast<monster *>( critter ) );
         // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-        if( z->get_speed_base() > 40 && othermon.type->in_species( species_BLOB ) ) {
+        if( z->get_speed_base() > 40 && othermon.type->in_species( species_SLIME ) ) {
             if( othermon.type->id == mon_blob_brain ) {
                 // Brain blobs don't get sped up, they heal at the cost of the other blob.
                 // But only if they are hurt badly.
@@ -2450,7 +2450,7 @@ bool mattack::callblobs( monster *z )
     std::list<monster *> allies;
     std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->in_species( species_BLOB ) && candidate.type->id != mon_blob_brain ) {
+        if( candidate.type->in_species( species_SLIME ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
             allies.push_back( &candidate );
@@ -3327,8 +3327,9 @@ bool mattack::photograph( monster *z )
     }
     const SpeechBubble &speech = get_speech( z->type->id.str() );
     sounds::sound( z->pos(), speech.volume, sounds::sound_t::alert, speech.text.translated() );
-    g->timed_events.add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ), 0,
-                         player_character.global_sm_location() );
+    get_timed_events().add( timed_event_type::ROBOT_ATTACK, calendar::turn + rng( 15_turns, 30_turns ),
+                            0,
+                            player_character.global_sm_location() );
 
     return true;
 }

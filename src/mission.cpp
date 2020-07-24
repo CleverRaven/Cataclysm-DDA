@@ -200,7 +200,7 @@ void mission::on_talk_with_npc( const character_id &npc_id )
     }
 }
 
-mission *mission::reserve_random( const mission_origin origin, const tripoint &p,
+mission *mission::reserve_random( const mission_origin origin, const tripoint_abs_omt &p,
                                   const character_id &npc_id )
 {
     const auto type = mission_type::get_random_id( origin, p );
@@ -349,7 +349,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
     avatar &player_character = get_avatar();
     switch( type->goal ) {
         case MGOAL_GO_TO: {
-            const tripoint cur_pos = player_character.global_omt_location();
+            const tripoint_abs_omt cur_pos = player_character.global_omt_location();
             return ( rl_dist( cur_pos, target ) <= 1 );
         }
 
@@ -527,7 +527,7 @@ bool mission::has_target() const
     return target != overmap::invalid_tripoint;
 }
 
-const tripoint &mission::get_target() const
+const tripoint_abs_omt &mission::get_target() const
 {
     return target;
 }
@@ -605,7 +605,7 @@ bool mission::has_generic_rewards() const
     return type->has_generic_rewards;
 }
 
-void mission::set_target( const tripoint &p )
+void mission::set_target( const tripoint_abs_omt &p )
 {
     target = p;
 }
@@ -687,7 +687,7 @@ mission::mission()
     status = mission_status::yet_to_start;
     value = 0;
     uid = -1;
-    target = tripoint_min;
+    target = tripoint_abs_omt( tripoint_min );
     item_id = itype_id::NULL_ID();
     item_count = 1;
     target_id = string_id<oter_type_t>::NULL_ID();

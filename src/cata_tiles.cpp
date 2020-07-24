@@ -1128,7 +1128,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             // Add scent value to the overlay_strings list for every visible tile when displaying scent
             if( g->display_overlay_state( ACTION_DISPLAY_SCENT ) && !invisible[0] ) {
-                const int scent_value = g->scent.get( pos );
+                const int scent_value = get_scent().get( pos );
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                              formatted_text( std::to_string( scent_value ), 8 + catacurses::yellow,
@@ -1138,7 +1138,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             // Add scent type to the overlay_strings list for every visible tile when displaying scent
             if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invisible[0] ) {
-                const scenttype_id scent_type = g->scent.get_type( pos );
+                const scenttype_id scent_type = get_scent().get_type( pos );
                 if( !scent_type.is_empty() ) {
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                              formatted_text( scent_type.c_str(), 8 + catacurses::yellow,

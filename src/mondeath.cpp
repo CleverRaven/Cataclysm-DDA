@@ -62,7 +62,7 @@ static const efftype_id effect_rat( "rat" );
 static const itype_id itype_processor( "processor" );
 static const itype_id itype_ruined_chunks( "ruined_chunks" );
 
-static const species_id species_BLOB( "BLOB" );
+static const species_id species_SLIME( "SLIME" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
 static const mtype_id mon_blob( "mon_blob" );
@@ -361,7 +361,7 @@ void mdeath::triffid_heart( monster &z )
     if( get_player_character().sees( z ) ) {
         add_msg( m_warning, _( "The surrounding roots begin to crack and crumble." ) );
     }
-    g->timed_events.add( timed_event_type::ROOTS_DIE, calendar::turn + 10_minutes );
+    get_timed_events().add( timed_event_type::ROOTS_DIE, calendar::turn + 10_minutes );
 }
 
 void mdeath::fungus( monster &z )
@@ -512,7 +512,7 @@ void mdeath::blobsplit( monster &z )
 void mdeath::brainblob( monster &z )
 {
     for( monster &critter : g->all_monsters() ) {
-        if( critter.type->in_species( species_BLOB ) && critter.type->id != mon_blob_brain ) {
+        if( critter.type->in_species( species_SLIME ) && critter.type->id != mon_blob_brain ) {
             critter.remove_effect( effect_controlled );
         }
     }

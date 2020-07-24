@@ -456,7 +456,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_thirst( 10 );
         p->mod_fatigue( 15 );
         p->mod_pain( 3 * rng( 1, 3 ) );
-    } else if( here.move_cost( pos ) == 2 && g->get_levz() == 0 &&
+    } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
                here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_stored_nutr( 5 );
@@ -1901,7 +1901,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
                 p->mod_fatigue( 30 - ( helpersize  * 3 ) );
             }
             p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-        } else if( here.move_cost( pos ) == 2 && g->get_levz() == 0 &&
+        } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
                    here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
             //Breaking up concrete on the surface? not nearly as bad
             p->mod_stored_nutr( 5 - ( helpersize ) );
@@ -2240,7 +2240,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                       act->values.size() );
         } else {
             if( vp ) {
-                here.invalidate_map_cache( g->get_levz() );
+                here.invalidate_map_cache( here.get_abs_sub().z );
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *p ) ) {
@@ -3006,7 +3006,9 @@ void activity_handlers::travel_do_turn( player_activity *act, player *p )
             return;
         }
         map &here = get_map();
-        tripoint sm_tri = here.getlocal( sm_to_ms_copy( omt_to_sm_copy( p->omt_path.back() ) ) );
+        // TODO: fix point types
+        tripoint sm_tri = here.getlocal(
+                              project_to<coords::ms>( p->omt_path.back() ).raw() );
         tripoint centre_sub = sm_tri + point( SEEX, SEEY );
         if( !here.passable( centre_sub ) ) {
             tripoint_range<tripoint> candidates = here.points_in_radius( centre_sub, 2 );
@@ -3182,7 +3184,7 @@ void activity_handlers::read_finish( player_activity *act, player *p )
         npc *guy = dynamic_cast<npc *>( p );
         guy->finish_read( * act->targets.front().get_item() );
     } else {
-        if( avatar *u = dynamic_cast<avatar *>( p ) ) {
+        if( avatar *u = p->as_avatar() ) {
             u->do_read( *act->targets.front().get_item() );
         } else {
             act->set_to_null();
@@ -3436,7 +3438,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
     // Makes sure NPC is still under anesthesia
     if( p->has_effect( effect_narcosis ) ) {
         const time_duration remaining_time = p->get_effect_dur( effect_narcosis );
-        if( remaining_time <= time_left ) {
+        if( remaining_time < time_left ) {
             const time_duration top_off_time = time_left - remaining_time;
             p->add_effect( effect_narcosis, top_off_time );
             p->add_effect( effect_sleep, top_off_time );
@@ -4336,16 +4338,16 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
         return;
     }
     // Breadth-first search forest tiles until one reveals new overmap tiles.
-    std::queue<tripoint> q;
-    std::unordered_set<tripoint> seen;
-    tripoint loc = p->global_omt_location();
+    std::queue<tripoint_abs_omt> q;
+    std::unordered_set<tripoint_abs_omt> seen;
+    tripoint_abs_omt loc = p->global_omt_location();
     q.push( loc );
     seen.insert( loc );
     const std::function<bool( const oter_id & )> filter = []( const oter_id & ter ) {
         return ter.obj().is_wooded() || ter.obj().get_name() == "field";
     };
     while( !q.empty() ) {
-        tripoint tpt = q.front();
+        tripoint_abs_omt tpt = q.front();
         if( overmap_buffer.reveal( tpt, 3, filter ) ) {
             if( p->has_trait( trait_SPIRITUAL ) ) {
                 p->add_morale( MORALE_TREE_COMMUNION, 2, 30, 8_hours, 6_hours );
@@ -4358,7 +4360,7 @@ void activity_handlers::tree_communion_do_turn( player_activity *act, player *p 
             }
             return;
         }
-        for( const tripoint &neighbor : points_in_radius( tpt, 1 ) ) {
+        for( const tripoint_abs_omt &neighbor : points_in_radius( tpt, 1 ) ) {
             if( seen.find( neighbor ) != seen.end() ) {
                 continue;
             }

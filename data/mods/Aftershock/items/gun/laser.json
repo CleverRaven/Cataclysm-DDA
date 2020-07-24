@@ -30,5 +30,13 @@
     "modes": [ [ "MULTI", "trilaser", 3 ] ],
     "ammo_effects": [ "LASER" ],
     "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NON-FOULING", "NEEDS_NO_LUBE" ]
+  },
+  {
+    "id": "afs_sentinel_laser_mon",
+    "type": "GUN",
+    "copy-from": "afs_sentinel_laser",
+    "name": { "str": "wrist-trilaser" },
+    "ups_charges": 0,
+    "flags": [ "NEVER_JAMS", "NO_UNLOAD", "NO_AMMO", "NON-FOULING", "NEEDS_NO_LUBE" ]
   }
 ]

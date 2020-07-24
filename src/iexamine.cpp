@@ -373,9 +373,10 @@ void iexamine::gaspump( player &p, const tripoint &examp )
 
 void iexamine::translocator( player &, const tripoint &examp )
 {
-    const tripoint omt_loc = ms_to_omt_copy( get_map().getabs( examp ) );
+    // TODO: fix point types
+    const tripoint_abs_omt omt_loc( ms_to_omt_copy( get_map().getabs( examp ) ) );
     avatar &player_character = get_avatar();
-    const bool activated = player_character.translocators.knows_translocator( examp );
+    const bool activated = player_character.translocators.knows_translocator( omt_loc );
     if( !activated ) {
         player_character.translocators.activate_teleporter( omt_loc, examp );
         add_msg( m_info, _( "Translocator gate active." ) );
@@ -1487,7 +1488,8 @@ void iexamine::bulletin_board( player &p, const tripoint &examp )
 {
     g->validate_camps();
     map &here = get_map();
-    point omt = ms_to_omt_copy( here.getabs( examp.xy() ) );
+    // TODO: fix point types
+    point_abs_omt omt( ms_to_omt_copy( here.getabs( examp.xy() ) ) );
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp( omt );
     if( bcp ) {
         basecamp *temp_camp = *bcp;
@@ -1540,8 +1542,8 @@ void iexamine::pedestal_wyrm( player &p, const tripoint &examp )
     sounds::sound( examp, 80, sounds::sound_t::combat, _( "an ominous grinding noise…" ), true,
                    "misc", "stones_grinding" );
     here.ter_set( examp, t_rock_floor );
-    g->timed_events.add( timed_event_type::SPAWN_WYRMS,
-                         calendar::turn + rng( 30_seconds, 60_seconds ) );
+    get_timed_events().add( timed_event_type::SPAWN_WYRMS,
+                            calendar::turn + rng( 30_seconds, 60_seconds ) );
 }
 
 /**
@@ -1555,13 +1557,13 @@ void iexamine::pedestal_temple( player &p, const tripoint &examp )
         add_msg( _( "The pedestal sinks into the ground…" ) );
         here.ter_set( examp, t_dirt );
         here.i_clear( examp );
-        g->timed_events.add( timed_event_type::TEMPLE_OPEN, calendar::turn + 10_seconds );
+        get_timed_events().add( timed_event_type::TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else if( p.has_amount( itype_petrified_eye, 1 ) &&
                query_yn( _( "Place your petrified eye on the pedestal?" ) ) ) {
         p.use_amount( itype_petrified_eye, 1 );
         add_msg( _( "The pedestal sinks into the ground…" ) );
         here.ter_set( examp, t_dirt );
-        g->timed_events.add( timed_event_type::TEMPLE_OPEN, calendar::turn + 10_seconds );
+        get_timed_events().add( timed_event_type::TEMPLE_OPEN, calendar::turn + 10_seconds );
     } else {
         add_msg( _( "This pedestal is engraved in eye-shaped diagrams, and has a "
                     "large semi-spherical indentation at the top." ) );
@@ -1665,7 +1667,7 @@ void iexamine::fswitch( player &p, const tripoint &examp )
         }
     }
     add_msg( m_warning, _( "You hear the rumble of rock shifting." ) );
-    g->timed_events.add( timed_event_type::TEMPLE_SPAWN, calendar::turn + 3_turns );
+    get_timed_events().add( timed_event_type::TEMPLE_SPAWN, calendar::turn + 3_turns );
 }
 
 /**

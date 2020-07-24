@@ -2292,7 +2292,7 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
         bionics_uninstall_failure( difficulty, success, adjusted_skill );
 
     }
-    here.invalidate_map_cache( g->get_levz() );
+    here.invalidate_map_cache( here.get_abs_sub().z );
 }
 
 bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
@@ -2539,7 +2539,8 @@ void Character::perform_install( const bionic_id &bid, const bionic_id &upbid, i
                                ( 10.0 ) );
         bionics_install_failure( bid, installer_name, difficulty, success, adjusted_skill, patient_pos );
     }
-    get_map().invalidate_map_cache( g->get_levz() );
+    map &here = get_map();
+    here.invalidate_map_cache( here.get_abs_sub().z );
 }
 
 void Character::bionics_install_failure( const bionic_id &bid, const std::string &installer,
@@ -2600,7 +2601,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
                         set_max_power_level( units::from_kilojoule( rng( 0,
                                              units::to_kilojoule( get_max_power_level() ) - 25 ) ) );
                         if( is_player() ) {
-                            g->memorial().add(
+                            get_memorial().add(
                                 pgettext( "memorial_male", "Lost %d units of power capacity." ),
                                 pgettext( "memorial_female", "Lost %d units of power capacity." ),
                                 units::to_kilojoule( old_power - get_max_power_level() ) );
@@ -3103,7 +3104,7 @@ void Character::introduce_into_anesthesia( const time_duration &duration, player
 
     if( has_effect( effect_narcosis ) ) {
         const time_duration remaining_time = get_effect_dur( effect_narcosis );
-        if( remaining_time <= duration ) {
+        if( remaining_time < duration ) {
             const time_duration top_off_time = duration - remaining_time;
             add_effect( effect_narcosis, top_off_time );
             fall_asleep( top_off_time );

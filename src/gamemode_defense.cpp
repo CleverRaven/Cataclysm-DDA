@@ -122,7 +122,7 @@ bool defense_game::init()
     setup();
     player_character.cash = initial_cash;
     // TODO: support multiple defense games? clean up old defense game
-    defloc_pos = tripoint( 50, 50, 0 );
+    defloc_pos = tripoint_om_omt( 50, 50, 0 );
     init_map();
     caravan();
     return true;
@@ -174,12 +174,12 @@ void defense_game::pre_action( action_id &act )
         case ACTION_MOVE_LEFT:
         case ACTION_MOVE_FORTH_LEFT: {
             Character &player_character = get_player_character();
+            const tripoint abs_sub = get_map().get_abs_sub();
             const point delta = get_delta_from_movement_action( act, iso_rotate::yes );
-            if( ( delta.y < 0 && player_character.posy() == HALF_MAPSIZE_Y && g->get_levy() <= 93 )
-                || ( delta.y > 0 && player_character.posy() == HALF_MAPSIZE_Y + SEEY - 1 && g->get_levy() >= 98 )
-                || ( delta.x < 0 && player_character.posx() == HALF_MAPSIZE_X && g->get_levx() <= 93 )
-                || ( delta.x > 0 && player_character.posx() == HALF_MAPSIZE_X + SEEX - 1 &&
-                     g->get_levx() >= 98 ) ) {
+            if( ( delta.y < 0 && player_character.posy() == HALF_MAPSIZE_Y && abs_sub.y <= 93 ) ||
+                ( delta.y > 0 && player_character.posy() == HALF_MAPSIZE_Y + SEEY - 1 && abs_sub.y >= 98 ) ||
+                ( delta.x < 0 && player_character.posx() == HALF_MAPSIZE_X && abs_sub.x <= 93 ) ||
+                ( delta.x > 0 && player_character.posx() == HALF_MAPSIZE_X + SEEX - 1 && abs_sub.x >= 98 ) ) {
                 action_error_message = string_format( _( "You cannot leave the %s behind!" ),
                                                       defense_location_name( location ) );
             }
@@ -229,10 +229,10 @@ void defense_game::init_map()
     ui_manager::redraw();
     refresh_display();
 
-    auto &starting_om = overmap_buffer.get( point_zero );
+    auto &starting_om = overmap_buffer.get( point_abs_om() );
     for( int x = 0; x < OMAPX; x++ ) {
         for( int y = 0; y < OMAPY; y++ ) {
-            tripoint p( x, y, 0 );
+            tripoint_om_omt p( x, y, 0 );
             starting_om.ter_set( p, oter_id( "field" ) );
             starting_om.seen( p ) = true;
         }
@@ -294,7 +294,9 @@ void defense_game::init_map()
         }
     }
 
-    g->load_map( omt_to_sm_copy( defloc_pos ) );
+    // For this mode assume we always want overmap zero.
+    tripoint_abs_omt abs_defloc_pos = project_combine( point_abs_om(), defloc_pos );
+    g->load_map( project_to<coords::sm>( abs_defloc_pos ) );
     Character &player_character = get_player_character();
     player_character.setx( SEEX );
     player_character.sety( SEEY );
@@ -1356,6 +1358,7 @@ std::vector<mtype_id> defense_game::pick_monster_wave()
 void defense_game::spawn_wave_monster( const mtype_id &type )
 {
     tripoint player_pos = get_player_character().pos();
+    map &here = get_map();
     for( int tries = 0; tries < 1000; tries++ ) {
         point pnt;
         if( location == DEFLOC_HOSPITAL || location == DEFLOC_MALL ) {
@@ -1372,7 +1375,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
                 pnt = point( -pnt.x, pnt.y ) + point( MAPSIZE_X - 1, 0 );
             }
         }
-        monster *const mon = g->place_critter_at( type, tripoint( pnt, g->get_levz() ) );
+        monster *const mon = g->place_critter_at( type, tripoint( pnt, here.get_abs_sub().z ) );
         if( !mon ) {
             continue;
         }

@@ -465,14 +465,14 @@ void basecamp::faction_display( const catacurses::window &fac_w, const int width
     int y = 2;
     const nc_color col = c_white;
     Character &player_character = get_player_character();
-    const tripoint player_abspos = player_character.global_omt_location();
-    tripoint camp_pos = camp_omt_pos();
+    const tripoint_abs_omt player_abspos = player_character.global_omt_location();
+    tripoint_abs_omt camp_pos = camp_omt_pos();
     std::string direction = direction_name( direction_from( player_abspos, camp_pos ) );
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to rename this camp" ) );
     if( direction != "center" ) {
         mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Direction: to the " ) + direction );
     }
-    mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d)" ), camp_pos.x, camp_pos.y );
+    mvwprintz( fac_w, point( width, ++y ), col, _( "Location: %s" ), camp_pos.to_string() );
     faction *yours = player_character.get_faction();
     std::string food_text = string_format( _( "Food Supply: %s %d calories" ),
                                            yours->food_supply_text(), yours->food_supply );
@@ -499,14 +499,14 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
     int y = 2;
     const nc_color col = c_white;
     Character &player_character = get_player_character();
-    const tripoint player_abspos = player_character.global_omt_location();
+    const tripoint_abs_omt player_abspos = player_character.global_omt_location();
 
     //get NPC followers, status, direction, location, needs, weapon, etc.
     mvwprintz( fac_w, point( width, ++y ), c_light_gray, _( "Press enter to talk to this follower " ) );
     std::string mission_string;
     if( has_companion_mission() ) {
         std::string dest_string;
-        cata::optional<tripoint> dest = get_mission_destination();
+        cata::optional<tripoint_abs_omt> dest = get_mission_destination();
         if( dest ) {
             basecamp *dest_camp;
             cata::optional<basecamp *> temp_camp = overmap_buffer.find_camp( dest->xy() );
@@ -514,7 +514,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
                 dest_camp = *temp_camp;
                 dest_string = _( "traveling to: " ) + dest_camp->camp_name();
             } else {
-                dest_string = string_format( _( "traveling to: (%d, %d)" ), dest->x, dest->y );
+                dest_string = string_format( _( "traveling to: %s" ), dest->to_string() );
             }
             mission_string = _( "Current Mission: " ) + dest_string;
         } else {
@@ -524,7 +524,7 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         }
     }
     fold_and_print( fac_w, point( width, ++y ), getmaxx( fac_w ) - width - 2, col, mission_string );
-    tripoint guy_abspos = global_omt_location();
+    tripoint_abs_omt guy_abspos = global_omt_location();
     basecamp *temp_camp = nullptr;
     if( assigned_camp ) {
         cata::optional<basecamp *> bcp = overmap_buffer.find_camp( ( *assigned_camp ).xy() );
@@ -540,11 +540,10 @@ int npc::faction_display( const catacurses::window &fac_w, const int width ) con
         mvwprintz( fac_w, point( width, ++y ), col, _( "Direction: Nearby" ) );
     }
     if( is_stationed ) {
-        mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d), at camp: %s" ), guy_abspos.x,
-                   guy_abspos.y, temp_camp->camp_name() );
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Location: %s, at camp: %s" ),
+                   guy_abspos.to_string(), temp_camp->camp_name() );
     } else {
-        mvwprintz( fac_w, point( width, ++y ), col, _( "Location: (%d, %d)" ), guy_abspos.x,
-                   guy_abspos.y );
+        mvwprintz( fac_w, point( width, ++y ), col, _( "Location: %s" ), guy_abspos.to_string() );
     }
     std::string can_see;
     nc_color see_color;
@@ -843,7 +842,7 @@ void faction_manager::display() const
         camp = nullptr;
         // create a list of faction camps
         camps.clear();
-        for( auto elem : player_character.camps ) {
+        for( tripoint_abs_omt elem : player_character.camps ) {
             cata::optional<basecamp *> p = overmap_buffer.find_camp( elem.xy() );
             if( !p ) {
                 continue;

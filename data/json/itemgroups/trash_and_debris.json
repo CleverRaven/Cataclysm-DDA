@@ -21,6 +21,8 @@
     "items": [
       { "group": "ammo_casings", "prob": 3 },
       [ "rock", 5 ],
+      [ "rock_flaking", 1 ],
+      [ "rock_large", 1 ],
       [ "ceramic_shard", 5 ],
       [ "stick", 5 ],
       [ "pine_bough", 2 ],

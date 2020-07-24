@@ -35,6 +35,7 @@
 #include "color.h"
 #include "compatibility.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "dialogue_chatbin.h"
@@ -418,12 +419,12 @@ void teleport_short()
 
 void teleport_long()
 {
-    const tripoint where( ui::omap::choose_point() );
+    const tripoint_abs_omt where( ui::omap::choose_point() );
     if( where == overmap::invalid_tripoint ) {
         return;
     }
     g->place_player_overmap( where );
-    add_msg( _( "You teleport to submap (%d,%d,%d)." ), where.x, where.y, where.z );
+    add_msg( _( "You teleport to submap (%s)." ), where.to_string() );
 }
 
 void teleport_overmap()
@@ -435,12 +436,13 @@ void teleport_overmap()
 
     Character &player_character = get_player_character();
     const tripoint offset( OMAPX * dir_->x, OMAPY * dir_->y, dir_->z );
-    const tripoint where( player_character.global_omt_location() + offset );
+    const tripoint_abs_omt where = player_character.global_omt_location() + offset;
 
     g->place_player_overmap( where );
 
-    const tripoint new_pos( omt_to_om_copy( player_character.global_omt_location() ) );
-    add_msg( _( "You teleport to overmap (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
+    const tripoint_abs_om new_pos =
+        project_to<coords::om>( player_character.global_omt_location() );
+    add_msg( _( "You teleport to overmap %s." ), new_pos.to_string() );
 }
 
 void spawn_nested_mapgen()
@@ -460,13 +462,14 @@ void spawn_nested_mapgen()
         }
 
         map &here = get_map();
-        const tripoint abs_ms = here.getabs( *where );
-        const tripoint abs_omt = ms_to_omt_copy( abs_ms );
-        const tripoint abs_sub = ms_to_sm_copy( abs_ms );
+        const tripoint_abs_ms abs_ms( here.getabs( *where ) );
+        const tripoint_abs_omt abs_omt = project_to<coords::omt>( abs_ms );
+        const tripoint_abs_sm abs_sub = project_to<coords::sm>( abs_ms );
 
         map target_map;
         target_map.load( abs_sub, true );
-        const tripoint local_ms = target_map.getlocal( abs_ms );
+        // TODO: fix point types
+        const tripoint local_ms = target_map.getlocal( abs_ms.raw() );
         mapgendata md( abs_omt, target_map, 0.0f, calendar::turn, nullptr );
         const auto &ptr = nested_mapgen[nest_str[nest_choice]].pick();
         if( ptr == nullptr ) {
@@ -475,7 +478,7 @@ void spawn_nested_mapgen()
         ( *ptr )->nest( md, local_ms.xy() );
         target_map.save();
         g->load_npcs();
-        here.invalidate_map_cache( g->get_levz() );
+        here.invalidate_map_cache( here.get_abs_sub().z );
     }
 }
 
@@ -515,9 +518,9 @@ void character_edit_menu()
              << "; " <<
              "api: " << np->get_faction_ver() << std::endl;
         if( np->has_destination() ) {
-            data << string_format( _( "Destination: %d:%d:%d (%s)" ),
-                                   np->goal.x, np->goal.y, np->goal.z,
-                                   overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
+            data << string_format(
+                     _( "Destination: %s %s" ), np->goal.to_string(),
+                     overmap_buffer.ter( np->goal )->get_name() ) << std::endl;
         } else {
             data << _( "No destination." ) << std::endl;
         }
@@ -1000,7 +1003,7 @@ std::string mission_debug::describe( const mission &m )
     data << _( " Status:" ) << mission_status_string( m.status );
     data << _( " ID:" ) << m.uid;
     data << _( " NPC ID:" ) << m.npc_id;
-    data << _( " Target:" ) << m.target.x << "," << m.target.y << "," << m.target.z;
+    data << _( " Target:" ) << m.target.to_string();
     data << _( "Player ID:" ) << m.player_id;
 
     return data.str();
@@ -1197,7 +1200,7 @@ void debug()
     cata::optional<debug_menu_index> action = debug_menu_uilist( debug_menu_has_hotkey );
 
     // For the "cheaty" options, disable achievements when used
-    achievements_tracker &achievements = g->achievements();
+    achievements_tracker &achievements = get_achievements();
     static const std::unordered_set<debug_menu_index> non_cheaty_options = {
         debug_menu_index::SAVE_SCREENSHOT,
         debug_menu_index::GAME_REPORT,
@@ -1222,6 +1225,7 @@ void debug()
 
     avatar &player_character = get_avatar();
     map &here = get_map();
+    tripoint abs_sub = here.get_abs_sub();
     switch( *action ) {
         case debug_menu_index::WISH:
             debug_menu::wishitem( &player_character );
@@ -1252,8 +1256,7 @@ void debug()
             shared_ptr_fast<npc> temp = make_shared_fast<npc>();
             temp->normalize();
             temp->randomize();
-            temp->spawn_at_precise( { g->get_levx(), g->get_levy() }, player_character.pos() + point( -4,
-                                    -4 ) );
+            temp->spawn_at_precise( abs_sub.xy(), player_character.pos() + point( -4, -4 ) );
             overmap_buffer.insert_npc( temp );
             temp->form_opinion( player_character );
             temp->mission = NPC_MISSION_NULL;
@@ -1295,7 +1298,7 @@ void debug()
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
             popup_top(
                 s.c_str(),
-                player_character.posx(), player_character.posy(), g->get_levx(), g->get_levy(),
+                player_character.posx(), player_character.posy(), abs_sub.x, abs_sub.y,
                 overmap_buffer.ter( player_character.global_omt_location() )->get_name(),
                 to_turns<int>( calendar::turn - calendar::turn_zero ),
                 g->num_creatures() );
@@ -1783,14 +1786,14 @@ void debug()
             mx_menu.query();
             int mx_choice = mx_menu.ret;
             if( mx_choice >= 0 && mx_choice < static_cast<int>( mx_str.size() ) ) {
-                const tripoint where_omt( ui::omap::choose_point() );
+                const tripoint_abs_omt where_omt( ui::omap::choose_point() );
                 if( where_omt != overmap::invalid_tripoint ) {
-                    tripoint where_sm = omt_to_sm_copy( where_omt );
+                    tripoint_abs_sm where_sm = project_to<coords::sm>( where_omt );
                     tinymap mx_map;
                     mx_map.load( where_sm, false );
-                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm );
+                    MapExtras::apply_function( mx_str[mx_choice], mx_map, where_sm.raw() );
                     g->load_npcs();
-                    here.invalidate_map_cache( g->get_levz() );
+                    here.invalidate_map_cache( here.get_abs_sub().z );
                 }
             }
             break;
@@ -1844,7 +1847,8 @@ void debug()
             }
             break;
         case debug_menu_index::TEST_WEATHER: {
-            get_weather().get_cur_weather_gen().test_weather( g->get_seed() );
+            get_weather().get_cur_weather_gen().test_weather( g->get_seed(),
+                    get_weather().next_instance_allowed );
         }
         break;
 
@@ -1979,7 +1983,7 @@ void debug()
         case debug_menu_index::last:
             return;
     }
-    here.invalidate_map_cache( g->get_levz() );
+    here.invalidate_map_cache( here.get_abs_sub().z );
 }
 
 } // namespace debug_menu

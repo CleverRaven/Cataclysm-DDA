@@ -1171,7 +1171,7 @@ void reveal_map_actor::load( const JsonObject &obj )
     }
 }
 
-void reveal_map_actor::reveal_targets( const tripoint &center,
+void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
                                        const std::pair<std::string, ot_match_type> &target,
                                        int reveal_distance ) const
 {
@@ -1187,7 +1187,7 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
     if( it.already_used_by_player( p ) ) {
         p.add_msg_if_player( _( "There isn't anything new on the %s." ), it.tname() );
         return 0;
-    } else if( g->get_levz() < 0 ) {
+    } else if( get_map().get_abs_sub().z < 0 ) {
         p.add_msg_if_player( _( "You should read your %s when you get to the surface." ),
                              it.tname() );
         return 0;
@@ -1195,11 +1195,11 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_if_player( _( "It's too dark to read." ) );
         return 0;
     }
-    const tripoint &center = it.get_var( "reveal_map_center_omt",
-                                         p.global_omt_location() );
+    const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
+                                   p.global_omt_location().raw() ) );
     for( auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            reveal_targets( tripoint( center.xy(), z ), omt, 0 );
+            reveal_targets( tripoint_abs_omt( center.xy(), z ), omt, 0 );
         }
     }
     if( !message.empty() ) {
