@@ -1353,8 +1353,9 @@
     "healthy": -1,
     "color": "light_cyan",
     "container": "bottle_glass",
-    "description": "This innocent, sweet, colorless liquid can be used for all kinds of things, from sweetening food to manufacturing medicine to making potent explosives.",
-    "volume": "1 ml",
+    "description": "Also called glycerin, this clear, odorless liquid is both a handy skin moisteurizer and an ingredient necessary to make dynamite.",
+    "volume": "25 ml",
+    "weight": "20 g",
     "phase": "liquid"
   },
   {
