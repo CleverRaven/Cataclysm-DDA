@@ -218,7 +218,7 @@
     "id": "mon_dog_thing",
     "type": "MONSTER",
     "name": { "str": "dog" },
-    "description": "A domesticated mongrel of the canine persuasion.  In the absence of human society, it has turned feral.  You feel a sudden urge to destroy it.",
+      "description": "A domesticated mongrel of the canine persuasion.  In the absence of human society, it has turned feral.",
     "default_faction": "mutant",
     "bodytype": "dog",
     "species": [ "NETHER" ],
