@@ -154,7 +154,7 @@
       { "item": "stapler", "prob": 50 },
       { "item": "gum", "prob": 50 },
       { "item": "can_opener", "prob": 50 },
-      { "item": "plastic_bottle_small", "prob": 40 },
+      { "item": "bottle_plastic_small", "prob": 42 },
       { "item": "glowstick_dead", "prob": 40 },
       { "item": "condom", "prob": 40 },
       { "item": "scorecard", "prob": 40 },

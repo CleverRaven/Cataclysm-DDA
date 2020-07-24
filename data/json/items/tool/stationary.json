@@ -30,7 +30,7 @@
   {
     "id": "office_letter_opener",
     "type": "GENERIC",
-    "category": "tools",
+    "category": "weapons",
     "name": { "str": "letter opener" },
     "description": "This sterling silver letter opener resembling a small dagger has a sharp point and no cutting edge.  It was used to open mail envelopes neatly and quickly.",
     "weight": "23 g",
@@ -45,8 +45,7 @@
     "to_hit": 1,
     "bashing": 1,
     "cutting": 9,
-    "color": "light_gray",
-    "category": "weapons"
+    "color": "light_gray"
   },
   {
     "id": "pen",
