@@ -38,7 +38,6 @@
     "material": [ "steel", "wood" ],
     "symbol": "(",
     "color": "brown",
-    "ammo": "metal_rail",
     "ranged_damage": { "damage_type": "heat", "amount": 20 },
     "skill": "rifle",
     "dispersion": 90,
