@@ -32,6 +32,10 @@ enum effect_rating {
     e_mixed     // The effect has good and bad parts to the one who has it.
 };
 
+/** @relates string_id */
+template<>
+const effect_type &string_id<effect_type>::obj() const;
+
 class effect_type
 {
         friend void load_effect_type( const JsonObject &jo );
