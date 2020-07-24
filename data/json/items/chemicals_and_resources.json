@@ -1354,8 +1354,8 @@
     "color": "light_cyan",
     "container": "bottle_glass",
     "description": "Also called glycerin, this clear, odorless liquid is both a handy skin moisteurizer and an ingredient necessary to make dynamite.",
-    "volume": "25 ml",
-    "weight": "20 g",
+    "volume": "20 ml",
+    "weight": "25 g",
     "phase": "liquid"
   },
   {
