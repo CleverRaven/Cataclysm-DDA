@@ -46,7 +46,7 @@
     "name": { "str_sp": "diesel" },
     "description": "Petroleum-based fuel made from a byproduct of the gasoline making process.",
     "category": "fuel",
-    "weight": "1.25 g",
+    "weight": "1250 mg",
     "volume": "200ml",
     "price": 50,
     "price_postapoc": 500,
