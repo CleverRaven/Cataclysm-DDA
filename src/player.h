@@ -502,7 +502,7 @@ class player : public Character
         int volume;
         const profession *prof;
 
-        bool random_start_location;
+        bool random_start_location = true;
         start_location_id start_location;
 
         weak_ptr_fast<Creature> last_target;

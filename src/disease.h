@@ -19,7 +19,7 @@ class disease_type
         void load( const JsonObject &jo, const std::string & );
         static const std::vector<disease_type> &get_all();
         static void check_disease_consistency();
-        bool was_loaded;
+        bool was_loaded = false;
 
         diseasetype_id id;
         time_duration min_duration = 1_turns;
