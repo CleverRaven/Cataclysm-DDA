@@ -366,7 +366,7 @@
     "qualities": [ [ "CONTAIN", 1 ] ]
   },
   {
-      "id": "bowl_plastic",
+    "id": "bowl_plastic",
     "type": "GENERIC",
     "category": "other",
     "name": { "str": "plastic tupperware" },
