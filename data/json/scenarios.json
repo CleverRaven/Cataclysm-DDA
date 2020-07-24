@@ -11,10 +11,10 @@
   },
   {
     "type": "scenario",
-    "ident": "evacuee_isolated",
-    "name": "Isolated Evacuee",
+    "ident": "squatter",
+    "name": "Squatter",
     "points": -1,
-    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.  Unfortunately, while you're the only one here now, you are definitely not the first person to be here, and in its current state this building no longer seems nearly as secure as one might have hoped.",
+    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in an abandoned building.  Unfortunately, while you're the only one here now, you are definitely not the first person to be here, and in its current state this building no longer seems nearly as secure as one might have hoped.",
     "allowed_locs": [ "sloc_shelter_vandalized_a", "sloc_shelter_vandalized_b", "sloc_shelter_vandalized_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START", "LONE_START" ]
