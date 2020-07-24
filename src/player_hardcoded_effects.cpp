@@ -144,7 +144,7 @@ static void eff_fun_antifungal( player &u, effect &it )
     if( u.has_trait( trait_THRESH_MYCUS ) && one_in( 30 ) ) {
         if( one_in( 10 ) ) {
             u.add_msg_player_or_npc( m_bad, _( "Something burns you from the inside." ),
-                        _( "<npcname> shivers from pain." ) );
+                                     _( "<npcname> shivers from pain." ) );
         }
         u.mod_pain( 1 );
         // not using u.get_random_body_part() as it is weighted & not fully random
