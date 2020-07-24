@@ -1235,6 +1235,21 @@
     "replace": "carton_sealed"
   },
   {
+    "id": "jar_3l_glass",
+    "type": "MIGRATION",
+    "replace": "jar_3l_glass_sealed"
+  },
+  {
+    "id": "jar_glass",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed"
+  },
+  {
+    "id": "condiment_bottle_unsealed",
+    "type": "MIGRATION",
+    "replace": "condiment_bottle_sealed"
+  },
+  {
     "id": "four_winds_shotgun",
     "type": "MIGRATION",
     "replace": "slamfire_shotgun"

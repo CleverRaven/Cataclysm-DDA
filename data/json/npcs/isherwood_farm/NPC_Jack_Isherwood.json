@@ -311,7 +311,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 3,
     "value": 20000,
-    "item": "jar_3l_glass",
+    "item": "jar_3l_glass_sealed",
     "count": 10,
     "origins": [ "ORIGIN_SECONDARY" ],
     "has_generic_rewards": false,

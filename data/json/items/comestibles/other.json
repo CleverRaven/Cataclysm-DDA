@@ -549,7 +549,7 @@
     "weight": "51 g",
     "volume": "250 ml",
     "comestible_type": "FOOD",
-    "container": "jar_glass",
+    "container": "jar_glass_sealed",
     "quench": 1,
     "calories": 190,
     "charges": 5,

@@ -507,7 +507,7 @@
     "use_action": {
       "target": "pickled_egg",
       "msg": "You open the jar, exposing it to the atmosphere.",
-      "container": "jar_glass",
+      "container": "jar_glass_sealed",
       "target_charges": 6,
       "menu_text": "Open jar",
       "type": "transform"
@@ -530,7 +530,7 @@
     "use_action": {
       "target": "pickle",
       "msg": "You open the jar, exposing it to the atmosphere.",
-      "container": "jar_glass",
+      "container": "jar_glass_sealed",
       "target_charges": 6,
       "menu_text": "Open jar",
       "type": "transform"
@@ -553,7 +553,7 @@
     "use_action": {
       "target": "sauerkraut",
       "msg": "You open the jar, exposing it to the atmosphere.",
-      "container": "jar_glass",
+      "container": "jar_glass_sealed",
       "target_charges": 4,
       "menu_text": "Open jar",
       "type": "transform"

@@ -6,8 +6,8 @@
     "magazine": 100,
     "subtype": "distribution",
     "entries": [
-      { "item": "jar_glass", "prob": 10 },
-      { "item": "jar_3l_glass", "prob": 10 },
+      { "item": "jar_glass_sealed", "prob": 10 },
+      { "item": "jar_3l_glass_sealed", "prob": 10 },
       { "item": "cheese_hard", "prob": 5 },
       { "item": "veggy_pickled", "prob": 50, "charges": 2, "container-item": "jar_glass_sealed" },
       { "item": "jar_sauerkraut_pickled", "prob": 5 },
@@ -339,8 +339,8 @@
       { "item": "cooking_oil2", "prob": 20 },
       { "item": "honey_bottled", "prob": 15 },
       { "item": "honey_glassed", "prob": 5 },
-      { "item": "jar_glass", "prob": 20 },
-      { "item": "jar_3l_glass", "prob": 30 },
+      { "item": "jar_glass_sealed", "prob": 20 },
+      { "item": "jar_3l_glass_sealed", "prob": 30 },
       { "item": "vinegar", "prob": 15 }
     ]
   },
