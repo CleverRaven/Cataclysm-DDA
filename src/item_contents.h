@@ -179,6 +179,13 @@ class item_contents
         // returns true if any pocket was sealed
         bool seal_all_pockets();
 
+        enum class sealed_summary {
+            unsealed,
+            part_sealed,
+            all_sealed,
+        };
+        sealed_summary get_sealed_summary() const;
+
         // heats up the contents if they have temperature
         void heat_up();
         // returns amount of ammo consumed
