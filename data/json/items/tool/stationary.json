@@ -41,9 +41,9 @@
     "material": [ "silver" ],
     "symbol": ";",
     "techniques": [ "PRECISE" ],
-    "flags": [ "STAB", "FRAGILE_MELEE" ],
+    "flags": [ "STAB", "FRAGILE_MELEE", "BELT_CLIP", "SHEATH_KNIFE" ],
     "to_hit": 1,
-    "bashing": 1,
+    "bashing": 2,
     "cutting": 9,
     "color": "light_gray"
   },
@@ -76,6 +76,6 @@
     "symbol": ",",
     "color": "light_red",
     "qualities": [ [ "CUT", 1 ] ],
-    "flags": [ "SPEAR" ]
+    "flags": [ "STAB", "BELT_CLIP", "SHEATH_KNIFE" ]
   }
 ]
