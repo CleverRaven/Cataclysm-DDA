@@ -132,7 +132,16 @@
     "//2": "This group is for a messy junk drawer.  The idea is that it should be filled with random crud, much of it obvious trash.  Like you might find in the home of someone with a small hoarding problem.",
     "subtype": "collection",
     "entries": [
-      { "item": "xacto", "prob": 80 },
+      { "item": "bottle_opener", "prob": 90 },
+      { "item": "coin_quarter", "prob": 90 },
+      { "item": "coin_quarter", "prob": 70 },
+      { "item": "corkscrew", "prob": 60 },
+      { "item": "coin_quarter", "prob": 10, "count": [ 5, 12 ] },
+      { "item": "RPG_die", "prob": 10 },
+      { "item": "golf_tee", "prob": 8 },
+      { "item": "golf_ball", "prob": 8 },
+      { "item": "shuttlecock", "prob": 8 },
+
     ]
   },
   {
@@ -142,7 +151,9 @@
     "//2": "This group is for a home crafter's junk drawer filled with art supplies.",
     "subtype": "collection",
     "entries": [
-      { "item": "xacto", "prob": 80 },
+      { "item": "xacto", "prob": 50 },
+      { "item": "office_letter_opener", "prob": 5 },
+      { "item": "RPG_die", "prob": 10 },
     ]
   },
   {
@@ -152,7 +163,8 @@
     "//2": "The junk drawer of a DIYer who does her own home repairs.",
     "subtype": "collection",
     "entries": [
-      { "item": "xacto", "prob": 80 },
+      { "item": "xacto", "prob": 25 },
+      { "item": "office_letter_opener", "prob": 15 },
     ]
   },
   {
@@ -162,7 +174,9 @@
     "//2": "A well-organized and deliberately selected collection of small objects useful to keep close at hand.",
     "subtype": "collection",
     "entries": [
-      { "item": "xacto", "prob": 80 },
+      { "item": "corkscrew", "prob": 80 },
+      { "item": "office_letter_opener", "prob": 80 },
+      { "item": "candle", "count": [ 1, 2 ], "prob": 75, "charges-min": 70 },
     ]
   },
   {
