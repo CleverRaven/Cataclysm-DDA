@@ -2419,7 +2419,7 @@ tab_direction set_description( avatar &you, const bool allow_reroll,
     select_location.entries.emplace_back( entry_random_start_location );
     for( const auto &loc : start_locations::get_all() ) {
         if( get_scenario()->allowed_start( loc.id ) ) {
-            std::string loc_name = string_format( "%s", loc.name() );
+            std::string loc_name = _( loc.name() );
             if( loc.targets_count() > 1 ) {
                 loc_name = string_format( ngettext( "%s (<color_white>%d</color> variant)",
                                                     "%s (<color_white>%d</color> variants)", loc.targets_count() ),
