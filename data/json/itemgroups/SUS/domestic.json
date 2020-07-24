@@ -126,6 +126,46 @@
     ]
   },
   {
+    "id": "SUS_junk_drawer_messy",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a messy junk drawer.  The idea is that it should be filled with random crud, much of it obvious trash.  Like you might find in the home of someone with a small hoarding problem.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "xacto", "prob": 80 },
+    ]
+  },
+  {
+    "id": "SUS_junk_drawer_artsy",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "This group is for a home crafter's junk drawer filled with art supplies.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "xacto", "prob": 80 },
+    ]
+  },
+  {
+    "id": "SUS_junk_drawer_handy",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "The junk drawer of a DIYer who does her own home repairs.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "xacto", "prob": 80 },
+    ]
+  },
+  {
+    "id": "SUS_junk_drawer_tidy",
+    "type": "item_group",
+    "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
+    "//2": "A well-organized and deliberately selected collection of small objects useful to keep close at hand.",
+    "subtype": "collection",
+    "entries": [
+      { "item": "xacto", "prob": 80 },
+    ]
+  },
+  {
     "id": "SUS_dishes",
     "type": "item_group",
     "//": "SUS item groups are collections that contain a reasonable realistic distribution of items that might spawn in a given storage furniture.",
