@@ -26,7 +26,7 @@
     "id": "afs_cam_spy_on",
     "copy-from": "afs_cam_spy",
     "type": "TOOL",
-    "name": { "str": "cam-spy rover (on)", "str_pl": "cam-spy rover (on)" },
+    "name": { "str": "cam-spy rover (on)", "str_pl": "cam-spy rovers (on)" },
     "description": "This cam-spy rover is on, and continuously transmitting a video-feed of its immediate surroundings.  Use a remote control to drive it around.",
     "turns_per_charge": 5,
     "revert_to": "afs_cam_spy",
