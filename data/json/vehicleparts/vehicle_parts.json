@@ -317,7 +317,7 @@
     "durability": 95,
     "description": "A small but comfortable bed.",
     "size": 200,
-    "item": "seat",
+    "item": "mattress",
     "comfort": 4,
     "floor_bedding_warmth": 300,
     "location": "center",
