@@ -72,7 +72,7 @@
     "type": "GENERIC",
     "description": "Someone has been using this plastic toothbrush to clean grease or muck.  It is now irrevocably dirty.",
     "symbol": "/",
-    "flags": [ "DIRTY" ],
+    "flags": [ "FILTHY" ],
     "copy-from": "base_toiletries"
   },
   {
