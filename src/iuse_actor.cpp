@@ -153,6 +153,7 @@ void iuse_transform::load( const JsonObject &obj )
 
     obj.read( "msg", msg_transform );
     obj.read( "container", container );
+    obj.read( "sealed", sealed );
     if( obj.has_member( "target_charges" ) && obj.has_member( "rand_target_charges" ) ) {
         obj.throw_error( "Transform actor specified both fixed and random target charges",
                          "target_charges" );
@@ -272,6 +273,9 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         obj = &obj_it;
         if( !it.put_in( *obj, item_pocket::pocket_type::CONTAINER ).success() ) {
             it.put_in( *obj, item_pocket::pocket_type::MIGRATION );
+        }
+        if( sealed ) {
+            it.seal();
         }
     }
     if( p.is_worn( *obj ) ) {
