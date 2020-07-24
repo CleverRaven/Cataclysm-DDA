@@ -190,7 +190,7 @@
     "name": { "str": "refrigerated tank" },
     "description": "A 60L refrigerated tank for keeping liquids cool.  Provides some insulation from outside weather.",
     "insulation": 10,
-    "volume": "60 L",
+    "volume": "72 L",
     "weight": "48 kg",
     "pocket_data": [
       {
