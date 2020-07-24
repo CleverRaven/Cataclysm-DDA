@@ -699,6 +699,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```TIE_UP``` ... Item can be used to tie up a creature.
 - ```TINDER``` ... This item can be used as tinder for lighting a fire with a REQUIRES_TINDER flagged firestarter.
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
+- ```TRADER_KEEP``` ... NPCs will not trade this item away under any circumstances.
+- ```TRADER_KEEP_EQUIPPED``` ... NPCs will only trade this item if they aren't currently wearing or wielding it.
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
 - ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
 

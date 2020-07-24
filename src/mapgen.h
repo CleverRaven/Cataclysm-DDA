@@ -369,7 +369,7 @@ class update_mapgen_function_json : public mapgen_function_json_base
         void setup();
         bool setup_update( const JsonObject &jo );
         void check( const std::string &oter_name ) const;
-        bool update_map( const tripoint &omt_pos, const point &offset,
+        bool update_map( const tripoint_abs_omt &omt_pos, const point &offset,
                          mission *miss, bool verify = false ) const;
         bool update_map( mapgendata &md, const point &offset = point_zero,
                          bool verify = false ) const;

@@ -1058,7 +1058,7 @@ void avatar_action::plthrow( avatar &you, item_location loc,
         you.weapon.mod_charges( -1 );
         thrown.charges = 1;
     } else {
-        you.i_rem( -1 );
+        you.remove_weapon();
     }
     you.throw_item( trajectory.back(), thrown, blind_throw_from_pos );
     g->reenter_fullscreen();

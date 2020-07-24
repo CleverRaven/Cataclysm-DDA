@@ -192,7 +192,7 @@ struct bionic {
         // generic bionic specific flags
         cata::flat_set<std::string> bionic_tags;
         float auto_start_threshold = -1.0;
-        float safe_fuel_threshold = -1.0;
+        float safe_fuel_threshold = 1.0;
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not

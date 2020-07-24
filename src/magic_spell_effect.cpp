@@ -845,7 +845,7 @@ void spell_effect::timed_event( const spell &sp, Creature &caster, const tripoin
     }
 
     sp.make_sound( caster.pos() );
-    g->timed_events.add( spell_event, calendar::turn + sp.duration_turns() );
+    get_timed_events().add( spell_event, calendar::turn + sp.duration_turns() );
 }
 
 static bool is_summon_friendly( const spell &sp )
@@ -1011,8 +1011,8 @@ void spell_effect::map( const spell &sp, Creature &caster, const tripoint & )
         // revealing the map only makes sense for the avatar
         return;
     }
-    const tripoint center = you->global_omt_location();
-    overmap_buffer.reveal( center.xy(), sp.aoe(), center.z );
+    const tripoint_abs_omt center = you->global_omt_location();
+    overmap_buffer.reveal( center.xy(), sp.aoe(), center.z() );
 }
 
 void spell_effect::morale( const spell &sp, Creature &caster, const tripoint &target )

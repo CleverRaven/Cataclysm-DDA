@@ -2,13 +2,17 @@
 #ifndef CATA_SRC_COORDINATES_H
 #define CATA_SRC_COORDINATES_H
 
+#include <algorithm>
 #include <cstdlib>
+#include <iterator>
 
 #include "coordinate_conversions.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "point.h"
 #include "debug.h"
+
+enum class direction : unsigned;
 
 namespace coords
 {
@@ -71,10 +75,19 @@ constexpr origin origin_from_scale( scale s )
     }
 }
 
-// A generic coordinate-type-safe point.
-// Point should be the underlying representation type (either point or
-// tripoint).
-// Scale and Origin define the coordinate system for the point.
+/**
+ * A generic coordinate-type-safe point.
+ *
+ * Generally you wouldn't use this class directly, but via the typedefs below
+ * (point_abs_ms, etc.).
+ *
+ * Point should be the underlying representation type (either point or
+ * tripoint).
+ *
+ * Origin and Scale define the coordinate system for the point.
+ *
+ * For more details see doc/POINTS_COORDINATES.md.
+ */
 template<typename Point, origin Origin, scale Scale>
 class coord_point
 {
@@ -434,6 +447,8 @@ struct hash<coords::coord_point<Point, Origin, Scale>> {
  * For example:
  * point_omt_ms is the position of a map square within an overmap terrain.
  * tripoint_rel_sm is a relative tripoint submap offset.
+ *
+ * For more details see doc/POINTS_COORDINATES.md.
  */
 /*@{*/
 using point_rel_ms = coords::coord_point<point, coords::origin::relative, coords::ms>;
@@ -443,18 +458,23 @@ using point_omt_ms = coords::coord_point<point, coords::origin::overmap_terrain,
 using point_abs_sm = coords::coord_point<point, coords::origin::abs, coords::sm>;
 using point_omt_sm = coords::coord_point<point, coords::origin::overmap_terrain, coords::sm>;
 using point_om_sm = coords::coord_point<point, coords::origin::overmap, coords::sm>;
+using point_rel_omt = coords::coord_point<point, coords::origin::relative, coords::omt>;
 using point_abs_omt = coords::coord_point<point, coords::origin::abs, coords::omt>;
 using point_om_omt = coords::coord_point<point, coords::origin::overmap, coords::omt>;
 using point_abs_seg = coords::coord_point<point, coords::origin::abs, coords::seg>;
+using point_rel_om = coords::coord_point<point, coords::origin::relative, coords::om>;
 using point_abs_om = coords::coord_point<point, coords::origin::abs, coords::om>;
 
 using tripoint_rel_ms = coords::coord_point<tripoint, coords::origin::relative, coords::ms>;
 using tripoint_abs_ms = coords::coord_point<tripoint, coords::origin::abs, coords::ms>;
 using tripoint_sm_ms = coords::coord_point<tripoint, coords::origin::submap, coords::ms>;
 using tripoint_omt_ms = coords::coord_point<tripoint, coords::origin::overmap_terrain, coords::ms>;
+using tripoint_rel_sm = coords::coord_point<tripoint, coords::origin::relative, coords::sm>;
 using tripoint_abs_sm = coords::coord_point<tripoint, coords::origin::abs, coords::sm>;
 using tripoint_om_sm = coords::coord_point<tripoint, coords::origin::overmap, coords::sm>;
+using tripoint_rel_omt = coords::coord_point<tripoint, coords::origin::relative, coords::omt>;
 using tripoint_abs_omt = coords::coord_point<tripoint, coords::origin::abs, coords::omt>;
+using tripoint_om_omt = coords::coord_point<tripoint, coords::origin::overmap, coords::omt>;
 using tripoint_abs_seg = coords::coord_point<tripoint, coords::origin::abs, coords::seg>;
 using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coords::om>;
 /*@}*/
@@ -462,6 +482,63 @@ using tripoint_abs_om = coords::coord_point<tripoint, coords::origin::abs, coord
 using coords::project_to;
 using coords::project_remain;
 using coords::project_combine;
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int square_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                        const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return square_dist( loc1.raw(), loc2.raw() );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int trig_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                      const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return trig_dist( loc1.raw(), loc2.raw() );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int rl_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                    const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return rl_dist( loc1.raw(), loc2.raw() );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+inline int manhattan_dist( const coords::coord_point<Point, Origin, Scale> &loc1,
+                           const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return manhattan_dist( loc1.raw(), loc2.raw() );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+direction direction_from( const coords::coord_point<Point, Origin, Scale> &loc1,
+                          const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return direction_from( loc1.raw(), loc2.raw() );
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+std::vector<coords::coord_point<Point, Origin, Scale>>
+        line_to( const coords::coord_point<Point, Origin, Scale> &loc1,
+                 const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    std::vector<Point> raw_result = line_to( loc1.raw(), loc2.raw() );
+    std::vector<coords::coord_point<Point, Origin, Scale>> result;
+    std::transform( raw_result.begin(), raw_result.end(), std::back_inserter( result ),
+    []( const Point & p ) {
+        return coords::coord_point<Point, Origin, Scale>( p );
+    } );
+    return result;
+}
+
+template<typename Point, coords::origin Origin, coords::scale Scale>
+coords::coord_point<Point, Origin, Scale>
+midpoint( const coords::coord_point<Point, Origin, Scale> &loc1,
+          const coords::coord_point<Point, Origin, Scale> &loc2 )
+{
+    return coords::coord_point<Point, Origin, Scale>( ( loc1.raw() + loc2.raw() ) / 2 );
+}
 
 template<typename Point, coords::origin Origin, coords::scale Scale>
 std::vector<coords::coord_point<Point, Origin, Scale>>
@@ -550,6 +627,10 @@ struct real_coords {
     void fromomap( const point &rel_om, const point &rel_om_pos ) {
         const point a = om_to_omt_copy( rel_om ) + rel_om_pos;
         fromabs( omt_to_ms_copy( a ) );
+    }
+
+    point_abs_omt abs_omt() const {
+        return project_to<coords::omt>( point_abs_sm( abs_sub ) );
     }
 
     // helper functions to return abs_pos of submap/overmap tile/overmap's start

@@ -2198,7 +2198,7 @@ void monster::die( Creature *nkiller )
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt( *this );
         }
-        g->events().send<event_type::character_kills_monster>( ch->getID(), type->id );
+        get_event_bus().send<event_type::character_kills_monster>( ch->getID(), type->id );
         if( ch->is_player() && ch->has_trait( trait_KILLER ) ) {
             if( one_in( 4 ) ) {
                 const translation snip = SNIPPET.random_from_category( "killer_on_kill" ).value_or( translation() );
@@ -2261,7 +2261,8 @@ void monster::die( Creature *nkiller )
         const tripoint abssub = ms_to_sm_copy( here.getabs( pos() ) );
         // Do it for overmap above/below too
         for( const tripoint &p : points_in_radius( abssub, HALF_MAPSIZE, 1 ) ) {
-            for( auto &mgp : overmap_buffer.groups_at( p ) ) {
+            // TODO: fix point types
+            for( auto &mgp : overmap_buffer.groups_at( tripoint_abs_sm( p ) ) ) {
                 if( MonsterGroupManager::IsMonsterInGroup( mgp->type, type->id ) ) {
                     mgp->dying = true;
                 }

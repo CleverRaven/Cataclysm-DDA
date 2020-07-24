@@ -26,6 +26,7 @@
 #include "map.h"
 #include "map_iterator.h"
 #include "output.h"
+#include "path_info.h"
 #include "player.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -583,7 +584,8 @@ void zone_manager::cache_data()
 void zone_manager::cache_vzones()
 {
     vzone_cache.clear();
-    auto vzones = get_map().get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
     for( auto elem : vzones ) {
         if( !elem->get_enabled() ) {
             continue;
@@ -706,7 +708,8 @@ const zone_data *zone_manager::get_zone_at( const tripoint &where, const zone_ty
             return &zone;
         }
     }
-    auto vzones = get_map().get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
     for( const zone_data *zone : vzones ) {
         if( zone->has_inside( where ) && zone->get_type() == type ) {
             return zone;
@@ -897,7 +900,8 @@ const zone_data *zone_manager::get_bottom_zone( const tripoint &where,
             return &zone;
         }
     }
-    auto vzones = get_map().get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
     for( auto it = vzones.rbegin(); it != vzones.rend(); ++it ) {
         const auto zone = *it;
         if( zone->get_faction() != fac ) {
@@ -922,7 +926,8 @@ void zone_manager::create_vehicle_loot_zone( vehicle &vehicle, const point &moun
     //create a vehicle loot zone
     new_zone.set_is_vehicle( true );
     auto nz = vehicle.loot_zones.emplace( mount_point, new_zone );
-    get_map().register_vehicle_zone( &vehicle, g->get_levz() );
+    map &here = get_map();
+    here.register_vehicle_zone( &vehicle, here.get_abs_sub().z );
     vehicle.zones_dirty = false;
     added_vzones.push_back( &nz->second );
     cache_vzones();
@@ -1050,7 +1055,8 @@ std::vector<zone_manager::ref_zone_data> zone_manager::get_zones( const faction_
         }
     }
 
-    auto vzones = get_map().get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
 
     for( auto zone : vzones ) {
         if( zone->get_faction() == fac ) {
@@ -1072,7 +1078,8 @@ std::vector<zone_manager::ref_const_zone_data> zone_manager::get_zones(
         }
     }
 
-    auto vzones = get_map().get_vehicle_zones( g->get_levz() );
+    map &here = get_map();
+    auto vzones = here.get_vehicle_zones( here.get_abs_sub().z );
 
     for( auto zone : vzones ) {
         if( zone->get_faction() == fac ) {
@@ -1156,7 +1163,7 @@ void zone_data::deserialize( JsonIn &jsin )
 
 bool zone_manager::save_zones()
 {
-    std::string savefile = g->get_player_base_save_path() + ".zones.json";
+    std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
 
     added_vzones.clear();
     changed_vzones.clear();
@@ -1169,7 +1176,7 @@ bool zone_manager::save_zones()
 
 void zone_manager::load_zones()
 {
-    std::string savefile = g->get_player_base_save_path() + ".zones.json";
+    std::string savefile = PATH_INFO::player_base_save_path() + ".zones.json";
 
     read_from_file_optional( savefile, [&]( std::istream & fin ) {
         JsonIn jsin( fin );
@@ -1207,7 +1214,7 @@ void zone_manager::revert_vzones()
             zone.set_is_vehicle( true );
             vp->vehicle().loot_zones.emplace( vp->mount(), zone );
             vp->vehicle().zones_dirty = false;
-            here.register_vehicle_zone( &vp->vehicle(), g->get_levz() );
+            here.register_vehicle_zone( &vp->vehicle(), here.get_abs_sub().z );
             cache_vzones();
         }
     }

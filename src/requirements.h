@@ -163,12 +163,10 @@ enum class requirement_display_flags : int {
     no_unavailable = 1,
 };
 
-inline constexpr requirement_display_flags operator&( requirement_display_flags l,
-        requirement_display_flags r )
-{
-    return static_cast<requirement_display_flags>(
-               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
-}
+template<>
+struct enum_traits<requirement_display_flags> {
+    static constexpr bool is_flag_enum = true;
+};
 
 /**
  * The *_vector members represent list of alternatives requirements:
@@ -436,11 +434,11 @@ class deduped_requirement_data
             int batch = 1, craft_flags = craft_flags::none ) const;
 
         const requirement_data *select_alternative(
-            player &, const std::function<bool( const item & )> &filter, int batch = 1,
+            Character &, const std::function<bool( const item & )> &filter, int batch = 1,
             craft_flags = craft_flags::none ) const;
 
         const requirement_data *select_alternative(
-            player &, const inventory &, const std::function<bool( const item & )> &filter,
+            Character &, const inventory &, const std::function<bool( const item & )> &filter,
             int batch = 1, craft_flags = craft_flags::none ) const;
 
         bool can_make_with_inventory(

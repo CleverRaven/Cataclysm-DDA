@@ -19,7 +19,7 @@
 #include "ui_manager.h"
 
 static std::string get_achievements_text( const achievements_tracker &achievements,
-        bool use_conducts )
+        bool use_conducts, int width )
 {
     std::string thing_name = use_conducts ? _( "conducts" ) : _( "achievements" );
     std::string cap_thing_name = use_conducts ? _( "Conducts" ) : _( "Achievements" );
@@ -47,8 +47,10 @@ static std::string get_achievements_text( const achievements_tracker &achievemen
         return std::make_tuple( comp, ach->name().translated(), ach );
     } );
     std::sort( sortable_achievements.begin(), sortable_achievements.end(), localized_compare );
+    char ch = string_from_int( LINE_OXOX ).at( 0 );
     for( const sortable_achievement &ach : sortable_achievements ) {
-        os += achievements.ui_text_for( std::get<const achievement *>( ach ) ) + "\n";
+        os += achievements.ui_text_for( std::get<const achievement *>( ach ) );
+        os += colorize( std::string( width, ch ), c_magenta );
     }
     if( valid_achievements.empty() ) {
         os += string_format( _( "This game has no valid %s.\n" ), thing_name );
@@ -132,10 +134,10 @@ void show_scores_ui( const achievements_tracker &achievements, stats_tracker &st
         if( new_tab ) {
             switch( tab ) {
                 case tab_mode::achievements:
-                    view.set_text( get_achievements_text( achievements, false ) );
+                    view.set_text( get_achievements_text( achievements, false, getmaxx( w ) - 2 ) );
                     break;
                 case tab_mode::conducts:
-                    view.set_text( get_achievements_text( achievements, true ) );
+                    view.set_text( get_achievements_text( achievements, true, getmaxx( w ) - 2 ) );
                     break;
                 case tab_mode::scores:
                     view.set_text( get_scores_text( stats ) );

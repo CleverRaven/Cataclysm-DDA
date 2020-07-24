@@ -83,4 +83,6 @@ class scent_map
         bool inbounds( const point &p ) const;
 };
 
+scent_map &get_scent();
+
 #endif // CATA_SRC_SCENT_MAP_H

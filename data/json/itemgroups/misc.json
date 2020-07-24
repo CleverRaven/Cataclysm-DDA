@@ -65,7 +65,9 @@
       { "item": "material_soil", "count": [ 8, 12 ] },
       { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
-      { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "rock", "count": [ 1, 4 ], "prob": 10 },
+      { "item": "rock_flaking", "count": [ 1, 4 ], "prob": 2 },
+      { "item": "rock_large", "prob": 10 },
       { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
     ]
   },

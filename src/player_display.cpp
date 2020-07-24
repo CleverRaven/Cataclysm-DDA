@@ -50,11 +50,6 @@ static int temperature_print_rescaling( int temp )
     return ( temp / 100.0 ) * 2 - 100;
 }
 
-static bodypart_id other_part( const bodypart_id &bp )
-{
-    return bp->opposite_part;
-}
-
 static bool should_combine_bps( const player &p, const bodypart_id &l, const bodypart_id &r,
                                 const item *selected_clothing )
 {
@@ -62,14 +57,14 @@ static bool should_combine_bps( const player &p, const bodypart_id &l, const bod
     const encumbrance_data enc_r = p.get_part_encumbrance_data( r );
 
     return l != r && // are different parts
-           l == other_part( r ) && r == other_part( l ) && // are complementary parts
+           l ==  r->opposite_part && r == l->opposite_part && // are complementary parts
            // same encumberance & temperature
            enc_l == enc_r &&
-           temperature_print_rescaling( p.temp_conv[l->token] ) == temperature_print_rescaling(
-               p.temp_conv[r->token] ) &&
+           temperature_print_rescaling( p.get_part_temp_conv( l ) ) == temperature_print_rescaling(
+               p.get_part_temp_conv( r ) ) &&
            // selected_clothing covers both or neither parts
-           ( !selected_clothing ||
-             ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
+           ( !selected_clothing || ( selected_clothing->covers( l ) == selected_clothing->covers( r ) ) );
+
 }
 
 static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const player &p,
@@ -79,12 +74,13 @@ static std::vector<std::pair<bodypart_id, bool>> list_and_combine_bps( const pla
     std::vector<std::pair<bodypart_id, bool>> bps;
     for( const bodypart_id &bp : p.get_all_body_parts() ) {
         // assuming that a body part has at most one other half
-        if( other_part( other_part( bp ) ) != bp ) {
+        if( bp->opposite_part->opposite_part != bp.id() ) {
             debugmsg( "Bodypart %d has more than one other half!", bp.id().c_str() );
         }
-        if( should_combine_bps( p, bp, other_part( bp ), selected_clothing ) ) {
-            if( bp < other_part( bp ) ) {
-                // only add the earlier one
+        if( should_combine_bps( p, bp, bp->opposite_part.id(), selected_clothing ) ) {
+            if( std::find( bps.begin(), bps.end(), std::pair<bodypart_id, bool>( bp->opposite_part.id(),
+                           true ) ) == bps.end() ) {
+                // only add one
                 bps.emplace_back( bp, true );
             }
         } else {
@@ -121,9 +117,11 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         if( static_cast<size_t>( thisline ) >= bps.size() ) {
             break;
         }
-        const bodypart_id bp = bps[thisline].first;
+
+        const bodypart_id &bp = bps[thisline].first;
         const bool combine = bps[thisline].second;
         const encumbrance_data &e = get_part_encumbrance_data( bp );
+
         const bool highlighted = selected_clothing ? selected_clothing->covers( bp ) : false;
         std::string out = body_part_name_as_heading( bp, combine ? 2 : 1 );
         if( utf8_width( out ) > 7 ) {
@@ -144,8 +142,8 @@ void player::print_encumbrance( const catacurses::window &win, const int line,
         // take into account the new encumbrance system for layers
         mvwprintz( win, point( 12, 1 + i ), encumb_color( e.encumbrance ), "%-3d", e.layer_penalty );
         // print warmth, tethered to right hand side of the window
-        mvwprintz( win, point( width - 6, 1 + i ), bodytemp_color( bp->token ), "(% 3d)",
-                   temperature_print_rescaling( temp_conv[bp->token] ) );
+        mvwprintz( win, point( width - 6, 1 + i ), bodytemp_color( bp ), "(% 3d)",
+                   temperature_print_rescaling( get_part_temp_conv( bp ) ) );
     }
 
     if( draw_scrollbar ) {
@@ -316,11 +314,12 @@ static player_display_tab prev_tab( const player_display_tab tab )
     }
 }
 
-static std::vector<std::string> sorted_proficiencies( const Character &guy )
+static std::vector<std::pair<proficiency_id, std::string>> sorted_proficiencies(
+            const Character &guy )
 {
-    std::vector<std::string> ret;
+    std::vector<std::pair<proficiency_id, std::string>> ret;
     for( const proficiency_id &id : guy.proficiencies() ) {
-        ret.emplace_back( id->name() );
+        ret.emplace_back( id, id->name() );
     }
     std::sort( ret.begin(), ret.end(), localized_compare );
     return ret;
@@ -330,10 +329,10 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
                                     const Character &guy, const player_display_tab curtab )
 {
     werase( win );
-    const bool focused = curtab == player_display_tab::proficiencies;
+    const std::vector<std::pair<proficiency_id, std::string>> &profs = sorted_proficiencies( guy );
+    bool focused = curtab == player_display_tab::proficiencies;
     const nc_color title_color = focused ? h_light_gray : c_light_gray;
     center_print( win, 0, title_color, _( title_PROFICIENCIES ) );
-    const std::vector<std::string> &profs = sorted_proficiencies( guy );
     const int height = getmaxy( win ) - 1;
     const int width = getmaxx( win ) - 1;
     bool draw_scrollbar = profs.size() > static_cast<size_t>( height );
@@ -343,7 +342,8 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
         if( y > height ) {
             break;
         }
-        y += fold_and_print( win, point( 1, y ), width, c_white, profs[i] );
+        const nc_color col = focused && i == line ? hilite( c_white ) : c_white;
+        y += fold_and_print( win, point( 1, y ), width, col, profs[i].second );
     }
 
     if( draw_scrollbar ) {
@@ -358,6 +358,19 @@ static void draw_proficiencies_tab( const catacurses::window &win, const unsigne
     }
 
     wnoutrefresh( win );
+}
+
+static void draw_proficiencies_info( const catacurses::window &w_info, const unsigned line,
+                                     const Character &guy )
+{
+    werase( w_info );
+    const std::vector<std::pair<proficiency_id, std::string>> &profs = sorted_proficiencies( guy );
+    if( line < profs.size() ) {
+        // NOLINTNEXTLINE(cata-use-named-point-constants)
+        fold_and_print( w_info, point( 1, 0 ), getmaxx( w_info ) - 1,
+                        c_white, profs[line].first->description() );
+    }
+    wnoutrefresh( w_info );
 }
 
 static void draw_stats_tab( const catacurses::window &w_stats,
@@ -874,7 +887,7 @@ static void draw_speed_tab( const catacurses::window &w_speed,
     if( temperature_speed_modifier != 0 ) {
         nc_color pen_color;
         std::string pen_sign;
-        const auto player_local_temp = g->weather.get_temperature( you.pos() );
+        const auto player_local_temp = get_weather().get_temperature( you.pos() );
         if( you.has_trait( trait_id( "COLDBLOOD4" ) ) && player_local_temp > 65 ) {
             pen_color = c_green;
             pen_sign = "+";
@@ -954,8 +967,7 @@ static void draw_info_window( const catacurses::window &w_info, const player &yo
             draw_effects_info( w_info, line, effect_name_and_text );
             break;
         case player_display_tab::proficiencies:
-            werase( w_info );
-            wnoutrefresh( w_info );
+            draw_proficiencies_info( w_info, line, you );
             break;
         case player_display_tab::num_tabs:
             abort();

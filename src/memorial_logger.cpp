@@ -234,7 +234,9 @@ void memorial_logger::write_text_memorial( std::ostream &file,
         profession_name = string_format( _( "a %s" ), u.prof->gender_appropriate_name( u.male ) );
     }
 
-    const std::string locdesc = overmap_buffer.get_description_at( u.global_sm_location() );
+    // TODO: fix point types
+    const std::string locdesc =
+        overmap_buffer.get_description_at( tripoint_abs_sm( u.global_sm_location() ) );
     //~ First parameter is a pronoun ("He"/"She"), second parameter is a description
     //~ that designates the location relative to its surroundings.
     const std::string kill_place = string_format( _( "%1$s was killed in a %2$s." ),
@@ -413,8 +415,8 @@ void memorial_logger::write_text_memorial( std::ostream &file,
     //Lifetime stats
     file << _( "Lifetime Stats and Scores" ) << eol;
 
-    for( const score *scr : g->stats().valid_scores() ) {
-        file << indent << scr->description( g->stats() ) << eol;
+    for( const score *scr : get_stats().valid_scores() ) {
+        file << indent << scr->description( get_stats() ) << eol;
     }
     file << eol;
 
@@ -429,12 +431,12 @@ void memorial_logger::write_json_memorial( std::ostream &memorial_file ) const
     jsout.start_object();
     jsout.member( "memorial_version", 0 );
     jsout.member( "log", log );
-    jsout.member( "achievements", g->achievements() );
-    jsout.member( "stats", g->stats() );
+    jsout.member( "achievements", get_achievements() );
+    jsout.member( "stats", get_stats() );
 
     std::map<string_id<score>, cata_variant> scores;
-    for( const score *scr : g->stats().valid_scores() ) {
-        scores.emplace( scr->id, scr->value( g->stats() ) );
+    for( const score *scr : get_stats().valid_scores() ) {
+        scores.emplace( scr->id, scr->value( get_stats() ) );
     }
     jsout.member( "scores", scores );
 

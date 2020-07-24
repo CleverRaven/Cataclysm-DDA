@@ -261,7 +261,7 @@
       { "item": "bucket", "prob": 4 },
       { "item": "sheath", "prob": 13 },
       { "item": "bootsheath", "prob": 8 },
-      { "item": "toolbox", "prob": 1 },
+      { "group": "tools_toolbox", "prob": 1 },
       { "item": "knife_rm42", "prob": 4 },
       { "item": "survnote", "prob": 1 },
       { "item": "rm11b_sniper_rifle", "prob": 1 },

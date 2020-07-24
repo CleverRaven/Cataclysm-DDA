@@ -714,7 +714,8 @@ bool quality_requirement::has(
 nc_color quality_requirement::get_color( bool has_one, const inventory &,
         const std::function<bool( const item & )> &, int ) const
 {
-    if( available == available_status::a_true ) {
+    if( get_player_character().has_trait( trait_DEBUG_HS ) ||
+        available == available_status::a_true ) {
         return c_green;
     }
     return has_one ? c_dark_gray : c_red;
@@ -1454,14 +1455,14 @@ std::vector<const requirement_data *> deduped_requirement_data::feasible_alterna
 }
 
 const requirement_data *deduped_requirement_data::select_alternative(
-    player &crafter, const std::function<bool( const item & )> &filter, int batch,
+    Character &crafter, const std::function<bool( const item & )> &filter, int batch,
     craft_flags flags ) const
 {
     return select_alternative( crafter, crafter.crafting_inventory(), filter, batch, flags );
 }
 
 const requirement_data *deduped_requirement_data::select_alternative(
-    player &crafter, const inventory &inv, const std::function<bool( const item & )> &filter,
+    Character &crafter, const inventory &inv, const std::function<bool( const item & )> &filter,
     int batch, craft_flags flags ) const
 {
     const std::vector<const requirement_data *> all_reqs =

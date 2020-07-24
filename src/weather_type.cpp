@@ -177,7 +177,16 @@ void weather_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "tiles_animation", tiles_animation, "" );
     optional( jo, was_loaded, "sound_category", sound_category, weather_sound_category::silent );
     mandatory( jo, was_loaded, "sun_intensity", sun_intensity );
-
+    optional( jo, was_loaded, "duration_min", duration_min, 5_minutes );
+    optional( jo, was_loaded, "duration_max", duration_max, 5_minutes );
+    if( duration_min > duration_max ) {
+        jo.throw_error( "duration_min must be less than or equal to duration_max" );
+    }
+    optional( jo, was_loaded, "time_between_min", time_between_min, 0_seconds );
+    optional( jo, was_loaded, "time_between_max", time_between_max, 0_seconds );
+    if( time_between_min > time_between_max ) {
+        jo.throw_error( "time_between_min must be less than or equal to time_between_max" );
+    }
     for( const JsonObject weather_effect_jo : jo.get_array( "effects" ) ) {
 
         weather_effect effect;
@@ -215,6 +224,9 @@ void weather_type::load( const JsonObject &jo, const std::string & )
             spawn_type spawn;
             mandatory( spawn_jo, was_loaded, "max_radius", spawn.max_radius );
             mandatory( spawn_jo, was_loaded, "min_radius", spawn.min_radius );
+            if( spawn.min_radius > spawn.max_radius ) {
+                spawn_jo.throw_error( "min_radius must be less than or equal to max_radius" );
+            }
             optional( spawn_jo, was_loaded, "hallucination_count", spawn.hallucination_count, 0 );
             optional( spawn_jo, was_loaded, "real_count", spawn.real_count, 0 );
             optional( spawn_jo, was_loaded, "target", spawn.target );
@@ -263,6 +275,11 @@ void weather_type::load( const JsonObject &jo, const std::string & )
              weather_requires.get_string_array( "required_weathers" ) ) {
             new_requires.required_weathers.push_back( weather_type_id( required_weather ) );
         }
+        optional( weather_requires, was_loaded, "time_passed_min", new_requires.time_passed_min,
+                  0_seconds );
+        optional( weather_requires, was_loaded, "time_passed_max", new_requires.time_passed_max,
+                  0_seconds );
+        optional( weather_requires, was_loaded, "one_in_chance", new_requires.one_in_chance, 0 );
         requirements = new_requires;
     }
 }
