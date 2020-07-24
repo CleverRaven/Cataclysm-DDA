@@ -43,7 +43,7 @@
     "skill": "rifle",
     "dispersion": 90,
     "durability": 6,
-    "clip_size": 1,
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "metal_rail": 1 } } ]
     "ups_charges": 40,
     "reload": 1200,
     "valid_mod_locations": [
