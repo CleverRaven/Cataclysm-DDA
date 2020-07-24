@@ -3966,7 +3966,7 @@
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
       [ [ "pine_bough", 6 ], [ "2x4", 8 ], [ "stick", 8 ], [ "splinter", 16 ] ],
-      [ [ "water_acid_weak", 3 ], [ "water_acid", 2 ], [ "acid", 1 ] ]
+      [ [ "chem_sulphuric_acid", 1 ], [ "chem_muriatic_acid", 1 ], [ "chem_nitric_acid", 1 ] ]
     ]
   },
   {

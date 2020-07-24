@@ -47,7 +47,7 @@
     "description": "Petroleum-based fuel made from a byproduct of the gasoline making process.",
     "category": "fuel",
     "weight": "1 g",
-    "volume": "200ml",
+    "volume": "250ml",
     "price": 50,
     "price_postapoc": 500,
     "count": 250,

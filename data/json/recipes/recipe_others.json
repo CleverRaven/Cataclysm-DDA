@@ -2298,7 +2298,7 @@
       [ [ "copper_scrap_equivalent", 20, "LIST" ] ],
       [ [ "tin", 30 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
-      [ [ "acid", 1 ] ]
+      [ [ "chem_sulphuric_acid", 1 ], [ "chem_muriatic_acid", 1 ], [ "chem_nitric_acid", 1 ] ]
     ]
   },
   {
@@ -4217,7 +4217,7 @@
     "components": [
       [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ] ],
       [ [ "copper_scrap_equivalent", 2, "LIST" ] ],
-      [ [ "acid", 1 ] ],
+      [ [ "chem_sulphuric_acid", 1 ], [ "chem_muriatic_acid", 1 ], [ "chem_nitric_acid", 1 ] ],
       [ [ "bleach", 2 ] ],
       [ [ "oxy_powder", 50 ] ],
       [ [ "scrap", 1 ] ]
@@ -4498,7 +4498,7 @@
       [ [ "steel_grille", 1 ] ],
       [ [ "platinum_small", 100 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
-      [ [ "acid", 1 ] ]
+      [ [ "chem_sulphuric_acid", 1 ], [ "chem_muriatic_acid", 1 ], [ "chem_nitric_acid", 1 ] ]
     ]
   },
   {
