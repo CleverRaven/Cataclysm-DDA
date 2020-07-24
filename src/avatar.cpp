@@ -1700,13 +1700,13 @@ std::string avatar::total_daily_calories_string() const
         // Each row is 32 columns long - for the first row, it's
         // 5 for the day and the offset from it,
         // 18 for the numbers, and 9 for the spacing between them
-        // For the second, 4 offset + 5 labels + 8 spacing leaves 15 for the levels
-        std::string activity_str = string_format( "%3dE  %3dA  %3dB  %3dM  %3dL  %3dN",
+        // For the second, 5 offset + 6 labels + 5 spacing leaves 16 for the levels
+        std::string activity_str = string_format( "%3dE %3dA %3dB %3dM %3dL %3dN",
                                    day.activity_levels.at( EXTRA_EXERCISE ), day.activity_levels.at( ACTIVE_EXERCISE ),
                                    day.activity_levels.at( BRISK_EXERCISE ),
                                    day.activity_levels.at( MODERATE_EXERCISE ), day.activity_levels.at( LIGHT_EXERCISE ),
                                    day.activity_levels.at( NO_EXERCISE ) );
-        std::string act_stats = string_format( " %1s  %s", colorize( ">", c_light_gray ),
+        std::string act_stats = string_format( " %1s %s", colorize( ">", c_light_gray ),
                                                colorize( activity_str, c_yellow ) );
         std::string calorie_stats = string_format( "%2d   %6d    %6d     %6d", num_day++, day.gained,
                                     day.spent, day.total() );
