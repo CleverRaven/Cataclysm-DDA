@@ -337,6 +337,24 @@
     "contents": [ "veggy_pickled" ]
   },
   {
+    "id": "jar_eggs_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "pickled_egg" ]
+  },
+  {
+    "id": "jar_pickles_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "pickle" ]
+  },
+  {
+    "id": "jar_sauerkraut_pickled",
+    "type": "MIGRATION",
+    "replace": "jar_glass_sealed",
+    "contents": [ "sauerkraut" ]
+  },
+  {
     "id": "m14a",
     "type": "MIGRATION",
     "replace": "m1a"

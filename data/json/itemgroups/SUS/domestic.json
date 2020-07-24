@@ -344,7 +344,7 @@
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],
         "prob": 60
       },
-      { "item": "jar_sauerkraut_pickled", "charges-min": 1, "prob": 25 },
+      { "item": "sauerkraut", "charges-min": 1, "prob": 25, "container-item": "jar_glass_sealed" },
       { "item": "pickle", "prob": 60, "charges-min": 1, "container-item": "jar_glass_sealed" },
       { "item": "meat_pickled", "prob": 10, "charges-min": 1, "container-item": "jar_glass_sealed" },
       { "item": "fish_pickled", "prob": 20, "charges-min": 1, "container-item": "jar_glass_sealed" },
