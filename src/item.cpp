@@ -526,6 +526,9 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 item &item::convert( const itype_id &new_type )
 {
     type = find_type( new_type );
+    item_contents new_contents = item_contents( type->pockets );
+    new_contents.combine( contents );
+    contents = new_contents;
     return *this;
 }
 

@@ -270,7 +270,9 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         it.convert( container );
         obj_it = item( target, calendar::turn, std::max( ammo_qty, 1 ) );
         obj = &obj_it;
-        it.put_in( *obj, item_pocket::pocket_type::CONTAINER );
+        if( !it.put_in( *obj, item_pocket::pocket_type::CONTAINER ).success() ) {
+            it.put_in( *obj, item_pocket::pocket_type::MIGRATION );
+        }
     }
     if( p.is_worn( *obj ) ) {
         p.calc_encumbrance();
