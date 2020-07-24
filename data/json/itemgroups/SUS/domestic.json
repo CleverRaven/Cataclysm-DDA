@@ -150,13 +150,14 @@
       { "item": "flyer", "prob": 70 },
       { "item": "lighter", "prob": 65, "charges-min": 0, "charges-max": 9 },
       { "item": "bag_plastic", "prob": 60, "count": [ 3, 7 ] },
-      { "item": "razor_blade", "prob": 50 },
       { "item": "corkscrew", "prob": 60 },
       { "item": "ceramic_shard", "prob": 50 },
       { "item": "e_scrap", "prob": 40, "count": [ 1, 5 ] },
       { "item": "stapler", "prob": 55 },
       { "item": "gum", "prob": 55 },
       { "item": "can_opener", "prob": 55 },
+      { "item": "razor_blade", "prob": 50 },
+      { "item": "flashlight", "prob": 50, "ammo-item": "battery", "charges": 2 }
       { "item": "bottle_plastic_small", "prob": 42 },
       { "item": "glowstick_dead", "prob": 30 },
       { "item": "condom", "prob": 40 },
@@ -241,6 +242,7 @@
     "subtype": "collection",
     "entries": [
       { "item": "boxcutter", "prob": 85 },
+      { "item": "flashlight", "prob": 80, "ammo-item": "battery", "charges": 100 }
       { "item": "pen", "count": [ 1, 3 ], "prob": 55 },
       { "item": "sandpaper", "prob": 50 },
       { "item": "stapler", "prob": 25 },
@@ -260,6 +262,8 @@
     "entries": [
       { "item": "pen", "count": 2 },
       { "item": "stapler", "prob": 80 },
+      { "item": "flashlight", "prob": 80, "ammo-item": "battery", "charges": 120 }
+      { "item": "hairbrush", "prob": 80 },
       { "item": "corkscrew", "prob": 80 },
       { "item": "office_letter_opener", "prob": 80 },
       { "item": "candle", "count": [ 1, 2 ], "prob": 75, "charges-min": 70 },
