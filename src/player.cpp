@@ -125,9 +125,6 @@ static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
 static const trait_id trait_CANNIBAL( "CANNIBAL" );
 static const trait_id trait_CENOBITE( "CENOBITE" );
 static const trait_id trait_CF_HAIR( "CF_HAIR" );
-static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
-static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
-static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_CHLOROMORPH( "CHLOROMORPH" );
 static const trait_id trait_CLUMSY( "CLUMSY" );
 static const trait_id trait_COLDBLOOD4( "COLDBLOOD4" );
@@ -138,8 +135,6 @@ static const trait_id trait_EASYSLEEPER( "EASYSLEEPER" );
 static const trait_id trait_EASYSLEEPER2( "EASYSLEEPER2" );
 static const trait_id trait_EATHEALTH( "EATHEALTH" );
 static const trait_id trait_FAT( "FAT" );
-static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
-static const trait_id trait_FUR( "FUR" );
 static const trait_id trait_HATES_BOOKS( "HATES_BOOKS" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
@@ -148,10 +143,8 @@ static const trait_id trait_INSOMNIA( "INSOMNIA" );
 static const trait_id trait_INT_SLIME( "INT_SLIME" );
 static const trait_id trait_LARGE( "LARGE" );
 static const trait_id trait_LARGE_OK( "LARGE_OK" );
-static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
 static const trait_id trait_LIGHTSTEP( "LIGHTSTEP" );
 static const trait_id trait_LOVES_BOOKS( "LOVES_BOOKS" );
-static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_M_IMMUNE( "M_IMMUNE" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_MORE_PAIN( "MORE_PAIN" );
@@ -174,14 +167,12 @@ static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
 static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
-static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_SUNLIGHT_DEPENDENT( "SUNLIGHT_DEPENDENT" );
 static const trait_id trait_THORNS( "THORNS" );
 static const trait_id trait_THRESH_SPIDER( "THRESH_SPIDER" );
-static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_VOMITOUS( "VOMITOUS" );
 static const trait_id trait_WATERSLEEP( "WATERSLEEP" );
 static const trait_id trait_WEAKSTOMACH( "WEAKSTOMACH" );
@@ -1720,77 +1711,6 @@ double player::vomit_mod()
         mod *= 5 * get_effect_int( effect_nausea );
     }
     return mod;
-}
-
-void player::update_body_wetness( const w_point &weather )
-{
-    // Average number of turns to go from completely soaked to fully dry
-    // assuming average temperature and humidity
-    constexpr time_duration average_drying = 2_hours;
-
-    // A modifier on drying time
-    double delay = 1.0;
-    // Weather slows down drying
-    delay += ( ( weather.humidity - 66 ) - ( weather.temperature - 65 ) ) / 100;
-    delay = std::max( 0.1, delay );
-    // Fur/slime retains moisture
-    if( has_trait( trait_LIGHTFUR ) || has_trait( trait_FUR ) || has_trait( trait_FELINE_FUR ) ||
-        has_trait( trait_LUPINE_FUR ) || has_trait( trait_CHITIN_FUR ) || has_trait( trait_CHITIN_FUR2 ) ||
-        has_trait( trait_CHITIN_FUR3 ) ) {
-        delay = delay * 6 / 5;
-    }
-    if( has_trait( trait_URSINE_FUR ) || has_trait( trait_SLIMY ) ) {
-        delay *= 1.5;
-    }
-
-    if( !x_in_y( 1, to_turns<int>( average_drying * delay / 100.0 ) ) ) {
-        // No drying this turn
-        return;
-    }
-
-    // Now per-body-part stuff
-    // To make drying uniform, make just one roll and reuse it
-    const int drying_roll = rng( 1, 80 );
-
-    for( const bodypart_id &bp : get_all_body_parts() ) {
-        if( get_part_wetness( bp ) == 0 ) {
-            continue;
-        }
-        // This is to normalize drying times
-        int drying_chance = get_part_drench_capacity( bp );
-        const int temp_conv = get_part_temp_conv( bp );
-        // Body temperature affects duration of wetness
-        // Note: Using temp_conv rather than temp_cur, to better approximate environment
-        if( temp_conv >= BODYTEMP_SCORCHING ) {
-            drying_chance *= 2;
-        } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
-            drying_chance = drying_chance * 3 / 2;
-        } else if( temp_conv >= BODYTEMP_HOT ) {
-            drying_chance = drying_chance * 4 / 3;
-        } else if( temp_conv > BODYTEMP_COLD ) {
-            // Comfortable, doesn't need any changes
-        } else {
-            // Evaporation doesn't change that much at lower temp
-            drying_chance = drying_chance * 3 / 4;
-        }
-
-        if( drying_chance < 1 ) {
-            drying_chance = 1;
-        }
-
-        // TODO: Make evaporation reduce body heat
-        if( drying_chance >= drying_roll ) {
-            mod_part_wetness( bp, -1 );
-            if( get_part_wetness( bp ) < 0 ) {
-                set_part_wetness( bp, 0 );
-            }
-        }
-        // Safety measure to keep wetness within bounds
-        if( get_part_wetness( bp ) > get_part_drench_capacity( bp ) ) {
-            set_part_wetness( bp, get_part_drench_capacity( bp ) );
-        }
-    }
-    // TODO: Make clothing slow down drying
 }
 
 void player::on_worn_item_transform( const item &old_it, const item &new_it )

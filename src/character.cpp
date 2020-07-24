@@ -213,14 +213,23 @@ static const trait_id trait_ADRENALINE( "ADRENALINE" );
 static const trait_id trait_ANTENNAE( "ANTENNAE" );
 static const trait_id trait_ANTLERS( "ANTLERS" );
 static const trait_id trait_BADBACK( "BADBACK" );
+static const trait_id trait_CHITIN_FUR( "CHITIN_FUR" );
+static const trait_id trait_CHITIN_FUR2( "CHITIN_FUR2" );
+static const trait_id trait_CHITIN_FUR3( "CHITIN_FUR3" );
 static const trait_id trait_DEBUG_NODMG( "DEBUG_NODMG" );
+static const trait_id trait_FELINE_FUR( "FELINE_FUR" );
+static const trait_id trait_FUR( "FUR" );
+static const trait_id trait_LIGHTFUR( "LIGHTFUR" );
+static const trait_id trait_LUPINE_FUR( "LUPINE_FUR" );
 static const trait_id trait_HUGE( "HUGE" );
 static const trait_id trait_HUGE_OK( "HUGE_OK" );
 static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_SAVANT( "SAVANT" );
+static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SMALL2( "SMALL2" );
 static const trait_id trait_SMALL_OK( "SMALL_OK" );
 static const trait_id trait_SQUEAMISH( "SQUEAMISH" );
+static const trait_id trait_URSINE_FUR( "URSINE_FUR" );
 static const trait_id trait_WOOLALLERGY( "WOOLALLERGY" );
 
 static const bionic_id bio_ads( "bio_ads" );
@@ -324,7 +333,6 @@ static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SHOUT2( "SHOUT2" );
 static const trait_id trait_SHOUT3( "SHOUT3" );
 static const trait_id trait_SLIMESPAWNER( "SLIMESPAWNER" );
-static const trait_id trait_SLIMY( "SLIMY" );
 static const trait_id trait_SLOWLEARNER( "SLOWLEARNER" );
 static const trait_id trait_STRONGSTOMACH( "STRONGSTOMACH" );
 static const trait_id trait_THRESH_CEPHALOPOD( "THRESH_CEPHALOPOD" );
@@ -1771,6 +1779,77 @@ void Character::recalc_hp()
 int Character::get_part_hp_max( const bodypart_id &id ) const
 {
     return enchantment_cache.modify_value( enchant_vals::mod::MAX_HP, Creature::get_part_hp_max( id ) );
+}
+
+void Character::update_body_wetness( const w_point &weather )
+{
+    // Average number of turns to go from completely soaked to fully dry
+    // assuming average temperature and humidity
+    constexpr time_duration average_drying = 2_hours;
+
+    // A modifier on drying time
+    double delay = 1.0;
+    // Weather slows down drying
+    delay += ( ( weather.humidity - 66 ) - ( weather.temperature - 65 ) ) / 100;
+    delay = std::max( 0.1, delay );
+    // Fur/slime retains moisture
+    if( has_trait( trait_LIGHTFUR ) || has_trait( trait_FUR ) || has_trait( trait_FELINE_FUR ) ||
+        has_trait( trait_LUPINE_FUR ) || has_trait( trait_CHITIN_FUR ) || has_trait( trait_CHITIN_FUR2 ) ||
+        has_trait( trait_CHITIN_FUR3 ) ) {
+        delay = delay * 6 / 5;
+    }
+    if( has_trait( trait_URSINE_FUR ) || has_trait( trait_SLIMY ) ) {
+        delay *= 1.5;
+    }
+
+    if( !x_in_y( 1, to_turns<int>( average_drying * delay / 100.0 ) ) ) {
+        // No drying this turn
+        return;
+    }
+
+    // Now per-body-part stuff
+    // To make drying uniform, make just one roll and reuse it
+    const int drying_roll = rng( 1, 80 );
+
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        if( get_part_wetness( bp ) == 0 ) {
+            continue;
+        }
+        // This is to normalize drying times
+        int drying_chance = get_part_drench_capacity( bp );
+        const int temp_conv = get_part_temp_conv( bp );
+        // Body temperature affects duration of wetness
+        // Note: Using temp_conv rather than temp_cur, to better approximate environment
+        if( temp_conv >= BODYTEMP_SCORCHING ) {
+            drying_chance *= 2;
+        } else if( temp_conv >= BODYTEMP_VERY_HOT ) {
+            drying_chance = drying_chance * 3 / 2;
+        } else if( temp_conv >= BODYTEMP_HOT ) {
+            drying_chance = drying_chance * 4 / 3;
+        } else if( temp_conv > BODYTEMP_COLD ) {
+            // Comfortable, doesn't need any changes
+        } else {
+            // Evaporation doesn't change that much at lower temp
+            drying_chance = drying_chance * 3 / 4;
+        }
+
+        if( drying_chance < 1 ) {
+            drying_chance = 1;
+        }
+
+        // TODO: Make evaporation reduce body heat
+        if( drying_chance >= drying_roll ) {
+            mod_part_wetness( bp, -1 );
+            if( get_part_wetness( bp ) < 0 ) {
+                set_part_wetness( bp, 0 );
+            }
+        }
+        // Safety measure to keep wetness within bounds
+        if( get_part_wetness( bp ) > get_part_drench_capacity( bp ) ) {
+            set_part_wetness( bp, get_part_drench_capacity( bp ) );
+        }
+    }
+    // TODO: Make clothing slow down drying
 }
 
 // This must be called when any of the following change:
