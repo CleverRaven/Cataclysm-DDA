@@ -165,11 +165,11 @@
       { "item": "balloon", "prob": 25, "count": [ 1, 2 ] },
       { "item": "lighter", "prob": 25, "count": [ 2, 7 ], "charges-min": 0, "charges-max": 12 },
       { "item": "adhesive_bandages", "prob":25, "charges": 1 },
-      { "item": "marble", "prob": 20, "charges-min": 1, "charges-max": 3 }
+      { "item": "marble", "prob": 20, "charges-min": 1, "charges-max": 3 },
       { "item": "coin_nickel", "prob": 20, "count": [ 1, 8 ] },
       { "item": "button_plastic", "prob": 20, "count": [ 2, 8 ] },
       { "item": "button_steel", "prob": 15, "count": [ 2, 4 ] },
-      { "item": "bearing", "prob": 15, "charges-min": 1, "charges-max": 3 }
+      { "item": "bearing", "prob": 15, "charges-min": 1, "charges-max": 3 },
       { "item": "adderall", "prob":15, "charges": 1 },
       { "item": "lighter", "prob": 10, "charges-min": 0, "charges-max": 90 },
       { "item": "zipper_short_plastic", "prob": 10 },
@@ -218,7 +218,7 @@
       { "item": "bead_bracelet", "count": [ 5, 9 ], "prob": 5 },
       { "item": "bead_necklace", "count": [ 5, 9 ], "prob": 5 },
       { "item": "old_key", "prob": 5, "count": [ 1, 12 ] },
-      { "item": "glowstick_dead", "prob": 5 },
+      { "item": "glowstick_dead", "prob": 5 }
     ]
   },
   {
@@ -236,7 +236,7 @@
       { "item": "wristwatch", "prob": 25 },
       { "item": "office_letter_opener", "prob": 15 },
       { "item": "razor_blade", "count": [ 1, 3 ], "prob": 15 },
-      { "item": "gum", "prob": 10 },
+      { "item": "gum", "prob": 10 }
     ]
   },
   {
@@ -253,7 +253,7 @@
       { "item": "candle", "count": [ 1, 2 ], "prob": 75, "charges-min": 70 },
       { "item": "aspirin", "prob": 50 },
       { "item": "gum", "prob": 40 },
-      { "item": "gold_hairpin", "prob": 25 },
+      { "item": "gold_hairpin", "prob": 25 }
     ]
   },
   {
