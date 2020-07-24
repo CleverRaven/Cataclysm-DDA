@@ -138,7 +138,7 @@ static void eff_fun_spores( player &u, effect &it )
         u.add_effect( effect_fungus, 1_turns, num_bp, true );
     }
 }
-static void eff_fun_antifungal( player &u, effect &it )
+static void eff_fun_antifungal( player &u, effect & )
 {
     // antifungal drugs are deadly poison for marloss people
     if( u.has_trait( trait_THRESH_MYCUS ) && one_in( 30 ) ) {
