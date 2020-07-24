@@ -1322,6 +1322,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FIELD_DRESS_FAILED``` Corpse was damaged by unskillful field dressing. Affects butcher results.
 - ```FIELD_DRESS``` Corpse was field dressed. Affects butcher results.
 - ```FIT``` Reduces encumbrance by one.
+- ```FILTHY``` Item always spawns as filthy.
 - ```FROZEN``` Item is frozen solid (used by freezer).
 - ```HIDDEN_ITEM``` This item cannot be seen in AIM.
 - ```HOT``` Item is hot (see EATEN_HOT).
