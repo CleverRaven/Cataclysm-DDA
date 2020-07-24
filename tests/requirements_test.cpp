@@ -6,7 +6,7 @@
 
 #include "catch/catch.hpp"
 
-static const itype_id itype_acid( "acid" );
+static const itype_id itype_acid( "chem_sulphuric_acid" );
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_lye( "lye" );
 static const itype_id itype_rock( "rock" );
