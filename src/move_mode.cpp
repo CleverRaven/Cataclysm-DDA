@@ -25,14 +25,6 @@ static const std::map<std::string, move_mode_type> move_types {
     { "running",   move_mode_type::RUNNING }
 };
 
-static const std::map<std::string, float> activity_levels = {
-    { "NO_EXERCISE",       NO_EXERCISE },
-    { "LIGHT_EXERCISE",    LIGHT_EXERCISE },
-    { "MODERATE_EXERCISE", MODERATE_EXERCISE },
-    { "ACTIVE_EXERCISE",   ACTIVE_EXERCISE },
-    { "EXTRA_EXERCISE",    EXTRA_EXERCISE }
-};
-
 void move_mode::load_move_mode( const JsonObject &jo, const std::string &src )
 {
     move_mode_factory.load( jo, src );

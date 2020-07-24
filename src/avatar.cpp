@@ -1663,6 +1663,7 @@ static const std::map<float, std::string> activity_levels_str = {
     { NO_EXERCISE, "NO_EXERCISE" },
     { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
     { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
+    { BRISK_EXERCISE, "BRISK_EXERCISE" },
     { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
     { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
 };
@@ -1700,8 +1701,9 @@ std::string avatar::total_daily_calories_string() const
         // 5 for the day and the offset from it,
         // 18 for the numbers, and 9 for the spacing between them
         // For the second, 4 offset + 5 labels + 8 spacing leaves 15 for the levels
-        std::string activity_str = string_format( "%3dE  %3dA  %3dM  %3dL  %3dN",
+        std::string activity_str = string_format( "%3dE  %3dA  %3dB  %3dM  %3dL  %3dN",
                                    day.activity_levels.at( EXTRA_EXERCISE ), day.activity_levels.at( ACTIVE_EXERCISE ),
+                                   day.activity_levels.at( BRISK_EXERCISE ),
                                    day.activity_levels.at( MODERATE_EXERCISE ), day.activity_levels.at( LIGHT_EXERCISE ),
                                    day.activity_levels.at( NO_EXERCISE ) );
         std::string act_stats = string_format( " %1s  %s", colorize( ">", c_light_gray ),
