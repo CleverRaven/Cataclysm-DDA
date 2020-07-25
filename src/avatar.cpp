@@ -1691,8 +1691,8 @@ std::string avatar::total_daily_calories_string() const
 {
     std::string ret =
         " E: Extra exercise\n A: Active exercise\n"
-        " M: Moderate exercise\n L: Light exercise\n"
-        " N: No exercise\n"
+        " B: Brisk Exercise\n M: Moderate exercise\n"
+        " L: Light exercise\n N: No exercise\n"
         " Each number refers to 5 minutes\n"
         "     gained     spent      total\n";
     int num_day = 1;
