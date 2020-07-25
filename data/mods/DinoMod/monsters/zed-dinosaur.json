@@ -27,7 +27,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.",
     "upgrades": { "half_life": 14, "into": "mon_zallimimus_brute" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather_leather",
     "categories": [ "DINOSAUR", "CLASSIC" ]
@@ -59,7 +59,7 @@
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "description": "The shuffling corpse of a medium-sized bipedal dinosaur covered with tattered feathers and black putrid liquid.  It looks like a reptilian ostrich with a round hard-looking domed head.",
     "upgrades": { "half_life": 14, "into": "mon_zachycephalosaurus_brute" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [ "SEES", "SMELLS", "HEARS", "PET_MOUNTABLE", "POISON", "STUMBLES", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
     "vision_night": 3,
     "harvest": "zed_dino_feather_leather",
     "categories": [ "DINOSAUR", "CLASSIC" ]
@@ -136,7 +136,20 @@
     "description": "Massive piles of ragged, stinking flesh lifting enormous teeth.",
     "special_attacks": [ [ "scratch", 10 ], { "type": "bite", "cooldown": 5 } ],
     "upgrades": { "half_life": 14, "into_group": "GROUP_zyrannosaurus_UPGRADE" },
-    "flags": [ "SEES", "SMELLS", "HEARS", "POISON", "STUMBLES", "BASHES", "DESTROYS", "NO_BREATHE", "REVIVES", "FILTHY", "WARM" ],
+    "flags": [
+      "SEES",
+      "SMELLS",
+      "HEARS",
+      "PET_MOUNTABLE",
+      "POISON",
+      "STUMBLES",
+      "BASHES",
+      "DESTROYS",
+      "NO_BREATHE",
+      "REVIVES",
+      "FILTHY",
+      "WARM"
+    ],
     "vision_night": 3,
     "harvest": "zed_dino_feather_leather",
     "categories": [ "DINOSAUR", "CLASSIC" ]
