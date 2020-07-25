@@ -218,5 +218,35 @@
       { "x": 0, "y": 0, "parts": [ "frame_vertical", "box", "recharge_station" ] },
       { "x": 0, "y": -1, "parts": [ "frame_vertical", "seat", "dashboard", "storage_battery" ] }
     ]
+  },
+  {
+    "id": "turret_test",
+    "type": "vehicle",
+    "name": "Turret test",
+    "blueprint": [
+      [ "|||" ],
+      [ "|t|" ],
+      [ "|||" ]
+    ],
+    "parts": [
+      { "x": -1, "y": -1, "parts": [ "frame_vertical", "reinforced_windshield" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_vertical", "reinforced_windshield" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_vertical", "reinforced_windshield" ] },
+      { "x": -1, "y": 0, "parts": [ "frame_vertical", "reinforced_windshield" ] },
+      {
+        "y": 0,
+        "x": 0,
+        "parts": [
+          "frame_vertical",
+          "controls",
+          "turret_mount",
+          { "ammo_types": [ "762_51" ], "part": "mounted_m240", "ammo": 100, "ammo_qty": [ 100, 100 ] }
+        ]
+      },
+      { "x": 1, "y": 0, "parts": [ "frame_vertical", "reinforced_windshield" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_vertical", "reinforced_windshield" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_vertical", "reinforced_windshield" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_vertical", "reinforced_windshield" ] }
+    ]
   }
 ]

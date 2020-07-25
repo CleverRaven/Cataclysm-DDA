@@ -1326,7 +1326,7 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
 static void update_targets( player &pc, int range, std::vector<Creature *> &targets, int &idx,
                             const tripoint &src, tripoint &dst )
 {
-    targets = pc.get_targetable_creatures( range );
+    targets = ranged::targetable_creatures( pc, range );
 
     // Convert and check last_target_pos is a valid aim point
     cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
@@ -2722,3 +2722,47 @@ double player::gun_value( const item &weap, int ammo ) const
              capacity_factor );
     return std::max( 0.0, gun_value );
 }
+
+namespace ranged
+{
+
+std::vector<Creature *> targetable_creatures( const Character &c, const int range )
+{
+    return targetable_creatures( c, range, turret_data() );
+}
+
+std::vector<Creature *> targetable_creatures( const Character &c, const int range,
+        const turret_data & )
+{
+    return g->get_creatures_if( [&c, range]( const Creature & critter ) -> bool {
+        if( std::round( rl_dist_exact( c.pos(), critter.pos() ) ) > range )
+        {
+            return false;
+        }
+
+        if( !c.sees( critter ) && !c.sees_with_infrared( critter ) )
+        {
+            return false;
+        }
+
+        // TODO: get rid of fake npcs (pos() check)
+        if( &c == &critter || c.pos() == critter.pos() || c.attitude_to( critter ) == Creature::Attitude::A_FRIENDLY )
+        {
+            return false;
+        }
+
+        // Handles the case where we can see something with glass in the way or a mutation lets us see through walls
+        // TODO: It should use projectile passability checks when finding path, not vision checks.
+        std::vector<tripoint> path = g->m.find_clear_path( c.pos(), critter.pos() );
+        for( const tripoint &point : path )
+        {
+            if( g->m.impassable( point ) ) {
+                return false;
+            }
+        }
+
+        return true;
+    } );
+}
+
+} // namespace ranged

@@ -89,6 +89,8 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
+bool can_fire_turret( avatar &you, const map &m, const turret_data &turret );
+
 bool avatar_action::move( avatar &you, map &m, const tripoint &d )
 {
     if( ( !g->check_safe_mode_allowed() ) || you.has_active_mutation( trait_SHELL2 ) ) {
@@ -585,7 +587,7 @@ static float rate_critter( const Creature &c )
 void avatar_action::autoattack( avatar &you, map &m )
 {
     int reach = you.weapon.reach_range( you );
-    std::vector<Creature *> critters = you.get_targetable_creatures( reach );
+    std::vector<Creature *> critters = ranged::targetable_creatures( you, reach );
     critters.erase( std::remove_if( critters.begin(), critters.end(), []( const Creature * c ) {
         if( !c->is_npc() ) {
             return false;
@@ -757,7 +759,7 @@ static bool can_fire_weapon( avatar &you, const map &m, const item &weapon )
  * @param turret Turret to check.
  * @return True if all conditions are true, otherwise false.
  */
-static bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
+bool can_fire_turret( avatar &you, const map &m, const turret_data &turret )
 {
     const item &weapon = *turret.base();
     if( !weapon.is_gun() ) {

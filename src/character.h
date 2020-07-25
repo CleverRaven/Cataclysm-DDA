@@ -1849,11 +1849,6 @@ class Character : public Creature, public visitable<Character>
          * are included.
          */
         std::vector<Creature *> get_visible_creatures( int range ) const;
-        /**
-         * As above, but includes all creatures the player can detect well enough to target
-         * with ranged weapons, e.g. with infrared vision.
-         */
-        std::vector<Creature *> get_targetable_creatures( int range ) const;
         /** Returns an enumeration of visible mutations with colors */
         std::string visible_mutations( int visibility_cap ) const;
         player_activity get_destination_activity() const;

@@ -9,6 +9,8 @@
 
 class JsonIn;
 class JsonOut;
+class Creature;
+class Character;
 class item;
 class player;
 class spell;
@@ -110,5 +112,14 @@ class target_handler
 };
 
 int range_with_even_chance_of_good_hit( int dispersion );
+
+namespace ranged
+{
+
+std::vector<Creature *> targetable_creatures( const Character &c, int range );
+std::vector<Creature *> targetable_creatures( const Character &c, int range,
+        const turret_data &turret );
+
+} // namespace ranged
 
 #endif // CATA_SRC_RANGED_H

@@ -170,3 +170,33 @@ void give_and_activate_bionic( player &p, bionic_id const &bioid )
         }
     }
 }
+
+void arm_character( player &shooter, const std::string &gun_type,
+                    const std::vector<std::string> &mods,
+                    const std::string &ammo_type )
+{
+    shooter.remove_weapon();
+
+    const itype_id &gun_id( gun_type );
+    // Give shooter a loaded gun of the requested type.
+    item &gun = shooter.i_add( item( gun_id ) );
+    const itype_id ammo_id = ammo_type.empty() ? gun.ammo_default() : itype_id( ammo_type );
+    if( gun.magazine_integral() ) {
+        item &ammo = shooter.i_add( item( ammo_id, calendar::turn, gun.ammo_capacity() ) );
+        REQUIRE( gun.is_reloadable_with( ammo_id ) );
+        REQUIRE( shooter.can_reload( gun, ammo_id ) );
+        gun.reload( shooter, item_location( shooter, &ammo ), gun.ammo_capacity() );
+    } else {
+        const itype_id magazine_id = gun.magazine_default();
+        item &magazine = shooter.i_add( item( magazine_id ) );
+        item &ammo = shooter.i_add( item( ammo_id, calendar::turn, magazine.ammo_capacity() ) );
+        REQUIRE( magazine.is_reloadable_with( ammo_id ) );
+        REQUIRE( shooter.can_reload( magazine, ammo_id ) );
+        magazine.reload( shooter, item_location( shooter, &ammo ), magazine.ammo_capacity() );
+        gun.reload( shooter, item_location( shooter, &magazine ), magazine.ammo_capacity() );
+    }
+    for( const auto &mod : mods ) {
+        gun.put_in( item( itype_id( mod ) ) );
+    }
+    shooter.wield( gun );
+}

@@ -3,6 +3,7 @@
 #define CATA_TESTS_PLAYER_HELPERS_H
 
 #include <string>
+#include <vector>
 
 #include "type_id.h"
 
@@ -18,5 +19,9 @@ void process_activity( player &dummy );
 
 npc &spawn_npc( const point &, const std::string &npc_class );
 void give_and_activate_bionic( player &, bionic_id const & );
+
+void arm_character( player &shooter, const std::string &gun_type,
+                    const std::vector<std::string> &mods = {},
+                    const std::string &ammo_type = "" );
 
 #endif // CATA_TESTS_PLAYER_HELPERS_H
