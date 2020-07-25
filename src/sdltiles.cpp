@@ -3244,7 +3244,7 @@ static void CheckMessages()
         // causes black screen that lasts ~0.5 seconds before the screen
         // contents are redrawn in the following code.
         window_dimensions dim = get_window_dimensions( catacurses::stdscr );
-        ui_manager::invalidate( rectangle( point_zero, dim.window_size_pixel ) );
+        ui_manager::invalidate( rectangle<point>( point_zero, dim.window_size_pixel ) );
         ui_manager::redraw();
     }
     if( needupdate ) {
@@ -3805,7 +3805,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 
     // Translate mouse coordinates to map coordinates based on tile size
     // Check if click is within bounds of the window we care about
-    const inclusive_rectangle win_bounds( win_min, win_max );
+    const inclusive_rectangle<point> win_bounds( win_min, win_max );
     if( !win_bounds.contains( coordinate ) ) {
         return cata::nullopt;
     }
