@@ -24,7 +24,7 @@
         "type": "dialogue",
         "context": "dino",
         "value": "yes",
-        "no": "You're back. I knew you were a killer.  Are you ready to take this country back?",
+        "no": "You're back.  I knew you were a killer.  Are you ready to take this country back?",
         "yes": "It's a good day to shoot some dinos."
       }
     },
