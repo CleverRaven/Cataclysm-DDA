@@ -120,7 +120,13 @@
       { "item": "bee_balm", "prob": 20, "charges-min": 1, "charges-max": 12, "container-item": "jar_3l_glass_sealed" },
       { "item": "spurge", "prob": 20, "charges-min": 1, "charges-max": 2, "container-item": "jar_glass_sealed" },
       { "item": "lotus", "prob": 20, "charges-min": 1, "charges-max": 2, "container-item": "jar_glass_sealed" },
-      { "item": "raw_burdock", "prob": 10, "charges-min": 1, "charges-max": 48, "container-item": "jar_3l_glass_sealed" },
+      {
+        "item": "raw_burdock",
+        "prob": 10,
+        "charges-min": 1,
+        "charges-max": 48,
+        "container-item": "jar_3l_glass_sealed"
+      },
       { "item": "chamomile", "prob": 30, "charges-min": 1, "charges-max": 2, "container-item": "jar_glass_sealed" },
       { "item": "tea_raw", "prob": 60, "charges-min": 10, "charges-max": 40, "container-item": "jar_glass_sealed" },
       {
@@ -850,7 +856,14 @@
       [ "water_mineral", 10 ],
       [ "milk", 20 ],
       { "item": "butter", "prob": 35, "charges-min": 8, "charges-max": 64, "container-item": "wrapper" },
-      { "item": "ghee", "prob": 5, "charges-min": 1, "charges-max": 64, "container-item": "jar_glass_sealed", "sealed": false },
+      {
+        "item": "ghee",
+        "prob": 5,
+        "charges-min": 1,
+        "charges-max": 64,
+        "container-item": "jar_glass_sealed",
+        "sealed": false
+      },
       [ "yoghurt", 10 ],
       [ "pudding", 15 ],
       [ "apple", 10 ],

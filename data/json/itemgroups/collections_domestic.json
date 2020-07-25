@@ -640,7 +640,14 @@
       { "item": "almond_milk", "prob": 50 },
       { "item": "soy_milk", "prob": 50 },
       { "item": "butter", "prob": 45, "charges-min": 1, "charges-max": 32, "container-item": "wrapper" },
-      { "item": "ghee", "prob": 5, "charges-min": 1, "charges-max": 32, "container-item": "jar_glass_sealed", "sealed": false },
+      {
+        "item": "ghee",
+        "prob": 5,
+        "charges-min": 1,
+        "charges-max": 32,
+        "container-item": "jar_glass_sealed",
+        "sealed": false
+      },
       { "item": "egg_bird_unfert", "prob": 65, "count-min": 1, "count-max": 12 },
       { "item": "yoghurt", "prob": 50 },
       { "item": "pudding", "prob": 60 },
