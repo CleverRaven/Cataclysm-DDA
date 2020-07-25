@@ -475,5 +475,32 @@
     "color": "blue",
     "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "hit_me_effect": [ { "id": "thorns_zap" } ] } ] }
+  },
+  {
+    "id": "aura_feral",
+    "type": "ARMOR",
+    "name": "feral aura",
+    "description": "The manifestion of your rage. It won't disappear until you calm down.",
+    "weight": "1g",
+    "volume": "1ml",
+    "price": 3646,
+    "symbol": "o",
+    "color": "white",
+    "flags": [ "PERSONAL", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "STRENGTH", "add": 3 },
+            { "value": "DEXTERITY", "add": 3 },
+            { "value": "INTELLIGENCE", "add": -3 },
+            { "value": "PERCEPTION", "add": -3 }
+          ],
+          "mutations": [ "LIGHTFUR", "CLAWS", "ADRENALINE" ]
+        }
+      ]
+    }
   }
 ]
