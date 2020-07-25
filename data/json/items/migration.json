@@ -202,157 +202,183 @@
     "id": "dogfood_canned",
     "type": "MIGRATION",
     "replace": "can_medium",
-    "contents": [ "dogfood" ]
+    "contents": [ { "id": "dogfood", "count": 1 } ],
+    "sealed": true
   },
   {
     "id": "catfood_canned",
     "type": "MIGRATION",
     "replace": "can_food",
-    "contents": [ "catfood" ]
+    "contents": [ { "id": "catfood", "count": 1 } ],
+    "sealed": true
   },
   {
     "id": "jar_V8",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "V8" ]
+    "contents": [ { "id": "V8", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_apple_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "apple_canned" ]
+    "contents": [ { "id": "apple_canned", "count": 4 } ],
+    "sealed": true
   },
   {
     "id": "jar_broth",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "broth" ]
+    "contents": [ { "id": "broth", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_broth_bone",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "broth_bone" ]
+    "contents": [ { "id": "broth_bone", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_broth_human",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "broth_bone" ]
+    "contents": [ { "id": "broth_bone", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_fish_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "fish_canned" ]
+    "contents": [ { "id": "fish_canned", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_fish_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "fish_pickled" ]
+    "contents": [ { "id": "fish_pickled", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_human_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "meat_canned" ]
+    "contents": [ { "id": "meat_canned", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_human_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "meat_pickled" ]
+    "contents": [ { "id": "meat_pickled", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_kompot",
     "type": "MIGRATION",
     "replace": "jar_3l_glass_sealed",
-    "contents": [ "kompot" ]
+    "contents": [ { "id": "kompot", "count": 12 } ],
+    "sealed": true
   },
   {
     "id": "jar_meat_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "meat_canned" ]
+    "contents": [ { "id": "meat_canned", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_meat_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "meat_pickled" ]
+    "contents": [ { "id": "meat_pickled", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_soup_fish",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_fish" ]
+    "contents": [ { "id": "soup_fish", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_soup_human",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_meat" ]
+    "contents": [ { "id": "soup_meat", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_soup_meat",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_meat" ]
+    "contents": [ { "id": "soup_meat", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_soup_mushroom",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_mushroom" ]
+    "contents": [ { "id": "soup_mushroom", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_soup_veggy",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_veggy" ]
+    "contents": [ { "id": "soup_veggy", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_soup_woods",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "soup_woods" ]
+    "contents": [ { "id": "soup_woods", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_tomato_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "can_tomato" ]
+    "contents": [ { "id": "can_tomato", "count": 4 } ],
+    "sealed": true
   },
   {
     "id": "jar_veggy_canned",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "veggy_canned" ]
+    "contents": [ { "id": "veggy_canned", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_veggy_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "veggy_pickled" ]
+    "contents": [ { "id": "veggy_pickled", "count": 2 } ],
+    "sealed": true
   },
   {
     "id": "jar_eggs_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "pickled_egg" ]
+    "contents": [ { "id": "pickled_egg", "count": 6 } ],
+    "sealed": true
   },
   {
     "id": "jar_pickles_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "pickle" ]
+    "contents": [ { "id": "pickle", "count": 6 } ],
+    "sealed": true
   },
   {
     "id": "jar_sauerkraut_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ "sauerkraut" ]
+    "contents": [ { "id": "sauerkraut", "count": 4 } ],
+    "sealed": true
   },
   {
     "id": "m14a",
@@ -393,7 +419,7 @@
     "id": "saiga_sawn",
     "type": "MIGRATION",
     "replace": "saiga_12",
-    "contents": [ "barrel_small" ]
+    "contents": [ { "id": "barrel_small", "count": 1 } ]
   },
   {
     "id": "silver",

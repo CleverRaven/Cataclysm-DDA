@@ -1426,8 +1426,8 @@ void Item_factory::check_definitions() const
             debugmsg( "Invalid migration target: %s", e.second.replace.c_str() );
         }
         for( const auto &c : e.second.contents ) {
-            if( !m_templates.count( c ) ) {
-                debugmsg( "Invalid migration contents: %s", c.c_str() );
+            if( !m_templates.count( c.id ) ) {
+                debugmsg( "Invalid migration contents: %s", c.id.str() );
             }
         }
     }
@@ -2863,6 +2863,7 @@ void Item_factory::load_migration( const JsonObject &jo )
     assign( jo, "flags", m.flags );
     assign( jo, "charges", m.charges );
     assign( jo, "contents", m.contents );
+    assign( jo, "sealed", m.sealed );
 
     if( jo.has_string( "id" ) ) {
         jo.read( "id", m.id, true );
@@ -2877,6 +2878,18 @@ void Item_factory::load_migration( const JsonObject &jo )
     } else {
         jo.throw_error( "`id` of `MIGRATION` is neither string nor array" );
     }
+}
+
+bool migration::content::operator==( const content &rhs ) const
+{
+    return id == rhs.id && count == rhs.count;
+}
+
+void migration::content::deserialize( JsonIn &jsin )
+{
+    const JsonObject jsobj = jsin.get_object();
+    jsobj.get_member( "id" ).read( id );
+    jsobj.get_member( "count" ).read( count );
 }
 
 itype_id Item_factory::migrate_id( const itype_id &id )
@@ -2895,11 +2908,22 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
             obj.charges = iter->second.charges;
         }
 
-        for( const itype_id &id : iter->second.contents ) {
-            item content( id, obj.birthday() );
-            if( !obj.put_in( content, item_pocket::pocket_type::CONTAINER ).success() ) {
-                obj.put_in( content, item_pocket::pocket_type::MIGRATION );
+        for( const migration::content &it : iter->second.contents ) {
+            int count = it.count;
+            item content( it.id, obj.birthday(), 1 );
+            if( content.count_by_charges() ) {
+                content.charges = count;
+                count = 1;
             }
+            for( ; count > 0; --count ) {
+                if( !obj.put_in( content, item_pocket::pocket_type::CONTAINER ).success() ) {
+                    obj.put_in( content, item_pocket::pocket_type::MIGRATION );
+                }
+            }
+        }
+
+        if( iter->second.sealed ) {
+            obj.seal();
         }
     }
 }
