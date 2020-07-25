@@ -2497,8 +2497,28 @@ drop_locations inventory_drop_selector::execute()
 
     drop_locations dropped_pos_and_qty;
 
+    enum class drop_liquid {
+        ask, no, yes
+    } should_drop_liquid = drop_liquid::ask;
+
     for( const std::pair<item_location, int> &drop_pair : dropping ) {
-        dropped_pos_and_qty.push_back( drop_pair );
+        bool should_drop = true;
+        if( drop_pair.first->made_of_from_type( phase_id::LIQUID ) ) {
+            if( should_drop_liquid == drop_liquid::ask ) {
+                if( query_yn(
+                        _( "You are dropping liquid from its container.  You might not be able to pick it back up.  Really do so?" ) ) ) {
+                    should_drop_liquid = drop_liquid::yes;
+                } else {
+                    should_drop_liquid = drop_liquid::no;
+                }
+            }
+            if( should_drop_liquid == drop_liquid::no ) {
+                should_drop = false;
+            }
+        }
+        if( should_drop ) {
+            dropped_pos_and_qty.push_back( drop_pair );
+        }
     }
 
     return dropped_pos_and_qty;
