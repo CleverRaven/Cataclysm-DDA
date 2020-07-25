@@ -141,9 +141,8 @@
     },
     "origins": [ "ORIGIN_SECONDARY" ],
     "end": {
-      "update_mapgen": {
-        "place_monster": [ { "group": "GROUP_DINOSAUR_ZOMBIE", "x": 12, "y": 22 }, { "group": "GROUP_DINOSAUR_ZOMBIE", "x": 12, "y": 23 } ]
-      }
+      "opinion": { "trust": 1, "value": 1 },
+      "effect": [ { "u_buy_monster": "mon_zachycephalosaurus", "count": 1, "name": "Betty" } ]
     },
     "dialogue": {
       "describe": "We need help…",
@@ -152,7 +151,7 @@
       "rejected": "Come back when you get a chance, we really need to start reclaiming the region.",
       "advice": "Maybe bring a rope to bring the cattle back or something for them to eat.  They can be ornery cusses if you don't know how to treat them.",
       "inquire": "How is the search going?",
-      "success": "Oh.  Oh no.  We didn't think the dinosaurs could raise and we've killed so many of them.  We might be in trouble here.",
+      "success": "Oh.  Oh no.  We didn't think the dinosaurs could raise and we've killed so many of them.  We might be in trouble here.  Here's one now, I'll rip it apart!",
       "success_lie": "What good does this do us?",
       "failure": "It was a lost cause anyways…"
     }
