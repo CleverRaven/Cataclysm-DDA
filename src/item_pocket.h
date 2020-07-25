@@ -248,8 +248,6 @@ class item_pocket
         // only available to help with migration from previous usage of std::list<item>
         std::list<item> &edit_contents();
 
-        void migrate_item( item &obj, const std::set<itype_id> &migrations );
-
         // cost of getting an item from this pocket
         // @TODO: make move cost vary based on other contained items
         int obtain_cost( const item &it ) const;

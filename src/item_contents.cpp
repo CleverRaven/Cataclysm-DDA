@@ -807,13 +807,6 @@ item_contents::sealed_summary item_contents::get_sealed_summary() const
     }
 }
 
-void item_contents::migrate_item( item &obj, const std::set<itype_id> &migrations )
-{
-    for( item_pocket &pocket : contents ) {
-        pocket.migrate_item( obj, migrations );
-    }
-}
-
 bool item_contents::has_pocket_type( const item_pocket::pocket_type pk_type ) const
 {
     for( const item_pocket &pocket : contents ) {
