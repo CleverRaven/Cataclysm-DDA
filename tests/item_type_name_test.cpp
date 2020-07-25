@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <string>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "type_id.h"
 

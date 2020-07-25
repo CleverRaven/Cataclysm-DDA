@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <chrono>
 #include <cstdio>
@@ -7,7 +9,6 @@
 #include <vector>
 
 #include "cata_generators.h"
-#include "catch/catch.hpp"
 #include "coordinates.h"
 #include "line.h"
 #include "point.h"

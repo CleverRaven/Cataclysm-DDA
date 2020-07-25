@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 #include <sstream>
@@ -6,7 +8,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
 #include "field.h"

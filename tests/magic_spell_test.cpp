@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include "avatar.h"
 #include "game.h"
 #include "magic.h"
 
-#include "catch/catch.hpp"
 #include "player_helpers.h"
 #include "map_helpers.h"
 

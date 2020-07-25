@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cstdlib>
 #include <memory>
 #include <string>
@@ -5,7 +7,6 @@
 
 #include "avatar.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "itype.h"
 #include "player_helpers.h"

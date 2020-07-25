@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <climits>
 #include <map>
@@ -11,7 +13,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "itype.h"

@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "coordinates.h"
 #include "cuboid_rectangle.h"
 #include "point.h"

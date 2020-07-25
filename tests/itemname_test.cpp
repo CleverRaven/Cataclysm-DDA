@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "character.h"
 #include "player_helpers.h"
 #include "flat_set.h"

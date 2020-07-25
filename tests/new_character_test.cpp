@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <array>
 #include <cstddef>
 #include <functional>
@@ -11,7 +13,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
