@@ -223,7 +223,7 @@
   {
     "type": "MONSTER",
     "id": "mon_ziplodocus",
-    "name": { "str_sp": "Diplodocus zombie" },
+    "name": { "str": "Diplodocus zombie" },
     "copy-from": "mon_zamptosaurus",
     "looks_like": "mon_apatosaurus",
     "volume": "1000 L",
