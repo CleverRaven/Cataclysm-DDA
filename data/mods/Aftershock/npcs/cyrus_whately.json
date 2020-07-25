@@ -169,7 +169,32 @@
   {
     "id": "MISSION_FRANKENSTEIN_4",
     "type": "mission_definition",
-    "name": "A Mi-go, You-go find me some brains",
+    "name": "Broken Cyborg Corpse",
+    "description": "We need a strong base for our experiment.",
+    "goal": "MGOAL_FIND_ITEM",
+    "difficulty": 6,
+    "value": 0,
+    "item": "broken_broken_cyborg",
+    "count": 3,
+    "origins": [ "ORIGIN_SECONDARY" ],
+    "followup": "MISSION_FRANKENSTEIN_5",
+    "dialogue": {
+      "describe": "I need the corpse of a broken cyborg.  They are already brain dead so it won't be murder.",
+      "offer": "If you go to labs you should find some broken cyborg experiments.  Bring me the corpse of one.",
+      "accepted": "Are you ready for a little necromancy?",
+      "rejected": "I'm telling you they're already brain dead.",
+      "advice": "Look for surgical centers inside the labs.",
+      "inquire": "So where are my fresh parts?",
+      "success": "I've got something more potent for you this time.",
+      "success_lie": "Lies and the lying liars who tell them.",
+      "failure": "You are keeping me from my experiments.  Would you like to become one?"
+    },
+    "end": { "effect": [ { "u_buy_item": "iv_mutagen_migo", "container": "bottle_glass", "count": 3 } ] }
+  },
+  {
+    "id": "MISSION_FRANKENSTEIN_5",
+    "type": "mission_definition",
+    "name": "A-Mi-go, You-go find me some brains",
     "description": "Find 6 living brains in jars.",
     "//": "Sometime consider changing the end effect of this item and making the test site it's own quest.",
     "goal": "MGOAL_FIND_ITEM",
