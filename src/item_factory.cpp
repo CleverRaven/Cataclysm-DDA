@@ -2923,7 +2923,7 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
             }
         }
 
-        if( iter->second.sealed ) {
+        if( !iter->second.contents.empty() && iter->second.sealed ) {
             obj.seal();
         }
     }

@@ -60,7 +60,7 @@ class iuse_transform : public iuse_actor
         itype_id container;
 
         /** whether the transformed container is sealed */
-        bool sealed = false;
+        bool sealed = true;
 
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         int ammo_qty = -1;

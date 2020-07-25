@@ -57,7 +57,7 @@ class migration
                 void deserialize( JsonIn &jsin );
         };
         std::vector<content> contents;
-        bool sealed = false;
+        bool sealed = true;
 };
 
 struct item_blacklist_t {
