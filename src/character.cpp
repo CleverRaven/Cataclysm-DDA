@@ -8116,6 +8116,23 @@ int Character::item_store_cost( const item &it, const item & /* container */, bo
     return item_handling_cost( it, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
 }
 
+int Character::item_retrieve_cost( const item &it, const item& container, bool penalties,
+				   int base_cost ) const
+{
+	// Drawing from an holster use the same formula as storing an item for now
+	/**
+         * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
+         * @EFFECT_SMG decreases time taken to draw smgs from holsters
+         * @EFFECT_RIFLE decreases time taken to draw rifles from holsters
+         * @EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
+         * @EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
+         * @EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
+         * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
+         * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
+         */
+	return item_store_cost( it, container, penalties, base_cost );
+}
+
 int Character::item_wear_cost( const item &it ) const
 {
     double mv = item_handling_cost( it );

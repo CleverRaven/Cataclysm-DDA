@@ -1270,6 +1270,17 @@ class Character : public Creature, public visitable<Character>
         int item_store_cost( const item &it, const item &container, bool penalties = true,
                              int base_cost = INVENTORY_HANDLING_PENALTY ) const;
 
+	/**
+	 * Calculate (but do not deduct) the number of moves required when drawing a weapon from an holster or sheathe 
+	 * @param it Item to calculate retrieve cost for
+	 * @param container Container where the item is
+	 * @param penalties Whether item volume and temporary effects (e.g. GRABBED, DOWNED) should be considered.
+	 * @param base_cost Cost due to storage type.
+	 * @return cost in moves ranging from 0 to MAX_HANDLING_COST
+	 */
+	int item_retrieve_cost( const item &it, const item &container, bool penalties = true,
+				int base_cost = INVENTORY_HANDLING_PENALTY ) const;
+
         /** Calculate (but do not deduct) the number of moves required to wear an item */
         int item_wear_cost( const item &it ) const;
 
