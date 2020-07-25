@@ -371,7 +371,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zamptosaurus",
-    "name": { "str_sp": "Campto zombie" },
+    "name": { "str": "Campto zombie" },
     "looks_like": "mon_parasaurolophus",
     "species": [ "ZOMBIE" ],
     "default_faction": "zombie",
