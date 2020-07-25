@@ -2,6 +2,9 @@
 #ifndef CATA_SRC_GAME_CONSTANTS_H
 #define CATA_SRC_GAME_CONSTANTS_H
 
+#include <map>
+#include <string>
+
 // Fixed window sizes.
 static constexpr int HP_HEIGHT = 14;
 static constexpr int HP_WIDTH = 7;
