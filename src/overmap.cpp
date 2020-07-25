@@ -1414,16 +1414,15 @@ std::vector<point_abs_omt> overmap::find_extras( const int z, const std::string 
 
 bool overmap::inbounds( const tripoint_om_omt &p, int clearance )
 {
-    static constexpr tripoint overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
-    static constexpr tripoint overmap_boundary_max( OMAPX, OMAPY, OVERMAP_HEIGHT + 1 );
+    static constexpr tripoint_om_omt overmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
+    static constexpr tripoint_om_omt overmap_boundary_max( OMAPX, OMAPY, OVERMAP_HEIGHT + 1 );
 
-    static constexpr half_open_cuboid overmap_boundaries(
+    static constexpr half_open_cuboid<tripoint_om_omt> overmap_boundaries(
         overmap_boundary_min, overmap_boundary_max );
-    half_open_cuboid stricter_boundaries = overmap_boundaries;
+    half_open_cuboid<tripoint_om_omt> stricter_boundaries = overmap_boundaries;
     stricter_boundaries.shrink( tripoint( clearance, clearance, 0 ) );
 
-    // TODO: fix point types
-    return stricter_boundaries.contains( p.raw() );
+    return stricter_boundaries.contains( p );
 }
 
 const scent_trace &overmap::scent_at( const tripoint_abs_omt &loc ) const

@@ -555,7 +555,7 @@ size_t mapgen_function_json_base::calc_index( const point &p ) const
 static bool common_check_bounds( const jmapgen_int &x, const jmapgen_int &y,
                                  const point &mapgensize, const JsonObject &jso )
 {
-    half_open_rectangle bounds( point_zero, mapgensize );
+    half_open_rectangle<point> bounds( point_zero, mapgensize );
     if( !bounds.contains( point( x.val, y.val ) ) ) {
         return false;
     }

@@ -3195,7 +3195,7 @@ void mapgen_lake_shore( mapgendata &dat )
         line_segments.push_back( { sw, nw } );
     }
 
-    static constexpr inclusive_rectangle map_boundaries( nw_corner, se_corner );
+    static constexpr inclusive_rectangle<point> map_boundaries( nw_corner, se_corner );
 
     // This will draw our shallow water coastline from the "from" point to the "to" point.
     // It buffers the points a bit for a thicker line. It also clears any furniture that might
