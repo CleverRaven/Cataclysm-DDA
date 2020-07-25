@@ -746,7 +746,7 @@
     "use_action": {
       "target": "pickle",
       "container": "jar_glass_sealed",
-      "target_charges": 6,
+      "target_charges": 2,
       "sealed": true,
       "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
       "moves": 50,
@@ -831,7 +831,7 @@
     "use_action": {
       "target": "sauerkraut",
       "container": "jar_glass_sealed",
-      "target_charges": 4,
+      "target_charges": 2,
       "sealed": true,
       "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
       "moves": 50,

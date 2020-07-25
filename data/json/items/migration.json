@@ -370,14 +370,14 @@
     "id": "jar_pickles_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ { "id": "pickle", "count": 6 } ],
+    "contents": [ { "id": "pickle", "count": 2 } ],
     "sealed": true
   },
   {
     "id": "jar_sauerkraut_pickled",
     "type": "MIGRATION",
     "replace": "jar_glass_sealed",
-    "contents": [ { "id": "sauerkraut", "count": 4 } ],
+    "contents": [ { "id": "sauerkraut", "count": 2 } ],
     "sealed": true
   },
   {
