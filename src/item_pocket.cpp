@@ -421,14 +421,16 @@ int item_pocket::remaining_capacity_for_item( const item &it ) const
     if( item_copy.count_by_charges() ) {
         item_copy.charges = 1;
     }
-    int count_of_item = 0;
-    item_pocket pocket_copy( *this );
-    while( pocket_copy.can_contain( item_copy ).success()
-           && count_of_item < it.count() ) {
-        pocket_copy.insert_item( item_copy );
-        count_of_item++;
+    if( !can_contain( item_copy ).success() ) {
+        return 0;
     }
-    return count_of_item;
+    if( item_copy.count_by_charges() ) {
+        return std::min( { it.charges,
+                           item_copy.charges_per_volume( remaining_volume() ),
+                           item_copy.charges_per_weight( remaining_weight() ) } );
+    } else {
+        return 1;
+    }
 }
 
 units::volume item_pocket::item_size_modifier() const
