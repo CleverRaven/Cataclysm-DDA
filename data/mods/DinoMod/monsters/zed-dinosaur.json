@@ -444,7 +444,7 @@
   },
   {
     "type": "MONSTER",
-    "id": "mon_edmontosaurus",
+    "id": "mon_zedmontosaurus",
     "name": { "str_sp": "Edmontosaurus zombie" },
     "copy-from": "mon_zamptosaurus",
     "looks_like": "mon_parasaurolophus",
