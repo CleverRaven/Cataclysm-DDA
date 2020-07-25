@@ -700,7 +700,7 @@
       [ "rope_6", 50 ],
       [ "rag_bloody", 40 ],
       [ "spike", 30 ],
-      { "item": "blood", "prob": 10, "container-item": "jar_3l_glass_sealed" },
+      { "item": "blood", "prob": 10, "container-item": "jar_3l_glass_sealed", "sealed": false },
       [ "bone_human", 10 ],
       [ "bondage_mask", 10 ],
       [ "zentai", 5 ],

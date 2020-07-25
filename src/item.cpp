@@ -861,10 +861,11 @@ bool item::is_worn_only_with( const item &it ) const
 
 item item::in_its_container( int qty ) const
 {
-    return in_container( type->default_container.value_or( "null" ), qty );
+    return in_container( type->default_container.value_or( "null" ), qty,
+                         type->default_container_sealed );
 }
 
-item item::in_container( const itype_id &cont, int qty ) const
+item item::in_container( const itype_id &cont, const int qty, const bool sealed ) const
 {
     if( !cont.is_null() ) {
         item ret( cont, birthday() );
@@ -876,7 +877,9 @@ item item::in_container( const itype_id &cont, int qty ) const
             }
 
             ret.invlet = invlet;
-            ret.seal();
+            if( sealed ) {
+                ret.seal();
+            }
             if( !ret.has_item_with( [&cont]( const item & it ) {
             return it.typeId() == cont;
             } ) ) {

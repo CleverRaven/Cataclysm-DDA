@@ -2622,6 +2622,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "cutting", def.melee[DT_CUT], strict, 0 );
     assign( jo, "to_hit", def.m_to_hit, strict );
     assign( jo, "container", def.default_container );
+    assign( jo, "sealed", def.default_container_sealed );
     assign( jo, "min_strength", def.min_str );
     assign( jo, "min_dexterity", def.min_dex );
     assign( jo, "min_intelligence", def.min_int );
@@ -3179,6 +3180,10 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
+    if( obj.has_member( "sealed" ) ) {
+        modifier.sealed = obj.get_bool( "sealed" );
+        use_modifier = true;
+    }
     use_modifier |= load_string( modifier.custom_flags, obj, "custom-flags" );
     if( use_modifier ) {
         sptr->modifier.emplace( std::move( modifier ) );
@@ -3266,6 +3271,9 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &gr
     }
     if( jsobj.has_string( "container-item" ) ) {
         ig->set_container_item( itype_id( jsobj.get_string( "container-item" ) ) );
+    }
+    if( jsobj.has_member( "sealed" ) ) {
+        ig->sealed = jsobj.get_bool( "sealed" );
     }
 }
 

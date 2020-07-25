@@ -13,6 +13,7 @@
     "count": 540,
     "phase": "liquid",
     "container": "jar_3l_glass_sealed",
+    "sealed": false,
     "symbol": "!",
     "color": "cyan",
     "looks_like": "ether"

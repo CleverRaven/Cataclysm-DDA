@@ -155,6 +155,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     // automatically set contained if we specify as container
     assign( jo, "contained", contained, strict );
     contained |= assign( jo, "container", container, strict );
+    assign( jo, "sealed", sealed, strict );
 
     if( jo.has_array( "batch_time_factors" ) ) {
         auto batch = jo.get_array( "batch_time_factors" );
@@ -490,9 +491,9 @@ item recipe::create_result() const
 
     if( contained ) {
         if( newit.count_by_charges() ) {
-            newit = newit.in_container( container, newit.charges );
+            newit = newit.in_container( container, newit.charges, sealed );
         } else {
-            newit = newit.in_container( container );
+            newit = newit.in_container( container, item::INFINITE_CHARGES, sealed );
         }
     }
 
