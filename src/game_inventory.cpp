@@ -1226,7 +1226,9 @@ class weapon_inventory_preset: public inventory_selector_preset
             }, _( "MOVES" ) );
 
             append_cell( [this]( const item_location & loc ) {
-                return string_format( "<color_yellow>%d</color>", loc.obtain_cost( this->p ) + (this->p.is_wielding(*loc.get_item()) ? 0 : (*loc.get_item()).on_wield_cost(this->p)) );
+                return string_format( "<color_yellow>%d</color>",
+                                      loc.obtain_cost( this->p ) + ( this->p.is_wielding( *loc.get_item() ) ? 0 :
+                                              ( *loc.get_item() ).on_wield_cost( this->p ) ) );
             }, _( "WIELD COST" ) );
         }
 

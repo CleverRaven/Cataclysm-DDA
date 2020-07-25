@@ -1321,12 +1321,12 @@ class item : public visitable<item>
          * vector but will be removed immediately after the function returns
          */
         void on_takeoff( Character &p );
-	
-	/**
-	 * Calculate (but do not deduct) the number of moves required to wield this weapon 
-	 */
-	int on_wield_cost( const player &p ) const;
-	
+
+        /**
+         * Calculate (but do not deduct) the number of moves required to wield this weapon
+         */
+        int on_wield_cost( const player &p ) const;
+
         /**
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
