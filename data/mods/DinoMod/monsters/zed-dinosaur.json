@@ -424,7 +424,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zorythosaurus",
-    "name": { "str_sp": "Corythosaurus zombie" },
+    "name": { "str": "Corythosaurus zombie" },
     "copy-from": "mon_zamptosaurus",
     "looks_like": "mon_parasaurolophus",
     "volume": "1000 L",
