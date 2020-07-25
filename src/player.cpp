@@ -3549,6 +3549,12 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
         }
         inv.unsort();
     }
+    
+    // for holsters, we should not include the cost of wielding the holster itself
+    // It looks like the cost of wielding the container is removed earlier, but I can't found where.
+    // As such, I'm re-adding it here.
+    item_location il = item_location(*this,&container);
+    mv -= il.obtain_cost(*this);
 
     weapon = std::move( *internal_item );
     container.remove_item( *internal_item );
