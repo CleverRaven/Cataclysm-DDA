@@ -529,7 +529,7 @@ std::string effect::disp_name() const
             return std::string();
         }
         ret += eff_type->name[0].translated();
-        if( intensity > 1 ) {
+        if( intensity > 1 && eff_type->show_intensity ) {
             if( eff_type->id == effect_bandaged || eff_type->id == effect_disinfected ) {
                 ret += string_format( " [%s]", texitify_healing_power( intensity ) );
             } else {
@@ -1314,6 +1314,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );
+    new_etype.show_intensity = jo.get_bool( "show_intensity", true );
     new_etype.pkill_addict_reduces = jo.get_bool( "pkill_addict_reduces", false );
 
     new_etype.pain_sizing = jo.get_bool( "pain_sizing", false );
