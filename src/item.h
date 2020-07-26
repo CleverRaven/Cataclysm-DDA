@@ -1366,6 +1366,7 @@ class item : public visitable<item>
          * For items not counted by charges, this returns vol / this->volume().
          */
         int charges_per_volume( const units::volume &vol ) const;
+        int charges_per_weight( const units::mass &m ) const;
 
         /**
          * @name Item variables
