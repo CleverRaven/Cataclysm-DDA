@@ -13,7 +13,7 @@
     "color": "light_gray",
     "location": "brass catcher",
     "mod_targets": [ "shotgun", "smg", "rifle", "pistol", "launcher" ],
-	  "pocket_mods": [
+	  "pocket_data": [
 		  {
 			  "pocket_type": "CONTAINER",
 			  "rigid": true,
