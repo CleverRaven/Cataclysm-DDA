@@ -745,7 +745,7 @@ void spell::use_components( Character &guy ) const
     for( const std::vector<item_comp> &comp_vec : spell_components.get_components() ) {
         guy.consume_items( guy.select_item_component( comp_vec, 1, map_inv ), 1 );
     }
-    for( const std::vector<tool_comp> tool_vec : spell_components.get_tools() ) {
+    for( const std::vector<tool_comp> &tool_vec : spell_components.get_tools() ) {
         guy.consume_tools( guy.select_tool_component( tool_vec, 1, map_inv ), 1 );
     }
 }
