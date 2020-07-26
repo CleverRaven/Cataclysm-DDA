@@ -230,11 +230,11 @@
       "update_mapgen": [
         {
           "om_terrain": "mortuary_2story",
-          "place_nested": [ { "chunks": [ [ "whately_cousin", 15 ], [ "null", 35 ] ], "x": [ 16, 19 ], "y": [ 15, 22 ] } ]
+          "place_nested": [ { "chunks": "whately_cousin", "x":  16, "y":  15  } ]
         },
         {
           "om_terrain": "mortuary_2story",
-          "place_nested": [ { "chunks": [ [ "whately_bioturret_update", 15 ], [ "null", 35 ] ], "x": [ 19, 23 ], "y": [ 15, 22 ] } ]
+          "place_nested": [ { "chunks": "whately_bioturret_update", "x":  19, "y":  15 } ]
         }
       ]
     }
