@@ -1120,6 +1120,8 @@ Crafting recipes are defined as a JSON object with the following fields:
       "required": false, // Whether or not you must have the proficiency to craft it. Incompatible with `time_multiplier`
       "time_multiplier": 2.0 // The multiplier on time taken to craft this recipe if you do not have this proficiency
       "fail_multiplier": 2.5 // The multiplier on failure chance when crafting without this proficiency. Defaults to 2.5. Multiple proficiencies will multiply this value. (if all have the default, it's fail_multiplier ^ n, where n is the number of proficiencies that are lacked)
+      "learning_time_multiplier": 1.2 // The multiplier on learning speed for this proficiency. By default, it's the time of the recipe, divded by the time multiplier, and by the number of proficiencies that can also be learned from it.
+      "max_experience": "15 m" // This recipe cannot raise your experience for that proficiency above 15 minutes worth.
     }
 ]
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.

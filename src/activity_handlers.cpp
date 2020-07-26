@@ -3710,6 +3710,9 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     int five_percent_steps = craft->item_counter / 500'000 - old_counter / 500'000;
     if( five_percent_steps > 0 ) {
         p->craft_skill_gain( *craft, five_percent_steps );
+        // Divide by 100 for seconds, 20 for 5%
+        const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
+        p->craft_proficiency_gain( *craft, pct_time * five_percent_steps );
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end

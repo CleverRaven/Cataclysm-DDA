@@ -91,6 +91,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -546,9 +547,12 @@ void Character::load( const JsonObject &data )
     data.read( "healthy_mod", healthy_mod );
 
     // Remove check after 0.F
-    if( savegame_loading_version >= 30 ) {
+    if( savegame_loading_version == 30 ) {
+        _proficiencies->deserialize_legacy( data.get_array( "proficiencies" ) );
+    } else if( savegame_loading_version > 30 ) {
         data.read( "proficiencies", _proficiencies );
     }
+
 
     //energy
     data.read( "stim", stim );

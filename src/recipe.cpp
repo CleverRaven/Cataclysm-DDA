@@ -61,7 +61,7 @@ time_duration recipe::time_to_craft( const Character &guy, recipe_time_flag flag
 
 int recipe::time_to_craft_moves( const Character &guy, recipe_time_flag flags ) const
 {
-    if( flags == recipe_time_flag::none ) {
+    if( flags == recipe_time_flag::ignore_proficiencies ) {
         return time;
     }
     int ret = time;
@@ -397,6 +397,7 @@ void recipe::finalize()
             debugmsg( "proficiency %s provides a bonus for not being known in recipe %s", rpof.id.str(),
                       ident_.str() );
         }
+
         // Now that we've done the error checking, log that a proficiency with this id is used
         if( rpof.required ) {
             required.insert( rpof.id );
@@ -933,4 +934,6 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "required", required );
     jo.read( "time_multiplier", time_multiplier );
     jo.read( "fail_multiplier", fail_multiplier );
+    jo.read( "learning_time_multiplier", learning_time_mult );
+    jo.read( "max_experience", max_experience );
 }

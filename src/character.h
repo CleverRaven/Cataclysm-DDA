@@ -59,6 +59,7 @@ class SkillLevel;
 class SkillLevelMap;
 class basecamp;
 class bionic_collection;
+struct display_proficiency;
 class faction;
 class player;
 class player_morale;
@@ -74,6 +75,7 @@ struct mutation_branch;
 struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
+class proficiency_set;
 template <typename E> struct enum_traits;
 enum npc_attitude : int;
 
@@ -1597,11 +1599,13 @@ class Character : public Creature, public visitable<Character>
         int intimidation() const;
 
         // --------------- Proficiency Stuff ----------------
-        // (bit short at the moment)
         bool has_proficiency( const proficiency_id &prof ) const;
         void add_proficiency( const proficiency_id &prof );
         void lose_proficiency( const proficiency_id &prof );
-        const std::set<proficiency_id> &proficiencies() const;
+        void practice_proficiency( const proficiency_id &prof, time_duration amount,
+                                   cata::optional<time_duration> max = cata::nullopt );
+        std::vector<display_proficiency> display_proficiencies() const;
+
 
         // --------------- Other Stuff ---------------
 
@@ -2308,6 +2312,12 @@ class Character : public Creature, public visitable<Character>
          */
         void craft_skill_gain( const item &craft, const int &multiplier );
         /**
+         * Handle proficiency practice for player and followers while crafting
+         * @param craft - the in progress craft
+         * @param time - the amount of time since the last practice tick
+         */
+        void craft_proficiency_gain( const item &craft, time_duration time );
+        /**
          * Check if the player can disassemble an item using the current crafting inventory
          * @param obj Object to check for disassembly
          * @param inv current crafting inventory
@@ -2488,7 +2498,7 @@ class Character : public Creature, public visitable<Character>
         // --------------- Values ---------------
         pimpl<SkillLevelMap> _skills;
 
-        std::set<proficiency_id> _proficiencies;
+        pimpl<proficiency_set> _proficiencies;
 
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
