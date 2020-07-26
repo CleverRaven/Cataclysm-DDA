@@ -14,6 +14,7 @@
     "location": "brass catcher",
     "mod_targets": [ "shotgun", "smg", "rifle", "pistol", "launcher" ],
     "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "249 ml", "max_contains_weight": "1 kg" } ],
+    "flags": [ "BRASS_CATCHER" ],
     "min_skills": [ [ "weapon", 1 ] ]
   }
 ]

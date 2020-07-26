@@ -1573,7 +1573,7 @@ static void cycle_action( item &weap, const tripoint &pos )
         cargo = vp->vehicle().get_parts_at( pos, "CARGO", part_status_flag::any );
     }
 
-    item *brass_catcher = weap.gunmod_find( itype_brass_catcher );
+    item *brass_catcher = weap.gunmod_find_by_flag( "BRASS_CATCHER" );
     if( weap.ammo_data() && weap.ammo_data()->ammo->casing ) {
         const itype_id casing = *weap.ammo_data()->ammo->casing;
         if( weap.has_flag( "RELOAD_EJECT" ) ) {
