@@ -240,7 +240,7 @@ class inventory_holster_preset : public inventory_selector_preset
             item item_copy( *contained );
             item_copy.charges = 1;
             return holster->contents.can_contain( item_copy ).success() && !holster->has_item( *contained ) &&
-                   holster.parents_can_contain_recursive( &item_copy );
+                   !contained->is_bucket_nonempty() && holster.parents_can_contain_recursive( &item_copy );
         }
     private:
         // this is the item that we are putting something into
