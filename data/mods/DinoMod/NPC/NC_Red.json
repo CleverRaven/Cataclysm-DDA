@@ -12,7 +12,7 @@
   },
   {
     "type": "talk_topic",
-    "id": "TALK_RED",
+    "id": "TALK_OLD_GUARD_RED",
     "dynamic_line": {
       "u_has_var": "talked_to_red",
       "type": "dialogue",
