@@ -99,6 +99,9 @@ class effect_type
         // Determines if effect should be shown in description.
         bool show_in_info = false;
 
+        // Determines if effect should show intensity value next to its name in EFFECTS tab.
+        bool show_intensity = false;
+
         std::vector<trait_id> resist_traits;
         std::vector<efftype_id> resist_effects;
         std::vector<efftype_id> removes_effects;
