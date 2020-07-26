@@ -119,23 +119,6 @@
     ]
   },
   {
-    "id": "virology_lab_fridge",
-    "type": "item_group",
-    "items": [
-      [ "blood", 300 ],
-      [ "vacutainer", 100 ],
-      [ "jar_glass_sealed", 30 ],
-      [ "jar_3l_glass_sealed", 15 ],
-      [ "hygrometer", 3 ],
-      [ "chem_nitric_acid", 15 ],
-      [ "denat_alcohol", 100 ],
-      [ "thermometer", 50 ],
-      [ "vaccine_shot", 50 ],
-      [ "flu_shot", 50 ],
-      [ "disinfectant", 35 ]
-    ]
-  },
-  {
     "id": "rocketry_lab",
     "type": "item_group",
     "items": [
