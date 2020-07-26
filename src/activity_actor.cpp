@@ -727,21 +727,20 @@ void move_items_activity_actor::do_turn( player_activity &act, Character &who )
             continue;
         }
 
-        // Don't need to make a copy here since movement can't be canceled
-        item &leftovers = *target;
-        // Make a copy to be put in the destination location
-        item newit = leftovers;
-
-        // Handle charges, quantity == 0 means move all
-        if( quantity != 0 && newit.count_by_charges() ) {
-            newit.charges = std::min( newit.charges, quantity );
-            leftovers.charges -= quantity;
-        } else {
-            leftovers.charges = 0;
-        }
-
         // Check that we can pick it up.
-        if( !newit.made_of_from_type( phase_id::LIQUID ) ) {
+        if( !target->made_of_from_type( phase_id::LIQUID ) ) {
+            // Don't need to make a copy here since movement can't be canceled
+            item &leftovers = *target;
+            // Make a copy to be put in the destination location
+            item newit = leftovers;
+            // Handle charges, quantity == 0 means move all
+            if( quantity != 0 && newit.count_by_charges() ) {
+                newit.charges = std::min( newit.charges, quantity );
+                leftovers.charges -= quantity;
+            } else {
+                leftovers.charges = 0;
+            }
+
             // This is for hauling across zlevels, remove when going up and down stairs
             // is no longer teleportation
             if( newit.is_owned_by( who, true ) ) {
