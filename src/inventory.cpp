@@ -449,6 +449,12 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
 {
     items.clear();
     for( const tripoint &p : pts ) {
+        // a temporary hack while trees are terrain
+        if( m.ter( p )->has_flag( "TREE" ) ) {
+            item tree_pseudo( "butchery_tree_pseudo" );
+            tree_pseudo.item_tags.insert( "PSEUDO" );
+            add_item( tree_pseudo );
+        }
         if( m.has_furn( p ) ) {
             const furn_t &f = m.furn( p ).obj();
             const itype *type = f.crafting_pseudo_item_type();
