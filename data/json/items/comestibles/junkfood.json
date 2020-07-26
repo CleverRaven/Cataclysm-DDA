@@ -1053,7 +1053,7 @@
     "comestible_type": "FOOD",
     "symbol": "%",
     "healthy": -1,
-    "monotony_penalty" : 1,
+    "monotony_penalty": 1,
     "calories": 659,
     "description": "Battered and fried onions.  Crunchy and delicious.",
     "price": 400,

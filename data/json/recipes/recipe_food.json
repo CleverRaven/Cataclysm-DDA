@@ -829,7 +829,14 @@
     "tools": [ [ [ "char_smoker", 5 ] ] ],
     "components": [
       [ [ "meat_red", 1, "LIST" ] ],
-      [ [ "salt", 2 ], [ "soysauce", 1 ], [ "seasoning_italian", 2 ], [ "pepper", 2 ], [ "wild_herbs", 2 ], [ "seasoning_salt", 2 ] ]
+      [
+        [ "salt", 2 ],
+        [ "soysauce", 1 ],
+        [ "seasoning_italian", 2 ],
+        [ "pepper", 2 ],
+        [ "wild_herbs", 2 ],
+        [ "seasoning_salt", 2 ]
+      ]
     ]
   },
   {
