@@ -651,6 +651,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ## Generic
 
+These flags can be applied via JSON item definition to most items.  Not to be confused with the set of flags listed under Tools > Flags that apply to items, which cannot be assigned via JSON.
+
 ### Flags
 
 - ```ANESTHESIA``` ... Item is considered anesthesia for the purpose of installing or uninstalling bionics.
