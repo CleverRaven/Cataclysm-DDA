@@ -1324,9 +1324,9 @@ std::vector<aim_type> Character::get_aim_types( const item &gun ) const
 }
 
 static void update_targets( player &pc, int range, std::vector<Creature *> &targets, int &idx,
-                            const tripoint &src, tripoint &dst )
+                            const tripoint &src, tripoint &dst, turret_data &turret )
 {
-    targets = ranged::targetable_creatures( pc, range );
+    targets = ranged::targetable_creatures( pc, range, turret );
 
     // Convert and check last_target_pos is a valid aim point
     cata::optional<tripoint> local_last_tgt_pos = cata::nullopt;
@@ -1392,7 +1392,7 @@ static void update_targets( player &pc, int range, std::vector<Creature *> &targ
 
 // TODO: Shunt redundant drawing code elsewhere
 std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
-        item *relevant, int range, const itype *ammo, turret_data *turret, vehicle *veh,
+        item *relevant, int range, const itype *ammo, turret_data *turret_ptr, vehicle *veh,
         const std::vector<vehicle_part *> &vturrets )
 {
     // TODO: this should return a reference to a static vector which is cleared on each call.
@@ -1413,7 +1413,10 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
     std::vector<Creature *> t;
     int target = 0;
 
-    update_targets( pc, range, t, target, src, dst );
+    // TODO: Make less ugly
+    turret_data dummy;
+    turret_data &turret = turret_ptr != nullptr ? *turret_ptr : dummy;
+    update_targets( pc, range, t, target, src, dst, turret );
 
     double recoil_pc = pc.recoil;
     tripoint recoil_pos = dst;
@@ -1813,13 +1816,13 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                     relevant->gun_cycle_mode();
                 }
                 if( mode == TARGET_MODE_TURRET_MANUAL ) {
-                    itype_id ammo_current = turret->ammo_current();
+                    itype_id ammo_current = turret_ptr->ammo_current();
                     if( ammo_current == "null" ) {
                         ammo = nullptr;
                         range = 0;
                     } else {
                         ammo = item::find_type( ammo_current );
-                        range = turret->range();
+                        range = turret_ptr->range();
                     }
                 } else {
                     ammo = relevant->gun_current_mode().target->ammo_data();
@@ -1831,12 +1834,12 @@ std::vector<tripoint> target_handler::target_ui( player &pc, target_mode mode,
                 // skip this action
             } else if( mode == TARGET_MODE_TURRET_MANUAL ) {
                 // For turrets that use vehicle tanks & can fire multiple liquids
-                if( turret->ammo_options().size() > 1 ) {
-                    const auto opts = turret->ammo_options();
-                    auto iter = opts.find( turret->ammo_current() );
-                    turret->ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
-                    ammo = item::find_type( turret->ammo_current() );
-                    range = turret->range();
+                if( turret_ptr->ammo_options().size() > 1 ) {
+                    const auto opts = turret_ptr->ammo_options();
+                    auto iter = opts.find( turret_ptr->ammo_current() );
+                    turret_ptr->ammo_select( ++iter != opts.end() ? *iter : *opts.begin() );
+                    ammo = item::find_type( turret_ptr->ammo_current() );
+                    range = turret_ptr->range();
                 }
             } else if( !pc.has_item( *relevant ) ) {
                 add_msg( m_info, _( "You can't reload a %s!" ), relevant->tname() );
@@ -2028,7 +2031,8 @@ std::vector<tripoint> target_handler::target_ui( spell &casting, const bool no_f
     int target = 0;
     int range = static_cast<int>( casting.range() );
 
-    update_targets( pc, range, t, target, src, dst );
+    turret_data dummy;
+    update_targets( pc, range, t, target, src, dst, dummy );
 
     input_context ctxt( "TARGET" );
     ctxt.set_iso( true );
@@ -2732,9 +2736,10 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
 }
 
 std::vector<Creature *> targetable_creatures( const Character &c, const int range,
-        const turret_data & )
+        const turret_data &turret )
 {
-    return g->get_creatures_if( [&c, range]( const Creature & critter ) -> bool {
+    const vehicle *veh_from_turret = turret ? turret.get_veh() : nullptr;
+    return g->get_creatures_if( [&c, range, veh_from_turret]( const Creature & critter ) -> bool {
         if( std::round( rl_dist_exact( c.pos(), critter.pos() ) ) > range )
         {
             return false;
@@ -2751,12 +2756,24 @@ std::vector<Creature *> targetable_creatures( const Character &c, const int rang
             return false;
         }
 
-        // Handles the case where we can see something with glass in the way or a mutation lets us see through walls
         // TODO: It should use projectile passability checks when finding path, not vision checks.
         std::vector<tripoint> path = g->m.find_clear_path( c.pos(), critter.pos() );
         for( const tripoint &point : path )
         {
-            if( g->m.impassable( point ) ) {
+            if( g->m.passable( point ) ) {
+                // If it's passable, it doesn't block bullets
+                continue;
+            }
+
+            const vehicle *veh_at_point = veh_pointer_or_null( g->m.veh_at( point ) );
+            if( veh_at_point && veh_at_point != veh_from_turret ) {
+                // Vehicles don't have impassable-but-shootable-through parts
+                return false;
+            }
+            if( !g->m.has_flag_ter( TFLAG_TRANSPARENT, point ) ) {
+                // If it's transparent, it's either glass (fine) or reinforced glass (not fine)
+                // Hack it with the more common case for now
+                // TODO: Handle armored glass
                 return false;
             }
         }

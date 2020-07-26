@@ -485,6 +485,10 @@ class turret_data
         item_location base();
         item_location base() const;
 
+        const vehicle *get_veh() const {
+            return veh;
+        }
+
         /** Quantity of ammunition available for use */
         int ammo_remaining() const;
 
