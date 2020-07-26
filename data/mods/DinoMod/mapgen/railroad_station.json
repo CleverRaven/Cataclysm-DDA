@@ -119,7 +119,9 @@
       "place_npcs": [
         { "class": "old_guard_red", "x": 27, "y": 23 },
         { "class": "guard", "x": 25, "y": 25 },
-        { "class": "guard", "x": 29, "y": 25 }
+        { "class": "guard", "x": 29, "y": 25 },
+        { "class": "guard", "x": 25, "y": 30 },
+        { "class": "guard", "x": 29, "y": 30 }
       ]
     }
   },
