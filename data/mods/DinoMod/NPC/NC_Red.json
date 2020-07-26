@@ -46,7 +46,7 @@
         "topic": "TALK_SUGGEST_FOLLOW_RED",
         "condition": { "not": "npc_following" }
       },
-      { "text": "Let's trade items.", "topic": "TALK_RED", "effect": "start_trade" },
+      { "text": "Let's trade items.", "topic": "TALK_OLD_GUARD_RED", "effect": "start_trade" },
       {
         "text": "How can I help?",
         "topic": "TALK_MISSION_LIST",
@@ -61,7 +61,7 @@
     "dynamic_line": "They just started showing up about the same time it all fell apart.  They attack the caravans and the bandits both.  Hungry bastards.  All dinosaurs are shoot on sight.  We don't eat them, they're probably poisoned with whatever got the dead ones.  Just leave them for the crows.  Same with the eggs.",
     "responses": [
       { "text": "Kill all dinosaurs, interesting…", "topic": "TALK_MISSION_LIST" },
-      { "text": "Probably not important.", "topic": "TALK_RED" }
+      { "text": "Probably not important.", "topic": "TALK_OLD_GUARD_RED" }
     ]
   },
   {
