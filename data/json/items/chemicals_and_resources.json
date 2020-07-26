@@ -12,7 +12,8 @@
     "ammo_type": "anesthetic",
     "count": 540,
     "phase": "liquid",
-    "container": "jar_3l_glass",
+    "container": "jar_3l_glass_sealed",
+    "sealed": false,
     "symbol": "!",
     "color": "cyan",
     "looks_like": "ether"
@@ -222,7 +223,8 @@
     "charges": 2,
     "category": "chems",
     "fun": -30,
-    "freezing_point": 17
+    "freezing_point": 17,
+    "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "bleach spill" } ]
   },
   {
     "type": "COMESTIBLE",

@@ -1951,8 +1951,10 @@
   {
     "type": "effect_type",
     "id": "irradiated",
-    "//": "No name or desc. Hidden from player, encourages use of radiation detection equipment",
+    "name": [ "Weakness" ],
+    "//": "No description. It's intended that exact reason should be unknown to player, encourages use of radiation detection equipment",
     "max_intensity": 2000,
+    "show_intensity": false,
     "int_dur_factor": "10 s",
     "scaling_mods": { "speed_mod": [ -0.2 ], "str_mod": [ -0.125 ], "dex_mod": [ -0.09 ], "int_mod": [ -0.1 ], "per_mod": [ -0.083 ] }
   },

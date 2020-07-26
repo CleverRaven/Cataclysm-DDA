@@ -783,10 +783,27 @@ bool item_contents::seal_all_pockets()
     return any_sealed;
 }
 
-void item_contents::migrate_item( item &obj, const std::set<itype_id> &migrations )
+item_contents::sealed_summary item_contents::get_sealed_summary() const
 {
-    for( item_pocket &pocket : contents ) {
-        pocket.migrate_item( obj, migrations );
+    bool any_sealed = false;
+    bool any_unsealed = false;
+    for( const item_pocket &pocket : contents ) {
+        if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
+            if( pocket.sealed() ) {
+                any_sealed = true;
+            } else {
+                any_unsealed = true;
+            }
+        }
+    }
+    if( any_sealed ) {
+        if( any_unsealed ) {
+            return sealed_summary::part_sealed;
+        } else {
+            return sealed_summary::all_sealed;
+        }
+    } else {
+        return sealed_summary::unsealed;
     }
 }
 

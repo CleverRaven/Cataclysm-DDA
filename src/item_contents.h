@@ -179,6 +179,13 @@ class item_contents
         // returns true if any pocket was sealed
         bool seal_all_pockets();
 
+        enum class sealed_summary {
+            unsealed,
+            part_sealed,
+            all_sealed,
+        };
+        sealed_summary get_sealed_summary() const;
+
         // heats up the contents if they have temperature
         void heat_up();
         // returns amount of ammo consumed
@@ -218,7 +225,6 @@ class item_contents
         void process( player *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
-        void migrate_item( item &obj, const std::set<itype_id> &migrations );
         bool item_has_uses_recursive() const;
         bool stacks_with( const item_contents &rhs ) const;
         bool same_contents( const item_contents &rhs ) const;

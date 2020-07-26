@@ -264,7 +264,7 @@
     "book_learn": [ [ "cookbook", 6 ], [ "manual_canning", 4 ] ],
     "container": "jar_glass_sealed",
     "charges": 8,
-    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass", 1 ] ], [ [ "liver", 8 ] ] ]
+    "components": [ [ [ "water", 11 ], [ "water_clean", 11 ] ], [ [ "jar_glass_sealed", 1 ] ], [ [ "liver", 8 ] ] ]
   },
   {
     "type": "recipe",

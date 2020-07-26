@@ -186,7 +186,7 @@
       [ "medical_gauze", 10 ],
       [ "medical_tape", 45 ],
       [ "wrapped_rad_badge", 15 ],
-      [ "jar_glass", 20 ],
+      [ "jar_glass_sealed", 20 ],
       [ "fan", 5 ],
       [ "cleansuit", 10 ],
       [ "pouch_autoclave", 15 ],
@@ -202,7 +202,7 @@
       [ "survnote", 1 ],
       [ "diazepam", 10 ],
       [ "stethoscope", 35 ],
-      [ "jar_3l_glass", 15 ],
+      [ "jar_3l_glass_sealed", 15 ],
       [ "magnifying_glass", 5 ],
       [ "chem_hydrogen_peroxide", 5 ],
       [ "strong_antibiotic", 1 ],
@@ -497,8 +497,8 @@
     "items": [
       { "item": "glass_shard", "prob": 100, "count-min": 8, "count-max": 168 },
       [ "bottle_glass", 30 ],
-      [ "jar_glass", 20 ],
-      [ "jar_3l_glass", 10 ]
+      [ "jar_glass_sealed", 20 ],
+      [ "jar_3l_glass_sealed", 10 ]
     ]
   },
   {
@@ -683,7 +683,7 @@
       [ "glasses_eye", 20 ],
       { "item": "marble", "prob": 20, "charges-min": 1, "charges-max": 3 },
       [ "fish_bowl", 15 ],
-      [ "jar_3l_glass", 120 ],
+      [ "jar_3l_glass_sealed", 120 ],
       [ "magnifying_glass", 20 ],
       [ "mirror", 30 ],
       { "item": "glass_shard", "prob": 650, "count": [ 1, 8 ] },
@@ -693,7 +693,7 @@
       [ "glass_plate", 80 ],
       [ "bottle_glass", 150 ],
       [ "pipe_glass", 10 ],
-      [ "jar_glass", 120 ],
+      [ "jar_glass_sealed", 120 ],
       [ "flask_glass", 60 ],
       [ "tempered_glass_sheet", 5 ]
     ]
@@ -863,8 +863,8 @@
       [ "halligan", 1 ],
       [ "fire_ax", 2 ],
       [ "spray_can", 50 ],
-      [ "jar_glass", 10 ],
-      [ "jar_3l_glass", 8 ],
+      [ "jar_glass_sealed", 10 ],
+      [ "jar_3l_glass_sealed", 8 ],
       [ "flyer", 10 ],
       [ "gasoline_lantern", 10 ],
       [ "electric_lantern", 8 ],
@@ -1124,7 +1124,7 @@
       [ "pan", 60 ],
       [ "coke", 10 ],
       [ "meth", 90 ],
-      [ "jar_glass", 80 ],
+      [ "jar_glass_sealed", 80 ],
       [ "heroin", 1 ],
       { "item": "bleach", "prob": 60, "charges-min": 10 },
       { "item": "ammonia", "prob": 60, "charges-min": 10 },
@@ -1897,8 +1897,8 @@
       { "item": "extinguisher", "prob": 25 },
       { "item": "hotplate", "prob": 15 },
       { "item": "funnel", "prob": 50 },
-      { "item": "jar_glass", "prob": 20 },
-      { "item": "jar_3l_glass", "prob": 15 },
+      { "item": "jar_glass_sealed", "prob": 20 },
+      { "item": "jar_3l_glass_sealed", "prob": 15 },
       { "item": "apron_leather", "prob": 6 },
       { "item": "pur_tablets", "prob": 15 },
       { "item": "lye_powder", "prob": 10 },

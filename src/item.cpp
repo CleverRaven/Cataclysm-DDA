@@ -526,6 +526,9 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 item &item::convert( const itype_id &new_type )
 {
     type = find_type( new_type );
+    item_contents new_contents = item_contents( type->pockets );
+    new_contents.combine( contents );
+    contents = new_contents;
     return *this;
 }
 
@@ -858,10 +861,11 @@ bool item::is_worn_only_with( const item &it ) const
 
 item item::in_its_container( int qty ) const
 {
-    return in_container( type->default_container.value_or( "null" ), qty );
+    return in_container( type->default_container.value_or( "null" ), qty,
+                         type->default_container_sealed );
 }
 
-item item::in_container( const itype_id &cont, int qty ) const
+item item::in_container( const itype_id &cont, const int qty, const bool sealed ) const
 {
     if( !cont.is_null() ) {
         item ret( cont, birthday() );
@@ -873,7 +877,9 @@ item item::in_container( const itype_id &cont, int qty ) const
             }
 
             ret.invlet = invlet;
-            ret.seal();
+            if( sealed ) {
+                ret.seal();
+            }
             if( !ret.has_item_with( [&cont]( const item & it ) {
             return it.typeId() == cont;
             } ) ) {
@@ -933,6 +939,24 @@ int item::charges_per_volume( const units::volume &vol ) const
             return INFINITE_CHARGES;
         }
         return vol / my_volume;
+    }
+}
+
+int item::charges_per_weight( const units::mass &m ) const
+{
+    if( count_by_charges() ) {
+        if( type->weight == 0_gram ) {
+            debugmsg( "Item '%s' with zero weight", tname() );
+            return INFINITE_CHARGES;
+        }
+        return m / type->weight;
+    } else {
+        units::mass my_weight = weight();
+        if( my_weight == 0_gram ) {
+            debugmsg( "Item '%s' with zero weight", tname() );
+            return INFINITE_CHARGES;
+        }
+        return m / my_weight;
     }
 }
 
@@ -4666,6 +4690,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         // Usually the items whose ids end in "_on" have the "active" or "on" string already contained
         // in their name, also food is active while it rots.
         tagtext += _( " (active)" );
+    }
+    switch( contents.get_sealed_summary() ) {
+        case item_contents::sealed_summary::unsealed:
+            break;
+        case item_contents::sealed_summary::part_sealed:
+            tagtext += _( " (part sealed)" );
+            break;
+        case item_contents::sealed_summary::all_sealed:
+            tagtext += _( " (sealed)" );
+            break;
     }
 
     if( is_favorite ) {
@@ -8485,27 +8519,44 @@ int item::fill_with( const itype &contained, const int amount )
     }
 
     item contained_item( &contained );
-    if( contained_item.count_by_charges() ) {
-        contained_item.charges = 1;
-    }
-
+    const bool count_by_charges = contained_item.count_by_charges();
     item_location loc;
-    item_pocket *pocket = best_pocket( contained_item, loc ).second;
-    if( pocket == nullptr ) {
-        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
-                  contained_item.typeId().str(), typeId().str() );
-        return 0;
-    }
+    item_pocket *pocket = nullptr;
 
     int num_contained = 0;
-    while( pocket != nullptr && amount > num_contained ) {
-        if( !pocket->insert_item( contained_item ).success() ) {
-            break;
-        }
-        num_contained++;
-        if( !pocket->can_contain( contained_item ).success() ) {
+    while( amount > num_contained ) {
+        if( count_by_charges || pocket == nullptr ||
+            !pocket->can_contain( contained_item ).success() ) {
+            if( count_by_charges ) {
+                contained_item.charges = 1;
+            }
             pocket = best_pocket( contained_item, loc ).second;
         }
+        if( pocket == nullptr ) {
+            break;
+        }
+        if( count_by_charges ) {
+            contained_item.charges = std::min( { amount - num_contained,
+                                                 contained_item.charges_per_volume( pocket->remaining_volume() ),
+                                                 contained_item.charges_per_weight( pocket->remaining_weight() ) } );
+        }
+        if( !pocket->insert_item( contained_item ).success() ) {
+            if( count_by_charges ) {
+                debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
+            } else {
+                debugmsg( "best pocket for item cannot actually contain the item" );
+            }
+            break;
+        }
+        if( count_by_charges ) {
+            num_contained += contained_item.charges;
+        } else {
+            num_contained++;
+        }
+    }
+    if( num_contained == 0 ) {
+        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
+                  contained_item.typeId().str(), typeId().str() );
     }
     return num_contained;
 }
