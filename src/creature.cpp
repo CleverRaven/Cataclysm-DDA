@@ -749,7 +749,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
 
     if( proj.proj_effects.count( "ROBOT_DAZZLE" ) ) {
-        if( goodhit < accuracy_critical &&  in_species( species_ROBOT ) ) {
+        if( goodhit < accuracy_critical && in_species( species_ROBOT ) ) {
             add_effect( effect_stunned, rng( 6_turns, 8_turns ) );
         }
     }

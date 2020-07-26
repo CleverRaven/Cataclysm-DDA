@@ -253,7 +253,7 @@
       "offer": "We find ourselves in need of a robotic chassis of a TALON UGV.  Our scout drones have already revealed the location of a stray robot that fits our purposes, and we simply ask you to intercept it, disable it, and retrieve it for us.  We will equip you with a prototype gun fit for this purpose, if you accept.",
       "accepted": "Remember, the UGV you bring back must remain operational, a broken robot is of no use to us.",
       "rejected": "Regrettable, but understandable.  We will find someone else.",
-      "advice": "The hm12 will only stun the robot if you manage to hit one of it sensors, so we suggest you get as close as possible before making the shot.  You'll also have only one chance to make the shot, so its better if you familiarize yourself with the gun beforehand.",
+      "advice": "The hm12 will only stun the robot if you manage to hit one of its sensors, so we suggest you to get as close as possible before making the shot.  You'll also have only one chance to make the shot, so it's better if you familiarize yourself with the gun beforehand.",
       "inquire": "Have you found the robot?",
       "success": "We expected nothing less.  We hope you found our prototype's performance to be satisfactory.",
       "success_lie": "What good does this do us?",
