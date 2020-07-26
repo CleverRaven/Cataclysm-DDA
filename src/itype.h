@@ -887,6 +887,7 @@ struct itype {
 
         // The container it comes in
         cata::optional<itype_id> default_container;
+        bool default_container_sealed = true;
 
         std::map<quality_id, int> qualities; //Tool quality indicators
         std::map<std::string, std::string> properties;

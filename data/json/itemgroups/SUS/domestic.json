@@ -483,10 +483,10 @@
       { "item": "tea_green_raw", "count": [ 1, 10 ], "prob": 40 },
       { "item": "teapot", "prob": 70 },
       { "item": "kettle", "prob": 50 },
-      { "item": "sugar", "charges": [ 10, 120 ], "container-item": "jar_glass", "prob": 90 },
+      { "item": "sugar", "charges": [ 10, 120 ], "container-item": "jar_glass_sealed", "prob": 90, "sealed": false },
       {
         "distribution": [
-          { "item": "milk_powder", "charges": [ 5, 20 ], "container-item": "jar_glass", "prob": 60 },
+          { "item": "milk_powder", "charges": [ 5, 20 ], "container-item": "jar_glass_sealed", "prob": 60, "sealed": false },
           { "item": "con_milk", "count": [ 1, 6 ], "prob": 10 },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
           { "item": "milk_UHT", "prob": 10 }
@@ -535,7 +535,7 @@
       },
       {
         "distribution": [
-          { "item": "milk_powder", "charges": [ 5, 20 ], "container-item": "jar_glass", "prob": 60 },
+          { "item": "milk_powder", "charges": [ 5, 20 ], "container-item": "jar_glass_sealed", "prob": 60, "sealed": false },
           { "item": "milk_evap", "count": [ 1, 6 ], "prob": 20 },
           { "item": "milk_UHT", "prob": 20 }
         ],
@@ -577,11 +577,11 @@
         "distribution": [ { "item": "lunchmeat", "prob": 60 }, { "item": "bologna", "prob": 40 }, { "item": "tofu", "prob": 30 } ],
         "prob": 60
       },
-      { "item": "jar_sauerkraut_pickled", "charges-min": 1, "prob": 25 },
-      { "item": "pickle", "prob": 60, "charges-min": 1, "container-item": "jar_glass" },
-      { "item": "meat_pickled", "prob": 10, "charges-min": 1, "container-item": "jar_glass" },
-      { "item": "fish_pickled", "prob": 20, "charges-min": 1, "container-item": "jar_glass" },
-      { "item": "veggy_pickled", "prob": 40, "charges-min": 1, "container-item": "jar_glass" },
+      { "item": "sauerkraut", "charges-min": 1, "prob": 25, "container-item": "jar_glass_sealed", "sealed": false },
+      { "item": "pickle", "prob": 60, "charges-min": 1, "container-item": "jar_glass_sealed", "sealed": false },
+      { "item": "meat_pickled", "prob": 10, "charges-min": 1, "container-item": "jar_glass_sealed", "sealed": false },
+      { "item": "fish_pickled", "prob": 20, "charges-min": 1, "container-item": "jar_glass_sealed", "sealed": false },
+      { "item": "veggy_pickled", "prob": 40, "charges-min": 1, "container-item": "jar_glass_sealed", "sealed": false },
       {
         "distribution": [
           { "item": "veggy_salad", "charges-min": 1, "prob": 10 },

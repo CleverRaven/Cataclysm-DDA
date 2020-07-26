@@ -226,6 +226,9 @@ class recipe
         /** Does the item spawn contained in container? */
         bool contained = false;
 
+        /** Does the container spawn sealed? */
+        bool sealed = true;
+
         /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
         bool reversible = false;
 

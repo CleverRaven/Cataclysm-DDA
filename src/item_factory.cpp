@@ -1426,8 +1426,8 @@ void Item_factory::check_definitions() const
             debugmsg( "Invalid migration target: %s", e.second.replace.c_str() );
         }
         for( const auto &c : e.second.contents ) {
-            if( !m_templates.count( c ) ) {
-                debugmsg( "Invalid migration contents: %s", c.c_str() );
+            if( !m_templates.count( c.id ) ) {
+                debugmsg( "Invalid migration contents: %s", c.id.str() );
             }
         }
     }
@@ -2622,6 +2622,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "cutting", def.melee[DT_CUT], strict, 0 );
     assign( jo, "to_hit", def.m_to_hit, strict );
     assign( jo, "container", def.default_container );
+    assign( jo, "sealed", def.default_container_sealed );
     assign( jo, "min_strength", def.min_str );
     assign( jo, "min_dexterity", def.min_dex );
     assign( jo, "min_intelligence", def.min_int );
@@ -2863,6 +2864,7 @@ void Item_factory::load_migration( const JsonObject &jo )
     assign( jo, "flags", m.flags );
     assign( jo, "charges", m.charges );
     assign( jo, "contents", m.contents );
+    assign( jo, "sealed", m.sealed );
 
     if( jo.has_string( "id" ) ) {
         jo.read( "id", m.id, true );
@@ -2877,6 +2879,18 @@ void Item_factory::load_migration( const JsonObject &jo )
     } else {
         jo.throw_error( "`id` of `MIGRATION` is neither string nor array" );
     }
+}
+
+bool migration::content::operator==( const content &rhs ) const
+{
+    return id == rhs.id && count == rhs.count;
+}
+
+void migration::content::deserialize( JsonIn &jsin )
+{
+    const JsonObject jsobj = jsin.get_object();
+    jsobj.get_member( "id" ).read( id );
+    jsobj.get_member( "count" ).read( count );
 }
 
 itype_id Item_factory::migrate_id( const itype_id &id )
@@ -2895,7 +2909,23 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
             obj.charges = iter->second.charges;
         }
 
-        obj.contents.migrate_item( obj, iter->second.contents );
+        for( const migration::content &it : iter->second.contents ) {
+            int count = it.count;
+            item content( it.id, obj.birthday(), 1 );
+            if( content.count_by_charges() ) {
+                content.charges = count;
+                count = 1;
+            }
+            for( ; count > 0; --count ) {
+                if( !obj.put_in( content, item_pocket::pocket_type::CONTAINER ).success() ) {
+                    obj.put_in( content, item_pocket::pocket_type::MIGRATION );
+                }
+            }
+        }
+
+        if( !iter->second.contents.empty() && iter->second.sealed ) {
+            obj.seal();
+        }
     }
 }
 
@@ -3150,6 +3180,10 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
+    if( obj.has_member( "sealed" ) ) {
+        modifier.sealed = obj.get_bool( "sealed" );
+        use_modifier = true;
+    }
     use_modifier |= load_string( modifier.custom_flags, obj, "custom-flags" );
     if( use_modifier ) {
         sptr->modifier.emplace( std::move( modifier ) );
@@ -3237,6 +3271,9 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &gr
     }
     if( jsobj.has_string( "container-item" ) ) {
         ig->set_container_item( itype_id( jsobj.get_string( "container-item" ) ) );
+    }
+    if( jsobj.has_member( "sealed" ) ) {
+        ig->sealed = jsobj.get_bool( "sealed" );
     }
 }
 
