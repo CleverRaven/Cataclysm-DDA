@@ -49,7 +49,7 @@ clean:
 $(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: %.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) -DCATCH_CONFIG_ENABLE_PAIR_STRINGMAKER $(CXXFLAGS) -c $< -o $@
 
 .PHONY: clean check tests precompile_header
 
