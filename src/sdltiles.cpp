@@ -52,6 +52,7 @@
 #include "path_info.h"
 #include "point.h"
 #include "sdl_wrappers.h"
+#include "sdl_geometry.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
 #include "ui_manager.h"
@@ -94,10 +95,6 @@ std::unique_ptr<cata_tiles> tilecontext;
 static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
-
-// used to replace SDL_RenderFillRect with a more efficient SDL_RenderCopy
-SDL_Texture_Ptr alt_rect_tex = nullptr;
-bool alt_rect_tex_enabled = false;
 
 std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
 
@@ -222,6 +219,7 @@ static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
 static SDL_PixelFormat_Ptr format;
 static SDL_Texture_Ptr display_buffer;
+static GeometryRenderer_Ptr geometry;
 #if defined(__ANDROID__)
 static SDL_Texture_Ptr touch_joystick;
 #endif
@@ -260,45 +258,6 @@ static int fontScaleBuffer; //tracking zoom levels to fix framebuffer w/tiles
 //***********************************
 //Non-curses, Window functions      *
 //***********************************
-static void generate_alt_rect_texture()
-{
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    static const Uint32 rmask = 0xff000000;
-    static const Uint32 gmask = 0x00ff0000;
-    static const Uint32 bmask = 0x0000ff00;
-    static const Uint32 amask = 0x000000ff;
-#else
-    static const Uint32 rmask = 0x000000ff;
-    static const Uint32 gmask = 0x0000ff00;
-    static const Uint32 bmask = 0x00ff0000;
-    static const Uint32 amask = 0xff000000;
-#endif
-
-    SDL_Surface_Ptr alt_surf( SDL_CreateRGBSurface( 0, 1, 1, 32, rmask, gmask, bmask, amask ) );
-    if( alt_surf ) {
-        FillRect( alt_surf, nullptr, SDL_MapRGB( alt_surf->format, 255, 255, 255 ) );
-
-        alt_rect_tex.reset( SDL_CreateTextureFromSurface( renderer.get(), alt_surf.get() ) );
-        alt_surf.reset();
-
-        // Test to make sure color modulation is supported by renderer
-        alt_rect_tex_enabled = !SetTextureColorMod( alt_rect_tex, 0, 0, 0 );
-        if( !alt_rect_tex_enabled ) {
-            alt_rect_tex.reset();
-        }
-        DebugLog( D_INFO, DC_ALL ) << "generate_alt_rect_texture() = " << ( alt_rect_tex_enabled ? "FAIL" :
-                                   "SUCCESS" ) << ". alt_rect_tex_enabled = " << alt_rect_tex_enabled;
-    } else {
-        DebugLog( D_ERROR, DC_ALL ) << "CreateRGBSurface failed: " << SDL_GetError();
-    }
-}
-
-void draw_alt_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
-                    Uint32 r, Uint32 g, Uint32 b )
-{
-    SetTextureColorMod( alt_rect_tex, r, g, b );
-    RenderCopy( renderer, alt_rect_tex, nullptr, &rect );
-}
 
 static bool operator==( const cata_cursesport::WINDOW *const lhs, const catacurses::window &rhs )
 {
@@ -505,7 +464,6 @@ static void WinCreate()
     }
 
     if( software_renderer ) {
-        alt_rect_tex_enabled = false;
         if( get_option<bool>( "FRAMEBUFFER_ACCEL" ) ) {
             SDL_SetHint( SDL_HINT_FRAMEBUFFER_ACCELERATION, "1" );
         }
@@ -564,10 +522,11 @@ static void WinCreate()
     DebugLog( D_INFO, DC_ALL ) << "USE_COLOR_MODULATED_TEXTURES is set to " <<
                                get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" );
     //initialize the alternate rectangle texture for replacing SDL_RenderFillRect
-    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) ) {
-        generate_alt_rect_texture();
+    if( get_option<bool>( "USE_COLOR_MODULATED_TEXTURES" ) && !software_renderer ) {
+        geometry = std::make_unique<ColorModulatedGeometryRenderer>( renderer );
+    } else {
+        geometry = std::make_unique<DefaultGeometryRenderer>();
     }
-
 }
 
 static void WinDestroy()
@@ -581,67 +540,20 @@ static void WinDestroy()
 
     if( joystick ) {
         SDL_JoystickClose( joystick );
-        alt_rect_tex.reset();
 
         joystick = nullptr;
     }
+    geometry.reset();
     format.reset();
     display_buffer.reset();
     renderer.reset();
     ::window.reset();
 }
 
-inline void FillRectDIB_SDLColor( const SDL_Rect &rect, const SDL_Color &color )
+/// Converts a color from colorscheme to SDL_Color.
+inline const SDL_Color &color_as_sdl( const unsigned char color )
 {
-    if( alt_rect_tex_enabled ) {
-        draw_alt_rect( renderer, rect, color.r, color.g, color.b );
-    } else {
-        SetRenderDrawColor( renderer, color.r, color.g, color.b, color.a );
-        RenderFillRect( renderer, &rect );
-    }
-}
-
-inline void FillRectDIB( const SDL_Rect &rect, const unsigned char color,
-                         const unsigned char alpha = 255 )
-{
-    const SDL_Color sdl_color = { windowsPalette[color].r, windowsPalette[color].g, windowsPalette[color].b, alpha };
-    FillRectDIB_SDLColor( rect, sdl_color );
-}
-
-//The following 3 methods use mem functions for fast drawing
-inline void VertLineDIB( const point &p, int y2, int thickness, unsigned char color )
-{
-    SDL_Rect rect;
-    rect.x = p.x;
-    rect.y = p.y;
-    rect.w = thickness;
-    rect.h = y2 - p.y;
-    FillRectDIB( rect, color );
-}
-inline void HorzLineDIB( const point &p, int x2, int thickness, unsigned char color )
-{
-    SDL_Rect rect;
-    rect.x = p.x;
-    rect.y = p.y;
-    rect.w = x2 - p.x;
-    rect.h = thickness;
-    FillRectDIB( rect, color );
-}
-inline void FillRectDIB( const point &p, int width, int height, unsigned char color )
-{
-    SDL_Rect rect;
-    rect.x = p.x;
-    rect.y = p.y;
-    rect.w = width;
-    rect.h = height;
-    FillRectDIB( rect, color );
-}
-
-inline void fill_rect_xywh_color( const point &p, int width, int height,
-                                  const SDL_Color &color )
-{
-    const SDL_Rect rect = { p.x, p.y, width, height };
-    FillRectDIB_SDLColor( rect, color );
+    return windowsPalette[color];
 }
 
 SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color )
@@ -945,71 +857,92 @@ void set_displaybuffer_rendertarget()
 // FG is a curses color
 void Font::draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const
 {
+    const SDL_Color &color = color_as_sdl( FG );
     switch( line_id ) {
         // box bottom/top side (horizontal line)
         case LINE_OXOX_C:
-            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, FG );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
+                                       color );
             break;
         // box left/right side (vertical line)
         case LINE_XOXO_C:
-            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, FG );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
+                                     color );
             break;
         // box top left
         case LINE_OXXO_C:
-            HorzLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.x + fontwidth,
-                         1,
-                         FG );
-            VertLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.y + fontheight,
-                         2,
-                         FG );
+            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                       draw.x + fontwidth,
+                                       1,
+                                       color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                     draw.y + fontheight,
+                                     2,
+                                     color );
             break;
         // box top right
         case LINE_OOXX_C:
-            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + ( fontwidth / 2 ), 1, FG );
-            VertLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.y + fontheight,
-                         2,
-                         FG );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ),
+                                       draw.x + ( fontwidth / 2 ), 1, color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                     draw.y + fontheight,
+                                     2,
+                                     color );
             break;
         // box bottom right
         case LINE_XOOX_C:
-            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + ( fontwidth / 2 ), 1, FG );
-            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + ( fontheight / 2 ) + 1, 2, FG );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ),
+                                       draw.x + ( fontwidth / 2 ), 1, color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ),
+                                     draw.y + ( fontheight / 2 ) + 1, 2, color );
             break;
         // box bottom left
         case LINE_XXOO_C:
-            HorzLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.x + fontwidth,
-                         1,
-                         FG );
-            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + ( fontheight / 2 ) + 1, 2, FG );
+            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                       draw.x + fontwidth,
+                                       1,
+                                       color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ),
+                                     draw.y + ( fontheight / 2 ) + 1, 2, color );
             break;
         // box bottom north T (left, right, up)
         case LINE_XXOX_C:
-            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, FG );
-            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + ( fontheight / 2 ), 2, FG );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
+                                       color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ),
+                                     draw.y + ( fontheight / 2 ), 2, color );
             break;
         // box bottom east T (up, right, down)
         case LINE_XXXO_C:
-            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, FG );
-            HorzLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.x + fontwidth,
-                         1,
-                         FG );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
+                                     color );
+            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                       draw.x + fontwidth,
+                                       1,
+                                       color );
             break;
         // box bottom south T (left, right, down)
         case LINE_OXXX_C:
-            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, FG );
-            VertLineDIB( draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), draw.y + fontheight,
-                         2,
-                         FG );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
+                                       color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                     draw.y + fontheight,
+                                     2,
+                                     color );
             break;
         // box X (left down up right)
         case LINE_XXXX_C:
-            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1, FG );
-            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, FG );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
+                                       color );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
+                                     color );
             break;
         // box bottom east T (left, down, up)
         case LINE_XOXX_C:
-            VertLineDIB( draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2, FG );
-            HorzLineDIB( draw + point( 0, ( fontheight / 2 ) ), draw.x + ( fontwidth / 2 ), 1, FG );
+            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
+                                     color );
+            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ),
+                                       draw.x + ( fontwidth / 2 ), 1, color );
             break;
         default:
             break;
@@ -1114,8 +1047,8 @@ void cata_cursesport::handle_additional_window_clear( WINDOW *win )
 void clear_window_area( const catacurses::window &win_ )
 {
     cata_cursesport::WINDOW *const win = win_.get<cata_cursesport::WINDOW>();
-    FillRectDIB( point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-                 win->width * fontwidth, win->height * fontheight, catacurses::black );
+    geometry->rect( renderer, point( win->pos.x * fontwidth, win->pos.y * fontheight ),
+                    win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
 }
 
 void cata_cursesport::curses_drawwindow( const catacurses::window &w )
@@ -1149,8 +1082,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             GetRenderDrawBlendMode( renderer, blend_mode ); // save the current blend mode
             SetRenderDrawBlendMode( renderer, color_blocks.first ); // set the new blend mode
             for( const auto &e : color_blocks.second ) {
-                fill_rect_xywh_color( e.first, tilecontext->get_tile_width(),
-                                      tilecontext->get_tile_height(), e.second );
+                geometry->rect( renderer, e.first, tilecontext->get_tile_width(),
+                                tilecontext->get_tile_height(), e.second );
             }
             SetRenderDrawBlendMode( renderer, blend_mode ); // set the old blend mode
         }
@@ -1224,17 +1157,18 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
                                        map_font->fontheight, 0 );
         //Gap between terrain and lower window edge
         if( partial_height > 0 ) {
-            FillRectDIB( point( win->pos.x * map_font->fontwidth,
-                                ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight ),
-                         TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, catacurses::black );
+            geometry->rect( renderer, point( win->pos.x * map_font->fontwidth,
+                                             ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight ),
+                            TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height,
+                            color_as_sdl( catacurses::black ) );
         }
         //Gap between terrain and sidebar
         if( partial_width > 0 ) {
-            FillRectDIB( point( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth,
-                                win->pos.y * map_font->fontheight ),
-                         partial_width,
-                         TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height,
-                         catacurses::black );
+            geometry->rect( renderer, point( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth,
+                                             win->pos.y * map_font->fontheight ),
+                            partial_width,
+                            TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height,
+                            color_as_sdl( catacurses::black ) );
         }
         // Special font for the terrain window
         update = map_font->draw_window( w );
@@ -1375,7 +1309,7 @@ bool Font::draw_window( const catacurses::window &w, const point &offset )
 
             // Spaces are used a lot, so this does help noticeably
             if( cell.ch == space_string ) {
-                FillRectDIB( point( drawx, drawy ), fontwidth, fontheight, cell.BG );
+                geometry->rect( renderer, point( drawx, drawy ), fontwidth, fontheight, color_as_sdl( cell.BG ) );
                 continue;
             }
             const int codepoint = UTF8_getch( cell.ch );
@@ -1429,7 +1363,7 @@ bool Font::draw_window( const catacurses::window &w, const point &offset )
                     use_draw_ascii_lines_routine = false;
                     break;
             }
-            FillRectDIB( point( drawx, drawy ), fontwidth * cw, fontheight, BG );
+            geometry->rect( renderer, point( drawx, drawy ), fontwidth * cw, fontheight, color_as_sdl( BG ) );
             if( use_draw_ascii_lines_routine ) {
                 draw_ascii_lines( uc, point( drawx, drawy ), FG );
             } else {
@@ -3568,7 +3502,7 @@ void catacurses::init_interface()
     WinCreate();
 
     dbg( D_INFO ) << "Initializing SDL Tiles context";
-    tilecontext = std::make_unique<cata_tiles>( renderer );
+    tilecontext = std::make_unique<cata_tiles>( renderer, geometry );
     try {
         tilecontext->load_tileset( get_option<std::string>( "TILES" ), true );
     } catch( const std::exception &err ) {
