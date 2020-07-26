@@ -280,13 +280,16 @@
     "id": "cookbook_foodfashions",
     "type": "BOOK",
     "name": { "str": "Food Fashions for Young Moderns", "str_pl": "copies of Food Fashions" },
-    "description": "A cookbook professing itself to be for those seeking \"daring and sophisticated flavors.\"  The book exhorts the reader to defy convention and break the rules, and then presents a number of useful rules and conventions for preparing food.",
+    "description": "A cookbook professing itself to be for those seeking \"daring and sophisticated flavors.\"  The book exhorts the reader to defy convention and break the rules, and then presents a number of useful rules and conventions.",
+    "weight": "600 g",
+    "volume": "800 ml",
     "price": 3999,
     "price_postapoc": 750,
     "required_level": 2,
     "max_level": 4,
     "intelligence": 7,
-    "copy-from": "cookbook_liverforkids"
+    "time": "12 m",
+    "copy-from": "book_nonf_hard_cook_tpl"
   },
   {
     "id": "winemaking_beginner",
