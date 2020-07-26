@@ -640,7 +640,7 @@
     "default": "mon_zow",
     "monsters": [
       { "monster": "mon_zow", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 3 ] },
-      { "monster": "mon_zombull", "freq": 75, "cost_multiplier": 1, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_zombull", "freq": 75, "cost_multiplier": 1, "pack_size": [ 1, 2 ], "starts": 72 }
     ]
   }
 ]
