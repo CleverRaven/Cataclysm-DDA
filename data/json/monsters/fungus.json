@@ -83,7 +83,7 @@
     "armor_cut": 10,
     "armor_bullet": 8,
     "harvest": "exempt",
-    "special_attacks": [ [ "FUNGUS_BRISTLE", 10 ] ],
+    "special_attacks": [ [ "FUNGUS_BRISTLE", 10 ], [ "FUNGUS", 30 ] ],
     "death_function": [ "DISINTEGRATE" ],
     "flags": [ "NOHEAD", "POISON", "NO_BREATHE", "IMMOBILE" ]
   },
