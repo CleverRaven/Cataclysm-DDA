@@ -851,7 +851,7 @@ bool vehicle::fold_up()
 
     // add_item_or_charges returns a reference to the placed item, or a null item if the
     // item could not be placed anywhere (usually because it's too large).
-    if( g->m.add_item_or_charges( global_part_pos3( 0 ), folded.value() ).is_null() ) {
+    if( get_map().add_item_or_charges( global_part_pos3( 0 ), folded.value() ).is_null() ) {
         add_msg( _( "There is no space nearby to put the folded %s." ), name );
         return false;
     }
