@@ -230,16 +230,7 @@ inventory_selector_preset::inventory_selector_preset()
 bool inventory_selector_preset::sort_compare( const inventory_entry &lhs,
         const inventory_entry &rhs ) const
 {
-    Character &player_character = get_player_character();
-    // Place items with an assigned inventory letter first, since the player cared enough to assign them
-    const bool left_fav  = player_character.inv.assigned_invlet.count( lhs.any_item()->invlet );
-    const bool right_fav = player_character.inv.assigned_invlet.count( rhs.any_item()->invlet );
-    if( left_fav == right_fav ) {
-        return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
-    } else if( left_fav ) {
-        return true;
-    }
-    return false;
+    return lhs.cached_name.compare( rhs.cached_name ) < 0; // Simple alphabetic order
 }
 
 nc_color inventory_selector_preset::get_color( const inventory_entry &entry ) const
@@ -608,6 +599,12 @@ const inventory_entry &inventory_column::get_selected() const
     return entries[selected_index];
 }
 
+inventory_entry &inventory_column::get_selected()
+{
+    return const_cast<inventory_entry &>( const_cast<const inventory_column *>
+                                          ( this )->get_selected() );
+}
+
 std::vector<inventory_entry *> inventory_column::get_all_selected() const
 {
     const auto filter_to_selected = [&]( const inventory_entry & entry ) {
@@ -632,73 +629,41 @@ std::vector<inventory_entry *> inventory_column::get_entries(
     return res;
 }
 
-void inventory_column::set_stack_favorite( const item_location &location, bool favorite )
+void inventory_column::set_stack_favorite( std::vector<item_location> &locations,
+        const bool favorite )
 {
-    const item *selected_item = location.get_item();
-    std::list<item *> to_favorite;
-    map &here = get_map();
-    Character &player_character = get_player_character();
-
-    if( location.where() == item_location::type::character ) {
-        int position = player_character.get_item_position( selected_item );
-
-        if( position < 0 ) {
-            // worn/wielded
-            player_character.i_at( position ).set_favorite( !selected_item->is_favorite );
-        } else {
-            // in inventory
-            player_character.inv.set_stack_favorite( position, !selected_item->is_favorite );
-        }
-    } else if( location.where() == item_location::type::map ) {
-        map_stack items = here.i_at( location.position() );
-
-        for( auto &item : items ) {
-            if( item.stacks_with( *selected_item ) ) {
-                to_favorite.push_back( &item );
-            }
-        }
-        for( auto &item : to_favorite ) {
-            item->set_favorite( favorite );
-        }
-    } else if( location.where() == item_location::type::vehicle ) {
-        const cata::optional<vpart_reference> vp = here.veh_at(
-                    location.position() ).part_with_feature( "CARGO", true );
-        assert( vp );
-
-        auto items = vp->vehicle().get_items( vp->part_index() );
-
-        for( auto &item : items ) {
-            if( item.stacks_with( *selected_item ) ) {
-                to_favorite.push_back( &item );
-            }
-        }
-        for( auto *item : to_favorite ) {
-            item->set_favorite( favorite );
-        }
+    for( item_location &loc : locations ) {
+        loc->set_favorite( favorite );
     }
 }
 
 void inventory_column::on_input( const inventory_input &input )
 {
-    if( empty() || !active ) {
-        return; // ignore
+
+    if( !empty() && active ) {
+        if( input.action == "DOWN" ) {
+            move_selection( scroll_direction::FORWARD );
+        } else if( input.action == "UP" ) {
+            move_selection( scroll_direction::BACKWARD );
+        } else if( input.action == "NEXT_TAB" ) {
+            move_selection_page( scroll_direction::FORWARD );
+        } else if( input.action == "PREV_TAB" ) {
+            move_selection_page( scroll_direction::BACKWARD );
+        } else if( input.action == "HOME" ) {
+            select( 0, scroll_direction::FORWARD );
+        } else if( input.action == "END" ) {
+            select( entries.size() - 1, scroll_direction::BACKWARD );
+        } else if( input.action == "TOGGLE_FAVORITE" ) {
+            inventory_entry &selected = get_selected();
+            set_stack_favorite( selected.locations, !selected.any_item()->is_favorite );
+        }
     }
 
-    if( input.action == "DOWN" ) {
-        move_selection( scroll_direction::FORWARD );
-    } else if( input.action == "UP" ) {
-        move_selection( scroll_direction::BACKWARD );
-    } else if( input.action == "NEXT_TAB" ) {
-        move_selection_page( scroll_direction::FORWARD );
-    } else if( input.action == "PREV_TAB" ) {
-        move_selection_page( scroll_direction::BACKWARD );
-    } else if( input.action == "HOME" ) {
-        select( 0, scroll_direction::FORWARD );
-    } else if( input.action == "END" ) {
-        select( entries.size() - 1, scroll_direction::BACKWARD );
-    } else if( input.action == "TOGGLE_FAVORITE" ) {
-        const item_location &loc = get_selected().any_item();
-        set_stack_favorite( loc, !loc->is_favorite );
+    if( input.action == "TOGGLE_FAVORITE" ) {
+        // Favoriting items in one column may change item names in another column
+        // if that column contains an item that contains the favorited item. So
+        // we invalidate every column on TOGGLE_FAVORITE action.
+        paging_is_valid = false;
     }
 }
 
@@ -830,23 +795,38 @@ void inventory_column::prepare_paging( const std::string &filter )
         return !entry.is_item() || !filter_fn( entry );
     } );
     entries.erase( new_end, entries.end() );
-    // Then sort them with respect to categories
-    auto from = entries.begin();
-    while( from != entries.end() ) {
-        auto to = std::next( from );
-        while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
-            to->update_cache();
-            std::advance( to, 1 );
+    // Then sort them with respect to categories (sort only once each UI session)
+    if( entries_unfiltered.empty() ) {
+        auto from = entries.begin();
+        while( from != entries.end() ) {
+            auto to = std::next( from );
+            while( to != entries.end() && from->get_category_ptr() == to->get_category_ptr() ) {
+                to->update_cache();
+                std::advance( to, 1 );
+            }
+            if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
+                std::sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
+                    if( lhs.is_selectable() != rhs.is_selectable() ) {
+                        return lhs.is_selectable(); // Disabled items always go last
+                    }
+                    Character &player_character = get_player_character();
+                    // Place favorite items and items with an assigned inventory letter first,
+                    // since the player cared enough to assign them
+                    const bool left_has_invlet = player_character.inv.assigned_invlet.count( lhs.any_item()->invlet );
+                    const bool right_has_invlet = player_character.inv.assigned_invlet.count( rhs.any_item()->invlet );
+                    if( left_has_invlet != right_has_invlet ) {
+                        return left_has_invlet;
+                    }
+                    const bool left_fav = lhs.any_item()->is_favorite;
+                    const bool right_fav = rhs.any_item()->is_favorite;
+                    if( left_fav != right_fav ) {
+                        return left_fav;
+                    }
+                    return preset.sort_compare( lhs, rhs );
+                } );
+            }
+            from = to;
         }
-        if( ordered_categories.count( from->get_category_ptr()->get_id().c_str() ) == 0 ) {
-            std::sort( from, to, [ this ]( const inventory_entry & lhs, const inventory_entry & rhs ) {
-                if( lhs.is_selectable() != rhs.is_selectable() ) {
-                    return lhs.is_selectable(); // Disabled items always go last
-                }
-                return preset.sort_compare( lhs, rhs );
-            } );
-        }
-        from = to;
     }
     // Recover categories
     const item_category *current_category = nullptr;
@@ -882,7 +862,8 @@ void inventory_column::prepare_paging( const std::string &filter )
         entries_unfiltered = entries;
     }
     // Select the uppermost possible entry
-    select( selected_index, selected_index ? scroll_direction::BACKWARD : scroll_direction::FORWARD );
+    const size_t ind = selected_index >= entries.size() ? 0 : selected_index;
+    select( ind, ind ? scroll_direction::BACKWARD : scroll_direction::FORWARD );
 }
 
 void inventory_column::clear()
@@ -1416,6 +1397,17 @@ bool inventory_selector::select( const item_location &loc )
     return res;
 }
 
+bool inventory_selector::select_one_of( const std::vector<item_location> &locations )
+{
+    prepare_layout();
+    for( const item_location &loc : locations ) {
+        if( select( loc ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 inventory_entry *inventory_selector::find_entry_by_invlet( int invlet ) const
 {
     for( const auto elem : columns ) {
@@ -1450,6 +1442,9 @@ inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate 
 // once screen width becomes enough for the columns.
 void inventory_selector::rearrange_columns( size_t client_width )
 {
+    const inventory_entry &prev_entry = get_selected();
+    const item_location prev_selection = prev_entry.is_item() ?
+                                         prev_entry.any_item() : item_location::nowhere;
     while( is_overflown( client_width ) ) {
         if( !own_gear_column.empty() ) {
             own_gear_column.move_entries_to( own_inv_column );
@@ -1458,6 +1453,9 @@ void inventory_selector::rearrange_columns( size_t client_width )
         } else {
             break;  // There's nothing we can do about it.
         }
+    }
+    if( prev_selection ) {
+        select( prev_selection );
     }
 }
 
@@ -1926,7 +1924,11 @@ void inventory_selector::on_input( const inventory_input &input )
         }
         refresh_active_column(); // Columns can react to actions by losing their activation capacity
         if( input.action == "TOGGLE_FAVORITE" ) {
-            keep_open = true;
+            // Favoriting items changes item name length which may require resizing
+            shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
+            if( current_ui ) {
+                current_ui->mark_resize();
+            }
         }
     }
 }
@@ -2127,10 +2129,6 @@ item_location inventory_pick_selector::execute()
             set_filter();
         } else {
             on_input( input );
-        }
-
-        if( input.action == "TOGGLE_FAVORITE" ) {
-            return item_location();
         }
     }
 }

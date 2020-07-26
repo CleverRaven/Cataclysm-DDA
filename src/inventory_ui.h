@@ -111,8 +111,13 @@ class inventory_entry
         }
 
         const item_location &any_item() const {
-            assert( !locations.empty() );
-            return locations.front();
+            if( locations.empty() ) {
+                debugmsg( "inventory_entry::any_item called on a non-item entry.  "
+                          "Test inventory_entry::is_item before calling this function." );
+                return item_location::nowhere;
+            } else {
+                return locations.front();
+            }
         }
 
         size_t get_stack_size() const {
@@ -293,6 +298,7 @@ class inventory_column
         bool is_selected_by_category( const inventory_entry &entry ) const;
 
         const inventory_entry &get_selected() const;
+        inventory_entry &get_selected();
         std::vector<inventory_entry *> get_all_selected() const;
         std::vector<inventory_entry *> get_entries(
             const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
@@ -307,7 +313,7 @@ class inventory_column
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
-        void set_stack_favorite( const item_location &location, bool favorite );
+        void set_stack_favorite( std::vector<item_location> &locations, bool favorite );
 
         /** Selects the specified location. */
         bool select( const item_location &loc );
@@ -520,8 +526,6 @@ class inventory_selector
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
 
-        bool keep_open = false;
-
     protected:
         Character &u;
         const inventory_selector_preset &preset;
@@ -621,6 +625,8 @@ class inventory_selector
             set_active_column( position.first );
             get_active_column().select( position.second, scroll_direction::BACKWARD );
         }
+
+        bool select_one_of( const std::vector<item_location> &locations );
 
         std::pair<size_t, size_t> get_selection_position() {
             std::pair<size_t, size_t> position;
