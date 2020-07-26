@@ -222,16 +222,16 @@
         "random": true,
         "search_range": 180
       },
-      "update_mapgen": { "place_npcs": [ { "class": "cyrus_whately", "x": 11, "y": 10, "target": true } ] }
+      "update_mapgen": { "place_npcs": [ { "class": [ "cyrus_whately", "x": 11, "y": 10, "target": true ] } ] }
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
       "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ],
       "update_mapgen": [
-        { "om_terrain": "mortuary_2story", "place_nested": [ { "chunks": "whately_cousin", "x": 16, "y": 15 } ] },
+        { "om_terrain": "mortuary_2story", "place_nested": [ { "chunks": [ "whately_cousin", "x": 16, "y": 15 ] } ] },
         {
           "om_terrain": "mortuary_2story",
-          "place_nested": [ { "chunks": "whately_bioturret_update", "x": 19, "y": 15 } ]
+          "place_nested": [ { "chunks":  [ "whately_bioturret_update", "x": 19, "y": 15 ] } ]
         }
       ]
     }
