@@ -901,6 +901,8 @@ Multiple death functions can be used. Not all combinations make sense.
 
 ### Flags
 
+Other monster flags. 
+
 - ```ABSORBS_SPLITS``` Consumes objects it moves over, and if it absorbs enough it will split into a copy.
 - ```ABSORBS``` Consumes objects it moves over. (Modders use this).
 - ```ACIDPROOF``` Immune to acid.
@@ -940,7 +942,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FAT``` May produce fat when butchered.
 - ```FEATHER``` May produce feathers when butchered.
-- ```FILTHY``` Any clothing it drops will be filthy.
+- ```FILTHY``` Any clothing it drops will be filthy.  The squeamish trait prevents wearing clothing with this flag, one can't craft anything from items with filthy, and wearing filthy clothes may result in infection if hit in melee.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` It is fishable.
@@ -1007,6 +1009,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```ZAPBACK``` Shock attacker on hit
 
 ### Sizes
+
+Monster physical sizes.
 
 - ```HUGE``` Tank
 - ```LARGE``` Cow
@@ -1315,14 +1319,13 @@ Melee flags are fully compatible with tool flags, and vice versa.
 
 These flags **do not apply to item types**.
 
-Those flags are added by the game code to specific items (that specific welder, not *all* welders).
+Those flags are added by the game code to specific items (for example, that specific thingamabob, not *all* thingamabob).  These flags are **not** assigned in JSON by content contributors, they are set programatically.
 
 - ```COLD``` Item is cold (see EATEN_COLD).
 - ```DIRTY``` Item (liquid) was dropped on the ground and is now irreparably dirty.
 - ```FIELD_DRESS_FAILED``` Corpse was damaged by unskillful field dressing. Affects butcher results.
 - ```FIELD_DRESS``` Corpse was field dressed. Affects butcher results.
 - ```FIT``` Reduces encumbrance by one.
-- ```FILTHY``` Item always spawns as filthy, and remains filthy forever (ie., cannot be washed).
 - ```FROZEN``` Item is frozen solid (used by freezer).
 - ```HIDDEN_ITEM``` This item cannot be seen in AIM.
 - ```HOT``` Item is hot (see EATEN_HOT).
