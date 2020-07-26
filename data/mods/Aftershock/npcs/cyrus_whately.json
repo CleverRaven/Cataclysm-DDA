@@ -47,7 +47,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_CYRUS_firstmeet",
-    "dynamic_line": ".",
+    "dynamic_line": "Are you here because you are morally flexible and willing to take questionable directions from obviously insane people.",
     "responses": [
       { "text": "Your niece is looking for you.", "topic": "TALK_CYRUS_millyficent" },
       { "text": "How did you survive the Cataclysm?", "topic": "TALK_CYRUS_cataclysm" },
