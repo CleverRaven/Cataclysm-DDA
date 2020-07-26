@@ -222,7 +222,7 @@
         "random": true,
         "search_range": 180
       },
-      "update_mapgen": { "place_npcs": [ { "class": [ "cyrus_whately" ], "x": 11, "y": 10, "target": true } ] }
+      "update_mapgen": { "place_npcs": [ { "class": "cyrus_whately", "x": 11, "y": 10, "target": true } ] }
     }
   },
   {
