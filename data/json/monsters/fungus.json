@@ -114,7 +114,7 @@
     "armor_bullet": 3,
     "harvest": "exempt",
     "special_attacks": [ [ "FUNGUS_INJECT", 10 ] ],
-    "death_function": [ "FUNGUS" ],
+    "death_function": [ "DISINTEGRATE" ],
     "flags": [ "HEARS", "GOODHEARING", "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "HARDTOSHOOT" ]
   },
   {
@@ -195,7 +195,7 @@
     "armor_bash": 10,
     "armor_cut": 10,
     "armor_bullet": 8,
-    "special_attacks": [ [ "FUNGUS_SPROUT", 10 ] ],
+    "special_attacks": [ [ "FUNGUS_SPROUT", 10 ], [ "FUNGUS_BIG_BLOSSOM", 10000 ] ],
     "death_function": [ "FUNGUS", "NORMAL" ],
     "harvest": "fungaloid_mass",
     "flags": [ "NOHEAD", "POISON", "IMMOBILE", "NO_BREATHE", "QUEEN" ]
@@ -252,7 +252,7 @@
     "armor_bash": 20,
     "armor_cut": 15,
     "armor_bullet": 12,
-    "special_attacks": [ [ "FUNGUS_FORTIFY", 10 ] ],
+    "special_attacks": [ [ "FUNGUS_FORTIFY", 10 ], [ "FUNGUS_BIG_BLOSSOM", 10000 ] ],
     "death_drops": "marloss_yellow_drops",
     "death_function": [ "FUNGUS", "NORMAL" ],
     "harvest": "fungaloid_mass",
