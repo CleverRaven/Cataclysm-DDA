@@ -178,9 +178,10 @@ formatted_text::formatted_text( const std::string &text, const int color,
     }
 }
 
-cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer ) :
+cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry ) :
     renderer( renderer ),
-    minimap( renderer )
+    geometry( geometry ),
+    minimap( renderer, geometry )
 {
     assert( renderer );
 
@@ -1014,7 +1015,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                       "SDL_RenderSetClipRect failed" );
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
-        render_fill_rect( renderer, clipRect, 0, 0, 0 );
+        geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
     int sx = 0;
@@ -2161,7 +2162,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     if( tile_iso ) {
         belowRect.y += tile_height / 8;
     }
-    render_fill_rect( renderer, belowRect, tercol.r, tercol.g, tercol.b );
+    geometry->rect( renderer, belowRect, tercol );
 
     return true;
 }
@@ -2689,7 +2690,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
         belowRect.y += tile_height / 8;
     }
 
-    render_fill_rect( renderer, belowRect, tercol.r, tercol.g, tercol.b );
+    geometry->rect( renderer, belowRect, tercol );
 
     return true;
 }
