@@ -222,7 +222,8 @@
     "charges": 2,
     "category": "chems",
     "fun": -30,
-    "freezing_point": 17
+    "freezing_point": 17,
+    "conditional_names": [ { "type": "FLAG", "condition": "DIRTY", "name": "bleach spill" } ]
   },
   {
     "type": "COMESTIBLE",

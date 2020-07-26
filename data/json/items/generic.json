@@ -1647,8 +1647,7 @@
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "weight": "26 g",
-    "volume": "15 ml",
-    "to_hit": 2
+    "volume": "15 ml"
   },
   {
     "type": "GENERIC",
@@ -1662,8 +1661,7 @@
     "price_postapoc": 10,
     "material": [ "aluminum" ],
     "weight": "14 g",
-    "volume": "5 ml",
-    "to_hit": 2
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
