@@ -857,9 +857,13 @@
     "remove_memorial_log": "Cured the fungal infection.",
     "miss_messages": [ [ "You feel sick inside.", 1 ] ],
     "speed_name": "Fungal infection",
+    "remove_message": "Tingling sensation in your skin fades away.",
     "rating": "bad",
     "max_intensity": 3,
+    "int_dur_factor": "6 h",
+    "max_duration": "18 h",
     "resist_traits": [ "POISRESIST" ],
+    "resist_effects": [ "antifungal" ],
     "base_mods": { "speed_mod": [ -10 ], "str_mod": [ -1 ], "dex_mod": [ -1 ] }
   },
   {
@@ -2035,6 +2039,12 @@
     "max_intensity": 3,
     "base_mods": { "vomit_tick": [ 60 ], "health_chance": [ 1500 ], "health_min": [ 1 ] },
     "scaling_mods": { "health_min": [ -1.5 ], "health_min_val": [ -2 ], "vomit_tick": [ 120 ] }
+  },
+  {
+    "type": "effect_type",
+    "id": "antifungal",
+    "name": [ "Antifungals" ],
+    "desc": [ "You are under the effects of an antifungal medicine or chemicals." ]
   },
   {
     "//": "This effect is a dummy effect for disabling certain things for a few turns after an electromagnetic pulse and does nothing on its own",

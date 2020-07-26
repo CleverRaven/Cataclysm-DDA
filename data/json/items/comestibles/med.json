@@ -128,7 +128,7 @@
     "type": "COMESTIBLE",
     "comestible_type": "MED",
     "name": { "str": "antifungal drug" },
-    "description": "Powerful chemical tablets designed to eliminate fungal infections in living creatures.",
+    "description": "Powerful chemical tablets designed to eliminate fungal infections in living creatures.  One dose lasts four hours.",
     "weight": "1 g",
     "volume": "250 ml",
     "price": 1000,
