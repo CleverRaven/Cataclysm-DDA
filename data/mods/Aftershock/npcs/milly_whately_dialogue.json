@@ -214,7 +214,7 @@
     },
     "start": {
       "assign_mission_target": {
-        "om_terrain": "whately_lmoe",
+        "om_terrain": "whately_lmoe_under_first_floor",
         "om_special": "Strange LMOE Shelter",
         "z": 0,
         "reveal_radius": 3,
@@ -222,7 +222,7 @@
         "random": true,
         "search_range": 180
       },
-      "update_mapgen": { "place_npcs": [ { "class": "cyrus_whately", "z": -1, "x": 11, "y": 10, "target": true } ] }
+      "update_mapgen": { "place_npcs": [ { "class": "cyrus_whately", "x": 11, "y": 10, "target": true } ] }
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
