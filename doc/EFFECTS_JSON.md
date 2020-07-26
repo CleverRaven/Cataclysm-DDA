@@ -243,6 +243,11 @@ This can be used to make effects automatically increase or decrease in intensity
 "int_dur_factor" overrides the other three intensities fields, and forces the intensity to be a number defined as
 intensity = duration / "int_dur_factor" rounded up (so from 0 to "int_dur_factor" is intensity 1).
 
+```C++
+    "show_intensity": false     - Defaults to true
+```
+This permits or forbids showing intensity value next to name of a given effect in EFFECTS tab. E.g. show "Weakness [142]" or simply "Weakness" text.
+
 ### Miss messages
 ```C++
     "miss_messages": [["Your blisters distract you", 1]]
