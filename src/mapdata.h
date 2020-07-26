@@ -25,8 +25,6 @@ struct tripoint;
 
 using iexamine_function = void ( * )( player &, const tripoint & );
 
-using itype_id = std::string;
-
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
     int str_max;            // max str required: bash succeeds if str >= random # between str_min & str_max
@@ -197,6 +195,8 @@ enum ter_bitflags : int {
     TFLAG_GOES_UP,
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
+    TFLAG_RAMP_DOWN,
+    TFLAG_RAMP_UP,
     TFLAG_RAMP,
     TFLAG_HIDE_PLACE,
     TFLAG_BLOCK_WIND,
@@ -204,6 +204,7 @@ enum ter_bitflags : int {
     TFLAG_RAIL,
     TFLAG_THIN_OBSTACLE,
     TFLAG_SMALL_PASSAGE,
+    TFLAG_Z_TRANSPARENT,
 
     NUM_TERFLAGS
 };
@@ -218,6 +219,7 @@ enum ter_connects : int {
     TERCONN_CHAINFENCE,
     TERCONN_WOODFENCE,
     TERCONN_RAILING,
+    TERCONN_POOLWATER,
     TERCONN_WATER,
     TERCONN_PAVEMENT,
     TERCONN_RAIL,
@@ -362,7 +364,7 @@ struct furn_t : map_data_common_t {
     furn_str_id id;
     furn_str_id open;  // Open action: transform into furniture with matching id
     furn_str_id close; // Close action: transform into furniture with matching id
-    std::string crafting_pseudo_item;
+    itype_id crafting_pseudo_item;
     units::volume keg_capacity = 0_ml;
     int comfort = 0;
     int floor_bedding_warmth = 0;
@@ -531,7 +533,7 @@ furn_id refers to a position in the furnlist[] where the furn_t struct is stored
 about ter_id above.
 */
 extern furn_id f_null,
-       f_hay, f_cattails,
+       f_hay, f_cattails, f_lotus, f_lilypad,
        f_rubble, f_rubble_rock, f_wreckage, f_ash,
        f_barricade_road, f_sandbag_half, f_sandbag_wall,
        f_bulletin,
@@ -570,7 +572,7 @@ extern furn_id f_null,
        f_tourist_table,
        f_camp_chair,
        f_sign,
-       f_gunsafe_ml;
+       f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //// These are on their way OUT and only used in certain switch statements until they are rewritten.

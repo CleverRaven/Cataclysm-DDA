@@ -131,6 +131,14 @@
     "chance": 50
   },
   {
+    "id": "emit_shadow_field",
+    "type": "emit",
+    "field": "fd_shadow",
+    "intensity": 1,
+    "qty": 10,
+    "chance": 100
+  },
+  {
     "id": "emit_shock_burst",
     "type": "emit",
     "//": "small cloud of lightning",
@@ -239,15 +247,15 @@
     "id": "emit_hot_air_migo_seep",
     "type": "emit",
     "field": "fd_hot_air_sauna",
-    "intensity": 3,
-    "qty": 50
+    "intensity": 2,
+    "qty": 60
   },
   {
     "id": "emit_hot_air_migo_blast",
     "type": "emit",
     "field": "fd_hot_air_sauna",
     "intensity": 3,
-    "qty": 300
+    "qty": 150
   },
   {
     "id": "emit_migo_atmosphere",
@@ -323,5 +331,27 @@
     "field": "fd_fog",
     "intensity": 2,
     "qty": 200
+  },
+  {
+    "id": "emit_extinguisher_burst",
+    "type": "emit",
+    "field": "fd_extinguisher",
+    "intensity": 1,
+    "qty": 10
+  },
+  {
+    "id": "emit_rad_leak",
+    "type": "emit",
+    "field": "fd_nuke_gas",
+    "intensity": 1,
+    "qty": 1
+  },
+  {
+    "id": "emit_rad_cloud",
+    "//": "Negative, negative, it's a large reactor leak, very dangerous",
+    "type": "emit",
+    "field": "fd_nuke_gas",
+    "intensity": 3,
+    "qty": 100
   }
 ]

@@ -139,7 +139,7 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( nullptr ), duration( 0_turns ), bp( num_bp ),
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( body_part::num_bp ),
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
         }
         effect( const effect_type *peff_type, const time_duration &dur, body_part part,
@@ -231,22 +231,22 @@ class effect
         std::vector<efftype_id> get_blocks_effects() const;
 
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
-        int get_mod( std::string arg, bool reduced = false ) const;
+        int get_mod( const std::string &arg, bool reduced = false ) const;
         /** Returns the average return of get_mod for a modifier type. Used in effect description displays. */
-        int get_avg_mod( std::string arg, bool reduced = false ) const;
+        int get_avg_mod( const std::string &arg, bool reduced = false ) const;
         /** Returns the amount of a modifier type applied when a new effect is first added. */
-        int get_amount( std::string arg, bool reduced = false ) const;
+        int get_amount( const std::string &arg, bool reduced = false ) const;
         /** Returns the minimum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_min_val( std::string arg, bool reduced = false ) const;
+        int get_min_val( const std::string &arg, bool reduced = false ) const;
         /** Returns the maximum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_max_val( std::string arg, bool reduced = false ) const;
+        int get_max_val( const std::string &arg, bool reduced = false ) const;
         /** Returns true if the given modifier type's trigger chance is affected by size mutations. */
         bool get_sizing( const std::string &arg ) const;
         /** Returns the approximate percentage chance of a modifier type activating on any given tick, used for descriptions. */
-        double get_percentage( std::string arg, int val, bool reduced = false ) const;
+        double get_percentage( const std::string &arg, int val, bool reduced = false ) const;
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct
          *  multiplier on the overall chance of a modifier type activating. */
-        bool activated( const time_point &when, std::string arg, int val,
+        bool activated( const time_point &when, const std::string &arg, int val,
                         bool reduced = false, double mod = 1 ) const;
 
         /** Check if the effect has the specified flag */
@@ -295,6 +295,7 @@ void reset_effect_types();
 
 std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );
+std::string texitify_bandage_power( int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON

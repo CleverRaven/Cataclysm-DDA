@@ -23,7 +23,7 @@ class overmap_connection
                 friend overmap_connection;
 
             public:
-                enum class flag { orthogonal };
+                enum class flag : int { orthogonal };
 
             public:
                 string_id<oter_type_t> terrain;

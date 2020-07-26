@@ -36,7 +36,7 @@ static const efftype_id effect_bandaged( "bandaged" );
 static const efftype_id effect_disinfected( "disinfected" );
 
 // Empty `dummy` of all traits, and give them a single trait with name `trait_name`
-static void give_one_trait( player &dummy, const std::string trait_name )
+static void give_one_trait( player &dummy, const std::string &trait_name )
 {
     const trait_id trait( trait_name );
     dummy.clear_mutations();
@@ -51,7 +51,6 @@ static float healing_rate_at_health( Character &dummy, const int healthy_value,
     dummy.set_healthy( healthy_value );
     return dummy.healing_rate( rest_quality );
 }
-
 
 // At baseline human defaults, with no treatment or traits, the character only heals while sleeping.
 // Default as of this writing is is 0.0001, or 8.64 HP per day.
@@ -258,38 +257,37 @@ TEST_CASE( "health effects on healing rate", "[heal][health]" )
 // using a local avatar instance to avoid any cross-contamination. Tests may be contagious!
 
 // Return `healing_rate_medicine` for an untreated body part at a given rest quality
-static float untreated_rate( const std::string bp_name, const float rest_quality )
+static float untreated_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
-    const body_part bp = bodypart_id( bp_name )->token;
-    return dummy.healing_rate_medicine( rest_quality, bp );
+    return dummy.healing_rate_medicine( rest_quality, bodypart_id( bp_name ) );
 }
 
 // Return `healing_rate_medicine` for a `bandaged` body part at a given rest quality
-static float bandaged_rate( const std::string bp_name, const float rest_quality )
+static float bandaged_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
-    const body_part bp = bodypart_id( bp_name )->token;
-    dummy.add_effect( effect_bandaged, 1_turns, bp );
+    const bodypart_id &bp = bodypart_id( bp_name );
+    dummy.add_effect( effect_bandaged, 1_turns, bp->token );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
 // Return `healing_rate_medicine` for a `disinfected` body part at a given rest quality
-static float disinfected_rate( const std::string bp_name, const float rest_quality )
+static float disinfected_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
-    const body_part bp = bodypart_id( bp_name )->token;
-    dummy.add_effect( effect_disinfected, 1_turns, bp );
+    const bodypart_id &bp = bodypart_id( bp_name );
+    dummy.add_effect( effect_disinfected, 1_turns, bp->token );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
 // Return `healing_rate_medicine` for a `bandaged` AND `disinfected` body part at a given rest quality
-static float together_rate( const std::string bp_name, const float rest_quality )
+static float together_rate( const std::string &bp_name, const float rest_quality )
 {
     avatar dummy;
-    const body_part bp = bodypart_id( bp_name )->token;
-    dummy.add_effect( effect_bandaged, 1_turns, bp );
-    dummy.add_effect( effect_disinfected, 1_turns, bp );
+    const bodypart_id &bp = bodypart_id( bp_name );
+    dummy.add_effect( effect_bandaged, 1_turns, bp->token );
+    dummy.add_effect( effect_disinfected, 1_turns, bp->token );
     return dummy.healing_rate_medicine( rest_quality, bp );
 }
 
@@ -366,24 +364,24 @@ TEST_CASE( "healing_rate_medicine with bandages and/or disinfectant", "[heal][ba
         }
     }
 
-    // Combined, healing is 4-12 HP per day while awake, 8-24 HP per day while asleep
+    // Combined, healing is 2.5-7.5 HP per day while awake, 5-15 HP per day while asleep
     SECTION( "bandages and disinfectant together" ) {
         SECTION( "awake" ) {
-            CHECK( together_rate( "head", awake_rest ) == Approx( 4.0f * hp_per_day ) );
-            CHECK( together_rate( "arm_l", awake_rest ) == Approx( 8.0f * hp_per_day ) );
-            CHECK( together_rate( "arm_r", awake_rest ) == Approx( 8.0f * hp_per_day ) );
-            CHECK( together_rate( "leg_l", awake_rest ) == Approx( 8.0f * hp_per_day ) );
-            CHECK( together_rate( "leg_r", awake_rest ) == Approx( 8.0f * hp_per_day ) );
-            CHECK( together_rate( "torso", awake_rest ) == Approx( 12.0f * hp_per_day ) );
+            CHECK( together_rate( "head", awake_rest ) == Approx( 2.5f * hp_per_day ) );
+            CHECK( together_rate( "arm_l", awake_rest ) == Approx( 5.0f * hp_per_day ) );
+            CHECK( together_rate( "arm_r", awake_rest ) == Approx( 5.0f * hp_per_day ) );
+            CHECK( together_rate( "leg_l", awake_rest ) == Approx( 5.0f * hp_per_day ) );
+            CHECK( together_rate( "leg_r", awake_rest ) == Approx( 5.0f * hp_per_day ) );
+            CHECK( together_rate( "torso", awake_rest ) == Approx( 7.5f * hp_per_day ) );
         }
 
         SECTION( "asleep" ) {
-            CHECK( together_rate( "head", sleep_rest ) == Approx( 8.0f * hp_per_day ) );
-            CHECK( together_rate( "arm_l", sleep_rest ) == Approx( 16.0f * hp_per_day ) );
-            CHECK( together_rate( "arm_r", sleep_rest ) == Approx( 16.0f * hp_per_day ) );
-            CHECK( together_rate( "leg_l", sleep_rest ) == Approx( 16.0f * hp_per_day ) );
-            CHECK( together_rate( "leg_r", sleep_rest ) == Approx( 16.0f * hp_per_day ) );
-            CHECK( together_rate( "torso", sleep_rest ) == Approx( 24.0f * hp_per_day ) );
+            CHECK( together_rate( "head", sleep_rest ) == Approx( 5.0f * hp_per_day ) );
+            CHECK( together_rate( "arm_l", sleep_rest ) == Approx( 10.0f * hp_per_day ) );
+            CHECK( together_rate( "arm_r", sleep_rest ) == Approx( 10.0f * hp_per_day ) );
+            CHECK( together_rate( "leg_l", sleep_rest ) == Approx( 10.0f * hp_per_day ) );
+            CHECK( together_rate( "leg_r", sleep_rest ) == Approx( 10.0f * hp_per_day ) );
+            CHECK( together_rate( "torso", sleep_rest ) == Approx( 15.0f * hp_per_day ) );
         }
     }
 }

@@ -68,6 +68,7 @@
       { "item": "arm", "prob": 4 },
       { "item": "leg", "prob": 4 },
       { "item": "rock", "prob": 40 },
+      { "item": "rock_large", "prob": 5 },
       { "item": "stick", "prob": 95 },
       { "item": "bio_metabolics", "prob": 10 },
       { "item": "survivormap", "prob": 1 },
@@ -96,21 +97,9 @@
   },
   {
     "type": "item_group",
-    "id": "bees",
-    "subtype": "distribution",
-    "entries": [ { "item": "bee_sting", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
     "id": "fungal_sting",
     "subtype": "distribution",
     "entries": [ { "item": "fighter_sting", "prob": 5 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "wasps",
-    "subtype": "distribution",
-    "entries": [ { "item": "wasp_sting", "prob": 5 } ]
   },
   {
     "type": "item_group",
@@ -270,7 +259,7 @@
       { "item": "fire_ax", "prob": 5 },
       { "item": "miner_hat", "prob": 10 },
       { "item": "grapnel", "prob": 2 },
-      { "item": "toolbox", "prob": 1 },
+      { "group": "tools_toolbox", "prob": 1 },
       { "item": "pur_tablets", "prob": 10 },
       { "item": "pastaextruder", "prob": 10 },
       { "item": "can_sealer", "prob": 10 },
@@ -345,7 +334,7 @@
       { "item": "lsd", "prob": 1 },
       { "item": "gum", "prob": 20 },
       { "item": "caff_gum", "prob": 8 },
-      { "item": "toolbox", "prob": 1 },
+      { "group": "tools_toolbox", "prob": 1 },
       { "item": "nic_gum", "prob": 5 },
       { "item": "radio_car_box", "prob": 2 },
       { "item": "radiocontrol", "prob": 15 },

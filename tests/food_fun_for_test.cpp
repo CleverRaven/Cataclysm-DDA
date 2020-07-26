@@ -74,6 +74,7 @@ TEST_CASE( "fun for food eaten while sick", "[fun_for][food][sick]" )
 TEST_CASE( "fun for rotten food", "[fun_for][food][rotten]" )
 {
     avatar dummy;
+    dummy.set_body();
     std::pair<int, int> actual_fun;
 
     GIVEN( "some rotten food" ) {
@@ -240,6 +241,7 @@ TEST_CASE( "fun for melted food", "[fun_for][food][melted]" )
 TEST_CASE( "fun for cat food", "[fun_for][food][cat][feline]" )
 {
     avatar dummy;
+    dummy.set_body();
     std::pair<int, int> actual_fun;
 
     GIVEN( "cat food" ) {
@@ -270,6 +272,7 @@ TEST_CASE( "fun for cat food", "[fun_for][food][cat][feline]" )
 TEST_CASE( "fun for dog food", "[fun_for][food][dog][lupine]" )
 {
     avatar dummy;
+    dummy.set_body();
     std::pair<int, int> actual_fun;
 
     GIVEN( "dog food" ) {
@@ -301,6 +304,7 @@ TEST_CASE( "fun for dog food", "[fun_for][food][dog][lupine]" )
 TEST_CASE( "fun for gourmand", "[fun_for][food][gourmand]" )
 {
     avatar dummy;
+    dummy.set_body();
     std::pair<int, int> actual_fun;
 
     GIVEN( "food that tastes good" ) {
@@ -382,7 +386,7 @@ TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
         }
 
         WHEN( "character has just eaten one" ) {
-            dummy.eat( toastem );
+            dummy.consume( toastem );
 
             THEN( "the next one is less enjoyable" ) {
                 actual_fun = dummy.fun_for( toastem );
@@ -390,7 +394,7 @@ TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
             }
 
             AND_WHEN( "character has eaten another one" ) {
-                dummy.eat( toastem );
+                dummy.consume( toastem );
 
                 THEN( "the one after that is even less enjoyable" ) {
                     actual_fun = dummy.fun_for( toastem );
@@ -404,6 +408,7 @@ TEST_CASE( "fun for food eaten too often", "[fun_for][food][monotony]" )
 TEST_CASE( "fun for bionic bio taste blocker", "[fun_for][food][bionic]" )
 {
     avatar dummy;
+    dummy.set_body();
     std::pair<int, int> actual_fun;
 
     GIVEN( "food that tastes bad" ) {

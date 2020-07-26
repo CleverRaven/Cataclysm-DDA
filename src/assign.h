@@ -352,6 +352,71 @@ inline bool assign( const JsonObject &jo, const std::string &name, units::mass &
     return true;
 }
 
+inline bool assign( const JsonObject &jo, const std::string &name, units::length &val,
+                    bool strict = false,
+                    const units::length lo = units::length_min,
+                    const units::length hi = units::length_max )
+{
+    const auto parse = [&name]( const JsonObject & obj, units::length & out ) {
+        if( obj.has_int( name ) ) {
+            out = units::from_millimeter<std::int64_t>( obj.get_int( name ) );
+            return true;
+        }
+        if( obj.has_string( name ) ) {
+
+            out = read_from_json_string<units::length>( *obj.get_raw( name ), units::length_units );
+            return true;
+        }
+        return false;
+    };
+
+    units::length out;
+
+    // Object via which to report errors which differs for proportional/relative values
+    JsonObject err = jo;
+    err.allow_omitted_members();
+    JsonObject relative = jo.get_object( "relative" );
+    relative.allow_omitted_members();
+    JsonObject proportional = jo.get_object( "proportional" );
+    proportional.allow_omitted_members();
+
+    // Do not require strict parsing for relative and proportional values as rules
+    // such as +10% are well-formed independent of whether they affect base value
+    if( relative.has_member( name ) ) {
+        units::length tmp;
+        err = relative;
+        if( !parse( err, tmp ) ) {
+            err.throw_error( "invalid relative value specified", name );
+        }
+        strict = false;
+        out = val + tmp;
+
+    } else if( proportional.has_member( name ) ) {
+        double scalar;
+        err = proportional;
+        if( !err.read( name, scalar ) || scalar <= 0 || scalar == 1 ) {
+            err.throw_error( "invalid proportional scalar", name );
+        }
+        strict = false;
+        out = val * scalar;
+
+    } else if( !parse( jo, out ) ) {
+        return false;
+    }
+
+    if( out < lo || out > hi ) {
+        err.throw_error( "value outside supported range", name );
+    }
+
+    if( strict && out == val ) {
+        report_strict_violation( err, "assignment does not update value", name );
+    }
+
+    val = out;
+
+    return true;
+}
+
 inline bool assign( const JsonObject &jo, const std::string &name, units::money &val,
                     bool strict = false,
                     const units::money lo = units::money_min,

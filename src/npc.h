@@ -21,6 +21,7 @@
 #include "color.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "dialogue_chatbin.h"
 #include "enums.h"
 #include "faction.h"
 #include "game_constants.h"
@@ -49,6 +50,7 @@ class mission;
 class monfaction;
 class monster;
 class npc_class;
+class talker;
 class vehicle;
 struct bionic_data;
 struct mission_type;
@@ -67,7 +69,7 @@ using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
 
 void parse_tags( std::string &phrase, const Character &u, const Character &me,
-                 const itype_id &item_type = "null" );
+                 const itype_id &item_type = itype_id::NULL_ID() );
 
 /*
  * Talk:   Trust midlow->high, fear low->mid, need doesn't matter
@@ -168,7 +170,7 @@ class job_data
             const std::pair<activity_id, int> &b ) {
                 return a.second > b.second;
             } );
-            for( std::pair<activity_id, int> elem : pairs ) {
+            for( const std::pair<activity_id, int> &elem : pairs ) {
                 ret.push_back( elem.first );
             }
             return ret;
@@ -195,9 +197,9 @@ enum npc_mission : int {
 
 struct npc_companion_mission {
     std::string mission_id;
-    tripoint position;
+    tripoint_abs_omt position;
     std::string role_id;
-    cata::optional<tripoint> destination;
+    cata::optional<tripoint_abs_omt> destination;
 };
 
 std::string npc_class_name( const npc_class_id & );
@@ -346,7 +348,7 @@ const std::unordered_map<std::string, cbm_reserve_rule> cbm_reserve_strs = { {
     }
 };
 
-enum class ally_rule {
+enum class ally_rule : int {
     DEFAULT = 0,
     use_guns = 1,
     use_grenades = 2,
@@ -738,51 +740,6 @@ enum talk_topic_enum {
 // Function for conversion of legacy topics, defined in savegame_legacy.cpp
 std::string convert_talk_topic( talk_topic_enum old_value );
 
-struct npc_chatbin {
-    /**
-     * Add a new mission to the available missions (@ref missions). For compatibility it silently
-     * ignores null pointers passed to it.
-     */
-    void add_new_mission( mission *miss );
-    /**
-     * Check that assigned missions are still assigned if not move them back to the
-     * unassigned vector. This is called directly before talking.
-     */
-    void check_missions();
-    /**
-     * Missions that the NPC can give out. All missions in this vector should be unassigned,
-     * when given out, they should be moved to @ref missions_assigned.
-     */
-    std::vector<mission *> missions;
-    /**
-     * Mission that have been assigned by this NPC to a player character.
-     */
-    std::vector<mission *> missions_assigned;
-    /**
-     * The mission (if any) that we talk about right now. Can be null. Should be one of the
-     * missions in @ref missions or @ref missions_assigned.
-     */
-    mission *mission_selected = nullptr;
-    /**
-     * The skill this NPC offers to train.
-     */
-    skill_id skill = skill_id::NULL_ID();
-    /**
-     * The martial art style this NPC offers to train.
-     */
-    matype_id style;
-    /**
-     * The spell this NPC offers to train
-     */
-    spell_id dialogue_spell;
-    std::string first_topic = "TALK_NONE";
-
-    npc_chatbin() = default;
-
-    void serialize( JsonOut &json ) const;
-    void deserialize( JsonIn &jsin );
-};
-
 class npc_template;
 
 class npc : public player
@@ -819,7 +776,7 @@ class npc : public player
         faction_id get_fac_id() const;
         /**
          * Set @ref submap_coords and @ref pos.
-         * @param m global submap coordinates.
+         * @param p global submap coordinates.
          */
         void spawn_at_sm( const tripoint &p );
         /**
@@ -837,7 +794,7 @@ class npc : public player
          */
         void place_on_map();
         /**
-         * See @ref npc_chatbin::add_new_mission
+         * See @ref dialogue_chatbin::add_new_mission
          */
         void add_new_mission( mission *miss );
         skill_id best_skill() const;
@@ -853,6 +810,7 @@ class npc : public player
         int print_info( const catacurses::window &w, int line, int vLines, int column ) const override;
         std::string opinion_text() const;
         int faction_display( const catacurses::window &fac_w, int width ) const;
+        std::string describe_mission() const;
 
         // Interaction with the player
         void form_opinion( const player &u );
@@ -882,23 +840,28 @@ class npc : public player
          * Martial art styles that we known, but the player p doesn't.
          */
         std::vector<matype_id> styles_offered_to( const player &p ) const;
+        /**
+         * Spells that the NPC knows but that the player p doesn't.
+         * not const because get_spell isn't const and both this and p call it
+         */
+        std::vector<spell_id> spells_offered_to( player &p );
         // State checks
         // We want to kill/mug/etc the player
         bool is_enemy() const;
         // Traveling w/ player (whether as a friend or a slave)
         bool is_following() const;
-        bool is_obeying( const player &p ) const;
+        bool is_obeying( const Character &p ) const;
 
         bool is_hallucination() const override; // true if the NPC isn't actually real
 
         // Ally of or traveling with p
-        bool is_friendly( const player &p ) const;
+        bool is_friendly( const Character &p ) const;
         // Leading the player
         bool is_leader() const;
         // Leading, following, or waiting for the player
         bool is_walking_with() const;
         // In the same faction
-        bool is_ally( const player &p ) const;
+        bool is_ally( const Character &p ) const;
         // Is an ally of the player
         bool is_player_ally() const;
         // Isn't moving
@@ -925,8 +888,6 @@ class npc : public player
         // How closely do we follow the player?
         int follow_distance() const;
 
-        // Dialogue and bartering--see npctalk.cpp
-        void talk_to_u( bool text_only = false, bool radio_contact = false );
         // Re-roll the inventory of a shopkeeper
         void shop_restock();
         // Use and assessment of items
@@ -955,8 +916,8 @@ class npc : public player
         bool has_painkiller();
         bool took_painkiller() const;
         void use_painkiller();
-        void activate_item( int item_index );
-        bool has_identified( const std::string & ) const override {
+        void activate_item( item &it );
+        bool has_identified( const itype_id & ) const override {
             return true;
         }
         bool has_artifact_with( const art_effect_passive ) const override {
@@ -1045,7 +1006,7 @@ class npc : public player
         // wrapper for complain_about that warns about a specific type of threat, with
         // different warnings for hostile or friendly NPCs and hostile NPCs always complaining
         void warn_about( const std::string &type, const time_duration &d = 10_minutes,
-                         const std::string &name = "" );
+                         const std::string &name = "", int range = -1, const tripoint &danger_pos = tripoint_zero );
         // Finds something to complain about and complains. Returns if complained.
         bool complain();
 
@@ -1147,7 +1108,7 @@ class npc : public player
         // Same as if the player pressed '.'
         void move_pause();
 
-        void set_movement_mode( character_movemode mode ) override;
+        void set_movement_mode( const move_mode_id &mode ) override;
 
         const pathfinding_settings &get_pathfinding_settings() const override;
         const pathfinding_settings &get_pathfinding_settings( bool no_bashing ) const;
@@ -1162,7 +1123,8 @@ class npc : public player
         // Move to, or grab, our targeted item
         void pick_up_item();
         // Drop wgt and vol, including all items with less value than min_val
-        void drop_items( units::mass drop_weight, units::volume drop_volume, int min_val = 0 );
+        void drop_items( const units::mass &drop_weight, const units::volume &drop_volume,
+                         int min_val = 0 );
         /** Picks up items and returns a list of them. */
         std::list<item> pick_up_item_map( const tripoint &where );
         std::list<item> pick_up_item_vehicle( vehicle &veh, int part_index );
@@ -1184,8 +1146,8 @@ class npc : public player
         void heal_player( player &patient );
         void heal_self();
         void pretend_heal( player &patient, item used ); // healing action of hallucinations
-        void mug_player( player &mark );
-        void look_for_player( const player &sought );
+        void mug_player( Character &mark );
+        void look_for_player( const Character &sought );
         // Do we have an idea of where u are?
         bool saw_player_recently() const;
         /** Returns true if food was consumed, false otherwise. */
@@ -1242,7 +1204,7 @@ class npc : public player
          */
         void setpos( const tripoint &pos ) override;
         void travel_overmap( const tripoint &pos );
-        npc_attitude get_attitude() const;
+        npc_attitude get_attitude() const override;
         void set_attitude( npc_attitude new_attitude );
         void set_mission( npc_mission new_mission );
         bool has_activity() const;
@@ -1260,7 +1222,7 @@ class npc : public player
         std::string idz;
         // A temp variable used to link to the correct mission
         std::vector<mission_type_id> miss_ids;
-        cata::optional<tripoint> assigned_camp = cata::nullopt;
+        cata::optional<tripoint_abs_omt> assigned_camp = cata::nullopt;
 
     private:
         npc_attitude attitude; // What we want to do to the player
@@ -1299,34 +1261,34 @@ class npc : public player
          */
         tripoint global_square_location() const override;
         cata::optional<tripoint> last_player_seen_pos; // Where we last saw the player
-        int last_seen_player_turn; // Timeout to forgetting
+        int last_seen_player_turn = 0; // Timeout to forgetting
         tripoint wanted_item_pos; // The square containing an item we want
         tripoint guard_pos;  // These are the local coordinates that a guard will return to inside of their goal tripoint
-        tripoint chair_pos = no_goal_point; // This is the spot the NPC wants to move to to sit and relax.
-        cata::optional<tripoint> base_location; // our faction base location in OMT coords.
+        tripoint chair_pos = tripoint_min; // This is the spot the NPC wants to move to to sit and relax.
+        cata::optional<tripoint_abs_omt> base_location; // our faction base location in OMT coords.
         /**
          * Global overmap terrain coordinate, where we want to get to
          * if no goal exist, this is no_goal_point.
          */
-        tripoint goal;
-        tripoint wander_pos = no_goal_point;
-        int wander_time;
+        tripoint_abs_omt goal;
+        tripoint wander_pos = tripoint_min;
+        int wander_time = 0;
         item *known_stolen_item = nullptr; // the item that the NPC wants the player to drop or barter for.
         /**
          * Location and index of the corpse we'd like to pulp (if any).
          */
         cata::optional<tripoint> pulp_location;
         time_point restock;
-        bool fetching_item;
-        bool has_new_items; // If true, we have something new and should re-equip
-        int  worst_item_value; // The value of our least-wanted item
+        bool fetching_item = false;
+        bool has_new_items = false; // If true, we have something new and should re-equip
+        int  worst_item_value = 0; // The value of our least-wanted item
 
         std::vector<tripoint> path; // Our movement plans
 
         // Personality & other defining characteristics
         std::string companion_mission_role_id; //Set mission source or squad leader for a patrol
-        std::vector<tripoint>
-        companion_mission_points; //Mission leader use to determine item sorting, patrols use for points
+        //Mission leader use to determine item sorting, patrols use for points
+        std::vector<tripoint_abs_omt> companion_mission_points;
         time_point companion_mission_time; //When you left for ongoing/repeating missions
         time_point
         companion_mission_time_ret; //When you are expected to return for calculated/variable mission returns
@@ -1335,16 +1297,16 @@ class npc : public player
         npc_mission previous_mission = NPC_MISSION_NULL;
         npc_personality personality;
         npc_opinion op_of_u;
-        npc_chatbin chatbin;
-        int patience; // Used when we expect the player to leave the area
+        dialogue_chatbin chatbin;
+        int patience = 0; // Used when we expect the player to leave the area
         npc_follower_rules rules;
-        bool marked_for_death; // If true, we die as soon as we respawn!
-        bool hit_by_player;
-        bool hallucination; // If true, NPC is an hallucination
+        bool marked_for_death = false; // If true, we die as soon as we respawn!
+        bool hit_by_player = false;
+        bool hallucination = false; // If true, NPC is an hallucination
         std::vector<npc_need> needs;
         cata::optional<int> confident_range_cache;
         // Dummy point that indicates that the goal is invalid.
-        static constexpr tripoint no_goal_point = tripoint_min;
+        static constexpr tripoint_abs_omt no_goal_point{ tripoint_min };
         job_data job;
         time_point last_updated;
         /**
@@ -1366,13 +1328,14 @@ class npc : public player
 
         /// Set up (start) a companion mission.
         void set_companion_mission( npc &p, const std::string &mission_id );
-        void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
+        void set_companion_mission( const tripoint_abs_omt &omt_pos, const std::string &role_id,
                                     const std::string &mission_id );
-        void set_companion_mission( const tripoint &omt_pos, const std::string &role_id,
-                                    const std::string &mission_id, const tripoint &destination );
+        void set_companion_mission(
+            const tripoint_abs_omt &omt_pos, const std::string &role_id,
+            const std::string &mission_id, const tripoint_abs_omt &destination );
         /// Unset a companion mission. Precondition: `!has_companion_mission()`
         void reset_companion_mission();
-        cata::optional<tripoint> get_mission_destination() const;
+        cata::optional<tripoint_abs_omt> get_mission_destination() const;
         bool has_companion_mission() const;
         npc_companion_mission get_companion_mission() const;
         attitude_group get_attitude_group( npc_attitude att ) const;
@@ -1403,7 +1366,7 @@ class standard_npc : public npc
     public:
         standard_npc( const std::string &name = "",
                       const tripoint &pos = tripoint( HALF_MAPSIZE_X, HALF_MAPSIZE_Y, 0 ),
-                      const std::vector<itype_id> &clothing = {},
+                      const std::vector<std::string> &clothing = {},
                       int sk_lvl = 4, int s_str = 8, int s_dex = 8, int s_int = 8, int s_per = 8 );
 };
 
@@ -1416,7 +1379,7 @@ class npc_template
         npc guy;
         translation name_unique;
         translation name_suffix;
-        enum class gender {
+        enum class gender : int {
             random,
             male,
             female
@@ -1432,5 +1395,6 @@ std::ostream &operator<< ( std::ostream &os, const npc_need &need );
 
 /** Opens a menu and allows player to select a friendly NPC. */
 npc *pick_follower();
-
+std::unique_ptr<talker> get_talker_for( npc &guy );
+std::unique_ptr<talker> get_talker_for( npc *guy );
 #endif // CATA_SRC_NPC_H

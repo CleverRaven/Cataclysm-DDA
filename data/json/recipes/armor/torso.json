@@ -292,7 +292,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "kevlar_plate", 16 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 16 ] ],
       [ [ "rag", 19 ] ],
       [
         [ "tacvest", 1 ],
@@ -698,7 +698,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "duster", 1 ], [ "jacket_army", 1 ], [ "sleeveless_duster", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "kevlar_plate", 13 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 13 ] ],
       [ [ "rag", 14 ] ],
       [
         [ "tacvest", 1 ],
@@ -843,7 +843,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ], [ "sleeveless_trenchcoat", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "kevlar_plate", 10 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 10 ] ],
       [ [ "rag", 11 ] ],
       [
         [ "tacvest", 1 ],
@@ -1037,7 +1037,7 @@
     "components": [
       [ [ "coat_rain", 1 ] ],
       [ [ "trenchcoat", 1 ], [ "jacket_army", 1 ] ],
-      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "kevlar_plate", 12 ] ],
+      [ [ "kevlar", 1 ], [ "ballistic_vest_empty", 1 ], [ "sheet_kevlar_layered", 12 ] ],
       [ [ "rag", 14 ] ],
       [
         [ "tacvest", 1 ],
@@ -1139,7 +1139,7 @@
     "decomp_learn": 6,
     "autolearn": true,
     "using": [ [ "sewing_standard", 54 ] ],
-    "components": [ [ [ "kevlar_plate", 43 ] ] ]
+    "components": [ [ [ "sheet_kevlar_layered", 43 ] ] ]
   },
   {
     "result": "vest_leather",

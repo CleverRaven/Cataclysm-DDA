@@ -91,7 +91,8 @@
     "description": "A standard-issue pack.  Based on the MOLLE backpack's design, this smaller pack strikes a fine balance between storage space and encumbrance and allows a larger weapon to be holstered, drawing and holstering is still rather awkward even with the magnetized clips, but practice helps.",
     "color": "dark_gray",
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "9 L", "max_contains_weight": "27 kg", "moves": 200 } ],
-    "encumbrance": 7,
+    "encumbrance": 3,
+    "max_encumbrance": 7,
     "material_thickness": 3,
     "material": [ "leather", "kevlar" ],
     "flags": [ "BELTED", "OVERSIZE", "NO_QUICKDRAW", "STURDY", "WATERPROOF" ]
@@ -167,7 +168,8 @@
     "color": "black_green",
     "covers": [ "TORSO", "ARMS", "LEGS" ],
     "coverage": 100,
-    "encumbrance": 20,
+    "encumbrance": 10,
+    "max_encumbrance": 20,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -195,7 +197,8 @@
     "color": "light_green",
     "covers": [ "TORSO", "LEGS", "ARMS" ],
     "coverage": 100,
-    "encumbrance": 25,
+    "encumbrance": 17,
+    "max_encumbrance": 25,
     "warmth": 25,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -218,7 +221,8 @@
     "color": "dark_gray",
     "covers": [ "LEGS" ],
     "coverage": 30,
-    "encumbrance": 3,
+    "encumbrance": 1,
+    "max_encumbrance": 3,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 }
@@ -242,7 +246,8 @@
     "color": "cyan",
     "covers": [ "TORSO", "LEGS", "ARMS" ],
     "coverage": 90,
-    "encumbrance": 35,
+    "encumbrance": 27,
+    "max_encumbrance": 35,
     "warmth": 20,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -288,7 +293,8 @@
     "color": "light_blue",
     "covers": [ "TORSO", "LEGS", "ARMS" ],
     "coverage": 100,
-    "encumbrance": 7,
+    "encumbrance": 3,
+    "max_encumbrance": 7,
     "warmth": 20,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -312,7 +318,8 @@
     "color": "light_green",
     "covers": [ "TORSO", "LEGS", "ARMS" ],
     "coverage": 100,
-    "encumbrance": 40,
+    "encumbrance": 24,
+    "max_encumbrance": 40,
     "warmth": 25,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "3 kg", "moves": 80 },

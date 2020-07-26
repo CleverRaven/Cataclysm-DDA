@@ -9,6 +9,8 @@
 #include "ret_val.h"
 #include "translations.h"
 
+#include "math_defines.h"
+
 struct tripoint;
 
 std::string gunmod_location::name() const
@@ -39,7 +41,7 @@ std::string itype::nname( unsigned int quantity ) const
 {
     // Always use singular form for liquids.
     // (Maybe gases too?  There are no gases at the moment)
-    if( phase == LIQUID ) {
+    if( phase == phase_id::LIQUID ) {
         quantity = 1;
     }
     return name.translated( quantity );

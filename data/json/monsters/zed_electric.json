@@ -116,7 +116,7 @@
     "melee_skill": 5,
     "melee_dice": 1,
     "melee_dice_sides": 2,
-    "//": "melee damage is quite weak since the shockfield around it is its most dangerous function",
+    "//2": "melee damage is quite weak since the shockfield around it is its most dangerous function",
     "melee_damage": [ { "damage_type": "electric", "amount": 6 } ],
     "vision_night": 3,
     "luminance": 16,

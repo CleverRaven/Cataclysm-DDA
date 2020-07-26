@@ -102,12 +102,12 @@ int turret_data::ammo_remaining() const
     return part->base.ammo_remaining();
 }
 
-int turret_data::ammo_capacity() const
+int turret_data::ammo_capacity( const ammotype &ammo ) const
 {
     if( !veh || !part || part->info().has_flag( "USE_TANKS" ) ) {
         return 0;
     }
-    return part->base.ammo_capacity();
+    return part->base.ammo_capacity( ammo );
 }
 
 const itype *turret_data::ammo_data() const
@@ -116,7 +116,7 @@ const itype *turret_data::ammo_data() const
         return nullptr;
     }
     if( part->info().has_flag( "USE_TANKS" ) ) {
-        return ammo_current() != "null" ? item::find_type( ammo_current() ) : nullptr;
+        return !ammo_current().is_null() ? item::find_type( ammo_current() ) : nullptr;
     }
     return part->base.ammo_data();
 }
@@ -133,7 +133,7 @@ itype_id turret_data::ammo_current() const
     if( opts.count( part->base.ammo_default() ) ) {
         return part->base.ammo_default();
     }
-    return opts.empty() ? "null" : *opts.begin();
+    return opts.empty() ? itype_id::NULL_ID() : *opts.begin();
 }
 
 std::set<itype_id> turret_data::ammo_options() const
@@ -145,7 +145,7 @@ std::set<itype_id> turret_data::ammo_options() const
     }
 
     if( !part->info().has_flag( "USE_TANKS" ) ) {
-        if( part->base.ammo_current() != "null" ) {
+        if( !part->base.ammo_current().is_null() ) {
             opts.insert( part->base.ammo_current() );
         }
 
@@ -216,7 +216,11 @@ bool turret_data::can_reload() const
         // always allow changing of magazines
         return true;
     }
-    return part->base.ammo_remaining() < part->base.ammo_capacity();
+    if( part->base.ammo_remaining() == 0 ) {
+        return true;
+    }
+    return part->base.ammo_remaining() <
+           part->base.ammo_capacity( part->base.ammo_data()->ammo->type );
 }
 
 bool turret_data::can_unload() const
@@ -287,17 +291,21 @@ void turret_data::post_fire( player &p, int shots )
     veh->drain( fuel_type_battery, mode->get_gun_ups_drain() * shots );
 }
 
-int turret_data::fire( player &p, const tripoint &target )
+int turret_data::fire( Character &c, const tripoint &target )
 {
     if( !veh || !part ) {
         return 0;
     }
     int shots = 0;
     auto mode = base()->gun_current_mode();
+    player *player_character = c.as_player();
+    if( player_character == nullptr ) {
+        return 0;
+    }
 
-    prepare_fire( p );
-    shots = p.fire_gun( target, mode.qty, *mode );
-    post_fire( p, shots );
+    prepare_fire( *player_character );
+    shots = player_character->fire_gun( target, mode.qty, *mode );
+    post_fire( *player_character, shots );
     return shots;
 }
 
@@ -388,8 +396,10 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         t->reset_target( global_part_pos3( *t ) );
     }
 
+    avatar &player_character = get_avatar();
     // Get target
-    target_handler::trajectory trajectory = target_handler::mode_turrets( g->u, *this, turrets );
+    target_handler::trajectory trajectory = target_handler::mode_turrets( player_character, *this,
+                                            turrets );
 
     bool got_target = !trajectory.empty();
     if( got_target ) {
@@ -402,7 +412,8 @@ bool vehicle::turrets_aim( std::vector<vehicle_part *> &turrets )
         }
 
         ///\EFFECT_INT speeds up aiming of vehicle turrets
-        g->u.moves = std::min( 0, g->u.moves - 100 + ( 5 * g->u.int_cur ) );
+        player_character.moves = std::min( 0,
+                                           player_character.moves - 100 + ( 5 * player_character.int_cur ) );
     }
     return got_target;
 }
@@ -559,7 +570,8 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
         area += area == 1 ? 1 : 2;
     }
 
-    const bool u_see = g->u.sees( pos );
+    Character &player_character = get_player_character();
+    const bool u_see = player_character.sees( pos );
     // The current target of the turret.
     auto &target = pt.target;
     if( target.first == target.second ) {
@@ -608,7 +620,7 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     shots = gun.fire( cpu, targ );
 
-    if( shots && u_see && !g->u.sees( targ ) ) {
+    if( shots && u_see && !player_character.sees( targ ) ) {
         add_msg( _( "The %1$s fires its %2$s!" ), name, pt.name() );
     }
 

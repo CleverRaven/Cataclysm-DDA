@@ -10,12 +10,12 @@
 
 class pixel_minimap_projector;
 
-enum class pixel_minimap_type {
+enum class pixel_minimap_type : int {
     ortho,
     iso
 };
 
-enum class pixel_minimap_mode {
+enum class pixel_minimap_mode : int {
     solid,
     squares,
     dots

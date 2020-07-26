@@ -39,6 +39,10 @@ class player_activity
         int moves_total = 0;
         /** The number of moves remaining in this activity before it is complete. */
         int moves_left = 0;
+        /** Controls whether this activity can be cancelled at all */
+        bool interruptable = true;
+        /** Controls whether this activity can be cancelled with 'pause' action */
+        bool interruptable_with_kb = true;
 
         // The members in the following block are deprecated, prefer creating a new
         // activity_actor.
@@ -74,7 +78,7 @@ class player_activity
          */
         player_activity( const activity_actor &actor );
 
-        player_activity( player_activity && ) = default;
+        player_activity( player_activity && ) noexcept = default;
         player_activity( const player_activity & ) = default;
         player_activity &operator=( player_activity && ) = default;
         player_activity &operator=( const player_activity & ) = default;
@@ -88,6 +92,11 @@ class player_activity
         bool is_multi_type() const;
         /** This replaces the former usage `act.type = ACT_NULL` */
         void set_to_null();
+
+        // This makes player_activity's activity type inherit activity_actor's activity type,
+        // in order to synchronize both, due to possible variablility of actor's activity type
+        // allowed via override of activity_actor::get_type()
+        void sychronize_type_with_actor();
 
         const activity_id &id() const {
             return type;
@@ -139,13 +148,19 @@ class player_activity
         void do_turn( player &p );
 
         /**
+         * Performs activity-specific cleanup when Character::cancel_activity() is called
+         */
+        void canceled( Character &who );
+
+        /**
          * Returns true if activities are similar enough that this activity
          * can be resumed instead of starting the other activity.
          */
         bool can_resume_with( const player_activity &other, const Character &who ) const;
 
-        bool is_distraction_ignored( distraction_type type ) const;
-        void ignore_distraction( distraction_type type );
+        bool is_interruptible() const;
+        bool is_distraction_ignored( distraction_type ) const;
+        void ignore_distraction( distraction_type );
         void allow_distractions();
         void inherit_distractions( const player_activity & );
 };

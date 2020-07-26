@@ -48,6 +48,7 @@ TEST_CASE( "identifying unread books", "[reading][book][identify]" )
 TEST_CASE( "reading a book for fun", "[reading][book][fun]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
 
     GIVEN( "a fun book" ) {
@@ -250,6 +251,7 @@ TEST_CASE( "estimated reading time for a book", "[reading][book][time]" )
 TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
 {
     avatar dummy;
+    dummy.set_body();
     dummy.worn.push_back( item( "backpack" ) );
     std::vector<std::string> reasons;
     std::vector<std::string> expect_reasons;
@@ -305,10 +307,10 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
         }
 
         THEN( "you cannot read without enough skill to understand the book" ) {
-            dummy.set_skill_level( skill_id( "cooking" ), 7 );
+            dummy.set_skill_level( skill_id( "chemistry" ), 5 );
 
             CHECK( dummy.get_book_reader( alpha, reasons ) == nullptr );
-            expect_reasons = { "cooking 8 needed to understand.  You have 7" };
+            expect_reasons = { "chemistry 6 needed to understand.  You have 5" };
             CHECK( reasons == expect_reasons );
         }
 

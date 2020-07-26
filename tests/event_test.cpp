@@ -11,8 +11,6 @@
 #include "string_id.h"
 #include "type_id.h"
 
-using itype_id = std::string;
-
 TEST_CASE( "construct_event", "[event]" )
 {
     cata::event e = cata::event::make<event_type::character_kills_monster>(

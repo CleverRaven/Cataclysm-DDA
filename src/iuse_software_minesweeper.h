@@ -15,7 +15,7 @@ class minesweeper_game
 {
     private:
         bool check_win();
-        void new_level( const catacurses::window &w_minesweeper );
+        void new_level();
         point max;
         point min;
         point level;
@@ -23,9 +23,9 @@ class minesweeper_game
         int iBombs = 0;
 
         std::map<int, std::map<int, int> > mLevel;
+        static constexpr int bomb = -1;
 
         enum reveal {
-            bomb = -1,
             unknown,
             flag,
             seen

@@ -1,0 +1,13 @@
+[
+  {
+    "type": "overmap_special",
+    "id": "dinosaur exhibit",
+    "overmaps": [ { "point": [ 0, 0, 0 ], "overmap": "dinoexhibit_north" } ],
+    "connections": [ { "point": [ 0, -1, 0 ], "terrain": "road" } ],
+    "locations": [ "wilderness" ],
+    "city_distance": [ 10, -1 ],
+    "city_sizes": [ 0, 20 ],
+    "occurrences": [ 1, 1 ],
+    "flags": [ "CLASSIC", "WILDERNESS" ]
+  }
+]

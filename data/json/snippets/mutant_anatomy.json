@@ -1,0 +1,201 @@
+[
+  {
+    "type": "snippet",
+    "category": "mutant_meat_desc",
+    "text": [
+      {
+        "id": "mutant_meat_1",
+        "text": "Meat from a heavily mutated animal.  It has an unsettling loose and spongy texture, but smells… mostly normal.  There are strange tangles and formations in it that don't appear natural at all: bits of bone and hair crusted up inside the muscle, as if trying to form another organism.  Still, seems digestible at least, if you cook it and remove the worst parts."
+      },
+      {
+        "id": "mutant_meat_2",
+        "text": "Meat from a heavily mutated animal.  Although it came from muscle tissue, it has a curious swirling grain pattern, and at the center of each grain is a knot of hard, cartilaginous tissue.  It smells offputting."
+      },
+      {
+        "id": "mutant_meat_3",
+        "text": "Meat from a heavily mutated animal.  This is from muscle, but in the fascial tissue between the muscles, thick spiny hairs have grown.  Foul smelling, cream-colored fluid gushes out whenever a hair pulls loose."
+      },
+      {
+        "id": "mutant_meat_4",
+        "text": "Meat from a heavily mutated animal.  Although this came from muscle, it has a thick cordlike texture and smells like leather and bread mold."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "cooked_mutant_meat_desc",
+    "text": [
+      {
+        "id": "cooked_mutant_meat_1",
+        "text": "This is a cooked chunk of meat from a mutated animal.  It has an unsettling, spongy texture, but otherwise tastes… mostly normal.  Hopefully you got all the bits of hair and bone out…"
+      },
+      {
+        "id": "cooked_mutant_meat_2",
+        "text": "This is a cooked chunk of meat from a mutated animal.  You thought you'd cleared out all the gross parts, but while cooking, a fluid-filled sac inside burst and covered it in some kind of thick grease."
+      },
+      {
+        "id": "cooked_mutant_meat_3",
+        "text": "This is a cooked chunk of meat from a mutated animal.  The surface is peppered with divets from the pieces you had to dig out to make it seem edible."
+      },
+      {
+        "id": "cooked_mutant_meat_4",
+        "text": "This is a cooked chunk of meat from a mutated animal.  Heat caused the muscles to twist and move as if they were alive, and now it has writhed itself into a dense knot."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "bug_organs_desc",
+    "text": [
+      {
+        "id": "bug_organs_1",
+        "text": "These organs came from a giant mutant bug, and you really aren't sure what to make of them.  There are things you've never seen in any anatomy book, with spines and hair and other unidentified parts protruding off seemingly at random."
+      },
+      {
+        "id": "bug_organs_2",
+        "text": "These organs came from a giant mutant bug.  They have a sickly green color, and one of them ripped when you were removing it, revealing an inner surface that looks like row upon row of human fingers, nails and all."
+      },
+      {
+        "id": "bug_organs_3",
+        "text": "This is a huge, thick, fleshy sac you removed from a giant mutant bug.  The surface is covered in smooth, soft skin, and beneath it is a coiled, twisted mess of cordlike tissue."
+      },
+      {
+        "id": "bug_organs_4",
+        "text": "This is a long, corded organ you removed from a giant mutant bug.  It ran from the head to the abdomen and has long tendrils coming off it, not unlike a spinal cord."
+      },
+      {
+        "id": "bug_organs_5",
+        "text": "This is a meaty grey organ you removed from a mutant.  It has a chalky yellow coating that burns your skin, and several unidentifiable fleshy tubes sticking out of it.  The smell it gives off stings your nostrils.  You're pretty confident no natural creature has one of these."
+      },
+      {
+        "id": "bug_organs_6",
+        "text": "This organ meat, retrieved from a mutated creature, looks like a series of small mammalian hearts arranged in series on a long fleshy tube.  At the end of the chain is a large fleshy sac resembling a stomach."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "mutant_lung_desc",
+    "text": [
+      {
+        "id": "mutant_lung_1",
+        "text": "You're pretty sure this is lung tissue.  It looks like a lung from a larger mammal, like a dog, but instead of a few distinct lobes, it has dozens of lobes arranged in sheets.  Strange spindles and gnarled tumescences dot the surface."
+      },
+      {
+        "id": "mutant_lung_2",
+        "text": "You're pretty sure this is lung tissue.  It has a vaguely wing-like shape, with a series of nodules around what would be the trailing edge of the 'wing'.  A cluster of quills in each corner of the organ held it to the bug's carapace like clasps."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "chitin_desc",
+    "text": [
+      {
+        "id": "chitin_1",
+        "text": "A piece of a bug's exoskeleton, but mutated.  The inner side is lined with veins and strange hooked protuberances."
+      },
+      {
+        "id": "chitin_2",
+        "text": "A piece of a bug's exoskeleton.  Stringy lines of nervous tissue and blood vessels still cling to the inner surface."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "endochitin_desc",
+    "text": [
+      {
+        "id": "endochitin_1",
+        "text": "A piece of rigid, tube-shaped chitin from the inside of a giant bug.  It seemed to be performing some kind of support role.  You're quite sure normal insects don't have these."
+      },
+      {
+        "id": "endochitin_2",
+        "text": "A long, flexible rod of chitin from inside a giant mutant bug.  It is laced with blood vessels and chitinous nodules."
+      }
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_general_chitin>",
+    "text": [
+      "As you peel away the outer shell, you find veins lining the chitin plates",
+      "With the creature dead, its carapace comes away surprisingly easily",
+      "There's a thin membrane, much like skin, spread over the chitin of this creature",
+      "Under the carapace of this mutant is a bristly, velcro-like material",
+      "The anatomy concealed beneath seems almost like a small mammal given a shell and twisted into the shape of an arthropod",
+      "You crack the beast open like a horrific lobster",
+      "The chitin holds tight to the creature, and you need to snap and tear it away, sawing at tough fibers beneath"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_general_deeper>",
+    "text": [
+      "Inside, half-formed organs press against spongy meat that doesn't look anything like raw arthropod meat from normal creatures",
+      "You find a collection of hooked spines beneath that seem to have been clasping it on somehow",
+      "Inside is a complex, still-squirming mess of strange appendages and organs that bear only a passing resemblance to any natural creature",
+      "Beneath the chitin, the meat is covered in thick, bristly hair hiding a chaotic bramble of half-formed, mutated organs",
+      "Inside is a tangled mess of organs and tissues that do not appear to entirely natural",
+      "Inside the creature you find lungs, hearts, and intestines more like a mammal than a giant bug"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_general_descriptive>",
+    "text": [
+      "The meat inside gives off a horrifying stench, and seems to be covered in thin damp hair, like a newborn animal gone horribly wrong",
+      "Small bundles of fiber break loose as you work, splitting open to reveal twisted, half-formed copies of the creature itself",
+      "It is difficult to work, as the spongey tissue tears apart under your tools"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_acid_chitin>",
+    "text": [
+      "<bug_harvest_general_chitin>",
+      "Steaming puddles of acid spill from its outer shell as you pull it back",
+      "With the creature dead, its carapace comes away surprisingly easily",
+      "Steaming acid burbles from the creature's chitin as you peel it back",
+      "Several acid glands rupture as you peel back the carapace, sending streams of steaming caustic fluids spraying around"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_acid_deeper>",
+    "text": [
+      "<bug_harvest_general_deeper>",
+      "The organs themselves have an acrid odour, but don't seem as caustically acidic as the outer shell",
+      "You carefully avoid breaking through pockets of what you think may be acid-secreting glands",
+      "Thick, ropey cords of tissue beneath its chitin protect an inner layer of strange organs, resembling those of a bird more than anything"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<bug_harvest_acid_descriptive>",
+    "text": [
+      "<bug_harvest_general_descriptive>",
+      "The powerfully acidic vapors coming from the carcass make it hard to work",
+      "The tissues of the creature are full of half-formed organs, their purpose unclear",
+      "Several times, you nearly burn yourself piercing a concealed gland full of acid"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<arachnid_harvest>",
+    "text": [
+      "<bug_harvest_general_chitin>.",
+      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.",
+      "<bug_harvest_general_chitin>.  <bug_harvest_general_deeper>.  <bug_harvest_general_descriptive>."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<acidant_harvest>",
+    "text": [
+      "<bug_harvest_acid_chitin>.",
+      "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.",
+      "<bug_harvest_acid_chitin>.  <bug_harvest_acid_deeper>.  <bug_harvest_acid_descriptive>."
+    ]
+  }
+]

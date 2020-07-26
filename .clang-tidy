@@ -35,8 +35,6 @@ readability-*,\
 -modernize-return-braced-init-list,\
 -modernize-use-default-member-init,\
 -modernize-use-emplace,\
--modernize-use-transparent-functors,\
--performance-for-range-copy,\
 -performance-inefficient-vector-operation,\
 -performance-noexcept-move-constructor,\
 -performance-implicit-conversion-in-loop,\
@@ -51,7 +49,6 @@ readability-*,\
 -readability-isolate-declaration,\
 -readability-magic-numbers,\
 -readability-named-parameter,\
--readability-redundant-control-flow,\
 "
 WarningsAsErrors: '*'
 HeaderFilterRegex: '(src|test|tools).*'

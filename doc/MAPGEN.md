@@ -565,12 +565,12 @@ the monster at coordinate (10, 10) and also sets the monster as the target of th
 Example:
 ```json
 "place_monster": [
-    { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": [1, 3] }
+    { "monster": "mon_secubot", "x": [ 7, 18 ], "y": [ 7, 18 ], "chance": 30, "repeat": [1, 3], "spawn_data": { "ammo": [ { "ammo_id": "556", "qty": [ 20, 30 ] } ] } }
 ]
 ```
 
 This places "mon_secubot" at random coordinate (7-18, 7-18). The monster is placed with 30% probablity. The placement is
-repeated by random number of times `[1-3]`.
+repeated by random number of times `[1-3]`. The monster will spawn with 20-30 5.56x45mm rounds.
 
 
 ## Spawn specific items with a "place_item" array

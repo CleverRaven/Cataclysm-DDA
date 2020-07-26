@@ -1,15 +1,39 @@
 [
   {
     "type": "start_location",
-    "id": "sloc_shelter",
-    "name": "Shelter",
-    "terrain": [ "shelter", "shelter_1", "shelter_2" ]
+    "id": "sloc_shelter_a",
+    "name": "Shelter - Open Floorplan",
+    "terrain": [ "shelter" ]
   },
   {
     "type": "start_location",
-    "id": "sloc_shelter_vandalized",
-    "name": "Shelter (Vandalized)",
-    "terrain": [ "shelter_vandal", "shelter_1_vandal", "shelter_2_vandal" ]
+    "id": "sloc_shelter_b",
+    "name": "Shelter - Compartmentalized",
+    "terrain": [ "shelter_1" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_c",
+    "name": "Shelter - Central Pillar",
+    "terrain": [ "shelter_2" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_vandalized_a",
+    "name": "Shelter - Open Floorplan (Vandalized)",
+    "terrain": [ "shelter_vandal" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_vandalized_b",
+    "name": "Shelter - Compartmentalized (Vandalized)",
+    "terrain": [ "shelter_1_vandal" ]
+  },
+  {
+    "type": "start_location",
+    "id": "sloc_shelter_vandalized_c",
+    "name": "Shelter - Central Pillar (Vandalized)",
+    "terrain": [ "shelter_2_vandal" ]
   },
   {
     "type": "start_location",
@@ -217,6 +241,13 @@
   },
   {
     "type": "start_location",
+    "id": "sloc_desert_island",
+    "name": "Desert Island",
+    "terrain": [ "island_sand", "island_forest", "island_forest_thick", "island_forest_water", "island_field" ],
+    "flags": [ "ALLOW_OUTSIDE" ]
+  },
+  {
+    "type": "start_location",
     "id": "sloc_lab_escape_cells",
     "name": "Experiment Cell",
     "terrain": [ "lab_escape_cells" ]
@@ -298,7 +329,7 @@
     "type": "start_location",
     "id": "sloc_prison",
     "name": "Prison",
-    "terrain": [ "prison_1_b_5" ]
+    "terrain": [ "prison_1_5" ]
   },
   {
     "type": "start_location",

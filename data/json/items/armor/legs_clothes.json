@@ -61,7 +61,8 @@
     "color": "green",
     "covers": [ "TORSO", "LEGS", "FEET" ],
     "coverage": 100,
-    "encumbrance": 25,
+    "encumbrance": 19,
+    "max_encumbrance": 25,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -145,7 +146,8 @@
     "color": "blue",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 16,
+    "encumbrance": 12,
+    "max_encumbrance": 16,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -173,7 +175,8 @@
     "color": "red",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 16,
+    "encumbrance": 12,
+    "max_encumbrance": 16,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -353,7 +356,8 @@
     "color": "brown",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 11,
+    "encumbrance": 7,
+    "max_encumbrance": 11,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -380,7 +384,8 @@
     "color": "green",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 18,
+    "encumbrance": 9,
+    "max_encumbrance": 18,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
@@ -408,7 +413,8 @@
     "color": "light_gray",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 16,
+    "encumbrance": 8,
+    "max_encumbrance": 16,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
@@ -439,7 +445,8 @@
     "color": "dark_gray",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 5,
+    "encumbrance": 2,
+    "max_encumbrance": 5,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -466,7 +473,8 @@
     "color": "brown",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 20,
+    "encumbrance": 16,
+    "max_encumbrance": 20,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -505,7 +513,8 @@
     "color": "dark_gray",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 17,
+    "encumbrance": 15,
+    "max_encumbrance": 17,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 }
@@ -531,7 +540,8 @@
     "color": "blue",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 10,
+    "encumbrance": 6,
+    "max_encumbrance": 10,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -586,7 +596,8 @@
     "color": "brown",
     "covers": [ "LEGS" ],
     "coverage": 40,
-    "encumbrance": 5,
+    "encumbrance": 2,
+    "max_encumbrance": 5,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -613,7 +624,8 @@
     "color": "light_gray",
     "covers": [ "LEGS" ],
     "coverage": 40,
-    "encumbrance": 5,
+    "encumbrance": 2,
+    "max_encumbrance": 5,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -642,7 +654,8 @@
     "color": "light_blue",
     "covers": [ "LEGS" ],
     "coverage": 40,
-    "encumbrance": 2,
+    "encumbrance": 1,
+    "max_encumbrance": 2,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 }
@@ -710,7 +723,8 @@
     "color": "white",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 5,
+    "encumbrance": 2,
+    "max_encumbrance": 5,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
@@ -738,7 +752,8 @@
     "color": "light_gray",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 5,
+    "encumbrance": 2,
+    "max_encumbrance": 5,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "3 kg", "moves": 80 },
@@ -769,7 +784,8 @@
     "color": "white",
     "covers": [ "LEGS" ],
     "coverage": 95,
-    "encumbrance": 22,
+    "encumbrance": 11,
+    "max_encumbrance": 22,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "350 ml", "max_contains_weight": "1 kg", "moves": 80 },

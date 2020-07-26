@@ -6,13 +6,12 @@
 #include <memory>
 #include <utility>
 
-#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "game.h"
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
@@ -58,15 +57,15 @@ void user_interface::show()
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
         iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
-        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
         w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       point( iOffsetX, iOffsetY ) );
+                                       iOffset );
         w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       point( 1 + iOffsetX, 1 + iOffsetY ) );
+                                       iOffset + point_south_east );
         w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
+                                iOffset + point( 1, iHeaderHeight + 1 ) );
 
         ui.position_from_window( w_border );
     };
@@ -77,6 +76,7 @@ void user_interface::show()
     int iLine = 0;
     int iColumn = 1;
     int iStartPos = 0;
+    Character &player_character = get_player_character();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Redraw the border
@@ -89,7 +89,7 @@ void user_interface::show()
         mvwputch( w_border, point( 5, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         mvwputch( w_border, point( 51, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
         mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         // Redraw the header
         int tmpx = 0;
@@ -99,7 +99,7 @@ void user_interface::show()
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<M>ove" ) ) + 2;
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
-        if( !g->u.name.empty() ) {
+        if( !player_character.name.empty() ) {
             shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<T>est" ) );
         }
         tmpx = 0;
@@ -138,7 +138,7 @@ void user_interface::show()
         locx += shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, _( "<S>witch" ) );
         shortcut_print( w_header, point( locx, 1 ), c_white, c_light_green, "  " );
 
-        wrefresh( w_header );
+        wnoutrefresh( w_header );
 
         // Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -152,7 +152,7 @@ void user_interface::show()
         }
 
         draw_scrollbar( w_border, iLine, iContentHeight, cur_rules.size(), point( 0, 5 ) );
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         calcStartPos( iStartPos, iLine, iContentHeight, cur_rules.size() );
 
@@ -181,7 +181,7 @@ void user_interface::show()
             }
         }
 
-        wrefresh( w );
+        wnoutrefresh( w );
     } );
 
     bStuffChanged = false;
@@ -283,11 +283,11 @@ void user_interface::show()
                 ui_adaptor help_ui;
                 catacurses::window w_help;
                 const auto init_help_window = [&]( ui_adaptor & help_ui ) {
-                    const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-                    const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+                    const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                                         TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
                     w_help = catacurses::newwin( FULL_SCREEN_HEIGHT / 2 + 2,
                                                  FULL_SCREEN_WIDTH * 3 / 4,
-                                                 point( iOffsetX + 19 / 2, 7 + iOffsetY + FULL_SCREEN_HEIGHT / 2 / 2 ) );
+                                                 iOffset + point( 19 / 2, 7 + FULL_SCREEN_HEIGHT / 2 / 2 ) );
                     help_ui.position_from_window( w_help );
                 };
                 init_help_window( help_ui );
@@ -312,7 +312,7 @@ void user_interface::show()
                                   );
 
                     draw_border( w_help );
-                    wrefresh( w_help );
+                    wnoutrefresh( w_help );
                 } );
                 const std::string r = string_input_popup()
                                       .title( _( "Pickup Rule:" ) )
@@ -363,7 +363,7 @@ void user_interface::show()
                 iLine--;
                 iColumn = 1;
             }
-        } else if( action == "TEST_RULE" && currentPageNonEmpty && !g->u.name.empty() ) {
+        } else if( action == "TEST_RULE" && currentPageNonEmpty && !player_character.name.empty() ) {
             cur_rules[iLine].test_pattern();
         } else if( action == "SWITCH_AUTO_PICKUP_OPTION" ) {
             // TODO: Now that NPCs use this function, it could be used for them too
@@ -389,9 +389,10 @@ void player_settings::show()
 {
     user_interface ui;
 
+    Character &player_character = get_player_character();
     ui.title = _( " AUTO PICKUP MANAGER " );
     ui.tabs.emplace_back( _( "[<Global>]" ), global_rules );
-    if( !g->u.name.empty() ) {
+    if( !player_character.name.empty() ) {
         ui.tabs.emplace_back( _( "[<Character>]" ), character_rules );
     }
     ui.is_autopickup = true;
@@ -403,7 +404,7 @@ void player_settings::show()
     }
 
     save_global();
-    if( !g->u.name.empty() ) {
+    if( !player_character.name.empty() ) {
         save_character();
     }
     invalidate();
@@ -438,17 +439,17 @@ void rule::test_pattern() const
     ui_adaptor ui;
 
     const auto init_windows = [&]( ui_adaptor & ui ) {
-        const int iOffsetX = 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 );
-        const int iOffsetY = 5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
-                                   0 );
+        const point iOffset( 15 + ( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0 ),
+                             5 + ( TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 :
+                                   0 ) );
         iContentHeight = FULL_SCREEN_HEIGHT - 8;
         iContentWidth = FULL_SCREEN_WIDTH - 30;
 
         w_test_rule_border = catacurses::newwin( iContentHeight + 2, iContentWidth,
-                             point( iOffsetX, iOffsetY ) );
+                             iOffset );
         w_test_rule_content = catacurses::newwin( iContentHeight,
                               iContentWidth - 2,
-                              point( 1 + iOffsetX, 1 + iOffsetY ) );
+                              iOffset + point_south_east );
 
         ui.position_from_window( w_test_rule_border );
     };
@@ -471,7 +472,7 @@ void rule::test_pattern() const
         draw_border( w_test_rule_border, BORDER_COLOR, buf, hilite( c_white ) );
         center_print( w_test_rule_border, iContentHeight + 1, red_background( c_white ),
                       _( "Won't display content or suffix matches" ) );
-        wrefresh( w_test_rule_border );
+        wnoutrefresh( w_test_rule_border );
 
         // Clear the lines
         for( int i = 0; i < iContentHeight; i++ ) {
@@ -502,7 +503,7 @@ void rule::test_pattern() const
             }
         }
 
-        wrefresh( w_test_rule_content );
+        wnoutrefresh( w_test_rule_content );
     } );
 
     while( true ) {
@@ -611,7 +612,7 @@ void rule_list::create_rule( cache &map_items, const std::string &to_match )
             continue;
         }
 
-        map_items[ to_match ] = elem.bExclude ? RULE_BLACKLISTED : RULE_WHITELISTED;
+        map_items[ to_match ] = elem.bExclude ? rule_state::BLACKLISTED : rule_state::WHITELISTED;
     }
 }
 
@@ -634,7 +635,7 @@ void rule_list::create_rule( cache &map_items, const item &it )
             continue;
         }
 
-        map_items[ to_match ] = elem.bExclude ? RULE_BLACKLISTED : RULE_WHITELISTED;
+        map_items[ to_match ] = elem.bExclude ? rule_state::BLACKLISTED : rule_state::WHITELISTED;
     }
 }
 
@@ -663,7 +664,7 @@ void rule_list::refresh_map_items( cache &map_items ) const
                     continue;
                 }
 
-                map_items[ cur_item ] = RULE_WHITELISTED;
+                map_items[ cur_item ] = rule_state::WHITELISTED;
                 map_items.temp_items[ cur_item ] = e;
             }
         } else {
@@ -675,7 +676,7 @@ void rule_list::refresh_map_items( cache &map_items ) const
                     continue;
                 }
 
-                map_items[ map_item.first ] = RULE_BLACKLISTED;
+                map_items[ map_item.first ] = rule_state::BLACKLISTED;
             }
         }
     }
@@ -692,7 +693,7 @@ rule_state base_settings::check_item( const std::string &sItemName ) const
         return iter->second;
     }
 
-    return RULE_NONE;
+    return rule_state::NONE;
 }
 
 void player_settings::clear_character_rules()
@@ -716,9 +717,9 @@ bool player_settings::save( const bool bCharacter )
     auto savefile = PATH_INFO::autopickup();
 
     if( bCharacter ) {
-        savefile = g->get_player_base_save_path() + ".apu.json";
+        savefile = PATH_INFO::player_base_save_path() + ".apu.json";
 
-        const std::string player_save = g->get_player_base_save_path() + ".sav";
+        const std::string player_save = PATH_INFO::player_base_save_path() + ".sav";
         //Character not saved yet.
         if( !file_exist( player_save ) ) {
             return true;
@@ -745,7 +746,7 @@ void player_settings::load( const bool bCharacter )
 {
     std::string sFile = PATH_INFO::autopickup();
     if( bCharacter ) {
-        sFile = g->get_player_base_save_path() + ".apu.json";
+        sFile = PATH_INFO::player_base_save_path() + ".apu.json";
     }
 
     if( !read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
@@ -804,7 +805,7 @@ bool player_settings::load_legacy( const bool bCharacter )
     std::string sFile = PATH_INFO::legacy_autopickup2();
 
     if( bCharacter ) {
-        sFile = g->get_player_base_save_path() + ".apu.txt";
+        sFile = PATH_INFO::player_base_save_path() + ".apu.txt";
     }
 
     invalidate();

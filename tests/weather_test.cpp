@@ -5,7 +5,6 @@
 
 #include "calendar.h"
 #include "catch/catch.hpp"
-#include "game.h"
 #include "point.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -49,7 +48,7 @@ TEST_CASE( "weather realism" )
     // Try a few randomly selected seeds.
     const std::vector<unsigned> seeds = {317'024'741, 870'078'684, 1'192'447'748};
 
-    const weather_generator &wgen = g->weather.get_cur_weather_gen();
+    const weather_generator &wgen = get_weather().get_cur_weather_gen();
     const time_point begin = 0;
     const time_point end = begin + calendar::year_length();
     const int n_days = to_days<int>( end - begin );
@@ -69,9 +68,10 @@ TEST_CASE( "weather realism" )
             int minute = to_minutes<int>( time_past_midnight( i ) );
             temperature[day][minute] = w.temperature;
             int hour = to_hours<int>( time_past_new_year( i ) );
+            std::map<weather_type_id, time_point> next_instance_allowed;
             hourly_precip[hour] +=
                 precip_mm_per_hour(
-                    weather::precip( wgen.get_weather_conditions( w ) ) )
+                    wgen.get_weather_conditions( w, next_instance_allowed )->precip )
                 / 60;
         }
 

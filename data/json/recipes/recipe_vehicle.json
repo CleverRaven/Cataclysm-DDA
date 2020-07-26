@@ -391,6 +391,18 @@
   },
   {
     "type": "recipe",
+    "result": "raft_board",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "fabrication",
+    "difficulty": 2,
+    "time": "30 m",
+    "reversible": true,
+    "autolearn": true,
+    "components": [ [ [ "log", 4 ] ], [ [ "rope_natural", 3, "LIST" ] ] ]
+  },
+  {
+    "type": "recipe",
     "result": "plastic_boat_hull",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_VEHICLE",
@@ -451,6 +463,23 @@
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 1 } ],
     "components": [ [ [ "nail", 4 ] ], [ [ "2x4", 2 ] ], [ [ "stick", 2 ], [ "2x4", 2 ] ], [ [ "towel", 3 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wheel_mount_wood",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_VEHICLE",
+    "skill_used": "mechanics",
+    "skills_required": [ "fabrication", 4 ],
+    "difficulty": 2,
+    "time": "30 m",
+    "autolearn": true,
+    "qualities": [ { "id": "DRILL", "level": 2 }, { "id": "HAMMER", "level": 2 }, { "id": "SAW_W", "level": 2 } ],
+    "components": [ [ [ "nail", 50 ] ], [ [ "2x4", 5 ] ], [ [ "cordage_36", 1 ] ], [ [ "scrap", 5 ], [ "steel_chunk", 4 ] ] ],
+    "tools": [
+      [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ],
+      [ [ "welder", 30 ], [ "welder_crude", 40 ], [ "toolset", 40 ], [ "forge", 20 ], [ "oxy_torch", 5 ] ]
+    ]
   },
   {
     "type": "recipe",
@@ -622,6 +651,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "45 m",
+    "proficiencies": [ { "proficiency": "prof_blacksmithing", "time_multiplier": 10.0 } ],
     "reversible": true,
     "autolearn": true,
     "using": [ [ "steel_standard", 20 ] ],
@@ -639,6 +669,7 @@
     "skill_used": "fabrication",
     "difficulty": 1,
     "time": "1 h 30 m",
+    "proficiencies": [ { "proficiency": "prof_blacksmithing", "time_multiplier": 10.0 } ],
     "reversible": true,
     "autolearn": true,
     "qualities": [ { "id": "GLARE", "level": 2 } ],
@@ -711,6 +742,19 @@
     "autolearn": true,
     "using": [ [ "rope_natural_short", 2 ] ],
     "components": [ [ [ "2x4", 6 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "wheel_metal",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "fabrication",
+    "difficulty": 6,
+    "time": "6 h",
+    "autolearn": true,
+    "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
+    "qualities": [ { "id": "CHISEL", "level": 3 } ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ]
   },
   {
     "type": "recipe",
@@ -792,5 +836,37 @@
       [ [ "refrigerant_tank", 1 ] ],
       [ [ "plastic_chunk", 8 ] ]
     ]
+  },
+  {
+    "type": "recipe",
+    "result": "alternator_bicycle",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 3,
+    "time": "20 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
+    "using": [ [ "soldering_standard", 4 ], [ "steel_tiny", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "cable", 4 ] ], [ [ "e_scrap", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "alternator_motorbike",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_PARTS",
+    "skill_used": "electronics",
+    "skills_required": [ "fabrication", 1 ],
+    "difficulty": 3,
+    "time": "40 m",
+    "reversible": true,
+    "decomp_learn": 2,
+    "book_learn": [ [ "manual_electronics", 2 ], [ "mag_electronics", 2 ], [ "manual_mechanics", 2 ] ],
+    "using": [ [ "soldering_standard", 8 ], [ "steel_standard", 1 ] ],
+    "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "components": [ [ [ "e_scrap", 4 ] ], [ [ "cable", 30 ] ] ]
   }
 ]

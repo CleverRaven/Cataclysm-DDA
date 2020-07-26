@@ -11,7 +11,8 @@
       "Thorazine?  I wouldn't if I were you.",
       "You don't need thorazine, it's limiting you.",
       "Thorazine…  That's what 'they' use to keep you tame.",
-      "Don't.  This thorazine seriously clouds your mind.  You need to stay sharp."
+      "Don't.  This thorazine seriously clouds your mind.  You need to stay sharp.",
+      "Sure, take thorazine.  If you want to lose your mind and wander into a horde of undead!"
     ]
   },
   {
@@ -41,7 +42,9 @@
       "I'm not interested.",
       "How about no?",
       "I'm sorry <name_g>. I'm afraid I can't do that.",
-      "Wish I could, <name_g>."
+      "Wish I could, <name_g>.",
+      "Nothing to trade, sorry <name_g>.",
+      "Maybe next time?"
     ]
   },
   {
@@ -56,7 +59,8 @@
       "Who put you in charge of what I do?",
       "Great idea!  Call me when you find SOMEONE ELSE to do it.",
       "I'm afraid I can't help you there.",
-      "Not exactly the settlin' type."
+      "Not exactly the settlin' type.",
+      "I'm more of a free spirit, can't settle, sorry."
     ]
   },
   {
@@ -142,39 +146,6 @@
       "Did you know that lack of water kills faster than lack of rest?",
       "I can't remember the last time I was this thirsty.",
       "I'd kill for a sip of water right now."
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "<noticedbooze>",
-    "//": "Used when chit-chatting while the avatar has a beer",
-    "text": [
-      "Yeah sure, can't help but notice you got beer with you!  Let's crack a cold one and chat, <name_g>, how goes it?",
-      "Oh definitely, how about one of those beers I see on you?  What's up anyway?",
-      "Yeah you share those beers I see you hoarding and then we chat all you like!  Only joking, what's up <name_g>?",
-      "Hey <name_g>, I bet a chat would be all the sweeter with a nice, cold beer in hand.  How's it going?",
-      "While we chat, what say you we open a beer and just… pretend the world isn't ending, just for a while?"
-    ]
-  },
-  {
-    "type": "snippet",
-    "category": "<neutralchitchat>",
-    "//": "General chit chat messages",
-    "text": [
-      "Hey, sure thing, <name_g>, I need a break anyway, how are you?",
-      "Yeah OK, <name_g>, how's it going?",
-      "Sure, let's shoot the shit!  You OK?",
-      "Why not?  How you doing?",
-      "I'm OK with that, what's up?",
-      "I can spare a few minutes, how's things?",
-      "Sure thing <name_g>, you good?",
-      "Alright, you got something to get off your chest?",
-      "Always ready for a good chat!  But why, you OK?",
-      "OK <name_g>, we should get to know each other, how are you coping?",
-      "Definitely, I'm game.  How you holding up?",
-      "Good idea <name_g>.  Let's forget the world for a while.  How you doin'?",
-      "Ah, what the heck.  How's life been treating you?",
-      "Sure.  So, how about that weather ey?"
     ]
   },
   {
@@ -351,7 +322,9 @@
       "Hey <name_g><punc> Wait for me!",
       "Where are you?!",
       "Hey, I'm over here!",
-      "Hold up a second, will ya?"
+      "Hold up a second, will ya?",
+      "What's the rush?",
+      "Wait for me <name_g>, I can't keep up with you like this!"
     ]
   },
   {
@@ -1176,6 +1149,16 @@
   },
   {
     "type": "snippet",
+    "category": "<CWH_intro_question>",
+    "//": "avatar response to an NPC that opens up their theories about what the cataclysm was.",
+    "text": [
+      "How do you think we ended up here?  What even happened?",
+      "What's going on?  Like, big picture, what the hell happened?",
+      "Have you heard anything about how the apocalypse came about?"
+    ]
+  },
+  {
+    "type": "snippet",
     "category": "<done_conversation_section>",
     "//": "Avatar response to an NPC that can be used for TALK_NONE responses.  Could be used in a lot more dialogs.  Could also use a lot more variety.",
     "text": [
@@ -1344,6 +1327,62 @@
     "type": "snippet",
     "category": "<granny_name_g>",
     "text": [ "child", "my child", "dear", "my dear", "friend", "survivor" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<camp_water_thanks>",
+    "//": "NPCs say this after drinking water from a camp well.",
+    "text": [
+      "Clean water, the taste that refreshes!",
+      "I was parched, but not I am not.",
+      "Water is nice, but I should get a grog ration.",
+      "That wasn't Evian, but I'm not thirsty."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<camp_food_thanks>",
+    "//": "NPCs say this after eating food from a basecamp larder.",
+    "text": [
+      "And now I have eaten and am not hungry.",
+      "That food was good, but I miss real restaurants.",
+      "Well, that satisfied me.",
+      "I just had some food, but I'm still peckish.  Would you mind if I ate more?"
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<camp_larder_empty>",
+    "//": "NPCs say this after trying to eat from a basecamp larder with no food.",
+    "text": [
+      "Hey, <name_g>, we're out of food.",
+      "Hey, the larder is empty!  We're going to starve.",
+      "Uhm, <name_g>, I don't meant to criticize, but we should focus on distributing some food into the basecamp larder."
+    ]
+  },
+  {
+    "type": "snippet",
+    "category": "<danger_close_distance>",
+    "//": "A threat is very close.",
+    "text": [ "right on top of us!", "right there!", "danger close!", "almost in melee range!", "too close for comfort!" ]
+  },
+  {
+    "type": "snippet",
+    "category": "<close_distance>",
+    "//": "A threat is close.",
+    "text": [ "within shooting range.", "only a couple of seconds' away.", "just a bit away.", "closer than I'd like." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<medium_distance>",
+    "//": "A threat is nearby.",
+    "text": [ "near enough to see us.", "quite a bit away.", "maybe within shooting range.", "at a good distance." ]
+  },
+  {
+    "type": "snippet",
+    "category": "<far_distance>",
+    "//": "A threat is on the horizon.",
+    "text": [ "far enough away that we could make sneak away.", "out on the horizon, so don't worry much.", "at a long distance." ]
   },
   {
     "type": "snippet",

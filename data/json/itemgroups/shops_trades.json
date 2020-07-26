@@ -28,6 +28,7 @@
       [ "mask_dust", 15 ],
       { "item": "ear_plugs", "prob": 25, "count": [ 1, 3 ] },
       [ "charcoal", 25 ],
+      [ "sandpaper", 75 ],
       {
         "collection": [
           { "item": "oxy_torch", "prob": 100 },
@@ -59,7 +60,8 @@
       [ "charcoal", 50 ],
       { "item": "glass_shard", "prob": 90, "count": [ 1, 8 ] },
       [ "material_sand", 80 ],
-      [ "chemistry_set", 5 ]
+      [ "chemistry_set", 5 ],
+      [ "sandpaper", 50 ]
     ]
   }
 ]

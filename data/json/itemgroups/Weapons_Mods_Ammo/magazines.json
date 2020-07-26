@@ -164,7 +164,6 @@
       [ "454_speedloader5", 5 ],
       [ "454_speedloader6", 5 ],
       [ "500_speedloader5", 5 ],
-      [ "8x40_speedloader5", 5 ],
       [ "glock_drum_50rd", 5 ],
       [ "glock_drum_100rd", 5 ],
       [ "90two40mag", 5 ],
@@ -308,7 +307,7 @@
     "type": "item_group",
     "id": "mags_other_makeshift",
     "//": "Makeshift or otherwise poor quality magazines that have no better category.",
-    "items": [ [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
+    "items": [ [ "nailmag", 20 ], [ "pressurized_tank_chem", 5 ], [ "aux_pressurized_tank", 10 ] ]
   },
   {
     "type": "item_group",

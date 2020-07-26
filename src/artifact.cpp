@@ -457,7 +457,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         // Name    color  Material         Vol Wgt Enc MaxEnc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
             translate_marker( "Robe" ),   def_c_red, material_id( "wool" ),    1500_ml, 700_gram,  1,  1,  90,  3,  0,  2,  0_ml, -8,  0, -3,
-            { { bp_torso, bp_leg_l, bp_leg_r } }, false,
+            { { bodypart_str_id( "torso" ), bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } }, false,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_POCKETED, ARMORMOD_FURRED,
                     ARMORMOD_PADDED
@@ -467,7 +467,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
         {
             translate_marker( "Coat" ),   def_c_brown, material_id( "leather" ),   3500_ml, 1600_gram,  2,  2,  80, 2,  1,  4,  1_liter, -6,  0, -3,
-            { bp_torso }, false,
+            { bodypart_str_id( "torso" ) }, false,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_POCKETED, ARMORMOD_FURRED, ARMORMOD_PADDED,
                     ARMORMOD_PLATED
@@ -477,7 +477,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
         {
             translate_marker( "Mask" ),   def_c_white, material_id( "wood" ),      1_liter, 100_gram,  2,  2,  50, 2,  1,  2,  0_ml,  2,  0, -2,
-            { { bp_eyes, bp_mouth } }, false,
+            { { bodypart_str_id( "eyes" ), bodypart_str_id( "mouth" ) } }, false,
             {{
                     ARMORMOD_FURRED, ARMORMOD_FURRED, ARMORMOD_NULL, ARMORMOD_NULL,
                     ARMORMOD_NULL
@@ -488,7 +488,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         // Name    color  Materials             Vol  Wgt Enc MaxEnc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
             translate_marker( "Helm" ),   def_c_dark_gray, material_id( "silver" ),    1500_ml, 700_gram,  2,  2,  85, 3,  0,  1,  0_ml,  8,  0, -2,
-            { bp_head }, false,
+            { bodypart_str_id( "head" ) }, false,
             {{
                     ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
                     ARMORMOD_NULL
@@ -498,7 +498,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
 
         {
             translate_marker( "Gloves" ), def_c_light_blue, material_id( "leather" ), 500_ml, 100_gram,  1,  1,  90,  3,  1,  2,  0_ml, -4,  0, -2,
-            { { bp_hand_l, bp_hand_r } }, true,
+            { { bodypart_str_id( "hand_l" ), bodypart_str_id( "hand_r" ) } }, true,
             {{
                     ARMORMOD_BULKY, ARMORMOD_FURRED, ARMORMOD_PADDED, ARMORMOD_PLATED,
                     ARMORMOD_NULL
@@ -509,7 +509,7 @@ static const std::array<artifact_armor_form_datum, NUM_ARTARMFORMS> artifact_arm
         // Name    color  Materials            Vol  Wgt Enc MaxEnc Cov Thk Env Wrm Sto Bsh Cut Hit
         {
             translate_marker( "Boots" ), def_c_blue, material_id( "leather" ),     1500_ml, 250_gram,  1,  1,  75,  3,  1,  3,  0_ml,  4,  0, -1,
-            { { bp_foot_l, bp_foot_r } }, true,
+            { { bodypart_str_id( "foot_l" ), bodypart_str_id( "foot_r" ) } }, true,
             {{
                     ARMORMOD_LIGHT, ARMORMOD_BULKY, ARMORMOD_PADDED, ARMORMOD_PLATED,
                     ARMORMOD_NULL
@@ -673,7 +673,7 @@ void it_artifact_armor::create_name( const std::string &type )
     name = no_translation( artifact_name( type ) );
 }
 
-std::string new_artifact()
+itype_id new_artifact()
 {
     if( one_in( 2 ) ) {
         // Generate a "tool" artifact
@@ -833,10 +833,7 @@ std::string new_artifact()
         def.melee[DT_BASH] = info.melee_bash;
         def.melee[DT_CUT] = info.melee_cut;
         def.m_to_hit = info.melee_hit;
-        def.armor->covers = info.covers;
-        def.armor->encumber = info.encumb;
-        def.armor->max_encumber = info.max_encumb;
-        def.armor->coverage = info.coverage;
+        def.armor->data.push_back( { info.encumb, info.max_encumb, info.coverage, info.covers } );
         def.armor->thickness = info.thickness;
         def.armor->env_resist = info.env_resist;
         def.armor->warmth = info.warmth;
@@ -861,13 +858,7 @@ std::string new_artifact()
                     def.weight = 1_gram;
                 }
 
-                def.armor->encumber += modinfo.encumb;
-
-                if( modinfo.coverage > 0 || def.armor->coverage > std::abs( modinfo.coverage ) ) {
-                    def.armor->coverage += modinfo.coverage;
-                } else {
-                    def.armor->coverage = 0;
-                }
+                def.armor->data.push_back( { modinfo.encumb, modinfo.max_encumb, modinfo.coverage, modinfo.covers } );
 
                 if( modinfo.thickness > 0 || def.armor->thickness > std::abs( modinfo.thickness ) ) {
                     def.armor->thickness += modinfo.thickness;
@@ -920,7 +911,7 @@ std::string new_artifact()
     }
 }
 
-std::string new_natural_artifact( artifact_natural_property prop )
+itype_id new_natural_artifact( artifact_natural_property prop )
 {
     // Natural artifacts are always tools.
     it_artifact_tool def;
@@ -1040,35 +1031,6 @@ std::string new_natural_artifact( artifact_natural_property prop )
     return def.get_id();
 }
 
-// Make a special debugging artifact.
-std::string architects_cube()
-{
-    it_artifact_tool def;
-
-    const artifact_tool_form_datum &info = artifact_tool_form_data[ARTTOOLFORM_CUBE];
-    def.create_name( _( info.name ) );
-    def.color = info.color;
-    def.sym = std::string( 1, info.sym );
-    def.materials.push_back( info.material );
-    def.volume = rng( info.volume_min, info.volume_max );
-    def.weight = rng( info.weight_min, info.weight_max );
-    // Set up the basic weapon type
-    const artifact_weapon_datum &weapon = artifact_weapon_data[info.base_weapon];
-    def.melee[DT_BASH] = rng( weapon.bash_min, weapon.bash_max );
-    def.melee[DT_CUT] = rng( weapon.cut_min, weapon.cut_max );
-    def.m_to_hit = rng( weapon.to_hit_min, weapon.to_hit_max );
-    if( !weapon.tag.empty() ) {
-        def.item_tags.insert( weapon.tag );
-    }
-    // Add an extra weapon perhaps?
-    // Most artifact descriptions are generated and stored using `no_translation`,
-    // also do it here for consistency
-    def.description = no_translation( _( "The architect's cube." ) );
-    def.artifact->effects_carried.push_back( AEP_SUPER_CLAIRVOYANCE );
-    item_controller->add_item_type( static_cast<itype &>( def ) );
-    return def.get_id();
-}
-
 std::vector<art_effect_passive> fill_good_passive()
 {
     std::vector<art_effect_passive> ret;
@@ -1136,7 +1098,7 @@ void load_artifacts( const std::string &path )
 
 void it_artifact_tool::deserialize( const JsonObject &jo )
 {
-    id = jo.get_string( "id" );
+    jo.read( "id", id, true );
     name = no_translation( jo.get_string( "name" ) );
     description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
@@ -1188,7 +1150,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
     }
 
     tool->revert_to.emplace( jo.get_string( "revert_to", "null" ) );
-    if( *tool->revert_to == "null" ) {
+    if( tool->revert_to->is_null() ) {
         tool->revert_to.reset();
     }
 
@@ -1244,7 +1206,7 @@ void it_artifact_tool::deserialize( const JsonObject &jo )
 
 void it_artifact_armor::deserialize( const JsonObject &jo )
 {
-    id = jo.get_string( "id" );
+    jo.read( "id", id, true );
     name = no_translation( jo.get_string( "name" ) );
     description = no_translation( jo.get_string( "description" ) );
     if( jo.has_int( "sym" ) ) {
@@ -1278,11 +1240,12 @@ void it_artifact_armor::deserialize( const JsonObject &jo )
     m_to_hit = jo.get_int( "m_to_hit" );
     item_tags = jo.get_tags( "item_flags" );
 
-    jo.read( "covers", armor->covers );
-    armor->encumber = jo.get_int( "encumber" );
     // Old saves don't have max_encumber, so set it to base encumbrance value
-    armor->max_encumber = jo.get_int( "max_encumber", armor->encumber );
-    armor->coverage = jo.get_int( "coverage" );
+    armor->data.push_back( { jo.get_int( "encumber" ), jo.get_int( "max_encumber", jo.get_int( "encumber" ) ), jo.get_int( "coverage" ), {} } );
+
+    // A horrible solution to the required change here, but it works for now
+    jo.read( "covers", armor->data[0].covers );
+
     armor->thickness = jo.get_int( "material_thickness" );
     armor->env_resist = jo.get_int( "env_resist" );
     armor->warmth = jo.get_int( "warmth" );
@@ -1417,10 +1380,13 @@ void it_artifact_armor::serialize( JsonOut &json ) const
     json.member( "techniques", techniques );
 
     // armor data
-    json.member( "covers", armor->covers );
-    json.member( "encumber", armor->encumber );
-    json.member( "max_encumber", armor->max_encumber );
-    json.member( "coverage", armor->coverage );
+    armor_portion_data tempData;
+    json.member( "encumber", tempData.encumber );
+    json.member( "max_encumber", tempData.max_encumber );
+    json.member( "coverage", tempData.coverage );
+    json.member( "covers", tempData.covers );
+    armor->data.push_back( tempData );
+
     json.member( "material_thickness", armor->thickness );
     json.member( "env_resist", armor->env_resist );
     json.member( "warmth", armor->warmth );

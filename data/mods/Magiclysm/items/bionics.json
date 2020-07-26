@@ -30,7 +30,7 @@
     "type": "bionic",
     "name": { "str": "Crystallized Mana Nose Replacement" },
     "description": "A large gem made with crystallized mana and some other stabilizing metals.  Comes with a specially designed power pack (installed into the skull) that does not interfere with your mana ley lines.  WARNING: for Technomancer use only.  By using this spell you are waiving all liability of Frikken Laser Beams Inc.  and its subsidiaries.",
-    "occupied_bodyparts": [ [ "HEAD", 10 ], [ "MOUTH", 1 ] ],
+    "occupied_bodyparts": [ [ "head", 10 ], [ "mouth", 1 ] ],
     "capacity": "500 kJ",
     "learned_spells": { "overcharge_eyes": 4 },
     "canceled_mutations": [ "EARTHSHAPER" ],

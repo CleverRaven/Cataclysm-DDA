@@ -20,8 +20,6 @@ class generic_factory;
 
 using Group_tag = std::string;
 class item;
-
-using itype_id = std::string;
 class JsonObject;
 class avatar;
 class player;
@@ -32,7 +30,7 @@ class profession
         using StartingSkill = std::pair<skill_id, int>;
         using StartingSkillList = std::vector<StartingSkill>;
         struct itypedec {
-            std::string type_id;
+            itype_id type_id;
             /** Snippet id, @see snippet_library. */
             snippet_id snip_id;
             // compatible with when this was just a std::string
@@ -66,6 +64,7 @@ class profession
 
         std::vector<addiction> _starting_addictions;
         std::vector<bionic_id> _starting_CBMs;
+        std::vector<proficiency_id> _starting_proficiencies;
         std::vector<trait_id> _starting_traits;
         std::set<trait_id> _forbidden_traits;
         std::vector<mtype_id> _starting_pets;
@@ -107,6 +106,7 @@ class profession
         vproto_id vehicle() const;
         std::vector<mtype_id> pets() const;
         std::vector<bionic_id> CBMs() const;
+        std::vector<proficiency_id> proficiencies() const;
         StartingSkillList skills() const;
 
         std::map<spell_id, int> spells() const;

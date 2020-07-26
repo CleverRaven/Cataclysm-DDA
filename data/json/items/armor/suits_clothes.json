@@ -39,7 +39,8 @@
     "color": "pink",
     "covers": [ "LEGS", "TORSO", "ARMS" ],
     "coverage": 90,
-    "encumbrance": 30,
+    "encumbrance": 17,
+    "max_encumbrance": 30,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "250 ml", "max_contains_weight": "1 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1500 ml", "max_contains_weight": "4 kg", "moves": 120 },
@@ -66,7 +67,8 @@
     "color": "light_green",
     "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
     "coverage": 100,
-    "encumbrance": 30,
+    "encumbrance": 26,
+    "max_encumbrance": 30,
     "pocket_data": [ { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 } ],
     "warmth": 50,
     "material_thickness": 5,
@@ -89,7 +91,8 @@
     "color": "yellow",
     "covers": [ "LEGS", "ARMS", "TORSO" ],
     "coverage": 95,
-    "encumbrance": 2,
+    "encumbrance": 1,
+    "max_encumbrance": 2,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "700 ml", "max_contains_weight": "2 kg", "moves": 80 },
@@ -116,7 +119,8 @@
     "color": "yellow",
     "covers": [ "LEGS", "ARMS", "TORSO" ],
     "coverage": 95,
-    "encumbrance": 2,
+    "encumbrance": 1,
+    "max_encumbrance": 2,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
@@ -154,7 +158,8 @@
     "color": "yellow",
     "covers": [ "LEGS", "ARMS", "TORSO" ],
     "coverage": 95,
-    "encumbrance": 7,
+    "encumbrance": 3,
+    "max_encumbrance": 7,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }
@@ -199,7 +204,8 @@
     "color": "light_gray",
     "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
     "coverage": 100,
-    "encumbrance": 30,
+    "encumbrance": 26,
+    "max_encumbrance": 30,
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "500 ml", "max_contains_weight": "2 kg", "moves": 80 }

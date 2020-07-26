@@ -2,13 +2,13 @@
 #ifndef CATA_SRC_CATA_UTILITY_H
 #define CATA_SRC_CATA_UTILITY_H
 
-#include <fstream>
+#include <algorithm>
 #include <functional>
+#include <iosfwd>
 #include <string>
+#include <type_traits>
 #include <utility>
 #include <vector>
-#include <algorithm>
-#include <type_traits>
 
 #include "units.h"
 
@@ -83,6 +83,8 @@ T divide_round_up( units::quantity<T, U> num, units::quantity<T, U> den )
 {
     return divide_round_up( num.value(), den.value() );
 }
+
+int divide_round_down( int a, int b );
 
 /**
  * Determine whether a value is between two given boundaries.
@@ -231,6 +233,15 @@ double convert_velocity( int velocity, units_type vel_units );
  * @returns Weight converted to user selected unit
  */
 double convert_weight( const units::mass &weight );
+
+/**
+ * converts length to largest unit available
+ * 1000 mm = 1 meter for example
+ * assumed to be used in conjunction with unit string functions
+ * also works for imperial units
+ */
+int convert_length( const units::length &length );
+std::string length_units( const units::length &length );
 
 /** convert a mass unit to a string readable by a human */
 std::string weight_to_string( const units::mass &weight );
@@ -400,43 +411,6 @@ bool read_from_file_optional_json( const std::string &path,
                                    const std::function<void( JsonIn & )> &reader );
 bool read_from_file_optional( const std::string &path, JsonDeserializer &reader );
 /**@}*/
-/**
- * Wrapper around std::ofstream that handles error checking and throws on errors.
- *
- * Use like a normal ofstream: the stream is opened in the constructor and
- * closed via @ref close. Both functions check for success and throw std::exception
- * upon any error (e.g. when opening failed or when the stream is in an error state when
- * being closed).
- * Use @ref stream (or the implicit conversion) to access the output stream and to write
- * to it.
- *
- * @note: The stream is closed in the destructor, but no exception is throw from it. To
- * ensure all errors get reported correctly, you should always call `close` explicitly.
- *
- * @note: This uses exclusive I/O.
- */
-class ofstream_wrapper
-{
-    private:
-        std::ofstream file_stream;
-        std::string path;
-        std::string temp_path;
-
-        void open( std::ios::openmode mode );
-
-    public:
-        ofstream_wrapper( const std::string &path, std::ios::openmode mode );
-        ~ofstream_wrapper();
-
-        std::ostream &stream() {
-            return file_stream;
-        }
-        operator std::ostream &() {
-            return file_stream;
-        }
-
-        void close();
-};
 
 std::istream &safe_getline( std::istream &ins, std::string &str );
 
@@ -454,7 +428,7 @@ std::istream &safe_getline( std::istream &ins, std::string &str );
  *
  */
 
-std::string obscure_message( const std::string &str, std::function<char()> f );
+std::string obscure_message( const std::string &str, const std::function<char()> &f );
 
 /**
  * @group JSON (de)serialization wrappers.
@@ -533,6 +507,25 @@ class on_out_of_scope
         void cancel() {
             func = nullptr;
         }
+};
+
+template<typename T>
+class restore_on_out_of_scope
+{
+    private:
+        T &t;
+        T orig_t;
+        on_out_of_scope impl;
+    public:
+        // *INDENT-OFF*
+        restore_on_out_of_scope( T &t_in ) : t( t_in ), orig_t( t_in ),
+            impl( [this]() { t = std::move( orig_t ); } ) {
+        }
+
+        restore_on_out_of_scope( T &&t_in ) : t( t_in ), orig_t( std::move( t_in ) ),
+            impl( [this]() { t = std::move( orig_t ); } ) {
+        }
+        // *INDENT-ON*
 };
 
 #endif // CATA_SRC_CATA_UTILITY_H

@@ -13,6 +13,7 @@ A mod is created by creating a folder within Cataclysm's `data/mods` directory. 
 The modinfo.json file is a file that contains metadata for your mod. Every mod must have a `modinfo.json` file in order for Cataclysm to find it.
 A barebones `modinfo.json` file looks like this:
 ````json
+[
   {
     "type": "MOD_INFO",
     "ident": "Mod_ID",
@@ -22,6 +23,7 @@ A barebones `modinfo.json` file looks like this:
     "category": "content",
     "dependencies": [ "dda" ]
   }
+]
 ````
 The `category` attribute denotes where the mod will appear in the mod selection menu. These are the available categories to choose from, with some examples chosen from mods that existed when this document was written. Pick whichever one applies best to your mod when writing your modinfo file.
  - `content` - A mod that adds a lot of stuff. Typically reserved for very large mods or complete game overhauls (eg: Core game files, Aftershock)
@@ -199,6 +201,23 @@ The format is as follows:
 Valid values for `subtype` are `whitelist` and `blacklist`.
 `scenarios` is an array of the scenario ids that you want to blacklist or whitelist.
 
+### Adding dialogue to existing NPCs
+
+You can't edit existing dialog, but you can add new dialogue by adding a new response that can kick off new dialogue and missions. Here is a working example from DinoMod:
+
+```json
+  {
+    "type": "talk_topic",
+    "id": "TALK_REFUGEE_BEGGAR_2_WEARING",
+    "responses": [
+      {
+        "text": "Yes.  I ask because I noticed there are dinosaurs around.  Do you know anything about that?",
+        "topic": "TALK_REFUGEE_BEGGAR_2_DINO2"
+      }
+    ]
+  }
+```
+
 ## Important note on json files
 
 The following characters: `[ { , } ] : "` are *very* important when adding or modifying JSON files. This means a single missing `,` or `[` or `}` can be the difference between a working file and a hanging game at startup.
@@ -213,6 +232,12 @@ In game, that appears like this:
 `This is a shirt that says "I wanna kill ALL the zombies" on the front.`
 
 Many editors have features that let you track `{ [` and `] }` to see if they're balanced (ie, have a matching opposite); These editors will also respect escaped characters properly. [Notepad++](https://notepad-plus-plus.org/) is a popular, free editor on Windows that contains this feature.  On Linux, there are a plethora of options, and you probably already have a preferred one 🙂
+
+### That which cannot be modded
+
+Almost everything in this game can be modded. Almost. This section is intended to chart those areas not supported for modding to save time and headaches.
+
+The Names folder and contents (EN etcetera) confirmed 5/23/20
 
 ## Addendum
 <!-- I really don't know if this should be here or not. Please let me know. -->

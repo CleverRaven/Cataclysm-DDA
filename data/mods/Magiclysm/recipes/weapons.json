@@ -312,9 +312,14 @@
     "time": 480000,
     "book_learn": [ [ "book_mythological", 10 ] ],
     "using": [ [ "forging_standard", 3 ] ],
-    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
+    "qualities": [ { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 }, { "id": "CUT", "level": 1 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "anvil", -1 ] ], [ [ "swage", -1 ] ] ],
-    "components": [ [ [ "reflexrecurvebow", 1 ] ], [ [ "gold_small", 1 ] ], [ [ "orichalcum_ingot", 1 ] ] ]
+    "components": [
+      [ [ "stick_long", 1 ], [ "2x4", 1 ] ],
+      [ [ "cordage_superior", 2, "LIST" ] ],
+      [ [ "gold_small", 1 ] ],
+      [ [ "orichalcum_ingot", 1 ] ]
+    ]
   },
   {
     "type": "recipe",

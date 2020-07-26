@@ -5,10 +5,16 @@
     "type": "AMMO",
     "name": { "str": "flechette" },
     "description": "A tiny steel dart.  Can be fired from a nail gun or similar weapon or used when crafting ammunition",
-    "material": "steel",
+    "material": [ "steel" ],
     "symbol": "=",
     "color": "dark_gray",
-    "proportional": { "price": 3, "damage": { "damage_type": "stab", "amount": 3.0, "armor_penetration": 3.0 } }
+    "proportional": {
+      "price": 3,
+      "range": 2.0,
+      "damage": { "damage_type": "bullet", "amount": 2.0 },
+      "armor_penetration": 3.0,
+      "dispersion": 0.5
+    }
   },
   {
     "id": "nail",
@@ -20,15 +26,15 @@
     "volume": "250 ml",
     "price": 1000,
     "price_postapoc": 250,
-    "material": "iron",
+    "material": [ "iron" ],
     "symbol": "=",
     "color": "cyan",
     "count": 100,
     "stack_size": 100,
     "ammo_type": "nail",
     "range": 3,
-    "damage": { "damage_type": "stab", "amount": 4, "armor_penetration": 3 },
-    "dispersion": 120,
+    "damage": { "damage_type": "bullet", "amount": 3, "armor_penetration": 1 },
+    "dispersion": 180,
     "effects": [ "NON-FOULING" ]
   }
 ]

@@ -7,13 +7,13 @@
 #include "color.h"
 #include "cursesdef.h"
 #include "filesystem.h"
-#include "game.h"
 #include "generic_factory.h"
 #include "input.h"
 #include "json.h"
 #include "map_extras.h"
 #include "options.h"
 #include "output.h"
+#include "path_info.h"
 #include "point.h"
 #include "translations.h"
 #include "ui_manager.h"
@@ -22,7 +22,7 @@ namespace auto_notes
 {
 std::string auto_note_settings::build_save_path() const
 {
-    return g->get_player_base_save_path() + ".ano.json";
+    return PATH_INFO::player_base_save_path() + ".ano.json";
 }
 
 void auto_note_settings::clear()
@@ -32,7 +32,7 @@ void auto_note_settings::clear()
 
 bool auto_note_settings::save()
 {
-    if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
+    if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
         return true;
     }
 
@@ -182,17 +182,17 @@ void auto_note_manager_gui::show()
     ui.on_screen_resize( [&]( ui_adaptor & ui ) {
         iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
 
-        const int iOffsetX = TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0;
-        const int iOffsetY = TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0;
+        const point iOffset( TERMX > FULL_SCREEN_WIDTH ? ( TERMX - FULL_SCREEN_WIDTH ) / 2 : 0,
+                             TERMY > FULL_SCREEN_HEIGHT ? ( TERMY - FULL_SCREEN_HEIGHT ) / 2 : 0 );
 
         w_border = catacurses::newwin( FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH,
-                                       point( iOffsetX, iOffsetY ) );
+                                       iOffset );
 
         w_header = catacurses::newwin( iHeaderHeight, FULL_SCREEN_WIDTH - 2,
-                                       point( 1 + iOffsetX, 1 + iOffsetY ) );
+                                       iOffset + point_south_east );
 
         w = catacurses::newwin( iContentHeight, FULL_SCREEN_WIDTH - 2,
-                                point( 1 + iOffsetX, iHeaderHeight + 1 + iOffsetY ) );
+                                iOffset + point( 1, iHeaderHeight + 1 ) );
 
         ui.position_from_window( w_border );
     } );
@@ -229,7 +229,7 @@ void auto_note_manager_gui::show()
         mvwputch( w_border, point( 0, 2 ), c_light_gray, LINE_XXXO );
         mvwputch( w_border, point( 79, 2 ), c_light_gray, LINE_XOXX );
         mvwputch( w_border, point( 61, FULL_SCREEN_HEIGHT - 1 ), c_light_gray, LINE_XXOX );
-        wrefresh( w_border );
+        wnoutrefresh( w_border );
 
         // == Draw header
         int tmpx = 0;
@@ -251,7 +251,7 @@ void auto_note_manager_gui::show()
         mvwprintz( w_header, point( 53, 2 ), c_white, _( "Symbol" ) );
         mvwprintz( w_header, point( 62, 2 ), c_white, _( "Enabled" ) );
 
-        wrefresh( w_header );
+        wnoutrefresh( w_header );
 
         mvwprintz( w_header, point( 39, 0 ), c_white, _( "Auto notes enabled:" ) );
 
@@ -314,9 +314,9 @@ void auto_note_manager_gui::show()
             }
         }
 
-        wrefresh( w_header );
-        wrefresh( w_border );
-        wrefresh( w );
+        wnoutrefresh( w_header );
+        wnoutrefresh( w_border );
+        wnoutrefresh( w );
     } );
 
     while( true ) {

@@ -310,7 +310,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
 - ```BELL``` Ring the bell.
 - ```BOLTCUTTERS``` Use your town key to gain access anywhere.
-- ```BREAK_STICK``` Breaks long stick into two.
+- ```BREAK_STICK``` Breaks long branch into two.
 - ```C4``` Arm the C4.
 - ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
 - ```CAN_GOO``` Release a little blob buddy.
@@ -364,6 +364,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NONE``` Do nothing.
 - ```PACK_CBM``` Put CBM in special autoclave pouch so that they stay sterile once sterilized.
 - ```PHEROMONE``` Makes zombies ignore you.
+- ```PICK_LOCK``` Pick a lock on a door. Speed and success chance are determined by skill, 'LOCKPICK' item quality and 'PERFECT_LOCKPICK' item flag
 - ```PICKAXE``` Does nothing but berate you for having it (I'm serious).
 - ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
 - ```PORTABLE_GAME``` Play games.
@@ -475,7 +476,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```FREEZERBURN``` First thaw is MUSHY, second is rotten
 - ```FUNGAL_VECTOR``` Will give a fungal infection when consumed.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
-- ```HIDDEN_POISON``` ... Food displays as poisonous with a certain survival skill level. Note that this doesn't make items poisonous on its own, consider adding `"use_action": "POISON"` as well, or using `FORAGE_POISON` instead.
+- ```HIDDEN_POISON``` ... Food displays as poisonous with a certain survival skill level. Note that this doesn't make items poisonous on its own, consider adding `"use_action": [ "POISON" ]` as well, or using `FORAGE_POISON` instead.
 - ```MELTS``` Provides half fun unless frozen. Edible when frozen.
 - ```MILLABLE``` Can be placed inside a mill, to turn into flour.
 - ```MYCUS_OK``` Can be eaten by post-threshold Mycus characters. Only applies to mycus fruits by default.
@@ -595,6 +596,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```USABLE_FIRE``` This terrain or furniture counts as a nearby fire for crafting.
 - ```WALL``` This terrain is an upright obstacle. Used for fungal conversion, and also implies `CONNECT_TO_WALL`.
+- ```WORKOUT_LEGS``` This furniture is for training your legs. Needed for checks like `is_limb_broken()`.
+- ```WORKOUT_ARMS``` This furniture is for training your arms. Needed for checks like `is_limb_broken()`.
 
 ### Examine Actions
 
@@ -628,7 +631,6 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```shrub_wildveggies``` Pick a wild veggies shrub.
 - ```slot_machine``` Gamble.
 - ```toilet``` Either drink or get water out of the toilet.
-- ```trap``` Interact with a trap.
 - ```water_source``` Drink or get water from a water source.
 
 ### Fungal Conversions Only
@@ -683,6 +685,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```NPC_ALT_ATTACK``` ... Shouldn't be set directly. Implied by "NPC_ACTIVATE" and "NPC_THROWN".
 - ```NPC_THROWN``` ... NPCs will throw this item (without activating it first) as an alternative attack.
 - ```NPC_THROW_NOW``` ... NPCs will try to throw this item away, preferably at enemies. Implies "TRADER_AVOID" and "NPC_THROWN".
+- ```PERFECT_LOCKPICK``` ... Item is a perfect lockpick. Takes only 5 seconds to pick a lock and never fails, but using it grants only a small amount of lock picking xp. The item should have "LOCKPICK" quality of at least 1.
 - ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components. Implies "TRADER_AVOID".
 - ```RADIOACTIVE``` ... Is radioactive (can be used with LEAK_*).
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
@@ -696,6 +699,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```TIE_UP``` ... Item can be used to tie up a creature.
 - ```TINDER``` ... This item can be used as tinder for lighting a fire with a REQUIRES_TINDER flagged firestarter.
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
+- ```TRADER_KEEP``` ... NPCs will not trade this item away under any circumstances.
+- ```TRADER_KEEP_EQUIPPED``` ... NPCs will only trade this item if they aren't currently wearing or wielding it.
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
 - ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
 
@@ -789,6 +794,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```mx_shrubbery``` ... All trees and shrubs become a single species of shrub.
 - ```mx_spider``` ... A big spider web, complete with spiders and eggs.
 - ```mx_supplydrop``` ... Crates with some military items in it.
+- ```mx_reed``` ... Extra water vegetation.
 
 
 ## Material Phases
@@ -809,7 +815,7 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```MESSY``` Creates more mess when pulping
 - ```NO_CVD``` Item can never be used with a CVD machine
 - ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
-- ```NO_UNWIELD``` Cannot unwield this item.
+- ```NO_UNWIELD``` Cannot unwield this item. Fake weapons and tools produced by bionics should have this flag. Such items support unwield as a special case.
 - ```POLEARM``` Item is clumsy up close and does 70% of normal damage against adjacent targets.  Should be paired with REACH_ATTACK.  Simple reach piercing weapons like spears should not get this flag.
 - ```REACH_ATTACK``` Allows to perform reach attack.
 - ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
@@ -908,7 +914,6 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```BASHES``` Bashes down doors.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```BIRDFOOD``` Becomes friendly / tamed with bird food.
-- ```BLEED``` Causes the player to bleed.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```CAN_DIG``` Can dig _and_ walk.
@@ -1111,6 +1116,7 @@ Also see `monster_attacks.json` for more special attacks, for example, impale an
 - ```NO_DISEASE``` This mutation grants immunity to diseases.
 - ```NO_THIRST``` Your thirst is not modified by food or drinks.
 - ```NO_RADIATION``` This mutation grants immunity to radiations.
+- ```NO_MINIMAL_HEALING``` This mutation disables the minimal healing of 1 hp a day.
 
 
 ### Categories
@@ -1233,6 +1239,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FIRE_START``` Player starts the game with fire nearby.
 - ```HELI_CRASH``` Player starts the game with various limbs wounds.
 - ```INFECTED``` Player starts the game infected.
+- ```FUNGAL_INFECTION``` Player starts the game with fungal infection.
 - ```LONE_START``` If starting NPC spawn option is switched to "Scenario-based", this scenario won't spawn a fellow NPC on game start.
 - ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 - ```SUR_START``` Surrounded start, zombies outside the starting location.
@@ -1398,6 +1405,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```NEEDS_BATTERY_MOUNT```
 - ```NOINSTALL``` Cannot be installed.
 - ```NO_INSTALL_PLAYER``` Cannot be installed by a player, but can be installed on vehicles.
+- ```NO_MODIFY_VEHICLE``` Installing a part with this flag on a vehicle will mean that it can no longer be modified. Parts with this flag should not be installable by players.
 - ```NO_UNINSTALL``` Cannot be unintalled
 - ```NO_REPAIR``` Cannot be repaired
 - ```NO_JACK```
@@ -1425,6 +1433,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SEAT``` A seat where the player can sit or sleep.
 - ```SECURITY```
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
+- ```SIMPLE_PART``` This part can be installed or removed from that otherwise prevent modification.
+- ```SMASH_REMOVE``` When you remove this part, instead of getting the item back, you will get the bash results.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
 - ```SPACE_HEATER``` There is separate command to toggle this part.
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.

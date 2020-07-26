@@ -8,8 +8,8 @@
 #include <set>
 #include <utility>
 
-#include "avatar.h"
 #include "bodypart.h"
+#include "character.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "damage.h"
 #include "flat_set.h"
@@ -54,22 +54,26 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
     int scol = 0; // sorting column
 
     std::map<std::string, standard_npc> test_npcs;
-    test_npcs[ "S1" ] = standard_npc( "S1", { 0, 0, 2 }, { "gloves_survivor", "mask_lsurvivor" },
-                                      4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
-    test_npcs[ "S2" ] = standard_npc( "S2", { 0, 0, 3 }, { "gloves_fingerless", "sunglasses" },
-                                      4, 8, 8, 8, 10 /* PER 10 */ );
-    test_npcs[ "S3" ] = standard_npc( "S3", { 0, 0, 4 }, { "gloves_plate", "helmet_plate" },
-                                      4, 10, 8, 8, 8 /* STAT 10 */ );
+    test_npcs[ "S1" ] = standard_npc(
+                            "S1", { 0, 0, 2 }, { "gloves_survivor", "mask_lsurvivor" },
+                            4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S2" ] = standard_npc(
+                            "S2", { 0, 0, 3 }, { "gloves_fingerless", "sunglasses" },
+                            4, 8, 8, 8, 10 /* PER 10 */ );
+    test_npcs[ "S3" ] = standard_npc(
+                            "S3", { 0, 0, 4 }, { "gloves_plate", "helmet_plate" },
+                            4, 10, 8, 8, 8 /* STAT 10 */ );
     test_npcs[ "S4" ] = standard_npc( "S4", { 0, 0, 5 }, {}, 0, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
     test_npcs[ "S5" ] = standard_npc( "S5", { 0, 0, 6 }, {}, 4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
-    test_npcs[ "S6" ] = standard_npc( "S6", { 0, 0, 7 }, { "gloves_hsurvivor", "mask_hsurvivor" },
-                                      4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
+    test_npcs[ "S6" ] = standard_npc(
+                            "S6", { 0, 0, 7 }, { "gloves_hsurvivor", "mask_hsurvivor" },
+                            4, 8, 10, 8, 10 /* DEX 10, PER 10 */ );
 
     std::map<std::string, item> test_items;
-    test_items[ "G1" ] = item( "glock_19" ).ammo_set( "9mm" );
-    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( "9mm" );
-    test_items[ "G3" ] = item( "ar15" ).ammo_set( "223" );
-    test_items[ "G4" ] = item( "remington_700" ).ammo_set( "270" );
+    test_items[ "G1" ] = item( "glock_19" ).ammo_set( itype_id( "9mm" ) );
+    test_items[ "G2" ] = item( "hk_mp5" ).ammo_set( itype_id( "9mm" ) );
+    test_items[ "G3" ] = item( "ar15" ).ammo_set( itype_id( "223" ) );
+    test_items[ "G4" ] = item( "remington_700" ).ammo_set( itype_id( "270" ) );
     test_items[ "G4" ].put_in( item( "rifle_scope" ), item_pocket::pocket_type::MOD );
 
     if( what == "AMMO" ) {
@@ -102,13 +106,14 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         header = {
             "Name", "Encumber (fit)", "Warmth", "Weight", "Coverage", "Bash", "Cut", "Bullet", "Acid", "Fire"
         };
-        auto dump = [&rows]( const item & obj ) {
+        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
+        auto dump = [&rows, &bp]( const item & obj ) {
             std::vector<std::string> r;
             r.push_back( obj.tname( 1, false ) );
-            r.push_back( to_string( obj.get_encumber( g->u ) ) );
+            r.push_back( to_string( obj.get_encumber( get_player_character(), convert_bp( bp ).id() ) ) );
             r.push_back( to_string( obj.get_warmth() ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.get_coverage() ) );
+            r.push_back( to_string( obj.get_coverage( convert_bp( bp ).id() ) ) );
             r.push_back( to_string( obj.bash_resist() ) );
             r.push_back( to_string( obj.cut_resist() ) );
             r.push_back( to_string( obj.bullet_resist() ) );
@@ -117,12 +122,10 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             rows.push_back( r );
         };
 
-        body_part bp = opts.empty() ? num_bp : get_body_part_token( opts.front() );
-
         for( const itype *e : item_controller->all() ) {
             if( e->armor ) {
                 item obj( e );
-                if( bp == num_bp || obj.covers( bp ) ) {
+                if( bp == num_bp || obj.covers( convert_bp( bp ).id() ) ) {
                     if( obj.has_flag( flag_VARSIZE ) ) {
                         obj.item_tags.insert( "FIT" );
                     }
@@ -157,7 +160,7 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
         for( const itype *e : item_controller->all() ) {
             item food( e, calendar::turn, item::solitary_tag {} );
 
-            if( food.is_food() && g->u.can_eat( food ).success() ) {
+            if( food.is_food() && get_player_character().can_eat( food ).success() ) {
                 dump( food );
             }
         }
@@ -193,7 +196,6 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             }, enumeration_conjunction::none ) : "" );
             r.push_back( to_string( obj.volume() / units::legacy_volume_factor ) );
             r.push_back( to_string( to_gram( obj.weight() ) ) );
-            r.push_back( to_string( obj.ammo_capacity() ) );
             r.push_back( to_string( obj.gun_range() ) );
             r.push_back( to_string( obj.gun_dispersion() ) );
             r.push_back( to_string( obj.gun_recoil( who ) ) );
@@ -214,13 +216,13 @@ bool game::dump_stats( const std::string &what, dump_mode mode,
             if( e->gun ) {
                 item gun( e );
                 if( !gun.magazine_integral() ) {
-                    gun.put_in( item( gun.magazine_default() ), item_pocket::pocket_type::MAGAZINE );
+                    gun.put_in( item( gun.magazine_default() ), item_pocket::pocket_type::MAGAZINE_WELL );
                 }
-                gun.ammo_set( gun.ammo_default( false ), gun.ammo_capacity() );
+                gun.ammo_set( gun.ammo_default( false ) );
 
                 dump( test_npcs[ "S1" ], gun );
 
-                if( gun.type->gun->barrel_length > 0_ml ) {
+                if( gun.type->gun->barrel_volume > 0_ml ) {
                     gun.put_in( item( "barrel_small" ), item_pocket::pocket_type::MOD );
                     dump( test_npcs[ "S1" ], gun );
                 }

@@ -63,7 +63,7 @@
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
       [ [ "nomex", 8 ] ],
-      [ [ "kevlar_plate", 4 ] ],
+      [ [ "sheet_kevlar_layered", 4 ] ],
       [ [ "duct_tape", 200 ] ],
       [ [ "nomex_socks", 1 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ]
@@ -97,7 +97,7 @@
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
       [ [ "plastic_chunk", 4 ] ],
-      [ [ "kevlar_plate", 4 ] ],
+      [ [ "sheet_kevlar_layered", 4 ] ],
       [ [ "duct_tape", 200 ] ],
       [ [ "wetsuit_booties", 1 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_bunker", 1 ] ]
@@ -119,7 +119,7 @@
       [ [ "rag", 4 ] ],
       [ [ "leather", 4 ] ],
       [ [ "steel_chunk", 4 ], [ "scrap", 12 ] ],
-      [ [ "kevlar_plate", 4 ] ],
+      [ [ "sheet_kevlar_layered", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
@@ -150,7 +150,7 @@
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
       [ [ "rag", 8 ] ],
-      [ [ "kevlar_plate", 4 ] ],
+      [ [ "sheet_kevlar_layered", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
@@ -198,7 +198,7 @@
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
       [ [ "leather", 8 ], [ "tanned_hide", 2 ] ],
-      [ [ "kevlar_plate", 4 ] ],
+      [ [ "sheet_kevlar_layered", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
@@ -241,7 +241,7 @@
     "tools": [ [ [ "welder", 21 ], [ "welder_crude", 32 ], [ "soldering_iron", 32 ], [ "toolset", 32 ] ] ],
     "components": [
       [ [ "fur", 12 ], [ "tanned_pelt", 2 ] ],
-      [ [ "kevlar_plate", 4 ] ],
+      [ [ "sheet_kevlar_layered", 4 ] ],
       [ [ "duct_tape", 100 ] ],
       [ [ "boots_combat", 1 ], [ "boots_steel", 1 ], [ "boots_hiking", 1 ], [ "boots_bunker", 1 ], [ "boots", 1 ] ]
     ]
@@ -262,7 +262,7 @@
       [ [ "leather", 24 ], [ "tanned_hide", 4 ] ],
       [ [ "rag", 6 ] ],
       [ [ "scrap", 4 ] ],
-      [ [ "boots_combat", 2 ], [ "kevlar_plate", 10 ] ],
+      [ [ "boots_combat", 2 ], [ "sheet_kevlar_layered", 10 ] ],
       [ [ "duct_tape", 200 ] ]
     ]
   },
@@ -555,5 +555,39 @@
     "book_learn": [ [ "textbook_armwest", 6 ], [ "textbook_fabrication", 6 ], [ "recipe_melee", 6 ] ],
     "using": [ [ "chainmail_standard", 2 ] ],
     "components": [ [ [ "link_sheet", 2 ] ], [ [ "chain_link", 50 ] ], [ [ "wire", 1 ] ], [ [ "rag", 4 ] ] ]
+  },
+  {
+    "result": "roller_blades",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "skills_required": [ "tailor", 2 ],
+    "difficulty": 5,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "textbook_fabrication", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 6 ] ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "surface_heat", 15, "LIST" ] ], [ [ "swage", -1 ] ] ],
+    "components": [
+      [ [ "pipe", 1 ] ],
+      [ [ "wheel_skate", 6 ] ],
+      [ [ "plastic_chunk", 8 ] ],
+      [ [ "rag", 8 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "bearing", 6 ] ]
+    ]
+  },
+  {
+    "result": "rollerskates",
+    "type": "recipe",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_FEET",
+    "skill_used": "fabrication",
+    "difficulty": 5,
+    "time": "3 h",
+    "book_learn": [ [ "textbook_tailor", 5 ], [ "textbook_fabrication", 5 ] ],
+    "using": [ [ "blacksmithing_standard", 6 ] ],
+    "tools": [ [ [ "swage", -1 ] ] ],
+    "components": [ [ [ "wheel_skate", 8 ] ], [ [ "boots", 1 ] ], [ [ "pipe", 1 ] ], [ [ "scrap", 12 ] ], [ [ "bearing", 8 ] ] ]
   }
 ]

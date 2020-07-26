@@ -1,3 +1,4 @@
+#include <cmath>
 #include <initializer_list>
 #include <limits>
 #include <memory>
@@ -6,7 +7,9 @@
 #include "catch/catch.hpp"
 #include "enums.h"
 #include "item.h"
+#include "item_factory.h"
 #include "itype.h"
+#include "monstergenerator.h"
 #include "ret_val.h"
 #include "units.h"
 #include "value_ptr.h"
@@ -33,11 +36,11 @@ TEST_CASE( "item_volume", "[item]" )
 
 TEST_CASE( "simple_item_layers", "[item]" )
 {
-    CHECK( item( "arm_warmers" ).get_layer() == UNDERWEAR_LAYER );
-    CHECK( item( "10gal_hat" ).get_layer() == REGULAR_LAYER );
-    CHECK( item( "baldric" ).get_layer() == WAIST_LAYER );
-    CHECK( item( "aep_suit" ).get_layer() == OUTER_LAYER );
-    CHECK( item( "2byarm_guard" ).get_layer() == BELTED_LAYER );
+    CHECK( item( "arm_warmers" ).get_layer() == layer_level::UNDERWEAR );
+    CHECK( item( "10gal_hat" ).get_layer() == layer_level::REGULAR );
+    CHECK( item( "baldric" ).get_layer() == layer_level::WAIST );
+    CHECK( item( "aep_suit" ).get_layer() == layer_level::OUTER );
+    CHECK( item( "2byarm_guard" ).get_layer() == layer_level::BELTED );
 }
 
 TEST_CASE( "gun_layer", "[item]" )
@@ -46,7 +49,7 @@ TEST_CASE( "gun_layer", "[item]" )
     item mod( "shoulder_strap" );
     CHECK( gun.is_gunmod_compatible( mod ).success() );
     gun.put_in( mod, item_pocket::pocket_type::MOD );
-    CHECK( gun.get_layer() == BELTED_LAYER );
+    CHECK( gun.get_layer() == layer_level::BELTED );
 }
 
 TEST_CASE( "stacking_cash_cards", "[item]" )
@@ -155,5 +158,48 @@ TEST_CASE( "stacking_over_time", "[item]" )
                 CHECK( !A.stacks_with( B ) );
             }
         }
+    }
+}
+
+static void assert_minimum_length_to_volume_ratio( const item &target )
+{
+    if( target.type->get_id().is_null() ) {
+        return;
+    }
+    CAPTURE( target.type->get_id() );
+    CAPTURE( target.volume() );
+    CAPTURE( target.base_volume() );
+    CAPTURE( target.type->volume );
+    if( target.made_of( phase_id::LIQUID ) || target.is_soft() ) {
+        CHECK( target.length() == 0_mm );
+        return;
+    }
+    if( target.volume() == 0_ml ) {
+        CHECK( target.length() == -1_mm );
+        return;
+    }
+    if( target.volume() == 1_ml ) {
+        CHECK( target.length() >= 0_mm );
+        return;
+    }
+    // Minimum possible length is if the item is a sphere.
+    const float minimal_diameter = std::cbrt( ( 3.0 * units::to_milliliter( target.base_volume() ) ) /
+                                   ( 4.0 * M_PI ) );
+    CHECK( units::to_millimeter( target.length() ) >= minimal_diameter * 10.0 );
+}
+
+TEST_CASE( "item length sanity check", "[item]" )
+{
+    for( const itype *type : item_controller->all() ) {
+        const item sample( type, 0, item::solitary_tag {} );
+        assert_minimum_length_to_volume_ratio( sample );
+    }
+}
+
+TEST_CASE( "corpse length sanity check", "[item]" )
+{
+    for( const mtype &type : MonsterGenerator::generator().get_all_mtypes() ) {
+        const item sample = item::make_corpse( type.id );
+        assert_minimum_length_to_volume_ratio( sample );
     }
 }

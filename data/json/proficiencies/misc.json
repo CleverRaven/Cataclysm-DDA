@@ -1,0 +1,20 @@
+[
+  {
+    "type": "proficiency",
+    "id": "prof_knapping",
+    "name": { "str": "Knapping" },
+    "description": "The art of turning stones into more useful tools."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_blacksmithing",
+    "name": { "str": "Blacksmithing" },
+    "description": "The craft of working metal into tools and other items of use."
+  },
+  {
+    "type": "proficiency",
+    "id": "prof_helicopter_pilot",
+    "name": { "str": "Helicopter Piloting" },
+    "description": "Before the cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again."
+  }
+]

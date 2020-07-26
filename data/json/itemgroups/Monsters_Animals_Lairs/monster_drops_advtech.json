@@ -15,7 +15,7 @@
       { "item": "steel_chunk", "prob": 30 },
       { "item": "spring", "prob": 50 },
       { "item": "steel_lump", "prob": 30 },
-      { "item": "kevlar_plate", "prob": 10 },
+      { "item": "sheet_kevlar_layered", "prob": 10 },
       { "item": "ceramic_armor", "prob": 15 },
       { "item": "motor", "prob": 2 },
       { "group": "ammo_heavy_batteries_full", "prob": 50 },
@@ -60,7 +60,7 @@
     "entries": [
       { "item": "baton", "prob": 8 },
       { "item": "tazer", "prob": 3 },
-      { "item": "kevlar_plate", "prob": 10 },
+      { "item": "sheet_kevlar_layered", "prob": 10 },
       { "item": "ceramic_armor", "prob": 15 },
       { "item": "tonfa", "prob": 10 },
       { "item": "shocktonfa_off", "prob": 5 },
@@ -82,12 +82,6 @@
     "id": "turret",
     "subtype": "distribution",
     "entries": [ { "item": "9mm", "prob": 8 } ]
-  },
-  {
-    "type": "item_group",
-    "id": "laserturret",
-    "subtype": "distribution",
-    "entries": [ { "item": "cerberus_laser", "prob": 1 } ]
   },
   {
     "type": "item_group",
@@ -138,6 +132,19 @@
       { "item": "bio_razors", "prob": 2 },
       { "item": "bio_power_storage", "prob": 1 },
       { "item": "bio_torsionratchet", "prob": 1 }
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "turret_speaker",
+    "items": [
+      { "item": "scrap", "count": [ 4, 6 ] },
+      { "item": "e_scrap", "count": [ 1, 2 ] },
+      { "item": "plastic_chunk", "count": [ 0, 2 ] },
+      { "item": "wood_panel", "count": 1 },
+      { "item": "2x4", "count": 4 },
+      { "item": "nail", "charges": [ 8, 10 ] },
+      { "item": "cable", "charges": [ 3, 4 ] }
     ]
   }
 ]

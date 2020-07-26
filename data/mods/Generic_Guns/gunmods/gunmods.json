@@ -11,7 +11,8 @@
       "type": "transform",
       "target": "grenade_pistol",
       "msg": "You make the launcher ready for detached use."
-    }
+    },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 } } ]
   },
   {
     "id": "grenade_under_mod",
@@ -20,21 +21,24 @@
     "name": { "str_sp": "underbarrel launcher (modified)" },
     "description": "A stubby single shot launcher for launching grenades or flares.  This launcher can be attached to a rifle or other suitable platform, and includes its own set of sights.  In more recent years, variants were sold commercially to ostensibly launch flares.  With the right cartridges, this would be devastating against hard or soft targets. A crude homemade bracket has been attached, allowing a wider variety of hosts.",
     "gun_data": { "ammo": "ammo_grenade", "skill": "launcher", "dispersion": 270, "durability": 10, "clip_size": 1 },
-    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ]
+    "mod_targets": [ "smg", "rifle", "shotgun", "launcher", "crossbow" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_grenade": 1 } } ]
   },
   {
     "id": "shotgun_under",
     "copy-from": "masterkey",
     "type": "GUNMOD",
     "name": "underbarrel shotgun",
-    "gun_data": { "ammo": "ammo_shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 }
+    "gun_data": { "ammo": "ammo_shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 4 } } ]
   },
   {
     "id": "shotgun_under_mod",
     "copy-from": "masterkey_mod",
     "type": "GUNMOD",
     "name": { "str": "modified underbarrel shotgun" },
-    "gun_data": { "ammo": "ammo_shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 }
+    "gun_data": { "ammo": "ammo_shot", "skill": "shotgun", "dispersion": 330, "durability": 10, "clip_size": 4 },
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "ammo_shot": 4 } } ]
   },
   {
     "id": "arredondo_chute",

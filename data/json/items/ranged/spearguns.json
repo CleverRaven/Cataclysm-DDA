@@ -8,9 +8,10 @@
     "symbol": "=",
     "color": "brown",
     "description": "An underwater fishing spear made from wood tipped with steel.  It's very light, but doesn't have much range.  Stands a below average chance of remaining intact once fired.",
-    "material": "wood",
+    "material": [ "wood" ],
     "volume": "250 ml",
     "weight": "18 g",
+    "longest_side": "120 cm",
     "bashing": 1,
     "ammo_type": "fishspear",
     "damage": { "damage_type": "stab", "amount": 12, "armor_penetration": 4 },
@@ -29,9 +30,10 @@
     "symbol": "=",
     "color": "dark_gray",
     "description": "An underwater fishing spear made from carbon fiber.  It's very light, but doesn't have much range.  Stands a bad chance of remaining intact once fired.",
-    "material": "kevlar_rigid",
+    "material": [ "kevlar_rigid" ],
     "volume": "250 ml",
     "weight": "12 g",
+    "longest_side": "120 cm",
     "bashing": 1,
     "ammo_type": "fishspear",
     "damage": { "damage_type": "stab", "amount": 14, "armor_penetration": 12 },
@@ -50,9 +52,10 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "An underwater fishing spear made from metal.  It's light, but doesn't have much range.  Stands a very good chance of remaining intact once fired.",
-    "material": "iron",
+    "material": [ "iron" ],
     "volume": "250 ml",
     "weight": "28 g",
+    "longest_side": "120 cm",
     "bashing": 1,
     "ammo_type": "fishspear",
     "damage": { "damage_type": "stab", "amount": 14, "armor_penetration": 8 },
@@ -79,6 +82,7 @@
     "ammo": [ "fishspear" ],
     "weight": "3460 g",
     "volume": "2 L",
+    "longest_side": "90 cm",
     "bashing": 8,
     "to_hit": -2,
     "ranged_damage": { "damage_type": "stab", "amount": 12 },
@@ -96,7 +100,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 4 } } ]
   },
   {
     "id": "doublespeargun",
@@ -110,11 +115,12 @@
     "price": 17500,
     "price_postapoc": 2000,
     "material": [ "wood", "plastic" ],
-    "flags": [ "RELOAD_ONE", "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "RELOAD_ONE", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
     "skill": "rifle",
     "ammo": [ "fishspear" ],
     "weight": "3060 g",
     "volume": "2 L",
+    "longest_side": "90 cm",
     "bashing": 8,
     "to_hit": -2,
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
@@ -131,7 +137,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 2 } } ]
   },
   {
     "id": "minispeargun",
@@ -145,11 +152,12 @@
     "price": 10000,
     "price_postapoc": 1500,
     "material": [ "wood", "plastic" ],
-    "flags": [ "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
     "skill": "pistol",
     "ammo": [ "fishspear" ],
     "weight": "840 g",
     "volume": "1 L",
+    "longest_side": "35 cm",
     "bashing": 7,
     "to_hit": -2,
     "dispersion": 120,
@@ -163,7 +171,8 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 1 } } ]
   },
   {
     "id": "speargun",
@@ -177,11 +186,12 @@
     "price": 11500,
     "price_postapoc": 1500,
     "material": [ "wood", "plastic" ],
-    "flags": [ "STR_RELOAD", "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
+    "flags": [ "WATERPROOF_GUN", "UNDERWATER_GUN", "NEVER_JAMS", "NON-FOULING" ],
     "skill": "rifle",
     "ammo": [ "fishspear" ],
     "weight": "2100 g",
     "volume": "1750 ml",
+    "longest_side": "90 cm",
     "bashing": 7,
     "to_hit": -2,
     "ranged_damage": { "damage_type": "stab", "amount": 6 },
@@ -198,6 +208,7 @@
       [ "stock", 1 ],
       [ "rail mount", 1 ],
       [ "underbarrel mount", 1 ]
-    ]
+    ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "fishspear": 1 } } ]
   }
 ]

@@ -132,8 +132,8 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
     }
 };
 
-static const std::map<std::string, std::function<bool( const tripoint & )>> tripoint_function_map
-= {{
+static const std::map<std::string, std::function<bool( const tripoint_abs_omt & )>>
+tripoint_function_map = {{
         { "never", mission_place::never },
         { "always", mission_place::always },
         { "near_town", mission_place::near_town }
@@ -345,7 +345,7 @@ void mission_type::finalize()
 void mission_type::check_consistency()
 {
     for( const auto &m : get_all() ) {
-        if( !m.item_id.empty() && !item::type_is_defined( m.item_id ) ) {
+        if( !m.item_id.is_empty() && !item::type_is_defined( m.item_id ) ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }
     }
@@ -459,7 +459,8 @@ const std::vector<mission_type> &mission_type::get_all()
     return mission_type_factory.get_all();
 }
 
-mission_type_id mission_type::get_random_id( const mission_origin origin, const tripoint &p )
+mission_type_id mission_type::get_random_id( const mission_origin origin,
+        const tripoint_abs_omt &p )
 {
     std::vector<mission_type_id> valid;
     for( auto &t : get_all() ) {
