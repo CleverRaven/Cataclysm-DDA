@@ -8198,7 +8198,8 @@ bool item::getlight( float &luminance, int &width, int &direction ) const
 int item::getlight_emit() const
 {
     float lumint = type->light_emission;
-    if( ammo_required() == 0 ) {
+    if( ammo_required() == 0 ||
+        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammotype( "battery" ) ) == 0 ) ) {
         return lumint;
     }
     if( lumint == 0 || ammo_remaining() == 0 ) {
@@ -9619,6 +9620,11 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
+    // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
+    if( is_power_armor() && carrier->can_interface_armor() && carrier->has_power() ) {
+        return false;
+    }
+
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
