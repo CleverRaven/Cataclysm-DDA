@@ -319,16 +319,13 @@ bool computer_session::can_activate( computer_action action )
     switch( action ) {
         case COMPACT_LOCK:
             return get_map().has_nearby_ter( get_player_character().pos(), t_door_metal_c, 8 );
-            break;
 
         case COMPACT_RELEASE:
         case COMPACT_RELEASE_DISARM:
             return get_map().has_nearby_ter( get_player_character().pos(), t_reinforced_glass, 25 );
-            break;
 
         case COMPACT_RELEASE_BIONICS:
             return get_map().has_nearby_ter( get_player_character().pos(), t_reinforced_glass, 3 );
-            break;
 
         case COMPACT_TERMINATE: {
             map &here = get_map();
@@ -345,17 +342,14 @@ bool computer_session::can_activate( computer_action action )
                 }
             }
             return false;
-            break;
         }
 
         case COMPACT_UNLOCK:
         case COMPACT_UNLOCK_DISARM:
             return get_map().has_nearby_ter( get_player_character().pos(), t_door_metal_locked, 8 );
-            break;
 
         default:
             return true;
-            break;
     }
 }
 
