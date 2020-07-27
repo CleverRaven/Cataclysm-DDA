@@ -6047,9 +6047,9 @@ void Character::update_bodytemp()
                 add_effect( effect_hot_speed, 1_turns, bp, true, 1 );
             }
         } else {
-            remove_effect( effect_cold, bp->token );
-            remove_effect( effect_hot, bp->token );
-            remove_effect( effect_hot_speed, bp->token );
+            remove_effect( effect_cold, bp );
+            remove_effect( effect_hot, bp );
+            remove_effect( effect_hot_speed, bp );
         }
         // FROSTBITE - only occurs to hands, feet, face
         /**
@@ -6154,8 +6154,8 @@ void Character::update_bodytemp()
                 add_effect( effect_frostbite, 1_turns, bp, true, 1 );
                 // Else fully recovered
             } else if( frostbite_timer == 0 ) {
-                remove_effect( effect_frostbite, bp->token );
-                remove_effect( effect_frostbite_recovery, bp->token );
+                remove_effect( effect_frostbite, bp );
+                remove_effect( effect_frostbite_recovery, bp );
             }
         }
         // Warn the player if condition worsens
@@ -9109,7 +9109,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
         i_rem( &weapon );
     }
-    if( has_effect( effect_mending, part_to_damage->token ) && ( source == nullptr ||
+    if( has_effect( effect_mending, part_to_damage ) && ( source == nullptr ||
             !source->is_hallucination() ) ) {
         effect &e = get_effect( effect_mending, part_to_damage->token );
         float remove_mend = dam / 20.0f;
@@ -9123,10 +9123,10 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
     if( !bypass_med ) {
         // remove healing effects if damaged
         int remove_med = roll_remainder( dam / 5.0f );
-        if( remove_med > 0 && has_effect( effect_bandaged, part_to_damage->token ) ) {
+        if( remove_med > 0 && has_effect( effect_bandaged, part_to_damage ) ) {
             remove_med -= reduce_healing_effect( effect_bandaged, remove_med, part_to_damage );
         }
-        if( remove_med > 0 && has_effect( effect_disinfected, part_to_damage->token ) ) {
+        if( remove_med > 0 && has_effect( effect_disinfected, part_to_damage ) ) {
             reduce_healing_effect( effect_disinfected, remove_med, part_to_damage );
         }
     }
