@@ -94,8 +94,8 @@
     "id": "adrenaline_injector",
     "type": "COMESTIBLE",
     "comestible_type": "MED",
-    "name": { "str": "syringe of adrenaline", "str_pl": "syringes of adrenaline" },
-    "description": "A syringe filled with a shot of adrenaline.  It serves as a powerful stimulant when you inject yourself with it.  Asthmatics can use it in an emergency to clear their asthma.",
+    "name": { "str": "epinephrine autoinjector" },
+    "description": "A syringe filled with a shot of epinephrine, also called adrenalin.  It serves as a powerful stimulant when you inject yourself with it.  Asthmatics can use it in an emergency to clear their asthma.",
     "weight": "12 g",
     "volume": "10ml",
     "price": 3400,
@@ -103,7 +103,12 @@
     "material": [ "plastic" ],
     "symbol": "!",
     "color": "pink",
-    "use_action": [ "ADRENALINE_INJECTOR" ],
+    "stim": 29,
+    "use_action": {
+      "type": "consume_drug",
+      "activation_message": "You inject yourself with the injector.",
+      "effects": [ { "id": "pkill2", "duration": 480 } ]
+    },
     "flags": [ "NO_INGEST", "IRREPLACEABLE_CONSUMABLE" ]
   },
   {
