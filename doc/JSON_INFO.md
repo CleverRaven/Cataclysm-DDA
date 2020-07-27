@@ -43,7 +43,7 @@ Use the `Home` key to return to the top.
       - [`cbms`](#-cbms-)
       - [`traits`](#-traits-)
     + [Recipes](#recipes)
-      - [Recipe components](#recipe-components)
+      - [Recipe requirements](#recipe-requirements)
       - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
     + [Constructions](#constructions)
     + [Scent Types](#scent_types)
@@ -303,9 +303,12 @@ Standard components and tools for crafting
 | uncraft.json                 | common results of taking stuff apart
 | vehicle.json                 | tools to work on vehicles
 
-Recipe requirements are JSON objects with `"type": "requirement"`.  They allow re-using common
-groups of recipe ingredients, or alternative ingredients.  For example, the `bread_sandwich`
-requirement includes several alternative breads you could make a sandwich with:
+Requirements are JSON objects with `"type": "requirement"`.  They allow re-using common tools,
+qualities, and components in all kinds of recipes, including regular crafting and uncrafting recipes
+as well as constructions and vehicle parts.
+
+For example, the `bread_sandwich` requirement includes several alternative breads you could make a
+sandwich with:
 
 ```json
 {
@@ -337,7 +340,41 @@ This lets you simplify the "components" of sandwich recipes that could work with
 }
 ```
 
-See the [Recipe components](#recipe-components) section for how to use the "components" syntax.
+Requirements may include "tools" or "qualities" in addition to "components". Here we have a standard
+soldering requirement needing either a "soldering_iron" or "toolset", plus 1 unit of the
+"solder_wire" component:
+
+
+```json
+{
+  "id": "soldering_standard",
+  "type": "requirement",
+  "//": "Tools and materials needed for soldering metal items or electronics",
+  "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
+  "components": [ [ [ "solder_wire", 1 ] ] ]
+}
+```
+
+This simplifies recipes needing soldering, via the "using" field.  For instance, a simple "tazer"
+recipe could require 10 units of the soldering requirement, along with some other components:
+
+```json
+{
+  "type": "recipe",
+  "result": "tazer",
+  "using": [ [ "soldering_standard", 10 ] ],
+  "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ] ],
+  "//": "..."
+}
+
+```
+
+The "using" field is supported by "recipe", "construction", "vehicle_part", and "fault" types, so
+you could re-use the "soldering_standard" requirement for any of those things that needed the same
+tools, qualities, and/or materials.
+
+See the [Recipe requirements](#recipe-requirements) section for how to use requirement definitions in
+crafting recipes with the "using" and "components" fields.
 
 
 ## `data/json/vehicles/`
@@ -1092,12 +1129,16 @@ Crafting recipes are defined as a JSON object with the following fields:
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft
-  {"id":"CUT","level":1,"amount":1}
+  { "id": "CUT", "level": 1, "amount": 1 }
 ],
 "tools": [                   // Specific tools needed to craft
 [
-    [ "fire", -1 ]           // Charges consumed when tool is used, -1 means no charges are consumed
+  [ "fire", -1 ]             // Charges consumed when tool is used, -1 means no charges are consumed
 ]],
+"using": [                   // Requirement IDs and multipliers of tools and materials used
+  [ "req_a", 3 ],            // Second number multiplies requirement materials by that amount
+  [ "req_b", 5 ],            // Need 3x everything in req_a, 5x everything in req_b
+],
 "components": [              // Items (or item alternatives) required to craft this recipe
   [
     [ "item_a", 5 ]          // First ingredient: need 5 of item_a
@@ -1112,14 +1153,26 @@ Crafting recipes are defined as a JSON object with the following fields:
 ]
 ```
 
-#### Recipe components
+#### Recipe requirements
+
+The tool quality and component requirements for a recipe may be expressed in a combination of
+several ways, with these JSON fields:
+
+- "qualities" defines item qualities like CUT or HAMMER, and quality levels needed to craft
+- "tools" lists *item* ids of tools (or several alternative tools) needed for crafting the recipe
+- "components" lists *item* or *requirement* ids, intended mainly for material ingredients
+- "using" gives *requirement* ids; the requirement may have nested tools, qualities, or components
+
+These fields may be used similarly in uncrafting, constructions, vehicle parts, and vehicle faults.
+The first three fields are applicable to "requirement" definitions as well, and may be nested; see
+the [requirements section](#datajsonrequirements).
 
 A recipe's "components" lists all the required items or ingredients needed to craft the finished
-item from the recipe.  Each ingredient is given as an integer quantity of a specific item id or
-requirement id, or as a list of several equivalent item/requirement quantities.
+item from the recipe.  Each component is given as an integer quantity of a specific item id or
+requirement id, or as a list of several alternative item/requirement quantities.
 
-The syntax of an ingredient in its simplest form is an item id and quantity.  Continuing the
-"javelin" recipe, let's require a single "spear_wood" item:
+The syntax of a component in its simplest form is an item id and quantity.  Continuing the "javelin"
+recipe, let's require a single "spear_wood" item:
 
 ```json
 "components": [
@@ -1164,9 +1217,9 @@ And to bind the grip onto the javelin, some sinew or thread should be required, 
 "UNRECOVERABLE" flag on the item itself, indicating they can never be reclaimed when disassembling.
 See [JSON_FLAGS.md](JSON_FLAGS.md) for how to use this and other item flags.
 
-To avoid repeating commonly used sets of ingredient items, instead of an individual item id,
-provide the id of a "requirement" type, along with a quantity, and the "LIST" keyword.
-Typically these are defined within [`data/json/requirements`](#datajsonrequirements).
+To avoid repeating commonly used sets of components, instead of an individual item id, provide
+the id of a "requirement" type, along with a quantity, and the "LIST" keyword.  Typically these are
+defined within [`data/json/requirements`](#datajsonrequirements).
 
 For example if these "grip_patch" and "grip_wrap" requirements were defined:
 
@@ -1207,6 +1260,23 @@ And other recipes needing two such grips could simply require 2 of each:
 ]
 ```
 
+The "using" field in a recipe works similarly, but "using" may only refer to requirement ids, not
+specific items or tools.  A requirement included with "using" must also give a multiplier, telling
+how many units of that requirement are needed.  As with "components", the "using" list is formatted
+as a collection of alternatives, even if there is only one alternative.
+
+For instance, this "uncraft" recipe for a motorbike alternator uses either 20 units of the
+"soldering_standard" requirement, or 5 units of the "welding_standard" requirement:
+
+```json
+{
+  "type": "uncraft",
+  "result": "alternator_motorbike",
+  "qualities": [ { "id": "SCREW", "level": 1 } ],
+  "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+  "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 20 ] ], [ [ "bearing", 5 ] ], [ [ "scrap", 2 ] ] ]
+}
+```
 
 
 #### Overlapping recipe component requirements
