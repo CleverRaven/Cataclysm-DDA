@@ -887,6 +887,7 @@
         "hotel_2": 75,
         "hotel_3": 75,
         "hospital": 175,
+        "urban_35_hospital": 175,
         "public_works": 200,
         "office_tower_2": 150,
         "office_tower_large": 500,

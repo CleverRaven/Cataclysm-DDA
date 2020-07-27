@@ -431,37 +431,6 @@
     "flags": [ "CLASSIC" ]
   },
   {
-    "id": "urban_35_hospital",
-    "type": "city_building",
-    "overmaps": [
-      { "point": [ 1, 1, -1 ], "overmap": "urban_35_1_south" },
-      { "point": [ 0, 1, -1 ], "overmap": "urban_35_2_south" },
-      { "point": [ 1, 0, -1 ], "overmap": "urban_35_3_south" },
-      { "point": [ 0, 0, -1 ], "overmap": "urban_35_4_south" },
-      { "point": [ 1, 1, 0 ], "overmap": "urban_35_5_south" },
-      { "point": [ 0, 1, 0 ], "overmap": "urban_35_6_south" },
-      { "point": [ 1, 0, 0 ], "overmap": "urban_35_7_south" },
-      { "point": [ 0, 0, 0 ], "overmap": "urban_35_8_south" },
-      { "point": [ 1, 1, 1 ], "overmap": "urban_35_9_south" },
-      { "point": [ 0, 1, 1 ], "overmap": "urban_35_10_south" },
-      { "point": [ 1, 0, 1 ], "overmap": "urban_35_11_south" },
-      { "point": [ 0, 0, 1 ], "overmap": "urban_35_12_south" },
-      { "point": [ 1, 1, 2 ], "overmap": "urban_35_13_south" },
-      { "point": [ 0, 1, 2 ], "overmap": "urban_35_14_south" },
-      { "point": [ 1, 0, 2 ], "overmap": "urban_35_15_south" },
-      { "point": [ 0, 0, 2 ], "overmap": "urban_35_16_south" },
-      { "point": [ 1, 1, 3 ], "overmap": "urban_35_17_south" },
-      { "point": [ 0, 1, 3 ], "overmap": "urban_35_18_south" },
-      { "point": [ 1, 0, 3 ], "overmap": "urban_35_19_south" },
-      { "point": [ 0, 0, 3 ], "overmap": "urban_35_20_south" },
-      { "point": [ 1, 1, 4 ], "overmap": "urban_35_21_south" },
-      { "point": [ 0, 1, 4 ], "overmap": "urban_35_22_south" },
-      { "point": [ 1, 0, 4 ], "overmap": "urban_35_23_south" }
-    ],
-    "locations": [ "land" ],
-    "flags": [ "CLASSIC" ]
-  },
-  {
     "id": "urban_36_projects",
     "type": "city_building",
     "overmaps": [
