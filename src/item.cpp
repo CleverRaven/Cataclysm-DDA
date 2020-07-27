@@ -2711,7 +2711,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         return encumber == other.encumber
                                && max_encumber == other.max_encumber
                                && coverage == other.coverage;
-                    };
+                    }
                 };
                 struct body_part_display_info {
                     translation to_display;

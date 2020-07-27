@@ -3490,7 +3490,7 @@ float player::get_melee() const
 
 bool player::uncanny_dodge()
 {
-    bool is_u = is_avatar();;
+    bool is_u = is_avatar();
     bool seen = get_player_character().sees( *this );
     if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
         return false;

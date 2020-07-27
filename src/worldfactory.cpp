@@ -1107,7 +1107,7 @@ int worldfactory::show_worldgen_tab_modselection( const catacurses::window &win,
             } else {
                 apply_filter( fpopup->text() );
             }
-        };
+        }
 
         fpopup.reset();
     };

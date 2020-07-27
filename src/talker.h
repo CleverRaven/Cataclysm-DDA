@@ -182,7 +182,7 @@ class talker
         virtual void add_debt( int ) {}
         virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) const {
             return {};
-        };
+        }
         virtual void i_add( const item & ) {}
         virtual void remove_items_with( const std::function<bool( const item & )> & ) {}
         virtual bool unarmed_attack() const {

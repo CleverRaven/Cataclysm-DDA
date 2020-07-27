@@ -1576,7 +1576,7 @@ int Creature::get_part_temp_cur( const bodypart_id &id ) const
 
 int Creature::get_part_temp_conv( const bodypart_id &id ) const
 {
-    return get_part( id ).get_temp_conv();;
+    return get_part( id ).get_temp_conv();
 }
 
 int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
