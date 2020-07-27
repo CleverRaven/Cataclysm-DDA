@@ -3,7 +3,7 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_UPGRADE",
     "default": "mon_zombie_tough",
-    "//": "Masters pick from here when upgrading; no dogs, bionics, or profession-types",
+    "//": "Masters pick from here when upgrading; no dogs, bionics, or profession-types.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
       { "monster": "mon_zombie_grabber", "freq": 30, "cost_multiplier": 5 },
       { "monster": "mon_zombie_grappler", "freq": 90, "cost_multiplier": 7 },
@@ -44,7 +44,7 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_BRUTE",
     "default": "mon_zombie_brute",
-    "//": "Brute upgrades",
+    "//": "Brute upgrades.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
       { "monster": "mon_zombie_brute_grappler", "freq": 330, "cost_multiplier": 10 },
       { "monster": "mon_zombie_brute_ninja", "freq": 265, "cost_multiplier": 10 },
@@ -56,7 +56,7 @@
     "type": "monstergroup",
     "name": "GROUP_CHILD_ZOMBIE_UPGRADE",
     "default": "mon_zombie_shriekling",
-    "//": "this is a sub-group of mutated zombie types that can only evolve from zombified human children",
+    "//": "this is a sub-group of mutated zombie types that can only evolve from zombified human children.  Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
       { "monster": "mon_zombie_anklebiter", "freq": 50, "cost_multiplier": 10 },
       { "monster": "mon_zombie_sproglodyte", "freq": 100, "cost_multiplier": 5 },
@@ -70,6 +70,7 @@
     "type": "monstergroup",
     "name": "GROUP_ZOMBIE_ELECTRIC_UPGRADE",
     "default": "mon_null",
+    "//": "Note that 'freq' units are tenth of a percent, with default filling in the gap.",
     "monsters": [
       { "monster": "mon_zombie_nullfield", "freq": 400, "cost_multiplier": 0 },
       { "monster": "mon_zombie_brute_shocker", "freq": 300, "cost_multiplier": 2 },
