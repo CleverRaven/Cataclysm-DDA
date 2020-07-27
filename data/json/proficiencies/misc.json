@@ -17,6 +17,15 @@
   },
   {
     "type": "proficiency",
+    "id": "prof_bladesmith",
+    "name": { "str": "Bladesmithing" },
+    "description": "How to fabricate sharp and reliable blades from scratch.",
+    "can_learn": true,
+    "time_to_learn": "12 h",
+    "required_proficiencies": [ "prof_blacksmithing" ]
+  },
+  {
+    "type": "proficiency",
     "id": "prof_helicopter_pilot",
     "name": { "str": "Helicopter Piloting" },
     "description": "Before the cataclysm, you were a helicopter pilot.  Now, you just hope you can fly again.",
