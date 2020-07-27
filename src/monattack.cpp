@@ -1678,7 +1678,7 @@ bool mattack::triffid_heartbeat( monster *z )
 
         // Spawn a monster in (about) every second surrounding tile.
         for( int i = 0; i < 4; ++i ) {
-            if( monster *const  triffid = g->place_critter_around( mon_triffid, z->pos(), 1 ) ) {
+            if( monster *const triffid = g->place_critter_around( mon_triffid, z->pos(), 1 ) ) {
                 triffid->make_ally( *z );
             }
         }

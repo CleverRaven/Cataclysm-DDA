@@ -5672,7 +5672,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                         if( !here.sees( monp, p->pos(), 10 ) ) {
                             continue;
                         }
-                        if( monster *const  spawned = g->place_critter_at( mon_shadow, monp ) ) {
+                        if( monster *const spawned = g->place_critter_at( mon_shadow, monp ) ) {
                             num_spawned++;
                             spawned->reset_special_rng( "DISAPPEAR" );
                             break;
