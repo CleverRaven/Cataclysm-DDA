@@ -337,7 +337,7 @@ std::vector<matype_id> autolearn_martialart_types()
 
 static void check( const ma_requirements &req, const std::string &display_text )
 {
-    for( auto &r : req.req_buffs ) {
+    for( const mabuff_id &r : req.req_buffs ) {
         if( !r.is_valid() ) {
             debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
         }

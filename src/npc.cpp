@@ -1130,7 +1130,8 @@ void npc::stow_item( item &it )
                 add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ),
                                 weapon.tname(), e.tname() );
             }
-            auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
             ptr->store( *this, e, it );
             return;
         }
@@ -1514,7 +1515,7 @@ void npc::decide_needs()
     const auto inv_food = items_with( []( const item & itm ) {
         return itm.is_food();
     } );
-    for( auto &food : inv_food ) {
+    for( const item *food : inv_food ) {
         needrank[ need_food ] += nutrition_for( *food ) / 4.0;
         needrank[ need_drink ] += food->get_comestible()->quench / 4.0;
     }
@@ -1873,12 +1874,12 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
     healing_options *fix_p = &can_fix;
 
     visit_items( [&fix_p, try_to_fix]( item * node ) {
-        const auto use = node->type->get_use( "heal" );
+        const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
         }
 
-        auto &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
+        const heal_actor &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
         if( try_to_fix.bandage && !fix_p->bandage && actor.bandages_power > 0.0f ) {
             fix_p->bandage = true;
         }
@@ -1912,12 +1913,12 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
 {
     item *best = &null_item_reference();
     visit_items( [&best, try_to_fix, first_best]( item * node ) {
-        const auto use = node->type->get_use( "heal" );
+        const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
         }
 
-        auto &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
+        const heal_actor &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
         if( ( try_to_fix.bandage && actor.bandages_power > 0.0f ) ||
             ( try_to_fix.disinfect && actor.disinfectant_power > 0.0f ) ||
             ( try_to_fix.bleed && actor.bleed > 0 ) ||
@@ -2507,7 +2508,7 @@ void npc::die( Creature *nkiller )
     if( my_fac ) {
         if( !is_fake() && !is_hallucination() ) {
             if( my_fac->members.size() == 1 ) {
-                for( auto elem : inv_dump() ) {
+                for( const item *elem : inv_dump() ) {
                     elem->remove_owner();
                     elem->remove_old_owner();
                 }
@@ -2794,7 +2795,8 @@ bool npc::dispose_item( item_location &&obj, const std::string & )
 
     for( auto &e : worn ) {
         if( e.can_holster( *obj ) ) {
-            auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option {
                 item_store_cost( *obj, e, false, obj.obtain_cost( *this ) ),
                 [this, ptr, &e, &obj]{ ptr->store( *this, e, *obj ); }

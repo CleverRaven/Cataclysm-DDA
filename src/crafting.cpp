@@ -614,7 +614,7 @@ static void set_components( std::list<item> &components, const std::list<item> &
     }
     // This count does *not* include items counted by charges!
     size_t non_charges_counter = 0;
-    for( auto &tmp : used ) {
+    for( const item &tmp : used ) {
         if( tmp.count_by_charges() ) {
             components.push_back( tmp );
             // This assumes all (count-by-charges) items of the same type have been merged into one,
@@ -1953,8 +1953,8 @@ ret_val<bool> Character::can_disassemble( const item &obj, const inventory &inv 
             // Create a new item to get the default charges
             int qty = r.create_result().charges;
             if( obj.charges < qty ) {
-                auto msg = ngettext( "You need at least %d charge of %s.",
-                                     "You need at least %d charges of %s.", qty );
+                const char *msg = ngettext( "You need at least %d charge of %s.",
+                                            "You need at least %d charges of %s.", qty );
                 return ret_val<bool>::make_failure( msg, qty, obj.tname() );
             }
         }

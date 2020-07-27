@@ -933,7 +933,7 @@ void character_edit_menu()
             classes.text = _( "Choose new class" );
             std::vector<npc_class_id> ids;
             size_t i = 0;
-            for( auto &cl : npc_class::get_all() ) {
+            for( const npc_class &cl : npc_class::get_all() ) {
                 ids.push_back( cl.id );
                 classes.addentry( i, true, -1, cl.get_name() );
                 i++;
@@ -1116,7 +1116,7 @@ void mission_debug::remove_mission( mission &m )
         add_msg( _( "Unsetting active mission" ) );
     }
 
-    const auto giver = g->find_npc( m.npc_id );
+    npc *giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
             add_msg( _( "Removing from %s missions_assigned" ), giver->name );

@@ -141,7 +141,7 @@ std::vector<std::string> mtype::species_descriptions() const
 
 bool mtype::same_species( const mtype &other ) const
 {
-    for( auto &s : species_ptrs ) {
+    for( const species_type *s : species_ptrs ) {
         if( other.in_species( *s ) ) {
             return true;
         }

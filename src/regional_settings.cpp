@@ -846,7 +846,7 @@ ter_furn_id forest_biome::pick() const
     // If a given component does not roll as success, proceed to the next feature in sequence until
     // a feature is picked or none are picked, in which case an empty feature is returned.
     const ter_furn_id *result = nullptr;
-    for( auto &pr : biome_components ) {
+    for( const forest_biome_component &pr : biome_components ) {
         if( one_in( pr.chance ) ) {
             result = pr.types.pick();
             break;

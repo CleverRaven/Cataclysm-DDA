@@ -600,7 +600,7 @@ std::pair<int, int> Character::get_fastest_sight( const item &gun, double recoil
         limit = effective_dispersion( gun.type->gun->sight_dispersion );
     }
 
-    for( const auto e : gun.gunmods() ) {
+    for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
         if( mod.sight_dispersion < 0 || mod.aim_speed < 0 ) {
             continue; // skip gunmods which don't provide a sight
@@ -621,7 +621,7 @@ int Character::get_most_accurate_sight( const item &gun ) const
     }
 
     int limit = effective_dispersion( gun.type->gun->sight_dispersion );
-    for( const auto e : gun.gunmods() ) {
+    for( const item *e : gun.gunmods() ) {
         const islot_gunmod &mod = *e->type->gunmod;
         if( mod.aim_speed >= 0 ) {
             limit = std::min( limit, effective_dispersion( mod.sight_dispersion ) );
@@ -943,7 +943,7 @@ int Character::swim_speed() const
                 bodypart_id( "leg_r" ) ) ) / 10 );
     ret += ( 80 - get_skill_level( skill_swimming ) * 3 ) * ( encumb( bodypart_id( "torso" ) ) / 10 );
     if( get_skill_level( skill_swimming ) < 10 ) {
-        for( auto &i : worn ) {
+        for( const item &i : worn ) {
             ret += i.volume() / 125_ml * ( 10 - get_skill_level( skill_swimming ) );
         }
     }
@@ -1165,7 +1165,7 @@ void Character::forced_dismount()
     remove_effect( effect_riding );
     bool mech = false;
     if( mounted_creature ) {
-        auto mon = mounted_creature.get();
+        auto *mon = mounted_creature.get();
         if( mon->has_flag( MF_RIDEABLE_MECH ) && !mon->type->mech_weapon.is_empty() ) {
             mech = true;
             remove_item( weapon );
@@ -1392,7 +1392,7 @@ void Character::try_remove_bear_trap()
     // If is riding, then despite the character having the effect, it is the mounted creature that escapes.
     map &here = get_map();
     if( is_player() && is_mounted() ) {
-        auto mon = mounted_creature.get();
+        auto *mon = mounted_creature.get();
         if( mon->type->melee_dice * mon->type->melee_sides >= 18 ) {
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 200 ) ) {
                 mon->remove_effect( effect_beartrap );
@@ -1422,7 +1422,7 @@ void Character::try_remove_lightsnare()
 {
     map &here = get_map();
     if( is_mounted() ) {
-        auto mon = mounted_creature.get();
+        auto *mon = mounted_creature.get();
         if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 12 ) ) {
             mon->remove_effect( effect_lightsnare );
             remove_effect( effect_lightsnare );
@@ -1453,7 +1453,7 @@ void Character::try_remove_heavysnare()
 {
     map &here = get_map();
     if( is_mounted() ) {
-        auto mon = mounted_creature.get();
+        auto *mon = mounted_creature.get();
         if( mon->type->melee_dice * mon->type->melee_sides >= 7 ) {
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides, 32 ) ) {
                 mon->remove_effect( effect_heavysnare );
@@ -1500,7 +1500,7 @@ bool Character::try_remove_grab()
 {
     int zed_number = 0;
     if( is_mounted() ) {
-        auto mon = mounted_creature.get();
+        auto *mon = mounted_creature.get();
         if( mon->has_effect( effect_grabbed ) ) {
             if( ( dice( mon->type->melee_dice + mon->type->melee_sides,
                         3 ) < get_effect_int( effect_grabbed ) ) ||
@@ -1555,7 +1555,7 @@ bool Character::try_remove_grab()
 void Character::try_remove_webs()
 {
     if( is_mounted() ) {
-        auto mon = mounted_creature.get();
+        auto *mon = mounted_creature.get();
         if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
                     6 * get_effect_int( effect_webbed ) ) ) {
             add_msg( _( "The %s breaks free of the webs!" ), mon->get_name() );
@@ -1577,7 +1577,7 @@ void Character::try_remove_impeding_effect()
     for( const effect &eff : get_effects_with_flag( flag_EFFECT_IMPEDING ) ) {
         const efftype_id &eff_id = eff.get_id();
         if( is_mounted() ) {
-            auto mon = mounted_creature.get();
+            auto *mon = mounted_creature.get();
             if( x_in_y( mon->type->melee_dice * mon->type->melee_sides,
                         6 * get_effect_int( eff_id ) ) ) {
                 add_msg( _( "The %s breaks free!" ), mon->get_name() );
@@ -2478,7 +2478,7 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
 int Character::amount_worn( const itype_id &id ) const
 {
     int amount = 0;
-    for( auto &elem : worn ) {
+    for( const item &elem : worn ) {
         if( elem.typeId() == id ) {
             ++amount;
         }
@@ -3025,7 +3025,7 @@ units::mass Character::best_nearby_lifting_assist( const tripoint &world_pos ) c
     const quality_id LIFT( "LIFT" );
     int mech_lift = 0;
     if( is_mounted() ) {
-        auto mons = mounted_creature.get();
+        auto *mons = mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             mech_lift = mons->mech_str_addition() + 10;
         }
@@ -3055,9 +3055,9 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
 
     // Worn items
     units::mass ret = 0_gram;
-    for( auto &i : worn ) {
+    for( const item &i : worn ) {
         if( !without.count( &i ) ) {
-            for( auto j : i.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+            for( const item *j : i.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
                 if( j->count_by_charges() ) {
                     ret -= get_selected_stack_weight( j, without );
                 } else if( without.count( j ) ) {
@@ -3072,7 +3072,7 @@ units::mass Character::weight_carried_with_tweaks( const item_tweaks &tweaks ) c
     units::mass weaponweight = 0_gram;
     if( !without.count( &weapon ) ) {
         weaponweight += weapon.weight();
-        for( auto i : weapon.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
+        for( const item *i : weapon.contents.all_items_ptr( item_pocket::pocket_type::CONTAINER ) ) {
             if( i->count_by_charges() ) {
                 weaponweight -= get_selected_stack_weight( i, without );
             } else if( without.count( i ) ) {
@@ -3125,7 +3125,7 @@ units::volume Character::volume_carried_with_tweaks( const item_tweaks &tweaks )
 
     // Worn items
     units::volume ret = 0_ml;
-    for( auto &i : worn ) {
+    for( const item &i : worn ) {
         if( !without.count( &i ) ) {
             ret += get_contents_volume_with_tweaks( &i.contents, without );
         }
@@ -3144,7 +3144,7 @@ units::volume Character::get_contents_volume_with_tweaks( const item_contents *c
 {
     units::volume ret = 0_ml;
 
-    for( auto i : contents->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( const item *i : contents->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( i->count_by_charges() ) {
             ret += i->volume() - get_selected_stack_volume( i, without );
         } else if( !without.count( i ) ) {
@@ -3161,7 +3161,7 @@ units::volume Character::get_nested_content_volume_recursive( const item_content
 {
     units::volume ret = 0_ml;
 
-    for( auto i : contents->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+    for( const item *i : contents->all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
         if( i->count_by_charges() ) {
             ret += get_selected_stack_volume( i, without );
         } else if( without.count( i ) ) {
@@ -3375,7 +3375,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
     }
 
     if( it.is_power_armor() ) {
-        for( auto &elem : worn ) {
+        for( const item &elem : worn ) {
             if( elem.get_covered_body_parts().make_intersection( it.get_covered_body_parts() ).any() &&
                 !elem.has_flag( flag_POWERARMOR_COMPATIBLE ) ) {
                 return ret_val<bool>::make_failure( _( "Can't wear power armor over other gear!" ) );
@@ -3384,7 +3384,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
         if( !it.covers( bodypart_id( "torso" ) ) ) {
             bool power_armor = false;
             if( !worn.empty() ) {
-                for( auto &elem : worn ) {
+                for( const item &elem : worn ) {
                     if( elem.is_power_armor() ) {
                         power_armor = true;
                         break;
@@ -3397,7 +3397,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             }
         }
 
-        for( auto &i : worn ) {
+        for( const item &i : worn ) {
             if( i.is_power_armor() && i.typeId() == it.typeId() ) {
                 return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname() );
             }
@@ -3420,7 +3420,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
                                               : string_format( _( "%s doesn't have a hand free to wear that." ), name ) ) );
     }
 
-    for( auto &i : worn ) {
+    for( const item &i : worn ) {
         if( i.has_flag( flag_ONLY_ONE ) && i.typeId() == it.typeId() ) {
             return ret_val<bool>::make_failure( _( "Can't wear more than one %s!" ), it.tname() );
         }
@@ -3502,7 +3502,7 @@ bool Character::has_artifact_with( const art_effect_passive effect ) const
     if( weapon.has_effect_when_wielded( effect ) ) {
         return true;
     }
-    for( auto &i : worn ) {
+    for( const item &i : worn ) {
         if( i.has_effect_when_worn( effect ) ) {
             return true;
         }
@@ -5022,7 +5022,7 @@ item *Character::best_quality_item( const quality_id &qual )
         return itm.has_quality( qual );
     } );
     item *best_qual = random_entry( qual_inv );
-    for( const auto elem : qual_inv ) {
+    for( item *elem : qual_inv ) {
         if( elem->get_quality( qual ) > best_qual->get_quality( qual ) ) {
             best_qual = elem;
         }
@@ -6825,7 +6825,7 @@ int Character::throw_range( const item &it ) const
     /** @EFFECT_STR increases throwing range, vs item weight (high or low) */
     int str_override = str_cur;
     if( is_mounted() ) {
-        auto mons = mounted_creature.get();
+        auto *mons = mounted_creature.get();
         str_override = mons->mech_str_addition() != 0 ? mons->mech_str_addition() : str_cur;
     }
     int ret = ( str_override * 10 ) / ( tmp.weight() >= 150_gram ? tmp.weight() / 113_gram : 10 -
@@ -8042,7 +8042,8 @@ bool Character::dispose_item( item_location &&obj, const std::string &prompt )
 
     for( auto &e : worn ) {
         if( e.can_holster( *obj ) ) {
-            auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option{
                 string_format( _( "Store in %s" ), e.tname() ), true, e.invlet,
                 item_store_cost( *obj, e, false, e.contents.insert_cost( *obj ) ),
@@ -9692,7 +9693,7 @@ units::volume Character::volume_capacity_with_tweaks( const item_tweaks &tweaks 
         volume_capacity += weapon.contents.total_container_capacity();
     }
 
-    for( auto &i : worn ) {
+    for( const item &i : worn ) {
         if( !without.count( &i ) ) {
             volume_capacity += i.contents.total_container_capacity();
         }
@@ -10093,7 +10094,7 @@ int Character::warmth( const bodypart_id &bp ) const
 static int bestwarmth( const std::list< item > &its, const std::string &flag )
 {
     int best = 0;
-    for( auto &w : its ) {
+    for( const item &w : its ) {
         if( w.has_flag( flag ) && w.get_warmth() > best ) {
             best = w.get_warmth();
         }
@@ -10286,7 +10287,7 @@ bool Character::has_charges( const itype_id &it, int quantity,
     }
     if( it == itype_UPS && is_mounted() &&
         mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) ) {
-        auto mons = mounted_creature.get();
+        auto *mons = mounted_creature.get();
         return quantity <= mons->battery_item->ammo_remaining();
     }
     return charges_of( it, quantity, filter ) == quantity;
@@ -10343,7 +10344,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
     } else if( what == itype_UPS ) {
         if( is_mounted() && mounted_creature.get()->has_flag( MF_RIDEABLE_MECH ) &&
             mounted_creature.get()->battery_item ) {
-            auto mons = mounted_creature.get();
+            auto *mons = mounted_creature.get();
             int power_drain = std::min( mons->battery_item->ammo_remaining(), qty );
             mons->use_mech_power( -power_drain );
             qty -= std::min( qty, power_drain );
@@ -10384,7 +10385,7 @@ std::list<item> Character::use_charges( const itype_id &what, int qty,
         return qty > 0 ? VisitResponse::NEXT : VisitResponse::ABORT;
     } );
 
-    for( auto e : del ) {
+    for( item *e : del ) {
         remove_item( *e );
     }
 
@@ -10891,7 +10892,7 @@ void Character::place_corpse()
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
     body.set_item_temperature( 310.15 );
     map &here = get_map();
-    for( auto itm : tmp ) {
+    for( item *itm : tmp ) {
         here.add_item_or_charges( pos(), *itm );
     }
     for( const bionic &bio : *my_bionics ) {
@@ -10939,7 +10940,7 @@ void Character::place_corpse( const tripoint_abs_omt &om_target )
 
     std::vector<item *> tmp = inv_dump();
     item body = item::make_corpse( mtype_id::NULL_ID(), calendar::turn, name );
-    for( auto itm : tmp ) {
+    for( item *itm : tmp ) {
         bay.add_item_or_charges( fin, *itm );
     }
     for( const bionic &bio : *my_bionics ) {
@@ -11145,7 +11146,7 @@ int Character::get_lowest_hp() const
 
 Creature::Attitude Character::attitude_to( const Creature &other ) const
 {
-    const auto m = dynamic_cast<const monster *>( &other );
+    const monster *m = dynamic_cast<const monster *>( &other );
     if( m != nullptr ) {
         if( m->friendly != 0 ) {
             return Attitude::FRIENDLY;
@@ -11170,7 +11171,7 @@ Creature::Attitude Character::attitude_to( const Creature &other ) const
         return Attitude::NEUTRAL;
     }
 
-    const auto p = dynamic_cast<const npc *>( &other );
+    const npc *p = dynamic_cast<const npc *>( &other );
     if( p != nullptr ) {
         if( p->is_enemy() ) {
             return Attitude::HOSTILE;

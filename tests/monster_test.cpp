@@ -72,7 +72,7 @@ static std::ostream &operator<<( std::ostream &os, track const &value )
 
 static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec )
 {
-    for( auto &track_instance : vec ) {
+    for( const auto &track_instance : vec ) {
         os << track_instance << " ";
     }
     return os;

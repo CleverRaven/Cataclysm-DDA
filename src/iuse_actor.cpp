@@ -463,7 +463,7 @@ void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     dump.emplace_back( "TOOL", _( "Countdown: " ),
                        interval > 0 ? interval : it.type->countdown_interval );
-    const auto countdown_actor = it.type->countdown_action.get_actor_ptr();
+    const iuse_actor *countdown_actor = it.type->countdown_action.get_actor_ptr();
     if( countdown_actor != nullptr ) {
         countdown_actor->info( it, dump );
     }
@@ -1183,7 +1183,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
 {
     const auto places = overmap_buffer.find_all( center, target.first, radius, false,
                         target.second );
-    for( auto &place : places ) {
+    for( const tripoint_abs_omt &place : places ) {
         overmap_buffer.reveal( place, reveal_distance );
     }
 }
@@ -1203,7 +1203,7 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
     const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
                                    p.global_omt_location().raw() ) );
-    for( auto &omt : omt_types ) {
+    for( const auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             reveal_targets( tripoint_abs_omt( center.xy(), z ), omt, 0 );
         }
@@ -4261,12 +4261,12 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     const int items_needed = mod.volume() / 750_ml + 1;
     const inventory &crafting_inv = p.crafting_inventory();
     // Go through all discovered repair items and see if we have any of them available
-    for( auto &cm : clothing_mods::get_all() ) {
+    for( const clothing_mod &cm : clothing_mods::get_all() ) {
         has_enough[cm.item_string] = crafting_inv.has_amount( cm.item_string, items_needed );
     }
 
     int mod_count = 0;
-    for( auto &cm : clothing_mods::get_all() ) {
+    for( const clothing_mod &cm : clothing_mods::get_all() ) {
         mod_count += mod.item_tags.count( cm.flag );
     }
 

@@ -900,7 +900,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     const auto &mats = type->materials;
     float vpart_dens = 0;
     if( !mats.empty() ) {
-        for( auto &mat_id : mats ) {
+        for( const material_id &mat_id : mats ) {
             vpart_dens += mat_id.obj().density();
         }
         // average

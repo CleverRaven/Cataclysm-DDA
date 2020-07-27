@@ -137,7 +137,7 @@ static int print_items( const recipe &r, const catacurses::window &w, point pos,
 
     mvwprintz( w, point( pos.x, pos.y++ ), col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
-        const auto t = item::find_type( bp.first );
+        const itype *t = item::find_type( bp.first );
         int amount = bp.second * batch;
         std::string desc;
         if( t->count_by_charges() ) {
@@ -672,7 +672,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     break;
 
                                 case 'm': {
-                                    auto &learned = player_character.get_learned_recipes();
+                                    const recipe_subset &learned = player_character.get_learned_recipes();
                                     recipe_subset temp_subset;
                                     if( query_is_yes( qry_filter_str ) ) {
                                         temp_subset = available_recipes.intersection( learned );
@@ -706,7 +706,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 if( !show_hidden ) {
                     current.clear();
-                    for( auto i : picking ) {
+                    for( const recipe *i : picking ) {
                         if( uistate.hidden_recipes.find( i->ident() ) == uistate.hidden_recipes.end() ) {
                             current.push_back( i );
                         }
@@ -717,7 +717,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 available.reserve( current.size() );
                 // cache recipe availability on first display
-                for( const auto e : current ) {
+                for( const recipe *e : current ) {
                     if( !availability_cache.count( e ) ) {
                         availability_cache.emplace( e, availability( e ) );
                     }

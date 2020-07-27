@@ -479,7 +479,7 @@ void Item_factory::finalize_pre( itype &obj )
 
 void Item_factory::register_cached_uses( const itype &obj )
 {
-    for( auto &e : obj.use_methods ) {
+    for( const auto &e : obj.use_methods ) {
         // can this item function as a repair tool?
         if( repair_actions.count( e.first ) ) {
             repair_tools.insert( obj.id );
@@ -1160,7 +1160,7 @@ void Item_factory::check_definitions() const
                                       type->snippet_category.c_str() );
             }
         }
-        for( auto &q : type->qualities ) {
+        for( const auto &q : type->qualities ) {
             if( !q.first.is_valid() ) {
                 msg += string_format( "item %s has unknown quality %s\n", type->id.c_str(), q.first.c_str() );
             }
@@ -1185,7 +1185,7 @@ void Item_factory::check_definitions() const
 
         if( type->comestible ) {
             if( !type->comestible->tool.is_null() ) {
-                auto req_tool = find_template( type->comestible->tool );
+                const itype *req_tool = find_template( type->comestible->tool );
                 if( !req_tool->tool ) {
                     msg += string_format( "invalid tool property %s\n", type->comestible->tool.c_str() );
                 }
@@ -1289,12 +1289,12 @@ void Item_factory::check_definitions() const
             } else if( !type->gun->skill_used.is_valid() ) {
                 msg += string_format( "uses an invalid skill %s\n", type->gun->skill_used.str() );
             }
-            for( auto &gm : type->gun->default_mods ) {
+            for( const itype_id &gm : type->gun->default_mods ) {
                 if( !has_template( gm ) ) {
                     msg += "invalid default mod.\n";
                 }
             }
-            for( auto &gm : type->gun->built_in_mods ) {
+            for( const itype_id &gm : type->gun->built_in_mods ) {
                 if( !has_template( gm ) ) {
                     msg += "invalid built-in mod.\n";
                 }
@@ -2048,7 +2048,7 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
 
     if( jo.has_member( "acceptable_ammo" ) ) {
         slot.acceptable_ammo.clear();
-        for( auto &e : jo.get_tags( "acceptable_ammo" ) ) {
+        for( const std::string &e : jo.get_tags( "acceptable_ammo" ) ) {
             slot.acceptable_ammo.insert( ammotype( e ) );
         }
     }
@@ -2247,7 +2247,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     } else {
         if( relative.has_int( "vitamins" ) ) {
             // allows easy specification of 'fortified' comestibles
-            for( auto &v : vitamin::all() ) {
+            for( const auto &v : vitamin::all() ) {
                 slot.default_nutrition.vitamins[ v.first ] += relative.get_int( "vitamins" );
             }
         } else if( relative.has_array( "vitamins" ) ) {
@@ -2694,7 +2694,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
-        for( auto &m : jo.get_tags( "material" ) ) {
+        for( const std::string &m : jo.get_tags( "material" ) ) {
             def.materials.emplace_back( m );
         }
     }
@@ -2760,7 +2760,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_properties_from_json( jo, "properties", def );
     }
 
-    for( auto &s : jo.get_tags( "techniques" ) ) {
+    for( const std::string &s : jo.get_tags( "techniques" ) ) {
         def.techniques.insert( matec_id( s ) );
     }
 
@@ -3469,7 +3469,7 @@ void item_group::debug_spawn()
         std::map<std::string, int> itemnames;
         for( size_t a = 0; a < 100; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
-            for( auto &it : items ) {
+            for( const item &it : items ) {
                 itemnames[it.display_name()]++;
             }
         }

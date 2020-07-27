@@ -1848,7 +1848,7 @@ class jmapgen_nested : public jmapgen_piece
                 return false;
             }
 
-            for( auto &entry : selected_entries ) {
+            for( const auto &entry : selected_entries ) {
                 if( entry.obj == "null" ) {
                     continue;
                 }
@@ -2144,13 +2144,13 @@ void mapgen_palette::add( const palette_id &rh )
 
 void mapgen_palette::add( const mapgen_palette &rh )
 {
-    for( auto &placing : rh.format_placings ) {
+    for( const auto &placing : rh.format_placings ) {
         format_placings[ placing.first ] = placing.second;
     }
-    for( auto &placing : rh.format_terrain ) {
+    for( const auto &placing : rh.format_terrain ) {
         format_terrain[ placing.first ] = placing.second;
     }
-    for( auto &placing : rh.format_furniture ) {
+    for( const auto &placing : rh.format_furniture ) {
         format_furniture[ placing.first ] = placing.second;
     }
 }
@@ -2571,7 +2571,7 @@ bool jmapgen_setmap::apply( mapgendata &dat, const point &offset ) const
             case JMAPGEN_SETMAP_LINE_TRAP: {
                 const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
                                                 0 );
-                for( auto &i : line ) {
+                for( const point &i : line ) {
                     // TODO: the trap_id should be stored separately and not be wrapped in an jmapgen_int
                     mtrap_set( &m, i, trap_id( val.get() ) );
                 }
@@ -2580,7 +2580,7 @@ bool jmapgen_setmap::apply( mapgendata &dat, const point &offset ) const
             case JMAPGEN_SETMAP_LINE_RADIATION: {
                 const std::vector<point> line = line_to( point( x_get(), y_get() ), point( x2_get(), y2_get() ),
                                                 0 );
-                for( auto &i : line ) {
+                for( const point &i : line ) {
                     m.set_radiation( i, static_cast<int>( val.get() ) );
                 }
             }
@@ -2703,7 +2703,7 @@ bool mapgen_function_json_base::has_vehicle_collision( mapgendata &dat, const po
         }
     }
 
-    for( auto &elem : setmap_points ) {
+    for( const jmapgen_setmap &elem : setmap_points ) {
         if( elem.has_vehicle_collision( dat, offset ) ) {
             return true;
         }
@@ -2766,7 +2766,7 @@ void mapgen_function_json_nested::nest( mapgendata &dat, const point &offset ) c
         formatted_set_incredibly_simple( dat.m, offset );
     }
 
-    for( auto &elem : setmap_points ) {
+    for( const jmapgen_setmap &elem : setmap_points ) {
         elem.apply( dat, offset );
     }
 
@@ -2780,7 +2780,7 @@ void mapgen_function_json_nested::nest( mapgendata &dat, const point &offset ) c
  */
 void jmapgen_objects::apply( mapgendata &dat ) const
 {
-    for( auto &obj : objects ) {
+    for( const jmapgen_obj &obj : objects ) {
         const auto &where = obj.first;
         const auto &what = *obj.second;
         // The user will only specify repeat once in JSON, but it may get loaded both
@@ -2816,7 +2816,7 @@ void jmapgen_objects::apply( mapgendata &dat, const point &offset ) const
 
 bool jmapgen_objects::has_vehicle_collision( mapgendata &dat, const point &offset ) const
 {
-    for( auto &obj : objects ) {
+    for( const jmapgen_obj &obj : objects ) {
         auto where = obj.first;
         where.offset( -offset );
         const auto &what = *obj.second;
@@ -5736,7 +5736,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
         // Might contain one item or several that belong together like guns & their ammo
         int tries = 0;
         auto is_valid_terrain = [this, ongrass]( const point & p ) {
-            auto &terrain = ter( p ).obj();
+            const ter_t &terrain = ter( p ).obj();
             return terrain.movecost == 0           &&
                    !terrain.has_flag( "PLACE_ITEM" ) &&
                    !ongrass                                   &&
@@ -5754,7 +5754,7 @@ std::vector<item *> map::place_items( const items_location &loc, const int chanc
             res.insert( res.end(), put.begin(), put.end() );
         }
     }
-    for( auto e : res ) {
+    for( item *e : res ) {
         if( e->is_tool() || e->is_gun() || e->is_magazine() ) {
             if( rng( 0, 99 ) < magazine && !e->magazine_integral() && !e->magazine_current() ) {
                 e->put_in( item( e->magazine_default(), e->birthday() ), item_pocket::pocket_type::MAGAZINE );
@@ -6086,7 +6086,7 @@ void map::rotate( int turns, const bool setpos_safe )
     for( int j = 0; j < 2; ++j ) {
         for( int i = 0; i < 2; ++i ) {
             point p( i, j );
-            auto sm = get_submap_at_grid( p );
+            submap *sm = get_submap_at_grid( p );
 
             sm->rotate( turns );
 
@@ -6965,7 +6965,7 @@ bool update_mapgen_function_json::update_map( mapgendata &md, const point &offse
     };
     rotation_guard rot( md );
 
-    for( auto &elem : setmap_points ) {
+    for( const jmapgen_setmap &elem : setmap_points ) {
         if( verify && elem.has_vehicle_collision( md, offset ) ) {
             return false;
         }

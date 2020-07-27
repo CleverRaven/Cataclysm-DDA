@@ -2979,7 +2979,7 @@ bool mattack::nurse_check_up( monster *z )
     player *target = nullptr;
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     map &here = get_map();
-    for( auto critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
+    for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast<player *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
             here.clear_path( z->pos(), tmp_player->pos(), 10, 0,
@@ -3031,7 +3031,7 @@ bool mattack::nurse_assist( monster *z )
     player *target = nullptr;
     map &here = get_map();
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
-    for( auto critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
+    for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast<player *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
@@ -3088,7 +3088,7 @@ bool mattack::nurse_operate( monster *z )
     player *target = nullptr;
     map &here = get_map();
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
-    for( auto critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
+    for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast< player *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
@@ -3130,7 +3130,7 @@ bool mattack::nurse_operate( monster *z )
 
         // Check if target is already grabbed by something else
         if( target->has_effect( effect_grabbed ) ) {
-            for( auto critter : here.get_creatures_in_radius( target->pos(), 1 ) ) {
+            for( Creature *critter : here.get_creatures_in_radius( target->pos(), 1 ) ) {
                 monster *mon = dynamic_cast<monster *>( critter );
                 if( mon != nullptr && mon != z ) {
                     if( mon->type->id != mon_nursebot_defective ) {
@@ -5488,7 +5488,7 @@ bool mattack::kamikaze( monster *z )
     }
 
     // Get the bomb type and it's data
-    const auto bomb_type = item::find_type( z->ammo.begin()->first );
+    const itype *bomb_type = item::find_type( z->ammo.begin()->first );
     const itype *act_bomb_type;
     int charges;
     // Hardcoded data for charge variant items
@@ -5499,7 +5499,7 @@ bool mattack::kamikaze( monster *z )
         act_bomb_type = item::find_type( itype_c4armed );
         charges = 10;
     } else {
-        auto usage = bomb_type->get_use( "transform" );
+        const use_function *usage = bomb_type->get_use( "transform" );
         if( usage == nullptr ) {
             // Invalid item usage, Toggle this special off so we stop processing
             add_msg( m_debug, "Invalid bomb transform use in kamikaze special for %s.", z->name() );
@@ -5531,7 +5531,7 @@ bool mattack::kamikaze( monster *z )
     }
     // END HORRIBLE HACK
 
-    auto use = act_bomb_type->get_use( "explosion" );
+    const use_function *use = act_bomb_type->get_use( "explosion" );
     if( use == nullptr ) {
         // Invalid active bomb item usage, Toggle this special off so we stop processing
         add_msg( m_debug, "Invalid active bomb explosion use in kamikaze special for %s.",

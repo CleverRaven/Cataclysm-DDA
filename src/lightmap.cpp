@@ -94,7 +94,7 @@ bool map::build_transparency_cache( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const auto cur_submap = get_submap_at_grid( {smx, smy, zlev} );
+            const submap *cur_submap = get_submap_at_grid( {smx, smy, zlev} );
 
             float zero_value = LIGHT_TRANSPARENCY_OPEN_AIR;
             for( int sx = 0; sx < SEEX; ++sx ) {
@@ -326,7 +326,7 @@ void map::generate_lightmap( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const auto cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -369,7 +369,7 @@ void map::generate_lightmap( const int zlev )
                         add_light_source( p, furniture->light_emitted );
                     }
 
-                    for( auto &fld : cur_submap->get_field( { sx, sy } ) ) {
+                    for( const auto &fld : cur_submap->get_field( { sx, sy } ) ) {
                         const field_entry *cur = &fld.second;
                         const int light_emitted = cur->light_emitted();
                         if( light_emitted > 0 ) {
@@ -413,8 +413,8 @@ void map::generate_lightmap( const int zlev )
         float veh_luminance = 0.0;
         float iteration = 1.0;
 
-        for( const auto pt : lights ) {
-            const auto &vp = pt->info();
+        for( const vehicle_part *pt : lights ) {
+            const vpart_info &vp = pt->info();
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
                 vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
                 veh_luminance += vp.bonus / iteration;
@@ -422,8 +422,8 @@ void map::generate_lightmap( const int zlev )
             }
         }
 
-        for( const auto pt : lights ) {
-            const auto &vp = pt->info();
+        for( const vehicle_part *pt : lights ) {
+            const vpart_info &vp = pt->info();
             tripoint src = v->global_part_pos3( *pt );
 
             if( !inbounds( src ) ) {

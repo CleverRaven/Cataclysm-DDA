@@ -235,7 +235,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     // Dump its contents on the ground
     // Destroy irremovable mods, if any
 
-    for( auto mod : shield.gunmods() ) {
+    for( item *mod : shield.gunmods() ) {
         if( mod->is_irremovable() ) {
             remove_item( *mod );
         }
@@ -404,7 +404,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
     if( is_mounted() ) {
-        auto mons = mounted_creature.get();
+        auto *mons = mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ),
@@ -842,7 +842,7 @@ float player::get_dodge() const
 
     if( has_effect( effect_grabbed ) ) {
         int zed_number = 0;
-        for( auto &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number++;
@@ -1415,7 +1415,7 @@ static void print_damage_info( const damage_instance &di )
 
     int total = 0;
     std::string ss;
-    for( auto &du : di.damage_units ) {
+    for( const damage_unit &du : di.damage_units ) {
         int amount = di.type_damage( du.type );
         total += amount;
         ss += name_by_dt( du.type ) + ":" + std::to_string( amount ) + ",";

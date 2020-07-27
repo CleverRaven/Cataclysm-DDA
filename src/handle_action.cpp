@@ -662,7 +662,7 @@ static void smash()
     avatar &player_character = get_avatar();
     map &here = get_map();
     if( player_character.is_mounted() ) {
-        auto mons = player_character.mounted_creature.get();
+        auto *mons = player_character.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
@@ -678,7 +678,7 @@ static void smash()
     int smashskill;
     ///\EFFECT_STR increases smashing capability
     if( player_character.is_mounted() ) {
-        auto mon = player_character.mounted_creature.get();
+        auto *mon = player_character.mounted_creature.get();
         smashskill = player_character.str_cur + mon->mech_str_addition() + mon->type->melee_dice *
                      mon->type->melee_sides;
         mech_smash = true;
@@ -1840,7 +1840,7 @@ bool game::handle_action()
                 break;
             case ACTION_MOVE_DOWN:
                 if( player_character.is_mounted() ) {
-                    auto mon = player_character.mounted_creature.get();
+                    auto *mon = player_character.mounted_creature.get();
                     if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
                         add_msg( m_info, _( "You can't go down stairs while you're riding." ) );
                         break;
@@ -1855,7 +1855,7 @@ bool game::handle_action()
 
             case ACTION_MOVE_UP:
                 if( player_character.is_mounted() ) {
-                    auto mon = player_character.mounted_creature.get();
+                    auto *mon = player_character.mounted_creature.get();
                     if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
                         add_msg( m_info, _( "You can't go down stairs while you're riding." ) );
                         break;
@@ -1882,7 +1882,7 @@ bool game::handle_action()
                 if( player_character.has_active_mutation( trait_SHELL2 ) ) {
                     add_msg( m_info, _( "You can't close things while you're in your shell." ) );
                 } else if( player_character.is_mounted() ) {
-                    auto mon = player_character.mounted_creature.get();
+                    auto *mon = player_character.mounted_creature.get();
                     if( !mon->has_flag( MF_RIDEABLE_MECH ) ) {
                         add_msg( m_info, _( "You can't close things while you're riding." ) );
                     }

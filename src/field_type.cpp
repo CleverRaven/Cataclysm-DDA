@@ -273,7 +273,7 @@ void field_type::finalize()
 void field_type::check() const
 {
     int i = 0;
-    for( auto &intensity_level : intensity_levels ) {
+    for( const field_intensity_level &intensity_level : intensity_levels ) {
         i++;
         if( intensity_level.name.empty() ) {
             debugmsg( "Intensity level %d defined for field type \"%s\" has empty name.", i, id.c_str() );

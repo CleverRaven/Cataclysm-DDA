@@ -1241,7 +1241,7 @@ std::vector<camp_reference> overmapbuffer::get_camps_near( const tripoint_abs_sm
         int radius )
 {
     std::vector<camp_reference> result;
-    for( const auto om : get_overmaps_near( location, radius ) ) {
+    for( overmap *om : get_overmaps_near( location, radius ) ) {
         result.reserve( result.size() + om->camps.size() );
         std::transform( om->camps.begin(), om->camps.end(), std::back_inserter( result ),
         [&]( basecamp & element ) {
@@ -1264,7 +1264,7 @@ std::vector<shared_ptr_fast<npc>> overmapbuffer::get_overmap_npcs()
     std::vector<shared_ptr_fast<npc>> result;
     for( auto &om : overmaps ) {
         const overmap &overmap = *om.second;
-        for( auto &guy : overmap.npcs ) {
+        for( const auto &guy : overmap.npcs ) {
             result.push_back( guy );
         }
     }
@@ -1276,7 +1276,7 @@ std::vector<city_reference> overmapbuffer::get_cities_near( const tripoint_abs_s
 {
     std::vector<city_reference> result;
 
-    for( const auto om : get_overmaps_near( location, radius ) ) {
+    for( overmap *om : get_overmaps_near( location, radius ) ) {
         result.reserve( result.size() + om->cities.size() );
         std::transform( om->cities.begin(), om->cities.end(), std::back_inserter( result ),
         [&]( city & element ) {

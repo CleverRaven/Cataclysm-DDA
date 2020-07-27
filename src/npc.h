@@ -147,7 +147,7 @@ class job_data
             }
         }
         bool has_job() const {
-            for( auto &elem : task_priorities ) {
+            for( const auto &elem : task_priorities ) {
                 if( elem.second > 0 ) {
                     return true;
                 }

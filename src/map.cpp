@@ -656,7 +656,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         const float weight_to_damage_factor = 0.05; // Nobody likes a magic number.
         const float vehicle_mass_kg = to_kilogram( veh.total_mass() );
 
-        for( auto &w : wheel_indices ) {
+        for( const int &w : wheel_indices ) {
             const tripoint wheel_p = veh.global_part_pos3( w );
             if( one_in( 2 ) && displace_water( wheel_p ) ) {
                 sounds::sound( wheel_p, 4,  sounds::sound_t::movement, _( "splash!" ), false,
@@ -865,7 +865,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
 bool map::check_vehicle_zones( const int zlev )
 {
-    for( auto veh : get_cache( zlev ).zone_vehicles ) {
+    for( vehicle *veh : get_cache( zlev ).zone_vehicles ) {
         if( veh->zones_dirty ) {
             return true;
         }
@@ -877,7 +877,7 @@ std::vector<zone_data *> map::get_vehicle_zones( const int zlev )
 {
     std::vector<zone_data *> veh_zones;
     bool rebuild = false;
-    for( auto veh : get_cache( zlev ).zone_vehicles ) {
+    for( vehicle *veh : get_cache( zlev ).zone_vehicles ) {
         if( veh->refresh_zones() ) {
             rebuild = true;
         }
@@ -1401,7 +1401,7 @@ bool map::can_move_furniture( const tripoint &pos, player *p )
     ///\EFFECT_STR determines what furniture the player can move
     int adjusted_str = p->str_cur;
     if( p->is_mounted() ) {
-        auto mons = p->mounted_creature.get();
+        auto *mons = p->mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) && mons->mech_str_addition() != 0 ) {
             adjusted_str = mons->mech_str_addition();
         }
@@ -1453,7 +1453,7 @@ ter_id map::ter( const tripoint &p ) const
 uint8_t map::get_known_connections( const tripoint &p, int connect_group,
                                     const std::map<tripoint, ter_id> &override ) const
 {
-    auto &ch = access_cache( p.z );
+    const level_cache &ch = access_cache( p.z );
     uint8_t val = 0;
     std::function<bool( const tripoint & )> is_memorized;
     avatar &player_character = get_avatar();
@@ -2596,7 +2596,7 @@ void map::decay_fields_and_scent( const time_duration &amount )
     const auto &outside_cache = get_cache_ref( smz ).outside_cache;
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const auto cur_submap = get_submap_at_grid( { smx, smy, smz } );
+            submap *cur_submap = get_submap_at_grid( { smx, smy, smz } );
             int to_proc = cur_submap->field_count;
             if( to_proc < 1 ) {
                 if( to_proc < 0 ) {
@@ -2620,15 +2620,15 @@ void map::decay_fields_and_scent( const time_duration &amount )
                     const int x = sx + smx * SEEX;
                     const int y = sy + smy * SEEY;
 
-                    field &fields = cur_submap->get_field( { sx, sy} );
+                    const field &fields = cur_submap->get_field( { sx, sy} );
                     if( !outside_cache[x][y] ) {
                         to_proc -= fields.field_count();
                         continue;
                     }
 
-                    for( auto &fp : fields ) {
+                    for( const auto &fp : fields ) {
                         to_proc--;
-                        field_entry &cur = fp.second;
+                        field_entry cur = fp.second;
                         const field_type_id type = cur.get_field_type();
                         const int decay_amount_factor =  type.obj().decay_amount_factor;
                         if( decay_amount_factor != 0 ) {
@@ -3245,7 +3245,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
                     continue;
                 }
 
-                const auto recur_bash = &frn.obj().bash;
+                const map_bash_info *recur_bash = &frn.obj().bash;
                 // Check if we share a center type and thus a "tent type"
                 for( const auto &cur_id : recur_bash->tent_centers ) {
                     if( centers.count( cur_id.id() ) > 0 ) {
@@ -5267,13 +5267,13 @@ int map::set_field_intensity( const tripoint &p, const field_type_id &type,
 
 time_duration map::get_field_age( const tripoint &p, const field_type_id &type ) const
 {
-    auto field_ptr = field_at( p ).find_field( type );
+    const field_entry *field_ptr = field_at( p ).find_field( type );
     return field_ptr == nullptr ? -1_turns : field_ptr->get_field_age();
 }
 
 int map::get_field_intensity( const tripoint &p, const field_type_id &type ) const
 {
-    auto field_ptr = field_at( p ).find_field( type );
+    const field_entry *field_ptr = field_at( p ).find_field( type );
     return ( field_ptr == nullptr ? 0 : field_ptr->get_field_intensity() );
 }
 
@@ -7191,7 +7191,7 @@ void map::add_roofs( const tripoint &grid )
 
 void map::copy_grid( const tripoint &to, const tripoint &from )
 {
-    const auto smap = get_submap_at_grid( from );
+    submap *smap = get_submap_at_grid( from );
     setsubmap( get_nonant( to ), smap );
     for( auto &it : smap->vehicles ) {
         it->sm_pos = to;
@@ -7611,7 +7611,7 @@ void map::build_outside_cache( const int zlev )
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const auto cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -7653,7 +7653,7 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     // TODO: Support z-levels.
     for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
         for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
-            const auto cur_submap = get_submap_at_grid( { smx, smy, start.z } );
+            const submap *cur_submap = get_submap_at_grid( { smx, smy, start.z } );
 
             // TODO: Init indices to prevent iterating over unused submap sections.
             for( int sx = 0; sx < SEEX; ++sx ) {
@@ -7724,7 +7724,7 @@ bool map::build_floor_cache( const int zlev )
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const auto cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -7934,7 +7934,7 @@ void map::draw_fill_background( const ter_id &type )
     // Fill each submap rather than each tile
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
-            auto sm = get_submap_at_grid( {gridx, gridy} );
+            submap *sm = get_submap_at_grid( {gridx, gridy} );
             sm->is_uniform = true;
             sm->set_all_ter( type );
         }
@@ -8380,7 +8380,7 @@ void map::update_pathfinding_cache( int zlev ) const
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const auto cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
             if( !cur_submap ) {
                 return;
             }

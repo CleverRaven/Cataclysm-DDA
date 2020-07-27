@@ -185,7 +185,7 @@ bool Creature::digging() const
 bool Creature::is_dangerous_fields( const field &fld ) const
 {
     // Else check each field to see if it's dangerous to us
-    for( auto &dfield : fld ) {
+    for( const auto &dfield : fld ) {
         if( is_dangerous_field( dfield.second ) ) {
             return true;
         }
@@ -1260,12 +1260,12 @@ void Creature::process_effects()
 
 bool Creature::resists_effect( const effect &e )
 {
-    for( auto &i : e.get_resist_effects() ) {
+    for( const efftype_id &i : e.get_resist_effects() ) {
         if( has_effect( i ) ) {
             return true;
         }
     }
-    for( auto &i : e.get_resist_traits() ) {
+    for( const string_id<mutation_branch> &i : e.get_resist_traits() ) {
         if( has_trait( i ) ) {
             return true;
         }

@@ -44,7 +44,7 @@ TEST_CASE( "default_overmap_generation_always_succeeds", "[slow]" )
         overmap_special_batch test_specials = overmap_specials::get_default_batch( candidate_addr );
         overmap_buffer.create_custom_overmap( candidate_addr, test_specials );
         for( const auto &special_placement : test_specials ) {
-            auto special = special_placement.special_details;
+            const overmap_special *special = special_placement.special_details;
             INFO( "In attempt #" << overmaps_to_construct
                   << " failed to place " << special->id.str() );
             CHECK( special->occurrences.min <= special_placement.instances_placed );

@@ -3874,7 +3874,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION ) ) {
-        for( auto &u : type->use_methods ) {
+        for( const auto &u : type->use_methods ) {
             const delayed_transform_iuse *tt = dynamic_cast<const delayed_transform_iuse *>
                                                ( u.second.get_actor_ptr() );
             if( tt == nullptr ) {

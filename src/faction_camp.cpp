@@ -480,7 +480,7 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
 {
     bool avail = false;
     Character &player_character = get_player_character();
-    for( auto &comp : npc_list ) {
+    for( const auto &comp : npc_list ) {
         if( comp->companion_mission_time_ret < calendar:: turn ) {
             entry = entry +  _( " [DONE]\n" );
             avail = true;
@@ -499,7 +499,7 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
                                const time_duration &duration )
 {
     bool avail = false;
-    for( auto &comp : npc_list ) {
+    for( const auto &comp : npc_list ) {
         time_duration elapsed = calendar::turn - comp->companion_mission_time;
         entry = entry + " " +  comp->name + " [" + to_string( elapsed ) + "/" +
                 to_string( duration ) + "]\n";
@@ -660,10 +660,10 @@ void talk_function::basecamp_mission( npc &p )
         tripoint src_loc;
         const auto abspos = p.global_square_location();
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
-            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+            const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
+            const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
-            for( auto &src : src_sorted ) {
+            for( const tripoint &src : src_sorted ) {
                 src_loc = here.getlocal( src );
                 break;
             }
@@ -3462,12 +3462,12 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
     tinymap target_bay;
     target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     target_bay.ter_set( point( 11, 10 ), t_improvised_shelter );
-    for( auto i : itms_rem ) {
+    for( item *i : itms_rem ) {
         comp.companion_mission_inv.add_item( *i );
         target_bay.i_rem( point( 11, 10 ), i );
     }
     Character &player_character = get_player_character();
-    for( auto i : itms ) {
+    for( const item *i : itms ) {
         target_bay.add_item_or_charges( point( 11, 10 ), *i );
         player_character.use_amount( i->typeId(), 1 );
     }
@@ -3491,7 +3491,7 @@ time_duration companion_travel_time_calc( const std::vector<tripoint_abs_omt> &j
         time_duration work, int trips, int haulage )
 {
     int one_way = 0;
-    for( auto &om : journey ) {
+    for( const tripoint_abs_omt &om : journey ) {
         const oter_id &omt_ref = overmap_buffer.ter( om );
         std::string om_id = omt_ref.id().c_str();
         //Player walks 1 om is roughly 30 seconds
@@ -3526,7 +3526,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &co
 {
     units::mass total_m = 0_gram;
     units::volume total_v = 0_ml;
-    for( auto &i : itms ) {
+    for( const auto &i : itms ) {
         total_m += i->weight( true );
         total_v += i->volume( true );
     }
@@ -3617,7 +3617,7 @@ bool basecamp::validate_sort_points()
         const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
         const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
-        for( auto &src : src_sorted ) {
+        for( const tripoint &src : src_sorted ) {
             src_loc = here.getlocal( src );
             break;
         }
@@ -3799,7 +3799,7 @@ std::string basecamp::gathering_description( const std::string &bldg )
     std::map<std::string, int> itemnames;
     for( size_t a = 0; a < 6; a++ ) {
         const auto items = item_group::items_from( itemlist, calendar::turn );
-        for( auto &it : items ) {
+        for( const item &it : items ) {
             itemnames[it.display_name()]++;
         }
     }
@@ -4040,11 +4040,11 @@ void basecamp::place_results( const item &result )
         Character &player_character = get_player_character();
         const auto abspos = here.getabs( player_character.pos() );
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos ) ) {
-            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+            const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
+            const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
-            for( auto &src : src_sorted ) {
-                const auto &src_loc = here.getlocal( src );
+            for( const tripoint &src : src_sorted ) {
+                const tripoint &src_loc = here.getlocal( src );
                 here.add_item_or_charges( src_loc, result, true );
                 apply_camp_ownership( src_loc, 10 );
                 break;

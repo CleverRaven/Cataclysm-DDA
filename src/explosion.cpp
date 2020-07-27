@@ -257,7 +257,7 @@ static void do_blast( const tripoint &p, const float power,
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
-    for( auto &pt : closed ) {
+    for( const tripoint &pt : closed ) {
         if( here.impassable( pt ) ) {
             continue;
         }
@@ -410,7 +410,7 @@ static std::vector<tripoint> shrapnel( const tripoint &src, int power,
         }
         distrib.emplace_back( target );
         int damage = ballistic_damage( cloud.velocity, fragment_mass );
-        auto critter = g->critter_at( target );
+        Creature *critter = g->critter_at( target );
         if( damage > 0 && critter && !critter->is_dead_state() ) {
             std::poisson_distribution<> d( cloud.density );
             int hits = d( rng_get_engine() );

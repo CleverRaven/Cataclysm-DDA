@@ -587,7 +587,7 @@ bool player::handle_gun_damage( item &it )
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
         uncork = std::pow( uncork, 3 ) * 6.5;
-        for( auto mod : it.gunmods() ) {
+        for( item *mod : it.gunmods() ) {
             if( mod->has_flag( flag_CONSUMABLE ) ) {
                 int dmgamt = uncork / mod->type->gunmod->consume_divisor;
                 int modconsume = mod->type->gunmod->consume_chance;
@@ -955,7 +955,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     bool throw_assist = false;
     int throw_assist_str = 0;
     if( is_mounted() ) {
-        auto mons = mounted_creature.get();
+        auto *mons = mounted_creature.get();
         if( mons->mech_str_addition() != 0 ) {
             throw_assist = true;
             throw_assist_str = mons->mech_str_addition();
@@ -1573,7 +1573,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     }
 
     // some magazines also eject disintegrating linkages
-    const auto mag = weap.magazine_current();
+    const item *mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( itype_brass_catcher ) ) {
@@ -1603,7 +1603,7 @@ item::sound_data item::gun_noise( const bool burst ) const
     }
 
     int noise = type->gun->loudness;
-    for( const auto mod : gunmods() ) {
+    for( const item *mod : gunmods() ) {
         noise += mod->type->gunmod->loudness;
     }
     if( ammo_data() ) {

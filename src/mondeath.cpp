@@ -311,7 +311,7 @@ void mdeath::kill_vines( monster &z )
     for( Creature *const vine : vines ) {
         int dist = rl_dist( vine->pos(), z.pos() );
         bool closer = false;
-        for( auto &j : hubs ) {
+        for( const Creature *j : hubs ) {
             if( rl_dist( vine->pos(), j->pos() ) < dist ) {
                 break;
             }

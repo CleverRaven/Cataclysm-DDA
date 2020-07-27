@@ -327,7 +327,7 @@ void player_morale::set_permanent( const morale_type &type, int bonus, const ity
 
 int player_morale::has( const morale_type &type, const itype *item_type ) const
 {
-    for( auto &m : points ) {
+    for( const morale_point &m : points ) {
         if( m.matches( type, item_type ) ) {
             return m.get_net_bonus();
         }
@@ -404,7 +404,7 @@ int player_morale::get_total_negative_value() const
 {
     const morale_mult mult = get_temper_mult();
     int sum = 0;
-    for( auto &m : points ) {
+    for( const morale_point &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus < 0 ) {
             sum += std::pow( bonus, 2 );
@@ -422,7 +422,7 @@ int player_morale::get_total_positive_value() const
 {
     const morale_mult mult = get_temper_mult();
     int sum = 0;
-    for( auto &m : points ) {
+    for( const morale_point &m : points ) {
         const int bonus = m.get_net_bonus( mult );
         if( bonus > 0 ) {
             sum += std::pow( bonus, 2 );
@@ -440,7 +440,7 @@ int player_morale::get_level() const
         int sum_of_positive_squares = 0;
         int sum_of_negative_squares = 0;
 
-        for( auto &m : points ) {
+        for( const morale_point &m : points ) {
             const int bonus = m.get_net_bonus( mult );
             if( bonus > 0 ) {
                 sum_of_positive_squares += std::pow( bonus, 2 );

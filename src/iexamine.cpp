@@ -1193,7 +1193,8 @@ static std::pair<itype_id, const deploy_tent_actor *> find_tent_itype( const fur
     if( item::type_is_defined( iid ) ) {
         const itype &type = *item::find_type( iid );
         for( const auto &pair : type.use_methods ) {
-            const auto actor = dynamic_cast<const deploy_tent_actor *>( pair.second.get_actor_ptr() );
+            const deploy_tent_actor *actor = dynamic_cast<const deploy_tent_actor *>
+                                             ( pair.second.get_actor_ptr() );
             if( !actor ) {
                 continue;
             }
@@ -2061,7 +2062,7 @@ void iexamine::fungus( player &p, const tripoint &examp )
 std::vector<seed_tuple> iexamine::get_seed_entries( const std::vector<item *> &seed_inv )
 {
     std::map<itype_id, int> seed_map;
-    for( auto &seed : seed_inv ) {
+    for( const item *seed : seed_inv ) {
         seed_map[seed->typeId()] += ( seed->charges > 0 ? seed->charges : 1 );
     }
 
@@ -2204,7 +2205,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     add( seed_data.fruit_id, plant_count );
 
     if( byproducts ) {
-        for( auto &b : seed_data.byproducts ) {
+        for( const itype_id &b : seed_data.byproducts ) {
             add( b, 1 );
         }
     }
@@ -2458,7 +2459,7 @@ void iexamine::kiln_empty( player &p, const tripoint &examp )
         total_volume += i.volume();
     }
 
-    auto char_type = item::find_type( itype_unfinished_charcoal );
+    const itype *char_type = item::find_type( itype_unfinished_charcoal );
     int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
     if( char_charges < 1 ) {
         add_msg( _( "The batch in this kiln is too small to yield any charcoal." ) );
@@ -2506,7 +2507,7 @@ void iexamine::kiln_full( player &, const tripoint &examp )
         here.furn_set( examp, next_kiln_type );
         return;
     }
-    auto char_type = item::find_type( itype_charcoal );
+    const itype *char_type = item::find_type( itype_charcoal );
     add_msg( _( "There's a charcoal kiln there." ) );
     const time_duration firing_time = 6_hours; // 5 days in real life
     const time_duration time_left = firing_time - items.only_item().age();
@@ -2589,7 +2590,7 @@ void iexamine::arcfurnace_empty( player &p, const tripoint &examp )
         total_volume += i.volume();
     }
 
-    auto char_type = item::find_type( itype_unfinished_cac2 );
+    const itype *char_type = item::find_type( itype_unfinished_cac2 );
     int char_charges = char_type->charges_per_volume( ( 100 - loss ) * total_volume / 100 );
     if( char_charges < 1 ) {
         add_msg( _( "The batch in this furance is too small to yield usable calcium carbide." ) );
@@ -2635,7 +2636,7 @@ void iexamine::arcfurnace_full( player &, const tripoint &examp )
         here.furn_set( examp, next_arcfurnace_type );
         return;
     }
-    auto char_type = item::find_type( itype_chem_carbide );
+    const itype *char_type = item::find_type( itype_chem_carbide );
     add_msg( _( "There's an arc furnace there." ) );
     const time_duration firing_time = 2_hours; // Arc furnaces work really fast in reality
     const time_duration time_left = firing_time - items.only_item().age();
@@ -2801,9 +2802,9 @@ void iexamine::fireplace( player &p, const tripoint &examp )
     for( item *it : p.items_with( []( const item & it ) {
     return it.has_flag( flag_FIRESTARTER ) || it.has_flag( flag_FIRE );
     } ) ) {
-        const auto usef = it->type->get_use( "firestarter" );
+        const use_function *usef = it->type->get_use( "firestarter" );
         if( usef != nullptr && usef->get_actor_ptr() != nullptr ) {
-            const auto actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+            const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
             if( actor->can_use( p, *it, false, examp ).success() ) {
                 firestarters.insert( std::pair<int, item *>( actor->moves_cost_fast, it ) );
             }
@@ -2845,8 +2846,8 @@ void iexamine::fireplace( player &p, const tripoint &examp )
         case 1: {
             for( auto &firestarter : firestarters ) {
                 item *it = firestarter.second;
-                const auto usef = it->type->get_use( "firestarter" );
-                const auto actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
+                const use_function *usef = it->type->get_use( "firestarter" );
+                const firestarter_actor *actor = dynamic_cast<const firestarter_actor *>( usef->get_actor_ptr() );
                 p.add_msg_if_player( _( "You attempt to start a fire with your %s…" ), it->tname() );
                 const ret_val<bool> can_use = actor->can_use( p, *it, false, examp );
                 if( can_use.success() ) {
@@ -2933,7 +2934,7 @@ void iexamine::fvat_empty( player &p, const tripoint &examp )
         // Code shamelessly stolen from the crop planting function!
         std::vector<itype_id> b_types;
         std::vector<std::string> b_names;
-        for( auto &b : b_inv ) {
+        for( const item *b : b_inv ) {
             if( std::find( b_types.begin(), b_types.end(), b->typeId() ) == b_types.end() ) {
                 b_types.push_back( b->typeId() );
                 b_names.push_back( item::nname( b->typeId() ) );
@@ -3647,7 +3648,7 @@ void iexamine::recycle_compactor( player &, const tripoint &examp )
     //~ %1$.3f: total mass of material in compactor, %2$s: weight units , %3$s: compactor output material
     choose_output.text = string_format( _( "Compact %1$.3f %2$s of %3$s into:" ),
                                         convert_weight( sum_weight ), weight_units(), m.name() );
-    for( auto &ci : m.compacts_into() ) {
+    for( const itype_id &ci : m.compacts_into() ) {
         auto it = item( ci, 0, item::solitary_tag{} );
         const int amount = norm_recover_weight / it.weight();
         //~ %1$d: number of, %2$s: output item
@@ -5337,7 +5338,7 @@ static void smoker_load_food( player &p, const tripoint &examp,
         return;
     }
     int count = 0;
-    auto what = entries[smenu.ret];
+    const item *what = entries[smenu.ret];
     for( const auto &c : comps ) {
         if( c.type == what->typeId() ) {
             count = c.count;
@@ -5446,7 +5447,7 @@ static void mill_load_food( player &p, const tripoint &examp,
         return;
     }
     int count = 0;
-    auto what = entries[smenu.ret];
+    const item *what = entries[smenu.ret];
     for( const auto &c : comps ) {
         if( c.type == what->typeId() ) {
             count = c.count;

@@ -609,7 +609,7 @@ bool player::has_conflicting_trait( const trait_id &flag ) const
 
 bool player::has_lower_trait( const trait_id &flag ) const
 {
-    for( auto &i : flag->prereqs ) {
+    for( const trait_id &i : flag->prereqs ) {
         if( has_trait( i ) || has_lower_trait( i ) ) {
             return true;
         }
@@ -619,7 +619,7 @@ bool player::has_lower_trait( const trait_id &flag ) const
 
 bool player::has_higher_trait( const trait_id &flag ) const
 {
-    for( auto &i : flag->replacements ) {
+    for( const auto &i : flag->replacements ) {
         if( has_trait( i ) || has_higher_trait( i ) ) {
             return true;
         }
@@ -666,7 +666,7 @@ std::list<item *> player::get_radio_items()
 {
     std::list<item *> rc_items;
     const invslice &stacks = inv.slice();
-    for( auto &stack : stacks ) {
+    for( const auto &stack : stacks ) {
         item &stack_iter = stack->front();
         if( stack_iter.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &stack_iter );
@@ -691,7 +691,7 @@ std::list<item *> player::get_artifact_items()
 {
     std::list<item *> art_items;
     const invslice &stacks = inv.slice();
-    for( auto &stack : stacks ) {
+    for( const auto &stack : stacks ) {
         item &stack_iter = stack->front();
         if( stack_iter.is_artifact() ) {
             art_items.push_back( &stack_iter );
@@ -1739,7 +1739,7 @@ void player::process_items()
     const auto inv_is_ups = items_with( []( const item & itm ) {
         return itm.has_flag( "IS_UPS" );
     } );
-    for( auto &it : inv_is_ups ) {
+    for( const auto &it : inv_is_ups ) {
         itype_id identifier = it->type->get_id();
         if( identifier == itype_UPS_off ) {
             ch_UPS += it->ammo_remaining();
@@ -1767,7 +1767,7 @@ void player::process_items()
     const auto inv_use_ups = items_with( []( const item & itm ) {
         return itm.has_flag( "USE_UPS" );
     } );
-    for( auto &it : inv_use_ups ) {
+    for( const auto &it : inv_use_ups ) {
         // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
         if( it->is_power_armor() && can_interface_armor() && has_power() ) {
             // Bionic power costs are handled elsewhere
@@ -1995,7 +1995,7 @@ item::reload_option player::select_ammo( const item &base,
             if( ammo.invlet ) {
                 hotkey = ammo.invlet;
             } else {
-                for( const auto obj : parents( ammo ) ) {
+                for( const item *obj : parents( ammo ) ) {
                     if( obj->invlet ) {
                         hotkey = obj->invlet;
                         break;
@@ -2242,7 +2242,7 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     kmenu.selected = STYLE_OFFSET;
 
     for( size_t i = 0; i < selectable_styles.size(); i++ ) {
-        auto &style = selectable_styles[i].obj();
+        const auto &style = selectable_styles[i].obj();
         //Check if this style is currently selected
         const bool selected = selectable_styles[i] == style_selected;
         std::string entry_text = style.name.translated();
@@ -2942,7 +2942,7 @@ bool player::gunmod_remove( item &gun, item &mod )
         for( const auto &slot : mod_locations ) {
             int free_slots = gun.get_free_mod_locations( slot.first );
 
-            for( auto the_mod : gun.gunmods() ) {
+            for( item *the_mod : gun.gunmods() ) {
                 if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
                     gunmod_remove( gun, *the_mod );
                     free_slots++;

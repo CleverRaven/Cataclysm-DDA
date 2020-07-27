@@ -915,12 +915,12 @@ void veh_interact::do_install()
         return true;
     }; // All
     tab_filters[1] = [&]( const vpart_info * p ) {
-        auto &part = *p;
+        const auto &part = *p;
         return part.has_flag( VPFLAG_CARGO ) && // Cargo
                !part.has_flag( "TURRET" );
     };
     tab_filters[2] = [&]( const vpart_info * p ) {
-        auto &part = *p;
+        const auto &part = *p;
         return part.has_flag( VPFLAG_LIGHT ) || // Light
                part.has_flag( VPFLAG_CONE_LIGHT ) ||
                part.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ||
@@ -930,7 +930,7 @@ void veh_interact::do_install()
                part.has_flag( VPFLAG_ATOMIC_LIGHT );
     };
     tab_filters[3] = [&]( const vpart_info * p ) {
-        auto &part = *p;
+        const auto &part = *p;
         return part.has_flag( "TRACK" ) || //Util
                part.has_flag( VPFLAG_FRIDGE ) ||
                part.has_flag( VPFLAG_FREEZER ) ||
@@ -964,7 +964,7 @@ void veh_interact::do_install()
                part.has_flag( "WORKBENCH" );
     };
     tab_filters[4] = [&]( const vpart_info * p ) {
-        auto &part = *p;
+        const auto &part = *p;
         return( part.has_flag( VPFLAG_OBSTACLE ) || // Hull
                 part.has_flag( "ROOF" ) ||
                 part.has_flag( VPFLAG_ARMOR ) ) &&
@@ -972,7 +972,7 @@ void veh_interact::do_install()
               !tab_filters[3]( p );
     };
     tab_filters[5] = [&]( const vpart_info * p ) {
-        auto &part = *p;
+        const auto &part = *p;
         return part.has_flag( VPFLAG_ENGINE ) || // Internals
                part.has_flag( VPFLAG_ALTERNATOR ) ||
                part.has_flag( VPFLAG_CONTROLS ) ||

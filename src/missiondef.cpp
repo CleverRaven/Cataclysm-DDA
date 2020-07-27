@@ -245,7 +245,7 @@ void mission_type::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "origins" ) ) {
         origins.clear();
-        for( auto &m : jo.get_tags( "origins" ) ) {
+        for( const std::string &m : jo.get_tags( "origins" ) ) {
             origins.emplace_back( io::string_to_enum<mission_origin>( m ) );
         }
     }
@@ -463,7 +463,7 @@ mission_type_id mission_type::get_random_id( const mission_origin origin,
         const tripoint_abs_omt &p )
 {
     std::vector<mission_type_id> valid;
-    for( auto &t : get_all() ) {
+    for( const mission_type &t : get_all() ) {
         if( std::find( t.origins.begin(), t.origins.end(), origin ) == t.origins.end() ) {
             continue;
         }
