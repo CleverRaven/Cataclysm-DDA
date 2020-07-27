@@ -4293,15 +4293,15 @@
     "items": {
       "both": {
         "items": [ 
-          "helmet_motor", 
-          "touring_suit", 
-          "under_armor", 
-          "under_armor_shorts", 
-          "socks", 
-          "motorbike_boots", 
-          "gloves_leather", 
-          "wristwatch", 
-          "motorbike_armor" 
+          "helmet_motor",
+          "touring_suit",
+          "under_armor",
+          "under_armor_shorts",
+          "socks",
+          "motorbike_boots",
+          "gloves_leather",
+          "wristwatch",
+          "motorbike_armor"
         ],
         "entries": [ { "group": "charged_smart_phone" } ]
       },
