@@ -45,20 +45,7 @@
   },
   {
     "type": "recipe",
-    "result": "acid",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "chemistry",
-    "difficulty": 4,
-    "time": "10 m",
-    "autolearn": true,
-    "qualities": [ { "id": "BOIL", "level": 2 } ],
-    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
-    "components": [ [ [ "water_acid", 1 ], [ "water_acid_weak", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "acid",
+    "result": "chem_sulphuric_acid",
     "id_suffix": "from batteries",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
@@ -79,19 +66,6 @@
         [ "heavy_plus_battery_cell", 1 ]
       ]
     ]
-  },
-  {
-    "type": "recipe",
-    "result": "water_acid",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "chemistry",
-    "skills_required": [ "electronics", 1 ],
-    "difficulty": 2,
-    "time": "10 m",
-    "book_learn": [ [ "adv_chemistry", 1 ], [ "textbook_chemistry", 1 ] ],
-    "qualities": [ { "id": "CHEM", "level": 3 } ],
-    "components": [ [ [ "salt_water", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -315,7 +289,7 @@
       [ [ "chem_sulphur", 150 ] ],
       [ [ "oxy_powder", 100 ] ],
       [ [ "ammonia", 5 ] ],
-      [ [ "acid", 1 ] ],
+      [ [ "chem_sulphuric_acid", 1 ] ],
       [ [ "chem_saltpetre", 5 ] ],
       [ [ "bleach", 5 ] ]
     ]
@@ -367,7 +341,7 @@
     "components": [
       [ [ "vitamins", 5 ] ],
       [ [ "aspirin", 10 ] ],
-      [ [ "acid", 1 ], [ "datura_seed", 8 ] ],
+      [ [ "chem_sulphuric_acid", 1 ], [ "chem_muriatic_acid", 1 ], [ "chem_nitric_acid", 1 ], [ "datura_seed", 8 ] ],
       [ [ "bleach", 1 ], [ "oxy_powder", 100 ] ]
     ]
   },
@@ -453,7 +427,7 @@
     "tools": [ [ [ "surface_heat", 20, "LIST" ] ] ],
     "components": [
       [ [ "datura_seed", 2 ] ],
-      [ [ "acid", 1 ] ],
+      [ [ "chem_sulphuric_acid", 1 ], [ "chem_muriatic_acid", 1 ], [ "chem_nitric_acid", 1 ] ],
       [ [ "aspirin", 10 ] ],
       [ [ "salt_water", 1 ], [ "saline", 5 ] ],
       [ [ "ammonia", 1 ], [ "lye_powder", 100 ] ]
@@ -578,20 +552,6 @@
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "electrolysis_kit", 750 ] ], [ [ "surface_heat", 25, "LIST" ] ], [ [ "platinum_small", -1 ] ] ],
     "components": [ [ [ "salt_water", 4 ], [ "saline", 20 ] ], [ [ "ammonia", 1 ] ], [ [ "chem_muriatic_acid", 1 ] ] ]
-  },
-  {
-    "type": "recipe",
-    "result": "lye_powder",
-    "category": "CC_CHEM",
-    "subcategory": "CSC_CHEM_CHEMICALS",
-    "skill_used": "chemistry",
-    "difficulty": 3,
-    "time": "3 h",
-    "batch_time_factors": [ 80, 4 ],
-    "book_learn": [ [ "adv_chemistry", 2 ], [ "textbook_chemistry", 2 ], [ "recipe_labchem", 2 ], [ "basic_chemistry", 2 ] ],
-    "qualities": [ { "id": "CHEM", "level": 1 } ],
-    "tools": [ [ [ "surface_heat", 25, "LIST" ] ] ],
-    "components": [ [ [ "charcoal", 50 ] ], [ [ "water_clean", 2 ], [ "water", 2 ] ] ]
   },
   {
     "type": "recipe",
@@ -723,6 +683,7 @@
     "result": "soap",
     "category": "CC_CHEM",
     "subcategory": "CSC_CHEM_CHEMICALS",
+    "byproducts": [ [ "chem_glycerol", 1 ] ],
     "skill_used": "chemistry",
     "difficulty": 2,
     "time": "45 m",
@@ -730,8 +691,8 @@
     "autolearn": true,
     "tools": [ [ [ "surface_heat", 18, "LIST" ] ] ],
     "components": [
-      [ [ "edible_tallow_lard", 2, "LIST" ], [ "cooking_oil", 16 ], [ "cooking_oil2", 16 ] ],
-      [ [ "lye", 2 ], [ "lye_powder", 75 ] ],
+      [ [ "edible_tallow_lard", 4, "LIST" ], [ "cooking_oil", 14 ], [ "cooking_oil2", 14 ] ],
+      [ [ "lye", 1 ], [ "lye_powder", 11 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
     "flags": [ "ALLOW_ROTTEN" ]
@@ -1237,10 +1198,7 @@
     "charges": 250,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
     "byproducts": [ [ "water_clean" ] ],
-    "components": [
-      [ [ "chem_ethanol", 250 ] ],
-      [ [ "chem_acetic_acid", 1 ], [ "chem_nitric_acid", 1 ], [ "chem_sulphuric_acid", 1 ], [ "acid", 1 ] ]
-    ]
+    "components": [ [ [ "chem_ethanol", 250 ] ], [ [ "chem_acetic_acid", 1 ], [ "chem_nitric_acid", 1 ], [ "chem_sulphuric_acid", 1 ] ] ]
   },
   {
     "result": "zinc_metal",

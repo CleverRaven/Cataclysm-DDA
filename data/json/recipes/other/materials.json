@@ -87,7 +87,7 @@
     "components": [
       [ [ "chem_ethanol", 50 ], [ "denat_alcohol", 50 ] ],
       [ [ "copper_scrap_equivalent", 2, "LIST" ] ],
-      [ [ "acid", 1 ] ],
+      [ [ "chem_sulphuric_acid", 1 ], [ "chem_muriatic_acid", 1 ], [ "chem_nitric_acid", 1 ] ],
       [ [ "bleach", 2 ] ],
       [ [ "oxy_powder", 50 ] ],
       [ [ "scrap", 1 ] ]
@@ -183,7 +183,7 @@
     "batch_time_factors": [ 50, 2 ],
     "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "jar_glass_sealed", -1 ], [ "jar_3l_glass_sealed", -1 ] ] ],
     "components": [
-      [ [ "acid", 1 ] ],
+      [ [ "chem_sulphuric_acid", 1 ], [ "chem_muriatic_acid", 1 ], [ "chem_nitric_acid", 1 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "tin_plate", 1 ], [ "tin_cup", 1 ], [ "bowl_pewter", 1 ] ]
     ]
