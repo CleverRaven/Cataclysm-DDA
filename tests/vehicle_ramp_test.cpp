@@ -37,8 +37,6 @@
 #include "player_helpers.h"
 #include "map_helpers.h"
 
-static const efftype_id effect_blind( "blind" );
-
 static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
 {
     // Set to turn 0 to prevent solars from producing power

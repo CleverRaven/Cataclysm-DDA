@@ -154,8 +154,6 @@ static const itype_id itype_unfinished_charcoal( "unfinished_charcoal" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_water( "water" );
 
-static const trap_str_id tr_unfinished_construction( "tr_unfinished_construction" );
-
 static const skill_id skill_cooking( "cooking" );
 static const skill_id skill_fabrication( "fabrication" );
 static const skill_id skill_mechanics( "mechanics" );

@@ -23,7 +23,6 @@
 #include "type_id.h"
 
 static const move_mode_id move_mode_walk( "walk" );
-static const move_mode_id move_mode_run( "run" );
 static const move_mode_id move_mode_crouch( "crouch" );
 
 enum class vision_test_flags {
