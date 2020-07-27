@@ -1662,7 +1662,7 @@ void Character::process_bionic( int b )
         if( get_power_level() >= 40_J ) {
             std::forward_list<bodypart_id> bleeding_bp_parts;
             for( const bodypart_id bp : get_all_body_parts() ) {
-                if( has_effect( effect_bleed, bp ) ) {
+                if( has_effect( effect_bleed, bp.id() ) ) {
                     bleeding_bp_parts.push_front( bp );
                 }
             }
@@ -1794,7 +1794,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, bp ) ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
                     if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                         continue;
                     }
@@ -1810,7 +1810,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 5:
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, bp ) ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
                     if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                         continue;
                     }
@@ -1883,7 +1883,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, bp ) ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
                     if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                         continue;
                     }
@@ -1901,7 +1901,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
         case 5:
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, bp ) ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
                     if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                         continue;
                     }
@@ -2563,7 +2563,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             case 5: {
                 for( const bodypart_id &bp : get_all_body_parts() ) {
                     const body_part enum_bp = bp->token;
-                    if( has_effect( effect_under_operation, bp ) ) {
+                    if( has_effect( effect_under_operation, bp.id() ) ) {
                         if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                             continue;
                         }

@@ -4900,12 +4900,12 @@ void Character::regen( int rate_multiplier )
         }
 
         // remove effects if the limb was healed by other way
-        if( has_effect( effect_bandaged, bp ) && ( get_part( bp )->is_at_max_hp() ) ) {
+        if( has_effect( effect_bandaged, bp.id() ) && ( get_part( bp )->is_at_max_hp() ) ) {
             set_part_damage_bandaged( bp, 0 );
             remove_effect( effect_bandaged, bp );
             add_msg_if_player( _( "Bandaged wounds on your %s healed." ), body_part_name( bp ) );
         }
-        if( has_effect( effect_disinfected, bp ) && ( get_part( bp )->is_at_max_hp() ) ) {
+        if( has_effect( effect_disinfected, bp.id() ) && ( get_part( bp )->is_at_max_hp() ) ) {
             set_part_damage_disinfected( bp, 0 );
             remove_effect( effect_disinfected, bp );
             add_msg_if_player( _( "Disinfected wounds on your %s healed." ), body_part_name( bp ) );
@@ -6101,7 +6101,7 @@ void Character::update_bodytemp()
                 if( get_part_frostbite_timer( bp ) < 2000 ) {
                     mod_part_frostbite_timer( bp, 3 );
                 }
-                if( one_in( 100 ) && !has_effect( effect_frostbite, bp ) ) {
+                if( one_in( 100 ) && !has_effect( effect_frostbite, bp.id() ) ) {
                     add_msg( m_warning, _( "Your %s will be frostnipped in the next few hours." ),
                              body_part_name( bp ) );
                 }
@@ -6457,11 +6457,11 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
         std::string msg;
         std::string desc;
-        bool bleeding = has_effect( effect_bleed, bp );
-        bool bitten = has_effect( effect_bite, bp );
-        bool infected = has_effect( effect_infected, bp );
-        bool bandaged = has_effect( effect_bandaged, bp );
-        bool disinfected = has_effect( effect_disinfected, bp );
+        bool bleeding = has_effect( effect_bleed, bp.id() );
+        bool bitten = has_effect( effect_bite, bp.id() );
+        bool infected = has_effect( effect_infected, bp.id() );
+        bool bandaged = has_effect( effect_bandaged, bp.id() );
+        bool disinfected = has_effect( effect_disinfected, bp.id() );
         const int b_power = get_effect_int( effect_bandaged, bp_token );
         const int d_power = get_effect_int( effect_disinfected, bp_token );
         int new_b_power = static_cast<int>( std::floor( bandage_power ) );
@@ -6620,10 +6620,10 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
     if( bleed && intense > 0 ) {
         color_bit += 1;
     }
-    if( bite && has_effect( effect_bite, bp ) ) {
+    if( bite && has_effect( effect_bite, bp.id() ) ) {
         color_bit += 10;
     }
-    if( infect && has_effect( effect_infected, bp ) ) {
+    if( infect && has_effect( effect_infected, bp.id() ) ) {
         color_bit += 100;
     }
     switch( color_bit ) {
@@ -9109,7 +9109,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
         put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, { weapon } );
         i_rem( &weapon );
     }
-    if( has_effect( effect_mending, part_to_damage ) && ( source == nullptr ||
+    if( has_effect( effect_mending, part_to_damage.id() ) && ( source == nullptr ||
             !source->is_hallucination() ) ) {
         effect &e = get_effect( effect_mending, part_to_damage->token );
         float remove_mend = dam / 20.0f;
@@ -9123,10 +9123,10 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
     if( !bypass_med ) {
         // remove healing effects if damaged
         int remove_med = roll_remainder( dam / 5.0f );
-        if( remove_med > 0 && has_effect( effect_bandaged, part_to_damage ) ) {
+        if( remove_med > 0 && has_effect( effect_bandaged, part_to_damage.id() ) ) {
             remove_med -= reduce_healing_effect( effect_bandaged, remove_med, part_to_damage );
         }
-        if( remove_med > 0 && has_effect( effect_disinfected, part_to_damage ) ) {
+        if( remove_med > 0 && has_effect( effect_disinfected, part_to_damage.id() ) ) {
             reduce_healing_effect( effect_disinfected, remove_med, part_to_damage );
         }
     }
@@ -9268,9 +9268,9 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
         const int combined_dam = dealt_dams.type_damage( DT_BASH ) + ( cut_type_dam * 4 );
         const int infection_chance = ( combined_dam * sum_cover ) / 100;
         if( x_in_y( infection_chance, 100 ) ) {
-            if( has_effect( effect_bite, bp ) ) {
+            if( has_effect( effect_bite, bp.id() ) ) {
                 add_effect( effect_bite, 40_minutes, bp, true );
-            } else if( has_effect( effect_infected, bp ) ) {
+            } else if( has_effect( effect_infected, bp.id() ) ) {
                 add_effect( effect_infected, 25_minutes, bp, true );
             } else {
                 add_effect( effect_bite, 1_turns, bp, true );
@@ -9489,17 +9489,17 @@ void Character::update_vitamins( const vitamin_id &vit )
         remove_effect( exc );
     }
     if( lvl > 0 ) {
-        if( has_effect( def, bodypart_id( "num_bp" ) ) ) {
+        if( has_effect( def ) ) {
             get_effect( def, num_bp ).set_intensity( lvl, true );
         } else {
-            add_effect( def, 1_turns, bodypart_id( "num_bp" ), true, lvl );
+            add_effect( def, 1_turns, true, lvl );
         }
     }
     if( lvl < 0 ) {
-        if( has_effect( exc, bodypart_id( "num_bp" ) ) ) {
+        if( has_effect( exc ) ) {
             get_effect( exc, num_bp ).set_intensity( -lvl, true );
         } else {
-            add_effect( exc, 1_turns, bodypart_id( "num_bp" ), true, -lvl );
+            add_effect( exc, 1_turns, true, -lvl );
         }
     }
 }
