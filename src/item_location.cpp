@@ -64,7 +64,7 @@ class item_location::impl
         class nowhere;
 
         impl() = default;
-        impl( item *i ) : what( i->get_safe_reference() ), needs_unpacking( false ) {}
+        impl( item *i ) : what( i->get_safe_reference() ) {}
         impl( int idx ) : idx( idx ), needs_unpacking( true ) {}
 
         virtual ~impl() = default;

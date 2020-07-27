@@ -175,8 +175,6 @@ struct pixel_minimap::submap_cache {
 
     //reserve the SEEX * SEEY submap tiles
     submap_cache( shared_texture_pool &pool ) :
-        touched( false ),
-        ready( false ),
         pool( pool ) {
         chunk_tex = pool.request_tex( texture_index );
     }
