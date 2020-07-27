@@ -1115,7 +1115,8 @@ bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vect
 bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, bool permanent, int intensity, bool force )
 {
-    return add_env_effect( eff_id, vector, strength, dur, bodypart_id( "num_bp" ), intensity, force );
+    return add_env_effect( eff_id, vector, strength, dur, bodypart_id( "num_bp" ), permanent, intensity,
+                           force );
 }
 void Creature::clear_effects()
 {
@@ -1162,7 +1163,7 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
 }
 bool Creature::remove_effect( const efftype_id &eff_id )
 {
-    return remove_effect( eff_id );
+    return remove_effect( eff_id, bodypart_id( "num_bp" ) );
 }
 bool Creature::has_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
 {
