@@ -223,8 +223,7 @@ void recipe::load( const JsonObject &jo, const std::string &src )
     if( jo.has_member( "book_learn" ) ) {
         booksets.clear();
         for( JsonArray arr : jo.get_array( "book_learn" ) ) {
-            booksets.emplace( itype_id( arr.get_string( 0 ) ),
-                              arr.size() > 1 ? arr.get_int( 1 ) : -1 );
+            booksets.emplace( itype_id( arr.get_string( 0 ) ), book_recipe_data( arr ) );
         }
     }
 
@@ -463,7 +462,7 @@ std::string recipe::get_consistency_error() const
         return "uses invalid skill";
     }
 
-    const auto is_invalid_book = []( const std::pair<itype_id, int> &elem ) {
+    const auto is_invalid_book = []( const std::pair<itype_id, book_recipe_data> &elem ) {
         return !item::find_type( elem.first )->book;
     };
 

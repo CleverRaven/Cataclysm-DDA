@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "json.h"
 #include "optional.h"
 #include "requirements.h"
 #include "translations.h"
@@ -48,6 +49,26 @@ struct recipe_proficiency {
 
     void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );
+};
+
+struct book_recipe_data {
+    int skill_req = -1;
+    bool use_alt_name = false;
+    std::string alt_name = "";
+    bool hidden = false;
+
+    book_recipe_data( JsonArray arr ) {
+        int arr_size = arr.size();
+        if( arr_size > 1 ) {
+            skill_req = arr.get_int( 1 );
+        }
+        if( arr_size > 2 ) {
+            std::string name = arr.get_string( 2 );
+            alt_name = name;
+            use_alt_name = true;
+            hidden = name.empty();
+        }
+    }
 };
 
 class recipe
@@ -130,7 +151,9 @@ class recipe
 
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
-        std::map<itype_id, int> booksets; // Books containing this recipe, and the skill level required
+        // Books containing this recipe, and the skill level required
+        std::map<itype_id, book_recipe_data> booksets;
+
         std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe

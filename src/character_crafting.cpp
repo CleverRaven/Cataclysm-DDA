@@ -123,7 +123,7 @@ std::set<itype_id> Character::get_books_for_recipe( const inventory &crafting_in
     const int skill_level = get_skill_level( r->skill_used );
     for( auto &book_lvl : r->booksets ) {
         itype_id book_id = book_lvl.first;
-        int required_skill_level = book_lvl.second;
+        int required_skill_level = book_lvl.second.skill_req;
         // NPCs don't need to identify books
         if( !has_identified( book_id ) ) {
             continue;
