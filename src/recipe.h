@@ -52,7 +52,7 @@ struct recipe_proficiency {
 
 struct book_recipe_data {
     int skill_req = -1;
-    cata::optional<translation> alt_name;
+    cata::optional<translation> alt_name = cata::nullopt;
     bool hidden = false;
 
     void load( const JsonObject &jo );
