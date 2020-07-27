@@ -458,12 +458,6 @@ class player : public Character
         /** Checked each turn during "lying_down", returns true if the player falls asleep */
         bool can_sleep();
 
-    private:
-        /** last time we checked for sleep */
-        time_point last_sleep_check = calendar::turn_zero;
-        bool bio_soporific_powered_at_last_sleep_check;
-
-    public:
         //returns true if the warning is now beyond final and results in hostility.
         bool add_faction_warning( const faction_id &id );
         int current_warnings_fac( const faction_id &id );
