@@ -58,7 +58,7 @@ TEST_CASE( "recipe_subset" )
                 const auto comp_recipes( subset.of_component( itype_id( "water" ) ) );
 
                 CHECK( comp_recipes.size() == 1 );
-                CHECK( std::find( comp_recipes.begin(), comp_recipes.end(), r ) != comp_recipes.end() );
+                CHECK( comp_recipes.find( r ) != comp_recipes.end() );
             }
             AND_WHEN( "the subset is cleared" ) {
                 subset.clear();

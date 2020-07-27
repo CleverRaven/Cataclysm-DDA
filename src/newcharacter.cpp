@@ -1021,8 +1021,7 @@ tab_direction set_traits( avatar &u, points_left &points )
         }
 
         const std::set<trait_id> scentraits = get_scenario()->get_locked_traits();
-        const bool is_scentrait = std::find( scentraits.begin(), scentraits.end(),
-                                             traits_iter.id ) != scentraits.end();
+        const bool is_scentrait = scentraits.find( traits_iter.id ) != scentraits.end();
 
         // Always show profession locked traits, regardless of if they are forbidden
         const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
