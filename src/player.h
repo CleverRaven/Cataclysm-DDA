@@ -368,7 +368,6 @@ class player : public Character
          */
         ret_val<bool> can_takeoff( const item &it, const std::list<item> *res = nullptr );
 
-
         /**
          * Attempt to mend an item (fix any current faults)
          * @param obj Object to mend

@@ -3362,7 +3362,6 @@ bool player::can_sleep()
     return result;
 }
 
-
 bool player::has_gun_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [at]( const item & it ) {

@@ -1471,7 +1471,6 @@ class Character : public Creature, public visitable<Character>
                 &locations ) const;
         units::volume free_space() const;
 
-
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
 
@@ -2173,7 +2172,6 @@ class Character : public Creature, public visitable<Character>
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true );
         void invalidate_crafting_inventory();
-
 
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,

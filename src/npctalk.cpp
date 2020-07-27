@@ -2518,7 +2518,6 @@ dynamic_line_t::dynamic_line_t( const translation &line )
     };
 }
 
-
 dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
     if( jo.has_member( "and" ) ) {

@@ -780,5 +780,4 @@ class inventory_drop_selector : public inventory_multiselector
         size_t max_chosen_count;
 };
 
-
 #endif // CATA_SRC_INVENTORY_UI_H

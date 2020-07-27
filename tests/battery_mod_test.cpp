@@ -83,7 +83,6 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                 CHECK( flashlight.tname() == "flashlight (off)+1" );
             }
 
-
             THEN( "medium batteries can be installed" ) {
                 CHECK( flashlight.is_reloadable() );
                 CHECK( flashlight.is_reloadable_with( itype_id( "medium_battery_cell" ) ) );

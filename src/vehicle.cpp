@@ -4464,7 +4464,6 @@ float vehicle::handling_difficulty() const
     return velocity * diff_mod / vehicles::vmiph_per_tile;
 }
 
-
 int vehicle::engine_fuel_usage( int e ) const
 {
     if( !is_engine_on( e ) ) {

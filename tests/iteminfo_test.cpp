@@ -720,7 +720,6 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         REQUIRE( longshirt.get_encumber( get_player_character(), bodypart_id( "foot_r" ),
                                          item::encumber_flags::assume_full ) == 0 );
 
-
         CHECK( item_info_str( longshirt, { iteminfo_parts::ARMOR_ENCUMBRANCE } ) ==
                "--\n"
                "<color_c_white>Encumbrance</color>: <color_c_red>(poor fit)</color>\n"
@@ -779,7 +778,6 @@ TEST_CASE( "armor coverage, warmth, and encumbrance", "[iteminfo][armor][coverag
         REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "mouth" ) ) == 0 );
         REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "hand_l" ) ) == 0 );
         REQUIRE( swat_armor.get_encumber( get_player_character(), bodypart_id( "hand_r" ) ) == 0 );
-
 
         REQUIRE( swat_armor.get_avg_encumber( get_player_character(),
                                               item::encumber_flags::assume_full ) == 25 );
@@ -2234,7 +2232,6 @@ TEST_CASE( "disassembly time and yield", "[iteminfo][disassembly]" )
            " yield</color>: 2 electronic scraps, copper (1), scrap metal (1), and copper"
            " wire (5).\n" );
 
-
     CHECK( item_info_str( metal, disassemble ) ==
            "--\n"
            "<color_c_white>Disassembly</color> takes about 2 minutes, requires 1 tool"
@@ -2514,7 +2511,6 @@ TEST_CASE( "ammo restriction info", "[iteminfo][ammo_restriction]" )
 
     }
 }
-
 
 // Functions:
 // vol_to_info from item.cpp

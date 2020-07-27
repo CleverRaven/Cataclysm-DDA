@@ -1483,7 +1483,6 @@ void overmap::generate( const overmap *north, const overmap *east,
         requires_over = generate_over( z );
     } while( requires_over && ( ++z <= OVERMAP_HEIGHT ) );
 
-
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();

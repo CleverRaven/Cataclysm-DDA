@@ -792,7 +792,6 @@ body_part_set item::get_covered_body_parts( const side s ) const
         }
     }
 
-
     if( !armor->sided ) {
         return res; // Just ignore the side.
     }

@@ -1508,7 +1508,6 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
     }
 }
 
-
 bodypart *Creature::get_part( const bodypart_id &id )
 {
     auto found = body.find( id.id() );
@@ -1728,7 +1727,6 @@ bool Creature::has_atleast_one_wet_part()
     }
     return false;
 }
-
 
 bodypart_id Creature::get_random_body_part( bool main ) const
 {

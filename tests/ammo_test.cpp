@@ -18,7 +18,6 @@
 //
 // Tools, tool mods, and (all other item types?) have empty ammo_types()
 
-
 // Return true if the given item has non-empty ammo_types
 static bool has_ammo_types( const item &it )
 {

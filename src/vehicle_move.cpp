@@ -196,7 +196,6 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
                                          ( calendar::turn - smart_controller_state->gas_engine_last_turned_on ) <
                                          15_seconds;
 
-
     smart_controller_cache cur_state;
 
     float traction = is_stationary ? 1.0f :

@@ -405,7 +405,6 @@ void recipe::finalize()
         }
     }
 
-
     if( autolearn && autolearn_requirements.empty() ) {
         autolearn_requirements = required_skills;
         if( skill_used ) {

@@ -508,7 +508,6 @@ std::string talker_npc::give_item_to( const bool to_use )
         }
     }
 
-
     if( taken ) {
         player_character.i_rem( &given );
         player_character.moves -= 100;
