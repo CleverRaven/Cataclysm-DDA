@@ -4880,10 +4880,11 @@ monster *game::place_critter_around( const mtype_id &id, const tripoint &center,
 
 monster *game::place_critter_around( const shared_ptr_fast<monster> &mon,
                                      const tripoint &center,
-                                     const int radius )
+                                     const int radius,
+                                     bool forced )
 {
     cata::optional<tripoint> where;
-    if( can_place_monster( *mon, center ) ) {
+    if( forced || can_place_monster( *mon, center ) ) {
         where = center;
     }
 
