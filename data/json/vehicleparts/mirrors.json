@@ -31,12 +31,14 @@
   {
     "copy-from": "wing_mirror_abstract",
     "id": "wing_mirror_left",
+    "looks_like": "wing_mirror",
     "symbol": "o",
     "type": "vehicle_part"
   },
   {
     "copy-from": "wing_mirror_abstract",
     "id": "wing_mirror_right",
+    "looks_like": "wing_mirror",
     "symbol": "o",
     "type": "vehicle_part"
   },

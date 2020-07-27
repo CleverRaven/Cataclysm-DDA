@@ -126,12 +126,14 @@
   {
     "copy-from": "basketsm_abstract",
     "id": "basketsm",
+    "looks_like": "basketlg",
     "symbol": "o",
     "type": "vehicle_part"
   },
   {
     "copy-from": "basketsm_abstract",
     "id": "basketsm_bike_rear",
+    "looks_like": "basketsm",
     "symbol": "o",
     "type": "vehicle_part"
   },
@@ -190,6 +192,7 @@
   {
     "copy-from": "box_abstract",
     "id": "box_wheelbarrow",
+    "looks_like": "box",
     "symbol": "o",
     "type": "vehicle_part"
   },
