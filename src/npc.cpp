@@ -447,6 +447,10 @@ void npc::randomize( const npc_class_id &type )
             add_bionic( bl.first );
         }
     }
+    // Add proficiencies
+    for( const proficiency_id &prof : type->_starting_proficiencies ) {
+        add_proficiency( prof );
+    }
     // Add spells for magiclysm mod
     for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
         this->magic.learn_spell( spell_pair.first, *this, true );
@@ -1456,6 +1460,17 @@ std::vector<skill_id> npc::skills_offered_to( const player &p ) const
         const skill_id &id = pair.first;
         if( p.get_skill_level( id ) < pair.second.level() ) {
             ret.push_back( id );
+        }
+    }
+    return ret;
+}
+
+std::vector<proficiency_id> npc::proficiencies_offered_to( const Character &guy ) const
+{
+    std::vector<proficiency_id> ret;
+    for( const proficiency_id &known : known_proficiencies() ) {
+        if( !guy.has_proficiency( known ) ) {
+            ret.push_back( known );
         }
     }
     return ret;

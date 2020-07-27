@@ -130,6 +130,11 @@ int talker_character::get_skill_level( const skill_id &skill ) const
     return me_chr->get_skill_level( skill );
 }
 
+bool talker_character::knows_proficiency( const proficiency_id &proficiency ) const
+{
+    return me_chr->has_proficiency( proficiency );
+}
+
 bool talker_character::has_effect( const efftype_id &effect_id ) const
 {
     return me_chr->has_effect( effect_id );

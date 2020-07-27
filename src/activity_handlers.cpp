@@ -80,6 +80,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
+#include "proficiency.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "requirements.h"
@@ -2191,6 +2192,14 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         } else {
             add_msg( m_good, _( "You get some training in %s." ), skill_name );
         }
+        act->set_to_null();
+        return;
+    }
+
+    const proficiency_id &proficiency = proficiency_id( act->name );
+    if( proficiency.is_valid() ) {
+        p->practice_proficiency( proficiency, 15_minutes );
+        add_msg( m_good, _( "You get some training in %s." ), proficiency->name() );
         act->set_to_null();
         return;
     }

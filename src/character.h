@@ -1604,7 +1604,10 @@ class Character : public Creature, public visitable<Character>
         void lose_proficiency( const proficiency_id &prof );
         void practice_proficiency( const proficiency_id &prof, time_duration amount,
                                    cata::optional<time_duration> max = cata::nullopt );
+        time_duration proficiency_training_needed( const proficiency_id &prof ) const;
         std::vector<display_proficiency> display_proficiencies() const;
+        std::vector<proficiency_id> known_proficiencies() const;
+        std::vector<proficiency_id> learning_proficiencies() const;
 
 
         // --------------- Other Stuff ---------------

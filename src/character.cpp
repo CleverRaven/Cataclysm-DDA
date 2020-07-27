@@ -11441,6 +11441,21 @@ void Character::practice_proficiency( const proficiency_id &prof, const time_dur
     }
 }
 
+time_duration Character::proficiency_training_needed( const proficiency_id &prof ) const
+{
+    return _proficiencies->training_time_needed( prof );
+}
+
+std::vector<proficiency_id> Character::known_proficiencies() const
+{
+    return _proficiencies->known_profs();
+}
+
+std::vector<proficiency_id> Character::learning_proficiencies() const
+{
+    return _proficiencies->learning_profs();
+}
+
 bool Character::defer_move( const tripoint &next )
 {
     // next must be adjacent to current pos

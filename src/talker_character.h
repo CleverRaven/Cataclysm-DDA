@@ -56,6 +56,7 @@ class talker_character: public talker
         bool has_bionic( const bionic_id &bionics_id ) const override;
         bool knows_spell( const spell_id &sp ) const override;
         int get_skill_level( const skill_id &skill ) const override;
+        bool knows_proficiency( const proficiency_id &proficiency ) const override;
 
         // effects and values
         bool has_effect( const efftype_id &effect_id ) const override;
