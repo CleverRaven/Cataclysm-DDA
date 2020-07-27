@@ -805,7 +805,9 @@ static int charges_of_internal( const T &self, const M &main, const itype_id &id
                         found_tool_with_UPS = true;
                     }
                 }
-                return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+                if( !e->has_pockets() ) {
+                    return qty < limit ? VisitResponse::SKIP : VisitResponse::ABORT;
+                }
 
             } else if( e->count_by_charges() ) {
                 if( e->typeId() == id ) {
