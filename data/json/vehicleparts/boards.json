@@ -245,20 +245,6 @@
     "symbol": "T"
   },
   {
-    "id": "clothboard_horizontal_front",
-    "looks_like": "clothboard_horizontal",
-    "copy-from": "clothboard",
-    "type": "vehicle_part",
-    "symbol": "T"
-  },
-  {
-    "id": "cloth_halfboard_horizontal_front",
-    "looks_like": "clothboard_horizontal_front",
-    "copy-from": "cloth_halfboard",
-    "type": "vehicle_part",
-    "symbol": "T"
-  },
-  {
     "id": "halfboard_horizontal_front",
     "looks_like": "halfboard_horizontal",
     "copy-from": "halfboard",
@@ -266,9 +252,30 @@
     "symbol": "T"
   },
   {
+    "id": "xlhalfboard_horizontal_front",
+    "looks_like": "halfboard_horizontal_front",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
     "id": "board_horizontal_rear",
     "looks_like": "board_horizontal",
     "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "halfboard_horizontal_rear",
+    "looks_like": "halfboard_horizontal",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "xlhalfboard_horizontal_rear",
+    "looks_like": "halfboard_horizontal_rear",
+    "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "B"
   },
@@ -313,6 +320,20 @@
     "id": "halfboard_horizontal_2_rear",
     "looks_like": "halfboard_horizontal_2",
     "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "xlhalfboard_horizontal_2_front",
+    "looks_like": "xlhalfboard_horizontal_2",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "xlhalfboard_horizontal_2_rear",
+    "looks_like": "xlhalfboard_horizontal_2",
+    "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "="
   },
@@ -686,6 +707,13 @@
     "symbol": "j"
   },
   {
+    "id": "xlhalfboard_vertical_left",
+    "looks_like": "xlhalfboard_vertical",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
     "id": "board_vertical_right",
     "looks_like": "board_vertical",
     "copy-from": "board",
@@ -696,6 +724,13 @@
     "id": "halfboard_vertical_right",
     "looks_like": "halfboard_vertical",
     "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "xlhalfboard_vertical_right",
+    "looks_like": "xlhalfboard_vertical",
+    "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "j"
   },
