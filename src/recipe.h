@@ -10,7 +10,6 @@
 #include <utility>
 #include <vector>
 
-#include "json.h"
 #include "optional.h"
 #include "requirements.h"
 #include "translations.h"
@@ -53,22 +52,11 @@ struct recipe_proficiency {
 
 struct book_recipe_data {
     int skill_req = -1;
-    bool use_alt_name = false;
-    std::string alt_name = "";
+    cata::optional<translation> alt_name;
     bool hidden = false;
 
-    book_recipe_data( JsonArray arr ) {
-        int arr_size = arr.size();
-        if( arr_size > 1 ) {
-            skill_req = arr.get_int( 1 );
-        }
-        if( arr_size > 2 ) {
-            std::string name = arr.get_string( 2 );
-            alt_name = name;
-            use_alt_name = true;
-            hidden = name.empty();
-        }
-    }
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
 };
 
 class recipe

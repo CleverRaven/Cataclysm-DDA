@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "flat_set.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "itype.h"
 #include "json.h"
@@ -222,8 +223,12 @@ void recipe::load( const JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "book_learn" ) ) {
         booksets.clear();
-        for( JsonArray arr : jo.get_array( "book_learn" ) ) {
-            booksets.emplace( itype_id( arr.get_string( 0 ) ), book_recipe_data( arr ) );
+        if( jo.has_array( "book_learn" ) ) {
+            for( JsonArray arr : jo.get_array( "book_learn" ) ) {
+                booksets.emplace( itype_id( arr.get_string( 0 ) ), book_recipe_data{ arr.size() > 1 ? arr.get_int( 1 ) : -1 } );
+            }
+        } else {
+            mandatory( jo, false, "book_learn", booksets );
         }
     }
 
@@ -932,4 +937,16 @@ void recipe_proficiency::load( const JsonObject &jo )
     jo.read( "required", required );
     jo.read( "time_multiplier", time_multiplier );
     jo.read( "fail_multiplier", fail_multiplier );
+}
+
+void book_recipe_data::deserialize( JsonIn &jsin )
+{
+    load( jsin.get_object() );
+}
+
+void book_recipe_data::load( const JsonObject &jo )
+{
+    jo.read( "skill_level", skill_req );
+    jo.read( "recipe_name", alt_name );
+    jo.read( "hidden", hidden );
 }

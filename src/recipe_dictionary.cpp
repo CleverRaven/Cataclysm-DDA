@@ -425,7 +425,7 @@ void recipe_dictionary::finalize()
             const itype *booktype = item::find_type( bk.first );
             int req = bk.second.skill_req > 0 ? bk.second.skill_req : std::max( booktype->book->req,
                       r.difficulty );
-            islot_book::recipe_with_description_t desc{ &r, req, bk.second.use_alt_name ? _( bk.second.alt_name ) : r.result_name(), bk.second.hidden };
+            islot_book::recipe_with_description_t desc{ &r, req, bk.second.alt_name.has_value() ? bk.second.alt_name.value().translated() : r.result_name(), bk.second.hidden };
             const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );
         }
 
