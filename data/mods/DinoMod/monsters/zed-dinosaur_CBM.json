@@ -1,0 +1,54 @@
+[
+  {
+    "type": "MONSTER",
+    "id": "mon_zriceratops_bio_op",
+    "name": { "str_sp": "Triceraterror bio-operator" },
+    "copy-from": "mon_zriceratops",
+    "diff": 5,
+    "proportional": { "hp": 1.2, "speed": 1.15 },
+    "relative": {
+      "morale": 50,
+      "aggression": 50,
+      "melee_skill": 2,
+      "melee_dice": 1,
+      "dodge": 2,
+      "armor_bash": 3,
+      "armor_cut": 3,
+      "armor_bullet": 3
+    },
+    "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "luminance": 4,
+    "special_attacks": [ [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "description": "A massive shambling rhino-like dinosaur corpse dotted with crackling bionics with a bony crest and three wicked looking glowing horns.  Its black eyes ooze like tears.",
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "harvest": "CBM_ZINO"
+  },
+  {
+    "type": "MONSTER",
+    "id": "mon_zeinonychus_bio_op",
+    "name": { "str_sp": "Deinonychus bio-operator" },
+    "copy-from": "mon_zeinonychus",
+    "diff": 5,
+    "proportional": { "hp": 1.2, "speed": 1.15 },
+    "relative": {
+      "morale": 50,
+      "aggression": 50,
+      "melee_skill": 2,
+      "melee_dice": 1,
+      "dodge": 2,
+      "armor_bash": 3,
+      "armor_cut": 3,
+      "armor_bullet": 3
+    },
+    "extend": { "flags": [ "ACIDPROOF", "ELECTRIC" ] },
+    "melee_damage": [ { "damage_type": "electric", "amount": 4 } ],
+    "vision_day": 100,
+    "luminance": 4,
+    "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
+    "description": "A bipedal dinosaur covered with feathers and crackling bionics.  Each foot has a large glowing sickle-like claw.",
+    "special_when_hit": [ "ZAPBACK", 75 ],
+    "harvest": "CBM_ZINO_FEATHER"
+  }
+]
