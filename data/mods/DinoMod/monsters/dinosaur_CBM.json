@@ -24,7 +24,7 @@
     "zombify_into": "mon_zriceratops_bio_op",
     "description": "A massive three-horned four-legged dinosaur dotted with crackling bionics.  The horns glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "harvest": "CBM_DINO"
+    "harvest": "CBM_DINO_LARGE"
   },
   {
     "type": "MONSTER",
@@ -51,6 +51,6 @@
     "zombify_into": "mon_zeinonychus_bio_op",
     "description": "A bipedal dinosaur covered with feathers and crackling bionics.  Each foot has a large glowing sickle-like claw.",
     "special_when_hit": [ "ZAPBACK", 75 ],
-    "harvest": "CBM_DINO"
+    "harvest": "CBM_DINO_FEATHER"
   }
 ]
