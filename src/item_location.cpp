@@ -601,18 +601,17 @@ class item_location::impl::item_in_container : public item_location::impl
             int primary_cost = ch.mutation_value( "obtain_cost_multiplier" ) * ch.item_handling_cost( *target(),
                                true, container_mv );
             int parent_obtain_cost = container.obtain_cost( ch, qty );
-            if( container.where() != item_location::type::container ) {
-                if( container->get_use( "holster" ) ) {
-                    if( ch.is_worn( *container ) ) {
-                        primary_cost = ch.item_retrieve_cost( *target(), *container, false, container_mv );
-                    } else {
-                        primary_cost = ch.item_retrieve_cost( *target(), *container );
-                    }
-                    // for holsters, we should not include the cost of wielding the holster itself
-                    parent_obtain_cost = 0;
+            if( container->get_use( "holster" ) ) {
+                if( ch.is_worn( *container ) ) {
+                    primary_cost = ch.item_retrieve_cost( *target(), *container, false, container_mv );
                 } else {
-                    parent_obtain_cost /= 2;
+                    primary_cost = ch.item_retrieve_cost( *target(), *container );
                 }
+                // for holsters, we should not include the cost of wielding the holster itself
+                parent_obtain_cost = 0;
+            } else if( container.where() != item_location::type::container ) {
+                // a little bonus for grabbing something from what you're wearing
+                parent_obtain_cost /= 2;
             }
             return primary_cost + parent_obtain_cost;
         }

@@ -80,7 +80,7 @@ TEST_CASE( "Wield time test", "[wield]" )
         item_location knife_loc( sheath_loc, &sheath_loc->contents.only_item() );
 
         const int knife_obtain_cost = knife_loc.obtain_cost( guy );
-        REQUIRE( knife_obtain_cost == 982 );
+        REQUIRE( knife_obtain_cost == 112 );
     }
 
     SECTION( "Wielding without hand encumbrance" ) {
