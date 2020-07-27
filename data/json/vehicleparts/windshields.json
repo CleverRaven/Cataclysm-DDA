@@ -87,20 +87,8 @@
     "type": "vehicle_part"
   },
   {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_sw",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
     "copy-from": "windshield_abstract",
     "id": "windshield_se",
-    "symbol": "n",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_se",
     "symbol": "n",
     "type": "vehicle_part"
   },
@@ -111,20 +99,8 @@
     "type": "vehicle_part"
   },
   {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_nw_edge",
-    "symbol": "y",
-    "type": "vehicle_part"
-  },
-  {
     "copy-from": "windshield_abstract",
     "id": "windshield_ne_edge",
-    "symbol": "u",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_ne_edge",
     "symbol": "u",
     "type": "vehicle_part"
   },
@@ -135,20 +111,8 @@
     "type": "vehicle_part"
   },
   {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_sw_edge",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
     "copy-from": "windshield_abstract",
     "id": "windshield_se_edge",
-    "symbol": "n",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_se_edge",
     "symbol": "n",
     "type": "vehicle_part"
   },
@@ -159,20 +123,8 @@
     "type": "vehicle_part"
   },
   {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_vertical_left",
-    "symbol": "j",
-    "type": "vehicle_part"
-  },
-  {
     "copy-from": "windshield_abstract",
     "id": "windshield_vertical_right",
-    "symbol": "H",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_vertical_right",
     "symbol": "H",
     "type": "vehicle_part"
   },
@@ -180,24 +132,6 @@
     "copy-from": "windshield_abstract",
     "id": "windshield_horizontal_front_edge",
     "symbol": "^",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_horizontal_front_edge",
-    "symbol": "^",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "windshield_abstract",
-    "id": "windshield_horizontal_rear_edge",
-    "symbol": "=",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_horizontal_rear_edge",
-    "symbol": "=",
     "type": "vehicle_part"
   },
   {
@@ -215,12 +149,6 @@
   {
     "copy-from": "windshield_abstract",
     "id": "windshield_horizontal_rear",
-    "symbol": "B",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reinforced_windshield_abstract",
-    "id": "reinforced_windshield_horizontal_rear",
     "symbol": "B",
     "type": "vehicle_part"
   }
