@@ -93,6 +93,54 @@
     "type": "vehicle_part"
   },
   {
+    "type": "vehicle_part",
+    "abstract": "saddle_abstract",
+    "name": { "str": "saddle" },
+    "symbol": "#",
+    "looks_like": "seat",
+    "color": "red",
+    "broken_symbol": "*",
+    "broken_color": "red",
+    "damage_modifier": 20,
+    "durability": 80,
+    "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
+    "folded_volume": "1250 ml",
+    "comfort": 1,
+    "floor_bedding_warmth": 200,
+    "item": "saddle",
+    "location": "center",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
+  },
+  {
+    "type": "vehicle_part",
+    "abstract": "folding_seat_abstract",
+    "name": { "str": "foldable seat" },
+    "symbol": "#",
+    "looks_like": "seat",
+    "color": "red",
+    "broken_symbol": "*",
+    "broken_color": "red",
+    "damage_modifier": 10,
+    "durability": 20,
+    "description": "A crude seat, too uncomfortable to sleep in.",
+    "item": "sheet",
+    "folded_volume": "2500 ml",
+    "location": "anywhere",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
+    },
+    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "rag", "count": [ 1, 6 ] } ]
+  },
+  {
     "copy-from": "seat_abstract",
     "id": "seat",
     "symbol": "#",
@@ -117,99 +165,27 @@
     "type": "vehicle_part"
   },
   {
-    "copy-from": "seat_abstract",
-    "id": "seat_up",
-    "symbol": "n",
+    "copy-from": "saddle_abstract",
+    "id": "saddle",
+    "symbol": "#",
     "type": "vehicle_part"
   },
   {
-    "copy-from": "seat_leather_abstract",
-    "id": "seat_leather_up",
-    "symbol": "n",
+    "copy-from": "saddle_abstract",
+    "id": "saddle_pedal",
+    "symbol": "#",
     "type": "vehicle_part"
   },
   {
-    "copy-from": "reclining_seat_abstract",
-    "id": "reclining_seat_up",
-    "symbol": "n",
+    "copy-from": "saddle_abstract",
+    "id": "saddle_motor",
+    "symbol": "#",
     "type": "vehicle_part"
   },
   {
-    "copy-from": "reclining_seat_leather_abstract",
-    "id": "reclining_seat_leather_up",
-    "symbol": "n",
+    "copy-from": "folding_seat_abstract",
+    "id": "folding_seat",
+    "symbol": "#",
     "type": "vehicle_part"
   },
-  {
-    "copy-from": "seat_abstract",
-    "id": "seat_down",
-    "symbol": "u",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_leather_abstract",
-    "id": "seat_leather_down",
-    "symbol": "u",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_abstract",
-    "id": "reclining_seat_down",
-    "symbol": "u",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_leather_abstract",
-    "id": "reclining_seat_leather_down",
-    "symbol": "u",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_abstract",
-    "id": "seat_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_leather_abstract",
-    "id": "seat_leather_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_abstract",
-    "id": "reclining_seat_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_leather_abstract",
-    "id": "reclining_seat_leather_left",
-    "symbol": "d",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_abstract",
-    "id": "seat_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "seat_leather_abstract",
-    "id": "seat_leather_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_abstract",
-    "id": "reclining_seat_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  },
-  {
-    "copy-from": "reclining_seat_leather_abstract",
-    "id": "reclining_seat_leather_right",
-    "symbol": "b",
-    "type": "vehicle_part"
-  }
 ]

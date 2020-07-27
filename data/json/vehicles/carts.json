@@ -293,7 +293,7 @@
     "parts": [
       { "x": 0, "y": 0, "part": "frame_handle" },
       { "x": 0, "y": 0, "parts": [ "wheel_mount_light", "wheel_barrow" ] },
-      { "x": 0, "y": 0, "part": "box" }
+      { "x": 0, "y": 0, "part": "box_wheelbarrow" }
     ]
   },
   {

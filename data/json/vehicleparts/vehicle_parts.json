@@ -235,54 +235,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "saddle",
-    "name": { "str": "saddle" },
-    "symbol": "#",
-    "looks_like": "seat",
-    "color": "red",
-    "broken_symbol": "*",
-    "broken_color": "red",
-    "damage_modifier": 20,
-    "durability": 80,
-    "description": "A padded wedge that you straddle, like a bicycle or motorcycle.",
-    "folded_volume": "1250 ml",
-    "comfort": 1,
-    "floor_bedding_warmth": 200,
-    "item": "saddle",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
-    },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
-    "breaks_into": [ { "item": "leather", "prob": 50 }, { "item": "scrap", "count": [ 1, 2 ] } ]
-  },
-  {
-    "type": "vehicle_part",
-    "id": "folding_seat",
-    "name": { "str": "foldable seat" },
-    "symbol": "#",
-    "looks_like": "seat",
-    "color": "red",
-    "broken_symbol": "*",
-    "broken_color": "red",
-    "damage_modifier": 10,
-    "durability": 20,
-    "description": "A crude seat, too uncomfortable to sleep in.",
-    "item": "sheet",
-    "folded_volume": "2500 ml",
-    "location": "anywhere",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "200 s", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 3 ] ], "time": "20 s", "using": [ [ "welding_standard", 5 ] ] }
-    },
-    "flags": [ "SEAT", "BOARDABLE", "FOLDABLE" ],
-    "breaks_into": [ { "item": "rag", "count": [ 1, 6 ] } ]
-  },
-  {
-    "type": "vehicle_part",
     "id": "bed",
     "name": { "str": "bed" },
     "symbol": "#",
@@ -900,29 +852,6 @@
   },
   {
     "type": "vehicle_part",
-    "id": "box",
-    "name": { "str": "box" },
-    "symbol": "o",
-    "looks_like": "f_crate_o",
-    "color": "brown",
-    "broken_symbol": "#",
-    "broken_color": "brown",
-    "damage_modifier": 60,
-    "durability": 100,
-    "size": 275,
-    "item": "frame",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 1 ] ] }
-    },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "LOCKABLE_CARGO" ],
-    "breaks_into": "ig_vp_frame",
-    "damage_reduction": { "all": 28 }
-  },
-  {
-    "type": "vehicle_part",
     "id": "travois",
     "name": { "str": "travois" },
     "symbol": "o",
@@ -989,51 +918,6 @@
     "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE", "LOCKABLE_CARGO" ],
     "breaks_into": [ { "item": "splinter", "count": [ 3, 5 ] }, { "item": "nail", "charges": [ 10, 15 ] } ],
     "damage_reduction": { "all": 10, "stab": 4, "cut": 5 }
-  },
-  {
-    "type": "vehicle_part",
-    "id": "cargo_bag",
-    "name": { "str": "storage bag" },
-    "symbol": "o",
-    "color": "light_gray",
-    "broken_symbol": "#",
-    "broken_color": "dark_gray",
-    "damage_modifier": 60,
-    "durability": 15,
-    "folded_volume": "1 L",
-    "size": 60,
-    "item": "bag_canvas",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "30 m", "using": [ [ "vehicle_nail_install", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "vehicle_nail_removal", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "adhesive", 2 ] ] }
-    },
-    "flags": [ "CARGO", "BOARDABLE", "COVERED", "FOLDABLE" ],
-    "breaks_into": "ig_vp_cloth"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "basketsm",
-    "name": { "str": "wire bike basket" },
-    "symbol": "o",
-    "looks_like": "basketlg",
-    "color": "brown",
-    "broken_symbol": "#",
-    "broken_color": "brown",
-    "damage_modifier": 60,
-    "durability": 75,
-    "folded_volume": "1500 ml",
-    "size": 80,
-    "item": "bike_basket",
-    "location": "center",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "150 s", "using": [ [ "vehicle_screw", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 1 ], [ "fabrication", 1 ] ], "time": "250 s", "using": [ [ "welding_standard", 1 ] ] }
-    },
-    "flags": [ "CARGO", "BOARDABLE", "FOLDABLE" ],
-    "damage_reduction": { "all": 6 }
   },
   {
     "type": "vehicle_part",
