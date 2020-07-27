@@ -28,8 +28,8 @@ public class SplashScreen extends Activity {
     private static final int INSTALL_DIALOG_ID = 0;
     private ProgressDialog installDialog;
 
-    public CharSequence[] mSettingsNames = { "Software rendering" };
-    public boolean[] mSettingsValues = { true };
+    public CharSequence[] mSettingsNames = { "Software rendering", "Force fullscreen", "Trap Back button" };
+    public boolean[] mSettingsValues = { false, false, true };
 
     private String getVersionName() {
         try {
@@ -52,7 +52,7 @@ public class SplashScreen extends Activity {
             startGameActivity(false);
         }
         else {
-            new InstallProgramTask().execute();             
+            new InstallProgramTask().execute();
         }
     }
 
@@ -63,7 +63,7 @@ public class SplashScreen extends Activity {
                 installDialog = new ProgressDialog(this);
                 installDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 boolean clean_install = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString("installed", "").isEmpty();
-                installDialog.setTitle(getString(clean_install ? R.string.installing : R.string.upgrading));
+                installDialog.setTitle(getString(clean_install ? R.string.installTitle : R.string.upgradeTitle));
                 installDialog.setIndeterminate(true);
                 installDialog.setCancelable(false);
                 return installDialog;
@@ -110,29 +110,40 @@ public class SplashScreen extends Activity {
 
         private AlertDialog installationAlert;
         private AlertDialog settingsAlert;
+        private AlertDialog helpAlert;
 
         @Override
         protected void onPreExecute() {
             installationAlert = new AlertDialog.Builder(SplashScreen.this)
-				.setTitle("Installation Failed")
-				.setCancelable(false)
-				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						SplashScreen.this.finish();
-						return;
-					}
-				}).create();
+                .setTitle("Installation Failed")
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        SplashScreen.this.finish();
+                        return;
+                    }
+                }).create();
             AssetManager assetManager = getAssets();
             try {
                 totalFiles = countTotalAssets(assetManager, "data") +
                     countTotalAssets(assetManager, "gfx") +
-                    countTotalAssets(assetManager, "lua") +
                     countTotalAssets(assetManager, "lang");
                 showDialog(INSTALL_DIALOG_ID);
             } catch(Exception e) {
                 installationAlert.setMessage(e.getMessage());
                 installationAlert.show();
             }
+
+            helpAlert = new AlertDialog.Builder(SplashScreen.this)
+                .setTitle(getString(R.string.helpTitle))
+                .setCancelable(false)
+                .setMessage(getString(R.string.helpMessage))
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        settingsAlert.show();
+                        return;
+                    }
+                }).create();
 
             settingsAlert = new AlertDialog.Builder(SplashScreen.this)
                 .setTitle("Settings")
@@ -149,6 +160,12 @@ public class SplashScreen extends Activity {
                         SplashScreen.this.startGameActivity(false);
                         return;
                     }
+                })
+                .setNeutralButton("Show help", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        helpAlert.show();
+                        return;
+                    }
                 }).create();
         }
 
@@ -163,24 +180,22 @@ public class SplashScreen extends Activity {
             AssetManager assetManager = getAssets();
             String externalFilesDir = getExternalFilesDir(null).getPath();
 
-			try {
-				// Clear out the old data if it exists (but preserve custom folders + files)
-				deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/data"));
-				deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/gfx"));
-				deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/lua"));
-				deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/lang"));
+            try {
+                // Clear out the old data if it exists (but preserve custom folders + files)
+                deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/data"));
+                deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/gfx"));
+                deleteRecursive(assetManager, externalFilesDir, new File(externalFilesDir + "/lang"));
 
-				// Install the new data over the top
-				copyAssetFolder(assetManager, "data", externalFilesDir + "/data");
-				copyAssetFolder(assetManager, "gfx", externalFilesDir + "/gfx");
-				copyAssetFolder(assetManager, "lua", externalFilesDir + "/lua");
-				copyAssetFolder(assetManager, "lang", externalFilesDir + "/lang");
+                // Install the new data over the top
+                copyAssetFolder(assetManager, "data", externalFilesDir + "/data");
+                copyAssetFolder(assetManager, "gfx", externalFilesDir + "/gfx");
+                copyAssetFolder(assetManager, "lang", externalFilesDir + "/lang");
             } catch(Exception e) {
-				installationAlert.setMessage(e.getMessage());
-				return false;
+                installationAlert.setMessage(e.getMessage());
+                return false;
             }
 
-            // Remember which version the installed data is 
+            // Remember which version the installed data is
             PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putString("installed", getVersionName()).commit();
 
             publishProgress(++installedFiles);
@@ -215,14 +230,14 @@ public class SplashScreen extends Activity {
         // Returns true if an asset exists in the APK (either a directory or a file)
         // eg. assetExists("data/sound") or assetExists("data/font", "unifont.ttf") would both return true
         private boolean assetExists(AssetManager assetManager, String assetPath) {
-		    return assetExists(assetManager, assetPath, "");
+            return assetExists(assetManager, assetPath, "");
         }
 
         private boolean assetExists(AssetManager assetManager, String assetPath, String assetName) {
             try {
                 String[] files = assetManager.list(assetPath);
                 if (assetName.isEmpty())
-                    return files.length > 0; // folder exists                    
+                    return files.length > 0; // folder exists
                 for (String file : files) {
                     if (file.equalsIgnoreCase(assetName))
                         return true; // file exists
@@ -315,11 +330,11 @@ public class SplashScreen extends Activity {
         @Override
         protected void onPostExecute(Boolean result) {
             removeDialog(INSTALL_DIALOG_ID);
-			if(result) {
+            if(result) {
                 settingsAlert.show();
-			} else {
-				installationAlert.show();
-			}
+            } else {
+                installationAlert.show();
+            }
         }
     }
 }

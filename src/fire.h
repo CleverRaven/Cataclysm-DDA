@@ -1,6 +1,6 @@
 #pragma once
-#ifndef FIRE_H
-#define FIRE_H
+#ifndef CATA_SRC_FIRE_H
+#define CATA_SRC_FIRE_H
 
 #include "units.h"
 
@@ -16,7 +16,7 @@
  * this turn.
  */
 struct fire_data {
-    fire_data() {}
+    fire_data() = default;
     fire_data( const fire_data & ) = default;
     fire_data( int intensity, bool is_contained = false ) : fire_intensity( intensity ),
         contained( is_contained )
@@ -56,4 +56,4 @@ struct mat_burn_data {
     float burn = 0.0f;
 };
 
-#endif
+#endif // CATA_SRC_FIRE_H

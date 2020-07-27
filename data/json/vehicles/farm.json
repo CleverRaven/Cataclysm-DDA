@@ -10,19 +10,26 @@
     ],
     "parts": [
       { "x": 0, "y": 0, "parts": [ "frame_vertical", "seat", "controls", "dashboard" ] },
-      { "x": 1, "y": 0, "parts": [ "frame_vertical", "halfboard_vertical", "engine_steam_medium", "alternator_truck", "battery_car" ] },
-      { "x": 2, "y": 0, "parts": [ "frame_cross", "halfboard_vertical", { "part": "fuel_bunker", "fuel": "coal_lump" } ] },
+      {
+        "x": 1,
+        "y": 0,
+        "parts": [ "frame_vertical", "halfboard_vertical", "engine_steam_medium", "alternator_truck", "battery_car" ]
+      },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame_cross", "halfboard_vertical", { "part": "fuel_bunker", "fuel": "coal_lump" } ]
+      },
       { "x": 3, "y": 0, "part": "reaper" },
       { "x": -1, "y": 0, "parts": [ "frame_cross", "plow" ] },
       { "x": -2, "y": 0, "part": "seed_drill" },
-      { "x": -1, "y": 1, "parts": [ "frame_cross", "wheel_wide" ] },
-      { "x": -1, "y": -1, "parts": [ "frame_cross", "wheel_wide" ] },
-      { "x": 2, "y": 1, "parts": [ "frame_cross", "wheel_wide_steerable" ] },
-      { "x": 2, "y": -1, "parts": [ "frame_cross", "wheel_wide_steerable" ] }
+      { "x": -1, "y": 1, "parts": [ "frame_cross", "wheel_mount_medium", "wheel_wide_or" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_cross", "wheel_mount_medium", "wheel_wide_or" ] },
+      { "x": 2, "y": 1, "parts": [ "frame_cross", "wheel_mount_medium_steerable", "wheel_wide_or" ] },
+      { "x": 2, "y": -1, "parts": [ "frame_cross", "wheel_mount_medium_steerable", "wheel_wide_or" ] }
     ],
-    "items": []
+    "items": [  ]
   },
-
   {
     "id": "autotractor",
     "type": "vehicle",
@@ -48,14 +55,14 @@
       { "x": 1, "y": -1, "part": "frame_vertical" },
       { "x": 1, "y": -1, "part": "board_vertical" },
       { "x": 2, "y": 1, "part": "frame_ne" },
-      { "x": 2, "y": 1, "part": "wheel_wide_steerable" },
+      { "x": 2, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
       { "x": 2, "y": 1, "part": "board_ne" },
       { "x": 2, "y": 0, "part": "frame_horizontal" },
       { "x": 2, "y": 0, "part": "board_horizontal" },
       { "x": 2, "y": 0, "part": "headlight" },
       { "x": 2, "y": 0, "part": "omnicam" },
       { "x": 2, "y": -1, "part": "frame_nw" },
-      { "x": 2, "y": -1, "part": "wheel_wide_steerable" },
+      { "x": 2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
       { "x": 2, "y": -1, "part": "board_nw" },
       { "x": -1, "y": 1, "part": "frame_cross" },
       { "x": -1, "y": 1, "part": "storage_battery_mount" },
@@ -73,16 +80,16 @@
       { "x": -2, "y": 1, "part": "storage_battery_mount" },
       { "x": -2, "y": 1, "part": "storage_battery_removable" },
       { "x": -2, "y": 1, "part": "cargo_space" },
-      { "x": -2, "y": 1, "part": "wheel_wide_steerable" },
+      { "x": -2, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
       { "x": -2, "y": 0, "part": "seed_drill_advanced" },
       { "x": -2, "y": -1, "part": "frame_sw" },
       { "x": -2, "y": -1, "part": "engine_electric" },
       { "x": -2, "y": -1, "part": "storage_battery_mount" },
       { "x": -2, "y": -1, "part": "storage_battery_removable" },
       { "x": -2, "y": -1, "part": "cargo_space" },
-      { "x": -2, "y": -1, "part": "wheel_wide_steerable" }
+      { "x": -2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] }
     ],
-    "items": []
+    "items": [  ]
   },
   {
     "id": "tractor_plow",
@@ -100,8 +107,8 @@
       { "x": 2, "y": 0, "part": "halfboard_vertical" },
       { "x": 2, "y": -1, "part": "frame_horizontal" },
       { "x": 2, "y": 1, "part": "frame_horizontal" },
-      { "x": 2, "y": -1, "part": "wheel_wide_steerable" },
-      { "x": 2, "y": 1, "part": "wheel_wide_steerable" },
+      { "x": 2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
+      { "x": 2, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
       { "x": 1, "y": 0, "part": "frame_horizontal" },
       { "x": 1, "y": 0, "part": "halfboard_vertical" },
       { "x": 1, "y": 0, "part": "battery_car" },
@@ -116,8 +123,8 @@
       { "x": -1, "y": 0, "part": "halfboard_vertical" },
       { "x": -1, "y": 1, "part": "frame_horizontal" },
       { "x": -1, "y": -1, "part": "frame_horizontal" },
-      { "x": -1, "y": 1, "part": "wheel_wide" },
-      { "x": -1, "y": -1, "part": "wheel_wide" },
+      { "x": -1, "y": 1, "parts": [ "wheel_mount_medium", "wheel_wide_or" ] },
+      { "x": -1, "y": -1, "parts": [ "wheel_mount_medium", "wheel_wide_or" ] },
       { "x": -2, "y": 0, "part": "frame_cross" },
       { "x": -2, "y": 1, "part": "frame_cross" },
       { "x": -2, "y": -1, "part": "frame_cross" },
@@ -127,7 +134,7 @@
       { "x": -2, "y": 2, "part": "plow" },
       { "x": -2, "y": -2, "part": "plow" }
     ],
-    "items": []
+    "items": [  ]
   },
   {
     "id": "tractor_reaper",
@@ -145,8 +152,8 @@
       { "x": 2, "y": 0, "part": "halfboard_vertical" },
       { "x": 2, "y": -1, "part": "frame_horizontal" },
       { "x": 2, "y": 1, "part": "frame_horizontal" },
-      { "x": 2, "y": -1, "part": "wheel_wide_steerable" },
-      { "x": 2, "y": 1, "part": "wheel_wide_steerable" },
+      { "x": 2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
+      { "x": 2, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
       { "x": 1, "y": 0, "part": "frame_horizontal" },
       { "x": 1, "y": 0, "part": "halfboard_vertical" },
       { "x": 1, "y": 0, "part": "battery_car" },
@@ -161,15 +168,15 @@
       { "x": -1, "y": 0, "part": "halfboard_vertical" },
       { "x": -1, "y": 1, "part": "frame_horizontal" },
       { "x": -1, "y": -1, "part": "frame_horizontal" },
-      { "x": -1, "y": 1, "part": "wheel_wide" },
-      { "x": -1, "y": -1, "part": "wheel_wide" },
+      { "x": -1, "y": 1, "parts": [ "wheel_mount_medium", "wheel_wide_or" ] },
+      { "x": -1, "y": -1, "parts": [ "wheel_mount_medium", "wheel_wide_or" ] },
       { "x": -2, "y": 0, "part": "reaper" },
       { "x": -2, "y": 1, "part": "frame_cross" },
       { "x": -2, "y": -1, "part": "frame_cross" },
       { "x": -2, "y": 2, "part": "reaper" },
       { "x": -2, "y": -2, "part": "reaper" }
     ],
-    "items": []
+    "items": [  ]
   },
   {
     "id": "tractor_seed",
@@ -187,8 +194,8 @@
       { "x": 2, "y": 0, "part": "halfboard_vertical" },
       { "x": 2, "y": -1, "part": "frame_horizontal" },
       { "x": 2, "y": 1, "part": "frame_horizontal" },
-      { "x": 2, "y": -1, "part": "wheel_wide_steerable" },
-      { "x": 2, "y": 1, "part": "wheel_wide_steerable" },
+      { "x": 2, "y": -1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
+      { "x": 2, "y": 1, "parts": [ "wheel_mount_medium_steerable", "wheel_wide_or" ] },
       { "x": 1, "y": 0, "part": "frame_horizontal" },
       { "x": 1, "y": 0, "part": "halfboard_vertical" },
       { "x": 1, "y": 0, "part": "battery_car" },
@@ -203,14 +210,42 @@
       { "x": -1, "y": 0, "part": "halfboard_vertical" },
       { "x": -1, "y": 1, "part": "frame_horizontal" },
       { "x": -1, "y": -1, "part": "frame_horizontal" },
-      { "x": -1, "y": 1, "part": "wheel_wide" },
-      { "x": -1, "y": -1, "part": "wheel_wide" },
+      { "x": -1, "y": 1, "parts": [ "wheel_mount_medium", "wheel_wide_or" ] },
+      { "x": -1, "y": -1, "parts": [ "wheel_mount_medium", "wheel_wide_or" ] },
       { "x": -2, "y": 0, "part": "seed_drill" },
       { "x": -2, "y": 1, "part": "frame_cross" },
       { "x": -2, "y": -1, "part": "frame_cross" },
       { "x": -2, "y": 2, "part": "seed_drill" },
       { "x": -2, "y": -2, "part": "seed_drill" }
     ],
-    "items": []
+    "items": [  ]
+  },
+  {
+    "id": "uncovered_wagon",
+    "type": "vehicle",
+    "name": "Wagon",
+    "blueprint": [
+      [ "H H" ],
+      [ "###" ],
+      [ "oHo" ],
+      [ "oHo" ],
+      [ "oHo" ]
+    ],
+    "parts": [
+      { "x": 0, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
+      { "x": 0, "y": 1, "parts": [ "frame_wood_cross", "wood box" ] },
+      { "x": 0, "y": -1, "parts": [ "frame_wood_cross", "wood box" ] },
+      { "x": 1, "y": 0, "parts": [ "frame_wood_cross", "seat_wood", "controls" ] },
+      { "x": 1, "y": 1, "parts": [ "frame_wood_cross", "seat_wood", "wheel_wood_b" ] },
+      { "x": 1, "y": -1, "parts": [ "frame_wood_cross", "seat_wood", "wheel_wood_b" ] },
+      { "x": 2, "y": 1, "part": "yoke_harness" },
+      { "x": 2, "y": -1, "part": "yoke_harness" },
+      { "x": -1, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
+      { "x": -1, "y": 1, "parts": [ "frame_wood_cross", "wood box" ] },
+      { "x": -1, "y": -1, "parts": [ "frame_wood_cross", "wood box" ] },
+      { "x": -2, "y": 0, "parts": [ "frame_wood_cross", "wooden_aisle_vertical" ] },
+      { "x": -2, "y": 1, "parts": [ "frame_wood_cross", "wood box", "wheel_wood_b" ] },
+      { "x": -2, "y": -1, "parts": [ "frame_wood_cross", "wood box", "wheel_wood_b" ] }
+    ]
   }
 ]

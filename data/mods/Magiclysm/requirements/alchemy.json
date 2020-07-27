@@ -1,0 +1,8 @@
+[
+  {
+    "id": "dragon_scale",
+    "type": "requirement",
+    "//": "Dragon scales.  For when any color is interchangeable.",
+    "components": [ [ [ "dragon_black_scale", 1 ] ] ]
+  }
+]

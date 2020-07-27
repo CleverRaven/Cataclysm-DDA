@@ -1,0 +1,27 @@
+[
+  {
+    "type": "skill_display_type",
+    "ident": "display_melee",
+    "display_string": "Melee skills"
+  },
+  {
+    "type": "skill_display_type",
+    "ident": "display_ranged",
+    "display_string": "Ranged skills"
+  },
+  {
+    "type": "skill_display_type",
+    "ident": "display_crafting",
+    "display_string": "Crafting skills"
+  },
+  {
+    "type": "skill_display_type",
+    "ident": "display_interaction",
+    "display_string": "Interaction skills"
+  },
+  {
+    "type": "skill_display_type",
+    "ident": "display_social",
+    "display_string": "Social skills"
+  }
+]

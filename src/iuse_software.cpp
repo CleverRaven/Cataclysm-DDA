@@ -1,5 +1,9 @@
 #include "iuse_software.h"
 
+#include <algorithm>
+#include <map>
+#include <string>
+
 #include "cursesdef.h"
 #include "iuse_software_kitten.h"
 #include "iuse_software_lightson.h"
@@ -7,11 +11,9 @@
 #include "iuse_software_snake.h"
 #include "iuse_software_sokoban.h"
 #include "output.h"
+#include "point.h"
 #include "string_formatter.h"
 #include "translations.h"
-
-#include <map>
-#include <string>
 
 bool play_videogame( const std::string &function_name,
                      std::map<std::string, std::string> &game_data,
@@ -22,11 +24,7 @@ bool play_videogame( const std::string &function_name,
         return true; // generic game
     }
     if( function_name == "robot_finds_kitten" ) {
-        catacurses::window bkatwin = catacurses::newwin( 22, 62, ( TERMY - 22 ) / 2, ( TERMX - 62 ) / 2 );
-        draw_border( bkatwin );
-        wrefresh( bkatwin );
-        catacurses::window katwin = catacurses::newwin( 20, 60, ( TERMY - 20 ) / 2, ( TERMX - 60 ) / 2 );
-        robot_finds_kitten findkitten( katwin );
+        robot_finds_kitten findkitten;
         bool foundkitten = findkitten.ret;
         if( foundkitten ) {
             game_data["end_message"] = _( "You found kitten!" );
@@ -77,8 +75,8 @@ bool play_videogame( const std::string &function_name,
         /* morale/activity workaround >.> */
         game_data["end_message"] = string_format(
                                        _( "You struggle to get '%s' working, and finally give up to play minesweeper." ),
-                                       function_name.c_str() );
-        // @todo: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
+                                       function_name );
+        // TODO: better messages in morale system //  game_data["moraletype"]="MORALE_GAME_SOFTWARE_PROBLEM";
         return false;
     }
 }

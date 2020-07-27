@@ -1,0 +1,117 @@
+[
+  {
+    "type": "mutation",
+    "id": "THRESH_WENDIGO",
+    "name": "Forest Guardian",
+    "points": 1,
+    "description": "The forests have longed for your help, and this last cry shook the world.",
+    "valid": false,
+    "purifiable": false,
+    "threshold": true
+  },
+  {
+    "type": "mutation",
+    "id": "NMELD",
+    "name": "Nature's Boon",
+    "points": 3,
+    "description": "Your very prescence is masked by nature itself.  You are slightly harder to detect.",
+    "valid": false,
+    "purifiable": false,
+    "prereqs": [ "WEAKSCENT" ],
+    "threshreq": [ "THRESH_WENDIGO" ],
+    "category": [ "WENDIGO" ],
+    "stealth_modifier": 15
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH",
+    "copy-from": "ANIMALEMPATH",
+    "extend": { "category": [ "VAMP", "WENDIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "ANIMALEMPATH2",
+    "copy-from": "ANIMALEMPATH2",
+    "extend": { "category": [ "VAMP", "WENDIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SMELLY",
+    "copy-from": "SMELLY",
+    "extend": { "category": [ "WENDIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "PHEROMONE_MAMMAL",
+    "copy-from": "PHEROMONE_MAMMAL",
+    "extend": { "category": [ "WENDIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "REGEN",
+    "copy-from": "REGEN",
+    "extend": { "category": [ "WENDIGO" ] }
+  },
+  {
+    "type": "mutation",
+    "id": "SLASHERS",
+    "name": "Slashers",
+    "points": 5,
+    "visibility": 8,
+    "ugliness": 10,
+    "description": "Your torso has an extra set of appendages that have burst out of your back, they are tipped with massive bone blades at the end, and look like they can do some serious damage with the thick acid that they secrete.",
+    "valid": false,
+    "purifiable": false,
+    "threshreq": [ "THRESH_WENDIGO" ],
+    "category": [ "WENDIGO" ],
+    "social_modifiers": { "intimidate": 30 },
+    "attacks": [
+      {
+        "attack_text_u": "You tear into %s with your blades",
+        "attack_text_npc": "%1$s tears into %2$s with their blades",
+        "body_part": "TORSO",
+        "chance": 33,
+        "base_damage": { "damage_type": "cut", "amount": 10 },
+        "strength_damage": { "damage_type": "biological", "amount": 0.25 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "SPURS",
+    "name": "Spurs",
+    "points": 5,
+    "visibility": 5,
+    "ugliness": 6,
+    "description": "Spurs of bone have erupted all across your arms. A thick, biological secretion oozes out of them promising extra harm to enemies.",
+    "valid": false,
+    "purifiable": false,
+    "threshreq": [ "THRESH_WENDIGO" ],
+    "category": [ "WENDIGO" ],
+    "social_modifiers": { "intimidate": 5 },
+    "attacks": [
+      {
+        "attack_text_u": "You ravage %s with your arms",
+        "attack_text_npc": "%1$s ravages %2$s with their arm spurs",
+        "body_part": "ARM_R",
+        "chance": 10,
+        "base_damage": { "damage_type": "stab", "amount": 2 },
+        "strength_damage": { "damage_type": "biological", "amount": 0.25 }
+      }
+    ]
+  },
+  {
+    "type": "mutation",
+    "id": "MONSTROUSCARDIO",
+    "name": "Persistent Body",
+    "points": 2,
+    "description": "As you move, the world seems to breath life and energy into your limbs. You simply rarely tire less readily than others.  Your maximum stamina is 50% higher than usual.",
+    "valid": false,
+    "purifiable": false,
+    "threshreq": [ "THRESH_WENDIGO" ],
+    "category": [ "WENDIGO" ],
+    "cancels": [ "BADCARDIO" ],
+    "max_stamina_modifier": 1.75,
+    "stamina_regen_modifier": 0.25
+  }
+]

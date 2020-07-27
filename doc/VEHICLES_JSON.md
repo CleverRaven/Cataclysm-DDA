@@ -16,11 +16,11 @@ Vehicle prototypes do not currently accept copy-from
     "o#o"
 ],
 "parts": [                                 // Parts list
-    { "x": 0, "y": 0, "part": "frame" },   // Part definition, positive x direction is to the left,
+    { "x": 0, "y": 0, "part": "frame" },   // Part definition, positive x direction is up,
     { "x": 0, "y": 0, "part": "seat" },    // positive y is to the right
     { "x": 0, "y": 0, "part": "controls"}, // See vehicle_parts.json for part ids
     { "x": 0, "y": 1, "parts: [ "frame", "seat" ] }, // Arrays of parts on the same space
-    { "x": 0, "y": 1, "parts: [ { "part": "tank", "fuel": "gasoline" }, "battery_car" },  
+    { "x": 0, "y": 1, "parts: [ { "part": "tank", "fuel": "gasoline" }, "battery_car" },
     { "x": 0, "y": 1, "part": "stereo" },  // parts arrays and part may be mixed on the same space
     { "x": 1, "y": 0, "parts: [ "frame, "wheel" ] },
     { "x": 1, "y": 1, "parts: [ "frame, "wheel" ] },
@@ -35,7 +35,7 @@ Vehicle prototypes do not currently accept copy-from
 ]
 ```
 
-.* Important! *. Vehicle parts must be defined in the same order you would install them in the game (ie, frames and mount points first).  You also cannot break the normal rules of installation (you can't stack non-stackable part flags). 
+.* Important! *. Vehicle parts must be defined in the same order you would install them in the game (ie, frames and mount points first).  You also cannot break the normal rules of installation (you can't stack non-stackable part flags).
 
 ### Parts list
 The part list contains an arbitary number of lines. Each line is of the form:
@@ -49,7 +49,7 @@ In the second form, the line defines several parts at location X, Y. Each part i
     { "part": PARTID, ... }
 with any of the optional keys  "ammo", "ammo_types", "ammo_qty", or "fuel" as above.
 
-Several different lines can have the same X, Y co-ordinates and each one adds additional parts to that location.
+Several different lines can have the same X, Y co-ordinates and each one adds additional parts to that location. Parts must be added in the correct order ie: A wheel hub must be added prior to the wheel, but after the frame.
 
 ### Items list
 The items list contains an arbitrary number of lines. Each line is of the form:

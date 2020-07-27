@@ -5,10 +5,7 @@
     "type": "uncraft",
     "using": [ [ "ammo_762_25", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 2 ] ],
-      [ [ "gunpowder", 4 ] ]
-    ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 4 ] ] ]
   },
   {
     "result": "762_25hot",
@@ -16,10 +13,7 @@
     "type": "uncraft",
     "using": [ [ "ammo_762_25", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 2 ] ],
-      [ [ "gunpowder", 5 ] ]
-    ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 5 ] ] ]
   },
   {
     "result": "762_25typeP",
@@ -27,9 +21,6 @@
     "type": "uncraft",
     "using": [ [ "ammo_762_25", 1 ] ],
     "qualities": [ { "id": "PULL", "level": 1 } ],
-    "components": [
-      [ [ "lead", 2 ] ],
-      [ [ "gunpowder", 5 ] ]
-    ]
+    "components": [ [ [ "lead", 2 ] ], [ [ "gunpowder_pistol", 5 ] ] ]
   }
 ]

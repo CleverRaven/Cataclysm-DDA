@@ -1,0 +1,212 @@
+[
+  {
+    "type": "mapgen",
+    "om_terrain": [ "cs_car_showroom" ],
+    "method": "json",
+    "weight": 1000,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "..........==========...,",
+        ".,........=...======....",
+        "..b.b.b.b.=.b.======.b..",
+        ".booooooob=bggGGGGGGggb.",
+        ",.oF+++co.=.gy      yg,.",
+        ".bo     ob=bg '''''' gb,",
+        ",.oV O So.=.g '''''' g..",
+        ".bov   Sob=bg '''''' gb.",
+        ".,o  SSSo.=.g '''''' g..",
+        ".bo ooooob=bgy''''''ygb.",
+        ".,o oc to.=.g '''''' g..",
+        ".bo D  sob=bg '''''' gb,",
+        ",.o ooooo.=.g '''''' g..",
+        ".bo oc tob=bg '''''' gb,",
+        ",.o D  so.=.gy      yg..",
+        "..o ooooogHgoooo  oooo,.",
+        ",.o               D Lo..",
+        "..oooDo oddddoooDoo Lo.,",
+        ".,off o oh h och ho Lo..",
+        "..oh ho D    o dddo Lo..",
+        ",.odddo ofycfo  hdocLo.,",
+        "..ooooo oooooooooooooo..",
+        ".,...gy<yg....,.,CC4,.,.",
+        ".,.,,ogggo.....,.,,,,..."
+      ],
+      "terrain": {
+        ".": "t_grass",
+        ",": "t_dirt",
+        " ": "t_floor",
+        "'": "t_thconc_floor",
+        "=": "t_sidewalk",
+        "b": "t_shrub",
+        "o": "t_wall_p",
+        "g": "t_reinforced_glass",
+        "G": "t_reinforced_door_glass_c",
+        "H": "t_reinforced_door_glass_o",
+        "D": "t_door_c",
+        "4": "t_gutter_downspout",
+        "<": "t_stairs_up",
+        "C": "t_dirt"
+      },
+      "furniture": {
+        "C": "f_dumpster",
+        "s": "f_sink",
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "t": "f_toilet",
+        "d": "f_desk",
+        "L": "f_locker",
+        "h": "f_chair",
+        "c": "f_trashcan",
+        "F": "f_fridge",
+        "+": "f_counter",
+        "O": "f_table",
+        "S": "f_sofa",
+        "f": "f_filing_cabinet",
+        "V": "f_vending_c",
+        "v": "f_vending_c"
+      },
+      "place_vehicles": [ { "vehicle": "oa_vg_cs_vehicles", "x": 16, "y": 7, "rotation": 270, "chance": 100, "status": 0 } ],
+      "items": {
+        "c": { "item": "oa_custom_trash", "chance": 70 },
+        "C": { "item": "oa_custom_trash", "chance": 70 },
+        "d": { "item": "oa_ig_cs_desks", "chance": 70 },
+        "L": { "item": "oa_ig_cs_lockers", "chance": 70 },
+        "V": { "item": "vending_food_items", "chance": 70 },
+        "v": { "item": "vending_drink_items", "chance": 70 },
+        "F": { "item": "fridgesnacks", "chance": 70 },
+        "f": { "item": "office_paper", "chance": 70 }
+      },
+      "place_items": [
+        { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 17, "y": 22 },
+        { "item": "oa_custom_trash", "chance": 80, "repeat": [ 2, 4 ], "x": 18, "y": 22 },
+        { "item": "vending_food_items", "chance": 80, "repeat": [ 3, 6 ], "x": 3, "y": 6 },
+        { "item": "vending_drink_items", "chance": 80, "repeat": [ 3, 6 ], "x": 3, "y": 7 },
+        { "item": "fridgesnacks", "chance": 70, "repeat": [ 0, 4 ], "x": 3, "y": 4 }
+      ],
+      "add": [ { "item": "microwave", "x": 4, "y": 4, "chance": 1 }, { "item": "coffeemaker", "x": 5, "y": 4, "chance": 1 } ],
+      "toilets": { "t": {  } }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_car_showroom_2ndfloor",
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "  -------   ooggggggoo  ",
+        "  -,,,,,-   oy......yo  ",
+        "  -,,,,,-   g........g  ",
+        "  -,,,,,-   g........g  ",
+        "  -,,,,,-   g........g  ",
+        "  -,,,,,-   g........g  ",
+        "  -,,,,,-   gy......yg  ",
+        "  -,,,,,-   g........g  ",
+        "  -,bnb,-   g........g  ",
+        "  -,bub,-   g........g  ",
+        "  -,bnb,-   g........g  ",
+        "  -,,,,4-   oy......yo  ",
+        "  oogGgooggg####..###o  ",
+        "  gy................yg  ",
+        "  ogg#...#gggg##Gggg#o  ",
+        "  gddg...gf...#f...hdo  ",
+        "  gh.G...G..dh#.....do  ",
+        "  oyf#...#.hd.#ySSSSyo  ",
+        "  ooooo.oooggooogggooo  ",
+        "     gy>yg              ",
+        "     ogggo              "
+      ],
+      "terrain": {
+        ".": "t_floor",
+        " ": "t_open_air",
+        ",": "t_tile_flat_roof",
+        "b": "t_tile_flat_roof",
+        "u": "t_tile_flat_roof",
+        "n": "t_tile_flat_roof",
+        ">": "t_stairs_down",
+        "4": "t_gutter_downspout",
+        "o": "t_wall_p",
+        "#": "t_wall_g",
+        "g": "t_reinforced_glass",
+        "-": "t_metal_railing",
+        "G": "t_reinforced_door_glass_c"
+      },
+      "furniture": {
+        "y": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "d": "f_desk",
+        "h": "f_chair",
+        "S": "f_sofa",
+        "b": "f_bench",
+        "u": "f_birdbath",
+        "n": [ "f_indoor_plant_y", "f_indoor_plant" ],
+        "f": "f_filing_cabinet"
+      },
+      "place_vehicles": [
+        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 6, "rotation": 270, "chance": 100, "status": 0 },
+        { "vehicle": "showroom_small_vehicles", "x": 14, "y": 11, "rotation": 270, "chance": 100, "status": 0 },
+        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 6, "rotation": 270, "chance": 100, "status": 0 },
+        { "vehicle": "showroom_small_vehicles", "x": 19, "y": 11, "rotation": 270, "chance": 100, "status": 0 },
+        { "vehicle": "showroom_small_vehicles", "x": 4, "y": 6, "rotation": 270, "chance": 100, "status": 0 }
+      ],
+      "items": {
+        "d": { "item": "oa_ig_cs_desks", "chance": 70 },
+        "L": { "item": "oa_ig_cs_lockers", "chance": 70 },
+        "f": { "item": "office_paper", "chance": 70 }
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "cs_car_showroom_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "            |222222223  ",
+        "            |........3  ",
+        "            |........3  ",
+        "            |..oooo..3  ",
+        "            |..oooo..3  ",
+        "            |..oooo..3  ",
+        "            |........3  ",
+        "            |..oooo..3  ",
+        "            |..oooo..3  ",
+        "            |..oooo..3  ",
+        "            |........3  ",
+        "            |........3  ",
+        "  |2222222225...AA...3  ",
+        "  |..................3  ",
+        "  |.:................3  ",
+        "  |..................3  ",
+        "  |.X...........=.&..3  ",
+        "  |..................3  ",
+        "  |---...------------3  ",
+        "     |...3              ",
+        "     |---3              "
+      ],
+      "terrain": {
+        ".": "t_flat_roof",
+        " ": "t_open_air",
+        "o": "t_glass_roof",
+        "2": "t_gutter_north",
+        "-": "t_gutter_south",
+        "3": "t_gutter_east",
+        "|": "t_gutter_west",
+        "5": "t_gutter_drop"
+      },
+      "furniture": {
+        ":": "f_cellphone_booster",
+        "X": "f_small_satelitte_dish",
+        "&": "f_roof_turbine_vent",
+        "=": "f_vent_pipe",
+        "A": "f_air_conditioner"
+      }
+    }
+  }
+]

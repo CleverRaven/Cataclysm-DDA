@@ -1,0 +1,170 @@
+[
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_kitchen_room_wood",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wowdwow",
+        "w.....w",
+        "......o",
+        "       ",
+        "       ",
+        "       ",
+        "       "
+      ],
+      "palettes": [ "fbmk_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_canteen_wood",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_kitchen_room_wood" ], "x": 9, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_kitchen_room2_wood",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "       ",
+        "       ",
+        "       ",
+        "w.....d",
+        "......o",
+        "w.....w",
+        "wwwdwww"
+      ],
+      "palettes": [ "fbmk_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_canteen2_wood",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_kitchen_room2_wood" ], "x": 9, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_canteen_smoking_area_wood",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        ",w,w   ",
+        ",,,,   ",
+        ",,,,   ",
+        ",,aw   ",
+        ",,,,   ",
+        ",,,,   ",
+        "ww,w   "
+      ],
+      "palettes": [ "fbmk_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "faction_base_smoking_area_wood",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_smoking_area_wood" ], "x": 16, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_canteen_pantry_wood",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwww ",
+        "w..... ",
+        "o..... ",
+        "w..... ",
+        "o..... ",
+        "w..... ",
+        "wwwwww "
+      ],
+      "palettes": [ "fbmk_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_canteen_pantry_wood",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_pantry_wood" ], "x": 3, "y": 7 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_canteen_dining_west_wood",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        " bbbw..",
+        "    w..",
+        "  B o..",
+        "    d..",
+        "    o..",
+        "    ww.",
+        "     ww"
+      ],
+      "palettes": [ "fbmk_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_canteen_dining_west_wood",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_west_wood" ], "x": 3, "y": 14 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_canteen_dining_east_wood",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "...w   ",
+        "...w   ",
+        "...ob  ",
+        "...wb  ",
+        "...ob  ",
+        "..ww   ",
+        "oww    "
+      ],
+      "palettes": [ "fbmk_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_canteen_dining_east_wood",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_east_wood" ], "x": 14, "y": 14 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmk_canteen_dining_center_wood",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "  .... ",
+        "  .... ",
+        "  .... ",
+        "  .... ",
+        "  .... ",
+        "  .... ",
+        "  owdw "
+      ],
+      "palettes": [ "fbmk_common_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmk_canteen_dining_center_wood",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmk_canteen_dining_center_wood" ], "x": 8, "y": 14 } ] }
+  }
+]

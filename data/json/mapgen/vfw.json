@@ -1,51 +1,22 @@
 [
   {
-    "id": "vfw_tools",
-    "type": "item_group",
-    "items": [ [ "glock_19", 1 ], [ "boots_steel", 50 ], [ "boots_hiking", 10 ] ]
-  },
-  {
-    "id": "vfw_books",
-    "type": "item_group",
-    "items": [
-      [ "mag_traps", 20 ],
-      [ "manual_traps", 12 ],
-      [ "trappers_companion", 2 ],
-      [ "mag_guns", 40 ],
-      [ "mag_rifle", 40 ],
-      [ "mag_shotgun", 15 ],
-      [ "mag_survival", 40 ],
-      [ "textbook_firstaid", 8 ],
-      [ "pocket_firstaid", 2 ],
-      [ "pocket_survival", 2 ],
-      [ "pocket_firearms", 2 ],
-      [ "mag_archery", 15 ],
-      [ "manual_archery", 8 ],
-      [ "book_archery", 2 ]
-    ]
-  },
-  {
-    "id": "vfw_alcohol",
-    "type": "item_group",
-    "items": [ [ "beer", 20 ], [ "vodka", 2 ] ]
-  },
-  {
     "type": "mapgen",
     "method": "json",
     "om_terrain": [ "s_vfw" ],
     "weight": 500,
     "object": {
+      "fill_ter": "t_floor",
       "rows": [
         "rrrrrrrrrrrrr..33.22.33.",
         "yrrryrrryrrry.3..2222..3",
-        "yrrryrrryrrry.3.22..22.3",
-        "yrrryrrryrrry..22.33.22.",
-        "yrrryrrryrrry.3.22..22.3",
+        "yrrryrrryrrry.3.22pp22.3",
+        "yrrryrrryrrry..22pXSp22.",
+        "yrrryrrryrrry.3.22pp22.3",
         "yrrryrrryrrry.3..2222..3",
         "yy2yyy2yyy2yy..33.22.33.",
         "..222222222222222222....",
-        ".3.33.3.33.3.33.3223.33.",
-        "3--1-1-11-1-1--..22....3",
+        ".3.33.3.33.3.33p3223.33.",
+        "3--1-1-11-1-1--pp22....3",
         "3|H    F     C|32223...3",
         ".|I   FHF     +2222.....",
         "3|I    F     C|32223...3",
@@ -58,31 +29,27 @@
         "3|+-- FHF FHF  FC  D1..3",
         "3| B|  F   F       C|..3",
         ".|----1-11-1--+--11-|...",
-        "3............rrrr......3",
+        "3...........5rrUU......3",
         "3.33.3.33.3.33.3.33.3.33"
       ],
       "terrain": {
         " ": "t_floor",
         "+": "t_door_c",
-        "-": "t_wall_h",
-        ".": "t_grass",
+        "-": "t_wall_wood",
+        ".": [ [ "t_grass", 5 ], [ "t_grass_long", 2 ], "t_dirt", "t_shrub" ],
+        "X": "t_grass",
+        "S": "t_grass",
+        "p": "t_grass",
         "1": "t_window",
         "2": "t_sidewalk",
         "3": "t_tree_young",
-        "4": "t_chaingate_l",
-        "5": "t_wall_wood",
-        "A": "t_floor",
-        "B": "t_floor",
-        "C": "t_floor",
-        "D": "t_floor",
         "E": "t_dirtfloor",
-        "F": "t_floor",
         "G": "t_dirtfloor",
-        "H": "t_floor",
-        "I": "t_floor",
         "r": "t_pavement",
+        "U": "t_pavement",
         "y": "t_pavement_y",
-        "|": "t_wall_v"
+        "|": "t_wall_wood",
+        "5": "t_gutter_downspout"
       },
       "furniture": {
         "A": "f_rack",
@@ -92,7 +59,11 @@
         "F": "f_chair",
         "G": "f_locker",
         "H": "f_table",
-        "I": "f_sofa"
+        "I": "f_sofa",
+        "X": "f_birdbath",
+        "U": [ "f_dumpster", "f_recycle_bin" ],
+        "p": [ "f_datura", "f_bluebell", "f_mutpoppy", "f_dahlia", "f_flower_tulip", "f_chamomile", "f_flower_spurge", "f_lily" ],
+        "S": "f_statue"
       },
       "toilets": { "B": {  } },
       "place_items": [
@@ -103,6 +74,54 @@
         { "item": "vfw_books", "x": 13, "y": 14, "chance": 10, "repeat": [ 1, 2 ] },
         { "item": "vfw_alcohol", "x": 16, "y": [ 17, 19 ], "chance": 35, "repeat": [ 1, 3 ] },
         { "item": "vfw_alcohol", "x": 19, "y": [ 17, 19 ], "chance": 35, "repeat": [ 1, 3 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_vfw_roof",
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        "                        ",
+        " |2222222222223         ",
+        " |............3         ",
+        " |............3         ",
+        " |............3         ",
+        " |............3         ",
+        " |............3         ",
+        " |............3         ",
+        " |............3222223   ",
+        " |..................3   ",
+        " |...............=..3   ",
+        " |..&...............3   ",
+        " |..................3   ",
+        " |----------5-------3   ",
+        "                        ",
+        "                        "
+      ],
+      "palettes": [ "roof_palette" ],
+      "place_nested": [
+        {
+          "chunks": [
+            [ "null", 20 ],
+            [ "roof_2x2_utilities_b", 15 ],
+            [ "roof_2x2_utilities_c", 5 ],
+            [ "roof_2x2_utilities_d", 40 ],
+            [ "roof_2x2_utilities", 50 ]
+          ],
+          "x": [ 4, 10 ],
+          "y": [ 11, 14 ]
+        }
       ]
     }
   }

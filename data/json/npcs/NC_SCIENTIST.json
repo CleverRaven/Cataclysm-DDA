@@ -1,25 +1,24 @@
 [
   {
-    "type" : "item_group",
-    "id" : "NC_SCIENTIST_eyes",
-    "items":[
-      ["null", 20],
-      ["glasses_safety", 40],
-      ["glasses_eye", 60]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_SCIENTIST_coat",
-    "items":[
-      ["null", 20],
-      ["hoodie", 10],
-      ["coat_lab", 60],
-      ["jacket_light", 10],
-      ["jacket_leather", 10],
-      ["trenchcoat", 5],
-      ["jacket_jean", 10],
-      ["jacket_windbreaker", 5],
-      ["kevlar", 5]
+    "type": "item_group",
+    "id": "NC_SCIENTIST_eyes",
+    "subtype": "distribution",
+    "entries": [ { "item": "null", "prob": 20 }, { "item": "glasses_safety", "prob": 40 }, { "item": "glasses_eye", "prob": 60 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_SCIENTIST_coat",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 20 },
+      { "item": "hoodie", "prob": 10 },
+      { "item": "coat_lab", "prob": 60 },
+      { "item": "jacket_light", "prob": 10 },
+      { "item": "jacket_leather", "prob": 10 },
+      { "item": "trenchcoat", "prob": 5 },
+      { "item": "jacket_jean", "prob": 10 },
+      { "item": "jacket_windbreaker", "prob": 5 },
+      { "item": "kevlar", "prob": 5 }
     ]
   }
 ]

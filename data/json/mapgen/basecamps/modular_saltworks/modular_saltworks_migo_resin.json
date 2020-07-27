@@ -1,0 +1,89 @@
+[
+  {
+    "type": "palette",
+    "id": "fbmsw_migo_resin_palette",
+    "terrain": { ".": "t_floor_resin", "~": "t_swater_sh", "o": "t_wall_resin_cage", "w": "t_wall_resin", "+": "t_resin_hole_c" },
+    "furniture": {
+      "b": "f_bench",
+      "r": "f_rack",
+      "t": "f_table",
+      "#": "f_stool",
+      "c": "f_counter",
+      "H": "f_wood_keg",
+      "O": "f_fvat_empty",
+      "^": "f_still",
+      "s": "f_woodstove"
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_saltpan_migo_resin",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwowww",
+        "w.....w",
+        "w.c.c.w",
+        "o.~t~.o",
+        "w.~#~.w",
+        "w.....w",
+        "www+www"
+      ],
+      "palettes": [ "fbmsw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_saltpan_migo_resin_northeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_saltpan_migo_resin" ], "x": 14, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_shack_migo_resin",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "  woww",
+        " wwrrw",
+        " +..to",
+        " orrrw",
+        " wwoww"
+      ],
+      "palettes": [ "fbmsw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_shack_migo_resin_southeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_shack_migo_resin" ], "x": 15, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbmsw_brewery0_migo_resin",
+    "object": {
+      "mapgensize": [ 7, 7 ],
+      "rows": [
+        "wwwwwww",
+        "w.rrr.w",
+        "oH....+",
+        "wO....w",
+        "o.....w",
+        "w.....w",
+        "wwwwwww"
+      ],
+      "palettes": [ "fbmsw_migo_resin_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbmsw_brewery0_migo_resin_southwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbmsw_brewery0_migo_resin" ], "x": 3, "y": 14 } ] }
+  }
+]

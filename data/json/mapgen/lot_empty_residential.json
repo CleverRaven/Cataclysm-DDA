@@ -72,7 +72,6 @@
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -141,7 +140,6 @@
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -179,7 +177,6 @@
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {
@@ -221,11 +218,10 @@
         "_": "t_dirt",
         "s": "t_sidewalk"
       },
-      "place_signs": [ { "signage": "Property for sale, call <city> Realestate at 555-8255!", "x": 12, "y": 3 } ]
+      "place_signs": [ { "signage": "Property for sale, call <city> Real Estate at 555-8255!", "x": 12, "y": 3 } ]
     },
     "om_terrain": "emptyresidentiallot",
     "type": "mapgen",
-    "flags": [ "SIDEWALK" ],
     "weight": 100
   },
   {

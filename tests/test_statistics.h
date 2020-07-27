@@ -1,15 +1,23 @@
 #pragma once
-#ifndef TEST_STATISTICS_H
-#define TEST_STATISTICS_H
+#ifndef CATA_TESTS_TEST_STATISTICS_H
+#define CATA_TESTS_TEST_STATISTICS_H
 
+#include <cmath>
 #include <limits>
 #include <vector>
+#include <algorithm>
+#include <string>
+#include <type_traits>
+
+#include "catch/catch.hpp"
 
 // Z-value for confidence interval
 constexpr double Z95 = 1.96;
 constexpr double Z99 = 2.576;
 constexpr double Z99_9 = 3.291;
 constexpr double Z99_99 = 3.891;
+constexpr double Z99_999 = 4.5;
+constexpr double Z99_999_9 = 5.0;
 
 // Useful to specify a range using midpoint +/- ε which is easier to parse how
 // wide a range actually is vs just upper and lower
@@ -77,12 +85,12 @@ class statistics
                 return _error;
             }
             // Implementation of outline from https://measuringu.com/ci-five-steps/
-            double adj_numerator = ( _Zsq / 2 ) + _sum;
-            double adj_denominator = _Zsq + _n;
-            double adj_proportion = adj_numerator / adj_denominator;
-            double a = adj_proportion * ( 1.0 - adj_proportion );
-            double b = a / adj_denominator;
-            double c = sqrt( b );
+            const double adj_numerator = ( _Zsq / 2 ) + _sum;
+            const double adj_denominator = _Zsq + _n;
+            const double adj_proportion = adj_numerator / adj_denominator;
+            const double a = adj_proportion * ( 1.0 - adj_proportion );
+            const double b = a / adj_denominator;
+            const double c = std::sqrt( b );
             _error = c * _Z;
             return _error;
         }
@@ -98,9 +106,20 @@ class statistics
             if( _error != invalid_err ) {
                 return _error;
             }
-            double std_err = stddev() / std::sqrt( _n );
+            const double std_err = stddev() / std::sqrt( _n );
             _error = std_err * _Z;
             return _error;
+        }
+
+        /** Use to continue testing until we are sure whether the result is
+         * inside or outside the target.
+         *
+         * Returns true if the confidence interval partially overlaps the target region.
+         */
+        bool uncertain_about( const epsilon_threshold &t ) {
+            return !test_threshold( t ) && // Inside target
+                   t.midpoint - t.epsilon < upper() && // Below target
+                   t.midpoint + t.epsilon > lower(); // Above target
         }
 
         bool test_threshold( const epsilon_threshold &t ) {
@@ -111,19 +130,27 @@ class statistics
             return ( t.lower_thresh < lower() && t.upper_thresh > upper() );
         }
         double upper() {
-            return avg() + margin_of_error();
+            double result = avg() + margin_of_error();
+            if( std::is_same<T, bool>::value ) {
+                result = std::min( result, 1.0 );
+            }
+            return result;
         }
         double lower() {
-            return avg() - margin_of_error();
+            double result = avg() - margin_of_error();
+            if( std::is_same<T, bool>::value ) {
+                result = std::max( result, 0.0 );
+            }
+            return result;
         }
         // Test if some value is a member of the confidence interval of the
         // sample
-        bool test_confidence_interval( double v ) const {
+        bool test_confidence_interval( const double v ) const {
             return is_within_epsilon( v, margin_of_error() );
         }
 
-        bool is_within_epsilon( double v, double epsilon ) const {
-            double average = avg();
+        bool is_within_epsilon( const double v, const double epsilon ) const {
+            const double average = avg();
             return( ( average + epsilon > v ) &&
                     ( average - epsilon < v ) );
         }
@@ -132,12 +159,12 @@ class statistics
         // on the fly, a one-pass formula is unnecessary because we're already
         // one pass here.  It may not obvious that even though we're calling
         // the 'average()' function that's what is happening.
-        double variance( bool sample_variance = true ) const {
+        double variance( const bool sample_variance = true ) const {
             double average = avg();
             double sigma_acc = 0;
 
             for( const auto v : samples ) {
-                double diff = v - average;
+                const double diff = v - average;
                 sigma_acc += diff * diff;
             }
 
@@ -150,7 +177,7 @@ class statistics
         // time because we can always get more samples.  The way we use tests,
         // we attempt to use the sample data to generalize about the
         // population.
-        double stddev( bool sample_deviation = true ) const {
+        double stddev( const bool sample_deviation = true ) const {
             return std::sqrt( variance( sample_deviation ) );
         }
 
@@ -177,4 +204,27 @@ class statistics
         }
 };
 
-#endif
+class BinomialMatcher : public Catch::MatcherBase<int>
+{
+    public:
+        BinomialMatcher( int num_samples, double p, double max_deviation );
+        bool match( const int &obs ) const override;
+        std::string describe() const override;
+    private:
+        int num_samples_;
+        double p_;
+        double max_deviation_;
+        double expected_;
+        double margin_;
+};
+
+// Can be used to test that a value is a plausible observation from a binomial
+// distribution.  Uses a normal approximation to the binomial, and permits a
+// deviation up to max_deviation (measured in standard deviations).
+inline BinomialMatcher IsBinomialObservation(
+    const int num_samples, const double p, const double max_deviation = Z99_99 )
+{
+    return BinomialMatcher( num_samples, p, max_deviation );
+}
+
+#endif // CATA_TESTS_TEST_STATISTICS_H

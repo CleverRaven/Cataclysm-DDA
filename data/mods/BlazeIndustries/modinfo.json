@@ -1,0 +1,13 @@
+[
+  {
+    "type": "MOD_INFO",
+    "ident": "blazeindustries",
+    "name": "Blaze Industries",
+    "authors": [ "Blaze-whatdoyoumeanitsalreadytaken" ],
+    "maintainers": [ "Soup-de-Loop" ],
+    "description": "Introduces the fictional corporation Blaze Industries, bringing advanced vehicle modification to the consumer.",
+    "//": "Spiritual successor to blazemod, do not use together with the legacy blazemod unless you know what you are doing.",
+    "category": "content",
+    "dependencies": [ "dda" ]
+  }
+]

@@ -1,0 +1,256 @@
+[
+  {
+    "type": "palette",
+    "id": "long_grass_meadow_palette",
+    "terrain": {
+      " ": "t_null",
+      ".": [ [ "t_region_groundcover", 10 ], "t_grass_long" ],
+      ",": [ [ "t_region_groundcover", 4 ], "t_grass_long" ],
+      ";": [ "t_region_groundcover", [ "t_grass_long", 2 ] ],
+      "|": [ "t_region_groundcover", [ "t_grass_long", 10 ] ]
+    },
+    "furniture": {
+      ".": [ [ "f_null", 2000 ], [ "f_region_weed", 20 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+      ",": [ [ "f_null", 2000 ], [ "f_region_weed", 40 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+      ";": [ [ "f_null", 2000 ], [ "f_region_weed", 50 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+      "|": [ [ "f_null", 2000 ], [ "f_region_weed", 60 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ]
+    }
+  },
+  {
+    "type": "palette",
+    "id": "copse_trees_palette",
+    "terrain": {
+      " ": "t_null",
+      ".": [ [ "t_region_groundcover", 60 ], "t_region_tree", "t_region_shrub" ],
+      ",": [ [ "t_region_groundcover", 30 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 2 ], "t_region_shrub" ],
+      ";": [ [ "t_region_groundcover", 10 ], [ "t_region_groundcover_forest", 8 ], [ "t_region_tree", 6 ], "t_region_shrub" ],
+      "|": [ [ "t_region_groundcover_forest", 7 ], "t_water_sh" ]
+    },
+    "furniture": {
+      ".": [ [ "f_null", 2000 ], [ "f_region_weed", 20 ], [ "f_boulder_small", 6 ], "f_boulder_medium", "f_boulder_large" ],
+      ",": [ [ "f_null", 2000 ], [ "f_region_weed", 40 ], [ "f_boulder_small", 6 ], [ "f_boulder_medium", 2 ], "f_boulder_large" ],
+      ";": [ [ "f_null", 2000 ], [ "f_region_weed", 60 ], [ "f_boulder_small", 6 ], [ "f_boulder_medium", 2 ], "f_boulder_large" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_grass_map",
+    "object": {
+      "rows": [
+        "        .........       ",
+        "     ...............    ",
+        "   .......,,,,,.......  ",
+        "  .....,,,,,,,,,,.....  ",
+        "  ...,,,,,,,,,,,,,,.... ",
+        " ....,,,;;;;;;;,,,,.... ",
+        " ...,,,;;;;;;;;;,,,,... ",
+        "....,,;;;;||;;;;,,,,....",
+        "...,,,,;;;;;||;;,,,,,...",
+        "...,;,;;||;||;;;;,,,,...",
+        "...,,;;;;;;;;||;;,,,,...",
+        "...,;,;||;||;;;;;,,,,...",
+        "...,,,,;;;;;;||;,,,,,...",
+        "...,;,,;;||;||;;,,,,,...",
+        "...,,,;;|;;;;||;;,,,,...",
+        "...,,,,,;;||;;;;,,,,,...",
+        "....,,;,;;;;;;;,,,,,....",
+        " ...,,,,,,;;||;;;,,,... ",
+        " ....,,,,,;;;;;,,,,.... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        "  .......,,,,,,.......  ",
+        "  ....................  ",
+        "    ................    ",
+        "       ..........       "
+      ],
+      "palettes": [ "long_grass_meadow_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_grass_map",
+    "object": { "place_nested": [ { "chunks": [ [ "mx_grass_nested", 100 ] ], "x": [ 0, 17 ], "y": [ 0, 17 ], "repeat": [ 1, 6 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_grass_nested",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " .... ",
+        ".,,,,.",
+        ".,|;,.",
+        ".,;|,.",
+        ".,,,,.",
+        " .... "
+      ],
+      "palettes": [ "long_grass_meadow_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_grass_nested",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        " ...... ",
+        "..,,,,..",
+        ".,,|;,,.",
+        ".,;||;,.",
+        ".,;|;;,.",
+        ".,,;|,,.",
+        "..,,,,..",
+        " ...... "
+      ],
+      "palettes": [ "long_grass_meadow_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_trees_map",
+    "object": {
+      "rows": [
+        "        .........       ",
+        "     ...............    ",
+        "   .......,,,,,.......  ",
+        "  .....,,,,,,,,,,.....  ",
+        "  ...,,,,,,,,,,,,,,.... ",
+        " ....,,,;;;;;;;,,,,.... ",
+        " ...,,,;;;;;;;;;,,,,... ",
+        "....,,;;;;||;;;;,,,,....",
+        "...,,,,;;;;;||;;,,,,,...",
+        "...,;,;;||;||;;;;,,,,...",
+        "...,,;;;;;;;;||;;,,,,...",
+        "...,;,;||;||;;;;;,,,,...",
+        "...,,,,;;;;;;||;,,,,,...",
+        "...,;,,;;||;||;;,,,,,...",
+        "...,,,;;|;;;;||;;,,,,...",
+        "...,,,,,;;||;;;;,,,,,...",
+        "....,,;,;;;;;;;,,,,,....",
+        " ...,,,,,,;;||;;;,,,... ",
+        " ....,,,,,;;;;;,,,,.... ",
+        " ....,,,,,,,,,,,,,,.... ",
+        "  .......,,,,,,.......  ",
+        "  ....................  ",
+        "    ................    ",
+        "       ..........       "
+      ],
+      "palettes": [ "copse_trees_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_trees_map",
+    "object": { "place_nested": [ { "chunks": [ [ "mx_trees_nested", 100 ] ], "x": [ 0, 17 ], "y": [ 0, 17 ], "repeat": [ 1, 6 ] } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_trees_nested",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        " .... ",
+        ".,,,,.",
+        ".,|;,.",
+        ".,;|,.",
+        ".,,,,.",
+        " .... "
+      ],
+      "palettes": [ "copse_trees_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_trees_nested",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        " ...... ",
+        "..,,,,..",
+        ".,,|;,,.",
+        ".,;||;,.",
+        ".,;|;;,.",
+        ".,,;|,,.",
+        "..,,,,..",
+        " ...... "
+      ],
+      "palettes": [ "copse_trees_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "update_mapgen_id": "mx_fallen_shed_map",
+    "object": {
+      "place_nested": [
+        {
+          "chunks": [ [ "mx_grass_nested", 70 ], [ "mx_trees_nested", 30 ] ],
+          "x": [ 0, 17 ],
+          "y": [ 0, 17 ],
+          "repeat": [ 2, 6 ]
+        },
+        { "chunks": [ [ "mx_fallen_shed_nested", 100 ] ], "x": [ 0, 11 ], "y": [ 0, 11 ] }
+      ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_fallen_shed_nested",
+    "object": {
+      "mapgensize": [ 11, 11 ],
+      "rows": [
+        "--++++--||-",
+        "-_______RR|",
+        "w_______RRw",
+        "w________Rw",
+        "|_________|",
+        "||-_____|||",
+        "|_________|",
+        "w_________w",
+        "w_________w",
+        "-_________|",
+        "--||||||-||"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "terrain": { "_": "t_dirt" },
+      "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ] },
+      "items": {
+        "_": { "item": "wood_workshop", "chance": 1 },
+        "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
+      }
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "mx_fallen_shed_nested",
+    "object": {
+      "mapgensize": [ 8, 8 ],
+      "rows": [
+        "--w_-||-",
+        "-______|",
+        "|______+",
+        "|R_____+",
+        "|RR____|",
+        "|_RRR__w",
+        "-__RRR_w",
+        "--w||-||"
+      ],
+      "palettes": [ "desolatebarn_palette" ],
+      "terrain": { "_": "t_dirt" },
+      "furniture": { "_": [ [ "f_null", 30 ], "f_rubble", "f_rubble_rock" ] },
+      "items": {
+        "_": { "item": "wood_workshop", "chance": 1 },
+        "R": [ { "item": "wood_workshop", "chance": 3 }, { "item": "mischw", "chance": 2 } ]
+      }
+    }
+  }
+]

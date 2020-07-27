@@ -1,8 +1,10 @@
-#include "catch/catch.hpp"
-
-#include "output.h"
-
 #include <initializer_list>
+#include <iterator>
+#include <vector>
+#include <string>
+
+#include "catch/catch.hpp"
+#include "output.h"
 
 template<class IterResult, class IterExpect>
 static void check_equal( IterResult beg_res, IterResult end_res,
@@ -20,7 +22,7 @@ TEST_CASE( "fold-string" )
 {
     SECTION( "Case 1 - test wrapping of lorem ipsum" ) {
         const auto folded = foldstring(
-                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque a.",
+                                "Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Pellentesque a.",
                                 17
                             );
         const auto expected = {

@@ -1,13 +1,10 @@
 #pragma once
-#ifndef ENUMS_H
-#define ENUMS_H
+#ifndef CATA_SRC_ENUMS_H
+#define CATA_SRC_ENUMS_H
 
-#include <climits>
-#include <ostream>
-#include <utility>
+#include <type_traits>
 
-class JsonOut;
-class JsonIn;
+template<typename T> struct enum_traits;
 
 template<typename T>
 constexpr inline int sgn( const T x )
@@ -15,88 +12,127 @@ constexpr inline int sgn( const T x )
     return x < 0 ? -1 : ( x > 0 ? 1 : 0 );
 }
 
-// By default unordered_map doesn't have a hash for tuple or pairs, so we need to include some.
-// This is taken almost directly from the boost library code.
-// Function has to live in the std namespace
-// so that it is picked up by argument-dependent name lookup (ADL).
-namespace std
-{
-namespace
-{
+enum class aim_exit : int {
+    none = 0,
+    okay,
+    re_entry
+};
 
-// Code from boost
-// Reciprocal of the golden ratio helps spread entropy
-//     and handles duplicates.
-// See Mike Seymour in magic-numbers-in-boosthash-combine:
-//     http://stackoverflow.com/questions/4948780
+// be explicit with the values
+enum class aim_entry : int {
+    START     = 0,
+    VEHICLE   = 1,
+    MAP       = 2,
+    RESET     = 3
+};
 
-template <class T>
-inline void hash_combine( std::size_t &seed, T const &v )
+using I = std::underlying_type_t<aim_entry>;
+static constexpr aim_entry &operator++( aim_entry &lhs )
 {
-    seed ^= hash<T>()( v ) + 0x9e3779b9 + ( seed << 6 ) + ( seed >> 2 );
+    lhs = static_cast<aim_entry>( static_cast<I>( lhs ) + 1 );
+    return lhs;
 }
 
-// Recursive template code derived from Matthieu M.
-template < class Tuple, size_t Index = std::tuple_size<Tuple>::value - 1 >
-struct HashValueImpl
+static constexpr aim_entry &operator--( aim_entry &lhs )
 {
-    static void apply( size_t &seed, Tuple const &tuple ) {
-        HashValueImpl < Tuple, Index - 1 >::apply( seed, tuple );
-        hash_combine( seed, get<Index>( tuple ) );
-    }
-};
-
-template <class Tuple>
-struct HashValueImpl<Tuple, 0> {
-    static void apply( size_t &seed, Tuple const &tuple ) {
-        hash_combine( seed, get<0>( tuple ) );
-    }
-};
+    lhs = static_cast<aim_entry>( static_cast<I>( lhs ) - 1 );
+    return lhs;
 }
 
-template <typename ... TT>
-struct hash<std::tuple<TT...>> {
-    size_t
-    operator()( std::tuple<TT...> const &tt ) const {
-        size_t seed = 0;
-        HashValueImpl<std::tuple<TT...> >::apply( seed, tt );
-        return seed;
-    }
-
-};
-
-template <class A, class B>
-struct hash<std::pair<A, B>> {
-    std::size_t operator()( const std::pair<A, B> &v ) const {
-        std::size_t seed = 0;
-        hash_combine( seed, v.first );
-        hash_combine( seed, v.second );
-        return seed;
-    }
-};
+static constexpr aim_entry operator+( const aim_entry &lhs, const I &rhs )
+{
+    return static_cast<aim_entry>( static_cast<I>( lhs ) + rhs );
 }
+
+static constexpr aim_entry operator-( const aim_entry &lhs, const I &rhs )
+{
+    return static_cast<aim_entry>( static_cast<I>( lhs ) - rhs );
+}
+
+enum class bionic_ui_sort_mode : int {
+    NONE   = 0,
+    POWER  = 1,
+    NAME   = 2,
+    INVLET = 3,
+    nsort  = 4,
+};
+
+template<>
+struct enum_traits<bionic_ui_sort_mode> {
+    static constexpr bionic_ui_sort_mode last = bionic_ui_sort_mode::nsort;
+};
+
+enum class holiday : int {
+    none = 0,
+    new_year,
+    easter,
+    independence_day,
+    halloween,
+    thanksgiving,
+    christmas,
+    num_holiday
+};
+
+template<>
+struct enum_traits<holiday> {
+    static constexpr holiday last = holiday::num_holiday;
+};
+
+enum class temperature_flag : int {
+    NORMAL = 0,
+    HEATER,
+    FRIDGE,
+    FREEZER,
+    ROOT_CELLAR
+};
 
 //Used for autopickup and safemode rules
-enum rule_state : int {
-    RULE_NONE,
-    RULE_WHITELISTED,
-    RULE_BLACKLISTED
+enum class rule_state : int {
+    NONE,
+    WHITELISTED,
+    BLACKLISTED
 };
 
-enum visibility_type {
-    VIS_HIDDEN,
-    VIS_CLEAR,
-    VIS_LIT,
-    VIS_BOOMER,
-    VIS_DARK,
-    VIS_BOOMER_DARK
+enum class visibility_type : int {
+    HIDDEN,
+    CLEAR,
+    LIT,
+    BOOMER,
+    DARK,
+    BOOMER_DARK
 };
 
-enum special_game_id : int {
-    SGAME_NULL = 0,
-    SGAME_TUTORIAL,
-    SGAME_DEFENSE,
-    NUM_SPECIAL_GAMES
+// Matching rules for comparing a string to an overmap terrain id.
+enum class ot_match_type : int {
+    // The provided string must completely match the overmap terrain id, including
+    // linear direction suffixes for linear terrain types or rotation suffixes
+    // for rotated terrain types.
+    exact,
+    // The provided string must completely match the base type id of the overmap
+    // terrain id, which means that suffixes for rotation and linear terrain types
+    // are ignored.
+    type,
+    // The provided string must be a complete prefix (with additional parts delimited
+    // by an underscore) of the overmap terrain id. For example, "forest" will match
+    // "forest" or "forest_thick" but not "forestcabin".
+    prefix,
+    // The provided string must be contained within the overmap terrain id, but may
+    // occur at the beginning, end, or middle and does not have any rules about
+    // underscore delimiting.
+    contains,
+    num_ot_match_type
+};
+
+template<>
+struct enum_traits<ot_match_type> {
+    static constexpr ot_match_type last = ot_match_type::num_ot_match_type;
+};
+
+enum class special_game_type : int {
+    NONE = 0,
+    TUTORIAL,
+    DEFENSE,
+    NUM_SPECIAL_GAME_TYPES
 };
 
 enum art_effect_passive : int {
@@ -116,7 +152,7 @@ enum art_effect_passive : int {
     AEP_STEALTH, // Your steps are quieted
     AEP_EXTINGUISH, // May extinguish nearby flames
     AEP_GLOW, // Four-tile light source
-    AEP_PSYSHIELD, // Protection from stare attacks
+    AEP_PSYSHIELD, // Protection from fear paralyze attack
     AEP_RESIST_ELECTRICITY, // Protection from electricity
     AEP_CARRY_MORE, // Increases carrying capacity by 200
     AEP_SAP_LIFE, // Killing non-zombie monsters may heal you
@@ -147,6 +183,11 @@ enum art_effect_passive : int {
     NUM_AEPS
 };
 
+template<>
+struct enum_traits<art_effect_passive> {
+    static constexpr art_effect_passive last = art_effect_passive::NUM_AEPS;
+};
+
 enum artifact_natural_property {
     ARTPROP_NULL,
     ARTPROP_WRIGGLING, //
@@ -169,196 +210,165 @@ enum artifact_natural_property {
     ARTPROP_MAX
 };
 
-enum phase_id : int {
-    PNULL, SOLID, LIQUID, GAS, PLASMA
+enum class phase_id : int {
+    PNULL,
+    SOLID,
+    LIQUID,
+    GAS,
+    PLASMA,
+    num_phases
+};
+
+template<>
+struct enum_traits<phase_id> {
+    static constexpr phase_id last = phase_id::num_phases;
 };
 
 // Return the class an in-world object uses to interact with the world.
-//   ex; if ( player.grab_type == OBJECT_VEHICLE ) { ...
-//   or; if ( baseactor_just_shot_at.object_type() == OBJECT_NPC ) { ...
-enum object_type {
-    OBJECT_NONE,      // Nothing, invalid.
-    OBJECT_ITEM,      // item.h
-    OBJECT_ACTOR,     // potential virtual base class, get_object_type() would return one of the types below
-    OBJECT_PLAYER,  // player.h, npc.h
-    OBJECT_NPC,   // nph.h
-    OBJECT_MONSTER, // monster.h
-    OBJECT_VEHICLE,   // vehicle.h
-    OBJECT_TRAP,      // trap.h
-    OBJECT_FIELD,     // field.h; field_entry
-    OBJECT_TERRAIN,   // Not a real object
-    OBJECT_FURNITURE, // Not a real object
-    NUM_OBJECTS,
+//   ex; if ( player.grab_type == object_type::VEHICLE ) { ...
+//   or; if ( baseactor_just_shot_at.object_type() == object_type::NPC ) { ...
+enum class object_type : int {
+    NONE,      // Nothing, invalid.
+    ITEM,      // item.h
+    ACTOR,     // potential virtual base class, get_object_type() would return one of the types below
+    PLAYER,  // player.h, npc.h
+    NPC,   // nph.h
+    MONSTER, // monster.h
+    VEHICLE,   // vehicle.h
+    TRAP,      // trap.h
+    FIELD,     // field.h; field_entry
+    TERRAIN,   // Not a real object
+    FURNITURE, // Not a real object
+    NUM_OBJECT_TYPES,
 };
 
-struct point {
-    int x = 0;
-    int y = 0;
-    constexpr point() = default;
-    constexpr point( int X, int Y ) : x( X ), y( Y ) {}
-
-    constexpr point operator+( const point &rhs ) const {
-        return point( x + rhs.x, y + rhs.y );
-    }
-    point &operator+=( const point &rhs ) {
-        x += rhs.x;
-        y += rhs.y;
-        return *this;
-    }
-    constexpr point operator-( const point &rhs ) const {
-        return point( x - rhs.x, y - rhs.y );
-    }
-    point &operator-=( const point &rhs ) {
-        x -= rhs.x;
-        y -= rhs.y;
-        return *this;
-    }
+enum class liquid_source_type : int {
+    INFINITE_MAP = 1,
+    MAP_ITEM = 2,
+    VEHICLE = 3,
+    MONSTER = 4
 };
 
-void serialize( const point &p, JsonOut &jsout );
-void deserialize( point &p, JsonIn &jsin );
-
-// Make point hashable so it can be used as an unordered_set or unordered_map key,
-// or a component of one.
-namespace std
-{
-template <>
-struct hash<point> {
-    std::size_t operator()( const point &k ) const {
-        // Circular shift y by half its width so hash(5,6) != hash(6,5).
-        return std::hash<int>()( k.x ) ^ std::hash<int>()( ( k.y << 16 ) | ( k.y >> 16 ) );
-    }
-};
-}
-
-inline constexpr bool operator<( const point &a, const point &b )
-{
-    return a.x < b.x || ( a.x == b.x && a.y < b.y );
-}
-inline constexpr bool operator==( const point &a, const point &b )
-{
-    return a.x == b.x && a.y == b.y;
-}
-inline constexpr bool operator!=( const point &a, const point &b )
-{
-    return !( a == b );
-}
-
-struct tripoint {
-    int x = 0;
-    int y = 0;
-    int z = 0;
-    constexpr tripoint() = default;
-    constexpr tripoint( int X, int Y, int Z ) : x( X ), y( Y ), z( Z ) {}
-    explicit constexpr tripoint( const point &p, int Z ) : x( p.x ), y( p.y ), z( Z ) {}
-
-    constexpr tripoint operator+( const tripoint &rhs ) const {
-        return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
-    }
-    constexpr tripoint operator-( const tripoint &rhs ) const {
-        return tripoint( x - rhs.x, y - rhs.y, z - rhs.z );
-    }
-    tripoint &operator+=( const tripoint &rhs ) {
-        x += rhs.x;
-        y += rhs.y;
-        z += rhs.z;
-        return *this;
-    }
-    constexpr tripoint operator-() const {
-        return tripoint( -x, -y, -z );
-    }
-    /*** some point operators and functions ***/
-    constexpr tripoint operator+( const point &rhs ) const {
-        return tripoint( x + rhs.x, y + rhs.y, z );
-    }
-    constexpr tripoint operator-( const point &rhs ) const {
-        return tripoint( x - rhs.x, y - rhs.y, z );
-    }
-    tripoint &operator+=( const point &rhs ) {
-        x += rhs.x;
-        y += rhs.y;
-        return *this;
-    }
-    tripoint &operator-=( const point &rhs ) {
-        x -= rhs.x;
-        y -= rhs.y;
-        return *this;
-    }
-    tripoint &operator-=( const tripoint &rhs ) {
-        x -= rhs.x;
-        y -= rhs.y;
-        z -= rhs.z;
-        return *this;
-    }
-
-    void serialize( JsonOut &jsout ) const;
-    void deserialize( JsonIn &jsin );
+enum class liquid_target_type : int {
+    CONTAINER = 1,
+    VEHICLE = 2,
+    MAP = 3,
+    MONSTER = 4
 };
 
-inline std::ostream &operator<<( std::ostream &os, const tripoint &pos )
-{
-    return os << pos.x << "," << pos.y << "," << pos.z;
-}
-
-// Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
-// or a component of one.
-namespace std
-{
-template <>
-struct hash<tripoint> {
-    std::size_t operator()( const tripoint &k ) const {
-        // Circular shift y and z so hash(5,6,7) != hash(7,6,5).
-        return std::hash<int>()( k.x ) ^
-               std::hash<int>()( ( k.y << 10 ) | ( k.y >> 10 ) ) ^
-               std::hash<int>()( ( k.z << 20 ) | ( k.z >> 20 ) );
-    }
+/**
+ *  Possible layers that a piece of clothing/armor can occupy
+ *
+ *  Every piece of clothing occupies one distinct layer on the body-part that
+ *  it covers.  This is used for example by @ref Character to calculate
+ *  encumbrance values, @ref player to calculate time to wear/remove the item,
+ *  and by @ref profession to place the characters' clothing in a sane order
+ *  when starting the game.
+ */
+enum class layer_level : int {
+    /* "Personal effects" layer, corresponds to PERSONAL flag */
+    PERSONAL = 0,
+    /* "Close to skin" layer, corresponds to SKINTIGHT flag. */
+    UNDERWEAR,
+    /* "Normal" layer, default if no flags set */
+    REGULAR,
+    /* "Waist" layer, corresponds to WAIST flag. */
+    WAIST,
+    /* "Outer" layer, corresponds to OUTER flag. */
+    OUTER,
+    /* "Strapped" layer, corresponds to BELTED flag */
+    BELTED,
+    /* "Aura" layer, corresponds to AURA flag */
+    AURA,
+    /* Not a valid layer; used for C-style iteration through this enum */
+    NUM_LAYER_LEVELS
 };
-}
 
-inline constexpr bool operator==( const tripoint &a, const tripoint &b )
-{
-    return a.x == b.x && a.y == b.y && a.z == b.z;
-}
-inline constexpr bool operator!=( const tripoint &a, const tripoint &b )
-{
-    return !( a == b );
-}
-inline bool operator<( const tripoint &a, const tripoint &b )
-{
-    if( a.x != b.x ) {
-        return a.x < b.x;
-    }
-    if( a.y != b.y ) {
-        return a.y < b.y;
-    }
-    if( a.z != b.z ) {
-        return a.z < b.z;
-    }
-    return false;
-}
-
-static constexpr tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
-static constexpr tripoint tripoint_zero { 0, 0, 0 };
-
-struct sphere {
-    int radius = 0;
-    tripoint center = tripoint( 0, 0, 0 );
-
-    sphere() = default;
-    explicit sphere( const tripoint &center ) : radius( 1 ), center( center ) {}
-    explicit sphere( const tripoint &center, int radius ) : radius( radius ), center( center ) {}
+template<>
+struct enum_traits<layer_level> {
+    static constexpr layer_level last = layer_level::NUM_LAYER_LEVELS;
 };
+
+inline layer_level &operator++( layer_level &l )
+{
+    l = static_cast<layer_level>( static_cast<int>( l ) + 1 );
+    return l;
+}
 
 /** Possible reasons to interrupt an activity. */
-enum class distraction_type {
+enum class distraction_type : int {
     noise,
     pain,
     attacked,
-    hostile_spotted,
+    hostile_spotted_far,
+    hostile_spotted_near,
     talked_to,
     asthma,
     motion_alarm,
     weather_change,
 };
 
-#endif
+enum game_message_type : int {
+    m_good,    /* something good happened to the player character, e.g. health boost, increasing in skill */
+    m_bad,      /* something bad happened to the player character, e.g. damage, decreasing in skill */
+    m_mixed,   /* something happened to the player character which is mixed (has good and bad parts),
+                  e.g. gaining a mutation with mixed effect*/
+    m_warning, /* warns the player about a danger. e.g. enemy appeared, an alarm sounds, noise heard. */
+    m_info,    /* informs the player about something, e.g. on examination, seeing an item,
+                  about how to use a certain function, etc. */
+    m_neutral,  /* neutral or indifferent events which aren’t informational or nothing really happened e.g.
+                  a miss, a non-critical failure. May also effect for good or bad effects which are
+                  just very slight to be notable. This is the default message type. */
+
+    m_debug, /* only shown when debug_mode is true */
+    /* custom SCT colors */
+    m_headshot,
+    m_critical,
+    m_grazing,
+    num_game_message_type
+};
+
+template<>
+struct enum_traits<game_message_type> {
+    static constexpr game_message_type last = game_message_type::num_game_message_type;
+};
+
+enum game_message_flags {
+    /* No specific game message flags */
+    gmf_none = 0,
+    /* Allow the message to bypass message cooldown. */
+    gmf_bypass_cooldown = 1,
+};
+
+/** Structure allowing a combination of `game_message_type` and `game_message_flags`.
+ */
+struct game_message_params {
+    game_message_params( const game_message_type message_type ) : type( message_type ),
+        flags( gmf_none ) {}
+    game_message_params( const game_message_type message_type,
+                         const game_message_flags message_flags ) : type( message_type ), flags( message_flags ) {}
+
+    /* Type of the message */
+    game_message_type type;
+    /* Flags pertaining to the message */
+    game_message_flags flags;
+};
+
+enum class monotonically : int {
+    constant,
+    increasing,
+    decreasing,
+    unknown,
+};
+
+constexpr bool is_increasing( monotonically m )
+{
+    return m == monotonically::constant || m == monotonically::increasing;
+}
+
+constexpr bool is_decreasing( monotonically m )
+{
+    return m == monotonically::constant || m == monotonically::decreasing;
+}
+
+#endif // CATA_SRC_ENUMS_H

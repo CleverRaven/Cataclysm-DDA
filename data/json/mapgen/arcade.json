@@ -6,78 +6,125 @@
     "monsters": [ { "monster": "mon_zombie_child", "freq": 600, "cost_multiplier": 1, "pack_size": [ 2, 5 ] } ]
   },
   {
-    "id": "s_arcade",
-    "type": "overmap_terrain",
-    "name": "arcade",
-    "sym": 65,
-    "color": "cyan",
-    "see_cost": 5,
-    "mondensity": 2,
-    "mapgen": [
-      {
-        "method": "json",
-        "weight": 250,
-        "object": {
-          "fill_ter": "t_floor",
-          "rows": [
-            ".______________________.",
-            ".______________________.",
-            ".______________________.",
-            ".______________________.",
-            ".______________________.",
-            ".ssssssssssssssssssssss.",
-            ".ssssssssssssssssssssss.",
-            ".ssssssssssssssssssssss.",
-            ".ssssssssssssssssssllss.",
-            ".|---++-OOO-++----|---|.",
-            ".|F               |S %|.",
-            ".|F               |-+-|.",
-            ".|F  FF     FF        |.",
-            ".|F  FF  F  FF    ##  |.",
-            ".|F  FF  F  FF    #  T|.",
-            ".|F  FF     FF    #  T|.",
-            ".|F               #  T|.",
-            ".|F    x x x      #  T|.",
-            ".|FFFFFx x xFFFF  #B T|.",
-            ".|--------------------|.",
-            "........................",
-            "........................",
-            "........................",
-            "........................"
-          ],
-          "terrain": {
-            " ": "t_floor",
-            "+": "t_door_c",
-            "-": "t_wall",
-            ".": "t_grass",
-            "O": "t_window",
-            "S": "t_floor",
-            "B": "t_floor",
-            "%": "t_floor",
-            "_": "t_pavement",
-            "l": "t_sidewalk",
-            "s": "t_sidewalk",
-            "|": "t_wall"
-          },
-          "furniture": {
-            "#": "f_counter",
-            "F": "f_arcade_machine",
-            "S": "f_sink",
-            "B": "f_stool",
-            "T": "f_locker",
-            "l": "f_vending_c",
-            "x": "f_pinball_machine"
-          },
-          "toilets": { "%": {  } },
-          "place_items": [
-            { "item": "vending_drink", "x": 19, "y": 8, "chance": 75 },
-            { "item": "vending_food", "x": 20, "y": 8, "chance": 75 },
-            { "item": "arcade_prizes", "x": 21, "y": [ 14, 18 ], "chance": 95 }
-          ],
-          "place_monsters": [ { "monster": "GROUP_ARCADE", "x": [ 3, 17 ], "y": [ 13, 15 ] } ]
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": [ "s_arcade" ],
+    "weight": 250,
+    "object": {
+      "fill_ter": "t_floor",
+      "rows": [
+        ".______________________.",
+        ".______________________.",
+        ".______________________.",
+        ".______________________.",
+        ".______________________.",
+        ".ssssssssssssssssssssss.",
+        ".ssssssssssssssssssssss.",
+        ".ssssssssssssssssssssss.",
+        ".ssssssssssssssssssllss.",
+        ".|---++-OOO-++----|---|.",
+        ".|F               |S %|.",
+        ".|F               |-+-|.",
+        ".|F  FF     FF        |.",
+        ".|F  FF  F  FF    ##  |.",
+        ".|F  FF  F  FF    #  T|.",
+        ".|F  FF     FF    #  T|.",
+        ".|F               #  T|.",
+        ".|F    x x x      #  T|.",
+        ".|FFFFFx x xFFFF  #B T|.",
+        ".|--------------------|.",
+        ".....................4..",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        " ": "t_floor",
+        "+": "t_door_c",
+        "-": "t_wall_r",
+        ".": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ], [ "t_underbrush", 10 ] ],
+        "O": "t_window",
+        "S": "t_floor",
+        "B": "t_floor",
+        "%": "t_floor",
+        "_": "t_pavement",
+        "l": "t_sidewalk",
+        "s": "t_sidewalk",
+        "4": "t_gutter_downspout",
+        "|": "t_wall_r"
+      },
+      "furniture": {
+        "#": "f_counter",
+        "F": "f_arcade_machine",
+        "S": "f_sink",
+        "B": "f_stool",
+        "T": "f_locker",
+        "l": "f_vending_c",
+        "x": "f_pinball_machine"
+      },
+      "toilets": { "%": {  } },
+      "place_items": [
+        { "item": "vending_drink", "x": 19, "y": 8, "chance": 75 },
+        { "item": "vending_food", "x": 20, "y": 8, "chance": 75 },
+        { "item": "arcade_prizes", "x": 21, "y": [ 14, 18 ], "chance": 95 }
+      ],
+      "place_monsters": [ { "monster": "GROUP_ARCADE", "x": [ 3, 17 ], "y": [ 13, 15 ] } ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "om_terrain": "s_arcade_roof",
+    "weight": 100,
+    "object": {
+      "fill_ter": "t_flat_roof",
+      "rows": [
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        "........................",
+        ".|                    3.",
+        ".|  : A               3.",
+        ".|                    3.",
+        ".|                    3.",
+        ".|                    3.",
+        ".|            &       3.",
+        ".|                    3.",
+        ".|                    3.",
+        ".|               X    3.",
+        ".|                    3.",
+        ".|222222222222222222253.",
+        "........................",
+        "........................",
+        "........................",
+        "........................"
+      ],
+      "terrain": {
+        " ": "t_flat_roof",
+        ".": "t_open_air",
+        "|": "t_gutter_west",
+        "3": "t_gutter_east",
+        "2": "t_gutter_south",
+        "5": "t_gutter_drop"
+      },
+      "furniture": { ":": "f_cellphone_booster", "X": "f_small_satelitte_dish", "&": "f_roof_turbine_vent", "A": "f_TV_antenna" },
+      "place_items": [
+        { "item": "roof_trash", "x": [ 3, 20 ], "y": [ 11, 18 ], "chance": 50, "repeat": [ 1, 3 ] },
+        { "item": "child_items", "x": [ 3, 20 ], "y": [ 11, 18 ], "chance": 50, "repeat": [ 1, 3 ] }
+      ],
+      "place_nested": [
+        { "chunks": [ [ "null", 50 ], [ "roof_4x4_utility", 50 ] ], "x": 3, "y": [ 10, 15 ] },
+        {
+          "chunks": [ [ "null", 50 ], [ "roof_2x2_utilities", 20 ], [ "roof_2x2_utilities_c", 20 ], [ "roof_2x2_utilities_b", 20 ] ],
+          "x": 17,
+          "y": [ 12, 15 ]
         }
-      }
-    ],
-    "flags": [ "SIDEWALK" ]
+      ]
+    }
   }
 ]

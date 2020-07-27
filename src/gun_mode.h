@@ -1,9 +1,11 @@
 #pragma once
-#ifndef GUN_MODE_H
-#define GUN_MODE_H
+#ifndef CATA_SRC_GUN_MODE_H
+#define CATA_SRC_GUN_MODE_H
 
 #include <set>
 #include <string>
+
+#include "translations.h"
 
 class item;
 
@@ -53,6 +55,10 @@ class gun_mode
         std::string name() const {
             return name_;
         }
+
+        std::string tname() const {
+            return _( name_ );
+        }
 };
 
-#endif
+#endif // CATA_SRC_GUN_MODE_H

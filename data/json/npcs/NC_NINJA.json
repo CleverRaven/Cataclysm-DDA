@@ -1,53 +1,29 @@
 [
   {
-    "type" : "item_group",
-    "id" : "NC_NINJA_shirt_male",
-    "items":[
-      ["null", 50],
-      ["tshirt", 10],
-      ["polo_shirt", 10],
-      ["dress_shirt", 10],
-      ["tank_top", 40]
+    "type": "item_group",
+    "id": "NC_NINJA_shirt",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "karate_gi", "prob": 10 },
+      { "item": "judo_gi", "prob": 10 },
+      { "item": "keikogi", "prob": 10 },
+      { "item": "zubon_gi", "prob": 10 },
+      { "item": "hakama_gi", "prob": 10 }
     ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_NINJA_shirt_female",
-    "items":[
-      ["tshirt", 10],
-      ["polo_shirt", 10],
-      ["dress_shirt", 10],
-      ["tank_top", 90]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_NINJA_gloves",
-    "items":[
-      ["null", 20],
-      ["gloves_leather", 60],
-      ["gloves_work", 20],
-      ["gloves_fingerless", 20],
-      ["fire_gauntlets", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_NINJA_masks",
-    "items":[
-      ["null", 10],
-      ["mask_dust", 10],
-      ["bandana", 70],
-      ["mask_filter", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "NC_NINJA_hat",
-    "items":[
-      ["null", 90],
-      ["hat_ball", 5],
-      ["hat_hard", 5],
-      ["helmet_bike", 5],
-      ["helmet_riot", 5],
-      ["helmet_motor", 5],
-      ["hat_hunting", 5]
+  },
+  {
+    "type": "item_group",
+    "id": "NC_NINJA_belt",
+    "subtype": "distribution",
+    "entries": [
+      { "item": "null", "prob": 50 },
+      { "item": "judo_belt_black", "prob": 10 },
+      { "item": "judo_belt_blue", "prob": 10 },
+      { "item": "judo_belt_brown", "prob": 10 },
+      { "item": "judo_belt_green", "prob": 40 },
+      { "item": "judo_belt_orange", "prob": 40 },
+      { "item": "judo_belt_white", "prob": 40 },
+      { "item": "judo_belt_yellow", "prob": 40 }
     ]
   }
 ]

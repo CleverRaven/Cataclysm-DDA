@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_COMPATIBILITY_H
-#define CATA_COMPATIBILITY_H
+#ifndef CATA_SRC_COMPATIBILITY_H
+#define CATA_SRC_COMPATIBILITY_H
 
 //--------------------------------------------------------------------------------------------------
 // HACK:
@@ -12,7 +12,7 @@
 //--------------------------------------------------------------------------------------------------
 #include <string>
 
-#define CATA_GCC_VER (__GNUC__ * 10000) + (__GNUC_MINOR__ * 100) + (__GNUC_PATCHLEVEL__)
+#define CATA_GCC_VER ((__GNUC__ * 10000) + (__GNUC_MINOR__ * 100) + (__GNUC_PATCHLEVEL__))
 
 #if defined(__MINGW32__) && !defined(__MINGW64__)
 #   define CATA_NO_CPP11_STRING_CONVERSIONS
@@ -27,7 +27,8 @@
 #include <cstdio>
 #include <limits>
 
-inline std::string to_string( long const n )
+// NOLINTNEXTLINE(cata-no-long)
+inline std::string to_string( const long n )
 {
     //- and \0
     constexpr int size = std::numeric_limits<long>::digits10 + 2;
@@ -36,7 +37,8 @@ inline std::string to_string( long const n )
     return buffer;
 }
 
-inline std::string to_string( unsigned long const n )
+// NOLINTNEXTLINE(cata-no-long)
+inline std::string to_string( const unsigned long n )
 {
     //- and \0
     constexpr int size = std::numeric_limits<unsigned long>::digits10 + 2;
@@ -45,7 +47,7 @@ inline std::string to_string( unsigned long const n )
     return buffer;
 }
 
-inline std::string to_string( long long const n )
+inline std::string to_string( const long long n )
 {
     //- and \0
     constexpr int size = std::numeric_limits<long long>::digits10 + 2;
@@ -64,7 +66,7 @@ inline std::string to_string( long long const n )
     return buffer;
 }
 
-inline std::string to_string( unsigned long long const n )
+inline std::string to_string( const unsigned long long n )
 {
     //- and \0
     constexpr int size = std::numeric_limits<unsigned long long>::digits10 + 2;
@@ -83,7 +85,7 @@ inline std::string to_string( unsigned long long const n )
     return buffer;
 }
 
-inline std::string to_string( int const n )
+inline std::string to_string( const int n )
 {
     //- and \0
     constexpr int size = std::numeric_limits<int>::digits10 + 2;
@@ -92,7 +94,7 @@ inline std::string to_string( int const n )
     return buffer;
 }
 
-inline std::string to_string( unsigned int const n )
+inline std::string to_string( unsigned const int n )
 {
     //+ and \0 (no -)
     constexpr int size = std::numeric_limits<unsigned int>::digits10 + 2;
@@ -101,7 +103,7 @@ inline std::string to_string( unsigned int const n )
     return buffer;
 }
 
-inline std::string to_string( double const n )
+inline std::string to_string( const double n )
 {
     //- . \0 + snprintf default precision.
     constexpr int size = std::numeric_limits<double>::max_exponent10 + 6 + 3;
@@ -117,7 +119,7 @@ template < typename T, typename std::enable_if < std::is_arithmetic<T>::value &&
            !std::is_same<T, bool>::value &&!std::is_same<T, wchar_t>::value &&
            !std::is_same<T, char>::value &&!std::is_same<T, char16_t>::value &&
            !std::is_same<T, char32_t>::value >::type * = nullptr >
-std::string to_string( T const n )
+std::string to_string( T n )
 {
     return std::to_string( n );
 }
@@ -133,4 +135,4 @@ inline void std::advance( I iter, int num )
 }
 #endif //CATA_NO_ADVANCE
 
-#endif //CATA_COMPATIBILITY_H
+#endif // CATA_SRC_COMPATIBILITY_H

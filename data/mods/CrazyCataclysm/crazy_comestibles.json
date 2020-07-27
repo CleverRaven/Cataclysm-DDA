@@ -3,19 +3,19 @@
     "copy-from": "cookies",
     "type": "COMESTIBLE",
     "id": "sporeos",
-    "name": "SpOreos",
-    "color": "gray",
+    "name": { "str_sp": "SpOreos" },
+    "color": "dark_gray",
     "spoils_in": 0,
     "symbol": "%",
     "quench": 25,
     "calories": 217,
-    "description": "The hit cookie from Mycus Industries! Now comes in addicting flavors such as Marloss, Chanterelle, and The Encroaching, Unavoidable Death of Human Civilization.",
+    "description": "The hit cookie from Mycus Industries!  Now comes in addicting flavors such as Marloss, Chanterelle, and The Encroaching, Unavoidable Death of Human Civilization.",
     "price": 0,
     "material": [ "wheat", "fruit" ],
     "charges": 4,
     "stack_size": 20,
     "fun": 10,
-    "flags": [ "MYCUS_OK" ]
+    "flags": [ "MYCUS_OK", "FUNGAL_VECTOR" ]
   },
   {
     "type": "recipe",

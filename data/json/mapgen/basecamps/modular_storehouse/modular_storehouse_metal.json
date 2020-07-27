@@ -1,0 +1,265 @@
+[
+  {
+    "type": "palette",
+    "id": "fbms_metal_palette",
+    "terrain": {
+      ".": "t_scrap_floor",
+      "b": "t_grass",
+      "t": "t_scrap_floor",
+      "l": "t_scrap_floor",
+      "B": "t_scrap_floor",
+      "d": "t_door_metal_c",
+      "o": "t_window_no_curtains",
+      "w": "t_scrap_wall",
+      ";": "t_floor_primitive"
+    },
+    "furniture": { "b": "f_bench", "t": "f_table", "x": "f_brazier", "U": "f_birdbath", "l": "f_locker", "B": "f_bookcase" }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room0_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "  wwww",
+        "  ...w",
+        "  ...w",
+        "  ...w",
+        "  ...w",
+        "  wwww"
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room0_metal_east",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room0_metal" ], "x": 15, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room1_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "wwww  ",
+        "w...  ",
+        "w...  ",
+        "w...  ",
+        "w...  ",
+        "wwww  "
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room1_metal_west",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room1_metal" ], "x": 3, "y": 9 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room2_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "   wow",
+        "   w..",
+        "   w.."
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room2_metal_northwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room2_metal" ], "x": 3, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room3_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "   w..",
+        "   w..",
+        "   wow",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room3_metal_southwest",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room3_metal" ], "x": 3, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room4_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "      ",
+        "      ",
+        "      ",
+        "wow   ",
+        "..w   ",
+        "..w   "
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room4_metal_northeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room4_metal" ], "x": 15, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room5_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "..w   ",
+        "..w   ",
+        "wow   ",
+        "      ",
+        "      ",
+        "      "
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room5_metal_southeast",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room5_metal" ], "x": 15, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room6_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "......",
+        "......",
+        "woddow",
+        " .... ",
+        " .... ",
+        "w....w"
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room6_metal_south",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room6_metal" ], "x": 9, "y": 15 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room7_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "w....w",
+        " .... ",
+        " .... ",
+        "woddow",
+        "......",
+        "......"
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room7_metal_north",
+    "method": "json",
+    "object": { "place_nested": [ { "chunks": [ "fbms_room7_metal" ], "x": 9, "y": 3 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room8_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "......",
+        "......",
+        "......",
+        "......",
+        "......",
+        "......"
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room9_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "    ..",
+        "    ..",
+        "    ..",
+        "    ..",
+        "    ..",
+        "    .."
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
+    "nested_mapgen_id": "fbms_room10_metal",
+    "object": {
+      "mapgensize": [ 6, 6 ],
+      "rows": [
+        "..    ",
+        "..    ",
+        "..    ",
+        "..    ",
+        "..    ",
+        "..    "
+      ],
+      "palettes": [ "fbms_metal_palette" ]
+    }
+  },
+  {
+    "type": "mapgen",
+    "update_mapgen_id": "fbms_room8_metal_center",
+    "method": "json",
+    "object": {
+      "place_nested": [
+        { "chunks": [ "fbms_room9_metal" ], "x": 3, "y": 9 },
+        { "chunks": [ "fbms_room10_metal" ], "x": 15, "y": 9 },
+        { "chunks": [ "fbms_room8_metal" ], "x": 9, "y": 9 }
+      ]
+    }
+  }
+]

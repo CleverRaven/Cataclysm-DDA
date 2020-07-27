@@ -1,0 +1,62 @@
+[
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"Hello?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"Can you help me?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"I have no mouth and yet I scream!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"¿Por qué?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"Come closer little one.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"The better to eat you!  I don't actually think I eat anymore.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"Cyrus said if I was patient, he could get me a new body.\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"Quem é Você?\"",
+    "volume": 40
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"Eu vou te matar!\"",
+    "volume": 60
+  },
+  {
+    "type": "speech",
+    "speaker": "afs_mon_migoturret",
+    "sound": "\"I can't keep myself from killing you, please run!\"",
+    "volume": 60
+  }
+]

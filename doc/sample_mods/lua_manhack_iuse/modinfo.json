@@ -1,8 +1,0 @@
-    {
-        "type": "MOD_INFO",
-        "mod-type": "SUPPLEMENTAL",
-        "ident": "Manhack_Lua",
-        "name": "Manhack Lua",
-        "description": "Manhack IUSE implemented in lua.",
-        "path": ""
-    }

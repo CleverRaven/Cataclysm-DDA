@@ -1,18 +1,14 @@
 [
-    {
-        "type": "sound_effect",
-        "id" : "menu_move",
-        "volume" : 100,
-        "files" : [
-            "menu_move.ogg"
-        ]
-    },
-    {
-        "type": "sound_effect",
-        "id" : "menu_error",
-        "volume" : 100,
-        "files" : [
-            "menu_error.ogg"
-        ]
-    }
+  {
+    "type": "sound_effect",
+    "id": "menu_move",
+    "volume": 100,
+    "files": [ "menu_move.ogg" ]
+  },
+  {
+    "type": "sound_effect",
+    "id": "menu_error",
+    "volume": 100,
+    "files": [ "menu_error.ogg" ]
+  }
 ]

@@ -1,0 +1,33 @@
+[
+  {
+    "id": "BGSS_OUT_OF_TOWN_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "I didn't even know about <the_cataclysm> right away.  I was way out, away from the worst of it.  My car broke down out on the highway, and I was waiting for a tow for hours.  I finally wound up camping in the bushes off the side of the road; good thing, too, because a semi truck whipped by - dead driver, you know - and turned my car into a skid mark.  I feel bad for the bastards that were in the cities when it hit.",
+    "responses": [
+      { "text": "How did you survive outside?", "topic": "BGSS_OUT_OF_TOWN_1_STORY2" },
+      { "text": "What did you see in those first few days?", "topic": "BGSS_OUT_OF_TOWN_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_OUT_OF_TOWN_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Ha, I don't fully understand it myself.  Those first few days were a tough time to be outside, that's for sure.  I got caught in one of those hellish rainstorms, it started to burn my skin right off.  I managed to take shelter under a car, lying on top of my tent.  Wrecked the damn thing, but better it than me.  From what I hear, though, I got lucky.  That was pretty much the worst I saw.  I didn't run into any of those demon-monsters that I hear attacked the cities, so I guess I got off lucky.",
+    "responses": [
+      { "text": "What did you see in those first few days?", "topic": "BGSS_OUT_OF_TOWN_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGSS_OUT_OF_TOWN_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Besides the acid rain, I mostly saw people fleeing the cities.  I tried to stay away from the roads, but I didn't want to get lost in the woods either, so I stuck to the deep margins.  I saw cars, buses, trucks loaded down with evacuees.  Plenty went right on, but a lot stalled out of gas and other stuff.  Some were so full of gear and people there were folks hanging off them.  Stalling out was a death sentence, because the dead were coming along the roads picking off the survivors.",
+    "responses": [
+      { "text": "How did you survive outside?", "topic": "BGSS_OUT_OF_TOWN_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  }
+]

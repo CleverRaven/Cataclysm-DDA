@@ -76,6 +76,10 @@
             "fg":12
         },
         {
+            "id":"highlight",
+            "fg":12
+        },
+        {
             "id":"lighting_boomered_light",
             "fg":50,
             "rotates":false
@@ -990,6 +994,10 @@
         },
         {
             "id":"tr_shotgun_2",
+            "rotates":false
+        },
+        {
+            "id":"tr_shotgun_2_1",
             "rotates":false
         },
         {
