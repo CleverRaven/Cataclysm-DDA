@@ -5,9 +5,19 @@
     "name": "Evacuee",
     "points": 0,
     "description": "You have survived the initial wave of panic, and have achieved (relative) safety in one of the many government evac shelters.",
-    "allowed_locs": [ "sloc_shelter", "sloc_shelter_vandalized" ],
+    "allowed_locs": [ "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Evac Shelter",
     "flags": [ "CITY_START" ]
+  },
+  {
+    "type": "scenario",
+    "ident": "squatter",
+    "name": "Squatter",
+    "points": -1,
+    "description": "You have survived the initial wave of panic, and have achieved (relative) safety in an abandoned building.  Unfortunately, while you're the only one here now, you are definitely not the first person to be here, and in its current state this building no longer seems nearly as secure as one might have hoped.",
+    "allowed_locs": [ "sloc_shelter_vandalized_a", "sloc_shelter_vandalized_b", "sloc_shelter_vandalized_c" ],
+    "start_name": "Evac Shelter",
+    "flags": [ "CITY_START", "LONE_START" ]
   },
   {
     "type": "scenario",
@@ -322,7 +332,7 @@
     "name": "Sheltered",
     "points": -3,
     "description": "When the apocalypse broke out, you were funneled into a nearby shelter.  Here you have lived, never leaving, lest the unknowns of the outside world hurt you.  Supplies are running low, and for the first time since the Cataclysm, you will be forced to face the outside world.",
-    "allowed_locs": [ "sloc_lmoe_empty", "sloc_shelter" ],
+    "allowed_locs": [ "sloc_lmoe_empty", "sloc_shelter_a", "sloc_shelter_b", "sloc_shelter_c" ],
     "start_name": "Enclosed Shelter",
     "flags": [ "WIN_START", "LONE_START" ],
     "professions": [ "sheltered_militia", "sheltered_survivor", "bionic_prepper", "unemployed" ]

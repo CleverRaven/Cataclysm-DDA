@@ -399,7 +399,7 @@ bool Pickup::do_pickup( std::vector<item_location> &targets, std::vector<int> &q
     }
 
     if( got_water ) {
-        add_msg( m_info, _( "You can't pick up a liquid!" ) );
+        add_msg( m_info, _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
     }
     if( weight_is_okay && player_character.weight_carried() > player_character.weight_capacity() ) {
         add_msg( m_bad, _( "You're overburdened!" ) );
@@ -569,7 +569,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
             const int minleftover = itemsH + pickupBorderRows;
             const int maxmaxitems = TERMY - minleftover;
             const int minmaxitems = 9;
-            maxitems = clamp<int>( stacked_here.size(), minmaxitems, maxmaxitems );
+            maxitems = clamp( static_cast<int>( stacked_here.size() ), minmaxitems, maxmaxitems );
 
             start = selected - selected % maxitems;
 

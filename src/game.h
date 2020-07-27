@@ -155,6 +155,7 @@ class game
         friend map &get_map();
         friend Character &get_player_character();
         friend avatar &get_avatar();
+        friend location &get_player_location();
         friend weather_manager &get_weather();
         friend const scenario *get_scenario();
         friend void set_scenario( const scenario *new_scenario );

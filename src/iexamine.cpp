@@ -111,6 +111,7 @@ static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_earphones( "earphones" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_mending( "mending" );
+static const efftype_id effect_pblue( "pblue" );
 static const efftype_id effect_pkill2( "pkill2" );
 static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_strong_antibiotic( "strong_antibiotic" );
@@ -4658,6 +4659,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         UNINSTALL_CBM,
         BONESETTING,
         TREAT_WOUNDS,
+        RAD_AWAY,
     };
 
     bool adjacent_couch = false;
@@ -4741,6 +4743,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.addentry( UNINSTALL_CBM, true, 'u', _( "Choose installed bionic to uninstall" ) );
     amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
     amenu.addentry( TREAT_WOUNDS, true, 'w', _( "Treat wounds" ) );
+    amenu.addentry( RAD_AWAY, true, 'r', _( "Check radiation level" ) );
 
     amenu.query();
 
@@ -4917,7 +4920,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     patient.has_effect( effect_weak_antibiotic ) ) {
                     patient.add_msg_player_or_npc( m_info,
                                                    _( "The autodoc detected a bacterial infection in your body, but as it also detected you've already taken antibiotics, it decided not to apply another dose right now." ),
-                                                   _( "The autodoc detected a bacterial infection in <npcname>'s body, but as it also detected you've already taken antibiotics, it decided not to apply another dose right now." ) );
+                                                   _( "The autodoc detected a bacterial infection in <npcname>'s body, but as it also detected they've already taken antibiotics, it decided not to apply another dose right now." ) );
                 } else {
                     patient.add_effect( effect_strong_antibiotic, 12_hours );
                     patient.add_effect( effect_strong_antibiotic_visible, rng( 9_hours, 15_hours ) );
@@ -4963,6 +4966,31 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 }
             }
             patient.moves -= 500;
+            break;
+        }
+
+        case RAD_AWAY: {
+            patient.moves -= 500;
+            patient.add_msg_player_or_npc( m_info,
+                                           _( "The autodoc scanned you and detected a radiation level of %d mSv." ),
+                                           _( "The autodoc scanned <npcname> and detected a radiation level of %d mSv." ),
+                                           patient.get_rad() );
+            if( patient.get_rad() ) {
+                if( patient.has_effect( effect_pblue ) ) {
+                    patient.add_msg_player_or_npc( m_info,
+                                                   _( "The autodoc detected an anti-radiation drug in your bloodstream, so it decided not to administer another dose right now." ),
+                                                   _( "The autodoc detected an anti-radiation drug in <npcname>'s bloodstream, so it decided not to administer another dose right now." ) );
+                } else {
+                    add_msg( m_good,
+                             _( "The autodoc administered an anti-radiation drug to treat radiation poisoning." ) );
+                    patient.mod_pain( 3 );
+                    patient.add_effect( effect_pblue, 1_hours );
+                }
+            }
+            if( patient.leak_level( "RADIOACTIVE" ) ) {
+                popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
+                       patient.leak_level( "RADIOACTIVE" ) );
+            }
             break;
         }
 

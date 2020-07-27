@@ -4078,7 +4078,8 @@ std::unordered_set<tripoint> game::get_fishable_locations( int distance, const t
     const tripoint fishing_boundary_min( fish_pos + point( -distance, -distance ) );
     const tripoint fishing_boundary_max( fish_pos + point( distance, distance ) );
 
-    const inclusive_cuboid fishing_boundaries( fishing_boundary_min, fishing_boundary_max );
+    const inclusive_cuboid<tripoint> fishing_boundaries(
+        fishing_boundary_min, fishing_boundary_max );
 
     const auto get_fishable_terrain = [&]( tripoint starting_point,
     std::unordered_set<tripoint> &fishable_terrain ) {
@@ -9185,9 +9186,10 @@ bool game::disable_robot( const tripoint &p )
         return false;
     }
     monster &critter = *mon_ptr;
-    if( critter.friendly == 0 || critter.has_flag( MF_RIDEABLE_MECH ) ||
+    if( ( critter.friendly == 0 && !critter.has_effect( effect_stunned ) ) ||
+        critter.has_flag( MF_RIDEABLE_MECH ) ||
         ( critter.has_flag( MF_PAY_BOT ) && critter.has_effect( effect_paid ) ) ) {
-        // Can only disable / reprogram friendly monsters
+        // Can only disable / reprogram friendly or stunned monsters
         return false;
     }
     const auto mid = critter.type->id;
@@ -11200,7 +11202,7 @@ point game::update_map( int &x, int &y )
 
     // this handles loading/unloading submaps that have scrolled on or off the viewport
     // NOLINTNEXTLINE(cata-use-named-point-constants)
-    inclusive_rectangle size_1( point( -1, -1 ), point( 1, 1 ) );
+    inclusive_rectangle<point> size_1( point( -1, -1 ), point( 1, 1 ) );
     point remaining_shift = shift;
     while( remaining_shift != point_zero ) {
         point this_shift = clamp( remaining_shift, size_1 );
@@ -12594,6 +12596,11 @@ achievements_tracker &get_achievements()
 }
 
 Character &get_player_character()
+{
+    return g->u;
+}
+
+location &get_player_location()
 {
     return g->u;
 }

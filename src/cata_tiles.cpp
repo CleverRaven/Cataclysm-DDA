@@ -180,9 +180,10 @@ formatted_text::formatted_text( const std::string &text, const int color,
     }
 }
 
-cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer ) :
+cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry ) :
     renderer( renderer ),
-    minimap( renderer )
+    geometry( geometry ),
+    minimap( renderer, geometry )
 {
     assert( renderer );
 
@@ -1004,7 +1005,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                       "SDL_RenderSetClipRect failed" );
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
-        render_fill_rect( renderer, clipRect, 0, 0, 0 );
+        geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
     point s;
@@ -1309,8 +1310,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int mem_y = min_visible_y; mem_y <= max_visible_y; mem_y++ ) {
         for( int mem_x = min_visible_x; mem_x <= max_visible_x; mem_x++ ) {
-            half_open_rectangle already_drawn( point( min_col, min_row ),
-                                               point( max_col, max_row ) );
+            half_open_rectangle<point> already_drawn(
+                point( min_col, min_row ), point( max_col, max_row ) );
             if( iso_mode ) {
                 // calculate the screen position according to the drawing code above (division rounded down):
 
@@ -1602,7 +1603,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
 
-    half_open_rectangle screen_bounds( o, o + point( screentile_width, screentile_height ) );
+    half_open_rectangle<point> screen_bounds( o, o + point( screentile_width, screentile_height ) );
     if( !tile_iso &&
         !screen_bounds.contains( pos.xy() ) ) {
         return false;
@@ -2173,7 +2174,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     if( tile_iso ) {
         belowRect.y += tile_height / 8;
     }
-    render_fill_rect( renderer, belowRect, tercol.r, tercol.g, tercol.b );
+    geometry->rect( renderer, belowRect, tercol );
 
     return true;
 }
@@ -2721,7 +2722,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
         belowRect.y += tile_height / 8;
     }
 
-    render_fill_rect( renderer, belowRect, tercol.r, tercol.g, tercol.b );
+    geometry->rect( renderer, belowRect, tercol );
 
     return true;
 }

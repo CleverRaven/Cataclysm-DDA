@@ -13,6 +13,7 @@
 #include "anatomy.h"
 #include "bodypart.h"
 #include "damage.h"
+#include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "translations.h"
@@ -196,10 +197,10 @@ enum class FacingDirection : int {
     RIGHT = 2
 };
 
-class Creature
+class Creature : public location
 {
     public:
-        virtual ~Creature();
+        ~Creature() override;
 
         static const std::map<std::string, creature_size> size_map;
 
@@ -461,13 +462,6 @@ class Creature
          * it *before* calling this function.
          */
         void check_dead_state();
-
-        virtual int posx() const = 0;
-        virtual int posy() const = 0;
-        virtual int posz() const = 0;
-        virtual const tripoint &pos() const = 0;
-
-        virtual void setpos( const tripoint &pos ) = 0;
 
         /** Processes move stopping effects. Returns false if movement is stopped. */
         virtual bool move_effects( bool attacking ) = 0;

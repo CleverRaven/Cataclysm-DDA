@@ -263,7 +263,7 @@
     "symbol": ";",
     "color": "light_gray",
     "techniques": [ "SPIN", "WRAP" ],
-    "qualities": [ [ "COOK", 1 ] ],
+    "qualities": [ [ "COOK", 1 ], [ "ROPE", 2 ] ],
     "flags": [ "DURABLE_MELEE", "NONCONDUCTIVE" ],
     "use_action": { "type": "deploy_furn", "furn_type": "f_rope_up" }
   },

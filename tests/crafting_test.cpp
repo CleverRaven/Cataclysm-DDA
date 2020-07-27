@@ -492,7 +492,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
-        item jar( "jar_glass" );
+        item jar( "jar_glass_sealed" );
         // If it's not watertight the water will spill.
         REQUIRE( jar.is_watertight_container() );
         jar.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );

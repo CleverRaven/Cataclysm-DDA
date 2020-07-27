@@ -98,7 +98,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         tmp.overwrite_relic( artifact->generate_relic( tmp.typeId() ) );
     }
     if( container_item ) {
-        tmp = tmp.in_container( *container_item, tmp.charges );
+        tmp = tmp.in_container( *container_item, tmp.charges, sealed );
     }
     return tmp;
 }
@@ -409,8 +409,10 @@ void Item_modifier::modify( item &new_item ) const
 
     if( !cont.is_null() ) {
         cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
-        cont.seal();
         new_item = cont;
+        if( sealed ) {
+            new_item.seal();
+        }
     }
 
     if( contents != nullptr ) {
@@ -418,7 +420,9 @@ void Item_modifier::modify( item &new_item ) const
         for( const item &it : contentitems ) {
             new_item.put_in( it, item_pocket::pocket_type::CONTAINER );
         }
-        new_item.seal();
+        if( sealed ) {
+            new_item.seal();
+        }
     }
 
     for( auto &flag : custom_flags ) {

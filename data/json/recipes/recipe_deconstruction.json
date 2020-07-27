@@ -2066,7 +2066,7 @@
     "components": [ [ [ "glass_shard", 4 ] ] ]
   },
   {
-    "result": "jar_3l_glass",
+    "result": "jar_3l_glass_sealed",
     "type": "uncraft",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 10 ] ] ]
@@ -2084,7 +2084,7 @@
     "components": [ [ [ "glass_shard", 2 ] ] ]
   },
   {
-    "result": "jar_glass",
+    "result": "jar_glass_sealed",
     "type": "uncraft",
     "time": "1 s",
     "components": [ [ [ "glass_shard", 4 ] ] ]
@@ -3897,7 +3897,7 @@
     "result": "fluid_preserved_brain",
     "type": "uncraft",
     "time": "6 s",
-    "components": [ [ [ "chem_formaldehyde", 10 ] ], [ [ "human_brain_embalmed", 5 ] ], [ [ "jar_3l_glass", 1 ] ] ],
+    "components": [ [ [ "chem_formaldehyde", 10 ] ], [ [ "human_brain_embalmed", 5 ] ], [ [ "jar_3l_glass_sealed", 1 ] ] ],
     "flags": [ "BLIND_EASY" ]
   },
   {

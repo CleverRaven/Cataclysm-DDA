@@ -65,6 +65,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
+static const species_id species_ROBOT( "ROBOT" );
+
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
     {"SMALL",  creature_size::small},
@@ -743,6 +745,14 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             add_effect( effect_onfire, 6_turns, bp_hit->token );
         } else if( made_of_any( cmat_flesh ) ) {
             add_effect( effect_onfire, 10_turns, bp_hit->token );
+        }
+    }
+
+    if( proj.proj_effects.count( "ROBOT_DAZZLE" ) ) {
+        if( goodhit < accuracy_critical && in_species( species_ROBOT ) ) {
+            add_effect( effect_stunned, rng( 6_turns, 8_turns ) );
+            add_msg( source->is_player() ? _( "You land a clean shot on the %1$s sensors, stunning it." ),
+                     disp_name( true ) : _( "The %1$s is stunned!" ), disp_name( true ) );
         }
     }
 

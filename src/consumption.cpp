@@ -648,10 +648,26 @@ morale_type Character::allergy_type( const item &food ) const
 ret_val<edible_rating> Character::can_eat( const item &food ) const
 {
 
-    const auto &comest = food.get_comestible();
-    if( !comest ) {
+    const rechargeable_cbm cbm = get_cbm_rechargeable_with( food );
+    if( !food.is_comestible() && cbm == rechargeable_cbm::none ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
+    } else if( cbm != rechargeable_cbm::none ) {
+        std::string item_name = food.tname();
+        itype_id item_type = food.typeId();
+        if( food.type->magazine ) {
+            const item ammo = item( food.ammo_current() );
+            item_name = ammo.tname();
+            item_type = ammo.typeId();
+        }
+
+        if( get_fuel_capacity( item_type ) <= 0 ) {
+            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
+        } else {
+            return ret_val<edible_rating>::make_success();
+        }
     }
+
+    const auto &comest = food.get_comestible();
 
     if( food.has_flag( flag_INEDIBLE ) ) {
         if( ( food.has_flag( flag_CATTLE ) && !has_trait( trait_THRESH_CATTLE ) ) ||
@@ -750,6 +766,11 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
             add_msg_if_player( m_info, "%s", ret.c_str() );
         }
         return ret;
+    }
+
+    // exit early for cbm fuel as we've already tested everything in can_eat
+    if( !food.is_comestible() ) {
+        return ret_val<edible_rating>::make_success();
     }
 
     std::vector<ret_val<edible_rating>> consequences;
@@ -1377,7 +1398,7 @@ bool Character::can_feed_reactor_with( const item &it ) const
         }
     };
 
-    if( !it.is_ammo() || can_eat( it ).success() ) {
+    if( !it.is_ammo() ) {
         return false;
     }
 
@@ -1418,7 +1439,7 @@ bool Character::feed_reactor_with( item &it )
 
 bool Character::can_feed_furnace_with( const item &it ) const
 {
-    if( !it.flammable() || it.has_flag( flag_RADIOACTIVE ) || can_eat( it ).success() ) {
+    if( !it.flammable() || it.has_flag( flag_RADIOACTIVE ) ) {
         return false;
     }
 

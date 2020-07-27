@@ -940,16 +940,17 @@ void avatar_action::eat( avatar &you )
     if( !you.activity.str_values.empty() ) {
         filter = you.activity.str_values.back();
     }
-    avatar_action::eat( you, loc, you.activity.values, filter );
+    avatar_action::eat( you, loc, you.activity.values, you.activity.targets, filter );
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc )
 {
-    avatar_action::eat( you, loc, std::vector<int>(), std::string() );
+    avatar_action::eat( you, loc, std::vector<int>(), std::vector<item_location>(), std::string() );
 }
 
 void avatar_action::eat( avatar &you, const item_location &loc,
                          std::vector<int> consume_menu_selections,
+                         const std::vector<item_location> &consume_menu_selected_items,
                          const std::string &consume_menu_filter )
 {
     if( !loc ) {
@@ -958,7 +959,7 @@ void avatar_action::eat( avatar &you, const item_location &loc,
         return;
     }
     you.assign_activity( player_activity( consume_activity_actor( loc, consume_menu_selections,
-                                          consume_menu_filter ) ) );
+                                          consume_menu_selected_items, consume_menu_filter ) ) );
 }
 
 void avatar_action::plthrow( avatar &you, item_location loc,

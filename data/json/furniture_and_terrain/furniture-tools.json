@@ -965,6 +965,7 @@
       "BUTCHER_EQ",
       "ORGANIC"
     ],
+    "crafting_pseudo_item": "butchery_rack_pseudo",
     "deconstruct": { "items": [ { "item": "stick_long", "count": 6 } ] },
     "bash": {
       "str_min": 8,
@@ -987,6 +988,7 @@
     "deployed_item": "metal_butcher_rack",
     "examine_action": "deployed_furniture",
     "flags": [ "PLACE_ITEM", "TRANSPARENT", "MOUNTABLE", "ALLOW_FIELD_EFFECT", "BUTCHER_EQ" ],
+    "crafting_pseudo_item": "butchery_rack_pseudo",
     "deconstruct": { "items": [ { "item": "metal_butcher_rack", "count": 1 } ] },
     "bash": {
       "str_min": 18,
@@ -1007,6 +1009,7 @@
     "move_cost_mod": 2,
     "color": "light_gray",
     "deconstruct": { "items": [ { "item": "grip_hook", "count": 1 }, { "item": "chain", "count": 1 } ] },
+    "crafting_pseudo_item": "butchery_rack_pseudo",
     "flags": [ "TRANSPARENT", "BUTCHER_EQ" ]
   },
   {

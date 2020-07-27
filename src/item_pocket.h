@@ -215,7 +215,7 @@ class item_pocket
         bool spill_contents( const tripoint &pos );
         void on_pickup( Character &guy );
         void on_contents_changed();
-        void handle_liquid_or_spill( Character &guy );
+        void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         void clear_items();
         bool has_item( const item &it ) const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
@@ -247,8 +247,6 @@ class item_pocket
 
         // only available to help with migration from previous usage of std::list<item>
         std::list<item> &edit_contents();
-
-        void migrate_item( item &obj, const std::set<itype_id> &migrations );
 
         // cost of getting an item from this pocket
         // @TODO: make move cost vary based on other contained items

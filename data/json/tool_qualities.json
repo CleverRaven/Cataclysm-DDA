@@ -302,5 +302,22 @@
     "type": "tool_quality",
     "id": "FILTER",
     "name": { "str": "filtration" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SUSPENDING",
+    "//": "Conceptually similar to lifting, except items with suspending do not move.",
+    "name": { "str": "suspending" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "ROPE",
+    "name": { "str": "rope" }
+  },
+  {
+    "type": "tool_quality",
+    "id": "SURFACE",
+    "//": "A flat surface, like a table or a mat. 1 would be the size of a cutting board.",
+    "name": { "str": "surface" }
   }
 ]

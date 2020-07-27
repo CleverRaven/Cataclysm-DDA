@@ -591,55 +591,59 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         }
     }
 
-    bool has_tree_nearby = false;
-    map &here = get_map();
-    for( const tripoint &pt : here.points_in_radius( u.pos(), 2 ) ) {
-        if( here.has_flag( flag_TREE, pt ) ) {
-            has_tree_nearby = true;
+    const bool big_corpse = corpse.size >= creature_size::medium;
+    // Requirements for the various types
+    requirement_id butchery_requirement;
+    switch( action ) {
+        case butcher_type::FIELD_DRESS:
+        case butcher_type::QUARTER:
+        case butcher_type::SKIN:
+        case butcher_type::DISMEMBER: {
+            butchery_requirement = requirement_id( "field_dress" );
+            break;
+        }
+        case butcher_type::DISSECT: {
+            if( big_corpse ) {
+                butchery_requirement = requirement_id( "dissect_large" );
+            } else {
+                butchery_requirement = requirement_id( "dissect_small" );
+            }
+            break;
+        }
+        case butcher_type::FULL: {
+            if( big_corpse ) {
+                butchery_requirement = requirement_id( "full_butchery_large" );
+            } else {
+                butchery_requirement = requirement_id( "butchery_small" );
+            }
+            break;
+        }
+        case butcher_type::QUICK: {
+            if( big_corpse ) {
+                butchery_requirement = requirement_id( "butchery_large" );
+            } else {
+                butchery_requirement = requirement_id( "butchery_small" );
+            }
+            break;
         }
     }
-    bool b_rack_present = false;
-    for( const tripoint &pt : here.points_in_radius( u.pos(), 2 ) ) {
-        if( here.has_flag_furn( flag_BUTCHER_EQ, pt ) || u.best_nearby_lifting_assist() >= 3500_kilogram ) {
-            b_rack_present = true;
-        }
-    }
-    // workshop butchery (full) prequisites
-    if( action == butcher_type::FULL ) {
-        const bool has_rope = u.has_amount( itype_rope_30, 1 ) ||
-                              u.has_amount( itype_rope_makeshift_30, 1 ) ||
-                              u.has_amount( itype_hd_tow_cable, 1 ) ||
-                              u.has_amount( itype_vine_30, 1 ) ||
-                              u.has_amount( itype_grapnel, 1 ) ||
-                              u.has_amount( itype_chain, 1 );
-        const bool big_corpse = corpse.size >= creature_size::medium;
 
-        if( big_corpse ) {
-            if( has_rope && !has_tree_nearby && !b_rack_present ) {
-                u.add_msg_if_player( m_info,
-                                     _( "You need to suspend this corpse to butcher it.  While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
-                act.targets.pop_back();
-                return;
-            }
-            if( !has_rope && !b_rack_present ) {
-                u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, a crane, or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
-                act.targets.pop_back();
-                return;
-            }
-            if( !here.has_nearby_table( u.pos(), 2 ) ) {
-                u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ) );
-                act.targets.pop_back();
-                return;
-            }
-            if( !( u.has_quality( qual_SAW_W ) || u.has_quality( qual_SAW_M ) ) ) {
-                u.add_msg_if_player( m_info,
-                                     _( "For a corpse this big you need a saw to perform a full butchery." ) );
-                act.targets.pop_back();
-                return;
-            }
+    if( !butchery_requirement->can_make_with_inventory(
+            u.crafting_inventory( u.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
+        std::string popup_output = _( "You can't butcher this, you are missing some tools.\n" );
+
+        for( const std::string &str : butchery_requirement->get_folded_components_list(
+                 45, c_light_gray, u.crafting_inventory( u.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
+            popup_output += str + '\n';
         }
+        for( const std::string &str : butchery_requirement->get_folded_tools_list(
+                 45, c_light_gray, u.crafting_inventory( u.pos(), PICKUP_RANGE ) ) ) {
+            popup_output += str + '\n';
+        }
+
+        act.set_to_null();
+        popup( popup_output );
+        return;
     }
 
     if( action == butcher_type::DISSECT && ( corpse_item.has_flag( flag_QUARTERED ) ||
@@ -2412,11 +2416,11 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     map &here = get_map();
     const tripoint &pos = act->placement;
     const ter_id ter = here.ter( pos );
-
+    const furn_id furn = here.furn( pos );
     // fast players might still have some charges left to be consumed
     act->targets.front()->ammo_consume( act->values[0], p->pos() );
 
-    if( here.furn( pos ) == f_rack ) {
+    if( furn == f_rack ) {
         here.furn_set( pos, f_null );
         here.spawn_item( p->pos(), itype_steel_chunk, rng( 2, 6 ) );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
@@ -2456,6 +2460,13 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     } else if( ter == t_window_bars ) {
         here.ter_set( pos, t_window_empty );
         here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+    } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
+               furn == f_gun_safe_el ) {
+        here.furn_set( pos, f_safe_o );
+        // 50% of starting a fire.
+        if( here.flammable_items_at( pos ) && rng( 1, 100 ) < 50 ) {
+            here.add_field( pos, fd_fire, 1, 10_minutes );
+        }
     }
 }
 

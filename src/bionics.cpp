@@ -84,6 +84,7 @@ static const activity_id ACT_OPERATION( "ACT_OPERATION" );
 
 static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_adrenaline_mycus( "adrenaline_mycus" );
+static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_assisted( "assisted" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_bleed( "bleed" );
@@ -844,7 +845,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
                 effect_drunk, effect_cig, effect_high, effect_hallu, effect_visuals,
                 effect_pblue, effect_iodine, effect_datura,
                 effect_took_xanax, effect_took_prozac, effect_took_prozac_bad,
-                effect_took_flumed,
+                effect_took_flumed, effect_antifungal
             }
         };
 
