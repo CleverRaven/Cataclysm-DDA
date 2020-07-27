@@ -58,6 +58,7 @@
   {
     "id": "basketlg_external",
     "type": "vehicle_part",
+    "name": { "str": "external shopping cart basket" },
     "looks_like": "basketlg",
     "item": "basket",
     "location": "structure",
