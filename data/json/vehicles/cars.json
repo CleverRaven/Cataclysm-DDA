@@ -10,7 +10,22 @@
       [ "-o-+-oH" ]
     ],
     "parts": [
-      { "x": 0, "y": 0, "parts": [ "frame_vertical_2", "roof","reclining_seat", "seatbelt","controls", "dashboard", "vehicle_clock", "vehicle_alarm", "horn_car", "stereo" ] },
+      {
+        "x": 0,
+        "y": 0,
+        "parts": [
+          "frame_vertical_2",
+          "roof",
+          "reclining_seat",
+          "seatbelt",
+          "controls",
+          "dashboard",
+          "vehicle_clock",
+          "vehicle_alarm",
+          "horn_car",
+          "stereo"
+        ]
+      },
       { "x": 0, "y": 1, "parts": [ "frame_vertical_2", "roof", "reclining_seat", "seatbelt" ] },
       { "x": 0, "y": -1, "parts": [ "frame_vertical", "door_front_left" ] },
       { "x": 0, "y": 2, "parts": [ "frame_vertical", "door_front_right" ] },
@@ -23,7 +38,11 @@
         "y": -1,
         "parts": [ "frame_nw", "halfboard_nw", "wheel_mount_medium_steerable", "wheel_wide_or", "headlight" ]
       },
-      { "x": 2, "y": 0, "parts": [ "frame_horizontal", "halfboard_horizontal_front", "engine_v6", "alternator_car", "battery_car" ] },
+      {
+        "x": 2,
+        "y": 0,
+        "parts": [ "frame_horizontal", "halfboard_horizontal_front", "engine_v6", "alternator_car", "battery_car" ]
+      },
       { "x": 2, "y": 1, "parts": [ "frame_horizontal", "halfboard_horizontal_front" ] },
       {
         "x": 2,
