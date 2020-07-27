@@ -1927,7 +1927,6 @@ void islot_armor::load( const JsonObject &jo )
             armor_portion_data child_data;
             if( jo.has_int( "encumbrance" ) ) {
                 child_data.encumber = jo.get_int( "encumbrance" );
-                child_data.max_encumber = -1;
             }
             if( jo.has_int( "max_encumbrance" ) ) {
                 child_data.max_encumber = jo.get_int( "max_encumbrance" );
