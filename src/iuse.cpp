@@ -5888,7 +5888,7 @@ int iuse::towel_common( Character *p, item *it, bool t )
         }
 
         // dry off from being wet
-    } else if( std::abs( p->has_morale( MORALE_WET ) ) ) {
+    } else if( p->has_atleast_one_wet_part() ) {
         p->rem_morale( MORALE_WET );
         p->set_all_parts_wetness( 0 );
         p->add_msg_if_player( _( "You use the %s to dry off, saturating it with water!" ),

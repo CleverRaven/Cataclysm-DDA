@@ -50,6 +50,7 @@
 #include "units.h"
 #include "visitable.h"
 #include "weighted_list.h"
+#include "weather_gen.h"
 
 class JsonIn;
 class JsonObject;
@@ -637,6 +638,10 @@ class Character : public Creature, public visitable<Character>
          * - underwater
          * - clothes
          */
+
+        /** Maintains body wetness and handles the rate at which the player dries */
+        void update_body_wetness( const w_point &weather );
+
         void recalc_sight_limits();
         /**
          * Returns the apparent light level at which the player can see.
