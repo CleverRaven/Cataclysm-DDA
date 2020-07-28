@@ -3554,8 +3554,14 @@ bool Character::is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) co
 bool Character::worn_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
     return std::any_of( worn.begin(), worn.end(), [&flag, bp]( const item & it ) {
-        return it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || bp == bodypart_id() ||
-                                        it.covers( bp ) );
+        return it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || it.covers( bp ) );
+    } );
+}
+
+bool Character::worn_with_flag( const std::string &flag ) const
+{
+    return std::any_of( worn.begin(), worn.end(), [&flag]( const item & it ) {
+        return it.has_flag( flag ) ;
     } );
 }
 
@@ -3563,8 +3569,19 @@ item Character::item_worn_with_flag( const std::string &flag, const bodypart_id 
 {
     item it_with_flag;
     for( const item &it : worn ) {
-        if( it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || bp == bodypart_id() ||
-                                     it.covers( bp ) ) ) {
+        if( it.has_flag( flag ) && ( bp == bodypart_id( "num_bp" ) || it.covers( bp ) ) ) {
+            it_with_flag = it;
+            break;
+        }
+    }
+    return it_with_flag;
+}
+
+item Character::item_worn_with_flag( const std::string &flag ) const
+{
+    item it_with_flag;
+    for( const item &it : worn ) {
+        if( it.has_flag( flag ) ) {
             it_with_flag = it;
             break;
         }
