@@ -1,7 +1,7 @@
 #include "catch/catch.hpp"
 
-#include "avatar.h"
 #include "ballistics.h"
+#include "character.h"
 #include "dispersion.h"
 #include "game.h"
 #include "itype.h"
@@ -21,7 +21,8 @@ static tripoint projectile_end_point( const std::vector<tripoint> &range, const 
 
     dealt_projectile_attack attack;
 
-    attack = projectile_attack( test_proj, range[0], range[2], dispersion_sources(), &get_avatar(),
+    attack = projectile_attack( test_proj, range[0], range[2], dispersion_sources(),
+                                &get_player_character(),
                                 nullptr );
 
     return attack.end_point;
@@ -33,7 +34,7 @@ TEST_CASE( "projectiles_through_obstacles", "[projectile]" )
     map &here = get_map();
 
     // Move the player out of the way of the test area
-    get_avatar().setpos( { 2, 2, 0 } );
+    get_player_character().setpos( { 2, 2, 0 } );
 
     // Ensure that a projectile fired from a gun can pass through a chain link fence
     // First, set up a test area - three tiles in a row

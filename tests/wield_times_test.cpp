@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
 #include <string>
 #include <list>
 #include <memory>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "map.h"
 #include "map_helpers.h"
 #include "player.h"
@@ -59,6 +60,7 @@ TEST_CASE( "Wield time test", "[wield]" )
         item knife( "knife_hunting" );
 
         avatar guy;
+        guy.set_body();
         guy.worn.push_back( backpack );
         item_location backpack_loc( guy, &guy.worn.back() );
         backpack_loc->put_in( plastic_bag, item_pocket::pocket_type::CONTAINER );

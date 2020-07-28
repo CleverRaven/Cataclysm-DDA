@@ -43,7 +43,7 @@
     "name": "old photo",
     "description": "A photo of a jovial, old wizard, he seems to be dancing with a coat rack in this basement.  There is a stack of suitcases in the background.",
     "weight": "1 g",
-    "volume": 0,
+    "volume": "0 L",
     "price": 800,
     "material": [ "paper" ],
     "symbol": "*",

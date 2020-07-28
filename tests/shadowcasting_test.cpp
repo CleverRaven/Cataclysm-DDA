@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <array>
 #include <chrono>
 #include <cstdio>
@@ -6,7 +8,6 @@
 #include <random>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "game_constants.h"
 #include "lightmap.h"
 #include "line.h" // For rl_dist.

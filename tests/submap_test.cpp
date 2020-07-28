@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+
 #include "submap.h"
 #include "game_constants.h"
 #include "int_id.h"

@@ -17,26 +17,26 @@
   {
     "type": "MONSTER_FACTION",
     "name": "zombie",
-    "friendly": [ "blob", "cult", "zombie_aquatic" ],
+    "friendly": [ "slime", "cult", "zombie_aquatic" ],
     "neutral": [ "small_animal", "insect", "fish" ],
     "by_mood": "bee"
   },
   {
     "type": "MONSTER_FACTION",
     "name": "zombie_aquatic",
-    "friendly": [ "blob", "cult", "zombie" ],
+    "friendly": [ "slime", "cult", "zombie" ],
     "neutral": [ "small_animal", "insect" ],
     "by_mood": "bee"
   },
   {
     "type": "MONSTER_FACTION",
-    "name": "blob",
+    "name": "slime",
     "friendly": [ "zombie", "nether", "cult" ]
   },
   {
     "type": "MONSTER_FACTION",
     "name": "nether",
-    "friendly": [ "blob", "cult" ]
+    "friendly": [ "slime", "cult" ]
   },
   {
     "type": "MONSTER_FACTION",
@@ -53,6 +53,12 @@
     "type": "MONSTER_FACTION",
     "name": "jabberwock",
     "by_mood": [ "jabberwock" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "robofac",
+    "neutral": [ "cop_bot", "defense_bot", "utility_bot", "animal" ],
+    "hate": [ "zombie", "fungus", "cult", "triffid", "nether" ]
   },
   {
     "type": "MONSTER_FACTION",

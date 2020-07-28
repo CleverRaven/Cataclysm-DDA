@@ -1,5 +1,16 @@
 [
   {
+    "id": "mon_frog_small",
+    "type": "MONSTER",
+    "name": { "str": "huge frog" },
+    "description": "A mutant bullfrog the size of a person.  It looks unwell.",
+    "copy-from": "mon_frog_giant",
+    "proportional": { "hp": 0.67, "speed": 1.1, "morale": 0.67, "melee_dice_sides": 0.67 },
+    "volume": "62500 ml",
+    "weight": "81500 g",
+    "upgrades": { "half_life": 14, "into": "mon_frog_giant" }
+  },
+  {
     "id": "mon_frog_giant",
     "type": "MONSTER",
     "name": { "str": "giant frog" },
@@ -76,7 +87,7 @@
     "fear_triggers": [ "FIRE", "HURT" ],
     "placate_triggers": [ "MEAT" ],
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "BLEED", "ATTACKMON", "SWIMS" ]
+    "flags": [ "SEES", "HEARS", "GOODHEARING", "SMELLS", "KEENNOSE", "PATH_AVOID_DANGER_1", "ANIMAL", "ATTACKMON", "SWIMS" ]
   },
   {
     "id": "mon_rattlesnake",
@@ -110,6 +121,7 @@
     "fear_triggers": [ "PLAYER_CLOSE" ],
     "placate_triggers": [ "PLAYER_WEAK" ],
     "death_function": [ "NORMAL" ],
+    "upgrades": { "half_life": 14, "into": "mon_rattlesnake_giant" },
     "flags": [ "SEES", "HEARS", "SMELLS", "BADVENOM", "HARDTOSHOOT", "SWIMS" ]
   },
   {

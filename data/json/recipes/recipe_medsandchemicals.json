@@ -227,7 +227,11 @@
       [ "isherwood_herbal_remedies", 2 ]
     ],
     "tools": [ [ [ "surface_heat", 8, "LIST" ] ] ],
-    "components": [ [ [ "meal_bone", 1 ] ], [ [ "dry_fruit", 1 ], [ "sugar", 45 ] ], [ [ "water_clean", 1 ] ] ]
+    "components": [
+      [ [ "meal_bone", 1 ] ],
+      [ [ "dry_fruit", 1 ], [ "sugar", 45 ], [ "artificial_sweetener", 45 ] ],
+      [ [ "water_clean", 1 ] ]
+    ]
   },
   {
     "type": "recipe",

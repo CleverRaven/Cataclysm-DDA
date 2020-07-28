@@ -51,7 +51,7 @@
     "type": "item_group",
     "items": [
       [ "glass", 15 ],
-      [ "jar_glass", 10 ],
+      [ "jar_glass_sealed", 10 ],
       [ "glass_bowl", 10 ],
       [ "test_tube", 10 ],
       [ "bottle_glass", 10 ],
@@ -60,7 +60,7 @@
       [ "fish_bowl", 1 ],
       [ "glass_plate", 20 ],
       [ "glass_sheet", 5 ],
-      [ "jar_3l_glass", 15 ],
+      [ "jar_3l_glass_sealed", 15 ],
       [ "magnifying_glass", 5 ],
       [ "tempered_glass_sheet", 5 ]
     ]
@@ -1053,7 +1053,7 @@
       { "item": "manual_fabrication", "prob": 20 },
       { "item": "duct_tape", "prob": 70 },
       { "item": "misc_repairkit", "prob": 15 },
-      { "item": "toolbox", "prob": 2 }
+      { "group": "tools_toolbox", "prob": 2 }
     ]
   },
   {
@@ -1109,7 +1109,7 @@
           { "item": "screwdriver_set", "prob": 20 },
           { "item": "duct_tape", "prob": 50 },
           { "item": "misc_repairkit", "prob": 25 },
-          { "item": "toolbox", "prob": 2 }
+          { "group": "tools_toolbox", "prob": 2 }
         ]
       }
     ]
@@ -1711,7 +1711,8 @@
     "//": "for veterinarian",
     "type": "item_group",
     "items": [
-      [ "bandages", 50 ],
+      [ "bandages", 30 ],
+      [ "adhesive_bandages", 30 ],
       [ "1st_aid", 10 ],
       [ "saline", 20 ],
       [ "vitamins", 15 ],
@@ -1825,7 +1826,7 @@
       [ "shorts", 30 ],
       [ "coke", 3 ],
       [ "longshirt", 30 ],
-      [ "bandages", 10 ],
+      [ "adhesive_bandages", 10 ],
       [ "heatpack", 10 ],
       [ "gum", 12 ],
       [ "soap", 10 ],

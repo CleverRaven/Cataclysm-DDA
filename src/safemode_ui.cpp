@@ -8,14 +8,13 @@
 #include <string>
 #include <utility>
 
-#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "compatibility.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "game.h"
 #include "input.h"
 #include "json.h"
 #include "monstergenerator.h"
@@ -121,6 +120,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         ctxt.register_action( "SWAP_RULE_GLOBAL_CHAR" );
     }
 
+    Character &player_character = get_player_character();
     ui.on_redraw( [&]( const ui_adaptor & ) {
         draw_border( w_border, BORDER_COLOR, custom_name_in );
 
@@ -201,7 +201,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
 
         auto &current_tab = ( tab == GLOBAL_TAB ) ? global_rules : character_rules;
 
-        if( tab == CHARACTER_TAB && g->u.name.empty() ) {
+        if( tab == CHARACTER_TAB && player_character.name.empty() ) {
             character_rules.clear();
             mvwprintz( w, point( 15, 8 ), c_white, _( "Please load a character first to use this page!" ) );
         } else if( empty() ) {
@@ -269,7 +269,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             }
         } else if( action == "QUIT" ) {
             break;
-        } else if( tab == CHARACTER_TAB && g->u.name.empty() ) {
+        } else if( tab == CHARACTER_TAB && player_character.name.empty() ) {
             //Only allow loaded games to use the char sheet
         } else if( action == "DOWN" ) {
             line++;
@@ -308,7 +308,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
             current_tab.push_back( current_tab[line] );
             line = current_tab.size() - 1;
         } else if( action == "SWAP_RULE_GLOBAL_CHAR" && !current_tab.empty() ) {
-            if( ( tab == GLOBAL_TAB && !g->u.name.empty() ) || tab == CHARACTER_TAB ) {
+            if( ( tab == GLOBAL_TAB && !player_character.name.empty() ) || tab == CHARACTER_TAB ) {
                 changes_made = true;
                 //copy over
                 auto &temp_rules_from = ( tab == GLOBAL_TAB ) ? global_rules : character_rules;
@@ -467,7 +467,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
     if( query_yn( _( "Save changes?" ) ) ) {
         if( is_safemode_in ) {
             save_global();
-            if( !g->u.name.empty() ) {
+            if( !player_character.name.empty() ) {
                 save_character();
             }
         } else {
@@ -489,7 +489,8 @@ void safemode::test_pattern( const int tab_in, const int row_in )
         return;
     }
 
-    if( g->u.name.empty() ) {
+    Character &player_character = get_player_character();
+    if( player_character.name.empty() ) {
         popup( _( "No monsters loaded.  Please start a game first." ) );
         return;
     }
@@ -761,8 +762,8 @@ bool safemode::save( const bool is_character_in )
     auto file = PATH_INFO::safemode();
 
     if( is_character ) {
-        file = g->get_player_base_save_path() + ".sfm.json";
-        if( !file_exist( g->get_player_base_save_path() + ".sav" ) ) {
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
+        if( !file_exist( PATH_INFO::player_base_save_path() + ".sav" ) ) {
             return true; //Character not saved yet.
         }
     }
@@ -794,7 +795,7 @@ void safemode::load( const bool is_character_in )
     std::ifstream fin;
     std::string file = PATH_INFO::safemode();
     if( is_character ) {
-        file = g->get_player_base_save_path() + ".sfm.json";
+        file = PATH_INFO::player_base_save_path() + ".sfm.json";
     }
 
     fin.open( file.c_str(), std::ifstream::in | std::ifstream::binary );

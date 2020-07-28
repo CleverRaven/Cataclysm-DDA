@@ -538,11 +538,15 @@ time_duration Character::vitamin_rate( const vitamin_id &vit ) const
 
 int Character::vitamin_mod( const vitamin_id &vit, int qty, bool capped )
 {
-    auto it = vitamin_levels.find( vit );
-    if( it == vitamin_levels.end() ) {
+    if( !vit.is_valid() ) {
+        debugmsg( "Vitamin with id %s does not exist, and cannot be modified", vit.str() );
         return 0;
     }
-    const auto &v = it->first.obj();
+    // What's going on here? Emplace returns either an iterator to the inserted
+    // item or, if it already exists, an iterator to the (unchanged) extant item
+    // (Okay, technically it returns a pair<iterator, bool>, the iterator is what we want)
+    auto it = vitamin_levels.emplace( vit, 0 ).first;
+    const vitamin &v = *it->first;
 
     if( qty > 0 ) {
         // Accumulations can never occur from food sources
@@ -644,10 +648,26 @@ morale_type Character::allergy_type( const item &food ) const
 ret_val<edible_rating> Character::can_eat( const item &food ) const
 {
 
-    const auto &comest = food.get_comestible();
-    if( !comest ) {
+    const rechargeable_cbm cbm = get_cbm_rechargeable_with( food );
+    if( !food.is_comestible() && cbm == rechargeable_cbm::none ) {
         return ret_val<edible_rating>::make_failure( _( "That doesn't look edible." ) );
+    } else if( cbm != rechargeable_cbm::none ) {
+        std::string item_name = food.tname();
+        itype_id item_type = food.typeId();
+        if( food.type->magazine ) {
+            const item ammo = item( food.ammo_current() );
+            item_name = ammo.tname();
+            item_type = ammo.typeId();
+        }
+
+        if( get_fuel_capacity( item_type ) <= 0 ) {
+            return ret_val<edible_rating>::make_failure( _( "No space to store more %s" ), item_name );
+        } else {
+            return ret_val<edible_rating>::make_success();
+        }
     }
+
+    const auto &comest = food.get_comestible();
 
     if( food.has_flag( flag_INEDIBLE ) ) {
         if( ( food.has_flag( flag_CATTLE ) && !has_trait( trait_THRESH_CATTLE ) ) ||
@@ -746,6 +766,11 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
             add_msg_if_player( m_info, "%s", ret.c_str() );
         }
         return ret;
+    }
+
+    // exit early for cbm fuel as we've already tested everything in can_eat
+    if( !food.is_comestible() ) {
+        return ret_val<edible_rating>::make_success();
     }
 
     std::vector<ret_val<edible_rating>> consequences;
@@ -1373,7 +1398,7 @@ bool Character::can_feed_reactor_with( const item &it ) const
         }
     };
 
-    if( !it.is_ammo() || can_eat( it ).success() ) {
+    if( !it.is_ammo() ) {
         return false;
     }
 
@@ -1414,7 +1439,7 @@ bool Character::feed_reactor_with( item &it )
 
 bool Character::can_feed_furnace_with( const item &it ) const
 {
-    if( !it.flammable() || it.has_flag( flag_RADIOACTIVE ) || can_eat( it ).success() ) {
+    if( !it.flammable() || it.has_flag( flag_RADIOACTIVE ) ) {
         return false;
     }
 
@@ -1436,7 +1461,7 @@ bool Character::feed_furnace_with( item &it )
         return false;
     }
     if( it.is_favorite &&
-        !g->u.query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
+        !get_avatar().query_yn( _( "Are you sure you want to eat your favorited %s?" ), it.tname() ) ) {
         return false;
     }
 
@@ -1496,8 +1521,22 @@ bool Character::fuel_bionic_with( item &it )
 
     const bionic_id bio = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
 
-    const int loadable = std::min( it.charges, get_fuel_capacity( it.typeId() ) );
-    const std::string str_loaded  = get_value( it.typeId().str() );
+    const bool is_magazine = !!it.type->magazine;
+    std::string item_name = it.tname();
+    itype_id item_type = it.typeId();
+    int loadable;
+    if( is_magazine ) {
+        const item ammo = item( it.ammo_current() );
+        item_name = ammo.tname();
+        item_type = ammo.typeId();
+        loadable = std::min( it.ammo_remaining(), get_fuel_capacity( item_type ) );
+        it.ammo_set( item_type, it.ammo_remaining() - loadable );
+    } else {
+        loadable = std::min( it.charges, get_fuel_capacity( item_type ) );
+        it.charges -= loadable;
+    }
+
+    const std::string str_loaded  = get_value( item_type.str() );
     int loaded = 0;
     if( !str_loaded.empty() ) {
         loaded = std::stoi( str_loaded );
@@ -1505,19 +1544,19 @@ bool Character::fuel_bionic_with( item &it )
 
     const std::string new_charge = std::to_string( loadable + loaded );
 
-    it.charges -= loadable;
     // Type and amount of fuel
-    set_value( it.typeId().str(), new_charge );
-    update_fuel_storage( it.typeId() );
+    set_value( item_type.str(), new_charge );
+    update_fuel_storage( item_type );
     add_msg_player_or_npc( m_info,
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
                            ngettext( "You load %1$i charge of %2$s in your %3$s.",
                                      "You load %1$i charges of %2$s in your %3$s.", loadable ),
                            //~ %1$i: charge number, %2$s: item name, %3$s: bionics name
                            ngettext( "<npcname> load %1$i charge of %2$s in their %3$s.",
-                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, it.tname(), bio->name );
+                                     "<npcname> load %1$i charges of %2$s in their %3$s.", loadable ), loadable, item_name, bio->name );
     mod_moves( -250 );
-    return true;
+    // Return false for magazines because only their ammo is consumed
+    return !is_magazine;
 }
 
 rechargeable_cbm Character::get_cbm_rechargeable_with( const item &it ) const
@@ -1575,8 +1614,16 @@ int Character::get_acquirable_energy( const item &it, rechargeable_cbm cbm ) con
         }
         case rechargeable_cbm::other:
             const bionic_id &bid = get_most_efficient_bionic( get_bionic_fueled_with( it ) );
-            const int to_consume = std::min( it.charges, bid->fuel_capacity );
-            const int to_charge = static_cast<int>( it.fuel_energy() * to_consume * bid->fuel_efficiency );
+            int to_consume;
+            int to_charge;
+            if( it.type->magazine ) {
+                item ammo = item( it.ammo_current() );
+                to_consume = std::min( it.ammo_remaining(), bid->fuel_capacity );
+                to_charge = ammo.fuel_energy() * to_consume * bid->fuel_efficiency;
+            } else {
+                to_consume = std::min( it.charges, bid->fuel_capacity );
+                to_charge = it.fuel_energy() * to_consume * bid->fuel_efficiency;
+            }
             return to_charge;
     }
 

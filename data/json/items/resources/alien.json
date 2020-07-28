@@ -71,7 +71,7 @@
   {
     "type": "GENERIC",
     "id": "exodii_computer",
-    "name": { "str": "unfamiliar electronic thingy" },
+    "name": { "str": "unfamiliar electronic thingy", "str_pl": "unfamiliar electronic thingies" },
     "description": "The wiring and general shape suggest to you that this is a computer, or at least some sort of electronic device, but what it is and what role it serves is lost on you.  It's heavy and sturdy in construction.",
     "symbol": "p",
     "color": "dark_gray",
@@ -84,7 +84,7 @@
   {
     "type": "GENERIC",
     "id": "exodii_module",
-    "name": { "str": "inscribed metal plates" },
+    "name": { "str_sp": "inscribed metal plates" },
     "description": "This device looks electronic, but is unfamiliar.  It is a series of tightly fitted coppery-looking rings, set concentrically.  Wires run from each ring to an axis in the middle.",
     "symbol": "i",
     "color": "dark_gray",
@@ -118,6 +118,32 @@
     "volume": "500 ml",
     "price": 2000,
     "material": [ "steel", "copper" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "exodii_scanner_dish",
+    "name": { "str": "engraved parabolic dish", "str_pl": "engraved parabolic dishes" },
+    "description": "This hefty parabolic dish is engraved with an unrecognizable pattern of symbols that might, at a guess, be some sort of circuitry pattern - or maybe a religious incantation.",
+    "symbol": "o",
+    "color": "blue",
+    "weight": "5 kg",
+    "volume": "1000 ml",
+    "price": 2000,
+    "material": [ "steel", "lead" ],
+    "category": "spare_parts"
+  },
+  {
+    "type": "GENERIC",
+    "id": "exodii_portalizer",
+    "name": { "str": "oblong device" },
+    "description": "Perfectly smooth, cool to the touch, and a dull blue-grey colour, this looks almost like a perfect riverstone at first glance.  Its artificial nature is betrayed on closer inspection by a network of intricate patterns visible as a slight difference in the reflection of light off its surface.",
+    "symbol": "0",
+    "color": "blue",
+    "weight": "2 kg",
+    "volume": "1500 ml",
+    "price": 2000,
+    "material": [ "copper", "ceramic" ],
     "category": "spare_parts"
   }
 ]

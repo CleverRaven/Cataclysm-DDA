@@ -6,13 +6,12 @@
 #include <memory>
 #include <utility>
 
-#include "avatar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "color.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
-#include "game.h"
 #include "input.h"
 #include "item.h"
 #include "item_factory.h"
@@ -77,6 +76,7 @@ void user_interface::show()
     int iLine = 0;
     int iColumn = 1;
     int iStartPos = 0;
+    Character &player_character = get_player_character();
 
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Redraw the border
@@ -99,7 +99,7 @@ void user_interface::show()
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<M>ove" ) ) + 2;
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<E>nable" ) ) + 2;
         tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<D>isable" ) ) + 2;
-        if( !g->u.name.empty() ) {
+        if( !player_character.name.empty() ) {
             shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( "<T>est" ) );
         }
         tmpx = 0;
@@ -363,7 +363,7 @@ void user_interface::show()
                 iLine--;
                 iColumn = 1;
             }
-        } else if( action == "TEST_RULE" && currentPageNonEmpty && !g->u.name.empty() ) {
+        } else if( action == "TEST_RULE" && currentPageNonEmpty && !player_character.name.empty() ) {
             cur_rules[iLine].test_pattern();
         } else if( action == "SWITCH_AUTO_PICKUP_OPTION" ) {
             // TODO: Now that NPCs use this function, it could be used for them too
@@ -389,9 +389,10 @@ void player_settings::show()
 {
     user_interface ui;
 
+    Character &player_character = get_player_character();
     ui.title = _( " AUTO PICKUP MANAGER " );
     ui.tabs.emplace_back( _( "[<Global>]" ), global_rules );
-    if( !g->u.name.empty() ) {
+    if( !player_character.name.empty() ) {
         ui.tabs.emplace_back( _( "[<Character>]" ), character_rules );
     }
     ui.is_autopickup = true;
@@ -403,7 +404,7 @@ void player_settings::show()
     }
 
     save_global();
-    if( !g->u.name.empty() ) {
+    if( !player_character.name.empty() ) {
         save_character();
     }
     invalidate();
@@ -716,9 +717,9 @@ bool player_settings::save( const bool bCharacter )
     auto savefile = PATH_INFO::autopickup();
 
     if( bCharacter ) {
-        savefile = g->get_player_base_save_path() + ".apu.json";
+        savefile = PATH_INFO::player_base_save_path() + ".apu.json";
 
-        const std::string player_save = g->get_player_base_save_path() + ".sav";
+        const std::string player_save = PATH_INFO::player_base_save_path() + ".sav";
         //Character not saved yet.
         if( !file_exist( player_save ) ) {
             return true;
@@ -745,7 +746,7 @@ void player_settings::load( const bool bCharacter )
 {
     std::string sFile = PATH_INFO::autopickup();
     if( bCharacter ) {
-        sFile = g->get_player_base_save_path() + ".apu.json";
+        sFile = PATH_INFO::player_base_save_path() + ".apu.json";
     }
 
     if( !read_from_file_optional_json( sFile, [&]( JsonIn & jsin ) {
@@ -804,7 +805,7 @@ bool player_settings::load_legacy( const bool bCharacter )
     std::string sFile = PATH_INFO::legacy_autopickup2();
 
     if( bCharacter ) {
-        sFile = g->get_player_base_save_path() + ".apu.txt";
+        sFile = PATH_INFO::player_base_save_path() + ".apu.txt";
     }
 
     invalidate();

@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <sstream>
 #include <map>
 #include <string>
 #include <utility>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "mutation.h"
 #include "npc.h"
 #include "player.h"
@@ -18,6 +19,7 @@ std::string get_mutations_as_string( const player &p );
 static void give_all_mutations( player &p, const mutation_category_trait &category,
                                 const bool include_postthresh )
 {
+    p.set_body();
     const std::vector<trait_id> category_mutations = mutations_category[category.id];
 
     // Add the threshold mutation first

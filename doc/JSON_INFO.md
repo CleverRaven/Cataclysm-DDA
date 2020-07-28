@@ -43,6 +43,8 @@ Use the `Home` key to return to the top.
       - [`cbms`](#-cbms-)
       - [`traits`](#-traits-)
     + [Recipes](#recipes)
+      - [Recipe requirements](#recipe-requirements)
+      - [Overlapping recipe component requirements](#overlapping-recipe-component-requirements)
     + [Constructions](#constructions)
     + [Scent Types](#scent_types)
     + [Scores, Achievements, and Conducts](#scores-achievements-and-conducts)
@@ -288,6 +290,7 @@ See below for specifics on the various items
 
 ## `data/json/requirements/`
 
+
 Standard components and tools for crafting
 
 | Filename                     | Description
@@ -299,6 +302,79 @@ Standard components and tools for crafting
 | toolsets.json                | sets of tools commonly used together
 | uncraft.json                 | common results of taking stuff apart
 | vehicle.json                 | tools to work on vehicles
+
+Requirements are JSON objects with `"type": "requirement"`.  They allow re-using common tools,
+qualities, and components in all kinds of recipes, including regular crafting and uncrafting recipes
+as well as constructions and vehicle parts.
+
+For example, the `bread_sandwich` requirement includes several alternative breads you could make a
+sandwich with:
+
+```json
+{
+  "id": "bread_sandwich",
+  "type": "requirement",
+  "//": "Bread appropriate for sandwiches.",
+  "components": [
+    [
+      [ "flatbread", 1 ],
+      [ "bread", 1 ],
+      [ "cornbread", 1 ],
+      [ "wastebread", 1 ],
+      [ "sourdough_bread", 1 ],
+      [ "biscuit", 1 ],
+      [ "brioche", 1 ]
+    ]
+  ]
+}
+```
+
+This lets you simplify the "components" of sandwich recipes that could work with any of those breads, ex.
+
+```json
+{
+  "type": "recipe",
+  "result": "sandwich_honey",
+  "components": [ [ [ "bread_sandwich", 2, "LIST" ] ], [ [ "honeycomb", 1 ], [ "honey_bottled", 1 ] ] ],
+  "//": "..."
+}
+```
+
+Requirements may include "tools" or "qualities" in addition to "components". Here we have a standard
+soldering requirement needing either a "soldering_iron" or "toolset", plus 1 unit of the
+"solder_wire" component:
+
+
+```json
+{
+  "id": "soldering_standard",
+  "type": "requirement",
+  "//": "Tools and materials needed for soldering metal items or electronics",
+  "tools": [ [ [ "soldering_iron", 1 ], [ "toolset", 1 ] ] ],
+  "components": [ [ [ "solder_wire", 1 ] ] ]
+}
+```
+
+This simplifies recipes needing soldering, via the "using" field.  For instance, a simple "tazer"
+recipe could require 10 units of the soldering requirement, along with some other components:
+
+```json
+{
+  "type": "recipe",
+  "result": "tazer",
+  "using": [ [ "soldering_standard", 10 ] ],
+  "components": [ [ [ "amplifier", 1 ] ], [ [ "power_supply", 1 ] ], [ [ "scrap", 2 ] ] ],
+  "//": "..."
+}
+
+```
+
+The "using" field is supported by "recipe", "construction", "vehicle_part", and "fault" types, so
+you could re-use the "soldering_standard" requirement for any of those things that needed the same
+tools, qualities, and/or materials.
+
+See the [Recipe requirements](#recipe-requirements) section for how to use requirement definitions in
+crafting recipes with the "using" and "components" fields.
 
 
 ## `data/json/vehicles/`
@@ -395,7 +471,7 @@ This section describes each json file and their contents. Each json has their ow
 | Identifier        | Description
 |---                |---
 | id                | Unique ID. Must be one continuous word, use underscores if necessary.
-| picture           | Array of string, each entry is a line of an ascii picture and must be at most 42 columns long.
+| picture           | Array of string, each entry is a line of an ascii picture and must be at most 41 columns long.
 
 ```C++
   {
@@ -436,12 +512,14 @@ This section describes each json file and their contents. Each json has their ow
 | hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
 | hit_size_relative | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
 | hit_difficulty    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
+| drench_capacity   | (_mandatory_) How wet this part can get before being 100% drenched.
 | stylish_bonus     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
 | hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
 | cold_morale_mod   | (_optional_) Mood effect of being too cold on this part. (default: `0`)
 | squeamish_penalty | (_optional_) Mood effect of wearing filthy clothing on this part. (default: `0`)
 | stat_hp_mods      | (_optional_) Values modifiying hp_max of this part following this formula: `hp_max += int_mod*int_max + dex_mod*dex_max + str_mod*str_max + per_mod*per_max + health_mod*get_healthy()` with X_max being the unmodifed value of the X stat and get_healthy() being the hidden health stat of the character.
 | bionic_slots      | (_optional_) How many bionic slots does this part have.
+| is_limb           | (_optional_) Is this bodypart a limb. (default: `false`)
 
 ```C++
   {
@@ -465,6 +543,7 @@ This section describes each json file and their contents. Each json has their ow
     "cold_morale_mod": 2,
     "squeamish_penalty": 6,
     "base_hp": 60,
+    "drench_capacity": 40,
     "stat_hp_mods": { "int_mod": 4.0, "dex_mod": 1.0, "str_mod": 1.0, "per_mod": 1.0, "health_mod": 1.0 },
     "bionic_slots": 80
   }
@@ -751,9 +830,9 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 {
     "name"         : "cult",
     "base_faction" : "zombie",
-    "by_mood"      : ["blob"],
+    "by_mood"      : ["slime"],
     "neutral"      : ["nether"],
-    "friendly"     : ["blob"],
+    "friendly"     : ["slime"],
     "hate"         : ["fungus"]
 }
 ```
@@ -885,6 +964,17 @@ Example:
 ]
 ```
 
+#### `proficiencies`
+
+(optional, array of proficiency ids)
+
+List of starting proficiency ids.
+
+Example:
+```json
+"proficiencies": [ "prof_knapping" ]
+```
+
 Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "add:skills" and "remove:skills", removing requires only the skill id. Example:
 ```C++
 {
@@ -973,7 +1063,7 @@ player will start with this as a nearby vehicle.
 
 A list of flags. TODO: document those flags here.
 
-- ```NO_BONUS_ITEMS``` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession
+- `NO_BONUS_ITEMS` Prevent bonus items (such as inhalers with the ASTHMA trait) from being given to this profession
 
 Mods can modify this via `add:flags` and `remove:flags`.
 
@@ -994,6 +1084,8 @@ A list of trait/mutation ids that are applied to the character.
 Mods can modify this via `add:traits` and `remove:traits`.
 
 ### Recipes
+
+Crafting recipes are defined as a JSON object with the following fields:
 
 ```C++
 "result": "javelin",         // ID of resulting item
@@ -1021,6 +1113,14 @@ Mods can modify this via `add:traits` and `remove:traits`.
     [ "survival", 1 ],
     [ "fabrication", 2 ]
 ],
+"proficiencies" : [ // The proficiencies related to this recipe
+    {
+      "proficiency": "prof_knapping", // The id of a proficiency
+      "required": false, // Whether or not you must have the proficiency to craft it. Incompatible with `time_multiplier`
+      "time_multiplier": 2.0 // The multiplier on time taken to craft this recipe if you do not have this proficiency
+      "fail_multiplier": 2.5 // The multiplier on failure chance when crafting without this proficiency. Defaults to 2.5. Multiple proficiencies will multiply this value. (if all have the default, it's fail_multiplier ^ n, where n is the number of proficiencies that are lacked)
+    }
+]
 "batch_time_factors": [25, 15], // Optional factors for batch crafting time reduction. First number specifies maximum crafting time reduction as percentage, and the second number the minimal batch size to reach that number. In this example given batch size of 20 the last 6 crafts will take only 3750 time units.
 "flags": [                   // A set of strings describing boolean features of the recipe
   "BLIND_EASY",
@@ -1029,30 +1129,155 @@ Mods can modify this via `add:traits` and `remove:traits`.
 "construction_blueprint": "camp", // an optional string containing an update_mapgen_id.  Used by faction camps to upgrade their buildings
 "on_display": false,         // this is a hidden construction item, used by faction camps to calculate construction times but not available to the player
 "qualities": [               // Generic qualities of tools needed to craft
-  {"id":"CUT","level":1,"amount":1}
+  { "id": "CUT", "level": 1, "amount": 1 }
 ],
 "tools": [                   // Specific tools needed to craft
 [
-    [ "fire", -1 ]           // Charges consumed when tool is used, -1 means no charges are consumed
+  [ "fire", -1 ]             // Charges consumed when tool is used, -1 means no charges are consumed
 ]],
-"components": [              // Equivalent tools or components are surrounded by a single set of brackets
-[
-  [ "spear_wood", 1 ],       // Number of charges/items required
-  [ "pointy_stick", 1 ]
+"using": [                   // Requirement IDs and multipliers of tools and materials used
+  [ "req_a", 3 ],            // Second number multiplies requirement materials by that amount
+  [ "req_b", 5 ],            // Need 3x everything in req_a, 5x everything in req_b
 ],
-[
-  [ "rag", 1 ],
-  [ "leather", 1 ],
-  [ "fur", 1 ]
-],
-[
-  [ "plant_fibre", 20, false ], // Optional flag for recoverability, default is true.
-  [ "sinew", 20, false ],
-  [ "thread", 20, false ],
-  [ "duct_tape", 20 ]  // Certain items are flagged as unrecoverable at the item definition level.
-]
+"components": [              // Items (or item alternatives) required to craft this recipe
+  [
+    [ "item_a", 5 ]          // First ingredient: need 5 of item_a
+  ],
+  [
+    [ "item_b", 2 ],         // Also need 2 of item_b...
+    [ "item_c", 4 ]          // OR 4 of item_c (but do not need both)
+  ],
+  [
+    // ... any number of other component ingredients (see below)
+  ]
 ]
 ```
+
+#### Recipe requirements
+
+The tool quality and component requirements for a recipe may be expressed in a combination of
+several ways, with these JSON fields:
+
+- "qualities" defines item qualities like CUT or HAMMER, and quality levels needed to craft
+- "tools" lists *item* ids of tools (or several alternative tools) needed for crafting the recipe
+- "components" lists *item* or *requirement* ids, intended mainly for material ingredients
+- "using" gives *requirement* ids; the requirement may have nested tools, qualities, or components
+
+These fields may be used similarly in uncrafting, constructions, vehicle parts, and vehicle faults.
+The first three fields are applicable to "requirement" definitions as well, and may be nested; see
+the [requirements section](#datajsonrequirements).
+
+A recipe's "components" lists all the required items or ingredients needed to craft the finished
+item from the recipe.  Each component is given as an integer quantity of a specific item id or
+requirement id, or as a list of several alternative item/requirement quantities.
+
+The syntax of a component in its simplest form is an item id and quantity.  Continuing the "javelin"
+recipe, let's require a single "spear_wood" item:
+
+```json
+"components": [
+  [ [ "spear_wood", 1 ] ]
+]
+```
+
+A single component may also have substitutions; for instance, to allow crafting from one
+"spear_wood" *or* one "pointy_stick":
+
+```json
+"components": [
+  [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ]
+]
+```
+
+Notice that the first example with *only* "spear_wood" was simply the degenerate case - a list of
+alternatives with only 1 alternative - which is why it was doubly nested in `[ [ ... ] ]`.
+
+The javelin would be better with some kind of leather or cloth grip.  To require 2 rags, 1 leather,
+or 1 fur *in addition to* the wood spear or pointy stick:
+
+```json
+"components": [
+  [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
+  [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ]
+]
+```
+
+And to bind the grip onto the javelin, some sinew or thread should be required, which can have the
+"NO_RECOVER" keyword to indicate they cannot be recovered if the item is deconstructed:
+
+```json
+"components": [
+  [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
+  [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ],
+  [ [ "sinew", 20, "NO_RECOVER" ], [ "thread", 20, "NO_RECOVER" ] ]
+]
+```
+
+*Note*: Related to "NO_RECOVER", some items such as "superglue" and "duct_tape" have an
+"UNRECOVERABLE" flag on the item itself, indicating they can never be reclaimed when disassembling.
+See [JSON_FLAGS.md](JSON_FLAGS.md) for how to use this and other item flags.
+
+To avoid repeating commonly used sets of components, instead of an individual item id, provide
+the id of a "requirement" type, along with a quantity, and the "LIST" keyword.  Typically these are
+defined within [`data/json/requirements`](#datajsonrequirements).
+
+For example if these "grip_patch" and "grip_wrap" requirements were defined:
+
+```json
+[
+  {
+    "id": "grip_patch",
+    "type": "requirement",
+    "components": [ [ [ "rag", 2 ], [ "leather", 1 ], [ "fur", 1 ] ] ]
+  },
+  {
+    "id": "grip_wrap",
+    "type": "requirement",
+    "components": [ [ [ "sinew", 20, "NO_RECOVER" ], [ "thread", 20, "NO_RECOVER" ] ] ]
+  }
+]
+```
+
+Then javelin recipe components could use 1 grip and 1 wrap, for example:
+
+```json
+"result": "javelin",
+"components": [
+  [ [ "spear_wood", 1 ], [ "pointy_stick", 1 ] ],
+  [ [ "grip_patch", 1, "LIST" ] ],
+  [ [ "grip_wrap", 1, "LIST" ] ]
+]
+```
+
+And other recipes needing two such grips could simply require 2 of each:
+
+```json
+"result": "big_staff",
+"components": [
+  [ [ "stick_long", 1 ] ],
+  [ [ "grip_patch", 2, "LIST" ] ],
+  [ [ "grip_wrap", 2, "LIST" ] ]
+]
+```
+
+The "using" field in a recipe works similarly, but "using" may only refer to requirement ids, not
+specific items or tools.  A requirement included with "using" must also give a multiplier, telling
+how many units of that requirement are needed.  As with "components", the "using" list is formatted
+as a collection of alternatives, even if there is only one alternative.
+
+For instance, this "uncraft" recipe for a motorbike alternator uses either 20 units of the
+"soldering_standard" requirement, or 5 units of the "welding_standard" requirement:
+
+```json
+{
+  "type": "uncraft",
+  "result": "alternator_motorbike",
+  "qualities": [ { "id": "SCREW", "level": 1 } ],
+  "using": [ [ "soldering_standard", 20 ], [ "welding_standard", 5 ] ],
+  "components": [ [ [ "power_supply", 1 ] ], [ [ "cable", 20 ] ], [ [ "bearing", 5 ] ], [ [ "scrap", 2 ] ] ]
+}
+```
+
 
 #### Overlapping recipe component requirements
 
@@ -1519,7 +1744,7 @@ it is present to help catch errors.
       "trigger_type": "TIME", // What variable is tracked by this trigger
       "threshold_low": 20, // Is True if the value is above threshold_low
       "threshold_high": 2, // Is True if the value is below threshold_high
-      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates 
+      "msg_on": { "text": "Everything is terrible and this makes you so ANGRY!", "rating": "mixed" } // message displayed when the trigger activates
       "msg_off": { "text": "Your glow fades." } // message displayed when the trigger deactivates the trait
     }
   ]
@@ -1539,7 +1764,7 @@ it is present to help catch errors.
 ### Traps
 
 ```C++
-    "type": "trap",  
+    "type": "trap",
     "id": "tr_beartrap",  // Unique ID
     "name": "bear trap",  // In-game name displayed
     "color": "blue",
@@ -1548,7 +1773,7 @@ it is present to help catch errors.
     "avoidance": 7,  // 0 to ??, affects avoidance
     "difficulty": 3,  // 0 to ??, difficulty of assembly & disassembly
     "trap_radius": 1,  // 0 to ??, trap radius
-    "action": "blade",  
+    "action": "blade",
     "map_regen": "microlab_shifting_hall",  // a valid overmap id, for map_regen action traps
     "benign": true,
     "always_invisible": true,
@@ -1590,52 +1815,136 @@ Vehicle components when installed on a vehicle.
 "id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
 "symbol": "0",                // ASCII character displayed when part is working
-"looks_like": "small_wheel",  // hint to tilesets if this part has no tile, use the looks_like tile
+"looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
+                              // use the looks_like tile.
 "color": "dark_gray",         // Color used when part is working
 "broken_symbol": "x",         // ASCII character displayed when part is broken
 "broken_color": "light_gray", // Color used when part is broken
-"damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this part hits something, as a percentage. Higher = more damage to creature struck
+"damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this
+                              // part hits something, as a percentage. Higher = more damage to
+                              // creature struck
 "durability": 200,            // How much damage the part can take before breaking
-"description": "A wheel."     // A description of this vehicle part when installing it
-"size": 2000                  // If vehicle part has flag "FLUIDTANK" then capacity in mLs, else divide by 4 for volume on space
-"cargo_weight_modifier": 100  // Special function to multiplicatively modify item weight on space. Divide by 100 for ratio.
-"wheel_width": 9,             /* (Optional, default = 0)
-                               * SPECIAL: A part may have at most ONE of the following fields:
-                               *    wheel_width = base wheel width in inches
-                               *    size        = trunk/box storage volume capacity
-                               *    power       = base engine power in watts
-                               *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
-                               *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
-"wheel_type":                 // (Optional: standard, off-road)
-"contact_area":               // (Optional) Affects vehicle ground pressure
-"cargo_weight_modifier": 33,  // (Optional, default = 100) Modifies cargo weight by set percentage
-"fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
-
-"item": "wheel",              // The item used to install this part, and the item obtained when removing this part
+"description": "A wheel.",    // A description of this vehicle part when installing it
+"fuel_type": "diesel",        // (Optional, default = "NULL") Type of fuel/ammo the part consumes,
+                              // as an item id
+"epower": -10                 // The electrical power use of the part, in watts.
+                              // Negative values mean power is consumed, positive values mean power
+                              // is generated.  Power consumption usually also requires the
+                              // ENABLED_DRAINS_EPOWER flag and for the item to be turned on.
+"item": "wheel",              // The item used to install this part, and the item obtained when
+                              // removing this part.
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
-"breaks_into" : [             // When the vehicle part is destroyed, items from this item group (see ITEM_SPAWN.md) will be spawned around the part on the ground.
+"breaks_into" : [             // When the vehicle part is destroyed, items from this item group
+                              // (see ITEM_SPAWN.md) will be spawned around the part on the ground.
   {"item": "scrap", "count": [0,5]} // instead of an array, this can be an inline item group,
 ],
 "breaks_into" : "some_item_group", // or just the id of an item group.
 "flags": [                    // Flags associated with the part
      "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
 ],
+"requirements": {             // (Optional) Special installation, removal, or repair requirementsi
+                              // for the part.  Each field consists of an object, with fields
+                              // "skills", "time", and "using".
+  "install": {
+    "skills": [ [ "mechanics", 1 ] ], // "skills" is a list of lists, with each list being a skill
+                              // name and skill level.
+    "time": "200 s",          // "time" is a string specifying the time to perform the action.
+    "using": [ [ "vehicle_screw", 1 ] ] // "using" is a list of list, with each list being a
+                              // crafting requirement.
+  },
+  "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+  "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+},
 "damage_reduction" : {        // Flat reduction of damage, as described below. If not specified, set to zero
     "all" : 10,
     "physical" : 5
 },
-                              // The following optional fields are specific to ENGINEs.
-"m2c": 50,                    // Mandatory field for parts with the ENGINE flag, indicates ratio of cruise power to maximum power
-"backfire_threshold": 0.5,    // Optional field, defaults to 0. Indicates maximum ratio of damaged HP to max HP to trigger backfires
-"backfire_freq": 20,          // Optional field unless backfire threshold > 0, then mandatory, defaults to 0. One in X chance of a backfire.
-"noise_factor": 15,           // Optional field, defaults to 0. Multiple engine power by this number to declare noise.
-"damaged_power_factor": 0.5,  // Optional field, defaults to 0. If more than 0, power when damaged is scaled to power * ( damaged_power_factor + ( 1 - damaged_power_factor ) * ( damaged HP / max HP )
-"muscle_power_factor": 0,     // Optional field, defaults to 0. If more than 0, each point of the survivor's Strength over 8 adds this much power to the engine, and each point less than 8 removes this much power.
-"exclusions": [ "souls" ]     // Optional field, defaults to empty. A list of words. A new engine can't be installed on the vehicle if any engine on the vehicle shares a word from exclusions.
-"fuel_options": [ "soul", "black_soul" ] // Optional field, defaults to fuel_type.  A list of words. An engine can be fueled by any fuel type in its fuel_options.  If provided, it overrides fuel_type and should include the fuel in fuel_type.
-"comfort": 3,                 // Optional field, defaults to 0. How comfortable this terrain/furniture is. Impact ability to fall asleep on it. (uncomfortable = -999, neutral = 0, slightly_comfortable = 3, comfortable = 5, very_comfortable = 10)
-"floor_bedding_warmth": 300,  // Optional field, defaults to 0. Bonus warmth offered by this terrain/furniture when used to sleep.
-"bonus_fire_warmth_feet": 200,// Optional field, defaults to 300. Increase warmth received on feet from nearby fire.
+"qualities": [ [ "SELF_JACK", 17 ] ], // (Optional) A list of lists, with each list being a tool
+                              // quality and the quality level, that the vehicle part provides.
+                              // Only the "LIFT", "JACK", and "SELF_JACK" qualities are valid.
+"transform_terrain": {        // (Optional) This part can transform terrain, like a plow.
+                              // One of "post_terain", "post_furniture", or "post_field" is required.
+  "pre_flags": [ "PLOWABLE" ], // List of flags for the terrain that can be transformed.
+  "post_terrain": "t_dirtmound", // (Optional, default to "t_null") The resulting terrain, if any.
+  "post_furniture": "f_boulder", // (Optional, default to "f_null") The resulting furniture, if any.
+  "post_field": "fd_fire",    // (Optional, default to "fd_null") The resulting field, if any.
+  "post_field_intensity": 10, // (Optional, default to 0) The field's intensity, if any.
+  "post_field_age": "20 s"    // (Optional, default to 0 turns) The field's time to live, if any.
+},
+```
+
+Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
+#### The following optional fields are specific to CARGO or FLUIDTANK parts.
+```c++
+"size": 2000,                 // with flag "FLUIDTANK" this is capacity in mLs,
+                              // else with "CARGO" flag the capacity in 250mL volume units.
+"cargo_weight_modifier": 33,  // (Optional, default = 100) Multiplies cargo weight by this percentage.
+```
+
+#### The following optional fields are specific to ENGINEs.
+```c++
+"power": 15000                // Engine motive power in watts.
+"energy_consumption": 17500   // Engine power consumption at maximum power in watts.  Defaults to
+                              // electrical power and the E_COMBUSTION flag turns it to thermal
+                              // power produced from fuel_type.  Should always be larger than "power".
+"m2c": 50,                    // The ratio of safe power to maximum power.
+"backfire_threshold": 0.5,    // (Optional, default = 0) The engine will backfire (producing noise
+                              // and smoke if the ratio of damaged HP to max HP is below this value.
+"backfire_freq": 20,          // (Optional, default = 0) One in X chance of a backfire if the 
+                              // ratio of damaged HP to max HP is below the backfire_threshold.
+"noise_factor": 15,           // (Optional, default = 0). Multiple engine power by this number to
+                              // determine noise.
+"damaged_power_factor": 0.5,  // (Optional, default = 0) If more than 0, power when damaged is
+                              // scaled to power * ( damaged_power_factor +
+                              // ( 1 - damaged_power_factor ) * ( damaged HP / max HP )
+"muscle_power_factor": 0,     // (Optional, default = 0) Increases engine power by
+                              // avatar (ST - 8) * muscle_power_factor.
+"exclusions": [ "souls" ]     // (Optional, defaults to empty). A list of words. A new engine can't
+                              // be installed on the vehicle if any engine on the vehicle shares a
+                              // word from exclusions.
+"fuel_options": [ "soul", "black_soul" ] // (Optional field, defaults to fuel_type).  A list of
+                              // item_ids. An engine can be fueled by any fuel type in its
+                              // fuel_options.  If provided, it overrides fuel_type and should
+                              // include the fuel in fuel_type.
+```
+
+#### The following optional fields are specific to WHEELs.
+```c++
+"wheel_type": "standard",     // Must be one of "standard", "rigid", "racing", "off_road", "treads", or "rail".
+                              // Indicates the class of wheel for determining off-road performance.
+"contact_area": 153,          // The surface area of the wheel in contact with the ground under
+                              // normal conditions in cm^2.  Wheels with higher contact area
+                              // perform better off-road.
+"rolling_resistance": 1.0,    // The "squishiness" of the wheel, per SAE standards.  Wheel rolling
+                              // resistance increases vehicle drag linearly as vehicle weight
+                              // and speed increase.
+```
+The following `wheel_types` are available:
+* `standard`: typical car wheel with some grooves, intended primarily for road use.  Large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
+* `rigid`: hard roller wheel like a caster that only performs well on smooth, flat surface.  Massive penalty when not on a FLAT tile, moderate penalty when not on a ROAD tile.
+* `racing`: a smooth, ungrooved tile for maximum traction under optimum conditions.  Very large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
+* `off_road`: a knobbed, heavily grooved tire for maximum traction under a wide variety of conditions.  Moderate penalty when not on a FLAT tile, tiny penalty when not a ROAD tile.
+* `treads`: a link in a continuous track.  moderate penalty when not on a FLAT tile, no penalty when not on a ROAD tile.
+* `rail`: a rigid metal wheel with a flange on one edge, meant to keep it on a railroad track.  No penalty when on a RAIL tile, extreme penalty when not on a RAIL tile.
+
+#### The following optional fields are specific to ROTORs.
+```c++
+"rotor_diameter": 15,         // Rotor diamater in meters.  Larger rotors provide more lift.
+```
+
+#### The following optional fields are specific to WORKBENCHes.
+These values apply to crafting tasks performed at the WORKBENCH.
+```c++
+"multiplier": 1.1,            // Crafting speed multipler.
+"mass": 1000000,              // Maximum mass in grams of a completed craft that can be crafted.
+"volume": "20L",              // Maximum volume (as a string) of a completed craft that can be craft.
+```
+
+#### The following optional fields are specific to SEATs.
+```c++
+"comfort": 3,                 // (Optional, default=0). Sleeping comfort as for terrain/furniture.
+"floor_bedding_warmth": 300,  // (Optional, default=0). Bonus warmth as for terrain/furniture.
+"bonus_fire_warmth_feet": 200,// (Optional, default=0). Bonus fire warmth as for terrain/furniture.
 ```
 
 ### Part Resistance
@@ -1958,7 +2267,7 @@ When adding a new book, please use this color key:
 A few exceptions to this color key may apply, for example for books that don’t are what they seem to be.
 Never use `yellow` and `red`, those colors are reserved for sounds and infrared vision.
 
-####CBMs
+#### CBMs
 
 CBMs can be defined like this:
 
@@ -2080,7 +2389,7 @@ Guns can be defined like this:
 "reload": 450,             // Amount of time to reload, 100 = 1 second = 1 "turn"
 "built_in_mods": ["m203"], //An array of mods that will be integrated in the weapon using the IRREMOVABLE tag.
 "default_mods": ["m203"]   //An array of mods that will be added to a weapon on spawn.
-"barrel_length": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
+"barrel_volume": "30 mL",  // Amount of volume lost when the barrel is sawn. Approximately 250 ml per inch is a decent approximation.
 "valid_mod_locations": [ [ "accessories", 4 ], [ "grip", 1 ] ],  // The valid locations for gunmods and the mount of slots for that location.
 ```
 Alternately, every item (book, tool, armor, even food) can be used as gun if it has gun_data:
@@ -2577,7 +2886,7 @@ The contents of use_action fields can either be a string indicating a built-in f
     "limb_power" : 10,      // How much hp to restore when healing limbs? Mandatory value
     "head_power" : 7,       // How much hp to restore when healing head? If unset, defaults to 0.8 * limb_power.
     "torso_power" : 15,     // How much hp to restore when healing torso? If unset, defaults to 1.5 * limb_power.
-    "bleed" : 0.4,          // Chance to remove bleed effect.
+    "bleed" : 4,            // How many bleed effect intensity levels can be reduced by it. Base value.
     "bite" : 0.95,          // Chance to remove bite effect.
     "infect" : 0.1,         // Chance to remove infected effect.
     "move_cost" : 250,      // Cost in moves to use the item.

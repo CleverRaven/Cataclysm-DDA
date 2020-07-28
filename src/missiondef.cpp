@@ -132,8 +132,8 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
     }
 };
 
-static const std::map<std::string, std::function<bool( const tripoint & )>> tripoint_function_map
-= {{
+static const std::map<std::string, std::function<bool( const tripoint_abs_omt & )>>
+tripoint_function_map = {{
         { "never", mission_place::never },
         { "always", mission_place::always },
         { "near_town", mission_place::near_town }
@@ -459,7 +459,8 @@ const std::vector<mission_type> &mission_type::get_all()
     return mission_type_factory.get_all();
 }
 
-mission_type_id mission_type::get_random_id( const mission_origin origin, const tripoint &p )
+mission_type_id mission_type::get_random_id( const mission_origin origin,
+        const tripoint_abs_omt &p )
 {
     std::vector<mission_type_id> valid;
     for( auto &t : get_all() ) {

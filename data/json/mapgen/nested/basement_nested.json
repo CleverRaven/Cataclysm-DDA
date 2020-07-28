@@ -1054,10 +1054,10 @@
       },
       "liquids": { "X": { "liquid": "hb_beer", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
       "place_loot": [
-        { "item": "jar_3l_glass", "x": 7, "y": [ 5, 6 ], "chance": 60, "repeat": [ 0, 4 ] },
+        { "item": "jar_3l_glass_sealed", "x": 7, "y": [ 5, 6 ], "chance": 60, "repeat": [ 0, 4 ] },
         { "item": "pot_canning", "x": 7, "y": 5, "chance": 80 },
         { "item": "hotplate", "x": 7, "y": 6, "chance": 50 },
-        { "item": "jar_glass", "x": [ 3, 5 ], "y": 1, "chance": 60, "repeat": [ 0, 4 ] }
+        { "item": "jar_glass_sealed", "x": [ 3, 5 ], "y": 1, "chance": 60, "repeat": [ 0, 4 ] }
       ],
       "items": {
         "a": { "item": "dry_goods", "chance": 50, "repeat": [ 1, 2 ] },
@@ -1101,10 +1101,10 @@
       },
       "liquids": { "X": { "liquid": "mead", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
       "place_loot": [
-        { "item": "jar_3l_glass", "x": 1, "y": [ 5, 6 ], "chance": 60, "repeat": [ 0, 4 ] },
+        { "item": "jar_3l_glass_sealed", "x": 1, "y": [ 5, 6 ], "chance": 60, "repeat": [ 0, 4 ] },
         { "item": "pot_canning", "x": 1, "y": 5, "chance": 80 },
         { "item": "hotplate", "x": 1, "y": 6, "chance": 50 },
-        { "item": "jar_glass", "x": [ 3, 5 ], "y": 1, "chance": 60, "repeat": [ 0, 4 ] }
+        { "item": "jar_glass_sealed", "x": [ 3, 5 ], "y": 1, "chance": 60, "repeat": [ 0, 4 ] }
       ],
       "items": {
         "a": { "item": "dry_goods", "chance": 50, "repeat": [ 1, 2 ] },
@@ -1149,10 +1149,10 @@
       },
       "liquids": { "X": { "liquid": "hb_beer", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
       "place_loot": [
-        { "item": "jar_3l_glass", "x": 4, "y": [ 3, 5 ], "chance": 60, "repeat": [ 0, 4 ] },
+        { "item": "jar_3l_glass_sealed", "x": 4, "y": [ 3, 5 ], "chance": 60, "repeat": [ 0, 4 ] },
         { "item": "pot_canning", "x": 4, "y": 4, "chance": 80 },
         { "item": "hotplate", "x": 4, "y": 3, "chance": 50 },
-        { "item": "jar_glass", "x": [ 3, 5 ], "y": 1, "chance": 60, "repeat": [ 0, 4 ] }
+        { "item": "jar_glass_sealed", "x": [ 3, 5 ], "y": 1, "chance": 60, "repeat": [ 0, 4 ] }
       ],
       "items": {
         "a": { "item": "dry_goods", "chance": 50, "repeat": [ 1, 2 ] },
@@ -1196,10 +1196,10 @@
       },
       "liquids": { "X": { "liquid": "mead", "amount": [ 0, 100 ] }, "W": { "liquid": "dandelion_wine", "amount": [ 0, 100 ] } },
       "place_loot": [
-        { "item": "jar_3l_glass", "x": 4, "y": [ 3, 5 ], "chance": 60, "repeat": [ 0, 4 ] },
+        { "item": "jar_3l_glass_sealed", "x": 4, "y": [ 3, 5 ], "chance": 60, "repeat": [ 0, 4 ] },
         { "item": "pot_canning", "x": 4, "y": 4, "chance": 80 },
         { "item": "hotplate", "x": 4, "y": 3, "chance": 50 },
-        { "item": "jar_glass", "x": [ 3, 5 ], "y": 7, "chance": 60, "repeat": [ 0, 4 ] }
+        { "item": "jar_glass_sealed", "x": [ 3, 5 ], "y": 7, "chance": 60, "repeat": [ 0, 4 ] }
       ],
       "items": {
         "a": { "item": "dry_goods", "chance": 50, "repeat": [ 1, 2 ] },
@@ -2760,7 +2760,13 @@
         "O": "t_carpet_purple",
         "=": "t_carpet_purple"
       },
-      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "furniture": {
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "V": "f_exercise",
+        "c": "f_bench",
+        "B": "f_bigmirror"
+      },
       "traps": { "=": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_N", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_N", 60 ] ] } }
     }
@@ -2791,7 +2797,13 @@
         "O": "t_carpet_green",
         "=": "t_carpet_green"
       },
-      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "furniture": {
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "V": "f_exercise",
+        "c": "f_bench",
+        "B": "f_bigmirror"
+      },
       "traps": { "=": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_S", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_S", 60 ] ] } }
     }
@@ -2822,7 +2834,13 @@
         "O": "t_carpet_yellow",
         "=": "t_carpet_yellow"
       },
-      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "furniture": {
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "V": "f_exercise",
+        "c": "f_bench",
+        "B": "f_bigmirror"
+      },
       "traps": { "=": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_E", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_E", 60 ] ] } }
     }
@@ -2853,7 +2871,13 @@
         "O": "t_carpet_red",
         "=": "t_carpet_red"
       },
-      "furniture": { "!": "f_ergometer", "@": "f_treadmill", "V": "f_exercise", "c": "f_bench", "B": "f_bigmirror" },
+      "furniture": {
+        "!": [ "f_ergometer", "f_ergometer_mechanical" ],
+        "@": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "V": "f_exercise",
+        "c": "f_bench",
+        "B": "f_bigmirror"
+      },
       "traps": { "=": "tr_rollmat" },
       "nested": { "1": { "chunks": [ [ "5x5_sauna_W", 30 ], [ "5x5_pool", 10 ], [ "5x5_gym_W", 60 ] ] } }
     }

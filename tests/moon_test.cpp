@@ -1,7 +1,7 @@
+#include "catch/catch.hpp"
+
 #include "calendar.h"
 #include "enum_conversions.h"
-
-#include "catch/catch.hpp"
 
 // MOON TESTS
 //

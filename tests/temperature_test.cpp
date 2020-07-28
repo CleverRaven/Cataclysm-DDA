@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <cstdlib>
 #include <memory>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "calendar.h"
 #include "item.h"
 #include "enums.h"
@@ -54,7 +55,7 @@ TEST_CASE( "Rate of temperature change" )
     // Don't bother with times shorter than this
 
     // Note: If process interval is longer than 1 hour the calculations will be done using the environment temperature
-    // Processing intervals should be kept below 1 hour to avoid this.
+    // IMPORTANT: Processing intervals should be kept below 1 hour to avoid this.
 
     // Sections:
     // Water bottle (realisticity check)
@@ -128,6 +129,7 @@ TEST_CASE( "Rate of temperature change" )
 
         calendar::turn = to_turn<int>( calendar::turn + 15_minutes );
         meat1.process_temperature_rot( 1, tripoint_zero, nullptr );
+        meat2.process_temperature_rot( 1, tripoint_zero, nullptr );
 
         // 33.5 C
         CHECK( is_nearly( meat1.temperature, 30673432 ) );

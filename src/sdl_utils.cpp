@@ -79,18 +79,6 @@ SDL_Surface_Ptr create_surface_32( int w, int h )
 #endif
 }
 
-void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect,
-                       Uint32 r, Uint32 g, Uint32 b )
-{
-    if( alt_rect_tex_enabled ) {
-        SetTextureColorMod( alt_rect_tex, r, g, b );
-        RenderCopy( renderer, alt_rect_tex, nullptr, &rect );
-    } else {
-        SetRenderDrawColor( renderer, r, g, b, 255 );
-        RenderFillRect( renderer, &rect );
-    }
-}
-
 SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer )
 {
     const float inner_ratio = static_cast<float>( inner.w ) / inner.h;

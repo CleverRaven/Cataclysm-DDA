@@ -9,7 +9,6 @@
 #include <tuple>
 #include <utility>
 
-#include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -252,6 +251,7 @@ void spell_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "name", name );
     mandatory( jo, was_loaded, "description", description );
     optional( jo, was_loaded, "skill", skill, skill_id( "spellcraft" ) );
+    optional( jo, was_loaded, "components", spell_components );
     optional( jo, was_loaded, "message", message, to_translation( "You cast %s!" ) );
     optional( jo, was_loaded, "sound_description", sound_description,
               to_translation( "an explosion" ) );
@@ -676,7 +676,8 @@ int spell::energy_cost( const Character &guy ) const
     }
     if( !has_flag( spell_flag::NO_HANDS ) ) {
         // the first 10 points of combined encumbrance is ignored, but quickly adds up
-        const int hands_encumb = std::max( 0, guy.encumb( bp_hand_l ) + guy.encumb( bp_hand_r ) - 10 );
+        const int hands_encumb = std::max( 0,
+                                           guy.encumb( bodypart_id( "hand_l" ) ) + guy.encumb( bodypart_id( "hand_r" ) ) - 10 );
         switch( type->energy_source ) {
             default:
                 cost += 10 * hands_encumb;
@@ -702,8 +703,14 @@ bool spell::is_spell_class( const trait_id &mid ) const
     return mid == type->spell_class;
 }
 
-bool spell::can_cast( const Character &guy ) const
+bool spell::can_cast( Character &guy ) const
 {
+    if( !type->spell_components.is_empty() &&
+        !type->spell_components->can_make_with_inventory( guy.crafting_inventory( guy.pos(), 0 ),
+                return_true<item> ) ) {
+        return false;
+    }
+
     switch( type->energy_source ) {
         case magic_energy_type::mana:
             return guy.magic.available_mana() >= energy_cost( guy );
@@ -727,12 +734,28 @@ bool spell::can_cast( const Character &guy ) const
     }
 }
 
+void spell::use_components( Character &guy ) const
+{
+    if( type->spell_components.is_empty() ) {
+        return;
+    }
+    const requirement_data &spell_components = type->spell_components.obj();
+    // if we're here, we're assuming the Character has the correct components (using can_cast())
+    inventory map_inv;
+    for( const std::vector<item_comp> &comp_vec : spell_components.get_components() ) {
+        guy.consume_items( guy.select_item_component( comp_vec, 1, map_inv ), 1 );
+    }
+    for( const std::vector<tool_comp> &tool_vec : spell_components.get_tools() ) {
+        guy.consume_tools( guy.select_tool_component( tool_vec, 1, map_inv ), 1 );
+    }
+}
+
 int spell::get_difficulty() const
 {
     return type->difficulty;
 }
 
-int spell::casting_time( const Character &guy ) const
+int spell::casting_time( const Character &guy, bool ignore_encumb ) const
 {
     // casting time in moves
     int casting_time = 0;
@@ -747,17 +770,31 @@ int spell::casting_time( const Character &guy ) const
     } else {
         casting_time = type->base_casting_time;
     }
-    if( !has_flag( spell_flag::NO_LEGS ) ) {
-        // the first 20 points of encumbrance combined is ignored
-        const int legs_encumb = std::max( 0, guy.encumb( bp_leg_l ) + guy.encumb( bp_leg_r ) - 20 );
-        casting_time += legs_encumb * 3;
-    }
-    if( has_flag( spell_flag::SOMATIC ) ) {
-        // the first 20 points of encumbrance combined is ignored
-        const int arms_encumb = std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
-        casting_time += arms_encumb * 2;
+    if( !ignore_encumb ) {
+        if( !has_flag( spell_flag::NO_LEGS ) ) {
+            // the first 20 points of encumbrance combined is ignored
+            const int legs_encumb = std::max( 0,
+                                              guy.encumb( bodypart_id( "leg_l" ) ) + guy.encumb( bodypart_id( "leg_r" ) ) - 20 );
+            casting_time += legs_encumb * 3;
+        }
+        if( has_flag( spell_flag::SOMATIC ) ) {
+            // the first 20 points of encumbrance combined is ignored
+            const int arms_encumb = std::max( 0,
+                                              guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb( bodypart_id( "arm_r" ) ) - 20 );
+            casting_time += arms_encumb * 2;
+        }
     }
     return casting_time;
+}
+
+const requirement_data &spell::components() const
+{
+    return type->spell_components.obj();
+}
+
+bool spell::has_components() const
+{
+    return !type->spell_components.is_empty();
 }
 
 std::string spell::name() const
@@ -794,13 +831,14 @@ float spell::spell_fail( const Character &guy ) const
     float fail_chance = std::pow( ( effective_skill - 30.0f ) / 30.0f, 2 );
     if( has_flag( spell_flag::SOMATIC ) && !guy.has_trait_flag( "SUBTLE_SPELL" ) ) {
         // the first 20 points of encumbrance combined is ignored
-        const int arms_encumb = std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
+        const int arms_encumb = std::max( 0,
+                                          guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb( bodypart_id( "arm_r" ) ) - 20 );
         // each encumbrance point beyond the "gray" color counts as half an additional fail %
         fail_chance += arms_encumb / 200.0f;
     }
     if( has_flag( spell_flag::VERBAL ) && !guy.has_trait_flag( "SILENT_SPELL" ) ) {
         // a little bit of mouth encumbrance is allowed, but not much
-        const int mouth_encumb = std::max( 0, guy.encumb( bp_mouth ) - 5 );
+        const int mouth_encumb = std::max( 0, guy.encumb( bodypart_id( "mouth" ) ) - 5 );
         fail_chance += mouth_encumb / 100.0f;
     }
     // concentration spells work better than you'd expect with a higher focus pool
@@ -878,7 +916,7 @@ std::string spell::energy_cost_string( const Character &guy ) const
         return colorize( to_string( energy_cost( guy ) ), c_light_blue );
     }
     if( energy_source() == magic_energy_type::hp ) {
-        auto pair = get_hp_bar( energy_cost( guy ), guy.get_hp_max() / num_hp_parts );
+        auto pair = get_hp_bar( energy_cost( guy ), guy.get_hp_max() / 6 );
         return colorize( pair.first, pair.second );
     }
     if( energy_source() == magic_energy_type::stamina ) {
@@ -1297,7 +1335,7 @@ void known_magic::serialize( JsonOut &json ) const
 
     json.member( "spellbook" );
     json.start_array();
-    for( auto pair : spellbook ) {
+    for( const auto &pair : spellbook ) {
         json.start_object();
         json.member( "id", pair.second.id() );
         json.member( "xp", pair.second.xp() );
@@ -1399,7 +1437,7 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
     }
     if( force || can_learn_spell( guy, sp->id ) ) {
         spellbook.emplace( sp->id, temp_spell );
-        g->events().send<event_type::character_learns_spell>( guy.getID(), sp->id );
+        get_event_bus().send<event_type::character_learns_spell>( guy.getID(), sp->id );
         guy.add_msg_if_player( m_good, _( "You learned %s!" ), sp->name );
     } else {
         guy.add_msg_if_player( m_bad, _( "You can't learn this spell." ) );
@@ -1419,7 +1457,7 @@ void known_magic::forget_spell( const spell_id &sp )
     }
     add_msg( m_bad, _( "All knowledge of %s leaves you." ), sp->name );
     // TODO: add parameter for owner of known_magic for this function
-    g->events().send<event_type::character_forgets_spell>( get_avatar().getID(), sp->id );
+    get_event_bus().send<event_type::character_forgets_spell>( get_player_character().getID(), sp->id );
     spellbook.erase( sp );
 }
 
@@ -1563,8 +1601,8 @@ class spellcasting_callback : public uilist_callback
                 int invlet = 0;
                 invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
                 if( inv_chars.valid( invlet ) ) {
-                    const bool invlet_set = g->u.magic.set_invlet( known_spells[entnum]->id(), invlet,
-                                            reserved_invlets );
+                    const bool invlet_set =
+                        get_player_character().magic.set_invlet( known_spells[entnum]->id(), invlet, reserved_invlets );
                     if( !invlet_set ) {
                         popup( _( "Hotkey already used." ) );
                     } else {
@@ -1573,7 +1611,7 @@ class spellcasting_callback : public uilist_callback
                     }
                 } else {
                     popup( _( "Hotkey removed." ) );
-                    g->u.magic.rem_invlet( known_spells[entnum]->id() );
+                    get_player_character().magic.rem_invlet( known_spells[entnum]->id() );
                 }
                 return true;
             }
@@ -1606,11 +1644,13 @@ static bool casting_time_encumbered( const spell &sp, const Character &guy )
     int encumb = 0;
     if( !sp.has_flag( spell_flag::NO_LEGS ) ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( bp_leg_l ) + guy.encumb( bp_leg_r ) - 20 );
+        encumb += std::max( 0, guy.encumb( bodypart_id( "leg_l" ) ) + guy.encumb(
+                                bodypart_id( "leg_r" ) ) - 20 );
     }
     if( sp.has_flag( spell_flag::SOMATIC ) ) {
         // the first 20 points of encumbrance combined is ignored
-        encumb += std::max( 0, guy.encumb( bp_arm_l ) + guy.encumb( bp_arm_r ) - 20 );
+        encumb += std::max( 0, guy.encumb( bodypart_id( "arm_l" ) ) + guy.encumb(
+                                bodypart_id( "arm_r" ) ) - 20 );
     }
     return encumb > 0;
 }
@@ -1618,7 +1658,9 @@ static bool casting_time_encumbered( const spell &sp, const Character &guy )
 static bool energy_cost_encumbered( const spell &sp, const Character &guy )
 {
     if( !sp.has_flag( spell_flag::NO_HANDS ) ) {
-        return std::max( 0, guy.encumb( bp_hand_l ) + guy.encumb( bp_hand_r ) - 10 ) > 0;
+        return std::max( 0, guy.encumb( bodypart_id( "hand_l" ) ) + guy.encumb(
+                             bodypart_id( "hand_r" ) ) - 10 ) >
+               0;
     }
     return false;
 }
@@ -1687,7 +1729,7 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
                         string_format( "%s: %d", _( "Max Level" ), sp.get_max_level() ) );
 
     print_colored_text( w_menu, point( h_col1, line ), gray, gray,
-                        sp.colorized_fail_percent( g->u ) );
+                        sp.colorized_fail_percent( get_player_character() ) );
     print_colored_text( w_menu, point( h_col2, line++ ), gray, gray,
                         string_format( "%s: %d", _( "Difficulty" ), sp.get_difficulty() ) );
 
@@ -1701,21 +1743,21 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
         line++;
     }
 
-    const bool cost_encumb = energy_cost_encumbered( sp, g->u );
+    const bool cost_encumb = energy_cost_encumbered( sp, get_player_character() );
     std::string cost_string = cost_encumb ? _( "Casting Cost (impeded)" ) : _( "Casting Cost" );
     std::string energy_cur = sp.energy_source() == magic_energy_type::hp ? "" :
-                             string_format( _( " (%s current)" ), sp.energy_cur_string( g->u ) );
-    if( !sp.can_cast( g->u ) ) {
+                             string_format( _( " (%s current)" ), sp.energy_cur_string( get_player_character() ) );
+    if( !sp.can_cast( get_player_character() ) ) {
         cost_string = colorize( _( "Not Enough Energy" ), c_red );
         energy_cur = "";
     }
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray,
                         string_format( "%s: %s %s%s", cost_string,
-                                       sp.energy_cost_string( g->u ), sp.energy_string(), energy_cur ) );
-    const bool c_t_encumb = casting_time_encumbered( sp, g->u );
+                                       sp.energy_cost_string( get_player_character() ), sp.energy_string(), energy_cur ) );
+    const bool c_t_encumb = casting_time_encumbered( sp, get_player_character() );
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, colorize(
                             string_format( "%s: %s", c_t_encumb ? _( "Casting Time (impeded)" ) : _( "Casting Time" ),
-                                           moves_to_string( sp.casting_time( g->u ) ) ),
+                                           moves_to_string( sp.casting_time( get_player_character() ) ) ),
                             c_t_encumb  ? c_red : c_light_gray ) );
 
     if( line <= win_height * 3 / 4 ) {
@@ -1828,6 +1870,24 @@ void spellcasting_callback::draw_spell_info( const spell &sp, const uilist *menu
 
     print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, sp.duration() <= 0 ? "" :
                         string_format( "%s: %s", _( "Duration" ), sp.duration_string() ) );
+
+    // helper function for printing tool and item component requirement lists
+    const auto print_vec_string = [&]( const std::vector<std::string> &vec ) {
+        for( const std::string &line_str : vec ) {
+            print_colored_text( w_menu, point( h_col1, line++ ), gray, gray, line_str );
+        }
+    };
+
+    if( sp.has_components() ) {
+        if( !sp.components().get_components().empty() ) {
+            print_vec_string( sp.components().get_folded_components_list( info_width - 2, gray,
+                              get_player_character().crafting_inventory(), return_true<item> ) );
+        }
+        if( !( sp.components().get_tools().empty() && sp.components().get_qualities().empty() ) ) {
+            print_vec_string( sp.components().get_folded_tools_list( info_width - 2, gray,
+                              get_player_character().crafting_inventory() ) );
+        }
+    }
 }
 
 bool known_magic::set_invlet( const spell_id &sp, int invlet, const std::set<int> &used_invlets )
@@ -1874,7 +1934,7 @@ int known_magic::get_invlet( const spell_id &sp, std::set<int> &used_invlets )
     return 0;
 }
 
-int known_magic::select_spell( const Character &guy )
+int known_magic::select_spell( Character &guy )
 {
     // max width of spell names
     const int max_spell_name_length = get_spellname_max_width();
@@ -2159,7 +2219,7 @@ void spell_events::notify( const cata::event &e )
                 int learn_at_level = it->second;
                 if( learn_at_level == slvl ) {
                     std::string learn_spell_id = it->first;
-                    g->u.magic.learn_spell( learn_spell_id, g->u );
+                    get_player_character().magic.learn_spell( learn_spell_id, get_player_character() );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
                         _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),

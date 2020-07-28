@@ -22,7 +22,7 @@
     "blackpowder_tolerance": 56,
     "clip_size": 1,
     "loudness": 25,
-    "barrel_length": "500 ml",
+    "barrel_volume": "500 ml",
     "built_in_mods": [ "combination_gun_shotgun" ],
     "faults": [ "fault_gun_blackpowder", "fault_gun_dirt" ],
     "valid_mod_locations": [

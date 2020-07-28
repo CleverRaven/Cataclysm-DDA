@@ -34,6 +34,7 @@ using Item_list = std::vector<item>;
 
 class Item_factory;
 class JsonArray;
+class JsonIn;
 class JsonObject;
 
 extern std::unique_ptr<Item_factory> item_controller;
@@ -45,7 +46,18 @@ class migration
         itype_id replace;
         std::set<std::string> flags;
         int charges = 0;
-        std::set<itype_id> contents;
+
+        class content
+        {
+            public:
+                itype_id id;
+                int count = 0;
+
+                bool operator==( const content & ) const;
+                void deserialize( JsonIn &jsin );
+        };
+        std::vector<content> contents;
+        bool sealed = true;
 };
 
 struct item_blacklist_t {

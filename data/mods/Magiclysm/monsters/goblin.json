@@ -35,7 +35,7 @@
       ]
     },
     "death_function": [ "NORMAL" ],
-    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "BLEED", "FILTHY", "PATH_AVOID_DANGER_2" ]
+    "flags": [ "SEES", "HEARS", "WARM", "BASHES", "FILTHY", "PATH_AVOID_DANGER_2" ]
   },
   {
     "type": "MONSTER",

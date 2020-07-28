@@ -1,6 +1,6 @@
-#include "effect.h"
-
 #include "catch/catch.hpp"
+
+#include "effect.h"
 
 // Test `effect` class
 

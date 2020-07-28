@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <cstdlib>
 #include <map>
 #include <utility>
 
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "monster.h"
 #include "mtype.h"

@@ -1,8 +1,8 @@
+#include "catch/catch.hpp"
+
 #include "ammo.h"
 #include "item.h"
 #include "item_pocket.h"
-
-#include "catch/catch.hpp"
 
 // Pocket Tests
 // ------------

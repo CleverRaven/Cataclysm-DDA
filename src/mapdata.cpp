@@ -175,8 +175,11 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
         { "BLOCK_WIND",               TFLAG_BLOCK_WIND },     // This tile will partially block the wind.
         { "FLAT",                     TFLAG_FLAT },           // This tile is flat.
         { "RAMP",                     TFLAG_RAMP },           // Can be used to move up a z-level
+        { "RAMP_DOWN",                TFLAG_RAMP_DOWN },      // Anything entering this tile moves down a z-level
+        { "RAMP_UP",                  TFLAG_RAMP_UP },        // Anything entering this tile moves up a z-level
         { "RAIL",                     TFLAG_RAIL },           // Rail tile (used heavily)
         { "THIN_OBSTACLE",            TFLAG_THIN_OBSTACLE },  // Passable by players and monsters. Vehicles destroy it.
+        { "Z_TRANSPARENT",            TFLAG_Z_TRANSPARENT },  // Doesn't block vision passing through the z-level
         { "SMALL_PASSAGE",            TFLAG_SMALL_PASSAGE }   // A small passage, that large or huge things cannot pass through
     }
 };
@@ -948,7 +951,7 @@ furn_id f_null,
         f_washer, f_dryer,
         f_vending_c, f_vending_o, f_dumpster, f_dive_block,
         f_crate_c, f_crate_o, f_coffin_c, f_coffin_o,
-        f_gunsafe_ml,
+        f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
         f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet,
         f_fema_groundsheet, f_large_groundsheet,
         f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
@@ -1093,6 +1096,8 @@ void set_furn_ids()
     f_camp_chair = furn_id( "f_camp_chair" );
     f_sign = furn_id( "f_sign" );
     f_gunsafe_ml = furn_id( "f_gunsafe_ml" );
+    f_gunsafe_mj = furn_id( "f_gunsafe_mj" );
+    f_gun_safe_el = furn_id( "f_gun_safe_el" );
 }
 
 size_t ter_t::count()

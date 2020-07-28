@@ -62,6 +62,8 @@
 #include "stomach.h"
 #include "string_formatter.h"
 #include "string_id.h"
+#include "talker.h"
+#include "talker_avatar.h"
 #include "translations.h"
 #include "type_id.h"
 #include "ui.h"
@@ -121,16 +123,12 @@ static const std::string flag_FIX_FARSIGHT( "FIX_FARSIGHT" );
 class JsonIn;
 class JsonOut;
 
-avatar &get_avatar()
-{
-    return g->u;
-}
-
 avatar::avatar()
 {
     show_map_memory = true;
     active_mission = nullptr;
     grab_type = object_type::NONE;
+    calorie_diary.push_front( daily_calories{} );
 }
 
 void avatar::toggle_map_memory()
@@ -222,7 +220,7 @@ void avatar::reset_all_misions()
     failed_missions.clear();
 }
 
-tripoint avatar::get_active_mission_target() const
+tripoint_abs_omt avatar::get_active_mission_target() const
 {
     if( active_mission == nullptr ) {
         return overmap::invalid_tripoint;
@@ -414,6 +412,12 @@ bool avatar::read( item &it, const bool continuous )
         }
         return false;
     }
+
+    if( it.get_use( "learn_spell" ) ) {
+        it.get_use( "learn_spell" )->call( *this, it, it.active, pos() );
+        return true;
+    }
+
     const int time_taken = time_to_read( it, *reader );
 
     add_msg( m_debug, "avatar::read: time_taken = %d", time_taken );
@@ -428,7 +432,7 @@ bool avatar::read( item &it, const bool continuous )
             add_msg( m_info, _( "%s reads aloud…" ), reader->disp_name() );
         }
         assign_activity( act );
-        g->events().send<event_type::reads_book>( getID(), it.typeId() );
+        get_event_bus().send<event_type::reads_book>( getID(), it.typeId() );
         return true;
     }
 
@@ -440,7 +444,7 @@ bool avatar::read( item &it, const bool continuous )
         } else {
             add_msg( m_info, get_hint() );
         }
-        g->events().send<event_type::reads_book>( getID(), it.typeId() );
+        get_event_bus().send<event_type::reads_book>( getID(), it.typeId() );
         mod_moves( -100 );
         return false;
     }
@@ -673,7 +677,7 @@ bool avatar::read( item &it, const bool continuous )
         elem->add_morale( MORALE_BOOK, 0, book_fun_for( it, *elem ) * 15, decay_start + 30_minutes,
                           decay_start, false, it.type );
     }
-    g->events().send<event_type::reads_book>( getID(), it.typeId() );
+    get_event_bus().send<event_type::reads_book>( getID(), it.typeId() );
     return true;
 }
 
@@ -827,7 +831,7 @@ void avatar::do_read( item &book )
             std::string skill_name = skill.obj().name();
 
             if( skill_level != originalSkillLevel ) {
-                g->events().send<event_type::gains_skill_level>(
+                get_event_bus().send<event_type::gains_skill_level>(
                     learner->getID(), skill, skill_level.level() );
                 if( learner->is_player() ) {
                     add_msg( m_good, _( "You increase %s to level %d." ), skill.obj().name(),
@@ -1270,7 +1274,8 @@ void avatar::reset_stats()
 
     // Dodge-related effects
     mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bp_leg_l ) + encumb( bp_leg_r ) ) / 20.0f - encumb( bp_torso ) / 10.0f );
+                     ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) / 20.0f - encumb(
+                         bodypart_id( "torso" ) ) / 10.0f );
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );
@@ -1570,7 +1575,7 @@ bool avatar::wield( item &target, const int obtain_cost )
 
     weapon.on_wield( *this, mv );
 
-    g->events().send<event_type::character_wields_item>( getID(), last_item );
+    get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 
     inv.update_invlet( weapon );
     inv.update_cache_with_item( weapon );
@@ -1629,6 +1634,92 @@ bool avatar::invoke_item( item *used, const std::string &method, const tripoint 
 bool avatar::invoke_item( item *used, const std::string &method )
 {
     return Character::invoke_item( used, method );
+}
+
+void avatar::advance_daily_calories()
+{
+    calorie_diary.push_front( daily_calories{} );
+    if( calorie_diary.size() > 30 ) {
+        calorie_diary.pop_back();
+    }
+}
+
+void avatar::add_spent_calories( int cal )
+{
+    calorie_diary.front().spent += cal;
+}
+
+void avatar::add_gained_calories( int cal )
+{
+    calorie_diary.front().gained += cal;
+}
+
+void avatar::log_activity_level( float level )
+{
+    calorie_diary.front().activity_levels[level]++;
+}
+
+static const std::map<float, std::string> activity_levels_str = {
+    { NO_EXERCISE, "NO_EXERCISE" },
+    { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
+    { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
+    { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
+    { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
+};
+void avatar::daily_calories::save_activity( JsonOut &json ) const
+{
+    json.member( "activity" );
+    json.start_object();
+    for( const std::pair<const float, int> &level : activity_levels ) {
+        json.member( activity_levels_str.at( level.first ), level.second );
+    }
+    json.end_object();
+}
+
+void avatar::daily_calories::read_activity( JsonObject &data )
+{
+    JsonObject jo = data.get_object( "activity" );
+    for( const std::pair<const float, std::string> &member : activity_levels_str ) {
+        int times;
+        jo.read( member.second, times );
+        activity_levels.at( member.first ) = times;
+    }
+}
+
+std::string avatar::total_daily_calories_string() const
+{
+    std::string ret =
+        " E: Extra exercise\n A: Active exercise\n"
+        " M: Moderate exercise\n L: Light exercise\n"
+        " N: No exercise\n"
+        " Each number refers to 5 minutes\n"
+        "     gained     spent      total\n";
+    int num_day = 1;
+    for( const daily_calories &day : calorie_diary ) {
+        // Each row is 32 columns long - for the first row, it's
+        // 5 for the day and the offset from it,
+        // 18 for the numbers, and 9 for the spacing between them
+        // For the second, 4 offset + 5 labels + 8 spacing leaves 15 for the levels
+        std::string activity_str = string_format( "%3dE  %3dA  %3dM  %3dL  %3dN",
+                                   day.activity_levels.at( EXTRA_EXERCISE ), day.activity_levels.at( ACTIVE_EXERCISE ),
+                                   day.activity_levels.at( MODERATE_EXERCISE ), day.activity_levels.at( LIGHT_EXERCISE ),
+                                   day.activity_levels.at( NO_EXERCISE ) );
+        std::string act_stats = string_format( " %1s  %s", colorize( ">", c_light_gray ),
+                                               colorize( activity_str, c_yellow ) );
+        std::string calorie_stats = string_format( "%2d   %6d    %6d     %6d", num_day++, day.gained,
+                                    day.spent, day.total() );
+        ret += string_format( "%s\n%s\n", calorie_stats, act_stats );
+    }
+    return ret;
+}
+
+std::unique_ptr<talker> get_talker_for( avatar &me )
+{
+    return std::make_unique<talker_avatar>( &me );
+}
+std::unique_ptr<talker> get_talker_for( avatar *me )
+{
+    return std::make_unique<talker_avatar>( me );
 }
 
 points_left::points_left()

@@ -190,6 +190,18 @@ void trap::reset()
     trap_factory.reset();
 }
 
+bool trap::is_trivial_to_spot() const
+{
+    // @TODO technically the trap may not be detected even with visibility == 0, see trap::detect_trap
+    return visibility <= 0 && !is_always_invisible();
+}
+
+bool trap::detected_by_ground_sonar() const
+{
+    // @TODO make this a property
+    return loadid == tr_beartrap_buried || loadid == tr_landmine_buried || loadid == tr_sinkhole;
+}
+
 bool trap::detect_trap( const tripoint &pos, const Character &p ) const
 {
     // Some decisions are based around:
@@ -200,7 +212,7 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     //   noticing a buried landmine if standing right next to it.
     // Effective Perception...
     ///\EFFECT_PER increases chance of detecting a trap
-    return p.per_cur - p.encumb( bp_eyes ) / 10 +
+    return p.per_cur - p.encumb( bodypart_id( "eyes" ) ) / 10 +
            // ...small bonus from stimulants...
            ( p.get_stim() > 10 ? rng( 1, 2 ) : 0 ) +
            // ...bonus from trap skill...
@@ -226,11 +238,27 @@ bool trap::can_see( const tripoint &pos, const Character &p ) const
         // There is no trap at all, so logically one can not see it.
         return false;
     }
+    if( is_always_invisible() ) {
+        return false;
+    }
     return visibility < 0 || p.knows_trap( pos );
+}
+
+void trap::trigger( const tripoint &pos, Creature &creature ) const
+{
+    return trigger( pos, &creature, nullptr );
+}
+
+void trap::trigger( const tripoint &pos, item &item ) const
+{
+    return trigger( pos, nullptr, &item );
 }
 
 void trap::trigger( const tripoint &pos, Creature *creature, item *item ) const
 {
+    if( is_null() ) {
+        return;
+    }
     const bool is_real_creature = creature != nullptr && !creature->is_hallucination();
     if( is_real_creature || item != nullptr ) {
         bool triggered = act( pos, creature, item );
@@ -274,26 +302,9 @@ void trap::on_disarmed( map &m, const tripoint &p ) const
 // convenient int-lookup names for hard-coded functions
 trap_id
 tr_null,
-tr_bubblewrap,
-tr_glass,
-tr_cot,
-tr_funnel,
-tr_metal_funnel,
-tr_makeshift_funnel,
-tr_leather_funnel,
-tr_rollmat,
-tr_fur_rollmat,
-tr_beartrap,
 tr_beartrap_buried,
-tr_nailboard,
-tr_caltrops,
-tr_caltrops_glass,
-tr_tripwire,
-tr_crossbow,
 tr_shotgun_2,
-tr_shotgun_2_1,
 tr_shotgun_1,
-tr_engine,
 tr_blade,
 tr_landmine,
 tr_landmine_buried,
@@ -302,19 +313,16 @@ tr_goo,
 tr_dissector,
 tr_sinkhole,
 tr_pit,
-tr_spike_pit,
 tr_lava,
 tr_portal,
 tr_ledge,
-tr_boobytrap,
 tr_temple_flood,
 tr_temple_toggle,
 tr_glow,
 tr_hum,
 tr_shadow,
 tr_drain,
-tr_snake,
-tr_glass_pit;
+tr_snake;
 
 void trap::check_consistency()
 {
@@ -326,6 +334,16 @@ void trap::check_consistency()
             }
         }
     }
+}
+
+bool trap::easy_take_down() const
+{
+    return avoidance == 0 && difficulty == 0;
+}
+
+bool trap::can_not_be_disarmed() const
+{
+    return difficulty >= 99;
 }
 
 void trap::finalize()
@@ -342,26 +360,9 @@ void trap::finalize()
         return trap_str_id( id ).id();
     };
     tr_null = trap_str_id::NULL_ID().id();
-    tr_bubblewrap = trapfind( "tr_bubblewrap" );
-    tr_glass = trapfind( "tr_glass" );
-    tr_cot = trapfind( "tr_cot" );
-    tr_funnel = trapfind( "tr_funnel" );
-    tr_metal_funnel = trapfind( "tr_metal_funnel" );
-    tr_makeshift_funnel = trapfind( "tr_makeshift_funnel" );
-    tr_leather_funnel = trapfind( "tr_leather_funnel" );
-    tr_rollmat = trapfind( "tr_rollmat" );
-    tr_fur_rollmat = trapfind( "tr_fur_rollmat" );
-    tr_beartrap = trapfind( "tr_beartrap" );
     tr_beartrap_buried = trapfind( "tr_beartrap_buried" );
-    tr_nailboard = trapfind( "tr_nailboard" );
-    tr_caltrops = trapfind( "tr_caltrops" );
-    tr_caltrops_glass = trapfind( "tr_caltrops_glass" );
-    tr_tripwire = trapfind( "tr_tripwire" );
-    tr_crossbow = trapfind( "tr_crossbow" );
     tr_shotgun_2 = trapfind( "tr_shotgun_2" );
-    tr_shotgun_2_1 = trapfind( "tr_shotgun_2_1" );
     tr_shotgun_1 = trapfind( "tr_shotgun_1" );
-    tr_engine = trapfind( "tr_engine" );
     tr_blade = trapfind( "tr_blade" );
     tr_landmine = trapfind( "tr_landmine" );
     tr_landmine_buried = trapfind( "tr_landmine_buried" );
@@ -370,11 +371,9 @@ void trap::finalize()
     tr_dissector = trapfind( "tr_dissector" );
     tr_sinkhole = trapfind( "tr_sinkhole" );
     tr_pit = trapfind( "tr_pit" );
-    tr_spike_pit = trapfind( "tr_spike_pit" );
     tr_lava = trapfind( "tr_lava" );
     tr_portal = trapfind( "tr_portal" );
     tr_ledge = trapfind( "tr_ledge" );
-    tr_boobytrap = trapfind( "tr_boobytrap" );
     tr_temple_flood = trapfind( "tr_temple_flood" );
     tr_temple_toggle = trapfind( "tr_temple_toggle" );
     tr_glow = trapfind( "tr_glow" );
@@ -382,5 +381,10 @@ void trap::finalize()
     tr_shadow = trapfind( "tr_shadow" );
     tr_drain = trapfind( "tr_drain" );
     tr_snake = trapfind( "tr_snake" );
-    tr_glass_pit = trapfind( "tr_glass_pit" );
+}
+
+std::string trap::debug_describe() const
+{
+    return string_format( _( "Visible: %d\nAvoidance: %d\nDifficulty: %d\nBenign: %s" ), visibility,
+                          avoidance, difficulty, is_benign() ? _( "Yes" ) : _( "No" ) );
 }

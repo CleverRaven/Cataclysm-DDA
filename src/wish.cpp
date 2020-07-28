@@ -197,7 +197,7 @@ class wish_mutate_callback: public uilist_callback
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.clear();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keychar );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
@@ -366,7 +366,7 @@ class wish_monster_callback: public uilist_callback
 
             mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
             msg.clear();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keychar );
             mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
@@ -409,7 +409,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
             const mtype_id &mon_type = mtypes[ wmenu.ret ]->id;
             if( cata::optional<tripoint> spawn = p ? p : g->look_around() ) {
                 int num_spawned = 0;
-                for( const tripoint &destination : closest_tripoints_first( *spawn, cb.group ) ) {
+                for( const tripoint &destination : closest_points_first( *spawn, cb.group ) ) {
                     monster *const mon = g->place_critter_at( mon_type, destination );
                     if( !mon ) {
                         continue;
@@ -422,7 +422,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
                     }
                     ++num_spawned;
                 }
-                input_context ctxt( wmenu.input_category );
+                input_context ctxt( wmenu.input_category, keyboard_mode::keychar );
                 cb.msg = string_format( _( "Spawned %d monsters, choose another or [%s] to quit." ),
                                         num_spawned, ctxt.get_desc( "QUIT" ) );
                 if( num_spawned == 0 ) {
@@ -505,7 +505,7 @@ class wish_item_callback: public uilist_callback
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.erase();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keychar );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [f] container, [F] flag, [E] everything, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
@@ -594,20 +594,28 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                     if( granted.count_by_charges() ) {
                         if( amount > 0 ) {
                             granted.charges = amount;
-                            p->i_add( granted );
+                            if( p->can_stash( granted ) ) {
+                                p->i_add( granted );
+                            } else {
+                                get_map().add_item_or_charges( p->pos(), granted );
+                            }
                         }
                     } else {
                         for( int i = 0; i < amount; i++ ) {
-                            p->i_add( granted );
+                            if( p->can_stash( granted ) ) {
+                                p->i_add( granted );
+                            } else {
+                                get_map().add_item_or_charges( p->pos(), granted );
+                            }
                         }
                     }
                     p->invalidate_crafting_inventory();
                 } else if( pos.x >= 0 && pos.y >= 0 ) {
-                    g->m.add_item_or_charges( pos, granted );
+                    get_map().add_item_or_charges( pos, granted );
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {
-                    input_context ctxt( wmenu.input_category );
+                    input_context ctxt( wmenu.input_category, keyboard_mode::keychar );
                     cb.msg = string_format( _( "Wish granted.  Wish for more or hit [%s] to quit." ),
                                             ctxt.get_desc( "QUIT" ) );
                 }

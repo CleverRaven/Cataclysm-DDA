@@ -1,18 +1,19 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <string>
 
-#include "avatar.h"
-#include "catch/catch.hpp"
+#include "character.h"
 #include "player_helpers.h"
 #include "flat_set.h"
-#include "game.h"
 #include "item.h"
 #include "type_id.h"
 
 TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
 {
+    Character &player_character = get_player_character();
     GIVEN( "player is a normal size" ) {
-        g->u.clear_mutations();
+        player_character.clear_mutations();
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
@@ -35,7 +36,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u, true );
+                const item::sizing sizing_level = i.get_sizing( player_character );
                 CHECK( sizing_level == item::sizing::small_sized_human_char );
             }
 
@@ -47,8 +48,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
     }
 
     GIVEN( "player is a huge size" ) {
-        g->u.clear_mutations();
-        g->u.toggle_trait( trait_id( "HUGE_OK" ) );
+        player_character.clear_mutations();
+        player_character.toggle_trait( trait_id( "HUGE_OK" ) );
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
@@ -71,7 +72,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u, true );
+                const item::sizing sizing_level = i.get_sizing( player_character );
                 CHECK( sizing_level == item::sizing::small_sized_big_char );
             }
 
@@ -83,8 +84,8 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
     }
 
     GIVEN( "player is a small size" ) {
-        g->u.clear_mutations();
-        g->u.toggle_trait( trait_id( "SMALL_OK" ) );
+        player_character.clear_mutations();
+        player_character.toggle_trait( trait_id( "SMALL_OK" ) );
 
         WHEN( "the item is a normal size" ) {
             std::string name = item( "bookplate" ).display_name();
@@ -107,7 +108,7 @@ TEST_CASE( "item sizing display", "[item][iteminfo][display_name][sizing]" )
             std::string name = i.display_name();
 
             THEN( "we have the correct sizing" ) {
-                const item::sizing sizing_level = i.get_sizing( g->u, true );
+                const item::sizing sizing_level = i.get_sizing( player_character );
                 CHECK( sizing_level == item::sizing::small_sized_small_char );
             }
 

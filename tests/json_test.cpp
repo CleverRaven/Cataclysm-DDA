@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include "json.h"
 
 #include <list>
 #include <sstream>
 
 #include "bodypart.h"
-#include "catch/catch.hpp"
 #include "debug.h"
 #include "string_formatter.h"
 #include "type_id.h"

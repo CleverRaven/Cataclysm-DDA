@@ -121,7 +121,7 @@
   {
     "type": "COMESTIBLE",
     "id": "irradiated_celery",
-    "name": "irradiated celery",
+    "name": { "str_sp": "irradiated celery" },
     "weight": "80 g",
     "color": "light_green",
     "container": "bag_plastic",
@@ -139,7 +139,7 @@
     "type": "COMESTIBLE",
     "id": "irradiated_rhubarb",
     "copy-from": "rhubarb",
-    "name": "irradiated rhubarb",
+    "name": { "str_sp": "irradiated rhubarb" },
     "description": "An irradiated rhubarb will remain edible nearly forever.  Sterilized using radiation, so it's safe to eat.",
     "proportional": { "price": 2.0 },
     "spoils_in": "0 hours",

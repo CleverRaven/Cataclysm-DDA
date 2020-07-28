@@ -1,6 +1,26 @@
 [
   {
     "type": "monstergroup",
+    "name": "GROUP_ZOMBIE_DOG_UPGRADE",
+    "default": "mon_dog_skeleton",
+    "//": "No bionics or fungal",
+    "monsters": [
+      { "monster": "mon_dog_skeleton", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_dog_zombie_brute", "freq": 45, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_ZOLF_UPGRADE",
+    "default": "mon_wolf_skeleton",
+    "//": "No bionics or fungal",
+    "monsters": [
+      { "monster": "mon_wolf_skeleton", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_dog_zombie_brute", "freq": 45, "cost_multiplier": 2 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_ZOMBEAR_UPGRADE",
     "default": "mon_zombear_skeleton",
     "//": "No bionics or fungal",

@@ -40,6 +40,8 @@ static const bionic_id bio_tools( "bio_tools" );
 static const bionic_id bio_claws( "bio_claws" );
 static const bionic_id bio_claws_weapon( "bio_claws_weapon" );
 
+static const itype_id itype_UPS( "UPS" );
+
 struct tripoint;
 
 static item_action nullaction;
@@ -146,7 +148,9 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
                    func->get_actor_ptr()->can_use( p, *actual_item, false, p.pos() ).success() ) ) {
                 continue;
             }
-            if( !actual_item->ammo_sufficient() ) {
+            if( !actual_item->ammo_sufficient() &&
+                ( !actual_item->has_flag( "USE_UPS" ) ||
+                  p.charges_of( itype_UPS ) < actual_item->ammo_required() ) ) {
                 continue;
             }
 
@@ -260,7 +264,7 @@ void game::item_action_menu()
     uilist kmenu;
     kmenu.text = _( "Execute which action?" );
     kmenu.input_category = "ITEM_ACTIONS";
-    input_context ctxt( "ITEM_ACTIONS" );
+    input_context ctxt( "ITEM_ACTIONS", keyboard_mode::keychar );
     for( const std::pair<const item_action_id, item_action> &id : item_actions ) {
         ctxt.register_action( id.first, id.second.name );
         kmenu.additional_actions.emplace_back( id.first, id.second.name );

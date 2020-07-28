@@ -405,17 +405,10 @@
       "*": "t_open_air",
       "~": "t_open_air_rooved",
       "H": "t_glass_railing",
-      " ": [ [ "t_dirt", 5 ], [ "t_grass", 16 ], [ "t_grass_long", 5 ] ],
-      "b": "t_dirt",
-      "$": [
-        [ "t_underbrush", 10 ],
-        [ "t_shrub", 32 ],
-        [ "t_grass_tall", 10 ],
-        [ "t_shrub_lilac", 2 ],
-        [ "t_shrub_hydrangea", 2 ],
-        [ "t_shrub_rose", 1 ]
-      ],
-      ";": [ [ "t_tree", 10 ], [ "t_tree_willow", 3 ], [ "t_tree_birch", 3 ], [ "t_tree_maple", 3 ], [ "t_tree_pine", 5 ] ],
+      " ": "t_region_groundcover_urban",
+      "b": "t_region_groundcover_barren",
+      "$": "t_region_shrub_decorative",
+      ";": "t_region_tree_shade",
       "+": "t_door_c",
       "i": "t_linoleum_gray",
       "e": "t_linoleum_gray",
@@ -434,7 +427,6 @@
       "f": "t_chainfence_h",
       "s": "t_sidewalk",
       "w": "t_window",
-      "x": "t_console_broken",
       "|": "t_wall_y",
       "I": "t_column",
       ",": "t_floor_waxed",
@@ -461,6 +453,7 @@
       "j": "t_sewage_pipe"
     },
     "furniture": {
+      "x": "f_console_broken",
       "%": "f_curtain",
       "@": "f_bed",
       "#": "f_bench",

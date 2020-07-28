@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -10,10 +12,9 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
+#include "character.h"
 #include "enums.h"
 #include "game.h"
 #include "item.h"
@@ -42,11 +43,12 @@ static void clear_game( const ter_id &terrain )
     clear_npcs();
     clear_vehicles();
 
+    Character &player_character = get_player_character();
     // Move player somewhere safe
-    REQUIRE_FALSE( g->u.in_vehicle );
-    g->u.setpos( tripoint_zero );
+    REQUIRE_FALSE( player_character.in_vehicle );
+    player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    g->u.add_effect( effect_blind, 1_turns, num_bp, true );
+    player_character.add_effect( effect_blind, 1_turns, num_bp, true );
 
     build_test_map( terrain );
 }
@@ -417,21 +419,21 @@ TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
 TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
 {
     test_vehicle( "beetle", 816469, 277800, 211800, 70490, 53160 );
-    test_vehicle( "car", 1120618, 473700, 277500, 45440, 25170 );
-    test_vehicle( "car_sports", 1155014, 360300, 260700, 36420, 20740 );
+    test_vehicle( "car", 1120618, 473700, 278400, 45440, 25170 );
+    test_vehicle( "car_sports", 1155014, 360300, 260700, 36450, 20770 );
     test_vehicle( "electric_car", 1047135, 220900, 127900, 18490, 9907 );
-    test_vehicle( "suv", 1320286, 902100, 451700, 67740, 30810 );
-    test_vehicle( "motorcycle", 163085, 74030, 61180, 46200, 38100 );
+    test_vehicle( "suv", 1320286, 902100, 451700, 67740, 31840 );
+    test_vehicle( "motorcycle", 163085, 74030, 61250, 46200, 37970 );
     test_vehicle( "quad_bike", 265345, 73170, 73170, 34300, 34300 );
-    test_vehicle( "scooter", 55941, 229200, 229200, 174700, 174700 );
-    test_vehicle( "superbike", 242085, 68580, 45170, 33670, 21220 );
-    test_vehicle( "ambulance", 1839299, 404800, 323500, 62240, 43840 );
-    test_vehicle( "fire_engine", 2628611, 1136000, 924100, 242300, 209600 );
-    test_vehicle( "fire_truck", 6314603, 288800, 180900, 19080, 4063 );
-    test_vehicle( "truck_swat", 5959334, 483800, 322700, 29610, 7604 );
-    test_vehicle( "tractor_plow", 723658, 482400, 482400, 113900, 113900 );
-    test_vehicle( "apc", 5801619, 1069000, 922400, 130800, 85590 );
-    test_vehicle( "humvee", 5503245, 574300, 325900, 25620, 9171 );
+    test_vehicle( "scooter", 55941, 235900, 235900, 174700, 174700 );
+    test_vehicle( "superbike", 242085, 68920, 45200, 33670, 21300 );
+    test_vehicle( "ambulance", 1839299, 409800, 326700, 62500, 44030 );
+    test_vehicle( "fire_engine", 2628611, 1136000, 927800, 242300, 209600 );
+    test_vehicle( "fire_truck", 6314603, 288800, 180900, 19470, 4461 );
+    test_vehicle( "truck_swat", 5959334, 483800, 323200, 29610, 7604 );
+    test_vehicle( "tractor_plow", 723658, 482400, 482400, 114200, 114200 );
+    test_vehicle( "apc", 5801619, 1069000, 923000, 130800, 85590 );
+    test_vehicle( "humvee", 5503345, 574300, 325900, 25620, 9171 );
     test_vehicle( "road_roller", 8829220, 357200, 380200, 22760, 6925 );
     test_vehicle( "golf_cart", 444630, 52460, 105500, 27250, 14200 );
 }
