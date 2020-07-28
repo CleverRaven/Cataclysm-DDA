@@ -767,7 +767,7 @@
     "baby_flags": [ "SPRING", "SUMMER" ],
     "biosignature": { "biosig_item": "feces_bird", "biosig_timer": 3 },
     "flags": [ "SEES", "SMELLS", "HEARS", "FLIES", "HIT_AND_RUN", "ANIMAL", "PATH_AVOID_DANGER_1" ],
-    "harvest": "animal_noskin",
+    "harvest": "bird_small",
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
