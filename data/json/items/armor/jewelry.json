@@ -90,7 +90,7 @@
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "yellow",
-    "covers": [ "MOUTH" ],
+    "covers": [ "mouth" ],
     "encumbrance": 10,
     "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
   },
@@ -109,7 +109,7 @@
     "symbol": "[",
     "looks_like": "gold_dental_grill",
     "color": "red",
-    "covers": [ "MOUTH" ],
+    "covers": [ "mouth" ],
     "encumbrance": 10,
     "flags": [ "FANCY", "SKINTIGHT" ]
   },
@@ -235,7 +235,7 @@
     "symbol": "[",
     "looks_like": "gold_watch",
     "color": "light_gray",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
     "coverage": 5,
     "use_action": [ "WEATHER_TOOL" ],
     "flags": [ "WATCH", "ALARMCLOCK", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
@@ -766,7 +766,7 @@
     "material": [ "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "MOUTH" ],
+    "covers": [ "mouth" ],
     "flags": [ "FANCY", "SKINTIGHT" ]
   },
   {
@@ -867,7 +867,7 @@
     "material": [ "steel", "gold" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
     "coverage": 5,
     "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
@@ -897,7 +897,7 @@
     "material": [ "steel", "silver" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
     "coverage": 10,
     "flags": [ "WATCH", "FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },
@@ -943,7 +943,7 @@
     "material": [ "gold", "silver" ],
     "symbol": "[",
     "color": "yellow",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
     "coverage": 10,
     "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },
@@ -1033,7 +1033,7 @@
     "material": [ "platinum" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
     "coverage": 5,
     "flags": [ "WATCH", "SUPER_FANCY", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "OVERSIZE" ]
   },
@@ -1065,7 +1065,7 @@
     "material": [ "platinum", "silver" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "MOUTH" ],
+    "covers": [ "mouth" ],
     "flags": [ "SUPER_FANCY", "SKINTIGHT" ]
   },
   {
@@ -1296,7 +1296,7 @@
     "ascii_picture": "wristwatch",
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "HAND_EITHER" ],
+    "covers": [ "hand_l", "hand_r" ],
     "coverage": 5,
     "flags": [ "WATCH", "ALARMCLOCK", "BELTED", "FRAGILE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "OVERSIZE" ]
   },

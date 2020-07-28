@@ -61,7 +61,7 @@
     "material": [ "copper", "wood" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 5,
     "encumbrance": 1,
     "warmth": 0,

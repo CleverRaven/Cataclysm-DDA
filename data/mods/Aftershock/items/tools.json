@@ -223,7 +223,7 @@
     "coverage": 5,
     "ammo": [ "battery" ],
     "encumbrance": 2,
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
     "flags": [ "RECHARGE", "WAIST", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ]
   },
@@ -235,7 +235,7 @@
     "description": "This is an advanced version of the unified power supply, or UPS.  This device has been significantly redesigned to provide better efficiency as well as to consume plutonium fuel cells rather than batteries, and is both slimmer and lighter to wear.  Sadly, its plutonium reactor can't be charged in UPS charging station.",
     "coverage": 5,
     "encumbrance": 1,
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "leg_l", "leg_r" ],
     "flags": [ "WAIST", "FRAGILE", "OVERSIZE", "IS_UPS" ]
   },
   {

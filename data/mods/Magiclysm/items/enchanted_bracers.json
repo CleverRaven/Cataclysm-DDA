@@ -12,7 +12,7 @@
     "material": [ "steel", "leather" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "ARMS" ],
+    "covers": [ "arm_l", "arm_r" ],
     "coverage": 45,
     "encumbrance": 10,
     "warmth": 10,

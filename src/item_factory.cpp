@@ -117,12 +117,7 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
             parts.set( bodypart_str_id( "foot_l" ) );
             parts.set( bodypart_str_id( "foot_r" ) );
         } else {
-            // Convert from legacy enum to new and apply coverage
-            if( !is_legacy_bodypart_id( val ) ) {
-                parts.set( bodypart_str_id( val ) );
-            } else {
-                parts.set( convert_bp( get_body_part_token( val ) ) );
-            }
+            parts.set( bodypart_str_id( val ) );
         }
 
         sided |= val == "ARM_EITHER" || val == "HAND_EITHER" ||

@@ -45,7 +45,7 @@
     "material": [ "cotton" ],
     "symbol": "^",
     "color": "light_blue",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 50,
     "encumbrance": 12,
     "warmth": 7,

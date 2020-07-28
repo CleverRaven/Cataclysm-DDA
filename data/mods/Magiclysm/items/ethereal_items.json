@@ -13,7 +13,7 @@
     "symbol": "[",
     "color": "light_gray",
     "armor_data": {
-      "covers": [ "HANDS", "ARMS" ],
+      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
       "coverage": 100,
       "encumbrance": 0,
       "warmth": 20,
@@ -51,7 +51,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HANDS", "ARMS" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "coverage": 100,
     "encumbrance": 0,
     "warmth": 20,
@@ -74,7 +74,7 @@
     "bashing": 8,
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "flags": [ "LIGHT_15", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
   },
   {
@@ -88,7 +88,7 @@
     "price": 0,
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
   },
   {
@@ -125,7 +125,7 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "FEET" ],
+    "covers": [ "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 0,
     "warmth": 30,
@@ -240,7 +240,7 @@
     "material": [ "flesh" ],
     "symbol": "[",
     "color": "green",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 40,
     "encumbrance": 5,
     "max_encumbrance": 10,
