@@ -922,7 +922,7 @@ static int num_parents( const item_location &loc )
 }
 
 void inventory_column::draw( const catacurses::window &win, const point &p,
-                             std::vector< std::pair<inclusive_rectangle, inventory_entry *>> &rect_entry_map )
+                             std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map )
 {
     if( !visible() ) {
         return;

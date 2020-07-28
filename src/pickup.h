@@ -45,7 +45,7 @@ int cost_to_move_item( const Character &who, const item &it );
  */
 bool handle_spillable_contents( Character &c, item &it, map &m );
 
-struct pickup_rect : inclusive_rectangle {
+struct pickup_rect : inclusive_rectangle<point> {
     pickup_rect() = default;
     pickup_rect( const point &P_MIN, const point &P_MAX ) : inclusive_rectangle( P_MIN, P_MAX ) {}
     int cur_it;
