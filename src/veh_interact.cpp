@@ -204,7 +204,7 @@ vehicle_part &veh_interact::select_part( const vehicle &veh, const part_selector
  * Creates a blank veh_interact window.
  */
 veh_interact::veh_interact( vehicle &veh, const point &p )
-    : dd( p ), veh( &veh ), main_context( "VEH_INTERACT" )
+    : dd( p ), veh( &veh ), main_context( "VEH_INTERACT", keyboard_mode::keychar )
 {
     // Only build the shapes map and the wheel list once
     for( const auto &e : vpart_info::all() ) {

@@ -93,7 +93,7 @@ enum change_types : int {
 
 char keybind( const std::string &opt, const std::string &context )
 {
-    const auto keys = input_context( context ).keys_bound_to( opt );
+    const auto keys = input_context( context, keyboard_mode::keychar ).keys_bound_to( opt );
     return keys.empty() ? ' ' : keys.front();
 }
 

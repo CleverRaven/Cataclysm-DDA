@@ -178,6 +178,7 @@ bool Pickup::query_thief()
     const auto &allow_key = force_uc ? input_context::disallow_lower_case
                             : input_context::allow_all_keys;
     std::string answer = query_popup()
+                         .preferred_keyboard_mode( keyboard_mode::keychar )
                          .allow_cancel( false )
                          .context( "YES_NO_ALWAYS_NEVER" )
                          .message( "%s", force_uc
@@ -608,7 +609,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 
         std::string action;
         int raw_input_char = ' ';
-        input_context ctxt( "PICKUP" );
+        input_context ctxt( "PICKUP", keyboard_mode::keychar );
         ctxt.register_action( "UP" );
         ctxt.register_action( "DOWN" );
         ctxt.register_action( "RIGHT" );

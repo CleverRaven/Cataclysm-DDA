@@ -558,7 +558,7 @@ static void CheckMessages()
         DispatchMessage( &msg );
     }
     if( needs_resize ) {
-        restore_on_out_of_scope<input_event> prev_lastchar( lastchar );
+        restore_on_out_of_scope<int> prev_lastchar( lastchar );
         handle_resize( 0, 0 );
         refresh_display();
     }
@@ -663,7 +663,9 @@ static uint64_t GetPerfCount()
     return Count;
 }
 
-input_event input_manager::get_input_event()
+// we can probably add support for keycode mode, but wincurse is deprecated
+// so we just ignore the mode argument.
+input_event input_manager::get_input_event( const keyboard_mode /*preferred_keyboard_mode*/ )
 {
     // standards note: getch is sometimes required to call refresh
     // see, e.g., http://linux.die.net/man/3/getch
@@ -707,9 +709,9 @@ input_event input_manager::get_input_event()
         // == Unicode DELETE
         if( lastchar == 127 ) {
             previously_pressed_key = KEY_BACKSPACE;
-            return input_event( KEY_BACKSPACE, input_event_t::keyboard );
+            return input_event( KEY_BACKSPACE, input_event_t::keyboard_char );
         }
-        rval.type = input_event_t::keyboard;
+        rval.type = input_event_t::keyboard_char;
         rval.text = utf32_to_utf8( lastchar );
         previously_pressed_key = lastchar;
         // for compatibility only add the first byte, not the code point
