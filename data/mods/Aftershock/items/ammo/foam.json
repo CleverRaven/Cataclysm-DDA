@@ -3,7 +3,7 @@
     "id": "afs_foamcrete",
     "type": "AMMO",
     "name": { "str_sp": "foamcrete" },
-    "description": "The chemical precursors of foamcrete, a quick-hardening, resilient substance that readily expands on contact with air.  Originally designed for structural repair in comercial spaceflight, it can be used to quickly erect walls and platforms, or to encase foes.",
+    "description": "The chemical precursors of foamcrete, a quick-hardening, resilient substance that readily expands on contact with air.  Originally designed for structural repair in commercial spaceflight, it can be used to quickly erect walls and platforms, or to encase foes.",
     "weight": "250 g",
     "volume": "2 L",
     "price": 3500,
