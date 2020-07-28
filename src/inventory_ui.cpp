@@ -1886,7 +1886,7 @@ inventory_input inventory_selector::get_input()
         point p = o_p.value();
         if( window_contains_point_relative( w_inv, p ) ) {
             res.entry = find_entry_by_coordinate( p );
-            if( res.entry != nullptr ) {
+            if( res.entry != nullptr && res.entry->is_selectable() ) {
                 return res;
             }
         }
