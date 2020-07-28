@@ -451,8 +451,8 @@ void player::sort_armor()
     for( const auto &it : get_all_body_parts() ) {
         armor_cat.insert( it );
     }
-    armor_cat.insert( bodypart_id( body_part::num_bp) );
-    
+    armor_cat.insert( bodypart_id( body_part::num_bp ) );
+
     int req_right_h = 3 + 1 + 2 + body_part::num_bp + 1;
     for( const bodypart_id &cover : armor_cat ) {
         for( const item &elem : worn ) {
@@ -655,10 +655,20 @@ void player::sort_armor()
         mvwprintz( w_sort_right, point_zero, c_light_gray, _( "(Innermost)" ) );
         right_print( w_sort_right, 0, 0, c_light_gray, _( "Encumbrance" ) );
 
+        const auto &combine_bp = [this]( const bodypart_id & cover ) -> bool {
+            const bodypart_id opposite = cover.obj().opposite_part;
+            return cover != opposite &&
+            items_cover_bp( *this, cover ) == items_cover_bp( *this, opposite );
+        };
+
+        cata::flat_set<bodypart_id> rl;
         // Right list
         rightListSize = 0;
         for( const bodypart_id cover : armor_cat ) {
-            rightListSize += items_cover_bp( *this, cover ).size() + 1;
+            if( !combine_bp( cover ) || rl.count( cover.obj().opposite_part ) == 0 ) {
+                rightListSize += items_cover_bp( *this, cover ).size() + 1;
+                rl.insert( cover );
+            }
         }
         if( rightListLines > rightListSize ) {
             rightListOffset = 0;
@@ -666,13 +676,13 @@ void player::sort_armor()
             rightListOffset = rightListSize - rightListLines;
         }
         int pos = 1, curr = 0;
-        for( const bodypart_id cover : armor_cat ) {
+        for( const bodypart_id cover : rl ) {
             if( cover == bodypart_id( body_part::num_bp ) ) {
                 continue;
             }
             if( curr >= rightListOffset && pos <= rightListLines ) {
                 mvwprintz( w_sort_right, point( 1, pos ), ( cover == bp ? c_yellow : c_white ),
-                           "%s:", body_part_name_as_heading( cover, 1 ) );
+                           "%s:", body_part_name_as_heading( cover, combine_bp( cover ) ? 2 : 1 ) );
                 pos++;
             }
             curr++;
