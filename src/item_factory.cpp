@@ -1119,6 +1119,16 @@ void Item_factory::check_definitions() const
         if( type->weight < 0_gram ) {
             msg += "negative weight\n";
         }
+        if( type->weight == 0_gram &&
+            !type->item_tags.count( "CORPSE" ) &&
+            !type->item_tags.count( "IRREMOVABLE" ) &&
+            !type->item_tags.count( "NO_DROP" ) &&
+            !type->item_tags.count( "NO_UNWIELD" ) &&
+            !type->item_tags.count( "PSEUDO" ) &&
+            !type->item_tags.count( "ZERO_WEIGHT" ) ) {
+            msg += "zero weight (if zero weight is intentional you can "
+                   "suppress this error with the ZERO_WEIGHT flag)\n";
+        }
         if( type->volume < 0_ml ) {
             msg += "negative volume\n";
         }

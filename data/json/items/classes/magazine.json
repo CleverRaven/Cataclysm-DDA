@@ -5,6 +5,7 @@
     "name": { "str": "ammo belt" },
     "description": "An ammo belt consisting of metal linkages which disintegrate upon firing.",
     "volume": "0 ml",
+    "weight": "1 kg",
     "price": 0,
     "material": [ "steel" ],
     "symbol": "#",

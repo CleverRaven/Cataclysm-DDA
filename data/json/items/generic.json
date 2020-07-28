@@ -78,7 +78,7 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PERPETUAL" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
   {
@@ -281,7 +281,8 @@
     "color": "green",
     "name": { "str": "fertilizer" },
     "description": "A token, representing fertilization of a plant.",
-    "material": [ "veggy" ]
+    "material": [ "veggy" ],
+    "flags": [ "ZERO_WEIGHT" ]
   },
   {
     "type": "GENERIC",
@@ -2435,6 +2436,8 @@
     "color": "brown",
     "symbol": "!",
     "description": "The smoke billowing from this cigar has a sweet, musty odor.",
+    "weight": "9 g",
+    "volume": "250 ml",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "use_action": [
@@ -2467,6 +2470,8 @@
     "color": "white",
     "symbol": "!",
     "description": "Smoke swirls from the lit end of this cigarette, filling the air with the thrilling smell of burning chemicals.",
+    "weight": "1 g",
+    "volume": "4 ml",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "use_action": [
@@ -2499,6 +2504,8 @@
     "color": "light_green",
     "symbol": "!",
     "description": "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
+    "weight": "1 g",
+    "volume": "4 ml",
     "category": "drugs",
     "emits": [ "emit_joint_trail" ],
     "use_action": [
