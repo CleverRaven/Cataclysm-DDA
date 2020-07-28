@@ -197,7 +197,7 @@ class wish_mutate_callback: public uilist_callback
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.clear();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keychar );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [%s] quit, [t] toggle base trait" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
@@ -366,7 +366,7 @@ class wish_monster_callback: public uilist_callback
 
             mvwprintz( w_info, point( 0, getmaxy( w_info ) - 3 ), c_green, msg );
             msg.clear();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keychar );
             mvwprintw( w_info, point( 0, getmaxy( w_info ) - 2 ),
                        _( "[%s] find, [f]riendly, [h]allucination, [i]ncrease group, [d]ecrease group, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
@@ -422,7 +422,7 @@ void debug_menu::wishmonster( const cata::optional<tripoint> &p )
                     }
                     ++num_spawned;
                 }
-                input_context ctxt( wmenu.input_category );
+                input_context ctxt( wmenu.input_category, keyboard_mode::keychar );
                 cb.msg = string_format( _( "Spawned %d monsters, choose another or [%s] to quit." ),
                                         num_spawned, ctxt.get_desc( "QUIT" ) );
                 if( num_spawned == 0 ) {
@@ -505,7 +505,7 @@ class wish_item_callback: public uilist_callback
 
             mvwprintz( menu->window, point( startx, menu->w_height - 3 ), c_green, msg );
             msg.erase();
-            input_context ctxt( menu->input_category );
+            input_context ctxt( menu->input_category, keyboard_mode::keychar );
             mvwprintw( menu->window, point( startx, menu->w_height - 2 ),
                        _( "[%s] find, [f] container, [F] flag, [E] everything, [%s] quit" ),
                        ctxt.get_desc( "FILTER" ), ctxt.get_desc( "QUIT" ) );
@@ -615,7 +615,7 @@ void debug_menu::wishitem( player *p, const tripoint &pos )
                     wmenu.ret = -1;
                 }
                 if( amount > 0 ) {
-                    input_context ctxt( wmenu.input_category );
+                    input_context ctxt( wmenu.input_category, keyboard_mode::keychar );
                     cb.msg = string_format( _( "Wish granted.  Wish for more or hit [%s] to quit." ),
                                             ctxt.get_desc( "QUIT" ) );
                 }

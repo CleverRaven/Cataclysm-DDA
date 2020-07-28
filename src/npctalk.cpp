@@ -1434,7 +1434,7 @@ talk_topic dialogue::opt( dialogue_window &d_win, const std::string &npc_name,
     }
 
 #if defined(__ANDROID__)
-    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE" );
+    input_context ctxt( "DIALOGUE_CHOOSE_RESPONSE", keyboard_mode::keychar );
     for( size_t i = 0; i < responses.size(); i++ ) {
         ctxt.register_manual_key( 'a' + i );
     }

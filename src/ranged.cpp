@@ -2121,7 +2121,7 @@ void target_ui::init_window_and_input()
 
     w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
 
-    ctxt = input_context( "TARGET" );
+    ctxt = input_context( "TARGET", keyboard_mode::keychar );
     ctxt.set_iso( true );
     // "ANY_INPUT" should be added before any real help strings
     // Or strings will be written on window border.

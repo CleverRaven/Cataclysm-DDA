@@ -189,7 +189,7 @@ void realDebugmsg( const char *filename, const char *line, const char *funcname,
     } );
 
 #if defined(__ANDROID__)
-    input_context ctxt( "DEBUG_MSG" );
+    input_context ctxt( "DEBUG_MSG", keyboard_mode::keychar );
     ctxt.register_manual_key( 'C' );
     ctxt.register_manual_key( 'I' );
     ctxt.register_manual_key( ' ' );
