@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
 #include "pimpl.h"
@@ -98,7 +99,7 @@ struct uilist_entry {
         uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
 
-    inclusive_rectangle drawn_rect;
+    inclusive_rectangle<point> drawn_rect;
 };
 
 /**
