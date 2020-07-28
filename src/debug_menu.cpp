@@ -1312,6 +1312,29 @@ void debug()
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
+
+            std::unordered_map<std::string, int> creature_counts;
+            for( Creature &critter : g->all_creatures() ) {
+                std::string this_name = critter.get_name();
+                creature_counts[this_name]++;
+            }
+
+            if( !creature_counts.empty() ) {
+                std::vector<std::pair<std::string, int>> creature_names_sorted;
+                for( const std::pair<std::string, int> &it : creature_counts ) {
+                    creature_names_sorted.emplace_back( it );
+                }
+
+                std::stable_sort( creature_names_sorted.begin(), creature_names_sorted.end(), []( auto a, auto b ) {
+                    return a.second > b.second;
+                } );
+
+                s += _( "\nSpecific creature type list:\n" );
+                for( const auto crit_name : creature_names_sorted ) {
+                    s += string_format( "%i %s\n", crit_name.second, crit_name.first );
+                }
+            }
+
             popup_top(
                 s.c_str(),
                 player_character.posx(), player_character.posy(), abs_sub.x, abs_sub.y,
