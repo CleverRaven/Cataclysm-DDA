@@ -458,6 +458,10 @@ std::string effect_type::get_remove_memorial_log() const
 {
     return remove_memorial_log;
 }
+std::string effect_type::get_blood_analysis_description() const
+{
+    return blood_analysis_description;
+}
 bool effect_type::get_main_parts() const
 {
     return main_parts_only;
@@ -1275,6 +1279,8 @@ void load_effect_type( const JsonObject &jo )
     new_etype.remove_message = jo.get_string( "remove_message", "" );
     new_etype.apply_memorial_log = jo.get_string( "apply_memorial_log", "" );
     new_etype.remove_memorial_log = jo.get_string( "remove_memorial_log", "" );
+
+    new_etype.blood_analysis_description = jo.get_string( "blood_analysis_description", "" );
 
     for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
         new_etype.resist_traits.push_back( trait_id( f ) );
