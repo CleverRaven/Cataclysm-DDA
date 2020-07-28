@@ -106,7 +106,7 @@
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
-    "delete": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
+    "delete": { "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
     "relative": { "hp": 20, "speed": 10, "melee_skill": 1, "vision_day": 10, "vision_night": 10 },
     "extend": {
       "special_attacks": [
@@ -136,7 +136,7 @@
     "copy-from": "mon_zombie_soldier",
     "looks_like": "mon_zombie_soldier",
     "diff": 20,
-    "delete": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
+    "delete": { "upgrades": { "half_life": 28, "into_group": "GROUP_SOLDIER_UPGRADE" } },
     "relative": { "hp": 40, "speed": -10, "melee_skill": 2, "armor_bash": 5 },
     "extend": {
       "special_attacks": [
