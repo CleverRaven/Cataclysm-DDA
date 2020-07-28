@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
 #include "vehicle.h"

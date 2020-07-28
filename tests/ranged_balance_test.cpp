@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <array>
 #include <cstdlib>
@@ -11,7 +13,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "dispersion.h"
 #include "game_constants.h"

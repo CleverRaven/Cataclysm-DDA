@@ -1,10 +1,10 @@
+#include "catch/catch.hpp"
+
 #include "requirements.h"
 
 #include <algorithm>
 #include <cstddef>
 #include <memory>
-
-#include "catch/catch.hpp"
 
 static const itype_id itype_acid( "acid" );
 static const itype_id itype_ash( "ash" );

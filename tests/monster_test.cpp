@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cmath>
 #include <fstream>
 #include <sstream>
@@ -8,7 +10,6 @@
 #include <memory>
 #include <utility>
 
-#include "catch/catch.hpp"
 #include "character.h"
 #include "game.h"
 #include "game_constants.h"

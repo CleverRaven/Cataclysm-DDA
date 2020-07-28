@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <array>
 
-#include "catch/catch.hpp"
 #include "coordinates.h"
 #include "map_iterator.h"
 #include "point.h"

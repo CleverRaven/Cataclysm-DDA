@@ -1,5 +1,6 @@
-#include "avatar.h"
 #include "catch/catch.hpp"
+
+#include "avatar.h"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"

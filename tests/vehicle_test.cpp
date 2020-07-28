@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "damage.h"
 #include "enums.h"
 #include "item.h"

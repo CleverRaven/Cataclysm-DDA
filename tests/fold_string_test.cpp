@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <initializer_list>
 #include <iterator>
 #include <vector>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "output.h"
 
 template<class IterResult, class IterExpect>

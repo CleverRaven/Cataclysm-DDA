@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <cstdlib>
 #include <memory>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "calendar.h"
 #include "item.h"
 #include "enums.h"

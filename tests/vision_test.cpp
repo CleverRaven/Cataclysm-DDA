@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cstddef>
 #include <iomanip>
@@ -9,7 +11,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "field.h"
 #include "game.h"

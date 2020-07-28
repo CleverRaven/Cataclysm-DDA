@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <cstdlib>
 #include <memory>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "point.h"
 #include "weather.h"

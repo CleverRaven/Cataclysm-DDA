@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <array>
 #include <cstdlib>
 #include <memory>
@@ -6,7 +8,6 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "itype.h"
 #include "morale_types.h"

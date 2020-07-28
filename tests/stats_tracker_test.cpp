@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <sstream>
 
 #include "achievement.h"
 #include "calendar.h"
 #include "cata_variant.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "event.h"

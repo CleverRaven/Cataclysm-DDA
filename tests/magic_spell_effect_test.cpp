@@ -1,6 +1,7 @@
+#include "catch/catch.hpp"
+
 #include <sstream>
 
-#include "catch/catch.hpp"
 #include "json.h"
 #include "magic.h"
 #include "magic_spell_effect_helpers.h"

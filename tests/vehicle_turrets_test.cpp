@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -5,7 +7,6 @@
 #include <vector>
 
 #include "ammo.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "item.h"
 #include "item_location.h"
