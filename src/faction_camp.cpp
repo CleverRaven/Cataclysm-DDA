@@ -3921,7 +3921,7 @@ bool basecamp::distribute_food()
         if( !it.goes_bad() ) {
             return 1.;
         }
-        float spoil_mod = 1;
+        float spoil_mod = 1.0f;
         if( container ) {
             if( item_pocket *const pocket = container->contained_where( it ) ) {
                 spoil_mod = pocket->spoil_multiplier();

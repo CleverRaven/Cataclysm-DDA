@@ -2443,7 +2443,7 @@ bool Character::can_install_bionics( const itype &type, Character &installer, bo
 
 float Character::env_surgery_bonus( int radius ) const
 {
-    float bonus = 1.0;
+    float bonus = 1.0f;
     map &here = get_map();
     for( const tripoint &cell : here.points_in_radius( pos(), radius ) ) {
         if( here.furn( cell )->surgery_skill_multiplier ) {

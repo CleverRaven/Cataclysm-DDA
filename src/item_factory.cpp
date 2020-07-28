@@ -2178,9 +2178,9 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.specific_heat_liquid = material_id( mat )->specific_heat_liquid();
         slot.latent_heat = material_id( mat )->latent_heat();
     } else if( jo.has_member( "material" ) ) {
-        float specific_heat_solid = 0;
-        float specific_heat_liquid = 0;
-        float latent_heat = 0;
+        float specific_heat_solid = 0.0f;
+        float specific_heat_liquid = 0.0f;
+        float latent_heat = 0.0f;
 
         for( const std::string &m : jo.get_tags( "material" ) ) {
             specific_heat_solid += material_id( m )->specific_heat_solid();

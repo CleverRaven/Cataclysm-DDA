@@ -3713,7 +3713,7 @@ void emit_actor::load( const JsonObject &obj )
 int emit_actor::use( player &, item &it, bool, const tripoint &pos ) const
 {
     map &here = get_map();
-    const float scaling = scale_qty ? it.charges : 1;
+    const float scaling = scale_qty ? it.charges : 1.0f;
     for( const auto &e : emits ) {
         here.emit_field( pos, e, scaling );
     }

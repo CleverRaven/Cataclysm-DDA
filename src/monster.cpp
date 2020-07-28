@@ -2775,8 +2775,8 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
-    float ret = get_size() - 2; // Zed gets 1, cat -1, hulk 3
-    ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
+    float ret = get_size() - 2.0f; // Zed gets 1, cat -1, hulk 3
+    ret += has_flag( MF_ELECTRONIC ) ? 2.0f : 0.0f; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
     return ret;

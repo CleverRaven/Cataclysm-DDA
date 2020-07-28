@@ -474,7 +474,7 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
         }
     }
 
-    float fun_max = fun < 0 ? fun * 6 : fun * 3;
+    float fun_max = fun < 0 ? fun * 6.0f : fun * 3.0f;
     if( comest.has_flag( flag_EATEN_COLD ) && comest.has_flag( flag_COLD ) ) {
         if( fun > 0 ) {
             fun *= 2;
@@ -1691,7 +1691,7 @@ time_duration Character::get_consume_time( const item &it )
     }
     time_duration time = time_duration::from_seconds( std::max( ( volume /
                          5 ), 1 ) );  //Default 5 mL (1 tablespoon) per second
-    float consume_time_modifier = 1;//only for food and drinks
+    float consume_time_modifier = 1.0f;//only for food and drinks
     const bool eat_verb = it.has_flag( flag_USE_EAT_VERB );
     const std::string comest_type = it.get_comestible() ? it.get_comestible()->comesttype : "";
     if( eat_verb || comest_type == "FOOD" ) {

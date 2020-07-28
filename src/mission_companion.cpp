@@ -1528,7 +1528,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
             } );
         }
     }
-    float avg_survival = 0;
+    float avg_survival = 0.0f;
     for( const auto &guy : group ) {
         avg_survival += guy->get_skill_level( skill_survival );
     }

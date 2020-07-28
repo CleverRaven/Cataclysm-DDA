@@ -204,7 +204,7 @@ void mdeath::splatter( monster &z )
     gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
-        float overflow_ratio = overflow_damage / max_hp + 1;
+        float overflow_ratio = overflow_damage / max_hp + 1.0f;
         int gib_distance = std::round( rng( 2, 4 ) );
         for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.

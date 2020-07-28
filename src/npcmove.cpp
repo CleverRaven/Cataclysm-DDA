@@ -633,7 +633,7 @@ float npc::character_danger( const Character &uc ) const
 {
     // TODO: Remove this when possible
     const player &u = dynamic_cast<const player &>( uc );
-    float ret = 0.0;
+    float ret = 0.0f;
     bool u_gun = u.weapon.is_gun();
     bool my_gun = weapon.is_gun();
     double u_weap_val = u.weapon_value( u.weapon );

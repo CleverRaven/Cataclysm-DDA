@@ -746,7 +746,7 @@ void Character::start_craft( craft_command &command, const tripoint &loc )
     item_location craft_in_world;
 
     // Check if we are standing next to a workbench. If so, just use that.
-    float best_bench_multi = 0.0;
+    float best_bench_multi = 0.0f;
     tripoint target = loc;
     map &here = get_map();
     for( const tripoint &adj : here.points_in_radius( pos(), 1 ) ) {

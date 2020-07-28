@@ -867,7 +867,7 @@ void monster::move()
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
         moved = false;
-        float switch_chance = 0.0;
+        float switch_chance = 0.0f;
         const bool can_bash = bash_skill() > 0;
         // This is a float and using trig_dist() because that Does the Right Thing(tm)
         // in both circular and roguelike distance modes.

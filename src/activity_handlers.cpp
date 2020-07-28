@@ -790,9 +790,9 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
 // this function modifies the input weight by its damage level, depending on the bodypart
 static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
-    const float slight_damage = 0.9;
-    const float damage = 0.75;
-    const float high_damage = 0.5;
+    const float slight_damage = 0.9f;
+    const float damage = 0.75f;
+    const float high_damage = 0.5f;
     const int destroyed = 0;
 
     switch( damage_level ) {

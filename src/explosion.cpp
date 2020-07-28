@@ -84,13 +84,13 @@ static const bionic_id bio_sunglasses( "bio_sunglasses" );
 
 // Global to smuggle data into shrapnel_calc() function without replicating it across entire map.
 // Mass in kg
-float fragment_mass = 0.0001;
+float fragment_mass = 0.0001f;
 // Cross-sectional area in cm^2
-float fragment_area = 0.00001;
+float fragment_area = 0.00001f;
 // Minimum velocity resulting in skin perforation according to https://www.ncbi.nlg->m.nih.gov/pubmed/7304523
-constexpr float MIN_EFFECTIVE_VELOCITY = 70.0;
+constexpr float MIN_EFFECTIVE_VELOCITY = 70.0f;
 // Pretty arbitrary minimum density.  1/1,000 change of a fragment passing through the given square.
-constexpr float MIN_FRAGMENT_DENSITY = 0.0001;
+constexpr float MIN_FRAGMENT_DENSITY = 0.0001f;
 
 explosion_data load_explosion_data( const JsonObject &jo )
 {
@@ -136,9 +136,9 @@ static int ballistic_damage( float velocity, float mass )
 static float mass_to_area( const float mass )
 {
     // Density of steel in g/cm^3
-    constexpr float steel_density = 7.85;
+    constexpr float steel_density = 7.85f;
     float fragment_volume = ( mass / 1000.0 ) / steel_density;
-    float fragment_radius = std::cbrt( ( fragment_volume * 3.0 ) / ( 4.0 * M_PI ) );
+    float fragment_radius = std::cbrt( ( fragment_volume * 3.0f ) / ( 4.0f * M_PI ) );
     return fragment_radius * fragment_radius * M_PI;
 }
 
@@ -888,11 +888,11 @@ fragment_cloud shrapnel_calc( const fragment_cloud &initial,
                               const int &distance )
 {
     // SWAG coefficient of drag.
-    constexpr float Cd = 0.5;
+    constexpr float Cd = 0.5f;
     fragment_cloud new_cloud;
     new_cloud.velocity = initial.velocity * std::exp( -cloud.velocity * ( (
                              Cd * fragment_area * distance ) /
-                         ( 2.0 * fragment_mass ) ) );
+                         ( 2.0f * fragment_mass ) ) );
     // Two effects, the accumulated proportion of blocked fragments,
     // and the inverse-square dilution of fragments with distance.
     new_cloud.density = ( initial.density * cloud.density ) / ( distance * distance / 2.5 );

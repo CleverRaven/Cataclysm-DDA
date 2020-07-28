@@ -60,7 +60,7 @@ void map::add_light_from_items( const tripoint &p, const item_stack::iterator &b
                                 const item_stack::iterator &end )
 {
     for( auto itm_it = begin; itm_it != end; ++itm_it ) {
-        float ilum = 0.0; // brightness
+        float ilum = 0.0f; // brightness
         int iwidth = 0; // 0-360 degrees. 0 is a circular light_source
         int idir = 0;   // otherwise, it's a light_arc pointed in this direction
         if( itm_it->getlight( ilum, iwidth, idir ) ) {
@@ -410,15 +410,15 @@ void map::generate_lightmap( const int zlev )
 
         auto lights = v->lights( true );
 
-        float veh_luminance = 0.0;
-        float iteration = 1.0;
+        float veh_luminance = 0.0f;
+        float iteration = 1.0f;
 
         for( const vehicle_part *pt : lights ) {
             const vpart_info &vp = pt->info();
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
                 vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
                 veh_luminance += vp.bonus / iteration;
-                iteration = iteration * 1.1;
+                iteration = iteration * 1.1f;
             }
         }
 
@@ -1456,7 +1456,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
     auto &lm = get_cache( s.z ).lm;
     auto &transparency_cache = get_cache( s.z ).transparency_cache;
 
-    float distance = 1.0;
+    float distance = 1.0f;
     float transparency = LIGHT_TRANSPARENCY_OPEN_AIR;
     const float scaling_factor = static_cast<float>( rl_dist( s, e ) ) /
                                  static_cast<float>( square_dist( s, e ) );

@@ -52,7 +52,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const std::string part_location_structure( "structure" );
 
 // tile height in meters
-static const float tile_height = 4;
+static const float tile_height = 4.0f;
 // miles per hour to vehicle 100ths of miles per hour
 static const int mi_to_vmi = 100;
 // meters per second to miles per hour
@@ -841,19 +841,19 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     int dmg_mod = part_info( ret.part ).dmg_mod;
     // Let's calculate type of collision & mass of object we hit
-    float mass2 = 0;
+    float mass2 = 0.0f;
     // e = 0 -> plastic collision
-    float e = 0.3;
+    float e = 0.3f;
     // e = 1 -> inelastic collision
     //part density
-    float part_dens = 0;
+    float part_dens = 0.0f;
 
     if( is_body_collision ) {
         // Check any monster/NPC/player on the way
         // body
         ret.type = veh_coll_body;
         ret.target = critter;
-        e = 0.30;
+        e = 0.30f;
         part_dens = 15;
         mass2 = units::to_kilogram( critter->get_weight() );
         ret.target_name = critter->disp_name();
@@ -879,7 +879,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // not destructible
         ret.type = veh_coll_other;
         mass2 = 1000;
-        e = 0.10;
+        e = 0.10f;
         part_dens = 80;
         ret.target_name = here.disp_name( p );
     }
@@ -898,7 +898,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).item );
     const auto &mats = type->materials;
-    float vpart_dens = 0;
+    float vpart_dens = 0.0f;
     if( !mats.empty() ) {
         for( const material_id &mat_id : mats ) {
             vpart_dens += mat_id.obj().density();
@@ -909,7 +909,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     //k=100 -> 100% damage on part
     //k=0 -> 100% damage on obj
-    float material_factor = ( part_dens - vpart_dens ) * 0.5;
+    float material_factor = ( part_dens - vpart_dens ) * 0.5f;
     material_factor = std::max( -25.0f, std::min( 25.0f, material_factor ) );
     // factor = -25 if mass is much greater than mass2
     // factor = +25 if mass2 is much greater than mass
@@ -971,11 +971,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Damage for vehicle-part
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
-            part_dmg = dmg * k / 100;
+            part_dmg = dmg * k / 100.0f;
             add_msg( m_debug, "Part collision damage: %.2f", part_dmg );
         }
         // Damage for object
-        const float obj_dmg = dmg * ( 100 - k ) / 100;
+        const float obj_dmg = dmg * ( 100.0f - k ) / 100.0f;
 
         if( ret.type == veh_coll_bashable ) {
             // Something bashable -- use map::bash to determine outcome
@@ -995,7 +995,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                     smashed = false;
                     ret.type = veh_coll_other;
                     mass2 = 1000;
-                    e = 0.10;
+                    e = 0.10f;
                     part_dens = 80;
                     ret.target_name = here.disp_name( p );
                 }

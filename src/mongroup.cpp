@@ -59,7 +59,7 @@ void mongroup::clear()
 
 float mongroup::avg_speed() const
 {
-    float avg_speed = 0;
+    float avg_speed = 0.0f;
     if( monsters.empty() ) {
         const MonsterGroup &g = type.obj();
         int remaining_frequency = 1000;

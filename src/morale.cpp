@@ -1010,7 +1010,7 @@ void player_morale::update_stylish_bonus()
     int bonus = 0;
 
     if( stylish ) {
-        float tmp_bonus = 0;
+        float tmp_bonus = 0.0f;
         for( const std::pair<const bodypart_id, body_part_data> &bpt : body_parts ) {
             if( bpt.second.fancy > 0 ) {
                 tmp_bonus += bpt.first->stylish_bonus;
@@ -1045,14 +1045,14 @@ void player_morale::update_masochist_bonus()
 
 void player_morale::update_bodytemp_penalty( const time_duration &ticks )
 {
-    float max_cold_penalty = 0;
-    float max_hot_penalty = 0;
+    float max_cold_penalty = 0.0f;
+    float max_hot_penalty = 0.0f;
     for( const std::pair<const bodypart_id, body_part_data> &bpt : body_parts ) {
         const bodypart_id bp = bpt.first;
         max_cold_penalty += body_parts[bp].cold * bp->cold_morale_mod;
         max_hot_penalty += body_parts[bp].hot * bp->hot_morale_mod;
     }
-    if( max_cold_penalty != 0 ) {
+    if( max_cold_penalty != 0.0f ) {
         add( MORALE_COLD, -2 * to_turns<int>( ticks ), -std::abs( max_cold_penalty ), 1_minutes, 30_seconds,
              true );
     }

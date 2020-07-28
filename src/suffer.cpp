@@ -830,14 +830,14 @@ void Character::suffer_from_albinism()
                 continue;
             }
             //percent of "not covered skin"
-            float p = 1.0 - i.get_coverage( bp ) / 100.0;
+            float p = 1.0 - i.get_coverage( bp ) / 100.0f;
             open_percent[bp->token] = open_percent[bp->token] * p;
         }
     }
 
-    const float COVERAGE_LIMIT = 0.01;
+    const float COVERAGE_LIMIT = 0.01f;
     body_part max_affected_bp = num_bp;
-    float max_affected_bp_percent = 0;
+    float max_affected_bp_percent = 0.0f;
     int count_affected_bp = 0;
     for( const std::pair<const body_part, float> &it : open_percent ) {
         const body_part &bp = it.first;

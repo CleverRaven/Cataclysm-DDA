@@ -411,7 +411,7 @@ void map::vehmove()
 bool map::vehproceed( VehicleList &vehicle_list )
 {
     wrapped_vehicle *cur_veh = nullptr;
-    float max_of_turn = 0;
+    float max_of_turn = 0.0f;
     // First horizontal movement
     for( wrapped_vehicle &vehs_v : vehicle_list ) {
         if( vehs_v.v->of_turn > max_of_turn ) {
@@ -653,7 +653,7 @@ vehicle *map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &fac
         // Values to deal with crushing items.
         // The math needs to be floating-point to work, so the values might as well be.
         const float vehicle_grounded_wheel_area = static_cast<int>( vehicle_wheel_traction( veh, true ) );
-        const float weight_to_damage_factor = 0.05; // Nobody likes a magic number.
+        const float weight_to_damage_factor = 0.05f; // Nobody likes a magic number.
         const float vehicle_mass_kg = to_kilogram( veh.total_mass() );
 
         for( const int &w : wheel_indices ) {
@@ -787,13 +787,13 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         }
 
         //give veh2 the initiative to proceed next before veh1
-        float avg_of_turn = ( veh2.of_turn + veh.of_turn ) / 2;
-        if( avg_of_turn < .1f ) {
-            avg_of_turn = .1f;
+        float avg_of_turn = ( veh2.of_turn + veh.of_turn ) / 2.0f;
+        if( avg_of_turn < 0.1f ) {
+            avg_of_turn = 0.1f;
         }
 
-        veh.of_turn = avg_of_turn * .9;
-        veh2.of_turn = avg_of_turn * 1.1;
+        veh.of_turn = avg_of_turn * 0.9f;
+        veh2.of_turn = avg_of_turn * 1.1f;
 
         //Energy after collision
         float E_a = 0.5 * m1 * final1.magnitude() * final1.magnitude() +
@@ -808,8 +808,8 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
         veh.vertical_velocity = 0;
     }
 
-    float dmg_veh1 = dmg * 0.5;
-    float dmg_veh2 = dmg * 0.5;
+    float dmg_veh1 = dmg * 0.5f;
+    float dmg_veh2 = dmg * 0.5f;
 
     int coll_parts_cnt = 0; //quantity of colliding parts between veh1 and veh2
     for( const auto &veh_veh_coll : collisions ) {
@@ -3509,7 +3509,7 @@ void map::crush( const tripoint &p )
 void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
 {
     // TODO: Make bashing count fully, but other types much less
-    float initial_damage = 0.0;
+    float initial_damage = 0.0f;
     for( damage_unit dam : proj.impact ) {
         initial_damage += dam.amount;
         initial_damage += dam.res_pen;
@@ -4645,7 +4645,7 @@ void map::process_items_in_vehicle( vehicle &cur_veh, submap &current_submap )
         const vehicle_part &pt = it->part();
         const tripoint item_loc = it->pos();
         auto items = cur_veh.get_items( static_cast<int>( it->part_index() ) );
-        float it_insulation = 1.0;
+        float it_insulation = 1.0f;
         temperature_flag flag = temperature_flag::NORMAL;
         if( target.has_temperature() || target.is_food_container() ) {
             const vpart_info &pti = pt.info();

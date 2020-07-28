@@ -1262,8 +1262,8 @@ bool game::cleanup_at_end()
 
 static int veh_lumi( vehicle &veh )
 {
-    float veh_luminance = 0.0;
-    float iteration = 1.0;
+    float veh_luminance = 0.0f;
+    float iteration = 1.0f;
     auto lights = veh.lights( true );
 
     for( const vehicle_part *pt : lights ) {
@@ -1271,7 +1271,7 @@ static int veh_lumi( vehicle &veh )
         if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
             vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
             veh_luminance += vp.bonus / iteration;
-            iteration = iteration * 1.1;
+            iteration = iteration * 1.1f;
         }
     }
     // Calculation: see lightmap.cpp
@@ -3742,7 +3742,7 @@ cata::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
     }
     vehicle *const veh = &vp->vehicle();
     rl_vec2d face = next ? veh->dir_vec() : veh->face_vec();
-    float r = 10.0;
+    float r = 10.0f;
     return tripoint( static_cast<int>( r * face.x ), static_cast<int>( r * face.y ), u.pos().z );
 }
 
@@ -10354,7 +10354,7 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
         tdir.advance();
         pt.x = c->posx() + tdir.dx();
         pt.y = c->posy() + tdir.dy();
-        float force = 0;
+        float force = 0.0f;
 
         if( monster *const mon_ptr = critter_at<monster>( pt ) ) {
             monster &critter = *mon_ptr;

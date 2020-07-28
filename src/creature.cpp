@@ -244,21 +244,21 @@ bool Creature::sees( const Creature &critter ) const
             if( coverage < 30 ) {
                 return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
             }
-            float size_modifier = 1.0;
+            float size_modifier = 1.0f;
             switch( ch->get_size() ) {
                 case creature_size::tiny:
-                    size_modifier = 2.0;
+                    size_modifier = 2.0f;
                     break;
                 case creature_size::small:
-                    size_modifier = 1.4;
+                    size_modifier = 1.4f;
                     break;
                 case creature_size::medium:
                     break;
                 case creature_size::large:
-                    size_modifier = 0.6;
+                    size_modifier = 0.6f;
                     break;
                 case creature_size::huge:
-                    size_modifier = 0.15;
+                    size_modifier = 0.15f;
                     break;
             }
             const int vision_modifier = 30 - 0.5 * coverage * size_modifier;

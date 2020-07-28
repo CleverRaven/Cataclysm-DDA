@@ -1448,7 +1448,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
     const float mon_dodge = mon.get_dodge();
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
     base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bodypart_id( "torso" ) ) / 100.0f );
-    float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0;
+    float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0f;
     constexpr double hit_trials = 10000.0;
     const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
                                    -20 ) + 20;
@@ -4342,7 +4342,7 @@ void item::on_wield( player &p, int mv )
 
     // weapons with bayonet/bipod or other generic "unhandiness"
     if( has_flag( flag_SLOW_WIELD ) && !is_gunmod() ) {
-        float d = 32.0; // arbitrary linear scaling factor
+        float d = 32.0f; // arbitrary linear scaling factor
         if( is_gun() ) {
             d /= std::max( p.get_skill_level( gun_skill() ), 1 );
         } else if( is_melee() ) {
@@ -5739,7 +5739,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     int encumber = 0;
-    float relative_encumbrance = 1.0;
+    float relative_encumbrance = 1.0f;
     // Additional encumbrance from non-rigid pockets
     if( !( flags & encumber_flags::assume_full ) ) {
         if( !cached_relative_encumbrance ) {
@@ -5984,7 +5984,7 @@ int item::bash_resist( bool to_self ) const
         return 0;
     }
 
-    float resist = 0;
+    float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_bash );
 
     // base resistance
@@ -6012,7 +6012,7 @@ int item::cut_resist( bool to_self ) const
     }
 
     const int base_thickness = get_thickness();
-    float resist = 0;
+    float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_cut );
 
     // base resistance
@@ -6050,7 +6050,7 @@ int item::bullet_resist( bool to_self ) const
     }
 
     const int base_thickness = get_thickness();
-    float resist = 0;
+    float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_bullet );
 
     // base resistance
@@ -6078,10 +6078,10 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         return INT_MAX;
     }
 
-    float resist = 0.0;
+    float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_acid );
     if( is_null() ) {
-        return 0.0;
+        return 0.0f;
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -6112,10 +6112,10 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
         return INT_MAX;
     }
 
-    float resist = 0.0;
+    float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_fire );
     if( is_null() ) {
-        return 0.0;
+        return 0.0f;
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -8389,15 +8389,15 @@ void item::set_item_specific_energy( const float new_specific_energy )
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy +
             latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
-    float new_item_temperature;
-    float freeze_percentage = 1;
+    float new_item_temperature = 0.0f;
+    float freeze_percentage = 1.0f;
 
     if( new_specific_energy > completely_liquid_specific_energy ) {
         // Item is liquid
         new_item_temperature = freezing_temperature + ( new_specific_energy -
                                completely_liquid_specific_energy ) /
                                ( specific_heat_liquid );
-        freeze_percentage = 0;
+        freeze_percentage = 0.0f;
     } else if( new_specific_energy < completely_frozen_specific_energy ) {
         // Item is solid
         new_item_temperature = new_specific_energy / ( specific_heat_solid );
@@ -8472,7 +8472,7 @@ void item::set_item_temperature( float new_temperature )
     const float latent_heat = get_latent_heat(); // J/kg
 
     float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
-    float freeze_percentage = 0;
+    float freeze_percentage = 0.0f;
 
     temperature = std::lround( 100000 * new_temperature );
     specific_energy = std::lround( 100000 * new_specific_energy );
@@ -9101,7 +9101,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
 
     float new_specific_energy;
     float new_item_temperature;
-    float freeze_percentage = 0;
+    float freeze_percentage = 0.0f;
     int extra_time;
 
     // Temperature calculations based on Newton's law of cooling.
@@ -10261,7 +10261,7 @@ float item::get_clothing_mod_val( clothing_mod_type type ) const
 {
     const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
                                 type );
-    return get_var( key, 0.0 );
+    return get_var( key, 0.0f );
 }
 
 void item::update_clothing_mod_val()
@@ -10269,7 +10269,7 @@ void item::update_clothing_mod_val()
     for( const clothing_mod_type &type : clothing_mods::all_clothing_mod_types ) {
         const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
                                     type );
-        float tmp = 0.0;
+        float tmp = 0.0f;
         for( const clothing_mod &cm : clothing_mods::get_all_with( type ) ) {
             if( item_tags.count( cm.flag ) > 0 ) {
                 tmp += cm.get_mod_val( type, *this );

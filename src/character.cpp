@@ -546,7 +546,7 @@ void Character::mod_stat( const std::string &stat, float modifier )
 
 int Character::get_fat_to_hp() const
 {
-    float mut_fat_hp = 0;
+    float mut_fat_hp = 0.0f;
     for( const trait_id &mut : get_mutations() ) {
         mut_fat_hp += mut.obj().fat_to_max_hp;
     }
@@ -2111,7 +2111,7 @@ std::vector<bionic_id> Character::get_fueled_bionics() const
 
 bionic_id Character::get_most_efficient_bionic( const std::vector<bionic_id> &bids ) const
 {
-    float temp_eff = 0;
+    float temp_eff = 0.0f;
     bionic_id bio( "null" );
     for( const bionic_id &bid : bids ) {
         if( bid->fuel_efficiency > temp_eff ) {
@@ -4111,7 +4111,7 @@ bool Character::in_climate_control()
 int Character::get_wind_resistance( const bodypart_id &bp ) const
 {
     int coverage = 0;
-    float totalExposed = 1.0;
+    float totalExposed = 1.0f;
     int totalCoverage = 0;
     int penalty = 100;
 
@@ -6917,7 +6917,7 @@ int Character::visibility( bool, int ) const
  */
 float Character::active_light() const
 {
-    float lumination = 0;
+    float lumination = 0.0f;
 
     int maxlum = 0;
     has_item_with( [&maxlum]( const item & it ) {
@@ -9735,7 +9735,7 @@ void Character::apply_persistent_morale()
     // Nomads get a morale penalty if they stay near the same overmap tiles too long.
     if( has_trait( trait_NOMAD ) || has_trait( trait_NOMAD2 ) || has_trait( trait_NOMAD3 ) ) {
         const tripoint_abs_omt ompos = global_omt_location();
-        float total_time = 0;
+        float total_time = 0.0f;
         // Check how long we've stayed in any overmap tile within 5 of us.
         const int max_dist = 5;
         for( const tripoint_abs_omt &pos : points_in_radius( ompos, max_dist ) ) {
@@ -10511,33 +10511,33 @@ int Character::heartrate_bpm() const
     }
     //COLDBLOOD dependencies, works almost same way as temperature effect for speed.
     const int player_local_temp = get_weather().get_temperature( pos() );
-    float temperature_modifier = 0;
+    float temperature_modifier = 0.0f;
     if( has_trait( trait_COLDBLOOD ) ) {
-        temperature_modifier = 0.002;
+        temperature_modifier = 0.002f;
     }
     if( has_trait( trait_COLDBLOOD2 ) ) {
-        temperature_modifier = 0.00333;
+        temperature_modifier = 0.00333f;
     }
     if( has_trait( trait_COLDBLOOD3 ) || has_trait( trait_COLDBLOOD4 ) ) {
-        temperature_modifier = 0.005;
+        temperature_modifier = 0.005f;
     }
     average_heartbeat *= 1 + ( ( player_local_temp - 65 ) * temperature_modifier );
     //Limit avg from below with 20, arbitary
     average_heartbeat = std::max( 20, average_heartbeat );
     const float stamina_level = static_cast<float>( get_stamina() ) / get_stamina_max();
-    float stamina_effect = 0;
-    if( stamina_level >= 0.9 ) {
-        stamina_effect = 0;
-    } else if( stamina_level >= 0.8 ) {
-        stamina_effect = 0.2;
-    } else if( stamina_level >= 0.6 ) {
-        stamina_effect = 0.5;
-    } else if( stamina_level >= 0.4 ) {
-        stamina_effect = 1;
-    } else if( stamina_level >= 0.2 ) {
-        stamina_effect = 1.5;
+    float stamina_effect = 0.0f;
+    if( stamina_level >= 0.9f ) {
+        stamina_effect = 0.0f;
+    } else if( stamina_level >= 0.8f ) {
+        stamina_effect = 0.2f;
+    } else if( stamina_level >= 0.6f ) {
+        stamina_effect = 0.5f;
+    } else if( stamina_level >= 0.4f ) {
+        stamina_effect = 1.0f;
+    } else if( stamina_level >= 0.2f ) {
+        stamina_effect = 1.5f;
     } else {
-        stamina_effect = 2;
+        stamina_effect = 2.0f;
     }
     //can triple heartrate
     int heartbeat = average_heartbeat * ( 1 + stamina_effect );
@@ -10566,7 +10566,7 @@ int Character::heartrate_bpm() const
     heartbeat += average_heartbeat * healthy_modifier;
     //Pain simply adds 2% per point after it reaches 5 (that's arbitary)
     const int cur_pain = get_perceived_pain();
-    float pain_modifier = 0;
+    float pain_modifier = 0.0f;
     if( cur_pain > 5 ) {
         pain_modifier = 0.02 * ( cur_pain - 5 );
     }
@@ -11061,11 +11061,11 @@ bool Character::can_hear( const tripoint &source, const int volume ) const
 
 float Character::hearing_ability() const
 {
-    float volume_multiplier = 1.0;
+    float volume_multiplier = 1.0f;
 
     // Mutation/Bionic volume modifiers
     if( has_active_bionic( bio_ears ) && !has_active_bionic( bio_earplugs ) ) {
-        volume_multiplier *= 3.5;
+        volume_multiplier *= 3.5f;
     }
     if( has_trait( trait_PER_SLIME ) ) {
         // Random hearing :-/
@@ -11082,7 +11082,7 @@ float Character::hearing_ability() const
     }
 
     if( has_effect( effect_earphones ) ) {
-        volume_multiplier *= .25;
+        volume_multiplier *= 0.25f;
     }
 
     return volume_multiplier;

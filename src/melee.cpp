@@ -189,7 +189,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     itype_id big_comp = itype_id::NULL_ID();
     // Fragile items that fall apart easily when used as a weapon due to poor construction quality
     if( shield.has_flag( "FRAGILE_MELEE" ) ) {
-        const float fragile_factor = 6;
+        const float fragile_factor = 6.0f;
         int weak_chip = INT_MAX;
         units::volume big_vol = 0_ml;
 
@@ -1726,8 +1726,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
     const float physical_block_multiplier = logarithmic_range( 0, 40, block_score );
 
-    float total_damage = 0.0;
-    float damage_blocked = 0.0;
+    float total_damage = 0.0f;
+    float damage_blocked = 0.0f;
 
     for( auto &elem : dam.damage_units ) {
         total_damage += elem.amount;

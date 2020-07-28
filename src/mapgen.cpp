@@ -135,7 +135,7 @@ void map::generate( const tripoint &p, const time_point &when )
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimeters sparse.
-    float density = 0.0;
+    float density = 0.0f;
     for( int i = -MON_RADIUS; i <= MON_RADIUS; i++ ) {
         for( int j = -MON_RADIUS; j <= MON_RADIUS; j++ ) {
             density += overmap_buffer.ter( abs_omt + point( i, j ) )->get_mondensity();
@@ -168,7 +168,7 @@ void map::generate( const tripoint &p, const time_point &when )
 
     // Apply a multiplier to the number of monsters for really high densities.
     float odds_after_density = spawns.chance * spawn_density;
-    const float max_odds = 100 - ( 100 - spawns.chance ) / 2.0;
+    const float max_odds = 100 - ( 100 - spawns.chance ) / 2.0f;
     float density_multiplier = 1.0f;
     if( odds_after_density > max_odds ) {
         density_multiplier = 1.0f * odds_after_density / max_odds;
@@ -1300,7 +1300,7 @@ class jmapgen_monster : public jmapgen_piece
             // For example, a 50% chance at spawn density 4 becomes a 75% chance of ~2.7 monsters.
             int odds_after_density = raw_odds * get_option<float>( "SPAWN_DENSITY" );
             int max_odds = ( 100 + raw_odds ) / 2;
-            float density_multiplier = 1;
+            float density_multiplier = 1.0f;
             if( odds_after_density > max_odds ) {
                 density_multiplier = 1.0f * odds_after_density / max_odds;
                 odds_after_density = max_odds;

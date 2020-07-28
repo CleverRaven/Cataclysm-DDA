@@ -167,15 +167,15 @@ void stomach_contents::deserialize( JsonIn &json )
 
 units::volume stomach_contents::capacity( const Character &owner ) const
 {
-    float max_mod = 1;
+    float max_mod = 1.0f;
     if( owner.has_trait( trait_GIZZARD ) ) {
-        max_mod *= 0.9;
+        max_mod *= 0.9f;
     }
     if( owner.has_active_mutation( trait_HIBERNATE ) ) {
-        max_mod *= 3;
+        max_mod *= 3.0f;
     }
     if( owner.has_active_mutation( trait_GOURMAND ) ) {
-        max_mod *= 2;
+        max_mod *= 2.0f;
     }
     if( owner.has_trait( trait_SLIMESPAWNER ) ) {
         max_mod *= 3;

@@ -232,7 +232,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
 static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
 {
     const int fast_shooting_range = 3;
-    const float hit_rate_cap = hit_rate + 0.3;
+    const float hit_rate_cap = hit_rate + 0.3f;
     const dispersion_sources dispersion = get_dispersion( shooter, moves );
     firing_statistics fast_stats = firing_test( dispersion, fast_shooting_range,
                                    Threshold( accuracy_standard, hit_rate ) );

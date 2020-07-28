@@ -4319,11 +4319,11 @@ bool mattack::absorb_meat( monster *z )
 {
     //Absorb no more than 1/10th monster's volume, times the volume of a meat chunk
     const int monster_volume = units::to_liter( z->get_volume() );
-    const float average_meat_chunk_volume = 0.5;
+    const float average_meat_chunk_volume = 0.5f;
     // TODO: dynamically get volume of meat
-    const int max_meat_absorbed = monster_volume / 10.0 * average_meat_chunk_volume;
+    const int max_meat_absorbed = monster_volume / 10.0f * average_meat_chunk_volume;
     //For every milliliter of meat absorbed, heal this many HP
-    const float meat_absorption_factor = 0.01;
+    const float meat_absorption_factor = 0.01f;
     Character &player_character = get_player_character();
     map &here = get_map();
     //Search surrounding tiles for meat

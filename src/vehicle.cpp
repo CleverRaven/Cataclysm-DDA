@@ -3321,8 +3321,8 @@ int vehicle::fuel_capacity( const itype_id &ftype ) const
 
 float vehicle::fuel_specific_energy( const itype_id &ftype ) const
 {
-    float total_energy = 0;
-    float total_mass = 0;
+    float total_energy = 0.0f;
+    float total_mass = 0.0f;
     for( const vehicle_part &vp : parts ) {
         if( vp.is_tank() && vp.ammo_current() == ftype &&
             vp.base.contents.legacy_front().made_of( phase_id::LIQUID ) ) {
@@ -3859,7 +3859,7 @@ float vehicle::average_or_rating() const
     if( wheelcache.empty() ) {
         return 0.0f;
     }
-    float total_rating = 0;
+    float total_rating = 0.0f;
     for( const int &wheel_index : wheelcache ) {
         total_rating += part_info( wheel_index ).wheel_or_rating();
     }
@@ -4984,7 +4984,7 @@ int vehicle::traverse_vehicle_graph( Vehicle *start_veh, int amount, Func action
                 int target_loss = current_loss + current_veh->part_info( p ).epower;
                 connected_vehs.push( std::make_pair( target_veh, target_loss ) );
 
-                float loss_amount = ( static_cast<float>( amount ) * static_cast<float>( target_loss ) ) / 100;
+                float loss_amount = ( static_cast<float>( amount ) * static_cast<float>( target_loss ) ) / 100.0f;
                 add_msg( m_debug, "Visiting remote %p with %d power (loss %f, which is %d percent)",
                          static_cast<void *>( target_veh ), amount, loss_amount, target_loss );
 
@@ -5797,10 +5797,10 @@ void vehicle::refresh_pivot() const
     //
     // so it turns into a fairly simple weighted average of the wheel positions.
 
-    float xc_numerator = 0;
-    float xc_denominator = 0;
-    float yc_numerator = 0;
-    float yc_denominator = 0;
+    float xc_numerator = 0.0f;
+    float xc_denominator = 0.0f;
+    float yc_numerator = 0.0f;
+    float yc_denominator = 0.0f;
 
     for( int p : wheelcache ) {
         const vehicle_part &wheel = parts[p];
