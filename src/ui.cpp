@@ -876,7 +876,7 @@ void uilist::query( bool loop, int timeout )
     } while( loop && ret == UILIST_WAIT_INPUT );
 }
 
-uilist_entry *uilist::find_entry_by_coordinate( const point p )
+uilist_entry *uilist::find_entry_by_coordinate( const point &p )
 {
     for( int i : fentries ) {
         uilist_entry &entry = entries[i];
@@ -986,4 +986,3 @@ void pointmenu_cb::select( uilist *const menu )
 {
     impl->select( menu );
 }
-

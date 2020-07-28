@@ -342,7 +342,7 @@ class uilist // NOLINT(cata-xy)
 
         bool started = false;
 
-        uilist_entry *find_entry_by_coordinate( const point p );
+        uilist_entry *find_entry_by_coordinate( const point &p );
 
     public:
         // Results
