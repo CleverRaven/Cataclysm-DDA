@@ -70,6 +70,8 @@ class effect_type
         std::string get_remove_message() const;
         /** Returns the memorial log added when an effect is removed. */
         std::string get_remove_memorial_log() const;
+        /** Returns the effect's description displayed when character conducts blood analysis. */
+        std::string get_blood_analysis_description() const;
 
         /** Returns true if an effect will only target main body parts (i.e., those with HP). */
         bool get_main_parts() const;
@@ -137,6 +139,8 @@ class effect_type
         std::string apply_memorial_log;
         std::string remove_message;
         std::string remove_memorial_log;
+
+        std::string blood_analysis_description;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
