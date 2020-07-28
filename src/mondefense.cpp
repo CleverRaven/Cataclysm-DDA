@@ -10,9 +10,9 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "ballistics.h"
 #include "bodypart.h"
+#include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "dispersion.h"
@@ -56,8 +56,9 @@ void mdefense::zapback( monster &m, Creature *const source,
     if( const player *const foe = dynamic_cast<player *>( source ) ) {
         // Players/NPCs can avoid the shock if they wear non-conductive gear on their hands
         for( const item &i : foe->worn ) {
-            if( ( i.covers( bodypart_id( "hand_l" ) ) || i.covers( bodypart_id( "hand_r" ) ) ) &&
-                !i.conductive() && i.get_coverage() >= 95 ) {
+            if( !i.conductive()
+                && ( ( i.get_coverage( bodypart_id( "hand_l" ) ) >= 95 ) ||
+                     i.get_coverage( bodypart_id( "hand_r" ) ) >= 95 ) ) {
                 return;
             }
         }
@@ -76,8 +77,9 @@ void mdefense::zapback( monster &m, Creature *const source,
         return;
     }
 
-    if( get_avatar().sees( source->pos() ) ) {
-        const auto msg_type = source == &get_avatar() ? m_bad : m_info;
+
+    if( get_player_character().sees( source->pos() ) ) {
+        const auto msg_type = source->is_avatar() ? m_bad : m_info;
         add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m.name(), source->disp_name() );
     }
@@ -125,7 +127,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
     }
 
     // Don't splatter directly on the `m`, that doesn't work well
-    std::vector<tripoint> pts = closest_tripoints_first( source->pos(), 1 );
+    std::vector<tripoint> pts = closest_points_first( source->pos(), 1 );
     pts.erase( std::remove( pts.begin(), pts.end(), m.pos() ), pts.end() );
 
     projectile prj;
@@ -139,7 +141,7 @@ void mdefense::acidsplash( monster &m, Creature *const source,
         projectile_attack( prj, m.pos(), target, dispersion_sources{ 1200 }, &m );
     }
 
-    if( get_avatar().sees( m.pos() ) ) {
+    if( get_player_character().sees( m.pos() ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ), m.disp_name() );
     }
 }

@@ -85,6 +85,15 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
+    "id": "spell_scroll_baleful_polymorph",
+    "//": "Technomancer spell",
+    "name": { "str": "Scroll of Baleful Polymorph", "str_pl": "Scrolls of Baleful Polymorph" },
+    "description": "Transform your enemies into frogs.",
+    "use_action": { "type": "learn_spell", "spells": [ "magus_baleful_polymorph" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
     "id": "spell_scroll_summon_zombie",
     "//": "Animist spell",
     "name": { "str": "Scroll of Summon Zombie", "str_pl": "Scrolls of Summon Zombie" },
@@ -900,5 +909,13 @@
     "name": { "str": "Scroll of Repelling Arc", "str_pl": "Scrolls of Repelling Arc" },
     "description": "You manifest an aura of crackling electricity around you to strike attackers with baleful lightning.",
     "use_action": { "type": "learn_spell", "spells": [ "stormshaper_repelling_arc" ] }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_tornskin",
+    "name": { "str": "Sappy Scroll" },
+    "description": "This scroll is covered in sap and rose thorns.  You can still make out some of the writings, but it probably won't work the same.",
+    "use_action": { "type": "learn_spell", "spells": [ "druid_tornskin" ] }
   }
 ]

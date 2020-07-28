@@ -121,6 +121,8 @@ class item_pocket
         // exceptions are MOD, CORPSE, SOFTWARE, MIGRATION, etc.
         bool is_standard_type() const;
 
+        const pocket_data *get_pocket_data() const;
+
         std::list<item *> all_items_top();
         std::list<const item *> all_items_top() const;
         std::list<item *> all_items_ptr( pocket_type pk_type );
@@ -170,6 +172,8 @@ class item_pocket
         std::vector<const item *> gunmods() const;
         cata::flat_set<itype_id> item_type_restrictions() const;
         item *magazine_current();
+        // returns the default magazine if MAGAZINE_WELL, otherwise NULL_ID
+        itype_id magazine_default() const;
         // returns amount of ammo consumed
         int ammo_consume( int qty );
         // returns all allowable ammotypes
@@ -196,7 +200,7 @@ class item_pocket
         bool sealed() const;
         std::string translated_sealed_prefix() const;
         bool detonate( const tripoint &p, std::vector<item> &drops );
-        bool process( const itype &type, player *carrier, const tripoint &pos, bool activate,
+        bool process( const itype &type, player *carrier, const tripoint &pos,
                       float insulation, temperature_flag flag );
         void remove_all_ammo( Character &guy );
         void remove_all_mods( Character &guy );
@@ -211,18 +215,16 @@ class item_pocket
         bool spill_contents( const tripoint &pos );
         void on_pickup( Character &guy );
         void on_contents_changed();
-        void handle_liquid_or_spill( Character &guy );
+        void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         void clear_items();
         bool has_item( const item &it ) const;
         item *get_item_with( const std::function<bool( const item & )> &filter );
         void remove_items_if( const std::function<bool( item & )> &filter );
-        void has_rotten_away();
-        void remove_rotten( const tripoint &pnt );
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        void process( player *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
         pocket_type saved_type() const {
             return _saved_type;
@@ -245,8 +247,6 @@ class item_pocket
 
         // only available to help with migration from previous usage of std::list<item>
         std::list<item> &edit_contents();
-
-        void migrate_item( item &obj, const std::set<itype_id> &migrations );
 
         // cost of getting an item from this pocket
         // @TODO: make move cost vary based on other contained items
@@ -361,6 +361,8 @@ class pocket_data
         // items stored are restricted to these item ids.
         // this takes precedence over the other two restrictions
         cata::flat_set<itype_id> item_id_restriction;
+        // the first in the json array for item_id_restriction when loaded
+        itype_id default_magazine = itype_id::NULL_ID();
         // container's size and encumbrance does not change based on contents.
         bool rigid = false;
 

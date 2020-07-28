@@ -98,6 +98,7 @@
     "stim": 1,
     "quench": 34,
     "healthy": 1,
+    "calories": 9,
     "description": "A healthy beverage made from bee balm steeped in boiling water.  Can be used to reduce negative effects of common cold or flu.",
     "price": 100,
     "price_postapoc": 25,
@@ -146,7 +147,7 @@
     "material": [ "milk", "water" ],
     "volume": "250 ml",
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 14
   },
   {
@@ -159,6 +160,7 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
+    "calories": 0,
     "description": "A healthy beverage made from chamomile flowers steeped in boiling water.  Can be used to treat insomnia.",
     "price": 100,
     "price_postapoc": 25,
@@ -384,14 +386,14 @@
     "symbol": "~",
     "quench": 48,
     "healthy": 1,
-    "calories": 9,
+    "calories": 26,
     "description": "A healthy beverage made from dandelion roots steeped in boiling water.",
     "price": 50,
     "price_postapoc": 25,
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 2
   },
   {
@@ -404,14 +406,14 @@
     "symbol": "~",
     "quench": 48,
     "healthy": 2,
-    "calories": 12,
+    "calories": 77,
     "description": "A healthy beverage made from dandelion and burdock roots steeped in boiling water.  The additional ingredient makes it slightly healthier and fun.",
     "price": 50,
     "price_postapoc": 25,
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 3
   },
   {
@@ -499,9 +501,8 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
-    "fun": 4,
-    "vitamins": [ [ "iron", 1 ] ]
+    "flags": [ "EATEN_HOT" ],
+    "fun": 4
   },
   {
     "id": "hot_chocolate",
@@ -630,6 +631,7 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
+    "calories": 0,
     "description": "A healthy beverage made from lotus flowers steeped in boiling water.",
     "price": 100,
     "price_postapoc": 25,
@@ -911,6 +913,7 @@
     "spoils_in": "10 days",
     "quench": 34,
     "healthy": 1,
+    "calories": 0,
     "description": "A healthy beverage made from spurge flowers steeped in boiling water.  Can be used to prevent asthma attacks.",
     "price": 100,
     "price_postapoc": 25,
@@ -975,7 +978,7 @@
     "volume": "250 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": 6
   },
   {
@@ -995,7 +998,7 @@
     "volume": "500 ml",
     "material": [ "water" ],
     "phase": "liquid",
-    "flags": [ "EATEN_HOT", "NUTRIENT_OVERRIDE" ],
+    "flags": [ "EATEN_HOT" ],
     "fun": -5
   },
   {
@@ -1059,7 +1062,7 @@
     "name": "fruit tea",
     "copy-from": "tea",
     "color": "red",
-    "calories": 6,
+    "calories": 0,
     "fatigue_mod": 0,
     "stim": 0,
     "description": "A tasty beverage made with herbs and dried fruit from plants other than the tea plant.  While colloquially called 'tea', technically it's an infusion.",

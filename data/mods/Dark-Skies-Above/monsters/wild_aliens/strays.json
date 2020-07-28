@@ -30,7 +30,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into_group": "DKS_GROUP_STRAY_UPGRADE" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "POISON", "BLEED", "FILTHY", "BASHES", "GROUP_BASH", "PUSH_MON", "REVIVES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "POISON", "FILTHY", "BASHES", "GROUP_BASH", "PUSH_MON", "REVIVES" ]
   },
   {
     "id": "dks_mon_stray_cop",
@@ -68,20 +68,7 @@
     "death_drops": "mon_zombie_cop_death_drops",
     "upgrades": { "half_life": 60, "into": "dks_mon_crystal_baby" },
     "death_function": [ "NORMAL" ],
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "STUMBLES",
-      "WARM",
-      "BASHES",
-      "GROUP_BASH",
-      "POISON",
-      "BLEED",
-      "PUSH_MON",
-      "FILTHY",
-      "REVIVES"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "PUSH_MON", "FILTHY", "REVIVES" ]
   },
   {
     "id": "dks_mon_stray_soldier",
@@ -121,7 +108,7 @@
     "death_drops": "mon_zombie_soldier_death_drops",
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 60, "into": "dks_mon_crystal_baby" },
-    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "PUSH_MON", "FILTHY", "REVIVES" ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "PUSH_MON", "FILTHY", "REVIVES" ]
   },
   {
     "id": "dks_mon_stray_fireman",
@@ -166,7 +153,6 @@
       "BASHES",
       "GROUP_BASH",
       "POISON",
-      "BLEED",
       "NO_BREATHE",
       "REVIVES",
       "PUSH_MON",
@@ -207,20 +193,7 @@
     "death_drops": "default_zombie_death_drops",
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 21, "into": "dks_mon_stray_eater" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "BASHES",
-      "GROUP_BASH",
-      "PUSH_MON",
-      "STUMBLES",
-      "WARM",
-      "POISON",
-      "BLEED",
-      "FILTHY",
-      "REVIVES"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "PUSH_MON", "STUMBLES", "WARM", "POISON", "FILTHY", "REVIVES" ]
   },
   {
     "id": "dks_mon_stray_eater",
@@ -466,7 +439,6 @@
       "PUSH_MON",
       "PATH_AVOID_FIRE",
       "FILTHY",
-      "BLEED",
       "REVIVES"
     ]
   },
@@ -521,7 +493,6 @@
       "PATH_AVOID_FALL",
       "PATH_AVOID_FIRE",
       "FILTHY",
-      "BLEED",
       "REVIVES"
     ]
   },
@@ -577,7 +548,6 @@
       "PUSH_MON",
       "PATH_AVOID_DANGER_1",
       "FILTHY",
-      "BLEED",
       "REVIVES"
     ]
   },
@@ -772,20 +742,7 @@
     "death_drops": { "subtype": "collection", "groups": [ [ "default_zombie_children_clothes", 100 ], [ "child_items", 65 ] ] },
     "death_function": [ "NORMAL" ],
     "upgrades": { "half_life": 50, "into": "dks_mon_stray_wretch" },
-    "flags": [
-      "SEES",
-      "HEARS",
-      "SMELLS",
-      "BASHES",
-      "GROUP_BASH",
-      "STUMBLES",
-      "WARM",
-      "BLEED",
-      "GUILT",
-      "POISON",
-      "FILTHY",
-      "REVIVES"
-    ]
+    "flags": [ "SEES", "HEARS", "SMELLS", "BASHES", "GROUP_BASH", "STUMBLES", "WARM", "GUILT", "POISON", "FILTHY", "REVIVES" ]
   },
   {
     "id": "dks_mon_stray_wretch_burnt",
@@ -823,7 +780,6 @@
       "SMELLS",
       "KEENNOSE",
       "BASHES",
-      "BLEED",
       "WARM",
       "POISON",
       "HIT_AND_RUN",
@@ -876,7 +832,6 @@
       "HEARS",
       "SMELLS",
       "KEENNOSE",
-      "BLEED",
       "WARM",
       "POISON",
       "CLIMBS",
@@ -927,7 +882,6 @@
       "SMELLS",
       "KEENNOSE",
       "ELECTRIC",
-      "BLEED",
       "WARM",
       "POISON",
       "CLIMBS",
@@ -940,7 +894,7 @@
   {
     "id": "dks_mon_stray_wretch_tendrils",
     "type": "MONSTER",
-    "name": { "str": "flailing wretch" },
+    "name": { "str": "flailing wretch", "str_pl": "flailing wretches" },
     "description": "A person-sized mass of writhing, barbed tendrils that barely seems like it was even any terrestrial animal anymore, originating from a barely visible mass of central crystal.  It slithers across the ground, snatching up organic matter to bring back to feed to its smaller companions so that they too may grow larger.",
     "default_faction": "stray",
     "bodytype": "blob",
@@ -973,7 +927,6 @@
       "SMELLS",
       "KEENNOSE",
       "ELECTRIC",
-      "BLEED",
       "HARDTOSHOOT",
       "WARM",
       "POISON",
@@ -988,7 +941,7 @@
   {
     "id": "dks_mon_stray_wretch_elec",
     "type": "MONSTER",
-    "name": { "str": "crackling wretch" },
+    "name": { "str": "crackling wretch", "str_pl": "crackling wretches" },
     "description": "A flailing mass of tendrils and burnt hair that quickly skirts across the ground like an insect, arched back bristling with loudly arcing crystal spears.",
     "default_faction": "stray",
     "bodytype": "human",
@@ -1064,7 +1017,6 @@
       "HEARS",
       "SMELLS",
       "KEENNOSE",
-      "BLEED",
       "ELECTRIC",
       "WARM",
       "POISON",
@@ -1278,7 +1230,7 @@
     "special_attacks": [ [ "BOOMER_GLOW", 20 ], [ "STRETCH_ATTACK", 20 ], [ "LONGSWIPE", 20 ] ],
     "special_when_hit": [ "ZAPBACK", 100 ],
     "death_function": [ "BOOMER_GLOW", "DISINTEGRATE" ],
-    "flags": [ "SEES", "IMMOBILE", "NOGIB", "ELECTRIC", "BLEED", "WARM", "NO_BREATHE", "NOHEAD", "ARTHROPOD_BLOOD" ]
+    "flags": [ "SEES", "IMMOBILE", "NOGIB", "ELECTRIC", "WARM", "NO_BREATHE", "NOHEAD", "ARTHROPOD_BLOOD" ]
   },
   {
     "id": "dks_mon_crystal_mite",

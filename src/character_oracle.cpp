@@ -24,8 +24,8 @@ namespace behavior
 status_t character_oracle_t::needs_warmth_badly( const std::string & ) const
 {
     // Use player::temp_conv to predict whether the Character is "in trouble".
-    for( const body_part bp : all_body_parts ) {
-        if( subject->temp_conv[ bp ] <= BODYTEMP_VERY_COLD ) {
+    for( const bodypart_id &bp : subject->get_all_body_parts() ) {
+        if( subject->get_part_temp_conv( bp ) <= BODYTEMP_VERY_COLD ) {
             return status_t::running;
         }
     }

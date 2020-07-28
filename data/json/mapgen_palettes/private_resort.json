@@ -3,6 +3,7 @@
     "type": "palette",
     "id": "p_resort_palette_main_floor",
     "furniture": {
+      "&": "f_console_broken",
       "f": "f_glass_fridge",
       "B": "f_workbench",
       "]": "f_fridge",
@@ -72,7 +73,6 @@
       "P": "t_concrete",
       "U": "t_water_pool",
       "m": "t_metal_floor",
-      "&": "t_console_broken",
       "p": "t_door_c_peep",
       "8": "t_door_curtain_c",
       "n": "t_carpet_green",
@@ -189,6 +189,10 @@
     "type": "palette",
     "id": "p_resort_palette_basement",
     "furniture": {
+      "&": "f_console_broken",
+      "1": "f_generator_broken",
+      "2": "f_machinery_light",
+      "3": "f_machinery_heavy",
       "L": "f_locker",
       "S": "f_utility_shelf",
       "f": "f_glass_fridge",
@@ -212,10 +216,6 @@
       "V": "t_bars",
       "0": "t_ballistic_glass",
       "l": "t_door_metal_locked",
-      "&": "t_console_broken",
-      "1": "t_generator_broken",
-      "2": "t_machinery_light",
-      "3": "t_machinery_heavy",
       "?": "t_secretdoor_metal_c",
       ",": "t_metal_floor",
       "m": "t_wall_metal",
@@ -233,6 +233,7 @@
       "(": "f_small_satelitte_dish",
       "s": "f_solar_unit",
       "H": "f_chimney",
+      "l": "f_machinery_light",
       "v": "f_roof_turbine_vent"
     },
     "terrain": {
@@ -241,8 +242,7 @@
       ">": "t_stairs_down",
       "r": "t_guardrail",
       "#": "t_sai_box_damaged",
-      "I": "t_lgtn_arrest",
-      "l": "t_machinery_light"
+      "I": "t_lgtn_arrest"
     }
   }
 ]

@@ -160,7 +160,7 @@ void submap::update_legacy_computer()
     if( legacy_computer ) {
         for( int x = 0; x < SEEX; ++x ) {
             for( int y = 0; y < SEEY; ++y ) {
-                if( ter[x][y] == t_console ) {
+                if( frn[x][y] == furn_str_id( "f_console" ) ) {
                     computers.emplace( point( x, y ), *legacy_computer );
                 }
             }
@@ -171,7 +171,8 @@ void submap::update_legacy_computer()
 
 bool submap::has_computer( const point &p ) const
 {
-    return computers.find( p ) != computers.end() || ( legacy_computer && ter[p.x][p.y] == t_console );
+    return computers.find( p ) != computers.end() || ( legacy_computer && frn[p.x][p.y]
+            == furn_str_id( "f_console" ) );
 }
 
 const computer *submap::get_computer( const point &p ) const
@@ -182,7 +183,7 @@ const computer *submap::get_computer( const point &p ) const
     if( it != computers.end() ) {
         return &it->second;
     }
-    if( legacy_computer && ter[p.x][p.y] == t_console ) {
+    if( legacy_computer && frn[p.x][p.y] == furn_str_id( "f_console" ) ) {
         return legacy_computer.get();
     }
     return nullptr;
@@ -192,7 +193,7 @@ computer *submap::get_computer( const point &p )
 {
     // need to update to std::map first so modifications to the returned object
     // only affects the exact point p
-    update_legacy_computer();
+    //update_legacy_computer();
     const auto it = computers.find( p );
     if( it != computers.end() ) {
         return &it->second;
@@ -202,7 +203,7 @@ computer *submap::get_computer( const point &p )
 
 void submap::set_computer( const point &p, const computer &c )
 {
-    update_legacy_computer();
+    //update_legacy_computer();
     const auto it = computers.find( p );
     if( it != computers.end() ) {
         it->second = c;

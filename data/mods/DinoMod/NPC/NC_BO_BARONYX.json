@@ -41,7 +41,7 @@
       "type": "dialogue",
       "context": "first_meeting",
       "value": "yes",
-      "no": "You look hungry friend.  So much hunger in this world. This is the time of the eaters.",
+      "no": "You look hungry friend.  So much hunger in this world.  This is the time of the eaters.",
       "yes": {
         "u_has_var": "asked_about_eating",
         "type": "dialogue",
@@ -154,7 +154,12 @@
     "item": "meat",
     "count": 8,
     "origins": [ "ORIGIN_SECONDARY" ],
-    "end": { "effect": [ { "u_add_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" } ] },
+    "end": {
+      "effect": [
+        { "u_add_var": "NC_SWAMPER_MISSION_1", "type": "general", "context": "mission", "value": "yes" },
+        { "u_buy_monster": "mon_eoraptor", "count": 1, "name": "Bamm-Bamm" }
+      ]
+    },
     "dialogue": {
       "describe": "The eaters are hungry.  They need meat",
       "offer": "If you wish to feed the eaters, your work will be rewarded.  Go out, butcher a pure animal.  Not a false eater, the meat must be good to eat.  Then bring me the meat and I will see to the eaters.",
@@ -162,7 +167,7 @@
       "rejected": "Understood.  The great eaters will feed either way.",
       "advice": "Some of the animals have become touched by the pretenders in recent days, larger and more dangerous, producing tainted mutant meat.  This will not work for the great eaters, it must be the true meat.",
       "inquire": "Have you brought meat?",
-      "success": "The eaters will feed.",
+      "success": "The eaters will feed.  Oh, this one seems to like you.",
       "success_lie": "The eaters will feed I am sure.",
       "failure": "I see no meat.  There is meat in the forests and swamps waiting for the eaters."
     }
@@ -219,7 +224,7 @@
   {
     "id": "TALK_MISSION_ACCEPTED_SWAMPER",
     "type": "talk_topic",
-    "dynamic_line": "Excellent. Make it happen.",
+    "dynamic_line": "Excellent.  Make it happen.",
     "responses": [
       { "text": "Consider it done.  But I also wanted to ask…", "topic": "TALK_SWAMPER" },
       { "text": "Where should I start?", "topic": "TALK_MISSION_ADVICE_SWAMPER" },

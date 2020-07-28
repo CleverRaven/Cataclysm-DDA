@@ -212,4 +212,6 @@ class achievements_tracker : public event_subscriber
         std::unordered_map<achievement_id, achievement_state> achievements_status_;
 };
 
+achievements_tracker &get_achievements();
+
 #endif // CATA_SRC_ACHIEVEMENT_H

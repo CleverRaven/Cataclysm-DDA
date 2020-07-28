@@ -50,7 +50,6 @@
         "o": "t_thconc_floor",
         "t": "t_thconc_floor",
         "^": "t_thconc_floor",
-        "l": "t_console_broken",
         "x": "t_thconc_floor",
         "w": "t_pavement",
         "_": "t_pavement",
@@ -60,6 +59,7 @@
       "furniture": {
         "j": "f_rack",
         "k": "f_counter",
+        "l": "f_console_broken",
         "m": "f_displaycase",
         "n": "f_table",
         "o": "f_locker",

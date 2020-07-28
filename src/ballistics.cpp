@@ -8,8 +8,8 @@
 #include <string>
 #include <vector>
 
-#include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -49,10 +49,11 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
     }
 
     const tripoint &pt = attack.end_point;
+    Character &player_character = get_player_character();
 
     if( effects.count( "SHATTER_SELF" ) ) {
         // Drop the contents, not the thrown item
-        if( g->u.sees( pt ) ) {
+        if( player_character.sees( pt ) ) {
             add_msg( _( "The %s shatters!" ), drop_item.tname() );
         }
 
@@ -70,7 +71,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
     if( effects.count( "BURST" ) ) {
         // Drop the contents, not the thrown item
-        if( g->u.sees( pt ) ) {
+        if( player_character.sees( pt ) ) {
             add_msg( _( "The %s bursts!" ), drop_item.tname() );
         }
 
@@ -107,7 +108,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
 
     if( embed ) {
         mon->add_item( dropped_item );
-        if( g->u.sees( *mon ) ) {
+        if( player_character.sees( *mon ) ) {
             add_msg( _( "The %1$s embeds in %2$s!" ), dropped_item.tname(), mon->disp_name() );
         }
     } else {
@@ -122,7 +123,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
         }
         if( effects.count( "ACT_ON_RANGED_HIT" ) ) {
             // Don't drop if it exploded
-            do_drop = !dropped_item.process( nullptr, attack.end_point, true );
+            do_drop = !dropped_item.activate_thrown( attack.end_point );
         }
 
         map &here = get_map();
@@ -138,7 +139,7 @@ static void drop_or_embed_projectile( const dealt_projectile_attack &attack )
             }
             const trap &tr = here.tr_at( pt );
             if( tr.triggered_by_item( dropped_item ) ) {
-                tr.trigger( pt, nullptr, &dropped_item );
+                tr.trigger( pt, dropped_item );
             }
         }
     }

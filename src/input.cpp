@@ -22,6 +22,7 @@
 #include "help.h"
 #include "ime.h"
 #include "json.h"
+#include "map.h"
 #include "optional.h"
 #include "options.h"
 #include "output.h"
@@ -1334,7 +1335,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     const point view_size( getmaxx( capture_win ), getmaxy( capture_win ) );
     const point win_min( getbegx( capture_win ),
                          getbegy( capture_win ) );
-    const half_open_rectangle win_bounds( win_min, win_min + view_size );
+    const half_open_rectangle<point> win_bounds( win_min, win_min + view_size );
     if( !win_bounds.contains( coordinate ) ) {
         return cata::nullopt;
     }
@@ -1345,7 +1346,7 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
     }
 
     const point p = view_offset - ( view_size / 2 - coordinate );
-    return tripoint( p, g->get_levz() );
+    return tripoint( p, get_map().get_abs_sub().z );
 }
 #endif
 
@@ -1367,7 +1368,6 @@ cata::optional<point> input_context::get_coordinates_text( const catacurses::win
     const point selected( divide_round_down( screen_pos.x, fw ),
                           divide_round_down( screen_pos.y, fh ) );
     return selected;
-#endif
 }
 
 std::string input_context::get_action_name( const std::string &action_id ) const

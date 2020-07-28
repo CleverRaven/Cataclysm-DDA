@@ -529,7 +529,7 @@ std::string effect::disp_name() const
             return std::string();
         }
         ret += eff_type->name[0].translated();
-        if( intensity > 1 ) {
+        if( intensity > 1 && eff_type->show_intensity ) {
             if( eff_type->id == effect_bandaged || eff_type->id == effect_disinfected ) {
                 ret += string_format( " [%s]", texitify_healing_power( intensity ) );
             } else {
@@ -771,7 +771,7 @@ void effect::set_duration( const time_duration &dur, bool alert )
         set_intensity( duration / eff_type->int_dur_factor + 1, alert );
     }
 
-    add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), to_turns<int>( duration ) );
+    add_msg( m_debug, "ID: %s, Duration %s", get_id().c_str(), to_string( duration ) );
 }
 void effect::mod_duration( const time_duration &dur, bool alert )
 {
@@ -1314,6 +1314,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );
+    new_etype.show_intensity = jo.get_bool( "show_intensity", true );
     new_etype.pkill_addict_reduces = jo.get_bool( "pkill_addict_reduces", false );
 
     new_etype.pain_sizing = jo.get_bool( "pain_sizing", false );
@@ -1415,6 +1416,25 @@ std::string texitify_healing_power( const int power )
         return colorize( _( "perfect" ), c_green );
     }
     if( power < 1 ) {
+        debugmsg( "Converted value out of bounds." );
+    }
+    return "";
+}
+std::string texitify_bandage_power( const int power )
+{
+    if( power < 5 ) {
+        return colorize( _( "miniscule" ), c_red );
+    } else if( power < 10 ) {
+        return colorize( _( "small" ), c_light_red );
+    } else if( power < 15 ) {
+        return colorize( _( "moderate" ), c_yellow );
+    } else if( power < 20 ) {
+        return colorize( _( "good" ), c_light_green );
+    } else if( power < 30 ) {
+        return colorize( _( "excellent" ), c_light_green );
+    } else if( power < 51 ) {
+        return colorize( _( "outstanding" ), c_green );
+    } else {
         debugmsg( "Converted value out of bounds." );
     }
     return "";

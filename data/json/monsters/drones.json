@@ -129,5 +129,61 @@
     "revert_to_itype": "bot_mininuke_hack",
     "starting_ammo": { "mininuke": 1 },
     "special_attacks": [ [ "KAMIKAZE", 0 ] ]
+  },
+  {
+    "abstract": "exodii_sniper_drone",
+    "type": "MONSTER",
+    "name": { "str": "balloon sniper-drone" },
+    "description": "This unusual contraption looks like a combination of a weather balloon and a quadcopter.  Beneath the crude box containing its components hangs a small articulated rig wielding an integrated rifle.  Its propellers flicker to life briefly, then shut down again, keeping it mostly stationary despite the air currents.  It looks capable of hanging in the air for quite a long time before running out of power.",
+    "default_faction": "exodii",
+    "species": [ "ROBOT" ],
+    "volume": "5000 L",
+    "weight": "150 kg",
+    "//": "weight and dimensions based on the approx. size of a Griff 350, which is a commercial cargo-hauling quadcopter.  Then I added a large balloon on top.",
+    "hp": 20,
+    "speed": 70,
+    "armor_bash": 4,
+    "armor_cut": 3,
+    "material": [ "aluminum", "steel" ],
+    "symbol": "e",
+    "color": "light_green",
+    "aggression": -20,
+    "morale": 70,
+    "vision_day": 50,
+    "vision_night": 20,
+    "starting_ammo": { "123ln": 10 },
+    "anger_triggers": [ "FRIEND_ATTACKED", "FRIEND_DIED", "HURT" ],
+    "special_attacks": [
+      {
+        "type": "gun",
+        "cooldown": 1,
+        "move_cost": 350,
+        "gun_type": "pamd71z",
+        "ammo_type": "123ln",
+        "fake_skills": [ [ "gun", 6 ], [ "rifle", 9 ] ],
+        "fake_dex": 12,
+        "ranges": [ [ 0, 50, "DEFAULT" ] ],
+        "require_targeting_npc": true,
+        "require_targeting_monster": true,
+        "laser_lock": true,
+        "targeting_cost": 700,
+        "targeting_timeout_extend": -10,
+        "no_ammo_sound": "tick!"
+      }
+    ],
+    "death_drops": { "subtype": "collection", "groups": [ [ "robots", 80 ] ] },
+    "death_function": [ "BROKEN" ],
+    "flags": [
+      "SEES",
+      "HEARS",
+      "FLIES",
+      "NOHEAD",
+      "ELECTRONIC",
+      "NO_BREATHE",
+      "INTERIOR_AMMO",
+      "PATH_AVOID_DANGER_2",
+      "PRIORITIZE_TARGETS",
+      "HIT_AND_RUN"
+    ]
   }
 ]

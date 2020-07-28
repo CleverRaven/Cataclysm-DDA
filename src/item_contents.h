@@ -39,10 +39,11 @@ class item_contents
         item_contents( const std::vector<pocket_data> &pockets );
 
         /**
-          * returns a pointer to the best pocket that can contain the item @it
+          * returns an item_location and pointer to the best pocket that can contain the item @it
           * only checks CONTAINER pocket type
           */
-        item_pocket *best_pocket( const item &it, bool nested );
+        std::pair<item_location, item_pocket *> best_pocket( const item &it, item_location &parent,
+                bool nested );
         ret_val<bool> can_contain_rigid( const item &it ) const;
         ret_val<bool> can_contain( const item &it ) const;
         bool can_contain_liquid( bool held_or_ground ) const;
@@ -83,9 +84,16 @@ class item_contents
         std::vector<item *> gunmods();
         /** gets all gunmods in the item */
         std::vector<const item *> gunmods() const;
+
+        std::vector<const item *> mods() const;
+
+        void update_modified_pockets( const cata::optional<const pocket_data *> &mag_or_mag_well,
+                                      std::vector<const pocket_data *> container_pockets );
         // all magazines compatible with any pockets.
         // this only checks MAGAZINE_WELL
         std::set<itype_id> magazine_compatible() const;
+        // returns the default magazine; assumes only one MAGAZINE_WELL. returns NULL_ID if not a magazine well or no compatible magazines.
+        itype_id magazine_default() const;
         /**
          * This function is to aid migration to using nested containers.
          * The call sites of this function need to be updated to search the
@@ -171,6 +179,13 @@ class item_contents
         // returns true if any pocket was sealed
         bool seal_all_pockets();
 
+        enum class sealed_summary {
+            unsealed,
+            part_sealed,
+            all_sealed,
+        };
+        sealed_summary get_sealed_summary() const;
+
         // heats up the contents if they have temperature
         void heat_up();
         // returns amount of ammo consumed
@@ -188,7 +203,7 @@ class item_contents
         void handle_liquid_or_spill( Character &guy );
         // returns true if any of the pockets will spill if placed into a pocket
         bool will_spill() const;
-        bool spill_open_pockets( Character &guy );
+        bool spill_open_pockets( Character &guy, const item *avoid = nullptr );
         void casings_handle( const std::function<bool( item & )> &func );
 
         // gets the item contained IFF one item is contained (CONTAINER pocket), otherwise a null item reference
@@ -203,15 +218,13 @@ class item_contents
         bool has_any_with( const std::function<bool( const item & )> &filter,
                            item_pocket::pocket_type pk_type ) const;
 
-        void remove_rotten( const tripoint &pnt );
         /**
          * Is part of the recursive call of item::process. see that function for additional comments
          * NOTE: this destroys the items that get processed
          */
-        void process( player *carrier, const tripoint &pos, bool activate, float insulation = 1,
+        void process( player *carrier, const tripoint &pos, float insulation = 1,
                       temperature_flag flag = temperature_flag::NORMAL, float spoil_multiplier_parent = 1.0f );
 
-        void migrate_item( item &obj, const std::set<itype_id> &migrations );
         bool item_has_uses_recursive() const;
         bool stacks_with( const item_contents &rhs ) const;
         bool same_contents( const item_contents &rhs ) const;
@@ -228,6 +241,8 @@ class item_contents
 
         void info( std::vector<iteminfo> &info, const iteminfo_query *parts ) const;
 
+        // reads the items in the MOD pocket first
+        void read_mods( const item_contents &read_input );
         void combine( const item_contents &read_input );
 
         void serialize( JsonOut &json ) const;
@@ -242,7 +257,15 @@ class item_contents
         ret_val<const item_pocket *> find_pocket_for( const item &it,
                 item_pocket::pocket_type pk_type = item_pocket::pocket_type::CONTAINER ) const;
 
+        //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
+        std::list<const item *> all_items_top_recursive( item_pocket::pocket_type pk_type ) const;
+        //called by all_items_ptr to recursively get all items without duplicating items in nested pockets
+        std::list<item *> all_items_top_recursive( item_pocket::pocket_type pk_type );
+
         std::list<item_pocket> contents;
+
+        struct item_contents_helper;
+        friend struct item_contents_helper;
 };
 
 #endif // CATA_SRC_ITEM_CONTENTS_H

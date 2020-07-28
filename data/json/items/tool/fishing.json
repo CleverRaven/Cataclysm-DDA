@@ -52,6 +52,7 @@
     "description": "'Fishing rod' might be a bit too charitable of a description.  In truth, this is a stick with a piece of string and a hook.",
     "weight": "1700 g",
     "volume": "1250 ml",
+    "longest_side": "90 cm",
     "price": 0,
     "price_postapoc": 10,
     "to_hit": -3,
@@ -61,7 +62,7 @@
     "color": "brown",
     "use_action": [ "FISH_ROD" ],
     "qualities": [ [ "FISHING", 1 ] ],
-    "flags": [ "FISH_POOR" ]
+    "flags": [ "FISH_POOR", "SHEATH_SPEAR" ]
   },
   {
     "id": "fishing_rod_professional",
@@ -70,6 +71,7 @@
     "description": "A professional fishing rod with a matching set of weights.  With this you should be able to catch 'em all.",
     "weight": "1000 g",
     "volume": "1250 ml",
+    "longest_side": "200 cm",
     "price": 20000,
     "price_postapoc": 1500,
     "to_hit": 2,
@@ -79,6 +81,6 @@
     "color": "brown",
     "use_action": [ "FISH_ROD" ],
     "qualities": [ [ "FISHING", 2 ] ],
-    "flags": [ "FISH_GOOD" ]
+    "flags": [ "FISH_GOOD", "SHEATH_SPEAR" ]
   }
 ]

@@ -4,6 +4,7 @@
     "type": "item_group",
     "items": [
       [ "summon_scroll_smudged", 10 ],
+      [ "spell_scroll_tornskin", 10 ],
       [ "spell_scroll_smite", 40 ],
       [ "spell_scroll_summon_zombie", 25 ],
       [ "spell_scroll_light_healing", 50 ],
@@ -87,6 +88,7 @@
       [ "spell_scroll_vicious_tentacle", 40 ],
       [ "spell_scroll_bio_bonespear", 20 ],
       [ "spell_scroll_megablast", 10 ],
+      [ "spell_scroll_baleful_polymorph", 20 ],
       [ "spell_scroll_eshaper_shardstorm", 50 ],
       [ "spell_scroll_fireball", 50 ],
       [ "spell_scroll_cone_cold", 50 ],
@@ -153,6 +155,7 @@
     "id": "spellbook_tier_3",
     "type": "item_group",
     "items": [
+      [ "animist_shadows", 5 ],
       [ "magus_spellbook", 15 ],
       [ "magus_spellbook_move", 30 ],
       [ "translocate_spellbook", 20 ],

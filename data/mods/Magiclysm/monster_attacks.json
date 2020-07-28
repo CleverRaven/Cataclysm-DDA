@@ -26,5 +26,22 @@
     "hit_dmg_npc": "The %1$s crushes <npcname>'s %2$s with its greatclub!",
     "no_dmg_msg_u": "The %1$s tries to crush your %2$s with its greatclub, but swings wide and stumbles.",
     "no_dmg_msg_npc": "The %1$s tries to crush <npcname>'s %2$s with its greatclub, but swings wide and stumbles."
+  },
+  {
+    "type": "SPELL",
+    "id": "demon_breath_fire",
+    "name": { "str": "Hellfire Belch" },
+    "description": "Spits supernatural napalm from your mouth.",
+    "valid_targets": [ "hostile", "ally", "ground" ],
+    "damage_type": "fire",
+    "max_level": 30,
+    "min_damage": 6,
+    "max_damage": 180,
+    "damage_increment": 6.0,
+    "min_range": 8,
+    "max_range": 12,
+    "range_increment": 0.1,
+    "effect": "line_attack",
+    "flags": [ "VERBAL", "NO_HANDS", "NO_LEGS" ]
   }
 ]

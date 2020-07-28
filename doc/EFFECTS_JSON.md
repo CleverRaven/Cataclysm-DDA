@@ -243,6 +243,11 @@ This can be used to make effects automatically increase or decrease in intensity
 "int_dur_factor" overrides the other three intensities fields, and forces the intensity to be a number defined as
 intensity = duration / "int_dur_factor" rounded up (so from 0 to "int_dur_factor" is intensity 1).
 
+```C++
+    "show_intensity": false     - Defaults to true
+```
+This permits or forbids showing intensity value next to name of a given effect in EFFECTS tab. E.g. show "Weakness [142]" or simply "Weakness" text.
+
 ### Miss messages
 ```C++
     "miss_messages": [["Your blisters distract you", 1]]
@@ -285,6 +290,11 @@ main part (arms, head, legs, etc.).
 "pkill_addict_reduces" makes a player's addiction to painkillers reduce the chance of the effect giving
 them more pkill. "pain_sizing" and "hurt_sizing" cause large/huge mutations to affect the chance of pain
 and hurt effects triggering. "harmful_cough" means that the coughs caused by this effect can hurt the player.
+
+### Flags
+
+"EFFECT_INVISIBLE" Character affected by an effect with this flag are invisible.
+"EFFECT_IMPEDING" Character affected by an effect with this flag can't move until they break free from the effect.  Breaking free requires a strenght check: `x_in_y( get_str(), 6 * get_effect_int( eff_id )`
 
 ### Effect effects
 ```C++

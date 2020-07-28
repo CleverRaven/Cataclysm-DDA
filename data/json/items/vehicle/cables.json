@@ -37,6 +37,7 @@
     "max_charges": 6,
     "initial_charges": 6,
     "use_action": [ "TOW_ATTACH" ],
+    "qualities": [ [ "ROPE", 2 ] ],
     "flags": [ "CABLE_SPOOL", "TOW_CABLE" ]
   },
   {
