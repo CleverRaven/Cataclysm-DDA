@@ -1290,6 +1290,8 @@
     "container": "bottle_glass",
     "description": "Diethyl ether largely supplanted the use of chloroform as a general anesthetic due to ether's more favorable therapeutic index, that is, a greater difference between an effective dose and a potentially toxic dose.",
     "volume": "1 ml",
+    "//": "0.7134 g/cm3",
+    "weight": "713 mg",
     "phase": "liquid"
   },
   {
@@ -1307,6 +1309,8 @@
     "container": "bottle_glass",
     "description": "Dimethyl sulfoxide, or DMSO, is a common and important aprotic solvent, capable of dissolving a huge range of things.  It has the weird property that it absorbs very quickly through the skin, causing a garlic flavor in the mouth even if it touched your arm.",
     "volume": "1 ml",
+    "//": "1.1004 g/cm3",
+    "weight": "1100 mg",
     "phase": "liquid"
   },
   {
@@ -1324,6 +1328,8 @@
     "fun": -20,
     "description": "Famous for its abilities as an illicit sedative, this substance is also a very good solvent.  In particular, it's used a lot in nuclear magnetic resonance spectroscopy.",
     "volume": "1 ml",
+    "//": "1.489 g/cm3 at 25C",
+    "weight": "1489 mg",
     "phase": "liquid"
   },
   {
@@ -1341,6 +1347,8 @@
     "container": "bottle_glass",
     "description": "This useful stuff is a potent solvent and has a wide range of reactive applications.  It can be used to make a huge number of plastics and polymers, it can be an antiseptic, it can strip paint and break down epoxy, and it can burn your skin away like tissue paper under a heat gun.  Wear gloves.",
     "volume": "1 ml",
+    "//": "1.07 g/cm3",
+    "weight": "1070 mg",
     "phase": "liquid"
   },
   {
