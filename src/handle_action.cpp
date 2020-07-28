@@ -363,7 +363,7 @@ inline static void rcdrive( const point &d )
     auto rc_pairs = here.get_rc_items( c );
     auto rc_pair = rc_pairs.begin();
     for( ; rc_pair != rc_pairs.end(); ++rc_pair ) {
-        if( rc_pair->second->typeId() == itype_radio_car_on && rc_pair->second->active ) {
+        if( rc_pair->second->has_flag( "RADIOCAR" ) && rc_pair->second->active ) {
             break;
         }
     }
