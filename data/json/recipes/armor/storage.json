@@ -925,7 +925,7 @@
     "using": [ [ "sewing_standard", 100 ] ],
     "components": [ [ [ "leather", 37 ], [ "tanned_pelt", 10 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
-    {
+  {
     "result": "Long_duffelbag",
     "type": "recipe",
     "category": "CC_ARMOR",

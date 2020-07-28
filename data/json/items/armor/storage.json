@@ -1574,9 +1574,9 @@
     "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS" ]
   },  
   {
-    "id": "Long_duffelbag",
+    "id": "long_duffelbag",
     "type": "ARMOR",
-    "name": { "str": "Longarm bag" },
+    "name": { "str": "longarm bag" },
     "description": "A long duffel bag.  Provides storage for longarms and rifles. Quite cumbersome.",
     "weight": "1133 g",
     "volume": "12 L",
