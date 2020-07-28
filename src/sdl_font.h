@@ -7,87 +7,20 @@
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
 
-#include <algorithm>
 #include <array>
-#include <cassert>
-#include <climits>
-#include <cmath>
-#include <cstdint>
-#include <cstring>
-#include <exception>
-#include <fstream>
-#include <iterator>
-#include <limits>
 #include <map>
 #include <memory>
-#include <set>
-#include <stdexcept>
-#include <type_traits>
 #include <vector>
 #include <string>
-#if defined(_MSC_VER) && defined(USE_VCPKG)
-#   include <SDL2/SDL_image.h>
-#   include <SDL2/SDL_syswm.h>
-#else
-#ifdef _WIN32
-#   include <SDL_syswm.h>
-#endif
-#endif
 
-#include "avatar.h"
-#include "cata_tiles.h"
-#include "cata_utility.h"
 #include "sdl_geometry.h"
-#include "catacharset.h"
 #include "color.h"
 #include "color_loader.h"
-#include "cursesport.h"
 #include "debug.h"
-#include "filesystem.h"
 #include "font_loader.h"
-#include "game.h"
-#include "game_ui.h"
-#include "get_version.h"
-#include "hash_utils.h"
-#include "input.h"
-#include "json.h"
-#include "optional.h"
-#include "options.h"
-#include "output.h"
-#include "path_info.h"
 #include "point.h"
+#include "hash_utils.h"
 #include "sdl_wrappers.h"
-#include "sdlsound.h"
-#include "string_formatter.h"
-#include "ui_manager.h"
-#include "wcwidth.h"
-
-#if defined(__linux__)
-#   include <cstdlib> // getenv()/setenv()
-#endif
-
-#if defined(_WIN32)
-#   if 1 // HACK: Hack to prevent reordering of #include "platform_win.h" by IWYU
-#       include "platform_win.h"
-#   endif
-#   include <shlwapi.h>
-#   if !defined(strcasecmp)
-#       define strcasecmp StrCmpI
-#   endif
-#else
-#   include <strings.h> // for strcasecmp
-#endif
-
-#if defined(__ANDROID__)
-#include <jni.h>
-
-#include "action.h"
-#include "inventory.h"
-#include "map.h"
-#include "vehicle.h"
-#include "vpart_position.h"
-#include "worldfactory.h"
-#endif
 
 using palette_array = std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT>;
 
@@ -95,7 +28,7 @@ using palette_array = std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES
 class Font
 {
     public:
-        Font( int w, int h, const palette_array& palette) :
+        Font( int w, int h, const palette_array &palette ) :
             fontwidth( w ), fontheight( h ), palette( palette ) { }
         virtual ~Font() = default;
 
@@ -107,29 +40,31 @@ class Font
         /// @param p Point on the screen where to draw character
         /// @param color Curses color to use when drawing
         /// @param opacity Optional opacity of the character
-        virtual void OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,  const std::string &ch, const point& p,
+        virtual void OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+                                 const std::string &ch, const point &p,
                                  unsigned char color, float opacity = 1.0f ) = 0;
 
         /// Draw an ascii line using font's palette.
         /// @param line_id Character to draw
         /// @param point Point on the screen where to draw character
         /// @param color Curses color to use when drawing
-        virtual void draw_ascii_lines( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry, unsigned char line_id, const point& p, unsigned char color ) const;
+        virtual void draw_ascii_lines( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+                                       unsigned char line_id, const point &p, unsigned char color ) const;
 
         /// Try to load a font by typeface (Bitmap or Truetype).
-        static std::unique_ptr<Font> load_font( 
+        static std::unique_ptr<Font> load_font(
             SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
             const std::string &typeface, int fontsize, int fontwidth,
-                                                int fontheight, 
-    const palette_array& palette,
-                                                bool fontblending );
+            int fontheight,
+            const palette_array &palette,
+            bool fontblending );
     public:
         // the width of the font, background is always this size.
         int fontwidth;
         // the height of the font, background is always this size.
         int fontheight;
         // font palette.
-        const palette_array& palette;
+        const palette_array &palette;
 };
 using Font_Ptr = std::unique_ptr<Font>;
 
@@ -137,14 +72,15 @@ using Font_Ptr = std::unique_ptr<Font>;
 class CachedTTFFont : public Font
 {
     public:
-        CachedTTFFont( 
-            int w, int h, 
-            const palette_array& palette,
+        CachedTTFFont(
+            int w, int h,
+            const palette_array &palette,
             std::string typeface, int fontsize, bool fontblending );
         ~CachedTTFFont() override = default;
 
         bool isGlyphProvided( const std::string &ch ) const override;
-        void OutputChar( SDL_Renderer_Ptr &renderer,GeometryRenderer_Ptr &geometry,  const std::string &ch, const point& p,
+        void OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,  const std::string &ch,
+                         const point &p,
                          unsigned char color, float opacity = 1.0f ) override;
     protected:
         SDL_Texture_Ptr create_glyph( SDL_Renderer_Ptr &renderer, const std::string &ch, int color );
@@ -186,19 +122,21 @@ class CachedTTFFont : public Font
 class BitmapFont : public Font
 {
     public:
-        BitmapFont( 
-    SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
+        BitmapFont(
+            SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
             int w, int h,
-            const palette_array& palette,
+            const palette_array &palette,
             const std::string &typeface_path );
         ~BitmapFont() override = default;
 
         bool isGlyphProvided( const std::string &ch ) const override;
-        void OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry, const std::string &ch, const point& p,
+        void OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry, const std::string &ch,
+                         const point &p,
                          unsigned char color, float opacity = 1.0f ) override;
-        void OutputChar( SDL_Renderer_Ptr &renderer,GeometryRenderer_Ptr &geometry,  int t, const point& p,
+        void OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,  int t, const point &p,
                          unsigned char color, float opacity = 1.0f );
-        void draw_ascii_lines( SDL_Renderer_Ptr &renderer,GeometryRenderer_Ptr &geometry,  unsigned char line_id, const point& p, unsigned char color ) const override;
+        void draw_ascii_lines( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+                               unsigned char line_id, const point &p, unsigned char color ) const override;
     protected:
         std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
         int tilewidth;
@@ -209,16 +147,17 @@ class BitmapFont : public Font
 class FontFallbackList : public Font
 {
     public:
-        FontFallbackList( 
+        FontFallbackList(
             SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
-            int w, int h, 
-            const palette_array& palette,
+            int w, int h,
+            const palette_array &palette,
             const std::vector<std::string> &typefaces,
-                          int fontsize, bool fontblending );
+            int fontsize, bool fontblending );
         ~FontFallbackList() override = default;
 
         bool isGlyphProvided( const std::string &ch ) const override;
-        void OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry, const std::string &ch, const point& p,
+        void OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry, const std::string &ch,
+                         const point &p,
                          unsigned char color, float opacity = 1.0f ) override;
     protected:
         std::vector<std::unique_ptr<Font>> fonts;

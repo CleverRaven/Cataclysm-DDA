@@ -3029,9 +3029,11 @@ void catacurses::init_interface()
 
     font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
             windowsPalette, fl.typeface, fl.fontsize, fl.fontblending );
-    map_font = std::make_unique<FontFallbackList>(  renderer, format,fl.map_fontwidth, fl.map_fontheight,
+    map_font = std::make_unique<FontFallbackList>( renderer, format, fl.map_fontwidth,
+               fl.map_fontheight,
                windowsPalette, fl.map_typeface, fl.map_fontsize, fl.fontblending );
-    overmap_font = std::make_unique<FontFallbackList>(  renderer, format,fl.overmap_fontwidth, fl.overmap_fontheight,
+    overmap_font = std::make_unique<FontFallbackList>( renderer, format, fl.overmap_fontwidth,
+                   fl.overmap_fontheight,
                    windowsPalette, fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.

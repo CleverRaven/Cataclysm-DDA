@@ -1,5 +1,6 @@
 #if defined(TILES)
 #include "sdl_font.h"
+#include "output.h"
 
 #define dbg(x) DebugLog((x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -171,109 +172,143 @@ static int test_face_size( const std::string &f, int size, int faceIndex )
     return faceIndex;
 }
 
-BitmapFont::BitmapFont( 
-    SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
-    const int w, const int h, 
-    const palette_array& palette,
-    const std::string &typeface_path )
-    : Font( w, h, palette )
+std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
+                                       const std::string &typeface, int fontsize, int fontwidth,
+                                       int fontheight,
+                                       const palette_array &palette,
+                                       const bool fontblending )
 {
-    dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "].";
-    SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
-    assert( asciiload );
-    if( asciiload->w * asciiload->h < ( fontwidth * fontheight * 256 ) ) {
-        throw std::runtime_error( "bitmap for font is to small" );
-    }
-    Uint32 key = SDL_MapRGB( asciiload->format, 0xFF, 0, 0xFF );
-    SDL_SetColorKey( asciiload.get(), SDL_TRUE, key );
-    SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
-    ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
-    SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
-    asciiload.reset();
-
-    for( size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
-        ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format.get(), 0 ) );
-        SDL_SetSurfaceRLE( ascii_surf[a].get(), 1 );
-    }
-
-    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a ) {
-        SDL_LockSurface( ascii_surf[a].get() );
-        int size = ascii_surf[a]->h * ascii_surf[a]->w;
-        Uint32 *pixels = static_cast<Uint32 *>( ascii_surf[a]->pixels );
-        Uint32 color = ( windowsPalette[a].r << 16 ) | ( windowsPalette[a].g << 8 ) | windowsPalette[a].b;
-        for( int i = 0; i < size; i++ ) {
-            if( pixels[i] == 0xFFFFFF ) {
-                pixels[i] = color;
+    if( ends_with( typeface, ".bmp" ) || ends_with( typeface, ".png" ) ) {
+        // Seems to be an image file, not a font.
+        // Try to load as bitmap font from user font dir, then from font dir.
+        try {
+            return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, fontwidth, fontheight,
+                                          palette,
+                                          PATH_INFO::user_font() + typeface ) );
+        } catch( std::exception & ) {
+            try {
+                return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, fontwidth, fontheight,
+                                              palette,
+                                              PATH_INFO::fontdir() + typeface ) );
+            } catch( std::exception &err ) {
+                dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
+                // Continue to load as truetype font
             }
         }
-        SDL_UnlockSurface( ascii_surf[a].get() );
     }
-    tilewidth = ascii_surf[0]->w / fontwidth;
-
-    //convert ascii_surf to SDL_Texture
-    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
-        ascii[a] = CreateTextureFromSurface( renderer, ascii_surf[a] );
+    // Not loaded as bitmap font (or it failed), try to load as truetype
+    try {
+        return std::unique_ptr<Font>( std::make_unique<CachedTTFFont>( fontwidth, fontheight,
+                                      palette, typeface, fontsize, fontblending ) );
+    } catch( std::exception &err ) {
+        dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
     }
+    return nullptr;
 }
 
-void BitmapFont::draw_ascii_lines( SDL_Renderer_Ptr &renderer,GeometryRenderer_Ptr &geometry, unsigned char line_id, const point& p, unsigned char color ) const
+
+// line_id is one of the LINE_*_C constants
+// FG is a curses color
+void Font::draw_ascii_lines( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+                             unsigned char line_id, const point &p, unsigned char color ) const
 {
-    BitmapFont *t = const_cast<BitmapFont *>( this );
+    SDL_Color sdl_color = palette[color];
     switch( line_id ) {
         // box bottom/top side (horizontal line)
         case LINE_OXOX_C:
-            t->OutputChar( renderer, geometry, 0xcd, p, color );
+            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1,
+                                       sdl_color );
             break;
         // box left/right side (vertical line)
         case LINE_XOXO_C:
-            t->OutputChar( renderer, geometry, 0xba, p, color );
+            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2,
+                                     sdl_color );
             break;
         // box top left
         case LINE_OXXO_C:
-            t->OutputChar( renderer, geometry, 0xc9, p, color );
+            geometry->horizontal_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                       p.x + fontwidth,
+                                       1,
+                                       sdl_color );
+            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                     p.y + fontheight,
+                                     2,
+                                     sdl_color );
             break;
         // box top right
         case LINE_OOXX_C:
-            t->OutputChar( renderer, geometry, 0xbb, p, color );
+            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + ( fontwidth / 2 ), 1,
+                                       sdl_color );
+            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                     p.y + fontheight,
+                                     2,
+                                     sdl_color );
             break;
         // box bottom right
         case LINE_XOOX_C:
-            t->OutputChar( renderer, geometry, 0xbc, p, color );
+            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + ( fontwidth / 2 ), 1,
+                                       sdl_color );
+            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + ( fontheight / 2 ) + 1,
+                                     2, sdl_color );
             break;
         // box bottom left
         case LINE_XXOO_C:
-            t->OutputChar( renderer, geometry, 0xc8, p, color );
+            geometry->horizontal_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                       p.x + fontwidth,
+                                       1,
+                                       sdl_color );
+            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + ( fontheight / 2 ) + 1,
+                                     2, sdl_color );
             break;
         // box bottom north T (left, right, up)
         case LINE_XXOX_C:
-            t->OutputChar( renderer, geometry, 0xca, p, color );
+            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1,
+                                       sdl_color );
+            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + ( fontheight / 2 ), 2,
+                                     sdl_color );
             break;
         // box bottom east T (up, right, down)
         case LINE_XXXO_C:
-            t->OutputChar( renderer, geometry, 0xcc, p, color );
+            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2,
+                                     sdl_color );
+            geometry->horizontal_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                       p.x + fontwidth,
+                                       1,
+                                       sdl_color );
             break;
         // box bottom south T (left, right, down)
         case LINE_OXXX_C:
-            t->OutputChar( renderer, geometry, 0xcb, p, color );
+            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1,
+                                       sdl_color );
+            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
+                                     p.y + fontheight,
+                                     2,
+                                     sdl_color );
             break;
         // box X (left down up right)
         case LINE_XXXX_C:
-            t->OutputChar( renderer, geometry, 0xce, p, color );
+            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1,
+                                       sdl_color );
+            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2,
+                                     sdl_color );
             break;
         // box bottom east T (left, down, up)
         case LINE_XOXX_C:
-            t->OutputChar( renderer, geometry, 0xb9, p, color );
+            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2,
+                                     sdl_color );
+            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + ( fontwidth / 2 ), 1,
+                                       sdl_color );
             break;
         default:
             break;
     }
 }
 
-CachedTTFFont::CachedTTFFont( 
-     const int w, const int h,
-     const palette_array& palette,
-     std::string typeface, int fontsize,
-                              const bool fontblending )
+CachedTTFFont::CachedTTFFont(
+    const int w, const int h,
+    const palette_array &palette,
+    std::string typeface, int fontsize,
+    const bool fontblending )
     : Font( w, h, palette )
     , fontblending( fontblending )
 {
@@ -316,154 +351,9 @@ CachedTTFFont::CachedTTFFont(
     TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
 }
 
-FontFallbackList::FontFallbackList( 
-SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
-    const int w, const int h,
-    const palette_array& palette,
-                                    const std::vector<std::string> &typefaces,
-                                    const int fontsize, const bool fontblending )
-    : Font( w, h, palette )
-{
-    for( const std::string &typeface : typefaces ) {
-        std::unique_ptr<Font> font = Font::load_font( renderer, format, typeface, fontsize, w, h,palette, fontblending );
-        if( !font ) {
-            throw std::runtime_error( "Cannot load font " + typeface );
-        }
-        fonts.emplace_back( std::move( font ) );
-    }
-    if( fonts.empty() ) {
-        throw std::runtime_error( "Typeface list is empty" );
-    }
-}
 
-bool FontFallbackList::isGlyphProvided( const std::string & ) const
-{
-    return true;
-}
-
-void FontFallbackList::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr& geometry, const std::string &ch, const point& p,
-                                   unsigned char color, const float opacity )
-{
-    auto cached = glyph_font.find( ch );
-    if( cached == glyph_font.end() ) {
-        for( auto it = fonts.begin(); it != fonts.end(); ++it ) {
-            if( std::next( it ) == fonts.end() || ( *it )->isGlyphProvided( ch ) ) {
-                cached = glyph_font.emplace( ch, it ).first;
-            }
-        }
-    }
-    ( *cached->second )->OutputChar( renderer, geometry, ch, p, color, opacity );
-}
-
-std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format, const std::string &typeface, int fontsize, int fontwidth,
-                                       int fontheight, 
-                                        const palette_array& palette,
-                                      const bool fontblending )
-{
-    if( ends_with( typeface, ".bmp" ) || ends_with( typeface, ".png" ) ) {
-        // Seems to be an image file, not a font.
-        // Try to load as bitmap font from user font dir, then from font dir.
-        try {
-            return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, fontwidth, fontheight, palette,
-                                          PATH_INFO::user_font() + typeface ) );
-        } catch( std::exception & ) {
-            try {
-                return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, fontwidth, fontheight, palette,
-                                              PATH_INFO::fontdir() + typeface ) );
-            } catch( std::exception &err ) {
-                dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
-                // Continue to load as truetype font
-            }
-        }
-    }
-    // Not loaded as bitmap font (or it failed), try to load as truetype
-    try {
-        return std::unique_ptr<Font>( std::make_unique<CachedTTFFont>( fontwidth, fontheight,
-                                      palette, typeface, fontsize, fontblending ) );
-    } catch( std::exception &err ) {
-        dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
-    }
-    return nullptr;
-}
-
-
-// line_id is one of the LINE_*_C constants
-// FG is a curses color
-void Font::draw_ascii_lines( SDL_Renderer_Ptr &renderer,GeometryRenderer_Ptr &geometry, unsigned char line_id, const point& p, unsigned char color ) const
-{
-    SDL_Color sdl_color = palette[color];
-    switch( line_id ) {
-        // box bottom/top side (horizontal line)
-        case LINE_OXOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1, sdl_color );
-            break;
-        // box left/right side (vertical line)
-        case LINE_XOXO_C:
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2, sdl_color );
-            break;
-        // box top left
-        case LINE_OXXO_C:
-            geometry->horizontal_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), p.x + fontwidth,
-                         1,
-                         sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), p.y + fontheight,
-                         2,
-                         sdl_color );
-            break;
-        // box top right
-        case LINE_OOXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + ( fontwidth / 2 ), 1, sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), p.y + fontheight,
-                         2,
-                         sdl_color );
-            break;
-        // box bottom right
-        case LINE_XOOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + ( fontwidth / 2 ), 1, sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + ( fontheight / 2 ) + 1, 2, sdl_color );
-            break;
-        // box bottom left
-        case LINE_XXOO_C:
-            geometry->horizontal_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), p.x + fontwidth,
-                         1,
-                         sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + ( fontheight / 2 ) + 1, 2, sdl_color );
-            break;
-        // box bottom north T (left, right, up)
-        case LINE_XXOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1, sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + ( fontheight / 2 ), 2, sdl_color );
-            break;
-        // box bottom east T (up, right, down)
-        case LINE_XXXO_C:
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2, sdl_color );
-            geometry->horizontal_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), p.x + fontwidth,
-                         1,
-                         sdl_color );
-            break;
-        // box bottom south T (left, right, down)
-        case LINE_OXXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1, sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ), p.y + fontheight,
-                         2,
-                         sdl_color );
-            break;
-        // box X (left down up right)
-        case LINE_XXXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1, sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2, sdl_color );
-            break;
-        // box bottom east T (left, down, up)
-        case LINE_XOXX_C:
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2, sdl_color );
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + ( fontwidth / 2 ), 1, sdl_color );
-            break;
-        default:
-            break;
-    }
-}
-
-SDL_Texture_Ptr CachedTTFFont::create_glyph( SDL_Renderer_Ptr &renderer,const std::string &ch, const int color )
+SDL_Texture_Ptr CachedTTFFont::create_glyph( SDL_Renderer_Ptr &renderer, const std::string &ch,
+        const int color )
 {
     const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
     SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
@@ -519,7 +409,8 @@ bool CachedTTFFont::isGlyphProvided( const std::string &ch ) const
     return TTF_GlyphIsProvided( font.get(), UTF8_getch( ch ) );
 }
 
-void CachedTTFFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr&, const std::string &ch, const point &p,
+void CachedTTFFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &,
+                                const std::string &ch, const point &p,
                                 unsigned char color, const float opacity )
 {
     key_t    key {ch, static_cast<unsigned char>( color & 0xf )};
@@ -548,6 +439,106 @@ void CachedTTFFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr
     }
 }
 
+
+BitmapFont::BitmapFont(
+    SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
+    const int w, const int h,
+    const palette_array &palette,
+    const std::string &typeface_path )
+    : Font( w, h, palette )
+{
+    dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "].";
+    SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
+    assert( asciiload );
+    if( asciiload->w * asciiload->h < ( fontwidth * fontheight * 256 ) ) {
+        throw std::runtime_error( "bitmap for font is to small" );
+    }
+    Uint32 key = SDL_MapRGB( asciiload->format, 0xFF, 0, 0xFF );
+    SDL_SetColorKey( asciiload.get(), SDL_TRUE, key );
+    SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
+    ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
+    SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
+    asciiload.reset();
+
+    for( size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
+        ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format.get(), 0 ) );
+        SDL_SetSurfaceRLE( ascii_surf[a].get(), 1 );
+    }
+
+    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a ) {
+        SDL_LockSurface( ascii_surf[a].get() );
+        int size = ascii_surf[a]->h * ascii_surf[a]->w;
+        Uint32 *pixels = static_cast<Uint32 *>( ascii_surf[a]->pixels );
+        Uint32 color = ( windowsPalette[a].r << 16 ) | ( windowsPalette[a].g << 8 ) | windowsPalette[a].b;
+        for( int i = 0; i < size; i++ ) {
+            if( pixels[i] == 0xFFFFFF ) {
+                pixels[i] = color;
+            }
+        }
+        SDL_UnlockSurface( ascii_surf[a].get() );
+    }
+    tilewidth = ascii_surf[0]->w / fontwidth;
+
+    //convert ascii_surf to SDL_Texture
+    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
+        ascii[a] = CreateTextureFromSurface( renderer, ascii_surf[a] );
+    }
+}
+
+void BitmapFont::draw_ascii_lines( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+                                   unsigned char line_id, const point &p, unsigned char color ) const
+{
+    BitmapFont *t = const_cast<BitmapFont *>( this );
+    switch( line_id ) {
+        // box bottom/top side (horizontal line)
+        case LINE_OXOX_C:
+            t->OutputChar( renderer, geometry, 0xcd, p, color );
+            break;
+        // box left/right side (vertical line)
+        case LINE_XOXO_C:
+            t->OutputChar( renderer, geometry, 0xba, p, color );
+            break;
+        // box top left
+        case LINE_OXXO_C:
+            t->OutputChar( renderer, geometry, 0xc9, p, color );
+            break;
+        // box top right
+        case LINE_OOXX_C:
+            t->OutputChar( renderer, geometry, 0xbb, p, color );
+            break;
+        // box bottom right
+        case LINE_XOOX_C:
+            t->OutputChar( renderer, geometry, 0xbc, p, color );
+            break;
+        // box bottom left
+        case LINE_XXOO_C:
+            t->OutputChar( renderer, geometry, 0xc8, p, color );
+            break;
+        // box bottom north T (left, right, up)
+        case LINE_XXOX_C:
+            t->OutputChar( renderer, geometry, 0xca, p, color );
+            break;
+        // box bottom east T (up, right, down)
+        case LINE_XXXO_C:
+            t->OutputChar( renderer, geometry, 0xcc, p, color );
+            break;
+        // box bottom south T (left, right, down)
+        case LINE_OXXX_C:
+            t->OutputChar( renderer, geometry, 0xcb, p, color );
+            break;
+        // box X (left down up right)
+        case LINE_XXXX_C:
+            t->OutputChar( renderer, geometry, 0xce, p, color );
+            break;
+        // box bottom east T (left, down, up)
+        case LINE_XOXX_C:
+            t->OutputChar( renderer, geometry, 0xb9, p, color );
+            break;
+        default:
+            break;
+    }
+}
+
 bool BitmapFont::isGlyphProvided( const std::string &ch ) const
 {
     const uint32_t t = UTF8_getch( ch );
@@ -569,14 +560,16 @@ bool BitmapFont::isGlyphProvided( const std::string &ch ) const
     }
 }
 
-void BitmapFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry, const std::string &ch, const point &p,
+void BitmapFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+                             const std::string &ch, const point &p,
                              unsigned char color, const float opacity )
 {
     const int t = UTF8_getch( ch );
     BitmapFont::OutputChar( renderer, geometry, t, p, color, opacity );
 }
 
-void BitmapFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry, const int t, const point &p,
+void BitmapFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+                             const int t, const point &p,
                              unsigned char color, const float opacity )
 {
     if( t <= 256 ) {
@@ -636,8 +629,49 @@ void BitmapFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &g
             default:
                 return;
         }
-        draw_ascii_lines( renderer, geometry , uc, p, color );
+        draw_ascii_lines( renderer, geometry, uc, p, color );
     }
+}
+
+FontFallbackList::FontFallbackList(
+    SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
+    const int w, const int h,
+    const palette_array &palette,
+    const std::vector<std::string> &typefaces,
+    const int fontsize, const bool fontblending )
+    : Font( w, h, palette )
+{
+    for( const std::string &typeface : typefaces ) {
+        std::unique_ptr<Font> font = Font::load_font( renderer, format, typeface, fontsize, w, h, palette,
+                                     fontblending );
+        if( !font ) {
+            throw std::runtime_error( "Cannot load font " + typeface );
+        }
+        fonts.emplace_back( std::move( font ) );
+    }
+    if( fonts.empty() ) {
+        throw std::runtime_error( "Typeface list is empty" );
+    }
+}
+
+bool FontFallbackList::isGlyphProvided( const std::string & ) const
+{
+    return true;
+}
+
+void FontFallbackList::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &geometry,
+                                   const std::string &ch, const point &p,
+                                   unsigned char color, const float opacity )
+{
+    auto cached = glyph_font.find( ch );
+    if( cached == glyph_font.end() ) {
+        for( auto it = fonts.begin(); it != fonts.end(); ++it ) {
+            if( std::next( it ) == fonts.end() || ( *it )->isGlyphProvided( ch ) ) {
+                cached = glyph_font.emplace( ch, it ).first;
+            }
+        }
+    }
+    ( *cached->second )->OutputChar( renderer, geometry, ch, p, color, opacity );
 }
 
 #endif // TILES
