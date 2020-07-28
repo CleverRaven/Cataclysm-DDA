@@ -344,7 +344,7 @@
     "id": "afs_herc_rig",
     "type": "ARMOR",
     "name": { "str": "HERC rig" },
-    "description": "A lightweight steel reinforced chest rig.  Keeps your tools safe and about in zero-g, Mars, the bottom of the Pacific, and/or other generally inhospitable environments.  It has several deep pockets, and two mounting points for pressurized canisters or other large magazines.",
+    "description": "A lightweight steel-reinforced tool carrier.  Keeps your tools safe and about in zero-g, Mars, the bottom of the Pacific, or other generally inhospitable environments.  It has several deep pockets, and two mounting points for pressurized canisters or other large magazines.",
     "weight": "600 g",
     "volume": "10 L",
     "looks_like": "tacvest",
@@ -378,34 +378,10 @@
         "rigid": true,
         "holster": true
       },
-      {
-        "pocket_type": "CONTAINER",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "1 L",
-        "max_contains_weight": "2 kg",
-        "moves": 60
-      },
-      {
-        "pocket_type": "CONTAINER",
-        "min_item_volume": "250 ml",
-        "max_contains_volume": "2 L",
-        "max_contains_weight": "5 kg",
-        "moves": 150
-      },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "2 kg", "moves": 60 },
+      { "pocket_type": "CONTAINER", "max_contains_volume": "2 L", "max_contains_weight": "5 kg", "moves": 150 },
       {
         "pocket_type": "CONTAINER",
         "min_item_volume": "2 L",
