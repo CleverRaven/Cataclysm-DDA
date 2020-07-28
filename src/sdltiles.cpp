@@ -1,5 +1,6 @@
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
+#include "cuboid_rectangle.h"
 
 #if defined(TILES)
 
