@@ -21,10 +21,10 @@
         "entries": [
           { "item": "afs_foamgun", "ammo-item": "afs_foamcrete", "charges": 30 },
           { "item": "afs_foam_tank", "ammo-item": "afs_foamcrete", "charges": 30 }
-        ],
-        "male": [ "briefs" ],
-        "female": [ "bra", "boy_shorts" ]
-      }
+        ]
+      },
+      "male": [ "briefs" ],
+      "female": [ "bra", "boy_shorts" ]
     }
   },
   {
