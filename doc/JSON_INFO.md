@@ -1815,52 +1815,136 @@ Vehicle components when installed on a vehicle.
 "id": "wheel",                // Unique identifier
 "name": "wheel",              // Displayed name
 "symbol": "0",                // ASCII character displayed when part is working
-"looks_like": "small_wheel",  // hint to tilesets if this part has no tile, use the looks_like tile
+"looks_like": "small_wheel",  // (Optional) hint to tilesets if this part has no tile,
+                              // use the looks_like tile.
 "color": "dark_gray",         // Color used when part is working
 "broken_symbol": "x",         // ASCII character displayed when part is broken
 "broken_color": "light_gray", // Color used when part is broken
-"damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this part hits something, as a percentage. Higher = more damage to creature struck
+"damage_modifier": 50,        // (Optional, default = 100) Dealt damage multiplier when this
+                              // part hits something, as a percentage. Higher = more damage to
+                              // creature struck
 "durability": 200,            // How much damage the part can take before breaking
-"description": "A wheel."     // A description of this vehicle part when installing it
-"size": 2000                  // If vehicle part has flag "FLUIDTANK" then capacity in mLs, else divide by 4 for volume on space
-"cargo_weight_modifier": 100  // Special function to multiplicatively modify item weight on space. Divide by 100 for ratio.
-"wheel_width": 9,             /* (Optional, default = 0)
-                               * SPECIAL: A part may have at most ONE of the following fields:
-                               *    wheel_width = base wheel width in inches
-                               *    size        = trunk/box storage volume capacity
-                               *    power       = base engine power in watts
-                               *    bonus       = bonus granted; muffler = noise reduction%, seatbelt = bonus to not being thrown from vehicle
-                               *    par1        = generic value used for unique bonuses, like the headlight's light intensity */
-"wheel_type":                 // (Optional: standard, off-road)
-"contact_area":               // (Optional) Affects vehicle ground pressure
-"cargo_weight_modifier": 33,  // (Optional, default = 100) Modifies cargo weight by set percentage
-"fuel_type": "NULL",          // (Optional, default = "NULL") Type of fuel/ammo the part consumes, as an item id
-
-"item": "wheel",              // The item used to install this part, and the item obtained when removing this part
+"description": "A wheel.",    // A description of this vehicle part when installing it
+"fuel_type": "diesel",        // (Optional, default = "NULL") Type of fuel/ammo the part consumes,
+                              // as an item id
+"epower": -10                 // The electrical power use of the part, in watts.
+                              // Negative values mean power is consumed, positive values mean power
+                              // is generated.  Power consumption usually also requires the
+                              // ENABLED_DRAINS_EPOWER flag and for the item to be turned on.
+"item": "wheel",              // The item used to install this part, and the item obtained when
+                              // removing this part.
 "difficulty": 4,              // Your mechanics skill must be at least this level to install this part
-"breaks_into" : [             // When the vehicle part is destroyed, items from this item group (see ITEM_SPAWN.md) will be spawned around the part on the ground.
+"breaks_into" : [             // When the vehicle part is destroyed, items from this item group
+                              // (see ITEM_SPAWN.md) will be spawned around the part on the ground.
   {"item": "scrap", "count": [0,5]} // instead of an array, this can be an inline item group,
 ],
 "breaks_into" : "some_item_group", // or just the id of an item group.
 "flags": [                    // Flags associated with the part
      "EXTERNAL", "MOUNT_OVER", "WHEEL", "MOUNT_POINT", "VARIABLE_SIZE"
 ],
+"requirements": {             // (Optional) Special installation, removal, or repair requirementsi
+                              // for the part.  Each field consists of an object, with fields
+                              // "skills", "time", and "using".
+  "install": {
+    "skills": [ [ "mechanics", 1 ] ], // "skills" is a list of lists, with each list being a skill
+                              // name and skill level.
+    "time": "200 s",          // "time" is a string specifying the time to perform the action.
+    "using": [ [ "vehicle_screw", 1 ] ] // "using" is a list of list, with each list being a
+                              // crafting requirement.
+  },
+  "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "200 s", "using": [ [ "vehicle_screw", 1 ] ] },
+  "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+},
 "damage_reduction" : {        // Flat reduction of damage, as described below. If not specified, set to zero
     "all" : 10,
     "physical" : 5
 },
-                              // The following optional fields are specific to ENGINEs.
-"m2c": 50,                    // Mandatory field for parts with the ENGINE flag, indicates ratio of cruise power to maximum power
-"backfire_threshold": 0.5,    // Optional field, defaults to 0. Indicates maximum ratio of damaged HP to max HP to trigger backfires
-"backfire_freq": 20,          // Optional field unless backfire threshold > 0, then mandatory, defaults to 0. One in X chance of a backfire.
-"noise_factor": 15,           // Optional field, defaults to 0. Multiple engine power by this number to declare noise.
-"damaged_power_factor": 0.5,  // Optional field, defaults to 0. If more than 0, power when damaged is scaled to power * ( damaged_power_factor + ( 1 - damaged_power_factor ) * ( damaged HP / max HP )
-"muscle_power_factor": 0,     // Optional field, defaults to 0. If more than 0, each point of the survivor's Strength over 8 adds this much power to the engine, and each point less than 8 removes this much power.
-"exclusions": [ "souls" ]     // Optional field, defaults to empty. A list of words. A new engine can't be installed on the vehicle if any engine on the vehicle shares a word from exclusions.
-"fuel_options": [ "soul", "black_soul" ] // Optional field, defaults to fuel_type.  A list of words. An engine can be fueled by any fuel type in its fuel_options.  If provided, it overrides fuel_type and should include the fuel in fuel_type.
-"comfort": 3,                 // Optional field, defaults to 0. How comfortable this terrain/furniture is. Impact ability to fall asleep on it. (uncomfortable = -999, neutral = 0, slightly_comfortable = 3, comfortable = 5, very_comfortable = 10)
-"floor_bedding_warmth": 300,  // Optional field, defaults to 0. Bonus warmth offered by this terrain/furniture when used to sleep.
-"bonus_fire_warmth_feet": 200,// Optional field, defaults to 300. Increase warmth received on feet from nearby fire.
+"qualities": [ [ "SELF_JACK", 17 ] ], // (Optional) A list of lists, with each list being a tool
+                              // quality and the quality level, that the vehicle part provides.
+                              // Only the "LIFT", "JACK", and "SELF_JACK" qualities are valid.
+"transform_terrain": {        // (Optional) This part can transform terrain, like a plow.
+                              // One of "post_terain", "post_furniture", or "post_field" is required.
+  "pre_flags": [ "PLOWABLE" ], // List of flags for the terrain that can be transformed.
+  "post_terrain": "t_dirtmound", // (Optional, default to "t_null") The resulting terrain, if any.
+  "post_furniture": "f_boulder", // (Optional, default to "f_null") The resulting furniture, if any.
+  "post_field": "fd_fire",    // (Optional, default to "fd_null") The resulting field, if any.
+  "post_field_intensity": 10, // (Optional, default to 0) The field's intensity, if any.
+  "post_field_age": "20 s"    // (Optional, default to 0 turns) The field's time to live, if any.
+},
+```
+
+Unless specified as optional, the following fields are mandatory for parts with appropriate flag and are ignored otherwise.
+#### The following optional fields are specific to CARGO or FLUIDTANK parts.
+```c++
+"size": 2000,                 // with flag "FLUIDTANK" this is capacity in mLs,
+                              // else with "CARGO" flag the capacity in 250mL volume units.
+"cargo_weight_modifier": 33,  // (Optional, default = 100) Multiplies cargo weight by this percentage.
+```
+
+#### The following optional fields are specific to ENGINEs.
+```c++
+"power": 15000                // Engine motive power in watts.
+"energy_consumption": 17500   // Engine power consumption at maximum power in watts.  Defaults to
+                              // electrical power and the E_COMBUSTION flag turns it to thermal
+                              // power produced from fuel_type.  Should always be larger than "power".
+"m2c": 50,                    // The ratio of safe power to maximum power.
+"backfire_threshold": 0.5,    // (Optional, default = 0) The engine will backfire (producing noise
+                              // and smoke if the ratio of damaged HP to max HP is below this value.
+"backfire_freq": 20,          // (Optional, default = 0) One in X chance of a backfire if the 
+                              // ratio of damaged HP to max HP is below the backfire_threshold.
+"noise_factor": 15,           // (Optional, default = 0). Multiple engine power by this number to
+                              // determine noise.
+"damaged_power_factor": 0.5,  // (Optional, default = 0) If more than 0, power when damaged is
+                              // scaled to power * ( damaged_power_factor +
+                              // ( 1 - damaged_power_factor ) * ( damaged HP / max HP )
+"muscle_power_factor": 0,     // (Optional, default = 0) Increases engine power by
+                              // avatar (ST - 8) * muscle_power_factor.
+"exclusions": [ "souls" ]     // (Optional, defaults to empty). A list of words. A new engine can't
+                              // be installed on the vehicle if any engine on the vehicle shares a
+                              // word from exclusions.
+"fuel_options": [ "soul", "black_soul" ] // (Optional field, defaults to fuel_type).  A list of
+                              // item_ids. An engine can be fueled by any fuel type in its
+                              // fuel_options.  If provided, it overrides fuel_type and should
+                              // include the fuel in fuel_type.
+```
+
+#### The following optional fields are specific to WHEELs.
+```c++
+"wheel_type": "standard",     // Must be one of "standard", "rigid", "racing", "off_road", "treads", or "rail".
+                              // Indicates the class of wheel for determining off-road performance.
+"contact_area": 153,          // The surface area of the wheel in contact with the ground under
+                              // normal conditions in cm^2.  Wheels with higher contact area
+                              // perform better off-road.
+"rolling_resistance": 1.0,    // The "squishiness" of the wheel, per SAE standards.  Wheel rolling
+                              // resistance increases vehicle drag linearly as vehicle weight
+                              // and speed increase.
+```
+The following `wheel_types` are available:
+* `standard`: typical car wheel with some grooves, intended primarily for road use.  Large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
+* `rigid`: hard roller wheel like a caster that only performs well on smooth, flat surface.  Massive penalty when not on a FLAT tile, moderate penalty when not on a ROAD tile.
+* `racing`: a smooth, ungrooved tile for maximum traction under optimum conditions.  Very large penalty when not on a FLAT tile, small penalty when not on a ROAD tile.
+* `off_road`: a knobbed, heavily grooved tire for maximum traction under a wide variety of conditions.  Moderate penalty when not on a FLAT tile, tiny penalty when not a ROAD tile.
+* `treads`: a link in a continuous track.  moderate penalty when not on a FLAT tile, no penalty when not on a ROAD tile.
+* `rail`: a rigid metal wheel with a flange on one edge, meant to keep it on a railroad track.  No penalty when on a RAIL tile, extreme penalty when not on a RAIL tile.
+
+#### The following optional fields are specific to ROTORs.
+```c++
+"rotor_diameter": 15,         // Rotor diamater in meters.  Larger rotors provide more lift.
+```
+
+#### The following optional fields are specific to WORKBENCHes.
+These values apply to crafting tasks performed at the WORKBENCH.
+```c++
+"multiplier": 1.1,            // Crafting speed multipler.
+"mass": 1000000,              // Maximum mass in grams of a completed craft that can be crafted.
+"volume": "20L",              // Maximum volume (as a string) of a completed craft that can be craft.
+```
+
+#### The following optional fields are specific to SEATs.
+```c++
+"comfort": 3,                 // (Optional, default=0). Sleeping comfort as for terrain/furniture.
+"floor_bedding_warmth": 300,  // (Optional, default=0). Bonus warmth as for terrain/furniture.
+"bonus_fire_warmth_feet": 200,// (Optional, default=0). Bonus fire warmth as for terrain/furniture.
 ```
 
 ### Part Resistance
