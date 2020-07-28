@@ -1668,7 +1668,7 @@ class map
          * Internal versions of public functions to avoid checking same variables multiple times.
          * They lack safety checks, because their callers already do those.
          */
-        int move_cost_internal( const furn_t &furniture, const ter_t &terrain,
+        int move_cost_internal( const furn_t &furniture, const ter_t &terrain, const field &field,
                                 const vehicle *veh, int vpart ) const;
         int bash_rating_internal( int str, const furn_t &furniture,
                                   const ter_t &terrain, bool allow_floor,

@@ -1752,10 +1752,12 @@ std::string map::features( const tripoint &p )
     return result;
 }
 
-int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, const vehicle *veh,
+int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, const field &field,
+                             const vehicle *veh,
                              const int vpart ) const
 {
-    if( terrain.movecost == 0 || ( furniture.id && furniture.movecost < 0 ) ) {
+    if( terrain.movecost == 0 || ( furniture.id && furniture.movecost < 0 ) ||
+        field.total_move_cost() < 0 ) {
         return 0;
     }
 
@@ -1769,12 +1771,13 @@ int map::move_cost_internal( const furn_t &furniture, const ter_t &terrain, cons
             return 8;
         }
     }
+    int movecost = std::max( terrain.movecost + field.total_move_cost(), 0 );
 
     if( furniture.id ) {
-        return std::max( terrain.movecost + furniture.movecost, 0 );
+        movecost += std::max( furniture.movecost, 0 );
     }
 
-    return std::max( terrain.movecost, 0 );
+    return movecost;
 }
 
 bool map::is_wall_adjacent( const tripoint &center ) const
@@ -1797,11 +1800,12 @@ int map::move_cost( const tripoint &p, const vehicle *ignored_vehicle ) const
 
     const furn_t &furniture = furn( p ).obj();
     const ter_t &terrain = ter( p ).obj();
+    const field &field = field_at( p );
     const optional_vpart_position vp = veh_at( p );
     vehicle *const veh = ( !vp || &vp->vehicle() == ignored_vehicle ) ? nullptr : &vp->vehicle();
     const int part = veh ? vp->part_index() : -1;
 
-    return move_cost_internal( furniture, terrain, veh, part );
+    return move_cost_internal( furniture, terrain, field, veh, part );
 }
 
 bool map::impassable( const tripoint &p ) const
@@ -8730,10 +8734,11 @@ void map::update_pathfinding_cache( int zlev ) const
 
                     const auto &terrain = tile.get_ter_t();
                     const auto &furniture = tile.get_furn_t();
+                    const auto &field = tile.get_field();
                     int part;
                     const vehicle *veh = veh_at_internal( p, part );
 
-                    const int cost = move_cost_internal( furniture, terrain, veh, part );
+                    const int cost = move_cost_internal( furniture, terrain, field, veh, part );
 
                     if( cost > 2 ) {
                         cur_value |= PF_SLOW;
