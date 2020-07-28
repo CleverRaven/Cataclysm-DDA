@@ -173,8 +173,8 @@ static int test_face_size( const std::string &f, int size, int faceIndex )
 }
 
 std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelFormat_Ptr &format,
-                                       const std::string &typeface, int fontsize, int fontwidth,
-                                       int fontheight,
+                                       const std::string &typeface, int fontsize, int width,
+                                       int height,
                                        const palette_array &palette,
                                        const bool fontblending )
 {
@@ -182,12 +182,12 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
         // Seems to be an image file, not a font.
         // Try to load as bitmap font from user font dir, then from font dir.
         try {
-            return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, fontwidth, fontheight,
+            return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
                                           palette,
                                           PATH_INFO::user_font() + typeface ) );
         } catch( std::exception & ) {
             try {
-                return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, fontwidth, fontheight,
+                return std::unique_ptr<Font>( std::make_unique<BitmapFont>( renderer, format, width, height,
                                               palette,
                                               PATH_INFO::fontdir() + typeface ) );
             } catch( std::exception &err ) {
@@ -198,7 +198,7 @@ std::unique_ptr<Font> Font::load_font( SDL_Renderer_Ptr &renderer, SDL_PixelForm
     }
     // Not loaded as bitmap font (or it failed), try to load as truetype
     try {
-        return std::unique_ptr<Font>( std::make_unique<CachedTTFFont>( fontwidth, fontheight,
+        return std::unique_ptr<Font>( std::make_unique<CachedTTFFont>( width, height,
                                       palette, typeface, fontsize, fontblending ) );
     } catch( std::exception &err ) {
         dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
@@ -216,87 +216,87 @@ void Font::draw_ascii_lines( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &g
     switch( line_id ) {
         // box bottom/top side (horizontal line)
         case LINE_OXOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
                                        sdl_color );
             break;
         // box left/right side (vertical line)
         case LINE_XOXO_C:
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
                                      sdl_color );
             break;
         // box top left
         case LINE_OXXO_C:
-            geometry->horizontal_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                       p.x + fontwidth,
+            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+                                       p.x + width,
                                        1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                     p.y + fontheight,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+                                     p.y + height,
                                      2,
                                      sdl_color );
             break;
         // box top right
         case LINE_OOXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + ( fontwidth / 2 ), 1,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                     p.y + fontheight,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+                                     p.y + height,
                                      2,
                                      sdl_color );
             break;
         // box bottom right
         case LINE_XOOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + ( fontwidth / 2 ), 1,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + ( fontheight / 2 ) + 1,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ) + 1,
                                      2, sdl_color );
             break;
         // box bottom left
         case LINE_XXOO_C:
-            geometry->horizontal_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                       p.x + fontwidth,
+            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+                                       p.x + width,
                                        1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + ( fontheight / 2 ) + 1,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ) + 1,
                                      2, sdl_color );
             break;
         // box bottom north T (left, right, up)
         case LINE_XXOX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + ( fontheight / 2 ), 2,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + ( height / 2 ), 2,
                                      sdl_color );
             break;
         // box bottom east T (up, right, down)
         case LINE_XXXO_C:
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
                                      sdl_color );
-            geometry->horizontal_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                       p.x + fontwidth,
+            geometry->horizontal_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+                                       p.x + width,
                                        1,
                                        sdl_color );
             break;
         // box bottom south T (left, right, down)
         case LINE_OXXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                     p.y + fontheight,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), ( height / 2 ) ),
+                                     p.y + height,
                                      2,
                                      sdl_color );
             break;
         // box X (left down up right)
         case LINE_XXXX_C:
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + fontwidth, 1,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + width, 1,
                                        sdl_color );
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
                                      sdl_color );
             break;
         // box bottom east T (left, down, up)
         case LINE_XOXX_C:
-            geometry->vertical_line( renderer, p + point( ( fontwidth / 2 ), 0 ), p.y + fontheight, 2,
+            geometry->vertical_line( renderer, p + point( ( width / 2 ), 0 ), p.y + height, 2,
                                      sdl_color );
-            geometry->horizontal_line( renderer, p + point( 0, ( fontheight / 2 ) ), p.x + ( fontwidth / 2 ), 1,
+            geometry->horizontal_line( renderer, p + point( 0, ( height / 2 ) ), p.x + ( width / 2 ), 1,
                                        sdl_color );
             break;
         default:
@@ -337,7 +337,7 @@ CachedTTFFont::CachedTTFFont(
     }
     dbg( D_INFO ) << "Loading truetype font [" + typeface + "].";
     if( fontsize <= 0 ) {
-        fontsize = fontheight - 1;
+        fontsize = height - 1;
     }
     // SDL_ttf handles bitmap fonts size incorrectly
     if( typeface.length() > 4 &&
@@ -377,10 +377,10 @@ SDL_Texture_Ptr CachedTTFFont::create_glyph( SDL_Renderer_Ptr &renderer, const s
     const int wf = utf8_wrapper( ch ).display_width();
     // Note: bits per pixel must be 8 to be synchronized with the surface
     // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface_Ptr surface = CreateRGBSurface( 0, fontwidth * wf, fontheight, 32, rmask, gmask, bmask,
+    SDL_Surface_Ptr surface = CreateRGBSurface( 0, width * wf, height, 32, rmask, gmask, bmask,
                               amask );
     SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
-    SDL_Rect dst_rect = { 0, 0, fontwidth * wf, fontheight };
+    SDL_Rect dst_rect = { 0, 0, width * wf, height };
     if( src_rect.w < dst_rect.w ) {
         dst_rect.x = ( dst_rect.w - src_rect.w ) / 2;
         dst_rect.w = src_rect.w;
@@ -419,7 +419,7 @@ void CachedTTFFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr
     if( it == std::end( glyph_cache_map ) ) {
         cached_t new_entry {
             create_glyph( renderer, key.codepoints, key.color ),
-            static_cast<int>( fontwidth * utf8_wrapper( key.codepoints ).display_width() )
+            static_cast<int>( width * utf8_wrapper( key.codepoints ).display_width() )
         };
         it = glyph_cache_map.insert( std::make_pair( std::move( key ), std::move( new_entry ) ) ).first;
     }
@@ -429,7 +429,7 @@ void CachedTTFFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr
         // Nothing we can do here )-:
         return;
     }
-    SDL_Rect rect {p.x, p.y, value.width, fontheight};
+    SDL_Rect rect {p.x, p.y, value.width, height};
     if( opacity != 1.0f ) {
         SDL_SetTextureAlphaMod( value.texture.get(), opacity * 255.0f );
     }
@@ -450,7 +450,7 @@ BitmapFont::BitmapFont(
     dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "].";
     SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
     assert( asciiload );
-    if( asciiload->w * asciiload->h < ( fontwidth * fontheight * 256 ) ) {
+    if( asciiload->w * asciiload->h < ( width * height * 256 ) ) {
         throw std::runtime_error( "bitmap for font is to small" );
     }
     Uint32 key = SDL_MapRGB( asciiload->format, 0xFF, 0, 0xFF );
@@ -477,7 +477,7 @@ BitmapFont::BitmapFont(
         }
         SDL_UnlockSurface( ascii_surf[a].get() );
     }
-    tilewidth = ascii_surf[0]->w / fontwidth;
+    tilewidth = ascii_surf[0]->w / width;
 
     //convert ascii_surf to SDL_Texture
     for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
@@ -574,15 +574,15 @@ void BitmapFont::OutputChar( SDL_Renderer_Ptr &renderer, GeometryRenderer_Ptr &g
 {
     if( t <= 256 ) {
         SDL_Rect src;
-        src.x = ( t % tilewidth ) * fontwidth;
-        src.y = ( t / tilewidth ) * fontheight;
-        src.w = fontwidth;
-        src.h = fontheight;
+        src.x = ( t % tilewidth ) * width;
+        src.y = ( t / tilewidth ) * height;
+        src.w = width;
+        src.h = height;
         SDL_Rect rect;
         rect.x = p.x;
         rect.y = p.y;
-        rect.w = fontwidth;
-        rect.h = fontheight;
+        rect.w = width;
+        rect.h = height;
         if( opacity != 1.0f ) {
             SDL_SetTextureAlphaMod( ascii[color].get(), opacity * 255 );
         }

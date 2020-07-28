@@ -29,7 +29,7 @@ class Font
 {
     public:
         Font( int w, int h, const palette_array &palette ) :
-            fontwidth( w ), fontheight( h ), palette( palette ) { }
+            width( w ), height( h ), palette( palette ) { }
         virtual ~Font() = default;
 
         /// @return `true` if font is able to render utf-8 encoded symbol @p ch.
@@ -60,9 +60,9 @@ class Font
             bool fontblending );
     public:
         // the width of the font, background is always this size.
-        int fontwidth;
+        int width;
         // the height of the font, background is always this size.
-        int fontheight;
+        int height;
         // font palette.
         const palette_array &palette;
 };

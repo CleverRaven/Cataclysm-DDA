@@ -621,26 +621,26 @@ static void invalidate_framebuffer_proportion( cata_cursesport::WINDOW *win )
     }
 
     // track the dimensions for conversion
-    const point termpixel( win->pos.x * font->fontwidth, win->pos.y * font->fontheight );
-    const int termpixel_x2 = termpixel.x + win->width * font->fontwidth - 1;
-    const int termpixel_y2 = termpixel.y + win->height * font->fontheight - 1;
+    const point termpixel( win->pos.x * font->width, win->pos.y * font->height );
+    const int termpixel_x2 = termpixel.x + win->width * font->width - 1;
+    const int termpixel_y2 = termpixel.y + win->height * font->height - 1;
 
-    if( map_font != nullptr && map_font->fontwidth != 0 && map_font->fontheight != 0 ) {
-        const int mapfont_x = termpixel.x / map_font->fontwidth;
-        const int mapfont_y = termpixel.y / map_font->fontheight;
-        const int mapfont_x2 = std::min( termpixel_x2 / map_font->fontwidth, oversized_width - 1 );
-        const int mapfont_y2 = std::min( termpixel_y2 / map_font->fontheight, oversized_height - 1 );
+    if( map_font != nullptr && map_font->width != 0 && map_font->height != 0 ) {
+        const int mapfont_x = termpixel.x / map_font->width;
+        const int mapfont_y = termpixel.y / map_font->height;
+        const int mapfont_x2 = std::min( termpixel_x2 / map_font->width, oversized_width - 1 );
+        const int mapfont_y2 = std::min( termpixel_y2 / map_font->height, oversized_height - 1 );
         const int mapfont_width = mapfont_x2 - mapfont_x + 1;
         const int mapfont_height = mapfont_y2 - mapfont_y + 1;
         invalidate_framebuffer( oversized_framebuffer, point( mapfont_x, mapfont_y ), mapfont_width,
                                 mapfont_height );
     }
 
-    if( overmap_font != nullptr && overmap_font->fontwidth != 0 && overmap_font->fontheight != 0 ) {
-        const int overmapfont_x = termpixel.x / overmap_font->fontwidth;
-        const int overmapfont_y = termpixel.y / overmap_font->fontheight;
-        const int overmapfont_x2 = std::min( termpixel_x2 / overmap_font->fontwidth, oversized_width - 1 );
-        const int overmapfont_y2 = std::min( termpixel_y2 / overmap_font->fontheight,
+    if( overmap_font != nullptr && overmap_font->width != 0 && overmap_font->height != 0 ) {
+        const int overmapfont_x = termpixel.x / overmap_font->width;
+        const int overmapfont_y = termpixel.y / overmap_font->height;
+        const int overmapfont_x2 = std::min( termpixel_x2 / overmap_font->width, oversized_width - 1 );
+        const int overmapfont_y2 = std::min( termpixel_y2 / overmap_font->height,
                                              oversized_height - 1 );
         const int overmapfont_width = overmapfont_x2 - overmapfont_x + 1;
         const int overmapfont_height = overmapfont_y2 - overmapfont_y + 1;
@@ -749,9 +749,9 @@ bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offs
 
             const cursecell &cell = win->line[j].chars[i];
 
-            const int drawx = offset.x + i * fontwidth;
-            const int drawy = offset.y + j * fontheight;
-            if( drawx + fontwidth > WindowWidth || drawy + fontheight > WindowHeight ) {
+            const int drawx = offset.x + i * font->width;
+            const int drawy = offset.y + j * font->height;
+            if( drawx + font->width > WindowWidth || drawy + font->height > WindowHeight ) {
                 // Outside of the display area, would not render anyway
                 continue;
             }
@@ -771,7 +771,7 @@ bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offs
 
             // Spaces are used a lot, so this does help noticeably
             if( cell.ch == space_string ) {
-                geometry->rect( renderer, point( drawx, drawy ), fontwidth, fontheight, color_as_sdl( cell.BG ) );
+                geometry->rect( renderer, point( drawx, drawy ), font->width, font->height, color_as_sdl( cell.BG ) );
                 continue;
             }
             const int codepoint = UTF8_getch( cell.ch );
@@ -825,7 +825,7 @@ bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offs
                     use_draw_ascii_lines_routine = false;
                     break;
             }
-            geometry->rect( renderer, point( drawx, drawy ), fontwidth * cw, fontheight, color_as_sdl( BG ) );
+            geometry->rect( renderer, point( drawx, drawy ), font->width * cw, font->height, color_as_sdl( BG ) );
             if( use_draw_ascii_lines_routine ) {
                 font->draw_ascii_lines( renderer, geometry, uc, point( drawx, drawy ), FG );
             } else {
@@ -869,8 +869,8 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         tilecontext->draw(
             point( win->pos.x * fontwidth, win->pos.y * fontheight ),
             g->ter_view_p,
-            TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
-            TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
+            TERRAIN_WINDOW_TERM_WIDTH * font->width,
+            TERRAIN_WINDOW_TERM_HEIGHT * font->height,
             overlay_strings,
             color_blocks );
 
@@ -921,12 +921,12 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
             for( size_t i = 0; i < text.size(); ++i ) {
                 const int x0 = win->pos.x * fontwidth;
                 const int y0 = win->pos.y * fontheight;
-                const int x = x0 + ( x_offset - alignment_offset + width ) * map_font->fontwidth + coord.x;
+                const int x = x0 + ( x_offset - alignment_offset + width ) * map_font->width + coord.x;
                 const int y = y0 + coord.y;
 
                 // Clip to window bounds.
-                if( x < x0 || x > x0 + ( TERRAIN_WINDOW_TERM_WIDTH - 1 ) * font->fontwidth
-                    || y < y0 || y > y0 + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->fontheight ) {
+                if( x < x0 || x > x0 + ( TERRAIN_WINDOW_TERM_WIDTH - 1 ) * font->width
+                    || y < y0 || y > y0 + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->height ) {
                     continue;
                 }
 
@@ -950,22 +950,22 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
 
         //calculate width differences between map_font and font
         int partial_width = std::max( TERRAIN_WINDOW_TERM_WIDTH * fontwidth - TERRAIN_WINDOW_WIDTH *
-                                      map_font->fontwidth, 0 );
+                                      map_font->width, 0 );
         int partial_height = std::max( TERRAIN_WINDOW_TERM_HEIGHT * fontheight - TERRAIN_WINDOW_HEIGHT *
-                                       map_font->fontheight, 0 );
+                                       map_font->height, 0 );
         //Gap between terrain and lower window edge
         if( partial_height > 0 ) {
-            geometry->rect( renderer, point( win->pos.x * map_font->fontwidth,
-                                             ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight ),
-                            TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height,
+            geometry->rect( renderer, point( win->pos.x * map_font->width,
+                                             ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->height ),
+                            TERRAIN_WINDOW_WIDTH * map_font->width + partial_width, partial_height,
                             color_as_sdl( catacurses::black ) );
         }
         //Gap between terrain and sidebar
         if( partial_width > 0 ) {
-            geometry->rect( renderer, point( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth,
-                                             win->pos.y * map_font->fontheight ),
+            geometry->rect( renderer, point( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->width,
+                                             win->pos.y * map_font->height ),
                             partial_width,
-                            TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height,
+                            TERRAIN_WINDOW_HEIGHT * map_font->height + partial_height,
                             color_as_sdl( catacurses::black ) );
         }
         // Special font for the terrain window
@@ -984,7 +984,7 @@ void cata_cursesport::curses_drawwindow( const catacurses::window &w )
         tilecontext->draw_minimap(
             point( win->pos.x * fontwidth, win->pos.y * fontheight ),
             tripoint( get_player_character().pos().xy(), g->ter_view_p.z ),
-            win->width * font->fontwidth, win->height * font->fontheight );
+            win->width * font->width, win->height * font->height );
         update = true;
 
     } else {
@@ -1811,11 +1811,11 @@ void draw_quick_shortcuts()
         std::string text = event.text;
         int key = event.get_first_input();
         float default_text_scale = std::floor( 0.75f * ( height /
-                                               font->fontheight ) ); // default for single character strings
+                                               font->height ) ); // default for single character strings
         float text_scale = default_text_scale;
         if( text.empty() || text == " " ) {
             text = inp_mngr.get_keyname( key, event.type );
-            text_scale = std::min( text_scale, 0.75f * ( width / ( font->fontwidth * utf8_width( text ) ) ) );
+            text_scale = std::min( text_scale, 0.75f * ( width / ( font->width * utf8_width( text ) ) ) );
         }
         hovered = is_quick_shortcut_touch && hovered_quick_shortcut == &event;
         show_hint = hovered &&
@@ -1887,13 +1887,13 @@ void draw_quick_shortcuts()
         SDL_RenderSetScale( renderer.get(), text_scale, text_scale );
         int text_x, text_y;
         if( shortcut_right ) {
-            text_x = ( WindowWidth - ( i + 0.5f ) * width - ( font->fontwidth * utf8_width(
+            text_x = ( WindowWidth - ( i + 0.5f ) * width - ( font->width * utf8_width(
                            text ) ) * text_scale * 0.5f ) / text_scale;
         } else {
-            text_x = ( ( i + 0.5f ) * width - ( font->fontwidth * utf8_width( text ) ) * text_scale * 0.5f ) /
+            text_x = ( ( i + 0.5f ) * width - ( font->width * utf8_width( text ) ) * text_scale * 0.5f ) /
                      text_scale;
         }
-        text_y = ( WindowHeight - ( height + font->fontheight * text_scale ) * 0.5f ) / text_scale;
+        text_y = ( WindowHeight - ( height + font->height * text_scale ) * 0.5f ) / text_scale;
         font->OutputChar( text, point( text_x + 1, text_y + 1 ), 0,
                           get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
         font->OutputChar( text, point( text_x, text_y ), get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
@@ -1909,13 +1909,13 @@ void draw_quick_shortcuts()
                 hint_text = remove_color_tags( hint_text );
                 const float safe_margin = 0.9f;
                 int hint_length = utf8_width( hint_text );
-                if( WindowWidth * safe_margin < font->fontwidth * text_scale * hint_length ) {
-                    text_scale *= ( WindowWidth * safe_margin ) / ( font->fontwidth * text_scale *
+                if( WindowWidth * safe_margin < font->width * text_scale * hint_length ) {
+                    text_scale *= ( WindowWidth * safe_margin ) / ( font->width * text_scale *
                                   hint_length );    // scale to fit comfortably
                 }
                 SDL_RenderSetScale( renderer.get(), text_scale, text_scale );
-                text_x = ( WindowWidth - ( ( font->fontwidth  * hint_length ) * text_scale ) ) * 0.5f / text_scale;
-                text_y = ( WindowHeight - font->fontheight * text_scale ) * 0.5f / text_scale;
+                text_x = ( WindowWidth - ( ( font->width  * hint_length ) * text_scale ) ) * 0.5f / text_scale;
+                text_y = ( WindowHeight - font->height * text_scale ) * 0.5f / text_scale;
                 font->OutputChar( hint_text, point( text_x + 1, text_y + 1 ), 0,
                                   get_option<int>( "ANDROID_SHORTCUT_OPACITY_SHADOW" ) * 0.01f );
                 font->OutputChar( hint_text, point( text_x, text_y ), get_option<int>( "ANDROID_SHORTCUT_COLOR" ),
@@ -3170,11 +3170,11 @@ static window_dimensions get_window_dimensions( const catacurses::window &win,
         dim.scaled_font_size.y = tilecontext->get_tile_height();
     } else if( map_font && g && win == g->w_terrain ) {
         // map font (if any) might differ from standard font
-        dim.scaled_font_size.x = map_font->fontwidth;
-        dim.scaled_font_size.y = map_font->fontheight;
+        dim.scaled_font_size.x = map_font->width;
+        dim.scaled_font_size.y = map_font->height;
     } else if( overmap_font && g && win == g->w_overmap ) {
-        dim.scaled_font_size.x = overmap_font->fontwidth;
-        dim.scaled_font_size.y = overmap_font->fontheight;
+        dim.scaled_font_size.x = overmap_font->width;
+        dim.scaled_font_size.y = overmap_font->height;
     } else {
         dim.scaled_font_size.x = fontwidth;
         dim.scaled_font_size.y = fontheight;
@@ -3277,7 +3277,7 @@ static int map_font_width()
     if( use_tiles && tilecontext ) {
         return tilecontext->get_tile_width();
     }
-    return ( map_font ? map_font.get() : font.get() )->fontwidth;
+    return ( map_font ? map_font.get() : font.get() )->width;
 }
 
 static int map_font_height()
@@ -3285,17 +3285,17 @@ static int map_font_height()
     if( use_tiles && tilecontext ) {
         return tilecontext->get_tile_height();
     }
-    return ( map_font ? map_font.get() : font.get() )->fontheight;
+    return ( map_font ? map_font.get() : font.get() )->height;
 }
 
 static int overmap_font_width()
 {
-    return ( overmap_font ? overmap_font.get() : font.get() )->fontwidth;
+    return ( overmap_font ? overmap_font.get() : font.get() )->width;
 }
 
 static int overmap_font_height()
 {
-    return ( overmap_font ? overmap_font.get() : font.get() )->fontheight;
+    return ( overmap_font ? overmap_font.get() : font.get() )->height;
 }
 
 void to_map_font_dim_width( int &w )
