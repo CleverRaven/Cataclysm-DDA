@@ -4287,7 +4287,7 @@ item &map::add_item( const tripoint &p, item new_item )
     // Process foods and temperature tracked items when they are added to the map, here instead of add_item_at()
     // to avoid double processing food and corpses during active item processing.
     if( new_item.is_food() || new_item.has_temperature() ) {
-        new_item.process( nullptr, p, false );
+        new_item.process( nullptr, p );
     }
 
     if( new_item.made_of( phase_id::LIQUID ) && has_flag( "SWIMMABLE", p ) ) {

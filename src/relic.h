@@ -116,7 +116,7 @@ class relic_procgen_data
         item create_item( const relic_procgen_data::generation_rules &rules ) const;
         relic generate( const generation_rules &rules, const itype_id &it_id ) const;
 
-        bool was_loaded;
+        bool was_loaded = false;
 
         static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & = "" );

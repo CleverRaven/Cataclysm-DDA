@@ -51,7 +51,7 @@ struct monster_visible_info {
     std::vector<const mtype *> unique_mons[9];
 
     // If the moster visible in this direction is dangerous
-    bool dangerous[8];
+    bool dangerous[8] = {};
 };
 
 class avatar : public player
