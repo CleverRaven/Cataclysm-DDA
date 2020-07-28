@@ -438,6 +438,7 @@
     "description": "This is a large blade attached to a stout section of tree branch.  It could do a considerable amount of damage.",
     "weight": "1800 g",
     "volume": "3 L",
+    "longest_side": "180 cm",
     "price": 5000,
     "price_postapoc": 250,
     "to_hit": 2,
