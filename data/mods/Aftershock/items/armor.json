@@ -344,7 +344,7 @@
     "id": "afs_herc_rig",
     "type": "ARMOR",
     "name": { "str": "HERC rig" },
-    "description": "A lightweight steel reinforced chest rig.  Keeps your tools safe and about in zero-g, Mars, the bottom of the Pacific, and/or other generally inhospitable environments. It has several deep pockets, and two mounting points for pressurized canisters or other large magazines.",
+    "description": "A lightweight steel reinforced chest rig.  Keeps your tools safe and about in zero-g, Mars, the bottom of the Pacific, and/or other generally inhospitable environments.  It has several deep pockets, and two mounting points for pressurized canisters or other large magazines.",
     "weight": "600 g",
     "volume": "10 L",
     "looks_like": "tacvest",
