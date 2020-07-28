@@ -228,6 +228,7 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_steel_plate( "steel_plate" );
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_vine_30( "vine_30" );
 static const itype_id itype_wire( "wire" );
 static const itype_id itype_welder( "welder" );
@@ -2715,8 +2716,13 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 
+        int ammo_remaining = used_tool->ammo_remaining();
+        if( used_tool->has_flag( "USE_UPS" ) ) {
+            ammo_remaining = p->charges_of( itype_UPS );
+        }
+
         title += string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
-                                used_tool->ammo_remaining(), used_tool->ammo_capacity( current_ammo ),
+                                ammo_remaining, used_tool->ammo_capacity( current_ammo ),
                                 ammo_name,
                                 used_tool->ammo_required() );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),

@@ -115,6 +115,7 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
 static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_battery( "battery" );
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
@@ -7496,7 +7497,13 @@ const itype *item::ammo_data() const
 itype_id item::ammo_current() const
 {
     const itype *ammo = ammo_data();
-    return ammo ? ammo->get_id() : itype_id::NULL_ID();
+    if( ammo ) {
+        return ammo->get_id();
+    } else if( has_flag( "USE_UPS" ) ) {
+        return itype_battery;
+    }
+
+    return itype_id::NULL_ID();
 }
 
 std::set<ammotype> item::ammo_types( bool conversion ) const
@@ -7528,7 +7535,10 @@ itype_id item::ammo_default( bool conversion ) const
         if( !res.is_empty() ) {
             return res;
         }
+    } else if( has_flag( "USE_UPS" ) ) {
+        return itype_battery;
     }
+
     return itype_id::NULL_ID();
 }
 
