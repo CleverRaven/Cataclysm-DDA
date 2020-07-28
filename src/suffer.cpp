@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "activity_handlers.h"
 #include "addiction.h"
 #include "bodypart.h"
 #include "calendar.h"
@@ -87,6 +88,7 @@ static const efftype_id effect_drunk( "drunk" );
 static const efftype_id effect_formication( "formication" );
 static const efftype_id effect_glowy_led( "glowy_led" );
 static const efftype_id effect_hallu( "hallu" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_iodine( "iodine" );
 static const efftype_id effect_masked_scent( "masked_scent" );
 static const efftype_id effect_mending( "mending" );
@@ -163,6 +165,8 @@ static const mtype_id mon_zombie_soldier( "mon_zombie_soldier" );
 
 static const std::string flag_BLIND( "BLIND" );
 static const std::string flag_PLOWABLE( "PLOWABLE" );
+static const std::string flag_NO_TAKEOFF( "NO_TAKEOFF" );
+static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_RAD_RESIST( "RAD_RESIST" );
 static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
 static const std::string flag_TOURNIQUET( "TOURNIQUET" );
@@ -881,6 +885,23 @@ void Character::suffer_from_albinism()
     }
 }
 
+void Character::suffer_from_item_dropping()
+{
+    if( has_effect( effect_incorporeal ) ) {
+        std::vector<item *> dump = inv_dump();
+        std::list<item> tumble_items;
+        for( item *dump_item : dump ) {
+            if( !dump_item->has_flag( flag_NO_UNWIELD ) && !dump_item->has_flag( flag_NO_TAKEOFF ) ) {
+                tumble_items.push_back( *dump_item );
+            }
+        }
+        put_into_vehicle_or_drop( *this, item_drop_reason::tumbling, tumble_items );
+        for( auto i : dump ) {
+            i_rem( i );
+        }
+    }
+}
+
 void Character::suffer_from_other_mutations()
 {
     map &here = get_map();
@@ -1481,6 +1502,7 @@ void Character::suffer()
     }
 
     suffer_in_sunlight();
+    suffer_from_item_dropping();
     suffer_from_other_mutations();
     suffer_from_artifacts();
     suffer_from_radiation();

@@ -2514,6 +2514,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_in_sunlight();
         void suffer_from_albinism();
         void suffer_from_other_mutations();
+        void suffer_from_item_dropping();
         void suffer_from_radiation();
         void suffer_from_bad_bionics();
         void suffer_from_artifacts();
