@@ -55,6 +55,7 @@
 #include "point.h"
 #include "sdl_geometry.h"
 #include "sdl_wrappers.h"
+#include "sdl_font.h"
 #include "sdlsound.h"
 #include "string_formatter.h"
 #include "ui_manager.h"
@@ -98,124 +99,11 @@ static uint32_t lastupdate = 0;
 static uint32_t interval = 25;
 static bool needupdate = false;
 
-std::array<SDL_Color, color_loader<SDL_Color>::COLOR_NAMES_COUNT> windowsPalette;
+palette_array windowsPalette;
 
-/**
- * A class that draws a single character on screen.
- */
-class Font
-{
-    public:
-        Font( int w, int h ) :
-            fontwidth( w ), fontheight( h ) { }
-        virtual ~Font() = default;
-
-        virtual bool isGlyphProvided( const std::string &ch ) const = 0;
-        /**
-         * Draw character t at (x,y) on the screen,
-         * using (curses) color.
-         */
-        virtual void OutputChar( const std::string &ch, const point &,
-                                 unsigned char color, float opacity = 1.0f ) = 0;
-        virtual void draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const;
-        bool draw_window( const catacurses::window &w );
-        bool draw_window( const catacurses::window &w, const point &offset );
-
-        static std::unique_ptr<Font> load_font( const std::string &typeface, int fontsize, int fontwidth,
-                                                int fontheight, bool fontblending );
-    public:
-        // the width of the font, background is always this size
-        int fontwidth;
-        // the height of the font, background is always this size
-        int fontheight;
-};
-
-/**
- * Uses a ttf font. Its glyphs are cached.
- */
-class CachedTTFFont : public Font
-{
-    public:
-        CachedTTFFont( int w, int h, std::string typeface, int fontsize, bool fontblending );
-        ~CachedTTFFont() override = default;
-
-        bool isGlyphProvided( const std::string &ch ) const override;
-        void OutputChar( const std::string &ch, const point &,
-                         unsigned char color, float opacity = 1.0f ) override;
-    protected:
-        SDL_Texture_Ptr create_glyph( const std::string &ch, int color );
-
-        TTF_Font_Ptr font;
-        // Maps (character code, color) to SDL_Texture*
-
-        struct key_t {
-            std::string   codepoints;
-            unsigned char color;
-
-            std::pair<std::string, unsigned char> as_pair() const {
-                return std::make_pair( codepoints, color );
-            }
-
-            friend bool operator==( const key_t &lhs, const key_t &rhs ) noexcept {
-                return lhs.as_pair() == rhs.as_pair();
-            }
-        };
-
-        struct key_t_hash {
-            size_t operator()( const key_t &k ) const {
-                return cata::auto_hash<std::pair<std::string, unsigned char>>()( k.as_pair() );
-            }
-        };
-
-        struct cached_t {
-            SDL_Texture_Ptr texture;
-            int          width;
-        };
-
-        std::unordered_map<key_t, cached_t, key_t_hash> glyph_cache_map;
-
-        const bool fontblending;
-};
-
-/**
- * A font created from a bitmap. Each character is taken from a
- * specific area of the source bitmap.
- */
-class BitmapFont : public Font
-{
-    public:
-        BitmapFont( int w, int h, const std::string &typeface_path );
-        ~BitmapFont() override = default;
-
-        bool isGlyphProvided( const std::string &ch ) const override;
-        void OutputChar( const std::string &ch, const point &,
-                         unsigned char color, float opacity = 1.0f ) override;
-        void OutputChar( int t, const point &,
-                         unsigned char color, float opacity = 1.0f );
-        void draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const override;
-    protected:
-        std::array<SDL_Texture_Ptr, color_loader<SDL_Color>::COLOR_NAMES_COUNT> ascii;
-        int tilewidth;
-};
-
-class FontFallbackList : public Font
-{
-    public:
-        FontFallbackList( int w, int h, const std::vector<std::string> &typefaces,
-                          int fontsize, bool fontblending );
-        ~FontFallbackList() override = default;
-
-        bool isGlyphProvided( const std::string &ch ) const override;
-        void OutputChar( const std::string &ch, const point &,
-                         unsigned char color, float opacity = 1.0f ) override;
-    protected:
-        std::vector<std::unique_ptr<Font>> fonts;
-        std::map<std::string, std::vector<std::unique_ptr<Font>>::iterator> glyph_font;
-};
-
-static std::unique_ptr<FontFallbackList> font;
-static std::unique_ptr<FontFallbackList> map_font;
-static std::unique_ptr<FontFallbackList> overmap_font;
+static Font_Ptr font;
+static Font_Ptr map_font;
+static Font_Ptr overmap_font;
 
 static SDL_Window_Ptr window;
 static SDL_Renderer_Ptr renderer;
@@ -558,183 +446,6 @@ inline const SDL_Color &color_as_sdl( const unsigned char color )
     return windowsPalette[color];
 }
 
-SDL_Texture_Ptr CachedTTFFont::create_glyph( const std::string &ch, const int color )
-{
-    const auto function = fontblending ? TTF_RenderUTF8_Blended : TTF_RenderUTF8_Solid;
-    SDL_Surface_Ptr sglyph( function( font.get(), ch.c_str(), windowsPalette[color] ) );
-    if( !sglyph ) {
-        dbg( D_ERROR ) << "Failed to create glyph for " << ch << ": " << TTF_GetError();
-        return nullptr;
-    }
-    /* SDL interprets each pixel as a 32-bit number, so our masks must depend
-       on the endianness (byte order) of the machine */
-#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-    static const Uint32 rmask = 0xff000000;
-    static const Uint32 gmask = 0x00ff0000;
-    static const Uint32 bmask = 0x0000ff00;
-    static const Uint32 amask = 0x000000ff;
-#else
-    static const Uint32 rmask = 0x000000ff;
-    static const Uint32 gmask = 0x0000ff00;
-    static const Uint32 bmask = 0x00ff0000;
-    static const Uint32 amask = 0xff000000;
-#endif
-    const int wf = utf8_wrapper( ch ).display_width();
-    // Note: bits per pixel must be 8 to be synchronized with the surface
-    // that TTF_RenderGlyph above returns. This is important for SDL_BlitScaled
-    SDL_Surface_Ptr surface = CreateRGBSurface( 0, fontwidth * wf, fontheight, 32, rmask, gmask, bmask,
-                              amask );
-    SDL_Rect src_rect = { 0, 0, sglyph->w, sglyph->h };
-    SDL_Rect dst_rect = { 0, 0, fontwidth * wf, fontheight };
-    if( src_rect.w < dst_rect.w ) {
-        dst_rect.x = ( dst_rect.w - src_rect.w ) / 2;
-        dst_rect.w = src_rect.w;
-    } else if( src_rect.w > dst_rect.w ) {
-        src_rect.x = ( src_rect.w - dst_rect.w ) / 2;
-        src_rect.w = dst_rect.w;
-    }
-    if( src_rect.h < dst_rect.h ) {
-        dst_rect.y = ( dst_rect.h - src_rect.h ) / 2;
-        dst_rect.h = src_rect.h;
-    } else if( src_rect.h > dst_rect.h ) {
-        src_rect.y = ( src_rect.h - dst_rect.h ) / 2;
-        src_rect.h = dst_rect.h;
-    }
-
-    if( !printErrorIf( SDL_BlitSurface( sglyph.get(), &src_rect, surface.get(), &dst_rect ) != 0,
-                       "SDL_BlitSurface failed" ) ) {
-        sglyph = std::move( surface );
-    }
-
-    return CreateTextureFromSurface( renderer, sglyph );
-}
-
-bool CachedTTFFont::isGlyphProvided( const std::string &ch ) const
-{
-    return TTF_GlyphIsProvided( font.get(), UTF8_getch( ch ) );
-}
-
-void CachedTTFFont::OutputChar( const std::string &ch, const point &p,
-                                const unsigned char color, const float opacity )
-{
-    key_t    key {ch, static_cast<unsigned char>( color & 0xf )};
-
-    auto it = glyph_cache_map.find( key );
-    if( it == std::end( glyph_cache_map ) ) {
-        cached_t new_entry {
-            create_glyph( key.codepoints, key.color ),
-            static_cast<int>( fontwidth * utf8_wrapper( key.codepoints ).display_width() )
-        };
-        it = glyph_cache_map.insert( std::make_pair( std::move( key ), std::move( new_entry ) ) ).first;
-    }
-    const cached_t &value = it->second;
-
-    if( !value.texture ) {
-        // Nothing we can do here )-:
-        return;
-    }
-    SDL_Rect rect {p.x, p.y, value.width, fontheight};
-    if( opacity != 1.0f ) {
-        SDL_SetTextureAlphaMod( value.texture.get(), opacity * 255.0f );
-    }
-    RenderCopy( renderer, value.texture, nullptr, &rect );
-    if( opacity != 1.0f ) {
-        SDL_SetTextureAlphaMod( value.texture.get(), 255 );
-    }
-}
-
-bool BitmapFont::isGlyphProvided( const std::string &ch ) const
-{
-    const uint32_t t = UTF8_getch( ch );
-    switch( t ) {
-        case LINE_XOXO_UNICODE:
-        case LINE_OXOX_UNICODE:
-        case LINE_XXOO_UNICODE:
-        case LINE_OXXO_UNICODE:
-        case LINE_OOXX_UNICODE:
-        case LINE_XOOX_UNICODE:
-        case LINE_XXXO_UNICODE:
-        case LINE_XXOX_UNICODE:
-        case LINE_XOXX_UNICODE:
-        case LINE_OXXX_UNICODE:
-        case LINE_XXXX_UNICODE:
-            return true;
-        default:
-            return t < 256;
-    }
-}
-
-void BitmapFont::OutputChar( const std::string &ch, const point &p,
-                             const unsigned char color, const float opacity )
-{
-    const int t = UTF8_getch( ch );
-    BitmapFont::OutputChar( t, p, color, opacity );
-}
-
-void BitmapFont::OutputChar( const int t, const point &p,
-                             const unsigned char color, const float opacity )
-{
-    if( t <= 256 ) {
-        SDL_Rect src;
-        src.x = ( t % tilewidth ) * fontwidth;
-        src.y = ( t / tilewidth ) * fontheight;
-        src.w = fontwidth;
-        src.h = fontheight;
-        SDL_Rect rect;
-        rect.x = p.x;
-        rect.y = p.y;
-        rect.w = fontwidth;
-        rect.h = fontheight;
-        if( opacity != 1.0f ) {
-            SDL_SetTextureAlphaMod( ascii[color].get(), opacity * 255 );
-        }
-        RenderCopy( renderer, ascii[color], &src, &rect );
-        if( opacity != 1.0f ) {
-            SDL_SetTextureAlphaMod( ascii[color].get(), 255 );
-        }
-    } else {
-        unsigned char uc = 0;
-        switch( t ) {
-            case LINE_XOXO_UNICODE:
-                uc = LINE_XOXO_C;
-                break;
-            case LINE_OXOX_UNICODE:
-                uc = LINE_OXOX_C;
-                break;
-            case LINE_XXOO_UNICODE:
-                uc = LINE_XXOO_C;
-                break;
-            case LINE_OXXO_UNICODE:
-                uc = LINE_OXXO_C;
-                break;
-            case LINE_OOXX_UNICODE:
-                uc = LINE_OOXX_C;
-                break;
-            case LINE_XOOX_UNICODE:
-                uc = LINE_XOOX_C;
-                break;
-            case LINE_XXXO_UNICODE:
-                uc = LINE_XXXO_C;
-                break;
-            case LINE_XXOX_UNICODE:
-                uc = LINE_XXOX_C;
-                break;
-            case LINE_XOXX_UNICODE:
-                uc = LINE_XOXX_C;
-                break;
-            case LINE_OXXX_UNICODE:
-                uc = LINE_OXXX_C;
-                break;
-            case LINE_XXXX_UNICODE:
-                uc = LINE_XXXX_C;
-                break;
-            default:
-                return;
-        }
-        draw_ascii_lines( uc, p, color );
-    }
-}
-
 #if defined(__ANDROID__)
 void draw_terminal_size_preview();
 void draw_quick_shortcuts();
@@ -855,102 +566,6 @@ void set_displaybuffer_rendertarget()
     SetRenderTarget( renderer, display_buffer );
 }
 
-// line_id is one of the LINE_*_C constants
-// FG is a curses color
-void Font::draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const
-{
-    const SDL_Color &color = color_as_sdl( FG );
-    switch( line_id ) {
-        // box bottom/top side (horizontal line)
-        case LINE_OXOX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
-                                       color );
-            break;
-        // box left/right side (vertical line)
-        case LINE_XOXO_C:
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
-                                     color );
-            break;
-        // box top left
-        case LINE_OXXO_C:
-            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                       draw.x + fontwidth,
-                                       1,
-                                       color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                     draw.y + fontheight,
-                                     2,
-                                     color );
-            break;
-        // box top right
-        case LINE_OOXX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ),
-                                       draw.x + ( fontwidth / 2 ), 1, color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                     draw.y + fontheight,
-                                     2,
-                                     color );
-            break;
-        // box bottom right
-        case LINE_XOOX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ),
-                                       draw.x + ( fontwidth / 2 ), 1, color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ),
-                                     draw.y + ( fontheight / 2 ) + 1, 2, color );
-            break;
-        // box bottom left
-        case LINE_XXOO_C:
-            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                       draw.x + fontwidth,
-                                       1,
-                                       color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ),
-                                     draw.y + ( fontheight / 2 ) + 1, 2, color );
-            break;
-        // box bottom north T (left, right, up)
-        case LINE_XXOX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
-                                       color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ),
-                                     draw.y + ( fontheight / 2 ), 2, color );
-            break;
-        // box bottom east T (up, right, down)
-        case LINE_XXXO_C:
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
-                                     color );
-            geometry->horizontal_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                       draw.x + fontwidth,
-                                       1,
-                                       color );
-            break;
-        // box bottom south T (left, right, down)
-        case LINE_OXXX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
-                                       color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), ( fontheight / 2 ) ),
-                                     draw.y + fontheight,
-                                     2,
-                                     color );
-            break;
-        // box X (left down up right)
-        case LINE_XXXX_C:
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ), draw.x + fontwidth, 1,
-                                       color );
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
-                                     color );
-            break;
-        // box bottom east T (left, down, up)
-        case LINE_XOXX_C:
-            geometry->vertical_line( renderer, draw + point( ( fontwidth / 2 ), 0 ), draw.y + fontheight, 2,
-                                     color );
-            geometry->horizontal_line( renderer, draw + point( 0, ( fontheight / 2 ) ),
-                                       draw.x + ( fontwidth / 2 ), 1, color );
-            break;
-        default:
-            break;
-    }
-}
-
 static void invalidate_framebuffer( std::vector<curseline> &framebuffer, const point &p, int width,
                                     int height )
 {
@@ -1053,162 +668,7 @@ void clear_window_area( const catacurses::window &win_ )
                     win->width * fontwidth, win->height * fontheight, color_as_sdl( catacurses::black ) );
 }
 
-void cata_cursesport::curses_drawwindow( const catacurses::window &w )
-{
-    if( scaling_factor > 1 ) {
-        SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor,
-                                  WindowHeight / scaling_factor );
-    }
-    WINDOW *const win = w.get<WINDOW>();
-    bool update = false;
-    if( g && w == g->w_terrain && use_tiles ) {
-        // color blocks overlay; drawn on top of tiles and on top of overlay strings (if any).
-        color_block_overlay_container color_blocks;
-
-        // Strings with colors do be drawn with map_font on top of tiles.
-        std::multimap<point, formatted_text> overlay_strings;
-
-        // game::w_terrain can be drawn by the tilecontext.
-        // skip the normal drawing code for it.
-        tilecontext->draw(
-            point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            g->ter_view_p,
-            TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
-            TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
-            overlay_strings,
-            color_blocks );
-
-        // color blocks overlay
-        if( !color_blocks.second.empty() ) {
-            SDL_BlendMode blend_mode;
-            GetRenderDrawBlendMode( renderer, blend_mode ); // save the current blend mode
-            SetRenderDrawBlendMode( renderer, color_blocks.first ); // set the new blend mode
-            for( const auto &e : color_blocks.second ) {
-                geometry->rect( renderer, e.first, tilecontext->get_tile_width(),
-                                tilecontext->get_tile_height(), e.second );
-            }
-            SetRenderDrawBlendMode( renderer, blend_mode ); // set the old blend mode
-        }
-
-        // overlay strings
-        point prev_coord;
-        int x_offset = 0;
-        int alignment_offset = 0;
-        for( const auto &iter : overlay_strings ) {
-            const point coord = iter.first;
-            const formatted_text ft = iter.second;
-            const utf8_wrapper text( ft.text );
-
-            // Strings at equal coords are displayed sequentially.
-            if( coord != prev_coord ) {
-                x_offset = 0;
-            }
-
-            // Calculate length of all strings in sequence to align them.
-            if( x_offset == 0 ) {
-                int full_text_length = 0;
-                const auto range = overlay_strings.equal_range( coord );
-                for( auto ri = range.first; ri != range.second; ++ri ) {
-                    utf8_wrapper rt( ri->second.text );
-                    full_text_length += rt.display_width();
-                }
-
-                alignment_offset = 0;
-                if( ft.alignment == text_alignment::center ) {
-                    alignment_offset = full_text_length / 2;
-                } else if( ft.alignment == text_alignment::right ) {
-                    alignment_offset = full_text_length - 1;
-                }
-            }
-
-            int width = 0;
-            for( size_t i = 0; i < text.size(); ++i ) {
-                const int x0 = win->pos.x * fontwidth;
-                const int y0 = win->pos.y * fontheight;
-                const int x = x0 + ( x_offset - alignment_offset + width ) * map_font->fontwidth + coord.x;
-                const int y = y0 + coord.y;
-
-                // Clip to window bounds.
-                if( x < x0 || x > x0 + ( TERRAIN_WINDOW_TERM_WIDTH - 1 ) * font->fontwidth
-                    || y < y0 || y > y0 + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->fontheight ) {
-                    continue;
-                }
-
-                // TODO: draw with outline / BG color for better readability
-                const uint32_t ch = text.at( i );
-                map_font->OutputChar( utf32_to_utf8( ch ), point( x, y ), ft.color );
-                width += mk_wcwidth( ch );
-            }
-
-            prev_coord = coord;
-            x_offset = width;
-        }
-
-        invalidate_framebuffer( terminal_framebuffer, win->pos,
-                                TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT );
-
-        update = true;
-    } else if( g && w == g->w_terrain && map_font ) {
-        // When the terrain updates, predraw a black space around its edge
-        // to keep various former interface elements from showing through the gaps
-
-        //calculate width differences between map_font and font
-        int partial_width = std::max( TERRAIN_WINDOW_TERM_WIDTH * fontwidth - TERRAIN_WINDOW_WIDTH *
-                                      map_font->fontwidth, 0 );
-        int partial_height = std::max( TERRAIN_WINDOW_TERM_HEIGHT * fontheight - TERRAIN_WINDOW_HEIGHT *
-                                       map_font->fontheight, 0 );
-        //Gap between terrain and lower window edge
-        if( partial_height > 0 ) {
-            geometry->rect( renderer, point( win->pos.x * map_font->fontwidth,
-                                             ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight ),
-                            TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height,
-                            color_as_sdl( catacurses::black ) );
-        }
-        //Gap between terrain and sidebar
-        if( partial_width > 0 ) {
-            geometry->rect( renderer, point( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth,
-                                             win->pos.y * map_font->fontheight ),
-                            partial_width,
-                            TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height,
-                            color_as_sdl( catacurses::black ) );
-        }
-        // Special font for the terrain window
-        update = map_font->draw_window( w );
-    } else if( g && w == g->w_overmap && overmap_font ) {
-        // Special font for the terrain window
-        update = overmap_font->draw_window( w );
-    } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
-        // ensure the space the minimap covers is "dirtied".
-        // this is necessary when it's the only part of the sidebar being drawn
-        // TODO: Figure out how to properly make the minimap code do whatever it is this does
-        font->draw_window( w );
-
-        // Make sure the entire minimap window is black before drawing.
-        clear_window_area( w );
-        tilecontext->draw_minimap(
-            point( win->pos.x * fontwidth, win->pos.y * fontheight ),
-            tripoint( get_player_character().pos().xy(), g->ter_view_p.z ),
-            win->width * font->fontwidth, win->height * font->fontheight );
-        update = true;
-
-    } else {
-        // Either not using tiles (tilecontext) or not the w_terrain window.
-        update = font->draw_window( w );
-    }
-    if( update ) {
-        needupdate = true;
-    }
-}
-
-bool Font::draw_window( const catacurses::window &w )
-{
-    cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
-    // Use global font sizes here to make this independent of the
-    // font used for this window.
-    return draw_window( w, point( win->pos.x * ::fontwidth, win->pos.y * ::fontheight ) );
-}
-
-bool Font::draw_window( const catacurses::window &w, const point &offset )
+bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offset )
 {
     if( scaling_factor > 1 ) {
         SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor,
@@ -1367,9 +827,9 @@ bool Font::draw_window( const catacurses::window &w, const point &offset )
             }
             geometry->rect( renderer, point( drawx, drawy ), fontwidth * cw, fontheight, color_as_sdl( BG ) );
             if( use_draw_ascii_lines_routine ) {
-                draw_ascii_lines( uc, point( drawx, drawy ), FG );
+                font->draw_ascii_lines( renderer, geometry, uc, point( drawx, drawy ), FG );
             } else {
-                OutputChar( cell.ch, point( drawx, drawy ), FG );
+                font->OutputChar( renderer, geometry, cell.ch, point( drawx, drawy ), FG );
             }
         }
     }
@@ -1379,6 +839,161 @@ bool Font::draw_window( const catacurses::window &w, const point &offset )
     fontScaleBuffer = tilecontext->get_tile_width();
 
     return update;
+}
+
+bool draw_window( Font_Ptr &font, const catacurses::window &w )
+{
+    cata_cursesport::WINDOW *const win = w.get<cata_cursesport::WINDOW>();
+    // Use global font sizes here to make this independent of the
+    // font used for this window.
+    return draw_window( font, w, point( win->pos.x * ::fontwidth, win->pos.y * ::fontheight ) );
+}
+
+void cata_cursesport::curses_drawwindow( const catacurses::window &w )
+{
+    if( scaling_factor > 1 ) {
+        SDL_RenderSetLogicalSize( renderer.get(), WindowWidth / scaling_factor,
+                                  WindowHeight / scaling_factor );
+    }
+    WINDOW *const win = w.get<WINDOW>();
+    bool update = false;
+    if( g && w == g->w_terrain && use_tiles ) {
+        // color blocks overlay; drawn on top of tiles and on top of overlay strings (if any).
+        color_block_overlay_container color_blocks;
+
+        // Strings with colors do be drawn with map_font on top of tiles.
+        std::multimap<point, formatted_text> overlay_strings;
+
+        // game::w_terrain can be drawn by the tilecontext.
+        // skip the normal drawing code for it.
+        tilecontext->draw(
+            point( win->pos.x * fontwidth, win->pos.y * fontheight ),
+            g->ter_view_p,
+            TERRAIN_WINDOW_TERM_WIDTH * font->fontwidth,
+            TERRAIN_WINDOW_TERM_HEIGHT * font->fontheight,
+            overlay_strings,
+            color_blocks );
+
+        // color blocks overlay
+        if( !color_blocks.second.empty() ) {
+            SDL_BlendMode blend_mode;
+            GetRenderDrawBlendMode( renderer, blend_mode ); // save the current blend mode
+            SetRenderDrawBlendMode( renderer, color_blocks.first ); // set the new blend mode
+            for( const auto &e : color_blocks.second ) {
+                geometry->rect( renderer, e.first, tilecontext->get_tile_width(),
+                                tilecontext->get_tile_height(), e.second );
+            }
+            SetRenderDrawBlendMode( renderer, blend_mode ); // set the old blend mode
+        }
+
+        // overlay strings
+        point prev_coord;
+        int x_offset = 0;
+        int alignment_offset = 0;
+        for( const auto &iter : overlay_strings ) {
+            const point coord = iter.first;
+            const formatted_text ft = iter.second;
+            const utf8_wrapper text( ft.text );
+
+            // Strings at equal coords are displayed sequentially.
+            if( coord != prev_coord ) {
+                x_offset = 0;
+            }
+
+            // Calculate length of all strings in sequence to align them.
+            if( x_offset == 0 ) {
+                int full_text_length = 0;
+                const auto range = overlay_strings.equal_range( coord );
+                for( auto ri = range.first; ri != range.second; ++ri ) {
+                    utf8_wrapper rt( ri->second.text );
+                    full_text_length += rt.display_width();
+                }
+
+                alignment_offset = 0;
+                if( ft.alignment == text_alignment::center ) {
+                    alignment_offset = full_text_length / 2;
+                } else if( ft.alignment == text_alignment::right ) {
+                    alignment_offset = full_text_length - 1;
+                }
+            }
+
+            int width = 0;
+            for( size_t i = 0; i < text.size(); ++i ) {
+                const int x0 = win->pos.x * fontwidth;
+                const int y0 = win->pos.y * fontheight;
+                const int x = x0 + ( x_offset - alignment_offset + width ) * map_font->fontwidth + coord.x;
+                const int y = y0 + coord.y;
+
+                // Clip to window bounds.
+                if( x < x0 || x > x0 + ( TERRAIN_WINDOW_TERM_WIDTH - 1 ) * font->fontwidth
+                    || y < y0 || y > y0 + ( TERRAIN_WINDOW_TERM_HEIGHT - 1 ) * font->fontheight ) {
+                    continue;
+                }
+
+                // TODO: draw with outline / BG color for better readability
+                const uint32_t ch = text.at( i );
+                map_font->OutputChar( renderer, geometry, utf32_to_utf8( ch ), point( x, y ), ft.color );
+                width += mk_wcwidth( ch );
+            }
+
+            prev_coord = coord;
+            x_offset = width;
+        }
+
+        invalidate_framebuffer( terminal_framebuffer, win->pos,
+                                TERRAIN_WINDOW_TERM_WIDTH, TERRAIN_WINDOW_TERM_HEIGHT );
+
+        update = true;
+    } else if( g && w == g->w_terrain && map_font ) {
+        // When the terrain updates, predraw a black space around its edge
+        // to keep various former interface elements from showing through the gaps
+
+        //calculate width differences between map_font and font
+        int partial_width = std::max( TERRAIN_WINDOW_TERM_WIDTH * fontwidth - TERRAIN_WINDOW_WIDTH *
+                                      map_font->fontwidth, 0 );
+        int partial_height = std::max( TERRAIN_WINDOW_TERM_HEIGHT * fontheight - TERRAIN_WINDOW_HEIGHT *
+                                       map_font->fontheight, 0 );
+        //Gap between terrain and lower window edge
+        if( partial_height > 0 ) {
+            geometry->rect( renderer, point( win->pos.x * map_font->fontwidth,
+                                             ( win->pos.y + TERRAIN_WINDOW_HEIGHT ) * map_font->fontheight ),
+                            TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height,
+                            color_as_sdl( catacurses::black ) );
+        }
+        //Gap between terrain and sidebar
+        if( partial_width > 0 ) {
+            geometry->rect( renderer, point( ( win->pos.x + TERRAIN_WINDOW_WIDTH ) * map_font->fontwidth,
+                                             win->pos.y * map_font->fontheight ),
+                            partial_width,
+                            TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height,
+                            color_as_sdl( catacurses::black ) );
+        }
+        // Special font for the terrain window
+        update = draw_window( map_font, w );
+    } else if( g && w == g->w_overmap && overmap_font ) {
+        // Special font for the terrain window
+        update = draw_window( overmap_font, w );
+    } else if( g && w == g->w_pixel_minimap && g->pixel_minimap_option ) {
+        // ensure the space the minimap covers is "dirtied".
+        // this is necessary when it's the only part of the sidebar being drawn
+        // TODO: Figure out how to properly make the minimap code do whatever it is this does
+        draw_window( font, w );
+
+        // Make sure the entire minimap window is black before drawing.
+        clear_window_area( w );
+        tilecontext->draw_minimap(
+            point( win->pos.x * fontwidth, win->pos.y * fontheight ),
+            tripoint( get_player_character().pos().xy(), g->ter_view_p.z ),
+            win->width * font->fontwidth, win->height * font->fontheight );
+        update = true;
+
+    } else {
+        // Either not using tiles (tilecontext) or not the w_terrain window.
+        update = draw_window( font, w );
+    }
+    if( update ) {
+        needupdate = true;
+    }
 }
 
 static int alt_buffer = 0;
@@ -3251,177 +2866,9 @@ static void CheckMessages()
     }
 }
 
-// Check if text ends with suffix
-static bool ends_with( const std::string &text, const std::string &suffix )
-{
-    return text.length() >= suffix.length() &&
-           strcasecmp( text.c_str() + text.length() - suffix.length(), suffix.c_str() ) == 0;
-}
-
 //***********************************
 //Pseudo-Curses Functions           *
 //***********************************
-
-static void font_folder_list( std::ostream &fout, const std::string &path,
-                              std::set<std::string> &bitmap_fonts )
-{
-    for( const std::string &f : get_files_from_path( "", path, true, false ) ) {
-        TTF_Font_Ptr fnt( TTF_OpenFont( f.c_str(), 12 ) );
-        if( !fnt ) {
-            continue;
-        }
-        // TTF_FontFaces returns a long, so use that
-        // NOLINTNEXTLINE(cata-no-long)
-        long nfaces = 0;
-        nfaces = TTF_FontFaces( fnt.get() );
-        fnt.reset();
-
-        // NOLINTNEXTLINE(cata-no-long)
-        for( long i = 0; i < nfaces; i++ ) {
-            const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), 12, i ) );
-            if( !fnt ) {
-                continue;
-            }
-
-            // Add font family
-            char *fami = TTF_FontFaceFamilyName( fnt.get() );
-            if( fami != nullptr ) {
-                fout << fami;
-            } else {
-                continue;
-            }
-
-            // Add font style
-            char *style = TTF_FontFaceStyleName( fnt.get() );
-            bool isbitmap = ends_with( f, ".fon" );
-            if( style != nullptr && !isbitmap && strcasecmp( style, "Regular" ) != 0 ) {
-                fout << " " << style;
-            }
-            if( isbitmap ) {
-                std::set<std::string>::iterator it;
-                it = bitmap_fonts.find( std::string( fami ) );
-                if( it == bitmap_fonts.end() ) {
-                    // First appearance of this font family
-                    bitmap_fonts.insert( fami );
-                } else { // Font in set. Add filename to family string
-                    size_t start = f.find_last_of( "/\\" );
-                    size_t end = f.find_last_of( '.' );
-                    if( start != std::string::npos && end != std::string::npos ) {
-                        fout << " [" << f.substr( start + 1, end - start - 1 ) + "]";
-                    } else {
-                        dbg( D_INFO ) << "Skipping wrong font file: \"" << f << "\"";
-                    }
-                }
-            }
-            fout << std::endl;
-
-            // Add filename and font index
-            fout << f << std::endl;
-            fout << i << std::endl;
-
-            // We use only 1 style in bitmap fonts.
-            if( isbitmap ) {
-                break;
-            }
-        }
-    }
-}
-
-static void save_font_list()
-{
-    try {
-        std::set<std::string> bitmap_fonts;
-        write_to_file( PATH_INFO::fontlist(), [&]( std::ostream & fout ) {
-            font_folder_list( fout, PATH_INFO::user_font(), bitmap_fonts );
-            font_folder_list( fout, PATH_INFO::fontdir(), bitmap_fonts );
-
-#if defined(_WIN32)
-            constexpr UINT max_dir_len = 256;
-            char buf[max_dir_len];
-            const UINT dir_len = GetSystemWindowsDirectory( buf, max_dir_len );
-            if( dir_len == 0 ) {
-                throw std::runtime_error( "GetSystemWindowsDirectory failed" );
-            } else if( dir_len >= max_dir_len ) {
-                throw std::length_error( "GetSystemWindowsDirectory failed due to insufficient buffer" );
-            }
-            font_folder_list( fout, buf + std::string( "\\fonts" ), bitmap_fonts );
-#elif defined(_APPLE_) && defined(_MACH_)
-            /*
-            // Well I don't know how osx actually works ....
-            font_folder_list(fout, "/System/Library/Fonts", bitmap_fonts);
-            font_folder_list(fout, "/Library/Fonts", bitmap_fonts);
-
-            wordexp_t exp;
-            wordexp("~/Library/Fonts", &exp, 0);
-            font_folder_list(fout, exp.we_wordv[0], bitmap_fonts);
-            wordfree(&exp);*/
-#else // Other POSIX-ish systems
-            font_folder_list( fout, "/usr/share/fonts", bitmap_fonts );
-            font_folder_list( fout, "/usr/local/share/fonts", bitmap_fonts );
-            char *home;
-            if( ( home = getenv( "HOME" ) ) ) {
-                std::string userfontdir = home;
-                userfontdir += "/.fonts";
-                font_folder_list( fout, userfontdir, bitmap_fonts );
-            }
-#endif
-        } );
-    } catch( const std::exception &err ) {
-        // This is called during startup, the UI system may not be initialized (because that
-        // needs the font file in order to load the font for it).
-        dbg( D_ERROR ) << "Faied to create fontlist file \"" << PATH_INFO::fontlist() << "\": " <<
-                       err.what();
-    }
-}
-
-static cata::optional<std::string> find_system_font( const std::string &name, int &faceIndex )
-{
-    const std::string fontlist_path = PATH_INFO::fontlist();
-    std::ifstream fin( fontlist_path.c_str() );
-    if( !fin.is_open() ) {
-        // Write out fontlist to the new location.
-        save_font_list();
-    }
-    if( fin.is_open() ) {
-        std::string fname;
-        std::string fpath;
-        std::string iline;
-        while( getline( fin, fname ) && getline( fin, fpath ) && getline( fin, iline ) ) {
-            if( 0 == strcasecmp( fname.c_str(), name.c_str() ) ) {
-                faceIndex = atoi( iline.c_str() );
-                return fpath;
-            }
-        }
-    }
-
-    return cata::nullopt;
-}
-
-// bitmap font size test
-// return face index that has this size or below
-static int test_face_size( const std::string &f, int size, int faceIndex )
-{
-    const TTF_Font_Ptr fnt( TTF_OpenFontIndex( f.c_str(), size, faceIndex ) );
-    if( fnt ) {
-        char *style = TTF_FontFaceStyleName( fnt.get() );
-        if( style != nullptr ) {
-            int faces = TTF_FontFaces( fnt.get() );
-            for( int i = faces - 1; i >= 0; i-- ) {
-                const TTF_Font_Ptr tf( TTF_OpenFontIndex( f.c_str(), size, i ) );
-                char *ts = nullptr;
-                if( tf ) {
-                    if( nullptr != ( ts = TTF_FontFaceStyleName( tf.get() ) ) ) {
-                        if( 0 == strcasecmp( ts, style ) && TTF_FontHeight( tf.get() ) <= size ) {
-                            return i;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    return faceIndex;
-}
 
 // Calculates the new width of the window
 int projected_window_width()
@@ -3580,13 +3027,12 @@ void catacurses::init_interface()
     // initialize sound set
     load_soundset();
 
-    // Reset the font pointer
-    font = std::make_unique<FontFallbackList>( fl.fontwidth, fl.fontheight,
-            fl.typeface, fl.fontsize, fl.fontblending );
-    map_font = std::make_unique<FontFallbackList>( fl.map_fontwidth, fl.map_fontheight,
-               fl.map_typeface, fl.map_fontsize, fl.fontblending );
-    overmap_font = std::make_unique<FontFallbackList>( fl.overmap_fontwidth, fl.overmap_fontheight,
-                   fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
+    font = std::make_unique<FontFallbackList>( renderer, format, fl.fontwidth, fl.fontheight,
+            windowsPalette, fl.typeface, fl.fontsize, fl.fontblending );
+    map_font = std::make_unique<FontFallbackList>(  renderer, format,fl.map_fontwidth, fl.map_fontheight,
+               windowsPalette, fl.map_typeface, fl.map_fontsize, fl.fontblending );
+    overmap_font = std::make_unique<FontFallbackList>(  renderer, format,fl.overmap_fontwidth, fl.overmap_fontheight,
+                   windowsPalette, fl.overmap_typeface, fl.overmap_fontsize, fl.fontblending );
     stdscr = newwin( get_terminal_height(), get_terminal_width(), point_zero );
     //newwin calls `new WINDOW`, and that will throw, but not return nullptr.
 
@@ -3605,35 +3051,6 @@ void load_tileset()
     }
     tilecontext->load_tileset( get_option<std::string>( "TILES" ) );
     tilecontext->do_tile_loading_report();
-}
-
-std::unique_ptr<Font> Font::load_font( const std::string &typeface, int fontsize, int fontwidth,
-                                       int fontheight, const bool fontblending )
-{
-    if( ends_with( typeface, ".bmp" ) || ends_with( typeface, ".png" ) ) {
-        // Seems to be an image file, not a font.
-        // Try to load as bitmap font from user font dir, then from font dir.
-        try {
-            return std::unique_ptr<Font>( std::make_unique<BitmapFont>( fontwidth, fontheight,
-                                          PATH_INFO::user_font() + typeface ) );
-        } catch( std::exception & ) {
-            try {
-                return std::unique_ptr<Font>( std::make_unique<BitmapFont>( fontwidth, fontheight,
-                                              PATH_INFO::fontdir() + typeface ) );
-            } catch( std::exception &err ) {
-                dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
-                // Continue to load as truetype font
-            }
-        }
-    }
-    // Not loaded as bitmap font (or it failed), try to load as truetype
-    try {
-        return std::unique_ptr<Font>( std::make_unique<CachedTTFFont>( fontwidth, fontheight,
-                                      typeface, fontsize, fontblending ) );
-    } catch( std::exception &err ) {
-        dbg( D_ERROR ) << "Failed to load " << typeface << ": " << err.what();
-    }
-    return nullptr;
 }
 
 //Ends the terminal, destroy everything
@@ -3851,180 +3268,6 @@ int get_terminal_height()
 int get_scaling_factor()
 {
     return scaling_factor;
-}
-
-BitmapFont::BitmapFont( const int w, const int h, const std::string &typeface_path )
-    : Font( w, h )
-{
-    dbg( D_INFO ) << "Loading bitmap font [" + typeface_path + "].";
-    SDL_Surface_Ptr asciiload = load_image( typeface_path.c_str() );
-    assert( asciiload );
-    if( asciiload->w * asciiload->h < ( fontwidth * fontheight * 256 ) ) {
-        throw std::runtime_error( "bitmap for font is to small" );
-    }
-    Uint32 key = SDL_MapRGB( asciiload->format, 0xFF, 0, 0xFF );
-    SDL_SetColorKey( asciiload.get(), SDL_TRUE, key );
-    SDL_Surface_Ptr ascii_surf[std::tuple_size<decltype( ascii )>::value];
-    ascii_surf[0].reset( SDL_ConvertSurface( asciiload.get(), format.get(), 0 ) );
-    SDL_SetSurfaceRLE( ascii_surf[0].get(), 1 );
-    asciiload.reset();
-
-    for( size_t a = 1; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
-        ascii_surf[a].reset( SDL_ConvertSurface( ascii_surf[0].get(), format.get(), 0 ) );
-        SDL_SetSurfaceRLE( ascii_surf[a].get(), 1 );
-    }
-
-    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value - 1; ++a ) {
-        SDL_LockSurface( ascii_surf[a].get() );
-        int size = ascii_surf[a]->h * ascii_surf[a]->w;
-        Uint32 *pixels = static_cast<Uint32 *>( ascii_surf[a]->pixels );
-        Uint32 color = ( windowsPalette[a].r << 16 ) | ( windowsPalette[a].g << 8 ) | windowsPalette[a].b;
-        for( int i = 0; i < size; i++ ) {
-            if( pixels[i] == 0xFFFFFF ) {
-                pixels[i] = color;
-            }
-        }
-        SDL_UnlockSurface( ascii_surf[a].get() );
-    }
-    tilewidth = ascii_surf[0]->w / fontwidth;
-
-    //convert ascii_surf to SDL_Texture
-    for( size_t a = 0; a < std::tuple_size<decltype( ascii )>::value; ++a ) {
-        ascii[a] = CreateTextureFromSurface( renderer, ascii_surf[a] );
-    }
-}
-
-void BitmapFont::draw_ascii_lines( unsigned char line_id, const point &draw, int FG ) const
-{
-    BitmapFont *t = const_cast<BitmapFont *>( this );
-    switch( line_id ) {
-        // box bottom/top side (horizontal line)
-        case LINE_OXOX_C:
-            t->OutputChar( 0xcd, draw, FG );
-            break;
-        // box left/right side (vertical line)
-        case LINE_XOXO_C:
-            t->OutputChar( 0xba, draw, FG );
-            break;
-        // box top left
-        case LINE_OXXO_C:
-            t->OutputChar( 0xc9, draw, FG );
-            break;
-        // box top right
-        case LINE_OOXX_C:
-            t->OutputChar( 0xbb, draw, FG );
-            break;
-        // box bottom right
-        case LINE_XOOX_C:
-            t->OutputChar( 0xbc, draw, FG );
-            break;
-        // box bottom left
-        case LINE_XXOO_C:
-            t->OutputChar( 0xc8, draw, FG );
-            break;
-        // box bottom north T (left, right, up)
-        case LINE_XXOX_C:
-            t->OutputChar( 0xca, draw, FG );
-            break;
-        // box bottom east T (up, right, down)
-        case LINE_XXXO_C:
-            t->OutputChar( 0xcc, draw, FG );
-            break;
-        // box bottom south T (left, right, down)
-        case LINE_OXXX_C:
-            t->OutputChar( 0xcb, draw, FG );
-            break;
-        // box X (left down up right)
-        case LINE_XXXX_C:
-            t->OutputChar( 0xce, draw, FG );
-            break;
-        // box bottom east T (left, down, up)
-        case LINE_XOXX_C:
-            t->OutputChar( 0xb9, draw, FG );
-            break;
-        default:
-            break;
-    }
-}
-
-CachedTTFFont::CachedTTFFont( const int w, const int h, std::string typeface, int fontsize,
-                              const bool fontblending )
-    : Font( w, h )
-    , fontblending( fontblending )
-{
-    const std::string original_typeface = typeface;
-    int faceIndex = 0;
-    if( const cata::optional<std::string> sysfnt = find_system_font( typeface, faceIndex ) ) {
-        typeface = *sysfnt;
-        dbg( D_INFO ) << "Using font [" + typeface + "] found in the system.";
-    }
-    if( !file_exist( typeface ) ) {
-        faceIndex = 0;
-        typeface = PATH_INFO::user_font() + original_typeface + ".ttf";
-        dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in user font dir.";
-    }
-    //make fontdata compatible with wincurse
-    if( !file_exist( typeface ) ) {
-        faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + original_typeface + ".ttf";
-        dbg( D_INFO ) << "Using compatible font [" + typeface + "] found in font dir.";
-    }
-    //different default font with wincurse
-    if( !file_exist( typeface ) ) {
-        faceIndex = 0;
-        typeface = PATH_INFO::fontdir() + "unifont.ttf";
-        dbg( D_INFO ) << "Using fallback font [" + typeface + "] found in font dir.";
-    }
-    dbg( D_INFO ) << "Loading truetype font [" + typeface + "].";
-    if( fontsize <= 0 ) {
-        fontsize = fontheight - 1;
-    }
-    // SDL_ttf handles bitmap fonts size incorrectly
-    if( typeface.length() > 4 &&
-        strcasecmp( typeface.substr( typeface.length() - 4 ).c_str(), ".fon" ) == 0 ) {
-        faceIndex = test_face_size( typeface, fontsize, faceIndex );
-    }
-    font.reset( TTF_OpenFontIndex( typeface.c_str(), fontsize, faceIndex ) );
-    if( !font ) {
-        throw std::runtime_error( TTF_GetError() );
-    }
-    TTF_SetFontStyle( font.get(), TTF_STYLE_NORMAL );
-}
-
-FontFallbackList::FontFallbackList( const int w, const int h,
-                                    const std::vector<std::string> &typefaces,
-                                    const int fontsize, const bool fontblending )
-    : Font( w, h )
-{
-    for( const std::string &typeface : typefaces ) {
-        std::unique_ptr<Font> font = Font::load_font( typeface, fontsize, w, h, fontblending );
-        if( !font ) {
-            throw std::runtime_error( "Cannot load font " + typeface );
-        }
-        fonts.emplace_back( std::move( font ) );
-    }
-    if( fonts.empty() ) {
-        throw std::runtime_error( "Typeface list is empty" );
-    }
-}
-
-bool FontFallbackList::isGlyphProvided( const std::string & ) const
-{
-    return true;
-}
-
-void FontFallbackList::OutputChar( const std::string &ch, const point &p,
-                                   const unsigned char color, const float opacity )
-{
-    auto cached = glyph_font.find( ch );
-    if( cached == glyph_font.end() ) {
-        for( auto it = fonts.begin(); it != fonts.end(); ++it ) {
-            if( std::next( it ) == fonts.end() || ( *it )->isGlyphProvided( ch ) ) {
-                cached = glyph_font.emplace( ch, it ).first;
-            }
-        }
-    }
-    ( *cached->second )->OutputChar( ch, p, color, opacity );
 }
 
 static int map_font_width()

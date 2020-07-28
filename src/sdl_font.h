@@ -131,6 +131,7 @@ class Font
         // font palette.
         const palette_array& palette;
 };
+using Font_Ptr = std::unique_ptr<Font>;
 
 /// Font implementation on a TrueType font. Its glyphs are cached.
 class CachedTTFFont : public Font
@@ -203,8 +204,8 @@ class BitmapFont : public Font
         int tilewidth;
 };
 
-/// Multiple fonts wrapper. Tries to render character using font on the top,
-/// if glyph is not supported, tries the next, and so on.
+/// Multiple fonts container. Tries to render character using font on the top,
+/// if glyph is not supported, tries next font, and so on.
 class FontFallbackList : public Font
 {
     public:
