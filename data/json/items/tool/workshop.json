@@ -1152,8 +1152,8 @@
   {
     "id": "chain_wrench",
     "type": "TOOL",
-    "name": { "str": "chain wrench", "str_pl": "chain wrenches" },
-    "description": "An adjustable chain wrench, designed for hard-to-reach places.  Being handmade, it lacks the precision of a proper wrench.",
+    "name": { "str": "makeshift chain wrench", "str_pl": "makeshift chain wrenches" },
+    "description": "A makeshift chain wrench, designed for hard-to-reach places.  Being handmade, it lacks the precision of a proper wrench.",
     "weight": "1614 g",
     "volume": "250 ml",
     "price": 4000,
@@ -1163,7 +1163,7 @@
     "material": [ "steel" ],
     "symbol": ";",
     "color": "light_gray",
-    "qualities": [ [ "WRENCH", 2 ] ],
+    "qualities": [ [ "WRENCH", 1 ] ],
     "flags": [ "BELT_CLIP" ],
     "looks_like": "wrench"
   }
