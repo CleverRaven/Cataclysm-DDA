@@ -228,7 +228,7 @@
       "opinion": { "trust": 1, "value": 1 },
       "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ],
       "update_mapgen": [
-        { "om_terrain": "mortuary_2story", "place_nested": { "chunks": [ "whately_cousin", "x", 16, "y", 15 ] } },
+        { "om_terrain": "mortuary_2story", "place_nested": [ "chunks": { "whately_cousin", "x", 16, "y", 15 } ] },
         {
           "om_terrain": "mortuary_2story",
           "place_nested": [ { "chunks": [ "whately_bioturret_update", "x", 19, "y", 15 ] } ]
