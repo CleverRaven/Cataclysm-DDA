@@ -86,7 +86,7 @@ item_penalties get_item_penalties( std::list<item>::const_iterator worn_item_it,
     std::vector<std::set<std::string>> lists_of_bad_items_within;
 
     for( const bodypart_id &bp : c.get_all_body_parts() ) {
-        if( bp != _bp && _bp != bodypart_id( body_part::num_bp ) ) {
+        if( bp != _bp && _bp != bodypart_id( "num_bp" ) ) {
             continue;
         }
         if( !worn_item_it->covers( bp ) ) {
@@ -296,9 +296,9 @@ std::vector<std::string> clothing_properties(
 
     const std::string space = "  ";
 
-    const int coverage = bp == bodypart_id( body_part::num_bp ) ? worn_item.get_avg_coverage() :
+    const int coverage = bp == bodypart_id( "num_bp" ) ? worn_item.get_avg_coverage() :
                          worn_item.get_coverage( bp );
-    const int encumbrance = bp == bodypart_id( body_part::num_bp ) ? worn_item.get_avg_encumber(
+    const int encumbrance = bp == bodypart_id( "num_bp" ) ? worn_item.get_avg_encumber(
                                 c ) : worn_item.get_encumber( c, bp );
     props.push_back( string_format( "<color_c_green>[%s]</color>", _( "Properties" ) ) );
     props.push_back( name_and_value( space + _( "Coverage:" ),
@@ -448,10 +448,10 @@ void player::sort_armor()
     //        and bodypart_id is not compatible with std::sort()
     //        so let's use a dirty hack
     cata::flat_set<bodypart_id> armor_cat;
-    for( const auto &it : get_all_body_parts() ) {
+    for( const bodypart_id &it : get_all_body_parts() ) {
         armor_cat.insert( it );
     }
-    armor_cat.insert( bodypart_id( body_part::num_bp ) );
+    armor_cat.insert( bodypart_id( "num_bp" ) );
 
     int req_right_h = 3 + 1 + 2 + body_part::num_bp + 1;
     for( const bodypart_id &cover : armor_cat ) {
@@ -555,7 +555,7 @@ void player::sort_armor()
     ui.on_redraw( [&]( const ui_adaptor & ) {
         // Create ptr list of items to display
         tmp_worn.clear();
-        const bodypart_id bp = armor_cat[ tabindex ];
+        const bodypart_id &bp = armor_cat[ tabindex ];
         if( tabindex == body_part::num_bp ) {
             // All
             for( auto it = worn.begin(); it != worn.end(); ++it ) {
@@ -677,7 +677,7 @@ void player::sort_armor()
         }
         int pos = 1, curr = 0;
         for( const bodypart_id cover : rl ) {
-            if( cover == bodypart_id( body_part::num_bp ) ) {
+            if( cover == bodypart_id( "num_bp" ) ) {
                 continue;
             }
             if( curr >= rightListOffset && pos <= rightListLines ) {
@@ -837,7 +837,7 @@ void player::sort_armor()
                 cata::optional<std::list<item>::iterator> new_equip_it =
                     wear( *loc.obtain( *this ) );
                 if( new_equip_it ) {
-                    const bodypart_id bp = armor_cat[ tabindex ];
+                    const bodypart_id &bp = armor_cat[ tabindex ];
                     if( tabindex == num_bp || ( **new_equip_it ).covers( bp ) ) {
                         // Set ourselves up to be pointing at the new item
                         // TODO: This doesn't work yet because we don't save our
