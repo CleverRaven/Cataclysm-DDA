@@ -1572,7 +1572,7 @@
     "warmth": 0,
     "material_thickness": 0,
     "flags": [ "BELTED", "WATER_FRIENDLY", "TARDIS" ]
-  },  
+  },
   {
     "id": "long_duffelbag",
     "type": "ARMOR",
