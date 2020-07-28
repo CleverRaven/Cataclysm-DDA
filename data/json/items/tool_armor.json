@@ -2004,6 +2004,7 @@
     "price_postapoc": 25,
     "material": [ "iron" ],
     "weight": "2 g",
+    "volume": "1 ml",
     "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 3 ] ]
   },
@@ -2019,6 +2020,7 @@
     "price_postapoc": 5,
     "material": [ "plastic" ],
     "weight": "4 g",
+    "volume": "1 ml",
     "use_action": [ "PICK_LOCK" ],
     "qualities": [ [ "LOCKPICK", 1 ] ],
     "flags": [ "FANCY" ]

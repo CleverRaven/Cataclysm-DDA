@@ -1199,6 +1199,7 @@
     "name": "medical gauze",
     "description": "This is decent sized piece of cotton, sterilized and sealed.  It's designed for medical purposes.",
     "weight": "90 g",
+    "volume": "200 ml",
     "price": 350,
     "price_postapoc": 200,
     "material": [ "cotton" ],

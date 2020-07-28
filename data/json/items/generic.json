@@ -2459,6 +2459,7 @@
     "color": "dark_gray",
     "symbol": "!",
     "weight": "1 g",
+    "volume": "1 ml",
     "description": "A true gentleman always finishes his cigars.",
     "category": "other",
     "flags": [ "TRADER_AVOID" ]
@@ -2495,6 +2496,7 @@
     "description": "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far…",
     "category": "other",
     "weight": "1 g",
+    "volume": "1 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -2529,6 +2531,7 @@
     "description": "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
     "category": "other",
     "weight": "1 g",
+    "volume": "1 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {
