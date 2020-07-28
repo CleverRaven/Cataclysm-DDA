@@ -1662,5 +1662,10 @@
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
     }
+  },
+  {
+    "type": "recipe",
+    "result": "foot_crank",
+    "obsolete": true
   }
 ]
