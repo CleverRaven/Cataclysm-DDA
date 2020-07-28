@@ -15,7 +15,7 @@
     "symbol": "\\",
     "color": "dark_gray",
     "techniques": [ "WBLOCK_1", "BRUTAL" ],
-    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "DURABLE_MELEE", "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
   },
   {
     "id": "2h_flail_wood",
@@ -33,7 +33,7 @@
     "symbol": "\\",
     "color": "brown",
     "techniques": [ "WBLOCK_1" ],
-    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "ALWAYS_TWOHAND" ]
+    "flags": [ "REACH_ATTACK", "NONCONDUCTIVE", "SHEATH_SPEAR", "ALWAYS_TWOHAND" ]
   },
   {
     "type": "GENERIC",
