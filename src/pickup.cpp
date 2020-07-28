@@ -806,9 +806,11 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
                 if( p ) {
                     if( window_contains_point_relative( w_pickup, p.value() ) ) {
                         pickup_rect *rect = pickup_rect::find_by_coordinate( p.value() );
-                        selected = rect->cur_it;
-                        iScrollPos = 0;
-                        idx = selected;
+                        if( rect != nullptr ) {
+                            selected = rect->cur_it;
+                            iScrollPos = 0;
+                            idx = selected;
+                        }
                     }
                 }
 
