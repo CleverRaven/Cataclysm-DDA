@@ -751,8 +751,10 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     if( proj.proj_effects.count( "ROBOT_DAZZLE" ) ) {
         if( goodhit < accuracy_critical && in_species( species_ROBOT ) ) {
             add_effect( effect_stunned, rng( 6_turns, 8_turns ) );
-            add_msg( source->is_player() ? _( "You land a clean shot on the %1$s sensors, stunning it." ),
-                     disp_name( true ) : _( "The %1$s is stunned!" ), disp_name( true ) );
+            add_msg( source->is_player() ?
+                     _( "You land a clean shot on the %1$s sensors, stunning it." ) :
+                     _( "The %1$s is stunned!" ),
+                     disp_name( true ) );
         }
     }
 
