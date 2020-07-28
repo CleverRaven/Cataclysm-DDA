@@ -124,10 +124,10 @@
         "failure": { "topic": "TALK_DENY_FOLLOW", "effect": "deny_follow", "opinion": { "trust": 4, "value": -5, "anger": 10 } }
       },
       {
-	"switch": true,
-	"default": true,
-	"text": "Nevermind.",
-	"topic": "TALK_NONE"
+        "switch": true,
+        "default": true,
+        "text": "Nevermind.",
+        "topic": "TALK_NONE"
       }
     ]
   },
