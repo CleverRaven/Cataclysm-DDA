@@ -1049,19 +1049,6 @@
   },
   {
     "type": "recipe",
-    "result": "foot_crank",
-    "category": "CC_OTHER",
-    "subcategory": "CSC_OTHER_PARTS",
-    "skill_used": "mechanics",
-    "difficulty": 1,
-    "time": "10 m",
-    "reversible": true,
-    "autolearn": true,
-    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "pipe", 1 ] ], [ [ "steel_chunk", 2 ], [ "scrap", 6 ] ], [ [ "chain", 1 ] ], [ [ "pipe_fittings", 2 ] ] ]
-  },
-  {
-    "type": "recipe",
     "result": "muffler",
     "category": "CC_OTHER",
     "subcategory": "CSC_OTHER_PARTS",
