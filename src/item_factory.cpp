@@ -1120,10 +1120,12 @@ void Item_factory::check_definitions() const
             msg += "negative weight\n";
         }
         if( type->weight == 0_gram &&
+            !type->item_tags.count( "AURA" ) &&
             !type->item_tags.count( "CORPSE" ) &&
             !type->item_tags.count( "IRREMOVABLE" ) &&
             !type->item_tags.count( "NO_DROP" ) &&
             !type->item_tags.count( "NO_UNWIELD" ) &&
+            !type->item_tags.count( "PERSONAL" ) &&
             !type->item_tags.count( "PSEUDO" ) &&
             !type->item_tags.count( "ZERO_WEIGHT" ) ) {
             msg += "zero weight (if zero weight is intentional you can "
