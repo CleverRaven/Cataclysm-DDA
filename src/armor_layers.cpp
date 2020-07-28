@@ -556,7 +556,7 @@ void player::sort_armor()
         // Create ptr list of items to display
         tmp_worn.clear();
         const bodypart_id &bp = armor_cat[ tabindex ];
-        if( tabindex == body_part::num_bp ) {
+        if( bp == bodypart_id( "num_bp" ) ) {
             // All
             for( auto it = worn.begin(); it != worn.end(); ++it ) {
                 tmp_worn.push_back( it );
@@ -584,7 +584,7 @@ void player::sort_armor()
 
         // top bar
         wprintz( w_sort_cat, c_white, _( "Sort Armor" ) );
-        std::string temp = tabindex < tabcount - 1 ? body_part_name_as_heading( bp, 1 ) : _( "All" );
+        std::string temp = bp != bodypart_id( "num_bp" ) ? body_part_name_as_heading( bp, 1 ) : _( "All" );
         wprintz( w_sort_cat, c_yellow, "  << %s >>", temp );
         right_print( w_sort_cat, 0, 0, c_white, string_format(
                          _( "Press [<color_yellow>%s</color>] for help.  "
