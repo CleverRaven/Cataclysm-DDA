@@ -926,7 +926,7 @@
     "components": [ [ [ "leather", 37 ], [ "tanned_pelt", 10 ] ], [ [ "cordage", 1, "LIST" ] ] ]
   },
   {
-    "result": "Long_duffelbag",
+    "result": "long_duffelbag",
     "type": "recipe",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
