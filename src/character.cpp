@@ -787,7 +787,8 @@ int Character::clairvoyance() const
         return 3;
     }
 
-    return 0;
+    // 0 would mean we have clairvoyance of own tile
+    return -1;
 }
 
 bool Character::sight_impaired() const
@@ -1743,11 +1744,13 @@ float Character::get_vision_threshold( float light_level ) const
         range++;
     }
 
-    // Clamp range to 1+, so that we can always see where we are
-    range = std::max( 1.0f, range );
+    // This guarantees at least 1 tile of range
+    static const float threshold_cap = threshold_for_range( 1 ) * LIGHT_AMBIENT_LOW /
+                                       LIGHT_AMBIENT_MINIMAL;
 
-    return std::min( static_cast<float>( LIGHT_AMBIENT_LOW ),
-                     threshold_for_range( range ) * dimming_from_light );
+    return std::min( {static_cast<float>( LIGHT_AMBIENT_LOW ),
+                      threshold_for_range( range ) * dimming_from_light,
+                      threshold_cap} );
 }
 
 void Character::flag_encumbrance()

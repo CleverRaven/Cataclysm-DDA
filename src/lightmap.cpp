@@ -608,7 +608,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
     const int dist = rl_dist( g->u.pos(), p );
 
     // Clairvoyance overrides everything.
-    if( cache.u_clairvoyance > 0 && dist <= cache.u_clairvoyance ) {
+    if( dist <= cache.u_clairvoyance ) {
         return LL_BRIGHT;
     }
     const auto &map_cache = get_cache_ref( p.z );
