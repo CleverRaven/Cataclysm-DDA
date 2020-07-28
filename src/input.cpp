@@ -1569,6 +1569,7 @@ cata::optional<point> input_context::get_coordinates_text( const catacurses::win
     const point selected( divide_round_down( screen_pos.x, fw ),
                           divide_round_down( screen_pos.y, fh ) );
     return selected;
+#endif
 }
 
 std::string input_context::get_action_name( const std::string &action_id ) const
