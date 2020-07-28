@@ -4117,15 +4117,8 @@ HWND getWindowHandle()
 
 bool window_contains_point_relative( const catacurses::window &win, const point &p )
 {
-#if defined(TILES)
-    const window_dimensions dim = get_window_dimensions( win );
-    const point &win_size = dim.window_size_cell;
-    const half_open_rectangle<point> win_bounds( point_zero, win_size );
-#endif
-#if defined(CURSES)
     const int x = catacurses::getmaxx( win );
     const int y = catacurses::getmaxy( win );
     const half_open_rectangle<point> win_bounds( point_zero, point( x, y ) );
-#endif
     return win_bounds.contains( p );
 }
