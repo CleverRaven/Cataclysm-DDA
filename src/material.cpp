@@ -18,7 +18,7 @@
 namespace
 {
 
-generic_factory<material_type> material_data( "material", "ident" );
+generic_factory<material_type> material_data( "material" );
 
 } // namespace
 
