@@ -149,6 +149,9 @@ class spell_type
         // spell sound effect
         translation sound_description;
         skill_id skill;
+
+        requirement_id spell_components;
+
         sounds::sound_t sound_type = sounds::sound_t::_LAST;
         bool sound_ambient = false;
         std::string sound_id;
@@ -359,9 +362,11 @@ class spell
         std::string colorized_fail_percent( const Character &guy ) const;
         // how long does it take to cast the spell
         int casting_time( const Character &guy, bool ignore_encumb = false ) const;
-
+        // the requirement data for spell components. includes tools, items, and qualities.
+        const requirement_data &components() const;
+        bool has_components() const;
         // can the Character cast this spell?
-        bool can_cast( const Character &guy ) const;
+        bool can_cast( Character &guy ) const;
         // can the Character learn this spell?
         bool can_learn( const Character &guy ) const;
         // is this spell valid
@@ -432,7 +437,8 @@ class spell
         void cast_spell_effect( Creature &source, const tripoint &target ) const;
         // goes through the spell effect and all of its internal spells
         void cast_all_effects( Creature &source, const tripoint &target ) const;
-
+        // uses up the components in @guy's inventory
+        void use_components( Character &guy ) const;
         // checks if a target point is in spell range
         bool is_target_in_range( const Creature &caster, const tripoint &p ) const;
 
@@ -483,7 +489,7 @@ class known_magic
         spell &get_spell( const spell_id &sp );
         // opens up a ui that the Character can choose a spell from
         // returns the index of the spell in the vector of spells
-        int select_spell( const Character &guy );
+        int select_spell( Character &guy );
         // get all known spells
         std::vector<spell *> get_spells();
         // how much mana is available to use to cast spells
