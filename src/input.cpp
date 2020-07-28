@@ -1476,3 +1476,4 @@ void input_context::reset_timeout()
 {
     timeout = -1;
 }
+#endif
