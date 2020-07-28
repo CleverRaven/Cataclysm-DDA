@@ -4,7 +4,7 @@
     "result": "afs_foamcrete",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_OTHER",
-    "skill_used": "cooking",
+    "skill_used": "chemistry",
     "difficulty": 3,
     "time": "45 m",
     "qualities": [ { "id": "CHEM", "level": 1 } ],
