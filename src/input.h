@@ -612,8 +612,10 @@ class input_context
                 "abcdefghijkpqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-=:;'\",./<>?!@#$%^&*()_+[]\\{}|`~" );
 
         using input_event_filter = std::function<bool( const input_event & )>;
-        static const input_event_filter disallow_lower_case;
-        static const input_event_filter allow_all_keys;
+
+        // Helper functions to be used as @ref input_event_filter
+        static bool disallow_lower_case( const input_event &evt );
+        static bool allow_all_keys( const input_event &evt );
 
         /**
          * Get a description text for the key/other input method associated

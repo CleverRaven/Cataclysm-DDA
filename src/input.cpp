@@ -925,18 +925,18 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
     return requested_keys;
 }
 
-const input_context::input_event_filter input_context::disallow_lower_case =
-[]( const input_event &evt ) -> bool {
+bool input_context::disallow_lower_case( const input_event &evt )
+{
     return evt.type != input_event_t::keyboard_char ||
-    // std::lower from <cctype> is undefined outside unsigned char range
-    // and std::lower from <locale> may throw bad_cast for some locales
-    evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
-};
+           // std::lower from <cctype> is undefined outside unsigned char range
+           // and std::lower from <locale> may throw bad_cast for some locales
+           evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
+}
 
-const input_context::input_event_filter input_context::allow_all_keys =
-[]( const input_event & ) -> bool {
+bool input_context::allow_all_keys( const input_event & )
+{
     return true;
-};
+}
 
 static const std::vector<std::pair<keymod_t, translation>> keymod_desc = {
     { keymod_t::ctrl,  to_translation( "key modifier", "CTRL-" ) },
