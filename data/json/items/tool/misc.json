@@ -427,7 +427,7 @@
     "initial_charges": 4000,
     "max_charges": 4000,
     "charges_per_use": 1,
-    "use_action": [ "WATER_PURIFIER" ]
+    "use_action": [ "WATER_PURIFIER" ],
     "purification_factor": 4
   },
   {
