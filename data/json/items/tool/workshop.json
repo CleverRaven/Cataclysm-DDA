@@ -1148,5 +1148,23 @@
     "color": "light_gray",
     "looks_like": "hand_drill",
     "qualities": [ [ "DRILL", 1 ] ]
+  },
+  {
+    "id": "chain_wrench",
+    "type": "TOOL",
+    "name": { "str": "chain wrench", "str_pl": "chain wrenches" },
+    "description": "An adjustable chain wrench, designed for hard-to-reach places.  Being handmade, it lacks the precision of a proper wrench.",
+    "weight": "1614 g",
+    "volume": "250 ml",
+    "price": 4000,
+    "price_postapoc": 1200,
+    "to_hit": 1,
+    "bashing": 9,
+    "material": [ "steel" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "WRENCH", 2 ] ],
+    "flags": [ "BELT_CLIP" ],
+    "looks_like": "wrench"
   }
 ]
