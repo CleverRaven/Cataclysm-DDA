@@ -224,7 +224,7 @@
     "volume": "250 ml",
     "charges": 8,
     "fun": 7,
-    "vitamins": [ [ "vitA", 8 ], [ "calcium", 16 ] ]
+    "vitamins": [ [ "vitA", 8 ], [ "calcium", 16 ], [ "iron", 1 ], [ "vitB", 4 ] ]
   },
   {
     "type": "COMESTIBLE",
