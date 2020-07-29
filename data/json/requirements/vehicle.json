@@ -9,14 +9,14 @@
   {
     "id": "vehicle_wrench_1",
     "type": "requirement",
-    "//": "Compatible with legacy flag TOOL_WRENCH or when installing wheels",
+    "//": "Compatible with legacy flag TOOL_WRENCH or when doing jobs with quality 1 wrenching",
     "qualities": [ { "id": "WRENCH", "level": 1 } ]
   },
   
   {
     "id": "vehicle_wrench_2",
     "type": "requirement",
-    "//": "Compatible with legacy flag TOOL_WRENCH or when installing wheels",
+    "//": "Compatible with legacy flag TOOL_WRENCH or when doing jobs with quality 2 wrenching",
     "qualities": [ { "id": "WRENCH", "level": 2 } ]
   },
   
