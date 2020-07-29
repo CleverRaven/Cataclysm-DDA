@@ -3551,8 +3551,8 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     }
 
     // for holsters, we should not include the cost of wielding the holster itself
-    // It looks like the cost of wielding the container is removed earlier, but I can't found where.
-    // As such, I'm re-adding it here.
+    // The cost of wielding the holster was already added earlier in avatar_action::use_item.
+    // As we couldn't make sure back then what action was going to be used, we remove the cost now.
     item_location il = item_location( *this, &container );
     mv -= il.obtain_cost( *this );
 
