@@ -1750,7 +1750,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
 
 int Creature::get_hp( const bodypart_id &bp ) const
 {
-    if( bp != bodypart_id( "num_bp" ) ) {
+    if( bp != bodypart_id( "bp_null" ) ) {
         return get_part_hp_cur( bp );
     }
     int hp_total = 0;
@@ -1762,12 +1762,12 @@ int Creature::get_hp( const bodypart_id &bp ) const
 
 int Creature::get_hp() const
 {
-    return get_hp( bodypart_id( "num_bp" ) );
+    return get_hp( bodypart_id( "bp_null" ) );
 }
 
 int Creature::get_hp_max( const bodypart_id &bp ) const
 {
-    if( bp != bodypart_id( "num_bp" ) ) {
+    if( bp != bodypart_id( "bp_null" ) ) {
         return get_part_hp_max( bp );
     }
     int hp_total = 0;
@@ -1779,7 +1779,7 @@ int Creature::get_hp_max( const bodypart_id &bp ) const
 
 int Creature::get_hp_max() const
 {
-    return get_hp_max( bodypart_id( "num_bp" ) );
+    return get_hp_max( bodypart_id( "bp_null" ) );
 }
 
 int Creature::get_speed_base() const
