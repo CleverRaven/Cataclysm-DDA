@@ -405,7 +405,7 @@ TEST_CASE( "vehicle_find_efficiency", "[.]" )
 }
 
 /** This is even less of a test. It generates C++ lines for the actual test below */
-TEST_CASE( "vehicle_make_efficiency_case", "[.]" )
+TEST_CASE( "make_vehicle_efficiency_case", "[.]" )
 {
     for( const std::string &veh : vehs_to_test ) {
         print_test_strings( veh );
@@ -429,11 +429,11 @@ TEST_CASE( "vehicle_efficiency", "[vehicle] [engine]" )
     test_vehicle( "superbike", 242085, 68920, 45200, 33670, 21300 );
     test_vehicle( "ambulance", 1839299, 409800, 326700, 62500, 44030 );
     test_vehicle( "fire_engine", 2628611, 1136000, 927800, 242300, 209600 );
-    test_vehicle( "fire_truck", 6314603, 288800, 180900, 19470, 4461 );
-    test_vehicle( "truck_swat", 5959334, 483800, 323200, 29610, 7604 );
+    test_vehicle( "fire_truck", 6314603, 288800, 40370, 19470, 4461 );
+    test_vehicle( "truck_swat", 5959334, 483800, 61670, 29610, 7604 );
     test_vehicle( "tractor_plow", 723658, 482400, 482400, 114200, 114200 );
-    test_vehicle( "apc", 5801619, 1069000, 923000, 130800, 85590 );
-    test_vehicle( "humvee", 5503345, 574300, 325900, 25620, 9171 );
-    test_vehicle( "road_roller", 8829220, 357200, 380200, 22760, 6925 );
-    test_vehicle( "golf_cart", 444630, 52460, 105500, 27250, 14200 );
+    test_vehicle( "apc", 5801619, 1069000, 892100, 130800, 85590 );
+    test_vehicle( "humvee", 5503345, 574300, 222200, 25620, 9171 );
+    test_vehicle( "road_roller", 8829220, 357200, 63680, 22760, 6925 );
+    test_vehicle( "golf_cart", 444630, 52460, 43350, 27250, 14200 );
 }
