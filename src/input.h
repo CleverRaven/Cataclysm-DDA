@@ -614,7 +614,7 @@ class input_context
         using input_event_filter = std::function<bool( const input_event & )>;
 
         // Helper functions to be used as @ref input_event_filter
-        static bool disallow_lower_case( const input_event &evt );
+        static bool disallow_lower_case_or_non_modified_letters( const input_event &evt );
         static bool allow_all_keys( const input_event &evt );
 
         /**

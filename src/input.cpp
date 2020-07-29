@@ -925,12 +925,19 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
     return requested_keys;
 }
 
-bool input_context::disallow_lower_case( const input_event &evt )
+bool input_context::disallow_lower_case_or_non_modified_letters( const input_event &evt )
 {
-    return evt.type != input_event_t::keyboard_char ||
-           // std::lower from <cctype> is undefined outside unsigned char range
-           // and std::lower from <locale> may throw bad_cast for some locales
-           evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
+    const int ch = evt.get_first_input();
+    switch( evt.type ) {
+        case input_event_t::keyboard_char:
+            // std::lower from <cctype> is undefined outside unsigned char range
+            // and std::lower from <locale> may throw bad_cast for some locales
+            return ch < 'a' || ch > 'z';
+        case input_event_t::keyboard_code:
+            return !( evt.modifiers.empty() && ( ( ch >= 'a' && ch <= 'z' ) || ( ch >= 'A' && ch <= 'Z' ) ) );
+        default:
+            return true;
+    }
 }
 
 bool input_context::allow_all_keys( const input_event & )
