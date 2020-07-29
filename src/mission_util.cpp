@@ -540,7 +540,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }
-        for( auto &mission_function : funcs ) {
+        for( const auto &mission_function : funcs ) {
             mission_function( miss );
         }
     };

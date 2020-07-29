@@ -1036,7 +1036,7 @@ void Pickup::pick_up( const tripoint &p, int min, from_where get_items_from )
 //helper function for Pickup::pick_up
 void show_pickup_message( const PickupMap &mapPickup )
 {
-    for( auto &entry : mapPickup ) {
+    for( const auto &entry : mapPickup ) {
         if( entry.second.first.invlet != 0 ) {
             add_msg( _( "You pick up: %d %s [%c]" ), entry.second.second,
                      entry.second.first.display_name( entry.second.second ), entry.second.first.invlet );

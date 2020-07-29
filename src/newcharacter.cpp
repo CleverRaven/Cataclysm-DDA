@@ -157,13 +157,13 @@ static matype_id choose_ma_style( const character_type type, const std::vector<m
     menu.additional_actions.emplace_back( "SHOW_DESCRIPTION", translation() );
     menu.desc_enabled = true;
 
-    for( auto &s : styles ) {
-        auto &style = s.obj();
+    for( const matype_id &s : styles ) {
+        const martialart &style = s.obj();
         menu.addentry_desc( style.name.translated(), style.description.translated() );
     }
     while( true ) {
         menu.query( true );
-        auto &selected = styles[menu.ret];
+        const matype_id &selected = styles[menu.ret];
         if( query_yn( _( "Use this style?" ) ) ) {
             return selected;
         }
@@ -297,7 +297,7 @@ void avatar::randomize( const bool random_scenario, points_left &points, bool pl
             case 4:
                 if( allow_traits ) {
                     rn = random_good_trait();
-                    auto &mdata = rn.obj();
+                    const mutation_branch &mdata = rn.obj();
                     if( !has_trait( rn ) && points.trait_points_left() >= mdata.points &&
                         num_gtraits + mdata.points <= max_trait_points && !has_conflicting_trait( rn ) ) {
                         toggle_trait( rn );
@@ -1014,15 +1014,14 @@ tab_direction set_traits( avatar &u, points_left &points )
 
     std::vector<trait_id> vStartingTraits[3];
 
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         // Don't list blacklisted traits
         if( mutation_branch::trait_is_blacklisted( traits_iter.id ) ) {
             continue;
         }
 
         const std::set<trait_id> scentraits = get_scenario()->get_locked_traits();
-        const bool is_scentrait = std::find( scentraits.begin(), scentraits.end(),
-                                             traits_iter.id ) != scentraits.end();
+        const bool is_scentrait = scentraits.find( traits_iter.id ) != scentraits.end();
 
         // Always show profession locked traits, regardless of if they are forbidden
         const std::vector<trait_id> proftraits = u.prof->get_locked_traits();
@@ -1473,8 +1472,8 @@ tab_direction set_profession( avatar &u, points_left &points,
             const auto prof_addictions = sorted_profs[cur_id]->addictions();
             if( !prof_addictions.empty() ) {
                 buffer += colorize( _( "Addictions:" ), c_light_blue ) + "\n";
-                for( const auto &a : prof_addictions ) {
-                    const auto format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
+                for( const addiction &a : prof_addictions ) {
+                    const char *format = pgettext( "set_profession_addictions", "%1$s (%2$d)" );
                     buffer += string_format( format, addiction_name( a ), a.intensity ) + "\n";
                 }
             }
@@ -1497,7 +1496,7 @@ tab_direction set_profession( avatar &u, points_left &points,
                 buffer += pgettext( "set_profession_skill", "None" ) + std::string( "\n" );
             } else {
                 for( const auto &sl : prof_skills ) {
-                    const auto format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
+                    const char *format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
                     buffer += string_format( format, sl.first.obj().name(), sl.second ) + "\n";
                 }
             }
@@ -2956,7 +2955,7 @@ trait_id Character::random_good_trait()
 {
     std::vector<trait_id> vTraitsGood;
 
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.points >= 0 && get_scenario()->traitquery( traits_iter.id ) ) {
             vTraitsGood.push_back( traits_iter.id );
         }
@@ -2969,7 +2968,7 @@ trait_id Character::random_bad_trait()
 {
     std::vector<trait_id> vTraitsBad;
 
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         if( traits_iter.points < 0 && get_scenario()->traitquery( traits_iter.id ) ) {
             vTraitsBad.push_back( traits_iter.id );
         }

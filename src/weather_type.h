@@ -48,7 +48,6 @@ struct enum_traits<weather_time_requirement_type> {
     static constexpr weather_time_requirement_type last = weather_time_requirement_type::last;
 };
 
-
 enum weather_sound_category : int {
     silent,
     drizzle,

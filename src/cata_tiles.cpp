@@ -322,7 +322,7 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     throwErrorIf( SDL_BlitSurface( original.get(), nullptr, surf.get(), nullptr ) != 0,
                   "SDL_BlitSurface failed" );
 
-    auto pix = reinterpret_cast<SDL_Color *>( surf->pixels );
+    SDL_Color *pix = reinterpret_cast<SDL_Color *>( surf->pixels );
 
     for( int y = 0, ey = surf->h; y < ey; ++y ) {
         for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
@@ -1936,11 +1936,11 @@ bool cata_tiles::draw_sprite_at(
     const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
     bool apply_night_vision_goggles, int &height_3d )
 {
-    auto picked = svlist.pick( loc_rand );
+    const std::vector<int> *picked = svlist.pick( loc_rand );
     if( !picked ) {
         return true;
     }
-    auto &spritelist = *picked;
+    const std::vector<int> &spritelist = *picked;
     if( spritelist.empty() ) {
         return true;
     }
@@ -1971,21 +1971,21 @@ bool cata_tiles::draw_sprite_at(
     //use night vision colors when in use
     //then use low light tile if available
     if( ll == lit_level::MEMORIZED ) {
-        if( const auto ptr = tileset_ptr->get_memory_tile( spritelist[sprite_num] ) ) {
+        if( const texture *ptr = tileset_ptr->get_memory_tile( spritelist[sprite_num] ) ) {
             sprite_tex = ptr;
         }
     } else if( apply_night_vision_goggles ) {
         if( ll != lit_level::LOW ) {
-            if( const auto ptr = tileset_ptr->get_overexposed_tile( spritelist[sprite_num] ) ) {
+            if( const texture *ptr = tileset_ptr->get_overexposed_tile( spritelist[sprite_num] ) ) {
                 sprite_tex = ptr;
             }
         } else {
-            if( const auto ptr = tileset_ptr->get_night_tile( spritelist[sprite_num] ) ) {
+            if( const texture *ptr = tileset_ptr->get_night_tile( spritelist[sprite_num] ) ) {
                 sprite_tex = ptr;
             }
         }
     } else if( ll == lit_level::LOW ) {
-        if( const auto ptr = tileset_ptr->get_shadow_tile( spritelist[sprite_num] ) ) {
+        if( const texture *ptr = tileset_ptr->get_shadow_tile( spritelist[sprite_num] ) ) {
             sprite_tex = ptr;
         }
     }
@@ -2855,10 +2855,10 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
 
     const zone_manager &mgr = zone_manager::get_manager();
     const tripoint &abs = get_map().getabs( p );
-    const auto zone = mgr.get_bottom_zone( abs );
+    const zone_data *zone = mgr.get_bottom_zone( abs );
 
     if( zone && zone->has_options() ) {
-        auto option = dynamic_cast<const mark_option *>( &zone->get_options() );
+        const mark_option *option = dynamic_cast<const mark_option *>( &zone->get_options() );
 
         if( option && !option->get_mark().empty() ) {
             return draw_from_id_string( option->get_mark(), C_NONE, empty_string, p, 0, 0, ll,

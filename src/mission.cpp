@@ -108,8 +108,8 @@ void mission::process_all()
 std::vector<mission *> mission::to_ptr_vector( const std::vector<int> &vec )
 {
     std::vector<mission *> result;
-    for( auto &id : vec ) {
-        const auto miss = find( id );
+    for( const int &id : vec ) {
+        mission *miss = find( id );
         if( miss != nullptr ) {
             result.push_back( miss );
         }
@@ -121,7 +121,7 @@ std::vector<int> mission::to_uid_vector( const std::vector<mission *> &vec )
 {
     std::vector<int> result;
     result.reserve( vec.size() );
-    for( auto &miss : vec ) {
+    for( const mission *miss : vec ) {
         result.push_back( miss->uid );
     }
     return result;
@@ -142,13 +142,13 @@ void mission::on_creature_death( Creature &poor_dead_dude )
         if( mon->mission_id == -1 ) {
             return;
         }
-        const auto mission = mission::find( mon->mission_id );
-        const auto type = mission->type;
+        mission *found_mission = mission::find( mon->mission_id );
+        const mission_type *type = found_mission->type;
         if( type->goal == MGOAL_FIND_MONSTER ) {
-            mission->fail();
+            found_mission->fail();
         }
         if( type->goal == MGOAL_KILL_MONSTER ) {
-            mission->step_complete( 1 );
+            found_mission->step_complete( 1 );
         }
         return;
     }
@@ -248,7 +248,7 @@ void mission::fail()
 
 void mission::set_target_to_mission_giver()
 {
-    const auto giver = g->find_npc( npc_id );
+    const npc *giver = g->find_npc( npc_id );
     if( giver != nullptr ) {
         target = giver->global_omt_location();
     } else {
@@ -414,7 +414,7 @@ bool mission::is_complete( const character_id &_npc_id ) const
 
         case MGOAL_RECRUIT_NPC_CLASS: {
             const auto npcs = overmap_buffer.get_npcs_near_player( 100 );
-            for( auto &npc : npcs ) {
+            for( const auto &npc : npcs ) {
                 if( npc->myclass == recruit_class && npc->get_attitude() == NPCATT_FOLLOW ) {
                     return true;
                 }

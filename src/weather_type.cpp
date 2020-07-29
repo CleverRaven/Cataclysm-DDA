@@ -7,7 +7,6 @@ namespace
 generic_factory<weather_type> weather_type_factory( "weather_type" );
 } // namespace
 
-
 namespace io
 {
 template<>

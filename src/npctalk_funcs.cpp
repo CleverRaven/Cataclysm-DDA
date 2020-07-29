@@ -315,7 +315,7 @@ void talk_function::goto_location( npc &p )
         basecamp *temp_camp = *camp;
         camps.push_back( temp_camp );
     }
-    for( auto iter : camps ) {
+    for( const basecamp *iter : camps ) {
         //~ %1$s: camp name, %2$d and %3$d: coordinates
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, pgettext( "camp", "%1$s at %2$s" ),
                                  iter->camp_name(), iter->camp_omt_pos().to_string() );
@@ -332,7 +332,7 @@ void talk_function::goto_location( npc &p )
     if( index == static_cast<int>( camps.size() ) ) {
         destination = player_character.global_omt_location();
     } else {
-        auto selected_camp = camps[index];
+        const basecamp *selected_camp = camps[index];
         destination = selected_camp->camp_omt_pos();
     }
     p.goal = destination;
@@ -896,10 +896,10 @@ void talk_function::player_weapon_drop( npc &/*p*/ )
 
 void talk_function::lead_to_safety( npc &p )
 {
-    const auto mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ),
-                         character_id() );
-    mission->assign( get_avatar() );
-    p.goal = mission->get_target();
+    mission *reach_safety__mission = mission::reserve_new( mission_type_id( "MISSION_REACH_SAFETY" ),
+                                     character_id() );
+    reach_safety__mission->assign( get_avatar() );
+    p.goal = reach_safety__mission->get_target();
     p.set_attitude( NPCATT_LEAD );
 }
 

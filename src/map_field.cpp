@@ -90,7 +90,6 @@ static const trait_id trait_M_SKIN2( "M_SKIN2" );
 static const trait_id trait_M_SKIN3( "M_SKIN3" );
 static const trait_id trait_THRESH_MARLOSS( "THRESH_MARLOSS" );
 static const trait_id trait_THRESH_MYCUS( "THRESH_MYCUS" );
-static const trait_id trait_WEB_WALKER( "WEB_WALKER" );
 
 void map::create_burnproducts( const tripoint &p, const item &fuel, const units::mass &burned_mass )
 {
@@ -101,7 +100,7 @@ void map::create_burnproducts( const tripoint &p, const item &fuel, const units:
     // Items that are multiple materials are assumed to be equal parts each.
     const units::mass by_weight = burned_mass / all_mats.size();
     for( material_id &mat : all_mats ) {
-        for( auto &bp : mat->burn_products() ) {
+        for( const auto &bp : mat->burn_products() ) {
             itype_id id = bp.first;
             // Spawning the same item as the one that was just burned is pointless
             // and leads to infinite recursion.
@@ -841,7 +840,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                 }
 
                 cur.set_field_age( cur.get_field_age() + 1_turns );
-                auto &fdata = cur.get_field_type().obj();
+                const auto &fdata = cur.get_field_type().obj();
                 if( fdata.half_life > 0_turns && cur.get_field_age() > 0_turns &&
                     dice( 2, to_turns<int>( cur.get_field_age() ) ) > to_turns<int>( fdata.half_life ) ) {
                     cur.set_field_age( 0_turns );
@@ -1107,7 +1106,7 @@ bool map::process_fire_field_in_submap( maptile &map_tile, const tripoint &p,
                      count != neighs.size() && cur.get_field_age() < 0_turns;
                      i = ( i + 1 ) % neighs.size(), count++ ) {
                     maptile &dst = neighs[i];
-                    auto dstfld = dst.find_field( fd_fire );
+                    field_entry *dstfld = dst.find_field( fd_fire );
                     // If the fire exists and is weaker than ours, boost it
                     if( dstfld != nullptr &&
                         ( dstfld->get_field_intensity() <= cur.get_field_intensity() ||

@@ -316,8 +316,8 @@ std::vector<sphere> npc::find_dangerous_explosives() const
     const auto active_items = get_map().get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE,
                               special_item_type::explosive );
 
-    for( const auto &elem : active_items ) {
-        const auto use = elem->type->get_use( "explosion" );
+    for( const item_location &elem : active_items ) {
+        const use_function *use = elem->type->get_use( "explosion" );
 
         if( !use ) {
             continue;
@@ -633,7 +633,7 @@ float npc::character_danger( const Character &uc ) const
 {
     // TODO: Remove this when possible
     const player &u = dynamic_cast<const player &>( uc );
-    float ret = 0.0;
+    float ret = 0.0f;
     bool u_gun = u.weapon.is_gun();
     bool my_gun = weapon.is_gun();
     double u_weap_val = u.weapon_value( u.weapon );
@@ -2154,7 +2154,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const float target_speed = target->speed_rating();
     const float turns_til_reached = distance / target_speed;
     if( target->is_player() || target->is_npc() ) {
-        auto &c = dynamic_cast<const Character &>( *target );
+        const auto &c = dynamic_cast<const Character &>( *target );
         // TODO: Allow reloading if the player has a low accuracy gun
         if( sees( c ) && c.weapon.is_gun() && rltime > 200 &&
             c.weapon.gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
@@ -2833,7 +2833,7 @@ void npc::find_item()
             return;
         }
         std::vector<npc *> followers;
-        for( auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
@@ -3562,7 +3562,7 @@ bool npc::alt_attack()
     const auto inv_all = items_with( []( const item & ) {
         return true;
     } );
-    for( auto &it : inv_all ) {
+    for( item *it : inv_all ) {
         // TODO: Cached values - an itype slot maybe?
         check_alt_item( *it );
     }
@@ -3983,7 +3983,7 @@ void npc::mug_player( Character &mark )
     const auto inv_valuables = items_with( [this]( const item & itm ) {
         return value( itm ) > 0;
     } );
-    for( auto &it : inv_valuables ) {
+    for( item *it : inv_valuables ) {
         item &front_stack = *it; // is this safe?
         if( value( front_stack ) >= best_value &&
             can_pickVolume( front_stack, true ) &&

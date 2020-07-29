@@ -50,7 +50,7 @@ class talker
         virtual int posx() const = 0;
         virtual int posy() const = 0;
         virtual int posz() const = 0;
-        virtual tripoint pos() const  = 0;
+        virtual tripoint pos() const = 0;
         virtual tripoint_abs_omt global_omt_location() const = 0;
         virtual std::string distance_to_goal() const {
             return "";
@@ -182,7 +182,7 @@ class talker
         virtual void add_debt( int ) {}
         virtual std::vector<item *> items_with( const std::function<bool( const item & )> & ) const {
             return {};
-        };
+        }
         virtual void i_add( const item & ) {}
         virtual void remove_items_with( const std::function<bool( const item & )> & ) {}
         virtual bool unarmed_attack() const {

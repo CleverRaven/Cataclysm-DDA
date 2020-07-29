@@ -895,7 +895,7 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     resource_option.clear();
     const auto resource_dirs = get_directories_with( filename, dirname, true );
 
-    for( auto &resource_dir : resource_dirs ) {
+    for( const std::string &resource_dir : resource_dirs ) {
         read_from_file( resource_dir + "/" + filename, [&]( std::istream & fin ) {
             std::string resource_name;
             std::string view_name;
@@ -2499,7 +2499,7 @@ static void draw_borders_external(
     // intersections
     mvwputch( w, point( 0, horizontal_level ), BORDER_COLOR, LINE_XXXO ); // |-
     mvwputch( w, point( getmaxx( w ) - 1, horizontal_level ), BORDER_COLOR, LINE_XOXX ); // -|
-    for( auto &mapLine : mapLines ) {
+    for( const auto &mapLine : mapLines ) {
         if( mapLine.second ) {
             mvwputch( w, point( mapLine.first + 1, getmaxy( w ) - 1 ), BORDER_COLOR, LINE_XXOX ); // _|_
         }
@@ -3127,7 +3127,7 @@ options_manager::cOpt &options_manager::get_option( const std::string &name )
 options_manager::options_container options_manager::get_world_defaults() const
 {
     std::unordered_map<std::string, cOpt> result;
-    for( auto &elem : options ) {
+    for( const auto &elem : options ) {
         if( elem.second.getPage() == "world_default" ) {
             result.insert( elem );
         }

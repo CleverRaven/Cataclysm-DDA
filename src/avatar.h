@@ -245,7 +245,7 @@ class avatar : public player
                 save_activity( json );
 
                 json.end_object();
-            };
+            }
             void deserialize( JsonIn &jsin ) {
                 JsonObject data = jsin.get_object();
 
@@ -254,7 +254,7 @@ class avatar : public player
                 if( data.has_member( "activity" ) ) {
                     read_activity( data );
                 }
-            };
+            }
 
             daily_calories() {
                 activity_levels.emplace( NO_EXERCISE, 0 );

@@ -814,7 +814,7 @@ std::string replace_colors( std::string text )
         {"neutral", get_all_colors().get_name( c_yellow )}
     };
 
-    for( auto &elem : info_colors ) {
+    for( const auto &elem : info_colors ) {
         text = string_replace( text, "<" + elem.first + ">", "<color_" + elem.second + ">" );
         text = string_replace( text, "</" + elem.first + ">", "</color>" );
     }
@@ -900,7 +900,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
             if( i.sValue != "-999" ) {
                 nc_color thisColor = c_yellow;
-                for( auto &k : vItemCompare ) {
+                for( const iteminfo &k : vItemCompare ) {
                     if( k.sValue != "-999" ) {
                         if( i.sName == k.sName && i.sType == k.sType ) {
                             if( i.dValue > k.dValue - .1 &&

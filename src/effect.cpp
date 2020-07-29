@@ -876,7 +876,7 @@ std::vector<efftype_id> effect::get_blocks_effects() const
 
 int effect::get_mod( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double min = 0;
     double max = 0;
     // Get the minimum total
@@ -908,7 +908,7 @@ int effect::get_mod( const std::string &arg, bool reduced ) const
 
 int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double min = 0;
     double max = 0;
     // Get the minimum total
@@ -942,7 +942,7 @@ int effect::get_amount( const std::string &arg, bool reduced ) const
 {
     int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
                                eff_type->max_effective_intensity, intensity ) : intensity;
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "amount" ) );
     if( found != mod_data.end() ) {
@@ -957,7 +957,7 @@ int effect::get_amount( const std::string &arg, bool reduced ) const
 
 int effect::get_min_val( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "min_val" ) );
     if( found != mod_data.end() ) {
@@ -972,7 +972,7 @@ int effect::get_min_val( const std::string &arg, bool reduced ) const
 
 int effect::get_max_val( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "max_val" ) );
     if( found != mod_data.end() ) {
@@ -997,7 +997,7 @@ bool effect::get_sizing( const std::string &arg ) const
 
 double effect::get_percentage( const std::string &arg, int val, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
     auto found_top_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
                                           "chance_top" ) );
@@ -1075,7 +1075,7 @@ double effect::get_percentage( const std::string &arg, int val, bool reduced ) c
 bool effect::activated( const time_point &when, const std::string &arg, int val, bool reduced,
                         double mod ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
     auto found_top_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
                                           "chance_top" ) );

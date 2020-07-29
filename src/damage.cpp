@@ -55,19 +55,19 @@ void damage_instance::mult_damage( double multiplier, bool pre_armor )
     }
 
     if( pre_armor ) {
-        for( auto &elem : damage_units ) {
+        for( damage_unit &elem : damage_units ) {
             elem.amount *= multiplier;
         }
     } else {
-        for( auto &elem : damage_units ) {
+        for( damage_unit &elem : damage_units ) {
             elem.damage_multiplier *= multiplier;
         }
     }
 }
 float damage_instance::type_damage( damage_type dt ) const
 {
-    float ret = 0;
-    for( const auto &elem : damage_units ) {
+    float ret = 0.0f;
+    for( const damage_unit &elem : damage_units ) {
         if( elem.type == dt ) {
             ret += elem.amount * elem.damage_multiplier * elem.unconditional_damage_mult;
         }
@@ -77,8 +77,8 @@ float damage_instance::type_damage( damage_type dt ) const
 //This returns the damage from this damage_instance. The damage done to the target will be reduced by their armor.
 float damage_instance::total_damage() const
 {
-    float ret = 0;
-    for( const auto &elem : damage_units ) {
+    float ret = 0.0f;
+    for( const damage_unit &elem : damage_units ) {
         ret += elem.amount * elem.damage_multiplier * elem.unconditional_damage_mult;
     }
     return ret;
@@ -95,7 +95,7 @@ bool damage_instance::empty() const
 
 void damage_instance::add( const damage_instance &added_di )
 {
-    for( auto &added_du : added_di.damage_units ) {
+    for( const damage_unit &added_du : added_di.damage_units ) {
         add( added_du );
     }
 }
