@@ -771,7 +771,8 @@ bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offs
 
             // Spaces are used a lot, so this does help noticeably
             if( cell.ch == space_string ) {
-                geometry->rect( renderer, point( drawx, drawy ), font->width, font->height, color_as_sdl( cell.BG ) );
+                geometry->rect( renderer, point( drawx, drawy ), font->width, font->height,
+                                color_as_sdl( cell.BG ) );
                 continue;
             }
             const int codepoint = UTF8_getch( cell.ch );
@@ -825,7 +826,8 @@ bool draw_window( Font_Ptr &font, const catacurses::window &w, const point &offs
                     use_draw_ascii_lines_routine = false;
                     break;
             }
-            geometry->rect( renderer, point( drawx, drawy ), font->width * cw, font->height, color_as_sdl( BG ) );
+            geometry->rect( renderer, point( drawx, drawy ), font->width * cw, font->height,
+                            color_as_sdl( BG ) );
             if( use_draw_ascii_lines_routine ) {
                 font->draw_ascii_lines( renderer, geometry, uc, point( drawx, drawy ), FG );
             } else {
