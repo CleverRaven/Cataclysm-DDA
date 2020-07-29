@@ -399,6 +399,7 @@ static void fill_water_collectors( int mmPerHour, bool acid )
 void wet( Character &target, int amount )
 {
     if( !is_creature_outside( target ) ||
+        amount <= 0 ||
         target.has_trait( trait_FEATHERS ) ||
         target.weapon.has_flag( "RAIN_PROTECT" ) ||
         ( !one_in( 50 ) && target.worn_with_flag( "RAINPROOF" ) ) ) {
@@ -596,18 +597,10 @@ void handle_weather_effects( weather_type_id const w )
                 }
             }
         }
-        if( current_effect.healthy != 0 ) {
-            player_character.mod_healthy( current_effect.healthy );
-        }
-        if( current_effect.radiation != 0 ) {
-            player_character.mod_rad( current_effect.radiation );
-        }
-        if( current_effect.wet != 0 ) {
-            wet( player_character, current_effect.wet );
-        }
-        if( current_effect.pain != 0 ) {
-            player_character.mod_pain( current_effect.pain );
-        }
+        player_character.mod_healthy( current_effect.healthy );
+        player_character.mod_rad( current_effect.radiation );
+        wet( player_character, current_effect.wet );
+        player_character.mod_pain( current_effect.pain );
         weather_sound( current_effect.sound_message, current_effect.sound_effect );
         player_character.add_msg_if_player( current_effect.message );
     }
