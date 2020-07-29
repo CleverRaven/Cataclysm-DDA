@@ -1321,7 +1321,7 @@ void debug()
 
             if( !creature_counts.empty() ) {
                 std::vector<std::pair<std::string, int>> creature_names_sorted;
-                for( const std::pair<std::string, int> &it : creature_counts ) {
+                for( const std::pair<std::string, int> it : creature_counts ) {
                     creature_names_sorted.emplace_back( it );
                 }
 
@@ -1330,7 +1330,7 @@ void debug()
                 } );
 
                 s += _( "\nSpecific creature type list:\n" );
-                for( const auto crit_name : creature_names_sorted ) {
+                for( const auto &crit_name : creature_names_sorted ) {
                     s += string_format( "%i %s\n", crit_name.second, crit_name.first );
                 }
             }
