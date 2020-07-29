@@ -57,6 +57,7 @@ check: $(TEST_TARGET)
 clean:
 	rm -rf *obj *objwin
 	rm -f *cata_test
+	rm -f pch/pch.hpp.{gch,pch}
 
 #Unconditionally create object directory on invocation.
 $(shell mkdir -p $(ODIR))
