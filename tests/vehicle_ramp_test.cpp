@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
 #include <cstdlib>
 #include <sstream>
@@ -11,7 +13,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"

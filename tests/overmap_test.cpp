@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <memory>
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "common_types.h"
 #include "enums.h"
 #include "game_constants.h"

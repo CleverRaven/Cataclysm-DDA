@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
@@ -12,7 +14,6 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "enums.h"
 #include "game.h"

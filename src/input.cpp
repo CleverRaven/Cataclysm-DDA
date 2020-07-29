@@ -82,7 +82,7 @@ bool is_mouse_enabled()
 
 static bool is_keycode_mode_supported()
 {
-#if defined(TILES) and !defined(__ANDROID__)
+#if defined(TILES) && !defined(__ANDROID__)
     return true;
 #else
     return false;

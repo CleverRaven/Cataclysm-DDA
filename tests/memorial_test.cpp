@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cstddef>
 #include <memory>
 #include <string>
@@ -5,7 +7,6 @@
 
 #include "avatar.h"
 #include "bodypart.h"
-#include "catch/catch.hpp"
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"

@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -5,7 +7,6 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "debug.h"
 #include "item.h"
 #include "itype.h"

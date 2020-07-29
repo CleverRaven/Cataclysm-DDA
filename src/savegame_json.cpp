@@ -2770,6 +2770,21 @@ void label::serialize( JsonOut &json ) const
     json.end_object();
 }
 
+void smart_controller_config::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "bat_lo", battery_lo );
+    data.read( "bat_hi", battery_hi );
+}
+
+void smart_controller_config::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "bat_lo", battery_lo );
+    json.member( "bat_hi", battery_hi );
+    json.end_object();
+}
+
 /*
  * Load vehicle from a json blob that might just exceed player in size.
  */
@@ -2840,6 +2855,10 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "airworthy", flyable );
     data.read( "summon_time_limit", summon_time_limit );
     data.read( "magic", magic );
+
+    smart_controller_cfg = cata::nullopt;
+    data.read( "smart_controller", smart_controller_cfg );
+
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -3003,6 +3022,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "airworthy", flyable );
     json.member( "summon_time_limit", summon_time_limit );
     json.member( "magic", magic );
+    json.member( "smart_controller", smart_controller_cfg );
+
     json.end_object();
 }
 

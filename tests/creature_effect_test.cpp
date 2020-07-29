@@ -1,8 +1,8 @@
+#include "catch/catch.hpp"
+
 #include "avatar.h"
 #include "creature.h"
 #include "monster.h"
-
-#include "catch/catch.hpp"
 
 // Test effect methods from `Creature` class on both `monster` and `player`
 

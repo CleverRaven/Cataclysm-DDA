@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <cmath>
 #include <initializer_list>
 #include <limits>
 #include <memory>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "enums.h"
 #include "item.h"
 #include "item_factory.h"

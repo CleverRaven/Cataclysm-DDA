@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <map>
 #include <memory>
 #include <string>
@@ -5,7 +7,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "item.h"
 #include "map.h"
 #include "map_helpers.h"

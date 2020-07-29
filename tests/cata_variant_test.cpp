@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <sstream>
 #include <string>
 #include <utility>
 
 #include "cata_variant.h"
-#include "catch/catch.hpp"
 #include "character_id.h"
 #include "enum_conversions.h"
 #include "item.h"

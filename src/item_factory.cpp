@@ -122,6 +122,18 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     }
 }
 
+static bool is_physical( const itype &type )
+{
+    return !type.item_tags.count( "AURA" ) &&
+           !type.item_tags.count( "CORPSE" ) &&
+           !type.item_tags.count( "IRREMOVABLE" ) &&
+           !type.item_tags.count( "NO_DROP" ) &&
+           !type.item_tags.count( "NO_UNWIELD" ) &&
+           !type.item_tags.count( "PERSONAL" ) &&
+           !type.item_tags.count( "PSEUDO" ) &&
+           !type.item_tags.count( "ZERO_WEIGHT" );
+}
+
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
@@ -185,8 +197,12 @@ void Item_factory::finalize_pre( itype &obj )
 
     // Items always should have some volume.
     // TODO: handle possible exception software?
-    // TODO: make items with 0 volume an error during loading?
     if( obj.volume <= 0_ml ) {
+        if( is_physical( obj ) ) {
+            debugmsg( "item %s has zero volume (if zero volume is intentional "
+                      "you can suppress this error with the ZERO_WEIGHT "
+                      "flag)\n", obj.id.str() );
+        }
         obj.volume = units::from_milliliter( 1 );
     }
     for( const auto &tag : obj.item_tags ) {
@@ -1096,6 +1112,10 @@ void Item_factory::check_definitions() const
 
         if( type->weight < 0_gram ) {
             msg += "negative weight\n";
+        }
+        if( type->weight == 0_gram && is_physical( *type ) ) {
+            msg += "zero weight (if zero weight is intentional you can "
+                   "suppress this error with the ZERO_WEIGHT flag)\n";
         }
         if( type->volume < 0_ml ) {
             msg += "negative volume\n";

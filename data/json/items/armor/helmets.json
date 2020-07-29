@@ -87,9 +87,11 @@
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "dark_gray",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 100,
-    "encumbrance": 30,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 30 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 10 }
+    ],
     "warmth": 15,
     "material_thickness": 5,
     "environmental_protection": 2,
@@ -186,9 +188,10 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
-    "covers": [ "head", "eyes" ],
-    "coverage": 90,
-    "encumbrance": 30,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
+      { "covers": [ "eyes", "mouth" ], "coverage": 65, "encumbrance": 0 }
+    ],
     "warmth": 10,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
@@ -233,9 +236,10 @@
     "symbol": "[",
     "looks_like": "helmet_larmor",
     "color": "green",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 90,
-    "encumbrance": 10,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 90, "encumbrance": 10 },
+      { "covers": [ "mouth", "eyes" ], "coverage": 90, "encumbrance": 5 }
+    ],
     "warmth": 20,
     "material_thickness": 4,
     "environmental_protection": 4,
@@ -273,7 +277,7 @@
     "description": "A helmet crafted from the carefully cleaned and pruned biosilicified exoskeletons of acidic ants.  Covers the entire head; acid-resistant and very durable.",
     "price_postapoc": 1750,
     "material": [ "acidchitin" ],
-    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "encumbrance": 1.5, "warmth": 1.5 },
+    "proportional": { "weight": 1.125, "volume": 1.13, "price": 1.25, "warmth": 1.5 },
     "relative": { "bashing": 1, "material_thickness": 1 }
   },
   {
@@ -291,9 +295,11 @@
     "symbol": "[",
     "looks_like": "helmet_motor",
     "color": "yellow",
-    "covers": [ "head" ],
-    "coverage": 85,
-    "encumbrance": 50,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 50 },
+      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "coverage": 85, "encumbrance": 0 }
+    ],
     "warmth": 10,
     "material_thickness": 4,
     "flags": [ "WATER_FRIENDLY" ]
@@ -313,9 +319,7 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "covers": [ "head" ],
-    "coverage": 85,
-    "encumbrance": 10,
+    "armor_portion_data": [ { "covers": [ "head" ], "coverage": 90, "encumbrance": 10 } ],
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
@@ -337,9 +341,11 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "dark_gray",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 95,
-    "encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
+      { "covers": [ "eyes" ], "coverage": 35, "encumbrance": 0 },
+      { "covers": [ "mouth" ], "coverage": 95, "encumbrance": 10 }
+    ],
     "warmth": 25,
     "material_thickness": 4,
     "environmental_protection": 1,
@@ -425,9 +431,11 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "covers": [ "head" ],
-    "coverage": 98,
-    "encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 98, "encumbrance": 20 },
+      { "covers": [ "eyes" ], "coverage": 65, "encumbrance": 0 },
+      { "covers": [ "mouth" ], "coverage": 40, "encumbrance": 0 }
+    ],
     "warmth": 20,
     "material_thickness": 4,
     "techniques": [ "WBLOCK_1" ],
@@ -449,9 +457,11 @@
     "material": [ "plastic", "nomex" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "head", "mouth" ],
-    "coverage": 100,
-    "encumbrance": 25,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 25 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 5 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 15 }
+    ],
     "warmth": 30,
     "material_thickness": 6,
     "environmental_protection": 1,
@@ -473,9 +483,10 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "covers": [ "head", "eyes" ],
-    "coverage": 80,
-    "encumbrance": 10,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 85, "encumbrance": 10 },
+      { "covers": [ "eyes" ], "coverage": 25, "encumbrance": 0 }
+    ],
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],
@@ -495,9 +506,10 @@
     "symbol": "[",
     "looks_like": "balclava",
     "color": "white",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 95,
-    "encumbrance": 20,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 20 },
+      { "covers": [ "eyes", "mouth" ], "coverage": 95, "encumbrance": 5 }
+    ],
     "warmth": 35,
     "material_thickness": 3,
     "environmental_protection": 4,
@@ -518,9 +530,11 @@
     "symbol": "[",
     "looks_like": "helmet_barbute",
     "color": "light_gray",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 100,
-    "encumbrance": 40,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 40 },
+      { "covers": [ "mouth" ], "coverage": 100, "encumbrance": 30 },
+      { "covers": [ "eyes" ], "coverage": 100, "encumbrance": 20 }
+    ],
     "warmth": 10,
     "material_thickness": 5,
     "environmental_protection": 1,
@@ -541,9 +555,10 @@
     "symbol": "[",
     "looks_like": "mask_gas",
     "color": "white",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 100,
-    "encumbrance": 23,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 100, "encumbrance": 23 },
+      { "covers": [ "eyes", "mouth" ], "coverage": 100, "encumbrance": 5 }
+    ],
     "warmth": 40,
     "material_thickness": 3,
     "environmental_protection": 7,
@@ -566,9 +581,10 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "light_gray",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 80,
-    "encumbrance": 35,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 80, "encumbrance": 35 },
+      { "covers": [ "eyes", "mouth" ], "coverage": 80, "encumbrance": 10 }
+    ],
     "warmth": 20,
     "material_thickness": 2,
     "flags": [ "OUTER" ]
@@ -636,9 +652,11 @@
     "symbol": "[",
     "looks_like": "helmet_plate",
     "color": "yellow",
-    "covers": [ "head", "eyes", "mouth" ],
-    "coverage": 90,
-    "encumbrance": 30,
+    "armor_portion_data": [
+      { "covers": [ "head" ], "coverage": 95, "encumbrance": 30 },
+      { "covers": [ "eyes" ], "coverage": 75, "encumbrance": 0 },
+      { "covers": [ "mouth" ], "coverage": 75, "encumbrance": 0 }
+    ],
     "warmth": 10,
     "material_thickness": 3,
     "techniques": [ "WBLOCK_1" ],

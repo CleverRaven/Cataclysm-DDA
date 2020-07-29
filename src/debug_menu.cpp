@@ -550,7 +550,7 @@ void character_edit_menu()
     enum {
         D_NAME, D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
         D_HP, D_STAMINA, D_MORALE, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION_ADD, D_MISSION_EDIT,
-        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_FLU, D_ASTHMA
+        D_TELE, D_MUTATE, D_CLASS, D_ATTITUDE, D_OPINION, D_ADD_EFFECT, D_ASTHMA
     };
     nmenu.addentry( D_NAME, true, 'N', "%s", _( "Edit [N]ame" ) );
     nmenu.addentry( D_SKILLS, true, 's', "%s", _( "Edit [s]kills" ) );
@@ -568,7 +568,7 @@ void character_edit_menu()
     nmenu.addentry( D_MUTATE, true, 'u', "%s", _( "M[u]tate" ) );
     nmenu.addentry( D_STATUS, true, '@', "%s", _( "Status Window [@]" ) );
     nmenu.addentry( D_TELE, true, 'e', "%s", _( "t[e]leport" ) );
-    nmenu.addentry( D_FLU, true, 'f', "%s", _( "Give the [f]lu" ) );
+    nmenu.addentry( D_ADD_EFFECT, true, 't', "%s", _( "Add an effec[t]" ) );
     nmenu.addentry( D_ASTHMA, true, 'k', "%s", _( "Cause asthma attac[k]" ) );
     nmenu.addentry( D_MISSION_EDIT, true, 'M', "%s", _( "Edit [M]issions (WARNING: Unstable!)" ) );
     if( p.is_npc() ) {
@@ -966,8 +966,24 @@ void character_edit_menu()
             }
         }
         break;
-        case D_FLU: {
-            p.add_effect( effect_flu, 1000_minutes );
+        case D_ADD_EFFECT: {
+            const auto text = string_input_popup()
+                              .title( _( "Choose an effect to add." ) )
+                              .width( 20 )
+                              .text( "" )
+                              .only_digits( false )
+                              .query_string();
+            efftype_id effect( text );
+            int intensity = 0;
+            int seconds = 0;
+            query_int( intensity, _( "What intensity?" ) );
+            query_int( seconds, _( "How many seconds?" ), 600 );
+
+            if( effect.is_valid() ) {
+                p.add_effect( effect, time_duration::from_seconds( seconds ), num_bp, false, intensity );
+            } else {
+                add_msg( _( "Invalid effect" ) );
+            }
             break;
         }
         case D_ASTHMA: {
@@ -1296,6 +1312,29 @@ void debug()
             std::string s = _( "Location %d:%d in %d:%d, %s\n" );
             s += _( "Current turn: %d.\n" );
             s += ngettext( "%d creature exists.\n", "%d creatures exist.\n", g->num_creatures() );
+
+            std::unordered_map<std::string, int> creature_counts;
+            for( Creature &critter : g->all_creatures() ) {
+                std::string this_name = critter.get_name();
+                creature_counts[this_name]++;
+            }
+
+            if( !creature_counts.empty() ) {
+                std::vector<std::pair<std::string, int>> creature_names_sorted;
+                for( const std::pair<const std::string, int> &it : creature_counts ) {
+                    creature_names_sorted.emplace_back( it );
+                }
+
+                std::stable_sort( creature_names_sorted.begin(), creature_names_sorted.end(), []( auto a, auto b ) {
+                    return a.second > b.second;
+                } );
+
+                s += _( "\nSpecific creature type list:\n" );
+                for( const std::pair<std::string, int> &crit_name : creature_names_sorted ) {
+                    s += string_format( "%i %s\n", crit_name.second, crit_name.first );
+                }
+            }
+
             popup_top(
                 s.c_str(),
                 player_character.posx(), player_character.posy(), abs_sub.x, abs_sub.y,

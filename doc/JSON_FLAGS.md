@@ -705,6 +705,9 @@ These flags can be applied via JSON item definition to most items.  Not to be co
 - ```TRADER_KEEP_EQUIPPED``` ... NPCs will only trade this item if they aren't currently wearing or wielding it.
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
 - ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
+- ```ZERO_WEIGHT``` Normally items with zero weight will generate an error.
+  Use this flag to indicate that zero weight is intentional and suppress that
+  error.
 
 
 ## Guns

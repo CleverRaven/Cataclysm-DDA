@@ -1530,9 +1530,11 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player is wearing the item on the given body part. */
         bool is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const;
         /** Returns true if the player is wearing an item with the given flag. */
-        bool worn_with_flag( const std::string &flag, const bodypart_id &bp = bodypart_id() ) const;
+        bool worn_with_flag( const std::string &flag, const bodypart_id &bp ) const;
+        bool worn_with_flag( const std::string &flag ) const;
         /** Returns the first worn item with a given flag. */
-        item item_worn_with_flag( const std::string &flag, const bodypart_id &bp = bodypart_id() ) const;
+        item item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const;
+        item item_worn_with_flag( const std::string &flag ) const;
 
         // drawing related stuff
         /**
@@ -2514,6 +2516,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_in_sunlight();
         void suffer_from_albinism();
         void suffer_from_other_mutations();
+        void suffer_from_item_dropping();
         void suffer_from_radiation();
         void suffer_from_bad_bionics();
         void suffer_from_artifacts();
