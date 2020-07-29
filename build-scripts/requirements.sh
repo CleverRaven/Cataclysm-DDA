@@ -83,6 +83,8 @@ fi
 if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
   brew update
   brew install sdl2 sdl2_image sdl2_ttf sdl2_mixer gettext ncurses ccache
+  brew install python
+  pip install dmgbuild
 fi
 
 if [[ "$NATIVE" == "android" ]]; then
