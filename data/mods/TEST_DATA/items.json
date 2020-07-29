@@ -435,7 +435,7 @@
     "symbol": "[",
     "looks_like": "beekeeping_suit",
     "color": "yellow",
-    "covers": [ "HEAD", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "head", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 37,
     "warmth": 40,
@@ -674,7 +674,7 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "coverage": 10,
     "encumbrance": 30,
     "pocket_data": [
@@ -1238,7 +1238,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "armor_portion_data": [ { "covers": [ "torso", "LEGS", "ARMS" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
+    "armor_portion_data": [ { "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ], "coverage": 95, "encumbrance": [ 12, 25 ] } ],
     "pocket_data": [
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },
       { "pocket_type": "CONTAINER", "max_contains_volume": "1 L", "max_contains_weight": "3 kg", "moves": 80 },

@@ -233,7 +233,7 @@
     "symbol": ")",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "ARMS", "HANDS" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "coverage": 5,
     "encumbrance": 50,
     "pocket_data": [
@@ -319,7 +319,7 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "coverage": 4,
     "encumbrance": 30,
     "max_encumbrance": 35,
@@ -375,7 +375,7 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "coverage": 10,
     "encumbrance": 30,
     "pocket_data": [
@@ -407,7 +407,7 @@
     "symbol": "&",
     "looks_like": "briefcase",
     "color": "dark_gray",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "coverage": 10,
     "encumbrance": 30,
     "pocket_data": [
@@ -633,7 +633,7 @@
     "color": "pink",
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
-      "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
       "coverage": 5,
       "encumbrance": 10,
       "max_encumbrance": 100,
@@ -663,7 +663,7 @@
     "price_postapoc": 10,
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
-      "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
       "coverage": 5,
       "encumbrance": 10,
       "max_encumbrance": 100,
@@ -999,7 +999,7 @@
     "material": [ "plastic" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "coverage": 4,
     "encumbrance": 1,
     "max_encumbrance": 60,
@@ -1206,7 +1206,7 @@
     "symbol": "[",
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "coverage": 4,
     "encumbrance": 30,
     "pocket_data": [
@@ -1237,7 +1237,7 @@
     "symbol": "[",
     "looks_like": "suitcase_m",
     "color": "red",
-    "covers": [ "ARM_EITHER", "HAND_EITHER", "LEG_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
     "coverage": 5,
     "encumbrance": 70,
     "pocket_data": [
@@ -1267,7 +1267,7 @@
     "symbol": "[",
     "looks_like": "briefcase",
     "color": "blue",
-    "covers": [ "ARM_EITHER", "HAND_EITHER", "LEG_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
     "coverage": 5,
     "encumbrance": 50,
     "pocket_data": [
@@ -1421,7 +1421,7 @@
     "symbol": "[",
     "looks_like": "duffelbag",
     "color": "brown",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "coverage": 5,
     "encumbrance": 4,
     "max_encumbrance": 100,

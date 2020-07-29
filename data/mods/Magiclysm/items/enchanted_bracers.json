@@ -26,7 +26,7 @@
     "name": { "str": "steel bracer" },
     "weight": "770 g",
     "volume": "1250 ml",
-    "covers": [ "ARM_EITHER" ]
+    "covers": [ "arm_l", "arm_r" ]
   },
   {
     "copy-from": "mbracer_steel_single",

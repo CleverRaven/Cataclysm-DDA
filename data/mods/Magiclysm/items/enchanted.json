@@ -84,7 +84,7 @@
     "material": [ "black_dragon_hide" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "TORSO", "HEAD", "ARMS", "LEGS" ],
+    "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r" ],
     "coverage": 85,
     "encumbrance": 4,
     "warmth": 30,
