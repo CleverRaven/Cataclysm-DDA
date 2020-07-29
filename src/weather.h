@@ -41,6 +41,7 @@ static constexpr int BODYTEMP_SCORCHING = 9500;
 #include <unordered_map>
 #include <utility>
 
+class Character;
 class item;
 struct trap;
 struct rl_vec2d;
