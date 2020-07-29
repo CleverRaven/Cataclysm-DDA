@@ -668,6 +668,7 @@
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
       "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+      "sided": true,
       "coverage": 5,
       "encumbrance": 10,
       "max_encumbrance": 100,

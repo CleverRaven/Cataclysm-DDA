@@ -283,6 +283,7 @@
     "looks_like": "ammo_satchel",
     "color": "dark_gray",
     "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 15,
     "material_thickness": 2,
     "pocket_data": [

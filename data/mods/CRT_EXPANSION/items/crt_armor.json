@@ -244,7 +244,7 @@
     "material": [ "steel", "kevlar" ],
     "symbol": "[",
     "color": "cyan",
-    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r ],
+    "covers": [ "torso", "leg_l", "leg_r", "arm_l", "arm_r" ],
     "coverage": 90,
     "encumbrance": 27,
     "max_encumbrance": 35,
