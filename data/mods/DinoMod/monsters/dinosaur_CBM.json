@@ -102,7 +102,6 @@
     "vision_day": 100,
     "luminance": 4,
     "special_attacks": [ { "type": "leap", "cooldown": 5, "max_range": 5, "allow_no_target": true }, [ "BIO_OP_TAKEDOWN", 20 ] ],
-    "zombify_into": "mon_zelociraptor_bio_op",
     "description": "A small feathered bipedal dinosaur dotted with crackling bionics.  Its small, hooked claws glow menacingly.",
     "special_when_hit": [ "ZAPBACK", 75 ],
     "harvest": "CBM_DINO_FEATHER"
