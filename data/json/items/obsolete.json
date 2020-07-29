@@ -541,7 +541,7 @@
     "material": [ "bone", "leather" ],
     "symbol": "[",
     "color": "white",
-    "covers": [ "torso", "leg_l", leg_r" ],
+    "covers": [ "torso", "leg_l", "leg_r" ],
     "coverage": 95,
     "encumbrance": 24,
     "warmth": 20,

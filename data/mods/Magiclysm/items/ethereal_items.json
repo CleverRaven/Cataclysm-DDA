@@ -106,6 +106,7 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 70,
     "encumbrance": 15,
     "material_thickness": 3,

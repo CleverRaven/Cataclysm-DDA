@@ -224,6 +224,7 @@
     "ammo": [ "battery" ],
     "encumbrance": 2,
     "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "battery": 1500 } } ],
     "flags": [ "RECHARGE", "WAIST", "FRAGILE", "OVERSIZE", "WATERPROOF", "IS_UPS" ]
   },
@@ -236,6 +237,7 @@
     "coverage": 5,
     "encumbrance": 1,
     "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "flags": [ "WAIST", "FRAGILE", "OVERSIZE", "IS_UPS" ]
   },
   {

@@ -703,7 +703,7 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "leg_l", "leg_r" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
+    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -1001,7 +1001,7 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "armor_data": { "covers": [ "leg_l", "leg_r" ], "coverage": 2, "material_thickness": 1 },
+    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 2, "material_thickness": 1 },
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -1378,7 +1378,7 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "leg_l", "leg_r" ], "coverage": 5, "material_thickness": 2 },
+    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {

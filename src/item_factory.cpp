@@ -101,9 +101,9 @@ static void assign( const JsonObject &jo, const std::string &name,
 }
 
 static bool assign_coverage_from_json( const JsonObject &jo, const std::string &key,
-                                       body_part_set &parts, bool &sided )
+                                       body_part_set &parts )
 {
-    auto parse = [&parts, &sided]( const std::string & val ) {
+    auto parse = [&parts]( const std::string & val ) {
         if( val == "ARMS" || val == "ARM_EITHER" ) {
             parts.set( bodypart_str_id( "arm_l" ) );
             parts.set( bodypart_str_id( "arm_r" ) );
@@ -120,8 +120,6 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
             parts.set( bodypart_str_id( val ) );
         }
 
-        sided |= val == "ARM_EITHER" || val == "HAND_EITHER" ||
-                 val == "LEG_EITHER" || val == "FOOT_EITHER";
     };
 
     if( jo.has_array( key ) ) {
@@ -1866,7 +1864,8 @@ void islot_armor::load( const JsonObject &jo )
                 data[0].coverage = tempData.coverage;
             }
             body_part_set temp_cover_data;
-            assign_coverage_from_json( obj, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( obj, "covers", temp_cover_data );
+            optional( obj, was_loaded, "sided", sided, false );
             if( temp_cover_data.any() ) {
                 data[0].covers = temp_cover_data;
             }
@@ -1881,7 +1880,8 @@ void islot_armor::load( const JsonObject &jo )
             }
             armor_portion_data tempData;
             body_part_set temp_cover_data;
-            assign_coverage_from_json( obj, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( obj, "covers", temp_cover_data );
+            optional( obj, was_loaded, "sided", sided, false );
             tempData.covers = temp_cover_data;
 
             if( obj.has_array( "encumbrance" ) ) {
@@ -1916,7 +1916,8 @@ void islot_armor::load( const JsonObject &jo )
             optional( jo, was_loaded, "max_encumbrance", data[0].max_encumber, -1 );
             optional( jo, was_loaded, "coverage", data[0].coverage, 0 );
             body_part_set temp_cover_data;
-            assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( jo, "covers", temp_cover_data );
+            optional( jo, was_loaded, "sided", sided, false );
             data[0].covers = temp_cover_data;
         } else { // This item has copy-from and already has taken data from parent
             armor_portion_data child_data;
@@ -1943,7 +1944,8 @@ void islot_armor::load( const JsonObject &jo )
                 data[0].coverage = child_data.coverage;
             }
             body_part_set temp_cover_data;
-            assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( jo, "covers", temp_cover_data );
+            optional( jo, was_loaded, "sided", sided, false );
             if( temp_cover_data.any() ) {
                 data[0].covers = temp_cover_data;
             }

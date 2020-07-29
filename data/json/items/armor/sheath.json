@@ -75,6 +75,7 @@
     "looks_like": "sheath",
     "color": "brown",
     "covers": [ "foot_l", "foot_r" ],
+    "sided": true,
     "coverage": 5,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -137,6 +138,7 @@
     "looks_like": "holster",
     "color": "brown",
     "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 15,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -166,6 +168,7 @@
     "looks_like": "scabbard",
     "color": "brown",
     "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 5,
     "material_thickness": 1,
     "pocket_data": [

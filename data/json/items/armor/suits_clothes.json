@@ -229,7 +229,7 @@
     "symbol": "[",
     "looks_like": "touring_suit",
     "color": "dark_gray",
-    "covers": [ "torso", "head", "arm_l", "arm_r, "leg_l", "leg_r", "foot_l", "foot_r" ],
+    "covers": [ "torso", "head", "arm_l", "arm_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 95,
     "encumbrance": 20,
     "warmth": 50,

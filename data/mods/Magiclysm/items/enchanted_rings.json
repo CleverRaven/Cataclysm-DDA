@@ -11,6 +11,7 @@
     "symbol": "[",
     "color": "light_red",
     "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
@@ -27,6 +28,7 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
@@ -43,6 +45,7 @@
     "symbol": "[",
     "color": "yellow",
     "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]
@@ -59,6 +62,7 @@
     "symbol": "[",
     "color": "light_gray",
     "covers": [ "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "FANCY", "ONLY_ONE", "SKINTIGHT" ]

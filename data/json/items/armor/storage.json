@@ -115,7 +115,7 @@
     "symbol": "[",
     "looks_like": "backpack",
     "color": "green",
-    "covers": [ "torso", "leg_l", leg_r" ],
+    "covers": [ "torso", "leg_l", "leg_r" ],
     "coverage": 75,
     "encumbrance": 20,
     "max_encumbrance": 60,
@@ -320,6 +320,7 @@
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
     "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 4,
     "encumbrance": 30,
     "max_encumbrance": 35,
@@ -376,6 +377,7 @@
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
     "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 10,
     "encumbrance": 30,
     "pocket_data": [
@@ -408,6 +410,7 @@
     "looks_like": "briefcase",
     "color": "dark_gray",
     "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 10,
     "encumbrance": 30,
     "pocket_data": [
@@ -634,6 +637,7 @@
     "proportional": { "weight": 6.0, "volume": 6.0, "price": 6.0, "quench": 6.0, "calories": 6.0, "healthy": 6.0, "fun": 6.0 },
     "armor_data": {
       "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+      "sided": true,
       "coverage": 5,
       "encumbrance": 10,
       "max_encumbrance": 100,
@@ -1000,6 +1004,7 @@
     "symbol": "[",
     "color": "white",
     "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 4,
     "encumbrance": 1,
     "max_encumbrance": 60,
@@ -1207,6 +1212,7 @@
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
     "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 4,
     "encumbrance": 30,
     "pocket_data": [
@@ -1238,6 +1244,7 @@
     "looks_like": "suitcase_m",
     "color": "red",
     "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 5,
     "encumbrance": 70,
     "pocket_data": [
@@ -1268,6 +1275,7 @@
     "looks_like": "briefcase",
     "color": "blue",
     "covers": [ "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 5,
     "encumbrance": 50,
     "pocket_data": [
@@ -1422,6 +1430,7 @@
     "looks_like": "duffelbag",
     "color": "brown",
     "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 5,
     "encumbrance": 4,
     "max_encumbrance": 100,

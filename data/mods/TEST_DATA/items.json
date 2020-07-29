@@ -595,7 +595,7 @@
     "material": [ "leather" ],
     "symbol": ")",
     "color": "brown",
-    "armor_data": { "covers": [ "leg_l", "leg_r" ], "coverage": 5, "material_thickness": 2 },
+    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "material_thickness": 2 },
     "pocket_data": [
       {
         "max_item_volume": "15 ml",
@@ -675,6 +675,7 @@
     "looks_like": "plastic_shopping_bag",
     "color": "light_gray",
     "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 10,
     "encumbrance": 30,
     "pocket_data": [
@@ -704,6 +705,7 @@
     "looks_like": "bscabbard",
     "color": "brown",
     "covers": [ "leg_l", "leg_r" ],
+    "sided": true,
     "coverage": 10,
     "encumbrance": 3,
     "material_thickness": 1,

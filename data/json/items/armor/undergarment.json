@@ -650,7 +650,7 @@
     "material": [ "lycra" ],
     "symbol": "[",
     "color": "dark_gray",
-    "covers": [ "torso", "leg_l", leg_r" ],
+    "covers": [ "torso", "leg_l", "leg_r" ],
     "coverage": 90,
     "warmth": 20,
     "material_thickness": 1,
