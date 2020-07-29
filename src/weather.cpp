@@ -586,19 +586,28 @@ void handle_weather_effects( weather_type_id const w )
         if( current_effect.trait_id_to_remove.is_valid() ) {
             player_character.unset_mutation( current_effect.trait_id_to_remove );
         }
-
-        if( current_effect.target_part.is_valid() ) {
-            player_character.deal_damage( nullptr, current_effect.target_part, damage_instance( DT_BASH,
-                                          current_effect.damage ) );
-        } else {
-            for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
-                player_character.deal_damage( nullptr, bp, damage_instance( DT_BASH, current_effect.damage ) );
+        if( current_effect.damage != 0 ) {
+            if( current_effect.target_part.is_valid() ) {
+                player_character.deal_damage( nullptr, current_effect.target_part, damage_instance( DT_BASH,
+                                              current_effect.damage ) );
+            } else {
+                for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
+                    player_character.deal_damage( nullptr, bp, damage_instance( DT_BASH, current_effect.damage ) );
+                }
             }
         }
-        player_character.mod_healthy( current_effect.healthy );
-        player_character.mod_rad( current_effect.radiation );
-        wet( player_character, current_effect.wet );
-        player_character.mod_pain( current_effect.pain );
+        if( current_effect.healthy != 0 ) {
+            player_character.mod_healthy( current_effect.healthy );
+        }
+        if( current_effect.radiation != 0 ) {
+            player_character.mod_rad( current_effect.radiation );
+        }
+        if( current_effect.wet != 0 ) {
+            wet( player_character, current_effect.wet );
+        }
+        if( current_effect.pain != 0 ) {
+            player_character.mod_pain( current_effect.pain );
+        }
         weather_sound( current_effect.sound_message, current_effect.sound_effect );
         player_character.add_msg_if_player( current_effect.message );
     }
