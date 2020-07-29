@@ -1,6 +1,7 @@
 #include "weather_type.h"
 #include "weather.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 
 namespace
 {
