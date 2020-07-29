@@ -390,7 +390,7 @@ WARNINGS += -Wimplicit-fallthrough=0
 endif
 
 ifeq ($(PCH), 1)
-	PCHFLAGS = -Ipch -Winvalid-pch -Wno-error=unused-macros
+	PCHFLAGS = -Ipch -Winvalid-pch
 	PCH_H = pch/pch.hpp
 
 	ifeq ($(CLANG), 0)
