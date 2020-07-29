@@ -226,8 +226,7 @@
     },
     "end": {
       "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ],
-      "update_mapgen": [ { "om_terrain": "mortuary_2story", "place_monster": [ "whately_bioturret", "x", 19, "y", 15 ] } ]
+      "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ]
     }
   }
 ]
