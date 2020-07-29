@@ -54,6 +54,7 @@ int message_cooldown;
 bool fov_3d;
 int fov_3d_z_range;
 bool tile_iso;
+bool keycode_mode;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
@@ -1403,6 +1404,14 @@ void options_manager::add_options_interface()
     "12h" );
 
     add_empty_line();
+
+    add( "SDL_KEYBOARD_MODE", "interface", translate_marker( "Use key code input mode" ),
+         translate_marker( "Use key code or symbol input on SDL.  "
+                           "Symbol is recommended for non-qwerty layouts since currently "
+                           "the default keybindings for key code mode only supports qwerty.  "
+                           "Key code is currently WIP and bypasses IMEs, caps lock, and num lock." ),
+    { { "keychar", translate_marker( "Symbol" ) }, { "keycode", translate_marker( "Key code" ) } },
+    "keychar", COPT_CURSES_HIDE );
 
     add( "FORCE_CAPITAL_YN", "interface", translate_marker( "Force Y/N in prompts" ),
          translate_marker( "If true, Y/N prompts are case-sensitive and y and n are not accepted." ),
@@ -3020,10 +3029,8 @@ std::string options_manager::migrateOptionValue( const std::string &name,
     return iter_val != iter->second.second.end() ? iter_val->second : val;
 }
 
-bool options_manager::save()
+static void update_options_cache()
 {
-    const auto savefile = PATH_INFO::options();
-
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
@@ -3032,6 +3039,14 @@ bool options_manager::save()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
+}
+
+bool options_manager::save()
+{
+    const auto savefile = PATH_INFO::options();
+
+    update_options_cache();
 
     update_music_volume();
 
@@ -3057,14 +3072,8 @@ void options_manager::load()
 
     update_global_locale();
 
-    // cache to global due to heavy usage.
-    trigdist = ::get_option<bool>( "CIRCLEDIST" );
-    use_tiles = ::get_option<bool>( "USE_TILES" );
-    log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
-    message_ttl = ::get_option<int>( "MESSAGE_TTL" );
-    message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
-    fov_3d = ::get_option<bool>( "FOV_3D" );
-    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    update_options_cache();
+
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif
