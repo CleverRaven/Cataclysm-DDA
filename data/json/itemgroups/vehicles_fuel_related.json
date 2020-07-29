@@ -20,6 +20,7 @@
     "id": "car_kit",
     "items": [
       [ "jack", 18 ],
+	  [ "tire_iron", 15],
       [ "wheel", 14 ],
       [ "jerrycan", 10 ],
       [ "jerrycan_big", 3 ],
