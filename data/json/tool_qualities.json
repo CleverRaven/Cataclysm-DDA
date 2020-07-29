@@ -321,7 +321,7 @@
     "name": { "str": "surface" }
   },
   {
-	"type": "tool_quality",
+    "type": "tool_quality",
     "id": "WHEELFAST",
     "//": "A tool that is capable of manipulating the lug nuts of a vehicle's wheels or smaller to replace or fasten them.",
     "name": { "str": "wheel fastening" }
