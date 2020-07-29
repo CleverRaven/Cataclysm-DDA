@@ -224,9 +224,6 @@
       },
       "update_mapgen": { "place_npcs": [ { "class": "cyrus_whately", "x": 11, "y": 10, "target": true } ] }
     },
-    "end": {
-      "opinion": { "trust": 1, "value": 1 },
-      "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ]
-    }
+    "end": { "opinion": { "trust": 1, "value": 1 }, "effect": [ { "u_buy_item": "millyficents_diary", "count": 1 } ] }
   }
 ]
