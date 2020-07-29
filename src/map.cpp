@@ -2740,7 +2740,7 @@ bool map::mop_spills( const tripoint &p )
     }
 
     for( const auto &pr : field_at( p ) ) {
-        if( retval |= pr.second.get_field_type().obj().phase == phase_id::LIQUID ) {
+        if( ( retval |= pr.second.get_field_type().obj().phase == phase_id::LIQUID ) ) {
             break;
         }
     }
