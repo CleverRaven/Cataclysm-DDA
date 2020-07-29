@@ -5297,21 +5297,8 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const std::vector<field_type_id> to_check = {
-        fd_blood,
-        fd_blood_veggy,
-        fd_blood_insect,
-        fd_blood_invertebrate,
-        fd_gibs_flesh,
-        fd_gibs_veggy,
-        fd_gibs_insect,
-        fd_gibs_invertebrate,
-        fd_bile,
-        fd_slime,
-        fd_sludge
-    };
     map &here = get_map();
-    const std::function<bool( const tripoint & )> f = [&to_check, &here]( const tripoint & pnt ) {
+    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
         if( !here.has_flag( "LIQUIDCONT", pnt ) ) {
             map_stack items = here.i_at( pnt );
             auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
@@ -5321,9 +5308,8 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
                 return true;
             }
         }
-        field &fld = here.field_at( pnt );
-        for( field_type_id fid : to_check ) {
-            if( fld.find_field_c( fid ) ) {
+        for( const auto &pr : here.field_at( pnt ) ) {
+            if( pr.second.get_field_type().obj().phase == phase_id::LIQUID ) {
                 return true;
             }
         }
