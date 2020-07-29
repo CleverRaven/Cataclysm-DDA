@@ -1764,7 +1764,7 @@ bool cauterize_actor::cauterize_effect( player &p, item &it, bool force )
     // TODO: Make this less hacky
     static const heal_actor dummy = prepare_dummy();
     bodypart_id hpart = dummy.use_healing_item( p, p, it, force );
-    if( hpart != bodypart_id( "num_bp" ) ) {
+    if( hpart != bodypart_id( "bp_null" ) ) {
         p.add_msg_if_player( m_neutral, _( "You cauterize yourself." ) );
         if( !( p.has_trait( trait_NOPAIN ) ) ) {
             p.mod_pain( 15 );
@@ -3151,7 +3151,7 @@ int heal_actor::use( player &p, item &it, bool, const tripoint &pos ) const
 
     player &patient = get_patient( p, pos );
     const bodypart_str_id hpp = use_healing_item( p, patient, it, false ).id();
-    if( hpp == bodypart_str_id( "num_bp" ) ) {
+    if( hpp == bodypart_str_id( "bp_null" ) ) {
         return 0;
     }
 
@@ -3385,8 +3385,8 @@ static bodypart_id pick_part_to_heal(
         bodypart_id healed_part = patient.body_window( menu_header, force, precise,
                                   limb_power, head_bonus, torso_bonus,
                                   bleed_stop, bite_chance, infect_chance, bandage_power, disinfectant_power );
-        if( healed_part == bodypart_id( "num_bp" ) ) {
-            return bodypart_id( "num_bp" );
+        if( healed_part == bodypart_id( "bp_null" ) ) {
+            return bodypart_id( "bp_null" );
         }
 
         if( ( infect && patient.has_effect( effect_infected, healed_part->token ) ) ||
@@ -3416,7 +3416,7 @@ static bodypart_id pick_part_to_heal(
 bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item &it,
         bool force ) const
 {
-    bodypart_id healed = bodypart_id( "num_bp" );
+    bodypart_id healed = bodypart_id( "bp_null" );
     const int head_bonus = get_heal_value( healer, bodypart_id( "head" ) );
     const int limb_power = get_heal_value( healer, bodypart_id( "arm_l" ) );
     const int torso_bonus = get_heal_value( healer, bodypart_id( "torso" ) );
@@ -3425,7 +3425,7 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
         patient.add_msg_player_or_npc( m_bad,
                                        _( "Your biology is not compatible with that item." ),
                                        _( "<npcname>'s biology is not compatible with that item." ) );
-        return bodypart_id( "num_bp" ); // canceled
+        return bodypart_id( "bp_null" ); // canceled
     }
 
     if( healer.is_npc() ) {
@@ -3456,9 +3456,9 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
             healed = pick_part_to_heal( healer, patient, menu_header, limb_power, head_bonus, torso_bonus,
                                         get_stopbleed_level( healer ), bite, infect, force, get_bandaged_level( healer ),
                                         get_disinfected_level( healer ) );
-            if( healed == bodypart_id( "num_bp" ) ) {
+            if( healed == bodypart_id( "bp_null" ) ) {
                 add_msg( m_info, _( "Never mind." ) );
-                return bodypart_id( "num_bp" ); // canceled
+                return bodypart_id( "bp_null" ); // canceled
             }
         }
         // Brick healing if using a first aid kit for the first time.
@@ -3481,7 +3481,7 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
                                     get_disinfected_level( healer ) );
     }
 
-    if( healed != bodypart_id( "num_bp" ) ) {
+    if( healed != bodypart_id( "bp_null" ) ) {
         finish_using( healer, patient, it,  healed );
     }
 
