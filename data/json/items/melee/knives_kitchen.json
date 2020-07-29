@@ -1,6 +1,6 @@
 [
   {
-    "id": "base_kitchen_knife",
+    "abstract": "base_kitchen_knife",
     "name": { "str": "generic kitchen knife", "str_pl": "generic kitchen knives" },
     "description": "generic item template",
     "type": "TOOL",

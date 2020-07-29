@@ -28,6 +28,7 @@
     "material": [ "hflesh" ],
     "price": 0,
     "volume": "7500 ml",
+    "weight": "81500 g",
     "flags": [ "TRADER_AVOID" ]
   },
   {
