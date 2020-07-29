@@ -397,8 +397,8 @@ ifeq ($(PCH), 1)
 		PCHFLAGS += -fpch-preprocess -include pch.hpp
 		PCH_P = pch/pch.hpp.gch
 	else
-		PCHFLAGS += -include-pch $(PCH_P)
 		PCH_P = pch/pch.hpp.pch
+		PCHFLAGS += -include-pch $(PCH_P)
 	endif
 endif
 
@@ -870,7 +870,7 @@ ifeq ($(RELEASE), 1)
 endif
 
 $(PCH_P): $(PCH_H)
-	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c pch/pch.hpp -o $(PCH_P)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
