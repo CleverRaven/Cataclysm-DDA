@@ -2082,7 +2082,7 @@
     "price": 2000,
     "price_postapoc": 0,
     "material": [ "cotton" ],
-    "covers": [ "torso", "leg_l", leg_r" ],
+    "covers": [ "torso", "leg_l", "leg_r" ],
     "weight": "400 g",
     "volume": "500 ml",
     "to_hit": -1,

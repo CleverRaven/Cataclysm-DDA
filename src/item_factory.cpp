@@ -104,22 +104,7 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
                                        body_part_set &parts )
 {
     auto parse = [&parts]( const std::string & val ) {
-        if( val == "ARMS" || val == "ARM_EITHER" ) {
-            parts.set( bodypart_str_id( "arm_l" ) );
-            parts.set( bodypart_str_id( "arm_r" ) );
-        } else if( val == "HANDS" || val == "HAND_EITHER" ) {
-            parts.set( bodypart_str_id( "hand_l" ) );
-            parts.set( bodypart_str_id( "hand_r" ) );
-        } else if( val == "LEGS" || val == "LEG_EITHER" ) {
-            parts.set( bodypart_str_id( "leg_l" ) );
-            parts.set( bodypart_str_id( "leg_r" ) );
-        } else if( val == "FEET" || val == "FOOT_EITHER" ) {
-            parts.set( bodypart_str_id( "foot_l" ) );
-            parts.set( bodypart_str_id( "foot_r" ) );
-        } else {
-            parts.set( bodypart_str_id( val ) );
-        }
-
+        parts.set( bodypart_str_id( val ) );
     };
 
     if( jo.has_array( key ) ) {
