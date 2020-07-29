@@ -881,7 +881,7 @@
     "name": { "str": "tire iron", "str_pl": "tire irons" },
     "description": "A steel rod bent 90 degrees with a socket on the shorter end, made to hold the lug nuts of a car's wheels to either fasten or loosen for convenient removal and replacement. Makes for a decent melee weapon in a pinch.",
     "weight": "454 g",
-	"longest_side": "46 cm",
+    "longest_side": "46 cm",
     "volume": "1500 ml",
     "price": 1200,
     "price_postapoc": 100,
@@ -889,8 +889,7 @@
     "material": [ "steel" ],
     "symbol": "L",
     "color": "light_gray",
-    "qualities": [ [ "WHEELFAST", 1 ]]
-    
+    "qualities": [ [ "WHEELFAST", 1 ] ]
   },
   {
     "id": "toolbox_empty",
