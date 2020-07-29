@@ -175,7 +175,7 @@ else
         MAKE_TARGETS="all"
     fi
 
-    make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 CROSS="$CROSS_COMPILATION" LINTJSON=0 ${MAKE_TARGETS}
+    make -j "$num_jobs" RELEASE=1 CCACHE=1 BACKTRACE=1 LANGUAGES="all" CROSS="$CROSS_COMPILATION" LINTJSON=0 ${MAKE_TARGETS}
 
     if [ "$TRAVIS_OS_NAME" == "osx" ]
     then
