@@ -172,6 +172,10 @@ ifndef RUNTESTS
   RUNTESTS = 1
 endif
 
+ifndef PCH
+	PCH = 1
+endif
+
 # Auto-detect MSYS2
 ifdef MSYSTEM
   MSYS2 = 1
@@ -383,6 +387,19 @@ endif
 
 ifeq ($(CYGWIN),1)
 WARNINGS += -Wimplicit-fallthrough=0
+endif
+
+ifeq ($(PCH), 1)
+	PCHFLAGS = -Ipch -Winvalid-pch -Wno-error=unused-macros
+	PCH_H = pch/pch.hpp
+
+	ifeq ($(CLANG), 0)
+		PCHFLAGS += -fpch-preprocess -include pch.hpp
+		PCH_P = pch/pch.hpp.gch
+	else
+		PCHFLAGS += -include-pch $(PCH_P)
+		PCH_P = pch/pch.hpp.pch
+	endif
 endif
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(DEBUGSYMS) $(PROFILE) $(OTHERS) -MMD -MP
@@ -852,6 +869,9 @@ ifeq ($(RELEASE), 1)
   endif
 endif
 
+$(PCH_P): $(PCH_H)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c pch/pch.hpp -o $(PCH_P)
+
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
 
@@ -866,8 +886,8 @@ version:
 # Unconditionally create the object dir on every invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%.o: $(SRC_DIR)/%.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+$(ODIR)/%.o: $(SRC_DIR)/%.cpp $(PCH_P)
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
 
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
@@ -1075,7 +1095,7 @@ ifdef LANGUAGES
 endif
 	$(BINDIST_CMD)
 
-export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH
 
 ctags: $(ASTYLE_SOURCES)
 	ctags $^

@@ -23,6 +23,18 @@ LDFLAGS += -L.
 CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
 CXXFLAGS += -Wall -Wextra
 
+ifeq ($(PCH), 1)
+	PCHFLAGS = -Ipch -Winvalid-pch -DCATA_CATCH_PCH
+	PCH_H = pch/pch.hpp
+	ifeq ($(CLANG), 0)
+		PCH_P = pch/pch.hpp.gch
+		PCHFLAGS += -fpch-preprocess -include pch.hpp
+	else
+		PCH_P = pch/pch.hpp.pch
+		PCHFLAGS += -include-pch $(PCH_P)
+	endif
+endif
+
 ifeq ($(TARGETSYSTEM), WINDOWS)
   TEST_TARGET = $(BUILD_PREFIX)cata_test.exe
 else
@@ -31,11 +43,11 @@ endif
 
 tests: $(TEST_TARGET)
 
-$(TEST_TARGET): $(OBJS) $(CATA_LIB) precompile_header
-	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+$(TEST_TARGET): $(OBJS) $(CATA_LIB)
+	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(PCHFLAGS) $(LDFLAGS)
 
-precompile_header:
-	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -DCATCH_CONFIG_ENABLE_PAIR_STRINGMAKER -c catch/catch.hpp -o catch/catch.hpp.gch
+$(PCH_P): $(PCH_H)
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c pch/pch.hpp -o $(PCH_P)
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
@@ -48,8 +60,8 @@ clean:
 #Unconditionally create object directory on invocation.
 $(shell mkdir -p $(ODIR))
 
-$(ODIR)/%.o: %.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) -DCATCH_CONFIG_ENABLE_PAIR_STRINGMAKER $(CXXFLAGS) -c $< -o $@
+$(ODIR)/%.o: %.cpp $(PCH_P)
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
 
 .PHONY: clean check tests precompile_header
 
