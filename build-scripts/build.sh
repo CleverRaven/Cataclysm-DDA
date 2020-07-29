@@ -168,7 +168,10 @@ then
     # fills the log with nonsense.
     TERM=dumb ./gradlew assembleExperimentalRelease -Pj=$num_jobs -Plocalize=false -Pabi_arm_32=false -Pabi_arm_64=true -Pdeps=/home/travis/build/CleverRaven/Cataclysm-DDA/android/app/deps.zip
 else
-    if [ "$DEPLOY" == 1 ]
+    if [ "$DEPLOY" == 1 -a "$NATIVE" == "osx" ]
+    then
+        MAKE_TARGETS="all dmgdist"
+    elif [ "$DEPLOY" == 1 ]
     then
         MAKE_TARGETS="all bindist"
     else
