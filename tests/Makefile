@@ -23,6 +23,14 @@ LDFLAGS += -L.
 CXXFLAGS += -I../src -Wno-unused-variable -Wno-sign-compare -Wno-unknown-pragmas -Wno-parentheses -MMD -MP
 CXXFLAGS += -Wall -Wextra
 
+ifndef PCH
+	PCH = 1
+endif
+
+ifndef CLANG
+	CLANG = 0
+endif
+
 ifeq ($(PCH), 1)
 	PCHFLAGS = -Ipch -Winvalid-pch -DCATA_CATCH_PCH
 	PCH_H = pch/pch.hpp
