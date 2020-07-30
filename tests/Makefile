@@ -41,6 +41,21 @@ ifeq ($(PCH), 1)
 		PCH_P = pch/pch.hpp.pch
 		PCHFLAGS += -include-pch $(PCH_P)
 		CXXFLAGS += -Wno-unused-macros
+		
+		# FIXME: dirty hack ahead
+		# ccache won't wort with clang unless it supports -fno-pch-timestamp
+		ifeq ($(CCACHE), 1)
+			CLANGVER := $(shell echo 'int main(){}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o /dev/null - 2>&1)
+			ifneq ($(.SHELLSTATUS), 0)
+				undefine PCHFLAGS
+				undefine PCH_H
+				undefine PCH_P
+				PCH = 0
+			else
+				CXXFLAGS += -Xclang -fno-pch-timestamp
+			endif
+		endif
+				
 	endif
 endif
 
@@ -57,7 +72,6 @@ $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
-	touch $(PCH_P) -d"2050-01-01"
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
