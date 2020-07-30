@@ -12,7 +12,7 @@
   {
     "id": "BGRS_Dreamer_STORY2",
     "type": "talk_topic",
-    "dynamic_line": "Now I'm in some kind of Mary Shelley nightmare? I mean at least I have mobility.",
+    "dynamic_line": "Now I'm in some kind of Mary Shelley nightmare?  I mean at least I have mobility.",
     "responses": [
       { "text": "What does that have to do with anything?", "topic": "BGRS_Dreamer_STORY3" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
