@@ -1094,7 +1094,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
 void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, bool permanent,
                            int intensity, bool force, bool deferred )
 {
-    add_effect( eff_id, dur, bodypart_id( "num_bp" ), permanent, intensity, force, deferred );
+    add_effect( eff_id, dur, bodypart_id( "bp_null" ), permanent, intensity, force, deferred );
 }
 bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                                const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
