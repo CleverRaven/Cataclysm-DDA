@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # png_update.py
 # Rename a png and update all references to it.
@@ -7,6 +7,7 @@ import argparse
 import json
 import os
 import subprocess
+
 
 # stupid stinking Python 2 versus Python 3 syntax
 def write_to_json(pathname, data):
@@ -84,7 +85,7 @@ def convert_tile_entry(tile_entry, old_name, new_name):
         changed |= add_changed
     if new_tile_entrys:
         tile_entry["additional_tiles"] = new_tile_entrys
-    return tile_entry, changed     
+    return tile_entry, changed
 
 
 def convert_tile_entry_file(file_path, old_name, new_name):
@@ -103,6 +104,7 @@ def convert_tile_entry_file(file_path, old_name, new_name):
         if len(new_tile_data) == 1:
             new_tile_data = new_tile_data[0]
         write_to_json(file_path, new_tile_data)
+
 
 args = argparse.ArgumentParser(description="Rename a png file, its associated tile_entry.json, and update all other tile_entry.json in the tileset dir to reflect the new name.")
 args.add_argument("tileset_dir", action="store",
@@ -150,5 +152,3 @@ for png_dirname in os.listdir(tileset_dirname):
             elif filename == old_name_json:
                 new_path = subdir_fpath + "/" + new_name_json
                 os.rename(old_path, new_path)
-            
-

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # decompose.py
 # Split a gfx tile_config.json into 1000s of little directories, each with their own config
@@ -9,6 +9,7 @@ import json
 import math
 import os
 import subprocess
+import sys
 
 try:
     import pyvips
@@ -17,6 +18,7 @@ except ImportError:
     import gi
     gi.require_version('Vips', '8.0')
     from gi.repository import Vips
+
 
 # stupid stinking Python 2 versus Python 3 syntax
 def write_to_json(pathname, data, prettify=False):
@@ -214,6 +216,7 @@ class TileSheetData(object):
             #print("{}: {}".format(self.ts_filename, json.dumps(ts_tile_info, indent=2)))
             tile_info.append({self.ts_filename: ts_tile_info})
 
+
 class ExtractionData(object):
     def __init__(self, ts_filename, refs):
         self.ts_data = refs.ts_data.get(ts_filename)
@@ -225,7 +228,7 @@ class ExtractionData(object):
 
         ts_base = ts_filename.split(".png")[0]
         geometry_dim = "{}x{}".format(self.ts_data.sprite_width, self.ts_data.sprite_height)
-        pngs_dir = "/pngs_" +  ts_base + "_{}".format(geometry_dim)
+        pngs_dir = "/pngs_" + ts_base + "_{}".format(geometry_dim)
         self.ts_dir_pathname = refs.tileset_pathname + pngs_dir
         find_or_make_dir(self.ts_dir_pathname)
         self.tilenum_in_dir = 256
@@ -261,7 +264,7 @@ class ExtractionData(object):
         self.increment_dir()
         tile_data = refs.ts_data[ts_filename]
         file_index = png_index - tile_data.pngnum_min
-        y_index = math.floor( file_index / tile_data.ts_tiles_per_row )
+        y_index = math.floor(file_index / tile_data.ts_tiles_per_row)
         x_index = file_index - y_index * tile_data.ts_tiles_per_row
         tile_off_x = max(0, tile_data.sprite_width * x_index)
         tile_off_y = max(0, tile_data.sprite_height * y_index)
@@ -304,7 +307,7 @@ class PngRefs(object):
             os.stat(self.tileset_pathname)
         except KeyError:
             print("cannot find a directory {}".format(self.tileset_pathname))
-            exit -1
+            sys.exit(-1)
 
         tileset_confname = refs.tileset_pathname + "/" + "tile_config.json"
 
@@ -312,7 +315,7 @@ class PngRefs(object):
             os.stat(tileset_confname)
         except KeyError:
             print("cannot find a directory {}".format(tileset_confname))
-            exit -1
+            sys.exit(-1)
 
         if delete_pathname:
             with open(delete_pathname) as del_file:
@@ -328,7 +331,7 @@ class PngRefs(object):
                         self.delete_pngnums.append(i)
 
         with open(tileset_confname) as conf_file:
-            return(json.load(conf_file))       
+            return(json.load(conf_file))
 
     def add_pngnum_to_tsfilepath(self, pngnum):
         if not isinstance(pngnum, int):
