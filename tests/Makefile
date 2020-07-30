@@ -40,7 +40,7 @@ ifeq ($(PCH), 1)
 	else
 		PCH_P = pch/pch.hpp.pch
 		PCHFLAGS += -include-pch $(PCH_P)
-		CXXFLAGS += -Wno-unused-macros -Xclang -fno-pch-timestamp
+		CXXFLAGS += -Wno-unused-macros
 	endif
 endif
 
@@ -57,6 +57,7 @@ $(TEST_TARGET): $(OBJS) $(CATA_LIB)
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
+	touch $(PCH_P) -d"2050-01-01"
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
