@@ -745,6 +745,21 @@
     "obsolete": true
   },
   {
+    "type": "recipe",
+    "result": "acid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "water_acid",
+    "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "lye_powder",
+    "obsolete": true
+  },
+  {
     "id": "ftk93",
     "type": "GUN",
     "reload_noise_volume": 10,
