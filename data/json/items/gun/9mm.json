@@ -301,7 +301,13 @@
     "bashing": 15,
     "dispersion": 520,
     "sight_dispersion": 520,
-    "armor_data": { "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ], "sided": true, "coverage": 10, "encumbrance": 30, "material_thickness": 2 },
+    "armor_data": {
+      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+      "sided": true,
+      "coverage": 10,
+      "encumbrance": 30,
+      "material_thickness": 2
+    },
     "flags": [ "OVERSIZE", "RELOAD_EJECT", "BELTED", "RESTRICT_HANDS" ],
     "valid_mod_locations": [  ],
     "pocket_data": [
