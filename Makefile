@@ -237,6 +237,12 @@ ifneq ($(findstring BSD,$(OS)),)
   BSD = 1
 endif
 
+ifeq ($(PCH), 1)
+	CCACHEBIN = CCACHE_SLOPPINESS=pch_defines,time_macros ccache
+else
+	CCACHEBIN = ccache
+endif
+
 # This sets CXX and so must be up here
 ifneq ($(CLANG), 0)
   # Allow setting specific CLANG version
@@ -253,8 +259,8 @@ ifneq ($(CLANG), 0)
     LDFLAGS += -stdlib=libc++
   endif
   ifeq ($(CCACHE), 1)
-    CXX = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
-    LD  = CCACHE_CPP2=1 ccache $(CROSS)$(CLANGCMD)
+    CXX = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
+    LD  = CCACHE_CPP2=1 $(CCACHEBIN) $(CROSS)$(CLANGCMD)
   else
     CXX = $(CROSS)$(CLANGCMD)
     LD  = $(CROSS)$(CLANGCMD)
@@ -271,8 +277,8 @@ else
   # Appears that the default value of $LD is unsuitable on most systems
   OS_LINKER := $(CXX)
   ifeq ($(CCACHE), 1)
-    CXX = ccache $(CROSS)$(OS_COMPILER)
-    LD  = ccache $(CROSS)$(OS_LINKER)
+    CXX = $(CCACHEBIN) $(CROSS)$(OS_COMPILER)
+    LD  = $(CCACHEBIN) $(CROSS)$(OS_LINKER)
   else
     CXX = $(CROSS)$(OS_COMPILER)
     LD  = $(CROSS)$(OS_LINKER)
