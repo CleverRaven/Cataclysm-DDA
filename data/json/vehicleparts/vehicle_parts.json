@@ -2122,7 +2122,7 @@
     "description": "A solar panel.  Will slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.  Reinforced with armored glass to make it more resistant to damage.",
     "item": "reinforced_solar_panel",
     "requirements": {
-	  "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 6 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "electronics", 6 ] ],
@@ -2177,7 +2177,7 @@
     "description": "A high performance solar panel.  Will slowly recharge the vehicle's electrical power when exposed to the sun.  Clouds will slow the recharge speed even more.  Reinforced with armored glass to make it more resistant to damage.",
     "item": "reinforced_solar_panel_v2",
     "requirements": {
-	  "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
+      "install": { "skills": [ [ "mechanics", 8 ] ], "time": "60 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "removal": { "skills": [ [ "mechanics", 4 ] ], "time": "30 m", "using": [ [ "vehicle_wrench_2", 1 ] ] },
       "repair": {
         "skills": [ [ "electronics", 8 ] ],
