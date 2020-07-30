@@ -9,6 +9,7 @@ import re
 import os
 from io import StringIO
 
+
 SCRIPT_DIR = os.path.abspath(os.path.dirname(__file__))
 JSON_DIR = os.path.normpath(os.path.join(SCRIPT_DIR, "..", "..", "data", "json"))
 JSON_FNMATCH = "*.json"

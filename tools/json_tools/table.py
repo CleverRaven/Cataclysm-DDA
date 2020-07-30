@@ -16,11 +16,15 @@ Examples with nested attributes:
 """
 
 import argparse
+import csv
+import sys
 import util
+
 
 # Command-line arguments
 parser = argparse.ArgumentParser(
-    description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    description=__doc__,
+    formatter_class=argparse.RawDescriptionHelpFormatter)
 parser.add_argument(
     "columns", metavar="column_key", nargs="+",
     help="list of JSON object keys to be columns in the table")
@@ -35,62 +39,6 @@ parser.add_argument(
 parser.add_argument(
     "-t", "--type",
     help="only include JSON data matching this type")
-
-
-def safe_value(value, format):
-    """Return values with special characters escaped for the given format.
-
-    CSV values are "quoted" if they contain a comma or quote:
-
-        >>> safe_value('bacon, eggs, spam', 'csv')
-        '"bacon, eggs, spam"'
-        >>> safe_value('Tim "The Enchanter" Jones', 'csv')
-        '"Tim ""The Enchanter"" Jones"'
-
-    Markdown values have "|" escaped to prevent breaking table layout:
-
-        >>> safe_value('x|y|z', 'md')
-        'x\\\\|y\\\\|z'
-
-    """
-    if format == 'md':
-        return value.replace('|', '\\|')
-
-    elif format == 'csv':
-        if ',' in value or '"' in value:
-            return '"%s"' % value.replace('"', '""')
-        else:
-            return value
-
-    else:
-        raise ValueError("Unknown format '%s'" % format)
-
-
-def print_row(values, format, is_header=False):
-    """Print a row of string values in markdown or csv format.
-
-        >>> print_row(['name', 'quest', 'favorite color'], 'md')
-        | name | quest | favorite color
-
-        >>> print_row(['Lancelot', 'Holy Grail', 'blue'], 'csv')
-        Lancelot,Holy Grail,blue
-
-    """
-    safe_values = [safe_value(v, format) for v in values]
-
-    # Markdown: | col1 | col2 | col3
-    if format == 'md':
-        print("| " + " | ".join(safe_values))
-        # Markdown table needs a separator after the header
-        if is_header:
-            print("| --- " * len(safe_values))
-
-    # CSV: col1,col2,col3
-    elif format == 'csv':
-        print(",".join(safe_values))
-
-    else:
-        raise ValueError("Unknown format: '%s'" % format)
 
 
 def item_values(item, fields):
@@ -136,7 +84,10 @@ def item_values(item, fields):
             elif isinstance(it, list) and all(subkey in o for o in it):
                 # Pull from all subkeys, or just the one
                 if len(it) == 1:
-                    it = it[0][subkey]
+                    if isinstance(it[0], dict):
+                        it = it[0][subkey]
+                    else:
+                        it = it[0]
                 else:
                     it = [i[subkey] for i in it]
             # Stop if any subkey is not found
@@ -157,18 +108,86 @@ def item_values(item, fields):
     return values
 
 
+def get_format_class_by_extension(format_string):
+    """
+
+    >>> get_format_class_by_extension('csv')
+    <class 'table.CSVFormat'>
+
+    """
+    format_name = format_string.upper()
+    try:
+        format_class = getattr(
+            sys.modules[__name__],
+            "{}Format".format(format_name))
+    except AttributeError:
+        sys.exit("Unknown format {}".format(format_name))
+    return format_class
+
+
+class MDFormat:
+    """
+    Markdown
+    | col1 | col2 | col3
+    """
+    def header(self, columns):
+        self.row(columns)
+        # Markdown table needs a separator after the header
+        print("| --- " * len(columns))
+
+    def row(self, values):
+        safe_values = [self.safe_value(v) for v in values]
+        print("| " + " | ".join(safe_values))
+
+    def safe_value(self, value):
+        """Return value with special characters escaped.
+
+        >>> MDFormat.safe_value(MDFormat, 'x|y|z')
+        'x\\\\|y\\\\|z'
+
+        """
+        return value.replace('|', '\\|')
+
+
+class CSVFormat:
+    """
+    Comma-Separated Values
+    col1,col2,"col3,with,commas"
+    """
+    writer = None
+
+    def __init__(self):
+        self.writer = csv.writer(sys.stdout)
+
+    def header(self, columns):
+        self.row(columns)
+
+    def row(self, values):
+        self.writer.writerow(values)
+
+
+class CDDAValues:
+    """Worker class that prints table from provided data"""
+    output = None
+
+    def __init__(self, format_string):
+        format_class = get_format_class_by_extension(format_string)
+        self.output = format_class()
+
+    def print_table(self, data, columns, type_filter):
+        self.output.header(columns)
+        for item in data:
+            if type_filter and item.get('type') != type_filter:
+                continue
+
+            self.output.row(item_values(item, columns))
+
+
 if __name__ == "__main__":
     args = parser.parse_args()
 
     # Get data (don't care about load errors)
     json_data, _ = util.import_data(json_fmatch=args.fnmatch)
 
-    # Header row
-    print_row(args.columns, args.format, is_header=True)
-
-    # One row per item, matching type if given
-    for item in json_data:
-        if args.type and item.get('type') != args.type:
-            continue
-
-        print_row(item_values(item, args.columns), args.format)
+    worker = CDDAValues(args.format)
+    worker.print_table(json_data, args.columns, args.type)
