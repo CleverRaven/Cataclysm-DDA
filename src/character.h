@@ -66,6 +66,7 @@ class vehicle;
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
+/// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct itype;
 class recipe_subset;
@@ -83,6 +84,7 @@ using drop_locations = std::list<drop_location>;
 
 #define MAX_CLAIRVOYANCE 40
 
+/// @brief type of vision conditions
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
@@ -93,7 +95,9 @@ enum vision_modes {
     ELFA_VISION,
     CEPH_VISION,
     FELINE_VISION,
+    /// Bird mutation named "Avian Eyes": Perception +4
     BIRD_EYE,
+    /// Bear mutation: see better in the dark, nearsighted in the light
     URSINE_VISION,
     BOOMERED,
     DARKNESS,
@@ -317,17 +321,17 @@ class Character : public Creature, public visitable<Character>
         }
 
         character_id getID() const;
-        // sets the ID, will *only* succeed when the current id is not valid
-        // allows forcing a -1 id which is required for templates to not throw errors
+        /// sets the ID, will *only* succeed when the current id is not valid
+        /// allows forcing a -1 id which is required for templates to not throw errors
         void setID( character_id i, bool force = false );
 
         field_type_id bloodType() const override;
         field_type_id gibType() const override;
         bool is_warm() const override;
         bool in_species( const species_id &spec ) const override;
-        // Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
+        /// Turned to false for simulating NPCs on distant missions so they don't drop all their gear in sight
         bool death_drops;
-        // Is currently in control of a vehicle
+        /// Is currently in control of a vehicle
         bool controlling_vehicle = false;
 
         enum class comfort_level : int {
@@ -339,8 +343,8 @@ class Character : public Creature, public visitable<Character>
             very_comfortable = 10
         };
 
-        // Character stats
-        // TODO: Make those protected
+        /// @brief Character stats
+        /// @todo Make those protected
         int str_max;
         int dex_max;
         int int_max;
@@ -503,9 +507,9 @@ class Character : public Creature, public visitable<Character>
         /** Returns the player's speed for swimming across water tiles */
         int  swim_speed() const;
         /**
-         * Adds a reason for why the player would miss a melee attack.
+         * @brief Adds a reason for why the player would miss a melee attack.
          *
-         * To possibly be messaged to the player when he misses a melee attack.
+         * @details To possibly be messaged to the player when he misses a melee attack.
          * @param reason A message for the player that gives a reason for him missing.
          * @param weight The weight used when choosing what reason to pick when the
          * player misses.
@@ -522,8 +526,8 @@ class Character : public Creature, public visitable<Character>
           * Handles passive regeneration of pain and maybe hp.
           */
         void regen( int rate_multiplier );
-        // called once per 24 hours to enforce the minimum of 1 hp healed per day
-        // TODO: Move to Character once heal() is moved
+        /// called once per 24 hours to enforce the minimum of 1 hp healed per day
+        /// @todo Move to Character once heal() is moved
         void enforce_minimum_healing();
         /** get best quality item that this character has */
         item *best_quality_item( const quality_id &qual );
@@ -1069,10 +1073,8 @@ class Character : public Creature, public visitable<Character>
 
         bool can_install_cbm_on_bp( const std::vector<bodypart_id> &bps ) const;
 
-        /**
-         * Returns resistances on a body part provided by mutations
-         */
-        // TODO: Cache this, it's kinda expensive to compute
+        /// @brief Returns resistances on a body part provided by mutations
+        /// @todo Cache this, it's kinda expensive to compute
         resistances mutation_armor( bodypart_id bp ) const;
         float mutation_armor( bodypart_id bp, damage_type dt ) const;
         float mutation_armor( bodypart_id bp, const damage_unit &du ) const;
@@ -1801,10 +1803,9 @@ class Character : public Creature, public visitable<Character>
         void use_fire( int quantity );
         void assign_stashed_activity();
         bool check_outbounds_activity( const player_activity &act, bool check_only = false );
-        /** Legacy activity assignment, does not work for any activites using
-         * the new activity_actor class and may cause issues with resuming.
-         * TODO: delete this once migration of activites to the activity_actor system is complete
-         */
+        /// @warning Legacy activity assignment, does not work for any activites using
+        /// the new activity_actor class and may cause issues with resuming.
+        /// @todo delete this once migration of activites to the activity_actor system is complete
         void assign_activity( const activity_id &type, int moves = calendar::INDEFINITELY_LONG,
                               int index = -1, int pos = INT_MIN,
                               const std::string &name = "" );
@@ -2045,13 +2046,13 @@ class Character : public Creature, public visitable<Character>
         /** Set vitamin deficiency/excess disease states dependent upon current vitamin levels */
         void update_vitamins( const vitamin_id &vit );
         /**
-         * Check current level of a vitamin
+         * @brief Check current level of a vitamin
          *
-         * Accesses level of a given vitamin.  If the vitamin_id specified does not
+         * @details Accesses level of a given vitamin.  If the vitamin_id specified does not
          * exist then this function simply returns 0.
          *
-         * @param vit ID of vitamin to check level for.
-         * @returns current level for specified vitamin
+         * @param vit ID of vitamin to check level for (ie "vitA", "vitB").
+         * @returns character's current level for specified vitamin
          */
         int vitamin_get( const vitamin_id &vit ) const;
         /**
@@ -2492,8 +2493,8 @@ class Character : public Creature, public visitable<Character>
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
         int sight_max = 0;
 
-        // turn the character expired, if calendar::before_time_starts it has not been set yet.
-        // TODO: change into an optional<time_point>
+        /// turn the character expired, if calendar::before_time_starts it has not been set yet.
+        /// @todo change into an optional<time_point>
         time_point time_died = calendar::before_time_starts;
 
         /**
@@ -2550,13 +2551,13 @@ class Character : public Creature, public visitable<Character>
         // is recalculated every turn in Character::recalculate_enchantment_cache
         enchantment enchantment_cache;
         player_activity destination_activity;
-        // A unique ID number, assigned by the game class. Values should never be reused.
+        /// A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;
 
         units::energy power_level;
         units::energy max_power_level;
 
-        /** Needs (hunger, starvation, thirst, fatigue, etc.) */
+        /// @brief Needs (hunger, starvation, thirst, fatigue, etc.)
         int stored_calories;
         int healthy_calories;
 
@@ -2601,13 +2602,13 @@ class Character : public Creature, public visitable<Character>
 
 Character &get_player_character();
 
-// Little size helper, exposed for use in deserialization code.
+/// Little size helper, exposed for use in deserialization code.
 creature_size calculate_size( const Character &c );
 
 template<>
 struct enum_traits<character_stat> {
     static constexpr character_stat last = character_stat::DUMMY_STAT;
 };
-/**Get translated name of a stat*/
+/// Get translated name of a stat
 std::string get_stat_name( character_stat Stat );
 #endif // CATA_SRC_CHARACTER_H
