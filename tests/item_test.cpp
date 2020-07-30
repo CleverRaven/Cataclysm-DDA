@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "monstergenerator.h"
 #include "ret_val.h"
+#include "math_defines.h"
 #include "units.h"
 #include "value_ptr.h"
 
