@@ -74,7 +74,11 @@
     "item": "wheel_mount_medium",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 4 ] ], "time": "45 m", "using": [ [ "welding_standard", 10 ], [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "15 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "removal": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "15 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_MEDIUM", "NEEDS_JACKING" ],
@@ -103,7 +107,11 @@
     "item": "wheel_mount_heavy",
     "requirements": {
       "install": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 15 ], [ "vehicle_wrench_2", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 3 ] ], "time": "20 m", "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ] },
+      "removal": {
+        "skills": [ [ "mechanics", 3 ] ],
+        "time": "20 m",
+        "using": [ [ "vehicle_weld_removal", 1 ], [ "vehicle_wrench_2", 1 ] ]
+      },
       "repair": { "skills": [ [ "mechanics", 2 ] ], "time": "15 m", "using": [ [ "welding_standard", 5 ] ] }
     },
     "flags": [ "WHEEL_MOUNT_HEAVY", "NEEDS_JACKING" ],
