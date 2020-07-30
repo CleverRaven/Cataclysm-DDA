@@ -143,7 +143,7 @@ void safemode::show( const std::string &custom_name_in, bool is_safemode_in )
         };
 
         int tmpx = 0;
-        for( auto &hotkey : hotkeys ) {
+        for( const std::string &hotkey : hotkeys ) {
             tmpx += shortcut_print( w_header, point( tmpx, 0 ), c_white, c_light_green, _( hotkey ) ) + 2;
         }
 
@@ -655,7 +655,7 @@ void safemode::add_rules( const std::vector<rules_class> &rules_in )
 {
     //if a specific monster is being added, all the rules need to be checked now
     //may have some performance issues since exclusion needs to check all monsters also
-    for( auto &rule : rules_in ) {
+    for( const rules_class &rule : rules_in ) {
         switch( rule.category ) {
             case Categories::HOSTILE_SPOTTED:
                 if( !rule.whitelist ) {
@@ -817,8 +817,8 @@ void safemode::serialize( JsonOut &json ) const
 {
     json.start_array();
 
-    auto &temp_rules = ( is_character ) ? character_rules : global_rules;
-    for( auto &elem : temp_rules ) {
+    const std::vector<rules_class> &temp_rules = is_character ? character_rules : global_rules;
+    for( const rules_class &elem : temp_rules ) {
         json.start_object();
 
         json.member( "rule", elem.rule );

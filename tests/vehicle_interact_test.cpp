@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <string>
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "inventory.h"
 #include "item.h"

@@ -1,7 +1,8 @@
-﻿#include <algorithm>
+﻿#include "catch/catch.hpp"
+
+#include <algorithm>
 
 #include "coordinate_conversions.h"
-#include "catch/catch.hpp"
 #include "coordinates.h"
 #include "overmapbuffer.h"
 #include "map_extras.h"

@@ -90,6 +90,7 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_grabbing( "grabbing" );
 static const efftype_id effect_heavysnare( "heavysnare" );
 static const efftype_id effect_hit_by_player( "hit_by_player" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_lightsnare( "lightsnare" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_poison( "poison" );
@@ -189,7 +190,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     itype_id big_comp = itype_id::NULL_ID();
     // Fragile items that fall apart easily when used as a weapon due to poor construction quality
     if( shield.has_flag( "FRAGILE_MELEE" ) ) {
-        const float fragile_factor = 6;
+        const float fragile_factor = 6.0f;
         int weak_chip = INT_MAX;
         units::volume big_vol = 0_ml;
 
@@ -235,7 +236,7 @@ bool Character::handle_melee_wear( item &shield, float wear_multiplier )
     // Dump its contents on the ground
     // Destroy irremovable mods, if any
 
-    for( auto mod : shield.gunmods() ) {
+    for( item *mod : shield.gunmods() ) {
         if( mod->is_irremovable() ) {
             remove_item( *mod );
         }
@@ -397,6 +398,9 @@ void Character::melee_attack( Creature &t, bool allow_special )
 void Character::melee_attack( Creature &t, bool allow_special, const matec_id &force_technique,
                               bool allow_unarmed )
 {
+    if( has_effect( effect_incorporeal ) ) {
+        add_msg_if_player( m_info, _( "You lack the substance to affect anything." ) );
+    }
     melee::melee_stats.attack_count += 1;
     int hit_spread = t.deal_melee_attack( this, hit_roll() );
     if( !t.is_player() ) {
@@ -404,7 +408,7 @@ void Character::melee_attack( Creature &t, bool allow_special, const matec_id &f
         t.add_effect( effect_hit_by_player, 10_minutes ); // Flag as attacked by us for AI
     }
     if( is_mounted() ) {
-        auto mons = mounted_creature.get();
+        auto *mons = mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "The %s has dead batteries and will not move its arms." ),
@@ -842,7 +846,7 @@ float player::get_dodge() const
 
     if( has_effect( effect_grabbed ) ) {
         int zed_number = 0;
-        for( auto &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint &dest : get_map().points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number++;
@@ -1415,7 +1419,7 @@ static void print_damage_info( const damage_instance &di )
 
     int total = 0;
     std::string ss;
-    for( auto &du : di.damage_units ) {
+    for( const damage_unit &du : di.damage_units ) {
         int amount = di.type_damage( du.type );
         total += amount;
         ss += name_by_dt( du.type ) + ":" + std::to_string( amount ) + ",";
@@ -1726,8 +1730,8 @@ bool Character::block_hit( Creature *source, bodypart_id &bp_hit, damage_instanc
     // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
     const float physical_block_multiplier = logarithmic_range( 0, 40, block_score );
 
-    float total_damage = 0.0;
-    float damage_blocked = 0.0;
+    float total_damage = 0.0f;
+    float damage_blocked = 0.0f;
 
     for( auto &elem : dam.damage_units ) {
         total_damage += elem.amount;

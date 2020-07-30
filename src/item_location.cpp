@@ -64,7 +64,7 @@ class item_location::impl
         class nowhere;
 
         impl() = default;
-        impl( item *i ) : what( i->get_safe_reference() ), needs_unpacking( false ) {}
+        impl( item *i ) : what( i->get_safe_reference() ) {}
         impl( int idx ) : idx( idx ), needs_unpacking( true ) {}
 
         virtual ~impl() = default;
@@ -701,6 +701,11 @@ void item_location::deserialize( JsonIn &js )
     } else if( type == "in_container" ) {
         item_location parent;
         obj.read( "parent", parent );
+        if( !parent.ptr->valid() ) {
+            debugmsg( "parent location does not point to valid item" );
+            ptr.reset( new impl::item_on_map( pos, idx ) ); // drop on ground
+            return;
+        }
         const std::list<item *> parent_contents = parent->contents.all_items_top();
         auto iter = parent_contents.begin();
         std::advance( iter, idx );

@@ -220,8 +220,8 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
     } );
     // This handles liquids stored in vehicle parts directly (e.g. tanks).
     std::set<vehicle *> opts;
-    for( const auto &e : here.points_in_radius( player_character.pos(), 1 ) ) {
-        auto veh = veh_pointer_or_null( here.veh_at( e ) );
+    for( const tripoint &e : here.points_in_radius( player_character.pos(), 1 ) ) {
+        vehicle *veh = veh_pointer_or_null( here.veh_at( e ) );
         vehicle_part_range vpr = veh->get_all_parts();
         if( veh && std::any_of( vpr.begin(), vpr.end(), [&liquid]( const vpart_reference & pt ) {
         return pt.part().can_reload( liquid );
@@ -229,7 +229,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
             opts.insert( veh );
         }
     }
-    for( auto veh : opts ) {
+    for( vehicle *veh : opts ) {
         if( veh == source_veh ) {
             continue;
         }
@@ -240,7 +240,7 @@ static bool get_liquid_target( item &liquid, item *const source, const int radiu
         } );
     }
 
-    for( auto &target_pos : here.points_in_radius( player_character.pos(), 1 ) ) {
+    for( const tripoint &target_pos : here.points_in_radius( player_character.pos(), 1 ) ) {
         if( !iexamine::has_keg( target_pos ) ) {
             continue;
         }

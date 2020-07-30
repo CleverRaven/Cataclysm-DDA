@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "int_id.h"
 #include "item.h"
 #include "itype.h"

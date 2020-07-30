@@ -224,8 +224,8 @@ monster::monster( const mtype_id &id ) : monster()
     moves = type->speed;
     Creature::set_speed_base( type->speed );
     hp = type->hp;
-    for( auto &sa : type->special_attacks ) {
-        auto &entry = special_attacks[sa.first];
+    for( const auto &sa : type->special_attacks ) {
+        mon_special_attack &entry = special_attacks[sa.first];
         entry.cooldown = rng( 0, sa.second->cooldown );
     }
     anger = type->agro;
@@ -292,8 +292,8 @@ void monster::poly( const mtype_id &id )
     morale = type->morale;
     hp = static_cast<int>( hp_percentage * type->hp );
     special_attacks.clear();
-    for( auto &sa : type->special_attacks ) {
-        auto &entry = special_attacks[sa.first];
+    for( const auto &sa : type->special_attacks ) {
+        mon_special_attack &entry = special_attacks[sa.first];
         entry.cooldown = sa.second->cooldown;
     }
     faction = type->default_faction;
@@ -429,7 +429,7 @@ void monster::try_reproduce()
 
     // only 50% of animals should reproduce
     bool female = one_in( 2 );
-    for( auto &elem : type->baby_flags ) {
+    for( const std::string &elem : type->baby_flags ) {
         if( elem == "SUMMER" || elem == "WINTER" || elem == "SPRING" || elem == "AUTUMN" ) {
             season_spawn = true;
         }
@@ -445,7 +445,7 @@ void monster::try_reproduce()
 
         if( season_spawn ) {
             season_match = false;
-            for( auto &elem : type->baby_flags ) {
+            for( const std::string &elem : type->baby_flags ) {
                 if( ( season_of_year( *baby_timer ) == SUMMER && elem == "SUMMER" ) ||
                     ( season_of_year( *baby_timer ) == WINTER && elem == "WINTER" ) ||
                     ( season_of_year( *baby_timer ) == SPRING && elem == "SPRING" ) ||
@@ -2103,7 +2103,7 @@ void monster::process_turn()
     }
     // Persist grabs as long as there's an adjacent target.
     if( has_effect( effect_grabbing ) ) {
-        for( auto &dest : here.points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
             const player *const p = g->critter_at<player>( dest );
             if( p && p->has_effect( effect_grabbed ) ) {
                 add_effect( effect_grabbing, 2_turns );
@@ -2228,13 +2228,13 @@ void monster::die( Creature *nkiller )
     map &here = get_map();
     if( has_effect( effect_grabbing ) ) {
         remove_effect( effect_grabbing );
-        for( auto &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint &player_pos : here.points_in_radius( pos(), 1, 0 ) ) {
             player *p = g->critter_at<player>( player_pos );
             if( !p || !p->has_effect( effect_grabbed ) ) {
                 continue;
             }
             bool grabbed = false;
-            for( auto &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
+            for( const tripoint &mon_pos : here.points_in_radius( player_pos, 1, 0 ) ) {
                 const monster *const mon = g->critter_at<monster>( mon_pos );
                 if( mon && mon->has_effect( effect_grabbing ) ) {
                     grabbed = true;
@@ -2756,8 +2756,8 @@ item monster::to_item() const
 
 float monster::power_rating() const
 {
-    float ret = get_size() - 2; // Zed gets 1, cat -1, hulk 3
-    ret += has_flag( MF_ELECTRONIC ) ? 2 : 0; // Robots tend to have guns
+    float ret = get_size() - 2.0f; // Zed gets 1, cat -1, hulk 3
+    ret += has_flag( MF_ELECTRONIC ) ? 2.0f : 0.0f; // Robots tend to have guns
     // Hostile stuff gets a big boost
     // Neutral moose will still get burned if it comes close
     return ret;

@@ -428,7 +428,7 @@
     "volume": "750 L",
     "weight": "750 kg",
     "hp": 210,
-    "speed": 150,
+    "speed": 120,
     "material": [ "flesh" ],
     "symbol": "B",
     "color": "green",
@@ -447,7 +447,7 @@
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
-    "special_attacks": [ [ "SMASH", 10 ] ],
+    "special_attacks": [ [ "SMASH", 20 ] ],
     "flags": [
       "SEES",
       "HEARS",

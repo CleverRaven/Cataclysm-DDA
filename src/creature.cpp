@@ -65,6 +65,8 @@ static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
 
+static const species_id species_ROBOT( "ROBOT" );
+
 const std::map<std::string, creature_size> Creature::size_map = {
     {"TINY",   creature_size::tiny},
     {"SMALL",  creature_size::small},
@@ -183,7 +185,7 @@ bool Creature::digging() const
 bool Creature::is_dangerous_fields( const field &fld ) const
 {
     // Else check each field to see if it's dangerous to us
-    for( auto &dfield : fld ) {
+    for( const auto &dfield : fld ) {
         if( is_dangerous_field( dfield.second ) ) {
             return true;
         }
@@ -242,21 +244,21 @@ bool Creature::sees( const Creature &critter ) const
             if( coverage < 30 ) {
                 return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
             }
-            float size_modifier = 1.0;
+            float size_modifier = 1.0f;
             switch( ch->get_size() ) {
                 case creature_size::tiny:
-                    size_modifier = 2.0;
+                    size_modifier = 2.0f;
                     break;
                 case creature_size::small:
-                    size_modifier = 1.4;
+                    size_modifier = 1.4f;
                     break;
                 case creature_size::medium:
                     break;
                 case creature_size::large:
-                    size_modifier = 0.6;
+                    size_modifier = 0.6f;
                     break;
                 case creature_size::huge:
-                    size_modifier = 0.15;
+                    size_modifier = 0.15f;
                     break;
             }
             const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
@@ -743,6 +745,16 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
             add_effect( effect_onfire, 6_turns, bp_hit->token );
         } else if( made_of_any( cmat_flesh ) ) {
             add_effect( effect_onfire, 10_turns, bp_hit->token );
+        }
+    }
+
+    if( proj.proj_effects.count( "ROBOT_DAZZLE" ) ) {
+        if( goodhit < accuracy_critical && in_species( species_ROBOT ) ) {
+            add_effect( effect_stunned, rng( 6_turns, 8_turns ) );
+            add_msg( source->is_player() ?
+                     _( "You land a clean shot on the %1$s sensors, stunning it." ) :
+                     _( "The %1$s is stunned!" ),
+                     disp_name( true ) );
         }
     }
 
@@ -1248,12 +1260,12 @@ void Creature::process_effects()
 
 bool Creature::resists_effect( const effect &e )
 {
-    for( auto &i : e.get_resist_effects() ) {
+    for( const efftype_id &i : e.get_resist_effects() ) {
         if( has_effect( i ) ) {
             return true;
         }
     }
-    for( auto &i : e.get_resist_traits() ) {
+    for( const string_id<mutation_branch> &i : e.get_resist_traits() ) {
         if( has_trait( i ) ) {
             return true;
         }
@@ -1496,7 +1508,6 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
     }
 }
 
-
 bodypart *Creature::get_part( const bodypart_id &id )
 {
     auto found = body.find( id.id() );
@@ -1564,7 +1575,7 @@ int Creature::get_part_temp_cur( const bodypart_id &id ) const
 
 int Creature::get_part_temp_conv( const bodypart_id &id ) const
 {
-    return get_part( id ).get_temp_conv();;
+    return get_part( id ).get_temp_conv();
 }
 
 int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
@@ -1716,7 +1727,6 @@ bool Creature::has_atleast_one_wet_part()
     }
     return false;
 }
-
 
 bodypart_id Creature::get_random_body_part( bool main ) const
 {

@@ -135,7 +135,7 @@ inline SDL_Color color_pixel_mixer( const SDL_Color &color, const float &gammav,
      */
 
     const Uint8 av = average_pixel_color( color );
-    const float pv = av / 255.0;
+    const float pv = av / 255.0f;
     const Uint8 finalv =
         std::min( static_cast<int>( std::round( std::pow( pv, gammav ) * 150 ) ), 100 );
 
@@ -175,10 +175,6 @@ SDL_Color curses_color_to_SDL( const nc_color &color );
 ///@throws std::exception upon errors.
 ///@returns Always a valid pointer.
 SDL_Surface_Ptr create_surface_32( int w, int h );
-
-// SDL_RenderFillRect replacement handler
-void render_fill_rect( const SDL_Renderer_Ptr &renderer, const SDL_Rect &rect, Uint32 r, Uint32 g,
-                       Uint32 b );
 
 SDL_Rect fit_rect_inside( const SDL_Rect &inner, const SDL_Rect &outer );
 

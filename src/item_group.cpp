@@ -100,7 +100,7 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         tmp.overwrite_relic( artifact->generate_relic( tmp.typeId() ) );
     }
     if( container_item ) {
-        tmp = tmp.in_container( *container_item, tmp.charges );
+        tmp = tmp.in_container( *container_item, tmp.charges, sealed );
     }
     return tmp;
 }
@@ -414,8 +414,10 @@ void Item_modifier::modify( item &new_item ) const
 
     if( !cont.is_null() ) {
         cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
-        cont.seal();
         new_item = cont;
+        if( sealed ) {
+            new_item.seal();
+        }
     }
 
     if( contents != nullptr ) {
@@ -423,10 +425,12 @@ void Item_modifier::modify( item &new_item ) const
         for( const item &it : contentitems ) {
             new_item.put_in( it, item_pocket::pocket_type::CONTAINER );
         }
-        new_item.seal();
+        if( sealed ) {
+            new_item.seal();
+        }
     }
 
-    for( auto &flag : custom_flags ) {
+    for( const std::string &flag : custom_flags ) {
         new_item.set_flag( flag );
     }
 }
@@ -632,7 +636,7 @@ std::set<const itype *> Item_group::every_item() const
 item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday,
         const bool use_spawn_rate )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return ItemList();
     }
@@ -654,7 +658,7 @@ item_group::ItemList item_group::items_from( const Group_tag &group_id )
 
 item item_group::item_from( const Group_tag &group_id, const time_point &birthday )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return item();
     }
@@ -673,7 +677,7 @@ bool item_group::group_is_defined( const Group_tag &group_id )
 
 bool item_group::group_contains_item( const Group_tag &group_id, const itype_id &type_id )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return false;
     }

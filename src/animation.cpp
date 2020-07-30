@@ -617,7 +617,7 @@ void draw_line_curses( game &g, const tripoint &center, const std::vector<tripoi
 {
     avatar &player_character = get_avatar();
     for( const tripoint &p : ret ) {
-        const auto critter = g.critter_at( p, true );
+        const Creature *critter = g.critter_at( p, true );
 
         // NPCs and monsters get drawn with inverted colors
         if( critter && player_character.sees( *critter ) ) {
@@ -755,7 +755,7 @@ void draw_sct_curses( const game &g )
     avatar &player_character = get_avatar();
     const tripoint off = relative_view_pos( player_character, tripoint_zero );
 
-    for( const auto &text : SCT.vSCT ) {
+    for( const scrollingcombattext::cSCT &text : SCT.vSCT ) {
         const int dy = off.y + text.getPosY();
         const int dx = off.x + text.getPosX();
 

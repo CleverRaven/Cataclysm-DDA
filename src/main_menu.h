@@ -15,7 +15,7 @@
 class main_menu
 {
     public:
-        main_menu() : ctxt( "MAIN_MENU" ) { }
+        main_menu() : ctxt( "MAIN_MENU", keyboard_mode::keychar ) { }
         // Shows the main menu and returns whether a game was started or not
         bool opening_screen();
 

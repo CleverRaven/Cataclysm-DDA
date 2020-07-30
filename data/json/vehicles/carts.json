@@ -310,6 +310,27 @@
     ]
   },
   {
+    "id": "hospital_bed",
+    "type": "vehicle",
+    "name": "hospital bed",
+    "blueprint": [
+      [ "x" ],
+      [ "o" ]
+    ],
+    "parts": [
+      { "x": -1, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": -1, "y": 0, "part": "wheel_10" },
+      { "x": -1, "y": 0, "part": "bed" },
+      { "x": 0, "y": 0, "part": "xlframe_vertical_2" },
+      { "x": 0, "y": 0, "part": "wheel_10" },
+      { "x": 0, "y": 0, "part": "bed" }
+    ],
+    "items": [
+      { "x": 0, "y": 0, "chance": 70, "item_groups": [ "hospital_bed" ] },
+      { "x": -1, "y": 0, "chance": 70, "item_groups": [ "hospital_bed" ] }
+    ]
+  },
+  {
     "id": "laundry_cart",
     "type": "vehicle",
     "name": "Laundry Cart",

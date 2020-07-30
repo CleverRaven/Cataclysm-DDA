@@ -721,7 +721,7 @@ void mutation_branch::finalize()
 
 void mutation_branch::finalize_trait_blacklist()
 {
-    for( auto &trait : trait_blacklist ) {
+    for( const auto &trait : trait_blacklist ) {
         if( !trait.is_valid() ) {
             debugmsg( "trait on blacklist %s does not exist", trait.c_str() );
         }

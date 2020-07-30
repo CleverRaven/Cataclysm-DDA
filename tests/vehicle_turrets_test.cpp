@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <map>
 #include <memory>
@@ -5,7 +7,6 @@
 #include <vector>
 
 #include "ammo.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "item.h"
 #include "item_location.h"
@@ -62,7 +63,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
 {
     map &here = get_map();
     Character &player_character = get_player_character();
-    for( auto e : turret_types() ) {
+    for( const vpart_info *e : turret_types() ) {
         SECTION( e->name() ) {
             vehicle *veh = here.add_vehicle( vproto_id( "none" ), point( 65, 65 ), 270, 0, 0 );
             REQUIRE( veh );
@@ -77,7 +78,7 @@ TEST_CASE( "vehicle_turret", "[vehicle] [gun] [magazine] [.]" )
                 ammotype( veh->turret_query( veh->part( idx ) ).base()->ammo_default().str() );
 
             if( veh->part_flag( idx, "USE_TANKS" ) ) {
-                auto *tank = biggest_tank( ammo );
+                const auto *tank = biggest_tank( ammo );
                 REQUIRE( tank );
                 INFO( tank->get_id().str() );
 

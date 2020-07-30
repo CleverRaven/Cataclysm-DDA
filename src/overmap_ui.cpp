@@ -30,7 +30,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
-#include "ime.h"
 #include "input.h"
 #include "int_id.h"
 #include "line.h"
@@ -164,9 +163,9 @@ static void update_note_preview( const std::string &note,
     const char symbol = std::get<0>( om_symbol );
     const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
-    auto w_preview       = std::get<0>( preview_windows );
-    auto w_preview_title = std::get<1>( preview_windows );
-    auto w_preview_map   = std::get<2>( preview_windows );
+    catacurses::window *w_preview = std::get<0>( preview_windows );
+    catacurses::window *w_preview_title = std::get<1>( preview_windows );
+    catacurses::window *w_preview_map   = std::get<2>( preview_windows );
 
     draw_border( *w_preview );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -431,7 +430,7 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
         nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "EDIT_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
-        const input_context ctxt( nmenu.input_category );
+        const input_context ctxt( nmenu.input_category, keyboard_mode::keychar );
         nmenu.text = string_format(
                          _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
                          colorize( "RETURN", c_yellow ),
@@ -631,7 +630,7 @@ void draw(
         }
         std::vector<npc *> followers;
         // get friendly followers
-        for( auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
@@ -772,7 +771,7 @@ void draw(
                     ter_sym = "x";
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omp );
-                    for( auto &mgp : groups ) {
+                    for( const mongroup *mgp : groups ) {
                         if( mgp->type == GROUP_FOREST ) {
                             // Don't flood the map with forest creatures.
                             continue;
@@ -836,12 +835,11 @@ void draw(
         draw_camp_labels( w, center );
     }
 
-    // TODO: fix point types
-    half_open_rectangle screen_bounds( corner.xy().raw(),
-                                       corner.xy().raw() + point( om_map_width, om_map_height ) );
+    half_open_rectangle<point_abs_omt> screen_bounds(
+        corner.xy(), corner.xy() + point( om_map_width, om_map_height ) );
 
-    if( has_target && blink && !screen_bounds.contains( target.xy().raw() ) ) {
-        point marker = clamp( target.xy().raw(), screen_bounds ) - corner.xy().raw();
+    if( has_target && blink && !screen_bounds.contains( target.xy() ) ) {
+        point_rel_omt marker = clamp( target.xy(), screen_bounds ) - corner.xy();
         std::string marker_sym = " ";
 
         switch( direction_from( center.xy(), target.xy() ) ) {
@@ -872,7 +870,7 @@ void draw(
             default:
                 break; //Do nothing
         }
-        mvwputch( w, marker, c_red, marker_sym );
+        mvwputch( w, marker.raw(), c_red, marker_sym );
     }
 
     std::vector<std::pair<nc_color, std::string>> corner_text;
@@ -1139,9 +1137,6 @@ void create_note( const tripoint_abs_omt &curs )
         update_note_preview( new_note, map_around, preview_windows );
     } );
 
-    // this implies enable_ime() and ensures that ime mode is always restored on return
-    ime_sentry sentry;
-
     bool esc_pressed = false;
     string_input_popup input_popup;
     input_popup
@@ -1164,8 +1159,6 @@ void create_note( const tripoint_abs_omt &curs )
             break;
         }
     } while( true );
-
-    disable_ime();
 
     if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
         if( query_yn( _( "Really delete note?" ) ) ) {

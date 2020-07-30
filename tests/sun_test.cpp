@@ -1,6 +1,6 @@
-#include "calendar.h"
-
 #include "catch/catch.hpp"
+
+#include "calendar.h"
 
 // SUN TESTS
 

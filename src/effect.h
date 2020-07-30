@@ -32,6 +32,10 @@ enum effect_rating {
     e_mixed     // The effect has good and bad parts to the one who has it.
 };
 
+/** @relates string_id */
+template<>
+const effect_type &string_id<effect_type>::obj() const;
+
 class effect_type
 {
         friend void load_effect_type( const JsonObject &jo );
@@ -66,6 +70,8 @@ class effect_type
         std::string get_remove_message() const;
         /** Returns the memorial log added when an effect is removed. */
         std::string get_remove_memorial_log() const;
+        /** Returns the effect's description displayed when character conducts blood analysis. */
+        std::string get_blood_analysis_description() const;
 
         /** Returns true if an effect will only target main body parts (i.e., those with HP). */
         bool get_main_parts() const;
@@ -99,6 +105,9 @@ class effect_type
         // Determines if effect should be shown in description.
         bool show_in_info = false;
 
+        // Determines if effect should show intensity value next to its name in EFFECTS tab.
+        bool show_intensity = false;
+
         std::vector<trait_id> resist_traits;
         std::vector<efftype_id> resist_effects;
         std::vector<efftype_id> removes_effects;
@@ -130,6 +139,8 @@ class effect_type
         std::string apply_memorial_log;
         std::string remove_message;
         std::string remove_memorial_log;
+
+        std::string blood_analysis_description;
 
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <

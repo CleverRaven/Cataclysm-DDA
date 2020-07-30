@@ -122,9 +122,9 @@ struct body_part_type {
         side part_side = side::BOTH;
 
         //Morale parameters
-        float hot_morale_mod = 0;
-        float cold_morale_mod = 0;
-        float stylish_bonus = 0;
+        float hot_morale_mod = 0.0f;
+        float cold_morale_mod = 0.0f;
+        float stylish_bonus = 0.0f;
         int squeamish_penalty = 0;
 
         int base_hp = 60;

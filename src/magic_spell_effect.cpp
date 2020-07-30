@@ -386,7 +386,7 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
-    for( auto &pt : targets ) {
+    for( const tripoint &pt : targets ) {
         explosion_colors[pt] = sp.damage_type_color();
     }
 

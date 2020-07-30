@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
 #include <cstdlib>
 #include <sstream>
@@ -11,7 +13,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "itype.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -36,8 +37,6 @@
 #include "vpart_position.h"
 #include "player_helpers.h"
 #include "map_helpers.h"
-
-static const efftype_id effect_blind( "blind" );
 
 static void clear_game_and_set_ramp( const int transit_x, bool use_ramp, bool up )
 {

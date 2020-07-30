@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <unordered_set>
 #include <vector>
 #include <algorithm>
 #include <cstddef>
 #include <iterator>
 
-#include "catch/catch.hpp"
 #include "point.h"
 
 // A larger number for this would be GREAT, but the test isn't efficient enough to make it larger.

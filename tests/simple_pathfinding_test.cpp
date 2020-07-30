@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+
 #include "simple_pathfinding.h"
 
 #include "coordinates.h"

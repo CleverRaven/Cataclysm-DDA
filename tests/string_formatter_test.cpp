@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <cstddef>
 #include <limits>
 #include <string>
 #include <utility>
 
-#include "catch/catch.hpp"
 #include "string_formatter.h"
 
 // Same as @ref string_format, but does not swallow errors and throws them instead.

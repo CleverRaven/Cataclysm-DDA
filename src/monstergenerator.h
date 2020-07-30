@@ -9,12 +9,14 @@
 
 #include "enum_bitset.h"
 #include "enums.h"
-#include "generic_factory.h"
 #include "mattack_common.h"
 #include "mtype.h"
 #include "pimpl.h"
 #include "translations.h"
 #include "type_id.h"
+
+template<typename T>
+class generic_factory;
 
 class Creature;
 class JsonObject;

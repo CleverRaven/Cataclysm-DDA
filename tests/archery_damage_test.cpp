@@ -11,11 +11,11 @@
  *
  * The concept is to bracket these threshods with various bows using standard hunting loadouts.
  */
+#include "catch/catch.hpp"
 
 #include <memory>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "damage.h"
 #include "game_constants.h"
 #include "int_id.h"

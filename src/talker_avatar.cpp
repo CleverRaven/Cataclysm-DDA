@@ -13,8 +13,6 @@
 static const efftype_id effect_pacified( "pacified" );
 static const efftype_id effect_pet( "pet" );
 
-static const skill_id skill_speech( "speech" );
-
 static const bionic_id bio_armor_eyes( "bio_armor_eyes" );
 static const bionic_id bio_deformity( "bio_deformity" );
 static const bionic_id bio_face_mask( "bio_face_mask" );

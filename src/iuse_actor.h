@@ -59,6 +59,9 @@ class iuse_transform : public iuse_actor
         /** if set transform item to container and place new item (of type @ref target) inside */
         itype_id container;
 
+        /** whether the transformed container is sealed */
+        bool sealed = true;
+
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         int ammo_qty = -1;
 
@@ -883,35 +886,35 @@ class heal_actor : public iuse_actor
 {
     public:
         /** How much hp to restore when healing limbs? */
-        float limb_power = 0;
+        float limb_power = 0.0f;
         /** How much hp to restore when healing head? */
-        float head_power = 0;
+        float head_power = 0.0f;
         /** How much hp to restore when healing torso? */
-        float torso_power = 0;
+        float torso_power = 0.0f;
         /** How many intensity levels will be applied when healing limbs? */
-        float bandages_power = 0;
+        float bandages_power = 0.0f;
         /** Extra intensity levels gained per skill level when healing limbs. */
-        float bandages_scaling = 0;
+        float bandages_scaling = 0.0f;
         /** How many intensity levels will be applied when healing limbs? */
-        float disinfectant_power = 0;
+        float disinfectant_power = 0.0f;
         /** Extra intensity levels gained per skill level when healing limbs. */
-        float disinfectant_scaling = 0;
+        float disinfectant_scaling = 0.0f;
         /** How many levels of bleeding effect intensity can it remove (dressing efficiency). */
         int bleed = 0;
         /** Chance to remove bite effect. */
-        float bite = 0;
+        float bite = 0.0f;
         /** Chance to remove infected effect. */
-        float infect = 0;
+        float infect = 0.0f;
         /** Cost in moves to use the item. */
         int move_cost = 100;
         /** Is using this item a long action. */
         bool long_action = false;
         /** Extra hp gained per skill level when healing limbs. */
-        float limb_scaling = 0;
+        float limb_scaling = 0.0f;
         /** Extra hp gained per skill level when healing head. */
-        float head_scaling = 0;
+        float head_scaling = 0.0f;
         /** Extra hp gained per skill level when healing torso. */
-        float torso_scaling = 0;
+        float torso_scaling = 0.0f;
         /** Effects to apply to patient on finished healing. */
         std::vector<effect_data> effects;
         /**

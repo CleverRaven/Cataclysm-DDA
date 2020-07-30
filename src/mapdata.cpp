@@ -919,7 +919,7 @@ void set_ter_ids()
     t_railroad_track_v_on_tie = ter_id( "t_railroad_track_v_on_tie" );
     t_railroad_track_d_on_tie = ter_id( "t_railroad_track_d_on_tie" );
 
-    for( auto &elem : terrain_data.get_all() ) {
+    for( const ter_t &elem : terrain_data.get_all() ) {
         ter_t &ter = const_cast<ter_t &>( elem );
         if( ter.trap_id_str.empty() ) {
             ter.trap = tr_null;
@@ -951,7 +951,7 @@ furn_id f_null,
         f_washer, f_dryer,
         f_vending_c, f_vending_o, f_dumpster, f_dive_block,
         f_crate_c, f_crate_o, f_coffin_c, f_coffin_o,
-        f_gunsafe_ml,
+        f_gunsafe_ml, f_gunsafe_mj, f_gun_safe_el,
         f_large_canvas_wall, f_canvas_wall, f_canvas_door, f_canvas_door_o, f_groundsheet,
         f_fema_groundsheet, f_large_groundsheet,
         f_large_canvas_door, f_large_canvas_door_o, f_center_groundsheet, f_skin_wall, f_skin_door,
@@ -1096,6 +1096,8 @@ void set_furn_ids()
     f_camp_chair = furn_id( "f_camp_chair" );
     f_sign = furn_id( "f_sign" );
     f_gunsafe_ml = furn_id( "f_gunsafe_ml" );
+    f_gunsafe_mj = furn_id( "f_gunsafe_mj" );
+    f_gun_safe_el = furn_id( "f_gun_safe_el" );
 }
 
 size_t ter_t::count()
@@ -1313,7 +1315,7 @@ void furn_t::load( const JsonObject &jo, const std::string &src )
 
 void map_data_common_t::check() const
 {
-    for( auto &harvest : harvest_by_season ) {
+    for( const string_id<harvest_list> &harvest : harvest_by_season ) {
         if( !harvest.is_null() && examine == iexamine::none ) {
             debugmsg( "Harvest data defined without examine function for %s", name_.c_str() );
         }

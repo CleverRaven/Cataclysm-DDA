@@ -1,6 +1,7 @@
 [
   {
     "type": "ITEM_BLACKLIST",
+    "whitelist": false,
     "items": [ "granade", "granade_act" ]
   },
   {

@@ -204,7 +204,7 @@ void mdeath::splatter( monster &z )
     gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
-        float overflow_ratio = overflow_damage / max_hp + 1;
+        float overflow_ratio = overflow_damage / max_hp + 1.0f;
         int gib_distance = std::round( rng( 2, 4 ) );
         for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.
@@ -311,7 +311,7 @@ void mdeath::kill_vines( monster &z )
     for( Creature *const vine : vines ) {
         int dist = rl_dist( vine->pos(), z.pos() );
         bool closer = false;
-        for( auto &j : hubs ) {
+        for( const Creature *j : hubs ) {
             if( rl_dist( vine->pos(), j->pos() ) < dist ) {
                 break;
             }
@@ -855,7 +855,10 @@ void mdeath::necro_boomer( monster &z )
     sounds::sound( z.pos(), 24, sounds::sound_t::combat, explode, false, "explosion", "small" );
     for( const tripoint &aoe : here.points_in_radius( z.pos(), 10 ) ) {
         for( item &corpse : here.i_at( aoe ) ) {
-            if( !corpse.is_corpse() ) {
+            const mtype *mt = corpse.get_mtype();
+            if( !( corpse.is_corpse() && corpse.can_revive() && corpse.active &&
+                   mt->has_flag( MF_REVIVES ) && mt->in_species( species_ZOMBIE ) &&
+                   !mt->has_flag( MF_NO_NECRO ) ) ) {
                 continue;
             }
             if( g->revive_corpse( aoe, corpse ) ) {

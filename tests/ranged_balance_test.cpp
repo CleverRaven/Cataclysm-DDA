@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <array>
 #include <cstdlib>
@@ -11,7 +13,6 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "dispersion.h"
 #include "game_constants.h"
@@ -232,7 +233,7 @@ static void test_shooting_scenario( npc &shooter, const int min_quickdraw_range,
 static void test_fast_shooting( npc &shooter, const int moves, float hit_rate )
 {
     const int fast_shooting_range = 3;
-    const float hit_rate_cap = hit_rate + 0.3;
+    const float hit_rate_cap = hit_rate + 0.3f;
     const dispersion_sources dispersion = get_dispersion( shooter, moves );
     firing_statistics fast_stats = firing_test( dispersion, fast_shooting_range,
                                    Threshold( accuracy_standard, hit_rate ) );
@@ -270,7 +271,7 @@ TEST_CASE( "unskilled_shooter_accuracy", "[ranged] [balance] [slow]" )
     standard_npc shooter( "Shooter", shooter_pos, {}, 0, 8, 8, 8, 7 );
     shooter.set_body();
     shooter.worn.push_back( item( "backpack" ) );
-    equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "fencing_mask" } );
+    equip_shooter( shooter, { "bastsandals", "armguard_chitin", "armor_chitin", "beekeeping_gloves", "mask_guy_fawkes", "cowboy_hat" } );
     assert_encumbrance( shooter, 10 );
 
     SECTION( "an unskilled shooter with an inaccurate pistol" ) {

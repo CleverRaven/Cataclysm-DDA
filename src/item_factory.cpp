@@ -144,6 +144,18 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     }
 }
 
+static bool is_physical( const itype &type )
+{
+    return !type.item_tags.count( "AURA" ) &&
+           !type.item_tags.count( "CORPSE" ) &&
+           !type.item_tags.count( "IRREMOVABLE" ) &&
+           !type.item_tags.count( "NO_DROP" ) &&
+           !type.item_tags.count( "NO_UNWIELD" ) &&
+           !type.item_tags.count( "PERSONAL" ) &&
+           !type.item_tags.count( "PSEUDO" ) &&
+           !type.item_tags.count( "ZERO_WEIGHT" );
+}
+
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
@@ -207,8 +219,12 @@ void Item_factory::finalize_pre( itype &obj )
 
     // Items always should have some volume.
     // TODO: handle possible exception software?
-    // TODO: make items with 0 volume an error during loading?
     if( obj.volume <= 0_ml ) {
+        if( is_physical( obj ) ) {
+            debugmsg( "item %s has zero volume (if zero volume is intentional "
+                      "you can suppress this error with the ZERO_WEIGHT "
+                      "flag)\n", obj.id.str() );
+        }
         obj.volume = units::from_milliliter( 1 );
     }
     for( const auto &tag : obj.item_tags ) {
@@ -479,7 +495,7 @@ void Item_factory::finalize_pre( itype &obj )
 
 void Item_factory::register_cached_uses( const itype &obj )
 {
-    for( auto &e : obj.use_methods ) {
+    for( const auto &e : obj.use_methods ) {
         // can this item function as a repair tool?
         if( repair_actions.count( e.first ) ) {
             repair_tools.insert( obj.id );
@@ -1119,6 +1135,10 @@ void Item_factory::check_definitions() const
         if( type->weight < 0_gram ) {
             msg += "negative weight\n";
         }
+        if( type->weight == 0_gram && is_physical( *type ) ) {
+            msg += "zero weight (if zero weight is intentional you can "
+                   "suppress this error with the ZERO_WEIGHT flag)\n";
+        }
         if( type->volume < 0_ml ) {
             msg += "negative volume\n";
         }
@@ -1160,7 +1180,7 @@ void Item_factory::check_definitions() const
                                       type->snippet_category.c_str() );
             }
         }
-        for( auto &q : type->qualities ) {
+        for( const auto &q : type->qualities ) {
             if( !q.first.is_valid() ) {
                 msg += string_format( "item %s has unknown quality %s\n", type->id.c_str(), q.first.c_str() );
             }
@@ -1185,7 +1205,7 @@ void Item_factory::check_definitions() const
 
         if( type->comestible ) {
             if( !type->comestible->tool.is_null() ) {
-                auto req_tool = find_template( type->comestible->tool );
+                const itype *req_tool = find_template( type->comestible->tool );
                 if( !req_tool->tool ) {
                     msg += string_format( "invalid tool property %s\n", type->comestible->tool.c_str() );
                 }
@@ -1289,12 +1309,12 @@ void Item_factory::check_definitions() const
             } else if( !type->gun->skill_used.is_valid() ) {
                 msg += string_format( "uses an invalid skill %s\n", type->gun->skill_used.str() );
             }
-            for( auto &gm : type->gun->default_mods ) {
+            for( const itype_id &gm : type->gun->default_mods ) {
                 if( !has_template( gm ) ) {
                     msg += "invalid default mod.\n";
                 }
             }
-            for( auto &gm : type->gun->built_in_mods ) {
+            for( const itype_id &gm : type->gun->built_in_mods ) {
                 if( !has_template( gm ) ) {
                     msg += "invalid built-in mod.\n";
                 }
@@ -1426,8 +1446,8 @@ void Item_factory::check_definitions() const
             debugmsg( "Invalid migration target: %s", e.second.replace.c_str() );
         }
         for( const auto &c : e.second.contents ) {
-            if( !m_templates.count( c ) ) {
-                debugmsg( "Invalid migration contents: %s", c.c_str() );
+            if( !m_templates.count( c.id ) ) {
+                debugmsg( "Invalid migration contents: %s", c.id.str() );
             }
         }
     }
@@ -1927,7 +1947,6 @@ void islot_armor::load( const JsonObject &jo )
             armor_portion_data child_data;
             if( jo.has_int( "encumbrance" ) ) {
                 child_data.encumber = jo.get_int( "encumbrance" );
-                child_data.max_encumber = -1;
             }
             if( jo.has_int( "max_encumbrance" ) ) {
                 child_data.max_encumber = jo.get_int( "max_encumbrance" );
@@ -2049,7 +2068,7 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
 
     if( jo.has_member( "acceptable_ammo" ) ) {
         slot.acceptable_ammo.clear();
-        for( auto &e : jo.get_tags( "acceptable_ammo" ) ) {
+        for( const std::string &e : jo.get_tags( "acceptable_ammo" ) ) {
             slot.acceptable_ammo.insert( ammotype( e ) );
         }
     }
@@ -2179,9 +2198,9 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.specific_heat_liquid = material_id( mat )->specific_heat_liquid();
         slot.latent_heat = material_id( mat )->latent_heat();
     } else if( jo.has_member( "material" ) ) {
-        float specific_heat_solid = 0;
-        float specific_heat_liquid = 0;
-        float latent_heat = 0;
+        float specific_heat_solid = 0.0f;
+        float specific_heat_liquid = 0.0f;
+        float latent_heat = 0.0f;
 
         for( const std::string &m : jo.get_tags( "material" ) ) {
             specific_heat_solid += material_id( m )->specific_heat_solid();
@@ -2248,7 +2267,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     } else {
         if( relative.has_int( "vitamins" ) ) {
             // allows easy specification of 'fortified' comestibles
-            for( auto &v : vitamin::all() ) {
+            for( const auto &v : vitamin::all() ) {
                 slot.default_nutrition.vitamins[ v.first ] += relative.get_int( "vitamins" );
             }
         } else if( relative.has_array( "vitamins" ) ) {
@@ -2622,6 +2641,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
     assign( jo, "cutting", def.melee[DT_CUT], strict, 0 );
     assign( jo, "to_hit", def.m_to_hit, strict );
     assign( jo, "container", def.default_container );
+    assign( jo, "sealed", def.default_container_sealed );
     assign( jo, "min_strength", def.min_str );
     assign( jo, "min_dexterity", def.min_dex );
     assign( jo, "min_intelligence", def.min_int );
@@ -2694,7 +2714,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
-        for( auto &m : jo.get_tags( "material" ) ) {
+        for( const std::string &m : jo.get_tags( "material" ) ) {
             def.materials.emplace_back( m );
         }
     }
@@ -2760,7 +2780,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_properties_from_json( jo, "properties", def );
     }
 
-    for( auto &s : jo.get_tags( "techniques" ) ) {
+    for( const std::string &s : jo.get_tags( "techniques" ) ) {
         def.techniques.insert( matec_id( s ) );
     }
 
@@ -2863,6 +2883,7 @@ void Item_factory::load_migration( const JsonObject &jo )
     assign( jo, "flags", m.flags );
     assign( jo, "charges", m.charges );
     assign( jo, "contents", m.contents );
+    assign( jo, "sealed", m.sealed );
 
     if( jo.has_string( "id" ) ) {
         jo.read( "id", m.id, true );
@@ -2877,6 +2898,18 @@ void Item_factory::load_migration( const JsonObject &jo )
     } else {
         jo.throw_error( "`id` of `MIGRATION` is neither string nor array" );
     }
+}
+
+bool migration::content::operator==( const content &rhs ) const
+{
+    return id == rhs.id && count == rhs.count;
+}
+
+void migration::content::deserialize( JsonIn &jsin )
+{
+    const JsonObject jsobj = jsin.get_object();
+    jsobj.get_member( "id" ).read( id );
+    jsobj.get_member( "count" ).read( count );
 }
 
 itype_id Item_factory::migrate_id( const itype_id &id )
@@ -2895,7 +2928,23 @@ void Item_factory::migrate_item( const itype_id &id, item &obj )
             obj.charges = iter->second.charges;
         }
 
-        obj.contents.migrate_item( obj, iter->second.contents );
+        for( const migration::content &it : iter->second.contents ) {
+            int count = it.count;
+            item content( it.id, obj.birthday(), 1 );
+            if( content.count_by_charges() ) {
+                content.charges = count;
+                count = 1;
+            }
+            for( ; count > 0; --count ) {
+                if( !obj.put_in( content, item_pocket::pocket_type::CONTAINER ).success() ) {
+                    obj.put_in( content, item_pocket::pocket_type::MIGRATION );
+                }
+            }
+        }
+
+        if( !iter->second.contents.empty() && iter->second.sealed ) {
+            obj.seal();
+        }
     }
 }
 
@@ -3150,6 +3199,10 @@ void Item_factory::add_entry( Item_group &ig, const JsonObject &obj )
     use_modifier |= load_sub_ref( modifier.ammo, obj, "ammo", ig );
     use_modifier |= load_sub_ref( modifier.container, obj, "container", ig );
     use_modifier |= load_sub_ref( modifier.contents, obj, "contents", ig );
+    if( obj.has_member( "sealed" ) ) {
+        modifier.sealed = obj.get_bool( "sealed" );
+        use_modifier = true;
+    }
     use_modifier |= load_string( modifier.custom_flags, obj, "custom-flags" );
     if( use_modifier ) {
         sptr->modifier.emplace( std::move( modifier ) );
@@ -3237,6 +3290,9 @@ void Item_factory::load_item_group( const JsonObject &jsobj, const Group_tag &gr
     }
     if( jsobj.has_string( "container-item" ) ) {
         ig->set_container_item( itype_id( jsobj.get_string( "container-item" ) ) );
+    }
+    if( jsobj.has_member( "sealed" ) ) {
+        ig->sealed = jsobj.get_bool( "sealed" );
     }
 }
 
@@ -3433,7 +3489,7 @@ void item_group::debug_spawn()
         std::map<std::string, int> itemnames;
         for( size_t a = 0; a < 100; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
-            for( auto &it : items ) {
+            for( const item &it : items ) {
                 itemnames[it.display_name()]++;
             }
         }

@@ -120,8 +120,8 @@ std::string scent_map::serialize( bool is_type ) const
     } else {
         int rle_lastval = -1;
         int rle_count = 0;
-        for( auto &elem : grscent ) {
-            for( auto &val : elem ) {
+        for( const auto &elem : grscent ) {
+            for( const int &val : elem ) {
                 if( val == rle_lastval ) {
                     rle_count++;
                 } else {
@@ -283,7 +283,7 @@ void game::load_shortcuts( std::istream &fin )
             for( const JsonMember &member : data.get_object( "quick_shortcuts" ) ) {
                 std::list<input_event> &qslist = quick_shortcuts_map[member.name()];
                 for( const int i : member.get_array() ) {
-                    qslist.push_back( input_event( i, input_event_t::keyboard ) );
+                    qslist.push_back( input_event( i, input_event_t::keyboard_char ) );
                 }
             }
         }
@@ -786,7 +786,7 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
-        for( auto &i : layer[z].notes ) {
+        for( const om_note &i : layer[z].notes ) {
             json.start_array();
             json.write( i.p.x() );
             json.write( i.p.y() );
@@ -804,7 +804,7 @@ void overmap::serialize_view( std::ostream &fout ) const
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
         json.start_array();
-        for( auto &i : layer[z].extras ) {
+        for( const om_map_extra &i : layer[z].extras ) {
             json.start_array();
             json.write( i.p.x() );
             json.write( i.p.y() );
@@ -892,7 +892,7 @@ void overmap::serialize( std::ostream &fout ) const
     json.member( "layers" );
     json.start_array();
     for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
-        auto &layer_terrain = layer[z].terrain;
+        const auto &layer_terrain = layer[z].terrain;
         int count = 0;
         oter_id last_tertype( -1 );
         json.start_array();
@@ -933,7 +933,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "cities" );
     json.start_array();
-    for( auto &i : cities ) {
+    for( const city &i : cities ) {
         json.start_object();
         json.member( "name", i.name );
         json.member( "x", i.pos.x() );
@@ -949,7 +949,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "radios" );
     json.start_array();
-    for( auto &i : radios ) {
+    for( const radio_tower &i : radios ) {
         json.start_object();
         json.member( "x", i.pos.x() );
         json.member( "y", i.pos.y() );
@@ -963,7 +963,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "monster_map" );
     json.start_array();
-    for( auto &i : monster_map ) {
+    for( const auto &i : monster_map ) {
         i.first.serialize( json );
         i.second.serialize( json );
     }
@@ -997,7 +997,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "npcs" );
     json.start_array();
-    for( auto &i : npcs ) {
+    for( const auto &i : npcs ) {
         json.write( *i );
     }
     json.end_array();
@@ -1005,7 +1005,7 @@ void overmap::serialize( std::ostream &fout ) const
 
     json.member( "camps" );
     json.start_array();
-    for( auto &i : camps ) {
+    for( const auto &i : camps ) {
         json.write( i );
     }
     json.end_array();
@@ -1219,7 +1219,7 @@ void game::serialize_master( std::ostream &fout )
 void faction_manager::serialize( JsonOut &jsout ) const
 {
     std::vector<faction> local_facs;
-    for( auto &elem : factions ) {
+    for( const auto &elem : factions ) {
         local_facs.push_back( elem.second );
     }
     jsout.write( local_facs );

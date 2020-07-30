@@ -261,6 +261,7 @@
     "name": "mana dust",
     "description": "Crystalized mana in powdered form.  It faintly pulses with arcane energy.",
     "material": [ "powder" ],
-    "volume": "100 ml"
+    "volume": "100 ml",
+    "flags": [ "ZERO_WEIGHT" ]
   }
 ]

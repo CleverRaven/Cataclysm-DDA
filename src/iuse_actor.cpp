@@ -100,6 +100,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_pet( "pet" );
 static const efftype_id effect_disinfected( "disinfected" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_incorporeal( "incorporeal" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_music( "music" );
 static const efftype_id effect_playing_instrument( "playing_instrument" );
@@ -153,6 +154,7 @@ void iuse_transform::load( const JsonObject &obj )
 
     obj.read( "msg", msg_transform );
     obj.read( "container", container );
+    obj.read( "sealed", sealed );
     if( obj.has_member( "target_charges" ) && obj.has_member( "rand_target_charges" ) ) {
         obj.throw_error( "Transform actor specified both fixed and random target charges",
                          "target_charges" );
@@ -270,7 +272,12 @@ int iuse_transform::use( player &p, item &it, bool t, const tripoint &pos ) cons
         it.convert( container );
         obj_it = item( target, calendar::turn, std::max( ammo_qty, 1 ) );
         obj = &obj_it;
-        it.put_in( *obj, item_pocket::pocket_type::CONTAINER );
+        if( !it.put_in( *obj, item_pocket::pocket_type::CONTAINER ).success() ) {
+            it.put_in( *obj, item_pocket::pocket_type::MIGRATION );
+        }
+        if( sealed ) {
+            it.seal();
+        }
     }
     if( p.is_worn( *obj ) ) {
         p.calc_encumbrance();
@@ -457,7 +464,7 @@ void countdown_actor::info( const item &it, std::vector<iteminfo> &dump ) const
 {
     dump.emplace_back( "TOOL", _( "Countdown: " ),
                        interval > 0 ? interval : it.type->countdown_interval );
-    const auto countdown_actor = it.type->countdown_action.get_actor_ptr();
+    const iuse_actor *countdown_actor = it.type->countdown_action.get_actor_ptr();
     if( countdown_actor != nullptr ) {
         countdown_actor->info( it, dump );
     }
@@ -1177,7 +1184,7 @@ void reveal_map_actor::reveal_targets( const tripoint_abs_omt &center,
 {
     const auto places = overmap_buffer.find_all( center, target.first, radius, false,
                         target.second );
-    for( auto &place : places ) {
+    for( const tripoint_abs_omt &place : places ) {
         overmap_buffer.reveal( place, reveal_distance );
     }
 }
@@ -1197,7 +1204,7 @@ int reveal_map_actor::use( player &p, item &it, bool, const tripoint & ) const
     }
     const tripoint_abs_omt center( it.get_var( "reveal_map_center_omt",
                                    p.global_omt_location().raw() ) );
-    for( auto &omt : omt_types ) {
+    for( const auto &omt : omt_types ) {
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             reveal_targets( tripoint_abs_omt( center.xy(), z ), omt, 0 );
         }
@@ -2498,6 +2505,13 @@ void repair_item_actor::load( const JsonObject &obj )
 
 bool repair_item_actor::can_use_tool( const player &p, const item &tool, bool print_msg ) const
 {
+    if( p.has_effect( effect_incorporeal ) ) {
+        if( print_msg ) {
+            p.add_msg_player_or_npc( m_bad, _( "You can't do that while incorporeal." ),
+                                     _( "<npcname> can't do that while incorporeal." ) );
+        }
+        return false;
+    }
     if( p.is_underwater() ) {
         if( print_msg ) {
             p.add_msg_if_player( m_info, _( "You can't do that while underwater." ) );
@@ -3707,7 +3721,7 @@ void emit_actor::load( const JsonObject &obj )
 int emit_actor::use( player &, item &it, bool, const tripoint &pos ) const
 {
     map &here = get_map();
-    const float scaling = scale_qty ? it.charges : 1;
+    const float scaling = scale_qty ? it.charges : 1.0f;
     for( const auto &e : emits ) {
         here.emit_field( pos, e, scaling );
     }
@@ -4255,12 +4269,12 @@ int sew_advanced_actor::use( player &p, item &it, bool, const tripoint & ) const
     const int items_needed = mod.volume() / 750_ml + 1;
     const inventory &crafting_inv = p.crafting_inventory();
     // Go through all discovered repair items and see if we have any of them available
-    for( auto &cm : clothing_mods::get_all() ) {
+    for( const clothing_mod &cm : clothing_mods::get_all() ) {
         has_enough[cm.item_string] = crafting_inv.has_amount( cm.item_string, items_needed );
     }
 
     int mod_count = 0;
-    for( auto &cm : clothing_mods::get_all() ) {
+    for( const clothing_mod &cm : clothing_mods::get_all() ) {
         mod_count += mod.item_tags.count( cm.flag );
     }
 
