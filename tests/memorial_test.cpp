@@ -39,7 +39,7 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
     // Remove expected results by matching them against the strings we encounter.
     std::vector<std::string> ref_lines = string_split( ref, '\n' );
     for( const std::string &result_string : result_lines ) {
-        std::string message - string_split( result_string, '|' ).back();
+        std::string message = string_split( result_string, '|' ).back();
         if( !message.empty() && message.front() == ' ' ) {
             message.erase( message.begin() );
         }
