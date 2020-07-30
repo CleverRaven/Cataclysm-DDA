@@ -302,7 +302,7 @@
     "effect": "spawn_item",
     "effect_str": "aura_corrosive",
     "flags": [ "SOMATIC", "CONCENTRATE" ],
-    "components": [ "spell_components_corrosiveaura" ],
+    "components": "spell_components_corrosiveaura",
     "energy_source": "MANA",
     "spell_class": "BIOMANCER",
     "difficulty": 4,

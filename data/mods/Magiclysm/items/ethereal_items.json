@@ -535,7 +535,7 @@
     }
   },
   {
-    "id": "flamesword",
+    "id": "decaying_boneclub",
     "type": "GENERIC",
     "symbol": "/",
     "color": "light_gray",
@@ -569,7 +569,7 @@
     "type": "GUN",
     "symbol": "(",
     "color": "brown",
-    "name": { "ctxt": "weapon", "str": "impact sling" },
+    "name": { "str": "impact sling" },
     "description": "A leather sling, quivering with energy when in your palm to the point of almost tearing. A pebble appears when you begin spinning it.",
     "price": 150,
     "material": [ "leather" ],
@@ -585,6 +585,7 @@
     ],
     "weight": "86 g",
     "volume": "250 ml",
+    "skill": "throw",
     "price_postapoc": 250,
     "to_hit": -1,
     "ranged_damage": { "damage_type": "bash", "amount": 20 },

@@ -76,7 +76,7 @@
     "description": "This spell projects a wide spray of sharp metal shards, cutting into your foes and friends alike.",
     "valid_targets": [ "hostile", "ground", "ally" ],
     "flags": [ "SOMATIC", "LOUD" ],
-    "components": [ "spell_components_shardspray" ],
+    "components": "spell_components_shardspray",
     "effect": "cone_attack",
     "spell_class": "EARTHSHAPER",
     "energy_source": "MANA",

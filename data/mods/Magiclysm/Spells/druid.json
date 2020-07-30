@@ -340,6 +340,7 @@
     "effect": "spawn_item",
     "effect_str": "aura_feral",
     "flags": [ "SOMATIC", "VERBAL" ],
+    "components": "spell_components_feralform",
     "spell_class": "DRUID",
     "energy_source": "MANA",
     "difficulty": 4,

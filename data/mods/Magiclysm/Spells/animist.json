@@ -247,7 +247,7 @@
     "effect_str": "decaying_boneclub",
     "valid_targets": [ "self" ],
     "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
-    "components": [ "spell_components_decayingboneclub" ],
+    "components": "spell_components_decayingboneclub",
     "max_level": 15,
     "min_damage": 1,
     "max_damage": 1,

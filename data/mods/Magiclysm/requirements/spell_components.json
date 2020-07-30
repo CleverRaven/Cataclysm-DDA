@@ -21,7 +21,7 @@
         [ "diveknife", 1 ],
         [ "knife_butcher", 1 ],
         [ "knife_combat", 1 ],
-        [ "knife_combat_mod", 1 ],
+        [ "knife_chef", 1 ],
         [ "knife_hunting", 1 ],
         [ "knife_rambo", 1 ],
         [ "knife_paring", 1 ],
@@ -32,7 +32,7 @@
     ]
   },
   {
-    "id": "spell_components_boneclub",
+    "id": "spell_components_decayingboneclub",
     "type": "requirement",
     "//": "Weapon materials and 1000 energy from blood suitable for the Decaying Boneclub spell",
     "components": [
