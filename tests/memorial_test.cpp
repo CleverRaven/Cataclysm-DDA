@@ -47,7 +47,7 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
         while( !message.empty() && *message.rbegin() == '\r' ) {
             message.erase( message.end() - 1 );
         }
-        std::remove( result_lines.begin(), result_lines.end(), message );
+        std::remove( ref_lines.begin(), ref_lines.end(), message );
     }
     INFO( "Unmatched results" << ref_lines );
     CHECK( ref_lines.empty() );
