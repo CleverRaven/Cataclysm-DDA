@@ -80,10 +80,12 @@ bool is_mouse_enabled()
 #endif
 }
 
-static bool is_keycode_mode_supported()
+extern bool keycode_mode;
+
+bool is_keycode_mode_supported()
 {
 #if defined(TILES) && !defined(__ANDROID__)
-    return true;
+    return keycode_mode;
 #else
     return false;
 #endif

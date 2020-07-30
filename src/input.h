@@ -140,6 +140,7 @@ static constexpr int LEGEND_HEIGHT = 11;
 static constexpr int BORDER_SPACE = 2;
 
 bool is_mouse_enabled();
+bool is_keycode_mode_supported();
 std::string get_input_string_from_file( const std::string &fname = "input.txt" );
 
 enum mouse_buttons { MOUSE_BUTTON_LEFT = 1, MOUSE_BUTTON_RIGHT, SCROLLWHEEL_UP, SCROLLWHEEL_DOWN, MOUSE_MOVE };
