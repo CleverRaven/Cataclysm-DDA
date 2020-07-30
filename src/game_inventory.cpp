@@ -528,13 +528,19 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "CONSUME TIME" ) );
 
             append_cell( [this, &player_character]( const item_location & loc ) {
+                std::string sealed = "";
+                if( loc.has_parent() ) {
+                    sealed = loc.parent_item()->contents.get_sealed_summary() ==
+                             item_contents::sealed_summary::all_sealed ? "sealed" : "";
+                }
                 if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
-                        return get_freshness( loc );
+                        return string_format( ( "%s%s%s" ), _( sealed ),
+                                              sealed.empty() ? "" : " ", get_freshness( loc ) );
                     }
                     return std::string( "---" );
                 }
-                return std::string();
+                return( _( sealed ) );
             }, _( "FRESHNESS" ) );
 
             append_cell( [ this, &player_character ]( const item_location & loc ) {
