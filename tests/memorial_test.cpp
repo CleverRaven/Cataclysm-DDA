@@ -1,5 +1,6 @@
 #include "catch/catch.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <memory>
 #include <string>
@@ -49,7 +50,8 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
         }
         std::remove( ref_lines.begin(), ref_lines.end(), message );
     }
-    INFO( "Unmatched results" << ref_lines );
+    std::string unmached_results;
+    INFO( std::accumulate( begin( ref_lines ), end( ref_lines ), unmatched_results );
     CHECK( ref_lines.empty() );
 }
 
