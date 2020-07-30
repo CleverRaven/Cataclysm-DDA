@@ -36,6 +36,7 @@
 class Creature_tracker;
 class item;
 class spell_events;
+class viewer;
 
 static constexpr int DEFAULT_TILESET_ZOOM = 16;
 
@@ -156,6 +157,7 @@ class game
         friend Character &get_player_character();
         friend avatar &get_avatar();
         friend location &get_player_location();
+        friend viewer &get_player_view();
         friend weather_manager &get_weather();
         friend const scenario *get_scenario();
         friend void set_scenario( const scenario *new_scenario );

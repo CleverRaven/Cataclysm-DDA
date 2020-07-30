@@ -11,9 +11,12 @@
 #include "enums.h"
 #include "debug.h"
 
+class Creature;
 class JsonOut;
 class JsonObject;
 class translation;
+
+struct tripoint;
 
 namespace catacurses
 {
@@ -69,6 +72,88 @@ inline void add_msg( const game_message_params &params, const char *const msg, A
         return;
     }
     return add_msg( params, string_format( msg, std::forward<Args>( args )... ) );
+}
+
+void add_msg_if_player_sees( const tripoint &target, std::string msg );
+void add_msg_if_player_sees( const Creature &target, std::string msg );
+template<typename ...Args>
+inline void add_msg_if_player_sees( const tripoint &target, const std::string &msg,
+                                    Args &&... args )
+{
+    return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void add_msg_if_player_sees( const Creature &target, const std::string &msg,
+                                    Args &&... args )
+{
+    return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void add_msg_if_player_sees( const tripoint &target, const char *const msg, Args &&... args )
+{
+    return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void add_msg_if_player_sees( const Creature &target, const char *const msg, Args &&... args )
+{
+    return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void add_msg_if_player_sees( const tripoint &target, const translation &msg,
+                                    Args &&... args )
+{
+    return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void add_msg_if_player_sees( const Creature &target, const translation &msg,
+                                    Args &&... args )
+{
+    return add_msg_if_player_sees( target, string_format( msg, std::forward<Args>( args )... ) );
+}
+
+void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
+                             std::string msg );
+void add_msg_if_player_sees( const Creature &target, const game_message_params &params,
+                             std::string msg );
+template<typename ...Args>
+inline void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
+                                    const std::string &msg, Args &&... args )
+{
+    if( params.type == m_debug && !debug_mode ) {
+        return;
+    }
+    return add_msg_if_player_sees( target, params, string_format( msg,
+                                   std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void add_msg_if_player_sees( const Creature &target, const game_message_params &params,
+                                    const std::string &msg, Args &&... args )
+{
+    if( params.type == m_debug && !debug_mode ) {
+        return;
+    }
+    return add_msg_if_player_sees( target, params, string_format( msg,
+                                   std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void add_msg_if_player_sees( const tripoint &target, const game_message_params &params,
+                                    const char *const msg, Args &&... args )
+{
+    if( params.type == m_debug && !debug_mode ) {
+        return;
+    }
+    return add_msg_if_player_sees( target, params, string_format( msg,
+                                   std::forward<Args>( args )... ) );
+}
+template<typename ...Args>
+inline void add_msg_if_player_sees( const Creature &target, const game_message_params &params,
+                                    const char *const msg, Args &&... args )
+{
+    if( params.type == m_debug && !debug_mode ) {
+        return;
+    }
+    return add_msg_if_player_sees( target, params, string_format( msg,
+                                   std::forward<Args>( args )... ) );
 }
 
 #endif // CATA_SRC_MESSAGES_H
