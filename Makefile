@@ -405,7 +405,6 @@ ifeq ($(PCH), 1)
 	else
 		PCH_P = pch/pch.hpp.pch
 		PCHFLAGS += -include-pch $(PCH_P)
-		CXXFLAGS += -Xclang -fno-pch-timestamp
 	endif
 endif
 
@@ -878,6 +877,7 @@ endif
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -c $(PCH_H) -o $(PCH_P)
+	touch $(PCH_P) -d"2050-01-01"
 
 $(BUILD_PREFIX)$(TARGET_NAME).a: $(OBJS)
 	$(AR) rcs $(BUILD_PREFIX)$(TARGET_NAME).a $(filter-out $(ODIR)/main.o $(ODIR)/messages.o,$(OBJS))
