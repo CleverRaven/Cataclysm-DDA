@@ -8571,6 +8571,31 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     }
 }
 
+int game::get_recursive_disassemble_moves( const Character &guy, const itype_id &type,
+        int count ) const
+{
+    int moves = 0;
+    std::vector<item> to_be_disassembled;
+    for( int i = 0; i < count; i++ ) {
+        to_be_disassembled.push_back( item( type, calendar::turn, item::default_charges_tag{} ) );
+    }
+    while( to_be_disassembled.size() > 0 ) {
+        const recipe &r = recipe_dictionary::get_uncraft( to_be_disassembled[0].type->get_id() );
+        if( r.ident() != recipe_id::NULL_ID() ) {
+            moves += r.time_to_craft_moves( guy );
+            std::vector<item_comp> components = to_be_disassembled[0].get_uncraft_components();
+            for( unsigned int i = 0; i < components.size(); i++ ) {
+                itype_id id = components[i].type;
+                for( int j = 0; j < components[i].count; j++ ) {
+                    to_be_disassembled.push_back( item( id, calendar::turn, item::default_charges_tag{} ) );
+                }
+            }
+        }
+        to_be_disassembled.erase( to_be_disassembled.begin() );
+    }
+    return moves;
+}
+
 void game::butcher()
 {
     static const std::string salvage_string = "salvage";
@@ -8717,19 +8742,20 @@ void game::butcher()
             kmenu.addentry( MULTIBUTCHER, true, 'b', _( "Butcher everything" ) );
         }
         if( disassembles.size() > 1 ) {
-            int time_to_disassemble = 0;
-            int time_to_disassemble_all = 0;
+            int time_to_disassemble_once = 0;
+            int time_to_disassemble_recursive = 0;
             for( const auto &stack : disassembly_stacks ) {
                 const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves(
                                      get_player_character() );
-                time_to_disassemble += time;
-                time_to_disassemble_all += time * stack.second;
+                time_to_disassemble_once += time * stack.second;
+                time_to_disassemble_recursive += get_recursive_disassemble_moves( get_player_character(),
+                                                 stack.first->typeId(), stack.second );
             }
 
             kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) );
+                                to_string_clipped( time_duration::from_turns( time_to_disassemble_once / 100 ) ) );
             kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) );
+                                to_string_clipped( time_duration::from_turns( time_to_disassemble_recursive / 100 ) ) );
         }
         if( salvage_iuse && salvageables.size() > 1 ) {
             int time_to_salvage = 0;
