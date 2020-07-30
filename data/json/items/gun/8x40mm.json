@@ -223,6 +223,7 @@
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM614 light machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances.  Accepts RMXB500 box and RMGD250 drum magazines.",
     "weight": "4600 g",
     "volume": "2750 ml",
+    "longest_side": "935 mm",
     "price": 3750000,
     "price_postapoc": 15000,
     "to_hit": -1,
