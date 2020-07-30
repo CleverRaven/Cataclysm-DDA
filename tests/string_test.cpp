@@ -21,3 +21,4 @@ TEST_CASE( "string_test" )
         test_remove_color_tags( "<color_green>Test</color>StringWithMultiple<color_light_gray>ColorTags",
                                 "TestStringWithMultipleColorTags" );
     }
+}
