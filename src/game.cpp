@@ -8579,14 +8579,14 @@ int game::get_recursive_disassemble_moves( const Character &guy, const itype_id 
     for( int i = 0; i < count; i++ ) {
         to_be_disassembled.push_back( item( type, calendar::turn, item::default_charges_tag{} ) );
     }
-    while( to_be_disassembled.size() > 0 ) {
+    while( !to_be_disassembled.empty() ) {
         const recipe &r = recipe_dictionary::get_uncraft( to_be_disassembled[0].type->get_id() );
         if( r.ident() != recipe_id::NULL_ID() ) {
             moves += r.time_to_craft_moves( guy );
             std::vector<item_comp> components = to_be_disassembled[0].get_uncraft_components();
-            for( unsigned int i = 0; i < components.size(); i++ ) {
-                itype_id id = components[i].type;
-                for( int j = 0; j < components[i].count; j++ ) {
+            for( auto &component : components ) {
+                itype_id id = component.type;
+                for( int i = 0; i < component.count; i++ ) {
                     to_be_disassembled.push_back( item( id, calendar::turn, item::default_charges_tag{} ) );
                 }
             }
