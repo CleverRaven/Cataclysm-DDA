@@ -950,7 +950,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
         return;
     }
 
-    bool u_see = get_player_character().sees( *this );
+    bool u_see = get_player_view().sees( *this );
     if( has_active_bionic( bionic_id( "bio_ods" ) ) && get_power_level() > 5_kJ ) {
         if( is_player() ) {
             add_msg( m_good, _( "Your offensive defense system shocks %s in mid-attack!" ),
@@ -3489,7 +3489,7 @@ float player::get_melee() const
 bool player::uncanny_dodge()
 {
     bool is_u = is_avatar();
-    bool seen = get_player_character().sees( *this );
+    bool seen = get_player_view().sees( *this );
     if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
         return false;
     }

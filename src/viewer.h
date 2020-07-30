@@ -9,7 +9,7 @@ struct tripoint;
 class viewer
 {
     public:
-        virtual bool sees( const tripoint &target, bool is_avatar = false, int range_mod = 0  ) const = 0;
+        virtual bool sees( const tripoint &target, bool is_avatar = false, int range_mod = 0 ) const = 0;
         virtual bool sees( const Creature &target ) const = 0;
         virtual ~viewer() = default;
 };

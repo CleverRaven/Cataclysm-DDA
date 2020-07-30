@@ -3010,18 +3010,19 @@ void map::smash_items( const tripoint &p, const int power, const std::string &ca
         }
     }
 
-    Character &player_character = get_player_character();
     // Let the player know that the item was damaged if they can see it.
-    if( items_destroyed > 1 && player_character.sees( p ) ) {
-        add_msg( m_bad, _( "The %s destroys several items!" ), cause_message );
-    } else if( items_destroyed == 1 && items_damaged == 1 && player_character.sees( p ) )  {
+    if( items_destroyed > 1 ) {
+        add_msg_if_player_sees( p, m_bad, _( "The %s destroys several items!" ), cause_message );
+    } else if( items_destroyed == 1 && items_damaged == 1 )  {
         //~ %1$s: the cause of destruction, %2$s: destroyed item name
-        add_msg( m_bad, _( "The %1$s destroys the %2$s!" ), cause_message, damaged_item_name );
-    } else if( items_damaged > 1 && player_character.sees( p ) ) {
-        add_msg( m_bad, _( "The %s damages several items." ), cause_message );
-    } else if( items_damaged == 1 && player_character.sees( p ) )  {
+        add_msg_if_player_sees( p, m_bad, _( "The %1$s destroys the %2$s!" ), cause_message,
+                                damaged_item_name );
+    } else if( items_damaged > 1 ) {
+        add_msg_if_player_sees( p, m_bad, _( "The %s damages several items." ), cause_message );
+    } else if( items_damaged == 1 )  {
         //~ %1$s: the cause of damage, %2$s: damaged item name
-        add_msg( m_bad, _( "The %1$s damages the %2$s." ), cause_message, damaged_item_name );
+        add_msg_if_player_sees( p, m_bad, _( "The %1$s damages the %2$s." ), cause_message,
+                                damaged_item_name );
     }
 
     for( const item &it : contents ) {
@@ -3683,7 +3684,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         } else {
             //Greatly weakens power of bullets
             dam -= 40;
-            if( dam <= 0 && get_player_character().sees( p ) ) {
+            if( dam <= 0 && get_player_view().sees( p ) ) {
                 if( terrain == t_reinforced_door_glass_c ) {
                     add_msg( _( "The shot is stopped by the reinforced glass door!" ) );
                 } else {
@@ -7016,7 +7017,7 @@ void map::rotten_item_spawn( const item &item, const tripoint &pnt )
     if( rng( 0, 100 ) < chance ) {
         MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mgroup );
         add_spawn( spawn_details, pnt );
-        if( get_player_character().sees( pnt ) ) {
+        if( get_player_view().sees( pnt ) ) {
             if( item.is_seed() ) {
                 add_msg( m_warning, _( "Something has crawled out of the %s plants!" ), item.get_plant_name() );
             } else {

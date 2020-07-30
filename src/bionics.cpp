@@ -508,9 +508,8 @@ void npc::check_or_use_weapon_cbm( const bionic_id &cbm_id )
         if( is_armed() ) {
             stow_item( weapon );
         }
-        if( get_player_character().sees( pos() ) ) {
-            add_msg( m_info, _( "%s activates their %s." ), disp_name(), bio.info().name );
-        }
+        add_msg_if_player_sees( pos(), m_info, _( "%s activates their %s." ),
+                                disp_name(), bio.info().name );
 
         weapon = item( bio.info().fake_item );
         mod_power_level( -bio.info().power_activate );
@@ -1154,12 +1153,11 @@ bool Character::deactivate_bionic( int b, bool eff_only )
         add_msg_if_player( m_neutral, _( "You deactivate your %s." ), bio.info().name );
     }
 
-    Character &player_character = get_player_character();
     // Deactivation effects go here
     if( bio.info().has_flag( flag_BIO_WEAPON ) ) {
         if( weapon.typeId() == bio.info().fake_item ) {
             add_msg_if_player( _( "You withdraw your %s." ), weapon.tname() );
-            if( player_character.sees( pos() ) ) {
+            if( get_player_view().sees( pos() ) ) {
                 add_msg_if_npc( m_info, _( "<npcname> withdraws %s %s." ), disp_name( true ),
                                 weapon.tname() );
             }
@@ -2241,11 +2239,9 @@ void Character::perform_uninstall( const bionic_id &bid, int difficulty, int suc
 bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, player &patient,
                                   float adjusted_skill )
 {
-    Character &player_character = get_player_character();
+    viewer &player_view = get_player_view();
     if( installer.ammo[itype_anesthetic] <= 0 ) {
-        if( player_character.sees( installer ) ) {
-            add_msg( _( "The %s's anesthesia kit looks empty." ), installer.name() );
-        }
+        add_msg_if_player_sees( installer, _( "The %s's anesthesia kit looks empty." ), installer.name() );
         return false;
     }
 
@@ -2264,10 +2260,10 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
     if( patient.is_player() ) {
         add_msg( m_bad,
                  _( "You feel a tiny pricking sensation in your right arm, and lose all sensation before abruptly blacking out." ) );
-    } else if( player_character.sees( installer ) ) {
-        add_msg( m_bad,
-                 _( "The %1$s gently inserts a syringe into %2$s's arm and starts injecting something while holding them down." ),
-                 installer.name(), patient.disp_name() );
+    } else {
+        add_msg_if_player_sees( installer, m_bad,
+                                _( "The %1$s gently inserts a syringe into %2$s's arm and starts injecting something while holding them down." ),
+                                installer.name(), patient.disp_name() );
     }
 
     installer.ammo[itype_anesthetic] -= 1;
@@ -2277,9 +2273,9 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
 
     if( patient.is_player() ) {
         add_msg( _( "You fall asleep and %1$s starts operating." ), installer.disp_name() );
-    } else if( player_character.sees( patient ) ) {
-        add_msg( _( "%1$s falls asleep and %2$s starts operating." ), patient.disp_name(),
-                 installer.disp_name() );
+    } else {
+        add_msg_if_player_sees( patient, _( "%1$s falls asleep and %2$s starts operating." ),
+                                patient.disp_name(), installer.disp_name() );
     }
 
     if( success > 0 ) {
@@ -2287,7 +2283,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         if( patient.is_player() ) {
             add_msg( m_neutral, _( "Your parts are jiggled back into their familiar places." ) );
             add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );
-        } else if( patient.is_npc() && player_character.sees( patient ) ) {
+        } else if( patient.is_npc() && player_view.sees( patient ) ) {
             add_msg( m_neutral, _( "%s's parts are jiggled back into their familiar places." ),
                      patient.disp_name() );
             add_msg( m_mixed, _( "Successfully removed %s." ), target_cbm.info().name );

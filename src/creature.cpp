@@ -7,7 +7,6 @@
 #include <memory>
 
 #include "anatomy.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
@@ -35,7 +34,6 @@
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "pldata.h"
 #include "point.h"
 #include "projectile.h"
@@ -597,8 +595,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
     const auto &proj_effects = proj.proj_effects;
 
-    Character &player_character = get_player_character();
-    const bool u_see_this = player_character.sees( *this );
+    viewer &player_view = get_player_view();
+    const bool u_see_this = player_view.sees( *this );
 
     const int avoid_roll = dodge_roll();
     // Do dice(10, speed) instead of dice(speed, 10) because speed could potentially be > 10000
@@ -614,7 +612,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
         //  rather than just Matrix-style bullet dodging
-        if( source != nullptr && player_character.sees( *source ) ) {
+        if( source != nullptr && player_view.sees( *source ) ) {
             add_msg_player_or_npc(
                 m_warning,
                 _( "You avoid %s projectile!" ),
@@ -715,7 +713,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     // Apply ammo effects to target.
     if( proj.proj_effects.count( "TANGLE" ) ) {
         monster *z = dynamic_cast<monster *>( this );
-        player *n = dynamic_cast<player *>( this );
+        Character *n = dynamic_cast<Character *>( this );
         // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
         // we assume immediate success, then certain monster types immediately break free in monster.cpp move_effects()
         if( z ) {
