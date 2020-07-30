@@ -86,7 +86,6 @@ struct weather_requirements {
     int humidity_min = INT_MIN;
     int humidity_max = INT_MAX;
     bool humidity_and_pressure = true;
-    bool acidic = false;
     weather_time_requirement_type time;
     std::vector<weather_type_id> required_weathers;
     time_duration time_passed_min;

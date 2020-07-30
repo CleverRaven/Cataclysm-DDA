@@ -162,10 +162,7 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
         }
     }
     std::string wind_desc = get_wind_desc( W );
-    // Acid rains
-    const double acid_content = base_acid * A;
-    bool acid = acid_content >= 1.0;
-    return w_point{ T, H, P, W, wind_desc, current_winddir, acid, t };
+    return w_point{ T, H, P, W, wind_desc, current_winddir, t };
 }
 
 weather_type_id weather_generator::get_weather_conditions( const tripoint &location,
@@ -212,8 +209,7 @@ weather_type_id weather_generator::get_weather_conditions( const w_point &w,
         bool test_windspeed =
             requires.windpower_max > w.windpower &&
             requires.windpower_min < w.windpower;
-        bool test_acidic = !requires.acidic || w.acidic;
-        if( !( test_temperature && test_windspeed && test_acidic ) ) {
+        if( !( test_temperature && test_windspeed ) ) {
             continue;
         }
 
@@ -338,7 +334,6 @@ weather_generator weather_generator::load( const JsonObject &jo )
     ret.base_temperature = jo.get_float( "base_temperature", 0.0 );
     ret.base_humidity = jo.get_float( "base_humidity", 50.0 );
     ret.base_pressure = jo.get_float( "base_pressure", 0.0 );
-    ret.base_acid = jo.get_float( "base_acid", 0.0 );
     ret.base_wind = jo.get_float( "base_wind", 0.0 );
     ret.base_wind_distrib_peaks = jo.get_int( "base_wind_distrib_peaks", 0 );
     ret.base_wind_season_variation = jo.get_int( "base_wind_season_variation", 0 );
