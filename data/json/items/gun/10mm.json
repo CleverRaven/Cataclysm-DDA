@@ -21,7 +21,7 @@
     "durability": 8,
     "blackpowder_tolerance": 56,
     "clip_size": 6,
-    "magazines": [ [ "40", [ "40_speedloader6" ] ] ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "holster": true, "ammo_restriction": { "10mm": 6, "40": 6 } } ]
   },
   {
     "id": "glock_29",
@@ -104,12 +104,12 @@
   },
   {
     "id": "m1911_10",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_classic",
     "looks_like": "m1911",
     "type": "GUN",
-    "name": { "str": "1911 10mm" },
+    "name": { "str": "Colt Delta Elite" },
     "description": "A modernized, match-grade variant of the venerable 1911 chambered in hard-hitting 10mm Auto.  Early variants were known to crack frames; modern 1911's, like this one, are slotted to prevent such crack formation.",
-    "weight": "1120 g",
+    "weight": "1077 g",
     "volume": "413 ml",
     "longest_side": "210 mm",
     "price": 105000,
@@ -126,17 +126,17 @@
     "durability": 6,
     "min_cycle_recoil": 540,
     "blackpowder_tolerance": 48,
-    "magazine_well": "61 ml",
+    "magazine_well": "60 ml",
     "magazines": [ [ "10mm", [ "m1911_10mag" ] ] ]
   },
   {
     "id": "witness_10",
-    "copy-from": "pistol_base",
+    "copy-from": "pistol_classic",
     "looks_like": "cz75",
     "type": "GUN",
     "name": { "str": "EAA Witness 10mm" },
     "description": "The EAA Witness is a modified variant of the CZ-75, produced in Italy by Tanfoglio.  This is the standard steel framed version chambered in 10mm Auto.",
-    "weight": "1219 g",
+    "weight": "936 g",
     "volume": "459 ml",
     "longest_side": "203 mm",
     "price": 64900,
@@ -150,7 +150,7 @@
     "dispersion": 480,
     "durability": 7,
     "magazine_well": "84 ml",
-    "magazines": [ [ "10mm", [ "witness_mag" ] ] ]
+    "magazines": [ [ "10mm", [ "witness_mag_10" ] ] ]
   },
   {
     "id": "p220_10",
@@ -171,18 +171,18 @@
     "color": "dark_gray",
     "ammo": "10mm",
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
-    "dispersion": 480,
+    "dispersion": 410,
     "durability": 7,
-    "magazine_well": 1,
+    "magazine_well": "60 ml",
     "magazines": [ [ "10mm", [ "p220_10_mag" ] ] ]
   },
   {
-    "id": "hs2000_10",
+    "id": "xd_10",
     "copy-from": "pistol_base",
     "looks_like": "glock_19",
     "type": "GUN",
-    "name": { "str": "XD-M 10mm" },
-    "description": "Designed by HS Produkt in Croatia, the HS2000 has become a commercial success for Springfield Armory, who imports and markets it as the eXtreme Duty.  The XD has since been offered in a variety of chamberings and sizes, including this full-sized variant in 10mm Auto.",
+    "name": { "str": "XD(M) Competition 10mm" },
+    "description": "Designed by HS Produkt in Croatia, the HS2000 has become a commercial success for Springfield Armory, who imports and markets it as the eXtreme Duty.  The XD has since been offered in a variety of chamberings and sizes, including this full-sized match grade variant in 10mm Auto.",
     "weight": "930 g",
     "volume": "549 ml",
     "longest_side": "211 mm",
@@ -196,23 +196,26 @@
     "ammo": "10mm",
     "ranged_damage": { "damage_type": "bullet", "amount": -5 },
     "dispersion": 480,
-    "durability": 7,
-    "magazine_well": 1,
+    "durability": 8,
+    "magazine_well": "81 ml",
     "magazines": [ [ "10mm", [ "xd_10_mag" ] ] ]
   },
   {
     "id": "TDI_10",
     "copy-from": "TDI",
     "type": "GUN",
-    "name": { "str": "Vector SDP 10mm" },
-    "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the guns' usage was shortlived, a handful of clones were made and sold occasionally.  This semi-automatic clone features a fixed stock and long, 16\" barrel.",
+    "name": { "str": "KRISS Vector SDP 10mm" },
+    "description": "The Vector SDP is a delayed blowback \"pistol\" with a unique, downward reciprocating bolt that helps combat muzzle climb.  This one is chambered in 10mm Auto.",
     "weight": "2867 g",
     "volume": "4386 ml",
-    "price": 240000,
-    "price_postapoc": 4000,
+    "price": 142900,
+    "price_postapoc": 2300,
+    "skill": "pistol",
+    "ammo": "10mm",
     "ranged_damage": { "damage_type": "bullet", "amount": -4 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "barrel_length": "70 ml"
+    "magazine_well": "103 ml",
+    "magazines": [ [ "10mm", [ "glock_20mag", "tdi_10mm_mag" ] ] ]
   },
   {
     "id": "hk_mp5_semi_pistol",
@@ -221,10 +224,13 @@
     "name": { "str": "BA10" },
     "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the guns' usage was shortlived, a handful of clones were made and sold occasionally.  This semi-automatic one features a welded on optic rail and a folding arm brace.",
     "weight": "2667 g",
-    "price": 240000,
-    "price_postapoc": 4000,
+    "price": 360000,
+    "price_postapoc": 2300,
+    "durability": 7,
+    "skill": "pistol",
     "ranged_damage": { "damage_type": "bullet", "amount": 1 },
     "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "magazine_well": "62 ml",
     "magazines": [ [ "10mm", [ "mp5_10_mag" ] ] ]
-  },
+  }
 ]
