@@ -77,7 +77,7 @@
   },
   {
     "id": "glock_40",
-    "copy-from": "pistol_mrds",
+    "copy-from": "pistol_base",
     "looks_like": "glock_17",
     "type": "GUN",
     "name": { "str": "Glock 40 MOS" },
@@ -218,7 +218,7 @@
     "magazines": [ [ "10mm", [ "glock_20mag", "tdi_10mm_mag" ] ] ]
   },
   {
-    "id": "hk_mp5_semi_pistol",
+    "id": "hk_mp5_10_semi",
     "copy-from": "mp5",
     "type": "GUN",
     "name": { "str": "BA10" },
