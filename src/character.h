@@ -176,13 +176,25 @@ constexpr inline int operator-( const T &lhs, const fatigue_levels &rhs )
     return lhs - static_cast<T>( rhs );
 }
 
-// Sleep deprivation is defined in minutes, and although most calculations scale linearly,
-// maluses are bestowed only upon reaching the tiers defined below.
+/** @brief five levels of consequences for days without sleep
+    @details Sleep deprivation, distinct from fatigue, is defined in minutes. Although most
+    calculations scale linearly, malus is bestowed only upon reaching the tiers defined below.
+    @note Sleep deprivation increases fatigue. Fatigue increase scales with the severity of sleep
+    deprivation.
+    @note Sleep deprivation kicks in if lack of sleep is avoided with stimulants or otherwise for
+    long periods of time
+    @see https://github.com/CleverRaven/Cataclysm-DDA/blob/master/src/character.cpp#L5566
+*/
 enum sleep_deprivation_levels {
+    /// 2 days
     SLEEP_DEPRIVATION_HARMLESS = 2 * 24 * 60,
+    /// 4 days
     SLEEP_DEPRIVATION_MINOR = 4 * 24 * 60,
+    /// 7 days
     SLEEP_DEPRIVATION_SERIOUS = 7 * 24 * 60,
+    /// 10 days
     SLEEP_DEPRIVATION_MAJOR = 10 * 24 * 60,
+    /// 14 days
     SLEEP_DEPRIVATION_MASSIVE = 14 * 24 * 60
 };
 
@@ -199,30 +211,31 @@ struct enum_traits<blood_type> {
     static constexpr auto last = blood_type::num_bt;
 };
 
-// This tries to represent both rating and
-// character's decision to respect said rating
+/// @brief how digestible or palatable an item is
+/// @details This tries to represent both rating and character's decision to respect said rating
+/// (ie "they can eat it, though they are disgusted by it")
 enum edible_rating {
-    // Edible or we pretend it is
+    /// Edible or we pretend it is
     EDIBLE,
-    // Not food at all
+    /// Not food at all
     INEDIBLE,
-    // Not food because mutated mouth/system
+    /// Not food because character has mutated mouth/system
     INEDIBLE_MUTATION,
-    // You can eat it, but it will hurt morale
+    /// You can eat it, but it will hurt morale because of negative trait such as Hates Fruit
     ALLERGY,
-    // Smaller allergy penalty
+    /// Smaller allergy penalty
     ALLERGY_WEAK,
-    // Cannibalism (unless psycho/cannibal)
+    /// Penalty for eating human flesh (unless psycho/cannibal)
     CANNIBALISM,
-    // This has parasites
+    /// Comestible has parasites
     PARASITES,
-    // Rotten or not rotten enough (for saprophages)
+    /// Rotten (or, for saprophages, not rotten enough)
     ROTTEN,
-    // Can provoke vomiting if you already feel nauseous.
+    /// Can provoke vomiting if you already feel nauseous.
     NAUSEA,
-    // We can eat this, but we'll overeat
+    /// We can eat this, but we'll suffer from overeat
     TOO_FULL,
-    // Some weird stuff that requires a tool we don't have
+    /// Some weird stuff that requires a tool we don't have
     NO_TOOL
 };
 
@@ -279,6 +292,8 @@ inline social_modifiers operator+( social_modifiers lhs, const social_modifiers 
     return lhs;
 }
 
+/// @brief Four ability stats available on character creation
+/// @details  Default is 8. Minimum value is 4 and 14 is considered to be max human value.
 enum class character_stat : char {
     STRENGTH,
     DEXTERITY,
