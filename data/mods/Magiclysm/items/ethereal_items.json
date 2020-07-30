@@ -509,7 +509,7 @@
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "sword_wood",
-    "name": { "str": "Flamesword" },
+    "name": { "str": "flaming sword" },
     "description": "This wooden sword is ablaze! It seems to be safe-ish to hold, but will burn up soon.",
     "material": [ "wood" ],
     "flags": [
@@ -540,7 +540,7 @@
     "symbol": "/",
     "color": "light_gray",
     "looks_like": "bone",
-    "name": { "str": "Decaying Boneclub" },
+    "name": { "str": "decaying boneclub" },
     "description": "A pulsating club made of bone, stained with an ever-moving blood coating eager to absorb the living.",
     "material": [ "bone", "flesh" ],
     "flags": [
@@ -569,7 +569,7 @@
     "type": "GUN",
     "symbol": "(",
     "color": "brown",
-    "name": { "ctxt": "weapon", "str": "Impact Sling" },
+    "name": { "ctxt": "weapon", "str": "impact sling" },
     "description": "A leather sling, quivering with energy when in your palm to the point of almost tearing. A pebble appears when you begin spinning it.",
     "price": 150,
     "material": [ "leather" ],
@@ -594,5 +594,26 @@
     "bashing": 4,
     "reload_noise_volume": 3,
     "loudness": 6
+  },
+  {
+    "id": "aura_corrosive",
+    "type": "ARMOR",
+    "name": "acid aura",
+    "description": "An aura of thin acid, swirling around your body ready to corrode when struck or while striking.",
+    "weight": "1 g",
+    "volume": "1 ml",
+    "symbol": "o",
+    "color": "blue",
+    "flags": [ "AURA", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE", "OVERSIZE" ],
+    "relic_data": {
+      "passive_effects": [
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "hit_me_effect": [ { "id": "acidic_zap" } ],
+          "values": [ { "value": "ARMOR_ACID", "add": 5 }, { "value": "ITEM_DAMAGE_ACID", "add": 3 } ]
+        }
+      ]
+    }
   }
 ]
