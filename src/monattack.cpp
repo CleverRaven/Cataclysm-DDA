@@ -3717,8 +3717,7 @@ bool mattack::searchlight( monster *z )
         settings.set_var( "SL_SPOT_X", x - zposx );
         settings.set_var( "SL_SPOT_Y", y - zposy );
 
-        here.add_field( tripoint( x, y, z->posz() ), fd_spotlight, 1 );
-
+        here.add_field( tripoint( x, y, z->posz() ), field_type_id( "fd_spotlight" ), 1 );
     }
 
     return true;

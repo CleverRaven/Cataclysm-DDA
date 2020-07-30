@@ -822,7 +822,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     create_hot_air( p, cur.get_field_intensity() );
                 }
-                if( curtype == fd_rubble ) {
+                if( curtype.obj().legacy_make_rubble ) {
                     // Legacy Stuff
                     make_rubble( p );
                 }
@@ -1547,13 +1547,6 @@ void map::player_in_field( player &u )
             if( !u.has_trait( trait_M_IMMUNE ) && ( !inside || one_in( 4 ) ) ) {
                 u.add_env_effect( effect_fungus, bp_mouth, 4, 10_minutes, num_bp, true );
                 u.add_env_effect( effect_fungus, bp_eyes, 4, 10_minutes, num_bp, true );
-            }
-        }
-        if( ft == fd_dazzling ) {
-            if( cur.get_field_intensity() > 1 || one_in( 5 ) ) {
-                u.add_env_effect( effect_blind, bp_eyes, 10, 10_turns );
-            } else {
-                u.add_env_effect( effect_blind, bp_eyes, 2, 2_turns );
             }
         }
 
