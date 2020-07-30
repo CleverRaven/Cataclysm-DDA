@@ -405,6 +405,7 @@ ifeq ($(PCH), 1)
 	else
 		PCH_P = pch/pch.hpp.pch
 		PCHFLAGS += -include-pch $(PCH_P)
+		CXXFLAGS += -Xclang -fno-pch-timestamp
 	endif
 endif
 

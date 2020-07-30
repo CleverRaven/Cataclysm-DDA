@@ -40,7 +40,7 @@ ifeq ($(PCH), 1)
 	else
 		PCH_P = pch/pch.hpp.pch
 		PCHFLAGS += -include-pch $(PCH_P)
-		CXXFLAGS += -Wno-unused-macros
+		CXXFLAGS += -Wno-unused-macros -Xclang -fno-pch-timestamp
 	endif
 endif
 
