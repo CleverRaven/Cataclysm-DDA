@@ -50,7 +50,7 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
         }
         std::remove( ref_lines.begin(), ref_lines.end(), message );
     }
-    std::string unmached_results;
+    std::string unmatched_results;
     INFO( std::accumulate( begin( ref_lines ), end( ref_lines ), unmatched_results ) );
     CHECK( ref_lines.empty() );
 }
