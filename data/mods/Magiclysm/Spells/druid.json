@@ -335,7 +335,7 @@
     "id": "druid_feralform",
     "type": "SPELL",
     "name": "Feral Form",
-    "description": "Envelops your entire body in armor formed from living rock, encumbering yet protective.",
+    "description": "This spell unleashs your inner beast, growing claws & fangs to rend your foes limb from limb.",
     "valid_targets": [ "self" ],
     "effect": "spawn_item",
     "effect_str": "aura_feral",

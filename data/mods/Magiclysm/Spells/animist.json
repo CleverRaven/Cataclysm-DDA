@@ -242,7 +242,7 @@
     "id": "summon_decaying_boneclub",
     "type": "SPELL",
     "name": { "str": "Decaying Boneclub" },
-    "description": "This spell ignites dust scattered in the air, creating a cone of flame. The hot ashes can cling to targets, causing additional burns over time.",
+    "description": "This spell links your live blood to the dead blood & bones, creating a club hungry for the flesh of the living.",
     "effect": "spawn_item",
     "effect_str": "decaying_boneclub",
     "valid_targets": [ "self" ],
