@@ -371,7 +371,7 @@
     "fun": 3,
     "flags": [ "SMOKABLE" ],
     "smoking_result": "dry_fruit",
-    "vitamins": [ [ "vitA", 5 ], [ "iron", 1 ],  [ "vitC", 10 ] ]
+    "vitamins": [ [ "vitA", 5 ], [ "iron", 1 ], [ "vitC", 10 ] ]
   },
   {
     "type": "COMESTIBLE",
