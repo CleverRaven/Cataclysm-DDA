@@ -36,10 +36,10 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
     CHECK( result_lines.back().empty() );
     result_lines.pop_back();
 
+    // Remove expected results by matching them against the strings we encounter.
     std::vector<std::string> ref_lines = string_split( ref, '\n' );
-    REQUIRE( result_lines.size() == ref_lines.size() );
-    for( size_t i = 0; i < ref_lines.size(); ++i ) {
-        std::string message = string_split( result_lines[i], '|' ).back();
+    for( const std::string &result_string : result_lines ) {
+        std::string message - string_split( result_string, '|' ).back();
         if( !message.empty() && message.front() == ' ' ) {
             message.erase( message.begin() );
         }
@@ -47,8 +47,10 @@ void check_memorial( memorial_logger &m, event_bus &b, const std::string &ref, A
         while( !message.empty() && *message.rbegin() == '\r' ) {
             message.erase( message.end() - 1 );
         }
-        CHECK( message == ref_lines[i] );
+        std::remove( result_lines.begin(), result_lines.end(), message );
     }
+    INFO( "Unmatched results" << ref_lines );
+    CHECK( ref_lines.empty() );
 }
 
 TEST_CASE( "memorials", "[memorial]" )
