@@ -1042,7 +1042,7 @@ endif  # ifdef TILES
 
 dmgdistclean:
 	rm -rf Cataclysm
-	rm -f Cataclysm.dmg
+	rm -f Cataclysm*.dmg
 	rm -rf lang/mo
 
 dmgdist: dmgdistclean $(L10N) app
@@ -1053,10 +1053,10 @@ ifdef OSXCROSS
 	cp build-data/osx/dmgback.png Cataclysm/.background.png
 	ln -s /Applications Cataclysm/Applications
 	genisoimage -quiet -D -V "Cataclysm DDA" -no-pad -r -apple -o Cataclysm-uncompressed.dmg Cataclysm/
-	dmg dmg Cataclysm-uncompressed.dmg Cataclysm.dmg
+	dmg dmg Cataclysm-uncompressed.dmg Cataclysm-$(VERSION).dmg
 	rm Cataclysm-uncompressed.dmg
 else
-	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
+	dmgbuild -s build-data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm-$(VERSION).dmg
 endif
 
 endif  # ifeq ($(NATIVE), osx)
