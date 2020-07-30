@@ -1222,13 +1222,6 @@ def extract(item, infilename):
             print("WARNING: {}: nothing translatable found in item: {}".format(infilename, item))
 
 
-def is_official_mod(full_path):
-    for i in official_mods:  # FIXME: official_mods undefined
-        if full_path.find(i) != -1:
-            return True
-    return False
-
-
 def extract_all_from_dir(json_dir):
     """Extract strings from every json file in the specified directory,
     recursing into any subdirectories."""

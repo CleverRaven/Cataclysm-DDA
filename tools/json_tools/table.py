@@ -16,14 +16,7 @@ Examples with nested attributes:
 """
 
 import argparse
-import codecs
-import sys
 import util
-
-# Avoid (most) unicode frustrations
-# https://pythonhosted.org/kitchen/unicode-frustrations.html
-UTF8Writer = codecs.getwriter('utf8')
-sys.stdout = UTF8Writer(sys.stdout)
 
 # Command-line arguments
 parser = argparse.ArgumentParser(
