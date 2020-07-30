@@ -3214,7 +3214,7 @@ void Creature::store( JsonOut &jsout ) const
     // Because JSON requires string keys we need to convert our int keys
     std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
     for( const auto &maps : *effects ) {
-        for( const auto i : maps.second ) {
+        for( const auto &i : maps.second ) {
             std::ostringstream convert;
             convert << i.first;
             tmp_map[maps.first.str()][convert.str()] = i.second;

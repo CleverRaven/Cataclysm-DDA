@@ -60,14 +60,14 @@ TEST_CASE( "character add_effect", "[creature][character][effect][add]" )
 
             // Left arm bleeding, right arm grabbed
             THEN( "they have the effect on that body part" ) {
-                CHECK( dummy.has_effect( effect_bleed, left_arm->token ) );
-                CHECK( dummy.has_effect( effect_grabbed, right_arm->token ) );
+                CHECK( dummy.has_effect( effect_bleed, left_arm.id() ) );
+                CHECK( dummy.has_effect( effect_grabbed, right_arm.id() ) );
             }
 
             // Left arm not grabbed, right arm not bleeding
             THEN( "they do not have the effect on another body part" ) {
-                CHECK_FALSE( dummy.has_effect( effect_grabbed, left_arm->token ) );
-                CHECK_FALSE( dummy.has_effect( effect_bleed, right_arm->token ) );
+                CHECK_FALSE( dummy.has_effect( effect_grabbed, left_arm.id() ) );
+                CHECK_FALSE( dummy.has_effect( effect_bleed, right_arm.id() ) );
             }
         }
     }
@@ -135,7 +135,7 @@ TEST_CASE( "remove_effect", "[creature][effect][remove]" )
     // Left arm grabbed
     WHEN( "character has effect on one body part" ) {
         dummy.add_effect( effect_grabbed, 1_minutes, left_arm );
-        REQUIRE( dummy.has_effect( effect_grabbed, left_arm->token ) );
+        REQUIRE( dummy.has_effect( effect_grabbed, left_arm.id() ) );
 
         THEN( "remove_effect with no body part returns true" ) {
             // Release all grabs
@@ -151,7 +151,7 @@ TEST_CASE( "remove_effect", "[creature][effect][remove]" )
             CHECK( dummy.remove_effect( effect_grabbed, left_arm ) );
             // Left arm is released
             AND_THEN( "effect is removed from that body part" ) {
-                CHECK_FALSE( dummy.has_effect( effect_grabbed, left_arm->token ) );
+                CHECK_FALSE( dummy.has_effect( effect_grabbed, left_arm.id() ) );
             }
         }
 
@@ -160,7 +160,7 @@ TEST_CASE( "remove_effect", "[creature][effect][remove]" )
             CHECK_FALSE( dummy.remove_effect( effect_grabbed, right_arm ) );
             // Left arm is still grabbed
             AND_THEN( "effect still applies to original body part" ) {
-                CHECK( dummy.has_effect( effect_grabbed, left_arm->token ) );
+                CHECK( dummy.has_effect( effect_grabbed, left_arm.id() ) );
             }
         }
     }
@@ -169,16 +169,16 @@ TEST_CASE( "remove_effect", "[creature][effect][remove]" )
     WHEN( "character has effect on two body parts" ) {
         dummy.add_effect( effect_grabbed, 1_minutes, left_arm );
         dummy.add_effect( effect_grabbed, 1_minutes, right_arm );
-        REQUIRE( dummy.has_effect( effect_grabbed, left_arm->token ) );
-        REQUIRE( dummy.has_effect( effect_grabbed, right_arm->token ) );
+        REQUIRE( dummy.has_effect( effect_grabbed, left_arm.id() ) );
+        REQUIRE( dummy.has_effect( effect_grabbed, right_arm.id() ) );
 
         // Release all grabs
         THEN( "remove_effect with no body part returns true" ) {
             CHECK( dummy.remove_effect( effect_grabbed ) );
             // Both arms are released
             AND_THEN( "effect is removed from all body parts" ) {
-                CHECK_FALSE( dummy.has_effect( effect_grabbed, left_arm->token ) );
-                CHECK_FALSE( dummy.has_effect( effect_grabbed, right_arm->token ) );
+                CHECK_FALSE( dummy.has_effect( effect_grabbed, left_arm.id() ) );
+                CHECK_FALSE( dummy.has_effect( effect_grabbed, right_arm.id() ) );
             }
         }
 
@@ -187,11 +187,11 @@ TEST_CASE( "remove_effect", "[creature][effect][remove]" )
             CHECK( dummy.remove_effect( effect_grabbed, left_arm ) );
             // Left arm is released
             AND_THEN( "effect is removed from that body part" ) {
-                CHECK_FALSE( dummy.has_effect( effect_grabbed, left_arm->token ) );
+                CHECK_FALSE( dummy.has_effect( effect_grabbed, left_arm.id() ) );
             }
             // Right arm still grabbed
             AND_THEN( "effect still applies to other body part" ) {
-                CHECK( dummy.has_effect( effect_grabbed, right_arm->token ) );
+                CHECK( dummy.has_effect( effect_grabbed, right_arm.id() ) );
             }
         }
 
@@ -201,8 +201,8 @@ TEST_CASE( "remove_effect", "[creature][effect][remove]" )
             CHECK_FALSE( dummy.remove_effect( effect_grabbed, right_leg ) );
             // Both arms still grabbed
             AND_THEN( "effect still applies to original body parts" ) {
-                CHECK( dummy.has_effect( effect_grabbed, left_arm->token ) );
-                CHECK( dummy.has_effect( effect_grabbed, right_arm->token ) );
+                CHECK( dummy.has_effect( effect_grabbed, left_arm.id() ) );
+                CHECK( dummy.has_effect( effect_grabbed, right_arm.id() ) );
             }
         }
     }
@@ -276,30 +276,30 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
             dummy.add_effect( effect_grabbed, 1_minutes, left_arm );
 
             THEN( "has_effect is true for affected body part" ) {
-                CHECK( dummy.has_effect( effect_grabbed, left_arm->token ) );
+                CHECK( dummy.has_effect( effect_grabbed, left_arm.id() ) );
             }
             THEN( "has_effect is false for an unaffected body part" ) {
-                CHECK_FALSE( dummy.has_effect( effect_grabbed, right_arm->token ) );
+                CHECK_FALSE( dummy.has_effect( effect_grabbed, right_arm.id() ) );
             }
             THEN( "has_effect is true when body part is not specified" ) {
                 // num_bp (default) is any/all body parts
                 CHECK( dummy.has_effect( effect_grabbed ) );
-                CHECK( dummy.has_effect( effect_grabbed, num_bp ) );
+                CHECK( dummy.has_effect( effect_grabbed, bodypart_str_id( "bp_null" ) ) );
             }
 
         }
 
         // Downed
         WHEN( "character has effect on the whole body" ) {
-            dummy.add_effect( effect_downed, 1_minutes, bodypart_id( "num_bp" ) );
+            dummy.add_effect( effect_downed, 1_minutes, bodypart_id( "bp_null" ) );
 
             THEN( "has_effect is false for any body part" ) {
-                CHECK_FALSE( dummy.has_effect( effect_downed, left_arm->token ) );
-                CHECK_FALSE( dummy.has_effect( effect_downed, right_arm->token ) );
+                CHECK_FALSE( dummy.has_effect( effect_downed, left_arm.id() ) );
+                CHECK_FALSE( dummy.has_effect( effect_downed, right_arm.id() ) );
             }
             THEN( "has_effect is true when body part is not specified" ) {
                 CHECK( dummy.has_effect( effect_downed ) );
-                CHECK( dummy.has_effect( effect_downed, num_bp ) );
+                CHECK( dummy.has_effect( effect_downed, bodypart_str_id( "bp_null" ) ) );
             }
         }
     }

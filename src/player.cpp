@@ -484,7 +484,7 @@ void player::recalc_speed_bonus()
     mod_speed_bonus( kcal_speed_penalty() );
 
     for( const auto &maps : *effects ) {
-        for( auto i : maps.second ) {
+        for( const auto &i : maps.second ) {
             bool reduced = resists_effect( i.second );
             mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
         }
