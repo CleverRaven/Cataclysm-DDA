@@ -311,7 +311,7 @@ std::string texitify_bandage_power( int power );
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON
 class effects_map : public
-    std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>>
+    std::unordered_map<efftype_id, std::unordered_map<bodypart_str_id, effect, std::hash<int>>>
 {
 };
 
