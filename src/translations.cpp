@@ -5,12 +5,10 @@
 #include <cstdlib>
 #include <functional>
 
-#pragma GCC diagnostic push
 #if defined(LOCALIZE) && defined(__STRICT_ANSI__)
 #undef __STRICT_ANSI__ // _putenv in minGW need that
 #include <cstdlib>
 
-#pragma GCC diagnostic ignored "-Wunused-macros"
 #define __STRICT_ANSI__
 #endif
 
@@ -731,4 +729,7 @@ bool localized_comparator::operator()( const std::wstring &l, const std::wstring
 #endif
 }
 
-#pragma GCC diagnostic pop
+// silence -Wunused-macro
+#ifdef __STRICT_ANSI__
+#undef __STRICT_ANSI__
+#endif
