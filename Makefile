@@ -409,9 +409,9 @@ ifeq ($(PCH), 1)
     # FIXME: dirty hack ahead
     # ccache won't wort with clang unless it supports -fno-pch-timestamp
     ifeq ($(CCACHE), 1)
-      CLANGVER := $(shell echo 'int main(){}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o /dev/null - 2>&1)
+      CLANGVER := $(shell echo 'int main(void){return 0;}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o $(ODIR)/__bla__.o - 2>&1)
       ifneq ($(.SHELLSTATUS), 0)
-        $(warning your clang version does not support -fno-pch-timestamp: $(CLANGVER))
+        $(warning your clang version does not support -fno-pch-timestamp: $(CLANGVER) ($(.SHELLSTATUS)))
         undefine PCHFLAGS
         undefine PCH_H
         undefine PCH_P
