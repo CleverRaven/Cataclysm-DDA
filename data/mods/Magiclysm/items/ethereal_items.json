@@ -520,7 +520,8 @@
       "MAGIC_FOCUS",
       "LIGHT_10",
       "FIRESTARTER",
-      "FIRE"
+      "FIRE",
+      "TRADER_AVOID"
     ],
     "techniques": [ "WBLOCK_1", "WIDE", "BRUTAL" ],
     "weight": "900 g",
@@ -529,7 +530,9 @@
     "bashing": 12,
     "cutting": 2,
     "to_hit": 2,
-	"relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 8 } ] } ] }
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 8 } ] } ]
+    }
   },
   {
     "id": "flamesword",
@@ -547,7 +550,8 @@
       "NO_REPAIR",
       "NO_SALVAGE",
       "MAGIC_FOCUS",
-      "BELT_CLIP"
+      "BELT_CLIP",
+      "TRADER_AVOID"
     ],
     "techniques": [ "WBLOCK_2", "RAPID", "PRECISE" ],
     "weight": "700 g",
@@ -555,6 +559,40 @@
     "longest_side": "70 cm",
     "bashing": 12,
     "to_hit": 3,
-	"relic_data": { "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_BIO", "add": 8 } ] } ] }
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_BIO", "add": 8 } ] } ]
+    }
+  },
+  {
+    "id": "impactsling",
+    "looks_like": "sling",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": { "ctxt": "weapon", "str": "Impact Sling" },
+    "description": "A leather sling, quivering with energy when in your palm to the point of almost tearing. A pebble appears when you begin spinning it.",
+    "price": 150,
+    "material": [ "leather" ],
+    "flags": [
+      "NEVER_JAMS",
+      "PRIMITIVE_RANGED_WEAPON",
+      "BELT_CLIP",
+      "FIRE_TWOHAND",
+      "TRADER_AVOID",
+      "NO_AMMO",
+      "NO_UNLOAD",
+      "NO_REPAIR"
+    ],
+    "weight": "86 g",
+    "volume": "250 ml",
+    "price_postapoc": 250,
+    "to_hit": -1,
+    "ranged_damage": { "damage_type": "bash", "amount": 20 },
+    "range": 20,
+    "dispersion": 135,
+    "durability": 7,
+    "bashing": 4,
+    "reload_noise_volume": 3,
+    "loudness": 6
   }
 ]
