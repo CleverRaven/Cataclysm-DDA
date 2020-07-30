@@ -491,7 +491,8 @@ class Creature : public location
         bool has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
         bool has_effect( const efftype_id &eff_id ) const;
         /** Check if creature has any effect with the given flag. */
-        bool has_effect_with_flag( const std::string &flag, body_part bp = num_bp ) const;
+        bool has_effect_with_flag( const std::string &flag, const bodypart_id &bp ) const;
+        bool has_effect_with_flag( const std::string &flag ) const;
         std::vector<effect> get_effects_with_flag( const std::string &flag ) const;
         /** Return the effect that matches the given arguments exactly. */
         const effect &get_effect( const efftype_id &eff_id, body_part bp = num_bp ) const;

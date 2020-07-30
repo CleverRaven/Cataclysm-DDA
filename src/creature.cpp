@@ -1184,14 +1184,26 @@ bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp )
 
 bool Creature::has_effect( const efftype_id &eff_id ) const
 {
-    return has_effect( eff_id, bodypart_str_id( "num_bp" ) );
+    return has_effect( eff_id, bodypart_str_id( "bp_null" ) );
 }
 
-bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
+bool Creature::has_effect_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
     for( auto &elem : *effects ) {
         for( const std::pair<const body_part, effect> &_it : elem.second ) {
-            if( ( bp == _it.first || bp == num_bp ) && _it.second.has_flag( flag ) ) {
+            if( bp == convert_bp( _it.first ) && _it.second.has_flag( flag ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Creature::has_effect_with_flag( const std::string &flag ) const
+{
+    for( auto &elem : *effects ) {
+        for( const std::pair<const body_part, effect> &_it : elem.second ) {
+            if( _it.second.has_flag( flag ) ) {
                 return true;
             }
         }
