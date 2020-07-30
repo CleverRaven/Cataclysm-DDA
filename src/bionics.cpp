@@ -291,6 +291,7 @@ void bionic_data::load( const JsonObject &jsobj, const std::string & )
     optional( jsobj, was_loaded, "is_remote_fueled", is_remote_fueled );
 
     optional( jsobj, was_loaded, "learned_spells", learned_spells );
+    optional( jsobj, was_loaded, "learned_proficiencies", proficiencies );
     optional( jsobj, was_loaded, "canceled_mutations", canceled_mutations );
     optional( jsobj, was_loaded, "included_bionics", included_bionics );
     optional( jsobj, was_loaded, "included", included );
@@ -2692,6 +2693,10 @@ void Character::add_bionic( const bionic_id &b )
         }
     }
 
+    for( const proficiency_id &learned : b->proficiencies ) {
+        add_proficiency( learned );
+    }
+
     calc_encumbrance();
     recalc_sight_limits();
     if( !b->enchantments.empty() ) {
@@ -2726,6 +2731,10 @@ void Character::remove_bionic( const bionic_id &b )
         if( cbm_spells.count( spell_pair.first ) == 0 ) {
             magic.forget_spell( spell_pair.first );
         }
+    }
+
+    for( const proficiency_id &lost : b->proficiencies ) {
+        lose_proficiency( lost );
     }
 
     *my_bionics = new_my_bionics;
