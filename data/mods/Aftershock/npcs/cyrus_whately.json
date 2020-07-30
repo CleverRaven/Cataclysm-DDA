@@ -174,7 +174,7 @@
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 6,
     "value": 0,
-    "item": "broken_broken_cyborg",
+    "item": "broken_cyborg_corpse",
     "count": 3,
     "origins": [ "ORIGIN_SECONDARY" ],
     "followup": "MISSION_FRANKENSTEIN_5",
