@@ -430,6 +430,7 @@
       }
     ],
     "ammo": "battery",
+    "max_charges": 500,
     "initial_charges": 500,
     "charges_per_use": 25,
     "warmth": 10,
@@ -1024,6 +1025,7 @@
       }
     ],
     "ammo": "battery",
+    "max_charges": 1000,
     "initial_charges": 1000,
     "use_action": {
       "type": "transform",
@@ -1084,6 +1086,7 @@
       }
     ],
     "ammo": "battery",
+    "max_charges": 1000,
     "initial_charges": 1000,
     "use_action": {
       "type": "transform",
@@ -1164,6 +1167,7 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
     "ammo": "rebreather_filter",
+    "max_charges": 60,
     "initial_charges": 60,
     "charges_per_use": 1,
     "use_action": {
@@ -1212,6 +1216,7 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "rebreather_filter": 60 } } ],
     "ammo": "rebreather_filter",
+    "max_charges": 60,
     "initial_charges": 60,
     "charges_per_use": 1,
     "use_action": {
@@ -1267,6 +1272,7 @@
     "environmental_protection_with_filter": 7,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_s": 100 } } ],
     "ammo": "gasfilter_s",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ]
   },
@@ -1295,6 +1301,7 @@
     "environmental_protection_with_filter": 16,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ]
   },
@@ -1322,6 +1329,7 @@
     "environmental_protection_with_filter": 16,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "flags": [ "OVERSIZE", "SLEEP_IGNORE" ]
@@ -1351,6 +1359,7 @@
     "environmental_protection_with_filter": 15,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "flags": [ "VARSIZE", "STURDY", "SUN_GLASSES", "SLEEP_IGNORE" ]
@@ -1380,6 +1389,7 @@
     "environmental_protection_with_filter": 15,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "flags": [ "VARSIZE", "STURDY", "OVERSIZE", "SUN_GLASSES", "SLEEP_IGNORE" ]
@@ -1402,6 +1412,7 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "warmth": 30,
@@ -1427,6 +1438,7 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "steel" ],
@@ -1456,6 +1468,7 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "cotton" ],
@@ -1485,6 +1498,7 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "leather" ],
@@ -1514,6 +1528,7 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "plastic" ],
@@ -1543,6 +1558,7 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "fur" ],
@@ -1572,6 +1588,7 @@
     "to_hit": -3,
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "gasfilter_m": 100 } } ],
     "ammo": "gasfilter_m",
+    "max_charges": 100,
     "initial_charges": 100,
     "use_action": [ "GASMASK" ],
     "material": [ "kevlar_layered", "fur" ],
@@ -2649,6 +2666,7 @@
     "weight": "200 g",
     "color": "brown",
     "covers": [ "HEAD" ],
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -2715,6 +2733,7 @@
     "color": "red",
     "covers": [ "TORSO" ],
     "to_hit": 2,
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -2757,6 +2776,7 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "to_hit": -2,
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -2798,6 +2818,7 @@
     "covers": [ "TORSO" ],
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": -1,
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -2833,6 +2854,7 @@
     "covers": [ "TORSO" ],
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": 1,
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -3083,6 +3105,7 @@
     "material": [ "steel", "plastic" ],
     "symbol": ";",
     "color": "light_gray",
+    "max_charges": 60,
     "initial_charges": 60,
     "ammo": "nitrox",
     "pocket_data": [
