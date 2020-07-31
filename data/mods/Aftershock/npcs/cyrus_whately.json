@@ -130,7 +130,7 @@
     "followup": "MISSION_FRANKENSTEIN_3",
     "dialogue": {
       "describe": "I need one neurosynaptic interface matrix.",
-      "offer": "I want to test something and I need a viable version to reverse engineer.",
+      "offer": "I want to test something and I need a viable version to reverse engineer.  Bring me one neurosynaptic interface matrix.",
       "accepted": "Without this all that's possible is 'Ye liveliest awfulness'.",
       "rejected": "You'd give up a new world just to bring back Foodplace!",
       "advice": "You're going to have to hunt this down.",
@@ -155,7 +155,7 @@
     "followup": "MISSION_FRANKENSTEIN_4",
     "dialogue": {
       "describe": "I need three alpha mutagen.",
-      "offer": "I know that one of the corporations were creating a so called Alpha mutagen.  I need some to prepare the body.",
+      "offer": "I know that one of the corporations were creating a so called Alpha mutagen.  I need three doses to prepare the body.",
       "accepted": "Better living through chemistry.",
       "rejected": "Would you take it yourself?",
       "advice": "If you can't make it yourself go hit up a lab.  Be prepared for anything in there.",
@@ -205,7 +205,7 @@
     "origins": [ "ORIGIN_SECONDARY" ],
     "dialogue": {
       "describe": "I need some brains, but brains that are still living.  We've got our own brain blasters, but I won't risk them in experiments.",
-      "offer": "If this works I may be able to give some of these poor souls bodies again.",
+      "offer": "If this works I may be able to give some of these poor souls bodies again.  Six should do.",
       "accepted": "I knew I could count on your generosity.",
       "rejected": "I would have given you the title of Whately family Igor.",
       "advice": "Brain blasters, that's what I call them.  Some kind of automated weapon system the mi-go use.",
