@@ -341,7 +341,7 @@
     "components": [
       [ [ "vitamins", 5 ] ],
       [ [ "aspirin", 10 ] ],
-      [ [ "strong_acid", 1 ], [ "datura_seed", 8 ] ],
+      [ [ "any_strong_acid", 1, "LIST" ], [ "datura_seed", 8 ] ],
       [ [ "bleach", 1 ], [ "oxy_powder", 100 ] ]
     ]
   },
@@ -1179,7 +1179,7 @@
     "charges": 250,
     "qualities": [ { "id": "CHEM", "level": 2 }, { "id": "CONTAIN", "level": 1 } ],
     "byproducts": [ [ "water_clean" ] ],
-    "components": [ [ [ "chem_ethanol", 250 ] ], [ [ "chem_acetic_acid", 1 ], [ "any_strong_acid", 1 ] ] ]
+    "components": [ [ [ "chem_ethanol", 250 ] ], [ [ "chem_acetic_acid", 1 ], [ "any_strong_acid", 1, "LIST" ] ] ]
   },
   {
     "result": "zinc_metal",
