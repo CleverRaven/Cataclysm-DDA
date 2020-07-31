@@ -3966,7 +3966,7 @@
     "tools": [ [ [ "surface_heat", 50, "LIST" ] ] ],
     "components": [
       [ [ "pine_bough", 6 ], [ "2x4", 8 ], [ "stick", 8 ], [ "splinter", 16 ] ],
-      [ [ "strong_acid", 1 ] ]
+      [ [ "any_strong_acid", 1 ] ]
     ]
   },
   {
