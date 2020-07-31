@@ -99,7 +99,7 @@
     "description": "Utilizing a powerful and unusual caliber, the Rivtech RM2000 submachine gun was designed for durability and ease of carrying under less than ideal circumstances.  Accepts stick magazines.",
     "weight": "1900 g",
     "volume": "1750 ml",
-    "longest_side": "450 mm",
+    "longest_side": "660 mm",
     "price": 1900000,
     "price_postapoc": 10000,
     "to_hit": -2,
