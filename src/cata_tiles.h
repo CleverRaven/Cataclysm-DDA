@@ -316,6 +316,9 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values( int t, const int *tn, int &subtile, int &rotation );
+        // as get_tile_values, but for unconnected tiles, infer rotation from surrouding walls
+        void get_tile_values_with_ter( const tripoint &p, int t, const int *tn, int &subtile,
+                                       int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                  const std::map<tripoint, ter_id> &ter_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
