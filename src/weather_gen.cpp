@@ -118,7 +118,6 @@ w_point weather_generator::get_weather( const tripoint &location, const time_poi
 
     // Noise factors
     const double T( weather_temperature_from_common_data( *this, common, t ) );
-    double A( raw_noise_4d( x, y, z, modSEED ) * 8.0 );
     double W( raw_noise_4d( x / 2.5, y / 2.5, z / 200, modSEED ) * 10.0 );
 
     // Humidity variation
