@@ -9,13 +9,9 @@ import os
 import subprocess
 
 
-# stupid stinking Python 2 versus Python 3 syntax
 def write_to_json(pathname, data):
     with open(pathname, "w") as fp:
-        try:
-            json.dump(data, fp)
-        except ValueError:
-            fp.write(json.dumps(data))
+        json.dump(data, fp)
 
     json_formatter = "./tools/format/json_formatter.cgi"
     if os.path.isfile(json_formatter):
