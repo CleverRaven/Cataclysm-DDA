@@ -728,3 +728,8 @@ bool localized_comparator::operator()( const std::wstring &l, const std::wstring
     return std::locale()( l, r );
 #endif
 }
+
+// silence -Wunused-macro
+#ifdef __STRICT_ANSI__
+#undef __STRICT_ANSI__
+#endif
