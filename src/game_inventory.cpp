@@ -528,15 +528,14 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "CONSUME TIME" ) );
 
             append_cell( [this, &player_character]( const item_location & loc ) {
-                std::string sealed = "";
+                std::string sealed;
                 if( loc.has_parent() ) {
-                    sealed = loc.parent_item()->contents.get_sealed_summary() ==
-                             item_contents::sealed_summary::all_sealed ? _( "sealed" ) : std::string();
+                    item_pocket *pocket = loc.parent_item()->contained_where( * loc.get_item() );
+                    sealed = pocket->sealed() ? _( "sealed" ) : std::string();
                 }
                 if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
-                        return string_format( ( "%s%s%s" ), _( sealed ),
-                                              sealed.empty() ? "" : " ", get_freshness( loc ) );
+                        return sealed + ( sealed.empty() ? "" : " " ) + get_freshness( loc );
                     }
                     return std::string( "---" );
                 }
