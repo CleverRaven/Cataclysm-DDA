@@ -152,6 +152,11 @@ void Character::set_mutation( const trait_id &trait )
     mutation_effect( trait );
     recalc_sight_limits();
     calc_encumbrance();
+
+    // If the stamina is higher than the max (Languorous), set it back to max
+    if( get_stamina() > get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
+    }
 }
 
 void Character::unset_mutation( const trait_id &trait_ )
