@@ -1241,9 +1241,9 @@ const effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_id 
     }
     return effect::null_effect;
 }
-time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
+time_duration Creature::get_effect_dur( const efftype_id &eff_id, const bodypart_id &bp ) const
 {
-    const effect &eff = get_effect( eff_id, convert_bp( bp ).id() );
+    const effect &eff = get_effect( eff_id, bp );
     if( !eff.is_null() ) {
         return eff.get_duration();
     }
