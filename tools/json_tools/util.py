@@ -48,7 +48,7 @@ def match_primitive_values(item_value, where_value):
     """
     # Matching interpolation for keyboard constrained input.
     if type(item_value) == str:
-        # Direct match, and don't convert unicode in Python 2.
+        # Direct match
         return bool(re.match(where_value, item_value))
     elif type(item_value) == int or type(item_value) == float:
         # match after string conversion
