@@ -801,10 +801,10 @@ void player::pause()
     if( !is_armed() && has_effect( effect_bleed ) ) {
         int most = 0;
         bodypart_id bp_id;
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             if( most <= get_effect_int( effect_bleed, bp ) ) {
                 most = get_effect_int( effect_bleed, bp );
-                bp_id = convert_bp( bp );
+                bp_id =  bp ;
             }
         }
         effect &e = get_effect( effect_bleed, bp_id );

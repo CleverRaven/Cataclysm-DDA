@@ -1250,9 +1250,9 @@ time_duration Creature::get_effect_dur( const efftype_id &eff_id, const bodypart
 
     return 0_turns;
 }
-int Creature::get_effect_int( const efftype_id &eff_id, body_part bp ) const
+int Creature::get_effect_int( const efftype_id &eff_id, const bodypart_id &bp ) const
 {
-    const effect &eff = get_effect( eff_id, convert_bp( bp ).id() );
+    const effect &eff = get_effect( eff_id, bp );
     if( !eff.is_null() ) {
         return eff.get_intensity();
     }

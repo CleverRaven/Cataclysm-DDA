@@ -1537,7 +1537,8 @@ bool Character::try_remove_grab()
             remove_effect( effect_grabbed );
 
             /** @EFFECT_STR increases chance to escape grab */
-        } else if( rng( 0, get_str() ) < rng( get_effect_int( effect_grabbed, bp_torso ), 8 ) ) {
+        } else if( rng( 0, get_str() ) < rng( get_effect_int( effect_grabbed, bodypart_id( "torso" ) ),
+                                              8 ) ) {
             add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
                                    _( "<npcname> tries to break out of the grab, but fails!" ) );
             return false;
@@ -5985,8 +5986,8 @@ void Character::update_bodytemp()
                 // TODO: make this simpler and use time_duration/time_point
                 to_turn<int>( calendar::turn ) % to_turns<int>( 1_minutes ) == to_turns<int>
                 ( 1_minutes * bp->token ) / to_turns<int>( 1_minutes * num_bp ) &&
-                get_effect_int( effect_cold, num_bp ) == 0 &&
-                get_effect_int( effect_hot, num_bp ) == 0 &&
+                get_effect_int( effect_cold ) == 0 &&
+                get_effect_int( effect_hot ) == 0 &&
                 get_part_temp_conv( bp ) > BODYTEMP_COLD && get_part_temp_conv( bp ) <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 10, 2_minutes, 1_minutes, true );
             }
@@ -6091,7 +6092,7 @@ void Character::update_bodytemp()
             int FBwindPower = static_cast<int>(
                                   total_windpower * ( 1 - get_wind_resistance( bp ) / 100.0 ) );
 
-            int intense = get_effect_int( effect_frostbite, bp->token );
+            int intense = get_effect_int( effect_frostbite, bp );
 
             // This has been broken down into 8 zones
             // Low risk zones (stops at frostnip)
@@ -6429,7 +6430,6 @@ bodypart_id Character::body_window( const std::string &menu_header,
     for( size_t i = 0; i < parts.size(); i++ ) {
         const healable_bp &e = parts[i];
         const bodypart_id &bp = e.bp;
-        const body_part bp_token = bp->token;
         const int maximal_hp = get_part_hp_max( bp );
         const int current_hp = get_part_hp_cur( bp );
         // This will c_light_gray if the part does not have any effects cured by the item/effect
@@ -6462,8 +6462,8 @@ bodypart_id Character::body_window( const std::string &menu_header,
         bool infected = has_effect( effect_infected, bp.id() );
         bool bandaged = has_effect( effect_bandaged, bp.id() );
         bool disinfected = has_effect( effect_disinfected, bp.id() );
-        const int b_power = get_effect_int( effect_bandaged, bp_token );
-        const int d_power = get_effect_int( effect_disinfected, bp_token );
+        const int b_power = get_effect_int( effect_bandaged, bp );
+        const int d_power = get_effect_int( effect_disinfected, bp );
         int new_b_power = static_cast<int>( std::floor( bandage_power ) );
         if( bandaged ) {
             const effect &eff = get_effect( effect_bandaged, bp );
@@ -6515,7 +6515,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
             desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, bp ).get_speed_name(),
                                              get_effect( effect_bleed, bp ).disp_short_desc() ), c_red ) + "\n";
             if( bleed > 0 ) {
-                int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp_token ) );
+                int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp ) );
                 percent = std::min( percent, 100 );
                 desc += colorize( string_format( _( "Expected reduction of bleeding by: %d %%" ), percent ),
                                   c_light_green ) + "\n";
@@ -6612,10 +6612,9 @@ nc_color Character::limb_color( const bodypart_id &bp, bool bleed, bool bite, bo
     if( bp == bodypart_id( "bp_null" ) ) {
         return c_light_gray;
     }
-    const body_part bp_token = bp->token;
     int color_bit = 0;
     nc_color i_color = c_light_gray;
-    const int intense = get_effect_int( effect_bleed, bp_token );
+    const int intense = get_effect_int( effect_bleed, bp );
     if( bleed && intense > 0 ) {
         color_bit += 1;
     }
@@ -10126,7 +10125,7 @@ int Character::warmth( const bodypart_id &bp ) const
             ret += std::round( warmth );
         }
     }
-    ret += get_effect_int( effect_heating_bionic, bp->token );
+    ret += get_effect_int( effect_heating_bionic, bp );
     return ret;
 }
 

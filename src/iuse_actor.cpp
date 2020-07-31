@@ -3215,7 +3215,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
         if( patient.worn_with_flag( "TOURNIQUET",  healed ) ) {
             pwr *= 2;
         }
-        if( pwr > patient.get_effect_int( effect_bleed, healed->token ) ) {
+        if( pwr > patient.get_effect_int( effect_bleed, healed ) ) {
             effect &wound = patient.get_effect( effect_bleed, healed );
             time_duration dur = wound.get_duration() - ( get_stopbleed_level( healer ) *
                                 wound.get_int_dur_factor() );
@@ -3383,7 +3383,7 @@ bodypart_id heal_actor::use_healing_item( player &healer, player &patient, item 
                 damage += bite * patient.get_effect_dur( effect_bite, elem.first ) / 10_minutes;
                 damage += infect * patient.get_effect_dur( effect_infected, elem.first ) / 10_minutes;
             }
-            if( patient.get_effect_int( effect_bleed, elem.first->token ) > 5 && bleed > 0 ) {
+            if( patient.get_effect_int( effect_bleed, elem.first ) > 5 && bleed > 0 ) {
                 damage += bleed * patient.get_effect_dur( effect_bleed, elem.first ) / 5_minutes;
             }
             if( damage > highest_damage ) {

@@ -502,7 +502,8 @@ class Creature : public location
         time_duration get_effect_dur( const efftype_id &eff_id,
                                       const bodypart_id &bp = bodypart_id( "bp_null" ) ) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
-        int get_effect_int( const efftype_id &eff_id, body_part bp = num_bp ) const;
+        int get_effect_int( const efftype_id &eff_id,
+                            const bodypart_id &bp = bodypart_id( "bp_null" ) ) const;
         /** Returns true if the creature resists an effect */
         bool resists_effect( const effect &e );
 
