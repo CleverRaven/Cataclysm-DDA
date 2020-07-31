@@ -65,6 +65,12 @@ jobs:
           packages: ["clang-3.8"]
           sources: [*apt_sources]
 
+     - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1
+      name: "Xcode 10.1 Make build with Tiles and sound (macOS)"
+      os: osx
+      osx_image: xcode10.1
+      compiler: clang
+
     # Then build different configurations and targets in parallel.
     - stage: "Main Compilers"
       env: COMPILER=g++ MODS=--mods=magiclysm LOCALIZE=0
@@ -117,12 +123,6 @@ jobs:
         # do it ourselves.
         directories:
           - $HOME/.ccache
-
-    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1
-      name: "Xcode 10.1 Make build with Tiles and sound (macOS)"
-      os: osx
-      osx_image: xcode10.1
-      compiler: clang
 
     # Finally check the compiler variants
     - stage: compilers
