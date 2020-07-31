@@ -16,7 +16,7 @@
       "type": "place_npc",
       "npc_class_id": "frankenstein",
       "summon_msg": "It's alive!",
-      "place_randomly": true,
+      "place_randomly": false,
       "moves": 50
     }
   }
