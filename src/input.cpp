@@ -80,10 +80,12 @@ bool is_mouse_enabled()
 #endif
 }
 
-static bool is_keycode_mode_supported()
+extern bool keycode_mode;
+
+bool is_keycode_mode_supported()
 {
 #if defined(TILES) && !defined(__ANDROID__)
-    return true;
+    return keycode_mode;
 #else
     return false;
 #endif
@@ -818,12 +820,12 @@ const std::string TIMEOUT = "TIMEOUT";
 
 const std::string &input_context::input_to_action( const input_event &inp ) const
 {
-    for( auto &elem : registered_actions ) {
+    for( const std::string &elem : registered_actions ) {
         const std::string &action = elem;
         const std::vector<input_event> &check_inp = inp_mngr.get_input_for_action( action, category );
 
         // Does this action have our queried input event in its keybindings?
-        for( auto &check_inp_i : check_inp ) {
+        for( const input_event &check_inp_i : check_inp ) {
             if( check_inp_i == inp ) {
                 return action;
             }
@@ -959,7 +961,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     }
 
     std::vector<input_event> inputs_to_show;
-    for( auto &events_i : events ) {
+    for( const input_event &events_i : events ) {
         const input_event &event = events_i;
 
         if( is_event_type_enabled( event.type ) && evt_filter( event ) ) {
@@ -1670,7 +1672,7 @@ std::vector<std::string> input_context::filter_strings_by_phrase(
 {
     std::vector<std::string> filtered_strings;
 
-    for( auto &str : strings ) {
+    for( const std::string &str : strings ) {
         if( lcmatch( remove_color_tags( get_action_name( str ) ), phrase ) ) {
             filtered_strings.push_back( str );
         }

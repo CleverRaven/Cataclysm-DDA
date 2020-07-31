@@ -123,7 +123,7 @@ void fungal_effects::create_spores( const tripoint &p, Creature *origin )
 
 void fungal_effects::marlossify( const tripoint &p )
 {
-    auto &terrain = m.ter( p ).obj();
+    const ter_t &terrain = m.ter( p ).obj();
     if( one_in( 25 ) && ( terrain.movecost != 0 && !m.has_furn( p ) )
         && !terrain.has_flag( TFLAG_DEEP_WATER ) ) {
         m.ter_set( p, t_marloss );

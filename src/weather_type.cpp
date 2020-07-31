@@ -1,12 +1,12 @@
 #include "weather_type.h"
 #include "weather.h"
 #include "game_constants.h"
+#include "generic_factory.h"
 
 namespace
 {
 generic_factory<weather_type> weather_type_factory( "weather_type" );
 } // namespace
-
 
 namespace io
 {

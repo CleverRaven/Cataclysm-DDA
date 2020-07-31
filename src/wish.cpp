@@ -77,7 +77,7 @@ class wish_mutate_callback: public uilist_callback
         void refresh( uilist *menu ) override {
             if( !started ) {
                 started = true;
-                for( auto &traits_iter : mutation_branch::get_all() ) {
+                for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
                     vTraits.push_back( traits_iter.id );
                     pTraits[traits_iter.id] = p->has_trait( traits_iter.id );
                 }
@@ -151,7 +151,7 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.additions.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray, _( "Add-ons:" ) );
-                    for( auto &j : mdata.additions ) {
+                    for( const string_id<mutation_branch> &j : mdata.additions ) {
                         mvwprintz( menu->window, point( startx + 11, line2 ), mcolor( j ),
                                    mutation_branch::get_name( j ) );
                         line2++;
@@ -161,7 +161,7 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.types.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Type:" ) );
-                    for( auto &j : mdata.types ) {
+                    for( const std::string &j : mdata.types ) {
                         mvwprintw( menu->window, point( startx + 11, line2 ), j );
                         line2++;
                     }
@@ -170,7 +170,7 @@ class wish_mutate_callback: public uilist_callback
                 if( !mdata.category.empty() ) {
                     line2++;
                     mvwprintz( menu->window, point( startx, line2 ), c_light_gray,  _( "Category:" ) );
-                    for( auto &j : mdata.category ) {
+                    for( const std::string &j : mdata.category ) {
                         mvwprintw( menu->window, point( startx + 11, line2 ), j );
                         line2++;
                     }
@@ -213,7 +213,7 @@ void debug_menu::wishmutate( player *p )
     uilist wmenu;
     int c = 0;
 
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         wmenu.addentry( -1, true, -2, traits_iter.name() );
         wmenu.entries[ c ].extratxt.left = 1;
         wmenu.entries[ c ].extratxt.txt.clear();

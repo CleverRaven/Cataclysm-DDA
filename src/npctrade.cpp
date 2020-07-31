@@ -93,7 +93,7 @@ std::vector<item_pricing> npc_trading::init_selling( npc &np )
     const auto inv_all = np.items_with( []( const item & ) {
         return true;
     } );
-    for( auto &i : inv_all ) {
+    for( item *i : inv_all ) {
         item &it = *i;
 
         const int price = it.price( true );

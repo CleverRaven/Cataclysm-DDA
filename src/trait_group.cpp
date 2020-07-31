@@ -100,7 +100,7 @@ void trait_group::debug_spawn()
         std::map<std::string, int> traitnames;
         for( size_t a = 0; a < 100; a++ ) {
             const auto traits = traits_from( groups[index] );
-            for( auto &tr : traits ) {
+            for( const string_id<mutation_branch> &tr : traits ) {
                 traitnames[mutation_branch::get_name( tr )]++;
             }
         }

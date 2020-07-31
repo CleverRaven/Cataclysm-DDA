@@ -262,7 +262,7 @@ int weather_generator::get_wind_direction( const season_type season ) const
 int weather_generator::convert_winddir( const int inputdir ) const
 {
     // Convert from discrete distribution output to angle
-    float finputdir = inputdir * 22.5;
+    float finputdir = inputdir * 22.5f;
     return static_cast<int>( finputdir );
 }
 

@@ -1244,7 +1244,7 @@ bool overmap::has_note( const tripoint_om_omt &p ) const
         return false;
     }
 
-    for( auto &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
+    for( const om_note &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
         if( i.p == p.xy() ) {
             return true;
         }
@@ -1254,7 +1254,7 @@ bool overmap::has_note( const tripoint_om_omt &p ) const
 
 bool overmap::is_marked_dangerous( const tripoint_om_omt &p ) const
 {
-    for( auto &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
+    for( const om_note &i : layer[p.z() + OVERMAP_DEPTH].notes ) {
         if( !i.dangerous ) {
             continue;
         } else if( p.xy() == i.p ) {
@@ -1347,7 +1347,7 @@ bool overmap::has_extra( const tripoint_om_omt &p ) const
         return false;
     }
 
-    for( auto &i : layer[p.z() + OVERMAP_DEPTH].extras ) {
+    for( const om_map_extra &i : layer[p.z() + OVERMAP_DEPTH].extras ) {
         if( i.p == p.xy() ) {
             return true;
         }
@@ -1483,7 +1483,6 @@ void overmap::generate( const overmap *north, const overmap *east,
         requires_over = generate_over( z );
     } while( requires_over && ( ++z <= OVERMAP_HEIGHT ) );
 
-
     // Place the monsters, now that the terrain is laid out
     place_mongroups();
     place_radios();
@@ -1525,7 +1524,7 @@ bool overmap::generate_sub( const int z )
 
             // implicitly skip skip_above oter_ids
             bool skipme = false;
-            for( auto &elem : skip_above ) {
+            for( const oter_id &elem : skip_above ) {
                 if( oter_above == elem ) {
                     skipme = true;
                     break;
@@ -1583,7 +1582,7 @@ bool overmap::generate_sub( const int z )
                 // but at this point we don't know
                 requires_sub = true;
             } else if( oter_above == "mine_finale" ) {
-                for( auto &q : points_in_radius( p, 1, 0 ) ) {
+                for( const tripoint_om_omt &q : points_in_radius( p, 1, 0 ) ) {
                     ter_set( q, oter_id( "spiral" ) );
                 }
                 ter_set( p, oter_id( "spiral_hub" ) );
@@ -1636,7 +1635,7 @@ bool overmap::generate_sub( const int z )
                 const std::vector<point_om_omt> &train_points,
     std::vector<point_om_omt> &real_train_points ) {
         bool is_first_in_pair = true;
-        for( auto &p : train_points ) {
+        for( const point_om_omt &p : train_points ) {
             tripoint_om_omt i( p, z );
             const std::vector<tripoint_om_omt> nearby_locations {
                 i + point_north,
@@ -1646,7 +1645,7 @@ bool overmap::generate_sub( const int z )
             if( is_first_in_pair ) {
                 ter_set( i, oter_id( "open_air" ) ); // mark tile to prevent subway gen
 
-                for( auto &nearby_loc : nearby_locations ) {
+                for( const tripoint_om_omt &nearby_loc : nearby_locations ) {
                     if( is_ot_match( "empty_rock", ter( nearby_loc ), ot_match_type::contains ) ) {
                         // mark tile to prevent subway gen
                         ter_set( nearby_loc, oter_id( "open_air" ) );
@@ -1690,7 +1689,7 @@ bool overmap::generate_sub( const int z )
     const std::vector<point_om_omt> &train_points ) {
         bool is_first_in_pair = true;
         std::vector<point_om_omt> extra_route;
-        for( auto &p : train_points ) {
+        for( const point_om_omt &p : train_points ) {
             tripoint_om_omt i( p, z );
             if( is_first_in_pair ) {
                 const std::vector<tripoint_om_omt> subway_possible_loc {
@@ -1701,7 +1700,7 @@ bool overmap::generate_sub( const int z )
                 extra_route.clear();
                 ter_set( i, oter_id( "empty_rock" ) ); // this clears marked tiles
                 bool is_depot_generated = false;
-                for( auto &subway_loc : subway_possible_loc ) {
+                for( const tripoint_om_omt &subway_loc : subway_possible_loc ) {
                     if( !is_depot_generated &&
                         is_ot_match( "subway", ter( subway_loc ), ot_match_type::contains ) ) {
                         extra_route.push_back( i.xy() );
@@ -2039,7 +2038,7 @@ void overmap::move_hordes()
             }
 
             // Check if the monster is a zombie.
-            auto &type = *( this_monster.type );
+            const mtype &type = *this_monster.type;
             if(
                 !type.species.count( species_ZOMBIE ) || // Only add zombies to hordes.
                 type.id == mtype_id( "mon_jabberwock" ) || // Jabberwockies are an exception.
@@ -4479,7 +4478,7 @@ void overmap::for_each_npc( const std::function<void( npc & )> &callback )
 
 void overmap::for_each_npc( const std::function<void( const npc & )> &callback ) const
 {
-    for( auto &guy : npcs ) {
+    for( const auto &guy : npcs ) {
         callback( *guy );
     }
 }

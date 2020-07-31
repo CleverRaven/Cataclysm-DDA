@@ -150,7 +150,6 @@ inline void proc_weather_sum( const weather_type_id wtype, weather_sum &data,
         data.rain_amount += amount;
     }
 
-
     // TODO: Change this sunlight "sampling" here into a proper interpolation
     const float tick_sunlight = incident_sunlight( wtype, t );
     data.sunlight += tick_sunlight * to_turns<int>( tick_size );
@@ -379,7 +378,7 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
  */
 static void fill_water_collectors( int mmPerHour, bool acid )
 {
-    for( auto &e : trap::get_funnels() ) {
+    for( const auto &e : trap::get_funnels() ) {
         fill_funnels( mmPerHour, acid, *e );
     }
 }
@@ -482,7 +481,6 @@ void handle_weather_effects( weather_type_id const w )
     }
     glare( w );
     g->weather.lightning_active = false;
-
 
     for( const weather_effect &current_effect : w->effects ) {
         if( current_effect.must_be_outside && !is_creature_outside( player_character ) ) {

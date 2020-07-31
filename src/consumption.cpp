@@ -474,7 +474,7 @@ std::pair<int, int> Character::fun_for( const item &comest ) const
         }
     }
 
-    float fun_max = fun < 0 ? fun * 6 : fun * 3;
+    float fun_max = fun < 0 ? fun * 6.0f : fun * 3.0f;
     if( comest.has_flag( flag_EATEN_COLD ) && comest.has_flag( flag_COLD ) ) {
         if( fun > 0 ) {
             fun *= 2;
@@ -1691,7 +1691,7 @@ time_duration Character::get_consume_time( const item &it )
     }
     time_duration time = time_duration::from_seconds( std::max( ( volume /
                          5 ), 1 ) );  //Default 5 mL (1 tablespoon) per second
-    float consume_time_modifier = 1;//only for food and drinks
+    float consume_time_modifier = 1.0f;//only for food and drinks
     const bool eat_verb = it.has_flag( flag_USE_EAT_VERB );
     const std::string comest_type = it.get_comestible() ? it.get_comestible()->comesttype : "";
     if( eat_verb || comest_type == "FOOD" ) {
@@ -1706,8 +1706,8 @@ time_duration Character::get_consume_time( const item &it )
         const use_function *adrenaline_injector = it.type->get_use( "ADRENALINE_INJECTOR" );
         const use_function *heal = it.type->get_use( "heal" );
         if( consume_drug != nullptr ) { //its a drug
-            const auto consume_drug_use = dynamic_cast<const consume_drug_iuse *>
-                                          ( consume_drug->get_actor_ptr() );
+            const consume_drug_iuse *consume_drug_use = dynamic_cast<const consume_drug_iuse *>
+                    ( consume_drug->get_actor_ptr() );
             if( consume_drug_use->tools_needed.find( itype_syringe ) != consume_drug_use->tools_needed.end() ) {
                 time = time_duration::from_minutes( 5 );//sterile injections take 5 minutes
             } else if( consume_drug_use->tools_needed.find( itype_apparatus ) !=
@@ -1773,7 +1773,7 @@ static bool consume_med( item &target, player &you )
     }
 
     const itype_id tool_type = target.get_comestible()->tool;
-    const auto req_tool = item::find_type( tool_type );
+    const itype *req_tool = item::find_type( tool_type );
     bool tool_override = false;
     if( tool_type == itype_syringe && you.has_bionic( bio_syringe ) ) {
         tool_override = true;

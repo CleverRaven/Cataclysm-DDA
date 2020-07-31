@@ -91,10 +91,10 @@ enum vpart_bitflags : int {
  * Other flags are self-explanatory in their names. */
 
 struct vpslot_engine {
-    float backfire_threshold = 0;
+    float backfire_threshold = 0.0f;
     int backfire_freq = 1;
     int muscle_power_factor = 0;
-    float damaged_power_factor = 0;
+    float damaged_power_factor = 0.0f;
     int noise_factor = 0;
     int m2c = 1;
     std::vector<std::string> exclusions;

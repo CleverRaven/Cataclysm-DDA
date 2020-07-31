@@ -191,7 +191,7 @@ void monfactions::finalize()
     // Bad json
     if( !unloaded.empty() ) {
         std::string names;
-        for( auto &fac : unloaded ) {
+        for( const auto &fac : unloaded ) {
             names.append( fac.id().str() );
             names.append( " " );
             auto &the_faction = faction_list[fac.to_i()];

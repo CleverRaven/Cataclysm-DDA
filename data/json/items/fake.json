@@ -4,6 +4,8 @@
     "type": "GENERIC",
     "name": { "str": "fake item" },
     "description": "Dummy item.  If you see this, then something went wrong.",
+    "weight": "1 g",
+    "volume": "1 ml",
     "symbol": "@",
     "color": "red"
   },

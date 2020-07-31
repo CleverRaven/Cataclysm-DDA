@@ -760,7 +760,7 @@ int inventory::position_by_item( const item *it ) const
 int inventory::position_by_type( const itype_id &type ) const
 {
     int i = 0;
-    for( auto &elem : items ) {
+    for( const auto &elem : items ) {
         if( elem.front().typeId() == type ) {
             return i;
         }

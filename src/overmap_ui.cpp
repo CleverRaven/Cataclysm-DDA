@@ -163,9 +163,9 @@ static void update_note_preview( const std::string &note,
     const char symbol = std::get<0>( om_symbol );
     const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
-    auto w_preview       = std::get<0>( preview_windows );
-    auto w_preview_title = std::get<1>( preview_windows );
-    auto w_preview_map   = std::get<2>( preview_windows );
+    catacurses::window *w_preview = std::get<0>( preview_windows );
+    catacurses::window *w_preview_title = std::get<1>( preview_windows );
+    catacurses::window *w_preview_map   = std::get<2>( preview_windows );
 
     draw_border( *w_preview );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -630,7 +630,7 @@ void draw(
         }
         std::vector<npc *> followers;
         // get friendly followers
-        for( auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
@@ -771,7 +771,7 @@ void draw(
                     ter_sym = "x";
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omp );
-                    for( auto &mgp : groups ) {
+                    for( const mongroup *mgp : groups ) {
                         if( mgp->type == GROUP_FOREST ) {
                             // Don't flood the map with forest creatures.
                             continue;
