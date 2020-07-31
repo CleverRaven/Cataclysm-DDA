@@ -86,15 +86,5 @@
       { "monster": "mon_ceratosaurus", "freq": 1, "cost_multiplier": 30 },
       { "monster": "mon_allosaurus", "freq": 8, "cost_multiplier": 30 }
     ]
-  },
-  {
-    "type": "monstergroup",
-    "name": "GROUP_DINOSAUR_CBM_MOUNT",
-    "default": "mon_gallimimus_bio_op",
-    "monsters": [
-      { "monster": "mon_gallimimus_bio_op", "freq": 5, "cost_multiplier": 10 },
-      { "monster": "mon_pachycephalosaurus_bio_op", "freq": 3, "cost_multiplier": 15 },
-      { "monster": "mon_trice_bio_op", "freq": 1, "cost_multiplier": 25 }
-    ]
   }
 ]
