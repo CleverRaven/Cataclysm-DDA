@@ -31,7 +31,7 @@ parser.add_argument(
 parser.add_argument(
     "--fnmatch",
     default="*.json",
-    help="override with glob expression to select a smaller fileset.")
+    help="override with glob expression to select a smaller fileset")
 parser.add_argument(
     "-f", "--format",
     default="md",
@@ -39,9 +39,13 @@ parser.add_argument(
 parser.add_argument(
     "-t", "--type",
     help="only include JSON data matching this type")
+parser.add_argument(
+    "--nonestring",
+    default="None",
+    help="what to output when value is None")
 
 
-def item_values(item, fields):
+def item_values(item, fields, none_string):
     """Return item values from within the given fields, converted to strings.
 
     Fields may be plain string or numeric values:
@@ -92,7 +96,7 @@ def item_values(item, fields):
                     it = [i[subkey] for i in it]
             # Stop if any subkey is not found
             else:
-                it = "None"
+                it = none_string
                 break
 
         # Make dict presentable
@@ -100,10 +104,11 @@ def item_values(item, fields):
             values.append("%s" % list(it.items()))
         # Separate lists with slashes
         elif isinstance(it, list):
-            values.append(" / ".join("%s" % i for i in it))
+            values.append(" / ".join(
+                "%s" % i if i is not None else none_string for i in it))
         # Otherwise just force string
         else:
-            values.append("%s" % it)
+            values.append("%s" % it if it is not None else none_string)
 
     return values
 
@@ -174,13 +179,13 @@ class CDDAValues:
         format_class = get_format_class_by_extension(format_string)
         self.output = format_class()
 
-    def print_table(self, data, columns, type_filter):
+    def print_table(self, data, columns, type_filter, none_string):
         self.output.header(columns)
         for item in data:
             if type_filter and item.get('type') != type_filter:
                 continue
 
-            self.output.row(item_values(item, columns))
+            self.output.row(item_values(item, columns, none_string))
 
 
 if __name__ == "__main__":
@@ -190,4 +195,4 @@ if __name__ == "__main__":
     json_data, _ = util.import_data(json_fmatch=args.fnmatch)
 
     worker = CDDAValues(args.format)
-    worker.print_table(json_data, args.columns, args.type)
+    worker.print_table(json_data, args.columns, args.type, args.nonestring)
