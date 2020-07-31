@@ -1373,7 +1373,8 @@ void effect::serialize( JsonOut &json ) const
 void effect::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    const efftype_id id( jo.get_string( "eff_type" ) );
+    efftype_id id;
+    jo.read( "eff_type", id );
     eff_type = &id.obj();
     jo.read( "duration", duration );
 
@@ -1384,9 +1385,8 @@ void effect::deserialize( JsonIn &jsin )
         jo.read( "bp", bp );
     }
 
-
-    permanent = jo.get_bool( "permanent" );
-    intensity = jo.get_int( "intensity" );
+    jo.read( "permanent", permanent );
+    jo.read( "intensity", intensity );
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
 }

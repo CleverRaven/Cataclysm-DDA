@@ -154,7 +154,7 @@ TEST_CASE( "effect intensity", "[effect][intensity]" )
 
 // Effect decay
 // ------------
-// effect::decaybodypart_str_id( "bp_null" )
+// effect::decay
 //
 TEST_CASE( "effect decay", "[effect][decay]" )
 {
