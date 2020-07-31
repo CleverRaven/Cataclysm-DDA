@@ -479,14 +479,14 @@ class Creature : public location
                              bool force = false );
         bool add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
                              const time_duration &dur, bool permanent = false, int intensity = 1, bool force = false );
-        /** Removes a listed effect. bp = num_bp means to remove all effects of
+        /** Removes a listed effect. If the bodypart is not specified remove all effects of
          * a given type, targeted or untargeted. Returns true if anything was
          * removed. */
         bool remove_effect( const efftype_id &eff_id, const bodypart_id &bp );
         bool remove_effect( const efftype_id &eff_id );
         /** Remove all effects. */
         void clear_effects();
-        /** Check if creature has the matching effect. bp = num_bp means to check if the Creature has any effect
+        /** Check if creature has the matching effect. If the bodypart is not specified check if the Creature has any effect
          *  of the matching type, targeted or untargeted. */
         bool has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const;
         bool has_effect( const efftype_id &eff_id ) const;

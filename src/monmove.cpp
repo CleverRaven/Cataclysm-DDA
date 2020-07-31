@@ -1591,13 +1591,13 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     }
 
     if( here.has_flag( "UNSTABLE", destination ) && on_ground ) {
-        add_effect( effect_bouldering, 1_turns, bodypart_id( "bp_null" ), true );
+        add_effect( effect_bouldering, 1_turns, true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
 
     if( here.has_flag_ter_or_furn( TFLAG_NO_SIGHT, destination ) && on_ground ) {
-        add_effect( effect_no_sight, 1_turns, bodypart_id( "bp_null" ), true );
+        add_effect( effect_no_sight, 1_turns, true );
     } else if( has_effect( effect_no_sight ) ) {
         remove_effect( effect_no_sight );
     }

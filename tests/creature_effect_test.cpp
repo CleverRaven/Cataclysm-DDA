@@ -97,14 +97,14 @@ TEST_CASE( "monster add_effect", "[creature][monster][effect][add]" )
         REQUIRE( mummy.is_immune_effect( effect_bleed ) );
 
         THEN( "monster add_effect is called with force = false" ) {
-            mummy.add_effect( effect_bleed, 1_minutes, bodypart_id( "bp_null" ), false, 1, false );
+            mummy.add_effect( effect_bleed, 1_minutes, false, 1, false );
             THEN( "they do not have the effect" ) {
                 CHECK_FALSE( mummy.has_effect( effect_bleed ) );
             }
         }
 
         WHEN( "monster add_effect is called with force = true" ) {
-            mummy.add_effect( effect_bleed, 1_minutes, bodypart_id( "bp_null" ), false, 1, true );
+            mummy.add_effect( effect_bleed, 1_minutes, false, 1, true );
             THEN( "they have the effect" ) {
                 CHECK( mummy.has_effect( effect_bleed ) );
             }
@@ -284,14 +284,14 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
             THEN( "has_effect is true when body part is not specified" ) {
                 // num_bp (default) is any/all body parts
                 CHECK( dummy.has_effect( effect_grabbed ) );
-                CHECK( dummy.has_effect( effect_grabbed, bodypart_str_id( "bp_null" ) ) );
+                CHECK( dummy.has_effect( effect_grabbed ) );
             }
 
         }
 
         // Downed
         WHEN( "character has effect on the whole body" ) {
-            dummy.add_effect( effect_downed, 1_minutes, bodypart_id( "bp_null" ) );
+            dummy.add_effect( effect_downed, 1_minutes );
 
             THEN( "has_effect is false for any body part" ) {
                 CHECK_FALSE( dummy.has_effect( effect_downed, left_arm.id() ) );
@@ -299,7 +299,7 @@ TEST_CASE( "has_effect", "[creature][effect][has]" )
             }
             THEN( "has_effect is true when body part is not specified" ) {
                 CHECK( dummy.has_effect( effect_downed ) );
-                CHECK( dummy.has_effect( effect_downed, bodypart_str_id( "bp_null" ) ) );
+                CHECK( dummy.has_effect( effect_downed ) );
             }
         }
     }

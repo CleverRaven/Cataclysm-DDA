@@ -1056,8 +1056,8 @@ void Character::mount_creature( monster &z )
         add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
         return;
     }
-    add_effect( effect_riding, 1_turns, bodypart_id( "bp_null" ), true );
-    z.add_effect( effect_ridden, 1_turns, bodypart_id( "bp_null" ), true );
+    add_effect( effect_riding, 1_turns, true );
+    z.add_effect( effect_ridden, 1_turns, true );
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
         if( z.tied_item ) {
@@ -1242,7 +1242,7 @@ void Character::forced_dismount()
             }
             check_dead_state();
         }
-        add_effect( effect_downed, 5_turns, bodypart_id( "bp_null" ), true );
+        add_effect( effect_downed, 5_turns, true );
     } else {
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
@@ -5206,7 +5206,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         remove_effect( effect_hunger_starving );
         remove_effect( effect_hunger_famished );
         remove_effect( effect_hunger_blank );
-        add_effect( hunger_effect, 24_hours, bodypart_id( "bp_null" ), true );
+        add_effect( hunger_effect, 24_hours, true );
     }
 }
 

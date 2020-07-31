@@ -1792,7 +1792,7 @@ void vehicle::use_harness( int part, const tripoint &pos )
         return;
     }
 
-    m.add_effect( effect_harnessed, 1_turns, bodypart_id( "bp_null" ), true );
+    m.add_effect( effect_harnessed, 1_turns, true );
     m.setpos( pos );
     //~ %1$s: monster name, %2$s: vehicle name
     add_msg( m_info, _( "You harness your %1$s to %2$s." ), m.get_name(), disp_name() );
