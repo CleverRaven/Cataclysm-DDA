@@ -4383,14 +4383,14 @@ Creature *npc::current_ally()
 }
 
 // Maybe TODO: Move to Character method and use map methods
-static body_part bp_affected( npc &who, const efftype_id &effect_type )
+static bodypart_id bp_affected( npc &who, const efftype_id &effect_type )
 {
-    body_part ret = num_bp;
+    bodypart_id ret;
     int highest_intensity = INT_MIN;
     for( const bodypart_id &bp : who.get_all_body_parts() ) {
         const auto &eff = who.get_effect( effect_type, bp );
         if( !eff.is_null() && eff.get_intensity() > highest_intensity ) {
-            ret = bp->token;
+            ret = bp;
             highest_intensity = eff.get_intensity();
         }
     }
@@ -4513,7 +4513,7 @@ bool npc::complain()
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
-        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_infected ) ).id();
+        const bodypart_id &bp =  bp_affected( *this, effect_infected );
         const auto &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
         const std::string speech = string_format( _( "My %s wound is infected…" ),
@@ -4527,7 +4527,7 @@ bool npc::complain()
 
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
-        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bite ) );
+        const bodypart_id &bp =  bp_affected( *this, effect_bite );
         const std::string speech = string_format( _( "The bite wound on my %s looks bad." ),
                                    body_part_name( bp ) );
         if( complain_about( bite_string, 1_hours, speech ) ) {
@@ -4570,7 +4570,7 @@ bool npc::complain()
 
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
-        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bleed ) );
+        const bodypart_id &bp =  bp_affected( *this, effect_bleed );
         std::string speech;
         time_duration often;
         if( get_effect( effect_bleed, bp ).get_intensity() < 10 ) {
