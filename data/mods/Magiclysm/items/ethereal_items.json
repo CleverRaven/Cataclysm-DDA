@@ -612,7 +612,7 @@
           "has": "WORN",
           "condition": "ALWAYS",
           "hit_me_effect": [ { "id": "acidic_zap" } ],
-          "values": [ { "value": "ARMOR_ACID", "add": 5 }, { "value": "ITEM_DAMAGE_ACID", "add": 3 } ]
+          "values": [ { "value": "ARMOR_ACID", "add": -5 }, { "value": "ITEM_DAMAGE_ACID", "add": 3 } ]
         }
       ]
     }
