@@ -806,8 +806,6 @@ class game
         void drop(); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
-        // Return the number of moves required to recursively disassemble count items of the specified type
-        int get_recursive_disassemble_moves( const Character &guy, const itype_id &type, int count ) const;
         void butcher(); // Butcher a corpse  'B'
 
         void reload( item_location &loc, bool prompt = false, bool empty = true );

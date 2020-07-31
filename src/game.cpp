@@ -8571,31 +8571,6 @@ static void butcher_submenu( const std::vector<map_stack::iterator> &corpses, in
     }
 }
 
-int game::get_recursive_disassemble_moves( const Character &guy, const itype_id &type,
-        int count ) const
-{
-    int moves = 0;
-    std::vector<item> to_be_disassembled;
-    for( int i = 0; i < count; i++ ) {
-        to_be_disassembled.push_back( item( type, calendar::turn, item::default_charges_tag{} ) );
-    }
-    while( !to_be_disassembled.empty() ) {
-        const recipe &r = recipe_dictionary::get_uncraft( to_be_disassembled[0].type->get_id() );
-        if( r.ident() != recipe_id::NULL_ID() ) {
-            moves += r.time_to_craft_moves( guy );
-            std::vector<item_comp> components = to_be_disassembled[0].get_uncraft_components();
-            for( auto &component : components ) {
-                itype_id id = component.type;
-                for( int i = 0; i < component.count; i++ ) {
-                    to_be_disassembled.push_back( item( id, calendar::turn, item::default_charges_tag{} ) );
-                }
-            }
-        }
-        to_be_disassembled.erase( to_be_disassembled.begin() );
-    }
-    return moves;
-}
-
 void game::butcher()
 {
     static const std::string salvage_string = "salvage";
@@ -8748,8 +8723,8 @@ void game::butcher()
                 const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves(
                                      get_player_character() );
                 time_to_disassemble_once += time * stack.second;
-                time_to_disassemble_recursive += get_recursive_disassemble_moves( get_player_character(),
-                                                 stack.first->typeId(), stack.second );
+                time_to_disassemble_recursive += stack.first->get_recursive_disassemble_moves(
+                                                     get_player_character(), stack.second );
             }
 
             kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),

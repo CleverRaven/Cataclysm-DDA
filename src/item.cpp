@@ -10305,3 +10305,26 @@ units::volume item::check_for_free_space( const item *it ) const
     }
     return volume;
 }
+
+int item::get_recursive_disassemble_moves( const Character &guy, int count ) const
+{
+    int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy ) * count;
+    std::vector<item_comp> to_be_disassembled = get_uncraft_components();
+    for( item_comp &comp : to_be_disassembled ) {
+        comp.count *= count;
+    }
+    while( !to_be_disassembled.empty() ) {
+        item_comp current_comp = to_be_disassembled.back();
+        to_be_disassembled.pop_back();
+        const recipe &r = recipe_dictionary::get_uncraft( current_comp.type->get_id() );
+        if( r.ident() != recipe_id::NULL_ID() ) {
+            moves += r.time_to_craft_moves( guy ) * current_comp.count;
+            std::vector<item_comp> components = item( current_comp.type->get_id() ).get_uncraft_components();
+            for( item_comp &component : components ) {
+                component.count *= current_comp.count;
+                to_be_disassembled.push_back( component );
+            }
+        }
+    }
+    return moves;
+}
