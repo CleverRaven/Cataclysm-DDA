@@ -1714,13 +1714,13 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         return false;
     }
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
 
     const auto &action = query_popup()
-                         .preferred_keyboard_mode( keyboard_mode::keychar )
+                         .preferred_keyboard_mode( keyboard_mode::keycode )
                          .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
-                         .message( force_uc ?
+                         .message( force_uc && !is_keycode_mode_supported() ?
                                    pgettext( "cancel_activity_or_ignore_query",
                                            "<color_light_red>%s %s (Case Sensitive)</color>" ) :
                                    pgettext( "cancel_activity_or_ignore_query",

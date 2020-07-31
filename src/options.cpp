@@ -1413,8 +1413,10 @@ void options_manager::add_options_interface()
     { { "keychar", translate_marker( "Symbol" ) }, { "keycode", translate_marker( "Key code" ) } },
     "keychar", COPT_CURSES_HIDE );
 
-    add( "FORCE_CAPITAL_YN", "interface", translate_marker( "Force Y/N in prompts" ),
-         translate_marker( "If true, Y/N prompts are case-sensitive and y and n are not accepted." ),
+    add( "FORCE_CAPITAL_YN", "interface",
+         translate_marker( "Force capital/modified letters in prompts" ),
+         translate_marker( "If true, prompts such as Y/N queries only accepts capital or modified letters, while "
+                           "lower case and unmodified letters only snap the cursor to the corresponding option." ),
          true
        );
 

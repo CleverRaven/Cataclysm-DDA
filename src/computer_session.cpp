@@ -1564,14 +1564,14 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
 {
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
-    input_context ctxt( "YESNOQUIT", keyboard_mode::keychar );
+    input_context ctxt( "YESNOQUIT", keyboard_mode::keycode );
     ctxt.register_action( "YES" );
     ctxt.register_action( "NO" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    print_indented_line( 0, width, force_uc
+    print_indented_line( 0, width, force_uc && !is_keycode_mode_supported()
                          //~ 1st: query string, 2nd-4th: keybinding descriptions
                          ? pgettext( "query_ynq", "%s %s, %s, %s (Case sensitive)" )
                          //~ 1st: query string, 2nd-4th: keybinding descriptions

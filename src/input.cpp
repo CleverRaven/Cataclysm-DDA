@@ -925,18 +925,25 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
     return requested_keys;
 }
 
-const input_context::input_event_filter input_context::disallow_lower_case =
-[]( const input_event &evt ) -> bool {
-    return evt.type != input_event_t::keyboard_char ||
-    // std::lower from <cctype> is undefined outside unsigned char range
-    // and std::lower from <locale> may throw bad_cast for some locales
-    evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
-};
+bool input_context::disallow_lower_case_or_non_modified_letters( const input_event &evt )
+{
+    const int ch = evt.get_first_input();
+    switch( evt.type ) {
+        case input_event_t::keyboard_char:
+            // std::lower from <cctype> is undefined outside unsigned char range
+            // and std::lower from <locale> may throw bad_cast for some locales
+            return ch < 'a' || ch > 'z';
+        case input_event_t::keyboard_code:
+            return !( evt.modifiers.empty() && ( ( ch >= 'a' && ch <= 'z' ) || ( ch >= 'A' && ch <= 'Z' ) ) );
+        default:
+            return true;
+    }
+}
 
-const input_context::input_event_filter input_context::allow_all_keys =
-[]( const input_event & ) -> bool {
+bool input_context::allow_all_keys( const input_event & )
+{
     return true;
-};
+}
 
 static const std::vector<std::pair<keymod_t, translation>> keymod_desc = {
     { keymod_t::ctrl,  to_translation( "key modifier", "CTRL-" ) },

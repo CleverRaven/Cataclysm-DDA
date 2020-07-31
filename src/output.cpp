@@ -685,13 +685,13 @@ int border_helper::border_connection::as_curses_line() const
 bool query_yn( const std::string &text )
 {
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
 
     return query_popup()
-           .preferred_keyboard_mode( keyboard_mode::keychar )
+           .preferred_keyboard_mode( keyboard_mode::keycode )
            .context( "YESNO" )
-           .message( force_uc ?
+           .message( force_uc && !is_keycode_mode_supported() ?
                      pgettext( "query_yn", "%s (Case Sensitive)" ) :
                      pgettext( "query_yn", "%s" ), text )
            .option( "YES", allow_key )
