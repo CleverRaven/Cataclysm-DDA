@@ -327,8 +327,9 @@ std::unique_ptr<vehicle> map::detach_vehicle( vehicle *veh )
     }
     veh->invalidate_towing( true );
     submap *const current_submap = get_submap_at_grid( veh->sm_pos );
-    if ( current_submap == nullptr ) {
-        debugmsg( "Tried to detach vehicle at (%d,%d,%d) but the submap is not loaded", veh->sm_pos.x, veh->sm_pos.y, veh->sm_pos.z );
+    if( current_submap == nullptr ) {
+        debugmsg( "Tried to detach vehicle at (%d,%d,%d) but the submap is not loaded", veh->sm_pos.x,
+                  veh->sm_pos.y, veh->sm_pos.z );
         return std::unique_ptr<vehicle>();
     }
 
@@ -933,7 +934,7 @@ VehicleList map::get_vehicles( const tripoint &start, const tripoint &end )
         for( int cy = chunk_sy; cy <= chunk_ey; ++cy ) {
             for( int cz = chunk_sz; cz <= chunk_ez; ++cz ) {
                 submap *current_submap = get_submap_at_grid( { cx, cy, cz } );
-                if ( current_submap == nullptr ) {
+                if( current_submap == nullptr ) {
                     debugmsg( "Tried to process vehicle at (%d,%d,%d) but the submap is not loaded", cx, cy, cz );
                     continue;
                 }
@@ -1091,8 +1092,9 @@ bool map::displace_vehicle( vehicle &veh, const tripoint &dp, const bool adjust_
     point dst_offset;
     submap *src_submap = get_submap_at( src, src_offset );
     submap *const dst_submap = get_submap_at( dst, dst_offset );
-    if ( src_submap == nullptr || dst_submap == nullptr ) {
-        debugmsg( "Tried to displace vehicle at (%d,%d) but the submap is not loaded", src_offset.x, src_offset.y );
+    if( src_submap == nullptr || dst_submap == nullptr ) {
+        debugmsg( "Tried to displace vehicle at (%d,%d) but the submap is not loaded", src_offset.x,
+                  src_offset.y );
         return true;
     }
     std::set<int> smzs;
@@ -1334,7 +1336,7 @@ furn_id map::furn( const tripoint &p ) const
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried process furniture at (%d,%d) but the submap is not loaded", l.x, l.y );
         return f_null;
     }
@@ -1350,7 +1352,7 @@ void map::furn_set( const tripoint &p, const furn_id &new_furniture )
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to set furniture at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -1467,7 +1469,7 @@ ter_id map::ter( const tripoint &p ) const
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to process terrain at (%d,%d) but the submap is not loaded", l.x, l.y );
         return t_null;
     }
@@ -1609,7 +1611,7 @@ bool map::ter_set( const tripoint &p, const ter_id &new_terrain )
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to set terrain at (%d,%d) but the submap is not loaded", l.x, l.y );
         return true;
     }
@@ -1766,7 +1768,7 @@ int map::move_cost_ter_furn( const tripoint &p ) const
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried process terrain at (%d,%d) but the submap is not loaded", l.x, l.y );
         return 0;
     }
@@ -2283,7 +2285,7 @@ bool map::has_flag_ter_or_furn( const std::string &flag, const tripoint &p ) con
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to process terrain at (%d,%d) but the submap is not loaded", l.x, l.y );
         return false;
     }
@@ -2315,7 +2317,7 @@ bool map::has_flag_ter_or_furn( const ter_bitflags flag, const tripoint &p ) con
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to process terrain at (%d,%d) but the submap is not loaded", l.x, l.y );
         return false;
     }
@@ -2638,7 +2640,7 @@ void map::decay_fields_and_scent( const time_duration &amount )
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             submap *cur_submap = get_submap_at_grid( { smx, smy, smz } );
-            if ( cur_submap == nullptr ) {
+            if( cur_submap == nullptr ) {
                 debugmsg( "Tried to process field at (%d,%d,%d) but the submap is not loaded", smx, smy, smz );
                 continue;
             }
@@ -3981,7 +3983,7 @@ std::string map::get_signage( const tripoint &p ) const
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to get signage at (%d,%d) but the submap is not loaded", l.x, l.y );
         return std::string();
     }
@@ -3996,7 +3998,7 @@ void map::set_signage( const tripoint &p, const std::string &message ) const
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried set signage at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -4011,7 +4013,7 @@ void map::delete_signage( const tripoint &p ) const
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to delete signage at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -4027,7 +4029,7 @@ int map::get_radiation( const tripoint &p ) const
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to get radiation at (%d,%d) but the submap is not loaded", l.x, l.y );
         return 0;
     }
@@ -4043,7 +4045,7 @@ void map::set_radiation( const tripoint &p, const int value )
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to set radiation at (%d,%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -4059,7 +4061,7 @@ void map::adjust_radiation( const tripoint &p, const int delta )
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to adjust radiation at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -4075,11 +4077,11 @@ int map::get_temperature( const tripoint &p ) const
     }
 
     submap *const current_submap = get_submap_at( p );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to get temperature at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
         return 0;
     }
-    
+
     return current_submap->get_temperature();
 }
 
@@ -4089,7 +4091,7 @@ void map::set_temperature( const tripoint &p, int new_temperature )
         return;
     }
     submap *const current_submap = get_submap_at( p );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to set temperature at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
         return;
     }
@@ -4107,7 +4109,7 @@ map_stack map::i_at( const tripoint &p )
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to get items at (%d,%d) but the submap is not loaded", l.x, l.y );
         nulitems.clear();
         return map_stack{ &nulitems, p, this };
@@ -4120,7 +4122,7 @@ map_stack::iterator map::i_rem( const tripoint &p, const map_stack::const_iterat
 {
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to remove items at (%d,%d) but the submap is not loaded", l.x, l.y );
         nulitems.clear();
         return map_stack{ &nulitems, p, this }.begin();
@@ -4150,7 +4152,7 @@ void map::i_clear( const tripoint &p )
 {
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to clear items at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -4365,7 +4367,7 @@ item &map::add_item( const tripoint &p, item new_item )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to add items at (%d,%d) but the submap is not loaded", l.x, l.y );
         return null_item_reference();
     }
@@ -4462,7 +4464,7 @@ void map::make_active( item_location &loc )
     }
     point l;
     submap *const current_submap = get_submap_at( loc.position(), l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to make active at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -4487,7 +4489,7 @@ void map::update_lum( item_location &loc, bool add )
 
     point l;
     submap *const current_submap = get_submap_at( loc.position(), l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to update lum at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -4609,7 +4611,7 @@ std::vector<tripoint> map::check_submap_active_item_consistency()
             for( int y = 0; y < MAPSIZE; ++y ) {
                 tripoint p( x, y, z );
                 submap *s = get_submap_at_grid( p );
-                if ( s == nullptr ) {
+                if( s == nullptr ) {
                     debugmsg( "Tried to access items at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
                     continue;
                 }
@@ -4644,8 +4646,9 @@ void map::process_items()
         }
         for( const tripoint &pos : submaps_with_vehicles ) {
             submap *const current_submap = get_submap_at_grid( pos );
-            if ( current_submap == nullptr ) {
-                debugmsg( "Tried to process items at (%d,%d,%d) but the submap is not loaded", pos.x, pos.y, pos.z );
+            if( current_submap == nullptr ) {
+                debugmsg( "Tried to process items at (%d,%d,%d) but the submap is not loaded", pos.x, pos.y,
+                          pos.z );
                 continue;
             }
             // Vehicles first in case they get blown up and drop active items on the map.
@@ -4657,8 +4660,9 @@ void map::process_items()
     for( const tripoint &abs_pos : submaps_with_active_items_copy ) {
         const tripoint local_pos = abs_pos - abs_sub.xy();
         submap *const current_submap = get_submap_at_grid( local_pos );
-        if ( current_submap == nullptr ) {
-            debugmsg( "Tried to process items at (%d,%d,%d) but the submap is not loaded", local_pos.x, local_pos.y, local_pos.z );
+        if( current_submap == nullptr ) {
+            debugmsg( "Tried to process items at (%d,%d,%d) but the submap is not loaded", local_pos.x,
+                      local_pos.y, local_pos.z );
             continue;
         }
         if( !current_submap->active_items.empty() ) {
@@ -4839,7 +4843,7 @@ bool map::has_items( const tripoint &p ) const
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to check items at (%d,%d) but the submap is not loaded", l.x, l.y );
         return false;
     }
@@ -5205,7 +5209,7 @@ const trap &map::tr_at( const tripoint &p ) const
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to get trap at (%d,%d) but the submap is not loaded", l.x, l.y );
         return tr_null.obj();
     }
@@ -5224,7 +5228,7 @@ partial_con *map::partial_con_at( const tripoint &p )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to get construction at (%d,%d) but the submap is not loaded", l.x, l.y );
         return nullptr;
     }
@@ -5242,7 +5246,7 @@ void map::partial_con_remove( const tripoint &p )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to remove construction at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -5256,7 +5260,7 @@ void map::partial_con_set( const tripoint &p, const partial_con &con )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to set construction at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -5273,7 +5277,7 @@ void map::trap_set( const tripoint &p, const trap_id &type )
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to set trap at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -5303,7 +5307,7 @@ void map::remove_trap( const tripoint &p )
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to remove trap at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -5334,7 +5338,7 @@ const field &map::field_at( const tripoint &p ) const
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to get field at (%d,%d) but the submap is not loaded", l.x, l.y );
         nulfield = field();
         return nulfield;
@@ -5355,7 +5359,7 @@ field &map::field_at( const tripoint &p )
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to get field at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
         nulfield = field();
         return nulfield;
@@ -5429,7 +5433,7 @@ field_entry *map::get_field( const tripoint &p, const field_type_id &type )
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to get field at (%d,%d) but the submap is not loaded", l.x, l.y );
         return nullptr;
     }
@@ -5469,7 +5473,7 @@ bool map::add_field( const tripoint &p, const field_type_id &type, int intensity
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to add field at (%d,%d) but the submap is not loaded", l.x, l.y );
         return false;
     }
@@ -5513,7 +5517,7 @@ void map::remove_field( const tripoint &p, const field_type_id &field_to_remove 
 
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to remove field at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -5593,7 +5597,7 @@ computer *map::computer_at( const tripoint &p )
 
     point l;
     submap *const sm = get_submap_at( p, l );
-    if ( sm == nullptr ) {
+    if( sm == nullptr ) {
         debugmsg( "Tried to get computer at (%d,%d) but the submap is not loaded", l.x, l.y );
         return nullptr;
     }
@@ -5618,7 +5622,7 @@ bool map::point_within_camp( const tripoint &point_check ) const
 void map::remove_submap_camp( const tripoint &p )
 {
     submap *const current_submap = get_submap_at( p );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to remove camp at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
         return;
     }
@@ -5628,7 +5632,7 @@ void map::remove_submap_camp( const tripoint &p )
 basecamp map::hoist_submap_camp( const tripoint &p )
 {
     submap *const current_submap = get_submap_at( p );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to hoist camp at (%d,%d,%d) but the submap is not loaded", p.x, p.y, p.z );
         return basecamp();
     }
@@ -5648,7 +5652,7 @@ void map::update_submap_active_item_status( const tripoint &p )
 {
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to update active items at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -5840,7 +5844,7 @@ void map::draw( const catacurses::window &w, const tripoint &center )
             submap *cur_submap = get_submap_at( p, l );
             submap *sm_below = p.z > -OVERMAP_DEPTH ?
                                get_submap_at( {p.xy(), p.z - 1}, l ) : cur_submap;
-            if ( cur_submap == nullptr || sm_below == nullptr ) {
+            if( cur_submap == nullptr || sm_below == nullptr ) {
                 debugmsg( "Tried to draw map at (%d,%d) but the submap is not loaded", l.x, l.y );
                 x++;
                 continue;
@@ -6728,8 +6732,9 @@ void map::shift( const point &sp )
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             submap *const cur_submap = get_submap_at_grid( {gridx, gridy, gridz} );
-                            if ( cur_submap == nullptr ) {
-                                debugmsg( "Tried to update vehicle list at (%d,%d,%d) but the submap is not loaded", gridx, gridy, gridz );
+                            if( cur_submap == nullptr ) {
+                                debugmsg( "Tried to update vehicle list at (%d,%d,%d) but the submap is not loaded", gridx, gridy,
+                                          gridz );
                                 continue;
                             }
                             update_vehicle_list( cur_submap, gridz );
@@ -6746,8 +6751,9 @@ void map::shift( const point &sp )
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             submap *const cur_submap = get_submap_at_grid( {gridx, gridy, gridz} );
-                            if ( cur_submap == nullptr ) {
-                                debugmsg( "Tried to update vehicle list at (%d,%d,%d) but the submap is not loaded", gridx, gridy, gridz );
+                            if( cur_submap == nullptr ) {
+                                debugmsg( "Tried to update vehicle list at (%d,%d,%d) but the submap is not loaded", gridx, gridy,
+                                          gridz );
                                 continue;
                             }
                             update_vehicle_list( cur_submap, gridz );
@@ -6768,8 +6774,9 @@ void map::shift( const point &sp )
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             submap *const cur_submap = get_submap_at_grid( {gridx, gridy, gridz} );
-                            if ( cur_submap == nullptr ) {
-                                debugmsg( "Tried to update vehicle list at (%d,%d,%d) but the submap is not loaded", gridx, gridy, gridz );
+                            if( cur_submap == nullptr ) {
+                                debugmsg( "Tried to update vehicle list at (%d,%d,%d) but the submap is not loaded", gridx, gridy,
+                                          gridz );
                                 continue;
                             }
                             update_vehicle_list( cur_submap, gridz );
@@ -6786,8 +6793,9 @@ void map::shift( const point &sp )
                             copy_grid( tripoint( gridx, gridy, gridz ),
                                        tripoint( gridx + sp.x, gridy + sp.y, gridz ) );
                             submap *const cur_submap = get_submap_at_grid( {gridx, gridy, gridz} );
-                            if ( cur_submap == nullptr ) {
-                                debugmsg( "Tried to update vehicle list at (%d,%d,%d) but the submap is not loaded", gridx, gridy, gridz );
+                            if( cur_submap == nullptr ) {
+                                debugmsg( "Tried to update vehicle list at (%d,%d,%d) but the submap is not loaded", gridx, gridy,
+                                          gridz );
                                 continue;
                             }
                             update_vehicle_list( cur_submap, gridz );
@@ -6850,7 +6858,7 @@ void map::saven( const tripoint &grid )
                   << "], gridx[" << grid.x << "], gridy[" << grid.y << "], gridz[" << grid.z << "])";
     const int gridn = get_nonant( grid );
     submap *submap_to_save = getsubmap( gridn );
-    if (submap_to_save == nullptr ) {
+    if( submap_to_save == nullptr ) {
         debugmsg( "Tried to save submap node (%d) but it's not loaded", gridn );
         return;
     }
@@ -7395,8 +7403,9 @@ void map::add_roofs( const tripoint &grid )
 void map::copy_grid( const tripoint &to, const tripoint &from )
 {
     submap *smap = get_submap_at_grid( from );
-    if ( smap == nullptr ) {
-        debugmsg( "Tried to copy grid from (%d,%d,%d) but the submap is not loaded", from.x, from.y, from.z );
+    if( smap == nullptr ) {
+        debugmsg( "Tried to copy grid from (%d,%d,%d) but the submap is not loaded", from.x, from.y,
+                  from.z );
         return;
     }
     setsubmap( get_nonant( to ), smap );
@@ -7434,8 +7443,9 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
 
     // If the submap is uniform, we can skip many checks
     const submap *current_submap = get_submap_at_grid( gp );
-    if ( current_submap == nullptr ) {
-        debugmsg( "Tried spawn monster group at (%d,%d,%d) but the submap is not loaded", gp.x, gp.y, gp.z );
+    if( current_submap == nullptr ) {
+        debugmsg( "Tried spawn monster group at (%d,%d,%d) but the submap is not loaded", gp.x, gp.y,
+                  gp.z );
         return;
     }
     bool ignore_terrain_checks = false;
@@ -7560,7 +7570,7 @@ void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
     }
 
     submap *const current_submap = get_submap_at_grid( gp );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried spawn monsters at (%d,%d,%d) but the submap is not loaded", gp.x, gp.y, gp.z );
         return;
     }
@@ -7716,7 +7726,7 @@ void map::set_graffiti( const tripoint &p, const std::string &contents )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to set graffiti at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -7730,7 +7740,7 @@ void map::delete_graffiti( const tripoint &p )
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to delete graffiti at (%d,%d) but the submap is not loaded", l.x, l.y );
         return;
     }
@@ -7745,7 +7755,7 @@ const std::string &map::graffiti_at( const tripoint &p ) const
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to get graffiti at (%d,%d) but the submap is not loaded", l.x, l.y );
         static const std::string empty_string;
         return empty_string;
@@ -7760,7 +7770,7 @@ bool map::has_graffiti_at( const tripoint &p ) const
     }
     point l;
     submap *const current_submap = get_submap_at( p, l );
-    if ( current_submap == nullptr ) {
+    if( current_submap == nullptr ) {
         debugmsg( "Tried to get graffiti at (%d,%d) but the submap is not loaded", l.x, l.y );
         return false;
     }
@@ -7844,8 +7854,9 @@ void map::build_outside_cache( const int zlev )
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
-            if ( cur_submap == nullptr ) {
-                debugmsg( "Tried to build outside cache at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
+            if( cur_submap == nullptr ) {
+                debugmsg( "Tried to build outside cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                          zlev );
                 continue;
             }
 
@@ -7890,8 +7901,9 @@ void map::build_obstacle_cache( const tripoint &start, const tripoint &end,
     for( int smx = min_submap.x; smx <= max_submap.x; ++smx ) {
         for( int smy = min_submap.y; smy <= max_submap.y; ++smy ) {
             const submap *cur_submap = get_submap_at_grid( { smx, smy, start.z } );
-            if ( cur_submap == nullptr ) {
-                debugmsg( "Tried to build obstacle cache at (%d,%d,%d) but the submap is not loaded", smx, smy, start.z );
+            if( cur_submap == nullptr ) {
+                debugmsg( "Tried to build obstacle cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                          start.z );
                 continue;
             }
 
@@ -7965,7 +7977,7 @@ bool map::build_floor_cache( const int zlev )
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
             const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
-            if ( cur_submap == nullptr ) {
+            if( cur_submap == nullptr ) {
                 debugmsg( "Tried to build floor cache at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
                 continue;
             }
@@ -8179,7 +8191,7 @@ void map::draw_fill_background( const ter_id &type )
     for( int gridx = 0; gridx < my_MAPSIZE; gridx++ ) {
         for( int gridy = 0; gridy < my_MAPSIZE; gridy++ ) {
             submap *sm = get_submap_at_grid( {gridx, gridy} );
-            if ( sm == nullptr ) {
+            if( sm == nullptr ) {
                 debugmsg( "Tried to fill background at (%d,%d) but the submap is not loaded", gridx, gridy );
                 continue;
             }
@@ -8346,7 +8358,7 @@ void map::function_over( const tripoint &start, const tripoint &end, Functor fun
         for( smx = min_sm.x; smx <= max_sm.x; smx++ ) {
             for( smy = min_sm.y; smy <= max_sm.y; smy++ ) {
                 submap const *cur_submap = get_submap_at_grid( { smx, smy, z } );
-                if ( cur_submap == nullptr ) {
+                if( cur_submap == nullptr ) {
                     debugmsg( "Tried to function over (%d,%d,%d) but the submap is not loaded", smx, smy, z );
                     continue;
                 }
@@ -8500,8 +8512,9 @@ std::list<item_location> map::get_active_items_in_radius( const tripoint &center
         const point sm_offset( submap_loc.x * SEEX, submap_loc.y * SEEY );
 
         submap *sm = get_submap_at_grid( submap_loc );
-        if ( sm == nullptr ) {
-            debugmsg( "Tried get active items in radius of (%d,%d,%d) but the submap is not loaded", submap_loc.x, submap_loc.y, submap_loc.z );
+        if( sm == nullptr ) {
+            debugmsg( "Tried get active items in radius of (%d,%d,%d) but the submap is not loaded",
+                      submap_loc.x, submap_loc.y, submap_loc.z );
             continue;
         }
         std::vector<item_reference> items = type == special_item_type::none ? sm->active_items.get() :
@@ -8776,8 +8789,9 @@ void map::calc_max_populated_zlev()
         for( int sx = 0; sx < my_MAPSIZE; sx++ ) {
             for( int sy = 0; sy < my_MAPSIZE; sy++ ) {
                 const submap *sm = get_submap_at_grid( tripoint( sx, sy, sz ) );
-                if ( sm == nullptr ) {
-                    debugmsg( "Tried to calc max populated zlev at (%d,%d,%d) but the submap is not loaded", sx, sy, sz );
+                if( sm == nullptr ) {
+                    debugmsg( "Tried to calc max populated zlev at (%d,%d,%d) but the submap is not loaded", sx, sy,
+                              sz );
                     continue;
                 }
                 if( !sm->is_uniform ) {
