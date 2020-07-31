@@ -299,7 +299,7 @@
     "effect_str": "foxs_cunning"
   },
   {
-    "id": "magus_summon_impactsling",
+    "id": "magus_summon_impact_sling",
     "type": "SPELL",
     "name": { "str": "Impact Sling" },
     "description": "This spell infuses a sling with tremendous force, delivering devasting pebble shots until the energy tears it apart.",

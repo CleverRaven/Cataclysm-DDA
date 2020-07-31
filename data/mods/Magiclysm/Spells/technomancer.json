@@ -482,7 +482,7 @@
     "spell_class": "TECHNOMANCER"
   },
   {
-    "id": "knifeshot",
+    "id": "technomancer_knifeshot",
     "type": "SPELL",
     "name": "Knifeshot",
     "description": "This spell generates a magnetic field around a knife, before launching it at high speed.",
@@ -508,10 +508,10 @@
     "min_pierce": 3,
 	"max_pierce": 10,
 	"pierce_increment": 0.35,
-    "learn_spells": { "knifeshot_superior": 20 }
+    "learn_spells": { "technomancer_knifeshot_superior": 20 }
   },
   {
-    "id": "knifeshot_superior",
+    "id": "technomancer_knifeshot_superior",
     "type": "SPELL",
     "name": "Hypervelocity Knifeshot",
     "description": "This spell goes even further beyond, launching a knife so fast it can pierce through targets.",
