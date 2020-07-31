@@ -51,7 +51,7 @@
     "byproducts": [ [ "chem_glycerol", 4 ] ],
     "skill_used": "chemistry",
     "difficulty": 5,
-    "result_mult": 4
+    "result_mult": 4,
     "time": "420 m",
     "book_learn": [ [ "textbook_biodiesel", 5 ] ],
     "batch_time_factors": [ 99, 1 ],
