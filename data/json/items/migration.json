@@ -1281,7 +1281,7 @@
   {
     "id": "water_acid_weak",
     "type": "MIGRATION",
-    "replace": "chem_sulphuric_acid"
+    "replace": "chem_acetic_acid"
   },
   {
     "id": "four_winds_shotgun",
