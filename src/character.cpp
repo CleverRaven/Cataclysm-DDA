@@ -9878,7 +9878,7 @@ void Character::check_and_recover_morale()
          *effects ) {
         for( std::pair<const bodypart_str_id, effect> &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
-            test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp()->token );
+            test_morale.on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
         }
     }
 
@@ -10655,7 +10655,7 @@ void Character::on_effect_int_change( const efftype_id &eid, int intensity, cons
         on_stat_change( "perceived_pain", get_perceived_pain() );
     }
 
-    morale->on_effect_int_change( eid, intensity, bp->token );
+    morale->on_effect_int_change( eid, intensity, bp );
 }
 
 void Character::on_mutation_gain( const trait_id &mid )
