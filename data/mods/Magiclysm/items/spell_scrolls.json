@@ -924,7 +924,7 @@
     "id": "spell_scroll_feralform",
     "name": { "str": "Scroll of Feral Form" },
     "description": "Unleash your inner beast by snapping a fur-covered bone, becoming beastly.",
-    "use_action": { "type": "learn_spell", "spells": [ "druid_tornskin" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "druid_feralform" ] }
   },
   {
     "type": "BOOK",
@@ -973,5 +973,5 @@
     "name": { "str": "Scroll of Knifeshot" },
     "description": "Emulate a railgun, launching a knife at high speed.",
     "use_action": { "type": "learn_spell", "spells": [ "technomancer_knifeshot" ] }
-  
+  }
 ]
