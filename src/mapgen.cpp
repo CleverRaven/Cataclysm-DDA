@@ -5795,6 +5795,10 @@ void map::add_spawn( const mtype_id &type, int count, const tripoint &p, bool fr
     }
     point offset;
     submap *place_on_submap = get_submap_at( p, offset );
+    if( place_on_submap == nullptr ) {
+        debugmsg( "Tried to add spawn at (%d,%d) but the submap is not loaded", offset.x, offset.y );
+        return;
+    }
 
     if( !place_on_submap ) {
         debugmsg( "centadodecamonant doesn't exist in grid; within add_spawn(%s, %d, %d, %d, %d)",
@@ -5857,6 +5861,11 @@ vehicle *map::add_vehicle( const vproto_id &type, const tripoint &p, const int d
 
     if( placed_vehicle != nullptr ) {
         submap *place_on_submap = get_submap_at_grid( placed_vehicle->sm_pos );
+        if( place_on_submap == nullptr ) {
+            debugmsg( "Tried to add vehicle at (%d,%d,%d) but the submap is not loaded",
+                      placed_vehicle->sm_pos.x, placed_vehicle->sm_pos.y, placed_vehicle->sm_pos.z );
+            return placed_vehicle;
+        }
         place_on_submap->vehicles.push_back( std::move( placed_vehicle_up ) );
         place_on_submap->is_uniform = false;
 
@@ -5995,6 +6004,11 @@ computer *map::add_computer( const tripoint &p, const std::string &name, int sec
     furn_set( p, furn_str_id( "f_console" ) );
     point l;
     submap *const place_on_submap = get_submap_at( p, l );
+    if( place_on_submap == nullptr ) {
+        debugmsg( "Tried to add computer at (%d,%d) but the submap is not loaded", l.x, l.y );
+        static computer null_computer = computer( name, security );
+        return &null_computer;
+    }
     place_on_submap->set_computer( l, computer( name, security ) );
     return place_on_submap->get_computer( l );
 }
@@ -6066,19 +6080,35 @@ void map::rotate( int turns, const bool setpos_safe )
     clear_vehicle_cache( abs_sub.z );
     clear_vehicle_list( abs_sub.z );
 
+    submap *pz = get_submap_at_grid( point_zero );
+    submap *pse = get_submap_at_grid( point_south_east );
+    submap *pe = get_submap_at_grid( point_east );
+    submap *ps = get_submap_at_grid( point_south );
+    if( pz == nullptr || pse == nullptr || pe == nullptr || ps == nullptr ) {
+        debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", point_zero.x,
+                  point_zero.y );
+        return;
+    }
+
     // Move the submaps around.
     if( turns == 2 ) {
-        std::swap( *get_submap_at_grid( point_zero ), *get_submap_at_grid( point_south_east ) );
-        std::swap( *get_submap_at_grid( point_east ), *get_submap_at_grid( point_south ) );
+        std::swap( *pz, *pse );
+        std::swap( *pe, *ps );
     } else {
         point p;
         submap tmp;
 
-        std::swap( *get_submap_at_grid( point_south_east - p ), tmp );
+        std::swap( *pse, tmp );
 
         for( int k = 0; k < 4; ++k ) {
             p = p.rotate( turns, { 2, 2 } );
-            std::swap( *get_submap_at_grid( point_south_east - p ), tmp );
+            point tmpp = point_south_east - p;
+            submap *psep = get_submap_at_grid( tmpp );
+            if( psep == nullptr ) {
+                debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", tmpp.x, tmpp.y );
+                continue;
+            }
+            std::swap( *psep, tmp );
         }
     }
 
@@ -6087,6 +6117,10 @@ void map::rotate( int turns, const bool setpos_safe )
         for( int i = 0; i < 2; ++i ) {
             point p( i, j );
             submap *sm = get_submap_at_grid( p );
+            if( sm == nullptr ) {
+                debugmsg( "Tried to rotate map at (%d,%d) but the submap is not loaded", p.x, p.y );
+                continue;
+            }
 
             sm->rotate( turns );
 
