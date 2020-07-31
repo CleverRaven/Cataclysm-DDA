@@ -50,7 +50,11 @@ parser.add_argument(
 parser.set_defaults(with_header=True)
 
 
-def item_values(item, fields, none_string):
+I18N_DICT_KEYS = ('str', 'str_sp', 'str_pl', 'ctxt')
+I18N_DICT_KEYS_SET = set(I18N_DICT_KEYS)
+
+
+def item_values(item, fields, none_string="None"):
     """Return item values from within the given fields, converted to strings.
 
     Fields may be plain string or numeric values:
@@ -104,9 +108,19 @@ def item_values(item, fields, none_string):
                 it = none_string
                 break
 
-        # Make dict presentable
         if isinstance(it, dict):
-            values.append("%s" % list(it.items()))
+            if set(it.keys()) <= I18N_DICT_KEYS_SET:
+                # it dict contains only i18zed values
+                first_good_value = None
+                for k in I18N_DICT_KEYS:
+                    value = it.get(k, None)
+                    if value:
+                        first_good_value = value
+                        break
+                values.append("%s" % first_good_value or none_string)
+            else:
+                # Make dict presentable
+                values.append("%s" % it.items())
         # Separate lists with slashes
         elif isinstance(it, list):
             values.append(" / ".join(
