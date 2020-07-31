@@ -2,7 +2,7 @@
   {
     "id": "butchery_tree_pseudo",
     "type": "TOOL",
-    "name": { "str": "brick kiln" },
+    "name": { "str": "butchery tree pseudo item" },
     "description": "This is a pseudo item to represent the support of a tree or butchery rack without a hook.",
     "weight": "1 g",
     "volume": "1 ml",
@@ -14,7 +14,7 @@
   {
     "id": "butchery_rack_pseudo",
     "type": "TOOL",
-    "name": { "str": "brick kiln" },
+    "name": { "str": "butchery rack pseudo item" },
     "description": "This is a pseudo item to represent the support of a tree or butchery rack with a hook.",
     "weight": "1 g",
     "volume": "1 ml",
@@ -26,7 +26,7 @@
   {
     "id": "medium_surface_pseudo",
     "type": "TOOL",
-    "name": { "str": "brick kiln" },
+    "name": { "str": "medium surface pseudo item" },
     "description": "This is a pseudo item to represent a surface large enough to butcher a medium animal on.",
     "weight": "1 g",
     "volume": "1 ml",
@@ -38,7 +38,7 @@
   {
     "id": "large_surface_pseudo",
     "type": "TOOL",
-    "name": { "str": "brick kiln" },
+    "name": { "str": "large surface pseudo item" },
     "description": "This is a pseudo item to represent a surface large enough to butcher a large animal on.",
     "weight": "1 g",
     "volume": "1 ml",
