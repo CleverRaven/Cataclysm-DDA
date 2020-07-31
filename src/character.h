@@ -85,6 +85,7 @@ using drop_locations = std::list<drop_location>;
 #define MAX_CLAIRVOYANCE 40
 
 /// @brief type of conditions that effect vision
+/// @note vision modes do not necessarily match json ids or flags
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
