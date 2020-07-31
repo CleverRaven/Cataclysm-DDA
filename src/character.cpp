@@ -1056,8 +1056,8 @@ void Character::mount_creature( monster &z )
         add_msg( m_debug, "mount_creature(): monster not found in critter_tracker" );
         return;
     }
-    add_effect( effect_riding, 1_turns, bodypart_id( "num_bp" ), true );
-    z.add_effect( effect_ridden, 1_turns, bodypart_id( "num_bp" ), true );
+    add_effect( effect_riding, 1_turns, bodypart_id( "bp_null" ), true );
+    z.add_effect( effect_ridden, 1_turns, bodypart_id( "bp_null" ), true );
     if( z.has_effect( effect_tied ) ) {
         z.remove_effect( effect_tied );
         if( z.tied_item ) {
@@ -1242,7 +1242,7 @@ void Character::forced_dismount()
             }
             check_dead_state();
         }
-        add_effect( effect_downed, 5_turns, bodypart_id( "num_bp" ), true );
+        add_effect( effect_downed, 5_turns, bodypart_id( "bp_null" ), true );
     } else {
         add_msg( m_debug, "Forced_dismount could not find a square to deposit player" );
     }
@@ -1728,7 +1728,7 @@ void Character::expose_to_disease( const diseasetype_id &dis_type )
         }
     } else {
         add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ),
-                    bodypart_id( "num_bp" ),
+                    bodypart_id( "bp_null" ),
                     false,
                     rng( dis_type->min_intensity, dis_type->max_intensity ) );
     }
@@ -5206,7 +5206,7 @@ void Character::update_stomach( const time_point &from, const time_point &to )
         remove_effect( effect_hunger_starving );
         remove_effect( effect_hunger_famished );
         remove_effect( effect_hunger_blank );
-        add_effect( hunger_effect, 24_hours, bodypart_id( "num_bp" ), true );
+        add_effect( hunger_effect, 24_hours, bodypart_id( "bp_null" ), true );
     }
 }
 
@@ -7403,8 +7403,10 @@ float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id
 {
     float rate_medicine = 0.0f;
 
-    for( const std::pair<const efftype_id, std::unordered_map<bodypart_str_id, effect, std::hash<int>>>
-         &elem : *effects ) {
+    for( const
+         std::pair<const efftype_id, std::unordered_map<bodypart_str_id, effect, std::hash<bodypart_str_id>>>
+         &elem :
+         *effects ) {
         for( const std::pair<const bodypart_str_id, effect> &i : elem.second ) {
             const effect &eff = i.second;
             float tmp_rate = static_cast<float>( eff.get_amount( "HEAL_RATE" ) ) / to_turns<int>
@@ -8432,7 +8434,7 @@ void Character::vomit()
     }
 
     if( !has_effect( effect_nausea ) ) {  // Prevents never-ending nausea
-        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, bodypart_str_id( "num_bp" ), false, 1,
+        const effect dummy_nausea( &effect_nausea.obj(), 0_turns, bodypart_str_id( "bp_null" ), false, 1,
                                    calendar::turn );
         add_effect( effect_nausea, std::max( dummy_nausea.get_max_duration() * units::to_milliliter(
                 stomach.contains() ) / 21, dummy_nausea.get_int_dur_factor() ) );
@@ -9873,7 +9875,7 @@ void Character::check_and_recover_morale()
         test_morale.on_mutation_gain( mut );
     }
 
-    for( std::pair<const efftype_id, std::unordered_map<bodypart_str_id, effect, std::hash<int>>>
+    for( std::pair<const efftype_id, std::unordered_map<bodypart_str_id, effect, std::hash<bodypart_str_id>>>
          &elem :
          *effects ) {
         for( std::pair<const bodypart_str_id, effect> &_effect_it : elem.second ) {

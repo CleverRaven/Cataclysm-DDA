@@ -949,7 +949,7 @@ int place_monster_iuse::use( player &p, item &it, bool, const tripoint & ) const
         }
         newmon.friendly = -1;
         if( is_pet ) {
-            newmon.add_effect( effect_pet, 1_turns, bodypart_id( "num_bp" ), true );
+            newmon.add_effect( effect_pet, 1_turns, bodypart_id( "bp_null" ), true );
         }
     }
     return 1;
@@ -2039,7 +2039,7 @@ int musical_instrument_actor::use( player &p, item &it, bool t, const tripoint &
 
     if( p.get_effect_int( effect_playing_instrument ) <= speed_penalty ) {
         // Only re-apply the effect if it wouldn't lower the intensity
-        p.add_effect( effect_playing_instrument, 2_turns, bodypart_id( "num_bp" ), false, speed_penalty );
+        p.add_effect( effect_playing_instrument, 2_turns, bodypart_id( "bp_null" ), false, speed_penalty );
     }
 
     std::string desc = "music";
@@ -3919,7 +3919,7 @@ int mutagen_actor::use( player &p, item &it, bool, const tripoint & ) const
         p.add_msg_player_or_npc( m_bad,
                                  _( "You suddenly feel dizzy, and collapse to the ground." ),
                                  _( "<npcname> suddenly collapses to the ground!" ) );
-        p.add_effect( effect_downed, 1_turns, bodypart_id( "num_bp" ), false, 0, true );
+        p.add_effect( effect_downed, 1_turns, bodypart_id( "bp_null" ), false, 0, true );
     }
 
     int mut_count = 1 + ( is_strong ? one_in( 3 ) : 0 );
@@ -4395,7 +4395,7 @@ int change_scent_iuse::use( player &p, item &it, bool, const tripoint & ) const
     if( waterproof ) {
         p.set_value( "waterproof_scent", "true" );
     }
-    p.add_effect( efftype_id( "masked_scent" ), duration, bodypart_id( "num_bp" ), false, scent_mod );
+    p.add_effect( efftype_id( "masked_scent" ), duration, bodypart_id( "bp_null" ), false, scent_mod );
     p.set_type_of_scent( scenttypeid );
     p.mod_moves( -moves );
     add_msg( m_info, _( "You use the %s to mask your scent" ), it.tname() );

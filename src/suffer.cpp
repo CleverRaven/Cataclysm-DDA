@@ -303,9 +303,9 @@ void Character::suffer_while_awake( const int current_stim )
     if( !has_trait( trait_DEBUG_STORAGE ) &&
         ( weight_carried() > 4 * weight_capacity() ) ) {
         if( has_effect( effect_downed ) ) {
-            add_effect( effect_downed, 1_turns, bodypart_id( "num_bp" ), false, 0, true );
+            add_effect( effect_downed, 1_turns, bodypart_id( "bp_null" ), false, 0, true );
         } else {
-            add_effect( effect_downed, 2_turns, bodypart_id( "num_bp" ), false, 0, true );
+            add_effect( effect_downed, 2_turns, bodypart_id( "bp_null" ), false, 0, true );
         }
     }
     if( has_trait( trait_CHEMIMBALANCE ) ) {
@@ -1246,7 +1246,7 @@ void Character::suffer_from_bad_bionics()
                            _( "Your malfunctioning bionic causes you to spasm and fall to the floor!" ) );
         mod_pain( 1 );
         add_effect( effect_stunned, 1_turns );
-        add_effect( effect_downed, 1_turns, bodypart_id( "num_bp" ), false, 0, true );
+        add_effect( effect_downed, 1_turns, bodypart_id( "bp_null" ), false, 0, true );
         sfx::play_variant_sound( "bionics", "elec_crackle_high", 100 );
     }
     if( has_bionic( bio_shakes ) && get_power_level() > 24_kJ && one_turn_in( 2_hours ) ) {

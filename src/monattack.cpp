@@ -1871,7 +1871,7 @@ bool mattack::fungus_inject( monster *z )
                  body_part_name_accusative( hit ) );
 
         if( one_in( 10 - dam ) ) {
-            player_character.add_effect( effect_fungus, 10_minutes, bodypart_id( "num_bp" ), true );
+            player_character.add_effect( effect_fungus, 10_minutes, bodypart_id( "bp_null" ), true );
             add_msg( m_warning, _( "You feel thousands of live spores pumping into you…" ) );
         }
     } else {
@@ -2103,7 +2103,7 @@ bool mattack::fungus_fortify( monster *z )
         //~ 1$s is monster name, 2$s bodypart in accusative
         add_msg( m_bad, _( "The %1$s sinks its point into your %2$s!" ), z->name(),
                  body_part_name_accusative( hit ) );
-        player_character.add_effect( effect_fungus, 40_minutes, bodypart_id( "num_bp" ), true );
+        player_character.add_effect( effect_fungus, 40_minutes, bodypart_id( "bp_null" ), true );
         add_msg( m_warning, _( "You feel millions of live spores pumping into you…" ) );
     } else {
         //~ 1$s is monster name, 2$s bodypart in accusative
@@ -2467,7 +2467,7 @@ bool mattack::callblobs( monster *z )
         }
         ( *ally )->set_dest( post );
         if( !( *ally )->has_effect( effect_controlled ) ) {
-            ( *ally )->add_effect( effect_controlled, 1_turns, bodypart_id( "num_bp" ), true );
+            ( *ally )->add_effect( effect_controlled, 1_turns, bodypart_id( "bp_null" ), true );
         }
     }
     // This is telepathy, doesn't take any moves.
@@ -3049,7 +3049,7 @@ bool mattack::nurse_assist( monster *z )
                            string_format(
                                _( "a soft robotic voice say, \"Welcome doctor %s.  I'll be your assistant today.\"" ),
                                Name::generate( target->male ) ) );
-            target->add_effect( effect_assisted, 20_turns, bodypart_id( "num_bp" ), false, 12 );
+            target->add_effect( effect_assisted, 20_turns, bodypart_id( "bp_null" ), false, 12 );
             return true;
         }
     }
@@ -3152,7 +3152,7 @@ bool mattack::nurse_operate( monster *z )
             // Check if we successfully grabbed the target
             if( target->has_effect( effect_grabbed ) ) {
                 z->dragged_foe_id = target->getID();
-                z->add_effect( effect_dragging, 1_turns, bodypart_id( "num_bp" ), true );
+                z->add_effect( effect_dragging, 1_turns, bodypart_id( "bp_null" ), true );
                 return true;
             }
         }
@@ -4635,7 +4635,7 @@ bool mattack::darkman( monster *z )
             add_msg( _( "\"Please dont\"" ) );
             break;
     }
-    player_character.add_effect( effect_darkness, 1_turns, bodypart_id( "num_bp" ), true );
+    player_character.add_effect( effect_darkness, 1_turns, bodypart_id( "bp_null" ), true );
 
     return true;
 }
@@ -5846,7 +5846,7 @@ bool mattack::zombie_fuse( monster *z )
                  z->name() );
     }
     z->moves -= 200;
-    z->add_effect( effect_grown_of_fuse, 10_days, bodypart_id( "num_bp" ), true,
+    z->add_effect( effect_grown_of_fuse, 10_days, bodypart_id( "bp_null" ), true,
                    critter->get_hp_max() + z->get_effect( effect_grown_of_fuse ).get_intensity() );
     z->heal( critter->get_hp(), true );
     critter->death_drops = false;

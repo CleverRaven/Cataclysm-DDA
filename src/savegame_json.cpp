@@ -3253,9 +3253,8 @@ void Creature::load( const JsonObject &jsin )
 
     killer = nullptr; // see Creature::load
 
-    // Just too many changes here to maintain compatibility, so older characters get a free
-    // effects wipe. Since most long lasting effects are bad, this shouldn't be too bad for them.
-    if( savegame_loading_version >= 23 ) {
+    // TEMPORARY until 0.F
+    if( savegame_loading_version < 31 ) {
         if( jsin.has_object( "effects" ) ) {
             // Because JSON requires string keys we need to convert back to our bp keys
             std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
@@ -3279,6 +3278,8 @@ void Creature::load( const JsonObject &jsin )
                 }
             }
         }
+    } else {
+        jsin.read( "effects", effects );
     }
     jsin.read( "values", values );
 

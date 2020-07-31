@@ -54,7 +54,7 @@ TEST_CASE( "effect duration", "[effect][duration]" )
 {
     // "debugged" and "intensified" effects come from JSON effect data (data/mods/TEST_DATA/effects.json)
     const efftype_id eff_id( "debugged" );
-    effect eff_debugged( &eff_id.obj(), 1_turns, bodypart_str_id( "num_bp" ), false, 1,
+    effect eff_debugged( &eff_id.obj(), 1_turns, bodypart_str_id( "bp_null" ), false, 1,
                          calendar::turn );
 
     // Current duration from effect initialization
@@ -84,7 +84,7 @@ TEST_CASE( "effect duration", "[effect][duration]" )
     // a duration of 3000 or higher.
     SECTION( "set_duration modifies intensity if effect is duration-based" ) {
         const efftype_id eff_id( "intensified" );
-        effect eff_intense( &eff_id.obj(), 1_turns, bodypart_str_id( "num_bp" ), false, 1, calendar::turn );
+        effect eff_intense( &eff_id.obj(), 1_turns, bodypart_str_id( "bp_null" ), false, 1, calendar::turn );
         REQUIRE( eff_intense.get_int_dur_factor() == 1_minutes );
 
         // At zero duration, intensity is minimum (1)
@@ -120,7 +120,7 @@ TEST_CASE( "effect duration", "[effect][duration]" )
 TEST_CASE( "effect intensity", "[effect][intensity]" )
 {
     const efftype_id eff_id( "debugged" );
-    effect eff_debugged( &eff_id.obj(), 3_turns, bodypart_str_id( "num_bp" ), false, 1,
+    effect eff_debugged( &eff_id.obj(), 3_turns, bodypart_str_id( "bp_null" ), false, 1,
                          calendar::turn );
 
     REQUIRE( eff_debugged.get_intensity() == 1 );
@@ -154,7 +154,7 @@ TEST_CASE( "effect intensity", "[effect][intensity]" )
 
 // Effect decay
 // ------------
-// effect::decay
+// effect::decaybodypart_str_id( "bp_null" )
 //
 TEST_CASE( "effect decay", "[effect][decay]" )
 {
@@ -164,7 +164,7 @@ TEST_CASE( "effect decay", "[effect][decay]" )
     std::vector<bodypart_id> rem_bps;
 
     SECTION( "decay reduces effect duration by 1 turn" ) {
-        effect eff_debugged( &eff_id.obj(), 2_turns, bodypart_str_id( "num_bp" ), false, 1,
+        effect eff_debugged( &eff_id.obj(), 2_turns, bodypart_str_id( "bp_null" ), false, 1,
                              calendar::turn );
         // Ensure it will last 2 turns, and is not permanent/paused
         REQUIRE( to_turns<int>( eff_debugged.get_duration() ) == 2 );
@@ -192,11 +192,11 @@ TEST_CASE( "effect decay", "[effect][decay]" )
         CHECK( rem_bps.size() == 1 );
         // Effect ID and body part are pushed to the arrays
         CHECK( rem_ids.front() == eff_debugged.get_id() );
-        CHECK( rem_bps.front() == bodypart_id( "num_bp" ) );
+        CHECK( rem_bps.front() == bodypart_id( "bp_null" ) );
     }
 
     SECTION( "decay does not reduce paused/permanent effect duration" ) {
-        effect eff_debugged( &eff_id.obj(), 2_turns, bodypart_str_id( "num_bp" ), true, 1, calendar::turn );
+        effect eff_debugged( &eff_id.obj(), 2_turns, bodypart_str_id( "bp_null" ), true, 1, calendar::turn );
         // Ensure it will last 2 turns, and is permanent/paused
         REQUIRE( to_turns<int>( eff_debugged.get_duration() ) == 2 );
         REQUIRE( eff_debugged.is_permanent() );
@@ -259,7 +259,7 @@ TEST_CASE( "effect display and speed name may vary with intensity",
         // "name": [ "Whoa", "Wut?", "Wow!" ]
         // "max_intensity": 3
         const efftype_id eid_intensified( "intensified" );
-        effect eff_intense( &eid_intensified.obj(), 1_turns, bodypart_str_id( "num_bp" ), false, 1,
+        effect eff_intense( &eid_intensified.obj(), 1_turns, bodypart_str_id( "bp_null" ), false, 1,
                             calendar::turn );
         REQUIRE( eff_intense.get_max_intensity() == 3 );
 
@@ -293,7 +293,7 @@ TEST_CASE( "effect display and speed name may vary with intensity",
         // "name": [ "Debugged" ]
         // "speed_name": "Optimized"
         const efftype_id eid_debugged( "debugged" );
-        effect eff_debugged( &eid_debugged.obj(), 1_minutes, bodypart_str_id( "num_bp" ), false, 1,
+        effect eff_debugged( &eid_debugged.obj(), 1_minutes, bodypart_str_id( "bp_null" ), false, 1,
                              calendar::turn );
 
         THEN( "disp_name has the name, and current intensity if > 1" ) {
@@ -381,7 +381,7 @@ TEST_CASE( "effect modifiers", "[effect][modifier]" )
 {
     SECTION( "base_mods apply equally for any intensity" ) {
         const efftype_id eff_id( "debugged" );
-        effect eff_debugged( &eff_id.obj(), 1_minutes, bodypart_str_id( "num_bp" ), false, 1,
+        effect eff_debugged( &eff_id.obj(), 1_minutes, bodypart_str_id( "bp_null" ), false, 1,
                              calendar::turn );
 
         CHECK( eff_debugged.get_mod( "STR" ) == 1 );
@@ -396,7 +396,7 @@ TEST_CASE( "effect modifiers", "[effect][modifier]" )
     // Scaling mods - vary based on intensity
     SECTION( "scaling_mods vary based on intensity" ) {
         const efftype_id eff_id( "intensified" );
-        effect eff_intense( &eff_id.obj(), 1_turns, bodypart_str_id( "num_bp" ), false, 1, calendar::turn );
+        effect eff_intense( &eff_id.obj(), 1_turns, bodypart_str_id( "bp_null" ), false, 1, calendar::turn );
         REQUIRE( eff_intense.get_max_intensity() == 3 );
 
         // Subtracts 1 INT and 2 PER per intensity greater than 1

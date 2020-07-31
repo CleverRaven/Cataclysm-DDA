@@ -150,7 +150,7 @@ class effect_type
 class effect
 {
     public:
-        effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id( "num_bp" ) ),
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id( "bp_null" ) ),
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
         }
         effect( const effect_type *peff_type, const time_duration &dur, bodypart_str_id part,
@@ -311,8 +311,11 @@ std::string texitify_bandage_power( int power );
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON
 class effects_map : public
-    std::unordered_map<efftype_id, std::unordered_map<bodypart_str_id, effect, std::hash<int>>>
+    std::unordered_map<efftype_id, std::unordered_map<bodypart_str_id, effect, std::hash<bodypart_str_id>>>
 {
+    public:
+        void serialize( JsonOut &json ) const;
+        void deserialize( JsonIn &jsin );
 };
 
 #endif // CATA_SRC_EFFECT_H

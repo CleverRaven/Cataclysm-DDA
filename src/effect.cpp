@@ -541,7 +541,7 @@ std::string effect::disp_name() const
             }
         }
     }
-    if( bp != bodypart_str_id( "num_bp" ) ) {
+    if( bp != bodypart_str_id( "bp_null" ) ) {
         ret += string_format( " (%s)", body_part_name( bp.id() ) );
     }
 
@@ -1376,7 +1376,15 @@ void effect::deserialize( JsonIn &jsin )
     const efftype_id id( jo.get_string( "eff_type" ) );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-    jo.read( "bp", bp );
+
+    // TEMPORARY until 0.F
+    if( jo.has_int( "bp" ) ) {
+        bp = convert_bp( static_cast<body_part>( jo.get_int( "bp" ) ) );
+    } else {
+        jo.read( "bp", bp );
+    }
+
+
     permanent = jo.get_bool( "permanent" );
     intensity = jo.get_int( "intensity" );
     start_time = calendar::turn_zero;
@@ -1444,4 +1452,12 @@ std::string texitify_bandage_power( const int power )
         debugmsg( "Converted value out of bounds." );
     }
     return "";
+}
+
+void effects_map::serialize( JsonOut &json ) const
+{
+}
+
+void effects_map::deserialize( JsonIn &jsin )
+{
 }

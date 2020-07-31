@@ -721,7 +721,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( z ) {
             const item &drop_item = proj.get_drop();
             if( !drop_item.is_null() ) {
-                z->add_effect( effect_tied, 1_turns, bodypart_id( "num_bp" ), true );
+                z->add_effect( effect_tied, 1_turns, bodypart_id( "bp_null" ), true );
                 z->tied_item = cata::make_value<item>( drop_item );
             } else {
                 add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );

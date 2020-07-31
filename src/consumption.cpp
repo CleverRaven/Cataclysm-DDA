@@ -982,7 +982,7 @@ static bool eat( item &food, player &you, bool force = false )
     }
 
     if( food.has_flag( flag_FUNGAL_VECTOR ) && !you.has_trait( trait_M_IMMUNE ) ) {
-        you.add_effect( effect_fungus, 1_turns, bodypart_id( "num_bp" ), true );
+        you.add_effect( effect_fungus, 1_turns, bodypart_id( "bp_null" ), true );
     }
 
     // The fun changes for these effects are applied in fun_for().
@@ -1006,19 +1006,19 @@ static bool eat( item &food, player &you, bool force = false )
             switch( rng( 0, 3 ) ) {
                 case 0:
                     if( !you.has_trait( trait_EATHEALTH ) ) {
-                        you.add_effect( effect_tapeworm, 1_turns, bodypart_id( "num_bp" ), true );
+                        you.add_effect( effect_tapeworm, 1_turns, bodypart_id( "bp_null" ), true );
                     }
                     break;
                 case 1:
                     if( !you.has_trait( trait_ACIDBLOOD ) ) {
-                        you.add_effect( effect_bloodworms, 1_turns, bodypart_id( "num_bp" ), true );
+                        you.add_effect( effect_bloodworms, 1_turns, bodypart_id( "bp_null" ), true );
                     }
                     break;
                 case 2:
-                    you.add_effect( effect_brainworms, 1_turns, bodypart_id( "num_bp" ), true );
+                    you.add_effect( effect_brainworms, 1_turns, bodypart_id( "bp_null" ), true );
                     break;
                 case 3:
-                    you.add_effect( effect_paincysts, 1_turns, bodypart_id( "num_bp" ), true );
+                    you.add_effect( effect_paincysts, 1_turns, bodypart_id( "bp_null" ), true );
             }
         }
     }

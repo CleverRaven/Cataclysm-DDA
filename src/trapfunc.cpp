@@ -169,10 +169,10 @@ bool trapfunc::beartrap( const tripoint &p, Creature *c, item * )
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 512 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "num_bp" ), true );
+                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "bp_null" ), true );
             } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
                        ( one_in( 128 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "num_bp" ), true );
+                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "bp_null" ), true );
             }
         }
         c->check_dead_state();
@@ -208,10 +208,10 @@ bool trapfunc::board( const tripoint &, Creature *c, item * )
         c->deal_damage( nullptr, bodypart_id( "foot_l" ), damage_instance( DT_CUT, rng( 6, 10 ) ) );
         c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, rng( 6, 10 ) ) );
         if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-            n->add_effect( effect_tetanus, 1_turns, bodypart_id( "num_bp" ), true );
+            n->add_effect( effect_tetanus, 1_turns, bodypart_id( "bp_null" ), true );
         } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
                    ( one_in( 35 ) ) ) {
-            n->add_effect( effect_tetanus, 1_turns, bodypart_id( "num_bp" ), true );
+            n->add_effect( effect_tetanus, 1_turns, bodypart_id( "bp_null" ), true );
         }
     }
     c->check_dead_state();
@@ -863,10 +863,10 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
                                   body_part_name_accusative( hit ) );
             n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "num_bp" ), true );
+                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "bp_null" ), true );
             } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
                        ( one_in( 35 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "num_bp" ), true );
+                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "bp_null" ), true );
             }
         }
     } else if( z != nullptr ) {
@@ -952,10 +952,10 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
                                   body_part_name_accusative( hit ) );
             n->deal_damage( nullptr, hit, damage_instance( DT_CUT, damage ) );
             if( ( n->has_trait( trait_INFRESIST ) ) && ( one_in( 256 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "num_bp" ), true );
+                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "bp_null" ), true );
             } else if( ( !n->has_trait( trait_INFIMMUNE ) || !n->has_trait( trait_INFRESIST ) ) &&
                        ( one_in( 35 ) ) ) {
-                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "num_bp" ), true );
+                n->add_effect( effect_tetanus, 1_turns, bodypart_id( "bp_null" ), true );
             }
         }
     } else if( z != nullptr ) {
