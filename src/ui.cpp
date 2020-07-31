@@ -13,7 +13,6 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "game.h"
-#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "player.h"
@@ -255,7 +254,7 @@ void uilist::filterlist()
 
 void uilist::inputfilter()
 {
-    input_context ctxt( input_category );
+    input_context ctxt( input_category, keyboard_mode::keychar );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -266,7 +265,6 @@ void uilist::inputfilter()
     filter_popup->context( ctxt ).text( filter )
     .max_length( 256 )
     .window( window, point( 4, w_height - 1 ), w_width - 4 );
-    ime_sentry sentry;
     do {
         ui_manager::redraw();
         filter = filter_popup->query_string( false );
@@ -781,7 +779,7 @@ void uilist::query( bool loop, int timeout )
     }
     ret = UILIST_WAIT_INPUT;
 
-    input_context ctxt( input_category );
+    input_context ctxt( input_category, keyboard_mode::keychar );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );

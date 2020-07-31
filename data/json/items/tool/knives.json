@@ -94,6 +94,23 @@
     "flags": [ "STAB", "SHEATH_KNIFE" ]
   },
   {
+    "id": "boxcutter",
+    "type": "TOOL",
+    "name": { "str": "boxcutter knife", "str_pl": "boxcutter knives" },
+    "description": "This is a small knife, designed for opening boxes.  It could cause some damage, but it really should be used against inanimate objects.  It is too small to butcher corpses with.",
+    "weight": "23 g",
+    "volume": "20 ml",
+    "longest_side": "12 cm",
+    "price": 400,
+    "price_postapoc": 100,
+    "to_hit": -3,
+    "cutting": 3,
+    "material": [ "steel", "plastic" ],
+    "symbol": ";",
+    "color": "light_gray",
+    "qualities": [ [ "CUT", 1 ] ]
+  },
+  {
     "type": "GENERIC",
     "id": "stone_chopper",
     "symbol": "*",

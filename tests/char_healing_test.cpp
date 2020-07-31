@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <string>
 
 #include "avatar.h"
@@ -5,8 +7,6 @@
 #include "options.h"
 #include "player.h"
 #include "type_id.h"
-
-#include "catch/catch.hpp"
 
 // Tests for Character healing, including:
 //

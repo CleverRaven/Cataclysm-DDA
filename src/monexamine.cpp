@@ -352,7 +352,7 @@ void monexamine::insert_battery( monster &z )
     selection_menu.text = string_format( _( "Select an battery to insert into your %s." ),
                                          z.get_name() );
     selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-    for( auto iter : bat_inv ) {
+    for( const item *iter : bat_inv ) {
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
     }
     selection_menu.selected = 1;
@@ -725,7 +725,7 @@ void monexamine::tie_or_untie( monster &z )
         uilist selection_menu;
         selection_menu.text = string_format( _( "Select an item to tie your %s with." ), z.get_name() );
         selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Cancel" ) );
-        for( auto iter : rope_inv ) {
+        for( const item *iter : rope_inv ) {
             selection_menu.addentry( i++, true, MENU_AUTOASSIGN, _( "Use %s" ), iter->tname() );
         }
         selection_menu.selected = 1;

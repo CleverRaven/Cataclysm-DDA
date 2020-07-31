@@ -1,6 +1,5 @@
 #include "achievement.h"
 
-#include "avatar.h"
 #include "enums.h"
 #include "event_statistics.h"
 #include "generic_factory.h"
@@ -147,7 +146,7 @@ struct achievement_requirement {
     requirement_visibility visibility = requirement_visibility::always;
     cata::optional<translation> description;
 
-    bool becomes_false;
+    bool becomes_false = false;
 
     void deserialize( JsonIn &jin ) {
         const JsonObject &jo = jin.get_object();

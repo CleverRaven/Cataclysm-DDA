@@ -95,7 +95,7 @@ class damage_over_time_data
         std::vector<bodypart_str_id> bps;
         int amount;
 
-        bool was_loaded;
+        bool was_loaded = false;
 
         void load( const JsonObject &obj );
 

@@ -1,7 +1,8 @@
+#include "catch/catch.hpp"
+
 #include <fstream>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "game_constants.h"
 #include "overmap_noise.h"
 #include "point.h"

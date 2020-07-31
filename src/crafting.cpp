@@ -99,7 +99,6 @@ static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
 static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
 static const std::string flag_UNCRAFT_SINGLE_CHARGE( "UNCRAFT_SINGLE_CHARGE" );
@@ -615,7 +614,7 @@ static void set_components( std::list<item> &components, const std::list<item> &
     }
     // This count does *not* include items counted by charges!
     size_t non_charges_counter = 0;
-    for( auto &tmp : used ) {
+    for( const item &tmp : used ) {
         if( tmp.count_by_charges() ) {
             components.push_back( tmp );
             // This assumes all (count-by-charges) items of the same type have been merged into one,
@@ -747,7 +746,7 @@ void Character::start_craft( craft_command &command, const tripoint &loc )
     item_location craft_in_world;
 
     // Check if we are standing next to a workbench. If so, just use that.
-    float best_bench_multi = 0.0;
+    float best_bench_multi = 0.0f;
     tripoint target = loc;
     map &here = get_map();
     for( const tripoint &adj : here.points_in_radius( pos(), 1 ) ) {
@@ -1803,6 +1802,9 @@ bool Character::craft_consume_tools( item &craft, int mulitplier, bool start_cra
         debugmsg( "craft_consume_tools() called on non-craft '%s.' Aborting.", craft.tname() );
         return false;
     }
+    if( has_trait( trait_DEBUG_HS ) ) {
+        return true;
+    }
 
     const auto calc_charges = [&craft, &start_craft, &mulitplier]( int charges ) {
         int ret = charges;
@@ -1951,8 +1953,8 @@ ret_val<bool> Character::can_disassemble( const item &obj, const inventory &inv 
             // Create a new item to get the default charges
             int qty = r.create_result().charges;
             if( obj.charges < qty ) {
-                auto msg = ngettext( "You need at least %d charge of %s.",
-                                     "You need at least %d charges of %s.", qty );
+                const char *msg = ngettext( "You need at least %d charge of %s.",
+                                            "You need at least %d charges of %s.", qty );
                 return ret_val<bool>::make_failure( msg, qty, obj.tname() );
             }
         }
@@ -2078,12 +2080,14 @@ bool Character::disassemble( item_location target, bool interactive )
 
     if( activity.id() != ACT_DISASSEMBLE ) {
         if( num_dis != 0 ) {
-            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this ) * num_dis );
+            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this,
+                             recipe_time_flag::ignore_proficiencies ) * num_dis );
         } else {
-            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this ) );
+            assign_activity( ACT_DISASSEMBLE, r.time_to_craft_moves( *this,
+                             recipe_time_flag::ignore_proficiencies ) );
         }
     } else if( activity.moves_left <= 0 ) {
-        activity.moves_left = r.time_to_craft_moves( *this );
+        activity.moves_left = r.time_to_craft_moves( *this, recipe_time_flag::ignore_proficiencies );
     }
 
     // index is used as a bool that indicates if we want recursive uncraft.
@@ -2167,7 +2171,8 @@ void Character::complete_disassemble()
         return;
     }
 
-    activity.moves_left = next_recipe.time_to_craft_moves( *this );
+    activity.moves_left = next_recipe.time_to_craft_moves( *this,
+                          recipe_time_flag::ignore_proficiencies );
 }
 
 void Character::complete_disassemble( item_location &target, const recipe &dis )

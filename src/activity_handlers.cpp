@@ -210,16 +210,11 @@ static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
-static const itype_id itype_chain( "chain" );
-static const itype_id itype_grapnel( "grapnel" );
-static const itype_id itype_hd_tow_cable( "hd_tow_cable" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
-static const itype_id itype_rope_30( "rope_30" );
-static const itype_id itype_rope_makeshift_30( "rope_makeshift_30" );
 static const itype_id itype_ruined_chunks( "ruined_chunks" );
 static const itype_id itype_scrap( "scrap" );
 static const itype_id itype_sheet_metal( "sheet_metal" );
@@ -228,7 +223,7 @@ static const itype_id itype_splinter( "splinter" );
 static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_steel_plate( "steel_plate" );
-static const itype_id itype_vine_30( "vine_30" );
+static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_wire( "wire" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_wool_staple( "wool_staple" );
@@ -243,8 +238,6 @@ static const skill_id skill_survival( "survival" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
-static const quality_id qual_SAW_M( "SAW_M" );
-static const quality_id qual_SAW_W( "SAW_W" );
 
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -263,7 +256,6 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
 static const std::string flag_EATEN_COLD( "EATEN_COLD" );
 static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
 static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
@@ -285,7 +277,6 @@ static const std::string flag_SAFECRACK( "SAFECRACK" );
 static const std::string flag_SKINNED( "SKINNED" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
-static const std::string flag_TREE( "TREE" );
 static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 
 using namespace activity_handlers;
@@ -456,7 +447,7 @@ void activity_handlers::burrow_finish( player_activity *act, player *p )
         p->mod_thirst( 10 );
         p->mod_fatigue( 15 );
         p->mod_pain( 3 * rng( 1, 3 ) );
-    } else if( here.move_cost( pos ) == 2 && g->get_levz() == 0 &&
+    } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
                here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
         //Breaking up concrete on the surface? not nearly as bad
         p->mod_stored_nutr( 5 );
@@ -591,55 +582,59 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         }
     }
 
-    bool has_tree_nearby = false;
-    map &here = get_map();
-    for( const tripoint &pt : here.points_in_radius( u.pos(), 2 ) ) {
-        if( here.has_flag( flag_TREE, pt ) ) {
-            has_tree_nearby = true;
+    const bool big_corpse = corpse.size >= creature_size::medium;
+    // Requirements for the various types
+    requirement_id butchery_requirement;
+    switch( action ) {
+        case butcher_type::FIELD_DRESS:
+        case butcher_type::QUARTER:
+        case butcher_type::SKIN:
+        case butcher_type::DISMEMBER: {
+            butchery_requirement = requirement_id( "field_dress" );
+            break;
+        }
+        case butcher_type::DISSECT: {
+            if( big_corpse ) {
+                butchery_requirement = requirement_id( "dissect_large" );
+            } else {
+                butchery_requirement = requirement_id( "dissect_small" );
+            }
+            break;
+        }
+        case butcher_type::FULL: {
+            if( big_corpse ) {
+                butchery_requirement = requirement_id( "full_butchery_large" );
+            } else {
+                butchery_requirement = requirement_id( "butchery_small" );
+            }
+            break;
+        }
+        case butcher_type::QUICK: {
+            if( big_corpse ) {
+                butchery_requirement = requirement_id( "butchery_large" );
+            } else {
+                butchery_requirement = requirement_id( "butchery_small" );
+            }
+            break;
         }
     }
-    bool b_rack_present = false;
-    for( const tripoint &pt : here.points_in_radius( u.pos(), 2 ) ) {
-        if( here.has_flag_furn( flag_BUTCHER_EQ, pt ) || u.best_nearby_lifting_assist() >= 3500_kilogram ) {
-            b_rack_present = true;
-        }
-    }
-    // workshop butchery (full) prequisites
-    if( action == butcher_type::FULL ) {
-        const bool has_rope = u.has_amount( itype_rope_30, 1 ) ||
-                              u.has_amount( itype_rope_makeshift_30, 1 ) ||
-                              u.has_amount( itype_hd_tow_cable, 1 ) ||
-                              u.has_amount( itype_vine_30, 1 ) ||
-                              u.has_amount( itype_grapnel, 1 ) ||
-                              u.has_amount( itype_chain, 1 );
-        const bool big_corpse = corpse.size >= creature_size::medium;
 
-        if( big_corpse ) {
-            if( has_rope && !has_tree_nearby && !b_rack_present ) {
-                u.add_msg_if_player( m_info,
-                                     _( "You need to suspend this corpse to butcher it.  While you have a rope to lift the corpse, there is no tree nearby to hang it from." ) );
-                act.targets.pop_back();
-                return;
-            }
-            if( !has_rope && !b_rack_present ) {
-                u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need either a butchering rack, a nearby hanging meathook, a crane, or both a long rope in your inventory and a nearby tree to hang the corpse from." ) );
-                act.targets.pop_back();
-                return;
-            }
-            if( !here.has_nearby_table( u.pos(), 2 ) ) {
-                u.add_msg_if_player( m_info,
-                                     _( "To perform a full butchery on a corpse this big, you need a table nearby or something else with a flat surface.  A leather tarp spread out on the ground could suffice." ) );
-                act.targets.pop_back();
-                return;
-            }
-            if( !( u.has_quality( qual_SAW_W ) || u.has_quality( qual_SAW_M ) ) ) {
-                u.add_msg_if_player( m_info,
-                                     _( "For a corpse this big you need a saw to perform a full butchery." ) );
-                act.targets.pop_back();
-                return;
-            }
+    if( !butchery_requirement->can_make_with_inventory(
+            u.crafting_inventory( u.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
+        std::string popup_output = _( "You can't butcher this, you are missing some tools.\n" );
+
+        for( const std::string &str : butchery_requirement->get_folded_components_list(
+                 45, c_light_gray, u.crafting_inventory( u.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
+            popup_output += str + '\n';
         }
+        for( const std::string &str : butchery_requirement->get_folded_tools_list(
+                 45, c_light_gray, u.crafting_inventory( u.pos(), PICKUP_RANGE ) ) ) {
+            popup_output += str + '\n';
+        }
+
+        act.set_to_null();
+        popup( popup_output );
+        return;
     }
 
     if( action == butcher_type::DISSECT && ( corpse_item.has_flag( flag_QUARTERED ) ||
@@ -795,9 +790,9 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
 // this function modifies the input weight by its damage level, depending on the bodypart
 static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
-    const float slight_damage = 0.9;
-    const float damage = 0.75;
-    const float high_damage = 0.5;
+    const float slight_damage = 0.9f;
+    const float damage = 0.75f;
+    const float high_damage = 0.5f;
     const int destroyed = 0;
 
     switch( damage_level ) {
@@ -1901,7 +1896,7 @@ void activity_handlers::pickaxe_finish( player_activity *act, player *p )
                 p->mod_fatigue( 30 - ( helpersize  * 3 ) );
             }
             p->mod_pain( std::max( 0, ( 2 * static_cast<int>( rng( 1, 3 ) ) ) - helpersize ) );
-        } else if( here.move_cost( pos ) == 2 && g->get_levz() == 0 &&
+        } else if( here.move_cost( pos ) == 2 && here.get_abs_sub().z == 0 &&
                    here.ter( pos ) != t_dirt && here.ter( pos ) != t_grass ) {
             //Breaking up concrete on the surface? not nearly as bad
             p->mod_stored_nutr( 5 - ( helpersize ) );
@@ -2240,7 +2235,7 @@ void activity_handlers::vehicle_finish( player_activity *act, player *p )
                       act->values.size() );
         } else {
             if( vp ) {
-                here.invalidate_map_cache( g->get_levz() );
+                here.invalidate_map_cache( here.get_abs_sub().z );
                 // TODO: Z (and also where the activity is queued)
                 // Or not, because the vehicle coordinates are dropped anyway
                 if( !resume_for_multi_activities( *p ) ) {
@@ -2412,11 +2407,11 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     map &here = get_map();
     const tripoint &pos = act->placement;
     const ter_id ter = here.ter( pos );
-
+    const furn_id furn = here.furn( pos );
     // fast players might still have some charges left to be consumed
     act->targets.front()->ammo_consume( act->values[0], p->pos() );
 
-    if( here.furn( pos ) == f_rack ) {
+    if( furn == f_rack ) {
         here.furn_set( pos, f_null );
         here.spawn_item( p->pos(), itype_steel_chunk, rng( 2, 6 ) );
     } else if( ter == t_chainfence || ter == t_chaingate_c || ter == t_chaingate_l ) {
@@ -2456,6 +2451,13 @@ void activity_handlers::oxytorch_finish( player_activity *act, player *p )
     } else if( ter == t_window_bars ) {
         here.ter_set( pos, t_window_empty );
         here.spawn_item( p->pos(), itype_pipe, rng( 1, 2 ) );
+    } else if( furn == f_safe_l || furn == f_gunsafe_ml || furn == f_gunsafe_mj ||
+               furn == f_gun_safe_el ) {
+        here.furn_set( pos, f_safe_o );
+        // 50% of starting a fire.
+        if( here.flammable_items_at( pos ) && rng( 1, 100 ) < 50 ) {
+            here.add_field( pos, fd_fire, 1, 10_minutes );
+        }
     }
 }
 
@@ -2704,8 +2706,13 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
             ammo_name = item::nname( used_tool->ammo_current() );
         }
 
+        int ammo_remaining = used_tool->ammo_remaining();
+        if( used_tool->has_flag( "USE_UPS" ) ) {
+            ammo_remaining = p->charges_of( itype_UPS );
+        }
+
         title += string_format( _( "Charges: <color_light_blue>%s/%s</color> %s (%s per use)\n" ),
-                                used_tool->ammo_remaining(), used_tool->ammo_capacity( current_ammo ),
+                                ammo_remaining, used_tool->ammo_capacity( current_ammo ),
                                 ammo_name,
                                 used_tool->ammo_required() );
         title += string_format( _( "Skill used: <color_light_blue>%s (%s)</color>\n" ),
@@ -3184,7 +3191,7 @@ void activity_handlers::read_finish( player_activity *act, player *p )
         npc *guy = dynamic_cast<npc *>( p );
         guy->finish_read( * act->targets.front().get_item() );
     } else {
-        if( avatar *u = dynamic_cast<avatar *>( p ) ) {
+        if( avatar *u = p->as_avatar() ) {
             u->do_read( *act->targets.front().get_item() );
         } else {
             act->set_to_null();
@@ -3358,7 +3365,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     }
                 }
             } else {
-                p->make_bleed( bodypart_id( "num_bp" ), 1_turns, difficulty, true );
+                p->make_bleed( bodypart_id( "bp_null" ), 1_turns, difficulty, true );
                 p->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }
@@ -4498,6 +4505,8 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
             default:
                 break;
         }
+
+        spell_being_cast.use_components( *p );
     }
     if( level_override == -1 ) {
         if( !spell_being_cast.is_max_level() ) {

@@ -78,7 +78,7 @@
     "stackable": true,
     "price": 0,
     "volume": "0 ml",
-    "flags": [ "PERPETUAL" ],
+    "flags": [ "PSEUDO", "PERPETUAL" ],
     "fuel": { "energy": 1 }
   },
   {
@@ -281,7 +281,8 @@
     "color": "green",
     "name": { "str": "fertilizer" },
     "description": "A token, representing fertilization of a plant.",
-    "material": [ "veggy" ]
+    "material": [ "veggy" ],
+    "flags": [ "ZERO_WEIGHT" ]
   },
   {
     "type": "GENERIC",
@@ -298,6 +299,7 @@
     "bashing": 26,
     "to_hit": -2,
     "price": 8000,
+    "qualities": [ [ "ROPE", 2 ] ],
     "price_postapoc": 50
   },
   {
@@ -1646,8 +1648,7 @@
     "price_postapoc": 10,
     "material": [ "plastic" ],
     "weight": "26 g",
-    "volume": "15 ml",
-    "to_hit": 2
+    "volume": "15 ml"
   },
   {
     "type": "GENERIC",
@@ -1661,8 +1662,7 @@
     "price_postapoc": 10,
     "material": [ "aluminum" ],
     "weight": "14 g",
-    "volume": "5 ml",
-    "to_hit": 2
+    "volume": "5 ml"
   },
   {
     "type": "GENERIC",
@@ -2436,6 +2436,8 @@
     "color": "brown",
     "symbol": "!",
     "description": "The smoke billowing from this cigar has a sweet, musty odor.",
+    "weight": "9 g",
+    "volume": "250 ml",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "use_action": [
@@ -2457,6 +2459,7 @@
     "color": "dark_gray",
     "symbol": "!",
     "weight": "1 g",
+    "volume": "1 ml",
     "description": "A true gentleman always finishes his cigars.",
     "category": "other",
     "flags": [ "TRADER_AVOID" ]
@@ -2468,6 +2471,8 @@
     "color": "white",
     "symbol": "!",
     "description": "Smoke swirls from the lit end of this cigarette, filling the air with the thrilling smell of burning chemicals.",
+    "weight": "1 g",
+    "volume": "4 ml",
     "category": "drugs",
     "emits": [ "emit_tobacco_trail" ],
     "use_action": [
@@ -2491,6 +2496,7 @@
     "description": "What was once a wonderfully addictive tube of dried tobacco leaf is now just a smelly piece of trash.  What a tragedy!\nThe leftover tobacco in a few of these could probably be used to roll another cigarette.  If you're willing to go that far…",
     "category": "other",
     "weight": "1 g",
+    "volume": "1 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {
@@ -2500,6 +2506,8 @@
     "color": "light_green",
     "symbol": "!",
     "description": "The smell of skunk permeates the air as a thin trail of smoke floats off of this joint.",
+    "weight": "1 g",
+    "volume": "4 ml",
     "category": "drugs",
     "emits": [ "emit_joint_trail" ],
     "use_action": [
@@ -2523,6 +2531,7 @@
     "description": "The smoked-down butt of a joint, a reminder of some good times.  Pretty much trash now.  Bummer, man.\nA few of these could probably be used to roll another joint.",
     "category": "other",
     "weight": "1 g",
+    "volume": "1 ml",
     "flags": [ "TRADER_AVOID" ]
   },
   {

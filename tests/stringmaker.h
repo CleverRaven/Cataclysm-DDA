@@ -2,6 +2,7 @@
 #ifndef CATA_TESTS_STRINGMAKER_H
 #define CATA_TESTS_STRINGMAKER_H
 
+#include "cuboid_rectangle.h"
 #include "catch/catch.hpp"
 #include "cata_variant.h"
 #include "dialogue.h"
@@ -33,16 +34,16 @@ struct StringMaker<point> {
     }
 };
 
-template<>
-struct StringMaker<rectangle> {
-    static std::string convert( const rectangle &r ) {
+template<typename Point>
+struct StringMaker<rectangle<Point>> {
+    static std::string convert( const rectangle<Point> &r ) {
         return string_format( "[%s-%s]", r.p_min.to_string(), r.p_max.to_string() );
     }
 };
 
-template<>
-struct StringMaker<box> {
-    static std::string convert( const box &b ) {
+template<typename Tripoint>
+struct StringMaker<cuboid<Tripoint>> {
+    static std::string convert( const cuboid<Tripoint> &b ) {
         return string_format( "[%s-%s]", b.p_min.to_string(), b.p_max.to_string() );
     }
 };

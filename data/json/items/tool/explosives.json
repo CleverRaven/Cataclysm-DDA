@@ -1045,6 +1045,7 @@
     "symbol": "*",
     "color": "light_green",
     "turns_per_charge": 1,
+    "max_charges": 9,
     "use_action": {
       "type": "explosion",
       "fields_type": "fd_nuke_gas",

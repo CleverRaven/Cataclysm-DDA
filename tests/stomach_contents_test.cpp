@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
 #include <memory>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "calendar.h"
 #include "player.h"
 #include "player_helpers.h"

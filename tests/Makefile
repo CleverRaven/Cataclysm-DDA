@@ -31,8 +31,11 @@ endif
 
 tests: $(TEST_TARGET)
 
-$(TEST_TARGET): $(OBJS) $(CATA_LIB)
+$(TEST_TARGET): $(OBJS) $(CATA_LIB) precompile_header
 	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
+
+precompile_header:
+	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -DCATCH_CONFIG_ENABLE_PAIR_STRINGMAKER -c catch/catch.hpp -o catch/catch.hpp.gch
 
 # Iterate over all the individual tests.
 check: $(TEST_TARGET)
@@ -46,9 +49,9 @@ clean:
 $(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: %.cpp
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) -DCATCH_CONFIG_ENABLE_PAIR_STRINGMAKER $(CXXFLAGS) -c $< -o $@
 
-.PHONY: clean check tests
+.PHONY: clean check tests precompile_header
 
 .SECONDARY: $(OBJS)
 

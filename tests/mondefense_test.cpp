@@ -1,4 +1,5 @@
 #include "catch/catch.hpp"
+
 #include "creature.h"
 #include "item.h"
 #include "mondefense.h"

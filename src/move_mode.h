@@ -5,9 +5,14 @@
 #include <map>
 #include <string>
 
-#include "generic_factory.h"
+#include "color.h"
 #include "translations.h"
 #include "type_id.h"
+
+class JsonObject;
+
+template<typename T>
+class generic_factory;
 
 enum class steed_type : int {
     NONE,

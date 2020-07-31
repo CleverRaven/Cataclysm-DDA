@@ -1076,7 +1076,7 @@ void vehicle_prototype::finalize()
 
         blueprint.suspend_refresh();
         for( auto &pt : proto.parts ) {
-            const auto base = item::find_type( pt.part->item );
+            const itype *base = item::find_type( pt.part->item );
 
             if( !pt.part.is_valid() ) {
                 debugmsg( "unknown vehicle part %s in %s", pt.part.c_str(), id.c_str() );
@@ -1102,7 +1102,7 @@ void vehicle_prototype::finalize()
 
             } else {
                 for( const auto &e : pt.ammo_types ) {
-                    const auto ammo = item::find_type( e );
+                    const itype *ammo = item::find_type( e );
                     if( !ammo->ammo && base->gun->ammo.count( ammo->ammo->type ) ) {
                         debugmsg( "init_vehicles: turret %s has invalid ammo_type %s in %s",
                                   pt.part.c_str(), e.c_str(), id.c_str() );

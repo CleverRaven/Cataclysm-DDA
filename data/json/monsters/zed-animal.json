@@ -428,7 +428,7 @@
     "volume": "750 L",
     "weight": "750 kg",
     "hp": 210,
-    "speed": 150,
+    "speed": 120,
     "material": [ "flesh" ],
     "symbol": "B",
     "color": "green",
@@ -447,7 +447,7 @@
     "fear_triggers": [ "FIRE" ],
     "death_function": [ "NORMAL" ],
     "harvest": "zombie_leather",
-    "special_attacks": [ [ "SMASH", 10 ] ],
+    "special_attacks": [ [ "SMASH", 20 ] ],
     "flags": [
       "SEES",
       "HEARS",
@@ -497,7 +497,7 @@
   {
     "id": "mon_zpider_mass",
     "type": "MONSTER",
-    "name": { "str": "mass of zombie spiders" },
+    "name": { "str": "mass of zombie spiders", "str_pl": "masses of zombie spiders" },
     "description": "Thousands, maybe millions of spiders piling up high, each slowly oozing sticky green pus, struggling to keep the fetid mass together and moving.",
     "default_faction": "zombie",
     "bodytype": "blob",

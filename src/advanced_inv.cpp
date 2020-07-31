@@ -25,7 +25,6 @@
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
-#include "ime.h"
 #include "input.h"
 #include "inventory.h"
 #include "item.h"
@@ -193,7 +192,7 @@ inline std::string advanced_inventory::get_location_key( aim_location area )
 
 void advanced_inventory::init()
 {
-    for( auto &square : squares ) {
+    for( advanced_inv_area &square : squares ) {
         square.init();
     }
 
@@ -215,7 +214,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
 {
     const auto &items = pane.items;
     const catacurses::window &window = pane.window;
-    const auto index = pane.index;
+    const int index = pane.index;
     bool compact = TERMX <= 100;
 
     int columns = getmaxx( window );
@@ -255,7 +254,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
                                             volume_units_abbr() );
         } else {
             units::volume maxvolume = 0_ml;
-            auto &s = squares[pane.get_area()];
+            advanced_inv_area &s = squares[pane.get_area()];
             if( pane.get_area() == AIM_CONTAINER && s.get_container( pane.in_vehicle() ) != nullptr ) {
                 maxvolume = s.get_container( pane.in_vehicle() )->get_total_capacity();
             } else if( pane.in_vehicle() ) {
@@ -329,7 +328,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             item_line = line + 1;
         }
 
-        const auto &it = *sitem.items.front();
+        const item &it = *sitem.items.front();
         const bool selected = active && index == static_cast<int>( i );
 
         nc_color thiscolor = active ? it.color_in_inventory() : norm;
@@ -357,7 +356,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
             //Count charges
             // TODO: transition to the item_location system used for the normal inventory
             unsigned int charges_total = 0;
-            for( const auto item : sitem.items ) {
+            for( const item *item : sitem.items ) {
                 charges_total += item->ammo_remaining();
             }
             if( stolen ) {
@@ -579,18 +578,18 @@ int advanced_inventory::print_header( advanced_inventory_pane &pane, aim_locatio
 
 void advanced_inventory::recalc_pane( side p )
 {
-    auto &pane = panes[p];
+    advanced_inventory_pane &pane = panes[p];
     pane.recalc = false;
     pane.items.clear();
     // Add items from the source location or in case of all 9 surrounding squares,
     // add items from several locations.
     if( pane.get_area() == AIM_ALL ) {
-        auto &alls = squares[AIM_ALL];
-        auto &there = panes[-p + 1];
-        auto &other = squares[there.get_area()];
+        advanced_inv_area &alls = squares[AIM_ALL];
+        advanced_inventory_pane &there = panes[-p + 1];
+        advanced_inv_area &other = squares[there.get_area()];
         alls.volume = 0_ml;
         alls.weight = 0_gram;
-        for( auto &s : squares ) {
+        for( advanced_inv_area &s : squares ) {
             // All the surrounding squares, nothing else
             if( s.id < AIM_SOUTHWEST || s.id > AIM_NORTHEAST ) {
                 continue;
@@ -634,7 +633,7 @@ void advanced_inventory::redraw_pane( side p )
     if( is_processing() ) {
         return;
     }
-    auto &pane = panes[p];
+    advanced_inventory_pane &pane = panes[p];
     if( recalc || pane.recalc ) {
         recalc_pane( p );
     }
@@ -642,12 +641,12 @@ void advanced_inventory::redraw_pane( side p )
 
     const bool active = p == src;
     const advanced_inv_area &square = squares[pane.get_area()];
-    auto w = pane.window;
+    catacurses::window w = pane.window;
 
     werase( w );
     print_items( pane, active );
 
-    auto itm = pane.get_cur_item_ptr();
+    advanced_inv_listitem *itm = pane.get_cur_item_ptr();
     int width = print_header( pane, itm != nullptr ? itm->area : pane.get_area() );
     // only cardinals
     // not where you stand, and pane is in vehicle
@@ -657,8 +656,8 @@ void advanced_inventory::redraw_pane( side p )
                            square.off == squares[AIM_DRAGGED].off;
     const advanced_inv_area &sq = same_as_dragged ? squares[AIM_DRAGGED] : square;
     bool car = square.can_store_in_vehicle() && panes[p].in_vehicle() && sq.id != AIM_DRAGGED;
-    auto name = utf8_truncate( car ? sq.veh->name : sq.name, width );
-    auto desc = utf8_truncate( sq.desc[car], width );
+    std::string name = utf8_truncate( car ? sq.veh->name : sq.name, width );
+    std::string desc = utf8_truncate( sq.desc[car], width );
     // starts at offset 2, plus space between the header and the text
     width -= 2 + 1;
     mvwprintz( w, point( 2, 1 ), active ? c_green  : c_light_gray, name );
@@ -812,7 +811,7 @@ bool advanced_inventory::move_all_items( bool nested_call )
     }
     bool restore_area = false;
     if( dpane.get_area() == AIM_ALL ) {
-        auto loc = dpane.get_area();
+        aim_location loc = dpane.get_area();
         // ask where we want to store the item via the menu
         if( !query_destination( loc ) ) {
             return false;
@@ -852,11 +851,11 @@ bool advanced_inventory::move_all_items( bool nested_call )
     map &here = get_map();
     if( spane.get_area() == AIM_INVENTORY || spane.get_area() == AIM_WORN ) {
         if( dpane.get_area() == AIM_INVENTORY ) {
-            popup( _( "You try to put you bags into themselves, but physics won't let you." ) );
+            popup( _( "You try to put your bags into themselves, but physics won't let you." ) );
             return false;
         } else if( dpane.get_area() == AIM_WORN ) {
             // TODO: implement this
-            popup( _( "Putting on everything from you inventory would be tricky." ) );
+            popup( _( "Putting on everything from your inventory would be tricky." ) );
             return false;
         } else if( dpane.get_area() == AIM_CONTAINER ) {
             // TODO: implement this
@@ -1168,9 +1167,9 @@ void advanced_inventory::change_square( const aim_location changeSquare,
                 in_vehicle_cargo = true;
             } else {
                 // check item stacks in vehicle and map at said square
-                auto sq = squares[changeSquare];
+                advanced_inv_area sq = squares[changeSquare];
                 map_stack map_stack = get_map().i_at( sq.pos );
-                auto veh_stack = sq.veh->get_items( sq.vstor );
+                vehicle_stack veh_stack = sq.veh->get_items( sq.vstor );
                 // auto switch to vehicle storage if vehicle items are there, or neither are there
                 if( !veh_stack.empty() || map_stack.empty() ) {
                     in_vehicle_cargo = true;
@@ -1551,7 +1550,7 @@ void advanced_inventory::display()
             for( side cside : {
                      left, right
                  } ) {
-                auto &pane = panes[cside];
+                advanced_inventory_pane &pane = panes[cside];
                 int i_location = cside == left ? save_state->saved_area : save_state->saved_area_right;
                 aim_location location = static_cast<aim_location>( i_location );
                 if( pane.get_area() != location || location == AIM_ALL ) {
@@ -1569,7 +1568,7 @@ void advanced_inventory::display()
             if( sitem == nullptr ) {
                 continue;
             }
-            for( auto *item : sitem->items ) {
+            for( item *item : sitem->items ) {
                 item->set_favorite( !item->is_favorite );
             }
             // In case we've merged faved and unfaved items
@@ -1593,8 +1592,6 @@ void advanced_inventory::display()
                 spopup->max_length( 256 ).text( filter );
                 ui->mark_resize();
             }
-
-            ime_sentry sentry;
 
             do {
                 if( ui ) {
@@ -1739,8 +1736,8 @@ bool advanced_inventory::query_destination( aim_location &def )
         for( int i = AIM_SOUTHWEST; i <= AIM_NORTHEAST; i++ ) {
             ordered_locs.push_back( screen_relative_location( static_cast <aim_location>( i ) ) );
         }
-        for( auto &ordered_loc : ordered_locs ) {
-            auto &s = squares[ordered_loc];
+        for( aim_location &ordered_loc : ordered_locs ) {
+            advanced_inv_area &s = squares[ordered_loc];
             const int size = s.get_item_count();
             std::string prefix = string_format( "%2d/%d", size, MAX_ITEM_IN_SQUARE );
             if( size >= MAX_ITEM_IN_SQUARE ) {
@@ -1821,7 +1818,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
 
     // Includes moving from/to inventory and around on the map.
     if( it.made_of_from_type( phase_id::LIQUID ) && !it.is_frozen_liquid() ) {
-        popup( _( "You can't pick up a liquid." ) );
+        popup( _( "Spilt liquid cannot be picked back up.  Try mopping it instead." ) );
         return false;
     }
 
@@ -1871,7 +1868,7 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     }
     // handle how many of armor type we can equip (max of 2 per type)
     if( destarea == AIM_WORN ) {
-        const auto &id = sitem.items.front()->typeId();
+        const itype_id &id = sitem.items.front()->typeId();
         // how many slots are available for the item?
         const int slots_available = MAX_WORN_PER_TYPE - player_character.amount_worn( id );
         // base the amount to equip on amount of slots available
@@ -1940,16 +1937,16 @@ void advanced_inventory::draw_minimap()
     Character &player_character = get_player_character();
     // draw the 3x3 tiles centered around player
     get_map().draw( minimap, player_character.pos() );
-    for( auto s : sides ) {
+    for( const side s : sides ) {
         char sym = get_minimap_sym( s );
         if( sym == '\0' ) {
             continue;
         }
-        auto sq = squares[panes[s].get_area()];
-        auto pt = pc + sq.off;
+        advanced_inv_area sq = squares[panes[s].get_area()];
+        tripoint pt = pc + sq.off;
         // invert the color if pointing to the player's position
-        auto cl = sq.id == AIM_INVENTORY || sq.id == AIM_WORN ?
-                  invert_color( c_light_cyan ) : c_light_cyan.blink();
+        nc_color cl = sq.id == AIM_INVENTORY || sq.id == AIM_WORN ?
+                      invert_color( c_light_cyan ) : c_light_cyan.blink();
         mvwputch( minimap, pt.xy(), cl, sym );
     }
 
@@ -1959,7 +1956,7 @@ void advanced_inventory::draw_minimap()
     const auto is_selected = [ this ]( const aim_location & where, size_t side ) {
         return where == this->panes[ side ].get_area();
     };
-    for( auto &loc : player_locations ) {
+    for( const aim_location &loc : player_locations ) {
         invert_left |= is_selected( loc, 0 );
         invert_right |= is_selected( loc, 1 );
     }

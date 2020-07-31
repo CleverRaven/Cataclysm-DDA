@@ -104,6 +104,7 @@
     "price_postapoc": 100,
     "material": [ "steel" ],
     "weight": "10 g",
+    "volume": "1 ml",
     "cutting": 1
   },
   {

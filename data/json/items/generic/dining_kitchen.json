@@ -108,7 +108,7 @@
     "to_hit": -1
   },
   {
-    "id": "base_cookpot",
+    "abstract": "base_cookpot",
     "name": { "str": "generic cook pot" },
     "description": "generic item template",
     "type": "GENERIC",

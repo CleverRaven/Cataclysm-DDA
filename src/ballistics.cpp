@@ -302,7 +302,7 @@ dealt_projectile_attack projectile_attack( const projectile &proj_arg, const tri
         --traj_len;
     }
 
-    const float projectile_skip_multiplier = 0.1;
+    const float projectile_skip_multiplier = 0.1f;
     // Randomize the skip so that bursts look nicer
     int projectile_skip_calculation = range * projectile_skip_multiplier;
     int projectile_skip_current_frame = rng( 0, projectile_skip_calculation );

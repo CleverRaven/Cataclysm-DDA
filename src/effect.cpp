@@ -458,6 +458,10 @@ std::string effect_type::get_remove_memorial_log() const
 {
     return remove_memorial_log;
 }
+std::string effect_type::get_blood_analysis_description() const
+{
+    return blood_analysis_description;
+}
 bool effect_type::get_main_parts() const
 {
     return main_parts_only;
@@ -529,7 +533,7 @@ std::string effect::disp_name() const
             return std::string();
         }
         ret += eff_type->name[0].translated();
-        if( intensity > 1 ) {
+        if( intensity > 1 && eff_type->show_intensity ) {
             if( eff_type->id == effect_bandaged || eff_type->id == effect_disinfected ) {
                 ret += string_format( " [%s]", texitify_healing_power( intensity ) );
             } else {
@@ -771,7 +775,7 @@ void effect::set_duration( const time_duration &dur, bool alert )
         set_intensity( duration / eff_type->int_dur_factor + 1, alert );
     }
 
-    add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), to_turns<int>( duration ) );
+    add_msg( m_debug, "ID: %s, Duration %s", get_id().c_str(), to_string( duration ) );
 }
 void effect::mod_duration( const time_duration &dur, bool alert )
 {
@@ -872,7 +876,7 @@ std::vector<efftype_id> effect::get_blocks_effects() const
 
 int effect::get_mod( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double min = 0;
     double max = 0;
     // Get the minimum total
@@ -904,7 +908,7 @@ int effect::get_mod( const std::string &arg, bool reduced ) const
 
 int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double min = 0;
     double max = 0;
     // Get the minimum total
@@ -938,7 +942,7 @@ int effect::get_amount( const std::string &arg, bool reduced ) const
 {
     int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
                                eff_type->max_effective_intensity, intensity ) : intensity;
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "amount" ) );
     if( found != mod_data.end() ) {
@@ -953,7 +957,7 @@ int effect::get_amount( const std::string &arg, bool reduced ) const
 
 int effect::get_min_val( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "min_val" ) );
     if( found != mod_data.end() ) {
@@ -968,7 +972,7 @@ int effect::get_min_val( const std::string &arg, bool reduced ) const
 
 int effect::get_max_val( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "max_val" ) );
     if( found != mod_data.end() ) {
@@ -993,7 +997,7 @@ bool effect::get_sizing( const std::string &arg ) const
 
 double effect::get_percentage( const std::string &arg, int val, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
     auto found_top_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
                                           "chance_top" ) );
@@ -1071,7 +1075,7 @@ double effect::get_percentage( const std::string &arg, int val, bool reduced ) c
 bool effect::activated( const time_point &when, const std::string &arg, int val, bool reduced,
                         double mod ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
     auto found_top_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
                                           "chance_top" ) );
@@ -1276,6 +1280,8 @@ void load_effect_type( const JsonObject &jo )
     new_etype.apply_memorial_log = jo.get_string( "apply_memorial_log", "" );
     new_etype.remove_memorial_log = jo.get_string( "remove_memorial_log", "" );
 
+    new_etype.blood_analysis_description = jo.get_string( "blood_analysis_description", "" );
+
     for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
         new_etype.resist_traits.push_back( trait_id( f ) );
     }
@@ -1314,6 +1320,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );
+    new_etype.show_intensity = jo.get_bool( "show_intensity", true );
     new_etype.pkill_addict_reduces = jo.get_bool( "pkill_addict_reduces", false );
 
     new_etype.pain_sizing = jo.get_bool( "pain_sizing", false );

@@ -155,7 +155,7 @@ if it doesn't exist.
 ```C++
     "rating": "good"        - Defaults to "neutral" if missing
 ```
-This is used for how the messages when the effect is applied and removed are displayed.
+This is used for how the messages when the effect is applied and removed are displayed. Also this affects "blood_analysis_description" (see below) field: effects with "good" rating will be colored green, effects with any other rating will be colored red when character conducts a blood analysis through some means.
 Valid entries are:
 ```C++
 "good"
@@ -242,6 +242,11 @@ This can be used to make effects automatically increase or decrease in intensity
 
 "int_dur_factor" overrides the other three intensities fields, and forces the intensity to be a number defined as
 intensity = duration / "int_dur_factor" rounded up (so from 0 to "int_dur_factor" is intensity 1).
+
+```C++
+    "show_intensity": false     - Defaults to true
+```
+This permits or forbids showing intensity value next to name of a given effect in EFFECTS tab. E.g. show "Weakness [142]" or simply "Weakness" text.
 
 ### Miss messages
 ```C++
@@ -526,3 +531,9 @@ Intensity 4
     -43 + 3 * 21 = 20       "vomit_chance_bot" doesn't exist, so a 1 in 20 chance of vomiting. "vomit_tick" doesn't exist, so it rolls every turn.
     -1003 + 3 * 501 = 500   "sleep_chance_bot" doesn't exist, so a 1 in 500 chance of passing out for rng(2500, 3500) turns. "sleep_tick" doesn't exist, so it rolls every turn.
 ```
+
+### Blood analysis description
+```C++
+    "blood_analysis_description": "Minor Painkiller"
+```
+This description will be displayed for every effect which has this field when character conducts a blood analysis (for example, through Blood Analysis CBM).

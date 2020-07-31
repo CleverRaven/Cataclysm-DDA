@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cmath>
 #include <fstream>
 #include <sstream>
@@ -8,7 +10,6 @@
 #include <memory>
 #include <utility>
 
-#include "catch/catch.hpp"
 #include "character.h"
 #include "game.h"
 #include "game_constants.h"
@@ -72,7 +73,7 @@ static std::ostream &operator<<( std::ostream &os, track const &value )
 
 static std::ostream &operator<<( std::ostream &os, const std::vector<track> &vec )
 {
-    for( auto &track_instance : vec ) {
+    for( const auto &track_instance : vec ) {
         os << track_instance << " ";
     }
     return os;

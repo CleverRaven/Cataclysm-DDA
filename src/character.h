@@ -50,6 +50,7 @@
 #include "units.h"
 #include "visitable.h"
 #include "weighted_list.h"
+#include "weather_gen.h"
 
 class JsonIn;
 class JsonObject;
@@ -637,6 +638,10 @@ class Character : public Creature, public visitable<Character>
          * - underwater
          * - clothes
          */
+
+        /** Maintains body wetness and handles the rate at which the player dries */
+        void update_body_wetness( const w_point &weather );
+
         void recalc_sight_limits();
         /**
          * Returns the apparent light level at which the player can see.
@@ -1357,7 +1362,7 @@ class Character : public Creature, public visitable<Character>
         void i_rem_keep_contents( const item *it );
         /** Sets invlet and adds to inventory if possible, drops otherwise, returns true if either succeeded.
          *  An optional qty can be provided (and will perform better than separate calls). */
-        bool i_add_or_drop( item &it, int qty = 1 );
+        bool i_add_or_drop( item &it, int qty = 1, const item *avoid = nullptr );
 
         /** Only use for UI things. Returns all invlets that are currently used in
          * the player inventory, the weapon slot and the worn items. */
@@ -1466,7 +1471,6 @@ class Character : public Creature, public visitable<Character>
                 &locations ) const;
         units::volume free_space() const;
 
-
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
 
@@ -1525,9 +1529,11 @@ class Character : public Creature, public visitable<Character>
         /** Returns true if the player is wearing the item on the given body part. */
         bool is_wearing_on_bp( const itype_id &it, const bodypart_id &bp ) const;
         /** Returns true if the player is wearing an item with the given flag. */
-        bool worn_with_flag( const std::string &flag, const bodypart_id &bp = bodypart_id() ) const;
+        bool worn_with_flag( const std::string &flag, const bodypart_id &bp ) const;
+        bool worn_with_flag( const std::string &flag ) const;
         /** Returns the first worn item with a given flag. */
-        item item_worn_with_flag( const std::string &flag, const bodypart_id &bp = bodypart_id() ) const;
+        item item_worn_with_flag( const std::string &flag, const bodypart_id &bp ) const;
+        item item_worn_with_flag( const std::string &flag ) const;
 
         // drawing related stuff
         /**
@@ -1817,11 +1823,11 @@ class Character : public Creature, public visitable<Character>
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
         // add spent calories to calorie diary (if avatar)
-        virtual void add_spent_calories( int /* cal */ ) {};
+        virtual void add_spent_calories( int /* cal */ ) {}
         // add gained calories to calorie diary (if avatar)
-        virtual void add_gained_calories( int /* gained */ ) {};
+        virtual void add_gained_calories( int /* gained */ ) {}
         // log the activity level in the calorie diary (if avatar)
-        virtual void log_activity_level( float /*level*/ ) {};
+        virtual void log_activity_level( float /*level*/ ) {}
         // Reset age and height to defaults for consistent test results
         void reset_chargen_attributes();
         // age in years, determined at character creation
@@ -2169,7 +2175,6 @@ class Character : public Creature, public visitable<Character>
                                              int radius = PICKUP_RANGE, bool clear_path = true );
         void invalidate_crafting_inventory();
 
-
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,
          * above 4.0 means these activities cannot be performed.
@@ -2509,6 +2514,7 @@ class Character : public Creature, public visitable<Character>
         void suffer_in_sunlight();
         void suffer_from_albinism();
         void suffer_from_other_mutations();
+        void suffer_from_item_dropping();
         void suffer_from_radiation();
         void suffer_from_bad_bionics();
         void suffer_from_artifacts();

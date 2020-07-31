@@ -32,9 +32,15 @@ void proficiency::reset()
 void proficiency::load( const JsonObject &jo, const std::string & )
 {
     mandatory( jo, was_loaded, "name", _name );
+    mandatory( jo, was_loaded, "description", _description );
 }
 
 std::string proficiency::name() const
 {
     return _name.translated();
+}
+
+std::string proficiency::description() const
+{
+    return _description.translated();
 }

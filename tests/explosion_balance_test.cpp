@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cstddef>
 #include <memory>
@@ -6,7 +8,6 @@
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "game.h"
 #include "item.h"
