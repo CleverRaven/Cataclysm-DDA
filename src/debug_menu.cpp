@@ -1226,7 +1226,7 @@ void debug()
     };
     bool should_disable_achievements = action && !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
-        if( query_yn( "Using this will disable achievements.  Proceed?" ) ) {
+        if( query_yn( _( "Using this will disable achievements.  Proceed?" ) ) ) {
             achievements.set_enabled( false );
         } else {
             action = cata::nullopt;
