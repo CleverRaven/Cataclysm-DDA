@@ -11413,6 +11413,11 @@ void Character::add_proficiency( const proficiency_id &prof )
     _proficiencies.insert( prof );
 }
 
+void Character::lose_proficiency( const proficiency_id &prof )
+{
+    _proficiencies.erase( prof );
+}
+
 const std::set<proficiency_id> &Character::proficiencies() const
 {
     return _proficiencies;

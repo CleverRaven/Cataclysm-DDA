@@ -1581,6 +1581,7 @@ class Character : public Creature, public visitable<Character>
         // (bit short at the moment)
         bool has_proficiency( const proficiency_id &prof ) const;
         void add_proficiency( const proficiency_id &prof );
+        void lose_proficiency( const proficiency_id &prof );
         const std::set<proficiency_id> &proficiencies() const;
 
         // --------------- Other Stuff ---------------
