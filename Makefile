@@ -397,13 +397,13 @@ endif
 
 ifeq ($(PCH), 1)
   PCHFLAGS = -Ipch -Winvalid-pch
-  PCH_H = pch/pch.hpp
+  PCH_H = pch/main-pch.hpp
 
   ifeq ($(CLANG), 0)
     PCHFLAGS += -fpch-preprocess -include pch.hpp
-    PCH_P = pch/pch.hpp.gch
+    PCH_P = $(PCH_H).gch
   else
-    PCH_P = pch/pch.hpp.pch
+    PCH_P = $(PCH_H).pch
     PCHFLAGS += -include-pch $(PCH_P)
 
     # FIXME: dirty hack ahead
@@ -1118,7 +1118,7 @@ ifdef LANGUAGES
 endif
 	$(BINDIST_CMD)
 
-export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCH_H PCH_P PCHFLAGS
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCHFLAGS
 
 ctags: $(ASTYLE_SOURCES)
 	ctags $^

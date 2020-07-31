@@ -33,8 +33,13 @@ endif
 
 ifeq ($(PCH), 1)
   PCHFLAGS += -DCATA_CATCH_PCH
+  PCH_H = pch/tests-pch.hpp
+
   ifeq ($(CLANG), 1)
+    PCH_P = $(PCH_H).pch
     CXXFLAGS += -Wno-unused-macros
+  else
+    PCH_P = $(PCH_H).gch
   endif
 endif
 
