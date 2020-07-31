@@ -84,7 +84,7 @@ using drop_locations = std::list<drop_location>;
 
 #define MAX_CLAIRVOYANCE 40
 
-/// @brief type of vision conditions
+/// @brief type of conditions that effect vision
 enum vision_modes {
     DEBUG_NIGHTVISION,
     NV_GOGGLES,
@@ -94,10 +94,11 @@ enum vision_modes {
     FULL_ELFA_VISION,
     ELFA_VISION,
     CEPH_VISION,
+    /// mutate w/ id "FEL_NV" & name "Feline Vision" see pretty well at night
     FELINE_VISION,
     /// Bird mutation named "Avian Eyes": Perception +4
     BIRD_EYE,
-    /// Bear mutation: see better in the dark, nearsighted in the light
+    /// mutate w/ id "URSINE_EYE" & name "Ursine Vision" see better in dark, nearsight in light
     URSINE_VISION,
     BOOMERED,
     DARKNESS,
