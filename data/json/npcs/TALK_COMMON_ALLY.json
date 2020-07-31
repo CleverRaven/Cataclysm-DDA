@@ -840,7 +840,7 @@
         "effect": "revert_activity"
       },
       {
-        "text": "Please sort out some of these items nearby.",
+        "text": "Please sort out some these items nearby.",
         "topic": "TALK_DONE",
         "condition": { "not": "npc_has_activity" },
         "effect": "sort_loot"

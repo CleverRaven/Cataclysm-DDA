@@ -205,7 +205,7 @@
     "id": "textbook_armschina",
     "type": "BOOK",
     "name": { "str": "Arms and Armor of Imperial China", "str_pl": "copies of Arms and Armor of Imperial China" },
-    "description": "This textbook details the military history of ancient China, with a particular focus on the nature of historical arms and armor.  It also details some of the equipment used by other cultures that came into conflict with the empire over various dynasties.",
+    "description": "This textbook details the military history of ancient China, with a particular focus on the nature of historical arms and armor.  It also details some equipment used by other cultures that came into conflict with the empire over various dynasties.",
     "weight": "654 g",
     "volume": "1250 ml",
     "price": 6400,

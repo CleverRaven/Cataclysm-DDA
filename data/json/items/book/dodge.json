@@ -21,7 +21,7 @@
     "id": "manual_dodge",
     "type": "BOOK",
     "name": { "str": "The Book of Dances", "str_pl": "copies of The Book of Dances" },
-    "description": "This massive antique book documents dances from all around the world in great detail.  A perceptive reader could learn a lot about defensive footwork from some of the war dances.",
+    "description": "This massive antique book documents dances from all around the world in great detail.  A perceptive reader could learn a lot about defensive footwork from some war dances.",
     "weight": "2330 g",
     "volume": "1250 ml",
     "price": 7200,

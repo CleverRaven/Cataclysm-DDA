@@ -519,7 +519,7 @@
     "explode_in_fire": true,
     "explosion": {
       "power": 25000,
-      "//": "Fire would burn away/degrade some of the ANFO before the detonator would trigger.",
+      "//": "Fire would burn away/degrade some ANFO before the detonator would trigger.",
       "shrapnel": 12600
     },
     "use_action": {
@@ -559,7 +559,7 @@
       "no_deactivate_msg": "You've already lit the fuse - run!",
       "explosion": {
         "power": 48900,
-        "//": "Fire exposure would burn away/degrade some of the ANFO before the detonator would trigger.",
+        "//": "Fire exposure would burn away/degrade some ANFO before the detonator would trigger.",
         "shrapnel": 12600
       }
     },

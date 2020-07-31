@@ -1802,7 +1802,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 10,
     "durability": 50,
-    "description": "A metal pipe that reduces some of noise of the engine.",
+    "description": "A metal pipe that somewhat reduces engine noise.",
     "bonus": 40,
     "item": "muffler",
     "requirements": {
@@ -3250,7 +3250,7 @@
     "broken_color": "blue",
     "damage_modifier": 20,
     "durability": 200,
-    "description": "An LCD display attached to one or more cameras.  When turned on, it lets you see from the cameras, but drains power from the vehicle's batteries.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
+    "description": "An LCD attached to one or more cameras.  When turned on, it lets you see from the cameras, but drains power from the vehicle's batteries.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
     "folded_volume": "2500 ml",
     "item": "camera_control",
     "epower": -20,

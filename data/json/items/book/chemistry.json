@@ -117,7 +117,7 @@
     "id": "recipe_elfa",
     "type": "BOOK",
     "name": { "str": "standpipe maintenance log" },
-    "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.  However, some of the log sheets seem to be filled with… a chemical formula?",
+    "description": "This binder details the scheduled maintenance for several plumbing systems throughout the facility.  However, some log sheets seem to be filled with… a chemical formula?",
     "weight": "400 g",
     "volume": "750 ml",
     "price": 400,

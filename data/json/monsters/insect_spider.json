@@ -112,7 +112,7 @@
     "id": "mon_worm_small",
     "type": "MONSTER",
     "name": { "str": "large worm" },
-    "description": "A disturbingly large mutated subterannean creature similar to a nightcrawler.  It possesses a fanged mouth and a long slender body that comes up to your knees, with even more surely hiding underground.",
+    "description": "A disturbingly large mutated subterranean creature similar to a nightcrawler.  It possesses a fanged mouth and a long slender body that comes up to your knees, with even more surely hiding underground.",
     "copy-from": "mon_halfworm",
     "looks_like": "mon_worm",
     "upgrades": { "half_life": 14, "into": "mon_worm" }

@@ -1082,7 +1082,7 @@
     "type": "profession",
     "ident": "homeless",
     "name": "Hobo",
-    "description": "Society drove you to the fringes and left you with no home, no family, no friends.  You found solace in the bottom of a bottle.  Well, society doesn't mean a thing anymore, and for all the crap thrown your way, you're still standing.  God damn, you need a drink.",
+    "description": "Society drove you to the fringes and left you with no home, no family, no friends.  You found solace in the bottom of a bottle.  Well, society doesn't mean a thing anymore, and for all the crap thrown your way, you're still standing.  God-damn, you need a drink.",
     "points": -1,
     "items": {
       "both": {
@@ -2247,7 +2247,7 @@
     "type": "profession",
     "ident": "blacksmith",
     "name": "Blacksmith",
-    "description": "You ran into trouble coming out of class at your community college's metalsmithing program, but despite the havoc you've managed to keep ahold of some of the equipment you were carrying.",
+    "description": "You ran into trouble coming out of class at your community college's metalsmithing program, but despite the havoc you've managed to keep ahold of some equipment you were carrying.",
     "points": 1,
     "skills": [ { "level": 4, "name": "fabrication" } ],
     "proficiencies": [ "prof_blacksmithing" ],
@@ -3476,7 +3476,7 @@
     "type": "profession",
     "ident": "science_club_mem",
     "name": "Science Club Member",
-    "description": "The school never let your club play with the really fun chemicals, the kind that make things go boom, but there aren't any teachers around to enforce the rules any more.",
+    "description": "The school never let your club play with the really fun chemicals, the kind that make things go boom, but there aren't any teachers around to enforce the rules anymore.",
     "points": 1,
     "skills": [ { "level": 1, "name": "chemistry" }, { "level": 1, "name": "mechanics" } ],
     "items": {
