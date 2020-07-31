@@ -332,9 +332,9 @@ void iexamine::nanofab( player &p, const tripoint &examp )
 
 }
 
-/**
- * Use "gas pump."  Will pump any liquids on tile.
- */
+
+/// @brief Use "gas pump."
+/// @details Will pump any liquids on tile.
 void iexamine::gaspump( player &p, const tripoint &examp )
 {
     map &here = get_map();
@@ -346,12 +346,12 @@ void iexamine::gaspump( player &p, const tripoint &examp )
     map_stack items = here.i_at( examp );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( phase_id::LIQUID ) ) {
-            ///\EFFECT_DEX decreases chance of spilling gas from a pump
+            /// @note \EFFECT_DEX decreases chance of spilling gas from a pump
             if( one_in( 10 + p.get_dex() ) ) {
                 add_msg( m_bad, _( "You accidentally spill the %s." ), item_it->type_name() );
                 static const auto max_spill_volume = units::from_liter( 1 );
                 const int max_spill_charges = std::max( 1, item_it->charges_per_volume( max_spill_volume ) );
-                ///\EFFECT_DEX decreases amount of gas spilled from a pump
+                /// @note \EFFECT_DEX decreases amount of gas spilled, if gas is spilled from pump
                 const int qty = rng( 1, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
 
                 item spill = item_it->split( qty );
@@ -373,7 +373,7 @@ void iexamine::gaspump( player &p, const tripoint &examp )
 
 void iexamine::translocator( player &, const tripoint &examp )
 {
-    // TODO: fix point types
+    /// @todo fix point types
     const tripoint_abs_omt omt_loc( ms_to_omt_copy( get_map().getabs( examp ) ) );
     avatar &player_character = get_avatar();
     const bool activated = player_character.translocators.knows_translocator( omt_loc );
