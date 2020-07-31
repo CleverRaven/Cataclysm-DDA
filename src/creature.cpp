@@ -185,7 +185,7 @@ bool Creature::digging() const
 bool Creature::is_dangerous_fields( const field &fld ) const
 {
     // Else check each field to see if it's dangerous to us
-    for( auto &dfield : fld ) {
+    for( const auto &dfield : fld ) {
         if( is_dangerous_field( dfield.second ) ) {
             return true;
         }
@@ -244,21 +244,21 @@ bool Creature::sees( const Creature &critter ) const
             if( coverage < 30 ) {
                 return sees( critter.pos(), critter.is_avatar() ) && visible( ch );
             }
-            float size_modifier = 1.0;
+            float size_modifier = 1.0f;
             switch( ch->get_size() ) {
                 case creature_size::tiny:
-                    size_modifier = 2.0;
+                    size_modifier = 2.0f;
                     break;
                 case creature_size::small:
-                    size_modifier = 1.4;
+                    size_modifier = 1.4f;
                     break;
                 case creature_size::medium:
                     break;
                 case creature_size::large:
-                    size_modifier = 0.6;
+                    size_modifier = 0.6f;
                     break;
                 case creature_size::huge:
-                    size_modifier = 0.15;
+                    size_modifier = 0.15f;
                     break;
             }
             const int vision_modifier = 30 - 0.5 * coverage * size_modifier;
@@ -1260,12 +1260,12 @@ void Creature::process_effects()
 
 bool Creature::resists_effect( const effect &e )
 {
-    for( auto &i : e.get_resist_effects() ) {
+    for( const efftype_id &i : e.get_resist_effects() ) {
         if( has_effect( i ) ) {
             return true;
         }
     }
-    for( auto &i : e.get_resist_traits() ) {
+    for( const string_id<mutation_branch> &i : e.get_resist_traits() ) {
         if( has_trait( i ) ) {
             return true;
         }
@@ -1508,7 +1508,6 @@ void Creature::calc_all_parts_hp( float hp_mod, float hp_adjustment, int str_max
     }
 }
 
-
 bodypart *Creature::get_part( const bodypart_id &id )
 {
     auto found = body.find( id.id() );
@@ -1576,7 +1575,7 @@ int Creature::get_part_temp_cur( const bodypart_id &id ) const
 
 int Creature::get_part_temp_conv( const bodypart_id &id ) const
 {
-    return get_part( id ).get_temp_conv();;
+    return get_part( id ).get_temp_conv();
 }
 
 int Creature::get_part_frostbite_timer( const bodypart_id &id ) const
@@ -1729,7 +1728,6 @@ bool Creature::has_atleast_one_wet_part()
     return false;
 }
 
-
 bodypart_id Creature::get_random_body_part( bool main ) const
 {
     // TODO: Refuse broken limbs, adjust for mutations
@@ -1752,7 +1750,7 @@ std::vector<bodypart_id> Creature::get_all_body_parts( bool only_main ) const
 
 int Creature::get_hp( const bodypart_id &bp ) const
 {
-    if( bp != bodypart_id( "num_bp" ) ) {
+    if( bp != bodypart_id( "bp_null" ) ) {
         return get_part_hp_cur( bp );
     }
     int hp_total = 0;
@@ -1764,12 +1762,12 @@ int Creature::get_hp( const bodypart_id &bp ) const
 
 int Creature::get_hp() const
 {
-    return get_hp( bodypart_id( "num_bp" ) );
+    return get_hp( bodypart_id( "bp_null" ) );
 }
 
 int Creature::get_hp_max( const bodypart_id &bp ) const
 {
-    if( bp != bodypart_id( "num_bp" ) ) {
+    if( bp != bodypart_id( "bp_null" ) ) {
         return get_part_hp_max( bp );
     }
     int hp_total = 0;
@@ -1781,7 +1779,7 @@ int Creature::get_hp_max( const bodypart_id &bp ) const
 
 int Creature::get_hp_max() const
 {
-    return get_hp_max( bodypart_id( "num_bp" ) );
+    return get_hp_max( bodypart_id( "bp_null" ) );
 }
 
 int Creature::get_speed_base() const

@@ -87,7 +87,6 @@ static const activity_id ACT_SOCIALIZE( "ACT_SOCIALIZE" );
 static const activity_id ACT_TRAIN( "ACT_TRAIN" );
 static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
-static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_riding( "riding" );
 static const efftype_id effect_under_operation( "under_operation" );
@@ -221,8 +220,8 @@ static int npc_select_menu( const std::vector<npc *> &npc_list, const std::strin
     } else {
         uilist nmenu;
         nmenu.text = prompt;
-        for( auto &elem : npc_list ) {
-            nmenu.addentry( -1, true, MENU_AUTOASSIGN, ( elem )->name );
+        for( const npc *elem : npc_list ) {
+            nmenu.addentry( -1, true, MENU_AUTOASSIGN, elem->name );
         }
         if( npc_count > 1 && everyone ) {
             nmenu.addentry( -1, true, MENU_AUTOASSIGN, _( "Everyone" ) );
@@ -2519,7 +2518,6 @@ dynamic_line_t::dynamic_line_t( const translation &line )
     };
 }
 
-
 dynamic_line_t::dynamic_line_t( const JsonObject &jo )
 {
     if( jo.has_member( "and" ) ) {
@@ -2711,7 +2709,7 @@ bool json_talk_topic::gen_responses( dialogue &d ) const
     d.responses.reserve( responses.size() ); // A wild guess, can actually be more or less
 
     bool switch_done = false;
-    for( auto &r : responses ) {
+    for( const json_talk_response &r : responses ) {
         switch_done |= r.gen_responses( d, switch_done );
     }
     for( const json_talk_repeat_response &repeat : repeat_responses ) {

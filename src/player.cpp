@@ -91,7 +91,6 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bloodworms( "bloodworms" );
-static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_dermatik( "dermatik" );
@@ -116,7 +115,6 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
-static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
@@ -156,17 +154,14 @@ static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
-static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
-static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -615,7 +610,7 @@ bool player::has_conflicting_trait( const trait_id &flag ) const
 
 bool player::has_lower_trait( const trait_id &flag ) const
 {
-    for( auto &i : flag->prereqs ) {
+    for( const trait_id &i : flag->prereqs ) {
         if( has_trait( i ) || has_lower_trait( i ) ) {
             return true;
         }
@@ -625,7 +620,7 @@ bool player::has_lower_trait( const trait_id &flag ) const
 
 bool player::has_higher_trait( const trait_id &flag ) const
 {
-    for( auto &i : flag->replacements ) {
+    for( const auto &i : flag->replacements ) {
         if( has_trait( i ) || has_higher_trait( i ) ) {
             return true;
         }
@@ -672,7 +667,7 @@ std::list<item *> player::get_radio_items()
 {
     std::list<item *> rc_items;
     const invslice &stacks = inv.slice();
-    for( auto &stack : stacks ) {
+    for( const auto &stack : stacks ) {
         item &stack_iter = stack->front();
         if( stack_iter.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &stack_iter );
@@ -697,7 +692,7 @@ std::list<item *> player::get_artifact_items()
 {
     std::list<item *> art_items;
     const invslice &stacks = inv.slice();
-    for( auto &stack : stacks ) {
+    for( const auto &stack : stacks ) {
         item &stack_iter = stack->front();
         if( stack_iter.is_artifact() ) {
             art_items.push_back( &stack_iter );
@@ -1398,7 +1393,7 @@ void player::add_pain_msg( int val, const bodypart_id &bp ) const
     if( has_trait( trait_NOPAIN ) ) {
         return;
     }
-    if( bp == bodypart_id( "num_bp" ) ) {
+    if( bp == bodypart_id( "bp_null" ) ) {
         if( val > 20 ) {
             add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
         } else if( val > 10 ) {
@@ -1573,7 +1568,7 @@ void player::process_one_effect( effect &it, bool is_new )
             }
         }
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
-            if( bp == bodypart_id( "num_bp" ) ) {
+            if( bp == bodypart_id( "bp_null" ) ) {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bodypart_id( "torso" ) ) );
                 } else {
@@ -1746,7 +1741,7 @@ void player::process_items()
     const auto inv_is_ups = items_with( []( const item & itm ) {
         return itm.has_flag( "IS_UPS" );
     } );
-    for( auto &it : inv_is_ups ) {
+    for( const auto &it : inv_is_ups ) {
         itype_id identifier = it->type->get_id();
         if( identifier == itype_UPS_off ) {
             ch_UPS += it->ammo_remaining();
@@ -1774,7 +1769,7 @@ void player::process_items()
     const auto inv_use_ups = items_with( []( const item & itm ) {
         return itm.has_flag( "USE_UPS" );
     } );
-    for( auto &it : inv_use_ups ) {
+    for( const auto &it : inv_use_ups ) {
         // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
         if( it->is_power_armor() && can_interface_armor() && has_power() ) {
             // Bionic power costs are handled elsewhere
@@ -2002,7 +1997,7 @@ item::reload_option player::select_ammo( const item &base,
             if( ammo.invlet ) {
                 hotkey = ammo.invlet;
             } else {
-                for( const auto obj : parents( ammo ) ) {
+                for( const item *obj : parents( ammo ) ) {
                     if( obj->invlet ) {
                         hotkey = obj->invlet;
                         break;
@@ -2249,7 +2244,7 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     kmenu.selected = STYLE_OFFSET;
 
     for( size_t i = 0; i < selectable_styles.size(); i++ ) {
-        auto &style = selectable_styles[i].obj();
+        const auto &style = selectable_styles[i].obj();
         //Check if this style is currently selected
         const bool selected = selectable_styles[i] == style_selected;
         std::string entry_text = style.name.translated();
@@ -2949,7 +2944,7 @@ bool player::gunmod_remove( item &gun, item &mod )
         for( const auto &slot : mod_locations ) {
             int free_slots = gun.get_free_mod_locations( slot.first );
 
-            for( auto the_mod : gun.gunmods() ) {
+            for( item *the_mod : gun.gunmods() ) {
                 if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
                     gunmod_remove( gun, *the_mod );
                     free_slots++;
@@ -3369,7 +3364,6 @@ bool player::can_sleep()
     return result;
 }
 
-
 bool player::has_gun_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [at]( const item & it ) {
@@ -3492,7 +3486,7 @@ float player::get_melee() const
 
 bool player::uncanny_dodge()
 {
-    bool is_u = is_avatar();;
+    bool is_u = is_avatar();
     bool seen = get_player_character().sees( *this );
     if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
         return false;

@@ -455,7 +455,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
             }
             ///\EFFECT_DODGE reduces chance of being hit by shotgun trap
             if( rng( 5, 50 ) > n->get_dodge() ) {
-                bodypart_id hit = bodypart_id( "num_bp" );
+                bodypart_id hit = bodypart_id( "bp_null" );
                 switch( rng( 1, 10 ) ) {
                     case  1:
                         if( one_in( 2 ) ) {
@@ -836,7 +836,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
         } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
             n->add_msg_if_player( _( "You avoid the spikes within." ) );
         } else {
-            bodypart_id hit( "num_bp" );
+            bodypart_id hit( "bp_null" );
             switch( rng( 1, 10 ) ) {
                 case  1:
                     hit = bodypart_id( "leg_l" );

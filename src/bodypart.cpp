@@ -175,7 +175,7 @@ const bodypart_str_id &convert_bp( body_part bp )
         bodypart_str_id( "leg_r" ),
         bodypart_str_id( "foot_l" ),
         bodypart_str_id( "foot_r" ),
-        bodypart_str_id( "num_bp" ),
+        bodypart_str_id( "bp_null" ),
     };
     if( bp > num_bp || bp < bp_torso ) {
         debugmsg( "Invalid body part token %d", bp );
@@ -351,7 +351,7 @@ std::string get_body_part_id( body_part bp )
 
 body_part_set body_part_set::unify_set( const body_part_set &rhs )
 {
-    for( const  bodypart_str_id &i : rhs ) {
+    for( const bodypart_str_id &i : rhs ) {
         if( !test( i ) ) {
             set( i );
         }
@@ -362,7 +362,7 @@ body_part_set body_part_set::unify_set( const body_part_set &rhs )
 body_part_set body_part_set::intersect_set( const body_part_set &rhs )
 {
     body_part_set temp;
-    for( const  bodypart_str_id &j : rhs ) {
+    for( const bodypart_str_id &j : rhs ) {
         if( test( j ) ) {
             temp.set( j );
         }
@@ -374,7 +374,7 @@ body_part_set body_part_set::intersect_set( const body_part_set &rhs )
 
 body_part_set body_part_set::substract_set( const body_part_set &rhs )
 {
-    for( const  bodypart_str_id &j : rhs ) {
+    for( const bodypart_str_id &j : rhs ) {
         if( test( j ) ) {
             reset( j );
         }

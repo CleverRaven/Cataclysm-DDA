@@ -161,6 +161,10 @@ class HeaderGuardPPCallbacks : public PPCallbacks
             std::unordered_set<std::string> GuardlessHeaders = Files;
 
             for( const std::string &FileName : Files ) {
+                if( !isHeaderFileName( FileName ) ) {
+                    continue;
+                }
+
                 const FileInfo &Info = FileInfos[FileName];
 
                 if( Info.Macros.empty() || Info.Ifndefs.empty() || Info.EndIfs.empty() ) {

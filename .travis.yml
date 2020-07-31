@@ -39,11 +39,14 @@ branches:
 # - SOUND=1
 # - RELEASE=1
 # - CMAKE=1
-# - SANITIZE=address
 # - LOCALIZE=0
-# - A clang-tidy run (now switched to GitHub workflow)
 # - Tests with important mods enabled (Magiclysm)
 # We try to minimize the number of builds subject to those constraints.
+#
+# The following used to be here but became too slow to run on Travis and have
+# been moved to GitHub Actions:
+# - A clang-tidy run
+# - SANITIZE=address,undefined
 
 # To see what toolchains are available, consult the following:
 # https://github.com/travis-ci/apt-source-safelist/blob/master/ubuntu.json
@@ -52,9 +55,70 @@ branches:
 jobs:
   include:
     # Initial test stage, if this fails everything else is canceled.
+    - stage: Test
+      # Clang is consistently the fastest to build, so use it for the initial test.
+      env: CLANG=clang++-3.8 TEST_STAGE=1 CXXFLAGS="-Wno-error=unused-command-line-argument -D__extern_always_inline='extern __always_inline'"
+      name: "Clang 3.8 Make build with curses and style check"
+      compiler: clang
+      addons: &clang38
+        apt:
+          packages: ["clang-3.8"]
+          sources: [*apt_sources]
+
+    # Then build different configurations and targets in parallel.
+    - stage: "Main Compilers"
+      env: COMPILER=g++ MODS=--mods=magiclysm LOCALIZE=0
+      name: "GCC 5.3 Make build with curses, Magiclysm, and no Localization"
+      compiler: gcc
+      addons: &gcc53
+        apt:
+          packages: ["g++-5=5.3.1-14ubuntu2", "libstdc++-5-dev=5.3.1-14ubuntu2", "gcc-5=5.3.1-14ubuntu2", "gcc-5-base=5.3.1-14ubuntu2", "cpp-5=5.3.1-14ubuntu2", "libgcc-5-dev=5.3.1-14ubuntu2", "libasan2=5.3.1-14ubuntu2", "libmpx0=5.3.1-14ubuntu2"]
+          sources: [*apt_sources]
+
+    - env: COMPILER=g++-8 CXXFLAGS="-Wno-implicit-fallthrough" TILES=1 SOUND=1
+      name: "GCC 8 Make build with Tiles, Sound"
+      dist: bionic
+      compiler: gcc
+      addons: &gcc8
+        apt:
+          packages: ["g++-8",   "g++-8-multilib",   "libc6-dbg", "libc6-dbg:i386", "libsdl2-dev", "libsdl2-ttf-dev", "libsdl2-image-dev", "libsdl2-mixer-dev"]
+          sources: *apt_sources
+
+    - env: CLANG=clang++-10
+      name: "Clang 10 Make build"
+      compiler: clang
+      dist: bionic
+      addons: &clang10
+        apt:
+          packages:
+            - clang-10
+          sources:
+            - sourceline: "deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main"
+              key_url: "https://apt.llvm.org/llvm-snapshot.gpg.key"
 
     - stage: "Platforms and Tidy"
-      env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1
+      # MXE variant using alternate repository http://mirror.mxe.cc/repos/apt
+      env: COMPILER=g++ LDFLAGS="-static-libgcc -static-libstdc++" MXE_TARGET="i686-w64-mingw32.static" WINE="wine" TILES=1 SOUND=1
+      name: "Mingw-w64 Make cross-compile to Windows with Tiles and Sound"
+      compiler: gcc
+      addons: &gcc
+        apt:
+          packages: ["wine"]
+
+    - env: NATIVE=android COMPILER=gcc
+      name: "Android build"
+      language: android
+      android:
+        components:
+          - build-tools-28.0.1
+          - android-28
+      cache:
+        # The ccache feature in Travis doesn't work for language: android, so
+        # do it ourselves.
+        directories:
+          - $HOME/.ccache
+
+    - env: CLANG=clang++ NATIVE=osx OSX_MIN=10.13 TILES=1 SOUND=1 BREWGETTEXT=1
       name: "Xcode 10.1 Make build with Tiles and sound (macOS)"
       os: osx
       osx_image: xcode10.1

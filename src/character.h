@@ -1471,7 +1471,6 @@ class Character : public Creature, public visitable<Character>
                 &locations ) const;
         units::volume free_space() const;
 
-
         /** Note that we've read a book at least once. **/
         virtual bool has_identified( const itype_id &item_id ) const = 0;
 
@@ -1824,11 +1823,11 @@ class Character : public Creature, public visitable<Character>
         // returns amount of calories burned in a day given various metabolic factors
         int get_bmr() const;
         // add spent calories to calorie diary (if avatar)
-        virtual void add_spent_calories( int /* cal */ ) {};
+        virtual void add_spent_calories( int /* cal */ ) {}
         // add gained calories to calorie diary (if avatar)
-        virtual void add_gained_calories( int /* gained */ ) {};
+        virtual void add_gained_calories( int /* gained */ ) {}
         // log the activity level in the calorie diary (if avatar)
-        virtual void log_activity_level( float /*level*/ ) {};
+        virtual void log_activity_level( float /*level*/ ) {}
         // Reset age and height to defaults for consistent test results
         void reset_chargen_attributes();
         // age in years, determined at character creation
@@ -2175,7 +2174,6 @@ class Character : public Creature, public visitable<Character>
         const inventory &crafting_inventory( const tripoint &src_pos = tripoint_zero,
                                              int radius = PICKUP_RANGE, bool clear_path = true );
         void invalidate_crafting_inventory();
-
 
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,

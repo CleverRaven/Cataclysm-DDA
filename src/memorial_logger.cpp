@@ -203,7 +203,7 @@ std::string memorial_logger::dump() const
     static const char *eol = cata_files::eol();
     std::string output;
 
-    for( auto &elem : log ) {
+    for( const memorial_log_entry &elem : log ) {
         output += elem.to_string();
         output += eol;
     }

@@ -1,5 +1,7 @@
 #include "move_mode.h"
+
 #include "game_constants.h"
+#include "generic_factory.h"
 
 std::vector<move_mode_id> move_modes_sorted;
 

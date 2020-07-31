@@ -337,7 +337,7 @@ std::vector<matype_id> autolearn_martialart_types()
 
 static void check( const ma_requirements &req, const std::string &display_text )
 {
-    for( auto &r : req.req_buffs ) {
+    for( const mabuff_id &r : req.req_buffs ) {
         if( !r.is_valid() ) {
             debugmsg( "ma buff %s of %s does not exist", r.c_str(), display_text );
         }
@@ -1079,7 +1079,7 @@ static bool search_ma_buff_effect( const C &container, F f )
 // bonuses
 float Character::mabuff_tohit_bonus() const
 {
-    float ret = 0;
+    float ret = 0.0f;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & ) {
         ret += b.hit_bonus( *this );
     } );
@@ -1087,7 +1087,7 @@ float Character::mabuff_tohit_bonus() const
 }
 float Character::mabuff_critical_hit_chance_bonus() const
 {
-    float ret = 0;
+    float ret = 0.0f;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         ret += d.get_intensity() * b.critical_hit_chance_bonus( *this );
     } );
@@ -1095,7 +1095,7 @@ float Character::mabuff_critical_hit_chance_bonus() const
 }
 float Character::mabuff_dodge_bonus() const
 {
-    float ret = 0;
+    float ret = 0.0f;
     accumulate_ma_buff_effects( *effects, [&ret, this]( const ma_buff & b, const effect & d ) {
         ret += d.get_intensity() * b.dodge_bonus( *this );
     } );

@@ -147,7 +147,7 @@ class job_data
             }
         }
         bool has_job() const {
-            for( auto &elem : task_priorities ) {
+            for( const auto &elem : task_priorities ) {
                 if( elem.second > 0 ) {
                     return true;
                 }
@@ -547,9 +547,9 @@ struct healing_options {
 
 // Data relevant only for this action
 struct npc_short_term_cache {
-    float danger = 0;
-    float total_danger = 0;
-    float danger_assessment = 0;
+    float danger = 0.0f;
+    float total_danger = 0.0f;
+    float danger_assessment = 0.0f;
     // Use weak_ptr to avoid circular references between Creatures
     weak_ptr_fast<Creature> target;
     // target is hostile, ally is for aiding actions

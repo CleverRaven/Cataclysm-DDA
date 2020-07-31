@@ -144,6 +144,18 @@ static bool assign_coverage_from_json( const JsonObject &jo, const std::string &
     }
 }
 
+static bool is_physical( const itype &type )
+{
+    return !type.item_tags.count( "AURA" ) &&
+           !type.item_tags.count( "CORPSE" ) &&
+           !type.item_tags.count( "IRREMOVABLE" ) &&
+           !type.item_tags.count( "NO_DROP" ) &&
+           !type.item_tags.count( "NO_UNWIELD" ) &&
+           !type.item_tags.count( "PERSONAL" ) &&
+           !type.item_tags.count( "PSEUDO" ) &&
+           !type.item_tags.count( "ZERO_WEIGHT" );
+}
+
 void Item_factory::finalize_pre( itype &obj )
 {
     // TODO: separate repairing from reinforcing/enhancement
@@ -207,8 +219,12 @@ void Item_factory::finalize_pre( itype &obj )
 
     // Items always should have some volume.
     // TODO: handle possible exception software?
-    // TODO: make items with 0 volume an error during loading?
     if( obj.volume <= 0_ml ) {
+        if( is_physical( obj ) ) {
+            debugmsg( "item %s has zero volume (if zero volume is intentional "
+                      "you can suppress this error with the ZERO_WEIGHT "
+                      "flag)\n", obj.id.str() );
+        }
         obj.volume = units::from_milliliter( 1 );
     }
     for( const auto &tag : obj.item_tags ) {
@@ -479,7 +495,7 @@ void Item_factory::finalize_pre( itype &obj )
 
 void Item_factory::register_cached_uses( const itype &obj )
 {
-    for( auto &e : obj.use_methods ) {
+    for( const auto &e : obj.use_methods ) {
         // can this item function as a repair tool?
         if( repair_actions.count( e.first ) ) {
             repair_tools.insert( obj.id );
@@ -1023,7 +1039,6 @@ void Item_factory::init()
     add_actor( std::make_unique<reveal_map_actor>() );
     add_actor( std::make_unique<salvage_actor>() );
     add_actor( std::make_unique<unfold_vehicle_iuse>() );
-    add_actor( std::make_unique<ups_based_armor_actor>() );
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
@@ -1119,6 +1134,10 @@ void Item_factory::check_definitions() const
         if( type->weight < 0_gram ) {
             msg += "negative weight\n";
         }
+        if( type->weight == 0_gram && is_physical( *type ) ) {
+            msg += "zero weight (if zero weight is intentional you can "
+                   "suppress this error with the ZERO_WEIGHT flag)\n";
+        }
         if( type->volume < 0_ml ) {
             msg += "negative volume\n";
         }
@@ -1160,7 +1179,7 @@ void Item_factory::check_definitions() const
                                       type->snippet_category.c_str() );
             }
         }
-        for( auto &q : type->qualities ) {
+        for( const auto &q : type->qualities ) {
             if( !q.first.is_valid() ) {
                 msg += string_format( "item %s has unknown quality %s\n", type->id.c_str(), q.first.c_str() );
             }
@@ -1185,7 +1204,7 @@ void Item_factory::check_definitions() const
 
         if( type->comestible ) {
             if( !type->comestible->tool.is_null() ) {
-                auto req_tool = find_template( type->comestible->tool );
+                const itype *req_tool = find_template( type->comestible->tool );
                 if( !req_tool->tool ) {
                     msg += string_format( "invalid tool property %s\n", type->comestible->tool.c_str() );
                 }
@@ -1289,12 +1308,12 @@ void Item_factory::check_definitions() const
             } else if( !type->gun->skill_used.is_valid() ) {
                 msg += string_format( "uses an invalid skill %s\n", type->gun->skill_used.str() );
             }
-            for( auto &gm : type->gun->default_mods ) {
+            for( const itype_id &gm : type->gun->default_mods ) {
                 if( !has_template( gm ) ) {
                     msg += "invalid default mod.\n";
                 }
             }
-            for( auto &gm : type->gun->built_in_mods ) {
+            for( const itype_id &gm : type->gun->built_in_mods ) {
                 if( !has_template( gm ) ) {
                     msg += "invalid built-in mod.\n";
                 }
@@ -1927,7 +1946,6 @@ void islot_armor::load( const JsonObject &jo )
             armor_portion_data child_data;
             if( jo.has_int( "encumbrance" ) ) {
                 child_data.encumber = jo.get_int( "encumbrance" );
-                child_data.max_encumber = -1;
             }
             if( jo.has_int( "max_encumbrance" ) ) {
                 child_data.max_encumber = jo.get_int( "max_encumbrance" );
@@ -2049,7 +2067,7 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
 
     if( jo.has_member( "acceptable_ammo" ) ) {
         slot.acceptable_ammo.clear();
-        for( auto &e : jo.get_tags( "acceptable_ammo" ) ) {
+        for( const std::string &e : jo.get_tags( "acceptable_ammo" ) ) {
             slot.acceptable_ammo.insert( ammotype( e ) );
         }
     }
@@ -2179,9 +2197,9 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.specific_heat_liquid = material_id( mat )->specific_heat_liquid();
         slot.latent_heat = material_id( mat )->latent_heat();
     } else if( jo.has_member( "material" ) ) {
-        float specific_heat_solid = 0;
-        float specific_heat_liquid = 0;
-        float latent_heat = 0;
+        float specific_heat_solid = 0.0f;
+        float specific_heat_liquid = 0.0f;
+        float latent_heat = 0.0f;
 
         for( const std::string &m : jo.get_tags( "material" ) ) {
             specific_heat_solid += material_id( m )->specific_heat_solid();
@@ -2248,7 +2266,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     } else {
         if( relative.has_int( "vitamins" ) ) {
             // allows easy specification of 'fortified' comestibles
-            for( auto &v : vitamin::all() ) {
+            for( const auto &v : vitamin::all() ) {
                 slot.default_nutrition.vitamins[ v.first ] += relative.get_int( "vitamins" );
             }
         } else if( relative.has_array( "vitamins" ) ) {
@@ -2695,7 +2713,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
-        for( auto &m : jo.get_tags( "material" ) ) {
+        for( const std::string &m : jo.get_tags( "material" ) ) {
             def.materials.emplace_back( m );
         }
     }
@@ -2761,7 +2779,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_properties_from_json( jo, "properties", def );
     }
 
-    for( auto &s : jo.get_tags( "techniques" ) ) {
+    for( const std::string &s : jo.get_tags( "techniques" ) ) {
         def.techniques.insert( matec_id( s ) );
     }
 
@@ -3470,7 +3488,7 @@ void item_group::debug_spawn()
         std::map<std::string, int> itemnames;
         for( size_t a = 0; a < 100; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
-            for( auto &it : items ) {
+            for( const item &it : items ) {
                 itemnames[it.display_name()]++;
             }
         }

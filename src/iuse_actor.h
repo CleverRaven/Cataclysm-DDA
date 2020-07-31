@@ -388,29 +388,6 @@ class place_npc_iuse : public iuse_actor
 };
 
 /**
- * Items that can be worn and can be activated to consume energy from UPS.
- * Note that the energy consumption is done in @ref player::process_active_items, it is
- * *not* done by this class!
- */
-class ups_based_armor_actor : public iuse_actor
-{
-    public:
-        /** Shown when activated. */
-        std::string activate_msg;
-        /** Shown when deactivated. */
-        std::string deactive_msg;
-        /** Shown when it runs out of power. */
-        std::string out_of_power_msg;
-
-        ups_based_armor_actor( const std::string &type = "ups_based_armor" ) : iuse_actor( type ) {}
-
-        ~ups_based_armor_actor() override = default;
-        void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
  * Implements deployable furniture from items
  */
 class deploy_furn_actor : public iuse_actor
@@ -886,35 +863,35 @@ class heal_actor : public iuse_actor
 {
     public:
         /** How much hp to restore when healing limbs? */
-        float limb_power = 0;
+        float limb_power = 0.0f;
         /** How much hp to restore when healing head? */
-        float head_power = 0;
+        float head_power = 0.0f;
         /** How much hp to restore when healing torso? */
-        float torso_power = 0;
+        float torso_power = 0.0f;
         /** How many intensity levels will be applied when healing limbs? */
-        float bandages_power = 0;
+        float bandages_power = 0.0f;
         /** Extra intensity levels gained per skill level when healing limbs. */
-        float bandages_scaling = 0;
+        float bandages_scaling = 0.0f;
         /** How many intensity levels will be applied when healing limbs? */
-        float disinfectant_power = 0;
+        float disinfectant_power = 0.0f;
         /** Extra intensity levels gained per skill level when healing limbs. */
-        float disinfectant_scaling = 0;
+        float disinfectant_scaling = 0.0f;
         /** How many levels of bleeding effect intensity can it remove (dressing efficiency). */
         int bleed = 0;
         /** Chance to remove bite effect. */
-        float bite = 0;
+        float bite = 0.0f;
         /** Chance to remove infected effect. */
-        float infect = 0;
+        float infect = 0.0f;
         /** Cost in moves to use the item. */
         int move_cost = 100;
         /** Is using this item a long action. */
         bool long_action = false;
         /** Extra hp gained per skill level when healing limbs. */
-        float limb_scaling = 0;
+        float limb_scaling = 0.0f;
         /** Extra hp gained per skill level when healing head. */
-        float head_scaling = 0;
+        float head_scaling = 0.0f;
         /** Extra hp gained per skill level when healing torso. */
-        float torso_scaling = 0;
+        float torso_scaling = 0.0f;
         /** Effects to apply to patient on finished healing. */
         std::vector<effect_data> effects;
         /**

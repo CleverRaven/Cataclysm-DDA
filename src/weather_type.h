@@ -3,12 +3,15 @@
 #define CATA_SRC_WEATHER_TYPE_H
 
 #include <string>
+#include <climits>
 
 #include "bodypart.h"
 #include "field.h"
-#include "generic_factory.h"
 #include "translations.h"
 #include "type_id.h"
+
+template<typename T>
+class generic_factory;
 
 const weather_type_id WEATHER_NULL( "null" );
 const weather_type_id WEATHER_CLEAR( "clear" );
@@ -47,7 +50,6 @@ template<>
 struct enum_traits<weather_time_requirement_type> {
     static constexpr weather_time_requirement_type last = weather_time_requirement_type::last;
 };
-
 
 enum weather_sound_category : int {
     silent,

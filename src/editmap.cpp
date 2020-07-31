@@ -1025,7 +1025,7 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
     }
 
     map &here = get_map();
-    for( auto &elem : target_list ) {
+    for( const tripoint &elem : target_list ) {
         ter_id wter = sel_ter;
         if( doalt ) {
             if( isvert && ( elem.y == alta || elem.y == altb ) ) {
@@ -1044,7 +1044,7 @@ void apply<furn_t>( const furn_t &t, const shapetype, const tripoint &,
 {
     const furn_id sel_frn = t.id.id();
     map &here = get_map();
-    for( auto &elem : target_list ) {
+    for( const tripoint &elem : target_list ) {
         here.furn_set( elem, sel_frn );
     }
 }
@@ -1054,7 +1054,7 @@ void apply<trap>( const trap &t, const shapetype, const tripoint &,
                   const tripoint &, const std::vector<tripoint> &target_list )
 {
     map &here = get_map();
-    for( auto &elem : target_list ) {
+    for( const tripoint &elem : target_list ) {
         here.trap_set( elem, t.loadid );
     }
 }

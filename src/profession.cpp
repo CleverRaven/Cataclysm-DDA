@@ -254,7 +254,7 @@ void profession::check_definitions()
 
 void profession::check_item_definitions( const itypedecvec &items ) const
 {
-    for( auto &itd : items ) {
+    for( const auto &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
             debugmsg( "profession %s: item %s does not exist", id.str(), itd.type_id.str() );
         } else if( !itd.snip_id.is_null() ) {
@@ -306,7 +306,7 @@ void profession::check_definition() const
         }
     }
 
-    for( auto &t : _starting_traits ) {
+    for( const auto &t : _starting_traits ) {
         if( !t.is_valid() ) {
             debugmsg( "trait %s for profession %s does not exist", t.c_str(), id.c_str() );
         }
