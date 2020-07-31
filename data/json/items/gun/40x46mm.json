@@ -8,6 +8,7 @@
     "description": "A simple, home-made grenade launcher.  Basically a tube with a pin firing mechanism to activate the grenade.",
     "weight": "2267 g",
     "volume": "1250 ml",
+    "longest_side": "450 mm",
     "price": 40000,
     "price_postapoc": 750,
     "to_hit": -3,
