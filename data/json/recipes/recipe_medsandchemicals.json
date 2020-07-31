@@ -341,7 +341,7 @@
     "components": [
       [ [ "vitamins", 5 ] ],
       [ [ "aspirin", 10 ] ],
-      [ [ "chem_sulphuric_acid", 1 ], [ "chem_muriatic_acid", 1 ], [ "chem_nitric_acid", 1 ], [ "datura_seed", 8 ] ],
+      [ [ "strong_acid", 1 ], [ "datura_seed", 8 ] ],
       [ [ "bleach", 1 ], [ "oxy_powder", 100 ] ]
     ]
   },

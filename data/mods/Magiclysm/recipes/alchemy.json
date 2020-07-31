@@ -26,7 +26,7 @@
     "tools": [ [ [ "paint_brush", -1 ] ] ],
     "components": [
       [ [ "tainted_blood", 2000 ], [ "blood", 8 ], [ "dragon_blood", 2000 ] ],
-      [ [ "chem_sulphuric_acid", 4 ], [ "chem_muriatic_acid", 4 ], [ "chem_nitric_acid", 4 ] ],
+      [ [ "strong_acid", 4 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ] ]
     ],
     "time": "2 h",

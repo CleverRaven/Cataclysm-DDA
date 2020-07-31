@@ -162,7 +162,7 @@
     "batch_time_factors": [ 50, 2 ],
     "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "jar_glass_sealed", -1 ], [ "jar_3l_glass_sealed", -1 ] ] ],
     "components": [
-      [ [ "chem_sulphuric_acid", 1 ], [ "chem_muriatic_acid", 1 ], [ "chem_nitric_acid", 1 ] ],
+      [ [ "strong_acid", 1 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],
       [ [ "tin_plate", 1 ], [ "tin_cup", 1 ], [ "bowl_pewter", 1 ] ]
     ]
