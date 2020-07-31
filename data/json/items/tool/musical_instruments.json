@@ -15,6 +15,7 @@
     "material": [ "wood", "iron" ],
     "symbol": "|",
     "color": "white",
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -45,6 +46,7 @@
     "material": [ "bone" ],
     "symbol": "-",
     "color": "white",
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -77,6 +79,7 @@
     "material": [ "wood", "iron" ],
     "symbol": "|",
     "color": "light_gray",
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -107,6 +110,7 @@
     "material": [ "iron", "silver" ],
     "symbol": "-",
     "color": "light_gray",
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -138,6 +142,7 @@
     "material": [ "brass" ],
     "symbol": "-",
     "color": "yellow",
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -169,6 +174,7 @@
     "material": [ "wood" ],
     "symbol": "(",
     "color": "brown",
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -200,6 +206,7 @@
     "material": [ "wood" ],
     "symbol": "}",
     "color": "brown",
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
@@ -231,6 +238,7 @@
     "material": [ "gold" ],
     "symbol": "}",
     "color": "yellow",
+    "max_charges": 1,
     "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
