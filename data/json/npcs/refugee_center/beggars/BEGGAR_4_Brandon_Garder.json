@@ -174,7 +174,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_BEGGAR_4_ARRIVAL",
-    "dynamic_line": "Came with a small group quite a while ago.  The others were young and fit, they got in.  They were some last ones to get in actually.  I didn't make the cutoff.",
+    "dynamic_line": "Came with a small group quite a while ago.  The others were young and fit, they got in.  They were some of the last ones to get in actually.  I didn't make the cutoff.",
     "responses": [
       { "text": "What did you do before <the_cataclysm>?", "topic": "TALK_REFUGEE_BEGGAR_4_LIFEBEFORE1" },
       { "text": "You seem awfully happy considering the situation.", "topic": "TALK_REFUGEE_BEGGAR_4_HAPPY" },

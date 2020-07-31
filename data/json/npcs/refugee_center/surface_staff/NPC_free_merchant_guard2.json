@@ -47,7 +47,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_EVAC_GUARD2_WHO",
-    "dynamic_line": "Most are scavengers like you.  They now make a living by looting the cities in search for anything useful: food, weapons, tools, gasoline.  In exchange for their findings we offer them a temporary place to rest and the services of our shop.  I bet some m would be willing to organize resource runs with you if you ask.",
+    "dynamic_line": "Most are scavengers like you.  They now make a living by looting the cities in search for anything useful: food, weapons, tools, gasoline.  In exchange for their findings we offer them a temporary place to rest and the services of our shop.  I bet some of them would be willing to organize resource runs with you if you ask.",
     "responses": [ { "text": "Thanks for the heads-up.", "topic": "TALK_EVAC_GUARD2" } ]
   },
   {

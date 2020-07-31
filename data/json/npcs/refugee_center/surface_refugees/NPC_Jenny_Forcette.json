@@ -210,7 +210,7 @@
   {
     "type": "talk_topic",
     "id": "TALK_REFUGEE_JENNY_Project2_developed",
-    "dynamic_line": "They're pretty big.  This isn't something you'd carry around with you.  They fire .30 cal bullets using compressed air that we'd make inside the basement and then pipe up to individual storage tanks for the guns that would be good for a few hundred shots each.  The design should be capable of auto or semi-auto fire, at a range that's pretty comparable to a gunpowder-based weapon.  It takes out some most limited parts of ranged weapons: no gunpowder, no brass casings, just lead that we melt into my mold.  It's not soundless, but it's not as loud as a chemical weapon.  There are tons of advantages.  Only trouble is, I can't convince the Free Merchants to give me the parts I need.",
+    "dynamic_line": "They're pretty big.  This isn't something you'd carry around with you.  They fire .30 cal bullets using compressed air that we'd make inside the basement and then pipe up to individual storage tanks for the guns that would be good for a few hundred shots each.  The design should be capable of auto or semi-auto fire, at a range that's pretty comparable to a gunpowder-based weapon.  It takes out some of the most limited parts of ranged weapons: no gunpowder, no brass casings, just lead that we melt into my mold.  It's not soundless, but it's not as loud as a chemical weapon.  There are tons of advantages.  Only trouble is, I can't convince the Free Merchants to give me the parts I need.",
     "responses": [
       { "text": "Is there some way I can help you get the stuff you need?", "topic": "TALK_MISSION_LIST" },
       { "text": "What's it like living here?", "topic": "TALK_REFUGEE_JENNY_Personal1_mid" },
