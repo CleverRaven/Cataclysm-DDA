@@ -1272,5 +1272,11 @@
     "id": "four_winds_shotgun",
     "type": "MIGRATION",
     "replace": "slamfire_shotgun"
+  },
+  {
+    "id": "rag_bloody",
+    "type": "MIGRATION",
+    "replace": "rag",
+    "flags": [ "FILTHY" ]
   }
 ]

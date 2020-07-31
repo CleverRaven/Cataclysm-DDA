@@ -1740,7 +1740,7 @@
       [ "quikclot", 10 ],
       [ "hacksaw", 5 ],
       [ "gloves_rubber", 25 ],
-      [ "rag_bloody", 10 ],
+      { "item": "rag", "prob": 10, "custom-flags": [ "FILTHY" ] },
       [ "bag_plastic", 20 ],
       [ "string_6", 5 ]
     ]
@@ -1760,7 +1760,7 @@
       [ "soap", 10 ],
       [ "gloves_medical", 20 ],
       [ "rag", 15 ],
-      [ "rag_bloody", 2 ],
+      { "item": "rag", "prob": 2, "custom-flags": [ "FILTHY" ] },
       [ "bag_plastic", 20 ],
       [ "jerky", 40 ]
     ]

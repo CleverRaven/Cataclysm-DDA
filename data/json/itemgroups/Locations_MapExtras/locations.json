@@ -2367,13 +2367,13 @@
     "id": "mil_base_bed_hospital",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "blanket", "prob": 50 }, { "item": "rag_bloody", "prob": 100 } ]
+    "entries": [ { "item": "blanket", "prob": 50 }, { "item": "rag", "prob": 100, "custom-flags": [ "FILTHY" ] } ]
   },
   {
     "id": "mil_base_table_hospital",
     "type": "item_group",
     "subtype": "distribution",
-    "entries": [ { "item": "bandages", "prob": 25 }, { "item": "rag_bloody", "prob": 100 } ]
+    "entries": [ { "item": "bandages", "prob": 25 }, { "item": "rag", "prob": 100, "custom-flags": [ "FILTHY" ] } ]
   },
   {
     "id": "mil_base_books",
@@ -2437,7 +2437,7 @@
       { "item": "bag_iv", "prob": 60 },
       { "item": "bag_body_bag", "prob": 40 },
       { "item": "syringe", "prob": 30 },
-      { "item": "rag_bloody", "prob": 60 },
+      { "item": "rag", "prob": 60, "custom-flags": [ "FILTHY" ] },
       { "item": "coat_lab", "prob": 20 },
       { "item": "blanket", "prob": 20 },
       { "item": "sheet", "prob": 20 }
