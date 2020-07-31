@@ -531,7 +531,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                 std::string sealed = "";
                 if( loc.has_parent() ) {
                     sealed = loc.parent_item()->contents.get_sealed_summary() ==
-                             item_contents::sealed_summary::all_sealed ? "sealed" : "";
+                             item_contents::sealed_summary::all_sealed ? _( "sealed" ) : std::string();
                 }
                 if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
