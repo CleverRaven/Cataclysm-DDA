@@ -540,7 +540,7 @@ class comestible_inventory_preset : public inventory_selector_preset
                     }
                     return std::string( "---" );
                 }
-                return( _( sealed ) );
+                return sealed;
             }, _( "FRESHNESS" ) );
 
             append_cell( [ this, &player_character ]( const item_location & loc ) {
