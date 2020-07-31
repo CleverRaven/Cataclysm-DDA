@@ -1677,7 +1677,7 @@ void Character::mend( int rate_multiplier )
         }
 
         const time_duration dur_inc = 1_turns * roll_remainder( rate_multiplier * healing_factor );
-        auto &eff = get_effect( effect_mending, bp->token );
+        auto &eff = get_effect( effect_mending, bp );
         if( eff.is_null() ) {
             add_effect( effect_mending, dur_inc, bp, true );
             continue;

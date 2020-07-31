@@ -3354,7 +3354,7 @@ ret_val<bool> Character::can_wear( const item &it, bool with_equip_change ) cons
             if( !it.covers( bp ) ) {
                 continue;
             }
-            effect e = get_effect( effect_bleed, bp->token );
+            effect e = get_effect( effect_bleed, bp );
             if( !e.is_null() && e.get_intensity() > e.get_max_intensity() / 4 &&
                 !worn_with_flag( flag_TOURNIQUET, bp ) ) {
                 need_tourniquet = true;
@@ -6466,7 +6466,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
         const int d_power = get_effect_int( effect_disinfected, bp_token );
         int new_b_power = static_cast<int>( std::floor( bandage_power ) );
         if( bandaged ) {
-            const effect &eff = get_effect( effect_bandaged, bp_token );
+            const effect &eff = get_effect( effect_bandaged, bp );
             if( new_b_power > eff.get_max_intensity() ) {
                 new_b_power = eff.get_max_intensity();
             }
@@ -6479,7 +6479,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
         if( limb_is_mending ) {
             desc += colorize( _( "It is broken but has been set and just needs time to heal." ),
                               c_blue ) + "\n";
-            const auto &eff = get_effect( effect_mending, bp_token );
+            const auto &eff = get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
             if( precise ) {
@@ -6512,8 +6512,8 @@ bodypart_id Character::body_window( const std::string &menu_header,
 
         // BLEEDING block
         if( bleeding ) {
-            desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, bp_token ).get_speed_name(),
-                                             get_effect( effect_bleed, bp_token ).disp_short_desc() ), c_red ) + "\n";
+            desc += colorize( string_format( "%s: %s", get_effect( effect_bleed, bp ).get_speed_name(),
+                                             get_effect( effect_bleed, bp ).disp_short_desc() ), c_red ) + "\n";
             if( bleed > 0 ) {
                 int percent = static_cast<int>( bleed * 100 / get_effect_int( effect_bleed, bp_token ) );
                 percent = std::min( percent, 100 );
@@ -6539,8 +6539,7 @@ bodypart_id Character::body_window( const std::string &menu_header,
         }
         // BITTEN block
         if( bitten ) {
-            desc += colorize( string_format( "%s: ", get_effect( effect_bite,
-                                             bp_token ).get_speed_name() ), c_red );
+            desc += colorize( string_format( "%s: ", get_effect( effect_bite, bp ).get_speed_name() ), c_red );
             desc += colorize( _( "It has a deep bite wound that needs cleaning." ), c_red ) + "\n";
             if( bite > 0 ) {
                 desc += colorize( string_format( _( "Chance to clean and disinfect: %d %%" ),
@@ -6551,8 +6550,8 @@ bodypart_id Character::body_window( const std::string &menu_header,
         }
         // INFECTED block
         if( infected ) {
-            desc += colorize( string_format( "%s: ", get_effect( effect_infected,
-                                             bp_token ).get_speed_name() ), c_red );
+            desc += colorize( string_format( "%s: ", get_effect( effect_infected, bp ).get_speed_name() ),
+                              c_red );
             desc += colorize( _( "It has a deep wound that looks infected.  Antibiotics might be required." ),
                               c_red ) + "\n";
             if( infect > 0 ) {
@@ -9113,7 +9112,7 @@ void Character::apply_damage( Creature *source, bodypart_id hurt, int dam, const
     }
     if( has_effect( effect_mending, part_to_damage.id() ) && ( source == nullptr ||
             !source->is_hallucination() ) ) {
-        effect &e = get_effect( effect_mending, part_to_damage->token );
+        effect &e = get_effect( effect_mending, part_to_damage );
         float remove_mend = dam / 20.0f;
         e.mod_duration( -e.get_max_duration() * remove_mend );
     }
@@ -9288,7 +9287,7 @@ dealt_damage_instance Character::deal_damage( Creature *source, bodypart_id bp,
 int Character::reduce_healing_effect( const efftype_id &eff_id, int remove_med,
                                       const bodypart_id &hurt )
 {
-    effect &e = get_effect( eff_id, hurt->token );
+    effect &e = get_effect( eff_id, hurt );
     int intensity = e.get_intensity();
     if( remove_med < intensity ) {
         if( eff_id == effect_bandaged ) {
@@ -9492,14 +9491,14 @@ void Character::update_vitamins( const vitamin_id &vit )
     }
     if( lvl > 0 ) {
         if( has_effect( def ) ) {
-            get_effect( def, num_bp ).set_intensity( lvl, true );
+            get_effect( def ).set_intensity( lvl, true );
         } else {
             add_effect( def, 1_turns, true, lvl );
         }
     }
     if( lvl < 0 ) {
         if( has_effect( exc ) ) {
-            get_effect( exc, num_bp ).set_intensity( -lvl, true );
+            get_effect( exc ).set_intensity( -lvl, true );
         } else {
             add_effect( exc, 1_turns, true, -lvl );
         }

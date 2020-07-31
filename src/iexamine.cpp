@@ -4871,7 +4871,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             int broken_limbs_count = 0;
             for( const bodypart_id &part : patient.get_all_body_parts( true ) ) {
                 const bool broken = patient.is_limb_broken( part );
-                effect &existing_effect = patient.get_effect( effect_mending, part->token );
+                effect &existing_effect = patient.get_effect( effect_mending, part );
                 // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
                                  existing_effect.get_duration() >
@@ -4896,7 +4896,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         patient.wear( equipped_splint, false );
                 }
                 patient.add_effect( effect_mending, 0_turns, part, true );
-                effect &mending_effect = patient.get_effect( effect_mending, part->token );
+                effect &mending_effect = patient.get_effect( effect_mending, part );
                 mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
             }
             if( broken_limbs_count == 0 ) {
@@ -4959,7 +4959,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc.
                     const int disinfectant_intensity = 14;
                     patient.add_effect( effect_disinfected, 1_turns, bp_healed );
-                    effect &e = patient.get_effect( effect_disinfected, bp_healed->token );
+                    effect &e = patient.get_effect( effect_disinfected, bp_healed );
                     e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
                     patient.set_part_damage_disinfected( bp_healed,
                                                          patient.get_part_hp_max( bp_healed ) - patient.get_part_hp_cur( bp_healed ) );

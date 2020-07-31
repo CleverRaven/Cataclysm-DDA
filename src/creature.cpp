@@ -1225,16 +1225,16 @@ std::vector<effect> Creature::get_effects_with_flag( const std::string &flag ) c
     return effs;
 }
 
-effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
+effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_id &bp )
 {
     return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
 }
 
-const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) const
+const effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
 {
     auto got_outer = effects->find( eff_id );
     if( got_outer != effects->end() ) {
-        auto got_inner = got_outer->second.find( convert_bp( bp ) );
+        auto got_inner = got_outer->second.find( bp.id() );
         if( got_inner != got_outer->second.end() ) {
             return got_inner->second;
         }
@@ -1243,7 +1243,7 @@ const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) con
 }
 time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
 {
-    const effect &eff = get_effect( eff_id, bp );
+    const effect &eff = get_effect( eff_id, convert_bp( bp ).id() );
     if( !eff.is_null() ) {
         return eff.get_duration();
     }
@@ -1252,7 +1252,7 @@ time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp )
 }
 int Creature::get_effect_int( const efftype_id &eff_id, body_part bp ) const
 {
-    const effect &eff = get_effect( eff_id, bp );
+    const effect &eff = get_effect( eff_id, convert_bp( bp ).id() );
     if( !eff.is_null() ) {
         return eff.get_intensity();
     }

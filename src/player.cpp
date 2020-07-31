@@ -771,7 +771,7 @@ void player::pause()
         time_duration total_removed = 0_turns;
         time_duration total_left = 0_turns;
         bool on_ground = has_effect( effect_downed );
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             effect &eff = get_effect( effect_onfire, bp );
             if( eff.is_null() ) {
                 continue;
@@ -807,7 +807,7 @@ void player::pause()
                 bp_id = convert_bp( bp );
             }
         }
-        effect &e = get_effect( effect_bleed, bp_id->token );
+        effect &e = get_effect( effect_bleed, bp_id );
         time_duration penalty = 1_turns * ( encumb( bodypart_id( "hand_r" ) ) + encumb(
                                                 bodypart_id( "hand_l" ) ) );
         time_duration benefit = 5_turns + 10_turns * get_skill_level( skill_firstaid );

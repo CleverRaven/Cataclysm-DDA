@@ -3216,7 +3216,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
             pwr *= 2;
         }
         if( pwr > patient.get_effect_int( effect_bleed, healed->token ) ) {
-            effect &wound = patient.get_effect( effect_bleed, healed->token );
+            effect &wound = patient.get_effect( effect_bleed, healed );
             time_duration dur = wound.get_duration() - ( get_stopbleed_level( healer ) *
                                 wound.get_int_dur_factor() );
             wound.set_duration( std::max( 0_turns, dur ) );
@@ -3286,7 +3286,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
     if( bandages_power > 0 ) {
         int bandages_intensity = get_bandaged_level( healer );
         patient.add_effect( effect_bandaged, 1_turns, healed );
-        effect &e = patient.get_effect( effect_bandaged, healed->token );
+        effect &e = patient.get_effect( effect_bandaged, healed );
         e.set_duration( e.get_int_dur_factor() * bandages_intensity );
         patient.set_part_damage_bandaged( healed,
                                           patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );
@@ -3295,7 +3295,7 @@ int heal_actor::finish_using( player &healer, player &patient, item &it, bodypar
     if( disinfectant_power > 0 ) {
         int disinfectant_intensity = get_disinfected_level( healer );
         patient.add_effect( effect_disinfected, 1_turns, healed );
-        effect &e = patient.get_effect( effect_disinfected, healed->token );
+        effect &e = patient.get_effect( effect_disinfected, healed );
         e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
         patient.set_part_damage_disinfected( healed,
                                              patient.get_part_hp_max( healed ) - patient.get_part_hp_cur( healed ) );

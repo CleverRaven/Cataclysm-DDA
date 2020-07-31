@@ -1676,8 +1676,7 @@ void Character::process_bionic( int b )
             for( const bodypart_id &i : bleeding_bp_parts ) {
                 // effectively reduces by 1 intensity level
                 if( get_stored_kcal() >= 15 ) {
-                    get_effect( effect_bleed, i->token ).mod_duration( -get_effect( effect_bleed,
-                            i->token ).get_int_dur_factor() );
+                    get_effect( effect_bleed, i ).mod_duration( -get_effect( effect_bleed, i ).get_int_dur_factor() );
                     mod_stored_kcal( -15 );
                 } else {
                     bleeding_bp_parts.clear();

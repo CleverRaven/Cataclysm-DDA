@@ -4387,10 +4387,10 @@ static body_part bp_affected( npc &who, const efftype_id &effect_type )
 {
     body_part ret = num_bp;
     int highest_intensity = INT_MIN;
-    for( const body_part bp : all_body_parts ) {
+    for( const bodypart_id &bp : who.get_all_body_parts() ) {
         const auto &eff = who.get_effect( effect_type, bp );
         if( !eff.is_null() && eff.get_intensity() > highest_intensity ) {
-            ret = bp;
+            ret = bp->token;
             highest_intensity = eff.get_intensity();
         }
     }
@@ -4514,7 +4514,7 @@ bool npc::complain()
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
         const bodypart_id &bp = convert_bp( bp_affected( *this, effect_infected ) ).id();
-        const auto &eff = get_effect( effect_infected, bp->token );
+        const auto &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
         const std::string speech = string_format( _( "My %s wound is infected…" ),
                                    body_part_name( bp ) );
@@ -4573,7 +4573,7 @@ bool npc::complain()
         const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bleed ) );
         std::string speech;
         time_duration often;
-        if( get_effect( effect_bleed, bp->token ).get_intensity() < 10 ) {
+        if( get_effect( effect_bleed, bp ).get_intensity() < 10 ) {
             speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
             often = 5_minutes;
         } else {
