@@ -125,6 +125,56 @@
     "flags": [ "WAIST", "OVERSIZE" ]
   },
   {
+    "id": "western_holster",
+    "copy-from": "holster",
+    "type": "ARMOR",
+    "name": { "str": "western holster" },
+    "description": "A western style holster as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
+    "price_postapoc": 500,
+    "encumbrance": 1,
+    "max_encumbrance": 2,
+    "pocket_data": [
+      {
+        "pocket_type": "CONTAINER",
+        "holster": true,
+        "min_item_volume": "100 ml",
+        "max_contains_volume": "400 ml",
+        "max_contains_weight": "2 kg",
+        "max_item_length": "25 cm",
+        "moves": 30,
+        "use_action": { "type": "holster" }
+      },
+     {
+	    "pocket_type": "CONTAINER",
+        "holster": false,
+		"min_item_volume": "0 ml",
+		"rigid": true,
+        "ammo_restriction": {
+          "32": 18,
+          "762x25": 18,
+          "38": 18,
+          "357mag": 18,
+          "357sig": 18,
+          "380": 18,
+          "38super": 18,
+          "40": 18,
+          "10mm": 18,
+          "44": 18,
+          "45": 18,
+          "45colt": 18,
+          "46": 18,
+          "57": 18,
+          "9x18": 18,
+          "9mm": 18,
+          "454": 18,
+          "460": 18,
+          "500": 18
+           },
+        "moves": 20
+      }
+    ]
+  },
+  {
     "id": "sholster",
     "copy-from": "holster",
     "type": "ARMOR",
