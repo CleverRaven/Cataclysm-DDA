@@ -1004,7 +1004,7 @@ class Creature : public location
 
     protected:
         virtual void on_stat_change( const std::string &, int ) {}
-        virtual void on_effect_int_change( const efftype_id &, int, body_part ) {}
+        virtual void on_effect_int_change( const efftype_id &, int, const bodypart_id & ) {}
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:

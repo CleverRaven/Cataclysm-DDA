@@ -3274,7 +3274,7 @@ void Creature::load( const JsonObject &jsin )
                     const effect &e = i.second;
 
                     ( *effects )[id][bp] = e;
-                    on_effect_int_change( id, e.get_intensity(), bp->token );
+                    on_effect_int_change( id, e.get_intensity(), bp );
                 }
             }
         }

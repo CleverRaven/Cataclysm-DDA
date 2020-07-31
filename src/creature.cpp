@@ -1037,7 +1037,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
                 e.set_intensity( e.get_max_intensity() );
             }
             if( e.get_intensity() != prev_int ) {
-                on_effect_int_change( eff_id, e.get_intensity(), bp->token );
+                on_effect_int_change( eff_id, e.get_intensity(), bp );
             }
         }
     }
@@ -1083,7 +1083,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
                 add_msg( type.gain_game_message_type(), _( type.get_apply_message() ) );
             }
         }
-        on_effect_int_change( eff_id, e.get_intensity(), bp->token );
+        on_effect_int_change( eff_id, e.get_intensity(), bp );
         // Perform any effect addition effects.
         // only when not deferred
         if( !deferred ) {
@@ -1124,7 +1124,7 @@ void Creature::clear_effects()
     for( auto &elem : *effects ) {
         for( auto &_effect_it : elem.second ) {
             const effect &e = _effect_it.second;
-            on_effect_int_change( e.get_id(), 0, e.get_bp()->token );
+            on_effect_int_change( e.get_id(), 0, e.get_bp() );
         }
     }
     effects->clear();
@@ -1149,12 +1149,12 @@ bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
     // num_bp means remove all of a given effect id
     if( bp == bodypart_id( "bp_null" ) ) {
         for( auto &it : ( *effects )[eff_id] ) {
-            on_effect_int_change( eff_id, 0, it.first->token );
+            on_effect_int_change( eff_id, 0, it.first );
         }
         effects->erase( eff_id );
     } else {
         ( *effects )[eff_id].erase( bp.id() );
-        on_effect_int_change( eff_id, 0, bp->token );
+        on_effect_int_change( eff_id, 0, bp );
         // If there are no more effects of a given type remove the type map
         if( ( *effects )[eff_id].empty() ) {
             effects->erase( eff_id );
@@ -1281,7 +1281,7 @@ void Creature::process_effects()
             e.decay( rem_ids, rem_bps, calendar::turn, is_player() );
 
             if( e.get_intensity() != prev_int && e.get_duration() > 0_turns ) {
-                on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp()->token );
+                on_effect_int_change( e.get_id(), e.get_intensity(), e.get_bp() );
             }
         }
     }

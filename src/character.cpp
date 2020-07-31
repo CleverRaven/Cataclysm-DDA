@@ -10646,7 +10646,7 @@ void Character::on_item_takeoff( const item &it )
     morale->on_item_takeoff( it );
 }
 
-void Character::on_effect_int_change( const efftype_id &eid, int intensity, body_part bp )
+void Character::on_effect_int_change( const efftype_id &eid, int intensity, const bodypart_id &bp )
 {
     // Adrenaline can reduce perceived pain (or increase it when you enter comedown).
     // See @ref get_perceived_pain()
@@ -10655,7 +10655,7 @@ void Character::on_effect_int_change( const efftype_id &eid, int intensity, body
         on_stat_change( "perceived_pain", get_perceived_pain() );
     }
 
-    morale->on_effect_int_change( eid, intensity, bp );
+    morale->on_effect_int_change( eid, intensity, bp->token );
 }
 
 void Character::on_mutation_gain( const trait_id &mid )
