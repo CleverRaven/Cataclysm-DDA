@@ -343,7 +343,7 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
                 // successfully added
                 auto &entry = mapPickup[newit.tname()];
                 entry.second += newit.count();
-                entry.first = added_it;
+                entry.first = newit;
                 picked_up = true;
             }
             break;
@@ -1040,6 +1040,8 @@ void show_pickup_message( const PickupMap &mapPickup )
         if( entry.second.first.invlet != 0 ) {
             add_msg( _( "You pick up: %d %s [%c]" ), entry.second.second,
                      entry.second.first.display_name( entry.second.second ), entry.second.first.invlet );
+        } else if( entry.second.first.count_by_charges() ) {
+            add_msg( _( "You pick up: %s" ), entry.second.first.display_name( entry.second.second ) );
         } else {
             add_msg( _( "You pick up: %d %s" ), entry.second.second,
                      entry.second.first.display_name( entry.second.second ) );
