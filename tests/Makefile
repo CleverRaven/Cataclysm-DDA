@@ -38,6 +38,7 @@ ifeq ($(PCH), 1)
   ifeq ($(CLANG), 1)
     PCH_P = $(PCH_H).pch
     CXXFLAGS += -Wno-unused-macros
+
   else
     PCH_P = $(PCH_H).gch
   endif
@@ -52,7 +53,7 @@ endif
 tests: $(TEST_TARGET)
 
 $(TEST_TARGET): $(OBJS) $(CATA_LIB)
-	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(PCHFLAGS) $(LDFLAGS)
+	+$(CXX) $(W32FLAGS) -o $@ $(DEFINES) $(OBJS) $(CATA_LIB) $(CXXFLAGS) $(LDFLAGS)
 
 $(PCH_P): $(PCH_H)
 	-$(CXX) $(CPPFLAGS) $(DEFINES) $(subst -Werror,,$(CXXFLAGS)) -Wno-non-virtual-dtor -Wno-unused-macros -I. -c $(PCH_H) -o $(PCH_P)
@@ -70,7 +71,7 @@ clean:
 $(shell mkdir -p $(ODIR))
 
 $(ODIR)/%.o: %.cpp $(PCH_P)
-	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(PCHFLAGS) -c $< -o $@
+	$(CXX) $(CPPFLAGS) $(DEFINES) $(CXXFLAGS) $(subst main-pch,tests-pch,$(PCHFLAGS)) -c $< -o $@
 
 .PHONY: clean check tests precompile_header
 
