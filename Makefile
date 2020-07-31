@@ -409,7 +409,7 @@ ifeq ($(PCH), 1)
     # FIXME: dirty hack ahead
     # ccache won't wort with clang unless it supports -fno-pch-timestamp
     ifeq ($(CCACHE), 1)
-      CLANGVER := $(shell echo 'int main(void){return 0;}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o $(ODIR)/__bla__.o - 2>&1)
+      CLANGVER := $(shell echo 'int main(void){return 0;}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o _clang_ver.o -c - 2>&1)
       ifneq ($(.SHELLSTATUS), 0)
         PCHFLAGS = ""
         PCH_H = ""
@@ -1118,7 +1118,7 @@ ifdef LANGUAGES
 endif
 	$(BINDIST_CMD)
 
-export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH
+export ODIR _OBJS LDFLAGS CXX W32FLAGS DEFINES CXXFLAGS TARGETSYSTEM CLANG PCH PCH_H PCH_P PCHFLAGS
 
 ctags: $(ASTYLE_SOURCES)
 	ctags $^

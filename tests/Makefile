@@ -32,31 +32,9 @@ ifndef CLANG
 endif
 
 ifeq ($(PCH), 1)
-  PCHFLAGS = -Ipch -Winvalid-pch -DCATA_CATCH_PCH
-  PCH_H = pch/pch.hpp
-  ifeq ($(CLANG), 0)
-    PCH_P = pch/pch.hpp.gch
-    PCHFLAGS += -fpch-preprocess -include pch.hpp
-  else
-    PCH_P = pch/pch.hpp.pch
-    PCHFLAGS += -include-pch $(PCH_P)
+  PCHFLAGS += -DCATA_CATCH_PCH
+  ifeq ($(CLANG), 1)
     CXXFLAGS += -Wno-unused-macros
-    
-    # FIXME: dirty hack ahead
-    # ccache won't wort with clang unless it supports -fno-pch-timestamp
-    ifeq ($(CCACHE), 1)
-      CLANGVER := $(shell echo 'int main(void){return 0;}'|$(CXX) -Xclang -fno-pch-timestamp -x c++ -o $(ODIR)/__bla__.o - 2>&1)
-      ifneq ($(.SHELLSTATUS), 0)
-        $(warning your clang version does not support -fno-pch-timestamp: $(CLANGVER) ($(.SHELLSTATUS)))
-        undefine PCHFLAGS
-        undefine PCH_H
-        undefine PCH_P
-        PCH = 0
-      else
-        CXXFLAGS += -Xclang -fno-pch-timestamp
-      endif
-    endif
-        
   endif
 endif
 
