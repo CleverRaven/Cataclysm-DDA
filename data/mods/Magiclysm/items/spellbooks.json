@@ -67,7 +67,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_red",
-    "use_action": { "type": "learn_spell", "spells": [ "point_flare", "fireball", "burning_hands", "create_lighter", "kelvinist_summon_flamesword" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "point_flare", "fireball", "burning_hands", "create_lighter", "kelvinist_summon_flamesword" ]
+    }
   },
   {
     "id": "wizard_advanced",
@@ -239,7 +242,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "magus_mana_beam", "magus_mana_bolt", "magus_mana_blast", "magus_summon_impact_sling" ]
+    }
   },
   {
     "id": "eshaper_spellbook",
@@ -307,7 +313,10 @@
     "material": [ "paper" ],
     "symbol": "?",
     "color": "light_gray",
-    "use_action": { "type": "learn_spell", "spells": [ "synaptic_stimulation", "animated_blade", "mirror_image", "technomancer_knifeshot" ] }
+    "use_action": {
+      "type": "learn_spell",
+      "spells": [ "synaptic_stimulation", "animated_blade", "mirror_image", "technomancer_knifeshot" ]
+    }
   },
   {
     "id": "techno_idiots",
