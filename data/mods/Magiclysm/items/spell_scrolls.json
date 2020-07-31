@@ -953,7 +953,7 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_tornskin",
+    "id": "spell_scroll_boneclub",
     "name": { "str": "Scroll of Decaying Boneclub" },
     "description": "Link your live blood to dead blood and bones, creating a club eager to harvest the living.",
     "use_action": { "type": "learn_spell", "spells": [ "animist_summon_decaying_boneclub" ] }
@@ -965,5 +965,13 @@
     "name": { "str": "Scroll of Impact Sling" },
     "description": "Infuse a sling with excess energy, delivering devasting throws before it tears itself apart.",
     "use_action": { "type": "learn_spell", "spells": [ "magus_summon_impact_sling" ] }
-  }
+  },
+  {
+    "type": "BOOK",
+    "copy-from": "spell_scroll",
+    "id": "spell_scroll_knifeshot",
+    "name": { "str": "Scroll of Knifeshot" },
+    "description": "Emulate a railgun, launching a knife at high speed.",
+    "use_action": { "type": "learn_spell", "spells": [ "technomancer_knifeshot" ] }
+  
 ]
