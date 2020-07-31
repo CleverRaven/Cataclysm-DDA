@@ -150,7 +150,7 @@ std::string remove_color_tags( const std::string &s )
     std::vector<size_t> tag_positions = get_tag_positions( s );
     size_t next_pos = 0;
 
-    if( tag_positions.size() > 1 ) {
+    if( !tag_positions.empty() ) {
         for( size_t tag_position : tag_positions ) {
             ret += s.substr( next_pos, tag_position - next_pos );
             next_pos = s.find( ">", tag_position, 1 ) + 1;
