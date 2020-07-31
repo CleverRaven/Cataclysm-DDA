@@ -43,6 +43,11 @@ parser.add_argument(
     "--nonestring",
     default="None",
     help="what to output when value is None")
+parser.add_argument(
+    "--noheader",
+    dest='with_header', action='store_false',
+    help="do not output table header")
+parser.set_defaults(with_header=True)
 
 
 def item_values(item, fields, none_string):
@@ -179,8 +184,9 @@ class CDDAValues:
         format_class = get_format_class_by_extension(format_string)
         self.output = format_class()
 
-    def print_table(self, data, columns, type_filter, none_string):
-        self.output.header(columns)
+    def print_table(self, data, columns, type_filter, none_string, with_header):
+        if with_header:
+            self.output.header(columns)
         for item in data:
             if type_filter and item.get('type') != type_filter:
                 continue
@@ -195,4 +201,5 @@ if __name__ == "__main__":
     json_data, _ = util.import_data(json_fmatch=args.fnmatch)
 
     worker = CDDAValues(args.format)
-    worker.print_table(json_data, args.columns, args.type, args.nonestring)
+    worker.print_table(
+        json_data, args.columns, args.type, args.nonestring, args.with_header)
