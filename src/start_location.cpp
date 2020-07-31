@@ -208,7 +208,8 @@ tripoint_abs_omt start_location::find_player_initial_location() const
         }
     }
     // Should never happen, if it does we messed up.
-    popup( _( "Unable to generate a valid starting location, please report this failure." ) );
+    popup( _( "Unable to generate a valid starting location %s [%s] in a radius of %d overmaps, please report this failure." ),
+           name(), id.str(), radius );
     return overmap::invalid_tripoint;
 }
 
