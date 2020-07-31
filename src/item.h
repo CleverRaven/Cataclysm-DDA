@@ -2130,10 +2130,9 @@ class item : public visitable<item>
         /**
          * Compute the number of moves needed to disassemble this item and its components
          * @param guy The character performing the disassembly
-         * @param count The number of item to disassemble
          * @return The number of moves to recursively disassemble this item
          */
-        int get_recursive_disassemble_moves( const Character &guy, int count ) const;
+        int get_recursive_disassemble_moves( const Character &guy ) const;
 
     private:
         /** migrates an item into this item. */

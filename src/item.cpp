@@ -10306,13 +10306,10 @@ units::volume item::check_for_free_space( const item *it ) const
     return volume;
 }
 
-int item::get_recursive_disassemble_moves( const Character &guy, int count ) const
+int item::get_recursive_disassemble_moves( const Character &guy ) const
 {
-    int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy ) * count;
+    int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy );
     std::vector<item_comp> to_be_disassembled = get_uncraft_components();
-    for( item_comp &comp : to_be_disassembled ) {
-        comp.count *= count;
-    }
     while( !to_be_disassembled.empty() ) {
         item_comp current_comp = to_be_disassembled.back();
         to_be_disassembled.pop_back();
