@@ -1514,7 +1514,7 @@ void Character::heat_emission( int b, int fuel_energy )
         here.emit_field( pos(), hotness, heat_spread );
     }
     for( const std::pair<const bodypart_str_id, size_t> &bp : bio.info().occupied_bodyparts ) {
-        add_effect( effect_heating_bionic, 2_seconds, bp.first->token, false, heat_prod );
+        add_effect( effect_heating_bionic, 2_seconds, bp.first.id(), false, heat_prod );
     }
 }
 
@@ -1663,7 +1663,7 @@ void Character::process_bionic( int b )
         if( get_power_level() >= 40_J ) {
             std::forward_list<bodypart_id> bleeding_bp_parts;
             for( const bodypart_id bp : get_all_body_parts() ) {
-                if( has_effect( effect_bleed, bp->token ) ) {
+                if( has_effect( effect_bleed, bp.id() ) ) {
                     bleeding_bp_parts.push_front( bp );
                 }
             }
@@ -1677,8 +1677,7 @@ void Character::process_bionic( int b )
             for( const bodypart_id &i : bleeding_bp_parts ) {
                 // effectively reduces by 1 intensity level
                 if( get_stored_kcal() >= 15 ) {
-                    get_effect( effect_bleed, i->token ).mod_duration( -get_effect( effect_bleed,
-                            i->token ).get_int_dur_factor() );
+                    get_effect( effect_bleed, i ).mod_duration( -get_effect( effect_bleed, i ).get_int_dur_factor() );
                     mod_stored_kcal( -15 );
                 } else {
                     bleeding_bp_parts.clear();
@@ -1795,7 +1794,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, enum_bp ) ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
                     if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                         continue;
                     }
@@ -1811,7 +1810,7 @@ void Character::bionics_uninstall_failure( int difficulty, int success, float ad
         case 5:
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, enum_bp ) ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
                     if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                         continue;
                     }
@@ -1884,7 +1883,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
         case 3:
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, enum_bp ) ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
                     if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                         continue;
                     }
@@ -1902,7 +1901,7 @@ void Character::bionics_uninstall_failure( monster &installer, player &patient, 
         case 5:
             for( const bodypart_id &bp : get_all_body_parts() ) {
                 const body_part enum_bp = bp->token;
-                if( has_effect( effect_under_operation, enum_bp ) ) {
+                if( has_effect( effect_under_operation, bp.id() ) ) {
                     if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                         continue;
                     }
@@ -2196,7 +2195,7 @@ bool Character::uninstall_bionic( const bionic_id &b_id, player &installer, bool
         activity.str_values.push_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : b_id->occupied_bodyparts ) {
-        add_effect( effect_under_operation, difficulty * 20_minutes, elem.first->token, true, difficulty );
+        add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );
     }
 
     return true;
@@ -2442,7 +2441,7 @@ bool Character::install_bionics( const itype &type, player &installer, bool auto
         activity.str_values.push_back( "false" );
     }
     for( const std::pair<const bodypart_str_id, size_t> &elem : bioid->occupied_bodyparts ) {
-        add_effect( effect_under_operation, difficulty * 20_minutes, elem.first->token, true, difficulty );
+        add_effect( effect_under_operation, difficulty * 20_minutes, elem.first.id(), true, difficulty );
     }
 
     return true;
@@ -2564,7 +2563,7 @@ void Character::bionics_install_failure( const bionic_id &bid, const std::string
             case 5: {
                 for( const bodypart_id &bp : get_all_body_parts() ) {
                     const body_part enum_bp = bp->token;
-                    if( has_effect( effect_under_operation, enum_bp ) ) {
+                    if( has_effect( effect_under_operation, bp.id() ) ) {
                         if( bp_hurt.count( mutate_to_main_part( enum_bp ) ) > 0 ) {
                             continue;
                         }

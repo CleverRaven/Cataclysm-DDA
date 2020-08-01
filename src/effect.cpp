@@ -541,8 +541,8 @@ std::string effect::disp_name() const
             }
         }
     }
-    if( bp != num_bp ) {
-        ret += string_format( " (%s)", body_part_name( convert_bp( bp ).id() ) );
+    if( bp != bodypart_str_id( "bp_null" ) ) {
+        ret += string_format( " (%s)", body_part_name( bp.id() ) );
     }
 
     return ret;
@@ -700,7 +700,7 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret += string_format( _( tmp_str ), body_part_name( convert_bp( bp ).id() ) );
+        ret += string_format( _( tmp_str ), body_part_name( bp.id() ) );
     } else {
         if( !tmp_str.empty() ) {
             ret += _( tmp_str );
@@ -727,7 +727,7 @@ std::string effect::disp_short_desc( bool reduced ) const
     }
 }
 
-void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
+void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
                     const time_point &time, const bool player )
 {
     // Decay intensity if supposed to do so
@@ -742,7 +742,7 @@ void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &re
     // Decay duration if not permanent
     if( duration <= 0_turns ) {
         rem_ids.push_back( get_id() );
-        rem_bps.push_back( bp );
+        rem_bps.push_back( bp.id() );
     } else if( !is_permanent() ) {
         mod_duration( -1_turns, player );
     }
@@ -791,11 +791,11 @@ time_point effect::get_start_time() const
     return start_time;
 }
 
-body_part effect::get_bp() const
+bodypart_id effect::get_bp() const
 {
-    return bp;
+    return bp.id();
 }
-void effect::set_bp( body_part part )
+void effect::set_bp( bodypart_str_id part )
 {
     bp = part;
 }
@@ -1364,7 +1364,7 @@ void effect::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "eff_type", eff_type != nullptr ? eff_type->id.str() : "" );
     json.member( "duration", duration );
-    json.member( "bp", static_cast<int>( bp ) );
+    json.member( "bp", bp.c_str() );
     json.member( "permanent", permanent );
     json.member( "intensity", intensity );
     json.member( "start_turn", start_time );
@@ -1373,12 +1373,20 @@ void effect::serialize( JsonOut &json ) const
 void effect::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    const efftype_id id( jo.get_string( "eff_type" ) );
+    efftype_id id;
+    jo.read( "eff_type", id );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-    bp = static_cast<body_part>( jo.get_int( "bp" ) );
-    permanent = jo.get_bool( "permanent" );
-    intensity = jo.get_int( "intensity" );
+
+    // TEMPORARY until 0.F
+    if( jo.has_int( "bp" ) ) {
+        bp = convert_bp( static_cast<body_part>( jo.get_int( "bp" ) ) );
+    } else {
+        jo.read( "bp", bp );
+    }
+
+    jo.read( "permanent", permanent );
+    jo.read( "intensity", intensity );
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
 }
@@ -1445,3 +1453,4 @@ std::string texitify_bandage_power( const int power )
     }
     return "";
 }
+

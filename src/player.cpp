@@ -484,7 +484,7 @@ void player::recalc_speed_bonus()
     mod_speed_bonus( kcal_speed_penalty() );
 
     for( const auto &maps : *effects ) {
-        for( auto i : maps.second ) {
+        for( const auto &i : maps.second ) {
             bool reduced = resists_effect( i.second );
             mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
         }
@@ -771,7 +771,7 @@ void player::pause()
         time_duration total_removed = 0_turns;
         time_duration total_left = 0_turns;
         bool on_ground = has_effect( effect_downed );
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             effect &eff = get_effect( effect_onfire, bp );
             if( eff.is_null() ) {
                 continue;
@@ -787,7 +787,7 @@ void player::pause()
 
         // Don't drop on the ground when the ground is on fire
         if( total_left > 1_minutes && !is_dangerous_fields( here.field_at( pos() ) ) ) {
-            add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 2_turns, false, 0, true );
             add_msg_player_or_npc( m_warning,
                                    _( "You roll on the ground, trying to smother the fire!" ),
                                    _( "<npcname> rolls on the ground!" ) );
@@ -801,13 +801,13 @@ void player::pause()
     if( !is_armed() && has_effect( effect_bleed ) ) {
         int most = 0;
         bodypart_id bp_id;
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             if( most <= get_effect_int( effect_bleed, bp ) ) {
                 most = get_effect_int( effect_bleed, bp );
-                bp_id = convert_bp( bp );
+                bp_id =  bp ;
             }
         }
-        effect &e = get_effect( effect_bleed, bp_id->token );
+        effect &e = get_effect( effect_bleed, bp_id );
         time_duration penalty = 1_turns * ( encumb( bodypart_id( "hand_r" ) ) + encumb(
                                                 bodypart_id( "hand_l" ) ) );
         time_duration benefit = 5_turns + 10_turns * get_skill_level( skill_firstaid );
@@ -1040,7 +1040,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
                 add_msg( m_bad, _( "You lose your balance while being hit!" ) );
             }
             // This kind of downing is not subject to immunity.
-            add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 2_turns, false, 0, true );
         }
     }
     Character::on_hit( source, bp_hit, 0.0f, proj );
@@ -1429,7 +1429,7 @@ void player::process_one_effect( effect &it, bool is_new )
 {
     bool reduced = resists_effect( it );
     double mod = 1;
-    const bodypart_id &bp = convert_bp( it.get_bp() ).id();
+    const bodypart_id &bp = it.get_bp();
     int val = 0;
 
     // Still hardcoded stuff, do this first since some modify their other traits

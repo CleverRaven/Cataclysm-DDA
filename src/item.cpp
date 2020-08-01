@@ -4289,9 +4289,10 @@ void item::on_wear( Character &p )
             }
         } else if( has_flag( flag_TOURNIQUET ) ) {
             set_side( side::LEFT );
-            if( ( covers( bodypart_id( "leg_l" ) ) && p.has_effect( effect_bleed, bp_leg_r ) &&
+            if( ( covers( bodypart_id( "leg_l" ) ) &&
+                  p.has_effect( effect_bleed, bodypart_str_id( "leg_r" ) ) &&
                   !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bodypart_id( "arm_l" ) ) && p.has_effect( effect_bleed, bp_arm_r ) &&
+                ( covers( bodypart_id( "arm_l" ) ) && p.has_effect( effect_bleed, bodypart_str_id( "arm_r" ) ) &&
                   !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }

@@ -1209,11 +1209,11 @@ void avatar::reset_stats()
         }
 
         if( eff.is_null() && dur > 0_turns ) {
-            add_effect( type, dur, num_bp, true );
+            add_effect( type, dur, true );
         } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {
-            remove_effect( type, num_bp );
+            remove_effect( type );
         }
     };
     // Painkiller
@@ -1311,7 +1311,7 @@ void avatar::reset_stats()
 
     // Effects
     for( const auto &maps : *effects ) {
-        for( auto i : maps.second ) {
+        for( const auto &i : maps.second ) {
             const auto &it = i.second;
             bool reduced = resists_effect( it );
             mod_str_bonus( it.get_mod( "STR", reduced ) );

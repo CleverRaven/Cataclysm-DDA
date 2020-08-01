@@ -85,17 +85,23 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
         // Spores hit the player--is there any hope?
         bool hit = false;
         hit |= one_in( 4 ) &&
-               player_character.add_env_effect( effect_spores, bp_head, 3, 9_minutes, bp_head );
+               player_character.add_env_effect( effect_spores, bodypart_id( "head" ), 3, 9_minutes,
+                                                bodypart_id( "head" ) );
         hit |= one_in( 2 ) &&
-               player_character.add_env_effect( effect_spores, bp_torso, 3, 9_minutes, bp_torso );
+               player_character.add_env_effect( effect_spores, bodypart_id( "torso" ), 3, 9_minutes,
+                                                bodypart_id( "torso" ) );
         hit |= one_in( 4 ) &&
-               player_character.add_env_effect( effect_spores, bp_arm_l, 3, 9_minutes, bp_arm_l );
+               player_character.add_env_effect( effect_spores, bodypart_id( "arm_l" ), 3, 9_minutes,
+                                                bodypart_id( "arm_l" ) );
         hit |= one_in( 4 ) &&
-               player_character.add_env_effect( effect_spores, bp_arm_r, 3, 9_minutes, bp_arm_r );
+               player_character.add_env_effect( effect_spores, bodypart_id( "arm_r" ), 3, 9_minutes,
+                                                bodypart_id( "arm_r" ) );
         hit |= one_in( 4 ) &&
-               player_character.add_env_effect( effect_spores, bp_leg_l, 3, 9_minutes, bp_leg_l );
+               player_character.add_env_effect( effect_spores, bodypart_id( "leg_l" ), 3, 9_minutes,
+                                                bodypart_id( "leg_l" ) );
         hit |= one_in( 4 ) &&
-               player_character.add_env_effect( effect_spores, bp_leg_r, 3, 9_minutes, bp_leg_r );
+               player_character.add_env_effect( effect_spores, bodypart_id( "leg_r" ), 3, 9_minutes,
+                                                bodypart_id( "leg_r" ) );
         if( hit ) {
             add_msg( m_warning, _( "You're covered in tiny spores!" ) );
         }

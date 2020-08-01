@@ -114,7 +114,7 @@ void glare( weather_type_id w )
         if( player_character.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        player_character.add_env_effect( *effect, bp_eyes, 2, dur );
+        player_character.add_env_effect( *effect, bodypart_id( "eyes" ), 2, dur );
     }
 }
 
@@ -574,7 +574,7 @@ void handle_weather_effects( weather_type_id const w )
         if( current_effect.effect_id.is_valid() ) {
             if( current_effect.target_part.is_valid() ) {
                 player_character.add_effect( current_effect.effect_id, current_effect.effect_duration,
-                                             current_effect.target_part->token );
+                                             current_effect.target_part );
             } else {
                 player_character.add_effect( current_effect.effect_id, current_effect.effect_duration );
             }

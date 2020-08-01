@@ -882,7 +882,7 @@ static void draw_limb_health( avatar &u, const catacurses::window &w, bodypart_i
 
         if( u.worn_with_flag( "SPLINT",  bp ) ) {
             static const efftype_id effect_mending( "mending" );
-            const auto &eff = u.get_effect( effect_mending, bp->token );
+            const auto &eff = u.get_effect( effect_mending, bp );
             const int mend_perc = eff.is_null() ? 0.0 : 100 * eff.get_duration() / eff.get_max_duration();
 
             if( is_self_aware || u.has_effect( effect_got_checked ) ) {

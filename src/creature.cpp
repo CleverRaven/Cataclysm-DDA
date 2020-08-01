@@ -721,7 +721,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         if( z ) {
             const item &drop_item = proj.get_drop();
             if( !drop_item.is_null() ) {
-                z->add_effect( effect_tied, 1_turns, num_bp, true );
+                z->add_effect( effect_tied, 1_turns, true );
                 z->tied_item = cata::make_value<item>( drop_item );
             } else {
                 add_msg( m_debug, "projectile with TANGLE effect, but no drop item specified" );
@@ -736,15 +736,15 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     }
     if( proj.proj_effects.count( "INCENDIARY" ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit->token );
+            add_effect( effect_onfire, rng( 2_turns, 6_turns ), bp_hit );
         } else if( made_of_any( cmat_flesh ) && one_in( 4 ) ) {
-            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit->token );
+            add_effect( effect_onfire, rng( 1_turns, 4_turns ), bp_hit );
         }
     } else if( proj.proj_effects.count( "IGNITE" ) ) {
         if( made_of( material_id( "veggy" ) ) || made_of_any( cmat_flammable ) ) {
-            add_effect( effect_onfire, 6_turns, bp_hit->token );
+            add_effect( effect_onfire, 6_turns, bp_hit );
         } else if( made_of_any( cmat_flesh ) ) {
-            add_effect( effect_onfire, 10_turns, bp_hit->token );
+            add_effect( effect_onfire, 10_turns, bp_hit );
         }
     }
 
@@ -760,7 +760,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
 
     if( bp_hit == bodypart_id( "head" ) && proj_effects.count( "BLINDS_EYES" ) ) {
         // TODO: Change this to require bp_eyes
-        add_env_effect( effect_blind, bp_eyes, 5, rng( 3_turns, 10_turns ) );
+        add_env_effect( effect_blind, bodypart_id( "eyes" ), 5, rng( 3_turns, 10_turns ) );
     }
 
     if( proj_effects.count( "APPLY_SAP" ) ) {
@@ -903,7 +903,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
         case DT_HEAT:
             // heat damage sets us on fire sometimes
             if( rng( 0, 100 ) < adjusted_damage ) {
-                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp->token );
+                add_effect( effect_onfire, rng( 1_turns, 3_turns ), bp );
             }
             break;
 
@@ -924,7 +924,7 @@ void Creature::deal_damage_handle_type( const damage_unit &du, bodypart_id bp, i
             if( is_avatar() || is_npc() ) {
                 as_character()->make_bleed( bp, 1_minutes * rng( 1, adjusted_damage ) );
             } else {
-                add_effect( effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp->token );
+                add_effect( effect_bleed, 1_minutes * rng( 1, adjusted_damage ), bp );
             }
 
         default:
@@ -967,11 +967,12 @@ void Creature::set_fake( const bool fake_value )
 
 void Creature::add_effect( const effect &eff, bool force, bool deferred )
 {
-    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(), eff.get_intensity(),
+    add_effect( eff.get_id(), eff.get_duration(), eff.get_bp(), eff.is_permanent(),
+                eff.get_intensity(),
                 force, deferred );
 }
 
-void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, body_part bp,
+void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, bodypart_id bp,
                            bool permanent, int intensity, bool force, bool deferred )
 {
     // Check our innate immunity
@@ -994,7 +995,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
 
     // Mutate to a main (HP'd) body_part if necessary.
     if( type.get_main_parts() ) {
-        bp = mutate_to_main_part( bp );
+        bp = bp->main_part;
     }
 
     bool found = false;
@@ -1002,7 +1003,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
     auto matching_map = effects->find( eff_id );
     if( matching_map != effects->end() ) {
         auto &bodyparts = matching_map->second;
-        auto found_effect = bodyparts.find( bp );
+        auto found_effect = bodyparts.find( bp.id() );
         if( found_effect != bodyparts.end() ) {
             found = true;
             effect &e = found_effect->second;
@@ -1057,7 +1058,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         }
 
         // Now we can make the new effect for application
-        effect e( &type, dur, bp, permanent, intensity, calendar::turn );
+        effect e( &type, dur, bp.id(), permanent, intensity, calendar::turn );
         // Bound to max duration
         if( e.get_max_duration() > 0_turns && e.get_duration() > e.get_max_duration() ) {
             e.set_duration( e.get_max_duration() );
@@ -1075,7 +1076,7 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         } else if( e.get_intensity() > e.get_max_intensity() ) {
             e.set_intensity( e.get_max_intensity() );
         }
-        ( *effects )[eff_id][bp] = e;
+        ( *effects )[eff_id][bp.id()] = e;
         if( Character *ch = as_character() ) {
             get_event_bus().send<event_type::character_gains_effect>( ch->getID(), eff_id );
             if( is_player() && !type.get_apply_message().empty() ) {
@@ -1090,14 +1091,19 @@ void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, b
         }
     }
 }
-bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int strength,
-                               const time_duration &dur, body_part bp, bool permanent, int intensity, bool force )
+void Creature::add_effect( const efftype_id &eff_id, const time_duration &dur, bool permanent,
+                           int intensity, bool force, bool deferred )
+{
+    add_effect( eff_id, dur, bodypart_id( "bp_null" ), permanent, intensity, force, deferred );
+}
+bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
+                               const time_duration &dur, const bodypart_id &bp, bool permanent, int intensity, bool force )
 {
     if( !force && is_immune_effect( eff_id ) ) {
         return false;
     }
 
-    if( dice( strength, 3 ) > dice( get_env_resist( convert_bp( vector ).id() ), 3 ) ) {
+    if( dice( strength, 3 ) > dice( get_env_resist( vector ), 3 ) ) {
         // Only add the effect if we fail the resist roll
         // Don't check immunity (force == true), because we did check above
         add_effect( eff_id, dur, bp, permanent, intensity, true );
@@ -1105,6 +1111,13 @@ bool Creature::add_env_effect( const efftype_id &eff_id, body_part vector, int s
     } else {
         return false;
     }
+}
+bool Creature::add_env_effect( const efftype_id &eff_id, const bodypart_id &vector, int strength,
+                               const time_duration &dur, bool permanent, int intensity, bool force )
+{
+    return add_env_effect( eff_id, vector, strength, dur, bodypart_id( "bp_null" ), permanent,
+                           intensity,
+                           force );
 }
 void Creature::clear_effects()
 {
@@ -1116,9 +1129,9 @@ void Creature::clear_effects()
     }
     effects->clear();
 }
-bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
+bool Creature::remove_effect( const efftype_id &eff_id, const bodypart_id &bp )
 {
-    if( !has_effect( eff_id, bp ) ) {
+    if( !has_effect( eff_id, bp.id() ) ) {
         //Effect doesn't exist, so do nothing
         return false;
     }
@@ -1134,13 +1147,13 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
     }
 
     // num_bp means remove all of a given effect id
-    if( bp == num_bp ) {
+    if( bp == bodypart_id( "bp_null" ) ) {
         for( auto &it : ( *effects )[eff_id] ) {
             on_effect_int_change( eff_id, 0, it.first );
         }
         effects->erase( eff_id );
     } else {
-        ( *effects )[eff_id].erase( bp );
+        ( *effects )[eff_id].erase( bp.id() );
         on_effect_int_change( eff_id, 0, bp );
         // If there are no more effects of a given type remove the type map
         if( ( *effects )[eff_id].empty() ) {
@@ -1149,10 +1162,14 @@ bool Creature::remove_effect( const efftype_id &eff_id, body_part bp )
     }
     return true;
 }
-bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
+bool Creature::remove_effect( const efftype_id &eff_id )
+{
+    return remove_effect( eff_id, bodypart_id( "bp_null" ) );
+}
+bool Creature::has_effect( const efftype_id &eff_id, const bodypart_str_id &bp ) const
 {
     // num_bp means anything targeted or not
-    if( bp == num_bp ) {
+    if( bp == bodypart_str_id( "bp_null" ) ) {
         return effects->find( eff_id ) != effects->end();
     } else {
         auto got_outer = effects->find( eff_id );
@@ -1166,11 +1183,28 @@ bool Creature::has_effect( const efftype_id &eff_id, body_part bp ) const
     }
 }
 
-bool Creature::has_effect_with_flag( const std::string &flag, body_part bp ) const
+bool Creature::has_effect( const efftype_id &eff_id ) const
+{
+    return has_effect( eff_id, bodypart_str_id( "bp_null" ) );
+}
+
+bool Creature::has_effect_with_flag( const std::string &flag, const bodypart_id &bp ) const
 {
     for( auto &elem : *effects ) {
-        for( const std::pair<const body_part, effect> &_it : elem.second ) {
-            if( ( bp == _it.first || bp == num_bp ) && _it.second.has_flag( flag ) ) {
+        for( const std::pair<const bodypart_str_id, effect> &_it : elem.second ) {
+            if( bp == _it.first && _it.second.has_flag( flag ) ) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Creature::has_effect_with_flag( const std::string &flag ) const
+{
+    for( auto &elem : *effects ) {
+        for( const std::pair<const bodypart_str_id, effect> &_it : elem.second ) {
+            if( _it.second.has_flag( flag ) ) {
                 return true;
             }
         }
@@ -1182,7 +1216,7 @@ std::vector<effect> Creature::get_effects_with_flag( const std::string &flag ) c
 {
     std::vector<effect> effs;
     for( auto &elem : *effects ) {
-        for( const std::pair<const body_part, effect> &_it : elem.second ) {
+        for( const std::pair<const bodypart_str_id, effect> &_it : elem.second ) {
             if( _it.second.has_flag( flag ) ) {
                 effs.push_back( _it.second );
             }
@@ -1191,23 +1225,23 @@ std::vector<effect> Creature::get_effects_with_flag( const std::string &flag ) c
     return effs;
 }
 
-effect &Creature::get_effect( const efftype_id &eff_id, body_part bp )
+effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_id &bp )
 {
     return const_cast<effect &>( const_cast<const Creature *>( this )->get_effect( eff_id, bp ) );
 }
 
-const effect &Creature::get_effect( const efftype_id &eff_id, body_part bp ) const
+const effect &Creature::get_effect( const efftype_id &eff_id, const bodypart_id &bp ) const
 {
     auto got_outer = effects->find( eff_id );
     if( got_outer != effects->end() ) {
-        auto got_inner = got_outer->second.find( bp );
+        auto got_inner = got_outer->second.find( bp.id() );
         if( got_inner != got_outer->second.end() ) {
             return got_inner->second;
         }
     }
     return effect::null_effect;
 }
-time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp ) const
+time_duration Creature::get_effect_dur( const efftype_id &eff_id, const bodypart_id &bp ) const
 {
     const effect &eff = get_effect( eff_id, bp );
     if( !eff.is_null() ) {
@@ -1216,7 +1250,7 @@ time_duration Creature::get_effect_dur( const efftype_id &eff_id, body_part bp )
 
     return 0_turns;
 }
-int Creature::get_effect_int( const efftype_id &eff_id, body_part bp ) const
+int Creature::get_effect_int( const efftype_id &eff_id, const bodypart_id &bp ) const
 {
     const effect &eff = get_effect( eff_id, bp );
     if( !eff.is_null() ) {
@@ -1231,7 +1265,7 @@ void Creature::process_effects()
     // monster specific removals these will need to be moved down to that level and then
     // passed in to this function.
     std::vector<efftype_id> rem_ids;
-    std::vector<body_part> rem_bps;
+    std::vector<bodypart_id> rem_bps;
 
     // Decay/removal of effects
     for( auto &elem : *effects ) {
@@ -1239,7 +1273,7 @@ void Creature::process_effects()
             // Add any effects that others remove to the removal list
             for( const auto &removed_effect : _it.second.get_removes_effects() ) {
                 rem_ids.push_back( removed_effect );
-                rem_bps.push_back( num_bp );
+                rem_bps.push_back( bodypart_id( "bp_null" ) );
             }
             effect &e = _it.second;
             const int prev_int = e.get_intensity();

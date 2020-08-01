@@ -1060,7 +1060,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
     // TODO: Drop splints when healed
     if( it.has_flag( "SPLINT" ) ) {
         for( const bodypart_id &bp : get_all_body_parts( true ) ) {
-            if( is_limb_broken( bp ) && !has_effect( effect_mending, bp->token ) &&
+            if( is_limb_broken( bp ) && !has_effect( effect_mending, bp.id() ) &&
                 it.covers( bp ) ) {
                 reason = _( "Thanks, I'll wear that now." );
                 return !!wear_item( it, false );
@@ -2476,7 +2476,7 @@ void npc::reboot()
     ai_cache.searched_tiles.clear();
     activity = player_activity();
     clear_destination();
-    add_effect( effect_npc_suspend, 24_hours, num_bp, true, 1 );
+    add_effect( effect_npc_suspend, 24_hours, true, 1 );
 }
 
 void npc::die( Creature *nkiller )
@@ -2748,7 +2748,7 @@ void npc::on_load()
     map &here = get_map();
     // for spawned npcs
     if( here.has_flag( "UNSTABLE", pos() ) ) {
-        add_effect( effect_bouldering, 1_turns, num_bp, true );
+        add_effect( effect_bouldering, 1_turns,  true );
     } else if( has_effect( effect_bouldering ) ) {
         remove_effect( effect_bouldering );
     }
@@ -3184,7 +3184,7 @@ void npc::set_attitude( npc_attitude new_attitude )
         new_attitude = NPCATT_FLEE_TEMP;
     }
     if( new_attitude == NPCATT_FLEE_TEMP && !has_effect( effect_npc_flee_player ) ) {
-        add_effect( effect_npc_flee_player, 24_hours, num_bp );
+        add_effect( effect_npc_flee_player, 24_hours );
     }
 
     add_msg( m_debug, "%s changes attitude from %s to %s",

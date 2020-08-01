@@ -980,7 +980,7 @@ void character_edit_menu()
             query_int( seconds, _( "How many seconds?" ), 600 );
 
             if( effect.is_valid() ) {
-                p.add_effect( effect, time_duration::from_seconds( seconds ), num_bp, false, intensity );
+                p.add_effect( effect, time_duration::from_seconds( seconds ), false, intensity );
             } else {
                 add_msg( _( "Invalid effect" ) );
             }

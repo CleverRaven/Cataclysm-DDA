@@ -48,7 +48,7 @@ static void clear_game( const ter_id &terrain )
     REQUIRE_FALSE( player_character.in_vehicle );
     player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    player_character.add_effect( effect_blind, 1_turns, num_bp, true );
+    player_character.add_effect( effect_blind, 1_turns, true );
 
     build_test_map( terrain );
 }
