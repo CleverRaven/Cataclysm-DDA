@@ -2422,7 +2422,12 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
         };
         int subtile = 0;
         int rotation = 0;
-        get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
+        int connect_group = 0;
+        if( f.obj().connects( connect_group ) ) {
+            get_furn_connect_values( p, subtile, rotation, connect_group, {} );
+        } else {
+            get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
+        }
         const std::string &fname = f.id().str();
         if( here.check_seen_cache( p ) ) {
             you.memorize_tile( here.getabs( p ), fname, subtile, rotation );
@@ -2452,6 +2457,12 @@ bool cata_tiles::draw_furniture( const tripoint &p, const lit_level ll, int &hei
             };
             int subtile = 0;
             int rotation = 0;
+            int connect_group = 0;
+            if( f.obj().connects( connect_group ) ) {
+                get_furn_connect_values( p, subtile, rotation, connect_group, {} );
+            } else {
+                get_tile_values_with_ter( p, f.to_i(), neighborhood, subtile, rotation );
+            }
             get_tile_values_with_ter( p, f2.to_i(), neighborhood, subtile, rotation );
             const std::string &fname = f2.id().str();
             // tile overrides are never memorized
@@ -3569,6 +3580,14 @@ void cata_tiles::get_connect_values( const tripoint &p, int &subtile, int &rotat
                                      const std::map<tripoint, ter_id> &ter_override )
 {
     uint8_t connections = get_map().get_known_connections( p, connect_group, ter_override );
+    get_rotation_and_subtile( connections, rotation, subtile );
+}
+
+void cata_tiles::get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
+        const int connect_group, const std::map<tripoint,
+        furn_id> &furn_override )
+{
+    uint8_t connections = get_map().get_known_connections_f( p, connect_group, furn_override );
     get_rotation_and_subtile( connections, rotation, subtile );
 }
 

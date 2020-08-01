@@ -321,6 +321,9 @@ class cata_tiles
                                        int &rotation );
         void get_connect_values( const tripoint &p, int &subtile, int &rotation, int connect_group,
                                  const std::map<tripoint, ter_id> &ter_override );
+        void get_furn_connect_values( const tripoint &p, int &subtile, int &rotation,
+                                      int connect_group,
+                                      const std::map<tripoint, furn_id> &furn_override );
         void get_terrain_orientation( const tripoint &p, int &rota, int &subtile,
                                       const std::map<tripoint, ter_id> &ter_override,
                                       const bool ( &invisible )[5] );
