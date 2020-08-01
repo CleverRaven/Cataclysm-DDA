@@ -132,9 +132,9 @@
     "description": "A western style holster as worn by cowboys and gunfighters in the movies and on TV. Has loops across the back to hold spare ammo.  Activate to holster/draw a gun.",
     "price_postapoc": 500,
     "armor_portion_data": [
-    { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": [ 1, 1 ] },
-    { "covers": [ "LEG_EITHER" ], "coverage": 5, "encumbrance": 3 }
-  ],
+      { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": [ 1, 1 ] },
+      { "covers": [ "LEG_EITHER" ], "coverage": 5, "encumbrance": 3 }
+    ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
@@ -146,11 +146,11 @@
         "moves": 30,
         "use_action": { "type": "holster" }
       },
-     {
-	    "pocket_type": "CONTAINER",
+      {
+        "pocket_type": "CONTAINER",
         "holster": false,
-		"min_item_volume": "0 ml",
-		"rigid": true,
+        "min_item_volume": "0 ml",
+        "rigid": true,
         "ammo_restriction": {
           "32": 18,
           "762x25": 18,
@@ -171,7 +171,7 @@
           "454": 18,
           "460": 18,
           "500": 18
-           },
+        },
         "moves": 20
       }
     ]
