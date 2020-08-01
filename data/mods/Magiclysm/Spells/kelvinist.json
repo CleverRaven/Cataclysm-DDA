@@ -331,7 +331,7 @@
     "id": "kelvinist_flamebreath",
     "type": "SPELL",
     "name": { "str": "Flamebreath" },
-    "description": "This spell ignites dust scattered in the air, creating a cone of flame. The hot ashes can cling to targets, causing additional burns over time.",
+    "description": "This spell ignites dust scattered in the air, creating a cone of flame.  The hot ashes can cling to targets, causing additional burns over time.",
     "effect": "cone_attack",
     "valid_targets": [ "ally", "hostile", "ground" ],
     "flags": [ "SOMATIC", "CONCENTRATE", "IGNITE_FLAMMABLE" ],

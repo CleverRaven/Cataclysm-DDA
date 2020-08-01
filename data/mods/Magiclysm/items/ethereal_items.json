@@ -480,7 +480,7 @@
     "id": "aura_feral",
     "type": "ARMOR",
     "name": "feral aura",
-    "description": "The manifestion of your rage. It won't disappear until you calm down.",
+    "description": "The manifestion of your rage.  It won't disappear until you calm down.",
     "weight": "1g",
     "volume": "1ml",
     "price": 3646,
@@ -510,7 +510,7 @@
     "color": "light_gray",
     "looks_like": "sword_wood",
     "name": { "str": "flaming sword" },
-    "description": "This wooden sword is ablaze! It seems to be safe-ish to hold, but will burn up soon.",
+    "description": "This wooden sword is ablaze!  It seems to be safe-ish to hold, but will burn up soon.",
     "material": [ "wood" ],
     "flags": [
       "UNBREAKABLE_MELEE",
@@ -570,7 +570,7 @@
     "symbol": "(",
     "color": "brown",
     "name": { "str": "impact sling" },
-    "description": "A leather sling, quivering with energy when in your palm to the point of almost tearing. A pebble appears when you begin spinning it.",
+    "description": "A leather sling, quivering with energy when in your palm to the point of almost tearing.  A pebble appears when you begin spinning it.",
     "price": 150,
     "material": [ "leather" ],
     "flags": [
