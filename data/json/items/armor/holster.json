@@ -43,7 +43,7 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "FOOT_EITHER" ],
+    "covers": [ "LEG_EITHER" ],
     "coverage": 5,
     "encumbrance": 3,
     "max_encumbrance": 4,

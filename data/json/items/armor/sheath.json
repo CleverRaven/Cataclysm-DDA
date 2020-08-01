@@ -74,7 +74,7 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "FOOT_EITHER" ],
+    "covers": [ "LEG_EITHER" ],
     "coverage": 5,
     "encumbrance": 3,
     "material_thickness": 1,
