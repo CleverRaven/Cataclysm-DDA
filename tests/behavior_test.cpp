@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <string>
 
 #include "behavior.h"
 #include "behavior_oracle.h"
 #include "behavior_strategy.h"
-#include "catch/catch.hpp"
 #include "character_oracle.h"
 #include "item.h"
 #include "item_location.h"

@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <bitset>
 #include <cstdio>
 #include <sstream>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "game_constants.h"
 #include "json.h"
 #include "lru_cache.h"

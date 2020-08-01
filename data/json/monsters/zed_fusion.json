@@ -214,7 +214,7 @@
   {
     "id": "mon_zombie_scissorlimbs",
     "type": "MONSTER",
-    "name": { "str": "scissorlimbs" },
+    "name": { "str_sp": "scissorlimbs" },
     "description": " A nightmarish spider of gore stands tall among the ruins, and keeps silent watch of the blighted landscape.  Its spindly limbs of bone slip between the rubble with otherworldly speed.",
     "default_faction": "zombie",
     "bodytype": "spider",
@@ -244,7 +244,7 @@
   {
     "id": "mon_zombie_hanging_innards",
     "type": "MONSTER",
-    "name": { "str": "hanging innards" },
+    "name": { "str_sp": "hanging innards" },
     "description": "Great snakes of flesh hang from the ceiling above, madly thrashing and reaching about.",
     "default_faction": "zombie",
     "bodytype": "spider",

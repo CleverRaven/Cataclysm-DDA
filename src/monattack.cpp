@@ -147,7 +147,7 @@ static const skill_id skill_melee( "melee" );
 static const skill_id skill_rifle( "rifle" );
 static const skill_id skill_unarmed( "unarmed" );
 
-static const species_id species_BLOB( "BLOB" );
+static const species_id species_SLIME( "SLIME" );
 static const species_id species_LEECH_PLANT( "LEECH_PLANT" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
 
@@ -1678,7 +1678,7 @@ bool mattack::triffid_heartbeat( monster *z )
 
         // Spawn a monster in (about) every second surrounding tile.
         for( int i = 0; i < 4; ++i ) {
-            if( monster *const  triffid = g->place_critter_around( mon_triffid, z->pos(), 1 ) ) {
+            if( monster *const triffid = g->place_critter_around( mon_triffid, z->pos(), 1 ) ) {
                 triffid->make_ally( *z );
             }
         }
@@ -2392,7 +2392,7 @@ bool mattack::formblob( monster *z )
 
         monster &othermon = *( dynamic_cast<monster *>( critter ) );
         // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-        if( z->get_speed_base() > 40 && othermon.type->in_species( species_BLOB ) ) {
+        if( z->get_speed_base() > 40 && othermon.type->in_species( species_SLIME ) ) {
             if( othermon.type->id == mon_blob_brain ) {
                 // Brain blobs don't get sped up, they heal at the cost of the other blob.
                 // But only if they are hurt badly.
@@ -2450,7 +2450,7 @@ bool mattack::callblobs( monster *z )
     std::list<monster *> allies;
     std::vector<tripoint> nearby_points = closest_points_first( z->pos(), 3 );
     for( monster &candidate : g->all_monsters() ) {
-        if( candidate.type->in_species( species_BLOB ) && candidate.type->id != mon_blob_brain ) {
+        if( candidate.type->in_species( species_SLIME ) && candidate.type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
             allies.push_back( &candidate );
@@ -2979,7 +2979,7 @@ bool mattack::nurse_check_up( monster *z )
     player *target = nullptr;
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
     map &here = get_map();
-    for( auto critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
+    for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast<player *>( critter );
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
             here.clear_path( z->pos(), tmp_player->pos(), 10, 0,
@@ -3031,7 +3031,7 @@ bool mattack::nurse_assist( monster *z )
     player *target = nullptr;
     map &here = get_map();
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
-    for( auto critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
+    for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast<player *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
@@ -3088,7 +3088,7 @@ bool mattack::nurse_operate( monster *z )
     player *target = nullptr;
     map &here = get_map();
     tripoint tmp_pos( z->pos() + point( 12, 12 ) );
-    for( auto critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
+    for( Creature *critter : here.get_creatures_in_radius( z->pos(), 6 ) ) {
         player *tmp_player = dynamic_cast< player *>( critter );
         // No need to scan players we can't reach
         if( tmp_player != nullptr && z->sees( *tmp_player ) &&
@@ -3130,7 +3130,7 @@ bool mattack::nurse_operate( monster *z )
 
         // Check if target is already grabbed by something else
         if( target->has_effect( effect_grabbed ) ) {
-            for( auto critter : here.get_creatures_in_radius( target->pos(), 1 ) ) {
+            for( Creature *critter : here.get_creatures_in_radius( target->pos(), 1 ) ) {
                 monster *mon = dynamic_cast<monster *>( critter );
                 if( mon != nullptr && mon != z ) {
                     if( mon->type->id != mon_nursebot_defective ) {
@@ -3717,8 +3717,7 @@ bool mattack::searchlight( monster *z )
         settings.set_var( "SL_SPOT_X", x - zposx );
         settings.set_var( "SL_SPOT_Y", y - zposy );
 
-        here.add_field( tripoint( x, y, z->posz() ), fd_spotlight, 1 );
-
+        here.add_field( tripoint( x, y, z->posz() ), field_type_id( "fd_spotlight" ), 1 );
     }
 
     return true;
@@ -4319,11 +4318,11 @@ bool mattack::absorb_meat( monster *z )
 {
     //Absorb no more than 1/10th monster's volume, times the volume of a meat chunk
     const int monster_volume = units::to_liter( z->get_volume() );
-    const float average_meat_chunk_volume = 0.5;
+    const float average_meat_chunk_volume = 0.5f;
     // TODO: dynamically get volume of meat
-    const int max_meat_absorbed = monster_volume / 10.0 * average_meat_chunk_volume;
+    const int max_meat_absorbed = monster_volume / 10.0f * average_meat_chunk_volume;
     //For every milliliter of meat absorbed, heal this many HP
-    const float meat_absorption_factor = 0.01;
+    const float meat_absorption_factor = 0.01f;
     Character &player_character = get_player_character();
     map &here = get_map();
     //Search surrounding tiles for meat
@@ -5274,7 +5273,7 @@ bool mattack::bio_op_takedown( monster *z )
         return true;
     }
     // Yes, it has the CQC bionic.
-    bodypart_id hit( "num_bp" );
+    bodypart_id hit( "bp_null" );
     if( one_in( 2 ) ) {
         hit = bodypart_id( "leg_l" );
     } else {
@@ -5488,7 +5487,7 @@ bool mattack::kamikaze( monster *z )
     }
 
     // Get the bomb type and it's data
-    const auto bomb_type = item::find_type( z->ammo.begin()->first );
+    const itype *bomb_type = item::find_type( z->ammo.begin()->first );
     const itype *act_bomb_type;
     int charges;
     // Hardcoded data for charge variant items
@@ -5499,7 +5498,7 @@ bool mattack::kamikaze( monster *z )
         act_bomb_type = item::find_type( itype_c4armed );
         charges = 10;
     } else {
-        auto usage = bomb_type->get_use( "transform" );
+        const use_function *usage = bomb_type->get_use( "transform" );
         if( usage == nullptr ) {
             // Invalid item usage, Toggle this special off so we stop processing
             add_msg( m_debug, "Invalid bomb transform use in kamikaze special for %s.", z->name() );
@@ -5531,7 +5530,7 @@ bool mattack::kamikaze( monster *z )
     }
     // END HORRIBLE HACK
 
-    auto use = act_bomb_type->get_use( "explosion" );
+    const use_function *use = act_bomb_type->get_use( "explosion" );
     if( use == nullptr ) {
         // Invalid active bomb item usage, Toggle this special off so we stop processing
         add_msg( m_debug, "Invalid active bomb explosion use in kamikaze special for %s.",

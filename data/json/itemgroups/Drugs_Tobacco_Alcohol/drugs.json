@@ -25,6 +25,23 @@
     ]
   },
   {
+    "id": "virology_lab_fridge",
+    "type": "item_group",
+    "items": [
+      [ "blood", 300 ],
+      [ "vacutainer", 100 ],
+      [ "jar_glass", 30 ],
+      [ "jar_3l_glass", 15 ],
+      [ "hygrometer", 3 ],
+      [ "chem_nitric_acid", 15 ],
+      [ "denat_alcohol", 100 ],
+      [ "thermometer", 50 ],
+      [ "vaccine_shot", 50 ],
+      [ "flu_shot", 50 ],
+      [ "disinfectant", 35 ]
+    ]
+  },
+  {
     "id": "drugs_emergency",
     "type": "item_group",
     "//": "Medical consumables for emergency use excluduing painkillers",
@@ -87,11 +104,29 @@
     "//": "For sale display appropriate packaging",
     "subtype": "distribution",
     "items": [
-      [ "jar_3l_glass", 100 ],
-      { "item": "weed", "charges": [ 10, 420 ], "prob": 100, "container-item": "jar_3l_glass" },
-      [ "jar_glass", 100 ],
-      { "item": "hi_q_shatter", "charges": [ 5, 140 ], "prob": 100, "container-item": "jar_glass" },
-      { "item": "hi_q_wax", "charges": [ 5, 140 ], "prob": 100, "container-item": "jar_glass" }
+      [ "jar_3l_glass_sealed", 100 ],
+      {
+        "item": "weed",
+        "charges": [ 10, 420 ],
+        "prob": 100,
+        "container-item": "jar_3l_glass_sealed",
+        "sealed": false
+      },
+      [ "jar_glass_sealed", 100 ],
+      {
+        "item": "hi_q_shatter",
+        "charges": [ 5, 140 ],
+        "prob": 100,
+        "container-item": "jar_glass_sealed",
+        "sealed": false
+      },
+      {
+        "item": "hi_q_wax",
+        "charges": [ 5, 140 ],
+        "prob": 100,
+        "container-item": "jar_glass_sealed",
+        "sealed": false
+      }
     ]
   },
   {

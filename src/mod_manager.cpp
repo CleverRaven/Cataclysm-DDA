@@ -208,7 +208,8 @@ void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
         return;
     }
 
-    const mod_id m_ident( jo.get_string( "ident" ) );
+    // TEMPORARY until 0.G: Remove "ident" support
+    const mod_id m_ident( jo.has_string( "ident" ) ? jo.get_string( "ident" ) : jo.get_string( "id" ) );
     // can't use string_id::is_valid as the global mod_manger instance does not exist yet
     if( mod_map.count( m_ident ) > 0 ) {
         // TODO: change this to make unique ident for the mod
@@ -276,7 +277,7 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
         JsonOut json( fout, true ); // pretty-print
         json.start_object();
         json.member( "type", "MOD_INFO" );
-        json.member( "ident", "user:default" );
+        json.member( "id", "user:default" );
         json.member( "dependencies" );
         json.write( mods );
         json.end_object();

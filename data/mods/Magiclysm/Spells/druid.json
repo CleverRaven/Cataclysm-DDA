@@ -299,7 +299,7 @@
     "id": "druid_tornskin",
     "type": "SPELL",
     "name": "Tornskin",
-    "description": "This spell, which resembles Thornskin through the sap & needles covering the page, seemed to involve thorns and bleeding wounds. The marred words may have altered the function.",
+    "description": "This spell, which resembles Thornskin through the sap & needles covering the page, seemed to involve thorns and bleeding wounds.  The marred words may have altered the function.",
     "valid_targets": [ "hostile", "ground", "ally", "self" ],
     "flags": [ "SOMATIC" ],
     "effect": "projectile_attack",

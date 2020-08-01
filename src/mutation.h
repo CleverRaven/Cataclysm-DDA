@@ -178,7 +178,7 @@ struct mutation_branch {
         float str_modifier = 0.0f;
         //melee bonuses
         int cut_dmg_bonus = 0;
-        float pierce_dmg_bonus = 0.0;
+        float pierce_dmg_bonus = 0.0f;
         std::pair<int, int> rand_cut_bonus;
         int bash_dmg_bonus = 0;
         std::pair<int, int> rand_bash_bonus;
@@ -428,7 +428,7 @@ struct mutation_branch {
          * \code
          * {
          *      "subtype": "depends on is_collection parameter",
-         *      "id": "ident",
+         *      "id": "identfier",
          *      "entries": [ x, y, z ]
          * }
          * \endcode

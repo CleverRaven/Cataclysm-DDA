@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "item.h"
 #include "options.h"

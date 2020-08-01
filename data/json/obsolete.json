@@ -693,7 +693,7 @@
     "reload": 500,
     "built_in_mods": [ "bio_powershot" ],
     "ammo_effects": [ "PLASMA" ],
-    "flags": [ "NEVER_JAMS", "TRADER_AVOID" ]
+    "flags": [ "NEVER_JAMS", "TRADER_AVOID", "ZERO_WEIGHT" ]
   },
   {
     "id": "unbio_blaster_gun",
@@ -1662,5 +1662,10 @@
         { "item": "scrap", "count": [ 3, 7 ] }
       ]
     }
+  },
+  {
+    "type": "recipe",
+    "result": "foot_crank",
+    "obsolete": true
   }
 ]

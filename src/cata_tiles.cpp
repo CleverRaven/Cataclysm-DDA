@@ -180,9 +180,10 @@ formatted_text::formatted_text( const std::string &text, const int color,
     }
 }
 
-cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer ) :
+cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry ) :
     renderer( renderer ),
-    minimap( renderer )
+    geometry( geometry ),
+    minimap( renderer, geometry )
 {
     assert( renderer );
 
@@ -321,7 +322,7 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     throwErrorIf( SDL_BlitSurface( original.get(), nullptr, surf.get(), nullptr ) != 0,
                   "SDL_BlitSurface failed" );
 
-    auto pix = reinterpret_cast<SDL_Color *>( surf->pixels );
+    SDL_Color *pix = reinterpret_cast<SDL_Color *>( surf->pixels );
 
     for( int y = 0, ey = surf->h; y < ey; ++y ) {
         for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
@@ -1004,7 +1005,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                       "SDL_RenderSetClipRect failed" );
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
-        render_fill_rect( renderer, clipRect, 0, 0, 0 );
+        geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
     point s;
@@ -1309,8 +1310,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int mem_y = min_visible_y; mem_y <= max_visible_y; mem_y++ ) {
         for( int mem_x = min_visible_x; mem_x <= max_visible_x; mem_x++ ) {
-            half_open_rectangle already_drawn( point( min_col, min_row ),
-                                               point( max_col, max_row ) );
+            half_open_rectangle<point> already_drawn(
+                point( min_col, min_row ), point( max_col, max_row ) );
             if( iso_mode ) {
                 // calculate the screen position according to the drawing code above (division rounded down):
 
@@ -1602,7 +1603,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
 
-    half_open_rectangle screen_bounds( o, o + point( screentile_width, screentile_height ) );
+    half_open_rectangle<point> screen_bounds( o, o + point( screentile_width, screentile_height ) );
     if( !tile_iso &&
         !screen_bounds.contains( pos.xy() ) ) {
         return false;
@@ -1935,11 +1936,11 @@ bool cata_tiles::draw_sprite_at(
     const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
     bool apply_night_vision_goggles, int &height_3d )
 {
-    auto picked = svlist.pick( loc_rand );
+    const std::vector<int> *picked = svlist.pick( loc_rand );
     if( !picked ) {
         return true;
     }
-    auto &spritelist = *picked;
+    const std::vector<int> &spritelist = *picked;
     if( spritelist.empty() ) {
         return true;
     }
@@ -1970,21 +1971,21 @@ bool cata_tiles::draw_sprite_at(
     //use night vision colors when in use
     //then use low light tile if available
     if( ll == lit_level::MEMORIZED ) {
-        if( const auto ptr = tileset_ptr->get_memory_tile( spritelist[sprite_num] ) ) {
+        if( const texture *ptr = tileset_ptr->get_memory_tile( spritelist[sprite_num] ) ) {
             sprite_tex = ptr;
         }
     } else if( apply_night_vision_goggles ) {
         if( ll != lit_level::LOW ) {
-            if( const auto ptr = tileset_ptr->get_overexposed_tile( spritelist[sprite_num] ) ) {
+            if( const texture *ptr = tileset_ptr->get_overexposed_tile( spritelist[sprite_num] ) ) {
                 sprite_tex = ptr;
             }
         } else {
-            if( const auto ptr = tileset_ptr->get_night_tile( spritelist[sprite_num] ) ) {
+            if( const texture *ptr = tileset_ptr->get_night_tile( spritelist[sprite_num] ) ) {
                 sprite_tex = ptr;
             }
         }
     } else if( ll == lit_level::LOW ) {
-        if( const auto ptr = tileset_ptr->get_shadow_tile( spritelist[sprite_num] ) ) {
+        if( const texture *ptr = tileset_ptr->get_shadow_tile( spritelist[sprite_num] ) ) {
             sprite_tex = ptr;
         }
     }
@@ -2173,7 +2174,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     if( tile_iso ) {
         belowRect.y += tile_height / 8;
     }
-    render_fill_rect( renderer, belowRect, tercol.r, tercol.g, tercol.b );
+    geometry->rect( renderer, belowRect, tercol );
 
     return true;
 }
@@ -2721,7 +2722,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
         belowRect.y += tile_height / 8;
     }
 
-    render_fill_rect( renderer, belowRect, tercol.r, tercol.g, tercol.b );
+    geometry->rect( renderer, belowRect, tercol );
 
     return true;
 }
@@ -2854,10 +2855,10 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
 
     const zone_manager &mgr = zone_manager::get_manager();
     const tripoint &abs = get_map().getabs( p );
-    const auto zone = mgr.get_bottom_zone( abs );
+    const zone_data *zone = mgr.get_bottom_zone( abs );
 
     if( zone && zone->has_options() ) {
-        auto option = dynamic_cast<const mark_option *>( &zone->get_options() );
+        const mark_option *option = dynamic_cast<const mark_option *>( &zone->get_options() );
 
         if( option && !option->get_mark().empty() ) {
             return draw_from_id_string( option->get_mark(), C_NONE, empty_string, p, 0, 0, ll,

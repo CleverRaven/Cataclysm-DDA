@@ -30,7 +30,6 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_ui.h"
-#include "ime.h"
 #include "input.h"
 #include "int_id.h"
 #include "line.h"
@@ -164,9 +163,9 @@ static void update_note_preview( const std::string &note,
     const char symbol = std::get<0>( om_symbol );
     const std::string note_text = note.substr( std::get<2>( om_symbol ), std::string::npos );
 
-    auto w_preview       = std::get<0>( preview_windows );
-    auto w_preview_title = std::get<1>( preview_windows );
-    auto w_preview_map   = std::get<2>( preview_windows );
+    catacurses::window *w_preview = std::get<0>( preview_windows );
+    catacurses::window *w_preview_title = std::get<1>( preview_windows );
+    catacurses::window *w_preview_map   = std::get<2>( preview_windows );
 
     draw_border( *w_preview );
     // NOLINTNEXTLINE(cata-use-named-point-constants)
@@ -211,9 +210,10 @@ static weather_type_id get_weather_at_point( const tripoint_abs_omt &pos )
     auto iter = weather_cache.find( pos );
     if( iter == weather_cache.end() ) {
         // TODO: fix point types
-        const tripoint abs_ms_pos = project_to<coords::scale::map_square>( pos ).raw();
+        const tripoint abs_ms_pos = project_to<coords::ms>( pos ).raw();
         const auto &wgen = overmap_buffer.get_settings( pos ).weather;
-        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed() );
+        const auto weather = wgen.get_weather_conditions( abs_ms_pos, calendar::turn, g->get_seed(),
+                             g->weather.next_instance_allowed );
         iter = weather_cache.insert( std::make_pair( pos, weather ) ).first;
     }
     return iter->second;
@@ -254,9 +254,9 @@ static void draw_city_labels( const catacurses::window &w, const tripoint_abs_om
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
     for( const auto &element : overmap_buffer.get_cities_near(
-             project_to<coords::scale::submap>( center ), sm_radius ) ) {
+             project_to<coords::sm>( center ), sm_radius ) ) {
         const point_abs_omt city_pos =
-            project_to<coords::scale::overmap_terrain>( element.abs_sm_pos.xy() );
+            project_to<coords::omt>( element.abs_sm_pos.xy() );
         const point_rel_omt screen_pos( city_pos - center.xy() + screen_center_pos );
 
         const int text_width = utf8_width( element.city->name, true );
@@ -295,7 +295,7 @@ static void draw_camp_labels( const catacurses::window &w, const tripoint_abs_om
     const point screen_center_pos( win_x_max / 2, win_y_max / 2 );
 
     for( const auto &element : overmap_buffer.get_camps_near(
-             project_to<coords::scale::submap>( center ), sm_radius ) ) {
+             project_to<coords::sm>( center ), sm_radius ) ) {
         const point_abs_omt camp_pos( element.camp->camp_omt_pos().xy() );
         const point screen_pos( ( camp_pos - center.xy() ).raw() + screen_center_pos );
         const int text_width = utf8_width( element.camp->name, true );
@@ -430,7 +430,7 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
         nmenu.additional_actions.emplace_back( "DELETE_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "EDIT_NOTE", translation() );
         nmenu.additional_actions.emplace_back( "MARK_DANGER", translation() );
-        const input_context ctxt( nmenu.input_category );
+        const input_context ctxt( nmenu.input_category, keyboard_mode::keychar );
         nmenu.text = string_format(
                          _( "<%s> - center on note, <%s> - edit note, <%s> - mark as dangerous, <%s> - delete note, <%s> - close window" ),
                          colorize( "RETURN", c_yellow ),
@@ -455,8 +455,8 @@ static point_abs_omt draw_notes( const tripoint_abs_omt &origin )
             point_abs_omt p_omt( p );
             const point_abs_omt p_player = get_player_character().global_omt_location().xy();
             const int distance_player = rl_dist( p_player, p_omt );
-            const point_abs_sm sm_pos = project_to<coords::scale::submap>( p_omt );
-            const point_abs_om p_om = project_to<coords::scale::overmap>( p_omt );
+            const point_abs_sm sm_pos = project_to<coords::sm>( p_omt );
+            const point_abs_om p_om = project_to<coords::om>( p_omt );
             const std::string location_desc =
                 overmap_buffer.get_description_at( tripoint_abs_sm( sm_pos, origin.z() ) );
             const bool is_dangerous =
@@ -524,7 +524,7 @@ void draw(
         const auto &zone = zones.get_zones()[data.iZoneIndex].get();
         sZoneName = zone.get_name();
         // TODO: fix point types
-        tripointZone = project_to<coords::scale::overmap_terrain>(
+        tripointZone = project_to<coords::omt>(
                            tripoint_abs_ms( zone.get_center_point() ) );
     }
 
@@ -630,7 +630,7 @@ void draw(
         }
         std::vector<npc *> followers;
         // get friendly followers
-        for( auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
@@ -764,14 +764,14 @@ void draw(
                 // Convert to position within overmap
                 point_abs_om abs_om;
                 point_om_omt omp_in_om;
-                std::tie( abs_om, omp_in_om ) = project_remain<coords::scale::overmap>( omp.xy() );
-                if( mgroup && project_to<coords::scale::overmap_terrain>( mgroup->target.xy() ) ==
+                std::tie( abs_om, omp_in_om ) = project_remain<coords::om>( omp.xy() );
+                if( mgroup && project_to<coords::omt>( mgroup->target.xy() ) ==
                     omp_in_om ) {
                     ter_color = c_red;
                     ter_sym = "x";
                 } else {
                     const auto &groups = overmap_buffer.monsters_at( omp );
-                    for( auto &mgp : groups ) {
+                    for( const mongroup *mgp : groups ) {
                         if( mgp->type == GROUP_FOREST ) {
                             // Don't flood the map with forest creatures.
                             continue;
@@ -815,7 +815,7 @@ void draw(
                 }
                 // Highlight areas that already have been generated
                 // TODO: fix point types
-                if( MAPBUFFER.lookup_submap( project_to<coords::scale::submap>( omp ).raw() ) ) {
+                if( MAPBUFFER.lookup_submap( project_to<coords::sm>( omp ).raw() ) ) {
                     ter_color = red_background( ter_color );
                 }
             }
@@ -835,12 +835,11 @@ void draw(
         draw_camp_labels( w, center );
     }
 
-    // TODO: fix point types
-    half_open_rectangle screen_bounds( corner.xy().raw(),
-                                       corner.xy().raw() + point( om_map_width, om_map_height ) );
+    half_open_rectangle<point_abs_omt> screen_bounds(
+        corner.xy(), corner.xy() + point( om_map_width, om_map_height ) );
 
-    if( has_target && blink && !screen_bounds.contains( target.xy().raw() ) ) {
-        point marker = clamp( target.xy().raw(), screen_bounds ) - corner.xy().raw();
+    if( has_target && blink && !screen_bounds.contains( target.xy() ) ) {
+        point_rel_omt marker = clamp( target.xy(), screen_bounds ) - corner.xy();
         std::string marker_sym = " ";
 
         switch( direction_from( center.xy(), target.xy() ) ) {
@@ -871,7 +870,7 @@ void draw(
             default:
                 break; //Do nothing
         }
-        mvwputch( w, marker, c_red, marker_sym );
+        mvwputch( w, marker.raw(), c_red, marker_sym );
     }
 
     std::vector<std::pair<nc_color, std::string>> corner_text;
@@ -977,7 +976,7 @@ void draw(
             }
         } else {
             const auto &ter = ccur_ter.obj();
-            const auto sm_pos = project_to<coords::scale::submap>( center );
+            const auto sm_pos = project_to<coords::sm>( center );
 
             // NOLINTNEXTLINE(cata-use-named-point-constants)
             mvwputch( wbar, point( 1, 1 ), ter.get_color(), ter.get_symbol() );
@@ -1076,7 +1075,7 @@ void draw(
     point_abs_omt abs_omt = center.xy();
     point_abs_om om;
     point_om_omt omt;
-    std::tie( om, omt ) = project_remain<coords::scale::overmap>( abs_omt );
+    std::tie( om, omt ) = project_remain<coords::om>( abs_omt );
     mvwprintz( wbar, point( 1, getmaxy( wbar ) - 1 ), c_red,
                _( "LEVEL %i, %d'%d, %d'%d" ), center.z(), om.x(), omt.x(), om.y(), omt.y() );
 
@@ -1138,9 +1137,6 @@ void create_note( const tripoint_abs_omt &curs )
         update_note_preview( new_note, map_around, preview_windows );
     } );
 
-    // this implies enable_ime() and ensures that ime mode is always restored on return
-    ime_sentry sentry;
-
     bool esc_pressed = false;
     string_input_popup input_popup;
     input_popup
@@ -1163,8 +1159,6 @@ void create_note( const tripoint_abs_omt &curs )
             break;
         }
     } while( true );
-
-    disable_ime();
 
     if( !esc_pressed && new_note.empty() && !old_note.empty() ) {
         if( query_yn( _( "Really delete note?" ) ) ) {
@@ -1195,7 +1189,7 @@ static bool search( const ui_adaptor &om_ui, tripoint_abs_omt &curs, const tripo
 
         if( om_loc ) {
             tripoint_om_omt om_relative = om_loc.local;
-            point_abs_om om_cache = project_to<coords::scale::overmap>( p.xy() );
+            point_abs_om om_cache = project_to<coords::om>( p.xy() );
 
             if( std::find( overmap_checked.begin(), overmap_checked.end(),
                            om_cache ) == overmap_checked.end() ) {

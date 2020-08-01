@@ -144,7 +144,7 @@ std::string tool_comp::to_string( const int batch, const int ) const
 std::string item_comp::to_string( const int batch, const int avail ) const
 {
     const int c = std::abs( count ) * batch;
-    const auto type_ptr = item::find_type( type );
+    const itype *type_ptr = item::find_type( type );
     if( type_ptr->count_by_charges() ) {
         if( avail == item::INFINITE_CHARGES ) {
             //~ %1$s: item name, %2$d: charge requirement
@@ -714,7 +714,8 @@ bool quality_requirement::has(
 nc_color quality_requirement::get_color( bool has_one, const inventory &,
         const std::function<bool( const item & )> &, int ) const
 {
-    if( available == available_status::a_true ) {
+    if( get_player_character().has_trait( trait_DEBUG_HS ) ||
+        available == available_status::a_true ) {
         return c_green;
     }
     return has_one ? c_dark_gray : c_red;

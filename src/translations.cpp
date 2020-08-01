@@ -191,7 +191,7 @@ void set_language()
         }
 #endif
         else {
-            const auto env = getenv( "LANGUAGE" );
+            const char *env = getenv( "LANGUAGE" );
             if( env != nullptr ) {
                 DebugLog( D_INFO, D_MAIN ) << "Language is set to: '" << env << '\'';
             } else {
@@ -728,3 +728,8 @@ bool localized_comparator::operator()( const std::wstring &l, const std::wstring
     return std::locale()( l, r );
 #endif
 }
+
+// silence -Wunused-macro
+#ifdef __STRICT_ANSI__
+#undef __STRICT_ANSI__
+#endif

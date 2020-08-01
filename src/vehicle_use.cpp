@@ -40,6 +40,7 @@
 #include "player_activity.h"
 #include "requirements.h"
 #include "rng.h"
+#include "smart_controller_ui.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_id.h"
@@ -93,7 +94,7 @@ enum change_types : int {
 
 char keybind( const std::string &opt, const std::string &context )
 {
-    const auto keys = input_context( context ).keys_bound_to( opt );
+    const auto keys = input_context( context, keyboard_mode::keychar ).keys_bound_to( opt );
     return keys.empty() ? ' ' : keys.front();
 }
 
@@ -721,6 +722,26 @@ void vehicle::use_controls( const tripoint &pos )
     if( has_part( "ENGINE" ) ) {
         options.emplace_back( _( "Control individual engines" ), keybind( "CONTROL_ENGINES" ) );
         actions.push_back( [&] { control_engines(); refresh(); } );
+    }
+
+    if( has_part( "SMART_ENGINE_CONTROLLER" ) ) {
+        options.emplace_back( _( "Smart controller settings" ),
+                              keybind( "TOGGLE_SMART_ENGINE_CONTROLLER" ) );
+        actions.push_back( [&] {
+            if( !smart_controller_cfg )
+            {
+                smart_controller_cfg = smart_controller_config();
+            }
+
+            auto cfg_view = smart_controller_settings( has_enabled_smart_controller,
+                    smart_controller_cfg -> battery_lo, smart_controller_cfg -> battery_hi );
+            smart_controller_ui( cfg_view ).control();
+            for( const vpart_reference &vp : get_avail_parts( "SMART_ENGINE_CONTROLLER" ) )
+            {
+                vp.part().enabled = cfg_view.enabled;
+            }
+            refresh();
+        } );
     }
 
     if( is_alarm_on ) {
@@ -1877,8 +1898,9 @@ void vehicle::use_bike_rack( int part )
         success = try_to_rack_nearby_vehicle( racks_parts );
     }
     if( success ) {
-        get_map().invalidate_map_cache( g->get_levz() );
-        get_map().reset_vehicle_cache( g->get_levz() );
+        map &here = get_map();
+        here.invalidate_map_cache( here.get_abs_sub().z );
+        here.reset_vehicle_cache( here.get_abs_sub().z );
     }
 }
 

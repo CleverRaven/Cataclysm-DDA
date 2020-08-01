@@ -32,6 +32,7 @@ static const efftype_id effect_grabbed( "grabbed" );
 static const efftype_id effect_infected( "infected" );
 static const efftype_id effect_laserlocked( "laserlocked" );
 static const efftype_id effect_poison( "poison" );
+static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_targeted( "targeted" );
 static const efftype_id effect_was_laserlocked( "was_laserlocked" );
 
@@ -546,6 +547,10 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
             mag.ammo_set( ammo, z.ammo[ammo] );
             gun.put_in( mag, item_pocket::pocket_type::MAGAZINE_WELL );
         }
+    }
+
+    if( z.has_effect( effect_stunned ) ) {
+        return;
     }
 
     if( !gun.ammo_sufficient() ) {

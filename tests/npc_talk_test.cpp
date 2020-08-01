@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
 #include <memory>
 #include <string>
@@ -6,7 +8,6 @@
 #include "avatar.h"
 #include "basecamp.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "coordinate_conversions.h"

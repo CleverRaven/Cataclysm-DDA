@@ -67,6 +67,7 @@
     "description": "This is an unwieldy mop.  Good for cleaning up spills.  Use to mop up any 'mess' you may have made.",
     "weight": "929 g",
     "volume": "1750 ml",
+    "longest_side": "152 cm",
     "price": 1000,
     "price_postapoc": 10,
     "to_hit": -1,
@@ -104,6 +105,7 @@
     "price_postapoc": 100,
     "material": [ "steel" ],
     "weight": "10 g",
+    "volume": "1 ml",
     "cutting": 1
   },
   {

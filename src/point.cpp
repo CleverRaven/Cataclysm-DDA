@@ -70,16 +70,6 @@ std::istream &operator>>( std::istream &is, tripoint &pos )
     return is;
 }
 
-point clamp( const point &p, const half_open_rectangle &r )
-{
-    return point( clamp( p.x, r.p_min.x, r.p_max.x - 1 ), clamp( p.y, r.p_min.y, r.p_max.y - 1 ) );
-}
-
-point clamp( const point &p, const inclusive_rectangle &r )
-{
-    return point( clamp( p.x, r.p_min.x, r.p_max.x ), clamp( p.y, r.p_min.y, r.p_max.y ) );
-}
-
 std::vector<tripoint> closest_points_first( const tripoint &center, int max_dist )
 {
     return closest_points_first( center, 0, max_dist );

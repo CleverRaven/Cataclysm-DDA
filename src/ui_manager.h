@@ -4,6 +4,7 @@
 
 #include <functional>
 
+#include "cuboid_rectangle.h"
 #include "point.h"
 
 namespace catacurses
@@ -64,7 +65,7 @@ class ui_adaptor
         // Reset all callbacks and dimensions
         void reset();
 
-        static void invalidate( const rectangle &rect );
+        static void invalidate( const rectangle<point> &rect );
         static void redraw();
         static void redraw_invalidated();
         static void screen_resized();
@@ -72,7 +73,7 @@ class ui_adaptor
         static void invalidation_consistency_and_optimization();
 
         // pixel dimensions in tiles, console cell dimensions in curses
-        rectangle dimensions;
+        rectangle<point> dimensions;
         redraw_callback_t redraw_cb;
         screen_resize_callback_t screen_resized_cb;
 
@@ -96,7 +97,7 @@ class background_pane
 namespace ui_manager
 {
 // rect is the pixel dimensions in tiles or console cell dimensions in curses
-void invalidate( const rectangle &rect );
+void invalidate( const rectangle<point> &rect );
 // invalidate the top window and redraw all invalidated windows
 void redraw();
 // redraw all invalidated windows without invalidating the top window

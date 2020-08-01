@@ -364,11 +364,12 @@ std::map<std::string, miss_data> miss_info = {{
  * @param estimate if true, non-destructive count of the furniture
  * @param bring_back force the destruction of the furniture and bring back the drop items
  */
-int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100,
+int om_harvest_furn( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance = 100,
                      bool estimate = false, bool bring_back = true );
 // om_harvest_furn helper function that counts the furniture instances
-int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance = 100 );
-int om_harvest_furn_break( npc &comp, const tripoint &omt_tgt, const furn_id &f,
+int om_harvest_furn_est( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
+                         int chance = 100 );
+int om_harvest_furn_break( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
                            int chance = 100 );
 /// Exact same as om_harvest_furn but functions on terrain
 int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t, int chance = 100,
@@ -479,7 +480,7 @@ static bool update_time_left( std::string &entry, const comp_list &npc_list )
 {
     bool avail = false;
     Character &player_character = get_player_character();
-    for( auto &comp : npc_list ) {
+    for( const auto &comp : npc_list ) {
         if( comp->companion_mission_time_ret < calendar:: turn ) {
             entry = entry +  _( " [DONE]\n" );
             avail = true;
@@ -498,7 +499,7 @@ static bool update_time_fixed( std::string &entry, const comp_list &npc_list,
                                const time_duration &duration )
 {
     bool avail = false;
-    for( auto &comp : npc_list ) {
+    for( const auto &comp : npc_list ) {
         time_duration elapsed = calendar::turn - comp->companion_mission_time;
         entry = entry + " " +  comp->name + " [" + to_string( elapsed ) + "/" +
                 to_string( duration ) + "]\n";
@@ -653,16 +654,16 @@ void talk_function::basecamp_mission( npc &p )
     if( bcp->get_dumping_spot() == tripoint_zero ) {
         map &here = get_map();
         auto &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( g->get_levz() ) ) {
+        if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
             mgr.cache_vzones();
         }
         tripoint src_loc;
         const auto abspos = p.global_square_location();
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos, 60 ) ) {
-            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+            const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
+            const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
-            for( auto &src : src_sorted ) {
+            for( const tripoint &src : src_sorted ) {
                 src_loc = here.getlocal( src );
                 break;
             }
@@ -2053,7 +2054,7 @@ void basecamp::start_relay_hide_site()
         }
         //Check items in improvised shelters at hide site
         tinymap target_bay;
-        target_bay.load( project_to<coords::scale::submap>( forest ), false );
+        target_bay.load( project_to<coords::sm>( forest ), false );
         std::vector<item *> hide_inv;
         for( item &i : target_bay.i_at( point( 11, 10 ) ) ) {
             hide_inv.push_back( &i );
@@ -2305,10 +2306,10 @@ static std::pair<size_t, std::string> farm_action( const tripoint_abs_omt &omt_t
     //farm_json is what the area should look like according to jsons
     tinymap farm_json;
     // TODO: fix point types
-    farm_json.generate( project_to<coords::scale::submap>( omt_tgt ).raw(), calendar::turn );
+    farm_json.generate( project_to<coords::sm>( omt_tgt ).raw(), calendar::turn );
     //farm_map is what the area actually looks like
     tinymap farm_map;
-    farm_map.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    farm_map.load( project_to<coords::sm>( omt_tgt ), false );
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
     tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     bool done_planting = false;
@@ -2879,7 +2880,7 @@ void basecamp::recruit_return( const std::string &task, int score )
     // Time durations always subtract from camp food supply
     camp_food_supply( 1_days * food_desire );
     avatar &player_character = get_avatar();
-    recruit->spawn_at_precise( { g->get_levx(), g->get_levy() },
+    recruit->spawn_at_precise( get_map().get_abs_sub().xy(),
                                player_character.pos() + point( -4, -4 ) );
     overmap_buffer.insert_npc( recruit );
     recruit->form_opinion( player_character );
@@ -3137,24 +3138,26 @@ void basecamp::hunting_results( int skill, const std::string &task, int attempts
     }
 }
 
-int om_harvest_furn_est( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance )
+int om_harvest_furn_est( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance )
 {
     return om_harvest_furn( comp, omt_tgt, f, chance, true, false );
 }
-int om_harvest_furn_break( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance )
+int om_harvest_furn_break( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f,
+                           int chance )
 {
     return om_harvest_furn( comp, omt_tgt, f, chance, false, false );
 }
-int om_harvest_furn( npc &comp, const tripoint &omt_tgt, const furn_id &f, int chance,
+int om_harvest_furn( npc &comp, const tripoint_abs_omt &omt_tgt, const furn_id &f, int chance,
                      bool estimate, bool bring_back )
 {
     const furn_t &furn_tgt = f.obj();
     tinymap target_bay;
-    target_bay.load( tripoint( omt_tgt.x * 2, omt_tgt.y * 2, omt_tgt.z ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     int harvested = 0;
     int total = 0;
-    tripoint mapmin = tripoint( 0, 0, omt_tgt.z );
-    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z );
+    // TODO: fix point types
+    tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
+    tripoint mapmax = tripoint( 2 * SEEX - 1, 2 * SEEY - 1, omt_tgt.z() );
     for( const tripoint &p : target_bay.points_in_rectangle( mapmin, mapmax ) ) {
         if( target_bay.furn( p ) == f && x_in_y( chance, 100 ) ) {
             total++;
@@ -3193,7 +3196,7 @@ int om_harvest_ter( npc &comp, const tripoint_abs_omt &omt_tgt, const ter_id &t,
 {
     const ter_t &ter_tgt = t.obj();
     tinymap target_bay;
-    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
@@ -3237,7 +3240,7 @@ int om_cutdown_trees( const tripoint_abs_omt &omt_tgt, int chance, bool estimate
                       bool force_cut_trunk )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     int harvested = 0;
     int total = 0;
     tripoint mapmin = tripoint( 0, 0, omt_tgt.z() );
@@ -3283,7 +3286,7 @@ mass_volume om_harvest_itm( const npc_ptr &comp, const tripoint_abs_omt &omt_tgt
                             bool take )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     units::mass harvested_m = 0_gram;
     units::volume harvested_v = 0_ml;
     units::mass total_m = 0_gram;
@@ -3457,14 +3460,14 @@ bool om_set_hide_site( npc &comp, const tripoint_abs_omt &omt_tgt,
                        const std::vector<item *> &itms_rem )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     target_bay.ter_set( point( 11, 10 ), t_improvised_shelter );
-    for( auto i : itms_rem ) {
+    for( item *i : itms_rem ) {
         comp.companion_mission_inv.add_item( *i );
         target_bay.i_rem( point( 11, 10 ), i );
     }
     Character &player_character = get_player_character();
-    for( auto i : itms ) {
+    for( const item *i : itms ) {
         target_bay.add_item_or_charges( point( 11, 10 ), *i );
         player_character.use_amount( i->typeId(), 1 );
     }
@@ -3488,7 +3491,7 @@ time_duration companion_travel_time_calc( const std::vector<tripoint_abs_omt> &j
         time_duration work, int trips, int haulage )
 {
     int one_way = 0;
-    for( auto &om : journey ) {
+    for( const tripoint_abs_omt &om : journey ) {
         const oter_id &omt_ref = overmap_buffer.ter( om );
         std::string om_id = omt_ref.id().c_str();
         //Player walks 1 om is roughly 30 seconds
@@ -3523,7 +3526,7 @@ int om_carry_weight_to_trips( const std::vector<item *> &itms, const npc_ptr &co
 {
     units::mass total_m = 0_gram;
     units::volume total_v = 0_ml;
-    for( auto &i : itms ) {
+    for( const auto &i : itms ) {
         total_m += i->weight( true );
         total_v += i->volume( true );
     }
@@ -3598,7 +3601,7 @@ bool basecamp::validate_sort_points()
 {
     auto &mgr = zone_manager::get_manager();
     map &here = get_map();
-    if( here.check_vehicle_zones( g->get_levz() ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
         mgr.cache_vzones();
     }
     tripoint src_loc = here.getlocal( bb_pos ) + point_north;
@@ -3614,7 +3617,7 @@ bool basecamp::validate_sort_points()
         const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
         const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
         // Find the nearest unsorted zone to dump objects at
-        for( auto &src : src_sorted ) {
+        for( const tripoint &src : src_sorted ) {
             src_loc = here.getlocal( src );
             break;
         }
@@ -3796,7 +3799,7 @@ std::string basecamp::gathering_description( const std::string &bldg )
     std::map<std::string, int> itemnames;
     for( size_t a = 0; a < 6; a++ ) {
         const auto items = item_group::items_from( itemlist, calendar::turn );
-        for( auto &it : items ) {
+        for( const item &it : items ) {
             itemnames[it.display_name()]++;
         }
     }
@@ -3904,7 +3907,7 @@ bool basecamp::distribute_food()
 
     map &here = get_map();
     auto &mgr = zone_manager::get_manager();
-    if( here.check_vehicle_zones( g->get_levz() ) ) {
+    if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
         mgr.cache_vzones();
     }
     const tripoint &abspos = get_dumping_spot();
@@ -3918,7 +3921,7 @@ bool basecamp::distribute_food()
         if( !it.goes_bad() ) {
             return 1.;
         }
-        float spoil_mod = 1;
+        float spoil_mod = 1.0f;
         if( container ) {
             if( item_pocket *const pocket = container->contained_where( it ) ) {
                 spoil_mod = pocket->spoil_multiplier();
@@ -4023,7 +4026,7 @@ void basecamp::place_results( const item &result )
 {
     if( by_radio ) {
         tinymap target_bay;
-        target_bay.load( project_to<coords::scale::submap>( omt_pos ), false );
+        target_bay.load( project_to<coords::sm>( omt_pos ), false );
         const tripoint &new_spot = target_bay.getlocal( get_dumping_spot() );
         target_bay.add_item_or_charges( new_spot, result, true );
         apply_camp_ownership( new_spot, 10 );
@@ -4031,17 +4034,17 @@ void basecamp::place_results( const item &result )
     } else {
         map &here = get_map();
         auto &mgr = zone_manager::get_manager();
-        if( here.check_vehicle_zones( g->get_levz() ) ) {
+        if( here.check_vehicle_zones( here.get_abs_sub().z ) ) {
             mgr.cache_vzones();
         }
         Character &player_character = get_player_character();
         const auto abspos = here.getabs( player_character.pos() );
         if( mgr.has_near( zone_type_CAMP_STORAGE, abspos ) ) {
-            const auto &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
-            const auto &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
+            const std::unordered_set<tripoint> &src_set = mgr.get_near( zone_type_CAMP_STORAGE, abspos );
+            const std::vector<tripoint> &src_sorted = get_sorted_tiles_by_distance( abspos, src_set );
             // Find the nearest unsorted zone to dump objects at
-            for( auto &src : src_sorted ) {
-                const auto &src_loc = here.getlocal( src );
+            for( const tripoint &src : src_sorted ) {
+                const tripoint &src_loc = here.getlocal( src );
                 here.add_item_or_charges( src_loc, result, true );
                 apply_camp_ownership( src_loc, 10 );
                 break;

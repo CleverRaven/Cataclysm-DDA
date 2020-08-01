@@ -532,5 +532,33 @@
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "tools": [ [ [ "software_hacking", -1 ] ] ],
     "components": [ [ [ "laptop", 1 ] ], [ [ "receiver", 2 ] ], [ [ "e_scrap", 2 ] ], [ [ "antenna", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "afs_rebar_rifle",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "skills_required": [ "mechanics", 6 ],
+    "difficulty": 9,
+    "time": "6 h",
+    "autolearn": true,
+    "qualities": [
+      { "id": "SAW_M_FINE", "level": 1 },
+      { "id": "SCREW_FINE", "level": 1 },
+      { "id": "WRENCH_FINE", "level": 1 },
+      { "id": "GLARE", "level": 2 },
+      { "id": "DRILL", "level": 2 },
+      { "id": "SAW_W", "level": 1 }
+    ],
+    "tools": [ [ [ "oxy_torch", 60 ], [ "welder", 300 ], [ "welder_crude", 450 ], [ "toolset", 450 ] ] ],
+    "components": [
+      [ [ "cable", 80 ] ],
+      [ [ "afs_circuitry_1", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [ [ "afs_energy_storage_3", 4 ] ],
+      [ [ "afs_material_1", 6 ] ],
+      [ [ "pipe", 3 ] ]
+    ]
   }
 ]

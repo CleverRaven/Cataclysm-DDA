@@ -455,7 +455,7 @@ void Character::load( const JsonObject &data )
     }
     data.read( "posy", position.y );
     if( !data.read( "posz", position.z ) && g != nullptr ) {
-        position.z = g->get_levz();
+        position.z = get_map().get_abs_sub().z;
     }
     // stats
     data.read( "str_cur", str_cur );
@@ -680,7 +680,6 @@ void Character::load( const JsonObject &data )
     if( data.has_array( "body_wetness" ) ) {
         set_anatomy( anatomy_id( "human_anatomy" ) );
         set_body();
-        init_parts_drench_capacity();
         std::array<int, 12> body_wetness;
         body_wetness.fill( 0 );
         data.read( "body_wetness", body_wetness );
@@ -1996,7 +1995,7 @@ void monster::load( const JsonObject &data )
     data.read( "posx", position.x );
     data.read( "posy", position.y );
     if( !data.read( "posz", position.z ) ) {
-        position.z = g->get_levz();
+        position.z = get_map().get_abs_sub().z;
     }
 
     data.read( "wandf", wandf );
@@ -2068,7 +2067,7 @@ void monster::load( const JsonObject &data )
     }
 
     // make sure the loaded monster has every special attack its type says it should have
-    for( auto &sa : type->special_attacks ) {
+    for( const auto &sa : type->special_attacks ) {
         const std::string &aname = sa.first;
         if( special_attacks.find( aname ) == special_attacks.end() ) {
             auto &entry = special_attacks[aname];
@@ -2121,7 +2120,9 @@ void monster::load( const JsonObject &data )
 
     data.read( "ammo", ammo );
 
-    faction = mfaction_str_id( data.get_string( "faction", "" ) );
+    // TODO: Remove blob migration after 0.F
+    const std::string faction_string = data.get_string( "faction", "" );
+    faction = mfaction_str_id( faction_string == "blob" ? "slime" : faction_string );
     if( !data.read( "last_updated", last_updated ) ) {
         last_updated = calendar::turn;
     }
@@ -2498,7 +2499,6 @@ void item::deserialize( JsonIn &jsin )
     if( savegame_loading_version < 27 ) {
         legacy_fast_forward_time();
     }
-    contents = item_contents( type->pockets );
     // first half of the if statement is for migration to nested containers. remove after 0.F
     if( data.has_array( "contents" ) ) {
         std::list<item> items;
@@ -2770,6 +2770,21 @@ void label::serialize( JsonOut &json ) const
     json.end_object();
 }
 
+void smart_controller_config::deserialize( JsonIn &jsin )
+{
+    JsonObject data = jsin.get_object();
+    data.read( "bat_lo", battery_lo );
+    data.read( "bat_hi", battery_hi );
+}
+
+void smart_controller_config::serialize( JsonOut &json ) const
+{
+    json.start_object();
+    json.member( "bat_lo", battery_lo );
+    json.member( "bat_hi", battery_hi );
+    json.end_object();
+}
+
 /*
  * Load vehicle from a json blob that might just exceed player in size.
  */
@@ -2840,6 +2855,10 @@ void vehicle::deserialize( JsonIn &jsin )
     data.read( "airworthy", flyable );
     data.read( "summon_time_limit", summon_time_limit );
     data.read( "magic", magic );
+
+    smart_controller_cfg = cata::nullopt;
+    data.read( "smart_controller", smart_controller_cfg );
+
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( const vpart_reference &vp : get_any_parts( VPFLAG_CARGO ) ) {
         auto it = vp.part().items.begin();
@@ -3003,6 +3022,8 @@ void vehicle::serialize( JsonOut &json ) const
     json.member( "airworthy", flyable );
     json.member( "summon_time_limit", summon_time_limit );
     json.member( "magic", magic );
+    json.member( "smart_controller", smart_controller_cfg );
+
     json.end_object();
 }
 
@@ -3667,14 +3688,14 @@ void kill_tracker::serialize( JsonOut &jsout ) const
     jsout.start_object();
     jsout.member( "kills" );
     jsout.start_object();
-    for( auto &elem : kills ) {
+    for( const auto &elem : kills ) {
         jsout.member( elem.first.str(), elem.second );
     }
     jsout.end_object();
 
     jsout.member( "npc_kills" );
     jsout.start_array();
-    for( auto &elem : npc_kills ) {
+    for( const auto &elem : npc_kills ) {
         jsout.write( elem );
     }
     jsout.end_array();
@@ -3895,7 +3916,7 @@ void submap::store( JsonOut &jsout ) const
                 jsout.write( i );
                 jsout.write( j );
                 jsout.start_array();
-                for( auto &elem : fld[i][j] ) {
+                for( const auto &elem : fld[i][j] ) {
                     const field_entry &cur = elem.second;
                     jsout.write( cur.get_field_type().id() );
                     jsout.write( cur.get_field_intensity() );
@@ -3923,7 +3944,7 @@ void submap::store( JsonOut &jsout ) const
     // Output the spawn points
     jsout.member( "spawns" );
     jsout.start_array();
-    for( auto &elem : spawns ) {
+    for( const auto &elem : spawns ) {
         jsout.start_array();
         // TODO: json should know how to write string_ids
         jsout.write( elem.type.str() );
@@ -3940,7 +3961,7 @@ void submap::store( JsonOut &jsout ) const
 
     jsout.member( "vehicles" );
     jsout.start_array();
-    for( auto &elem : vehicles ) {
+    for( const auto &elem : vehicles ) {
         // json lib doesn't know how to turn a vehicle * into a vehicle,
         // so we have to iterate manually.
         jsout.write( *elem );
@@ -3949,14 +3970,14 @@ void submap::store( JsonOut &jsout ) const
 
     jsout.member( "partial_constructions" );
     jsout.start_array();
-    for( auto &elem : partial_constructions ) {
+    for( const auto &elem : partial_constructions ) {
         jsout.write( elem.first.x );
         jsout.write( elem.first.y );
         jsout.write( elem.first.z );
         jsout.write( elem.second.counter );
         jsout.write( elem.second.id.id() );
         jsout.start_array();
-        for( auto &it : elem.second.components ) {
+        for( const auto &it : elem.second.components ) {
             jsout.write( it );
         }
         jsout.end_array();
@@ -3970,7 +3991,7 @@ void submap::store( JsonOut &jsout ) const
     } else if( !computers.empty() ) {
         jsout.member( "computers" );
         jsout.start_array();
-        for( auto &elem : computers ) {
+        for( const auto &elem : computers ) {
             jsout.write( elem.first );
             jsout.write( elem.second );
         }

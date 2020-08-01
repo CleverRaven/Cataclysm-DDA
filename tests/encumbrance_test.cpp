@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <array>
 #include <functional>
 #include <list>
@@ -5,7 +7,6 @@
 #include <string>
 #include <vector>
 
-#include "catch/catch.hpp"
 #include "bodypart.h"
 #include "character.h"
 #include "debug.h"

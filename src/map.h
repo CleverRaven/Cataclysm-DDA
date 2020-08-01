@@ -363,7 +363,6 @@ class map
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
          */
-        void load( const tripoint &w, bool update_vehicles );
         void load( const tripoint_abs_sm &w, bool update_vehicles );
         /**
          * Shift the map along the vector s.

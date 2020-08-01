@@ -119,7 +119,7 @@ static tripoint_abs_omt random_house_in_city( const city_reference &cref )
 {
     // TODO: fix point types
     const tripoint_abs_omt city_center_omt =
-        project_to<coords::scale::overmap_terrain>( cref.abs_sm_pos );
+        project_to<coords::omt>( cref.abs_sm_pos );
     std::vector<tripoint_abs_omt> valid;
     for( const tripoint_abs_omt &p : points_in_radius( city_center_omt, cref.city->size ) ) {
         if( overmap_buffer.check_ot( "house", ot_match_type::prefix, p ) ) {
@@ -540,7 +540,7 @@ bool mission_type::parse_funcs( const JsonObject &jo, std::function<void( missio
         for( const talk_effect_fun_t &effect : talk_effects.effects ) {
             effect( d );
         }
-        for( auto &mission_function : funcs ) {
+        for( const auto &mission_function : funcs ) {
             mission_function( miss );
         }
     };

@@ -683,8 +683,7 @@ void npc::setpos( const tripoint &pos )
 {
     position = pos;
     const point_abs_om pos_om_old( sm_to_om_copy( submap_coords ) );
-    submap_coords.x = g->get_levx() + pos.x / SEEX;
-    submap_coords.y = g->get_levy() + pos.y / SEEY;
+    submap_coords = get_map().get_abs_sub().xy() + point( pos.x / SEEX, pos.y / SEEY );
     // TODO: fix point types
     const point_abs_om pos_om_new( sm_to_om_copy( submap_coords ) );
     if( !is_fake() && pos_om_old != pos_om_new ) {
@@ -748,7 +747,7 @@ void npc::place_on_map()
     // "submap_coords.x * SEEX + posx() % SEEX" (analog for y).
     // The main map assumes that pos is in its own (local to the main map)
     // coordinate system. We have to change pos to match that assumption
-    const point dm( submap_coords + point( -g->get_levx(), -g->get_levy() ) );
+    const point dm( submap_coords - get_map().get_abs_sub().xy() );
     const point offset( position.x % SEEX, position.y % SEEY );
     // value of "submap_coords.x * SEEX + posx()" is unchanged
     setpos( tripoint( offset.x + dm.x * SEEX, offset.y + dm.y * SEEY, posz() ) );
@@ -1131,7 +1130,8 @@ void npc::stow_item( item &it )
                 add_msg_if_npc( m_info, _( "<npcname> puts away the %1$s in the %2$s." ),
                                 weapon.tname(), e.tname() );
             }
-            auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
             ptr->store( *this, e, it );
             return;
         }
@@ -1515,7 +1515,7 @@ void npc::decide_needs()
     const auto inv_food = items_with( []( const item & itm ) {
         return itm.is_food();
     } );
-    for( auto &food : inv_food ) {
+    for( const item *food : inv_food ) {
         needrank[ need_food ] += nutrition_for( *food ) / 4.0;
         needrank[ need_drink ] += food->get_comestible()->quench / 4.0;
     }
@@ -1874,12 +1874,12 @@ healing_options npc::has_healing_options( healing_options try_to_fix )
     healing_options *fix_p = &can_fix;
 
     visit_items( [&fix_p, try_to_fix]( item * node ) {
-        const auto use = node->type->get_use( "heal" );
+        const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
         }
 
-        auto &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
+        const heal_actor &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
         if( try_to_fix.bandage && !fix_p->bandage && actor.bandages_power > 0.0f ) {
             fix_p->bandage = true;
         }
@@ -1913,12 +1913,12 @@ item &npc::get_healing_item( healing_options try_to_fix, bool first_best )
 {
     item *best = &null_item_reference();
     visit_items( [&best, try_to_fix, first_best]( item * node ) {
-        const auto use = node->type->get_use( "heal" );
+        const use_function *use = node->type->get_use( "heal" );
         if( use == nullptr ) {
             return VisitResponse::NEXT;
         }
 
-        auto &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
+        const heal_actor &actor = dynamic_cast<const heal_actor &>( *( use->get_actor_ptr() ) );
         if( ( try_to_fix.bandage && actor.bandages_power > 0.0f ) ||
             ( try_to_fix.disinfect && actor.disinfectant_power > 0.0f ) ||
             ( try_to_fix.bleed && actor.bleed > 0 ) ||
@@ -2508,7 +2508,7 @@ void npc::die( Creature *nkiller )
     if( my_fac ) {
         if( !is_fake() && !is_hallucination() ) {
             if( my_fac->members.size() == 1 ) {
-                for( auto elem : inv_dump() ) {
+                for( const item *elem : inv_dump() ) {
                     elem->remove_owner();
                     elem->remove_old_owner();
                 }
@@ -2795,7 +2795,8 @@ bool npc::dispose_item( item_location &&obj, const std::string & )
 
     for( auto &e : worn ) {
         if( e.can_holster( *obj ) ) {
-            auto ptr = dynamic_cast<const holster_actor *>( e.type->get_use( "holster" )->get_actor_ptr() );
+            const holster_actor *ptr = dynamic_cast<const holster_actor *>
+                                       ( e.type->get_use( "holster" )->get_actor_ptr() );
             opts.emplace_back( dispose_option {
                 item_store_cost( *obj, e, false, obj.obtain_cost( *this ) ),
                 [this, ptr, &e, &obj]{ ptr->store( *this, e, *obj ); }

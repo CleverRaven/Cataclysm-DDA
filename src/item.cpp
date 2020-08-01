@@ -114,7 +114,7 @@ static const fault_id fault_gun_blackpowder( "fault_gun_blackpowder" );
 
 static const gun_mode_id gun_mode_REACH( "REACH" );
 
-static const itype_id itype_adv_UPS_off( "adv_UPS_off" );
+static const itype_id itype_battery( "battery" );
 static const itype_id itype_barrel_small( "barrel_small" );
 static const itype_id itype_blood( "blood" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
@@ -129,7 +129,6 @@ static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_rad_badge( "rad_badge" );
 static const itype_id itype_tuned_mechanism( "tuned_mechanism" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_UPS_off( "UPS_off" );
 static const itype_id itype_waterproof_gunmod( "waterproof_gunmod" );
 
 static const skill_id skill_cooking( "cooking" );
@@ -526,6 +525,9 @@ item item::make_corpse( const mtype_id &mt, time_point turn, const std::string &
 item &item::convert( const itype_id &new_type )
 {
     type = find_type( new_type );
+    item_contents new_contents = item_contents( type->pockets );
+    new_contents.combine( contents );
+    contents = new_contents;
     return *this;
 }
 
@@ -790,7 +792,6 @@ body_part_set item::get_covered_body_parts( const side s ) const
         }
     }
 
-
     if( !armor->sided ) {
         return res; // Just ignore the side.
     }
@@ -858,10 +859,11 @@ bool item::is_worn_only_with( const item &it ) const
 
 item item::in_its_container( int qty ) const
 {
-    return in_container( type->default_container.value_or( "null" ), qty );
+    return in_container( type->default_container.value_or( "null" ), qty,
+                         type->default_container_sealed );
 }
 
-item item::in_container( const itype_id &cont, int qty ) const
+item item::in_container( const itype_id &cont, const int qty, const bool sealed ) const
 {
     if( !cont.is_null() ) {
         item ret( cont, birthday() );
@@ -873,7 +875,9 @@ item item::in_container( const itype_id &cont, int qty ) const
             }
 
             ret.invlet = invlet;
-            ret.seal();
+            if( sealed ) {
+                ret.seal();
+            }
             if( !ret.has_item_with( [&cont]( const item & it ) {
             return it.typeId() == cont;
             } ) ) {
@@ -933,6 +937,24 @@ int item::charges_per_volume( const units::volume &vol ) const
             return INFINITE_CHARGES;
         }
         return vol / my_volume;
+    }
+}
+
+int item::charges_per_weight( const units::mass &m ) const
+{
+    if( count_by_charges() ) {
+        if( type->weight == 0_gram ) {
+            debugmsg( "Item '%s' with zero weight", tname() );
+            return INFINITE_CHARGES;
+        }
+        return m / type->weight;
+    } else {
+        units::mass my_weight = weight();
+        if( my_weight == 0_gram ) {
+            debugmsg( "Item '%s' with zero weight", tname() );
+            return INFINITE_CHARGES;
+        }
+        return m / my_weight;
     }
 }
 
@@ -1426,7 +1448,7 @@ double item::effective_dps( const player &guy, monster &mon ) const
     const float mon_dodge = mon.get_dodge();
     float base_hit = guy.get_dex() / 4.0f + guy.get_hit_weapon( *this );
     base_hit *= std::max( 0.25f, 1.0f - guy.encumb( bodypart_id( "torso" ) ) / 100.0f );
-    float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0;
+    float mon_defense = mon_dodge + mon.size_melee_penalty() / 5.0f;
     constexpr double hit_trials = 10000.0;
     const int rng_mean = std::max( std::min( static_cast<int>( base_hit - mon_defense ), 20 ),
                                    -20 ) + 20;
@@ -2686,7 +2708,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                         return encumber == other.encumber
                                && max_encumber == other.max_encumber
                                && coverage == other.coverage;
-                    };
+                    }
                 };
                 struct body_part_display_info {
                     translation to_display;
@@ -2699,7 +2721,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
                         for( const bodypart_str_id &covering_id : piece.covers.value() ) {
-                            if( covering_id != bodypart_str_id( "num_bp" ) ) {
+                            if( covering_id != bodypart_str_id( "bp_null" ) ) {
                                 to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
                                         get_encumber( player_character, covering_id ),
                                         get_encumber( player_character, covering_id, encumber_flags::assume_full ),
@@ -3852,7 +3874,7 @@ void item::final_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
     }
 
     if( parts->test( iteminfo_parts::DESCRIPTION_ACTIVATABLE_TRANSFORMATION ) ) {
-        for( auto &u : type->use_methods ) {
+        for( const auto &u : type->use_methods ) {
             const delayed_transform_iuse *tt = dynamic_cast<const delayed_transform_iuse *>
                                                ( u.second.get_actor_ptr() );
             if( tt == nullptr ) {
@@ -4320,7 +4342,7 @@ void item::on_wield( player &p, int mv )
 
     // weapons with bayonet/bipod or other generic "unhandiness"
     if( has_flag( flag_SLOW_WIELD ) && !is_gunmod() ) {
-        float d = 32.0; // arbitrary linear scaling factor
+        float d = 32.0f; // arbitrary linear scaling factor
         if( is_gun() ) {
             d /= std::max( p.get_skill_level( gun_skill() ), 1 );
         } else if( is_melee() ) {
@@ -4667,6 +4689,16 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
         // in their name, also food is active while it rots.
         tagtext += _( " (active)" );
     }
+    switch( contents.get_sealed_summary() ) {
+        case item_contents::sealed_summary::unsealed:
+            break;
+        case item_contents::sealed_summary::part_sealed:
+            tagtext += _( " (part sealed)" );
+            break;
+        case item_contents::sealed_summary::all_sealed:
+            tagtext += _( " (sealed)" );
+            break;
+    }
 
     if( is_favorite ) {
         tagtext += _( " *" ); // Display asterisk for favorite items
@@ -4823,7 +4855,7 @@ std::string item::display_name( unsigned int quantity ) const
         tripoint map_pos_omt =
             get_var( "reveal_map_center_omt", player_character.global_omt_location().raw() );
         tripoint_abs_sm map_pos =
-            project_to<coords::scale::submap>( tripoint_abs_omt( map_pos_omt ) );
+            project_to<coords::sm>( tripoint_abs_omt( map_pos_omt ) );
         const city *c = overmap_buffer.closest_city( map_pos ).city;
         if( c != nullptr ) {
             name = string_format( "%s %s", c->name, name );
@@ -5707,7 +5739,7 @@ int item::get_encumber( const Character &p, const bodypart_id &bodypart,
     }
 
     int encumber = 0;
-    float relative_encumbrance = 1.0;
+    float relative_encumbrance = 1.0f;
     // Additional encumbrance from non-rigid pockets
     if( !( flags & encumber_flags::assume_full ) ) {
         if( !cached_relative_encumbrance ) {
@@ -5952,7 +5984,7 @@ int item::bash_resist( bool to_self ) const
         return 0;
     }
 
-    float resist = 0;
+    float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_bash );
 
     // base resistance
@@ -5980,7 +6012,7 @@ int item::cut_resist( bool to_self ) const
     }
 
     const int base_thickness = get_thickness();
-    float resist = 0;
+    float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_cut );
 
     // base resistance
@@ -6018,7 +6050,7 @@ int item::bullet_resist( bool to_self ) const
     }
 
     const int base_thickness = get_thickness();
-    float resist = 0;
+    float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_bullet );
 
     // base resistance
@@ -6046,10 +6078,10 @@ int item::acid_resist( bool to_self, int base_env_resist ) const
         return INT_MAX;
     }
 
-    float resist = 0.0;
+    float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_acid );
     if( is_null() ) {
-        return 0.0;
+        return 0.0f;
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -6080,10 +6112,10 @@ int item::fire_resist( bool to_self, int base_env_resist ) const
         return INT_MAX;
     }
 
-    float resist = 0.0;
+    float resist = 0.0f;
     float mod = get_clothing_mod_val( clothing_mod_type_fire );
     if( is_null() ) {
-        return 0.0;
+        return 0.0f;
     }
 
     const std::vector<const material_type *> mat_types = made_of_types();
@@ -7462,7 +7494,13 @@ const itype *item::ammo_data() const
 itype_id item::ammo_current() const
 {
     const itype *ammo = ammo_data();
-    return ammo ? ammo->get_id() : itype_id::NULL_ID();
+    if( ammo ) {
+        return ammo->get_id();
+    } else if( has_flag( "USE_UPS" ) ) {
+        return itype_battery;
+    }
+
+    return itype_id::NULL_ID();
 }
 
 std::set<ammotype> item::ammo_types( bool conversion ) const
@@ -7494,7 +7532,10 @@ itype_id item::ammo_default( bool conversion ) const
         if( !res.is_empty() ) {
             return res;
         }
+    } else if( has_flag( "USE_UPS" ) ) {
+        return itype_battery;
     }
+
     return itype_id::NULL_ID();
 }
 
@@ -8198,7 +8239,8 @@ bool item::getlight( float &luminance, int &width, int &direction ) const
 int item::getlight_emit() const
 {
     float lumint = type->light_emission;
-    if( ammo_required() == 0 ) {
+    if( ammo_required() == 0 ||
+        ( has_flag( flag_USE_UPS ) && ammo_capacity( ammotype( "battery" ) ) == 0 ) ) {
         return lumint;
     }
     if( lumint == 0 || ammo_remaining() == 0 ) {
@@ -8347,15 +8389,15 @@ void item::set_item_specific_energy( const float new_specific_energy )
             freezing_temperature;  // Energy that the item would have if it was completely solid at freezing temperature
     const float completely_liquid_specific_energy = completely_frozen_specific_energy +
             latent_heat; // Energy that the item would have if it was completely liquid at freezing temperature
-    float new_item_temperature;
-    float freeze_percentage = 1;
+    float new_item_temperature = 0.0f;
+    float freeze_percentage = 1.0f;
 
     if( new_specific_energy > completely_liquid_specific_energy ) {
         // Item is liquid
         new_item_temperature = freezing_temperature + ( new_specific_energy -
                                completely_liquid_specific_energy ) /
                                ( specific_heat_liquid );
-        freeze_percentage = 0;
+        freeze_percentage = 0.0f;
     } else if( new_specific_energy < completely_frozen_specific_energy ) {
         // Item is solid
         new_item_temperature = new_specific_energy / ( specific_heat_solid );
@@ -8430,7 +8472,7 @@ void item::set_item_temperature( float new_temperature )
     const float latent_heat = get_latent_heat(); // J/kg
 
     float new_specific_energy = get_specific_energy_from_temperature( new_temperature );
-    float freeze_percentage = 0;
+    float freeze_percentage = 0.0f;
 
     temperature = std::lround( 100000 * new_temperature );
     specific_energy = std::lround( 100000 * new_specific_energy );
@@ -8484,27 +8526,44 @@ int item::fill_with( const itype &contained, const int amount )
     }
 
     item contained_item( &contained );
-    if( contained_item.count_by_charges() ) {
-        contained_item.charges = 1;
-    }
-
+    const bool count_by_charges = contained_item.count_by_charges();
     item_location loc;
-    item_pocket *pocket = best_pocket( contained_item, loc ).second;
-    if( pocket == nullptr ) {
-        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
-                  contained_item.typeId().str(), typeId().str() );
-        return 0;
-    }
+    item_pocket *pocket = nullptr;
 
     int num_contained = 0;
-    while( pocket != nullptr && amount > num_contained ) {
-        if( !pocket->insert_item( contained_item ).success() ) {
-            break;
-        }
-        num_contained++;
-        if( !pocket->can_contain( contained_item ).success() ) {
+    while( amount > num_contained ) {
+        if( count_by_charges || pocket == nullptr ||
+            !pocket->can_contain( contained_item ).success() ) {
+            if( count_by_charges ) {
+                contained_item.charges = 1;
+            }
             pocket = best_pocket( contained_item, loc ).second;
         }
+        if( pocket == nullptr ) {
+            break;
+        }
+        if( count_by_charges ) {
+            contained_item.charges = std::min( { amount - num_contained,
+                                                 contained_item.charges_per_volume( pocket->remaining_volume() ),
+                                                 contained_item.charges_per_weight( pocket->remaining_weight() ) } );
+        }
+        if( !pocket->insert_item( contained_item ).success() ) {
+            if( count_by_charges ) {
+                debugmsg( "charges per remaining pocket volume does not fit in that very volume" );
+            } else {
+                debugmsg( "best pocket for item cannot actually contain the item" );
+            }
+            break;
+        }
+        if( count_by_charges ) {
+            num_contained += contained_item.charges;
+        } else {
+            num_contained++;
+        }
+    }
+    if( num_contained == 0 ) {
+        debugmsg( "tried to put an item (%s) in a container (%s) that cannot contain it",
+                  contained_item.typeId().str(), typeId().str() );
     }
     return num_contained;
 }
@@ -9042,7 +9101,7 @@ void item::calc_temp( const int temp, const float insulation, const time_duratio
 
     float new_specific_energy;
     float new_item_temperature;
-    float freeze_percentage = 0;
+    float freeze_percentage = 0.0f;
     int extra_time;
 
     // Temperature calculations based on Newton's law of cooling.
@@ -9406,7 +9465,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             convert( itype_joint_roach );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
-                here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), fd_weedsmoke, 2 );
+                here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_weedsmoke" ), 2 );
                 weed_msg( *carrier );
             }
         }
@@ -9547,7 +9606,7 @@ bool item::process_cable( player *carrier, const tripoint &pos )
     }
 
     map &here = get_map();
-    if( !here.veh_at( *source ) || ( source->z != g->get_levz() && !here.has_zlevels() ) ) {
+    if( !here.veh_at( *source ) || ( source->z != here.get_abs_sub().z && !here.has_zlevels() ) ) {
         if( carrier->has_item( *this ) ) {
             carrier->add_msg_if_player( m_bad, _( "You notice the cable has come loose!" ) );
         }
@@ -9619,6 +9678,11 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
 
 bool item::process_tool( player *carrier, const tripoint &pos )
 {
+    // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
+    if( is_power_armor() && carrier->can_interface_armor() && carrier->has_power() ) {
+        return false;
+    }
+
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
@@ -10197,7 +10261,7 @@ float item::get_clothing_mod_val( clothing_mod_type type ) const
 {
     const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
                                 type );
-    return get_var( key, 0.0 );
+    return get_var( key, 0.0f );
 }
 
 void item::update_clothing_mod_val()
@@ -10205,7 +10269,7 @@ void item::update_clothing_mod_val()
     for( const clothing_mod_type &type : clothing_mods::all_clothing_mod_types ) {
         const std::string key = CLOTHING_MOD_VAR_PREFIX + clothing_mods::string_from_clothing_mod_type(
                                     type );
-        float tmp = 0.0;
+        float tmp = 0.0f;
         for( const clothing_mod &cm : clothing_mods::get_all_with( type ) ) {
             if( item_tags.count( cm.flag ) > 0 ) {
                 tmp += cm.get_mod_val( type, *this );

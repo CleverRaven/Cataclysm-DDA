@@ -844,7 +844,7 @@
     "id": "num_gains_rifle_level_7",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_survival_level_7",
+    "event_transformation": "avatar_gains_rifle_level_7",
     "description": { "str_sp": "rifles skill level 7 gained" }
   },
   {
@@ -1366,7 +1366,7 @@
     "id": "num_gains_rifle_level_10",
     "type": "event_statistic",
     "stat_type": "count",
-    "event_transformation": "avatar_gains_survival_level_10",
+    "event_transformation": "avatar_gains_rifle_level_10",
     "description": { "str_sp": "rifles skill level 10 gained" }
   },
   {

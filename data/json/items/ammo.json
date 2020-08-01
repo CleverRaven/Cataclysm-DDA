@@ -9,7 +9,7 @@
     "symbol": "=",
     "color": "yellow",
     "description": "Some free-floating battery charge.  This can be reloaded into rechargable battery cells, but can never be unloaded.",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "material": [ "iron" ],
     "effects": [ "COOKOFF" ],
     "volume": "250 ml",
@@ -123,7 +123,7 @@
     "symbol": "=",
     "color": "light_gray",
     "description": "A unit of currency equivalent to 0.01 US dollars.",
-    "flags": [ "TRADER_AVOID" ],
+    "flags": [ "TRADER_AVOID", "ZERO_WEIGHT" ],
     "volume": "0 ml",
     "ammo_type": "money"
   },
@@ -210,7 +210,7 @@
     "color": "white",
     "description": "A cleansing agent made into bars.",
     "volume": "250 ml",
-    "weight": "90 g",
+    "weight": "20 g",
     "ammo_type": "soap",
     "count": 10,
     "stack_size": 10
@@ -630,7 +630,7 @@
     "container": "bottle_plastic_small",
     "material": [ "powder_nonflam" ],
     "volume": "250 ml",
-    "weight": "1 g",
+    "weight": "2662 mg",
     "ammo_type": "components",
     "count": 200
   },
@@ -792,7 +792,7 @@
     "description": "IF YOU ARE SEEING THIS IT IS A BUG.",
     "volume": "0 ml",
     "ammo_type": "NULL",
-    "flags": [ "UNRECOVERABLE" ]
+    "flags": [ "UNRECOVERABLE", "ZERO_WEIGHT" ]
   },
   {
     "type": "AMMO",

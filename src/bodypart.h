@@ -99,7 +99,7 @@ struct body_part_type {
         std::string hp_bar_ui_text;
         std::string encumb_text;
         // Legacy "string id"
-        std::string legacy_id = "num_bp";
+        std::string legacy_id;
         // Legacy enum "int id"
         body_part token = num_bp;
         /** Size of the body part when doing an unweighted selection. */
@@ -122,9 +122,9 @@ struct body_part_type {
         side part_side = side::BOTH;
 
         //Morale parameters
-        float hot_morale_mod = 0;
-        float cold_morale_mod = 0;
-        float stylish_bonus = 0;
+        float hot_morale_mod = 0.0f;
+        float cold_morale_mod = 0.0f;
+        float stylish_bonus = 0.0f;
         int squeamish_penalty = 0;
 
         int base_hp = 60;
@@ -202,7 +202,6 @@ class bodypart
         int hp_cur;
         int hp_max;
 
-        int drench_capacity;
         int wetness = 0;
         int temp_cur = 5000; // BODYTEMP_NORM = 5000
         int temp_conv = 5000;
@@ -215,9 +214,8 @@ class bodypart
         encumbrance_data encumb_data;
 
     public:
-        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ), drench_capacity( 1 ) {}
-        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ),
-            drench_capacity( id->drench_max )  {}
+        bodypart(): id( bodypart_str_id( "bp_null" ) ), hp_cur( 0 ), hp_max( 0 ) {}
+        bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ) {}
 
         bodypart_id get_id() const;
 
@@ -245,7 +243,6 @@ class bodypart
         void set_damage_bandaged( int set );
         void set_damage_disinfected( int set );
         void set_wetness( int set );
-        void set_drench_capacity( int set );
         void set_temp_cur( int set );
         void set_temp_conv( int set );
         void set_frostbite_timer( int set );

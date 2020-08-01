@@ -699,7 +699,7 @@ npc_ptr talk_function::individual_mission( const tripoint_abs_omt &omt_pos,
     }
     Character &player_character = get_player_character();
     //Ensure we have someone to give equipment to before we lose it
-    for( auto i : equipment ) {
+    for( item *i : equipment ) {
         comp->companion_mission_inv.add_item( *i );
         //comp->i_add(*i);
         if( item::count_by_charges( i->typeId() ) ) {
@@ -928,7 +928,7 @@ void talk_function::field_build_1( npc &p )
         overmap_buffer.find_closest( player_character.global_omt_location(), "ranch_camp_63", 20,
                                      false );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_ter( t_dirt, point( 5, 4 ), point( 15, 14 ) );
     bay.draw_square_ter( t_dirtmound, point( 6, 5 ), point( 6, 13 ) );
     bay.draw_square_ter( t_dirtmound, point( 8, 5 ), point( 8, 13 ) );
@@ -954,7 +954,7 @@ void talk_function::field_build_2( npc &p )
         overmap_buffer.find_closest( player_character.global_omt_location(), "ranch_camp_63", 20,
                                      false );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     bay.draw_square_ter( t_fence, point( 4, 3 ), point( 16, 3 ) );
     bay.draw_square_ter( t_fence, point( 4, 15 ), point( 16, 15 ) );
     bay.draw_square_ter( t_fence, point( 4, 3 ), point( 4, 15 ) );
@@ -1013,7 +1013,7 @@ void talk_function::field_plant( npc &p, const std::string &place )
     const tripoint_abs_omt site = overmap_buffer.find_closest(
                                       player_character.global_omt_location(), place, 20, false );
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         if( bay.ter( plot ) == t_dirtmound ) {
             empty_plots++;
@@ -1072,7 +1072,7 @@ void talk_function::field_harvest( npc &p, const std::string &place )
     std::vector<itype_id> seed_types;
     std::vector<itype_id> plant_types;
     std::vector<std::string> plant_names;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     for( const tripoint &plot : bay.points_on_zlevel() ) {
         map_stack items = bay.i_at( plot );
         if( bay.furn( plot ) == furn_str_id( "f_plant_harvest" ) && !items.empty() ) {
@@ -1507,7 +1507,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
         //return true;
     }
 
-    tripoint_abs_sm sm_tgt = project_to<coords::scale::submap>( om_tgt );
+    tripoint_abs_sm sm_tgt = project_to<coords::sm>( om_tgt );
 
     tinymap target_bay;
     target_bay.load( sm_tgt, false );
@@ -1517,7 +1517,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
             tripoint_abs_sm sm = sm_tgt + point( x, y );
             point_abs_om omp;
             tripoint_om_sm local_sm;
-            std::tie( omp, local_sm ) = project_remain<coords::scale::overmap>( sm );
+            std::tie( omp, local_sm ) = project_remain<coords::om>( sm );
             overmap &omi = overmap_buffer.get( omp );
 
             auto monster_bucket = omi.monster_map.equal_range( local_sm );
@@ -1528,8 +1528,8 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
             } );
         }
     }
-    float avg_survival = 0;
-    for( auto &guy : group ) {
+    float avg_survival = 0.0f;
+    for( const auto &guy : group ) {
         avg_survival += guy->get_skill_level( skill_survival );
     }
     avg_survival = avg_survival / group.size();
@@ -1537,7 +1537,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
     monster mon;
 
     std::vector< monster * > monsters_fighting;
-    for( auto mons : monsters_around ) {
+    for( monster *mons : monsters_around ) {
         if( mons->get_hp() <= 0 ) {
             continue;
         }
@@ -1557,7 +1557,7 @@ bool talk_function::companion_om_combat_check( const std::vector<npc_ptr> &group
     if( !monsters_fighting.empty() ) {
         bool outcome = force_on_force( group, "Patrol", monsters_fighting, "attacking monsters",
                                        rng( -1, 2 ) );
-        for( auto mons : monsters_fighting ) {
+        for( monster *mons : monsters_fighting ) {
             mons->death_drops = true;
         }
         return outcome;
@@ -1882,7 +1882,7 @@ npc_ptr talk_function::companion_choose( const std::map<skill_id, int> &required
     cata::optional<basecamp *> bcp = overmap_buffer.find_camp(
                                          player_character.global_omt_location().xy() );
 
-    for( auto &elem : g->get_follower_list() ) {
+    for( const character_id &elem : g->get_follower_list() ) {
         npc_ptr guy = overmap_buffer.find_npc( elem );
         if( !guy ) {
             continue;
@@ -2041,7 +2041,7 @@ npc_ptr talk_function::companion_choose_return( const tripoint_abs_omt &omt_pos,
 void talk_function::loot_building( const tripoint_abs_omt &site )
 {
     tinymap bay;
-    bay.load( project_to<coords::scale::submap>( site ), false );
+    bay.load( project_to<coords::sm>( site ), false );
     for( const tripoint &p : bay.points_on_zlevel() ) {
         const ter_id t = bay.ter( p );
         //Open all the doors, doesn't need to be exhaustive

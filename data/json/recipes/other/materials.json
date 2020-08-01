@@ -181,7 +181,7 @@
     "book_learn": [ [ "textbook_chemistry", 4 ], [ "textbook_fabrication", 4 ], [ "welding_book", 4 ] ],
     "time": "30 m",
     "batch_time_factors": [ 50, 2 ],
-    "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "jar_glass", -1 ], [ "jar_3l_glass", -1 ] ] ],
+    "tools": [ [ [ "electrolysis_kit", 100 ] ], [ [ "jar_glass_sealed", -1 ], [ "jar_3l_glass_sealed", -1 ] ] ],
     "components": [
       [ [ "acid", 1 ] ],
       [ [ "water", 3 ], [ "water_clean", 3 ] ],

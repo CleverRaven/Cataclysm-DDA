@@ -25,6 +25,7 @@
 #include "json.h"
 #include "output.h"
 #include "point.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -136,7 +137,7 @@ static int print_items( const recipe &r, const catacurses::window &w, point pos,
 
     mvwprintz( w, point( pos.x, pos.y++ ), col, _( "Byproducts:" ) );
     for( const auto &bp : r.byproducts ) {
-        const auto t = item::find_type( bp.first );
+        const itype *t = item::find_type( bp.first );
         int amount = bp.second * batch;
         std::string desc;
         if( t->count_by_charges() ) {
@@ -248,11 +249,13 @@ const recipe *select_crafting_recipe( int &batch_size )
             const requirement_data &simple_req = r->simple_requirements();
             apparently_craftable = simple_req.can_make_with_inventory(
                                        inv, all_items_filter, batch_size, craft_flags::start_only );
+            proficiency_maluses = r->proficiency_maluses( get_player_character() );
         }
         bool can_craft;
         bool can_craft_non_rotten;
         bool apparently_craftable;
         bool has_proficiencies;
+        float proficiency_maluses;
 
         nc_color selected_color() const {
             return can_craft ? can_craft_non_rotten ? h_white : h_brown : h_dark_gray;
@@ -535,6 +538,12 @@ const recipe *select_crafting_recipe( int &batch_size )
                                 _( "<color_red>Cannot be crafted because the same item is needed "
                                    "for multiple components</color>" ) );
                 }
+                float maluses = available[line].proficiency_maluses;
+                if( maluses != 1.0 ) {
+                    std::string msg = string_format( _( "<color_yellow>This recipe will take %g%% more time "
+                                                        "because you lack some of the proficiencies used." ), maluses * 100 );
+                    ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col, msg );
+                }
                 if( !can_craft_this && !available[line].has_proficiencies ) {
                     ypos += fold_and_print( w_data, point( xpos, ypos ), pane, col,
                                             _( "<color_red>Cannot be crafted because you lack"
@@ -663,7 +672,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                                     break;
 
                                 case 'm': {
-                                    auto &learned = player_character.get_learned_recipes();
+                                    const recipe_subset &learned = player_character.get_learned_recipes();
                                     recipe_subset temp_subset;
                                     if( query_is_yes( qry_filter_str ) ) {
                                         temp_subset = available_recipes.intersection( learned );
@@ -697,7 +706,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 if( !show_hidden ) {
                     current.clear();
-                    for( auto i : picking ) {
+                    for( const recipe *i : picking ) {
                         if( uistate.hidden_recipes.find( i->ident() ) == uistate.hidden_recipes.end() ) {
                             current.push_back( i );
                         }
@@ -708,7 +717,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
                 available.reserve( current.size() );
                 // cache recipe availability on first display
-                for( const auto e : current ) {
+                for( const recipe *e : current ) {
                     if( !availability_cache.count( e ) ) {
                         availability_cache.emplace( e, availability( e ) );
                     }

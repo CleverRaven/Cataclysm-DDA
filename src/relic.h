@@ -82,6 +82,10 @@ class relic_procgen_data
             int max_negative_power = 0;
             // the maximum number of attributes a generated artifact can have
             int max_attributes = INT_MAX;
+
+            bool was_loaded = false;
+            void load( const JsonObject &jo );
+            void deserialize( JsonIn &jsin );
         };
 
         enum type {
@@ -112,7 +116,7 @@ class relic_procgen_data
         item create_item( const relic_procgen_data::generation_rules &rules ) const;
         relic generate( const generation_rules &rules, const itype_id &it_id ) const;
 
-        bool was_loaded;
+        bool was_loaded = false;
 
         static void load_relic_procgen_data( const JsonObject &jo, const std::string &src );
         void load( const JsonObject &jo, const std::string & = "" );

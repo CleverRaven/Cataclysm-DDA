@@ -316,8 +316,8 @@ std::vector<sphere> npc::find_dangerous_explosives() const
     const auto active_items = get_map().get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE,
                               special_item_type::explosive );
 
-    for( const auto &elem : active_items ) {
-        const auto use = elem->type->get_use( "explosion" );
+    for( const item_location &elem : active_items ) {
+        const use_function *use = elem->type->get_use( "explosion" );
 
         if( !use ) {
             continue;
@@ -376,6 +376,22 @@ void npc::assess_danger()
         max_range = *confident_range_cache;
     }
     Character &player_character = get_player_character();
+    const bool self_defense_only = rules.engagement == combat_engagement::NO_MOVE ||
+                                   rules.engagement == combat_engagement::NONE;
+    const bool no_fighting = rules.has_flag( ally_rule::forbid_engage );
+    const bool must_retreat = rules.has_flag( ally_rule::follow_close ) &&
+                              !too_close( pos(), player_character.pos(), follow_distance() );
+
+    if( is_player_ally() ) {
+        if( rules.engagement == combat_engagement::FREE_FIRE ) {
+            def_radius = std::max( 6, max_range );
+        } else if( self_defense_only ) {
+            def_radius = max_range;
+        } else if( no_fighting ) {
+            def_radius = 1;
+        }
+    }
+
     const auto ok_by_rules = [max_range, def_radius, this, &player_character]( const Creature & c,
     int dist, int scaled_dist ) {
         // If we're forbidden to attack, no need to check engagement rules
@@ -425,9 +441,7 @@ void npc::assess_danger()
             }
         }
     }
-    if( is_player_ally() && rules.engagement == combat_engagement::FREE_FIRE ) {
-        def_radius = std::max( 6, max_range );
-    }
+
     // find our Character friends and enemies
     std::vector<weak_ptr_fast<Creature>> hostile_guys;
     for( const npc &guy : g->all_npcs() ) {
@@ -470,6 +484,9 @@ void npc::assess_danger()
                 warn_about( "monster", 10_minutes, critter.type->nname(), dist, critter.pos() );
             }
         }
+        if( must_retreat || no_fighting ) {
+            continue;
+        }
         // ignore targets behind glass even if we can see them
         if( !clear_shot_reach( pos(), critter.pos(), false ) ) {
             continue;
@@ -481,10 +498,10 @@ void npc::assess_danger()
                                          NPC_DANGER_VERY_LOW );
         ai_cache.total_danger += critter_danger / scaled_distance;
 
-        // don't ignore monsters that are too close or too close to an ally
+        // don't ignore monsters that are too close or too close to an ally if we can move
         bool is_too_close = dist <= def_radius;
         for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
-            if( is_too_close ) {
+            if( is_too_close || self_defense_only ) {
                 break;
             }
             // HACK: Bit of a dirty hack - sometimes shared_from, returns nullptr or bad weak_ptr for
@@ -526,12 +543,18 @@ void npc::assess_danger()
 
         int scaled_distance = std::max( 1, ( 100 * dist ) / foe.get_speed() );
         ai_cache.total_danger += foe_threat / scaled_distance;
+        if( must_retreat || no_fighting ) {
+            return 0.0f;
+        }
         // ignore targets behind glass even if we can see them
         if( !clear_shot_reach( pos(), foe.pos(), false ) ) {
             return 0.0f;
         }
         bool is_too_close = dist <= def_radius;
         for( const weak_ptr_fast<Creature> &guy : ai_cache.friends ) {
+            if( self_defense_only ) {
+                break;
+            }
             is_too_close |= too_close( foe.pos(), guy.lock()->pos(), def_radius );
             if( is_too_close ) {
                 break;
@@ -610,7 +633,7 @@ float npc::character_danger( const Character &uc ) const
 {
     // TODO: Remove this when possible
     const player &u = dynamic_cast<const player &>( uc );
-    float ret = 0.0;
+    float ret = 0.0f;
     bool u_gun = u.weapon.is_gun();
     bool my_gun = weapon.is_gun();
     double u_weap_val = u.weapon_value( u.weapon );
@@ -819,6 +842,12 @@ void npc::move()
         }
     }
 
+    // check if in vehicle before doing any other follow activities
+    if( action == npc_undecided && is_walking_with() && player_character.in_vehicle &&
+        !in_vehicle ) {
+        action = npc_follow_embarked;
+    }
+
     if( action == npc_undecided && is_walking_with() && rules.has_flag( ally_rule::follow_close ) &&
         rl_dist( pos(), player_character.pos() ) > follow_distance() ) {
         action = npc_follow_player;
@@ -857,7 +886,8 @@ void npc::move()
         }
     }
     if( action == npc_undecided ) {
-        // an interrupted activity can cause this situation. stops allied NPCs zooming off like random NPCs
+        // an interrupted activity can cause this situation. stops allied NPCs zooming off
+        // like random NPCs
         if( attitude == NPCATT_ACTIVITY && !activity ) {
             revert_after_activity();
             if( is_ally( player_character ) ) {
@@ -2124,7 +2154,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const float target_speed = target->speed_rating();
     const float turns_til_reached = distance / target_speed;
     if( target->is_player() || target->is_npc() ) {
-        auto &c = dynamic_cast<const Character &>( *target );
+        const auto &c = dynamic_cast<const Character &>( *target );
         // TODO: Allow reloading if the player has a low accuracy gun
         if( sees( c ) && c.weapon.is_gun() && rltime > 200 &&
             c.weapon.gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
@@ -2803,7 +2833,7 @@ void npc::find_item()
             return;
         }
         std::vector<npc *> followers;
-        for( auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
@@ -3532,7 +3562,7 @@ bool npc::alt_attack()
     const auto inv_all = items_with( []( const item & ) {
         return true;
     } );
-    for( auto &it : inv_all ) {
+    for( item *it : inv_all ) {
         // TODO: Cached values - an itype slot maybe?
         check_alt_item( *it );
     }
@@ -3953,7 +3983,7 @@ void npc::mug_player( Character &mark )
     const auto inv_valuables = items_with( [this]( const item & itm ) {
         return value( itm ) > 0;
     } );
-    for( auto &it : inv_valuables ) {
+    for( item *it : inv_valuables ) {
         item &front_stack = *it; // is this safe?
         if( value( front_stack ) >= best_value &&
             can_pickVolume( front_stack, true ) &&
@@ -4232,7 +4262,7 @@ void npc::go_to_omt_destination()
     }
     // TODO: fix point types
     tripoint sm_tri =
-        here.getlocal( project_to<coords::scale::map_square>( omt_path.back() ).raw() );
+        here.getlocal( project_to<coords::ms>( omt_path.back() ).raw() );
     tripoint centre_sub = sm_tri + point( SEEX, SEEY );
     if( !here.passable( centre_sub ) ) {
         auto candidates = here.points_in_radius( centre_sub, 2 );

@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <cstdlib>
 #include <map>
 #include <utility>
 
-#include "catch/catch.hpp"
 #include "creature.h"
 #include "monster.h"
 #include "mtype.h"
@@ -43,7 +44,7 @@ static void calculate_bodypart_distribution( const creature_size asize, const cr
         selected_part_histogram[defender.select_body_part( &attacker, hit_roll )]++;
     }
 
-    float total_weight = 0.0;
+    float total_weight = 0.0f;
     for( float w : expected ) {
         total_weight += w;
     }

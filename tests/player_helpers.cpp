@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include "player_helpers.h"
 
 #include <cstddef>
@@ -7,7 +9,6 @@
 
 #include "avatar.h"
 #include "bionics.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "game.h"

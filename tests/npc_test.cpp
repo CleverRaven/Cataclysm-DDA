@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <set>
 #include <sstream>
@@ -6,7 +8,6 @@
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "common_types.h"
 #include "faction.h"
 #include "field.h"
@@ -359,7 +360,7 @@ TEST_CASE( "npc-movement" )
                     guy->randomize();
                     // Repeat until we get an NPC vulnerable to acid
                 } while( guy->is_immune_field( fd_acid ) );
-                guy->spawn_at_precise( {g->get_levx(), g->get_levy()}, p );
+                guy->spawn_at_precise( get_map().get_abs_sub().xy(), p );
                 // Set the shopkeep mission; this means that
                 // the NPC deems themselves to be guarding and stops them
                 // wandering off in search of distant ammo caches, etc.

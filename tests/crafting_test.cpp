@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <climits>
 #include <map>
@@ -11,7 +13,6 @@
 #include "avatar.h"
 #include "calendar.h"
 #include "cata_utility.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "item.h"
 #include "itype.h"
@@ -58,7 +59,7 @@ TEST_CASE( "recipe_subset" )
                 const auto comp_recipes( subset.of_component( itype_id( "water" ) ) );
 
                 CHECK( comp_recipes.size() == 1 );
-                CHECK( std::find( comp_recipes.begin(), comp_recipes.end(), r ) != comp_recipes.end() );
+                CHECK( comp_recipes.find( r ) != comp_recipes.end() );
             }
             AND_WHEN( "the subset is cleared" ) {
                 subset.clear();
@@ -492,7 +493,7 @@ TEST_CASE( "tool_use", "[crafting][tool]" )
         item plastic_bottle( "bottle_plastic" );
         plastic_bottle.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );
         tools.push_back( plastic_bottle );
-        item jar( "jar_glass" );
+        item jar( "jar_glass_sealed" );
         // If it's not watertight the water will spill.
         REQUIRE( jar.is_watertight_container() );
         jar.put_in( item( "water", -1, 2 ), item_pocket::pocket_type::CONTAINER );

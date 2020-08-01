@@ -175,7 +175,7 @@ const bodypart_str_id &convert_bp( body_part bp )
         bodypart_str_id( "leg_r" ),
         bodypart_str_id( "foot_l" ),
         bodypart_str_id( "foot_r" ),
-        bodypart_str_id( "num_bp" ),
+        bodypart_str_id( "bp_null" ),
     };
     if( bp > num_bp || bp < bp_torso ) {
         debugmsg( "Invalid body part token %d", bp );
@@ -351,7 +351,7 @@ std::string get_body_part_id( body_part bp )
 
 body_part_set body_part_set::unify_set( const body_part_set &rhs )
 {
-    for( const  bodypart_str_id &i : rhs ) {
+    for( const bodypart_str_id &i : rhs ) {
         if( !test( i ) ) {
             set( i );
         }
@@ -362,7 +362,7 @@ body_part_set body_part_set::unify_set( const body_part_set &rhs )
 body_part_set body_part_set::intersect_set( const body_part_set &rhs )
 {
     body_part_set temp;
-    for( const  bodypart_str_id &j : rhs ) {
+    for( const bodypart_str_id &j : rhs ) {
         if( test( j ) ) {
             temp.set( j );
         }
@@ -374,7 +374,7 @@ body_part_set body_part_set::intersect_set( const body_part_set &rhs )
 
 body_part_set body_part_set::substract_set( const body_part_set &rhs )
 {
-    for( const  bodypart_str_id &j : rhs ) {
+    for( const bodypart_str_id &j : rhs ) {
         if( test( j ) ) {
             reset( j );
         }
@@ -413,7 +413,7 @@ bool bodypart::is_at_max_hp() const
 
 float bodypart::get_wetness_percentage() const
 {
-    return static_cast<float>( wetness ) / drench_capacity;
+    return static_cast<float>( wetness ) / id->drench_max;
 }
 
 int bodypart::get_hp_cur() const
@@ -448,7 +448,7 @@ encumbrance_data bodypart::get_encumbrance_data() const
 
 int bodypart::get_drench_capacity() const
 {
-    return drench_capacity;
+    return id->drench_max;
 }
 
 int bodypart::get_wetness() const
@@ -504,11 +504,6 @@ void bodypart::set_encumbrance_data( encumbrance_data set )
 void bodypart::set_wetness( int set )
 {
     wetness = set;
-}
-
-void bodypart::set_drench_capacity( int set )
-{
-    drench_capacity = set;
 }
 
 void bodypart::set_temp_cur( int set )
@@ -601,6 +596,7 @@ void bodypart::deserialize( JsonIn &jsin )
     jo.read( "temp_cur", temp_cur, true );
     jo.read( "temp_conv", temp_conv, true );
     jo.read( "frostbite_timer", frostbite_timer, true );
+
 }
 
 void stat_hp_mods::load( const JsonObject &jsobj )

@@ -58,7 +58,8 @@
 static constexpr tripoint editmap_boundary_min( 0, 0, -OVERMAP_DEPTH );
 static constexpr tripoint editmap_boundary_max( MAPSIZE_X, MAPSIZE_Y, OVERMAP_HEIGHT + 1 );
 
-static constexpr half_open_box editmap_boundaries( editmap_boundary_min, editmap_boundary_max );
+static constexpr half_open_cuboid<tripoint> editmap_boundaries(
+    editmap_boundary_min, editmap_boundary_max );
 
 static const ter_id undefined_ter_id( -1 );
 
@@ -1024,7 +1025,7 @@ void apply<ter_t>( const ter_t &t, const shapetype editshape, const tripoint &ta
     }
 
     map &here = get_map();
-    for( auto &elem : target_list ) {
+    for( const tripoint &elem : target_list ) {
         ter_id wter = sel_ter;
         if( doalt ) {
             if( isvert && ( elem.y == alta || elem.y == altb ) ) {
@@ -1043,7 +1044,7 @@ void apply<furn_t>( const furn_t &t, const shapetype, const tripoint &,
 {
     const furn_id sel_frn = t.id.id();
     map &here = get_map();
-    for( auto &elem : target_list ) {
+    for( const tripoint &elem : target_list ) {
         here.furn_set( elem, sel_frn );
     }
 }
@@ -1053,7 +1054,7 @@ void apply<trap>( const trap &t, const shapetype, const tripoint &,
                   const tripoint &, const std::vector<tripoint> &target_list )
 {
     map &here = get_map();
-    for( auto &elem : target_list ) {
+    for( const tripoint &elem : target_list ) {
         here.trap_set( elem, t.loadid );
     }
 }
@@ -1129,7 +1130,7 @@ void editmap::edit_feature()
             draw_target_override = nullptr;
         }
 
-        input_context ctxt( emenu.input_category );
+        input_context ctxt( emenu.input_category, keyboard_mode::keychar );
         info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s, %s, %s" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ),
                                        ctxt.describe_key_and_name( "CONFIRM_QUIT" ),
@@ -1246,7 +1247,7 @@ void editmap::edit_fld()
             draw_target_override = nullptr;
         }
 
-        input_context ctxt( fmenu.input_category );
+        input_context ctxt( fmenu.input_category, keyboard_mode::keychar );
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
                                        "%s, %s, [%s,%s]\u00A0intensity, %s, %s, %s" ),
@@ -1786,7 +1787,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
     // TODO: add a do-not-save-generated-submaps parameter
     // TODO: keep track of generated submaps to delete them properly and to avoid memory leaks
     // TODO: fix point types
-    tmpmap.generate( tripoint( project_to<coords::scale::submap>( omt_pos.xy() ).raw(), target.z ),
+    tmpmap.generate( tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
                      calendar::turn );
 
     gmenu.border_color = c_light_gray;
@@ -1832,7 +1833,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             cleartmpmap( tmpmap );
             // TODO: fix point types
             tmpmap.generate(
-                tripoint( project_to<coords::scale::submap>( omt_pos.xy() ).raw(), target.z ),
+                tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
                 calendar::turn );
         }
 
@@ -1841,7 +1842,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
         } else {
             tmpmap_ptr = nullptr;
         }
-        input_context ctxt( gpmenu.input_category );
+        input_context ctxt( gpmenu.input_category, keyboard_mode::keychar );
         // \u00A0 is the non-breaking space
         info_txt_curr = string_format( pgettext( "keybinding descriptions",
                                        "[%s,%s]\u00A0prev/next oter type, [%s,%s]\u00A0select, %s, %s" ),
@@ -1859,7 +1860,7 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
             cleartmpmap( tmpmap );
             // TODO: fix point types
             tmpmap.generate(
-                tripoint( project_to<coords::scale::submap>( omt_pos.xy() ).raw(), target.z ),
+                tripoint( project_to<coords::sm>( omt_pos.xy() ).raw(), target.z ),
                 calendar::turn );
         } else if( gpmenu.ret == 1 ) {
             tmpmap.rotate( 1 );
@@ -1883,6 +1884,11 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 
                     submap *destsm = here.get_submap_at_grid( dest_pos );
                     submap *srcsm = tmpmap.get_submap_at_grid( src_pos );
+                    if( srcsm == nullptr || destsm == nullptr ) {
+                        debugmsg( "Tried to apply previewed mapgen at (%d,%d,%d) but the submap is not loaded", src_pos.x,
+                                  src_pos.y, src_pos.z );
+                        continue;
+                    }
 
                     std::swap( *destsm, *srcsm );
 
@@ -1901,6 +1907,11 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
                 for( int y = 0; y < here.getmapsize(); y++ ) {
                     const tripoint dest_pos = tripoint( x, y, target.z );
                     const submap *destsm = here.get_submap_at_grid( dest_pos );
+                    if( destsm == nullptr ) {
+                        debugmsg( "Tried to update vehicle cache at (%d,%d,%d) but the submap is not loaded", dest_pos.x,
+                                  dest_pos.y, dest_pos.z );
+                        continue;
+                    }
                     here.update_vehicle_list( destsm, target.z ); // update real map's vcaches
                 }
             }
@@ -1936,12 +1947,16 @@ void editmap::mapgen_preview( const real_coords &tc, uilist &gmenu )
 vehicle *editmap::mapgen_veh_query( const tripoint_abs_omt &omt_tgt )
 {
     tinymap target_bay;
-    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
 
     std::vector<vehicle *> possible_vehicles;
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
+            if( destsm == nullptr ) {
+                debugmsg( "Tried to get vehicles at (%d,%d,%d) but the submap is not loaded", x, y, target.z );
+                continue;
+            }
             for( const auto &vehicle : destsm->vehicles ) {
                 possible_vehicles.push_back( vehicle.get() );
             }
@@ -1971,10 +1986,14 @@ bool editmap::mapgen_veh_destroy( const tripoint_abs_omt &omt_tgt, vehicle *car_
 {
     map &here = get_map();
     tinymap target_bay;
-    target_bay.load( project_to<coords::scale::submap>( omt_tgt ), false );
+    target_bay.load( project_to<coords::sm>( omt_tgt ), false );
     for( int x = 0; x < 2; x++ ) {
         for( int y = 0; y < 2; y++ ) {
             submap *destsm = target_bay.get_submap_at_grid( { x, y, target.z } );
+            if( destsm == nullptr ) {
+                debugmsg( "Tried to destroy vehicle at (%d,%d,%d) but the submap is not loaded", x, y, target.z );
+                continue;
+            }
             for( auto &z : destsm->vehicles ) {
                 if( z.get() == car_target ) {
                     std::unique_ptr<vehicle> old_veh = target_bay.detach_vehicle( z.get() );
@@ -2109,7 +2128,7 @@ void editmap::edit_mapgen()
 
         blink = true;
 
-        input_context ctxt( gmenu.input_category );
+        input_context ctxt( gmenu.input_category, keyboard_mode::keychar );
         info_txt_curr = string_format( pgettext( "keybinding descriptions", "%s, %s, %s" ),
                                        ctxt.describe_key_and_name( "EDITMAP_MOVE" ),
                                        ctxt.describe_key_and_name( "CONFIRM" ),
