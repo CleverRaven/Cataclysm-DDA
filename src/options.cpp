@@ -967,7 +967,7 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
 {
     std::vector<id_and_option> result;
 
-    search_resource( TILESETS, result, { PATH_INFO::gfxdir(), PATH_INFO::user_gfx() }, "tileset", PATH_INFO::tileset_conf() );
+    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() }, "tileset", PATH_INFO::tileset_conf() );
 
     // Default values
     if( result.empty() ) {
@@ -981,7 +981,7 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
 {
     std::vector<id_and_option> result;
 
-    search_resource( SOUNDPACKS, result, { PATH_INFO::data_sound(), PATH_INFO::user_sound() }, "soundpack", PATH_INFO::soundpack_conf() );
+    search_resource( SOUNDPACKS, result, { PATH_INFO::user_sound(), PATH_INFO::data_sound() }, "soundpack", PATH_INFO::soundpack_conf() );
 
     // Select default built-in sound pack
     if( result.empty() ) {
