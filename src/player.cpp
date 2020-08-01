@@ -1770,15 +1770,16 @@ void player::process_items()
         return itm.has_flag( "USE_UPS" );
     } );
     for( const auto &it : inv_use_ups ) {
+        int ammo_required = it->power_draw();
         // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
         if( it->is_power_armor() && can_interface_armor() && has_power() ) {
             // Bionic power costs are handled elsewhere
             continue;
-        } else if( ch_UPS_used >= ch_UPS || ( it->active && it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
+        } else if( ch_UPS_used >= ch_UPS || ( it->active && ammo_required > ch_UPS - ch_UPS_used ) ) {
             it->deactivate();
             // this is for UPS-modded items which don't have a battery well
         } else if( it->active && it->ammo_capacity( ammotype( "battery" ) ) == 0 ) {
-            ch_UPS_used += it->ammo_required();
+            ch_UPS_used += ammo_required;
         } else if( it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
             ch_UPS_used++;
             it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
