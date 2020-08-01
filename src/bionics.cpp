@@ -2298,7 +2298,7 @@ bool Character::uninstall_bionic( const bionic &target_cbm, monster &installer, 
         patient.remove_bionic( target_cbm.id );
         item cbm( "burnt_out_bionic" );
         if( item::type_is_defined( target_cbm.info().itype() ) ) {
-            cbm = item( target_cbm.id.c_str() );
+            cbm = item( bionic_to_uninstall );
         }
         cbm.set_flag( flag_FILTHY );
         cbm.set_flag( flag_NO_STERILE );
