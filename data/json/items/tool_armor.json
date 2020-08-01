@@ -2666,8 +2666,6 @@
     "weight": "200 g",
     "color": "brown",
     "covers": [ "HEAD" ],
-    "max_charges": 1,
-    "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "speed_penalty": 10,
@@ -2696,7 +2694,6 @@
     "color": "brown",
     "covers": [ "TORSO" ],
     "to_hit": 2,
-    "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
@@ -2733,8 +2730,6 @@
     "color": "red",
     "covers": [ "TORSO" ],
     "to_hit": 2,
-    "max_charges": 1,
-    "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
@@ -2776,8 +2771,6 @@
     "color": "green",
     "covers": [ "TORSO" ],
     "to_hit": -2,
-    "max_charges": 1,
-    "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "speed_penalty": 15,
@@ -2818,8 +2811,6 @@
     "covers": [ "TORSO" ],
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": -1,
-    "max_charges": 1,
-    "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "speed_penalty": 25,
@@ -2854,8 +2845,6 @@
     "covers": [ "TORSO" ],
     "flags": [ "BELTED", "SLEEP_IGNORE" ],
     "to_hit": 1,
-    "max_charges": 1,
-    "initial_charges": 1,
     "use_action": {
       "type": "musical_instrument",
       "speed_penalty": 18,
