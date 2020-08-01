@@ -9676,7 +9676,13 @@ bool item::process_wet( player * /*carrier*/, const tripoint & /*pos*/ )
     return true;
 }
 
-int item::power_draw() const {
+bool item::process_tool( player *carrier, const tripoint &pos )
+{
+    // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
+    if( is_power_armor() && carrier->can_interface_armor() && carrier->has_power() ) {
+        return false;
+    }
+
     int energy = 0;
     if( type->tool->turns_per_charge > 0 &&
         to_turn<int>( calendar::turn ) % type->tool->turns_per_charge == 0 ) {
@@ -9688,17 +9694,6 @@ int item::power_draw() const {
         // energy_bat remainder results in chance at additional charge/discharge
         energy += x_in_y( type->tool->power_draw % 1000000, 1000000 ) ? 1 : 0;
     }
-    return energy;
-}
-
-bool item::process_tool( player *carrier, const tripoint &pos )
-{
-    // FIXME: remove this once power armors don't need to be TOOL_ARMOR anymore
-    if( is_power_armor() && carrier->can_interface_armor() && carrier->has_power() ) {
-        return false;
-    }
-
-    int energy = power_draw();
     energy -= ammo_consume( energy, pos );
 
     // for items in player possession if insufficient charges within tool try UPS
