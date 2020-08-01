@@ -1395,6 +1395,9 @@ void item::set_owner( const Character &c )
         return;
     }
     owner = c.get_faction()->id;
+    for( item *e : contents.all_items_top() ) {
+        e->set_owner( c );
+    }
 }
 
 faction_id item::get_owner() const
