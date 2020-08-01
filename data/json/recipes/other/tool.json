@@ -310,7 +310,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "result": "awl_steel",
