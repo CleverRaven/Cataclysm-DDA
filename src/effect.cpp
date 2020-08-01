@@ -1454,10 +1454,3 @@ std::string texitify_bandage_power( const int power )
     return "";
 }
 
-void effects_map::serialize( JsonOut &json ) const
-{
-}
-
-void effects_map::deserialize( JsonIn &jsin )
-{
-}

@@ -313,9 +313,6 @@ std::string texitify_bandage_power( int power );
 class effects_map : public
     std::unordered_map<efftype_id, std::unordered_map<bodypart_str_id, effect, std::hash<bodypart_str_id>>>
 {
-    public:
-        void serialize( JsonOut &json ) const;
-        void deserialize( JsonIn &jsin );
 };
 
 #endif // CATA_SRC_EFFECT_H

@@ -3211,7 +3211,7 @@ void Creature::store( JsonOut &jsout ) const
     // killer is not stored, it's temporary anyway, any creature that has a non-null
     // killer is dead (as per definition) and should not be stored.
 
-    jsout.member( "effects", effects );
+    jsout.member( "effects", *effects );
 
     jsout.member( "damage_over_time_map", damage_over_time_map );
     jsout.member( "values", values );
@@ -3279,7 +3279,7 @@ void Creature::load( const JsonObject &jsin )
             }
         }
     } else {
-        jsin.read( "effects", effects );
+        jsin.read( "effects", *effects );
     }
     jsin.read( "values", values );
 
