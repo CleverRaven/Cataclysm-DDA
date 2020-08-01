@@ -180,7 +180,7 @@
       "armor_bullet": 5,
       "vision_night": 1
     },
-    "upgrades": {  },
+    "upgrades": { "half_life": 21, "into_group": "GROUP_zankylosaurus_BRUTE" },
     "special_attacks": [ [ "SMASH", 30 ] ],
     "extend": { "flags": [ "GROUP_BASH", "PUSH_MON", "PUSH_VEH" ] },
     "categories": [ "DINOSAUR" ]
