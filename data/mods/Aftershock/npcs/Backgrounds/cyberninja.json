@@ -23,9 +23,6 @@
     "id": "BGSS_CYBERNINJA_STORY3",
     "type": "talk_topic",
     "dynamic_line": "Right now you are looking like the best leader I've met so far in this Cataclysm.",
-    "responses": [
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]

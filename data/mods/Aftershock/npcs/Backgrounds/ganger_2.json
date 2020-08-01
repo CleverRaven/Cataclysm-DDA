@@ -23,9 +23,6 @@
     "id": "BGSS_GANGEER_2_STORY3",
     "type": "talk_topic",
     "dynamic_line": "I'm going to live my best life in a dead world.",
-    "responses": [
-      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
-      { "text": "<end_talking>", "topic": "TALK_DONE" }
-    ]
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
   }
 ]
