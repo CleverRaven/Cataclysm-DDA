@@ -36,6 +36,10 @@ struct harvest_entry {
 
     std::vector<flag_id> flags;
     std::vector<fault_id> faults;
+
+    bool was_loaded = false;
+    void load( const JsonObject &jsobj );
+    void deserialize( JsonIn &jsin );
 };
 
 class harvest_list
@@ -45,7 +49,7 @@ class harvest_list
 
         itype_id leftovers = itype_id( "ruined_chunks" );
 
-        const harvest_id &id() const;
+        harvest_id id;
 
         std::string message() const;
 
@@ -82,19 +86,18 @@ class harvest_list
         static const harvest_id &load( const JsonObject &jo, const std::string &src,
                                        const std::string &force_id = "" );
 
-        /** Get all currently loaded harvest data */
-        static const std::map<harvest_id, harvest_list> &all();
-
         /** Fills out the set of cached names. */
         static void finalize_all();
 
         /** Check consistency of all loaded harvest data */
         static void check_consistency();
 
-        /** Clear all loaded harvest data (invalidating any pointers) */
-        static void reset();
+        bool was_loaded = false;
+        void load( const JsonObject &obj );
+        static void load_harvest_list( const JsonObject &jo, const std::string &src );
+        static const std::vector<harvest_list> &get_all();
+
     private:
-        harvest_id id_;
         std::list<harvest_entry> entries_;
         std::set<std::string> names_;
         translation message_;

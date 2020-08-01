@@ -1154,7 +1154,7 @@ void map_data_common_t::load( const JsonObject &jo, const std::string &src )
             harvest_id hl;
             if( harvest_jo.has_array( "entries" ) ) {
                 // TODO: A better inline name - can't use id or name here because it's not set yet
-                const size_t num = harvest_list::all().size() + 1;
+                const size_t num = harvest_list::get_all().size() + 1;
                 hl = harvest_list::load( harvest_jo, src,
                                          string_format( "harvest_inline_%d", static_cast<int>( num ) ) );
             } else if( harvest_jo.has_string( "id" ) ) {
