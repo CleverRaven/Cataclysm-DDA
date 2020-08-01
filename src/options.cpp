@@ -938,7 +938,8 @@ static std::vector<options_manager::id_and_option> build_resource_list(
 
 void options_manager::search_resource(
     std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
-    const std::vector<std::string> &search_paths, const std::string &resource_name, const std::string &resource_filename )
+    const std::vector<std::string> &search_paths, const std::string &resource_name,
+    const std::string &resource_filename )
 {
     // Clear the result containers.
     storage.clear();
@@ -948,13 +949,14 @@ void options_manager::search_resource(
     for( const std::string &search_path : search_paths ) {
         // Get the resource list from the search path.
         std::map<std::string, std::string> resources;
-        std::vector<id_and_option> resource_names = build_resource_list( resources, resource_name, search_path, resource_filename );
+        std::vector<id_and_option> resource_names = build_resource_list( resources, resource_name,
+                search_path, resource_filename );
 
         // Add any new resources from this path to the result containers.
         // First, add to the resource mapping.
         storage.insert( resources.begin(), resources.end() );
         // Next, add to the option list.
-        for ( const id_and_option &name : resource_names ) {
+        for( const id_and_option &name : resource_names ) {
             // Only add if not a duplicate.
             if( std::find( option_list.begin(), option_list.end(), name ) == option_list.end() ) {
                 option_list.emplace_back( name );
@@ -967,7 +969,8 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
 {
     std::vector<id_and_option> result;
 
-    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() }, "tileset", PATH_INFO::tileset_conf() );
+    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() }, "tileset",
+                     PATH_INFO::tileset_conf() );
 
     // Default values
     if( result.empty() ) {
@@ -981,7 +984,8 @@ std::vector<options_manager::id_and_option> options_manager::build_soundpacks_li
 {
     std::vector<id_and_option> result;
 
-    search_resource( SOUNDPACKS, result, { PATH_INFO::user_sound(), PATH_INFO::data_sound() }, "soundpack", PATH_INFO::soundpack_conf() );
+    search_resource( SOUNDPACKS, result, { PATH_INFO::user_sound(), PATH_INFO::data_sound() },
+                     "soundpack", PATH_INFO::soundpack_conf() );
 
     // Select default built-in sound pack
     if( result.empty() ) {
