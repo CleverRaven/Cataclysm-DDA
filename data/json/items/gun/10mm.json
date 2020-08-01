@@ -127,6 +127,35 @@
     ]
   },
   {
+    "id": "hk_mp5_10_semi",
+    "copy-from": "hk_mp5_semi_pistol",
+    "looks_like": "hk_mp5",
+    "type": "GUN",
+    "name": { "str": "BA10" },
+    "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the guns' usage was shortlived, a handful of clones were made and sold occasionally.  This semi-automatic clone manufactured by Brethren Arms features a welded on M1913 rail and a collapsible arm brace.",
+    "weight": "2667 g",
+    "volume": "2411 ml",
+    "longest_side": "498 mm",
+    "price": 360000,
+    "price_postapoc": 2300,
+    "durability": 7,
+    "ammo": "10mm",
+    "skill": "rifle",
+    "ranged_damage": { "damage_type": "bullet", "amount": -1 },
+    "built_in_mods": [ "folding_stock" ],
+    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
+    "pocket_data": [
+      {
+        "pocket_type": "MAGAZINE_WELL",
+        "magazine_well": "62 ml",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "mp5_10_mag" ]
+      }
+    ]
+  },
+  {
     "id": "m1911_10",
     "copy-from": "pistol_classic",
     "looks_like": "m1911",
@@ -259,11 +288,13 @@
   {
     "id": "TDI_10",
     "copy-from": "TDI",
+    "looks_like": "TDI",
     "type": "GUN",
-    "name": { "str": "KRISS Vector SDP 10mm" },
+    "name": { "str": "Vector SDP 10mm" },
     "description": "The Vector SDP is a delayed blowback \"pistol\" with a unique, downward reciprocating bolt that helps combat muzzle climb.  This one is chambered in 10mm Auto.",
     "weight": "2867 g",
     "volume": "4386 ml",
+    "longest_side": "429 mm",
     "price": 142900,
     "price_postapoc": 2300,
     "skill": "pistol",
@@ -278,30 +309,6 @@
         "max_contains_volume": "20 L",
         "max_contains_weight": "20 kg",
         "item_restriction": [ "glock_20mag", "tdi_10mm_mag" ]
-      }
-    ]
-  },
-  {
-    "id": "hk_mp5_10_semi",
-    "copy-from": "hk_mp5",
-    "type": "GUN",
-    "name": { "str": "BA10" },
-    "description": "The MP5/10 served the FBI briefly alongside their 10mm Auto pistols, adding to the caliber's overall mystique.  Though the guns' usage was shortlived, a handful of clones were made and sold occasionally.  This semi-automatic one features a welded on optic rail and a folding arm brace.",
-    "weight": "2667 g",
-    "price": 360000,
-    "price_postapoc": 2300,
-    "durability": 7,
-    "skill": "pistol",
-    "ammo": "10mm",
-    "modes": [ [ "DEFAULT", "semi-auto", 1 ] ],
-    "pocket_data": [
-      {
-        "pocket_type": "MAGAZINE_WELL",
-        "magazine_well": "62 ml",
-        "holster": true,
-        "max_contains_volume": "20 L",
-        "max_contains_weight": "20 kg",
-        "item_restriction": [ "mp5_10_mag" ]
       }
     ]
   }

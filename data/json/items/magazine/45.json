@@ -40,7 +40,7 @@
     "id": "tdi_mag",
     "looks_like": "mp5mag",
     "type": "MAGAZINE",
-    "name": { "str": "KRISS Vector 10mm magazine" },
+    "name": { "str": "Vector .45 magazine" },
     "description": "A 30-round polymer and steel box magazine for use with the KRISS Vector.",
     "weight": "210 g",
     "volume": "500 ml",

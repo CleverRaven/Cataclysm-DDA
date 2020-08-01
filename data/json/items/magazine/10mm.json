@@ -3,7 +3,7 @@
     "id": "40_speedloader6",
     "looks_like": "38_speedloader",
     "type": "MAGAZINE",
-    "name": { "str": ".40 6-round speedloader" },
+    "name": { "str": "10mm 6-round speedloader" },
     "description": "This speedloader can hold 6 rounds of .40 S&W or 10mm Auto and quickly reload a compatible revolver.",
     "weight": "92 g",
     "volume": "250 ml",
@@ -35,7 +35,7 @@
     "capacity": 15,
     "reliability": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "10mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 15 } } ]
   },
   {
     "id": "glock_29mag",
@@ -55,7 +55,7 @@
     "capacity": 10,
     "reliability": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "10mm": 10 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 10 } } ]
   },
   {
     "id": "m1911_10mag",
@@ -69,27 +69,27 @@
     "material": "steel",
     "ammo_type": [ "10mm" ],
     "capacity": 8,
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "10mm": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 8 } } ]
   },
   {
     "id": "mp5_10_mag",
     "looks_like": "ump45mag",
     "type": "MAGAZINE",
     "name": { "str": "MP5/10 magazine" },
-    "description": "A straight 30-round box magazine for use with MP5/10's and similar clones such as the Brethern Arms BA10.",
+    "description": "A straight 30-round box magazine for use with MP5/10's and similar 10mm MP5 clones such as the Brethren Arms BA10.",
     "weight": "159 g",
     "volume": "231 ml",
     "longest_side": "383 mm",
     "price": 4950,
     "price_postapoc": 100,
-    "material": "steel",
+    "material": [ "plastic", "steel" ],
     "symbol": "#",
     "color": "light_gray",
     "ammo_type": [ "10mm" ],
     "capacity": 30,
     "reliability": 7,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "10mm": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 30 } } ]
   },
   {
     "id": "p220_10_mag",
@@ -109,13 +109,13 @@
     "capacity": 8,
     "reliability": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "10mm": 8 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 8 } } ]
   },
   {
     "id": "tdi_10mm_mag",
     "looks_like": "tdi_mag",
     "type": "MAGAZINE",
-    "name": { "str": "TDI Vector 10mm magazine" },
+    "name": { "str": "Vector 10mm magazine" },
     "description": "A 30-round plastic and steel box 10mm Auto magazine for use with the Glock pattern mag wells, namely the Vector SMG.",
     "weight": "210 g",
     "volume": "194 ml",
@@ -129,7 +129,7 @@
     "capacity": 30,
     "reliability": 9,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "10mm": 30 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 30 } } ]
   },
   {
     "id": "witness_mag_10",
@@ -149,7 +149,7 @@
     "capacity": 15,
     "reliability": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "10mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 15 } } ]
   },
   {
     "id": "xd_10_mag",
@@ -169,6 +169,6 @@
     "capacity": 15,
     "reliability": 10,
     "flags": [ "MAG_COMPACT" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "ammo_restriction": { "10mm": 15 } } ]
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "10mm": 15 } } ]
   }
 ]
