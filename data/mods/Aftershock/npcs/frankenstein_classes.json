@@ -46,5 +46,16 @@
       { "id": "bio_power_storage", "chance": 100 },
       { "id": "bio_torsionratchet", "chance": 100 }
     ]
+  },
+  {
+    "type": "npc",
+    "id": "frankenstein",
+    "//": "An abomination you have revived.",
+    "name_suffix": "Cyborg Abomination",
+    "class": "frankenstein",
+    "attitude": 1,
+    "mission": 0,
+    "chat": "TALK_CYBORG_Abomination_1",
+    "faction": "no_faction"
   }
 ]

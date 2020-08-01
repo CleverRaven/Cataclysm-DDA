@@ -113,8 +113,8 @@
       },
       {
         "text": "<BGSS_intro_question>",
-        "topic": "BGRS_Bonesinger_1_STORY1",
-        "condition": { "npc_has_trait": "BGRS_Bonesinger_1" },
+        "topic": "BGRS_Bonesinger_STORY1",
+        "condition": { "npc_has_trait": "BGRS_Bonesinger" },
         "switch": true
       },
       {
