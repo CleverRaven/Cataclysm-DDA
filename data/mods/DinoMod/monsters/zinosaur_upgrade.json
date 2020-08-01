@@ -706,7 +706,7 @@
     "proportional": { "hp": 1.5, "speed": 0.8 },
     "relative": { "armor_bash": 30, "armor_cut": 37, "armor_bullet": 30, "armor_stab": 30, "armor_acid": 3 },
     "extend": { "flags": [ "DRIPS_GASOLINE", "LOUDMOVES" ] },
-    "special_attacks": [ [ "BMG_TUR", 30 ] ],
+    "special_attacks": [ [ "SMG", 30 ] ],
     "upgrades": {  },
     "death_drops": [
       { "item": "mil_plate", "count": 4 },
