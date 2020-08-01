@@ -3,7 +3,7 @@
     "//": [
       "The responses here are currently merged with the built in responses as not all",
       "responses for the topics here have been moved to json.",
-      "Some topics here can be moved to NPC type specific files later."
+      "Some of the topics here can be moved to NPC type specific files later."
     ],
     "type": "talk_topic",
     "//2": "Generic responses for NPCs that can have missions",

@@ -2247,7 +2247,7 @@
     "type": "profession",
     "ident": "blacksmith",
     "name": "Blacksmith",
-    "description": "You ran into trouble coming out of class at your community college's metalsmithing program, but despite the havoc you've managed to keep ahold of some equipment you were carrying.",
+    "description": "You ran into trouble coming out of class at your community college's metalsmithing program, but despite the havoc you've managed to keep ahold of some of the equipment you were carrying.",
     "points": 1,
     "skills": [ { "level": 4, "name": "fabrication" } ],
     "proficiencies": [ "prof_blacksmithing" ],

@@ -841,7 +841,7 @@
     "type": "terrain",
     "name": "half-built wattle-and-daub wall",
     "looks_like": "t_wall_wattle",
-    "description": "This wattle-and-daub wall has some wooden strip lattice in place, and still requires the rest of the lattice and supporting wet compound to be filled in.",
+    "description": "This wattle-and-daub wall has some of the wooden strip lattice in place, and still requires the rest of the lattice and supporting wet compound to be filled in.",
     "symbol": "#",
     "color": "light_red",
     "move_cost": 4,

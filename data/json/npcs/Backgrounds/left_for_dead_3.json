@@ -35,7 +35,7 @@
   {
     "id": "BGSS_LEFT_FOR_DEAD_3_STORY4",
     "type": "talk_topic",
-    "dynamic_line": "I honestly don't know.  I wonder if some others would have come back to their senses, given time.  I don't think I'm anything special.  Maybe a lot of them did, and just weren't on the edge of the crowd at the time.  I'll tell you, almost as soon as I came back to myself, I could see some rioters looking at me like I was prey.  I didn't stick around to see what would happen.",
+    "dynamic_line": "I honestly don't know.  I wonder if some of the others would have come back to their senses, given time.  I don't think I'm anything special.  Maybe a lot of them did, and just weren't on the edge of the crowd at the time.  I'll tell you, almost as soon as I came back to myself, I could see some of the rioters looking at me like I was prey.  I didn't stick around to see what would happen.",
     "responses": [
       { "text": "Where did you go from there?", "topic": "BGSS_LEFT_FOR_DEAD_3_STORY5" },
       { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },

@@ -116,7 +116,7 @@
     "id": "recipe_lab_elec",
     "type": "BOOK",
     "name": { "str": "lab journal-Herrera", "str_pl": "lab journals-Herrera" },
-    "description": "This hefty binder contains a multitude of diagrams and technical specifications for various electronic materials.  Some diagrams use symbols you've not seen before…",
+    "description": "This hefty binder contains a multitude of diagrams and technical specifications for various electronic materials.  Some of the diagrams use symbols you've not seen before…",
     "weight": "2000 g",
     "volume": "500 ml",
     "price": 56000,

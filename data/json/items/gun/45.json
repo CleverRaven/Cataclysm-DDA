@@ -240,7 +240,7 @@
     "looks_like": "hk_mp5",
     "type": "GUN",
     "name": { "str": "Luty SMG: .45", "str_pl": "Luty SMGs: .45" },
-    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
+    "description": "A Luty pattern makeshift smoothbore SMG crudely constructed out of various steel parts using some of the more advanced powered hand tools; likely one of the most complex guns that are feasible to make outside of a machine shop, but still very unreliable.  This one is chambered for .45 ACP cartridges and accepts MAC-10 compatible magazines.",
     "//": "Crafting recipe must make use of angle grinder, bench grinder, set square and vise, which don't yet exist in game.",
     "weight": "3274 g",
     "volume": "1750 ml",

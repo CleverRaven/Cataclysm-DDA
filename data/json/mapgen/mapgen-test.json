@@ -33,7 +33,7 @@
     "method": "json",
     "om_terrain": [ "mapgen-test" ],
     "object": {
-      "//": "Some squares should have a frame, but not all.",
+      "//": "Some of the squares should have a frame, but not all.",
       "fill_ter": "t_grass",
       "rows": [
         "                       r",
