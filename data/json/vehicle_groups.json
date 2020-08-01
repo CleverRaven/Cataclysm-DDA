@@ -100,7 +100,8 @@
       [ "cube_van_cheap", 500 ],
       [ "hippie_van", 500 ],
       [ "4x4_car", 500 ],
-      [ "car_hybrid", 500 ]
+      [ "car_hybrid", 500 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
