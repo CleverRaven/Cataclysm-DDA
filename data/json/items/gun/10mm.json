@@ -161,7 +161,7 @@
     "looks_like": "m1911",
     "type": "GUN",
     "name": { "str": "Colt Delta Elite" },
-    "description": "A modernized, match-grade variant of the venerable 1911 chambered in hard-hitting 10mm Auto.  Early variants were known to crack frames; modern 1911's, like this one, are slotted to prevent such crack formation.",
+    "description": "A modernized, match-grade variant of the venerable M1911 chambered in hard-hitting 10mm Auto.  Early variants were known to crack frames; modern 1911's, like this one, are slotted to prevent such crack formation.",
     "weight": "1077 g",
     "volume": "413 ml",
     "longest_side": "210 mm",
