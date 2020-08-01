@@ -2499,5 +2499,17 @@
     "type": "recipe",
     "result": "slam_shotgun",
     "obsolete": true
+  },
+  {
+    "type": "recipe",
+    "result": "rag",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_MATERIALS",
+    "skill_used": "survival",
+    "time": "3 m",
+    "autolearn": true,
+    "tools": [ [ [ "surface_heat", 3, "LIST" ] ] ],
+    "components": [ [ [ "water", 1 ], [ "water_clean", 1 ] ], [ [ "rag_bloody", 1 ] ] ],
+    "obsolete": true
   }
 ]
