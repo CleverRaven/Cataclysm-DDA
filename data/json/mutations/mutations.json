@@ -798,7 +798,7 @@
     "id": "MARTIAL_FENCING",
     "name": { "str": "Competitive Fencer" },
     "points": 0,
-    "description": "You were an avid fencer, starting with foil and moving onto saber, then épée.  You competed nationally and dabbled with some historical fencing weapons afforded by HEMA's popularity.",
+    "description": "You were an avid fencer, starting with foil and moving onto saber, then épée.  You competed nationally and dabbled with some of the historical fencing weapons afforded by HEMA's popularity.",
     "starting_trait": false,
     "initial_ma_styles": [ "style_fencing" ],
     "valid": false
@@ -2418,7 +2418,7 @@
     "points": 2,
     "visibility": 2,
     "ugliness": 3,
-    "description": "Some quills on your arms have become quite loose.  By flinging your arms, you can fire off these quills as projectiles.",
+    "description": "Some of the quills on your arms have become quite loose.  By flinging your arms, you can fire off these quills as projectiles.",
     "active": true,
     "cost": 10,
     "hunger": true,
