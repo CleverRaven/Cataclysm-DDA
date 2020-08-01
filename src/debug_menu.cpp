@@ -2016,8 +2016,7 @@ void debug()
             }
             break;
         case debug_menu_index::TEST_WEATHER: {
-            get_weather().get_cur_weather_gen().test_weather( g->get_seed(),
-                    get_weather().next_instance_allowed );
+            get_weather().get_cur_weather_gen().test_weather( g->get_seed() );
         }
         break;
 

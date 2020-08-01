@@ -11529,6 +11529,7 @@ void Character::on_mutation_gain( const trait_id &mid )
     magic->on_mutation_gain( mid, *this );
     update_type_of_scent( mid );
     recalculate_enchantment_cache(); // mutations can have enchantments
+    effect_on_conditions::process_reactivate();
 }
 
 void Character::on_mutation_loss( const trait_id &mid )
@@ -11537,11 +11538,13 @@ void Character::on_mutation_loss( const trait_id &mid )
     magic->on_mutation_loss( mid );
     update_type_of_scent( mid, false );
     recalculate_enchantment_cache(); // mutations can have enchantments
+    effect_on_conditions::process_reactivate();
 }
 
 void Character::on_stat_change( const std::string &stat, int value )
 {
     morale->on_stat_change( stat, value );
+    effect_on_conditions::process_reactivate();
 }
 
 bool Character::has_opposite_trait( const trait_id &flag ) const

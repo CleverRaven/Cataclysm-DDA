@@ -56,6 +56,9 @@ class talker_character: public talker
         int dex_cur() const override;
         int int_cur() const override;
         int per_cur() const override;
+        int pain_cur() const override;
+        int focus_cur() const override;
+        int morale_cur() const override;
         bool has_trait( const trait_id &trait_to_check ) const override;
         void set_mutation( const trait_id &new_trait ) override;
         void unset_mutation( const trait_id &old_trait ) override;
@@ -73,14 +76,35 @@ class talker_character: public talker
         bool is_deaf() const override;
         bool is_mute() const override;
         void add_effect( const efftype_id &new_effect, const time_duration &dur,
-                         bool permanent ) override;
+                         const body_part &target_part,
+                         bool permanent, int intensity ) override;
         void remove_effect( const efftype_id &old_effect ) override;
+
+        void add_bionic( const bionic_id &new_bionic ) override;
+        void remove_bionic( const bionic_id &old_bionic ) override;
+        void mod_pain( int amount ) override;
+        void mod_fatigue( int amount ) override;
+        void mod_focus( int amount ) override;
+        void mod_rad( int amount ) override;
+        void mod_sleep_deprivation( int amount ) override;
+        void mod_healthy( int amount ) override;
+        void mod_stored_kcal( int amount ) override;
+
+        void deal_damage( const damage_instance &damage, const bodypart_str_id &target_part ) override;
+
+        void mod_add_morale( morale_type new_morale, int bonus, int max_bonus, time_duration duration,
+                             time_duration decay_start, bool capped );
+
+        void mod_remove_morale( morale_type old_morale );
+
         std::string get_value( const std::string &var_name ) const override;
         void set_value( const std::string &var_name, const std::string &value ) override;
         void remove_value( const std::string &var_name ) override;
 
         // inventory, buying, and selling
         bool is_wearing( const itype_id &item_id ) const override;
+        bool worn_with_flag( const std::string &flag ) const override;
+        bool wielded_with_flag( const std::string &flag ) const override;
         int charges_of( const itype_id &item_id ) const override;
         bool has_charges( const itype_id &item_id, int count ) const override;
         std::list<item> use_charges( const itype_id &item_name, int count ) override;
@@ -104,6 +128,8 @@ class talker_character: public talker
         int get_fatigue() const override;
         int get_hunger() const override;
         int get_thirst() const override;
+        int get_stored_kcal() const override;
+        int get_sleep_deprivation() const override;
         bool is_in_control_of( const vehicle &veh ) const override;
 
         // speaking

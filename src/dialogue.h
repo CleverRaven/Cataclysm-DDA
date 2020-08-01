@@ -99,6 +99,27 @@ struct talk_effect_fun_t {
         void set_remove_effect( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_add_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_trait( const JsonObject &jo, const std::string &member, bool is_npc = false );
+        void set_add_bionic( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_remove_bionic( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_add_morale( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_remove_morale( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_sound_message( const JsonObject &jo, const std::string &member );
+        void set_message( const JsonObject &jo, const std::string &member );
+        void set_mod_pain( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_add_wet( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_mod_fatigue( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_mod_focus( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_mod_radiation( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_mod_healthy( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_mod_sleep_deprivation( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_mod_stored_kcal( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_lightning( const JsonObject &, const std::string & );
+        void set_weather( const JsonObject &jo, const std::string &member );
+        void set_field( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_spawn_monster( const JsonObject &jo, const std::string &member, bool is_npc );
+        void set_queue_effect( const JsonObject &jo, const std::string &member );
+        void set_deal_damage( const JsonObject &jo, const std::string &, bool is_npc );
+        void set_sound_effect( const JsonObject &jo, const std::string &member );
         void set_add_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_remove_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
         void set_adjust_var( const JsonObject &jo, const std::string &member, bool is_npc = false );
@@ -409,6 +430,7 @@ class json_dynamic_line_effect
         json_dynamic_line_effect( const JsonObject &jo, const std::string &id );
         bool test_condition( const dialogue &d ) const;
         void apply( dialogue &d ) const;
+        json_dynamic_line_effect() = default;
 };
 
 /**

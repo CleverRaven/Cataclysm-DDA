@@ -1,0 +1,66 @@
+[
+  {
+    "id": "thunder",
+    "type": "effect_on_condition",
+    "once_every": 1,
+    "condition": {
+      "and": [
+        { "or": [ { "is_weather": "thunder" }, { "is_weather": "lightning" } ] },
+        { "one_in_chance": 50 },
+        { "u_is_height": 0 }
+      ]
+    },
+    "effect": [
+      { "sound_message": "You hear a distant rumble of thunder.", "outdoor_only": true },
+      { "sound_effect": "thunder_far" }
+    ]
+  },
+  {
+    "id": "lightning",
+    "type": "effect_on_condition",
+    "once_every": 1,
+    "condition": { "and": [ { "is_weather": "lightning" }, { "one_in_chance": 600 }, { "u_is_height": 0 } ] },
+    "effect": [
+      { "message": "A flash of lightning illuminates your surroundings!" },
+      { "sound_effect": "thunder_near" },
+      "lightning"
+    ]
+  },
+  {
+    "id": "acid_drizzle",
+    "type": "effect_on_condition",
+    "once_every": 1,
+    "condition": { "and": [ { "is_weather": "acid_drizzle" }, "u_is_outside", { "not": { "u_has_pain": 30 } } ] },
+    "effect": [ { "message": "The acid rain stings, but is mostly harmless for now…" }, { "u_mod_pain": 1 } ]
+  },
+  {
+    "id": "acid_rain",
+    "type": "effect_on_condition",
+    "once_every": 1,
+    "condition": {
+      "and": [
+        { "is_weather": "acid_rain" },
+        "u_is_outside",
+        { "not": { "u_has_pain": 100 } },
+        {
+          "not": { "or": [ { "u_has_wielded_with_flag": "RAIN_PROTECT" }, { "u_has_worn_with_flag": "RAINPROOF" } ] }
+        }
+      ]
+    },
+    "effect": [ { "message": "The acid rain burns!" }, { "u_mod_pain": 3 } ]
+  },
+  {
+    "id": "snow",
+    "type": "effect_on_condition",
+    "once_every": 1,
+    "condition": { "and": [ { "is_weather": "snow" }, "u_is_outside" ] },
+    "effect": [ { "u_add_wet": 10 } ]
+  },
+  {
+    "id": "snowstorm",
+    "type": "effect_on_condition",
+    "once_every": 1,
+    "condition": { "and": [ { "is_weather": "snowstorm" }, "u_is_outside" ] },
+    "effect": [ { "u_add_wet": 40 } ]
+  }
+]

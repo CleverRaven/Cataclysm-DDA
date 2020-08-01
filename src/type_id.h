@@ -20,12 +20,19 @@ struct ammo_effect;
 using ammo_effect_id = int_id<ammo_effect>;
 using ammo_effect_str_id = string_id<ammo_effect>;
 
+class ascii_art;
+using ascii_art_id = string_id<ascii_art>;
+
 struct bionic_data;
 using bionic_id = string_id<bionic_data>;
 
 struct body_part_type;
 using bodypart_id = int_id<body_part_type>;
 using bodypart_str_id = string_id<body_part_type>;
+
+struct construction;
+using construction_id = int_id<construction>;
+using construction_str_id = string_id<construction>;
 
 struct construction_category;
 using construction_category_id = string_id<construction_category>;
@@ -39,14 +46,11 @@ using clothing_mod_id = string_id<clothing_mod>;
 class effect_type;
 using efftype_id = string_id<effect_type>;
 
-class scent_type;
-using scenttype_id = string_id<scent_type>;
-
-class ascii_art;
-using ascii_art_id = string_id<ascii_art>;
-
 class disease_type;
 using diseasetype_id = string_id<disease_type>;
+
+struct effect_on_condition;
+using effect_on_condition_id = string_id<effect_on_condition>;
 
 class emit;
 using emit_id = string_id<emit>;
@@ -80,6 +84,10 @@ using item_group_id = string_id<Item_spawn_data>;
 
 struct itype;
 using itype_id = string_id<itype>;
+
+class json_flag;
+using flag_id = int_id<json_flag>;
+using flag_str_id = string_id<json_flag>;
 
 class ma_buff;
 using mabuff_id = string_id<ma_buff>;
@@ -135,6 +143,9 @@ using recipe_id = string_id<recipe>;
 struct requirement_data;
 using requirement_id = string_id<requirement_data>;
 
+class scent_type;
+using scenttype_id = string_id<scent_type>;
+
 class Skill;
 using skill_id = string_id<Skill>;
 
@@ -173,6 +184,9 @@ using Trait_group_tag = string_id<Trait_group>;
 // note: "dynamic" string id, see string_id_params in string_id.h
 } // namespace trait_group
 
+class translation;
+using snippet_id = string_id<translation>;
+
 struct trap;
 using trap_id = int_id<trap>;
 using trap_str_id = string_id<trap>;
@@ -200,15 +214,5 @@ using weather_type_id = string_id<weather_type>;
 
 class zone_type;
 using zone_type_id = string_id<zone_type>;
-
-class translation;
-using snippet_id = string_id<translation>;
-
-struct construction;
-using construction_id = int_id<construction>;
-using construction_str_id = string_id<construction>;
-
-class json_flag;
-using flag_id = string_id<json_flag>;
 
 #endif // CATA_SRC_TYPE_ID_H

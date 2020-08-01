@@ -10,6 +10,7 @@
 #include <list>
 #include <map>
 #include <memory>
+#include <queue>
 #include <set>
 #include <string>
 #include <unordered_set>
@@ -22,6 +23,8 @@
 #include "coordinates.h"
 #include "creature.h"
 #include "cursesdef.h"
+#include "dialogue.h"
+#include "effect_on_condition.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item_location.h"
@@ -352,7 +355,7 @@ class game
         /** Spawns a hallucination at a determined position of a given monster. */
         bool spawn_hallucination( const tripoint &p, const mtype_id &mt );
         /** Finds somewhere to spawn a monster. */
-        bool find_nearby_spawn_point( const Character &target, const mtype_id &mt, int min_radius,
+        bool find_nearby_spawn_point( const tripoint &target, const mtype_id &mt, int min_radius,
                                       int max_radius, tripoint &point );
         /** Swaps positions of two creatures */
         bool swap_critters( Creature &, Creature & );
@@ -1036,6 +1039,10 @@ class game
         time_duration turnssincelastmon = 0_turns; // needed for auto run mode
 
         weather_manager weather;
+        std::vector<effect_on_condition_id> active_effect_on_condition_vector;
+        std::vector<effect_on_condition_id> inactive_effect_on_condition_vector;
+        std::priority_queue<std::pair<time_point, effect_on_condition_id>, std::vector<std::pair<time_point, effect_on_condition_id>>, pair_greater_cmp_first>
+                queued_effect_on_conditions;
 
         int mostseen = 0; // # of mons seen last turn; if this increases, set safe_mode to SAFE_MODE_STOP
     private:

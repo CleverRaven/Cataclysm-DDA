@@ -68,7 +68,7 @@ static const flag_id json_flag_SUN_GLASSES( "SUN_GLASSES" );
  * @{
  */
 
-static bool is_creature_outside( const Creature &target )
+bool is_creature_outside( const Creature &target )
 {
     map &here = get_map();
     return here.is_outside( point( target.posx(), target.posy() ) ) && here.get_abs_sub().z >= 0;
@@ -170,7 +170,7 @@ weather_type_id current_weather( const tripoint &location, const time_point &t )
     if( g->weather.weather_override != WEATHER_NULL ) {
         return g->weather.weather_override;
     }
-    return wgen.get_weather_conditions( location, t, g->get_seed(), g->weather.next_instance_allowed );
+    return wgen.get_weather_conditions( location, t, g->get_seed() );
 }
 
 ////// Funnels.
@@ -390,6 +390,17 @@ static void fill_water_collectors( int mmPerHour, bool acid )
     }
 }
 
+double precip_mm_per_hour( precip_class const p )
+// Precipitation rate expressed as the rainfall equivalent if all
+// the precipitation were rain (rather than snow).
+{
+    return
+        p == precip_class::very_light ? 0.5 :
+        p == precip_class::light ? 1.5 :
+        p == precip_class::heavy ? 3   :
+        0;
+}
+
 /**
  * Main routine for wet effects caused by weather.
  * Drenching the player is applied after checks against worn and held items.
@@ -402,7 +413,7 @@ static void fill_water_collectors( int mmPerHour, bool acid )
  * @see map::decay_fields_and_scent
  * @see player::drench
  */
-void wet( Character &target, int amount )
+void wet_character( Character &target, int amount )
 {
     if( !is_creature_outside( target ) ||
         amount <= 0 ||
@@ -470,7 +481,7 @@ void handle_weather_effects( const weather_type_id &w )
 {
     //Possible TODO, make npc/monsters affected
     map &here = get_map();
-    Character &player_character = get_player_character();
+    Character &target = get_player_character();
     if( w->rains && w->precip != precip_class::none ) {
         fill_water_collectors( precip_mm_per_hour( w->precip ),
                                w->acidic );
@@ -487,7 +498,7 @@ void handle_weather_effects( const weather_type_id &w )
             wetness = 60;
         }
         here.decay_fields_and_scent( decay_time );
-        wet( player_character, wetness );
+        wet_character( target, wetness );
     }
     glare( w );
     g->weather.lightning_active = false;
@@ -700,12 +711,14 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
     // TODO: wind direction and speed
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
                                  1_hours;
+    w_point weatherPoint = *g->weather.weather_precise;
     for( int d = 0; d < 6; d++ ) {
         weather_type_id forecast = WEATHER_NULL;
         const weather_generator wgen = get_weather().get_cur_weather_gen();
         for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
-            forecast = std::max( forecast, wgen.get_weather_conditions( w, g->weather.next_instance_allowed ) );
+            *g->weather.weather_precise = w;
+            forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
             high = std::max( high, w.temperature );
             low = std::min( low, w.temperature );
         }
@@ -730,6 +743,7 @@ std::string weather_forecast( const point_abs_sm &abs_sm_pos )
                               print_temperature( high ), print_temperature( low )
                           );
     }
+    *g->weather.weather_precise = weatherPoint;
     return weather_report;
 }
 
@@ -1059,13 +1073,11 @@ void weather_manager::update_weather()
                                      g->get_seed() );
         weather_type_id old_weather = weather_id;
         weather_id = weather_override == WEATHER_NULL ?
-                     weather_gen.get_weather_conditions( w, next_instance_allowed )
+                     weather_gen.get_weather_conditions( w )
                      : weather_override;
         sfx::do_ambient();
         temperature = w.temperature;
         lightning_active = false;
-        next_instance_allowed[weather_id] = calendar::turn + rng( weather_id->time_between_min,
-                                            weather_id->time_between_max );
         nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
         map &here = get_map();
         if( weather_id != old_weather && weather_id->dangerous &&

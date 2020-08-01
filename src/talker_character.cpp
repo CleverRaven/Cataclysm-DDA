@@ -77,6 +77,21 @@ int talker_character::per_cur() const
     return me_chr->per_cur;
 }
 
+int talker_character::pain_cur() const
+{
+    return me_chr->get_pain();
+}
+
+int talker_character::focus_cur() const
+{
+    return me_chr->focus_pool;
+}
+
+int talker_character::morale_cur() const
+{
+    return me_chr->get_morale_level();
+}
+
 bool talker_character::has_trait( const trait_id &trait_to_check ) const
 {
     return me_chr->has_trait( trait_to_check );
@@ -148,14 +163,83 @@ bool talker_character::has_effect( const efftype_id &effect_id ) const
 }
 
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
-                                   bool permanent )
+                                   const body_part &target_part,
+                                   bool permanent, int intensity )
 {
-    me_chr->add_effect( new_effect, dur, permanent );
+    me_chr->add_effect( new_effect, dur, target_part, permanent, intensity );
 }
 
 void talker_character::remove_effect( const efftype_id &old_effect )
 {
     me_chr->remove_effect( old_effect );
+}
+
+void talker_character::add_bionic( const bionic_id &new_bionic )
+{
+    me_chr->add_bionic( new_bionic );
+}
+
+void talker_character::remove_bionic( const bionic_id &old_bionic )
+{
+    me_chr->remove_bionic( old_bionic );
+}
+
+void talker_character::mod_pain( int amount )
+{
+    me_chr->mod_pain( amount );
+}
+
+void talker_character::mod_fatigue( int amount )
+{
+    me_chr->mod_fatigue( amount );
+}
+
+void talker_character::mod_focus( int amount )
+{
+    me_chr->focus_pool += amount;
+}
+
+void talker_character::mod_rad( int amount )
+{
+    me_chr->mod_rad( amount );
+}
+
+void talker_character::mod_sleep_deprivation( int amount )
+{
+    me_chr->mod_sleep_deprivation( amount );
+}
+
+void talker_character::mod_healthy( int amount )
+{
+    me_chr->mod_healthy( amount );
+}
+
+void talker_character::mod_stored_kcal( int amount )
+{
+    me_chr->mod_stored_kcal( amount );
+}
+
+void talker_character::deal_damage( const damage_instance &damage,
+                                    const bodypart_str_id &target_part )
+{
+    if( target_part.is_valid() ) {
+        me_chr->deal_damage( nullptr, target_part, damage );
+    } else {
+        for( const bodypart_id &bp : me_chr->get_all_body_parts() ) {
+            me_chr->deal_damage( nullptr, bp, damage );
+        }
+    }
+}
+
+void talker_character::mod_add_morale( morale_type new_morale, int bonus, int max_bonus,
+                                       time_duration duration, time_duration decay_start, bool capped )
+{
+    me_chr->add_morale( new_morale, bonus, max_bonus, duration, decay_start, capped );
+}
+
+void talker_character::mod_remove_morale( morale_type old_morale )
+{
+    me_chr->rem_morale( old_morale );
 }
 
 std::string talker_character:: get_value( const std::string &var_name ) const
@@ -176,6 +260,16 @@ void talker_character::remove_value( const std::string &var_name )
 bool talker_character::is_wearing( const itype_id &item_id ) const
 {
     return me_chr->is_wearing( item_id );
+}
+
+bool talker_character::worn_with_flag( const std::string &flag ) const
+{
+    return me_chr->worn_with_flag( flag );
+}
+
+bool talker_character::wielded_with_flag( const std::string &flag ) const
+{
+    return me_chr->weapon.has_flag( flag );
 }
 
 int talker_character::charges_of( const itype_id &item_id ) const
@@ -282,6 +376,15 @@ int talker_character::get_thirst() const
     return me_chr->get_thirst();
 }
 
+int talker_character::get_stored_kcal() const
+{
+    return me_chr->get_stored_kcal();
+}
+
+int talker_character::get_sleep_deprivation() const
+{
+    return me_chr->get_sleep_deprivation();
+}
 bool talker_character::is_in_control_of( const vehicle &veh ) const
 {
     return veh.player_in_control( *me_chr );

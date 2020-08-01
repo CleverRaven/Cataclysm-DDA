@@ -24,6 +24,7 @@
 #include "compatibility.h" // IWYU pragma: keep
 #include "condition.h"
 #include "coordinates.h"
+#include "damage.h"
 #include "debug.h"
 #include "dialogue.h" // IWYU pragma: associated
 #include "enums.h"
@@ -42,6 +43,7 @@
 #include "line.h"
 #include "magic.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "mapgen_functions.h"
 #include "martialarts.h"
 #include "messages.h"
@@ -80,6 +82,7 @@ static const activity_id ACT_WAIT_NPC( "ACT_WAIT_NPC" );
 
 static const efftype_id effect_narcosis( "narcosis" );
 static const efftype_id effect_riding( "riding" );
+static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_under_operation( "under_operation" );
 
 static const itype_id fuel_type_animal( "animal" );
@@ -1640,6 +1643,7 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
     std::string new_effect = jo.get_string( member );
     bool permanent = false;
     time_duration duration = 1000_turns;
+    int intensity = 1;
     if( jo.has_string( "duration" ) ) {
         const std::string dur_string = jo.get_string( "duration" );
         if( dur_string == "PERMANENT" ) {
@@ -1650,8 +1654,14 @@ void talk_effect_fun_t::set_add_effect( const JsonObject &jo, const std::string 
     } else {
         duration = time_duration::from_turns( jo.get_int( "duration" ) );
     }
-    function = [is_npc, new_effect, duration, permanent]( const dialogue & d ) {
-        d.actor( is_npc )->add_effect( efftype_id( new_effect ), duration, permanent );
+    if( jo.has_string( "intensity" ) ) {
+        intensity = jo.get_int( "intensity" );
+    }
+    bodypart_str_id target_part = bodypart_str_id( jo.get_string( "target_part", "bp_null" ) );
+
+    function = [is_npc, new_effect, duration, target_part, permanent, intensity]( const dialogue & d ) {
+        d.actor( is_npc )->add_effect( efftype_id( new_effect ), duration, target_part->token, permanent,
+                                       intensity );
     };
 }
 
@@ -1682,8 +1692,271 @@ void talk_effect_fun_t::set_remove_trait( const JsonObject &jo, const std::strin
     };
 }
 
-void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member,
+void talk_effect_fun_t::set_add_bionic( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    std::string new_bionic = jo.get_string( member );
+    function = [is_npc, new_bionic]( const dialogue & d ) {
+        d.actor( is_npc )->add_bionic( bionic_id( new_bionic ) );
+    };
+}
+
+void talk_effect_fun_t::set_remove_bionic( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    std::string old_bionic = jo.get_string( member );
+    function = [is_npc, old_bionic]( const dialogue & d ) {
+        d.actor( is_npc )->remove_bionic( bionic_id( old_bionic ) );
+    };
+}
+
+void talk_effect_fun_t::set_add_morale( const JsonObject &jo, const std::string &member,
+                                        bool is_npc )
+{
+    morale_type new_type = morale_type( jo.get_string( member ) );
+    int bonus = jo.get_int( "bonus", 0 );
+    int max_bonus = jo.get_int( "max_bonus", 0 );;
+    time_duration duration = time_duration::from_minutes( jo.get_int( "duration", 60 ) );
+    time_duration decay_start = time_duration::from_minutes( jo.get_int( "decay_start", 30 ) );
+    bool capped = jo.has_member( "capped" );
+    function = [is_npc, new_type, bonus, max_bonus, duration, decay_start,
+            capped]( const dialogue & d ) {
+        d.actor( is_npc )->add_morale( new_type, bonus, max_bonus, duration, decay_start, capped );
+    };
+}
+
+void talk_effect_fun_t::set_remove_morale( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    std::string old_morale = jo.get_string( member );
+    function = [is_npc, old_morale]( const dialogue & d ) {
+        d.actor( is_npc )->remove_morale( morale_type( old_morale ) );
+    };
+}
+
+void talk_effect_fun_t::set_sound_message( const JsonObject &jo, const std::string &member )
+{
+    std::string message = jo.get_string( member );
+    const bool outdoor_only = jo.get_bool( "outdoor_only", false );
+    function = [message, outdoor_only]( const dialogue & d ) {
+        map &here = get_map();
+        Character &target = *d.alpha->get_character();
+        if( !target.has_effect( effect_sleep ) && !target.is_deaf() ) {
+            if( !outdoor_only || here.get_abs_sub().z >= 0 ) {
+                target.add_msg_if_player( message );
+            } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                         target.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                target.add_msg_if_player( message );
+            }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_message( const JsonObject &jo, const std::string &member )
+{
+    std::string message = jo.get_string( member );
+    function = [message]( const dialogue & d ) {
+        Character &target = *d.alpha->get_character();
+        target.add_msg_if_player( message );
+    };
+}
+
+void talk_effect_fun_t::set_mod_pain( const JsonObject &jo, const std::string &member,
+                                      bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_pain( amount );
+    };
+}
+
+void talk_effect_fun_t::set_add_wet( const JsonObject &jo, const std::string &member,
                                      bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        Character &target = *d.actor( is_npc )->get_character();
+        wet_character( target, amount );
+    };
+}
+
+void talk_effect_fun_t::set_mod_fatigue( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_fatigue( amount );
+    };
+}
+
+void talk_effect_fun_t::set_mod_focus( const JsonObject &jo, const std::string &member,
+                                       bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_focus( amount );
+
+    };
+}
+
+void talk_effect_fun_t::set_mod_radiation( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_rad( amount );
+    };
+}
+
+void talk_effect_fun_t::set_mod_healthy( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_healthy( amount );
+    };
+}
+
+void talk_effect_fun_t::set_mod_sleep_deprivation( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_sleep_deprivation( amount );
+    };
+}
+
+void talk_effect_fun_t::set_mod_stored_kcal( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    int amount = jo.get_int( member );
+    function = [is_npc, amount]( const dialogue & d ) {
+        d.actor( is_npc )->mod_stored_kcal( amount );
+    };
+}
+
+void talk_effect_fun_t::set_lightning( const JsonObject &, const std::string & )
+{
+    function = []( const dialogue & ) {
+        get_weather().lightning_active = true;
+    };
+}
+
+void talk_effect_fun_t::set_weather( const JsonObject &jo, const std::string &member )
+{
+    weather_type_id new_weather = weather_type_id( jo.get_string( member ) );
+    function = [new_weather]( const dialogue & ) {
+        get_weather().weather_override = new_weather;
+        get_weather().set_nextweather( calendar::turn );
+    };
+}
+
+void talk_effect_fun_t::set_field( const JsonObject &jo, const std::string &member, bool is_npc )
+{
+    field_type_str_id new_field = field_type_str_id( jo.get_string( member ) );
+    int intensity = jo.get_int( "intensity", 0 );
+    time_duration age = time_duration::from_turns( jo.get_int( "age", 1 ) );
+    int radius = jo.get_int( "radius", 10000000 );
+    const bool outdoor_only = jo.has_member( "outdoor_only" );
+
+    function = [is_npc, new_field, intensity, age, radius, outdoor_only]( const dialogue & d ) {
+        for( const tripoint &dest : get_map().points_in_radius( d.actor( is_npc )->pos(), radius ) ) {
+            if( !outdoor_only || get_map().is_outside( dest ) ) {
+                get_map().add_field( dest, new_field, intensity, age );
+            }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_spawn_monster( const JsonObject &jo, const std::string &member,
+        bool is_npc )
+{
+    mtype_id new_monster = mtype_id( jo.get_string( member ) );
+    int target_range = jo.get_int( "target_range", 0 );
+    int hallucination_count = jo.get_int( "hallucination_count", 0 );
+    int real_count = jo.get_int( "real_count", 0 );
+    int min_radius = jo.get_int( "min_radius", 0 );
+    int max_radius = jo.get_int( "max_radius", 0 );
+    if( min_radius > max_radius ) {
+        jo.throw_error( "min_radius must be less than or equal to max_radius" );
+    }
+
+    function = [is_npc, new_monster, target_range, hallucination_count, real_count, min_radius,
+            max_radius]( const dialogue & d ) {
+        monster target_monster;
+        if( new_monster.is_empty() ) {
+            //grab a random nearby hostile creature to create a hallucination or copy of
+            Creature *copy = g->get_creature_if( [target_range]( const Creature & critter ) -> bool {
+                bool not_self = get_player_character().pos() != critter.pos();
+                bool in_range = std::round( rl_dist_exact( get_player_character().pos(), critter.pos() ) ) <= target_range;
+                bool valid_target = get_player_character().attitude_to( critter ) == Creature::Attitude::HOSTILE;
+                return not_self && in_range && valid_target;
+            } );
+            if( copy == nullptr ) {
+                return;
+            }
+            target_monster = *copy->as_monster();
+        } else {
+            target_monster = new_monster;
+        }
+
+        for( int i = 0; i < hallucination_count; i++ ) {
+            tripoint spawn_point;
+            if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
+                                            max_radius, spawn_point ) ) {
+                g->spawn_hallucination( spawn_point, target_monster.type->id );
+            }
+        }
+        for( int i = 0; i < real_count; i++ ) {
+            tripoint spawn_point;
+            if( g->find_nearby_spawn_point( d.actor( is_npc )->pos(), target_monster.type->id, min_radius,
+                                            max_radius, spawn_point ) ) {
+                g->place_critter_at( target_monster.type->id, spawn_point );
+            }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_queue_effect( const JsonObject &jo, const std::string &member )
+{
+    effect_on_condition_id eoc = effect_on_condition_id( jo.get_string( member ) );
+    time_duration time_in_future = time_duration::from_seconds( jo.get_int( member ) );
+    function = [time_in_future, eoc]( const dialogue & ) {
+        effect_on_conditions::queue_effect_on_condition( time_in_future, eoc );
+
+    };
+}
+
+void talk_effect_fun_t::set_deal_damage( const JsonObject &jo, const std::string &,
+        bool is_npc )
+{
+    damage_instance damage = load_damage_instance( jo );
+    bodypart_str_id target_part = bodypart_str_id( jo.get_string( "target_part", "bp_null" ) );
+    function = [is_npc, damage, target_part]( const dialogue & d ) {
+        d.actor( is_npc )->deal_damage( damage, target_part );
+    };
+}
+
+void talk_effect_fun_t::set_sound_effect( const JsonObject &jo, const std::string &member )
+{
+    std::string sound_effect = jo.get_string( member );
+    const bool outdoors = jo.has_member( "outdoor_event" );
+    function = [sound_effect, outdoors]( const dialogue & d ) {
+        map &here = get_map();
+        Character &target = *d.alpha->get_character();
+        if( !target.has_effect( effect_sleep ) && !target.is_deaf() ) {
+            if( !outdoors || here.get_abs_sub().z >= 0 ) {
+                sfx::play_variant_sound( "environment", sound_effect, 80, rng( 0, 359 ) );
+            } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                         target.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+                sfx::play_variant_sound( "environment", sound_effect,
+                                         ( 80 * target.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
+            }
+        }
+    };
+}
+
+void talk_effect_fun_t::set_add_var( const JsonObject &jo, const std::string &member, bool is_npc )
 {
     const std::string var_name = get_talk_varname( jo, member );
     const bool time_check = jo.has_member( "time" ) && jo.get_bool( "time" );
@@ -2297,6 +2570,76 @@ void talk_effect_t::parse_sub_effect( const JsonObject &jo )
     } else if( jo.has_string( "npc_first_topic" ) ) {
         const std::string chat_topic = jo.get_string( "npc_first_topic" );
         subeffect_fun.set_npc_first_topic( chat_topic );
+    } else if( jo.has_string( "sound_message" ) ) {
+        subeffect_fun.set_sound_message( jo, "sound_message" );
+    } else if( jo.has_string( "sound_effect" ) ) {
+        subeffect_fun.set_sound_effect( jo, "sound_effect" );
+    } else if( jo.has_string( "message" ) ) {
+        subeffect_fun.set_message( jo, "message" );
+    } else if( jo.has_int( "u_mod_pain" ) ) {
+        subeffect_fun.set_mod_pain( jo, "u_mod_pain", false );
+    } else if( jo.has_int( "npc_mod_pain" ) ) {
+        subeffect_fun.set_mod_pain( jo, "npc_mod_pain", false );
+    } else if( jo.has_int( "u_add_wet" ) ) {
+        subeffect_fun.set_add_wet( jo, "u_add_wet", false );
+    } else if( jo.has_int( "npc_add_wet" ) ) {
+        subeffect_fun.set_add_wet( jo, "npc_add_wet", true );
+    } else if( jo.has_int( "u_mod_fatigue" ) ) {
+        subeffect_fun.set_mod_fatigue( jo, "u_mod_fatigue", false );
+    } else if( jo.has_int( "npc_mod_fatigue" ) ) {
+        subeffect_fun.set_mod_fatigue( jo, "npc_mod_fatigue", true );
+    } else if( jo.has_int( "u_mod_focus" ) ) {
+        subeffect_fun.set_mod_focus( jo, "u_mod_focus", false );
+    } else if( jo.has_int( "npc_mod_focus" ) ) {
+        subeffect_fun.set_mod_focus( jo, "npc_mod_focus", true );
+    } else if( jo.has_int( "u_mod_radiation" ) ) {
+        subeffect_fun.set_mod_radiation( jo, "u_mod_radiation", false );
+    } else if( jo.has_int( "npc_mod_radiation" ) ) {
+        subeffect_fun.set_mod_radiation( jo, "npc_mod_radiation", true );
+    } else if( jo.has_int( "u_mod_healthy" ) ) {
+        subeffect_fun.set_mod_healthy( jo, "u_mod_healthy", false );
+    } else if( jo.has_int( "npc_mod_healthy" ) ) {
+        subeffect_fun.set_mod_healthy( jo, "npc_mod_healthy", true );
+    } else if( jo.has_int( "u_mod_sleep_deprivation" ) ) {
+        subeffect_fun.set_mod_sleep_deprivation( jo, "u_mod_sleep_deprivation", false );
+    } else if( jo.has_int( "npc_mod_" ) ) {
+        subeffect_fun.set_mod_sleep_deprivation( jo, "npc_mod_sleep_deprivation", true );
+    } else if( jo.has_int( "u_mod_stored_kcal" ) ) {
+        subeffect_fun.set_mod_stored_kcal( jo, "u_mod_stored_kcal", false );
+    } else if( jo.has_int( "npc_mod_stored_kcal" ) ) {
+        subeffect_fun.set_mod_stored_kcal( jo, "npc_mod_stored_kcal", true );
+    } else if( jo.has_string( "u_add_bionic" ) ) {
+        subeffect_fun.set_add_bionic( jo, "u_add_bionic", false );
+    } else if( jo.has_string( "npc_add_bionic" ) ) {
+        subeffect_fun.set_add_bionic( jo, "npc_add_bionic", true );
+    } else if( jo.has_string( "u_remove_bionic" ) ) {
+        subeffect_fun.set_remove_bionic( jo, "u_remove_bionic", false );
+    } else if( jo.has_string( "npc_remove_bionic" ) ) {
+        subeffect_fun.set_remove_bionic( jo, "npc_remove_bionic", true );
+    } else if( jo.has_string( "u_add_morale" ) ) {
+        subeffect_fun.set_add_morale( jo, "u_add_morale", false );
+    } else if( jo.has_string( "npc_add_morale" ) ) {
+        subeffect_fun.set_add_morale( jo, "npc_add_morale", true );
+    } else if( jo.has_string( "u_remove_morale" ) ) {
+        subeffect_fun.set_remove_morale( jo, "u_remove_morale", false );
+    } else if( jo.has_string( "npc_remove_morale" ) ) {
+        subeffect_fun.set_remove_morale( jo, "npc_remove_morale", true );
+    } else if( jo.has_member( "u_deal_damage" ) ) {
+        subeffect_fun.set_deal_damage( jo, "u_deal_damage", false );
+    } else if( jo.has_member( "npc_deal_damage" ) ) {
+        subeffect_fun.set_deal_damage( jo, "npc_deal_damage", true );
+    } else if( jo.has_string( "u_set_field" ) ) {
+        subeffect_fun.set_field( jo, "u_set_field", false );
+    } else if( jo.has_string( "npc_set_field" ) ) {
+        subeffect_fun.set_field( jo, "npc_set_field", true );
+    } else if( jo.has_string( "set_weather" ) ) {
+        subeffect_fun.set_weather( jo, "set_weather" );
+    } else if( jo.has_string( "u_set_spawn_monster" ) ) {
+        subeffect_fun.set_spawn_monster( jo, "u_set_spawn_monster", false );
+    } else if( jo.has_string( "npc_set_spawn_monster" ) ) {
+        subeffect_fun.set_spawn_monster( jo, "npc_set_spawn_monster", true );
+    } else if( jo.has_int( "npc_set_queue_effect" ) ) {
+        subeffect_fun.set_queue_effect( jo, "npc_set_queue_effect" );
     } else {
         jo.throw_error( "invalid sub effect syntax: " + jo.str() );
     }
@@ -2383,6 +2726,7 @@ void talk_effect_t::parse_string_effect( const std::string &effect_id, const Jso
             WRAP( npc_die ),
             WRAP( npc_thankful ),
             WRAP( clear_overrides ),
+            WRAP( lightning ),
             WRAP( nothing )
 #undef WRAP
         }
