@@ -57,7 +57,7 @@
   {
     "id": "ACT_VEHICLE_DECONSTRUCTION",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "verb": "deconstructing a vehicle",
     "based_on": "neither",
     "suspendable": false,
@@ -67,7 +67,7 @@
   {
     "id": "ACT_VEHICLE_REPAIR",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "verb": "repairing a vehicle",
     "based_on": "neither",
     "suspendable": false,
@@ -240,7 +240,7 @@
   {
     "id": "ACT_VEHICLE",
     "type": "activity_type",
-    "activity_level": "ACTIVE_EXERCISE",
+    "activity_level": "BRISK_EXERCISE",
     "verb": "interacting with the vehicle",
     "based_on": "speed"
   },
