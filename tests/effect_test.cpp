@@ -84,7 +84,8 @@ TEST_CASE( "effect duration", "[effect][duration]" )
     // a duration of 3000 or higher.
     SECTION( "set_duration modifies intensity if effect is duration-based" ) {
         const efftype_id eff_id( "intensified" );
-        effect eff_intense( &eff_id.obj(), 1_turns, bodypart_str_id( "bp_null" ), false, 1, calendar::turn );
+        effect eff_intense( &eff_id.obj(), 1_turns, bodypart_str_id( "bp_null" ), false, 1,
+                            calendar::turn );
         REQUIRE( eff_intense.get_int_dur_factor() == 1_minutes );
 
         // At zero duration, intensity is minimum (1)
@@ -196,7 +197,8 @@ TEST_CASE( "effect decay", "[effect][decay]" )
     }
 
     SECTION( "decay does not reduce paused/permanent effect duration" ) {
-        effect eff_debugged( &eff_id.obj(), 2_turns, bodypart_str_id( "bp_null" ), true, 1, calendar::turn );
+        effect eff_debugged( &eff_id.obj(), 2_turns, bodypart_str_id( "bp_null" ), true, 1,
+                             calendar::turn );
         // Ensure it will last 2 turns, and is permanent/paused
         REQUIRE( to_turns<int>( eff_debugged.get_duration() ) == 2 );
         REQUIRE( eff_debugged.is_permanent() );
@@ -396,7 +398,8 @@ TEST_CASE( "effect modifiers", "[effect][modifier]" )
     // Scaling mods - vary based on intensity
     SECTION( "scaling_mods vary based on intensity" ) {
         const efftype_id eff_id( "intensified" );
-        effect eff_intense( &eff_id.obj(), 1_turns, bodypart_str_id( "bp_null" ), false, 1, calendar::turn );
+        effect eff_intense( &eff_id.obj(), 1_turns, bodypart_str_id( "bp_null" ), false, 1,
+                            calendar::turn );
         REQUIRE( eff_intense.get_max_intensity() == 3 );
 
         // Subtracts 1 INT and 2 PER per intensity greater than 1
