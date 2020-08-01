@@ -3457,6 +3457,18 @@
   },
   {
     "type": "construction",
+    "id": "convert_splitrail_fence",
+    "description": "Convert Split Rail Fence to Privacy Fence",
+    "category": "CONSTRUCT",
+    "required_skills": [ [ "fabrication", 2 ], [ "survival", 1 ] ],
+    "time": "10 m",
+    "qualities": [ [ { "id": "HAMMER", "level": 2 } ] ],
+    "components": [ [ [ "2x4", 4 ] ], [ [ "nail", 10 ] ] ],
+    "pre_terrain": "t_splitrail_fence",
+    "post_terrain": "t_privacy_fence"
+  },
+  {
+    "type": "construction",
     "id": "constr_adobe_brick_wall_halfway",
     "description": "Build Brick Wall from Adobe",
     "//": "Step 1: start wall",
