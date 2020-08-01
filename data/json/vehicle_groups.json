@@ -251,7 +251,7 @@
       [ "wienermobile", 5 ],
       [ "portable_generator", 50 ],
       [ "4x4_car", 200 ],
-      [ "underlift_tow_truck", 50 ]
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
@@ -429,7 +429,8 @@
       [ "hippie_van", 750 ],
       [ "motorcycle", 500 ],
       [ "superbike", 50 ],
-      [ "motorcycle_sidecart", 300 ]
+      [ "motorcycle_sidecart", 300 ],
+      [ "underlift_tow_truck", 250 ]
     ]
   },
   {
