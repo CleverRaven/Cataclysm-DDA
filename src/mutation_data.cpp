@@ -630,7 +630,9 @@ void mutation_branch::check_consistency()
 
 nc_color mutation_branch::get_display_color() const
 {
-    if( threshold || profession ) {
+    if( flags.count( "ATTUNEMENT" ) ) {
+        return c_green;
+    } else if( threshold || profession ) {
         return c_white;
     } else if( debug ) {
         return c_light_cyan;
