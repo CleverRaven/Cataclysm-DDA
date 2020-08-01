@@ -231,7 +231,7 @@
     "armor_bullet": 4,
     "hp": 200,
     "description": "The shuffling corpse of what looks like a giant armadillo with peeling armored plates and black, glistening eyes.  Its tail ends in a massive spiked club of bone.",
-    "upgrades": { "half_life": 14, "into": "mon_zankylosaurus_brute" }
+    "upgrades": { "half_life": 14, "into_group": "GROUP_zankylosaurus_UPGRADE" },
   },
   {
     "type": "MONSTER",
