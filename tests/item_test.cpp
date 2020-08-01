@@ -1,6 +1,5 @@
 #include "catch/catch.hpp"
 
-#include <cmath>
 #include <initializer_list>
 #include <limits>
 #include <memory>
@@ -10,8 +9,10 @@
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
+#include "math_defines.h"
 #include "monstergenerator.h"
 #include "ret_val.h"
+#include "math_defines.h"
 #include "units.h"
 #include "value_ptr.h"
 

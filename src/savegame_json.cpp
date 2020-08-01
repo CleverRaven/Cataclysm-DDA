@@ -2067,7 +2067,7 @@ void monster::load( const JsonObject &data )
     }
 
     // make sure the loaded monster has every special attack its type says it should have
-    for( auto &sa : type->special_attacks ) {
+    for( const auto &sa : type->special_attacks ) {
         const std::string &aname = sa.first;
         if( special_attacks.find( aname ) == special_attacks.end() ) {
             auto &entry = special_attacks[aname];
@@ -3688,14 +3688,14 @@ void kill_tracker::serialize( JsonOut &jsout ) const
     jsout.start_object();
     jsout.member( "kills" );
     jsout.start_object();
-    for( auto &elem : kills ) {
+    for( const auto &elem : kills ) {
         jsout.member( elem.first.str(), elem.second );
     }
     jsout.end_object();
 
     jsout.member( "npc_kills" );
     jsout.start_array();
-    for( auto &elem : npc_kills ) {
+    for( const auto &elem : npc_kills ) {
         jsout.write( elem );
     }
     jsout.end_array();
@@ -3916,7 +3916,7 @@ void submap::store( JsonOut &jsout ) const
                 jsout.write( i );
                 jsout.write( j );
                 jsout.start_array();
-                for( auto &elem : fld[i][j] ) {
+                for( const auto &elem : fld[i][j] ) {
                     const field_entry &cur = elem.second;
                     jsout.write( cur.get_field_type().id() );
                     jsout.write( cur.get_field_intensity() );
@@ -3944,7 +3944,7 @@ void submap::store( JsonOut &jsout ) const
     // Output the spawn points
     jsout.member( "spawns" );
     jsout.start_array();
-    for( auto &elem : spawns ) {
+    for( const auto &elem : spawns ) {
         jsout.start_array();
         // TODO: json should know how to write string_ids
         jsout.write( elem.type.str() );
@@ -3961,7 +3961,7 @@ void submap::store( JsonOut &jsout ) const
 
     jsout.member( "vehicles" );
     jsout.start_array();
-    for( auto &elem : vehicles ) {
+    for( const auto &elem : vehicles ) {
         // json lib doesn't know how to turn a vehicle * into a vehicle,
         // so we have to iterate manually.
         jsout.write( *elem );
@@ -3970,14 +3970,14 @@ void submap::store( JsonOut &jsout ) const
 
     jsout.member( "partial_constructions" );
     jsout.start_array();
-    for( auto &elem : partial_constructions ) {
+    for( const auto &elem : partial_constructions ) {
         jsout.write( elem.first.x );
         jsout.write( elem.first.y );
         jsout.write( elem.first.z );
         jsout.write( elem.second.counter );
         jsout.write( elem.second.id.id() );
         jsout.start_array();
-        for( auto &it : elem.second.components ) {
+        for( const auto &it : elem.second.components ) {
             jsout.write( it );
         }
         jsout.end_array();
@@ -3991,7 +3991,7 @@ void submap::store( JsonOut &jsout ) const
     } else if( !computers.empty() ) {
         jsout.member( "computers" );
         jsout.start_array();
-        for( auto &elem : computers ) {
+        for( const auto &elem : computers ) {
             jsout.write( elem.first );
             jsout.write( elem.second );
         }

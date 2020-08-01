@@ -190,7 +190,7 @@ std::vector<const recipe *> recipe_subset::search( const std::string &txt,
 
 recipe_subset::recipe_subset( const recipe_subset &src, const std::vector<const recipe *> &recipes )
 {
-    for( const auto elem : recipes ) {
+    for( const recipe *elem : recipes ) {
         include( elem, src.get_custom_difficulty( elem ) );
     }
 }
@@ -244,7 +244,7 @@ bool recipe_subset::empty_category( const std::string &cat, const std::string &s
         if( subcat.empty() ) {
             return false;
         } else {
-            for( auto &e : iter->second ) {
+            for( const recipe *e : iter->second ) {
                 if( e->subcategory == subcat ) {
                     return false;
                 }

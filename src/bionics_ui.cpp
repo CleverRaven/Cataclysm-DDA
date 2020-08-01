@@ -162,7 +162,7 @@ bionic *player::bionic_by_invlet( const int ch )
         return nullptr;
     }
 
-    for( auto &elem : *my_bionics ) {
+    for( bionic &elem : *my_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;
         }
@@ -172,7 +172,7 @@ bionic *player::bionic_by_invlet( const int ch )
 
 char get_free_invlet( player &p )
 {
-    for( auto &inv_char : bionic_chars ) {
+    for( const char &inv_char : bionic_chars ) {
         if( p.bionic_by_invlet( inv_char ) == nullptr ) {
             return inv_char;
         }

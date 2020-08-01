@@ -248,6 +248,7 @@ void field_type::load( const JsonObject &jo, const std::string & )
     optional( jo, was_loaded, "accelerated_decay", accelerated_decay, false );
     optional( jo, was_loaded, "display_items", display_items, true );
     optional( jo, was_loaded, "display_field", display_field, false );
+    optional( jo, was_loaded, "legacy_make_rubble", legacy_make_rubble, false );
     optional( jo, was_loaded, "wandering_field", wandering_field_id, "fd_null" );
 
     optional( jo, was_loaded, "decrease_intensity_on_contact", decrease_intensity_on_contact, false );
@@ -273,7 +274,7 @@ void field_type::finalize()
 void field_type::check() const
 {
     int i = 0;
-    for( auto &intensity_level : intensity_levels ) {
+    for( const field_intensity_level &intensity_level : intensity_levels ) {
         i++;
         if( intensity_level.name.empty() ) {
             debugmsg( "Intensity level %d defined for field type \"%s\" has empty name.", i, id.c_str() );
@@ -327,7 +328,6 @@ field_type_id fd_null,
               fd_sap,
               fd_sludge,
               fd_fire,
-              fd_rubble,
               fd_smoke,
               fd_toxic_gas,
               fd_tear_gas,
@@ -342,17 +342,12 @@ field_type_id fd_null,
               fd_acid_vent,
               fd_plasma,
               fd_laser,
-              fd_spotlight,
               fd_dazzling,
               fd_blood_veggy,
               fd_blood_insect,
               fd_blood_invertebrate,
               fd_gibs_insect,
               fd_gibs_invertebrate,
-              fd_cigsmoke,
-              fd_weedsmoke,
-              fd_cracksmoke,
-              fd_methsmoke,
               fd_bees,
               fd_incendiary,
               fd_relax_gas,
@@ -385,7 +380,6 @@ void field_types::set_field_type_ids()
     fd_sap = field_type_id( "fd_sap" );
     fd_sludge = field_type_id( "fd_sludge" );
     fd_fire = field_type_id( "fd_fire" );
-    fd_rubble = field_type_id( "fd_rubble" );
     fd_smoke = field_type_id( "fd_smoke" );
     fd_toxic_gas = field_type_id( "fd_toxic_gas" );
     fd_tear_gas = field_type_id( "fd_tear_gas" );
@@ -400,17 +394,12 @@ void field_types::set_field_type_ids()
     fd_acid_vent = field_type_id( "fd_acid_vent" );
     fd_plasma = field_type_id( "fd_plasma" );
     fd_laser = field_type_id( "fd_laser" );
-    fd_spotlight = field_type_id( "fd_spotlight" );
     fd_dazzling = field_type_id( "fd_dazzling" );
     fd_blood_veggy = field_type_id( "fd_blood_veggy" );
     fd_blood_insect = field_type_id( "fd_blood_insect" );
     fd_blood_invertebrate = field_type_id( "fd_blood_invertebrate" );
     fd_gibs_insect = field_type_id( "fd_gibs_insect" );
     fd_gibs_invertebrate = field_type_id( "fd_gibs_invertebrate" );
-    fd_cigsmoke = field_type_id( "fd_cigsmoke" );
-    fd_weedsmoke = field_type_id( "fd_weedsmoke" );
-    fd_cracksmoke = field_type_id( "fd_cracksmoke" );
-    fd_methsmoke = field_type_id( "fd_methsmoke" );
     fd_bees = field_type_id( "fd_bees" );
     fd_incendiary = field_type_id( "fd_incendiary" );
     fd_relax_gas = field_type_id( "fd_relax_gas" );

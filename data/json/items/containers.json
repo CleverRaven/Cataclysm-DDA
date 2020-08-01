@@ -414,14 +414,14 @@
     "looks_like": "box_small",
     "description": "SURGEON GENERAL'S WARNING: Smoking Causes Lung Cancer, Heart Disease, Emphysema And May Complicate Pregnancy.",
     "weight": "15 g",
-    "volume": "253 ml",
+    "volume": "90 ml",
     "price": 0,
     "price_postapoc": 0,
     "material": [ "paper" ],
     "ascii_picture": "box_cigarette",
     "symbol": ")",
     "color": "white",
-    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "250 ml", "max_contains_weight": "3 kg" } ]
+    "pocket_data": [ { "pocket_type": "CONTAINER", "rigid": true, "max_contains_volume": "85 ml", "max_contains_weight": "3 kg" } ]
   },
   {
     "id": "box_small",

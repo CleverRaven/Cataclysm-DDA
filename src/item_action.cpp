@@ -120,7 +120,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p,
         const std::vector<item *> &pseudos ) const
 {
     std::set< item_action_id > unmapped_actions;
-    for( auto &ia_ptr : item_actions ) { // Get ids of wanted actions
+    for( const auto &ia_ptr : item_actions ) { // Get ids of wanted actions
         unmapped_actions.insert( ia_ptr.first );
     }
 
@@ -294,7 +294,7 @@ void game::item_action_menu()
             ss += string_format( "(-%d)", elem.second->ammo_required() );
         }
 
-        const auto method = elem.second->get_use( elem.first );
+        const use_function *method = elem.second->get_use( elem.first );
         if( method ) {
             return std::make_tuple( method->get_type(), method->get_name(), ss );
         } else {

@@ -143,7 +143,7 @@ void spell_effect::pain_split( const spell &sp, Creature &caster, const tripoint
     int total_hp = 0; // total hp among limbs
 
     for( const std::pair<const bodypart_str_id, bodypart> &elem : p->get_body() ) {
-        if( elem.first == bodypart_str_id( "num_bp" ) ) {
+        if( elem.first == bodypart_str_id( "bp_null" ) ) {
             continue;
         }
         num_limbs++;
@@ -386,7 +386,7 @@ static std::set<tripoint> spell_effect_area( const spell &sp, const tripoint &ta
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
-    for( auto &pt : targets ) {
+    for( const tripoint &pt : targets ) {
         explosion_colors[pt] = sp.damage_type_color();
     }
 

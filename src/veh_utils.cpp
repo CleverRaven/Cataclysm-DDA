@@ -109,7 +109,7 @@ bool repair_part( vehicle &veh, vehicle_part &pt, Character &who_c )
     // TODO: Get rid of this cast after moving relevant functions down to Character
     player &who = static_cast<player &>( who_c );
     int part_index = veh.index_of_part( &pt );
-    auto &vp = pt.info();
+    const vpart_info &vp = pt.info();
 
     // TODO: Expose base part damage somewhere, don't recalculate it here
     const auto reqs = pt.is_broken() ?

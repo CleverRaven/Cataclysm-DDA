@@ -198,9 +198,8 @@ class TilesheetData(object):
         self.offset_y = 0
         subdir_name = self.ts_name.split(".png")[0] + "_{}x{}".format(self.width, self.height)
         self.subdir_path = refs.tileset_pathname + "/pngs_" + subdir_name
-        if not self.standard(refs):
-            self.offset_x = self.ts_specs.get("sprite_offset_x", 0)
-            self.offset_y = self.ts_specs.get("sprite_offset_y", 0)
+        self.offset_x = self.ts_specs.get("sprite_offset_x", 0)
+        self.offset_y = self.ts_specs.get("sprite_offset_y", 0)
         self.null_image = Vips.Image.grey(self.width, self.height)
         self.row_pngs = ["null_image"]
         self.filler = False

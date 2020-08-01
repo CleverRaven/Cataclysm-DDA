@@ -585,6 +585,7 @@ This section describes each json file and their contents. Each json has their ow
 | stat_bonus                  | (_optional_) List of passive stat bonus. Stat are designated as follow: "DEX", "INT", "STR", "PER".
 | enchantments                | (_optional_) List of enchantments applied by this CBM (see MAGIC.md for instructions on enchantment. NB: enchantments are not necessarily magic.)
 | learned_spells              | (_optional_) Map of {spell:level} you gain when installing this CBM, and lose when you uninstall this CBM. Spell classes are automatically gained.
+| learned_proficiencies       | (_optional_) Array of proficiency ids you gain when installing this CBM, and lose when unintalling
 | installation_requirement    | (_optional_) Requirment id pointing to a requirment defining the tools and componentsnt necessary to install this CBM.
 | vitamin_absorb_mod          | (_optional_) Modifier to vitamin absorbtion, affects all vitamins. (default: `1.0`)
 
@@ -721,7 +722,7 @@ When you sort your inventory by category, these are the categories that are disp
 
 | Identifier       | Description
 |---               |---
-| `ident`          | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
+| `id`             | Unique ID. Lowercase snake_case. Must be one continuous word, use underscores if necessary.
 | `name`           | In-game name displayed.
 | `bash_resist`    | How well a material resists bashing damage.
 | `cut_resist`     | How well a material resists cutting damage.
@@ -750,7 +751,7 @@ There are six -resist parameters: acid, bash, chip, cut, elec, and fire. These a
 ```C++
 {
     "type": "material",
-    "ident": "hflesh",
+    "id": "hflesh",
     "name": "Human Flesh",
     "density": 5,
     "specific_heat_liquid": 3.7,
@@ -890,12 +891,12 @@ Professions are specified as JSON object with "type" member set to "profession":
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     ...
 }
 ```
 
-The ident member should be the unique id of the profession.
+The id member should be the unique id of the profession.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 
@@ -938,7 +939,7 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     "edit-mode": "modify",
     "remove:addictions": [
         "nicotine"
@@ -979,7 +980,7 @@ Mods can modify this list (requires `"edit-mode": "modify"`, see example) via "a
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     "edit-mode": "modify",
     "remove:skills": [
         "archery"
@@ -1025,7 +1026,7 @@ Example for mods:
 ```C++
 {
     "type": "profession",
-    "ident": "hunter",
+    "id": "hunter",
     "edit-mode": "modify",
     "items": {
         "remove:both": [
@@ -1627,7 +1628,7 @@ it is present to help catch errors.
 ### Skills
 
 ```C++
-"ident" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
+"id" : "smg",  // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "submachine guns",  // In-game name displayed
 "description" : "Your skill with submachine guns and machine pistols. Halfway between a pistol and an assault rifle, these weapons fire and reload quickly, and may fire in bursts, but they are not very accurate.", // In-game description
 "tags" : ["gun_type"]  // Special flags (default: none)
@@ -2764,12 +2765,6 @@ The contents of use_action fields can either be a string indicating a built-in f
     "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
     "moves": 50 // how many move points the action takes.
 },
-"use_action": {
-    "type": "ups_based_armor", // Armor that can be activated and uses power from an UPS, needs additional json code to work
-    "activate_msg": "You activate your foo.", // Message when the player activates the item.
-    "deactive_msg": "You deactivate your foo.", // Message when the player deactivates the item.
-    "out_of_power_msg": "Your foo runs out of power and deactivates itself." // Message when the UPS runs out of power and the item is deactivated automatically.
-}
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age
     "transform_age" : 600, // The minimal age of the item. Items that are younger wont transform. In turns (60 turns = 1 minute)
@@ -3411,12 +3406,12 @@ Scenarios are specified as JSON object with `type` member set to `scenario`.
 ```C++
 {
     "type": "scenario",
-    "ident": "schools_out",
+    "id": "schools_out",
     ...
 }
 ```
 
-The ident member should be the unique id of the scenario.
+The id member should be the unique id of the scenario.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 
@@ -3467,7 +3462,7 @@ Example for mods:
 ```C++
 {
     "type": "scenario",
-    "ident": "schools_out",
+    "id": "schools_out",
     "edit-mode": "modify",
     "items": {
         "remove:both": [ "rock" ],
@@ -3528,14 +3523,14 @@ Starting locations are specified as JSON object with "type" member set to "start
 ```C++
 {
     "type": "start_location",
-    "ident": "field",
+    "id": "field",
     "name": "An empty field",
     "target": "field",
     ...
 }
 ```
 
-The ident member should be the unique id of the location.
+The id member should be the unique id of the location.
 
 The following properties (mandatory, except if noted otherwise) are supported:
 

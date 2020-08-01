@@ -1187,7 +1187,7 @@ const item_category *inventory_selector::naturalize_category( const item_categor
         const item_category_id id = item_category_id( string_format( "%s_%s", category.get_id().c_str(),
                                     suffix.c_str() ) );
 
-        const auto existing = find_cat_by_id( id );
+        const auto *existing = find_cat_by_id( id );
         if( existing != nullptr ) {
             return existing;
         }
@@ -1384,7 +1384,7 @@ bool inventory_selector::select( const item_location &loc )
     bool res = false;
 
     for( size_t i = 0; i < columns.size(); ++i ) {
-        auto elem = columns[i];
+        inventory_column *elem = columns[i];
         if( elem->visible() && elem->select( loc ) ) {
             if( !res && elem->activatable() ) {
                 set_active_column( i );
@@ -1409,8 +1409,8 @@ bool inventory_selector::select_one_of( const std::vector<item_location> &locati
 
 inventory_entry *inventory_selector::find_entry_by_invlet( int invlet ) const
 {
-    for( const auto elem : columns ) {
-        const auto res = elem->find_by_invlet( invlet );
+    for( const inventory_column *elem : columns ) {
+        inventory_entry *const res = elem->find_by_invlet( invlet );
         if( res != nullptr ) {
             return res;
         }
@@ -1711,7 +1711,7 @@ void inventory_selector::set_filter()
 
     if( spopup->confirmed() ) {
         filter = spopup->text();
-        for( const auto elem : columns ) {
+        for( inventory_column *const elem : columns ) {
             elem->set_filter( filter );
         }
         if( current_ui ) {
@@ -1726,7 +1726,7 @@ void inventory_selector::set_filter( const std::string &str )
 {
     prepare_layout();
     filter = str;
-    for( const auto elem : columns ) {
+    for( inventory_column *const elem : columns ) {
         elem->set_filter( filter );
     }
     shared_ptr_fast<ui_adaptor> current_ui = ui.lock();
@@ -2139,7 +2139,7 @@ inventory_multiselector::inventory_multiselector( Character &p,
     ctxt.register_action( "RIGHT", to_translation( "Mark/unmark selected item" ) );
     ctxt.register_action( "DROP_NON_FAVORITE", to_translation( "Mark/unmark non-favorite items" ) );
 
-    for( auto &elem : get_all_columns() ) {
+    for( inventory_column * const &elem : get_all_columns() ) {
         elem->set_multiselect( true );
     }
     append_column( *selection_col );
@@ -2172,7 +2172,7 @@ std::pair<const item *, const item *> inventory_compare_selector::execute()
         } else if( input.action == "RIGHT" ) {
             const auto selection( get_active_column().get_all_selected() );
 
-            for( auto &elem : selection ) {
+            for( inventory_entry * const &elem : selection ) {
                 if( elem->chosen_count == 0 || selection.size() == 1 ) {
                     toggle_entry( elem );
                     just_selected = elem;

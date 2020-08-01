@@ -208,14 +208,14 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
         if( new_d.x >= 0 && new_d.y >= 0 ) {
             you.facing = FacingDirection::RIGHT;
             if( is_riding ) {
-                auto mons = you.mounted_creature.get();
+                auto *mons = you.mounted_creature.get();
                 mons->facing = FacingDirection::RIGHT;
             }
         }
         if( new_d.y <= 0 && new_d.x <= 0 ) {
             you.facing = FacingDirection::LEFT;
             if( is_riding ) {
-                auto mons = you.mounted_creature.get();
+                auto *mons = you.mounted_creature.get();
                 mons->facing = FacingDirection::LEFT;
             }
         }
@@ -369,7 +369,7 @@ bool avatar_action::move( avatar &you, map &m, const tripoint &d )
     if( toSwimmable && toDeepWater && !toBoat ) {
         // Requires confirmation if we were on dry land previously
         if( is_riding ) {
-            auto mon = you.mounted_creature.get();
+            auto *mon = you.mounted_creature.get();
             if( !mon->swims() || mon->get_size() < you.get_size() + 2 ) {
                 add_msg( m_warning, _( "The %s cannot swim while it is carrying you!" ), mon->get_name() );
                 return false;

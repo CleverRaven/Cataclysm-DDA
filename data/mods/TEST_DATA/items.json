@@ -1148,7 +1148,6 @@
     "power_armor": true,
     "material_thickness": 14,
     "environmental_protection": 16,
-    "use_action": { "type": "ups_based_armor", "activate_msg": "Your power armor engages." },
     "flags": [ "WATERPROOF", "STURDY", "ELECTRIC_IMMUNE" ]
   },
   {

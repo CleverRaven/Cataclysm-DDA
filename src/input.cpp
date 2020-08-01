@@ -80,10 +80,12 @@ bool is_mouse_enabled()
 #endif
 }
 
-static bool is_keycode_mode_supported()
+extern bool keycode_mode;
+
+bool is_keycode_mode_supported()
 {
 #if defined(TILES) && !defined(__ANDROID__)
-    return true;
+    return keycode_mode;
 #else
     return false;
 #endif
@@ -818,12 +820,12 @@ const std::string TIMEOUT = "TIMEOUT";
 
 const std::string &input_context::input_to_action( const input_event &inp ) const
 {
-    for( auto &elem : registered_actions ) {
+    for( const std::string &elem : registered_actions ) {
         const std::string &action = elem;
         const std::vector<input_event> &check_inp = inp_mngr.get_input_for_action( action, category );
 
         // Does this action have our queried input event in its keybindings?
-        for( auto &check_inp_i : check_inp ) {
+        for( const input_event &check_inp_i : check_inp ) {
             if( check_inp_i == inp ) {
                 return action;
             }
@@ -923,18 +925,25 @@ std::string input_context::get_available_single_char_hotkeys( std::string reques
     return requested_keys;
 }
 
-const input_context::input_event_filter input_context::disallow_lower_case =
-[]( const input_event &evt ) -> bool {
-    return evt.type != input_event_t::keyboard_char ||
-    // std::lower from <cctype> is undefined outside unsigned char range
-    // and std::lower from <locale> may throw bad_cast for some locales
-    evt.get_first_input() < 'a' || evt.get_first_input() > 'z';
-};
+bool input_context::disallow_lower_case_or_non_modified_letters( const input_event &evt )
+{
+    const int ch = evt.get_first_input();
+    switch( evt.type ) {
+        case input_event_t::keyboard_char:
+            // std::lower from <cctype> is undefined outside unsigned char range
+            // and std::lower from <locale> may throw bad_cast for some locales
+            return ch < 'a' || ch > 'z';
+        case input_event_t::keyboard_code:
+            return !( evt.modifiers.empty() && ( ( ch >= 'a' && ch <= 'z' ) || ( ch >= 'A' && ch <= 'Z' ) ) );
+        default:
+            return true;
+    }
+}
 
-const input_context::input_event_filter input_context::allow_all_keys =
-[]( const input_event & ) -> bool {
+bool input_context::allow_all_keys( const input_event & )
+{
     return true;
-};
+}
 
 static const std::vector<std::pair<keymod_t, translation>> keymod_desc = {
     { keymod_t::ctrl,  to_translation( "key modifier", "CTRL-" ) },
@@ -959,7 +968,7 @@ std::string input_context::get_desc( const std::string &action_descriptor,
     }
 
     std::vector<input_event> inputs_to_show;
-    for( auto &events_i : events ) {
+    for( const input_event &events_i : events ) {
         const input_event &event = events_i;
 
         if( is_event_type_enabled( event.type ) && evt_filter( event ) ) {
@@ -1670,7 +1679,7 @@ std::vector<std::string> input_context::filter_strings_by_phrase(
 {
     std::vector<std::string> filtered_strings;
 
-    for( auto &str : strings ) {
+    for( const std::string &str : strings ) {
         if( lcmatch( remove_color_tags( get_action_name( str ) ), phrase ) ) {
             filtered_strings.push_back( str );
         }

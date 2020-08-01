@@ -809,8 +809,8 @@ bool game::start_game()
     }
     // Assign all of this scenario's missions to the player.
     for( const mission_type_id &m : scen->missions() ) {
-        const auto mission = mission::reserve_new( m, character_id() );
-        mission->assign( u );
+        mission *new_mission = mission::reserve_new( m, character_id() );
+        new_mission->assign( u );
     }
 
     get_event_bus().send<event_type::game_start>( u.getID(), u.name, u.male, u.prof->ident(),
@@ -1262,16 +1262,16 @@ bool game::cleanup_at_end()
 
 static int veh_lumi( vehicle &veh )
 {
-    float veh_luminance = 0.0;
-    float iteration = 1.0;
+    float veh_luminance = 0.0f;
+    float iteration = 1.0f;
     auto lights = veh.lights( true );
 
-    for( const auto pt : lights ) {
+    for( const vehicle_part *pt : lights ) {
         const auto &vp = pt->info();
         if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
             vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
             veh_luminance += vp.bonus / iteration;
-            iteration = iteration * 1.1;
+            iteration = iteration * 1.1f;
         }
     }
     // Calculation: see lightmap.cpp
@@ -1714,13 +1714,13 @@ bool game::cancel_activity_or_ignore_query( const distraction_type type, const s
         return false;
     }
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
 
     const auto &action = query_popup()
-                         .preferred_keyboard_mode( keyboard_mode::keychar )
+                         .preferred_keyboard_mode( keyboard_mode::keycode )
                          .context( "CANCEL_ACTIVITY_OR_IGNORE_QUERY" )
-                         .message( force_uc ?
+                         .message( force_uc && !is_keycode_mode_supported() ?
                                    pgettext( "cancel_activity_or_ignore_query",
                                            "<color_light_red>%s %s (Case Sensitive)</color>" ) :
                                    pgettext( "cancel_activity_or_ignore_query",
@@ -1787,7 +1787,7 @@ void game::set_critter_died()
 
 static int maptile_field_intensity( maptile &mt, field_type_id fld )
 {
-    auto field_ptr = mt.find_field( fld );
+    const field_entry *field_ptr = mt.find_field( fld );
 
     return field_ptr == nullptr ? 0 : field_ptr->get_field_intensity();
 }
@@ -3742,7 +3742,7 @@ cata::optional<tripoint> game::get_veh_dir_indicator_location( bool next ) const
     }
     vehicle *const veh = &vp->vehicle();
     rl_vec2d face = next ? veh->dir_vec() : veh->face_vec();
-    float r = 10.0;
+    float r = 10.0f;
     return tripoint( static_cast<int>( r * face.x ), static_cast<int>( r * face.y ), u.pos().z );
 }
 
@@ -5732,7 +5732,7 @@ bool game::npc_menu( npc &who )
     } else if( choice == use_item ) {
         static const std::string heal_string( "heal" );
         const auto will_accept = []( const item & it ) {
-            const auto use_fun = it.get_use( heal_string );
+            const use_function *use_fun = it.get_use( heal_string );
             if( use_fun == nullptr ) {
                 return false;
             }
@@ -6302,7 +6302,7 @@ void game::print_fields_info( const tripoint &lp, const catacurses::window &w_lo
                               int &line )
 {
     const field &tmpfield = m.field_at( lp );
-    for( auto &fld : tmpfield ) {
+    for( const auto &fld : tmpfield ) {
         const field_entry &cur = fld.second;
         if( fld.first.obj().has_fire && ( m.has_flag( TFLAG_FIRE_CONTAINER, lp ) ||
                                           m.ter( lp ) == t_pit_shallow || m.ter( lp ) == t_pit ) ) {
@@ -8119,7 +8119,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
                         }
                     }
                     // select current monster
-                    const auto critter = monster_list[iCurMon];
+                    Creature *critter = monster_list[iCurMon];
                     const bool selected = iCurMon == iActive;
                     ++iCurMon;
                     if( critter->sees( u ) ) {
@@ -8255,7 +8255,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             u.view_offset = stored_view_offset;
             return game::vmenu_ret::CHANGE_TAB;
         } else if( action == "SAFEMODE_BLACKLIST_REMOVE" ) {
-            const auto m = dynamic_cast<monster *>( cCurMon );
+            const monster *m = dynamic_cast<monster *>( cCurMon );
             const std::string monName = ( m != nullptr ) ? m->name() : "human";
 
             if( get_safemode().has_rule( monName, Creature::Attitude::ANY ) ) {
@@ -8263,7 +8263,7 @@ game::vmenu_ret game::list_monsters( const std::vector<Creature *> &monster_list
             }
         } else if( action == "SAFEMODE_BLACKLIST_ADD" ) {
             if( !get_safemode().empty() ) {
-                const auto m = dynamic_cast<monster *>( cCurMon );
+                const monster *m = dynamic_cast<monster *>( cCurMon );
                 const std::string monName = ( m != nullptr ) ? m->name() : "human";
 
                 get_safemode().add_rule( monName, Creature::Attitude::ANY, get_option<int>( "SAFEMODEPROXIMITY" ),
@@ -8607,7 +8607,7 @@ void game::butcher()
     // TODO: Properly handle different material whitelists
     // TODO: Improve quality of this section
     auto salvage_filter = []( item it ) {
-        const auto usable = it.get_usable_item( salvage_string );
+        const item *usable = it.get_usable_item( salvage_string );
         return usable != nullptr;
     };
 
@@ -9329,7 +9329,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
     }
 
     if( u.is_mounted() ) {
-        auto mons = u.mounted_creature.get();
+        monster *mons = u.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
@@ -9465,7 +9465,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
     bool diag = trigdist && u.posx() != dest_loc.x && u.posy() != dest_loc.y;
     const int previous_moves = u.moves;
     if( u.is_mounted() ) {
-        auto crit = u.mounted_creature.get();
+        auto *crit = u.mounted_creature.get();
         if( !crit->has_flag( MF_RIDEABLE_MECH ) &&
             ( m.has_flag_ter_or_furn( "MOUNTABLE", dest_loc ) ||
               m.has_flag_ter_or_furn( "BARRICADABLE_DOOR", dest_loc ) ||
@@ -9556,7 +9556,7 @@ bool game::walk_move( const tripoint &dest_loc, const bool via_ramp )
 
             volume *= u.current_movement_mode()->sound_mult();
             if( u.is_mounted() ) {
-                auto mons = u.mounted_creature.get();
+                monster *mons = u.mounted_creature.get();
                 switch( mons->get_size() ) {
                     case creature_size::tiny:
                         volume = 0; // No sound for the tinies
@@ -9800,7 +9800,7 @@ point game::place_player( const tripoint &dest_loc )
                 }
             };
 
-            for( auto &elem : adjacentDir ) {
+            for( const direction &elem : adjacentDir ) {
                 forage( u.pos() + direction_XY( elem ) );
             }
         }
@@ -10354,7 +10354,7 @@ void game::fling_creature( Creature *c, const int &dir, float flvel, bool contro
         tdir.advance();
         pt.x = c->posx() + tdir.dx();
         pt.y = c->posy() + tdir.dy();
-        float force = 0;
+        float force = 0.0f;
 
         if( monster *const mon_ptr = critter_at<monster>( pt ) ) {
             monster &critter = *mon_ptr;
@@ -10513,7 +10513,7 @@ static cata::optional<tripoint> find_empty_spot_nearby( const tripoint &pos )
 void game::vertical_move( int movez, bool force, bool peeking )
 {
     if( u.is_mounted() ) {
-        auto mons = u.mounted_creature.get();
+        monster *mons = u.mounted_creature.get();
         if( mons->has_flag( MF_RIDEABLE_MECH ) ) {
             if( !mons->check_mech_powered() ) {
                 add_msg( m_bad, _( "Your %s refuses to move as its batteries have been drained." ),
@@ -12148,7 +12148,7 @@ void game::add_artifact_messages( const std::vector<art_effect_passive> &effects
     int net_int = 0;
     int net_speed = 0;
 
-    for( auto &i : effects ) {
+    for( const art_effect_passive &i : effects ) {
         switch( i ) {
             case AEP_STR_UP:
                 net_str += 4;
@@ -12354,8 +12354,8 @@ void game::add_artifact_dreams( )
     if( !valid_dreams.empty() ) {
         add_msg( m_debug, "Found %s valid artifact dreams", valid_dreams.size() );
         const int selected = rng( 0, valid_arts.size() - 1 );
-        auto it = valid_arts[selected];
-        auto msg = random_entry( valid_dreams[selected] );
+        item *it = valid_arts[selected];
+        const std::string msg = random_entry( valid_dreams[selected] );
         const std::string &dream = string_format( _( msg ), it->tname() );
         add_msg( dream );
     } else {
@@ -12644,7 +12644,6 @@ stats_tracker &get_stats()
 {
     return g->stats();
 }
-
 
 timed_event_manager &get_timed_events()
 {

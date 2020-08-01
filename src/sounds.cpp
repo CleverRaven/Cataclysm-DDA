@@ -66,7 +66,7 @@ int prev_hostiles = 0;
 int previous_speed = 0;
 int previous_gear = 0;
 bool audio_muted = false;
-float g_sfx_volume_multiplier = 1;
+float g_sfx_volume_multiplier = 1.0f;
 auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
@@ -1523,7 +1523,7 @@ int sfx::get_heard_volume( const tripoint &source )
 {
     int distance = sound_distance( get_player_character().pos(), source );
     // fract = -100 / 24
-    const float fract = -4.166666;
+    const float fract = -4.166666f;
     int heard_volume = fract * distance - 1 + 100;
     if( heard_volume <= 0 ) {
         heard_volume = 0;

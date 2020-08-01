@@ -933,7 +933,7 @@ void character_edit_menu()
             classes.text = _( "Choose new class" );
             std::vector<npc_class_id> ids;
             size_t i = 0;
-            for( auto &cl : npc_class::get_all() ) {
+            for( const npc_class &cl : npc_class::get_all() ) {
                 ids.push_back( cl.id );
                 classes.addentry( i, true, -1, cl.get_name() );
                 i++;
@@ -1132,7 +1132,7 @@ void mission_debug::remove_mission( mission &m )
         add_msg( _( "Unsetting active mission" ) );
     }
 
-    const auto giver = g->find_npc( m.npc_id );
+    npc *giver = g->find_npc( m.npc_id );
     if( giver != nullptr ) {
         if( remove_from_vec( giver->chatbin.missions_assigned, &m ) ) {
             add_msg( _( "Removing from %s missions_assigned" ), giver->name );
@@ -1226,7 +1226,7 @@ void debug()
     };
     bool should_disable_achievements = action && !non_cheaty_options.count( *action );
     if( should_disable_achievements && achievements.is_enabled() ) {
-        if( query_yn( "Using this will disable achievements.  Proceed?" ) ) {
+        if( query_yn( _( "Using this will disable achievements.  Proceed?" ) ) ) {
             achievements.set_enabled( false );
         } else {
             action = cata::nullopt;
@@ -1321,7 +1321,7 @@ void debug()
 
             if( !creature_counts.empty() ) {
                 std::vector<std::pair<std::string, int>> creature_names_sorted;
-                for( const std::pair<std::string, int> &it : creature_counts ) {
+                for( const std::pair<const std::string, int> &it : creature_counts ) {
                     creature_names_sorted.emplace_back( it );
                 }
 
@@ -1330,7 +1330,7 @@ void debug()
                 } );
 
                 s += _( "\nSpecific creature type list:\n" );
-                for( const auto crit_name : creature_names_sorted ) {
+                for( const std::pair<std::string, int> &crit_name : creature_names_sorted ) {
                     s += string_format( "%i %s\n", crit_name.second, crit_name.first );
                 }
             }

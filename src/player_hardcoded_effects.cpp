@@ -490,7 +490,7 @@ static void eff_fun_frostbite( player &u, effect &it )
 
 void player::hardcoded_effects( effect &it )
 {
-    if( auto buff = ma_buff::from_effect( it ) ) {
+    if( const ma_buff *buff = ma_buff::from_effect( it ) ) {
         if( buff->is_valid_character( *this ) ) {
             buff->apply_character( *this );
         } else {
@@ -1148,7 +1148,7 @@ void player::hardcoded_effects( effect &it )
     } else if( id == effect_grabbed ) {
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
         int zed_number = 0;
-        for( auto &dest : here.points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number += mon->get_grab_strength();

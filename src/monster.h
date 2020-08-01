@@ -102,7 +102,6 @@ class monster : public Creature
             return this;
         }
 
-
         void poly( const mtype_id &id );
         bool can_upgrade();
         void hasten_upgrade();
