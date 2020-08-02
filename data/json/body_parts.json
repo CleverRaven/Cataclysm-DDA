@@ -28,7 +28,8 @@
     "hp_bar_ui_text": "TORSO",
     "encumbrance_text": "Dodging and melee is hampered.",
     "encumbrance_effects": {
-      "dodge_skill": -0.1
+      "dodge_skill": -0.1,
+      "hit_roll_perc": -1
     },
     "main_part": "torso",
     "opposite_part": "torso",

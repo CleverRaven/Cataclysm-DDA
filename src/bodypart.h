@@ -85,8 +85,10 @@ struct stat_hp_mods {
     void deserialize( JsonIn &jsin );
 };
 
+// See JSON_INFO.md for documentation
 struct encumbrance_effects {
     float dodge_skill = 0.0f;
+    float hit_roll_perc = 0.0f;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );

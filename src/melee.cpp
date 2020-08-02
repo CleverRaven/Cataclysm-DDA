@@ -295,16 +295,13 @@ float Character::get_hit_weapon( const item &weap ) const
     return ( skill / 3.0f ) + ( get_skill_level( skill_melee ) / 2.0f ) + weap.type->m_to_hit;
 }
 
-float Character::get_melee_hit_base() const
+float Character::get_melee_accuracy() const
 {
-    // Character::get_hit_base includes stat calculations already
-    return Character::get_hit_base() + get_hit_weapon( used_weapon() ) + mabuff_tohit_bonus();
-}
-
-float Character::hit_roll() const
-{
-    // Dexterity, skills, weapon and martial arts
-    float hit = get_melee_hit_base();
+    float hit = 0.0;
+    // Dexterity
+    hit += Character::get_hit_base();
+    // Weapon and martial arts
+    hit += get_hit_weapon( used_weapon() ) + mabuff_tohit_bonus();
 
     // Farsightedness makes us hit worse
     if( has_trait( trait_HYPEROPIC ) && !worn_with_flag( "FIX_FARSIGHT" ) &&
@@ -317,8 +314,20 @@ float Character::hit_roll() const
         hit *= 0.75f;
     }
 
-    hit *= std::max( 0.25f, 1.0f - encumb( bodypart_id( "torso" ) ) / 100.0f );
+    // Torso encumberance makes hitting harder, multiplicatively.
+    float encumbrance_mult = 1.0f;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        // .hit_roll_perc is usually nonpositive, so we're adding it (and not subtracting).
+        encumbrance_mult += encumb( bp ) * bp->encumbrance_effects.hit_roll_perc / 100.0f;
+    }
+    hit *= std::max( 0.25f, encumbrance_mult );
 
+    return hit;
+}
+
+float Character::hit_roll() const
+{
+    float hit = get_melee_accuracy();
     return melee::melee_hit_range( hit );
 }
 

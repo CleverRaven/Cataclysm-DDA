@@ -222,7 +222,9 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
 
     switch( bp->token ) {
         case bp_torso: {
-            const int melee_roll_pen = std::max( -eff_encumbrance, -80 );
+            // hardcapped at 80 in Character::get_melee_accuracy()
+            const int melee_roll_pen = std::max( ( int )std::lround( eff_encumbrance *
+                                                 bp->encumbrance_effects.hit_roll_perc ), -80 );
             s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
             s += dodge_skill_text( eff_encumbrance * bp->encumbrance_effects.dodge_skill );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
@@ -478,7 +480,9 @@ static void draw_stats_info( const catacurses::window &w_info,
                         _( "Dexterity affects your chance to hit in melee combat, helps you steady your "
                            "gun for ranged combat, and enhances many actions that require finesse." ) );
         print_colored_text( w_info, point( 1, 3 ), col_temp, c_light_gray,
-                            string_format( _( "Melee to-hit bonus: <color_white>%+.1lf</color>" ), you.get_melee_hit_base() ) );
+                            string_format(
+                                _( "Melee to-hit bonus: <color_white>%+.1lf</color> base / <color_white>%+.1lf</color> current " ),
+                                you.get_hit_base(), you.get_melee_accuracy() ) );
         print_colored_text( w_info, point( 1, 4 ), col_temp, c_light_gray,
                             string_format( _( "Ranged penalty: <color_white>%+d</color>" ),
                                            -std::abs( you.ranged_dex_mod() ) ) );

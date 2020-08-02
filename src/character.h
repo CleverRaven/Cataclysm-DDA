@@ -745,8 +745,8 @@ class Character : public Creature, public visitable<Character>
         std::vector<special_attack> mutation_attacks( Creature &t ) const;
         /** Returns the bonus bashing damage the player deals based on their stats */
         float bonus_damage( bool random ) const;
-        /** Returns weapon skill */
-        float get_melee_hit_base() const;
+        /** Returns the accuracy of melee hits. */
+        float get_melee_accuracy() const;
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         float hit_roll() const override;
         /** Returns the chance to critical given a hit roll and target's dodge roll */
