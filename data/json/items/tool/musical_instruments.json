@@ -43,7 +43,7 @@
     "bashing": 2,
     "material": [ "bone" ],
     "symbol": "-",
-    "color": "white"
+    "color": "white",
     "use_action": {
       "type": "musical_instrument",
       "volume": 12,
