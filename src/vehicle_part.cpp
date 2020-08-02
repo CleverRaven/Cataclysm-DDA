@@ -209,7 +209,7 @@ itype_id vehicle_part::ammo_current() const
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
-        return base.ammo_current();
+        return base.ammo_current() != itype_id::NULL_ID() ? base.ammo_current() : base.ammo_default();
     }
 
     return itype_id::NULL_ID();
@@ -373,7 +373,7 @@ bool vehicle_part::can_reload( const item &obj ) const
         return true;
     }
 
-    return is_tank() &&
+    return is_fuel_store() &&
            ammo_remaining() <= ammo_capacity( item::find_type( ammo_current() )->ammo->type );
 }
 
