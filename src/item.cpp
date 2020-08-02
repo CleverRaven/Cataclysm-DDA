@@ -4334,13 +4334,9 @@ void item::on_takeoff( Character &p )
     }
 }
 
-void item::on_wield( player &p, int mv )
+int item::on_wield_cost( const player &p ) const
 {
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_wielded );
-    }
-
+    int mv = 0;
     // weapons with bayonet/bipod or other generic "unhandiness"
     if( has_flag( flag_SLOW_WIELD ) && !is_gunmod() ) {
         float d = 32.0f; // arbitrary linear scaling factor
@@ -4351,7 +4347,6 @@ void item::on_wield( player &p, int mv )
         }
 
         int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
-        p.moves -= penalty;
         mv += penalty;
     }
 
@@ -4364,9 +4359,21 @@ void item::on_wield( player &p, int mv )
             penalty = std::max( 0, 150 - p.get_skill_level( melee_skill() ) * 10 );
         }
 
-        p.moves -= penalty;
         mv += penalty;
     }
+    return mv;
+}
+
+void item::on_wield( player &p, int mv )
+{
+    // TODO: artifacts currently only work with the player character
+    if( p.is_avatar() && type->artifact ) {
+        g->add_artifact_messages( type->artifact->effects_wielded );
+    }
+
+    int wield_cost = on_wield_cost( p );
+    mv += wield_cost;
+    p.moves -= wield_cost;
 
     std::string msg;
 

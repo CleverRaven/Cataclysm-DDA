@@ -3424,6 +3424,12 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
         inv.unsort();
     }
 
+    // for holsters, we should not include the cost of wielding the holster itself
+    // The cost of wielding the holster was already added earlier in avatar_action::use_item.
+    // As we couldn't make sure back then what action was going to be used, we remove the cost now.
+    item_location il = item_location( *this, &container );
+    mv -= il.obtain_cost( *this );
+
     weapon = std::move( *internal_item );
     container.remove_item( *internal_item );
     container.on_contents_changed();
@@ -3432,18 +3438,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     inv.update_cache_with_item( weapon );
     last_item = weapon.typeId();
 
-    /**
-     * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
-     * @EFFECT_SMG decreases time taken to draw smgs from holsters
-     * @EFFECT_RIFLE decreases time taken to draw rifles from holsters
-     * @EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
-     * @EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
-     * @EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
-     * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
-     * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
-     */
-    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
-    mv += item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
+    mv += item_retrieve_cost( weapon, container, penalties, base_cost );
 
     moves -= mv;
 
