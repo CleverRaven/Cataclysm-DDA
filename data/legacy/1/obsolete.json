@@ -330,7 +330,7 @@
     "name": "helmet netting",
     "weight": "25 g",
     "color": "green",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "to_hit": -1,
     "symbol": "[",
     "description": "A webbing of strings worn on a helmet, to attach camouflage.",

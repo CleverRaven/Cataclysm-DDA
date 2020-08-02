@@ -2123,7 +2123,7 @@ Armor can be defined like this:
 "type" : "ARMOR",     // Defines this as armor
 ...                   // same entries as above for the generic item.
                       // additional some armor specific entries:
-"covers" : ["FEET"],  // Where it covers.  Possible options are TORSO, HEAD, EYES, MOUTH, ARMS, HANDS, LEGS, FEET
+"covers" : [ "foot_l", "foot_r" ],  // Where it covers.  Use bodypart_id defined in body_parts.json
 "warmth" : 10,        //  (Optional, default = 0) How much warmth clothing provides
 "environmental_protection" : 0,  //  (Optional, default = 0) How much environmental protection it affords
 "encumbrance" : 0,    // Base encumbrance (unfitted value)
@@ -2140,7 +2140,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
 "type" : "TOOL",      // Or any other item type
 ...                   // same entries as for the type (e.g. same entries as for any tool),
 "armor_data" : {      // additionally the same armor data like above
-    "covers" : ["FEET"],
+    "covers" : [ "foot_l", "foot_r" ],
     "warmth" : 10,
     "environmental_protection" : 0,
     "encumbrance" : 0,

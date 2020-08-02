@@ -13,7 +13,7 @@
     "symbol": "[",
     "color": "light_gray",
     "armor_data": {
-      "covers": [ "HANDS", "ARMS" ],
+      "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
       "coverage": 100,
       "encumbrance": 0,
       "warmth": 20,
@@ -51,7 +51,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HANDS", "ARMS" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
     "coverage": 100,
     "encumbrance": 0,
     "warmth": 20,
@@ -74,7 +74,7 @@
     "bashing": 8,
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "flags": [ "LIGHT_15", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
   },
   {
@@ -88,7 +88,7 @@
     "price": 0,
     "symbol": ",",
     "color": "light_green",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "flags": [ "LIGHT_5", "LEAK_DAM", "AURA", "SEMITANGIBLE" ]
   },
   {
@@ -105,7 +105,8 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "ARM_EITHER", "HAND_EITHER" ],
+    "covers": [ "arm_l", "arm_r", "hand_l", "hand_r" ],
+    "sided": true,
     "coverage": 70,
     "encumbrance": 15,
     "material_thickness": 3,
@@ -125,7 +126,7 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "FEET" ],
+    "covers": [ "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 0,
     "warmth": 30,
@@ -240,7 +241,7 @@
     "material": [ "flesh" ],
     "symbol": "[",
     "color": "green",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 40,
     "encumbrance": 5,
     "max_encumbrance": 10,
@@ -350,7 +351,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "white",
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": { "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "BONUS_DODGE", "add": 2 } ] } ] }
   },
@@ -364,7 +365,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.25 } ] } ]
@@ -380,7 +381,7 @@
     "price": 3646,
     "symbol": "o",
     "color": "green",
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ],
     "relic_data": {
       "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ACID", "multiply": -0.6 } ] } ]
@@ -397,7 +398,7 @@
     "material": [ "steel" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 10,
     "warmth": 0,
@@ -416,7 +417,7 @@
     "material": [ "stone" ],
     "symbol": "[",
     "color": "light_gray",
-    "covers": [ "HEAD", "MOUTH", "EYES", "TORSO", "ARMS", "HANDS", "LEGS", "FEET" ],
+    "covers": [ "head", "mouth", "eyes", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "leg_l", "leg_r", "foot_l", "foot_r" ],
     "coverage": 100,
     "encumbrance": 20,
     "warmth": 5,
@@ -446,7 +447,7 @@
     "volume": "1 ml",
     "symbol": "~",
     "color": "light_red",
-    "covers": [ "EYES", "MOUTH" ],
+    "covers": [ "eyes", "mouth" ],
     "encumbrance": 18,
     "relic_data": { "passive_effects": [ { "id": "ench_overcharge_burn_scar" } ] },
     "flags": [ "NO_TAKEOFF", "TRADER_AVOID", "BLIND" ]
@@ -461,7 +462,7 @@
     "symbol": "o",
     "color": "blue",
     "environmental_protection": 15,
-    "covers": [ "LEGS", "TORSO", "ARMS", "HANDS", "HEAD", "FEET", "MOUTH", "EYES" ],
+    "covers": [ "leg_l", "leg_r", "torso", "arm_l", "arm_r", "hand_l", "hand_r", "head", "foot_l", "foot_r", "mouth", "eyes" ],
     "flags": [ "AURA", "SEMITANGIBLE", "OVERSIZE", "ONLY_ONE", "TRADER_AVOID", "NO_TAKEOFF", "NONCONDUCTIVE" ]
   },
   {

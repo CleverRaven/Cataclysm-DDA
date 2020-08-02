@@ -25,7 +25,7 @@
         "max_contains_weight": "5 kg"
       }
     ],
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "encumbrance": 4, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -540,7 +540,7 @@
         "max_contains_weight": "20 kg"
       }
     ],
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 1 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 15, "material_thickness": 1 },
     "flags": [ "BELTED" ]
   },
   {
@@ -694,7 +694,7 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
+    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "encumbrance": 2, "material_thickness": 2 },
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
   {
@@ -993,7 +993,7 @@
         "max_contains_weight": "1 kg"
       }
     ],
-    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 2, "material_thickness": 1 },
+    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 2, "material_thickness": 1 },
     "qualities": [ [ "BOIL", 1 ] ],
     "flags": [ "WAIST", "OVERSIZE", "WATER_FRIENDLY" ]
   },
@@ -1317,7 +1317,7 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 5, "encumbrance": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1370,7 +1370,7 @@
         "max_contains_weight": "3 kg"
       }
     ],
-    "armor_data": { "covers": [ "LEG_EITHER" ], "coverage": 5, "material_thickness": 2 },
+    "armor_data": { "covers": [ "leg_l", "leg_r" ], "sided": true, "coverage": 5, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1398,7 +1398,7 @@
         "max_contains_weight": "6 kg"
       }
     ],
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 10, "material_thickness": 2 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 10, "material_thickness": 2 },
     "flags": [ "WAIST", "WATER_FRIENDLY" ]
   },
   {
@@ -1426,7 +1426,7 @@
         "max_contains_weight": "10 kg"
       }
     ],
-    "armor_data": { "covers": [ "TORSO" ], "coverage": 15, "material_thickness": 2 },
+    "armor_data": { "covers": [ "torso" ], "coverage": 15, "material_thickness": 2 },
     "flags": [ "BELTED", "WATER_FRIENDLY" ]
   },
   {

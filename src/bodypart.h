@@ -327,9 +327,6 @@ class body_part_set
         }
 };
 
-// Returns if passed string is legacy bodypart (i.e "TORSO", not "torso")
-bool is_legacy_bodypart_id( const std::string &id );
-
 /** Returns the new id for old token */
 const bodypart_str_id &convert_bp( body_part bp );
 
