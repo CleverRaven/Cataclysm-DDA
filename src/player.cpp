@@ -1774,12 +1774,13 @@ void player::process_items()
         if( it->is_power_armor() && can_interface_armor() && has_power() ) {
             // Bionic power costs are handled elsewhere
             continue;
-        } else if( ch_UPS_used >= ch_UPS || ( it->active && it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
+            //this is for UPS-modded items with no battery well
+        } else if( it->active && !it->ammo_sufficient() &&
+                   ( ch_UPS_used >= ch_UPS ||
+                     it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
             it->deactivate();
-            // this is for UPS-modded items which don't have a battery well
-        } else if( it->active && it->ammo_capacity( ammotype( "battery" ) ) == 0 ) {
-            ch_UPS_used += it->ammo_required();
-        } else if( it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
+        } else if( ch_UPS_used < ch_UPS &&
+                   it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
             ch_UPS_used++;
             it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
         }
