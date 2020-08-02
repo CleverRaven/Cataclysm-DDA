@@ -188,12 +188,12 @@
     "points": 2,
     "skills": [ { "level": 1, "name": "spellcraft" } ],
     "items": {
-      "both": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "leather_belt" ],
-      "entries": [ { "item": "primitive_knife", "container-item": "sheath" } ],
-      "male": [ "boxer_briefs" ],
-      "female": [ "bra", "panties" ]
-    },
-    "traits": [ "ANIMIST" ]
+      "both": {
+        "items": [ "jeans", "tshirt", "gloves_light", "hat_ball", "boots", "socks", "hoodie", "knit_scarf", "leather_belt" ],
+        "entries": [ { "item": "primitive_knife", "container-item": "sheath" } ]
+      },
+      "traits": [ "ANIMIST" ]
+    }
   },
   {
     "type": "profession",
