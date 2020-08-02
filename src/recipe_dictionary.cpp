@@ -423,8 +423,9 @@ void recipe_dictionary::finalize()
 
         for( const auto &bk : r.booksets ) {
             const itype *booktype = item::find_type( bk.first );
-            int req = bk.second > 0 ? bk.second : std::max( booktype->book->req, r.difficulty );
-            islot_book::recipe_with_description_t desc{ &r, req, r.result_name(), false };
+            int req = bk.second.skill_req > 0 ? bk.second.skill_req : std::max( booktype->book->req,
+                      r.difficulty );
+            islot_book::recipe_with_description_t desc{ &r, req, bk.second.alt_name.has_value() ? bk.second.alt_name.value().translated() : r.result_name(), bk.second.hidden };
             const_cast<islot_book &>( *booktype->book ).recipes.insert( desc );
         }
 

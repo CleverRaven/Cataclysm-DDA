@@ -1096,10 +1096,15 @@ Crafting recipes are defined as a JSON object with the following fields:
 "delete_flags": [ "CANNIBALISM" ], // Optional (default: empty list). Flags specified here will be removed from the resultant item upon crafting. This will override flag inheritance, but *will not* delete flags that are part of the item type itself.
 "skill_used": "fabrication", // Skill trained and used for success checks
 "skills_required": [["survival", 1], ["throw", 2]], // Skills required to unlock recipe
-"book_learn": [              // (optional) Array of books that this recipe can be learned from. Each entry contains the id of the book and the skill level at which it can be learned.
-    [ "textbook_anarch", 7, "something" ], // The optional third entry defines a name for the recipe as it should appear in the books description (default is the name of resulting item of the recipe)
-    [ "textbook_gaswarfare", 8, "" ] // If the name is empty, the recipe is hidden, it will not be shown in the description of the book.
-],
+"book_learn": {	             // (optional) Books that this recipe can be learned from.
+    "textbook_anarch" : {    // ID of the book the recipe can be learned from
+        "skill_level" : 7,   // Skill level at which it can be learned
+        "recipe_name" : "something", // (optional) Name of the recipe as it should appear in the book's description (default is the name of resulting item of the recipe)
+        "hidden" : true },   // (optional) If set to true, recipe will not be shown in the description of the book
+    "textbook_gaswarfare" : { // Additional book this recipe can be learnt from.
+        "skill_level" : 8
+    }
+},
 "difficulty": 3,             // Difficulty of success check
 "time": "5 m",               // Preferred time to perform recipe, can specify in minutes, hours etc.
 "time": 5000,                // Legacy time to perform recipe (where 1000 ~= 10 turns ~= 10 seconds game time).
