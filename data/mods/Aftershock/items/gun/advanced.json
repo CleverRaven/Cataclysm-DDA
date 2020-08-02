@@ -18,7 +18,7 @@
   {
     "id": "plasma_ejector",
     "type": "GUN",
-    "copy-from": "plasma_gun"
+    "copy-from": "plasma_gun",
     "name": "integral plasma ejector",
     "skill": "rifle",
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
