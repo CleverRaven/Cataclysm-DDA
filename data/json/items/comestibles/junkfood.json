@@ -1083,7 +1083,7 @@
     "volume": "250 ml",
     "flags": [ "EATEN_HOT", "EDIBLE_FROZEN", "FREEZERBURN" ],
     "fun": 10,
-    "vitamins": [ [ "calcium", 4 ], [ "vitC", 5 ], [ "iron", 8 ] ]
+    "vitamins": [ [ "calcium", 5 ], [ "vitC", 8 ], [ "iron", 10 ] ]
   },
   {
     "type": "COMESTIBLE",

@@ -4820,6 +4820,50 @@
   },
   {
     "type": "recipe",
+    "result": "minced_garlic",
+    "id_suffix": "knife",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "difficulty": 1,
+    "time": "3 m",
+    "autolearn": true,
+    "qualities": [ { "id": "CUT", "level": 1 } ],
+    "components": [ [ [ "garlic_clove", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "minced_garlic",
+    "id_suffix": "press",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_OTHER",
+    "skill_used": "cooking",
+    "time": "1 m",
+    "autolearn": true,
+    "batch_time_factors": [50, 2],
+    "tools": [ [ [ "garlic_press", -1 ] ] ],
+    "components": [ [ [ "garlic_clove", 1 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "garlic_tea",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_DRINKS",
+    "skill_used": "cooking",
+    "difficulty": 2,
+    "time": "10 m",
+    "book_learn": [ [ "family_cookbook", 2 ], [ "cookbook_foodfashions", 2 ], [ "mag_survival", 1 ] ],
+    "batch_time_factors": [ 70, 4 ],
+    "qualities": [ { "id": "BOIL", "level": 1 } ],
+    "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
+    "components": [
+        [ [ "minced_garlic", 2 ] ],
+        [ [ "water", 1 ], [ "water_clean", 1 ] ],
+        [ [ "honey_bottled", 3 ], [ "honey_glassed", 1 ], [ "lemon", 1 ], [ "chamomile", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
     "result": "vinegar",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
