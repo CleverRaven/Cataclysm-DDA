@@ -11422,22 +11422,55 @@ int Character::intimidation() const
 
 bool Character::has_proficiency( const proficiency_id &prof ) const
 {
-    return _proficiencies.count( prof );
+    return _proficiencies->has_learned( prof );
 }
 
 void Character::add_proficiency( const proficiency_id &prof )
 {
-    _proficiencies.insert( prof );
+    _proficiencies->learn( prof );
 }
 
 void Character::lose_proficiency( const proficiency_id &prof )
 {
-    _proficiencies.erase( prof );
+    _proficiencies->remove( prof );
 }
 
-const std::set<proficiency_id> &Character::proficiencies() const
+std::vector<display_proficiency> Character::display_proficiencies() const
 {
-    return _proficiencies;
+    return _proficiencies->display();
+}
+
+void Character::practice_proficiency( const proficiency_id &prof, const time_duration amount,
+                                      const cata::optional<time_duration> max )
+{
+    int amt = to_seconds<int>( amount );
+    const float pct_before = _proficiencies->pct_practiced( prof );
+    time_duration focused_amount = time_duration::from_seconds( adjust_for_focus( amt ) );
+    const bool learned = _proficiencies->practice( prof, focused_amount, max );
+    const float pct_after = _proficiencies->pct_practiced( prof );
+
+    if( pct_after > pct_before ) {
+        focus_pool -= focus_pool / 100;
+    }
+
+    if( learned ) {
+        add_msg_if_player( m_good, _( "You are now proficient in %s" ), prof->name() );
+    }
+}
+
+time_duration Character::proficiency_training_needed( const proficiency_id &prof ) const
+{
+    return _proficiencies->training_time_needed( prof );
+}
+
+std::vector<proficiency_id> Character::known_proficiencies() const
+{
+    return _proficiencies->known_profs();
+}
+
+std::vector<proficiency_id> Character::learning_proficiencies() const
+{
+    return _proficiencies->learning_profs();
 }
 
 bool Character::defer_move( const tripoint &next )

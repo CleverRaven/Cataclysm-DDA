@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "optional.h"
 #include "requirements.h"
 #include "translations.h"
@@ -45,6 +46,8 @@ struct recipe_proficiency {
     bool required = false;
     float time_multiplier = 1.0f;
     float fail_multiplier = 2.5f;
+    float learning_time_mult = 1.0f;
+    cata::optional<time_duration> max_experience = cata::nullopt;
 
     void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );

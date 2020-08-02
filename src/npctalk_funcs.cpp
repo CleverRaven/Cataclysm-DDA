@@ -921,6 +921,7 @@ void talk_function::start_training( npc &p )
     const skill_id &skill = p.chatbin.skill;
     const matype_id &style = p.chatbin.style;
     const spell_id &sp_id = p.chatbin.dialogue_spell;
+    const proficiency_id &proficiency = p.chatbin.proficiency;
     int expert_multiplier = 1;
     Character &you = get_player_character();
     if( skill != skill_id() &&
@@ -954,6 +955,11 @@ void talk_function::start_training( npc &p )
             const int time_int = you.magic.time_to_learn_spell( you, sp_id ) / 50;
             time = time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
         }
+
+    } else if( proficiency != proficiency_id() ) {
+        name = proficiency.str();
+        cost = calc_proficiency_training_cost( p, proficiency );
+        time = calc_proficiency_training_time( p, proficiency );
     } else {
         debugmsg( "start_training with no valid skill or style set" );
         return;

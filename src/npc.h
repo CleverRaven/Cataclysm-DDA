@@ -837,6 +837,10 @@ class npc : public player
          */
         std::vector<skill_id> skills_offered_to( const player &p ) const;
         /**
+         * Proficiencies we know that the character doesn't
+         */
+        std::vector < proficiency_id> proficiencies_offered_to( const Character &guy ) const;
+        /**
          * Martial art styles that we known, but the player p doesn't.
          */
         std::vector<matype_id> styles_offered_to( const player &p ) const;
