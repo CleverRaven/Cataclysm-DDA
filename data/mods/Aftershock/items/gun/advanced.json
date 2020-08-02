@@ -18,29 +18,20 @@
   {
     "id": "plasma_ejector",
     "type": "GUN",
-    "copy-from": "robogun_base",
+    "copy-from": "plasma_gun"
     "name": "integral plasma ejector",
     "skill": "rifle",
-    "range": 30,
-    "ranged_damage": 22,
-    "pierce": 15,
-    "dispersion": 30,
-    "loudness": 12,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
     "ammo_effects": [ "PLASMA", "EXPLOSIVE", "STREAM_BIG", "WIDE", "FLAME" ]
   },
   {
     "id": "railgun",
     "type": "GUN",
-    "copy-from": "robogun_base",
+    "copy-from": "hk_g80",
     "name": "integral railgun",
     "ammo": "metal_rail",
     "skill": "rifle",
-    "range": 40,
-    "ranged_damage": 40,
-    "dispersion": 100,
-    "loudness": 34,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "BURST", "2 rd.", 2 ] ],
-    "ammo_effects": [ "INCENDIARY", "TRAIL" ]
+    "ammo_effects": [  "TRAIL" ]
   }
 ]

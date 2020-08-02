@@ -7,8 +7,8 @@
   },
   {
     "type": "ammunition_type",
-    "id": "x-xray_laser_barrel",
-    "name": "x-ray laser barrel",
-    "default": "x-xray_laser_barrel"
+    "id": "xray_laser_barrel",
+    "name": "ray laser barrel",
+    "default": "xray_laser_barrel"
   }
 ]
