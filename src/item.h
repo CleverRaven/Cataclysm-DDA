@@ -2133,6 +2133,13 @@ class item : public visitable<item>
         double calculate_by_enchantment_wield( double modify, enchant_vals::mod value,
                                                bool round_value = false ) const;
 
+        /**
+         * Compute the number of moves needed to disassemble this item and its components
+         * @param guy The character performing the disassembly
+         * @return The number of moves to recursively disassemble this item
+         */
+        int get_recursive_disassemble_moves( const Character &guy ) const;
+
     private:
         /** migrates an item into this item. */
         void migrate_content_item( const item &contained );
