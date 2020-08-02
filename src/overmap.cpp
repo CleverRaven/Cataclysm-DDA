@@ -1806,10 +1806,14 @@ void overmap::generate_bridgeheads( const std::vector<point_om_omt> &bridge_poin
         const oter_id oter_ground_south = ter( tripoint_om_omt( bp, 0 ) + tripoint_south );
         const oter_id oter_ground_east = ter( tripoint_om_omt( bp, 0 ) + tripoint_east );
         const oter_id oter_ground_west = ter( tripoint_om_omt( bp, 0 ) + tripoint_west );
-        const bool is_bridge_north = is_ot_match( "bridge", oter_ground_north, ot_match_type::type );
-        const bool is_bridge_south = is_ot_match( "bridge", oter_ground_south, ot_match_type::type );
-        const bool is_bridge_east = is_ot_match( "bridge", oter_ground_east, ot_match_type::type );
-        const bool is_bridge_west = is_ot_match( "bridge", oter_ground_west, ot_match_type::type );
+        const bool is_bridge_north = is_ot_match( "bridge", oter_ground_north, ot_match_type::type )
+                                     && ( oter_get_rotation( oter_ground_north ) % 2 == 0 );
+        const bool is_bridge_south = is_ot_match( "bridge", oter_ground_south, ot_match_type::type )
+                                     && ( oter_get_rotation( oter_ground_south ) % 2 == 0 );
+        const bool is_bridge_east = is_ot_match( "bridge", oter_ground_east, ot_match_type::type )
+                                    && ( oter_get_rotation( oter_ground_east ) % 2 == 1 );
+        const bool is_bridge_west = is_ot_match( "bridge", oter_ground_west, ot_match_type::type )
+                                    && ( oter_get_rotation( oter_ground_west ) % 2 == 1 );
 
         if( is_bridge_north ^ is_bridge_south || is_bridge_east ^ is_bridge_west ) {
             std::string ramp_facing;
