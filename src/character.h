@@ -2114,9 +2114,9 @@ class Character : public Creature, public visitable<Character>
         * Recharge CBMs whenever possible.
         * @return true when recharging was successful.
         */
-        bool feed_reactor_with( item &it );
-        bool feed_furnace_with( item &it );
-        bool fuel_bionic_with( item &it );
+        bool feed_reactor_with( item &it, item_pocket *parent_pocket );
+        bool feed_furnace_with( item &it, item_pocket *parent_pocket );
+        bool fuel_bionic_with( item &it, item_pocket *parent_pocket );
         /** Used to apply stimulation modifications from food and medication **/
         void modify_stimulation( const islot_comestible &comest );
         /** Used to apply fatigue modifications from food and medication **/
