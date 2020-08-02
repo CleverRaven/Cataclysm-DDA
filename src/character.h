@@ -18,12 +18,10 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "color.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
@@ -36,8 +34,6 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "memory_fast.h"
-#include "monster.h"
-#include "mtype.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -50,7 +46,6 @@
 #include "units.h"
 #include "visitable.h"
 #include "weighted_list.h"
-#include "weather_gen.h"
 
 class JsonIn;
 class JsonObject;
@@ -78,6 +73,9 @@ struct points_left;
 class proficiency_set;
 template <typename E> struct enum_traits;
 enum npc_attitude : int;
+class nc_color;
+class monster;
+struct w_point;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
