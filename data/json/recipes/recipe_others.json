@@ -757,11 +757,15 @@
     "autolearn": true,
     "qualities": [
       { "id": "HAMMER", "level": 2 },
-      { "id": "SAW_W", "level": 2 },
+      { "id": "SAW_W", "level": 1 },
       { "id": "CUT", "level": 1 },
       { "id": "CHISEL_WOOD", "level": 1 }
     ],
-    "components": [ [ [ "stick", 1 ], [ "2x4", 1 ] ], [ [ "2x4", 1 ] ], [ [ "nail", 2 ] ] ]
+    "components": [
+      [ [ "stick", 1 ], [ "2x4", 1 ] ],
+      [ [ "2x4", 1 ] ],
+      [ [ "nail", 2 ], [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ], [ "duct_tape", 40 ] ]
+    ]
   },
   {
     "type": "recipe",
