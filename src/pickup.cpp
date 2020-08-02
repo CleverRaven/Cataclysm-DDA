@@ -330,6 +330,10 @@ bool pick_one_up( item_location &loc, int quantity, bool &got_water, bool &offer
             picked_up = it.spill_contents( player_character );
             if( !picked_up ) {
                 break;
+            } else {
+                const int invlet = newit.invlet;
+                newit = it;
+                newit.invlet = invlet;
             }
         // Intentional fallthrough
         case STASH: {
