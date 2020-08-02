@@ -1,23 +1,5 @@
 [
   {
-    "id": "40_speedloader6",
-    "looks_like": "38_speedloader",
-    "type": "MAGAZINE",
-    "name": { "str": ".40 6-round speedloader" },
-    "description": "This speedloader can hold 6 rounds of .40 S&W or 10mm Auto and quickly reload a compatible revolver.",
-    "weight": "92 g",
-    "volume": "250 ml",
-    "price": 1500,
-    "price_postapoc": 100,
-    "material": [ "steel" ],
-    "symbol": "#",
-    "color": "light_gray",
-    "ammo_type": [ "40", "10mm" ],
-    "capacity": 6,
-    "flags": [ "SPEEDLOADER" ],
-    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "40": 6, "10mm": 6 } } ]
-  },
-  {
     "id": "90two40mag",
     "looks_like": "glock17_17",
     "type": "MAGAZINE",
