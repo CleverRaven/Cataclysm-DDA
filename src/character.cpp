@@ -7652,6 +7652,8 @@ std::string Character::activity_level_str() const
         return _( "LIGHT_EXERCISE" );
     } else if( activity_level <= MODERATE_EXERCISE ) {
         return _( "MODERATE_EXERCISE" );
+    } else if( activity_level <= BRISK_EXERCISE ) {
+        return _( "BRISK_EXERCISE" );
     } else if( activity_level <= ACTIVE_EXERCISE ) {
         return _( "ACTIVE_EXERCISE" );
     } else {
