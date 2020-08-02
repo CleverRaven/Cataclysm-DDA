@@ -330,5 +330,27 @@
     "max_pierce": 3,
     "pierce_increment": 0.3,
     "damage_type": "cut"
+  },
+  {
+    "id": "druid_feralform",
+    "type": "SPELL",
+    "name": "Feral Form",
+    "description": "This spell unleashs your inner beast, growing claws & fangs to rend your foes limb from limb.",
+    "valid_targets": [ "self" ],
+    "effect": "spawn_item",
+    "effect_str": "aura_feral",
+    "flags": [ "SOMATIC", "VERBAL" ],
+    "components": "spell_components_feralform",
+    "spell_class": "DRUID",
+    "energy_source": "MANA",
+    "difficulty": 4,
+    "base_casting_time": 400,
+    "base_energy_cost": 200,
+    "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 60000,
+    "max_duration": 150000,
+    "duration_increment": 6000
   }
 ]

@@ -237,5 +237,27 @@
     "min_duration": 6000,
     "max_duration": 60000,
     "duration_increment": 2160
+  },
+  {
+    "id": "animist_summon_decaying_boneclub",
+    "type": "SPELL",
+    "name": { "str": "Decaying Boneclub" },
+    "description": "This spell links your live blood to the dead blood & bones, creating a club hungry for the flesh of the living.",
+    "effect": "spawn_item",
+    "effect_str": "decaying_boneclub",
+    "valid_targets": [ "self" ],
+    "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
+    "components": "spell_components_decayingboneclub",
+    "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 30000,
+    "max_duration": 120000,
+    "duration_increment": 6000,
+    "spell_class": "ANIMIST",
+    "base_casting_time": 400,
+    "base_energy_cost": 6,
+    "energy_source": "HP",
+    "difficulty": 6
   }
 ]
