@@ -859,7 +859,7 @@ ret_val<edible_rating> Character::will_eat( const item &food, bool interactive )
     return ret_val<edible_rating>::make_success();
 }
 
-static bool eat( item &food, player &you, bool force = false )
+static bool eat( item &food, player &you, bool force, item_pocket *const parent_pocket )
 {
     if( !food.is_food() ) {
         return false;
@@ -922,9 +922,15 @@ static bool eat( item &food, player &you, bool force = false )
     if( !you.consume_effects( food ) ) {
         // Already consumed by using `food.type->invoke`?
         if( charges_used > 0 ) {
+            if( parent_pocket ) {
+                parent_pocket->unseal();
+            }
             food.mod_charges( -charges_used );
         }
         return false;
+    }
+    if( parent_pocket ) {
+        parent_pocket->unseal();
     }
     food.mod_charges( -1 );
 
@@ -1411,7 +1417,7 @@ bool Character::can_feed_reactor_with( const item &it ) const
     } );
 }
 
-bool Character::feed_reactor_with( item &it )
+bool Character::feed_reactor_with( item &it, item_pocket *const parent_pocket )
 {
     if( !can_feed_reactor_with( it ) ) {
         return false;
@@ -1432,6 +1438,9 @@ bool Character::feed_reactor_with( item &it )
 
     // TODO: Encapsulate
     tank_plut += amount;
+    if( parent_pocket ) {
+        parent_pocket->unseal();
+    }
     it.charges -= 1;
     mod_moves( -250 );
     return true;
@@ -1455,7 +1464,7 @@ bool Character::can_feed_furnace_with( const item &it ) const
     return !it.has_flag( flag_CORPSE );
 }
 
-bool Character::feed_furnace_with( item &it )
+bool Character::feed_furnace_with( item &it, item_pocket *const parent_pocket )
 {
     if( !can_feed_furnace_with( it ) ) {
         return false;
@@ -1507,13 +1516,16 @@ bool Character::feed_furnace_with( item &it )
         mod_power_level( units::from_kilojoule( profitable_energy ) );
     }
 
+    if( parent_pocket ) {
+        parent_pocket->unseal();
+    }
     it.charges -= consumed_charges;
     mod_moves( -250 );
 
     return true;
 }
 
-bool Character::fuel_bionic_with( item &it )
+bool Character::fuel_bionic_with( item &it, item_pocket *const parent_pocket )
 {
     if( !can_fuel_bionic_with( it ) ) {
         return false;
@@ -1524,6 +1536,9 @@ bool Character::fuel_bionic_with( item &it )
     const bool is_magazine = !!it.type->magazine;
     std::string item_name = it.tname();
     itype_id item_type = it.typeId();
+    if( parent_pocket ) {
+        parent_pocket->unseal();
+    }
     int loadable;
     if( is_magazine ) {
         const item ammo = item( it.ammo_current() );
@@ -1766,7 +1781,7 @@ static bool query_consume_ownership( item &target, player &p )
 }
 
 // TODO: Properly split medications and food instead of hacking around
-static bool consume_med( item &target, player &you )
+static bool consume_med( item &target, player &you, item_pocket *const parent_pocket )
 {
     if( !target.is_medication() ) {
         return false;
@@ -1812,11 +1827,14 @@ static bool consume_med( item &target, player &you )
         you.consume_effects( target );
     }
 
+    if( parent_pocket ) {
+        parent_pocket->unseal();
+    }
     target.charges -= amount_used;
     return target.charges <= 0;
 }
 
-bool player::consume( item &target, bool force )
+bool player::consume( item &target, bool force, item_pocket *const parent_pocket )
 {
     if( target.is_null() ) {
         add_msg_if_player( m_info, _( "You do not have that item." ) );
@@ -1840,9 +1858,11 @@ bool player::consume( item &target, bool force )
     if( is_player() && !query_consume_ownership( target, *this ) ) {
         return false;
     }
-    if( consume_med( comest, *this ) ||
-        eat( comest, *this, force ) || feed_reactor_with( comest ) || feed_furnace_with( comest ) ||
-        fuel_bionic_with( comest ) ) {
+    if( consume_med( comest, *this, parent_pocket ) ||
+        eat( comest, *this, force, parent_pocket ) ||
+        feed_reactor_with( comest, parent_pocket ) ||
+        feed_furnace_with( comest, parent_pocket ) ||
+        fuel_bionic_with( comest, parent_pocket ) ) {
 
         if( &target != &comest ) {
             target.on_contents_changed();
@@ -1861,10 +1881,14 @@ bool player::consume( item_location loc, bool force )
         return false;
     }
     item &target = *loc;
+    item_pocket *parent_pocket = nullptr;
+    if( loc.has_parent() ) {
+        parent_pocket = loc.parent_item()->contained_where( target );
+    }
     bool wielding = is_wielding( target );
     bool worn = is_worn( target );
     const bool inv_item = !( wielding || worn );
-    if( consume( target, force ) ) {
+    if( consume( target, force, parent_pocket ) ) {
         if( loc.where() == item_location::type::character ) {
             i_rem( loc.get_item() );
         } else {

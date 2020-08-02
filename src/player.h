@@ -324,7 +324,7 @@ class player : public Character
         bool consume( item_location loc, bool force = false );
         /** Used for eating a particular item that doesn't need to be in inventory.
          *  Returns true if the item is to be removed (doesn't remove). */
-        bool consume( item &target, bool force = false );
+        bool consume( item &target, bool force = false, item_pocket *parent_pocket = nullptr );
 
         /** Handles the enjoyability value for a book. **/
         int book_fun_for( const item &book, const player &p ) const;
