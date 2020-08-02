@@ -1619,6 +1619,9 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             case creature_size::huge:
                 factor = 1;
                 break;
+            case creature_size::num_sizes:
+                debugmsg( "ERROR: Invalid Creature size class." );
+                break;
         }
         // TODO: make this take terrain type into account so diggers traveling under sand will create mounds of sand etc.
         if( one_in( factor ) ) {

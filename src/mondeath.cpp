@@ -573,6 +573,9 @@ void mdeath::explode( monster &z )
         case creature_size::huge:
             size = 26;
             break;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            break;
     }
     explosion_handler::explosion( z.pos(), size );
 }

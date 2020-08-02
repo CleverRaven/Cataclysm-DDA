@@ -20,6 +20,7 @@
 #include "behavior.h"
 #include "bionics.h"
 #include "bodypart.h"
+#include "butchery_requirements.h"
 #include "clothing_mod.h"
 #include "clzones.h"
 #include "construction.h"
@@ -387,6 +388,7 @@ void DynamicDataLoader::initialize()
     add( "mission_definition", []( const JsonObject & jo, const std::string & src ) {
         mission_type::load_mission_type( jo, src );
     } );
+    add( "butchery_requirement", &butchery_requirements::load_butchery_req );
     add( "harvest", []( const JsonObject & jo, const std::string & src ) {
         harvest_list::load( jo, src );
     } );

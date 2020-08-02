@@ -65,7 +65,9 @@ enum class creature_size : int {
     // Cow
     large,
     // TAAAANK
-    huge
+    huge,
+    // must always be at the end, is actually number + 1 since we start counting at 1
+    num_sizes
 };
 
 using I = std::underlying_type_t<creature_size>;
