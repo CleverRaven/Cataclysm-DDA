@@ -1779,7 +1779,8 @@ void player::process_items()
                    ( ch_UPS_used >= ch_UPS ||
                      it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
             it->deactivate();
-        } else if( it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
+        } else if( ch_UPS_used < ch_UPS &&
+                   it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
             ch_UPS_used++;
             it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
         }
