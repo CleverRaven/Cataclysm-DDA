@@ -488,7 +488,7 @@
     "time": "30 m",
     "charges": 1,
     "book_learn": [ [ "cookbook_foodfashions", 3 ], [ "cookbook_daintydishes", 3 ], [ "cookbook_eatyrway", 4 ] ],
-    "batch_time_factors": [40, 2],
+    "batch_time_factors": [ 40, 2 ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "frying_oil", 1, "LIST" ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
     "components": [
@@ -4840,7 +4840,7 @@
     "skill_used": "cooking",
     "time": "1 m",
     "autolearn": true,
-    "batch_time_factors": [50, 2],
+    "batch_time_factors": [ 50, 2 ],
     "tools": [ [ [ "garlic_press", -1 ] ] ],
     "components": [ [ [ "garlic_clove", 1 ] ] ]
   },
@@ -4857,9 +4857,9 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [
-        [ [ "minced_garlic", 2 ] ],
-        [ [ "water", 1 ], [ "water_clean", 1 ] ],
-        [ [ "honey_bottled", 3 ], [ "honey_glassed", 1 ], [ "lemon", 1 ], [ "chamomile", 1 ] ]
+      [ [ "minced_garlic", 2 ] ],
+      [ [ "water", 1 ], [ "water_clean", 1 ] ],
+      [ [ "honey_bottled", 3 ], [ "honey_glassed", 1 ], [ "lemon", 1 ], [ "chamomile", 1 ] ]
     ]
   },
   {
