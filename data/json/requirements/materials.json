@@ -27,7 +27,7 @@
     "id": "bone_any",
     "type": "requirement",
     "//": "Any kind of bones.  May possibly be poisonous to eat, or fragile.",
-    "components": [ [ [ "bone_stirdy", 1, "LIST" ], [ "bone_tainted", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "bone_tainted", 1 ] ] ]
   },
   {
     "id": "bone_meal_any",
