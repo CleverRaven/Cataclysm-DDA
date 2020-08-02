@@ -52,10 +52,10 @@ void harvest_entry::load( const JsonObject &jo )
     mandatory( jo, was_loaded, "drop", drop );
 
     optional( jo, was_loaded, "type", type );
-    optional( jo, was_loaded, "base_num", base_num );
-    optional( jo, was_loaded, "scale_num", scale_num );
-    optional( jo, was_loaded, "max", max );
-    optional( jo, was_loaded, "mass_ratio", mass_ratio );
+    optional( jo, was_loaded, "base_num", base_num, { 1.0f, 1.0f } );
+    optional( jo, was_loaded, "scale_num", scale_num, { 0.0f, 0.0f } );
+    optional( jo, was_loaded, "max", max, 1000 );
+    optional( jo, was_loaded, "mass_ratio", mass_ratio, 0.00f );
     optional( jo, was_loaded, "flags", flags );
     optional( jo, was_loaded, "faults", faults );
     optional( jo, was_loaded, "butchery_requirements", butchery_requirements_,
@@ -66,37 +66,6 @@ void harvest_entry::deserialize( JsonIn &jsin )
 {
     const JsonObject &jo = jsin.get_object();
     load( jo );
-}
-
-const harvest_id &harvest_list::load( const JsonObject &jo, const std::string &src,
-                                      const std::string &force_id )
-{
-    harvest_list ret;
-    if( jo.has_string( "id" ) ) {
-        ret.id = harvest_id( jo.get_string( "id" ) );
-    } else if( !force_id.empty() ) {
-        ret.id = harvest_id( force_id );
-    } else {
-        jo.throw_error( "id was not specified for harvest" );
-    }
-
-    jo.read( "message", ret.message_ );
-    jo.read( "entries", ret.entries_ );
-
-    assign( jo, "leftovers", ret.leftovers );
-
-    for( const JsonObject current_entry : jo.get_array( "entries" ) ) {
-        ret.entries_.push_back( harvest_entry::load( current_entry, src ) );
-    }
-
-    if( !jo.read( "butchery_requirements", ret.butchery_requirements_ ) ) {
-        ret.butchery_requirements_ = butchery_requirements_id( "default" );
-    }
-
-    auto &new_entry = harvest_all[ ret.id_ ];
-    new_entry = ret;
-
-    return ret.id;
 }
 
 void harvest_list::finalize()
@@ -115,12 +84,12 @@ void harvest_list::finalize_all()
     }
 }
 
-void harvest_list::load( const JsonObject &obj )
+void harvest_list::load( const JsonObject &obj, const std::string & )
 {
     mandatory( obj, was_loaded, "id", id );
-    mandatory( obj, was_loaded, "message", message_ );
     mandatory( obj, was_loaded, "entries", entries_ );
 
+    optional( obj, was_loaded, "message", message_ );
 }
 
 void harvest_list::load_harvest_list( const JsonObject &jo, const std::string &src )

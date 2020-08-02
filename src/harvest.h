@@ -82,10 +82,6 @@ class harvest_list
         std::list<harvest_entry>::const_reverse_iterator rbegin() const;
         std::list<harvest_entry>::const_reverse_iterator rend() const;
 
-        /** Load harvest data, create relevant global entries, then return the id of the new list */
-        static const harvest_id &load( const JsonObject &jo, const std::string &src,
-                                       const std::string &force_id = "" );
-
         /** Fills out the set of cached names. */
         static void finalize_all();
 
@@ -93,7 +89,7 @@ class harvest_list
         static void check_consistency();
 
         bool was_loaded = false;
-        void load( const JsonObject &obj );
+        void load( const JsonObject &obj, const std::string & );
         static void load_harvest_list( const JsonObject &jo, const std::string &src );
         static const std::vector<harvest_list> &get_all();
 
