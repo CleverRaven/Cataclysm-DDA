@@ -109,7 +109,7 @@
     "type": "TOOL",
     "looks_like": "pointy_stick",
     "name": { "str": "hobo hand fishing reel" },
-    "description": "What is often known as a 'hobo fishing reel'. Is is a short wooden rod with a section on one end with fishing line wrapped around it, with a notch to put the string to help pull in fish. It is not as effective as a normal fishing pole, but is much more compact than them,",
+    "description": "What is often known as a 'hobo fishing reel'.  It is a short wooden rod with a section on one end with fishing line wrapped around it, with a notch to put the string to help pull in fish.  It is not as effective as a normal fishing pole, but is much more compact than them.",
     "weight": "500 g",
     "volume": "380 ml",
     "longest_side": "150 mm",
