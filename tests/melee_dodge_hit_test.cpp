@@ -60,6 +60,7 @@ static float dodge_wearing_item( avatar &dummy, item &clothing )
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
     dummy.wear_item( clothing );
 
+    dummy.reset_stats(); // becaue dodging from encumbrance is cached and is only updates here.
     return dummy.get_dodge();
 }
 
@@ -283,6 +284,23 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
             CHECK( dodge_wearing_item( dummy, blades ) == base_dodge / 2 );
             CHECK( dodge_wearing_item( dummy, heelys ) == base_dodge / 2 );
         }
+    }
+
+    SECTION( "encumbered " ) {
+        item chainmail_vest( "chainmail_vest" );
+        item chainmail_legs( "chainmail_legs" );
+
+        REQUIRE( chainmail_vest.get_encumber( dummy, bodypart_id( "torso" ) ) == 20 );
+        REQUIRE( chainmail_legs.get_encumber( dummy, bodypart_id( "leg_l" ) ) == 20 );
+        REQUIRE( chainmail_legs.get_encumber( dummy, bodypart_id( "leg_r" ) ) == 20 );
+
+        SECTION( "Wearing chainmail vest (on the torso)" ) {
+            CHECK( dodge_wearing_item( dummy, chainmail_vest ) ==  base_dodge - 2 );
+        }
+        SECTION( "Wearing chainmal leggings (on the legs)" ) {
+            CHECK( dodge_wearing_item( dummy, chainmail_legs ) == base_dodge - 2 );
+        }
+
     }
 }
 

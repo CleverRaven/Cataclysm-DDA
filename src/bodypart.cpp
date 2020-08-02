@@ -595,7 +595,7 @@ void stat_hp_mods::deserialize( JsonIn &jsin )
 
 void encumbrance_effects::load( const JsonObject &jsobj )
 {
-
+    optional( jsobj, was_loaded, "dodge_skill", dodge_skill, 0.0f );
 }
 
 void encumbrance_effects::deserialize( JsonIn &jsin )

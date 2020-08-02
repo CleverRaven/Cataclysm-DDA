@@ -552,11 +552,11 @@ This section describes each json file and their contents. Each json has their ow
 
 #### `encumbrance_effects`
 
-How much and in which way encumbrance on this part affects the character. All fields are optional, all defaults are `0`.
+How much and in which way each point of encumbrance on this part affects the character. All fields are optional, all defaults are `0`.
 
 | Identifier        | Description
 |---                |---
-|                   | 
+| dodge_skill       | (_optional_) Adjustment to effective dodging skill. Usually nonpositive. (default: `0`)
 
 ### Bionics
 

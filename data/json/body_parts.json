@@ -27,7 +27,9 @@
     "heading_multiple": "Torso",
     "hp_bar_ui_text": "TORSO",
     "encumbrance_text": "Dodging and melee is hampered.",
-    "encumbrance_effects": {},
+    "encumbrance_effects": {
+      "dodge_skill": -0.1
+    },
     "main_part": "torso",
     "opposite_part": "torso",
     "hit_size": 45,
@@ -232,7 +234,9 @@
     "heading_multiple": "Legs",
     "hp_bar_ui_text": "L LEG",
     "encumbrance_text": "Running and swimming are slowed.",
-    "encumbrance_effects": {},
+    "encumbrance_effects": {
+      "dodge_skill": -0.05
+    },
     "main_part": "leg_l",
     "opposite_part": "leg_r",
     "hit_size": 9,
@@ -260,7 +264,9 @@
     "heading_multiple": "Legs",
     "hp_bar_ui_text": "R LEG",
     "encumbrance_text": "Running and swimming are slowed.",
-    "encumbrance_effects": {},
+    "encumbrance_effects": {
+      "dodge_skill": -0.05
+    },
     "main_part": "leg_r",
     "opposite_part": "leg_l",
     "hit_size": 9,

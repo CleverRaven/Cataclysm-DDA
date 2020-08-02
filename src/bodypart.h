@@ -86,6 +86,7 @@ struct stat_hp_mods {
 };
 
 struct encumbrance_effects {
+    float dodge_skill = 0.0f;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
