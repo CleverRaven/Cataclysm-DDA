@@ -135,7 +135,7 @@ inline SDL_Color color_pixel_mixer( const SDL_Color &color, const float &gammav,
      */
 
     const Uint8 av = average_pixel_color( color );
-    const float pv = av / 255.0;
+    const float pv = av / 255.0f;
     const Uint8 finalv =
         std::min( static_cast<int>( std::round( std::pow( pv, gammav ) * 150 ) ), 100 );
 

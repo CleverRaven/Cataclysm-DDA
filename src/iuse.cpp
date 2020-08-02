@@ -882,7 +882,7 @@ int iuse::meth( player *p, item *it, bool, const tripoint & )
         // breathe out some smoke
         for( int i = 0; i < 3; i++ ) {
             here.add_field( {p->posx() + static_cast<int>( rng( -2, 2 ) ), p->posy() + static_cast<int>( rng( -2, 2 ) ), p->posz()},
-                            fd_methsmoke, 2 );
+                            field_type_id( "fd_methsmoke" ), 2 );
         }
     } else {
         p->add_msg_if_player( _( "You snort some crystal meth." ) );
@@ -922,7 +922,7 @@ int iuse::flu_vaccine( player *p, item *it, bool, const tripoint & )
     // FIXME Removing feedback and visible status would be more realistic
     if( remaining_time > 0_turns ) {
         p->add_msg_if_player( m_good, _( "You no longer need to fear the flu, at least for some time." ) );
-        p->add_effect( effect_flushot, remaining_time, num_bp, false );
+        p->add_effect( effect_flushot, remaining_time, false );
     } else {
         p->add_msg_if_player( m_bad,
                               _( "You notice the date on the packaging is pretty old.  It may no longer be effective." ) );
@@ -937,7 +937,7 @@ int iuse::antiasthmatic( player *p, item *it, bool, const tripoint & )
 {
     p->add_msg_if_player( m_good,
                           _( "You no longer need to worry about asthma attacks, at least for a while." ) );
-    p->add_effect( effect_took_antiasthmatic, 1_days, num_bp, true );
+    p->add_effect( effect_took_antiasthmatic, 1_days, true );
     return it->type->charges_to_use();
 }
 
@@ -1179,7 +1179,7 @@ int iuse::chew( player *p, item *it, bool, const tripoint & )
 static void do_purify( player &p )
 {
     std::vector<trait_id> valid; // Which flags the player has
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         if( p.has_trait( traits_iter.id ) && !p.has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.id );
@@ -1222,7 +1222,7 @@ int iuse::purify_iv( player *p, item *it, bool, const tripoint & )
     }
 
     std::vector<trait_id> valid; // Which flags the player has
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         if( p->has_trait( traits_iter.id ) && !p->has_base_trait( traits_iter.id ) ) {
             //Looks for active mutation
             valid.push_back( traits_iter.id );
@@ -1265,7 +1265,7 @@ int iuse::purify_smart( player *p, item *it, bool, const tripoint & )
 
     std::vector<trait_id> valid; // Which flags the player has
     std::vector<std::string> valid_names; // Which flags the player has
-    for( auto &traits_iter : mutation_branch::get_all() ) {
+    for( const mutation_branch &traits_iter : mutation_branch::get_all() ) {
         if( p->has_trait( traits_iter.id ) &&
             !p->has_base_trait( traits_iter.id ) &&
             p->purifiable( traits_iter.id ) ) {
@@ -1621,7 +1621,7 @@ static int feedpet( player &p, monster &mon, item &it, m_flag food_flag, const c
     if( mon.has_flag( food_flag ) ) {
         p.add_msg_if_player( m_good, message, mon.get_name() );
         mon.friendly = -1;
-        mon.add_effect( effect_pet, 1_turns, num_bp, true );
+        mon.add_effect( effect_pet, 1_turns, true );
         p.consume_charges( it, 1 );
         return 0;
     } else {
@@ -2278,7 +2278,7 @@ int iuse::radio_on( player *p, item *it, bool t, const tripoint &pos )
         std::string message = _( "Radio: Kssssssssssssh." );
         const auto tref = overmap_buffer.find_radio_station( it->frequency );
         if( tref ) {
-            const auto selected_tower = tref.tower;
+            const radio_tower *selected_tower = tref.tower;
             if( selected_tower->type == radio_type::MESSAGE_BROADCAST ) {
                 message = selected_tower->message;
             } else if( selected_tower->type == radio_type::WEATHER_RADIO ) {
@@ -4481,7 +4481,7 @@ int iuse::gasmask( player *p, item *it, bool t, const tripoint &pos )
         if( p->is_worn( *it ) ) {
             // calculate amount of absorbed gas per filter charge
             const field &gasfield = get_map().field_at( pos );
-            for( auto &dfield : gasfield ) {
+            for( const auto &dfield : gasfield ) {
                 const field_entry &entry = dfield.second;
                 if( entry.get_gas_absorption_factor() > 0 ) {
                     it->set_var( "gas_absorbed", it->get_var( "gas_absorbed", 0 ) + entry.get_gas_absorption_factor() );
@@ -4773,7 +4773,7 @@ int iuse::dog_whistle( player *p, item *it, bool, const tripoint & )
                 if( u_see ) {
                     p->add_msg_if_player( _( "Your %s goes docile." ), critter.name() );
                 }
-                critter.add_effect( effect_docile, 1_turns, num_bp, true );
+                critter.add_effect( effect_docile, 1_turns, true );
             }
         }
     }
@@ -4836,7 +4836,7 @@ int iuse::blood_draw( player *p, item *it, bool, const tripoint & )
     }
 
     if( acid_blood ) {
-        item acid( "acid", calendar::turn );
+        item acid( "chem_sulphuric_acid", calendar::turn );
         it->put_in( acid, item_pocket::pocket_type::CONTAINER );
         if( one_in( 3 ) ) {
             if( it->inc_damage( DT_ACID ) ) {
@@ -5297,21 +5297,8 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    const std::vector<field_type_id> to_check = {
-        fd_blood,
-        fd_blood_veggy,
-        fd_blood_insect,
-        fd_blood_invertebrate,
-        fd_gibs_flesh,
-        fd_gibs_veggy,
-        fd_gibs_insect,
-        fd_gibs_invertebrate,
-        fd_bile,
-        fd_slime,
-        fd_sludge
-    };
     map &here = get_map();
-    const std::function<bool( const tripoint & )> f = [&to_check, &here]( const tripoint & pnt ) {
+    const std::function<bool( const tripoint & )> f = [&here]( const tripoint & pnt ) {
         if( !here.has_flag( "LIQUIDCONT", pnt ) ) {
             map_stack items = here.i_at( pnt );
             auto found = std::find_if( items.begin(), items.end(), []( const item & it ) {
@@ -5321,9 +5308,8 @@ int iuse::mop( player *p, item *it, bool, const tripoint & )
                 return true;
             }
         }
-        field &fld = here.field_at( pnt );
-        for( field_type_id fid : to_check ) {
-            if( fld.find_field_c( fid ) ) {
+        for( const auto &pr : here.field_at( pnt ) ) {
+            if( pr.second.get_field_type().obj().phase == phase_id::LIQUID ) {
                 return true;
             }
         }
@@ -5551,7 +5537,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                     for( int j = 0; j < num; j++ ) {
                         if( monster *const b = g->place_critter_around( bug, p->pos(), 1 ) ) {
                             b->friendly = -1;
-                            b->add_effect( effect_pet, 1_turns, num_bp, true );
+                            b->add_effect( effect_pet, 1_turns, true );
                         }
                     }
                 }
@@ -5672,7 +5658,7 @@ int iuse::artifact( player *p, item *it, bool, const tripoint & )
                         if( !here.sees( monp, p->pos(), 10 ) ) {
                             continue;
                         }
-                        if( monster *const  spawned = g->place_critter_at( mon_shadow, monp ) ) {
+                        if( monster *const spawned = g->place_critter_at( mon_shadow, monp ) ) {
                             num_spawned++;
                             spawned->reset_special_rng( "DISAPPEAR" );
                             break;
@@ -6009,7 +5995,7 @@ int iuse::jet_injector( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You inject yourself with the jet injector." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_jetinjector, 20_minutes, num_bp, false, 2 );
+        p->add_effect( effect_jetinjector, 20_minutes, false, 2 );
         p->mod_painkiller( 20 );
         p->mod_stim( 10 );
         p->healall( 20 );
@@ -6037,7 +6023,7 @@ int iuse::stimpack( player *p, item *it, bool, const tripoint & )
     } else {
         p->add_msg_if_player( _( "You inject yourself with the stimulants." ) );
         // Intensity is 2 here because intensity = 1 is the comedown
-        p->add_effect( effect_stimpack, 25_minutes, num_bp, false, 2 );
+        p->add_effect( effect_stimpack, 25_minutes, false, 2 );
         p->mod_painkiller( 2 );
         p->mod_stim( 20 );
         p->mod_fatigue( -100 );
@@ -6390,7 +6376,7 @@ int iuse::robotcontrol( player *p, item *it, bool, const tripoint & )
                 if( critter.friendly != 0 && critter.type->in_species( species_ROBOT ) ) {
                     p->add_msg_if_player( _( "A following %s goes into passive mode." ),
                                           critter.name() );
-                    critter.add_effect( effect_docile, 1_turns, num_bp, true );
+                    critter.add_effect( effect_docile, 1_turns, true );
                     f = 1;
                 }
             }
@@ -8408,7 +8394,7 @@ int iuse::radiocontrol( player *p, item *it, bool t, const tripoint & )
         } );
 
         if( !radio_containers.empty() ) {
-            for( auto items : radio_containers ) {
+            for( item *items : radio_containers ) {
                 item *itm = items->contents.get_item_with( [&]( const item & c ) {
                     return c.has_flag( "BOMB" ) && c.has_flag( signal );
                 } );
@@ -8505,7 +8491,7 @@ static vehicle *pickveh( const tripoint &center, bool advanced )
     }
     std::vector<tripoint> locations;
     for( int i = 0; i < static_cast<int>( vehs.size() ); i++ ) {
-        auto veh = vehs[i];
+        vehicle *veh = vehs[i];
         locations.push_back( veh->global_pos3() );
         pmenu.addentry( i, true, MENU_AUTOASSIGN, veh->name );
     }
@@ -8639,7 +8625,7 @@ static bool multicooker_hallu( player &p )
                 add_msg( m_warning, _( "The multi-cooker runs away!" ) );
                 if( monster *const m = g->place_critter_around( mon_hallu_multicooker, p.pos(), 1 ) ) {
                     m->hallucination = true;
-                    m->add_effect( effect_run, 1_turns, num_bp, true );
+                    m->add_effect( effect_run, 1_turns, true );
                 }
             } else {
                 p.add_msg_if_player( m_info, _( "You're surrounded by aggressive multi-cookers!" ) );

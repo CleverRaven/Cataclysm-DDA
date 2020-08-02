@@ -316,8 +316,8 @@ std::vector<sphere> npc::find_dangerous_explosives() const
     const auto active_items = get_map().get_active_items_in_radius( pos(), MAX_VIEW_DISTANCE,
                               special_item_type::explosive );
 
-    for( const auto &elem : active_items ) {
-        const auto use = elem->type->get_use( "explosion" );
+    for( const item_location &elem : active_items ) {
+        const use_function *use = elem->type->get_use( "explosion" );
 
         if( !use ) {
             continue;
@@ -633,7 +633,7 @@ float npc::character_danger( const Character &uc ) const
 {
     // TODO: Remove this when possible
     const player &u = dynamic_cast<const player &>( uc );
-    float ret = 0.0;
+    float ret = 0.0f;
     bool u_gun = u.weapon.is_gun();
     bool my_gun = weapon.is_gun();
     double u_weap_val = u.weapon_value( u.weapon );
@@ -1039,7 +1039,7 @@ void npc::execute_action( npc_action action )
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
                     activate_bionic_by_id( bio_soporific );
-                    add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
+                    add_effect( effect_lying_down, 30_minutes, false, 1 );
                     if( player_character.sees( *this ) && !player_character.in_sleep_state() ) {
                         add_msg( _( "%s lies down to sleep." ), name );
                     }
@@ -1768,15 +1768,15 @@ healing_options npc::patient_assessment( const Character &c )
 
     for( const std::pair<const bodypart_str_id, bodypart> &elem : c.get_body() ) {
 
-        if( c.has_effect( effect_bleed, elem.first->token ) ) {
+        if( c.has_effect( effect_bleed, elem.first ) ) {
             try_to_fix.bleed = true;
         }
 
-        if( c.has_effect( effect_bite, elem.first->token ) ) {
+        if( c.has_effect( effect_bite, elem.first ) ) {
             try_to_fix.bite = true;
         }
 
-        if( c.has_effect( effect_infected, elem.first->token ) ) {
+        if( c.has_effect( effect_infected, elem.first ) ) {
             try_to_fix.infect = true;
         }
         int part_threshold = 75;
@@ -1789,10 +1789,10 @@ healing_options npc::patient_assessment( const Character &c )
         part_threshold = part_threshold * elem.second.get_hp_max() / 100;
 
         if( elem.second.get_hp_cur() <= part_threshold ) {
-            if( !c.has_effect( effect_bandaged, elem.first->token ) ) {
+            if( !c.has_effect( effect_bandaged, elem.first ) ) {
                 try_to_fix.bandage = true;
             }
-            if( !c.has_effect( effect_disinfected, elem.first->token ) ) {
+            if( !c.has_effect( effect_disinfected, elem.first ) ) {
                 try_to_fix.disinfect = true;
             }
         }
@@ -2154,7 +2154,7 @@ bool npc::enough_time_to_reload( const item &gun ) const
     const float target_speed = target->speed_rating();
     const float turns_til_reached = distance / target_speed;
     if( target->is_player() || target->is_npc() ) {
-        auto &c = dynamic_cast<const Character &>( *target );
+        const auto &c = dynamic_cast<const Character &>( *target );
         // TODO: Allow reloading if the player has a low accuracy gun
         if( sees( c ) && c.weapon.is_gun() && rltime > 200 &&
             c.weapon.gun_range( true ) > distance + turns_til_reloaded / target_speed ) {
@@ -2435,13 +2435,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             }
         }
         if( here.has_flag( "UNSTABLE", pos() ) ) {
-            add_effect( effect_bouldering, 1_turns, num_bp, true );
+            add_effect( effect_bouldering, 1_turns, true );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );
         }
 
         if( here.has_flag_ter_or_furn( TFLAG_NO_SIGHT, pos() ) ) {
-            add_effect( effect_no_sight, 1_turns, num_bp, true );
+            add_effect( effect_no_sight, 1_turns, true );
         } else if( has_effect( effect_no_sight ) ) {
             remove_effect( effect_no_sight );
         }
@@ -2833,7 +2833,7 @@ void npc::find_item()
             return;
         }
         std::vector<npc *> followers;
-        for( auto &elem : g->get_follower_list() ) {
+        for( const character_id &elem : g->get_follower_list() ) {
             shared_ptr_fast<npc> npc_to_get = overmap_buffer.find_npc( elem );
             if( !npc_to_get ) {
                 continue;
@@ -3562,7 +3562,7 @@ bool npc::alt_attack()
     const auto inv_all = items_with( []( const item & ) {
         return true;
     } );
-    for( auto &it : inv_all ) {
+    for( item *it : inv_all ) {
         // TODO: Cached values - an itype slot maybe?
         check_alt_item( *it );
     }
@@ -3983,7 +3983,7 @@ void npc::mug_player( Character &mark )
     const auto inv_valuables = items_with( [this]( const item & itm ) {
         return value( itm ) > 0;
     } );
-    for( auto &it : inv_valuables ) {
+    for( item *it : inv_valuables ) {
         item &front_stack = *it; // is this safe?
         if( value( front_stack ) >= best_value &&
             can_pickVolume( front_stack, true ) &&
@@ -4383,11 +4383,11 @@ Creature *npc::current_ally()
 }
 
 // Maybe TODO: Move to Character method and use map methods
-static body_part bp_affected( npc &who, const efftype_id &effect_type )
+static bodypart_id bp_affected( npc &who, const efftype_id &effect_type )
 {
-    body_part ret = num_bp;
+    bodypart_id ret;
     int highest_intensity = INT_MIN;
-    for( const body_part bp : all_body_parts ) {
+    for( const bodypart_id &bp : who.get_all_body_parts() ) {
         const auto &eff = who.get_effect( effect_type, bp );
         if( !eff.is_null() && eff.get_intensity() > highest_intensity ) {
             ret = bp;
@@ -4513,8 +4513,8 @@ bool npc::complain()
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
-        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_infected ) ).id();
-        const auto &eff = get_effect( effect_infected, bp->token );
+        const bodypart_id &bp =  bp_affected( *this, effect_infected );
+        const auto &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
         const std::string speech = string_format( _( "My %s wound is infected…" ),
                                    body_part_name( bp ) );
@@ -4527,7 +4527,7 @@ bool npc::complain()
 
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
-        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bite ) );
+        const bodypart_id &bp =  bp_affected( *this, effect_bite );
         const std::string speech = string_format( _( "The bite wound on my %s looks bad." ),
                                    body_part_name( bp ) );
         if( complain_about( bite_string, 1_hours, speech ) ) {
@@ -4570,10 +4570,10 @@ bool npc::complain()
 
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
-        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bleed ) );
+        const bodypart_id &bp =  bp_affected( *this, effect_bleed );
         std::string speech;
         time_duration often;
-        if( get_effect( effect_bleed, bp->token ).get_intensity() < 10 ) {
+        if( get_effect( effect_bleed, bp ).get_intensity() < 10 ) {
             speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
             often = 5_minutes;
         } else {

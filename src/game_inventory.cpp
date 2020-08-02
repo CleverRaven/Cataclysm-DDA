@@ -528,13 +528,18 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "CONSUME TIME" ) );
 
             append_cell( [this, &player_character]( const item_location & loc ) {
+                std::string sealed;
+                if( loc.has_parent() ) {
+                    item_pocket *pocket = loc.parent_item()->contained_where( * loc.get_item() );
+                    sealed = pocket->sealed() ? _( "sealed" ) : std::string();
+                }
                 if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
-                        return get_freshness( loc );
+                        return sealed + ( sealed.empty() ? "" : " " ) + get_freshness( loc );
                     }
                     return std::string( "---" );
                 }
-                return std::string();
+                return sealed;
             }, _( "FRESHNESS" ) );
 
             append_cell( [ this, &player_character ]( const item_location & loc ) {
@@ -1186,7 +1191,9 @@ class weapon_inventory_preset: public inventory_selector_preset
             }, _( "MOVES" ) );
 
             append_cell( [this]( const item_location & loc ) {
-                return string_format( "<color_yellow>%d</color>", loc.obtain_cost( this->p ) );
+                return string_format( "<color_yellow>%d</color>",
+                                      loc.obtain_cost( this->p ) + ( this->p.is_wielding( *loc.get_item() ) ? 0 :
+                                              ( *loc.get_item() ).on_wield_cost( this->p ) ) );
             }, _( "WIELD COST" ) );
         }
 
@@ -1378,8 +1385,8 @@ item_location game_menus::inv::repair( player &p, const repair_item_actor *actor
 
 item_location game_menus::inv::saw_barrel( player &p, item &tool )
 {
-    const auto actor = dynamic_cast<const saw_barrel_actor *>
-                       ( tool.type->get_use( "saw_barrel" )->get_actor_ptr() );
+    const saw_barrel_actor *actor = dynamic_cast<const saw_barrel_actor *>
+                                    ( tool.type->get_use( "saw_barrel" )->get_actor_ptr() );
 
     if( !actor ) {
         debugmsg( "Tried to use a wrong item." );

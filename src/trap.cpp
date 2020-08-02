@@ -287,7 +287,7 @@ bool trap::is_funnel() const
 
 void trap::on_disarmed( map &m, const tripoint &p ) const
 {
-    for( auto &i : components ) {
+    for( const auto &i : components ) {
         const itype_id &item_type = std::get<0>( i );
         const int quantity = std::get<1>( i );
         const int charges = std::get<2>( i );
@@ -326,8 +326,8 @@ tr_snake;
 
 void trap::check_consistency()
 {
-    for( const auto &t : trap_factory.get_all() ) {
-        for( auto &i : t.components ) {
+    for( const trap &t : trap_factory.get_all() ) {
+        for( const auto &i : t.components ) {
             const itype_id &item_type = std::get<0>( i );
             if( !item::type_is_defined( item_type ) ) {
                 debugmsg( "trap %s has unknown item as component %s", t.id.str(), item_type.str() );

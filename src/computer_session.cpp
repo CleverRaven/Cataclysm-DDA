@@ -319,16 +319,13 @@ bool computer_session::can_activate( computer_action action )
     switch( action ) {
         case COMPACT_LOCK:
             return get_map().has_nearby_ter( get_player_character().pos(), t_door_metal_c, 8 );
-            break;
 
         case COMPACT_RELEASE:
         case COMPACT_RELEASE_DISARM:
             return get_map().has_nearby_ter( get_player_character().pos(), t_reinforced_glass, 25 );
-            break;
 
         case COMPACT_RELEASE_BIONICS:
             return get_map().has_nearby_ter( get_player_character().pos(), t_reinforced_glass, 3 );
-            break;
 
         case COMPACT_TERMINATE: {
             map &here = get_map();
@@ -345,17 +342,14 @@ bool computer_session::can_activate( computer_action action )
                 }
             }
             return false;
-            break;
         }
 
         case COMPACT_UNLOCK:
         case COMPACT_UNLOCK_DISARM:
             return get_map().has_nearby_ter( get_player_character().pos(), t_door_metal_locked, 8 );
-            break;
 
         default:
             return true;
-            break;
     }
 }
 
@@ -758,7 +752,7 @@ void computer_session::action_amigara_start()
 
 void computer_session::action_complete_disable_external_power()
 {
-    for( auto miss : get_avatar().get_active_missions() ) {
+    for( mission *miss : get_avatar().get_active_missions() ) {
         static const mission_type_id commo_2 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_2" );
         if( miss->mission_id() == commo_2 ) {
             print_error( _( "--ACCESS GRANTED--" ) );
@@ -776,7 +770,7 @@ void computer_session::action_repeater_mod()
 {
     avatar &player_character = get_avatar();
     if( player_character.has_amount( itype_radio_repeater_mod, 1 ) ) {
-        for( auto miss : player_character.get_active_missions() ) {
+        for( mission *miss : player_character.get_active_missions() ) {
             static const mission_type_id commo_3 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_3" ),
                                          commo_4 = mission_type_id( "MISSION_OLD_GUARD_NEC_COMMO_4" );
             if( miss->mission_id() == commo_3 || miss->mission_id() == commo_4 ) {
@@ -1523,9 +1517,9 @@ void computer_session::action_emerg_ref_center()
     } );
 
     if( !has_mission ) {
-        const auto mission = mission::reserve_new( mission_type, character_id() );
-        mission->assign( player_character );
-        mission_target = mission->get_target();
+        mission *new_mission = mission::reserve_new( mission_type, character_id() );
+        new_mission->assign( player_character );
+        mission_target = new_mission->get_target();
     }
 
     //~555-0164 is a fake phone number in the US, please replace it with a number that will not cause issues in your locale if possible.
@@ -1570,14 +1564,14 @@ computer_session::ynq computer_session::query_ynq( const std::string &text, Args
 {
     const std::string formatted_text = string_format( text, std::forward<Args>( args )... );
     const bool force_uc = get_option<bool>( "FORCE_CAPITAL_YN" );
-    const auto &allow_key = force_uc ? input_context::disallow_lower_case
+    const auto &allow_key = force_uc ? input_context::disallow_lower_case_or_non_modified_letters
                             : input_context::allow_all_keys;
-    input_context ctxt( "YESNOQUIT", keyboard_mode::keychar );
+    input_context ctxt( "YESNOQUIT", keyboard_mode::keycode );
     ctxt.register_action( "YES" );
     ctxt.register_action( "NO" );
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "HELP_KEYBINDINGS" );
-    print_indented_line( 0, width, force_uc
+    print_indented_line( 0, width, force_uc && !is_keycode_mode_supported()
                          //~ 1st: query string, 2nd-4th: keybinding descriptions
                          ? pgettext( "query_ynq", "%s %s, %s, %s (Case sensitive)" )
                          //~ 1st: query string, 2nd-4th: keybinding descriptions

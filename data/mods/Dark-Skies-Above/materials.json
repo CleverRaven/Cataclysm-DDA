@@ -1,7 +1,7 @@
 [
   {
     "type": "material",
-    "ident": "dks_blend_mat",
+    "id": "dks_blend_mat",
     "name": "Prismetallic Blend",
     "density": 30,
     "specific_heat_liquid": 0.79,
@@ -23,7 +23,7 @@
   },
   {
     "type": "material",
-    "ident": "dks_weave_mat",
+    "id": "dks_weave_mat",
     "name": "Chromogenic Weave",
     "density": 2,
     "specific_heat_liquid": 1.7,
@@ -51,7 +51,7 @@
   },
   {
     "type": "material",
-    "ident": "dks_biopoly_mat",
+    "id": "dks_biopoly_mat",
     "name": "Collagenic Polymer",
     "density": 8,
     "specific_heat_liquid": 1.6,
@@ -77,7 +77,7 @@
   },
   {
     "type": "material",
-    "ident": "dks_biogel_mat",
+    "id": "dks_biogel_mat",
     "name": "Emulsified Hydrogel",
     "density": 8,
     "specific_heat_liquid": 1.6,

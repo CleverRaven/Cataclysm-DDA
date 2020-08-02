@@ -1101,9 +1101,9 @@ std::string spell::damage_type_string() const
 
 // constants defined below are just for the formula to be used,
 // in order for the inverse formula to be equivalent
-constexpr float a = 6200.0;
-constexpr float b = 0.146661;
-constexpr float c = -62.5;
+constexpr float a = 6200.0f;
+constexpr float b = 0.146661f;
+constexpr float c = -62.5f;
 
 int spell::get_level() const
 {

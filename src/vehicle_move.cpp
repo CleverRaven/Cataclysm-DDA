@@ -52,7 +52,7 @@ static const efftype_id effect_stunned( "stunned" );
 static const std::string part_location_structure( "structure" );
 
 // tile height in meters
-static const float tile_height = 4;
+static const float tile_height = 4.0f;
 // miles per hour to vehicle 100ths of miles per hour
 static const int mi_to_vmi = 100;
 // meters per second to miles per hour
@@ -202,7 +202,6 @@ void vehicle:: smart_controller_handle_turn( bool thrusting,
     bool gas_engine_shutdown_forbidden = smart_controller_state &&
                                          ( calendar::turn - smart_controller_state->gas_engine_last_turned_on ) <
                                          15_seconds;
-
 
     smart_controller_cache cur_state;
 
@@ -436,43 +435,41 @@ void vehicle::thrust( int thd, int z )
         }
         return;
     }
-    int max_vel = traction * max_velocity();
-
-    // Get braking power
-    int brk = std::max( 1000, std::abs( max_vel ) * 3 / 10 );
-
+    const int max_vel = traction * max_velocity();
+    // maximum braking is 20 mph/s, assumes high friction tires
+    const int max_brake = 20 * 100;
     //pos or neg if accelerator or brake
-    int vel_inc = ( ( thrusting ) ? accel : brk ) * thd;
+    int vel_inc = ( accel + ( thrusting ? 0 : max_brake ) ) * thd;
     // Reverse is only 60% acceleration, unless an electric motor is in use
     if( thd == -1 && thrusting && !has_engine_type( fuel_type_battery, true ) ) {
         vel_inc = .6 * vel_inc;
     }
 
-    //find power ratio used of engines max
+    //find ratio of used acceleration to maximum available, returned in tenths of a percent
+    //so 1000 = 100% and 453 = 45.3%
     int load;
     // Keep exact cruise control speed
     if( cruise_on ) {
         int effective_cruise = std::min( cruise_velocity, max_vel );
         if( thd > 0 ) {
             vel_inc = std::min( vel_inc, effective_cruise - velocity );
-            //find power ratio used of engines max
-            load = 1000 * std::max( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         } else {
             vel_inc = std::max( vel_inc, effective_cruise - velocity );
-            load = 1000 * std::min( 0, vel_inc ) / std::max( ( thrusting ? accel : brk ), 1 );
         }
-        if( z != 0 ) {
-            // @TODO : actual engine strain / load for going up a z-level.
-            load = 1;
-            thrusting = true;
+        if( thrusting ) {
+            load = 1000 * std::abs( vel_inc ) / accel;
+        } else {
+            // brakes provide 20 mph/s of slowdown and the rest is engine braking
+            // TODO: braking depends on wheels, traction, driver skill
+            load = 1000 * std::max( 0, std::abs( vel_inc ) - max_brake ) / accel;
         }
     } else {
-        if( z != 0 ) {
-            load = 1;
-            thrusting = true;
-        } else {
-            load = ( thrusting ? 1000 : 0 );
-        }
+        load = ( thrusting ? 1000 : 0 );
+    }
+    // rotorcraft need to spend 15% of load to hover, 30% to change z
+    if( is_rotorcraft() && is_flying_in_air() ) {
+        load = std::max( load, z > 0 ? 300 : 150 );
+        thrusting = true;
     }
 
     // only consume resources if engine accelerating
@@ -849,19 +846,19 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     int dmg_mod = part_info( ret.part ).dmg_mod;
     // Let's calculate type of collision & mass of object we hit
-    float mass2 = 0;
+    float mass2 = 0.0f;
     // e = 0 -> plastic collision
-    float e = 0.3;
+    float e = 0.3f;
     // e = 1 -> inelastic collision
     //part density
-    float part_dens = 0;
+    float part_dens = 0.0f;
 
     if( is_body_collision ) {
         // Check any monster/NPC/player on the way
         // body
         ret.type = veh_coll_body;
         ret.target = critter;
-        e = 0.30;
+        e = 0.30f;
         part_dens = 15;
         mass2 = units::to_kilogram( critter->get_weight() );
         ret.target_name = critter->disp_name();
@@ -887,7 +884,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // not destructible
         ret.type = veh_coll_other;
         mass2 = 1000;
-        e = 0.10;
+        e = 0.10f;
         part_dens = 80;
         ret.target_name = here.disp_name( p );
     }
@@ -906,9 +903,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     //Calculate damage resulting from d_E
     const itype *type = item::find_type( part_info( ret.part ).item );
     const auto &mats = type->materials;
-    float vpart_dens = 0;
+    float vpart_dens = 0.0f;
     if( !mats.empty() ) {
-        for( auto &mat_id : mats ) {
+        for( const material_id &mat_id : mats ) {
             vpart_dens += mat_id.obj().density();
         }
         // average
@@ -917,7 +914,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
     //k=100 -> 100% damage on part
     //k=0 -> 100% damage on obj
-    float material_factor = ( part_dens - vpart_dens ) * 0.5;
+    float material_factor = ( part_dens - vpart_dens ) * 0.5f;
     material_factor = std::max( -25.0f, std::min( 25.0f, material_factor ) );
     // factor = -25 if mass is much greater than mass2
     // factor = +25 if mass2 is much greater than mass
@@ -979,11 +976,11 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         // Damage for vehicle-part
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
-            part_dmg = dmg * k / 100;
+            part_dmg = dmg * k / 100.0f;
             add_msg( m_debug, "Part collision damage: %.2f", part_dmg );
         }
         // Damage for object
-        const float obj_dmg = dmg * ( 100 - k ) / 100;
+        const float obj_dmg = dmg * ( 100.0f - k ) / 100.0f;
 
         if( ret.type == veh_coll_bashable ) {
             // Something bashable -- use map::bash to determine outcome
@@ -1003,7 +1000,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                     smashed = false;
                     ret.type = veh_coll_other;
                     mass2 = 1000;
-                    e = 0.10;
+                    e = 0.10f;
                     part_dens = 80;
                     ret.target_name = here.disp_name( p );
                 }

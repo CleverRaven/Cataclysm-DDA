@@ -56,6 +56,7 @@
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -99,7 +100,6 @@ static const std::string flag_FULL_MAGAZINE( "FULL_MAGAZINE" );
 static const std::string flag_HIDDEN_POISON( "HIDDEN_POISON" );
 static const std::string flag_NO_RESIZE( "NO_RESIZE" );
 static const std::string flag_NO_UNLOAD( "NO_UNLOAD" );
-static const std::string flag_NO_UNWIELD( "NO_UNWIELD" );
 static const std::string flag_NUTRIENT_OVERRIDE( "NUTRIENT_OVERRIDE" );
 static const std::string flag_UNCRAFT_LIQUIDS_CONTAINED( "UNCRAFT_LIQUIDS_CONTAINED" );
 static const std::string flag_UNCRAFT_SINGLE_CHARGE( "UNCRAFT_SINGLE_CHARGE" );
@@ -615,7 +615,7 @@ static void set_components( std::list<item> &components, const std::list<item> &
     }
     // This count does *not* include items counted by charges!
     size_t non_charges_counter = 0;
-    for( auto &tmp : used ) {
+    for( const item &tmp : used ) {
         if( tmp.count_by_charges() ) {
             components.push_back( tmp );
             // This assumes all (count-by-charges) items of the same type have been merged into one,
@@ -747,7 +747,7 @@ void Character::start_craft( craft_command &command, const tripoint &loc )
     item_location craft_in_world;
 
     // Check if we are standing next to a workbench. If so, just use that.
-    float best_bench_multi = 0.0;
+    float best_bench_multi = 0.0f;
     tripoint target = loc;
     map &here = get_map();
     for( const tripoint &adj : here.points_in_radius( pos(), 1 ) ) {
@@ -891,6 +891,50 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
                 }
             }
         }
+    }
+}
+
+void Character::craft_proficiency_gain( const item &craft, const time_duration time )
+{
+    if( !craft.is_craft() ) {
+        debugmsg( "craft_proficiency_gain() called on non-craft %s", craft.tname() );
+        return;
+    }
+
+    const recipe &making = craft.get_making();
+    std::vector<npc *> helpers = get_crafting_helpers();
+
+    // The proficiency, and the multiplier on the time we learn it for
+    std::vector<std::tuple<proficiency_id, float, cata::optional<time_duration>>> subjects;
+    for( const recipe_proficiency &prof : making.proficiencies ) {
+        if( prof.id->can_learn() && _proficiencies->has_prereqs( prof.id ) ) {
+            std::tuple<proficiency_id, float, cata::optional<time_duration>> subject( prof.id,
+                    prof.learning_time_mult / prof.time_multiplier, prof.max_experience );
+            subjects.push_back( subject );
+        }
+    }
+
+    int amount = to_seconds<int>( time );
+    if( !subjects.empty() ) {
+        amount /= subjects.size();
+    }
+    time_duration learn_time = time_duration::from_seconds( amount );
+
+    int npc_helper_bonus = 1;
+    for( npc *helper : helpers ) {
+        for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
+            if( helper->has_proficiency( std::get<0>( subject ) ) ) {
+                // NPCs who know the proficiency and help teach you faster
+                npc_helper_bonus = 2;
+            }
+            helper->practice_proficiency( std::get<0>( subject ), std::get<1>( subject ) * learn_time,
+                                          std::get<2>( subject ) );
+        }
+    }
+
+    for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
+        practice_proficiency( std::get<0>( subject ),
+                              learn_time * std::get<1>( subject ) * npc_helper_bonus, std::get<2>( subject ) );
     }
 }
 
@@ -1954,8 +1998,8 @@ ret_val<bool> Character::can_disassemble( const item &obj, const inventory &inv 
             // Create a new item to get the default charges
             int qty = r.create_result().charges;
             if( obj.charges < qty ) {
-                auto msg = ngettext( "You need at least %d charge of %s.",
-                                     "You need at least %d charges of %s.", qty );
+                const char *msg = ngettext( "You need at least %d charge of %s.",
+                                            "You need at least %d charges of %s.", qty );
                 return ret_val<bool>::make_failure( msg, qty, obj.tname() );
             }
         }

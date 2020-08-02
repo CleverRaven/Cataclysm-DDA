@@ -91,7 +91,6 @@ static const efftype_id effect_bite( "bite" );
 static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bloodworms( "bloodworms" );
-static const efftype_id effect_boomered( "boomered" );
 static const efftype_id effect_brainworms( "brainworms" );
 static const efftype_id effect_darkness( "darkness" );
 static const efftype_id effect_dermatik( "dermatik" );
@@ -116,7 +115,6 @@ static const itype_id itype_battery( "battery" );
 static const itype_id itype_brass_catcher( "brass_catcher" );
 static const itype_id itype_cookbook_human( "cookbook_human" );
 static const itype_id itype_large_repairkit( "large_repairkit" );
-static const itype_id itype_plut_cell( "plut_cell" );
 static const itype_id itype_small_repairkit( "small_repairkit" );
 static const itype_id itype_UPS( "UPS" );
 static const itype_id itype_UPS_off( "UPS_off" );
@@ -156,17 +154,14 @@ static const trait_id trait_NOMAD( "NOMAD" );
 static const trait_id trait_NOMAD2( "NOMAD2" );
 static const trait_id trait_NOMAD3( "NOMAD3" );
 static const trait_id trait_NOPAIN( "NOPAIN" );
-static const trait_id trait_PACIFIST( "PACIFIST" );
 static const trait_id trait_PAINRESIST( "PAINRESIST" );
 static const trait_id trait_PAINRESIST_TROGLO( "PAINRESIST_TROGLO" );
 static const trait_id trait_PARAIMMUNE( "PARAIMMUNE" );
 static const trait_id trait_PARKOUR( "PARKOUR" );
-static const trait_id trait_PER_SLIME_OK( "PER_SLIME_OK" );
 static const trait_id trait_PROF_SKATER( "PROF_SKATER" );
 static const trait_id trait_PSYCHOPATH( "PSYCHOPATH" );
 static const trait_id trait_QUILLS( "QUILLS" );
 static const trait_id trait_SAPIOVORE( "SAPIOVORE" );
-static const trait_id trait_SAVANT( "SAVANT" );
 static const trait_id trait_SHELL2( "SHELL2" );
 static const trait_id trait_SPINES( "SPINES" );
 static const trait_id trait_SPIRITUAL( "SPIRITUAL" );
@@ -489,7 +484,7 @@ void player::recalc_speed_bonus()
     mod_speed_bonus( kcal_speed_penalty() );
 
     for( const auto &maps : *effects ) {
-        for( auto i : maps.second ) {
+        for( const auto &i : maps.second ) {
             bool reduced = resists_effect( i.second );
             mod_speed_bonus( i.second.get_mod( "SPEED", reduced ) );
         }
@@ -615,7 +610,7 @@ bool player::has_conflicting_trait( const trait_id &flag ) const
 
 bool player::has_lower_trait( const trait_id &flag ) const
 {
-    for( auto &i : flag->prereqs ) {
+    for( const trait_id &i : flag->prereqs ) {
         if( has_trait( i ) || has_lower_trait( i ) ) {
             return true;
         }
@@ -625,7 +620,7 @@ bool player::has_lower_trait( const trait_id &flag ) const
 
 bool player::has_higher_trait( const trait_id &flag ) const
 {
-    for( auto &i : flag->replacements ) {
+    for( const auto &i : flag->replacements ) {
         if( has_trait( i ) || has_higher_trait( i ) ) {
             return true;
         }
@@ -672,7 +667,7 @@ std::list<item *> player::get_radio_items()
 {
     std::list<item *> rc_items;
     const invslice &stacks = inv.slice();
-    for( auto &stack : stacks ) {
+    for( const auto &stack : stacks ) {
         item &stack_iter = stack->front();
         if( stack_iter.has_flag( "RADIO_ACTIVATION" ) ) {
             rc_items.push_back( &stack_iter );
@@ -697,7 +692,7 @@ std::list<item *> player::get_artifact_items()
 {
     std::list<item *> art_items;
     const invslice &stacks = inv.slice();
-    for( auto &stack : stacks ) {
+    for( const auto &stack : stacks ) {
         item &stack_iter = stack->front();
         if( stack_iter.is_artifact() ) {
             art_items.push_back( &stack_iter );
@@ -776,7 +771,7 @@ void player::pause()
         time_duration total_removed = 0_turns;
         time_duration total_left = 0_turns;
         bool on_ground = has_effect( effect_downed );
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             effect &eff = get_effect( effect_onfire, bp );
             if( eff.is_null() ) {
                 continue;
@@ -792,7 +787,7 @@ void player::pause()
 
         // Don't drop on the ground when the ground is on fire
         if( total_left > 1_minutes && !is_dangerous_fields( here.field_at( pos() ) ) ) {
-            add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 2_turns, false, 0, true );
             add_msg_player_or_npc( m_warning,
                                    _( "You roll on the ground, trying to smother the fire!" ),
                                    _( "<npcname> rolls on the ground!" ) );
@@ -806,13 +801,13 @@ void player::pause()
     if( !is_armed() && has_effect( effect_bleed ) ) {
         int most = 0;
         bodypart_id bp_id;
-        for( const body_part bp : all_body_parts ) {
+        for( const bodypart_id &bp : get_all_body_parts() ) {
             if( most <= get_effect_int( effect_bleed, bp ) ) {
                 most = get_effect_int( effect_bleed, bp );
-                bp_id = convert_bp( bp );
+                bp_id =  bp ;
             }
         }
-        effect &e = get_effect( effect_bleed, bp_id->token );
+        effect &e = get_effect( effect_bleed, bp_id );
         time_duration penalty = 1_turns * ( encumb( bodypart_id( "hand_r" ) ) + encumb(
                                                 bodypart_id( "hand_l" ) ) );
         time_duration benefit = 5_turns + 10_turns * get_skill_level( skill_firstaid );
@@ -1045,7 +1040,7 @@ void player::on_hit( Creature *source, bodypart_id bp_hit,
                 add_msg( m_bad, _( "You lose your balance while being hit!" ) );
             }
             // This kind of downing is not subject to immunity.
-            add_effect( effect_downed, 2_turns, num_bp, false, 0, true );
+            add_effect( effect_downed, 2_turns, false, 0, true );
         }
     }
     Character::on_hit( source, bp_hit, 0.0f, proj );
@@ -1398,7 +1393,7 @@ void player::add_pain_msg( int val, const bodypart_id &bp ) const
     if( has_trait( trait_NOPAIN ) ) {
         return;
     }
-    if( bp == bodypart_id( "num_bp" ) ) {
+    if( bp == bodypart_id( "bp_null" ) ) {
         if( val > 20 ) {
             add_msg_if_player( _( "Your body is wracked with excruciating pain!" ) );
         } else if( val > 10 ) {
@@ -1434,7 +1429,7 @@ void player::process_one_effect( effect &it, bool is_new )
 {
     bool reduced = resists_effect( it );
     double mod = 1;
-    const bodypart_id &bp = convert_bp( it.get_bp() ).id();
+    const bodypart_id &bp = it.get_bp();
     int val = 0;
 
     // Still hardcoded stuff, do this first since some modify their other traits
@@ -1573,7 +1568,7 @@ void player::process_one_effect( effect &it, bool is_new )
             }
         }
         if( is_new || it.activated( calendar::turn, "HURT", val, reduced, mod ) ) {
-            if( bp == bodypart_id( "num_bp" ) ) {
+            if( bp == bodypart_id( "bp_null" ) ) {
                 if( val > 5 ) {
                     add_msg_if_player( _( "Your %s HURTS!" ), body_part_name_accusative( bodypart_id( "torso" ) ) );
                 } else {
@@ -1746,7 +1741,7 @@ void player::process_items()
     const auto inv_is_ups = items_with( []( const item & itm ) {
         return itm.has_flag( "IS_UPS" );
     } );
-    for( auto &it : inv_is_ups ) {
+    for( const auto &it : inv_is_ups ) {
         itype_id identifier = it->type->get_id();
         if( identifier == itype_UPS_off ) {
             ch_UPS += it->ammo_remaining();
@@ -1774,17 +1769,18 @@ void player::process_items()
     const auto inv_use_ups = items_with( []( const item & itm ) {
         return itm.has_flag( "USE_UPS" );
     } );
-    for( auto &it : inv_use_ups ) {
+    for( const auto &it : inv_use_ups ) {
         // For powered armor, an armor-powering bionic should always be preferred over UPS usage.
         if( it->is_power_armor() && can_interface_armor() && has_power() ) {
             // Bionic power costs are handled elsewhere
             continue;
-        } else if( ch_UPS_used >= ch_UPS || ( it->active && it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
+            //this is for UPS-modded items with no battery well
+        } else if( it->active && !it->ammo_sufficient() &&
+                   ( ch_UPS_used >= ch_UPS ||
+                     it->ammo_required() > ch_UPS - ch_UPS_used ) ) {
             it->deactivate();
-            // this is for UPS-modded items which don't have a battery well
-        } else if( it->active && it->ammo_capacity( ammotype( "battery" ) ) == 0 ) {
-            ch_UPS_used += it->ammo_required();
-        } else if( it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
+        } else if( ch_UPS_used < ch_UPS &&
+                   it->ammo_remaining() < it->ammo_capacity( ammotype( "battery" ) ) ) {
             ch_UPS_used++;
             it->ammo_set( itype_battery, it->ammo_remaining() + 1 );
         }
@@ -2002,7 +1998,7 @@ item::reload_option player::select_ammo( const item &base,
             if( ammo.invlet ) {
                 hotkey = ammo.invlet;
             } else {
-                for( const auto obj : parents( ammo ) ) {
+                for( const item *obj : parents( ammo ) ) {
                     if( obj->invlet ) {
                         hotkey = obj->invlet;
                         break;
@@ -2249,7 +2245,7 @@ bool character_martial_arts::pick_style( const avatar &you ) // Style selection 
     kmenu.selected = STYLE_OFFSET;
 
     for( size_t i = 0; i < selectable_styles.size(); i++ ) {
-        auto &style = selectable_styles[i].obj();
+        const auto &style = selectable_styles[i].obj();
         //Check if this style is currently selected
         const bool selected = selectable_styles[i] == style_selected;
         std::string entry_text = style.name.translated();
@@ -2949,7 +2945,7 @@ bool player::gunmod_remove( item &gun, item &mod )
         for( const auto &slot : mod_locations ) {
             int free_slots = gun.get_free_mod_locations( slot.first );
 
-            for( auto the_mod : gun.gunmods() ) {
+            for( item *the_mod : gun.gunmods() ) {
                 if( the_mod->type->gunmod->location == slot.first && free_slots < 0 ) {
                     gunmod_remove( gun, *the_mod );
                     free_slots++;
@@ -3369,7 +3365,6 @@ bool player::can_sleep()
     return result;
 }
 
-
 bool player::has_gun_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [at]( const item & it ) {
@@ -3430,6 +3425,12 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
         inv.unsort();
     }
 
+    // for holsters, we should not include the cost of wielding the holster itself
+    // The cost of wielding the holster was already added earlier in avatar_action::use_item.
+    // As we couldn't make sure back then what action was going to be used, we remove the cost now.
+    item_location il = item_location( *this, &container );
+    mv -= il.obtain_cost( *this );
+
     weapon = std::move( *internal_item );
     container.remove_item( *internal_item );
     container.on_contents_changed();
@@ -3438,18 +3439,7 @@ bool player::wield_contents( item &container, item *internal_item, bool penaltie
     inv.update_cache_with_item( weapon );
     last_item = weapon.typeId();
 
-    /**
-     * @EFFECT_PISTOL decreases time taken to draw pistols from holsters
-     * @EFFECT_SMG decreases time taken to draw smgs from holsters
-     * @EFFECT_RIFLE decreases time taken to draw rifles from holsters
-     * @EFFECT_SHOTGUN decreases time taken to draw shotguns from holsters
-     * @EFFECT_LAUNCHER decreases time taken to draw launchers from holsters
-     * @EFFECT_STABBING decreases time taken to draw stabbing weapons from sheathes
-     * @EFFECT_CUTTING decreases time taken to draw cutting weapons from scabbards
-     * @EFFECT_BASHING decreases time taken to draw bashing weapons from holsters
-     */
-    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.melee_skill() );
-    mv += item_handling_cost( weapon, penalties, base_cost ) / ( ( lvl + 10.0f ) / 10.0f );
+    mv += item_retrieve_cost( weapon, container, penalties, base_cost );
 
     moves -= mv;
 
@@ -3492,7 +3482,7 @@ float player::get_melee() const
 
 bool player::uncanny_dodge()
 {
-    bool is_u = is_avatar();;
+    bool is_u = is_avatar();
     bool seen = get_player_character().sees( *this );
     if( this->get_power_level() < 74_kJ || !this->has_active_bionic( bio_uncanny_dodge ) ) {
         return false;

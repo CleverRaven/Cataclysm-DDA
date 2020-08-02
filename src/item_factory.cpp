@@ -101,32 +101,10 @@ static void assign( const JsonObject &jo, const std::string &name,
 }
 
 static bool assign_coverage_from_json( const JsonObject &jo, const std::string &key,
-                                       body_part_set &parts, bool &sided )
+                                       body_part_set &parts )
 {
-    auto parse = [&parts, &sided]( const std::string & val ) {
-        if( val == "ARMS" || val == "ARM_EITHER" ) {
-            parts.set( bodypart_str_id( "arm_l" ) );
-            parts.set( bodypart_str_id( "arm_r" ) );
-        } else if( val == "HANDS" || val == "HAND_EITHER" ) {
-            parts.set( bodypart_str_id( "hand_l" ) );
-            parts.set( bodypart_str_id( "hand_r" ) );
-        } else if( val == "LEGS" || val == "LEG_EITHER" ) {
-            parts.set( bodypart_str_id( "leg_l" ) );
-            parts.set( bodypart_str_id( "leg_r" ) );
-        } else if( val == "FEET" || val == "FOOT_EITHER" ) {
-            parts.set( bodypart_str_id( "foot_l" ) );
-            parts.set( bodypart_str_id( "foot_r" ) );
-        } else {
-            // Convert from legacy enum to new and apply coverage
-            if( !is_legacy_bodypart_id( val ) ) {
-                parts.set( bodypart_str_id( val ) );
-            } else {
-                parts.set( convert_bp( get_body_part_token( val ) ) );
-            }
-        }
-
-        sided |= val == "ARM_EITHER" || val == "HAND_EITHER" ||
-                 val == "LEG_EITHER" || val == "FOOT_EITHER";
+    auto parse = [&parts]( const std::string & val ) {
+        parts.set( bodypart_str_id( val ) );
     };
 
     if( jo.has_array( key ) ) {
@@ -495,7 +473,7 @@ void Item_factory::finalize_pre( itype &obj )
 
 void Item_factory::register_cached_uses( const itype &obj )
 {
-    for( auto &e : obj.use_methods ) {
+    for( const auto &e : obj.use_methods ) {
         // can this item function as a repair tool?
         if( repair_actions.count( e.first ) ) {
             repair_tools.insert( obj.id );
@@ -1039,7 +1017,6 @@ void Item_factory::init()
     add_actor( std::make_unique<reveal_map_actor>() );
     add_actor( std::make_unique<salvage_actor>() );
     add_actor( std::make_unique<unfold_vehicle_iuse>() );
-    add_actor( std::make_unique<ups_based_armor_actor>() );
     add_actor( std::make_unique<place_trap_actor>() );
     add_actor( std::make_unique<emit_actor>() );
     add_actor( std::make_unique<saw_barrel_actor>() );
@@ -1180,7 +1157,7 @@ void Item_factory::check_definitions() const
                                       type->snippet_category.c_str() );
             }
         }
-        for( auto &q : type->qualities ) {
+        for( const auto &q : type->qualities ) {
             if( !q.first.is_valid() ) {
                 msg += string_format( "item %s has unknown quality %s\n", type->id.c_str(), q.first.c_str() );
             }
@@ -1205,7 +1182,7 @@ void Item_factory::check_definitions() const
 
         if( type->comestible ) {
             if( !type->comestible->tool.is_null() ) {
-                auto req_tool = find_template( type->comestible->tool );
+                const itype *req_tool = find_template( type->comestible->tool );
                 if( !req_tool->tool ) {
                     msg += string_format( "invalid tool property %s\n", type->comestible->tool.c_str() );
                 }
@@ -1309,12 +1286,12 @@ void Item_factory::check_definitions() const
             } else if( !type->gun->skill_used.is_valid() ) {
                 msg += string_format( "uses an invalid skill %s\n", type->gun->skill_used.str() );
             }
-            for( auto &gm : type->gun->default_mods ) {
+            for( const itype_id &gm : type->gun->default_mods ) {
                 if( !has_template( gm ) ) {
                     msg += "invalid default mod.\n";
                 }
             }
-            for( auto &gm : type->gun->built_in_mods ) {
+            for( const itype_id &gm : type->gun->built_in_mods ) {
                 if( !has_template( gm ) ) {
                     msg += "invalid built-in mod.\n";
                 }
@@ -1891,7 +1868,8 @@ void islot_armor::load( const JsonObject &jo )
                 data[0].coverage = tempData.coverage;
             }
             body_part_set temp_cover_data;
-            assign_coverage_from_json( obj, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( obj, "covers", temp_cover_data );
+            optional( obj, was_loaded, "sided", sided, false );
             if( temp_cover_data.any() ) {
                 data[0].covers = temp_cover_data;
             }
@@ -1906,7 +1884,8 @@ void islot_armor::load( const JsonObject &jo )
             }
             armor_portion_data tempData;
             body_part_set temp_cover_data;
-            assign_coverage_from_json( obj, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( obj, "covers", temp_cover_data );
+            optional( obj, was_loaded, "sided", sided, false );
             tempData.covers = temp_cover_data;
 
             if( obj.has_array( "encumbrance" ) ) {
@@ -1941,13 +1920,13 @@ void islot_armor::load( const JsonObject &jo )
             optional( jo, was_loaded, "max_encumbrance", data[0].max_encumber, -1 );
             optional( jo, was_loaded, "coverage", data[0].coverage, 0 );
             body_part_set temp_cover_data;
-            assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( jo, "covers", temp_cover_data );
+            optional( jo, was_loaded, "sided", sided, false );
             data[0].covers = temp_cover_data;
         } else { // This item has copy-from and already has taken data from parent
             armor_portion_data child_data;
             if( jo.has_int( "encumbrance" ) ) {
                 child_data.encumber = jo.get_int( "encumbrance" );
-                child_data.max_encumber = -1;
             }
             if( jo.has_int( "max_encumbrance" ) ) {
                 child_data.max_encumber = jo.get_int( "max_encumbrance" );
@@ -1968,7 +1947,8 @@ void islot_armor::load( const JsonObject &jo )
                 data[0].coverage = child_data.coverage;
             }
             body_part_set temp_cover_data;
-            assign_coverage_from_json( jo, "covers", temp_cover_data, sided );
+            assign_coverage_from_json( jo, "covers", temp_cover_data );
+            optional( jo, was_loaded, "sided", sided, false );
             if( temp_cover_data.any() ) {
                 data[0].covers = temp_cover_data;
             }
@@ -2069,7 +2049,7 @@ void Item_factory::load( islot_mod &slot, const JsonObject &jo, const std::strin
 
     if( jo.has_member( "acceptable_ammo" ) ) {
         slot.acceptable_ammo.clear();
-        for( auto &e : jo.get_tags( "acceptable_ammo" ) ) {
+        for( const std::string &e : jo.get_tags( "acceptable_ammo" ) ) {
             slot.acceptable_ammo.insert( ammotype( e ) );
         }
     }
@@ -2199,9 +2179,9 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
         slot.specific_heat_liquid = material_id( mat )->specific_heat_liquid();
         slot.latent_heat = material_id( mat )->latent_heat();
     } else if( jo.has_member( "material" ) ) {
-        float specific_heat_solid = 0;
-        float specific_heat_liquid = 0;
-        float latent_heat = 0;
+        float specific_heat_solid = 0.0f;
+        float specific_heat_liquid = 0.0f;
+        float latent_heat = 0.0f;
 
         for( const std::string &m : jo.get_tags( "material" ) ) {
             specific_heat_solid += material_id( m )->specific_heat_solid();
@@ -2268,7 +2248,7 @@ void Item_factory::load( islot_comestible &slot, const JsonObject &jo, const std
     } else {
         if( relative.has_int( "vitamins" ) ) {
             // allows easy specification of 'fortified' comestibles
-            for( auto &v : vitamin::all() ) {
+            for( const auto &v : vitamin::all() ) {
                 slot.default_nutrition.vitamins[ v.first ] += relative.get_int( "vitamins" );
             }
         } else if( relative.has_array( "vitamins" ) ) {
@@ -2715,7 +2695,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
 
     if( jo.has_member( "material" ) ) {
         def.materials.clear();
-        for( auto &m : jo.get_tags( "material" ) ) {
+        for( const std::string &m : jo.get_tags( "material" ) ) {
             def.materials.emplace_back( m );
         }
     }
@@ -2781,7 +2761,7 @@ void Item_factory::load_basic_info( const JsonObject &jo, itype &def, const std:
         set_properties_from_json( jo, "properties", def );
     }
 
-    for( auto &s : jo.get_tags( "techniques" ) ) {
+    for( const std::string &s : jo.get_tags( "techniques" ) ) {
         def.techniques.insert( matec_id( s ) );
     }
 
@@ -3490,7 +3470,7 @@ void item_group::debug_spawn()
         std::map<std::string, int> itemnames;
         for( size_t a = 0; a < 100; a++ ) {
             const auto items = items_from( groups[index], calendar::turn );
-            for( auto &it : items ) {
+            for( const item &it : items ) {
                 itemnames[it.display_name()]++;
             }
         }

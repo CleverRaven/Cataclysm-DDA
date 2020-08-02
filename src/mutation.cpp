@@ -152,6 +152,11 @@ void Character::set_mutation( const trait_id &trait )
     mutation_effect( trait );
     recalc_sight_limits();
     calc_encumbrance();
+
+    // If the stamina is higher than the max (Languorous), set it back to max
+    if( get_stamina() > get_stamina_max() ) {
+        set_stamina( get_stamina_max() );
+    }
 }
 
 void Character::unset_mutation( const trait_id &trait_ )
@@ -280,7 +285,7 @@ bool reflex_activation_data::is_trigger_true( const Character &guy ) const
 
 int Character::get_mod( const trait_id &mut, const std::string &arg ) const
 {
-    auto &mod_data = mut->mods;
+    const auto &mod_data = mut->mods;
     int ret = 0;
     auto found = mod_data.find( std::make_pair( false, arg ) );
     if( found != mod_data.end() ) {
@@ -1268,7 +1273,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     //Only if there's no prerequisite to shrink to, thus we're at the bottom of the trait line
     if( !replacing ) {
         //Check each mutation until we reach the end or find a trait to revert to
-        for( auto &iter : mutation_branch::get_all() ) {
+        for( const auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
             if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
@@ -1290,7 +1295,7 @@ void Character::remove_mutation( const trait_id &mut, bool silent )
     // Duplicated for prereq2
     if( !replacing2 ) {
         //Check each mutation until we reach the end or find a trait to revert to
-        for( auto &iter : mutation_branch::get_all() ) {
+        for( const auto &iter : mutation_branch::get_all() ) {
             //See if it's in our list of base traits but not active
             if( has_base_trait( iter.id ) && !has_trait( iter.id ) ) {
                 //See if that base trait cancels the mutation we are using
@@ -1396,7 +1401,7 @@ bool Character::has_child_flag( const trait_id &flag ) const
 
 void Character::remove_child_flag( const trait_id &flag )
 {
-    for( auto &elem : flag->replacements ) {
+    for( const auto &elem : flag->replacements ) {
         const trait_id &tmp = elem;
         if( has_trait( tmp ) ) {
             remove_mutation( tmp );

@@ -318,6 +318,6 @@
     "type": "tool_quality",
     "id": "SURFACE",
     "//": "A flat surface, like a table or a mat. 1 would be the size of a cutting board.",
-    "name": { "str": "surface" }
+    "name": { "str": "clean surface" }
   }
 ]

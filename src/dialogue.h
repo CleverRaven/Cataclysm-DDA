@@ -207,6 +207,7 @@ struct talk_response {
     skill_id skill = skill_id();
     matype_id style = matype_id();
     spell_id dialogue_spell = spell_id();
+    proficiency_id proficiency = proficiency_id();
 
     talk_effect_t success;
     talk_effect_t failure;
@@ -300,6 +301,13 @@ struct dialogue {
          * talked about skill to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill,
+                                     bool first = false );
+        /**
+         * Add a simple response that switches the topic to the new one and sets the currently
+         * talked about proficiency to the given one.
+         */
+        talk_response &add_response( const std::string &text, const std::string &r,
+                                     const proficiency_id &proficiency,
                                      bool first = false );
         /**
         * Add a simple response that switches the topic to the new one and sets the currently

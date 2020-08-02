@@ -1209,11 +1209,11 @@ void avatar::reset_stats()
         }
 
         if( eff.is_null() && dur > 0_turns ) {
-            add_effect( type, dur, num_bp, true );
+            add_effect( type, dur, true );
         } else if( dur > 0_turns ) {
             eff.set_duration( dur );
         } else {
-            remove_effect( type, num_bp );
+            remove_effect( type );
         }
     };
     // Painkiller
@@ -1311,7 +1311,7 @@ void avatar::reset_stats()
 
     // Effects
     for( const auto &maps : *effects ) {
-        for( auto i : maps.second ) {
+        for( const auto &i : maps.second ) {
             const auto &it = i.second;
             bool reduced = resists_effect( it );
             mod_str_bonus( it.get_mod( "STR", reduced ) );
@@ -1663,6 +1663,7 @@ static const std::map<float, std::string> activity_levels_str = {
     { NO_EXERCISE, "NO_EXERCISE" },
     { LIGHT_EXERCISE, "LIGHT_EXERCISE" },
     { MODERATE_EXERCISE, "MODERATE_EXERCISE" },
+    { BRISK_EXERCISE, "BRISK_EXERCISE" },
     { ACTIVE_EXERCISE, "ACTIVE_EXERCISE" },
     { EXTRA_EXERCISE, "EXTRA_EXERCISE" }
 };
@@ -1690,8 +1691,8 @@ std::string avatar::total_daily_calories_string() const
 {
     std::string ret =
         " E: Extra exercise\n A: Active exercise\n"
-        " M: Moderate exercise\n L: Light exercise\n"
-        " N: No exercise\n"
+        " B: Brisk Exercise\n M: Moderate exercise\n"
+        " L: Light exercise\n N: No exercise\n"
         " Each number refers to 5 minutes\n"
         "     gained     spent      total\n";
     int num_day = 1;
@@ -1699,12 +1700,13 @@ std::string avatar::total_daily_calories_string() const
         // Each row is 32 columns long - for the first row, it's
         // 5 for the day and the offset from it,
         // 18 for the numbers, and 9 for the spacing between them
-        // For the second, 4 offset + 5 labels + 8 spacing leaves 15 for the levels
-        std::string activity_str = string_format( "%3dE  %3dA  %3dM  %3dL  %3dN",
+        // For the second, 5 offset + 6 labels + 5 spacing leaves 16 for the levels
+        std::string activity_str = string_format( "%3dE %3dA %3dB %3dM %3dL %3dN",
                                    day.activity_levels.at( EXTRA_EXERCISE ), day.activity_levels.at( ACTIVE_EXERCISE ),
+                                   day.activity_levels.at( BRISK_EXERCISE ),
                                    day.activity_levels.at( MODERATE_EXERCISE ), day.activity_levels.at( LIGHT_EXERCISE ),
                                    day.activity_levels.at( NO_EXERCISE ) );
-        std::string act_stats = string_format( " %1s  %s", colorize( ">", c_light_gray ),
+        std::string act_stats = string_format( " %1s %s", colorize( ">", c_light_gray ),
                                                colorize( activity_str, c_yellow ) );
         std::string calorie_stats = string_format( "%2d   %6d    %6d     %6d", num_day++, day.gained,
                                     day.spent, day.total() );

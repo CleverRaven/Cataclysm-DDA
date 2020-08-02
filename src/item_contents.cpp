@@ -129,14 +129,6 @@ bool pocket_favorite_callback::key( const input_context &, const input_event &ev
     const std::string whitelist_string = whitelist ? _( "whitelist" ) : _( "blacklist" );
     const bool item_id = input == 'i';
     const bool cat_id = input == 'c';
-    std::string id_string;
-
-    if( item_id ) {
-        id_string = _( "item id" );
-    } else if( cat_id ) {
-        id_string = _( "item category" );
-    }
-
     uilist selector_menu;
 
     if( item_id ) {

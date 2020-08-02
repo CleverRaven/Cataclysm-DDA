@@ -80,6 +80,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
+#include "proficiency.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "requirements.h"
@@ -210,16 +211,11 @@ static const itype_id itype_2x4( "2x4" );
 static const itype_id itype_animal( "animal" );
 static const itype_id itype_battery( "battery" );
 static const itype_id itype_burnt_out_bionic( "burnt_out_bionic" );
-static const itype_id itype_chain( "chain" );
-static const itype_id itype_grapnel( "grapnel" );
-static const itype_id itype_hd_tow_cable( "hd_tow_cable" );
 static const itype_id itype_log( "log" );
 static const itype_id itype_mind_scan_robofac( "mind_scan_robofac" );
 static const itype_id itype_muscle( "muscle" );
 static const itype_id itype_nail( "nail" );
 static const itype_id itype_pipe( "pipe" );
-static const itype_id itype_rope_30( "rope_30" );
-static const itype_id itype_rope_makeshift_30( "rope_makeshift_30" );
 static const itype_id itype_ruined_chunks( "ruined_chunks" );
 static const itype_id itype_scrap( "scrap" );
 static const itype_id itype_sheet_metal( "sheet_metal" );
@@ -229,7 +225,6 @@ static const itype_id itype_stick_long( "stick_long" );
 static const itype_id itype_steel_chunk( "steel_chunk" );
 static const itype_id itype_steel_plate( "steel_plate" );
 static const itype_id itype_UPS( "UPS" );
-static const itype_id itype_vine_30( "vine_30" );
 static const itype_id itype_wire( "wire" );
 static const itype_id itype_welder( "welder" );
 static const itype_id itype_wool_staple( "wool_staple" );
@@ -244,8 +239,6 @@ static const skill_id skill_survival( "survival" );
 
 static const quality_id qual_BUTCHER( "BUTCHER" );
 static const quality_id qual_CUT_FINE( "CUT_FINE" );
-static const quality_id qual_SAW_M( "SAW_M" );
-static const quality_id qual_SAW_W( "SAW_W" );
 
 static const species_id species_HUMAN( "HUMAN" );
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -264,7 +257,6 @@ static const trait_id trait_STOCKY_TROGLO( "STOCKY_TROGLO" );
 
 static const std::string flag_AUTODOC( "AUTODOC" );
 static const std::string flag_AUTODOC_COUCH( "AUTODOC_COUCH" );
-static const std::string flag_BUTCHER_EQ( "BUTCHER_EQ" );
 static const std::string flag_EATEN_COLD( "EATEN_COLD" );
 static const std::string flag_FIELD_DRESS( "FIELD_DRESS" );
 static const std::string flag_FIELD_DRESS_FAILED( "FIELD_DRESS_FAILED" );
@@ -286,7 +278,6 @@ static const std::string flag_SAFECRACK( "SAFECRACK" );
 static const std::string flag_SKINNED( "SKINNED" );
 static const std::string flag_SPEEDLOADER( "SPEEDLOADER" );
 static const std::string flag_SUPPORTS_ROOF( "SUPPORTS_ROOF" );
-static const std::string flag_TREE( "TREE" );
 static const std::string flag_USES_BIONIC_POWER( "USES_BIONIC_POWER" );
 
 using namespace activity_handlers;
@@ -800,9 +791,9 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
 // this function modifies the input weight by its damage level, depending on the bodypart
 static int corpse_damage_effect( int weight, const std::string &entry_type, int damage_level )
 {
-    const float slight_damage = 0.9;
-    const float damage = 0.75;
-    const float high_damage = 0.5;
+    const float slight_damage = 0.9f;
+    const float damage = 0.75f;
+    const float high_damage = 0.5f;
     const int destroyed = 0;
 
     switch( damage_level ) {
@@ -2205,6 +2196,14 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         return;
     }
 
+    const proficiency_id &proficiency = proficiency_id( act->name );
+    if( proficiency.is_valid() ) {
+        p->practice_proficiency( proficiency, 15_minutes );
+        add_msg( m_good, _( "You get some training in %s." ), proficiency->name() );
+        act->set_to_null();
+        return;
+    }
+
     const matype_id &ma_id = matype_id( act->name );
     if( ma_id.is_valid() ) {
         const martialart &mastyle = ma_id.obj();
@@ -3371,11 +3370,11 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     }
 
                     if( bp == bodypart_id( "eyes" ) ) {
-                        p->add_effect( effect_blind, 1_hours, num_bp );
+                        p->add_effect( effect_blind, 1_hours );
                     }
                 }
             } else {
-                p->make_bleed( bodypart_id( "num_bp" ), 1_turns, difficulty, true );
+                p->make_bleed( bodypart_id( "bp_null" ), 1_turns, difficulty, true );
                 p->apply_damage( nullptr, bodypart_id( "torso" ), 20 * difficulty );
             }
         }
@@ -3720,6 +3719,9 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     int five_percent_steps = craft->item_counter / 500'000 - old_counter / 500'000;
     if( five_percent_steps > 0 ) {
         p->craft_skill_gain( *craft, five_percent_steps );
+        // Divide by 100 for seconds, 20 for 5%
+        const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
+        p->craft_proficiency_gain( *craft, pct_time * five_percent_steps );
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
@@ -4307,7 +4309,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
                               z->name() );
         z->friendly = -1;
         if( z->has_flag( MF_RIDEABLE_MECH ) ) {
-            z->add_effect( effect_pet, 1_turns, num_bp, true );
+            z->add_effect( effect_pet, 1_turns, true );
         }
     } else if( success >= -2 ) {
         //A near success

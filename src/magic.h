@@ -224,7 +224,7 @@ class spell_type
         // minimum pierce damage
         int min_pierce = 0;
         // increment of pierce damage per spell level
-        float pierce_increment = 0;
+        float pierce_increment = 0.0f;
         // max pierce damage
         int max_pierce = 0;
 
@@ -588,7 +588,7 @@ struct area_expander {
         // Previous position
         tripoint from;
         // Accumulated cost.
-        float cost = 0;
+        float cost = 0.0f;
     };
 
     int max_range = -1;

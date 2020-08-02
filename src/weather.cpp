@@ -46,8 +46,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_snow_glare( "snow_glare" );
 
 static const itype_id itype_water( "water" );
-static const itype_id itype_water_acid( "water_acid" );
-static const itype_id itype_water_acid_weak( "water_acid_weak" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
@@ -114,7 +112,7 @@ void glare( weather_type_id w )
         if( player_character.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        player_character.add_env_effect( *effect, bp_eyes, 2, dur );
+        player_character.add_env_effect( *effect, bodypart_id( "eyes" ), 2, dur );
     }
 }
 
@@ -149,7 +147,6 @@ inline void proc_weather_sum( const weather_type_id wtype, weather_sum &data,
     } else {
         data.rain_amount += amount;
     }
-
 
     // TODO: Change this sunlight "sampling" here into a proper interpolation
     const float tick_sunlight = incident_sunlight( wtype, t );
@@ -228,7 +225,7 @@ void item::add_rain_to_container( bool acid, int charges )
     if( charges <= 0 ) {
         return;
     }
-    item ret( acid ? "water_acid" : "water", calendar::turn );
+    item ret( "water", calendar::turn );
     const int capa = get_remaining_capacity_for_liquid( ret, true );
     ret.charges = std::min( charges, capa );
     if( contents.can_contain( ret ).success() ) {
@@ -240,9 +237,7 @@ void item::add_rain_to_container( bool acid, int charges )
         put_in( ret, item_pocket::pocket_type::CONTAINER );
     } else {
         static const std::set<itype_id> allowed_liquid_types{
-            itype_water,
-            itype_water_acid,
-            itype_water_acid_weak
+            itype_water
         };
         item *found_liq = contents.get_item_with( [&]( const item & liquid ) {
             return allowed_liquid_types.count( liquid.typeId() );
@@ -259,7 +254,7 @@ void item::add_rain_to_container( bool acid, int charges )
             liq.charges += added;
         }
 
-        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water_acid_weak ) {
+        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water ) {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {
@@ -275,7 +270,7 @@ void item::add_rain_to_container( bool acid, int charges )
             const bool transmute = x_in_y( 2 * added, liq.charges );
 
             if( transmute ) {
-                liq = item( "water_acid_weak", calendar::turn, liq.charges );
+                liq = item( "water", calendar::turn, liq.charges );
             } else if( liq.typeId() == itype_water ) {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
@@ -379,7 +374,7 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
  */
 static void fill_water_collectors( int mmPerHour, bool acid )
 {
-    for( auto &e : trap::get_funnels() ) {
+    for( const auto &e : trap::get_funnels() ) {
         fill_funnels( mmPerHour, acid, *e );
     }
 }
@@ -399,6 +394,7 @@ static void fill_water_collectors( int mmPerHour, bool acid )
 void wet( Character &target, int amount )
 {
     if( !is_creature_outside( target ) ||
+        amount <= 0 ||
         target.has_trait( trait_FEATHERS ) ||
         target.weapon.has_flag( "RAIN_PROTECT" ) ||
         ( !one_in( 50 ) && target.worn_with_flag( "RAINPROOF" ) ) ) {
@@ -482,7 +478,6 @@ void handle_weather_effects( weather_type_id const w )
     }
     glare( w );
     g->weather.lightning_active = false;
-
 
     for( const weather_effect &current_effect : w->effects ) {
         if( current_effect.must_be_outside && !is_creature_outside( player_character ) ) {
@@ -575,7 +570,7 @@ void handle_weather_effects( weather_type_id const w )
         if( current_effect.effect_id.is_valid() ) {
             if( current_effect.target_part.is_valid() ) {
                 player_character.add_effect( current_effect.effect_id, current_effect.effect_duration,
-                                             current_effect.target_part->token );
+                                             current_effect.target_part );
             } else {
                 player_character.add_effect( current_effect.effect_id, current_effect.effect_duration );
             }
@@ -586,13 +581,14 @@ void handle_weather_effects( weather_type_id const w )
         if( current_effect.trait_id_to_remove.is_valid() ) {
             player_character.unset_mutation( current_effect.trait_id_to_remove );
         }
-
-        if( current_effect.target_part.is_valid() ) {
-            player_character.deal_damage( nullptr, current_effect.target_part, damage_instance( DT_BASH,
-                                          current_effect.damage ) );
-        } else {
-            for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
-                player_character.deal_damage( nullptr, bp, damage_instance( DT_BASH, current_effect.damage ) );
+        if( current_effect.damage != 0 ) {
+            if( current_effect.target_part.is_valid() ) {
+                player_character.deal_damage( nullptr, current_effect.target_part, damage_instance( DT_BASH,
+                                              current_effect.damage ) );
+            } else {
+                for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
+                    player_character.deal_damage( nullptr, bp, damage_instance( DT_BASH, current_effect.damage ) );
+                }
             }
         }
         player_character.mod_healthy( current_effect.healthy );

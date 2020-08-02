@@ -204,7 +204,7 @@ void mdeath::splatter( monster &z )
     gibbed_weight = std::min( gibbed_weight, z_weight * 15 / 100 );
 
     if( pulverized && gibbable ) {
-        float overflow_ratio = overflow_damage / max_hp + 1;
+        float overflow_ratio = overflow_damage / max_hp + 1.0f;
         int gib_distance = std::round( rng( 2, 4 ) );
         for( const auto &entry : *z.type->harvest ) {
             // only flesh and bones survive.
@@ -264,7 +264,7 @@ void mdeath::boomer( monster &z )
 
     Character &player_character = get_player_character();
     if( rl_dist( z.pos(), player_character.pos() ) == 1 ) {
-        player_character.add_env_effect( effect_boomered, bp_eyes, 2, 24_turns );
+        player_character.add_env_effect( effect_boomered, bodypart_id( "eyes" ), 2, 24_turns );
     }
 
     here.propagate_field( z.pos(), fd_bile, 15, 1 );
@@ -283,10 +283,10 @@ void mdeath::boomer_glow( monster &z )
             target->moves -= 250;
         }
         if( Creature *const critter = g->critter_at( dest ) ) {
-            critter->add_env_effect( effect_boomered, bp_eyes, 5, 25_turns );
+            critter->add_env_effect( effect_boomered, bodypart_id( "eyes" ), 5, 25_turns );
             for( int i = 0; i < rng( 2, 4 ); i++ ) {
                 body_part bp = random_body_part();
-                critter->add_env_effect( effect_glowing, bp, 4, 4_minutes );
+                critter->add_env_effect( effect_glowing, convert_bp( bp ).id(), 4, 4_minutes );
                 if( critter->has_effect( effect_glowing ) ) {
                     break;
                 }
@@ -311,7 +311,7 @@ void mdeath::kill_vines( monster &z )
     for( Creature *const vine : vines ) {
         int dist = rl_dist( vine->pos(), z.pos() );
         bool closer = false;
-        for( auto &j : hubs ) {
+        for( const Creature *j : hubs ) {
             if( rl_dist( vine->pos(), j->pos() ) < dist ) {
                 break;
             }

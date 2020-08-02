@@ -99,7 +99,7 @@ struct body_part_type {
         std::string hp_bar_ui_text;
         std::string encumb_text;
         // Legacy "string id"
-        std::string legacy_id = "num_bp";
+        std::string legacy_id;
         // Legacy enum "int id"
         body_part token = num_bp;
         /** Size of the body part when doing an unweighted selection. */
@@ -122,9 +122,9 @@ struct body_part_type {
         side part_side = side::BOTH;
 
         //Morale parameters
-        float hot_morale_mod = 0;
-        float cold_morale_mod = 0;
-        float stylish_bonus = 0;
+        float hot_morale_mod = 0.0f;
+        float cold_morale_mod = 0.0f;
+        float stylish_bonus = 0.0f;
         int squeamish_penalty = 0;
 
         int base_hp = 60;
@@ -214,7 +214,7 @@ class bodypart
         encumbrance_data encumb_data;
 
     public:
-        bodypart(): id( bodypart_str_id( "num_bp" ) ), hp_cur( 0 ), hp_max( 0 ) {}
+        bodypart(): id( bodypart_str_id( "bp_null" ) ), hp_cur( 0 ), hp_max( 0 ) {}
         bodypart( bodypart_str_id id ): id( id ), hp_cur( id->base_hp ), hp_max( id->base_hp ) {}
 
         bodypart_id get_id() const;
@@ -326,9 +326,6 @@ class body_part_set
             s.read( parts );
         }
 };
-
-// Returns if passed string is legacy bodypart (i.e "TORSO", not "torso")
-bool is_legacy_bodypart_id( const std::string &id );
 
 /** Returns the new id for old token */
 const bodypart_str_id &convert_bp( body_part bp );
