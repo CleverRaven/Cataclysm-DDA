@@ -1752,14 +1752,19 @@ void Creature::set_all_parts_hp_to_max()
     }
 }
 
-bool Creature::has_atleast_one_wet_part()
+bool Creature::has_atleast_one_wet_part() const
 {
-    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( elem.second.get_wetness() > 0 ) {
             return true;
         }
     }
     return false;
+}
+
+bool Creature::is_part_at_max_hp( const bodypart_id &id ) const
+{
+    return get_part( id ).is_at_max_hp();
 }
 
 bodypart_id Creature::get_random_body_part( bool main ) const

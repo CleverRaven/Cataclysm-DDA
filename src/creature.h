@@ -661,7 +661,8 @@ class Creature : public location
         void set_all_parts_hp_cur( int set );
         void set_all_parts_hp_to_max();
 
-        bool has_atleast_one_wet_part();
+        bool has_atleast_one_wet_part() const;
+        bool is_part_at_max_hp( const bodypart_id &id ) const;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
