@@ -231,6 +231,40 @@
     "category": "weapons"
   },
   {
+    "id": "flarewhip",
+    "type": "GENERIC",
+    "symbol": "/",
+    "color": "light_blue",
+    "name": "flarewhip",
+    "description": "A long whip made of blue-hot magical flames.  The heat is horrendous when touching an enemy.",
+    "weight": "60 g",
+    "volume": "1500 ml",
+    "material": [  ],
+    "techniques": [ "PRECISE", "WIDE", "SWEEP" ],
+    "flags": [
+      "REACH_ATTACK",
+      "REACH3",
+      "WHIP",
+      "STURDY",
+      "TRADER_AVOID",
+      "UNARMED_WEAPON",
+      "UNBREAKABLE_MELEE",
+      "NO_REPAIR",
+      "NO_SALVAGE",
+      "MAGIC_FOCUS",
+      "FIRESTARTER",
+      "LIGHT_8",
+      "FLAMING",
+      "FIRE"
+    ],
+    "cutting": 6,
+    "to_hit": 3,
+    "relic_data": {
+      "passive_effects": [ { "has": "WIELD", "condition": "ALWAYS", "values": [ { "value": "ITEM_DAMAGE_HEAT", "add": 30 } ] } ]
+    },
+    "category": "weapons"
+  },
+  {
     "id": "fleshpouch",
     "type": "ARMOR",
     "name": { "str": "flesh pouch", "str_pl": "flesh pouches" },
