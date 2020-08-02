@@ -3610,15 +3610,31 @@ void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const
     get_tile_values( t, tn, subtile, rotation );
     // calculate rotation for unconnected tiles based on surrounding walls
     if( subtile == unconnected ) {
-        map &here = get_map();
         int val = 0;
-        for( int i = 0; i < 4; ++i ) {
-            const tripoint &pt = p + four_adjacent_offsets[i];
-            if( here.has_flag( "WALL", pt ) || here.has_flag( "WINDOW", pt ) ||
-                here.has_flag( "DOOR", pt ) ) {
-                val += 1 << i;
+        bool use_furniture = false;
+        map &here = get_map();
+
+        if( here.has_flag( "ALIGN_WORKBENCH", p ) ) {
+            for( int i = 0; i < 4; ++i ) {
+                // align to furniture that has the workbench quality
+                const tripoint &pt = p + four_adjacent_offsets[i];
+                if( here.has_furn( pt ) && here.furn( pt ).obj().workbench ) {
+                    val += 1 << i;
+                    use_furniture = true;
+                }
             }
         }
+        // if still unaligned, try aligning to walls
+        if( val == 0 ) {
+            for( int i = 0; i < 4; ++i ) {
+                const tripoint &pt = p + four_adjacent_offsets[i];
+                if( here.has_flag( "WALL", pt ) || here.has_flag( "WINDOW", pt ) ||
+                    here.has_flag( "DOOR", pt ) ) {
+                    val += 1 << i;
+                }
+            }
+        }
+
         switch( val ) {
             case 4:    // south wall
             case 14:   // north opening T
@@ -3646,6 +3662,11 @@ void cata_tiles::get_tile_values_with_ter( const tripoint &p, const int t, const
                 rotation = 0;
                 break;
         };
+
+        //
+        if( use_furniture ) {
+            rotation = ( rotation + 2 ) % 4;
+        }
     }
 }
 
