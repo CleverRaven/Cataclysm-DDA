@@ -89,7 +89,7 @@
     "looks_like": "baton",
     "//": "based on the ka-bar kaster",
     "name": { "str": "plastic hand fishing reel" },
-    "description": "A commercial version of what is often known as a 'hobo fishing reel'. Is is a short rod with a section on one end with fishing line wrapped around it, with a rotating guard around that. It is not as effective as a normal fishing pole, but is much more compact than them,",
+    "description": "A commercial version of what is often known as a 'hobo fishing reel'.  It is a short rod with a section on one end with fishing line wrapped around it, with a rotating guard around that.  It is not as effective as a normal fishing pole, but is much more compact than them.",
     "weight": "400 g",
     "volume": "400 ml",
     "longest_side": "158 mm",
