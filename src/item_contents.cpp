@@ -722,11 +722,11 @@ bool item_contents::spill_open_pockets( Character &guy, const item *avoid )
     return true;
 }
 
-void item_contents::handle_liquid_or_spill( Character &guy )
+void item_contents::handle_liquid_or_spill( Character &guy, const item *const avoid )
 {
     for( item_pocket &pocket : contents ) {
         if( pocket.is_type( item_pocket::pocket_type::CONTAINER ) ) {
-            pocket.handle_liquid_or_spill( guy );
+            pocket.handle_liquid_or_spill( guy, avoid );
         }
     }
 }

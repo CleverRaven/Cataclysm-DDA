@@ -7020,7 +7020,7 @@ bool item::spill_contents( Character &c )
         return spill_contents( c.pos() );
     }
 
-    contents.handle_liquid_or_spill( c );
+    contents.handle_liquid_or_spill( c, /*avoid=*/this );
     on_contents_changed();
 
     return true;

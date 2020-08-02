@@ -42,7 +42,7 @@ namespace liquid_handler
  * charges of the liquid have been transferred.
  * `true` indicates some charges have been transferred (but not necessarily all of them).
  */
-void handle_all_liquid( item liquid, int radius );
+void handle_all_liquid( item liquid, int radius, const item *avoid = nullptr );
 
 /**
  * Consume / handle as much of the liquid as possible in varying ways. This function can
@@ -106,7 +106,7 @@ bool handle_liquid_from_container( item &container, int radius = 0 );
  * Basically `false` indicates the user does not *want* to handle the liquid, `true`
  * indicates they want to handle it.
  */
-bool handle_liquid( item &liquid, item *source = nullptr, int radius = 0,
+bool handle_liquid( item &liquid, const item *source = nullptr, int radius = 0,
                     const tripoint *source_pos = nullptr,
                     const vehicle *source_veh = nullptr, int part_num = -1,
                     const monster *source_mon = nullptr );
