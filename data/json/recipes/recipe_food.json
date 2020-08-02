@@ -469,13 +469,34 @@
     "difficulty": 3,
     "time": "16 m",
     "charges": 1,
-    "book_learn": [ [ "cookbook_foodfashions", 3 ], [ "cookbook_daintydishes", 3 ], [ "cookbook_eatyrway", 4 ] ],
+    "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
     "tools": [ [ [ "frying_oil", 1, "LIST" ] ], [ [ "surface_heat", 8, "LIST" ] ] ],
     "components": [
       [ [ "onion", 2 ], [ "irradiated_onion", 2 ] ],
       [ [ "batter", 2, "LIST" ] ],
       [ [ "sugar", 1 ], [ "soysauce", 1 ], [ "salt", 1 ], [ "seasoning_salt", 1 ], [ "vinegar", 1 ], [ "ghee", 1 ] ]
+    ]
+  },
+  {
+    "type": "recipe",
+    "result": "onion_rings_beer_batter",
+    "category": "CC_FOOD",
+    "subcategory": "CSC_FOOD_VEGGI",
+    "skill_used": "cooking",
+    "difficulty": 4,
+    "time": "30 m",
+    "charges": 1,
+    "book_learn": [ [ "cookbook_foodfashions", 3 ], [ "cookbook_daintydishes", 3 ], [ "cookbook_eatyrway", 4 ] ],
+    "batch_time_factors": [40, 2],
+    "qualities": [ { "id": "CUT", "level": 1 }, { "id": "COOK", "level": 2 } ],
+    "tools": [ [ [ "frying_oil", 1, "LIST" ] ], [ [ "surface_heat", 5, "LIST" ] ] ],
+    "components": [
+      [ [ "onion", 2 ], [ "irradiated_onion", 2 ] ],
+      [ [ "batter", 2, "LIST" ] ],
+      [ [ "weak_liquor", 1, "LIST" ], [ "rootbeer", 1 ] ],
+      [ [ "salt", 1 ], [ "seasoning_salt", 1 ] ],
+      [ [ "garlic_clove", 1 ], [ "pepper", 2 ] ]
     ]
   },
   {
