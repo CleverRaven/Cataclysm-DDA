@@ -278,6 +278,9 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
 
 bool item_pocket::stacks_with( const item_pocket &rhs ) const
 {
+    if( _sealed != rhs._sealed ) {
+        return false;
+    }
     return ( empty() && rhs.empty() ) || std::equal( contents.begin(), contents.end(),
             rhs.contents.begin(), rhs.contents.end(),
     []( const item & a, const item & b ) {
