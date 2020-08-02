@@ -196,6 +196,7 @@ void body_part_type::load( const JsonObject &jo, const std::string & )
     mandatory( jo, was_loaded, "hit_size", hit_size );
     mandatory( jo, was_loaded, "hit_difficulty", hit_difficulty );
     mandatory( jo, was_loaded, "hit_size_relative", hit_size_relative );
+    mandatory( jo, was_loaded, "encumbrance_effects", encumbrance_effects );
 
     mandatory( jo, was_loaded, "base_hp", base_hp );
     optional( jo, was_loaded, "stat_hp_mods", hp_mods );
@@ -587,6 +588,17 @@ void stat_hp_mods::load( const JsonObject &jsobj )
 }
 
 void stat_hp_mods::deserialize( JsonIn &jsin )
+{
+    const JsonObject &jo = jsin.get_object();
+    load( jo );
+}
+
+void encumbrance_effects::load( const JsonObject &jsobj )
+{
+
+}
+
+void encumbrance_effects::deserialize( JsonIn &jsin )
 {
     const JsonObject &jo = jsin.get_object();
     load( jo );

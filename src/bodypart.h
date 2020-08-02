@@ -85,6 +85,13 @@ struct stat_hp_mods {
     void deserialize( JsonIn &jsin );
 };
 
+struct encumbrance_effects {
+
+    bool was_loaded = false;
+    void load( const JsonObject &jsobj );
+    void deserialize( JsonIn &jsin );
+};
+
 struct body_part_type {
     public:
         bodypart_str_id id;
@@ -99,6 +106,8 @@ struct body_part_type {
         translation name_as_heading_multiple;
         std::string hp_bar_ui_text;
         std::string encumb_text;
+        /** How and how much each point of encumbrance on this part affects the character. */
+        encumbrance_effects encumbrance_effects;
         // Legacy "string id"
         std::string legacy_id;
         // Legacy enum "int id"
