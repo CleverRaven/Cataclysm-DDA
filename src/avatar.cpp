@@ -1273,9 +1273,10 @@ void avatar::reset_stats()
     }
 
     // Dodge-related effects
-    mod_dodge_bonus( mabuff_dodge_bonus() -
-                     ( encumb( bodypart_id( "leg_l" ) ) + encumb( bodypart_id( "leg_r" ) ) ) / 20.0f - encumb(
-                         bodypart_id( "torso" ) ) / 10.0f );
+    mod_dodge_bonus( mabuff_dodge_bonus() );
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        mod_dodge_bonus( - encumb( bp ) * bp->encumbrance_dodge_skill_penalty );
+    }
     // Whiskers don't work so well if they're covered
     if( has_trait( trait_WHISKERS ) && !wearing_something_on( bodypart_id( "mouth" ) ) ) {
         mod_dodge_bonus( 1 );

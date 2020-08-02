@@ -113,6 +113,10 @@ struct body_part_type {
          * Formula is `chance *= pow(hit_roll, hit_difficulty)`
          */
         float hit_difficulty = 0.0f;
+        /** How much each point of encumbrance increases the run move cost. */
+        float encumbrance_run_cost_modifier = 0.0f;
+        /** How much each point of encumbrance decreases effective dodging skill. */
+        float encumbrance_dodge_skill_penalty = 0.0f;
         // "Parent" of this part - main parts are their own "parents"
         // TODO: Connect head and limbs to torso
         bodypart_str_id main_part;

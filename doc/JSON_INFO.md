@@ -512,6 +512,8 @@ This section describes each json file and their contents. Each json has their ow
 | hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
 | hit_size_relative | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
 | hit_difficulty    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
+| encumbrance_move_cost_modifier | (_optional_) How much each point of encumbrance increases the run move cost. (default: `0`)
+| encumbrance_dodge_skill_penalty | (_optional_) How much each point of encumbrance decreases effective dodging skill. (default: `0`)
 | drench_capacity   | (_mandatory_) How wet this part can get before being 100% drenched.
 | stylish_bonus     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
 | hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)

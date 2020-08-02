@@ -1988,6 +1988,10 @@ class Character : public Creature, public visitable<Character>
         float power_rating() const override;
         float speed_rating() const override;
 
+        /** Extra movement point cost the body part incurs, given its current encumbrance.
+         * @param bp Body part in question */
+        float movecost_mod_from_encumbrance( const bodypart_id &bp ) const;
+
         /** Returns the item in the player's inventory with the highest of the specified quality*/
         item &item_with_best_of_quality( const quality_id &qid );
         /**
