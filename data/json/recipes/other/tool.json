@@ -399,7 +399,6 @@
     4
   ],
   "time": "35 m",
-  "reversible": false,
   "autolearn": false,
   "book_learn": [
     [ "mag_survival", 4 ],
