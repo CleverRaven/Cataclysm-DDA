@@ -103,10 +103,10 @@ void handle_all_liquid( item liquid, const int radius, const item *const avoid )
     }
 }
 
-bool consume_liquid( item &liquid, const int radius )
+bool consume_liquid( item &liquid, const int radius, const item *const avoid )
 {
     const auto original_charges = liquid.charges;
-    while( liquid.charges > 0 && handle_liquid( liquid, nullptr, radius ) ) {
+    while( liquid.charges > 0 && handle_liquid( liquid, avoid, radius ) ) {
         // try again with the remaining charges
     }
     return original_charges != liquid.charges;

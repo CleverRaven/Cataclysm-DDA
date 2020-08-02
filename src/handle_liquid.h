@@ -54,7 +54,7 @@ void handle_all_liquid( item liquid, int radius, const item *avoid = nullptr );
  * declined all options to handle the liquid and no charges of the liquid have been transferred.
  * `true` indicates some charges have been transferred (but not necessarily all of them).
  */
-bool consume_liquid( item &liquid, int radius = 0 );
+bool consume_liquid( item &liquid, int radius = 0, const item *avoid = nullptr );
 
 /**
  * Handle finite liquid from ground. The function also handles consuming move points.
