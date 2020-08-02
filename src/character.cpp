@@ -365,6 +365,7 @@ static const std::string flag_FUNGUS( "FUNGUS" );
 static const std::string flag_GNV_EFFECT( "GNV_EFFECT" );
 static const std::string flag_HELMET_COMPAT( "HELMET_COMPAT" );
 static const std::string flag_IR_EFFECT( "IR_EFFECT" );
+static const std::string flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 static const std::string flag_ONLY_ONE( "ONLY_ONE" );
 static const std::string flag_OUTER( "OUTER" );
 static const std::string flag_OVERSIZE( "OVERSIZE" );
@@ -384,7 +385,6 @@ static const std::string flag_SWIMMABLE( "SWIMMABLE" );
 static const std::string flag_SWIM_GOGGLES( "SWIM_GOGGLES" );
 static const std::string flag_UNDERSIZE( "UNDERSIZE" );
 static const std::string flag_USE_UPS( "USE_UPS" );
-static const std::string flag_NOT_FOOTWEAR( "NOT_FOOTWEAR" );
 
 static const mtype_id mon_player_blob( "mon_player_blob" );
 static const mtype_id mon_shadow_snake( "mon_shadow_snake" );
@@ -9510,7 +9510,7 @@ void Character::update_vitamins( const vitamin_id &vit )
 
 void Character::rooted_message() const
 {
-    bool wearing_shoes = ( ground_factor() == 1.0 );
+    bool wearing_shoes = ground_factor() == 1.0;
     if( ( has_trait( trait_ROOTS2 ) || has_trait( trait_ROOTS3 ) ) &&
         get_map().has_flag( flag_PLOWABLE, pos() ) &&
         !wearing_shoes ) {
