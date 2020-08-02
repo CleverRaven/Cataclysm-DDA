@@ -56,9 +56,9 @@
     "components": [ [ [ "sling", 1 ] ] ]
   },
   {
-    "id": "spell_components_corrosiveaura",
+    "id": "spell_components_causticaura",
     "type": "requirement",
-    "//": "Strong acids suitable for the Corrosive Aura spell",
+    "//": "Strong acids suitable for the Caustic Aura spell",
     "components": [ [ [ "acid", 2 ], [ "chem_sulphuric_acid", 2 ], [ "chem_muriatic_acid", 2 ], [ "chem_nitric_acid", 2 ] ] ]
   },
   {

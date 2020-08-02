@@ -945,10 +945,10 @@
   {
     "type": "BOOK",
     "copy-from": "spell_scroll",
-    "id": "spell_scroll_corrosive_aura",
-    "name": { "str": "Scroll of Corrosive Aura", "str_pl": "Scrolls of Corrosive Aura" },
+    "id": "spell_scroll_caustic_aura",
+    "name": { "str": "Scroll of Caustic Aura", "str_pl": "Scrolls of Caustic Aura" },
     "description": "Animate a layer of acid around you, burning attackers and increasing your melee damage.",
-    "use_action": { "type": "learn_spell", "spells": [ "biomancer_corrosive_aura" ] }
+    "use_action": { "type": "learn_spell", "spells": [ "biomancer_caustic_aura" ] }
   },
   {
     "type": "BOOK",

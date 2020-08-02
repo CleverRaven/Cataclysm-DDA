@@ -481,8 +481,8 @@
     "type": "ARMOR",
     "name": "feral aura",
     "description": "The manifestion of your rage.  It won't disappear until you calm down.",
-    "weight": "1g",
-    "volume": "1ml",
+    "weight": "1 g",
+    "volume": "1 ml",
     "price": 3646,
     "symbol": "o",
     "color": "white",
@@ -597,7 +597,7 @@
     "loudness": 6
   },
   {
-    "id": "aura_corrosive",
+    "id": "aura_caustic",
     "type": "ARMOR",
     "name": "acid aura",
     "description": "An aura of thin acid, swirling around your body ready to corrode when struck or while striking.",
@@ -611,7 +611,7 @@
         {
           "has": "WORN",
           "condition": "ALWAYS",
-          "hit_me_effect": [ { "id": "acidic_zap" } ],
+          "hit_me_effect": [ { "id": "caustic_aura_spell" } ],
           "values": [ { "value": "ARMOR_ACID", "add": -5 }, { "value": "ITEM_DAMAGE_ACID", "add": 3 } ]
         }
       ]
