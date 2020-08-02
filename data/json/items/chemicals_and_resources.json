@@ -248,7 +248,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "sodium_carbonate",
+    "id": "chem_sodium_carbonate",
     "name": { "str_sp": "sodium carbonate" },
     "weight": "450 g",
     "volume": "462 ml",

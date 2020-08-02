@@ -56,5 +56,24 @@
     "qualities": [ { "id": "CHEM", "level": 1 }, { "id": "DISTILL", "level": 1 } ],
     "tools": [ [ [ "surface_heat", 10, "LIST" ] ] ],
     "components": [ [ [ "pine_bough", 1 ] ] ]
+  },
+  {
+    "result": "chem_sodium_carbonate",
+    "type": "recipe",
+    "byproducts": [ [ "ammonia", 1 ] ],
+    "category": "CC_CHEM",
+    "subcategory": "CSC_CHEM_OTHER",
+    "skill_used": "chemistry",
+    "difficulty": 4,
+    "time": "100 m",
+    "batch_time_factors": [ 60, 8 ],
+    "book_learn": [ [ "concrete_book", 3 ], [ "textbook_chemistry", 3 ] ],
+    "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
+    "qualities": [ { "id": "CHEM", "level": 2 } ],
+    "components": [
+      [ [ "salt_water", 2 ] ],
+      [ [ "ammonia", 2 ] ],
+      [ [ "material_limestone", 50 ] ]
+    ]
   }
 ]
