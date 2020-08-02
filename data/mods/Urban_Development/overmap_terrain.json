@@ -1,55 +1,5 @@
 [
   {
-    "id": "urban_8_1",
-    "type": "overmap_terrain",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green",
-    "see_cost": 10,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "urban_8_2",
-    "type": "overmap_terrain",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green",
-    "see_cost": 10,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "urban_8_3",
-    "type": "overmap_terrain",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green",
-    "see_cost": 10,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "urban_8_4",
-    "type": "overmap_terrain",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green",
-    "see_cost": 10,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
-    "id": "urban_8_6",
-    "type": "overmap_terrain",
-    "name": "house",
-    "sym": "v",
-    "color": "light_green",
-    "see_cost": 10,
-    "mondensity": 2,
-    "flags": [ "SIDEWALK" ]
-  },
-  {
     "id": "urban_10_1",
     "type": "overmap_terrain",
     "name": "house",
