@@ -409,7 +409,7 @@
   "using": [
     [ "cordage", 6 ]
   ],
-  "tools": [
+  "qualities": [
     { "id": "CUT", "level": 1 }
   ],
   "components": [
