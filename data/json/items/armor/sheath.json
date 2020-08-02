@@ -74,7 +74,7 @@
     "symbol": "[",
     "looks_like": "sheath",
     "color": "brown",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "FOOT_EITHER" ],
     "coverage": 5,
     "encumbrance": 3,
     "material_thickness": 1,
@@ -89,7 +89,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Sheath knife", "holster_msg": "You sheath your %s" },
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY" ]
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "WATER_FRIENDLY", "NOT_FOOTWEAR" ]
   },
   {
     "id": "bscabbard",

@@ -252,7 +252,7 @@
     "symbol": "[",
     "looks_like": "ragpouch",
     "color": "dark_gray",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "FOOT_EITHER" ],
     "coverage": 5,
     "encumbrance": 1,
     "material_thickness": 2,
@@ -266,7 +266,7 @@
       }
     ],
     "use_action": { "type": "holster", "holster_prompt": "Stash ammo", "holster_msg": "You stash your %s." },
-    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ]
+    "flags": [ "WATER_FRIENDLY", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ]
   },
   {
     "type": "ARMOR",

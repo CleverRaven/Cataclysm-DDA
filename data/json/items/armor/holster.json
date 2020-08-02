@@ -43,12 +43,12 @@
     "symbol": "[",
     "looks_like": "holster",
     "color": "brown",
-    "covers": [ "LEG_EITHER" ],
+    "covers": [ "FOOT_EITHER" ],
     "coverage": 5,
     "encumbrance": 3,
     "max_encumbrance": 4,
     "material_thickness": 1,
-    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS" ],
+    "flags": [ "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS", "NOT_FOOTWEAR" ],
     "pocket_data": [
       {
         "pocket_type": "CONTAINER",
