@@ -3672,7 +3672,7 @@
     "city_distance": [ 0, 3 ],
     "city_sizes": [ 8, 16 ],
     "occurrences": [ 75, 100 ],
-    "flags": [ "UNIQUE", "CLASSIC" ]
+    "flags": [ "UNIQUE", "CLASSIC", "ELECTRIC_GRID" ]
   },
   {
     "type": "overmap_special",

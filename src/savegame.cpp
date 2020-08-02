@@ -1015,6 +1015,21 @@ void overmap::unserialize( std::istream &fin )
             }
         } else if( name == "connections_out" ) {
             jsin.read( connections_out );
+        } else if( name == "electric_grid_connections" ) {
+            jsin.start_array();
+            tripoint origin;
+            jsin.read( origin );
+            auto &conn = electric_grid_connections[origin];
+            while( !jsin.end_array() ) {
+                tripoint offset;
+                jsin.read( offset );
+                for( size_t i = 0; i < conn.size(); i++ ) {
+                    if( offset == six_cardinal_directions[i] ) {
+                        conn.set( i, true );
+                        break;
+                    }
+                }
+            }
         } else if( name == "roads_out" ) {
             // Legacy data, superceded by that stored in the "connections_out" member. A load and save
             // cycle will migrate this to "connections_out".
@@ -1571,6 +1586,21 @@ void overmap::serialize( std::ostream &fout ) const
     }
     json.end_array();
     fout << std::endl;
+
+    json.member( "electric_grid_connections" );
+    json.start_array();
+    for( const auto &conn : electric_grid_connections ) {
+        json.start_array();
+        json.write( conn.first );
+        for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
+            if( conn.second[i] ) {
+                json.write( six_cardinal_directions[i] );
+            }
+        }
+        json.end_array();
+
+    }
+    json.end_array();
 
     json.end_object();
     fout << std::endl;

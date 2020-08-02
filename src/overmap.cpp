@@ -4077,6 +4077,23 @@ void overmap::place_special( const overmap_special &special, const tripoint &p,
             }
         }
     }
+
+    if( special.flags.count( "ELECTRIC_GRID" ) ) {
+        std::set<tripoint> special_points;
+        for( const auto &elem : special.terrains ) {
+            const tripoint location = p + om_direction::rotate( elem.p, dir );
+            special_points.insert( location );
+        }
+
+        for( const tripoint &p : special_points ) {
+            for( size_t i = 0; i < six_cardinal_directions.size(); i++ ) {
+                const tripoint other = p + six_cardinal_directions[i];
+                if( special_points.count( other ) > 0 ) {
+                    electric_grid_connections[p].set( i, true );
+                }
+            }
+        }
+    }
     // Make connections.
     if( cit ) {
         for( const auto &elem : special.connections ) {
@@ -4655,6 +4672,8 @@ overmap_special_id overmap_specials::create_building_from( const string_id<oter_
     ter.locations.insert( land );
     ter.locations.insert( swamp );
     new_special.terrains.push_back( ter );
+
+    new_special.flags.insert( "ELECTRIC_GRID" );
 
     return specials.insert( new_special ).id;
 }

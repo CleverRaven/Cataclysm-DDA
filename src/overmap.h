@@ -345,6 +345,10 @@ class overmap
         bool mongroup_check( const mongroup &candidate ) const;
         bool monster_check( const std::pair<tripoint, monster> &candidate ) const;
 
+    private:
+        std::map<tripoint, std::bitset<six_cardinal_directions.size()>> electric_grid_connections;
+    public:
+
         // TODO: make private
         std::vector<radio_tower> radios;
         std::map<int, om_vehicle> vehicles;
@@ -384,6 +388,7 @@ class overmap
         // Records the locations where a given overmap special was placed, which
         // can be used after placement to lookup whether a given location was created
         // as part of a special.
+        // TODO: Should have individual instances grouped by placement (ie. 2 adjacent houses aren't one house)
         std::unordered_map<tripoint, overmap_special_id> overmap_special_placements;
 
         regional_settings settings;

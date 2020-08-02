@@ -387,6 +387,11 @@ static constexpr std::array<point, 5> five_cardinal_directions{{
         point_west, point_east, point_north, point_south, point_zero
     }};
 
+static constexpr std::array<tripoint, 6> six_cardinal_directions{{
+        tripoint_west, tripoint_east, tripoint_north, tripoint_south,
+        tripoint_above, tripoint_below
+    }};
+
 static const std::array<tripoint, 8> eight_horizontal_neighbors = { {
         { tripoint_north_west },
         { tripoint_north },
