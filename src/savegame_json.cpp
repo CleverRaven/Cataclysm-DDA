@@ -547,10 +547,12 @@ void Character::load( const JsonObject &data )
     data.read( "healthy_mod", healthy_mod );
 
     // Remove check after 0.F
-    if( savegame_loading_version == 30 ) {
-        _proficiencies->deserialize_legacy( data.get_array( "proficiencies" ) );
-    } else if( savegame_loading_version > 30 ) {
-        data.read( "proficiencies", _proficiencies );
+    if( savegame_loading_version >= 30 ) {
+        if( data.has_array( "proficiencies" ) ) {
+            _proficiencies->deserialize_legacy( data.get_array( "proficiencies" ) );
+        } else {
+            data.read( "proficiencies", _proficiencies );
+        }
     }
 
 
