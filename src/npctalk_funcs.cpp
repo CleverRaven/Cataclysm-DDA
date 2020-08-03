@@ -930,7 +930,7 @@ void talk_function::start_training( npc &p )
         time = calc_skill_training_time( p, skill );
         name = skill.str();
     } else if( p.chatbin.style != matype_id() &&
-               !you.martial_arts_data.has_martialart( style ) ) {
+               !you.martial_arts_data->has_martialart( style ) ) {
         cost = calc_ma_style_training_cost( p, style );
         time = calc_ma_style_training_time( p, style );
         name = p.chatbin.style.str();

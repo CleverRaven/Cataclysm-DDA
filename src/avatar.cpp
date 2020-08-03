@@ -566,7 +566,7 @@ bool avatar::read( item &it, const bool continuous )
         }
         if( it.type->use_methods.count( "MA_MANUAL" ) ) {
 
-            if( martial_arts_data.has_martialart( martial_art_learned_from( *it.type ) ) ) {
+            if( martial_arts_data->has_martialart( martial_art_learned_from( *it.type ) ) ) {
                 add_msg_if_player( m_info, _( "You already know all this book has to teach." ) );
                 activity.set_to_null();
                 return false;
@@ -1303,7 +1303,7 @@ void avatar::reset_stats()
     }
 
     // Apply static martial arts buffs
-    martial_arts_data.ma_static_effects( *this );
+    martial_arts_data->ma_static_effects( *this );
 
     if( calendar::once_every( 1_minutes ) ) {
         update_mental_focus();

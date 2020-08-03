@@ -1478,7 +1478,7 @@ std::vector<proficiency_id> npc::proficiencies_offered_to( const Character &guy 
 
 std::vector<matype_id> npc::styles_offered_to( const player &p ) const
 {
-    return p.martial_arts_data.get_unknown_styles( martial_arts_data );
+    return p.martial_arts_data->get_unknown_styles( *martial_arts_data );
 }
 
 std::vector<spell_id> npc::spells_offered_to( player &p )
