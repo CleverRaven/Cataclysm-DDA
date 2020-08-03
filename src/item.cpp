@@ -10305,10 +10305,6 @@ units::volume item::check_for_free_space( const item *it ) const
                     volume += pocket.remaining_volume();
                 }
             }
-        } else {
-            if( container->contents.contents_are_rigid() ) {
-                volume += container->volume();
-            }
         }
     }
     return volume;
