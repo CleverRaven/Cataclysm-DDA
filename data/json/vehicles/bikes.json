@@ -7,7 +7,11 @@
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "saddle_pedal", "horn_bicycle", "foot_pedals" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_bicycle" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_rear", "basketsm_bike_rear" ] }
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_rear", "basketsm_bike_rear" ]
+      }
     ]
   },
   {
@@ -29,7 +33,11 @@
     "parts": [
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "saddle_pedal", "horn_bicycle", "foot_pedals" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_bicycle", "headlight" ] },
-      { "x": -1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_rear", "basketsm_bike_rear" ] },
+      {
+        "x": -1,
+        "y": 0,
+        "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_rear", "basketsm_bike_rear" ]
+      },
       { "x": 0, "y": 0, "parts": [ "controls", "controls_electronic", "alternator_bicycle" ] },
       { "x": -1, "y": 0, "parts": [ "small_storage_battery", "engine_electric_tiny" ] }
     ]
@@ -230,7 +238,11 @@
       { "x": 0, "y": 0, "parts": [ "xlframe_vertical_2", "saddle_motor", "horn_bicycle", "foot_pedals" ] },
       { "x": 1, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light_steerable", "wheel_bicycle" ] },
       { "x": -1, "y": 0, "parts": [ "xlframe_vertical_2", "saddle_pedal" ] },
-      { "x": -2, "y": 0, "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_rear", "basketsm_bike_rear" ] }
+      {
+        "x": -2,
+        "y": 0,
+        "parts": [ "xlframe_vertical", "wheel_mount_light", "wheel_bicycle_rear", "basketsm_bike_rear" ]
+      }
     ]
   },
   {
