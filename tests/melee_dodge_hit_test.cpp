@@ -32,17 +32,6 @@ static float hit_base_with_dex( avatar &dummy, int dexterity )
     return dummy.get_hit_base();
 }
 
-// Return the avatar's `melee_hit_accuracy` while wearing a single item of clothing.
-static float melee_accuracy_wearing_item( avatar &dummy, item &clothing )
-{
-    // Get nekkid and wear just this one item
-    std::list<item> temp;
-    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
-    dummy.wear_item( clothing );
-
-    return dummy.get_melee_accuracy();
-}
-
 // Return the avatar's `get_dodge_base` with the given DEX stat and dodge skill.
 static float dodge_base_with_dex_and_skill( avatar &dummy, int dexterity, int dodge_skill )
 {
@@ -102,31 +91,6 @@ TEST_CASE( "Character::get_hit_base", "[character][melee][hit][dex]" )
         CHECK( hit_base_with_dex( dummy, 12 ) == 3.0f );
     }
 }
-
-TEST_CASE( "Character::get_melee_accuracy", "[character][melee][hit][encumbrance]" )
-{
-    clear_map();
-
-    avatar &dummy = get_avatar();
-    clear_character( dummy );
-
-
-    item chainmail_vest( "chainmail_vest" );
-    item sleeping_bag( "sleeping_bag" );
-    REQUIRE( chainmail_vest.get_encumber( dummy, bodypart_id( "torso" ) ) == 20 );
-    REQUIRE( sleeping_bag.get_encumber( dummy, bodypart_id( "torso" ) ) == 80 );
-
-    SECTION( "with no encumbrance accuracy is same as base." ) {
-        // With no extra modifiers, the value of get_melee_accuracy is same as get_hit_base
-        REQUIRE( dummy.get_melee_accuracy() == 2.0f );
-    }
-    SECTION( "torso encumbrance lowers accuracy by 1% per point" ) {
-        CHECK( melee_accuracy_wearing_item( dummy, chainmail_vest ) == 1.6f );
-        CHECK( melee_accuracy_wearing_item( dummy, sleeping_bag ) == 0.5f );
-    }
-
-}
-
 
 TEST_CASE( "monster::get_dodge_base", "[monster][melee][dodge]" )
 {
@@ -320,23 +284,6 @@ TEST_CASE( "player::get_dodge with effects", "[player][melee][dodge][effect]" )
             CHECK( dodge_wearing_item( dummy, blades ) == base_dodge / 2 );
             CHECK( dodge_wearing_item( dummy, heelys ) == base_dodge / 2 );
         }
-    }
-
-    SECTION( "encumbered " ) {
-        item chainmail_vest( "chainmail_vest" );
-        item chainmail_legs( "chainmail_legs" );
-
-        REQUIRE( chainmail_vest.get_encumber( dummy, bodypart_id( "torso" ) ) == 20 );
-        REQUIRE( chainmail_legs.get_encumber( dummy, bodypart_id( "leg_l" ) ) == 20 );
-        REQUIRE( chainmail_legs.get_encumber( dummy, bodypart_id( "leg_r" ) ) == 20 );
-
-        SECTION( "Wearing chainmail vest (on the torso)" ) {
-            CHECK( dodge_wearing_item( dummy, chainmail_vest ) ==  base_dodge - 2 );
-        }
-        SECTION( "Wearing chainmal leggings (on the legs)" ) {
-            CHECK( dodge_wearing_item( dummy, chainmail_legs ) == base_dodge - 2 );
-        }
-
     }
 }
 

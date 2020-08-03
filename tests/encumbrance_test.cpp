@@ -71,14 +71,15 @@ static void test_encumbrance(
 }
 
 // Make avatar take off everything and put on a single piece of clothing
-static void wear_single_item( avatar &dummy, item &clothing )
+static void wear_single_item( avatar &dummy, const item &clothing )
 {
     std::list<item> temp;
     while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
     dummy.wear_item( clothing );
 
-    dummy.reset_stats(); // becaue dodging from encumbrance is cached and is only updates here.
-    return;
+    // becaue dodging from encumbrance is cached and is only updates here.
+    dummy.reset_bonuses();
+    dummy.reset_stats();
 }
 
 struct add_trait {
@@ -160,6 +161,8 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
     item mittens( "mittens" );
     REQUIRE( mittens.get_encumber( dummy, bodypart_id( "hand_l" ) ) == 80 );
     REQUIRE( mittens.get_encumber( dummy, bodypart_id( "hand_r" ) ) == 80 );
+    item sleeping_bag( "sleeping_bag" );
+    REQUIRE( sleeping_bag.get_encumber( dummy, bodypart_id( "torso" ) ) == 80 );
 
 
     SECTION( "throwing attack move cost increases" ) {
@@ -167,28 +170,68 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
         REQUIRE( dummy.wield( thrown ) );
         const int unencumbered_throw_cost = throw_cost( dummy, thrown );
 
-        wear_single_item( dummy, chainmail_legs );
-        CHECK( throw_cost( dummy, thrown ) == unencumbered_throw_cost );
-        wear_single_item( dummy, chainmail_arms );
-        CHECK( throw_cost( dummy, thrown ) == unencumbered_throw_cost );
-        wear_single_item( dummy, chainmail_vest );
-        CHECK( throw_cost( dummy, thrown ) == unencumbered_throw_cost + 20 );
-        wear_single_item( dummy, mittens );
-        CHECK( throw_cost( dummy, thrown ) == unencumbered_throw_cost + 80 );
+        std::pair<item, int>tests[] = {
+            std::make_pair( chainmail_vest, 20 ),
+            std::make_pair( mittens, 80 ),
+            std::make_pair( chainmail_arms, 0 ),
+            std::make_pair( chainmail_legs, 0 )
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+            CHECK( throw_cost( dummy, thrown ) == unencumbered_throw_cost + test.second );
+        }
     }
 
     SECTION( "melee attack move cost increases" ) {
-        item melee( "quarterstaff" );
+        item melee( "q_staff" );
         REQUIRE( dummy.wield( melee ) );
         const int unencumbered_melee_cost = dummy.attack_speed( melee );
 
-        wear_single_item( dummy, chainmail_legs );
-        CHECK( dummy.attack_speed( melee ) == unencumbered_melee_cost );
-        wear_single_item( dummy, chainmail_arms );
-        CHECK( dummy.attack_speed( melee ) == unencumbered_melee_cost );
-        wear_single_item( dummy, chainmail_vest );
-        CHECK( dummy.attack_speed( melee ) == unencumbered_melee_cost + 20 );
-        wear_single_item( dummy, mittens );
-        CHECK( dummy.attack_speed( melee ) == unencumbered_melee_cost + 80 );
+        std::pair<item, int>tests[] = {
+            std::make_pair( chainmail_vest, 20 ),
+            std::make_pair( mittens, 80 ),
+            std::make_pair( chainmail_arms, 0 ),
+            std::make_pair( chainmail_legs, 0 )
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+            CHECK( dummy.attack_speed( melee ) == unencumbered_melee_cost + test.second );
+        }
     }
+
+
+    SECTION( "dodging is harder " ) {
+        const float unencumbered_dodge = dummy.get_dodge();
+
+        std::pair<item, int>tests[] = {
+            std::make_pair( chainmail_legs, -2 ),
+            std::make_pair( chainmail_vest, -2 ),
+            std::make_pair( chainmail_arms, 0 ),
+            std::make_pair( mittens, 0 ),
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+            CHECK( dummy.get_dodge() == unencumbered_dodge + test.second );
+        }
+    }
+
+    SECTION( "hitting in melee is harder - 1% per torso encumbrance " ) {
+        // Unencumbered accuracy.
+        // Using absolute values here instead of modifiers, because math on floats is imprecise and == test fails
+        REQUIRE( dummy.get_melee_accuracy() == 2.0f );
+        std::pair<item, float>tests[] = {
+            std::make_pair( chainmail_vest, 1.6f ),
+            std::make_pair( sleeping_bag, 0.5f ), // 80 encumbrance gives only 75% reduction because it's hardcapped
+            std::make_pair( chainmail_arms, 2.0f ), // arms don't affect, surprisingly
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+            CHECK( dummy.get_melee_accuracy() == test.second );
+        }
+    }
+
 }
