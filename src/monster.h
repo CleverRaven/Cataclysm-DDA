@@ -478,6 +478,8 @@ class monster : public Creature
         bool death_drops = true;
         bool is_dead() const;
         bool made_footstep = false;
+        //if we are a nemesis monster from the 'hunted' trait
+        bool is_nemesis() const;
         // If we're unique
         std::string unique_name;
         bool hallucination = false;
