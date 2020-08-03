@@ -1136,7 +1136,7 @@ std::string enum_to_string<season_type>( season_type data )
 }
 } // namespace io
 
-void map_data_common_t::load( const JsonObject &jo, const std::string &src )
+void map_data_common_t::load( const JsonObject &jo, const std::string & )
 {
     if( jo.has_member( "examine_action" ) ) {
         examine = iexamine_function_from_string( jo.get_string( "examine_action" ) );
