@@ -106,7 +106,7 @@
   {
     "id": "TALK_CYBORG_ABOMINATION_BREAKDOWN",
     "type": "talk_topic",
-    "dynamic_line": "…You're one of those mocking monsters! I'm going to tear you apart!",
+    "dynamic_line": "…You're one of those mocking monsters!  I'm going to tear you apart!",
     "responses": [
       {
         "text": "Run while you still can!",
