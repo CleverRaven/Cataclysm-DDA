@@ -18,6 +18,7 @@
 #include "bionics.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "character_martial_arts.h"
 #include "colony.h"
 #include "construction.h"
 #include "coordinate_conversions.h"
@@ -3780,7 +3781,7 @@ void Character::normalize()
 {
     Creature::normalize();
 
-    martial_arts_data.reset_style();
+    martial_arts_data->reset_style();
     weapon   = item( "null", 0 );
 
     set_body();

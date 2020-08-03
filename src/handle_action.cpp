@@ -2070,7 +2070,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_PICK_STYLE:
-                player_character.martial_arts_data.pick_style( player_character );
+                player_character.martial_arts_data->pick_style( player_character );
                 break;
 
             case ACTION_RELOAD_ITEM:

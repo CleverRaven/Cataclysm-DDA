@@ -11,6 +11,7 @@
 #include "bionics.h"
 #include "character.h"
 #include "character_id.h"
+#include "character_martial_arts.h"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"
@@ -74,7 +75,7 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.consume( food );
 
     dummy.empty_skills();
-    dummy.martial_arts_data.clear_styles();
+    dummy.martial_arts_data->clear_styles();
     dummy.clear_morale();
     dummy.clear_bionics();
     dummy.activity.set_to_null();
