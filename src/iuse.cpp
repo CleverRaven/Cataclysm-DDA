@@ -2252,6 +2252,15 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
     auto radios = p->items_with( []( const item & it ) {
         return it.typeId() == itype_radio_on;
     } );
+    // If we don't wield the radio, also check on the ground
+    if( radios.empty() ) {
+        map_stack items = get_map().i_at( p->pos() );
+        for( item &it : items ) {
+            if( it.typeId() == itype_radio_on ) {
+                radios.push_back( &it );
+            }
+        }
+    }
     if( radios.empty() ) {
         add_msg( m_info, _( "Must have an active radio to check for signal direction." ) );
         return 0;
