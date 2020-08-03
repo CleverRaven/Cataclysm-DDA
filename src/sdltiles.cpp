@@ -4118,8 +4118,7 @@ HWND getWindowHandle()
 
 bool window_contains_point_relative( const catacurses::window &win, const point &p )
 {
-    const int x = catacurses::getmaxx( win );
-    const int y = catacurses::getmaxy( win );
-    const half_open_rectangle<point> win_bounds( point_zero, point( x, y ) );
+    const point bound = point( catacurses::getmaxx( win ), catacurses::getmaxy( win ) );
+    const half_open_rectangle<point> win_bounds( point_zero, bound );
     return win_bounds.contains( p );
 }
