@@ -2255,9 +2255,9 @@ int iuse::directional_antenna( player *p, item *it, bool, const tripoint & )
     // If we don't wield the radio, also check on the ground
     if( radios.empty() ) {
         map_stack items = get_map().i_at( p->pos() );
-        for( item &it : items ) {
-            if( it.typeId() == itype_radio_on ) {
-                radios.push_back( &it );
+        for( item &an_item : items ) {
+            if( an_item.typeId() == itype_radio_on ) {
+                radios.push_back( &an_item );
             }
         }
     }

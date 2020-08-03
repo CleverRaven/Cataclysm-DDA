@@ -4339,18 +4339,18 @@ void overmap::place_radios()
             tripoint_om_omt pos_omt( i, j, 0 );
             point_om_sm pos_sm = project_to<coords::sm>( pos_omt.xy() );
             // Since location have id such as "radio_tower_1_north", we must check the beginning of the id
-            if( string_starts_with( ter( pos_omt ).id().str(), "radio_tower" ) ) {
+            if( is_ot_match( "radio_tower", ter( pos_omt ), ot_match_type::prefix ) ) {
                 if( one_in( 3 ) ) {
                     radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
                 } else {
                     message = SNIPPET.expand( SNIPPET.random_from_category( "radio_archive" )->translated() );
                     radios.push_back( radio_tower( pos_sm, strength(), message ) );
                 }
-            } else if( string_starts_with( ter( pos_omt ).id().str(), "lmoe" ) ) {
+            } else if( is_ot_match( "lmoe", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is automated emergency shelter beacon %d%d."
                                             "  Supplies, amenities and shelter are stocked." ), i, j );
                 radios.push_back( radio_tower( pos_sm, strength() / 2, message ) );
-            } else if( string_starts_with( ter( pos_omt ).id().str(), "fema_entrance" ) ) {
+            } else if( is_ot_match( "fema_entrance", ter( pos_omt ), ot_match_type::prefix ) ) {
                 message = string_format( _( "This is FEMA camp %d%d."
                                             "  Supplies are limited, please bring supplemental food, water, and bedding."
                                             "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
