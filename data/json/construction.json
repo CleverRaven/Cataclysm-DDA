@@ -3487,6 +3487,7 @@
     "type": "construction",
     "id": "convert_splitrail_to_privacy_fence",
     "description": "Build Privacy Fence",
+    "//": "Convert Split Rail Fence to Privacy Fence",
     "category": "CONSTRUCT",
     "required_skills": [ [ "fabrication", 2 ] ],
     "time": "10 m",
