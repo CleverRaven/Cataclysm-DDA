@@ -329,5 +329,21 @@
       "moves": 100,
       "skills": [ "electronics", "computer" ]
     }
+  },
+  {
+    "abstract": "bot_defbot_base",
+    "type": "TOOL",
+    "name": "inactive defense robot",
+    "looks_like": "mon_riotbot",
+    "material": [ "steel", "plastic" ],
+    "weight": "140 kg",
+    "volume": "62500 ml",
+    "price": 10000,
+    "price_postapoc": 10000,
+    "to_hit": -3,
+    "bashing": 8,
+    "symbol": ";",
+    "color": "light_gray",
+    "flags": [ "LEAK_DAM", "RADIOACTIVE", "TRADER_AVOID" ]
   }
 ]
