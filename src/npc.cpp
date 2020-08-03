@@ -918,7 +918,7 @@ void npc::finish_read( item &book )
     // NPCs don't need to identify the book or learn recipes yet.
     // NPCs don't read to other NPCs yet.
     const bool display_messages = my_fac->id == faction_id( "your_followers" ) &&
-                                  get_player_character().sees( pos() );
+                                  get_player_view().sees( pos() );
     bool continuous = false; //whether to continue reading or not
 
     if( book_fun_for( book, *this ) != 0 ) {
@@ -1037,7 +1037,7 @@ void npc::do_npc_read()
         }
         item &chosen = *loc.obtain( *ch );
         if( can_read( chosen, fail_reasons ) ) {
-            if( get_player_character().sees( pos() ) ) {
+            if( get_player_view().sees( pos() ) ) {
                 add_msg( m_info, _( "%s starts reading." ), disp_name() );
             }
             start_read( chosen, pl );
@@ -1115,7 +1115,7 @@ bool npc::wear_if_wanted( const item &it, std::string &reason )
 
 void npc::stow_item( item &it )
 {
-    bool avatar_sees = get_player_character().sees( pos() );
+    bool avatar_sees = get_player_view().sees( pos() );
     if( wear_item( weapon, false ) ) {
         // Wearing the item was successful, remove weapon and post message.
         if( avatar_sees ) {
@@ -1176,7 +1176,7 @@ bool npc::wield( item &it )
 
     get_event_bus().send<event_type::character_wields_item>( getID(), weapon.typeId() );
 
-    if( get_player_character().sees( pos() ) ) {
+    if( get_player_view().sees( pos() ) ) {
         add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname() );
     }
     invalidate_range_cache();
@@ -1330,7 +1330,7 @@ void npc::mutiny()
     if( !my_fac || !is_player_ally() ) {
         return;
     }
-    const bool seen = get_player_character().sees( pos() );
+    const bool seen = get_player_view().sees( pos() );
     if( seen ) {
         add_msg( m_bad, _( "%s is tired of your incompetent leadership and abuse!" ), disp_name() );
     }
@@ -1571,8 +1571,8 @@ void npc::say( const std::string &line, const sounds::sound_t spriority ) const
     }
 
     std::string sound = string_format( _( "%1$s saying \"%2$s\"" ), name, formatted_line );
-    if( player_character.sees( *this ) && player_character.is_deaf() ) {
-        add_msg( m_warning, _( "%1$s says something but you can't hear it!" ), name );
+    if( player_character.is_deaf() ) {
+        add_msg_if_player_sees( *this, m_warning, _( "%1$s says something but you can't hear it!" ), name );
     }
     // Hallucinations don't make noise when they speak
     if( is_hallucination() ) {
@@ -2534,22 +2534,18 @@ void npc::die( Creature *nkiller )
     dead = true;
     Character::die( nkiller );
 
-    Character &player_character = get_player_character();
     if( is_hallucination() ) {
-        if( player_character.sees( *this ) ) {
-            add_msg( _( "%s disappears." ), name.c_str() );
-        }
+        add_msg_if_player_sees( *this, _( "%s disappears." ), name.c_str() );
         return;
     }
 
-    if( player_character.sees( *this ) ) {
-        add_msg( _( "%s dies!" ), name );
-    }
+    add_msg_if_player_sees( *this, _( "%s dies!" ), name );
 
     if( Character *ch = dynamic_cast<Character *>( killer ) ) {
         get_event_bus().send<event_type::character_kills_character>( ch->getID(), getID(), get_name() );
     }
 
+    Character &player_character = get_player_character();
     if( killer == &player_character && ( !guaranteed_hostile() || hit_by_player ) ) {
         bool cannibal = player_character.has_trait( trait_CANNIBAL );
         bool psycho = player_character.has_trait( trait_PSYCHOPATH );
@@ -2661,9 +2657,7 @@ void npc::add_msg_if_npc( const std::string &msg ) const
 void npc::add_msg_player_or_npc( const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
-    if( get_player_character().sees( *this ) ) {
-        add_msg( replace_with_npc_name( npc_msg ) );
-    }
+    add_msg_if_player_sees( *this, replace_with_npc_name( npc_msg ) );
 }
 
 void npc::add_msg_if_npc( const game_message_params &params, const std::string &msg ) const
@@ -2675,7 +2669,7 @@ void npc::add_msg_player_or_npc( const game_message_params &params,
                                  const std::string &/*player_msg*/,
                                  const std::string &npc_msg ) const
 {
-    if( get_player_character().sees( *this ) ) {
+    if( get_player_view().sees( *this ) ) {
         add_msg( params, replace_with_npc_name( npc_msg ) );
     }
 }
@@ -3207,7 +3201,7 @@ void npc::set_attitude( npc_attitude new_attitude )
              name, npc_attitude_id( attitude ), npc_attitude_id( new_attitude ) );
     attitude_group new_group = get_attitude_group( new_attitude );
     attitude_group old_group = get_attitude_group( attitude );
-    if( new_group != old_group && !is_fake() && get_player_character().sees( *this ) ) {
+    if( new_group != old_group && !is_fake() && get_player_view().sees( *this ) ) {
         switch( new_group ) {
             case attitude_group::hostile:
                 add_msg_if_npc( m_bad, _( "<npcname> gets angry!" ) );

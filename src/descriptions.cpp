@@ -6,6 +6,7 @@
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "color.h"
 #include "harvest.h"
 #include "input.h"
@@ -30,7 +31,7 @@ enum class description_target : int {
 static const Creature *seen_critter( const game &g, const tripoint &p )
 {
     const Creature *critter = g.critter_at( p, true );
-    if( critter != nullptr && get_player_character().sees( *critter ) ) {
+    if( critter != nullptr && get_player_view().sees( *critter ) ) {
         return critter;
     }
 
