@@ -68,6 +68,7 @@ static const activity_id ACT_AUTODRIVE( "ACT_AUTODRIVE" );
 static const activity_id ACT_TRAVELLING( "ACT_TRAVELLING" );
 
 static const mongroup_id GROUP_FOREST( "GROUP_FOREST" );
+static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 
 static const trait_id trait_DEBUG_NIGHTVISION( "DEBUG_NIGHTVISION" );
 
@@ -776,6 +777,12 @@ void draw(
                             // Don't flood the map with forest creatures.
                             continue;
                         }
+                        if( mgp->type == GROUP_NEMESIS) {
+                            // nemesis horde shows as &
+                            ter_sym = "&";
+                            ter_color = c_red;
+                            break;
+                        } 
                         if( mgp->horde ) {
                             // Hordes show as +
                             ter_sym = "+";
