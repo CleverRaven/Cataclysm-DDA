@@ -49,7 +49,7 @@
     },
     "start": {
       "effect": [
-        { "u_add_trait": "ASTHMA" },
+        { "npc_add_trait": "ASTHMA" },
         { "npc_remove_item_with": "inhaler" },
         "assign_guard",
         { "clear_npc_rule": "investigate_noises" }
@@ -465,26 +465,16 @@
     "id": "MISSION_KILL_NEMESIS",
     "type": "mission_definition",
     "name": { "str": "Kill doppelganger" },
+    "description": "A demonic creature is following your every move. You can outrun but not escape it. To be free, you must destroy it.",
     "goal": "MGOAL_KILL_MONSTER_SPEC",
     "monster_species": "NEMESIS",
     "monster_kill_goal": 1,
     "difficulty": 5,
-    "value": 200000,
+    "value": 0,
     "urgent": true,
     "start": "kill_nemesis",
     "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
-    "origins": [ "ORIGIN_GAME_START" ],
-    "dialogue": {
-      "describe": "The eater of the dead… something was ripping zombies to shreds and only leaving a few scattered limbs…",
-      "offer": "A few days ago another survivor and I were trying to avoid the cities by staying in the woods during the day and foraging for gear at night.  It worked well against the normal zed's but one night something caught onto our trail and chased us for ten minutes or so until we decided to split up and meet-up back here.  My buddy never showed up and I don't have the means to kill whatever it was.  Can you lend a hand?",
-      "accepted": "Thanks, make sure you're ready for whatever the beast is.",
-      "rejected": "Hey, I know I wouldn't volunteer for it either.",
-      "advice": "I'd carry a shotgun at least, it sounded pretty big.",
-      "inquire": "Any luck?",
-      "success": "You look a little shaken up, I can't tell you how glad I am that you killed it though.",
-      "success_lie": "Something in the shadows still seems to stare at me when I look at the woods.",
-      "failure": "I'm glad you came back alive…  I wasn't sure if I had sent you to your death."
-    }
+    "origins": [ "ORIGIN_GAME_START" ]
   },
   {
     "id": "MISSION_KILL_JABBERWOCK",
