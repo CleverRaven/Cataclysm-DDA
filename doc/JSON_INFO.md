@@ -2770,7 +2770,8 @@ The contents of use_action fields can either be a string indicating a built-in f
     "npc_class_id": "true_foodperson", // npc class id, see npcs/classes.json
     "summon_msg": "You summon a food hero!", // (optional) message when summoning the npc.
     "place_randomly": true, // if true: places npc randomly around the player, if false: let the player decide where to put it (default: false)
-    "moves": 50 // how many move points the action takes.
+    "moves": 50, // how many move points the action takes.
+    "radius": 1 // maximum radius for random npc placement.
 },
 "use_action" : {
     "type" : "delayed_transform", // Like transform, but it will only transform when the item has a certain age

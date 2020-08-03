@@ -685,7 +685,7 @@
     "time": "20 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ], [ "skewer_bone", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "skewer_bone", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -710,7 +710,7 @@
     "time": "1 h",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -2856,16 +2856,7 @@
     "time": "1 m",
     "autolearn": true,
     "components": [
-      [
-        [ "splinter", 40 ],
-        [ "2x4", 6 ],
-        [ "stick", 8 ],
-        [ "bone", 40 ],
-        [ "bone_human", 40 ],
-        [ "bone_tainted", 40 ],
-        [ "pine_bough", 20 ],
-        [ "log", 1 ]
-      ],
+      [ [ "splinter", 40 ], [ "2x4", 6 ], [ "stick", 8 ], [ "bone_any", 40, "LIST" ], [ "pine_bough", 20 ], [ "log", 1 ] ],
       [ [ "char_kiln", 1 ] ]
     ]
   },
@@ -2996,7 +2987,7 @@
       [ [ "ammonia", 1 ] ],
       [ [ "salt", 20 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
       [ [ "water", 2 ], [ "water_clean", 2 ], [ "salt_water", 2 ], [ "saline", 10 ] ],
-      [ [ "material_quicklime", 2 ], [ "meal_bone", 1 ], [ "meal_bone_tainted", 2 ] ]
+      [ [ "material_quicklime", 2 ], [ "bone_meal_any", 1, "LIST" ] ]
     ]
   },
   {
@@ -3200,17 +3191,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [
-      [
-        [ "bone", 1 ],
-        [ "bone_human", 1 ],
-        [ "stick", 1 ],
-        [ "broom", 1 ],
-        [ "pool_cue", 1 ],
-        [ "splinter", 1 ],
-        [ "2x4", 1 ]
-      ]
-    ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ], [ "stick", 1 ], [ "broom", 1 ], [ "pool_cue", 1 ], [ "splinter", 1 ], [ "2x4", 1 ] ] ]
   },
   {
     "type": "recipe",
@@ -3221,7 +3202,7 @@
     "time": "1 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -4454,7 +4435,8 @@
     "time": "1 h",
     "reversible": true,
     "autolearn": true,
-    "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "willowbark", 6 ], [ "birchbark", 6 ] ], [ [ "plant_fibre", 100 ] ] ]
+    "using": [ [ "sewing_standard", 100 ] ],
+    "components": [ [ [ "withered", 12 ], [ "straw_pile", 12 ], [ "willowbark", 6 ], [ "birchbark", 6 ] ] ]
   },
   {
     "type": "recipe",
