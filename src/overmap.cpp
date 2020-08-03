@@ -4337,8 +4337,8 @@ void overmap::place_radios()
         for( int j = 0; j < OMAPY; j++ ) {
             tripoint_om_omt pos_omt( i, j, 0 );
             point_om_sm pos_sm = project_to<coords::sm>( pos_omt.xy() );
-
-            if( ter( pos_omt ) == "radio_tower" ) {
+            // Since location have id such as "radio_tower_1_north", we must check the beginning of the id
+            if( string_starts_with( ter( pos_omt ).id().str(), "radio_tower" ) ) {
                 int choice = rng( 0, 2 );
                 switch( choice ) {
                     case 0:
@@ -4354,11 +4354,11 @@ void overmap::place_radios()
                         radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
                         break;
                 }
-            } else if( ter( pos_omt ) == "lmoe" ) {
+            } else if( string_starts_with( ter( pos_omt ).id().str(), "lmoe" ) ) {
                 message = string_format( _( "This is automated emergency shelter beacon %d%d."
                                             "  Supplies, amenities and shelter are stocked." ), i, j );
                 radios.push_back( radio_tower( pos_sm, strength() / 2, message ) );
-            } else if( ter( pos_omt ) == "fema_entrance" ) {
+            } else if( string_starts_with( ter( pos_omt ).id().str(), "fema_entrance" ) ) {
                 message = string_format( _( "This is FEMA camp %d%d."
                                             "  Supplies are limited, please bring supplemental food, water, and bedding."
                                             "  This is FEMA camp %d%d.  A designated long-term emergency shelter." ), i, j, i, j );
