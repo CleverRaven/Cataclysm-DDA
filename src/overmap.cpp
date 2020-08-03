@@ -49,6 +49,7 @@
 #include "rotatable_symbols.h"
 #include "simple_pathfinding.h"
 #include "string_formatter.h"
+#include "text_snippets.h"
 #include "translations.h"
 
 static const species_id species_ZOMBIE( "ZOMBIE" );
@@ -4339,20 +4340,11 @@ void overmap::place_radios()
             point_om_sm pos_sm = project_to<coords::sm>( pos_omt.xy() );
             // Since location have id such as "radio_tower_1_north", we must check the beginning of the id
             if( string_starts_with( ter( pos_omt ).id().str(), "radio_tower" ) ) {
-                int choice = rng( 0, 2 );
-                switch( choice ) {
-                    case 0:
-                        message = string_format( _( "This is emergency broadcast station %d%d."
-                                                    "  Please proceed quickly and calmly to your designated evacuation point." ), i, j );
-                        radios.push_back( radio_tower( pos_sm, strength(), message ) );
-                        break;
-                    case 1:
-                        radios.push_back( radio_tower( pos_sm, strength(),
-                                                       _( "Head West.  All survivors, head West.  Help is waiting." ) ) );
-                        break;
-                    case 2:
-                        radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
-                        break;
+                if( one_in( 3 ) ) {
+                    radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
+                } else {
+                    message = SNIPPET.expand( SNIPPET.random_from_category( "radio_archive" )->translated() );
+                    radios.push_back( radio_tower( pos_sm, strength(), message ) );
                 }
             } else if( string_starts_with( ter( pos_omt ).id().str(), "lmoe" ) ) {
                 message = string_format( _( "This is automated emergency shelter beacon %d%d."
