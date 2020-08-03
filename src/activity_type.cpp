@@ -40,14 +40,6 @@ static const std::unordered_map< std::string, based_on_type > based_on_type_valu
     { "neither", based_on_type::NEITHER }
 };
 
-static const std::map<std::string, float> activity_levels = {
-    { "NO_EXERCISE", NO_EXERCISE },
-    { "LIGHT_EXERCISE", LIGHT_EXERCISE },
-    { "MODERATE_EXERCISE", MODERATE_EXERCISE },
-    { "ACTIVE_EXERCISE", ACTIVE_EXERCISE },
-    { "EXTRA_EXERCISE", EXTRA_EXERCISE }
-};
-
 void activity_type::load( const JsonObject &jo )
 {
     activity_type result;

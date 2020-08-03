@@ -373,9 +373,14 @@ item_location game::inv_map_splice( const item_filter &filter, const std::string
                          title, radius, none_message );
 }
 
-item_location game_menus::inv::container_for( Character &you, const item &liquid, int radius )
+item_location game_menus::inv::container_for( Character &you, const item &liquid, int radius,
+        const item *const avoid )
 {
-    const auto filter = [ &liquid ]( const item_location & location ) {
+    const auto filter = [ &liquid, avoid ]( const item_location & location ) {
+        if( location.get_item() == avoid ) {
+            return false;
+        }
+
         if( location.where() == item_location::type::character ) {
             Character *character = g->critter_at<Character>( location.position() );
             if( character == nullptr ) {
@@ -528,13 +533,18 @@ class comestible_inventory_preset : public inventory_selector_preset
             }, _( "CONSUME TIME" ) );
 
             append_cell( [this, &player_character]( const item_location & loc ) {
+                std::string sealed;
+                if( loc.has_parent() ) {
+                    item_pocket *pocket = loc.parent_item()->contained_where( * loc.get_item() );
+                    sealed = pocket->sealed() ? _( "sealed" ) : std::string();
+                }
                 if( player_character.can_estimate_rot() ) {
                     if( loc->is_comestible() && loc->get_comestible()->spoils > 0_turns ) {
-                        return get_freshness( loc );
+                        return sealed + ( sealed.empty() ? "" : " " ) + get_freshness( loc );
                     }
                     return std::string( "---" );
                 }
-                return std::string();
+                return sealed;
             }, _( "FRESHNESS" ) );
 
             append_cell( [ this, &player_character ]( const item_location & loc ) {
@@ -1186,7 +1196,9 @@ class weapon_inventory_preset: public inventory_selector_preset
             }, _( "MOVES" ) );
 
             append_cell( [this]( const item_location & loc ) {
-                return string_format( "<color_yellow>%d</color>", loc.obtain_cost( this->p ) );
+                return string_format( "<color_yellow>%d</color>",
+                                      loc.obtain_cost( this->p ) + ( this->p.is_wielding( *loc.get_item() ) ? 0 :
+                                              ( *loc.get_item() ).on_wield_cost( this->p ) ) );
             }, _( "WIELD COST" ) );
         }
 

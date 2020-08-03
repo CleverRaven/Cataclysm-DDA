@@ -19,7 +19,6 @@ struct w_point {
     double windpower = 0;
     std::string wind_desc;
     int winddirection = 0;
-    bool acidic = false;
     time_point time;
 };
 
@@ -32,7 +31,6 @@ class weather_generator
         double base_humidity = 0;
         // Average atmospheric pressure
         double base_pressure = 0;
-        double base_acid = 0;
         //Average yearly windspeed
         double base_wind = 0;
         //How much the wind peaks above average

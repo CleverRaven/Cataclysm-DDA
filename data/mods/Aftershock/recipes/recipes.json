@@ -11,7 +11,7 @@
     "book_learn": [ [ "manual_electronics", 1 ], [ "mag_electronics", 1 ], [ "textbook_anarch", 1 ] ],
     "qualities": [ { "id": "SCREW", "level": 1 } ],
     "components": [
-      [ [ "acid", 1 ] ],
+      [ [ "chem_sulphuric_acid", 1 ] ],
       [ [ "steel_chunk", 1 ], [ "scrap", 1 ] ],
       [ [ "can_drink", 1 ], [ "can_food", 1 ], [ "canister_empty", 1 ] ]
     ]

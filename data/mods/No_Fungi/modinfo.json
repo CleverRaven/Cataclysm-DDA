@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "No_Fungi",
+    "id": "No_Fungi",
     "name": "No Fungal Monsters",
     "authors": [ "Chaosvolt" ],
     "description": "Removes fungal monsters and regions from the game.",

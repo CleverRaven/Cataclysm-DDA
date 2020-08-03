@@ -26,6 +26,7 @@
 #include "vehicle_selector.h"
 #include "visitable.h"
 #include "vpart_position.h"
+#include "sdltiles.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -919,12 +920,12 @@ static int num_parents( const item_location &loc )
     return 2 + num_parents( loc.parent_item() );
 }
 
-void inventory_column::draw( const catacurses::window &win, const point &p )
+void inventory_column::draw( const catacurses::window &win, const point &p,
+                             std::vector<std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map )
 {
     if( !visible() ) {
         return;
     }
-
     const auto available_cell_width = [ this ]( size_t index, size_t cell_index ) {
         const size_t displayed_width = cells[cell_index].current_width;
         const size_t real_width = get_entry_cell_width( index, cell_index );
@@ -933,6 +934,7 @@ void inventory_column::draw( const catacurses::window &win, const point &p )
     };
 
     // Do the actual drawing
+    rect_entry_map.clear();
     for( size_t index = page_offset, line = 0; index < entries.size() &&
          line < entries_per_page; ++index, ++line ) {
         inventory_entry &entry = entries[index];
@@ -954,10 +956,11 @@ void inventory_column::draw( const catacurses::window &win, const point &p )
 
         const bool selected = active && is_selected( entry );
 
-        entry.drawn_info.text_x_start = x1;
         const int hx_max = p.x + get_width() + contained_offset;
-        entry.drawn_info.text_x_end = hx_max;
-        entry.drawn_info.y = yy;
+        inclusive_rectangle<point> rect = inclusive_rectangle<point>( point( x1, yy ),
+                                          point( hx_max - 1, yy ) );
+        rect_entry_map.push_back( std::pair<inclusive_rectangle<point>, inventory_entry *>( rect,
+                                  &entry ) );
 
         if( selected && visible_cells() > 1 ) {
             for( int hx = x1; hx < hx_max; ++hx ) {
@@ -1418,20 +1421,11 @@ inventory_entry *inventory_selector::find_entry_by_invlet( int invlet ) const
     return nullptr;
 }
 
-inventory_entry *inventory_selector::find_entry_by_coordinate( point coordinate ) const
+inventory_entry *inventory_selector::find_entry_by_coordinate( const point coordinate ) const
 {
-    std::vector<inventory_column *> columns = get_visible_columns();
-    const auto filter_to_selected = [&]( const inventory_entry & entry ) {
-        return entry.is_selectable();
-    };
-    for( inventory_column *column : columns ) {
-        std::vector<inventory_entry *> entries = column->get_entries( filter_to_selected );
-        for( inventory_entry *entry : entries ) {
-            if( entry->drawn_info.text_x_start <= coordinate.x &&
-                coordinate.x <= entry->drawn_info.text_x_end &&
-                entry->drawn_info.y == coordinate.y ) {
-                return entry;
-            }
+    for( auto pair : rect_entry_map ) {
+        if( pair.first.contains( coordinate ) ) {
+            return pair.second;
         }
     }
     return nullptr;
@@ -1765,7 +1759,7 @@ void inventory_selector::draw_columns( const catacurses::window &w )
         }
 
         if( !is_active_column( *elem ) ) {
-            elem->draw( w, point( x, y ) );
+            elem->draw( w, point( x, y ), rect_entry_map );
         } else {
             active_x = x;
         }
@@ -1773,7 +1767,7 @@ void inventory_selector::draw_columns( const catacurses::window &w )
         x += elem->get_width() + gap;
     }
 
-    get_active_column().draw( w, point( active_x, y ) );
+    get_active_column().draw( w, point( active_x, y ), rect_entry_map );
     if( empty() ) {
         center_print( w, getmaxy( w ) / 2, c_dark_gray, _( "Your inventory is empty." ) );
     }
@@ -1887,12 +1881,14 @@ inventory_input inventory_selector::get_input()
     res.action = ctxt.handle_input();
     res.ch = ctxt.get_raw_input().get_first_input();
 
-    std::pair<point, bool> ct_pair = ctxt.get_coordinates_text( w_inv );
-    if( ct_pair.second ) {
-        point p = ct_pair.first;
-        res.entry = find_entry_by_coordinate( p );
-        if( res.entry != nullptr ) {
-            return res;
+    cata::optional<point> o_p = ctxt.get_coordinates_text( w_inv );
+    if( o_p ) {
+        point p = o_p.value();
+        if( window_contains_point_relative( w_inv, p ) ) {
+            res.entry = find_entry_by_coordinate( p );
+            if( res.entry != nullptr && res.entry->is_selectable() ) {
+                return res;
+            }
         }
     }
 

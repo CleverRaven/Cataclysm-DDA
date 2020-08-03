@@ -61,28 +61,6 @@ generic_factory<body_part_type> body_part_factory( "body part" );
 
 } // namespace
 
-bool is_legacy_bodypart_id( const std::string &id )
-{
-    static const std::vector<std::string> legacy_body_parts = {
-        "TORSO",
-        "HEAD",
-        "EYES",
-        "MOUTH",
-        "ARM_L",
-        "ARM_R",
-        "HAND_L",
-        "HAND_R",
-        "LEG_L",
-        "LEG_R",
-        "FOOT_L",
-        "FOOT_R",
-        "NUM_BP",
-    };
-
-    return std::find( legacy_body_parts.begin(), legacy_body_parts.end(),
-                      id ) != legacy_body_parts.end();
-}
-
 static body_part legacy_id_to_enum( const std::string &legacy_id )
 {
     static const std::unordered_map<std::string, body_part> body_parts = {
@@ -175,7 +153,7 @@ const bodypart_str_id &convert_bp( body_part bp )
         bodypart_str_id( "leg_r" ),
         bodypart_str_id( "foot_l" ),
         bodypart_str_id( "foot_r" ),
-        bodypart_str_id( "num_bp" ),
+        bodypart_str_id( "bp_null" ),
     };
     if( bp > num_bp || bp < bp_torso ) {
         debugmsg( "Invalid body part token %d", bp );

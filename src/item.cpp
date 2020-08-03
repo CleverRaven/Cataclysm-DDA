@@ -1395,6 +1395,9 @@ void item::set_owner( const Character &c )
         return;
     }
     owner = c.get_faction()->id;
+    for( item *e : contents.all_items_top() ) {
+        e->set_owner( c );
+    }
 }
 
 faction_id item::get_owner() const
@@ -2721,7 +2724,7 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 for( const armor_portion_data &piece : t->data ) {
                     if( piece.covers.has_value() ) {
                         for( const bodypart_str_id &covering_id : piece.covers.value() ) {
-                            if( covering_id != bodypart_str_id( "num_bp" ) ) {
+                            if( covering_id != bodypart_str_id( "bp_null" ) ) {
                                 to_display_data[covering_id] = { covering_id.obj().name_as_heading, {
                                         get_encumber( player_character, covering_id ),
                                         get_encumber( player_character, covering_id, encumber_flags::assume_full ),
@@ -4289,9 +4292,10 @@ void item::on_wear( Character &p )
             }
         } else if( has_flag( flag_TOURNIQUET ) ) {
             set_side( side::LEFT );
-            if( ( covers( bodypart_id( "leg_l" ) ) && p.has_effect( effect_bleed, bp_leg_r ) &&
+            if( ( covers( bodypart_id( "leg_l" ) ) &&
+                  p.has_effect( effect_bleed, bodypart_str_id( "leg_r" ) ) &&
                   !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bodypart_id( "arm_l" ) ) && p.has_effect( effect_bleed, bp_arm_r ) &&
+                ( covers( bodypart_id( "arm_l" ) ) && p.has_effect( effect_bleed, bodypart_str_id( "arm_r" ) ) &&
                   !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
@@ -4333,13 +4337,9 @@ void item::on_takeoff( Character &p )
     }
 }
 
-void item::on_wield( player &p, int mv )
+int item::on_wield_cost( const player &p ) const
 {
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_wielded );
-    }
-
+    int mv = 0;
     // weapons with bayonet/bipod or other generic "unhandiness"
     if( has_flag( flag_SLOW_WIELD ) && !is_gunmod() ) {
         float d = 32.0f; // arbitrary linear scaling factor
@@ -4350,7 +4350,6 @@ void item::on_wield( player &p, int mv )
         }
 
         int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
-        p.moves -= penalty;
         mv += penalty;
     }
 
@@ -4363,9 +4362,21 @@ void item::on_wield( player &p, int mv )
             penalty = std::max( 0, 150 - p.get_skill_level( melee_skill() ) * 10 );
         }
 
-        p.moves -= penalty;
         mv += penalty;
     }
+    return mv;
+}
+
+void item::on_wield( player &p, int mv )
+{
+    // TODO: artifacts currently only work with the player character
+    if( p.is_avatar() && type->artifact ) {
+        g->add_artifact_messages( type->artifact->effects_wielded );
+    }
+
+    int wield_cost = on_wield_cost( p );
+    mv += wield_cost;
+    p.moves -= wield_cost;
 
     std::string msg;
 
@@ -7012,7 +7023,7 @@ bool item::spill_contents( Character &c )
         return spill_contents( c.pos() );
     }
 
-    contents.handle_liquid_or_spill( c );
+    contents.handle_liquid_or_spill( c, /*avoid=*/this );
     on_contents_changed();
 
     return true;
@@ -9342,12 +9353,10 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     }
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
-            if( get_player_character().sees( pos ) ) {
-                if( corpse->in_species( species_ROBOT ) ) {
-                    add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
-                } else {
-                    add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
-                }
+            if( corpse->in_species( species_ROBOT ) ) {
+                add_msg_if_player_sees( pos, m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
+            } else {
+                add_msg_if_player_sees( pos, m_warning, _( "A nearby corpse rises and moves towards you!" ) );
             }
         } else {
             if( corpse->in_species( species_ROBOT ) ) {
@@ -9465,7 +9474,7 @@ bool item::process_litcig( player *carrier, const tripoint &pos )
             convert( itype_joint_roach );
             if( carrier != nullptr ) {
                 carrier->add_effect( effect_weed_high, 1_minutes ); // one last puff
-                here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), fd_weedsmoke, 2 );
+                here.add_field( pos + point( rng( -1, 1 ), rng( -1, 1 ) ), field_type_id( "fd_weedsmoke" ), 2 );
                 weed_msg( *carrier );
             }
         }
@@ -10294,11 +10303,27 @@ units::volume item::check_for_free_space( const item *it ) const
                     volume += pocket.remaining_volume();
                 }
             }
-        } else {
-            if( container->contents.contents_are_rigid() ) {
-                volume += container->volume();
-            }
         }
     }
     return volume;
+}
+
+int item::get_recursive_disassemble_moves( const Character &guy ) const
+{
+    int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy );
+    std::vector<item_comp> to_be_disassembled = get_uncraft_components();
+    while( !to_be_disassembled.empty() ) {
+        item_comp current_comp = to_be_disassembled.back();
+        to_be_disassembled.pop_back();
+        const recipe &r = recipe_dictionary::get_uncraft( current_comp.type->get_id() );
+        if( r.ident() != recipe_id::NULL_ID() ) {
+            moves += r.time_to_craft_moves( guy ) * current_comp.count;
+            std::vector<item_comp> components = item( current_comp.type->get_id() ).get_uncraft_components();
+            for( item_comp &component : components ) {
+                component.count *= current_comp.count;
+                to_be_disassembled.push_back( component );
+            }
+        }
+    }
+    return moves;
 }

@@ -25,7 +25,7 @@
 
 namespace
 {
-generic_factory<profession> all_profs( "profession", "ident" );
+generic_factory<profession> all_profs( "profession" );
 const string_id<profession> generic_profession_id( "unemployed" );
 } // namespace
 

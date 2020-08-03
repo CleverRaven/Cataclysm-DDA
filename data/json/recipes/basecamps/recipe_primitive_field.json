@@ -683,7 +683,7 @@
   {
     "type": "recipe",
     "result": "faction_base_garage_6",
-    "description": "Attaching a quarters will let our mechanics work longer hours when needed.",
+    "description": "Attaching quarters will let our mechanics work longer hours when needed.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "skill_used": "fabrication",

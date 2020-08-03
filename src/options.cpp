@@ -54,6 +54,7 @@ int message_cooldown;
 bool fov_3d;
 int fov_3d_z_range;
 bool tile_iso;
+bool keycode_mode;
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
@@ -935,39 +936,41 @@ static std::vector<options_manager::id_and_option> build_resource_list(
     return resource_names;
 }
 
-std::vector<options_manager::id_and_option> options_manager::load_tilesets_from(
-    const std::string &path )
+void options_manager::search_resource(
+    std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
+    const std::vector<std::string> &search_paths, const std::string &resource_name,
+    const std::string &resource_filename )
 {
-    // Use local map as build_resource_list will clear the first parameter
-    std::map<std::string, std::string> local_tilesets;
-    auto tileset_names = build_resource_list( local_tilesets, "tileset", path,
-                         PATH_INFO::tileset_conf() );
+    // Clear the result containers.
+    storage.clear();
+    option_list.clear();
 
-    // Copy found tilesets
-    TILESETS.insert( local_tilesets.begin(), local_tilesets.end() );
+    // Loop through each search path and add its resources.
+    for( const std::string &search_path : search_paths ) {
+        // Get the resource list from the search path.
+        std::map<std::string, std::string> resources;
+        std::vector<id_and_option> resource_names = build_resource_list( resources, resource_name,
+                search_path, resource_filename );
 
-    return tileset_names;
+        // Add any new resources from this path to the result containers.
+        // First, add to the resource mapping.
+        storage.insert( resources.begin(), resources.end() );
+        // Next, add to the option list.
+        for( const id_and_option &name : resource_names ) {
+            // Only add if not a duplicate.
+            if( std::find( option_list.begin(), option_list.end(), name ) == option_list.end() ) {
+                option_list.emplace_back( name );
+            }
+        }
+    }
 }
 
 std::vector<options_manager::id_and_option> options_manager::build_tilesets_list()
 {
-    // Clear tilesets
-    TILESETS.clear();
     std::vector<id_and_option> result;
 
-    // Load from data directory
-    std::vector<options_manager::id_and_option> data_tilesets = load_tilesets_from(
-                PATH_INFO::gfxdir() );
-    result.insert( result.end(), data_tilesets.begin(), data_tilesets.end() );
-
-    // Load from user directory
-    std::vector<options_manager::id_and_option> user_tilesets = load_tilesets_from(
-                PATH_INFO::user_gfx() );
-    for( const options_manager::id_and_option &id : user_tilesets ) {
-        if( std::find( result.begin(), result.end(), id ) == result.end() ) {
-            result.emplace_back( id );
-        }
-    }
+    search_resource( TILESETS, result, { PATH_INFO::user_gfx(), PATH_INFO::gfxdir() }, "tileset",
+                     PATH_INFO::tileset_conf() );
 
     // Default values
     if( result.empty() ) {
@@ -977,34 +980,12 @@ std::vector<options_manager::id_and_option> options_manager::build_tilesets_list
     return result;
 }
 
-std::vector<options_manager::id_and_option> options_manager::load_soundpack_from(
-    const std::string &path )
-{
-    // build_resource_list will clear &resource_option - first param
-    std::map<std::string, std::string> local_soundpacks;
-    auto soundpack_names = build_resource_list( local_soundpacks, "soundpack", path,
-                           PATH_INFO::soundpack_conf() );
-
-    // Copy over found soundpacks
-    SOUNDPACKS.insert( local_soundpacks.begin(), local_soundpacks.end() );
-
-    // Return found soundpack names for further processing
-    return soundpack_names;
-}
-
 std::vector<options_manager::id_and_option> options_manager::build_soundpacks_list()
 {
-    // Clear soundpacks before loading
-    SOUNDPACKS.clear();
     std::vector<id_and_option> result;
 
-    // Search data directory for sound packs
-    auto data_soundpacks = load_soundpack_from( PATH_INFO::data_sound() );
-    result.insert( result.end(), data_soundpacks.begin(), data_soundpacks.end() );
-
-    // Search user directory for sound packs
-    auto user_soundpacks = load_soundpack_from( PATH_INFO::user_sound() );
-    result.insert( result.end(), user_soundpacks.begin(), user_soundpacks.end() );
+    search_resource( SOUNDPACKS, result, { PATH_INFO::user_sound(), PATH_INFO::data_sound() },
+                     "soundpack", PATH_INFO::soundpack_conf() );
 
     // Select default built-in sound pack
     if( result.empty() ) {
@@ -1404,8 +1385,18 @@ void options_manager::add_options_interface()
 
     add_empty_line();
 
-    add( "FORCE_CAPITAL_YN", "interface", translate_marker( "Force Y/N in prompts" ),
-         translate_marker( "If true, Y/N prompts are case-sensitive and y and n are not accepted." ),
+    add( "SDL_KEYBOARD_MODE", "interface", translate_marker( "Use key code input mode" ),
+         translate_marker( "Use key code or symbol input on SDL.  "
+                           "Symbol is recommended for non-qwerty layouts since currently "
+                           "the default keybindings for key code mode only supports qwerty.  "
+                           "Key code is currently WIP and bypasses IMEs, caps lock, and num lock." ),
+    { { "keychar", translate_marker( "Symbol" ) }, { "keycode", translate_marker( "Key code" ) } },
+    "keychar", COPT_CURSES_HIDE );
+
+    add( "FORCE_CAPITAL_YN", "interface",
+         translate_marker( "Force capital/modified letters in prompts" ),
+         translate_marker( "If true, prompts such as Y/N queries only accepts capital or modified letters, while "
+                           "lower case and unmodified letters only snap the cursor to the corresponding option." ),
          true
        );
 
@@ -3020,10 +3011,8 @@ std::string options_manager::migrateOptionValue( const std::string &name,
     return iter_val != iter->second.second.end() ? iter_val->second : val;
 }
 
-bool options_manager::save()
+static void update_options_cache()
 {
-    const auto savefile = PATH_INFO::options();
-
     // cache to global due to heavy usage.
     trigdist = ::get_option<bool>( "CIRCLEDIST" );
     use_tiles = ::get_option<bool>( "USE_TILES" );
@@ -3032,6 +3021,14 @@ bool options_manager::save()
     message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
     fov_3d = ::get_option<bool>( "FOV_3D" );
     fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    keycode_mode = ::get_option<std::string>( "SDL_KEYBOARD_MODE" ) == "keycode";
+}
+
+bool options_manager::save()
+{
+    const auto savefile = PATH_INFO::options();
+
+    update_options_cache();
 
     update_music_volume();
 
@@ -3057,14 +3054,8 @@ void options_manager::load()
 
     update_global_locale();
 
-    // cache to global due to heavy usage.
-    trigdist = ::get_option<bool>( "CIRCLEDIST" );
-    use_tiles = ::get_option<bool>( "USE_TILES" );
-    log_from_top = ::get_option<std::string>( "LOG_FLOW" ) == "new_top";
-    message_ttl = ::get_option<int>( "MESSAGE_TTL" );
-    message_cooldown = ::get_option<int>( "MESSAGE_COOLDOWN" );
-    fov_3d = ::get_option<bool>( "FOV_3D" );
-    fov_3d_z_range = ::get_option<int>( "FOV_3D_Z_RANGE" );
+    update_options_cache();
+
 #if defined(SDL_SOUND)
     sounds::sound_enabled = ::get_option<bool>( "SOUND_ENABLED" );
 #endif

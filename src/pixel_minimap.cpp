@@ -512,7 +512,7 @@ void pixel_minimap::render_critters( const tripoint &center )
 
             Creature *critter = g->critter_at( p, true );
 
-            if( critter == nullptr || !get_player_character().sees( *critter ) ) {
+            if( critter == nullptr || !get_player_view().sees( *critter ) ) {
                 continue;
             }
 

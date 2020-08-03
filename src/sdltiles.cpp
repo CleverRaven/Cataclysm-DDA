@@ -1,7 +1,8 @@
-#if defined(TILES)
-
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
+#include "cuboid_rectangle.h"
+
+#if defined(TILES)
 
 #include <algorithm>
 #include <array>
@@ -3654,7 +3655,7 @@ void input_manager::set_timeout( const int t )
 input_event input_manager::get_input_event( const keyboard_mode preferred_keyboard_mode )
 {
 #if !defined( __ANDROID__ )
-    if( preferred_keyboard_mode == keyboard_mode::keychar ) {
+    if( preferred_keyboard_mode == keyboard_mode::keychar || !is_keycode_mode_supported() ) {
         SDL_StartTextInput();
     } else {
         SDL_StopTextInput();
@@ -4114,3 +4115,11 @@ HWND getWindowHandle()
 #endif
 
 #endif // TILES
+
+bool window_contains_point_relative( const catacurses::window &win, const point &p )
+{
+    const int x = catacurses::getmaxx( win );
+    const int y = catacurses::getmaxy( win );
+    const half_open_rectangle<point> win_bounds( point_zero, point( x, y ) );
+    return win_bounds.contains( p );
+}

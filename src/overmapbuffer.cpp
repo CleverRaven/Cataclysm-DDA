@@ -740,8 +740,7 @@ std::vector<tripoint_abs_omt> overmapbuffer::get_npc_path(
                                  !is_ot_match( "road_nesw_manhole", oter, ot_match_type::type ) ) ) {
             return pf::rejected;
         }
-        if( ptype.only_water && ( !is_river_or_lake( oter ) ||
-                                  is_ot_match( "bridge", oter, ot_match_type::type ) ) ) {
+        if( ptype.only_water && !is_river_or_lake( oter ) ) {
             return pf::rejected;
         }
         if( ptype.only_air && ( !is_ot_match( "open_air", oter, ot_match_type::type ) ) ) {

@@ -130,6 +130,11 @@ int talker_character::get_skill_level( const skill_id &skill ) const
     return me_chr->get_skill_level( skill );
 }
 
+bool talker_character::knows_proficiency( const proficiency_id &proficiency ) const
+{
+    return me_chr->has_proficiency( proficiency );
+}
+
 bool talker_character::has_effect( const efftype_id &effect_id ) const
 {
     return me_chr->has_effect( effect_id );
@@ -138,12 +143,12 @@ bool talker_character::has_effect( const efftype_id &effect_id ) const
 void talker_character::add_effect( const efftype_id &new_effect, const time_duration &dur,
                                    bool permanent )
 {
-    me_chr->add_effect( new_effect, dur, num_bp, permanent );
+    me_chr->add_effect( new_effect, dur, permanent );
 }
 
 void talker_character::remove_effect( const efftype_id &old_effect )
 {
-    me_chr->remove_effect( old_effect, num_bp );
+    me_chr->remove_effect( old_effect );
 }
 
 std::string talker_character:: get_value( const std::string &var_name ) const

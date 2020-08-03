@@ -332,9 +332,9 @@ void iexamine::nanofab( player &p, const tripoint &examp )
 
 }
 
-/**
- * Use "gas pump."  Will pump any liquids on tile.
- */
+
+/// @brief Use "gas pump."
+/// @details Will pump any liquids on tile.
 void iexamine::gaspump( player &p, const tripoint &examp )
 {
     map &here = get_map();
@@ -346,12 +346,12 @@ void iexamine::gaspump( player &p, const tripoint &examp )
     map_stack items = here.i_at( examp );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of( phase_id::LIQUID ) ) {
-            ///\EFFECT_DEX decreases chance of spilling gas from a pump
+            /// @note \EFFECT_DEX decreases chance of spilling gas from a pump
             if( one_in( 10 + p.get_dex() ) ) {
                 add_msg( m_bad, _( "You accidentally spill the %s." ), item_it->type_name() );
                 static const auto max_spill_volume = units::from_liter( 1 );
                 const int max_spill_charges = std::max( 1, item_it->charges_per_volume( max_spill_volume ) );
-                ///\EFFECT_DEX decreases amount of gas spilled from a pump
+                /// @note \EFFECT_DEX decreases amount of gas spilled, if gas is spilled from pump
                 const int qty = rng( 1, max_spill_charges * 8.0 / std::max( 1, p.get_dex() ) );
 
                 item spill = item_it->split( qty );
@@ -373,7 +373,7 @@ void iexamine::gaspump( player &p, const tripoint &examp )
 
 void iexamine::translocator( player &, const tripoint &examp )
 {
-    // TODO: fix point types
+    /// @todo fix point types
     const tripoint_abs_omt omt_loc( ms_to_omt_copy( get_map().getabs( examp ) ) );
     avatar &player_character = get_avatar();
     const bool activated = player_character.translocators.knows_translocator( omt_loc );
@@ -4871,7 +4871,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             int broken_limbs_count = 0;
             for( const bodypart_id &part : patient.get_all_body_parts( true ) ) {
                 const bool broken = patient.is_limb_broken( part );
-                effect &existing_effect = patient.get_effect( effect_mending, part->token );
+                effect &existing_effect = patient.get_effect( effect_mending, part );
                 // Skip part if not broken or already healed 50%
                 if( !broken || ( !existing_effect.is_null() &&
                                  existing_effect.get_duration() >
@@ -4895,8 +4895,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                     cata::optional<std::list<item>::iterator> worn_item =
                         patient.wear( equipped_splint, false );
                 }
-                patient.add_effect( effect_mending, 0_turns, part->token, true );
-                effect &mending_effect = patient.get_effect( effect_mending, part->token );
+                patient.add_effect( effect_mending, 0_turns, part, true );
+                effect &mending_effect = patient.get_effect( effect_mending, part );
                 mending_effect.set_duration( mending_effect.get_max_duration() - 5_days );
             }
             if( broken_limbs_count == 0 ) {
@@ -4941,16 +4941,16 @@ void iexamine::autodoc( player &p, const tripoint &examp )
             }
 
             for( const bodypart_id &bp_healed : patient.get_all_body_parts( true ) ) {
-                if( patient.has_effect( effect_bleed, bp_healed->token ) ) {
-                    patient.remove_effect( effect_bleed, bp_healed->token );
+                if( patient.has_effect( effect_bleed, bp_healed.id() ) ) {
+                    patient.remove_effect( effect_bleed, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
                                                    _( "The autodoc detected a bleeding on your %s and applied a hemostatic drug to stop it." ),
                                                    _( "The autodoc detected a bleeding on <npcname>'s %s and applied a hemostatic drug to stop it." ),
                                                    body_part_name( bp_healed ) );
                 }
 
-                if( patient.has_effect( effect_bite, bp_healed->token ) ) {
-                    patient.remove_effect( effect_bite, bp_healed->token );
+                if( patient.has_effect( effect_bite, bp_healed.id() ) ) {
+                    patient.remove_effect( effect_bite, bp_healed );
                     patient.add_msg_player_or_npc( m_good,
                                                    _( "The autodoc detected an open wound on your %s and applied a disinfectant to clean it." ),
                                                    _( "The autodoc detected an open wound on <npcname>'s %s and applied a disinfectant to clean it." ),
@@ -4958,8 +4958,8 @@ void iexamine::autodoc( player &p, const tripoint &examp )
 
                     // Fixed disinfectant intensity of 4 disinfectant_power + 10 first aid skill level of autodoc.
                     const int disinfectant_intensity = 14;
-                    patient.add_effect( effect_disinfected, 1_turns, bp_healed->token );
-                    effect &e = patient.get_effect( effect_disinfected, bp_healed->token );
+                    patient.add_effect( effect_disinfected, 1_turns, bp_healed );
+                    effect &e = patient.get_effect( effect_disinfected, bp_healed );
                     e.set_duration( e.get_int_dur_factor() * disinfectant_intensity );
                     patient.set_part_damage_disinfected( bp_healed,
                                                          patient.get_part_hp_max( bp_healed ) - patient.get_part_hp_cur( bp_healed ) );

@@ -14,7 +14,6 @@
       { "monster": "mon_zankylosaurus", "freq": 5, "cost_multiplier": 40, "starts": 72 },
       { "monster": "mon_ziplodocus", "freq": 10, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zapatosaurus", "freq": 5, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 60, "starts": 72 },
       { "monster": "mon_zallosaurus", "freq": 8, "cost_multiplier": 60, "starts": 72 },
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zutahraptor", "freq": 5, "cost_multiplier": 60, "starts": 72 },
@@ -23,7 +22,8 @@
       { "monster": "mon_zorythosaurus", "freq": 20, "cost_multiplier": 20, "starts": 72, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zedmontosaurus", "freq": 100, "cost_multiplier": 20, "starts": 72, "pack_size": [ 4, 6 ] },
       { "monster": "mon_zimorphodon", "freq": 50, "cost_multiplier": 10, "starts": 72, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_zilophosaurus", "freq": 1, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_zilophosaurus", "freq": 1, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 60, "starts": 72 }
     ]
   },
   {
@@ -56,11 +56,12 @@
   },
   {
     "type": "monstergroup",
-    "name": "GROUP_zeratosaurus_UPGRADE",
-    "default": "mon_seratosaurus",
+    "name": "GROUP_zankylosaurus_UPGRADE",
+    "default": "mon_sankylosaurus",
     "monsters": [
-      { "monster": "mon_seratosaurus", "freq": 45, "cost_multiplier": 5 },
-      { "monster": "mon_zeratosaurus_brute", "freq": 23, "cost_multiplier": 5 }
+      { "monster": "mon_sankylosaurus", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_zankylosaurus_shady", "freq": 15, "cost_multiplier": 5 },
+      { "monster": "mon_zankylosaurus_brute", "freq": 23, "cost_multiplier": 5 }
     ]
   },
   {
@@ -92,11 +93,29 @@
   },
   {
     "type": "monstergroup",
+    "name": "GROUP_zeratosaurus_UPGRADE",
+    "default": "mon_seratosaurus",
+    "monsters": [
+      { "monster": "mon_seratosaurus", "freq": 45, "cost_multiplier": 5 },
+      { "monster": "mon_zeratosaurus_brute", "freq": 23, "cost_multiplier": 5 }
+    ]
+  },
+  {
+    "type": "monstergroup",
     "name": "GROUP_zyrannosaurus_BRUTE",
     "default": "mon_zyrannosaurus_hulk",
     "monsters": [
       { "monster": "mon_zyrannosaurus_hulk", "freq": 100, "cost_multiplier": 10 },
       { "monster": "mon_zyrannosaurus_truck", "freq": 70, "cost_multiplier": 10 }
+    ]
+  },
+  {
+    "type": "monstergroup",
+    "name": "GROUP_zankylosaurus_BRUTE",
+    "default": "mon_zankylosaurus_hulk",
+    "monsters": [
+      { "monster": "mon_zankylosaurus_hulk", "freq": 100, "cost_multiplier": 10 },
+      { "monster": "mon_zankylosaurus_tank", "freq": 70, "cost_multiplier": 10 }
     ]
   },
   {
@@ -114,7 +133,6 @@
       { "monster": "mon_zankylosaurus", "freq": 5, "cost_multiplier": 40, "starts": 72 },
       { "monster": "mon_ziplodocus", "freq": 1, "cost_multiplier": 40, "starts": 72, "pack_size": [ 1, 2 ] },
       { "monster": "mon_zapatosaurus", "freq": 1, "cost_multiplier": 50, "starts": 72, "pack_size": [ 1, 2 ] },
-      { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 60, "starts": 72 },
       { "monster": "mon_zallosaurus", "freq": 8, "cost_multiplier": 60, "starts": 72 },
       { "monster": "mon_zeinonychus", "freq": 3, "cost_multiplier": 30, "starts": 72, "pack_size": [ 2, 3 ] },
       { "monster": "mon_zutahraptor", "freq": 5, "cost_multiplier": 60, "starts": 72 },
@@ -123,7 +141,8 @@
       { "monster": "mon_zorythosaurus", "freq": 2, "cost_multiplier": 20, "starts": 72, "pack_size": [ 2, 4 ] },
       { "monster": "mon_zedmontosaurus", "freq": 10, "cost_multiplier": 20, "starts": 72, "pack_size": [ 4, 6 ] },
       { "monster": "mon_zimorphodon", "freq": 5, "cost_multiplier": 10, "starts": 72, "pack_size": [ 2, 4 ] },
-      { "monster": "mon_zilophosaurus", "freq": 1, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] }
+      { "monster": "mon_zilophosaurus", "freq": 1, "cost_multiplier": 20, "starts": 72, "pack_size": [ 1, 2 ] },
+      { "monster": "mon_zeratosaurus", "freq": 1, "cost_multiplier": 60, "starts": 72 }
     ]
   }
 ]

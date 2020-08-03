@@ -1,7 +1,7 @@
 [
   {
     "type": "material",
-    "ident": "titanium",
+    "id": "titanium",
     "name": "Titanium",
     "density": 10,
     "bash_resist": 4,
@@ -18,7 +18,7 @@
   },
   {
     "type": "material",
-    "ident": "graphene_weave",
+    "id": "graphene_weave",
     "name": "Graphene Weave",
     "density": 10,
     "specific_heat_liquid": 0.82,

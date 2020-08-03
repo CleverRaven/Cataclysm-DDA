@@ -260,6 +260,7 @@ class avatar : public player
                 activity_levels.emplace( NO_EXERCISE, 0 );
                 activity_levels.emplace( LIGHT_EXERCISE, 0 );
                 activity_levels.emplace( MODERATE_EXERCISE, 0 );
+                activity_levels.emplace( BRISK_EXERCISE, 0 );
                 activity_levels.emplace( ACTIVE_EXERCISE, 0 );
                 activity_levels.emplace( EXTRA_EXERCISE, 0 );
             }
