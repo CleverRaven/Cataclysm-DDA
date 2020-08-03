@@ -1732,11 +1732,11 @@ void Character::expose_to_disease( const diseasetype_id &dis_type )
     if( healt_thresh && healt_thresh.value() < get_healthy() ) {
         return;
     }
-    const std::set<body_part> &bps = dis_type->affected_bodyparts;
+    const std::set<bodypart_str_id> &bps = dis_type->affected_bodyparts;
     if( !bps.empty() ) {
-        for( const body_part &bp : bps ) {
-            add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ),
-                        convert_bp( bp ).id(), false,
+        for( const bodypart_str_id &bp : bps ) {
+            add_effect( dis_type->symptoms, rng( dis_type->min_duration, dis_type->max_duration ), bp.id(),
+                        false,
                         rng( dis_type->min_intensity, dis_type->max_intensity ) );
         }
     } else {
