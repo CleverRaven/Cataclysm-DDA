@@ -1,17 +1,5 @@
 [
   {
-    "type": "furniture",
-    "id": "f_autodoc",
-    "name": "Autodoc Mk. XI",
-    "symbol": "&",
-    "color": "light_cyan",
-    "copy-from": "f_autodoc",
-    "flags": [ "TRANSPARENT", "AUTODOC" ],
-    "examine_action": "autodoc",
-    "//": "Easy installation",
-    "surgery_skill_multiplier": 999999
-  },
-  {
     "id": "anesthetic",
     "type": "requirement",
     "//": "Anesthetic cost removed in this mod, as autodocs do all the heavy lifting.",
