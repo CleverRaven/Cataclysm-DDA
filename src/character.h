@@ -28,7 +28,6 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
-#include "inventory.h"
 #include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
@@ -54,6 +53,7 @@ class JsonOut;
 class known_magic;
 class monster;
 class nc_color;
+class npc;
 class player;
 class player_morale;
 class proficiency_set;
@@ -1741,7 +1741,7 @@ class Character : public Creature, public visitable<Character>
         player_activity activity;
         std::list<player_activity> backlog;
         cata::optional<tripoint> destination_point;
-        inventory inv;
+        pimpl<inventory> inv;
         itype_id last_item;
         item weapon;
 
@@ -2605,7 +2605,7 @@ class Character : public Creature, public visitable<Character>
 
         int cached_moves;
         tripoint cached_position;
-        inventory cached_crafting_inventory;
+        pimpl<inventory> cached_crafting_inventory;
 
     protected:
         /** Subset of learned recipes. Needs to be mutable for lazy initialization. */

@@ -1429,7 +1429,7 @@ void advanced_inventory::action_examine( advanced_inv_listitem *sitem,
         }
         // Might have changed a stack (activated an item, repaired an item, etc.)
         if( spane.get_area() == AIM_INVENTORY ) {
-            player_character.inv.restack( player_character );
+            player_character.inv->restack( player_character );
         }
         recalc = true;
     } else {
@@ -1457,7 +1457,7 @@ void advanced_inventory::display()
     init();
 
     avatar &player_character = get_avatar();
-    player_character.inv.restack( player_character );
+    player_character.inv->restack( player_character );
 
     input_context ctxt{ register_ctxt() };
 

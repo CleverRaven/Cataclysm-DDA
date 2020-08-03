@@ -627,7 +627,7 @@ void character_edit_menu()
                 it.on_takeoff( p );
             }
             p.worn.clear();
-            p.inv.clear();
+            p.inv->clear();
             p.remove_weapon();
             break;
         case D_ITEM_WORN: {

@@ -1899,8 +1899,8 @@ bool player::consume( item_location loc, bool force )
         if( Pickup::handle_spillable_contents( *this, target, get_map() ) ) {
             i_rem( &target );
         }
-        inv.restack( *this );
-        inv.unsort();
+        inv->restack( *this );
+        inv->unsort();
     }
 
     return true;

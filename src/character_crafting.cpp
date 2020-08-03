@@ -104,7 +104,7 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
     if( helpers != nullptr ) {
         for( npc *np : *helpers ) {
             // Directly form the helper's inventory
-            res.include( get_recipes_from_books( np->inv ) );
+            res.include( get_recipes_from_books( *np->inv ) );
             // Being told what to do
             res.include_if( np->get_learned_recipes(), [ this ]( const recipe & r ) {
                 return get_skill_level( r.skill_used ) >= static_cast<int>( r.difficulty *

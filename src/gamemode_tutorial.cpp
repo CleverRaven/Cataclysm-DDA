@@ -148,7 +148,7 @@ bool tutorial_game::init()
     player_character.toggle_trait( trait_QUICK );
     item lighter( "lighter", 0 );
     lighter.invlet = 'e';
-    player_character.inv.add_item( lighter, true, false );
+    player_character.inv->add_item( lighter, true, false );
     player_character.set_skill_level( skill_gun, 5 );
     player_character.set_skill_level( skill_melee, 5 );
     g->load_map( project_to<coords::sm>( lp_abs ) );
