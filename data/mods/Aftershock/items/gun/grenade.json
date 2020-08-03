@@ -15,7 +15,7 @@
     "ammo_type": "40x46mm",
     "casing": "40x46mm_m118_casing",
     "range": 40,
-    "damage": 5,
+    "bashing": 5,
     "dispersion": 30,
     "recoil": 225,
     "drop": "40mmEMP_act",
