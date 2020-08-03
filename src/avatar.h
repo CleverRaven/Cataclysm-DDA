@@ -10,7 +10,6 @@
 #include "calendar.h"
 #include "character.h"
 #include "enums.h"
-#include "item.h"
 #include "magic_teleporter_list.h"
 #include "map_memory.h"
 #include "memory_fast.h"
@@ -22,7 +21,7 @@ class faction;
 class advanced_inv_listitem;
 class advanced_inv_area;
 class advanced_inventory_pane;
-
+class item;
 class JsonIn;
 class JsonObject;
 class JsonOut;
