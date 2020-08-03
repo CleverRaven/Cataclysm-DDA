@@ -297,5 +297,27 @@
     "flags": [ "VERBAL", "SOMATIC", "NO_LEGS", "CONCENTRATE" ],
     "effect": "target_attack",
     "effect_str": "foxs_cunning"
+  },
+  {
+    "id": "magus_summon_impact_sling",
+    "type": "SPELL",
+    "name": { "str": "Impact Sling" },
+    "description": "This spell infuses a sling with tremendous force, delivering devasting pebble shots until the energy tears it apart.",
+    "effect": "spawn_item",
+    "effect_str": "impactsling",
+    "valid_targets": [ "self" ],
+    "flags": [ "SOMATIC", "CONCENTRATE", "VERBAL" ],
+    "components": "spell_components_impactsling",
+    "max_level": 15,
+    "min_damage": 1,
+    "max_damage": 1,
+    "min_duration": 18000,
+    "max_duration": 60000,
+    "duration_increment": 3000,
+    "spell_class": "MAGUS",
+    "base_casting_time": 400,
+    "base_energy_cost": 350,
+    "energy_source": "MANA",
+    "difficulty": 4
   }
 ]

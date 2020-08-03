@@ -183,7 +183,8 @@
       [ "bicycle_dirt", 150 ],
       [ "bicycle_electric", 100 ],
       [ "tricycle", 5 ],
-      [ "4x4_car", 200 ]
+      [ "4x4_car", 200 ],
+      [ "wheelbarrow", 100 ]
     ]
   },
   {
@@ -194,7 +195,8 @@
       [ "pickup", 300 ],
       [ "bicycle_dirt", 100 ],
       [ "motorcycle_cross", 75 ],
-      [ "motorcycle_enduro", 150 ]
+      [ "motorcycle_enduro", 150 ],
+      [ "wheelbarrow", 100 ]
     ]
   },
   {
@@ -289,7 +291,8 @@
       [ "tractor_reaper", 1000 ],
       [ "oldtractor", 100 ],
       [ "autotractor", 1000 ],
-      [ "excavator", 500 ]
+      [ "excavator", 500 ],
+      [ "wheelbarrow", 100 ]
     ]
   },
   {

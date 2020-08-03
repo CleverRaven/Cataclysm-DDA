@@ -12,12 +12,12 @@
 #include "dialogue_win.h"
 #include "json.h"
 #include "npc.h"
-#include "player.h"
 #include "translations.h"
 #include "type_id.h"
 
 class martialart;
 class mission;
+class talker;
 struct dialogue;
 
 enum talk_trial_type : unsigned char {
@@ -124,6 +124,7 @@ struct talk_effect_fun_t {
         void set_u_buy_monster( const std::string &monster_type_id, int cost, int count, bool pacified,
                                 const translation &name );
         void set_u_learn_recipe( const std::string &learned_recipe_id );
+        void set_npc_first_topic( const std::string &chat_topic );
 
         void operator()( const dialogue &d ) const {
             if( !function ) {
@@ -203,9 +204,10 @@ struct talk_response {
      * The following values are forwarded to the chatbin of the NPC (see @ref npc_chatbin).
      */
     mission *mission_selected = nullptr;
-    skill_id skill = skill_id::NULL_ID();
-    matype_id style = matype_id::NULL_ID();
+    skill_id skill = skill_id();
+    matype_id style = matype_id();
     spell_id dialogue_spell = spell_id();
+    proficiency_id proficiency = proficiency_id();
 
     talk_effect_t success;
     talk_effect_t failure;
@@ -219,15 +221,13 @@ struct talk_response {
 
 struct dialogue {
         /**
-         * The player character that speaks (always g->u).
-         * TODO: make it a reference, not a pointer.
+         * The talker that speaks (almost certainly representing the avatar, ie get_avatar() )
          */
-        player *alpha = nullptr;
+        std::unique_ptr<talker> alpha;
         /**
-         * The NPC we talk to. Never null.
-         * TODO: make it a reference, not a pointer.
+         * The talker responded to alpha, usually a talker_npc.
          */
-        npc *beta = nullptr;
+        std::unique_ptr<talker> beta;
         /**
          * If true, we are done talking and the dialog ends.
          */
@@ -240,6 +240,9 @@ struct dialogue {
         talk_topic opt( dialogue_window &d_win, const std::string &npc_name, const talk_topic &topic );
 
         dialogue() = default;
+        talker *actor( const bool is_beta ) const {
+            return ( is_beta ? beta : alpha ).get();
+        }
 
         mutable itype_id cur_item;
         mutable std::string reason;
@@ -298,6 +301,13 @@ struct dialogue {
          * talked about skill to the given one.
          */
         talk_response &add_response( const std::string &text, const std::string &r, const skill_id &skill,
+                                     bool first = false );
+        /**
+         * Add a simple response that switches the topic to the new one and sets the currently
+         * talked about proficiency to the given one.
+         */
+        talk_response &add_response( const std::string &text, const std::string &r,
+                                     const proficiency_id &proficiency,
                                      bool first = false );
         /**
         * Add a simple response that switches the topic to the new one and sets the currently

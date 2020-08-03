@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <chrono>
 #include <cstdio>
@@ -6,7 +8,8 @@
 #include <memory>
 #include <vector>
 
-#include "catch/catch.hpp"
+#include "cata_generators.h"
+#include "coordinates.h"
 #include "line.h"
 #include "point.h"
 #include "rng.h"
@@ -286,13 +289,16 @@ TEST_CASE( "Test bounds for mapping x/y/z/ offsets to direction enum", "[line]" 
     REQUIRE( make_xyz( tripoint( 60, 30, -1 ) ) == direction::BELOWSOUTHEAST );
 }
 
-TEST_CASE( "direction_from", "[line]" )
+TEST_CASE( "direction_from", "[point][line][coords]" )
 {
     for( int x = -2; x <= 2; ++x ) {
         for( int y = -2; y <= 2; ++y ) {
             for( int z = -2; z <= 2; ++z ) {
                 tripoint p( x, y, z );
+                tripoint_abs_omt c( p );
                 CHECK( direction_from( tripoint_zero, p ) == direction_from( p ) );
+                CHECK( direction_from( tripoint_zero, p ) ==
+                       direction_from( tripoint_abs_omt(), c ) );
                 CHECK( direction_from( p ) == make_xyz( p ) );
             }
         }
@@ -438,4 +444,22 @@ TEST_CASE( "line_to_regression", "[line]" )
 TEST_CASE( "line_to_performance", "[.]" )
 {
     line_to_comparison( 10000 );
+}
+
+TEST_CASE( "coord_point_line_to_consistency", "[point][coords][line]" )
+{
+    point p0 = GENERATE( take( 5, random_points() ) );
+    point p1 = GENERATE( take( 5, random_points() ) );
+    CAPTURE( p0, p1 );
+    point_abs_ms cp0( p0 );
+    point_abs_ms cp1( p1 );
+
+    std::vector<point> raw_line = line_to( p0, p1 );
+    std::vector<point_abs_ms> coord_line = line_to( cp0, cp1 );
+
+    REQUIRE( raw_line.size() == coord_line.size() );
+    for( size_t i = 0; i < raw_line.size(); ++i ) {
+        CAPTURE( i );
+        CHECK( raw_line[i] == coord_line[i].raw() );
+    }
 }

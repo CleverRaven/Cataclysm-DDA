@@ -14,7 +14,6 @@
 #include "enums.h"
 #include "field.h"
 #include "field_type.h"
-#include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
 #include "inventory.h"
@@ -33,10 +32,11 @@
 
 int advanced_inv_area::get_item_count() const
 {
+    Character &player_character = get_player_character();
     if( id == AIM_INVENTORY ) {
-        return g->u.inv.size();
+        return player_character.inv.size();
     } else if( id == AIM_WORN ) {
-        return g->u.worn.size();
+        return player_character.worn.size();
     } else if( id == AIM_ALL ) {
         return 0;
     } else if( id == AIM_DRAGGED ) {
@@ -60,7 +60,8 @@ advanced_inv_area::advanced_inv_area( aim_location id, const point &h, tripoint 
 
 void advanced_inv_area::init()
 {
-    pos = g->u.pos() + off;
+    avatar &player_character = get_avatar();
+    pos = player_character.pos() + off;
     veh = nullptr;
     vstor = -1;
     // must update in main function
@@ -76,15 +77,15 @@ void advanced_inv_area::init()
             canputitemsloc = true;
             break;
         case AIM_DRAGGED:
-            if( g->u.get_grab_type() != object_type::VEHICLE ) {
+            if( player_character.get_grab_type() != object_type::VEHICLE ) {
                 canputitemsloc = false;
                 desc[0] = _( "Not dragging any vehicle!" );
                 break;
             }
             // offset for dragged vehicles is not statically initialized, so get it
-            off = g->u.grab_point;
+            off = player_character.grab_point;
             // Reset position because offset changed
-            pos = g->u.pos() + off;
+            pos = player_character.pos() + off;
             if( const cata::optional<vpart_reference> vp = here.veh_at( pos ).part_with_feature( "CARGO",
                     false ) ) {
                 veh = &vp->vehicle();
@@ -153,7 +154,7 @@ void advanced_inv_area::init()
     // fields? with a special case for fire
     bool danger_field = false;
     const field &tmpfld = here.field_at( pos );
-    for( auto &fld : tmpfld ) {
+    for( const auto &fld : tmpfld ) {
         const field_entry &cur = fld.second;
         if( fld.first.obj().has_fire ) {
             flags.append( _( " <color_white_red>FIRE</color>" ) );
@@ -169,7 +170,7 @@ void advanced_inv_area::init()
 
     // trap?
     const trap &tr = here.tr_at( pos );
-    if( tr.can_see( pos, g->u ) && !tr.is_benign() ) {
+    if( tr.can_see( pos, player_character ) && !tr.is_benign() ) {
         flags.append( _( " TRAP" ) );
     }
 
@@ -189,7 +190,7 @@ units::volume advanced_inv_area::free_volume( bool in_vehicle ) const
     // should be a specific location instead
     assert( id != AIM_ALL );
     if( id == AIM_INVENTORY || id == AIM_WORN ) {
-        return g->u.free_space();
+        return get_player_character().free_space();
     }
     return in_vehicle ? veh->free_volume( vstor ) : get_map().free_volume( pos );
 }
@@ -237,10 +238,11 @@ item *advanced_inv_area::get_container( bool in_vehicle )
 {
     item *container = nullptr;
 
+    Character &player_character = get_player_character();
     if( uistate.adv_inv_container_location != -1 ) {
         // try to find valid container in the area
         if( uistate.adv_inv_container_location == AIM_INVENTORY ) {
-            const invslice &stacks = g->u.inv.slice();
+            const invslice &stacks = player_character.inv.slice();
 
             // check index first
             if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
@@ -253,7 +255,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             // try entire area
             if( container == nullptr ) {
                 for( size_t x = 0; x < stacks.size(); ++x ) {
-                    auto &it = stacks[x]->front();
+                    item &it = stacks[x]->front();
                     if( is_container_valid( &it ) ) {
                         container = &it;
                         uistate.adv_inv_container_index = x;
@@ -262,7 +264,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
                 }
             }
         } else if( uistate.adv_inv_container_location == AIM_WORN ) {
-            auto &worn = g->u.worn;
+            std::list<item> &worn = player_character.worn;
             size_t idx = static_cast<size_t>( uistate.adv_inv_container_index );
             if( worn.size() > idx ) {
                 auto iter = worn.begin();
@@ -294,7 +296,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
 
             // check index first
             if( stacks.size() > static_cast<size_t>( uistate.adv_inv_container_index ) ) {
-                auto it = stacks[uistate.adv_inv_container_index].front();
+                item *it = stacks[uistate.adv_inv_container_index].front();
                 if( is_container_valid( it ) ) {
                     container = it;
                 }
@@ -303,7 +305,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
             // try entire area
             if( container == nullptr ) {
                 for( size_t x = 0; x < stacks.size(); ++x ) {
-                    auto it = stacks[x].front();
+                    item *it = stacks[x].front();
                     if( is_container_valid( it ) ) {
                         container = it;
                         uistate.adv_inv_container_index = x;
@@ -387,14 +389,15 @@ static tripoint aim_vector( aim_location id )
 }
 void advanced_inv_area::set_container_position()
 {
+    avatar &player_character = get_avatar();
     // update the offset of the container based on location
     if( uistate.adv_inv_container_location == AIM_DRAGGED ) {
-        off = g->u.grab_point;
+        off = player_character.grab_point;
     } else {
         off = aim_vector( static_cast<aim_location>( uistate.adv_inv_container_location ) );
     }
     // update the absolute position
-    pos = g->u.pos() + off;
+    pos = player_character.pos() + off;
     // update vehicle information
     if( const cata::optional<vpart_reference> vp = get_map().veh_at( pos ).part_with_feature( "CARGO",
             false ) ) {

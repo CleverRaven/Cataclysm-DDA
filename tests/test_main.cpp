@@ -12,6 +12,10 @@
 #endif // __GLIBCXX__
 #endif // _GLIBCXX_DEBUG
 
+#ifdef CATA_CATCH_PCH
+#undef TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
+#define CATCH_CONFIG_IMPL_ONLY
+#endif
 #define CATCH_CONFIG_RUNNER
 #include <algorithm>
 #include <cassert>
@@ -146,10 +150,12 @@ static void init_global_game_state( const std::vector<mod_id> &mods,
 
     get_map() = map();
 
-    overmap_special_batch empty_specials( point_zero );
-    overmap_buffer.create_custom_overmap( point_zero, empty_specials );
+    overmap_special_batch empty_specials( point_abs_om{} );
+    overmap_buffer.create_custom_overmap( point_abs_om{}, empty_specials );
 
-    get_map().load( tripoint( g->get_levx(), g->get_levy(), g->get_levz() ), false );
+    map &here = get_map();
+    // TODO: fix point types
+    here.load( tripoint_abs_sm( here.get_abs_sub() ), false );
 
     get_weather().update_weather();
 }
@@ -288,6 +294,10 @@ int main( int argc, const char *argv[] )
     if( seed ) {
         srand( seed );
         rng_set_engine_seed( seed );
+
+        // If the run is terminated due to a crash during initialization, we won't
+        // see the seed unless it's printed out in advance, so do that here.
+        printf( "Randomness seeded to: %u\n", seed );
     }
 
     try {

@@ -21,6 +21,7 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "colony.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "item.h"
@@ -362,7 +363,7 @@ class map
          * is in submap coordinates.
          * @param update_vehicles If true, add vehicles to the vehicle cache.
          */
-        void load( const tripoint &w, bool update_vehicles );
+        void load( const tripoint_abs_sm &w, bool update_vehicles );
         /**
          * Shift the map along the vector s.
          * This is like loading the map with coordinates derived from the current
@@ -1302,7 +1303,7 @@ class map
         computer *add_computer( const tripoint &p, const std::string &name, int security );
 
         // Camps
-        void add_camp( const tripoint &omt_pos, const std::string &name );
+        void add_camp( const tripoint_abs_omt &omt_pos, const std::string &name );
         void remove_submap_camp( const tripoint & );
         basecamp hoist_submap_camp( const tripoint &p );
         bool point_within_camp( const tripoint &point_check ) const;
@@ -1588,7 +1589,7 @@ class map
     protected:
         void generate_lightmap( int zlev );
         void build_seen_cache( const tripoint &origin, int target_z );
-        void apply_character_light( player &p );
+        void apply_character_light( Character &p );
 
         int my_MAPSIZE;
         bool zlevels;

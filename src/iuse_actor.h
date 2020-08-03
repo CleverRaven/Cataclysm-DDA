@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "color.h"
+#include "coordinates.h"
 #include "damage.h"
 #include "enums.h"
 #include "explosion.h"
@@ -57,6 +58,9 @@ class iuse_transform : public iuse_actor
 
         /** if set transform item to container and place new item (of type @ref target) inside */
         itype_id container;
+
+        /** whether the transformed container is sealed */
+        bool sealed = true;
 
         /** if zero or positive set remaining ammo of @ref target to this (after transformation) */
         int ammo_qty = -1;
@@ -373,34 +377,12 @@ class place_npc_iuse : public iuse_actor
     public:
         string_id<npc_template> npc_class_id;
         bool place_randomly = false;
+        int radius = 1;
         int moves = 100;
         std::string summon_msg;
 
         place_npc_iuse() : iuse_actor( "place_npc" ) { }
         ~place_npc_iuse() override = default;
-        void load( const JsonObject &obj ) override;
-        int use( player &, item &, bool, const tripoint & ) const override;
-        std::unique_ptr<iuse_actor> clone() const override;
-};
-
-/**
- * Items that can be worn and can be activated to consume energy from UPS.
- * Note that the energy consumption is done in @ref player::process_active_items, it is
- * *not* done by this class!
- */
-class ups_based_armor_actor : public iuse_actor
-{
-    public:
-        /** Shown when activated. */
-        std::string activate_msg;
-        /** Shown when deactivated. */
-        std::string deactive_msg;
-        /** Shown when it runs out of power. */
-        std::string out_of_power_msg;
-
-        ups_based_armor_actor( const std::string &type = "ups_based_armor" ) : iuse_actor( type ) {}
-
-        ~ups_based_armor_actor() override = default;
         void load( const JsonObject &obj ) override;
         int use( player &, item &, bool, const tripoint & ) const override;
         std::unique_ptr<iuse_actor> clone() const override;
@@ -449,8 +431,9 @@ class reveal_map_actor : public iuse_actor
          */
         std::string message;
 
-        void reveal_targets( const tripoint &center, const std::pair<std::string, ot_match_type> &target,
-                             int reveal_distance ) const;
+        void reveal_targets(
+            const tripoint_abs_omt &center, const std::pair<std::string, ot_match_type> &target,
+            int reveal_distance ) const;
 
         reveal_map_actor( const std::string &type = "reveal_map" ) : iuse_actor( type ) {}
 
@@ -881,35 +864,35 @@ class heal_actor : public iuse_actor
 {
     public:
         /** How much hp to restore when healing limbs? */
-        float limb_power = 0;
+        float limb_power = 0.0f;
         /** How much hp to restore when healing head? */
-        float head_power = 0;
+        float head_power = 0.0f;
         /** How much hp to restore when healing torso? */
-        float torso_power = 0;
+        float torso_power = 0.0f;
         /** How many intensity levels will be applied when healing limbs? */
-        float bandages_power = 0;
+        float bandages_power = 0.0f;
         /** Extra intensity levels gained per skill level when healing limbs. */
-        float bandages_scaling = 0;
+        float bandages_scaling = 0.0f;
         /** How many intensity levels will be applied when healing limbs? */
-        float disinfectant_power = 0;
+        float disinfectant_power = 0.0f;
         /** Extra intensity levels gained per skill level when healing limbs. */
-        float disinfectant_scaling = 0;
+        float disinfectant_scaling = 0.0f;
         /** How many levels of bleeding effect intensity can it remove (dressing efficiency). */
         int bleed = 0;
         /** Chance to remove bite effect. */
-        float bite = 0;
+        float bite = 0.0f;
         /** Chance to remove infected effect. */
-        float infect = 0;
+        float infect = 0.0f;
         /** Cost in moves to use the item. */
         int move_cost = 100;
         /** Is using this item a long action. */
         bool long_action = false;
         /** Extra hp gained per skill level when healing limbs. */
-        float limb_scaling = 0;
+        float limb_scaling = 0.0f;
         /** Extra hp gained per skill level when healing head. */
-        float head_scaling = 0;
+        float head_scaling = 0.0f;
         /** Extra hp gained per skill level when healing torso. */
-        float torso_scaling = 0;
+        float torso_scaling = 0.0f;
         /** Effects to apply to patient on finished healing. */
         std::vector<effect_data> effects;
         /**

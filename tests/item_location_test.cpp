@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <functional>
 #include <memory>
 #include <string>
 
-#include "catch/catch.hpp"
 #include "character.h"
 #include "item.h"
 #include "map_helpers.h"

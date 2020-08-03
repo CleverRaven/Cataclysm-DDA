@@ -9,10 +9,12 @@
 #include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
+#include "generic_factory.h"
 #include "item.h"
 #include "item_factory.h"
 #include "itype.h"
 #include "json.h"
+#include "relic.h"
 #include "rng.h"
 #include "type_id.h"
 #include "value_ptr.h"
@@ -34,6 +36,17 @@ item Item_spawn_data::create_single( const time_point &birthday ) const
 {
     RecursionList rec;
     return create_single( birthday, rec );
+}
+
+void Item_spawn_data::relic_generator::load( const JsonObject &jo )
+{
+    mandatory( jo, was_loaded, "rules", rules );
+    mandatory( jo, was_loaded, "procgen_id", id );
+}
+
+relic Item_spawn_data::relic_generator::generate_relic( const itype_id &it_id ) const
+{
+    return id->generate( rules, it_id );
 }
 
 Single_item_creator::Single_item_creator( const std::string &_id, Type _type, int _probability )
@@ -81,6 +94,12 @@ item Single_item_creator::create_single( const time_point &birthday, RecursionLi
         // TODO: change the spawn lists to contain proper references to containers
         tmp = tmp.in_its_container( qty );
     }
+    if( artifact ) {
+        tmp.overwrite_relic( artifact->generate_relic( tmp.typeId() ) );
+    }
+    if( container_item ) {
+        tmp = tmp.in_container( *container_item, tmp.charges, sealed );
+    }
     return tmp;
 }
 
@@ -120,6 +139,18 @@ Item_spawn_data::ItemList Single_item_creator::create( const time_point &birthda
             }
             result.insert( result.end(), tmplist.begin(), tmplist.end() );
         }
+    }
+    if( artifact ) {
+        for( item &it : result ) {
+            it.overwrite_relic( artifact->generate_relic( it.typeId() ) );
+        }
+    }
+    if( container_item ) {
+        item ctr( *container_item, birthday );
+        for( const item &it : result ) {
+            ctr.put_in( it, item_pocket::pocket_type::CONTAINER );
+        }
+        result = ItemList{ ctr };
     }
     return result;
 }
@@ -378,8 +409,10 @@ void Item_modifier::modify( item &new_item ) const
 
     if( !cont.is_null() ) {
         cont.put_in( new_item, item_pocket::pocket_type::CONTAINER );
-        cont.seal();
         new_item = cont;
+        if( sealed ) {
+            new_item.seal();
+        }
     }
 
     if( contents != nullptr ) {
@@ -387,10 +420,12 @@ void Item_modifier::modify( item &new_item ) const
         for( const item &it : contentitems ) {
             new_item.put_in( it, item_pocket::pocket_type::CONTAINER );
         }
-        new_item.seal();
+        if( sealed ) {
+            new_item.seal();
+        }
     }
 
-    for( auto &flag : custom_flags ) {
+    for( const std::string &flag : custom_flags ) {
         new_item.set_flag( flag );
     }
 }
@@ -546,6 +581,11 @@ void Item_group::check_consistency( const std::string &context ) const
     }
 }
 
+void Item_spawn_data::set_container_item( const itype_id &container )
+{
+    container_item = container;
+}
+
 bool Item_group::remove_item( const itype_id &itemid )
 {
     for( prop_list::iterator a = items.begin(); a != items.end(); ) {
@@ -589,11 +629,19 @@ std::set<const itype *> Item_group::every_item() const
 
 item_group::ItemList item_group::items_from( const Group_tag &group_id, const time_point &birthday )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return ItemList();
     }
-    return group->create( birthday );
+    ItemList created = group->create( birthday );
+    if( group->container_item ) {
+        item ctr( *group->container_item, birthday );
+        for( const item &it : created ) {
+            ctr.put_in( it, item_pocket::pocket_type::CONTAINER );
+        }
+        created = ItemList{ ctr };
+    }
+    return created;
 }
 
 item_group::ItemList item_group::items_from( const Group_tag &group_id )
@@ -603,7 +651,7 @@ item_group::ItemList item_group::items_from( const Group_tag &group_id )
 
 item item_group::item_from( const Group_tag &group_id, const time_point &birthday )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return item();
     }
@@ -622,7 +670,7 @@ bool item_group::group_is_defined( const Group_tag &group_id )
 
 bool item_group::group_contains_item( const Group_tag &group_id, const itype_id &type_id )
 {
-    const auto group = item_controller->get_group( group_id );
+    const Item_spawn_data *group = item_controller->get_group( group_id );
     if( group == nullptr ) {
         return false;
     }

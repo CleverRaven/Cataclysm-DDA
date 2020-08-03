@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <vector>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
@@ -40,7 +41,7 @@ TEST_CASE( "map_bounds_checking" )
     // inelegant solution.
     clear_map();
     map m;
-    m.load( tripoint_zero, false );
+    m.load( tripoint_abs_sm(), false );
     for( int x = -1; x <= MAPSIZE_X; ++x ) {
         for( int y = -1; y <= MAPSIZE_Y; ++y ) {
             for( int z = -OVERMAP_DEPTH - 1; z <= OVERMAP_HEIGHT + 1; ++z ) {
@@ -65,7 +66,7 @@ TEST_CASE( "tinymap_bounds_checking" )
     // inelegant solution.
     clear_map();
     tinymap m;
-    m.load( tripoint_zero, false );
+    m.load( tripoint_abs_sm(), false );
     for( int x = -1; x <= SEEX * 2; ++x ) {
         for( int y = -1; y <= SEEY * 2; ++y ) {
             for( int z = -OVERMAP_DEPTH - 1; z <= OVERMAP_HEIGHT + 1; ++z ) {

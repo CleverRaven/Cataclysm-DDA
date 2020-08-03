@@ -8,12 +8,13 @@
 #include <vector>
 
 #include "assign.h"
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "enums.h"
 #include "game.h"
 #include "game_constants.h"
@@ -45,8 +46,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_snow_glare( "snow_glare" );
 
 static const itype_id itype_water( "water" );
-static const itype_id itype_water_acid( "water_acid" );
-static const itype_id itype_water_acid_weak( "water_acid_weak" );
 
 static const trait_id trait_CEPH_VISION( "CEPH_VISION" );
 static const trait_id trait_FEATHERS( "FEATHERS" );
@@ -58,15 +57,10 @@ static const std::string flag_SUN_GLASSES( "SUN_GLASSES" );
  * @{
  */
 
-weather_manager &get_weather()
-{
-    return g->weather;
-}
-
 static bool is_creature_outside( const Creature &target )
 {
-    return get_map().is_outside( point( target.posx(),
-                                        target.posy() ) ) && g->get_levz() >= 0;
+    map &here = get_map();
+    return here.is_outside( point( target.posx(), target.posy() ) ) && here.get_abs_sub().z >= 0;
 }
 
 weather_type_id get_bad_weather()
@@ -89,13 +83,14 @@ weather_type_id get_bad_weather()
  */
 void glare( weather_type_id w )
 {
-    Character &target_character = g->u;//todo npcs, also
+    Character &player_character = get_player_character();//todo npcs, also
     //General prepequisites for glare
-    if( !is_creature_outside( target_character ) || !g->is_in_sunlight( g->u.pos() ) ||
-        g->u.in_sleep_state() ||
-        g->u.worn_with_flag( flag_SUN_GLASSES ) ||
-        g->u.has_bionic( bio_sunglasses ) ||
-        g->u.is_blind() ) {
+    if( !is_creature_outside( player_character ) ||
+        !g->is_in_sunlight( player_character.pos() ) ||
+        player_character.in_sleep_state() ||
+        player_character.worn_with_flag( flag_SUN_GLASSES ) ||
+        player_character.has_bionic( bio_sunglasses ) ||
+        player_character.is_blind() ) {
         return;
     }
 
@@ -105,19 +100,19 @@ void glare( weather_type_id w )
     if( season == WINTER ) {
         //Winter snow glare: for both clear & sunny weather
         effect = &effect_snow_glare;
-        dur = target_character.has_effect( *effect ) ? 1_turns : 2_turns;
+        dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
     } else if( w->sun_intensity == sun_intensity_type::high ) {
         //Sun glare: only for bright sunny weather
         effect = &effect_glare;
-        dur = target_character.has_effect( *effect ) ? 1_turns : 2_turns;
+        dur = player_character.has_effect( *effect ) ? 1_turns : 2_turns;
     }
     //apply final glare effect
     if( dur > 0_turns && effect != nullptr ) {
         //enhance/reduce by some traits
-        if( target_character.has_trait( trait_CEPH_VISION ) ) {
+        if( player_character.has_trait( trait_CEPH_VISION ) ) {
             dur = dur * 2;
         }
-        target_character.add_env_effect( *effect, bp_eyes, 2, dur );
+        player_character.add_env_effect( *effect, bodypart_id( "eyes" ), 2, dur );
     }
 }
 
@@ -153,7 +148,6 @@ inline void proc_weather_sum( const weather_type_id wtype, weather_sum &data,
         data.rain_amount += amount;
     }
 
-
     // TODO: Change this sunlight "sampling" here into a proper interpolation
     const float tick_sunlight = incident_sunlight( wtype, t );
     data.sunlight += tick_sunlight * to_turns<int>( tick_size );
@@ -165,7 +159,7 @@ weather_type_id current_weather( const tripoint &location, const time_point &t )
     if( g->weather.weather_override != WEATHER_NULL ) {
         return g->weather.weather_override;
     }
-    return wgen.get_weather_conditions( location, t, g->get_seed() );
+    return wgen.get_weather_conditions( location, t, g->get_seed(), g->weather.next_instance_allowed );
 }
 
 ////// Funnels.
@@ -188,7 +182,8 @@ weather_sum sum_conditions( const time_point &start, const time_point &end,
         weather_type_id wtype = current_weather( location, t );
         proc_weather_sum( wtype, data, t, tick_size );
         data.wind_amount += get_local_windpower( g->weather.windspeed,
-                            overmap_buffer.ter( ms_to_omt_copy( location ) ),
+                            // TODO: fix point types
+                            overmap_buffer.ter( tripoint_abs_omt( ms_to_omt_copy( location ) ) ),
                             location,
                             g->weather.winddirection, false ) * to_turns<int>( tick_size );
     }
@@ -230,7 +225,7 @@ void item::add_rain_to_container( bool acid, int charges )
     if( charges <= 0 ) {
         return;
     }
-    item ret( acid ? "water_acid" : "water", calendar::turn );
+    item ret( "water", calendar::turn );
     const int capa = get_remaining_capacity_for_liquid( ret, true );
     ret.charges = std::min( charges, capa );
     if( contents.can_contain( ret ).success() ) {
@@ -242,9 +237,7 @@ void item::add_rain_to_container( bool acid, int charges )
         put_in( ret, item_pocket::pocket_type::CONTAINER );
     } else {
         static const std::set<itype_id> allowed_liquid_types{
-            itype_water,
-            itype_water_acid,
-            itype_water_acid_weak
+            itype_water
         };
         item *found_liq = contents.get_item_with( [&]( const item & liquid ) {
             return allowed_liquid_types.count( liquid.typeId() );
@@ -261,7 +254,7 @@ void item::add_rain_to_container( bool acid, int charges )
             liq.charges += added;
         }
 
-        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water_acid_weak ) {
+        if( liq.typeId() == ret.typeId() || liq.typeId() == itype_water ) {
             // The container already contains this liquid or weakly acidic water.
             // Don't do anything special -- we already added liquid.
         } else {
@@ -277,7 +270,7 @@ void item::add_rain_to_container( bool acid, int charges )
             const bool transmute = x_in_y( 2 * added, liq.charges );
 
             if( transmute ) {
-                liq = item( "water_acid_weak", calendar::turn, liq.charges );
+                liq = item( "water", calendar::turn, liq.charges );
             } else if( liq.typeId() == itype_water ) {
                 // The container has water, and the acid rain didn't turn it
                 // into weak acid. Poison the water instead, assuming 1
@@ -381,7 +374,7 @@ static void fill_funnels( int rain_depth_mm_per_hour, bool acid, const trap &tr 
  */
 static void fill_water_collectors( int mmPerHour, bool acid )
 {
-    for( auto &e : trap::get_funnels() ) {
+    for( const auto &e : trap::get_funnels() ) {
         fill_funnels( mmPerHour, acid, *e );
     }
 }
@@ -401,6 +394,7 @@ static void fill_water_collectors( int mmPerHour, bool acid )
 void wet( Character &target, int amount )
 {
     if( !is_creature_outside( target ) ||
+        amount <= 0 ||
         target.has_trait( trait_FEATHERS ) ||
         target.weapon.has_flag( "RAIN_PROTECT" ) ||
         ( !one_in( 50 ) && target.worn_with_flag( "RAINPROOF" ) ) ) {
@@ -417,10 +411,9 @@ void wet( Character &target, int amount )
         return;
     }
 
-    const auto &wet = target.body_wetness;
-    const auto &capacity = target.drench_capacity;
     body_part_set drenched_parts{ { bodypart_str_id( "torso" ), bodypart_str_id( "arm_l" ), bodypart_str_id( "arm_r" ), bodypart_str_id( "head" ) } };
-    if( wet[bp_torso] * 100 >= capacity[bp_torso] * 50 ) {
+    if( get_player_character().get_part_wetness( bodypart_id( "torso" ) ) * 100 >=
+        get_player_character().get_part_drench_capacity( bodypart_id( "torso" ) ) * 50 ) {
         // Once upper body is 50%+ drenched, start soaking the legs too
         drenched_parts.unify_set( { { bodypart_str_id( "leg_l" ), bodypart_str_id( "leg_r" ) } } );
     }
@@ -430,18 +423,20 @@ void wet( Character &target, int amount )
 
 void weather_sound( translation sound_message, std::string sound_effect )
 {
-    if( !g->u.has_effect( effect_sleep ) && !g->u.is_deaf() ) {
-        if( g->get_levz() >= 0 ) {
+    Character &player_character = get_player_character();
+    map &here = get_map();
+    if( !player_character.has_effect( effect_sleep ) && !player_character.is_deaf() ) {
+        if( here.get_abs_sub().z >= 0 ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
                 sfx::play_variant_sound( "environment", sound_effect, 80, rng( 0, 359 ) );
             }
-        } else if( one_in( std::max( roll_remainder( 2.0f * g->get_levz() /
-                                     g->u.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
+        } else if( one_in( std::max( roll_remainder( 2.0f * here.get_abs_sub().z /
+                                     player_character.mutation_value( "hearing_modifier" ) ), 1 ) ) ) {
             add_msg( sound_message );
             if( !sound_effect.empty() ) {
                 sfx::play_variant_sound( "environment", sound_effect,
-                                         ( 80 * g->u.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
+                                         ( 80 * player_character.mutation_value( "hearing_modifier" ) ), rng( 0, 359 ) );
             }
         }
     }
@@ -461,7 +456,8 @@ double precip_mm_per_hour( precip_class const p )
 void handle_weather_effects( weather_type_id const w )
 {
     //Possible TODO, make npc/monsters affected
-    Character &target_character = get_player_character();
+    map &here = get_map();
+    Character &player_character = get_player_character();
     if( w->rains && w->precip != precip_class::none ) {
         fill_water_collectors( precip_mm_per_hour( w->precip ),
                                w->acidic );
@@ -477,15 +473,14 @@ void handle_weather_effects( weather_type_id const w )
             decay_time = 45_turns;
             wetness = 60;
         }
-        get_map().decay_fields_and_scent( decay_time );
-        wet( target_character, wetness );
+        here.decay_fields_and_scent( decay_time );
+        wet( player_character, wetness );
     }
     glare( w );
     g->weather.lightning_active = false;
 
-
     for( const weather_effect &current_effect : w->effects ) {
-        if( current_effect.must_be_outside && !is_creature_outside( target_character ) ) {
+        if( current_effect.must_be_outside && !is_creature_outside( player_character ) ) {
             continue;
         }
         if( current_effect.time_between > 0_seconds &&
@@ -495,7 +490,7 @@ void handle_weather_effects( weather_type_id const w )
         if( !one_in( current_effect.one_in_chance ) ) {
             continue;
         }
-        if( current_effect.lightning && g->get_levz() >= 0 ) {
+        if( current_effect.lightning && here.get_abs_sub().z >= 0 ) {
             g->weather.lightning_active = true;
         }
         if( current_effect.rain_proof ) {
@@ -505,16 +500,16 @@ void handle_weather_effects( weather_type_id const w )
             } else if( w->precip >= precip_class::heavy ) {
                 chance = 4;
             }
-            if( target_character.weapon.has_flag( "RAIN_PROTECT" ) && one_in( chance ) ) {
-                add_msg( _( "Your %s protects you from the weather." ), target_character.weapon.tname() );
+            if( player_character.weapon.has_flag( "RAIN_PROTECT" ) && one_in( chance ) ) {
+                add_msg( _( "Your %s protects you from the weather." ), player_character.weapon.tname() );
                 continue;
             } else {
-                if( target_character.worn_with_flag( "RAINPROOF" ) && one_in( chance * 2 ) ) {
+                if( player_character.worn_with_flag( "RAINPROOF" ) && one_in( chance * 2 ) ) {
                     add_msg( _( "Your clothing protects you from the weather." ) );
                     continue;
                 } else {
                     bool has_helmet = false;
-                    if( target_character.is_wearing_power_armor( &has_helmet ) && ( has_helmet ||
+                    if( player_character.is_wearing_power_armor( &has_helmet ) && ( has_helmet ||
                             one_in( chance * 2 ) ) ) {
                         add_msg( _( "Your power armor protects you from the weather." ) );
                         continue;
@@ -522,7 +517,7 @@ void handle_weather_effects( weather_type_id const w )
                 }
             }
         }
-        if( target_character.get_pain() >= current_effect.pain_max ) {
+        if( player_character.get_pain() >= current_effect.pain_max ) {
             continue;
         }
 
@@ -547,7 +542,7 @@ void handle_weather_effects( weather_type_id const w )
 
             for( int i = 0; i < spawn.hallucination_count; i++ ) {
                 tripoint point;
-                if( g->find_nearby_spawn_point( target_character, target_monster.type->id, spawn.min_radius,
+                if( g->find_nearby_spawn_point( player_character, target_monster.type->id, spawn.min_radius,
                                                 spawn.max_radius, point ) ) {
                     g->spawn_hallucination( point, target_monster.type->id );
                     spawned = true;
@@ -555,7 +550,7 @@ void handle_weather_effects( weather_type_id const w )
             }
             for( int i = 0; i < spawn.real_count; i++ ) {
                 tripoint point;
-                if( g->find_nearby_spawn_point( target_character, target_monster.type->id, spawn.min_radius,
+                if( g->find_nearby_spawn_point( player_character, target_monster.type->id, spawn.min_radius,
                                                 spawn.max_radius, point ) ) {
                     g->place_critter_at( target_monster.type->id, point );
                     spawned = true;
@@ -566,7 +561,7 @@ void handle_weather_effects( weather_type_id const w )
             continue;
         }
         for( const weather_field &field : current_effect.fields ) {
-            for( const tripoint &dest : get_map().points_in_radius( target_character.pos(), field.radius ) ) {
+            for( const tripoint &dest : get_map().points_in_radius( player_character.pos(), field.radius ) ) {
                 if( !field.outdoor_only || get_map().is_outside( dest ) ) {
                     get_map().add_field( dest, field.type, field.intensity, field.age );
                 }
@@ -574,33 +569,34 @@ void handle_weather_effects( weather_type_id const w )
         }
         if( current_effect.effect_id.is_valid() ) {
             if( current_effect.target_part.is_valid() ) {
-                target_character.add_effect( current_effect.effect_id, current_effect.effect_duration,
-                                             current_effect.target_part->token );
+                player_character.add_effect( current_effect.effect_id, current_effect.effect_duration,
+                                             current_effect.target_part );
             } else {
-                target_character.add_effect( current_effect.effect_id, current_effect.effect_duration );
+                player_character.add_effect( current_effect.effect_id, current_effect.effect_duration );
             }
         }
         if( current_effect.trait_id_to_add.is_valid() ) {
-            target_character.set_mutation( current_effect.trait_id_to_add );
+            player_character.set_mutation( current_effect.trait_id_to_add );
         }
         if( current_effect.trait_id_to_remove.is_valid() ) {
-            target_character.unset_mutation( current_effect.trait_id_to_remove );
+            player_character.unset_mutation( current_effect.trait_id_to_remove );
         }
-
-        if( current_effect.target_part.is_valid() ) {
-            target_character.deal_damage( nullptr, current_effect.target_part, damage_instance( DT_BASH,
-                                          current_effect.damage ) );
-        } else {
-            for( const bodypart_id &bp : target_character.get_all_body_parts() ) {
-                target_character.deal_damage( nullptr, bp, damage_instance( DT_BASH, current_effect.damage ) );
+        if( current_effect.damage != 0 ) {
+            if( current_effect.target_part.is_valid() ) {
+                player_character.deal_damage( nullptr, current_effect.target_part, damage_instance( DT_BASH,
+                                              current_effect.damage ) );
+            } else {
+                for( const bodypart_id &bp : player_character.get_all_body_parts() ) {
+                    player_character.deal_damage( nullptr, bp, damage_instance( DT_BASH, current_effect.damage ) );
+                }
             }
         }
-        target_character.mod_healthy( current_effect.healthy );
-        target_character.mod_rad( current_effect.radiation );
-        wet( target_character, current_effect.wet );
-        target_character.mod_pain( current_effect.pain );
+        player_character.mod_healthy( current_effect.healthy );
+        player_character.mod_rad( current_effect.radiation );
+        wet( player_character, current_effect.wet );
+        player_character.mod_pain( current_effect.pain );
         weather_sound( current_effect.sound_message, current_effect.sound_effect );
-        target_character.add_msg_if_player( current_effect.message );
+        player_character.add_msg_if_player( current_effect.message );
     }
 }
 
@@ -655,11 +651,11 @@ static std::string print_time_just_hour( const time_point &p )
 /**
  * Generate textual weather forecast for the specified radio tower.
  */
-std::string weather_forecast( const point &abs_sm_pos )
+std::string weather_forecast( const point_abs_sm &abs_sm_pos )
 {
     std::string weather_report;
     // Local conditions
-    const auto cref = overmap_buffer.closest_city( tripoint( abs_sm_pos, 0 ) );
+    const auto cref = overmap_buffer.closest_city( tripoint_abs_sm( abs_sm_pos, 0 ) );
     const std::string city_name = cref ? cref.city->name : std::string( _( "middle of nowhere" ) );
     // Current time
     weather_report += string_format(
@@ -686,16 +682,18 @@ std::string weather_forecast( const point &abs_sm_pos )
     // int weather_proportions[NUM_WEATHER_TYPES] = {0};
     double high = -100.0;
     double low = 100.0;
-    const tripoint abs_ms_pos = tripoint( sm_to_ms_copy( abs_sm_pos ), 0 );
+    // TODO: fix point types
+    const tripoint abs_ms_pos =
+        tripoint( project_to<coords::ms>( abs_sm_pos ).raw(), 0 );
     // TODO: wind direction and speed
     const time_point last_hour = calendar::turn - ( calendar::turn - calendar::turn_zero ) %
                                  1_hours;
     for( int d = 0; d < 6; d++ ) {
         weather_type_id forecast = WEATHER_NULL;
-        const auto wgen = g->weather.get_cur_weather_gen();
+        const auto wgen = get_weather().get_cur_weather_gen();
         for( time_point i = last_hour + d * 12_hours; i < last_hour + ( d + 1 ) * 12_hours; i += 1_hours ) {
             w_point w = wgen.get_weather( abs_ms_pos, i, g->get_seed() );
-            forecast = std::max( forecast, wgen.get_weather_conditions( w ) );
+            forecast = std::max( forecast, wgen.get_weather_conditions( w, g->weather.next_instance_allowed ) );
             high = std::max( high, w.temperature );
             low = std::min( low, w.temperature );
         }
@@ -1013,6 +1011,11 @@ rl_vec2d convert_wind_to_coord( const int angle )
 bool warm_enough_to_plant( const tripoint &pos )
 {
     // semi-appropriate temperature for most plants
+    return get_weather().get_temperature( pos ) >= 50;
+}
+
+bool warm_enough_to_plant( const tripoint_abs_omt &pos )
+{
     return g->weather.get_temperature( pos ) >= 50;
 }
 
@@ -1037,37 +1040,40 @@ void weather_manager::update_weather()
     w_point &w = *weather_precise;
     winddirection = wind_direction_override ? *wind_direction_override : w.winddirection;
     windspeed = windspeed_override ? *windspeed_override : w.windpower;
+    Character &player_character = get_player_character();
     if( weather_id == WEATHER_NULL || calendar::turn >= nextweather ) {
         const weather_generator &weather_gen = get_cur_weather_gen();
-        w = weather_gen.get_weather( g->u.global_square_location(), calendar::turn, g->get_seed() );
+        w = weather_gen.get_weather( player_character.global_square_location(), calendar::turn,
+                                     g->get_seed() );
         weather_type_id old_weather = weather_id;
         weather_id = weather_override == WEATHER_NULL ?
-                     weather_gen.get_weather_conditions( w )
+                     weather_gen.get_weather_conditions( w, next_instance_allowed )
                      : weather_override;
-        if( !g->u.has_artifact_with( AEP_BAD_WEATHER ) ) {
+        if( !player_character.has_artifact_with( AEP_BAD_WEATHER ) ) {
             weather_override = WEATHER_NULL;
         }
         sfx::do_ambient();
         temperature = w.temperature;
         lightning_active = false;
-        // Check weather every few turns, instead of every turn.
-        // TODO: predict when the weather changes and use that time.
-        nextweather = calendar::turn + 5_minutes;
+        next_instance_allowed[weather_id] = calendar::turn + rng( weather_id->time_between_min,
+                                            weather_id->time_between_max );
+        nextweather = calendar::turn + rng( weather_id->duration_min, weather_id->duration_max );
+        map &here = get_map();
         if( weather_id != old_weather && weather_id->dangerous &&
-            g->get_levz() >= 0 && get_map().is_outside( g->u.pos() )
-            && !g->u.has_activity( ACT_WAIT_WEATHER ) ) {
+            here.get_abs_sub().z >= 0 && here.is_outside( player_character.pos() )
+            && !player_character.has_activity( ACT_WAIT_WEATHER ) ) {
             g->cancel_activity_or_ignore_query( distraction_type::weather_change,
                                                 string_format( _( "The weather changed to %s!" ), weather_id->name ) );
         }
 
-        if( weather_id != old_weather && g->u.has_activity( ACT_WAIT_WEATHER ) ) {
-            g->u.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
+        if( weather_id != old_weather && player_character.has_activity( ACT_WAIT_WEATHER ) ) {
+            player_character.assign_activity( ACT_WAIT_WEATHER, 0, 0 );
         }
 
         if( weather_id->sight_penalty !=
             old_weather->sight_penalty ) {
             for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
-                get_map().set_transparency_cache_dirty( i );
+                here.set_transparency_cache_dirty( i );
             }
         }
     }
@@ -1099,6 +1105,11 @@ int weather_manager::get_temperature( const tripoint &location )
 
     temperature_cache.emplace( std::make_pair( location, temp ) );
     return temp;
+}
+
+int weather_manager::get_temperature( const tripoint_abs_omt &location )
+{
+    return location.z() < 0 ? AVERAGE_ANNUAL_TEMPERATURE : temperature;
 }
 
 void weather_manager::clear_temp_cache()

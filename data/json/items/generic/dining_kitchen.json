@@ -57,8 +57,8 @@
     "price": 1200,
     "price_postapoc": 0,
     "material": [ "ceramic" ],
-    "weight": "322 g",
-    "volume": "262 ml",
+    "weight": "375 g",
+    "volume": "375 ml",
     "bashing": 3,
     "to_hit": -1
   },
@@ -108,7 +108,7 @@
     "to_hit": -1
   },
   {
-    "id": "base_cookpot",
+    "abstract": "base_cookpot",
     "name": { "str": "generic cook pot" },
     "description": "generic item template",
     "type": "GENERIC",
@@ -125,6 +125,7 @@
     "type": "GENERIC",
     "category": "other",
     "id": "ceramic_plate",
+    "volume": "125 ml",
     "name": { "str": "ceramic plate" },
     "symbol": ",",
     "description": "A ceramic dinner plate, unremarkable in every way.",
@@ -138,7 +139,7 @@
     "symbol": ")",
     "description": "A perfectly ordinary ceramic soup bowl.",
     "copy-from": "base_ceramic_dish",
-    "volume": "525 ml",
+    "volume": "625 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -154,12 +155,10 @@
     "type": "GENERIC",
     "category": "other",
     "id": "ceramic_cup",
-    "volume": "262 ml",
     "name": { "str": "ceramic cup" },
     "symbol": "u",
     "description": "A light ceramic teacup.  Quite classy.",
     "copy-from": "base_ceramic_dish",
-    "proportional": { "weight": 0.6 },
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
@@ -179,7 +178,6 @@
     "symbol": "u",
     "description": "A ceramic coffee cup with a logo on the side.",
     "copy-from": "base_ceramic_dish",
-    "proportional": { "weight": 0.8 },
     "pocket_data": [
       {
         "max_contains_volume": "250 ml",
@@ -285,7 +283,7 @@
     "symbol": "U",
     "description": "A tall drinking glass.",
     "copy-from": "base_glass_dish",
-    "volume": "600 ml",
+    "volume": "620 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -326,7 +324,7 @@
     "symbol": "u",
     "description": "A glass bowl for soup or dessert.",
     "copy-from": "base_glass_dish",
-    "volume": "525 ml",
+    "volume": "620 ml",
     "pocket_data": [
       {
         "max_contains_volume": "500 ml",
@@ -371,9 +369,9 @@
     "id": "bowl_plastic",
     "type": "GENERIC",
     "category": "other",
-    "name": { "str": "plastic bowl" },
+    "name": { "str": "plastic tupperware" },
     "symbol": "u",
-    "description": "A plastic bowl with a convenient sealing lid.  Holds 750 ml of liquid.",
+    "description": "A piece of plastic tupperware with a tupperware lid.  Holds 750 ml of liquid.",
     "copy-from": "base_plastic_dish",
     "volume": "787 ml",
     "pocket_data": [
@@ -727,7 +725,7 @@
     "material": [ "iron" ],
     "color": "dark_gray",
     "weight": "3000 g",
-    "volume": "2100 ml",
+    "volume": "2375 ml",
     "bashing": 10,
     "pocket_data": [
       {
@@ -843,7 +841,7 @@
     "material": [ "iron" ],
     "color": "dark_gray",
     "weight": "2628 g",
-    "volume": "1050 ml",
+    "volume": "1335 ml",
     "bashing": 12,
     "to_hit": -3,
     "pocket_data": [

@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
 #include <memory>
 #include <string>
@@ -5,7 +7,6 @@
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "map.h"
 #include "map_helpers.h"
@@ -32,7 +33,7 @@ static void clear_game_drag( const ter_id &terrain )
     CHECK( !player_character.in_vehicle );
     player_character.setpos( tripoint_zero );
     // Blind the player to avoid needless drawing-related overhead
-    player_character.add_effect( effect_blind, 1_turns, num_bp, true );
+    player_character.add_effect( effect_blind, 1_turns, true );
     // Make sure the ST is 8 so that muscle powered results are consistent
     player_character.str_cur = 8;
 

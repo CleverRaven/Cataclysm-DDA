@@ -13,13 +13,13 @@
 #include "catacharset.h"
 #include "debug.h"
 #include "game.h"
-#include "ime.h"
 #include "input.h"
 #include "output.h"
 #include "player.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "sdltiles.h"
 
 #if defined(__ANDROID__)
 #include <SDL_keyboard.h>
@@ -255,7 +255,7 @@ void uilist::filterlist()
 
 void uilist::inputfilter()
 {
-    input_context ctxt( input_category );
+    input_context ctxt( input_category, keyboard_mode::keychar );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -266,7 +266,6 @@ void uilist::inputfilter()
     filter_popup->context( ctxt ).text( filter )
     .max_length( 256 )
     .window( window, point( 4, w_height - 1 ), w_width - 4 );
-    ime_sentry sentry;
     do {
         ui_manager::redraw();
         filter = filter_popup->query_string( false );
@@ -613,8 +612,11 @@ void uilist::show()
                 // to be used.
                 const auto entry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].txt ) :
                                                  entries[ ei ].txt );
-                trim_and_print( window, point( pad_left + 4, estart + si ),
-                                max_entry_len, co, "%s", entry.c_str() );
+                int x = pad_left + 4;
+                int y = estart + si;
+                entries[ei].drawn_rect.p_min = point( x, y );
+                entries[ei].drawn_rect.p_max = point( x + max_entry_len - 1, y );
+                trim_and_print( window, point( x, y ), max_entry_len, co, "%s", entry.c_str() );
 
                 if( max_column_len && !entries[ ei ].ctxt.empty() ) {
                     const auto centry = utf8_wrapper( ei == selected ? remove_color_tags( entries[ ei ].ctxt ) :
@@ -781,7 +783,7 @@ void uilist::query( bool loop, int timeout )
     }
     ret = UILIST_WAIT_INPUT;
 
-    input_context ctxt( input_category );
+    input_context ctxt( input_category, keyboard_mode::keychar );
     ctxt.register_updown();
     ctxt.register_action( "PAGE_UP" );
     ctxt.register_action( "PAGE_DOWN" );
@@ -790,6 +792,7 @@ void uilist::query( bool loop, int timeout )
     if( allow_cancel ) {
         ctxt.register_action( "QUIT" );
     }
+    ctxt.register_action( "SELECT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "FILTER" );
     ctxt.register_action( "ANY_INPUT" );
@@ -831,6 +834,18 @@ void uilist::query( bool loop, int timeout )
             if( callback != nullptr ) {
                 callback->select( this );
             }
+        } else if( !fentries.empty() && ret_act == "SELECT" ) {
+            cata::optional<point> p = ctxt.get_coordinates_text( window );
+            if( p ) {
+                if( window_contains_point_relative( window, p.value() ) ) {
+                    uilist_entry *entry = find_entry_by_coordinate( p.value() );
+                    if( entry != nullptr ) {
+                        if( entry->enabled ) {
+                            ret = entry->retval;
+                        }
+                    }
+                }
+            }
         } else if( !fentries.empty() && ret_act == "CONFIRM" ) {
             if( entries[ selected ].enabled ) {
                 ret = entries[ selected ].retval; // valid
@@ -859,6 +874,17 @@ void uilist::query( bool loop, int timeout )
 
         ui_manager::redraw();
     } while( loop && ret == UILIST_WAIT_INPUT );
+}
+
+uilist_entry *uilist::find_entry_by_coordinate( const point &p )
+{
+    for( int i : fentries ) {
+        uilist_entry &entry = entries[i];
+        if( entry.drawn_rect.contains( p ) ) {
+            return &entry;
+        }
+    }
+    return nullptr;
 }
 
 ///@}
@@ -960,4 +986,3 @@ void pointmenu_cb::select( uilist *const menu )
 {
     impl->select( menu );
 }
-

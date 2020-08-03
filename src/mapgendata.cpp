@@ -24,14 +24,19 @@ mapgendata::mapgendata( oter_id north, oter_id east, oter_id south, oter_id west
 {
 }
 
-mapgendata::mapgendata( const tripoint &over, map &m, const float density, const time_point &when,
-                        ::mission *const miss )
+mapgendata::mapgendata( const tripoint_abs_omt &over, map &m, const float density,
+                        const time_point &when, ::mission *const miss )
     : mapgendata( overmap_buffer.ter( over + tripoint_north ),
-                  overmap_buffer.ter( over + tripoint_east ), overmap_buffer.ter( over + tripoint_south ),
-                  overmap_buffer.ter( over + tripoint_west ), overmap_buffer.ter( over + tripoint_north_east ),
-                  overmap_buffer.ter( over + tripoint_south_east ), overmap_buffer.ter( over + tripoint_south_west ),
-                  overmap_buffer.ter( over + tripoint_north_west ), overmap_buffer.ter( over + tripoint_above ),
-                  overmap_buffer.ter( over + tripoint_below ), over.z, overmap_buffer.get_settings( over ), m,
+                  overmap_buffer.ter( over + tripoint_east ),
+                  overmap_buffer.ter( over + tripoint_south ),
+                  overmap_buffer.ter( over + tripoint_west ),
+                  overmap_buffer.ter( over + tripoint_north_east ),
+                  overmap_buffer.ter( over + tripoint_south_east ),
+                  overmap_buffer.ter( over + tripoint_south_west ),
+                  overmap_buffer.ter( over + tripoint_north_west ),
+                  overmap_buffer.ter( over + tripoint_above ),
+                  overmap_buffer.ter( over + tripoint_below ),
+                  over.z(), overmap_buffer.get_settings( over ), m,
                   overmap_buffer.ter( over ), density, when, miss )
 {
 }

@@ -1,7 +1,7 @@
+#include "catch/catch.hpp"
+
 #include "item.h"
 #include "itype.h"
-
-#include "catch/catch.hpp"
 
 // Includes functions:
 // item::magazine_compatible
@@ -83,7 +83,6 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                 CHECK( flashlight.tname() == "flashlight (off)+1" );
             }
 
-
             THEN( "medium batteries can be installed" ) {
                 CHECK( flashlight.is_reloadable() );
                 CHECK( flashlight.is_reloadable_with( itype_id( "medium_battery_cell" ) ) );
@@ -92,14 +91,14 @@ TEST_CASE( "battery tool mod test", "[battery][mod]" )
                 CHECK( mag_compats.count( itype_id( "medium_plus_battery_cell" ) ) == 1 );
                 CHECK( mag_compats.count( itype_id( "medium_atomic_battery_cell" ) ) == 1 );
                 CHECK( mag_compats.count( itype_id( "medium_disposable_cell" ) ) == 1 );
-                CHECK( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) == 1 );
+                CHECK( flashlight.contents.has_pocket_type( item_pocket::pocket_type::MAGAZINE_WELL ) );
             }
 
             THEN( "medium battery is now the default" ) {
                 // FIXME: Required to fix #40948
                 itype_id mag_default = flashlight.magazine_default( false );
                 CHECK_FALSE( mag_default.is_null() );
-                CHECK( mag_default.str() == "medium_atomic_battery_cell" );
+                CHECK( mag_default.str() == "medium_battery_cell" );
             }
 
             THEN( "light batteries no longer fit" ) {
@@ -233,8 +232,7 @@ TEST_CASE( "battery and tool properties", "[battery][tool][properties]" )
         SECTION( "has a default magazine" ) {
             itype_id mag_default = flashlight.magazine_default( false );
             CHECK_FALSE( mag_default.is_null() );
-            // FIXME: Required to fix #40800
-            CHECK( mag_default.str() == "light_atomic_battery_cell" );
+            CHECK( mag_default.str() == "light_disposable_cell" );
         }
 
         SECTION( "can use battery ammo" ) {

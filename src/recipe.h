@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "calendar.h"
 #include "optional.h"
 #include "requirements.h"
 #include "translations.h"
@@ -25,17 +26,37 @@ enum class recipe_filter_flags : int {
     no_rotten = 1,
 };
 
-inline constexpr recipe_filter_flags operator&( recipe_filter_flags l, recipe_filter_flags r )
-{
-    return static_cast<recipe_filter_flags>(
-               static_cast<unsigned>( l ) & static_cast<unsigned>( r ) );
-}
+enum class recipe_time_flag : int {
+    none = 0,
+    ignore_proficiencies = 1,
+};
+
+template<>
+struct enum_traits<recipe_time_flag> {
+    static constexpr bool is_flag_enum = true;
+};
+
+template<>
+struct enum_traits<recipe_filter_flags> {
+    static constexpr bool is_flag_enum = true;
+};
 
 struct recipe_proficiency {
     proficiency_id id;
     bool required = false;
     float time_multiplier = 1.0f;
     float fail_multiplier = 2.5f;
+    float learning_time_mult = 1.0f;
+    cata::optional<time_duration> max_experience = cata::nullopt;
+
+    void load( const JsonObject &jo );
+    void deserialize( JsonIn &jsin );
+};
+
+struct book_recipe_data {
+    int skill_req = -1;
+    cata::optional<translation> alt_name = cata::nullopt;
+    bool hidden = false;
 
     void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );
@@ -121,7 +142,9 @@ class recipe
 
         std::map<skill_id, int> autolearn_requirements; // Skill levels required to autolearn
         std::map<skill_id, int> learn_by_disassembly; // Skill levels required to learn by disassembly
-        std::map<itype_id, int> booksets; // Books containing this recipe, and the skill level required
+        // Books containing this recipe, and the skill level required
+        std::map<itype_id, book_recipe_data> booksets;
+
         std::set<std::string> flags_to_delete; // Flags to delete from the resultant item.
 
         // Create a string list to describe the skill requirements for this recipe
@@ -144,6 +167,8 @@ class recipe
         bool character_has_required_proficiencies( const Character &c ) const;
         // Helpful proficiencies
         std::set<proficiency_id> assist_proficiencies() const;
+        // The time malus due to proficiencies lacking
+        float proficiency_maluses( const Character &guy ) const;
 
         // This is used by the basecamp bulletin board.
         std::string required_all_skills_string() const;
@@ -166,8 +191,10 @@ class recipe
         time_duration batch_duration( const Character &guy, int batch = 1, float multiplier = 1.0,
                                       size_t assistants = 0 ) const;
 
-        time_duration time_to_craft( const Character &guy ) const;
-        int time_to_craft_moves( const Character &guy ) const;
+        time_duration time_to_craft( const Character &guy,
+                                     recipe_time_flag flags = recipe_time_flag::none ) const;
+        int time_to_craft_moves( const Character &guy,
+                                 recipe_time_flag flags = recipe_time_flag::none ) const;
 
         bool has_flag( const std::string &flag_name ) const;
 
@@ -212,6 +239,9 @@ class recipe
 
         /** Does the item spawn contained in container? */
         bool contained = false;
+
+        /** Does the container spawn sealed? */
+        bool sealed = true;
 
         /** Can recipe be used for disassembly of @ref result via @ref disassembly_requirements */
         bool reversible = false;

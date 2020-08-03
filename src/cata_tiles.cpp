@@ -180,9 +180,10 @@ formatted_text::formatted_text( const std::string &text, const int color,
     }
 }
 
-cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer ) :
+cata_tiles::cata_tiles( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry ) :
     renderer( renderer ),
-    minimap( renderer )
+    geometry( geometry ),
+    minimap( renderer, geometry )
 {
     assert( renderer );
 
@@ -321,7 +322,7 @@ static SDL_Surface_Ptr apply_color_filter( const SDL_Surface_Ptr &original,
     throwErrorIf( SDL_BlitSurface( original.get(), nullptr, surf.get(), nullptr ) != 0,
                   "SDL_BlitSurface failed" );
 
-    auto pix = reinterpret_cast<SDL_Color *>( surf->pixels );
+    SDL_Color *pix = reinterpret_cast<SDL_Color *>( surf->pixels );
 
     for( int y = 0, ey = surf->h; y < ey; ++y ) {
         for( int x = 0, ex = surf->w; x < ex; ++x, ++pix ) {
@@ -1004,7 +1005,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
                       "SDL_RenderSetClipRect failed" );
 
         //fill render area with black to prevent artifacts where no new pixels are drawn
-        render_fill_rect( renderer, clipRect, 0, 0, 0 );
+        geometry->rect( renderer, clipRect, SDL_Color() );
     }
 
     point s;
@@ -1128,7 +1129,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             // Add scent value to the overlay_strings list for every visible tile when displaying scent
             if( g->display_overlay_state( ACTION_DISPLAY_SCENT ) && !invisible[0] ) {
-                const int scent_value = g->scent.get( pos );
+                const int scent_value = get_scent().get( pos );
                 if( scent_value > 0 ) {
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                              formatted_text( std::to_string( scent_value ), 8 + catacurses::yellow,
@@ -1138,7 +1139,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             // Add scent type to the overlay_strings list for every visible tile when displaying scent
             if( g->display_overlay_state( ACTION_DISPLAY_SCENT_TYPE ) && !invisible[0] ) {
-                const scenttype_id scent_type = g->scent.get_type( pos );
+                const scenttype_id scent_type = get_scent().get_type( pos );
                 if( !scent_type.is_empty() ) {
                     overlay_strings.emplace( player_to_screen( point( x, y ) ) + point( tile_width / 2, 0 ),
                                              formatted_text( scent_type.c_str(), 8 + catacurses::yellow,
@@ -1164,7 +1165,7 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
 
             // Add temperature value to the overlay_strings list for every visible tile when displaying temperature
             if( g->display_overlay_state( ACTION_DISPLAY_TEMPERATURE ) && !invisible[0] ) {
-                int temp_value = g->weather.get_temperature( pos );
+                int temp_value = get_weather().get_temperature( pos );
                 int ctemp = temp_to_celsius( temp_value );
                 short color;
                 const short bold = 8;
@@ -1309,8 +1310,8 @@ void cata_tiles::draw( const point &dest, const tripoint &center, int width, int
     //Memorize everything the character just saw even if it wasn't displayed.
     for( int mem_y = min_visible_y; mem_y <= max_visible_y; mem_y++ ) {
         for( int mem_x = min_visible_x; mem_x <= max_visible_x; mem_x++ ) {
-            half_open_rectangle already_drawn( point( min_col, min_row ),
-                                               point( max_col, max_row ) );
+            half_open_rectangle<point> already_drawn(
+                point( min_col, min_row ), point( max_col, max_row ) );
             if( iso_mode ) {
                 // calculate the screen position according to the drawing code above (division rounded down):
 
@@ -1602,7 +1603,7 @@ bool cata_tiles::draw_from_id_string( std::string id, TILE_CATEGORY category,
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
 
-    half_open_rectangle screen_bounds( o, o + point( screentile_width, screentile_height ) );
+    half_open_rectangle<point> screen_bounds( o, o + point( screentile_width, screentile_height ) );
     if( !tile_iso &&
         !screen_bounds.contains( pos.xy() ) ) {
         return false;
@@ -1935,11 +1936,11 @@ bool cata_tiles::draw_sprite_at(
     const point &p, unsigned int loc_rand, bool rota_fg, int rota, lit_level ll,
     bool apply_night_vision_goggles, int &height_3d )
 {
-    auto picked = svlist.pick( loc_rand );
+    const std::vector<int> *picked = svlist.pick( loc_rand );
     if( !picked ) {
         return true;
     }
-    auto &spritelist = *picked;
+    const std::vector<int> &spritelist = *picked;
     if( spritelist.empty() ) {
         return true;
     }
@@ -1970,21 +1971,21 @@ bool cata_tiles::draw_sprite_at(
     //use night vision colors when in use
     //then use low light tile if available
     if( ll == lit_level::MEMORIZED ) {
-        if( const auto ptr = tileset_ptr->get_memory_tile( spritelist[sprite_num] ) ) {
+        if( const texture *ptr = tileset_ptr->get_memory_tile( spritelist[sprite_num] ) ) {
             sprite_tex = ptr;
         }
     } else if( apply_night_vision_goggles ) {
         if( ll != lit_level::LOW ) {
-            if( const auto ptr = tileset_ptr->get_overexposed_tile( spritelist[sprite_num] ) ) {
+            if( const texture *ptr = tileset_ptr->get_overexposed_tile( spritelist[sprite_num] ) ) {
                 sprite_tex = ptr;
             }
         } else {
-            if( const auto ptr = tileset_ptr->get_night_tile( spritelist[sprite_num] ) ) {
+            if( const texture *ptr = tileset_ptr->get_night_tile( spritelist[sprite_num] ) ) {
                 sprite_tex = ptr;
             }
         }
     } else if( ll == lit_level::LOW ) {
-        if( const auto ptr = tileset_ptr->get_shadow_tile( spritelist[sprite_num] ) ) {
+        if( const texture *ptr = tileset_ptr->get_shadow_tile( spritelist[sprite_num] ) ) {
             sprite_tex = ptr;
         }
     }
@@ -2173,7 +2174,7 @@ bool cata_tiles::draw_terrain_below( const tripoint &p, const lit_level, int &,
     if( tile_iso ) {
         belowRect.y += tile_height / 8;
     }
-    render_fill_rect( renderer, belowRect, tercol.r, tercol.g, tercol.b );
+    geometry->rect( renderer, belowRect, tercol );
 
     return true;
 }
@@ -2721,7 +2722,7 @@ bool cata_tiles::draw_critter_at_below( const tripoint &p, const lit_level, int 
         belowRect.y += tile_height / 8;
     }
 
-    render_fill_rect( renderer, belowRect, tercol.r, tercol.g, tercol.b );
+    geometry->rect( renderer, belowRect, tercol );
 
     return true;
 }
@@ -2801,7 +2802,7 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
                 result = draw_from_id_string( chosen_id, ent_category, ent_subcategory, p, subtile, rot_facing,
                                               ll, false, height_3d );
                 sees_player = m->sees( player_character );
-                attitude = m->attitude_to( g-> u );
+                attitude = m->attitude_to( player_character );
             }
         }
         const player *pl = dynamic_cast<const player *>( &critter );
@@ -2811,8 +2812,8 @@ bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll, int &height_3
             if( pl->is_player() ) {
                 is_player = true;
             } else {
-                sees_player = pl->sees( g-> u );
-                attitude = pl->attitude_to( g-> u );
+                sees_player = pl->sees( player_character );
+                attitude = pl->attitude_to( player_character );
             }
         }
     } else {
@@ -2854,10 +2855,10 @@ bool cata_tiles::draw_zone_mark( const tripoint &p, lit_level ll, int &height_3d
 
     const zone_manager &mgr = zone_manager::get_manager();
     const tripoint &abs = get_map().getabs( p );
-    const auto zone = mgr.get_bottom_zone( abs );
+    const zone_data *zone = mgr.get_bottom_zone( abs );
 
     if( zone && zone->has_options() ) {
-        auto option = dynamic_cast<const mark_option *>( &zone->get_options() );
+        const mark_option *option = dynamic_cast<const mark_option *>( &zone->get_options() );
 
         if( option && !option->get_mark().empty() ) {
             return draw_from_id_string( option->get_mark(), C_NONE, empty_string, p, 0, 0, ll,
@@ -3287,7 +3288,7 @@ void cata_tiles::draw_line()
         return;
     }
     static std::string line_overlay = "animation_line";
-    if( !is_target_line || get_player_character().sees( line_pos ) ) {
+    if( !is_target_line || get_player_view().sees( line_pos ) ) {
         for( auto it = line_trajectory.begin(); it != line_trajectory.end() - 1; ++it ) {
             draw_from_id_string( line_overlay, *it, 0, 0, lit_level::LIT, false );
         }
@@ -3325,7 +3326,7 @@ void cata_tiles::draw_weather_frame()
 void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_strings )
 {
     const bool use_font = get_option<bool>( "ANIMATION_SCT_USE_FONT" );
-    Character &player_character = get_player_character();
+    tripoint player_pos = get_player_location().pos();
 
     for( auto iter = SCT.vSCT.begin(); iter != SCT.vSCT.end(); ++iter ) {
         const point iD( iter->getPosX(), iter->getPosY() );
@@ -3354,7 +3355,7 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
 
                     if( tileset_ptr->find_tile_type( generic_id ) ) {
                         draw_from_id_string( generic_id, C_NONE, empty_string,
-                                             iD + tripoint( iOffsetX, iOffsetY, player_character.pos().z ), 0, 0, lit_level::LIT, false );
+                                             iD + tripoint( iOffsetX, iOffsetY, player_pos.z ), 0, 0, lit_level::LIT, false );
                     }
 
                     if( tile_iso ) {
@@ -3369,11 +3370,11 @@ void cata_tiles::draw_sct_frame( std::multimap<point, formatted_text> &overlay_s
 
 void cata_tiles::draw_zones_frame()
 {
-    Character &player_character = get_player_character();
+    tripoint player_pos = get_player_location().pos();
     for( int iY = zone_start.y; iY <= zone_end.y; ++ iY ) {
         for( int iX = zone_start.x; iX <= zone_end.x; ++iX ) {
             draw_from_id_string( "highlight", C_NONE, empty_string,
-                                 zone_offset.xy() + tripoint( iX, iY, player_character.pos().z ),
+                                 zone_offset.xy() + tripoint( iX, iY, player_pos.z ),
                                  0, 0, lit_level::LIT, false );
         }
     }

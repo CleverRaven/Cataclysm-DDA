@@ -458,6 +458,10 @@ std::string effect_type::get_remove_memorial_log() const
 {
     return remove_memorial_log;
 }
+std::string effect_type::get_blood_analysis_description() const
+{
+    return blood_analysis_description;
+}
 bool effect_type::get_main_parts() const
 {
     return main_parts_only;
@@ -529,7 +533,7 @@ std::string effect::disp_name() const
             return std::string();
         }
         ret += eff_type->name[0].translated();
-        if( intensity > 1 ) {
+        if( intensity > 1 && eff_type->show_intensity ) {
             if( eff_type->id == effect_bandaged || eff_type->id == effect_disinfected ) {
                 ret += string_format( " [%s]", texitify_healing_power( intensity ) );
             } else {
@@ -537,8 +541,8 @@ std::string effect::disp_name() const
             }
         }
     }
-    if( bp != num_bp ) {
-        ret += string_format( " (%s)", body_part_name( convert_bp( bp ).id() ) );
+    if( bp != bodypart_str_id( "bp_null" ) ) {
+        ret += string_format( " (%s)", body_part_name( bp.id() ) );
     }
 
     return ret;
@@ -696,7 +700,7 @@ std::string effect::disp_desc( bool reduced ) const
     }
     // Then print the effect description
     if( use_part_descs() ) {
-        ret += string_format( _( tmp_str ), body_part_name( convert_bp( bp ).id() ) );
+        ret += string_format( _( tmp_str ), body_part_name( bp.id() ) );
     } else {
         if( !tmp_str.empty() ) {
             ret += _( tmp_str );
@@ -723,7 +727,7 @@ std::string effect::disp_short_desc( bool reduced ) const
     }
 }
 
-void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
+void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
                     const time_point &time, const bool player )
 {
     // Decay intensity if supposed to do so
@@ -738,7 +742,7 @@ void effect::decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &re
     // Decay duration if not permanent
     if( duration <= 0_turns ) {
         rem_ids.push_back( get_id() );
-        rem_bps.push_back( bp );
+        rem_bps.push_back( bp.id() );
     } else if( !is_permanent() ) {
         mod_duration( -1_turns, player );
     }
@@ -771,7 +775,7 @@ void effect::set_duration( const time_duration &dur, bool alert )
         set_intensity( duration / eff_type->int_dur_factor + 1, alert );
     }
 
-    add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), to_turns<int>( duration ) );
+    add_msg( m_debug, "ID: %s, Duration %s", get_id().c_str(), to_string( duration ) );
 }
 void effect::mod_duration( const time_duration &dur, bool alert )
 {
@@ -787,11 +791,11 @@ time_point effect::get_start_time() const
     return start_time;
 }
 
-body_part effect::get_bp() const
+bodypart_id effect::get_bp() const
 {
-    return bp;
+    return bp.id();
 }
-void effect::set_bp( body_part part )
+void effect::set_bp( bodypart_str_id part )
 {
     bp = part;
 }
@@ -872,7 +876,7 @@ std::vector<efftype_id> effect::get_blocks_effects() const
 
 int effect::get_mod( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double min = 0;
     double max = 0;
     // Get the minimum total
@@ -904,7 +908,7 @@ int effect::get_mod( const std::string &arg, bool reduced ) const
 
 int effect::get_avg_mod( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double min = 0;
     double max = 0;
     // Get the minimum total
@@ -938,7 +942,7 @@ int effect::get_amount( const std::string &arg, bool reduced ) const
 {
     int intensity_capped = eff_type->max_effective_intensity > 0 ? std::min(
                                eff_type->max_effective_intensity, intensity ) : intensity;
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "amount" ) );
     if( found != mod_data.end() ) {
@@ -953,7 +957,7 @@ int effect::get_amount( const std::string &arg, bool reduced ) const
 
 int effect::get_min_val( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "min_val" ) );
     if( found != mod_data.end() ) {
@@ -968,7 +972,7 @@ int effect::get_min_val( const std::string &arg, bool reduced ) const
 
 int effect::get_max_val( const std::string &arg, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     double ret = 0;
     auto found = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "max_val" ) );
     if( found != mod_data.end() ) {
@@ -993,7 +997,7 @@ bool effect::get_sizing( const std::string &arg ) const
 
 double effect::get_percentage( const std::string &arg, int val, bool reduced ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
     auto found_top_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
                                           "chance_top" ) );
@@ -1071,7 +1075,7 @@ double effect::get_percentage( const std::string &arg, int val, bool reduced ) c
 bool effect::activated( const time_point &when, const std::string &arg, int val, bool reduced,
                         double mod ) const
 {
-    auto &mod_data = eff_type->mod_data;
+    const auto &mod_data = eff_type->mod_data;
     auto found_top_base = mod_data.find( std::make_tuple( "base_mods", reduced, arg, "chance_top" ) );
     auto found_top_scale = mod_data.find( std::make_tuple( "scaling_mods", reduced, arg,
                                           "chance_top" ) );
@@ -1276,6 +1280,8 @@ void load_effect_type( const JsonObject &jo )
     new_etype.apply_memorial_log = jo.get_string( "apply_memorial_log", "" );
     new_etype.remove_memorial_log = jo.get_string( "remove_memorial_log", "" );
 
+    new_etype.blood_analysis_description = jo.get_string( "blood_analysis_description", "" );
+
     for( auto &&f : jo.get_string_array( "resist_traits" ) ) { // *NOPAD*
         new_etype.resist_traits.push_back( trait_id( f ) );
     }
@@ -1314,6 +1320,7 @@ void load_effect_type( const JsonObject &jo )
 
     new_etype.main_parts_only = jo.get_bool( "main_parts_only", false );
     new_etype.show_in_info = jo.get_bool( "show_in_info", false );
+    new_etype.show_intensity = jo.get_bool( "show_intensity", true );
     new_etype.pkill_addict_reduces = jo.get_bool( "pkill_addict_reduces", false );
 
     new_etype.pain_sizing = jo.get_bool( "pain_sizing", false );
@@ -1357,7 +1364,7 @@ void effect::serialize( JsonOut &json ) const
     json.start_object();
     json.member( "eff_type", eff_type != nullptr ? eff_type->id.str() : "" );
     json.member( "duration", duration );
-    json.member( "bp", static_cast<int>( bp ) );
+    json.member( "bp", bp.c_str() );
     json.member( "permanent", permanent );
     json.member( "intensity", intensity );
     json.member( "start_turn", start_time );
@@ -1366,12 +1373,20 @@ void effect::serialize( JsonOut &json ) const
 void effect::deserialize( JsonIn &jsin )
 {
     JsonObject jo = jsin.get_object();
-    const efftype_id id( jo.get_string( "eff_type" ) );
+    efftype_id id;
+    jo.read( "eff_type", id );
     eff_type = &id.obj();
     jo.read( "duration", duration );
-    bp = static_cast<body_part>( jo.get_int( "bp" ) );
-    permanent = jo.get_bool( "permanent" );
-    intensity = jo.get_int( "intensity" );
+
+    // TEMPORARY until 0.F
+    if( jo.has_int( "bp" ) ) {
+        bp = convert_bp( static_cast<body_part>( jo.get_int( "bp" ) ) );
+    } else {
+        jo.read( "bp", bp );
+    }
+
+    jo.read( "permanent", permanent );
+    jo.read( "intensity", intensity );
     start_time = calendar::turn_zero;
     jo.read( "start_turn", start_time );
 }
@@ -1438,3 +1453,4 @@ std::string texitify_bandage_power( const int power )
     }
     return "";
 }
+

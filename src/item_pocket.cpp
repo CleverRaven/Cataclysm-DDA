@@ -97,6 +97,11 @@ void pocket_data::load( const JsonObject &jo )
     optional( jo, was_loaded, "pocket_type", type, item_pocket::pocket_type::CONTAINER );
     optional( jo, was_loaded, "ammo_restriction", ammo_restriction );
     optional( jo, was_loaded, "item_restriction", item_id_restriction );
+    if( !item_id_restriction.empty() ) {
+        std::vector<itype_id> item_restriction;
+        mandatory( jo, was_loaded, "item_restriction", item_restriction );
+        default_magazine = item_restriction.front();
+    }
     // ammo_restriction is a type of override, making the mandatory members not mandatory and superfluous
     // putting it in an if statement like this should allow for report_unvisited_member to work here
     if( ammo_restriction.empty() ) {
@@ -273,6 +278,9 @@ bool item_pocket::better_pocket( const item_pocket &rhs, const item &it ) const
 
 bool item_pocket::stacks_with( const item_pocket &rhs ) const
 {
+    if( _sealed != rhs._sealed ) {
+        return false;
+    }
     return ( empty() && rhs.empty() ) || std::equal( contents.begin(), contents.end(),
             rhs.contents.begin(), rhs.contents.end(),
     []( const item & a, const item & b ) {
@@ -416,14 +424,16 @@ int item_pocket::remaining_capacity_for_item( const item &it ) const
     if( item_copy.count_by_charges() ) {
         item_copy.charges = 1;
     }
-    int count_of_item = 0;
-    item_pocket pocket_copy( *this );
-    while( pocket_copy.can_contain( item_copy ).success()
-           && count_of_item < it.count() ) {
-        pocket_copy.insert_item( item_copy );
-        count_of_item++;
+    if( !can_contain( item_copy ).success() ) {
+        return 0;
     }
-    return count_of_item;
+    if( item_copy.count_by_charges() ) {
+        return std::min( { it.charges,
+                           item_copy.charges_per_volume( remaining_volume() ),
+                           item_copy.charges_per_weight( remaining_weight() ) } );
+    } else {
+        return 1;
+    }
 }
 
 units::volume item_pocket::item_size_modifier() const
@@ -506,6 +516,14 @@ item *item_pocket::magazine_current()
     return iter != contents.end() ? &*iter : nullptr;
 }
 
+itype_id item_pocket::magazine_default() const
+{
+    if( is_type( item_pocket::pocket_type::MAGAZINE_WELL ) ) {
+        return data->default_magazine;
+    }
+    return itype_id::NULL_ID();
+}
+
 int item_pocket::ammo_consume( int qty )
 {
     int need = qty;
@@ -560,17 +578,17 @@ void item_pocket::casings_handle( const std::function<bool( item & )> &func )
     }
 }
 
-void item_pocket::handle_liquid_or_spill( Character &guy )
+void item_pocket::handle_liquid_or_spill( Character &guy, const item *avoid )
 {
     for( auto iter = contents.begin(); iter != contents.end(); ) {
         if( iter->made_of( phase_id::LIQUID ) ) {
             item liquid( *iter );
             iter = contents.erase( iter );
-            liquid_handler::handle_all_liquid( liquid, 1 );
+            liquid_handler::handle_all_liquid( liquid, 1, avoid );
         } else {
             item i_copy( *iter );
             iter = contents.erase( iter );
-            guy.i_add_or_drop( i_copy );
+            guy.i_add_or_drop( i_copy, 1, avoid );
         }
     }
 }
@@ -665,13 +683,12 @@ bool item_pocket::process( const itype &type, player *carrier, const tripoint &p
                            float insulation, const temperature_flag flag )
 {
     bool processed = false;
+    float spoil_multiplier = 1.0f;
     for( auto it = contents.begin(); it != contents.end(); ) {
         if( _sealed ) {
-            // Simulate that the item has already "rotten" up to last_rot_check, but as item::rot
-            // is not changed, the item is still fresh.
-            it->set_last_rot_check( calendar::turn );
+            spoil_multiplier = 0.0f;
         }
-        if( it->process( carrier, pos, type.insulation_factor * insulation, flag ) ) {
+        if( it->process( carrier, pos, type.insulation_factor * insulation, flag, spoil_multiplier ) ) {
             it = contents.erase( it );
             processed = true;
         } else {
@@ -1084,6 +1101,12 @@ void item_pocket::overflow( const tripoint &pos )
         // no items to overflow
         return;
     }
+
+    // overflow recursively
+    for( item &it : contents ) {
+        it.contents.overflow( pos );
+    }
+
     map &here = get_map();
     // first remove items that shouldn't be in there anyway
     for( auto iter = contents.begin(); iter != contents.end(); ) {
@@ -1204,28 +1227,6 @@ void item_pocket::remove_items_if( const std::function<bool( item & )> &filter )
     on_contents_changed();
 }
 
-void item_pocket::has_rotten_away()
-{
-    for( auto it = contents.begin(); it != contents.end(); ) {
-        if( it->has_rotten_away() ) {
-            it = contents.erase( it );
-        } else {
-            ++it;
-        }
-    }
-}
-
-void item_pocket::remove_rotten( const tripoint &pnt )
-{
-    for( auto iter = contents.begin(); iter != contents.end(); ) {
-        if( iter->has_rotten_away( pnt, spoil_multiplier() ) ) {
-            iter = contents.erase( iter );
-        } else {
-            ++iter;
-        }
-    }
-}
-
 void item_pocket::process( player *carrier, const tripoint &pos, float insulation,
                            temperature_flag flag, float spoil_multiplier_parent )
 {
@@ -1318,22 +1319,11 @@ std::list<item> &item_pocket::edit_contents()
     return contents;
 }
 
-void item_pocket::migrate_item( item &obj, const std::set<itype_id> &migrations )
-{
-    for( const itype_id &c : migrations ) {
-        if( std::none_of( contents.begin(), contents.end(), [&]( const item & e ) {
-        return e.typeId() == c;
-        } ) ) {
-            add( item( c, obj.birthday() ) );
-        }
-    }
-}
-
 ret_val<item_pocket::contain_code> item_pocket::insert_item( const item &it )
 {
-    const bool contain_override = !is_standard_type();
-    const ret_val<item_pocket::contain_code> ret = can_contain( it );
-    if( contain_override || ret.success() ) {
+    const ret_val<item_pocket::contain_code> ret = !is_standard_type() ?
+            ret_val<item_pocket::contain_code>::make_success() : can_contain( it );
+    if( ret.success() ) {
         contents.push_back( it );
     }
     restack();

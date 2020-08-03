@@ -1802,7 +1802,7 @@
     "broken_color": "light_gray",
     "damage_modifier": 10,
     "durability": 50,
-    "description": "A metal pipe that reduces some of noise of the engine.",
+    "description": "A metal pipe that somewhat reduces engine noise.",
     "bonus": 40,
     "item": "muffler",
     "requirements": {
@@ -3250,7 +3250,7 @@
     "broken_color": "blue",
     "damage_modifier": 20,
     "durability": 200,
-    "description": "An LCD display attached to one or more cameras.  When turned on, it lets you see from the cameras, but drains power from the vehicle's batteries.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
+    "description": "An LCD attached to one or more cameras.  When turned on, it lets you see from the cameras, but drains power from the vehicle's batteries.  You can 'e'xamine the tile to access the controls, or use the vehicle control key (default '^').",
     "folded_volume": "2500 ml",
     "item": "camera_control",
     "epower": -20,
@@ -3699,37 +3699,5 @@
       "removal": { "skills": [ [ "mechanics", 3 ] ], "qualities": [ { "id": "SCREW", "level": 1 } ] }
     },
     "breaks_into": "ig_vp_device"
-  },
-  {
-    "type": "vehicle_part",
-    "id": "fridgetank",
-    "name": { "str": "refrigerated tank (60L)" },
-    "symbol": "O",
-    "looks_like": "f_fridge",
-    "color": "light_gray",
-    "broken_symbol": "#",
-    "broken_color": "light_blue",
-    "damage_modifier": 80,
-    "durability": 100,
-    "description": "A 60L refrigerated tank.  When turned on, it will cool the liquid inside, extending the time until the food spoils.",
-    "//": "Use average consumption, not the max on the appliance rating plate. 30W ~ 260kWh per annum",
-    "epower": -30,
-    "size": 300,
-    "item": "fridgetank",
-    "location": "fuel_source",
-    "requirements": {
-      "install": { "skills": [ [ "mechanics", 4 ] ], "time": "60 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "removal": { "skills": [ [ "mechanics", 2 ] ], "time": "30 m", "using": [ [ "vehicle_bolt", 1 ] ] },
-      "repair": { "skills": [ [ "mechanics", 5 ] ], "time": "60 m", "using": [ [ "welding_standard", 5 ] ] }
-    },
-    "flags": [ "FLUIDTANK", "FRIDGE", "ENABLED_DRAINS_EPOWER" ],
-    "breaks_into": [
-      { "item": "steel_lump", "count": [ 8, 13 ] },
-      { "item": "steel_chunk", "count": [ 8, 13 ] },
-      { "item": "scrap", "count": [ 8, 13 ] },
-      { "item": "hose", "prob": 50 },
-      { "item": "motor_tiny", "prob": 25 }
-    ],
-    "damage_reduction": { "all": 32 }
   }
 ]

@@ -1,12 +1,12 @@
+#include "catch/catch.hpp"
+
 #include "requirements.h"
 
 #include <algorithm>
 #include <cstddef>
 #include <memory>
 
-#include "catch/catch.hpp"
-
-static const itype_id itype_acid( "acid" );
+static const itype_id itype_chem_sulphuric_acid( "chem_sulphuric_acid" );
 static const itype_id itype_ash( "ash" );
 static const itype_id itype_lye( "lye" );
 static const itype_id itype_rock( "rock" );
@@ -87,12 +87,12 @@ TEST_CASE( "triple_overlap_2", "[requirement]" )
     test_requirement_deduplication( {
         { { itype_rock, 1 }, { itype_soap, 1 } },
         { { itype_rock, 1 }, { itype_yarn, 1 } },
-        { { itype_soap, 1 }, { itype_acid, 1 } }
+        { { itype_soap, 1 }, { itype_chem_sulphuric_acid, 1 } }
     }, {
-        { { { itype_soap, 1 } }, { { itype_rock, 1 }, { itype_yarn, 1 } }, { { itype_acid, 1 } } },
+        { { { itype_soap, 1 } }, { { itype_rock, 1 }, { itype_yarn, 1 } }, { { itype_chem_sulphuric_acid, 1 } } },
         { { { itype_rock, 1 }, { itype_yarn, 1 } }, { { itype_soap, 2 } } },
-        { { { itype_rock, 1 } }, { { itype_yarn, 1 } }, { { itype_acid, 1 }, { itype_soap, 1 } } },
-        { { { itype_rock, 2 } }, { { itype_acid, 1 }, { itype_soap, 1 } } },
+        { { { itype_rock, 1 } }, { { itype_yarn, 1 } }, { { itype_chem_sulphuric_acid, 1 }, { itype_soap, 1 } } },
+        { { { itype_rock, 2 } }, { { itype_chem_sulphuric_acid, 1 }, { itype_soap, 1 } } },
     } );
 }
 

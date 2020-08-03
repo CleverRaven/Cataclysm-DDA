@@ -587,7 +587,7 @@ bool player::handle_gun_damage( item &it )
         int uncork = ( ( 10 * it.ammo_data()->ammo->loudness )
                        + ( it.ammo_data()->ammo->recoil / 2 ) ) / 100;
         uncork = std::pow( uncork, 3 ) * 6.5;
-        for( auto mod : it.gunmods() ) {
+        for( item *mod : it.gunmods() ) {
             if( mod->has_flag( flag_CONSUMABLE ) ) {
                 int dmgamt = uncork / mod->type->gunmod->consume_divisor;
                 int modconsume = mod->type->gunmod->consume_chance;
@@ -680,9 +680,8 @@ bool player::handle_gun_damage( item &it )
 void npc::pretend_fire( npc *source, int shots, item &gun )
 {
     int curshot = 0;
-    Character &player_character = get_player_character();
-    if( player_character.sees( *source ) && one_in( 50 ) ) {
-        add_msg( m_info, _( "%s shoots something." ), source->disp_name() );
+    if( one_in( 50 ) ) {
+        add_msg_if_player_sees( *source, m_info, _( "%s shoots something." ), source->disp_name() );
     }
     while( curshot != shots ) {
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
@@ -693,9 +692,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
         item *weapon = &gun;
         const auto data = weapon->gun_noise( shots > 1 );
 
-        if( player_character.sees( *source ) ) {
-            add_msg( m_warning, _( "You hear %s." ), data.sound );
-        }
+        add_msg_if_player_sees( *source, m_warning, _( "You hear %s." ), data.sound );
         curshot++;
         moves -= 100;
     }
@@ -804,7 +801,7 @@ int player::fire_gun( const tripoint &target, int shots, item &gun )
 
         if( shot.missed_by <= .1 ) {
             // TODO: check head existence for headshot
-            g->events().send<event_type::character_gets_headshot>( getID() );
+            get_event_bus().send<event_type::character_gets_headshot>( getID() );
         }
 
         if( shot.hit_critter ) {
@@ -955,7 +952,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     bool throw_assist = false;
     int throw_assist_str = 0;
     if( is_mounted() ) {
-        auto mons = mounted_creature.get();
+        auto *mons = mounted_creature.get();
         if( mons->mech_str_addition() != 0 ) {
             throw_assist = true;
             throw_assist_str = mons->mech_str_addition();
@@ -1087,7 +1084,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     if( missed_by <= 0.1 && dealt_attack.hit_critter != nullptr ) {
         practice( skill_used, final_xp_mult, MAX_SKILL );
         // TODO: Check target for existence of head
-        g->events().send<event_type::character_gets_headshot>( getID() );
+        get_event_bus().send<event_type::character_gets_headshot>( getID() );
     } else if( dealt_attack.hit_critter != nullptr && missed_by > 0.0f ) {
         practice( skill_used, final_xp_mult / ( 1.0f + missed_by ), MAX_SKILL );
     } else {
@@ -1573,7 +1570,7 @@ static void cycle_action( item &weap, const tripoint &pos )
     }
 
     // some magazines also eject disintegrating linkages
-    const auto mag = weap.magazine_current();
+    const item *mag = weap.magazine_current();
     if( mag && mag->type->magazine->linkage ) {
         item linkage( *mag->type->magazine->linkage, calendar::turn, 1 );
         if( weap.gunmod_find( itype_brass_catcher ) ) {
@@ -1603,7 +1600,7 @@ item::sound_data item::gun_noise( const bool burst ) const
     }
 
     int noise = type->gun->loudness;
-    for( const auto mod : gunmods() ) {
+    for( const item *mod : gunmods() ) {
         noise += mod->type->gunmod->loudness;
     }
     if( ammo_data() ) {
@@ -2121,7 +2118,7 @@ void target_ui::init_window_and_input()
 
     w_target = catacurses::newwin( height, width, point( TERMX - width, top ) );
 
-    ctxt = input_context( "TARGET" );
+    ctxt = input_context( "TARGET", keyboard_mode::keychar );
     ctxt.set_iso( true );
     // "ANY_INPUT" should be added before any real help strings
     // Or strings will be written on window border.

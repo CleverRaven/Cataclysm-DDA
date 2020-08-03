@@ -19,7 +19,7 @@ defined, and all defined topics are referenced in a response or an NPC's chat, i
 There is a python script in `tools/dialogue_validator.py` that will map all topics to responses
 and vice versa.  Invoke it with
 ```sh
-python tools/dialogue_validator.py data/json/npcs/* data/json/npcs/Backgrounds/* data/json/npcs/refugee_center/*
+python3 tools/dialogue_validator.py data/json/npcs/* data/json/npcs/Backgrounds/* data/json/npcs/refugee_center/*
 ```
 
 If you are writing a mod with dialogue, you can add the paths to the mod's dialogue files.
@@ -432,6 +432,7 @@ Effect | Description
 `barber_hair` | Opens a menu allowing the player to choose a new hair style.
 `barber_beard` | Opens a menu allowing the player to choose a new beard style.
 `u_learn_recipe: recipe_string`  | Your character will learn and memorize the recipe `recipe_string`.
+`npc_first_topic: talk_topic_string` | Changes the initial talk_topic of the NPC in all future dialogues.
 
 #### Trade / Items
 

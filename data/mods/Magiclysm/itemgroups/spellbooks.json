@@ -4,6 +4,7 @@
     "type": "item_group",
     "items": [
       [ "summon_scroll_smudged", 10 ],
+      [ "spell_scroll_tornskin", 10 ],
       [ "spell_scroll_smite", 40 ],
       [ "spell_scroll_summon_zombie", 25 ],
       [ "spell_scroll_light_healing", 50 ],
@@ -70,7 +71,12 @@
       [ "spell_scroll_earthshaper_pillar", 35 ],
       [ "spell_scroll_biomancer_coagulant_weave", 30 ],
       [ "spell_scroll_repelling_arc", 30 ],
-      [ "spell_scroll_knock", 35 ]
+      [ "spell_scroll_knock", 35 ],
+      [ "spell_scroll_caustic_aura", 30 ],
+      [ "spell_scroll_impactsling", 20 ],
+      [ "spell_scroll_boneclub", 20 ],
+      [ "spell_scroll_flamesword", 35 ],
+      [ "spell_scroll_flamebreath", 30 ]
     ]
   },
   {
@@ -108,7 +114,9 @@
       [ "spell_scroll_dark_sight", 30 ],
       [ "spell_scroll_druidic_regrowth", 20 ],
       [ "spell_scroll_stormshaper_ionization", 40 ],
-      [ "spell_scroll_improved_knock", 35 ]
+      [ "spell_scroll_improved_knock", 35 ],
+      [ "spell_scroll_knifeshot", 35 ],
+      [ "spell_scroll_feralform", 30 ]
     ]
   },
   {

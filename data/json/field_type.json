@@ -359,7 +359,8 @@
     "phase": "solid",
     "display_items": false,
     "display_field": true,
-    "looks_like": "f_rubble"
+    "looks_like": "f_rubble",
+    "legacy_make_rubble": true
   },
   {
     "id": "fd_smoke",
@@ -780,7 +781,52 @@
     "id": "fd_dazzling",
     "type": "field_type",
     "legacy_enum_id": 27,
-    "intensity_levels": [ { "name": "dazzling", "color": "light_red_yellow", "sym": "#", "light_emitted": 5 } ],
+    "intensity_levels": [
+      {
+        "name": "dazzling",
+        "color": "light_red_yellow",
+        "sym": "#",
+        "light_emitted": 5,
+        "effects": [
+          {
+            "effect_id": "blind",
+            "body_part": "EYES",
+            "intensity": 2,
+            "min_duration": "2 seconds",
+            "max_duration": "2 seconds",
+            "chance_in_vehicle": 1,
+            "chance_inside_vehicle": 1,
+            "chance_outside_vehicle": 1
+          },
+          {
+            "effect_id": "blind",
+            "body_part": "EYES",
+            "intensity": 10,
+            "min_duration": "10 seconds",
+            "max_duration": "10 seconds",
+            "chance_in_vehicle": 5,
+            "chance_inside_vehicle": 5,
+            "chance_outside_vehicle": 5
+          }
+        ]
+      },
+      {
+        "//": "repeat last entry",
+        "effects": [
+          {
+            "effect_id": "blind",
+            "body_part": "EYES",
+            "intensity": 10,
+            "min_duration": "10 seconds",
+            "max_duration": "10 seconds",
+            "chance_in_vehicle": 1,
+            "chance_inside_vehicle": 1,
+            "chance_outside_vehicle": 1
+          }
+        ]
+      },
+      { "//": "repeat last entry" }
+    ],
     "description_affix": "illuminated_by",
     "priority": 4,
     "half_life": "1 turns",
@@ -1295,15 +1341,15 @@
     "id": "fd_hot_air_sauna",
     "type": "field_type",
     "intensity_levels": [
-      { "name": "hot air sauna", "sym": "&", "convection_temperature_mod": 65 },
-      { "color": "yellow", "convection_temperature_mod": 68 },
-      { "color": "red", "convection_temperature_mod": 71 }
+      { "name": "hot air sauna", "sym": "&", "convection_temperature_mod": 60 },
+      { "color": "yellow", "convection_temperature_mod": 70 },
+      { "color": "red", "convection_temperature_mod": 80 }
     ],
     "decay_amount_factor": 5,
-    "percent_spread": 100,
-    "outdoor_age_speedup": "100 minutes",
+    "percent_spread": 40,
+    "outdoor_age_speedup": "30 minutes",
     "priority": -1,
-    "half_life": "50 minutes",
+    "half_life": "5 minutes",
     "phase": "gas",
     "display_field": true
   },

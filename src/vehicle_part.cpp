@@ -209,7 +209,7 @@ itype_id vehicle_part::ammo_current() const
     }
 
     if( is_fuel_store( false ) || is_turret() ) {
-        return base.ammo_current();
+        return base.ammo_current() != itype_id::NULL_ID() ? base.ammo_current() : base.ammo_default();
     }
 
     return itype_id::NULL_ID();
@@ -373,7 +373,7 @@ bool vehicle_part::can_reload( const item &obj ) const
         return true;
     }
 
-    return is_tank() &&
+    return is_fuel_store() &&
            ammo_remaining() <= ammo_capacity( item::find_type( ammo_current() )->ammo->type );
 }
 
@@ -387,6 +387,11 @@ void vehicle_part::process_contents( const tripoint &pos, const bool e_heater )
         temperature_flag flag = temperature_flag::NORMAL;
         if( e_heater ) {
             flag = temperature_flag::HEATER;
+        }
+        if( enabled && info().has_flag( VPFLAG_FRIDGE ) ) {
+            flag = temperature_flag::FRIDGE;
+        } else if( enabled && info().has_flag( VPFLAG_FREEZER ) ) {
+            flag = temperature_flag::FREEZER;
         }
         base.process( nullptr, pos, 1, flag );
     }

@@ -10,7 +10,7 @@
     "material": [ "superalloy" ],
     "symbol": "[",
     "color": "light_red",
-    "covers": [ "TORSO" ],
+    "covers": [ "torso" ],
     "coverage": 0,
     "warmth": 0,
     "flags": [ "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS", "ONLY_ONE", "TORSO" ]

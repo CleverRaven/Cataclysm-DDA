@@ -48,6 +48,7 @@ static const efftype_id effect_adrenaline( "adrenaline" );
 static const efftype_id effect_alarm_clock( "alarm_clock" );
 static const efftype_id effect_antibiotic( "antibiotic" );
 static const efftype_id effect_anemia( "anemia" );
+static const efftype_id effect_antifungal( "antifungal" );
 static const efftype_id effect_asthma( "asthma" );
 static const efftype_id effect_attention( "attention" );
 static const efftype_id effect_bite( "bite" );
@@ -125,7 +126,7 @@ static const std::string flag_TOURNIQUET( "TOURNIQUET" );
 static void eff_fun_onfire( player &u, effect &it )
 {
     const int intense = it.get_intensity();
-    u.deal_damage( nullptr, convert_bp( it.get_bp() ).id(), damage_instance( DT_HEAT, rng( intense,
+    u.deal_damage( nullptr, it.get_bp(), damage_instance( DT_HEAT, rng( intense,
                    intense * 2 ) ) );
 }
 static void eff_fun_spores( player &u, effect &it )
@@ -134,17 +135,41 @@ static void eff_fun_spores( player &u, effect &it )
     const int intense = it.get_intensity();
     if( ( !u.has_trait( trait_M_IMMUNE ) ) && ( one_in( 100 ) &&
             x_in_y( intense, 900 + u.get_healthy() * 0.6 ) ) ) {
-        u.add_effect( effect_fungus, 1_turns, num_bp, true );
+        u.add_effect( effect_fungus, 1_turns, true );
+    }
+}
+static void eff_fun_antifungal( player &u, effect & )
+{
+    // antifungal drugs are deadly poison for marloss people
+    if( u.has_trait( trait_THRESH_MYCUS ) && one_in( 30 ) ) {
+        if( one_in( 10 ) ) {
+            u.add_msg_player_or_npc( m_bad, _( "Something burns you from the inside." ),
+                                     _( "<npcname> shivers from pain." ) );
+        }
+        u.mod_pain( 1 );
+        // not using u.get_random_body_part() as it is weighted & not fully random
+        std::vector<bodypart_id> bparts = u.get_all_body_parts( true );
+        bodypart_id random_bpart = bparts[ rng( 0, bparts.size() - 1 ) ];
+        u.apply_damage( nullptr, random_bpart, 1 );
     }
 }
 static void eff_fun_fungus( player &u, effect &it )
 {
-    const time_duration dur = it.get_duration();
     const int intense = it.get_intensity();
-    const int bonus = u.get_healthy() / 10 + ( u.resists_effect( it ) ? 100 : 0 );
+    const bool resists = u.resists_effect( it );
+    const int bonus = u.get_healthy() / 10 + ( resists ? 100 : 0 );
+
+    // clock the progress
+    // hard reverse the clock if you resist fungus
+    if( resists ) {
+        it.mod_duration( -5_turns );
+    } else {
+        it.mod_duration( 1_turns );
+    }
+
     switch( intense ) {
         case 1:
-            // First hour symptoms
+            // 0-6 hours symptoms
             if( one_in( 960 + bonus * 6 ) ) {
                 u.cough( true );
             }
@@ -154,23 +179,19 @@ static void eff_fun_fungus( player &u, effect &it )
             if( one_in( 600 + bonus * 6 ) ) {
                 u.add_msg_if_player( m_warning, _( "You smell and taste mushrooms." ) );
             }
-            it.mod_duration( 1_turns );
-            if( dur > 1_hours ) {
-                it.mod_intensity( 1 );
-            }
             break;
         case 2:
-            // Five hours of worse symptoms
+            // 6-12 hours of worse symptoms
             if( one_in( 3600 + bonus * 18 ) ) {
                 u.add_msg_if_player( m_bad,  _( "You spasm suddenly!" ) );
                 u.moves -= 100;
-                u.apply_damage( nullptr, bodypart_id( "torso" ), 5 );
+                u.apply_damage( nullptr, bodypart_id( "torso" ), resists ? rng( 1, 5 ) : 5 );
             }
             if( x_in_y( u.vomit_mod(), ( 4800 + bonus * 24 ) ) || one_in( 12000 + bonus * 60 ) ) {
                 u.add_msg_player_or_npc( m_bad, _( "You vomit a thick, gray goop." ),
                                          _( "<npcname> vomits a thick, gray goop." ) );
 
-                const int awfulness = rng( 0, 70 );
+                const int awfulness = rng( 0, resists ? rng( 1, 70 ) : 70 );
                 u.moves = -200;
                 u.mod_hunger( awfulness );
                 u.mod_thirst( awfulness );
@@ -178,13 +199,9 @@ static void eff_fun_fungus( player &u, effect &it )
                 u.apply_damage( nullptr, bodypart_id( "torso" ), awfulness / std::max( u.str_cur,
                                 1 ) ); // can't be healthy
             }
-            it.mod_duration( 1_turns );
-            if( dur > 6_hours ) {
-                it.mod_intensity( 1 );
-            }
             break;
         case 3:
-            // Permanent symptoms
+            // Permanent symptoms, 12+ hours
             if( one_in( 6000 + bonus * 48 ) ) {
                 u.add_msg_player_or_npc( m_bad,  _( "You vomit thousands of live spores!" ),
                                          _( "<npcname> vomits thousands of live spores!" ) );
@@ -199,7 +216,7 @@ static void eff_fun_fungus( player &u, effect &it )
                     fe.fungalize( sporep, &u, 0.25 );
                 }
                 // We're fucked
-            } else if( one_in( 36000 + bonus * 120 ) ) {
+            } else if( one_in( 36000 + bonus * 240 ) ) {
                 if( u.is_limb_broken( bodypart_id( "arm_l" ) ) || u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
                     if( u.is_limb_broken( bodypart_id( "arm_l" ) ) && u.is_limb_broken( bodypart_id( "arm_r" ) ) ) {
                         u.add_msg_player_or_npc( m_bad,
@@ -249,7 +266,7 @@ static void eff_fun_bleed( player &u, effect &it )
     // QuikClot or bandages per the recipe.)
     const int intense = it.get_intensity();
     // tourniquet reduces effective bleeding by 2/3 but doesn't modify the effect's intensity
-    bool tourniquet = u.worn_with_flag( flag_TOURNIQUET, convert_bp( it.get_bp() ) );
+    bool tourniquet = u.worn_with_flag( flag_TOURNIQUET,  it.get_bp() );
     if( !( tourniquet && one_in( 3 ) ) && u.activity.id() != ACT_FIRSTAID ) {
         // Prolonged hemorrhage is a significant risk for developing anemia
         u.vitamin_mod( vitamin_redcells, -intense );
@@ -379,29 +396,29 @@ struct temperature_effect {
 static void eff_fun_cold( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    static const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
-            { { bp_head, 3 }, { 0, 0, 3, 0, translate_marker( "Your thoughts are unclear." ), 2400, "" } },
-            { { bp_head, 2 }, { 0, 0, 1, 0, "", 0, "" } },
-            { { bp_mouth, 3 }, { 0, 0, 0, 3, translate_marker( "Your face is stiff from the cold." ), 2400, "" } },
-            { { bp_mouth, 2 }, { 0, 0, 0, 1, "", 0, "" } },
-            { { bp_torso, 3 }, { 0, 4, 0, 0, translate_marker( "Your torso is freezing cold.  You should put on a few more layers." ), 400, translate_marker( "You quiver from the cold." ) } },
-            { { bp_torso, 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "Your shivering makes you unsteady." ) } },
-            { { bp_arm_l, 3 }, { 0, 2, 0, 0, translate_marker( "Your left arm is shivering." ), 4800, translate_marker( "Your left arm trembles from the cold." ) } },
-            { { bp_arm_l, 2 }, { 0, 1, 0, 0, translate_marker( "Your left arm is shivering." ), 4800, translate_marker( "Your left arm trembles from the cold." ) } },
-            { { bp_arm_r, 3 }, { 0, 2, 0, 0, translate_marker( "Your right arm is shivering." ), 4800, translate_marker( "Your right arm trembles from the cold." ) } },
-            { { bp_arm_r, 2 }, { 0, 1, 0, 0, translate_marker( "Your right arm is shivering." ), 4800, translate_marker( "Your right arm trembles from the cold." ) } },
-            { { bp_hand_l, 3 }, { 0, 2, 0, 0, translate_marker( "Your left hand feels like ice." ), 4800, translate_marker( "Your left hand quivers in the cold." ) } },
-            { { bp_hand_l, 2 }, { 0, 1, 0, 0, translate_marker( "Your left hand feels like ice." ), 4800, translate_marker( "Your left hand quivers in the cold." ) } },
-            { { bp_hand_r, 3 }, { 0, 2, 0, 0, translate_marker( "Your right hand feels like ice." ), 4800, translate_marker( "Your right hand quivers in the cold." ) } },
-            { { bp_hand_r, 2 }, { 0, 1, 0, 0, translate_marker( "Your right hand feels like ice." ), 4800, translate_marker( "Your right hand quivers in the cold." ) } },
-            { { bp_leg_l, 3 }, { 2, 2, 0, 0, translate_marker( "Your left leg trembles against the relentless cold." ), 4800, translate_marker( "Your legs uncontrollably shake from the cold." ) } },
-            { { bp_leg_l, 2 }, { 1, 1, 0, 0, translate_marker( "Your left leg trembles against the relentless cold." ), 4800, translate_marker( "Your legs uncontrollably shake from the cold." ) } },
-            { { bp_leg_r, 3 }, { 2, 2, 0, 0, translate_marker( "Your right leg trembles against the relentless cold." ), 4800, translate_marker( "Your legs uncontrollably shake from the cold." ) } },
-            { { bp_leg_r, 2 }, { 1, 1, 0, 0, translate_marker( "Your right leg trembles against the relentless cold." ), 4800, translate_marker( "Your legs uncontrollably shake from the cold." ) } },
-            { { bp_foot_l, 3 }, { 2, 2, 0, 0, translate_marker( "Your left foot feels frigid." ), 4800, translate_marker( "Your left foot is as nimble as a block of ice." ) } },
-            { { bp_foot_l, 2 }, { 1, 1, 0, 0, translate_marker( "Your left foot feels frigid." ), 4800, translate_marker( "Your freezing left foot messes up your balance." ) } },
-            { { bp_foot_r, 3 }, { 2, 2, 0, 0, translate_marker( "Your right foot feels frigid." ), 4800, translate_marker( "Your right foot is as nimble as a block of ice." ) } },
-            { { bp_foot_r, 2 }, { 1, 1, 0, 0, translate_marker( "Your right foot feels frigid." ), 4800, translate_marker( "Your freezing right foot messes up your balance." ) } },
+    static const std::map<std::pair<bodypart_id, int>, temperature_effect> effs = {{
+            { { bodypart_id( "head" ), 3 }, { 0, 0, 3, 0, translate_marker( "Your thoughts are unclear." ), 2400, "" } },
+            { { bodypart_id( "head" ), 2 }, { 0, 0, 1, 0, "", 0, "" } },
+            { { bodypart_id( "mouth" ), 3 }, { 0, 0, 0, 3, translate_marker( "Your face is stiff from the cold." ), 2400, "" } },
+            { { bodypart_id( "mouth" ), 2 }, { 0, 0, 0, 1, "", 0, "" } },
+            { { bodypart_id( "torso" ), 3 }, { 0, 4, 0, 0, translate_marker( "Your torso is freezing cold.  You should put on a few more layers." ), 400, translate_marker( "You quiver from the cold." ) } },
+            { { bodypart_id( "torso" ), 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "Your shivering makes you unsteady." ) } },
+            { { bodypart_id( "arm_l" ), 3 }, { 0, 2, 0, 0, translate_marker( "Your left arm is shivering." ), 4800, translate_marker( "Your left arm trembles from the cold." ) } },
+            { { bodypart_id( "arm_l" ), 2 }, { 0, 1, 0, 0, translate_marker( "Your left arm is shivering." ), 4800, translate_marker( "Your left arm trembles from the cold." ) } },
+            { { bodypart_id( "arm_r" ), 3 }, { 0, 2, 0, 0, translate_marker( "Your right arm is shivering." ), 4800, translate_marker( "Your right arm trembles from the cold." ) } },
+            { { bodypart_id( "arm_r" ), 2 }, { 0, 1, 0, 0, translate_marker( "Your right arm is shivering." ), 4800, translate_marker( "Your right arm trembles from the cold." ) } },
+            { { bodypart_id( "hand_l" ), 3 }, { 0, 2, 0, 0, translate_marker( "Your left hand feels like ice." ), 4800, translate_marker( "Your left hand quivers in the cold." ) } },
+            { { bodypart_id( "hand_l" ), 2 }, { 0, 1, 0, 0, translate_marker( "Your left hand feels like ice." ), 4800, translate_marker( "Your left hand quivers in the cold." ) } },
+            { { bodypart_id( "hand_r" ), 3 }, { 0, 2, 0, 0, translate_marker( "Your right hand feels like ice." ), 4800, translate_marker( "Your right hand quivers in the cold." ) } },
+            { { bodypart_id( "hand_r" ), 2 }, { 0, 1, 0, 0, translate_marker( "Your right hand feels like ice." ), 4800, translate_marker( "Your right hand quivers in the cold." ) } },
+            { { bodypart_id( "leg_l" ), 3 }, { 2, 2, 0, 0, translate_marker( "Your left leg trembles against the relentless cold." ), 4800, translate_marker( "Your legs uncontrollably shake from the cold." ) } },
+            { { bodypart_id( "leg_l" ), 2 }, { 1, 1, 0, 0, translate_marker( "Your left leg trembles against the relentless cold." ), 4800, translate_marker( "Your legs uncontrollably shake from the cold." ) } },
+            { { bodypart_id( "leg_r" ), 3 }, { 2, 2, 0, 0, translate_marker( "Your right leg trembles against the relentless cold." ), 4800, translate_marker( "Your legs uncontrollably shake from the cold." ) } },
+            { { bodypart_id( "leg_r" ), 2 }, { 1, 1, 0, 0, translate_marker( "Your right leg trembles against the relentless cold." ), 4800, translate_marker( "Your legs uncontrollably shake from the cold." ) } },
+            { { bodypart_id( "foot_l" ), 3 }, { 2, 2, 0, 0, translate_marker( "Your left foot feels frigid." ), 4800, translate_marker( "Your left foot is as nimble as a block of ice." ) } },
+            { { bodypart_id( "foot_l" ), 2 }, { 1, 1, 0, 0, translate_marker( "Your left foot feels frigid." ), 4800, translate_marker( "Your freezing left foot messes up your balance." ) } },
+            { { bodypart_id( "foot_r" ), 3 }, { 2, 2, 0, 0, translate_marker( "Your right foot feels frigid." ), 4800, translate_marker( "Your right foot is as nimble as a block of ice." ) } },
+            { { bodypart_id( "foot_r" ), 2 }, { 1, 1, 0, 0, translate_marker( "Your right foot feels frigid." ), 4800, translate_marker( "Your freezing right foot messes up your balance." ) } },
         }
     };
     const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
@@ -413,35 +430,37 @@ static void eff_fun_cold( player &u, effect &it )
 static void eff_fun_hot( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    static const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
-            { { bp_head, 3 }, { 0, 0, 0, 0, translate_marker( "Your head is pounding from the heat." ), 2400, "" } },
-            { { bp_head, 2 }, { 0, 0, 0, 0, "", 0, "" } },
-            { { bp_torso, 3 }, { 2, 0, 0, 0, translate_marker( "You are sweating profusely." ), 2400, "" } },
-            { { bp_torso, 2 }, { 1, 0, 0, 0, "", 0, "" } },
-            { { bp_hand_l, 3 }, { 0, 2, 0, 0, "", 0, translate_marker( "Your left hand's too sweaty to grip well." ) } },
-            { { bp_hand_l, 2 }, { 0, 1, 0, 0, "", 0, translate_marker( "Your left hand's too sweaty to grip well." ) } },
-            { { bp_hand_r, 3 }, { 0, 2, 0, 0, "", 0, translate_marker( "Your right hand's too sweaty to grip well." ) } },
-            { { bp_hand_r, 2 }, { 0, 1, 0, 0, "", 0, translate_marker( "Your right hand's too sweaty to grip well." ) } },
-            { { bp_leg_l, 3 }, { 0, 0, 0, 0, translate_marker( "Your left leg is cramping up." ), 4800, "" } },
-            { { bp_leg_l, 2 }, { 0, 0, 0, 0, "", 0, "" } },
-            { { bp_leg_r, 3 }, { 0, 0, 0, 0, translate_marker( "Your right leg is cramping up." ), 4800, "" } },
-            { { bp_leg_r, 2 }, { 0, 0, 0, 0, "", 0, "" } },
-            { { bp_foot_l, 3 }, { 0, 0, 0, 0, translate_marker( "Your left foot is swelling in the heat." ), 4800, "" } },
-            { { bp_foot_l, 2 }, { 0, 0, 0, 0, "", 0, "" } },
-            { { bp_foot_r, 3 }, { 0, 0, 0, 0, translate_marker( "Your right foot is swelling in the heat." ), 4800, "" } },
-            { { bp_foot_r, 2 }, { 0, 0, 0, 0, "", 0, "" } },
+    static const std::map<std::pair<bodypart_id, int>, temperature_effect> effs = {{
+            { { bodypart_id( "head" ), 3 }, { 0, 0, 0, 0, translate_marker( "Your head is pounding from the heat." ), 2400, "" } },
+            { { bodypart_id( "head" ), 2 }, { 0, 0, 0, 0, "", 0, "" } },
+            { { bodypart_id( "torso" ), 3 }, { 2, 0, 0, 0, translate_marker( "You are sweating profusely." ), 2400, "" } },
+            { { bodypart_id( "torso" ), 2 }, { 1, 0, 0, 0, "", 0, "" } },
+            { { bodypart_id( "hand_l" ), 3 }, { 0, 2, 0, 0, "", 0, translate_marker( "Your left hand's too sweaty to grip well." ) } },
+            { { bodypart_id( "hand_l" ), 2 }, { 0, 1, 0, 0, "", 0, translate_marker( "Your left hand's too sweaty to grip well." ) } },
+            { { bodypart_id( "hand_r" ), 3 }, { 0, 2, 0, 0, "", 0, translate_marker( "Your right hand's too sweaty to grip well." ) } },
+            { { bodypart_id( "hand_r" ), 2 }, { 0, 1, 0, 0, "", 0, translate_marker( "Your right hand's too sweaty to grip well." ) } },
+            { { bodypart_id( "leg_l" ), 3 }, { 0, 0, 0, 0, translate_marker( "Your left leg is cramping up." ), 4800, "" } },
+            { { bodypart_id( "leg_l" ), 2 }, { 0, 0, 0, 0, "", 0, "" } },
+            { { bodypart_id( "leg_r" ), 3 }, { 0, 0, 0, 0, translate_marker( "Your right leg is cramping up." ), 4800, "" } },
+            { { bodypart_id( "leg_r" ), 2 }, { 0, 0, 0, 0, "", 0, "" } },
+            { { bodypart_id( "foot_l" ), 3 }, { 0, 0, 0, 0, translate_marker( "Your left foot is swelling in the heat." ), 4800, "" } },
+            { { bodypart_id( "foot_l" ), 2 }, { 0, 0, 0, 0, "", 0, "" } },
+            { { bodypart_id( "foot_r" ), 3 }, { 0, 0, 0, 0, translate_marker( "Your right foot is swelling in the heat." ), 4800, "" } },
+            { { bodypart_id( "foot_r" ), 2 }, { 0, 0, 0, 0, "", 0, "" } },
         }
     };
 
-    const body_part bp = it.get_bp();
+    const bodypart_id bp = it.get_bp();
     const int intense = it.get_intensity();
     const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
     if( iter != effs.end() ) {
         iter->second.apply( u );
     }
     // Hothead effects are a special snowflake
-    if( bp == bp_head && intense >= 2 ) {
-        if( one_in( std::max( 25, std::min( 89500, 90000 - u.temp_cur[bp_head] ) ) ) ) {
+
+    if( bp == bodypart_id( "head" ) && intense >= 2 ) {
+        if( one_in( std::max( 25, std::min( 89500,
+                                            90000 - u.get_part_temp_cur( bodypart_id( "head" ) ) ) ) ) ) {
             u.vomit();
         }
         if( !u.has_effect( effect_sleep ) && one_in( 2400 ) ) {
@@ -453,15 +472,15 @@ static void eff_fun_hot( player &u, effect &it )
 static void eff_fun_frostbite( player &u, effect &it )
 {
     // { body_part, intensity }, { str_pen, dex_pen, int_pen, per_pen, msg, msg_chance, miss_msg }
-    static const std::map<std::pair<body_part, int>, temperature_effect> effs = {{
-            { { bp_hand_l, 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "You have trouble grasping with your numb fingers." ) } },
-            { { bp_hand_r, 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "You have trouble grasping with your numb fingers." ) } },
-            { { bp_foot_l, 2 }, { 0, 0, 0, 0, translate_marker( "Your foot has gone numb." ), 4800, "" } },
-            { { bp_foot_l, 1 }, { 0, 0, 0, 0, translate_marker( "Your foot has gone numb." ), 4800, "" } },
-            { { bp_foot_r, 2 }, { 0, 0, 0, 0, translate_marker( "Your foot has gone numb." ), 4800, "" } },
-            { { bp_foot_r, 1 }, { 0, 0, 0, 0, translate_marker( "Your foot has gone numb." ), 4800, "" } },
-            { { bp_mouth, 2 }, { 0, 0, 0, 3, translate_marker( "Your face feels numb." ), 4800, "" } },
-            { { bp_mouth, 1 }, { 0, 0, 0, 1, translate_marker( "Your face feels numb." ), 4800, "" } },
+    static const std::map<std::pair<bodypart_id, int>, temperature_effect> effs = {{
+            { { bodypart_id( "hand_l" ), 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "You have trouble grasping with your numb fingers." ) } },
+            { { bodypart_id( "hand_r" ), 2 }, { 0, 2, 0, 0, "", 0, translate_marker( "You have trouble grasping with your numb fingers." ) } },
+            { { bodypart_id( "foot_l" ), 2 }, { 0, 0, 0, 0, translate_marker( "Your foot has gone numb." ), 4800, "" } },
+            { { bodypart_id( "foot_l" ), 1 }, { 0, 0, 0, 0, translate_marker( "Your foot has gone numb." ), 4800, "" } },
+            { { bodypart_id( "foot_r" ), 2 }, { 0, 0, 0, 0, translate_marker( "Your foot has gone numb." ), 4800, "" } },
+            { { bodypart_id( "foot_r" ), 1 }, { 0, 0, 0, 0, translate_marker( "Your foot has gone numb." ), 4800, "" } },
+            { { bodypart_id( "mouth" ), 2 }, { 0, 0, 0, 3, translate_marker( "Your face feels numb." ), 4800, "" } },
+            { { bodypart_id( "mouth" ), 1 }, { 0, 0, 0, 1, translate_marker( "Your face feels numb." ), 4800, "" } },
         }
     };
     const auto iter = effs.find( { it.get_bp(), it.get_intensity() } );
@@ -472,7 +491,7 @@ static void eff_fun_frostbite( player &u, effect &it )
 
 void player::hardcoded_effects( effect &it )
 {
-    if( auto buff = ma_buff::from_effect( it ) ) {
+    if( const ma_buff *buff = ma_buff::from_effect( it ) ) {
         if( buff->is_valid_character( *this ) ) {
             buff->apply_character( *this );
         } else {
@@ -485,6 +504,7 @@ void player::hardcoded_effects( effect &it )
             { effect_onfire, eff_fun_onfire },
             { effect_spores, eff_fun_spores },
             { effect_fungus, eff_fun_fungus },
+            { effect_antifungal, eff_fun_antifungal },
             { effect_rat, eff_fun_rat },
             { effect_bleed, eff_fun_bleed },
             { effect_hallu, eff_fun_hallu },
@@ -502,7 +522,7 @@ void player::hardcoded_effects( effect &it )
 
     const time_duration dur = it.get_duration();
     int intense = it.get_intensity();
-    const bodypart_id &bp = convert_bp( it.get_bp() ).id();
+    const bodypart_id &bp = it.get_bp();
     bool sleeping = has_effect( effect_sleep );
     map &here = get_map();
     Character &player_character = get_player_character();
@@ -513,7 +533,7 @@ void player::hardcoded_effects( effect &it )
             formication_chance += 14400 - to_turns<int>( dur );
         }
         if( one_in( formication_chance ) ) {
-            add_effect( effect_formication, 60_minutes, bp->token );
+            add_effect( effect_formication, 60_minutes, bp );
         }
         if( dur < 1_days && one_in( 14400 ) ) {
             vomit();
@@ -535,8 +555,8 @@ void player::hardcoded_effects( effect &it )
                     }
                 }
             }
-            g->events().send<event_type::dermatik_eggs_hatch>( getID() );
-            remove_effect( effect_formication, bp->token );
+            get_event_bus().send<event_type::dermatik_eggs_hatch>( getID() );
+            remove_effect( effect_formication, bp );
             moves -= 600;
             triggered = true;
         }
@@ -555,10 +575,10 @@ void player::hardcoded_effects( effect &it )
                 add_msg( m_warning, _( "You start scratching your %s!" ),
                          body_part_name_accusative( bp ) );
                 player_character.cancel_activity();
-            } else if( player_character.sees( pos() ) ) {
+            } else {
                 //~ 1$s is NPC name, 2$s is bodypart in accusative.
-                add_msg( _( "%1$s starts scratching their %2$s!" ), name,
-                         body_part_name_accusative( bp ) );
+                add_msg_if_player_sees( pos(), _( "%1$s starts scratching their %2$s!" ), name,
+                                        body_part_name_accusative( bp ) );
             }
             moves -= 150;
             apply_damage( nullptr, bp, 1 );
@@ -633,7 +653,7 @@ void player::hardcoded_effects( effect &it )
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad, _( "You notice a large abscess.  You pick at it." ) );
                 body_part itch = random_body_part( true );
-                add_effect( effect_formication, 60_minutes, itch );
+                add_effect( effect_formication, 60_minutes, convert_bp( itch ).id() );
                 mod_pain( 1 );
             } else if( one_in( 3000 ) ) {
                 add_msg_if_player( m_bad,
@@ -668,7 +688,7 @@ void player::hardcoded_effects( effect &it )
                     add_msg( _( "Glowing lights surround you, and you teleport." ) );
                 }
                 teleport::teleport( *this );
-                g->events().send<event_type::teleglow_teleports>( getID() );
+                get_event_bus().send<event_type::teleglow_teleports>( getID() );
                 if( one_in( 10 ) ) {
                     // Set ourselves up for removal
                     it.set_duration( 0_turns );
@@ -765,7 +785,7 @@ void player::hardcoded_effects( effect &it )
         }
         if( one_in( 10000 ) ) {
             if( !has_trait( trait_M_IMMUNE ) ) {
-                add_effect( effect_fungus, 1_turns, num_bp, true );
+                add_effect( effect_fungus, 1_turns, true );
             } else {
                 add_msg_if_player( m_info, _( "We have many colonists awaiting passage." ) );
             }
@@ -778,7 +798,7 @@ void player::hardcoded_effects( effect &it )
             it.set_duration( 0_turns );
         } else if( dur > 2_hours ) {
             add_msg_if_player( m_bad, _( "Your asthma overcomes you.\nYou asphyxiate." ) );
-            g->events().send<event_type::dies_from_asthma_attack>( getID() );
+            get_event_bus().send<event_type::dies_from_asthma_attack>( getID() );
             hurtall( 500, nullptr );
         } else if( dur > 70_minutes ) {
             if( one_in( 120 ) ) {
@@ -825,7 +845,7 @@ void player::hardcoded_effects( effect &it )
             add_miss_reason( _( "Your muscles are locking up and you can't fight effectively." ), 4 );
             if( one_in( 3072 ) ) {
                 add_msg_if_player( m_bad, _( "Your muscles spasm." ) );
-                add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+                add_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
                 add_effect( effect_stunned, rng( 1_turns, 4_turns ) );
                 if( one_in( 10 ) ) {
                     mod_pain( rng( 1, 10 ) );
@@ -854,7 +874,7 @@ void player::hardcoded_effects( effect &it )
                 add_msg_if_player( m_bad,
                                    _( "You're experiencing loss of basic motor skills and blurred vision.  Your mind recoils in horror, unable to communicate with your spinal column." ) );
                 add_msg_if_player( m_bad, _( "You stagger and fall!" ) );
-                add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+                add_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
                 if( one_in( 8 ) || x_in_y( vomit_mod(), 10 ) ) {
                     vomit();
                 }
@@ -899,7 +919,7 @@ void player::hardcoded_effects( effect &it )
                 add_msg_if_player(
                     _( "You dissolve into beautiful paroxysms of energy.  Life fades from your nebulae and you are no more." ) );
             }
-            g->events().send<event_type::dies_from_drug_overdose>( getID(), id );
+            get_event_bus().send<event_type::dies_from_drug_overdose>( getID(), id );
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         }
     } else if( id == effect_hypovolemia ) {
@@ -915,13 +935,13 @@ void player::hardcoded_effects( effect &it )
                 add_msg_player_or_npc( m_bad,
                                        _( "You bleed to death!" ),
                                        _( "<npcname> bleeds to death!" ) );
-                g->events().send<event_type::dies_from_bleeding>( getID() );
+                get_event_bus().send<event_type::dies_from_bleeding>( getID() );
             } else
             {
                 add_msg_player_or_npc( m_bad,
                                        _( "Your heart can't keep up the pace and fails!" ),
                                        _( "<npcname> has a sudden heart attack!" ) );
-                g->events().send<event_type::dies_from_hypovolemia>( getID() );
+                get_event_bus().send<event_type::dies_from_hypovolemia>( getID() );
             }
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         };
@@ -973,10 +993,10 @@ void player::hardcoded_effects( effect &it )
                         break;
                     case 4:
                         warning = _( "You are sweating profusely, but you feel cold." );
-                        temp_conv[bp_hand_l] -= 1000 * intense;
-                        temp_conv[bp_hand_r] -= 1000 * intense;
-                        temp_conv[bp_foot_l] -= 1000 * intense;
-                        temp_conv[bp_foot_r] -= 1000 * intense;
+                        mod_part_temp_conv( bodypart_id( "hand_l" ), - 1000 * intense );
+                        mod_part_temp_conv( bodypart_id( "hand_r" ), -1000 * intense );
+                        mod_part_temp_conv( bodypart_id( "foot_l" ), -1000 * intense );
+                        mod_part_temp_conv( bodypart_id( "foot_r" ), -1000 * intense );
                         break;
                     case 5:
                         warning = _( "You huff and puff.  Your breath is rapid and shallow." );
@@ -1021,7 +1041,7 @@ void player::hardcoded_effects( effect &it )
             add_msg_player_or_npc( m_bad,
                                    _( "You cannot breathe and your body gives out!" ),
                                    _( "<npcname> gasps for air and dies!" ) );
-            g->events().send<event_type::dies_from_redcells_loss>( getID() );
+            get_event_bus().send<event_type::dies_from_redcells_loss>( getID() );
             set_part_hp_cur( bodypart_id( "torso" ), 0 );
         }
         if( one_in( 900 / intense ) && !in_sleep_state() ) {
@@ -1029,13 +1049,13 @@ void player::hardcoded_effects( effect &it )
             switch( dice( 1, 9 ) ) {
                 case 1:
                     add_msg_if_player( m_bad, _( "Your hands feel unusually cold." ) );
-                    temp_conv[bp_hand_l] -= 2000;
-                    temp_conv[bp_hand_r] -= 2000;
+                    mod_part_temp_conv( bodypart_id( "hand_l" ), -2000 );
+                    mod_part_temp_conv( bodypart_id( "hand_r" ), -2000 );
                     break;
                 case 2:
                     add_msg_if_player( m_bad, _( "Your feet feel unusualy cold." ) );
-                    temp_conv[bp_foot_l] -= 2000;
-                    temp_conv[bp_foot_r] -= 2000;
+                    mod_part_temp_conv( bodypart_id( "foot_l" ), -2000 );
+                    mod_part_temp_conv( bodypart_id( "foot_r" ), -2000 );
                     break;
                 case 3:
                     add_msg_if_player( m_bad, _( "Your skin looks very pale." ) );
@@ -1129,7 +1149,7 @@ void player::hardcoded_effects( effect &it )
     } else if( id == effect_grabbed ) {
         set_num_blocks_bonus( get_num_blocks_bonus() - 1 );
         int zed_number = 0;
-        for( auto &dest : here.points_in_radius( pos(), 1, 0 ) ) {
+        for( const tripoint &dest : here.points_in_radius( pos(), 1, 0 ) ) {
             const monster *const mon = g->critter_at<monster>( dest );
             if( mon && mon->has_effect( effect_grabbing ) ) {
                 zed_number += mon->get_grab_strength();
@@ -1137,7 +1157,7 @@ void player::hardcoded_effects( effect &it )
         }
         if( zed_number > 0 ) {
             //If intensity isn't pass the cap, average it with # of zeds
-            add_effect( effect_grabbed, 2_turns, bp_torso, false, ( intense + zed_number ) / 2 );
+            add_effect( effect_grabbed, 2_turns, bodypart_id( "torso" ), false, ( intense + zed_number ) / 2 );
         }
     } else if( id == effect_bite ) {
         bool recovered = false;
@@ -1195,7 +1215,7 @@ void player::hardcoded_effects( effect &it )
         if( !recovered ) {
             // Move up to infection
             if( dur > 6_hours ) {
-                add_effect( effect_infected, 1_turns, bp->token, true );
+                add_effect( effect_infected, 1_turns, bp, true );
                 // Set ourselves up for removal
                 it.set_duration( 0_turns );
             } else if( has_effect( effect_strong_antibiotic ) ) {
@@ -1249,8 +1269,8 @@ void player::hardcoded_effects( effect &it )
             // Death happens
             if( dur > 1_days ) {
                 add_msg_if_player( m_bad, _( "You succumb to the infection." ) );
-                g->events().send<event_type::dies_of_infection>( getID() );
-                hurtall( 500, nullptr );
+                get_event_bus().send<event_type::dies_of_infection>( getID() );
+                set_all_parts_hp_cur( 0 );
             } else if( has_effect( effect_strong_antibiotic ) ) {
                 it.mod_duration( -1_turns );
             } else if( has_effect( effect_antibiotic ) ) {
@@ -1424,25 +1444,26 @@ void player::hardcoded_effects( effect &it )
         if( !woke_up && !has_effect( effect_narcosis ) ) {
             // Cold or heat may wake you up.
             // Player will sleep through cold or heat if fatigued enough
-            for( const body_part bp : all_body_parts ) {
-                if( temp_cur[bp] < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
+            for( const bodypart_id &bp : get_all_body_parts() ) {
+                const int curr_temp = get_part_temp_cur( bp );
+                if( curr_temp < BODYTEMP_VERY_COLD - get_fatigue() / 2 ) {
                     if( one_in( 30000 ) ) {
                         add_msg_if_player( _( "You toss and turn trying to keep warm." ) );
                     }
-                    if( temp_cur[bp] < BODYTEMP_FREEZING - get_fatigue() / 2 ||
-                        one_in( temp_cur[bp] * 6 + 30000 ) ) {
+                    if( curr_temp < BODYTEMP_FREEZING - get_fatigue() / 2 ||
+                        one_in( curr_temp * 6 + 30000 ) ) {
                         add_msg_if_player( m_bad, _( "It's too cold to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );
                         woke_up = true;
                         break;
                     }
-                } else if( temp_cur[bp] > BODYTEMP_VERY_HOT + get_fatigue() / 2 ) {
+                } else if( curr_temp > BODYTEMP_VERY_HOT + get_fatigue() / 2 ) {
                     if( one_in( 30000 ) ) {
                         add_msg_if_player( _( "You toss and turn in the heat." ) );
                     }
-                    if( temp_cur[bp] > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
-                        one_in( 90000 - temp_cur[bp] ) ) {
+                    if( curr_temp > BODYTEMP_SCORCHING + get_fatigue() / 2 ||
+                        one_in( 90000 - curr_temp ) ) {
                         add_msg_if_player( m_bad, _( "It's too hot to sleep." ) );
                         // Set ourselves up for removal
                         it.set_duration( 0_turns );
@@ -1510,7 +1531,7 @@ void player::hardcoded_effects( effect &it )
                         }
                     } else {
                         if( !has_effect( effect_slept_through_alarm ) ) {
-                            add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
+                            add_effect( effect_slept_through_alarm, 1_turns, true );
                         }
                         // 10 minute cyber-snooze
                         it.mod_duration( 10_minutes );
@@ -1519,7 +1540,7 @@ void player::hardcoded_effects( effect &it )
             } else {
                 if( asleep && dur == 1_turns ) {
                     if( !has_effect( effect_slept_through_alarm ) ) {
-                        add_effect( effect_slept_through_alarm, 1_turns, num_bp, true );
+                        add_effect( effect_slept_through_alarm, 1_turns, true );
                     }
                     // 10 minute automatic snooze
                     it.mod_duration( 10_minutes );

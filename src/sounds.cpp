@@ -66,7 +66,7 @@ int prev_hostiles = 0;
 int previous_speed = 0;
 int previous_gear = 0;
 bool audio_muted = false;
-float g_sfx_volume_multiplier = 1;
+float g_sfx_volume_multiplier = 1.0f;
 auto start_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto end_sfx_timestamp = std::chrono::high_resolution_clock::now();
 auto sfx_time = end_sfx_timestamp - start_sfx_timestamp;
@@ -315,8 +315,9 @@ void sounds::process_sounds()
         if( sig_power > 0 ) {
 
             const point abs_ms = get_map().getabs( source.xy() );
-            const point abs_sm = ms_to_sm_copy( abs_ms );
-            const tripoint target( abs_sm, source.z );
+            // TODO: fix point types
+            const point_abs_sm abs_sm( ms_to_sm_copy( abs_ms ) );
+            const tripoint_abs_sm target( abs_sm, source.z );
             overmap_buffer.signal_hordes( target, sig_power );
         }
         // Alert all monsters (that can hear) to the sound.
@@ -1522,7 +1523,7 @@ int sfx::get_heard_volume( const tripoint &source )
 {
     int distance = sound_distance( get_player_character().pos(), source );
     // fract = -100 / 24
-    const float fract = -4.166666;
+    const float fract = -4.166666f;
     int heard_volume = fract * distance - 1 + 100;
     if( heard_volume <= 0 ) {
         heard_volume = 0;

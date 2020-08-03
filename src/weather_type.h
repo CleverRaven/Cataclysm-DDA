@@ -3,12 +3,15 @@
 #define CATA_SRC_WEATHER_TYPE_H
 
 #include <string>
+#include <climits>
 
 #include "bodypart.h"
 #include "field.h"
-#include "generic_factory.h"
 #include "translations.h"
 #include "type_id.h"
+
+template<typename T>
+class generic_factory;
 
 const weather_type_id WEATHER_NULL( "null" );
 const weather_type_id WEATHER_CLEAR( "clear" );
@@ -48,7 +51,6 @@ struct enum_traits<weather_time_requirement_type> {
     static constexpr weather_time_requirement_type last = weather_time_requirement_type::last;
 };
 
-
 enum weather_sound_category : int {
     silent,
     drizzle,
@@ -84,9 +86,11 @@ struct weather_requirements {
     int humidity_min = INT_MIN;
     int humidity_max = INT_MAX;
     bool humidity_and_pressure = true;
-    bool acidic = false;
     weather_time_requirement_type time;
     std::vector<weather_type_id> required_weathers;
+    time_duration time_passed_min;
+    time_duration time_passed_max;
+    int one_in_chance;
 };
 
 struct weather_field {
@@ -153,7 +157,10 @@ struct weather_type {
         weather_sound_category sound_category; //!< if playing sound effects what to use
         sun_intensity_type sun_intensity; //!< strength of the sun
         weather_requirements requirements; //!< when this weather should happen
-
+        time_duration duration_min;
+        time_duration duration_max;
+        time_duration time_between_min;
+        time_duration time_between_max;
         void load( const JsonObject &jo, const std::string &src );
         void finalize();
         void check() const;

@@ -8,7 +8,6 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "colony.h"
@@ -27,7 +26,6 @@
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
-#include "player.h"
 #include "point.h"
 #include "string_formatter.h"
 #include "submap.h"
@@ -48,7 +46,8 @@ static constexpr int LIGHTMAP_CACHE_Y = MAPSIZE_Y;
 static constexpr point lightmap_boundary_min{};
 static constexpr point lightmap_boundary_max( LIGHTMAP_CACHE_X, LIGHTMAP_CACHE_Y );
 
-const half_open_rectangle lightmap_boundaries( lightmap_boundary_min, lightmap_boundary_max );
+const half_open_rectangle<point> lightmap_boundaries(
+    lightmap_boundary_min, lightmap_boundary_max );
 
 std::string four_quadrants::to_string() const
 {
@@ -61,7 +60,7 @@ void map::add_light_from_items( const tripoint &p, const item_stack::iterator &b
                                 const item_stack::iterator &end )
 {
     for( auto itm_it = begin; itm_it != end; ++itm_it ) {
-        float ilum = 0.0; // brightness
+        float ilum = 0.0f; // brightness
         int iwidth = 0; // 0-360 degrees. 0 is a circular light_source
         int idir = 0;   // otherwise, it's a light_arc pointed in this direction
         if( itm_it->getlight( ilum, iwidth, idir ) ) {
@@ -95,7 +94,12 @@ bool map::build_transparency_cache( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const auto cur_submap = get_submap_at_grid( {smx, smy, zlev} );
+            const submap *cur_submap = get_submap_at_grid( {smx, smy, zlev} );
+            if( cur_submap == nullptr ) {
+                debugmsg( "Tried to build transparency cache at (%d,%d,%d) but the submap is not loaded", smx, smy,
+                          zlev );
+                continue;
+            }
 
             float zero_value = LIGHT_TRANSPARENCY_OPEN_AIR;
             for( int sx = 0; sx < SEEX; ++sx ) {
@@ -154,7 +158,8 @@ bool map::build_vision_transparency_cache( const int zlev )
 
     memcpy( &vision_transparency_cache, &transparency_cache, sizeof( transparency_cache ) );
 
-    const tripoint &p = g->u.pos();
+    Character &player_character = get_player_character();
+    const tripoint &p = player_character.pos();
 
     if( p.z != zlev ) {
         return false;
@@ -162,7 +167,7 @@ bool map::build_vision_transparency_cache( const int zlev )
 
     bool dirty = false;
 
-    bool is_crouching = g->u.is_crouching();
+    bool is_crouching = player_character.is_crouching();
     for( const tripoint &loc : points_in_radius( p, 1 ) ) {
         if( loc == p ) {
             // The tile player is standing on should always be visible
@@ -180,7 +185,7 @@ bool map::build_vision_transparency_cache( const int zlev )
     return dirty;
 }
 
-void map::apply_character_light( player &p )
+void map::apply_character_light( Character &p )
 {
     if( p.has_effect( effect_onfire ) ) {
         apply_light_source( p.pos(), 8 );
@@ -317,7 +322,7 @@ void map::generate_lightmap( const int zlev )
     for( int z = maxz; z >= minz; z-- ) {
         build_sunlight_cache( z );
     }
-    apply_character_light( g->u );
+    apply_character_light( get_player_character() );
     for( npc &guy : g->all_npcs() ) {
         apply_character_light( guy );
     }
@@ -326,7 +331,11 @@ void map::generate_lightmap( const int zlev )
     // Traverse the submaps in order
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
-            const auto cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            const submap *cur_submap = get_submap_at_grid( { smx, smy, zlev } );
+            if( cur_submap == nullptr ) {
+                debugmsg( "Tried to generate lightmap at (%d,%d,%d) but the submap is not loaded", smx, smy, zlev );
+                continue;
+            }
 
             for( int sx = 0; sx < SEEX; ++sx ) {
                 for( int sy = 0; sy < SEEY; ++sy ) {
@@ -369,7 +378,7 @@ void map::generate_lightmap( const int zlev )
                         add_light_source( p, furniture->light_emitted );
                     }
 
-                    for( auto &fld : cur_submap->get_field( { sx, sy } ) ) {
+                    for( const auto &fld : cur_submap->get_field( { sx, sy } ) ) {
                         const field_entry *cur = &fld.second;
                         const int light_emitted = cur->light_emitted();
                         if( light_emitted > 0 ) {
@@ -410,20 +419,20 @@ void map::generate_lightmap( const int zlev )
 
         auto lights = v->lights( true );
 
-        float veh_luminance = 0.0;
-        float iteration = 1.0;
+        float veh_luminance = 0.0f;
+        float iteration = 1.0f;
 
-        for( const auto pt : lights ) {
-            const auto &vp = pt->info();
+        for( const vehicle_part *pt : lights ) {
+            const vpart_info &vp = pt->info();
             if( vp.has_flag( VPFLAG_CONE_LIGHT ) ||
                 vp.has_flag( VPFLAG_WIDE_CONE_LIGHT ) ) {
                 veh_luminance += vp.bonus / iteration;
-                iteration = iteration * 1.1;
+                iteration = iteration * 1.1f;
             }
         }
 
-        for( const auto pt : lights ) {
-            const auto &vp = pt->info();
+        for( const vehicle_part *pt : lights ) {
+            const vpart_info &vp = pt->info();
             tripoint src = v->global_part_pos3( *pt );
 
             if( !inbounds( src ) ) {
@@ -607,7 +616,8 @@ map::apparent_light_info map::apparent_light_helper( const level_cache &map_cach
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const
 {
-    const int dist = rl_dist( g->u.pos(), p );
+    Character &player_character = get_player_character();
+    const int dist = rl_dist( player_character.pos(), p );
 
     // Clairvoyance overrides everything.
     if( cache.u_clairvoyance > 0 && dist <= cache.u_clairvoyance ) {
@@ -622,7 +632,7 @@ lit_level map::apparent_light_at( const tripoint &p, const visibility_variables 
 
     // Unimpaired range is an override to strictly limit vision range based on various conditions,
     // but the player can still see light sources.
-    if( dist > g->u.unimpaired_range() ) {
+    if( dist > player_character.unimpaired_range() ) {
         if( !a.obstructed && map_cache.sm[p.x][p.y] > 0.0 ) {
             return lit_level::BRIGHT_ONLY;
         } else {
@@ -663,15 +673,16 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
         return false;
     }
 
-    if( max_range >= 0 && square_dist( t, g->u.pos() ) > max_range ) {
+    Character &player_character = get_player_character();
+    if( max_range >= 0 && square_dist( t, player_character.pos() ) > max_range ) {
         return false;    // Out of range!
     }
 
     const auto &map_cache = get_cache_ref( t.z );
     const apparent_light_info a = apparent_light_helper( map_cache, t );
-    const float light_at_player = map_cache.lm[g->u.posx()][g->u.posy()].max();
+    const float light_at_player = map_cache.lm[player_character.posx()][player_character.posy()].max();
     return !a.obstructed &&
-           ( a.apparent_light > g->u.get_vision_threshold( light_at_player ) ||
+           ( a.apparent_light > player_character.get_vision_threshold( light_at_player ) ||
              map_cache.sm[t.x][t.y] > 0.0 );
 }
 
@@ -681,7 +692,7 @@ bool map::pl_line_of_sight( const tripoint &t, const int max_range ) const
         return false;
     }
 
-    if( max_range >= 0 && square_dist( t, g->u.pos() ) > max_range ) {
+    if( max_range >= 0 && square_dist( t, get_player_character().pos() ) > max_range ) {
         // Out of range!
         return false;
     }
@@ -1454,7 +1465,7 @@ void map::apply_light_ray( bool lit[LIGHTMAP_CACHE_X][LIGHTMAP_CACHE_Y],
     auto &lm = get_cache( s.z ).lm;
     auto &transparency_cache = get_cache( s.z ).transparency_cache;
 
-    float distance = 1.0;
+    float distance = 1.0f;
     float transparency = LIGHT_TRANSPARENCY_OPEN_AIR;
     const float scaling_factor = static_cast<float>( rl_dist( s, e ) ) /
                                  static_cast<float>( square_dist( s, e ) );

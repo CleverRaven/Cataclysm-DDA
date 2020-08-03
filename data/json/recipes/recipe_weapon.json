@@ -55,6 +55,10 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -368,6 +372,10 @@
     "difficulty": 2,
     "time": "1 h",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "javelin", 1 ] ], [ [ "scrap", 1 ] ] ]
@@ -544,7 +552,7 @@
     "autolearn": true,
     "book_learn": [ [ "recipe_bows", 4 ], [ "manual_archery", 5 ] ],
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
+    "components": [ [ [ "stick", 3 ], [ "2x4", 2 ] ], [ [ "bone_sturdy", 3, "LIST" ] ], [ [ "cordage_superior", 2, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -729,7 +737,7 @@
     "time": "1 h",
     "book_learn": [ [ "recipe_bows", 5 ], [ "manual_archery", 6 ], [ "book_archery", 6 ], [ "textbook_armschina", 6 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 } ],
-    "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone", 3 ], [ "bone_human", 3 ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
+    "components": [ [ [ "stick", 5 ], [ "2x4", 3 ] ], [ [ "bone_sturdy", 3, "LIST" ] ], [ [ "cordage_superior", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -968,6 +976,10 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 9,
     "time": "55 m",
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "book_learn": [ [ "welding_book", 7 ], [ "recipe_melee", 5 ] ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1455,6 +1467,10 @@
     "difficulty": 6,
     "time": "5 h",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1469,6 +1485,10 @@
     "difficulty": 6,
     "time": "6 h",
     "book_learn": [ [ "textbook_fireman", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
@@ -1483,6 +1503,10 @@
     "difficulty": 4,
     "time": "6 h",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1496,7 +1520,12 @@
     "skill_used": "fabrication",
     "difficulty": 4,
     "time": "4 h",
+    "reversible": true,
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1510,6 +1539,10 @@
     "skill_used": "fabrication",
     "difficulty": 6,
     "time": "6 h",
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "book_learn": [ [ "manual_knives", 4 ], [ "recipe_melee", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
@@ -1525,6 +1558,10 @@
     "difficulty": 6,
     "time": "6 h 30 m",
     "book_learn": [ [ "manual_knives", 4 ], [ "recipe_melee", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1539,6 +1576,10 @@
     "difficulty": 4,
     "time": "6 h 30 m",
     "book_learn": [ [ "manual_knives", 3 ], [ "recipe_melee", 4 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1553,6 +1594,10 @@
     "difficulty": 8,
     "time": "6 h",
     "book_learn": [ [ "manual_knives", 9 ], [ "textbook_weapeast", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1567,6 +1612,10 @@
     "difficulty": 4,
     "time": "4 h",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1580,6 +1629,10 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "CHISEL", "level": 3 } ],
     "components": [ [ [ "2x4", 1 ], [ "stick", 1 ] ] ]
@@ -1608,6 +1661,10 @@
     "time": "7 h 40 m",
     "autolearn": true,
     "book_learn": [ [ "manual_knives", 5 ], [ "recipe_melee", 5 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 3 ], [ "steel_tiny", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1623,6 +1680,10 @@
     "time": "6 h",
     "autolearn": true,
     "book_learn": [ [ "manual_knives", 5 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1638,6 +1699,10 @@
     "time": "1 h 30 m",
     "autolearn": true,
     "book_learn": [ [ "manual_knives", 3 ], [ "recipe_melee", 2 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -1673,6 +1738,10 @@
     "difficulty": 9,
     "time": "7 h",
     "book_learn": [ [ "textbook_fireman", 8 ], [ "textbook_fabrication", 9 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "crucible", -1 ], [ "crucible_clay", -1 ] ] ],
@@ -1687,6 +1756,10 @@
     "difficulty": 6,
     "time": "7 h 40 m",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 24 ], [ "steel_standard", 6 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1788,7 +1861,7 @@
     "time": "2 m",
     "autolearn": true,
     "qualities": [ { "id": "HAMMER", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "type": "recipe",
@@ -1822,6 +1895,10 @@
     "difficulty": 7,
     "time": "6 h 40 m",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1836,6 +1913,10 @@
     "difficulty": 8,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1850,6 +1931,10 @@
     "difficulty": 8,
     "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1864,6 +1949,10 @@
     "difficulty": 8,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ], [ "recipe_melee", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1878,6 +1967,10 @@
     "difficulty": 7,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ], [ "recipe_melee", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -1892,6 +1985,10 @@
     "difficulty": 9,
     "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2005,6 +2102,10 @@
     "difficulty": 8,
     "time": "8 h",
     "book_learn": [ [ "textbook_armschina", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2019,6 +2120,10 @@
     "difficulty": 8,
     "time": "7 h",
     "book_learn": [ [ "textbook_armschina", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2033,6 +2138,10 @@
     "difficulty": 8,
     "time": "8 h 10 m",
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2047,6 +2156,10 @@
     "difficulty": 8,
     "time": "7 h",
     "book_learn": [ [ "textbook_weapwest", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2061,6 +2174,10 @@
     "difficulty": 9,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapwest", 8 ], [ "scots_cookbook", 10 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 16 ], [ "steel_standard", 4 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2100,6 +2217,10 @@
     "difficulty": 7,
     "time": "6 h 20 m",
     "book_learn": [ [ "textbook_weapeast", 6 ], [ "manual_knives", 7 ], [ "recipe_melee", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2114,6 +2235,10 @@
     "difficulty": 8,
     "time": "7 h",
     "book_learn": [ [ "textbook_weapeast", 7 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2128,6 +2253,10 @@
     "difficulty": 9,
     "time": "8 h",
     "book_learn": [ [ "textbook_weapeast", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2142,6 +2271,10 @@
     "difficulty": 10,
     "time": "9 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 8 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2183,6 +2316,10 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2330,6 +2467,10 @@
     "difficulty": 3,
     "time": "1 h",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -2343,6 +2484,10 @@
     "difficulty": 6,
     "time": "3 h",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -2356,6 +2501,10 @@
     "difficulty": 7,
     "time": "7 h 40 m",
     "book_learn": [ [ "textbook_armschina", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 4 ], [ "steel_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2370,6 +2519,10 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2384,6 +2537,10 @@
     "difficulty": 7,
     "time": "7 h 40 m",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2398,6 +2555,10 @@
     "difficulty": 7,
     "time": "7 h 40 m",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 8 ], [ "steel_standard", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2511,6 +2672,10 @@
     "difficulty": 5,
     "time": "13 h 20 m",
     "book_learn": [ [ "textbook_weapeast", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 20 ], [ "steel_standard", 5 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "//": "basically 2.5x the resources of a single machete to cover the fact that it's two weapons, each with a hand guard",
@@ -2550,6 +2715,10 @@
     "difficulty": 7,
     "time": "6 h",
     "book_learn": [ [ "textbook_weapwest", 6 ] ],
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 12 ], [ "steel_standard", 3 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -2567,5 +2736,31 @@
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 }, { "id": "HAMMER", "level": 1 } ],
     "components": [ [ [ "leather", 30 ], [ "rope_superior_short", 2, "LIST" ] ], [ [ "scrap", 9 ], [ "razor_blade", 9 ] ] ]
+  },
+  {
+    "type": "recipe",
+    "result": "coilgun",
+    "category": "CC_WEAPON",
+    "subcategory": "CSC_WEAPON_RANGED",
+    "skill_used": "electronics",
+    "skills_required": [ [ "computer", 3 ], [ "fabrication", 3 ] ],
+    "difficulty": 5,
+    "time": "4 h",
+    "reversible": true,
+    "book_learn": [ [ "advanced_electronics", 5 ], [ "textbook_electronics", 5 ], [ "textbook_anarch", 6 ] ],
+    "using": [ [ "soldering_standard", 20 ], [ "surface_heat", 10 ] ],
+    "qualities": [ { "id": "SAW_M_FINE", "level": 1 }, { "id": "SCREW", "level": 1 }, { "id": "SCREW_FINE", "level": 1 } ],
+    "tools": [ [ [ "mold_plastic", -1 ] ], [ [ "laptop", -1 ] ] ],
+    "components": [
+      [ [ "plastic_chunk", 10 ] ],
+      [ [ "superglue", 1 ] ],
+      [ [ "processor", 1 ] ],
+      [ [ "circuit", 2 ] ],
+      [ [ "power_supply", 2 ] ],
+      [ [ "amplifier", 1 ] ],
+      [ [ "e_scrap", 30 ] ],
+      [ [ "scrap", 10 ] ],
+      [ [ "cable", 100 ] ]
+    ]
   }
 ]

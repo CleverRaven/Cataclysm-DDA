@@ -61,31 +61,13 @@
     "material": [ "copper", "wood" ],
     "symbol": "[",
     "color": "brown",
-    "covers": [ "HEAD" ],
+    "covers": [ "head" ],
     "coverage": 5,
     "encumbrance": 1,
     "warmth": 0,
     "material_thickness": 1,
     "flags": [ "BELTED" ],
     "qualities": [ [ "MANA_FOCUS", 1 ] ]
-  },
-  {
-    "id": "stone_chisel",
-    "type": "TOOL",
-    "name": { "str": "stone chisel" },
-    "looks_like": "chisel",
-    "description": "This is a short stone chisel.  It can be used to engrave on stone, wood, or soft metals.",
-    "weight": "660 g",
-    "volume": "250 ml",
-    "price": 1600,
-    "to_hit": 2,
-    "bashing": 2,
-    "cutting": 1,
-    "material": [ "stone" ],
-    "symbol": ";",
-    "color": "light_gray",
-    "qualities": [ [ "CHISEL", 1 ] ],
-    "flags": [ "BELT_CLIP" ]
   },
   {
     "id": "potion_starter",
@@ -279,6 +261,7 @@
     "name": "mana dust",
     "description": "Crystalized mana in powdered form.  It faintly pulses with arcane energy.",
     "material": [ "powder" ],
-    "volume": "100 ml"
+    "volume": "100 ml",
+    "flags": [ "ZERO_WEIGHT" ]
   }
 ]

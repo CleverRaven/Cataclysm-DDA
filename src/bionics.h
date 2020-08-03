@@ -88,6 +88,11 @@ struct bionic_data {
     std::vector<enchantment_id> enchantments;
 
     cata::value_ptr<fake_spell> spell_on_activate;
+
+    /**
+     * Proficiencies given on install (and removed on uninstall) of this bionic
+     */
+    std::vector<proficiency_id> proficiencies;
     /**
      * Body part slots used to install this bionic, mapped to the amount of space required.
      */
@@ -191,8 +196,8 @@ struct bionic {
     private:
         // generic bionic specific flags
         cata::flat_set<std::string> bionic_tags;
-        float auto_start_threshold = -1.0;
-        float safe_fuel_threshold = -1.0;
+        float auto_start_threshold = -1.0f;
+        float safe_fuel_threshold = 1.0f;
 };
 
 // A simpler wrapper to allow forward declarations of it. std::vector can not

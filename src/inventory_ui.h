@@ -24,6 +24,7 @@
 #include "pimpl.h"
 #include "units.h"
 #include "item_category.h"
+#include "ui.h"
 
 class Character;
 class item;
@@ -46,12 +47,6 @@ struct inventory_input;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
-
-struct inventory_entry_drawn_info {
-    int text_x_start;
-    int text_x_end;
-    int y;
-};
 
 class inventory_entry
 {
@@ -111,8 +106,13 @@ class inventory_entry
         }
 
         const item_location &any_item() const {
-            assert( !locations.empty() );
-            return locations.front();
+            if( locations.empty() ) {
+                debugmsg( "inventory_entry::any_item called on a non-item entry.  "
+                          "Test inventory_entry::is_item before calling this function." );
+                return item_location::nowhere;
+            } else {
+                return locations.front();
+            }
         }
 
         size_t get_stack_size() const {
@@ -127,8 +127,6 @@ class inventory_entry
         int get_invlet() const;
         nc_color get_invlet_color() const;
         void update_cache();
-
-        inventory_entry_drawn_info drawn_info;
 
     private:
         const item_category *custom_category = nullptr;
@@ -232,7 +230,10 @@ class inventory_holster_preset : public inventory_selector_preset
 
         /** Does this entry satisfy the basic preset conditions? */
         bool is_shown( const item_location &contained ) const override {
-            return holster->contents.can_contain( *contained ).success() && !holster->has_item( *contained );
+            item item_copy( *contained );
+            item_copy.charges = 1;
+            return holster->contents.can_contain( item_copy ).success() && !holster->has_item( *contained ) &&
+                   !contained->is_bucket_nonempty() && holster.parents_can_contain_recursive( &item_copy );
         }
     private:
         // this is the item that we are putting something into
@@ -290,6 +291,7 @@ class inventory_column
         bool is_selected_by_category( const inventory_entry &entry ) const;
 
         const inventory_entry &get_selected() const;
+        inventory_entry &get_selected();
         std::vector<inventory_entry *> get_all_selected() const;
         std::vector<inventory_entry *> get_entries(
             const std::function<bool( const inventory_entry &entry )> &filter_func ) const;
@@ -299,12 +301,13 @@ class inventory_column
 
         inventory_entry *find_by_invlet( int invlet ) const;
 
-        void draw( const catacurses::window &win, const point & );
+        void draw( const catacurses::window &win, const point &p,
+                   std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
         void clear();
-        void set_stack_favorite( const item_location &location, bool favorite );
+        void set_stack_favorite( std::vector<item_location> &locations, bool favorite );
 
         /** Selects the specified location. */
         bool select( const item_location &loc );
@@ -517,8 +520,6 @@ class inventory_selector
         using stat = std::array<std::string, 4>;
         using stats = std::array<stat, 2>;
 
-        bool keep_open = false;
-
     protected:
         Character &u;
         const inventory_selector_preset &preset;
@@ -587,6 +588,8 @@ class inventory_selector
         }
         std::vector<inventory_column *> get_visible_columns() const;
 
+        std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> rect_entry_map;
+
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor
         // and should not be made protected or public.
@@ -618,6 +621,8 @@ class inventory_selector
             set_active_column( position.first );
             get_active_column().select( position.second, scroll_direction::BACKWARD );
         }
+
+        bool select_one_of( const std::vector<item_location> &locations );
 
         std::pair<size_t, size_t> get_selection_position() {
             std::pair<size_t, size_t> position;
@@ -770,6 +775,5 @@ class inventory_drop_selector : public inventory_multiselector
         std::vector<std::pair<item_location, int>> dropping;
         size_t max_chosen_count;
 };
-
 
 #endif // CATA_SRC_INVENTORY_UI_H

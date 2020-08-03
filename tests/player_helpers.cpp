@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include "player_helpers.h"
 
 #include <cstddef>
@@ -7,7 +9,6 @@
 
 #include "avatar.h"
 #include "bionics.h"
-#include "catch/catch.hpp"
 #include "character.h"
 #include "character_id.h"
 #include "game.h"
@@ -111,9 +112,9 @@ void clear_character( player &dummy, bool debug_storage )
     dummy.setpos( spot );
 }
 
-void clear_avatar()
+void clear_avatar( bool debug_storage )
 {
-    clear_character( get_avatar() );
+    clear_character( get_avatar(), debug_storage );
 }
 
 void process_activity( player &dummy )

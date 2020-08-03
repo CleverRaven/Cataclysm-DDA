@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """Print a Markdown or CSV table of JSON values from the given keys.
 Run this script with -h for full usage information.
 
@@ -16,14 +16,7 @@ Examples with nested attributes:
 """
 
 import argparse
-import codecs
-import sys
 import util
-
-# Avoid (most) unicode frustrations
-# https://pythonhosted.org/kitchen/unicode-frustrations.html
-UTF8Writer = codecs.getwriter('utf8')
-sys.stdout = UTF8Writer(sys.stdout)
 
 # Command-line arguments
 parser = argparse.ArgumentParser(
@@ -61,7 +54,7 @@ def safe_value(value, format):
 
     """
     if format == 'md':
-        return value.replace('|', '\|')
+        return value.replace('|', '\\|')
 
     elif format == 'csv':
         if ',' in value or '"' in value:
@@ -153,7 +146,7 @@ def item_values(item, fields):
 
         # Make dict presentable
         if isinstance(it, dict):
-            values.append("%s" % it.items())
+            values.append("%s" % list(it.items()))
         # Separate lists with slashes
         elif isinstance(it, list):
             values.append(" / ".join("%s" % i for i in it))
@@ -179,4 +172,3 @@ if __name__ == "__main__":
             continue
 
         print_row(item_values(item, args.columns), args.format)
-

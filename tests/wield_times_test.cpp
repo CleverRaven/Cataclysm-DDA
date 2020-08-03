@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
 #include <string>
 #include <list>
 #include <memory>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "map.h"
 #include "map_helpers.h"
 #include "player.h"
@@ -80,7 +81,7 @@ TEST_CASE( "Wield time test", "[wield]" )
         item_location knife_loc( sheath_loc, &sheath_loc->contents.only_item() );
 
         const int knife_obtain_cost = knife_loc.obtain_cost( guy );
-        REQUIRE( knife_obtain_cost == 1257 );
+        REQUIRE( knife_obtain_cost == 112 );
     }
 
     SECTION( "Wielding without hand encumbrance" ) {

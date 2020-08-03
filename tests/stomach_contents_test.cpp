@@ -1,8 +1,9 @@
+#include "catch/catch.hpp"
+
 #include <cstdio>
 #include <memory>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "calendar.h"
 #include "player.h"
 #include "player_helpers.h"
@@ -102,9 +103,9 @@ TEST_CASE( "starve_test", "[starve][slow]" )
 
     // A specific BMR isn't the real target of this test, the number of days
     // is, but it helps to debug the test faster if this value is wrong.
-    REQUIRE( dummy.get_bmr() == 2087 );
+    REQUIRE( dummy.get_bmr() == 1739 );
 
-    constexpr int expected_day = 30;
+    constexpr int expected_day = 36;
     int day = 0;
     std::vector<std::string> results;
 
@@ -154,7 +155,7 @@ TEST_CASE( "starve_test_hunger3", "[starve][slow]" )
     } while( dummy.get_stored_kcal() > 0 );
 
     CAPTURE( results );
-    CHECK( day <= 11 );
+    CHECK( day <= 12 );
     CHECK( day >= 10 );
 }
 

@@ -23,6 +23,7 @@
     "time": "9 s",
     "autolearn": true,
     "charges": 1,
+    "flags": [ "BLIND_EASY" ],
     "components": [ [ [ "rag", 1 ] ] ]
   },
   {

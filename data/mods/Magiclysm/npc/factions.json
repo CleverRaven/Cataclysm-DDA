@@ -119,5 +119,66 @@
       }
     },
     "description": "A collection of those cursed by the cataclysm.  They have sworn to rid this world of its curse and will stop at nothing to accomplish their task."
+  },
+  {
+    "type": "faction",
+    "id": "forge_lords",
+    "name": "The Forge Lords",
+    "mon_faction": "wonder_forge",
+    "likes_u": 0,
+    "respects_u": 0,
+    "known_by_u": false,
+    "size": 5,
+    "power": 100,
+    "food_supply": 115200,
+    "wealth": 1000000,
+    "relations": {
+      "lobby_beggars": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "free_merchants": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "old_guard": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "no_faction": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      },
+      "wasteland_scavengers": {
+        "kill on sight": false,
+        "watch your back": false,
+        "share my stuff": false,
+        "guard your stuff": false,
+        "lets you in": false,
+        "defends your space": false,
+        "knows your voice": true
+      }
+    },
+    "description": "Builders and merchants of magical wonders.  They expect to weather this Cataclysm through trade and innovation.  They will take any coin from any land."
   }
 ]

@@ -32,8 +32,6 @@
     "id": "rare",
     "type": "item_group",
     "items": [
-      [ "afs_calorie_pill", 10 ],
-      [ "afs_sundew", 10 ],
       [ "afs_bag_of_holding", 1 ],
       [ "afs_atomic_smartphone", 5 ],
       [ "laser_pack", 10 ],

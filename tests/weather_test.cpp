@@ -1,10 +1,11 @@
+#include "catch/catch.hpp"
+
 #include <algorithm>
 #include <cstdlib>
 #include <memory>
 #include <vector>
 
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "point.h"
 #include "weather.h"
 #include "weather_gen.h"
@@ -68,9 +69,10 @@ TEST_CASE( "weather realism" )
             int minute = to_minutes<int>( time_past_midnight( i ) );
             temperature[day][minute] = w.temperature;
             int hour = to_hours<int>( time_past_new_year( i ) );
+            std::map<weather_type_id, time_point> next_instance_allowed;
             hourly_precip[hour] +=
                 precip_mm_per_hour(
-                    wgen.get_weather_conditions( w )->precip )
+                    wgen.get_weather_conditions( w, next_instance_allowed )->precip )
                 / 60;
         }
 

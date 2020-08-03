@@ -25,5 +25,14 @@
     "time": "6 h",
     "qualities": [ { "id": "HAMMER", "level": 1 }, { "id": "SAW_M", "level": 1 } ],
     "components": [ [ [ "scrap", 800 ] ], [ [ "steel_lump", 200 ] ] ]
+  },
+  {
+    "result": "broken_forgeborn",
+    "type": "uncraft",
+    "skill_used": "spellcraft",
+    "difficulty": 8,
+    "time": "6 h",
+    "qualities": [ { "id": "HAMMER", "level": 2 }, { "id": "SAW_M", "level": 2 } ],
+    "components": [ [ [ "orichalcum_sliver", 80 ] ], [ [ "orichalcum_lump", 20 ] ] ]
   }
 ]

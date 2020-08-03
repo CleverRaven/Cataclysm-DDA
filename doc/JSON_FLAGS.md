@@ -651,6 +651,8 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 
 ## Generic
 
+These flags can be applied via JSON item definition to most items.  Not to be confused with the set of flags listed under Tools > Flags that apply to items, which cannot be assigned via JSON.
+
 ### Flags
 
 - ```ANESTHESIA``` ... Item is considered anesthesia for the purpose of installing or uninstalling bionics.
@@ -699,8 +701,13 @@ List of known flags, used in both `terrain.json` and `furniture.json`.
 - ```TIE_UP``` ... Item can be used to tie up a creature.
 - ```TINDER``` ... This item can be used as tinder for lighting a fire with a REQUIRES_TINDER flagged firestarter.
 - ```TRADER_AVOID``` ... NPCs will not start with this item. Use this for active items (e.g. flashlight (on)), dangerous items (e.g. active bomb), fake item or unusual items (e.g. unique quest item).
+- ```TRADER_KEEP``` ... NPCs will not trade this item away under any circumstances.
+- ```TRADER_KEEP_EQUIPPED``` ... NPCs will only trade this item if they aren't currently wearing or wielding it.
 - ```UNBREAKABLE_MELEE``` ... Does never get damaged when used as melee weapon.
 - ```UNRECOVERABLE``` ... Cannot be recovered from a disassembly.
+- ```ZERO_WEIGHT``` Normally items with zero weight will generate an error.
+  Use this flag to indicate that zero weight is intentional and suppress that
+  error.
 
 
 ## Guns
@@ -899,6 +906,8 @@ Multiple death functions can be used. Not all combinations make sense.
 
 ### Flags
 
+Other monster flags. 
+
 - ```ABSORBS_SPLITS``` Consumes objects it moves over, and if it absorbs enough it will split into a copy.
 - ```ABSORBS``` Consumes objects it moves over. (Modders use this).
 - ```ACIDPROOF``` Immune to acid.
@@ -938,7 +947,7 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FAT``` May produce fat when butchered.
 - ```FEATHER``` May produce feathers when butchered.
-- ```FILTHY``` Any clothing it drops will be filthy.
+- ```FILTHY``` Any clothing it drops will be filthy.  The squeamish trait prevents wearing clothing with this flag, one can't craft anything from filthy components, and wearing filthy clothes may result in infection if hit in melee.
 - ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```FISHABLE``` It is fishable.
@@ -1005,6 +1014,8 @@ Multiple death functions can be used. Not all combinations make sense.
 - ```ZAPBACK``` Shock attacker on hit
 
 ### Sizes
+
+Monster physical sizes.
 
 - ```HUGE``` Tank
 - ```LARGE``` Cow
@@ -1313,7 +1324,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 
 These flags **do not apply to item types**.
 
-Those flags are added by the game code to specific items (that specific welder, not *all* welders).
+Those flags are added by the game code to specific items (for example, that specific thingamabob, not *all* thingamabob).  These flags are **not** assigned in JSON by content contributors, they are set programatically.
 
 - ```COLD``` Item is cold (see EATEN_COLD).
 - ```DIRTY``` Item (liquid) was dropped on the ground and is now irreparably dirty.

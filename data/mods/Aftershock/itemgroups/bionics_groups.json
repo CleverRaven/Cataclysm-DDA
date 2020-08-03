@@ -8,8 +8,9 @@
       [ "afs_bio_missiles", 10 ],
       [ "afs_bio_linguistic_coprocessor", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
-      [ "bio_blaster", 5 ],
-      [ "afs_bio_skullgun", 5 ]
+      [ "afs_bio_neurosoft_aeronautics", 5 ],
+      [ "afs_bio_skullgun", 5 ],
+      [ "bio_blaster", 5 ]
     ]
   },
   {
@@ -20,7 +21,7 @@
   {
     "id": "bionics_mil",
     "type": "item_group",
-    "items": [ [ "bio_blaster", 5 ], [ "afs_bio_skullgun", 2 ] ]
+    "items": [ [ "bio_blaster", 5 ], [ "afs_bio_neurosoft_aeronautics", 10 ], [ "afs_bio_skullgun", 2 ] ]
   },
   {
     "id": "bionics_sci",
@@ -34,6 +35,7 @@
       [ "bn_bio_solar", 15 ],
       [ "afs_bio_wind_turbine", 10 ],
       [ "afs_bio_missiles", 10 ],
+      [ "afs_bio_neurosoft_aeronautics", 10 ],
       [ "afs_bio_dopamine_stimulators", 10 ],
       [ "afs_bio_skullgun", 2 ]
     ]

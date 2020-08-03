@@ -1,9 +1,10 @@
+#include "catch/catch.hpp"
+
 #include <climits>
 #include <list>
 #include <memory>
 
 #include "avatar.h"
-#include "catch/catch.hpp"
 #include "game.h"
 #include "inventory.h"
 #include "item.h"

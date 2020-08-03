@@ -32,12 +32,20 @@ class options_manager
         };
         static std::vector<id_and_option> get_lang_options();
     private:
+        /**
+         * Search for resources.
+         * @p storage is the resource map (e.g. SOUNDPACKS) to fill from resources found. It will be cleared.
+         * @p option_list is the option list corresponding to the resources found. It will be cleared.
+         * @p search_paths are the paths to search for resources in, in order of priority.
+         * @p resource_name is the type of resource being searched for (e.g. "sound").
+         * @p resource_filename is the name of the config file for the type of resource (e.g. path_info::soundpack_conf()).
+         */
+        static void search_resource(
+            std::map<std::string, std::string> &storage, std::vector<id_and_option> &option_list,
+            const std::vector<std::string> &search_paths, const std::string &resource_name,
+            const std::string &resource_filename );
         static std::vector<id_and_option> build_tilesets_list();
         static std::vector<id_and_option> build_soundpacks_list();
-        static std::vector<id_and_option> load_tilesets_from(
-            const std::string &path );
-        static std::vector<id_and_option> load_soundpack_from(
-            const std::string &path );
         static std::unordered_set<std::string> get_langs_with_translation_files();
 
         bool load_legacy();

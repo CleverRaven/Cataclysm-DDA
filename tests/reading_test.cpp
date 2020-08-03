@@ -1,3 +1,5 @@
+#include "catch/catch.hpp"
+
 #include <memory>
 #include <string>
 #include <vector>
@@ -5,7 +7,6 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
-#include "catch/catch.hpp"
 #include "debug.h"
 #include "item.h"
 #include "itype.h"
@@ -270,7 +271,7 @@ TEST_CASE( "reasons for not being able to read", "[reading][reasons]" )
     }
 
     SECTION( "you cannot read in darkness" ) {
-        dummy.add_env_effect( efftype_id( "darkness" ), bp_eyes, 3, 1_hours );
+        dummy.add_env_effect( efftype_id( "darkness" ), bodypart_id( "eyes" ), 3, 1_hours );
         REQUIRE( dummy.fine_detail_vision_mod() > 4 );
 
         CHECK( dummy.get_book_reader( child, reasons ) == nullptr );
