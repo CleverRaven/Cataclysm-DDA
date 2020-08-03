@@ -12,7 +12,7 @@
     "material": [ "dry_plant" ],
     "symbol": "[",
     "color": "black_green",
-    "covers": [ "TORSO", "LEGS" ],
+    "covers": [ "torso", "leg_l", "leg_r" ],
     "coverage": 50,
     "encumbrance": 15,
     "warmth": 7,

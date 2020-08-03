@@ -743,10 +743,10 @@ bool game::start_game()
         start_loc.burn( omtstart, 3, 3 );
     }
     if( scen->has_flag( "INFECTED" ) ) {
-        u.add_effect( effect_infected, 1_turns, random_body_part(), true );
+        u.add_effect( effect_infected, 1_turns, convert_bp( random_body_part() ).id(), true );
     }
     if( scen->has_flag( "FUNGAL_INFECTION" ) ) {
-        u.add_effect( effect_fungus, 1_turns, random_body_part(), true );
+        u.add_effect( effect_fungus, 1_turns, convert_bp( random_body_part() ).id(), true );
     }
     if( scen->has_flag( "BAD_DAY" ) ) {
         u.add_effect( effect_flu, 1000_minutes );
@@ -797,7 +797,7 @@ bool game::start_game()
     for( const mtype_id &elem : u.starting_pets ) {
         if( monster *const mon = place_critter_around( elem, u.pos(), 5 ) ) {
             mon->friendly = -1;
-            mon->add_effect( effect_pet, 1_turns, num_bp, true );
+            mon->add_effect( effect_pet, 1_turns, true );
         } else {
             add_msg( m_debug, "cannot place starting pet, no space!" );
         }
@@ -1914,7 +1914,7 @@ void game::validate_mounted_npcs()
             }
             mounted_pl->mounted_creature = shared_from( m );
             mounted_pl->setpos( m.pos() );
-            mounted_pl->add_effect( effect_riding, 1_turns, num_bp, true );
+            mounted_pl->add_effect( effect_riding, 1_turns, true );
             m.mounted_player = mounted_pl;
         }
     }
@@ -5317,7 +5317,7 @@ bool game::revive_corpse( const tripoint &p, item &it )
     }
 
     critter.no_extra_death_drops = true;
-    critter.add_effect( effect_downed, 5_turns, num_bp, true );
+    critter.add_effect( effect_downed, 5_turns, true );
 
     if( it.get_var( "no_ammo" ) == "no_ammo" ) {
         for( auto &ammo : critter.ammo ) {
@@ -5368,7 +5368,7 @@ void game::save_cyborg( item *cyborg, const tripoint &couch_pos, player &install
         tmp->spawn_at_precise( get_map().get_abs_sub().xy(), couch_pos );
         overmap_buffer.insert_npc( tmp );
         tmp->hurtall( dmg_lvl * 10, nullptr );
-        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), num_bp, false, 0, true );
+        tmp->add_effect( effect_downed, rng( 1_turns, 4_turns ), false, 0, true );
         load_npcs();
 
     } else {
@@ -8717,19 +8717,20 @@ void game::butcher()
             kmenu.addentry( MULTIBUTCHER, true, 'b', _( "Butcher everything" ) );
         }
         if( disassembles.size() > 1 ) {
-            int time_to_disassemble = 0;
-            int time_to_disassemble_all = 0;
+            int time_to_disassemble_once = 0;
+            int time_to_disassemble_recursive = 0;
             for( const auto &stack : disassembly_stacks ) {
                 const int time = recipe_dictionary::get_uncraft( stack.first->typeId() ).time_to_craft_moves(
                                      get_player_character() );
-                time_to_disassemble += time;
-                time_to_disassemble_all += time * stack.second;
+                time_to_disassemble_once += time * stack.second;
+                time_to_disassemble_recursive += stack.first->get_recursive_disassemble_moves(
+                                                     get_player_character() ) * stack.second;
             }
 
             kmenu.addentry_col( MULTIDISASSEMBLE_ONE, true, 'D', _( "Disassemble everything once" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble / 100 ) ) );
+                                to_string_clipped( time_duration::from_turns( time_to_disassemble_once / 100 ) ) );
             kmenu.addentry_col( MULTIDISASSEMBLE_ALL, true, 'd', _( "Disassemble everything recursively" ),
-                                to_string_clipped( time_duration::from_turns( time_to_disassemble_all / 100 ) ) );
+                                to_string_clipped( time_duration::from_turns( time_to_disassemble_recursive / 100 ) ) );
         }
         if( salvage_iuse && salvageables.size() > 1 ) {
             int time_to_salvage = 0;
@@ -9227,7 +9228,7 @@ bool game::disable_robot( const tripoint &p )
                                  critter.name() );
                     }
                 } else {
-                    critter.add_effect( effect_docile, 1_turns, num_bp, true );
+                    critter.add_effect( effect_docile, 1_turns, true );
                     if( one_in( 3 ) ) {
                         add_msg( _( "The %s lets out a whirring noise and starts to follow you." ),
                                  critter.name() );
@@ -9681,21 +9682,21 @@ point game::place_player( const tripoint &dest_loc )
                          m.has_flag_ter( "SHARP", dest_loc ) ? m.tername( dest_loc ) : m.furnname(
                              dest_loc ) );
                 if( ( u.has_trait( trait_INFRESIST ) ) && ( one_in( 1024 ) ) ) {
-                    u.add_effect( effect_tetanus, 1_turns, num_bp, true );
+                    u.add_effect( effect_tetanus, 1_turns, true );
                 } else if( ( !u.has_trait( trait_INFIMMUNE ) || !u.has_trait( trait_INFRESIST ) ) &&
                            ( one_in( 256 ) ) ) {
-                    u.add_effect( effect_tetanus, 1_turns, num_bp, true );
+                    u.add_effect( effect_tetanus, 1_turns, true );
                 }
             }
         }
     }
     if( m.has_flag( "UNSTABLE", dest_loc ) && !u.is_mounted() ) {
-        u.add_effect( effect_bouldering, 1_turns, num_bp, true );
+        u.add_effect( effect_bouldering, 1_turns, true );
     } else if( u.has_effect( effect_bouldering ) ) {
         u.remove_effect( effect_bouldering );
     }
     if( m.has_flag_ter_or_furn( TFLAG_NO_SIGHT, dest_loc ) ) {
-        u.add_effect( effect_no_sight, 1_turns, num_bp, true );
+        u.add_effect( effect_no_sight, 1_turns, true );
     } else if( u.has_effect( effect_no_sight ) ) {
         u.remove_effect( effect_no_sight );
     }
@@ -12602,6 +12603,11 @@ Character &get_player_character()
 }
 
 location &get_player_location()
+{
+    return g->u;
+}
+
+viewer &get_player_view()
 {
     return g->u;
 }

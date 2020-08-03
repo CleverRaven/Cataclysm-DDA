@@ -201,7 +201,7 @@ void spawn_animal( npc &p, const mtype_id &mon )
 {
     if( monster *const mon_ptr = g->place_critter_around( mon, p.pos(), 1 ) ) {
         mon_ptr->friendly = -1;
-        mon_ptr->add_effect( effect_pet, 1_turns, num_bp, true );
+        mon_ptr->add_effect( effect_pet, 1_turns, true );
     } else {
         // TODO: handle this gracefully (return the money, proper in-character message from npc)
         add_msg( m_debug, "No space to spawn purchased pet" );
@@ -564,14 +564,14 @@ void talk_function::give_aid( npc &p )
     Character &player_character = get_player_character();
     for( const bodypart_id &bp : player_character.get_all_body_parts( true ) ) {
         player_character.heal( bp, 5 * rng( 2, 5 ) );
-        if( player_character.has_effect( effect_bite, bp->token ) ) {
-            player_character.remove_effect( effect_bite, bp->token );
+        if( player_character.has_effect( effect_bite, bp.id() ) ) {
+            player_character.remove_effect( effect_bite, bp );
         }
-        if( player_character.has_effect( effect_bleed, bp->token ) ) {
-            player_character.remove_effect( effect_bleed, bp->token );
+        if( player_character.has_effect( effect_bleed, bp.id() ) ) {
+            player_character.remove_effect( effect_bleed, bp );
         }
-        if( player_character.has_effect( effect_infected, bp->token ) ) {
-            player_character.remove_effect( effect_infected, bp->token );
+        if( player_character.has_effect( effect_infected, bp.id() ) ) {
+            player_character.remove_effect( effect_infected, bp );
         }
     }
     const int moves = to_moves<int>( 100_minutes );
@@ -587,14 +587,14 @@ void talk_function::give_all_aid( npc &p )
         if( guy.is_walking_with() && rl_dist( guy.pos(), get_player_character().pos() ) < PICKUP_RANGE ) {
             for( const bodypart_id &bp : guy.get_all_body_parts( true ) ) {
                 guy.heal( bp, 5 * rng( 2, 5 ) );
-                if( guy.has_effect( effect_bite, bp->token ) ) {
-                    guy.remove_effect( effect_bite, bp->token );
+                if( guy.has_effect( effect_bite, bp.id() ) ) {
+                    guy.remove_effect( effect_bite, bp );
                 }
-                if( guy.has_effect( effect_bleed, bp->token ) ) {
-                    guy.remove_effect( effect_bleed, bp->token );
+                if( guy.has_effect( effect_bleed, bp.id() ) ) {
+                    guy.remove_effect( effect_bleed, bp );
                 }
-                if( guy.has_effect( effect_infected, bp->token ) ) {
-                    guy.remove_effect( effect_infected, bp->token );
+                if( guy.has_effect( effect_infected, bp.id() ) ) {
+                    guy.remove_effect( effect_infected, bp );
                 }
             }
         }
@@ -921,6 +921,7 @@ void talk_function::start_training( npc &p )
     const skill_id &skill = p.chatbin.skill;
     const matype_id &style = p.chatbin.style;
     const spell_id &sp_id = p.chatbin.dialogue_spell;
+    const proficiency_id &proficiency = p.chatbin.proficiency;
     int expert_multiplier = 1;
     Character &you = get_player_character();
     if( skill != skill_id() &&
@@ -954,6 +955,11 @@ void talk_function::start_training( npc &p )
             const int time_int = you.magic.time_to_learn_spell( you, sp_id ) / 50;
             time = time_duration::from_seconds( clamp( time_int, 7200, 21600 ) );
         }
+
+    } else if( proficiency != proficiency_id() ) {
+        name = proficiency.str();
+        cost = calc_proficiency_training_cost( p, proficiency );
+        time = calc_proficiency_training_time( p, proficiency );
     } else {
         debugmsg( "start_training with no valid skill or style set" );
         return;
@@ -980,7 +986,7 @@ npc *pick_follower()
     std::vector<tripoint> locations;
 
     for( npc &guy : g->all_npcs() ) {
-        if( guy.is_player_ally() && get_player_character().sees( guy ) ) {
+        if( guy.is_player_ally() && get_player_view().sees( guy ) ) {
             followers.push_back( &guy );
             locations.push_back( guy.pos() );
         }

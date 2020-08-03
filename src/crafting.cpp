@@ -56,6 +56,7 @@
 #include "player.h"
 #include "player_activity.h"
 #include "point.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -890,6 +891,50 @@ void Character::craft_skill_gain( const item &craft, const int &multiplier )
                 }
             }
         }
+    }
+}
+
+void Character::craft_proficiency_gain( const item &craft, const time_duration time )
+{
+    if( !craft.is_craft() ) {
+        debugmsg( "craft_proficiency_gain() called on non-craft %s", craft.tname() );
+        return;
+    }
+
+    const recipe &making = craft.get_making();
+    std::vector<npc *> helpers = get_crafting_helpers();
+
+    // The proficiency, and the multiplier on the time we learn it for
+    std::vector<std::tuple<proficiency_id, float, cata::optional<time_duration>>> subjects;
+    for( const recipe_proficiency &prof : making.proficiencies ) {
+        if( prof.id->can_learn() && _proficiencies->has_prereqs( prof.id ) ) {
+            std::tuple<proficiency_id, float, cata::optional<time_duration>> subject( prof.id,
+                    prof.learning_time_mult / prof.time_multiplier, prof.max_experience );
+            subjects.push_back( subject );
+        }
+    }
+
+    int amount = to_seconds<int>( time );
+    if( !subjects.empty() ) {
+        amount /= subjects.size();
+    }
+    time_duration learn_time = time_duration::from_seconds( amount );
+
+    int npc_helper_bonus = 1;
+    for( npc *helper : helpers ) {
+        for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
+            if( helper->has_proficiency( std::get<0>( subject ) ) ) {
+                // NPCs who know the proficiency and help teach you faster
+                npc_helper_bonus = 2;
+            }
+            helper->practice_proficiency( std::get<0>( subject ), std::get<1>( subject ) * learn_time,
+                                          std::get<2>( subject ) );
+        }
+    }
+
+    for( const std::tuple<proficiency_id, float, cata::optional<time_duration>> &subject : subjects ) {
+        practice_proficiency( std::get<0>( subject ),
+                              learn_time * std::get<1>( subject ) * npc_helper_bonus, std::get<2>( subject ) );
     }
 }
 

@@ -11,11 +11,13 @@
 #include <vector>
 
 #include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "memory_fast.h"
 #include "pimpl.h"
 #include "point.h"
 #include "string_formatter.h"
+#include "input.h"
 
 class translation;
 
@@ -96,6 +98,8 @@ struct uilist_entry {
     uilist_entry( Enum e, Args && ... args ) :
         uilist_entry( static_cast<int>( e ), std::forward<Args>( args )... )
     {}
+
+    inclusive_rectangle<point> drawn_rect;
 };
 
 /**
@@ -338,13 +342,14 @@ class uilist // NOLINT(cata-xy)
 
         bool started = false;
 
+        uilist_entry *find_entry_by_coordinate( const point &p );
+
     public:
         // Results
         // TODO change to getters
         std::string ret_act;
         int ret = 0;
         int keypress = 0;
-
         int selected = 0;
 };
 

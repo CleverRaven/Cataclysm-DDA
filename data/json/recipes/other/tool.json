@@ -151,6 +151,10 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -182,6 +186,10 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "forging_standard", 4 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
@@ -196,6 +204,10 @@
     "difficulty": 3,
     "time": "3 h",
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "forging_standard", 4 ], [ "soldering_standard", 20 ] ],
     "qualities": [ { "id": "ANVIL", "level": 3 }, { "id": "HAMMER", "level": 3 }, { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "tongs", -1 ] ], [ [ "swage", -1 ] ], [ [ "mold_plastic", -1 ] ] ],
@@ -211,6 +223,10 @@
     "time": "3 h",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -225,6 +241,10 @@
     "time": "3 h",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -253,6 +273,10 @@
     "time": "3 h",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 1 ], [ "steel_tiny", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -267,6 +291,10 @@
     "time": "3 h",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 2 ], [ "steel_tiny", 2 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ]
@@ -281,6 +309,10 @@
     "time": "5 h",
     "reversible": true,
     "autolearn": true,
+    "proficiencies": [
+      { "proficiency": "prof_blacksmithing", "required": false, "time_multiplier": 3.0 },
+      { "proficiency": "prof_bladesmith", "required": false, "time_multiplier": 2.5 }
+    ],
     "using": [ [ "blacksmithing_standard", 1 ] ],
     "qualities": [ { "id": "CHISEL", "level": 3 } ],
     "tools": [ [ [ "swage", -1 ] ] ],
@@ -310,7 +342,7 @@
     "time": "10 m",
     "autolearn": true,
     "qualities": [ { "id": "CUT", "level": 1 } ],
-    "components": [ [ [ "bone", 1 ], [ "bone_human", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 1, "LIST" ] ] ]
   },
   {
     "result": "awl_steel",

@@ -1039,9 +1039,9 @@ void npc::execute_action( npc_action action )
                 move_pause();
                 if( !has_effect( effect_lying_down ) ) {
                     activate_bionic_by_id( bio_soporific );
-                    add_effect( effect_lying_down, 30_minutes, num_bp, false, 1 );
-                    if( player_character.sees( *this ) && !player_character.in_sleep_state() ) {
-                        add_msg( _( "%s lies down to sleep." ), name );
+                    add_effect( effect_lying_down, 30_minutes, false, 1 );
+                    if( !player_character.in_sleep_state() ) {
+                        add_msg_if_player_sees( *this, _( "%s lies down to sleep." ), name );
                     }
                 }
             } else {
@@ -1768,15 +1768,15 @@ healing_options npc::patient_assessment( const Character &c )
 
     for( const std::pair<const bodypart_str_id, bodypart> &elem : c.get_body() ) {
 
-        if( c.has_effect( effect_bleed, elem.first->token ) ) {
+        if( c.has_effect( effect_bleed, elem.first ) ) {
             try_to_fix.bleed = true;
         }
 
-        if( c.has_effect( effect_bite, elem.first->token ) ) {
+        if( c.has_effect( effect_bite, elem.first ) ) {
             try_to_fix.bite = true;
         }
 
-        if( c.has_effect( effect_infected, elem.first->token ) ) {
+        if( c.has_effect( effect_infected, elem.first ) ) {
             try_to_fix.infect = true;
         }
         int part_threshold = 75;
@@ -1789,10 +1789,10 @@ healing_options npc::patient_assessment( const Character &c )
         part_threshold = part_threshold * elem.second.get_hp_max() / 100;
 
         if( elem.second.get_hp_cur() <= part_threshold ) {
-            if( !c.has_effect( effect_bandaged, elem.first->token ) ) {
+            if( !c.has_effect( effect_bandaged, elem.first ) ) {
                 try_to_fix.bandage = true;
             }
-            if( !c.has_effect( effect_disinfected, elem.first->token ) ) {
+            if( !c.has_effect( effect_disinfected, elem.first ) ) {
                 try_to_fix.disinfect = true;
             }
         }
@@ -2435,13 +2435,13 @@ void npc::move_to( const tripoint &pt, bool no_bashing, std::set<tripoint> *nomo
             }
         }
         if( here.has_flag( "UNSTABLE", pos() ) ) {
-            add_effect( effect_bouldering, 1_turns, num_bp, true );
+            add_effect( effect_bouldering, 1_turns, true );
         } else if( has_effect( effect_bouldering ) ) {
             remove_effect( effect_bouldering );
         }
 
         if( here.has_flag_ter_or_furn( TFLAG_NO_SIGHT, pos() ) ) {
-            add_effect( effect_no_sight, 1_turns, num_bp, true );
+            add_effect( effect_no_sight, 1_turns, true );
         } else if( has_effect( effect_no_sight ) ) {
             remove_effect( effect_no_sight );
         }
@@ -2841,10 +2841,10 @@ void npc::find_item()
             npc *npc_to_add = npc_to_get.get();
             followers.push_back( npc_to_add );
         }
-        Character &player_character = get_player_character();
+        viewer &player_view = get_player_view();
         for( auto &elem : followers ) {
-            if( !it.is_owned_by( *this, true ) && ( player_character.sees( this->pos() ) ||
-                                                    player_character.sees( wanted_item_pos ) ||
+            if( !it.is_owned_by( *this, true ) && ( player_view.sees( this->pos() ) ||
+                                                    player_view.sees( wanted_item_pos ) ||
                                                     elem->sees( this->pos() ) || elem->sees( wanted_item_pos ) ) ) {
                 return;
             }
@@ -3045,9 +3045,9 @@ void npc::pick_up_item()
             return;
         }
     }
-    Character &player_character = get_player_character();
+    viewer &player_view = get_player_view();
     // Describe the pickup to the player
-    bool u_see = player_character.sees( *this ) || player_character.sees( wanted_item_pos );
+    bool u_see = player_view.sees( *this ) || player_view.sees( wanted_item_pos );
     if( u_see ) {
         if( picked_up.size() == 1 ) {
             add_msg( _( "%1$s picks up a %2$s." ), name, picked_up.front().tname() );
@@ -3243,13 +3243,12 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
         }
     }
     // Finally, describe the action if u can see it
-    if( get_player_character().sees( *this ) ) {
-        if( num_items_dropped >= 3 ) {
-            add_msg( ngettext( "%s drops %d item.", "%s drops %d items.", num_items_dropped ), name,
-                     num_items_dropped );
-        } else {
-            add_msg( _( "%1$s drops a %2$s." ), name, item_name );
-        }
+    if( num_items_dropped >= 3 ) {
+        add_msg_if_player_sees( *this, ngettext( "%s drops %d item.", "%s drops %d items.",
+                                num_items_dropped ), name,
+                                num_items_dropped );
+    } else {
+        add_msg_if_player_sees( *this, _( "%1$s drops a %2$s." ), name, item_name );
     }
     update_worst_item_value();
 }
@@ -3489,9 +3488,7 @@ bool npc::scan_new_items()
 
 static void npc_throw( npc &np, item &it, const tripoint &pos )
 {
-    if( get_player_character().sees( np ) ) {
-        add_msg( _( "%1$s throws a %2$s." ), np.name, it.tname() );
-    }
+    add_msg_if_player_sees( np, _( "%1$s throws a %2$s." ), np.name, it.tname() );
 
     int stack_size = -1;
     if( it.count_by_charges() ) {
@@ -3669,9 +3666,9 @@ void npc::heal_player( player &patient )
         return;
     }
 
-    Character &player_character = get_player_character();
+    viewer &player_view = get_player_view();
     // Close enough to heal!
-    bool u_see = player_character.sees( *this ) || player_character.sees( patient );
+    bool u_see = player_view.sees( *this ) || player_view.sees( patient );
     if( u_see ) {
         add_msg( _( "%1$s heals %2$s." ), disp_name(), patient.disp_name() );
     }
@@ -3692,10 +3689,9 @@ void npc::heal_player( player &patient )
 
 void npc:: pretend_heal( player &patient, item used )
 {
-    if( get_player_character().sees( *this ) ) {
-        add_msg( _( "%1$s heals %2$s." ), disp_name(),
-                 patient.disp_name() ); // you can tell that it's not real by looking at your HP though
-    }
+    // you can tell that it's not real by looking at your HP though
+    add_msg_if_player_sees( *this, _( "%1$s heals %2$s." ), disp_name(),
+                            patient.disp_name() );
     consume_charges( used, 1 ); // empty hallucination's inventory to avoid spammming
     moves -= 100; // consumes moves to avoid infinite loop
 }
@@ -3737,9 +3733,7 @@ void npc::heal_self()
         return;
     }
 
-    if( get_player_character().sees( *this ) ) {
-        add_msg( _( "%s applies a %s" ), disp_name(), used.tname() );
-    }
+    add_msg_if_player_sees( *this, _( "%s applies a %s" ), disp_name(), used.tname() );
     warn_about( "heal_self", 1_turns );
 
     int charges_used = used.type->invoke( *this, used, pos(), "heal" );
@@ -3757,9 +3751,7 @@ void npc::use_painkiller()
         debugmsg( "NPC tried to use painkillers, but has none!" );
         move_pause();
     } else {
-        if( get_player_character().sees( *this ) ) {
-            add_msg( _( "%1$s takes some %2$s." ), disp_name(), it->tname() );
-        }
+        add_msg_if_player_sees( *this, _( "%1$s takes some %2$s." ), disp_name(), it->tname() );
         item_location loc = item_location( *this, it );
         const time_duration &consume_time = get_consume_time( *loc );
         moves -= to_moves<int>( consume_time );
@@ -4082,11 +4074,11 @@ void npc::reach_omt_destination()
         if( is_player_ally() ) {
             Character &player_character = get_player_character();
             talk_function::assign_guard( *this );
-            if( rl_dist( player_character.pos(), pos() ) > SEEX * 2 || !player_character.sees( pos() ) ) {
+            if( rl_dist( player_character.pos(), pos() ) > SEEX * 2 ) {
                 if( player_character.has_item_with_flag( "TWO_WAY_RADIO", true ) &&
                     has_item_with_flag( "TWO_WAY_RADIO", true ) ) {
-                    add_msg( m_info, _( "From your two-way radio you hear %s reporting in, "
-                                        "'I've arrived, boss!'" ), disp_name() );
+                    add_msg_if_player_sees( pos(), m_info, _( "From your two-way radio you hear %s reporting in, "
+                                            "'I've arrived, boss!'" ), disp_name() );
                 }
             }
         } else {
@@ -4383,11 +4375,11 @@ Creature *npc::current_ally()
 }
 
 // Maybe TODO: Move to Character method and use map methods
-static body_part bp_affected( npc &who, const efftype_id &effect_type )
+static bodypart_id bp_affected( npc &who, const efftype_id &effect_type )
 {
-    body_part ret = num_bp;
+    bodypart_id ret;
     int highest_intensity = INT_MIN;
-    for( const body_part bp : all_body_parts ) {
+    for( const bodypart_id &bp : who.get_all_body_parts() ) {
         const auto &eff = who.get_effect( effect_type, bp );
         if( !eff.is_null() && eff.get_intensity() > highest_intensity ) {
             ret = bp;
@@ -4506,15 +4498,15 @@ bool npc::complain()
     static const std::string hunger_string = "hunger";
     static const std::string thirst_string = "thirst";
 
-    if( !is_player_ally() || !get_player_character().sees( *this ) ) {
+    if( !is_player_ally() || !get_player_view().sees( *this ) ) {
         return false;
     }
 
     // When infected, complain every (4-intensity) hours
     // At intensity 3, ignore player wanting us to shut up
     if( has_effect( effect_infected ) ) {
-        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_infected ) ).id();
-        const auto &eff = get_effect( effect_infected, bp->token );
+        const bodypart_id &bp =  bp_affected( *this, effect_infected );
+        const auto &eff = get_effect( effect_infected, bp );
         int intensity = eff.get_intensity();
         const std::string speech = string_format( _( "My %s wound is infected…" ),
                                    body_part_name( bp ) );
@@ -4527,7 +4519,7 @@ bool npc::complain()
 
     // When bitten, complain every hour, but respect restrictions
     if( has_effect( effect_bite ) ) {
-        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bite ) );
+        const bodypart_id &bp =  bp_affected( *this, effect_bite );
         const std::string speech = string_format( _( "The bite wound on my %s looks bad." ),
                                    body_part_name( bp ) );
         if( complain_about( bite_string, 1_hours, speech ) ) {
@@ -4570,10 +4562,10 @@ bool npc::complain()
 
     //Bleeding every 5 minutes
     if( has_effect( effect_bleed ) ) {
-        const bodypart_id &bp = convert_bp( bp_affected( *this, effect_bleed ) );
+        const bodypart_id &bp =  bp_affected( *this, effect_bleed );
         std::string speech;
         time_duration often;
-        if( get_effect( effect_bleed, bp->token ).get_intensity() < 10 ) {
+        if( get_effect( effect_bleed, bp ).get_intensity() < 10 ) {
             speech = string_format( _( "My %s is bleeding!" ), body_part_name( bp ) );
             often = 5_minutes;
         } else {
@@ -4623,7 +4615,7 @@ void npc::do_reload( const item &it )
     moves -= reload_time;
     recoil = MAX_RECOIL;
 
-    if( get_player_character().sees( *this ) ) {
+    if( get_player_view().sees( *this ) ) {
         add_msg( _( "%1$s reloads their %2$s." ), name, it.tname() );
         sfx::play_variant_sound( "reload", it.typeId().str(), sfx::get_heard_volume( pos() ),
                                  sfx::get_heard_angle( pos() ) );

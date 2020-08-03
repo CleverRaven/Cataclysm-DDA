@@ -16,7 +16,7 @@
 
 namespace
 {
-generic_factory<scenario> all_scenarios( "scenario", "ident" );
+generic_factory<scenario> all_scenarios( "scenario" );
 const string_id<scenario> generic_scenario_id( "evacuee" );
 } // namespace
 

@@ -103,7 +103,7 @@
   {
     "type": "recipe",
     "result": "faction_base_modular_workshop_room5_wad_center",
-    "description": "Let's expand work area with a wattle and daub wall, and add add a bookshelf for our reference books.",
+    "description": "Let's expand work area with a wattle and daub wall, and add a bookshelf for our reference books.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

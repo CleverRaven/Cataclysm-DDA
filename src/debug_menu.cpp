@@ -408,12 +408,12 @@ static cata::optional<debug_menu_index> debug_menu_uilist( bool display_all_entr
 void teleport_short()
 {
     const cata::optional<tripoint> where = g->look_around();
-    Character &player_character = get_player_character();
-    if( !where || *where == player_character.pos() ) {
+    location &player_location = get_player_location();
+    if( !where || *where == player_location.pos() ) {
         return;
     }
     g->place_player( *where );
-    const tripoint new_pos( player_character.pos() );
+    const tripoint new_pos( player_location.pos() );
     add_msg( _( "You teleport to point (%d,%d,%d)." ), new_pos.x, new_pos.y, new_pos.z );
 }
 
@@ -980,7 +980,7 @@ void character_edit_menu()
             query_int( seconds, _( "How many seconds?" ), 600 );
 
             if( effect.is_valid() ) {
-                p.add_effect( effect, time_duration::from_seconds( seconds ), num_bp, false, intensity );
+                p.add_effect( effect, time_duration::from_seconds( seconds ), false, intensity );
             } else {
                 add_msg( _( "Invalid effect" ) );
             }

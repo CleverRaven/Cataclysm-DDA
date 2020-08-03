@@ -21,9 +21,10 @@ void dialogue_chatbin::check_missions()
 }
 
 void dialogue_chatbin::store_chosen_training( const skill_id &c_skill, const matype_id &c_style,
-        const spell_id &c_spell )
+        const spell_id &c_spell, const proficiency_id &c_proficiency )
 {
-    if( c_skill == skill_id() && c_style == matype_id() && c_spell == spell_id() ) {
+    if( c_skill == skill_id() && c_style == matype_id() && c_spell == spell_id() &&
+        c_proficiency == proficiency_id() ) {
         return;
     }
     clear_training();
@@ -33,6 +34,8 @@ void dialogue_chatbin::store_chosen_training( const skill_id &c_skill, const mat
         style = c_style;
     } else if( c_spell != spell_id() ) {
         dialogue_spell = c_spell;
+    } else if( c_proficiency != proficiency_id() ) {
+        proficiency = c_proficiency;
     }
 }
 
@@ -40,6 +43,7 @@ void dialogue_chatbin::clear_training()
 {
     style = matype_id();
     skill = skill_id();
+    proficiency = proficiency_id();
     dialogue_spell = spell_id();
 }
 

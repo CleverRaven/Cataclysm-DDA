@@ -405,15 +405,15 @@ static void add_effect_to_target( const tripoint &target, const spell &sp )
     bool bodypart_effected = false;
 
     if( guy ) {
-        for( const body_part bp : all_body_parts ) {
-            if( sp.bp_is_affected( bp ) ) {
+        for( const bodypart_id &bp : guy->get_all_body_parts() ) {
+            if( sp.bp_is_affected( bp->token ) ) {
                 guy->add_effect( spell_effect, dur_td, bp, sp.has_flag( spell_flag::PERMANENT ) );
                 bodypart_effected = true;
             }
         }
     }
     if( !bodypart_effected ) {
-        critter->add_effect( spell_effect, dur_td, num_bp );
+        critter->add_effect( spell_effect, dur_td );
     }
 }
 
@@ -524,10 +524,8 @@ static void magical_polymorph( monster &victim, Creature &caster, const spell &s
         return;
     }
 
-    if( get_player_character().sees( victim ) ) {
-        add_msg( _( "The %s transforms into a %s." ), victim.type->nname(),
-                 new_id->nname() );
-    }
+    add_msg_if_player_sees( victim, _( "The %s transforms into a %s." ),
+                            victim.type->nname(), new_id->nname() );
     victim.poly( new_id );
 
     if( sp.has_flag( spell_flag::FRIENDLY_POLY ) ) {

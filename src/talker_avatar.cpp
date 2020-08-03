@@ -107,10 +107,10 @@ void talker_avatar::buy_monster( talker &seller, const mtype_id &mtype, int cost
         monster &tmp = *mon_ptr;
         // Our monster is always a pet.
         tmp.friendly = -1;
-        tmp.add_effect( effect_pet, 1_turns, num_bp, true );
+        tmp.add_effect( effect_pet, 1_turns, true );
 
         if( pacified ) {
-            tmp.add_effect( effect_pacified, 1_turns, num_bp, true );
+            tmp.add_effect( effect_pacified, 1_turns, true );
         }
 
         if( !name.empty() ) {

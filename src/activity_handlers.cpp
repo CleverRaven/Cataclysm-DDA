@@ -80,6 +80,7 @@
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
+#include "proficiency.h"
 #include "ranged.h"
 #include "recipe.h"
 #include "requirements.h"
@@ -2195,6 +2196,14 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         return;
     }
 
+    const proficiency_id &proficiency = proficiency_id( act->name );
+    if( proficiency.is_valid() ) {
+        p->practice_proficiency( proficiency, 15_minutes );
+        add_msg( m_good, _( "You get some training in %s." ), proficiency->name() );
+        act->set_to_null();
+        return;
+    }
+
     const matype_id &ma_id = matype_id( act->name );
     if( ma_id.is_valid() ) {
         const martialart &mastyle = ma_id.obj();
@@ -3361,7 +3370,7 @@ void activity_handlers::operation_do_turn( player_activity *act, player *p )
                     }
 
                     if( bp == bodypart_id( "eyes" ) ) {
-                        p->add_effect( effect_blind, 1_hours, num_bp );
+                        p->add_effect( effect_blind, 1_hours );
                     }
                 }
             } else {
@@ -3710,6 +3719,9 @@ void activity_handlers::craft_do_turn( player_activity *act, player *p )
     int five_percent_steps = craft->item_counter / 500'000 - old_counter / 500'000;
     if( five_percent_steps > 0 ) {
         p->craft_skill_gain( *craft, five_percent_steps );
+        // Divide by 100 for seconds, 20 for 5%
+        const time_duration pct_time = time_duration::from_seconds( base_total_moves / 2000 );
+        p->craft_proficiency_gain( *craft, pct_time * five_percent_steps );
     }
 
     // Unlike skill, tools are consumed once at the start and should not be consumed at the end
@@ -4297,7 +4309,7 @@ void activity_handlers::robot_control_finish( player_activity *act, player *p )
                               z->name() );
         z->friendly = -1;
         if( z->has_flag( MF_RIDEABLE_MECH ) ) {
-            z->add_effect( effect_pet, 1_turns, num_bp, true );
+            z->add_effect( effect_pet, 1_turns, true );
         }
     } else if( success >= -2 ) {
         //A near success

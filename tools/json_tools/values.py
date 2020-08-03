@@ -1,14 +1,12 @@
-#!/usr/bin/env python2
+#!/usr/bin/env python3
 """Run this script with -h for usage info and docs.
 """
-
-from __future__ import print_function
 
 import argparse
 import sys
 import json
 from util import import_data, value_counter, ui_counts_to_columns,\
-        WhereAction
+    WhereAction
 
 parser = argparse.ArgumentParser(description="""Count the number of
 times a specific values occurs for a specific key. The key may be a
@@ -26,18 +24,22 @@ Example usages:
     # What cost values are in bionics that are active?
     %(prog)s --key=cost type=bionic active=true
 """, formatter_class=argparse.RawDescriptionHelpFormatter)
-parser.add_argument("--fnmatch",
-        default="*.json",
-        help="override with glob expression to select a smaller fileset.")
-parser.add_argument("--human",
-        action="store_true",
-        help="if set, makes output human readable. default is to return output in JSON dictionary.")
-parser.add_argument("-k", "--key",
-        required=True, type=str,
-        help="key on JSON objects from which to count values")
-parser.add_argument("where",
-        action=WhereAction, nargs='*', type=str,
-        help="where exclusions of the form 'where_key=where_val', no quotes.")
+parser.add_argument(
+    "--fnmatch",
+    default="*.json",
+    help="override with glob expression to select a smaller fileset.")
+parser.add_argument(
+    "--human",
+    action="store_true",
+    help="if set, makes output human readable. default is to return output in JSON dictionary.")
+parser.add_argument(
+    "-k", "--key",
+    required=True, type=str,
+    help="key on JSON objects from which to count values")
+parser.add_argument(
+    "where",
+    action=WhereAction, nargs='*', type=str,
+    help="where exclusions of the form 'where_key=where_val', no quotes.")
 
 
 if __name__ == "__main__":

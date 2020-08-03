@@ -2,7 +2,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_room_center_migo_resin",
-    "description": "Lets start building the central kitchen mi-go resin walls.",
+    "description": "Let's start building the central kitchen mi-go resin walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -21,7 +21,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_room2_center_migo_resin",
-    "description": "Lets finish the central kitchen mi-go resin walls.",
+    "description": "Let's finish the central kitchen mi-go resin walls.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -40,7 +40,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_smoking_area_migo_resin",
-    "description": "Lets get this mi-go resin smoking area covered to protect the workers from the weather.",
+    "description": "Let's get this mi-go resin smoking area covered to protect the workers from the weather.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -63,7 +63,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_pantry_migo_resin",
-    "description": "Lets build a mi-go resin wall pantry west of the kitchen.",
+    "description": "Let's build a mi-go resin wall pantry west of the kitchen.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -82,7 +82,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_west_migo_resin",
-    "description": "Lets build the west mi-go resin wall of the dining hall.",
+    "description": "Let's build the west mi-go resin wall of the dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -105,7 +105,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_east_migo_resin",
-    "description": "Lets build the east mi-go resin wall of the dining hall.",
+    "description": "Let's build the east mi-go resin wall of the dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,
@@ -128,7 +128,7 @@
   {
     "type": "recipe",
     "result": "faction_base_canteen_dining_center_migo_resin",
-    "description": "Lets build the center of the mi-go resin dining hall.",
+    "description": "Let's build the center of the mi-go resin dining hall.",
     "category": "CC_BUILDING",
     "subcategory": "CSC_BUILDING_BASES",
     "autolearn": false,

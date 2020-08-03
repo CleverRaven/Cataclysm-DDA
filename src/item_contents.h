@@ -133,9 +133,6 @@ class item_contents
         /** True if every pocket is rigid or we have no pockets */
         bool all_pockets_rigid() const;
 
-        // True if every pocket is rigid. False if not or we have no pockets
-        bool contents_are_rigid() const;
-
         /** returns the best quality of the id that's contained in the item in CONTAINER pockets */
         int best_quality( const quality_id &id ) const;
 
@@ -200,7 +197,7 @@ class item_contents
         // does not support multiple magazine pockets!
         const item &first_ammo() const;
         // spills all liquid from the container. removing liquid from a magazine requires unload logic.
-        void handle_liquid_or_spill( Character &guy );
+        void handle_liquid_or_spill( Character &guy, const item *avoid = nullptr );
         // returns true if any of the pockets will spill if placed into a pocket
         bool will_spill() const;
         bool spill_open_pockets( Character &guy, const item *avoid = nullptr );

@@ -91,6 +91,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -547,8 +548,13 @@ void Character::load( const JsonObject &data )
 
     // Remove check after 0.F
     if( savegame_loading_version >= 30 ) {
-        data.read( "proficiencies", _proficiencies );
+        if( data.has_array( "proficiencies" ) ) {
+            _proficiencies->deserialize_legacy( data.get_array( "proficiencies" ) );
+        } else {
+            data.read( "proficiencies", _proficiencies );
+        }
     }
+
 
     //energy
     data.read( "stim", stim );
@@ -3211,16 +3217,7 @@ void Creature::store( JsonOut &jsout ) const
     // killer is not stored, it's temporary anyway, any creature that has a non-null
     // killer is dead (as per definition) and should not be stored.
 
-    // Because JSON requires string keys we need to convert our int keys
-    std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
-    for( const auto &maps : *effects ) {
-        for( const auto i : maps.second ) {
-            std::ostringstream convert;
-            convert << i.first;
-            tmp_map[maps.first.str()][convert.str()] = i.second;
-        }
-    }
-    jsout.member( "effects", tmp_map );
+    jsout.member( "effects", *effects );
 
     jsout.member( "damage_over_time_map", damage_over_time_map );
     jsout.member( "values", values );
@@ -3262,9 +3259,8 @@ void Creature::load( const JsonObject &jsin )
 
     killer = nullptr; // see Creature::load
 
-    // Just too many changes here to maintain compatibility, so older characters get a free
-    // effects wipe. Since most long lasting effects are bad, this shouldn't be too bad for them.
-    if( savegame_loading_version >= 23 ) {
+    // TEMPORARY until 0.F
+    if( savegame_loading_version < 31 ) {
         if( jsin.has_object( "effects" ) ) {
             // Because JSON requires string keys we need to convert back to our bp keys
             std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
@@ -3280,7 +3276,7 @@ void Creature::load( const JsonObject &jsin )
                     if( !( std::istringstream( i.first ) >> key_num ) ) {
                         key_num = 0;
                     }
-                    const body_part bp = static_cast<body_part>( key_num );
+                    const bodypart_str_id &bp = convert_bp( static_cast<body_part>( key_num ) );
                     const effect &e = i.second;
 
                     ( *effects )[id][bp] = e;
@@ -3288,6 +3284,8 @@ void Creature::load( const JsonObject &jsin )
                 }
             }
         }
+    } else {
+        jsin.read( "effects", *effects );
     }
     jsin.read( "values", values );
 
