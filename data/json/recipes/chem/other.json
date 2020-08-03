@@ -74,7 +74,7 @@
       [ [ "salt_water", 2 ] ],
       [ [ "ammonia", 2 ] ],
       [ [ "material_limestone", 25 ] ],
-      [ [ "material_limestone", 25 ], [ "material_quicklime", 25 ] ],
+      [ [ "material_limestone", 25 ], [ "material_quicklime", 25 ] ]
     ]
   }
 ]
