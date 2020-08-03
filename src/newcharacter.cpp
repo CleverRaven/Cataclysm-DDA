@@ -58,6 +58,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "worldfactory.h"
 

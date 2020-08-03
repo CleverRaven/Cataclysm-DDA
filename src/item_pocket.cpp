@@ -16,6 +16,7 @@
 #include "player.h"
 #include "point.h"
 #include "units.h"
+#include "units_utility.h"
 
 namespace io
 {

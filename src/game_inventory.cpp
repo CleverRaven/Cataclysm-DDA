@@ -50,6 +50,7 @@
 #include "type_id.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 
 static const activity_id ACT_EAT_MENU( "ACT_EAT_MENU" );
