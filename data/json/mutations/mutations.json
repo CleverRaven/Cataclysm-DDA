@@ -6848,5 +6848,13 @@
     "description": "You have fast reflexes, allowing you to dodge attacks and grabs more easily.",
     "starting_trait": true,
     "dodge_modifier": 2
+  },
+  {
+    "type": "mutation",
+    "id": "HAS_NEMESIS",
+    "name": { "str": "Hunted" },
+    "points": -2,
+    "description": "An evil and powerful being is tracking you supernaturally. You must stay on the move lest it finally catch its prey... or stand your ground and fight.",
+    "starting_trait": true
   }
 ]
