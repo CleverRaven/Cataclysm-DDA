@@ -60,6 +60,7 @@ static const mongroup_id GROUP_SPIRAL( "GROUP_SPIRAL" );
 static const mongroup_id GROUP_SWAMP( "GROUP_SWAMP" );
 static const mongroup_id GROUP_WORM( "GROUP_WORM" );
 static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
+static const mongroup_id GROUP_NEMESIS( "GROUP_NEMESIS" );
 
 class map_extra;
 
@@ -2111,6 +2112,10 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
         if( sig_power < dist ) {
             continue;
         }
+        if( mg.horde_behaviour == "nemesis" ) {
+            // nemesis hordes are signaled to the player by their own function and dont react to noise
+            continue;
+        }
         // TODO: base this in monster attributes, foremost GOODHEARING.
         const int inter_per_sig_power = 15; //Interest per signal value
         const int min_initial_inter = 30; //Min initial interest for horde
@@ -2133,6 +2138,20 @@ void overmap::signal_hordes( const tripoint_rel_sm &p_rel, const int sig_power )
                 mg.set_interest( min_capped_inter );
                 add_msg( m_debug, "horde set interest %d dist %d", min_capped_inter, dist );
             }
+        }
+    }
+}
+
+void overmap::signal_nemesis( const tripoint_rel_sm &p_rel, const int sig_power )
+{
+    tripoint_om_sm p( p_rel.raw() );
+    for( auto &elem : zg ) {
+        mongroup &mg = elem.second;
+
+        if( mg.horde_behaviour == "nemesis" ) {
+            // if the horde is a nemesis, we set its target directly on the player
+            mg.set_target( p.xy() );
+            mg.set_interest( sig_power );
         }
     }
 }
@@ -4320,6 +4339,15 @@ void overmap::place_mongroups()
                                  OMAPY * 2 - 1 ), 0 ),
                                  rng( 20, 40 ), rng( 30, 50 ) ) );
     }
+}
+
+void overmap::place_nemesis( const tripoint_abs_omt p )
+{
+            tripoint_abs_sm pos_sm = project_to<coords::sm>( p );
+            mongroup nemesis = mongroup( GROUP_NEMESIS, pos_sm.raw(), 1, 1 );
+            nemesis.horde = true;
+            nemesis.horde_behaviour = "nemesis";
+            add_mon_group( nemesis );
 }
 
 point_abs_omt overmap::global_base_point() const
