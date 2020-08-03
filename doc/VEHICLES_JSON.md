@@ -22,10 +22,10 @@ Vehicle prototypes do not currently accept copy-from
     { "x": 0, "y": 1, "parts": [ "frame", "seat" ] }, // Arrays of parts on the same space
     { "x": 0, "y": 1, "parts": [ { "part": "tank", "fuel": "gasoline" }, "battery_car" },
     { "x": 0, "y": 1, "part": "stereo" },  // parts arrays and part may be mixed on the same space
-    { "x": 1, "y": 0, "parts": [ "frame, "wheel" ] },
-    { "x": 1, "y": 1, "parts": [ "frame, "wheel" ] },
-    { "x": -1, "y": 0, "parts": [ "frame, "wheel" ] },
-    { "x": -1, "y": 1, "parts": [ "frame, "wheel" ] }
+    { "x": 1, "y": 0, "parts": [ "frame", "wheel" ] },
+    { "x": 1, "y": 1, "parts": [ "frame", "wheel" ] },
+    { "x": -1, "y": 0, "parts": [ "frame", "wheel" ] },
+    { "x": -1, "y": 1, "parts": [ "frame", "wheel" ] }
 ],
 "items": [                                 // Item spawn list
     { "x": 0, "y": 0, "items": "helmet_army" },   // individual item
