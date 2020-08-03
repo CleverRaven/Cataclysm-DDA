@@ -903,7 +903,7 @@ void player::sort_armor()
                     } else if( invlet_to_item( invlet ) != nullptr ) {
                         ++iiter;
                     } else {
-                        inv.reassign_item( w, invlet );
+                        inv->reassign_item( w, invlet );
                         ++witer;
                         ++iiter;
                     }

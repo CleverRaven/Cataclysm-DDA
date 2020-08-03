@@ -572,7 +572,7 @@ void avatar_action::swim( map &m, avatar &you, const tripoint &p )
         m.board_vehicle( you.pos(), &you );
     }
     you.moves -= ( movecost > 200 ? 200 : movecost ) * ( trigdist && diagonal ? M_SQRT2 : 1 );
-    you.inv.rust_iron_items();
+    you.inv->rust_iron_items();
 
     if( !you.is_mounted() ) {
         you.burn_move_stamina( movecost );

@@ -595,7 +595,7 @@ int iuse::smoking( player *p, item *it, bool, const tripoint & )
     // If we're here, we better have a cig to light.
     p->use_charges_if_avail( itype_fire, 1 );
     cig.active = true;
-    p->inv.add_item( cig, false, true );
+    p->inv->add_item( cig, false, true );
     p->add_msg_if_player( m_neutral, _( "You light a %s." ), cig.tname() );
 
     // Parting messages
@@ -8234,7 +8234,7 @@ int iuse::radiocar( player *p, item *it, bool, const tripoint & )
         } else { // Disarm the car
             p->moves -= to_moves<int>( 2_seconds );
 
-            p->inv.assign_empty_invlet( *bomb_it, *p, true ); // force getting an invlet.
+            p->inv->assign_empty_invlet( *bomb_it, *p, true ); // force getting an invlet.
             p->i_add( *bomb_it );
             it->remove_item( *bomb_it );
 
@@ -9788,7 +9788,7 @@ int iuse::wash_items( player *p, bool soft_items, bool hard_items )
         p->add_msg_if_player( m_info, _( "You cannot do that while mounted." ) );
         return 0;
     }
-    p->inv.restack( *p );
+    p->inv->restack( *p );
     const inventory &crafting_inv = p->crafting_inventory();
 
     auto is_liquid = []( const item & it ) {

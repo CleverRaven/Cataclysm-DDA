@@ -41,7 +41,7 @@ int get_remaining_charges( const std::string &tool_id )
 
 bool player_has_item_of_type( const std::string &type )
 {
-    std::vector<item *> matching_items = get_player_character().inv.items_with(
+    std::vector<item *> matching_items = get_player_character().inv->items_with(
     [&]( const item & i ) {
         return i.type->get_id() == itype_id( type );
     } );
@@ -57,7 +57,7 @@ void clear_character( player &dummy, bool debug_storage )
     // delete all worn items.
     dummy.worn.clear();
     dummy.calc_encumbrance();
-    dummy.inv.clear();
+    dummy.inv->clear();
     dummy.remove_weapon();
     dummy.clear_mutations();
 

@@ -33,7 +33,7 @@ TEST_CASE( "reload_magazine", "[magazine] [visitable] [item] [item_location]" )
 
     Character &player_character = get_player_character();
     player_character.worn.clear();
-    player_character.inv.clear();
+    player_character.inv->clear();
     player_character.remove_weapon();
     player_character.wear_item( item( "backpack" ) ); // so we don't drop anything
 

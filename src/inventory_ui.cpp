@@ -169,7 +169,7 @@ nc_color inventory_entry::get_invlet_color() const
 {
     if( !is_selectable() ) {
         return c_dark_gray;
-    } else if( get_player_character().inv.assigned_invlet.count( get_invlet() ) ) {
+    } else if( get_player_character().inv->assigned_invlet.count( get_invlet() ) ) {
         return c_yellow;
     } else {
         return c_white;
@@ -812,8 +812,8 @@ void inventory_column::prepare_paging( const std::string &filter )
                     Character &player_character = get_player_character();
                     // Place favorite items and items with an assigned inventory letter first,
                     // since the player cared enough to assign them
-                    const bool left_has_invlet = player_character.inv.assigned_invlet.count( lhs.any_item()->invlet );
-                    const bool right_has_invlet = player_character.inv.assigned_invlet.count( rhs.any_item()->invlet );
+                    const bool left_has_invlet = player_character.inv->assigned_invlet.count( lhs.any_item()->invlet );
+                    const bool right_has_invlet = player_character.inv->assigned_invlet.count( rhs.any_item()->invlet );
                     if( left_has_invlet != right_has_invlet ) {
                         return left_has_invlet;
                     }
@@ -1297,7 +1297,7 @@ void inventory_selector::add_character_items( Character &character )
         return VisitResponse::NEXT;
     } );
     // Visitable interface does not support stacks so it has to be here
-    for( std::list<item> *elem : character.inv.slice() ) {
+    for( std::list<item> *elem : character.inv->slice() ) {
         add_items( own_inv_column, [&character]( item * it ) {
             return item_location( character, it );
         }, restack_items( ( *elem ).begin(), ( *elem ).end(), preset.get_checking_components() ) );

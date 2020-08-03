@@ -459,7 +459,7 @@ VisitResponse visitable<Character>::visit_items(
         }
     }
 
-    return ch->inv.visit_items( func );
+    return ch->inv->visit_items( func );
 }
 
 /** @relates visitable */
@@ -623,7 +623,7 @@ std::list<item> visitable<Character>::remove_items_with( const
     }
 
     // first try and remove items from the inventory
-    res = ch->inv.remove_items_with( filter, count );
+    res = ch->inv->remove_items_with( filter, count );
     count -= res.size();
     if( count == 0 ) {
         return res;

@@ -2467,8 +2467,8 @@ cata::optional<std::list<item>::iterator> Character::wear_item( const item &to_w
 
     new_item_it->on_wear( *this );
 
-    inv.update_invlet( *new_item_it );
-    inv.update_cache_with_item( *new_item_it );
+    inv->update_invlet( *new_item_it );
+    inv->update_cache_with_item( *new_item_it );
 
     recalc_sight_limits();
     calc_encumbrance();
@@ -2549,7 +2549,7 @@ item *Character::try_add( item it, const item *avoid, const bool allow_wield )
     // if there's a desired invlet for this item type, try to use it
     bool keep_invlet = false;
     const invlets_bitset cur_inv = allocated_invlets();
-    for( const auto &iter : inv.assigned_invlet ) {
+    for( const auto &iter : inv->assigned_invlet ) {
         if( iter.second == item_type_id && !cur_inv[iter.first] ) {
             it.invlet = iter.first;
             keep_invlet = true;
@@ -2707,7 +2707,7 @@ const item &Character::i_at( int position ) const
         }
     }
 
-    return inv.find_item( position );
+    return inv->find_item( position );
 }
 
 item &Character::i_at( int position )
@@ -2729,7 +2729,7 @@ int Character::get_item_position( const item *it ) const
         p++;
     }
 
-    return inv.position_by_item( it );
+    return inv->position_by_item( it );
 }
 
 item Character::i_rem( const item *it )
@@ -2754,7 +2754,7 @@ bool Character::i_add_or_drop( item &it, int qty, const item *avoid )
     bool retval = true;
     bool drop = it.made_of( phase_id::LIQUID );
     bool add = it.is_gun() || !it.is_irremovable();
-    inv.assign_empty_invlet( it, *this );
+    inv->assign_empty_invlet( it, *this );
     map &here = get_map();
     for( int i = 0; i < qty; ++i ) {
         drop |= !can_pickWeight( it, !get_option<bool>( "DANGEROUS_PICKUPS" ) ) || !can_pickVolume( it );
@@ -2828,7 +2828,7 @@ void Character::drop( const drop_locations &what, const tripoint &target,
 
 invlets_bitset Character::allocated_invlets() const
 {
-    invlets_bitset invlets = inv.allocated_invlets();
+    invlets_bitset invlets = inv->allocated_invlets();
 
     invlets.set( weapon.invlet );
     for( const auto &w : worn ) {
@@ -3487,7 +3487,7 @@ ret_val<bool> Character::can_unwield( const item &it ) const
 void Character::drop_invalid_inventory()
 {
     bool dropped_liquid = false;
-    for( const std::list<item> *stack : inv.const_slice() ) {
+    for( const std::list<item> *stack : inv->const_slice() ) {
         const item &it = stack->front();
         if( it.made_of( phase_id::LIQUID ) ) {
             dropped_liquid = true;
@@ -3794,15 +3794,15 @@ void Character::die( Creature *nkiller )
     set_killer( nkiller );
     set_time_died( calendar::turn );
     if( has_effect( effect_lightsnare ) ) {
-        inv.add_item( item( "string_36", 0 ) );
-        inv.add_item( item( "snare_trigger", 0 ) );
+        inv->add_item( item( "string_36", 0 ) );
+        inv->add_item( item( "snare_trigger", 0 ) );
     }
     if( has_effect( effect_heavysnare ) ) {
-        inv.add_item( item( "rope_6", 0 ) );
-        inv.add_item( item( "snare_trigger", 0 ) );
+        inv->add_item( item( "rope_6", 0 ) );
+        inv->add_item( item( "snare_trigger", 0 ) );
     }
     if( has_effect( effect_beartrap ) ) {
-        inv.add_item( item( "beartrap", 0 ) );
+        inv->add_item( item( "beartrap", 0 ) );
     }
     mission::on_creature_death( *this );
 }
@@ -3967,7 +3967,7 @@ units::mass Character::get_weight() const
     } );
 
     ret += bodyweight();       // The base weight of the player's body
-    ret += inv.weight();           // Weight of the stored inventory
+    ret += inv->weight();           // Weight of the stored inventory
     ret += wornWeight;             // Weight of worn items
     ret += weapon.weight();        // Weight of wielded item
     ret += bionics_weight();       // Weight of installed bionics
@@ -7024,7 +7024,7 @@ bool Character::pour_into( item &container, item &liquid )
     add_msg_if_player( _( "You pour %1$s into the %2$s." ), liquid.tname(), container.tname() );
 
     liquid.charges -= container.fill_with( *liquid.type, amount );
-    inv.unsort();
+    inv->unsort();
 
     if( liquid.charges > 0 ) {
         add_msg_if_player( _( "There's some left over!" ) );
@@ -8626,7 +8626,7 @@ std::string Character::get_highest_category() const
 void Character::recalculate_enchantment_cache()
 {
     // start by resetting the cache to all inventory items
-    enchantment_cache = inv.get_active_enchantment_cache( *this );
+    enchantment_cache = inv->get_active_enchantment_cache( *this );
 
     visit_items( [&]( const item * it ) {
         for( const enchantment &ench : it->get_enchantments() ) {
@@ -9053,7 +9053,7 @@ bool Character::unwield()
         return false;
     }
 
-    inv.unsort();
+    inv->unsort();
 
     return true;
 }
@@ -9660,7 +9660,7 @@ std::vector<item *> Character::inv_dump()
     for( auto &i : worn ) {
         ret.push_back( &i );
     }
-    inv.dump( ret );
+    inv->dump( ret );
     return ret;
 }
 
@@ -10066,7 +10066,7 @@ void Character::fall_asleep( const time_duration &duration )
 
 void Character::migrate_items_to_storage( bool disintegrate )
 {
-    inv.visit_items( [&]( const item * it ) {
+    inv->visit_items( [&]( const item * it ) {
         if( disintegrate ) {
             if( try_add( *it ) == nullptr ) {
                 debugmsg( "ERROR: Could not put %s into inventory.  Check if the profession has enough space.",
@@ -10078,7 +10078,7 @@ void Character::migrate_items_to_storage( bool disintegrate )
         }
         return VisitResponse::SKIP;
     } );
-    inv.clear();
+    inv->clear();
 }
 
 std::string Character::is_snuggling() const
@@ -10368,7 +10368,7 @@ std::list<item> Character::use_amount( const itype_id &it, int quantity,
     if( quantity <= 0 ) {
         return ret;
     }
-    std::list<item> tmp = inv.use_amount( it, quantity, filter );
+    std::list<item> tmp = inv->use_amount( it, quantity, filter );
     ret.splice( ret.end(), tmp );
     return ret;
 }

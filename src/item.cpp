@@ -8083,7 +8083,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
     if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
         ammo.remove_item();
         if( container ) {
-            u.inv.restack( u ); // emptied containers do not stack with non-empty ones
+            u.inv->restack( u ); // emptied containers do not stack with non-empty ones
         }
     }
     return true;

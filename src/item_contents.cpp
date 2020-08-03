@@ -7,6 +7,7 @@
 #include "avatar.h"
 #include "character.h"
 #include "enums.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_factory.h"
