@@ -2273,8 +2273,12 @@ int Character::attack_speed( const item &weap ) const
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 15 - melee_skill ) / 15 ) );
     /** @EFFECT_DEX increases attack speed */
     const int dexbonus = dex_cur / 2;
-    const int encumbrance_penalty = encumb( bodypart_id( "torso" ) ) +
-                                    ( encumb( bodypart_id( "hand_l" ) ) + encumb( bodypart_id( "hand_r" ) ) ) / 2;
+    float encumbrance_penalty = 0.0f;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        encumbrance_penalty += encumb( bp ) * bp->encumbrance_effects.melee_thrown_attack_cost;
+
+    }
+
     const int ma_move_cost = mabuff_attack_cost_penalty();
     const float stamina_ratio = static_cast<float>( get_stamina() ) / static_cast<float>
                                 ( get_stamina_max() );

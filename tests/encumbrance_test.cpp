@@ -5,10 +5,13 @@
 #include <string>
 #include <vector>
 
+#include "avatar.h"
 #include "bodypart.h"
 #include "character.h"
 #include "item.h"
 #include "npc.h"
+#include "player_helpers.h"
+#include "ranged.h"
 #include "type_id.h"
 
 static void test_encumbrance_on(
@@ -65,6 +68,17 @@ static void test_encumbrance(
         clothing.push_back( item( type ) );
     }
     test_encumbrance_items( clothing, body_part, expected_encumbrance );
+}
+
+// Make avatar take off everything and put on a single piece of clothing
+static void wear_single_item( avatar &dummy, item &clothing )
+{
+    std::list<item> temp;
+    while( dummy.takeoff( dummy.i_at( -2 ), &temp ) ) {}
+    dummy.wear_item( clothing );
+
+    dummy.reset_stats(); // becaue dodging from encumbrance is cached and is only updates here.
+    return;
 }
 
 struct add_trait {
@@ -126,5 +140,55 @@ TEST_CASE( "tiny_character", "[encumbrance]" )
     SECTION( "undersize shrt" ) {
         i.set_flag( "UNDERSIZE" );
         test_encumbrance_items( { i }, "torso", longshirt_e, add_trait( "SMALL2" ) );
+    }
+}
+
+int throw_cost( const player &c, const item &to_throw );
+TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
+{
+    avatar &dummy = get_avatar();
+    clear_character( dummy );
+
+    item chainmail_legs( "chainmail_legs" );
+    REQUIRE( chainmail_legs.get_encumber( dummy, bodypart_id( "leg_l" ) ) == 20 );
+    REQUIRE( chainmail_legs.get_encumber( dummy, bodypart_id( "leg_r" ) ) == 20 );
+    item chainmail_arms( "chainmail_arms" );
+    REQUIRE( chainmail_arms.get_encumber( dummy, bodypart_id( "arm_l" ) ) == 20 );
+    REQUIRE( chainmail_arms.get_encumber( dummy, bodypart_id( "arm_r" ) ) == 20 );
+    item chainmail_vest( "chainmail_vest" );
+    REQUIRE( chainmail_vest.get_encumber( dummy, bodypart_id( "torso" ) ) == 20 );
+    item mittens( "mittens" );
+    REQUIRE( mittens.get_encumber( dummy, bodypart_id( "hand_l" ) ) == 80 );
+    REQUIRE( mittens.get_encumber( dummy, bodypart_id( "hand_r" ) ) == 80 );
+
+
+    SECTION( "throwing attack move cost increases" ) {
+        item thrown( "throwing_stick" );
+        REQUIRE( dummy.wield( thrown ) );
+        const int unencumbered_throw_cost = throw_cost( dummy, thrown );
+
+        wear_single_item( dummy, chainmail_legs );
+        CHECK( throw_cost( dummy, thrown ) == unencumbered_throw_cost );
+        wear_single_item( dummy, chainmail_arms );
+        CHECK( throw_cost( dummy, thrown ) == unencumbered_throw_cost );
+        wear_single_item( dummy, chainmail_vest );
+        CHECK( throw_cost( dummy, thrown ) == unencumbered_throw_cost + 20 );
+        wear_single_item( dummy, mittens );
+        CHECK( throw_cost( dummy, thrown ) == unencumbered_throw_cost + 80 );
+    }
+
+    SECTION( "melee attack move cost increases" ) {
+        item melee( "quarterstaff" );
+        REQUIRE( dummy.wield( melee ) );
+        const int unencumbered_melee_cost = dummy.attack_speed( melee );
+
+        wear_single_item( dummy, chainmail_legs );
+        CHECK( dummy.attack_speed( melee ) == unencumbered_melee_cost );
+        wear_single_item( dummy, chainmail_arms );
+        CHECK( dummy.attack_speed( melee ) == unencumbered_melee_cost );
+        wear_single_item( dummy, chainmail_vest );
+        CHECK( dummy.attack_speed( melee ) == unencumbered_melee_cost + 20 );
+        wear_single_item( dummy, mittens );
+        CHECK( dummy.attack_speed( melee ) == unencumbered_melee_cost + 80 );
     }
 }

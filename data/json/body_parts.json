@@ -29,7 +29,8 @@
     "encumbrance_text": "Dodging and melee is hampered.",
     "encumbrance_effects": {
       "dodge_skill": -0.1,
-      "hit_roll_perc": -1
+      "hit_roll_perc": -1,
+      "melee_thrown_attack_cost": 1
     },
     "main_part": "torso",
     "opposite_part": "torso",
@@ -182,7 +183,9 @@
     "heading": "L. Hand",
     "heading_multiple": "Hands",
     "encumbrance_text": "Manual tasks are slowed.",
-    "encumbrance_effects": {},
+    "encumbrance_effects": {
+      "melee_thrown_attack_cost": 0.5
+    },
     "main_part": "arm_l",
     "opposite_part": "hand_r",
     "hit_size": 3,
@@ -208,7 +211,9 @@
     "heading": "R. Hand",
     "heading_multiple": "Hands",
     "encumbrance_text": "Manual tasks are slowed.",
-    "encumbrance_effects": {},
+    "encumbrance_effects": {
+      "melee_thrown_attack_cost": 0.5
+    },
     "main_part": "arm_r",
     "opposite_part": "hand_l",
     "hit_size": 3,

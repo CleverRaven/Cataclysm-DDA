@@ -869,8 +869,11 @@ int throw_cost( const player &c, const item &to_throw )
     const int skill_cost = static_cast<int>( ( base_move_cost * ( 20 - throw_skill ) / 20 ) );
     ///\EFFECT_DEX increases throwing speed
     const int dexbonus = c.get_dex();
-    const int encumbrance_penalty = c.encumb( bodypart_id( "torso" ) ) +
-                                    ( c.encumb( bodypart_id( "hand_l" ) ) + c.encumb( bodypart_id( "hand_r" ) ) ) / 2;
+    float encumbrance_penalty = 0.0f;
+    for( const bodypart_id &bp : c.get_all_body_parts() ) {
+        encumbrance_penalty += c.encumb( bp ) * bp->encumbrance_effects.melee_thrown_attack_cost;
+
+    }
     const float stamina_ratio = static_cast<float>( c.get_stamina() ) / c.get_stamina_max();
     const float stamina_penalty = 1.0 + std::max( ( 0.25f - stamina_ratio ) * 4.0f, 0.0f );
 
@@ -2931,9 +2934,11 @@ void target_ui::draw_controls_list( int text_y )
     }
     if( mode == TargetMode::Fire || mode == TargetMode::TurretManual ) {
         lines.push_back( {5, colored( col_enabled, string_format( _( "[%c] to switch firing modes." ),
-                                      bound_key( "SWITCH_MODE" ) ) )} );
+                                      bound_key( "SWITCH_MODE" ) ) )
+                         } );
         lines.push_back( {6, colored( col_enabled, string_format( _( "[%c] to reload/switch ammo." ),
-                                      bound_key( "SWITCH_AMMO" ) ) )} );
+                                      bound_key( "SWITCH_AMMO" ) ) )
+                         } );
     }
     if( mode == TargetMode::Turrets ) {
         const std::string label = to_translation( "[Hotkey] Show/Hide turrets' lines of fire",

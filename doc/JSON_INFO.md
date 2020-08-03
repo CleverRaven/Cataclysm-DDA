@@ -552,12 +552,13 @@ This section describes each json file and their contents. Each json has their ow
 
 #### `encumbrance_effects`
 
-How much and in which way each point of encumbrance on this part affects the character. All fields are optional, all defaults are `0`.
+How much and in which way *each point* of encumbrance on this part affects the character. All fields are optional, all defaults are `0`.
 
-| Identifier        | Description
-|---                |---
-| dodge_skill       | (_optional_) Adjustment to effective dodging skill. Usually nonpositive. (default: `0`)
-| hit_roll_perc     | (_optional_) Melee hit rolls are adjusted by this percentage. Usually nonpositive. Additive across encumbered parts, the total effect is hard-capped at -75% (default: `0`)
+| Identifier               | Description
+|---                       |---
+| dodge_skill              | (_optional_) Adjustment to effective dodging skill. Negative values reduce dodging. (default: `0`)
+| hit_roll_perc            | (_optional_) Melee hit rolls are adjusted by this percentage. Negative values worsen accuracy. Additive across encumbered parts, the total effect is hard-capped at -75% (default: `0`)
+| melee_thrown_attack_cost | (_optional_) Adjustments to melee and thrown attack cost, in time points. Positive values slow down attacks. (default: `0`)
 
 ### Bionics
 

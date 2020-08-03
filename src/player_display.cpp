@@ -229,7 +229,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             s += dodge_skill_text( eff_encumbrance * bp->encumbrance_effects.dodge_skill );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
                                      skill_swimming ) * 3 ) );
-            s += melee_cost_text( eff_encumbrance );
+            s += melee_cost_text( eff_encumbrance * bp->encumbrance_effects.melee_thrown_attack_cost );
             break;
         }
         case bp_head:
@@ -258,7 +258,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             s += reload_cost_text( ( eff_encumbrance / 10 ) * 15 );
             s += string_format( _( "Dexterity when throwing items: <color_white>%+.1f</color>\n" ),
                                 -( eff_encumbrance / 10.0f ) );
-            s += melee_cost_text( eff_encumbrance / 2 );
+            s += melee_cost_text( eff_encumbrance * bp->encumbrance_effects.melee_thrown_attack_cost );
             s += string_format( _( "Reduced gun aim speed: <color_white>%.1f</color>" ),
                                 p.aim_speed_encumbrance_modifier() );
             break;
