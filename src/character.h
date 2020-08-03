@@ -18,12 +18,10 @@
 #include <utility>
 #include <vector>
 
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_id.h"
 #include "character_martial_arts.h"
-#include "color.h"
 #include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
@@ -36,8 +34,6 @@
 #include "magic.h"
 #include "magic_enchantment.h"
 #include "memory_fast.h"
-#include "monster.h"
-#include "mtype.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
@@ -50,34 +46,40 @@
 #include "units.h"
 #include "visitable.h"
 #include "weighted_list.h"
-#include "weather_gen.h"
 
+class basecamp;
+class bionic_collection;
+class faction;
 class JsonIn;
 class JsonObject;
 class JsonOut;
-class SkillLevel;
-class SkillLevelMap;
-class basecamp;
-class bionic_collection;
-struct display_proficiency;
-class faction;
+class monster;
+class nc_color;
 class player;
 class player_morale;
+class proficiency_set;
+class recipe_subset;
+class SkillLevel;
+class SkillLevelMap;
 class vehicle;
+
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
+struct display_proficiency;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
 struct itype;
-class recipe_subset;
 struct mutation_branch;
 struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
-class proficiency_set;
+struct w_point;
+
 template <typename E> struct enum_traits;
+
 enum npc_attitude : int;
+
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
