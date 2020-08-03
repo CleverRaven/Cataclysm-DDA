@@ -94,6 +94,8 @@ struct encumbrance_effects {
     float throwing_dispersion = 0.0f;
     float ranged_dispersion = 0.0f;
     float stamina_regeneration = 0.0f;
+    int melee_thrown_stamina_cost = 0;
+    float ranged_dispersion_but_different = 0;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );

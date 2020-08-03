@@ -189,7 +189,7 @@ static std::string melee_cost_text( int moves )
 }
 static std::string melee_stamina_cost_text( int cost )
 {
-    return string_format( _( "Melee stamina cost: <color_white>%+d</color>\n" ), cost );
+    return string_format( _( "Melee and thrown stamina cost: <color_white>%+d</color>\n" ), cost );
 }
 static std::string mouth_stamina_cost_text( int cost )
 {
@@ -251,9 +251,9 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             break;
         case bp_arm_l:
         case bp_arm_r:
-            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee attacks and accuracy with ranged weapons.</color>\n" );
-            s += melee_stamina_cost_text( eff_encumbrance );
-            s += ranged_cost_text( eff_encumbrance / 5.0 );
+            s += _( "<color_magenta>Arm encumbrance affects stamina cost of melee and thrown attacks and accuracy with ranged weapons.</color>\n" );
+            s += melee_stamina_cost_text( eff_encumbrance * bp->encumbrance_effects.melee_thrown_stamina_cost );
+            s += ranged_cost_text( eff_encumbrance * bp->encumbrance_effects.ranged_dispersion_but_different );
             break;
         case bp_hand_l:
         case bp_hand_r:

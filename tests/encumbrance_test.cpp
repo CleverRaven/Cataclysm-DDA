@@ -8,6 +8,8 @@
 #include "avatar.h"
 #include "bodypart.h"
 #include "character.h"
+#include "debug.h"
+#include "dispersion.h"
 #include "item.h"
 #include "itype.h"
 #include "material.h"
@@ -157,9 +159,14 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
     item chainmail_legs( "chainmail_legs" );
     REQUIRE( chainmail_legs.get_encumber( dummy, bodypart_id( "leg_l" ) ) == 20 );
     REQUIRE( chainmail_legs.get_encumber( dummy, bodypart_id( "leg_r" ) ) == 20 );
+
     item chainmail_arms( "chainmail_arms" );
     REQUIRE( chainmail_arms.get_encumber( dummy, bodypart_id( "arm_l" ) ) == 20 );
     REQUIRE( chainmail_arms.get_encumber( dummy, bodypart_id( "arm_r" ) ) == 20 );
+    item armguard_paper( "armguard_paper" );
+    REQUIRE( armguard_paper.get_encumber( dummy, bodypart_id( "arm_l" ) ) == 10 );
+    REQUIRE( armguard_paper.get_encumber( dummy, bodypart_id( "arm_r" ) ) == 10 );
+
     item chainmail_vest( "chainmail_vest" );
     REQUIRE( chainmail_vest.get_encumber( dummy, bodypart_id( "torso" ) ) == 20 );
     item mittens( "mittens" );
@@ -168,6 +175,14 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
     item sleeping_bag( "sleeping_bag" );
     REQUIRE( sleeping_bag.get_encumber( dummy, bodypart_id( "torso" ) ) == 80 );
 
+    item sunglasses( "sunglasses" );
+    REQUIRE( sunglasses.get_encumber( dummy, bodypart_id( "eyes" ) ) == 1 );
+    item glasses_safety( "glasses_safety" );
+    REQUIRE( glasses_safety.get_encumber( dummy, bodypart_id( "eyes" ) ) == 5 );
+    item eclipse_glasses( "eclipse_glasses" );
+    REQUIRE( eclipse_glasses.get_encumber( dummy, bodypart_id( "eyes" ) ) == 10 );
+    item welding_mask( "welding_mask" );
+    REQUIRE( welding_mask.get_encumber( dummy, bodypart_id( "eyes" ) ) == 60 );
 
     SECTION( "throwing attack move cost increases" ) {
         item thrown( "throwing_stick" );
@@ -222,7 +237,7 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
         }
     }
 
-    SECTION( "hitting in melee is harder - 1% per torso encumbrance " ) {
+    SECTION( "being accurate in melee is harder - 1% per torso encumbrance " ) {
         // Unencumbered accuracy.
         // Using absolute values here instead of modifiers, because math on floats is imprecise and == test fails
         REQUIRE( dummy.get_melee_accuracy() == 2.0f );
@@ -238,18 +253,26 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
         }
     }
 
+    SECTION( "melee and thrown stamina cost is higher" ) {
+        // Note that, confusingly, `get_standard_stamina_cost` returns a negative number for actions requiring stamina expense.
+        // -50 at the time of writing.
+        const int unencumbered_cost = dummy.get_standard_stamina_cost( nullptr );
+        std::pair<item, int>tests[] = {
+            std::make_pair( chainmail_vest, 0 ),
+            std::make_pair( armguard_paper, -20 ),
+            std::make_pair( chainmail_arms, -40 ),
+            std::make_pair( mittens, 0 ),
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+            CHECK( dummy.get_standard_stamina_cost() == unencumbered_cost + test.second );
+        }
+    }
+
     SECTION( "eye encumbrance" ) {
-        item sunglasses( "sunglasses" );
-        REQUIRE( sunglasses.get_encumber( dummy, bodypart_id( "eyes" ) ) == 1 );
-        item glasses_safety( "glasses_safety" );
-        REQUIRE( glasses_safety.get_encumber( dummy, bodypart_id( "eyes" ) ) == 5 );
-        item eclipse_glasses( "eclipse_glasses" );
-        REQUIRE( eclipse_glasses.get_encumber( dummy, bodypart_id( "eyes" ) ) == 10 );
-        item welding_mask( "welding_mask" );
-        REQUIRE( welding_mask.get_encumber( dummy, bodypart_id( "eyes" ) ) == 60 );
 
         SECTION( "traps are less visible" ) {
-
             const float unencumbered_trap_detection_score = trap_base_detection_score( dummy );
             // For comparison, buried landmines vision score (that detection (score+rng-distance) is checked against) is 10.
             CHECK( unencumbered_trap_detection_score == 8 );
@@ -295,6 +318,7 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
             // 44 at time of writing
             const float unencumbered_gun_dispersion = dummy.effective_dispersion( sight_dispersion );
             std::pair<item, int>tests[] = {
+                std::make_pair( chainmail_arms, 0 ),
                 std::make_pair( sunglasses, 0 ),
                 std::make_pair( glasses_safety, 2 ),
                 std::make_pair( eclipse_glasses, 5 ),
@@ -309,7 +333,26 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
         }
     }
 
-    SECTION( "mouth encumbrance" ) {
+    SECTION( "A different gun dispersion is also higher" ) {
+        item gun( "glock_19" );
+        REQUIRE( dummy.wield( gun ) );
+
+        // 198 at the time of writing
+        const float unencumbered_gun_dispersion = dummy.get_weapon_dispersion( gun ).max();
+        std::pair<item, double>tests[] = {
+            std::make_pair( welding_mask, 0.0f ),
+            std::make_pair( armguard_paper, 4.0f ),
+            std::make_pair( chainmail_arms, 8.0f ),
+            std::make_pair( mittens, 0.0f ),
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+            CHECK( dummy.get_weapon_dispersion( gun ).max() == unencumbered_gun_dispersion + test.second );
+        }
+    }
+
+    SECTION( "mouth encumbrance makes stamina regen slower" ) {
         item mask_guy_fawkes( "mask_guy_fawkes" );
         REQUIRE( mask_guy_fawkes.get_encumber( dummy, bodypart_id( "mouth" ) ) == 10 );
         item mask_filter( "mask_filter" );
@@ -343,5 +386,7 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
             CHECK( after_stam - before_stam == ( normal_regen_rate + test.second ) * turn_moves );
         }
     }
+
+
 
 }

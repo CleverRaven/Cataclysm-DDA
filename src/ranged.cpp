@@ -1722,15 +1722,11 @@ dispersion_sources player::get_weapon_dispersion( const item &obj ) const
     dispersion_sources dispersion( weapon_dispersion );
     dispersion.add_range( ranged_dex_mod() );
 
-    int arm_encumb = 0;
-    // Fake turret NPC does not have arms
-    if( has_part( bodypart_id( "arm_l" ) ) ) {
-        arm_encumb += encumb( bodypart_id( "arm_l" ) );
+    float total_dispersion_from_enc = 0.0;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        total_dispersion_from_enc += encumb( bp ) * bp->encumbrance_effects.ranged_dispersion_but_different;
     }
-    if( has_part( bodypart_id( "arm_r" ) ) ) {
-        arm_encumb += encumb( bodypart_id( "arm_r" ) );
-    }
-    dispersion.add_range( arm_encumb / 5.0 );
+    dispersion.add_range( total_dispersion_from_enc );
 
     if( is_driving( *this ) ) {
         // get volume of gun (or for auxiliary gunmods the parent gun)

@@ -2474,8 +2474,10 @@ int Character::get_standard_stamina_cost( item *thrown_item )
     //If the item is thrown, override with the thrown item instead.
     const int weight_cost = ( thrown_item == nullptr ) ? this->weapon.weight() /
                             ( 16_gram ) : thrown_item->weight() / ( 16_gram );
-    const int encumbrance_cost = this->encumb( bodypart_id( "arm_l" ) ) + this->encumb(
-                                     bodypart_id( "arm_r" ) );
+    int encumbrance_cost = 0;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        encumbrance_cost += encumb( bp ) * bp->encumbrance_effects.melee_thrown_stamina_cost;
+    }
     return ( weight_cost + encumbrance_cost + 50 ) * -1;
 }
 

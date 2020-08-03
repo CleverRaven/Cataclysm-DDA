@@ -559,15 +559,17 @@ This section describes each json file and their contents. Each json has their ow
 
 How much and in which way *each point* (unless noted otherwise) of encumbrance on this part affects the character. All fields are optional, all defaults are `0`.
 
-| Identifier               | Description
-|---                       |---
-| dodge_skill              | (_optional_) Adjustment to effective dodging skill. Negative values reduce dodging. (default: `0`)
-| hit_roll_perc            | (_optional_) Melee hit rolls are adjusted by this percentage, multiplicatively. Negative values worsen accuracy. Additive across encumbered parts. Total effect is hard-capped at -75% (default: `0`)
-| melee_thrown_attack_cost | (_optional_) Adjustments to melee and thrown attack cost, in time points. Positive values slow down attacks. (default: `0`)
-| trap_detection_per_100   | (_optional_) Adjustment to ability to detect traps. Number is for 100 points of encumbrance, not one. Value must be integer, not float. Base detection score is the character perception. Checked against trap visibility score. Negative values make seeing traps harder. (default: `0`)
-| throwing_dispersion      | (_optional_) Adjustment to throwing dispersion. Positive values decrease throwing accuracy. (default: `0`)
-| ranged_dispersion        | (_optional_) Adjustment to ranged (but not thrown) dispersion. Positive values decrease gun accuracy. (default: `0`)
-| stamina_regeneration     | (_optional_) Adjustment to stamina regeneration rate. Values are per turn, same as PLAYER_BASE_STAMINA_REGEN_RATE option. Negative values make it harder to run longer. (default: `0`)
+| Identifier                | Description
+|---                        |---
+| dodge_skill               | (_optional_) Adjustment to effective dodging skill. Negative values reduce dodging. (default: `0`)
+| hit_roll_perc             | (_optional_) Melee hit rolls are adjusted by this percentage, multiplicatively. Negative values worsen accuracy. Additive across encumbered parts. Total effect is hard-capped at -75% (default: `0`)
+| melee_thrown_attack_cost  | (_optional_) Adjustments to melee and thrown attack cost, in time points. Positive values slow down attacks. (default: `0`)
+| trap_detection_per_100    | (_optional_) Adjustment to ability to detect traps. Number is for 100 points of encumbrance, not one. Value must be integer, not float. Base detection score is the character perception. Checked against trap visibility score. Negative values make seeing traps harder. (default: `0`)
+| throwing_dispersion       | (_optional_) Adjustment to throwing dispersion. Positive values decrease throwing accuracy. (default: `0`)
+| ranged_dispersion         | (_optional_) Adjustment to ranged (but not thrown) dispersion. Positive values decrease gun accuracy. (default: `0`)
+| ranged_dispersion_but_different | (_optional_) Adjustment to ranged (but not thrown) dispersion. Positive values decrease gun accuracy. This field behaves differently from the one above, but it is not unclear how exactly. Someone(TM) needs to figure this out and rename these fields to make more sense (or remove/merge one of them?). (default: `0`)
+| stamina_regeneration      | (_optional_) Adjustment to stamina regeneration rate. Values are per turn, same as PLAYER_BASE_STAMINA_REGEN_RATE option. Negative values make it harder to run longer. (default: `0`)
+| melee_thrown_stamina_cost | (_optional_) Adjustment to stamina cost of melle and thrown attacks. Positive values make fighting for long periods harder. (default: `0`)
 
 ### Bionics
 
