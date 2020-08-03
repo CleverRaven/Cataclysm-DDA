@@ -4,7 +4,6 @@
     "regions": [ "all" ],
     "city": {
       "houses": {
-        "urban_18_victorian": 30,
         "urban_19_victorian": 30,
         "urban_20_duplex": 30,
         "urban_21_house": 30,
