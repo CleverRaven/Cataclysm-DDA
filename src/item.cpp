@@ -9353,12 +9353,10 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     }
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
-            if( get_player_character().sees( pos ) ) {
-                if( corpse->in_species( species_ROBOT ) ) {
-                    add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
-                } else {
-                    add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
-                }
+            if( corpse->in_species( species_ROBOT ) ) {
+                add_msg_if_player_sees( pos, m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
+            } else {
+                add_msg_if_player_sees( pos, m_warning, _( "A nearby corpse rises and moves towards you!" ) );
             }
         } else {
             if( corpse->in_species( species_ROBOT ) ) {

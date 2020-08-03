@@ -12607,6 +12607,11 @@ location &get_player_location()
     return g->u;
 }
 
+viewer &get_player_view()
+{
+    return g->u;
+}
+
 avatar &get_avatar()
 {
     return g->u;

@@ -620,8 +620,8 @@ int vehicle::automatic_fire_turret( vehicle_part &pt )
 
     shots = gun.fire( cpu, targ );
 
-    if( shots && u_see && !player_character.sees( targ ) ) {
-        add_msg( _( "The %1$s fires its %2$s!" ), name, pt.name() );
+    if( shots && u_see ) {
+        add_msg_if_player_sees( targ, _( "The %1$s fires its %2$s!" ), name, pt.name() );
     }
 
     return shots;

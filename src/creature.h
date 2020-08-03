@@ -19,6 +19,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "viewer.h"
 #include "debug.h"
 #include "enums.h"
 
@@ -197,7 +198,7 @@ enum class FacingDirection : int {
     RIGHT = 2
 };
 
-class Creature : public location
+class Creature : public location, public viewer
 {
     public:
         ~Creature() override;
@@ -320,8 +321,8 @@ class Creature : public location
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter ) const;
-        virtual bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const;
+        bool sees( const Creature &critter ) const override;
+        bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
         /*@}*/
 
         /**

@@ -268,7 +268,7 @@ bool trapfunc::caltrops_glass( const tripoint &p, Creature *c, item * )
         c->deal_damage( nullptr, bodypart_id( "foot_r" ), damage_instance( DT_CUT, rng( 9, 30 ) ) );
     }
     c->check_dead_state();
-    if( get_player_character().sees( p ) ) {
+    if( get_player_view().sees( p ) ) {
         add_msg( _( "The shards shatter!" ) );
         sounds::sound( p, 8, sounds::sound_t::combat, _( "glass cracking!" ), false, "trap",
                        "glass_caltrops" );
@@ -391,7 +391,7 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
                                           _( "<npcname> dodges the shot!" ) );
             }
         } else if( z != nullptr ) {
-            bool seen = get_player_character().sees( *z );
+            bool seen = get_player_view().sees( *z );
             int chance = 0;
             // adapted from shotgun code - chance of getting hit depends on size
             switch( z->type->size ) {
@@ -492,7 +492,7 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                                           _( "<npcname> dodges the shot!" ) );
             }
         } else if( z != nullptr ) {
-            bool seen = get_player_character().sees( *z );
+            bool seen = get_player_view().sees( *z );
             int chance = 0;
             switch( z->type->size ) {
                 case creature_size::tiny:
@@ -653,9 +653,7 @@ bool trapfunc::telepad( const tripoint &p, Creature *c, item * )
     if( c->is_avatar() ) {
         c->add_msg_if_player( m_warning, _( "The air shimmers around you…" ) );
     } else {
-        if( get_player_character().sees( p ) ) {
-            add_msg( _( "The air shimmers around %s…" ), c->disp_name() );
-        }
+        add_msg_if_player_sees( p, _( "The air shimmers around %s…" ), c->disp_name() );
     }
     teleport::teleport( *c );
     return false;
@@ -709,7 +707,7 @@ bool trapfunc::dissector( const tripoint &p, Creature *c, item * )
         return false;
     }
     monster *z = dynamic_cast<monster *>( c );
-    bool player_sees = get_player_character().sees( p );
+    bool player_sees = get_player_view().sees( p );
     if( z != nullptr ) {
         if( z->type->in_species( species_ROBOT ) ) {
             //The monster is a robot. So the dissector should not try to dissect the monsters flesh.
@@ -878,9 +876,7 @@ bool trapfunc::pit_spikes( const tripoint &p, Creature *c, item * )
     }
     c->check_dead_state();
     if( one_in( 4 ) ) {
-        if( player_character.sees( p ) ) {
-            add_msg( _( "The spears break!" ) );
-        }
+        add_msg_if_player_sees( p, _( "The spears break!" ) );
         map &here = get_map();
         here.ter_set( p, t_pit );
         // 4 spears to a pit
@@ -967,9 +963,7 @@ bool trapfunc::pit_glass( const tripoint &p, Creature *c, item * )
     }
     c->check_dead_state();
     if( one_in( 5 ) ) {
-        if( player_character.sees( p ) ) {
-            add_msg( _( "The shards shatter!" ) );
-        }
+        add_msg_if_player_sees( p, _( "The shards shatter!" ) );
         map &here = get_map();
         here.ter_set( p, t_pit );
         // 20 shards in a pit.
