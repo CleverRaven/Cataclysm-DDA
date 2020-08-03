@@ -7987,8 +7987,12 @@ void Character::update_stamina( int turns )
     float stamina_multiplier = std::max<float>( 0.1f, ( !has_effect( effect_winded ) ? 1.0f : 0.1f ) +
                                mutation_value( stamina_regen_modifier ) + ( mutation_value( "max_stamina_modifier" ) - 1.0f ) );
     // But mouth encumbrance interferes, even with mutated stamina.
+    float encumbrance_modifier = 0.0f;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        encumbrance_modifier += encumb( bp ) * bp->encumbrance_effects.stamina_regeneration;
+    }
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
-                        base_regen_rate - ( encumb( bodypart_id( "mouth" ) ) / 5.0f ) );
+                        base_regen_rate + encumbrance_modifier );
     stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.

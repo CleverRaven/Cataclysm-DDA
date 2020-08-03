@@ -106,7 +106,9 @@
     "heading": "Mouth",
     "heading_multiple": "Mouth",
     "encumbrance_text": "Running is slowed.",
-    "encumbrance_effects": {},
+    "encumbrance_effects": {
+      "stamina_regeneration": -0.2
+    },
     "main_part": "head",
     "opposite_part": "mouth",
     "hit_size": 1,

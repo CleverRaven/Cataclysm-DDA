@@ -567,6 +567,7 @@ How much and in which way *each point* (unless noted otherwise) of encumbrance o
 | trap_detection_per_100   | (_optional_) Adjustment to ability to detect traps. Number is for 100 points of encumbrance, not one. Value must be integer, not float. Base detection score is the character perception. Checked against trap visibility score. Negative values make seeing traps harder. (default: `0`)
 | throwing_dispersion      | (_optional_) Adjustment to throwing dispersion. Positive values decrease throwing accuracy. (default: `0`)
 | ranged_dispersion        | (_optional_) Adjustment to ranged (but not thrown) dispersion. Positive values decrease gun accuracy. (default: `0`)
+| stamina_regeneration     | (_optional_) Adjustment to stamina regeneration rate. Values are per turn, same as PLAYER_BASE_STAMINA_REGEN_RATE option. Negative values make it harder to run longer. (default: `0`)
 
 ### Bionics
 

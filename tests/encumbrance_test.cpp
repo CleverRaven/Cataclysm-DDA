@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "material.h"
 #include "npc.h"
+#include "options.h"
 #include "player_helpers.h"
 #include "ranged.h"
 #include "type_id.h"
@@ -306,7 +307,41 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
                        test.second );
             }
         }
+    }
 
+    SECTION( "mouth encumbrance" ) {
+        item mask_guy_fawkes( "mask_guy_fawkes" );
+        REQUIRE( mask_guy_fawkes.get_encumber( dummy, bodypart_id( "mouth" ) ) == 10 );
+        item mask_filter( "mask_filter" );
+        REQUIRE( mask_filter.get_encumber( dummy, bodypart_id( "mouth" ) ) == 20 );
+        item mask_gas( "mask_gas" );
+        REQUIRE( mask_gas.get_encumber( dummy, bodypart_id( "mouth" ) ) == 30 );
+        item sleeping_bag( "sleeping_bag" );
+        REQUIRE( sleeping_bag.get_encumber( dummy, bodypart_id( "mouth" ) ) == 80 );
+
+
+        // 20 at the time of writing
+        const float normal_regen_rate = get_option<float>( "PLAYER_BASE_STAMINA_REGEN_RATE" );
+        const int turn_moves = to_moves<int>( 1_turns );
+        std::pair<item, int>tests[] = {
+            std::make_pair( mittens, 0 ),
+            std::make_pair( mask_guy_fawkes, -2 ),
+            std::make_pair( mask_filter, -4 ),
+            std::make_pair( mask_gas, -6 ),
+            std::make_pair( sleeping_bag, -16 ),
+        };
+        for( const auto &test : tests ) {
+            wear_single_item( dummy, test.first );
+            INFO( "Wearing " << test.first.type_name() );
+
+            // Start at 10% stamina, then see how fast it replenishes
+            dummy.set_stamina( dummy.get_stamina_max() / 10 );
+            int before_stam = dummy.get_stamina();
+            dummy.update_stamina( turn_moves );
+            int after_stam = dummy.get_stamina();
+
+            CHECK( after_stam - before_stam == ( normal_regen_rate + test.second ) * turn_moves );
+        }
     }
 
 }

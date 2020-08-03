@@ -247,7 +247,7 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );
-            s += mouth_stamina_cost_text( -( eff_encumbrance / 5 ) );
+            s += mouth_stamina_cost_text( bp->encumbrance_effects.stamina_regeneration );
             break;
         case bp_arm_l:
         case bp_arm_r:

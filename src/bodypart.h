@@ -93,6 +93,7 @@ struct encumbrance_effects {
     int trap_detection_per_100 = 0.0f;
     float throwing_dispersion = 0.0f;
     float ranged_dispersion = 0.0f;
+    float stamina_regeneration = 0.0f;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
