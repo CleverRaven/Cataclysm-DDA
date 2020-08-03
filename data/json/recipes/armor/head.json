@@ -642,7 +642,7 @@
     "qualities": [ { "id": "CUT", "level": 1 } ],
     "components": [
       [ [ "cordage_short", 2, "LIST" ], [ "filament", 100, "LIST" ] ],
-      [ [ "2x4", 1 ], [ "stick", 1 ], [ "bone", 1 ], [ "bone_human", 1 ] ]
+      [ [ "2x4", 1 ], [ "stick", 1 ], [ "bone_sturdy", 1, "LIST" ] ]
     ]
   },
   {
