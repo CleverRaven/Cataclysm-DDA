@@ -90,6 +90,7 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"

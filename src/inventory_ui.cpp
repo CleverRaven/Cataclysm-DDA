@@ -22,6 +22,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#include "units_utility.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
 #include "visitable.h"

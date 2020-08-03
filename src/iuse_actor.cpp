@@ -77,6 +77,7 @@
 #include "translations.h"
 #include "trap.h"
 #include "ui.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"

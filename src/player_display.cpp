@@ -28,6 +28,7 @@
 #include "translations.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_utility.h"
 #include "weather.h"
 
 static const skill_id skill_swimming( "swimming" );

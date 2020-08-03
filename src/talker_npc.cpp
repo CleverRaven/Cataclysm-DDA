@@ -19,6 +19,7 @@
 #include "skill.h"
 #include "talker_npc.h"
 #include "talker_character.h"
+#include "units_utility.h"
 
 class Character;
 

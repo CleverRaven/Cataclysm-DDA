@@ -22,6 +22,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "units_utility.h"
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 
