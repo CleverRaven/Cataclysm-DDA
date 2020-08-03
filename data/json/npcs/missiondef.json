@@ -49,7 +49,7 @@
     },
     "start": {
       "effect": [
-        { "npc_add_trait": "ASTHMA" },
+        { "u_add_trait": "ASTHMA" },
         { "npc_remove_item_with": "inhaler" },
         "assign_guard",
         { "clear_npc_rule": "investigate_noises" }
@@ -472,6 +472,7 @@
     "value": 200000,
     "urgent": true,
     "start": "kill_nemesis",
+    "end": { "effect": [ { "u_lose_trait": "HAS_NEMESIS" } ] },
     "origins": [ "ORIGIN_GAME_START" ],
     "dialogue": {
       "describe": "The eater of the dead… something was ripping zombies to shreds and only leaving a few scattered limbs…",
