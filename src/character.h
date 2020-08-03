@@ -31,8 +31,6 @@
 #include "inventory.h"
 #include "item.h"
 #include "item_location.h"
-#include "magic.h"
-#include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"
@@ -53,6 +51,7 @@ class faction;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class known_magic;
 class monster;
 class nc_color;
 class player;
@@ -1631,7 +1630,7 @@ class Character : public Creature, public visitable<Character>
             }
         }
         // magic mod
-        known_magic magic;
+        pimpl<known_magic> magic;
 
         void make_bleed( const bodypart_id &bp, time_duration duration, int intensity = 1,
                          bool permanent = false,
@@ -2572,7 +2571,7 @@ class Character : public Creature, public visitable<Character>
 
         // a cache of all active enchantment values.
         // is recalculated every turn in Character::recalculate_enchantment_cache
-        enchantment enchantment_cache;
+        pimpl<enchantment> enchantment_cache;
         player_activity destination_activity;
         /// A unique ID number, assigned by the game class. Values should never be reused.
         character_id id;

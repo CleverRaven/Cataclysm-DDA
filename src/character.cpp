@@ -1754,7 +1754,7 @@ void Character::process_turn()
 
     Creature::process_turn();
 
-    enchantment_cache.activate_passive( *this );
+    enchantment_cache->activate_passive( *this );
 }
 
 void Character::recalc_hp()
@@ -1777,7 +1777,8 @@ void Character::recalc_hp()
 
 int Character::get_part_hp_max( const bodypart_id &id ) const
 {
-    return enchantment_cache.modify_value( enchant_vals::mod::MAX_HP, Creature::get_part_hp_max( id ) );
+    return enchantment_cache->modify_value( enchant_vals::mod::MAX_HP,
+                                            Creature::get_part_hp_max( id ) );
 }
 
 void Character::update_body_wetness( const w_point &weather )
@@ -1891,7 +1892,7 @@ void Character::recalc_sight_limits()
         sight_max = 10;
     }
 
-    sight_max = enchantment_cache.modify_value( enchant_vals::mod::SIGHT_RANGE, sight_max );
+    sight_max = enchantment_cache->modify_value( enchant_vals::mod::SIGHT_RANGE, sight_max );
 
     // Debug-only NV, by vache's request
     if( has_trait( trait_DEBUG_NIGHTVISION ) ) {
@@ -2242,7 +2243,7 @@ units::energy Character::get_power_level() const
 
 units::energy Character::get_max_power_level() const
 {
-    return enchantment_cache.modify_value( enchant_vals::mod::BIONIC_POWER, max_power_level );
+    return enchantment_cache->modify_value( enchant_vals::mod::BIONIC_POWER, max_power_level );
 }
 
 void Character::set_power_level( const units::energy &npower )
@@ -3223,7 +3224,7 @@ units::mass Character::weight_capacity() const
         ret += 22500_gram;
     }
 
-    ret = enchantment_cache.modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
+    ret = enchantment_cache->modify_value( enchant_vals::mod::CARRY_WEIGHT, ret );
 
     if( ret < 0_gram ) {
         ret = 0_gram;
@@ -4985,7 +4986,7 @@ void Character::update_body( const time_point &from, const time_point &to )
     update_stomach( from, to );
     recalculate_enchantment_cache();
     if( ticks_between( from, to, 3_minutes ) > 0 ) {
-        magic.update_mana( *this->as_player(), to_turns<float>( 3_minutes ) );
+        magic->update_mana( *this->as_player(), to_turns<float>( 3_minutes ) );
     }
     const int five_mins = ticks_between( from, to, 5_minutes );
     if( five_mins > 0 ) {
@@ -5413,8 +5414,8 @@ needs_rates Character::calc_needs_rates() const
         rates.thirst *= 0.25f;
     }
 
-    rates.fatigue = enchantment_cache.modify_value( enchant_vals::mod::FATIGUE, rates.fatigue );
-    rates.thirst = enchantment_cache.modify_value( enchant_vals::mod::THIRST, rates.thirst );
+    rates.fatigue = enchantment_cache->modify_value( enchant_vals::mod::FATIGUE, rates.fatigue );
+    rates.thirst = enchantment_cache->modify_value( enchant_vals::mod::THIRST, rates.thirst );
 
     return rates;
 }
@@ -7394,7 +7395,7 @@ float Character::healing_rate( float at_rest_quality ) const
         final_rate *= 1.0f + primary_hp_mod;
     }
 
-    return enchantment_cache.modify_value( enchant_vals::mod::REGEN_HP, final_rate );
+    return enchantment_cache->modify_value( enchant_vals::mod::REGEN_HP, final_rate );
 }
 
 float Character::healing_rate_medicine( float at_rest_quality, const bodypart_id &bp ) const
@@ -7623,7 +7624,7 @@ int Character::get_bmr() const
     const double base_bmr_calc = metabolic_rate_base() * activity_level * ( units::to_gram<int>
                                  ( bodyweight() / 100.0 ) +
                                  ( 6.25 * height() ) - ( 5 * age() ) + equation_constant );
-    return std::ceil( enchantment_cache.modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
+    return std::ceil( enchantment_cache->modify_value( enchant_vals::mod::METABOLISM, base_bmr_calc ) );
 }
 
 void Character::increase_activity_level( float new_level )
@@ -7844,7 +7845,7 @@ int Character::get_stamina_max() const
     static const std::string max_stamina_modifier( "max_stamina_modifier" );
     int maxStamina = get_option< int >( player_max_stamina );
     maxStamina *= Character::mutation_value( max_stamina_modifier );
-    maxStamina = enchantment_cache.modify_value( enchant_vals::mod::MAX_STAMINA, maxStamina );
+    maxStamina = enchantment_cache->modify_value( enchant_vals::mod::MAX_STAMINA, maxStamina );
     return maxStamina;
 }
 
@@ -7921,7 +7922,7 @@ void Character::update_stamina( int turns )
     // But mouth encumbrance interferes, even with mutated stamina.
     stamina_recovery += stamina_multiplier * std::max( 1.0f,
                         base_regen_rate - ( encumb( bodypart_id( "mouth" ) ) / 5.0f ) );
-    stamina_recovery = enchantment_cache.modify_value( enchant_vals::mod::REGEN_STAMINA,
+    stamina_recovery = enchantment_cache->modify_value( enchant_vals::mod::REGEN_STAMINA,
                        stamina_recovery );
     // TODO: recovering stamina causes hunger/thirst/fatigue.
     // TODO: Tiredness slowing recovery
@@ -8366,7 +8367,7 @@ int Character::get_shout_volume() const
         noise = std::max( minimum_noise, noise );
     }
 
-    noise = enchantment_cache.modify_value( enchant_vals::mod::SHOUT_NOISE, noise );
+    noise = enchantment_cache->modify_value( enchant_vals::mod::SHOUT_NOISE, noise );
 
     // Screaming underwater is not good for oxygen and harder to do overall
     if( underwater ) {
@@ -8626,12 +8627,12 @@ std::string Character::get_highest_category() const
 void Character::recalculate_enchantment_cache()
 {
     // start by resetting the cache to all inventory items
-    enchantment_cache = inv.get_active_enchantment_cache( *this );
+    *enchantment_cache = inv.get_active_enchantment_cache( *this );
 
     visit_items( [&]( const item * it ) {
         for( const enchantment &ench : it->get_enchantments() ) {
             if( ench.is_active( *this, *it ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
         return VisitResponse::NEXT;
@@ -8649,7 +8650,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : mut.enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
     }
@@ -8663,7 +8664,7 @@ void Character::recalculate_enchantment_cache()
         for( const enchantment_id &ench_id : bid->enchantments ) {
             const enchantment &ench = ench_id.obj();
             if( ench.is_active( *this ) ) {
-                enchantment_cache.force_add( ench );
+                enchantment_cache->force_add( ench );
             }
         }
     }
@@ -8672,8 +8673,8 @@ void Character::recalculate_enchantment_cache()
 double Character::calculate_by_enchantment( double modify, enchant_vals::mod value,
         bool round_output ) const
 {
-    modify += enchantment_cache.get_value_add( value );
-    modify *= 1.0 + enchantment_cache.get_value_multiply( value );
+    modify += enchantment_cache->get_value_add( value );
+    modify *= 1.0 + enchantment_cache->get_value_multiply( value );
     if( round_output ) {
         modify = std::round( modify );
     }
@@ -8993,7 +8994,7 @@ int Character::get_armor_fire( const bodypart_id &bp ) const
 
 void Character::did_hit( Creature &target )
 {
-    enchantment_cache.cast_hit_you( *this, target );
+    enchantment_cache->cast_hit_you( *this, target );
 }
 
 ret_val<bool> Character::can_wield( const item &it ) const
@@ -9091,7 +9092,7 @@ std::string Character::weapname() const
 void Character::on_hit( Creature *source, bodypart_id /*bp_hit*/,
                         float /*difficulty*/, dealt_projectile_attack const *const /*proj*/ )
 {
-    enchantment_cache.cast_hit_me( *this, source );
+    enchantment_cache->cast_hit_me( *this, source );
 }
 
 /*
@@ -10680,7 +10681,7 @@ void Character::on_effect_int_change( const efftype_id &eid, int intensity, cons
 void Character::on_mutation_gain( const trait_id &mid )
 {
     morale->on_mutation_gain( mid );
-    magic.on_mutation_gain( mid, *this );
+    magic->on_mutation_gain( mid, *this );
     update_type_of_scent( mid );
     recalculate_enchantment_cache(); // mutations can have enchantments
 }
@@ -10688,7 +10689,7 @@ void Character::on_mutation_gain( const trait_id &mid )
 void Character::on_mutation_loss( const trait_id &mid )
 {
     morale->on_mutation_loss( mid );
-    magic.on_mutation_loss( mid );
+    magic->on_mutation_loss( mid );
     update_type_of_scent( mid, false );
     recalculate_enchantment_cache(); // mutations can have enchantments
 }
@@ -11416,7 +11417,7 @@ int Character::intimidation() const
     if( has_effect( effect_drunk ) ) {
         ret -= 4;
     }
-    ret = enchantment_cache.modify_value( enchant_vals::mod::SOCIAL_INTIMIDATE, ret );
+    ret = enchantment_cache->modify_value( enchant_vals::mod::SOCIAL_INTIMIDATE, ret );
     return ret;
 }
 

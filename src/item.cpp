@@ -4136,12 +4136,12 @@ nc_color item::color_in_inventory() const
             static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
         for( const std::string &spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
-            if( player_character.magic.knows_spell( sp_id ) &&
-                !player_character.magic.get_spell( sp_id ).is_max_level() ) {
+            if( player_character.magic->knows_spell( sp_id ) &&
+                !player_character.magic->get_spell( sp_id ).is_max_level() ) {
                 ret = c_yellow;
             }
-            if( !player_character.magic.knows_spell( sp_id ) &&
-                player_character.magic.can_learn_spell( player_character, sp_id ) ) {
+            if( !player_character.magic->knows_spell( sp_id ) &&
+                player_character.magic->can_learn_spell( player_character, sp_id ) ) {
                 return c_light_blue;
             }
         }

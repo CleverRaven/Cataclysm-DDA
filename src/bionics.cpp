@@ -2678,10 +2678,10 @@ void Character::add_bionic( const bionic_id &b )
                 add_msg_if_player( spell_class->desc() );
             }
         }
-        if( !magic.knows_spell( learned_spell ) ) {
-            magic.learn_spell( learned_spell, *this, true );
+        if( !magic->knows_spell( learned_spell ) ) {
+            magic->learn_spell( learned_spell, *this, true );
         }
-        spell &known_spell = magic.get_spell( learned_spell );
+        spell &known_spell = magic->get_spell( learned_spell );
         // spells you learn from installing a bionic upgrade spells you know if they are the same
         if( known_spell.get_level() < spell_pair.second ) {
             known_spell.set_level( spell_pair.second );
@@ -2724,7 +2724,7 @@ void Character::remove_bionic( const bionic_id &b )
     // any spells you learn from installing a bionic you forget.
     for( const std::pair<const spell_id, int> &spell_pair : b->learned_spells ) {
         if( cbm_spells.count( spell_pair.first ) == 0 ) {
-            magic.forget_spell( spell_pair.first );
+            magic->forget_spell( spell_pair.first );
         }
     }
 

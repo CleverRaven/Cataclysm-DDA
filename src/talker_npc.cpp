@@ -336,8 +336,8 @@ std::string talker_npc::spell_training_text( talker &student, const spell_id &sp
     if( !pupil ) {
         return "";
     }
-    const spell &temp_spell = me_npc->magic.get_spell( sp );
-    const bool knows = pupil->magic.knows_spell( sp );
+    const spell &temp_spell = me_npc->magic->get_spell( sp );
+    const bool knows = pupil->magic->knows_spell( sp );
     const int cost = me_npc->calc_spell_training_cost( knows, temp_spell.get_difficulty(),
                      temp_spell.get_level() );
     std::string text;

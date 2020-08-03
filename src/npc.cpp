@@ -453,8 +453,8 @@ void npc::randomize( const npc_class_id &type )
     }
     // Add spells for magiclysm mod
     for( std::pair<spell_id, int> spell_pair : type->_starting_spells ) {
-        this->magic.learn_spell( spell_pair.first, *this, true );
-        spell &sp = this->magic.get_spell( spell_pair.first );
+        this->magic->learn_spell( spell_pair.first, *this, true );
+        spell &sp = this->magic->get_spell( spell_pair.first );
         while( sp.get_level() < spell_pair.second && !sp.is_max_level() ) {
             sp.gain_level();
         }
@@ -1484,11 +1484,11 @@ std::vector<matype_id> npc::styles_offered_to( const player &p ) const
 std::vector<spell_id> npc::spells_offered_to( player &p )
 {
     std::vector<spell_id> teachable;
-    for( const spell_id &sp : magic.spells() ) {
-        const spell &teacher_spell = magic.get_spell( sp );
-        if( p.magic.can_learn_spell( p, sp ) ) {
-            if( p.magic.knows_spell( sp ) ) {
-                const spell &student_spell = p.magic.get_spell( sp );
+    for( const spell_id &sp : magic->spells() ) {
+        const spell &teacher_spell = magic->get_spell( sp );
+        if( p.magic->can_learn_spell( p, sp ) ) {
+            if( p.magic->knows_spell( sp ) ) {
+                const spell &student_spell = p.magic->get_spell( sp );
                 if( student_spell.is_max_level() ||
                     student_spell.get_level() >= teacher_spell.get_level() ) {
                     continue;

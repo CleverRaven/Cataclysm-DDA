@@ -122,7 +122,7 @@ bool talker_character::has_bionic( const bionic_id &bionics_id ) const
 
 bool talker_character::knows_spell( const spell_id &sp ) const
 {
-    return me_chr->magic.knows_spell( sp );
+    return me_chr->magic->knows_spell( sp );
 }
 
 int talker_character::get_skill_level( const skill_id &skill ) const
