@@ -222,9 +222,9 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
 
     switch( bp->token ) {
         case bp_torso: {
-            // hardcapped at 80 in Character::get_melee_accuracy()
+            // hardcapped at 75 in Character::get_melee_accuracy()
             const int melee_roll_pen = std::max( ( int )std::lround( eff_encumbrance *
-                                                 bp->encumbrance_effects.hit_roll_perc ), -80 );
+                                                 bp->encumbrance_effects.hit_roll_perc ), -75 );
             s += string_format( _( "Melee attack rolls: <color_white>%+d%%</color>\n" ), melee_roll_pen );
             s += dodge_skill_text( eff_encumbrance * bp->encumbrance_effects.dodge_skill );
             s += swim_cost_text( ( eff_encumbrance / 10.0 ) * ( 80 - p.get_skill_level(
@@ -237,10 +237,13 @@ static std::string get_encumbrance_description( const player &p, const bodypart_
             break;
         case bp_eyes:
             s += string_format(
-                     _( "Perception when checking traps or firing ranged weapons: <color_white>%+d</color>\n"
-                        "Dispersion when throwing items: <color_white>%+d</color>" ),
-                     -( eff_encumbrance / 10 ),
-                     eff_encumbrance * 10 );
+                     _( "Perception when checking traps: <color_white>%+d</color>\n"
+                        "Dispersion when throwing items: <color_white>%+d</color>\n"
+                        "Dispersion when using ranged weapons: <color_white>%+d</color>\n"
+                      ),
+                     ( eff_encumbrance * bp->encumbrance_effects.trap_detection_per_100 ) / 100,
+                     eff_encumbrance * bp->encumbrance_effects.throwing_dispersion,
+                     eff_encumbrance * bp->encumbrance_effects.ranged_dispersion );
             break;
         case bp_mouth:
             s += _( "<color_magenta>Covering your mouth will make it more difficult to breathe and catch your breath.</color>\n" );

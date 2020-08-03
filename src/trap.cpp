@@ -201,7 +201,11 @@ bool trap::detected_by_ground_sonar() const
     return loadid == tr_beartrap_buried || loadid == tr_landmine_buried || loadid == tr_sinkhole;
 }
 
-bool trap::detect_trap( const tripoint &pos, const Character &p ) const
+/** The base vision score that is checked against trap visibility to see if it's detected.
+ * This, _base_ function does not factor in the random chance, or the relative distance between
+ * the player and the trap (which *are* factors in trap detection).
+ */
+int trap_base_detection_score( const Character &p )
 {
     // Some decisions are based around:
     // * Starting, and thus average perception, is 8.
@@ -211,23 +215,35 @@ bool trap::detect_trap( const tripoint &pos, const Character &p ) const
     //   noticing a buried landmine if standing right next to it.
     // Effective Perception...
     ///\EFFECT_PER increases chance of detecting a trap
-    return p.per_cur - p.encumb( bodypart_id( "eyes" ) ) / 10 +
-           // ...small bonus from stimulants...
-           ( p.get_stim() > 10 ? rng( 1, 2 ) : 0 ) +
-           // ...bonus from trap skill...
-           ///\EFFECT_TRAPS increases chance of detecting a trap
-           p.get_skill_level( skill_traps ) * 2 +
-           // ...luck, might be good, might be bad...
-           rng( -4, 4 ) -
-           // ...malus if we are tired...
-           ( p.has_effect( effect_lack_sleep ) ? rng( 1, 5 ) : 0 ) -
-           // ...malus farther we are from trap...
-           rl_dist( p.pos(), pos ) +
-           // Police are trained to notice Something Wrong.
-           ( p.has_trait( trait_PROF_POLICE ) ? 1 : 0 ) +
-           ( p.has_trait( trait_PROF_PD_DET ) ? 2 : 0 ) >
-           // ...must all be greater than the trap visibility.
-           visibility;
+    int vision = p.per_cur;
+    // Encumbered eyes make seeing harder
+    for( const bodypart_id &bp : p.get_all_body_parts() ) {
+        vision += ( p .encumb( bp ) * bp->encumbrance_effects.trap_detection_per_100 ) / 100 ;
+    }
+    // ...small bonus from stimulants...
+    vision += ( p.get_stim() > 10 ? rng( 1, 2 ) : 0 );
+    // ...bonus from trap skill...
+    ///\EFFECT_TRAPS increases chance of detecting a trap
+    vision += p.get_skill_level( skill_traps ) * 2;
+    // ...malus if we are tired...
+    vision -= ( p.has_effect( effect_lack_sleep ) ? rng( 1, 5 ) : 0 );
+
+    // Police are trained to notice Something Wrong.
+    vision += ( p.has_trait( trait_PROF_POLICE ) ? 1 : 0 ) +
+              ( p.has_trait( trait_PROF_PD_DET ) ? 2 : 0 );
+    return vision;
+}
+
+bool trap::detect_trap( const tripoint &pos, const Character &p ) const
+{
+    int vision = trap_base_detection_score( p );
+    // ...malus farther we are from trap...
+    vision -= rl_dist( p.pos(), pos );
+    // ...luck, might be good, might be bad...
+    vision += rng( -4, 4 );
+
+    // Trap is detected iff our vision score is strictly greater than trap's visibility.
+    return vision > visibility;
 }
 
 // Whether or not, in the current state, the player can see the trap.

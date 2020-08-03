@@ -9,6 +9,8 @@
 #include "bodypart.h"
 #include "character.h"
 #include "item.h"
+#include "itype.h"
+#include "material.h"
 #include "npc.h"
 #include "player_helpers.h"
 #include "ranged.h"
@@ -145,6 +147,7 @@ TEST_CASE( "tiny_character", "[encumbrance]" )
 }
 
 int throw_cost( const player &c, const item &to_throw );
+int trap_base_detection_score( const Character &p );
 TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
 {
     avatar &dummy = get_avatar();
@@ -232,6 +235,78 @@ TEST_CASE( "encumbrance_has_real_effects", "[encumbrance]" )
             INFO( "Wearing " << test.first.type_name() );
             CHECK( dummy.get_melee_accuracy() == test.second );
         }
+    }
+
+    SECTION( "eye encumbrance" ) {
+        item sunglasses( "sunglasses" );
+        REQUIRE( sunglasses.get_encumber( dummy, bodypart_id( "eyes" ) ) == 1 );
+        item glasses_safety( "glasses_safety" );
+        REQUIRE( glasses_safety.get_encumber( dummy, bodypart_id( "eyes" ) ) == 5 );
+        item eclipse_glasses( "eclipse_glasses" );
+        REQUIRE( eclipse_glasses.get_encumber( dummy, bodypart_id( "eyes" ) ) == 10 );
+        item welding_mask( "welding_mask" );
+        REQUIRE( welding_mask.get_encumber( dummy, bodypart_id( "eyes" ) ) == 60 );
+
+        SECTION( "traps are less visible" ) {
+
+            const float unencumbered_trap_detection_score = trap_base_detection_score( dummy );
+            // For comparison, buried landmines vision score (that detection (score+rng-distance) is checked against) is 10.
+            CHECK( unencumbered_trap_detection_score == 8 );
+            std::pair<item, int >tests[] = {
+                std::make_pair( sunglasses, 0 ),
+                std::make_pair( glasses_safety, 0 ),
+                std::make_pair( eclipse_glasses, -1 ),
+                std::make_pair( welding_mask, -6 ),
+            };
+            for( const auto &test : tests ) {
+                wear_single_item( dummy, test.first );
+                INFO( "Wearing " << test.first.type_name() );
+                CHECK( trap_base_detection_score( dummy ) == unencumbered_trap_detection_score + test.second );
+            }
+        }
+
+        SECTION( "throwing dispersion is much higher" ) {
+            item thrown( "throwing_stick" );
+            REQUIRE( dummy.wield( thrown ) );
+
+            // 2500 at the time of writing
+            const float unencumbered_throwing_dispersion = dummy.throwing_dispersion( thrown, nullptr, false );
+            // 8 perception means 8 is subtracted from effective encumbrance (before it's multiplied 10x)
+            std::pair<item, int>tests[] = {
+                std::make_pair( sunglasses, 0 ),
+                std::make_pair( glasses_safety, 0 ),
+                std::make_pair( eclipse_glasses, 20 ),
+                std::make_pair( welding_mask, 520 ),
+            };
+            for( const auto &test : tests ) {
+                wear_single_item( dummy, test.first );
+                INFO( "Wearing " << test.first.type_name() );
+                CHECK( dummy.throwing_dispersion( thrown, nullptr,
+                                                  false ) == unencumbered_throwing_dispersion + test.second );
+            }
+        }
+
+        SECTION( "guns dispersion is a tiny bit higher" ) {
+            item gun( "glock_19" );
+            REQUIRE( dummy.wield( gun ) );
+
+            int sight_dispersion = gun.type->gun->sight_dispersion;
+            // 44 at time of writing
+            const float unencumbered_gun_dispersion = dummy.effective_dispersion( sight_dispersion );
+            std::pair<item, int>tests[] = {
+                std::make_pair( sunglasses, 0 ),
+                std::make_pair( glasses_safety, 2 ),
+                std::make_pair( eclipse_glasses, 5 ),
+                std::make_pair( welding_mask, 30 ),
+            };
+            for( const auto &test : tests ) {
+                wear_single_item( dummy, test.first );
+                INFO( "Wearing " << test.first.type_name() );
+                CHECK( dummy.effective_dispersion( sight_dispersion ) == unencumbered_gun_dispersion +
+                       test.second );
+            }
+        }
+
     }
 
 }

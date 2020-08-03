@@ -512,7 +512,7 @@ This section describes each json file and their contents. Each json has their ow
 | hit_size          | (_mandatory_) Size of the body part when doing an unweighted selection.
 | hit_size_relative | (_mandatory_) Hit sizes for attackers who are smaller, equal in size, and bigger.
 | hit_difficulty    | (_mandatory_) How hard is it to hit a given body part, assuming "owner" is hit. Higher number means good hits will veer towards this part, lower means this part is unlikely to be hit by inaccurate attacks. Formula is `chance *= pow(hit_roll, hit_difficulty)`
-| encumbrance_effects | (_mandatory_) How and how much each point of encumbrance on this part affects the character. Object, see below for documentation.
+| encumbrance_effects | (_mandatory_) How and how much each point of encumbrance on this part affects the character. Object. See below for documentation.
 | drench_capacity   | (_mandatory_) How wet this part can get before being 100% drenched.
 | stylish_bonus     | (_optional_) Mood bonus associated with wearing fancy clothing on this part. (default: `0`)
 | hot_morale_mod    | (_optional_) Mood effect of being too hot on this part. (default: `0`)
@@ -532,6 +532,11 @@ This section describes each json file and their contents. Each json has their ow
     "heading_multiple": "Torso",
     "hp_bar_ui_text": "TORSO",
     "encumbrance_text": "Dodging and melee is hampered.",
+    "encumbrance_effects": {
+      "dodge_skill": -0.1,
+      "hit_roll_perc": -1,
+      "melee_thrown_attack_cost": 1
+    },
     "main_part": "torso",
     "opposite_part": "torso",
     "hit_size": 45,
@@ -552,13 +557,16 @@ This section describes each json file and their contents. Each json has their ow
 
 #### `encumbrance_effects`
 
-How much and in which way *each point* of encumbrance on this part affects the character. All fields are optional, all defaults are `0`.
+How much and in which way *each point* (unless noted otherwise) of encumbrance on this part affects the character. All fields are optional, all defaults are `0`.
 
 | Identifier               | Description
 |---                       |---
 | dodge_skill              | (_optional_) Adjustment to effective dodging skill. Negative values reduce dodging. (default: `0`)
-| hit_roll_perc            | (_optional_) Melee hit rolls are adjusted by this percentage. Negative values worsen accuracy. Additive across encumbered parts, the total effect is hard-capped at -75% (default: `0`)
+| hit_roll_perc            | (_optional_) Melee hit rolls are adjusted by this percentage, multiplicatively. Negative values worsen accuracy. Additive across encumbered parts. Total effect is hard-capped at -75% (default: `0`)
 | melee_thrown_attack_cost | (_optional_) Adjustments to melee and thrown attack cost, in time points. Positive values slow down attacks. (default: `0`)
+| trap_detection_per_100   | (_optional_) Adjustment to ability to detect traps. Number is for 100 points of encumbrance, not one. Value must be integer, not float. Base detection score is the character perception. Checked against trap visibility score. Negative values make seeing traps harder. (default: `0`)
+| throwing_dispersion      | (_optional_) Adjustment to throwing dispersion. Positive values decrease throwing accuracy. (default: `0`)
+| ranged_dispersion        | (_optional_) Adjustment to ranged (but not thrown) dispersion. Positive values decrease gun accuracy. (default: `0`)
 
 ### Bionics
 

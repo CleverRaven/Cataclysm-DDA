@@ -598,6 +598,9 @@ void encumbrance_effects::load( const JsonObject &jsobj )
     optional( jsobj, was_loaded, "dodge_skill", dodge_skill, 0.0f );
     optional( jsobj, was_loaded, "hit_roll_perc", hit_roll_perc, 0.0f );
     optional( jsobj, was_loaded, "melee_thrown_attack_cost", melee_thrown_attack_cost, 0.0f );
+    optional( jsobj, was_loaded, "trap_detection_per_100", trap_detection_per_100, 0.0f );
+    optional( jsobj, was_loaded, "throwing_dispersion", throwing_dispersion, 0.0f );
+    optional( jsobj, was_loaded, "ranged_dispersion", ranged_dispersion, 0.0f );
 }
 
 void encumbrance_effects::deserialize( JsonIn &jsin )

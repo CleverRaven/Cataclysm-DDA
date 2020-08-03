@@ -935,9 +935,15 @@ int Character::throwing_dispersion( const item &to_throw, Creature *critter,
                                 critter->pos() ) );
         dispersion += throw_dispersion_per_dodge( true ) * effective_dodge;
     }
-    // 1 perception per 1 eye encumbrance
+
+    int encumbrance_penalty = 0;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        encumbrance_penalty += encumb( bp ) * bp->encumbrance_effects.throwing_dispersion;
+    }
+    // Each point of eye encumbrance increases dispersion by 10.
+    // Each point of perception negates one point of encumbrance penalty.
     ///\EFFECT_PER decreases throwing accuracy penalty from eye encumbrance
-    dispersion += std::max( 0, ( encumb( bodypart_id( "eyes" ) ) - get_per() ) * 10 );
+    dispersion += std::max( 0, encumbrance_penalty - 10 * get_per() );
 
     // If throwing blind, we're assuming they mechanically can't achieve the
     // accuracy of a normal throw.

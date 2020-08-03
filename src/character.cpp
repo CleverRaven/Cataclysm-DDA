@@ -601,7 +601,9 @@ int Character::effective_dispersion( int dispersion ) const
     /** @EFFECT_PER penalizes sight dispersion when low. */
     dispersion += ranged_per_mod();
 
-    dispersion += encumb( bodypart_id( "eyes" ) ) / 2;
+    for( const bodypart_id &bp : get_all_body_parts() ) {
+        dispersion += encumb( bp ) * bp->encumbrance_effects.ranged_dispersion;
+    }
 
     return std::max( dispersion, 0 );
 }

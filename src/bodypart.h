@@ -90,6 +90,9 @@ struct encumbrance_effects {
     float dodge_skill = 0.0f;
     float hit_roll_perc = 0.0f;
     float melee_thrown_attack_cost = 0.0f;
+    int trap_detection_per_100 = 0.0f;
+    float throwing_dispersion = 0.0f;
+    float ranged_dispersion = 0.0f;
 
     bool was_loaded = false;
     void load( const JsonObject &jsobj );
