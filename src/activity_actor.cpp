@@ -11,6 +11,8 @@
 #include "computer_session.h"
 #include "debug.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
 #include "game.h"
 #include "gates.h"
 #include "iexamine.h"

@@ -13,7 +13,7 @@
 #include "bodypart.h"
 #include "damage.h"
 #include "enum_bitset.h"
-#include "event_bus.h"
+#include "event_subscriber.h"
 #include "optional.h"
 #include "point.h"
 #include "sounds.h"
