@@ -1955,6 +1955,8 @@ class Character : public Creature, public visitable<Character>
         int get_shout_volume() const;
         // shouts a message
         void shout( std::string msg = "", bool order = false );
+        //signals player location to nemesis for "Hunted" trait
+        void signal_nemesis();
         /** Handles Character vomiting effects */
         void vomit();
 
