@@ -2742,14 +2742,15 @@ void item::armor_info( std::vector<iteminfo> &info, const iteminfo_query *parts,
                 }
                 // Handle things that use both sides to avoid showing L. Arm R. Arm etc when both are the same
                 if( !t->sided ) {
-                    for( const body_part &legacy_part : all_body_parts ) {
-                        const bodypart_str_id &bp( convert_bp( legacy_part ) );
-                        bodypart_str_id opposite = bp->opposite_part;
-                        if( opposite != bp && covers( bp ) && covers( opposite )
-                            && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
-                            && to_display_data.at( opposite ).active ) {
-                            to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
-                            to_display_data.at( bp ).active = false;
+                    for( const armor_portion_data &piece : t->data ) {
+                        for( const bodypart_str_id &bp : *piece.covers ) {
+                            bodypart_str_id opposite = bp->opposite_part;
+                            if( opposite != bp && covers( bp ) && covers( opposite )
+                                && to_display_data.at( bp ).portion == to_display_data.at( opposite ).portion
+                                && to_display_data.at( opposite ).active ) {
+                                to_display_data.at( opposite ).to_display = bp->name_as_heading_multiple;
+                                to_display_data.at( bp ).active = false;
+                            }
                         }
                     }
                 }
