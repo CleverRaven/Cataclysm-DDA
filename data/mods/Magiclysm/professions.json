@@ -195,8 +195,7 @@
       "male": [ "boxer_briefs" ],
       "female": [ "bra", "panties" ]
     },
-      "traits": [ "ANIMIST" ]
-    }
+    "traits": [ "ANIMIST" ]
   },
   {
     "type": "profession",
