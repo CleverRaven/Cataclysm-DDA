@@ -1377,7 +1377,6 @@
           "boots_combat",
           "gloves_tactical",
           "armor_riot",
-          "mask_gas",
           "helmet_riot",
           "armguard_hard",
           "legguard_hard",
@@ -1387,6 +1386,7 @@
         ],
         "entries": [
           { "group": "charged_two_way_radio" },
+          { "group": "full_gasmask" },
           { "item": "usp_45", "ammo-item": "45_acp", "charges": 12, "container-item": "holster" },
           { "item": "legpouch_large", "contents-group": "army_mags_usp45" },
           { "item": "tonfa", "container-item": "police_belt" },
@@ -3637,7 +3637,6 @@
           "gloves_work",
           "knee_pads",
           "jumpsuit",
-          "mask_gas",
           "canteen",
           "e_tool",
           "tool_belt",
@@ -3646,6 +3645,7 @@
         ],
         "entries": [
           { "group": "charged_matches" },
+          { "group": "full_gasmask" },
           { "item": "ear_plugs", "custom-flags": [ "no_auto_equip" ] },
           { "item": "jackhammer", "charges": 400 },
           { "item": "light_minus_disposable_cell", "charges": 100 },
