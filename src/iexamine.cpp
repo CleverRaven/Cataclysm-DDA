@@ -4099,8 +4099,8 @@ static int findBestGasDiscount( player &p )
 {
     int discount = 0;
 
-    for( size_t i = 0; i < p.inv.size(); i++ ) {
-        item &it = p.inv.find_item( i );
+    for( size_t i = 0; i < p.inv->size(); i++ ) {
+        item &it = p.inv->find_item( i );
 
         if( it.has_flag( "GAS_DISCOUNT" ) ) {
 
@@ -4402,7 +4402,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        const int pos = p.inv.position_by_type( itype_id( "cash_card" ) );
+        const int pos = p.inv->position_by_type( itype_id( "cash_card" ) );
 
         if( pos == INT_MIN ) {
             add_msg( _( "Never mind." ) );
@@ -4826,7 +4826,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         // TODO: refactor this whole bit. adding items to the inventory will
                         // cause major issues when inv gets removed. this is a shim for now
                         // in order to reduce lines of change for nested containers.
-                        player_character.inv.push_back( bionic_to_uninstall );
+                        player_character.inv->push_back( bionic_to_uninstall );
                     }
                 }
             }

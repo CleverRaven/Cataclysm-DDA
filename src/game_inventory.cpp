@@ -137,7 +137,7 @@ static item_location inv_internal( Character &u, const inventory_selector_preset
         ACT_CONSUME_DRINK_MENU,
         ACT_CONSUME_MEDS_MENU };
 
-    u.inv.restack( u );
+    u.inv->restack( u );
 
     inv_s.clear_items();
     inv_s.add_character_items( u );
@@ -195,7 +195,7 @@ void game_menus::inv::common( avatar &you )
     int res = 0;
 
     do {
-        you.inv.restack( you );
+        you.inv->restack( you );
         inv_s.clear_items();
         inv_s.add_character_items( you );
 
@@ -1409,7 +1409,7 @@ item_location game_menus::inv::saw_barrel( player &p, item &tool )
 
 drop_locations game_menus::inv::multidrop( player &p )
 {
-    p.inv.restack( p );
+    p.inv->restack( p );
 
     const inventory_filter_preset preset( [ &p ]( const item_location & location ) {
         return p.can_unwield( *location ).success();
@@ -1431,7 +1431,7 @@ drop_locations game_menus::inv::multidrop( player &p )
 
 void game_menus::inv::compare( player &p, const cata::optional<tripoint> &offset )
 {
-    p.inv.restack( p );
+    p.inv->restack( p );
 
     inventory_compare_selector inv_s( p );
 
@@ -1551,7 +1551,7 @@ void game_menus::inv::reassign_letter( player &p, item &it )
 
 void game_menus::inv::swap_letters( player &p )
 {
-    p.inv.restack( p );
+    p.inv->restack( p );
 
     inventory_pick_selector inv_s( p );
 
@@ -1567,7 +1567,7 @@ void game_menus::inv::swap_letters( player &p )
     while( true ) {
         const std::string invlets = colorize_symbols( inv_chars.get_allowed_chars(),
         [ &p ]( const std::string::value_type & elem ) {
-            if( p.inv.assigned_invlet.count( elem ) ) {
+            if( p.inv->assigned_invlet.count( elem ) ) {
                 return c_yellow;
             } else if( p.invlet_to_item( elem ) != nullptr ) {
                 return c_white;
@@ -1625,7 +1625,7 @@ static item_location autodoc_internal( player &u, player &patient,
     inv_s.set_display_stats( false );
 
     do {
-        u.inv.restack( u );
+        u.inv->restack( u );
 
         inv_s.clear_items();
         inv_s.add_character_items( u );
@@ -1978,7 +1978,7 @@ static item_location autoclave_internal( player &u,
     inv_s.set_display_stats( false );
 
     do {
-        u.inv.restack( u );
+        u.inv->restack( u );
 
         inv_s.clear_items();
         inv_s.add_character_items( u );

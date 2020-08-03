@@ -69,7 +69,7 @@ static void reset_player( Character &p, const throw_test_pstats &pstats, const t
     p.set_per_bonus( 0 );
     p.set_dex_bonus( 0 );
     p.worn.clear();
-    p.inv.clear();
+    p.inv->clear();
     p.remove_weapon();
     p.set_skill_level( skill_throw, pstats.skill_lvl );
 }

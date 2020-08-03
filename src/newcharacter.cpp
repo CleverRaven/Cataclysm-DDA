@@ -381,19 +381,19 @@ void avatar::add_profession_items()
         // TODO: debugmsg if food that isn't a seed is inedible
         if( it.has_flag( "no_auto_equip" ) ) {
             it.unset_flag( "no_auto_equip" );
-            inv.push_back( it );
+            inv->push_back( it );
         } else if( it.has_flag( "auto_wield" ) ) {
             it.unset_flag( "auto_wield" );
             if( !is_armed() ) {
                 wield( it );
             } else {
-                inv.push_back( it );
+                inv->push_back( it );
             }
         } else if( it.is_armor() ) {
             // TODO: debugmsg if wearing fails
             wear_item( it, false );
         } else {
-            inv.push_back( it );
+            inv->push_back( it );
         }
         if( it.is_book() ) {
             items_identified.insert( it.typeId() );

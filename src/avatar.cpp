@@ -1577,8 +1577,8 @@ bool avatar::wield( item &target, const int obtain_cost )
 
     get_event_bus().send<event_type::character_wields_item>( getID(), last_item );
 
-    inv.update_invlet( weapon );
-    inv.update_cache_with_item( weapon );
+    inv->update_invlet( weapon );
+    inv->update_cache_with_item( weapon );
 
     return true;
 }

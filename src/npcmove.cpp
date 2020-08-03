@@ -3150,7 +3150,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
 
     add_msg( m_debug, "%s is dropping items-%3.2f kg, %3.2f L (%d items, wgt %3.2f/%3.2f kg, "
              "vol %3.2f/%3.2f L)",
-             name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv.size(),
+             name, units::to_kilogram( drop_weight ), units::to_liter( drop_volume ), inv->size(),
              units::to_kilogram( weight_carried() ), units::to_kilogram( weight_capacity() ),
              units::to_liter( volume_carried() ), units::to_liter( volume_capacity() ) );
 
@@ -3159,7 +3159,7 @@ void npc::drop_items( const units::mass &drop_weight, const units::volume &drop_
     std::vector<ratio_index> rWgt, rVol; // Weight/Volume to value ratios
 
     // First fill our ratio vectors, so we know which things to drop first
-    invslice slice = inv.slice();
+    invslice slice = inv->slice();
     for( size_t i = 0; i < slice.size(); i++ ) {
         item &it = slice[i]->front();
         double wgt_ratio = 0.0;
@@ -3745,7 +3745,7 @@ void npc::heal_self()
 void npc::use_painkiller()
 {
     // First, find the best painkiller for our pain level
-    item *it = inv.most_appropriate_painkiller( get_pain() );
+    item *it = inv->most_appropriate_painkiller( get_pain() );
 
     if( it->is_null() ) {
         debugmsg( "NPC tried to use painkillers, but has none!" );
