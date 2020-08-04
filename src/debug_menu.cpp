@@ -41,6 +41,8 @@
 #include "dialogue_chatbin.h"
 #include "enum_conversions.h"
 #include "enums.h"
+#include "event.h"
+#include "event_bus.h"
 #include "faction.h"
 #include "filesystem.h"
 #include "game.h"

@@ -22,6 +22,7 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
