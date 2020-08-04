@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGRS_MIGO_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Things have been getting weird for the last couple of years.  Then we started hearing rumors of strange lights in the sky at night.",
+    "responses": [
+      { "text": "Where are you from?", "topic": "BGRS_MIGO_2_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_MIGO_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "One night I heard my neighbor calling for me to come help him.  I went outside wondering what he could possibly need my help with in the middle of the night.",
+    "responses": [
+      { "text": "What happened next?", "topic": "BGRS_MIGO_2_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_MIGO_2_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Some kind of hideos alien was standing over my neighbors disembowled corpse.  It looked at me and said 'You're a great neighbor' then everything faded to black.  I feel like everything in my body fits differently now.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGRS_SCHIZO_1_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "Monsters!  Monsters everywhere.  Everyone is suspect, how do I know you aren't a monster?",
+    "responses": [
+      { "text": "Are you ok?", "topic": "BGRS_SCHIZO_1_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_SCHIZO_1_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "You can't trust anyone these days.  Everyone is either a cannibal or a monster or a government spook.",
+    "responses": [
+      { "text": "Why would you trust me then?", "topic": "BGRS_SCHIZO_1_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_SCHIZO_1_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "Because, what if I'm the monster?",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]
