@@ -306,7 +306,7 @@ bool melee_actor::call( monster &z ) const
     damage.mult_damage( multiplier );
 
     body_part bp_hit = body_parts.empty() ?
-                       target->select_body_part( &z, hitspread ) :
+                       target->select_body_part( &z, hitspread )->token :
                        *body_parts.pick();
 
     target->on_hit( &z, convert_bp( bp_hit ).id() );

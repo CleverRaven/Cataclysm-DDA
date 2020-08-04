@@ -1019,7 +1019,7 @@ class Creature : public location, public viewer
         virtual void on_damage_of_type( int, damage_type, const bodypart_id & ) {}
 
     public:
-        body_part select_body_part( Creature *source, int hit_roll ) const;
+        bodypart_id select_body_part( Creature *source, int hit_roll ) const;
 
         void add_damage_over_time( const damage_over_time_data &DoT );
         void process_damage_over_time();
