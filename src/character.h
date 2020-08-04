@@ -78,7 +78,7 @@ struct w_point;
 template <typename E> struct enum_traits;
 
 enum npc_attitude : int;
-
+enum action_id : int;
 
 static const std::string DEFAULT_HOTKEYS( "1234567890abcdefghijklmnopqrstuvwxyz" );
 
