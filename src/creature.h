@@ -13,15 +13,15 @@
 #include "anatomy.h"
 #include "bodypart.h"
 #include "damage.h"
+#include "debug.h"
+#include "enums.h"
 #include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 #include "viewer.h"
-#include "debug.h"
-#include "enums.h"
 
 enum game_message_type : int;
 class nc_color;
