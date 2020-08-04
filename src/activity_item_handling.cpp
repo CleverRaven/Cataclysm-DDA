@@ -293,18 +293,6 @@ static void pass_to_ownership_handling( item obj, player *p )
     obj.handle_pickup_ownership( *p );
 }
 
-static void unseal_containers_of( std::vector<item_location> &targets )
-{
-    for( item_location &loc : targets ) {
-        if( loc.has_parent() ) {
-            item_pocket *const parent_pocket = loc.parent_item()->contained_where( *loc );
-            if( parent_pocket ) {
-                parent_pocket->unseal();
-            }
-        }
-    }
-}
-
 static void stash_on_pet( const std::list<item> &items, monster &pet, player *p )
 {
     units::volume remaining_volume = pet.storage_item->get_total_capacity() - pet.get_carried_volume();
@@ -484,6 +472,12 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 
         p.mod_moves( -ait.consumed_moves );
 
+        if( ait.loc.has_parent() ) {
+            item_pocket *const parent_pocket = ait.loc.parent_item()->contained_where( *ait.loc );
+            if( parent_pocket ) {
+                parent_pocket->unseal();
+            }
+        }
         if( p.is_worn( *ait.loc ) ) {
             p.takeoff( *ait.loc, &res );
         } else if( ait.loc->count_by_charges() ) {
@@ -524,7 +518,6 @@ void activity_handlers::drop_do_turn( player_activity *act, player *p )
         }
     }
 
-    unseal_containers_of( act->targets );
     put_into_vehicle_or_drop( *p, item_drop_reason::deliberate, obtain_activity_items( *act, *p ),
                               pos, force_ground );
 }
@@ -635,7 +628,6 @@ void activity_handlers::stash_do_turn( player_activity *act, player *p )
 
     monster *pet = g->critter_at<monster>( pos );
     if( pet != nullptr && pet->has_effect( effect_pet ) ) {
-        unseal_containers_of( act->targets );
         stash_on_pet( obtain_activity_items( *act, *p ), *pet, p );
     } else {
         p->add_msg_if_player( _( "The pet has moved somewhere else." ) );
