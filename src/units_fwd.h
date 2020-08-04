@@ -42,4 +42,4 @@ using length = quantity<int, length_in_millimeter_tag>;
 
 } // namespace units
 
-#endif
+#endif // CATA_SRC_UNITS_FWD_H
