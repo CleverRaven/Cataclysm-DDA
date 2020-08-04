@@ -224,7 +224,7 @@ relic_charge_info relic_charge_template::generate() const
     relic_charge_info ret;
     ret.max_charges = rng( max_charges.first, max_charges.second );
     ret.charges_per_use = rng( charges_per_use.first, charges_per_use.second );
-    ret.charges = rng( init_charges.first, init_charges.second );
+    ret.charges = std::min( rng( init_charges.first, init_charges.second ), ret.max_charges );
     ret.activation_time = rng( time.first, time.second );
     ret.type = type;
     ret.power = power_level;
