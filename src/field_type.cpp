@@ -221,9 +221,10 @@ void field_type::load( const JsonObject &jo, const std::string & )
         immunity_data_traits.emplace_back( id );
     }
     for( JsonArray jao : jid.get_array( "body_part_env_resistance" ) ) {
-        immunity_data_body_part_env_resistance.emplace_back( std::make_pair( get_body_part_token(
+        immunity_data_body_part_env_resistance.emplace_back( std::make_pair( bodypart_str_id(
                     jao.get_string( 0 ) ), jao.get_int( 1 ) ) );
     }
+
     optional( jo, was_loaded, "immune_mtypes", immune_mtypes );
     optional( jo, was_loaded, "underwater_age_speedup", underwater_age_speedup, 0_turns );
     optional( jo, was_loaded, "outdoor_age_speedup", outdoor_age_speedup, 0_turns );

@@ -153,7 +153,7 @@ struct field_type {
         std::tuple<int, std::string, time_duration, std::string> npc_complain_data;
 
         std::vector<trait_id> immunity_data_traits;
-        std::vector<std::pair<body_part, int>> immunity_data_body_part_env_resistance;
+        std::vector<std::pair<bodypart_str_id, int>> immunity_data_body_part_env_resistance;
         std::set<mtype_id> immune_mtypes;
 
         int priority = 0;
