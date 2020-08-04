@@ -70,7 +70,7 @@
       "Sluggish",
       "Encased in foamcrete"
     ],
-    "desc": [ "A partial covering of foamcrete is slowing you down" ],
+    "desc": [ "A partial covering of foamcrete is slowing you down." ],
     "miss_messages": [ [ "You feel stiff.", 3 ] ],
     "rating": "bad",
     "max_intensity": 10,

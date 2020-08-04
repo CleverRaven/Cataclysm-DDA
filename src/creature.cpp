@@ -53,6 +53,7 @@ static const efftype_id effect_bleed( "bleed" );
 static const efftype_id effect_blind( "blind" );
 static const efftype_id effect_bounced( "bounced" );
 static const efftype_id effect_downed( "downed" );
+static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 static const efftype_id effect_lying_down( "lying_down" );
 static const efftype_id effect_no_sight( "no_sight" );
 static const efftype_id effect_npc_suspend( "npc_suspend" );
@@ -65,7 +66,6 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
-static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 
 static const species_id species_ROBOT( "ROBOT" );
 

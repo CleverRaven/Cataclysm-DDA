@@ -51,9 +51,8 @@
       "str_max": 40,
       "sound": "crash!",
       "sound_fail": "thump!",
-      "ter_set": "t_null",
-      "items": "wall_bash_results"
-    }
+      "ter_set": "t_null"
+      }
   },
   {
     "type": "terrain",

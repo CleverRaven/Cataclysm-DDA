@@ -113,7 +113,7 @@ static void foamcrete_build( const tripoint &p )
                 return;
             }
         }
-        add_msg( m_bad, _( "The foamcrete falls without a wall to anchor against" ) );
+        add_msg( m_bad, _( "The foamcrete falls without a wall to anchor against." ) );
     } else if( here.get_field_intensity( p, field_fd_foamcrete ) >= 2 ) {
         here.bash( p, 9001, false, true, false );
         here.ter_set( p, wall );
