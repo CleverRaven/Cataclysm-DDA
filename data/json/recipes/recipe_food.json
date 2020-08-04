@@ -4820,7 +4820,7 @@
   },
   {
     "type": "recipe",
-    "result": "minced_garlic",
+    "result": "garlic_minced",
     "id_suffix": "knife",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4833,7 +4833,7 @@
   },
   {
     "type": "recipe",
-    "result": "minced_garlic",
+    "result": "garlic_minced",
     "id_suffix": "press",
     "category": "CC_FOOD",
     "subcategory": "CSC_FOOD_OTHER",
@@ -4857,7 +4857,7 @@
     "qualities": [ { "id": "BOIL", "level": 1 } ],
     "tools": [ [ [ "water_boiling_heat", 2, "LIST" ] ] ],
     "components": [
-      [ [ "minced_garlic", 2 ] ],
+      [ [ "garlic_minced", 2 ] ],
       [ [ "water", 1 ], [ "water_clean", 1 ] ],
       [ [ "honey_bottled", 3 ], [ "honey_glassed", 1 ], [ "lemon", 1 ], [ "chamomile", 1 ] ]
     ]

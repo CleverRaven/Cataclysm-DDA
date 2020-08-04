@@ -405,7 +405,7 @@
   },
   {
     "type": "COMESTIBLE",
-    "id": "minced_garlic",
+    "id": "garlic_minced",
     "name": { "str_sp": "minced garlic" },
     "weight": "750 mg",
     "color": "white",
