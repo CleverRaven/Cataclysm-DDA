@@ -27,7 +27,6 @@
 #include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
-#include "item.h"
 #include "item_location.h"
 #include "memory_fast.h"
 #include "optional.h"
