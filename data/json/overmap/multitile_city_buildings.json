@@ -274,6 +274,24 @@
   },
   {
     "type": "city_building",
+    "id": "urban_18_victorian",
+    "overmaps": [
+      { "point": [ 0, 0, -1 ], "overmap": "urban_18_1_north" },
+      { "point": [ 1, 0, -1 ], "overmap": "urban_18_2_north" },
+      { "point": [ 0, 0, 0 ], "overmap": "urban_18_3_north" },
+      { "point": [ 1, 0, 0 ], "overmap": "urban_18_4_north" },
+      { "point": [ 0, 0, 1 ], "overmap": "urban_18_5_north" },
+      { "point": [ 1, 0, 1 ], "overmap": "urban_18_6_north" },
+      { "point": [ 0, 0, 2 ], "overmap": "urban_18_7_north" },
+      { "point": [ 1, 0, 2 ], "overmap": "urban_18_8_north" },
+      { "point": [ 0, 0, 3 ], "overmap": "urban_18_9_north" },
+      { "point": [ 1, 0, 3 ], "overmap": "urban_18_10_north" }
+    ],
+    "locations": [ "land" ],
+    "flags": [ "CLASSIC" ]
+  },
+  {
+    "type": "city_building",
     "id": "urban_29_dense_row",
     "overmaps": [
       { "point": [ 0, 0, -1 ], "overmap": "urban_29_1_north" },
