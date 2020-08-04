@@ -1050,7 +1050,7 @@
     "volume": "62500 ml",
     "weight": "81500 g",
     "hp": 150,
-    "speed": 130,
+    "speed": 110,
     "material": [ "flesh" ],
     "symbol": "Z",
     "color": "light_gray",
