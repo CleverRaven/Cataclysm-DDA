@@ -10,7 +10,7 @@
         "effects": [
           {
             "effect_id": "eff_frightful_presence",
-            "body_part": "TORSO",
+            "body_part": "torso",
             "intensity": 1,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
@@ -24,7 +24,7 @@
         "effects": [
           {
             "effect_id": "eff_frightful_presence",
-            "body_part": "TORSO",
+            "body_part": "torso",
             "intensity": 2,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
@@ -38,7 +38,7 @@
         "effects": [
           {
             "effect_id": "eff_frightful_presence",
-            "body_part": "TORSO",
+            "body_part": "torso",
             "intensity": 3,
             "min_duration": "2 seconds",
             "max_duration": "2 seconds",
