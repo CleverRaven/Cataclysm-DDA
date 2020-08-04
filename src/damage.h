@@ -18,8 +18,6 @@ class JsonOut;
 class item;
 class monster;
 
-enum body_part : int;
-
 enum damage_type : int {
     DT_NULL = 0, // null damage, doesn't exist
     DT_TRUE, // typeless damage, should always go through
