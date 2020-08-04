@@ -10,7 +10,6 @@
 #include <string>
 #include <utility>
 
-#include "anatomy.h"
 #include "bodypart.h"
 #include "damage.h"
 #include "debug.h"
@@ -32,6 +31,7 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+class anatomy;
 class avatar;
 class Character;
 class field;
@@ -51,6 +51,8 @@ struct dealt_damage_instance;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
+
+using anatomy_id = string_id<anatomy>;
 
 enum class creature_size : int {
     // Keep it starting at 1 - damage done to monsters depends on it
