@@ -18,7 +18,7 @@
 #include "cata_utility.h"
 #include "item.h"
 #include "item_stack.h"
-#include "units.h"
+#include "units_fwd.h"
 #include "visitable.h"
 
 class Character;
