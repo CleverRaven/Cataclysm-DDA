@@ -121,6 +121,7 @@
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen", "standard_domestic_lino_bathroom" ],
       "terrain": {
         "~": "t_open_air",
+        "'": "t_thconc_floor",
         ",": "t_linoleum_gray",
         "&": "t_shingle_flat_roof",
         ":": "t_gutter_drop",
@@ -165,7 +166,7 @@
         "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
       ],
       "palettes": [ "standard_domestic_palette", "standard_domestic_lino_kitchen", "standard_domestic_lino_bathroom" ],
-      "terrain": { "~": "t_open_air", ",": "t_linoleum_gray", "#": "t_rock_wall" },
+      "terrain": { "~": "t_open_air", ",": "t_linoleum_gray", "'": "t_thconc_floor", "#": "t_rock_wall" },
       "place_loot": [ { "item": "television", "x": 17, "y": 8, "chance": 100 } ]
     }
   },
