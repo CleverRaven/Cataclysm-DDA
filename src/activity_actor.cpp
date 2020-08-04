@@ -17,6 +17,7 @@
 #include "item.h"
 #include "item_group.h"
 #include "item_location.h"
+#include "itype.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
