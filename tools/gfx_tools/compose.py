@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 # compose.py
 # Split a gfx directory made of 1000s of little images and files into a set of tilesheets
@@ -22,34 +22,31 @@ FALLBACK = {
     "file": "fallback.png",
     "tiles": [],
     "ascii": [
-        { "offset": 0, "bold": False, "color": "BLACK" },
-        { "offset": 256, "bold": True, "color": "WHITE" },
-        { "offset": 512, "bold": False, "color": "WHITE" },
-        { "offset": 768, "bold": True, "color": "BLACK" },
-        { "offset": 1024, "bold": False, "color": "RED" },
-        { "offset": 1280, "bold": False, "color": "GREEN" },
-        { "offset": 1536, "bold": False, "color": "BLUE" },
-        { "offset": 1792, "bold": False, "color": "CYAN" },
-        { "offset": 2048, "bold": False, "color": "MAGENTA" },
-        { "offset": 2304, "bold": False, "color": "YELLOW" },
-        { "offset": 2560, "bold": True, "color": "RED" },
-        { "offset": 2816, "bold": True, "color": "GREEN" },
-        { "offset": 3072, "bold": True, "color": "BLUE" },
-        { "offset": 3328, "bold": True, "color": "CYAN" },
-        { "offset": 3584, "bold": True, "color": "MAGENTA" },
-        { "offset": 3840, "bold": True, "color": "YELLOW" }
+        {"offset": 0, "bold": False, "color": "BLACK"},
+        {"offset": 256, "bold": True, "color": "WHITE"},
+        {"offset": 512, "bold": False, "color": "WHITE"},
+        {"offset": 768, "bold": True, "color": "BLACK"},
+        {"offset": 1024, "bold": False, "color": "RED"},
+        {"offset": 1280, "bold": False, "color": "GREEN"},
+        {"offset": 1536, "bold": False, "color": "BLUE"},
+        {"offset": 1792, "bold": False, "color": "CYAN"},
+        {"offset": 2048, "bold": False, "color": "MAGENTA"},
+        {"offset": 2304, "bold": False, "color": "YELLOW"},
+        {"offset": 2560, "bold": True, "color": "RED"},
+        {"offset": 2816, "bold": True, "color": "GREEN"},
+        {"offset": 3072, "bold": True, "color": "BLUE"},
+        {"offset": 3328, "bold": True, "color": "CYAN"},
+        {"offset": 3584, "bold": True, "color": "MAGENTA"},
+        {"offset": 3840, "bold": True, "color": "YELLOW"}
     ]
 }
 
 error_logged = False
 
-# stupid stinking Python 2 versus Python 3 syntax
+
 def write_to_json(pathname, data):
     with open(pathname, "w") as fp:
-        try:
-            json.dump(data, fp)
-        except ValueError:
-            fp.write(json.dumps(data))
+        json.dump(data, fp)
 
     json_formatter = "./tools/format/json_formatter.cgi"
     if os.path.isfile(json_formatter):
@@ -67,9 +64,9 @@ def find_or_make_dir(pathname):
 class PngRefs(object):
     def __init__(self, tileset_dirname):
         # dict of pngnames to png numbers; used to control uniqueness
-        self.pngname_to_pngnum = { "null_image": 0 }
+        self.pngname_to_pngnum = {"null_image": 0}
         # dict of png absolute numbers to png names
-        self.pngnum_to_pngname = { 0: "null_image" }
+        self.pngnum_to_pngname = {0: "null_image"}
         self.pngnum = 0
         self.referenced_pngnames = []
         self.tileset_pathname = tileset_dirname
@@ -206,7 +203,7 @@ class TilesheetData(object):
         self.null_image = Vips.Image.grey(self.width, self.height)
         self.row_pngs = ["null_image"]
         self.filler = False
-        self.fallback = False;
+        self.fallback = False
         if self.ts_specs.get("fallback"):
             self.fallback = True
             return
@@ -229,7 +226,7 @@ class TilesheetData(object):
         refs.pngnum += spacer
 
         in_list = []
-        
+
         for png_pathname in self.row_pngs:
             if png_pathname == "null_image":
                 in_list.append(self.null_image)
@@ -303,6 +300,7 @@ class TilesheetData(object):
         out_image = Vips.Image.arrayjoin(merge_pngs, across=16)
         out_image.pngsave(self.ts_path)
 
+
 args = argparse.ArgumentParser(description="Merge all the individal tile_entries and pngs in a tileset's directory into a tile_config.json and 1 or more tilesheet pngs.")
 args.add_argument("tileset_dir", action="store",
                   help="local name of the tileset directory")
@@ -351,7 +349,7 @@ for subdir_index in range(1, len(refs.tileset_info)):
 #print("pngnum to pngname {}".format(json.dumps(refs.pngnum_to_pngname, sort_keys=True, indent=2)))
 
 tiles_new = []
-    
+
 for ts_data in all_ts_data:
     if ts_data.fallback:
         fallback_name = ts_data.ts_name

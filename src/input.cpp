@@ -1560,36 +1560,24 @@ cata::optional<tripoint> input_context::get_coordinates( const catacurses::windo
 }
 #endif
 
-std::pair<point, bool> input_context::get_coordinates_text( const catacurses::window
+cata::optional<point> input_context::get_coordinates_text( const catacurses::window
         &capture_win ) const
 {
 #if !defined( TILES )
     ( void ) capture_win;
-    return std::make_pair( point(), false );
+    return cata::nullopt;
 #else
     if( !coordinate_input_received ) {
-        return std::make_pair( point(), false );
+        return cata::nullopt;
     }
-
     const window_dimensions dim = get_window_dimensions( capture_win );
-
     const int &fw = dim.scaled_font_size.x;
     const int &fh = dim.scaled_font_size.y;
     const point &win_min = dim.window_pos_pixel;
-    const point &win_size = dim.window_size_pixel;
-    const point win_max = win_min + win_size;
-
-    const half_open_rectangle<point> win_bounds( win_min, win_max );
-
     const point screen_pos = coordinate - win_min;
     const point selected( divide_round_down( screen_pos.x, fw ),
                           divide_round_down( screen_pos.y, fh ) );
-
-    if( !win_bounds.contains( coordinate ) ) {
-        return std::make_pair( selected, false );
-    }
-
-    return std::make_pair( selected, true );
+    return selected;
 #endif
 }
 

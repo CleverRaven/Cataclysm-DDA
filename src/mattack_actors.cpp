@@ -139,11 +139,11 @@ bool leap_actor::call( monster &z ) const
     }
 
     z.moves -= move_cost;
-    Character &player_character = get_player_character();
+    viewer &player_view = get_player_view();
     const tripoint chosen = random_entry( options );
-    bool seen = player_character.sees( z ); // We can see them jump...
+    bool seen = player_view.sees( z ); // We can see them jump...
     z.setpos( chosen );
-    seen |= player_character.sees( z ); // ... or we can see them land
+    seen |= player_view.sees( z ); // ... or we can see them land
     if( seen ) {
         add_msg( _( "The %s leaps!" ), z.name() );
     }
@@ -200,9 +200,8 @@ bool mon_spellcasting_actor::call( monster &mon ) const
         target_name = target_monster->disp_name();
     }
 
-    if( get_player_character().sees( target ) ) {
-        add_msg( spell_data.message(), mon.disp_name(), spell_data.name(), target_name );
-    }
+    add_msg_if_player_sees( target, spell_data.message(), mon.disp_name(),
+                            spell_data.name(), target_name );
 
     spell_data.cast_all_effects( mon, target );
 
@@ -338,7 +337,7 @@ void melee_actor::on_damage( monster &z, Creature &target, dealt_damage_instance
 
     for( const auto &eff : effects ) {
         if( x_in_y( eff.chance, 100 ) ) {
-            const body_part affected_bp = eff.affect_hit_bp ? bp->token : eff.bp;
+            const bodypart_id affected_bp = eff.affect_hit_bp ? bp : convert_bp( eff.bp ).id();
             target.add_effect( eff.id, time_duration::from_turns( eff.duration ), affected_bp, eff.permanent );
         }
     }
@@ -362,12 +361,12 @@ void bite_actor::on_damage( monster &z, Creature &target, dealt_damage_instance 
     melee_actor::on_damage( z, target, dealt );
     if( target.has_effect( effect_grabbed ) && one_in( no_infection_chance - dealt.total_damage() ) ) {
         const bodypart_id &hit = dealt.bp_hit;
-        if( target.has_effect( effect_bite, hit->token ) ) {
-            target.add_effect( effect_bite, 40_minutes, hit->token, true );
-        } else if( target.has_effect( effect_infected, hit->token ) ) {
-            target.add_effect( effect_infected, 25_minutes, hit->token, true );
+        if( target.has_effect( effect_bite, hit.id() ) ) {
+            target.add_effect( effect_bite, 40_minutes, hit, true );
+        } else if( target.has_effect( effect_infected, hit.id() ) ) {
+            target.add_effect( effect_infected, 25_minutes, hit, true );
         } else {
-            target.add_effect( effect_bite, 1_turns, hit->token, true );
+            target.add_effect( effect_bite, 1_turns, hit, true );
         }
     }
     if( target.has_trait( trait_TOXICFLESH ) ) {
@@ -467,11 +466,12 @@ bool gun_actor::call( monster &z ) const
         int hostiles; // hostiles which cannot be engaged without risking friendly fire
         target = z.auto_find_hostile_target( max_range, hostiles );
         if( !target ) {
-            if( hostiles > 0 && get_player_character().sees( z ) ) {
-                add_msg( m_warning, ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
-                                              "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
-                                              hostiles ),
-                         z.name(), hostiles );
+            if( hostiles > 0 ) {
+                add_msg_if_player_sees( z, m_warning,
+                                        ngettext( "Pointed in your direction, the %s emits an IFF warning beep.",
+                                                  "Pointed in your direction, the %s emits %d annoyed sounding beeps.",
+                                                  hostiles ),
+                                        z.name(), hostiles );
             }
             return false;
         }
@@ -496,8 +496,8 @@ bool gun_actor::call( monster &z ) const
 void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) const
 {
     if( require_sunlight && !g->is_in_sunlight( z.pos() ) ) {
-        if( one_in( 3 ) && get_player_character().sees( z ) ) {
-            add_msg( _( failure_msg ), z.name() );
+        if( one_in( 3 ) ) {
+            add_msg_if_player_sees( z, _( failure_msg ), z.name() );
         }
         return;
     }
@@ -574,9 +574,7 @@ void gun_actor::shoot( monster &z, Creature &target, const gun_mode_id &mode ) c
     tmp.weapon = gun;
     tmp.i_add( item( "UPS_off", calendar::turn, 1000 ) );
 
-    if( get_player_character().sees( z ) ) {
-        add_msg( m_warning, _( description ), z.name(), tmp.weapon.tname() );
-    }
+    add_msg_if_player_sees( z, m_warning, _( description ), z.name(), tmp.weapon.tname() );
 
     z.ammo[ammo] -= tmp.fire_gun( target.pos(), gun.gun_current_mode().qty );
 

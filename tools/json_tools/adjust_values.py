@@ -26,7 +26,7 @@ for root, directories, filenames in os.walk(args_dict["dir"]):
         path = os.path.join(root, filename)
         if path.endswith(".json"):
             new = gen_new(path)
-            if new != None:
+            if new is not None:
                 with open(path, "w") as jf:
                     json.dump(new, jf, ensure_ascii=False)
                 os.system(f"./tools/format/json_formatter.cgi {path}")

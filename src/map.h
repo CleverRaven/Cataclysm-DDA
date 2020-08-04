@@ -34,7 +34,7 @@
 #include "rng.h"
 #include "shadowcasting.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 struct scent_block;
 template <typename T> class safe_reference;

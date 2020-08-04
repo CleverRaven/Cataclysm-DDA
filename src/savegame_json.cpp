@@ -91,6 +91,7 @@
 #include "player_activity.h"
 #include "point.h"
 #include "profession.h"
+#include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -504,8 +505,8 @@ void Character::load( const JsonObject &data )
         if( !temp_selected_style.is_valid() ) {
             temp_selected_style = matype_id( "style_none" );
         }
-        martial_arts_data = character_martial_arts( temp_styles, temp_selected_style,
-                            temp_keep_hands_free );
+        *martial_arts_data = character_martial_arts( temp_styles, temp_selected_style,
+                             temp_keep_hands_free );
     } else {
         data.read( "martial_arts_data", martial_arts_data );
     }
@@ -547,8 +548,13 @@ void Character::load( const JsonObject &data )
 
     // Remove check after 0.F
     if( savegame_loading_version >= 30 ) {
-        data.read( "proficiencies", _proficiencies );
+        if( data.has_array( "proficiencies" ) ) {
+            _proficiencies->deserialize_legacy( data.get_array( "proficiencies" ) );
+        } else {
+            data.read( "proficiencies", _proficiencies );
+        }
     }
+
 
     //energy
     data.read( "stim", stim );
@@ -754,10 +760,10 @@ void Character::load( const JsonObject &data )
         set_part_frostbite_timer( bodypart_id( "foot_r" ), frostbite_timer[11] );
     }
 
-    inv.clear();
+    inv->clear();
     if( data.has_member( "inv" ) ) {
         JsonIn *invin = data.get_raw( "inv" );
-        inv.json_load_items( *invin );
+        inv->json_load_items( *invin );
     }
     // this is after inventory is loaded to make it more obvious that
     // it needs to be changed again when Character::i_at is removed for nested containers
@@ -1009,7 +1015,7 @@ void player::store( JsonOut &json ) const
 
     json.member( "worn", worn ); // also saves contents
     json.member( "inv" );
-    inv.json_save_items( json );
+    inv->json_save_items( json );
 
     if( !weapon.is_null() ) {
         json.member( "weapon", weapon ); // also saves contents
@@ -1197,7 +1203,7 @@ void avatar::store( JsonOut &json ) const
 
     json.member( "assigned_invlet" );
     json.start_array();
-    for( const auto &iter : inv.assigned_invlet ) {
+    for( const auto &iter : inv->assigned_invlet ) {
         json.start_array();
         json.write( iter.first );
         json.write( iter.second );
@@ -1206,7 +1212,7 @@ void avatar::store( JsonOut &json ) const
     json.end_array();
 
     json.member( "invcache" );
-    inv.json_save_invcache( json );
+    inv->json_save_invcache( json );
 
     json.member( "calorie_diary", calorie_diary );
 }
@@ -1349,13 +1355,13 @@ void avatar::load( const JsonObject &data )
     data.read( "show_map_memory", show_map_memory );
 
     for( JsonArray pair : data.get_array( "assigned_invlet" ) ) {
-        inv.assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
+        inv->assigned_invlet[static_cast<char>( pair.get_int( 0 ) )] =
             itype_id( pair.get_string( 1 ) );
     }
 
     if( data.has_member( "invcache" ) ) {
         JsonIn *jip = data.get_raw( "invcache" );
-        inv.json_load_invcache( *jip );
+        inv->json_load_invcache( *jip );
     }
 
     data.read( "calorie_diary", calorie_diary );
@@ -3211,16 +3217,7 @@ void Creature::store( JsonOut &jsout ) const
     // killer is not stored, it's temporary anyway, any creature that has a non-null
     // killer is dead (as per definition) and should not be stored.
 
-    // Because JSON requires string keys we need to convert our int keys
-    std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
-    for( const auto &maps : *effects ) {
-        for( const auto i : maps.second ) {
-            std::ostringstream convert;
-            convert << i.first;
-            tmp_map[maps.first.str()][convert.str()] = i.second;
-        }
-    }
-    jsout.member( "effects", tmp_map );
+    jsout.member( "effects", *effects );
 
     jsout.member( "damage_over_time_map", damage_over_time_map );
     jsout.member( "values", values );
@@ -3262,9 +3259,8 @@ void Creature::load( const JsonObject &jsin )
 
     killer = nullptr; // see Creature::load
 
-    // Just too many changes here to maintain compatibility, so older characters get a free
-    // effects wipe. Since most long lasting effects are bad, this shouldn't be too bad for them.
-    if( savegame_loading_version >= 23 ) {
+    // TEMPORARY until 0.F
+    if( savegame_loading_version < 31 ) {
         if( jsin.has_object( "effects" ) ) {
             // Because JSON requires string keys we need to convert back to our bp keys
             std::unordered_map<std::string, std::unordered_map<std::string, effect>> tmp_map;
@@ -3280,7 +3276,7 @@ void Creature::load( const JsonObject &jsin )
                     if( !( std::istringstream( i.first ) >> key_num ) ) {
                         key_num = 0;
                     }
-                    const body_part bp = static_cast<body_part>( key_num );
+                    const bodypart_str_id &bp = convert_bp( static_cast<body_part>( key_num ) );
                     const effect &e = i.second;
 
                     ( *effects )[id][bp] = e;
@@ -3288,6 +3284,8 @@ void Creature::load( const JsonObject &jsin )
                 }
             }
         }
+    } else {
+        jsin.read( "effects", *effects );
     }
     jsin.read( "values", values );
 

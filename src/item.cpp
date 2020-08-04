@@ -86,6 +86,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vitamin.h"
@@ -1395,6 +1396,9 @@ void item::set_owner( const Character &c )
         return;
     }
     owner = c.get_faction()->id;
+    for( item *e : contents.all_items_top() ) {
+        e->set_owner( c );
+    }
 }
 
 faction_id item::get_owner() const
@@ -3567,7 +3571,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     Character &player_character = get_player_character();
     // display which martial arts styles character can use with this weapon
     if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS ) ) {
-        const std::string valid_styles = player_character.martial_arts_data.enumerate_known_styles(
+        const std::string valid_styles = player_character.martial_arts_data->enumerate_known_styles(
                                              typeId() );
         if( !valid_styles.empty() ) {
             insert_separation_line( info );
@@ -4133,12 +4137,12 @@ nc_color item::color_in_inventory() const
             static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
         for( const std::string &spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
-            if( player_character.magic.knows_spell( sp_id ) &&
-                !player_character.magic.get_spell( sp_id ).is_max_level() ) {
+            if( player_character.magic->knows_spell( sp_id ) &&
+                !player_character.magic->get_spell( sp_id ).is_max_level() ) {
                 ret = c_yellow;
             }
-            if( !player_character.magic.knows_spell( sp_id ) &&
-                player_character.magic.can_learn_spell( player_character, sp_id ) ) {
+            if( !player_character.magic->knows_spell( sp_id ) &&
+                player_character.magic->can_learn_spell( player_character, sp_id ) ) {
                 return c_light_blue;
             }
         }
@@ -4259,7 +4263,7 @@ nc_color item::color_in_inventory() const
                 player_character.get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_light_blue;
             } else if( type->can_use( "MA_MANUAL" ) &&
-                       !player_character.martial_arts_data.has_martialart( martial_art_learned_from( *type ) ) ) {
+                       !player_character.martial_arts_data->has_martialart( martial_art_learned_from( *type ) ) ) {
                 ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
                        player_character.get_skill_level_object( tmp.skill ).can_train() &&
@@ -4289,9 +4293,10 @@ void item::on_wear( Character &p )
             }
         } else if( has_flag( flag_TOURNIQUET ) ) {
             set_side( side::LEFT );
-            if( ( covers( bodypart_id( "leg_l" ) ) && p.has_effect( effect_bleed, bp_leg_r ) &&
+            if( ( covers( bodypart_id( "leg_l" ) ) &&
+                  p.has_effect( effect_bleed, bodypart_str_id( "leg_r" ) ) &&
                   !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "leg_r" ) ) ) ||
-                ( covers( bodypart_id( "arm_l" ) ) && p.has_effect( effect_bleed, bp_arm_r ) &&
+                ( covers( bodypart_id( "arm_l" ) ) && p.has_effect( effect_bleed, bodypart_str_id( "arm_r" ) ) &&
                   !p.worn_with_flag( flag_TOURNIQUET, bodypart_id( "arm_r" ) ) ) ) {
                 set_side( side::RIGHT );
             }
@@ -4333,13 +4338,9 @@ void item::on_takeoff( Character &p )
     }
 }
 
-void item::on_wield( player &p, int mv )
+int item::on_wield_cost( const player &p ) const
 {
-    // TODO: artifacts currently only work with the player character
-    if( p.is_avatar() && type->artifact ) {
-        g->add_artifact_messages( type->artifact->effects_wielded );
-    }
-
+    int mv = 0;
     // weapons with bayonet/bipod or other generic "unhandiness"
     if( has_flag( flag_SLOW_WIELD ) && !is_gunmod() ) {
         float d = 32.0f; // arbitrary linear scaling factor
@@ -4350,7 +4351,6 @@ void item::on_wield( player &p, int mv )
         }
 
         int penalty = get_var( "volume", volume() / units::legacy_volume_factor ) * d;
-        p.moves -= penalty;
         mv += penalty;
     }
 
@@ -4363,9 +4363,21 @@ void item::on_wield( player &p, int mv )
             penalty = std::max( 0, 150 - p.get_skill_level( melee_skill() ) * 10 );
         }
 
-        p.moves -= penalty;
         mv += penalty;
     }
+    return mv;
+}
+
+void item::on_wield( player &p, int mv )
+{
+    // TODO: artifacts currently only work with the player character
+    if( p.is_avatar() && type->artifact ) {
+        g->add_artifact_messages( type->artifact->effects_wielded );
+    }
+
+    int wield_cost = on_wield_cost( p );
+    mv += wield_cost;
+    p.moves -= wield_cost;
 
     std::string msg;
 
@@ -4386,8 +4398,8 @@ void item::on_wield( player &p, int mv )
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( !p.martial_arts_data.selected_is_none() ) {
-        p.martial_arts_data.martialart_use_message( p );
+    if( !p.martial_arts_data->selected_is_none() ) {
+        p.martial_arts_data->martialart_use_message( p );
     }
 
     // Update encumbrance in case we were wearing it
@@ -4707,6 +4719,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     std::string modtext;
     if( gunmod_find( itype_barrel_small ) ) {
         modtext += _( "sawn-off " );
+    }
+    if( is_relic() && relic_data->max_charges() > 0 && relic_data->charges_per_use() > 0 ) {
+        tagtext += string_format( " (%d/%d)", relic_data->charges(), relic_data->max_charges() );
     }
     if( has_flag( flag_DIAMOND ) ) {
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
@@ -7012,7 +7027,7 @@ bool item::spill_contents( Character &c )
         return spill_contents( c.pos() );
     }
 
-    contents.handle_liquid_or_spill( c );
+    contents.handle_liquid_or_spill( c, /*avoid=*/this );
     on_contents_changed();
 
     return true;
@@ -8072,7 +8087,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
     if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
         ammo.remove_item();
         if( container ) {
-            u.inv.restack( u ); // emptied containers do not stack with non-empty ones
+            u.inv->restack( u ); // emptied containers do not stack with non-empty ones
         }
     }
     return true;
@@ -9300,6 +9315,11 @@ void item::overwrite_relic( const relic &nrelic )
     this->relic_data = cata::make_value<relic>( nrelic );
 }
 
+bool item::use_relic( Character &guy, const tripoint &pos )
+{
+    return relic_data->activate( guy, pos );
+}
+
 void item::process_relic( Character *carrier )
 {
     if( !is_relic() ) {
@@ -9316,6 +9336,8 @@ void item::process_relic( Character *carrier )
     for( const enchantment &ench : active_enchantments ) {
         ench.activate_passive( *carrier );
     }
+
+    relic_data->try_recharge();
 
     // Recalculate, as it might have changed (by mod_*_bonus above)
     carrier->str_cur = carrier->get_str();
@@ -9342,12 +9364,10 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     }
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
-            if( get_player_character().sees( pos ) ) {
-                if( corpse->in_species( species_ROBOT ) ) {
-                    add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
-                } else {
-                    add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
-                }
+            if( corpse->in_species( species_ROBOT ) ) {
+                add_msg_if_player_sees( pos, m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
+            } else {
+                add_msg_if_player_sees( pos, m_warning, _( "A nearby corpse rises and moves towards you!" ) );
             }
         } else {
             if( corpse->in_species( species_ROBOT ) ) {
@@ -10294,11 +10314,27 @@ units::volume item::check_for_free_space( const item *it ) const
                     volume += pocket.remaining_volume();
                 }
             }
-        } else {
-            if( container->contents.contents_are_rigid() ) {
-                volume += container->volume();
-            }
         }
     }
     return volume;
+}
+
+int item::get_recursive_disassemble_moves( const Character &guy ) const
+{
+    int moves = recipe_dictionary::get_uncraft( type->get_id() ).time_to_craft_moves( guy );
+    std::vector<item_comp> to_be_disassembled = get_uncraft_components();
+    while( !to_be_disassembled.empty() ) {
+        item_comp current_comp = to_be_disassembled.back();
+        to_be_disassembled.pop_back();
+        const recipe &r = recipe_dictionary::get_uncraft( current_comp.type->get_id() );
+        if( r.ident() != recipe_id::NULL_ID() ) {
+            moves += r.time_to_craft_moves( guy ) * current_comp.count;
+            std::vector<item_comp> components = item( current_comp.type->get_id() ).get_uncraft_components();
+            for( item_comp &component : components ) {
+                component.count *= current_comp.count;
+                to_be_disassembled.push_back( component );
+            }
+        }
+    }
+    return moves;
 }

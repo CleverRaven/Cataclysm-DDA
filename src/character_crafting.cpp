@@ -104,7 +104,7 @@ recipe_subset Character::get_available_recipes( const inventory &crafting_inv,
     if( helpers != nullptr ) {
         for( npc *np : *helpers ) {
             // Directly form the helper's inventory
-            res.include( get_recipes_from_books( np->inv ) );
+            res.include( get_recipes_from_books( *np->inv ) );
             // Being told what to do
             res.include_if( np->get_learned_recipes(), [ this ]( const recipe & r ) {
                 return get_skill_level( r.skill_used ) >= static_cast<int>( r.difficulty *
@@ -123,7 +123,7 @@ std::set<itype_id> Character::get_books_for_recipe( const inventory &crafting_in
     const int skill_level = get_skill_level( r->skill_used );
     for( const auto &book_lvl : r->booksets ) {
         itype_id book_id = book_lvl.first;
-        int required_skill_level = book_lvl.second;
+        int required_skill_level = book_lvl.second.skill_req;
         // NPCs don't need to identify books
         if( !has_identified( book_id ) ) {
             continue;

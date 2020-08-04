@@ -1,7 +1,8 @@
-#if defined(TILES)
-
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
+#include "cuboid_rectangle.h"
+
+#if defined(TILES)
 
 #include <algorithm>
 #include <array>
@@ -4114,3 +4115,10 @@ HWND getWindowHandle()
 #endif
 
 #endif // TILES
+
+bool window_contains_point_relative( const catacurses::window &win, const point &p )
+{
+    const point bound = point( catacurses::getmaxx( win ), catacurses::getmaxy( win ) );
+    const half_open_rectangle<point> win_bounds( point_zero, bound );
+    return win_bounds.contains( p );
+}

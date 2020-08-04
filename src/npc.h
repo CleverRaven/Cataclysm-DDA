@@ -41,7 +41,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 class JsonIn;
 class JsonObject;
@@ -836,6 +836,10 @@ class npc : public player
          * words: skills this NPC could teach the player.
          */
         std::vector<skill_id> skills_offered_to( const player &p ) const;
+        /**
+         * Proficiencies we know that the character doesn't
+         */
+        std::vector < proficiency_id> proficiencies_offered_to( const Character &guy ) const;
         /**
          * Martial art styles that we known, but the player p doesn't.
          */
