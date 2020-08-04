@@ -7,13 +7,13 @@
       [
         [ "flour", 1 ],
         [ "cornmeal", 1 ],
-        [ "flatbread", 1 ],
-        [ "tortilla_corn", 1 ],
-        [ "bread", 1 ],
-        [ "wastebread", 1 ],
-        [ "cornbread", 1 ],
-        [ "biscuit", 1 ],
-        [ "hardtack", 1 ],
+        [ "flatbread", 2 ],
+        [ "tortilla_corn", 2 ],
+        [ "bread", 2 ],
+        [ "wastebread", 2 ],
+        [ "cornbread", 2 ],
+        [ "biscuit", 2 ],
+        [ "hardtack", 2 ],
         [ "crackers", 1 ]
       ]
     ]
