@@ -2708,8 +2708,7 @@ bool mattack::grab( monster *z )
     const bool dodged_grab = rng( 0, reflex_mod * pl->get_dex() ) > rng( 0,
                              z->type->melee_sides + z->type->melee_dice );
 
-    if( pl->can_grab_break( cur_weapon ) && pl->get_grab_resist() > 0 &&
-        dodged_grab ) {
+    if( pl->can_grab_break( cur_weapon ) && dodged_grab ) {
         if( target->has_effect( effect_grabbed ) ) {
             target->add_msg_if_player( m_info, _( "The %s tries to grab you as well, but you bat it away!" ),
                                        z->name() );

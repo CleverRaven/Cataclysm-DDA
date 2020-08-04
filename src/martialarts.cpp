@@ -938,9 +938,17 @@ bool player::can_grab_break( const item &weap ) const
         return false;
     }
 
-    ma_technique tec = martial_arts_data->get_grab_break_tec( weap );
+    ma_technique tec;
+    for( const matec_id &technique : martial_arts_data->get_all_techniques( weap ) ) {
+        if( technique->grab_break ) {
+            tec = technique.obj();
+            if( tec.is_valid_character( *this ) ) {
+                return true;
+            }
+        }
+    }
 
-    return tec.is_valid_character( *this );
+    return false;
 }
 
 bool Character::can_miss_recovery( const item &weap ) const

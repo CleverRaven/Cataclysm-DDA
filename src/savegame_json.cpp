@@ -3244,7 +3244,6 @@ void Creature::store( JsonOut &jsout ) const
     jsout.member( "cut_mult", cut_mult );
     jsout.member( "melee_quiet", melee_quiet );
 
-    jsout.member( "grab_resist", grab_resist );
     jsout.member( "throw_resist", throw_resist );
 
     jsout.member( "body", body );
@@ -3313,7 +3312,6 @@ void Creature::load( const JsonObject &jsin )
     jsin.read( "cut_mult", cut_mult );
     jsin.read( "melee_quiet", melee_quiet );
 
-    jsin.read( "grab_resist", grab_resist );
     jsin.read( "throw_resist", throw_resist );
 
     jsin.read( "underwater", underwater );
