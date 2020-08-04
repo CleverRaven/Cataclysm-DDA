@@ -38,7 +38,7 @@ struct harvest_entry {
     std::vector<fault_id> faults;
 
     bool was_loaded = false;
-    void load( const JsonObject &jsobj );
+    void load( const JsonObject &jo );
     void deserialize( JsonIn &jsin );
 };
 
