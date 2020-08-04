@@ -2210,7 +2210,7 @@ void draw_quick_shortcuts()
             if( touch_input_context.get_category() == "INVENTORY" && inv_chars.valid( key ) ) {
                 Character &player_character = get_player_character();
                 // Special case for inventory items - show the inventory item name as help text
-                hint_text = player_character.inv.find_item( player_character.inv->invlet_to_position(
+                hint_text = player_character.inv->find_item( player_character.inv->invlet_to_position(
                                 key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
