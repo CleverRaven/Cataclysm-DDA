@@ -622,7 +622,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
 
     if( !butchery_requirement->can_make_with_inventory(
             u.crafting_inventory( u.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
-        std::string popup_output = _( "You can't butcher this, you are missing some tools.\n" );
+        std::string popup_output = _( "You can't butcher this; you are missing some tools.\n" );
 
         for( const std::string &str : butchery_requirement->get_folded_components_list(
                  45, c_light_gray, u.crafting_inventory( u.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
