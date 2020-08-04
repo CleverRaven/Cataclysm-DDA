@@ -65,7 +65,7 @@ static const efftype_id effect_sleep( "sleep" );
 static const efftype_id effect_stunned( "stunned" );
 static const efftype_id effect_tied( "tied" );
 static const efftype_id effect_zapped( "zapped" );
-static const efftype_id effect_foamcrete( "foamcrete_slow" );
+static const efftype_id effect_foamcrete_slow( "foamcrete_slow" );
 
 static const species_id species_ROBOT( "ROBOT" );
 
@@ -778,9 +778,9 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         add_effect( effect_paralyzepoison, 5_minutes );
     }
 
-    if( proj_effects.count( "FOAMCRETE" ) &&  effect_foamcrete.is_valid() ) {
+    if( proj_effects.count( "FOAMCRETE" ) &&  effect_foamcrete_slow.is_valid() ) {
         add_msg_if_player( m_bad, _( "The foamcrete stiffens around you!" ) );
-        add_effect( effect_foamcrete, 5_minutes );
+        add_effect( effect_foamcrete_slow, 5_minutes );
     }
 
     int stun_strength = 0;
