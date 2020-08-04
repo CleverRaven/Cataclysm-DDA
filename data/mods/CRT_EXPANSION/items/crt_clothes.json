@@ -24,6 +24,7 @@
   },
   {
     "id": "crt_dress_pants",
+    "copy-from": "pants",
     "type": "ARMOR",
     "name": { "str_sp": "CRIT pants" },
     "description": "A pair of dress pants.  A minimalist sleek design makes the pants lightweight and it offers ok pockets.  Super-flex neoprene keeps one warm in moderately cold weather.",
