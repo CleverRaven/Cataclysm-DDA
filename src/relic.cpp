@@ -324,7 +324,7 @@ void relic::serialize( JsonOut &jsout ) const
 
 int relic::activate( Creature &caster, const tripoint &target )
 {
-    if( charges() - charge.charges_per_use < 0 ) {
+    if( charge.charges_per_use != 0 && charges() - charge.charges_per_use < 0 ) {
         caster.add_msg_if_player( m_bad, _( "This artifact lacks the charges to activate." ) );
         return 0;
     }
