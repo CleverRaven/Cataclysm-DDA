@@ -13,9 +13,10 @@
 #include "type_id.h"
 
 class item;
-class itype;
 class player;
 class vpart_reference;
+
+struct itype;
 struct tripoint;
 
 using seed_tuple = std::tuple<itype_id, std::string, int>;
