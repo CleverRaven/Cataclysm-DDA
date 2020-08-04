@@ -2073,6 +2073,7 @@ void remove_stale_inventory_quick_shortcuts()
         while( it != qsl.end() ) {
             key = ( *it ).get_first_input();
             valid = inv_chars.valid( key );
+            in_inventory = player_character.inv->invlet_to_position( key ) != INT_MIN;
             in_inventory = false;
             if( valid ) {
                 Character &player_character = get_player_character();
