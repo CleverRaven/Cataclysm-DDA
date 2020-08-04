@@ -146,7 +146,6 @@ void Creature::reset_bonuses()
     cut_mult = 1.0f;
 
     melee_quiet = false;
-    grab_resist = 0;
     throw_resist = 0;
 }
 
@@ -1861,10 +1860,6 @@ bool Creature::get_melee_quiet() const
 {
     return melee_quiet;
 }
-int Creature::get_grab_resist() const
-{
-    return grab_resist;
-}
 
 int Creature::get_throw_resist() const
 {
@@ -1986,10 +1981,6 @@ void Creature::set_cut_mult( float ncutmult )
 void Creature::set_melee_quiet( bool nquiet )
 {
     melee_quiet = nquiet;
-}
-void Creature::set_grab_resist( int ngrabres )
-{
-    grab_resist = ngrabres;
 }
 void Creature::set_throw_resist( int nthrowres )
 {
