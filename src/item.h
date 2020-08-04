@@ -1353,6 +1353,8 @@ class item : public visitable<item>
          */
         void on_damage( int qty, damage_type dt );
 
+        bool use_relic( Character &guy, const tripoint &pos );
+
         /**
          * Name of the item type (not the item), with proper plural.
          * This is only special when the item itself has a special name ("name" entry in

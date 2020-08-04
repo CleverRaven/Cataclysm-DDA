@@ -2879,6 +2879,8 @@ void player::use( item_location loc )
         } else {
             add_msg( m_info, need_splint.str() );
         }
+    } else if( used.is_relic() ) {
+        invoke_item( &used, loc.position() );
     } else {
         add_msg( m_info, _( "You can't do anything interesting with your %s." ),
                  used.tname() );

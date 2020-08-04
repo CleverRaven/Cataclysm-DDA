@@ -11,6 +11,17 @@ The procedural generation of artifacts is defined in Json. The object looks like
 {
     "type": "relic_procgen_data",
     "id": "cult",
+    "charge_types": [
+      {
+        "weight": 100,
+        "charges": { "range": [ 0, 3 ], "power": 25 },
+        "charges_per_use":{ "range": [ 1, 1 ], "power": 25 },
+        "max_charges": { "range": [ 1, 3 ], "power": 25 },
+        "recharge_type": "periodic",
+        "time": [ "3 h", "6 h" ]
+      }
+    ],
+    "active_procgen_values": [ { "weight": 100, "spell_id": "AEA_PAIN" } ],
     "passive_add_procgen_values": [
         {
             "weight": 100,
@@ -35,6 +46,21 @@ The procedural generation of artifacts is defined in Json. The object looks like
     "items": [ { "weight": 100, "item": "spoon" } ]
   }
 ```
+
+### charge_types
+
+The various ways this artifact can charge and use charges.
+
+- **charges** the number of charges this artifact starts with - a random value between the two ones in 'range' are picked, and power is the power value.
+- **charges_per_use** how many charges you spend with each use of this artifact - a random value between the two ones in 'range' are picked, and power is the power value.
+- **max_charges** The maximum number of charges this artifact can have. - a random value between the two ones in 'range' are picked, and power is the power value.
+- **recharge_type** How this artifact recharges
+- **time** The amount of time this artifact takes to recharge - a random value between the two ones provided is picked.
+
+#### recharge_types
+
+- **none** This artifact does not recharge
+- **periodic** This artifact takes 'time' amount of time to recharge
 
 ### passive_add_procgen_values and passive_mult_procgen_values
 

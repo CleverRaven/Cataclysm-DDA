@@ -4720,6 +4720,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     if( gunmod_find( itype_barrel_small ) ) {
         modtext += _( "sawn-off " );
     }
+    if( is_relic() && relic_data->max_charges() > 0 && relic_data->charges_per_use() > 0 ) {
+        tagtext += string_format( " (%d/%d)", relic_data->charges(), relic_data->max_charges() );
+    }
     if( has_flag( flag_DIAMOND ) ) {
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
     }
@@ -9312,6 +9315,11 @@ void item::overwrite_relic( const relic &nrelic )
     this->relic_data = cata::make_value<relic>( nrelic );
 }
 
+bool item::use_relic( Character &guy, const tripoint &pos )
+{
+    return relic_data->activate( guy, pos );
+}
+
 void item::process_relic( Character *carrier )
 {
     if( !is_relic() ) {
@@ -9328,6 +9336,8 @@ void item::process_relic( Character *carrier )
     for( const enchantment &ench : active_enchantments ) {
         ench.activate_passive( *carrier );
     }
+
+    relic_data->try_recharge();
 
     // Recalculate, as it might have changed (by mod_*_bonus above)
     carrier->str_cur = carrier->get_str();
