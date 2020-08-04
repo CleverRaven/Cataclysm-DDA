@@ -4343,7 +4343,8 @@ void overmap::place_radios()
                 if( one_in( 3 ) ) {
                     radios.push_back( radio_tower( pos_sm, strength(), "", radio_type::WEATHER_RADIO ) );
                 } else {
-                    message = SNIPPET.expand( SNIPPET.random_from_category( "radio_archive" ).value_or( translation() ).translated() );
+                    message = SNIPPET.expand( SNIPPET.random_from_category( "radio_archive" ).value_or(
+                                                  translation() ).translated() );
                     radios.push_back( radio_tower( pos_sm, strength(), message ) );
                 }
             } else if( is_ot_match( "lmoe", ter( pos_omt ), ot_match_type::prefix ) ) {
