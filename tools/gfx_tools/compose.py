@@ -300,92 +300,92 @@ class TilesheetData(object):
         out_image = Vips.Image.arrayjoin(merge_pngs, across=16)
         out_image.pngsave(self.ts_path)
 
+if __name__ == '__main__':
+    args = argparse.ArgumentParser(description="Merge all the individal tile_entries and pngs in a tileset's directory into a tile_config.json and 1 or more tilesheet pngs.")
+    args.add_argument("tileset_dir", action="store",
+                      help="local name of the tileset directory")
+    argsDict = vars(args.parse_args())
 
-args = argparse.ArgumentParser(description="Merge all the individal tile_entries and pngs in a tileset's directory into a tile_config.json and 1 or more tilesheet pngs.")
-args.add_argument("tileset_dir", action="store",
-                  help="local name of the tileset directory")
-argsDict = vars(args.parse_args())
+    tileset_dirname = argsDict.get("tileset_dir", "")
 
-tileset_dirname = argsDict.get("tileset_dir", "")
+    refs = PngRefs(tileset_dirname)
 
-refs = PngRefs(tileset_dirname)
+    all_ts_data = []
+    fallback_name = "fallback.png"
 
-all_ts_data = []
-fallback_name = "fallback.png"
+    for subdir_index in range(1, len(refs.tileset_info)):
+        ts_data = TilesheetData(subdir_index, refs)
+        if not ts_data.filler and not ts_data.fallback:
+            ts_data.set_first_index(refs)
+            print("Info: parsing tilesheet {}".format(ts_data.ts_name))
+            tmp_merged_pngs = ts_data.walk_dirs(refs)
 
-for subdir_index in range(1, len(refs.tileset_info)):
-    ts_data = TilesheetData(subdir_index, refs)
-    if not ts_data.filler and not ts_data.fallback:
-        ts_data.set_first_index(refs)
-        print("Info: parsing tilesheet {}".format(ts_data.ts_name))
-        tmp_merged_pngs = ts_data.walk_dirs(refs)
+            ts_data.finalize_merges(tmp_merged_pngs)
 
-        ts_data.finalize_merges(tmp_merged_pngs)
+            ts_data.max_index = refs.pngnum
+            all_ts_data.append(ts_data)
 
-        ts_data.max_index = refs.pngnum
-        all_ts_data.append(ts_data)
+    for subdir_index in range(1, len(refs.tileset_info)):
+        ts_data = TilesheetData(subdir_index, refs)
+        if ts_data.filler:
+            ts_data.set_first_index(refs)
+            print("Info: parsing filler tilesheet {}".format(ts_data.ts_name))
+            ts_data.first_index = refs.pngnum
+            tmp_merged_pngs = ts_data.walk_dirs(refs)
 
-for subdir_index in range(1, len(refs.tileset_info)):
-    ts_data = TilesheetData(subdir_index, refs)
-    if ts_data.filler:
-        ts_data.set_first_index(refs)
-        print("Info: parsing filler tilesheet {}".format(ts_data.ts_name))
-        ts_data.first_index = refs.pngnum
-        tmp_merged_pngs = ts_data.walk_dirs(refs)
+            ts_data.finalize_merges(tmp_merged_pngs)
 
-        ts_data.finalize_merges(tmp_merged_pngs)
+            ts_data.max_index = refs.pngnum
+            all_ts_data.append(ts_data)
 
-        ts_data.max_index = refs.pngnum
-        all_ts_data.append(ts_data)
+    for subdir_index in range(1, len(refs.tileset_info)):
+        ts_data = TilesheetData(subdir_index, refs)
+        if ts_data.fallback:
+            ts_data.set_first_index(refs)
+            print("Info: parsing fallback tilesheet {}".format(ts_data.ts_name))
+            all_ts_data.append(ts_data)
 
-for subdir_index in range(1, len(refs.tileset_info)):
-    ts_data = TilesheetData(subdir_index, refs)
-    if ts_data.fallback:
-        ts_data.set_first_index(refs)
-        print("Info: parsing fallback tilesheet {}".format(ts_data.ts_name))
-        all_ts_data.append(ts_data)
+    #print("pngname to pngnum {}".format(json.dumps(refs.pngname_to_pngnum, indent=2)))
+    #print("pngnum to pngname {}".format(json.dumps(refs.pngnum_to_pngname, sort_keys=True, indent=2)))
 
-#print("pngname to pngnum {}".format(json.dumps(refs.pngname_to_pngnum, indent=2)))
-#print("pngnum to pngname {}".format(json.dumps(refs.pngnum_to_pngname, sort_keys=True, indent=2)))
+    tiles_new = []
 
-tiles_new = []
+    for ts_data in all_ts_data:
+        if ts_data.fallback:
+            fallback_name = ts_data.ts_name
+            continue
+        ts_tile_entries = []
+        for tile_entry in ts_data.tile_entries:
+            converted_tile_entry = refs.convert_tile_entry(tile_entry, "", ts_data.filler)
+            if converted_tile_entry:
+                ts_tile_entries.append(converted_tile_entry)
+        ts_conf = {
+            "file": ts_data.ts_name,
+            "tiles": ts_tile_entries,
+            "//": "range {} to {}".format(ts_data.first_index, ts_data.max_index)
+        }
+        if not ts_data.standard(refs):
+            ts_conf["sprite_width"] = ts_data.width
+            ts_conf["sprite_height"] = ts_data.height
+            ts_conf["sprite_offset_x"] = ts_data.offset_x
+            ts_conf["sprite_offset_y"] = ts_data.offset_y
 
-for ts_data in all_ts_data:
-    if ts_data.fallback:
-        fallback_name = ts_data.ts_name
-        continue
-    ts_tile_entries = []
-    for tile_entry in ts_data.tile_entries:
-        converted_tile_entry = refs.convert_tile_entry(tile_entry, "", ts_data.filler)
-        if converted_tile_entry:
-            ts_tile_entries.append(converted_tile_entry)
-    ts_conf = {
-        "file": ts_data.ts_name,
-        "tiles": ts_tile_entries,
-        "//": "range {} to {}".format(ts_data.first_index, ts_data.max_index)
+        #print("\tfinalizing tilesheet {}".format(ts_name))
+        tiles_new.append(ts_conf)
+
+    FALLBACK["file"] = fallback_name
+    tiles_new.append(FALLBACK)
+    conf_data = {
+        "tile_info": [{
+            "width": refs.tileset_width,
+            "height": refs.tileset_height
+        }],
+        "tiles-new": tiles_new
     }
-    if not ts_data.standard(refs):
-        ts_conf["sprite_width"] = ts_data.width
-        ts_conf["sprite_height"] = ts_data.height
-        ts_conf["sprite_offset_x"] = ts_data.offset_x
-        ts_conf["sprite_offset_y"] = ts_data.offset_y
+    tileset_confpath = refs.tileset_pathname + "/" + "tile_config.json"
+    write_to_json(tileset_confpath, conf_data)
 
-    #print("\tfinalizing tilesheet {}".format(ts_name))
-    tiles_new.append(ts_conf)
+    refs.verify()
 
-FALLBACK["file"] = fallback_name
-tiles_new.append(FALLBACK)
-conf_data = {
-    "tile_info": [{
-        "width": refs.tileset_width,
-        "height": refs.tileset_height
-    }],
-    "tiles-new": tiles_new
-}
-tileset_confpath = refs.tileset_pathname + "/" + "tile_config.json"
-write_to_json(tileset_confpath, conf_data)
-
-refs.verify()
-
-if error_logged:
-    sys.exit(1)
+    if error_logged:
+        sys.exit(1)
