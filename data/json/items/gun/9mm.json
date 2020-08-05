@@ -969,5 +969,73 @@
         "item_restriction": [ "ccpmag" ]
       }
     ]
+  },
+  {
+    "id": "pccarbine",
+    "looks_like": "m1a",
+    "type": "GUN",
+    "reload_noise_volume": 10,
+    "name": { "str_sp": "Ruger PC carbine" },
+    "description": "A tacial 9mm carbine from ruger. It can be configured to take either ruger or glock magazines, this one is set to take glock. Its barrel can be easily taken off or reattached for easier storage and to carrying. ",
+    "weight": "3311 g",
+    "volume": "2000 ml",
+    "longest_side": "812 mm",
+    "price": 40000,
+    "price_postapoc": 1550,
+    "to_hit": -1,
+    "bashing": 12,
+    "material": [ "steel", "plastic" ],
+    "symbol": "(",
+    "color": "brown",
+    "ammo": [ "9mm" ],
+    "skill": "rifle",
+    "ranged_damage": { "damage_type": "bullet", "amount": 2 },
+    "dispersion": 100,
+    "durability": 7,
+    "min_cycle_recoil": 45,
+    "barrel_volume": "600 ml",
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "barrel", 1 ],
+      [ "bore", 1 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "rail", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "stock", 1 ],
+      [ "underbarrel", 1 ]
+    ],
+    "faults": [ "fault_gun_blackpowder", "fault_gun_dirt", "fault_gun_chamber_spent" ],
+    "pocket_data": [
+      {
+        "magazine_well": "450 ml",
+        "pocket_type": "MAGAZINE_WELL",
+        "holster": true,
+        "max_contains_volume": "20 L",
+        "max_contains_weight": "20 kg",
+        "item_restriction": [ "glockmag", "glockbigmag", "glock17_17", "glock17_22", "glock_drum_50rd", "glock_drum_100rd" ]
+      }
+    ],
+    "use_action": { "target": "pccarbinedis", "msg": "You takedown the carbine", "menu_text": "takedown carbine", "type": "transform" }
+  },
+  {
+    "id": "pccarbinedis",
+    "type": "GUN",
+    "category": "weapons",
+    "name": { "str": "dissassmbled ruger PC carbine" },
+    "description": "A ruger PC carbine that has been taken apart for travel. Use to put back together.",
+    "weight": "3311 g",
+    "volume": "1700 ml",
+    "longest_side": "508 mm",
+    "price": 23000,
+    "price_postapoc": 2900,
+    "to_hit": -2,
+    "material": [ "steel", "plastic" ],
+    "symbol": "A",
+    "color": "brown",
+    "use_action": { "target": "pccarbine", "msg": "You assemble the carbine", "menu_text": "assemble carbine", "type": "transform" }
   }
 ]
