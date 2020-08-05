@@ -75,7 +75,23 @@ void past_games_info::ensure_loaded()
     const std::string &memorial_dir = PATH_INFO::memorialdir();
     std::vector<std::string> filenames = get_files_from_path( ".json", memorial_dir, true, true );
 
+    // Sort the files by the date & time encoded in the filename
+    std::vector<std::pair<std::string, std::string>> sortable_filenames;
     for( const std::string &filename : filenames ) {
+        std::vector<std::string> components = string_split( filename, '-' );
+        if( components.size() < 7 ) {
+            debugmsg( "Unexpected memorial filename %s", filename );
+            continue;
+        }
+
+        components.erase( components.begin(), components.end() - 6 );
+        sortable_filenames.emplace_back( join( components, "-" ), filename );
+    }
+
+    std::sort( sortable_filenames.begin(), sortable_filenames.end() );
+
+    for( const std::pair<std::string, std::string> &filename_pair : sortable_filenames ) {
+        const std::string &filename = filename_pair.second;
         std::istringstream iss( read_entire_file( filename ) );
         try {
             JsonIn jsin( iss );
