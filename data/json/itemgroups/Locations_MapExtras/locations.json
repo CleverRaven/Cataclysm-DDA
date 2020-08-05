@@ -1,4 +1,4 @@
-[  
+[
   {
     "id": "basement_op_guns",
     "type": "item_group",
@@ -551,8 +551,6 @@
       [ "grapnel", 40 ],
       [ "fishing_rod_professional", 60 ],
       [ "fishing_rod_basic", 60 ],
-      [ "plastichoboreel", 30 ],
-      [ "hoboreel", 10 ],
       [ "rope_6", 60 ],
       [ "rope_30", 60 ],
       [ "fish_bait", 100 ],
