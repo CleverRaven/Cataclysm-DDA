@@ -162,7 +162,7 @@
     "relic_data": {
       "passive_effects": [
         { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 10 } ] }
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 20 } ] }
       ]
     },
     "flags": [
