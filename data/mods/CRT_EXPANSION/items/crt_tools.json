@@ -101,7 +101,7 @@
         { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] },
         { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] },
         { "hit_me_effect": [ { "id": "light_healing" } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": 20 } ] }
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -20 } ] }
       ]
     },
     "weight": "50 kg",
