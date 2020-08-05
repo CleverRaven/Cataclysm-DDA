@@ -11,6 +11,7 @@
 #include "character_id.h"
 #include "debug_menu.h"
 #include "event.h"
+#include "event_bus.h"
 #include "filesystem.h"
 #include "memorial_logger.h"
 #include "mutation.h"

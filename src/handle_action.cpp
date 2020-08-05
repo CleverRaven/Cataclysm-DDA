@@ -1419,7 +1419,7 @@ static void cast_spell()
 {
     Character &player_character = get_player_character();
 
-    std::vector<spell_id> spells = player_character.magic.spells();
+    std::vector<spell_id> spells = player_character.magic->spells();
 
     if( spells.empty() ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
@@ -1429,7 +1429,7 @@ static void cast_spell()
 
     bool can_cast_spells = false;
     for( const spell_id &sp : spells ) {
-        spell temp_spell = player_character.magic.get_spell( sp );
+        spell temp_spell = player_character.magic->get_spell( sp );
         if( temp_spell.can_cast( player_character ) ) {
             can_cast_spells = true;
         }
@@ -1440,12 +1440,12 @@ static void cast_spell()
                  _( "You can't cast any of the spells you know!" ) );
     }
 
-    const int spell_index = player_character.magic.select_spell( player_character );
+    const int spell_index = player_character.magic->select_spell( player_character );
     if( spell_index < 0 ) {
         return;
     }
 
-    spell &sp = *player_character.magic.get_spells()[spell_index];
+    spell &sp = *player_character.magic->get_spells()[spell_index];
 
     assign_spellcasting( player_character, sp, false );
 }
@@ -1460,7 +1460,7 @@ static bool assign_spellcasting( Character &you, spell &sp, bool fake_spell )
         return false;
     }
 
-    if( !you.magic.has_enough_energy( you, sp ) ) {
+    if( !you.magic->has_enough_energy( you, sp ) ) {
         add_msg( game_message_params{ m_bad, gmf_bypass_cooldown },
                  _( "You don't have enough %s to cast the spell." ),
                  sp.energy_string() );
@@ -1485,7 +1485,7 @@ static bool assign_spellcasting( Character &you, spell &sp, bool fake_spell )
     // [2] this value overrides the mana cost if set to 0
     cast_spell.values.emplace_back( 1 );
     cast_spell.name = sp.id().c_str();
-    if( you.magic.casting_ignore ) {
+    if( you.magic->casting_ignore ) {
         const std::vector<distraction_type> ignored_distractions = {
             distraction_type::noise,
             distraction_type::pain,
@@ -2070,7 +2070,7 @@ bool game::handle_action()
                 break;
 
             case ACTION_PICK_STYLE:
-                player_character.martial_arts_data.pick_style( player_character );
+                player_character.martial_arts_data->pick_style( player_character );
                 break;
 
             case ACTION_RELOAD_ITEM:

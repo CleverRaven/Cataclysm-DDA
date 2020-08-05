@@ -10,17 +10,17 @@
 #include <string>
 #include <utility>
 
-#include "anatomy.h"
 #include "bodypart.h"
 #include "damage.h"
+#include "debug.h"
+#include "enums.h"
 #include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "type_id.h"
-#include "units.h"
-#include "debug.h"
-#include "enums.h"
+#include "units_fwd.h"
+#include "viewer.h"
 
 enum game_message_type : int;
 class nc_color;
@@ -31,6 +31,7 @@ namespace catacurses
 {
 class window;
 } // namespace catacurses
+class anatomy;
 class avatar;
 class Character;
 class field;
@@ -50,6 +51,8 @@ struct dealt_damage_instance;
 struct dealt_projectile_attack;
 struct pathfinding_settings;
 struct trap;
+
+using anatomy_id = string_id<anatomy>;
 
 enum class creature_size : int {
     // Keep it starting at 1 - damage done to monsters depends on it
@@ -197,7 +200,7 @@ enum class FacingDirection : int {
     RIGHT = 2
 };
 
-class Creature : public location
+class Creature : public location, public viewer
 {
     public:
         ~Creature() override;
@@ -320,8 +323,8 @@ class Creature : public location
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter ) const;
-        virtual bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const;
+        bool sees( const Creature &critter ) const override;
+        bool sees( const tripoint &t, bool is_avatar = false, int range_mod = 0 ) const override;
         /*@}*/
 
         /**
@@ -661,7 +664,8 @@ class Creature : public location
         void set_all_parts_hp_cur( int set );
         void set_all_parts_hp_to_max();
 
-        bool has_atleast_one_wet_part();
+        bool has_atleast_one_wet_part() const;
+        bool is_part_at_max_hp( const bodypart_id &id ) const;
 
         virtual int get_speed_base() const;
         virtual int get_speed_bonus() const;
@@ -678,7 +682,6 @@ class Creature : public location
         virtual float get_cut_mult() const;
 
         virtual bool get_melee_quiet() const;
-        virtual int get_grab_resist() const;
         virtual bool has_grab_break_tec() const = 0;
         virtual int get_throw_resist() const;
 
@@ -716,7 +719,6 @@ class Creature : public location
         virtual void set_cut_mult( float ncutmult );
 
         virtual void set_melee_quiet( bool nquiet );
-        virtual void set_grab_resist( int ngrabres );
         virtual void set_throw_resist( int nthrowres );
 
         virtual units::mass weight_capacity() const;
@@ -992,7 +994,6 @@ class Creature : public location
         float cut_mult = 0.0f;
         bool melee_quiet = false;
 
-        int grab_resist = 0;
         int throw_resist = 0;
 
         bool fake = false;

@@ -5115,19 +5115,18 @@ void vehicle::idle( bool on_map )
             noise_and_smoke( idle_rate, 1_turns );
         }
     } else {
-        if( engine_on && player_character.sees( global_pos3() ) &&
+        if( engine_on &&
             ( has_engine_type_not( fuel_type_muscle, true ) && has_engine_type_not( fuel_type_animal, true ) &&
               has_engine_type_not( fuel_type_wind, true ) && has_engine_type_not( fuel_type_mana, true ) ) ) {
-            add_msg( _( "The %s's engine dies!" ), name );
+            add_msg_if_player_sees( global_pos3(), _( "The %s's engine dies!" ), name );
         }
         engine_on = false;
     }
 
     if( !warm_enough_to_plant( player_character.pos() ) ) {
         for( const vpart_reference &vp : get_enabled_parts( "PLANTER" ) ) {
-            if( player_character.sees( global_pos3() ) ) {
-                add_msg( _( "The %s's planter turns off due to low temperature." ), name );
-            }
+            add_msg_if_player_sees( global_pos3(), _( "The %s's planter turns off due to low temperature." ),
+                                    name );
             vp.part().enabled = false;
         }
     }
@@ -5499,9 +5498,7 @@ bool vehicle::decrement_summon_timer()
             const size_t p = vp.part_index();
             dump_items_from_part( p );
         }
-        if( get_player_character().sees( global_pos3() ) ) {
-            add_msg( m_info, _( "Your %s winks out of existence." ), name );
-        }
+        add_msg_if_player_sees( global_pos3(), m_info, _( "Your %s winks out of existence." ), name );
         get_map().destroy_vehicle( this );
         return true;
     } else {
@@ -6449,7 +6446,6 @@ int vehicle::break_off( int p, int dmg )
             }
         }
     };
-    Character &player_character = get_player_character();
     if( part_info( p ).location == part_location_structure ) {
         // For structural parts, remove other parts first
         std::vector<int> parts_in_square = parts_at_relative( parts[p].mount, true );
@@ -6461,17 +6457,13 @@ int vehicle::break_off( int p, int dmg )
 
             if( parts[ parts_in_square[ index ] ].is_broken() ) {
                 // Tearing off a broken part - break it up
-                if( player_character.sees( pos ) ) {
-                    add_msg( m_bad, _( "The %s's %s breaks into pieces!" ), name,
-                             parts[ parts_in_square[ index ] ].name() );
-                }
+                add_msg_if_player_sees( pos, m_bad, _( "The %s's %s breaks into pieces!" ), name,
+                                        parts[ parts_in_square[ index ] ].name() );
                 scatter_parts( parts[parts_in_square[index]] );
             } else {
                 // Intact (but possibly damaged) part - remove it in one piece
-                if( player_character.sees( pos ) ) {
-                    add_msg( m_bad, _( "The %1$s's %2$s is torn off!" ), name,
-                             parts[ parts_in_square[ index ] ].name() );
-                }
+                add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is torn off!" ), name,
+                                        parts[ parts_in_square[ index ] ].name() );
                 if( !magic ) {
                     item part_as_item = parts[parts_in_square[index]].properties_to_item();
                     here.add_item_or_charges( pos, part_as_item );
@@ -6480,17 +6472,13 @@ int vehicle::break_off( int p, int dmg )
             remove_part( parts_in_square[index] );
         }
         // After clearing the frame, remove it.
-        if( player_character.sees( pos ) ) {
-            add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
-        }
+        add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
         scatter_parts( parts[p] );
         remove_part( p );
         find_and_split_vehicles( p );
     } else {
         //Just break it off
-        if( player_character.sees( pos ) ) {
-            add_msg( m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
-        }
+        add_msg_if_player_sees( pos, m_bad, _( "The %1$s's %2$s is destroyed!" ), name, parts[ p ].name() );
 
         scatter_parts( parts[p] );
         remove_part( p );

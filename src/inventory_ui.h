@@ -22,8 +22,9 @@
 #include "item_location.h"
 #include "memory_fast.h"
 #include "pimpl.h"
-#include "units.h"
+#include "units_fwd.h"
 #include "item_category.h"
+#include "ui.h"
 
 class Character;
 class item;
@@ -46,12 +47,6 @@ struct inventory_input;
 
 using drop_location = std::pair<item_location, int>;
 using drop_locations = std::list<drop_location>;
-
-struct inventory_entry_drawn_info {
-    int text_x_start;
-    int text_x_end;
-    int y;
-};
 
 class inventory_entry
 {
@@ -132,8 +127,6 @@ class inventory_entry
         int get_invlet() const;
         nc_color get_invlet_color() const;
         void update_cache();
-
-        inventory_entry_drawn_info drawn_info;
 
     private:
         const item_category *custom_category = nullptr;
@@ -308,7 +301,8 @@ class inventory_column
 
         inventory_entry *find_by_invlet( int invlet ) const;
 
-        void draw( const catacurses::window &win, const point & );
+        void draw( const catacurses::window &win, const point &p,
+                   std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> &rect_entry_map );
 
         void add_entry( const inventory_entry &entry );
         void move_entries_to( inventory_column &dest );
@@ -593,6 +587,8 @@ class inventory_selector
             return columns;
         }
         std::vector<inventory_column *> get_visible_columns() const;
+
+        std::vector< std::pair<inclusive_rectangle<point>, inventory_entry *>> rect_entry_map;
 
     private:
         // These functions are called from resizing/redraw callbacks of ui_adaptor

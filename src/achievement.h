@@ -8,7 +8,10 @@
 #include <unordered_set>
 #include <vector>
 
-#include "event_bus.h"
+#include "calendar.h"
+#include "cata_variant.h"
+#include "enum_traits.h"
+#include "event_subscriber.h"
 #include "optional.h"
 #include "string_id.h"
 #include "translations.h"
@@ -16,6 +19,10 @@
 class JsonObject;
 struct achievement_requirement;
 class achievements_tracker;
+namespace cata
+{
+class event;
+}  // namespace cata
 class requirement_watcher;
 class stats_tracker;
 

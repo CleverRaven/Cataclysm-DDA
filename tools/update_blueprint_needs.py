@@ -7,6 +7,7 @@ import re
 import subprocess
 import sys
 
+
 def print_help():
     print("\n"
           "Update faction camp blueprints with autocalculated requirements from unit test log.\n"
@@ -17,6 +18,7 @@ def print_help():
           "    --action=<value>    what to do with reported inconsistencies. (optional)\n"
           "                            update: update with suggested requirements (default)\n"
           "                            suppress: suppress inconsistency warnings\n")
+
 
 def main(argv):
     try:
@@ -39,7 +41,7 @@ def main(argv):
             elif arg == "suppress":
                 suppress = True
             else:
-                print_help();
+                print_help()
                 return
     if not test_log:
         print_help()
@@ -49,7 +51,7 @@ def main(argv):
         "data/core",
         "data/json",
         "data/mods",
-    };
+    }
 
     auto_update_blueprint = re.compile("~~~ auto-update-blueprint: (.+)")
     auto_update_blueprint_end = re.compile("~~~ end-auto-update")
@@ -78,7 +80,7 @@ def main(argv):
                     else:
                         reqs += line
                 if complete:
-                    update_blueprints[ident] = json.loads(reqs);
+                    update_blueprints[ident] = json.loads(reqs)
                     print("{} needs updating".format(ident))
 
     if len(update_blueprints) == 0:
@@ -98,10 +100,10 @@ def main(argv):
                 if type(content) is list:
                     for obj in content:
                         if not (type(obj) is dict
-                          and "type" in obj and obj["type"] == "recipe"
-                          and ("result" in obj or "abstract" in obj)):
+                                and "type" in obj and obj["type"] == "recipe"
+                                and ("result" in obj or "abstract" in obj)):
                             continue
-                        ident = None;
+                        ident = None
                         if "abstract" in obj:
                             ident = obj["abstract"]
                         else:
@@ -120,6 +122,7 @@ def main(argv):
                     with open(json_path, 'w', encoding='utf-8') as fs:
                         json.dump(content, fs, indent=2)
                     subprocess.run(["tools/format/json_formatter", json_path], stdout=subprocess.DEVNULL)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])

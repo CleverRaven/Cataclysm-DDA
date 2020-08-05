@@ -7,7 +7,6 @@
 #include <memory>
 
 #include "anatomy.h"
-#include "avatar.h"
 #include "calendar.h"
 #include "character.h"
 #include "color.h"
@@ -35,7 +34,6 @@
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
-#include "player.h"
 #include "pldata.h"
 #include "point.h"
 #include "projectile.h"
@@ -148,7 +146,6 @@ void Creature::reset_bonuses()
     cut_mult = 1.0f;
 
     melee_quiet = false;
-    grab_resist = 0;
     throw_resist = 0;
 }
 
@@ -597,8 +594,8 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     dealt_damage_instance &dealt_dam = attack.dealt_dam;
     const auto &proj_effects = proj.proj_effects;
 
-    Character &player_character = get_player_character();
-    const bool u_see_this = player_character.sees( *this );
+    viewer &player_view = get_player_view();
+    const bool u_see_this = player_view.sees( *this );
 
     const int avoid_roll = dodge_roll();
     // Do dice(10, speed) instead of dice(speed, 10) because speed could potentially be > 10000
@@ -614,7 +611,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
         }
         // "Avoid" rather than "dodge", because it includes removing self from the line of fire
         //  rather than just Matrix-style bullet dodging
-        if( source != nullptr && player_character.sees( *source ) ) {
+        if( source != nullptr && player_view.sees( *source ) ) {
             add_msg_player_or_npc(
                 m_warning,
                 _( "You avoid %s projectile!" ),
@@ -715,7 +712,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
     // Apply ammo effects to target.
     if( proj.proj_effects.count( "TANGLE" ) ) {
         monster *z = dynamic_cast<monster *>( this );
-        player *n = dynamic_cast<player *>( this );
+        Character *n = dynamic_cast<Character *>( this );
         // if its a tameable animal, its a good way to catch them if they are running away, like them ranchers do!
         // we assume immediate success, then certain monster types immediately break free in monster.cpp move_effects()
         if( z ) {
@@ -1752,14 +1749,19 @@ void Creature::set_all_parts_hp_to_max()
     }
 }
 
-bool Creature::has_atleast_one_wet_part()
+bool Creature::has_atleast_one_wet_part() const
 {
-    for( std::pair<const bodypart_str_id, bodypart> &elem : body ) {
+    for( const std::pair<const bodypart_str_id, bodypart> &elem : body ) {
         if( elem.second.get_wetness() > 0 ) {
             return true;
         }
     }
     return false;
+}
+
+bool Creature::is_part_at_max_hp( const bodypart_id &id ) const
+{
+    return get_part( id ).is_at_max_hp();
 }
 
 bodypart_id Creature::get_random_body_part( bool main ) const
@@ -1857,10 +1859,6 @@ float Creature::get_cut_mult() const
 bool Creature::get_melee_quiet() const
 {
     return melee_quiet;
-}
-int Creature::get_grab_resist() const
-{
-    return grab_resist;
 }
 
 int Creature::get_throw_resist() const
@@ -1983,10 +1981,6 @@ void Creature::set_cut_mult( float ncutmult )
 void Creature::set_melee_quiet( bool nquiet )
 {
     melee_quiet = nquiet;
-}
-void Creature::set_grab_resist( int ngrabres )
-{
-    grab_resist = ngrabres;
 }
 void Creature::set_throw_resist( int nthrowres )
 {

@@ -1,7 +1,8 @@
-#if defined(TILES)
-
 #include "cursesdef.h" // IWYU pragma: associated
 #include "sdltiles.h" // IWYU pragma: associated
+#include "cuboid_rectangle.h"
+
+#if defined(TILES)
 
 #include <algorithm>
 #include <array>
@@ -2075,7 +2076,7 @@ void remove_stale_inventory_quick_shortcuts()
             in_inventory = false;
             if( valid ) {
                 Character &player_character = get_player_character();
-                in_inventory = player_character.inv.invlet_to_position( key ) != INT_MIN;
+                in_inventory = player_character.inv->invlet_to_position( key ) != INT_MIN;
                 if( !in_inventory ) {
                     // We couldn't find this item in the inventory, let's check worn items
                     for( const auto &item : player_character.worn ) {
@@ -2209,7 +2210,7 @@ void draw_quick_shortcuts()
             if( touch_input_context.get_category() == "INVENTORY" && inv_chars.valid( key ) ) {
                 Character &player_character = get_player_character();
                 // Special case for inventory items - show the inventory item name as help text
-                hint_text = player_character.inv.find_item( player_character.inv.invlet_to_position(
+                hint_text = player_character.inv->find_item( player_character.inv->invlet_to_position(
                                 key ) ).display_name();
                 if( hint_text == "none" ) {
                     // We couldn't find this item in the inventory, let's check worn items
@@ -4114,3 +4115,10 @@ HWND getWindowHandle()
 #endif
 
 #endif // TILES
+
+bool window_contains_point_relative( const catacurses::window &win, const point &p )
+{
+    const point bound = point( catacurses::getmaxx( win ), catacurses::getmaxy( win ) );
+    const half_open_rectangle<point> win_bounds( point_zero, bound );
+    return win_bounds.contains( p );
+}

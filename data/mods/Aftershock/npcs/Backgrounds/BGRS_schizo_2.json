@@ -1,0 +1,28 @@
+[
+  {
+    "id": "BGRS_SCHIZO_2_STORY1",
+    "type": "talk_topic",
+    "dynamic_line": "If you think this Universe is bad, you should see some of the others.",
+    "responses": [
+      { "text": "Where are you from then?", "topic": "BGRS_SCHIZO_2_STORY2" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_SCHIZO_2_STORY2",
+    "type": "talk_topic",
+    "dynamic_line": "Believing something existed and then finding out it didn't was like reaching the top of the stairs and thinking there was one more step.",
+    "responses": [
+      { "text": "What does that have to do with anything?", "topic": "BGRS_SCHIZO_2_STORY3" },
+      { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" },
+      { "text": "<end_talking>", "topic": "TALK_DONE" }
+    ]
+  },
+  {
+    "id": "BGRS_SCHIZO_2_STORY3",
+    "type": "talk_topic",
+    "dynamic_line": "I think a lot of psychopaths are just geniuses who drove so fast that they lost control.",
+    "responses": [ { "text": "<done_conversation_section>", "topic": "TALK_FRIEND" }, { "text": "<end_talking>", "topic": "TALK_DONE" } ]
+  }
+]

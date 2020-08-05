@@ -1572,7 +1572,7 @@ bool Character::irradiate( float rads, bool bypass )
             it->irradiation += delta;
 
             // If in inventory (not worn), don't print anything.
-            if( inv.has_item( *it ) ) {
+            if( inv->has_item( *it ) ) {
                 continue;
             }
 
@@ -1959,6 +1959,6 @@ int Character::addiction_level( add_type type ) const
 int  Character::leak_level( const std::string &flag ) const
 {
     int leak_level = 0;
-    leak_level = inv.leak_level( flag );
+    leak_level = inv->leak_level( flag );
     return leak_level;
 }

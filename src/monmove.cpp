@@ -607,9 +607,7 @@ bool monster::die_if_drowning( const tripoint &at_pos, const int chance )
 {
     if( is_aquatic_danger( at_pos ) && one_in( chance ) ) {
         die( nullptr );
-        if( get_player_character().sees( at_pos ) ) {
-            add_msg( _( "The %s drowns!" ), name() );
-        }
+        add_msg_if_player_sees( at_pos, _( "The %s drowns!" ), name() );
         return true;
     }
     return false;
@@ -645,10 +643,9 @@ void monster::move()
     //If there are. Consume them.
     // TODO: Stick this in a map and dispatch to it via the action string.
     if( action == "consume_items" ) {
-        if( player_character.sees( *this ) ) {
-            add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
-                     name() );
-        }
+        add_msg_if_player_sees( *this,
+                                _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
+                                name() );
         static const auto volume_per_hp = 250_ml;
         for( item &elem : here.i_at( pos() ) ) {
             hp += elem.volume() / volume_per_hp; // Yeah this means it can get more HP than normal.
@@ -661,9 +658,7 @@ void monster::move()
                     hp -= type->hp;
                     //this is a new copy of the monster. Ideally we should copy the stats/effects that affect the parent
                     spawn->make_ally( *this );
-                    if( player_character.sees( *this ) ) {
-                        add_msg( _( "The %s splits in two!" ), name() );
-                    }
+                    add_msg_if_player_sees( *this, _( "The %s splits in two!" ), name() );
                 }
             }
         }
@@ -1494,7 +1489,6 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
         }
     }
 
-    Character &player_character = get_player_character();
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( destination, is_hallucination() );
     if( here.has_flag( "CLIMBABLE", destination ) ) {
@@ -1502,19 +1496,15 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
             if( flies() ) {
                 moves -= 100;
                 force = true;
-                if( player_character.sees( *this ) ) {
-                    add_msg( _( "The %1$s flies over the %2$s." ), name(),
-                             here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
-                             here.tername( p ) );
-                }
+                add_msg_if_player_sees( *this, _( "The %1$s flies over the %2$s." ), name(),
+                                        here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
+                                        here.tername( p ) );
             } else if( climbs() ) {
                 moves -= 150;
                 force = true;
-                if( player_character.sees( *this ) ) {
-                    add_msg( _( "The %1$s climbs over the %2$s." ), name(),
-                             here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
-                             here.tername( p ) );
-                }
+                add_msg_if_player_sees( *this, _( "The %1$s climbs over the %2$s." ), name(),
+                                        here.has_flag_furn( "CLIMBABLE", p ) ? here.furnname( p ) :
+                                        here.tername( p ) );
             }
         }
     }
@@ -1549,24 +1539,25 @@ bool monster::move_to( const tripoint &p, bool force, bool step_on_critter,
     bool will_be_water = on_ground && can_submerge() && here.is_divable( destination );
 
     //Birds and other flying creatures flying over the deep water terrain
-    if( was_water && flies() && player_character.sees( *this ) ) {
+    if( was_water && flies() ) {
         if( one_in( 4 ) ) {
-            add_msg( m_warning, _( "A %1$s flies over the %2$s!" ), name(),
-                     here.tername( pos() ) );
+            add_msg_if_player_sees( *this, m_warning, _( "A %1$s flies over the %2$s!" ),
+                                    name(), here.tername( pos() ) );
         }
-    } else if( was_water && !will_be_water && player_character.sees( *this ) ) {
+    } else if( was_water && !will_be_water ) {
         // Use more dramatic messages for swimming monsters
-        //~ Message when a monster emerges from water
-        //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
-        add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ), name(),
-                 swims() || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ),
-                 here.tername( pos() ) );
-    } else if( !was_water && will_be_water && player_character.sees( *this ) ) {
-        //~ Message when a monster enters water
-        //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
-        add_msg( m_warning, pgettext( "monster movement", "A %1$s %2$s into the %3$s!" ), name(),
-                 swims() || has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ),
-                 here.tername( destination ) );
+        add_msg_if_player_sees( *this, m_warning,
+                                //~ Message when a monster emerges from water
+                                //~ %1$s: monster name, %2$s: leaps/emerges, %3$s: terrain name
+                                pgettext( "monster movement", "A %1$s %2$s from the %3$s!" ),
+                                name(), swims() || has_flag( MF_AQUATIC ) ? _( "leaps" ) : _( "emerges" ), here.tername( pos() ) );
+    } else if( !was_water && will_be_water ) {
+        add_msg_if_player_sees( *this, m_warning, pgettext( "monster movement",
+                                //~ Message when a monster enters water
+                                //~ %1$s: monster name, %2$s: dives/sinks, %3$s: terrain name
+                                "A %1$s %2$s into the %3$s!" ),
+                                name(), swims() ||
+                                has_flag( MF_AQUATIC ) ? _( "dives" ) : _( "sinks" ), here.tername( destination ) );
     }
 
     setpos( destination );
@@ -1796,9 +1787,9 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     critter->add_effect( effect_stunned, rng( 0_turns, 2_turns ) );
     Character &player_character = get_player_character();
     // Only print the message when near player or it can get spammy
-    if( rl_dist( player_character.pos(), pos() ) < 4 && player_character.sees( *critter ) ) {
-        add_msg( m_warning, _( "The %1$s tramples %2$s" ),
-                 name(), critter->disp_name() );
+    if( rl_dist( player_character.pos(), pos() ) < 4 ) {
+        add_msg_if_player_sees( *critter, m_warning, _( "The %1$s tramples %2$s" ),
+                                name(), critter->disp_name() );
     }
 
     moves -= movecost_attacker;
@@ -1871,7 +1862,7 @@ void monster::knock_back_to( const tripoint &to )
         return;
     }
 
-    bool u_see = get_player_character().sees( to );
+    bool u_see = get_player_view().sees( to );
 
     // First, see if we hit another monster
     if( monster *const z = g->critter_at<monster>( to ) ) {
@@ -2052,11 +2043,10 @@ void monster::shove_vehicle( const tripoint &remote_destination,
                     break;
             }
             if( shove_velocity > 0 ) {
-                if( get_player_character().sees( this->pos() ) ) {
-                    //~ %1$s - monster name, %2$s - vehicle name
-                    add_msg( m_bad, _( "%1$s shoves %2$s out of their way!" ), this->disp_name(),
-                             veh.disp_name() );
-                }
+                //~ %1$s - monster name, %2$s - vehicle name
+                add_msg_if_player_sees( this->pos(), m_bad, _( "%1$s shoves %2$s out of their way!" ),
+                                        this->disp_name(),
+                                        veh.disp_name() );
                 int shove_moves = shove_veh_mass_moves_factor * veh_mass / 10_kilogram;
                 shove_moves = std::max( shove_moves, shove_moves_minimal );
                 this->mod_moves( -shove_moves );

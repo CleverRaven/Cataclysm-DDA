@@ -11,6 +11,7 @@
 #include "item_location.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "monster.h"
 #include "monster_oracle.h"
 #include "mtype.h"
 #include "npc.h"

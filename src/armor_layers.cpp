@@ -22,6 +22,7 @@
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"
+#include "units_utility.h"
 
 static const activity_id ACT_ARMOR_LAYERS( "ACT_ARMOR_LAYERS" );
 
@@ -903,7 +904,7 @@ void player::sort_armor()
                     } else if( invlet_to_item( invlet ) != nullptr ) {
                         ++iiter;
                     } else {
-                        inv.reassign_item( w, invlet );
+                        inv->reassign_item( w, invlet );
                         ++witer;
                         ++iiter;
                     }

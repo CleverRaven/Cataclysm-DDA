@@ -9026,8 +9026,8 @@ void game::wield( item_location loc )
         }
 
         if( is_unwielding ) {
-            if( !u.martial_arts_data.selected_is_none() ) {
-                u.martial_arts_data.martialart_use_message( u );
+            if( !u.martial_arts_data->selected_is_none() ) {
+                u.martial_arts_data->martialart_use_message( u );
             }
             return;
         }
@@ -10307,7 +10307,7 @@ void game::on_move_effects()
     }
 
     // apply martial art move bonuses
-    u.martial_arts_data.ma_onmove_effects( u );
+    u.martial_arts_data->ma_onmove_effects( u );
 
     sfx::do_ambient();
 }
@@ -12603,6 +12603,11 @@ Character &get_player_character()
 }
 
 location &get_player_location()
+{
+    return g->u;
+}
+
+viewer &get_player_view()
 {
     return g->u;
 }

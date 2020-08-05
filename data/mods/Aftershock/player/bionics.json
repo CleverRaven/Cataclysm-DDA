@@ -51,6 +51,14 @@
     "time": 200
   },
   {
+    "id": "afs_bio_neurosoft_aeronautics",
+    "type": "bionic",
+    "name": { "str": "Neurosoft: Aeronautics" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "occupied_bodyparts": [ [ "head", 2 ] ],
+    "learned_proficiencies": [ "prof_helicopter_pilot" ]
+  },
+  {
     "id": "afs_bio_cranialbomb",
     "type": "bionic",
     "name": { "str": "Cranium Bomb" },

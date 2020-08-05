@@ -23,7 +23,6 @@
 #include "mapdata.h"
 #include "messages.h"
 #include "optional.h"
-#include "player.h"
 #include "player_activity.h"
 #include "point.h"
 #include "string_id.h"
@@ -218,7 +217,7 @@ void gates::open_gate( const tripoint &pos )
         }
     }
 
-    if( get_player_character().sees( pos ) ) {
+    if( get_player_view().sees( pos ) ) {
         if( open ) {
             add_msg( gate.open_message );
         } else if( close ) {
@@ -231,7 +230,7 @@ void gates::open_gate( const tripoint &pos )
     }
 }
 
-void gates::open_gate( const tripoint &pos, player &p )
+void gates::open_gate( const tripoint &pos, Character &p )
 {
     const gate_id gid = get_gate_id( pos );
 
@@ -251,7 +250,7 @@ void gates::open_gate( const tripoint &pos, player &p )
 
 // Doors namespace
 
-void doors::close_door( map &m, Character &who, const tripoint &closep )
+void doors::close_door( map &m, Creature &who, const tripoint &closep )
 {
     bool didit = false;
     const bool inside = !m.is_outside( who.pos() );

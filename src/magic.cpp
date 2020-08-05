@@ -22,6 +22,7 @@
 #include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
+#include "event_bus.h"
 #include "field.h"
 #include "game.h"
 #include "generic_factory.h"
@@ -713,7 +714,7 @@ bool spell::can_cast( Character &guy ) const
 
     switch( type->energy_source ) {
         case magic_energy_type::mana:
-            return guy.magic.available_mana() >= energy_cost( guy );
+            return guy.magic->available_mana() >= energy_cost( guy );
         case magic_energy_type::stamina:
             return guy.get_stamina() >= energy_cost( guy );
         case magic_energy_type::hp: {
@@ -939,7 +940,7 @@ std::string spell::energy_cur_string( const Character &guy ) const
         return colorize( to_string( units::to_kilojoule( guy.get_power_level() ) ), c_light_blue );
     }
     if( energy_source() == magic_energy_type::mana ) {
-        return colorize( to_string( guy.magic.available_mana() ), c_light_blue );
+        return colorize( to_string( guy.magic->available_mana() ), c_light_blue );
     }
     if( energy_source() == magic_energy_type::stamina ) {
         auto pair = get_hp_bar( guy.get_stamina(), guy.get_stamina_max() );
@@ -1396,7 +1397,7 @@ void known_magic::learn_spell( const spell_type *sp, Character &guy, bool force 
         debugmsg( "Tried to learn invalid spell" );
         return;
     }
-    if( guy.magic.knows_spell( sp->id ) ) {
+    if( guy.magic->knows_spell( sp->id ) ) {
         // you already know the spell
         return;
     }
@@ -1602,7 +1603,7 @@ class spellcasting_callback : public uilist_callback
                 invlet = popup_getkey( _( "Choose a new hotkey for this spell." ) );
                 if( inv_chars.valid( invlet ) ) {
                     const bool invlet_set =
-                        get_player_character().magic.set_invlet( known_spells[entnum]->id(), invlet, reserved_invlets );
+                        get_player_character().magic->set_invlet( known_spells[entnum]->id(), invlet, reserved_invlets );
                     if( !invlet_set ) {
                         popup( _( "Hotkey already used." ) );
                     } else {
@@ -1611,7 +1612,7 @@ class spellcasting_callback : public uilist_callback
                     }
                 } else {
                     popup( _( "Hotkey removed." ) );
-                    get_player_character().magic.rem_invlet( known_spells[entnum]->id() );
+                    get_player_character().magic->rem_invlet( known_spells[entnum]->id() );
                 }
                 return true;
             }
@@ -2219,7 +2220,7 @@ void spell_events::notify( const cata::event &e )
                 int learn_at_level = it->second;
                 if( learn_at_level == slvl ) {
                     std::string learn_spell_id = it->first;
-                    get_player_character().magic.learn_spell( learn_spell_id, get_player_character() );
+                    get_player_character().magic->learn_spell( learn_spell_id, get_player_character() );
                     spell_type spell_learned = spell_factory.obj( spell_id( learn_spell_id ) );
                     add_msg(
                         _( "Your experience and knowledge in creating and manipulating magical energies to cast %s have opened your eyes to new possibilities, you can now cast %s." ),

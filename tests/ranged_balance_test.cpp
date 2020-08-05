@@ -123,7 +123,7 @@ static void equip_shooter( npc &shooter, const std::vector<std::string> &apparel
 {
     CHECK( !shooter.in_vehicle );
     shooter.worn.clear();
-    shooter.inv.clear();
+    shooter.inv->clear();
     for( const std::string &article : apparel ) {
         shooter.wear_item( item( article ) );
     }

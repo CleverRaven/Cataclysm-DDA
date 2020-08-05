@@ -12,6 +12,7 @@
 #include "cata_variant.h"
 #include "event.h"
 #include "event_bus.h"
+#include "event_subscriber.h"
 #include "hash_utils.h"
 #include "string_id.h"
 

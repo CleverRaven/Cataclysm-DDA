@@ -27,6 +27,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
