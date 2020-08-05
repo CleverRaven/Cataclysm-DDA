@@ -424,7 +424,7 @@
     "type": "GUN",
     "category": "weapons",
     "name": { "str": "folded chiappa little badger" },
-    "description": "A folded chiappa badger 22LR rifle.  It is very compact in this form.  Use to unfold",
+    "description": "A folded chiappa badger 22LR rifle.  It is very compact in this form.  Use to unfold.",
     "weight": "1315 g",
     "volume": "1000 ml",
     "longest_side": "431 mm",
