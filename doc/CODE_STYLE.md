@@ -14,6 +14,8 @@ For example, from `vi`, set marks a and b around the block, then:
 
     :'a,'b ! astyle  --style=1tbs --attach-inlines --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-preprocessor --indent-switches --indent-col1-comments --min-conditional-indent=0 --pad-oper --unpad-paren --pad-paren-in --add-brackets --convert-tabs
 
+See [DEVELOPER_TOOLING.md](DEVELOPER_TOOLING.md) for other environments.
+
 ## Code Example
 
 Here's an example that illustrates the most common points of style:

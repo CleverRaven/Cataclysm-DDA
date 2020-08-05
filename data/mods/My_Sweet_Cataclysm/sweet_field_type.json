@@ -1,0 +1,80 @@
+[
+  {
+    "id": "fd_gum_web",
+    "type": "field_type",
+    "legacy_enum_id": 5,
+    "immune_mtypes": [ "mon_spider_gum" ],
+    "decrease_intensity_on_contact": true,
+    "intensity_levels": [
+      {
+        "name": "flimsy gum webs",
+        "sym": "#",
+        "color": "light_red",
+        "effects": [
+          {
+            "effect_id": "gummed",
+            "intensity": 2,
+            "min_duration": "2 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "Some gum sticks to you.",
+            "message_npc": "Some gum sticks to <npcname>.",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": " gum webs",
+        "effects": [
+          {
+            "effect_id": "gummed",
+            "intensity": 4,
+            "min_duration": "20 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "The gum sticks to you!",
+            "message_npc": "The gum sticks to <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      },
+      {
+        "name": "thick gum webs",
+        "transparent": false,
+        "effects": [
+          {
+            "effect_id": "gummed",
+            "intensity": 6,
+            "min_duration": "40 seconds",
+            "immune_in_vehicle": true,
+            "is_environmental": false,
+            "message": "The gum sticks to you!",
+            "message_npc": "The gum sticks to <npcname>!",
+            "message_type": "bad"
+          }
+        ]
+      }
+    ],
+    "description_affix": "covered_in",
+    "priority": 2,
+    "phase": "solid",
+    "bash": {
+      "str_min": 1,
+      "str_max": 3,
+      "sound_vol": 2,
+      "sound_fail_vol": 2,
+      "sound": "shwip",
+      "sound_fail": "shwomp",
+      "msg_success": "You brush the gum web aside."
+    },
+    "display_items": false,
+    "display_field": true
+  },
+  {
+    "id": "emit_gum_web",
+    "type": "emit",
+    "field": "fd_gum_web",
+    "intensity": 3,
+    "qty": 18
+  }
+]

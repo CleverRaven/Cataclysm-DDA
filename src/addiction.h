@@ -1,17 +1,17 @@
 #pragma once
-#ifndef ADDICTION_H
-#define ADDICTION_H
+#ifndef CATA_SRC_ADDICTION_H
+#define CATA_SRC_ADDICTION_H
 
 #include <string>
 
+#include "pldata.h"
 #include "type_id.h"
 
 class addiction;
 class Character;
 
-enum add_type : int;
-
-constexpr int MIN_ADDICTION_LEVEL = 3; // Minimum intensity before effects are seen
+// Minimum intensity before effects are seen
+constexpr int MIN_ADDICTION_LEVEL = 3;
 constexpr int MAX_ADDICTION_LEVEL = 20;
 
 // cancel_activity is called when the addiction effect wants to interrupt the player
@@ -28,4 +28,4 @@ add_type addiction_type( const std::string &name );
 
 std::string addiction_text( const addiction &cur );
 
-#endif
+#endif // CATA_SRC_ADDICTION_H

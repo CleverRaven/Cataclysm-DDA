@@ -1,27 +1,25 @@
 #pragma once
-#ifndef EFFECT_H
-#define EFFECT_H
+#ifndef CATA_SRC_EFFECT_H
+#define CATA_SRC_EFFECT_H
 
-#include <cstddef>
-#include <unordered_map>
-#include <tuple>
-#include <vector>
-#include <string>
-#include <utility>
 #include <set>
+#include <string>
+#include <tuple>
+#include <unordered_map>
+#include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "calendar.h"
-#include "string_id.h"
-#include "translations.h"
 #include "hash_utils.h"
+#include "translations.h"
 #include "type_id.h"
 
 class player;
 
 enum game_message_type : int;
-class JsonObject;
 class JsonIn;
+class JsonObject;
 class JsonOut;
 
 /** Handles the large variety of weed messages. */
@@ -34,12 +32,16 @@ enum effect_rating {
     e_mixed     // The effect has good and bad parts to the one who has it.
 };
 
+/** @relates string_id */
+template<>
+const effect_type &string_id<effect_type>::obj() const;
+
 class effect_type
 {
-        friend void load_effect_type( JsonObject &jo );
+        friend void load_effect_type( const JsonObject &jo );
         friend class effect;
     public:
-        effect_type();
+        effect_type() = default;
 
         efftype_id id;
 
@@ -68,6 +70,8 @@ class effect_type
         std::string get_remove_message() const;
         /** Returns the memorial log added when an effect is removed. */
         std::string get_remove_memorial_log() const;
+        /** Returns the effect's description displayed when character conducts blood analysis. */
+        std::string get_blood_analysis_description() const;
 
         /** Returns true if an effect will only target main body parts (i.e., those with HP). */
         bool get_main_parts() const;
@@ -75,31 +79,34 @@ class effect_type
         bool is_show_in_info() const;
 
         /** Loading helper functions */
-        bool load_mod_data( JsonObject &jo, const std::string &member );
-        bool load_miss_msgs( JsonObject &jo, const std::string &member );
-        bool load_decay_msgs( JsonObject &jo, const std::string &member );
+        bool load_mod_data( const JsonObject &jo, const std::string &member );
+        bool load_miss_msgs( const JsonObject &jo, const std::string &member );
+        bool load_decay_msgs( const JsonObject &jo, const std::string &member );
 
         /** Registers the effect in the global map */
         static void register_ma_buff_effect( const effect_type &eff );
 
     protected:
-        int max_intensity;
-        int max_effective_intensity;
-        time_duration max_duration;
+        int max_intensity = 0;
+        int max_effective_intensity = 0;
+        time_duration max_duration = 0_turns;
 
-        int dur_add_perc;
-        int int_add_val;
+        int dur_add_perc = 0;
+        int int_add_val = 0;
 
-        int int_decay_step;
-        int int_decay_tick;
-        time_duration int_dur_factor;
+        int int_decay_step = 0;
+        int int_decay_tick = 0 ;
+        time_duration int_dur_factor = 0_turns;
 
         std::set<std::string> flags;
 
-        bool main_parts_only;
+        bool main_parts_only = false;
 
         // Determines if effect should be shown in description.
-        bool show_in_info;
+        bool show_in_info = false;
+
+        // Determines if effect should show intensity value next to its name in EFFECTS tab.
+        bool show_intensity = false;
 
         std::vector<trait_id> resist_traits;
         std::vector<efftype_id> resist_effects;
@@ -108,44 +115,45 @@ class effect_type
 
         std::vector<std::pair<std::string, int>> miss_msgs;
 
-        bool pain_sizing;
-        bool hurt_sizing;
-        bool harmful_cough;
+        bool pain_sizing = false;
+        bool hurt_sizing = false;
+        bool harmful_cough = false;
         // TODO: Once addictions are JSON-ized it should be trivial to convert this to a
         // "generic" addiction reduces value
-        bool pkill_addict_reduces;
+        bool pkill_addict_reduces = false;
         // This flag is hard-coded for specific IDs now
         // It needs to be set for monster::move_effects
-        bool impairs_movement;
+        bool impairs_movement = false;
 
         std::vector<translation> name;
         std::string speed_mod_name;
         std::vector<std::string> desc;
         std::vector<std::string> reduced_desc;
-        bool part_descs;
+        bool part_descs = false;
 
         std::vector<std::pair<std::string, game_message_type>> decay_msgs;
 
-        effect_rating rating;
+        effect_rating rating = effect_rating::e_neutral;
 
         std::string apply_message;
         std::string apply_memorial_log;
         std::string remove_message;
         std::string remove_memorial_log;
 
+        std::string blood_analysis_description;
+
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map <
-        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash
-        > mod_data;
+        std::tuple<std::string, bool, std::string, std::string>, double, cata::tuple_hash > mod_data;
 };
 
 class effect
 {
     public:
-        effect() : eff_type( nullptr ), duration( 0_turns ), bp( num_bp ),
+        effect() : eff_type( nullptr ), duration( 0_turns ), bp( bodypart_str_id( "bp_null" ) ),
             permanent( false ), intensity( 1 ), start_time( calendar::turn_zero ) {
         }
-        effect( const effect_type *peff_type, const time_duration &dur, body_part part,
+        effect( const effect_type *peff_type, const time_duration &dur, bodypart_str_id part,
                 bool perm, int nintensity, const time_point &nstart_time ) :
             eff_type( peff_type ), duration( dur ), bp( part ),
             permanent( perm ), intensity( nintensity ), start_time( nstart_time ) {
@@ -174,7 +182,7 @@ class effect
         /** Decays effect durations, pushing their id and bp's back to rem_ids and rem_bps for removal later
          *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
-        void decay( std::vector<efftype_id> &rem_ids, std::vector<body_part> &rem_bps,
+        void decay( std::vector<efftype_id> &rem_ids, std::vector<bodypart_id> &rem_bps,
                     const time_point &time, bool player );
 
         /** Returns the remaining duration of an effect. */
@@ -192,9 +200,9 @@ class effect
         time_point get_start_time() const;
 
         /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
-        body_part get_bp() const;
+        bodypart_id get_bp() const;
         /** Sets the targeted body_part of an effect. */
-        void set_bp( body_part part );
+        void set_bp( bodypart_str_id part );
 
         /** Returns true if an effect is permanent, i.e. it's duration does not decrease over time. */
         bool is_permanent() const;
@@ -234,22 +242,22 @@ class effect
         std::vector<efftype_id> get_blocks_effects() const;
 
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
-        int get_mod( std::string arg, bool reduced = false ) const;
+        int get_mod( const std::string &arg, bool reduced = false ) const;
         /** Returns the average return of get_mod for a modifier type. Used in effect description displays. */
-        int get_avg_mod( std::string arg, bool reduced = false ) const;
+        int get_avg_mod( const std::string &arg, bool reduced = false ) const;
         /** Returns the amount of a modifier type applied when a new effect is first added. */
-        int get_amount( std::string arg, bool reduced = false ) const;
+        int get_amount( const std::string &arg, bool reduced = false ) const;
         /** Returns the minimum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_min_val( std::string arg, bool reduced = false ) const;
+        int get_min_val( const std::string &arg, bool reduced = false ) const;
         /** Returns the maximum value of a modifier type that get_mod() and get_amount() will push the player to. */
-        int get_max_val( std::string arg, bool reduced = false ) const;
+        int get_max_val( const std::string &arg, bool reduced = false ) const;
         /** Returns true if the given modifier type's trigger chance is affected by size mutations. */
         bool get_sizing( const std::string &arg ) const;
         /** Returns the approximate percentage chance of a modifier type activating on any given tick, used for descriptions. */
-        double get_percentage( std::string arg, int val, bool reduced = false ) const;
+        double get_percentage( const std::string &arg, int val, bool reduced = false ) const;
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct
          *  multiplier on the overall chance of a modifier type activating. */
-        bool activated( const time_point &when, std::string arg, int val,
+        bool activated( const time_point &when, const std::string &arg, int val,
                         bool reduced = false, double mod = 1 ) const;
 
         /** Check if the effect has the specified flag */
@@ -286,24 +294,25 @@ class effect
     protected:
         const effect_type *eff_type;
         time_duration duration;
-        body_part bp;
+        bodypart_str_id bp;
         bool permanent;
         int intensity;
         time_point start_time;
 
 };
 
-void load_effect_type( JsonObject &jo );
+void load_effect_type( const JsonObject &jo );
 void reset_effect_types();
 
 std::string texitify_base_healing_power( int power );
 std::string texitify_healing_power( int power );
+std::string texitify_bandage_power( int power );
 
 // Inheritance here allows forward declaration of the map in class Creature.
 // Storing body_part as an int to make things easier for hash and JSON
 class effects_map : public
-    std::unordered_map<efftype_id, std::unordered_map<body_part, effect, std::hash<int>>>
+    std::unordered_map<efftype_id, std::unordered_map<bodypart_str_id, effect, std::hash<bodypart_str_id>>>
 {
 };
 
-#endif
+#endif // CATA_SRC_EFFECT_H

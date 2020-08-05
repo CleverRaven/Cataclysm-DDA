@@ -3,7 +3,7 @@
     "type": "npc",
     "id": "raider",
     "name_suffix": "Raider",
-    "comment": "Better equipped soldier/raider.",
+    "//": "Better equipped soldier/raider.",
     "class": 14,
     "attitude": 0,
     "mission": 7,

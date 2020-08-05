@@ -185,9 +185,9 @@
         "H": { "item": "trash", "chance": 65 },
         "b": { "item": "softdrugs", "chance": 70 },
         "d": [
-          { "item": "dresser_mens", "chance": 50 },
+          { "item": "SUS_dresser_mens", "chance": 50 },
           { "item": "homeguns", "chance": 20 },
-          { "item": "dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
+          { "item": "SUS_dresser_womens", "chance": 50, "repeat": [ 1, 2 ] }
         ],
         "e": { "item": "fridge", "chance": 65, "repeat": [ 1, 8 ] },
         "n": { "item": "bedroom", "chance": 65 },
@@ -205,7 +205,8 @@
           { "item": "tools_earthworking", "chance": 65 },
           { "item": "mechanics", "chance": 40 },
           { "item": "home_hw", "chance": 50 },
-          { "item": "tools_common", "chance": 50 }
+          { "item": "tools_common", "chance": 50 },
+          { "item": "fertilizers", "chance": 60 }
         ],
         "u": [
           { "item": "kitchen", "chance": 70, "repeat": [ 1, 2 ] },

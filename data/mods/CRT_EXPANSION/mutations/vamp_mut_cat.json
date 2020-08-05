@@ -28,7 +28,7 @@
     "copy-from": "iv_mutagen_flavor",
     "type": "COMESTIBLE",
     "name": "vampire serum",
-    "description": "A super-concentrated pitch-black substance with silvery flecks that reminds you of a starry-night sky. You need a syringe to inject it...  if you really want to?",
+    "description": "A super-concentrated pitch-black substance with silvery flecks that reminds you of a starry-night sky.  You need a syringe to inject it… if you really want to?",
     "color": "light_gray",
     "healthy": -2,
     "use_action": { "type": "mutagen_iv", "mutation_category": "VAMP" }

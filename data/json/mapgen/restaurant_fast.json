@@ -39,9 +39,9 @@
         { "line": "trap", "id": "tr_beartrap", "x": 14, "x2": 16, "y": 13, "y2": 13, "chance": 10 }
       ],
       "terrain": {
-        " ": "t_grass",
-        "d": "t_dirt",
-        "#": "t_shrub",
+        " ": "t_region_groundcover_urban",
+        "d": "t_region_groundcover_barren",
+        "#": "t_region_shrub",
         "%": "t_wall_glass",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
@@ -61,11 +61,11 @@
         "s": "t_sidewalk",
         "t": "t_door_c",
         "w": "t_linoleum_white",
-        "x": "t_console_broken",
         "4": "t_gutter_downspout",
         "|": "t_wall_w"
       },
       "furniture": {
+        "x": "f_console_broken",
         "H": "f_chair",
         "O": "f_woodstove",
         "S": "f_sink",
@@ -83,11 +83,11 @@
         { "item": "fast_table", "x": 15, "y": 3, "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "fast_table", "x": [ 8, 9 ], "y": [ 7, 8 ], "chance": 20, "repeat": [ 1, 2 ] },
         { "item": "fast_table", "x": [ 14, 15 ], "y": [ 7, 8 ], "chance": 20, "repeat": [ 1, 2 ] },
-        { "item": "fast_kitchen", "x": [ 9, 10 ], "y": 14, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "fast_kitchen", "x": 13, "y": 14, "chance": 25, "repeat": [ 1, 2 ] },
-        { "item": "fast_fridge", "x": 7, "y": 14, "chance": 50, "repeat": [ 2, 3 ] },
-        { "item": "fast_fridge", "x": [ 8, 9 ], "y": 16, "chance": 70, "repeat": [ 2, 3 ] },
-        { "item": "fast_kitchen", "x": 11, "y": 16, "chance": 25, "repeat": [ 1, 2 ] },
+        { "item": "fast_kitchen", "x": [ 9, 10 ], "y": 14, "chance": 75, "repeat": [ 1, 6 ] },
+        { "item": "fast_kitchen", "x": 13, "y": 14, "chance": 75, "repeat": [ 1, 6 ] },
+        { "item": "fast_fridge", "x": 7, "y": 14, "chance": 90, "repeat": [ 2, 8 ] },
+        { "item": "fast_fridge", "x": [ 8, 9 ], "y": 16, "chance": 90, "repeat": [ 2, 8 ] },
+        { "item": "fast_kitchen", "x": 11, "y": 16, "chance": 75, "repeat": [ 1, 8 ] },
         { "item": "fast_locker", "x": 7, "y": 15, "chance": 70, "repeat": [ 1, 3 ] },
         { "item": "fast_trash", "x": 7, "y": 11, "chance": 75, "repeat": [ 1, 3 ] },
         { "item": "fast_bath", "x": 14, "y": 15, "chance": 25, "repeat": [ 1, 2 ] },
@@ -193,8 +193,8 @@
         "           !!!!!!       "
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_dirt", "t_shrub" ],
-        "#": "t_shrub",
+        " ": [ [ "t_region_groundcover_urban", 10 ], "t_region_shrub_decorative" ],
+        "#": "t_region_shrub_decorative",
         "%": "t_wall_glass",
         "+": "t_door_glass_c",
         ",": "t_pavement_y",
@@ -218,11 +218,11 @@
         "D": "t_door_locked",
         "t": "t_door_c",
         "w": "t_linoleum_white",
-        "x": "t_console_broken",
         "4": "t_gutter_downspout",
         "|": "t_wall_w"
       },
       "furniture": {
+        "x": "f_console_broken",
         "H": "f_chair",
         "F": "f_arcade_machine",
         "S": "f_sink",
@@ -239,9 +239,9 @@
       "items": {
         "T": { "item": "fast_table", "chance": 20, "repeat": [ 1, 2 ] },
         "d": { "item": "fast_trash", "chance": 60, "repeat": [ 1, 3 ] },
-        "c": { "item": "fast_kitchen", "chance": 15, "repeat": [ 1, 3 ] },
+        "c": { "item": "fast_kitchen", "chance": 75, "repeat": [ 1, 6 ] },
         "l": { "item": "fast_locker", "chance": 70, "repeat": [ 1, 2 ] },
-        "e": { "item": "fast_fridge", "chance": 70, "repeat": [ 2, 3 ] },
+        "e": { "item": "fast_fridge", "chance": 70, "repeat": [ 2, 8 ] },
         ".": { "item": "fast_trash", "chance": 5, "repeat": [ 1, 3 ] },
         "=": { "item": "fast_bath", "chance": 25, "repeat": [ 1, 2 ] }
       },

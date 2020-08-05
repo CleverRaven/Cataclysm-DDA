@@ -22,7 +22,8 @@ from datetime import time as dtime, date, datetime, timedelta
 log = logging.getLogger('generate_changelog')
 
 
-class MissingCommitException(Exception): pass
+class MissingCommitException(Exception):
+    pass
 
 
 class JenkinsBuild:
@@ -46,7 +47,7 @@ class JenkinsBuild:
         return f'{self.__class__.__name__}[{self.number} - {self.last_hash} - {self.build_dttm} - {self.build_result}]'
 
 
-class Commit:
+class Commit(object):
     """Representation of a generic GitHub Commit"""
 
     def __init__(self, hash_id, message, commit_dttm, author, parents):
@@ -74,7 +75,7 @@ class Commit:
         return f'{self.__class__.__name__}[{self.hash} - {self.commit_dttm} - {self.message} BY {self.author}]'
 
 
-class PullRequest:
+class PullRequest(object):
     """Representation of a generic GitHub Pull Request"""
 
     def __init__(self, pr_id, title, author, state, body, merge_hash, merge_dttm, update_dttm):
@@ -134,7 +135,7 @@ class SummaryType:
 class CDDAPullRequest(PullRequest):
     """A Pull Request with logic specific to CDDA Repository and their "Summary" descriptions"""
 
-    SUMMARY_REGEX = re.compile( r'^`*(?i:SUMMARY):\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?', re.MULTILINE )
+    SUMMARY_REGEX = re.compile(r'^`*(?i:SUMMARY):\s+(?P<pr_type>\w+)\s*(?:"(?P<pr_desc>.+)")?', re.MULTILINE)
 
     VALID_SUMMARY_CATEGORIES = (
         'Content',
@@ -205,6 +206,7 @@ class JenkinsBuildFactory:
     def create(self, number, last_hash, branch, build_dttm, is_building, build_result, block_ms, wait_ms, build_ms):
         return JenkinsBuild(number, last_hash, branch, build_dttm, is_building,
                             build_result, block_ms, wait_ms, build_ms)
+
 
 class CommitFactory:
     """Abstraction for instantiation of new Commit objects"""
@@ -504,7 +506,10 @@ class CommitApi:
         ### I rather have a name that doesn't match that leave it empty.
         ### Anyways, I'm surprised but GitHub API sucks, is super inconsistent and not well thought or documented.
         if commit_data['author'] is not None:
-            commit_author = commit_data['author']['login']
+            if 'login' in commit_data['author']:
+                commit_author = commit_data['author']['login']
+            else:
+                commit_author = 'null'
         else:
             commit_author = commit_data['commit']['author']['name']
         commit_message = commit_data['commit']['message'].splitlines()[0] if commit_data['commit']['message'] else ''
@@ -654,7 +659,7 @@ class MultiThreadedGitHubApi:
         log.debug(f'No more requests left, killing Thread.')
 
 
-class GitHubApiRequestBuilder:
+class GitHubApiRequestBuilder(object):
 
     def __init__(self, api_token, timezone='Etc/UTC'):
         self.api_token = api_token

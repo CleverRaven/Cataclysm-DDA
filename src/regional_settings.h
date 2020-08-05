@@ -1,22 +1,21 @@
 #pragma once
-#ifndef REGIONAL_SETTINGS_H
-#define REGIONAL_SETTINGS_H
+#ifndef CATA_SRC_REGIONAL_SETTINGS_H
+#define CATA_SRC_REGIONAL_SETTINGS_H
 
 #include <map>
-#include <memory>
+#include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <set>
 
 #include "enums.h"
 #include "mapdata.h"
+#include "memory_fast.h"
 #include "omdata.h"
-#include "weather_gen.h"
-#include "weighted_list.h"
-#include "int_id.h"
 #include "string_id.h"
 #include "type_id.h"
+#include "weather_gen.h"
+#include "weighted_list.h"
 
 class JsonObject;
 
@@ -45,18 +44,12 @@ struct city_settings {
     // We'll spread this out to the rest of the town.
     int park_sigma = 100 - park_radius;
 
-    int house_basement_chance = 5; // one_in(n) chance a house has a basement
     building_bin houses;
-    building_bin basements;
     building_bin shops;
     building_bin parks;
 
     overmap_special_id pick_house() const {
         return houses.pick()->id;
-    }
-
-    overmap_special_id pick_basement() const {
-        return basements.pick()->id;
     }
 
     overmap_special_id pick_shop() const {
@@ -164,6 +157,7 @@ struct forest_trail_settings {
     bool clear_trail_terrain = false;
     std::map<std::string, int> unfinalized_trail_terrain;
     weighted_int_list<ter_id> trail_terrain;
+    building_bin trailheads;
 
     void finalize();
     forest_trail_settings() = default;
@@ -198,6 +192,7 @@ struct shore_extendable_overmap_terrain_alias {
 struct overmap_lake_settings {
     double noise_threshold_lake = 0.25;
     int lake_size_min = 20;
+    int lake_depth = -5;
     std::vector<std::string> unfinalized_shore_extendable_overmap_terrain;
     std::vector<oter_id> shore_extendable_overmap_terrain;
     std::vector<shore_extendable_overmap_terrain_alias> shore_extendable_overmap_terrain_aliases;
@@ -214,16 +209,28 @@ struct map_extras {
     map_extras( const unsigned int embellished ) : chance( embellished ) {}
 };
 
+struct region_terrain_and_furniture_settings {
+    std::map<std::string, std::map<std::string, int>> unfinalized_terrain;
+    std::map<std::string, std::map<std::string, int>> unfinalized_furniture;
+    std::map<ter_id, weighted_int_list<ter_id>> terrain;
+    std::map<furn_id, weighted_int_list<furn_id>> furniture;
+
+    void finalize();
+    ter_id resolve( const ter_id & ) const;
+    furn_id resolve( const furn_id & ) const;
+    region_terrain_and_furniture_settings() = default;
+};
+
 /*
- * Spationally relevant overmap and mapgen variables grouped into a set of suggested defaults;
- * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
+ * Spatially relevant overmap and mapgen variables grouped into a set of suggested defaults;
+ * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smooth fashion
  */
 struct regional_settings {
     std::string id;           //
     oter_str_id default_oter; // 'field'
-    double river_scale;
-    weighted_int_list<ter_id> default_groundcover; // ie, 'grass_or_dirt'
-    std::shared_ptr<weighted_int_list<ter_str_id>> default_groundcover_str;
+    double river_scale = 1;
+    weighted_int_list<ter_id> default_groundcover; // i.e., 'grass_or_dirt'
+    shared_ptr_fast<weighted_int_list<ter_str_id>> default_groundcover_str;
 
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
@@ -233,6 +240,7 @@ struct regional_settings {
     overmap_feature_flag_settings overmap_feature_flag;
     overmap_forest_settings overmap_forest;
     overmap_lake_settings overmap_lake;
+    region_terrain_and_furniture_settings region_terrain_and_furniture;
 
     std::unordered_map<std::string, map_extras> region_extras;
 
@@ -246,9 +254,9 @@ using t_regional_settings_map = std::unordered_map<std::string, regional_setting
 using t_regional_settings_map_citr = t_regional_settings_map::const_iterator;
 extern t_regional_settings_map region_settings_map;
 
-void load_region_settings( JsonObject &jo );
+void load_region_settings( const JsonObject &jo );
 void reset_region_settings();
-void load_region_overlay( JsonObject &jo );
-void apply_region_overlay( JsonObject &jo, regional_settings &region );
+void load_region_overlay( const JsonObject &jo );
+void apply_region_overlay( const JsonObject &jo, regional_settings &region );
 
-#endif
+#endif // CATA_SRC_REGIONAL_SETTINGS_H

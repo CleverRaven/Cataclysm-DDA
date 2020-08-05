@@ -3,18 +3,19 @@
     "type": "palette",
     "id": "junkyard_palette",
     "terrain": {
-      ".": [ [ "t_pavement", 22 ], [ "t_dirt", 2 ], "t_grass" ],
-      "g": [ [ "t_grass", 5 ], "t_dirt" ],
-      "_": [ [ "t_dirt", 5 ], "t_grass" ],
+      ".": [ [ "t_pavement", 22 ], "t_region_groundcover" ],
+      "g": "t_region_groundcover_urban",
+      "_": [ [ "t_region_groundcover_barren", 5 ], "t_region_groundcover_urban" ],
       "|": "t_fence_barbed",
       "$": "t_fence_barbed",
       "-": "t_laminated_glass",
-      "s": [ [ "t_dirt", 5 ], "t_grass" ],
+      "s": [ [ "t_region_groundcover_barren", 5 ], "t_region_groundcover" ],
       "D": "t_door_c",
       "S": "t_sidewalk",
       "q": "t_door_metal_locked",
-      "c": "t_carpet_red",
-      "n": "t_carpet_red",
+      "f": "t_floor",
+      "c": "t_carpet_concrete_red",
+      "n": "t_carpet_concrete_red",
       "r": "t_reinforced_door_glass_c",
       "%": "t_brick_wall",
       "C": "t_thconc_floor",
@@ -25,10 +26,10 @@
       "d": "t_door_metal_locked",
       "m": "t_metal_floor",
       "9": "t_wall_wood",
-      "x": "t_console_broken",
       "4": "t_gutter_downspout"
     },
     "furniture": {
+      "x": "f_console_broken",
       "#": "f_straw_bed",
       "N": "f_ladder",
       "B": "f_bench",
@@ -44,6 +45,7 @@
       "p": "f_table",
       "F": "f_vending_c",
       "K": "f_vending_c"
-    }
+    },
+    "items": { "_": { "item": "trash_junkyard", "chance": 3, "repeat": 2 } }
   }
 ]

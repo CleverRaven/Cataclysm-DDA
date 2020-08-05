@@ -1,6 +1,26 @@
 [
   {
     "type": "uncraft",
+    "result": "1cyl_combustion_large",
+    "skill_used": "mechanics",
+    "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
+    "difficulty": 4,
+    "time": "40 m",
+    "components": [
+      [ [ "drivebelt", 2 ] ],
+      [ [ "filter_air", 1 ] ],
+      [ [ "filter_liquid", 1 ] ],
+      [ [ "motor_small", 1 ] ],
+      [ [ "well_pump", 2 ] ],
+      [ [ "power_supply", 1 ] ],
+      [ [ "cable", 40 ] ],
+      [ [ "engine_block_small", 1 ] ],
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 1450 ] ]
+    ]
+  },
+  {
+    "type": "uncraft",
     "result": "1cyl_combustion",
     "skill_used": "mechanics",
     "qualities": [ { "id": "SCREW", "level": 1 }, { "id": "WRENCH", "level": 1 }, { "id": "WRENCH_FINE", "level": 1 } ],
@@ -15,7 +35,8 @@
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 40 ] ],
       [ [ "engine_block_tiny", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ]
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 900 ] ]
     ]
   },
   {
@@ -34,7 +55,8 @@
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 40 ] ],
       [ [ "engine_block_tiny", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ]
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 650 ] ]
     ]
   },
   {
@@ -53,7 +75,8 @@
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 40 ] ],
       [ [ "engine_block_small", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ]
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 4700 ] ]
     ]
   },
   {
@@ -74,7 +97,8 @@
       [ [ "cable", 40 ] ],
       [ [ "glowplug", 1 ] ],
       [ [ "engine_block_medium", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ]
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 6600 ] ]
     ]
   },
   {
@@ -93,7 +117,8 @@
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 40 ] ],
       [ [ "engine_block_tiny", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ]
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 2200 ] ]
     ]
   },
   {
@@ -112,7 +137,8 @@
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 40 ] ],
       [ [ "engine_block_medium", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ]
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 6600 ] ]
     ]
   },
   {
@@ -133,7 +159,8 @@
       [ [ "cable", 40 ] ],
       [ [ "glowplug", 1 ] ],
       [ [ "engine_block_medium", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ]
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 6600 ] ]
     ]
   },
   {
@@ -152,7 +179,8 @@
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 40 ] ],
       [ [ "engine_block_large", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ]
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 8800 ] ]
     ]
   },
   {
@@ -173,7 +201,8 @@
       [ [ "cable", 40 ] ],
       [ [ "glowplug", 1 ] ],
       [ [ "engine_block_large", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ]
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 8800 ] ]
     ]
   },
   {
@@ -192,7 +221,8 @@
       [ [ "power_supply", 1 ] ],
       [ [ "cable", 40 ] ],
       [ [ "engine_block_massive", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ]
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 12000 ] ]
     ]
   },
   {
@@ -213,7 +243,8 @@
       [ [ "cable", 40 ] ],
       [ [ "glowplug", 1 ] ],
       [ [ "engine_block_massive", 1 ] ],
-      [ [ "metal_tank_little", 1 ] ]
+      [ [ "metal_tank_little", 1 ] ],
+      [ [ "motor_oil", 12000 ] ]
     ]
   }
 ]

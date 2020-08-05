@@ -166,18 +166,8 @@
         "-----------MM----------|"
       ],
       "palettes": [ "lab_palette", "lab_loot_research" ],
-      "terrain": {
-        "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ],
-        "!": [
-          "t_thconc_floor",
-          "t_thconc_floor",
-          "t_thconc_floor",
-          "t_thconc_floor",
-          "t_console_broken",
-          "t_generator_broken",
-          "t_centrifuge"
-        ]
-      },
+      "terrain": { "?": [ "t_concrete_wall", "t_concrete_wall", "t_door_glass_frosted_lab_c" ] },
+      "furniture": { "!": [ [ "f_null", 4 ], "f_console_broken", "f_generator_broken", "f_centrifuge" ] },
       "place_nested": [
         {
           "chunks": [ "lab_spawn_7x7" ],
@@ -659,8 +649,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 11, 12 ], "y": [ 2, 5 ], "chance": 25 } ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
     }
   },
   {
@@ -695,8 +684,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 11, 12 ], "y": [ 2, 5 ], "chance": 10 } ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
     }
   },
   {
@@ -731,8 +719,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 2, 5 ], "y": [ 11, 12 ], "chance": 25 } ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
     }
   },
   {
@@ -767,8 +754,7 @@
         "                        ",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 2, 5 ], "y": [ 11, 12 ], "chance": 10 } ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
     }
   },
   {
@@ -803,8 +789,7 @@
         "         ------         ",
         "####################### "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 11, 12 ], "y": [ 18, 21 ], "chance": 25 } ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
     }
   },
   {
@@ -839,8 +824,7 @@
         "         ------         ",
         "####################### "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 11, 12 ], "y": [ 18, 21 ], "chance": 10 } ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
     }
   },
   {
@@ -875,8 +859,7 @@
         "                       #",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ],
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 18, 21 ], "y": [ 11, 12 ], "chance": 25 } ]
+      "palettes": [ "lab_palette", "lab_loot_bionic_vault" ]
     }
   },
   {
@@ -911,8 +894,7 @@
         "                       #",
         "                        "
       ],
-      "palettes": [ "lab_palette", "lab_loot_serum_vault" ],
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 18, 21 ], "y": [ 11, 12 ], "chance": 10 } ]
+      "palettes": [ "lab_palette", "lab_loot_serum_vault" ]
     }
   }
 ]

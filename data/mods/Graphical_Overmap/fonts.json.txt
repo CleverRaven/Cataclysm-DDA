@@ -1,0 +1,8 @@
+{
+  "typeface": "unifont",
+  "map_typeface": "unifont",
+  "overmap_fontwidth": 16,
+  "overmap_fontheight": 16,
+  "overmap_fontsize": 16,
+  "overmap_typeface": "map_font_LARWICK.png"
+}

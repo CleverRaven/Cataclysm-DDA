@@ -2,8 +2,8 @@
 
 #include <clocale>
 #include <cstdlib>
-#include <utility>
 
+#include "enums.h"
 #include "filesystem.h"
 #include "options.h"
 
@@ -35,6 +35,7 @@ static std::string autopickup_value;
 static std::string keymap_value;
 static std::string options_value;
 static std::string memorialdir_value;
+static std::string langdir_value;
 
 void PATH_INFO::init_base_path( std::string path )
 {
@@ -82,13 +83,16 @@ void PATH_INFO::set_standard_filenames()
 #if defined(DATA_DIR_PREFIX)
         datadir_value = base_path_value + "share/cataclysm-dda/";
         gfxdir_value = datadir_value + "gfx/";
+        langdir_value = datadir_value + "lang/";
 #else
         datadir_value = base_path_value + "data/";
         gfxdir_value = base_path_value + "gfx/";
+        langdir_value = base_path_value + "lang/";
 #endif
     } else {
         datadir_value = "data/";
         gfxdir_value = "gfx/";
+        langdir_value = "lang/";
     }
 
     // Shared dirs
@@ -162,8 +166,10 @@ std::string find_translated_file( const std::string &base_path, const std::strin
             }
         }
     }
-#endif
+#else
+    ( void ) base_path;
     ( void ) extension;
+#endif
     return fallback;
 }
 std::string PATH_INFO::autopickup()
@@ -221,6 +227,10 @@ std::string PATH_INFO::fontdata()
 std::string PATH_INFO::fontdir()
 {
     return datadir_value + "font/";
+}
+std::string PATH_INFO::user_font()
+{
+    return user_dir_value + "font/";
 }
 std::string PATH_INFO::fontlist()
 {
@@ -366,6 +376,14 @@ std::string PATH_INFO::gfxdir()
 {
     return gfxdir_value;
 }
+std::string PATH_INFO::langdir()
+{
+    return langdir_value;
+}
+std::string PATH_INFO::lang_file()
+{
+    return "cataclysm-dda.mo";
+}
 std::string PATH_INFO::data_sound()
 {
     return datadir_value + "sound";
@@ -382,11 +400,42 @@ std::string PATH_INFO::motd()
     return find_translated_file( datadir_value + "motd/", ".motd", motd_value );
 }
 
-std::string PATH_INFO::title( const bool halloween_theme )
+std::string PATH_INFO::title( const holiday current_holiday )
 {
-    return find_translated_file( datadir_value + "title/", halloween_theme ? ".halloween" : ".title",
-                                 halloween_theme ? ( datadir_value + "title/" + "en.halloween" ) : ( datadir_value + "title/" +
-                                         "en.title" ) );
+    std::string theme_basepath = datadir_value + "title/";
+    std::string theme_extension = ".title";
+    std::string theme_fallback = theme_basepath + "en.title";
+    switch( current_holiday ) {
+        case holiday::new_year:
+            theme_extension = ".new_year";
+            theme_fallback = datadir_value + "title/" + "en.new_year";
+            break;
+        case holiday::easter:
+            theme_extension = ".easter";
+            theme_fallback = datadir_value + "title/" + "en.easter";
+            break;
+        case holiday::independence_day:
+            theme_extension = ".independence_day";
+            theme_fallback = datadir_value + "title/" + "en.independence_day";
+            break;
+        case holiday::halloween:
+            theme_extension = ".halloween";
+            theme_fallback = datadir_value + "title/" + "en.halloween";
+            break;
+        case holiday::thanksgiving:
+            theme_extension = ".thanksgiving";
+            theme_fallback = datadir_value + "title/" + "en.thanksgiving";
+            break;
+        case holiday::christmas:
+            theme_extension = ".christmas";
+            theme_fallback = datadir_value + "title/" + "en.christmas";
+            break;
+        case holiday::none:
+        case holiday::num_holiday:
+        default:
+            break;
+    }
+    return find_translated_file( theme_basepath, theme_extension, theme_fallback );
 }
 
 std::string PATH_INFO::names()

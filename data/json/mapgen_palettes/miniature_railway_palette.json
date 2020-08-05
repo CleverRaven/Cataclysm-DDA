@@ -3,9 +3,9 @@
     "type": "palette",
     "id": "miniature_railway_palette",
     "terrain": {
-      ".": [ "t_grass", "t_grass", "t_grass", "t_grass_long", "t_grass_dead", "t_grass_dead", "t_dirt" ],
-      "u": [ [ "t_grass", 27 ], [ "t_grass_long", 10 ], [ "t_dirt", 14 ], [ "t_underbrush", 4 ], [ "t_tree", 5 ] ],
-      "w": [ "t_grass" ],
+      ".": "t_region_groundcover_urban",
+      "u": [ [ "t_region_groundcover", 50 ], [ "t_region_shrub", 4 ], [ "t_region_tree", 5 ] ],
+      "w": "t_region_groundcover_urban",
       "_": [ "t_door_locked" ],
       "@": [ "t_pavement" ],
       "X": [ "t_railroad_track_small_d" ],

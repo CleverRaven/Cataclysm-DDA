@@ -1,0 +1,25 @@
+[
+  {
+    "type": "MONSTER_FACTION",
+    "name": "PrepNet",
+    "friendly": [ "Prepnet_Phyle", "PrepNet" ],
+    "neutral": [ "herbivore", "human", "player" ],
+    "by_mood": [ "insect", "small_animal" ],
+    "hate": [ "fungus" ]
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "whately",
+    "friendly": [ "human", "player", "whately", "whately_family" ],
+    "neutral": "herbivore",
+    "by_mood": [ "insect", "small_animal" ],
+    "hate": "zombie"
+  },
+  {
+    "type": "MONSTER_FACTION",
+    "name": "UPLIFT",
+    "neutral": "herbivore",
+    "by_mood": [ "insect", "small_animal", "player" ],
+    "hate": "zombie"
+  }
+]

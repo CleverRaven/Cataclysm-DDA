@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ITEM_SEARCH_H
-#define ITEM_SEARCH_H
+#ifndef CATA_SRC_ITEM_SEARCH_H
+#define CATA_SRC_ITEM_SEARCH_H
 
 #include <cstddef>
 #include <algorithm>
@@ -96,4 +96,4 @@ std::function<bool( const item & )> item_filter_from_string( const std::string &
  */
 std::function<bool( const item & )> basic_item_filter( std::string filter );
 
-#endif
+#endif // CATA_SRC_ITEM_SEARCH_H

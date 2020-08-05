@@ -336,12 +336,10 @@
         "<": "t_wood_stairs_up",
         "Q": "t_open_air_rooved",
         ">": "t_wood_stairs_down",
-        "x": "t_generator_broken",
-        "y": "t_machinery_old",
         "#": "t_wall_wood",
         "0": "t_laminated_glass"
       },
-      "furniture": { "M": [ "f_crate_c", "f_cardboard_box" ] },
+      "furniture": { "M": [ "f_crate_c", "f_cardboard_box" ], "x": "f_generator_broken", "y": "f_machinery_old" },
       "items": {
         "M": [
           { "item": "fishing_items", "chance": 30, "repeat": [ 1, 2 ] },
@@ -393,11 +391,11 @@
         "<": "t_wood_stairs_up",
         ">": "t_wood_stairs_down",
         "0": "t_laminated_glass",
-        "y": "t_machinery_old",
         "#": "t_grate",
         "+": "t_laminated_door_glass_c",
         "Q": "t_open_air_rooved"
-      }
+      },
+      "furniture": { "y": "f_machinery_old" }
     }
   },
   {

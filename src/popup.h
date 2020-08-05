@@ -1,17 +1,21 @@
 #pragma once
-#ifndef POPUP_H
-#define POPUP_H
+#ifndef CATA_SRC_POPUP_H
+#define CATA_SRC_POPUP_H
 
 #include <cstddef>
 #include <functional>
+#include <memory>
 #include <string>
-#include <vector>
 #include <utility>
+#include <vector>
 
+#include "color.h"
 #include "cursesdef.h"
 #include "input.h"
-#include "color.h"
+#include "point.h"
 #include "string_formatter.h"
+
+class ui_adaptor;
 
 /**
  * UI class for displaying messages or querying player input with popups.
@@ -169,6 +173,11 @@ class query_popup
          * Specify the default message color.
          **/
         query_popup &default_color( const nc_color &d_color );
+        /**
+         * Specify the desired keyboard mode. Used in keybindings menu to assign
+         * actions to input events of the approriate type of the parent UI.
+         */
+        query_popup &preferred_keyboard_mode( keyboard_mode mode );
 
         /**
          * Draw the UI. An input context should be provided using `context()`
@@ -186,6 +195,13 @@ class query_popup
          * Query until a valid action or an error happens and return the result.
          */
         result query();
+
+    protected:
+        /**
+         * Create or get a ui_adaptor on the UI stack to handle redrawing and
+         * resizing of the popup.
+         */
+        std::shared_ptr<ui_adaptor> create_or_get_adaptor();
 
     private:
         struct query_option {
@@ -205,6 +221,7 @@ class query_popup
         bool cancel;
         bool ontop;
         bool fullscr;
+        keyboard_mode pref_kbd_mode;
 
         struct button {
             button( const std::string &text, const point & );
@@ -213,6 +230,8 @@ class query_popup
             point pos;
         };
 
+        std::weak_ptr<ui_adaptor> adaptor;
+
         // UI caches
         mutable catacurses::window win;
         mutable std::vector<std::string> folded_msg;
@@ -220,6 +239,7 @@ class query_popup
 
         static std::vector<std::vector<std::string>> fold_query(
                     const std::string &category,
+                    keyboard_mode pref_kbd_mode,
                     const std::vector<query_option> &options,
                     int max_width, int horz_padding );
         void invalidate_ui() const;
@@ -237,4 +257,34 @@ class query_popup
         static std::string wait_text( const std::string &text );
 };
 
-#endif
+/**
+ * Create a popup on the UI stack that gets displayed but receives no input itself.
+ * Call ui_manager::redraw() to redraw the popup along with other UIs on the stack,
+ * and refresh_display() to force refresh the display if not receiving input after
+ * redraw. The popup stays on the UI stack until its lifetime ends.
+ *
+ * Example:
+ *
+ * if( not_loaded ) {
+ *     static_popup popup;
+ *     popup.message( "Please wait…" );
+ *     while( loading ) {
+ *         ui_manager::redraw();
+ *         refresh_display(); // force redraw since we're not receiving input here
+ *         load_part();
+ *     }
+ * }
+ * // Popup removed from UI stack when going out of scope.
+ * // Note that the removal is not visible until the next time `ui_manager::redraw`
+ * // is called.
+ */
+class static_popup : public query_popup
+{
+    public:
+        static_popup();
+
+    private:
+        std::shared_ptr<ui_adaptor> ui;
+};
+
+#endif // CATA_SRC_POPUP_H

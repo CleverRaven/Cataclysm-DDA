@@ -14,7 +14,7 @@
   {
     "type": "mutation",
     "id": "ANIMIST",
-    "name": "Animist",
+    "name": { "str": "Animist" },
     "points": 0,
     "description": "The animist tradition is a relatively new school of magical thought, formed through combination of many older ways that focus on harmony and connection to the natural world.  This does not mean that animists are passive: the natural world is a savage place.",
     "starting_trait": false,
@@ -74,7 +74,7 @@
   {
     "type": "mutation",
     "id": "BIOMANCER",
-    "name": "Biomancer",
+    "name": { "str": "Biomancer" },
     "points": 0,
     "description": "The Biomancer focuses on manipulating and even absorbing flesh; their own, and that of other living or dead things.  Most other wizards find their powers gross and disturbing, but no one can question the potency of their abilities, and certainly not their adaptability to any situation.",
     "starting_trait": false,

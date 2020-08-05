@@ -2,7 +2,7 @@
   {
     "type": "mapgen",
     "om_terrain": "tri_tower_ublc",
-    "comment": "underground, bottom left corner",
+    "//": "underground, bottom left corner",
     "weight": 250,
     "method": "json",
     "object": {

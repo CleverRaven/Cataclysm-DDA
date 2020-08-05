@@ -15,7 +15,7 @@
   {
     "type": "npc_class",
     "id": "NC_REFUGEE_Vanessa",
-    "name": "Refugee",
+    "name": { "str": "Refugee" },
     "job_description": "I'm just trying to survive.",
     "common": false,
     "//": "Vanessa is a middle-aged hairdresser.  She doesn't want to talk about her past.",
@@ -221,7 +221,7 @@
   {
     "id": "MISSION_REFUGEE_Vanessa_1",
     "type": "mission_definition",
-    "name": "Make a makeshift haircut kit",
+    "name": { "str": "Make a makeshift haircut kit" },
     "goal": "MGOAL_FIND_ITEM",
     "difficulty": 2,
     "value": 0,

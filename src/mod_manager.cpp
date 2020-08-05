@@ -1,10 +1,12 @@
 #include "mod_manager.h"
 
-#include <queue>
 #include <algorithm>
 #include <iterator>
 #include <memory>
+#include <ostream>
+#include <queue>
 
+#include "assign.h"
 #include "cata_utility.h"
 #include "debug.h"
 #include "dependency_tree.h"
@@ -12,9 +14,9 @@
 #include "json.h"
 #include "path_info.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "worldfactory.h"
-#include "assign.h"
 
 static const std::string MOD_SEARCH_FILE( "modinfo.json" );
 
@@ -149,8 +151,8 @@ void mod_manager::refresh_mod_list()
         load_mod_info( PATH_INFO::mods_user_default() );
     }
 
-    if( set_default_mods( mod_id( "user:default" ) ) ) {
-    } else if( set_default_mods( mod_id( "dev:default" ) ) ) {
+    if( !set_default_mods( mod_id( "user:default" ) ) ) {
+        set_default_mods( mod_id( "dev:default" ) );
     }
     // remove these mods from the list, so they do not appear to the user
     remove_mod( mod_id( "user:default" ) );
@@ -198,7 +200,7 @@ void mod_manager::load_mods_from( const std::string &path )
     }
 }
 
-void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
+void mod_manager::load_modfile( const JsonObject &jo, const std::string &path )
 {
     if( !jo.has_string( "type" ) || jo.get_string( "type" ) != "MOD_INFO" ) {
         // Ignore anything that is not a mod-info
@@ -206,7 +208,8 @@ void mod_manager::load_modfile( JsonObject &jo, const std::string &path )
         return;
     }
 
-    const mod_id m_ident( jo.get_string( "ident" ) );
+    // TEMPORARY until 0.G: Remove "ident" support
+    const mod_id m_ident( jo.has_string( "ident" ) ? jo.get_string( "ident" ) : jo.get_string( "id" ) );
     // can't use string_id::is_valid as the global mod_manger instance does not exist yet
     if( mod_map.count( m_ident ) > 0 ) {
         // TODO: change this to make unique ident for the mod
@@ -274,7 +277,7 @@ bool mod_manager::set_default_mods( const t_mod_list &mods )
         JsonOut json( fout, true ); // pretty-print
         json.start_object();
         json.member( "type", "MOD_INFO" );
-        json.member( "ident", "user:default" );
+        json.member( "id", "user:default" );
         json.member( "dependencies" );
         json.write( mods );
         json.end_object();
@@ -404,9 +407,8 @@ void mod_manager::load_mods_list( WORLDPTR world ) const
     amo.clear();
     bool obsolete_mod_found = false;
     read_from_file_optional_json( get_mods_list_file( world ), [&]( JsonIn & jsin ) {
-        JsonArray ja = jsin.get_array();
-        while( ja.has_more() ) {
-            const mod_id mod( ja.next_string() );
+        for( const std::string line : jsin.get_array() ) {
+            const mod_id mod( line );
             if( std::find( amo.begin(), amo.end(), mod ) != amo.end() ) {
                 continue;
             }
@@ -435,8 +437,8 @@ const mod_manager::t_mod_list &mod_manager::get_default_mods() const
 inline bool compare_mod_by_name_and_category( const MOD_INFORMATION *const a,
         const MOD_INFORMATION *const b )
 {
-    return ( a->category < b->category ) || ( ( a->category == b->category ) &&
-            ( a->name() < b->name() ) );
+    return localized_compare( std::make_pair( a->category, a->name() ),
+                              std::make_pair( b->category, b->name() ) );
 }
 
 void mod_manager::set_usable_mods()

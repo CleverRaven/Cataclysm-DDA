@@ -1,7 +1,7 @@
 [
   {
     "type": "MOD_INFO",
-    "ident": "no_npc_food",
+    "id": "no_npc_food",
     "name": "Disable NPC Needs",
     "authors": [ "Coolthulhu" ],
     "maintainers": [ "Coolthulhu" ],
@@ -12,7 +12,6 @@
   {
     "type": "EXTERNAL_OPTION",
     "name": "NO_NPC_FOOD",
-    "info": "Disables tracking food, thirst and ( partially ) fatigue for NPCs. If true, NPCs won't need to eat or drink and will only get tired enough to sleep, not to get penalties.",
     "stype": "bool",
     "value": true
   }

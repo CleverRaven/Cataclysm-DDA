@@ -420,7 +420,7 @@
         "########################"
       ],
       "palettes": [ "mansion_palette_common", "mansion_palette_basement" ],
-      "terrain": { "@": "t_carpet_red", "R": "t_carpet_red" },
+      "terrain": { "@": "t_carpet_concrete_red", "R": "t_carpet_concrete_red" },
       "furniture": { "$": [ "f_shackle", "f_null" ], "@": "f_mannequin" },
       "items": {
         ".": { "item": "clutter_basement" },
@@ -585,7 +585,8 @@
         "m": { "item": "tool_common_stack", "chance": 100 },
         "n": { "item": "cannedfood", "chance": 30 },
         "r": { "item": "mansion_ammo", "chance": 40 },
-        "v": { "item": "a_television", "chance": 100 }
+        "v": { "item": "a_television", "chance": 100 },
+        "{": { "item": "suit_of_armor", "chance": 100 }
       },
       "place_monsters": [ { "monster": "GROUP_MANSION", "x": [ 2, 21 ], "y": [ 2, 12 ], "density": 0.1 } ]
     }

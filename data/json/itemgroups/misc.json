@@ -4,7 +4,7 @@
     "type": "item_group",
     "subtype": "collection",
     "//": "Smokable item and something to light it with",
-    "items": [
+    "entries": [
       {
         "distribution": [
           { "item": "cig", "prob": 70, "charges": [ 1, 10 ] },
@@ -65,7 +65,9 @@
       { "item": "material_soil", "count": [ 8, 12 ] },
       { "item": "material_sand", "charges": [ 1, 10 ], "prob": 5 },
       { "item": "clay_lump", "count": [ 1, 4 ], "prob": 5 },
-      { "item": "rock", "count": [ 1, 4 ], "prob": 15 },
+      { "item": "rock", "count": [ 1, 4 ], "prob": 10 },
+      { "item": "rock_flaking", "count": [ 1, 4 ], "prob": 2 },
+      { "item": "rock_large", "prob": 10 },
       { "item": "pebble", "count": [ 1, 4 ], "prob": 15 }
     ]
   },
@@ -80,6 +82,7 @@
       { "group": "elecsto_pcs", "count": [ 1, 2 ], "prob": 10 },
       { "item": "file", "count": [ 1, 8 ], "prob": 50 },
       { "group": "elecsto_stor", "count": [ 1, 2 ], "prob": 30 },
+      { "item": "office_holepunch", "prob": 30 },
       { "item": "money_bundle", "count": [ 1, 10 ], "prob": 20 },
       { "item": "scorecard", "count": [ 1, 10 ], "prob": 10 },
       { "item": "survnote", "prob": 10 },
@@ -133,7 +136,7 @@
       { "item": "lighter", "charges": 100 },
       { "item": "pockknife" },
       { "item": "multitool" },
-      { "item": "1st_aid" },
+      { "item": "ifak" },
       { "item": "rollmat" },
       { "item": "sleeping_bag_roll" },
       { "item": "ear_plugs" },
@@ -144,9 +147,51 @@
     ]
   },
   {
+    "id": "premium_contents",
+    "type": "item_group",
+    "subtype": "collection",
+    "//": "Items generated from a premium survival kit",
+    "items": [
+      { "item": "knife_folding" },
+      { "item": "flint_steel" },
+      { "item": "whistle_multitool" },
+      { "item": "bottle_folding" },
+      { "item": "light_plus_battery_cell", "charges": 150, "container-item": "flashlight" },
+      { "item": "picklocks" },
+      { "item": "lifestraw" },
+      { "item": "pocket_survival" },
+      { "item": "solarpack" },
+      { "item": "handflare", "count": 4 }
+    ]
+  },
+  {
     "id": "horse_gear",
     "type": "item_group",
     "//": "Horse vehicle items",
-    "items": [ [ "riding_saddle", 50 ], [ "yoke_harness", 50 ] ]
+    "items": [ [ "horse_tack", 50 ], [ "yoke_harness", 50 ], [ "reins_tackle", 50 ] ]
+  },
+  {
+    "type": "item_group",
+    "id": "maps",
+    "items": [ { "item": "roadmap", "prob": 33 }, { "item": "touristmap", "prob": 33 }, { "item": "survivormap", "prob": 33 } ]
+  },
+  {
+    "type": "item_group",
+    "id": "tobacco_products",
+    "items": [
+      [ "cig", 60 ],
+      [ "tobacco", 20 ],
+      [ "chaw", 20 ],
+      [ "cigar", 10 ],
+      [ "ecig", 10 ],
+      [ "advanced_ecig", 8 ],
+      [ "nicotine_liquid", 15 ],
+      [ "pipe_tobacco", 10 ]
+    ]
+  },
+  {
+    "type": "item_group",
+    "id": "spiral",
+    "items": [ [ "spiral_stone", 20 ], [ "vortex_stone", 2 ] ]
   }
 ]

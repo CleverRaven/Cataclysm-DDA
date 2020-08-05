@@ -39,7 +39,7 @@
     "id": "LOOT_GUNS",
     "type": "LOOT_ZONE",
     "name": "Loot: Guns",
-    "description": "Destination for guns, bows and similar wearpons."
+    "description": "Destination for guns, bows and similar weapons."
   },
   {
     "id": "LOOT_MAGAZINES",

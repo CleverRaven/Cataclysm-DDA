@@ -196,6 +196,12 @@
   {
     "type": "mapgen",
     "method": "json",
+    "nested_mapgen_id": "NC_FARMER_spawn",
+    "object": { "mapgensize": [ 1, 1 ], "place_npcs": [ { "class": "farmer", "x": 0, "y": 0 } ] }
+  },
+  {
+    "type": "mapgen",
+    "method": "json",
     "nested_mapgen_id": "24x24_fence6",
     "object": {
       "mapgensize": [ 24, 24 ],

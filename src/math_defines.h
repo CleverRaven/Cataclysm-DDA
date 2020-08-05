@@ -1,6 +1,6 @@
 #pragma once
-#ifndef CATA_MATH_DEFINES_H
-#define CATA_MATH_DEFINES_H
+#ifndef CATA_SRC_MATH_DEFINES_H
+#define CATA_SRC_MATH_DEFINES_H
 
 // On Visual Studio math.h only provides the defines (M_PI, etc.) if
 // _USE_MATH_DEFINES is defined before including it.
@@ -13,7 +13,8 @@
 // https://stackoverflow.com/questions/6563810/m-pi-works-with-math-h-but-not-with-cmath-in-visual-studio/6563891
 
 #define _USE_MATH_DEFINES
-#include <cmath>
+// NOLINTNEXTLINE(modernize-deprecated-headers)
+#include <math.h>
 
 // And on mingw even that doesn't work, so we are forced to have our own
 // fallback definitions.
@@ -29,4 +30,4 @@
 #define M_SQRT2 1.41421356237309504880
 #endif
 
-#endif // CATA_MATH_DEFINES_H
+#endif // CATA_SRC_MATH_DEFINES_H

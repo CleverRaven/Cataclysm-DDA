@@ -65,6 +65,17 @@
     ]
   },
   {
+    "id": "demon_spider",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat_tainted", "type": "flesh", "mass_ratio": 0.1 },
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.05 },
+      { "drop": "demon_chitin_piece", "type": "bone", "mass_ratio": 0.04 },
+      { "drop": "demon_chitin_plate", "type": "skin", "mass_ratio": 0.01 },
+      { "drop": "demon_spider_fang", "base_num": [ 0, 0 ], "scale_num": [ 0.1, 0.6 ], "max": 2, "type": "flesh" }
+    ]
+  },
+  {
     "id": "mammal_small_fur",
     "//": "override of vanilla harvest, includes hairballs",
     "type": "harvest",
@@ -238,7 +249,7 @@
   },
   {
     "id": "zombie_leather",
-    "//": "any zombie that might drop leather. mostly animals.",
+    "//": "any zombie that might drop leather.  mostly animals.",
     "type": "harvest",
     "entries": [
       { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
@@ -251,7 +262,7 @@
   },
   {
     "id": "zombie_fur",
-    "//": "any zombie that might drop leather. mostly animals.",
+    "//": "any zombie that might drop leather.  mostly animals.",
     "type": "harvest",
     "entries": [
       { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
@@ -313,11 +324,25 @@
   },
   {
     "id": "lemure",
-    "//": "nothing much aside from big pile of meat and maybe demon blood in future. But for now, tainted will do.",
+    "//": "nothing much aside from big pile of meat and maybe demon blood in future.  But for now, tainted will do.",
     "type": "harvest",
     "entries": [
       { "drop": "tainted_blood", "type": "flesh", "mass_ratio": 0.1 },
       { "drop": "meat", "type": "flesh", "mass_ratio": 0.4 }
+    ]
+  },
+  {
+    "id": "lizardfolk",
+    "type": "harvest",
+    "entries": [
+      { "drop": "meat", "type": "flesh", "mass_ratio": 0.32 },
+      { "drop": "lung", "type": "flesh", "mass_ratio": 0.0035 },
+      { "drop": "liver", "type": "offal", "mass_ratio": 0.01 },
+      { "drop": "brain", "type": "flesh", "mass_ratio": 0.005 },
+      { "drop": "kidney", "type": "offal", "mass_ratio": 0.002 },
+      { "drop": "raw_leather", "type": "skin", "mass_ratio": 0.02 },
+      { "drop": "sinew", "type": "bone", "mass_ratio": 0.00035 },
+      { "drop": "bone", "type": "bone", "mass_ratio": 0.1 }
     ]
   }
 ]

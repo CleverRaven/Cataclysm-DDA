@@ -1,0 +1,24 @@
+[
+  {
+    "id": "afs_electroshock_grenade_1",
+    "type": "TOOL",
+    "copy-from": "grenade_canister",
+    "category": "weapons",
+    "looks_like": "grenade_emp",
+    "name": "electroshock grenade",
+    "description": "This is an electronic weapon that will emit a short ranged electric field.  When activated, you'll have five turns before it starts doing so; throwing it before that would be a good idea.",
+    "countdown_action": { "menu_text": "Pull pin", "type": "transform", "target": "afs_electroshock_grenade_1_act" }
+  },
+  {
+    "id": "afs_electroshock_grenade_1_act",
+    "type": "TOOL",
+    "copy-from": "afs_electroshock_grenade_1",
+    "looks_like": "grenade_emp_act",
+    "name": "armed electroshock grenade",
+    "description": "This electroshock grenade is currently creating a dangerous electric field.",
+    "emits": [ "emit_shock_cloud" ],
+    "countdown_interval": 20,
+    "countdown_action": { "type": "transform", "target": "null" },
+    "flags": [ "TRADER_AVOID" ]
+  }
+]

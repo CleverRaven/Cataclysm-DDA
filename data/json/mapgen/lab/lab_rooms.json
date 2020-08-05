@@ -131,7 +131,7 @@
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
       "terrain": { "c": [ "t_thconc_floor" ] },
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 2, 3 ], "y": [ 3, 3 ] } ]
+      "place_monsters": [ { "monster": "GROUP_LAB_SECURITY", "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": [ 1, 6 ], "chance": 3 } ]
     }
   },
   {
@@ -154,7 +154,7 @@
       ],
       "palettes": [ "lab_palette", "lab_palette_map_computer" ],
       "terrain": { "c": [ "t_thconc_floor" ] },
-      "place_monster": [ { "monster": "mon_turret_rifle", "x": [ 4, 4 ], "y": [ 1, 4 ] } ]
+      "place_monsters": [ { "monster": "GROUP_LAB_SECURITY", "x": [ 0, 6 ], "y": [ 0, 6 ], "repeat": [ 1, 6 ], "chance": 3 } ]
     }
   },
   {
@@ -267,7 +267,7 @@
         "........."
       ],
       "palettes": [ "lab_palette" ],
-      "terrain": { "C": [ "t_centrifuge" ] }
+      "furniture": { "C": [ "f_centrifuge" ] }
     }
   },
   {
@@ -732,14 +732,15 @@
     "object": {
       "mapgensize": [ 1, 1 ],
       "rows": [ "A" ],
-      "terrain": {
+      "terrain": { "A": "t_thconc_floor" },
+      "furniture": {
         "A": [
-          "t_machinery_heavy",
-          "t_machinery_heavy",
-          "t_machinery_electronic",
-          "t_machinery_light",
-          "t_centrifuge",
-          "t_console_broken"
+          "f_machinery_heavy",
+          "f_machinery_heavy",
+          "f_machinery_electronic",
+          "f_machinery_light",
+          "f_centrifuge",
+          "f_console_broken"
         ]
       }
     }
@@ -986,7 +987,11 @@
       ],
       "palettes": [ "lab_palette" ],
       "terrain": { "%": "t_thconc_floor" },
-      "furniture": { "%": "f_treadmill", "5": [ "f_ergometer", "f_exercise" ], "`": "f_canvas_floor" },
+      "furniture": {
+        "%": [ "f_treadmill", "f_treadmill_mechanical" ],
+        "5": [ "f_ergometer", "f_ergometer_mechanical", "f_exercise" ],
+        "`": "f_canvas_floor"
+      },
       "items": {
         ".": { "item": "clutter_gym", "chance": 3 },
         "l": { "item": "locker_gym", "chance": 30 },

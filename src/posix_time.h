@@ -1,13 +1,13 @@
 #pragma once
-#ifndef TIME_SPEC_H
-#define TIME_SPEC_H
+#ifndef CATA_SRC_POSIX_TIME_H
+#define CATA_SRC_POSIX_TIME_H
 
 // Compatibility header.  On POSIX, just include <ctime>.  On Windows, provide
 // our own nanosleep implementation.
 
 #include <ctime> // IWYU pragma: keep
 
-#if defined(_WIN32) && !defined(__CYGWIN__)
+#if defined(_WIN32) && !defined(__CYGWIN__) && !defined(WINPTHREAD_API)
 /* Windows platforms.  */
 
 /* Windows lacks the nanosleep() function. The following code was stuffed
@@ -23,7 +23,7 @@ extern "C" {
 // Apparently this is defined by pthread.h, if that header had been included.
 // _INC_TIME is defined in time.h for MSVC
 // __struct_timespec_defined is defined in time.h for MinGW on Windows
-#if !defined(_TIMESPEC_DEFINED) && !defined(_INC_TIME) && ! __struct_timespec_defined
+#if !defined(_TIMESPEC_DEFINED) && !defined(_INC_TIME) && !__struct_timespec_defined
 #define _TIMESPEC_DEFINED
 struct timespec {
     time_t tv_sec;
@@ -48,4 +48,4 @@ nanosleep( const struct timespec *requested_delay,
            struct timespec *remaining_delay );
 
 #endif
-#endif
+#endif // CATA_SRC_POSIX_TIME_H

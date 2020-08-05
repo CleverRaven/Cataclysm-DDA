@@ -3,6 +3,8 @@
     "type": "palette",
     "id": "lab_palette",
     "furniture": {
+      "6": "f_console",
+      "x": "f_console_broken",
       "b": "f_bed",
       "l": "f_locker",
       "X": [ "f_cardboard_box", "f_crate_c" ],
@@ -12,15 +14,15 @@
       "h": "f_chair",
       "f": "f_fridge",
       "t": "f_table",
+      "i": "f_filing_cabinet",
       "c": "f_counter",
       "S": "f_sink",
       "T": "f_toilet",
       "#": "f_null",
-      "]": "f_bookcase"
+      "]": "f_bookcase",
+      "^": "f_rubble_rock"
     },
     "terrain": {
-      "6": "t_console",
-      "x": "t_console_broken",
       "g": "t_reinforced_glass",
       "G": "t_reinforced_door_glass_lab_c",
       ".": "t_thconc_floor",

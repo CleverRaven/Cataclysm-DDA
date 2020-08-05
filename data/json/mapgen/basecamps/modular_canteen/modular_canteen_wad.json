@@ -7,7 +7,7 @@
       "B": "t_grass",
       "o": "t_wall_wattle_half",
       "w": "t_wall_wattle",
-      ".": "t_floor",
+      ".": "t_dirtfloor",
       ",": "t_dirtfloor",
       "S": "t_dirtfloor",
       "a": "t_dirtfloor",

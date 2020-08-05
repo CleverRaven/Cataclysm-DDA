@@ -1,0 +1,55 @@
+[
+  {
+    "type": "overmap_terrain",
+    "abstract": "generic_private_resort",
+    "name": "private resort",
+    "sym": "p",
+    "color": "yellow",
+    "see_cost": 5,
+    "mondensity": 1,
+    "flags": [ "RISK_HIGH", "SOURCE_DRINK", "SOURCE_LUXURY" ]
+  },
+  {
+    "id": "p_resort_1nw",
+    "type": "overmap_terrain",
+    "sym": "P",
+    "copy-from": "generic_private_resort"
+  },
+  {
+    "type": "overmap_terrain",
+    "id": [
+      "p_resort_0nw",
+      "p_resort_0se",
+      "p_resort_1ee",
+      "p_resort_1mm",
+      "p_resort_1ne",
+      "p_resort_1nn",
+      "p_resort_1se",
+      "p_resort_1ss",
+      "p_resort_1sw",
+      "p_resort_1ww",
+      "p_resort_2ee",
+      "p_resort_2mm",
+      "p_resort_2ne",
+      "p_resort_2nn",
+      "p_resort_2nw",
+      "p_resort_2se",
+      "p_resort_2ss",
+      "p_resort_2sw",
+      "p_resort_2ww",
+      "p_resort_pe",
+      "p_resort_pm",
+      "p_resort_pw",
+      "p_resort_ree",
+      "p_resort_rmm",
+      "p_resort_rne",
+      "p_resort_rnn",
+      "p_resort_rnw",
+      "p_resort_rse",
+      "p_resort_rss",
+      "p_resort_rsw",
+      "p_resort_rww"
+    ],
+    "copy-from": "generic_private_resort"
+  }
+]

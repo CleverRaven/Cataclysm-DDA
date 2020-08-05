@@ -33,14 +33,13 @@
         "ssssssssssssssssssssssss"
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_dirt" ],
-        "$": "t_shrub",
+        " ": "t_region_groundcover_urban",
+        "$": "t_region_shrub_decorative",
         "+": "t_door_c",
         "-": "t_wall_w",
         "D": "t_door_locked",
         "s": "t_sidewalk",
         "w": "t_window",
-        "x": "t_console_broken",
         "|": "t_wall_w",
         "4": "t_gutter_downspout"
       },
@@ -55,7 +54,8 @@
         "l": "f_locker",
         "n": "f_safe_l",
         "o": "f_bookcase",
-        "t": "f_table"
+        "t": "f_table",
+        "x": "f_console_broken"
       },
       "vendingmachines": { "V": {  } },
       "toilets": { "T": {  } },
@@ -140,7 +140,7 @@
         " $$$$$$##$ssss$##$$$$$$ ",
         " ##WWWW##$ssss$##WWWW## ",
         " #^....^#$ssss$#Y????^##",
-        " #.KttK.###++###..tta.o#",
+        " #.KttK.###++###..ttK.o#",
         " #.KttK.|Y.UU.Y|......o#",
         " #.KttK.+..UU..+.ceec.o#",
         " #.KttK.+..UU..|.----+##",
@@ -163,15 +163,14 @@
         "  ##############ssssssss"
       ],
       "terrain": {
-        " ": [ "t_grass", "t_grass", "t_dirt" ],
-        "$": "t_shrub",
+        " ": "t_region_groundcover_urban",
+        "$": "t_region_shrub_decorative",
         "+": "t_door_c",
         "-": "t_wall_w",
         "D": "t_door_locked",
         "s": "t_sidewalk",
         "W": "t_window_domestic",
         "w": "t_window",
-        "x": "t_console_broken",
         "|": "t_wall_w",
         "#": "t_brick_wall",
         "R": "t_sidewalk",
@@ -192,7 +191,8 @@
         "l": "f_locker",
         "n": "f_safe_l",
         "o": "f_bookcase",
-        "t": "f_table"
+        "t": "f_table",
+        "x": "f_console_broken"
       },
       "vendingmachines": { "V": {  } },
       "toilets": { "T": {  } },

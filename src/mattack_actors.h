@@ -1,25 +1,26 @@
 #pragma once
-#ifndef MATTACK_ACTORS_H
-#define MATTACK_ACTORS_H
+#ifndef CATA_SRC_MATTACK_ACTORS_H
+#define CATA_SRC_MATTACK_ACTORS_H
 
 #include <climits>
 #include <map>
-#include <vector>
+#include <memory>
 #include <string>
 #include <utility>
+#include <vector>
 
+#include "bodypart.h"
 #include "damage.h"
-#include "mattack_common.h"
 #include "magic.h"
+#include "mattack_common.h"
 #include "mtype.h"
 #include "translations.h"
 #include "type_id.h"
 #include "weighted_list.h"
-#include "bodypart.h"
 
+class Creature;
 class JsonObject;
 class monster;
-class Creature;
 
 class leap_actor : public mattack_actor
 {
@@ -38,7 +39,7 @@ class leap_actor : public mattack_actor
         leap_actor() = default;
         ~leap_actor() override = default;
 
-        void load_internal( JsonObject &obj, const std::string &src ) override;
+        void load_internal( const JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };
@@ -54,7 +55,7 @@ class mon_spellcasting_actor : public mattack_actor
         mon_spellcasting_actor() = default;
         ~mon_spellcasting_actor() override = default;
 
-        void load_internal( JsonObject &obj, const std::string &src ) override;
+        void load_internal( const JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };
@@ -104,7 +105,7 @@ class melee_actor : public mattack_actor
         virtual Creature *find_target( monster &z ) const;
         virtual void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const;
 
-        void load_internal( JsonObject &obj, const std::string &src ) override;
+        void load_internal( const JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };
@@ -113,15 +114,15 @@ class bite_actor : public melee_actor
 {
     public:
         // one_in( this - damage dealt ) chance of getting infected
-        // ie. the higher is this, the lower chance of infection
-        int no_infection_chance;
+        // i.e. the higher is this, the lower chance of infection
+        int no_infection_chance = 0;
 
         bite_actor();
         ~bite_actor() override = default;
 
         void on_damage( monster &z, Creature &target, dealt_damage_instance &dealt ) const override;
 
-        void load_internal( JsonObject &obj, const std::string &src ) override;
+        void load_internal( const JsonObject &obj, const std::string &src ) override;
         std::unique_ptr<mattack_actor> clone() const override;
 };
 
@@ -132,7 +133,7 @@ class gun_actor : public mattack_actor
         itype_id gun_type;
 
         /** Specific ammo type to use or for gun default if unspecified */
-        itype_id ammo_type = "null";
+        itype_id ammo_type = itype_id::NULL_ID();
 
         /*@{*/
         /** Balanced against player. If fake_skills unspecified defaults to GUN 4, WEAPON 8 */
@@ -146,7 +147,7 @@ class gun_actor : public mattack_actor
         /** Specify weapon mode to use at different engagement distances */
         std::map<std::pair<int, int>, gun_mode_id> ranges;
 
-        int max_ammo = INT_MAX; /** limited also by monster starting_ammo */
+        int max_ammo = INT_MAX; /** limited also by monster starting ammo */
 
         /** Description of the attack being run */
         std::string description;
@@ -154,7 +155,7 @@ class gun_actor : public mattack_actor
         /** Message to display (if any) for failures to fire excluding lack of ammo */
         std::string failure_msg;
 
-        /** Sound (if any) when either starting_ammo depleted or max_ammo reached */
+        /** Sound (if any) when either ammo depleted or max_ammo reached */
         std::string no_ammo_sound;
 
         /** Number of moves required for each attack */
@@ -186,9 +187,9 @@ class gun_actor : public mattack_actor
         gun_actor();
         ~gun_actor() override = default;
 
-        void load_internal( JsonObject &obj, const std::string &src ) override;
+        void load_internal( const JsonObject &obj, const std::string &src ) override;
         bool call( monster & ) const override;
         std::unique_ptr<mattack_actor> clone() const override;
 };
 
-#endif
+#endif // CATA_SRC_MATTACK_ACTORS_H

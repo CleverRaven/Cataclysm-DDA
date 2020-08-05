@@ -1,6 +1,6 @@
 #pragma once
-#ifndef ANIMATION_H
-#define ANIMATION_H
+#ifndef CATA_SRC_ANIMATION_H
+#define CATA_SRC_ANIMATION_H
 
 #include "color.h"
 
@@ -31,4 +31,4 @@ struct explosion_tile {
     nc_color color;
 };
 
-#endif
+#endif // CATA_SRC_ANIMATION_H

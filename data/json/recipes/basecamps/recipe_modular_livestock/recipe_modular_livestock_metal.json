@@ -12,7 +12,22 @@
     "blueprint_requires": [ { "id": "fbml_0" } ],
     "blueprint_provides": [ { "id": "fbml_northeast" }, { "id": "chicken_coop" } ],
     "blueprint_excludes": [ { "id": "fbml_northeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 23 h 45 m",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 360 ], [ "welder", 1800 ], [ "welder_crude", 2700 ], [ "toolset", 2700 ] ] ],
+        "qualities": [ [ { "id": "GLARE", "level": 2 } ], [ { "id": "HAMMER", "level": 2 } ], [ { "id": "SAW_W", "level": 2 } ] ],
+        "components": [
+          [ [ "2x4", 138 ] ],
+          [ [ "nail", 360 ] ],
+          [ [ "wire", 20 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "steel_plate", 72 ] ],
+          [ [ "wood_panel", 16 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -27,7 +42,29 @@
     "blueprint_requires": [ { "id": "fbml_0" } ],
     "blueprint_provides": [ { "id": "fbml_southeast" } ],
     "blueprint_excludes": [ { "id": "fbml_southeast" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 7 h",
+      "skills": [ [ "fabrication", 4 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 220 ], [ "welder", 1100 ], [ "welder_crude", 1650 ], [ "toolset", 1650 ] ] ],
+        "qualities": [
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ],
+          [ { "id": "WRENCH" } ]
+        ],
+        "components": [
+          [ [ "2x4", 142 ] ],
+          [ [ "nail", 324 ] ],
+          [ [ "wood_panel", 10 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "pipe", 60 ] ],
+          [ [ "sheet_metal", 10 ] ],
+          [ [ "glass_sheet", 4 ] ],
+          [ [ "steel_plate", 44 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -42,7 +79,27 @@
     "blueprint_requires": [ { "id": "faction_base_livestock_0" } ],
     "blueprint_provides": [ { "id": "fbml_southwest" }, { "id": "stables" } ],
     "blueprint_excludes": [ { "id": "fbml_southwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 17 h",
+      "skills": [ [ "fabrication", 4 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 300 ], [ "welder", 1500 ], [ "welder_crude", 2250 ], [ "toolset", 2250 ] ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 161 ] ],
+          [ [ "nail", 432 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "hinge", 2 ] ],
+          [ [ "steel_plate", 60 ] ],
+          [ [ "wood_panel", 17 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -57,7 +114,27 @@
     "blueprint_requires": [ { "id": "fbml_southwest" } ],
     "blueprint_provides": [ { "id": "fbml_west" } ],
     "blueprint_excludes": [ { "id": "fbml_west" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 13 h",
+      "skills": [ [ "fabrication", 4 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 260 ], [ "welder", 1300 ], [ "welder_crude", 1950 ], [ "toolset", 1950 ] ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 178 ] ],
+          [ [ "nail", 464 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "steel_plate", 52 ] ],
+          [ [ "wood_panel", 19 ] ]
+        ]
+      }
+    }
   },
   {
     "type": "recipe",
@@ -72,6 +149,26 @@
     "blueprint_requires": [ { "id": "fbml_west" } ],
     "blueprint_provides": [ { "id": "fbml_northwest" } ],
     "blueprint_excludes": [ { "id": "fbml_northwest" } ],
-    "blueprint_autocalc": true
+    "blueprint_needs": {
+      "time": "2 d 15 h",
+      "skills": [ [ "fabrication", 4 ], [ "survival", 1 ] ],
+      "inline": {
+        "tools": [ [ [ "oxy_torch", 280 ], [ "welder", 1400 ], [ "welder_crude", 2100 ], [ "toolset", 2100 ] ] ],
+        "qualities": [
+          [ { "id": "DIG", "level": 2 } ],
+          [ { "id": "GLARE", "level": 2 } ],
+          [ { "id": "HAMMER", "level": 2 } ],
+          [ { "id": "SAW_W", "level": 2 } ]
+        ],
+        "components": [
+          [ [ "2x4", 170 ] ],
+          [ [ "nail", 444 ] ],
+          [ [ "pointy_stick", 8 ], [ "spear_wood", 8 ] ],
+          [ [ "hinge", 4 ] ],
+          [ [ "steel_plate", 56 ] ],
+          [ [ "wood_panel", 18 ] ]
+        ]
+      }
+    }
   }
 ]

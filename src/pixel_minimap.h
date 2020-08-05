@@ -1,20 +1,22 @@
 #pragma once
-#ifndef MINIMAP_H
-#define MINIMAP_H
+#ifndef CATA_SRC_PIXEL_MINIMAP_H
+#define CATA_SRC_PIXEL_MINIMAP_H
 
 #include <map>
 #include <memory>
 
-#include "pixel_minimap_projectors.h"
 #include "point.h"
 #include "sdl_wrappers.h"
+#include "sdl_geometry.h"
 
-enum class pixel_minimap_type {
+class pixel_minimap_projector;
+
+enum class pixel_minimap_type : int {
     ortho,
     iso
 };
 
-enum class pixel_minimap_mode {
+enum class pixel_minimap_mode : int {
     solid,
     squares,
     dots
@@ -32,7 +34,7 @@ struct pixel_minimap_settings {
 class pixel_minimap
 {
     public:
-        pixel_minimap( const SDL_Renderer_Ptr &renderer );
+        pixel_minimap( const SDL_Renderer_Ptr &renderer, const GeometryRenderer_Ptr &geometry );
         ~pixel_minimap();
 
         void set_type( pixel_minimap_type type );
@@ -65,6 +67,7 @@ class pixel_minimap
 
     private:
         const SDL_Renderer_Ptr &renderer;
+        const GeometryRenderer_Ptr &geometry;
 
         pixel_minimap_type type;
         pixel_minimap_settings settings;
@@ -89,4 +92,4 @@ class pixel_minimap
         std::map<tripoint, submap_cache> cache;
 };
 
-#endif // MINIMAP_H
+#endif // CATA_SRC_PIXEL_MINIMAP_H

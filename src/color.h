@@ -1,6 +1,6 @@
 #pragma once
-#ifndef COLOR_H
-#define COLOR_H
+#ifndef CATA_SRC_COLOR_H
+#define CATA_SRC_COLOR_H
 
 #include <array>
 #include <list>
@@ -382,7 +382,7 @@ namespace std
 {
 template<>
 struct hash<nc_color> {
-    std::size_t operator()( const nc_color &v ) const {
+    std::size_t operator()( const nc_color &v ) const noexcept {
         return hash<int>()( v.operator int() );
     }
 };
@@ -504,4 +504,4 @@ std::string get_note_string_from_color( const nc_color &color );
 nc_color get_note_color( const std::string &note_id );
 std::list<std::pair<std::string, std::string>> get_note_color_names();
 
-#endif
+#endif // CATA_SRC_COLOR_H

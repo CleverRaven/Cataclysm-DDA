@@ -2,14 +2,14 @@
 
 #include <algorithm>
 #include <exception>
-#include <sstream>
 
+#include "color.h"
 #include "debug.h"
 #include "dependency_tree.h"
 #include "output.h"
 #include "string_formatter.h"
-#include "translations.h"
 #include "string_id.h"
+#include "translations.h"
 
 mod_ui::mod_ui( mod_manager &mman )
     : active_manager( mman )
@@ -23,22 +23,21 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
         return "";
     }
 
-    std::ostringstream info;
+    std::string info;
 
     if( !mod->authors.empty() ) {
-        info << "<color_light_blue>" << ngettext( "Author", "Authors", mod->authors.size() )
-             << "</color>: " << enumerate_as_string( mod->authors );
+        info += colorize( ngettext( "Author", "Authors", mod->authors.size() ),
+                          c_light_blue ) + ": " + enumerate_as_string( mod->authors );
         if( mod->maintainers.empty() ) {
-            info << "\n";
+            info += "\n";
         } else {
-            info << "  ";
+            info += "  ";
         }
     }
 
     if( !mod->maintainers.empty() ) {
-        info << "<color_light_blue>" << ngettext( "Maintainer", "Maintainers", mod->maintainers.size() )
-             << u8"</color>:\u00a0"/*non-breaking space*/
-             << enumerate_as_string( mod->maintainers ) << "\n";
+        info += colorize( ngettext( "Maintainer", "Maintainers", mod->maintainers.size() ),
+                          c_light_blue ) + u8":\u00a0"/*non-breaking space*/ + enumerate_as_string( mod->maintainers ) + "\n";
     }
 
     if( !mod->dependencies.empty() ) {
@@ -50,26 +49,25 @@ std::string mod_ui::get_information( const MOD_INFORMATION *mod )
                 return string_format( "[<color_red>%s</color>]", e.c_str() );
             }
         } );
-        info << "<color_light_blue>" << ngettext( "Dependency", "Dependencies", deps.size() )
-             << "</color>: " << str << "\n";
+        info += colorize( ngettext( "Dependency", "Dependencies", deps.size() ),
+                          c_light_blue ) + ": " + str + "\n";
     }
 
     if( !mod->version.empty() ) {
-        info << "<color_light_blue>" << _( "Mod version" ) << "</color>: "
-             << mod->version << std::endl;
+        info += colorize( _( "Mod version" ), c_light_blue ) + ": " + mod->version + "\n";
     }
 
     if( !mod->description.empty() ) {
-        info << _( mod->description ) << "\n";
+        info += _( mod->description ) + "\n";
     }
 
     std::string note = !mm_tree.is_available( mod->ident ) ? mm_tree.get_node(
                            mod->ident )->s_errors() : "";
     if( !note.empty() ) {
-        info << "<color_red>" << note << "</color>";
+        info += colorize( note, c_red );
     }
 
-    return info.str();
+    return info;
 }
 
 void mod_ui::try_add( const mod_id &mod_to_add,
@@ -91,7 +89,7 @@ void mod_ui::try_add( const mod_id &mod_to_add,
             return;
         }
         errs = checknode->has_errors();
-    } catch( std::exception &e ) {
+    } catch( std::exception & ) {
         errs = true;
     }
 

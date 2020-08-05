@@ -1,0 +1,38 @@
+[
+  {
+    "type": "material",
+    "id": "titanium",
+    "name": "Titanium",
+    "density": 10,
+    "bash_resist": 4,
+    "cut_resist": 9,
+    "bullet_resist": 7,
+    "acid_resist": 14,
+    "fire_resist": 4,
+    "elec_resist": 8,
+    "chip_resist": 20,
+    "repaired_with": "afs_scrap_titanium",
+    "dmg_adj": [ "marked", "dented", "smashed", "shattered" ],
+    "bash_dmg_verb": "dented",
+    "cut_dmg_verb": "scratched"
+  },
+  {
+    "type": "material",
+    "id": "graphene_weave",
+    "name": "Graphene Weave",
+    "density": 10,
+    "specific_heat_liquid": 0.82,
+    "specific_heat_solid": 0.45,
+    "latent_heat": 273,
+    "bash_resist": 3,
+    "cut_resist": 3,
+    "bullet_resist": 2,
+    "acid_resist": 5,
+    "fire_resist": 5,
+    "elec_resist": 0,
+    "chip_resist": 10,
+    "dmg_adj": [ "marked", "dented", "scarred", "broken" ],
+    "bash_dmg_verb": "ripped",
+    "cut_dmg_verb": "cut"
+  }
+]

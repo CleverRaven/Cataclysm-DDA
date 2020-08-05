@@ -1,17 +1,20 @@
 #include "mission.h" // IWYU pragma: associated
 
 #include <algorithm>
+#include <cstdlib>
 #include <set>
 
 #include "assign.h"
 #include "calendar.h"
 #include "condition.h"
+#include "debug.h"
+#include "enum_conversions.h"
 #include "generic_factory.h"
 #include "init.h"
 #include "item.h"
-#include "rng.h"
-#include "debug.h"
 #include "json.h"
+#include "npc.h"
+#include "rng.h"
 
 enum legacy_mission_type_id {
     MISSION_NULL,
@@ -129,8 +132,8 @@ static const std::map<std::string, std::function<void( mission * )>> mission_fun
     }
 };
 
-static const std::map<std::string, std::function<bool( const tripoint & )>> tripoint_function_map
-= {{
+static const std::map<std::string, std::function<bool( const tripoint_abs_omt & )>>
+tripoint_function_map = {{
         { "never", mission_place::never },
         { "always", mission_place::always },
         { "near_town", mission_place::near_town }
@@ -205,7 +208,7 @@ bool string_id<mission_type>::is_valid() const
     return mission_type_factory.is_valid( *this );
 }
 
-void mission_type::load_mission_type( JsonObject &jo, const std::string &src )
+void mission_type::load_mission_type( const JsonObject &jo, const std::string &src )
 {
     mission_type_factory.load( jo, src );
 }
@@ -216,7 +219,7 @@ void mission_type::reset()
 }
 
 template <typename Fun>
-void assign_function( JsonObject &jo, const std::string &id, Fun &target,
+void assign_function( const JsonObject &jo, const std::string &id, Fun &target,
                       const std::map<std::string, Fun> &cont )
 {
     if( jo.has_string( id ) ) {
@@ -231,7 +234,7 @@ void assign_function( JsonObject &jo, const std::string &id, Fun &target,
 
 static DynamicDataLoader::deferred_json deferred;
 
-void mission_type::load( JsonObject &jo, const std::string &src )
+void mission_type::load( const JsonObject &jo, const std::string &src )
 {
     const bool strict = src == "dda";
 
@@ -242,7 +245,7 @@ void mission_type::load( JsonObject &jo, const std::string &src )
 
     if( jo.has_member( "origins" ) ) {
         origins.clear();
-        for( auto &m : jo.get_tags( "origins" ) ) {
+        for( const std::string &m : jo.get_tags( "origins" ) ) {
             origins.emplace_back( io::string_to_enum<mission_origin>( m ) );
         }
     }
@@ -342,7 +345,7 @@ void mission_type::finalize()
 void mission_type::check_consistency()
 {
     for( const auto &m : get_all() ) {
-        if( !m.item_id.empty() && !item::type_is_defined( m.item_id ) ) {
+        if( !m.item_id.is_empty() && !item::type_is_defined( m.item_id ) ) {
             debugmsg( "Mission %s has undefined item id %s", m.id.c_str(), m.item_id.c_str() );
         }
     }
@@ -456,10 +459,11 @@ const std::vector<mission_type> &mission_type::get_all()
     return mission_type_factory.get_all();
 }
 
-mission_type_id mission_type::get_random_id( const mission_origin origin, const tripoint &p )
+mission_type_id mission_type::get_random_id( const mission_origin origin,
+        const tripoint_abs_omt &p )
 {
     std::vector<mission_type_id> valid;
-    for( auto &t : get_all() ) {
+    for( const mission_type &t : get_all() ) {
         if( std::find( t.origins.begin(), t.origins.end(), origin ) == t.origins.end() ) {
             continue;
         }

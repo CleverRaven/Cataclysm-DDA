@@ -2,10 +2,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "basement" ],
+    "om_terrain": [ "basement_chem" ],
+    "//": "matches house_29",
     "weight": 250,
     "object": {
-      "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
       "rows": [
         "                        ",
@@ -26,7 +26,7 @@
         "      |R________i|      ",
         "      |||+|++|||||      ",
         "      |W__|..|          ",
-        "      |E_R|<<|          ",
+        "      |E_R|.<|          ",
         "      ||||||||          ",
         "                        ",
         "                        ",
@@ -46,7 +46,6 @@
         "E": "t_linoleum_gray",
         "i": "t_linoleum_gray",
         "H": "t_linoleum_gray",
-        "4": "t_machinery_old",
         "R": "t_linoleum_gray",
         "?": "t_linoleum_gray",
         "h": "t_linoleum_gray",
@@ -55,6 +54,7 @@
       },
       "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "furniture": {
+        "4": "f_machinery_old",
         "T": "f_workbench",
         "c": "f_counter",
         "h": "f_chair",
@@ -89,10 +89,10 @@
   {
     "type": "mapgen",
     "method": "json",
-    "om_terrain": [ "basement" ],
+    "om_terrain": "basement_chem2",
+    "//": "matches house_30",
     "weight": 200,
     "object": {
-      "rotation": [ 0, 3 ],
       "fill_ter": "t_rock",
       "rows": [
         "                        ",
@@ -113,7 +113,7 @@
         "   |||||+||,,||+||||||  ",
         "    |i,A,F|++|U__XU|    ",
         "    |D,,,T|..|U___c|    ",
-        "    |b,,hT|<<|U___c|    ",
+        "    |b,,hT|<.|U___c|    ",
         "    |b,n,T||||U_U_U|    ",
         "    |||||||  |||||||    ",
         "                        ",
@@ -147,7 +147,7 @@
         "n": "t_linoleum_white",
         "H": "t_linoleum_white",
         "T": "t_linoleum_white",
-        "8": "t_console_broken"
+        "8": "t_linoleum_white"
       },
       "liquids": { "E": { "liquid": "water_clean", "amount": [ 0, 100 ] } },
       "furniture": {
@@ -169,7 +169,8 @@
         "f": "f_filing_cabinet",
         "5": "f_server",
         "b": "f_lab_bench",
-        "D": "f_fume_hood"
+        "D": "f_fume_hood",
+        "8": "f_console_broken"
       },
       "items": {
         "U": [

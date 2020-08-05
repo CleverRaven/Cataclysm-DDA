@@ -34,9 +34,8 @@ namespace
 {
 
 #if defined(_WIN32)
-bool do_mkdir( const std::string &path, const int mode )
+bool do_mkdir( const std::string &path, const int /*mode*/ )
 {
-    ( void )mode; //not used on windows
 #if defined(_MSC_VER)
     return _mkdir( path.c_str() ) == 0;
 #else
@@ -149,12 +148,12 @@ void for_each_dir_entry( const std::string &path, Function function )
 
     const dir_ptr root = opendir( path.c_str() );
     if( !root ) {
-        const auto e_str = strerror( errno );
+        const char *e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "opendir [" << path << "] failed with \"" << e_str << "\".";
         return;
     }
 
-    while( const auto entry = readdir( root ) ) {
+    while( const dirent *entry = readdir( root ) ) {
         function( *entry );
     }
     closedir( root );
@@ -186,7 +185,7 @@ bool is_directory_stat( const std::string &full_path )
 
     struct stat result;
     if( stat( full_path.c_str(), &result ) != 0 ) {
-        const auto e_str = strerror( errno );
+        const char *e_str = strerror( errno );
         DebugLog( D_WARNING, D_MAIN ) << "stat [" << full_path << "] failed with \"" << e_str << "\".";
         return false;
     }
@@ -209,10 +208,9 @@ bool is_directory_stat( const std::string &full_path )
 // Returns true if entry is a directory, false otherwise.
 //--------------------------------------------------------------------------------------------------
 #if defined(__MINGW32__)
-bool is_directory( const dirent &entry, const std::string &full_path )
+bool is_directory( const dirent &/*entry*/, const std::string &full_path )
 {
     // no dirent::d_type
-    ( void )entry; //not used for mingw
     return is_directory_stat( full_path );
 }
 #else
@@ -317,7 +315,9 @@ std::vector<std::string> find_file_if_bfs( const std::string &root_path,
 
         // Keep files and directories to recurse ordered consistently
         // by sorting from the old end to the new end.
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         std::sort( std::begin( directories ) + n_dirs,    std::end( directories ) );
+        // NOLINTNEXTLINE(cata-use-localized-sorting)
         std::sort( std::begin( results )     + n_results, std::end( results ) );
     }
 

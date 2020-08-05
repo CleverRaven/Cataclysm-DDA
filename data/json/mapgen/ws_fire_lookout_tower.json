@@ -157,7 +157,9 @@
         { "vehicle": "motorcycle", "x": 11, "y": 9, "rotation": 180, "chance": 25 },
         { "vehicle": "motorcycle", "x": 12, "y": 7, "rotation": 0, "chance": 25 },
         { "vehicle": "bicycle", "x": 6, "y": 10, "rotation": 100, "chance": 25 },
-        { "vehicle": "bicycle", "x": 19, "y": 10, "rotation": 90, "chance": 25 }
+        { "vehicle": "bicycle", "x": 19, "y": 10, "rotation": 90, "chance": 25 },
+        { "vehicle": "surv_rv", "x": 4, "y": 20, "chance": 8, "rotation": 180, "fuel": 0 },
+        { "vehicle": "surv_car", "x": 16, "y": 2, "chance": 15, "rotation": 0, "fuel": 0 }
       ],
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE", "x": 12, "y": 9, "repeat": [ 2, 4 ] },
@@ -270,6 +272,7 @@
     "om_terrain": [ "ws_fire_lookout_tower_f2" ],
     "weight": 1000,
     "object": {
+      "fill_ter": "t_flat_roof",
       "rows": [
         "........................",
         "........................",
@@ -300,17 +303,15 @@
         ".": "t_open_air",
         ",": "t_flat_roof",
         "X": "t_wall_log",
-        "|": "t_railing_v",
-        "-": "t_railing_h",
-        "g": "t_generator_broken",
+        "|": "t_railing",
+        "-": "t_railing",
         "D": "t_door_c",
         "+": "t_floor",
         ">": "t_ladder_down",
         "f": "t_flat_roof",
-        "s": "t_flat_roof",
-        "h": "t_flat_roof"
+        "s": "t_flat_roof"
       },
-      "furniture": { "h": "f_chair" },
+      "furniture": { "g": "f_generator_broken", "h": "f_chair" },
       "items": { "s": { "item": "flt_loot_vehicle", "chance": 50 }, "f": { "item": "trash_forest", "chance": 80 } },
       "place_monsters": [
         { "monster": "GROUP_ZOMBIE_FIRELOOKOUTTOWER", "x": 12, "y": 9 },

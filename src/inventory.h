@@ -1,33 +1,31 @@
 #pragma once
-#ifndef INVENTORY_H
-#define INVENTORY_H
+#ifndef CATA_SRC_INVENTORY_H
+#define CATA_SRC_INVENTORY_H
 
-#include <cstddef>
 #include <array>
+#include <bitset>
+#include <cstddef>
+#include <functional>
+#include <limits>
 #include <list>
+#include <map>
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
-#include <bitset>
 #include <utility>
 #include <vector>
-#include <set>
-#include <limits>
-#include <functional>
-#include <map>
 
 #include "cata_utility.h"
 #include "item.h"
 #include "item_stack.h"
-#include "magic_enchantment.h"
+#include "units_fwd.h"
 #include "visitable.h"
-#include "units.h"
 
-class map;
-class npc;
 class Character;
 class JsonIn;
 class JsonOut;
+class map;
+class npc;
 class player;
 struct tripoint;
 
@@ -99,7 +97,7 @@ class inventory : public visitable<inventory>
         std::map<char, itype_id> assigned_invlet;
 
         inventory();
-        inventory( inventory && ) = default;
+        inventory( inventory && ) noexcept = default;
         inventory( const inventory & ) = default;
         inventory &operator=( inventory && ) = default;
         inventory &operator=( const inventory & ) = default;
@@ -126,7 +124,7 @@ class inventory : public visitable<inventory>
          * game pointer is not necessary, but if supplied, will ensure no overlap with
          * the player's worn items / weapon
          */
-        void restack( player &p );
+        void restack( Character &p );
         void form_from_zone( map &m, std::unordered_set<tripoint> &zone_pts, const Character *pl = nullptr,
                              bool assign_invlet = true );
         void form_from_map( const tripoint &origin, int range, const Character *pl = nullptr,
@@ -171,7 +169,7 @@ class inventory : public visitable<inventory>
 
         // Below, "amount" refers to quantity
         //        "charges" refers to charges
-        std::list<item> use_amount( itype_id it, int quantity,
+        std::list<item> use_amount( const itype_id &it, int quantity,
                                     const std::function<bool( const item & )> &filter = return_true<item> );
 
         bool has_tools( const itype_id &it, int quantity,
@@ -216,8 +214,6 @@ class inventory : public visitable<inventory>
         // Removes invalid invlets, and assigns new ones if assign_invlet is true. Does not update the invlet cache.
         void update_invlet( item &it, bool assign_invlet = true );
 
-        void set_stack_favorite( int position, bool favorite );
-
         invlets_bitset allocated_invlets() const;
 
         /**
@@ -235,11 +231,11 @@ class inventory : public visitable<inventory>
 
     private:
         invlet_favorites invlet_cache;
-        char find_usable_cached_invlet( const std::string &item_type );
+        char find_usable_cached_invlet( const itype_id &item_type );
 
         invstack items;
 
-        mutable bool binned;
+        mutable bool binned = false;
         /**
          * Items binned by their type.
          * That is, item_bin["carrot"] is a list of pointers to all carrots in inventory.
@@ -248,4 +244,4 @@ class inventory : public visitable<inventory>
         mutable itype_bin binned_items;
 };
 
-#endif
+#endif // CATA_SRC_INVENTORY_H

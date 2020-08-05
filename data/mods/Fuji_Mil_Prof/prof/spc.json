@@ -1,7 +1,7 @@
 [
   {
     "type": "profession",
-    "ident": "mil_operator",
+    "id": "mil_operator",
     "name": "Operator Recon",
     "description": "The only easy day was yesterday.",
     "points": 4,
@@ -47,9 +47,9 @@
   },
   {
     "type": "profession",
-    "ident": "mil_sniper",
+    "id": "mil_sniper",
     "name": "Operator Sniper",
-    "description": "You spent days dueling an enemy sniper, then he just... died.  And then un-died.",
+    "description": "You spent days dueling an enemy sniper, then he just… died.  And then un-died.",
     "points": 5,
     "skills": [ { "level": 2, "name": "survival" }, { "level": 4, "name": "gun" }, { "level": 4, "name": "rifle" } ],
     "items": {
@@ -82,7 +82,7 @@
   },
   {
     "type": "profession",
-    "ident": "mil_hacker",
+    "id": "mil_hacker",
     "name": "Operator Hacker",
     "description": "You insist you're not a hacker, you're an 'Electronic Warfare Specialist'",
     "points": 5,
@@ -131,9 +131,9 @@
   },
   {
     "type": "profession",
-    "ident": "mil_undercover",
+    "id": "mil_undercover",
     "name": "Operator Undercover",
-    "description": "You've been tailing your target for months and now he's a zombie. So much for that lead.",
+    "description": "You've been tailing your target for months and now he's a zombie.  So much for that lead.",
     "points": 3,
     "skills": [
       { "level": 1, "name": "survival" },
@@ -169,9 +169,9 @@
   },
   {
     "type": "profession",
-    "ident": "mil_cbrn",
+    "id": "mil_cbrn",
     "name": "Operator CBRN",
-    "description": "Chemical weapons? Check. Biological outbreak? Check. Nuclear war? Check. Sounds like the perfect job for you!",
+    "description": "Chemical weapons?  Check.  Biological outbreak?  Check.  Nuclear war?  Check.  Sounds like the perfect job for you!",
     "points": 5,
     "skills": [
       { "level": 1, "name": "survival" },

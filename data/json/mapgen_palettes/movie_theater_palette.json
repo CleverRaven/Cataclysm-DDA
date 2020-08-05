@@ -27,7 +27,8 @@
       "o": "f_oven",
       "r": "f_rack",
       "F": "f_vending_c",
-      "v": "f_vending_c"
+      "v": "f_vending_c",
+      "Z": "f_console_broken"
     },
     "terrain": {
       "$": "t_carpet_green",
@@ -39,6 +40,7 @@
       "f": "t_carpet_purple",
       "e": "t_carpet_purple",
       ".": "t_thconc_floor",
+      "_": "t_floor",
       "!": "t_brick_wall",
       "|": "t_wall_b",
       "%": "t_wall_glass",
@@ -49,7 +51,6 @@
       "d": "t_door_c",
       "a": "t_atm",
       "w": "t_window",
-      "Z": "t_console_broken",
       "-": "t_railing_h",
       "R": "t_railing_h",
       "<": "t_ladder_up"

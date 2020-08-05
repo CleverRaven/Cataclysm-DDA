@@ -11,14 +11,14 @@ A basecamp upgrade path is a series of basecamp upgrade missions that upgrade th
 Bascamp upgrade paths are defined by several related files:
 * The recipe JSONs that define what the material, tool, and skill requirements to perform an upgrade mission and the blueprint mapgen, blueprint requirements, blueprint provides, and blueprint resources associated with each upgrade mission.
 * The mapgen_update JSONs that define how the map will change when the upgrade mission is complete.  These may include shared instances of nested mapgen, such a standard room or tent.
-* The recipe_group JSONs that define what recipes can be crafted after completing the upgrade mission and what camps and expansions are avialable.
+* The recipe_group JSONs that define what recipes can be crafted after completing the upgrade mission and what camps and expansions are available.
 
 ## recipe JSONs
 The recipe JSONs are standard recipe JSONs, with the addition of a few fields.
 
 New field | Description
 -- | --
-`"construction_blueprint"` | string, the `"update_mapgen_id"` of the mapgen_update JSON that will be peformed when the upgrade mission is complete.
+`"construction_blueprint"` | string, the `"update_mapgen_id"` of the mapgen_update JSON that will be performed when the upgrade mission is complete.
 `"construction_name"` | string, a short description/name of the upgrade mission that is displayed in the base camp mission selector.  The recipe's `"description"` field has the extended description that explains why a player might want to have an NPC perform this upgrade mission.
 `"blueprint_provides"` | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that are available when the upgrade mission is complete.  Every upgrade mission provides its recipe `"result"` with an amount of 1 automatically and that string does not need to be listed in `"blueprint_provides"`.
 `"blueprint_requires"` | array of objects, with each object having an `"id"` string and an optional `"amount"` integer.  These are the camp features that are required before the upgrade mission can be attempted.
@@ -28,7 +28,7 @@ New field | Description
 ### blueprint requires, provides, and excludes
 blueprint requires, blueprint provides, and blueprint exlcudes are abstract concepts or flags that an upgrade mission requires to start, or that are provided by a previous upgrade mission to satisfy the blueprint requirements of a current upgrade mission, or that prevent an upgrade mission from being available.  Each one has an `"id"` and an `"amount"`.  Multiple requires, provides, or excludes with the same `"id"` sum their `"amount"` if they're on the same basecamp expansion.
 
-Every upgrade mission has its recipe `"result"` as a blueprint_provides and a blueprint_excludes, so upgrade missions will automatically prevent themselves from being repatable.
+Every upgrade mission has its recipe `"result"` as a blueprint_provides and a blueprint_excludes, so upgrade missions will automatically prevent themselves from being repeatable.
 
 These are arbitrary strings and can be used to control the branching of the upgrade paths.  However, some strings have meaning within the basecamp code:
 
@@ -54,7 +54,7 @@ provides `"id"` | meaning
 `"dismantling"` | after this upgrade mission is complete, the Chop Shop basecamp mission will be available.
 `"farming"` | after this upgrade mission is complete, the Plow Fields, Plant Fields, Fertilize Fields, and Harvest Fields basecamp missions will be available.
 
-`blueprint_provides` can also be used to name objects from `recipe_group.json`. The recipes will be craftable by NPCs at that expansion, allowing the creation of custom recipes that can be performed exlusively at faction camps.
+`blueprint_provides` can also be used to name objects from `recipe_group.json`. The recipes will be craftable by NPCs at that expansion, allowing the creation of custom recipes that can be performed exclusively at faction camps.
 
 ### Sample recipe JSON
 ```JSON
