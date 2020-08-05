@@ -96,7 +96,7 @@
     "relic_data": {
       "passive_effects": [
         { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 6 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 60 } ] },
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 120 } ] },
         { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 2 } ] },
         { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] },
         { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] },
