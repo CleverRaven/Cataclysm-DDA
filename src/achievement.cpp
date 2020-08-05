@@ -3,6 +3,7 @@
 #include "enums.h"
 #include "event_statistics.h"
 #include "generic_factory.h"
+#include "past_games_info.h"
 #include "stats_tracker.h"
 
 // Some details about how achievements work
@@ -704,6 +705,23 @@ std::string achievement_tracker::ui_text() const
     std::string result = colorize( achievement_->name(), c_title ) + "\n";
     if( !achievement_->description().empty() ) {
         result += "  " + colorize( achievement_->description(), c ) + "\n";
+    }
+
+    // Note if it's been completed in other games
+    const achievement_completion_info *other_games =
+        get_past_games().achievement( achievement_->id );
+    if( other_games && !other_games->games_completed.empty() ) {
+        std::string message =
+            string_format( _( "Previously completed by %s" ),
+                           other_games->games_completed.front()->avatar_name() );
+        size_t num_completions = other_games->games_completed.size();
+        if( num_completions > 1 ) {
+            message +=
+                string_format(
+                    ngettext( " and %d other", " and %d others", num_completions - 1 ),
+                    num_completions - 1 );
+        }
+        result += "  " + colorize( message, c_blue ) + "\n";
     }
 
     // Next: the time constraint
