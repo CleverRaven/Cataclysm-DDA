@@ -69,7 +69,7 @@
     "//": "Legacy artifact data is set for always on wield dex +2 and speed up times 2",
     "relic_data": {
       "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 20 } ] },
+        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 40 } ] },
         { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] }
       ]
     },
