@@ -15,11 +15,12 @@
 #include "init.h"
 #include "int_id.h"
 #include "json.h"
-#include "output.h"
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
 #include "wcwidth.h"
+
+std::string string_from_int( const catacurses::chtype ch );
 
 /**
 A generic class to store objects identified by a `string_id`.
