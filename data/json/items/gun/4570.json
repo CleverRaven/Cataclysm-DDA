@@ -109,5 +109,69 @@
     ],
     "flags": [ "NEVER_JAMS", "RELOAD_EJECT" ],
     "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "4570": 1 } } ]
+  },
+  {
+    "id": "chiappawildlands",
+    "copy-from": "rifle_manual",
+    "looks_like": "1895sbl",
+    "type": "GUN",
+    "name": { "str": "chiappa wildlands takedown" },
+    "description": "based on the model 1886, this is a lever-action rifle firing 45-70 govt. It has the ability to be taken down for easy transport and storage.",
+    "weight": "4309 g",
+    "volume": "1800 ml",
+    "longest_side": "965 mm",
+    "price": 50000,
+    "price_postapoc": 2500,
+    "to_hit": 1,
+    "bashing": 12,
+    "material": [ "steel", "wood" ],
+    "symbol": "(",
+    "color": "light_blue",
+    "ammo": [ "4570" ],
+    "dispersion": 150,
+    "durability": 7,
+    "clip_size": 4,
+    "valid_mod_locations": [
+      [ "accessories", 4 ],
+      [ "brass catcher", 1 ],
+      [ "grip", 1 ],
+      [ "mechanism", 4 ],
+      [ "muzzle", 1 ],
+      [ "sights", 1 ],
+      [ "sling", 1 ],
+      [ "rail mount", 1 ],
+      [ "stock mount", 1 ],
+      [ "underbarrel mount", 1 ]
+    ],
+    "flags": [ "RELOAD_ONE" ],
+    "pocket_data": [ { "pocket_type": "MAGAZINE", "rigid": true, "ammo_restriction": { "4570": 4 } } ],
+    "use_action": {
+      "target": "chiappawildlandsfolded",
+      "msg": "You takedown the rifle",
+      "menu_text": "takedown rifle",
+      "type": "transform"
+    }
+  },
+  {
+    "id": "chiappawildlandsfolded",
+    "type": "GUN",
+    "category": "weapons",
+    "name": { "str": "dissasembled chiappa wildlands" },
+    "description": "A chiappa wildlands with the barrel seperated from the best for easier storage and travel. use to reassemble.",
+    "weight": "4309 g",
+    "volume": "1200 ml",
+    "longest_side": "490 mm",
+    "price": 50000,
+    "price_postapoc": 2900,
+    "to_hit": -2,
+    "material": [ "steel", "wood" ],
+    "symbol": "A",
+    "color": "brown",
+    "use_action": {
+      "target": "chiappawildlands",
+      "msg": "You reassemble the rifle",
+      "menu_text": "reassemble rifle",
+      "type": "transform"
+    }
   }
 ]
