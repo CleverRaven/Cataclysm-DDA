@@ -844,8 +844,14 @@ class item : public visitable<item>
         void set_rot( time_duration val );
 
         /**
-         * Get time left to rot, ignoring fridge.
-         * Returns time to rot if item is able to, max int - N otherwise,
+         * Get minimum time for this item or any of its contents to rot, ignoring
+         * fridge. If this item is a container, its spoil multiplier is taken into
+         * account, but the spoil multiplier of the parent container of this item,
+         * if any, is not.
+         *
+         * If this item does not rot and none of its contents rot either, the function
+         * returns INT_MAX - N,
+         *
          * where N is
          * 3 for food,
          * 2 for medication,

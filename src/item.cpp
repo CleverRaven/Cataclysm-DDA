@@ -5533,8 +5533,29 @@ int item::spoilage_sort_order()
 {
     int bottom = std::numeric_limits<int>::max();
 
-    if( goes_bad() ) {
-        return to_turns<int>( get_shelf_life() - rot );
+    bool any_goes_bad = false;
+    time_duration min_spoil_time = calendar::INDEFINITELY_LONG_DURATION;
+    visit_items( [&]( item * const node, item * const parent ) {
+        if( node && node->goes_bad() ) {
+            float spoil_multiplier = 1.0f;
+            if( parent ) {
+                const item_pocket *const parent_pocket = parent->contained_where( *node );
+                if( parent_pocket ) {
+                    spoil_multiplier = parent_pocket->spoil_multiplier();
+                }
+            }
+            if( spoil_multiplier > 0.0f ) {
+                time_duration remaining_shelf_life = node->get_shelf_life() - node->rot;
+                if( !any_goes_bad || min_spoil_time * spoil_multiplier > remaining_shelf_life ) {
+                    any_goes_bad = true;
+                    min_spoil_time = remaining_shelf_life / spoil_multiplier;
+                }
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+    if( any_goes_bad ) {
+        return to_turns<int>( min_spoil_time );
     }
 
     if( get_comestible() ) {
