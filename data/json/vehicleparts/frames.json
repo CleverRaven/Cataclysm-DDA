@@ -135,24 +135,28 @@
   },
   {
     "id": "frame_wood_cover",
+    "looks_like": "frame_cover",
     "copy-from": "frame_wood",
     "type": "vehicle_part",
     "symbol": "^"
   },
   {
     "id": "frame_wood_light_cover",
+    "looks_like": "frame_wood_cover",
     "copy-from": "frame_wood_light",
     "type": "vehicle_part",
     "symbol": "^"
   },
   {
     "id": "hdframe_cover",
+    "looks_like": "frame_cover",
     "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "^"
   },
   {
     "id": "xlframe_cover",
+    "looks_like": "frame_cover",
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "^"
@@ -166,6 +170,7 @@
   },
   {
     "id": "frame_wood_cross",
+    "looks_like": "frame_cross",
     "copy-from": "frame_wood",
     "type": "vehicle_part",
     "symbol": "c",
@@ -173,6 +178,7 @@
   },
   {
     "id": "frame_wood_light_cross",
+    "looks_like": "frame_wood_cross",
     "copy-from": "frame_wood_light",
     "type": "vehicle_part",
     "symbol": "c",
@@ -180,6 +186,7 @@
   },
   {
     "id": "hdframe_cross",
+    "looks_like": "frame_cross",
     "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "c",
@@ -187,6 +194,47 @@
   },
   {
     "id": "xlframe_cross",
+    "looks_like": "frame_cross",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "frame_cross_unconnected",
+    "looks_like": "frame_cross",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "frame_wood_cross_unconnected",
+    "looks_like": "frame_wood_cross",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "frame_wood_light_cross_unconnected",
+    "looks_like": "frame_wood_light_cross",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "hdframe_cross_unconnected",
+    "looks_like": "hdframe_cross",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "c",
+    "extend": { "flags": [ "INITIAL_PART" ] }
+  },
+  {
+    "id": "xlframe_cross_unconnected",
+    "looks_like": "xlframe_cross",
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "c",
@@ -200,57 +248,206 @@
   },
   {
     "id": "frame_wood_horizontal",
+    "looks_like": "frame_horizontal",
     "copy-from": "frame_wood",
     "type": "vehicle_part",
     "symbol": "h"
   },
   {
     "id": "frame_wood_light_horizontal",
+    "looks_like": "frame_wood_horizontal",
     "copy-from": "frame_wood_light",
     "type": "vehicle_part",
     "symbol": "h"
   },
   {
     "id": "hdframe_horizontal",
+    "looks_like": "frame_horizontal",
     "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "h"
   },
   {
     "id": "xlframe_horizontal",
+    "looks_like": "frame_horizontal",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_horizontal_front",
+    "looks_like": "frame_horizontal",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_horizontal_front",
+    "looks_like": "frame_wood_horizontal",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_horizontal_front",
+    "looks_like": "frame_wood_light_horizontal",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_horizontal_front",
+    "looks_like": "hdframe_horizontal",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_horizontal_front",
+    "looks_like": "xlframe_horizontal",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_horizontal_rear",
+    "looks_like": "frame_horizontal",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_horizontal_rear",
+    "looks_like": "frame_wood_horizontal",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_horizontal_rear",
+    "looks_like": "frame_wood_light_horizontal",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_horizontal_rear",
+    "looks_like": "hdframe_horizontal",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_horizontal_rear",
+    "looks_like": "xlframe_horizontal",
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "h"
   },
   {
     "id": "frame_horizontal_2",
+    "looks_like": "frame_horizontal",
     "copy-from": "frame",
     "type": "vehicle_part",
     "symbol": "="
   },
   {
     "id": "frame_wood_horizontal_2",
+    "looks_like": "frame_wood_horizontal",
     "copy-from": "frame_wood",
     "type": "vehicle_part",
     "symbol": "="
   },
   {
     "id": "frame_wood_light_horizontal_2",
+    "looks_like": "frame_wood_light_horizontal",
     "copy-from": "frame_wood_light",
     "type": "vehicle_part",
     "symbol": "="
   },
   {
     "id": "hdframe_horizontal_2",
+    "looks_like": "hdframe_horizontal",
     "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "="
   },
   {
     "id": "xlframe_horizontal_2",
+    "looks_like": "xlframe_horizontal",
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "="
+  },
+  {
+    "id": "frame_horizontal_2_front",
+    "looks_like": "frame_horizontal_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_horizontal_2_front",
+    "looks_like": "frame_wood_horizontal_2",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_horizontal_2_front",
+    "looks_like": "frame_wood_light_horizontal_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_horizontal_2_front",
+    "looks_like": "hdframe_horizontal_2",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_horizontal_2_front",
+    "looks_like": "xlframe_horizontal_2",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_horizontal_2_rear",
+    "looks_like": "frame_horizontal_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_horizontal_2_rear",
+    "looks_like": "frame_wood_horizontal_2",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_horizontal_2_rear",
+    "looks_like": "frame_wood_light_horizontal_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_horizontal_2_rear",
+    "looks_like": "hdframe_horizontal_2",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_horizontal_2_rear",
+    "looks_like": "xlframe_horizontal_2",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
   },
   {
     "id": "frame_ne",
@@ -266,18 +463,21 @@
   },
   {
     "id": "frame_wood_light_ne",
+    "looks_like": "frame_wood_ne",
     "copy-from": "frame_wood_light",
     "type": "vehicle_part",
     "symbol": "u"
   },
   {
     "id": "hdframe_ne",
+    "looks_like": "frame_ne",
     "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "u"
   },
   {
     "id": "xlframe_ne",
+    "looks_like": "frame_ne",
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "u"
@@ -296,18 +496,21 @@
   },
   {
     "id": "frame_wood_light_nw",
+    "looks_like": "frame_wood_nw",
     "copy-from": "frame_wood_light",
     "type": "vehicle_part",
     "symbol": "y"
   },
   {
     "id": "hdframe_nw",
+    "looks_like": "frame_nw",
     "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "y"
   },
   {
     "id": "xlframe_nw",
+    "looks_like": "frame_nw",
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "y"
@@ -326,18 +529,21 @@
   },
   {
     "id": "frame_wood_light_se",
+    "looks_like": "frame_wood_se",
     "copy-from": "frame_wood_light",
     "type": "vehicle_part",
     "symbol": "n"
   },
   {
     "id": "hdframe_se",
+    "looks_like": "frame_se",
     "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "n"
   },
   {
     "id": "xlframe_se",
+    "looks_like": "frame_se",
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "n"
@@ -356,18 +562,21 @@
   },
   {
     "id": "frame_wood_light_sw",
+    "looks_like": "frame_wood_sw",
     "copy-from": "frame_wood_light",
     "type": "vehicle_part",
     "symbol": "b"
   },
   {
     "id": "hdframe_sw",
+    "looks_like": "frame_sw",
     "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "b"
   },
   {
     "id": "xlframe_sw",
+    "looks_like": "frame_sw",
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "b"
@@ -386,50 +595,198 @@
   },
   {
     "id": "frame_wood_light_vertical",
+    "looks_like": "frame_wood_vertical",
     "copy-from": "frame_wood_light",
     "type": "vehicle_part",
     "symbol": "j"
   },
   {
     "id": "hdframe_vertical",
+    "looks_like": "frame_vertical",
     "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "j"
   },
   {
     "id": "xlframe_vertical",
+    "looks_like": "frame_vertical",
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "j"
   },
   {
+    "id": "frame_vertical_left",
+    "looks_like": "frame_vertical",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_vertical_left",
+    "looks_like": "frame_wood_vertical",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_vertical_left",
+    "looks_like": "frame_wood_light_vertical",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_vertical_left",
+    "looks_like": "hdframe_vertical",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_vertical_left",
+    "looks_like": "xlframe_vertical",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_vertical_right",
+    "looks_like": "frame_vertical",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_vertical_right",
+    "looks_like": "frame_wood_vertical",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_vertical_right",
+    "looks_like": "frame_wood_light_vertical",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_vertical_right",
+    "looks_like": "hdframe_vertical",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_vertical_right",
+    "looks_like": "xlframe_vertical",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
     "id": "frame_vertical_2",
+    "looks_like": "frame_vertical",
     "copy-from": "frame",
     "type": "vehicle_part",
     "symbol": "H"
   },
   {
     "id": "frame_wood_vertical_2",
+    "looks_like": "frame_wood_vertical",
     "copy-from": "frame_wood",
     "type": "vehicle_part",
     "symbol": "H"
   },
   {
     "id": "frame_wood_light_vertical_2",
+    "looks_like": "frame_wood_light_vertical",
     "copy-from": "frame_wood_light",
     "type": "vehicle_part",
     "symbol": "H"
   },
   {
     "id": "hdframe_vertical_2",
+    "looks_like": "hdframe_vertical",
     "copy-from": "hdframe",
     "type": "vehicle_part",
     "symbol": "H"
   },
   {
     "id": "xlframe_vertical_2",
+    "looks_like": "xlframe_vertical",
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "H"
+  },
+  {
+    "id": "frame_vertical_2_left",
+    "looks_like": "frame_vertical_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_vertical_2_left",
+    "looks_like": "frame_wood_vertical_2",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_vertical_2_left",
+    "looks_like": "frame_wood_light_vertical_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_vertical_2_left",
+    "looks_like": "hdframe_vertical_2",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_vertical_2_left",
+    "looks_like": "xlframe_vertical_2",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_vertical_2_right",
+    "looks_like": "frame_vertical_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_vertical_2_right",
+    "looks_like": "frame_wood_vertical_2",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_vertical_2_right",
+    "looks_like": "frame_wood_light_vertical_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_vertical_2_right",
+    "looks_like": "hdframe_vertical_2",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_vertical_2_right",
+    "looks_like": "xlframe_vertical_2",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
   }
 ]
