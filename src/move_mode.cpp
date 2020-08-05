@@ -1,7 +1,14 @@
 #include "move_mode.h"
 
+#include <stddef.h>
+#include <algorithm>
+#include <set>
+
+#include "assign.h"
+#include "debug.h"
 #include "game_constants.h"
 #include "generic_factory.h"
+#include "json.h"
 
 std::vector<move_mode_id> move_modes_sorted;
 

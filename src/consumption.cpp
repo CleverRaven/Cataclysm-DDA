@@ -1,5 +1,4 @@
-#include "player.h" // IWYU pragma: associated
-
+#include <math.h>
 #include <algorithm>
 #include <array>
 #include <cstdlib>
@@ -13,25 +12,31 @@
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
+#include "color.h"
 #include "debug.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_category.h"
 #include "item_contents.h"
 #include "itype.h"
+#include "iuse.h"
 #include "iuse_actor.h"
+#include "line.h"
 #include "map.h"
 #include "material.h"
 #include "messages.h"
 #include "monster.h"
 #include "morale_types.h"
-#include "mtype.h"
 #include "mutation.h"
 #include "npc.h"
 #include "options.h"
 #include "pickup.h"
+#include "pimpl.h"
+#include "player.h" // IWYU pragma: associated
+#include "pldata.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
 #include "requirements.h"
@@ -41,7 +46,9 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
+#include "visitable.h"
 #include "vitamin.h"
 
 static const std::string comesttype_DRINK( "DRINK" );

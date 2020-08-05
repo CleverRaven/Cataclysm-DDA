@@ -1,29 +1,29 @@
 #include "veh_utils.h"
 
 #include <algorithm>
-#include <map>
 #include <cmath>
 #include <list>
-#include <memory>
+#include <map>
 #include <string>
 #include <utility>
-#include <vector>
 
 #include "calendar.h"
-#include "map.h"
-#include "player.h"
-#include "veh_type.h"
-#include "vehicle.h"
-#include "vpart_range.h"
 #include "character.h"
+#include "color.h"
 #include "enums.h"
 #include "game_constants.h"
 #include "inventory.h"
 #include "item.h"
-#include "requirements.h"
-#include "translations.h"
-#include "color.h"
+#include "map.h"
+#include "player.h"
 #include "point.h"
+#include "requirements.h"
+#include "string_id.h"
+#include "translations.h"
+#include "veh_type.h"
+#include "vehicle.h"
+#include "vpart_position.h"
+#include "vpart_range.h"
 
 namespace veh_utils
 {

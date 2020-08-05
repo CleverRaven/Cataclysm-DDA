@@ -2,14 +2,19 @@
 #ifndef CATA_SRC_WEATHER_H
 #define CATA_SRC_WEATHER_H
 
+#include "calendar.h"
 #include "color.h"
 #include "coordinates.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "point.h"
+#include "translations.h"
 #include "type_id.h"
 #include "weather_gen.h"
-#include "calendar.h"
+#include "weather_type.h"
+
+class JsonIn;
+class JsonOut;
 
 /**
  * @name BODYTEMP
@@ -36,15 +41,16 @@ static constexpr int BODYTEMP_VERY_HOT = 8000;
 static constexpr int BODYTEMP_SCORCHING = 9500;
 ///@}
 
+#include <map>
 #include <string>
-#include <vector>
 #include <unordered_map>
 #include <utility>
+#include <vector>
 
 class Character;
 class item;
-struct trap;
 struct rl_vec2d;
+struct trap;
 
 double precip_mm_per_hour( precip_class p );
 void handle_weather_effects( weather_type_id w );

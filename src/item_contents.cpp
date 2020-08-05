@@ -1,25 +1,34 @@
 #include "item_contents.h"
 
 #include <algorithm>
+#include <iterator>
+#include <map>
 #include <memory>
 #include <type_traits>
 
-#include "avatar.h"
 #include "character.h"
+#include "color.h"
+#include "cursesdef.h"
+#include "debug.h"
 #include "enums.h"
+#include "flat_set.h"
+#include "input.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_category.h"
-#include "item_factory.h"
+#include "item_location.h"
+#include "item_pocket.h"
 #include "iteminfo_query.h"
 #include "itype.h"
-#include "item_pocket.h"
 #include "map.h"
 #include "output.h"
+#include "point.h"
+#include "string_formatter.h"
+#include "string_id.h"
 #include "string_input_popup.h"
+#include "translations.h"
+#include "ui.h"
 #include "units.h"
-
-struct tripoint;
 
 static const std::vector<item_pocket::pocket_type> avail_types{
     item_pocket::pocket_type::CONTAINER,

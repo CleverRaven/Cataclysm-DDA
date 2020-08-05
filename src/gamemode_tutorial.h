@@ -5,6 +5,7 @@
 #include <functional>
 #include <iosfwd>
 #include <map>
+#include <system_error>
 
 #include "enums.h"
 #include "gamemode.h"

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_VEH_TYPE_H
 #define CATA_SRC_VEH_TYPE_H
 
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <map>
@@ -17,12 +18,14 @@
 #include "optional.h"
 #include "point.h"
 #include "requirements.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 
-class player;
 class JsonObject;
+class player;
 class vehicle;
 
 // bitmask backing store of -certain- vpart_info.flags, ones that

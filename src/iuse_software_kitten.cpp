@@ -1,11 +1,13 @@
 #include "iuse_software_kitten.h"
 
+#include <time.h>
+#include <algorithm>
 #include <cstdlib>  // Needed for rand()
 #include <vector>
 
+#include "cuboid_rectangle.h"
 #include "input.h"
 #include "output.h"
-#include "posix_time.h"
 #include "rng.h"
 #include "translations.h"
 #include "ui_manager.h"

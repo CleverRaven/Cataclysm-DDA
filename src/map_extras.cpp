@@ -1,5 +1,7 @@
 #include "map_extras.h"
 
+#include <math.h>
+#include <algorithm>
 #include <array>
 #include <cstdlib>
 #include <map>

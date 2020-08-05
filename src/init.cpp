@@ -2,11 +2,9 @@
 
 #include <cassert>
 #include <cstddef>
-#include <exception>
 #include <fstream>
 #include <iterator>
 #include <memory>
-#include <sstream> // for throwing errors
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -27,7 +25,6 @@
 #include "construction_category.h"
 #include "crafting_gui.h"
 #include "creature.h"
-#include "cursesdef.h"
 #include "debug.h"
 #include "dialogue.h"
 #include "disease.h"
@@ -74,11 +71,11 @@
 #include "recipe_dictionary.h"
 #include "recipe_groups.h"
 #include "regional_settings.h"
+#include "relic.h"
 #include "requirements.h"
 #include "rotatable_symbols.h"
 #include "scenario.h"
 #include "scent_map.h"
-#include "sdltiles.h"
 #include "skill.h"
 #include "skill_boost.h"
 #include "sounds.h"
@@ -92,7 +89,6 @@
 #include "veh_type.h"
 #include "vehicle_group.h"
 #include "vitamin.h"
-#include "weather.h"
 #include "weather_type.h"
 #include "worldfactory.h"
 

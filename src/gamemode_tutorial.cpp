@@ -1,6 +1,5 @@
 #include "gamemode_tutorial.h" // IWYU pragma: associated
 
-#include <array>
 #include <cstdlib>
 #include <memory>
 #include <string>
@@ -8,7 +7,8 @@
 #include "action.h"
 #include "avatar.h"
 #include "calendar.h"
-#include "coordinate_conversions.h"
+#include "character.h"
+#include "coordinates.h"
 #include "debug.h"
 #include "game.h"
 #include "game_constants.h"
@@ -22,16 +22,15 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
-#include "pldata.h"
+#include "pimpl.h"
 #include "point.h"
 #include "profession.h"
 #include "scent_map.h"
+#include "string_id.h"
 #include "text_snippets.h"
 #include "translations.h"
 #include "trap.h"
 #include "type_id.h"
-#include "units.h"
 #include "weather.h"
 
 static const itype_id itype_cig( "cig" );

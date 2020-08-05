@@ -1,20 +1,20 @@
-#include "game.h" // IWYU pragma: associated
-
+#include <math.h>
+#include <algorithm>
 #include <chrono>
 #include <cstdlib>
 #include <initializer_list>
-#include <set>
 #include <sstream>
 #include <utility>
 
 #include "action.h"
+#include "activity_actor.h"
+#include "activity_type.h"
 #include "advanced_inv.h"
 #include "auto_note.h"
 #include "auto_pickup.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "bionics.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character.h"
@@ -29,6 +29,7 @@
 #include "faction.h"
 #include "field.h"
 #include "field_type.h"
+#include "game.h" // IWYU pragma: associated
 #include "game_constants.h"
 #include "game_inventory.h"
 #include "gamemode.h"
@@ -38,7 +39,6 @@
 #include "input.h"
 #include "int_id.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_group.h"
 #include "itype.h"
 #include "iuse.h"
@@ -57,7 +57,6 @@
 #include "output.h"
 #include "overmap_ui.h"
 #include "panels.h"
-#include "player.h"
 #include "player_activity.h"
 #include "popup.h"
 #include "ranged.h"
@@ -71,11 +70,14 @@
 #include "ui.h"
 #include "ui_manager.h"
 #include "units.h"
+#include "units_fwd.h"
+#include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
+#include "weather_type.h"
 #include "worldfactory.h"
 
 static const activity_id ACT_FERTILIZE_PLOT( "ACT_FERTILIZE_PLOT" );

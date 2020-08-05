@@ -1,6 +1,10 @@
-#include "avatar.h"
+#include <algorithm>
+#include <memory>
+
+#include "calendar.h"
+#include "character.h"
+#include "enums.h"
 #include "game.h"
-#include "game_constants.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -8,6 +12,7 @@
 #include "npctrade.h"
 #include "output.h"
 #include "player.h"
+#include "talker.h"
 #include "talker_avatar.h"
 
 static const efftype_id effect_pacified( "pacified" );

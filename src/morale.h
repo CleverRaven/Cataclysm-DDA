@@ -11,6 +11,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "morale_types.h"
+#include "string_id.h"
 #include "type_id.h"
 
 class JsonIn;

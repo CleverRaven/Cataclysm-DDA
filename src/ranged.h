@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "point.h"
 #include "type_id.h"
 
 class aim_activity_actor;

@@ -10,6 +10,7 @@
 #include <iosfwd>
 #include <iterator>
 #include <map>
+#include <memory>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -36,6 +37,7 @@ class JsonObject;
 class JsonOut;
 class character_id;
 class map_extra;
+class monster;
 class npc;
 class overmap_connection;
 

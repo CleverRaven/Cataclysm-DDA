@@ -1,7 +1,6 @@
 #include "anatomy.h"
 
 #include <array>
-#include <cmath>
 #include <cstddef>
 #include <numeric>
 #include <set>

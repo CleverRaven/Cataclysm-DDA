@@ -1,7 +1,8 @@
 #include "scenario.h"
 
-#include <cstdlib>
+#include <math.h>
 #include <algorithm>
+#include <cstdlib>
 
 #include "debug.h"
 #include "generic_factory.h"
@@ -10,9 +11,9 @@
 #include "mission.h"
 #include "mutation.h"
 #include "profession.h"
-#include "translations.h"
 #include "rng.h"
 #include "start_location.h"
+#include "translations.h"
 
 namespace
 {

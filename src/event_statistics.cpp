@@ -9,6 +9,7 @@
 
 #include "cata_variant.h"
 #include "debug.h"
+#include "enum_conversions.h"
 #include "enums.h"
 #include "event.h"
 #include "event_field_transformations.h"

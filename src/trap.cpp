@@ -1,11 +1,9 @@
 #include "trap.h"
 
-#include <memory>
 #include <set>
 #include <vector>
 
 #include "assign.h"
-#include "bodypart.h"
 #include "character.h"
 #include "creature.h"
 #include "debug.h"
@@ -20,6 +18,7 @@
 #include "map_iterator.h"
 #include "point.h"
 #include "rng.h"
+#include "string_formatter.h"
 #include "string_id.h"
 #include "translations.h"
 

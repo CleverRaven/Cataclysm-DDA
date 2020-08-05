@@ -1,16 +1,17 @@
 #include "catacharset.h"
 
+#include <algorithm>
+#include <array>
 #include <cstdlib>
 #include <cstring>
-#include <array>
 
 #include "options.h"
 #include "output.h"
 #include "wcwidth.h"
 
 #if defined(_WIN32)
-#include "platform_win.h"
 #include "mmsystem.h"
+#include "platform_win.h"
 #endif
 
 //copied from SDL2_ttf code

@@ -3,8 +3,11 @@
 #define CATA_SRC_ITYPE_H
 
 #include <array>
+#include <functional>
+#include <iosfwd>
 #include <map>
 #include <memory>
+#include <set>
 #include <string>
 #include <unordered_set>
 #include <vector>
@@ -19,6 +22,7 @@
 #include "item_contents.h"
 #include "item_pocket.h"
 #include "iuse.h" // use_function
+#include "json.h"
 #include "optional.h"
 #include "pldata.h" // add_type
 #include "relic.h"
@@ -26,9 +30,11 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 class Item_factory;
+class body_part_set;
 class item;
 class player;
 struct tripoint;

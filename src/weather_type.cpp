@@ -1,6 +1,10 @@
 #include "weather_type.h"
-#include "weather.h"
-#include "game_constants.h"
+
+#include <stdlib.h>
+#include <set>
+
+#include "assign.h"
+#include "debug.h"
 #include "generic_factory.h"
 
 namespace

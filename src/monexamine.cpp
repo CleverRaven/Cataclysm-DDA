@@ -1,18 +1,19 @@
 #include "monexamine.h"
 
-#include <climits>
+#include <algorithm>
 #include <map>
 #include <memory>
 #include <string>
 #include <utility>
 #include <vector>
 
+#include "activity_type.h"
 #include "avatar.h"
-#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "compatibility.h"
+#include "creature.h"
 #include "debug.h"
 #include "enums.h"
 #include "game.h"
@@ -22,7 +23,6 @@
 #include "itype.h"
 #include "iuse.h"
 #include "map.h"
-#include "material.h"
 #include "messages.h"
 #include "monster.h"
 #include "mtype.h"
@@ -37,6 +37,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const quality_id qual_SHEAR( "SHEAR" );

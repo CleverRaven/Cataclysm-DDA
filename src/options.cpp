@@ -1,29 +1,30 @@
 #include "options.h"
 
+#include <locale.h>
 #include <cfloat>
 #include <climits>
 #include <iterator>
 #include <stdexcept>
+#include <type_traits>
 
 #include "calendar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
 #include "color.h"
 #include "cursesdef.h"
-#include "cursesport.h"
 #include "debug.h"
 #include "filesystem.h"
 #include "game.h"
 #include "game_constants.h"
 #include "input.h"
 #include "json.h"
+#include "line.h"
 #include "mapsharing.h"
 #include "output.h"
 #include "path_info.h"
 #include "point.h"
 #include "popup.h"
 #include "sdlsound.h"
-#include "sdltiles.h"
 #include "sounds.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
@@ -41,7 +42,6 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <exception>
 #include <locale>
 #include <memory>
 #include <sstream>

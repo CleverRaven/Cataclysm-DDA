@@ -2,6 +2,8 @@
 
 #include "cata_utility.h"
 #include "options.h"
+#include "string_formatter.h"
+#include "translations.h"
 
 const char *weight_units()
 {

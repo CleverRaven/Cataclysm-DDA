@@ -9,6 +9,7 @@
 class Character;
 class item;
 class player;
+template <typename E> struct enum_traits;
 
 enum class craft_flags : int {
     none = 0,

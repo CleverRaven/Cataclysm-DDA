@@ -2,17 +2,18 @@
 #ifndef CATA_SRC_OPTIONS_H
 #define CATA_SRC_OPTIONS_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
 #include <string>
+#include <tuple>
 #include <unordered_map>
+#include <unordered_set>
 #include <utility>
 #include <vector>
-#include <unordered_set>
-#include <tuple>
 
-#include "translations.h"
 #include "optional.h"
+#include "translations.h"
 
 class JsonIn;
 class JsonOut;

@@ -1,20 +1,20 @@
 #include "input.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <fstream>
-#include <sstream>
-#include <stdexcept>
-#include <array>
-#include <exception>
 #include <locale>
 #include <memory>
 #include <set>
+#include <stdexcept>
 #include <utility>
 
 #include "action.h"
 #include "cata_utility.h"
 #include "catacharset.h"
+#include "color.h"
+#include "cuboid_rectangle.h"
 #include "cursesdef.h"
 #include "debug.h"
 #include "filesystem.h"
@@ -26,14 +26,12 @@
 #include "options.h"
 #include "output.h"
 #include "path_info.h"
+#include "point.h"
 #include "popup.h"
 #include "string_formatter.h"
 #include "string_input_popup.h"
 #include "translations.h"
 #include "ui_manager.h"
-#include "color.h"
-#include "point.h"
-#include "sdltiles.h"
 
 using std::min; // from <algorithm>
 using std::max;

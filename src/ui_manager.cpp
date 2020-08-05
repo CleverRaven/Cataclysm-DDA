@@ -8,7 +8,6 @@
 #include "cursesdef.h"
 #include "game_ui.h"
 #include "point.h"
-#include "sdltiles.h"
 
 using ui_stack_t = std::vector<std::reference_wrapper<ui_adaptor>>;
 

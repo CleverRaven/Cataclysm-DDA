@@ -1,5 +1,6 @@
 #include "scent_map.h"
 
+#include <math.h>
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
@@ -13,6 +14,7 @@
 #include "generic_factory.h"
 #include "map.h"
 #include "output.h"
+#include "point.h"
 #include "string_id.h"
 
 static constexpr int SCENT_RADIUS = 40;

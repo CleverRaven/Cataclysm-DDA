@@ -6,7 +6,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <functional>
-#include <iterator>
 #include <list>
 #include <map>
 #include <memory>
@@ -15,6 +14,7 @@
 #include <stdexcept>
 #include <unordered_map>
 
+#include "basecamp.h"
 #include "calendar.h"
 #include "catacharset.h"
 #include "character_id.h"
@@ -23,9 +23,11 @@
 #include "computer.h"
 #include "coordinate_conversions.h"
 #include "coordinates.h"
+#include "cuboid_rectangle.h"
 #include "debug.h"
 #include "drawing_primitives.h"
 #include "enums.h"
+#include "faction.h"
 #include "field_type.h"
 #include "game.h"
 #include "game_constants.h"
@@ -34,6 +36,7 @@
 #include "item.h"
 #include "item_factory.h"
 #include "item_group.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "line.h"
@@ -45,6 +48,7 @@
 #include "mapgen_functions.h"
 #include "mapgendata.h"
 #include "mapgenformat.h"
+#include "memory_fast.h"
 #include "mission.h"
 #include "mongroup.h"
 #include "npc.h"
@@ -54,8 +58,8 @@
 #include "output.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
-#include "player.h"
 #include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "string_id.h"

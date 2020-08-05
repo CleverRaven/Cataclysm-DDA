@@ -2,10 +2,18 @@
 #ifndef CATA_SRC_TALKER_AVATAR_H
 #define CATA_SRC_TALKER_AVATAR_H
 
+#include <string>
+#include <vector>
+
+#include "avatar.h"
 #include "talker.h"
 #include "talker_character.h"
+#include "translations.h"
+#include "type_id.h"
 
 class avatar;
+class talker;
+
 /*
  * Talker wrapper class for avatar.
  */

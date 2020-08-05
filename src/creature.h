@@ -5,10 +5,11 @@
 #include <climits>
 #include <map>
 #include <set>
-#include <unordered_map>
-#include <vector>
 #include <string>
+#include <type_traits>
+#include <unordered_map>
 #include <utility>
+#include <vector>
 
 #include "bodypart.h"
 #include "damage.h"
@@ -17,31 +18,34 @@
 #include "location.h"
 #include "pimpl.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units_fwd.h"
 #include "viewer.h"
 
+class monster;
+
 enum game_message_type : int;
-class nc_color;
 class effect;
 class effects_map;
+class nc_color;
 
 namespace catacurses
 {
 class window;
 } // namespace catacurses
-class anatomy;
-class avatar;
 class Character;
-class field;
-class field_entry;
 class JsonObject;
 class JsonOut;
-struct tripoint;
-class time_duration;
+class anatomy;
+class avatar;
+class field;
+class field_entry;
 class player;
+class time_duration;
 struct point;
+struct tripoint;
 
 enum damage_type : int;
 enum m_flag : int;

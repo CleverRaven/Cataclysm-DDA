@@ -2,8 +2,6 @@
 #ifndef CATA_SRC_UNITS_H
 #define CATA_SRC_UNITS_H
 
-#include "units_fwd.h"
-
 #include <algorithm>
 #include <cctype>
 #include <cmath>
@@ -21,6 +19,7 @@
 #include "compatibility.h"
 #include "json.h"
 #include "translations.h"
+#include "units_fwd.h" // IWYU pragma: export
 
 namespace units
 {

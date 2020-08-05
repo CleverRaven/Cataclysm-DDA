@@ -2,15 +2,26 @@
 #ifndef CATA_SRC_TALKER_CHARACTER_H
 #define CATA_SRC_TALKER_CHARACTER_H
 
-#include "talker.h"
+#include <functional>
+#include <list>
+#include <string>
+#include <vector>
 
-class player;
+#include "character_id.h"
+#include "coordinates.h"
+#include "npc.h"
+#include "talker.h"
+#include "type_id.h"
+
 class faction;
 class item;
 class mission;
 class npc;
-struct tripoint;
+class player;
+class time_duration;
 class vehicle;
+struct tripoint;
+
 /*
  * Talker wrapper class for Character.  well, ideally, but since Character is such a mess,
  * it's the wrapper class for player

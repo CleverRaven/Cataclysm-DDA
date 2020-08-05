@@ -2,7 +2,9 @@
 #ifndef CATA_SRC_DIALOGUE_H
 #define CATA_SRC_DIALOGUE_H
 
+#include <algorithm>
 #include <functional>
+#include <memory>
 #include <set>
 #include <string>
 #include <type_traits>
@@ -12,6 +14,8 @@
 #include "dialogue_win.h"
 #include "json.h"
 #include "npc.h"
+#include "string_id.h"
+#include "talker.h"
 #include "translations.h"
 #include "type_id.h"
 

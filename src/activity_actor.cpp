@@ -1,22 +1,30 @@
 #include "activity_actor.h"
 
+#include <math.h>
+#include <array>
+#include <functional>
 #include <list>
 #include <utility>
 
+#include "action.h"
 #include "activity_handlers.h" // put_into_vehicle_or_drop and drop_on_map
 #include "advanced_inv.h"
 #include "avatar.h"
 #include "avatar_action.h"
+#include "bodypart.h"
 #include "character.h"
-#include "computer_session.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"
 #include "event_bus.h"
+#include "flat_set.h"
 #include "game.h"
 #include "gates.h"
+#include "gun_mode.h"
 #include "iexamine.h"
+#include "int_id.h"
 #include "item.h"
+#include "item_contents.h"
 #include "item_group.h"
 #include "item_location.h"
 #include "itype.h"
@@ -24,6 +32,7 @@
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
+#include "mapdata.h"
 #include "morale_types.h"
 #include "npc.h"
 #include "options.h"
@@ -33,8 +42,14 @@
 #include "player_activity.h"
 #include "point.h"
 #include "ranged.h"
+#include "ret_val.h"
+#include "rng.h"
+#include "sounds.h"
 #include "timed_event.h"
+#include "translations.h"
+#include "ui.h"
 #include "uistate.h"
+#include "value_ptr.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 

@@ -4,6 +4,7 @@
 
 #include <string>
 
+#include "behavior.h"
 #include "behavior_oracle.h"
 
 class monster;

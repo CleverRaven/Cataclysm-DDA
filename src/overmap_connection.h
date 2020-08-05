@@ -2,17 +2,18 @@
 #ifndef CATA_SRC_OVERMAP_CONNECTION_H
 #define CATA_SRC_OVERMAP_CONNECTION_H
 
+#include <algorithm>
 #include <list>
-#include <vector>
 #include <set>
 #include <string>
+#include <vector>
 
 #include "int_id.h"
 #include "omdata.h"
 #include "string_id.h"
 
-class JsonObject;
 class JsonIn;
+class JsonObject;
 struct overmap_location;
 
 class overmap_connection

@@ -13,6 +13,7 @@
 class Character;
 class JsonIn;
 class JsonOut;
+struct tripoint;
 
 class teleporter_list
 {

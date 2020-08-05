@@ -1,5 +1,3 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <array>
 #include <cstddef>
@@ -8,17 +6,24 @@
 #include <string>
 #include <vector>
 
-#include "cata_utility.h"
+#include "activity_type.h"
+#include "bodypart.h"
 #include "catacharset.h" // used for utf8_width()
 #include "character.h"
+#include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "flat_set.h"
 #include "game_inventory.h"
 #include "input.h"
+#include "int_id.h"
 #include "inventory.h"
 #include "item.h"
 #include "line.h"
 #include "output.h"
+#include "pimpl.h"
+#include "player.h" // IWYU pragma: associated
+#include "player_activity.h"
 #include "string_formatter.h"
 #include "translations.h"
 #include "ui_manager.h"

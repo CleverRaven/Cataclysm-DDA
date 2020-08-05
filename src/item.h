@@ -23,12 +23,14 @@
 #include "io_tags.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "optional.h"
 #include "requirements.h"
 #include "safe_reference.h"
 #include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "visitable.h"
 
@@ -36,6 +38,7 @@ class Character;
 class JsonIn;
 class JsonObject;
 class JsonOut;
+class enchantment;
 class faction;
 class gun_type_type;
 class gunmod_location;
@@ -54,6 +57,7 @@ struct mtype;
 struct tripoint;
 template<typename T>
 class ret_val;
+template <typename T> struct enum_traits;
 
 namespace enchant_vals
 {

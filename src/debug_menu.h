@@ -3,10 +3,13 @@
 #define CATA_SRC_DEBUG_MENU_H
 
 #include <functional>
+#include <iosfwd>
+#include <system_error>
 
 #include "enum_traits.h"
 
 struct tripoint;
+template <typename E> struct enum_traits;
 
 namespace cata
 {

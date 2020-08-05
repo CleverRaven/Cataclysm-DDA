@@ -2,30 +2,38 @@
 #ifndef CATA_SRC_ITEM_POCKET_H
 #define CATA_SRC_ITEM_POCKET_H
 
+#include <stddef.h>
+#include <functional>
 #include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <string>
+#include <type_traits>
+#include <vector>
 
-#include "enums.h"
 #include "enum_traits.h"
+#include "enums.h"
 #include "flat_set.h"
+#include "json.h"
 #include "optional.h"
-#include "type_id.h"
 #include "ret_val.h"
 #include "translations.h"
+#include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "visitable.h"
-
-#include <memory>
 
 class Character;
 class item;
 class item_location;
 class player;
 class pocket_data;
-
 struct iteminfo;
 struct itype;
 struct tripoint;
+template <typename E> struct enum_traits;
 
 class item_pocket
 {

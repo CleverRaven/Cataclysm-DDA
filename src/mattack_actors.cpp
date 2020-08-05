@@ -2,29 +2,34 @@
 
 #include <algorithm>
 #include <limits>
+#include <list>
 #include <memory>
 
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "creature.h"
 #include "enums.h"
 #include "game.h"
 #include "generic_factory.h"
 #include "gun_mode.h"
+#include "int_id.h"
 #include "item.h"
+#include "item_pocket.h"
 #include "json.h"
 #include "line.h"
 #include "map.h"
 #include "map_iterator.h"
-#include "material.h"
 #include "messages.h"
 #include "monster.h"
 #include "npc.h"
 #include "player.h"
 #include "point.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "sounds.h"
 #include "translations.h"
+#include "viewer.h"
 
 static const efftype_id effect_badpoison( "badpoison" );
 static const efftype_id effect_bite( "bite" );

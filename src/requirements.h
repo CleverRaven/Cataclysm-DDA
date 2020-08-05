@@ -12,9 +12,11 @@
 #include <vector>
 
 #include "crafting.h"
+#include "string_id.h"
 #include "translations.h"
 #include "type_id.h"
 
+class Character;
 class JsonArray;
 class JsonIn;
 class JsonObject;
@@ -24,6 +26,7 @@ class inventory;
 class item;
 class nc_color;
 class player;
+template <typename E> struct enum_traits;
 
 enum class available_status : int {
     a_true = +1, // yes, it's available

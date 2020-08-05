@@ -5,6 +5,7 @@
 
 #include "avatar.h"
 #include "avatar_action.h"
+#include "character.h"
 #include "debug.h"
 #include "enums.h"
 #include "event.h"

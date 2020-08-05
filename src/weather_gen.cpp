@@ -1,20 +1,21 @@
 #include "weather_gen.h"
 
 #include <algorithm>
-#include <chrono>
 #include <cmath>
 #include <ostream>
 #include <random>
 #include <string>
+#include <utility>
 
 #include "cata_utility.h"
 #include "game_constants.h"
 #include "json.h"
-#include "math_defines.h"
 #include "point.h"
 #include "rng.h"
 #include "simplexnoise.h"
+#include "string_id.h"
 #include "weather.h"
+#include "weather_type.h"
 
 namespace
 {

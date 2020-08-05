@@ -5,9 +5,11 @@
 #include <memory>
 #include <unordered_set>
 
+#include "activity_type.h"
 #include "avatar_action.h"
 #include "bionics.h"
 #include "character.h"
+#include "color.h"
 #include "creature.h"
 #include "debug.h"
 #include "enums.h"
@@ -15,6 +17,7 @@
 #include "event_bus.h"
 #include "field_type.h"
 #include "game.h"
+#include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
