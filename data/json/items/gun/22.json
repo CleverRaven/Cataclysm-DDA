@@ -386,7 +386,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str_sp": "Chiappa Little Badger" },
-    "description": "A lightweight, ultra-compact, break-action folding rifle.  It is extremely basic, with a simple wire stock (which includes little 5 shot ammo holder) and a plain barrel.  Use to fold ",
+    "description": "A lightweight, ultra-compact, break-action folding rifle.  It is extremely basic, with a simple wire stock (which includes little 5 shot ammo holder) and a plain barrel.  Use to fold.",
     "weight": "1315 g",
     "volume": "1500 ml",
     "longest_side": "926 mm",
