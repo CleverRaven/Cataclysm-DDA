@@ -79,4 +79,4 @@ double convert_volume( int volume, int *out_scale );
 /** convert a volume unit to a string readable by a human */
 std::string vol_to_string( const units::volume &vol );
 
-#endif
+#endif // CATA_SRC_UNITS_UTILITY_H
