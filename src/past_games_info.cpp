@@ -1,6 +1,7 @@
 #include "past_games_info.h"
 
 #include "achievement.h"
+#include "event.h"
 #include "filesystem.h"
 #include "json.h"
 #include "memorial_logger.h"
@@ -12,34 +13,35 @@
 
 static void no_op( const achievement *, bool ) {}
 
-class past_game_info
+past_game_info::past_game_info( JsonIn &jsin )
 {
-    public:
-        past_game_info( JsonIn &jsin ) {
-            JsonObject jo = jsin.get_object();
-            int version;
-            jo.read( "memorial_version", version );
-            if( version == 0 ) {
-                jo.read( "log", log_ );
-                stats_ = std::make_unique<stats_tracker>();
-                jo.read( "stats", *stats_ );
-                achievements_ = std::make_unique<achievements_tracker>( *stats_, no_op, no_op );
-                jo.read( "achievements", *achievements_ );
-                jo.read( "scores", scores_ );
-            } else {
-                throw JsonError( string_format( "unexpected memorial version %d", version ) );
-            }
-        }
+    JsonObject jo = jsin.get_object();
+    int version;
+    jo.read( "memorial_version", version );
+    if( version == 0 ) {
+        jo.read( "log", log_ );
+        stats_ = std::make_unique<stats_tracker>();
+        jo.read( "stats", *stats_ );
+        achievements_ = std::make_unique<achievements_tracker>( *stats_, no_op, no_op );
+        jo.read( "achievements", *achievements_ );
+        jo.read( "scores", scores_ );
+    } else {
+        throw JsonError( string_format( "unexpected memorial version %d", version ) );
+    }
 
-        stats_tracker &stats() {
-            return *stats_;
-        }
-    private:
-        std::vector<memorial_log_entry> log_;
-        std::unique_ptr<stats_tracker> stats_;
-        std::unique_ptr<achievements_tracker> achievements_;
-        std::unordered_map<string_id<score>, cata_variant> scores_;
-};
+    // Extract the "standard" game info from the game started event
+    event_multiset &events = stats_->get_events( event_type::game_start );
+    const event_multiset::summaries_type &counts = events.counts();
+    if( counts.size() != 1 ) {
+        debugmsg( "Unexpected number of game start events: %d\n", counts.size() );
+        return;
+    }
+    const cata::event::data_type &event_data = counts.begin()->first;
+    auto avatar_name_it = event_data.find( "avatar_name" );
+    if( avatar_name_it != event_data.end() ) {
+        avatar_name_ = avatar_name_it->second.get_string();
+    }
+}
 
 static past_games_info past_games;
 
@@ -51,9 +53,10 @@ void past_games_info::clear()
     *this = past_games_info();
 }
 
-bool past_games_info::was_achievement_completed( const achievement_id &ach ) const
+const achievement_completion_info *past_games_info::achievement( const achievement_id &ach ) const
 {
-    return completed_achievements_.count( ach );
+    auto ach_it = completed_achievements_.find( ach );
+    return ach_it == completed_achievements_.end() ? nullptr : &ach_it->second;
 }
 
 void past_games_info::ensure_loaded()
@@ -97,7 +100,8 @@ void past_games_info::ensure_loaded()
             if( !enabled_it->second.get<bool>() ) {
                 continue;
             }
-            completed_achievements_.insert( ach_it->second.get<achievement_id>() );
+            achievement_id ach = ach_it->second.get<achievement_id>();
+            completed_achievements_[ach].games_completed.push_back( &game );
         }
     }
 }
