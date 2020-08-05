@@ -157,7 +157,7 @@
     "type": "GUN",
     "category": "weapons",
     "name": { "str": "dissasembled chiappa wildlands" },
-    "description": "A chiappa wildlands with the barrel seperated from the best for easier storage and travel. use to reassemble.",
+    "description": "A chiappa wildlands with the barrel seperated from the best for easier storage and travel.  use to reassemble.",
     "weight": "4309 g",
     "volume": "1200 ml",
     "longest_side": "490 mm",
