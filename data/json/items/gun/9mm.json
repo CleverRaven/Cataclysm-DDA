@@ -328,7 +328,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str_sp": "Kel-Tec SUB-2000" },
-    "description": "A uniquely designed pistol caliber carbine with an integral folding stock and that makes use of 9x19mm Glock magazines.",
+    "description": "A uniquely designed pistol caliber carbine with an integral folding stock.  It makes use of 9x19mm Glock magazines.",
     "weight": "1930 g",
     "volume": "1240 ml",
     "longest_side": "742 mm",
