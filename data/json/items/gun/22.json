@@ -442,7 +442,7 @@
     "type": "GUN",
     "reload_noise_volume": 10,
     "name": { "str_sp": "Ruger 10/22 takedown" },
-    "description": "A ruger 10/22 version with the ability to be easily taken down into 2 parts for easier carrying.  It has polymer furniture and is also slightly lighter then the normal 10/22.  ",
+    "description": "A ruger 10/22 version with the ability to be easily taken down into 2 parts for easier carrying.  It has polymer furniture and is also slightly lighter then the normal 10/22.",
     "weight": "2086 g",
     "volume": "2100 ml",
     "longest_side": "939 mm",
