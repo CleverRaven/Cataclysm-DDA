@@ -371,7 +371,7 @@
     "anger_triggers": [ "HURT" ],
     "categories": [ "DINOSAUR" ]
   },
-  {
+    {
     "type": "MONSTER",
     "id": "mon_diplodocus",
     "name": { "str_sp": "Diplodocus" },
@@ -384,6 +384,18 @@
     "zombify_into": "mon_ziplodocus",
     "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail.",
     "reproduction": { "baby_egg": "egg_diplodocus", "baby_count": 3, "baby_timer": 24 },
+    "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ]
+  },
+    {
+    "type": "MONSTER",
+    "id": "mon_camarasaurus",
+    "name": { "str_sp": "Camarasaurus" },
+    "copy-from": "mon_apatosaurus",
+    "speed": 60,
+    "armor_bash": 5,
+    "zombify_into": "mon_zamarasaurus",
+    "description": "Huge, long-necked, four-legged dinosaur with a long, whip-like tail.",
+    "reproduction": { "baby_egg": "egg_camarasaurus", "baby_count": 3, "baby_timer": 24 },
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ]
   },
   {
@@ -735,12 +747,12 @@
     "default_faction": "dimorphodon",
     "symbol": "D",
     "color": "light_gray_yellow",
-    "volume": "30 L",
-    "weight": "40 kg",
+    "volume": "1.5 L",
+    "weight": "2 kg",
     "bodytype": "bird",
     "material": [ "flesh" ],
     "aggression": -80,
-    "morale": -8,
+    "morale": -50,
     "speed": 110,
     "melee_skill": 5,
     "melee_dice": 2,
@@ -750,9 +762,8 @@
     "armor_bash": 3,
     "armor_cut": 1,
     "vision_day": 50,
-    "hp": 30,
+    "hp": 2,
     "death_function": [ "NORMAL" ],
-    "zombify_into": "mon_zimorphodon",
     "description": "A feathered flying reptile over three feet long, with short wings and a big colorful beak.",
     "reproduction": { "baby_egg": "egg_dimorphodon", "baby_count": 3, "baby_timer": 24 },
     "baby_flags": [ "SPRING", "SUMMER" ],
@@ -762,6 +773,19 @@
     "fear_triggers": [ "PLAYER_CLOSE", "FIRE", "FRIEND_DIED" ],
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
+  },
+    {
+    "type": "MONSTER",
+    "id": "mon_pteranodon",
+    "name": { "str_sp": "Pteranodon" },
+    "copy-from": "mon_dimorphodon",
+    "volume": "38 L",
+    "weight": "50 kg",
+    "hp": 40,
+    "speed": 200,
+    "zombify_into": "mon_zteranodon",
+    "description": "A large feathered flying reptile, with a long pointed toothless beak and a long pointy head crest.",
+    "reproduction": { "baby_egg": "egg_pteranodon", "baby_count": 3, "baby_timer": 24 }
   },
   {
     "type": "MONSTER",
