@@ -275,6 +275,41 @@
     "symbol": "h"
   },
   {
+    "id": "frame_horizontal_unconnected",
+    "looks_like": "frame_horizontal",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_horizontal_unconnected",
+    "looks_like": "frame_wood_horizontal",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_horizontal_unconnected",
+    "looks_like": "frame_wood_light_horizontal",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_horizontal_unconnected",
+    "looks_like": "hdframe_horizontal",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_horizontal_unconnected",
+    "looks_like": "xlframe_horizontal",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
     "id": "frame_horizontal_front",
     "looks_like": "frame_horizontal",
     "copy-from": "frame",
@@ -378,6 +413,41 @@
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "="
+  },
+  {
+    "id": "frame_horizontal_2_unconnected",
+    "looks_like": "frame_horizontal_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_horizontal_2_unconnected",
+    "looks_like": "frame_wood_horizontal_2",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_horizontal_2_unconnected",
+    "looks_like": "frame_wood_light_horizontal_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_horizontal_2_unconnected",
+    "looks_like": "hdframe_horizontal_2",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_horizontal_2_unconnected",
+    "looks_like": "xlframe_horizontal_2",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
   },
   {
     "id": "frame_horizontal_2_front",
@@ -615,6 +685,41 @@
     "symbol": "j"
   },
   {
+    "id": "frame_vertical_unconnected",
+    "looks_like": "frame_vertical",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_vertical_unconnected",
+    "looks_like": "frame_wood_vertical",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_vertical_unconnected",
+    "looks_like": "frame_wood_light_vertical",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_vertical_unconnected",
+    "looks_like": "hdframe_vertical",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_vertical_unconnected",
+    "looks_like": "xlframe_vertical",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
     "id": "frame_vertical_left",
     "looks_like": "frame_vertical",
     "copy-from": "frame",
@@ -718,6 +823,41 @@
     "copy-from": "xlframe",
     "type": "vehicle_part",
     "symbol": "H"
+  },
+  {
+    "id": "frame_vertical_2_unconnected",
+    "looks_like": "frame_vertical_2",
+    "copy-from": "frame",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_vertical_2_unconnected",
+    "looks_like": "frame_wood_vertical_2",
+    "copy-from": "frame_wood",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "frame_wood_light_vertical_2_unconnected",
+    "looks_like": "frame_wood_light_vertical_2",
+    "copy-from": "frame_wood_light",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "hdframe_vertical_2_unconnected",
+    "looks_like": "hdframe_vertical_2",
+    "copy-from": "hdframe",
+    "type": "vehicle_part",
+    "symbol": "h"
+  },
+  {
+    "id": "xlframe_vertical_2_unconnected",
+    "looks_like": "xlframe_vertical_2",
+    "copy-from": "xlframe",
+    "type": "vehicle_part",
+    "symbol": "h"
   },
   {
     "id": "frame_vertical_2_left",
