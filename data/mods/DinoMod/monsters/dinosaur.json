@@ -371,7 +371,7 @@
     "anger_triggers": [ "HURT" ],
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_diplodocus",
     "name": { "str_sp": "Diplodocus" },
@@ -386,7 +386,7 @@
     "reproduction": { "baby_egg": "egg_diplodocus", "baby_count": 3, "baby_timer": 24 },
     "flags": [ "SEES", "SMELLS", "HEARS", "GOODHEARING", "ANIMAL", "PATH_AVOID_DANGER_1", "BASHES", "WARM" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_camarasaurus",
     "name": { "str_sp": "Camarasaurus" },
@@ -774,7 +774,7 @@
     "placate_triggers": [ "MEAT" ],
     "categories": [ "DINOSAUR" ]
   },
-    {
+  {
     "type": "MONSTER",
     "id": "mon_pteranodon",
     "name": { "str_sp": "Pteranodon" },
@@ -951,6 +951,13 @@
     "upgrades": { "age_grow": 40, "into": "mon_diplodocus" }
   },
   {
+    "id": "mon_camarasaurus_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "brown and magenta hatchling",
+    "upgrades": { "age_grow": 50, "into": "mon_camarasaurus" }
+  },
+  {
     "id": "mon_apatosaurus_hatchling",
     "type": "MONSTER",
     "copy-from": "mon_compsognathus_hatchling",
@@ -1026,6 +1033,13 @@
     "copy-from": "mon_compsognathus_hatchling",
     "name": "light gray and yellow hatchling",
     "upgrades": { "age_grow": 20, "into": "mon_dimorphodon" }
+  },
+  {
+    "id": "mon_pteranodon_hatchling",
+    "type": "MONSTER",
+    "copy-from": "mon_compsognathus_hatchling",
+    "name": "light gray and yellow hatchling",
+    "upgrades": { "age_grow": 20, "into": "mon_pteranodon" }
   },
   {
     "id": "mon_dilophosaurus_hatchling",
