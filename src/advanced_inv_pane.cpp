@@ -36,7 +36,8 @@ bool _aim_traded_all( advanced_inv_listitem &it, const advanced_inventory_pane::
         }
     } else {
         auto present = std::find_if( limbo.begin(), limbo.end(), [&it]( const auto el) {
-                return el.first.front() == it.items.front();
+                return el.first.front().get_item() == it.items.front();
+
             });
         if( present != limbo.end() ) {
             it.stacks -= present->second;
@@ -211,8 +212,8 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         }
     } else if( square.id == AIM_TRADE ) {
         int index = 0;
-        for( const auto &li : limbo) {
-            advanced_inv_listitem it( li.first.front(), index++, li.second, square.id, false );
+        for( auto &li : limbo) {
+            advanced_inv_listitem it( li.first.front().get_item(), index++, li.second, square.id, false );
             items.push_back( it );
         }
     } else {

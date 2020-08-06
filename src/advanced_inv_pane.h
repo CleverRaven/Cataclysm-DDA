@@ -12,6 +12,7 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_listitem.h"
 #include "cursesdef.h"
+#include "item_location.h"
 
 class item;
 class Character;
@@ -45,7 +46,11 @@ class advanced_inventory_pane
         bool prev_viewing_cargo = false;
     public:
         Character *owner = nullptr;
-        using limbo_t = std::vector<std::pair<std::vector<item *>, int>>;
+        // FIXME: maybe turn this into a struct to make life easier
+        // tradelist entry contains stack of items and amount to trade
+        using limbo_entry_t = std::pair<std::vector<item_location>, int>;
+        using limbo_t = std::vector<limbo_entry_t>;
+        // tradelist
         limbo_t limbo;
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
         void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false ) {

@@ -287,37 +287,39 @@ bool advanced_inventory::finish_trade() {
         trade_ok = query_yn( _( "Looks like a deal!  Accept this trade?" ) );
     }
     if( trade_ok ) {
-        // FIXME: transfer items
-        Character &lchar = *panes[ side::left ].owner;
-        Character &rchar = *panes[ side::right ].owner;
+        trade_transfer( *panes[ side::right ].owner, panes[ side::left ].limbo );
+        trade_transfer( *panes[ side::left ].owner, panes[ side::right ].limbo );
 
-        for( auto &el : panes[ side::left ].limbo ) {
-            if( el.first.front()->count_by_charges() ) {
-                item transfered = *el.first.front();
-                int amount = transfered.get_var( "aim_trade_amount", 0 );
-                transfered.charges = amount;
-                transfered.erase_var( "aim_trade_amount" );
-                rchar.i_add( transfered );
-                
-                // FIXME?: remove item
-                el.first.front()->erase_var( "aim_trade_amount" );
-                el.first.front()->charges -= amount;
-                lchar.i_rem( el.first.front() );
-            } else {
-                for( int i = 0; i < el.second; i++ ) {
-                    rchar.i_add( *el.first.at( i ) );
-
-                    // FIXME: remove item
-                    // item_location loc
-                }
-            }
-        }
-
-        trade_cleanup();
         np_p->op_of_u.owed += balance;
     }
 
     return trade_ok;
+}
+
+void advanced_inventory::trade_transfer( Character &to, advanced_inventory_pane::limbo_t &from ) {
+    for( auto &el : from ) {
+        if( el.first.front()->count_by_charges() ) {
+            item transfered = *el.first.front();
+            int amount = transfered.get_var( "aim_trade_amount", 0 );
+            transfered.charges = amount;
+            transfered.erase_var( "aim_trade_amount" );
+            transfered.set_owner( to );
+            to.i_add( transfered );
+            
+            el.first.front()->erase_var( "aim_trade_amount" );
+            el.first.front()->charges -= amount;
+            if( el.first.front()->charges <= 0 ) {
+                el.first.front().remove_item();
+            }
+        } else {
+            for( int i = 0; i < el.second; i++ ) {
+                item &transfered = to.i_add( *el.first.at( i ) );
+                transfered.set_owner( to );
+
+                el.first.at( i ).remove_item();
+            }
+        }
+    }
 }
 
 void advanced_inventory::trade_cleanup() {
@@ -1532,6 +1534,7 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
                                             advanced_inventory_pane &dpane, advanced_inventory_pane &spane,
                                             int amount_to_move ) {
 
+    bool from_vehicle = sitem->from_vehicle;
     aim_location srcarea = sitem->area;
     item &it = *sitem->items.front();
     const bool spane_is_npc = spane.owner->is_npc();
@@ -1540,7 +1543,7 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
     advanced_inventory_pane::limbo_t::iterator present = spane.limbo.end();
     if( !by_charges ) {
         present = std::find_if( spane.limbo.begin(), spane.limbo.end(), [&it]( const auto el) {
-            return el.first.front() == &it;
+            return el.first.front().get_item() == &it;
         });
     }
     const int amount_already = by_charges ? it.get_var( "aim_trade_amount", 0 ) : 
@@ -1549,7 +1552,21 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
         const bool npc_can_stash = _char_can_stash( trader, it, amount_to_move );
         if( spane_is_npc || npc_can_stash ) {
             if( amount_already == 0) {
-                spane.limbo.emplace_back( sitem->items, by_charges ? 1 : amount_to_move );
+                // get item_location for the entire stack
+                // FIXME: is this the best way/place?
+                advanced_inventory_pane::limbo_entry_t newstack;
+                for( auto &itm : sitem->items ) {
+                    if( srcarea == AIM_INVENTORY || srcarea == AIM_WORN ) {
+                        newstack.first.emplace_back( *spane.owner, itm );
+                    } else if( from_vehicle ) {
+                        newstack.first.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
+                                                itm );
+                    } else {
+                        newstack.first.emplace_back( map_cursor( squares[srcarea].pos ), itm );
+                    }
+                }
+                newstack.second = by_charges ? 1 : amount_to_move;
+                spane.limbo.push_back( newstack );
             } else {
                 present->second += by_charges ? 0 : amount_to_move;
             }

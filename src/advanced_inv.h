@@ -159,6 +159,7 @@ class advanced_inventory
         int print_header( advanced_inventory_pane &pane, aim_location sel );
         void init();
         bool finish_trade();
+        void trade_transfer( Character &to, advanced_inventory_pane::limbo_t &from);
         void trade_cleanup();
         /**
          * Translate an action ident from the input context to an aim_location.
