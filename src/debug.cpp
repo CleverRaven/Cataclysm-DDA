@@ -10,12 +10,14 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <fstream>
 #include <iomanip>
 #include <iterator>
 #include <locale>
 #include <map>
 #include <memory>
 #include <set>
+#include <sstream>
 #include <sys/stat.h> // IWYU pragma
 #include <type_traits>
 #include <utility>
