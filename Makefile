@@ -934,7 +934,7 @@ clean: clean-tests
 	rm -rf *$(BINDIST_DIR) *cataclysmdda-*.tar.gz *cataclysmdda-*.zip
 	rm -f $(SRC_DIR)/version.h
 	rm -f $(CHKJSON_BIN)
-	rm -f pch/pch.hpp.{gch,pch}
+	rm -f pch/*-pch.hpp.{gch,pch,d}
 
 distclean:
 	rm -rf *$(BINDIST_DIR)
