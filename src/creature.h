@@ -617,7 +617,7 @@ class Creature : public location, public viewer
                                 int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
                                 int fat_to_max_hp = 0 );
         bodypart *get_part( const bodypart_id &id );
-        bodypart get_part( const bodypart_id &id ) const;
+        const bodypart *get_part( const bodypart_id &id ) const;
 
         int get_part_hp_cur( const bodypart_id &id ) const;
         int get_part_hp_max( const bodypart_id &id ) const;
