@@ -69,8 +69,11 @@
     "//": "Legacy artifact data is set for always on wield dex +2 and speed up times 2",
     "relic_data": {
       "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 40 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] }
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "values": [ { "value": "SPEED", "add": 40 }, { "value": "DEXTERITY", "add": 2 } ]
+        }
       ]
     },
     "weight": "2500 g",
@@ -95,13 +98,20 @@
     "//": "Legacy artifact data was set for all stats +2 Str +6, carry_more, speed up x6, resist electricity, sap hp",
     "relic_data": {
       "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 6 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 120 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "INTELLIGENCE", "add": 2 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] },
-        { "hit_me_effect": [ { "id": "light_healing" } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "ARMOR_ELEC", "add": -20 } ] }
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "STRENGTH", "add": 6 },
+            { "value": "ARMOR_ELEC", "add": -20 },
+            { "value": "SPEED", "add": 120 },
+            { "value": "INTELLIGENCE", "add": 2 },
+            { "value": "PERCEPTION", "add": 2 },
+            { "value": "DEXTERITY", "add": 2 },
+            { "value": "ARMOR_ELEC", "add": -20 }
+          ]
+        },
+        { "hit_me_effect": [ { "id": "light_healing" } ] }
       ]
     },
     "weight": "50 kg",

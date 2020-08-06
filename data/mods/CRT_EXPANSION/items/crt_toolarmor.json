@@ -66,9 +66,11 @@
     "//": "Legacy artifact data is set for all stats +2 except INT charge_type solar",
     "relic_data": {
       "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "PERCEPTION", "add": 2 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "DEXTERITY", "add": 2 } ] }
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "PERCEPTION", "add": 2 }, { "value": "DEXTERITY", "add": 2 } ]
+        }
       ]
     },
     "material_thickness": 5,
@@ -161,8 +163,11 @@
     "//": "Legacy artifact data is set for str +2 and speed up",
     "relic_data": {
       "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 } ] },
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "SPEED", "add": 20 } ] }
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "SPEED", "add": 20 } ]
+        }
       ]
     },
     "flags": [

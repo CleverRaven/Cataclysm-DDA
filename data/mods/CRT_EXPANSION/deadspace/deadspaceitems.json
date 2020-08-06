@@ -18,7 +18,16 @@
     "//": "Legacy artifact data is set for all stats +2",
     "relic_data": {
       "passive_effects": [
-        { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "STRENGTH", "add": 2 }, { "value": "INTELLIGENCE", "add": 2 }, { "value": "PERCEPTION", "add": 2 }, { "value": "DEXTERITY", "add": 2 } ] }
+        {
+          "has": "WORN",
+          "condition": "ALWAYS",
+          "values": [
+            { "value": "STRENGTH", "add": 2 },
+            { "value": "INTELLIGENCE", "add": 2 },
+            { "value": "PERCEPTION", "add": 2 },
+            { "value": "DEXTERITY", "add": 2 }
+          ]
+        }
       ]
     },
     "material_thickness": 10,
