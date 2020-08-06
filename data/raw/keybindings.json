@@ -2747,9 +2747,7 @@
     "id": "CANCEL",
     "category": "ADVANCED_INVENTORY",
     "name": "Cancel trade",
-    "bindings": [
-      { "input_method": "keyboard_any", "key": "ESC" }
-    ]
+    "bindings": [ { "input_method": "keyboard_any", "key": "ESC" } ]
   },
   {
     "type": "keybinding",
