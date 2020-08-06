@@ -1,9 +1,9 @@
 #include "scent_map.h"
 
-#include <math.h>
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
+#include <cmath>
 
 #include "assign.h"
 #include "calendar.h"

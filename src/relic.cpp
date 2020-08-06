@@ -1,8 +1,8 @@
 #include "relic.h"
 
-#include <stdlib.h>
 #include <algorithm>
 #include <cmath>
+#include <cstdlib>
 #include <set>
 
 #include "creature.h"

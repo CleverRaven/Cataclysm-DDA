@@ -1,9 +1,9 @@
 #include "requirements.h"
 
-#include <math.h>
 #include <algorithm>
 #include <cassert>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <limits>

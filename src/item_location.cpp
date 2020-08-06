@@ -1,6 +1,6 @@
 #include "item_location.h"
 
-#include <stddef.h>
+#include <cstddef>
 #include <iosfwd>
 #include <iterator>
 #include <list>

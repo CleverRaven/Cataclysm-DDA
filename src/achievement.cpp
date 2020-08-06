@@ -1,7 +1,7 @@
 #include "achievement.h"
 
-#include <assert.h>
-#include <stdlib.h>
+#include <cassert>
+#include <cstdlib>
 #include <set>
 #include <tuple>
 #include <utility>

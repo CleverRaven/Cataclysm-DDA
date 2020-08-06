@@ -1,10 +1,10 @@
 #include "rotatable_symbols.h"
 
-#include <math.h>
 #include <algorithm>
 #include <array>
 #include <cstdint>
 #include <cstdlib>
+#include <cmath>
 #include <vector>
 
 #include "catacharset.h"

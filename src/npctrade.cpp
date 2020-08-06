@@ -1,7 +1,7 @@
 #include "npctrade.h"
 
-#include <math.h>
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <list>
 #include <memory>

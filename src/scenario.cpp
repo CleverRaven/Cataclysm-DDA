@@ -1,7 +1,7 @@
 #include "scenario.h"
 
-#include <math.h>
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 
 #include "debug.h"

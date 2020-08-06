@@ -1,6 +1,6 @@
-#include <math.h>
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstdlib>
 #include <initializer_list>
 #include <sstream>

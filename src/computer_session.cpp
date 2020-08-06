@@ -1,7 +1,7 @@
 #include "computer_session.h"
 
-#include <math.h>
 #include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <memory>
 #include <string>

@@ -1,7 +1,7 @@
 #include "move_mode.h"
 
-#include <stddef.h>
 #include <algorithm>
+#include <cstddef>
 #include <set>
 
 #include "assign.h"

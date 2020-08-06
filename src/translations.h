@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_TRANSLATIONS_H
 #define CATA_SRC_TRANSLATIONS_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <map>
 #include <ostream>
 #include <string>

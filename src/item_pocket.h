@@ -2,7 +2,7 @@
 #ifndef CATA_SRC_ITEM_POCKET_H
 #define CATA_SRC_ITEM_POCKET_H
 
-#include <stddef.h>
+#include <cstddef>
 #include <functional>
 #include <list>
 #include <map>

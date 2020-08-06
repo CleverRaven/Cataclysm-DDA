@@ -1,7 +1,7 @@
 #include "proficiency.h"
 
-#include <stddef.h>
 #include <algorithm>
+#include <cstddef>
 #include <utility>
 
 #include "debug.h"

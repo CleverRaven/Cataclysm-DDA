@@ -2,8 +2,8 @@
 #ifndef CATA_SRC_MUTATION_H
 #define CATA_SRC_MUTATION_H
 
-#include <limits.h>
 #include <algorithm>
+#include <climits>
 #include <map>
 #include <memory>
 #include <set>

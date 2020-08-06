@@ -1,8 +1,8 @@
 #include "mission_companion.h"
 
-#include <math.h>
 #include <algorithm>
 #include <cassert>
+#include <cmath>
 #include <cstdlib>
 #include <list>
 #include <map>

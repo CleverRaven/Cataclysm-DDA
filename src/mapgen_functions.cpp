@@ -1,8 +1,8 @@
 #include "mapgen_functions.h"
 
-#include <math.h>
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstdlib>
 #include <initializer_list>
 #include <iterator>

@@ -1,6 +1,6 @@
-#include <math.h>
 #include <algorithm>
 #include <array>
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <memory>

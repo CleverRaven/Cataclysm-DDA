@@ -1,8 +1,8 @@
 #include "item_pocket.h"
 
-#include <math.h>
-#include <stdlib.h>
 #include <algorithm>
+#include <cmath>
+#include <cstdlib>
 #include <memory>
 #include <utility>
 

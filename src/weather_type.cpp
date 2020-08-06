@@ -1,6 +1,6 @@
 #include "weather_type.h"
 
-#include <stdlib.h>
+#include <cstdlib>
 #include <set>
 
 #include "assign.h"
@@ -322,4 +322,3 @@ void weather_types::load( const JsonObject &jo, const std::string &src )
 {
     weather_type_factory.load( jo, src );
 }
-

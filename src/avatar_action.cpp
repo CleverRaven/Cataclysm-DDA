@@ -1,8 +1,8 @@
 #include "avatar_action.h"
 
-#include <math.h>
 #include <algorithm>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <map>
 #include <memory>

@@ -1,7 +1,7 @@
 #include "activity_actor.h"
 
-#include <math.h>
 #include <array>
+#include <cmath>
 #include <functional>
 #include <list>
 #include <utility>

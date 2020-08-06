@@ -1,7 +1,7 @@
-#include <math.h>
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <cmath>
 #include <cstddef>
 #include <list>
 #include <memory>

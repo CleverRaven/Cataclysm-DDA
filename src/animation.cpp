@@ -1,6 +1,6 @@
 #include "animation.h"
 
-#include <time.h>
+#include <ctime>
 
 #include "avatar.h"
 #include "character.h"

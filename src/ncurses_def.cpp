@@ -16,7 +16,6 @@
 #endif
 
 #include <langinfo.h>
-#include <string.h>
 #include <memory>
 #include <stdexcept>
 #include <string>

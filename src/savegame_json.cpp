@@ -2,11 +2,11 @@
 // functions are serialization functions.  This allows IWYU to check the
 // includes in such headers.
 
-#include <math.h>
 #include <algorithm>
 #include <array>
 #include <bitset>
 #include <climits>
+#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <limits>
