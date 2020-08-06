@@ -1346,11 +1346,19 @@ int salvage_actor::use( player &p, item &it, bool t, const tripoint & ) const
     return cut_up( p, it, item_loc );
 }
 
-static const units::volume minimal_volume_to_cut = 250_ml;
-
 int salvage_actor::time_to_cut_up( const item &it ) const
 {
-    int count = it.volume() / minimal_volume_to_cut;
+    std::vector<material_id> cut_material_components = it.made_of();
+    int nb_components_type = static_cast<int>( cut_material_components.size() );
+    units::mass assigned_weight = it.weight() / nb_components_type;
+    int count = 0;
+    for( const material_id &material : cut_material_components ) {
+        if( const auto optional_id = material->salvaged_into() ) {
+            const auto id = *optional_id;
+            int material_count = std::max( 0L, assigned_weight / id->weight ) ;
+            count += material_count;
+        }
+    }
     return moves_per_part * count;
 }
 
@@ -1369,7 +1377,7 @@ bool salvage_actor::valid_to_cut_up( const item &it ) const
     if( !it.contents.empty() ) {
         return false;
     }
-    if( it.volume() < minimal_volume_to_cut ) {
+    if( time_to_cut_up( it ) == 0 ) {
         return false;
     }
 
@@ -1403,7 +1411,7 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
         add_msg( m_info, _( "Please empty the %s before cutting it up." ), it.tname() );
         return false;
     }
-    if( it.volume() < minimal_volume_to_cut ) {
+    if( time_to_cut_up( it ) == 0 ) {
         add_msg( m_info, _( "The %s is too small to salvage material from." ), it.tname() );
         return false;
     }
@@ -1427,9 +1435,6 @@ bool salvage_actor::try_to_cut_up( player &p, item &it ) const
 int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
 {
     const bool filthy = cut.get_item()->is_filthy();
-    // total number of raw components == total volume of item.
-    // This can go awry if there is a volume / recipe mismatch.
-    int count = cut.get_item()->volume() / minimal_volume_to_cut;
     // Chance of us losing a material component to entropy.
     /** @EFFECT_FABRICATION reduces chance of losing components when cutting items up */
     int entropy_threshold = std::max( 5, 10 - p.get_skill_level( skill_fabrication ) );
@@ -1437,6 +1442,11 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     std::vector<material_id> cut_material_components = cut.get_item()->made_of();
     // What materials do we salvage (ids and counts).
     std::map<itype_id, int> materials_salvaged;
+
+    int nb_components_type = static_cast<int>( cut_material_components.size() );
+
+    // Vector containing the above materials, for random purpose
+    std::vector<itype_id> random_mat;
 
     // Final just in case check (that perhaps was not done elsewhere);
     if( cut.get_item() == &it ) {
@@ -1449,39 +1459,58 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
         return 0;
     }
 
+    units::mass assigned_weight = cut->weight() / nb_components_type;
+
+    // Compute the maximum salvageable components first
+    int count = 0;
+    for( const material_id &material : cut_material_components ) {
+        if( const auto optional_id = material->salvaged_into() ) {
+            const auto id = *optional_id;
+            int material_count = std::max( 0L, assigned_weight / id->weight ) ;
+            materials_salvaged[id] = material_count;
+            random_mat.push_back( id );
+            count += material_count;
+        }
+    }
+
     // Time based on number of components.
     p.moves -= moves_per_part * count;
+
     // Not much practice, and you won't get very far ripping things up.
     p.practice( skill_fabrication, rng( 0, 5 ), 1 );
 
+    int nb_lost = 0;
+
     // Higher fabrication, less chance of entropy, but still a chance.
     if( rng( 1, 10 ) <= entropy_threshold ) {
-        count -= 1;
+        nb_lost += 1;
     }
     // Fail dex roll, potentially lose more parts.
     /** @EFFECT_DEX randomly reduces component loss when cutting items up */
     if( dice( 3, 4 ) > p.dex_cur ) {
-        count -= rng( 0, 2 );
+        nb_lost += rng( 0, 2 );
     }
     // If more than 1 material component can still be salvaged,
     // chance of losing more components if the item is damaged.
     // If the item being cut is not damaged, no additional losses will be incurred.
-    if( count > 0 && cut.get_item()->damage() > 0 ) {
+    if( count - nb_lost > 0 && cut.get_item()->damage() > 0 ) {
         float component_success_chance = std::min( std::pow( 0.8, cut.get_item()->damage_level( 4 ) ),
                                          1.0 );
-        for( int i = count; i > 0; i-- ) {
+        for( int i = count - nb_lost; i > 0; i-- ) {
             if( component_success_chance < rng_float( 0, 1 ) ) {
-                count--;
+                nb_lost++;
             }
         }
     }
 
-    // Decided to split components evenly. Since salvage will likely change
-    // soon after I write this, I'll go with the one that is cleaner.
-    for( const material_id &material : cut_material_components ) {
-        if( const auto id = material->salvaged_into() ) {
-            materials_salvaged[*id] = std::max( 0, count / static_cast<int>( cut_material_components.size() ) );
+    // For each part lost, choose which component is lost
+    for( int i = 0; i < nb_lost && count > 0; i++ ) {
+        itype_id mat = random_mat[rng( 0, random_mat.size() - 1 )];
+        while( materials_salvaged[mat] == 0 ) {
+            mat = random_mat[rng( 0, random_mat.size() - 1 )];
         }
+        materials_salvaged[mat]--;
+        count--;
     }
 
     add_msg( m_info, _( "You try to salvage materials from the %s." ),
