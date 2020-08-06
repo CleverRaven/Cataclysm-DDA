@@ -1,6 +1,6 @@
 #include "options.h"
 
-#include <locale.h>
+#include <clocale>
 #include <cfloat>
 #include <climits>
 #include <iterator>

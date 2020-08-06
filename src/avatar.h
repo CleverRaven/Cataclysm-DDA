@@ -40,7 +40,7 @@ class talker;
 namespace catacurses
 {
 class window;
-}
+} // namespace catacurses
 enum class character_type : int;
 
 namespace debug_menu
