@@ -1,0 +1,40 @@
+[
+  {
+    "id": "soul_pressure",
+    "type": "SPELL",
+    "name": "Soul Pressure",
+    "description": "This is a spell that represents the Soulfire putting a burning pressure on nearby opponents.  If you are seeing this spell, you have debugged it in.",
+    "valid_targets": [ "hostile" ],
+    "flags": [ "SILENT" ],
+    "effect": "target_attack",
+    "min_damage": 3,
+    "max_damage": 3,
+    "min_aoe": 3,
+    "max_aoe": 3,
+    "damage_type": "fire",
+    "sound_description": "a grunt and a sizzle",
+    "sound_id": "fire_spell",
+    "sound_variant": "weak"
+  },
+  {
+    "type": "enchantment",
+    "id": "SOULFIRE",
+    "condition": "ALWAYS",
+    "intermittent_activation": { "effects": [ { "frequency": "5 seconds", "spell_effects": [ { "id": "soul_pressure" } ] } ] }
+  },
+  {
+    "id": "soul_burn_item",
+    "type": "ARMOR",
+    "name": { "str": "Soul Burn" },
+    "description": "A little of your soul has been burned away, leaving you in a weakened state.  The soul heals quickly, so rest for now.",
+    "flags": [ "PERSONAL", "OVERSIZE", "TRADER_AVOID", "NO_TAKEOFF" ],
+    "relic_data": {
+      "passive_effects": [ { "has": "WORN", "condition": "ALWAYS", "values": [ { "value": "MAX_HP", "multiply": -0.4 } ] } ]
+    },
+    "covers": [ "TORSO" ],
+    "symbol": "~",
+    "color": "red",
+    "weight": "1 g",
+    "volume": "1 ml"
+  }
+]
