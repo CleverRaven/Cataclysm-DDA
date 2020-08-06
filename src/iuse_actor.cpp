@@ -1466,7 +1466,7 @@ int salvage_actor::cut_up( player &p, item &it, item_location &cut ) const
     for( const material_id &material : cut_material_components ) {
         if( const auto optional_id = material->salvaged_into() ) {
             const auto id = *optional_id;
-            int material_count = std::max( 0L, assigned_weight / id->weight ) ;
+            int material_count = std::max( 0, static_cast<int>( assigned_weight / id->weight ) ) ;
             materials_salvaged[id] = material_count;
             random_mat.push_back( id );
             count += material_count;
