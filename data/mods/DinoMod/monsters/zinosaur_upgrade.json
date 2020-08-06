@@ -556,7 +556,7 @@
   {
     "type": "MONSTER",
     "id": "mon_zeinonychus_shady",
-    "name": { "str": "Deinonychus shady zombie" },
+    "name": { "str_sp": "shady Deinonychus" },
     "copy-from": "mon_zeinonychus",
     "color": "light_gray",
     "description": "An uncanny shadow envelops this dinosaur.  You can make out the outline of a bipedal dinosaur with feathery edges.  Both feet brandish a large sickle-like claw.",
@@ -595,7 +595,7 @@
   {
     "type": "MONSTER",
     "id": "mon_skinosaurus",
-    "name": { "str": "skeletal Spinosaurus zombie" },
+    "name": { "str_sp": "skeletal Spinosaurus" },
     "copy-from": "mon_zpinosaurus",
     "looks_like": "mon_zpinosaurus",
     "color": "white",
@@ -647,7 +647,7 @@
   {
     "type": "MONSTER",
     "id": "mon_salbertosaurus",
-    "name": { "str_sp": "Skeletal Albertosaurus" },
+    "name": { "str_sp": "skeletal Albertosaurus" },
     "copy-from": "mon_zalbertosaurus",
     "looks_like": "mon_zyrannosaurus",
     "color": "white",
@@ -699,7 +699,7 @@
   {
     "type": "MONSTER",
     "id": "mon_sallosaurus",
-    "name": { "str_sp": "Skeletal allosaurus" },
+    "name": { "str_sp": "skeletal Allosaurus" },
     "copy-from": "mon_zallosaurus",
     "color": "white",
     "material": [ "bone" ],
