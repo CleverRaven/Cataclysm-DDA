@@ -1610,11 +1610,13 @@ void map::player_in_field( player &u )
             }
         }
         if( ft == fd_fatigue ) {
-            // Teleports you... somewhere.
-            if( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
-                add_msg( m_bad, _( "You're violently teleported!" ) );
-                u.hurtall( cur.get_field_intensity(), nullptr );
-                teleport::teleport( u );
+            if ( !u.in_vehicle ) {
+                // Teleports you... somewhere.
+                if ( rng( 0, 2 ) < cur.get_field_intensity() && u.is_player() ) {
+                    add_msg( m_bad, _( "You're violently teleported!" ) );
+                    u.hurtall( cur.get_field_intensity(), nullptr );
+                    teleport::teleport( u );
+                }
             }
         }
         // Why do these get removed???
