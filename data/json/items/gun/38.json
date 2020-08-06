@@ -9,6 +9,7 @@
     "description": "A crudely made double barrel pistol firing 38 special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
     "weight": "750 g",
     "volume": "700 ml",
+    "longest_side": "475 mm",
     "price": 2000,
     "price_postapoc": 500,
     "to_hit": -1,
