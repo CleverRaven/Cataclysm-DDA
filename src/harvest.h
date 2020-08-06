@@ -13,7 +13,10 @@
 #include "translations.h"
 #include "type_id.h"
 
+class butchery_requirements;
 class JsonObject;
+
+using butchery_requirements_id = string_id<butchery_requirements>;
 
 // Could be reused for butchery
 struct harvest_entry {
@@ -61,6 +64,10 @@ class harvest_list
             return names_;
         }
 
+        const butchery_requirements &get_butchery_requirements() const {
+            return butchery_requirements_.obj();
+        }
+
         std::string describe( int at_skill = -1 ) const;
 
         std::list<harvest_entry>::const_iterator begin() const;
@@ -88,6 +95,7 @@ class harvest_list
         std::list<harvest_entry> entries_;
         std::set<std::string> names_;
         translation message_;
+        butchery_requirements_id butchery_requirements_;
 
         void finalize();
 };

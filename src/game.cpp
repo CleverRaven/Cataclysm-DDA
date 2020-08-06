@@ -6167,6 +6167,10 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                         case creature_size::huge:
                             size_str = pgettext( "infrared size", "huge" );
                             break;
+                        case creature_size::num_sizes:
+                            debugmsg( "Creature has invalid size class." );
+                            size_str = "invalid";
+                            break;
                     }
                     mvwprintw( w_look, point( 1, ++line ), _( "You see a figure radiating heat." ) );
                     mvwprintw( w_look, point( 1, ++line ), _( "It is %s in size." ),

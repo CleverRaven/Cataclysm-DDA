@@ -1904,6 +1904,9 @@ float monster::stability_roll() const
             break;
         case creature_size::medium:
             break; // keep default
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            break;
     }
 
     int stability = dice( type->melee_sides, type->melee_dice ) + size_bonus;
@@ -1964,6 +1967,9 @@ float monster::fall_damage_mod() const
             return 1.4f;
         case creature_size::huge:
             return 2.0f;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            return 0.0f;
     }
 
     return 0.0f;
