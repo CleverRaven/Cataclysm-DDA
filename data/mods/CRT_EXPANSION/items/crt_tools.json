@@ -104,17 +104,22 @@
           "values": [
             { "value": "STRENGTH", "add": 6 },
             { "value": "ARMOR_ELEC", "add": -20 },
-            { "value": "SPEED", "add": 120 },
+            { "value": "SPEED", "add": 60 },
+            { "value": "ATTACK_SPEED", "add": -60 },
             { "value": "INTELLIGENCE", "add": 2 },
             { "value": "PERCEPTION", "add": 2 },
             { "value": "DEXTERITY", "add": 2 },
             { "value": "ARMOR_ELEC", "add": -20 }
           ]
         },
-        { "hit_me_effect": [ { "id": "light_healing" } ] }
+        {
+          "has": "WIELD",
+          "condition": "ALWAYS",
+          "hit_you_effect": [ { "id": "light_healing" } ]
+        }
       ]
     },
-    "weight": "50 kg",
+    "weight": "12 kg",
     "volume": "5 L",
     "price": 20000000,
     "cutting": 80,
