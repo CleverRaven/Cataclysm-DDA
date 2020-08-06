@@ -10,6 +10,7 @@
 #include "cata_utility.h"
 #include "game_constants.h"
 #include "json.h"
+#include "math_defines.h"
 #include "point.h"
 #include "rng.h"
 #include "simplexnoise.h"
