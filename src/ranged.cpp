@@ -461,6 +461,9 @@ static double occupied_tile_fraction( creature_size target_size )
             return 0.75;
         case creature_size::huge:
             return 1.0;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            break;
     }
 
     return 0.5;
@@ -479,6 +482,9 @@ double Creature::ranged_target_size() const
                 return occupied_tile_fraction( creature_size::medium );
             case creature_size::huge:
                 return occupied_tile_fraction( creature_size::large );
+            case creature_size::num_sizes:
+                debugmsg( "ERROR: Invalid Creature size class." );
+                break;
         }
     }
     return occupied_tile_fraction( get_size() );

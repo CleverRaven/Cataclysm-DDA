@@ -729,55 +729,7 @@ bool Character::activate_bionic( int b, bool eff_only, bool *close_bionics_ui )
         mod_moves( -100 );
     } else if( bio.id == bio_blood_anal ) {
         add_msg_activate();
-
-        std::vector<std::string> effect_descriptions;
-        std::vector<nc_color> colors;
-
-        for( auto &elem : *effects ) {
-            if( elem.first->get_blood_analysis_description().empty() ) {
-                continue;
-            }
-            effect_descriptions.emplace_back( elem.first->get_blood_analysis_description() );
-            colors.emplace_back( elem.first->get_rating() == e_good ? c_green : c_red );
-        }
-
-        const int win_w = 46;
-        size_t win_h = 0;
-        catacurses::window w;
-        ui_adaptor ui;
-        ui.on_screen_resize( [&]( ui_adaptor & ui ) {
-            win_h = std::min( static_cast<size_t>( TERMY ),
-                              std::max<size_t>( 1, effect_descriptions.size() ) + 2 );
-            w = catacurses::newwin( win_h, win_w,
-                                    point( ( TERMX - win_w ) / 2, ( TERMY - win_h ) / 2 ) );
-            ui.position_from_window( w );
-        } );
-        ui.mark_resize();
-        ui.on_redraw( [&]( const ui_adaptor & ) {
-            draw_border( w, c_red, string_format( " %s ", _( "Blood Test Results" ) ) );
-            if( effect_descriptions.empty() ) {
-                trim_and_print( w, point( 2, 1 ), win_w - 3, c_white, _( "No effects." ) );
-            } else {
-                for( size_t line = 1; line < ( win_h - 1 ) && line <= effect_descriptions.size(); ++line ) {
-                    trim_and_print( w, point( 2, line ), win_w - 3, colors[line - 1], effect_descriptions[line - 1] );
-                }
-            }
-            wnoutrefresh( w );
-        } );
-        input_context ctxt( "BLOOD_TEST_RESULTS" );
-        ctxt.register_action( "CONFIRM" );
-        ctxt.register_action( "QUIT" );
-        ctxt.register_action( "HELP_KEYBINDINGS" );
-        bool stop = false;
-        // Display new messages
-        g->invalidate_main_ui_adaptor();
-        while( !stop ) {
-            ui_manager::redraw();
-            const std::string action = ctxt.handle_input();
-            if( action == "CONFIRM" || action == "QUIT" ) {
-                stop = true;
-            }
-        }
+        conduct_blood_analysis();
     } else if( bio.id == bio_blood_filter ) {
         add_msg_activate();
         static const std::vector<efftype_id> removable = {{

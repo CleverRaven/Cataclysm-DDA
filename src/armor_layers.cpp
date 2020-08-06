@@ -481,7 +481,7 @@ void player::sort_armor()
     int right_w  = 0;
     int middle_w = 0;
 
-    int tabindex = body_part::num_bp;
+    int tabindex = 0; //body_part::num_bp;
     const int tabcount = body_part::num_bp + 1;
 
     int leftListIndex  = 0;

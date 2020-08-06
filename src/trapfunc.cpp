@@ -410,6 +410,9 @@ bool trapfunc::crossbow( const tripoint &p, Creature *c, item * )
                 case creature_size::huge:
                     chance = 1;
                     break;
+                case creature_size::num_sizes:
+                    debugmsg( "ERROR: Invalid Creature size class." );
+                    break;
             }
             if( one_in( chance ) ) {
                 if( seen ) {
@@ -509,6 +512,9 @@ bool trapfunc::shotgun( const tripoint &p, Creature *c, item * )
                     break;
                 case creature_size::huge:
                     chance = 2;
+                    break;
+                case creature_size::num_sizes:
+                    debugmsg( "ERROR: Invalid Creature size class." );
                     break;
             }
             shots = ( one_in( 8 ) || one_in( chance ) ? 2 : 1 );
