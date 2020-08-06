@@ -5029,14 +5029,13 @@ units::length item::length() const
     if( is_corpse() ) {
         return units::default_length_from_volume<int>( corpse->volume );
     }
-    if( is_container() ) {
-        units::length max = is_soft() ? 0_mm : type->longest_side;
-        for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
-            max = std::max( it->length(), max );
-        }
-        return max;
+
+    units::length max = is_soft() ? 0_mm : type->longest_side;
+    for( const item *it : contents.all_items_top( item_pocket::pocket_type::CONTAINER ) ) {
+        max = std::max( it->length(), max );
     }
-    return type->longest_side;
+
+    return max;
 }
 
 units::volume item::corpse_volume( const mtype *corpse ) const
