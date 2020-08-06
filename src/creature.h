@@ -616,6 +616,10 @@ class Creature : public location, public viewer
         void calc_all_parts_hp( float hp_mod = 0.0,  float hp_adjust = 0.0, int str_max = 0,
                                 int dex_max = 0,  int per_max = 0,  int int_max = 0, int healthy_mod = 0,
                                 int fat_to_max_hp = 0 );
+        // Does not fire debug message if part does not exist
+        bool has_part( const bodypart_id &id ) const;
+        // A debug message will be fired if part does not exist.
+        // Check with has_part first if a part may not exist.
         bodypart *get_part( const bodypart_id &id );
         const bodypart *get_part( const bodypart_id &id ) const;
 
