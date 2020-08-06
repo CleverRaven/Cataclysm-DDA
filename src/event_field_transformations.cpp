@@ -2,6 +2,7 @@
 
 #include <set>
 
+#include "int_id.h"
 #include "mapdata.h"
 #include "mtype.h"
 #include "omdata.h"

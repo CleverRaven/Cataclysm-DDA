@@ -1,7 +1,6 @@
 #include "bionics.h"
 
 #include <algorithm> //std::min
-#include <array>
 #include <climits>
 #include <cmath>
 #include <cstdlib>
@@ -9,14 +8,15 @@
 #include <iterator>
 #include <list>
 #include <memory>
-#include <type_traits>
 
 #include "action.h"
+#include "activity_actor.h"
+#include "activity_type.h"
 #include "assign.h"
 #include "avatar.h"
 #include "avatar_action.h"
 #include "ballistics.h"
-#include "basecamp.h"
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -59,8 +59,8 @@
 #include "output.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
+#include "player.h"
 #include "player_activity.h"
-#include "pldata.h"
 #include "point.h"
 #include "projectile.h"
 #include "requirements.h"
@@ -76,6 +76,7 @@
 #include "units.h"
 #include "value_ptr.h"
 #include "vehicle.h"
+#include "viewer.h"
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"

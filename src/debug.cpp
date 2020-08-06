@@ -18,7 +18,7 @@
 #include <memory>
 #include <set>
 #include <sstream>
-#include <sys/stat.h>
+#include <sys/stat.h> // IWYU pragma
 #include <type_traits>
 #include <utility>
 #include <vector>

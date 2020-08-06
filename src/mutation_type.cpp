@@ -1,6 +1,7 @@
-#include "mutation.h" // IWYU pragma: associated
+#include <algorithm>
 
 #include "json.h"
+#include "mutation.h" // IWYU pragma: associated
 
 struct mutation_type {
     std::string id;

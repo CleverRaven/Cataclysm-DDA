@@ -1,14 +1,12 @@
 #include "mondeath.h"
 
 #include <algorithm>
-#include <array>
 #include <cmath>
 #include <cstdlib>
 #include <map>
 #include <memory>
 #include <set>
 #include <string>
-#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -23,11 +21,10 @@
 #include "fungal_effects.h"
 #include "game.h"
 #include "harvest.h"
+#include "int_id.h"
 #include "item.h"
 #include "item_stack.h"
 #include "itype.h"
-#include "iuse.h"
-#include "iuse_actor.h"
 #include "kill_tracker.h"
 #include "line.h"
 #include "map.h"
@@ -38,7 +35,6 @@
 #include "monster.h"
 #include "morale_types.h"
 #include "mtype.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "sounds.h"
@@ -48,8 +44,9 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
-#include "weighted_list.h"
+#include "viewer.h"
 
 static const efftype_id effect_amigara( "amigara" );
 static const efftype_id effect_boomered( "boomered" );

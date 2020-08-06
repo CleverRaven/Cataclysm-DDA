@@ -7,6 +7,7 @@
 #include "activity_type.h"
 #include "avatar.h"
 #include "calendar.h"
+#include "character.h"
 #include "construction.h"
 #include "item.h"
 #include "itype.h"
@@ -20,6 +21,7 @@
 #include "string_id.h"
 #include "translations.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 
 static const activity_id ACT_ATM( "ACT_ATM" );

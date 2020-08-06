@@ -1,12 +1,13 @@
-#include "player.h" // IWYU pragma: associated
-
 #include <array>
 #include <cmath>
 #include <cstdlib>
 #include <memory>
 
 #include "activity_handlers.h"
+#include "activity_type.h"
+#include "bodypart.h"
 #include "character.h"
+#include "damage.h"
 #include "effect.h"
 #include "enums.h"
 #include "event.h"
@@ -14,6 +15,7 @@
 #include "field_type.h"
 #include "fungal_effects.h"
 #include "game.h"
+#include "int_id.h"
 #include "map.h"
 #include "map_iterator.h"
 #include "mapdata.h"
@@ -21,15 +23,19 @@
 #include "messages.h"
 #include "mongroup.h"
 #include "monster.h"
+#include "player.h" // IWYU pragma: associated
+#include "player_activity.h"
 #include "rng.h"
 #include "sounds.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "teleport.h"
 #include "translations.h"
 #include "units.h"
-#include "weather.h"
 #include "vitamin.h"
+#include "weather.h"
+#include "weather_type.h"
 
 #if defined(TILES)
 #   if defined(_MSC_VER) && defined(USE_VCPKG)

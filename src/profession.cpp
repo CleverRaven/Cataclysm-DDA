@@ -4,6 +4,7 @@
 #include <cmath>
 #include <iterator>
 #include <map>
+#include <memory>
 
 #include "addiction.h"
 #include "avatar.h"
@@ -18,10 +19,12 @@
 #include "json.h"
 #include "magic.h"
 #include "options.h"
+#include "pimpl.h"
 #include "player.h"
 #include "pldata.h"
 #include "translations.h"
 #include "type_id.h"
+#include "visitable.h"
 
 namespace
 {

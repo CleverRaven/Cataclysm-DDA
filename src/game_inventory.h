@@ -10,6 +10,7 @@
 #include "inventory_ui.h"
 #include "item_location.h"
 
+class Character;
 struct tripoint;
 
 namespace cata

@@ -4,8 +4,7 @@
 #include <sstream>
 #include <utility>
 
-#include "cata_utility.h"
-#include "units_utility.h"
+#include "debug.h"
 
 point point::from_string( const std::string &s )
 {

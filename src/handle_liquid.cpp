@@ -1,18 +1,18 @@
 #include "handle_liquid.h"
 
 #include <algorithm>
-#include <climits>
 #include <cstddef>
 #include <functional>
 #include <iterator>
 #include <list>
-#include <memory>
 #include <ostream>
 #include <set>
 #include <string>
 #include <vector>
 
 #include "action.h"
+#include "activity_actor.h"
+#include "activity_type.h"
 #include "cata_utility.h"
 #include "character.h"
 #include "colony.h"
@@ -31,7 +31,6 @@
 #include "player_activity.h"
 #include "string_formatter.h"
 #include "translations.h"
-#include "type_id.h"
 #include "ui.h"
 #include "vehicle.h"
 #include "vpart_position.h"

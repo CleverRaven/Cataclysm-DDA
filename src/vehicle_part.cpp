@@ -1,5 +1,3 @@
-#include "vehicle.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <cassert>
 #include <cmath>
@@ -14,14 +12,19 @@
 #include "game.h"
 #include "item.h"
 #include "item_contents.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "map.h"
 #include "messages.h"
 #include "npc.h"
+#include "ret_val.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "translations.h"
+#include "units.h"
 #include "value_ptr.h"
 #include "veh_type.h"
+#include "vehicle.h" // IWYU pragma: associated
 #include "vpart_position.h"
 #include "weather.h"
 

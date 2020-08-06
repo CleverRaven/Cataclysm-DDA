@@ -6,9 +6,11 @@
 #include <memory>
 #include <unordered_set>
 
+#include "bodypart.h"
 #include "color.h"
 #include "debug.h"
 #include "enums.h"
+#include "int_id.h"
 #include "json.h"
 #include "messages.h"
 #include "output.h"

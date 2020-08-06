@@ -11,8 +11,9 @@
 #include <type_traits>
 #include <utility>
 
-#include "ammo.h"
 #include "activity_actor.h"
+#include "activity_type.h"
+#include "ammo.h"
 #include "avatar.h"
 #include "basecamp.h"
 #include "bionics.h"
@@ -22,11 +23,11 @@
 #include "catacharset.h"
 #include "character.h"
 #include "colony.h"
-#include "flag.h"
 #include "color.h"
 #include "compatibility.h" // needed for the workaround for the std::to_string bug in some compilers
 #include "construction.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "cursesdef.h"
@@ -37,6 +38,7 @@
 #include "event.h"
 #include "event_bus.h"
 #include "field_type.h"
+#include "flag.h"
 #include "flat_set.h"
 #include "fungal_effects.h"
 #include "game.h"
@@ -48,7 +50,6 @@
 #include "int_id.h"
 #include "inventory.h"
 #include "item.h"
-#include "item_contents.h"
 #include "item_location.h"
 #include "item_stack.h"
 #include "itype.h"
@@ -91,10 +92,12 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
+#include "visitable.h"
 #include "vpart_position.h"
 #include "weather.h"
 

@@ -5,7 +5,6 @@
 #include <climits>
 #include <cmath>
 #include <cstdlib>
-#include <exception>
 #include <functional>
 #include <iterator>
 #include <list>
@@ -19,6 +18,7 @@
 
 #include "action.h"
 #include "activity_actor.h"
+#include "activity_type.h"
 #include "artifact.h"
 #include "avatar.h"
 #include "bodypart.h"
@@ -29,6 +29,7 @@
 #include "colony.h"
 #include "color.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -52,6 +53,7 @@
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "iteminfo_query.h"
 #include "itype.h"
 #include "iuse_actor.h" // For firestarter
@@ -100,15 +102,17 @@
 #include "trap.h"
 #include "type_id.h"
 #include "ui.h"
+#include "units.h"
 #include "units_utility.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
-#include "visitable.h"
+#include "viewer.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
 
 static const activity_id ACT_BURROW( "ACT_BURROW" );
 static const activity_id ACT_CHOP_LOGS( "ACT_CHOP_LOGS" );

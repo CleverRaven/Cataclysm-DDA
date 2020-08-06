@@ -1,15 +1,12 @@
 // Associated headers here are the ones for which their only non-inline
 // functions are serialization functions.  This allows IWYU to check the
 // includes in such headers.
-#include "enums.h" // IWYU pragma: associated
-#include "npc_favor.h" // IWYU pragma: associated
-#include "pldata.h" // IWYU pragma: associated
 
 #include <algorithm>
 #include <array>
 #include <bitset>
 #include <climits>
-#include <cstdint>
+#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <limits>
@@ -20,6 +17,7 @@
 #include <set>
 #include <sstream>
 #include <stack>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <utility>
@@ -35,6 +33,7 @@
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_io.h"
+#include "cata_utility.h"
 #include "cata_variant.h"
 #include "character.h"
 #include "character_id.h"
@@ -45,6 +44,7 @@
 #include "compatibility.h"
 #include "computer.h"
 #include "construction.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "creature.h"
 #include "creature_tracker.h"
@@ -52,7 +52,7 @@
 #include "debug.h"
 #include "dialogue_chatbin.h"
 #include "effect.h"
-#include "enum_conversions.h"
+#include "enums.h" // IWYU pragma: associated
 #include "event.h"
 #include "faction.h"
 #include "field.h"
@@ -66,16 +66,17 @@
 #include "item_contents.h"
 #include "item_factory.h"
 #include "item_location.h"
+#include "item_pocket.h"
 #include "itype.h"
 #include "json.h"
 #include "kill_tracker.h"
 #include "lru_cache.h"
 #include "magic.h"
 #include "magic_teleporter_list.h"
+#include "map.h"
 #include "map_memory.h"
 #include "mapdata.h"
 #include "mattack_common.h"
-#include "memory_fast.h"
 #include "mission.h"
 #include "monster.h"
 #include "morale.h"
@@ -83,18 +84,22 @@
 #include "mtype.h"
 #include "npc.h"
 #include "npc_class.h"
+#include "npc_favor.h" // IWYU pragma: associated
 #include "optional.h"
 #include "options.h"
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player.h"
 #include "player_activity.h"
+#include "pldata.h" // IWYU pragma: associated
 #include "point.h"
 #include "profession.h"
 #include "proficiency.h"
 #include "recipe.h"
 #include "recipe_dictionary.h"
+#include "relic.h"
 #include "requirements.h"
+#include "ret_val.h"
 #include "rng.h"
 #include "scenario.h"
 #include "skill.h"
@@ -105,12 +110,14 @@
 #include "text_snippets.h"
 #include "tileray.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "value_ptr.h"
 #include "veh_type.h"
 #include "vehicle.h"
 #include "vitamin.h"
 #include "vpart_position.h"
 #include "vpart_range.h"
+#include "weather.h"
 
 struct mutation_branch;
 struct oter_type_t;

@@ -2,6 +2,7 @@
 #ifndef CATA_SRC_CHARACTER_H
 #define CATA_SRC_CHARACTER_H
 
+#include <algorithm>
 #include <array>
 #include <bitset>
 #include <climits>
@@ -11,6 +12,7 @@
 #include <limits>
 #include <list>
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
@@ -18,38 +20,52 @@
 #include <utility>
 #include <vector>
 
+#include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character_id.h"
 #include "coordinates.h"
+#include "craft_command.h"
 #include "creature.h"
 #include "damage.h"
 #include "enums.h"
 #include "flat_set.h"
 #include "game_constants.h"
+#include "item.h"
 #include "item_location.h"
+#include "magic_enchantment.h"
 #include "memory_fast.h"
 #include "optional.h"
 #include "pimpl.h"
 #include "player_activity.h"
 #include "pldata.h"
 #include "point.h"
+#include "recipe.h"
 #include "ret_val.h"
 #include "stomach.h"
 #include "string_formatter.h"
+#include "string_id.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "visitable.h"
 #include "weighted_list.h"
 
+class JsonIn;
+class JsonObject;
+class JsonOut;
+class SkillLevel;
+class SkillLevelMap;
 class basecamp;
 class bionic_collection;
 class character_martial_arts;
 class faction;
-class JsonIn;
-class JsonObject;
-class JsonOut;
+class inventory;
+class item_contents;
+class item_pocket;
 class known_magic;
+class ma_technique;
+class map;
 class monster;
 class nc_color;
 class npc;
@@ -57,23 +73,23 @@ class player;
 class player_morale;
 class proficiency_set;
 class recipe_subset;
-class SkillLevel;
-class SkillLevelMap;
 class vehicle;
-
 struct bionic;
 struct construction;
 struct dealt_projectile_attack;
 struct display_proficiency;
 /// @brief Item slot used to apply modifications from food and meds
 struct islot_comestible;
+struct item_comp;
 struct itype;
 struct mutation_branch;
 struct needs_rates;
 struct pathfinding_settings;
 struct points_left;
+struct requirement_data;
+struct tool_comp;
+struct trap;
 struct w_point;
-
 template <typename E> struct enum_traits;
 
 enum npc_attitude : int;

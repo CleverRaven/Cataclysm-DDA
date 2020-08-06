@@ -14,6 +14,7 @@
 #include <set>
 #include <sstream>
 #include <tuple>
+#include <unordered_set>
 
 #include "advanced_inv.h"
 #include "ammo.h"
@@ -28,12 +29,13 @@
 #include "character_martial_arts.h"
 #include "clothing_mod.h"
 #include "color.h"
-#include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "craft_command.h"
 #include "damage.h"
 #include "debug.h"
 #include "dispersion.h"
 #include "effect.h" // for weed_msg
+#include "enum_traits.h"
 #include "enums.h"
 #include "explosion.h"
 #include "faction.h"
@@ -57,10 +59,12 @@
 #include "iuse_actor.h"
 #include "line.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "map.h"
 #include "martialarts.h"
 #include "material.h"
 #include "messages.h"
+#include "monster.h"
 #include "mtype.h"
 #include "npc.h"
 #include "optional.h"
@@ -70,7 +74,6 @@
 #include "overmapbuffer.h"
 #include "pimpl.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "projectile.h"
 #include "ranged.h"
@@ -93,6 +96,7 @@
 #include "vpart_position.h"
 #include "weather.h"
 #include "weather_gen.h"
+#include "weather_type.h"
 
 static const std::string GUN_MODE_VAR_NAME( "item::mode" );
 static const std::string CLOTHING_MOD_VAR_PREFIX( "clothing_mod_" );

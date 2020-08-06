@@ -15,6 +15,7 @@
 
 class input_context;
 class utf8_wrapper;
+struct point;
 
 /**
  * Shows a window querying the user for input.

@@ -1,13 +1,12 @@
-#include "coordinates.h"
-#include "mission.h" // IWYU pragma: associated
-
 #include <algorithm>
 #include <memory>
 #include <vector>
 
 #include "character.h"
 #include "computer.h"
+#include "coordinates.h"
 #include "debug.h"
+#include "enum_traits.h"
 #include "game.h"
 #include "game_constants.h"
 #include "int_id.h"
@@ -17,6 +16,7 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "messages.h"
+#include "mission.h" // IWYU pragma: associated
 #include "name.h"
 #include "npc.h"
 #include "npc_class.h"
@@ -24,6 +24,7 @@
 #include "optional.h"
 #include "overmap.h"
 #include "overmapbuffer.h"
+#include "point.h"
 #include "rng.h"
 #include "string_formatter.h"
 #include "translations.h"

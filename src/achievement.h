@@ -1,9 +1,12 @@
 #ifndef CATA_SRC_ACHIEVEMENT_H
 #define CATA_SRC_ACHIEVEMENT_H
 
+#include <algorithm>
+#include <array>
+#include <functional>
 #include <list>
-#include <string>
 #include <memory>
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -15,10 +18,15 @@
 #include "optional.h"
 #include "string_id.h"
 #include "translations.h"
+#include "type_id.h"
 
+class JsonIn;
 class JsonObject;
-struct achievement_requirement;
+class JsonOut;
 class achievements_tracker;
+struct achievement_requirement;
+template <typename E> struct enum_traits;
+
 namespace cata
 {
 class event;

@@ -1,5 +1,10 @@
 #include "proficiency.h"
 
+#include <algorithm>
+#include <cstddef>
+#include <utility>
+
+#include "debug.h"
 #include "generic_factory.h"
 
 namespace

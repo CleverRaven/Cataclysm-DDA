@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <array>
 #include <bitset>
+#include <cmath>
 #include <cstddef>
 #include <list>
 #include <memory>
@@ -11,12 +12,13 @@
 #include <utility>
 #include <vector>
 
-#include "avatar.h"
 #include "bodypart.h"
 #include "calendar.h"
 #include "cata_utility.h"
+#include "character.h"
 #include "colony.h"
 #include "coordinate_conversions.h"
+#include "coordinates.h"
 #include "creature.h"
 #include "damage.h"
 #include "debug.h"
@@ -46,16 +48,17 @@
 #include "optional.h"
 #include "overmapbuffer.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "rng.h"
 #include "scent_block.h"
+#include "scent_map.h"
 #include "string_id.h"
 #include "submap.h"
 #include "teleport.h"
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weather.h"

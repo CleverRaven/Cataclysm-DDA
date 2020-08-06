@@ -11,7 +11,6 @@
 #include <memory>
 #include <set>
 #include <string>
-#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -28,6 +27,7 @@
 #include "game.h"
 #include "game_constants.h"
 #include "game_inventory.h"
+#include "int_id.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_location.h"
@@ -38,7 +38,6 @@
 #include "map_iterator.h"
 #include "mapdata.h"
 #include "martialarts.h"
-#include "memory_fast.h"
 #include "messages.h"
 #include "monattack.h"
 #include "monster.h"
@@ -47,8 +46,8 @@
 #include "npc.h"
 #include "optional.h"
 #include "output.h"
+#include "pimpl.h"
 #include "player.h"
-#include "pldata.h"
 #include "point.h"
 #include "projectile.h"
 #include "rng.h"
@@ -58,6 +57,7 @@
 #include "translations.h"
 #include "type_id.h"
 #include "units.h"
+#include "units_fwd.h"
 #include "vehicle.h"
 #include "vpart_position.h"
 #include "weighted_list.h"

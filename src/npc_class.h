@@ -2,10 +2,11 @@
 #ifndef CATA_SRC_NPC_CLASS_H
 #define CATA_SRC_NPC_CLASS_H
 
+#include <algorithm>
 #include <functional>
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "string_id.h"
 #include "translations.h"
