@@ -64,9 +64,8 @@ void fungal_effects::fungalize( const tripoint &p, Creature *origin, double spor
     Character &player_character = get_player_character();
     if( monster *const mon_ptr = g->critter_at<monster>( p ) ) {
         monster &critter = *mon_ptr;
-        if( player_character.sees( p ) &&
-            !critter.type->in_species( species_FUNGUS ) ) {
-            add_msg( _( "The %s is covered in tiny spores!" ), critter.name() );
+        if( !critter.type->in_species( species_FUNGUS ) ) {
+            add_msg_if_player_sees( p, _( "The %s is covered in tiny spores!" ), critter.name() );
         }
         if( !critter.make_fungus() ) {
             // Don't insta-kill non-fungables. Jabberwocks, for example
@@ -148,7 +147,6 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
 {
     bool converted = false;
     // Terrain conversion
-    Character &player_character = get_player_character();
     if( m.has_flag_ter( flag_DIGGABLE, p ) ) {
         if( x_in_y( growth * 10, 100 ) ) {
             m.ter_set( p, t_fungus );
@@ -189,8 +187,8 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 800 ) ) { // young trees are vulnerable
                     m.ter_set( p, t_fungus );
-                    if( gm.place_critter_at( mon_fungal_blossom, p ) && player_character.sees( p ) ) {
-                        add_msg( m_warning, _( "The young tree blooms forth into a fungal blossom!" ) );
+                    if( gm.place_critter_at( mon_fungal_blossom, p ) ) {
+                        add_msg_if_player_sees( p, m_warning, _( "The young tree blooms forth into a fungal blossom!" ) );
                     }
                 } else if( x_in_y( growth * 10, 400 ) ) {
                     m.ter_set( p, t_marloss_tree );
@@ -205,8 +203,8 @@ void fungal_effects::spread_fungus_one_tile( const tripoint &p, const int growth
             if( m.get_field_intensity( p, fd_fungal_haze ) != 0 ) {
                 if( x_in_y( growth * 10, 100 ) ) {
                     m.ter_set( p, t_fungus );
-                    if( gm.place_critter_at( mon_fungal_blossom, p ) && player_character.sees( p ) ) {
-                        add_msg( m_warning, _( "The tree blooms forth into a fungal blossom!" ) );
+                    if( gm.place_critter_at( mon_fungal_blossom, p ) ) {
+                        add_msg_if_player_sees( p, m_warning, _( "The tree blooms forth into a fungal blossom!" ) );
                     }
                 } else if( x_in_y( growth * 10, 600 ) ) {
                     m.ter_set( p, t_marloss_tree );

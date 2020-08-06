@@ -6167,6 +6167,10 @@ void game::print_all_tile_info( const tripoint &lp, const catacurses::window &w_
                         case creature_size::huge:
                             size_str = pgettext( "infrared size", "huge" );
                             break;
+                        case creature_size::num_sizes:
+                            debugmsg( "Creature has invalid size class." );
+                            size_str = "invalid";
+                            break;
                     }
                     mvwprintw( w_look, point( 1, ++line ), _( "You see a figure radiating heat." ) );
                     mvwprintw( w_look, point( 1, ++line ), _( "It is %s in size." ),
@@ -9026,8 +9030,8 @@ void game::wield( item_location loc )
         }
 
         if( is_unwielding ) {
-            if( !u.martial_arts_data.selected_is_none() ) {
-                u.martial_arts_data.martialart_use_message( u );
+            if( !u.martial_arts_data->selected_is_none() ) {
+                u.martial_arts_data->martialart_use_message( u );
             }
             return;
         }
@@ -10307,7 +10311,7 @@ void game::on_move_effects()
     }
 
     // apply martial art move bonuses
-    u.martial_arts_data.ma_onmove_effects( u );
+    u.martial_arts_data->ma_onmove_effects( u );
 
     sfx::do_ambient();
 }
@@ -12603,6 +12607,11 @@ Character &get_player_character()
 }
 
 location &get_player_location()
+{
+    return g->u;
+}
+
+viewer &get_player_view()
 {
     return g->u;
 }

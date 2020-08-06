@@ -591,7 +591,8 @@ void inventory::form_from_map( map &m, std::vector<tripoint> pts, const Characte
             item food_processor = item_with_battery( "food_processor", veh_battery );
             add_item( food_processor );
 
-            item press = item_with_battery( "press", veh_battery );
+            item press = item( "press" );
+            press.item_tags.insert( "PSEUDO" );
             add_item( press );
         }
         if( forgepart ) {

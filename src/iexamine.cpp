@@ -51,6 +51,7 @@
 #include "item_contents.h"
 #include "item_location.h"
 #include "item_stack.h"
+#include "itype.h"
 #include "iuse.h"
 #include "iuse_actor.h"
 #include "line.h"
@@ -90,6 +91,7 @@
 #include "ui_manager.h"
 #include "uistate.h"
 #include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vehicle_selector.h"
@@ -4099,8 +4101,8 @@ static int findBestGasDiscount( player &p )
 {
     int discount = 0;
 
-    for( size_t i = 0; i < p.inv.size(); i++ ) {
-        item &it = p.inv.find_item( i );
+    for( size_t i = 0; i < p.inv->size(); i++ ) {
+        item &it = p.inv->find_item( i );
 
         if( it.has_flag( "GAS_DISCOUNT" ) ) {
 
@@ -4402,7 +4404,7 @@ void iexamine::pay_gas( player &p, const tripoint &examp )
     }
 
     if( refund == choice ) {
-        const int pos = p.inv.position_by_type( itype_id( "cash_card" ) );
+        const int pos = p.inv->position_by_type( itype_id( "cash_card" ) );
 
         if( pos == INT_MIN ) {
             add_msg( _( "Never mind." ) );
@@ -4660,6 +4662,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
         BONESETTING,
         TREAT_WOUNDS,
         RAD_AWAY,
+        BLOOD_ANALYSIS,
     };
 
     bool adjacent_couch = false;
@@ -4744,6 +4747,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
     amenu.addentry( BONESETTING, true, 's', _( "Splint broken limbs" ) );
     amenu.addentry( TREAT_WOUNDS, true, 'w', _( "Treat wounds" ) );
     amenu.addentry( RAD_AWAY, true, 'r', _( "Check radiation level" ) );
+    amenu.addentry( BLOOD_ANALYSIS, true, 'b', _( "Conduct blood analysis" ) );
 
     amenu.query();
 
@@ -4826,7 +4830,7 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                         // TODO: refactor this whole bit. adding items to the inventory will
                         // cause major issues when inv gets removed. this is a shim for now
                         // in order to reduce lines of change for nested containers.
-                        player_character.inv.push_back( bionic_to_uninstall );
+                        player_character.inv->push_back( bionic_to_uninstall );
                     }
                 }
             }
@@ -4991,6 +4995,15 @@ void iexamine::autodoc( player &p, const tripoint &examp )
                 popup( _( "Warning!  Autodoc detected a radiation leak of %d mSv from items in patient's posession.  Urgent decontamination procedures highly recommended." ),
                        patient.leak_level( "RADIOACTIVE" ) );
             }
+            break;
+        }
+
+        case BLOOD_ANALYSIS: {
+            patient.moves -= 500;
+            patient.conduct_blood_analysis();
+            patient.add_msg_player_or_npc( m_info,
+                                           _( "The autodoc analyzed your blood." ),
+                                           _( "The autodoc analyzed <npcname>'s blood." ) );
             break;
         }
 

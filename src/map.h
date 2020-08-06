@@ -34,7 +34,7 @@
 #include "rng.h"
 #include "shadowcasting.h"
 #include "type_id.h"
-#include "units.h"
+#include "units_fwd.h"
 
 struct scent_block;
 template <typename T> class safe_reference;
@@ -664,6 +664,9 @@ class map
         // the map editor.
         uint8_t get_known_connections( const tripoint &p, int connect_group,
                                        const std::map<tripoint, ter_id> &override = {} ) const;
+        // as above, but for furniture
+        uint8_t get_known_connections_f( const tripoint &p, int connect_group,
+                                         const std::map<tripoint, furn_id> &override = {} ) const;
         /**
          * Returns the full harvest list, for spawning.
          */

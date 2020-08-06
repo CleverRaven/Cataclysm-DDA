@@ -86,6 +86,7 @@
 #include "text_snippets.h"
 #include "translations.h"
 #include "units.h"
+#include "units_utility.h"
 #include "value_ptr.h"
 #include "vehicle.h"
 #include "vitamin.h"
@@ -3570,7 +3571,7 @@ void item::combat_info( std::vector<iteminfo> &info, const iteminfo_query *parts
     Character &player_character = get_player_character();
     // display which martial arts styles character can use with this weapon
     if( parts->test( iteminfo_parts::DESCRIPTION_APPLICABLEMARTIALARTS ) ) {
-        const std::string valid_styles = player_character.martial_arts_data.enumerate_known_styles(
+        const std::string valid_styles = player_character.martial_arts_data->enumerate_known_styles(
                                              typeId() );
         if( !valid_styles.empty() ) {
             insert_separation_line( info );
@@ -4136,12 +4137,12 @@ nc_color item::color_in_inventory() const
             static_cast<const learn_spell_actor *>( iuse->get_actor_ptr() );
         for( const std::string &spell_id_str : actor_ptr->spells ) {
             const spell_id sp_id( spell_id_str );
-            if( player_character.magic.knows_spell( sp_id ) &&
-                !player_character.magic.get_spell( sp_id ).is_max_level() ) {
+            if( player_character.magic->knows_spell( sp_id ) &&
+                !player_character.magic->get_spell( sp_id ).is_max_level() ) {
                 ret = c_yellow;
             }
-            if( !player_character.magic.knows_spell( sp_id ) &&
-                player_character.magic.can_learn_spell( player_character, sp_id ) ) {
+            if( !player_character.magic->knows_spell( sp_id ) &&
+                player_character.magic->can_learn_spell( player_character, sp_id ) ) {
                 return c_light_blue;
             }
         }
@@ -4262,7 +4263,7 @@ nc_color item::color_in_inventory() const
                 player_character.get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_light_blue;
             } else if( type->can_use( "MA_MANUAL" ) &&
-                       !player_character.martial_arts_data.has_martialart( martial_art_learned_from( *type ) ) ) {
+                       !player_character.martial_arts_data->has_martialart( martial_art_learned_from( *type ) ) ) {
                 ret = c_light_blue;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
                        player_character.get_skill_level_object( tmp.skill ).can_train() &&
@@ -4397,8 +4398,8 @@ void item::on_wield( player &p, int mv )
     }
     p.add_msg_if_player( m_neutral, msg, tname() );
 
-    if( !p.martial_arts_data.selected_is_none() ) {
-        p.martial_arts_data.martialart_use_message( p );
+    if( !p.martial_arts_data->selected_is_none() ) {
+        p.martial_arts_data->martialart_use_message( p );
     }
 
     // Update encumbrance in case we were wearing it
@@ -4718,6 +4719,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix, unsigned int t
     std::string modtext;
     if( gunmod_find( itype_barrel_small ) ) {
         modtext += _( "sawn-off " );
+    }
+    if( is_relic() && relic_data->max_charges() > 0 && relic_data->charges_per_use() > 0 ) {
+        tagtext += string_format( " (%d/%d)", relic_data->charges(), relic_data->max_charges() );
     }
     if( has_flag( flag_DIAMOND ) ) {
         modtext += std::string( pgettext( "Adjective, as in diamond katana", "diamond" ) ) + " ";
@@ -5529,8 +5533,29 @@ int item::spoilage_sort_order()
 {
     int bottom = std::numeric_limits<int>::max();
 
-    if( goes_bad() ) {
-        return to_turns<int>( get_shelf_life() - rot );
+    bool any_goes_bad = false;
+    time_duration min_spoil_time = calendar::INDEFINITELY_LONG_DURATION;
+    visit_items( [&]( item * const node, item * const parent ) {
+        if( node && node->goes_bad() ) {
+            float spoil_multiplier = 1.0f;
+            if( parent ) {
+                const item_pocket *const parent_pocket = parent->contained_where( *node );
+                if( parent_pocket ) {
+                    spoil_multiplier = parent_pocket->spoil_multiplier();
+                }
+            }
+            if( spoil_multiplier > 0.0f ) {
+                time_duration remaining_shelf_life = node->get_shelf_life() - node->rot;
+                if( !any_goes_bad || min_spoil_time * spoil_multiplier > remaining_shelf_life ) {
+                    any_goes_bad = true;
+                    min_spoil_time = remaining_shelf_life / spoil_multiplier;
+                }
+            }
+        }
+        return VisitResponse::NEXT;
+    } );
+    if( any_goes_bad ) {
+        return to_turns<int>( min_spoil_time );
     }
 
     if( get_comestible() ) {
@@ -7023,7 +7048,7 @@ bool item::spill_contents( Character &c )
         return spill_contents( c.pos() );
     }
 
-    contents.handle_liquid_or_spill( c );
+    contents.handle_liquid_or_spill( c, /*avoid=*/this );
     on_contents_changed();
 
     return true;
@@ -8083,7 +8108,7 @@ bool item::reload( Character &u, item_location ammo, int qty )
     if( ammo->charges == 0 && !ammo->has_flag( flag_SPEEDLOADER ) ) {
         ammo.remove_item();
         if( container ) {
-            u.inv.restack( u ); // emptied containers do not stack with non-empty ones
+            u.inv->restack( u ); // emptied containers do not stack with non-empty ones
         }
     }
     return true;
@@ -9311,6 +9336,11 @@ void item::overwrite_relic( const relic &nrelic )
     this->relic_data = cata::make_value<relic>( nrelic );
 }
 
+bool item::use_relic( Character &guy, const tripoint &pos )
+{
+    return relic_data->activate( guy, pos );
+}
+
 void item::process_relic( Character *carrier )
 {
     if( !is_relic() ) {
@@ -9327,6 +9357,8 @@ void item::process_relic( Character *carrier )
     for( const enchantment &ench : active_enchantments ) {
         ench.activate_passive( *carrier );
     }
+
+    relic_data->try_recharge();
 
     // Recalculate, as it might have changed (by mod_*_bonus above)
     carrier->str_cur = carrier->get_str();
@@ -9353,12 +9385,10 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     }
     if( rng( 0, volume() / units::legacy_volume_factor ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
-            if( get_player_character().sees( pos ) ) {
-                if( corpse->in_species( species_ROBOT ) ) {
-                    add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
-                } else {
-                    add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
-                }
+            if( corpse->in_species( species_ROBOT ) ) {
+                add_msg_if_player_sees( pos, m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
+            } else {
+                add_msg_if_player_sees( pos, m_warning, _( "A nearby corpse rises and moves towards you!" ) );
             }
         } else {
             if( corpse->in_species( species_ROBOT ) ) {
@@ -10304,10 +10334,6 @@ units::volume item::check_for_free_space( const item *it ) const
                 if( pocket.rigid() ) {
                     volume += pocket.remaining_volume();
                 }
-            }
-        } else {
-            if( container->contents.contents_are_rigid() ) {
-                volume += container->volume();
             }
         }
     }

@@ -681,16 +681,12 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     // TODO: combine with player character code above
                                     const bodypart_id hit = player_character.get_random_body_part();
                                     p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
-                                    if( player_character.sees( newp ) ) {
-                                        add_msg( _( "A %1$s hits %2$s!" ), tmp.tname(), p->name );
-                                    }
+                                    add_msg_if_player_sees( newp, _( "A %1$s hits %2$s!" ), tmp.tname(), p->name );
                                     p->check_dead_state();
                                 } else if( monster *const mon = g->critter_at<monster>( newp ) ) {
                                     mon->apply_damage( nullptr, bodypart_id( "torso" ),
                                                        6 - mon->get_armor_bash( bodypart_id( "torso" ) ) );
-                                    if( player_character.sees( newp ) ) {
-                                        add_msg( _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
-                                    }
+                                    add_msg_if_player_sees( newp, _( "A %1$s hits the %2$s!" ), tmp.tname(), mon->name() );
                                     mon->check_dead_state();
                                 }
                             }

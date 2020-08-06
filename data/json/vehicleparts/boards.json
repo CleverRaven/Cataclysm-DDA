@@ -238,6 +238,48 @@
     "symbol": "h"
   },
   {
+    "id": "board_horizontal_front",
+    "looks_like": "board_horizontal",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "halfboard_horizontal_front",
+    "looks_like": "halfboard_horizontal",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "xlhalfboard_horizontal_front",
+    "looks_like": "halfboard_horizontal_front",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "T"
+  },
+  {
+    "id": "board_horizontal_rear",
+    "looks_like": "board_horizontal",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "halfboard_horizontal_rear",
+    "looks_like": "halfboard_horizontal",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
+    "id": "xlhalfboard_horizontal_rear",
+    "looks_like": "halfboard_horizontal_rear",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "B"
+  },
+  {
     "id": "cloth_halfboard_horizontal_2",
     "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
@@ -268,6 +310,34 @@
     "symbol": "="
   },
   {
+    "id": "halfboard_horizontal_2_front",
+    "looks_like": "halfboard_horizontal_2",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "halfboard_horizontal_2_rear",
+    "looks_like": "halfboard_horizontal_2",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "xlhalfboard_horizontal_2_front",
+    "looks_like": "xlhalfboard_horizontal_2",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
+    "id": "xlhalfboard_horizontal_2_rear",
+    "looks_like": "xlhalfboard_horizontal_2",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "="
+  },
+  {
     "id": "board_ne",
     "copy-from": "board",
     "type": "vehicle_part",
@@ -281,6 +351,7 @@
   },
   {
     "id": "cloth_halfboard_ne",
+    "looks_like": "clothboard_ne",
     "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
     "symbol": "u"
@@ -306,12 +377,14 @@
   },
   {
     "id": "hdboard_ne",
+    "looks_like": "board_ne",
     "copy-from": "hdboard",
     "type": "vehicle_part",
     "symbol": "u"
   },
   {
     "id": "hdhalfboard_ne",
+    "looks_like": "halfboard_ne",
     "copy-from": "hdhalfboard",
     "type": "vehicle_part",
     "symbol": "u"
@@ -324,12 +397,14 @@
   },
   {
     "id": "woodhalfboard_ne",
+    "looks_like": "woodboard_ne",
     "copy-from": "woodhalfboard",
     "type": "vehicle_part",
     "symbol": "u"
   },
   {
     "id": "xlhalfboard_ne",
+    "looks_like": "halfboard_ne",
     "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "u"
@@ -348,6 +423,7 @@
   },
   {
     "id": "cloth_halfboard_nw",
+    "looks_like": "clothboard_nw",
     "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
     "symbol": "y"
@@ -373,12 +449,14 @@
   },
   {
     "id": "hdboard_nw",
+    "looks_like": "board_nw",
     "copy-from": "hdboard",
     "type": "vehicle_part",
     "symbol": "y"
   },
   {
     "id": "hdhalfboard_nw",
+    "looks_like": "halfboard_nw",
     "copy-from": "hdhalfboard",
     "type": "vehicle_part",
     "symbol": "y"
@@ -391,12 +469,14 @@
   },
   {
     "id": "woodhalfboard_nw",
+    "looks_like": "woodboard_nw",
     "copy-from": "woodhalfboard",
     "type": "vehicle_part",
     "symbol": "y"
   },
   {
     "id": "xlhalfboard_nw",
+    "looks_like": "xlhalfboard_nw",
     "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "y"
@@ -415,6 +495,7 @@
   },
   {
     "id": "cloth_halfboard_se",
+    "looks_like": "clothboard_se",
     "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
     "symbol": "n"
@@ -440,12 +521,14 @@
   },
   {
     "id": "hdboard_se",
+    "looks_like": "board_se",
     "copy-from": "hdboard",
     "type": "vehicle_part",
     "symbol": "n"
   },
   {
     "id": "hdhalfboard_se",
+    "looks_like": "halfboard_se",
     "copy-from": "hdhalfboard",
     "type": "vehicle_part",
     "symbol": "n"
@@ -458,12 +541,14 @@
   },
   {
     "id": "woodhalfboard_se",
+    "looks_like": "woodboard_se",
     "copy-from": "woodhalfboard",
     "type": "vehicle_part",
     "symbol": "n"
   },
   {
     "id": "xlhalfboard_se",
+    "looks_like": "halfboard_se",
     "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "n"
@@ -482,6 +567,7 @@
   },
   {
     "id": "cloth_halfboard_sw",
+    "looks_like": "clothboard_sw",
     "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
     "symbol": "b"
@@ -507,12 +593,14 @@
   },
   {
     "id": "hdboard_sw",
+    "looks_like": "board_sw",
     "copy-from": "hdboard",
     "type": "vehicle_part",
     "symbol": "b"
   },
   {
     "id": "hdhalfboard_sw",
+    "looks_like": "halfboard_sw",
     "copy-from": "hdhalfboard",
     "type": "vehicle_part",
     "symbol": "b"
@@ -525,12 +613,14 @@
   },
   {
     "id": "woodhalfboard_sw",
+    "looks_like": "woodboard_sw",
     "copy-from": "woodhalfboard",
     "type": "vehicle_part",
     "symbol": "b"
   },
   {
     "id": "xlhalfboard_sw",
+    "looks_like": "halfboard_sw",
     "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "b"
@@ -603,6 +693,48 @@
     "symbol": "j"
   },
   {
+    "id": "board_vertical_left",
+    "looks_like": "board_vertical",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "halfboard_vertical_left",
+    "looks_like": "halfboard_vertical",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "xlhalfboard_vertical_left",
+    "looks_like": "xlhalfboard_vertical",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "board_vertical_right",
+    "looks_like": "board_vertical",
+    "copy-from": "board",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "halfboard_vertical_right",
+    "looks_like": "halfboard_vertical",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
+    "id": "xlhalfboard_vertical_right",
+    "looks_like": "xlhalfboard_vertical",
+    "copy-from": "xlhalfboard",
+    "type": "vehicle_part",
+    "symbol": "j"
+  },
+  {
     "id": "cloth_halfboard_vertical_2",
     "copy-from": "cloth_halfboard",
     "type": "vehicle_part",
@@ -625,5 +757,31 @@
     "copy-from": "xlhalfboard",
     "type": "vehicle_part",
     "symbol": "H"
+  },
+  {
+    "id": "halfboard_vertical_2_left",
+    "looks_like": "halfboard_vertical_2",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "halfboard_vertical_2_right",
+    "looks_like": "halfboard_vertical_2",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "H"
+  },
+  {
+    "id": "halfboard_vertical_T_right",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "]"
+  },
+  {
+    "id": "halfboard_vertical_T_left",
+    "copy-from": "halfboard",
+    "type": "vehicle_part",
+    "symbol": "["
   }
 ]

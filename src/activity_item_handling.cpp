@@ -472,6 +472,12 @@ static std::list<item> obtain_activity_items( player_activity &act, player &p )
 
         p.mod_moves( -ait.consumed_moves );
 
+        if( ait.loc.has_parent() ) {
+            item_pocket *const parent_pocket = ait.loc.parent_item()->contained_where( *ait.loc );
+            if( parent_pocket ) {
+                parent_pocket->unseal();
+            }
+        }
         if( p.is_worn( *ait.loc ) ) {
             p.takeoff( *ait.loc, &res );
         } else if( ait.loc->count_by_charges() ) {

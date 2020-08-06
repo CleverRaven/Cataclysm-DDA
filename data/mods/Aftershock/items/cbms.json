@@ -47,6 +47,16 @@
     "difficulty": 8
   },
   {
+    "id": "afs_bio_neurosoft_aeronautics",
+    "copy-from": "bionic_general",
+    "type": "BIONIC_ITEM",
+    "name": { "str": "Neurosoft: Aeronautics CBM" },
+    "description": "A brain implant that grants instinctual knowledge about the operation of flying machines.",
+    "price": 1000000,
+    "price_postapoc": 100000,
+    "difficulty": 8
+  },
+  {
     "id": "afs_bio_cranialbomb",
     "copy-from": "bionic_general",
     "type": "BIONIC_ITEM",

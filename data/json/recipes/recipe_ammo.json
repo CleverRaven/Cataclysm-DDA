@@ -199,9 +199,7 @@
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
       [
-        [ "bone", 5 ],
-        [ "bone_human", 5 ],
-        [ "bone_tainted", 10 ],
+        [ "bone_sturdy", 5, "LIST" ],
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],
@@ -358,9 +356,7 @@
       [ [ "adhesive", 1, "LIST" ], [ "filament", 20, "LIST" ] ],
       [ [ "stick", 2 ], [ "broom", 2 ], [ "2x4", 2 ], [ "bee_sting", 2 ] ],
       [
-        [ "bone", 5 ],
-        [ "bone_human", 5 ],
-        [ "bone_tainted", 10 ],
+        [ "bone_sturdy", 5, "LIST" ],
         [ "rock", 1 ],
         [ "ceramic_shard", 1 ],
         [ "scrap", 2 ],

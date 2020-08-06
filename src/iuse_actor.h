@@ -377,6 +377,7 @@ class place_npc_iuse : public iuse_actor
     public:
         string_id<npc_template> npc_class_id;
         bool place_randomly = false;
+        int radius = 1;
         int moves = 100;
         std::string summon_msg;
 

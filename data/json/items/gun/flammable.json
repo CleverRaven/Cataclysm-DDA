@@ -52,7 +52,7 @@
     "bashing": 10,
     "material": [ "superalloy", "ceramic" ],
     "range": 10,
-    "ranged_damage": { "damage_type": "bullet", "amount": 10 },
+    "ranged_damage": { "damage_type": "heat", "amount": 10 },
     "dispersion": 240,
     "durability": 9,
     "modes": [ [ "DEFAULT", "semi-auto", 1 ], [ "AUTO", "auto", 4 ] ],

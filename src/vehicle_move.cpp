@@ -2109,9 +2109,10 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                                             _( "<npcname> is hurled from the %s's seat by "
                                                "the power of the impact!" ), veh.name );
                 unboard_vehicle( part_pos );
-            } else if( get_player_character().sees( part_pos ) ) {
-                add_msg( m_bad, _( "The %s is hurled from %s's by the power of the impact!" ),
-                         pet->disp_name(), veh.name );
+            } else {
+                add_msg_if_player_sees( part_pos, m_bad,
+                                        _( "The %s is hurled from %s's by the power of the impact!" ),
+                                        pet->disp_name(), veh.name );
             }
             ///\EFFECT_STR reduces distance thrown from seat in a vehicle impact
             g->fling_creature( rider, direction + rng( 0, 60 ) - 30,

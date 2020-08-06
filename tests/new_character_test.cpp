@@ -13,6 +13,7 @@
 #include <vector>
 
 #include "avatar.h"
+#include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "itype.h"
@@ -149,7 +150,7 @@ TEST_CASE( "starting_items", "[slow]" )
                 for( int i = 0; i < 2; i++ ) {
                     player_character.worn.clear();
                     player_character.remove_weapon();
-                    player_character.inv.clear();
+                    player_character.inv->clear();
                     player_character.calc_encumbrance();
                     player_character.male = i == 0;
 
@@ -160,7 +161,7 @@ TEST_CASE( "starting_items", "[slow]" )
                         return VisitResponse::NEXT;
                     };
                     player_character.visit_items( visitable_counter );
-                    player_character.inv.visit_items( visitable_counter );
+                    player_character.inv->visit_items( visitable_counter );
                     const int num_items_pre_migration = items_visited.size();
                     items_visited.clear();
 

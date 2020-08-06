@@ -445,7 +445,7 @@ target_handler::trajectory target_handler::mode_spell( avatar &you, spell &casti
 target_handler::trajectory target_handler::mode_spell( avatar &you, const spell_id &sp,
         bool no_fail, bool no_mana )
 {
-    return mode_spell( you, you.magic.get_spell( sp ), no_fail, no_mana );
+    return mode_spell( you, you.magic->get_spell( sp ), no_fail, no_mana );
 }
 
 static double occupied_tile_fraction( creature_size target_size )
@@ -461,6 +461,9 @@ static double occupied_tile_fraction( creature_size target_size )
             return 0.75;
         case creature_size::huge:
             return 1.0;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid Creature size class." );
+            break;
     }
 
     return 0.5;
@@ -479,6 +482,9 @@ double Creature::ranged_target_size() const
                 return occupied_tile_fraction( creature_size::medium );
             case creature_size::huge:
                 return occupied_tile_fraction( creature_size::large );
+            case creature_size::num_sizes:
+                debugmsg( "ERROR: Invalid Creature size class." );
+                break;
         }
     }
     return occupied_tile_fraction( get_size() );
@@ -680,9 +686,8 @@ bool player::handle_gun_damage( item &it )
 void npc::pretend_fire( npc *source, int shots, item &gun )
 {
     int curshot = 0;
-    Character &player_character = get_player_character();
-    if( player_character.sees( *source ) && one_in( 50 ) ) {
-        add_msg( m_info, _( "%s shoots something." ), source->disp_name() );
+    if( one_in( 50 ) ) {
+        add_msg_if_player_sees( *source, m_info, _( "%s shoots something." ), source->disp_name() );
     }
     while( curshot != shots ) {
         if( gun.ammo_consume( gun.ammo_required(), pos() ) != gun.ammo_required() ) {
@@ -693,9 +698,7 @@ void npc::pretend_fire( npc *source, int shots, item &gun )
         item *weapon = &gun;
         const auto data = weapon->gun_noise( shots > 1 );
 
-        if( player_character.sees( *source ) ) {
-            add_msg( m_warning, _( "You hear %s." ), data.sound );
-        }
+        add_msg_if_player_sees( *source, m_warning, _( "You hear %s." ), data.sound );
         curshot++;
         moves -= 100;
     }

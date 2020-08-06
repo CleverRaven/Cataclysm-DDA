@@ -21,6 +21,7 @@
 #include "bionics.h"
 #include "basecamp.h"
 #include "bodypart.h"
+#include "butchery_requirements.h"
 #include "calendar.h"
 #include "cata_utility.h"
 #include "character.h"
@@ -413,6 +414,30 @@ activity_handlers::finish_functions = {
     { ACT_STUDY_SPELL, study_spell_finish }
 };
 
+
+namespace io
+{
+// *INDENT-OFF*
+template<>
+std::string enum_to_string<butcher_type>( butcher_type data )
+{
+    switch( data ) {
+    case butcher_type::DISMEMBER: return "DISMEMBER";
+    case butcher_type::DISSECT: return "DISSECT";
+    case butcher_type::FIELD_DRESS: return "FIELD_DRESS";
+    case butcher_type::FULL: return "FULL";
+    case butcher_type::QUARTER: return "QUARTER";
+    case butcher_type::QUICK: return "QUICK";
+    case butcher_type::SKIN: return "SKIN";
+    case butcher_type::NUM_TYPES: break;
+    }
+    debugmsg( "Invalid valid_target" );
+    abort();
+}
+// *INDENT-ON*
+
+} // namespace io
+
 bool activity_handlers::resume_for_multi_activities( player &p )
 {
     if( !p.backlog.empty() ) {
@@ -583,46 +608,16 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         }
     }
 
-    const bool big_corpse = corpse.size >= creature_size::medium;
+    const std::pair<float, requirement_id> butchery_requirements =
+        corpse.harvest->get_butchery_requirements().get_fastest_requirements( u.crafting_inventory(),
+                corpse.size, action );
+
     // Requirements for the various types
-    requirement_id butchery_requirement;
-    switch( action ) {
-        case butcher_type::FIELD_DRESS:
-        case butcher_type::QUARTER:
-        case butcher_type::SKIN:
-        case butcher_type::DISMEMBER: {
-            butchery_requirement = requirement_id( "field_dress" );
-            break;
-        }
-        case butcher_type::DISSECT: {
-            if( big_corpse ) {
-                butchery_requirement = requirement_id( "dissect_large" );
-            } else {
-                butchery_requirement = requirement_id( "dissect_small" );
-            }
-            break;
-        }
-        case butcher_type::FULL: {
-            if( big_corpse ) {
-                butchery_requirement = requirement_id( "full_butchery_large" );
-            } else {
-                butchery_requirement = requirement_id( "butchery_small" );
-            }
-            break;
-        }
-        case butcher_type::QUICK: {
-            if( big_corpse ) {
-                butchery_requirement = requirement_id( "butchery_large" );
-            } else {
-                butchery_requirement = requirement_id( "butchery_small" );
-            }
-            break;
-        }
-    }
+    const requirement_id butchery_requirement = butchery_requirements.second;
 
     if( !butchery_requirement->can_make_with_inventory(
             u.crafting_inventory( u.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
-        std::string popup_output = _( "You can't butcher this, you are missing some tools.\n" );
+        std::string popup_output = _( "You can't butcher this; you are missing some tools.\n" );
 
         for( const std::string &str : butchery_requirement->get_folded_components_list(
                  45, c_light_gray, u.crafting_inventory( u.pos(), PICKUP_RANGE ), is_crafting_component ) ) {
@@ -712,7 +707,7 @@ static void set_up_butchery( player_activity &act, player &u, butcher_type actio
         }
     }
 
-    act.moves_left = butcher_time_to_cut( u, corpse_item, action );
+    act.moves_left = butcher_time_to_cut( u, corpse_item, action ) * butchery_requirements.first;
 
     // We have a valid target, so preform the full finish function
     // instead of just selecting the next valid target
@@ -741,6 +736,9 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             break;
         case creature_size::huge:
             time_to_cut = 1800;
+            break;
+        case creature_size::num_sizes:
+            debugmsg( "ERROR: Invalid creature_size on %s", corpse.nname() );
             break;
     }
 
@@ -778,6 +776,9 @@ int butcher_time_to_cut( const player &u, const item &corpse_item, const butcher
             break;
         case butcher_type::DISSECT:
             time_to_cut *= 6;
+            break;
+        case butcher_type::NUM_TYPES:
+            debugmsg( "ERROR: Invalid butcher_type" );
             break;
     }
 
@@ -1450,6 +1451,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             if( !act->targets.empty() ) {
                 act->targets.pop_back();
             }
+            break;
+        case butcher_type::NUM_TYPES:
+            debugmsg( "ERROR: Invalid butcher_type" );
             break;
     }
 
@@ -2154,18 +2158,18 @@ static bool magic_train( player_activity *act, player *p )
     }
     const spell_id &sp_id = spell_id( act->name );
     if( sp_id.is_valid() ) {
-        const bool knows = get_player_character().magic.knows_spell( sp_id );
+        const bool knows = get_player_character().magic->knows_spell( sp_id );
         if( knows ) {
-            spell &studying = p->magic.get_spell( sp_id );
+            spell &studying = p->magic->get_spell( sp_id );
             const int expert_multiplier = act->values.empty() ? 0 : act->values[0];
             const int xp = roll_remainder( studying.exp_modifier( *p ) * expert_multiplier );
             studying.gain_exp( xp );
             p->add_msg_if_player( m_good, _( "You learn a little about the spell: %s" ),
                                   sp_id->name );
         } else {
-            p->magic.learn_spell( act->name, *p );
+            p->magic->learn_spell( act->name, *p );
             // you can decline to learn this spell , as it may lock you out of other magic.
-            if( p->magic.knows_spell( sp_id ) ) {
+            if( p->magic->knows_spell( sp_id ) ) {
                 add_msg( m_good, _( "You learn %s." ), sp_id->name.translated() );
             } else {
                 act->set_to_null();
@@ -2209,7 +2213,7 @@ void activity_handlers::train_finish( player_activity *act, player *p )
         const martialart &mastyle = ma_id.obj();
         // Trained martial arts,
         get_event_bus().send<event_type::learns_martial_art>( p->getID(), ma_id );
-        p->martial_arts_data.learn_style( mastyle.id, p->is_avatar() );
+        p->martial_arts_data->learn_style( mastyle.id, p->is_avatar() );
     } else if( !magic_train( act, p ) ) {
         debugmsg( "train_finish without a valid skill or style or spell name" );
     }
@@ -4426,7 +4430,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
 
     // if level is -1 then we know it's a player spell, otherwise we build it from the ground up
     spell temp_spell( sp );
-    spell &spell_being_cast = ( level_override == -1 ) ? p->magic.get_spell( sp ) : temp_spell;
+    spell &spell_being_cast = ( level_override == -1 ) ? p->magic->get_spell( sp ) : temp_spell;
 
     // if level != 1 then we need to set the spell's level
     if( level_override != -1 ) {
@@ -4499,7 +4503,7 @@ void activity_handlers::spellcasting_finish( player_activity *act, player *p )
         int cost = spell_being_cast.energy_cost( *p );
         switch( spell_being_cast.energy_source() ) {
             case magic_energy_type::mana:
-                p->magic.mod_mana( *p, -cost );
+                p->magic->mod_mana( *p, -cost );
                 break;
             case magic_energy_type::stamina:
                 p->mod_stamina( -cost );
@@ -4549,7 +4553,7 @@ void activity_handlers::study_spell_do_turn( player_activity *act, player *p )
         return;
     }
     if( act->get_str_value( 1 ) == "study" ) {
-        spell &studying = p->magic.get_spell( spell_id( act->name ) );
+        spell &studying = p->magic->get_spell( spell_id( act->name ) );
         if( act->get_str_value( 0 ) == "gain_level" ) {
             if( studying.get_level() < act->get_value( 1 ) ) {
                 act->moves_left = 1000000;
@@ -4571,10 +4575,10 @@ void activity_handlers::study_spell_finish( player_activity *act, player *p )
     if( act->get_str_value( 1 ) == "study" ) {
         p->add_msg_if_player( m_good, _( "You gained %i experience from your study session." ),
                               total_exp_gained );
-        const spell &sp = p->magic.get_spell( spell_id( act->name ) );
+        const spell &sp = p->magic->get_spell( spell_id( act->name ) );
         p->practice( sp.skill(), total_exp_gained, sp.get_difficulty() );
     } else if( act->get_str_value( 1 ) == "learn" && act->values[2] == 0 ) {
-        p->magic.learn_spell( act->name, *p );
+        p->magic->learn_spell( act->name, *p );
     }
     if( act->values[2] == -1 ) {
         p->add_msg_if_player( m_bad, _( "It's too dark to read." ) );

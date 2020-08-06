@@ -70,7 +70,7 @@
     "difficulty": 2,
     "time": "30 m",
     "using": [ [ "sewing_standard", 15 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "vest_leather", 1 ] ] ]
+    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_demihuman", 13 ] ], [ [ "vest_leather", 1 ] ] ]
   },
   {
     "result": "leatherbone_harness_dog",
@@ -83,7 +83,7 @@
     "time": "15 m",
     "autolearn": true,
     "using": [ [ "sewing_standard", 5 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "leather_harness_dog", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 13, "LIST" ] ], [ [ "leather_harness_dog", 1 ] ] ]
   },
   {
     "result": "leatherbone_harness_dog",
@@ -97,7 +97,7 @@
     "autolearn": true,
     "book_learn": [ [ "textbook_tailor", 3 ], [ "manual_tailor", 3 ] ],
     "using": [ [ "sewing_standard", 20 ] ],
-    "components": [ [ [ "bone", 13 ], [ "bone_human", 13 ], [ "bone_tainted", 25 ] ], [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
+    "components": [ [ [ "bone_sturdy", 13, "LIST" ] ], [ [ "leather", 6 ], [ "tanned_hide", 1 ] ] ]
   },
   {
     "result": "rubber_harness_dog",

@@ -30,6 +30,7 @@
 #include "inventory.h"
 #include "json.h"
 #include "magic.h"
+#include "magic_enchantment.h"
 #include "mapsharing.h"
 #include "martialarts.h"
 #include "monster.h"
@@ -57,6 +58,7 @@
 #include "type_id.h"
 #include "ui.h"
 #include "ui_manager.h"
+#include "units_utility.h"
 #include "veh_type.h"
 #include "worldfactory.h"
 
@@ -381,19 +383,19 @@ void avatar::add_profession_items()
         // TODO: debugmsg if food that isn't a seed is inedible
         if( it.has_flag( "no_auto_equip" ) ) {
             it.unset_flag( "no_auto_equip" );
-            inv.push_back( it );
+            inv->push_back( it );
         } else if( it.has_flag( "auto_wield" ) ) {
             it.unset_flag( "auto_wield" );
             if( !is_armed() ) {
                 wield( it );
             } else {
-                inv.push_back( it );
+                inv->push_back( it );
             }
         } else if( it.is_armor() ) {
             // TODO: debugmsg if wearing fails
             wear_item( it, false );
         } else {
-            inv.push_back( it );
+            inv->push_back( it );
         }
         if( it.is_book() ) {
             items_identified.insert( it.typeId() );
@@ -597,14 +599,14 @@ bool avatar::create( character_type type, const std::string &tempname )
     for( const trait_id &t : get_base_traits() ) {
         std::vector<matype_id> styles;
         for( const matype_id &s : t->initial_ma_styles ) {
-            if( !martial_arts_data.has_martialart( s ) ) {
+            if( !martial_arts_data->has_martialart( s ) ) {
                 styles.push_back( s );
             }
         }
         if( !styles.empty() ) {
             const matype_id ma_type = choose_ma_style( type, styles, *this );
-            martial_arts_data.add_martialart( ma_type );
-            martial_arts_data.set_style( ma_type );
+            martial_arts_data->add_martialart( ma_type );
+            martial_arts_data->set_style( ma_type );
         }
     }
 
@@ -2893,7 +2895,7 @@ std::vector<trait_id> Character::get_mutations( bool include_hidden ) const
             result.push_back( t.first );
         }
     }
-    for( const trait_id &ench_trait : enchantment_cache.get_mutations() ) {
+    for( const trait_id &ench_trait : enchantment_cache->get_mutations() ) {
         if( include_hidden || ench_trait->player_display ) {
             bool found = false;
             for( const trait_id &exist : result ) {

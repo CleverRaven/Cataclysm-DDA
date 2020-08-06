@@ -449,13 +449,13 @@ bool ma_requirements::is_valid_character( const Character &u ) const
     bool cqb = u.has_active_bionic( bio_cqb );
     // There are 4 different cases of "armedness":
     // Truly unarmed, unarmed weapon, style-allowed weapon, generic weapon
-    bool melee_style = u.martial_arts_data.selected_strictly_melee();
+    bool melee_style = u.martial_arts_data->selected_strictly_melee();
     bool is_armed = u.is_armed();
     bool unarmed_weapon = is_armed && u.used_weapon().has_flag( flag_UNARMED_WEAPON );
-    bool forced_unarmed = u.martial_arts_data.selected_force_unarmed();
+    bool forced_unarmed = u.martial_arts_data->selected_force_unarmed();
     bool weapon_ok = is_valid_weapon( u.weapon );
-    bool style_weapon = u.martial_arts_data.selected_has_weapon( u.weapon.typeId() );
-    bool all_weapons = u.martial_arts_data.selected_allow_melee();
+    bool style_weapon = u.martial_arts_data->selected_has_weapon( u.weapon.typeId() );
+    bool all_weapons = u.martial_arts_data->selected_allow_melee();
 
     bool unarmed_ok = !is_armed || ( unarmed_weapon && unarmed_weapons_allowed );
     bool melee_ok = melee_allowed && weapon_ok && ( style_weapon || all_weapons );
@@ -938,18 +938,26 @@ bool player::can_grab_break( const item &weap ) const
         return false;
     }
 
-    ma_technique tec = martial_arts_data.get_grab_break_tec( weap );
+    ma_technique tec;
+    for( const matec_id &technique : martial_arts_data->get_all_techniques( weap ) ) {
+        if( technique->grab_break ) {
+            tec = technique.obj();
+            if( tec.is_valid_character( *this ) ) {
+                return true;
+            }
+        }
+    }
 
-    return tec.is_valid_character( *this );
+    return false;
 }
 
 bool Character::can_miss_recovery( const item &weap ) const
 {
-    if( !martial_arts_data.has_miss_recovery_tec( weap ) ) {
+    if( !martial_arts_data->has_miss_recovery_tec( weap ) ) {
         return false;
     }
 
-    ma_technique tec = martial_arts_data.get_miss_recovery_tec( weap );
+    ma_technique tec = martial_arts_data->get_miss_recovery_tec( weap );
 
     return tec.is_valid_character( *this );
 }
@@ -1202,6 +1210,11 @@ bool Character::has_mabuff( const mabuff_id &id ) const
     return search_ma_buff_effect( *effects, [&id]( const ma_buff & b, const effect & ) {
         return b.id == id;
     } );
+}
+
+bool Character::has_grab_break_tec() const
+{
+    return martial_arts_data->has_grab_break_tec();
 }
 
 bool character_martial_arts::has_martialart( const matype_id &ma ) const

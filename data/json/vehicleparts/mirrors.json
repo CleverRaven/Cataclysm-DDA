@@ -1,0 +1,66 @@
+[
+  {
+    "type": "vehicle_part",
+    "abstract": "wing_mirror_abstract",
+    "name": { "str": "wing mirror" },
+    "symbol": "o",
+    "color": "light_cyan",
+    "broken_symbol": "*",
+    "broken_color": "dark_gray",
+    "damage_modifier": 10,
+    "durability": 20,
+    "description": "A small mirror, mounted outside the vehicle.  If you see the mirror, your vision is expanded as though you were standing where the mirror is.",
+    "folded_volume": "500 ml",
+    "item": "mirror",
+    "location": "structure",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "VISION", "PROTRUSION", "UNMOUNT_ON_DAMAGE", "FOLDABLE" ],
+    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ]
+  },
+  {
+    "copy-from": "wing_mirror_abstract",
+    "id": "wing_mirror",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "wing_mirror_abstract",
+    "id": "wing_mirror_left",
+    "looks_like": "wing_mirror",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "copy-from": "wing_mirror_abstract",
+    "id": "wing_mirror_right",
+    "looks_like": "wing_mirror",
+    "symbol": "o",
+    "type": "vehicle_part"
+  },
+  {
+    "type": "vehicle_part",
+    "id": "inboard_mirror",
+    "name": { "str": "inboard mirror" },
+    "symbol": "o",
+    "color": "light_cyan",
+    "broken_symbol": "*",
+    "broken_color": "dark_gray",
+    "damage_modifier": 10,
+    "durability": 30,
+    "description": "A small mirror, mounted inside the vehicle.  If you see the mirror, your vision is expanded as though you were standing where the mirror is.",
+    "folded_volume": "250 ml",
+    "item": "mirror",
+    "location": "on_windshield",
+    "requirements": {
+      "install": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "removal": { "skills": [ [ "mechanics", 1 ] ], "time": "100 s", "using": [ [ "vehicle_screw", 1 ] ] },
+      "repair": { "skills": [ [ "mechanics", 1 ] ], "time": "20 s", "using": [ [ "adhesive", 1 ] ] }
+    },
+    "flags": [ "VISION", "FOLDABLE" ],
+    "breaks_into": [ { "item": "glass_shard", "count": [ 0, 16 ] } ]
+  }
+]
