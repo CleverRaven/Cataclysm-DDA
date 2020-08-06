@@ -14,6 +14,7 @@
 #include "cursesdef.h"
 
 class item;
+class Character;
 struct advanced_inv_pane_save_state;
 
 enum aim_location : char;
@@ -43,6 +44,9 @@ class advanced_inventory_pane
         bool viewing_cargo = false;
         bool prev_viewing_cargo = false;
     public:
+        Character *owner = nullptr;
+        using limbo_t = std::vector<std::pair<std::vector<item *>, int>>;
+        limbo_t limbo;
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
         void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false ) {
             prev_area = area;

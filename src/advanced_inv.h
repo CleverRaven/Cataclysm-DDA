@@ -12,6 +12,7 @@
 #include "advanced_inv_pane.h"
 #include "cursesdef.h"
 
+class Character;
 class input_context;
 class item;
 struct advanced_inv_save_state;
@@ -22,7 +23,8 @@ struct sort_case_insensitive_less : public std::binary_function< char, char, boo
     }
 };
 
-void create_advanced_inv();
+class Character;
+void create_advanced_inv( Character *_trader = nullptr );
 
 /**
  * Cancels ongoing move all action.
@@ -33,7 +35,7 @@ void cancel_aim_processing();
 class advanced_inventory
 {
     public:
-        advanced_inventory();
+        advanced_inventory( Character *_trader );
         ~advanced_inventory();
 
         void display();
@@ -82,6 +84,11 @@ class advanced_inventory
 
         bool recalc = false;
         bool always_recalc = false;
+
+        bool trademode = false;
+        Character *trader = nullptr;
+        int balance = 0;
+
         /**
          * Which panels is active (item moved from there).
          */
@@ -124,8 +131,11 @@ class advanced_inventory
          * returns whether the display loop exits or not
          */
         bool action_move_item( advanced_inv_listitem *sitem,
-                               advanced_inventory_pane &dpane, const advanced_inventory_pane &spane,
+                               advanced_inventory_pane &dpane, advanced_inventory_pane &spane,
                                const std::string &action );
+        bool action_trade_item( advanced_inv_listitem *sitem,
+                                advanced_inventory_pane &dpane, advanced_inventory_pane &spane,
+                                int amount_to_move );
 
         void action_examine( advanced_inv_listitem *sitem, advanced_inventory_pane &spane );
 
@@ -148,6 +158,8 @@ class advanced_inventory
         // displayed right of it, everything left of it is till free.
         int print_header( advanced_inventory_pane &pane, aim_location sel );
         void init();
+        bool finish_trade();
+        void trade_cleanup();
         /**
          * Translate an action ident from the input context to an aim_location.
          * @param action Action ident to translate
@@ -181,6 +193,7 @@ class advanced_inventory
         bool move_content( item &src_container, item &dest_container );
         /**
          * Setup how many items/charges (if counted by charges) should be moved.
+         * @param srcarea Where to move from. Only used in trademode
          * @param destarea Where to move to. This must not be AIM_ALL.
          * @param sitem The source item, it must contain a valid reference to an item!
          * @param action The action we are querying
@@ -190,8 +203,9 @@ class advanced_inventory
          *      should be moved. A return value of true indicates that amount now contains
          *      a valid item count to be moved.
          */
-        bool query_charges( aim_location destarea, const advanced_inv_listitem &sitem,
-                            const std::string &action, int &amount );
+        bool query_charges( aim_location stcarea, aim_location destarea, 
+                                        const advanced_inv_listitem &sitem,
+                                        const std::string &action, int &amount );
 };
 
 #endif // CATA_SRC_ADVANCED_INV_H

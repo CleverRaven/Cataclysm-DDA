@@ -4760,7 +4760,7 @@ std::string item::display_money( unsigned int quantity, unsigned int total,
     }
 }
 
-std::string item::display_name( unsigned int quantity ) const
+std::string item::display_name( unsigned int quantity, int fakecharges ) const
 {
     std::string name = tname( quantity );
     std::string sidetxt;
@@ -4810,7 +4810,7 @@ std::string item::display_name( unsigned int quantity ) const
         show_amt = !has_flag( flag_RELOAD_AND_SHOOT );
     } else if( count_by_charges() && !has_infinite_charges() ) {
         // A chargeable item
-        amount = charges;
+        amount = fakecharges == 0 ? charges : fakecharges;
         const itype *adata = ammo_data();
         if( adata ) {
             max_amount = ammo_capacity( adata->ammo->type );

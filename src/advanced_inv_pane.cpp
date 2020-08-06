@@ -8,12 +8,13 @@
 #include "advanced_inv_area.h"
 #include "advanced_inv_pagination.h"
 #include "advanced_inv_pane.h"
-#include "avatar.h"
+#include "character.h"
 #include "inventory.h"
 #include "item.h"
 #include "item_contents.h"
 #include "item_search.h"
 #include "map.h"
+#include "npc.h"
 #include "options.h"
 #include "player.h"
 #include "uistate.h"
@@ -23,6 +24,41 @@
 #if defined(__ANDROID__)
 #   include <SDL_keyboard.h>
 #endif
+
+namespace {
+
+bool _aim_traded_all( advanced_inv_listitem &it, const advanced_inventory_pane::limbo_t &limbo ) {
+    item &front = *it.items.front();
+    if( front.count_by_charges() ) {
+        int amount = front.charges;
+        if( it.items.front()->get_var( "aim_trade_amount", 0 ) >= amount) {
+            return true;
+        }
+    } else {
+        auto present = std::find_if( limbo.begin(), limbo.end(), [&it]( const auto el) {
+                return el.first.front() == it.items.front();
+            });
+        if( present != limbo.end() ) {
+            it.stacks -= present->second;
+        }
+        if( it.stacks <= 0 ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool _wants_to_sell( npc &np, item &it ) {
+    const int market_price = it.price( true );
+    int val = np.value( it, market_price );
+    if( it.is_owned_by( np ) && np.wants_to_sell( it, val, market_price ) ) {
+        return true;
+    }
+    return false;
+}
+
+} // namespace
+
 void advanced_inventory_pane::save_settings()
 {
     save_state->in_vehicle = in_vehicle();
@@ -99,20 +135,22 @@ static std::vector<std::vector<item *>> item_list_to_stack( std::list<item *> it
     return ret;
 }
 
-std::vector<advanced_inv_listitem> avatar::get_AIM_inventory( const advanced_inventory_pane &pane,
-        advanced_inv_area &square )
-{
+/** gets the inventory from the Character that is interactible via advanced inventory management */
+static std::vector<advanced_inv_listitem> get_AIM_inventory( Character &who, const advanced_inventory_pane &pane, advanced_inv_area &square ) {
     std::vector<advanced_inv_listitem> items;
     size_t item_index = 0;
 
     int worn_index = -2;
-    for( item &worn_item : worn ) {
+    for( item &worn_item : who.worn ) {
         if( worn_item.contents.empty() ) {
             continue;
         }
         for( const std::vector<item *> &it_stack : item_list_to_stack(
-                 worn_item.contents.all_items_top() ) ) {
+                    worn_item.contents.all_items_top() ) ) {
             advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
+            if( _aim_traded_all( adv_it, pane.limbo ) ) {
+                continue;
+            }
             if( !pane.is_filtered( *adv_it.items.front() ) ) {
                 square.volume += adv_it.volume;
                 square.weight += adv_it.weight;
@@ -133,13 +171,13 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         return;
     }
     map &m = get_map();
-    avatar &u = get_avatar();
+    Character &u = *owner;
     // Existing items are *not* cleared on purpose, this might be called
     // several times in case all surrounding squares are to be shown.
     if( square.id == AIM_INVENTORY ) {
         square.volume = 0_ml;
         square.weight = 0_gram;
-        items = u.get_AIM_inventory( *this, square );
+        items = get_AIM_inventory( u, *this, square );
     } else if( square.id == AIM_WORN ) {
         square.volume = 0_ml;
         square.weight = 0_gram;
@@ -147,6 +185,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
             advanced_inv_listitem it( &*iter, i, 1, square.id, false );
             if( is_filtered( *it.items.front() ) ) {
+                continue;
+            }
+            if( _aim_traded_all( it, limbo ) ) {
                 continue;
             }
             square.volume += it.volume;
@@ -168,6 +209,12 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             }
             square.desc[0] = cont->tname( 1, false );
         }
+    } else if( square.id == AIM_TRADE ) {
+        int index = 0;
+        for( const auto &li : limbo) {
+            advanced_inv_listitem it( li.first.front(), index++, li.second, square.id, false );
+            items.push_back( it );
+        }
     } else {
         bool is_in_vehicle = square.can_store_in_vehicle() && ( in_vehicle() || vehicle_override );
         if( is_in_vehicle ) {
@@ -186,12 +233,18 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             if( is_filtered( *it.items.front() ) ) {
                 continue;
             }
+            if( _aim_traded_all( it, limbo ) ) {
+                continue;
+            }
             if( is_in_vehicle ) {
                 square.volume_veh += it.volume;
                 square.weight_veh += it.weight;
             } else {
                 square.volume += it.volume;
                 square.weight += it.weight;
+            }
+            if( owner->is_npc() && !_wants_to_sell( *dynamic_cast<npc *>(owner), *it.items.front() ) ) {
+                continue;
             }
             items.push_back( it );
         }

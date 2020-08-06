@@ -25,6 +25,7 @@ enum aim_location : char {
     AIM_ALL,
     AIM_CONTAINER,
     AIM_WORN,
+    AIM_TRADE,
     NUM_AIM_LOCATIONS,
     // only useful for AIM_ALL
     AIM_AROUND_BEGIN = AIM_SOUTHWEST,
@@ -32,6 +33,7 @@ enum aim_location : char {
 };
 
 class advanced_inv_listitem;
+class Character;
 class item;
 class vehicle;
 
@@ -80,13 +82,15 @@ class advanced_inv_area
         // used for isometric view
         const aim_location relative_location;
 
+        Character *owner;
+
         advanced_inv_area( aim_location id ) : id( id ), relative_location( id ) {}
         advanced_inv_area(
             aim_location id, const point &hscreen, tripoint off, const std::string &name,
             const std::string &shortname, std::string minimapname, std::string actionname,
             aim_location relative_location );
 
-        void init();
+        void init( Character *_owner, bool trademode = false );
 
         template <typename T>
         advanced_inv_area::itemstack i_stacked( T items );

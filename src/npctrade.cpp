@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "advanced_inv.h"
 #include "avatar.h"
 #include "cata_utility.h"
 #include "catacharset.h"
@@ -25,6 +26,7 @@
 #include "map_selector.h"
 #include "npc.h"
 #include "optional.h"
+#include "options.h"
 #include "output.h"
 #include "player.h"
 #include "point.h"
@@ -673,6 +675,11 @@ bool npc_trading::trade( npc &np, int cost, const std::string &deal )
     //np.drop_items( np.weight_carried() - np.weight_capacity(),
     //               np.volume_carried() - np.volume_capacity() );
     np.drop_invalid_inventory();
+
+    if( get_option<bool>( "AIM_TRADE" ) ) {
+        create_advanced_inv( &np );
+        return false;
+    }
 
     trading_window trade_win;
     trade_win.setup_trade( cost, np );
