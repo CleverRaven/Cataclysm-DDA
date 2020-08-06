@@ -58,7 +58,22 @@ bool _wants_to_sell( npc &np, item &it ) {
     return false;
 }
 
+bool _wants_to_buy( npc &np, item &it ) {
+    const int market_price = it.price( true );
+    int val = np.value( it, market_price );
+    if( np.wants_to_sell( it, val, market_price ) ) {
+        return true;
+    }
+    return false;
+}
+
 } // namespace
+
+void advanced_inventory_pane::init( Character *_owner, Character *_trader ) {
+    owner = _owner;
+    trader = _trader;
+    trademode = ( _owner != _trader );
+}
 
 void advanced_inventory_pane::save_settings()
 {
@@ -244,7 +259,9 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 square.volume += it.volume;
                 square.weight += it.weight;
             }
-            if( owner->is_npc() && !_wants_to_sell( *dynamic_cast<npc *>(owner), *it.items.front() ) ) {
+            if( ( trademode && !it.items.front()->is_owned_by( *owner ) ) || 
+                ( owner->is_npc() && !_wants_to_sell( *dynamic_cast<npc *>(owner), *it.items.front() ) ) ||
+                ( trader->is_npc() && !_wants_to_buy( *dynamic_cast<npc *>(owner), *it.items.front() ) ) ) {
                 continue;
             }
             items.push_back( it );

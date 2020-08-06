@@ -46,12 +46,15 @@ class advanced_inventory_pane
         bool prev_viewing_cargo = false;
     public:
         Character *owner = nullptr;
+        Character *trader = nullptr;
         // FIXME: maybe turn this into a struct to make life easier
         // tradelist entry contains stack of items and amount to trade
         using limbo_entry_t = std::pair<std::vector<item_location>, int>;
         using limbo_t = std::vector<limbo_entry_t>;
         // tradelist
         limbo_t limbo;
+        void init( Character *_owner, Character *_trader );
+
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
         void set_area( const advanced_inv_area &square, bool in_vehicle_cargo = false ) {
             prev_area = area;
@@ -136,5 +139,7 @@ class advanced_inventory_pane
         void mod_index( int offset );
 
         mutable std::map<std::string, std::function<bool( const item & )>> filtercache;
+
+        bool trademode = false;
 };
 #endif // CATA_SRC_ADVANCED_INV_PANE_H

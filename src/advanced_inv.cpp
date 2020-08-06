@@ -140,13 +140,13 @@ advanced_inventory::advanced_inventory( Character *_trader )
 {
     save_state = &uistate.transfer_save;
     if( _trader != nullptr ) {
-        panes[ side::left ].owner = _trader;
-        panes[ side::right ].owner = &get_player_character();
+        panes[ side::left ].init( _trader, &get_player_character() );
+        panes[ side::right ].init( &get_player_character(), _trader );
         trader = _trader;
         trademode = true;
     } else {
-        panes[ side::left ].owner = &get_player_character();
-        panes[ side::right ].owner = &get_player_character();
+        panes[ side::left ].init( &get_player_character(), &get_player_character() );
+        panes[ side::right ].init( &get_player_character(), &get_player_character() );
     }
 }
 // *INDENT-ON*
@@ -342,13 +342,13 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
 
     nc_color norm = active ? c_white : c_dark_gray;
 
-    Character &player_character = get_player_character();
+    Character &owner = *pane.owner;
     //print inventory's current and total weight + volume
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ) {
-        const double weight_carried = convert_weight( player_character.weight_carried() );
-        const double weight_capacity = convert_weight( player_character.weight_capacity() );
-        std::string volume_carried = format_volume( player_character.volume_carried() );
-        std::string volume_capacity = format_volume( player_character.volume_capacity() );
+        const double weight_carried = convert_weight( owner.weight_carried() );
+        const double weight_capacity = convert_weight( owner.weight_capacity() );
+        std::string volume_carried = format_volume( owner.volume_carried() );
+        std::string volume_capacity = format_volume( owner.volume_capacity() );
         // align right, so calculate formatted head length
         const std::string formatted_head = string_format( "%.1f/%.1f %s  %s/%s %s",
                                            weight_carried, weight_capacity, weight_units(),
@@ -359,7 +359,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         nc_color color = weight_carried > weight_capacity ? c_red : c_light_green;
         mvwprintz( window, point( hrightcol, 4 ), color, "%.1f", weight_carried );
         wprintz( window, c_light_gray, "/%.1f %s  ", weight_capacity, weight_units() );
-        color = player_character.volume_carried().value() > player_character.volume_capacity().value() ?
+        color = owner.volume_carried().value() > owner.volume_capacity().value() ?
                 c_red : c_light_green;
         wprintz( window, color, volume_carried );
         wprintz( window, c_light_gray, "/%s %s", volume_capacity, volume_units_abbr() );
@@ -468,7 +468,7 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
         std::string item_name;
         std::string stolen_string;
         bool stolen = false;
-        if( !it.is_owned_by( player_character, true ) ) {
+        if( !it.is_owned_by( *pane.owner, true ) ) {
             stolen_string = "<color_light_red>!</color>";
             stolen = true;
         }
@@ -486,11 +486,11 @@ void advanced_inventory::print_items( const advanced_inventory_pane &pane, bool 
                 item_name = it.display_money( sitem.items.size(), charges_total );
             }
         } else {
+            const int tradeamount = it.get_var( "aim_trade_amount", 0 );
+            const int fakecharges = pane.get_area() != AIM_TRADE ? it.charges - tradeamount : tradeamount;
             if( stolen ) {
-                item_name = string_format( "%s %s", stolen_string, it.display_name() );
+                item_name = string_format( "%s %s", stolen_string, it.display_name( fakecharges ) );
             } else {
-                const int tradeamount = it.get_var( "aim_trade_amount", 0 );
-                const int fakecharges = pane.get_area() != AIM_TRADE ? it.charges - tradeamount : tradeamount;
                 item_name = it.display_name( 1, fakecharges );
             }
         }
@@ -1579,6 +1579,7 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
             return false;
         }
     } else {
+        amount_to_move = std::min( amount_to_move, amount_already );
         const int new_amount = amount_already - amount_to_move;
         if( by_charges ) {
             it.set_var( "aim_trade_amount", new_amount );
