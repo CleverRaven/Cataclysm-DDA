@@ -295,6 +295,7 @@
     "description": "A large and heavy pistol evidently welded from scrap.  It's not pretty, but the .45 it's chambered with packs a serious punch.  Just watch out for the kick.",
     "weight": "1200 g",
     "volume": "1 L",
+    "longest_side": "30 cm",
     "price": 60000,
     "price_postapoc": 750,
     "to_hit": -3,
