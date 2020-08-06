@@ -6,9 +6,10 @@
 #include "item_category.h"
 
 advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int count,
-        aim_location area, bool from_vehicle )
+        aim_location area, const tripoint &_pos, bool from_vehicle )
     : idx( index )
     , area( area )
+    , pos( _pos )
     , id( an_item->typeId() )
     , name( an_item->tname( count ) )
     , name_without_prefix( an_item->tname( 1, false ) )
@@ -24,9 +25,10 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
 }
 
 advanced_inv_listitem::advanced_inv_listitem( const std::vector<item *> &list, int index,
-        aim_location area, bool from_vehicle ) :
+        aim_location area, const tripoint &_pos, bool from_vehicle ) :
     idx( index ),
     area( area ),
+    pos( _pos ),
     id( list.front()->typeId() ),
     items( list ),
     name( list.front()->tname( list.size() ) ),

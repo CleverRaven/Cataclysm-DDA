@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 
+#include "point.h"
 #include "type_id.h"
 #include "units.h"
 
@@ -29,6 +30,7 @@ class advanced_inv_listitem
          * The location of the item, never AIM_ALL.
          */
         aim_location area;
+        tripoint pos;
         // the id of the item
         itype_id id;
         // The list of items
@@ -75,7 +77,8 @@ class advanced_inv_listitem
          * @param from_vehicle Is the item from a vehicle cargo space?
          */
         advanced_inv_listitem( item *an_item, int index, int count,
-                               aim_location area, bool from_vehicle );
+                               aim_location area, const tripoint &_pos,
+                               bool from_vehicle );
         /**
          * Create an item entry.
          * @param list The list of item pointers.
@@ -84,6 +87,7 @@ class advanced_inv_listitem
          * @param from_vehicle Is the item from a vehicle cargo space?
          */
         advanced_inv_listitem( const std::vector<item *> &list, int index,
-                               aim_location area, bool from_vehicle );
+                               aim_location area, const tripoint &_pos,
+                               bool from_vehicle );
 };
 #endif // CATA_SRC_ADVANCED_INV_LISTITEM_H

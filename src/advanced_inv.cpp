@@ -312,8 +312,9 @@ void advanced_inventory::trade_transfer( Character &to, advanced_inventory_pane:
             }
         } else {
             for( int i = 0; i < el.second; i++ ) {
-                item &transfered = to.i_add( *el.first.at( i ) );
+                item &transfered = *el.first.at( i );
                 transfered.set_owner( to );
+                to.i_add( transfered );
 
                 el.first.at( i ).remove_item();
             }
@@ -712,7 +713,7 @@ void advanced_inventory::recalc_pane( side p )
         map &m = get_map();
         for( map_cursor &cursor : map_selector( pane.owner->pos(), PICKUP_RANGE ) ) {
             const advanced_inv_area::itemstack &stacks = square.i_stacked( m.i_at( tripoint( cursor ) ) );
-            pane.add_items_from_stacks( stacks, square, false );
+            pane.add_items_from_stacks( stacks, square, tripoint( cursor ), false );
         }
 
     } else if( pane.get_area() == AIM_ALL ) {
@@ -1572,7 +1573,7 @@ bool advanced_inventory::action_trade_item( advanced_inv_listitem *sitem,
                         newstack.first.emplace_back( vehicle_cursor( *squares[srcarea].veh, squares[srcarea].vstor ),
                                                 itm );
                     } else {
-                        newstack.first.emplace_back( map_cursor( squares[srcarea].pos ), itm );
+                        newstack.first.emplace_back( map_cursor( sitem->pos ), itm );
                     }
                 }
                 newstack.second = by_charges ? 1 : amount_to_move;

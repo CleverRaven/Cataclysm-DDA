@@ -163,7 +163,7 @@ static std::vector<advanced_inv_listitem> get_AIM_inventory( Character &who, con
         }
         for( const std::vector<item *> &it_stack : item_list_to_stack(
                     worn_item.contents.all_items_top() ) ) {
-            advanced_inv_listitem adv_it( it_stack, item_index++, square.id, false );
+            advanced_inv_listitem adv_it( it_stack, item_index++, square.id, square.pos, false );
             if( _aim_traded_all( adv_it, pane.limbo ) ) {
                 continue;
             }
@@ -199,7 +199,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
         square.weight = 0_gram;
         auto iter = u.worn.begin();
         for( size_t i = 0; i < u.worn.size(); ++i, ++iter ) {
-            advanced_inv_listitem it( &*iter, i, 1, square.id, false );
+            advanced_inv_listitem it( &*iter, i, 1, square.id, square.pos, false );
             if( is_filtered( *it.items.front() ) ) {
                 continue;
             }
@@ -218,7 +218,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
             if( !cont->is_container_empty() ) {
                 // filtering does not make sense for liquid in container
                 item *it = &square.get_container( in_vehicle() )->contents.legacy_front();
-                advanced_inv_listitem ait( it, 0, 1, square.id, in_vehicle() );
+                advanced_inv_listitem ait( it, 0, 1, square.id, square.pos, in_vehicle() );
                 square.volume += ait.volume;
                 square.weight += ait.weight;
                 items.push_back( ait );
@@ -228,7 +228,7 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
     } else if( square.id == AIM_TRADE ) {
         int index = 0;
         for( auto &li : limbo) {
-            advanced_inv_listitem it( li.first.front().get_item(), index++, li.second, square.id, false );
+            advanced_inv_listitem it( li.first.front().get_item(), index++, li.second, square.id, square.pos, false );
             items.push_back( it );
         }
     } else {
@@ -244,13 +244,13 @@ void advanced_inventory_pane::add_items_from_area( advanced_inv_area &square,
                 square.i_stacked( square.veh->get_items( square.vstor ) ) :
                 square.i_stacked( m.i_at( square.pos ) );
 
-        add_items_from_stacks( stacks, square, is_in_vehicle );
+        add_items_from_stacks( stacks, square, square.pos, is_in_vehicle );
     }
 }
 
-void advanced_inventory_pane::add_items_from_stacks( const advanced_inv_area::itemstack &stacks, advanced_inv_area &square, bool is_in_vehicle ) {
+void advanced_inventory_pane::add_items_from_stacks( const advanced_inv_area::itemstack &stacks, advanced_inv_area &square, const tripoint &pos, bool is_in_vehicle ) {
     for( size_t x = 0; x < stacks.size(); ++x ) {
-            advanced_inv_listitem it( stacks[x], x, square.id, is_in_vehicle );
+            advanced_inv_listitem it( stacks[x], x, square.id, pos, is_in_vehicle );
             if( is_filtered( *it.items.front() ) ) {
                 continue;
             }
